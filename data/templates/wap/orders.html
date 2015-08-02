@@ -42,7 +42,7 @@
 			</div>
 			
 			{% if list.rows %}
-			<div class="ui pagination">
+			<div class="ui pagination" style="text-align:center;">
 				{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:3 %}
 				{% include 'block/pager.html' %}
 			</div>

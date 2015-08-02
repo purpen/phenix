@@ -31,27 +31,48 @@
 		<div class="column">
 			<h4 class="ui dividing header">我的收藏</h4>
 			{% favorite_list var:'favorites' user_id:visitor.id type:1 size:10 %}
-			<div class="ui one items">
+			<div class="ui two products cards">
 			{% for fav in favorites.rows %}
 			{% if fav.product %}
-				<div class="magenta item" id="product-{{ fav.product._id }}">
-				  	<div class="image">
-						<a href="{{ app_url_wap }}/shop/view?id={{ fav.product._id }}" title="{{ fav.product.title }}" target="_blank">
-				      		<img src="{{ fav.product.cover.thumbnails.medium.view_url }}" />
-						</a>
-				  	</div>
-				  	<div class="content">
-				      	<h5 class="ui header">
-							<a href="{{ app_url_wap }}/shop/view?id={{ fav.product._id }}" title="{{ fav.product.title }}" class="ui link">
-								{{ fav.product.title|truncate, 16, '' }}
-							</a>
-						</h5>
-						<div class="name">
-							<span class="unit">￥</span>
-							<span class="price">{{ fav.product.sale_price }}</span>
-						</div>
-				  	</div>
-				</div>
+				<div class="card" id="product-{{ fav.product._id }}">
+            <div class="problock">
+                <a title="{{ fav.product.title }}" href="{{ app_url_wap }}/shop/view?id={{ fav.product._id }}" style="background-image: url({{ fav.product.cover.thumbnails.medium.view_url }});" class="thumb"></a>
+                <div class="ribbons">
+                    {% if product.newest %}
+                    <span class="ribbon newest">NEW</span>
+                    {% endif %}
+                    {% if product.hot %}
+                    <span class="ribbon hot">HOT</span>
+                    {% endif %}
+                    {% if product.stick %}
+                    <span class="ribbon stick">推荐</span>
+                    {% endif %}
+                    {% if product.snatched %}
+                    <span class="ribbon new">限时抢购</span>
+                    {% endif %}
+                    {% if product.stage == 5 %}
+                    <span class="ribbon presale">正在预售</span>
+                    {% endif %}
+                </div>
+                <h2>
+                    <a href="{{ app_url_wap }}/shop/view?id={{ fav.product._id }}" title="{{ fav.product.title }}" class="ui link">
+        			    {{ fav.product.title|truncate, 16, '' }}
+        		    </a>
+                </h2>
+                <div class="cats">
+                    <span class="unit">￥</span>{{ fav.product.sale_price }}
+                </div>
+                <span class="counter">
+                    <i class="heart icon"></i> {{ fav.product.love_count }}
+                </span>
+            </div>
+        </div>
+				
+				
+				
+				
+				
+				
 			{% endif %}
 		    {% endfor %}
 			</div>

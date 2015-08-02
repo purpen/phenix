@@ -1,6 +1,11 @@
 {%extends 'layout/admin.html'%}
 {% block title %}编辑产品-{% endblock %}
 {% block page_css %}
+	{% if css_use_bundle %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
+	{% else %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
+	{% endif %}
   <link rel="stylesheet" type="text/css" media="all" href="{{ app_url_packaged }}/css/calendar.min.css" title="Aqua" />
 <style type="text/css">
 	.ui.ok.button {
@@ -351,7 +356,7 @@
 		imageUploadURL: "{{ app_url_upload_pictures }}",
 		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ product._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' },
 		defaultImageWidth: '',
-		maxImageSize: 1024 * 1024 * 3, // 3M
+		maxImageSize: 1024 * 1024 * 5, // 5M
 		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
 	}).on('editable.imageInserted',  function (e, editor, imageURL) {
 		file_count++;
@@ -366,7 +371,7 @@
         this.deleteImage($img);
     }).on('editable.imageError', function (e, editor, error) {
 		if (error.code == 5){
-			error.message = '图片太大，请选择小于3M！';
+			error.message = '图片太大，请选择小于5M！';
 		}
 		phenix.show_error_note(error.message, 5000);
     });
@@ -524,6 +529,12 @@
 						<label>积分兑换 <small>只可用于鸟币或鸟币+差价兑换</small></label>
 					</div>
 				</div>
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="stage" value="15" {% if product.stage == 15 %}checked="checked"{% endif %} /> 
+						<label>产品灵感 <small>非购买商品</small></label>
+					</div>
+				</div>
 			</div>
 			
 			<h3 class="ui dividing stage header">产品历属设置</h3>
@@ -539,6 +550,10 @@
 				<div class="ui checkbox">
 		          	<input type="checkbox" name="process_saled" {% if product.process_saled %}checked="checked"{% endif %} />
 		          	<label>商店 <small class="ui magenta text">（预售产品，结束后才能选择）</small></label>
+		        </div>
+				<div class="ui checkbox">
+		          	<input type="checkbox" name="process_idea" {% if product.process_idea %}checked="checked"{% endif %} />
+		          	<label>灵感 <small class="ui magenta text">（非购买商品）</small></label>
 		        </div>
 			</div>
 		</div>

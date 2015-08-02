@@ -98,6 +98,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
       $has_one_apply = $apply_model->first(array('target_id'=>$try['_id'], 'user_id'=>$this->visitor->id));
       if(!empty($has_one_apply)){
         $is_applied = true;
+        $has_one_apply = $apply_model->extended_model_row($has_one_apply);
         $this->stash['apply'] = $has_one_apply;
       }
     }
@@ -119,6 +120,17 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		
 		// 评测报告分类
 		$this->stash['report_category_id'] = Doggy_Config::$vars['app.try.report_category_id'];
+
+		//评论参数
+		$comment_options = array(
+		  'comment_target_id' =>  $try['_id'],
+		  'comment_target_user_id' => $try['user_id'],
+		  'comment_type'  =>  3,
+		  'comment_pager' =>  sprintf(Doggy_Config::$vars['app.url.try.comment'], $try['_id'], "#p#"),
+		  //是否显示上传图片/链接
+		  'comment_show_rich' => 1,
+		);
+		$this->_comment_param($comment_options);
 		
 		return $this->to_html_page($tpl);
 	}
@@ -155,7 +167,14 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 				$this->stash['user_id'] = $user_id;
 				
 				$ok = $model->apply_and_save($this->stash);
-        $this->stash['apply_id'] = $model->id;
+        if($ok){
+          $this->stash['apply_id'] = $model->id;
+          $apply = $model->extend_load((string)$model->id);       
+        }else{
+          $apply = null;
+        }
+        $this->stash['apply'] = $apply;
+
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Create apply failed: ".$e->getMessage());
@@ -164,6 +183,25 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		$this->stash['is_try'] = true;
 		return $this->to_taconite_page('ajax/attend_ok.html');
 	}
+
+  /**
+   * 评论参数
+   */
+  protected function _comment_param($options){
+        $this->stash['comment_target_id'] = $options['comment_target_id'];
+        $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
+        $this->stash['comment_type'] = $options['comment_type'];
+		// 评论的链接URL
+		$this->stash['pager_url'] = isset($options['comment_pager'])?$options['comment_pager']:0;
+
+        // 是否显示图文并茂
+        $this->stash['comment_show_rich'] = isset($options['comment_show_rich'])?$options['comment_show_rich']:0;
+		// 评论图片上传参数
+		$this->stash['comment_token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
+		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
+		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+  }
 	
 }
 

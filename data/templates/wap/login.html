@@ -16,6 +16,12 @@
 
 {% block jquery %}
 	phenix.build_auth_page();
+
+  $('.ui.no-weixin').click(function(){
+    phenix.show_error_note('请使用微信客户端登录!');
+    return false;
+    phenix.redirect("{{ app_url_wap }}/auth/qr_code");
+  });
 {% endblock %}
 
 {% block content %}
@@ -48,8 +54,8 @@
 								<i class="weixin icon"></i>
 							</a>
               {%else%}
-              <a href="{{ app_url_wap }}/auth/qr_code" class="ui green circular share icon button">
-								<i class="weixin icon"></i>
+              <a href="javascript:void(0);" class="ui green no-weixin circular share icon button">
+								<i class="flat icon_weixin icon"></i>
 							</a>
               {%endif%}
 						</div>
@@ -79,7 +85,7 @@
 					
 				</form>
 				<div class="sign-up">
-          <label>没有太火鸟账号？<a href="{{ app_url_wap }}/auth/signup?redirect_url={{ redirect_url }}" title="立即注册" class="ui magenta link" >立即注册</a></label>
+          <label>没有太火鸟账号？<a href="{{ app_url_wap }}/auth/signup" title="立即注册" class="ui magenta link" >立即注册</a></label>
 				</div>
 			</div>
 		</div>

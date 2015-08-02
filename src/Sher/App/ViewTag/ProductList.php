@@ -42,6 +42,8 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		$only_onsale = 0;
 		$only_stick = 0;
 		$is_shop = 0;
+    // 创意投票或产品灵感
+    $is_idea = 0;
 		$presaled = 0;
 		// 搜索类型
 		$s_type = 0;
@@ -99,7 +101,7 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
             if(is_array($user_id)){
                 $query['designer_id'] = array('$in'=>$user_id);
             }else{
-                $query['designer_id'] = (int)$user_id;
+                $query['user_id'] = (int)$user_id;
             }
         }
 		
@@ -111,10 +113,16 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 			$query['stage'] = (int)$stage;
 		}
 
-	    //除了投票
-	    if ($is_shop) {
-	      $query['stage'] = array('$in'=>array(5, 9, 12, 15));
-	    }
+    //除了投票
+    if ($is_shop) {
+      $query['stage'] = array('$in'=>array(5, 9, 12, 15));
+    }
+
+    // 投票或灵感(个人中心用)
+    if ($is_idea){
+      $query['stage'] = array('$in'=>array(1, 15));
+    }
+
 		//预售
 		if($presaled){
 		  $query['stage'] = 5;
@@ -217,4 +225,4 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
         }
     }
 }
-?>
+

@@ -51,11 +51,34 @@
     .product.report {
         padding-bottom: 2rem;
     }
-    
+
+	.ui.lapiao{
+	    border:0px solid #fff !important;
+	}
+    .ui.lapiao > .content{
+	    background:url({{ app_url_packaged }}/images/trybox.jpg) no-repeat center center /cover;
+	}
+	#lapiao canvas{
+	  width:100% !important;
+	}
 </style>
 {% endblock %}
 
+{% block layout_js %}
+<script type="text/javascript">
+    var per_page = 10;
+    function fetch_comment(current_page, per_page){
+        var url = '{{ app_url_comment }}/ajax_fetch_comment_site';
+        $.get(url, {target_id: {{ try._id }}, type: 3, page: current_page, per_page: per_page});
+    }
+</script>
+{% endblock %}
+
 {% block jquery %}
+
+	phenix.hook_comment_page();
+    //ajax加载评论
+    fetch_comment(1, per_page);
 	
 	$('.ui.applytry.button').click(function(){
 		// 所有ajax请求，验证是否登录
@@ -133,6 +156,24 @@
 					}
 				]
 			},
+			wx: {
+				identifier  : 'wx',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '微信号不能为空'
+					}
+				]
+			},
+			qq: {
+				identifier  : 'qq',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : 'QQ号不能为空'
+					}
+				]
+			},
 			content: {
 				identifier  : 'content',
 				rules: [
@@ -159,7 +200,7 @@
 
   {% if !try.is_end %}
     {% if is_applied %}
-      // 生成拉票二维码
+      // 生成支持二维码
       $('#lapiao').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}'});
 
       $('.lapiao-btn').click(function() {
@@ -173,17 +214,6 @@
 	$('.ui.share.button').bind('click', function(){
 		$('.ui.share.modal').modal('show');
 	});
-	
-	// ajax加载更多评论
-	$('.ui.more.button').livequery(function(){
-		$(this).click(function(){
-			if (!$(this).hasClass('disabled')){
-				var p = $(this).data('page');
-				$.get('{{ app_url_comment }}/ajax_fetch_list', {target_id: {{try._id}}, type:3, page:p});
-			}
-		});
-	});
-	
 	
 	$('[data-countdown]').each(function() {
 		var $this = $(this), finalDate = $(this).data('countdown');
@@ -219,7 +249,7 @@
 					    {% if !try.is_end %}
                             {% if is_applied %}
                               <a href="javascript:void(0);" class="ui white lapiao-btn inverted button" style="padding: .8em 2em!important;">
-                                <i class="ticket icon"></i> 我要拉票
+                                <i class="ticket icon"></i> 求支持
                               </a>
                             {%else%}
                               <a href="javascript:void(0);" class="ui white applytry inverted button" style="padding: .8em 2em!important;">
@@ -348,133 +378,11 @@
                     	<div class="block title">
                     		讨论 <small>（{{ try.comment_count||default 0 }}）</small>
                         </div>
-                    	
-                        <div id="comment-list">
-                            <div class="ui threaded comments">
-      				        {% comment_list var:'comments' page:page target_id:try._id  type:3 check_loved:1 current_user_id:visitor.id %}
-      						{% for comment in comments.rows %}
-      							 <div class="comment" id="{{ comment._id }}">
-      						        <a class="avatar" href="{{ comment.user.home_url }}" title="{{ comment.user.nickname }}">
-      								    <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
-      							    </a>
-      								<div class="content">
-      							        <a class="ui magenta link author" href="{{ comment.user.home_url }}" title="{{ comment.user.nickname }}">{{ comment.user.nickname }}</a>
-      								    <div class="metadata">
-      									    <div class="date">{{ comment.created_on }}</div>
-      									</div>
-      									<div class="laud">
-                                                {% if comment.is_loved %}
-                                                <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消喜欢" data-variation="inverted" >
-                                                    <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
-                                                    <i class="icon heart"></i>
-                                                </a>
-                                                {%else%}
-                                                 <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
-                                                     <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
-                                                      <i class="icon empty heart"></i>
-                                                </a>          
-                                                {%endif%}
-      										</div>
-      									<div class="text">
-      										{{ comment.content|safe }}
-      									</div>
-      									<div class="actions">
-      											{% if visitor.is_login %}
-      											    <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
-      											{% endif %}
-      											{% if visitor.can_edit %}
-      											    <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
-      											{% else %}
-      												{% if visitor._id == reply.user_id %}
-      												    <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
-      												{% endif %}
-      											{% endif %}
-      										</div>
-      									<form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
-      											<input type="hidden" name="type" value="2" />
-      											<input type="hidden" name="comment_id" value="{{ comment._id }}" />
-      											<input type="hidden" name="target_id" value="{{ topic._id }}" />
-      											<div class="field">
-      												<textarea name="content" class="reply-content"></textarea>
-      											</div>
-      											<div class="ui active button magenta submit labeled icon">
-      												<i class="icon edit"></i> 回复
-      											</div>
-      										</form>
-      								</div>
-                                    
-      								{% if comment.reply %}
-      								<div class="comments">
-        									{% for reply in comment.reply %}
-        										<div class="comment" id="{{ reply.r_id }}">
-        											<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
-        												<img src="{{ reply.user.small_avatar_url }}" />
-        											</a>
-        											<div class="content">
-        												<a class="author">{{ reply.user.nickname }}</a>
-        												<div class="metadata">
-        													<div class="date">{{ reply.replied_on }}</div>
-        												</div>
-        												<div class="text">
-        													{{ reply.content }}
-        												</div>
-        												<div class="actions">
-        													{% if visitor.can_edit %}
-        													<a class="delete confirm-request" href="{{ app_url_comment }}/delete_reply?id={{ comment._id }}&r_id={{ reply.r_id }}">删除</a>
-        													{% else %}
-        														{% if visitor._id == reply.user_id %}
-        															<a class="delete confirm-request" href="{{ app_url_comment }}/delete_reply?id={{ comment._id }}&r_id={{ reply.r_id }}">删除</a>
-        														{% endif %}
-        													{% endif %}
-        												</div>
-        											</div>
-        										</div>
-        									{% endfor %}
-      									</div>
-      								{% endif %}
+                                <div id="comment-list">
+                                
+                                </div>
+                                {% include "block/comment_box_site.html" %}
 
-      							</div>
-      						{% endfor %}
-
-      						{% if comments.total_page > 1 %}
-      						<div style="width: 20%;margin-left: 40%;" class="fluid ui gray active more button" data-page="2" id="more-comments">更多评论</div>
-      						{% endif %}
-                            
-      						<div class="post comment">
-      							<p><a href="{{ visitor.home_url }}" class="ui magenta link">{{ visitor.nickname }}</a> 发表评论</p>
-                              	<form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
-      								<input type="hidden" name="target_id" value="{{ try._id }}" />
-      								<input type="hidden" name="type" value="3" />
-      								<input type="hidden" name="star" value="0" />
-		
-                                	<div class="field">
-                                        <textarea name="content" id="comment-area" class="comment-textarea" maxlength="140" placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论内容...{%endif%}"></textarea>
-                                  	  	<div id="comment"></div>
-                                	</div>
-                              	  	{% if visitor.is_login %}
-                                	<div class="right aligned column">
-                            			<small class="filter">还可以输入<span class="wordscount">140</span> 字</small>
-
-                            			<div class="ui active button red submit labeled icon">
-                                          	<i class="edit icon"></i> 确认提交
-                                        </div>
-                                	</div>
-                              	  	{% else %}
-                                	<div class="not login">
-                                  		<div class="ui grid">
-                                    		<div class="row">
-                                      		  	<div class="center aligned column">
-                                        			<a href="{{ app_url_register }}" class="ui green btn-4 btn-4c icon-arrow-right checkout btn">注册</a> <a href="{{ app_url_login }}" class="ui magenta btn-4 btn-4c icon-arrow-right checkout btn">登录</a>
-                                        			<p class="ui gray text">注册登录后可发评论</p>
-                                      		  	</div>
-                                    		</div>
-                                  	  	</div>
-                                	</div>
-                              	  	{% endif %}
-                              	</form>
-      					    </div>
-                        </div>
-                        </div>
                     </div>
 				</div>
                 
@@ -483,6 +391,7 @@
     </div>
     <div class="mainright">
         
+{% if img_asset.qr_ios %}
         <div class="sellwrap">
             <div class="block title">
                 APP下载
@@ -500,7 +409,9 @@
 				<p style="width: 47%;display: inline-block;float: left;text-align:center;">andriod</p>
             {%endif%}
         </div>
-        
+        {%endif%}
+
+{% if try.brand_introduce %}
         <div class="sellwrap">
 			<div class="block title">
 				品牌介绍
@@ -516,11 +427,13 @@
                 </div>
             </div>
         </div>
+        {%endif%}
         
         <div class="sellwrap">
 			<div class="block title">
 				厂商合作申请
             </div>
+<p>邮箱: bianluyao@taihuoniao.com</p>
         </div>
         
         <div class="sellwrap">
@@ -564,21 +477,35 @@
     </div>
 </div>
 
-<div class="ui small lapiao modal">
-  	<i class="flat close icon"></i>
-  	<div class="content">
-		<div class="ui center aligned grid">
-			<div class="row">
-				<div class="column">
-					<p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
-					<div id="lapiao"></div>
-				</div>
-			</div>
-		</div>
-  	</div>
-  	<div class="actions">
-    	<label>太火鸟微信官方账号：太火鸟，关注获取最新动态。</label>
-  	</div>
+<div id="show-support-box">
+  {% if !try.is_end %}
+    {% if is_applied %}
+    <div class="ui small lapiao modal">
+        <i class="flat close icon"></i>
+        <div class="content">
+          <div class="ui grid">
+            <div class="ui ten wide column">
+              <h3 class="ui header">
+                <img class="ui small avatar image" src="{{ apply.user.big_avatar_url }}">
+                <div class="content">{{ apply.user.nickname }}
+                  <div class="sub header">
+                    {{ apply.user.ext_state.user_rank.title|default '鸟列兵' }}
+                  </div>
+                </div>
+              </h3>
+              
+              <h2 class="ui header">恭喜您申请成功</h2>
+              <p>分享到朋友圈，获取更多支持， 更有机会获取试用资格!</p>
+            </div>
+            <div class="ui six wide column">
+              <h2 class="ui header">扫码分享</h2>
+              <div id="lapiao"></div>
+            </div>
+          </div>
+        </div>
+    </div>
+    {%endif%}
+  {%endif%}
 </div>
 {% include "block/apply_try.html" %}
 {% include "block/sharebox.html" %}

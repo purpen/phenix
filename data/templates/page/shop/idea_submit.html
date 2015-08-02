@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}{{ label_title }}提交-{% endblock %}
+{% block title %}{{ label_title }}灵感提交-{% endblock %}
 {% block page_css %}
 <style type="text/css">
   .ui.fluid.dropdown .down.icon {
@@ -47,15 +47,15 @@
 		typingTimer: 5000,
 		imageMargin: '20px',
 		{% if mode == 'edit' %}
-		defaultImageAlt: '{{ stuff.title }}',
+		defaultImageAlt: '{{ product.title }}',
 		{% else %}
 		defaultImageAlt: '太火鸟',
 		{% endif %}
 		buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
 		imageUploadURL: "{{ app_url_upload_pictures }}",
-		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
+		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ product._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
 		defaultImageWidth: '',
-		maxImageSize: 1024 * 1024 * 5, // 5M
+		maxImageSize: 1024 * 1024 * 3, // 3M
 		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
 	}).on('editable.imageInserted',  function (e, editor, imageURL) {
 		// 记录插入图片数
@@ -64,7 +64,7 @@
 		file_count++;
 		
 		// 重置参数
-		$('#editor').editable("option", "imageUploadParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' });
+		$('#editor').editable("option", "imageUploadParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ product._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' });
         
     }).on('editable.afterRemoveImage', function (e, editor, $img) {
         // Set the image source to the image delete params.
@@ -74,12 +74,12 @@
         this.deleteImage($img);
     }).on('editable.imageError', function (e, editor, error) {
 		if (error.code == 5){
-			error.message = '图片太大，请选择小于5M！';
+			error.message = '图片太大，请选择小于3M！';
 		}
 		phenix.show_error_note(error.message, 5000);
     });
 	
-	$('#stuff-form').form({
+	$('#product-form').form({
 		title: {
 			identifier  : 'title',
 			rules: [
@@ -129,8 +129,8 @@
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ new_file_id }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ new_file_id }}' },
-        	endpoint: '{{ app_url_upload }}/stuff'
+			params: {'token': '{{ token }}','x:pid': '{{ new_file_id }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ product._id }}','file_id': '{{ new_file_id }}' },
+        	endpoint: '{{ app_url_upload_product }}'
       	},
 		text: {
             uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
@@ -162,13 +162,13 @@
 			$(this)
 				.removeClass('active');
 				
-			$('#stuff-category').val('');
+			$('#product-category').val('');
 		}else{
 			$(this)
 				.siblings('.ui.option').removeClass('active')
 				.end()
 				.addClass('active');
-			$('#stuff-category').val(id);
+			$('#product-category').val(id);
 		}
 	});
 	
@@ -181,20 +181,9 @@
 			$('#asset-list .ajax-cover.active').removeClass('active');
 			$(this).addClass('active');
 			
-			$('#stuff_cover_id').val(id);
+			$('#product_cover_id').val(id);
             
 			return false;
-		});
-	});
-
-  //ajax省份选择联动
-	$('.ui.province.dropdown').livequery(function(){
-		$(this).dropdown({
-			onChange : function(value, text){
-				if (value) {
-					$.get('{{ app_url_address }}/ajax_fetch_colleges', {id: value, college_id:0, evt:1 });
-				}
-			}
 		});
 	});
 
@@ -202,20 +191,12 @@
 		$(this).dropdown();
 	});
 
-
-  //初次加载大学
-  var province_id = {{ stuff.province_id|default 0 }};
-  var college_id = {{ stuff.college_id|default 0 }};
-  if(college_id !=0){
-    $.get('{{ app_url_address }}/ajax_fetch_colleges', {id: province_id, college_id:college_id, evt:1 });     
-  }
-
   //如果只有一个分类,默认选中
   var cate_length = $('.ui.options .option').length;
   if(cate_length==1){
     var id = $('.ui.options .option').attr('data-value');
     $('.ui.options .option').addClass('active');
-		$('#stuff-category').val(id);
+		$('#product-category').val(id);
   }
 	
 {% endblock %}
@@ -226,17 +207,13 @@
 		<div class="row">
 			<div class="ui column">
 				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_social }}">
-						<i class="basic icon community"></i> 发现
+				  	<a class="ui section link" href="{{ app_url_shop }}">
+						<i class="basic icon community"></i>首页
 					</a>
-                    {% if rid %}
 				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_cooperate }}">孵化资源</a>
-                    {% endif %}
+				  	<a class="ui section link" href="{{ app_url_shop }}">产品</a>
 				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ parent_category.view_url }}">{{ parent_category.title }}</a>
-				  	<i class="angle right icon divider"></i>
-				  	<div class="active section">{{ label_title }}提交</div>
+				  	<div class="active section">产品提交</div>
 				</div>
 			</div>
 		</div>
@@ -245,30 +222,34 @@
 			<div class="column">
 				<div class="new topic">
 					<h2 class="ui header">
-						{{ label_title }}提交
-						<a class="icon-link ui pop" href="{{ app_url_helper }}/topic" data-content="查看帮助" data-variation="inverted" target="_blank"><i class="help icon"></i></a>
+						产品提交
+						<a class="icon-link ui pop" href="{{ app_url_helper }}/shop" data-content="查看帮助" data-variation="inverted" target="_blank"><i class="help icon"></i></a>
 					</h2>
 				</div>
 				
 				<div class="ui submit segment">
-					<form action="{{ app_url_action_base }}/stuff/save" class="ui form" method="post" id="stuff-form">
-						<input type="hidden" name="_id" value="{{ stuff._id }}" id="stuff_id" />
+					<form action="{{ app_url_shop}}/idea_save" class="ui form" method="post" id="product-form">
+						<input type="hidden" name="_id" value="{{ product._id }}" id="product_id" />
 						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
 						<input type="hidden" name="file_count" id="file_count" />
-                        <input type="hidden" name="from_to" value="{{ stuff.from_to }}" />
-                        <input type="hidden" name="verified" value="{{ stuff.verified }}" />
+						{% if mode == 'edit' %}
+              <input type="hidden" name="published" value="{{ product.published }}" />
+              <input type="hidden" name="approved" value="{{ product.approved }}" />
+            {%else%}
+              <input type="hidden" name="published" value="1" />
+              <input type="hidden" name="approved" value="1" />
+            {%endif%}
 						
-                        {% if !rid %}
 						<div class="ui field">
 							<label>所属类别</label>
 						   	<div class="ui options">
 								{% if mode == 'edit' %}
-						    		<input type="hidden" name="category_id" value="{{ stuff.category_id }}" id="stuff-category" />
+						    		<input type="hidden" name="category_id" value="{{ product.category_id }}" id="product-category" />
 								{% else %}
-									<input type="hidden" name="category_id" id="stuff-category" />
+									<input type="hidden" name="category_id" id="product-category" />
 								{% endif %}
 								
-								{% category_list var:'category' only_open:1 domain:4 pid:cid current:stuff.category_id %}
+								{% category_list var:'category' only_open:1 domain:1 istop:1 current:product.category_id %}
 								{% for cat in category.rows %}
 						   	 	<div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
 						   	 		<div class="icon">
@@ -279,85 +260,41 @@
 								{% endfor %}
 						   	 </div>
 						</div>
-                        {% else %}
-                            {% if mode == 'edit' %}
-                            <input type="hidden" name="category_id" value="{{ stuff.category_id }}" />
-                            <input type="hidden" name="cooperate_id" value="{{ stuff.cooperate_id }}" />
-                            {% else %}
-                            <input type="hidden" name="category_id" value="{{ selected_category_id }}" />
-                            <input type="hidden" name="cooperate_id" value="{{ rid }}" />
-                            {% endif %}
-                        {% endif %}
 					
 						<div class="field">
-							<label for="title">{{ label_title }}名称</label>
-						  	<input type="text" name="title" value="{{ stuff.title }}" />
+							<label for="title">名称</label>
+						  	<input type="text" name="title" value="{{ product.title }}" />
 						</div>
-            {% if visitor.can_admin %}
-            <div class="four fields">
+            <div class="two fields">
               <div class="field">
-                <label for="title">{{ label_title }}短标题</label>
-                  <input type="text" name="short_title" value="{{ stuff.short_title }}" />
+                <label>标签</label>
+                  <input type="text" name="tags" value="{{ product.tags_s }}" placeholder="产品特性/亮点/别名等优化搜索词" />
+                <div class="description">标签之间使用，逗号隔开</div>
+              </div>
+              <div class="field">
+                <label for="title">短标题</label>
+                  <input type="text" name="short_title" value="{{ product.short_title }}" />
               </div>
             </div>
-            {%endif%}
                         
-						<div class="field">
-							<label>{{ label_title }}标签</label>
-						  	<input type="text" name="tags" value="{{ stuff.tags_s }}" placeholder="{{ label_title }}特性/亮点/别名等优化搜索词" />
-							<div class="description">标签之间使用，逗号隔开</div>
-						</div>
-
-          {% if mode=='edit' %}
-              {% if stuff.from_to==1 %}
-            <div class="three fields">
-              <div class="field">
-                <label for="province_id">省份</label>
-                {% province_list var:'list' size:100 %}
-                <div class="ui fluid selection province dropdown" style="position:relative;z-index:9999;">
-                  <input type="hidden" name="province_id" value="{{ stuff.province_id }}" />
-                    <div class="default text">--省份--</div>
-                    <i class="angle down icon" style="position:absolute;right:0;"></i>
-                    <div class="menu">
-                      {% for d in list.rows %}
-                      <div data-value="{{ d.pid }}" class="{% if d.pid == stuff.province_id %}active {% endif %}item">{{ d.name }}</div>
-                      {% endfor %}
-                    </div>
-                </div>
-                <div class="ui pointing top label">院校所在省份</div>
-              </div>
-
-              <div class="field">
-                <label for="college_id">院校</label>
-                <div class="ui fluid selection college dropdown" id="college-menu" style="position:relative;z-index:9999;">
-                  <input type="hidden" name="college_id" value="{{ stuff.college_id }}" />
-                    <div class="default text">--院校--</div>
-                    <i class="angle down icon" style="position:absolute;right:0;"></i>
-                </div>
-                <div class="ui pointing top label">请先选择省份</div>
-              </div>
-
+            <div class="field">
+                <label for="description">团队介绍</label>
+                <textarea name="team_introduce" placeholder="" >{{ product.product_info.team_introduce }}</textarea>
             </div>
-            {%endif%}
-          {%endif%}
 
-                        {% if mode=='edit' %}
-                            {% if stuff.from_to==2 %}
-                                <div class="field">
-                                    <label for="description">团队介绍</label>
-                                    <textarea name="team_introduce" placeholder="" >{{ stuff.team_introduce }}</textarea>
-                                </div>
-                            {%endif%}
-                        {%endif%}
+						<div class="field">
+							<label for="content">详细描述</label>
+						  	<textarea name="content" placeholder="此处输入产品详细描述..." id="editor">{{ product.content }}</textarea>
+						</div>
 						
 						<div class="field">
-							<label>{{ label_title }}图片 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个封面图)</small></label>
-							<input type="hidden" name="cover_id" id="stuff_cover_id" value="{{ stuff.cover_id }}" />
+							<label>产品图片 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
+							<input type="hidden" name="cover_id" id="product_cover_id" value="{{ product.cover_id }}" />
 							<div id="phenix-uploader"></div>
 						
 							<div id="asset-list" class="ui six blocks">
 								{% if mode == 'edit' %}
-									{% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
+									{% asset_list var:'assets' parent_id:product._id sort:'positive' asset_type:10 %}
 									{% for asset in assets.rows %}
 									<div class="thumb block" id="{{ asset._id }}">
 										<div class="image">
@@ -366,10 +303,10 @@
 										</div>
 										<div class="buttons">
 											<div class="ui large links">
-												<a href="{{ app_url_stuff }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+												<a href="{{ app_url_shop }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
 													<i class="remove icon"></i>
 												</a>
-												<a href="javascript:void(0);" class="ui link {%if stuff.cover_id == asset._id %}active{% endif %} ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+												<a href="javascript:void(0);" class="ui link {%if product.cover_id == asset._id %}active{% endif %} ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
 													<i class="checkered flag icon"></i>
 												</a>
 											</div>
@@ -379,65 +316,54 @@
 								{% endif %}
 							</div>
 						</div>
-						
-						<div class="field">
-							<label for="description">详细描述</label>
-						  	<textarea name="description" placeholder="此处输入产品详细描述..." id="editor">{{ stuff.description }}</textarea>
-						</div>
                         
-                        {% if !rid %}
-                          {% if !is_match %}
                             <h3 class="ui dividing header">产品参数</h3>
                         
     	   			      	<div class="five fields">
     	   	                	<div class="field">
     	   	                    	<label>品牌名称</label>
-    	   	                  	  	<input type="text" name="brand" value="{{ stuff.brand }}" />
+    	   	                  	  	<input type="text" name="brand" value="{{ product.product_info.brand }}" />
     	   	                	</div>
     	   	                	<div class="field">
     	   	                    	<label>设计师</label>
-    	   	                  	  	<input type="text" name="designer" value="{{ stuff.designer }}" />
+    	   	                  	  	<input type="text" name="designer" value="{{ product.product_info.designer }}" />
     	   	                	</div>
     	   	                	<div class="field">
     	   	                    	<label>所属国家</label>
-    	   	                  	  	<input type="text" name="country" value="{{ stuff.country }}" />
+    	   	                  	  	<input type="text" name="country" value="{{ product.product_info.country }}" />
     	   	                	</div>
     	   	                	<div class="field">
     	   	                    	<label>上市时间</label>
-    	   	                  	  	<input type="text" name="market_time" value="{{ stuff.market_time }}" placeholder="如:2015年1月" />
+    	   	                  	  	<input type="text" name="market_time" value="{{ product.product_info.market_time }}" placeholder="如:2015年1月" />
     	   	                	</div>
     	   	                	<div class="field">
     	   	                    	<label>指导价格</label>
-    	   	                  	  	<input type="text" name="official_price" value="{{ stuff.official_price }}" placeholder="如:100元--999元" />
+    	   	                  	  	<input type="text" name="official_price" value="{{ product.product_info.official_price }}" placeholder="如:100元--999元" />
     	   	                	</div>
     	   	           	 	</div>
                         
-                            {% if visitor.can_edit %}
     						<div class="two fields">
     			              	<div class="field">
     				                <label for="processed">产品阶段</label>
     				                <div class="ui fluid selection dropdown">
-    				                  	<input type="hidden" name="processed" value="{{ stuff.processed }}" />
+    				                  	<input type="hidden" name="processed" value="{{ product.product_info.processed }}" />
     				                    <div class="default text">请选择</div>
     				                    <i class="angle down icon"></i>
     				                    <div class="menu">
-    				                    	<div data-value="1" class="{% if stuff.processed==1 %}active {% endif %}item">设计概念</div>
-    				                    	<div data-value="2" class="{% if stuff.processed==2 %}active {% endif %}item">开发</div>
-    				                    	<div data-value="3" class="{% if stuff.processed==3 %}active {% endif %}item">众筹</div>
-    				                    	<div data-value="5" class="{% if stuff.processed==5 %}active {% endif %}item">预售</div>
-    				                    	<div data-value="9" class="{% if stuff.processed==9 %}active {% endif %}item">销售</div>
+    				                    	<div data-value="1" class="{% if product.product_info.processed==1 %}active {% endif %}item">设计概念</div>
+    				                    	<div data-value="2" class="{% if product.product_info.processed==2 %}active {% endif %}item">开发</div>
+    				                    	<div data-value="3" class="{% if product.product_info.processed==3 %}active {% endif %}item">众筹</div>
+    				                    	<div data-value="5" class="{% if product.product_info.processed==5 %}active {% endif %}item">预售</div>
+    				                    	<div data-value="9" class="{% if product.product_info.processed==9 %}active {% endif %}item">销售</div>
     				                    </div>
     				                </div>
     				                <!--<div class="ui pointing top label">必须选择一个产品阶段!</div>-->
     			              	</div>
                                 <div class="field">
     							    <label>购买地址</label>
-    						  	    <input type="text" name="buy_url" value="{{ stuff.buy_url }}" placeholder="仅站内/京东/天猫链接" />
+    						  	    <input type="text" name="buy_url" value="{{ product.product_info.buy_url }}" placeholder="仅站内/京东/天猫链接" />
                                 </div>
     						</div>
-                            {% endif %}
-                            {% endif %}
-                        {% endif %}
 						
 						<div class="ui right floated aligned grid">
 							<div class="column">

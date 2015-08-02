@@ -81,6 +81,7 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
     	'product' => array('product_id' => 'Sher_Core_Model_Product'),
 		'cover' => array('cover_id' => 'Sher_Core_Model_Asset'),
 		'banner' => array('banner_id' => 'Sher_Core_Model_Asset'),
+		'user' => array('user_id' => 'Sher_Core_Model_User'),
     );
 	
     protected $required_fields = array('title', 'user_id');

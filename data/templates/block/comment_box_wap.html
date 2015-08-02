@@ -61,6 +61,7 @@
     <input type="hidden" name="star" value="0" />
     <input type="hidden" name="is_reply" value="0" />
     <input type="hidden" name="reply_id" value="" />
+    <input type="hidden" name="reply_user_id" value="" />
     <div class="field">
       <textarea name="content" id="comment-area" class="comment-textarea" placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论...{%endif%}"></textarea>
       <div id="comment"></div>
@@ -314,6 +315,7 @@
       $('html,body').animate({scrollTop:$('#comment-box').offset().top - 100},500);
       // 提示回复信息
       var comment_title_obj = $('#comment-box').find('.comment-title');
+      var comment_user_id = comment_title_obj.find('a').attr('comment_user_id');
       var recover_comment_user_href = comment_title_obj.find('a').attr('href');
       var recover_comment_user_name = comment_title_obj.find('a').text();
       var comment_id = $(this).attr('comment_id');
@@ -323,6 +325,7 @@
       var user_home_url = "{{ app_url_user }}/"+comment_user_id+"";
 
       $(':input[name=reply_id]').val(comment_id);
+      $(':input[name=reply_user_id]').val(comment_user_id);
       $(':input[name=is_reply]').val(1);
       
       var html='';
@@ -344,6 +347,7 @@
       // 清空回复ID
       $(':input[name=reply_id]').val('');
       $(':input[name=is_reply]').val(0);
+      $(':input[name=reply_user_id]').val('');
       var recover_comment_user_href = $(this).attr('recover_comment_user_href');
       var recover_comment_user_name = $(this).attr('recover_comment_user_name');
       var html = '<a href="'+ recover_comment_user_href +'" class="ui magenta link">'+ recover_comment_user_name +'</a> 发表评论';

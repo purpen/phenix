@@ -1,10 +1,56 @@
 <taconite>
 {% if is_try %}
-  <replace select=".ui.applytry">
+<remove select=".ui.applytry.modal" />
+
+  <replace select=".ui.applytry.bttn">
     <a href="javascript:void(0);" class="ui white lapiao-btn inverted button" style="padding: .8em 2em!important;">
-      <i class="ticket icon"></i> 我要拉票
+      <i class="ticket icon"></i> 求支持
     </a>
   </replace>
+
+  <replaceContent select="#show-support-box"><![CDATA[
+
+    <div class="ui small lapiao modal">
+        <i class="flat close icon"></i>
+        <div class="content">
+          <div class="ui grid">
+            <div class="ui ten wide column">
+              <h3 class="ui header">
+                <img class="ui small avatar image" src="{{ apply.user.big_avatar_url }}">
+                <div class="content">{{ apply.user.nickname }}
+                  <div class="sub header">
+                    {{ apply.user.ext_state.user_rank.title|default '鸟列兵' }}
+                  </div>
+                </div>
+              </h3>
+              
+              <h2 class="ui header">恭喜您申请成功</h2>
+              <p>分享到朋友圈，获取更多支持， 更有机会获取试用资格!</p>
+            </div>
+            <div class="ui six wide column">
+              <h2 class="ui header">扫码分享</h2>
+              <div id="lapiao"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!--<div class="content">
+        <div class="ui center aligned grid">
+          <div class="row">
+            <div class="column">
+              <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+              <div id="lapiao"></div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="actions">
+          <label>太火鸟微信官方账号：太火鸟，关注获取最新动态。</label>
+        </div>-->
+    </div>
+
+  ]]></replaceContent>
+
 {%else%}
 	<replaceContent select=".attend-box">
     <a class="ui inverted active gray button" href="javascript:void(0);">
@@ -17,16 +63,18 @@
 	<eval>
 {% if is_try %}
   //关闭弹出层
-  //$('.ui.lapiao.modal').modal('hide');
+  //$('.ui.applytry.modal').modal('hide');
   // 生成拉票二维码
   $('#lapiao').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/try/apply_success?apply_id={{ apply_id }}'});
 
-  phenix.show_ok_note('报名成功,等待管理员审核!');
+  //phenix.show_ok_note('报名成功,等待管理员审核!');
 
   $('.lapiao-btn').click(function() {
     $('.ui.lapiao.modal').modal('show');
-    return false;
   });
+
+  $('.ui.lapiao.modal').modal('show');
+
 {%else%}
     var val = $('.attend-num').text();
     $('.attend-num').text(parseInt(val)+1);

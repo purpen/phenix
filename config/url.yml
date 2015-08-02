@@ -182,6 +182,7 @@ app.url.comment:		'{$app.url.action_base}/comment'
 # 产品公测
 app.url.try: '{$app.url.domain}/try'
 app.url.try.view: '{$app.url.domain}/try/view-%s.html'
+app.url.try.comment: '{$app.url.domain}/try/view-%s-%s.html'
 
 #登录,登出,注册,忘记密码,输入邀请码
 app.url.auth:		'{$app.url.domain}/auth'

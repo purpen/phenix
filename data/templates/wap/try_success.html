@@ -2,405 +2,107 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-#mfrbird{
-	margin-top:0;
-	margin-bottom:0;
+#mfrbird {
+  margin: 0em 0 1em;
 }
-.try-top{
-	position: relative;
-	overflow: hidden;
-  padding-bottom: 20px;
-  background: #fff;
+.tries{
+  background:url('http://frstatic.qiniudn.com/images/triesbj.jpg') no-repeat center center /cover;
+  padding: 4% 0;
 }
-.blur-image-block {
-  height: 248px;
-  overflow: hidden;
+.tries .content{
+  color:#fff !important;
+}
+.tries .content .sub.header{
+  color:#fff !important;
+}
+.detext{
+  float:right;
+  height:100%;
+  vertical-align:middle;
+  display:inline-block;
+  padding: 3px 10px;
+  position:relative;
+  text-align:center;
+  color:#fff;
+}
+.detext p{
+  margin:5px 0;
+}
+.ui.detext.fans:before {
+  background:rgba(255,255,255,0.8);
+  height: 70%;
+  width: 1px;
   position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 1;
-  width: 100%;
-}
-.blur-image-block .blur-image {
-  margin: -4px;
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: cover;
-  height: 100%;
-  display: block;
-}
-.blur-image {
-  filter: url(blur.svg#blur);
-  -webkit-filter: blur(4px);
-  -moz-filter: blur(4px);
-  -ms-filter: blur(4px);
-  filter: blur(4px);
-  filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=4, MakeShadow=false);
-}
-.top-content .text-block {
-  padding: 0 12px;
-  line-height: 20px;
-  color: #fff;
-}
-.top-content .text-block::before {
-  height: 145px;
-  display: inline-block;
-  vertical-align: middle;
-  content: "";
-}
-.top-content .round-bg {
-  background-image: url("{{ app_url_packaged }}/images/round_bg.png");
-  background-position: center top;
-  background-repeat: no-repeat;
-  height: 44px;
-  position: absolute;
-  top: 213px;
-  width: 100%;
-  background-size: 414px;
-}
-.top-content .avatar {
-  width: 92px;
-  height: 92px;
-  display: inline-block;
-  margin: 0 auto;
-  border: 4px solid #fff;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  -o-border-radius: 50%;
-  border-radius: 50%;
-}
-.top-content .avatar img {
-  width: 92px;
-  height: 92px;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  -o-border-radius: 50%;
-  border-radius: 50%;
-}
-.top-content .avatar-name {
-  position: relative;
-  z-index: 3;
-  padding-top: 20px;
-}
-.top-content .avatar-name span {
-  color: #474747;
-}
-.top-content {
-  position: relative;
-  z-index: 5;
-  text-align: center;
-}
-.say-con {
-  padding: 0 12px;
-  background: #fff;
-}
-.say-con p {
-  padding: 11px;
-  background: #f7f7f7;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
-  position: relative;
-  font-size: 15px;
-  color: #474747;
-  font-weight: bold;
-  line-height: 22px;
-	margin:0;
-}
-.say-con p::before {
   content: '';
-  position: absolute;
-  display: block;
-  width: 0;
-  height: 0;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid #f7f7f7;
-  top: -7px;
-  left: 35%;
-  -webkit-transform: rotate(135deg);
-  -moz-transform: rotate(135deg);
-  -ms-transform: rotate(135deg);
-  -o-transform: rotate(135deg);
-  transform: rotate(135deg);
+  top: 15%;
+  right: 0;
 }
-.myCard {
-  background: #fff;
-  padding: 24px 12px;
+.trycon .ui.segment:first-child .image{
+  position:relative;
 }
-.myCard a{
-	text-decoration: none;
+.trycon .ui.segment:first-child .image img{
+  border-top-left-radius: .3125em;
+  border-top-right-radius: .3125em;
 }
-.myCard .card {
-  display: -moz-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -ms-flex;
-  display: flex;
-  background: #f7f7f7;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
-  overflow: hidden;
+.trycon .ui.segment .image .potext{
+  position:absolute;
+  bottom:4px;
+  left:0;
+  width:100%;
+  height:auto;
+  background:rgba(0,0,0,0.3);
+  color:#fff;
 }
-.myCard .pic {
-  width: 80px;
-  height: 80px;
-  position: relative;
-  float: left;
-}
-.myCard .pic img {
-  width: 100%;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
-}
-.myCard .des {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  -moz-flex: 1;
-  -o-flex: 1;
-  flex: 1;
-  display: block;
-  position: relative;
-  padding: 14px 12px;
-  overflow: hidden;
-}
-.myCard .des .tit {
-  color: #474747;
-  height: 38px;
-  overflow: hidden;
+.trycon .ui.segment .image .potext p{
+  text-align: left;
   text-overflow: ellipsis;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  display: -webkit-box;
-	margin:0;
-}
-.myCard .des .xinxi {
-  color: #f36;
-  font-size: 12px;
-	margin:0;
-}
-.myCard .des .xinxi span {
-  position: relative;
-  padding-left: 8px;
-}
-.myCard .des .xinxi span::before {
-  content: '';
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: #fe5341;
-  top: 6px;
-  left: 0;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
-  border-radius: 4px;
-}
-.try-user{
-	padding-bottom: 0px;
-	background: #f7f7f7;
-}
-.try-user .tabTit {
-  background: #fff;
-  padding: 0 12px;
-}
-.try-user .show ul {
-  display: -moz-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -ms-flex;
-  display: flex;
-}
-.tab .tabLabel {
-  display: -moz-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -ms-flex;
-  display: flex;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
-}
-.try-user .show ul li {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  -moz-flex: 1;
-  -o-flex: 1;
-  flex: 1;
-  display: block;
-  text-align: center;
-}
-.tab .tabLabel li {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  -moz-flex: 1;
-  -o-flex: 1;
-  flex: 1;
-  display: block;
-  text-align: center;
-}
-.try-user .show ul li a {
-  border: 1px solid #b8b7bb;
-  -webkit-border-radius: 100%;
-  -moz-border-radius: 100%;
-  -ms-border-radius: 100%;
-  -o-border-radius: 100%;
-  border-radius: 100%;
-  height: 80px;
-  width: 80px;
-  text-align: center;
-  display: inline-block;
-  color: #b8b7bb;
-}
-.try-user .show ul li a p {
-  line-height: 30px;
-	margin:0;
-}
-.try-user .show ul li a p {
-  padding-top: 20px;
-  font-size: 30px;
-}
-.try-user .show ul li a em {
-  display: block;
-  font-size: 12px;
-}
-.try-user .show ul li .tit {
-  padding: 10px 0;
-}
-.tab .tabLabel li:last-child {
-  border-right: 0 none;
-}
-.try-user .show ul .on {
-  border-bottom: 2px solid #f36;
-}
-.noDis {
-  display: none;
-}
-.try-user .rank {
-  margin-bottom: 15px;
-  padding: 10px 12px;
-}
-.try-user .rank .tips {
-  color: #a3a3a3;
-  font-size: 10px;
-  padding: 2px 0 12px 0;
-}
-.try-user .rank li {
-	display: inline-block;
-  padding: 0;
-}
-.rank .avt {
-  height: 32px;
-}
-.avt a {
-  border: none!important;
-}
-.avt a {
-  border-color: #fff !important;
-}
-.try-user .avt a {
-  width: 30px;
-  height: 30px;
-  -webkit-border-radius: 30px;
-  -moz-border-radius: 30px;
-  -ms-border-radius: 30px;
-  -o-border-radius: 30px;
-  border-radius: 30px;
-  border: 1px solid #fff;
-  display: inline-block;
-  background-size: 100%;
-}
-.try-user .ticket {
-  color: #474747;
-}
-.try-user .ticket li {
-  display: -moz-box;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flexbox;
-  display: -ms-flex;
-  display: flex;
-  padding: 10px 12px;
-}
-.try-user .ticket li .progressBar {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  -moz-flex: 1;
-  -o-flex: 1;
-  flex: 1;
-  display: block;
-  padding: 0 20px;
-}
-.try-user .ticket li .progressBar .ticketInfo {
+  white-space: nowrap;
   overflow: hidden;
-  line-height: 20px;
-  height: 20px;
-  margin: 0;
+  margin: 10px;
 }
-.try-user .ticket li .progressBar .ticketInfo .name i {
-  width: 17px;
-  height: 17px;
+.trycon .ui.segment{
+  box-shadow: 0 0px 0px 0 rgba(34,36,38,.15); 
+  border: 0px solid rgba(34,36,38,.15);
+}
+.trycon .cont{
+  padding:0px 15px 15px;
+}
+.user-list .ui.image{
+  width:50px;
+  height:50px;
+  border:2px solid #f5f5f5;
+  display:inline-block;
+  margin: 3px;
+  border-radius:50%;
+}
+.user-list{
+  padding:15px 0;
+}
+.user-list .userid{
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: 2px solid #f5f5f5;
   display: inline-block;
-  margin-left: 10px;
+  background-size:100%;
+  margin:3px;
 }
-.try-user .ticket li .progressBar .ticketInfo .name i img {
+
+@media only screen and (max-width: 320px){
+  .user-list .userid{
+    margin:0px !important;
+    height: 40px !important;
+    width: 40px !important;
+  }
+}
+.barrer {
+  background: rgba(0,0,0,0.7);
+  position: fixed;
+  bottom: 0;
   width: 100%;
+  z-index: 12;
 }
-.try-user .ticket li .progressBar .ticketInfo .progressNum {
-  float: right;
-  line-height: 20px;
-  height: 20px;
-}
-.try-user .ticket li .progressBar .bar {
-  background: #ebebeb;
-  height: 2px;
-  margin-top: 25px;
-}
-.try-user .ticket li .progressBar .bar span {
-  display: block;
-  height: 2px;
-}
-.try-user .ticket li:nth-child(even) {
-  background: #fff;
-}
-ul,li{
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-ul a{
-	text-decoration: none;
-}
-.layer {
-  margin: 0;
-  height: 72px;
-  line-height: 72px;
-}
-.submitBtn {
+.subbtn {
   border: 0 none;
   padding: 0;
   display: -moz-box;
@@ -411,36 +113,29 @@ ul a{
   display: -ms-flex;
   display: flex;
 }
-.layer {
-  background: rgba(0,0,0,0.7);
+.barrer {
+  margin: 0;
+  height: 72px;
+  line-height: 72px;
+}
+.frideshare {
+  background: rgba(0,0,0,0.5);
   position: fixed;
   bottom: 0;
   width: 100%;
-  z-index: 12;
+  height: 100%;
+  z-index: 13;
 }
-.submitBtn .play {
-  background: #80c269;
+.subbtn .play {
+  background: #f36;
 }
-.layer a {
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
+.barrer a {
+  float: right;
+  margin: 13px 15px 0 17px;
+  color: #fff;
+  text-decoration: none;
 }
-.submitBtn a {
-  position: relative;
-}
-.layer a {
-  height: 46px;
-  line-height: 46px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-  border-radius: 10px;
-}
-.submitBtn a {
+.subbtn a {
   text-align: center;
   height: 46px;
   line-height: 46px;
@@ -460,19 +155,30 @@ ul a{
   display: block;
   font-size: 20px;
 }
-.layer a {
-  float: right;
-  margin: 13px 15px 0 17px;
-  color: #fff;
-  text-decoration: none;
+.barrer a {
+  height: 46px;
+  line-height: 46px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
 }
-.shareLayer {
-  background: rgba(0,0,0,0.5);
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 13;
+.subbtn a {
+  position: relative;
+}
+.barrer a {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+.tries .ui.ten.wide .header .content{
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 60%;
 }
 </style>
 {% endblock %}
@@ -481,14 +187,14 @@ ul a{
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript">
 
-    var m_name = '我正在申请【{{ try.short_title }}】免费试用,大家来为我拉票吧!';
+    var m_name = '我正在申请【{{ try.short_title }}】免费试用,大家来支持我吧!';
     {% if try.cover %}
       var img_url = '{{ try.cover.thumbnails.resp.view_url }}';
     {%else%}
       var img_url = 'http://frstatic.qiniudn.com/images/logo/logo.png';
     {%endif%}
     var link = '{{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}';
-    var desc_str = '太火鸟-新品试用';
+    var descritc_str = '跪求支持!!!';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -503,7 +209,7 @@ ul a{
     // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
      wx.onMenuShareAppMessage({
       title: m_name,
-      desc: desc_str,
+      desc: descritc_str,
       link: link,
       imgUrl: img_url,
       success: function (res) {
@@ -514,7 +220,7 @@ ul a{
     // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
     wx.onMenuShareTimeline({
       title: m_name,
-      desc: desc_str,
+      desc: descritc_str,
       link: link,
       imgUrl: img_url,
       success: function (res) {
@@ -525,7 +231,7 @@ ul a{
     // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
     wx.onMenuShareQQ({
       title: m_name,
-      desc: desc_str,
+      desc: descritc_str,
       link: link,
       imgUrl: img_url,
       success: function (res) {
@@ -536,7 +242,7 @@ ul a{
     // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
     wx.onMenuShareWeibo({
       title: m_name,
-      desc: desc_str,
+      desc: descritc_str,
       link: link,
       imgUrl: img_url,
       success: function (res) {
@@ -547,10 +253,10 @@ ul a{
 
   //记录分享数/同时送积分
   function record_share_num(){
-
+    $('#mask').css('display','none');
   }
 
-  //拉票排行
+  //支持排行
   function fetch_rank(){
     var url = "{{ app_url_wap }}/try/ajax_fetch_rank";
     var apply_id = "{{ apply._id }}";
@@ -584,8 +290,7 @@ $('[data-countdown]').each(function() {
 $('.support-btn').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-    phenix.redirect("{{ app_url_wap }}/auth/login?redirect_url={{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}");
-      //$('.ui.sign-box.modal').modal('show');
+      phenix.redirect("{{ app_url_wap }}/auth/login");
 			return false;
 		}
     var url = "{{ app_url_wap }}/try/ajax_support";
@@ -593,68 +298,87 @@ $('.support-btn').click(function(){
     $.post(url, {apply_id:apply_id, type:1 });
 });
 
-//获取拉票排行
+//获取支持排行
 fetch_rank();
 
 {% endblock %}
 {% block content %}
-<div class="try-top">
-	<div class="blur-image-block">
-		<i class="blur-image" style="background:url('{{ try.cover.thumbnails.resp.view_url }}');background-size: 100%"></i>
-	</div>
-	<div class="top-content">
-		<div class="text-block"></div>
-		<div class="round-bg"></div>
-		<div class="avatar avatar-92">
-			<img src="{{ apply.user.big_avatar_url }}">
-		</div>	
-		<div class="avatar-name">
-      <span class="wish-name">{{ apply.user.nickname }}</span>
-		</div>
-	</div>
-</div>
-<div class="say-con">
-	<p>
-		我正在申请{{ try.title }}免费试用机会，
-		{% if !try.is_end %}离投票结束还有
-		<span data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></span>，投我一票吧！
-		{% else %}
-		投票已结束！
-		{% endif %}
-	</p>
-</div>
-<div class="myCard">
-	<a href="{{ try.view_url }}" title="{{ try.title }}" target="_blank">
-		<div class="card">
-			<div class="pic">
-				<img src="{{ try.cover.thumbnails.resp.view_url }}" alt="{{ try.title }}" width="80" height="80">
-			</div>
-			<div class="des">
-			  <p class="tit">{{ try.title }}</p>
-        <p class="xinxi">
-          <span>免费试用</span>
-          <span>{{ try.try_count }} 个</span>
-          <span>{{ try.apply_count }} 人申请</span>
-         </p>
-       </div>
-		</div>
-	</a>
-</div>
-
-<div class="try-user" id="rank-box">
-  <!--ajax fetch rank-->
+<div id="try-success">
+  <div class="tries">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui ten wide column">
+          <h3 class="ui header">
+            <img class="ui small avatar image" src="{{ apply.user.big_avatar_url }}">
+            <div class="content">{{ apply.user.nickname }}
+              <div class="sub header">
+                {{ apply.user.ext_state.user_rank.title|default '鸟列兵' }}
+              </div>
+            </div>
+          </h3>
+        </div>
+        <div class="ui six wide column">
+          <div class="ui detext report">
+            <p>{{ apply.user.follow_count|default 0 }}</p>
+            <p>关注</p>
+          </div>
+          <div class="ui detext fans">  
+            <p>{{ apply.user.fans_count|default 0 }}</p>
+            <p>粉丝</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui responsive grid trycon">
+    <div class="row">
+      <div class="column">
+        <div class="ui segment" style="padding:0;">
+          <div class="image">
+            <a href="{{ try.wap_view_url }}"><img src="{{ try.cover.thumbnails.resp.view_url }}" width="100%"></a>
+            <div class="potext">
+              <p>{{ try.title }}</p>
+            </div>
+          </div>
+          <div class="cont">
+            <p style="margin-top:6px;">{% if !try.is_end %}Hi，亲爱的小伙伴们！{{ try.title }}正在太火鸟免费试用中，我已申请，离支持结束还有
+        		<span style="color:#f36;font-weight:700;" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></span>，急需你的帮助！互相支持几率更加倍哟~
+        		{% else %}
+        		支持已结束！
+        		{% endif %}</p>
+            <label class="ui magenta label" style="min-width: 74px;">免费试用</label> &nbsp;  <label class="ui magenta label">数量{{ try.try_count }} 个</label>&nbsp; <label class="ui magenta label">{{ try.apply_count }} 人申请</label>
+          </div>
+        </div>
+        
+        <div class="ui segment">
+          
+          <div class="trypeo" id="rank-box">
+            <!--ajax fetch rank-->
+          </div>
+          
+        </div>
+        
+        
+      </div>
+    </div>
+  </div>
 </div>
 
 
 {% if !try.is_end %}
   {% if is_current_user %}
-    <div class="layer submitBtn showdiv"><a class="play">立即拉票</a></div>
+    <div class="barrer subbtn showdiv"><a class="play">求支持</a></div>
   {%else%}
-    <div class="layer submitBtn"><a href="javascript:void(0);" class="play support-btn">我要支持</a></div>
+    {% if is_support %}
+      <div class="barrer subbtn"><a href="{{ try.wap_view_url }}" class="play">我要试用</a></div>
+    {%else%}
+      <div class="barrer subbtn"><a href="javascript:void(0);" class="play support-btn">我要支持</a></div>
+    {%endif%}
   {%endif%}
 {%endif%}
 <div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);" align="center">
-  <div class="shareLayer">
+  <div class="frideshare">
 	<img src="{{ app_url_packaged }}/images/fenxiang.png" width="100%" >
   </div>
 </div>
