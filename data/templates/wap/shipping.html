@@ -9,6 +9,7 @@
 {% block jquery %}
 	// 显示地址框
 	$('.ui.addbook.button').click(function(){
+    $('#addbook-form').clearForm();
 		$('.ui.addbook.modal').modal('show');
 	});
 
@@ -89,29 +90,33 @@
 	});
 	
 	// 编辑
-	$('.ui.edit.button').bind('click', function(){
-		var id = $(this).data('id');
-		$.post('{{ app_url_wap }}/app/site/address/edit_address', {id: id, plat:'mobile'});
-		return false;
+	$('.ui.edit.button').livequery(function(){
+    $(this).bind('click', function(){
+      var id = $(this).data('id');
+      $.post('{{ app_url_wap }}/app/site/address/edit_address', {id: id, plat:'mobile'});
+      return false;
+    });
 	});
 	
 	// 删除
-	$('.ui.remove.button').bind('click', function(){
-		var id = $(this).data('id');
-		if(confirm('确认执行这个删除操作吗?')){
-			$.post('{{ app_url_wap }}/app/site/address/remove_address', {id: id}, function(result){
-				if (result.success){
-					if ($('#'+result.data.id).hasClass('active')) {
-						// 清空默认值
-						$('#addbook_default_id').val('');
-					}
-					$('#'+result.data.id).remove();
-				} else {
-					phenix.show_error_note(result.message, 5000);
-				}
-			}, 'json');
-        }
-		return false;
+	$('.ui.remove.button').livequery(function(){
+    $(this).bind('click', function(){
+      var id = $(this).data('id');
+      if(confirm('确认执行这个删除操作吗?')){
+        $.post('{{ app_url_wap }}/app/site/address/remove_address', {id: id}, function(result){
+          if (result.success){
+            if ($('#'+result.data.id).hasClass('active')) {
+              // 清空默认值
+              $('#addbook_default_id').val('');
+            }
+            $('#'+result.data.id).remove();
+          } else {
+            phenix.show_error_note(result.message, 5000);
+          }
+        }, 'json');
+          }
+      return false;
+    });
 	});
 	
 {% endblock %}
