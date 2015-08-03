@@ -124,10 +124,10 @@
     				<p>{{ address.area_province.city}} {{ address.area_district.city }}<br /> {{ address.address }} <span>({{ address.zip }})</span></p>
 				
     				<div class="actions">
-    					<a class="ui small gray icon button">
+    					<a class="ui small gray icon button edit" data-id="{{ address._id }}">
     						<i class="edit icon"></i>
     					</a>
-    					<a class="ui small gray icon button">
+    					<a class="ui small gray icon button remove" data-id="{{ address._id }}">
     						<i class="remove icon"></i>
     					</a>
     				</div>
