@@ -252,7 +252,12 @@
     -ms-user-select: none;
     user-select: none;
     width: 100%;
+    color:rgba(112, 123, 135, 0.85);
   }
+  #mchildmenu .slides li .item:hover{
+    color:rgba(112, 123, 135, 0.95);
+  }
+  
 </style>
 {% endblock %}
 
@@ -289,19 +294,17 @@
       slideshow: true,
       slideshowSpeed: 5000,
       animationDuration: 300,
+      animationSpeed: 300,
   });
   var s=$('body').width();
   $('#mchildmenu').flexslider({
       animation: "slide",
       animationLoop: false,
       itemWidth: s/4,
-      //itemMargin: 5,
-      //minItems: 2,
-      //maxItems: 5,
       directionNav: false, 
       controlNav: false,
       animationDuration: 300,
-      //directionNav: true, 
+      directionNav: true,
     });
 {% endblock %}
 
