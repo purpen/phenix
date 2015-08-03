@@ -115,9 +115,6 @@
 					{% if order.status == 10 %}
           <a href="javascript:void(0);" class="ui small gray inverted button" name="apply-refund" rid="{{ order.rid }}">申请退款</a>
 					{% endif %}
-					{% if order.status == 15 %}
-          <a href="javascript:void(0);" class="ui small gray inverted button" name="apply-refund" rid="{{ order.rid }}">申请退款</a>
-					{% endif %}
 
                     {% if order.status == 20 %}
 						<a href="{{ app_url_my }}/evaluate?rid={{ order.rid }}" class="ui magenta link">售后评价 »</a>

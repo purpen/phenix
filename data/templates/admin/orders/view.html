@@ -181,7 +181,7 @@
 					{% if order_info.status == 10 %}
 					  <a href="{{ app_url_admin_base }}/orders/send?rid={{ order_info.rid }}" class="ui active small magenta button">开始发货</a>
 					{% endif %}
-					{% if order_info.status == 12 %}
+					{% if can_refund %}
             <a href="javascript:void(0);" class="ui small gray button" name="confirm-refund" rid="{{ order_info.rid }}" pay_money="{{ order_info.pay_money }}" user_id="{{ order_info.user_id }}" >确认退款</a><a href="javascript:void(0);" class="ui small red button" name="confirm-refund-force" rid="{{ order_info.rid }}" pay_money="{{ order_info.pay_money }}" user_id="{{ order_info.user_id }}" >强制</a>
 					{% endif %}
 				</div>
