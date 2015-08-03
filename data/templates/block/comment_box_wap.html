@@ -49,6 +49,40 @@
 	.thumb.block > .image img{
 		width:100%;
 	}
+	.thumb.block{
+	  width: 48%;
+    margin-left: 1%;
+    margin-right: 1%;
+	}
+	.ui.blocks>.block{
+	  max-width: 100%;
+    position: relative;
+    display: block;
+    min-height: 0;
+    background: #fff;
+    padding: 0;
+    border: 0;
+    float: left;
+	}
+	.ui.modal .container{
+	  display: table;
+    width: 100%;
+    position: relative;
+    background-color: #F4F4F4;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+	}
+	.ui.modal>.container .content{
+	  padding: 1em;
+	}
+	.ui.modal .right.aligned.action{
+	  background-color: #FFF;
+    font-size: .825em;
+    padding: 1rem;
+    text-align:right;
+	}
 </style>
 
 
@@ -87,8 +121,8 @@
       <div class="ui grid">
         <div class="row">
           <div class="center aligned column">
-            <a href="{{ app_url_wap }}/auth/signup" class="ui green checkout inverted button">注册</a> <a href="{{ app_url_wap }}/auth/login" class="ui magenta checkout inverted button">登录</a>
-            <p class="ui gray text">注册登录后可发回应</p>
+            <a href="{{ app_url_wap }}/auth/signup" class="ui green checkout button">注册</a> <a href="{{ app_url_wap }}/auth/login" class="ui magenta checkout button">登录</a>
+            <p style="margin-top:10px;" class="ui gray text">注册登录后可发回应</p>
           </div>
         </div>
       </div>
@@ -125,10 +159,10 @@
 
 		  	</div>
 			<div class="right aligned action">
-			    <div class="ui gray deny inverted button">
+			    <div class="ui gray deny button">
 					取消
 			    </div>
-			    <div class="ui magenta comment-submit img inverted button">
+			    <div class="ui magenta comment-submit img button">
 					插入
 			    </div>
 			</div>
@@ -157,10 +191,10 @@
 				</div>
 		  	</div>
 			<div class="right aligned action">
-			    <div class="ui gray deny inverted button">
+			    <div class="ui gray deny button">
 					取消
 			    </div>
-			    <div class="ui magenta comment-submit url inverted button">
+			    <div class="ui magenta comment-submit url button">
 					插入
 			    </div>
 			</div>
