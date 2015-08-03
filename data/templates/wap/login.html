@@ -48,6 +48,7 @@
                 </a>
 						</div>
             -->
+            <div class="inline field" style="width:20% !important;text-align:center;"></div>
 						<div class="inline field" style="width:20% !important;text-align:center;">
               {% if is_weixin %}
 							<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&redirect_uri={{wx_params.redirect_uri}}&response_type=code&scope=snsapi_login&state={{wx_params.state}}" class="ui green circular share icon button">
@@ -55,7 +56,7 @@
 							</a>
               {%else%}
               <a href="javascript:void(0);" class="ui green no-weixin circular share icon button">
-								<i class="flat icon_weixin icon"></i>
+								<i class="flat weixin icon"></i>
 							</a>
               {%endif%}
 						</div>
