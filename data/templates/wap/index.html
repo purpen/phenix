@@ -257,7 +257,44 @@
   #mchildmenu .slides li .item:hover{
     color:rgba(112, 123, 135, 0.95);
   }
-  
+  .flex-direction-nav a{
+    position:absolute;
+    top:50%;
+    left:0;
+    display: inline-block;
+    opacity: 1;
+    margin: 0 .25rem 0 0;
+    width: 1.18em;
+    height: 1em;
+    font-family: Icons;
+    font-style: normal;
+    font-weight: 400;
+    text-decoration: inherit;
+    text-align: center;
+    speak: none;
+    font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .flex-direction-nav .flex-prev:before{
+      content: "\f104";
+  }
+  .flex-direction-nav .flex-next:before{
+      content: "\f105";
+  }
+  .flex-direction-nav .flex-prev{
+    -webkit-animation: arrowUp 1.5s linear infinite;
+		-moz-animation: arrowUp 1.5s linear infinite;
+		animation: arrowUp 1.5s linear infinite;
+  }
+  .flex-direction-nav .flex-next{
+    -webkit-animation: arrowRt 1.5s linear infinite;
+	  -moz-animation: arrowRt 1.5s linear infinite;
+	  animation: arrowRt 1.5s linear infinite;
+	  right:0;
+  }
 </style>
 {% endblock %}
 
