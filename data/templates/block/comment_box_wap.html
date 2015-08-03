@@ -39,6 +39,9 @@
 	.ui.labeled.icon.buttons>.button>.icon, .ui.labeled.icon.button>.icon{
 		width: 2.4em;
 	}
+	.ui.modal{
+	  top:35%;
+	}
 	.img-tab{
     margin:5px;
   }
@@ -57,12 +60,11 @@
 	.ui.blocks>.block{
 	  max-width: 100%;
     position: relative;
-    display: block;
+    display: inline-block;
     min-height: 0;
     background: #fff;
     padding: 0;
     border: 0;
-    float: left;
 	}
 	.ui.modal .container{
 	  display: table;
@@ -82,6 +84,9 @@
     font-size: .825em;
     padding: 1rem;
     text-align:right;
+	}
+	.ui.reply.form{
+	  padding-bottom:1rem !important;
 	}
 </style>
 
@@ -111,7 +116,7 @@
 	<!-- -->
     <div class="right aligned column">
 			<div class="ui active button magenta submit inverted labeled icon">
-			   <i class="icon basic direction"></i> 添加回应
+			   <i class="edit icon"></i> 添加回应
 			</div>
       <!--<input type="submit" class="ui small magenta button" value="添加评论" />-->
     </div>
@@ -319,7 +324,7 @@
             endpoint: '{{ app_url_upload }}/comment'
           },
       text: {
-              uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+              uploadButton: '<a class="ui active magenta inverted labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
       },
       template: '<div class="qq-uploader">' +
             '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
