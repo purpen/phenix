@@ -224,6 +224,7 @@
     list-style: none;
     text-align:center;
     position:relative;
+    min-width:80px;
   }
   #mchildmenu .slides li:before{
     position: absolute;
@@ -251,6 +252,63 @@
     -ms-user-select: none;
     user-select: none;
     width: 100%;
+    color:rgba(112, 123, 135, 0.85);
+  }
+  #mchildmenu .slides li .item:hover{
+    color:rgba(112, 123, 135, 0.95);
+  }
+  .flex-direction-nav a{
+    position: absolute;
+    font-size: 22px;
+    top: 50%;
+    display: inline-block;
+    opacity: 1;
+    margin: 0 .25rem 0 0;
+    width: 1.18em;
+    padding: 11px 0;
+    margin-top: -21px;
+    font-family: Icons;
+    font-style: normal;
+    vertical-align: middle;
+    font-weight: 400;
+    text-decoration: inherit;
+    text-align: center;
+    speak: none;
+    font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .flex-direction-nav .flex-prev:before{
+      content: "\f104";
+      color:rgba(112, 123, 135, 0.95);
+  }
+  .flex-direction-nav .flex-next:before{
+      content: "\f105";
+      color:rgba(112, 123, 135, 0.95);
+  }
+  .flex-direction-nav .flex-prev{
+    -webkit-animation: arrowUp 1.5s linear infinite;
+		-moz-animation: arrowUp 1.5s linear infinite;
+		animation: arrowUp 1.5s linear infinite;
+		left:0;
+  }
+  .flex-direction-nav .flex-next{
+    -webkit-animation: arrowRt 1.5s linear infinite;
+	  -moz-animation: arrowRt 1.5s linear infinite;
+	  animation: arrowRt 1.5s linear infinite;
+	  right:0;
+  }
+  .ui.sidebar {
+      width: 16rem !important;
+      top:0 !important;
+      position: fixed !important;
+      margin-top:0;
+  }
+  .ui.menu{
+      font-family: "Lantinghei SC", "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
+      font-size:14px;
   }
 </style>
 {% endblock %}
@@ -288,19 +346,19 @@
       slideshow: true,
       slideshowSpeed: 5000,
       animationDuration: 300,
+      animationSpeed: 300,
   });
   var s=$('body').width();
   $('#mchildmenu').flexslider({
       animation: "slide",
       animationLoop: false,
       itemWidth: s/4,
-      //itemMargin: 5,
-      //minItems: 2,
-      //maxItems: 5,
       directionNav: false, 
       controlNav: false,
       animationDuration: 300,
-      //directionNav: true, 
+      directionNav: true,
+      prevText: " ",
+      nextText: " ",
     });
 {% endblock %}
 
@@ -317,7 +375,6 @@
     {% endfor %}
   </ul>
 </div>
-
 <!--<div id="frslide" class="frame">
 	<div class="ui slide">
 		{% for ad in ad.rows %}
