@@ -475,41 +475,6 @@
 					{% endfor %}
 				</div>
 				{% endif %}
-
-					<div class="ui icon green editable buttons">
-            {% if visitor.can_edit %}
-							{% if product.featured %}
-							<div class="ui pop fine active button" data-content="取消精选"  data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
-								<i class="star icon"></i>
-							</div>
-							{% else %}
-							<div class="ui pop fine button" data-content="标记精选" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
-								<i class="star empty icon"></i>
-							</div>
-							{% endif %}
-							{% if product.stick %}
-							<div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
-								<i class="flag icon"></i>
-							</div>
-							{% else %}
-							<div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
-								<i class="flag outline icon"></i>
-							</div>
-							{% endif %}
-            {%endif%}
-			
-						{% if editable %}
-              {% if product.stage==15 %}
-                <div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ product._id }}">
-                  <i class="edit icon"></i>
-                </div>
-                <div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ product._id }}">
-                  <i class="remove icon"></i>
-                </div>
-              {%endif%}
-						{% endif %}
-					</div>
-                
 					<div class="ui center aligned zanl">
 						<div class="ui green pop favorite inverted button" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
 							<i class="star icon"></i> 收藏
@@ -572,12 +537,11 @@
           <div class="bar"></div>
                   
           <div class="product reviews">
-            <div class="block title">
-              用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
-                      </div>
-              
-            <!--ajax comment-->
-            <div class="ui big reply segment" id="comment-list"></div>
+              <div class="block title">
+                  用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
+              </div>
+              <!--ajax comment-->
+              <div class="ui big reply segment" id="comment-list"></div>
           </div>
           {% endif %}
         {%endif%}
@@ -771,6 +735,40 @@
             {%endif%}
         </div>
         
+        {% if visitor.can_edit %}
+        <div class="sellwrap">
+            <div class="ui icon green editable buttons">
+                {% if product.featured %}
+				<div class="ui pop fine active button" data-content="取消精选"  data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
+					<i class="star icon"></i>
+				</div>
+				{% else %}
+				<div class="ui pop fine button" data-content="标记精选" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
+					<i class="star empty icon"></i>
+				</div>
+				{% endif %}
+				{% if product.stick %}
+				<div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
+					<i class="flag icon"></i>
+				</div>
+				{% else %}
+				<div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
+					<i class="flag outline icon"></i>
+				</div>
+				{% endif %}
+        		{% if editable %}
+                    {% if product.stage == 15 %}
+                      <div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ product._id }}">
+                          <i class="edit icon"></i>
+                      </div>
+                      <div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ product._id }}">
+                          <i class="remove icon"></i>
+                      </div>
+                    {%endif%}
+        		{% endif %}
+    		</div>
+        </div>
+        {%endif%}
     </div>
 </div>
 {% include "block/sharebox.html" %}
