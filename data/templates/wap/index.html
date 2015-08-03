@@ -5,7 +5,7 @@
 	#mfrbird {
 	    margin: 0em 0 3em !important;
 	}
-	
+	/*
 	#mchildmenu {
 	  margin-bottom: .5rem;
 	  max-height: 73px;
@@ -66,7 +66,7 @@
 		-webkit-animation: arrowUp 1.5s linear infinite;
 		-moz-animation: arrowUp 1.5s linear infinite;
 		animation: arrowUp 1.5s linear infinite;
-	}
+	}*/
 	@-webkit-keyframes arrowRt {
 		0%{-webkit-transform:translateX(0px);opacity:0}
 		60%{-webkit-transform:translateX(10px);opacity:1}
@@ -97,219 +97,17 @@
 		60%{-webkit-transform:translateX(-10px);opacity:1}
 		100%{-webkit-transform:translateX(-20px);opacity:0}
 	}
-	.ui.menu .item{
-	  line-height: 1.6;
-	}
-	#slider{
-	  height:210px;
-	  margin-bottom: 0.5rem !important;
-	}
-	#slider.flexslider {
-    margin: 0;
-    padding: 0;
-    background: #fff;
-    position: relative;
-    zoom: 1;
-  }
-  #slider.flexslider .flex-viewport {
-    max-height: 2000px;
-    -webkit-transition: all 1s ease 0s;
-    -moz-transition: all 1s ease 0s;
-    -o-transition: all 1s ease 0s;
-    -ms-transition: all 1s ease 0s;
-    transition: all 1s ease 0s;
-  }
-  #slider.flexslider .slides::after {
-    clear: both;
-    content: " ";
-    display: block;
-    height: 0;
-    line-height: 0;
-    visibility: hidden;
-  }
-  #slider.flexslider .slides {
-    height: 210px;
-    zoom: 1;
-  }
-  #slider .flex-control-nav, .flex-direction-nav, .slides, .slides>li {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  #slider.flexslider .slides>li {
-    background-position: 50% 50%;
-    background-size: cover;
-    display: none;
-    height: 210px;
-    -webkit-backface-visibility: hidden;
-  }
-  #slider.flexslider.flex-single .slides>li>a {
-    display: block;
-    height: 210px;
-  }
-  #slider.flexslider .slides>li img {
-    width: 100%;
-    display: block;
-    height: auto;
-  }
-  #slider .flex-direction-nav {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  #slider .flex-control-nav{
-    bottom: 1em;
-    margin: 0 auto;
-    position: absolute;
-    width: 100%;
-    text-align: center;
-  }
-  #slider .flex-control-nav li{
-    display:inline-block;
-  }
-  #slider .flex-control-nav li a{
-    background-color: rgba(255,255,255,.35);
-    border-radius: 2em;
-    display: inline-block;
-    height: .65em;
-    margin-right: .65em;
-    text-indent: -999em;
-    width: .65em;
-  }
-  #slider .flex-control-nav li a.flex-active,#slider .flex-control-nav li a:hover{
-    background-color: rgba(255,255,255,.75);
-  }
-  
-  
-  #mchildmenu{
-	  height:42px;
-	  overflow:hidden;
-	}
-	#mchildmenu.flexslider {
-    margin: 0;
-    padding: 0;
-    background: #fff;
-    position: relative;
-    zoom: 1;
-  }
-  #mchildmenu.flexslider .flex-viewport {
-    max-height: 2000px;
-    -webkit-transition: all 1s ease 0s;
-    -moz-transition: all 1s ease 0s;
-    -o-transition: all 1s ease 0s;
-    -ms-transition: all 1s ease 0s;
-    transition: all 1s ease 0s;
-  }
-  #mchildmenu.flexslider .slides::after {
-    clear: both;
-    content: " ";
-    display: block;
-    height: 0;
-    line-height: 0;
-    visibility: hidden;
-  }
-  #mchildmenu.flexslider .slides {
-    height: auto;
-    zoom: 1;
-  }
-  #mchildmenu .flex-control-nav,#mchildmenu .flex-direction-nav,#mchildmenu .slides {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    text-align:center;
-  }
-  #mchildmenu .slides>li{
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    text-align:center;
-    position:relative;
-    min-width:80px;
-  }
-  #mchildmenu .slides li:before{
-    position: absolute;
-    content: '';
-    top: 0;
-    left: 0;
-    width: 1px;
-    height: 100%;
-    background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,.05)),color-stop(50%,rgba(0,0,0,.1)),to(rgba(0,0,0,.05)));
-    background-image: -webkit-linear-gradient(rgba(0,0,0,.05) 0,rgba(0,0,0,.1) 50%,rgba(0,0,0,.05) 100%);
-    background-image: linear-gradient(rgba(0,0,0,.05) 0,rgba(0,0,0,.1) 50%,rgba(0,0,0,.05) 100%);
-  }
-  #mchildmenu .slides li.none:before{
-    content: none;
-  }
-  #mchildmenu .slides li .item{
-    position: relative;
-    display: inline-block;
-    padding: .83em 0;
-    border-top: 0 solid rgba(0,0,0,0);
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
-    -moz-user-select: -moz-none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    width: 100%;
-    color:rgba(112, 123, 135, 0.85);
-  }
-  #mchildmenu .slides li .item:hover{
-    color:rgba(112, 123, 135, 0.95);
-  }
-  .flex-direction-nav a{
-    position: absolute;
-    font-size: 22px;
-    top: 50%;
-    display: inline-block;
-    opacity: 1;
-    margin: 0 .25rem 0 0;
-    width: 1.18em;
-    padding: 11px 0;
-    margin-top: -21px;
-    font-family: Icons;
-    font-style: normal;
-    vertical-align: middle;
-    font-weight: 400;
-    text-decoration: inherit;
-    text-align: center;
-    speak: none;
-    font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-  }
-  .flex-direction-nav .flex-prev:before{
-      content: "\f104";
-      color:rgba(112, 123, 135, 0.95);
-  }
-  .flex-direction-nav .flex-next:before{
-      content: "\f105";
-      color:rgba(112, 123, 135, 0.95);
-  }
-  .flex-direction-nav .flex-prev{
-    -webkit-animation: arrowUp 1.5s linear infinite;
-		-moz-animation: arrowUp 1.5s linear infinite;
-		animation: arrowUp 1.5s linear infinite;
-		left:0;
-  }
-  .flex-direction-nav .flex-next{
-    -webkit-animation: arrowRt 1.5s linear infinite;
-	  -moz-animation: arrowRt 1.5s linear infinite;
-	  animation: arrowRt 1.5s linear infinite;
+	#gritter-notice-wrapper{
+	  width:100%;
 	  right:0;
-  }
-  .ui.sidebar {
-      width: 16rem !important;
-      top:0 !important;
-      position: fixed !important;
-      margin-top:0;
-  }
-  .ui.menu{
-      font-family: "Lantinghei SC", "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
-      font-size:14px;
-  }
+	  padding-top:50px;
+	}
+	#gritter-notice-wrapper .content .remove.icon{
+	  display:none;
+	}
+	.ui.wap{
+	  min-height:57px;
+	}
 </style>
 {% endblock %}
 

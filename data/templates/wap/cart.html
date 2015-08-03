@@ -78,7 +78,7 @@
 					<div class="ui bottom aligned grid">
 						<div class="row">
 							<div class="six wide column">
-								<a href="{{ app_url_shop }}" class="ui black btn-4 btn-4c btn" data-content="继续挑选商品" data-variation="inverted">
+								<a href="{{ app_url_shop }}" class="ui black btn-4 btn-4c btn inverted button" data-content="继续挑选商品" data-variation="inverted">
 									<i class="search icon"></i>继续购物
 								</a>
 							</div>
@@ -88,7 +88,7 @@
 										<b class="cart-items-count money">{{ items_count }}</b>件产品，总计：<b class="cart-total-money money">{{ total_money }}</b><span class="unit">元</span>
 									</p>
 								</div>
-								<a class="ui magenta btn-4 btn-4c icon-arrow-right checkout btn">去结算</a>
+								<a class="ui magenta btn-4 btn-4c icon-arrow-right inverted button checkout btn">去结算</a>
 							</div>
 						</div>
 					</div>
@@ -98,12 +98,12 @@
 				<div class="column" id="cart-body-content">
 					<h5 class="ui dividing header">我的购物车</h5>
 					<div class="ui empty message">
-						<div class="ui big header">
-							<i class="cart icon"></i>
-							<div class="content">
+						<h1 class="ui big header">
+							<i class="cart icon" style="font-size:1em !important;"></i>
+							<div class="content" style="display:inline-block;">
 								<div class="sub header">还没选中产品？<a href="{{ app_url_wap }}/shop" class="ui magenta link">赶快去选购吧</a></div>
 							</div>
-						</div>
+						</h1>
 					</div>
 				</div>
 			{% endif %}

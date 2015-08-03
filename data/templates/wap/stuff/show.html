@@ -5,6 +5,26 @@
   #comment-list{
     font-size:16px !important;
   }
+  .ui.support.button{
+    padding: 18px 0;
+    width: 80px;
+    height: 80px;
+    vertical-align: middle;
+    font-size:16px;
+    background-color: transparent;
+    -webkit-box-shadow: 0 0 0 2px #F42156 inset!important;
+    box-shadow: 0 0 0 2px #F42156 inset!important;
+    color: #F42156;
+  }
+  .ui.support.button .love.count{
+    font-size:16px;
+  }
+  .ui.support.button.active{
+    -webkit-box-shadow: 0 0 0 2px #f36 inset!important;
+    box-shadow: 0 0 0 2px #f36 inset!important;
+    background-color: #f36;
+    color: #fff;
+  }
 </style>
 {% endblock %}
 
@@ -221,22 +241,7 @@
 <div id="postpage">
 	<section class="ui big block">
 		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
-					<div class="ui breadcrumb">
-					  	<a class="section" href="{{ app_url_wap }}">
-							<i class="icon home"></i>首页
-						</a>
-					  	<div class="divider"> / </div>
-					  	<a class="section" href="{{ app_url_wap }}/social">社区</a>
-					  	<div class="divider"> / </div>
-					  	<a class="section" href="javascript:void(0);">{{ stuff.category.title }}</a>
-					  	<div class="divider"> / </div>
-					  	<div class="active section">{{ stuff.title|truncate 30 }}</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
+			<div class="row pt-0">
 				<div class="column">
 						<div class="ui big topic segment">
 							<div class="ui header">
@@ -290,7 +295,7 @@
           <div class="ui grid">
 						<div class="row">
 							<div class="center aligned column">
-								<div class="ui pop icon support inverted magenta button" data-content="我支持" data-variation="inverted" data-id="{{ stuff._id }}" data-mark="n">
+								<div class="ui pop icon support circular inverted magenta button" data-content="我支持" data-variation="inverted" data-id="{{ stuff._id }}" data-mark="n">
 								  	<i class="thumbs outline up icon"></i>
 									<div class="love count">
 										{{ stuff.love_count|default 0 }}
