@@ -2,7 +2,7 @@
 
 {% block page_css %}
 <style type="text/css">
-
+    
 </style>
 {% endblock %}
 {% block jquery %}
@@ -257,19 +257,32 @@
                 
                 <!--精选话题-->
                 <div class="ui four products topics cards">
-                    <div class="card">
-                        {% ad_list var:'ads' page:1 size:2 state:2 name:'home_page_topic' %}
-                        {% for ad in ads.rows %}
-                        <a title="{{ ad.title }}" href="{{ ad.view_url }}" style="background-image: url({{ ad.cover.fileurl }});" class="thumb adv" target="_blank"></a>
-                        {% endfor %}
+                    <div class="card stick">
+                        {% ad_list var:'ads' page:1 size:2 state:2 name:'home_page_topic' %}                        
+                        <div class="ui socialstick one blocks">
+                            {% for ad in ads.rows %}
+                            <div class="block">
+                    			<div class="image" {% if ad.cover %}style="background-image: url('{{ ad.cover.fileurl }}');"{% endif %}>
+                                    <a class="transparent" href="{{ ad.view_url }}" target="_blank">
+                    					<div class="sub title">
+                    						<h3>{{ ad.title }}</h3>
+                    						<div class="extra count">
+                    							<i class="unhide icon"></i> <span>{{ ad.click_count }}</span>
+                    						</div>
+                    					</div>
+                                    </a>
+                    			</div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
                     </div>
                     <div class="card group">
                         {% topic_list var:'topics' type:1 page:1 size:6 %}
                         <div class="problock">
         					{% for topic in topics.rows %}
-        						<!-- 判断话题是否可以显示 -->
         						{% if topic.published %}
-                                    <div class="topicbox">
+                                    <div class="topicbox {% if loop.counter == 5 %}noborder{% endif %}">
                 						{% if topic.cover %}
                                         <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
                 						    <img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" />
