@@ -1,11 +1,11 @@
 <taconite>
 	<append select=".is-comment.comments"><![CDATA[
 		<div class="comment" id="{{ comment._id }}">
-			<a class="avatar" href="{{ comment.user.home_url }}" title="{{ comment.user.nickname }}">
+			<a class="avatar" href="javascript:void(0);" title="{{ comment.user.nickname }}">
 				<img src="{{ comment.user.small_avatar_url }}" />
 			</a>
 			<div class="content">
-				<a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
+				<a class="author ui magenta link" href="javascript:void(0);">{{ comment.user.nickname }}</a>
 				<div class="metadata">
 					<div class="date">{{ comment.created_on }}</div>
           <div>{{ comment.floor }}楼</div>
@@ -21,7 +21,7 @@
 				</div>
 
           {% if comment.is_reply %}
-          <div>回复 #{{ comment.reply_comment.floor }} @<a href="{{ comment.reply_comment.user.home_url }}" class="ui link" target="_blank">{{ comment.reply_comment.user.nickname }}</a></div>
+          <div>回复 #{{ comment.reply_comment.floor }} @<a href="javascript:void(0);" class="ui link">{{ comment.reply_comment.user.nickname }}</a></div>
           {%endif%}
 
 				<div class="text">
