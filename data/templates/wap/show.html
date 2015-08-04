@@ -22,10 +22,10 @@
 	  background-size: cover;
 	  position: relative;
 	}
-	.ui.socialstick.blocks{
+	.ui.socialstick.cards{
 		margin-bottom:1rem !important;
 	}
-	.ui.socialstick.blocks>.block>.image>.transparent {
+	.ui.socialstick.cards>.card>.image>.transparent {
 	  position: absolute;
 	  top: 0;
 	  left: 0;
@@ -36,7 +36,7 @@
 	  -webkit-transition: all .3s ease .1s;
 	  transition: all .3s ease .1s;
 	}
-	.ui.socialstick.blocks > .block > .image > .transparent > .sub.title {
+	.ui.socialstick.cards > .card > .image > .transparent > .sub.title {
 	    bottom: 0.5rem;
 	    color: rgba(255,255,255,0.95);
 	    font-weight: bold;
@@ -51,15 +51,15 @@
 	    -ms-transition: all 0.3s ease 0.1s;
 		transition: all 0.3s ease 0.1s;
 	}
-	.ui.socialstick.blocks > .block > .image:hover > .transparent {
+	.ui.socialstick.cards > .card > .image:hover > .transparent {
 		background-color: rgba(0,0,0,0.7);
 	}
-	.ui.socialstick.blocks > .block > .image:hover > .transparent > .sub.title {
+	.ui.socialstick.cards > .card > .image:hover > .transparent > .sub.title {
 		bottom: 2rem;
 	    color: rgba(255,255,255,1.0);
 	}
 
-	.ui.stickcount.blocks > .block > .image .ui.cate.label {
+	.ui.stickcount.cards > .card > .image .ui.cate.label {
 	    background-color: rgba(255, 51, 102, 0.7);
 	    border-radius: 2.5rem;
 	    color: #fff;
@@ -69,20 +69,20 @@
 	    position: absolute;
 	    top: 1rem;
 	}
-	.ui.stickcount.blocks {
+	.ui.stickcount.cards {
 	    margin-bottom: 0.5rem;
 	}
-	.ui.stickcount.blocks > .block > .image > .transparent > .sub.title {
+	.ui.stickcount.cards > .card > .image > .transparent > .sub.title {
 	    bottom: -2rem;
 	}
-	.ui.stickcount.blocks > .block > .image > .transparent > .sub.title > .extra.count {
+	.ui.stickcount.cards > .card > .image > .transparent > .sub.title > .extra.count {
 	    padding-top: 1rem;
 	    font-weight: 400;
 	}
-	.ui.stickcount.blocks > .block > .image > .transparent > .sub.title > .extra.count > span {
+	.ui.stickcount.cards > .card > .image > .transparent > .sub.title > .extra.count > span {
 	    margin-right: 0.75rem;
 	}
-	.ui.stickcount.blocks > .block > .image:hover > .transparent > .sub.title {
+	.ui.stickcount.cards > .card > .image:hover > .transparent > .sub.title {
 		bottom: 1rem;
 	}
 	.froala-element blockquote,
@@ -105,8 +105,41 @@
 	.froala-element p{
 		line-height:24px;
 	}
+	.froala-element p img{
+	  width:100%;
+	}
+	.froala-element p a.inlink-tag{
+	  border-bottom: 2px solid rgba(0,0,0,.15);
+    color: #f36;
+    cursor: pointer;
+    padding-bottom: 2px;
+    text-decoration: none;
+	}
+	.froala-element p a.inlink-tag:hover{
+	  text-decoration: none;
+	  border-bottom: 2px solid #f36;
+	}
 	
-	
+	.ui.support.button{
+    padding: 18px 0;
+    width: 80px;
+    height: 80px;
+    vertical-align: middle;
+    font-size:2rem;
+    background-color: transparent;
+    -webkit-box-shadow: 0 0 0 2px #F42156 inset!important;
+    box-shadow: 0 0 0 2px #F42156 inset!important;
+    color: #F42156;
+  }
+  .ui.support.button .love.count{
+    font-size:16px;
+  }
+  .ui.support.button.active{
+    -webkit-box-shadow: 0 0 0 2px #f36 inset!important;
+    box-shadow: 0 0 0 2px #f36 inset!important;
+    background-color: #f36;
+    color: #fff;
+  }
 </style>
 {% endblock %}
 
@@ -293,9 +326,9 @@
 					</div>
 				</div>
 			</div>-->
-			<div class="row">
-				<div class="column" style="padding:0;">
-						<div class="ui big topic segment">
+			<div class="row pt-0">
+				<div class="column" style="padding:0;width:100% !important;">
+						<div class="ui big topic segment" style="border: 0px solid rgba(34,36,38,.15);">
 							<div class="ui header">
 								<div class="content">
 									{{ topic.title }}
@@ -335,7 +368,7 @@
           <div class="ui grid" style="margin:0 0 10px;">
 						<div class="row">
 							<div class="center aligned column">
-								<div class="ui pop icon support inverted magenta button" data-content="点赞" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
+								<div class="ui pop icon support circular inverted magenta button" data-content="点赞" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
 								  	<i class="thumbs outline up icon"></i>
 									<div class="love count">
 										{{ topic.love_count|default 0 }}

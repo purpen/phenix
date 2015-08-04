@@ -34,28 +34,27 @@
 					<h5 class="ui center aligned dividing header">登录太火鸟</h5>
 
 					<div class="ui center aligned five fields">
-						<div class="field"></div>
-            <!--
-						<div class="field">
+						<div class="inline field" style="width:20% !important;text-align:center;"></div>
+						<div class="inline field" style="width:20% !important;text-align:center;">
 							<a href="{{ weibo_auth_url }}" class="ui weibo circular share icon button">
-								<i class="flat icon_weibo icon"></i> 
+								<i class="weibo icon"></i> 
 							</a>
 						</div>
 
-						<div class="field">
-                <a href="{{ app_url_qq_login }}" class="ui qq blue circular share icon button">
-                  <i class="flat icon_qq icon"></i>
+						<div class="inline field" style="width:20% !important;text-align:center;">
+                <a href="{{ app_url_qq_login_wap }}" class="ui qq blue circular share icon button">
+                  <i class="qq icon"></i>
                 </a>
 						</div>
-            -->
-						<div class="field">
+            <div class="inline field" style="width:20% !important;text-align:center;"></div>
+						<div class="inline field" style="width:20% !important;text-align:center;">
               {% if is_weixin %}
 							<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&redirect_uri={{wx_params.redirect_uri}}&response_type=code&scope=snsapi_login&state={{wx_params.state}}" class="ui green circular share icon button">
-								<i class="flat icon_weixin icon"></i>
+								<i class="weixin icon"></i>
 							</a>
               {%else%}
               <a href="javascript:void(0);" class="ui green no-weixin circular share icon button">
-								<i class="flat icon_weixin icon"></i>
+								<i class="flat weixin icon"></i>
 							</a>
               {%endif%}
 						</div>
@@ -80,7 +79,7 @@
 					</div>
 			
 					<div class="field ">
-						<div class="fluid ui active magenta submit button" >登录</div>
+						<div class="fluid ui active magenta inverted submit button" >登录</div>
 					</div>
 					
 				</form>

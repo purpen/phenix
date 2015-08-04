@@ -5,25 +5,16 @@
 	</div>
 </form>
 
-<div class="ui secondary user menu">
-    {% if visitor %}
-    <div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_my }}/remind">
-        <label class="floating circular ui magenta basketnumber label" id="user-notice-num" style="display:none;">0</label>
-        <i class="flat speech40 icon"></i>
-        <!--ajax加载用户提醒-->
-        <div class="menu" id="user-notice">
-            <div class="item" id="basket-body-content">没有消息</div>
-        </div>
-    </div>
-	{% endif %}
-	
-	<div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_cart }}" id="shopping-basket">
+<div class="right floated auth">
+    
+    <div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_cart }}" id="shopping-basket">
 		{% if items_count > 0 %}
 	    <label class="floating circular ui magenta basketnumber label">{{ items_count }}</label>
 		{% else %}
 		<label class="floating circular ui magenta label hide"></label>
 		{% endif %}
-	  	<i class="flat shopping_cart icon"></i>
+        <i class="in cart icon"></i>
+        
 	  	<div class="menu">
 			{% if items_count > 0 %}
 			<div class="item" id="basket-body-content">
@@ -60,7 +51,7 @@
 							</td>
 							<td class="right aligned">
 								<a class="magenta ui close button" data-sku="{{ product.sku }}">
-									<i class="flat close icon"></i>
+									<i class="close icon"></i>
 								</a>
 							</td>
 						</tr>
@@ -91,46 +82,62 @@
 			</div>
 			{% endif %}
 	  	</div>
-		
 	</div>
-	
-	{% if visitor %}
+        
+    {% if visitor %}
+    <div class="ui icon top right pointing dropdown basket magenta button" data-url="javascript:void(0);">
+        <label class="floating circular ui magenta basketnumber label" id="user-notice-num" style="display:none;">
+            0
+        </label>
+        <i class="alarm outline icon"></i>
+        <!--ajax加载用户提醒-->
+        <div class="menu" id="user-notice">
+            <div class="header">未读消息</div>
+            <div class="item" id="basket-body-content">没有消息</div>
+        </div>
+    </div>
 	<div class="ui top right pointing dropdown icon user-setting button">
 		<a class="ui link" href="{{ visitor.home_url }}" title="{{ visitor.nickname }}">
       <img src="{{ visitor.small_avatar_url }}" id="header-small-avatar" class="ui avatar image" alt="{{ visitor.nickname }}" /><p style="display: inline-block;vertical-align: middle;max-width: 100px;padding-left: 10px;overflow: hidden;text-overflow: ellipsis;margin: 0;white-space: nowrap;"> {{ visitor.nickname }}</p><i class="angle down icon"></i>
 		</a>
 	  	<div class="menu">
 		    <a class="item" href="{{ app_url_my }}/account">
-		      	<i class="flat account_settings icon"></i> 个人中心
+		      	<i class="settings icon"></i> 个人中心
 			</a>
 		    <a class="item" href="{{ app_url_my }}/point">
-		      	<i class="flat order icon"></i> 会员等级
+		      	<i class="signal icon"></i> 会员等级
 			</a>
 		    <a class="item" href="{{ app_url_my }}/orders">
-		      	<i class="flat order icon"></i> 我的订单
+		      	<i class="shop icon"></i> 我的订单
 			</a>
 		    <a class="item" href="{{ app_url_action_base }}/helper/question">
-		      	<i class="flat help_infor icon"></i> 帮助中心
+		      	<i class="help icon"></i> 帮助中心
 			</a>
 		    <a class="item" href="{{ app_url_action_base }}/my/service">
 		      	<i class="smile icon"></i> 联系客服
 			</a>
 			{% if visitor.can_admin %}
 		    <a class="item" href="{{ app_url_admin_base }}">
-		      	<i class="flat admin_backstage icon"></i> 管理后台
+		      	<i class="dashboard icon"></i> 管理后台
 			</a>
 			{% endif %}
 		  	<a class="item" href="{{ app_url_logout }}">
-		    	<i class="flat exit icon"></i> 安全退出
+		    	<i class="sign out icon"></i> 安全退出
 			</a>
 	  	</div>
 	</div>
-	{% else %}
-    <a href="{{ app_url_login }}" class="ui magenta login button">登录</a>
-    {% if user_invite_code %}
-      <a href="{{ app_url_register }}?user_invite_code={{ user_invite_code }}" class="ui magenta signup button">注册</a>
-    {%else%}
-      <a href="{{ app_url_register }}" class="ui magenta signup button">注册</a>
-    {%endif%}
-	{% endif %}
+    {% else %}
+        <a class="ui compact login button" href="{{ app_url_login }}">
+            登录
+        </a>
+        {% if user_invite_code %}
+        <a href="{{ app_url_register }}?user_invite_code={{ user_invite_code }}" class="ui inverted signup magenta button">
+            注册
+        </a>
+        {%else%}
+        <a href="{{ app_url_register }}" class="ui inverted magenta signup button">
+            注册
+        </a>
+        {%endif%}
+   	{% endif %}
 </div>

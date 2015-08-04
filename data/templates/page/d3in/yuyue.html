@@ -21,6 +21,12 @@
 }
 a.line:hover, a.line.active {
   border-bottom: 2px solid rgba(0,0,0,0);
+  transition: color .3s ease-in-out 0s;
+  -webkit-transition: color .3s ease-in-out 0s;
+  -moz-transition: color .3s ease-in-out 0s;
+  -o-transition: color .3s ease-in-out 0s;
+  -ms-transition: color .3s ease-in-out 0s;
+  color:#f36;
 }
 .ui.table th{
 	text-align:center;
@@ -473,7 +479,7 @@ $('.next-step.button').click(function(){
 			<div class="six wide column">
 				<h3>D3IN铟立方未来实验室</h3>
 			</div>
-			<div class="ten right aligned wide column">
+			<div class="ten wide right aligned column">
         {% include "block/d3in/sub_nav.html" %}
 			</div>
 		</div>

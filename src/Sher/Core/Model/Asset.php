@@ -35,14 +35,14 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	
 	# 评测图片/配图(小图)
 	const TYPE_TRY     = 30;
-  const TYPE_TRY_F   = 31;
+    const TYPE_TRY_F   = 31;
 	
 	# 话题图片
 	const TYPE_TOPIC   = 50;
 	# 话题编辑器图片
 	const TYPE_EDITOR_TOPIC = 55;
-  #话题附件
-  const TYPE_FILE_TOPIC = 56;
+    # 话题附件
+    const TYPE_FILE_TOPIC = 56;
 
     # 合作联系图片,1.产品合作
     const TYPE_CONTACT = 60;
@@ -68,9 +68,12 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
     # 评论图片
     const TYPE_COMMENT = 85;
 
-  # 实验室图片/编辑器图片
-  const TYPE_DEVICE = 86;
-  const TYPE_DEVICE_EDITOR = 87;
+    # 实验室图片/编辑器图片
+    const TYPE_DEVICE = 86;
+    const TYPE_DEVICE_EDITOR = 87;
+    
+    # 大赛封面
+    const TYPE_CONTEST = 90;
 
     protected $schema = array(
 		'user_id' => '',
@@ -134,6 +137,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 		'resp' => 'resp.jpg',
 		'hd'   => 'hd.jpg',
 		'md'   => 'm.jpg',
+        'hm'   => 'hm.jpg',
         # 头像截图
         'ava'  => 'ava.jpg',
 	);

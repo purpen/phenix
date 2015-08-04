@@ -1,37 +1,6 @@
 {%extends 'layout/column.html'%}
 {% block page_css %}
 <style type="text/css">
-.ui.compact.blocks{
-	margin-top:1.5%;
-	margin-bottom:1.5%;
-}
-.ui.compact.blocks > .block > .image > a{
-	position:absolute;
-	top:0;
-	left:0;
-	width:100%;
-	height:100%;
-}
-/*.redemption .ui.items .item .content .header{
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}*/
-.redemption .ui.items .item .content{
-	height:115px !important;
-	cursor: auto;
-}
-.redemption .ui.items .item .content .i-stats{
-	padding-top: 10px !important;
-}
-.redemption .ui.items .item .content .advantage{
-	margin-top:0.8em;
-	min-height:0;
-}
-.redemption .ui.items .item .content .advantage + .advantage{
-	margin-top:0.3em;
-	margin-bottom: 0.5em;
-}
 
 </style>
 {% endblock %}
@@ -52,273 +21,175 @@
 {% endblock %}
 
 {% block content %}
-<div class="shop submenu">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				{% category_list var:'category' only_open:1 domain:domain show_all:0 %}
-				<div class="ui horizontal list">
-					<div class="item">
-						<a class="ui active link" href="{{ app_url_shop }}">商店</a>
-					</div>
-					<div class="item">
-						<a class="ui link" href="{{ app_url_shop }}/c0">全部</a>
-					</div>
-					{% for cat in category.rows %}
-				  	<div class="item">
-						<a class="ui link" href="{{ cat.view_url }}">{{ cat.title }}</a>
-					</div>
-					{% endfor %}
+<div id="fixedslide" class="frame">
+	{% ad_list var:'adslide' page:1 size:6 state:2 name:'web_index_slide' %}
+	<div class="ui slide">
+		{% for ad in adslide.rows %}
+		<div class="item">
+			<div class="featured-vendor {{ ad.text_align }}" style="background-image: url('{{ ad.cover.fileurl }}'); background-color: {{ ad.bgcolor }};">
+				{% if ad.mode == 2 %}
+				<div class="overlay">
+					{% if ad.cate_title %}
+					<h3>{{ ad.cate_title }}</h3>
+					{% endif %}
+					<h1>{{ ad.title }}</h1>
+					<p class="snippet">
+						{{ ad.sub_title }}
+					</p>
+					<a class="ui big inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
 				</div>
-                <div class="ui horizontal quick list">
-					<div class="item">
-						<a class="ui link" href="{{ app_url_sale }}">新品预售</a>
-					</div>
-					<div class="item">
-						<a class="ui link" href="{{ app_url_shop }}/pmall">积分兑换</a>
-					</div>
-                </div>
-
+				{% else %}
+				<a class="imglink" href="{{ ad.view_url }}" target="_blank"></a>	
+				{% endif %}
 			</div>
 		</div>
+		{% endfor %}
 	</div>
+	<div class="pages"></div>
+	<a class="prev" href="#">
+		<i class="angle left icon"></i>
+	</a>
+	<a class="next" href="#">
+		<i class="angle right icon"></i>
+	</a>
 </div>
 
-{% ad_list var:'ad' page:1 size:2 name:'shop_home_stick' state:2 %}
-{% if ad.rows %}
-<div class="shop slide">
-	<div class="ui responsive grid">
+<ul class="nav-categories">
+    {% category_list var:'category' only_open:1 domain:domain show_all:0 %}
+	<li class="category">
+        <a href="{{ app_url_shop }}/c0">
+            <i class="sidebar icon"></i> <span class="computer only">全部分类</span>
+        </a>
+    </a>
+	{% for cat in category.rows %}
+    <li class="category {{ cat.active}}">
+      	<a href="{{ cat.view_url }}">
+            <i class="{{ cat.name }} icon"></i> <span class="computer only">{{ cat.title }}</span>
+        </a>
+    </li>
+	{% endfor %}
+</ul>
+
+<div class="adstick list">
+	<div class="ui adverts responsive grid">
 		<div class="row">
 			<div class="column">
-                <div class="ui compact two blocks">
-                    {% for ad in ad.rows %}
-                    <div class="ui block">
-											<div class="image" style="background-image:url({{ ad.cover.fileurl }});background-size:cover;padding:34.5% 0;">
-												<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
-												</a>
-											</div>
+        		{% ad_list var:'adslide2' page:1 size:4 state:2 name:'web_index_product_stick_slide' %}
+                {% if adslide2.rows %}
+                <div class="ui four adverts cards">
+                    {% for ad in adslide2.rows %}
+                    <div class="card">
+                        <div class="advblock">
+                            <div class="image" style="background-image: url('{{ ad.cover.fileurl }}');padding:30% 0;">
+                                <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank"></a>
+                            </div>
+                            <div class="desc">
+                                <h2>
+                                    <!--{{ ad.title }}-->
+                                </h2>
+                                <p>{{ ad.sub_title }}</p>
+                            </div>
+                            <a href="{{ ad.view_url }}" title="{{ ad.title }}" class="link wrap" target="_blank"></a>
+                        </div>
                     </div>
-                    {% endfor %}
+                    {%endfor%}
                 </div>
-			</div>
-		</div>
-	</div>
+                {%endif%}
+            </div>
+        </div>
+    </div>
 </div>
-{% endif %}
 
 <div class="shop list" id="shoplist">
-	<!--   积分换购   -->
-  <!--
-	<div class="product redemption list">
-		<div class="ui responsive grid">
-			<div class="middle aligned row">
-				<div class="ten wide column">
-					<h2 class="block title">
-						积分换购 
-					</h2>
+	<div class="ui newest responsive grid">
+		<div class="row">
+			<div class="column">
+                {% product_list var:'newest' page:1 stage:9 only_onsale:1 size:8 sort:'latest' %}
+                {% if newest.rows %}
+                <div class="ui four products cards">
+					{% for product in newest.rows %}
+				  		{% include "block/product_card.html" %}
+				    {% endfor %}
+                </div>
+				{% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!--推荐品牌-->
+	<div class="ui brands responsive grid">
+		<div class="row">
+			<div class="column">
+        		{% ad_list var:'adslide2' page:1 size:6 state:2 name:'product_index_brands' %}
+                {% if adslide2.rows %}
+                <div class="ui six adverts cards">
+                    {% for ad in adslide2.rows %}
+                    <div class="card">
+                        <div class="advblock">
+                            <div class="image" style="background-image: url('{{ ad.cover.fileurl }}');padding:30% 0;">
+                                <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank"></a>
+                            </div>
+                            <div class="desc">
+                                <h2>
+                                    <!--{{ ad.title }}-->
+                                </h2>
+                            </div>
+                            <a href="{{ ad.view_url }}" title="{{ ad.title }}" class="link wrap" target="_blank"></a>
+                        </div>
+                    </div>
+                    {%endfor%}
+                </div>
+                {%endif%}
+            </div>
+        </div>
+    </div>   
+    
+    <!--全球新品-->
+	<div class="ui newest responsive grid">
+		<div class="row">
+			<div class="column">
+				{% product_list var:'hotest' page:1 is_shop:1 only_onsale:1 size:12 sort:'stick:latest' %}
+				{% if hotest.rows %}
+				<div class="ui four products cards">
+                    <div class="card special cat">
+                        <div class="problock">
+                            <a title="{{ product.title }}" alt="{%if product_alt_tag%}{{ product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ product.view_url }}" style="background-image: url({{ product.cover.thumbnails.hm.view_url }});" class="thumb"></a>
+                            <h2>
+                                <a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line">
+                    			    {{ product.title|truncate, 32, '' }}
+                    		    </a>
+                            </h2>
+                            <div class="excerpt">
+                                <p>{{ product.advantage }}</p>
+                            </div>
+                            <div class="cats">
+                                <span class="unit">￥</span>{{ product.sale_price }}
+                            </div>
+                            <span class="counter">
+                                <i class="heart icon"></i> {{ product.love_count }}
+                            </span>
+                        </div>
+                        <div class="speblock">
+                            <div class="randomcats">
+                                <a class="catlink" alt="" href="" style="background-image: url('http://frstatic.qiniudn.com/images/topicbg/smart-healthy.jpg');">
+                                    <h2>全球新品</h2>
+                                    <p>我们用心挑选数以万计的创意产品，为你每次的一见钟情</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+					{% for product in hotest.rows %}
+                        {% if product._id == 1081900902 %}
+                            {% include "block/product_card_special.html" %}
+                        {% else %}
+                            {% include "block/product_card.html" %}
+                        {% endif %}
+				    {% endfor %}
 				</div>
-				<div class="six wide right aligned column">
-					<a class="ui inverted gray button" href="  ">更多</a>
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="column">
-					<div class="ui three items">
-
-					
-						<div class='magenta item'>
-							<div class="image">
-								<a href="" title="" target="_blank">
-									<img alt="" src="http://frbird.qiniudn.com/product/150105/54aa6b933ffca260238b4571-3-m.jpg" >
-								</a>
-								<div class="image-extra">
-									<div class="extra-content">
-										<a class="inner-extra" href=" " target="_blank">
-											<div class="single-image plus-icon">
-												<span class="curtain"></span>
-											</div>
-										</a>
-									</div>
-								</div>
-							</div>
-							<div class="content">
-								<div class="header">
-									<a href="" class="ui line">智能家庭WIFI硬盘—开启家庭网络存</a>
-								</div>
-								<div class="i-stats">
-									<div class="advantage">原价：400</div>
-									<div class="advantage">现价：300+100鸟币</div>
-								</div>
-							</div>
-						</div>
-						
-					</div>
-					
-				</div>
-			</div>
-		
-		
-		
-		</div>
-	</div>
-	
-  -->
-	
-	<!--   积分兑换       -->
-  <!--
-	<div class="product redemption list">
-		<div class="ui responsive grid">
-			<div class="middle aligned row">
-				<div class="ten wide column">
-					<h2 class="block title">
-						积分兑换
-					</h2>
-				</div>
-				<div class="six wide right aligned column">
-					<a class="ui inverted gray button" href="  ">更多</a>
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="column">
-					<div class="ui three items">
-						<div class='magenta item'>
-							<div class="image">
-								<a href="" title="" target="_blank">
-									<img alt="" src="http://frbird.qiniudn.com/product/150105/54aa6b933ffca260238b4571-3-m.jpg" >
-								</a>
-								
-								<div class="image-extra">
-									<div class="extra-content">
-										<a class="inner-extra" href=" " target="_blank">
-											<div class="single-image plus-icon">
-												<span class="curtain"></span>
-											</div>
-										</a>
-									</div>
-								</div>
-								
-							</div>
-							<div class="content">
-								<div class="header">
-									<a href="" class="ui line">智能家庭WIFI硬盘—开启家庭网络存</a>
-								</div>
-								
-								<div class="i-stats">
-									<div class="advantage">原价：400</div>
-									<div class="advantage">所需积分：100鸟币</div>
-								</div>
-							</div>
-				
-				
-						</div>
-					
-						<div class="magenta item">
-						
-						</div>
-					
-						<div class="magenta item">
-						
-						</div>
-					</div>
-					
-				</div>
-			</div>
-		
-		
-		
-		</div>
-	</div>
-  -->
-	
-	
-	
-	<div class="product newest list">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
-					<h2 class="block title">
-						首发新品 <small><a href="{{ app_url_shop }}/c0?presale=1" class="ui link" title="预售">预售</a></small>
-					</h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					{% product_list var:'newest' page:1 is_shop:1 only_onsale:1 size:4 sort:'latest' %}
-					{% if newest.rows %}
-					<div class="ui four items">
-						{% for product in newest.rows %}
-					  		{% include "block/product_item.html" %}
-					    {% endfor %}
-					</div>
-					{% endif %}
-				</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>
-	
-	<!--热门推荐-->
-	<div class="product hotest white list">
-		<div class="ui responsive grid">
-			<div class="middle aligned row">
-				<div class="ten wide column">
-					<h2 class="block title">
-						热门推荐 
-						<small>
-							<div class="ui divided horizontal sticklink list">
-                <div class="item"><a class="ui link" href="{{ app_url_shop }}/list-c0-s1-p1">最新</a></div>
-                <div class="item"><a class="ui link" href="{{ app_url_shop }}/list-c0-s2-p1">热门</a></div>
-                <div class="item"><a class="ui link" href="{{ app_url_shop }}/list-c0-s3-p1">按价格</a></div>
-                <div class="item"><a class="ui link" href="{{ app_url_shop }}/list-c0-s4-p1">按销量</a></div>
-							</div>
-						</small>
-					</h2>
-				</div>
-				<div class="six wide right aligned column">
-					<a class="ui inverted gray button" href="{{ app_url_domain }}/shop/c0">更多</a>
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					{% product_list var:'hotest' page:1 is_shop:1 only_onsale:1 size:12 sort:'stick:latest' %}
-					{% if hotest.rows %}
-					<div class="ui four items">
-						{% for product in hotest.rows %}
-					  		{% include "block/product_item.html" %}
-					    {% endfor %}
-					</div>
-					{% endif %}
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<!--案例推荐-->
-	<div class="product okcase list">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
-					<h2 class="block title">
-						成功案例
-						<small>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇</small>
-					</h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					{% product_list var:'best' page:1 only_approved:1 only_onsale:1 size:3 only_okcase:1 sort:'stick:latest' %}
-					{% if best.rows %}
-					<div class="ui three items">
-						{% for product in best.rows %}
-					  		{% include "block/product_okcase.html" %}
-					    {% endfor %}
-					</div>
-					{% endif %}
-				</div>
-			</div>
-		</div>
-	</div>
-	
 </div>
 {% endblock %}

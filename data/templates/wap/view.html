@@ -88,21 +88,15 @@ i.cart.icon,i.exchange.icon{
 	position: relative !important;
 	padding-top:0 !important;
 }
-#frslide .ui.active.green.icon.share.button{
+#frslide .ui.active.icon.share.btn{
 	position: absolute;
 	top: 10px;
 	right: 10px;
 	z-index: 99;
-	background: rgba(0,0,0,0.2);
-	border-radius: 54%;
-	border: 0px solid #f36;
-	width: 40px;
-	height: 40px;
 	color: #fff;
 }
-#frslide .ui.active.green.icon.share.button .share.icon{
-	line-height: 1;
-	width:1em;
+#frslide .ui.active.icon.share.btn .share.icon{
+  background-color:rgba(0,0,0,0.2) !important;
 }
 .froala-element p:first-child{
 	margin-bottom:0 !important;
@@ -244,7 +238,7 @@ i.cart.icon,i.exchange.icon{
 	
 	phenix.bind_share_list();
 	// 分享
-	$('.ui.share.button').bind('click', function(){
+	$('.ui.share.btn').bind('click', function(){
 		$('.ui.share.modal').modal('show');
 	});
 	
@@ -384,8 +378,8 @@ i.cart.icon,i.exchange.icon{
 		{% endfor %}
 	</div>
 	<div class="pages"></div>
-	<div class="ui active green icon share button">
-		<i class="share icon"></i>
+	<div class="ui active icon circular share btn">
+		<i class="circular inverted large share icon"></i>
 	</div>
 </div>
 
@@ -439,16 +433,16 @@ i.cart.icon,i.exchange.icon{
                                    <div class="product snatched">
                                        <span class="ui text">倒计时：<span id="clock"></span></span>
                                    </div>
-                                   <div class="ui active magenta labeled tobuy icon button" style="width:100%;padding:0.8em 0 !important;">
+                                   <div class="ui active magenta inverted labeled tobuy icon button" style="width:100%;padding:0.8em 0 !important;">
                                        准备开抢
                                    </div>
                                {% else %}
                                    {% if product.can_saled %}
-                                       <div class="ui active green labeled tobuy nowbuy icon button" style="width:100%;padding:0.8em 0 !important;">
+                                       <div class="ui active green inverted labeled tobuy nowbuy icon button" style="width:100%;padding:0.8em 0 !important;">
                                            立即抢购
                                        </div>
                                    {%else%}
-                                       <div class="ui active black labeled icon button" style="width:100%;padding:0.8em 0 !important;">
+                                       <div class="ui active black inverted labeled icon button" style="width:100%;padding:0.8em 0 !important;">
                                            已抢完
                                        </div>
                                    {%endif%}
@@ -461,12 +455,12 @@ i.cart.icon,i.exchange.icon{
                                    </div>
                                {%else%}
                                    {% if product.can_saled %}
-                                       <div class="ui active magenta labeled icon nowbuy button">
-                                           <i class="cart icon"></i>立即购买
+                                       <div class="ui active magenta inverted labeled icon nowbuy button">
+                                           <i class="cart icon" style="vertical-align: middle;  line-height: 0.9em;"></i>立即购买
                                        </div>
                                    {%else%}
                                        <div class="ui active gray inverted button">
-                                           <i class="cart icon"></i> 已售罄
+                                           <i class="cart icon" style="vertical-align: middle;  line-height: 0.9em;"></i> 已售罄
                                        </div>
                                    {%endif%}
                                {%endif%}
@@ -603,16 +597,16 @@ i.cart.icon,i.exchange.icon{
                                    <div class="product snatched">
                                        <span class="ui text">倒计时：<span id="clock"></span></span>
                                    </div>
-                                   <div class="ui active magenta labeled tobuy icon button" style="width:100%;padding:0.8em 0 !important;">
+                                   <div class="ui active magenta inverted labeled tobuy icon button" style="width:100%;padding:0.8em 0 !important;">
                                        准备开抢
                                    </div>
                                {% else %}
                                    {% if product.can_saled %}
-                                       <div class="ui active green labeled tobuy nowbuy icon button" style="width:100%;padding:0.8em 0 !important;">
+                                       <div class="ui active green inverted labeled tobuy nowbuy icon button" style="width:100%;padding:0.8em 0 !important;">
                                            立即抢购
                                        </div>
                                    {%else%}
-                                       <div class="ui active black labeled icon button" style="width:100%;padding:0.8em 0 !important;">
+                                       <div class="ui active black inverted labeled icon button" style="width:100%;padding:0.8em 0 !important;">
                                            已抢完
                                        </div>
                                    {%endif%}
@@ -625,12 +619,12 @@ i.cart.icon,i.exchange.icon{
                                    </div>
                                {%else%}
                                    {% if product.can_saled %}
-                                       <div class="ui active magenta labeled icon nowbuy button">
-                                           <i class="exchange icon"></i>立即兑换
+                                       <div class="ui active magenta inverted labeled icon nowbuy button">
+                                           <i class="exchange icon" style="vertical-align: middle;  line-height: 0.9em;"></i>立即兑换
                                        </div>
                                    {%else%}
                                        <div class="ui active gray inverted button">
-                                           <i class="cart icon"></i> 已售罄
+                                           <i class="cart icon" style="vertical-align: middle;  line-height: 0.9em;"></i> 已售罄
                                        </div>
                                    {%endif%}
                                {%endif%}
@@ -673,7 +667,7 @@ i.cart.icon,i.exchange.icon{
 	</div>
 </div>
 
-<div class="product inventor ui segment" style="background:#f36;color:#fff;">
+<!--<div class="product inventor ui segment" style="background:#f36;color:#fff;">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="sixteen wide center aligned column">
@@ -701,7 +695,7 @@ i.cart.icon,i.exchange.icon{
 			</div>
 		</div>
 	</div>
-</div>
+</div>-->
 
 <!--商品介绍-->
 

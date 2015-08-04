@@ -1,0 +1,254 @@
+{%extends 'layout/column.html'%}
+{% block title %}账号绑定-{% endblock %}
+{% block page_css %}
+<style class="text/css">
+    .account .avatar {
+    	min-height: 25em;
+    }
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+    /* 个人资料表单验证 */
+	$('#bind-form').form({
+		account: {
+			identifier  : 'account',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请填写有效的手机号码'
+				},
+				{
+					type   : 'length[11]',
+					prompt : '无效手机号码!'
+				}
+			]
+		},
+		password: {
+			identifier  : 'password',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请输入密码'
+				},
+				{
+					type   : 'length[6]',
+					prompt : '密码长度应大于6位,小于30位!'
+				},
+				{
+					type   : 'maxLength[30]',
+					prompt : '密码长度应大于6位,小于30位!'
+				}
+			]
+		},
+		repeat_password: {
+			identifier  : 'repeat_password',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请确认密码'
+				},
+				{
+					type   : 'length[6]',
+					prompt : '密码长度应大于6位,小于30位!'
+				},
+				{
+					type   : 'maxLength[30]',
+					prompt : '密码长度应大于6位,小于30位!'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+            phenix.show_ok_note(data.message);
+            var new_phone = $('#account').val();
+
+            var html = '';
+            html += '<div class="two fields">';
+            html += '<div class="field">';
+            html += '<label>已绑定的手机号</label>';
+            html += '<input type="text" disabled="disabled" name="account" value="'+ new_phone +'" />';
+            html += '</div>';
+            html += '<div class="field"></div>';
+            html += '</div>';
+            $('#result-box').html(html);
+						//phenix.redirect(data.redirect_url, 2000);
+					}
+				}
+			});
+		}
+	});
+
+  // 手机验证码
+	var wait = 60,can_send=true;
+	var limitime = function(){
+		if(wait == 0){
+			can_send = true;
+			wait = 60;
+			$('#fetch-verify-code').removeClass('active').text('获取验证码');
+		}else{
+			can_send = false;
+			
+			wait--;
+			$('#fetch-verify-code').addClass('active').text('重新发送('+wait+')');
+			setTimeout(function(){
+				limitime();
+			}, 1000);
+		}
+	}
+		
+	$('#fetch-verify-code').click(function(){
+		var phone = $('#account').val();
+		if(!can_send){
+		    return false;
+		}
+		if(phone){
+	        // 先输入验证码再发送
+	        var captcha = $('#captcha').val();
+	        if(captcha == ''){
+			    phenix.show_error_note('请先输入验证码！');
+	    	    return false;
+	        }
+	        // 验证验证码
+	        var url = '/app/site/captcha/check';
+	        $.get(url, {code: captcha, type: 0}, function(result){
+			  if(result == '0'){
+				  phenix.show_error_note('验证码不正确！');
+				  // 刷新验证码
+	          	  $('#captcha-img img').click();
+	          	  return false;
+	        }else{
+            //验证手机是否注册过
+            var check_phone_url = '/app/site/auth/check_account';
+            $.get(check_phone_url, {phone: phone}, function(r){
+              if(r == 1){
+         			  phenix.show_error_note('手机号已存在！');
+	    	        return false;     
+              }else{
+                // 添加发送频率
+                limitime();
+            
+                $this = $('#fetch-verify-code');
+                $.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
+                  if(result.errorCode == 200){
+                    $this.removeClass('disabled').text('获取验证码');
+                  }
+                });            
+              }
+            });
+
+			  }
+	        });
+		}else{
+			phenix.show_error_note('请正确填写手机号码！');
+		}
+	});
+{% endblock %}
+{% block content %}
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}">
+						个人中心
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">账号绑定</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="account profile">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu_center.html" %}
+		</div>
+		<div class="twelve wide column">
+			<h2 class="ui header">账户信息</h2>
+			<div class="ui segment">
+				<form action="{{app_url_my}}/do_bind_phone" method="post" class="ui fluid form" id="bind-form">
+					<input name="_id" type="hidden" value="{{ user_id }}" />
+					
+          <h3 class="ui dividing header">账号绑定 <span style="font-size:12px;font-weight:normal;color:#666666;">可以通过该账号登录和找回密码</span></h3>
+          <div id="result-box">
+          {% if !is_bind %}
+					<div class="two fields">
+						<div class="field">
+							<label>手机号</label>
+							<input type="text" name="account" id="account" />
+						</div>
+						<div class="field"></div>
+					</div>
+
+					<div class="two fields">
+            <div class="field">
+							<label>验证码</label>
+              <input type="text" name="captcha" placeholder="验证码" id="captcha" />
+                  <a href="javascript:void(0);" class="ui gray" id="captcha-img">
+                <img src="/app/site/captcha/view" onclick="this.src='/app/site/captcha/view?'+Math.random();" />
+              </a>
+            </div>
+          </div>
+
+					<div class="two fields">
+            <div class="field">
+							<label>短信验证码</label>
+              <input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" />
+              <a href="javascript:void(0);" class="ui grey inverted active button" id="fetch-verify-code">获取验证码</a>
+            </div>
+						<div class="field"></div>
+          </div>
+
+					<div class="two fields">
+						<div class="field">
+							<label>密码</label>
+							<input type="password" name="password" />
+						</div>
+						<div class="field"></div>
+					</div>
+					<div class="two fields">
+						<div class="field">
+							<label>确认密码</label>
+							<input type="password" name="password_confirm" />
+						</div>
+					</div>
+					<input type="submit" class="ui inverted magenta button" value="确认绑定" />
+          {%else%}
+              <div class="two fields">
+                <div class="field">
+                  <label>已绑定的手机号</label>
+                  <input type="text" disabled="disabled" name="account" value="{{ visitor.account }}" />
+                </div>
+                <div class="field"></div>
+              </div>
+          {%endif%}
+        </div>
+					
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

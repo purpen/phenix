@@ -19,18 +19,18 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	
     protected $schema = array(
 		'title' => '',
-    'short_title' => '',
+        'short_title' => '',
 		# 简述，活动亮点
 		'description' => '',
 		# 内容，详细说明
 		'content' => '',
-    # 第几期
-    'season' => 0,
-    # 状态: 1,申请中, 2,审核中, 3.提交反馈, 5.结束
-    'step_stat' => 0,
+        # 第几期
+        'season' => 0,
+        # 状态: 1,申请中, 2,审核中, 3.提交反馈, 5.结束
+        'step_stat' => 0,
 
-    # 标签
-    'tags' => array(),
+        # 标签
+        'tags' => array(),
 		
 		# 封面图
 		'cover_id' => '',
@@ -61,15 +61,15 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		# 结束时间
 		'end_time' => 0,
 
-    # 品牌介绍 
-    'brand_introduce' => null,
+        # 品牌介绍 
+        'brand_introduce' => null,
 
-    # 图片集 brand_avatar/ios/android
-    'imgs' => array(
-      'brand_avatar' => null,
-      'qr_ios' => null,
-      'qr_android' => null,
-    ),
+        # 图片集 brand_avatar/ios/android
+        'imgs' => array(
+            'brand_avatar' => null,
+            'qr_ios' => null,
+            'qr_android' => null,
+        ),
 		
 		# 设置推荐
 		'sticked' => 0,
@@ -81,6 +81,7 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
     	'product' => array('product_id' => 'Sher_Core_Model_Product'),
 		'cover' => array('cover_id' => 'Sher_Core_Model_Asset'),
 		'banner' => array('banner_id' => 'Sher_Core_Model_Asset'),
+		'user' => array('user_id' => 'Sher_Core_Model_User'),
     );
 	
     protected $required_fields = array('title', 'user_id');

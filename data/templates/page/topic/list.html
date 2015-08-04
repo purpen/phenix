@@ -2,230 +2,138 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+.ui.topics.segment {
+    padding: 0;
+    margin-top: 1.5em;
+}
+.ui.topics.segment .ui.table {
+    border: none;
+}
 </style>
 {% endblock %}
 
 {% block jquery %}
-	
+    //ajax加载签到数据
+    $.get('{{ app_url_user }}/ajax_fetch_user_sign', {type:1});
+    
 {% endblock %}
 
 {% block content %}
-<div class="shop submenu">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				{%include 'block/find_nav.html'%}
-			</div>
-		</div>
-	</div>
+<div class="mainwrap social" id="topiclist">
+    <div class="mainleftwrap">
+        <div class="mainleft">
+            
+            <div class="topics catemenu masthead" style="background-image:url('{{ app_url_packaged }}/images/topicbg/tp-{%if is_top%}{{ current_category.name }}{%else%}{{ parent_category.name }}{%endif%}.jpg');">
+            	<div class="ui grid">
+            		<div class="row">
+            			<div class="twelve wide column">
+            				{% if is_top %}
+            					<h2 class="ui header">
+            						<a href="{{ app_url_topic }}/c{{current_category._id}}" class="active cate">
+            							{{ current_category.title }}
+            						</a>
+            					</h2>
+            					{% category_list var:'category' only_open:1 domain:domain pid:cid current:cid %}
+            				{% else %}
+            					<h2 class="ui header">
+            						<a href="{{ app_url_topic }}/c{{parent_category._id}}" class="cate">
+            							{{ parent_category.title }}
+            						</a>
+            					</h2>
+            					{% category_list var:'category' only_open:1 domain:domain pid:parent_category._id current:cid %}
+            				{% endif %}
+            				<p>{{ category_desc }}</p>
+            			</div>
+            			<div class="right aligned four wide column">
+            				<div class="stast">
+            					<div class="ui horizontal bulleted list">
+            						<span class="item">话题</span>
+            						<span class="item">
+            							{{ current_category.total_count|default 0 }} 
+            						</span>
+            					</div>
+            					<span class="space"> / </span>
+            					<div class="ui horizontal bulleted list">
+            						<span class="item">回帖</span>
+            						<span class="item">
+            							{{ current_category.reply_count|default 0 }} 
+            						</span>
+            					</div>
+            				</div>
+            			</div>
+            		</div>
+            	</div>
+            </div>
+            
+            <div class="sortby">
+                <div class="ui fluid three item menu">
+                    <a class="{{ css_type_all }} item" href="{{ app_url_topic }}/c{{cid}}">
+                        <i class="time icon"></i> 最新
+                    </a>
+                    <a class="{{ css_type_stick }} item" href="{{ links.stick_url }}">
+                        <i class="checkered flag icon"></i> 推荐
+                    </a>
+                    <a class="{{ css_type_fine }} item" href="{{ links.fine_url }}">
+                        <i class="diamond icon"></i> 精华
+                    </a>
+                </div>
+            </div>
+            
+            <div class="ui topics segment">
+    			<table class="ui basic topic table">
+    				<thead>
+    					<tr>
+    						<th>发布者</th>
+    						<th>主题</th>
+    						<th>最后回应</th>
+    						<th class="center aligned">浏览数</th>
+    					</tr>
+    				</thead>
+    				<tbody>
+                    <!--站内置顶-->
+    				{% if dig_list %}
+    					{% for topic in dig_list %}
+    						{% if topic %}
+    						    {% include "block/topic_item.html" %}
+    						{% endif %}
+    					{% endfor %}
+    				{% endif %}
+            
+    			    <!--版块置顶-->
+    				{% if dig_cate_list %}
+    					{% for topic in dig_cate_list %}
+    						{% if topic %}
+    						    {% include "block/topic_item.html" %}
+    						{% endif %}
+    					{% endfor %}
+    				{% endif %}
+            
+                    <!--分类列表-->
+    				{% topic_list var:'list' category_id:category_id is_top:is_top type:type time:time sort:sort page:page %}
+    				{% for topic in list.rows %}
+    					{% if !topic.top %}<!--过滤置顶帖子-->
+    						<!-- 判断话题是否可以显示 -->
+    						{% if topic.published %}
+    							{% include "block/topic_item.html" %}
+    						{% endif %}
+    					{% endif %}
+    				{% endfor %}
+    				</tbody>
+    			</table>
+        
+    			{% if list.total_page > 1 %}
+    			<div class="ui pagination">
+    				{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+    				{% include 'block/pager.html' %}
+    			</div>
+    			{% endif %}
+            </div>
+        
+        </div>
+        
+    </div>
+    <div class="mainright">
+        {% include "page/topic/rightbar.html" %}
+    </div>
 </div>
-
-<div class="topics catemenu masthead" style="background-image:url('{{ app_url_packaged }}/images/topicbg/tp-{%if is_top%}{{ current_category.name }}{%else%}{{ parent_category.name }}{%endif%}.jpg');">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="twelve wide column">
-				{% if is_top %}
-					<h1 class="block title">
-						<a href="{{ app_url_topic }}/c{{current_category._id}}" class="active cate">
-							{{ current_category.title }}
-						</a>
-					</h1>
-					{% category_list var:'category' only_open:1 domain:domain pid:cid current:cid %}
-				{% else %}
-					<h1 class="block title">
-						<a href="{{ app_url_topic }}/c{{parent_category._id}}" class="cate">
-							{{ parent_category.title }}
-						</a>
-					</h1>
-					{% category_list var:'category' only_open:1 domain:domain pid:parent_category._id current:cid %}
-				{% endif %}
-				<p>{{ category_desc }}</p>
-				<hr>
-			</div>
-			<div class="right aligned four wide column">
-				<div class="stast">
-					<div class="ui horizontal bulleted list">
-						<span class="item">话题</span>
-						<span class="item">
-							{{ current_category.total_count|default 0 }} 
-						</span>
-					</div>
-					<span class="space"> / </span>
-					<div class="ui horizontal bulleted list">
-						<span class="item">回帖</span>
-						<span class="item">
-							{{ current_category.reply_count|default 0 }} 
-						</span>
-					</div>
-				</div>
-				
-				{% if visitor.is_login %}
-					<a href="{{ app_url_topic }}/submit?cid={{ cid }}" class="ui inverted button" target="_blank">
-						<i class="edit icon"></i>发表新话题
-					</a>
-				{% else %}
-					<a href="{{ app_url_login }}" class="ui inverted pop button" data-content="先登录后，可发表话题" target="_blank">
-						发表新话题
-					</a>
-				{% endif %}
-			</div>
-		</div>
-		<div class="row">
-			<div class="column">
-				<div class="children">
-					{% for cate in category.rows %}
-						<a href="{{ cate.view_url }}" class="ui inverted white {{ cate.active }} button">
-							<i class="flat s_{{ cate.name }} icon"></i> {{ cate.title }}
-						</a>
-					{% endfor %}
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="social sortby actions">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				<div class="ui horizontal bulleted list">
-				  <a class="ui line {{ css_type_fine }} item" href="{{ links.fine_url }}">
-				    精华
-				  </a>
-				  <a class="ui line {{ css_type_stick }} item" href="{{ links.stick_url }}">
-				    推荐
-				  </a>
-                  <a class="ui line {{ css_type_all }} item" href="{{ app_url_topic }}/c{{cid}}">
-                      最新
-                  </a>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="ui social page" id="topiclist">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				<div class="ui segment hide" id="advanced-filter-topic">
-					<div class="ui grid">
-						<div class="row">
-							<div class="sixteen wide column">
-								<div class="ui horizontal list">
-									<label class="item">类别：</label>
-								  	<a class="ui {{ css_type_stick }} item link" href="{{ links.stick_url }}">推荐</a>
-								  	<a class="ui {{ css_type_fine }} item link" href="{{ links.fine_url }}">精华</a>
-								</div>
-							</div>
-							<div class="sixteen wide column">
-								<div class="ui horizontal list"> 
-									<label class="item">时间：</label>
-								  	<a class="ui {{ css_time_all }} item link" href="{{ links.time_all_url }}">全部</a>
-								  	<a class="ui {{ css_time_day }} item link" href="{{ links.time_day_url }}">一天之内</a>
-								  	<a class="ui {{ css_time_week }} item link" href="{{ links.time_week_url }}">一周之内</a>
-									<a class="ui {{ css_time_mouth }} item link" href="{{ links.time_mouth_url }}">一个月内</a>
-									<a class="ui {{ css_time_year }} item link" href="{{ links.time_year_url }}">近一年内</a>
-								</div>
-							</div>
-							<div class="sixteen wide column">
-								<div class="ui horizontal list">
-									<label class="item">排序：</label>
-								  	<a class="ui {{ css_sort_default }} item link" href="{{ links.sort_default_url }}">默认</a>
-								  	<a class="ui {{ css_sort_update }} item link" href="{{ links.sort_updated_url }}">发帖时间</a>
-								  	<a class="ui {{ css_sort_comment }} item link" href="{{ links.sort_comment_url }}">回复最多</a>
-									<a class="ui {{ css_sort_favorite }} item link" href="{{ links.sort_favorite_url }}">收藏最多</a>
-									<a class="ui {{ css_sort_love }} item link" href="{{ links.sort_laud_url }}">最赞主题</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			
-				<div class="ui stacked segment">
-					<table class="ui basic topic table">
-						<thead>
-							<tr>
-								<th>发布者</th>
-								<th>主题</th>
-								<th>最后回应</th>
-								<th class="center aligned">浏览数</th>
-							</tr>
-						</thead>
-						<tbody>
-                        <!--站内置顶-->
-						{% if dig_list %}
-							{% for topic in dig_list %}
-								{% if topic %}
-								    {% include "block/topic_item.html" %}
-								{% endif %}
-							{% endfor %}
-						{% endif %}
-                        
-					    <!--版块置顶-->
-						{% if dig_cate_list %}
-							{% for topic in dig_cate_list %}
-								{% if topic %}
-								    {% include "block/topic_item.html" %}
-								{% endif %}
-							{% endfor %}
-						{% endif %}
-                        
-                        <!--分类列表-->
-						{% topic_list var:'list' category_id:category_id is_top:is_top type:type time:time sort:sort page:page %}
-						{% for topic in list.rows %}
-							{% if !topic.top %}<!--过滤置顶帖子-->
-								<!-- 判断话题是否可以显示 -->
-								{% if topic.published %}
-									{% include "block/topic_item.html" %}
-								{% endif %}
-							{% endif %}
-						{% endfor %}
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="column">
-				{% if list.total_page > 1 %}
-				<div class="ui pagination">
-					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-					{% include 'block/pager.html' %}
-				</div>
-				{% endif %}
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="section breadcrumb">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_domin }}">
-						<i class="home icon"></i> 首页
-					</a>
-                    <i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_social }}">
-						发现
-					</a>
-					<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_topic }}">
-						话题
-					</a>
-				  	<i class="angle right icon divider"></i>
-					{% if !is_top %}
-				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
-				  	<i class="angle right icon divider"></i>
-					{% endif %}
-					<div class="active section">{{ current_category.title }}</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
 {% endblock %}

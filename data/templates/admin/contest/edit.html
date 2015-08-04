@@ -1,0 +1,376 @@
+{%extends 'layout/admin.html'%}
+
+{% block page_css %}
+	{% if css_use_bundle %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
+        <link rel="stylesheet" type="text/css" media="all" href="{{ app_url_packaged }}/css/calendar.min.{{ css_bundle_version }}.css" />
+	{% else %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
+        <link rel="stylesheet" type="text/css" media="all" href="{{ app_url_packaged }}/css/calendar.min.css" />
+	{% endif %}
+{% endblock %}
+
+{% block layout_js %}
+	{% if js_use_bundle %}
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/froala_editor.min.{{ js_jquery_bundle_version }}.js"></script>
+	{% else %}
+		<script src="{{ app_url_packaged }}/javascript/froala_editor.min.js" type="text/javascript"></script>
+	{% endif %}
+	<script src="{{ app_url_packaged }}/javascript/calendar.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    var oldLink = null;
+    // code to change the active stylesheet
+  function setActiveStyleSheet(link, title) {
+    var i, a, main;
+    for(i=0; (a = document.getElementsByTagName("link")[i]); i++) {
+      if(a.getAttribute("rel").indexOf("style") != -1 && a.getAttribute("title")) {
+        a.disabled = true;
+        if(a.getAttribute("title") == title) a.disabled = false;
+      }
+    }
+    if (oldLink) oldLink.style.fontWeight = 'normal';
+    oldLink = link;
+    link.style.fontWeight = 'bold';
+    return false;
+  }
+
+  // This function gets called when the end-user clicks on some date.
+  function selected(cal, date) {
+    cal.sel.value = date; // just update the date in the input field.
+    if (cal.dateClicked && (cal.sel.id == "sel1" || cal.sel.id == "sel2"))
+      // if we add this call we close the calendar on single-click.
+      // just to exemplify both cases, we are using this only for the 1st
+      // and the 3rd field, while 2nd and 4th will still require double-click.
+      cal.callCloseHandler();
+  }
+
+  // And this gets called when the end-user clicks on the _selected_ date,
+  // or clicks on the "Close" button.  It just hides the calendar without
+  // destroying it.
+  function closeHandler(cal) {
+    cal.hide();                        // hide the calendar
+  //  cal.destroy();
+    _dynarch_popupCalendar = null;
+  }
+
+  // This function shows the calendar under the element having the given id.
+  // It takes care of catching "mousedown" signals on document and hiding the
+  // calendar if the click was outside.
+  function showCalendar(id, format, showsTime, showsOtherMonths) {
+    var el = document.getElementById(id);
+    if (_dynarch_popupCalendar != null) {
+      // we already have some calendar created
+      _dynarch_popupCalendar.hide();                 // so we hide it first.
+    } else {
+      // first-time call, create the calendar.
+      var cal = new Calendar(1, null, selected, closeHandler);
+      // uncomment the following line to hide the week numbers
+      // cal.weekNumbers = false;
+      if (typeof showsTime == "string") {
+        cal.showsTime = true;
+        cal.time24 = (showsTime == "24");
+      }
+      if (showsOtherMonths) {
+        cal.showsOtherMonths = true;
+      }
+      _dynarch_popupCalendar = cal;                  // remember it in the global var
+      cal.setRange(1900, 2070);        // min/max year allowed.
+      cal.create();
+    }
+    _dynarch_popupCalendar.setDateFormat(format);    // set the specified date format
+    _dynarch_popupCalendar.parseDate(el.value);      // try to parse the text in field
+    _dynarch_popupCalendar.sel = el;                 // inform it what input field we use
+
+    // the reference element that we pass to showAtElement is the button that
+    // triggers the calendar.  In this example we align the calendar bottom-right
+    // to the button.
+    _dynarch_popupCalendar.showAtElement(el.nextSibling, "Br");        // show the calendar
+
+    return false;
+  }
+
+  var MINUTE = 60 * 1000;
+  var HOUR = 60 * MINUTE;
+  var DAY = 24 * HOUR;
+  var WEEK = 7 * DAY;
+
+  // If this handler returns true then the "date" given as
+  // parameter will be disabled.  In this example we enable
+  // only days within a range of 10 days from the current
+  // date.
+  // You can use the functions date.getFullYear() -- returns the year
+  // as 4 digit number, date.getMonth() -- returns the month as 0..11,
+  // and date.getDate() -- returns the date of the month as 1..31, to
+  // make heavy calculations here.  However, beware that this function
+  // should be very fast, as it is called for each day in a month when
+  // the calendar is (re)constructed.
+  function isDisabled(date) {
+    var today = new Date();
+    return (Math.abs(date.getTime() - today.getTime()) / DAY) > 10;
+  }
+
+  function flatSelected(cal, date) {
+    var el = document.getElementById("preview");
+    el.innerHTML = date;
+  }
+
+  function showFlatCalendar() {
+    var parent = document.getElementById("display");
+
+    // construct a calendar giving only the "selected" handler.
+    var cal = new Calendar(0, null, flatSelected);
+
+    // hide week numbers
+    cal.weekNumbers = false;
+
+    // We want some dates to be disabled; see function isDisabled above
+    cal.setDisabledHandler(isDisabled);
+    cal.setDateFormat("%A, %B %e");
+
+    // this call must be the last as it might use data initialized above; if
+    // we specify a parent, as opposite to the "showCalendar" function above,
+    // then we create a flat calendar -- not popup.  Hidden, though, but...
+    cal.create(parent);
+
+    // ... we can show it here.
+    cal.show();
+  }
+  </script>
+{% endblock %}
+
+{% block jquery %}
+	$('#contest-form').form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				}
+			]
+		},
+		short_title: {
+			identifier  : 'short_title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '短标题不能为空'
+				}
+			]
+		},
+		short_name: {
+			identifier  : 'short_name',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标识不能为空'
+				}
+			]
+		}
+	}, {
+		inline: true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+	
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+	
+	$('#editor').editable({
+		inlineMode: false,
+		toolbarFixed: false,
+        theme: 'gray',
+		language: 'zh_cn',
+		borderColor: '#999',
+		editorClass: 'bird',
+		minHeight: 300,
+		plainPaste: true,
+		alwaysBlank: true,
+		typingTimer: 2000,
+		imageMargin: '20px',
+		{% if mode == 'edit' %}
+		defaultImageTitle: '{{ contest.title }}',
+		{% else %}
+		defaultImageTitle: '太火鸟',
+		{% endif %}
+		buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertVideo", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
+	});
+	
+	var up = $('#phenix-uploader').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ user_id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ contest._id }}','file_id': '{{ pid }}'},
+        	endpoint: '{{ app_url_upload_contest }}'
+      	},
+		text: {
+            uploadButton: '<a class="ui active orange labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			phenix.show_error_note(result.message);
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
+		}
+	});
+	
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#ad_cover_id').val(id);
+			return false;
+		});
+	});
+	
+    $('.datepicker').pickadate();
+    
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">大赛管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/contest" class="{{ css_contest }} item">大赛列表</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/contest/edit" class="active item">
+				<i class="add icon"></i>新增大赛
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/contest" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="Search..." type="text" name="q">
+				<i class="search link icon"></i>
+			</div>
+		</form>
+	</div>
+	
+	<div class="ui form segment">
+		{% if mode == 'create' %}
+		<h4>新增大赛</h4>
+		{% else %}
+		<h4>编辑大赛</h4>
+		{% endif %}
+		
+		<form action="{{ app_url_admin_base }}/contest/save" method="post" id="contest-form">
+			<input type="hidden" name="_id" value="{{ contest._id }}" />
+			<input type="hidden" name="file_id" value="{{ pid }}" id="file_id" />
+			
+			<div class="field">
+			  	<label for="title">标题：</label>
+				<input type="text" name="title" value="{{ contest.title }}" />
+			</div>
+            
+			<div class="two fields">
+				<div class="field">
+				  	<label for="short_title">短标题：</label>
+					<input type="text" name="short_title" value="{{ contest.short_title }}" />
+				</div>
+				<div class="field">
+				  	<label for="short_name">标识：</label>
+					<input type="text" name="short_name" value="{{ contest.short_name }}" placeholder="支持[a-z0-9]字符" />
+				</div>
+			</div>
+            
+			<div class="two fields">
+				<div class="field">
+				  	<label>开始时间：</label>
+					<div class="ui icon input">
+					  	<input type="text" name="start_date" value="{{ contest.start_date|date 'Y-m-d' }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+				<div class="field">
+				  	<label>结束时间：</label>
+					<div class="ui icon input">
+					  	<input type="text" name="finish_date" value="{{ contest.finish_date|date 'Y-m-d' }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+			</div>
+            
+			<div class="field">
+			  	<label for="summary">简述：</label>
+				<textarea class="small" name="summary">{{ contest.summary }}</textarea>
+			</div>
+			
+			<div class="upload field">
+				<p>上传图片:</p>
+				<input type="hidden" name="cover_id" id="ad_cover_id" value="{{ contest.cover_id }}" />
+				<div id="phenix-uploader"></div>
+				<div id="asset-list" class="ui four blocks">
+					{% if mode == 'edit' %}
+						{% asset_list var:'assets' parent_id:contest._id size:20 asset_type:90 %}
+						{% for asset in assets.rows %}
+						<div class="thumb block" id="{{ asset._id }}">
+							<div class="image">
+								<img src="{{ asset.thumbnails.small.view_url }}" />
+								<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+							</div>
+							<div class="buttons">
+								<div class="ui large links">
+									<a href="{{ app_url_fever }}/delete_asset?id={{ contest._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+										<i class="remove icon"></i>
+									</a>
+								
+									<a href="javascript:void(0);" class="ui link {%if contest.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+										<i class="checkered flag icon"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+            
+			<div class="field">
+				<label for="content">详细介绍</label>
+				<textarea name="content" placeholder="详细介绍" id="editor">
+					{{ contest.content }}
+				</textarea>
+			</div>
+            
+			<div class="field">
+			  	<label for="link">链接：</label>
+				<input type="text" name="link" value="{{ contest.link }}" placeholder="普通链接" />
+			</div>
+            
+    		<div class="ui right aligned grid">
+    			<div class="column">
+    				<div class="ui large grey cancel inverted button">
+    					取消
+    				</div>
+    				<div class="ui large magenta submit inverted button">
+    					确认提交
+    				</div>
+    			</div>
+    		</div>
+		</form>
+	</div>
+{% endblock %}

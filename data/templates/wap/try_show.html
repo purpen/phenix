@@ -460,7 +460,7 @@
           <!--<a href="{{ app_url_wap }}/social/report?tid={{ try._id }}" class="ui black btn-4 btn-4c icon-arrow-right btn" target="_blank">全部报告</a>-->
 					<!--通过审核的用户才能提交报告-->
 					{% if visitor.is_login %}
-					<a href="{{ app_url_wap }}/social/submit?cid={{ report_category_id }}&tid={{ try._id }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn" target="_blank">提交报告</a>
+					<a href="{{ app_url_wap }}/social/submit?cid={{ report_category_id }}&tid={{ try._id }}" class="ui magenta btn-4 btn-4c icon-arrow-right inverted button btn" target="_blank">提交报告</a>
 					{% endif %}
 				</div>
 			</div>
@@ -475,13 +475,13 @@
           <!--<i class="ticket icon"></i>--> 求支持
         </a>
       {%else%}
-        <a href="javascript:void(0);" class="ui magenta active applytry inverted button">
+        <a href="javascript:void(0);" class="ui magenta active inverted button button">
           <!--<i class="ticket icon"></i>--> 申请试用
         </a>
       {%endif%}
 
 		{% else %}
-		<a href="javascript:void(0);" class="ui active magenta inverted button">
+		<a href="javascript:void(0);" class="ui active inverted magenta button">
 			 已结束
 		</a>
 		{% endif %}

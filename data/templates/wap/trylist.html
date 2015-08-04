@@ -91,7 +91,7 @@
 {% endblock %}
 
 {% block content %}
-<div class='games page try'>
+<div class='games page try' id="triespage">
 	<div class="ui responsive grid">
 		<!--<div class="row">
 			<div class="column">
@@ -106,10 +106,59 @@
 		</div>-->
 		<div class="row">
 			<div class="column">
-				<div class="ui one items">
+				<div class="ui one products tries cards">
 					{% try_list var:'list' ignore_id:try_latest.rows.0._id page:page state:1 %}
 					{% for t in list.rows %}
-						<div class="magenta item">
+					  {% try_list var:'list' page:page state:1 %}
+    				{% for t in list.rows %}
+    					<div class="card">
+                            <div class="problock">
+                                <a title="{{ t.title }}" alt="{{ t.title }}" href="{{ t.view_url }}" style="background-image: url({{ t.cover.thumbnails.resp.view_url }});" class="thumb" target="_blank"></a>
+                                <div class="ribbons">
+                                    {% if t.season %}
+                                    <span class="ribbon season">
+                                        第 {{ t.season }} 期
+                                    </span>
+                                    {%endif%}
+        							{%if t.step_stat == 1%}
+        							<span class="ribbon apply">
+        								申请中
+                                    </span>
+        							{%endif%}
+        							{%if t.step_stat == 2%}
+        							<span class="ribbon recoe">
+        								名单审核中
+                                    </span>
+                                    {%endif%}
+        							{%if t.step_stat == 3%}
+        							<span class="ribbon callback">
+        								报告回收中
+                                    </span>
+                                    {%endif%}
+        							{%if t.step_stat == 5%}
+        							<span class="ribbon end">
+        								已结束
+                                    </span>
+        							{%endif%}
+                                </div>
+                                <h2>
+                                    <a href="{{ t.wap_view_url }}" title="{{ t.title }}" class="ui line" target="_blank">
+                        			    {{ t.title }}
+                        		    </a>
+                                </h2>
+                                <div class="excerpt">
+                                    <p>产品数量：<span class="count">{{ t.try_count }}</span>  申请人数：<span>{{ t.apply_count }}</span></p>
+                                </div>
+                                <div class="cats">
+                                    <i class="tasks icon"></i> 试用报告：<span> {{ t.pass_count }}</span>
+                                </div>
+                            </div>
+
+    					</div>
+    				{% endfor %}
+					  
+					
+						<!--<div class="card">
 							<div class="image">
 								<a href="{{ t.view_url }}" title="{{ t.title }}" target="_blank">
 									<img src="{{ t.cover.thumbnails.resp.view_url }}" >
@@ -174,7 +223,7 @@
 								
 							</div>
 						</div>
-					{% endfor %}
+					{% endfor %}-->
 				</div>
 			</div>
 		

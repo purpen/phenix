@@ -73,8 +73,9 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
             }
         }
         $this->stash['products'] = $products;
-        //商品图片alt显示标签第一个
+        // 商品图片alt显示标签第一个
         $this->stash['product_alt_tag'] = 1;
+
         
         return $this->to_html_page('page/home.html');
     }

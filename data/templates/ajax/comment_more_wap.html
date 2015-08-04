@@ -15,6 +15,7 @@
           <div class="metadata">
             <div class="date">{{ comment.created_on }}</div>
           </div>
+{% if !comment.deleted %}
           <div class="laud">
 
             {% if comment.is_loved %}
@@ -29,20 +30,31 @@
             </a>          
             {%endif%}
           </div>
-          
+          {%endif%}
+          {% if comment.is_reply %}
+          <div>回复 #{{ comment.reply_comment.floor }} @<a href="{{ comment.reply_comment.user.home_url }}" class="ui link" target="_blank">{{ comment.reply_comment.user.nickname }}</a></div>
+
+          {%endif%}
           <div class="text">
-            {{ comment.content|safe }}
+            {% if comment.deleted==1 %}
+              该内容已被屏蔽
+            {%else%}
+              {{ comment.content|safe }}
+            {%endif%}
           </div>
           {% if visitor.is_login %}
           <div class="actions">
-            <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
+            {% if !comment.deleted %}
+            <a class="reply reply-btn" href="javascript:void(0);" comment_id="{{ comment._id }}" floor="{{ comment.floor|default 0 }}" comment_user_id="{{ comment.user_id }}" comment_user_name="{{ comment.user.nickname }}">回复</a>
+            
             {% if visitor.can_admin %}
-              <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">删除</a>
+              <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">屏蔽</a>
             {%else%}
               {% if visitor.id==comment.user_id %}
-                <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">删除</a>
+                <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">屏蔽</a>
               {%endif%}
             {%endif%}
+{%endif%}
           </div>
           <form class="ui reply hide form" action="{{ app_url_wap }}/app/site/comment/ajax_reply" method="post" id="reply_{{ comment._id }}">
             <input type="hidden" name="type" value="{{ type }}" />
@@ -51,8 +63,8 @@
             <div class="field">
               <textarea name="content" class="reply-content"></textarea>
             </div>
-            <div class="ui active button magenta submit labeled icon">
-              <i class="icon location"></i> 回复
+            <div class="ui active button inverted magenta submit labeled icon">
+              <i class="icon edit"></i> 回复
             </div>
           </form>
           {% endif %}
@@ -109,6 +121,7 @@
           <div class="metadata">
             <div class="date">{{ comment.created_on }}</div>
           </div>
+{% if !comment.deleted %}
           <div class="laud">
 
             {% if comment.is_loved %}
@@ -123,19 +136,26 @@
             </a>          
             {%endif%}
           </div>
+          {%endif%}
           
           <div class="text">
-            {{ comment.content|safe }}
+            {% if comment.deleted==1 %}
+              该内容已被屏蔽
+            {%else%}
+              {{ comment.content|safe }}
+            {%endif%}
           </div>
           {% if visitor.is_login %}
           <div class="actions">
-            <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
+        {% if !comment.deleted %}
+            <a class="reply showbox reply-btn" href="javascript:void(0);" comment_id="{{ comment._id }}" floor="{{ comment.floor|default 0 }}" comment_user_id="{{ comment.user_id }}" comment_user_name="{{ comment.user.nickname }}">回复</a>
             {% if visitor.can_admin %}
-              <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">删除</a>
+              <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">屏蔽</a>
             {%else%}
               {% if visitor.id==comment.user_id %}
-                <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">删除</a>
+                <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">屏蔽</a>
               {%endif%}
+            {%endif%}
             {%endif%}
           </div>
           <form class="ui reply hide form" action="{{ app_url_wap }}/app/site/comment/ajax_reply" method="post" id="reply_{{ comment._id }}">
@@ -145,8 +165,8 @@
             <div class="field">
               <textarea name="content" class="reply-content"></textarea>
             </div>
-            <div class="ui active button magenta submit labeled icon">
-              <i class="icon location"></i> 回复
+            <div class="ui active button magenta inverted submit labeled icon">
+              <i class="icon edit"></i> 回复
             </div>
           </form>
           {% endif %}

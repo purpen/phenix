@@ -24,7 +24,7 @@ class Sher_Core_Helper_QcOauth {
     public function __construct(){
 		$this->app_id = Doggy_Config::$vars['app.qq.app_id'];
 		$this->app_key = Doggy_Config::$vars['app.qq.app_key'];
-		$this->app_callback = Doggy_Config::$vars['app.qq.callback_url'];
+ 		$this->app_callback = Doggy_Config::$vars['app.qq.callback_url']; 
 		$this->app_scope = Doggy_Config::$vars['app.qq.scope'];
 		
         $this->recorder = new Sher_Core_Helper_QcRecorder();
@@ -32,7 +32,7 @@ class Sher_Core_Helper_QcOauth {
         $this->error = new Sher_Core_Helper_QcErrorCase();
     }
 
-    public function qq_login(){
+    public function qq_login($from_to='site'){
         //$appid = $this->recorder->readInc("appid");
         //$callback = $this->recorder->readInc("callback");
         //$scope = $this->recorder->readInc("scope");
@@ -40,7 +40,11 @@ class Sher_Core_Helper_QcOauth {
         //-------生成唯一随机串防CSRF攻击
         $state = md5(uniqid(rand(), TRUE));
         $this->recorder->write('state', $state);
-		
+
+        if($from_to=='wap'){
+          $this->app_callback = Doggy_Config::$vars['app.qq.wap_callback_url'];   
+        }		
+
         //-------构造请求参数列表
         $keysArr = array(
             "response_type" => "code",

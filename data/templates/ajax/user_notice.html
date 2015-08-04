@@ -2,39 +2,23 @@
 
   {% if page_notice_success %}
     <replaceContent select="#user-notice"><![CDATA[
-
-		<div class="item" id="basket-body-content">
-			<div class="ui basic basket table">
-			 {% if alert_count %}
-	                  <div class="menu-remind">
-						<a href="{{ app_url_my }}/remind"></a>
-	                    查看提醒 {{alert_count}} 条提醒
-	                  </div>
-	            {%endif%}
-
-	            {% if message_count %}
-	                  <div class="menu-remind">
-						 <a href="{{ app_url_my }}/message"></a>
-	                    查看私信 {{message_count}} 条私信
-	                  </div>
-	            {%endif%}
-
-	            {% if comment_count %}
-	                  <div class="menu-remind">
-						<a href="{{ app_url_my }}/recive_comment"></a>
-	                    查看评论 {{comment_count}} 条评论
-	                  </div>
-	            {%endif%}
-
-	            {% if fans_count %}
-	                  <div class="menu-remind">
-						<a href="{{ app_url_my }}/fan"></a>
-	                    查看粉丝 {{fans_count}} 条粉丝
-	                  </div>
-	            {%endif%}
-						</div>
+        <div class="container">
+		    {% if alert_count %}
+            <a href="{{ app_url_my }}/remind" class="item"><i class="alarm icon"></i>查看提醒 {{alert_count}} 条提醒</a>
+            {%endif%}
+            
+            {% if message_count %}
+            <a href="{{ app_url_my }}/message" class="item"><i class="mail icon"></i>查看私信 {{message_count}} 条私信</a>
+            {%endif%}
+            
+            {% if comment_count %}
+            <a href="{{ app_url_my }}/recive_comment" class="item"><i class="comment icon"></i>查看评论 {{comment_count}} 条评论</a>
+            {%endif%}
+            
+            {% if fans_count %}
+            <a href="{{ app_url_my }}/fan" class="item"><i class="user icon"></i>查看粉丝 {{fans_count}} 条粉丝</a>
+            {%endif%}
 		</div>
-		
     ]]></replaceContent>
 
     <eval>

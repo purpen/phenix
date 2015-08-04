@@ -1,80 +1,83 @@
 <div class="ui pointing vertical fluid navigation menu">
 	<div class="header item">
-	    <i class="fa-cog icon"></i>账户设置
+	    <i class="setting icon"></i>账户设置
 	</div>
 	<a href="{{ app_url_my }}/account" class="{{ css_user_account }} item">
-		<i class="flat account_settings icon"></i> 账户信息
+		账户信息
 	</a>
 	<a href="{{ app_url_my }}/profile" class="{{ css_user_profile }} item">
-		<i class="flat id1 icon"></i> 个人资料
+	    个人资料
+	</a>
+	<a href="{{ app_url_my }}/bind_phone" class="{{ css_user_bind }} item">
+		 账号绑定
 	</a>
 	<a href="{{ app_url_my }}/point" class="{{ css_user_point }} item">
-		<i class="flat Quality icon"></i> 会员等级
+		会员等级
 	</a>
 	<div class="header item">
-	    <i class="fa-lightbulb-o icon"></i>消息提醒
+	    <i class="alarm outline icon"></i>消息提醒
 	</div>
 	<a href="{{ app_url_my }}/remind" class="{{ css_user_news }} item">
-		<i class="flat bulb11 icon"></i> 我的消息
+		我的消息
 	</a>
 	<a href="{{ app_url_my }}/fan" class="{{ css_users }} item">
-		<i class="flat users2 icon"></i> 我的粉丝
+		我的粉丝
 	</a>
 
 	<div class="header item">
 	    <i class="user icon"></i>我的行为
 	</div>
 	<a href="{{ app_url_my }}/product" class="{{ css_user_product }} item">
-		<i class="flat shopping icon"></i> 我的创意
+        我的产品
 	</a>
 
 	<a href="{{ app_url_my }}/stuff" class="{{ css_user_stuff }} item">
-		<i class="flat edit_image icon"></i> 我的灵感
+		我的灵感
 	</a>
 
 	<a href="{{ app_url_my }}/topic" class="{{ css_user_topic }} item">
-		<i class="flat s_chat icon"></i> 我的话题
+		我的话题
 	</a>
 
 	<a href="{{ app_url_my }}/favorite" class="{{ css_user_interest }} item">
-		<i class="flat collection icon"></i> 感兴趣的
+		感兴趣的
 	</a>
 	<a href="{{ app_url_my }}/cooperate" class="{{ css_user_cooperate }} item">
-		<i class="flat buy4 icon"></i> 产品合作
+		产品合作
 	</a>
 	<a href="{{ app_url_my }}/invite" class="{{ css_user_invite }} item">
-		<i class="flat mail icon"></i> 我的邀请
+		我的邀请
 	</a>
 
   {% if user.identify.d3in_tag %}
 	<div class="header item">
-	    <i class="fa-shopping-cart icon"></i>我的实验室
+	    <i class="lab icon"></i>我的实验室
 	</div>
 	<a href="{{ app_url_my }}/d_order" class="{{ css_user_d_order }} item">
-		<i class="flat order icon"></i> 我的订单
+		我的订单
 	</a>
 	<a href="{{ app_url_my }}/d_appoint" class="{{ css_user_d_appoint }} item">
-		<i class="flat dollar78 icon"></i> 我的预约
+		我的预约
 	</a>
   {%endif%}
 
 	<div class="header item">
-	    <i class="fa-shopping-cart icon"></i>个人订购
+	    <i class="in cart icon"></i>个人订购
 	</div>
 	<a href="{{ app_url_my }}/orders" class="{{ css_user_orders }} item">
-		<i class="flat order icon"></i> 我的订单
+		我的订单
 	</a>
 	<a href="{{ app_url_my }}/bonus" class="{{ css_user_bonus }} item">
-		<i class="flat dollar78 icon"></i> 我的红包
+		我的红包
 	</a>
 	<a href="{{ app_url_my }}/shipping" class="{{ css_user_shipping }} item">
-		<i class="flat position icon"></i> 收货地址
+		收货地址
 	</a>
 
 	<div class="header item">
 	    <i class="smile icon"></i>售后服务
 	</div>
 	<a href="{{ app_url_my }}/service" class="{{ css_user_service }} item">
-		<i class="flat delivery6 icon"></i> 退换货
+		退换货
 	</a>
 </div>

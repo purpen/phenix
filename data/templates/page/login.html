@@ -21,46 +21,26 @@
     });
 
 
-		$('.ui.green.circular.share.icon.button').bind('click', function(){
+		$('.ui.green.icon.button').bind('click', function(){
 			$('.ui.share.basic.modal').modal('show');
 		});
 
 {% endblock %}
 
 {% block content %}
-<div class="ui responsive grid" style="max-width:100%!important;">
-	<div class="column width">
-		<div class="ui log-in">
-			<div class="ui top attached header logo">
-				<a href="{{ app_url_domain }}" title="返回首页">
-					<img src="{{ app_url_packaged }}/images/auth-logo.png" />
-				</a>
-			</div>
-			<div class="ui bottom attached segment">
-			
+<div class="ui responsive grid">
+    <div class="row">
+        <div class="four wide column"></div>
+        <div class="eight wide column width">
+    		<div class="ui log-in segment">
+    			<div class="ui header logo">
+    				<a href="{{ app_url_domain }}" title="返回首页">
+    					<img src="{{ app_url_packaged }}/images/auth-logo.png" />
+    				</a>
+    			</div>
 				<form action="{{ app_url_action_base }}/auth/do_login" class="ui form auth-form" method="post" id="login-form">
 					<input type="hidden" name="t" value="{{ login_token }}" />
-          <!--<div id="login_container"></div>-->
-					<div class="center aligned ui header">登录太火鸟</div>
-					<div class="ui center aligned five fields">
-						<div class="field"></div>
-						<div class="field">
-							<a href="{{ weibo_auth_url }}" class="ui weibo circular share icon button">
-								<i class="flat icon_weibo icon"></i> 
-							</a>
-						</div>
-						<div class="field">
-							<a href="{{ app_url_qq_login }}" class="ui qq blue circular share icon button">
-								<i class="flat icon_qq icon"></i>
-							</a>
-						</div>
-						<div class="field">
-							<a class="ui green circular share icon button">
-								<i class="flat icon_weixin icon"></i>
-							</a>
-						</div>
-					</div>
-					
+                    
 					<div class="field">
 					  	<input type="text" name="account" placeholder="手机号码" />
 					</div>
@@ -69,30 +49,37 @@
 					</div>
 					<div class="inline field">
 						<div class="ui checkbox">
-				          	<input type="checkbox" name="terms" checked="checked">
-				          	<label>自动登录</label>
+				          	<input type="checkbox" name="terms" checked="checked" />
+				          	<label for="terms">自动登录</label>
 				        </div>
-					
 						<a href="{{ app_url_auth }}/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
 					</div>
-			
-					<div class="field ">
-						<div class="fluid ui large active magenta submit button" >登录</div>
+		
+					<div class="field">
+						<div class="fluid ui large active magenta inverted submit button">登录</div>
 					</div>
 				</form>
-			</div>
-			
-			<div id="Mode" class="ui share basic modal">
-				<i class="flat close icon"></i>
-					<div id="login_container"></div>
-			</div>
-			
-			
+
+                <div class="thirdlogin">
+                    支持第三方登录：
+    				<a href="{{ weibo_auth_url }}" class="ui red icon inverted button" title="新浪微博账号">
+    					<i class="weibo icon"></i>
+    				</a>
+    				<a href="{{ app_url_qq_login }}" class="ui blue icon inverted button" title="用QQ账号">
+    					<i class="qq icon"></i>
+    				</a>
+    				<a class="ui green icon inverted button" title="用微信账号">
+    					<i class="wechat icon"></i>
+    				</a>
+                </div>
+
+    		</div>
 			<div class="sign-up">
-				<label>没有太火鸟账号？<a href="{{ app_url_register }}" title="立即注册" class="ui link" >立即注册</a></label>
+				没有太火鸟账号？<a href="{{ app_url_register }}" title="立即注册">立即注册</a>
 			</div>
-		</div>
-	</div>
+        </div>
+        <div class="column"></div>
+    </div>
 </div>
 {% endblock %}
 

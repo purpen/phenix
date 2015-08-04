@@ -1,7 +1,7 @@
 <taconite>
 	{% if action == 'edit_address' %}
 	<replace select="#addbook-form-box">
-		<div class="ui small addbook modal" id="addbook-form-box">
+		<div class="ui small addbook edit modal" id="addbook-form-box">
 		  	<i class="flat close icon"></i>
 			<div class="ui header">
 		    	编辑地址
@@ -27,30 +27,30 @@
 						</div>
 				
 						<div class="field">
-							<label>地址</label>
+    					<label>省市</label>
 							<div class="ui selection province dropdown">
 								<input type="hidden" name="province" value="{{ addbook.province }}" />
 		
 							    <div class="default text">省份/自治区</div>
-							    <i class="flat arrowbottom icon"></i>
+							    <i class="angle dropdown icon"></i>
 							    <div class="menu">
 									{% for province in provinces %}
 							        <div data-value="{{ province._id }}" class="{% if province._id == addbook.province %}active{%endif%} item">{{ province.city }}</div>
 									{% endfor %}
 							    </div>
 							</div>
-	
 							<div class="ui selection district dropdown" id="district-menu">
 								<input type="hidden" name="city" value="{{ addbook.city }}" />
 							    <div class="default text">地区区域</div>
-							    <i class="flat arrowbottom icon"></i>
+							    <i class="angle dropdown icon"></i>
 							    <div class="menu">
 									{% for district in districts %}
 							        <div data-value="{{ district._id }}" class="{% if district._id == addbook.city %}active{%endif%} item">{{ district.city }}</div>
 									{% endfor %}
 							    </div>
 							</div>
-						</div>
+            </div>
+	
 				
 						<div class="field">
 							<textarea name="address" class="small">{{ addbook.address }}</textarea>
@@ -71,7 +71,9 @@
 						</div>
 		
 						<div class="field">
-							<div class="ui active magenta submit inverted button">确定</div>
+							<div class="ui active magenta submit button">
+                                <i class="edit icon"></i> 确定提交
+                            </div>
 						</div>
 				
 					</div>				
@@ -122,10 +124,10 @@
     				<p>{{ address.area_province.city}} {{ address.area_district.city }}<br /> {{ address.address }} <span>({{ address.zip }})</span></p>
 				
     				<div class="actions">
-    					<a class="ui small gray icon button">
+    					<a class="ui small gray icon button edit" data-id="{{ address._id }}">
     						<i class="edit icon"></i>
     					</a>
-    					<a class="ui small gray icon button">
+    					<a class="ui small gray icon button remove" data-id="{{ address._id }}">
     						<i class="remove icon"></i>
     					</a>
     				</div>

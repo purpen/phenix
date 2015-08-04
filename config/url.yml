@@ -120,6 +120,11 @@ app.url.birdegg: '{$app.url.domain}/birdegg'
 app.url.cooperate: '{$app.url.action_base}/cooperate'
 app.url.cooperate.view: '{$app.url.cooperate}/view?id=%d'
 
+# 大赛地址
+app.url.contest: '{$app.url.action_base}/contest'
+app.url.contest.show: '{$app.url.contest}/show?id=%d'
+
+
 # 孵化
 app.url.incubator: '{$app.url.domain}/incubator'
 
@@ -147,6 +152,7 @@ app.url.upload.pictures: '{$app.url.upload}/pictures'
 app.url.upload.active: '{$app.url.upload}/active'
 app.url.upload.stuff: '{$app.url.upload}/stuff'
 app.url.upload.cooperate: '{$app.url.upload}/cooperate'
+app.url.upload.contest: '{$app.url.upload}/contest'
 
 #个人中心
 app.url.my:				'{$app.url.domain}/my'
@@ -176,6 +182,7 @@ app.url.comment:		'{$app.url.action_base}/comment'
 # 产品公测
 app.url.try: '{$app.url.domain}/try'
 app.url.try.view: '{$app.url.domain}/try/view-%s.html'
+app.url.try.comment: '{$app.url.domain}/try/view-%s-%s.html'
 
 #登录,登出,注册,忘记密码,输入邀请码
 app.url.auth:		'{$app.url.domain}/auth'
@@ -186,6 +193,7 @@ app.url.forget: 	'{$app.url.auth}/forget'
 app.url.invite: 	'{$app.url.auth}/invite'
 
 app.url.qq.login: '{$app.url.action_base}/qq'
+app.url.qq.login_wap: '{$app.url.wap}/app/site/qq?from_to=wap'
 app.url.weixin.login: '{$app.url.action_base}/weixin'
 
 #管理面板

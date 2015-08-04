@@ -305,6 +305,9 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		$order_info = $model->find_by_rid($rid);
 		
 		$this->stash['order_info'] = $order_info;
+
+    // 申请退款的订单才允许退款操作(包括已发货,确认收货,完成操作)
+    $this->stash['can_refund'] = Sher_Core_Helper_Order::refund_order_status_arr($order_info['status']);
 		
 		$this->set_target_css_state('page_orders');
 		
@@ -479,8 +482,8 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 				return $this->ajax_notification('订单未找到！', true);     
 		}
 		
-		// 申请退款的订单才允许退款操作
-		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_REFUND){
+    // 申请退款的订单才允许退款操作(包括已发货,确认收货,完成操作)
+		if (!Sher_Core_Helper_Order::refund_order_status_arr($order_info['status'])){
 			return $this->ajax_notification('订单状态不正确！', true);
 		}
 
@@ -520,9 +523,9 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
     if(empty($order_info)){
  			return $this->ajax_notification('订单未找到！', true);
     }
-		
-		// 申请退款的订单才允许退款操作
-		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_REFUND){
+
+    // 申请退款的订单才允许退款操作(包括已发货,确认收货,完成操作)
+		if (!Sher_Core_Helper_Order::refund_order_status_arr($order_info['status'])){
 			return $this->ajax_notification('订单状态不正确！', true);
     }
 

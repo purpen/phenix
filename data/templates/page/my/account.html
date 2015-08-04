@@ -17,12 +17,9 @@
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '邮件格式不对,请输入您注册时填写的邮件'
-				},
-				{
-					type   : 'maxLength[24]',
-					prompt : '登录密码为必须24位以上字符'
+					prompt : '请添写昵称'
 				}
+
 			]
 		}
 	}, {
@@ -73,6 +70,9 @@
 					</div>
 					
 					<h3 class="ui dividing header">修改密码</h3>
+
+
+          {% if is_bind %}
 					<div class="two fields">
 						<div class="field">
 							<label>当前密码</label>
@@ -90,6 +90,12 @@
 							<input type="password" name="repeat_password" />
 						</div>
 					</div>
+
+          {%else%}
+            <div>
+              您的账户还未绑定手机号,请先 <a href="{{ app_url_my }}/bind_phone" class="ui link">绑定手机号</a>
+            </div>
+          {%endif%}
 					
 					<input type="submit" class="ui inverted magenta button" value="确认修改" />
 					
