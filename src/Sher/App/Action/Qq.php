@@ -136,6 +136,9 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
           $this->stash['login_token'] = Sher_Core_Helper_Auth::gen_login_token();
           $this->stash['session_random'] = $random;
 
+          if($from_to=='wap'){
+            return $this->to_html_page('wap/auth/landing.html');         
+          }
           return $this->to_html_page('page/landing.html');
 
         } else {
@@ -156,8 +159,11 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
           // 实现自动登录
           Sher_Core_Helper_Auth::create_user_session($user_id);
 
-		      $user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile';
-		      return $this->to_redirect($user_profile_url);
+          $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.my'].'/profile');
+          if($from_to=='wap'){
+            $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);        
+          }
+		      return $this->to_redirect($redirect_url);
         }
 
 			} else {

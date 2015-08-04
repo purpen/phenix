@@ -50,7 +50,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		// 获取微博登录的Url
 		$akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
 		$skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
-		$callback = Doggy_Config::$vars['app.sinaweibo.callback_url'];
+		$callback = Doggy_Config::$vars['app.sinaweibo.wap_callback_url'];
 		
 		$oa = new Sher_Core_Helper_SaeTOAuthV2($akey, $skey);
 		$weibo_auth_url = $oa->getAuthorizeURL($callback);
