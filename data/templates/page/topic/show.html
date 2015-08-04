@@ -517,7 +517,7 @@
                             <i class="large question middle aligned icon"></i>
                             <div class="ui from">
                                 <h4 class="ui header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h4>
-                                <div class="" style="margin: 30px 0 20px;padding: 10px 0 0;border: 1px solid rgba(0,0,0,0.1);" id="{{ problem._id }}" >
+                                <div class="" style="margin: 30px 0 20px;padding: 40px 0 0;border: 1px solid rgba(0,0,0,0.1);" id="{{ problem._id }}" >
                                     {% if problem.select_type == 1 %}
                                         {% for answer in problem.answer %}
                                         <div class="field" style="padding-left:60px;">
