@@ -370,7 +370,7 @@
                                 {{ product.category.title }}
                             </p>
         					<h1 class="block title">{{ product.title }}</h1>
-                            
+                            <!--
                             <div class="product stars">
             					<div class="ui small star rating hover">
                                     <i class="icon active"></i>
@@ -382,7 +382,7 @@
             					<small>
                                     <span class="count">7.3</span> ( <span id="product-love-count">{{ product.comment_count }}</span>条评价 )
                                 </small>
-                            </div>
+                            </div>-->
         					<p>
                                 <span>@{{ product.designer.nickname }} 发表</span> 
                                 <span class="clove">{{ product.love_count }} 人点赞</span> / 
@@ -468,7 +468,7 @@
 				<div class="idea tags">
 					{% for tag in product.tags %}
 					{% if tag %}
-					<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui line">
+					<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui link">
 						# {{ tag }}
 					</a>
 					{% endif %}
@@ -504,7 +504,9 @@
 						</a>
 					</div>
 					{% else %}
-						{% include "block/product_topic.html" %}
+                        <div class="ui topics segment">
+						    {% include "block/product_topic.html" %}
+                        </div>
 						<div class="ui center aligned">
 							<a href="{{ product.subject_view_url }}&evaluating=1" class="ui grey inverted button">
 								<i class="search icon"></i> 查看更多
@@ -697,11 +699,14 @@
                 </div>
                 
                 {% product_list var:'plist' page:1  only_onsale:1 size:4 user_id:product.user_id  %}
-                <div class="ui small images">
+                <div class="ui two miniproducts blocks">
                     {% for product in plist.rows %}
-                     <a href="{{ product.view_url }}" title="{{ product.title }}" target="_blank" class="image">
-                         <img src="{{ product.cover.thumbnails.medium.view_url }}" />
-                     </a>
+                    <div class="block">
+            			<div class="image" {% if product.cover %}style="background-image: url('{{ product.cover.thumbnails.hm.view_url }}');"{% endif %}>
+                            <a class="transparent" href="{{ product.view_url }}" target="_blank"></a>
+            			</div>
+                    
+                     </div>    
                      {% endfor %}
                 </div>
     			<div class="more">
