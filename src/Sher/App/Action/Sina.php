@@ -13,7 +13,7 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = array('execute', 'authorize', 'canceled');
+	protected $exclude_method_list = array('execute', 'authorize', 'wap_authorize', 'canceled');
 	
 	/**
 	 * 微博登录
@@ -21,11 +21,18 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
 	public function execute(){
 		
 	}
+
+	/**
+	 * 授权回调地址
+	 */
+  public function wap_authorize(){
+    return $this->authorize('wap');
+  }
 	
 	/**
 	 * 授权回调地址
 	 */
-	public function authorize(){
+	public function authorize($from_to='site'){
 		$code = $this->stash['code'];
 
 		// 当前有登录用户
@@ -38,7 +45,11 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
 		// 获取微博登录的Url
 		$akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
 		$skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
-		$callback = Doggy_Config::$vars['app.sinaweibo.callback_url'];
+    if($from_to=='wap'){
+		  $callback = Doggy_Config::$vars['app.sinaweibo.wap_callback_url'];
+    }else{
+		  $callback = Doggy_Config::$vars['app.sinaweibo.callback_url'];
+    }
 		
 		$keys = array();
 		$keys['code'] = $code;

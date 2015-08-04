@@ -13,7 +13,7 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
     'from_to' => 'site',
 	);
 	
-	protected $exclude_method_list = array('execute', 'authorize', 'canceled');
+	protected $exclude_method_list = array('execute', 'authorize', 'wap_authorize', 'canceled');
 	
 	/**
 	 * QQ登录
@@ -23,20 +23,30 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 		$qc = new Sher_Core_Helper_Qc();
 		return $qc->qq_login($from_to);
 	}
+
+  /**
+   * 授权回调地址--wap
+   */
+  public function wap_authorize(){
+    return $this->authorize('wap');
+  }
 	
 	/**
 	 * 授权回调地址
 	 */
 	public function authorize($from_to='site'){
-    // 来源site or wap
-    $from_to = $this->stash['from_to'];
 		
 		$code = $this->stash['code'];
 		$login_url = Doggy_Config::$vars['app.url.login'];
 		
 		$app_id = Doggy_Config::$vars['app.qq.app_id'];
 		$app_key = Doggy_Config::$vars['app.qq.app_key'];
-		$app_callback = Doggy_Config::$vars['app.qq.callback_url'];
+    if($from_to=='wap'){
+ 		  $app_callback = Doggy_Config::$vars['app.qq.wap_callback_url'];   
+    }else{
+ 		  $app_callback = Doggy_Config::$vars['app.qq.callback_url'];   
+    }
+
 		$app_scope = Doggy_Config::$vars['app.qq.scope'];
 		
 		try{
