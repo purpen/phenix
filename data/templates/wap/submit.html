@@ -2,7 +2,7 @@
 {% block title %}{{ page_title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+
 </style>
 {% endblock %}
 
@@ -161,7 +161,7 @@
 								{% for cat in category.rows %}
 						   	 	<div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
 						   	 		<div class="icon">
-						   				<i class="fa fa-check"></i>
+						   				<i class="check circle outline icon"></i>
 						   			</div>
 						   	 		{{ cat.title }}
 						   	 	</div>
@@ -220,7 +220,7 @@
 					
 					<div class="ui center aligned grid">
 						<div class="column">
-							<div class="fluid ui active magenta submit button">确认提交</div>
+							<div class="fluid ui active inverted magenta submit button">确认提交</div>
 						</div>
 					</div>
 				

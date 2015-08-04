@@ -2,6 +2,9 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
+  #mfrbird{
+    margin-top:0;
+  }
 	.start{
 		padding-top:1rem !important;
 	}
@@ -297,7 +300,7 @@
 {% endblock %}
 {% block content %}
 <div class='active page'>
-	<div class="ui responsive grid" style="margin:0;">
+	<!--<div class="ui responsive grid" style="margin:0;">
 		<div class="row">
 			<div class="column">
 				<div class="ui medium breadcrumb">
@@ -313,7 +316,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>-->
 	<img src="{{ active.wap_banner.fileurl }}" width="100%">
 	<div class="ui start responsive grid">
 		<div class="row">
@@ -332,11 +335,11 @@
       <div class="ui center aligned row">
         <div class="center aligned column attend-box">
         {% if is_attend %}
-          <a class="ui btn-4 btn-4c block active icon-arrow-right btn" href="javascript:void(0);">
+          <a class="ui btn-4 btn-4c block active magenta inverted button icon-arrow-right btn" href="javascript:void(0);">
             <span>已报名</span><i class="icon-arrow-right-sharp"></i>
           </a>
         {%else%}
-          <a class="ui btn-4 btn-4c attend magenta icon-arrow-right btn" href="javascript:void(0);">
+          <a class="ui btn-4 btn-4c attend magenta inverted button icon-arrow-right btn" href="javascript:void(0);">
             <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
           </a>
         {%endif%}
@@ -346,7 +349,7 @@
 		{% if active.step_stat==2 %}
 		<div class="row">
 			<div class="center aligned column attend-box">
-				<a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);" style="background:#ccc;">
+				<a class="ui btn-4 btn-4c icon-arrow-right btn button" href="javascript:void(0);" style="background:#ccc;">
 					<span>活动结束</span><i class="icon-arrow-right-sharp"></i>
 				</a>
 			</div>
