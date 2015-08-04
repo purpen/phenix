@@ -192,9 +192,9 @@
 			}
 	
 			// 商户订单号
-			$out_trade_no = $notifyInfo['out_trade_no'];
+			$out_trade_no = $rid;
 			// 微信交易号
-			$trade_no = $notifyInfo['transaction_id'];
+			$trade_no = $notifyInfo['trade_no'];
 			
 			if($out_trade_no != ""){
 				$input = new Sher_Core_Util_WxPay_WxPayData_WxPayRefund();
