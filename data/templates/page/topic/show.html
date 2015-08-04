@@ -689,27 +689,5 @@
         {% include "page/topic/rightbar.html" %}
     </div>
 </div>
-            
-<div id="postpage">
-	
-	<div class="ui responsive grid">
-		<div class="middle aligned row">
-			<div class="eleven wide column">
-			</div>
-			<div class="five wide right aligned column">
-				{% if visitor.is_login %}
-				<a href="{{ app_url_action_base }}/topic/submit?cid={{ topic.category._id }}" class="ui gray inverted button">
-					<i class="edit icon"></i> 发表新话题
-				</a>
-				{% else %}
-				<a href="{{ app_url_action_base }}/topic/submit?cid={{ topic.category._id }}" class="ui pop disabled gray inverted button" data-content="先登录后，可发表话题" data-variation="inverted">
-					<i class="edit icon"></i> 发表新话题
-				</a>
-				{% endif %}
-			</div>
-		</div>
-		
-	</div>
-</div>
 {% include "block/qrcode.html" %}
 {% endblock %}
