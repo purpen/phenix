@@ -181,6 +181,16 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     $this->stash['is_weixin'] = $is_weixin;
     $this->stash['wx_params'] = $wx_params;
 
+		// 获取微博登录的Url
+		$akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
+		$skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
+		$callback = Doggy_Config::$vars['app.sinaweibo.wap_callback_url'];
+		
+		$oa = new Sher_Core_Helper_SaeTOAuthV2($akey, $skey);
+		$weibo_auth_url = $oa->getAuthorizeURL($callback);
+		
+    $this->stash['weibo_auth_url'] = $weibo_auth_url;
+
 		return $this->to_html_page('wap/signup.html');
 	}
 	
