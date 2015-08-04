@@ -193,6 +193,7 @@ app.url.forget: 	'{$app.url.auth}/forget'
 app.url.invite: 	'{$app.url.auth}/invite'
 
 app.url.qq.login: '{$app.url.action_base}/qq'
+app.url.qq.login_wap: '{$app.url.wap}/app/site/qq?from_to=wap'
 app.url.weixin.login: '{$app.url.action_base}/weixin'
 
 #管理面板

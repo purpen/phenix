@@ -86,11 +86,13 @@ app.taobao.secret: '0b36c8be771fae402ba28bd59b75d589'
 app.sinaweibo.app_key: '3156984431'
 app.sinaweibo.app_secret: '392108a844e55d5d9db81a585feab60b'
 app.sinaweibo.callback_url: '{$app.url.domain}/sina/authorize'
+app.sinaweibo.wap_callback_url: '{$app.url.wap}/app/site/sina/authorize?from_to=wap'
 
 # QQ API
 app.qq.app_id: '101092227'
 app.qq.app_key: 'ba61849a6ab90421e849c116f4f4dea4'
 app.qq.callback_url: '{$app.url.domain}/qq/authorize'
+app.qq.wap_callback_url: '{$app.url.wap}/app/site/qq/authorize?from_to=wap'
 app.qq.scope: 'get_user_info,add_share,add_weibo,add_t,add_pic_t,get_info'
 
 # WeiXin API(test-conf)
