@@ -31,6 +31,89 @@
 		{% endif %}
 
 		<style type="text/css">
+		.ui.option {
+      border: 2px solid #d5d5d5;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-block;
+      margin: 0 1em 1em 0;
+      padding: 15px 20px;
+      background: none repeat scroll 0 0 #fff;
+      color: #404040;
+      position: relative;
+    }
+    .ui.option.active {
+      padding-left: 61px;
+    }
+    .ui.option.active .icon {
+      display: block;
+    }
+    .ui.option.active .icon.check.circle.outline::before {
+      font-size: 1.25rem;
+      padding-top: 60%;
+      vertical-align: middle;
+    }
+    .ui.option:hover {
+      border-color: #ff3366;
+      color: #ff3366;
+    }
+    .ui.option .icon {
+      border: 2px solid #d5d5d5;
+      border-radius: 4px;
+      height: 108%;
+      left: -2px;
+      position: absolute;
+      text-align: center;
+      top: -2px;
+      width: 45px;
+      display: none;
+    }
+    .ui.option .icon:after {
+      -moz-border-bottom-colors: none;
+      -moz-border-left-colors: none;
+      -moz-border-right-colors: none;
+      -moz-border-top-colors: none;
+      background: none repeat scroll 0 0 #fff;
+      border-color: #d5d5d5 #d5d5d5 -moz-use-text-color -moz-use-text-color;
+      border-image: none;
+      border-style: solid solid none none;
+      border-width: 2px 2px 0 0;
+      content: "";
+      display: block;
+      height: 10px;
+      margin-top: -5px;
+      position: absolute;
+      right: -6px;
+      top: 50%;
+      transform: rotate(45deg);
+      width: 10px;
+    }
+    /*--- Category Color Options ---*/
+    .ui.active.magenta.option {
+      border-color: #ff3366;
+      color: #ff3366;
+    }
+    .ui.active.magenta.option .icon {
+      color: #ff3366;
+      border-radius: 4px 0 0 4px;
+      border: 2px solid #ff3366;
+    }
+    .ui.active.magenta.option .icon:after {
+      border-color: #ff3366 #ff3366 -moz-use-text-color -moz-use-text-color;
+    }
+    .ui.green.option .icon i {
+      color: #19b698;
+    }
+    .ui.active.green.option {
+      border-color: #19b698;
+    }
+    .ui.active.green.option .icon {
+      color: #19b698;
+      border: 2px solid #19b698;
+    }
+    .ui.active.green.option .icon:after {
+      border-color: #19b698 #19b698 -moz-use-text-color -moz-use-text-color;
+    }
 		  body {
 			    background: #f5f5f5;
 			    color: #5d6266;
