@@ -113,8 +113,9 @@ app.qq.scope: 'get_user_info,add_share,add_weibo,add_t,add_pic_t,get_info'
 app.wechat.pay_sign_key: 'ArioxptbBJu25ANvabeBqavpE7diWUfTtDu1FCkt66Ojdzb1N3ajKoGAX3xdT3GIsj7C8g1pglSBVqaUNrqsoz5vfiASYrinEL4bAvuhTBgs1ZrdX7gJNgx8qgHBG0V4'
 
 # WeiXin API
-app.wx.app_id: 'aaaa'
-app.wx.app_secret: 'aaaa'
+app.wx.app_id: 'wx34b60f01932004af'
+app.wx.app_secret: '85e685889332e9d69a6268fdec18b92e'
+app.wx.callback_url: '{$app.url.domain}/weixin/call_back'
 
 # 七牛存储（生产环境使用云存储）
 app.url.qiniu.upload: 'http://up.qiniu.com'

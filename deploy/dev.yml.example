@@ -46,6 +46,9 @@ app.cache.memcached.default:
       port: 11211
       weight: 1
 
+#xun_search db name
+app.xun_search_db: 'phenix_dev'
+
 # 周年庆送红包活动(包括注册,邀请送红包) 开关
 app.anniversary2015.switch: 1
 
@@ -90,9 +93,10 @@ app.qq.app_key: 'ba61849a6ab90421e849c116f4f4dea4'
 app.qq.callback_url: '{$app.url.domain}/qq/authorize'
 app.qq.scope: 'get_user_info,add_share,add_weibo,add_t,add_pic_t,get_info'
 
-# WeiXin API
-app.wx.app_id: 'aaaa'
-app.wx.app_secret: 'aaaa'
+# WeiXin API(test-conf)
+app.wx.app_id: 'wx34b60f01932004af'
+app.wx.app_secret: '85e685889332e9d69a6268fdec18b92e'
+app.wx.callback_url: '{$app.url.domain}/weixin/call_back'
 
 # 七牛存储（开发环境使用本地存储）
 app.url.qiniu.upload: '{$app.url.action_base}/uploader'
