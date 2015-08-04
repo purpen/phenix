@@ -151,9 +151,10 @@ class Sher_Core_Util_WxPay_WxPayApi
 		}
 		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.appid']);//公众账号ID
 		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.mchid']);//商户号
+		$inputObj->SetSpbill_create_ip($_SERVER['REMOTE_ADDR']);//终端ip
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
-		
 		$inputObj->SetSign();//签名
+		
 		$xml = $inputObj->ToXml();
 		$startTimeStamp = self::getMillisecond();//请求开始时间
 		$response = self::postXmlCurl($xml, $url, true, $timeOut);

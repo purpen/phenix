@@ -103,7 +103,7 @@
 
 			// 商户订单号
 			$out_trade_no = $notifyInfo['out_trade_no'];
-			// 支付宝交易号
+			// 微信交易号
 			$trade_no = $notifyInfo['transaction_id'];
 			// 交易状态
 			$trade_status = $notifyInfo['result_code'];
@@ -129,16 +129,17 @@
 
 			$model = new Sher_Core_Model_Orders();
 			$order_info = $model->find_by_rid($rid);
-      // 仅查看本人的订单
-      if($this->visitor->id != $order_info['user_id']){
-        return $this->show_message_page('你没有权限查看此订单！');
-      }
-			$this->stash['order_info'] = $order_info;
 			
-			return $this->to_html_page("wap/order_view.html");
-	   }
+			// 仅查看本人的订单
+			if($this->visitor->id != $order_info['user_id']){
+			  return $this->show_message_page('你没有权限查看此订单！');
+			}
+				  $this->stash['order_info'] = $order_info;
+				  
+				  return $this->to_html_page("wap/order_view.html");
+			 }
 	   
-	   /**
+		/**
 		 * 更新订单状态
 		 */
 		protected function update_order_process($out_trade_no, $trade_no){
@@ -161,6 +162,88 @@
 		   }else{
 				return true;
 		   }
+		}
+		
+		/**
+		 * 微信退款请求方法
+		 */
+		public function refund(){
+			
+			$rid = $this->stash['rid'];
+			if (empty($rid)){
+				return $this->show_message_page('操作不当，订单号丢失！', true);
+			}
+			
+			$model = new Sher_Core_Model_Orders();
+			$order_info = $model->find_by_rid($rid);
+			if (empty($order_info)){
+				return $this->show_message_page('抱歉，系统不存在该订单！', true);
+			}
+			$status = $order_info['status'];
+			
+			// 验证订单是否已申请付款
+			if ($status != Sher_Core_Util_Constant::ORDER_READY_REFUND){
+				return $this->show_message_page('订单[$rid]未申请付款！', false);
+			}
+		
+			$pay_money = $order_info['pay_money'];
+			if((float)$pay_money==0){
+					return $this->show_message_page('订单[$rid]金额为零！', false);  
+			}
+	
+			// 商户订单号
+			$out_trade_no = $notifyInfo['out_trade_no'];
+			// 微信交易号
+			$trade_no = $notifyInfo['transaction_id'];
+			
+			if($out_trade_no != ""){
+				$input = new Sher_Core_Util_WxPay_WxPayData_WxPayRefund();
+				$input->SetTransaction_id($trade_no);
+				$input->SetOut_trade_no($out_trade_no);
+				$input->SetTotal_fee($pay_money);
+				$input->SetRefund_fee($pay_money);
+				$input->SetOut_refund_no((string)date('Ymd').(string)$rid);
+				$input->SetOp_user_id((int)$this->visitor->id);
+				$result = Sher_Core_Util_WxPay_WxPayApi::refund($input);
+				
+				Doggy_Log_Helper::warn("退款返回信息: ".json_encode($result));
+				
+				$this->refund_back($result);
+			}
+		}
+		
+		/**
+		 * 微信退款处理方法
+		 */
+		protected function refund_back($data){
+			
+			if($data['return_code'] !== 'SUCCESS' || $data['result_code'] !== 'SUCCESS'){
+				return $this->to_raw('fail');
+			}
+			
+			$model = new Sher_Core_Model_Orders();
+			$order = $model->first(array('trade_no'=>$data['transaction_id']));
+
+			if(empty($order)){
+				Doggy_Log_Helper::warn("Wxpay refund notify: trade_no[{$data['transaction_id']}] order is empty!");
+				return $this->to_raw('fail');        
+			}
+
+			$order_id = (string)$order['_id'];
+
+			if($order['status'] != Sher_Core_Util_Constant::ORDER_READY_REFUND){
+				Doggy_Log_Helper::warn("Wxpay refund notify: order_id[$order_id] stauts is wrong!");
+				return $this->to_raw('fail');      
+			}
+
+			$ok = $model->refunded_order($order_id, array('refunded_price'=>$refunded_price));
+			if($ok){
+				//退款成功
+				return $this->to_raw('success');     
+			}else{
+				Doggy_Log_Helper::warn("Wxpay refund notify: order_id[$order_id] refunde_order fail !");
+				return $this->to_raw('fail');  
+			}
 		}
 	}
 ?>
