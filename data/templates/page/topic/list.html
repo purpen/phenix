@@ -2,19 +2,13 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-.ui.topics.segment {
-    padding: 0;
-    margin-top: 1.5em;
-}
-.ui.topics.segment .ui.table {
-    border: none;
-}
+
 </style>
 {% endblock %}
 
 {% block jquery %}
-    //ajax加载签到数据
-    $.get('{{ app_url_user }}/ajax_fetch_user_sign', {type:1});
+    // ajax加载签到数据
+    phenix.signin();
     
 {% endblock %}
 
@@ -65,7 +59,7 @@
             	</div>
             </div>
             
-            <div class="sortby">
+            <div class="topics sortby">
                 <div class="ui fluid three item menu">
                     <a class="{{ css_type_all }} item" href="{{ app_url_topic }}/c{{cid}}">
                         <i class="time icon"></i> 最新
@@ -81,14 +75,6 @@
             
             <div class="ui topics segment">
     			<table class="ui basic topic table">
-    				<thead>
-    					<tr>
-    						<th>发布者</th>
-    						<th>主题</th>
-    						<th>最后回应</th>
-    						<th class="center aligned">浏览数</th>
-    					</tr>
-    				</thead>
     				<tbody>
                     <!--站内置顶-->
     				{% if dig_list %}

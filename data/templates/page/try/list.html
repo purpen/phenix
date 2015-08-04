@@ -14,9 +14,8 @@
 			$this.html(event.strftime('<div class="item"><div class="count">%D<span>&nbsp;天</span></div></div><div class="item"><div class="count">%H<span>&nbsp;时</span></div></div> <div class="item"><div class="count">%M<span>&nbsp;分</span></div></div><div class="magenta item"><div class="count">%S<span>&nbsp;秒</span></div></div>'));
 		});
 	});
-    
-    //ajax加载签到数据
-    $.get('{{ app_url_user }}/ajax_fetch_user_sign', {type:1});
+    // ajax加载签到数据
+    phenix.signin();
     
 {% endblock %}
 

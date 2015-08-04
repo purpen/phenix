@@ -57,8 +57,8 @@
     //ajax加载评论
     fetch_comment(1, per_page);
     
-    //ajax加载签到数据
-    $.get('{{ app_url_user }}/ajax_fetch_user_sign', {type:1});
+    // ajax加载签到数据
+    phenix.signin();
 
 	phenix.bind_share_list();
 	// 生成二维码
