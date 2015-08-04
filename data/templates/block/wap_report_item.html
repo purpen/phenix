@@ -1,9 +1,9 @@
 <tr id="{{ topic._id }}">
-	<td class="two wide hide-on-mobile">
+	<!--<td class="two wide">
 		<a class="ui small avatar image" href="{{ topic.user.home_url }}">
       		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
 		</a>
-	</td>
+	</td>-->
 	<td class="ten wide">
       	<h3 class="title">
 			<a href="{{ topic.wap_view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.title|truncate 60 }}</a>
@@ -43,10 +43,10 @@
 		回复于{{ topic.last_reply_time|relative_datetime }}
 		{% endif %}
 	</td>
-	<td class="hide-on-mobile">
+	<!--<td>
 		<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
 			<span class="dot-irecommend-count">{{ topic.view_count }}</span> 
 			<span class="dot-irecommend-suffix"></span>
 		</a>
-	</td>
+	</td>-->
 </tr>
