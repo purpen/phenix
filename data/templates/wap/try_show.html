@@ -415,7 +415,7 @@
 					    <div class="ui horizontal list">
 							{% for user in userlist  %}
 							<div class="item">
-								<a class="ui small avatar pop image" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
+								<a class="ui avatar pop image" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
 									<img src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" />
 								</a>
 								<div class="content">
