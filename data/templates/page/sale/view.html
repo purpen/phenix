@@ -204,7 +204,7 @@
                                 {{ product.category.title }}
                             </p>
         					<h1 class="block title">{{ product.title }}</h1>
-                            
+                            <!--
                             <div class="product stars">
             					<div class="ui small star rating hover">
                                     <i class="icon active"></i>
@@ -216,7 +216,7 @@
             					<small>
                                     <span class="count">7.3</span> ( <span id="product-love-count">{{ product.comment_count }}</span>条评价 )
                                 </small>
-                            </div>
+                            </div>-->
         					<p>
                                 <span>@{{ product.designer.nickname }} 发表</span> 
                                 <span class="clove">{{ product.love_count }} 人点赞</span> / 
@@ -360,28 +360,7 @@
         </div>
         
         <!--ajax fetch推荐相关产品-->
-        <div id="product_guess_list">
-        	<div class="ui responsive grid">
-        		<div class="row">
-        			{% product_list var:'list' page:page category_id:category_id process_presaled:presaled is_shop:is_shop only_onsale:1 size:20 sort:sort_text %}
-        			{% if list.rows %}
-        			<div class="column">
-        				<div class="ui four products cards">
-        					{% for product in list.rows %}
-        				  		{% include "block/product_card.html" %}
-        				    {% endfor %}
-        				</div>
-        				{% if list.total_page > 1 %}
-        				<div class="ui pagination grid">
-        					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-        					{%include 'block/pager.html'%}
-        				</div>
-        				{% endif %}
-        			</div>
-        			{% endif %}
-        		</div>
-        	</div>
-        </div>
+        <div id="product_guess_list"></div>
     </div>
     <div class="mainright">
         

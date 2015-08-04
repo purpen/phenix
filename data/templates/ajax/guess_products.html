@@ -2,19 +2,13 @@
 	<replace select="#product_guess_list"><![CDATA[
 		{% if result.total_rows %}
 		<div class="product white guess" id="product_guess_list">
-            <div class="ui responsive {%if type=='2'%}{%else%}grid{%endif%}">
-				<div class="row">
-					<div class="column">
-						<h3 class="ui header">
-							你可能喜欢的产品
-						</h3>
-						<div class="ui four products cards">
-							{% for item in result.rows %}
-						  		{% include "block/product_card.html" %}
-						    {% endfor %}
-						</div>
-					</div>
-				</div>
+			<h3 class="ui header">
+				你可能喜欢的产品
+			</h3>
+			<div class="ui four products cards">
+				{% for item in result.rows %}
+			  		{% include "block/product_item_card.html" %}
+			    {% endfor %}
 			</div>
 		</div>
 		{% endif %}

@@ -9,30 +9,9 @@
 		{% else %}
 	    background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);
 		{% endif %}
-	    height: 500px;
-		color: #fff;
 	}
-    .try > .masthead .ui.responsive.grid {
-        max-width: 1280px;
-    }
-    .try .masthead .ui.grid > .column {
-		padding-top: 100px;
-	}
-	.try .masthead .column > p{
-		padding: 8px 12px;
-		background: #080000;
-	    display: inline-block;
-	    margin: 0;
-	}
-	.try .masthead > .masthead-cover {
-	    background-color: rgba(0, 0, 0, 0.35);
-	    height: 100%;
-	}
-    
-	.try .ui.list .count span{
-		font-size:16px !important;
-	}
-	.try .masthead .ui.header{
+	
+	.try .masthead .ui.header {
 		  margin-top: 0.6em;
 	}
 	.try .masthead .ui.header .sub.header{
@@ -60,21 +39,7 @@
 	.product.overview{
 		padding-bottom:1em;
 	}
-	.product.appli tr{
-		border-bottom:1px solid #f1f1f1;
-	}
-	.product.appli tr:last-child{
-		border-bottom:0px solid #f1f1f1;
-	}
-	.product.appli .ui.table td{
-		padding:10px 0;
-	}
-	.product.appli .ui.table td:first-child{
-		padding-left:10px;
-	}
-	.product.appli .ui.table  tr{
-		background-color: transparent!important;
-	}
+	
 	.product.aption img,.product.aption p{
 		margin:0 auto;
 		display:block;
@@ -83,62 +48,19 @@
 	.product.aption p{
 		margin-bottom: 1em;
 	}
-	
-	
-    
-    .trypage.sortby {
-        background-color: #fff;
-        text-align: center;
-    }
-    .trypage.sortby .ui.item.menu {
-        margin: 0;
-    }
-    .trypage.sortby .ui.item.menu .item {
-        background-color: #fff;
-    }
-    .trypage.sortby .ui.item.menu .item.active {
-        background-color: rgba(34, 36, 38, 0.1);
-    }
-    .trypage.sortby .ui.item.menu .item:first-child,
-    .trypage.sortby .ui.item.menu .item:last-child {
-        border-radius: 0 !important;
-    }
-    .trypage.sortby .block.title {
-        line-height: 2.5;
-        border-bottom: 1px solid rgba(34, 36, 38, 0.1);
-    }
     .product.report {
         padding-bottom: 2rem;
     }
-    .product.appli .ui.table {
-        border: none;
-    }
-	.product.appli .ui.table .author {
-		position: relative;
-	}
-	.product.appli .ui.table .author .content {
-		position: absolute;
-		left: 5em;
-		top: 50%;
-		margin-top: -10px;
-		white-space: nowrap;
-    overflow: hidden;
-    width: 100px;
-	}
-	.product.appli .ui.table td.nine.wide {
-		text-align:right;
-	}
 
 	.ui.lapiao{
 	    border:0px solid #fff !important;
 	}
-  .ui.lapiao > .content{
+    .ui.lapiao > .content{
 	    background:url({{ app_url_packaged }}/images/trybox.jpg) no-repeat center center /cover;
 	}
 	#lapiao canvas{
 	  width:100% !important;
 	}
-	
 </style>
 {% endblock %}
 
@@ -312,42 +234,38 @@
 		<div class="masthead-cover">
 			<div class="ui responsive grid">
 				<div class="column">
-					<p>产品试用第{{ try.season }}期</p>
-					<h1 class="ui header">
-						<div class="content">
-							{{ try.title }}
-							<div class="sub header">
-								{{ try.description }}
-								<!--<br/>
-								<span>市场价：¥399</span>-->
-							</div>
-						</div>
-					</h1>
-					{% if !try.is_end %}
-            {% if is_applied %}
-              <a href="javascript:void(0);" class="ui white lapiao-btn inverted button" style="padding: .8em 2em!important;">
-                <i class="ticket icon"></i> 求支持
-              </a>
-            {%else%}
-              <a href="javascript:void(0);" class="ui white applytry bttn inverted button" style="padding: .8em 2em!important;">
-                <i class="ticket icon"></i> 申请试用
-              </a>
-            {%endif%}
-					{% else %}
-					<a href="javascript:void(0);" class="ui active white inverted button">
-						<i class="lock icon"></i> 已结束
-					</a>
-					{% endif %}
-          <!--
-					<a href="{{ try.product.view_url }}" class="ui white inverted button" target="_blank">
-						<i class="browser icon"></i> 产品详情
-					</a>
-          -->
-					<div class="ui white inverted pop share icon inverted button">
-						<i class="share icon"></i>
-						分享
-					</div>
-					<div class="apply">{% if !try.is_end %} 剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %} 结束时间：{{ try.end_time }}{% endif %}<br/>产品数量：<b class="big">{{ try.try_count }}</b>个,&nbsp;<b class="big">{{ try.apply_count }}</b> 人已预约</div>
+                    <div class="container">
+    					<p>产品试用第{{ try.season }}期</p>
+    					<h1 class="ui header">
+    						<div class="content">
+    							{{ try.title }}
+    							<div class="sub header">
+    								{{ try.description }}
+    								<!--<br/>
+    								<span>市场价：¥399</span>-->
+    							</div>
+    						</div>
+    					</h1>
+					    {% if !try.is_end %}
+                            {% if is_applied %}
+                              <a href="javascript:void(0);" class="ui white lapiao-btn inverted button" style="padding: .8em 2em!important;">
+                                <i class="ticket icon"></i> 求支持
+                              </a>
+                            {%else%}
+                              <a href="javascript:void(0);" class="ui white applytry inverted button" style="padding: .8em 2em!important;">
+                                <i class="ticket icon"></i> 申请试用
+                              </a>
+                            {%endif%}
+					    {% else %}
+    					<a href="javascript:void(0);" class="ui active white inverted button">
+    						<i class="lock icon"></i> 已结束
+    					</a>
+    					{% endif %}
+                        <div class="ui white inverted pop share icon inverted button">
+                            <i class="share icon"></i> 分享
+                        </div>
+                        <div class="apply">{% if !try.is_end %} 剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %} 结束时间：{{ try.end_time }}{% endif %}<br/>产品数量：<b class="big">{{ try.try_count }}</b>个,&nbsp;<b class="big">{{ try.apply_count }}</b> 人已预约</div>
+                    </div>
 				</div>
 			</div>
 		</div>
@@ -530,7 +448,7 @@
 						<tr>
 							<td class="author">
 								<a class="ui small avatar image" href="{{ t.user.home_url }}" title="{{ t.user.nickname }}" target="_blank">
-									<img src="{{ t.user.big_avatar_url }}" alt="{{ t.user.nickname }}">
+									<img src="{{ t.user.small_avatar_url }}" alt="{{ t.user.nickname }}">
 								</a>
 								<div class="content">
 									<a class="ui link" href="{{ t.user.home_url }}" target="_blank">{{ t.user.nickname }}</a>
@@ -577,7 +495,7 @@
               </h3>
               
               <h2 class="ui header">恭喜您申请成功</h2>
-              <p>分享到朋友圈，获取更多支持， 更有机会获取试用资格!</p>
+              <p>分享到朋友圈和QQ，获取更多支持， 更有机会获取试用资格!</p>
             </div>
             <div class="ui six wide column">
               <h2 class="ui header">扫码分享</h2>

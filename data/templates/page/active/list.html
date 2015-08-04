@@ -7,8 +7,8 @@
 {% endblock %}
 {% block layout_js %}{% endblock %}
 {% block jquery %}
-    //ajax加载签到数据
-    $.get('{{ app_url_user }}/ajax_fetch_user_sign', {type:1});
+    // ajax加载签到数据
+    phenix.signin();
 {% endblock %}
 
 {% block content %}
@@ -107,7 +107,7 @@
                              {% if active.step_stat == 2 %}
                                  已结束
                              {% else %}
-                             <a class="ui line" href="{{ active.view_url }}">
+                             <a class="ui link" href="{{ active.view_url }}">
                                  我要报名
                        	  	</a>
                              {% endif %}

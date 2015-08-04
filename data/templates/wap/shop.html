@@ -64,7 +64,7 @@
 </div>
 
 <!--商店商品-->
-{% product_list var:'sale' is_shop:is_shop presaled:presaled only_onsale:1 category_id:cid page:page sort:'stick:latest' %}
+{% product_list var:'sale' is_shop_wap:1 only_onsale:1 category_id:cid page:page sort:'stick:latest' %}
 {% if sale.total_rows %}
 <div class="ui responsive grid" id="mproducts">
 	<div class="row">

@@ -382,7 +382,7 @@
 							</div>
 						</div>
 
-{% if visitor.can_edit %}
+                        {% if visitor.can_edit %}
 						<div class="field">
 							<label>上传附件 <small class="description">(小于10M)</small></label>
 							<input type="hidden" name="asset_file_id" id="topic_file_id" value="{{ topic.file_id }}" />
@@ -407,10 +407,10 @@
 								{% endif %}
 							</div>
 						</div>
-            {%endif%}
-						<div class="ui right floated aligned grid">
+                        {%endif%}
+						<div class="ui grid">
                             <div class="row">
-    							<div class="column">
+    							<div class="right aligned column">
     								<div class="ui grey large cancel inverted button">取消</div>
                                     {% if visitor.can_edit %}
 									<div class="ui green large inverted save button">

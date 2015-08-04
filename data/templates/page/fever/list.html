@@ -2,7 +2,13 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-    
+    .votelist .introduction {
+        padding: 80px 0 60px;
+    }
+    .votelist .introduction p {
+        color: #fff;
+        margin-bottom: 30px;
+    }
 </style>
 {% endblock %}
 
@@ -16,83 +22,84 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui tophead" style="background-image: url('{{ app_url_packaged }}/images/topicbg/hnck4400.jpg');">
+<div class="tophead votelist" style="background-image: url('{{ app_url_packaged }}/images/topicbg/hnck4400.jpg');">
 	<div class="masthead">
 		<div class="masthead-cover">
-			<div class="ui responsive grid">
+			<div class="ui responsive center aligned grid">
 				<div class="row">
-					<div class="twelve wide column white section-title">
+					<div class="ten wide column white section-title">
 						<div class="introduction">
-                			<h2 class="block title">为什么创意投票这么重要？</h2>
-                			<p>事实告诉我们，能够真正服务于生活的创意才是我们要寻找的好设计。为此我们建立了一个投票环节，在这里，你所喜欢、支持的创意都有可能制作成产品并成功上市。一个好创意诞生很不容易，希望你们成为优秀的评审团。</p>
+                			<h2 class="block title">创意征集</h2>
                             <hr>
-							
-						</div>
-					</div>
-                    <div class="right aligned four wide column">
-						<div class="actions">
-            				<div class="stast">
-            					<div class="ui horizontal bulleted list">
-            						<span class="item">总数</span>
-            						<span class="item">
-                                        {{ counter.items.total_count|default 0 }}
-            						</span>
-            					</div>
-            					<span class="space"> / </span>
-            					<div class="ui horizontal bulleted list">
-            						<span class="item">正在投票</span>
-            						<span class="item">
-                                        {{ counter.items.vote_count|default 0 }}
-            						</span>
-            					</div>
-            				</div>
-							<a href="{{ app_url_fever }}/submit?step=1" class="ui active inverted button">
+                			<p>事实告诉我们，能够真正服务于生活的创意才是我们要寻找的好设计。为此我们建立了一个投票环节，在这里，你所喜欢、支持的创意都有可能制作成产品并成功上市。一个好创意诞生很不容易，希望你们成为优秀的评审团。</p>
+                            
+                            
+							<a href="{{ app_url_fever }}/submit?step=1" class="ui white inverted button">
 								<i class="edit icon"></i> 提交新创意
 							</a>
 						</div>
-                    </div>
+					</div>
 				</div>
-                <div class="row">
-                    <div class="column">
-                        <div class="children">
-    						{% category_list var:'category' only_open:only_open stage:1 domain:domain current:category_id %}
-    						{% for cat in category.rows %}
-    					  	    <a class="ui {{ cat.active }} white inverted button" href="{{ cat.view_url }}">{{ cat.title }}</a>
-    						{% endfor %}
-                        </div>
-                    </div>
-                </div>
 			</div>
 		</div>
 	</div>
 </div>
 
-<div class="social sortby">
+<div class="sorts cubes">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="column">
-				<div class="ui horizontal bulleted list">
-					<a class="ui line {{ css_type_voting }} item" href="{{ links.voting_url }}">全部</a>
-					<a class="ui line {{ css_type_finishing }} item" href="{{ links.finishing_url }}">正在投票</a>
-				</div>
-				<div class="ui horizontal bulleted sortby list">
-				  	<a class="ui line {{ css_sort_latest }} item" href="{{ links.sort_latest_url }}">最新</a>
-				  	<a class="ui line {{ css_sort_votest }} item" href="{{ links.sort_votest_url }}">投票</a>
-				  	<a class="ui line {{ css_sort_love }} item" href="{{ links.sort_love_url }}">点赞</a>
-				</div>
-			</div>
-		</div>
-	</div>
+            <div class="column">
+                  <div class="container">
+                      <label><i class="cubes icon"></i>选项：</label>
+                      <div class="ui horizontal list">
+                          <a class="{{ css_type_voting }} item" href="{{ links.voting_url }}">
+                              全部
+                          </a>
+                          <a class="{{ css_type_finishing }} item" href="{{ links.finishing_url }}">
+                              正在投票
+                          </a>
+                          <a class="{{ css_type_finishing }} item" href="{{ links.finishing_url }}">
+                              已结束
+                          </a>
+                      </div>
+                  </div>
+            </div>      
+        </div>
+		<div class="row sby">
+            <div class="column">
+                <div class="container">
+                    <label><i class="sort content ascending icon"></i>排序：</label>
+                    <div class="ui horizontal list">
+                      <a class="{{ css_sort_latest }} item" href="{{ links.sort_latest_url }}">
+                            最新
+                        </a>
+                        <a class="{{ css_sort_votest }} item" href="{{ links.sort_votest_url }}">
+                            投票数
+                        </a>
+                        <a class="{{ css_sort_love }} item" href="{{ links.sort_love_url }}">
+                            点赞
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 	
 <div id="votelist">
 	<div class="ui responsive grid">
+        <!--反向定制-->
 		<div class="row">
 			<div class="column">
-				<div class="ui four voteist product cards">
+                
+            </div>
+        </div>
+		<div class="row">
+			<div class="column">
+				<div class="ui four voteist products cards">
 					{% product_list var:'list' page:page category_id:category_id process_voted:1 only_approved:1 only_onsale:1 vote_type:type sort:sort size:12 %}
 					{% for product in list.rows %}
-						{% include "block/product_card.html" %}
+						{% include "block/product_vote_card.html" %}
 					{% endfor %}
 				</div>
 				

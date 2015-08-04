@@ -21,7 +21,7 @@ class Sher_App_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 	 * 默认入口
 	 */
 	public function execute(){
-		return $this->service();
+		return $this->index();
 	}
     
     /**

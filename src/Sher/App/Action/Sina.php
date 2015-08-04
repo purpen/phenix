@@ -13,7 +13,7 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = array('execute', 'authorize', 'canceled');
+	protected $exclude_method_list = array('execute', 'authorize', 'wap_authorize', 'canceled');
 	
 	/**
 	 * 微博登录
@@ -21,11 +21,18 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
 	public function execute(){
 		
 	}
+
+	/**
+	 * 授权回调地址
+	 */
+  public function wap_authorize(){
+    return $this->authorize('wap');
+  }
 	
 	/**
 	 * 授权回调地址
 	 */
-	public function authorize(){
+	public function authorize($from_to='site'){
 		$code = $this->stash['code'];
 
 		// 当前有登录用户
@@ -38,7 +45,11 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
 		// 获取微博登录的Url
 		$akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
 		$skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
-		$callback = Doggy_Config::$vars['app.sinaweibo.callback_url'];
+    if($from_to=='wap'){
+		  $callback = Doggy_Config::$vars['app.sinaweibo.wap_callback_url'];
+    }else{
+		  $callback = Doggy_Config::$vars['app.sinaweibo.callback_url'];
+    }
 		
 		$keys = array();
 		$keys['code'] = $code;
@@ -102,6 +113,9 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
           $this->stash['login_token'] = Sher_Core_Helper_Auth::gen_login_token();
           $this->stash['session_random'] = $random;
 
+          if($from_to=='wap'){
+            return $this->to_html_page('wap/auth/landing.html');         
+          }
           return $this->to_html_page('page/landing.html');
 
         } else {  //已绑定，直接登录
@@ -122,8 +136,11 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
           // 实现自动登录
           Sher_Core_Helper_Auth::create_user_session($user_id);
 
-		      $user_profile_url = Doggy_Config::$vars['app.url.my'].'/profile';
-		      return $this->to_redirect($user_profile_url);
+          $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.my'].'/profile'); 
+          if($from_to=='wap'){
+            $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);        
+          }
+		      return $this->to_redirect($redirect_url);
         }
 
 			} else {

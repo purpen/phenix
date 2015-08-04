@@ -370,7 +370,7 @@
                                 {{ product.category.title }}
                             </p>
         					<h1 class="block title">{{ product.title }}</h1>
-                            
+                            <!--
                             <div class="product stars">
             					<div class="ui small star rating hover">
                                     <i class="icon active"></i>
@@ -382,7 +382,7 @@
             					<small>
                                     <span class="count">7.3</span> ( <span id="product-love-count">{{ product.comment_count }}</span>条评价 )
                                 </small>
-                            </div>
+                            </div>-->
         					<p>
                                 <span>@{{ product.designer.nickname }} 发表</span> 
                                 <span class="clove">{{ product.love_count }} 人点赞</span> / 
@@ -468,48 +468,13 @@
 				<div class="idea tags">
 					{% for tag in product.tags %}
 					{% if tag %}
-					<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui line">
+					<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui link">
 						# {{ tag }}
 					</a>
 					{% endif %}
 					{% endfor %}
 				</div>
 				{% endif %}
-
-					<div class="ui icon green editable buttons">
-            {% if visitor.can_edit %}
-							{% if product.featured %}
-							<div class="ui pop fine active button" data-content="取消精选"  data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
-								<i class="star icon"></i>
-							</div>
-							{% else %}
-							<div class="ui pop fine button" data-content="标记精选" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
-								<i class="star empty icon"></i>
-							</div>
-							{% endif %}
-							{% if product.stick %}
-							<div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
-								<i class="flag icon"></i>
-							</div>
-							{% else %}
-							<div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
-								<i class="flag outline icon"></i>
-							</div>
-							{% endif %}
-            {%endif%}
-			
-						{% if editable %}
-              {% if product.stage==15 %}
-                <div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ product._id }}">
-                  <i class="edit icon"></i>
-                </div>
-                <div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ product._id }}">
-                  <i class="remove icon"></i>
-                </div>
-              {%endif%}
-						{% endif %}
-					</div>
-                
 					<div class="ui center aligned zanl">
 						<div class="ui green pop favorite inverted button" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
 							<i class="star icon"></i> 收藏
@@ -539,9 +504,11 @@
 						</a>
 					</div>
 					{% else %}
-						{% include "block/product_topic.html" %}
+                        <div class="ui topics segment">
+						    {% include "block/product_topic.html" %}
+                        </div>
 						<div class="ui center aligned">
-							<a href="{{ product.subject_view_url }}&evaluating=1" class="ui black inverted button">
+							<a href="{{ product.subject_view_url }}&evaluating=1" class="ui grey inverted button">
 								<i class="search icon"></i> 查看更多
 							</a>
 							<a href="{{ product.subject_view_url }}&evaluating=1#newtopic" class="ui magenta inverted button">
@@ -572,12 +539,11 @@
           <div class="bar"></div>
                   
           <div class="product reviews">
-            <div class="block title">
-              用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
-                      </div>
-              
-            <!--ajax comment-->
-            <div class="ui big reply segment" id="comment-list"></div>
+              <div class="block title">
+                  用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
+              </div>
+              <!--ajax comment-->
+              <div class="ui big reply segment" id="comment-list"></div>
           </div>
           {% endif %}
         {%endif%}
@@ -733,11 +699,14 @@
                 </div>
                 
                 {% product_list var:'plist' page:1  only_onsale:1 size:4 user_id:product.user_id  %}
-                <div class="ui small images">
+                <div class="ui two miniproducts blocks">
                     {% for product in plist.rows %}
-                     <a href="{{ product.view_url }}" title="{{ product.title }}" target="_blank" class="image">
-                         <img src="{{ product.cover.thumbnails.medium.view_url }}" />
-                     </a>
+                    <div class="block">
+            			<div class="image" {% if product.cover %}style="background-image: url('{{ product.cover.thumbnails.hm.view_url }}');"{% endif %}>
+                            <a class="transparent" href="{{ product.view_url }}" target="_blank"></a>
+            			</div>
+                    
+                     </div>    
                      {% endfor %}
                 </div>
     			<div class="more">
@@ -771,6 +740,40 @@
             {%endif%}
         </div>
         
+        {% if visitor.can_edit %}
+        <div class="sellwrap">
+            <div class="ui icon green editable buttons">
+                {% if product.featured %}
+				<div class="ui pop fine active button" data-content="取消精选"  data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
+					<i class="star icon"></i>
+				</div>
+				{% else %}
+				<div class="ui pop fine button" data-content="标记精选" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
+					<i class="star empty icon"></i>
+				</div>
+				{% endif %}
+				{% if product.stick %}
+				<div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
+					<i class="flag icon"></i>
+				</div>
+				{% else %}
+				<div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
+					<i class="flag outline icon"></i>
+				</div>
+				{% endif %}
+        		{% if editable %}
+                    {% if product.stage == 15 %}
+                      <div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ product._id }}">
+                          <i class="edit icon"></i>
+                      </div>
+                      <div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ product._id }}">
+                          <i class="remove icon"></i>
+                      </div>
+                    {%endif%}
+        		{% endif %}
+    		</div>
+        </div>
+        {%endif%}
     </div>
 </div>
 {% include "block/sharebox.html" %}

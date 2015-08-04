@@ -98,6 +98,7 @@ app.alipay.pendir: '/Users/xiaoyi/project/phenix/vendor'
 app.sinaweibo.app_key: '3156984431'
 app.sinaweibo.app_secret: '392108a844e55d5d9db81a585feab60b'
 app.sinaweibo.callback_url: '{$app.url.action_base}/sina/authorize'
+app.sinaweibo.wap_callback_url: '{$app.url.wap}/app/site/sina/wap_authorize'
 
 # 淘宝
 app.taobao.key: '21781655'
@@ -107,14 +108,16 @@ app.taobao.secret: '0b36c8be771fae402ba28bd59b75d589'
 app.qq.app_id: '101092227'
 app.qq.app_key: 'ba61849a6ab90421e849c116f4f4dea4'
 app.qq.callback_url: '{$app.url.domain}/qq/authorize'
+app.qq.wap_callback_url: '{$app.url.wap}/app/site/qq/wap_authorize'
 app.qq.scope: 'get_user_info,add_share,add_weibo,add_t,add_pic_t,get_info'
 
 # 微信支付
 app.wechat.pay_sign_key: 'ArioxptbBJu25ANvabeBqavpE7diWUfTtDu1FCkt66Ojdzb1N3ajKoGAX3xdT3GIsj7C8g1pglSBVqaUNrqsoz5vfiASYrinEL4bAvuhTBgs1ZrdX7gJNgx8qgHBG0V4'
 
 # WeiXin API
-app.wx.app_id: 'aaaa'
-app.wx.app_secret: 'aaaa'
+app.wx.app_id: 'wx34b60f01932004af'
+app.wx.app_secret: '85e685889332e9d69a6268fdec18b92e'
+app.wx.callback_url: '{$app.url.domain}/weixin/call_back'
 
 # 七牛存储（生产环境使用云存储）
 app.url.qiniu.upload: 'http://up.qiniu.com'

@@ -186,10 +186,18 @@
 {% block layout_js %}
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript">
-
+    {% if is_69 %}
+    var m_name = '急需支持! 我正在申请太火鸟价值4969元宇宙独家首发免费试用,就差你的一票了~';
+    {%else%}
     var m_name = '我正在申请【{{ try.short_title }}】免费试用,大家来支持我吧!';
+    {%endif%}
+
     {% if try.cover %}
-      var img_url = '{{ try.cover.thumbnails.resp.view_url }}';
+      {% if is_69 %}
+        var img_url = '{{ app_url_packaged }}/images/tushare.jpg';
+      {%else%}
+        var img_url = '{{ try.cover.thumbnails.resp.view_url }}';
+      {%endif%}
     {%else%}
       var img_url = 'http://frstatic.qiniudn.com/images/logo/logo.png';
     {%endif%}
@@ -336,17 +344,33 @@ fetch_rank();
       <div class="column">
         <div class="ui segment" style="padding:0;">
           <div class="image">
-            <a href="{{ try.wap_view_url }}"><img src="{{ try.cover.thumbnails.resp.view_url }}" width="100%"></a>
+            {% if is_69 %}
+              <a href="{{ try.wap_view_url }}"><img src="{{ app_url_packaged }}/images/tushare.jpg" width="100%"></a>
+            {%else%}
+              <a href="{{ try.wap_view_url }}"><img src="{{ try.cover.thumbnails.resp.view_url }}" width="100%"></a>
+            {%endif%}
             <div class="potext">
-              <p>{{ try.title }}</p>
+              <p>
+                {% if is_69 %}
+                  【宇宙独家首发】超级神秘新品
+                {%else%}
+                  {{ try.title }}
+                {%endif%}
+              </p>
             </div>
           </div>
           <div class="cont">
-            <p style="margin-top:6px;">{% if !try.is_end %}Hi，亲爱的小伙伴们！{{ try.title }}正在太火鸟免费试用中，我已申请，离支持结束还有
-        		<span style="color:#f36;font-weight:700;" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></span>，急需你的帮助！互相支持几率更加倍哟~
-        		{% else %}
-        		支持已结束！
-        		{% endif %}</p>
+            {% if is_69 %}
+              <p style="margin-top:6px;">{% if !try.is_end %}Hi，亲爱的小伙伴们！这款太火鸟【宇宙独家首发】的超级神秘新品正在免费试用中，我已申请，离支持结束还有
+              <span style="color:#f36;font-weight:700;" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></span>，急需你的帮助！互相支持中签机率更加倍哟~ {% else %}支持已结束！{% endif %}
+              </p>
+            {%else%}
+              <p style="margin-top:6px;">{% if !try.is_end %}Hi，亲爱的小伙伴们！{{ try.title }}正在太火鸟免费试用中，我已申请，离支持结束还有
+              <span style="color:#f36;font-weight:700;" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></span>，急需你的帮助！互相支持中签机率更加倍哟~ {% else %}支持已结束！{% endif %}
+
+        		</p>
+            {%endif%}
+
             <label class="ui magenta label" style="min-width: 74px;">免费试用</label> &nbsp;  <label class="ui magenta label">数量{{ try.try_count }} 个</label>&nbsp; <label class="ui magenta label">{{ try.apply_count }} 人申请</label>
           </div>
         </div>

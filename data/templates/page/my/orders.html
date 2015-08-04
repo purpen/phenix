@@ -16,10 +16,6 @@
     $('div.refund-box [name=rid-show]').text(rid);
 		$('.ui.refund-box.modal').modal('show');
 	});
-	// 隐藏退款理由框
-	$('a[name=apply-refund]').bind('click', function(){
-		$('.ui.refund-box.modal').modal('hide');
-	});
 	
 	$('#refund-form').form({
 		content: {
@@ -65,7 +61,7 @@
 	</div>
 </div>
 
-<div class="account profile">
+<div class="account myorders profile">
 	<div class="ui responsive grid">
 		<div class="four wide column">
 			{% include "block/user/sub_menu_center.html" %}
