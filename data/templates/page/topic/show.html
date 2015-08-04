@@ -517,7 +517,7 @@
                             <i class="large fa-question middle aligned icon"></i>
                             <div class="ui from">
                                 <h4 class="ui header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h4>
-                                <div class="" style="margin: 30px 0 20px;" id="{{ problem._id }}">
+                                <div class="" style="margin: 30px 0 20px;padding: 10px 0 0;border: 1px solid rgba(0,0,0,0.1);" id="{{ problem._id }}" >
                                     {% if problem.select_type == 1 %}
                                         {% for answer in problem.answer %}
                                         <div class="field" style="padding-left:60px;">
@@ -531,7 +531,7 @@
 												    <div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
 												</div>
 																
-												<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;">
+												<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;float: right;">
 												    {{ answer.nums }}票	（{{ answer.nums_rate }}%）
 												</div>
 										    </div>
@@ -550,7 +550,7 @@
 												    <div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
 													    <div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
 													</div>			
-													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;">
+													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;float:right;">
 													    {{ answer.nums }}票	（{{ answer.nums_rate }}%）
 													</div>
 												</div>
