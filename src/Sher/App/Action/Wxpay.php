@@ -194,9 +194,9 @@
 			// 商户订单号
 			$out_trade_no = $rid;
 			// 微信交易号
-			$trade_no = $notifyInfo['trade_no'];
+			$trade_no = $order_info['trade_no'];
 			
-			if($out_trade_no != ""){
+			if($trade_no != ""){
 				$input = new Sher_Core_Util_WxPay_WxPayData_WxPayRefund();
 				$input->SetTransaction_id($trade_no);
 				$input->SetOut_trade_no($out_trade_no);
