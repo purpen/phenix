@@ -7,8 +7,8 @@
 {% endblock %}
 {% block layout_js %}{% endblock %}
 {% block jquery %}
-    //ajax加载签到数据
-    $.get('{{ app_url_user }}/ajax_fetch_user_sign', {type:1});
+    // ajax加载签到数据
+    phenix.signin();
 {% endblock %}
 
 {% block content %}

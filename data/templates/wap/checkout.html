@@ -146,7 +146,7 @@
 							<div class="item">
 								<div class="right floated">
 									<a href="{{ app_url_wap }}/shop/address?rrid={{ order_info.rid }}&addrid={{ default_addbook._id }}" class="ui magenta icon link">
-										<i class="circle right icon"></i>
+										<i class="circle arrow right icon"></i>
 									</a>
 								</div>
 								<div class="content" style="max-width: 196px;">
@@ -229,7 +229,7 @@
 							<div class="bonus item">
 								<div class="field">
 									<div class="ui radio checkbox">
-                    <!--<input name="bonus" type="radio" value="{{ b.code }}" class="inbonus" />-->
+                    <input name="bonus" type="radio" value="{{ b.code }}" class="inbonus" />
                     <label>
                       <span class="ui magenta text">{{ b.amount }}元</span> <small>{{ b.expired_label }} </small>
                       <a href="javascript:void(0);" class="code-select" code="{{ b.code }}"> 插入</a>
@@ -241,7 +241,7 @@
 							
 							<div class="ui fluid action input">
 							  <input placeholder="输入红包码..." name="bonus_code" type="text" id="bonus-code" />
-							  <div class="ui active magenta button" id="submit-bonus">确定</div>
+							  <div class="ui active magenta inverted button" id="submit-bonus">确定</div>
 							</div>
 					    </div>
 						
@@ -252,7 +252,7 @@
 						<div class="content">
 							<div class="ui fluid action input">
 							  <input placeholder="输入礼品码..." name="gift_code" type="text" id="gift-code" />
-							  <div class="ui active magenta button" id="submit-gift">确定</div>
+							  <div class="ui active magenta inverted button" id="submit-gift">确定</div>
 							</div>
 					    </div>
 
@@ -265,7 +265,7 @@
               <h4>{%if max_bird_coin==min_bird_coin %}可使用鸟币 <span>{{ max_bird_coin }}</span>, {%else%}可使用鸟币范围 <span>[{{ min_bird_coin }},{{ max_bird_coin }}]</span> {%endif%} 当前可用鸟币 <span id="current-bird-coin">{{ current_bird_coin }}</span> 枚</h4>
 							<div class="ui fluid action input">
 							  <input placeholder="输入鸟币..." name="bird_coin" type="text" id="bird-coin" />
-							  <div class="ui active magenta button" id="submit-bird-coin">确定</div>
+							  <div class="ui active magenta inverted button" id="submit-bird-coin">确定</div>
 							</div>
 							<p class="ui magenta text"><b style="font-size: 20px;vertical-align: middle;">*</b>    下单成功后鸟币将不能退还</p>
 					    </div>

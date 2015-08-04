@@ -21,7 +21,6 @@
 				<table class="ui basic basket table">
 					<thead>
 						<tr>
-							<th></th>
 							<th>产品信息</th>
 							<th>数 量</th>
 							<th class="center aligned">小计</th>
@@ -35,13 +34,9 @@
 								<a href="{{ product.view_url }}" class="ui cover image">
 						      		<img src="{{ product.cover }}" />
 								</a>
-							</td>
-							<td>
-						      	<div class="content">
-						          	<div class="header">
-										<a href="{{ product.view_url }}" class="ui magenta link" title="{{ product.title }}">{{ product.title|truncate 18 '' }}</a>
-									</div>
-						      	</div>
+						      	<p>
+						          	<a href="{{ product.view_url }}" class="ui link" title="{{ product.title }}">{{ product.title|truncate 18 '' }}</a>
+						      	</p>
 							</td>
 							<td class="center aligned">
 								{{ product.quantity }}
@@ -50,20 +45,20 @@
 								{{ product.subtotal }}元
 							</td>
 							<td class="right aligned">
-								<a class="magenta ui close button" data-sku="{{ product.sku }}">
+								<a class="magenta ui close circular icon button" data-sku="{{ product.sku }}">
 									<i class="close icon"></i>
 								</a>
 							</td>
 						</tr>
 						{% endfor %}
 					    <tr>
-							<td colspan="4">
+							<td colspan="3">
 								<div class="bill">
 									<p class="ui gray text">
-										共计：<b class="cart-items-count">{{ items_count }}</b>件产品
+										共计：<b class="cart-items-count">{{ items_count }}</b> 件产品
 									</p>
 									<p>
-										总计：<b class="cart-total-money">{{ total_money }}</b>元
+										总计：<b class="cart-total-money">{{ total_money }}</b> 元
 									</p>
 								</div>
 							</td>

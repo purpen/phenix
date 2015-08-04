@@ -101,6 +101,9 @@
 		padding:0;
 		color:#fff;
 	}
+	.hide-on-mobile{
+	  display:none !important;
+	}
 	
 	
 	/*.ui.tabox {
@@ -392,7 +395,7 @@
 					<!--  讨论    -->
 					<div class="ui big reply segment">
 		              <!--ajax comment-->
-		              <div id="comment-list"></div>
+		              <div id="comment-list" style="padding-bottom:10px;"></div>
 		              {% include "block/comment_box_wap.html" %}
 		            </div>
 				<!--  讨论    -->
@@ -415,15 +418,15 @@
 					    <div class="ui horizontal list">
 							{% for user in userlist  %}
 							<div class="item">
-								<a class="ui small avatar pop image" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
+								<a class="ui avatar pop image" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
 									<img src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" />
 								</a>
-								<div class="content">
+								<!--<div class="content">
 								      <div class="header">
 										  <a href="{{ user.home_url }}" class="ui link" target="_blank">{{ user.nickname }}</a>
 									  </div>
 								      <span>{{ user.city }}</span>
-								</div>
+								</div>-->
 							</div>
 							{% endfor %}
 						</div>

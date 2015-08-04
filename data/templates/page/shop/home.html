@@ -21,39 +21,6 @@
 {% endblock %}
 
 {% block content %}
-<div id="fixedslide" class="frame">
-	{% ad_list var:'adslide' page:1 size:6 state:2 name:'web_index_slide' %}
-	<div class="ui slide">
-		{% for ad in adslide.rows %}
-		<div class="item">
-			<div class="featured-vendor {{ ad.text_align }}" style="background-image: url('{{ ad.cover.fileurl }}'); background-color: {{ ad.bgcolor }};">
-				{% if ad.mode == 2 %}
-				<div class="overlay">
-					{% if ad.cate_title %}
-					<h3>{{ ad.cate_title }}</h3>
-					{% endif %}
-					<h1>{{ ad.title }}</h1>
-					<p class="snippet">
-						{{ ad.sub_title }}
-					</p>
-					<a class="ui big inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
-				</div>
-				{% else %}
-				<a class="imglink" href="{{ ad.view_url }}" target="_blank"></a>	
-				{% endif %}
-			</div>
-		</div>
-		{% endfor %}
-	</div>
-	<div class="pages"></div>
-	<a class="prev" href="#">
-		<i class="angle left icon"></i>
-	</a>
-	<a class="next" href="#">
-		<i class="angle right icon"></i>
-	</a>
-</div>
-
 <ul class="nav-categories">
     {% category_list var:'category' only_open:1 domain:domain show_all:0 %}
 	<li class="category">

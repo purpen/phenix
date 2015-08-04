@@ -36,7 +36,7 @@
 					<div class="ui center aligned five fields">
 						<div class="inline field" style="width:20% !important;text-align:center;"></div>
 						<div class="inline field" style="width:20% !important;text-align:center;">
-							<a href="{{ weibo_auth_url }}" class="ui weibo circular share icon button">
+							<a href="{{ weibo_auth_url }}" class="ui weibo red circular share icon button">
 								<i class="weibo icon"></i> 
 							</a>
 						</div>
@@ -46,7 +46,6 @@
                   <i class="qq icon"></i>
                 </a>
 						</div>
-            <div class="inline field" style="width:20% !important;text-align:center;"></div>
 						<div class="inline field" style="width:20% !important;text-align:center;">
               {% if is_weixin %}
 							<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&redirect_uri={{wx_params.redirect_uri}}&response_type=code&scope=snsapi_login&state={{wx_params.state}}" class="ui green circular share icon button">

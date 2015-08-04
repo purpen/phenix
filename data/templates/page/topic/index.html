@@ -33,28 +33,14 @@
 {% endblock %}
 
 {% block jquery %}
-    //ajax加载签到数据
-    $.get('{{ app_url_user }}/ajax_fetch_user_sign', {type:1});
-
-    //每日签到点击
-    $('#sign-in-btn').livequery(function(){
-      $(this).click(function(){
-        // 所有ajax请求，验证是否登录
-        if (!phenix.visitor.is_login){
-          phenix.show_login_box();
-          return false;
-        }
-        //ajax加载签到事件
-        $.post('{{ app_url_user }}/ajax_sign_in', {type:1});
-
-      });
-    });
- 
     $('#minslider').flexslider({
         animation: "slide",
         controlNav: false,
         slideshow: false,
     });
+    
+    // ajax加载签到数据
+    phenix.signin();
     
 	// 加载更多动态
 	$('.ui.more.button').bind('click', function(){
@@ -98,17 +84,9 @@
         <div class="mainleft">
             <!--精选话题-->
             <div class="ui topics segment">
-				{% topic_list var:'list' is_top:1 time:time sort:sort page:1 size:15 %}
+				{% topic_list var:'list' is_top:1 time:time sort:'update' page:1 size:15 %}
 				<div class="ui computer tablet only block">
 					<table class="ui basic topic table">
-						<thead>
-							<tr>
-								<th>发布者</th>
-								<th>主题</th>
-								<th>最后回应</th>
-								<th class="center aligned">浏览数</th>
-							</tr>
-						</thead>
                         <tbody id="topic_list_box">
 						{% if dig_list %}
 							{% for topic in dig_list %}

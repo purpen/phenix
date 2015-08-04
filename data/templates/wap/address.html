@@ -2,7 +2,10 @@
 {% block title%}收货地址-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+	.ui.form .field>.selection.dropdown{
+    width:49%;
+    min-width:3em !important;
+  }
 </style>
 {% endblock %}
 
@@ -108,7 +111,7 @@
 						<div class="item">
 							<div class="right floated">
 								<a href="javascript:void(0);" class="ui magenta icon link">
-									<i class="circle down icon"></i>
+									<i class="circle down arrow icon"></i>
 								</a>
 							</div>
 							<div class="content">
@@ -132,24 +135,24 @@
 								  	<input type="text" name="phone" placeholder="11位手机号码" value="{{ addbook.phone }}" />
 								</div>
 								
-								<div class="field">
+								<div class="ui field">
 									<label>地址</label>
-									<div class="ui selection province dropdown">
+								  <div class="ui selection province dropdown">
 										<input type="hidden" name="province" value="{{ addbook.province }}" />
-	
+
 									    <div class="default text">省份/自治区</div>
-									    <i class="flat arrowbottom icon"></i>
+									    <i class="flat dropdown icon"></i>
 									    <div class="menu">
 											{% for province in provinces %}
 									        <div data-value="{{ province._id }}" class="{% if province._id == addbook.province %}active{%endif%} item">{{ province.city }}</div>
 											{% endfor %}
 									    </div>
 									</div>
-
-									<div class="ui selection district dropdown" id="district-menu">
+  								
+									<div class="ui selection district dropdown" id="district-menu" style="float:right;">
 										<input type="hidden" name="city" value="{{ addbook.city }}" />
 									    <div class="default text">地区区域</div>
-									    <i class="flat arrowbottom icon"></i>
+									    <i class="flat dropdown icon"></i>
 									    <div class="menu">
 											{% for district in districts %}
 									        <div data-value="{{ district._id }}" class="{% if district._id == addbook.city %}active{%endif%} item">{{ district.city }}</div>
@@ -170,7 +173,7 @@
 								</div>
 	
 								<div class="field">
-									<div class="ui active magenta submit button">确定提交</div>
+									<div class="ui active magenta submit inverted button">确定提交</div>
 						        	<div class="ui gray cancel button">取消</div>
 								</div>
 											

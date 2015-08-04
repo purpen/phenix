@@ -3,13 +3,50 @@
 {% block page_css %}
 <style type="text/css">
     #subject {
-        margin-bottom: 3rem;
+        margin-bottom: 30px;
     }
+    .container {
+        border-top: 1px solid rgba(224, 224, 224, 0.46);
+    }
+    .ui.topics.segment {
+        border: none;
+        padding: 0px 10px 20px;
+    }
+    .product.subject {
+        margin: 20px 0 20px 20px;
+        min-height: 210px;
+        overflow: hidden;
+        text-align: left;
+    }
+    
+    .product.subject .cover {
+        float: left;
+        width: 280px;
+    }
+    .product.subject .cover img {
+        border-radius: 4px;
+    }
+    .product.subject .content {
+        margin-left: 300px;
+        position: relative;
+    }
+    .product.subject .content h3 {
+        margin-bottom: 5px;
+    }
+    .product.subject .content .author {
+        font-size: 12px;
+    }
+    .container.replybox {
+        margin-top: 20px;
+    }
+    
 </style>
 {% endblock %}
 
 {% block jquery %}
 	phenix.hook_product_topic();
+    // ajax加载签到数据
+    phenix.signin();
 	
 	$('[data-countdown]').each(function() {
 		var $this = $(this), finalDate = $(this).data('countdown');
@@ -20,154 +57,122 @@
 {% endblock %}
 
 {% block content %}
-<div id="subject" class="ui social">
-	<div class="ui responsive grid">
-        
-		<div class="middle aligned row">
-			<div class="eleven wide column">
-				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_social }}">
-						<i class="basic icon community"></i> 发现
+
+<div class="mainwrap social" id="subject">
+    <div class="mainleftwrap">
+        <div class="mainleft">
+            <div class="container">
+    			<div class="block title">
+    				所属产品
+                </div>
+                <div class="product subject">
+					<a href="{{ product.view_url }}" title="{{ product.title }}" class="cover">
+			      		<img src="{{ product.cover.thumbnails.small.view_url }}" class="ui image" />
 					</a>
-                    <i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_topic }}">
-						话题
-					</a>
-				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
-				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ subject_category._id }}">{{ subject_category.title }}</a>
-				  	<i class="angle right icon divider"></i>
-				  	{{ product.title }}
-				</div>
-			</div>
-			<div class="five wide right aligned column">
-				<a href="{{ app_url_action_base }}/topic/submit?cid={{ subject_category._id }}" class="ui gray inverted button">
-					<i class="edit icon"></i> 发表新话题
-				</a>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="column">
-				<div class="ui segment">
-					<h3 class="ui dividing header">
-						所属产品
-					</h3>
-					<div class="ui grid">
-						<div class="row">
-							<div class="two wide column">
-								<a href="{{ product.view_url }}" title="{{ product.title }}">
-						      		<img src="{{ product.cover.thumbnails.tiny.view_url }}" class="ui image" />
-								</a>
-							</div>
-							<div class="eight wide column">
-						      	<h4 class="ui header">
-								  	<div class="content">
-										<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line">
-											{{ product.title }}
-										</a>
+				  	<div class="content">
+                        <h3>
+    						<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line">
+    							{{ product.title }}
+    						</a>
+                        </h3>
+						<p class="author">
+							<label>设计师：</label> <a href="{{ product.designer.home_url }}" class="ui link" target="_blank">{{ product.designer.nickname|default '太火鸟' }}</a>
+						</p>
+						<p class="summary">
+							{{ product.summary }}
+						</p>
+                        
+						{% if product.approved %}
+							{% if product.stage == 1%}
+							<div class="ui danger message" id="votetips">
+								<div class="ui header">
+									<div class="picicon">
+										<i class="thumbs up outline icon"></i>
+									</div>
+									<div class="content">
+										投票截止时间
 										<div class="sub header">
-											<label>设计师：</label> <a href="{{ product.designer.home_url }}" class="ui link" target="_blank">{{ product.designer.nickname|default '太火鸟' }}</a>
-										</div>
-								  	</div>
-								</h4>
-								<p class="summary">
-									{{ product.summary }}
-								</p>
-							</div>
-							{% if product.approved %}
-								{% if product.stage == 1%}
-								<div class="six wide column">
-									<div class="ui danger message">
-										<div class="ui header">
-											<div class="picicon">
-												<i class="thumbs up outline icon"></i>
-											</div>
-											<div class="content">
-												投票截止时间
-												<div class="sub header">
-														<div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
-												</div>
-											</div>
+												<div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
 										</div>
 									</div>
 								</div>
-								{% endif %}
+							</div>
 							{% endif %}
-						</div>
-					</div>
-					
-				</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="column">
-				<h3 class="ui header">
-					话题列表
-				</h3>
-				{% topic_list var:'list' page:page target_id:id %}
-				<div class="ui segment">
-					<table class="ui basic sortable topic table">
-						<thead>
-							<tr>
-								<th>发布者</th>
-								<th>主题</th>
-								<th>最后回应</th>
-								<th>浏览数</th>
-							</tr>
-						</thead>
-						<tbody class="ui topic list">
-							{% for topic in list.rows %}
-								<!-- 判断话题是否可以显示 -->
-								{% if topic.published %}
-									{% include "block/topic_item.html" %}
-								{% endif %}
-							{% endfor %}
-						</tbody>
-					</table>
-				</div>
-				<a name="newtopic"></a>
-				
-				{% if list.total_rows %}
-				<div class="ui pagination">
-					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-					{%include 'block/pager.html'%}
-				</div>
-				{% endif %}
-				
-				<div class="ui big reply segment">
-					<div class="post comment">
-						<h3 class="ui header">发表新话题</h3>
-				
-						<form class="ui reply form" action="{{ app_url_topic }}/ajax_save" method="post" id="topic-form">
-							<input type="hidden" name="_id" />
-							<input type="hidden" name="target_id" value="{{ id }}" />
-							<input type="hidden" name="type" value="1" />
-                            {% if evaluating %}
-							<input type="hidden" name="evaluating" value="1" />
-                            {%endif%}
-							
-							<div class="field">
-                                <label>标题</label>
-								<input type="text" name="title" class="topic title" />
-							</div>
-							<div class="field">
-                                <label>描述</label>
-								<textarea name="description" class="small topic content"></textarea>
-							</div>
-							<div class="right aligned column">
-								<input type="submit" class="ui twopad magenta inverted button" value="确认提交" />
-							</div>
-					
-						</form>
-					</div>
-				</div>
-				
-			</div>
+						{% endif %}
+				  	</div>
+                </div>
+            </div>
+            
+            <div class="container replybox">
+    			<div class="block title">
+    				评测列表
+                </div>
+    			{% topic_list var:'list' page:page target_id:id %}
+    			<div class="ui topics segment">
+    				<table class="ui basic topic table">
+    					<tbody class="ui topic list">
+    						{% for topic in list.rows %}
+    							<!-- 判断话题是否可以显示 -->
+    							{% if topic.published %}
+    								{% include "block/topic_item.html" %}
+    							{% endif %}
+    						{% endfor %}
+    					</tbody>
+    				</table>
+                
+        			<a name="newtopic"></a>
 			
-		</div>
-	</div>
+        			{% if list.total_rows %}
+        			<div class="ui pagination">
+        				{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+        				{%include 'block/pager.html'%}
+        			</div>
+        			{% endif %}
+    			</div>
+                
+    			<div class="ui big reply segment">
+    				<div class="post comment">
+                      	<p class="comment-title">
+                    		<a href="{{ visitor.home_url }}" class="ui magenta link">{{ visitor.nickname }}</a> 发表评测
+                    	</p>
+			
+    					<form class="ui reply form" action="{{ app_url_topic }}/ajax_save" method="post" id="topic-form">
+    						<input type="hidden" name="_id" />
+    						<input type="hidden" name="target_id" value="{{ id }}" />
+    						<input type="hidden" name="type" value="1" />
+                            {% if evaluating %}
+    						<input type="hidden" name="evaluating" value="1" />
+                            {%endif%}
+						
+    						<div class="field">
+                                <label>标题</label>
+    							<input type="text" name="title" class="topic title" />
+    						</div>
+    						<div class="field">
+                                <label>内容</label>
+    							<textarea name="description" class="small topic content"></textarea>
+    						</div>
+                        
+    						<div class="ui grid">
+                                <div class="row">
+        							<div class="right aligned column">
+        								<div class="ui grey large cancel inverted button">取消</div>
+        								<div class="ui magenta large active inverted submit button">
+                                            <i class="edit icon"></i> 确认提交
+                                        </div>
+        							</div>
+                                </div>
+    						</div>
+                        					
+    					</form>
+    				</div>
+    			</div>
+                
+            </div>            
+        </div>
+    </div>
+    <div class="mainright">
+        {% include "page/topic/rightbar.html" %}
+    </div>
 </div>
 {% endblock %}
