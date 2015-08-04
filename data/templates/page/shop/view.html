@@ -449,13 +449,11 @@
 			</div>
             
             <div class="container">
-                
-		    
 				<div class="ui tabox">
 					<div class="ui three tabs">
 						<a href="#.overview" class="tab">产品详情</a>
 						<a href="#.evaluating" class="tab">产品评测</a>
-            <a href="#.reviews" class="tab">{% if product.stage==15 %}用户评论{%else%}用户评价{%endif%}</a>
+                        <a href="#.reviews" class="tab">{% if product.stage==15 %}用户评论{%else%}用户评价{%endif%}</a>
 					</div>
 				</div>
                 
@@ -464,17 +462,17 @@
 						{{ product.content }}
 					</div>
 
-				{% if product.tags %}
-				<div class="idea tags">
-					{% for tag in product.tags %}
-					{% if tag %}
-					<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui link">
-						# {{ tag }}
-					</a>
-					{% endif %}
-					{% endfor %}
-				</div>
-				{% endif %}
+    				{% if product.tags %}
+    				<div class="idea tags">
+    					{% for tag in product.tags %}
+    					{% if tag %}
+    					<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui link">
+    						# {{ tag }}
+    					</a>
+    					{% endif %}
+    					{% endfor %}
+    				</div>
+    				{% endif %}
 					<div class="ui center aligned zanl">
 						<div class="ui green pop favorite inverted button" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
 							<i class="star icon"></i> 收藏
@@ -486,11 +484,10 @@
 							<i class="share icon"></i> 分享
 						</div>
 					</div>
-                
-				</div>
-                
-				<div class="bar"></div>
-		
+                </div> 
+            </div>
+            
+            <div class="container">
 				<div class="product evaluating">
 					<div class="block title">
 						产品评测 <small>（{{ product.topic_count }}）</small>
@@ -517,38 +514,33 @@
 						</div>
 					{% endif %}
 				</div>
-                
-        {% if product.stage==15 %}
-
-          <div class="bar"></div>
-            <div class="reviews">
-    			<div class="reply box">
-      			    <!--ajax comment-->
-    	  	        <div class="block title">
-                        全部评论
-                        <small>（{{ product.comment_count|default 0 }}）</small>
-                    </div>
-      		  	    <div id="comment-list"></div>
-      		  	    {% include "block/comment_box_site.html" %}
-                </div>
             </div>
+            
+            <div class="container">
+                {% if product.stage==15 %}
+                <div class="reviews">
+        			<div class="reply box">
+          			    <!--ajax comment-->
+        	  	        <div class="block title">
+                            全部评论
+                            <small>（{{ product.comment_count|default 0 }}）</small>
+                        </div>
+          		  	    <div id="comment-list"></div>
+          		  	    {% include "block/comment_box_site.html" %}
+                    </div>
+                </div>
 
-        {%else%}
-          {% if product.comment_count != 0 %}
-                  
-          <div class="bar"></div>
-                  
-          <div class="product reviews">
-              <div class="block title">
-                  用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
-              </div>
-              <!--ajax comment-->
-              <div class="ui big reply segment" id="comment-list"></div>
-          </div>
-          {% endif %}
-        {%endif%}
-
-                
+                {%else%}
+                  {% if product.comment_count != 0 %}
+                  <div class="product reviews">
+                      <div class="block title">
+                          用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
+                      </div>
+                      <!--ajax comment-->
+                      <div class="ui big reply segment" id="comment-list"></div>
+                  </div>
+                  {% endif %}
+                {%endif%}
             </div>
         </div>
         
