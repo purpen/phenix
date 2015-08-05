@@ -6,7 +6,7 @@
       {% for comment in comments.rows %}
       <div class="comment" id="{{ comment._id }}">
         <a class="avatar" href="{{ comment.user.home_url }}">
-          <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
+          <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" width="40px" height="40px" />
         </a>
         <div class="content">
           <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
