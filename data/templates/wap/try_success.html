@@ -316,8 +316,8 @@ fetch_rank();
     <div class="ui responsive grid">
       <div class="row">
         <div class="ui ten wide column">
-          <h3 class="ui header">
-            <img class="ui small avatar image" src="{{ apply.user.big_avatar_url }}">
+          <h3 class="ui header" style="margin-top:0;">
+            <img class="ui small avatar image" src="{{ apply.user.big_avatar_url }}" width="3em" height="3em" style="margin-top:0.25em;">
             <div class="content">{{ apply.user.nickname }}
               <div class="sub header">
                 {{ apply.user.ext_state.user_rank.title|default '鸟列兵' }}
