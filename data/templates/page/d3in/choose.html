@@ -140,7 +140,7 @@ $('#next-step').click(function(){
         {% for d in classifies %}
           <div class="center aligined block">
             <div class="content aligned1">
-              <h4 class="ui header">{{ d.title }}</h4>
+              <h3 class="ui header">{{ d.title }}</h3>
               {% if d.children %}
                 {% for c in d.children %}
                 <p class="choose_option {%if c.checked%}clss {%endif%}okyu1" class_id="{{ c._id }}">{{ c.title }}</p>
