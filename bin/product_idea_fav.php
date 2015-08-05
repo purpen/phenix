@@ -23,15 +23,13 @@ ini_set('memory_limit','512M');
 
 echo "product idea asset export ...\n";
 
-$stuff_model = new Sher_Core_Model_Stuff();
 $product_model = new Sher_Core_Model_Product();
-$asset_model = new Sher_Core_Model_Asset();
+$fav_model = new Sher_Core_Model_Favorite();
 $page = 1;
 $size = 200;
 $is_end = false;
 $total = 0;
 $fail_total = 0;
-$asset_fail_total = 0;
 while(!$is_end){
 	$query = array('stage'=>Sher_Core_Model_Product::STAGE_IDEA);
 	$options = array('page'=>$page,'size'=>$size);
@@ -44,41 +42,22 @@ while(!$is_end){
 	for ($i=0; $i < $max; $i++) {
     $id = $list[$i]['_id'];
     $topic_id = $list[$i]['old_stuff_id'];
-    $cover_id = $list[$i]['cover_id'];
-    $new_asset = array();
 
-    $stuff_assets = $asset_model->find(array('parent_id'=>$topic_id, 'asset_type'=>Sher_Core_Model_Asset::TYPE_STUFF));
-    if(!empty($stuff_assets)){
-      foreach($stuff_assets as $k=>$v){
-        $old_cover_id = (string)$v['_id'];
+    $stuff_favs = $fav_model->find(array('type'=>Sher_Core_Model_Favorite::TYPE_STUFF, 'target_id'=>(int)$topic_id));
+    if(!empty($stuff_favs)){
+      foreach($stuff_favs as $k=>$v){
         unset($v['_id']);
-        $v['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
-        $v['parent_id'] = $id;
+        $v['type'] = Sher_Core_Model_Favorite::TYPE_PRODUCT;
+        $v['target_id'] = $id;
         $v['product_idea'] = 1;
-        $ok = $asset_model->create($v);
+        $ok = $fav_model->create($v);
         if($ok){
-          $new_asset_id = (string)$asset_model->id;
-          if(empty($cover_id) || $cover_id==$old_cover_id){
-            $cover_id = $new_asset_id;
-          }
-          array_push($new_asset, $new_asset_id);
-          echo "update product asset success! product_id: $id asset_id: $new_asset_id \n";         
+          $total++;
         }else{
-          echo "update product asset fail! product_id: $id \n";
-          $asset_fail_total++;         
+          $fail_total++;
         }
       } //endfor
     } // stuff_assets if
-
-    $ok = $product_model->update_set($id, array('cover_id'=>$cover_id, 'asset'=>$new_asset));
-    //$ok = true;
-    if($ok){
- 		  echo "product idea[".$id."]. gen asset is OK!.........\n";
-		  $total++;   
-    }else{
-      echo "product idea gen asset is fail! id: $id \n";
-      $fail_total++;
-    }
 
 	}
 	if($max < $size){
@@ -89,7 +68,6 @@ while(!$is_end){
 	echo "page [$page] updated---------\n";
 }
 
-echo "product gen asset is OK! count:$total \n";
-echo "product gen asset is Fail! count:$fail_total \n";
-echo "asset gen is Fail! count:$asset_fail_total \n";
+echo "product gen fav record is OK! count:$total \n";
+echo "product gen fav record is Fail! count:$fail_total \n";
 

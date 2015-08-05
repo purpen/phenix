@@ -2,11 +2,46 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-    
+.ui.topics.segment .ui.table {
+    border: none;
+}
+
+#minslider.flexslider .slides {
+    height: 350px;
+}
+#minslider.flexslider .slides > li {
+    height: 350px;
+    border-radius: 4px;
+}
+#minslider.flexslider .slides > li > a {
+    height: 350px;
+}
+#minslider.flexslider .flex-direction-nav {
+    display:block;
+    height:auto;
+}
+#minslider.flexslider .flex-direction-nav a {
+    top: 50%;
+}
+#minslider.flexslider:hover .flex-direction-nav .flex-prev {
+    left: 30px;
+}
+#minslider.flexslider:hover .flex-direction-nav .flex-next {
+    right: 30px;
+}
 </style>
 {% endblock %}
 
 {% block jquery %}
+    $('#minslider').flexslider({
+        animation: "slide",
+        controlNav: false,
+        slideshow: false,
+    });
+    
+    // ajax加载签到数据
+    phenix.signin();
+    
 	// 加载更多动态
 	$('.ui.more.button').bind('click', function(){
 		var page = $(this).data('page');
@@ -16,190 +51,95 @@
             $(this).text('没有更多了~');
         }
 	});
+    $('.mentors > .avatar a')
+      .popup({
+        inline: true
+      });
 {% endblock %}
 
 {% block content %}
-<div class="shop submenu">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				{%include 'block/find_nav.html'%}
-			</div>
-		</div>
-	</div>
-</div>
-
-<!-- 话题板块列表 -->
-<div class="social topics catemenu">
-    <div class="category header" style="background-image: url('{{ app_url_packaged }}/images/topicbg/phone-car.jpg');">
-        <div class="cover">
-        	<div class="ui responsive grid">
-                <div class="row">
-                    <div class="column white section-title">
-                        <div class="container">
-        					<h1 class="block title">
-        						<a href="{{ app_url_stuff }}" class="{{ all_stuff }} cate">
-        							话题版块
-        						</a>
-        					</h1>
-                            <p class="discription">
-                                <small>创意与创意的碰撞，会员与会员的交流，为你每次的一吐为快。</small>
-                            </p>
-                            <hr>        					
-                        </div>
-                        <div class="children">
-                            {% category_list var:'category' only_open:1 domain:domain size:17 %}
-                            {% for cat in category.rows %}
-                                {% if cat.pid %}
-        							<a href="{{ cat.view_url }}" class="ui inverted {{ cat.active }} button">
-        								<i class="flat s_{{ cat.name }} icon"></i> {{ cat.title }}
-        							</a>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- 话题推荐位 -->
-{% topic_list var:'featurelist' type:1 size:4 %}
-<div class="social topstick top bottom">
-	<div class="ui responsive grid">
-        <div class="row">
-            <div class="column">
-                {% if featurelist.total_rows %}
-				<div class="ui socialstick stickcount four blocks">
-                    {% for ft in featurelist.rows %}
-						<!-- 判断话题是否可以显示 -->
-						{% if ft.published %}
-							<div class="block">
-								<div class="image" {% if ft.cover %}style="background-image: url('{{ ft.cover.thumbnails.medium.view_url }}');"{% endif %}>
-									<a class="transparent" href="{{ ft.view_url }}" target="_blank">
-										<div class="sub title">
-											{{ ft.title }}
-											<div class="extra count">
-												<i class="unhide icon"></i> <span>{{ ft.view_count }}</span> <i class="comment outline icon"></i> <span>{{ ft.comment_count }}</span>
-											</div>
-										</div>
-									</a>
-								</div>
-							</div>
-						{% endif %}
+<div class="mainwrap social" id="topics">
+    <div class="social topstick">
+        <div class="slidebox">
+            
+            {% ad_list var:'adslide' page:1 size:3 state:2 name:'find_home_slide' %}
+            <div id="minslider" class="flexslider flex-single">
+                <ul class="slides">                    
+	                {% for ad in adslide.rows %}
+                        <li style="background-image: url('{{ ad.cover.fileurl }}');">
+                            <a href="{{ asset.thumbnails.huge.view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}">
+                                <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
+                            </a>
+                        </li>
 					{% endfor %}
-				</div>
-                {% endif %}
+                  </ul>
             </div>
-        </div>
+            <div class="controls-dots"></div>
+            
+		</div>
     </div>
-</div>
-
-<!-- 话题列表 -->
-<div class="social" id="topics">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="container column">
-                <div class="ui stacked segment">
-					{% topic_list var:'list' is_top:1 time:time sort:sort page:1 size:15 %}
-					<div class="ui computer tablet only block">
-    					<table class="ui basic topic table">
-    						<thead>
-    							<tr>
-    								<th>发布者</th>
-    								<th>主题</th>
-    								<th>最后回应</th>
-    								<th class="center aligned">浏览数</th>
-    							</tr>
-    						</thead>
-                            <tbody id="topic_list_box">
-    						{% if dig_list %}
-    							{% for topic in dig_list %}
-    								{% if topic %}
-										<!-- 判断话题是否可以显示 -->
-										{% if topic.published %}
-											{% include "block/topic_item.html" %}
-										{% endif %}
-    								{% endif %}
-    							{% endfor %}
-    						{% endif %}   
-                            
-							{% for topic in list.rows %}
-    							{% if !topic.top %}<!--过滤置顶帖子-->
+    
+    <div class="mainleftwrap">
+        <div class="mainleft">
+            <!--精选话题-->
+            <div class="ui topics segment">
+				{% topic_list var:'list' is_top:1 time:time sort:'update' page:1 size:15 %}
+				<div class="ui computer tablet only block">
+					<table class="ui basic topic table">
+                        <tbody id="topic_list_box">
+						{% if dig_list %}
+							{% for topic in dig_list %}
+								{% if topic %}
 									<!-- 判断话题是否可以显示 -->
-    								{% if topic.published %}
+									{% if topic.published %}
 										{% include "block/topic_item.html" %}
 									{% endif %}
-    							{% endif %}
+								{% endif %}
 							{% endfor %}
-                            </tbody>
-						</table>
-                        
-                        
-					</div>
-				
-					<div class="ui mobile only block">
-						<table class="ui basic table">
-							{% for topic in list.rows %}
-								<tr>
-									<td class="{%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}">
-							          	<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">{{ topic.title }}</a>
-									</td>
-								</tr>
-							{% endfor %}
-						</table>
-					</div>
-                    
-                    {% if list.total_page > 1 %}
-                    <div class="auto loading">
-                        <div class="ui gray more inverted button" data-page="{{ list.next_page }}">
-                            <i class="chevron circle down icon"></i> 查看下一页
-                        </div>
+						{% endif %}   
+            
+						{% for topic in list.rows %}
+							{% if !topic.top %}<!--过滤置顶帖子-->
+								<!-- 判断话题是否可以显示 -->
+								{% if topic.published %}
+									{% include "block/topic_item.html" %}
+								{% endif %}
+							{% endif %}
+						{% endfor %}
+                        </tbody>
+					</table>
+				</div>
+
+				<div class="ui mobile only block">
+					<table class="ui basic table">
+						{% for topic in list.rows %}
+							<tr>
+								<td class="{%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}">
+						          	<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">{{ topic.title }}</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</table>
+				</div>
+    
+                {% if list.total_page > 1 %}
+                <div class="auto loading">
+                    <div class="ui grey more inverted button" data-page="{{ list.next_page }}">
+                        <i class="chevron circle down icon"></i> 查看下一页
                     </div>
-                    {% endif %}
-				</div>
-                
+                </div>
+                {% endif %}
 			</div>
-		</div>
-	</div>
-</div>
 
-<!-- 发表话题 -->
-<div class="social submitbox">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="center aligned column">
-				<h2 class="ui header">
-					去发现、去支持、去分享
-				</h2>
-				<p>无论您是谁，让我们用创意和梦想，去改变这个平凡无奇的世界</p>
-				<a href="{{ app_url_topic }}/submit" class="ui inverted share magenta button">
-					<i class="edit icon"></i> 发表新话题
-				</a>
-			</div>
-		</div>
-	</div>
-</div>
+        </div>
 
-<!-- 底部导航 -->
-<div class="section breadcrumb">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_domin }}">
-						<i class="home icon"></i> 首页
-					</a>
-                    <i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_social }}">
-						发现
-					</a>
-					<i class="angle right icon divider"></i>
-					<div class="active section">话题</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    </div>
+    <div class="mainright">
+        {% include "page/topic/rightbar.html" %}
+        {% include "page/topic/hotpeople.html" %}
+        {% include "page/topic/stick_list.html" %}
+        {% include "page/topic/adwrap.html" %}
+    </div>
 </div>
 {% endblock %}

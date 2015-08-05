@@ -2,8 +2,8 @@
 	<replace select="#topic_guess_list"><![CDATA[
 		{% if result.total_rows %}
         <div class="topic guess" id="topic_guess_list">
-            <h3 class="ui header">相关话题</h3>
-			<div class="ui socialstick stickcount four blocks">
+            <div class="block title">相关话题</div>
+			<div class="ui socialstick stickcount three blocks">
                 {% for ft in result.rows %}
 				<div class="block">
 					<div class="image" {% if ft.topic.cover %}style="background-image: url('{{ ft.topic.cover.thumbnails.medium.view_url }}');"{% endif %}>

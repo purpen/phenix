@@ -1,12 +1,14 @@
 <div class="comment" id="{{ comment._id }}">
 	<a class="avatar" href="{{ comment.user.home_url }}">
-		<img src="{{ comment.user.small_avatar_url }}" />
+		<img src="{{ comment.user.small_avatar_url }}" class="ui circular image" />
 	</a>
 	<div class="content">
 		<a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
 		<div class="metadata">
 			<div class="date">{{ comment.created_on }}</div>
 		</div>
+
+{% if !comment.deleted %}
 		<div class="laud">
       {% if comment.is_loved %}
       <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消喜欢" data-variation="inverted" >
@@ -20,18 +22,25 @@
       </a>          
       {%endif%}
 		</div>
+    {%endif%}
 		<div class="text">
-			{{ comment.content }}
+      {% if comment.deleted==1 %}
+        该内容已被屏蔽
+      {%else%}
+        {{ comment.content|safe }}
+      {%endif%}
 		</div>
     {% if visitor.is_login %}
     <div class="actions">
+{% if !comment.deleted %}
       <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
       {% if visitor.can_admin %}
-        <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+        <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">屏蔽</a>
       {%else%}
         {% if visitor.id==comment.user_id %}
-          <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+          <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">屏蔽</a>
         {%endif%}
+      {%endif%}
       {%endif%}
     </div>
 		<form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
@@ -41,7 +50,7 @@
 			<div class="field">
 				<textarea name="content" class="reply-content"></textarea>
 			</div>
-			<div class="ui button magenta submit labeled icon">
+			<div class="ui button magenta inverted submit labeled icon">
 				<i class="icon edit"></i> 回复
 			</div>
 		</form>

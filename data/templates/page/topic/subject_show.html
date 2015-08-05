@@ -21,25 +21,7 @@
 
 {% block content %}
 <div class="ui social show">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="ui column">
-				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_social }}">
-						<i class="basic icon community"></i> 发现
-					</a>
-                    <i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_topic }}">
-						话题
-					</a>
-				  	<i class="flat page_right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ topic.category._id }}">{{ topic.category.title }}</a>
-				  	<i class="flat page_right icon divider"></i>
-				  	<div class="active section">{{ topic.title }}</div>
-				</div>
-			</div>
-		</div>
-		
+	<div class="ui responsive grid">		
 		<div class="row topic-view">
 			<div class="eleven wide column">
 				
@@ -105,7 +87,7 @@
 					</div>
 					
 					
-					<div class="ui threaded minimal comments">
+					<div class="ui threaded minimal is-comment comments">
 						{% comment_list var:'comments' page:page target_id:topic._id %}
 						{% for comment in comments.rows %}
 						<div class="comment" id="{{ comment._id }}">

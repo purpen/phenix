@@ -1,0 +1,27 @@
+<!--社区红人-->
+<div class="sellwrap">
+	<h2 class="block title">
+		社区红人
+	</h2>
+    
+    {% user_list var:'users' only_ok:1 size:12 sort:'time' all_mentors:1 %}
+    <div class="mentors">
+        <div class="ui mini avatar images">
+            {% for user in users.rows %}
+            <div class="image">
+                <a href="{{ user.home_url }}" target="_blank" title="{{ user.nickname }}" data-html="<div class='header'>{{ user.nickname }}</div><div class='content'>荣誉：{{ user.ext_state.user_rank.title|default '鸟列兵' }} / 经验值：{{ user.ext_state.rank_point|default 0 }}</div>">
+                    <img src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" class="avatar" />
+                    {% if user.kind == 1 %}
+                        <img src="{{ app_url_packaged }}/images/V.png" class="image-HV">
+                    {% endif %}
+                </a>
+            </div>
+            {% endfor %}
+	  	</div>
+		<div class="more">
+			<a href="{{ app_url_social }}/mentors" class="ui link" target="_blank">
+                <i class="search icon"></i> 浏览全部红人
+            </a>
+        </div>
+    </div>
+</div>

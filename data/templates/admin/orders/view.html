@@ -181,7 +181,7 @@
 					{% if order_info.status == 10 %}
 					  <a href="{{ app_url_admin_base }}/orders/send?rid={{ order_info.rid }}" class="ui active small magenta button">开始发货</a>
 					{% endif %}
-					{% if order_info.status == 12 %}
+					{% if can_refund %}
             <a href="javascript:void(0);" class="ui small gray button" name="confirm-refund" rid="{{ order_info.rid }}" pay_money="{{ order_info.pay_money }}" user_id="{{ order_info.user_id }}" >确认退款</a><a href="javascript:void(0);" class="ui small red button" name="confirm-refund-force" rid="{{ order_info.rid }}" pay_money="{{ order_info.pay_money }}" user_id="{{ order_info.user_id }}" >强制</a>
 					{% endif %}
 				</div>
@@ -318,7 +318,7 @@
 
 <!-- 确认退款弹出层 -->
 <div class="ui small refund-box modal">
-    <i class="flat close icon"></i>
+    <i class="close icon"></i>
   <div class="header">
     退款信息:
   </div>
@@ -348,7 +348,7 @@
 
 <!-- 确认退款弹出层 强制 -->
 <div class="ui small refund-force-box modal">
-    <i class="flat close icon"></i>
+    <i class="close icon"></i>
   <div class="header">
     注: <span style="color:red;">此方法在使用非支付宝支付情况或退款出现问题时使用，执行此操作，不退款，只更改当前状态为退款成功，且退款金额记录为用户购买时所支付的金额,最后还需要编辑人员手动完成退款操作，请大家谨慎操作!!!</span>
   </div>
@@ -378,7 +378,7 @@
 
 <!-- 退款成功后返回结果 -->
 <div class="ui small refund-result-box modal">
-    <i class="flat close icon"></i>
+    <i class="close icon"></i>
   <div class="header">
     退款结果:
   </div>

@@ -2,7 +2,7 @@
 {% block title %}{{ page_title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+
 </style>
 {% endblock %}
 
@@ -76,7 +76,7 @@
 					'</div>',
 		validation: {
 	        allowedExtensions: ['jpeg', 'jpg', 'png'],
-	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	        sizeLimit: 5145728 // 5M = 5 * 1024 * 1024 bytes
 	    }
     }).on('complete', function (event, id, name, result) {
 		if(result.is_error){
@@ -161,7 +161,7 @@
 								{% for cat in category.rows %}
 						   	 	<div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
 						   	 		<div class="icon">
-						   				<i class="fa fa-check"></i>
+						   				<i class="check circle outline icon"></i>
 						   			</div>
 						   	 		{{ cat.title }}
 						   	 	</div>
@@ -187,7 +187,7 @@
 						</div>
 						
 						<div class="field">
-							<label>上传封面图片 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
+							<label>上传封面图片 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个封面图)</small></label>
 							<input type="hidden" name="cover_id" id="topic_cover_id" value="{{ topic.cover_id }}" />
 							<div id="phenix-uploader"></div>
 					
@@ -220,7 +220,7 @@
 					
 					<div class="ui center aligned grid">
 						<div class="column">
-							<div class="fluid ui active magenta submit button">确认提交</div>
+							<div class="fluid ui active inverted magenta submit button">确认提交</div>
 						</div>
 					</div>
 				

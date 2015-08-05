@@ -101,6 +101,9 @@
 		padding:0;
 		color:#fff;
 	}
+	.hide-on-mobile{
+	  display:none !important;
+	}
 	
 	
 	/*.ui.tabox {
@@ -358,7 +361,7 @@
 						<div class="content">
 							{{ try.title }}
 							<div class="sub header">
-								<label class="ui magenta label" style="min-width: 74px;">免费试用</label> &nbsp;  <label class="ui magenta label">{{ try.try_count }} 个</label>&nbsp; <label class="ui magenta label">{{ try.apply_count }} 人申请</label>
+								<label class="ui magenta active inverted button label" style="min-width: 74px;">免费试用</label> &nbsp;  <label class="ui magenta active inverted button label">{{ try.try_count }} 个</label>&nbsp; <label class="ui magenta active inverted button label">{{ try.apply_count }} 人申请</label>
 							</div>
 						</div>
 					</h4>
@@ -392,7 +395,7 @@
 					<!--  讨论    -->
 					<div class="ui big reply segment">
 		              <!--ajax comment-->
-		              <div id="comment-list"></div>
+		              <div id="comment-list" style="padding-bottom:10px;"></div>
 		              {% include "block/comment_box_wap.html" %}
 		            </div>
 				<!--  讨论    -->
@@ -415,15 +418,15 @@
 					    <div class="ui horizontal list">
 							{% for user in userlist  %}
 							<div class="item">
-								<a class="ui small avatar pop image" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
+								<a class="ui avatar pop image" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
 									<img src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" />
 								</a>
-								<div class="content">
+								<!--<div class="content">
 								      <div class="header">
 										  <a href="{{ user.home_url }}" class="ui link" target="_blank">{{ user.nickname }}</a>
 									  </div>
 								      <span>{{ user.city }}</span>
-								</div>
+								</div>-->
 							</div>
 							{% endfor %}
 						</div>
@@ -460,7 +463,7 @@
           <!--<a href="{{ app_url_wap }}/social/report?tid={{ try._id }}" class="ui black btn-4 btn-4c icon-arrow-right btn" target="_blank">全部报告</a>-->
 					<!--通过审核的用户才能提交报告-->
 					{% if visitor.is_login %}
-					<a href="{{ app_url_wap }}/social/submit?cid={{ report_category_id }}&tid={{ try._id }}" class="ui magenta btn-4 btn-4c icon-arrow-right btn" target="_blank">提交报告</a>
+					<a href="{{ app_url_wap }}/social/submit?cid={{ report_category_id }}&tid={{ try._id }}" class="ui magenta btn-4 btn-4c icon-arrow-right inverted button btn" target="_blank">提交报告</a>
 					{% endif %}
 				</div>
 			</div>
@@ -475,13 +478,13 @@
           <!--<i class="ticket icon"></i>--> 求支持
         </a>
       {%else%}
-        <a href="javascript:void(0);" class="ui magenta active applytry inverted button">
+        <a href="javascript:void(0);" class="ui magenta active inverted button button">
           <!--<i class="ticket icon"></i>--> 申请试用
         </a>
       {%endif%}
 
 		{% else %}
-		<a href="javascript:void(0);" class="ui active magenta inverted button">
+		<a href="javascript:void(0);" class="ui active inverted magenta button">
 			 已结束
 		</a>
 		{% endif %}

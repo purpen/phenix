@@ -2,17 +2,41 @@
 {% block title%}收货地址管理-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-
+  @media only screen and (max-width: 767px){
+    .ui.small.modal {
+      width: 92%;
+      margin: 0 0 0 -47.5% !important;
+      position:fixed !important;
+    }
+  }
+  #addbook-form-box{
+    margin: 0 0 0 -47.5% !important;
+    position:relative !important;
+  }
+  .ui.modal>.container{
+    background-color: #F4F4F4;
+  }
+  .ui.modal>.container .content {
+    padding: 1em;
+  }
+  .ui.form .field>.selection.dropdown{
+    width:49%;
+    min-width:3em !important;
+  }
 </style>
 {% endblock %}
 
 {% block jquery %}
-	// 显示地址框
-	$('.ui.addbook.button').click(function(){
-    $('#addbook-form').clearForm();
-		$('.ui.addbook.modal').modal('show');
+	// 编辑
+	$('.ui.addbook.edit.button').click(function(){
+	  $('.ui.addbook.edit.modal').modal('show');
 	});
+	// 显示地址框
+	$('.ui.addbook.add.button').click(function(){
+    $('#addbook-form').clearForm();
+		$('.ui.addbook.add.modal').modal('show');
 
+	});
 	// 关闭地址框
 	$('.ui.close-btn.button').click(function(){
 		$('.ui.addbook.modal').modal('hide');
@@ -161,7 +185,7 @@
 		  	</div>
 			{% endfor %}
 			<div class="ui center aligned segment" id="create-new-address" data-id="0">
-				<a class="ui magenta addbook inverted button" href="javascript:void(0);">
+				<a class="ui magenta addbook add button" href="javascript:void(0);">
 					<i class="edit icon"></i> 添加新地址
 				</a>
 			</div>
@@ -170,8 +194,8 @@
 </div>
 
 <!--弹出地址框-->
-<div class="ui small addbook modal" id="addbook-form-box">
-  	<i class="flat close icon"></i>
+<div class="ui small addbook add modal" id="addbook-form-box">
+  	<i class="close icon"></i>
 	<div class="ui header">
     	使用新地址
   	</div>
@@ -201,7 +225,7 @@
 						<input type="hidden" name="province" value="{{ addbook.province }}" />
 		
 					    <div class="default text">省份/自治区</div>
-					    <i class="flat arrowbottom icon"></i>
+					    <i class="angle dropdown icon"></i>
 					    <div class="menu">
 							{% for province in provinces %}
 					        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
@@ -209,10 +233,10 @@
 					    </div>
 					</div>
 	
-					<div class="ui selection district dropdown" id="district-menu">
+					<div class="ui selection district dropdown" id="district-menu" style="float:right;">
 						<input type="hidden" name="city" value="{{ addbook.city }}" />
 					    <div class="default text">地区区域</div>
-					    <i class="flat arrowbottom icon"></i>
+					    <i class="angle dropdown icon"></i>
 					    <div class="menu">
 							{% for district in districts %}
 					        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
@@ -240,8 +264,8 @@
 				</div>
 
 				<div class="field">
-					<div class="ui active magenta submit inverted button">确定</div>
-			        <div class="ui gray close-btn inverted button">取消</div>
+					<div class="ui active magenta submit button">确定</div>
+			        <div class="ui gray close-btn black button">取消</div>
 				</div>
 				
 			</div>				

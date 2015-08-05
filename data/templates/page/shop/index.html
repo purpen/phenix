@@ -2,8 +2,20 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-    
+    .categorybox {
+        background-color: #fff;
+    }
 </style>
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+    function ajax_load_more(child_id, type, sort, page, size){
+      var url = '{{ app_url_shop }}/ajax_load_list';
+      $.get(url, { category_id: child_id, sort:sort, page:page, type:type, size:size });
+    }
+  </script>
+
 {% endblock %}
 
 {% block jquery %}
@@ -19,110 +31,126 @@
 			$this.html(event.strftime('%-D'));
 		});
 	});
+
+  //ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-150){
+      var stat = $('#product-more').attr('status');
+      var page = parseInt($('#product-more').attr('p')) + 1;
+      var cate_id = $('#product-more').attr('c');
+      var type = $('#product-more').attr('t');
+      var sort = $('#product-more').attr('s');
+
+
+      //防止频繁请求(在没加载完成时只允许请求一次)
+      if(stat==0){
+        $('#product-more').show();
+        $('#product-more').attr('status', 1);
+        ajax_load_more(cate_id, type, sort, page, 12);
+      }
+　　}
+  });
+
+  // ajax加载商品列表
+  ajax_load_more('{{category_id}}', '{{type}}', '{{sort}}', 1, 12);
 {% endblock %}
 
 {% block content %}
-<div class="shop submenu">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				<div class="ui horizontal list">
-					<div class="item">
-						<a class="ui link" href="{{ app_url_shop }}">商店</a>
-					</div>
-				</div>
-                <div class="ui horizontal quick list">
-					<div class="item">
-						<a class="ui {{ css_saled }} link" href="{{ app_url_sale }}">新品预售</a>
-					</div>
-					<div class="item">
-						<a class="ui link" href="{{ app_url_shop }}/pmall">积分兑换</a>
-					</div>
-                </div>
-			</div>
-		</div>
-	</div>
+<div class="category image {{ current_category.name }}" >
+	<h1>
+        {% if css_saled %}
+        新品预售
+        {% else %}
+		{{ current_category.title }}
+        {% endif %}
+        
+        <div class="desc">
+            <p>{{ current_category.summary|default '我们用心挑选数以万计的创意产品，为你每次的一见钟情' }}</p>
+        </div>
+	</h1>
+    <div class="cover"></div>
 </div>
 
-<div class="shop {{ current_category.name }} catemenu tophead">
-	<div class="masthead">
-		<div class="masthead-cover">
-			<div class="ui responsive grid">
-				<div class="row">
-					<div class="column">
-                        <div class="container">
-        					<h1 class="block title">
-                                {% if css_saled %}
-                                新品预售
-                                {% else %}
-        						商店
-                                {% endif %}
-        					</h1>
-                            <p class="discription"><small>我们用心挑选数以万计的创意产品，为你每次的一见钟情</small></p>
-                            <hr>        					
-                        </div>
-					</div>
-				</div>
-                <div class="row">
-                    <div class="column">
-    					<div class="children">
-                            <a class="ui {{ css_saled }} white inverted button" href="{{ app_url_sale }}">新品预售</a>
-                            {% category_list var:'category' only_open:1 domain:domain show_all:0 current:category_id %}
-    						{% for cat in category.rows %}
-								<a class="ui {{ cat.active }} white inverted button" href="{{ cat.view_url }}">
-						        	{{ cat.title }}
-						      	</a>
-    						{% endfor %}
-    					</div>
+<div class="categorybox">
+    <ul class="nav-categories list">
+        {% category_list var:'category' only_open:1 domain:domain show_all:0 current:category_id %}
+    	<li class="category {% if !category_id %} active{% endif %}">
+            <a href="{{ app_url_shop }}/c0">
+                <i class="sidebar icon"></i> <span class="computer only">全部分类</span>
+            </a>
+        </a>
+    	{% for cat in category.rows %}
+        <li class="category {{ cat.active}}">
+          	<a href="{{ cat.view_url }}">
+                <i class="{{ cat.name }} icon"></i> <span class="computer only">{{ cat.title }}</span>
+            </a>
+        </li>
+    	{% endfor %}
+    </ul>
+</div>
+
+<div class="sorts cubes">
+	<div class="ui responsive grid">
+		<div class="row">
+            <div class="column">
+                  <div class="container">
+                      <label><i class="cubes icon"></i>选项：</label>
+                      <div class="ui horizontal list">
+                        <a class="{% if type == 0 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t0-s{{ sort }}-p{{ page }}">
+                              全部
+                          </a>
+                          <a class="{% if type == 2 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t2-s{{ sort }}-p{{ page }}">
+                              可购买
+                          </a>
+                          <a class="{% if type == 1 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t1-s{{ sort }}-p{{ page }}">
+                              产品灵感
+                          </a>
+                          <a class="{% if type == 3 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t3-s{{ sort }}-p{{ page }}">
+                              积分兑换
+                          </a>
+                      </div>
+                  </div>
+            </div>      
+        </div>
+		<div class="row sby">
+            <div class="column">
+                <div class="container">
+                    <label><i class="sort content ascending icon"></i>排序：</label>
+                    <div class="ui horizontal list">
+                      <a class="{% if sort == 0 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t{{ type }}-s0-p{{ page }}">
+                            最新
+                        </a>
+                        <a class="{% if sort == 2 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t{{ type }}-s2-p{{ page }}">
+                            热门
+                        </a>
+                        <a class="{% if sort == 1 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-t{{ type }}-s1-p{{ page }}">
+                            评分
+                        </a>
                     </div>
                 </div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="social sortby">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				<div class="ui horizontal bulleted list">
-					<a class="ui line {% if sort == 1 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s1-p{{ page }}">最新</a>
-					<a class="ui line {% if sort == 2 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s2-p{{ page }}">热门</a>
-					<a class="ui line {% if sort == 3 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s3-p{{ page }}">按价格</a>
-					<a class="ui line {% if sort == 4 %}active{% endif %} item" href="{{ list_prefix }}/list-c{{ category_id }}-s4-p{{ page }}">按销量</a>
-				</div>
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="shop list" id="shoplist">
 	<div class="ui responsive grid">
 		<div class="row">
-			{% product_list var:'list' page:page category_id:category_id process_presaled:presaled is_shop:is_shop only_onsale:1 size:20 sort:sort_text %}
-			{% if list.rows %}
+      
 			<div class="column">
-				<div class="ui four items">
-					{% for product in list.rows %}
-				  		{% include "block/product_item.html" %}
-				    {% endfor %}
-				</div>
-				{% if list.total_page > 1 %}
-				<div class="ui pagination grid">
-					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-					{%include 'block/pager.html'%}
-				</div>
-				{% endif %}
-			</div>
-			{% else %}
-			<div class="center aligned column">
-				<div class="empty result">
-					<div class="ui danger message">
-						没有更多鸟，可选择其他产品~~
-					</div>
-				</div>
-			</div>
-			{% endif %}
+				<div class="ui four products cards item-box">
+          <!--ajax load list-->
+        </div>
+      </div>
+
+      <div id="product-more" c="{{ category_id }}" t="{{ type }}" s="{{ sort }}" p="{{ page }}" status="0" style="text-align:center;margin:10px auto;display:none;">
+        加载中...
+        <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
+      </div>
+
 		</div>
 	</div>
 </div>

@@ -81,16 +81,6 @@
 {% endblock %}
 
 {% block content %}
-<div class="shop submenu">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				{%include 'block/find_nav.html'%}
-			</div>
-		</div>
-	</div>
-</div>
-
 {% if cooperate.banner %}
 <div class="user cooperate masthead" style="background-image: url('{{ cooperate.banner.fileurl }}');">
 {% else %}

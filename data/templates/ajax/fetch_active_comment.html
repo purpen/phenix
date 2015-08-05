@@ -1,6 +1,6 @@
 <taconite>
 	<replaceContent select="#comment-list"><![CDATA[
-    <div class="ui threaded minimal comments">
+    <div class="ui threaded minimal is-comment comments">
       {% comment_list var:'comments' page:page target_id:target_id type:type size:per_page %}
       {% for comment in comments.rows %}
       <div class="comment" id="{{ comment._id }}">

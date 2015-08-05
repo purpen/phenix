@@ -39,6 +39,9 @@
 	.ui.labeled.icon.buttons>.button>.icon, .ui.labeled.icon.button>.icon{
 		width: 2.4em;
 	}
+	.ui.modal{
+	  top:35%;
+	}
 	.img-tab{
     margin:5px;
   }
@@ -49,16 +52,63 @@
 	.thumb.block > .image img{
 		width:100%;
 	}
+	.thumb.block{
+	  width: 48%;
+    margin-left: 1%;
+    margin-right: 1%;
+	}
+	.ui.blocks>.block{
+	  max-width: 100%;
+    position: relative;
+    display: inline-block;
+    min-height: 0;
+    background: #fff;
+    padding: 0;
+    border: 0;
+	}
+	.ui.modal .container{
+	  display: table;
+    width: 100%;
+    position: relative;
+    background-color: #F4F4F4;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+	}
+	.ui.modal>.container .content{
+	  padding: 1em;
+	}
+	.ui.modal .right.aligned.action{
+	  background-color: #FFF;
+    font-size: .825em;
+    padding: 1rem;
+    text-align:right;
+	}
+	.ui.reply.form{
+	  padding-bottom:1rem !important;
+	}
+	#comment-list{
+	  padding-bottom:10px;
+	}
+	.ui.comments .comment:first-child {
+    margin-top: .5em;
+    padding-top: .5em;
+  }
 </style>
 
 
-<div class="post comment">
-  <p><a href="{{ visitor.home_url }}" class="ui link">{{ visitor.nickname }}</a> 发表回应</p>
+<div id="comment-box" class="post comment">
+  <p class="comment-title"><a href="{{ visitor.home_url }}" class="ui link">{{ visitor.nickname }}</a> 发表评论</p>
   <form class="ui reply form" action="{{ app_url_wap }}/app/site/comment/do_save" method="post" id="comment-form">
     <input type="hidden" name="target_id" value="{{ comment_target_id }}" />
     <input type="hidden" name="target_user_id" value="{{ comment_target_user_id }}" />
     <input type="hidden" name="type" value="{{ comment_type }}" />
     <input type="hidden" name="star" value="0" />
+    <input type="hidden" name="is_reply" value="0" />
+    <input type="hidden" name="reply_id" value="" />
+    <input type="hidden" name="reply_user_id" value="" />
+    <input type="hidden" name="from_to" value="wap" />
     <div class="field">
       <textarea name="content" id="comment-area" class="comment-textarea" placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论...{%endif%}"></textarea>
       <div id="comment"></div>
@@ -67,14 +117,14 @@
   {% if visitor.is_login %}
 		<!-- 插入图片-->
 		<div class="left">
-      <a href="javascript:void(0);" class="comment-upload-btn" ><i class="flat icon pictures1"></i>图片</a>
+      <a href="javascript:void(0);" class="comment-upload-btn" >插入图片</a>
       |
-      <a href="javascript:void(0);" class="comment-link-btn"><i class="flat icon link14"></i>链接</a>
+      <a href="javascript:void(0);" class="comment-link-btn">插入链接</a>
     </div>
 	<!-- -->
     <div class="right aligned column">
-			<div class="ui active button magenta submit labeled icon">
-			   <i class="icon basic direction"></i> 添加回应
+			<div class="ui active button magenta submit inverted labeled icon">
+			   <i class="edit icon"></i> 添加回应
 			</div>
       <!--<input type="submit" class="ui small magenta button" value="添加评论" />-->
     </div>
@@ -85,7 +135,7 @@
         <div class="row">
           <div class="center aligned column">
             <a href="{{ app_url_wap }}/auth/signup" class="ui green checkout inverted button">注册</a> <a href="{{ app_url_wap }}/auth/login" class="ui magenta checkout inverted button">登录</a>
-            <p class="ui gray text">注册登录后可发回应</p>
+            <p style="margin-top:10px;" class="ui gray text">注册登录后可发回应</p>
           </div>
         </div>
       </div>
@@ -95,7 +145,7 @@
 </div>
 
 <div class="ui comment-insert-img small modal transition">
-  	<i class="flat close icon"></i>
+  	<i class="close icon"></i>
 	<div class="header">
 	    插入图片
 	</div>
@@ -134,7 +184,7 @@
 </div>
 
 <div class="ui comment-insert-link small modal transition">
-  	<i class="flat close icon"></i>
+  	<i class="close icon"></i>
 	<div class="header">
 	    插入链接
 	</div>
@@ -282,7 +332,7 @@
             endpoint: '{{ app_url_upload }}/comment'
           },
       text: {
-              uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+              uploadButton: '<a class="ui active magenta inverted labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
       },
       template: '<div class="qq-uploader">' +
             '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
@@ -303,6 +353,55 @@
         $.get('{{ app_url_wap }}/app/site/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ comment_asset_type||default 0 }}, 'asset_domain':'{{ comment_domain }}'});
       }
     });
+
+
+  //评论回复按钮
+  $('.reply-btn').livequery(function(){
+    $(this).click(function(){
+      // 定位到评论框
+      $('html,body').animate({scrollTop:$('#comment-box').offset().top - 100},500);
+      // 提示回复信息
+      var comment_title_obj = $('#comment-box').find('.comment-title');
+      var comment_user_id = comment_title_obj.find('a').attr('comment_user_id');
+      var recover_comment_user_href = comment_title_obj.find('a').attr('href');
+      var recover_comment_user_name = comment_title_obj.find('a').text();
+      var comment_id = $(this).attr('comment_id');
+      var floor = $(this).attr('floor');
+      var comment_user_id = $(this).attr('comment_user_id');
+      var comment_user_name = $(this).attr('comment_user_name');
+      var user_home_url = "{{ app_url_user }}/"+comment_user_id+"";
+
+      $(':input[name=reply_id]').val(comment_id);
+      $(':input[name=reply_user_id]').val(comment_user_id);
+      $(':input[name=is_reply]').val(1);
+      
+      var html='';
+      html += '<div>';
+      html += '<span>回复 #</span>'+ floor +' ';
+      html += '@<a href="'+ user_home_url +'" class="ui magenta link" target="_blank">'+ comment_user_name +'</a> ';
+      html += '<span class=""></span> ';
+      html += '<a href="javascript:void(0);" class="ui link cancel-reply-btn" recover_comment_user_href="'+ recover_comment_user_href +'" recover_comment_user_name="'+ recover_comment_user_name +'" style="text-align:right">取消</span>';
+      html += '</div>';
+      comment_title_obj.html(html);
+      
+
+    });
+  });
+
+  //取消回复评论
+  $('.cancel-reply-btn').livequery(function(){
+    $(this).click(function(){
+      // 清空回复ID
+      $(':input[name=reply_id]').val('');
+      $(':input[name=is_reply]').val(0);
+      $(':input[name=reply_user_id]').val('');
+      var recover_comment_user_href = $(this).attr('recover_comment_user_href');
+      var recover_comment_user_name = $(this).attr('recover_comment_user_name');
+      var html = '<a href="'+ recover_comment_user_href +'" class="ui magenta link">'+ recover_comment_user_name +'</a> 发表评论';
+      $('#comment-box').find('.comment-title').html(html);   
+    });
+
+  });
 
       
   });

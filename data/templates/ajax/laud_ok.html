@@ -14,13 +14,13 @@
 		{% else %}
 
 			{% if mode == 'create'%}
-				<a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_cancel_laud?id={{ id }}" id="laud_{{ id }}">
+				<a class="ui link icon pop ajax" href="/app/site/comment/ajax_cancel_laud?id={{ id }}" id="laud_{{ id }}">
     <span class="love-count">{%if love_count%}{{ love_count }}{%endif%}</span>
 					<i class="icon heart"></i>
 				</a>
 			{% endif %}
 			{% if mode == 'cancel'%}
-				<a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_laud?id={{ id }}" id="laud_{{ id }}">
+				<a class="ui link icon pop ajax" href="/app/site/comment/ajax_laud?id={{ id }}" id="laud_{{ id }}">
     <span class="love-count">{%if love_count%}{{ love_count }}{%endif%}</span>
 					<i class="icon empty heart"></i>
 				</a>

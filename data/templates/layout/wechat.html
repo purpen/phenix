@@ -84,13 +84,10 @@
 			}
 		</style>
 		
+		<link rel="stylesheet" href="{{ app_url_qiniu_frstatic }}/css/semantic.2.0.min.css" type="text/css" />
 		{% if css_use_bundle %}
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/base.min.{{ css_bundle_version }}.css" type="text/css" />
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic-frbird.min.{{ css_bundle_version }}.css" type="text/css" />
 			<link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.{{ css_bundle_version }}.css" type="text/css" />
 		{% else %}
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/base.min.css" type="text/css" />
-			<link rel="stylesheet" href="{{ app_url_packaged }}/css/semantic-frbird.min.css" type="text/css" />
 			<link rel="stylesheet" href="{{ app_url_packaged }}/css/frbird.min.css" type="text/css" />
 		{% endif %}
 		
@@ -119,12 +116,12 @@
 		{% endblock %}
 		
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
+    <script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.plugins.min.js"></script>
+		<script type="text/javascript" src="{{ app_url_qiniu_frstatic }}/javascript/semantic.2.0.min.js"></script>
 		{% if js_use_bundle %}
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.{{ js_jquery_bundle_version }}.js"></script>
 		{% else %}
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.js"></script>
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery_bundle.min.js"></script>
+
 		{% endif %}
 		
 		{% block layout_js %}{% endblock %}

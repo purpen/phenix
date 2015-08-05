@@ -129,6 +129,7 @@ app.dt.extension_lib.sher_app:
     'tag_list':'Sher_Core_ViewTag_TagList'
     'report_list':'Sher_Core_ViewTag_ReportList'
     'user_point_stat_list':'Sher_Core_ViewTag_UserPointStatList'
+    'contest_list':'Sher_Core_ViewTag_ContestList'
     'device_list':'Sher_Core_ViewTag_DeviceList'
     'd_order_list':'Sher_Core_ViewTag_DOrderList'
     'd_member_list':'Sher_Core_ViewTag_DMemberList'

@@ -16,7 +16,7 @@
 		<div class="four column row">
             {% if visitor.can_admin %}
 			<div class="column">
-				<div class="ui purple segment">
+				<div class="ui red segment">
 					<h3 class="ui purple header">
 					  {{ sitedata.users_count|default 0 }}
 					  <div class="sub header">注册用户</div>
@@ -25,18 +25,18 @@
 			</div>
             {% endif %}
 			<div class="column">
-				<div class="ui magenta segment">
-					<h3 class="ui magenta header">
-					  {{ sitedata.products_count|default 0 }}
-					  <div class="sub header">创意产品</div>
+				<div class="ui teal segment">
+					<h3 class="ui teal header">
+					  {{ sitedata.topics_count|default 0 }}
+					  <div class="sub header">社区话题</div>
 					</h3>
 				</div>
 			</div>
 			<div class="column">
-				<div class="ui teal segment">
-					<h3 class="ui teal header">
-					  {{ sitedata.topics_count|default 0 }}
-					  <div class="sub header">社区帖子</div>
+				<div class="ui green segment">
+					<h3 class="ui green header">
+					  {{ sitedata.products_count|default 0 }}
+					  <div class="sub header">创意产品</div>
 					</h3>
 				</div>
 			</div>
@@ -58,7 +58,7 @@
 				<h3 class="ui header">最新15个订单</h3>
 				{% order_list var:'orders' page:1 size:15 %}
 
-				<table class="ui segment table">
+				<table class="ui table">
 					<thead>
 						<tr>
 							<th>订单号</th>
@@ -112,7 +112,7 @@
 			<div class="six wide column">
 				<h3 class="ui header">最新15个社区话题</h3>
 				{% topic_list var:'topics' page:1 size:15 %}
-				<table class="ui segment table">
+				<table class="ui table">
 					<thead>
 						<tr>
 							<th>标题</th>

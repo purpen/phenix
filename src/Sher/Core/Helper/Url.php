@@ -200,6 +200,13 @@ class Sher_Core_Helper_Url {
     	return  sprintf(Doggy_Config::$vars['app.url.shop.view'], $id);
     }
 	
+    /**
+     * 大赛地址
+     */
+    public static function contest_view_url($id){
+        return  sprintf(Doggy_Config::$vars['app.url.contest.show'], $id);
+    }
+    
 	/**
 	 * 订单详情查看地址
 	 */

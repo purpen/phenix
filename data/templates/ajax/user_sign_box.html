@@ -1,32 +1,34 @@
 <taconite>
 	<replace select="#user-sign-box"><![CDATA[
-      <div class="ui center aligned register segment" id="user-sign-box">
+      <div id="user-sign-box">
         <div class="reg-border">
         {% if result.has_sign %}
         <!--  已签到 -->
-        <a href="javascript:void(0);" class="ui inverted gray active button">已签到</a>
+        <a href="javascript:void(0);" class="ui big inverted red active button">
+            <i class="calendar icon"></i> 已签到
+        </a>
         {%else%}
-        <a href="javascript:void(0);" id="sign-in-btn" class="ui inverted green active button">签到</a>
+        <a href="javascript:void(0);" id="sign-in-btn" class="ui big inverted red active button">
+            <i class="calendar icon"></i> 签到
+        </a>
         {%endif%}
-
-
+        
         {% if is_doing %}
           {% if result.is_true %}
             <div class="add">
-              经验 +2 &nbsp; {% if result.give_money %}鸟币 +1{%endif%}
+                经验 +2 &nbsp; {% if result.give_money %}鸟币 +1{%endif%}
             </div>
           {%endif%}
         {%endif%}
         
-        <!--   end  -->
+        <!--  end  -->
         <div class="adreg">	
-          连签{{ result.continuity_times }}天
+            连签 <b>{{ result.continuity_times }}</b> 天
         </div>
         </div>
         
-        <p class="rule">1、每天签到获2个经验值<br />
-          2、连续7天签到获1枚鸟币
-        </p>
+        <p>1、每天签到+2个经验值，连续7天+1枚鸟币</p>
+        <p>2、赢取最新智能硬件新品</p>
       </div>
 	]]></replace>
 	

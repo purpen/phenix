@@ -1,0 +1,30 @@
+<div class="card" id="topic-{{ topic._id }}">
+    <div class="problock">
+        <a title="{{ topic.title }}" href="{{ topic.view_url }}" style="background-image: url({{ topic.cover.thumbnails.hm.view_url }});" class="thumb" target="_blank"></a>
+        <div class="ribbons">
+            {% if topic.newest %}
+            <span class="ribbon newest">NEW</span>
+            {% endif %}
+            {% if topic.hot %}
+            <span class="ribbon hot">HOT</span>
+            {% endif %}
+            {% if topic.stick %}
+            <span class="ribbon stick">编辑推荐</span>
+            {% endif %}
+        </div>
+        <h2>
+            <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
+			    {{ topic.title|truncate, 32, '' }}
+		    </a>
+        </h2>
+        <div class="excerpt">
+            <p>{{ topic.strip_description|truncate, 90, '' }}</p>
+        </div>
+        <div class="cats">
+            <span class="unit">@</span>{{ topic.user.nickname }}
+        </div>
+        <span class="counter">
+            <i class="unhide icon"></i> {{ topic.view_count }} <i class="heart icon"></i> {{ topic.love_count }}
+        </span>
+    </div>
+</div>

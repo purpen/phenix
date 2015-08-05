@@ -90,96 +90,25 @@
         <div class="row">
             <div class="column">
 				<div class="ui horizontal bulleted list">
-                    <a class="ui line {{ css_tab_submit }} item" href="{{ app_url_user }}/{{ user._id }}/submitted">
+                    <a class="{{ css_tab_submit }} item" href="{{ app_url_user }}/{{ user._id }}/submitted">
                         提交
                     </a>
-                    <a class="ui line {{ css_tab_support }} item" href="{{ app_url_user }}/{{ user._id }}/support">
+                    <a class="{{ css_tab_support }} item" href="{{ app_url_user }}/{{ user._id }}/support">
                         支持
                     </a>
-                    <a class="ui line {{ css_tab_like }} item" href="{{ app_url_user }}/{{ user._id }}/like">
+                    <a class="{{ css_tab_like }} item" href="{{ app_url_user }}/{{ user._id }}/like">
                         赞过
                     </a>
 				</div>
                 <div class="ui compact grid">
                     <div class="twelve wide column">
         				{% if css_tab_submit %}
-        					<div class="ui two voteist cards">
+        					<div class="ui three products voteist cards">
         						<!--我提交的产品-->
-        						{% product_list var:'list' page:page user_id:user._id %}
+        						{% product_list var:'list' page:page user_id:user._id size:15 %}
         						{% for product in list.rows %}
                                     {% if product %}
-                                    <div class="card" id="product-{{ product._id }}">
-                                      	<div class="image">
-                                            <a href="{{ product.vote_view_url }}" target="_blank">
-                                    		   	<img src="{{ product.cover.thumbnails.md.view_url }}" alt="{{ product.title }}" />
-                                            </a>
-                                      	</div>
-                                      	<div class="content">
-                                          	<div class="header">
-                                    			<a href="{{ product.vote_view_url }}" title="{{ product.title }}" class="ui line" target="_blank">
-                                    				{{ product.title|truncate, 32, '' }}
-                                    			</a>
-                                            </div>
-                                            <div class="description">
-                                                {{ product.advantage }}
-                                            </div>
-                                    		<div class="i-stats">
-                                                {% if product.stage == 1 %}
-                                    	        <div class="ui magenta tiny progress">
-                                    	          <div class="bar" style="width: {{ product.vote_percent }}%;"></div>
-                                    	        </div>
-                                    			<div class="vote clearfix">
-                                    				{% if product.voted_finished %}
-                                        				<div class="ui divided horizontal vstatus list">
-                                                            <div class="item">
-                                                                <span class="description">{{ product.vote_count }} 人投票</span> <span class="count">{{ product.vote_percent }}%</span>
-                                                            </div>
-                                        					<div class="item">
-                                                                投票已结束
-                                                            </div>
-                                        				</div>
-                                    				{% else %}
-                                    				    <div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
-                                    				{% endif %}
-                                    			</div>
-                                                {% endif %}
-                                                
-                                                {% if product.stage == 5 %}
-                                    	        <div class="ui magenta tiny progress">
-                                    	          <div class="bar" style="width: {{ progress.presale_percent }}%;"></div>
-                                    	        </div>
-                                    			<div class="vote clearfix">
-                                    				<div class="ui divided horizontal vstatus list">
-                                    					<div class="item">
-                                    					    <span class="unit">￥</span> {{ product.presale_money|default 0 }}
-                                    					</div>
-                                                        <div class="item">
-                                        					{% if !product.presale_finished %}
-                                        					<span class="count" data-countdown="{{ product.presale_finish_time|date 'Y/m/d H:i:s' }}"></span> 天后结束
-                                        					{% else %}
-                                        					预售结束
-                                        					{% endif %}
-                                                        </div>
-                                    				</div>
-                                    			</div>
-                                                {% endif %}
-                                                
-                                                {% if product.stage == 9 %}
-                                    	        <div class="ui magenta tiny progress">
-                                    	          <div class="bar" style="width:0%;"></div>
-                                    	        </div>
-                                    			<div class="vote clearfix">
-                                    				<div class="ui horizontal vstatus list">
-                                    					<div class="item">
-                                                            <small class="unit">￥</small>
-                                                            <span class="price">{{ product.sale_price }}</span>
-                                                        </div>
-                                    				</div>
-                                    			</div>
-                                                {% endif %}
-                                    		</div>
-                                      	</div>
-                                    </div>
+                                        {% include "block/product_card.html" %}
                                     {% endif %}
         						{% endfor %}
         					</div>
@@ -188,164 +117,22 @@
         				{% if css_tab_support %}
         					<!--我支持的产品-->
         					{% support_list var:'list' page:page user_id:user._id %}
-        					<div class="ui two voteist cards">
-        						{% for event in list.rows %}
-                                    {% if event.product %}
-                                    <div class="card" id="product-{{ event.product._id }}">
-                                      	<div class="image">
-                                            <a href="{{ event.product.vote_view_url }}" target="_blank">
-                                    		   		<img src="{{ event.product.cover.thumbnails.md.view_url }}" alt="{{ event.product.title }}" />
-                                            </a>
-                                      	</div>
-                                      	<div class="content">
-                                          	<div class="header">
-                                    			<a href="{{ event.product.vote_view_url }}" title="{{ event.product.title }}" class="ui line" target="_blank">
-                                    				{{ event.product.title|truncate, 32, '' }}
-                                    			</a>
-                                            </div>
-                                            <div class="description">
-                                                {{ event.product.advantage }}
-                                            </div>
-                                    		<div class="i-stats">
-                                                {% if event.product.stage == 1 %}
-                                    	        <div class="ui magenta tiny progress">
-                                    	          <div class="bar" style="width: {{ product.vote_percent }}%;"></div>
-                                    	        </div>
-                                    			<div class="vote clearfix">
-                                    				{% if event.product.voted_finished %}
-                                        				<div class="ui divided horizontal vstatus list">
-                                                            <div class="item">
-                                                                <span class="description">{{ event.product.vote_count }} 人投票</span> <span class="count">{{ event.product.vote_percent }}%</span>
-                                                            </div>
-                                        					<div class="item">
-                                                                投票已结束
-                                                            </div>
-                                        				</div>
-                                    				{% else %}
-                                    				    <div class="ui divided horizontal timer list" data-countdown="{{ event.product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
-                                    				{% endif %}
-                                    			</div>
-                                                {% endif %}
-                                                
-                                                {% if event.product.stage == 5 %}
-                                    	        <div class="ui magenta tiny progress">
-                                    	          <div class="bar" style="width: {{ product.presale_percent }}%;"></div>
-                                    	        </div>
-                                    			<div class="vote clearfix">
-                                    				<div class="ui divided horizontal vstatus list">
-                                    					<div class="item">
-                                    					    <span class="unit">￥</span> {{ event.product.presale_money|default 0 }}
-                                    					</div>
-                                                        <div class="item">
-                                        					{% if !event.product.presale_finished %}
-                                        					<span class="count" data-countdown="{{ event.product.presale_finish_time|date 'Y/m/d H:i:s' }}"></span> 天后结束
-                                        					{% else %}
-                                        					预售结束
-                                        					{% endif %}
-                                                        </div>
-                                    				</div>
-                                    			</div>
-                                                {% endif %}
-                                                
-                                                {% if event.product.stage == 9 %}
-                                    	        <div class="ui magenta tiny progress">
-                                    	          <div class="bar" style="width: 0%;"></div>
-                                    	        </div>
-                                    			<div class="vote clearfix">
-                                    				<div class="ui horizontal vstatus list">
-                                    					<div class="item">
-                                                            <small class="unit">￥</small>
-                                                            <span class="price">{{ event.product.sale_price }}</span>
-                                                        </div>
-                                    				</div>
-                                    			</div>
-                                                {% endif %}
-                                    		</div>
-                                      	</div>
-                                    </div>
+        					<div class="ui three products voteist cards">
+        						{% for item in list.rows %}
+                                    {% if item.product %}
+                                        {% include "block/product_item_card.html" %}
                                     {% endif %}
         						{% endfor %}
         					</div>
         				{% endif %}
                         
         				{% if css_tab_like %}
-        					<div class="ui two voteist cards">
+        					<div class="ui three products voteist cards">
         						<!--我喜欢的产品-->
         						{% like_list var:'list' page:page user_id:user._id type:1 %}
-        						{% for event in list.rows %}
-                                    {% if event.product %}
-                                    <div class="card" id="product-{{ event.product._id }}">
-                                      	<div class="image">
-                                            <a href="{{ event.product.vote_view_url }}" target="_blank">
-                                    		   		<img src="{{ event.product.cover.thumbnails.md.view_url }}" alt="{{ event.product.title }}" />
-                                            </a>
-                                      	</div>
-                                      	<div class="content">
-                                          	<div class="header">
-                                    			<a href="{{ event.product.vote_view_url }}" title="{{ event.product.title }}" class="ui line" target="_blank">
-                                    				{{ event.product.title|truncate, 32, '' }}
-                                    			</a>
-                                            </div>
-                                            <div class="description">
-                                                {{ event.product.advantage }}
-                                            </div>
-                                    		<div class="i-stats">
-                                                {% if event.product.stage == 1 %}
-                                    	        <div class="ui magenta tiny progress">
-                                    	          <div class="bar" style="width: {{ product.vote_percent }}%;"></div>
-                                    	        </div>
-                                    			<div class="vote clearfix">
-                                    				{% if event.product.voted_finished %}
-                                        				<div class="ui divided horizontal vstatus list">
-                                        					<div class="item">
-                                                                投票已结束
-                                                            </div>
-                                                            <div class="item">
-                                                                <span class="description">{{ event.product.vote_count }} 人投票</span> <span class="count">{{ event.product.vote_percent }}%</span>
-                                                            </div>
-                                        				</div>
-                                    				{% else %}
-                                    				    <div class="ui divided horizontal timer list" data-countdown="{{ event.product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
-                                    				{% endif %}
-                                    			</div>
-                                                {% endif %}
-                                                
-                                                {% if event.product.stage == 5 %}
-                                    	        <div class="ui magenta tiny progress">
-                                    	            <div class="bar" style="width: {{ product.presale_percent }}%;"></div>
-                                    	        </div>
-                                    			<div class="vote clearfix">
-                                    				<div class="ui divided horizontal vstatus list">
-                                    					<div class="item">
-                                    					    <span class="unit">￥</span> {{ event.product.presale_money|default 0 }}
-                                    					</div>
-                                                        <div class="item">
-                                        					{% if !event.product.presale_finished %}
-                                        					<span class="count" data-countdown="{{ event.product.presale_finish_time|date 'Y/m/d H:i:s' }}"></span> 天后结束
-                                        					{% else %}
-                                        					预售结束
-                                        					{% endif %}
-                                                        </div>
-                                    				</div>
-                                    			</div>
-                                                {% endif %}
-                                                
-                                                {% if event.product.stage == 9 %}
-                                    	        <div class="ui magenta tiny progress">
-                                    	            <div class="bar" style="width: 0%;"></div>
-                                    	        </div>
-                                    			<div class="vote clearfix">
-                                    				<div class="ui horizontal vstatus list">
-                                    					<div class="item">
-                                                            <small class="unit">￥</small>
-                                                            <span class="price">{{ event.product.sale_price }}</span>
-                                                        </div>
-                                    				</div>
-                                    			</div>
-                                                {% endif %}
-                                    		</div>
-                                      	</div>
-                                    </div>
+        						{% for item in list.rows %}
+                                    {% if item.product %}
+                                        {% include "block/product_item_card.html" %}
                                     {% endif %}
         						{% endfor %}
         					</div>

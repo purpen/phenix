@@ -2,66 +2,21 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-.ui.tabox{
-	background:#000!important;
-	opacity:0;
-}
-.ui.tabox.fxd{
-	opacity:1;
-	-webkit-transition: all .3s ease-in-out 0.1s;
-	transition: all .3s ease-in-out 0.1s;
-	-moz-transition: all .3s ease-in-out 0.1s;
-	-o-transition: all .3s ease-in-out 0.1s;
-	-ms-transition: all .3s ease-in-out 0.1s;
-}
-.ui.tabox ,.ui.tabox.smint.fxd{
-	background: none repeat scroll 0 0 #343028;
-    width: 100%;
-	z-index: 9999;
-	border:0px solid #fff;
-	margin:0;
-}
-.ui.tabox .ui.tabs {
-	display: inline-block;
-	text-align:center;
-}
-/*  ,.ui.tabox .ui.tabs .tab.active,.ui.tabox .ui.tabs .tab:hover    */
-.ui.tabox .ui.tabs .tab{
-	color:#fff;
-	text-align:center;
-	font-size: 0.9285rem;
-	margin-left: 1.5%;
-	margin-right: 1.5%;
-	padding-top:1%;
-	padding-bottom:1%;
-	margin-bottom:0px;
-}
-.ui.tabs .tab:hover{
-	color:#f36 !important;
-}
-
 .start{
-	background:url({{ active.banner.fileurl }}) no-repeat center center;
-  background-size:cover;
-	color:#fff;
-	padding:100px 0% 40px;
+    background: url({{ active.banner.fileurl }}) no-repeat center center;
+    background-size: cover;
+	color: #fff;
+	padding: 100px 0% 40px;
+    position: relative;
 }
-.start .ui.btn{
-	border-radius:4px !important;
-	background:#ccc;
-}
-.start .ui.attend.btn{
-	border-radius:4px !important;
-	background:rgba(0,0,0,0);
-}
-.start h2.ui.header{
+.start h2.ui.header {
 	font-weight: 400;
 }
-.start h2.ui.header .content{
+.start h2.ui.header .content {
 	text-align:left;
 }
-.start .row{
-	padding-top:248px !important;
+.start .row {
+	padding-top: 248px !important;
 	margin:0;
 }
 .start h2.ui.header span,.start .row:nth-child(2) h2.ui.header{
@@ -70,68 +25,8 @@
 .start .row:first-child h2.ui.header{
 	font-size:60px !important;
 }
-.gray.background{
-	background:#ccc;
-}
-.space .content{
-	padding:10px 0;
-	text-align:center;
-}
-.space .content i{
-	font-weight: 700;
-}
-.picture, .process, .place,.part, .comment,.share{
-	padding-top: 1em;
-	padding-bottom: 1em;
-}
-hr{
-	background: #f36 !important;
-}
-.together {
-	padding:45px 0;
-}
-.together a img {
-    margin: 5px;
-    border: 1px solid #ccc;
-    width:150px;
-  }
 
-.ui.reply.segment {
-	-webkit-box-shadow: 0 0 0 1px rgba(0,0,0,0);
-	box-shadow: 0 0 0 1px rgba(0,0,0,0);
-}
-.ui.post.segment {
-	padding: 0 0 0 5em;
-	-webkit-box-shadow: 0 0 0 1px rgba(0,0,0,0);
-	box-shadow: 0 0 0 1px rgba(0,0,0,0);
-}
-.ui.comments .comment>.content>.laud {
-	float: right;
-}
-.ui.big-end{
-	padding:40px 0;
-}
-.ui.report{
-	color:#fff;
-}
-.report .ui.btn {
-background: rgba(0,0,0,0);
-border-radius: 4px !important;
-border: 1px solid #fff;
-}
-.report .ui.attend.btn{
-	border-radius:4px !important;
-	background:#f36;
-	border:0px;
-}
-.ui.place+.ui.grid{
-	padding-bottom:20px;
-	position:relative;
-}
-.ui.background-30{
-	height:30px;
-	background:#eee;
-}
+
 
 .rundown-timeline-container {
 	height: auto;
@@ -164,49 +59,49 @@ border: 1px solid #fff;
 	border: 7px solid #cdf5f3;
 }
 .timeline-block {
-height: 100px;
-margin: 0;
-position: relative;
-top: -5px;
+    height: 100px;
+    margin: 0;
+    position: relative;
+    top: -5px;
 }
 .timeline-content.right {
-float: right;
+    float: right;
 }
 .timeline-content {
-float: right;
-width: 46%;
+    float: right;
+    width: 46%;
 }
 .timeline-content.right .time {
-font-weight: normal;
-top: 14px;
-min-width: 90px;
-text-align: center;
+    font-weight: normal;
+    top: 14px;
+    min-width: 90px;
+    text-align: center;
 }
 .timeline-content .time {
-font-size: 16px;
-font-weight: bold;
-left: 34%;
-line-height: 38px !important;
-position: absolute;
+    font-size: 16px;
+    font-weight: bold;
+    left: 34%;
+    line-height: 38px !important;
+    position: absolute;
 }
 .timeline-content .name {
-font-size: 17px;
-font-weight: bold;
-line-height: 16px;
-margin-top: 25px !important;
-margin-bottom: 0;
-color: #222;
+    font-size: 17px;
+    font-weight: bold;
+    line-height: 16px;
+    margin-top: 25px !important;
+    margin-bottom: 0;
+    color: #222;
 }
 .timeline-content .name.top{
 	margin-top: 25px !important;
 	font-size: 20px;
 }
 .timeline-content .title {
-font-size: 14px;
-line-height: 16px;
-margin: 9px 0 5px !important;
+    font-size: 14px;
+    line-height: 16px;
+    margin: 9px 0 5px !important;
 }
-.title img{
+.title img {
 	display: block;
 	margin: 0 auto;
 	width: 3em;
@@ -214,18 +109,22 @@ margin: 9px 0 5px !important;
 	border-radius: 500px;
 	float: left;
 }
-.title .content{
+.title .content {
 	padding-top: .25em;
 	margin-left: 3.5em;
 	font-size:14px;
 	color:#666;
 }
 .text {
-margin: .25em 0 .5em;
-word-wrap: break-word;
-line-height: 1.325em;
-font-size:14px;
+    margin: .25em 0 .5em;
+    word-wrap: break-word;
+    line-height: 1.325em;
+    font-size:14px;
 }
+
+
+
+
 .position.row h4.ui.header{
 	font-size:1em;
 	font-weight:400;
@@ -284,71 +183,9 @@ h4.ui.header .map-advantage {
 	}
   }*/
 
-.flexslider{
-	text-align:center;
-	position:relative;
-	padding:100px 0;
-}
-.flex-control-nav {display:none;}
-.flex-direction-nav {*height: 0;}
-.flex-direction-nav a  { text-decoration:none; display: block; width: 40px; height: 40px; margin: -20px 0 0; position: absolute; top: 50%; z-index: 10; overflow: hidden; opacity: 0; cursor: pointer; color: rgba(0,0,0,0.8); text-shadow: 1px 1px 0 rgba(255,255,255,0.3); -webkit-transition: all .3s ease; -moz-transition: all .3s ease; transition: all .3s ease; }
-.flex-direction-nav .flex-prev { opacity: .5;}
-.flex-direction-nav .flex-next { right: 0px; text-align: right; opacity: .5;}
-.flexslider:hover .flex-prev { opacity: 0.7; }
-.flexslider:hover .flex-next { opacity: 0.7; right: 0px; }
-.flexslider:hover .flex-next:hover, .flexslider:hover .flex-prev:hover { opacity: 1; }
-.flex-direction-nav .flex-disabled { opacity: 0!important; filter:alpha(opacity=0); cursor: default; }
-.flex-direction-nav a:before  { font-family: "FontFlatIcons"; font-size: 40px; line-height:1; display: inline-block; content: '\e010'; }
-.flex-direction-nav a.flex-next:before  { font-family: "FontFlatIcons"; font-size: 40px; line-height:1; display: inline-block; content: '\e0d3'; }
 
-.slides img{
-	width: 590px;
-	height:360px;
-}
-.slides p{
-	height: 36px;
-	color: #fff;
-	font-size: 16px;
-	background: rgba(0,0,0,0.5);
-	width: 590px;
-	margin:0 auto;
-	line-height: 36px;
-	text-align: left;
-}
-.ui.place +.ui.grid .row .column{
-	padding:0 !important;
-}
 
-.ui.w-1180{
-	width:1180px;
-	margin: 0 auto;
-	position:relative;
-	background:rgb(74,74,74);
-	padding: 10px 0;
-}
-.ui.w-1180 #signup-avatar{
-	padding:0 13px;
-}
-.ui.w-1180 .image{
-	width:60px;
-	height:60px;
-	display: inline-block;
-	padding:6px 4px;
-}
-.ui.w-1180 .image img{
-	width:60px;
-	height:60px;
-	opacity:0.3;
-	border-radius:50%;
-}
-.report-btn{
-	position:absolute;
-	top: 95px;
-	left: 517.5px;
-}
-section.ui.big.abstract.block p {
-  line-height: 25px;
-}
+
 </style>
 {% endblock %}
 
@@ -519,47 +356,17 @@ section.ui.big.abstract.block p {
 {% endblock %}
 
 {% block content %}
-<div class="shop submenu">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				{%include 'block/find_nav.html'%}
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="ui tabox">
+<section class="start banner">
     <div class="ui responsive grid">
-        <div class="row">
-            <div class="column">
-                <div class="ui tabs">
-                    <a class="active tab" href="#start">活动首页</a>
-                    <a class="tab" href="#abstract">活动简介</a>
-  {% if active.process %}
-                    <a class="tab" href="#process">活动日程</a>
-                    {%endif%}
-                    <a class="tab" href="#report">活动报名</a>
-                    <a class="tab" href="#place">活动地点</a>
-                    <a class="tab" href="#part">合作伙伴</a>
-                    <a class="tab" href="#comment">参与讨论</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<section class="ui start block" style="margin-top:-40px;">
-    <div class="ui responsive grid">
-        {% if active.step_stat==1 %}
+        {% if active.step_stat == 1 %}
         <div class="row">
             <div class="center aligned column attend-box">
                 {% if is_attend %}
-                <a class="ui inverted active gray button" href="javascript:void(0);">
-                    <span>已报名</span>
-                </a>
+                <div class="ui big inverted active white button">
+                    <span><i class="smile icon"></i> 已报名，感谢参与！</span>
+                </div>
                 {% else %}
-                <a class="ui white inverted attend button" href="javascript:void(0);">
+                <a class="ui big white inverted attend button" href="javascript:void(0);">
                     <i class="ticket icon"></i> 立即报名
                 </a>
                 {%endif%}
@@ -567,294 +374,201 @@ section.ui.big.abstract.block p {
         </div>
         {%endif%}
         
-        {% if active.step_stat==2 %}
-          <div class="row">
+        {% if active.step_stat == 2 %}
+        <div class="row">
             {% if active.report_url %}
-              <div class="center aligned column">
-                <a class="ui white btn-4 btn-4c icon-arrow-right icon-arrow-right btn" style="background:rgba(0,0,0,0);" href="{{ active.report_url }}" target="_blank">
-                      <span>活动报道</span><i class="icon-arrow-right-sharp"></i>
+            <div class="center aligned column">
+                <a class="ui big white inverted button" href="{{ active.report_url }}" target="_blank">
+                      <span>活动报道</span>
                 </a>
-              </div>
+            </div>
             {%else%}
-              <div class="center aligned column attend-box" style="height:50px;">
-              </div>
+            <div class="center aligned column attend-box" style="height:50px;"></div>
             {%endif%}
-          </div>
+        </div>
         {%endif%}
     </div>
 </section>
 
-<div class="ui space gray background block">
-    <div class="ui responsive center aligned grid">
-      <div class="row">
-        <div class="column">
-          <div class="content">
-            <i class="time icon"></i> {{ active.begin_time|date 'Y/m/d H:i' }} &nbsp;&nbsp;<i class="map icon"></i>{{ active.address }} &nbsp;&nbsp;<i class="user icon"></i>活动人数：{{ active.max_number_count }}人
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <section class="ui big abstract block">
-    <div class="ui responsive grid">
-      <div class="row">
-        <div class="column">
-          <p>
-            {{ active.content }}
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-  {% if active.step_stat==2 %}
-  <div class="ui picture gray background block">
-    <div class="ui responsive grid">
-      <div class="row">
-        <div class="center aligned column section-title">
-          <h3 class="ui header">活动现场照片   Picture</h3>
-          <hr>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="ui grid" style="height:595px">
-    {% asset_list var:'assets' parent_id:active._id asset_type:67 size:30 %}
-    <div class="ui responsive grid">
-	    <div class="row">
-	      	<div class="flexslider">
-	          <ul class="slides">
-              {% for asset in assets.rows %}
-                <li>
-                  <img src="{{ asset.thumbnails.big.view_url }}" />
-                  <p>&nbsp;&nbsp;{{ asset.desc }}</p>
-                </li>
-              {%endfor%}
-	          </ul>
-	        </div>
-	    </div>
-	  </div>
-  </div>
-  {%endif%}
-
-  {% if active.process %}
-  <section class="ui process gray background block" style="">
-    <div class="ui responsive grid">
-      <div class="row">
-        <div class="center aligned column section-title">
-          <h3 class="ui header">活动流程   Process</h3>
-          <hr>
-        </div>
-      </div>
-    </div>
-  </section>
-  {%endif%}
-  <div class="ui big block">
-	<div class="ui responsive grid">
-		<div class="row">
-      {% if active.process %}
-        {% for p in active.process %}
-          <div class="rundown-timeline-container">
-            <div class="timeline-block">
-              <div class="timeline-red-dot"></div>
-              <div class="timeline-content right">
-                <div class="time">{{ p.time }}</div>
-                <p class="name"> {{ p.title }}  </p>
-                <div class="title">
-                  {% if p.img %}
-                  <img src="{{ p.img }}" alt="{{ p.name }}">
-                  {%endif%}
-                  <div class="content">
-                    {{ p.name }}  
-                    <div class="text">
-                      {{ p.position }}
-                    </div>
-                  </div>	
-                 </div>
-              </div>
-            </div>
-          </div>
-        {%endfor%}
-
-			<div class="rundown-timeline-container bottom">
-				<div class="timeline-block">
-					<div class="timeline-red-dot"></div>
-				</div>
-			</div>
-      {%endif%}
-			
-		</div>
-		<div class="row">
-			<div class="center aligned column">
-				<div class="attend-box">
-					{% if active.step_stat == 1 %}
-			          {% if is_attend %}
-			            <a class="ui magenta active inverted button" href="javascript:void(0);">
-			                已报名
-			            </a>
-			          {%else%}
-			            <a class="ui magenta attend inverted button" href="javascript:void(0);">
-			                <i class="ticket icon"></i> 立即报名
-			            </a>
-			          {%endif%}	
-				</div>
-				<p>共有 <span class="attend-num">{{ active.signup_count }}</span> 人报名</p>
-				{%endif%}
-			</div>
-		</div>
-	</div>
-  </div>
-
-  <section class="ui report block">
-    <!--ajax获取报名者头像-->
-    <div class="ui w-1180">
-      <div id="signup-avatar">
-        {% for i in avatar_loop %}
-          <div class="image avatar-list">
-            <img src="http://frstatic.qiniudn.com/images/avatar_default_small.jpg">
-          </div>
-        {% endfor %}
-      </div>
-	  <div class="report-btn">
-		<div class="ui responsive center aligned column">
-	      <div class="row">
-			<div class="center aligned column">
-	      <div class="aettend-box">
-	        {% if !active.step_stat==1 %}
-	          <a class="ui btn-4 btn-4c icon-arrow-right btn" href="javascript:void(0);">
-	                <span>活动结束</span><i class="icon-arrow-right-sharp"></i>
-	          </a>
-	      </div>
-	      <p>共有<span class="attend-num">{{ active.signup_count }}</span>人报名</p>	
-		{%endif%}
-			</div>
-		  </div>
-	    </div>
-	  </div>
-	</div>
-  </section>
-
-  <div class="ui background-30"></div>
-	
-  <section class="ui place gray background block">
-    <div class="ui responsive grid">
-      <div class="row">
-        <div class="center aligned column section-title">
-          <h3 class="ui header">活动地点   Place</h3>
-          <hr>
-    <!--百度地图容器-->
-    
-        </div>
-      </div>
-    </div>
-  </section>
-  <div class="ui grid" style="width:100%">
-	<div class="row">
-	  <div class="center aligned column">
-		<div style="height:440px;border:#ccc solid 1px;font-size:12px" id="map">
-			
-			
-		</div>
-		<div class="position row">
-			<div class="column">
-				<div class="one items">
-					<div class="item">
-						<div class="image">
-              <img src="{{ active.map_info.img }}">
-						</div>
-						<div class="content">
-							<h4 class="ui dividing header">
-                {{ active.map_info.title }}
-								<div class="map-advantage">
-                  {{ active.max_number_count }}人规模
-								</div>
-							</h4>
-							<div class="clearfix">
-								<i class="icon-place icon" style="display:inline-block;float:left;"></i>
-								<div style="display:inline-block;float:left;width:304px;">
-									{{ active.address }}
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-	  </div>
-	</div>
-	
-  </div>
-  <section class="ui part gray background block">
-    <div class="ui responsive grid">
-      <div class="row">
-        <div class="center aligned column section-title">
-          <h3 class="ui header">合作伙伴   Partner</h3>
-          <hr>
-        </div>
-      </div>
-    </div>
-  </section>
-  <div class="ui white together background block">
-    <div class="ui responsive grid">
-      <div class="row">
-        {% if active.partner %}
-            <div class="center aligned column">
-            {% for p in active.partner %}
-            <a href="{{ p.url }}" title="{{ p.title }}" target="_blank"><img src="{{ p.img }}" alt="{{ p.title }}" /></a>
-            {%endfor%}
-            </div>
-        {%endif%}
-		</div>
-    </div>
-  </div>
-  <div class="ui background-30"></div>
-  <section class="ui comment gray background block">
-    <div class="ui responsive grid">
-      <div class="row">
-        <div class="center aligned column section-title">
-          <h3 class="ui header">活动评论   Comment</h3>
-          <hr>
-        </div>
-      </div>
-    </div>
-  </section>
-
-<div class="ui white background block">
-  <div class="ui responsive grid">
-    {% if active.topic_ids %}
-    <div class="row">
-			<div class="column">
-				<a name="comment"></a>
-        <div class="ui big reply segment">
-          <!--ajax comment-->
-          <div id="comment-list"></div>
-          {% include "block/comment_box_site.html" %}
-        </div>
-			</div>
-		</div>
-    {% endif %}
-
-    </div>
-  </div>
+<div class="activity summary">
+    <span><i class="time icon"></i> {{ active.begin_time|date 'Y/m/d H:i' }}</span> <span><i class="map icon"></i> {{ active.address }}</span> <span><i class="users icon"></i> 活动人数：{{ active.max_number_count }}人</span>
 </div>
-
-<div class="ui background-30"></div>
-<section class="ui share gray background block">
-    <div class="ui responsive grid">
-      <div class="row">
-        <div class="center aligned column section-title">
-          <h3 class="ui header">分享</h3>
-          <hr>
+          
+<div class="mainwrap" id="activitypage">
+    <div class="mainleftwrap">
+        <div class="mainleft">
+            <div class="container">
+                <div class="product activity overview">
+                    <p>
+                        {{ active.content }}
+                    </p>
+                </div>
+                
+                <div class="bar"></div>
+                <div class="activity people">
+                	<div class="block title">
+                		活动嘉宾
+                    </div>
+                    {% if active.process %}
+                        {% for p in active.process %}
+                        <div class="rundown-timeline-container">
+                            <div class="timeline-block">
+                                <div class="timeline-red-dot"></div>
+                                <div class="timeline-content right">
+                                    <div class="time">{{ p.time }}</div>
+                                    <p class="name">{{ p.title }}</p>
+                                    <div class="title">
+                                        {% if p.img %}
+                                        <img src="{{ p.img }}" alt="{{ p.name }}" />
+                                        {% endif %}
+                                        <div class="content">
+                                            {{ p.name }}  
+                                            <div class="text">
+                                                {{ p.position }}
+                                            </div>
+                                        </div>	
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {%endfor%}
+                        
+              			<div class="rundown-timeline-container bottom">
+              				<div class="timeline-block">
+              					<div class="timeline-red-dot"></div>
+              				</div>
+              			</div>
+                    {%endif%}
+                </div>
+                
+                {% if active.step_stat == 2 %}
+                <div class="bar"></div>
+                <div class="activity pictures">
+                	<div class="block title">
+                		现场照片
+                    </div>
+                    {% asset_list var:'assets' parent_id:active._id asset_type:67 size:30 %}
+                    
+          	      	<div class="flexslider">
+                        <ul class="slides">
+                            {% for asset in assets.rows %}
+                            <li>
+                                <img src="{{ asset.thumbnails.big.view_url }}" />
+                                <p>&nbsp;&nbsp;{{ asset.desc }}</p>
+                            </li>
+                            {%endfor%}
+                        </ul>
+          	        </div>
+                </div>
+                {% endif %}
+                
+                <div class="bar"></div>
+                <div class="activity people">
+                	<div class="block title">
+                		活动报道
+                    </div>
+                    
+                    
+                </div>
+                
+                <div class="bar"></div>
+                
+                <div class="activity report">
+                	<div class="block title">
+                		活动报名
+                    </div>
+                    <!--ajax获取报名者头像-->
+                    <div id="signup-avatar">
+                        {% for i in avatar_loop %}
+                        <div class="image avatar-list">
+                            <img src="http://frstatic.qiniudn.com/images/avatar_default_small.jpg">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="aettend-box">
+                        {% if !active.step_stat == 1 %}
+                            <a class="ui active grey inverted button" href="javascript:void(0);">
+                                <span>活动结束</span>
+                            </a>
+                        {% else %}
+      			          {% if is_attend %}
+      			            <a class="ui big magenta active inverted button" href="javascript:void(0);">
+      			                <i class="smile icon"></i> 已报名，感谢参与！
+      			            </a>
+      			          {% else %}
+      			            <a class="ui big magenta attend inverted button" href="javascript:void(0);">
+      			                <i class="ticket icon"></i> 立即报名
+      			            </a>
+      			          {% endif %}
+              		    {% endif %}
+                        <p>共有 <span>{{ active.signup_count }}</span> 人报名</p>
+                    </div>
+                </div>
+                
+                <div class="bar"></div>
+                
+                <div class="product activity reviews">
+                	<div class="block title">
+                		活动讨论
+                    </div>
+                    {% if active.topic_ids %}
+                        <!--ajax comment-->
+                        <div class="ui big reply segment" id="comment-list"></div>
+                        {% include "block/comment_box_site.html" %}
+                    {% endif %}
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </section>
-<div class="ui big-end white background grid">
-	<div class="row">
-		<div class="center aligned column">
-			{% include "block/big-circel-share.html" %}
-		</div>
-	</div>
+    <div class="mainright">
+        
+        <div class="sellwrap">
+        	<div class="block title">
+        		合作品牌
+            </div>
+			<div class="tryfirm">
+                {% if active.partner %}
+                    {% for p in active.partner %}
+                    <a href="{{ p.url }}" title="{{ p.title }}" target="_blank">
+                        <img src="{{ p.img }}" alt="{{ p.title }}" />
+                    </a>
+                    {%endfor%}
+                {%endif%}
+			</div>
+        </div>
+        
+        <div class="sellwrap">
+        	<div class="block title">
+        		礼品赞助
+            </div>
+        </div>
+        
+        <div class="sellwrap">
+        	<div class="block title">
+        		活动场地
+            </div>
+        </div>
+        
+        <!--百度地图容器-->
+        <div class="sellwrap">
+        	<div class="block title">
+        		活动地址
+            </div>
+            <div class="rbox">
+    		    <div style="height:300px;border:#ccc solid 1px;" id="map"></div>
+                <p>{{ active.map_info.title }}</p>
+			    <p><i class="map icon"></i>{{ active.address }}</p>
+            </div>
+        </div>
+        
+        <div class="sellwrap">
+        	<!--分享-->
+            <div class="rbox">
+    		    {% include "block/big-circel-share.html" %}
+            </div>
+        </div>
+        
+    </div>
 </div>
 {% include "block/attend_user_info.html" %}
 {% include "block/qrcode.html" %}

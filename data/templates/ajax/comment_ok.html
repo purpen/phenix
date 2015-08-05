@@ -1,5 +1,5 @@
 <taconite>
-	<append select=".ui.threaded.minimal.comments"><![CDATA[
+	<append select=".is-comment.comments"><![CDATA[
 		<div class="comment" id="{{ comment._id }}">
 			<a class="avatar" href="{{ comment.user.home_url }}" title="{{ comment.user.nickname }}">
 				<img src="{{ comment.user.small_avatar_url }}" />
@@ -8,9 +8,12 @@
 				<a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
 				<div class="metadata">
 					<div class="date">{{ comment.created_on }}</div>
+          <div>{{ comment.floor }}楼</div>
+          <!--
 					{% if comment.type == 4 %}
 					{% include "block/star.html" %}
 					{% endif %}
+          -->
 				</div>
 				<div class="laud">
           <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
@@ -18,13 +21,30 @@
             <i class="icon empty heart"></i>
           </a> 
 				</div>
+
+          {% if comment.is_reply %}
+          <div>回复 #{{ comment.reply_comment.floor }} @<a href="{{ comment.reply_comment.user.home_url }}" class="ui link" target="_blank">{{ comment.reply_comment.user.nickname }}</a></div>
+          {%endif%}
+
 				<div class="text">
-					{{ comment.content|safe }}
+          {% if comment.deleted==1 %}
+            该内容已被屏蔽
+          {%else%}
+            {{ comment.content|safe }}
+          {%endif%}
 				</div>
-				<div class="actions">
-					<a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
-					<a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
-				</div>
+        <div class="actions">
+          {% if !comment.deleted %}
+          <a class="reply showbox reply-btn" href="javascript:void(0);" comment_id="{{ comment._id }}" floor="{{ comment.floor|default 0 }}" comment_user_id="{{ comment.user_id }}" comment_user_name="{{ comment.user.nickname }}">回复</a>
+          {% if visitor.can_admin %}
+            <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">屏蔽</a>
+          {%else%}
+            {% if visitor.id==comment.user_id %}
+              <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">屏蔽</a>
+            {%endif%}
+          {%endif%}
+          {%endif%}
+        </div>
 			</div>
 		</div>
 	]]></append>

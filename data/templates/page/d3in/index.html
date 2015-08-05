@@ -3,6 +3,12 @@
 
 {% block page_css %}
 <style type="text/css">
+.ui.block{
+  margin:0;
+}
+.lab.submenu {
+  background-color: rgba(0,0,0,0);
+}
 .lab.submenu > .ui.responsive.grid > .row{
 	padding:1.6rem 0 .6rem;
 	border-bottom: 1px solid rgba(255,255,255,0.85);
@@ -95,6 +101,7 @@
 }
 .d3in .lab.submenu a.ui.line:hover{
 	color:#f36;
+	border-bottom:2px solid rgba(0,0,0,0) !important;
 }
 .d3in .ui.title h1.ui.header{
 	-webkit-font-smoothing: antialiased;
@@ -103,6 +110,9 @@
 .d3in .ui.title{
 	padding:8rem 0;
 	margin: 0px !important;
+}
+.d3in .ui.title h1{
+  color:#fff;
 }
 .d3in .ui.title h1 span{
 	font-size: 35px;
@@ -119,6 +129,14 @@
 .five.wide h3+p{
 	text-align:left;
 }
+
+.ui.tools.cards > .card .image img {
+    max-width: 100%;
+    width: 100%;
+    border-top-left-radius: 0.285714rem;
+    border-top-right-radius: 0.285714rem;
+}
+
 @-webkit-keyframes fadeInDown { 
     0% { 
         opacity: 0; 
@@ -167,6 +185,11 @@
 }
 a.line:hover, a.line.active {
   border-bottom: 2px solid rgba(0,0,0,0);
+  transition: color .3s ease-in-out 0s;
+  -webkit-transition: color .3s ease-in-out 0s;
+  -moz-transition: color .3s ease-in-out 0s;
+  -o-transition: color .3s ease-in-out 0s;
+  -ms-transition: color .3s ease-in-out 0s;
 	color:#f36 !important;
 }
 </style>
@@ -197,8 +220,8 @@ a.line:hover, a.line.active {
 					<div class="six wide column">
 						<h3>D3IN铟立方未来实验室</h3>
 					</div>
-					<div class="ten right aligned wide column">
-            {% include "block/d3in/sub_nav.html" %}
+					<div class="ten wide right aligned column">
+                        {% include "block/d3in/sub_nav.html" %}
 					</div>
 				</div>
 			</div>
@@ -269,7 +292,7 @@ a.line:hover, a.line.active {
           <a href="{{ app_url_d3in }}/active" class="ui magenta inverted button" style="min-width: 160px;">
 						活动列表
 					</a>
-					<a href="{{ app_url_d3in }}/choose" class="ui magenta inverted button">
+					<a href="{{ app_url_d3in }}/choose" class="ui magenta inverted button" style="min-width: 160px;">
 						实验室预约
 					</a>
 				</div>
@@ -369,12 +392,13 @@ a.line:hover, a.line.active {
 				</div>
 			</div>
 			<div class="row">
-				<div class="ui four cards">
-          {% for d in device_list.rows %}
-            {% include "block/d3in/device_index_item.html" %}
-          {%endfor%}
-
-				</div>
+                <div class="column">
+      				<div class="ui four tools cards">
+                        {% for d in device_list.rows %}
+                          {% include "block/d3in/device_index_item.html" %}
+                        {%endfor%}
+      				</div>
+                </div>
 			</div>
 			<div class="row">
 				<div class="center aligned column">

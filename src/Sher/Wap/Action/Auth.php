@@ -50,7 +50,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		// 获取微博登录的Url
 		$akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
 		$skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
-		$callback = Doggy_Config::$vars['app.sinaweibo.callback_url'];
+		$callback = Doggy_Config::$vars['app.sinaweibo.wap_callback_url'];
 		
 		$oa = new Sher_Core_Helper_SaeTOAuthV2($akey, $skey);
 		$weibo_auth_url = $oa->getAuthorizeURL($callback);
@@ -180,6 +180,16 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 
     $this->stash['is_weixin'] = $is_weixin;
     $this->stash['wx_params'] = $wx_params;
+
+		// 获取微博登录的Url
+		$akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
+		$skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
+		$callback = Doggy_Config::$vars['app.sinaweibo.wap_callback_url'];
+		
+		$oa = new Sher_Core_Helper_SaeTOAuthV2($akey, $skey);
+		$weibo_auth_url = $oa->getAuthorizeURL($callback);
+		
+    $this->stash['weibo_auth_url'] = $weibo_auth_url;
 
 		return $this->to_html_page('wap/signup.html');
 	}
@@ -325,6 +335,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 				$user_info['sex'] = $this->stash['sex'];
 				$user_info['city'] = $this->stash['city'];
 				$user_info['from_site'] = (int)$this->stash['from_site'];
+        $user_info['is_bind'] = 1;
       }
 			
             $ok = $user->create($user_info);
@@ -351,7 +362,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 
 				// 删除验证码
 				$verify = new Sher_Core_Model_Verify();
-				$verify->remove($code['_id']);
+				$verify->remove((string)$code['_id']);
 				
 				Sher_Core_Helper_Auth::create_user_session($user_id);
 			}
@@ -456,7 +467,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 
 				// 删除验证码
 				$verify = new Sher_Core_Model_Verify();
-				$verify->remove($code['_id']);
+				$verify->remove((string)$code['_id']);
 				
 				Sher_Core_Helper_Auth::create_user_session($user_id);
 			}
@@ -517,13 +528,13 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			$user = new Sher_Core_Model_User();
 			
 			$user_info = array(
-                'account' => $this->stash['account'],
+        'account' => $this->stash['account'],
 				'nickname' => $this->stash['account'],
         'password' => sha1($pwd),
         //ajax快捷注册标记
         'kind'  => 7,
-                'state' => Sher_Core_Model_User::STATE_OK
-            );
+        'state' => Sher_Core_Model_User::STATE_OK,
+      );
 			
 			$profile = $user->get_profile();
 			$profile['phone'] = $this->stash['account'];
@@ -535,7 +546,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 
 				// 删除验证码
 				$verify = new Sher_Core_Model_Verify();
-				$verify->remove($code['_id']);
+				$verify->remove((string)$code['_id']);
 		Sher_Core_Helper_Auth::create_user_session($user_id);
 		
         // export some attributes to browse client.
@@ -616,7 +627,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     }
     
     // 删除验证码
-    $verify->remove($code['_id']);
+    $verify->remove((string)$code['_id']);
 		
 		return $this->ajax_json('重置密码成功,请立即登录！', false, Doggy_Config::$vars['app.url.wap'].'/auth/login');
 	}

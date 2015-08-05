@@ -1,0 +1,99 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">大赛管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/contest" class="{{ css_contest }} item">大赛列表</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/contest/edit" class="item">
+				<i class="add icon"></i>新增大赛
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/contest" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="Search..." type="text" name="q">
+				<i class="search link icon"></i>
+			</div>
+		</form>
+	</div>
+	
+	{% contest_list var:'list' page:page %}
+	<table class="ui small table">
+		<thead>
+			<tr>
+				<th></th>
+				<th>封面图</th>
+				<th>标题/链接</th>
+				<th>点击数量</th>
+                <th>作品数量</th>
+				<th>状态</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for ad in list.rows %}
+			<tr id="{{ ad._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ ad._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>
+					<div class="ui image">
+						<img src="{{ ad.cover.thumbnails.mini.view_url }}" width="80px" />
+					</div>
+				</td>
+				<td>
+		          	<div class="header">
+						<a href="{{ ad.view_url }}" class="ui link" target="_blank">
+							{{ ad.title|truncate, 30 }}
+						</a>
+					</div>
+                    {% if ad.link %}
+                    <p><a href="{{ ad.link }}" class="ui link" target="_blank">{{ ad.link|truncate 30 }}</a></p>
+                    {% endif %}
+		          	<p class="attribute">编号：{{ ad.short_name }}</p>
+				</td>
+				<td>{{ ad.view_count }}</td>
+                <td>{{ ad.stuff_count }}</td>
+				<td>
+					{% if ad.state == 2 %}
+					<label class="ui green label" id="publish-{{ ad._id }}-label">已发布</label>
+					{% endif %}
+				
+					{% if ad.state == 1 %}
+					<label class="ui orange label" id="publish-{{ ad._id }}-label">未发布</label>
+					{% endif %}
+				</td>
+				<td>
+					<div class="ui divided horizontal list">
+						{% if ad.state == 2 %}
+						<a href="{{ app_url_admin_base }}/contest/unpublish?id={{ ad._id }}" class="ui link ajax item" id="publish-{{ ad._id }}-button">撤销发布</a>
+						{% else %}
+						<a href="{{ app_url_admin_base }}/contest/publish?id={{ ad._id }}" class="ui link ajax item" id="publish-{{ ad._id }}-button">发布</a>
+						{% endif %}
+						<a href="{{ app_url_admin_base }}/contest/edit?id={{ ad._id }}" class="ui link item">编辑</a> 
+						<a href="{{ app_url_admin_base }}/contest/delete?id={{ ad._id }}" class="ui link item confirm-request">删除</a>
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+	
+{% endblock %}

@@ -1,0 +1,21 @@
+{% ad_list var:'adone' page:1 size:1 state:2 name:'bbs_rightbar_adone' %}
+{% if adone %}
+<div class="adstickwrap">
+    <div class="ui one adverts cards">
+        <div class="card">
+            <div class="advblock">
+                <div class="image" style="background-image: url('{{ adone.cover.fileurl }}');padding:30% 0;">
+                    <a href="{{ adone.view_url }}" title="{{ adone.title }}" target="_blank"></a>
+                </div>
+                <div class="desc">
+                    <h2>
+                        {{ adone.title }}
+                    </h2>
+                    <p>{{ adone.sub_title }}</p>
+                </div>
+                <a href="{{ adone.view_url }}" title="{{ adone.title }}" class="link wrap" target="_blank"></a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

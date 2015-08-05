@@ -1,5 +1,5 @@
 <tr id="{{ topic._id }}">
-	<td class="hide-on-mobile author">
+	<td class="hide-on-mobile author one wide">
 		<a class="ui small avatar image" href="{{ topic.user.home_url }}">
       		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
 			{% if topic.user.kind==1 %}
@@ -7,41 +7,38 @@
 			{%endif%}
 		</a>
 	</td>
-	<td class="nine wide">
+	<td colspan="3" class="htitle nide wide">
       	<h3 class="title {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}">
 			<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
-                {% if topic.top %}
-                <i class="ui pop basic pin icon" data-content="置顶推荐" data-variation="inverted"></i>
-                {% endif %}
-                {% if topic.stick %}
-                <i class="ui pop basic flag icon" data-content="编辑推荐" data-variation="inverted"></i>
-                {% endif %}
-                {% if topic.fine %}
-                <i class="ui pop basic star icon" data-content="精华话题" data-variation="inverted"></i>
-                {% endif %}
                 {{ topic.title|truncate 60 }}
+                {% if topic.top %}<span class="ui green small label">置顶</span>{% endif %}
+                {% if topic.fine %}<span class="ui orange small label">精华</span>{% endif %}
+                {% if topic.stick %}<span class="ui yellow small label">编辑推荐</span>{% endif %}
             </a>
 		</h3>
+        
       	<div class="content">
 			<div class="attribute">
-				<span class="category"><a href="{{ topic.category.view_url }}" class="ui link">{{ topic.category.title }}</a></span> | 
+                <span class="category">
+                    {{ topic.category.title }}
+                </span> | 
 				<span class="author">
-					<a href="{{ topic.user.home_url }}" class="ui link">@{{ topic.user.nickname }}</a>  <i class="time icon"></i>{{ topic.created_on|relative_datetime }} 发表
+					<a href="{{ topic.user.home_url }}" class="ui link">@{{ topic.user.nickname }}</a>  <i class="time icon"></i>{{ topic.created_on|relative_datetime }}
 				</span>
 			</div>
 			<div class="hide-on-mobile">
 				{% if !topic.asset_count %}
-					<div class="description">
+					<a class="description" href="{{ topic.view_url }}" target="_blank">
 						{{ topic.strip_description|truncate 70 }}
-					</div>
+					</a>
 				{% else %}
 					{% if topic.cover %}
+					  {% asset_list var:'assets' parent_id:topic._id size:4 asset_type:55 sort:'positive' %}
+                    {%else%}
 					  {% asset_list var:'assets' parent_id:topic._id size:5 asset_type:55 sort:'positive' %}
-          {%else%}
-					  {% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 sort:'positive' %}
-          {%endif%}
+                    {%endif%}
 					<!--展示图片-->
-					<div class="ui mini images">
+					<a class="ui mini images" href="{{ topic.view_url }}" target="_blank">
 						{% if topic.cover %}
 						<img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" />
 						{% endif %}
@@ -50,26 +47,26 @@
 						  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
 							{% endif %}
 						{% endfor %}
-					</div>
-					<div class="ui center aligned count text">
+					</a>
+                    <span class="last reply">
+                		{% if topic.last_user %}
+                		<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
+                	  		<img src="{{ topic.last_user.mini_avatar_url }}" class="ui avatar image" alt="{{ topic.user.nickname }}" />
+                		</a>
+                		回复于 {{ topic.last_reply_time|relative_datetime }}
+                		{% endif %}
+                    </span>
+                    
+					<div class="ui count text">
 						<small>{{ topic.asset_count }}张图片</small>
 					</div>
 				{% endif %}
 			</div>
+            
+    		<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
+    			<span class="dot-irecommend-count">{{ topic.view_count }}</span> 
+    			<span class="dot-irecommend-suffix"></span>
+    		</a>
       	</div>
-	</td>
-	<td class="hide-on-mobile four wide">
-		{% if topic.last_user %}
-		<a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
-	  		<img src="{{ topic.last_user.mini_avatar_url }}" class="ui avatar image" alt="{{ topic.user.nickname }}" />
-		</a>
-		回复于 {{ topic.last_reply_time|relative_datetime }}
-		{% endif %}
-	</td>
-	<td class="hide-on-mobile two center aligned wide">
-		<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
-			<span class="dot-irecommend-count">{{ topic.view_count }}</span> 
-			<span class="dot-irecommend-suffix"></span>
-		</a>
 	</td>
 </tr>

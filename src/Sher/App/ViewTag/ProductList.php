@@ -33,12 +33,18 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		$process_voted = 0;
 		$process_presaled = 0;
 		$process_saled = 0;
+
+    // 查询类型
+    $type = 0;
 		
 		$only_approved = 0;
 		$only_published = 0;
 		$only_onsale = 0;
 		$only_stick = 0;
 		$is_shop = 0;
+    $is_shop_wap = 0;
+    // 创意投票或产品灵感
+    $is_idea = 0;
 		$presaled = 0;
 		// 搜索类型
 		$s_type = 0;
@@ -96,7 +102,7 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
             if(is_array($user_id)){
                 $query['designer_id'] = array('$in'=>$user_id);
             }else{
-                $query['designer_id'] = (int)$user_id;
+                $query['user_id'] = (int)$user_id;
             }
         }
 		
@@ -108,10 +114,21 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 			$query['stage'] = (int)$stage;
 		}
 
-	    //预售商品合并后
-	    if ($is_shop) {
-	      $query['stage'] = array('$in'=>array(5, 9));
-	    }
+    //除了投票
+    if ($is_shop) {
+      $query['stage'] = array('$in'=>array(5, 9, 12, 15));
+    }
+
+    // wap端显示:预售和商品
+    if ($is_shop_wap){
+      $query['stage'] = array('$in'=>array(5,9));
+    }
+
+    // 投票或灵感(个人中心用)
+    if ($is_idea){
+      $query['stage'] = array('$in'=>array(1, 15));
+    }
+
 		//预售
 		if($presaled){
 		  $query['stage'] = 5;
@@ -155,6 +172,21 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 			$query['voted_finish_time'] = array('$gt'=>time());
 		  }
 		}
+
+    if($type){
+      switch((int)$type){
+        case 1:
+          $query['stage'] = 15;
+          break;
+        case 2:
+          $query['stage'] = array('$in'=>array(5,9));
+          break;
+        case 3:
+          $query['stage'] = 12;
+          break;
+        default:
+      }
+    }
 		
 	    // 搜索
 	    if($s_type){
@@ -199,4 +231,4 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
         }
     }
 }
-?>
+

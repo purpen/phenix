@@ -17,8 +17,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	
     protected $schema = array(
 		'_id'     => null,
-    # 只是记录导过来的stuff_id
-    'old_stuff_id' => null,
+        # 只是记录导过来的stuff_id
+        'old_stuff_id' => null,
 		# taobao sku
 		'taobao_iid' => null,
 		# 产品名称
@@ -33,7 +33,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'content' => '',
 		# 产品标签
 		'tags'    => array(),
-    'like_tags' => array(),
+        'like_tags' => array(),
 		
 		# 产品视频链接
 		'video' => array(),
@@ -55,11 +55,11 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 设计者/团队
 		'designer_id' => 0,
 
-    # 品牌ID
-    'cooperate_id' => null,
+        # 品牌ID
+        'cooperate_id' => null,
 
-    # 关联产品ID
-    'fever_id' => 0,
+        # 关联产品ID
+        'fever_id' => 0,
 		
 		## 价格
 		
@@ -180,8 +180,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'favorite_count' => 0, 
 		# 喜欢数
 		'love_count' => 0,
-    # 虚拟喜欢数量
-    'invented_love_count' => 0,
+        # 虚拟喜欢数量
+        'invented_love_count' => 0,
 		# 回应数 
 		'comment_count' => 0,
 		# 评价星数
@@ -223,6 +223,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'process_presaled' => 0,
 		# 是否在商店列表显示
 		'process_saled' => 0,
+        # 产品灵感
+        'process_idea' => 0,
 		
 		# 投票申请/产品灵感是否审核
 		'approved' => 0,
@@ -231,17 +233,17 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 预售，销售产品是否发布
 		'published' => 0,
 
-    # 最后赞用户列表
-    'last_love_users' => array(),
+        # 最后赞用户列表
+        'last_love_users' => array(),
 
-    # 商品介绍(从智品库过来数据)
-    'product_info' => array(),
+        # 商品介绍(从智品库过来数据)
+        'product_info' => array(),
 		
 		# 推荐（编辑推荐、推荐至首页）
 		'stick' => 0,
 
-    # 精选
-    'featured' => 0,
+        # 精选
+        'featured' => 0,
 		
 		# 是否成功案例产品
 		'okcase' => 0,
@@ -302,10 +304,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             }else if ($row['stage'] == self::STAGE_IDEA){
                 $row['stage_label'] = '产品灵感';
             }else{
-                $row['stage_label'] = '未设置'; // 未知
+                $row['stage_label'] = '未设置1'; // 未知
             }
         }else{
-            $row['stage_label'] = '未设置'; // 未知  
+            $row['stage_label'] = '未设置2'; // 未知  
         }
 		
 		// HTML 实体转换为字符
@@ -352,6 +354,12 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	    }else{
 	    	$row['is_try'] = false;
 	    }
+        
+        // 是否为新品
+        $row['newest'] = ($row['stage'] == 5) ? 1 : 0;
+        
+        // 是否为热门
+        $row['hot'] = ($row['sale_count'] > 100) ? 1 : 0;
 	}
 	
 	/**
@@ -564,6 +572,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			case self::STAGE_EXCHANGE:
 				$view_url = Sher_Core_Helper_Url::shop_view_url($row['_id']);
 				break;
+			case self::STAGE_IDEA:
+				$view_url = Sher_Core_Helper_Url::shop_view_url($row['_id']);
+				break;
 			default:
 				$view_url = Doggy_Config::$vars['app.url.fever'];
 				break;
@@ -583,14 +594,28 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
      * 标记为推荐
      */
     public function mark_as_stick($id) {
-        return $this->update_set($id, array('stick' => 1));
+        return $this->update_set((int)$id, array('stick' => 1));
     }
 	
     /**
      * 取消推荐
      */
 	public function mark_cancel_stick($id) {
-		return $this->update_set($id, array('stick' => 0));
+		return $this->update_set((int)$id, array('stick' => 0));
+	}
+
+    /**
+     * 标记为精选
+     */
+    public function mark_as_featured($id) {
+        return $this->update_set((int)$id, array('featured' => 1));
+    }
+	
+    /**
+     * 取消精选
+     */
+	public function mark_cancel_featured($id) {
+		return $this->update_set((int)$id, array('featured' => 0));
 	}
 	
 	/**

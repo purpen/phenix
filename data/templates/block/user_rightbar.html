@@ -1,34 +1,34 @@
 <div class="rightbar">
-    <div class="ui fluid four item menu">
-        <div class="item">
-            <div class="name">
-                <b>{{ user.follow_count|default 0 }}</b>
+    <div class="ui tiny four statistics">
+        <div class="red statistic">
+            <div class="value">
+                {{ user.follow_count|default 0 }}
             </div>
-            <div class="description">
+            <div class="label">
                 关注
             </div>
         </div>
-        <div class="item">
-            <div class="name">
-                <b>{{ user.fans_count|default 0 }}</b>
+        <div class="orange statistic">
+            <div class="value">
+                {{ user.fans_count|default 0 }}
             </div>
-            <div class="description">
+            <div class="label">
                 粉丝
             </div>
         </div>
-        <div class="item">
-            <div class="name">
-                <b>{{ user.topic_count|default 0 }}</b>
+        <div class="green statistic">
+            <div class="value">
+                {{ user.topic_count|default 0 }}
             </div>
-            <div class="description">
+            <div class="label">
                 话题
             </div>
         </div>
-        <div class="item">
-            <div class="name">
-                <b>{{ user.product_count|default 0 }}</b>
+        <div class="blue statistic">
+            <div class="value">
+                {{ user.product_count|default 0 }}
             </div>
-            <div class="description">
+            <div class="label">
                 产品
             </div>
         </div>
@@ -36,19 +36,20 @@
     
     <div class="ui segment divided info list">
         <div class="item">
-            <i class="trophy icon"></i> {{ user.ext_state.user_rank.title|default '鸟列兵' }} <a href="{{ app_url_my }}/point" class="ui pop line" target="_blank" data-content="我的等级" data-variation="inverted"><span class="ui magenta text">Lv <b>{{ user.ext_state.rank_id|default 1 }}</b></span></a>
+            等级：{{ user.ext_state.user_rank.title|default '鸟列兵' }} 
+            <a href="{{ app_url_my }}/point" class="ui pop link" target="_blank" data-content="我的等级" data-variation="inverted"><span class="ui magenta text">Lv {{ user.ext_state.rank_id|default 1 }}</span></a>
         </div>
         <div class="item">
-            <i class="basic chart icon"></i> 经验值: <span class="ui text"><b>{{ user.ext_state.rank_point|default 0 }}</b></span> 鸟币: <span class="ui text"><b>{{ current_point.balance.money|default 0 }}</b></span>
+            经验值：<span class="ui magenta bird text">{{ user.ext_state.rank_point|default 0 }}</span> 
+            鸟币： <span class="ui magenta text">{{ current_point.balance.money|default 0 }}</span>
         </div>
         <div class="item">
-            <i class="map icon"></i> {{ user.city }} {{ user.profile.job }}
+            城市：{{ user.city }} {{ user.profile.job }}
         </div>
         {% if user.tags %}
         <div class="item">
-            <i class="tag icon"></i> 
             {% for t in user.tags %}
-            <label class="tg"><small>#</small> {{ t }}</label>
+            <label class="ui tag label">{{ t }}</label>
             {% endfor %}
         </div>
         {% endif %}

@@ -1,0 +1,502 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+    
+</style>
+{% endblock %}
+{% block layout_js %}
+	<script type="text/javascript">
+	    var per_page = 10;
+		function fetch_comment(current_page, per_page){
+	        var total_count = {{ product.comment_count }};
+	        var total_page = Math.ceil(total_count/per_page);
+	        var url = '{{ app_url_base }}/app/site/shop/ajax_fetch_comment';
+	        $.get(url, {target_id: {{ product._id }}, page: current_page, per_page: per_page, total_page: total_page});
+	    }
+	</script>
+{% endblock %}
+{% block jquery %}
+	$('#carousel').flexslider({
+        animation: "slide",
+        controlNav: false,
+        animationLoop: false,
+        slideshow: false,
+        itemWidth: 160,
+        itemMargin: 15,
+        asNavFor: '#slider'
+    });
+ 
+    $('#slider').flexslider({
+        animation: "slide",
+        controlNav: false,
+        animationLoop: false,
+        slideshow: false,
+        sync: "#carousel"
+    });
+    
+    
+	phenix.bind_share_list();
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.wap_view_url }}'});
+    
+	// 预定
+	$('.ui.booked.button').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		var r_id = $(this).data('id');
+		phenix.redirect('{{ app_url_shopping }}/preorder?r_id='+r_id);
+	});
+	
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{product._id}},type:1,event:1}, function(result){
+			if (result.success) {
+				// 验证收藏
+				if (result.data.favorited) {
+					$('.ui.favorite.button')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+		
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{product._id}},type:1,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.love.button')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+	{% endif %}
+	
+	// 收藏
+	$('.ui.favorite.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_favorite', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_favorite', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '收藏')
+						.data('mark', 'n')
+						.removeClass('active');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+	
+	// 喜欢
+	$('.ui.love.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		var count = parseInt($('#product-love-count').text());
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+					count += 1;
+					$('#product-love-count').text(count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '点赞')
+						.data('mark', 'n')
+						.removeClass('active');
+					count -= 1;	
+					$('#product-love-count').text(count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+	
+	// 分享
+	$('.ui.share.button').bind('click', function(){
+		$('.ui.share.modal').modal('show');
+	});
+	
+  	// ajax加载评论
+  	fetch_comment(1, per_page);
+	
+	// 加载推荐商品 
+	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ product.tags_s }}', size: 4, id: {{ product._id }} });
+	
+	// 显示私信框
+	$('.ui.letter.button').bind('click', function(){
+		$('.ui.letter.modal').modal('show');
+	});
+	// 隐藏私信框
+	$('.ui.cancel.button').bind('click', function(){
+		$('.ui.letter.modal').modal('hide');
+	});
+	
+	$('#message-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '私信内容不能为空'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '私信内容不超过140字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+{% endblock %}
+{% block content %}
+<div class="shop viewtop" style="background-image: url('{{ product.cover.thumbnails.big.view_url }}');">
+	<div class="masthead">
+		<div class="masthead-cover">
+        	<div class="ui responsive grid">
+        		<div class="row">
+        			<div class="column">
+        				<div class="container">
+        					<p>
+                                {{ product.category.title }}
+                            </p>
+        					<h1 class="block title">{{ product.title }}</h1>
+                            <!--
+                            <div class="product stars">
+            					<div class="ui small star rating hover">
+                                    <i class="icon active"></i>
+                                    <i class="icon active"></i>
+                                    <i class="icon"></i>
+                                    <i class="icon"></i>
+                                    <i class="icon"></i>
+            					</div>
+            					<small>
+                                    <span class="count">7.3</span> ( <span id="product-love-count">{{ product.comment_count }}</span>条评价 )
+                                </small>
+                            </div>-->
+        					<p>
+                                <span>@{{ product.designer.nickname }} 发表</span> 
+                                <span class="clove">{{ product.love_count }} 人点赞</span> / 
+                                <span class="clike">{{ product.favorite_count }} 个收藏</span>
+                            </p>
+        				</div>
+        			</div>
+        		</div>
+        	</div>
+        </div>
+    </div>
+</div>
+
+
+<div class="mainwrap" id="shoppage">
+    <div class="mainleftwrap">
+        <div class="mainleft">
+            <div class="slidebox">
+                {% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
+                <div id="slider" class="flexslider flex-single">
+                    <ul class="slides">
+                        <li style="background-image: url('{{ product.cover.thumbnails.huge.view_url }}');">
+                            <a href="{{ product.cover.thumbnails.huge.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
+                                <img src="{{ product.cover.thumbnails.huge.view_url }}" alt="{{ product.title }}" style="display: none;" />
+                            </a>
+                        </li>
+		                {% for asset in assets.rows %}
+                            {% if asset._id != product.cover_id %}
+                                <li style="background-image: url('{{ asset.thumbnails.huge.view_url }}');">
+                                    <a href="{{ asset.thumbnails.huge.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
+                                        <img src="{{ asset.thumbnails.huge.view_url }}" alt="{{ product.title }}" style="display: none;" />
+                                    </a>
+                                </li>
+							{% endif %}
+						{% endfor %}
+                        {% for v in product.video %}
+                        <li>
+                            <iframe height="530px" width="100%" src="{{ v }}" frameborder=0 allowfullscreen></iframe>
+                        </li>
+                        {% endfor %}
+                      </ul>
+                </div>
+                
+                <div id="carousel" class="flexslider flex-single-carousel">
+                    <ul class="slides">
+                        <li style="background-image: url('{{ product.cover.thumbnails.small.view_url }}');">
+                            <a href="{{ product.cover.thumbnails.small.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
+                                <img src="{{ product.cover.thumbnails.small.view_url }}" alt="{{ product.title }}" class="thumb" />
+                            </a>
+                        </li>
+						{% for asset in assets.rows %}
+                            {% if asset._id != product.cover_id %}
+                            <li style="background-image: url('{{ asset.thumbnails.small.view_url }}');">
+                                <a href="{{ asset.thumbnails.small.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
+                                    <img src="{{ asset.thumbnails.small.view_url }}" alt="{{ product.title }}" class="thumb" />
+                                </a>
+                            </li>
+							{% endif %}
+						{% endfor %}
+                        {% for v in product.video %}
+                        <li class="viem thumbviem" style="width: 160px; float: left; display: block;"></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+			</div>
+            
+            <div class="container">
+                
+		    
+				<div class="ui tabox">
+					<div class="ui three tabs">
+						<a href="#.overview" class="tab">产品详情</a>
+						<a href="#.evaluating" class="tab">话题讨论</a>
+						<a href="#.reviews" class="tab">用户评价</a>
+					</div>
+				</div>
+                
+				<div class="product overview">
+					<div class="product content froala-element">
+						{{ product.content }}
+					</div>
+                
+					<div class="ui center aligned zanl">
+						<div class="ui green pop favorite inverted button" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
+							<i class="star icon"></i> 收藏
+						</div>
+						<div class="ui magenta pop love icon inverted button" data-content="点赞" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
+							<i class="heart empty icon"></i> 赞
+						</div>
+						<div class="ui blue pop share icon inverted button" data-content="分享" data-variation="inverted">
+							<i class="share icon"></i> 分享
+						</div>
+					</div>
+                
+				</div>
+                
+				<div class="bar"></div>
+                
+				<div class="product evaluating">
+					<div class="block title">
+						话题讨论 <small>（{{ product.topic_count }}）</small>
+                    </div>
+				    
+					{% if product.topic_count == 0 %}
+					<div class="ui center aligned resultbox">
+						<p>还没有人为 <a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a> 撰写评测，你想做第一个为它写评测的人么？</p>
+						<a href="{{ product.subject_view_url }}&evaluating=1#newtopic" class="ui magenta inverted button" style="margin-top:2em;">
+							<i class="edit icon"></i> 发表评测
+						</a>
+					</div>
+					{% else %}
+                        <div class="product topics">
+    						{% include "block/product_topic.html" %}
+                        </div>
+						<div class="ui center aligned">
+							<a href="{{ product.subject_view_url }}&evaluating=1" class="ui blue inverted button">
+								<i class="search icon"></i> 查看更多
+							</a>
+							<a href="{{ product.subject_view_url }}&evaluating=1#newtopic" class="ui magenta inverted button">
+								<i class="edit icon"></i> 发表话题
+							</a>
+						</div>
+					{% endif %}
+				</div>
+                
+				{% if product.comment_count != 0 %}
+                
+				<div class="bar"></div>
+                
+				<div class="product reviews">
+					<div class="block title">
+						用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
+                    </div>
+				    
+					<!--ajax comment-->
+					<div class="ui big reply segment" id="comment-list"></div>
+				</div>
+				{% endif %}
+                
+            </div>
+        </div>
+        
+        <!--ajax fetch推荐相关产品-->
+        <div id="product_guess_list"></div>
+    </div>
+    <div class="mainright">
+        
+        <div class="sellwrap">
+            
+			<div class="buy box">
+				<div class="reorder title">
+					<span class="count">{{ product.presale_count|default 0 }}</span>
+					预定人数
+				</div>
+				<div class="reorder title">
+					<span class="count"><span class="unit">￥</span>{{ product.presale_money|default 0 }}</span>
+					完成金额
+				</div>
+				<div class="reorder title">
+					<span class="count" id="clock"></span>
+					剩余时间
+				</div>
+				<div class="reorder result">
+					<span class="count">{{ product.presale_percent }}%</span>
+					达成率
+				</div>
+			</div>
+            
+        </div>
+        
+    	{% sku_list var:'presales' product_id:product._id stage:5 %}
+        
+    	{% if presales.total_rows %}
+        <div class="ui one xrange cards">
+            {% for presale in presales.rows %}
+            <div class="card">
+                <h3 class="ui header">{{ presale.name }}</h3>
+				<p class="time">
+					{% if presale.mode %}
+						{{ presale.mode }}
+					{% endif %}
+					{% if presale.limited_count %}
+						, 限量{{ presale.limited_count }}个
+					{% endif %}
+				</p>
+				<p class="time">
+					{{ presale.summary }}
+				</p>
+				<p class="price">
+					<small>￥</small> {{ presale.price }}
+				</p>
+				<div class="actions">
+					{% if !product.presale_finished %}
+						{% if presale.quantity %}
+							<div class="ui magenta booked inverted button" data-id="{{ presale._id }}" data-pid="{{ product._id }}">
+								现在预定
+							</div>
+						{% else %}
+							<div class="ui disabled active grey inverted button">
+								已抢完
+							</div>
+						{% endif %}
+					{% else %}
+						{% if presale.quantity %}
+							<div class="ui disabled active grey inverted button">
+								预售结束
+							</div>
+						{% else %}
+							<div class="ui disabled active grey inverted button">
+								已抢完
+							</div>
+						{% endif %}
+					{% endif %}
+					<p class="small">已有 {{ presale.sold }} 位预定者</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    	{% endif %}
+        
+        <!--品牌相关-->
+        <div class="sellwrap">
+			<div class="block title">
+				品牌
+            </div>
+            <div class="brand products">
+                <div class="author">
+    				<a href="{{ product.designer.home_url }}" class="ui large avatar image" >
+    					<img src="{{ product.designer.big_avatar_url }}" alt="{{ product.designer.nickname }}" />
+    				</a>
+                    <h4>
+                        {{ product.designer.nickname }}
+                    </h4>
+                    <p class="desc">
+                        {{ product.designer.summary }}
+                    </p>
+                </div>
+                
+                {% product_list var:'plist' page:1  only_onsale:1 size:4 user_id:product.user_id  %}
+                <div class="ui small images">
+                    {% for product in plist.rows %}
+                     <a href="{{ product.view_url }}" title="{{ product.title }}" target="_blank" class="image">
+                         <img src="{{ product.cover.thumbnails.medium.view_url }}" />
+                     </a>
+                     {% endfor %}
+                </div>
+    			<div class="more">
+    				<a href="" class="ui link" target="_blank">查看更多产品</a>
+                </div>
+            </div>
+			
+        </div>
+        
+        <div class="adstickwrap">
+    		{% ad_list var:'adslide2' page:1 size:4 state:2 name:'web_index_product_stick_slide' %}
+            {% if adslide2.rows %}
+            <div class="ui one adverts cards">
+                {% for ad in adslide2.rows %}
+                <div class="card">
+                    <div class="advblock">
+                        <div class="image" style="background-image: url('{{ ad.cover.fileurl }}');padding:30% 0;">
+                            <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank"></a>
+                        </div>
+                        <div class="desc">
+                            <h2>
+                                {{ ad.title }}
+                            </h2>
+                            <p>{{ ad.sub_title }}</p>
+                        </div>
+                        <a href="{{ ad.view_url }}" title="{{ ad.title }}" class="link wrap" target="_blank"></a>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+            {%endif%}
+        </div>
+        
+    </div>
+    
+</div>
+{% include "block/sharebox.html" %}
+{% include "block/qrcode.html" %}
+{% endblock %}

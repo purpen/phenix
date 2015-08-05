@@ -64,6 +64,7 @@
 	.topic-box-list:not(.horizontal) .item ,.ui.relaxed.list:not(.horizontal) .item{
 	  padding-top: 1.2em !important;
 	  padding-bottom: 0.8em !important;
+	  min-height:64px !important;
 	}
 	.ui.category.list:not(.horizontal) > .item{
 		padding-top: 0.5em !important;
@@ -90,7 +91,7 @@
 	  line-height: 1.2em;
 	}
 	.topic-box-list .header {
-	  margin-bottom: .25em;
+	  margin-bottom: 0.25em !important;
 		font-weight: 700;
 		white-space: nowrap;
 		text-overflow: ellipsis;
@@ -193,7 +194,7 @@
 	<section class="ui big block">
 		<div class="ui responsive grid" style="padding:0;margin:0">
 
-			<div class="row">
+			<div class="row" style="padding:0;">
 				<div class="column" style="padding:0;">
 					<div class="ui topiclist segment">
 						<div class="ui category relaxed divided list" id="show-pid-box" style="display:none;">

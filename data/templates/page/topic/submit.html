@@ -1,12 +1,22 @@
 {%extends 'layout/column.html'%}
-{% block title %}{% endblock %}
+{% block title %}发表话题{% endblock %}
+{% block layout_css %}
+	{% if css_use_bundle %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
+	{% else %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
+	{% endif %}
+{% endblock %}
 {% block page_css %}
 <style type="text/css">
     .social.post {
         margin-bottom: 3rem;
     }
     .ui.big.segment {
-        padding: 1.5rem;
+        padding: 1.5rem 31px 3rem;
+    }
+    #asset-list {
+        margin-bottom: 1.5rem;
     }
 </style>
 {% endblock %}
@@ -129,7 +139,7 @@
         	endpoint: '{{ app_url_upload_topic }}'
       	},
 		text: {
-            uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+            uploadButton: '<a class="ui active orange labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
 		},
 		template: '<div class="qq-uploader">' +
 					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
@@ -160,7 +170,7 @@
         	endpoint: '{{ app_url_upload }}/topic_file'
       	},
 		text: {
-            uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择文件</a>'
+            uploadButton: '<a class="ui active orange labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择附件</a>'
 		},
 		template: '<div class="qq-uploader">' +
 					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
@@ -228,22 +238,22 @@
 		<div class="row">
 			<div class="column">
 				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_social }}">
-						<i class="basic icon community"></i> 发现
+				  	<a class="ui section link" href="{{ app_url_home }}">
+						<i class="home icon"></i> 首页
 					</a>
 				  	<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_topic }}">
 						话题
 					</a>
 				  	<i class="angle right icon divider"></i>
-          {% if current_category %}
-            {% if !is_top %}
-              <a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
-              <i class="angle right icon divider"></i>
-            {% endif %}
-				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ current_category._id }}">{{ current_category.title }}</a>
-				  	<i class="angle right icon divider"></i>
-          {%endif%}
+                    {% if current_category %}
+                        {% if !is_top %}
+                            <a class="ui section link" href="{{ app_url_topic }}/c{{ parent_category._id }}">{{ parent_category.title }}</a>
+                            <i class="angle right icon divider"></i>
+                        {% endif %}
+        				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ current_category._id }}">{{ current_category.title }}</a>
+        				  	<i class="angle right icon divider"></i>
+                    {%endif%}
 				  	<div class="active section">{{ page_title }}</div>
 				</div>
 			</div>
@@ -289,15 +299,14 @@
 								{% else %}
 									{% category_list var:'category' only_open:1 domain:2 pid:current_category._id current:cid %}
 								{% endif %}
+                                
 								{% for cat in category.rows %}
-                  {% if cat.pid %}
-						   	 	  <div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
-                      <div class="icon">
-                        <i class="fa fa-check"></i>
-                      </div>
-                      {{ cat.title }}
-                    </div>
-                  {%endif%}
+                                    {% if cat.pid %}
+                                    <div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
+                                        <i class="check circle outline icon"></i>
+                                        {{ cat.title }}
+                                    </div>
+                                    {%endif%}
 								{% endfor %}
 						   	 </div>
 						</div>
@@ -308,14 +317,14 @@
 						</div>
             
 						{% if visitor.can_admin %}
-						<div class="four fields">
+						<div class="three fields">
 						  <div class="field">
 							<label for="title">{{ label_title }}短标题</label>
 							  <input type="text" name="short_title" value="{{ topic.short_title }}" />
 						  </div>
 			
 						  <div class="field">
-							  <label for="t_color">标题背景颜色</label>
+							  <label for="t_color">标题颜色</label>
 							<div class="ui fluid selection dropdown">
 							  <input type="hidden" name="t_color" value="{{ topic.t_color }}" />
 								<div class="default text">请选择</div>
@@ -324,7 +333,6 @@
 								  <div data-value="0" class="{% if topic.t_color == 0 %}active {% endif %}item">无</div>
 								  <div data-value="1" class="{% if topic.t_color == 1 %}active {% endif %}item">红色</div>
 								  <div data-value="2" class="{% if topic.t_color == 2 %}active {% endif %}item">蓝色</div>	
-			
 								</div>
 							  </div>
 						  </div>
@@ -334,14 +342,14 @@
 						{%endif%}
 					
 						<div class="field">
-							<label for="description">描述</label>
-						  	<textarea name="description" placeholder="此处需要输入详细描述..." id="editor">{{ topic.description }}</textarea>
+							<label for="description">话题内容</label>
+						  	<textarea name="description" placeholder="此处需要输入详细内容..." id="editor">{{ topic.description }}</textarea>
 						</div>
 						
 						<div class="field">
-							<label>标签</label>
+							<label>关键词</label>
 						  	<input type="text" name="tags" value="{{ topic.tags_s }}" />
-							<div class="description">标签之间使用，逗号隔开</div>
+							<div class="description">关键词之间使用，逗号隔开</div>
 						</div>
 						
 						<div class="field">
@@ -374,7 +382,7 @@
 							</div>
 						</div>
 
-{% if visitor.can_edit %}
+                        {% if visitor.can_edit %}
 						<div class="field">
 							<label>上传附件 <small class="description">(小于10M)</small></label>
 							<input type="hidden" name="asset_file_id" id="topic_file_id" value="{{ topic.file_id }}" />
@@ -399,15 +407,19 @@
 								{% endif %}
 							</div>
 						</div>
-            {%endif%}
-						<div class="ui right floated aligned grid">
+                        {%endif%}
+						<div class="ui grid">
                             <div class="row">
-    							<div class="column">
-    								<div class="ui gray cancel inverted button">取消</div>
-                    {% if visitor.can_edit %}
-									<div class="ui green inverted save button">保存草稿</div>
-                  {%endif%}
-    								<div class="ui magenta inverted submit button">确认提交</div>
+    							<div class="right aligned column">
+    								<div class="ui grey large cancel inverted button">取消</div>
+                                    {% if visitor.can_edit %}
+									<div class="ui green large inverted save button">
+                                        <i class="save icon"></i> 保存为草稿
+                                    </div>
+                                    {%endif%}
+    								<div class="ui magenta large active inverted submit button">
+                                        <i class="edit icon"></i> 确认提交
+                                    </div>
     							</div>
                             </div>
 						</div>

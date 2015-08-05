@@ -131,6 +131,8 @@ class Sher_Core_Helper_Search {
           $kind_name = '商品';
         }elseif($cid==12){
           $kind_name = '积分兑换';
+        }elseif($cid==15){
+          $kind_name = '产品灵感';
         }else{
           $kind_name = '';
         }

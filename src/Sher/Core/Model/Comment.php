@@ -31,6 +31,15 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         // 子类型,1.商品下的灵感; 2.
         'sub_type' => 1,
 		'love_count' => 0,
+      // 是否是回复某人的评论
+      'is_reply' => 0,
+      // 回复ID
+      'reply_id' => null,
+      // 被回复人ID
+      'reply_user_id' => 0,
+      // 楼层
+      'floor' => 0,
+      'deleted' => 0,
     );
 
     protected $joins = array(
@@ -38,7 +47,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         'target_user' => array('target_user_id' => 'Sher_Core_Model_User'),
     );
     protected $required_fields = array('user_id','content');
-    protected $int_fields = array('user_id','target_user_id','star','love_count');
+    protected $int_fields = array('user_id','target_user_id','star','love_count','floor','is_reply','reply_user_id');
 	  protected $counter_fields = array('love_count');
 	
 	/**
@@ -53,6 +62,37 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 		
 		return true;
     }
+
+	/**
+	 * 保存之前
+	 */
+	protected function before_save(&$data) {
+    if(empty($data['floor'])){
+      $type = $data['type'];
+      switch($type){
+        case 2:
+          $target_model = new Sher_Core_Model_Topic();
+          break;
+        case 3:
+          $target_model = new Sher_Core_Model_Try();
+          break;
+        case 4:
+          $target_model = new Sher_Core_Model_Product();
+          break;
+        case 6:
+          $target_model = new Sher_Core_Model_Stuff();
+          break;
+        default:
+          return;
+      }
+      $target = $target_model->load((int)$data['target_id']);
+      if($target){
+        $data['floor'] = $target['comment_count'] + 1;
+      }
+
+    }
+	  parent::before_save($data);
+  }
 	
 	/**
 	 * 关联事件
@@ -131,8 +171,22 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                 default:
                     break;
             }
+
+            //如果是回复某人评论,给他提醒
+            if(isset($this->data['is_reply']) && $this->data['is_reply']==1){
+              $remind_model = new Sher_Core_Model_Remind();
+              $arr = array(
+                  'user_id'=> $this->data['reply_user_id'],
+                  's_user_id'=> $this->data['user_id'],
+                  'evt'=> Sher_Core_Model_Remind::EVT_REPLY_COMMENT,
+                  'kind'=> Sher_Core_Model_Remind::KIND_COMMENT,
+                  'related_id'=> (string)$this->data['_id'],
+                  'parent_related_id'=> $this->data['target_id'],
+              );
+              $ok = $remind_model->create($arr);            
+            }
             
-	        // 添加动态提醒
+	          // 添加动态提醒
             if(isset($timeline_type)){
                 $timeline = Sher_Core_Service_Timeline::instance();
                 $timeline->broad_target_comment($this->data['user_id'], (int)$this->data['target_id'], $timeline_type, array('comment_id'=>(string)$this->data['_id']));
@@ -218,6 +272,12 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                 $this->_extend_comment_reply($row['reply'][$i]);
             }
         }
+
+        // 加载回复对象
+        if(isset($row['is_reply']) && !empty($row['is_reply'])){
+          $reply_comment_obj = $this->extend_load($row['reply_id']);
+          $row['reply_comment'] = $reply_comment_obj;
+        }
     }
 	
 	/**
@@ -251,12 +311,12 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	        // 给用户添加提醒
           $remind = new Sher_Core_Model_Remind();
           $arr = array(
-              'user_id'=> $comment_user['user_id'],
-              's_user_id'=> $user_id,
+              'user_id'=> $this->data['reply_user_id'],
+              's_user_id'=> $this->data['user_id'],
               'evt'=> Sher_Core_Model_Remind::EVT_REPLY_COMMENT,
               'kind'=> Sher_Core_Model_Remind::KIND_COMMENT,
-              'related_id'=> $comment_user['_id'],
-              'parent_related_id'=> $comment_user['target_id'],
+              'related_id'=> (string)$comment_user['_id'],
+              'parent_related_id'=> (string)$comment_user['target_id'],
           );
           $ok = $remind->create($arr);    
 	        return $reply_row;
@@ -365,5 +425,16 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         
         return $c;
     }
+
+  /**
+   * 屏蔽删除
+   */
+  public function mark_remove($id){
+    $ok = false;
+    if($id){
+      $ok = $this->update_set($id, array('deleted'=>1));
+    }
+    return $ok;
+  }
 	
 }

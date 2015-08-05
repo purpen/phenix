@@ -8,15 +8,17 @@
 #shopview > .ui.responsive.grid{
 	padding:0;
 	margin:0;
-	background:rgba(0,0,0,0.2);
+	background:rgba(0,0,0,0.03);
 	color:#fff;
 }
 #shopview > .ui.responsive.grid > .row > .column{
 	padding:15px 0;
+	background:rgba(0,0,0,0.03);
+	color: rgba(0,0,0,.87);
 }
 #shopview > .ui.responsive.grid > .row > .column:hover,#shopview > .ui.responsive.grid > .row > .column.active{
 	color:#f36;
-	background:rgba(0,0,0,0.1);
+	background:rgba(0,0,0,0.07);
 }
 
 .ui.segment{
@@ -37,6 +39,10 @@
 .product.froala-element p {
   margin-top: 0px;
   margin-bottom: 0px;
+}
+.product.froala-element p img{
+  width:100%;
+  margin-bottom:-5px;
 }
 .ui.reply.segment,.service.segment{
 	margin-top:0;
@@ -80,21 +86,21 @@ $('.service.column').click(function(){
 {% block content %}
 <div id="shopview">
 	<div class="ui responsive grid">
-		<div class="row">
-			<div class="ui five center aligned wide column products active">
-					<a class="tab">
+		<div class="row" style="padding:0;">
+			<div class="ui five wide center aligned column products active">
+					<div class="tab">
 						产品详情
-					</a>
+					</div>
 			</div>
-			<div class="ui six center aligned wide column reply">
-					<a class="tab">
+			<div class="ui six wide center aligned column reply">
+					<div class="tab">
 						用户评价
-					</a>
+					</div>
 			</div>
-			<div class="five center aligned wide column service">
-					<a class="tab">
+			<div class="five wide center aligned column service">
+					<div class="tab">
 						售后服务
-					</a>
+					</div>
 			</div>
 		</div>
 	</div>
@@ -118,7 +124,7 @@ $('.service.column').click(function(){
           <h4 class="ui dividing header">
             用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
           </h4>
-          <div class="ui threaded minimal comments">
+          <div class="ui threaded minimal is-comment comments">
             {% comment_list var:'comments' page:page target_id:product._id %}
             {% for comment in comments.rows %}
             <div class="comment" id="{{ comment._id }}">
