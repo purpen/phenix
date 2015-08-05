@@ -421,6 +421,12 @@ $('.hour-box').click(function(){
   var rest_time = parseInt($('#rest-time .t').attr('rest-val'));
   var current_times = parseInt($(':input[name=current-times][item-id='+ item_id +']').val());
 
+  // 如果是被预约的时间,不处理
+  if(input_obj.prop('disabled')){
+    phenix.show_error_note('该时间段已被预约了!');
+    return;
+  }
+
   var date_id = $(':input[name=current-date][item-id='+ item_id +']').val();
   if(!date_id){
     phenix.show_error_note('请先选择日期');
