@@ -587,8 +587,8 @@ $('.next-step.button').click(function(){
                     <div class="ui three fields">
                       {% for d in appoint_time_arr %}
                         <div class="field hour-box" item-id="{{ class._id }}">
-                          <div class="ui checkbox" style="display:inline-block;">
-                            <input name="hour-{{ class._id }}" item-id="{{ class._id }}" type="checkbox" value="{{ d.id }}" /><label style="z-index: -2 !important;">{{ d.title }}</label>
+                          <div class="ui checkbox" style="display:compact;position:inherit;">
+                            <input name="hour-{{ class._id }}" item-id="{{ class._id }}" type="checkbox" value="{{ d.id }}" /><label style="z-index: -2 !important;position: absolute;width: 100%;left: 0;top: 0;">{{ d.title }}</label>
                           </div>
                         </div>
                       {%endfor%}
