@@ -65,12 +65,11 @@
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ topic.wap_view_url }}'});
 	
 	// 显示编辑工具条 
-	/*
 	$('.ui.topic.segment').hover(function(){
 		$('.ui.editable.buttons').removeClass('hide');
 	},function(){
 		$('.ui.editable.buttons').addClass('hide');
-	});*/
+	});
 	
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
@@ -603,17 +602,15 @@
 				{% endif %}
 	
 				<div class="admin post actions clearfix">
-					<div class="ui icon magenta buttons">
-						<div class="ui pop favorite button" data-content="收藏" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
-							<i class="empty star icon"></i> <small>{{ topic.favorite_count }}</small>
-						</div>
-						<div class="ui pop love button" data-content="点赞" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
-							<i class="heart empty icon"></i> <small>{{ topic.love_count }}</small>
-						</div>
+					<div class="ui pop favorite green large inverted button" data-content="收藏一下" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
+						<i class="empty star icon"></i> <small>{{ topic.favorite_count }}</small>
 					</div>
-		
-					<div class="ui icon green editable buttons">
-						{% if visitor.can_edit %}
+					<div class="ui pop love magenta large inverted button" data-content="点赞支持" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
+						<i class="heart empty icon"></i> <small>{{ topic.love_count }}</small>
+					</div>
+		            
+                    {% if visitor.can_edit %}
+					<div class="ui icon green hide editable buttons">
                             {% if visitor.is_admin %}
 								{% if topic.top == 1 %}
 								<div class="ui pop top active button" data-content="取消站内置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="1">
@@ -662,8 +659,9 @@
 						<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ topic._id }}">
 							<i class="remove icon"></i>
 						</div>
-						{% endif %}
+						
 					</div>
+                    {% endif %}
 	
 					{%include 'block/share.html'%}
 				</div>
