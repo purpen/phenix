@@ -415,9 +415,9 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		}
 	}
 
-    /**
-     * 评论参数
-     */
+  /**
+   * 评论参数
+   */
   protected function _comment_param($options){
         $this->stash['comment_target_id'] = $options['comment_target_id'];
         $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];

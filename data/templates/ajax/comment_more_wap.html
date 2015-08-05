@@ -14,6 +14,7 @@
           <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
           <div class="metadata">
             <div class="date">{{ comment.created_on }}</div>
+            <div>{{ comment.floor }}楼</div>
           </div>
 {% if !comment.deleted %}
           <div class="laud">
@@ -120,6 +121,7 @@
           <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
           <div class="metadata">
             <div class="date">{{ comment.created_on }}</div>
+            <div>{{ comment.floor }}楼</div>
           </div>
 {% if !comment.deleted %}
           <div class="laud">
