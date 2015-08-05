@@ -61,6 +61,10 @@
 	#lapiao canvas{
 	  width:100% !important;
 	}
+    
+    p.contact {
+        margin: 20px 0px 0px;
+    }
 </style>
 {% endblock %}
 
@@ -75,8 +79,6 @@
 {% endblock %}
 
 {% block jquery %}
-
-	phenix.hook_comment_page();
     //ajax加载评论
     fetch_comment(1, per_page);
 	
@@ -391,7 +393,7 @@
     </div>
     <div class="mainright">
         
-{% if img_asset.qr_ios %}
+        {% if img_asset.qr_ios %}
         <div class="sellwrap">
             <div class="block title">
                 APP下载
@@ -411,7 +413,7 @@
         </div>
         {%endif%}
 
-{% if try.brand_introduce %}
+        {% if try.brand_introduce %}
         <div class="sellwrap">
 			<div class="block title">
 				品牌介绍
@@ -433,7 +435,7 @@
 			<div class="block title">
 				厂商合作申请
             </div>
-<p>邮箱: bianluyao@taihuoniao.com</p>
+            <p class="contact">邮箱: bianluyao@taihuoniao.com</p>
         </div>
         
         <div class="sellwrap">
