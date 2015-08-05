@@ -200,8 +200,8 @@ app.wechat.secret: 'f80ae853ef243f66284ad13781cb69de'
 app.wechat.notify_url: ''
   
 # TODO：设置商户证书路径
-app.wechat.sslcert_path: '/home/www/cert/apiclient_cert.pem'
-app.wechat.sslkey_path: '/home/www/cert/apiclient_key.pem'
+app.wechat.sslcert_path: '/opt/project/php/phenix/vendor/wechat_cert/apiclient_cert.pem'
+app.wechat.sslkey_path: '/opt/project/php/phenix/vendor/wechat_cert/apiclient_key.pem'
   
 # TODO：这里设置代理机器，只有需要代理的时候才设置，不需要代理，请设置为0.0.0.0和0
 app.wechat.proxy_host : "0.0.0.0"
