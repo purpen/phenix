@@ -181,6 +181,8 @@ app.wechat.ser_app_secret: 'f80ae853ef243f66284ad13781cb69de'
 app.wechat.ser_partner_id: '1219487201'
 app.wechat.ser_partner_key: '8db453c4e80d0c28aa5b4664e22ea013'
 app.wechat.ser_paysignkey: 'ArioxptbBJu25ANvabeBqavpE7diWUfTtDu1FCkt66Ojdzb1N3ajKoGAX3xdT3GIsj7C8g1pglSBVqaUNrqsoz5vfiASYrinEL4bAvuhTBgs1ZrdX7gJNgx8qgHBG0V4'
+app.wechat.ser_cacert_url: '/opt/project/php/phenix/vendor/wechat_cert/apiclient_cert.pem'
+app.wechat.ser_key_url: '/opt/project/php/phenix/vendor/wechat_cert/apiclient_key.pem'
 
 # 微信支付
 
