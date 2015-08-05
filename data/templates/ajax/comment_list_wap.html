@@ -70,7 +70,7 @@
           {% for reply in comment.reply %}
             <div class="comment">
               <a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
-                <img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
+                <img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" width="40px" height="40px" />
               </a>
               <div class="content">
                 <a class="author">{{ reply.user.nickname }}</a>
