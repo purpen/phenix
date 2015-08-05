@@ -9,17 +9,19 @@
 	</td>
 	<td colspan="3" class="htitle nide wide">
       	<h3 class="title {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}">
+            <span class="category">
+                【{{ topic.category.title }}】
+            </span>
 			<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
                 {{ topic.title|truncate 60 }}
-                {% if topic.top %}<span class="ui green label">置顶</span>{% endif %}
-                {% if topic.fine %}<span class="ui orange label">精华</span>{% endif %}
-                {% if topic.stick %}<span class="ui yellow label">编辑推荐</span>{% endif %}
+                {% if topic.top %}<span class="ui green small label">置顶</span>{% endif %}
+                {% if topic.fine %}<span class="ui orange small label">精华</span>{% endif %}
+                {% if topic.stick %}<span class="ui yellow small label">编辑推荐</span>{% endif %}
             </a>
 		</h3>
         
       	<div class="content">
 			<div class="attribute">
-				<span class="category"><a href="{{ topic.category.view_url }}" class="ui link">{{ topic.category.title }}</a></span> | 
 				<span class="author">
 					<a href="{{ topic.user.home_url }}" class="ui link">@{{ topic.user.nickname }}</a>  <i class="time icon"></i>{{ topic.created_on|relative_datetime }}
 				</span>
