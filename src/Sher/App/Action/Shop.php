@@ -277,7 +277,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		}
 
 		//添加网站meta标签
-		$this->stash['page_title_suffix'] = sprintf("%s-【%s】-太火鸟商店", $product['title'], $product['category']['title']);
+		$this->stash['page_title_suffix'] = sprintf("%s-【%s】-太火鸟智品库", $product['title'], $product['category']['title']);
 		if(!empty($product['tags_s'])){
 		  $this->stash['page_keywords_suffix'] = $product['tags_s'];   
 		}
