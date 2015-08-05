@@ -204,6 +204,9 @@
 				$input->SetRefund_fee($pay_money);
 				$input->SetOut_refund_no((string)date('Ymd').(string)$rid);
 				$input->SetOp_user_id((int)$this->visitor->id);
+				
+				Doggy_Log_Helper::warn("退款传入信息: ".$trade_no.'---->'.$out_trade_no.'---->'.$pay_money.'---->'.(int)$this->visitor->id);
+				
 				$result = Sher_Core_Util_WxPay_WxPayApi::refund($input);
 				
 				Doggy_Log_Helper::warn("退款返回信息: ".json_encode($result));
