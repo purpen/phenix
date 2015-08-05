@@ -2,7 +2,7 @@
 {% block title %}{{ user.screen_name }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-    
+
 </style>
 {% endblock %}
 {% block js %}
@@ -76,8 +76,8 @@
     			<div class="column">
     				<div class="container">
                         <img src="{{ user.big_avatar_url }}" class="ui big avatar image" />
-												{% if user.kind==1 %}
-												<img src="{{ app_url_packaged }}/images/V.png" class="image-UV">
+						{% if user.kind==1 %}
+						<img src="{{ app_url_packaged }}/images/V.png" class="image-UV">
                         {%endif%}
                     
                     	<h2 class="ui header">
@@ -114,12 +114,12 @@
 
                 <div class="ui compact grid">
                     <div class="twelve wide column">
-        {% if is_first_login==1 %}
+                        {% if is_first_login==1 %}
 							<div class="ui attached segment" style="color:green;">
-                充实自己，才能活的丰满立体，比如鸟币和美女? 马上完善个人信息,让更多人找到你!  
-                <div class="mini ui profile-setting green button"><i class="fa-pencil icon"></i>个人设置</div>
+                                充实自己，才能活的丰满立体，比如鸟币和美女? 马上完善个人信息,让更多人找到你!  
+                                <div class="mini ui profile-setting green button"><i class="fa-pencil icon"></i>个人设置</div>
 							</div>
-        {%endif%}
+                        {%endif%}
                         <div class="ui segment">
                             {% timeline_list var:'list' page:page user_id:user.id %}
             				<div class="ui divided timeline list" id="user-activity-list">
@@ -128,10 +128,10 @@
                                     <img class="ui small avatar image" src="{{ line.user.small_avatar_url }}" />
                                     <div class="content">
                                         <div class="header">
-                                            <a href="{{ line.user.home_url }}" title="{{ line.user.nickname }}" class="ui magenta line">{{ line.user.nickname }}</a> <small>{{ line.created_on }}</small>
+                                            <a href="{{ line.user.home_url }}" title="{{ line.user.nickname }}" class="ui link">{{ line.user.nickname }}</a> <small>{{ line.created_on }}</small>
                                         </div>
                                         <div class="description">
-                                            {{ line.label }} <a href="{{ line.target.view_url }}" target="_blank" class="ui line">{{ line.target.title }}</a>.
+                                            {{ line.label }} <a href="{{ line.target.view_url }}" target="_blank" class="ui link">{{ line.target.title }}</a>.
                                             {% if line.comment %}
                                                 <p>{{ line.comment.content }}</p>
                                             {% endif %}

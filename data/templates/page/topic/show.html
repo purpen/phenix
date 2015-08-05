@@ -1,5 +1,12 @@
 {%extends 'layout/column.html'%}
 {% block title %}{% endblock %}
+{% block layout_css %}
+	{% if css_use_bundle %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
+	{% else %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
+	{% endif %}
+{% endblock %}
 {% block page_css %}
 <style type="text/css">
   body {
@@ -65,12 +72,11 @@
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ topic.wap_view_url }}'});
 	
 	// 显示编辑工具条 
-	/*
 	$('.ui.topic.segment').hover(function(){
 		$('.ui.editable.buttons').removeClass('hide');
 	},function(){
 		$('.ui.editable.buttons').addClass('hide');
-	});*/
+	});
 	
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
@@ -514,10 +520,10 @@
     
                     <div class="ui relaxed divided list">
                         <div class="votep">
-                            <i class="large fa-question middle aligned icon"></i>
+                            <i class="large question middle aligned icon"></i>
                             <div class="ui from">
                                 <h4 class="ui header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h4>
-                                <div class="" style="margin: 30px 0 20px;" id="{{ problem._id }}">
+                                <div class="" style="margin: 30px 0 20px;padding: 40px 0 0;border: 1px solid rgba(0,0,0,0.1);" id="{{ problem._id }}" >
                                     {% if problem.select_type == 1 %}
                                         {% for answer in problem.answer %}
                                         <div class="field" style="padding-left:60px;">
@@ -531,7 +537,7 @@
 												    <div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
 												</div>
 																
-												<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;">
+												<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;float: right;">
 												    {{ answer.nums }}票	（{{ answer.nums_rate }}%）
 												</div>
 										    </div>
@@ -550,7 +556,7 @@
 												    <div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
 													    <div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
 													</div>			
-													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;">
+													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;float:right;">
 													    {{ answer.nums }}票	（{{ answer.nums_rate }}%）
 													</div>
 												</div>
@@ -603,17 +609,15 @@
 				{% endif %}
 	
 				<div class="admin post actions clearfix">
-					<div class="ui icon magenta buttons">
-						<div class="ui pop favorite button" data-content="收藏" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
-							<i class="empty star icon"></i> <small>{{ topic.favorite_count }}</small>
-						</div>
-						<div class="ui pop love button" data-content="点赞" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
-							<i class="heart empty icon"></i> <small>{{ topic.love_count }}</small>
-						</div>
+					<div class="ui pop favorite green large inverted button" data-content="收藏一下" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
+						<i class="empty star icon"></i> <small>{{ topic.favorite_count }}</small>
 					</div>
-		
-					<div class="ui icon green editable buttons">
-						{% if visitor.can_edit %}
+					<div class="ui pop love magenta large inverted button" data-content="点赞支持" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
+						<i class="heart empty icon"></i> <small>{{ topic.love_count }}</small>
+					</div>
+		            
+                    {% if visitor.can_edit %}
+					<div class="ui icon green hide editable buttons">
                             {% if visitor.is_admin %}
 								{% if topic.top == 1 %}
 								<div class="ui pop top active button" data-content="取消站内置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="1">
@@ -662,8 +666,9 @@
 						<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ topic._id }}">
 							<i class="remove icon"></i>
 						</div>
-						{% endif %}
+						
 					</div>
+                    {% endif %}
 	
 					{%include 'block/share.html'%}
 				</div>
@@ -687,6 +692,8 @@
     </div>
     <div class="mainright">
         {% include "page/topic/rightbar.html" %}
+        {% include "page/topic/stick_list.html" %}
+        {% include "page/topic/adwrap.html" %}
     </div>
 </div>
 {% include "block/qrcode.html" %}

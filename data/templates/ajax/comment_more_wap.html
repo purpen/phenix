@@ -14,6 +14,7 @@
           <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
           <div class="metadata">
             <div class="date">{{ comment.created_on }}</div>
+            <div>{{ comment.floor }}楼</div>
           </div>
 {% if !comment.deleted %}
           <div class="laud">
@@ -32,7 +33,7 @@
           </div>
           {%endif%}
           {% if comment.is_reply %}
-          <div>回复 #{{ comment.reply_comment.floor }} @<a href="{{ comment.reply_comment.user.home_url }}" class="ui link" target="_blank">{{ comment.reply_comment.user.nickname }}</a></div>
+          <div>回复 #{{ comment.reply_comment.floor }} @<a class="ui link">{{ comment.reply_comment.user.nickname }}</a></div>
 
           {%endif%}
           <div class="text">
@@ -120,6 +121,7 @@
           <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
           <div class="metadata">
             <div class="date">{{ comment.created_on }}</div>
+            <div>{{ comment.floor }}楼</div>
           </div>
 {% if !comment.deleted %}
           <div class="laud">
@@ -137,7 +139,7 @@
             {%endif%}
           </div>
           {%endif%}
-          
+          <div>回复 #{{ comment.reply_comment.floor }} @<a class="ui link">{{ comment.reply_comment.user.nickname }}</a></div>
           <div class="text">
             {% if comment.deleted==1 %}
               该内容已被屏蔽

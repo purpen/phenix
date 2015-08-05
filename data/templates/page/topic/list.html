@@ -31,7 +31,7 @@
             				{% else %}
             					<h2 class="ui header">
             						<a href="{{ app_url_topic }}/c{{parent_category._id}}" class="cate">
-            							{{ parent_category.title }}
+            							{{ current_category.title }}
             						</a>
             					</h2>
             					{% category_list var:'category' only_open:1 domain:domain pid:parent_category._id current:cid %}
@@ -120,6 +120,8 @@
     </div>
     <div class="mainright">
         {% include "page/topic/rightbar.html" %}
+        {% include "page/topic/stick_list.html" %}
+        {% include "page/topic/adwrap.html" %}
     </div>
 </div>
 {% endblock %}

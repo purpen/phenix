@@ -104,8 +104,9 @@
 	.hide-on-mobile{
 	  display:none !important;
 	}
-	
-	
+	.product.content.froala-element img ,.product.content.froala-element iframe{
+    width: 100%;
+  }	
 	/*.ui.tabox {
 		border-bottom: 1px solid #e4e5e7;
 		margin: 2.5em auto 1.5em;
@@ -361,7 +362,7 @@
 						<div class="content">
 							{{ try.title }}
 							<div class="sub header">
-								<label class="ui magenta label" style="min-width: 74px;">免费试用</label> &nbsp;  <label class="ui magenta label">{{ try.try_count }} 个</label>&nbsp; <label class="ui magenta label">{{ try.apply_count }} 人申请</label>
+								<label class="ui magenta active inverted button label" style="min-width: 74px;">免费试用</label> &nbsp;  <label class="ui magenta active inverted button label">{{ try.try_count }} 个</label>&nbsp; <label class="ui magenta active inverted button label">{{ try.apply_count }} 人申请</label>
 							</div>
 						</div>
 					</h4>

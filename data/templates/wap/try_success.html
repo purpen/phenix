@@ -316,8 +316,8 @@ fetch_rank();
     <div class="ui responsive grid">
       <div class="row">
         <div class="ui ten wide column">
-          <h3 class="ui header">
-            <img class="ui small avatar image" src="{{ apply.user.big_avatar_url }}">
+          <h3 class="ui header" style="margin-top:0;">
+            <img class="ui small avatar image" src="{{ apply.user.big_avatar_url }}" style="width:4em !important;height:4em !important;margin-top:0.25em;">
             <div class="content">{{ apply.user.nickname }}
               <div class="sub header">
                 {{ apply.user.ext_state.user_rank.title|default '鸟列兵' }}
@@ -371,7 +371,7 @@ fetch_rank();
         		</p>
             {%endif%}
 
-            <label class="ui magenta label" style="min-width: 74px;">免费试用</label> &nbsp;  <label class="ui magenta label">数量{{ try.try_count }} 个</label>&nbsp; <label class="ui magenta label">{{ try.apply_count }} 人申请</label>
+            <label class="ui magenta inverted active button label" style="min-width: 74px;">免费试用</label> &nbsp;  <label class="ui magenta inverted active button label">数量{{ try.try_count }} 个</label>&nbsp; <label class="ui magenta inverted active button label">{{ try.apply_count }} 人申请</label>
           </div>
         </div>
         

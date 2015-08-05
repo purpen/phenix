@@ -34,7 +34,7 @@
 
 {% block jquery %}
     $('#minslider').flexslider({
-        animation: "slide",
+        animation: "fade",
         controlNav: false,
         slideshow: false,
     });
@@ -138,8 +138,8 @@
     <div class="mainright">
         {% include "page/topic/rightbar.html" %}
         {% include "page/topic/hotpeople.html" %}
-        {% include "page/topic/adwrap.html" %}
         {% include "page/topic/stick_list.html" %}
+        {% include "page/topic/adwrap.html" %}
     </div>
 </div>
 {% endblock %}
