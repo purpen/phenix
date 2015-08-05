@@ -117,7 +117,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		}
 
     //添加网站meta标签
-    $this->stash['page_title_suffix'] = sprintf("%s-【%s】-太火鸟商店", $product['title'], $product['category']['title']);
+    $this->stash['page_title_suffix'] = sprintf("%s-【%s】-太火鸟智品库", $product['title'], $product['category']['title']);
     if(!empty($product['tags_s'])){
       $this->stash['page_keywords_suffix'] = $product['tags_s'];   
     }
