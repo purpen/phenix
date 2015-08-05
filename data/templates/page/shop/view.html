@@ -547,7 +547,8 @@
         <div id="product_guess_list"><!--ajax fetch--></div>
     </div>
     <div class="mainright">
-        
+
+    {% if !item_stage=='idea' %}
         <div class="sellwrap">
             
 			<div class="buy box">
@@ -671,6 +672,8 @@
             </div>
             
         </div>
+
+      {%endif%}
         
         <!--品牌相关-->
         <div class="sellwrap">
@@ -678,6 +681,19 @@
 				品牌
             </div>
             <div class="brand products">
+              {% if item_stage=='idea' %}
+                <div class="author">
+    				<a href="{{ product.user.home_url }}" class="ui large avatar image" >
+    					<img src="{{ product.user.big_avatar_url }}" alt="{{ product.user.nickname }}" />
+    				</a>
+                    <h4>
+                        {{ product.user.nickname }}
+                    </h4>
+                    <p class="desc">
+                        {{ product.user.summary }}
+                    </p>
+                </div>
+              {%else%}
                 <div class="author">
     				<a href="{{ product.designer.home_url }}" class="ui large avatar image" >
     					<img src="{{ product.designer.big_avatar_url }}" alt="{{ product.designer.nickname }}" />
@@ -689,6 +705,8 @@
                         {{ product.designer.summary }}
                     </p>
                 </div>
+              {%endif%}
+
                 
                 {% product_list var:'plist' page:1  only_onsale:1 size:4 user_id:product.user_id  %}
                 <div class="ui two miniproducts blocks">
