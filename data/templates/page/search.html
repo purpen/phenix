@@ -38,10 +38,7 @@
 	max-width:70%;
 }
 .searcmu.buttons > .button{
-	min-width:86px;
-}
-.ui.searcmu.buttons .button:first-child {
-  border-left: 1px solid #f36;
+	min-width: 115px;
 }
 .search .ui.label{
 	border-radius: 2.5rem;
@@ -68,7 +65,7 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="ten wide column white section-title">
-                <h1 class="block title">高级搜索</h1>
+                <h1 class="block title">搜索</h1>
 				<form class="ui form" action="{{ app_url_search }}" method="get" id="searchbar">
                  	<div class="ui icon input">
                 		<input name="q" type="text" value="{{ q }}" />
@@ -86,9 +83,6 @@
                         </div>
                         <div class="item">
                             <a href="{{ app_url_searh }}?q=十万火计" class="ui link">十万火计</a>
-                        </div>
-                        <div class="item">
-                            <a href="{{ app_url_searh }}?q=蛋年" class="ui link">蛋年创新大会</a>
                         </div>
                     </div>
                     
