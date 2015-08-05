@@ -117,7 +117,7 @@ p a.ui.link{
 }
 .option-hour .field input[type="checkbox"]{
 	z-index:100;
-	width:100%;
+	width:0;
 	margin: 0;
   padding: 0;
 	top:-5%;
@@ -134,9 +134,12 @@ p a.ui.link{
   padding: 20px 0 !important;
   background: #e3e3e3;
 	z-index:999;
+	position: relative;
 }
 .option-hour .field .ui.checkbox{
 	width: 120px;
+	z-index: -100 !important;
+  vertical-align: middle;
 }
 input#gen-btn{
 	margin-top: 20px;
@@ -584,8 +587,8 @@ $('.next-step.button').click(function(){
                     <div class="ui three fields">
                       {% for d in appoint_time_arr %}
                         <div class="field hour-box" item-id="{{ class._id }}">
-                          <div class="ui checkbox">
-                            <input name="hour-{{ class._id }}" item-id="{{ class._id }}" type="checkbox" value="{{ d.id }}" /><label>{{ d.title }}</label>
+                          <div class="ui checkbox" style="display:inline-block;">
+                            <input name="hour-{{ class._id }}" item-id="{{ class._id }}" type="checkbox" value="{{ d.id }}" /><label style="z-index: -2 !important;">{{ d.title }}</label>
                           </div>
                         </div>
                       {%endfor%}
