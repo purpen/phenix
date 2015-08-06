@@ -211,7 +211,7 @@
             			<div class="image" {% if topic.cover %}style="background-image: url('{{ topic.cover.thumbnails.hm.view_url }}');"{% endif %}>
                             <a class="transparent" href="{{ topic.view_url }}" target="_blank">
             					<div class="sub title">
-            						<h3>{{ topic.title }}</h3>
+            						<h3>{{ topic.short_title }}</h3>
             						<div class="extra count">
             							<i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
             						</div>
