@@ -1,4 +1,67 @@
 <div class="card" id="item-{{d._id}}">
+  <div class="problock">
+    {% if d.product.cover %}
+      <a title="{{ product.title }}" alt="{{ product.title }}" href="{{ d.product.view_url }}" style="background-image: url({{ d.product.cover.thumbnails.md.view_url }});" class="thumb" target="_blank">
+        <div class="presell">
+          <div class="exit">
+            {% if box_type=='fav' %}
+            <div class="ui green pop icon button favorite" data-content="取消收藏" data-variation="inverted" data-id="{{ d.product._id }}" data-type="{{ d.type }}" data-mark="y">
+                <i class="remove icon"></i>
+            </div>
+            {%endif%}
+            {% if box_type=='love' %}
+            <div class="ui green pop icon button" data-content="取消赞" data-variation="inverted" data-id="{{ d.product._id }}" data-type="{{ d.type }}" data-mark="y">
+                <i class="remove icon"></i>
+            </div>
+            {%endif%}
+          </div>
+          
+        </div>
+      </a>
+    {% endif %}
+    
+    <div class="ribbons">
+        {% if d.product.newest %}
+        <span class="ribbon newest">NEW</span>
+        {% endif %}
+        {% if d.product.hot %}
+        <span class="ribbon hot">HOT</span>
+        {% endif %}
+        {% if d.product.stick %}
+        <span class="ribbon stick">推荐</span>
+        {% endif %}
+        {% if d.product.snatched %}
+        <span class="ribbon snatched">限时抢购</span>
+        {% endif %}
+        {% if d.product.stage == 5 %}
+        <span class="ribbon presale">正在预售</span>
+        {% endif %}
+        {% if d.product.stage == 12 %}
+        <span class="ribbon presale">积分兑换</span>
+        {% endif %}
+    </div>
+    <h2>
+        <a href="{{ d.product.view_url }}" title="{{ d.product.title }}" class="ui line" target="_blank">
+	    {{ d.product.title|truncate, 32, '' }}
+    </a>
+    </h2>
+    <div class="excerpt">
+        <p>{{ d.product.advantage }}</p>
+    </div>
+    {% if !d.product.stage==15 %}
+    <div class="cats">
+        <i class="yen icon"></i>{{ d.product.sale_price }}
+    </div>
+    {%endif%}
+    <span class="counter">
+        <i class="heart icon"></i> {{ d.product.love_count }}
+    </span>
+  
+  
+  </div>
+
+</div>
+<!--<div class="card" id="item-{{d._id}}">
     {% if d.product.cover %}
     <div class="image" style="background-image:url({{ d.product.cover.thumbnails.md.view_url }});">
     {%else%}
@@ -41,4 +104,4 @@
             <img src="{{ d.product.user.small_avatar_url }}" alt="{{ d.product.user.nickname }}" class="ui avatar image"> <small>{{ d.product.user.nickname }}</small>
         </a>
     </div>
-</div>
+</div>-->
