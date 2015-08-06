@@ -1,5 +1,12 @@
 {%extends 'layout/column.html'%}
 {% block title %}{% endblock %}
+{% block layout_css %}
+	{% if css_use_bundle %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
+	{% else %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
+	{% endif %}
+{% endblock %}
 {% block page_css %}
 <style type="text/css">
 
@@ -449,13 +456,11 @@
 			</div>
             
             <div class="container">
-                
-		    
 				<div class="ui tabox">
 					<div class="ui three tabs">
 						<a href="#.overview" class="tab">产品详情</a>
 						<a href="#.evaluating" class="tab">产品评测</a>
-            <a href="#.reviews" class="tab">{% if product.stage==15 %}用户评论{%else%}用户评价{%endif%}</a>
+                        <a href="#.reviews" class="tab">{% if product.stage==15 %}用户评论{%else%}用户评价{%endif%}</a>
 					</div>
 				</div>
                 
@@ -464,17 +469,17 @@
 						{{ product.content }}
 					</div>
 
-				{% if product.tags %}
-				<div class="idea tags">
-					{% for tag in product.tags %}
-					{% if tag %}
-					<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui link">
-						# {{ tag }}
-					</a>
-					{% endif %}
-					{% endfor %}
-				</div>
-				{% endif %}
+    				{% if product.tags %}
+    				<div class="idea tags">
+    					{% for tag in product.tags %}
+    					{% if tag %}
+    					<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui link">
+    						# {{ tag }}
+    					</a>
+    					{% endif %}
+    					{% endfor %}
+    				</div>
+    				{% endif %}
 					<div class="ui center aligned zanl">
 						<div class="ui green pop favorite inverted button" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
 							<i class="star icon"></i> 收藏
@@ -486,11 +491,10 @@
 							<i class="share icon"></i> 分享
 						</div>
 					</div>
-                
-				</div>
-                
-				<div class="bar"></div>
-		
+                </div> 
+            </div>
+            
+            <div class="container">
 				<div class="product evaluating">
 					<div class="block title">
 						产品评测 <small>（{{ product.topic_count }}）</small>
@@ -517,45 +521,41 @@
 						</div>
 					{% endif %}
 				</div>
-                
-        {% if product.stage==15 %}
-
-          <div class="bar"></div>
-            <div class="reviews">
-    			<div class="reply box">
-      			    <!--ajax comment-->
-    	  	        <div class="block title">
-                        全部评论
-                        <small>（{{ product.comment_count|default 0 }}）</small>
-                    </div>
-      		  	    <div id="comment-list"></div>
-      		  	    {% include "block/comment_box_site.html" %}
-                </div>
             </div>
+            
+            <div class="container">
+                {% if product.stage==15 %}
+                <div class="reviews">
+        			<div class="reply box">
+          			    <!--ajax comment-->
+        	  	        <div class="block title">
+                            全部评论
+                            <small>（{{ product.comment_count|default 0 }}）</small>
+                        </div>
+          		  	    <div id="comment-list"></div>
+          		  	    {% include "block/comment_box_site.html" %}
+                    </div>
+                </div>
 
-        {%else%}
-          {% if product.comment_count != 0 %}
-                  
-          <div class="bar"></div>
-                  
-          <div class="product reviews">
-              <div class="block title">
-                  用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
-              </div>
-              <!--ajax comment-->
-              <div class="ui big reply segment" id="comment-list"></div>
-          </div>
-          {% endif %}
-        {%endif%}
-
-                
+                {%else%}
+                  {% if product.comment_count != 0 %}
+                  <div class="product reviews">
+                      <div class="block title">
+                          用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
+                      </div>
+                      <!--ajax comment-->
+                      <div class="ui big reply segment" id="comment-list"></div>
+                  </div>
+                  {% endif %}
+                {%endif%}
             </div>
         </div>
         
         <div id="product_guess_list"><!--ajax fetch--></div>
     </div>
     <div class="mainright">
-        
+
+    {% if !item_stage=='idea' %}
         <div class="sellwrap">
             
 			<div class="buy box">
@@ -679,13 +679,28 @@
             </div>
             
         </div>
+
+      {%endif%}
         
         <!--品牌相关-->
         <div class="sellwrap">
 			<div class="block title">
-				品牌
+        {% if item_stage=='idea' %}用户{%else%}品牌{%endif%}
             </div>
             <div class="brand products">
+              {% if item_stage=='idea' %}
+                <div class="author">
+    				<a href="{{ product.user.home_url }}" class="ui large avatar image" >
+    					<img src="{{ product.user.big_avatar_url }}" alt="{{ product.user.nickname }}" />
+    				</a>
+                    <h4>
+                        {{ product.user.nickname }}
+                    </h4>
+                    <p class="desc">
+                        {{ product.user.summary }}
+                    </p>
+                </div>
+              {%else%}
                 <div class="author">
     				<a href="{{ product.designer.home_url }}" class="ui large avatar image" >
     					<img src="{{ product.designer.big_avatar_url }}" alt="{{ product.designer.nickname }}" />
@@ -697,6 +712,8 @@
                         {{ product.designer.summary }}
                     </p>
                 </div>
+              {%endif%}
+
                 
                 {% product_list var:'plist' page:1  only_onsale:1 size:4 user_id:product.user_id  %}
                 <div class="ui two miniproducts blocks">

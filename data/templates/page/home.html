@@ -165,25 +165,26 @@
     <!--社区部分-->
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="column">                
+			<div class="column">
+                        
                 <!--社区试用 活动-->
+                {% ad_list var:'ads' page:1 size:2 state:2 name:'home_page_activity' %}
+                {% if ads.rows %}
                 <div class="ui two products cards">
-                    {% try_list var:'try_latest' page:1 state:1 size:1 %}
-                    {% if try_latest.rows %}
-                        {% for try in try_latest.rows %}
+                    {% for ad in ads.rows %}
                         <div class="card special">
                             <div class="problock">
-                                <a title="{{ try.short_title }}" href="{{ try.view_url }}" style="background-image: url('{{ try.banner.fileurl }}');" class="thumb" target="_blank"></a>
+                                <a title="{{ ad.title }}" href="{{ ad.view_url }}" style="background-image: url('{{ ad.cover.fileurl }}');" class="thumb" target="_blank"></a>
                                 <h2>
-                                    <a href="{{ try.view_url }}" title="{{ try.short_title }}" class="ui line" target="_blank">
-                        			    {{ try.short_title }}
+                                    <a href="{{ ad.view_url }}" title="{{ ad.title }}" class="ui line" target="_blank">
+                        			    {{ ad.title }}
                         		    </a>
                                 </h2>
                                 <div class="excerpt">
-                                    <p>{{ try.description }}</p>
+                                    <p>{{ ad.description }}</p>
                                 </div>
                                 <div class="cats">
-                                    <span class="unit"></span>{{ try.apply_count }}
+                                    <span class="unit"></span>{{ ad.click_count }}
                                 </div>
                                 <span class="counter">
                                     <i class="heart icon"></i> 
@@ -191,53 +192,19 @@
                             </div>
                             <div class="speblock">
                                 <div class="randomcats">
-                                    <a class="catlink" href="{{ try.view_url }}" style="background-image: url('{{ try.banner.fileurl }}');" target="_blank">
-                                        <h2>{{ try.short_title }}</h2>
-                                        <p>{{ try.description }}</p>
+                                    <a class="catlink" href="{{ ad.view_url }}" style="background-image: url('{{ ad.cover.fileurl }}');" target="_blank">
+                                        <h2><!--{{ active.title }}--></h2>
+                                        <p><!--{{ active.sub_title }}--></p>
                                     </a>
                                 </div>
                             </div>
                         </div>
-                        {% endfor %}
-                    {% endif %}
-                    
-                    {% active_list var:'current_list' published:1 deleted:1 kind:1 step_stat:2 state:2 sort:'stick:asc_created' size:1 %}
-            
-                    {% if current_list.rows %}
-                        {% for active in current_list.rows %}
-                        <div class="card special">
-                            <div class="problock">
-                                <a title="{{ active.title }}" href="{{ active.view_url }}" style="background-image: url('{{ active.banner.fileurl }}');" class="thumb" target="_blank"></a>
-                                <h2>
-                                    <a href="{{ active.view_url }}" title="{{ active.title }}" class="ui line" target="_blank">
-                        			    {{ active.title }}
-                        		    </a>
-                                </h2>
-                                <div class="excerpt">
-                                    <p>{{ active.sub_title }}</p>
-                                </div>
-                                <div class="cats">
-                                    <span class="unit"></span>{{ active.max_number_count }}
-                                </div>
-                                <span class="counter">
-                                    <i class="heart icon"></i> 
-                                </span>
-                            </div>
-                            <div class="speblock">
-                                <div class="randomcats">
-                                    <a class="catlink" href="{{ active.view_url }}" style="background-image: url('{{ active.banner.fileurl }}');" target="_blank">
-                                        <h2>{{ active.title }}</h2>
-                                        <p>{{ active.sub_title }}</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    {% endif %}
+                    {% endfor %}
                 </div>
+                {% endif %}
                 
-                <!--推荐话题-->
-                {% topic_list var:'topics' type:1 page:1 size:4 %}
+                <!--精华话题-->
+                {% topic_list var:'topics' type:2 page:1 size:4 %}
                 <div class="ui socialstick stickcount four blocks">
             		{% for topic in topics.rows %}
                     <div class="block">
@@ -255,7 +222,6 @@
                     {% endfor %}
                 </div>
                 
-                <!--精选话题-->
                 <div class="ui four products topics cards">
                     <div class="card stick">
                         {% ad_list var:'ads' page:1 size:2 state:2 name:'home_page_topic' %}                        
@@ -266,19 +232,16 @@
                                     <a class="transparent" href="{{ ad.view_url }}" target="_blank">
                     					<div class="sub title">
                     						<h3>{{ ad.title }}</h3>
-                    						<div class="extra count">
-                    							<i class="unhide icon"></i> <span>{{ ad.click_count }}</span>
-                    						</div>
                     					</div>
                                     </a>
                     			</div>
                             </div>
                             {% endfor %}
                         </div>
-                        
                     </div>
                     <div class="card group">
-                        {% topic_list var:'topics' type:1 page:1 size:6 %}
+                        <!--推荐话题-->
+                        {% topic_list var:'topics' sort:'update' type:1 page:1 size:6 %}
                         <div class="problock">
         					{% for topic in topics.rows %}
         						{% if topic.published %}

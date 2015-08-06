@@ -10,22 +10,18 @@
 	<td colspan="3" class="htitle nide wide">
       	<h3 class="title {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}">
 			<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
-                {% if topic.top %}
-                <i class="ui pop basic pin icon" data-content="置顶推荐" data-variation="inverted"></i>
-                {% endif %}
-                {% if topic.stick %}
-                <i class="ui pop basic flag icon" data-content="编辑推荐" data-variation="inverted"></i>
-                {% endif %}
-                {% if topic.fine %}
-                <i class="ui pop basic star icon" data-content="精华话题" data-variation="inverted"></i>
-                {% endif %}
                 {{ topic.title|truncate 60 }}
+                {% if topic.top %}<span class="ui green small label">置顶</span>{% endif %}
+                {% if topic.fine %}<span class="ui orange small label">精华</span>{% endif %}
+                {% if topic.stick %}<span class="ui yellow small label">编辑推荐</span>{% endif %}
             </a>
 		</h3>
         
       	<div class="content">
 			<div class="attribute">
-				<span class="category"><a href="{{ topic.category.view_url }}" class="ui link">{{ topic.category.title }}</a></span> | 
+                <span class="category">
+                    {{ topic.category.title }}
+                </span> | 
 				<span class="author">
 					<a href="{{ topic.user.home_url }}" class="ui link">@{{ topic.user.nickname }}</a>  <i class="time icon"></i>{{ topic.created_on|relative_datetime }}
 				</span>
