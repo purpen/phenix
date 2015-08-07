@@ -217,7 +217,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 
 		// 分页链接
-		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, $type, $time, $sort, $page);
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, $type, $time, $sort, '#p#');
 		
 		$this->stash['cid'] = $this->stash['category_id'];
 		$this->stash['is_top'] = $is_top;
