@@ -102,6 +102,9 @@
                   {% if order.status == 12 %}
                     <div>理由: {{ order.refund_reason }}</div>
                   {% endif %}
+                  {% if order.status == 13 %}
+                    <div>理由: {{ order.refund_reason }}</div>
+                  {% endif %}
                 {% endif %}
 			</div>
 			<div class="center aligned three wide column">
