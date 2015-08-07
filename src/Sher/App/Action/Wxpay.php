@@ -229,13 +229,17 @@
 				return $this->to_raw('fail');
 			}
 			
-			if(empty($data['transaction_id'])){
+			if(!$data['transaction_id']){
+				return $this->to_raw('fail');     
+			}
+			
+			if(!$data['refund_fee']){
 				return $this->to_raw('fail');     
 			}
 			
 			$model = new Sher_Core_Model_Orders();
 			$order = $model->first(array('trade_no'=>$data['transaction_id']));
-			var_dump($order);die;
+			
 			if(empty($order)){
 				Doggy_Log_Helper::warn("Wxpay refund notify: trade_no[{$data['transaction_id']}] order is empty!");
 				return $this->to_raw('fail');        
@@ -243,12 +247,13 @@
 
 			$order_id = (string)$order['_id'];
 
-			if($order['status'] != Sher_Core_Util_Constant::ORDER_READY_REFUND){
+			// 申请退款的订单才允许退款操作(包括已发货,确认收货,完成操作)
+			if (!Sher_Core_Helper_Order::refund_order_status_arr($order['status'])){
 				Doggy_Log_Helper::warn("Wxpay refund notify: order_id[$order_id] stauts is wrong!");
-				return $this->to_raw('fail');      
+				return $this->to_raw('fail');
 			}
 
-			$ok = $model->refunded_order($order_id, array('refunded_price'=>$refunded_price));
+			$ok = $model->refunded_order($order_id, array('refunded_price'=>(float)($data['refund_fee']/100)));
 			if($ok){
 				//退款成功
 				return $this->to_raw('success');     
