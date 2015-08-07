@@ -26,11 +26,11 @@
 					</div>
 					<div class="field">
 						<label>详细地址</label>
-						<div class="ui selection province dropdown">
+						<div class="ui selection province dropdown" style="width: 49% !important;min-width: 3em !important;">
 							<input type="hidden" name="province" value="{{ addbook.province }}" />
 			
 						    <div class="default text">省份/自治区</div>
-						    <i class="flat arrowbottom icon"></i>
+						    <i class="flat dropdown icon"></i>
 						    <div class="menu">
 								{% for province in provinces %}
 						        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
@@ -38,10 +38,10 @@
 						    </div>
 						</div>
 		
-						<div class="ui selection district dropdown" id="district-menu">
+						<div class="ui selection district dropdown" id="district-menu" style="width: 49% !important;min-width: 3em !important;float:right;">
 							<input type="hidden" name="district" value="{{ district.city }}" />
 						    <div class="default text">地区区域</div>
-						    <i class="flat arrowbottom icon"></i>
+						    <i class="flat dropdown icon"></i>
 						    <div class="menu">
 								{% for district in districts %}
 						        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
