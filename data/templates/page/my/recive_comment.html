@@ -2,53 +2,6 @@
 {% block title %}消息提醒-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-.comment .mes-text{
-	border-bottom:1px solid rgba(0,0,0,.1);
-}
-.comment .mes-text .news{
-	color: rgba(0,0,0,.7);
-	font-size: 16px;
-	font-weight: 400;
-}
-.comment .mes-text .news .ui.link{
-	font-weight: 700;
-}
-.comment-show{
-	padding-bottom:1em;
-}
-.comment-show .ui.btn{
-	padding:0.8em 1.5em;
-}
-.mes-text{
-	width:100%;
-    text-align: left;
-	padding:1rem 0 1rem;
-}
-.mes-text a.ui.photo{
-	float: left; 
-	width: 50px; 
-	height: 60px; 
-	margin-right: 10px;
-}
-.mes-text a.ui.photo img{
-	height:50px;
-	width:50px;
-	border-radius: 25px;
-}
-.mes-text .news{
-	padding: 6px 0 0 60px; 
-	overflow: visible;
-	font-size: 17px;
-	font-weight: 700;
-	min-height: 60px;
-}
-.mes-text .news .sub_header{
-	font-size: 14px;
-	font-weight: 400;
-	padding-top: 5px;
-	line-height: 20px;
-}
-
   .content .text img{
     max-width: 150px;
     max-height: 800px;
@@ -63,10 +16,6 @@
     text-decoration:none;
     color:#f36;
   }
-	.news.content a+.date{
-		display: inline-block;
-		margin-left: 10px;
-	}
 
   .content .text a:hover{
     text-decoration:underline;
@@ -173,50 +122,38 @@
 			<h2 class="ui header">消息提醒</h2>
 			{% include "block/center/head_notice_nav.html" %}
 			
-			<div class="ui segment">
-				<div class="ui grid">
-					<div class="row">
-						<div class="center aligned column">
-							
-							<div class="comment-show ui buttons">
-                <div class="ui magenta inverted recive-comment button {{ css_recive_comment }}">
-								收到的评论
-							</div>
-								<div class="ui magenta inverted send-comment button {{ css_send_comment }}">
-								发出的评论
-							</div>
-							</div>
-
-            {% comment_list var:'list' page:page size:20 sort:1 target_user_id:user_id load_item:1 %}
-
-            {% for d in list.rows %}
-						
-							<div class="mes-text">
-								<a href="{{ d.user.home_url }}" class="ui photo" target="_blank">
-	                <img alt="{{ d.user.nickname }}" src="{{ d.user.small_avatar_url }}">
-	              </a>
-	              <div class="news content">
-                  <a class="ui link" href="{{ d.user.home_url }}" target="_blank">{{ d.user.nickname }}</a>  评论了你的 <span>{{ d.type_str }}</span> 
-                  <a class="ui link" href="{{ d.target.view_url }}" target="_blank">{{ d.target.title }}</a>
-	              		<div class="date"><small>{{ d.created_on }}</small></div>
-
-                    <div class="sub_header text"> {{ d.content }}</div>
-								 </div>  
-							</div>
-
-              {%endfor%}
-							
-							
-							{% if list.rows %}
-								<div class="ui pagination">
-					            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-					            {%include 'block/pager.html'%}
-								</div>
-					          {% endif %}
-
-						</div>
+			<div class="ui alarm segment">
+                <div class="comment-show ui buttons">
+                    <div class="ui magenta inverted recive-comment button {{ css_recive_comment }}">
+                        收到的评论
+                    </div>
+                    <div class="ui magenta inverted send-comment button {{ css_send_comment }}">
+                        发出的评论
+                    </div>
+                </div>
+                
+                {% comment_list var:'list' page:page size:20 sort:1 target_user_id:user_id load_item:1 %}
+                {% for d in list.rows %}
+                <div class="mes-text">
+                    <a href="{{ d.user.home_url }}" class="ui photo" target="_blank">
+                        <img alt="{{ d.user.nickname }}" src="{{ d.user.small_avatar_url }}">
+                    </a>
+                    <div class="news content">
+                        <a class="ui link" href="{{ d.user.home_url }}" target="_blank">{{ d.user.nickname }}</a>  评论了你的<span>{{ d.type_str }}</span> 
+                        <a class="ui link" href="{{ d.target.view_url }}" target="_blank">{{ d.target.title }}</a>
+                        <span class="date">{{ d.created_on }}</span>
+                        <div class="sub_header text"> {{ d.content }}</div>
+                    </div>  
+                </div>
+                {%endfor%}
+                
+                {% if list.rows %}
+                    <div class="ui pagination">
+		            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		            {%include 'block/pager.html'%}
 					</div>
-				</div>
+                {% endif %}
+                
 			</div>
 		</div>
 	</div>

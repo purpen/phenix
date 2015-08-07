@@ -87,8 +87,12 @@
         <i class="alarm outline icon"></i>
         <!--ajax加载用户提醒-->
         <div class="menu" id="user-notice">
-            <div class="header">未读消息</div>
-            <div class="item" id="basket-body-content">没有消息</div>
+            <div class="header">
+                <a href="{{ app_url_domain }}/my/remind" class="ui link">我的提醒</a> | <a href="{{ app_url_domain }}/my/recive_comment" class="ui link">我的评论</a>
+            </div>
+            <div class="item" id="basket-body-content">
+                暂时没有未读消息
+            </div>
         </div>
     </div>
 	<div class="ui top right pointing dropdown icon user-setting button">
