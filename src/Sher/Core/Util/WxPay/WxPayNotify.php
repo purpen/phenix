@@ -10,7 +10,7 @@ class Sher_Core_Util_WxPay_WxPayNotify extends Sher_Core_Util_WxPay_WxPayData_Wx
 	/**
 	 * 
 	 * 回调入口
-	 * @param bool $needSign  是否需要签名输出
+	 * @ param bool $needSign  是否需要签名输出
 	 */
 	final public function Handle($needSign = true)
 	{
