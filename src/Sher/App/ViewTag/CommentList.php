@@ -21,7 +21,11 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
         $check_loved = 0;
         $current_user_id = 0;
         $target_user_id = 0;
-        //加载关联表
+        
+        // 热门评论, love_count > 10
+        $only_hotest = 0;
+        
+        // 加载关联表
         $load_item = 0;
         $sku_id = 0;
         //显示最近N天的评论
@@ -50,17 +54,24 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
 		if ($target_user_id) {
 			$query['target_user_id'] = (int)$target_user_id;
 		}
+        
+        // 仅热门
+        if($only_hotest){
+            // 排序按降序
+            $sort = 2;
+            $query['love_count'] = array('$gte' => 1);
+        }
+        
+        if($sku_id){
+            $query['sku_id'] = (int)$sku_id;
+        }
 
-    if($sku_id){
-      $query['sku_id'] = (int)$sku_id;
-    }
-
-    // 大于N天的评论
-    if($nearly_day){
-      $n_time = time() - (int)$nearly_day*24*60*60;
-      $query['created_on'] = array('$gt'=>$n_time);
-    }
-
+        // 大于N天的评论
+        if($nearly_day){
+            $n_time = time() - (int)$nearly_day*24*60*60;
+            $query['created_on'] = array('$gt' => $n_time);
+        }
+        
 		// 排序
 		switch ($sort) {
 			case 0:
@@ -115,15 +126,15 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
 
         // 验证当前用户是否点赞了
         if(!empty($check_loved) && !empty($current_user_id)){
-          if(!empty($result['rows'])){
-            $favorite = new Sher_Core_Model_Favorite();
-            for($i=0;$i<count($result['rows']);$i++){
-              $is_loved = $favorite->check_loved((int)$current_user_id, (string)$result['rows'][$i]['_id'], Sher_Core_Model_Favorite::TYPE_COMMENT);
-              $result['rows'][$i]['is_loved'] = $is_loved;
+            if(!empty($result['rows'])){
+                $favorite = new Sher_Core_Model_Favorite();
+                for($i=0;$i<count($result['rows']);$i++){
+                    $is_loved = $favorite->check_loved((int)$current_user_id, (string)$result['rows'][$i]['_id'], Sher_Core_Model_Favorite::TYPE_COMMENT);
+                    $result['rows'][$i]['is_loved'] = $is_loved;
+                }
+                unset($favorite);
             }
-            unset($favorite);
-          }
-		    }
+        }
 		
     	$context->set($var,$result);
         if ($include_pager) {

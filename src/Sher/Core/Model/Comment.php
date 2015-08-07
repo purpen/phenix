@@ -31,15 +31,16 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         // 子类型,1.商品下的灵感; 2.
         'sub_type' => 1,
 		'love_count' => 0,
-      // 是否是回复某人的评论
-      'is_reply' => 0,
-      // 回复ID
-      'reply_id' => null,
-      // 被回复人ID
-      'reply_user_id' => 0,
-      // 楼层
-      'floor' => 0,
-      'deleted' => 0,
+        
+        // 是否是回复某人的评论
+        'is_reply' => 0,
+        // 回复ID
+        'reply_id' => null,
+        // 被回复人ID
+        'reply_user_id' => 0,
+        // 楼层
+        'floor' => 0,
+        'deleted' => 0,
     );
 
     protected $joins = array(
