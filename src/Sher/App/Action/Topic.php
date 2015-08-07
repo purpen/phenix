@@ -215,6 +215,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
             $this->stash['page_keywords_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 2);   
             $this->stash['page_description_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 3);
 		}
+
+		// 分页链接
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, $type, $time, $sort, $page);
 		
 		$this->stash['cid'] = $this->stash['category_id'];
 		$this->stash['is_top'] = $is_top;
