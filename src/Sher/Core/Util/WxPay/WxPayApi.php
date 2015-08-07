@@ -537,7 +537,6 @@ class Sher_Core_Util_WxPay_WxPayApi
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 	
 		if($useCert == true){
-			//设置证书
 			//使用证书：cert 与 key 分别属于两个.pem文件
 			curl_setopt($ch,CURLOPT_SSLCERTTYPE,'PEM');
 			curl_setopt($ch,CURLOPT_SSLCERT, Doggy_Config::$vars['app.wechat.sslcert_path']);
