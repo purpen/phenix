@@ -1,81 +1,90 @@
 <div class="comment" id="{{ comment._id }}">
-	<a class="avatar" href="{{ comment.user.home_url }}">
-		<img src="{{ comment.user.small_avatar_url }}" class="ui circular image" />
-	</a>
-	<div class="content">
-		<a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
-		<div class="metadata">
-			<div class="date">{{ comment.created_on }}</div>
-		</div>
+    <a class="avatar" href="{{ comment.user.home_url }}" target="_blank">
+        <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
+    </a>
+    <div class="content">
+        <a class="author ui link" href="{{ comment.user.home_url }}" target="_blank">{{ comment.user.nickname }}</a>
+        <div class="metadata">
+            <div class="date"><small>{{ comment.created_on }}</small></div>
+            <span class="floor">{{ comment.floor }}楼</span>
+        </div>
 
-{% if !comment.deleted %}
-		<div class="laud">
-      {% if comment.is_loved %}
-      <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消喜欢" data-variation="inverted" >
-      <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
-        <i class="icon heart"></i>
-      </a>
-      {%else%}
-        <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
-      <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
-        <i class="icon empty heart"></i>
-      </a>          
-      {%endif%}
-		</div>
-    {%endif%}
-		<div class="text">
-      {% if comment.deleted==1 %}
-        该内容已被屏蔽
-      {%else%}
-        {{ comment.content|safe }}
-      {%endif%}
-		</div>
-    {% if visitor.is_login %}
-    <div class="actions">
-{% if !comment.deleted %}
-      <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
-      {% if visitor.can_admin %}
-        <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">屏蔽</a>
-      {%else%}
-        {% if visitor.id==comment.user_id %}
-          <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">屏蔽</a>
+        {% if !comment.deleted %}
+        <div class="laud">
+            {% if comment.is_loved %}
+            <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消点赞" data-variation="inverted" >
+                <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+                <i class="icon heart"></i>
+            </a>
+            {%else%}
+            <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="点赞" data-variation="inverted" >
+                <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+                <i class="icon empty heart"></i>
+            </a>          
+            {%endif%}
+        </div>
         {%endif%}
-      {%endif%}
-      {%endif%}
+    
+        {% if comment.is_reply %}
+        <div class="replytips">
+            <i class="quote left icon"></i> 回复 #{{ comment.reply_comment.floor }} <a href="{{ comment.reply_comment.user.home_url }}" class="ui link" target="_blank">@{{ comment.reply_comment.user.nickname }}</a>
+        </div>
+        {%endif%}
+    
+        <div class="text">
+            {% if comment.deleted==1 %}
+                该内容已被屏蔽
+            {%else%}
+            {{ comment.content|safe }}
+            {%endif%}
+        </div>
+    
+        {% if visitor.is_login %}
+        <div class="actions">
+            {% if !comment.deleted %}
+                <a class="reply reply-btn" href="javascript:void(0);" comment_id="{{ comment._id }}" floor="{{ comment.floor|default 0 }}" comment_user_id="{{ comment.user_id }}" comment_user_name="{{ comment.user.nickname }}">回复</a>
+
+                {% if visitor.can_admin %}
+                <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">屏蔽</a>
+                {%else%}
+                    {% if visitor.id == comment.user_id %}
+                    <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">屏蔽</a>
+                    {%endif%}
+                {%endif%}
+            {%endif%}
+        </div>
+        {% endif %}
     </div>
-		<form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
-			<input type="hidden" name="type" value="2" />
-			<input type="hidden" name="comment_id" value="{{ comment._id }}" />
-			<input type="hidden" name="target_id" value="{{ topic._id }}" />
-			<div class="field">
-				<textarea name="content" class="reply-content"></textarea>
-			</div>
-			<div class="ui button magenta submit labeled icon">
-				<i class="icon edit"></i> 回复
-			</div>
-		</form>
-    {%endif%}
-	</div>
 
-	{% if comment.reply %}
-	<div class="comments">
-		{% for reply in comment.reply %}
-			<div class="comment">
-				<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
-					<img src="{{ reply.user.small_avatar_url }}" />
-				</a>
-				<div class="content">
-					<a class="author">{{ reply.user.nickname }}</a>
-					<div class="metadata">
-						<div class="date">{{ reply.replied_on }}</div>
-					</div>
-					<div class="text">
-						{{ reply.content }}
-					</div>
-				</div>
-			</div>
-		{% endfor %}
-	</div>
-	{% endif %}
-
+    {% if comment.reply %}
+    <div class="comments">
+        {% for reply in comment.reply %}
+        <div class="comment" id="{{ reply.r_id }}">
+            <a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}" target="_blank">
+                <img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
+            </a>
+            <div class="content">
+                <a class="author">{{ reply.user.nickname }}</a>
+                <div class="metadata actions" style="margin-top:0;opacity:1;" >
+                    <span class="date">{{ reply.replied_on }}</span>
+                    {% if visitor.can_admin %}
+                        <a class="delete confirm-request" href="{{ app_url_comment }}/del_reply?id={{ comment._id }}&rid={{ reply.r_id }}">
+                            <small>删除</small>
+                        </a>
+                    {%else%}
+                        {% if visitor.id == reply.user_id %}
+                        <a class="delete confirm-request" href="{{ app_url_comment }}/del_reply?id={{ comment._id }}&rid={{ reply.r_id }}">
+                            <small>删除</small>
+                        </a>
+                        {%endif%}
+                    {%endif%}
+                </div>
+                <div class="text">
+                    {{ reply.content }}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 </div>
