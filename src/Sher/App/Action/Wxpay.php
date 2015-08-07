@@ -181,9 +181,9 @@
 			}
 			$status = $order_info['status'];
 			
-			// 验证订单是否已申请付款
+			// 验证订单是否已申请退款
 			if ($status != Sher_Core_Util_Constant::ORDER_READY_REFUND){
-				return $this->show_message_page('订单[$rid]未申请付款！', false);
+				return $this->show_message_page('订单[$rid]未申请退款！', false);
 			}
 		
 			$pay_money = $order_info['pay_money'];
@@ -263,4 +263,4 @@
 			}
 		}
 	}
-?>
+
