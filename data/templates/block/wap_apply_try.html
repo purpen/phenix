@@ -1,5 +1,5 @@
 <div class="ui applytry small modal transition">
-  	<i class="close icon"></i>
+  	<i class="close icon" style="position:absolute;"></i>
 	<div class="header">
 	    申请产品试用
 	</div>
@@ -30,7 +30,7 @@
 							<input type="hidden" name="province" value="{{ addbook.province }}" />
 			
 						    <div class="default text">省份/自治区</div>
-						    <i class="flat arrowbottom icon"></i>
+						    <i class="flat dropdown icon"></i>
 						    <div class="menu">
 								{% for province in provinces %}
 						        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
@@ -41,7 +41,7 @@
 						<div class="ui selection district dropdown" id="district-menu">
 							<input type="hidden" name="district" value="{{ district.city }}" />
 						    <div class="default text">地区区域</div>
-						    <i class="flat arrowbottom icon"></i>
+						    <i class="flat dropdown icon"></i>
 						    <div class="menu">
 								{% for district in districts %}
 						        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
