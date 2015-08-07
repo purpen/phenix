@@ -215,11 +215,6 @@ app.wechat.token: '5382ebad0c28aab443bfe3c7'
 app.wechat.app_id: 'wx4cf88d6bf30430db'
 app.wechat.app_secret: '795ff8ca3d4a57ae645e4d217c193988'
 
-# 微信订阅号 太火鸟
-app.wechat.token1: '5382ebad0c28aab443bfe3c7'
-app.wechat.app_id1: 'wx75a9ffb78f202fb3'
-app.wechat.app_secret1: '795ff8ca3d4a57ae645e4d217c193988'
-
 # 财付通
 app.tenpay.partner: '1220172801'
 app.tenpay.key: 'c61bea76f78ee72048aaa6570ad36ab3'
