@@ -256,7 +256,7 @@
 			$ok = $model->refunded_order($order_id, array('refunded_price'=>(float)($data['refund_fee']/100)));
 			if($ok){
 				//退款成功
-				return $this->to_raw('success');     
+				echo '<a href="#" onClick="javascript:window.opener=null;window.close();"><input name="green" type="submit" value="关闭" ></a>';
 			}else{
 				Doggy_Log_Helper::warn("Wxpay refund notify: order_id[$order_id] refunde_order fail !");
 				return $this->to_raw('fail');  
