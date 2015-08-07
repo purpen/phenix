@@ -139,7 +139,9 @@
             {%endif%}
           </div>
           {%endif%}
+          {% if comment.is_reply %}
           <div>回复 #{{ comment.reply_comment.floor }} @<a class="ui link">{{ comment.reply_comment.user.nickname }}</a></div>
+          {%endif%}
           <div class="text">
             {% if comment.deleted==1 %}
               该内容已被屏蔽
