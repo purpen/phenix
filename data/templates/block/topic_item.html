@@ -66,15 +66,20 @@
                     </span>
                     
 					<div class="ui count text">
-						<small>{{ topic.asset_count }}张图片</small>
+						<small>{{ topic.asset_count }} 张图片</small>
 					</div>
 				{% endif %}
 			</div>
             
-    		<a href="{{ topic.view_url }}#comment" class="dot-irecommend">
-    			<span class="dot-irecommend-count">{{ topic.view_count }}</span> 
-    			<span class="dot-irecommend-suffix"></span>
-    		</a>
+            <div class="dot count">
+                <div class="statistic">
+                    <span class="value">{{ topic.comment_count }}</span> <i class="comment outline icon"></i>
+                </div>
+                <div class="statistic">
+                    <span class="value">{{ topic.view_count }}</span> <i class="unhide icon"></i>
+                </div>
+            </div>
+            
       	</div>
 	</td>
 </tr>
