@@ -85,7 +85,7 @@
           <p>
 					状态: {{ order.status_label }}
           </p>
-          {% if order_is_pay%}
+          {% if order.trade_site_name%}
           <p>
             支付方式: {{ order.trade_site_name }}
           </p>
