@@ -207,9 +207,9 @@
 				
 				Doggy_Log_Helper::warn("退款传入信息: ".$trade_no.'---->'.$out_trade_no.'---->'.(int)($pay_money*100).'---->'.(int)$this->visitor->id);
 				
-				//$result = Sher_Core_Util_WxPay_WxPayApi::refund($input);
-				$result =  '{"appid":"wx75a9ffb78f202fb3","cash_fee":"1","cash_refund_fee":"1","coupon_refund_count":"0","coupon_refund_fee":"0","mch_id":"1219487201","nonce_str":"51ulFPCqdUuAzNaE","out_refund_no":"20150807115073002755","out_trade_no":"115073002755","refund_channel":[],"refund_fee":"1","refund_id":"2002800916201508070025263475","result_code":"SUCCESS","return_code":"SUCCESS","return_msg":"OK","sign":"078F044FF83CF545FAD3BEF7DE8DA43D","total_fee":"1","transaction_id":"1002800916201507300510901963"}';
-				$result = json_decode($result);
+				$result = Sher_Core_Util_WxPay_WxPayApi::refund($input);
+				//$result =  '{"appid":"wx75a9ffb78f202fb3","cash_fee":"1","cash_refund_fee":"1","coupon_refund_count":"0","coupon_refund_fee":"0","mch_id":"1219487201","nonce_str":"51ulFPCqdUuAzNaE","out_refund_no":"20150807115073002755","out_trade_no":"115073002755","refund_channel":[],"refund_fee":"1","refund_id":"2002800916201508070025263475","result_code":"SUCCESS","return_code":"SUCCESS","return_msg":"OK","sign":"078F044FF83CF545FAD3BEF7DE8DA43D","total_fee":"1","transaction_id":"1002800916201507300510901963"}';
+				//$result = json_decode($result,true);
 
 				Doggy_Log_Helper::warn("退款返回信息: ".json_encode($result));
 				$this->refund_back($result);
