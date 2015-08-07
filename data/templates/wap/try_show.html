@@ -107,6 +107,13 @@
 	.product.content.froala-element img ,.product.content.froala-element iframe{
     width: 100%;
   }	
+  .ui.form .field>.selection.dropdown {
+    width: 49% !important;
+    min-width: 3em !important;
+  }
+  .ui.form .field>.selection.dropdown + .selection.dropdown{
+    float:right;
+  }
 	/*.ui.tabox {
 		border-bottom: 1px solid #e4e5e7;
 		margin: 2.5em auto 1.5em;
@@ -479,7 +486,7 @@
           <!--<i class="ticket icon"></i>--> 求支持
         </a>
       {%else%}
-        <a href="javascript:void(0);" class="ui magenta active inverted button button">
+        <a href="javascript:void(0);" class="ui magenta active inverted applytry button">
           <!--<i class="ticket icon"></i>--> 申请试用
         </a>
       {%endif%}

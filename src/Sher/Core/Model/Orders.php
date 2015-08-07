@@ -174,9 +174,13 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		}
 
     // 支付方式
-    if (isset($row['trade_site']) && !empty($row['trade_site'])){
-      $row['trade_site_name'] = $this->get_trade_site_label($row['trade_site']);
+    $row['trade_site_name'] = null;
+    if (in_array($row['status'], array(10, 12, 13, 15, 20))){
+      if (isset($row['trade_site']) && !empty($row['trade_site'])){
+        $row['trade_site_name'] = $this->get_trade_site_label($row['trade_site']);
+      }   
     }
+
 		// 优惠金额
 		if (!isset($row['gift_money'])){
 			$row['gift_money'] = 0;
