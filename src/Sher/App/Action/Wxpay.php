@@ -221,12 +221,20 @@
 		 */
 		protected function refund_back($data){
 			
-			if($data['return_code'] !== 'SUCCESS' || $data['result_code'] !== 'SUCCESS'){
+			if($data['return_code'] !== 'SUCCESS'){
 				return $this->to_raw('fail');
 			}
 			
+			if($data['result_code'] !== 'SUCCESS'){
+				return $this->to_raw('fail');
+			}
+			
+			if(empty($data['transaction_id'])){
+				return $this->to_raw('fail');     
+			}
+			
 			$model = new Sher_Core_Model_Orders();
-			$order = $model->first(array('rid'=>$data['out_trade_no']));
+			$order = $model->first(array('trade_no'=>$data['transaction_id']));
 			var_dump($order);die;
 			if(empty($order)){
 				Doggy_Log_Helper::warn("Wxpay refund notify: trade_no[{$data['transaction_id']}] order is empty!");
