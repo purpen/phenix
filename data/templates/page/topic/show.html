@@ -71,7 +71,7 @@
 	phenix.hook_comment_page();
     
     // ajax加载评论
-    fetch_comment(1, per_page);
+    fetch_comment(1, per_page, sort);
     
     // 评论排序
     $('.fitsort .ui.list .item').bind('click', function(){
