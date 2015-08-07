@@ -232,6 +232,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$links = array();
 		
 		// 类别
+		$links['reply_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, 3, $time, 7, $page);
 		$links['stick_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, 1, $time, $sort, $page);
 		$links['fine_url']  = Sher_Core_Helper_Url::topic_advance_list_url($category_id, 2, $time, $sort, $page);
 		switch($type){
@@ -241,6 +242,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			case 2:
 				$this->set_target_css_state('type_fine');
 				break;
+      case 3:
+        $this->set_target_css_state('type_reply');
+        break;
 			default:
                 $this->set_target_css_state('type_all');
 				break;
@@ -276,7 +280,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		// 默认发帖时间
 		$links['sort_default_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, $type, $time, 0, $page);
 		// 最近回复
-		$links['sort_updated_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, $type, $time,  1,$page);
+		$links['sort_updated_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, $type, $time,  7,$page);
 		$links['sort_comment_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, $type, $time, 2, $page);
 		$links['sort_favorite_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, $type, $time, 3, $page);
 		$links['sort_laud_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, $type, $time, 4, $page);
@@ -285,7 +289,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			case 0:
 				$this->set_target_css_state('sort_default');
 				break;
-			case 1:
+			case 7:
 				$this->set_target_css_state('sort_update');
 				break;
 			case 2:
