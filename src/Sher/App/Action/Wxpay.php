@@ -259,6 +259,7 @@
 				echo '<a href="#" onClick="javascript:window.opener=null;window.close();"><input name="green" type="submit" class="ui green button" value="关闭" ></a>';
 			}else{
 				Doggy_Log_Helper::warn("Wxpay refund notify: order_id[$order_id] refunde_order fail !");
+				echo json_encode($result);
 				return $this->to_raw('fail');  
 			}
 		}
