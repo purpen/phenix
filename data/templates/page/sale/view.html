@@ -479,9 +479,9 @@
 			
         </div>
         
+		{% ad_list var:'adslide2' page:1 size:2 state:2 name:'product_rightbar_stick' %}
+        {% if adslide2.rows %}
         <div class="adstickwrap">
-    		{% ad_list var:'adslide2' page:1 size:4 state:2 name:'web_index_product_stick_slide' %}
-            {% if adslide2.rows %}
             <div class="ui one adverts cards">
                 {% for ad in adslide2.rows %}
                 <div class="card">
@@ -500,8 +500,8 @@
                 </div>
                 {%endfor%}
             </div>
-            {%endif%}
         </div>
+        {%endif%}
         
     </div>
     

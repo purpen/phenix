@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}消息提醒-{% endblock %}
+{% block title %}我的私信-{% endblock %}
 
 {% block page_css %}
 <style type="text/css">
@@ -39,31 +39,19 @@
 	padding-top: 5px;
 	line-height: 20px;
 }
-.mes-text .news .report{
-	border-bottom: 1px solid rgba(0,0,0,0.1);
+.mes-text .news .report {
 	padding: 0 0 20px;
 	height: 20px;
-	font-size: 15px;
+	font-size: 14px;
 	font-weight: 400;
-	color:rgba(0,0,0,0.6);
 }
-.mes-text .news .report .pushtime{
-	float:left;
-}
-.mes-text .news .report .pushtime a.ui.link,.mes-text .news .report .count a.ui.link{
-	color:#f36;
-}
-.mes-text .news .report .count{
+.mes-text .news .report .count {
 	float:right;
 	cursor:pointer;
 	padding-right:5px;
 }
-
-.mes-text .sub_header .new{
-	color:#f36;
-	position:relative;
-	left:0;
-	font-size:13px;
+.mes-text .news .report .count .ui.horizontal.list > .item {
+    font-size: 12px;
 }
 </style>
 {% endblock %}
@@ -126,7 +114,7 @@
 						个人中心
 					</a>
 					<i class="angle right icon divider"></i>
-					<div class="active section">消息提醒</div>
+					<div class="active section">我的私信</div>
 				</div>
 			</div>
 		</div>
@@ -141,67 +129,57 @@
 			<h2 class="ui header">消息提醒</h2>
 			{% include "block/center/head_notice_nav.html" %}
 			
-			<div class="ui segment">
-				<div class="ui grid">
-					<div class="row">
-						<div class="column">
-					{% message_list var:'list' page:page user_id:user._id %}
-					{% for message in list.rows %}
-            <div id="message_{{ message._id }}" class="mes-text" style="width:100%">
-              <a class="ui photo">
-                <img alt="{{ message.f_user.nickname }}" src="{{ message.f_user.big_avatar_url }}">
-              </a>
-              <div class="news">
-                与
-                <a class="ui link" href="{{ message.f_user.home_url }}" target="_blank">{{ message.f_user.nickname }}</a>
-                的对话
-
-              {% for m in message.mailbox %}
-              <div class="sub_header">
-                {%if m.from==user._id%}
-                 <strong> 我 </strong> : &nbsp;{{ m.content }}  &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}
-                {%else%}
-                  <strong> {{ message.f_user.nickname }}</strong> :  &nbsp;{{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}
-                  <!--显示未读标识-->
-                  {% if loop.counter <= message.readed %}
-                    &nbsp;<span class="new">new</span>
-                  {%endif%}
-                {%endif%}
-              </div>
-              {% endfor %}
-              <div class="report">
-                <!--<div class="pushtime">
-                  {{ message.created_on|relative_datetime }}
-                </div>-->
-                    <div class="count">
-                        <div class="ui horizontal divided list">
-                            <div class="item">
-                                共{{ message.total_count }}条对话
-                            </div>
-                            <div class="item">
-                                <a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" user_id="{{ message.f_user._id }}">回复</a>
-                            </div>
-                            <div class="item">
-                                <a href="{{ app_url_my }}/delete_message?id={{ message._id }}" class="ui link confirm-request">删除</a>
+			<div class="ui alarm segment">
+                {% message_list var:'list' page:page user_id:user._id %}
+                
+                {% for message in list.rows %}
+                <div id="message_{{ message._id }}" class="mes-text" style="width:100%">
+                    <a class="ui photo">
+                        <img alt="{{ message.f_user.nickname }}" src="{{ message.f_user.big_avatar_url }}">
+                    </a>
+                    <div class="news">
+                    与
+                        <a class="ui link" href="{{ message.f_user.home_url }}" target="_blank">{{ message.f_user.nickname }}</a>
+                    的对话
+                    {% for m in message.mailbox %}
+                    <div class="sub_header">
+                        {%if m.from==user._id%}
+                        <span> 我 </span>: &nbsp;{{ m.content }}  &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}
+                    {%else%}
+                        <span> {{ message.f_user.nickname }}</span>:  &nbsp;{{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;<span class="date">{{ m.created_on|relative_datetime }}</span>
+                      <!--显示未读标识-->
+                      {% if loop.counter <= message.readed %}
+                        &nbsp;<span class="ui red label">new</span>
+                      {%endif%}
+                    {%endif%}
+                  </div>
+                  {% endfor %}
+                  <div class="report">
+                        <div class="count">
+                            <div class="ui horizontal divided list">
+                                <div class="item">
+                                    共{{ message.total_count }}条对话
+                                </div>
+                                <div class="item">
+                                    <a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" user_id="{{ message.f_user._id }}">回复</a>
+                                </div>
+                                <div class="item">
+                                    <a href="{{ app_url_my }}/delete_message?id={{ message._id }}" class="ui link confirm-request">删除</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-              </div>
-              </div>
-            </div>
-					{% endfor %}
-					
-					{% if list.rows %}
-						<div class="ui pagination">
-			            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-			            {%include 'block/pager.html'%}
-						</div>
-			          {% endif %}
-							</div>
-							
-
-						</div>
-					</div>
+                  </div>
+                  </div>
+                </div>
+    					{% endfor %}
+                        
+    					{% if list.rows %}
+    						<div class="ui pagination">
+    			            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+    			            {%include 'block/pager.html'%}
+    						</div>
+    			          {% endif %}
+                        
 				</div>
 			</div>
 		</div>
