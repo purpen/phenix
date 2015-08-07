@@ -200,12 +200,12 @@
 				$input = new Sher_Core_Util_WxPay_WxPayData_WxPayRefund();
 				$input->SetTransaction_id($trade_no);
 				$input->SetOut_trade_no($out_trade_no);
-				$input->SetTotal_fee(((int)$pay_money)*100);
-				$input->SetRefund_fee(((int)$pay_money)*100);
+				$input->SetTotal_fee((int)($pay_money*100));
+				$input->SetRefund_fee((int)($pay_money*100));
 				$input->SetOut_refund_no((string)date('Ymd').(string)$rid);
 				$input->SetOp_user_id((int)$this->visitor->id);
 				
-				Doggy_Log_Helper::warn("退款传入信息: ".$trade_no.'---->'.$out_trade_no.'---->'.$pay_money.'---->'.(int)$this->visitor->id);
+				Doggy_Log_Helper::warn("退款传入信息: ".$trade_no.'---->'.$out_trade_no.'---->'.(int)($pay_money*100).'---->'.(int)$this->visitor->id);
 				
 				$result = Sher_Core_Util_WxPay_WxPayApi::refund($input);
 				
