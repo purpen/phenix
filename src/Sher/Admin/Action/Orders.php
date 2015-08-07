@@ -489,13 +489,13 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 
 		// 跳转支付宝退款
 		if ($order_info['trade_site'] == Sher_Core_Util_Constant::TRADE_ALIPAY){
-			$refund_url = Doggy_Config::$vars['app.url.alipay'].'refund?rid='.$rid;
+			$refund_url = Doggy_Config::$vars['app.url.alipay'].'/refund?rid='.$rid;
 			return $this->to_redirect($refund_url);
 		}
 		
 		// 跳转微信支付退款
 		if ($order_info['trade_site'] == Sher_Core_Util_Constant::TRADE_WEIXIN){
-			$refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'refund?rid='.$rid;
+			$refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/refund?rid='.$rid;
 			return $this->to_redirect($refund_url);
 		}
 		
