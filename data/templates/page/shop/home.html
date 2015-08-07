@@ -70,10 +70,9 @@
 	<div class="ui newest responsive grid">
 		<div class="row">
 			<div class="column">
-                {% product_list var:'newest' page:1 stage:9 only_onsale:1 size:8 sort:'latest' %}
-                {% if newest.rows %}
+                {% if stick_products %}
                 <div class="ui four products cards">
-					{% for product in newest.rows %}
+					{% for product in stick_products %}
 				  		{% include "block/product_card.html" %}
 				    {% endfor %}
                 </div>
