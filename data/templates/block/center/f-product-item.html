@@ -1,7 +1,7 @@
 <div class="card" id="item-{{d._id}}">
   <div class="problock">
     {% if d.product.cover %}
-      <a title="{{ product.title }}" alt="{{ product.title }}" href="javascript:void(0);" style="background-image: url({{ d.product.cover.thumbnails.md.view_url }}); position:relative;" class="thumb" target="_blank">
+      <a title="{{ product.title }}" alt="{{ product.title }}" href="javascript:void(0);" style="background-image: url({{ d.product.cover.thumbnails.md.view_url }}); position:relative;cursor:default;" class="thumb" target="_blank">
         <div class="presell" style="height:3rem;">
           <label>
           {% if d.product.stage==1 %}创意产品{%endif%}

@@ -1,7 +1,7 @@
 <div class="card" id="item-{{d._id}}">
   <div class="problock">
     {% if d.stuff.cover %}
-    <a title="{{ d.stuff.title }}" alt="{{ d.stuff.title }}" href="javascript:void(0);" style="background-image: url({{ d.stuff.cover.thumbnails.md.view_url }}); position:relative;" class="thumb" target="_blank">
+    <a title="{{ d.stuff.title }}" alt="{{ d.stuff.title }}" href="javascript:void(0);" style="background-image: url({{ d.stuff.cover.thumbnails.md.view_url }}); position:relative;cursor:default;" class="thumb" target="_blank">
       <div class="presell" style="height:3rem;">
         <label>
           {% if d.from_to %}
