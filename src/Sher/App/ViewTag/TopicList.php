@@ -107,7 +107,7 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 		}
 		
 		// 排序
-		switch ($sort) {
+		switch ((int)$sort) {
 			case 0:
 				$options['sort_field'] = 'latest';
 				break;
