@@ -69,7 +69,7 @@
 	}
 	.search .ui.label{
 		border-radius: 2.5rem;
-		padding: 0.05em 0.5em !important;
+		padding: 0.3em 0.5em !important;
 	}
 	#searchpage {
 	  padding-top: 1rem;
@@ -94,7 +94,7 @@
 	}
 	#searchpage .ui.tabox .ui.ten.tabs .tab {
 	  width: 18%;
-	  font-size: 1.15rem;
+	  font-size: 14px;
 	  text-align: center;
 	}
 	.ui.tabox .ui.tabs .tab:hover, .ui.tabox .ui.tabs .active.tab {
@@ -175,7 +175,7 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column white section-title">
-                <h1 class="block title">高级搜索</h1>
+                <h3 class="block title">高级搜索</h3>
 				<form class="ui form" action="{{ app_url_wap }}/search" method="get" id="searchbar">
                  	<div class="ui icon input">
                 		<input name="q" type="text" value="{{ q }}" />
@@ -260,7 +260,7 @@
 							<div class="content">
 								<div class="header">
 							      	<a href="{{ item.view_url }}" title="{{ item.title }}" class="ui line" target="_blank">{{ item.high_title }}</a>
-                      <label class="ui magenta label">{{ item.kind_name }}</label>
+                      <label class="ui magenta inverted active button label">{{ item.kind_name }}</label>
 								</div>
 								<div class="attribute">
 									<span class="author">

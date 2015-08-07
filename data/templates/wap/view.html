@@ -76,7 +76,7 @@ h4 > .ui.active.green.icon.share.button{
 h4 > .ui.active.green.icon.share.button > .icon{
 	padding:0 !important;
 }
-.labeled.active.icon.button,.active.inverted.button{
+.labeled.active.icon.button{
 	width:100% !important;
 	padding-left:0% !important;
 	padding-right:0 !important;
@@ -460,7 +460,7 @@ i.cart.icon,i.exchange.icon{
        					<td>
        						<div class="product attrs">
        							{% for m in skus %}
-       							<span class="ui small magenta att button" data-id="{{ m._id }}" data-price="{{ m.price }}">{{ m.mode }}</span>		
+       							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}">{{ m.mode }}</span>		
        							{% endfor %}
        						</div>
        					</td>
@@ -522,7 +522,7 @@ i.cart.icon,i.exchange.icon{
                                            <i class="cart icon" style="vertical-align: middle;  line-height: 0.9em;"></i>立即购买
                                        </div>
                                    {%else%}
-                                       <div class="ui active gray inverted button">
+                                       <div class="ui active gray labeled inverted button">
                                            <i class="cart icon" style="vertical-align: middle;  line-height: 0.9em;"></i> 已售罄
                                        </div>
                                    {%endif%}
@@ -619,7 +619,7 @@ i.cart.icon,i.exchange.icon{
        					<td>
        						<div class="product attrs">
        							{% for m in skus %}
-       							<span class="ui small magenta att button" data-id="{{ m._id }}" data-price="{{ m.price }}">{{ m.mode }}</span>		
+       							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}">{{ m.mode }}</span>		
        							{% endfor %}
        						</div>
        					</td>
@@ -686,7 +686,7 @@ i.cart.icon,i.exchange.icon{
                                            <i class="exchange icon" style="vertical-align: middle;  line-height: 0.9em;"></i>立即兑换
                                        </div>
                                    {%else%}
-                                       <div class="ui active gray inverted button">
+                                       <div class="ui active gray labeled inverted button">
                                            <i class="cart icon" style="vertical-align: middle;  line-height: 0.9em;"></i> 已售罄
                                        </div>
                                    {%endif%}

@@ -199,8 +199,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$is_top = true;
 		// 获取当前分类信息
 		if ($category_id){
-      //根据分类ID,显示描述信息
-      $this->stash['category_desc'] = Sher_Core_Helper_View::category_desc_show($category_id);
+            // 根据分类ID,显示描述信息
+            $this->stash['category_desc'] = Sher_Core_Helper_View::category_desc_show($category_id);
 			$category = new Sher_Core_Model_Category();
 			$current_category = $category->extend_load((int)$category_id);
 			// 存在父级分类，标识是二级分类
@@ -210,10 +210,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				$parent_category = $category->extend_load((int)$current_category['pid']);
 			}
 
-      //添加网站meta标签
-      $this->stash['page_title_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 1);
-      $this->stash['page_keywords_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 2);   
-      $this->stash['page_description_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 3);
+            // 添加网站meta标签
+            $this->stash['page_title_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 1);
+            $this->stash['page_keywords_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 2);   
+            $this->stash['page_description_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 3);
 		}
 		
 		$this->stash['cid'] = $this->stash['category_id'];

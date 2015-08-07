@@ -330,42 +330,44 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		return $this->ajax_delete('删除成功', false);
 	}
 
-  /**
-   * ajax获取评论--site
-   */
-  public function ajax_fetch_comment_site(){
-    $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
-    $this->stash['target_id'] = !empty($this->stash['target_id'])?$this->stash['target_id']:-1;
-		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
-    $this->stash['current_user_id'] = $current_user_id;
-    $this->stash['comment_load_type'] = $comment_load_type = isset($this->stash['comment_load_type'])?(int)$this->stash['comment_load_type']:1;
+    /**
+     * ajax获取评论--site
+     */
+    public function ajax_fetch_comment_site() {
+        $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
+        $this->stash['target_id'] = !empty($this->stash['target_id'])?$this->stash['target_id']:-1;
+        $this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
+        $this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
+        $this->stash['current_user_id'] = $current_user_id;
+        $this->stash['comment_load_type'] = $comment_load_type = isset($this->stash['comment_load_type'])?(int)$this->stash['comment_load_type']:1;
+        $this->stash['sort'] = isset($this->stash['sort'])?(int)$this->stash['sort']:0;
 
-    if($comment_load_type==1){
-      $tmp = 'ajax/comment_more_site.html';
-    }elseif($comment_load_type==2){
-      $tmp = 'ajax/comment_list_site.html';
+        if($comment_load_type == 1){
+            $tmp = 'ajax/comment_more_site.html';
+        }elseif($comment_load_type == 2){
+            $tmp = 'ajax/comment_list_site.html';
+        }
+
+        return $this->to_taconite_page($tmp);
     }
-		return $this->to_taconite_page($tmp);
-  }
+    
+    /**
+     * ajax获取评论--wap
+     */
+    public function ajax_fetch_comment_wap(){
+        $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
+        $this->stash['target_id'] = !empty($this->stash['target_id'])?$this->stash['target_id']:-1;
+        $this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
+        $this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
+        $this->stash['current_user_id'] = $current_user_id;
+        $this->stash['comment_load_type'] = $comment_load_type = isset($this->stash['comment_load_type'])?(int)$this->stash['comment_load_type']:1;
 
-  /**
-   * ajax获取评论--wap
-   */
-  public function ajax_fetch_comment_wap(){
-    $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
-    $this->stash['target_id'] = !empty($this->stash['target_id'])?$this->stash['target_id']:-1;
-		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
-    $this->stash['current_user_id'] = $current_user_id;
-    $this->stash['comment_load_type'] = $comment_load_type = isset($this->stash['comment_load_type'])?(int)$this->stash['comment_load_type']:1;
-
-    if($comment_load_type==1){
-      $tmp = 'ajax/comment_more_wap.html';
-    }elseif($comment_load_type==2){
-      $tmp = 'ajax/comment_list_wap.html';
+        if($comment_load_type==1){
+          $tmp = 'ajax/comment_more_wap.html';
+        }elseif($comment_load_type==2){
+          $tmp = 'ajax/comment_list_wap.html';
+        }
+        return $this->to_taconite_page($tmp);
     }
-		return $this->to_taconite_page($tmp);
-  }
   	
 }
