@@ -200,8 +200,8 @@
 				$input = new Sher_Core_Util_WxPay_WxPayData_WxPayRefund();
 				$input->SetTransaction_id($trade_no);
 				$input->SetOut_trade_no($out_trade_no);
-				$input->SetTotal_fee($pay_money);
-				$input->SetRefund_fee($pay_money);
+				$input->SetTotal_fee(((int)$pay_money)*100);
+				$input->SetRefund_fee(((int)$pay_money)*100);
 				$input->SetOut_refund_no((string)date('Ymd').(string)$rid);
 				$input->SetOp_user_id((int)$this->visitor->id);
 				
