@@ -133,7 +133,7 @@
         	endpoint: '{{ app_url_upload_product }}'
       	},
 		text: {
-            uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+            uploadButton: '<a class="ui active orange inverted labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
 		},
 		template: '<div class="qq-uploader">' +
 					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
@@ -205,25 +205,24 @@
 <div class="ui stuffs social">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="ui column">
-				<div class="ui medium breadcrumb">
+			<div class="column">
+				<div class="ui breadcrumb">
 				  	<a class="ui section link" href="{{ app_url_shop }}">
-						<i class="basic icon community"></i>首页
+						<i class="home icon"></i>首页
 					</a>
 				  	<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_shop }}">产品</a>
 				  	<i class="angle right icon divider"></i>
-				  	<div class="active section">产品提交</div>
+				  	<div class="active section">提交产品</div>
 				</div>
 			</div>
 		</div>
 		
-		<div class="nopad row">
+		<div class="row">
 			<div class="column">
 				<div class="new topic">
 					<h2 class="ui header">
-						产品提交
-						<a class="icon-link ui pop" href="{{ app_url_helper }}/shop" data-content="查看帮助" data-variation="inverted" target="_blank"><i class="help icon"></i></a>
+						提交产品
 					</h2>
 				</div>
 				
@@ -233,14 +232,14 @@
 						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
 						<input type="hidden" name="file_count" id="file_count" />
 						{% if mode == 'edit' %}
-              <input type="hidden" name="published" value="{{ product.published }}" />
-              <input type="hidden" name="approved" value="{{ product.approved }}" />
-            {%else%}
-              <input type="hidden" name="published" value="1" />
-              <input type="hidden" name="approved" value="1" />
-            {%endif%}
+                          <input type="hidden" name="published" value="{{ product.published }}" />
+                          <input type="hidden" name="approved" value="{{ product.approved }}" />
+                        {%else%}
+                          <input type="hidden" name="published" value="1" />
+                          <input type="hidden" name="approved" value="1" />
+                        {%endif%}
 						
-						<div class="ui field">
+						<div class="field">
 							<label>所属类别</label>
 						   	<div class="ui options">
 								{% if mode == 'edit' %}
@@ -252,38 +251,37 @@
 								{% category_list var:'category' only_open:1 domain:1 istop:1 current:product.category_id %}
 								{% for cat in category.rows %}
 						   	 	<div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
-						   	 		<div class="icon">
-						   				<i class="fa fa-check"></i>
-						   			</div>
+						   	 		<i class="check circle outline icon"></i>
 						   	 		{{ cat.title }}
 						   	 	</div>
 								{% endfor %}
 						   	 </div>
 						</div>
 					
-						<div class="field">
-							<label for="title">名称</label>
-						  	<input type="text" name="title" value="{{ product.title }}" />
-						</div>
-            <div class="two fields">
-              <div class="field">
-                <label>标签</label>
-                  <input type="text" name="tags" value="{{ product.tags_s }}" placeholder="产品特性/亮点/别名等优化搜索词" />
-                <div class="description">标签之间使用，逗号隔开</div>
-              </div>
-              <div class="field">
-                <label for="title">短标题</label>
-                  <input type="text" name="short_title" value="{{ product.short_title }}" />
-              </div>
-            </div>
-                        
-            <div class="field">
-                <label for="description">团队介绍</label>
-                <textarea name="team_introduce" placeholder="" >{{ product.product_info.team_introduce }}</textarea>
-            </div>
+                        <div class="two fields">
+    						<div class="field">
+    							<label for="title">产品名称</label>
+    						  	<input type="text" name="title" value="{{ product.title }}" />
+                                <div class="description">产品全名称：应包括品牌名称+设计+技术等突破点</div>
+    						</div>
+                            <div class="field">
+                                <label for="short_title">短名称</label>
+                                <input type="text" name="short_title" value="{{ product.short_title }}" />
+                                <div class="description">精简名称字符，便于显示</div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="advantage">亮点优势</label>
+                            <input type="text" name="advantage" value="{{ product.title }}" />
+                        </div>
+                        <div class="field">
+                            <label>标签</label>
+                            <input type="text" name="tags" value="{{ product.tags_s }}" placeholder="产品特性/亮点/别名等优化搜索词" />
+                            <div class="description">标签之间使用，逗号隔开</div>
+                        </div>
 
 						<div class="field">
-							<label for="content">详细描述</label>
+							<label for="content">产品详细描述</label>
 						  	<textarea name="content" placeholder="此处输入产品详细描述..." id="editor">{{ product.content }}</textarea>
 						</div>
 						
@@ -317,57 +315,73 @@
 							</div>
 						</div>
                         
-                            <h3 class="ui dividing header">产品参数</h3>
+                        <div class="field">
+                            <label for="video">视频链接</label>
+							{% if product.video %}
+								{% for video in product.video %}
+							  	<input type="text" name="video[]" placeholder="支持优酷视频分享" value="{{ video }}" />
+								{% endfor %}
+							{% else %}
+								<input type="text" name="video[]" placeholder="支持优酷视频分享：http://player.youku.com/embed/********* 链接格式" />
+							{% endif %}
+                        </div>
                         
-    	   			      	<div class="five fields">
-    	   	                	<div class="field">
-    	   	                    	<label>品牌名称</label>
-    	   	                  	  	<input type="text" name="brand" value="{{ product.product_info.brand }}" />
-    	   	                	</div>
-    	   	                	<div class="field">
-    	   	                    	<label>设计师</label>
-    	   	                  	  	<input type="text" name="designer" value="{{ product.product_info.designer }}" />
-    	   	                	</div>
-    	   	                	<div class="field">
-    	   	                    	<label>所属国家</label>
-    	   	                  	  	<input type="text" name="country" value="{{ product.product_info.country }}" />
-    	   	                	</div>
-    	   	                	<div class="field">
-    	   	                    	<label>上市时间</label>
-    	   	                  	  	<input type="text" name="market_time" value="{{ product.product_info.market_time }}" placeholder="如:2015年1月" />
-    	   	                	</div>
-    	   	                	<div class="field">
-    	   	                    	<label>指导价格</label>
-    	   	                  	  	<input type="text" name="official_price" value="{{ product.product_info.official_price }}" placeholder="如:100元--999元" />
-    	   	                	</div>
-    	   	           	 	</div>
+                        <h3 class="ui dividing header">产品参数</h3>
+                    
+	   			      	<div class="five fields">
+	   	                	<div class="field">
+	   	                    	<label>品牌名称</label>
+	   	                  	  	<input type="text" name="brand" value="{{ product.product_info.brand }}" />
+	   	                	</div>
+	   	                	<div class="field">
+	   	                    	<label>设计师</label>
+	   	                  	  	<input type="text" name="designer" value="{{ product.product_info.designer }}" />
+	   	                	</div>
+	   	                	<div class="field">
+	   	                    	<label>所属国家</label>
+	   	                  	  	<input type="text" name="country" value="{{ product.product_info.country }}" />
+	   	                	</div>
+	   	                	<div class="field">
+	   	                    	<label>上市时间</label>
+	   	                  	  	<input type="text" name="market_time" value="{{ product.product_info.market_time }}" placeholder="如:2015年1月" />
+	   	                	</div>
+	   	                	<div class="field">
+	   	                    	<label>指导价格</label>
+	   	                  	  	<input type="text" name="official_price" value="{{ product.product_info.official_price }}" placeholder="如:100元--999元" />
+	   	                	</div>
+	   	           	 	</div>
                         
-    						<div class="two fields">
-    			              	<div class="field">
-    				                <label for="processed">产品阶段</label>
-    				                <div class="ui fluid selection dropdown">
-    				                  	<input type="hidden" name="processed" value="{{ product.product_info.processed }}" />
-    				                    <div class="default text">请选择</div>
-    				                    <i class="angle down icon"></i>
-    				                    <div class="menu">
-    				                    	<div data-value="1" class="{% if product.product_info.processed==1 %}active {% endif %}item">设计概念</div>
-    				                    	<div data-value="2" class="{% if product.product_info.processed==2 %}active {% endif %}item">开发</div>
-    				                    	<div data-value="3" class="{% if product.product_info.processed==3 %}active {% endif %}item">众筹</div>
-    				                    	<div data-value="5" class="{% if product.product_info.processed==5 %}active {% endif %}item">预售</div>
-    				                    	<div data-value="9" class="{% if product.product_info.processed==9 %}active {% endif %}item">销售</div>
-    				                    </div>
-    				                </div>
-    				                <!--<div class="ui pointing top label">必须选择一个产品阶段!</div>-->
-    			              	</div>
-                                <div class="field">
-    							    <label>购买地址</label>
-    						  	    <input type="text" name="buy_url" value="{{ product.product_info.buy_url }}" placeholder="仅站内/京东/天猫链接" />
-                                </div>
-    						</div>
+                        <div class="field">
+                            <label for="team_introduce">团队或品牌介绍</label>
+                            <textarea name="team_introduce" class="small">{{ product.product_info.team_introduce }}</textarea>
+                        </div>
+                        
+						<div class="two fields">
+			              	<div class="field">
+				                <label for="processed">产品阶段</label>
+				                <div class="ui fluid selection dropdown">
+				                  	<input type="hidden" name="processed" value="{{ product.product_info.processed }}" />
+				                    <div class="default text">请选择</div>
+				                    <i class="angle down icon"></i>
+				                    <div class="menu">
+				                    	<div data-value="1" class="{% if product.product_info.processed==1 %}active {% endif %}item">设计概念</div>
+				                    	<div data-value="2" class="{% if product.product_info.processed==2 %}active {% endif %}item">开发</div>
+				                    	<div data-value="3" class="{% if product.product_info.processed==3 %}active {% endif %}item">众筹</div>
+				                    	<div data-value="5" class="{% if product.product_info.processed==5 %}active {% endif %}item">预售</div>
+				                    	<div data-value="9" class="{% if product.product_info.processed==9 %}active {% endif %}item">销售</div>
+				                    </div>
+				                </div>
+				                <!--<div class="ui pointing top label">必须选择一个产品阶段!</div>-->
+			              	</div>
+                            <div class="field">
+							    <label>购买地址</label>
+						  	    <input type="text" name="buy_url" value="{{ product.product_info.buy_url }}" placeholder="仅站内/京东/天猫链接" />
+                            </div>
+						</div>
 						
-						<div class="ui right floated aligned grid">
-							<div class="column">
-								<div class="ui gray cancel large inverted button">取消</div>
+						<div class="ui grid">
+							<div class="right aligned column">
+								<div class="ui grey cancel large inverted button">取消</div>
 								<div class="ui magenta large submit inverted button">确认提交</div>
 							</div>
 						</div>

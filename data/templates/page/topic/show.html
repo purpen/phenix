@@ -311,10 +311,6 @@
 		});
 	});
 	
-	$('textarea.comment-textarea').maxlength({
-      'feedback' : '.wordscount'
-    });
-    
 	// 加载相关话题
 	$.get('{{ app_url_topic }}/ajax_guess_topics', {id: {{ topic._id }}, sword: '{{ topic.tags_s }}', size: 3});
     

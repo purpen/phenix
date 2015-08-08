@@ -138,7 +138,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                     $user_comment_model = new Sher_Core_Model_User();
                     $user_comment = $user_comment_model->find_by_id((int)$this->data['user_id']);
                     // 如果是小号,不增加鸟币
-                    if($user_comment && $user_comment['kind'] != 9){
+                    if($user_comment && isset($user_comment['kind']) && $user_comment['kind'] != 9){
                       // 增加积分
                       $service = Sher_Core_Service_Point::instance();
                       // 好评+评论

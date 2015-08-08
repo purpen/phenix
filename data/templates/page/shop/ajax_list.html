@@ -1,21 +1,20 @@
 <taconite>
-
-			{% product_list var:'list' page:page category_id:category_id is_shop:1 process_presaled:presaled type:type only_onsale:1 size:size sort:sort %}
-			{% if list.rows %}
-          {% for product in list.rows %}
-              <append select=".item-box"><![CDATA[
-                        {% include "block/product_card.html" %}
-            ]]></append>
-          {% endfor %}
-			{% endif %}
+    {% product_list var:'list' page:page category_id:category_id is_shop:1 process_presaled:presaled type:type only_onsale:1 size:size sort:sort %}
+    {% if list.rows %}
+        {% for product in list.rows %}
+        <append select=".item-box"><![CDATA[
+            {% include "block/product_card.html" %}
+        ]]></append>
+        {% endfor %}
+    {% endif %}
 
 	<eval>
-{% if list.rows %}
-    $('#product-more').hide();
-    $('#product-more').attr('status', 0);
-    $('#product-more').attr('p', '{{page}}');
-{%else%}
-    $('#product-more').html('没有更多');
-{% endif %}
+        {% if list.rows %}
+            $('#product-more')
+                .hide()
+                .attr({'status': 0, 'p': '{{page}}'});
+        {%else%}
+            $('#product-more').html('没有更多');
+        {% endif %}
 	</eval>
 </taconite>

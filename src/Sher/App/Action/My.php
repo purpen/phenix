@@ -646,9 +646,14 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    * 我的话题
    */
   public function topic(){
-   	$this->set_target_css_state('user_topic');
-		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/topic?page=#p#';
-    return $this->to_html_page('page/my/topic.html'); 
+      $this->set_target_css_state('user_topic');
+    
+      $this->stash['type'] = isset($this->stash['type'])?$this->stash['type']:'submited';
+      $this->set_target_css_state('user_topic_'.$this->stash['type']);
+    
+      $this->stash['pager_url'] = sprintf(Doggy_Config::$vars['app.url.my'].'/topic?type=%s&page=#p#', $this->stash['type']);
+      
+      return $this->to_html_page('page/my/topic.html'); 
   }
 
   /**
@@ -661,12 +666,17 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
   }
 
   /**
-   * 我的商品
+   * 我的产品
    */
   public function product(){
-    $this->set_target_css_state('user_product');
-		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/product?page=#p#';
-    return $this->to_html_page('page/my/product.html');  
+      $this->set_target_css_state('user_product');
+      
+      $this->stash['type'] = isset($this->stash['type'])?$this->stash['type']:'submited';
+      $this->set_target_css_state('user_product_'.$this->stash['type']);
+      $this->stash['box_type'] = $this->stash['type'];
+      
+      $this->stash['pager_url'] = sprintf(Doggy_Config::$vars['app.url.my'].'/product?type=%s&page=#p#', $this->stash['type']);
+      return $this->to_html_page('page/my/product.html');  
   }
 
   /**

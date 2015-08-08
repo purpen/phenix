@@ -3,7 +3,15 @@
 
 {% block page_css %}
 <style type="text/css">
-
+    .dot.admin.count {
+        top: 0;
+    }
+    .dot.admin.count .ui.link {
+        margin-left: 10px;
+    }
+    .dot.admin.count .ui.link:first-child {
+        margin-left: 0px;
+    }
 </style>
 {% endblock %}
 
@@ -53,28 +61,55 @@
 		</div>
 		<div class="twelve wide column">
 			<h2 class="ui header">我的话题</h2>
-			<div>
-				<div class="ui grid">
-					<div class="row">
-						<div class="column">
-							{% topic_list var:'list' page:page user_id:user_id size:15 %}
-							<div class="ui center-list">
-								<div class="ui three cards">
-									{% for d in list.rows %}
+            
+            <div class="ui secondary pointing magenta menu">
+                <a href="{{ app_url_my }}/topic?type=submited" class="ui item {{ css_user_topic_submited }}">我发表的</a>
+                <a href="{{ app_url_my }}/topic?type=favorited" class="ui item {{ css_user_topic_favorited }}">我收藏的</a>
+                <a href="{{ app_url_my }}/topic?type=loved" class="ui item {{ css_user_topic_loved }}">我赞了的</a>
+            </div>
+            
+			<div class="ui center-list">
+                <div class="ui topics segment">
+        			<table class="ui basic topic table">
+                        <tbody>
+                            <!--我发表的-->
+                            {% if type == 'submited' %}
+                                {% topic_list var:'list' page:page user_id:user_id size:15 %}
+            					{% for topic in list.rows %}
                                     {% include 'block/center/topic-item.html' %}
-                                    {%endfor%}
-						        </div>
-					        </div>
-					        {% if list.rows %}
-						    <div class="ui pagebox">
-			                    {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-			                    {%include 'block/pager.html'%}
-						    </div>
-			                {% endif %}
-						</div>
-					</div>
-				</div>
-			</div>
+                                {%endfor%}
+                            {% endif %}
+                            
+                            <!--我收藏的-->
+                            {% if type == 'favorited' %}
+                    			{% favorite_list var:'list' page:page user_id:user_id type:2 event:1 %}
+                    			{% for item in list.rows %}
+                                    {% if item.topic %}
+                                        {% include 'block/center/f-topic-item.html' %}
+                                    {% endif %}
+                    			{% endfor %}
+                            {% endif %}
+                    
+                            <!--我喜欢的-->
+                            {% if type == 'loved' %}
+                    			{% like_list var:'list' page:page user_id:user_id type:2 event:2 %}
+                    			{% for item in list.rows %}
+                                    {% if item.topic %}
+                                        {% include 'block/center/f-topic-item.html' %}
+                                    {% endif %}
+                    			{% endfor %}
+                            {% endif %}
+        				</tbody>
+        			</table>
+                </div>
+	        </div>
+            
+	        {% if list.rows %}
+		    <div class="ui pagebox">
+                {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+                {%include 'block/pager.html'%}
+		    </div>
+            {% endif %}
 		</div>
 	</div>
 </div>

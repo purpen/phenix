@@ -3,22 +3,25 @@
         <a title="{{ item.product.title }}" alt="{%if item.product_alt_tag%}{{ item.product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ item.product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ item.product.view_url }}" style="background-image: url({{ item.product.cover.thumbnails.hm.view_url }});" class="thumb" target="_blank"></a>
         <div class="ribbons">
             {% if item.product.newest %}
-            <span class="ribbon newest">NEW</span>
+            <a class="ribbon newest" href="{{ app_url_shop }}/list-c0-t0-s0-p1" target="_blank">NEW</a>
             {% endif %}
             {% if item.product.hot %}
-            <span class="ribbon hot">HOT</span>
+            <a class="ribbon hot" href="{{ app_url_shop }}/list-c0-t0-s2-p1" target="_blank">HOT</a>
+            {% endif %}
+            {% if item.product.featured %}
+            <a class="ribbon featured" href="{{ app_url_shop }}/list-c0-t5-s0-p1" target="_blank">编辑精选</a>
             {% endif %}
             {% if item.product.stick %}
-            <span class="ribbon stick">推荐</span>
+            <a class="ribbon stick" href="{{ app_url_shop }}/list-c0-t4-s0-p1" target="_blank">店长推荐</a>
             {% endif %}
             {% if item.product.snatched %}
-            <span class="ribbon snatched">限时抢购</span>
+            <a class="ribbon snatched" href="{{ app_url_shop }}/list-c0-t6-s0-p1" target="_blank">限时抢购</a>
             {% endif %}
             {% if item.product.stage == 5 %}
-            <span class="ribbon presale">正在预售</span>
+            <a class="ribbon presale" href="{{ app_url_sale }}" target="_blank">正在预售</a>
             {% endif %}
             {% if item.product.stage == 12 %}
-            <span class="ribbon presale">积分兑换</span>
+            <a class="ribbon exchange" href="{{ app_url_shop }}/list-c0-t3-s0-p1" target="_blank">积分兑换</a>
             {% endif %}
         </div>
         <h2>
@@ -30,7 +33,9 @@
             <p>{{ item.product.advantage }}</p>
         </div>
         <div class="cats">
+            {% if item.product.sale_price %}
             <i class="yen icon"></i>{{ item.product.sale_price }}
+            {% endif %}
         </div>
         <span class="counter">
             <i class="heart icon"></i> {{ item.product.love_count }}

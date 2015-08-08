@@ -43,7 +43,7 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 	}
 	
 	/**
-	 * 收藏
+	 * 收藏/关注
 	 */
 	public function ajax_favorite(){
 		$id = $this->stash['id'];
@@ -63,6 +63,7 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('操作失败,请重新再试:'.$e->getMessage(), true);
 		}
+        
 		// 获取计数
 		$favorite_count = $this->remath_count($id, $type);
 		
@@ -149,7 +150,6 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 			return $this->ajax_json('操作失败,请重新再试:'.$e->getMessage(), true);
 		}
         
-        
 		// 获取计数
 		$love_count = $this->remath_count($id, $type, 'love_count');
         if(isset($this->visitor->avatar['mini'])){
@@ -162,6 +162,10 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
             'love_count' => $love_count,
             'newadd'     => $newadd,
             'avatar'     => $avatar,
+            'nickname'   => $this->visitor->nickname,
+            'city'       => $this->visitor->city,
+            'job'        => $this->visitor->profile['job'],
+            'user_id'    => $this->visitor->id,
         );
         
 		return $this->ajax_json('操作成功', false, '', $data);
@@ -190,7 +194,7 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 		// 获取计数
 		$love_count = $this->remath_count($id, $type, 'love_count');
 		
-		return $this->ajax_json('操作成功',false,'',array('love_count'=>$love_count));
+		return $this->ajax_json('操作成功', false, '', array('love_count' => $love_count,'user_id' => $this->visitor->id));
 	}
 	
 }

@@ -67,10 +67,11 @@
 </div>
 
 <div class="shop list" id="shoplist">
+    <!--店长推荐-->
 	<div class="ui newest responsive grid">
 		<div class="row">
 			<div class="column">
-                {% product_list var:'newest' page:1 stage:9 only_onsale:1 size:8 sort:'latest' %}
+                {% product_list var:'newest' page:1 stage:9 only_onsale:1 type:4 size:8 sort:'latest' %}
                 {% if newest.rows %}
                 <div class="ui four products cards">
 					{% for product in newest.rows %}
@@ -146,11 +147,7 @@
                     </div>
                     
 					{% for product in hotest.rows %}
-                        {% if product._id == 1081900902 %}
-                            {% include "block/product_card_special.html" %}
-                        {% else %}
-                            {% include "block/product_card.html" %}
-                        {% endif %}
+                        {% include "block/product_card.html" %}
 				    {% endfor %}
 				</div>
 				{% endif %}

@@ -1,35 +1,74 @@
-<div class="card" id="item-{{d._id}}">
-    {% if d.cover %}
-    <div class="image" style="background-image:url({{ d.cover.thumbnails.md.view_url }});">
-    {%else%}
-    <div class="image">
-    {%endif%}
-        <div class="presell">
-            <div class="exit">
-                <div class="ui icon admin green buttons">
-                    <div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ d._id }}">
-                        <i class="edit icon"></i>
-                    </div>
-                    <div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ d._id }}">
-                        <i class="remove icon"></i>
-                    </div>
-                  </div>
+<tr id="{{ topic._id }}">
+	<td class="hide-on-mobile author one wide">
+		<a class="ui small avatar image" href="{{ topic.user.home_url }}">
+      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
+		</a>
+	</td>
+	<td colspan="3" class="htitle nide wide">
+      	<h3 class="title {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}">
+			<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
+                {{ topic.title|truncate 60 }}
+                {% if topic.top %}<span class="ui green small label">置顶</span>{% endif %}
+                {% if topic.fine %}<span class="ui orange small label">精华</span>{% endif %}
+                {% if topic.stick %}<span class="ui yellow small label">编辑推荐</span>{% endif %}
+            </a>
+		</h3>
+        
+      	<div class="content">
+			<div class="attribute">
+                <span class="category">
+                    {{ topic.category.title }}
+                </span> | 
+				<span class="author">
+					<a href="{{ topic.user.home_url }}" class="ui link">@{{ topic.user.nickname }}</a>  <i class="time icon"></i>{{ topic.created_on|relative_datetime }}
+				</span>
+			</div>
+			<div class="hide-on-mobile">
+				{% if !topic.asset_count %}
+					<a class="description" href="{{ topic.view_url }}" target="_blank">
+						{{ topic.strip_description|truncate 70 }}
+					</a>
+				{% else %}
+					{% if topic.cover %}
+					  {% asset_list var:'assets' parent_id:topic._id size:4 asset_type:55 sort:'positive' %}
+                    {%else%}
+					  {% asset_list var:'assets' parent_id:topic._id size:5 asset_type:55 sort:'positive' %}
+                    {%endif%}
+					<!--展示图片-->
+					<a class="ui mini images" href="{{ topic.view_url }}" target="_blank">
+						{% if topic.cover %}
+						<img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" />
+						{% endif %}
+						{% for asset in assets.rows %}
+							{% if topic.cover._id != asset._id %}
+						  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
+							{% endif %}
+						{% endfor %}
+					</a>                    
+					<div class="ui count text">
+						<small>{{ topic.asset_count }} 张图片</small>
+					</div>
+				{% endif %}
+			</div>
+            
+            <div class="dot admin count">
+                <div class="statistic">
+                    <span class="value">{{ topic.comment_count }}</span> <i class="comment outline icon"></i>
+                </div>
+                <div class="statistic">
+                    <span class="value">{{ topic.view_count }}</span> <i class="unhide icon"></i>
+                </div>
+                
+                <div class="statistic">
+                    <a class="ui pop edit link" href="javascript:void(0);" data-id="{{ product._id }}">
+                        <i class="edit icon"></i> 编辑
+                    </a>
+                    <a class="ui pop remove link" href="javascript:void(0);" data-id="{{ product._id }}">
+                        <i class="remove icon"></i> 删除
+                    </a>
+                </div>
             </div>
-        </div>
-    </div>
-    
-    <div class="content">
-        <div class="header">
-            <a href="{{ d.view_url }}" title="{{ d.title }}" class="ui line" target="_blank">{{ d.title|truncate 26 '' }}</a>
-        </div>
-    </div>
-    <div class="extra">
-        <a class="right floated created">
-            <small><i class="unhide icon"></i>{{ d.view_count }}</small>
-            <small><i class="thumbs outline up icon"></i><span class="love-count">{{ d.love_count }}</span></small>
-        </a>
-        <a href="{{ d.user.home_url }}" class="ui icon link" target="_blank">
-            <img src="{{ d.user.small_avatar_url }}" alt="{{ d.user.nickname }}" class="ui avatar image"> <small>{{ d.user.nickname }}</small>
-        </a>
-    </div>
-</div>
+            
+      	</div>
+	</td>
+</tr>
