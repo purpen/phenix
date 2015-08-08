@@ -13,6 +13,7 @@ class Sher_Core_Service_Topic extends Sher_Core_Service_Base {
 		'love'=>array('love_count'=>-1),
         'view'=>array('view_count'=>-1),
         'stick'=>array('stick'=>-1),
+        'last_reply'=>array('last_reply_time'=>-1),
 	);
 
     protected static $instance;

@@ -38,12 +38,12 @@ a.line:hover, a.line.active {
 }
 .ui.four.blocks .block .content{
 	margin: 1rem 0;
+	text-align:center;
 }
 .ui.four.blocks .block .content.aligned{
 	margin:102.5px 0;
 }
 .ui.four.blocks .block .content p {
-  font-size: 16px;
   border-bottom: 1px solid #f1f1f1;
   margin: 0;
   padding: 10px 10px;
@@ -134,13 +134,13 @@ $('#next-step').click(function(){
 			</div>
 		</div>
 		
-		<div class="ui center aligned row">
+		<div class="row">
 			<input type="hidden" name="choose_ids" id="choose_ids" value="{{ ids }}" />
-			<div class="ui four center aligned blocks">
+			<div class="ui four blocks">
         {% for d in classifies %}
           <div class="center aligined block">
             <div class="content aligned1">
-              <h4 class="ui header">{{ d.title }}</h4>
+              <h3 class="ui header">{{ d.title }}</h3>
               {% if d.children %}
                 {% for c in d.children %}
                 <p class="choose_option {%if c.checked%}clss {%endif%}okyu1" class_id="{{ c._id }}">{{ c.title }}</p>

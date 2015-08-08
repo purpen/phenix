@@ -40,6 +40,10 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	 */
 	public function account(){
 		$this->stash['profile'] = $this->visitor->profile;
+
+    //判断是否为手机号
+    $is_bind = strlen((int)$this->visitor->account) == 11 ?true:false;
+    $this->stash['is_bind'] = $is_bind;
 		$this->set_target_css_state('user_setting');
 		$this->set_target_css_state('user_account');
 		return $this->to_html_page("page/my/account.html");
@@ -88,6 +92,93 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 
 		return $this->to_html_page("page/my/profile.html");
 	}
+
+  /**
+   * 绑定账户
+   */
+  public function bind_phone() {
+		$this->set_target_css_state('user_bind');
+    //判断是否为手机号
+    $is_bind = strlen((int)$this->visitor->account) == 11 ?true:false;
+    $this->stash['is_bind'] = $is_bind;
+    return $this->to_html_page("page/my/bind_phone.html");
+  }
+
+  /**
+   * 保存绑定账户
+   */
+  public function do_bind_phone() {
+    session_start();
+		
+	  if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
+      return $this->ajax_json('缺少请求参数!', true);
+    }
+		
+		Doggy_Log_Helper::warn('Register session:'.$_SESSION['m_captcha']);
+		
+    //验证码验证
+    if($_SESSION['m_captcha'] != strtoupper($this->stash['captcha'])){
+      return $this->ajax_json('验证码不正确!', true);
+    }
+
+		//验证密码长度
+		if(strlen($this->stash['password'])<6 || strlen($this->stash['password'])>30){
+		  return $this->ajax_json('密码长度介于6-30字符内！', true);    
+		}
+		
+		// 验证密码是否一致
+		$password_confirm = $this->stash['password_confirm'];
+		if(empty($password_confirm) || $this->stash['password_confirm'] != $this->stash['password']){
+			return $this->ajax_json('两次输入密码不一致！', true);
+		}
+		
+		// 验证验证码是否有效
+		$verify = new Sher_Core_Model_Verify();
+		$code = $verify->first(array('phone'=>$this->stash['account'],'code'=>$this->stash['verify_code']));
+		if(empty($code)){
+			return $this->ajax_json('短信验证码有误，请重新获取！', true);
+		}
+		
+    try {
+      $user_model = new Sher_Core_Model_User();
+      $user_id = (int)$this->visitor->id;
+
+      // 验证账户是否存在
+      $exist_account = $user_model->check_account($this->stash['account']);
+      if(!$exist_account){
+        return $this->ajax_json('账户已存在,请更换!', true);
+      }
+			
+			$user_info = array(
+        'account' => $this->stash['account'],
+				'password' => sha1($this->stash['password']),
+        'is_bind' => 1,
+      );
+			
+      // 如果个人资料手机号为空,则补充
+      if(empty($this->visitor->profile['phone'])){
+ 			  $user_info['profile']['phone'] = $user_info['account'];     
+      }
+			
+      $ok = $user_model->update_set($user_id, $user_info);
+			if($ok){
+				
+				// 删除验证码
+				$verify = new Sher_Core_Model_Verify();
+				$verify->remove((string)$code['_id']);
+
+		    $redirect_to = Sher_Core_Helper_Url::user_home_url($user_id);
+		    return $this->ajax_json("绑定成功！", false, $redirect_to);
+      }else{
+        return $this->ajax_json('绑定失败!', true);
+      }
+				
+		} catch (Sher_Core_Model_Exception $e) {
+			Doggy_Log_Helper::error('Failed to bind phone:'.$e->getMessage());
+			return $this->ajax_json("绑定失败:".$e->getMessage(), true);
+		}
+  
+  }
 
 	/**
 	 * 上传照片

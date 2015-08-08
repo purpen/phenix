@@ -77,7 +77,7 @@
 			{% include "block/center/head_interest_nav.html" %}
             <div class="ui center-list">
                 {% favorite_list var:'list' page:page user_id:user_id event:1 size:15 %}
-    			<div class="ui three cards">
+    			<div class="ui products three cards">
     				{% for d in list.rows %}
                         <!--产品-->
                         {% if d.type==1 %}

@@ -47,6 +47,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	 * 保存评论
 	 */
 	public function do_save(){
+    $from_to = isset($this->stash['from_to'])?$this->stash['from_to']:'web';
 		$row = array();
 		$row['user_id'] = $this->visitor->id;
 		$row['star'] = $this->stash['star'];
@@ -89,6 +90,9 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
       return $this->to_taconite_page('ajax/note.html');  
     }
 
+    if($from_to=='wap'){
+		  return $this->to_taconite_page('ajax/comment_wap_ok.html'); 
+    }
 		return $this->to_taconite_page('ajax/comment_ok.html');
 	}
 	

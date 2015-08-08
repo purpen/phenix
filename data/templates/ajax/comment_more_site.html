@@ -1,4 +1,5 @@
 <taconite>
+
     {% comment_list var:'comments' page:page target_id:target_id type:type size:per_page sort:sort check_loved:1 current_user_id:current_user_id %}
     {% if page == 1 %}
     <replace select=".is-comment.comments"><![CDATA[

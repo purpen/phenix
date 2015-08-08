@@ -35,7 +35,7 @@
 
 {% block jquery %}
     $('#minslider').flexslider({
-        animation: "slide",
+        animation: "fade",
         controlNav: false,
         slideshow: false,
     });
@@ -70,7 +70,7 @@
                 <ul class="slides">                    
 	                {% for ad in adslide.rows %}
                         <li style="background-image: url('{{ ad.cover.fileurl }}');">
-                            <a href="{{ asset.thumbnails.huge.view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}">
+                            <a href="{{ ad.view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}">
                                 <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
                             </a>
                         </li>

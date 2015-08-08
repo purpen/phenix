@@ -31,6 +31,14 @@
 					<a class="description" href="{{ topic.view_url }}" target="_blank">
 						{{ topic.strip_description|truncate 70 }}
 					</a>
+          <span class="last reply">
+          {% if topic.last_user %}
+          <a class="ui link" href="{{ topic.last_user.home_url }}" title="{{ topic.last_user.nickname }}">
+              <img src="{{ topic.last_user.mini_avatar_url }}" class="ui avatar image" alt="{{ topic.user.nickname }}" />
+          </a>
+          回复于 {{ topic.last_reply_time|relative_datetime }}
+          {% endif %}
+          </span>
 				{% else %}
 					{% if topic.cover %}
 					  {% asset_list var:'assets' parent_id:topic._id size:4 asset_type:55 sort:'positive' %}

@@ -19,6 +19,7 @@
 		{%endblock%}
         <title>{% block title %}{% endblock %}{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}</title>
 		<link rel="shortcut icon" href="/favicon.ico" />		
+    <link rel="stylesheet" href="{{ app_url_qiniu_frstatic }}/css/semantic.2.0.min.css" type="text/css" />
         <!--[if lt IE 9]>
           <link rel="stylesheet" href="{{ app_url_packaged }}/css/ie9.min.css" type="text/css" />
         <![endif]-->
@@ -125,7 +126,6 @@
         <!-- mustache templates end -->
 
 
-        <script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.plugins.min.js"></script>
 		<script type="text/javascript" src="{{ app_url_qiniu_frstatic }}/javascript/semantic.2.0.min.js"></script>
 		
 		<!--[if lt IE 9]>
@@ -145,8 +145,10 @@
 		{% block layout_js %}{% endblock %}
 		{% block page_js %}
 			{% if js_use_bundle %}
+        <script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.plugins.min.{{ js_jquery_bundle_version }}.js"></script>
 				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.{{ js_jquery_bundle_version }}.js"></script>
 			{% else %}
+        <script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.plugins.min.js"></script>
 				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.js"></script>
 			{% endif %}
 		{% endblock %}

@@ -1,6 +1,5 @@
 <taconite>
     {% comment_list var:'comments' page:page target_id:target_id type:4 check_loved:1 current_user_id:current_user_id size:per_page sort:1 %}
-    
     {% for comment in comments.rows %}
     <append select=".ui.threaded.comments"><![CDATA[
         <div class="comment" id="{{ comment._id }}">

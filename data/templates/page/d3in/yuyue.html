@@ -117,7 +117,7 @@ p a.ui.link{
 }
 .option-hour .field input[type="checkbox"]{
 	z-index:100;
-	width:100%;
+	width:0;
 	margin: 0;
   padding: 0;
 	top:-5%;
@@ -134,9 +134,12 @@ p a.ui.link{
   padding: 20px 0 !important;
   background: #e3e3e3;
 	z-index:999;
+	position: relative;
 }
 .option-hour .field .ui.checkbox{
 	width: 120px;
+	z-index: -100 !important;
+  vertical-align: middle;
 }
 input#gen-btn{
 	margin-top: 20px;
@@ -189,6 +192,21 @@ th, td {
 	box-shadow: 0 0 0 2px #222 inset!important;
   background-color: #222;
 }
+.ui.form .five.fields,.ui.form .three.fields{
+  display:block;
+  font-size:0;
+  clear: inherit;
+}
+.ui.form .five.fields>.field{
+  width: 20% !important;
+  display: inline-block;
+  clear: inherit;
+}
+.ui.form .three.fields>.field{
+  width: 31.333333% !important;
+  display: inline-block;
+}
+
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -407,6 +425,12 @@ $('.hour-box').click(function(){
   var rest_time = parseInt($('#rest-time .t').attr('rest-val'));
   var current_times = parseInt($(':input[name=current-times][item-id='+ item_id +']').val());
 
+  // 如果是被预约的时间,不处理
+  if(input_obj.prop('disabled')){
+    phenix.show_error_note('该时间段已被预约了!');
+    return;
+  }
+
   var date_id = $(':input[name=current-date][item-id='+ item_id +']').val();
   if(!date_id){
     phenix.show_error_note('请先选择日期');
@@ -569,8 +593,10 @@ $('.next-step.button').click(function(){
                     <div class="ui three fields">
                       {% for d in appoint_time_arr %}
                         <div class="field hour-box" item-id="{{ class._id }}">
+                          <div>
                           <div class="ui checkbox">
                             <input name="hour-{{ class._id }}" item-id="{{ class._id }}" type="checkbox" value="{{ d.id }}" /><label>{{ d.title }}</label>
+                          </div>
                           </div>
                         </div>
                       {%endfor%}

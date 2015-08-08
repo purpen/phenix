@@ -256,10 +256,10 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 			return $this->show_message_page('抱歉，系统不存在该订单！', true);
 		}
 		$status = $order_info['status'];
-		
-		// 验证订单是否已申请付款
-		if ($status != Sher_Core_Util_Constant::ORDER_READY_REFUND){
-			return $this->show_message_page('订单[$rid]未申请付款！', false);
+
+    // 申请退款的订单才允许退款操作(包括已发货,确认收货,完成操作)
+		if (!Sher_Core_Helper_Order::refund_order_status_arr($status)){
+			return $this->ajax_notification('订单状态不正确！', true);
     }
 
     $pay_money = $order_info['pay_money'];
@@ -372,9 +372,10 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 
       $order_id = (string)$order['_id'];
 
-      if($order['status'] != Sher_Core_Util_Constant::ORDER_READY_REFUND){
+      // 申请退款的订单才允许退款操作(包括已发货,确认收货,完成操作)
+      if (!Sher_Core_Helper_Order::refund_order_status_arr($order['status'])){
         Doggy_Log_Helper::warn("Alipay refund notify: order_id[$order_id] stauts is wrong!");
-				return $this->to_raw('fail');      
+        return $this->to_raw('fail');
       }
 
       $ok = $model->refunded_order($order_id, array('refunded_price'=>$refunded_price));
