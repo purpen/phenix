@@ -193,6 +193,9 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
                 case 6:
                     $query['snatched'] = 1;
                     break;
+                case 7:
+                    $query['stage'] = 5;
+                    break;
             }
         }
 		
