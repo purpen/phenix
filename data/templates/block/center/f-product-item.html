@@ -33,12 +33,12 @@
             <p>{{ item.product.advantage }}</p>
         </div>
         <div class="cats admin">
-            {% if box_type == 'favorited' %}
+            {% if box_type == 'fav' %}
             <a class="ui pop favorite link" href="javascript:void(0);" data-type="1" data-id="{{ item.product._id }}">
                 <i class="remove icon"></i> 取消关注
             </a>
             {% endif %}
-            {% if box_type == 'loved' %}
+            {% if box_type == 'love' %}
             <a class="ui pop love link" href="javascript:void(0);" data-type="1" data-id="{{ item.product._id }}">
                 <i class="remove icon"></i> 取消点赞
             </a>

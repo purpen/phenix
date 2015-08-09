@@ -3,89 +3,7 @@
 
 {% block page_css %}
 <style type="text/css">
-.ui.segment{
-	padding-top:0;
-}
-.ui.fans .ui.header{
-	margin-bottom:0;
-	padding-bottom: 1em;
-	padding-top: 1em;
-}
-.ui.fans .mes-text{
-	border-bottom: 1px solid rgba(0,0,0,0.1);
-	padding-bottom: .3em;
-}
-.ui.fans .mes-text .news .report{
-	border-bottom: 0px solid rgba(0,0,0,0.1);
-	padding: 3px 0 10px;
-}
-.mes-text{
-	width:100%;
-	padding:1rem 0;
-	position:relative;
-}
-.mes-text a.ui.photo{
-	float: left; 
-	width: 50px; 
-	height: 60px; 
-	margin-right: 10px;
-}
-.mes-text a.ui.photo img{
-	height:50px;
-	width:50px;
-	border-radius: 25px;
-}
-.mes-text .news{
-	padding: 6px 0 0 60px; 
-	overflow: visible;
-	font-size: 17px;
-	font-weight: 700;
-	min-height: 60px;
-}
-.mes-text .news .sub_header{
-	font-size: 14px;
-	font-weight: 400;
-	padding-top: 5px;
-	line-height: 20px;
-}
-.mes-text .news .report{
-	border-bottom: 1px solid rgba(0,0,0,0.1);
-	padding: 10px 0;
-	height: 20px;
-	font-size: 15px;
-	font-weight: 400;
-	color:rgba(0,0,0,0.6);
-}
-.mes-text .news .report .pushtime{
-	float:left;
-}
-.mes-text .news .report .pushtime a.ui.link,.mes-text .news .report .count a.ui.link{
-	color:#f36;
-}
-.mes-text .news .report .count{
-	float:right;
-	cursor:pointer;
-	padding-right:5px;
-}
-.mes-text:last-child{
-	border-bottom:0px solid #fff !important;
-}
-.mes-text .fans-btn{
-	float:right;
-	margin: 10px 5px 0 0;
-}
-.mes-text .fans-btn a.ui.btn,.mes-text .fans-btn a.ui.btn:hover{
-	padding: 0.5em 1.5em;
-	border-radius: 5px;
-	min-width:113px;
-}
-.mes-text .new{
-	color:#f36;
-	position:absolute;
-	top:6px;
-	left:0;
-	font-size:13px;
-}
+
 </style>
 {% endblock %}
 
@@ -122,53 +40,39 @@
 		<div class="twelve wide column">
 			<h2 class="ui header">我的关注</h2>
 			{% include "block/center/head_friend_nav.html" %}
-			<div class="ui segment">
-				<div class="ui grid">
-					<div class="row">
-						<div class="column">
-							{% follow_list var:'list' page:page user_id:user_id size:20 myfans:0 %}
-						<div class="ui white background fans column">
-              {% if list.rows %}
-                {% for f in list.rows %}
-                  <div class="mes-text">
-                    <div class="fans-btn">
-                      <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ f.follow._id }}&follow_type=2" id="user_{{f.follow._id}}_ship" class="ui small magenta inverted ajax button">
-                        取消关注
-                      </a>
-                    </div>
-                    <a class="ui photo" href="{{ f.follow.home_url }}" target="_black">
-                      <img alt="{{ f.follow.nickname }}" src="{{ f.follow.small_avatar_url }}">
-                    </a>
-                    <div class="news">
-                      <a href="{{ f.follow.home_url }}" target="_black" class="ui link">{{ f.follow.nickname }}</a>
-                      <div class="report">
-                        <div class="pushtime">
-                          粉丝 {{ f.follow.fans_count }}  ｜  话题 {{ f.follow.topic_count }}
+			<div class="ui fans segment">
+                {% follow_list var:'list' page:page user_id:user_id size:20 myfans:0 %}
+                
+                {% if list.rows %}
+                    {% for f in list.rows %}
+                    <div class="mes-text">
+                        <div class="fans-btn">
+                            <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ f.follow._id }}&follow_type=2" id="user_{{f.follow._id}}_ship" class="ui small magenta inverted ajax button">
+                                <i class="minus icon"></i> 取消关注
+                            </a>
                         </div>
-                      </div>
+                        <a class="ui photo" href="{{ f.follow.home_url }}" target="_blank">
+                            <img alt="{{ f.follow.nickname }}" src="{{ f.follow.small_avatar_url }}">
+                        </a>
+                        <div class="news">
+                            <a href="{{ f.follow.home_url }}" target="_black" class="ui link">{{ f.follow.nickname }}</a>
+                            <p>
+                                粉丝 {{ f.follow.fans_count }}  ｜  话题 {{ f.follow.topic_count }}
+                            </p>
+                        </div>
                     </div>
-                    <!--
-                    <div class="new">
-                      new
-                    </div>
-                    -->
-                  </div>
-                  {%endfor%}
+                    {%endfor%}
                 {%else%}
-	                <p class="mt-20 text-center">你还没有关注的人哦~</p>
+                    <p>你还没有关注的人哦~</p>
                 {%endif%}
 								
-								{% if list.rows %}
-									<div class="ui pagination">
-						            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-						            {%include 'block/pager.html'%}
-									</div>
-						          {% endif %}
-							</div>
-							
-            </div>
-					</div>
-				</div>
+                {% if list.rows %}
+                    <div class="ui pagination">
+                        {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+                        {%include 'block/pager.html'%}
+                    </div>
+                {% endif %}
+                
 			</div>
 		</div>
 	</div>

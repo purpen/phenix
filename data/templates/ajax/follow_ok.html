@@ -2,18 +2,18 @@
 	<replace select="#user_{{ id }}_ship"><![CDATA[
     {% if follow_type==1 %}
       {% if domode == 'create'%}
-      <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui small white inverted button ajax" id="user_{{ id }}_ship">已关注</a>
+      <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui small white inverted button ajax" id="user_{{ id }}_ship"><i class="minus icon"></i> 已关注</a>
       {% endif %}
       {% if domode == 'cancel'%}
-      <a href="{{ app_url_user }}/ajax_follow?id={{ user._id }}" class="ui small white inverted button ajax" id="user_{{ id }}_ship">关注</a>
+      <a href="{{ app_url_user }}/ajax_follow?id={{ user._id }}" class="ui small white inverted button ajax" id="user_{{ id }}_ship"><i class="plus icon"></i> 关注</a>
       {% endif %}
     {%endif%}
     {% if follow_type==2 %}
       {% if domode == 'create'%}
-      <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ id }}&follow_type=2" class="ui small magenta inverted ajax button" id="user_{{ id }}_ship">取消关注</a>
+      <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ id }}&follow_type=2" class="ui small magenta inverted ajax button" id="user_{{ id }}_ship"><i class="minus icon"></i> 取消关注</a>
       {% endif %}
       {% if domode == 'cancel'%}
-      <a href="{{ app_url_user }}/ajax_follow?id={{ id }}&follow_type=2" class="ui small magenta inverted ajax button" id="user_{{ id }}_ship">+ 关注</a>
+      <a href="{{ app_url_user }}/ajax_follow?id={{ id }}&follow_type=2" class="ui small magenta inverted ajax button" id="user_{{ id }}_ship"><i class="plus icon"></i> 关注</a>
       {% endif %}
     {%endif%}
 	]]></replace>

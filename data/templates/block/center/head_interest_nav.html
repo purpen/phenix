@@ -1,29 +1,4 @@
-{% block page_css %}
-<style type="text/css">
-.account .ui.horizontal.list>.item{
-	margin-left: 1.5em;
-	font-size: 1.05rem;
-}
-.account .ui.horizontal.list>.item:first-child {
-	margin-left: 0;
-}
-.account .ui.horizontal.list>.item>a {
-	border-bottom: 2px solid transparent;
-	-webkit-transition: all .3s ease-in-out 0s;
-	transition: all .3s ease-in-out 0s;
-	font-size: 1.05em;
-}
-.account .ui.horizontal.list>.item a:hover{
-	border-bottom: 2px solid #f36;
-	text-decoration: none;
-	padding-bottom:5px;
-}
-.account .ui.horizontal.list>.item>a>small{
-	padding-left:3px;
-}
-</style>
-{% endblock %}
 <div class="ui secondary pointing magenta menu">
-    <a href="{{ app_url_my }}/favorite" class="ui item {{css_user_favorite}}">我的收藏</a>
-    <a href="{{ app_url_my }}/love" class="ui item {{css_user_love}}">我的赞</a>
+    <a href="{{ app_url_my }}/favorite?type=1" class="ui item {{css_favorite_product }}">关注的产品</a>
+    <a href="{{ app_url_my }}/favorite?type=2" class="ui item {{css_favorite_topic }}">关注的话题</a>
 </div>

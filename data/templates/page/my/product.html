@@ -23,40 +23,6 @@
       }
   });
   
-    // 取消关注
-    $('.ui.favorite.link').on('click', function(){
-    	var id = $(this).data('id'),type = $(this).data('type');
-    	// 所有ajax请求，验证是否登录
-    	if (!phenix.visitor.is_login){
-    		phenix.show_login_box();
-    		return false;
-    	}
-		$.post('{{ app_url_favorite }}/ajax_cancel_favorite', {id: id, type:type}, function(result){
-			if (result.success) {
-				$('#product-'+id).remove();
-			} else {
-				phenix.show_error_note(result.message);
-			}
-		}, 'json');
-    });
-    
-	// 取消点赞
-	$('.ui.love.link').bind('click', function(){
-		var id = $(this).data('id'),type = $(this).data('type');
-		// 所有ajax请求，验证是否登录
-		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
-			return false;
-		}
-		$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:type}, function(result){
-			if (result.success) {
-				$('#product-'+id).remove();
-			} else {
-				phenix.show_error_note(result.message);
-			}
-		}, 'json');
-	});
-	
 {% endblock %}
 
 {% block content %}
@@ -108,14 +74,10 @@
                         {%endfor%}
                     {% endif %}
                     
-                    <!--我关注的产品-->
+                    
                     {% if type == 'favorited' %}
             			{% favorite_list var:'list' page:page user_id:user_id type:1 event:1 %}
-            			{% for item in list.rows %}
-                            {% if item.product %}
-                                {% include "block/center/f-product-item.html" %}
-                            {% endif %}
-            			{% endfor %}
+            			
                     {% endif %}
                     
                     <!--我喜欢的产品-->

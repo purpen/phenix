@@ -1,4 +1,4 @@
-<tr id="{{ item.topic._id }}">
+<tr id="topic-{{ item.topic._id }}">
 	<td class="hide-on-mobile author one wide">
 		<a class="ui small avatar image" href="{{ item.topic.user.home_url }}">
       		<img src="{{ item.topic.user.small_avatar_url }}" alt="{{ item.topic.user.nickname }}" />
@@ -60,13 +60,13 @@
                 </div>
                 
                 <div class="statistic">
-                    {% if type=='favorited' %}
-                        <a class="ui pop link favorite" href="javascript:void(0);" data-id="{{ d.item.topic._id }}" data-type="{{ d.type }}" data-mark="y">
+                    {% if box_type == 'fav' %}
+                        <a class="ui pop link favorite" href="javascript:void(0);" data-id="{{ item.topic._id }}" data-type="2" data-mark="y">
                             <i class="remove icon"></i> 取消收藏
                         </a>
                     {%endif%}
-                    {% if type=='loved' %}
-                        <a class="ui pop link" href="javascript:void(0);" data-id="{{ d.item.topic._id }}" data-type="{{ d.type }}" data-mark="y">
+                    {% if box_type == 'love' %}
+                        <a class="ui pop love link" href="javascript:void(0);" data-id="{{ item.topic._id }}" data-type="2" data-mark="y">
                             <i class="remove icon"></i> 取消点赞
                         </a>
                     {%endif%}
