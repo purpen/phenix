@@ -1,5 +1,10 @@
 <taconite>
     {% if page_notice_success %}
+        <eval>
+            $('#user-notice .item').remove();
+            $('#user-notice-num').show().text({{ total_count }});
+        </eval>
+        
         {% if alert_count %}
         <append select="#user-notice"><![CDATA[
             <a href="{{ app_url_my }}/remind" class="item"><i class="alarm icon"></i>查看提醒 {{alert_count}} 条提醒</a>
@@ -23,9 +28,5 @@
             <a href="{{ app_url_my }}/fan" class="item"><i class="user icon"></i>查看粉丝 {{fans_count}} 条粉丝</a>
         ]]></append>
         {%endif%}
-    
-        <eval>
-          $('#user-notice-num').show().text({{ total_count }});
-        </eval>
     {%endif%}
 </taconite>
