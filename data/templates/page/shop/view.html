@@ -56,7 +56,10 @@
         sync: "#carousel"
     });
     
-    
+	// 分享
+	$('.ui.share.button').bind('click', function(){
+		$('.ui.share.modal').modal('show');
+	});
 	phenix.bind_share_list();
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.wap_view_url }}'});
@@ -228,7 +231,7 @@
 						.addClass('active')
                         .html('<i class="minus icon"></i> 已关注');
                         
-                    $('#product-favorite-count').text(result.data.favorite_count);
+                    $('#target-favorite-count').text(result.data.favorite_count);
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -241,7 +244,7 @@
 						.removeClass('active')
                         .html('<i class="plus icon"></i> 关注');
                         
-                    $('#product-favorite-count').text(result.data.favorite_count);
+                    $('#target-favorite-count').text(result.data.favorite_count);
                     
 				} else {
 					phenix.show_error_note(result.message);
@@ -268,7 +271,7 @@
                         .html('<i class="heart icon"></i> 赞了');
                         
 					count += 1;
-					$('#product-love-count').text(count);
+					$('#target-love-count').text(count);
                     
                     if(result.data.newadd){
                         $('#product_'+ id +'_support')
@@ -289,7 +292,7 @@
                         
 					count -= 1;
                     
-					$('#product-love-count').text(count);
+					$('#target-love-count').text(count);
                     
                     $('#user-'+ result.data.user_id).remove();
                     
@@ -300,11 +303,6 @@
 		}
 	});
 	
-	// 分享
-	$('.ui.share.button').bind('click', function(){
-		$('.ui.share.modal').modal('show');
-	});
-
 	{% if is_snatch %}
     var times = {{ snatch_time }} ;
     var SysSecond;
@@ -411,7 +409,7 @@
     $('.ui.sticky')
       .sticky({
         context: '#shoppage'
-      });
+    });
       
 {% endblock %}
 
@@ -749,9 +747,9 @@
     				</div>
                 </div>
                 <div class="user avatars">
-              	  	<div class="ui images" id="product_{{ product._id }}_support">
+              	  	<div class="ui images" id="target_{{ product._id }}_support">
                         {% if product.love_count %}
-                            {% favorite_list var:'userlist' target_id:product._id event:2 %}
+                            {% favorite_list var:'userlist' target_id:product._id event:2 type:1 %}
                             {% for target in userlist.rows %}
                             <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
                   	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />
@@ -760,7 +758,7 @@
                         {% endif %}
               	  	</div>
                     <p>
-                        已有 <span id="product-love-count">{{ product.love_count }}</span> 个人点赞, <span id="product-favorite-count">{{ product.favorite_count }}</span> 人关注
+                        已有 <span id="target-love-count">{{ product.love_count }}</span> 个人点赞, <span id="target-favorite-count">{{ product.favorite_count }}</span> 人关注
                     </p>                    
                 </div>
             </div>
