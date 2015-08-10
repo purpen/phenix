@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block jquery %}
-
   // 编辑
   $('.ui.edit.button').bind('click', function(){
     var id = $(this).data('id');
@@ -52,28 +51,21 @@
 		</div>
 		<div class="twelve wide column">
 			<h2 class="ui header">我的灵感</h2>
-			<div>
-				<div class="ui grid">
-					<div class="row">
-						<div class="column">
-							{% stuff_list var:'list' page:page user_id:user_id size:15 %}
-							<div class="ui center-list">
-								<div class="ui three cards">
-									{% for d in list.rows %}
-                                        {% include 'block/center/stuff-item.html' %}
-                                    {%endfor%}
-						        </div>
-					        </div>
-          			        {% if list.rows %}
-						    <div class="ui pagebox">
-			                    {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-			                    {%include 'block/pager.html'%}
-						    </div>
-			                {% endif %}
-						</div>
-					</div>
-				</div>
-			</div>
+			{% stuff_list var:'list' page:page user_id:user_id size:15 %}
+			<div class="ui center-list">
+				<div class="ui three products cards">
+					{% for d in list.rows %}
+                        {% include 'block/center/stuff-item.html' %}
+                    {%endfor%}
+		        </div>
+	        </div>
+            
+	        {% if list.rows %}
+		    <div class="ui pagebox">
+                {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+                {%include 'block/pager.html'%}
+		    </div>
+            {% endif %}
 		</div>
 	</div>
 </div>

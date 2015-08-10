@@ -241,10 +241,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		# 推荐（编辑推荐、推荐至首页）
 		'stick' => 0,
-
         # 精选
         'featured' => 0,
-		
 		# 是否成功案例产品
 		'okcase' => 0,
 		
@@ -360,6 +358,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         
         // 是否为热门
         $row['hot'] = ($row['sale_count'] > 100) ? 1 : 0;
+        
+        if($row['stage'] == self::STAGE_SHOP && $row['comment_count'] > 0){
+            $stars = $row['comment_star']/$row['comment_count'];
+            $row['stars'] = ceil($stars);
+            // 10分值显示
+            $row['stars_value'] = $stars*2;
+        }
 	}
 	
 	/**

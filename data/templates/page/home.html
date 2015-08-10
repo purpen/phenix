@@ -144,12 +144,12 @@
         </div>
     </div>
     
-    <!--推荐新品-->    
+    <!--精选新品-->
 	<section class="ui shoplist block">
     	<div class="ui newest responsive grid">
     		<div class="row">
     			<div class="column">
-                    {% product_list var:'newest' page:1 stage:9 only_onsale:1 size:8 sort:'latest' %}
+                    {% product_list var:'newest' page:1 type:5 only_onsale:1 size:8 sort:'latest' %}
                     {% if newest.rows %}
                     <div class="ui four products cards">
     					{% for product in newest.rows %}
@@ -165,8 +165,7 @@
     <!--社区部分-->
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="column">
-                        
+			<div class="column">  
                 <!--社区试用 活动-->
                 {% ad_list var:'ads' page:1 size:2 state:2 name:'home_page_activity' %}
                 {% if ads.rows %}

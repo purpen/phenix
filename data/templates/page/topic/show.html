@@ -86,31 +86,26 @@
     
     // ajax加载签到数据
     phenix.signin();
-
+    
+	// 分享
+	$('.ui.share.button').bind('click', function(){
+		$('.ui.share.modal').modal('show');
+	});
 	phenix.bind_share_list();
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ topic.wap_view_url }}'});
 	
-	// 显示编辑工具条 
-	$('.ui.topic.segment').hover(function(){
-		$('.ui.editable.buttons').removeClass('hide');
-	},function(){
-		$('.ui.editable.buttons').addClass('hide');
-	});
-	
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
-		// 初始化互动，是否收藏、点赞
+		// 初始化互动，是否关注、点赞
 		$.get('{{ app_url_favorite }}/ajax_done', {id: {{topic._id}},type:2,event:1}, function(result){
 			if (result.success) {
 				// 验证收藏
 				if (result.data.favorited) {
 					$('.ui.favorite.button')
-						.data('content', '取消')
 						.data('mark', 'y')
 						.addClass('active')
-                        .find('i')
-                        .removeClass('empty');
+                        .html('<i class="minus icon"></i> 已关注');
 				}
 			}
 		}, 'json');
@@ -119,11 +114,9 @@
 			if (result.success) {
 				if (result.data.loved) {
 					$('.ui.love.button')
-						.data('content', '取消')
 						.data('mark', 'y')
 						.addClass('active')
-                        .find('i')
-                        .removeClass('empty');
+                        .html('<i class="heart icon"></i> 赞了');
 				}
 			}
 		}, 'json');
@@ -234,7 +227,7 @@
 		/* 登录用户行为 */
 	{% endif %}
 	
-	// 收藏
+	// 收藏关注
 	$('.ui.favorite.button').bind('click', function(){
 		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
 		// 所有ajax请求，验证是否登录
@@ -249,7 +242,10 @@
 						.data('content', '取消')
 						.data('mark', 'y')
 						.addClass('active')
-						.html('<i class="star icon"></i> <small>'+ result.data.favorite_count +'</small>');
+						.html('<i class="minus icon"></i> 已关注');
+                        
+                        $('#target-favorite-count').text(result.data.favorite_count);
+                        
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -258,10 +254,11 @@
 			$.post('{{ app_url_favorite }}/ajax_cancel_favorite', {id: id, type:2}, function(result){
 				if (result.success) {
 					$btn
-						.data('content', '收藏')
 						.data('mark', 'n')
 						.removeClass('active')
-						.html('<i class="empty star icon"></i> <small>'+ result.data.favorite_count +'</small>');
+                        .html('<i class="plus icon"></i> 关注');
+                        
+                        $('#target-favorite-count').text(result.data.favorite_count);
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -281,10 +278,17 @@
 			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:2}, function(result){
 				if (result.success) {
 					$btn
-						.data('content', '取消')
 						.data('mark', 'y')
 						.addClass('active')
-						.html('<i class="heart icon"></i> <small>'+ result.data.love_count +'</small>');
+                        .html('<i class="heart icon"></i> 赞了');
+                        
+                        $('#target-love-count').text(result.data.love_count);
+                        
+                        if(result.data.newadd){
+                            $('#target_'+ id +'_support')
+                                .prepend('<a href=\"/user/'+ result.data.user_id +'\" target=\"_blank\" id=\"user-'+ result.data.user_id +'\" class=\"image\" data-variation=\"wide\" data-html=\"<div class=\'header\'>'+  result.data.nickname +'</div><div class=\'content\'>'+ result.data.city +' '+ result.data.job +'</div>\"><img src=\"'+ result.data.avatar +'\" /></a>');
+                        }
+                        
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -293,10 +297,13 @@
 			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:2}, function(result){
 				if (result.success) {
 					$btn
-						.data('content', '点赞')
 						.data('mark', 'n')
 						.removeClass('active')
-						.html('<i class="empty heart icon"></i> <small>'+ result.data.love_count +'</small>');
+                        .html('<i class="heart empty icon"></i> 赞');
+                        
+                        $('#target-love-count').text(result.data.love_count);
+                        $('#user-'+ result.data.user_id).remove();
+                        
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -311,10 +318,6 @@
 		});
 	});
 	
-	$('textarea.comment-textarea').maxlength({
-      'feedback' : '.wordscount'
-    });
-    
 	// 加载相关话题
 	$.get('{{ app_url_topic }}/ajax_guess_topics', {id: {{ topic._id }}, sword: '{{ topic.tags_s }}', size: 3});
     
@@ -389,6 +392,18 @@
           }
         }, "json");
 	});
+    
+    $('.user.avatars .ui.images .image').livequery(function(){
+        $(this).popup({
+            hoverable: true,
+            position : 'top center',
+        });
+    });
+    
+    $('.ui.sticky')
+      .sticky({
+        context: '#postpage'
+    });
     
 {% endblock %}
 
@@ -497,10 +512,6 @@
 							<span class="count">浏览数: {{ topic.view_count }}</span> | <span class="count">回复数: {{ topic.comment_count }}</span>
 						</div>
 					</div>
-					<a class="dot-irecommend" href="#comment">
-						<span class="dot-irecommend-count">{{ topic.view_count }}</span> 
-						<span class="dot-irecommend-suffix"></span>
-					</a>
 				</div>
 	
 				{% if is_match_idea %}
@@ -626,74 +637,44 @@
 					{% endfor %}
 				</div>
 				{% endif %}
-	
-				<div class="admin post actions clearfix">
-					<div class="ui pop favorite green large inverted button" data-content="收藏一下" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
-						<i class="empty star icon"></i> <small>{{ topic.favorite_count }}</small>
-					</div>
-					<div class="ui pop love magenta large inverted button" data-content="点赞支持" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
-						<i class="heart empty icon"></i> <small>{{ topic.love_count }}</small>
-					</div>
-		            
-                    {% if visitor.can_edit %}
-					<div class="ui icon green hide editable buttons">
-                            {% if visitor.is_admin %}
-								{% if topic.top == 1 %}
-								<div class="ui pop top active button" data-content="取消站内置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="1">
-									<i class="pin icon"></i>
-								</div>
-								{% else %}
-								<div class="ui pop top button" data-content="站内置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="1">
-									<i class="pin icon"></i>
-								</div>
-								{% endif %}
-                            {% endif %}
                 
-							{% if topic.top == 2 %}
-							<div class="ui pop top active button" data-content="取消版块置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="2">
-								<i class="pointing down icon"></i>
-							</div>
-							{% else %}
-							<div class="ui pop top button" data-content="版块置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="2">
-								<i class="pointing up icon"></i>
-							</div>
-							{% endif %}
-							{% if topic.fine %}
-							<div class="ui pop fine active button" data-content="取消精华"  data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
-								<i class="star icon"></i>
-							</div>
-							{% else %}
-							<div class="ui pop fine button" data-content="标记精华" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}">
-								<i class="star empty icon"></i>
-							</div>
-							{% endif %}
-							{% if topic.stick %}
-							<div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
-								<i class="flag icon"></i>
-							</div>
-							{% else %}
-							<div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}">
-								<i class="flag outline icon"></i>
-							</div>
-							{% endif %}
-						{% endif %}
-			
-						{% if editable %}
-						<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ topic._id }}">
-							<i class="edit icon"></i>
-						</div>
-						<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ topic._id }}">
-							<i class="remove icon"></i>
-						</div>
-						
-					</div>
-                    {% endif %}
-	
-					{%include 'block/share.html'%}
-				</div>
             	<!--你可能相关话题-->
                 <div class="topic guess" id="topic_guess_list"><!--ajax fetch--></div>
 			</div>
+            
+            <!--话题作者-->
+            <div class="container">
+                <div class="topic author">
+    	  	        <div class="block title">
+                        作者
+                    </div>
+    				<div class="ui header">
+    					<a class="ui small avatar image" href="{{ topic.user.home_url }}" data-uid="{{ topic.user_id }}" target="_blank">
+    			      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
+    						{% if topic.user.kind == 1 %}
+    						    <img src="{{ app_url_packaged }}/images/V.png" class="image-WV" />
+                            {%endif%}
+    					</a>
+    					<div class="content">
+    						<a href="{{ topic.user.home_url }}" class="ui line" target="_blank">{{ topic.user.nickname }}</a>
+        					{% if topic.user._id != visitor.id %}
+            					{% if !is_ship %}
+            					    <a href="{{ app_url_user }}/ajax_follow?id=3" class="ui mini ajax inverted grey button" id="user_{{ topic.user._id }}_ship">
+                                        <i class="plus icon"></i> 关注
+                                    </a>
+            					{% else %}
+            					    <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ topic.user._id }}" class="ui mini ajax inverted red button" id="user_{{ topic.user._id }}_ship">
+                                        <i class="minus icon"></i> 已关注
+                                    </a>
+            					{% endif %}
+        					{% endif %}
+    						<div class="sub header">
+    							{{ topic.user.summary }}
+    						</div>
+    					</div>
+    				</div>
+                </div>
+            </div>
             
             <div class="container">
     			<div class="reply box">
@@ -729,10 +710,102 @@
         </div>    
     </div>
     <div class="mainright">
+        {% include "page/topic/usersign.html" %}
+        <div class="ui sticky">
+            <div class="sellwrap">
+                <div class="user action">
+                    <p>关注&分享话题</p>
+        			<div class="ui red pop love inverted button" data-id="{{ topic._id }}" data-title="点赞支持" data-content="后续可以在‘我赞了的’中快捷查找" data-mark="n">
+        				<i class="heart empty icon"></i> 赞
+        			</div>
+        			<div class="ui magenta pop favorite inverted button" data-title="关注一下" data-content="有关该话题动态及时通知你，后续可以在‘我关注的’中快捷查找" data-id="{{ topic._id }}" data-mark="n">
+        				<i class="plus icon"></i> 关注
+        			</div>
+    				<div class="ui magenta pop share icon inverted button" data-content="分享给好友">
+    					<i class="share alternate icon"></i>
+    				</div>
+                </div>
+                <div class="user avatars">
+              	  	<div class="ui images" id="target_{{ topic._id }}_support">
+                        {% if topic.love_count %}
+                            {% favorite_list var:'userlist' target_id:topic._id event:2 type:2 %}
+                            {% for target in userlist.rows %}
+                            <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
+                  	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />
+                            </a>
+                            {% endfor %}
+                        {% endif %}
+              	  	</div>
+                    <p>
+                        已有 <span id="target-love-count">{{ topic.love_count }}</span> 个人点赞, <span id="target-favorite-count">{{ topic.favorite_count }}</span> 人关注
+                    </p>                    
+                </div>
+            </div>
+        </div>
+        
         {% include "page/topic/rightbar.html" %}
+        
         {% include "page/topic/stick_list.html" %}
         {% include "page/topic/adwrap.html" %}
+        
+        <div class="sellwrap admin">
+            {% if visitor.can_edit %}
+			<div class="ui icon green hide editable buttons">
+                {% if visitor.is_admin %}
+					{% if topic.top == 1 %}
+					<div class="ui pop top active button" data-content="取消站内置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="1">
+						<i class="pin icon"></i>
+					</div>
+					{% else %}
+					<div class="ui pop top button" data-content="站内置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="1">
+						<i class="pin icon"></i>
+					</div>
+					{% endif %}
+                {% endif %}
+        
+				{% if topic.top == 2 %}
+				<div class="ui pop top active button" data-content="取消版块置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="2">
+					<i class="pointing down icon"></i>
+				</div>
+				{% else %}
+				<div class="ui pop top button" data-content="版块置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="2">
+					<i class="pointing up icon"></i>
+				</div>
+				{% endif %}
+                
+				{% if topic.fine %}
+				<div class="ui pop fine active button" data-content="取消精华"  data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
+					<i class="star icon"></i>
+				</div>
+				{% else %}
+				<div class="ui pop fine button" data-content="标记精华" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}">
+					<i class="star empty icon"></i>
+				</div>
+				{% endif %}
+                
+				{% if topic.stick %}
+				<div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
+					<i class="flag icon"></i>
+				</div>
+				{% else %}
+				<div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}">
+					<i class="flag outline icon"></i>
+				</div>
+				{% endif %}
+                
+				{% if editable %}
+				<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ topic._id }}">
+					<i class="edit icon"></i>
+				</div>
+				<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ topic._id }}">
+					<i class="remove icon"></i>
+				</div>
+                {% endif %}
+			</div>
+            {% endif %}
+        </div>
     </div>
 </div>
+{% include "block/sharebox.html" %}
 {% include "block/qrcode.html" %}
 {% endblock %}

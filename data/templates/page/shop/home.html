@@ -67,6 +67,7 @@
 </div>
 
 <div class="shop list" id="shoplist">
+    <!--店长推荐-->
 	<div class="ui newest responsive grid">
 		<div class="row">
 			<div class="column">
@@ -136,7 +137,7 @@
                         </div>
                         <div class="speblock">
                             <div class="randomcats">
-                                <a class="catlink" alt="" href="" style="background-image: url('http://frstatic.qiniudn.com/images/topicbg/smart-healthy.jpg');">
+                                <a class="catlink" href="{{ app_url_shop }}/c0" style="background-image: url('{{ app_url_packaged }}/images/topicbg/smart_sport.jpeg');">
                                     <h2>全球新品</h2>
                                     <p>我们用心挑选数以万计的创意产品，为你每次的一见钟情</p>
                                 </a>
@@ -145,11 +146,7 @@
                     </div>
                     
 					{% for product in hotest.rows %}
-                        {% if product._id == 1081900902 %}
-                            {% include "block/product_card_special.html" %}
-                        {% else %}
-                            {% include "block/product_card.html" %}
-                        {% endif %}
+                        {% include "block/product_card.html" %}
 				    {% endfor %}
 				</div>
 				{% endif %}

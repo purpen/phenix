@@ -34,17 +34,18 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		$process_presaled = 0;
 		$process_saled = 0;
 
-    // 查询类型
-    $type = 0;
+        // 查询类型
+        $type = 0;
 		
 		$only_approved = 0;
 		$only_published = 0;
 		$only_onsale = 0;
 		$only_stick = 0;
 		$is_shop = 0;
-    $is_shop_wap = 0;
-    // 创意投票或产品灵感
-    $is_idea = 0;
+        $is_shop_wap = 0;
+        // 创意投票或产品灵感
+        $is_idea = 0;
+        
 		$presaled = 0;
 		// 搜索类型
 		$s_type = 0;
@@ -114,20 +115,19 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 			$query['stage'] = (int)$stage;
 		}
 
-    //除了投票
-    if ($is_shop) {
-      $query['stage'] = array('$in'=>array(5, 9, 12, 15));
-    }
+        // 除了投票
+        if ($is_shop) {
+            $query['stage'] = array('$in'=>array(5, 9, 12, 15));
+        }
 
-    // wap端显示:预售和商品
-    if ($is_shop_wap){
-      $query['stage'] = array('$in'=>array(5,9));
-    }
-
-    // 投票或灵感(个人中心用)
-    if ($is_idea){
-      $query['stage'] = array('$in'=>array(1, 15));
-    }
+        // wap端显示:预售和商品
+        if ($is_shop_wap){
+            $query['stage'] = array('$in'=>array(5,9));
+        }
+        // 投票或灵感(个人中心用)
+        if ($is_idea){
+            $query['stage'] = array('$in'=>array(1, 15));
+        }
 
 		//预售
 		if($presaled){
@@ -168,25 +168,36 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		// 投票状态显示
 		if($vote_type){
 		  if((int)$vote_type==2){
-			//进行中的投票
+			// 进行中的投票
 			$query['voted_finish_time'] = array('$gt'=>time());
 		  }
 		}
 
-    if($type){
-      switch((int)$type){
-        case 1:
-          $query['stage'] = 15;
-          break;
-        case 2:
-          $query['stage'] = array('$in'=>array(5,9));
-          break;
-        case 3:
-          $query['stage'] = 12;
-          break;
-        default:
-      }
-    }
+        if($type){
+            switch((int)$type){
+                case 1:
+                    $query['stage'] = 15;
+                    break;
+                case 2:
+                    $query['stage'] = array('$in'=>array(5,9));
+                    break;
+                case 3:
+                    $query['stage'] = 12;
+                    break;
+                case 4:
+                    $query['stick'] = 1;
+                    break;
+                case 5:
+                    $query['featured'] = 1;
+                    break;
+                case 6:
+                    $query['snatched'] = 1;
+                    break;
+                case 7:
+                    $query['stage'] = 5;
+                    break;
+            }
+        }
 		
 	    // 搜索
 	    if($s_type){
@@ -231,4 +242,3 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
         }
     }
 }
-

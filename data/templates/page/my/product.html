@@ -10,19 +10,19 @@
 {% block jquery %}
 
   // 编辑
-  $('.ui.edit.button').bind('click', function(){
-    var id = $(this).data('id');
-    window.open('{{ app_url_fever }}/edit?id='+id);
+  $('.ui.edit.link').bind('click', function(){
+      var id = $(this).data('id');
+      window.open('{{ app_url_fever }}/edit?id='+id);
   });
 
   // 删除
-  $('.ui.remove.button').bind('click', function(){
-    var id = $(this).data('id');
-    if(confirm('确认执行删除操作吗?')){
-      $.post('{{ app_url_fever }}/ajax_del', {id:id });
-    }
+  $('.ui.remove.link').bind('click', function(){
+      var id = $(this).data('id');
+      if(confirm('确认执行删除操作吗?')){
+          $.post('{{ app_url_fever }}/ajax_del', {id:id });
+      }
   });
-	
+  
 {% endblock %}
 
 {% block content %}
@@ -51,40 +51,54 @@
 		<div class="four wide column">
 			{% include "block/user/sub_menu_center.html" %}
 		</div>
+        
 		<div class="twelve wide column">
-      <h2 class="ui header">
-        我的产品
-        {% if visitor.can_edit %}<span><a href="{{ app_url_shop }}/idea_submit" class="ui link" style="font-size:12px; font-weight:normal;">上传产品灵感</a></span>{%endif%}
-      </h2>
-			<div>
-				<div class="ui grid">
-					<div class="row">
-						<div class="column">
-							{% product_list var:'list' is_idea:1 page:page user_id:user_id size:15 %}
-							<div class="ui center-list">
-								<div class="ui three cards">
-									{% for d in list.rows %}
-                    {% include 'block/center/product-item.html' %}
-                  {%endfor%}
-								</div>
-							</div>
-		         		    {% if list.rows %}
-							<div class="ui pagination">
-				            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-				            {%include 'block/pager.html'%}
-							</div>
-				          {% endif %}
-						</div>
-					</div>
-				</div>
-			</div>
+            <h2 class="ui header">
+                我的产品
+            </h2>
+            
+            <div class="ui secondary pointing magenta menu">
+                <a href="{{ app_url_my }}/product?type=submited" class="ui item {{ css_user_product_submited }}">我提交的</a>
+                <a href="{{ app_url_my }}/product?type=favorited" class="ui item {{ css_user_product_favorited }}">我关注的</a>
+                <a href="{{ app_url_my }}/product?type=loved" class="ui item {{ css_user_product_loved }}">我赞了的</a>
+            </div>
+            
+            <div class="ui center-list">
+                <div class="ui three products cards">
+                    <!--我提交的产品-->
+                    {% if type == 'submited' %}
+                        {% product_list var:'list' page:1 size:12 sort:'stick:latest' user_id:user_id %}
+
+                        {% for product in list.rows %}
+                            {% include 'block/product_card_admin.html' %}
+                        {%endfor%}
+                    {% endif %}
+                    
+                    
+                    {% if type == 'favorited' %}
+            			{% favorite_list var:'list' page:page user_id:user_id type:1 event:1 %}
+            			
+                    {% endif %}
+                    
+                    <!--我喜欢的产品-->
+                    {% if type == 'loved' %}
+            			{% like_list var:'list' page:page user_id:user_id type:1 event:2 %}
+            			{% for item in list.rows %}
+                            {% if item.product %}
+                                {% include "block/center/f-product-item.html" %}
+                            {% endif %}
+            			{% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            
+            {% if list.rows %}
+            <div class="ui pagebox">
+                {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+                {%include 'block/pager.html'%}
+            </div>
+            {% endif %}
 		</div>
 	</div>
 </div>
 {% endblock %}
-
-
-
-
-
-
