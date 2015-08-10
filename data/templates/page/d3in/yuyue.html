@@ -206,6 +206,15 @@ th, td {
   width: 31.333333% !important;
   display: inline-block;
 }
+.d3word{
+  display:inline-block;
+  letter-spacing: 2px;
+}
+h3 .d3word span{
+  font-size:14px;
+  line-height:6px;
+  vertical-align:top;
+}
 
 </style>
 {% endblock %}
@@ -501,7 +510,7 @@ $('.next-step.button').click(function(){
 	<div class="ui responsive grid" style="padding:0 4%;">
 		<div class="row">
 			<div class="six wide column">
-				<h3>D3IN铟立方未来实验室</h3>
+				<h3><span class="d3word">D<span>3</span>IN</span>铟立方未来实验室</h3>
 			</div>
 			<div class="ten wide right aligned column">
         {% include "block/d3in/sub_nav.html" %}

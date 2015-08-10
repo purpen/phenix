@@ -240,6 +240,11 @@
 						<input type="hidden" name="file_count" id="file_count" />
             <input type="hidden" name="from_to" value="{{ stuff.from_to }}" />
             <input type="hidden" name="verified" value="{{ stuff.verified }}" />
+            {% if mode=='create' %}
+              <input type="hidden" name="category_id" value="{{ default_category_id }}" />
+            {%else%}
+              <input type="hidden" name="category_id" value="{{ stuff.category_id }}" />
+            {%endif%}
 					
 						<div class="field">
 							<label for="title">{{ label_title }}名称</label>
