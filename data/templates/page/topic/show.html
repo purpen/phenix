@@ -748,8 +748,8 @@
         {% include "page/topic/stick_list.html" %}
         {% include "page/topic/adwrap.html" %}
         
+        {% if visitor.can_edit %}
         <div class="sellwrap admin">
-            {% if visitor.can_edit %}
 			<div class="ui icon green hide editable buttons">
                 {% if visitor.is_admin %}
 					{% if topic.top == 1 %}
@@ -802,8 +802,8 @@
 				</div>
                 {% endif %}
 			</div>
-            {% endif %}
         </div>
+        {% endif %}
     </div>
 </div>
 {% include "block/sharebox.html" %}
