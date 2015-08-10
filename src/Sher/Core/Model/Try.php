@@ -28,7 +28,7 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
         'season' => 0,
         # 状态: 1,申请中, 2,审核中, 3.提交反馈, 5.结束
         'step_stat' => 0,
-
+        
         # 标签
         'tags' => array(),
 		
@@ -60,7 +60,9 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		'start_time' => 0,
 		# 结束时间
 		'end_time' => 0,
-
+        # 名单公布时间
+        'publish_time' => 0,
+        
         # 品牌介绍 
         'brand_introduce' => null,
 
@@ -234,4 +236,3 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	}
 	
 }
-

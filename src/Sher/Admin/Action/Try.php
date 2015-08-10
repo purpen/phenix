@@ -59,14 +59,14 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		}
 		$this->stash['try'] = $data;
 		
-    //主图上传参数
+        // 主图上传参数
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = new MongoId();
 		
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_TRY;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_TRY;
 
-    // 配图上传参数
+        // 配图上传参数
 		$this->stash['token_f'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid_f'] = new MongoId();
 		
@@ -109,6 +109,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     $data['step_stat'] = (int)$this->stash['step_stat'];
     $data['start_time'] = $this->stash['start_time'];
     $data['end_time'] = $this->stash['end_time'];
+    $data['publish_time'] = $this->stash['publish_time'];
     $data['try_count'] = (int)$this->stash['try_count'];
     $data['imgs'] = $imgs;
 
