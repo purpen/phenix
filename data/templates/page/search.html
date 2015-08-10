@@ -57,6 +57,14 @@
   $('.ui.relation.button').click(function(){
     phenix.redirect("{{ app_url_domain }}/search?t={{ t }}&q={{ q }}&evt={{ evt }}&s=0");
   });
+
+	$('#searchbar-s i.search.icon').click(function(){
+		$('#searchbar').submit();
+	});
+
+  $('#search-button-s').click(function(){
+    $('#searchbar-s').submit();
+  });
 	
 {% endblock %}
 
@@ -66,11 +74,12 @@
 		<div class="row">
 			<div class="ten wide column white section-title">
                 <h1 class="block title">搜索</h1>
-				<form class="ui form" action="{{ app_url_search }}" method="get" id="searchbar">
+				<form class="ui form" action="{{ app_url_search }}" method="get" id="searchbar-s">
                  	<div class="ui icon input">
                 		<input name="q" type="text" value="{{ q }}" />
                 		<input name="t" type="hidden" value="{{ t }}" />
                 		<i class="search icon"></i>
+		<a href="javascript:void(0);" id="search-button-s" style="width: 2.67142857em;height: 100%;position: absolute;right: 0;top: 0;"></a>
                 	</div>
                 </form>
                 <div class="suggest">

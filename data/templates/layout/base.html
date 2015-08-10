@@ -184,6 +184,11 @@
                     limit_notice_times += 1;
                 }, 1000*60*1);
             }
+
+            // 头部搜索点击事件
+            $('#search-button').click(function(){
+		          $('#searchbar').submit();
+            });
 			
     		{% block layout_jquery %}{% endblock %}
     		{% block jquery %}{% endblock %}

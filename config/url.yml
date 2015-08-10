@@ -131,7 +131,7 @@ app.url.incubator: '{$app.url.domain}/incubator'
 # 微信
 app.url.wechat: '{$app.url.domain}/wechat'
 app.url.mm_shop.view: '{$app.url.wechat}/%s.html'
-app.url.jsapi.wxpay: '{$app.url.domain}/wxpay/'
+app.url.jsapi.wxpay: '{$app.url.domain}/wxpay'
 app.url.jsapi.wxpay.request: '{$app.url.domain}/wxpay/payment'
 app.url.native.wxpay: '{$app.url.domain}/wxpay/direct_native'
 app.url.native.feedback: '{$app.url.domain}/wxpay/feedback'

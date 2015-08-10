@@ -1,4 +1,52 @@
 <div class="card" id="item-{{d._id}}">
+  <div class="problock">
+    {% if d.stuff.cover %}
+    <a title="{{ d.stuff.title }}" alt="{{ d.stuff.title }}" href="javascript:void(0);" style="background-image: url({{ d.stuff.cover.thumbnails.md.view_url }}); position:relative;cursor:default;" class="thumb" target="_blank">
+      <div class="presell" style="height:3rem;">
+        <label>
+          {% if d.from_to %}
+              {% if d.from_to==1 %}十万火计{%endif%}
+              {% if d.from_to==2 %}蛋年{%endif%}
+              {% if d.from_to==3 %}奇思甬动-大赛{%endif%}
+          {%else%}
+          产品灵感
+          {%endif%}
+        </label>
+        <div class="exit">
+            {% if box_type=='fav' %}
+            <div class="ui green pop icon button favorite" data-content="取消收藏" data-variation="inverted" data-id="{{ d.stuff._id }}" data-type="{{ d.type }}" data-mark="y">
+                <i class="remove icon"></i>
+            </div>
+            {%endif%}
+            {% if box_type=='love' %}
+            <div class="ui green pop icon button" data-content="取消赞" data-variation="inverted" data-id="{{ d.stuff._id }}" data-type="{{ d.type }}" data-mark="y">
+                <i class="remove icon"></i>
+            </div>
+            {%endif%}
+        </div>
+      </div>
+    </a>
+    {% endif %}
+    <h2>
+        <a href="{{ d.stuff.view_url }}" title="{{ d.stuff.title }}" class="ui line" target="_blank">
+	    {{ d.stuff.title|truncate, 32, '' }}
+        </a>
+    </h2>
+    
+    <div class="excerpt">
+            <p></p>
+    </div>
+    <span class="counter">
+        <i class="heart icon"></i> {{ d.stuff.love_count }}
+    </span>
+    
+    
+  </div>
+</div>
+
+
+
+<!--<div class="card" id="item-{{d._id}}">
     {% if d.stuff.cover %}
     <div class="image" style="background-image:url({{ d.stuff.cover.thumbnails.md.view_url }});">
     {%else%}
@@ -44,3 +92,4 @@
         </a>
     </div>
 </div>
+-->

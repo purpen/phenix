@@ -1,5 +1,14 @@
 {%extends 'layout/mobile.html'%}
 {% block title %}{% endblock %}
+
+{% block layout_css %}
+	{% if css_use_bundle %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
+	{% else %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
+	{% endif %}
+{% endblock %}
+
 {% block page_css %}
 <style type="text/css">
 	#mfrbird{
@@ -105,9 +114,6 @@
 	.froala-element p{
 		line-height:24px;
 	}
-	.froala-element img{
-	  width:100%;
-	}
 	.froala-element p a.inlink-tag{
 	  border-bottom: 2px solid rgba(0,0,0,.15);
     color: #f36;
@@ -139,6 +145,10 @@
     box-shadow: 0 0 0 2px #f36 inset!important;
     background-color: #f36;
     color: #fff;
+  }
+  .froala-element {
+    overflow-x: visible;
+    overflow-y: visible;
   }
 </style>
 {% endblock %}
@@ -329,7 +339,7 @@
 			<div class="row pt-0">
 				<div class="column" style="padding:0;width:100% !important;">
 						<div class="ui big topic segment" style="border: 0px solid rgba(34,36,38,.15);">
-							<div class="ui header">
+							<div class="ui header" style="margin-bottom:1rem;">
 								<div class="content">
 									{{ topic.title }}
 									<div class="sub header attribute">

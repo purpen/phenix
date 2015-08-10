@@ -1,5 +1,14 @@
 {%extends 'layout/mobile.html'%}
 {% block title %}{% endblock %}
+
+{% block layout_css %}
+	{% if css_use_bundle %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
+	{% else %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
+	{% endif %}
+{% endblock %}
+
 {% block page_css %}
 <style type="text/css">
 	#mfrbird{
@@ -104,9 +113,17 @@
 	.hide-on-mobile{
 	  display:none !important;
 	}
-	.product.content.froala-element img ,.product.content.froala-element iframe{
+	/*.product.content.froala-element img ,.product.content.froala-element iframe{
     width: 100%;
-  }	
+  }	*/
+  .ui.form .field>.selection.dropdown {
+    width: 49% !important;
+    min-width: 3em !important;
+  }
+  .ui.form .field>.selection.dropdown + .selection.dropdown{
+    float:right;
+  }
+  
 	/*.ui.tabox {
 		border-bottom: 1px solid #e4e5e7;
 		margin: 2.5em auto 1.5em;
@@ -145,7 +162,13 @@
 		width: 100%;
 		z-index: 99;
 	}*/
-	
+	.ui.modal{
+	  top:0 !important;
+	}
+	.froala-element {
+    overflow-x: visible;
+    overflow-y: visible;
+  }
 	
 	
 </style>
@@ -479,7 +502,7 @@
           <!--<i class="ticket icon"></i>--> 求支持
         </a>
       {%else%}
-        <a href="javascript:void(0);" class="ui magenta active inverted button button">
+        <a href="javascript:void(0);" class="ui magenta active inverted applytry button">
           <!--<i class="ticket icon"></i>--> 申请试用
         </a>
       {%endif%}

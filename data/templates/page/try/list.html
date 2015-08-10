@@ -89,7 +89,7 @@
                 </div>
                 {%endif%}
                 
-				{% try_list var:'list' page:page state:1 %}
+				{% try_list var:'list' page:page state:1 size:30 %}
 				{% for t in list.rows %}
 					<div class="card">
                         <div class="problock">
@@ -174,20 +174,20 @@
     			</div>
             </div>
         </div>
-        
+
+        {% ad_list var:'adslide' page:1 size:15 state:2 name:'try_list_cooperate_logo' %}
+        {% if adslide.rows %}
         <div class="sellwrap">
         	<div class="block title">
         		合作厂商
             </div>
 			<div class="tryfirm">
-				<img src="http://frstatic.qiniudn.com/images/logo_technode.jpg" alt="动点科技">
-				<img src="http://frstatic.qiniudn.com/images/logo_geekpark.jpg" alt="极客公园">
-                <img src="http://frstatic.qiniudn.com/images/logo_shijue.jpg" alt="视觉中国">
-				<img src="http://frstatic.qiniudn.com/images/logo_tech.jpg" alt="TC">
-                <img src="http://frstatic.qiniudn.com/images/logo_leikeji.jpg" alt="雷科技">
+        {% for ad in adslide.rows %}
+          <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank"><img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}"></a>
+				{% endfor %}
 			</div>
-            
         </div>
+        {%endif%}
         
     </div>
 </div>

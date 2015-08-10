@@ -1,4 +1,4 @@
-<div class="ui applytry small modal transition">
+<div class="ui applytry small modal transition" style="margin: 0 0 0 -47.5% !important;position: absolute !important;top:0 !important;">
   	<i class="close icon"></i>
 	<div class="header">
 	    申请产品试用
@@ -16,21 +16,19 @@
 						<div class="description">来说说你要申请产品试用的理由，真实诚恳将有助我们通过审核。</div>
 					</div>
 
-					<div class="two fields">
 						<div class="field">
               <input type="text" name="name" value="{{ visitor.profile.realname }}" placeholder="你的真实姓名" />
 						</div>
 						<div class="field">
               <input type="text" name="phone" value="{{ visitor.profile.phone }}" placeholder="填写手机号，方便信息核实" />
 						</div>
-					</div>
 					<div class="field">
 						<label>详细地址</label>
 						<div class="ui selection province dropdown">
 							<input type="hidden" name="province" value="{{ addbook.province }}" />
 			
 						    <div class="default text">省份/自治区</div>
-						    <i class="flat arrowbottom icon"></i>
+						    <i class="flat dropdown icon"></i>
 						    <div class="menu">
 								{% for province in provinces %}
 						        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
@@ -41,7 +39,7 @@
 						<div class="ui selection district dropdown" id="district-menu">
 							<input type="hidden" name="district" value="{{ district.city }}" />
 						    <div class="default text">地区区域</div>
-						    <i class="flat arrowbottom icon"></i>
+						    <i class="flat dropdown icon"></i>
 						    <div class="menu">
 								{% for district in districts %}
 						        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
@@ -53,7 +51,6 @@
 						<input type="text" name="address" value="" placeholder="街道或小区" />
 					</div>
 
-					<div class="three fields">
 					<div class="field">
 						<input type="text" name="zip" value="" placeholder="邮编" />
 					</div>
@@ -63,7 +60,6 @@
 						<div class="field">
 							<input type="text" name="qq" value="" placeholder="QQ号" />
 						</div>
-					</div>
 
 				</div>
 		  	</div>
