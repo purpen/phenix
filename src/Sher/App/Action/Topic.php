@@ -405,6 +405,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			if ($this->visitor->id == $topic['user_id'] || $this->visitor->can_edit){
 				$editable = true;
 			}
+
+      // 验证用户关注关系
+      $this->validate_ship($this->visitor->id, $topic['user_id']);
 		}
 		
 		// 是否出现后一页按钮
@@ -1135,6 +1138,16 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		return $this->to_taconite_page('ajax/delete_asset.html');
 	}
+
+  /**
+   * 验证关系
+   */
+  protected function validate_ship($current_user_id, $auther_id){
+    // 验证关注关系
+    $ship = new Sher_Core_Model_Follow();
+    $is_ship = $ship->has_exist_ship($current_user_id, $auther_id);
+    $this->stash['is_ship'] = $is_ship;
+  }
     
     /**
      * 评论参数
