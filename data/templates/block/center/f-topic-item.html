@@ -1,38 +1,78 @@
-<div class="card" id="item-{{d._id}}">
-    {% if d.topic.cover %}
-    <div class="image" style="background-image:url({{ d.topic.cover.thumbnails.md.view_url }});">
-    {%else%}
-    <div class="image">
-    {%endif%}
-        <div class="presell">
-            <label>话题</label>
-            <div class="exit">
-                {% if box_type=='fav' %}
-                    <div class="ui green pop icon button favorite" data-content="取消收藏" data-variation="inverted" data-id="{{ d.topic._id }}" data-type="{{ d.type }}" data-mark="y">
-                        <i class="remove icon"></i>
-                    </div>
-                {%endif%}
-                {% if box_type=='love' %}
-                    <div class="ui green pop icon button" data-content="取消赞" data-variation="inverted" data-id="{{ d.topic._id }}" data-type="{{ d.type }}" data-mark="y">
-                        <i class="remove icon"></i>
-                    </div>
-                {%endif%}
+<tr id="topic-{{ item.topic._id }}">
+	<td class="hide-on-mobile author one wide">
+		<a class="ui small avatar image" href="{{ item.topic.user.home_url }}">
+      		<img src="{{ item.topic.user.small_avatar_url }}" alt="{{ item.topic.user.nickname }}" />
+		</a>
+	</td>
+	<td colspan="3" class="htitle nide wide">
+      	<h3 class="title {%if item.topic.t_color==1%}topic-title-color-red{%endif%}{%if item.topic.t_color==2%}topic-title-color-blue{%endif%}{%if item.topic.t_color==3%}topic-title-color-green{%endif%}{%if item.topic.t_color==4%}topic-title-color-yellow{%endif%}">
+			<a href="{{ item.topic.view_url }}" title="{{ item.topic.title }}" class="ui line" target="_blank">
+                {{ item.topic.title|truncate 60 }}
+                {% if item.topic.top %}<span class="ui green small label">置顶</span>{% endif %}
+                {% if item.topic.fine %}<span class="ui orange small label">精华</span>{% endif %}
+                {% if item.topic.stick %}<span class="ui yellow small label">编辑推荐</span>{% endif %}
+            </a>
+		</h3>
+        
+      	<div class="content">
+			<div class="attribute">
+                <span class="category">
+                    {{ item.topic.category.title }}
+                </span> | 
+				<span class="author">
+					<a href="{{ item.topic.user.home_url }}" class="ui link">@{{ item.topic.user.nickname }}</a>  <i class="time icon"></i>{{ item.topic.created_on|relative_datetime }}
+				</span>
+			</div>
+			<div class="hide-on-mobile">
+				{% if !item.topic.asset_count %}
+					<a class="description" href="{{ item.topic.view_url }}" target="_blank">
+						{{ item.topic.strip_description|truncate 70 }}
+					</a>
+				{% else %}
+					{% if item.topic.cover %}
+					  {% asset_list var:'assets' parent_id:item.topic._id size:4 asset_type:55 sort:'positive' %}
+                    {%else%}
+					  {% asset_list var:'assets' parent_id:item.topic._id size:5 asset_type:55 sort:'positive' %}
+                    {%endif%}
+					<!--展示图片-->
+					<a class="ui mini images" href="{{ item.topic.view_url }}" target="_blank">
+						{% if item.topic.cover %}
+						<img class="ui image" src="{{ item.topic.cover.thumbnails.tiny.view_url }}" />
+						{% endif %}
+						{% for asset in assets.rows %}
+							{% if item.topic.cover._id != asset._id %}
+						  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
+							{% endif %}
+						{% endfor %}
+					</a>                    
+					<div class="ui count text">
+						<small>{{ item.topic.asset_count }} 张图片</small>
+					</div>
+				{% endif %}
+			</div>
+            
+            <div class="dot admin count">
+                <div class="statistic">
+                    <span class="value">{{ item.topic.comment_count }}</span> <i class="comment outline icon"></i>
+                </div>
+                <div class="statistic">
+                    <span class="value">{{ item.topic.view_count }}</span> <i class="unhide icon"></i>
+                </div>
+                
+                <div class="statistic">
+                    {% if box_type == 'fav' %}
+                        <a class="ui pop link favorite" href="javascript:void(0);" data-id="{{ item.topic._id }}" data-type="2" data-mark="y">
+                            <i class="remove icon"></i> 取消收藏
+                        </a>
+                    {%endif%}
+                    {% if box_type == 'love' %}
+                        <a class="ui pop love link" href="javascript:void(0);" data-id="{{ item.topic._id }}" data-type="2" data-mark="y">
+                            <i class="remove icon"></i> 取消点赞
+                        </a>
+                    {%endif%}
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="content">
-        <div class="header">
-            <a href="{{ d.topic.view_url }}" title="{{ d.topic.title }}" class="ui line" target="_blank">{{ d.topic.title|truncate 26 '' }}</a>
-        </div>
-    </div>
-    <div class="extra">
-        <a class="right floated created">
-            <small><i class="unhide icon"></i>{{ d.topic.view_count }}</small>
-            <small><i class="thumbs outline up icon"></i><span class="love-count">{{ d.topic.love_count }}</span></small>
-        </a>
-        <a href="{{ d.topic.user.home_url }}" class="ui icon link" target="_blank">
-            <img src="{{ d.topic.user.small_avatar_url }}" alt="{{ d.topic.user.nickname }}" class="ui avatar image">
-            <small>{{ d.topic.user.nickname }}</small>
-        </a>
-    </div>
-</div>
+            
+      	</div>
+	</td>
+</tr>

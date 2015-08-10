@@ -29,6 +29,7 @@
 #minslider.flexslider:hover .flex-direction-nav .flex-next {
     right: 30px;
 }
+
 </style>
 {% endblock %}
 
@@ -53,7 +54,8 @@
 	});
     $('.mentors > .avatar a')
       .popup({
-        inline: true
+        hoverable: true,
+        position : 'top center',
       });
 {% endblock %}
 
@@ -68,7 +70,7 @@
                 <ul class="slides">                    
 	                {% for ad in adslide.rows %}
                         <li style="background-image: url('{{ ad.cover.fileurl }}');">
-                            <a href="{{ asset.thumbnails.huge.view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}">
+                            <a href="{{ ad.view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}">
                                 <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
                             </a>
                         </li>
@@ -136,6 +138,7 @@
 
     </div>
     <div class="mainright">
+        {% include "page/topic/usersign.html" %}
         {% include "page/topic/rightbar.html" %}
         {% include "page/topic/hotpeople.html" %}
         {% include "page/topic/stick_list.html" %}

@@ -9,11 +9,11 @@
         <div class="excerpt">
             <p>{{ product.advantage }}</p>
         </div>
-        {% if !product.stage==15 %}
         <div class="cats">
-            <span class="unit">￥</span>{{ product.sale_price }}
-        </div>
+        {% if !product.stage==15 %}
+            <span class="unit"><i class="yen icon"></i></span>{{ product.sale_price }}
         {%endif%}
+        </div>
         <span class="counter">
             <i class="heart icon"></i> {{ product.love_count }}
         </span>

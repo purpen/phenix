@@ -54,7 +54,7 @@ class Sher_Core_ViewTag_FavoriteList extends Doggy_Dt_Tag {
         }
 
 		if($target_id){
-            if((int)$type==3){
+            if((int)$type == 3){
                 $query['target_id'] = (string)$target_id;     
             }else{
   			    $query['target_id'] = (int)$target_id;    
@@ -69,6 +69,7 @@ class Sher_Core_ViewTag_FavoriteList extends Doggy_Dt_Tag {
         $result = $service->get_like_list($query,$options);
 		
         $context->set($var, $result);
+        
         if ($include_pager) {
             $context->set($pager_var,$result['pager']);
         }

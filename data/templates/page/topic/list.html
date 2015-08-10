@@ -64,6 +64,9 @@
                     <a class="{{ css_type_all }} item" href="{{ app_url_topic }}/c{{cid}}">
                         <i class="time icon"></i> 最新
                     </a>
+                    <a class="{{ css_type_reply }} item" href="{{ links.reply_url }}">
+                        <i class="comments icon"></i> 回复
+                    </a>
                     <a class="{{ css_type_stick }} item" href="{{ links.stick_url }}">
                         <i class="checkered flag icon"></i> 推荐
                     </a>
@@ -119,6 +122,7 @@
         
     </div>
     <div class="mainright">
+        {% include "page/topic/usersign.html" %}
         {% include "page/topic/rightbar.html" %}
         {% include "page/topic/stick_list.html" %}
         {% include "page/topic/adwrap.html" %}

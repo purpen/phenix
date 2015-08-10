@@ -11,37 +11,6 @@
 {% endblock %}
 
 {% block content %}
-<div class="shop submenu">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				{% category_list var:'category' only_open:1 domain:domain show_all:0 %}
-				<div class="ui horizontal list">
-					<div class="item">
-						<a class="ui link" href="{{ app_url_shop }}">商店</a>
-					</div>
-					<div class="item">
-						<a class="ui link" href="{{ app_url_shop }}/c0">全部</a>
-					</div>
-					{% for cat in category.rows %}
-				  	<div class="item">
-						<a class="ui link" href="{{ cat.view_url }}">{{ cat.title }}</a>
-					</div>
-					{% endfor %}
-				</div>
-                <div class="ui horizontal quick list">
-					<div class="item">
-						<a class="ui link" href="{{ app_url_sale }}">新品预售</a>
-					</div>
-					<div class="item">
-						<a class="ui link active" href="{{ app_url_shop }}/pmall">积分兑换</a>
-					</div>
-                </div>
-			</div>
-		</div>
-	</div>
-</div>
-
 <div class="category image" style="background-image:url('{{ app_url_packaged }}/images/point-banner.jpg');">
 	<h1><!--placeholder--></h1>
     <div class="cover"></div>
@@ -65,7 +34,6 @@
 			</div>
 		</div>
 	</div>
-	
 </div>
 
 <div class="social submitbox">
@@ -88,5 +56,4 @@
 		</div>
 	</div>
 </div>
-
 {% endblock %}

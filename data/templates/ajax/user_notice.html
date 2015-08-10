@@ -1,29 +1,32 @@
 <taconite>
-
-  {% if page_notice_success %}
-    <replaceContent select="#user-notice"><![CDATA[
-        <div class="container">
-		    {% if alert_count %}
+    {% if page_notice_success %}
+        <eval>
+            $('#user-notice .item').remove();
+            $('#user-notice-num').show().text({{ total_count }});
+        </eval>
+        
+        {% if alert_count %}
+        <append select="#user-notice"><![CDATA[
             <a href="{{ app_url_my }}/remind" class="item"><i class="alarm icon"></i>查看提醒 {{alert_count}} 条提醒</a>
-            {%endif%}
-            
-            {% if message_count %}
+        ]]></append>
+        {%endif%}
+    
+        {% if message_count %}
+        <append select="#user-notice"><![CDATA[
             <a href="{{ app_url_my }}/message" class="item"><i class="mail icon"></i>查看私信 {{message_count}} 条私信</a>
-            {%endif%}
-            
-            {% if comment_count %}
+        ]]></append>
+        {%endif%}
+    
+        {% if comment_count %}
+        <append select="#user-notice"><![CDATA[
             <a href="{{ app_url_my }}/recive_comment" class="item"><i class="comment icon"></i>查看评论 {{comment_count}} 条评论</a>
-            {%endif%}
-            
-            {% if fans_count %}
+        ]]></append>
+        {%endif%}
+    
+        {% if fans_count %}
+        <append select="#user-notice"><![CDATA[
             <a href="{{ app_url_my }}/fan" class="item"><i class="user icon"></i>查看粉丝 {{fans_count}} 条粉丝</a>
-            {%endif%}
-		</div>
-    ]]></replaceContent>
-
-    <eval>
-      $('#user-notice-num').show().text({{ total_count }});
-    </eval>
-  {%endif%}
-	
+        ]]></append>
+        {%endif%}
+    {%endif%}
 </taconite>

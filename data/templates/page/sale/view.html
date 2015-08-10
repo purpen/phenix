@@ -13,16 +13,17 @@
 </style>
 {% endblock %}
 {% block layout_js %}
-	<script type="text/javascript">
-	    var per_page = 10;
-		function fetch_comment(current_page, per_page){
-	        var total_count = {{ product.comment_count }};
-	        var total_page = Math.ceil(total_count/per_page);
-	        var url = '{{ app_url_base }}/app/site/shop/ajax_fetch_comment';
-	        $.get(url, {target_id: {{ product._id }}, page: current_page, per_page: per_page, total_page: total_page});
-	    }
-	</script>
+<script type="text/javascript">
+    var per_page = 10, sort = 0;
+    function fetch_comment(current_page, per_page, sort){
+        var total_count = {{ product.comment_count }};
+        var total_page = Math.ceil(total_count/per_page);
+        var url = '{{ app_url_base }}/app/site/shop/ajax_fetch_comment';
+        $.get(url, {target_id: {{ product._id }}, page: current_page, per_page: per_page, sort: sort, total_page: total_page});
+    }
+</script>
 {% endblock %}
+
 {% block jquery %}
 	$('#carousel').flexslider({
         animation: "slide",
@@ -60,15 +61,15 @@
 	
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
-		// 初始化互动，是否收藏、点赞
+		// 初始化互动，是否关注、点赞
 		$.get('{{ app_url_favorite }}/ajax_done', {id: {{product._id}},type:1,event:1}, function(result){
 			if (result.success) {
-				// 验证收藏
+				// 验证关注
 				if (result.data.favorited) {
 					$('.ui.favorite.button')
-						.data('content', '取消')
 						.data('mark', 'y')
-						.addClass('active');
+						.addClass('active')
+                        .html('<i class="minus icon"></i> 已关注');
 				}
 			}
 		}, 'json');
@@ -78,15 +79,86 @@
 			if (result.success) {
 				if (result.data.loved) {
 					$('.ui.love.button')
-						.data('content', '取消')
 						.data('mark', 'y')
-						.addClass('active');
+						.addClass('active')
+                        .html('<i class="heart icon"></i> 赞了');
 				}
 			}
 		}, 'json');
+
+		// 编辑
+		$('.ui.edit.button').bind('click', function(){
+			var id = $(this).data('id');
+			phenix.redirect('{{ app_url_shop }}/idea_edit?id='+id);
+		});
+	
+		// 删除
+		$('.ui.remove.button').bind('click', function(){
+			var id = $(this).data('id');
+			if(confirm('确认执行删除操作吗?')){
+				$.post('{{ app_url_shop }}/deleted', {id:id });
+			}
+		});
+
+		// 精选标记
+		$('.ui.fine.button').bind('click', function(){
+			var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+			if (mark == 'n') {
+				$.post('{{ app_url_shop }}/mark_as_featured', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '取消精华')
+							.data('mark', 'y')
+							.addClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			} else {
+				$.post('{{ app_url_shop }}/mark_cancel_featured', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '标记精华')
+							.data('mark', 'n')
+							.removeClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			}
+		});
+	
+		// 编辑推荐
+		$('.ui.stick.button').bind('click', function(){
+			var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+			if (mark == 'n') {
+				$.post('{{ app_url_shop }}/ajax_stick', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '取消推荐')
+							.data('mark', 'y')
+							.addClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			} else {
+				$.post('{{ app_url_shop }}/ajax_cancel_stick', {id: id}, function(result){
+					if (result.success) {
+						$btn
+							.data('content', '编辑推荐')
+							.data('mark', 'n')
+							.removeClass('active');
+					} else {
+						phenix.show_error_note(result.message);
+					}
+				}, 'json');
+			}
+		});
+
 	{% endif %}
 	
-	// 收藏
+	// 关注
 	$('.ui.favorite.button').bind('click', function(){
 		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
 		// 所有ajax请求，验证是否登录
@@ -98,9 +170,11 @@
 			$.post('{{ app_url_favorite }}/ajax_favorite', {id: id, type:1}, function(result){
 				if (result.success) {
 					$btn
-						.data('content', '取消')
 						.data('mark', 'y')
-						.addClass('active');
+						.addClass('active')
+                        .html('<i class="minus icon"></i> 已关注');
+                        
+                    $('#product-favorite-count').text(result.data.favorite_count);
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -109,9 +183,12 @@
 			$.post('{{ app_url_favorite }}/ajax_cancel_favorite', {id: id, type:1}, function(result){
 				if (result.success) {
 					$btn
-						.data('content', '收藏')
 						.data('mark', 'n')
-						.removeClass('active');
+						.removeClass('active')
+                        .html('<i class="plus icon"></i> 关注');
+                        
+                    $('#product-favorite-count').text(result.data.favorite_count);
+                    
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -119,7 +196,7 @@
 		}
 	});
 	
-	// 喜欢
+	// 点赞
 	$('.ui.love.button').bind('click', function(){
 		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
 		// 所有ajax请求，验证是否登录
@@ -132,11 +209,18 @@
 			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:1}, function(result){
 				if (result.success) {
 					$btn
-						.data('content', '取消')
 						.data('mark', 'y')
-						.addClass('active');
+						.addClass('active')
+                        .html('<i class="heart icon"></i> 赞了');
+                        
 					count += 1;
 					$('#product-love-count').text(count);
+                    
+                    if(result.data.newadd){
+                        $('#product_'+ id +'_support')
+                            .prepend('<a href=\"/user/'+ result.data.user_id +'\" target=\"_blank\" id=\"user-'+ result.data.user_id +'\" class=\"image\" data-variation=\"wide\" data-html=\"<div class=\'header\'>'+  result.data.nickname +'</div><div class=\'content\'>'+ result.data.city +' '+ result.data.job +'</div>\"><img src=\"'+ result.data.avatar +'\" /></a>');
+                    }
+                    
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -145,11 +229,16 @@
 			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:1}, function(result){
 				if (result.success) {
 					$btn
-						.data('content', '点赞')
 						.data('mark', 'n')
-						.removeClass('active');
-					count -= 1;	
+						.removeClass('active')
+                        .html('<i class="heart empty icon"></i> 赞');
+                        
+					count -= 1;
+                    
 					$('#product-love-count').text(count);
+                    
+                    $('#user-'+ result.data.user_id).remove();
+                    
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -162,11 +251,22 @@
 		$('.ui.share.modal').modal('show');
 	});
 	
-  	// ajax加载评论
-  	fetch_comment(1, per_page);
+	phenix.hook_comment_page();
+    
+    fetch_comment(1, per_page, sort);
+    // 评论排序
+    $('.fitsort .ui.list .item').bind('click', function(){
+        sort = parseInt($(this).data('sort'));
+        $(this)
+            .siblings().removeClass('active')
+            .end()
+            .addClass('active');
+        // 获取请求
+        fetch_comment(1, per_page, sort);
+    });
 	
 	// 加载推荐商品 
-	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ product.tags_s }}', size: 4, id: {{ product._id }} });
+	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ product.tags_s }}', size: 8, id: {{ product._id }} });
 	
 	// 显示私信框
 	$('.ui.letter.button').bind('click', function(){
@@ -198,7 +298,16 @@
 			$(event.target).ajaxSubmit();
 		}
 	});
+    
+    $('.user.avatars .ui.images .image').livequery(function(){
+        $(this).popup({
+            hoverable: true,
+            position : 'top center',
+        });
+    });
+      
 {% endblock %}
+
 {% block content %}
 <div class="shop viewtop" style="background-image: url('{{ product.cover.thumbnails.big.view_url }}');">
 	<div class="masthead">
@@ -211,24 +320,26 @@
                                 {{ product.category.title }}
                             </p>
         					<h1 class="block title">{{ product.title }}</h1>
-                            <!--
+                            {% if product.stage == 9 %}
                             <div class="product stars">
-            					<div class="ui small star rating hover">
-                                    <i class="icon active"></i>
-                                    <i class="icon active"></i>
-                                    <i class="icon"></i>
-                                    <i class="icon"></i>
-                                    <i class="icon"></i>
-            					</div>
+                                {% include "block/show_stars.html" %}
             					<small>
-                                    <span class="count">7.3</span> ( <span id="product-love-count">{{ product.comment_count }}</span>条评价 )
+                                    <span class="count">{{ product.stars_value }}</span>  ( <span>{{ product.comment_count }}</span> 条评价 ) 
                                 </small>
-                            </div>-->
-        					<p>
-                                <span>@{{ product.designer.nickname }} 发表</span> 
-                                <span class="clove">{{ product.love_count }} 人点赞</span> / 
-                                <span class="clike">{{ product.favorite_count }} 个收藏</span>
-                            </p>
+                            </div>
+                            {% endif %}
+                            
+            				{% if product.tags %}
+            				<div class="idea tags">
+            					{% for tag in product.tags %}
+            					{% if tag %}
+            					<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui small label">
+            						{{ tag }}
+            					</a>
+            					{% endif %}
+            					{% endfor %}
+            				</div>
+            				{% endif %}
         				</div>
         			</div>
         		</div>
@@ -236,7 +347,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="mainwrap" id="shoppage">
     <div class="mainleftwrap">
@@ -291,13 +401,11 @@
 			</div>
             
             <div class="container">
-                
-		    
 				<div class="ui tabox">
 					<div class="ui three tabs">
 						<a href="#.overview" class="tab">产品详情</a>
 						<a href="#.evaluating" class="tab">话题讨论</a>
-						<a href="#.reviews" class="tab">用户评价</a>
+                        <a href="#.reviews" class="tab">{% if product.stage==15 %}用户评论{%else%}用户评价{%endif%}</a>
 					</div>
 				</div>
                 
@@ -305,23 +413,10 @@
 					<div class="product content froala-element">
 						{{ product.content }}
 					</div>
-                
-					<div class="ui center aligned zanl">
-						<div class="ui green pop favorite inverted button" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
-							<i class="star icon"></i> 收藏
-						</div>
-						<div class="ui magenta pop love icon inverted button" data-content="点赞" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
-							<i class="heart empty icon"></i> 赞
-						</div>
-						<div class="ui blue pop share icon inverted button" data-content="分享" data-variation="inverted">
-							<i class="share icon"></i> 分享
-						</div>
-					</div>
-                
-				</div>
-                
-				<div class="bar"></div>
-                
+                </div> 
+            </div>
+            
+            <div class="container">
 				<div class="product evaluating">
 					<div class="block title">
 						话题讨论 <small>（{{ product.topic_count }}）</small>
@@ -329,9 +424,9 @@
 				    
 					{% if product.topic_count == 0 %}
 					<div class="ui center aligned resultbox">
-						<p>还没有人为 <a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a> 撰写评测，你想做第一个为它写评测的人么？</p>
+						<p>还没有人为 <a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a> 发起话题，你想做第一个人么？</p>
 						<a href="{{ product.subject_view_url }}&evaluating=1#newtopic" class="ui magenta inverted button" style="margin-top:2em;">
-							<i class="edit icon"></i> 发表评测
+							<i class="edit icon"></i> 发表话题
 						</a>
 					</div>
 					{% else %}
@@ -348,50 +443,101 @@
 						</div>
 					{% endif %}
 				</div>
-                
-				{% if product.comment_count != 0 %}
-                
-				<div class="bar"></div>
-                
-				<div class="product reviews">
-					<div class="block title">
-						用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
+            </div>
+            
+            <div class="container">
+                {% if product.stage == 15 %}
+                <div class="reviews">
+        			<div class="reply box">
+          			    <!--ajax comment-->
+        	  	        <div class="block title">
+                            全部评论
+                            <small>（{{ product.comment_count|default 0 }}）</small>
+                        </div>
+                        <div class="fitsort">
+                            <div class="ui horizontal bulleted list">
+                                <a class="active item" href="javascript:void(0);" data-sort="0">默认</a>
+                                <a class="item" href="javascript:void(0);" data-sort="1">最新</a>
+                            </div>
+                        </div>
+          		  	    <div id="comment-list">
+                            <div class="ui threaded comments is-comment"></div>
+                            <div class="morepages" id="load-more-btn"></div>
+          		  	    </div>
+          		  	    {% include "block/comment_box_site.html" %}
                     </div>
-				    
-					<!--ajax comment-->
-					<div class="ui big reply segment" id="comment-list"></div>
-				</div>
-				{% endif %}
-                
+                </div>
+                {%else%}
+                    {% if product.comment_count != 0 %}
+                    <div class="product reviews">
+                        <div class="block title">
+                            用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
+                        </div>
+                        <!--ajax comment-->
+                        <div class="ui big reply segment" id="comment-list">
+                            <div class="ui threaded comments"></div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {%endif%}
             </div>
         </div>
         
-        <!--ajax fetch推荐相关产品-->
-        <div id="product_guess_list"></div>
+        <div id="product_guess_list"><!--ajax fetch--></div>
     </div>
     <div class="mainright">
-        
-        <div class="sellwrap">
+        <div class="ui sticky">
             
-			<div class="buy box">
-				<div class="reorder title">
-					<span class="count">{{ product.presale_count|default 0 }}</span>
-					预定人数
-				</div>
-				<div class="reorder title">
-					<span class="count"><span class="unit">￥</span>{{ product.presale_money|default 0 }}</span>
-					完成金额
-				</div>
-				<div class="reorder title">
-					<span class="count" id="clock"></span>
-					剩余时间
-				</div>
-				<div class="reorder result">
-					<span class="count">{{ product.presale_percent }}%</span>
-					达成率
-				</div>
-			</div>
+            <div class="sellwrap">
+    			<div class="buy box">
+    				<div class="reorder title">
+    					<span class="count">{{ product.presale_count|default 0 }}</span>
+    					预定人数
+    				</div>
+    				<div class="reorder title">
+    					<span class="count"><span class="unit">￥</span>{{ product.presale_money|default 0 }}</span>
+    					完成金额
+    				</div>
+    				<div class="reorder title">
+    					<span class="count" id="clock"></span>
+    					剩余时间
+    				</div>
+    				<div class="reorder result">
+    					<span class="count">{{ product.presale_percent }}%</span>
+    					达成率
+    				</div>
+    			</div>
+            </div>
             
+            <div class="sellwrap">
+                <div class="user action">
+                    <p>关注&分享产品</p>
+        			<div class="ui red pop love inverted button" data-id="{{ product._id }}" data-title="点赞支持" data-content="后续可以在‘我赞了的’中快捷查找" data-mark="n">
+        				<i class="heart empty icon"></i> 赞
+        			</div>
+        			<div class="ui magenta pop favorite inverted button" data-title="关注一下" data-content="有关该产品动态及时通知你，后续可以在‘我关注的’中快捷查找" data-id="{{ product._id }}" data-mark="n">
+        				<i class="plus icon"></i> 关注
+        			</div>
+    				<div class="ui magenta pop share icon inverted button" data-content="分享给好友">
+    					<i class="share alternate icon"></i>
+    				</div>
+                </div>
+                <div class="user avatars">
+              	  	<div class="ui images" id="product_{{ product._id }}_support">
+                        {% if product.love_count %}
+                            {% favorite_list var:'userlist' target_id:product._id event:2 %}
+                            {% for target in userlist.rows %}
+                            <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
+                  	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />
+                            </a>
+                            {% endfor %}
+                        {% endif %}
+              	  	</div>
+                    <p>
+                        已有 <span id="product-love-count">{{ product.love_count }}</span> 个人点赞, <span id="product-favorite-count">{{ product.favorite_count }}</span> 人关注
+                    </p>                    
+                </div>
+            </div>
         </div>
         
     	{% sku_list var:'presales' product_id:product._id stage:5 %}
@@ -447,9 +593,10 @@
         <!--品牌相关-->
         <div class="sellwrap">
 			<div class="block title">
-				品牌
+                {% if item_stage == 'idea' %}分享者{%else%}品牌{%endif%}
             </div>
             <div class="brand products">
+                {% if product.designer %}
                 <div class="author">
     				<a href="{{ product.designer.home_url }}" class="ui large avatar image" >
     					<img src="{{ product.designer.big_avatar_url }}" alt="{{ product.designer.nickname }}" />
@@ -457,29 +604,54 @@
                     <h4>
                         {{ product.designer.nickname }}
                     </h4>
+                    {% if product.designer.city %}
+                    <p class="info">{{ product.designer.city }} {{ product.designer.profile.job }}</p>
+                    {% endif %}
                     <p class="desc">
                         {{ product.designer.summary }}
                     </p>
                 </div>
+                {% else %}
+                <div class="author">
+    				<a href="{{ product.user.home_url }}" class="ui large avatar image" >
+    					<img src="{{ product.user.big_avatar_url }}" alt="{{ product.user.nickname }}" />
+    				</a>
+                    <h4>
+                        {{ product.user.nickname }}
+                    </h4>
+                    {% if product.user.city %}
+                    <p class="info">{{ product.user.city }} {{ product.user.profile.job }}</p>
+                    {% endif %}
+                    <p class="desc">
+                        {{ product.user.summary }}
+                    </p>
+                </div>
+                {% endif %}
                 
                 {% product_list var:'plist' page:1  only_onsale:1 size:4 user_id:product.user_id  %}
-                <div class="ui small images">
+                <div class="ui two miniproducts blocks">
                     {% for product in plist.rows %}
-                     <a href="{{ product.view_url }}" title="{{ product.title }}" target="_blank" class="image">
-                         <img src="{{ product.cover.thumbnails.medium.view_url }}" />
-                     </a>
+                    <div class="block">
+            			<div class="image" {% if product.cover %}style="background-image: url('{{ product.cover.thumbnails.hm.view_url }}');"{% endif %}>
+                            <a class="transparent" href="{{ product.view_url }}" target="_blank"></a>
+            			</div>
+                     </div>    
                      {% endfor %}
                 </div>
+                {% if product.designer %}
     			<div class="more">
-    				<a href="" class="ui link" target="_blank">查看更多产品</a>
+    				<a href="{{ app_url_user }}/{{ product.designer._id }}/submitted" class="ui link" target="_blank">
+                        <i class="search icon"></i> 查看更多产品
+                    </a>
                 </div>
+                {% endif %}
             </div>
 			
         </div>
         
+		{% ad_list var:'adslide2' page:1 size:2 state:2 name:'product_rightbar_stick' %}
+        {% if adslide2.rows %}
         <div class="adstickwrap">
-    		{% ad_list var:'adslide2' page:1 size:4 state:2 name:'web_index_product_stick_slide' %}
-            {% if adslide2.rows %}
             <div class="ui one adverts cards">
                 {% for ad in adslide2.rows %}
                 <div class="card">
@@ -498,11 +670,45 @@
                 </div>
                 {%endfor%}
             </div>
-            {%endif%}
         </div>
+        {%endif%}
         
+        {% if visitor.can_edit %}
+        <div class="sellwrap">
+            管理：
+            <div class="ui icon green editable inverted buttons">
+                {% if product.featured %}
+				<div class="ui pop fine active button" data-content="取消精选"  data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
+					<i class="star icon"></i>
+				</div>
+				{% else %}
+				<div class="ui pop fine button" data-content="标记精选" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
+					<i class="star empty icon"></i>
+				</div>
+				{% endif %}
+				{% if product.stick %}
+				<div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
+					<i class="flag icon"></i>
+				</div>
+				{% else %}
+				<div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
+					<i class="flag outline icon"></i>
+				</div>
+				{% endif %}
+        		{% if editable %}
+                    {% if product.stage == 15 %}
+                      <div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ product._id }}">
+                          <i class="edit icon"></i>
+                      </div>
+                      <div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ product._id }}">
+                          <i class="remove icon"></i>
+                      </div>
+                    {%endif%}
+        		{% endif %}
+    		</div>
+        </div>
+        {%endif%}
     </div>
-    
 </div>
 {% include "block/sharebox.html" %}
 {% include "block/qrcode.html" %}

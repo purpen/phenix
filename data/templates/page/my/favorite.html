@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}我感兴趣的-{% endblock %}
+{% block title %}我关注的-{% endblock %}
 
 {% block page_css %}
 <style type="text/css">
@@ -8,41 +8,27 @@
 {% endblock %}
 
 {% block jquery %}
-
-	// 收藏
-	$('.ui.button.favorite').on('click', function(){
-		var id = $(this).data('id'),mark = $(this).data('mark'),type = $(this).data('type'),$btn = $(this);
-		// 所有ajax请求，验证是否登录
-		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
-			return false;
-		}
-		if (mark == 'n') {
-			$.post('{{ app_url_favorite }}/ajax_favorite', {id: id, type:type}, function(result){
-				if (result.success) {
-					$btn
-						.data('content', '取消')
-						.data('mark', 'y')
-						.addClass('active')
-						.text('取消收藏');
-				} else {
-					phenix.show_error_note(result.message);
-				}
-			}, 'json');
-		} else {
-			$.post('{{ app_url_favorite }}/ajax_cancel_favorite', {id: id, type:type}, function(result){
-				if (result.success) {
-					$btn
-						.data('content', '收藏')
-						.data('mark', 'n')
-						.removeClass('active')
-						.text('收藏');
-				} else {
-					phenix.show_error_note(result.message);
-				}
-			}, 'json');
-		}
-	});
+    
+    // 取消关注
+    $('.ui.favorite.link').on('click', function(){
+    	var id = $(this).data('id'),type = $(this).data('type');
+    	// 所有ajax请求，验证是否登录
+    	if (!phenix.visitor.is_login){
+    		phenix.show_login_box();
+    		return false;
+    	}
+		$.post('{{ app_url_favorite }}/ajax_cancel_favorite', {id: id, type:type}, function(result){
+			if (result.success) {
+                if (type == 1){
+                    $('#product-'+id).remove();
+                }else{
+                    $('#topic-'+id).remove();
+                }
+			} else {
+				phenix.show_error_note(result.message);
+			}
+		}, 'json');
+    });
 	
 {% endblock %}
 
@@ -60,7 +46,7 @@
 						个人中心
 					</a>
 					<i class="angle right icon divider"></i>
-					<div class="active section">我感兴趣的</div>
+					<div class="active section">我关注的</div>
 				</div>
 			</div>
 		</div>
@@ -73,32 +59,36 @@
 			{% include "block/user/sub_menu_center.html" %}
 		</div>
 		<div class="twelve wide column">
-			<h2 class="ui header">我感兴趣的</h2>
+			<h2 class="ui header">我关注的</h2>
 			{% include "block/center/head_interest_nav.html" %}
             <div class="ui center-list">
-                {% favorite_list var:'list' page:page user_id:user_id event:1 size:15 %}
-    			<div class="ui products three cards">
-    				{% for d in list.rows %}
-                        <!--产品-->
-                        {% if d.type==1 %}
-                            {% if d.product %}
-                                {% include 'block/center/f-product-item.html' %}
-                            {%endif%}
-                        {%endif%}
-                        <!--话题-->
-                        {% if d.type==2 %}
-                            {% if d.topic %}
-                                {% include 'block/center/f-topic-item.html' %}
-                            {%endif%}
-                        {%endif%}
-                        <!--灵感-->
-                        {% if d.type==4 %}
-                            {% if d.stuff %}
-                                {% include 'block/center/f-stuff-item.html' %}
-                            {%endif%}
-                        {%endif%}
-                    {%endfor%}
+                {% favorite_list var:'list' page:page user_id:user_id event:1 type:type size:15 %}
+                
+                <!--我关注的产品-->
+                {% if type == 1 %}
+                <div class="ui three products cards">
+        			{% for item in list.rows %}
+                        {% if item.product %}
+                            {% include "block/center/f-product-item.html" %}
+                        {% endif %}
+        			{% endfor %}
                 </div>
+                {% endif %}
+                
+                <!--我关注的话题-->
+                {% if type == 2 %}
+                <div class="ui topics segment">
+        			<table class="ui basic topic table">
+                        <tbody>
+                			{% for item in list.rows %}
+                                {% if item.topic %}
+                                    {% include 'block/center/f-topic-item.html' %}
+                                {% endif %}
+                			{% endfor %}
+        				</tbody>
+        			</table>
+                </div>
+                {% endif %}
             
                 {% if list.rows %}
     			<div class="ui pagebox">

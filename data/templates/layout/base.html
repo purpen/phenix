@@ -32,7 +32,7 @@
         
 		<style type="text/css">
 			body {
-			    background: #f5f5f5;
+			    background-color: #f5f5f5;
 			    color: #5d6266;
 			    min-width: 320px;
 				margin: 0;
@@ -126,7 +126,6 @@
         <!-- mustache templates end -->
 
 
-        <script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.plugins.min.js"></script>
 		<script type="text/javascript" src="{{ app_url_qiniu_frstatic }}/javascript/semantic.2.0.min.js"></script>
 		
 		<!--[if lt IE 9]>
@@ -146,8 +145,10 @@
 		{% block layout_js %}{% endblock %}
 		{% block page_js %}
 			{% if js_use_bundle %}
+        <script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.plugins.min.{{ js_jquery_bundle_version }}.js"></script>
 				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.{{ js_jquery_bundle_version }}.js"></script>
 			{% else %}
+        <script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.plugins.min.js"></script>
 				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.js"></script>
 			{% endif %}
 		{% endblock %}

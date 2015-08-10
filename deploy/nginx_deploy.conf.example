@@ -330,7 +330,7 @@ server {
           	rewrite ^/topic/c(\d+)/t(\d+)[/]?$ /app/site/topic?category_id=$1&type=$2 last;
           	rewrite ^/topic/c(\d+)/p(\d+)[/]?$ /app/site/topic?category_id=$1&page=$2 last;
           	rewrite ^/topic/c(\d+)/t(\d+)/p(\d+).*$ /app/site/topic?category_id=$1&type=$2&page=$3 last;
-          	rewrite ^/topic/list-c(\d+)-t(\d+)-d(\d+)-t(\d)-p(\d+).*$ /app/site/topic?category_id=$1&type=$2&time=$3&sort=$4&page=$5 last;
+          	rewrite ^/topic/list-c(\d+)-t(\d+)-d(\d+)-t(\d)-p(\d+).*$ /app/site/topic/get_list?category_id=$1&type=$2&time=$3&sort=$4&page=$5 last;
           	rewrite ^/topic/view-(\d+).html$ /app/site/topic/view?id=$1 last;
           	rewrite ^/topic/view-(\d+)-(\d+).html$ /app/site/topic/view?id=$1&page=$2 last;
           	rewrite ^/topic(.*)$ /app/site/topic$1 last;

@@ -38,7 +38,7 @@
 	  line-height: 28px;
 	}
     
-	.ui.horizontal.list>.item{
+	.ui.horizontal.timer.list>.item{
 		margin-left: 1em !important;
 		margin: 10px 0;
 	}
@@ -81,17 +81,36 @@
 
 {% block layout_js %}
 <script type="text/javascript">
-    var per_page = 10;
-    function fetch_comment(current_page, per_page){
+    var per_page = 10, sort = 0;
+    function fetch_comment(current_page, per_page, sort){
         var url = '{{ app_url_comment }}/ajax_fetch_comment_site';
-        $.get(url, {target_id: {{ try._id }}, type: 3, page: current_page, per_page: per_page});
+    
+        // 添加loading 
+        $('.spinner.icon').ajaxStart(function(){
+            $(this).addClass('roundo');
+        }).ajaxStop(function(){
+            $(this).removeClass('roundo');
+        });
+    
+        $.get(url, {target_id: {{ try._id }}, type: 3, page: current_page, per_page: per_page, sort: sort});
     }
 </script>
 {% endblock %}
 
 {% block jquery %}
     //ajax加载评论
-    fetch_comment(1, per_page);
+    fetch_comment(1, per_page, sort);
+    
+    // 评论排序
+    $('.fitsort .ui.list .item').bind('click', function(){
+        sort = parseInt($(this).data('sort'));
+        $(this)
+            .siblings().removeClass('active')
+            .end()
+            .addClass('active');
+        // 获取请求
+        fetch_comment(1, per_page, sort);
+    });
 	
 	$('.ui.applytry.button').click(function(){
 		// 所有ajax请求，验证是否登录
@@ -234,10 +253,6 @@
 			$this.html(event.strftime('<div class="item"><div class="count">%D<span>&nbsp;天</span></div></div><div class="item"><div class="count">%H<span>&nbsp;时</span></div></div> <div class="item"><div class="count">%M<span>&nbsp;分</span></div></div><div class="magenta item"><div class="count">%S<span>&nbsp;秒</span></div></div>'));
 		});
 	});
-	
-    $('textarea.comment-textarea').maxlength({
-        'feedback' : '.wordscount'
-    });
 	
 {% endblock %}
 
@@ -391,10 +406,27 @@
                     	<div class="block title">
                     		讨论 <small>（{{ try.comment_count||default 0 }}）</small>
                         </div>
-                                <div id="comment-list">
-                                
-                                </div>
-                                {% include "block/comment_box_site.html" %}
+                        <div class="fitsort">
+                            <div class="ui horizontal bulleted list">
+                                <a class="active item" href="javascript:void(0);" data-sort="0">默认</a>
+                                <a class="item" href="javascript:void(0);" data-sort="1">最新</a>
+                            </div>
+                        </div>
+                        <div id="comment-list">
+                            {% comment_list var:'comments' page:1 target_id:try._id type:3 check_loved:1 only_hotest:1 current_user_id:visitor.id %}
+                            {% if comments.rows %}
+                            <div class="ui threaded hotest comments">
+                                <a class="ui red ribbon label">热门评论</a>
+                        		{% for comment in comments.rows %}
+                        			{%include 'block/comment_item.html'%}
+                        		{% endfor %}
+                                <hr>
+                            </div>
+                            {% endif %}
+                            <div class="ui threaded comments is-comment"></div>
+                            <div class="morepages" id="load-more-btn"></div>
+                        </div>
+                        {% include "block/comment_box_site.html" %}
 
                     </div>
 				</div>

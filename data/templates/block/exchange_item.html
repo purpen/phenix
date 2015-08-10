@@ -3,13 +3,22 @@
         <a title="{{ d.title }}" alt="{{ d.title }}" href="{{ d.view_url }}" style="background-image: url({{ d.cover.thumbnails.hm.view_url }});" class="thumb"></a>
         <div class="ribbons">
             {% if d.newest %}
-            <span class="ribbon newest">NEW</span>
+            <a class="ribbon newest" href="{{ app_url_shop }}/collections/newest" target="_blank">NEW</a>
             {% endif %}
             {% if d.hot %}
-            <span class="ribbon hot">HOT</span>
+            <a class="ribbon hot" href="{{ app_url_shop }}/collections/hot" target="_blank">HOT</a>
+            {% endif %}
+            {% if d.featured %}
+            <a class="ribbon featured" href="{{ app_url_shop }}/collections/featured" target="_blank">精选</a>
             {% endif %}
             {% if d.stick %}
-            <span class="ribbon stick">推荐</span>
+            <a class="ribbon stick" href="{{ app_url_shop }}/collections/stick" target="_blank">推荐</a>
+            {% endif %}
+            {% if d.snatched %}
+            <a class="ribbon snatched" href="{{ app_url_shop }}/collections/snatched" target="_blank">限时抢购</a>
+            {% endif %}
+            {% if d.stage == 12 %}
+            <a class="ribbon exchange" href="{{ app_url_shop }}/pmall" target="_blank">积分兑换</a>
             {% endif %}
         </div>
         <h2>

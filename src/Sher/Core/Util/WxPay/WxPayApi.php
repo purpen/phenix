@@ -47,7 +47,6 @@ class Sher_Core_Util_WxPay_WxPayApi
 		
 		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.appid']);//公众账号ID
 		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.mchid']);//商户号
-		$inputObj->SetSpbill_create_ip($_SERVER['REMOTE_ADDR']);//终端ip
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
 		
 		//签名
@@ -152,8 +151,8 @@ class Sher_Core_Util_WxPay_WxPayApi
 		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.appid']);//公众账号ID
 		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.mchid']);//商户号
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
-		
 		$inputObj->SetSign();//签名
+		
 		$xml = $inputObj->ToXml();
 		$startTimeStamp = self::getMillisecond();//请求开始时间
 		$response = self::postXmlCurl($xml, $url, true, $timeOut);
@@ -252,7 +251,6 @@ class Sher_Core_Util_WxPay_WxPayApi
 			throw new Sher_Core_Util_WxPay_WxPayException("提交被扫支付API接口中，缺少必填参数auth_code！");
 		}
 		
-		$inputObj->SetSpbill_create_ip($_SERVER['REMOTE_ADDR']);//终端ip
 		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.appid']);//公众账号ID
 		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.mchid']);//商户号
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
@@ -539,7 +537,6 @@ class Sher_Core_Util_WxPay_WxPayApi
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 	
 		if($useCert == true){
-			//设置证书
 			//使用证书：cert 与 key 分别属于两个.pem文件
 			curl_setopt($ch,CURLOPT_SSLCERTTYPE,'PEM');
 			curl_setopt($ch,CURLOPT_SSLCERT, Doggy_Config::$vars['app.wechat.sslcert_path']);

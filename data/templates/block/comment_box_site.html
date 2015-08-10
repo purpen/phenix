@@ -305,7 +305,9 @@
   $('.reply-btn').livequery(function(){
     $(this).click(function(){
       // 定位到评论框
-      $('html,body').animate({scrollTop:$('#comment-box').offset().top - 100},500);
+      $('html,body').animate({
+          scrollTop: $('#comment-box').offset().top - 100
+      }, 500);
       // 提示回复信息
       var comment_title_obj = $('#comment-box').find('.comment-title');
       var comment_user_id = comment_title_obj.find('a').attr('comment_user_id');
@@ -321,12 +323,12 @@
       $(':input[name=reply_user_id]').val(comment_user_id);
       $(':input[name=is_reply]').val(1);
       
-      var html='';
-      html += '<div>';
-      html += '<span>回复 #</span>'+ floor +' ';
-      html += '@<a href="'+ user_home_url +'" class="ui magenta link" target="_blank">'+ comment_user_name +'</a> ';
+      var html ='';
+      html += '<div class="replytips">';
+      html += '<i class="quote left icon"></i> <span>回复 </span>#'+ floor +' ';
+      html += '<a href="'+ user_home_url +'" class="ui magenta link" target="_blank">@'+ comment_user_name +'</a> ';
       html += '<span class=""></span> ';
-      html += '<a href="javascript:void(0);" class="ui link cancel-reply-btn" recover_comment_user_href="'+ recover_comment_user_href +'" recover_comment_user_name="'+ recover_comment_user_name +'" style="text-align:right">取消</span>';
+      html += '<a href="javascript:void(0);" class="ui link cancel-reply-btn" recover_comment_user_href="'+ recover_comment_user_href +'" recover_comment_user_name="'+ recover_comment_user_name +'" style="text-align:right"><small>取消</small></span>';
       html += '</div>';
       comment_title_obj.html(html);
       

@@ -242,10 +242,10 @@ h4.ui.header .map-advantage {
   }
 
   //评论分页
-  var per_page = 10;
+  var per_page = 10, sort = 0;
   function fetch_comment(current_page, per_page){
     var url = '{{ app_url_comment }}/ajax_fetch_comment_site';
-    $.get(url, {target_id: '{{ active.topic_ids.0 }}', type: 2, page: current_page, per_page: per_page});
+    $.get(url, {target_id: '{{ active.topic_ids.0 }}', type: 2, page: current_page, sort: sort, per_page: per_page});
   }
 
   </script>
@@ -255,8 +255,9 @@ h4.ui.header .map-advantage {
 {% endblock %}
 {% block jquery %}
   //ajax加载评论
-  fetch_comment(1, per_page);
-	phenix.hook_comment_page();
+  fetch_comment(1, per_page, sort);
+  
+  phenix.hook_comment_page();
 
   //分享
   phenix.bind_share_list('{{ active.cover.thumbnails.resp.view_url }}');
@@ -352,10 +353,6 @@ h4.ui.header .map-advantage {
 		mobileCheck:function(){},
 		mobileDeceleration:0.004,
 	});
-	
-	$('textarea.comment-textarea').maxlength({
-      'feedback' : '.wordscount'
-  });
 
   //ajax获取报名列表头像
   fetch_signup_avatar();
@@ -520,7 +517,10 @@ h4.ui.header .map-advantage {
                     </div>
                     {% if active.topic_ids %}
                         <!--ajax comment-->
-                        <div class="ui big reply segment" id="comment-list"></div>
+                        <div class="ui big reply segment" id="comment-list">
+                            <div class="ui threaded comments is-comment"></div>
+                            <div class="morepages" id="load-more-btn"></div>
+                        </div>
                         {% include "block/comment_box_site.html" %}
                     {% endif %}
                 </div>

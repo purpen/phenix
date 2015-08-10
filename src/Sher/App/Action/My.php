@@ -737,9 +737,14 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    * 我的话题
    */
   public function topic(){
-   	$this->set_target_css_state('user_topic');
-		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/topic?page=#p#';
-    return $this->to_html_page('page/my/topic.html'); 
+      $this->set_target_css_state('user_topic');
+    
+      $this->stash['type'] = isset($this->stash['type'])?$this->stash['type']:'submited';
+      $this->set_target_css_state('user_topic_'.$this->stash['type']);
+    
+      $this->stash['pager_url'] = sprintf(Doggy_Config::$vars['app.url.my'].'/topic?type=%s&page=#p#', $this->stash['type']);
+      
+      return $this->to_html_page('page/my/topic.html'); 
   }
 
   /**
@@ -752,12 +757,17 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
   }
 
   /**
-   * 我的商品
+   * 我的产品
    */
   public function product(){
-    $this->set_target_css_state('user_product');
-		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/product?page=#p#';
-    return $this->to_html_page('page/my/product.html');  
+      $this->set_target_css_state('user_product');
+      
+      $this->stash['type'] = isset($this->stash['type'])?$this->stash['type']:'submited';
+      $this->set_target_css_state('user_product_'.$this->stash['type']);
+      $this->stash['box_type'] = $this->stash['type'];
+      
+      $this->stash['pager_url'] = sprintf(Doggy_Config::$vars['app.url.my'].'/product?type=%s&page=#p#', $this->stash['type']);
+      return $this->to_html_page('page/my/product.html');  
   }
 
   /**
@@ -784,27 +794,44 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     return $this->to_html_page('page/my/fan.html');
   }
 
-  /**
-   * 我的收藏
-   */
-  public function favorite(){
-  	$this->set_target_css_state('user_interest');
-  	$this->set_target_css_state('user_favorite');
-    $this->stash['box_type'] = 'fav';
-		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/favorite?page=#p#';
-    return $this->to_html_page('page/my/favorite.html');
-  }
+    /**
+     * 我的收藏
+     */
+    public function favorite(){
+        $this->set_target_css_state('user_interest');
+        $this->set_target_css_state('user_favorite');
+        $this->stash['box_type'] = 'fav';
+        $this->stash['type'] = isset($this->stash['type']) ? $this->stash['type'] : 1;
+        if($this->stash['type'] == 1){
+            $this->set_target_css_state('favorite_product');
+        }else{
+            $this->set_target_css_state('favorite_topic');
+        }
+        
+		$this->stash['pager_url'] = sprintf(Doggy_Config::$vars['app.url.my'].'/favorite?type=%d&page=#p#', $this->stash['type']);
+        
+        return $this->to_html_page('page/my/favorite.html');
+    }
 
-  /**
-   * 我的喜欢
-   */
-  public function love(){
-  	$this->set_target_css_state('user_interest');
-  	$this->set_target_css_state('user_love');
-    $this->stash['box_type'] = 'love';
-		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/love?page=#p#';
-    return $this->to_html_page('page/my/love.html');
-  }
+    /**
+     * 我的喜欢
+     */
+    public function love(){
+        $this->set_target_css_state('user_interest');
+        $this->set_target_css_state('user_love');
+        $this->stash['box_type'] = 'love';
+        $this->stash['type'] = isset($this->stash['type']) ? $this->stash['type'] : 1;
+        
+        if($this->stash['type'] == 1){
+            $this->set_target_css_state('love_product');
+        }else{
+            $this->set_target_css_state('love_topic');
+        }
+        
+		$this->stash['pager_url'] = sprintf(Doggy_Config::$vars['app.url.my'].'/love?type=%d&page=#p#', $this->stash['type']);
+        
+        return $this->to_html_page('page/my/love.html');
+    }
 
   /**
    * 我的私信

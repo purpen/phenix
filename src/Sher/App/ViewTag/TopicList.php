@@ -107,7 +107,7 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 		}
 		
 		// 排序
-		switch ($sort) {
+		switch ((int)$sort) {
 			case 0:
 				$options['sort_field'] = 'latest';
 				break;
@@ -128,6 +128,9 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 				break;
       case 6:
         $options['sort_field'] = 'stick:latest';
+        break;
+      case 7:
+        $options['sort_field'] = 'last_reply';
         break;
 		}
 		
