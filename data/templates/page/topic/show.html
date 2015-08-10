@@ -659,7 +659,7 @@
     						<a href="{{ topic.user.home_url }}" class="ui line" target="_blank">{{ topic.user.nickname }}</a>
         					{% if topic.user._id != visitor.id %}
             					{% if !is_ship %}
-            					    <a href="{{ app_url_user }}/ajax_follow?id=3" class="ui mini ajax inverted grey button" id="user_{{ topic.user._id }}_ship">
+                      <a href="{{ app_url_user }}/ajax_follow?id={{ topic.user._id }}" class="ui mini ajax inverted grey button" id="user_{{ topic.user._id }}_ship">
                                         <i class="plus icon"></i> 关注
                                     </a>
             					{% else %}
