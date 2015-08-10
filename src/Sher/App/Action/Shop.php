@@ -695,6 +695,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		
 		$data['title'] = $this->stash['title'];
 		$data['content'] = $this->stash['content'];
+		$data['advantage'] = isset($this->stash['advantage'])?$this->stash['advantage']:null;
 		$data['tags'] = $this->stash['tags'];
 		$data['category_id'] = (int)$this->stash['category_id'];
 		$data['cooperate_id'] = isset($this->stash['cooperate_id'])?(int)$this->stash['cooperate_id']:0;
