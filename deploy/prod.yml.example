@@ -63,6 +63,9 @@ app.stuff.okcase_category_id: 100
 # 蛋年活动
 app.birdegg.category_id: 80
 
+# 大赛作品分类--反向定制
+app.stuff.contest_category_id: 83
+
 # 就现在商品
 app.comeon.product_id: 1112616234
 

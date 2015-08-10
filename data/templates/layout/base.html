@@ -184,6 +184,13 @@
                     limit_notice_times += 1;
                 }, 1000*60*1);
             }
+
+            // 头部搜索点击事件
+            $('#search-button').click(function(){
+                var q = $('#searchbar [name=q]').val();
+                var s_url = "{{ app_url_domain }}/search?q="+q;
+                phenix.redirect(s_url);
+            });
 			
     		{% block layout_jquery %}{% endblock %}
     		{% block jquery %}{% endblock %}
