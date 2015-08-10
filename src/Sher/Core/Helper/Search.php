@@ -62,6 +62,9 @@ class Sher_Core_Helper_Search {
 			case Sher_Core_Model_Product::STAGE_EXCHANGE:
 				$view_url = Sher_Core_Helper_Url::shop_view_url($id);
 				break;
+			case Sher_Core_Model_Product::STAGE_IDEA:
+				$view_url = Sher_Core_Helper_Url::shop_view_url($id);
+				break;
 			default:
 				$view_url = Doggy_Config::$vars['app.url.fever'];
 		}

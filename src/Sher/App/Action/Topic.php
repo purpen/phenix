@@ -16,9 +16,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		'page' => 1,
 		'cid'  => 0,
 		'ref'  => null,
-		'page_title_suffix' => '太火鸟话题-智能硬件孵化社区',
+		'page_title_suffix' => '太火鸟智能硬件社区',
 		'page_keywords_suffix' => '智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广',
-		'page_description_suffix' => '太火鸟话题是国内最大的智能硬件社区，包括智创学堂，孵化需求，活动动态，品牌专区，产品评测等几大社区板块以及上千个智能硬件话题，太火鸟话题-创意与创意的碰撞。',
+		'page_description_suffix' => '太火鸟智能硬件社区为广大智能硬件爱好者提供智能硬件讨论、智能硬件创意提交、智能硬件活动体验，社区包括智创学堂，孵化需求，活动动态，品牌专区，产品评测等几大社区板块以及10000+智能硬件话题。',
 	);
 	
 	protected $page_tab = 'page_topic';
@@ -405,6 +405,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			if ($this->visitor->id == $topic['user_id'] || $this->visitor->can_edit){
 				$editable = true;
 			}
+
+      // 验证用户关注关系
+      $this->validate_ship($this->visitor->id, $topic['user_id']);
 		}
 		
 		// 是否出现后一页按钮
@@ -1135,6 +1138,16 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		return $this->to_taconite_page('ajax/delete_asset.html');
 	}
+
+  /**
+   * 验证关系
+   */
+  protected function validate_ship($current_user_id, $auther_id){
+    // 验证关注关系
+    $ship = new Sher_Core_Model_Follow();
+    $is_ship = $ship->has_exist_ship($current_user_id, $auther_id);
+    $this->stash['is_ship'] = $is_ship;
+  }
     
     /**
      * 评论参数
