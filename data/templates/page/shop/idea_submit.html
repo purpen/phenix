@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}{{ label_title }}灵感提交-{% endblock %}
+{% block title %}{{ label_title }}提交产品-{% endblock %}
 {% block page_css %}
 <style type="text/css">
   .ui.fluid.dropdown .down.icon {
@@ -265,9 +265,9 @@
                                 <div class="description">产品全名称：应包括品牌名称+设计+技术等突破点</div>
     						</div>
                             <div class="field">
-                                <label for="short_title">短名称</label>
+                                <label for="short_title">简短名称</label>
                                 <input type="text" name="short_title" value="{{ product.short_title }}" />
-                                <div class="description">精简名称字符，便于显示</div>
+                                <div class="description">精简名称字符，便于移动端显示</div>
                             </div>
                         </div>
                         <div class="field">

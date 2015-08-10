@@ -261,7 +261,6 @@
 			phenix.show_login_box();
 			return false;
 		}
-		var count = parseInt($('#product-love-count').text());
 		if (mark == 'n') {
 			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:1}, function(result){
 				if (result.success) {
@@ -269,9 +268,8 @@
 						.data('mark', 'y')
 						.addClass('active')
                         .html('<i class="heart icon"></i> 赞了');
-                        
-					count += 1;
-					$('#target-love-count').text(count);
+                    
+					$('#target-love-count').text(result.data.love_count);
                     
                     if(result.data.newadd){
                         $('#product_'+ id +'_support')
@@ -289,10 +287,8 @@
 						.data('mark', 'n')
 						.removeClass('active')
                         .html('<i class="heart empty icon"></i> 赞');
-                        
-					count -= 1;
                     
-					$('#target-love-count').text(count);
+					$('#target-love-count').text(result.data.love_count);
                     
                     $('#user-'+ result.data.user_id).remove();
                     
