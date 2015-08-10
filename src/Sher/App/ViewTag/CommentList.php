@@ -59,7 +59,7 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
         if($only_hotest){
             // 排序按降序
             $sort = 2;
-            $query['love_count'] = array('$gte' => 1);
+            $query['love_count'] = array('$gte' => 10);
         }
         
         if($sku_id){

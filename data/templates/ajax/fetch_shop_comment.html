@@ -1,81 +1,74 @@
 <taconite>
-	<replaceContent select="#comment-list"><![CDATA[
-    <div class="ui threaded is-comment comments">
-      {% comment_list var:'comments' page:page target_id:target_id type:4 check_loved:1 current_user_id:current_user_id size:per_page sort:1 %}
-      {% for comment in comments.rows %}
-      <div class="comment" id="{{ comment._id }}">
-        <a class="avatar" href="{{ comment.user.home_url }}">
-          <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
-        </a>
-        <div class="content">
-          <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
-          <div class="metadata">
-            <div class="date">{{ comment.created_on }}</div>
-            {% include "block/star.html" %}
-          </div>
-          <div class="laud">
-
-            {% if comment.is_loved %}
-            <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消" data-variation="inverted" >
-            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
-              <i class="icon heart"></i>
+    {% comment_list var:'comments' page:page target_id:target_id type:4 check_loved:1 current_user_id:current_user_id size:per_page sort:1 %}
+    {% for comment in comments.rows %}
+    <append select=".ui.threaded.comments"><![CDATA[
+        <div class="comment" id="{{ comment._id }}">
+            <a class="avatar" href="{{ comment.user.home_url }}">
+                <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
             </a>
-            {%else%}
-              <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="有用" data-variation="inverted" >
-            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
-              <i class="icon empty heart"></i>
-            </a>          
-            {%endif%}
-
-          </div>
-          
-          <div class="text">
-            {{ comment.content }}
-          </div>
-          {% if visitor.is_login %}
-          <div class="actions">
-            {% if visitor.can_admin %}
-              <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
-            {%endif%}
-          </div>
-
-          {% endif %}
-        </div>
-    
-        {% if comment.reply %}
-        <div class="comments">
-          {% for reply in comment.reply %}
-            <div class="comment">
-              <a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
-                <img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
-              </a>
-              <div class="content">
-                <a class="author">{{ reply.user.nickname }}</a>
+            <div class="content">
+                <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
                 <div class="metadata">
-                  <div class="date">{{ reply.replied_on }}</div>
+                    <span class="date">{{ comment.created_on }}</span>
+                    {% include "block/star.html" %}
                 </div>
+                
+                <div class="laud">
+                    {% if comment.is_loved %}
+                        <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消" data-variation="inverted" >
+                            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+                            <i class="icon heart"></i>
+                        </a>
+                    {%else%}
+                        <a class="ui link icon pop ajax" href="{{ app_url_comment }}/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="有用" data-variation="inverted" >
+                            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+                            <i class="icon empty heart"></i>
+                        </a>          
+                    {%endif%}
+                </div>
+      
                 <div class="text">
-                  {{ reply.content }}
+                    {{ comment.content }}
                 </div>
-              </div>
+                
+                {% if visitor.can_admin %}
+                <div class="actions">
+                    <a class="delete confirm-request" href="{{ app_url_comment }}/delete?id={{ comment._id }}">删除</a>
+                </div>
+                {% endif %}
             </div>
-          {% endfor %}
+
+            {% if comment.reply %}
+            <div class="comments">
+                {% for reply in comment.reply %}
+                    <div class="comment">
+                        <a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
+                            <img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
+                        </a>
+                        <div class="content">
+                            <a class="author">{{ reply.user.nickname }}</a>
+                            <div class="metadata">
+                                <div class="date">{{ reply.replied_on }}</div>
+                            </div>
+                            <div class="text">
+                                {{ reply.content }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
-        {% endif %}
+    ]]></append>    
+    {% endfor %}
+        
+    {% if comments.rows %}
+    <append select="#comment-list"><![CDATA[
+        <div class="ui pagination">
+            {% pager url:pager_url,total_rows:comments.total_rows,total_page:comments.total_page,current_page:page,var:'pager',pager_size:2 %}
+            {%include 'block/ajax_pager.html'%}
+        </div>
+    ]]></append>
+    {% endif %}
     
-      </div>
-      {% endfor %}
-    </div>
-
-      {% if comments.rows %}
-      <div class="ui pagination">
-        {% pager url:pager_url,total_rows:comments.total_rows,total_page:comments.total_page,current_page:page,var:'pager',pager_size:2 %}
-        {%include 'block/ajax_pager.html'%}
-      </div>
-      {% endif %}
-	]]></replaceContent>
-
-  <eval>
-  </eval>
-
 </taconite>

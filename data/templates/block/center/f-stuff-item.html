@@ -32,11 +32,10 @@
 	    {{ d.stuff.title|truncate, 32, '' }}
         </a>
     </h2>
-    {% if !d.stuff.stage==15 %}
-    <div class="cats">
-        <i class="yen icon"></i>{{ d.stuff.sale_price }}
+    
+    <div class="excerpt">
+            <p></p>
     </div>
-    {%endif%}
     <span class="counter">
         <i class="heart icon"></i> {{ d.stuff.love_count }}
     </span>

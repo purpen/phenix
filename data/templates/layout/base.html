@@ -32,7 +32,7 @@
         
 		<style type="text/css">
 			body {
-			    background: #f5f5f5;
+			    background-color: #f5f5f5;
 			    color: #5d6266;
 			    min-width: 320px;
 				margin: 0;
@@ -184,6 +184,13 @@
                     limit_notice_times += 1;
                 }, 1000*60*1);
             }
+
+            // 头部搜索点击事件
+            $('#search-button').click(function(){
+                var q = $('#searchbar [name=q]').val();
+                var s_url = "{{ app_url_domain }}/search?q="+q;
+                phenix.redirect(s_url);
+            });
 			
     		{% block layout_jquery %}{% endblock %}
     		{% block jquery %}{% endblock %}

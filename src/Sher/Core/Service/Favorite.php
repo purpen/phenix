@@ -31,4 +31,3 @@ class Sher_Core_Service_Favorite extends Sher_Core_Service_Base {
     }
 	
 }
-?>

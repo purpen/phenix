@@ -195,6 +195,33 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		return $this->to_html_page('page/stuff/submit.html');
 	}
+
+	/**
+	 * 大赛提交入口
+	 */
+	public function contest_submit(){
+		$top_category_id = Doggy_Config::$vars['app.stuff.contest_category_id'];
+
+		// 获取父级分类
+		$category = new Sher_Core_Model_Category();
+		$parent_category = $category->extend_load((int)$top_category_id);
+		$parent_category['view_url'] = Doggy_Config::$vars['app.url.stuff'];
+		$this->stash['parent_category'] = $parent_category;
+		
+		$this->stash['cid'] = $top_category_id;
+		$this->stash['mode'] = 'create';
+		// 图片上传参数
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_STUFF;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF;
+		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+		$new_file_id = new MongoId();
+		$this->stash['new_file_id'] = (string)$new_file_id;
+		
+		$this->_editor_params();
+		
+		return $this->to_html_page('page/stuff/contest_submit.html');
+	}
 	
 	/**
 	 * 编辑修改产品灵感

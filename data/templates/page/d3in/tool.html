@@ -81,7 +81,7 @@ a.line:hover, a.line.active {
 {% endblock %}
 {% block content %}
 <div class="lab submenu">
-	<div class="ui responsive grid" style="padding:0 11%;">
+	<div class="ui responsive grid" style="padding:0 4%;">
 		<div class="row">
 			<div class="six wide column">
 				<h3>D3IN铟立方未来实验室</h3>
@@ -96,7 +96,7 @@ a.line:hover, a.line.active {
 
 {% device_list var:'list' kind:1 state:1 page:1 size:16 sort:'latest' %}
 <div class="ui tool big block">
-	<div class="ui responsive grid" style="padding:0 11%">
+	<div class="ui responsive grid" style="padding:0 4%">
 		<div class="row">
 			<div class="column" style="padding-left:0;">
 				<h3 class="ui header">工具&设备</h3>
@@ -106,6 +106,85 @@ a.line:hover, a.line.active {
 		{% for d in list.rows %}
       {% include "block/d3in/device_item.html" %}
     {%endfor%}
+    
+    <div class="row">
+      <div class="column">
+        <table class="ui structured celled table center aligned">
+					<thead>
+						<tr>
+						  <th colspan="3">工具类别</th>
+						</tr>
+					</thead>
+					<tbody>
+					  <tr>
+							<td class="five wide">常用工具</td>
+							<td class="five wide">测量类工具</td>
+							<td class="five wide">耗材</td>
+						</tr>
+						<tr>
+						  <td>调温电烙铁</td>
+						  <td>电子秤</td>
+						  <td>无铅焊锡</td>
+						</tr>
+						<tr>
+						  <td>热风枪、热熔胶枪</td>
+						  <td>直尺</td>
+						  <td>热熔胶棒</td>
+						</tr>
+						<tr>
+						  <td>调温热板</td>
+						  <td>卷尺</td>
+						  <td>工具箱</td>
+						</tr>
+						<tr>
+						  <td>焊接抽风机</td>
+						  <td>游标卡尺</td>
+						  <td>高温胶</td>
+						</tr>
+						<tr>
+						  <td>电动螺丝刀</td>
+						  <td>示波器</td>
+						  <td>口罩</td>
+						</tr>
+						<tr>
+						  <td>防静电镊子</td>
+						  <td>电子万用表</td>
+						  <td>工具手套</td>
+						</tr>
+						<tr>
+						  <td>吸锡泵、吸锡球</td>
+						  <td></td>
+						  <td>助焊剂</td>
+						</tr>
+						<tr>
+						  <td>线钳、斜口钳、网线钳、尖嘴钳、大力钳</td>
+						  <td></td>
+						  <td>烙铁头</td>
+						</tr>
+						<tr>
+						  <td>美工刀、剪刀</td>
+						  <td></td>
+						  <td>锡笔</td>
+						</tr>
+						<tr>
+						  <td>锤子、钢锯</td>
+						  <td></td>
+						  <td></td>
+						</tr>
+						<tr>
+						  <td>防静电手环</td>
+						  <td></td>
+						  <td></td>
+						</tr>
+						
+						
+					</tbody>
+				</table>
+						  
+						  
+						  
+      </div>
+    </div>
 	</div>
 </div>
 {% endblock %}

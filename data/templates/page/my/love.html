@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}我感兴趣的-{% endblock %}
+{% block title %}我赞了的-{% endblock %}
 
 {% block page_css %}
 <style type="text/css">
@@ -8,43 +8,26 @@
 {% endblock %}
 
 {% block jquery %}
-	
-	// 赞
-	$('.ui.pop.button').bind('click', function(){
-		var id = $(this).data('id'),mark = $(this).data('mark'),type = $(this).data('type'),$btn = $(this);
+	// 取消点赞
+	$('.ui.love.link').bind('click', function(){
+		var id = $(this).data('id'),type = $(this).data('type');
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
 			phenix.show_login_box();
 			return false;
 		}
-		if (mark == 'n') {
-			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:type}, function(result){
-				if (result.success) {
-					$btn
-						.data('content', '取消赞')
-						.data('mark', 'y')
-						.addClass('active')									
-						.html('取消赞');
-				} else {
-					phenix.show_error_note(result.message);
-				}
-			}, 'json');
-		} else {
-			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:type}, function(result){
-				if (result.success) {
-					$btn
-						.data('content', '赞一下')
-						.data('mark', 'n')
-						.removeClass('active')
-						.html('赞一下');
-				} else {
-					phenix.show_error_note(result.message);
-				}
-			}, 'json');
-		}
+		$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:type}, function(result){
+			if (result.success) {
+                if (type == 1){
+                    $('#product-'+id).remove();
+                }else{
+                    $('#topic-'+id).remove();
+                }
+			} else {
+				phenix.show_error_note(result.message);
+			}
+		}, 'json');
 	});
-	
-
 {% endblock %}
 
 {% block content %}
@@ -61,7 +44,7 @@
 						个人中心
 					</a>
 					<i class="angle right icon divider"></i>
-					<div class="active section">我感兴趣的</div>
+					<div class="active section">我赞了的</div>
 				</div>
 			</div>
 		</div>
@@ -74,65 +57,49 @@
 			{% include "block/user/sub_menu_center.html" %}
 		</div>
 		<div class="twelve wide column">
-			<h2 class="ui header">我感兴趣的</h2>
-			{% include "block/center/head_interest_nav.html" %}
-			
-			<div>
-				<div class="ui grid">
-					<div class="row">
-						<div class="column">
-							{% favorite_list var:'list' page:page size:15 user_id:user_id no_comment:1 event:2 %}
-							<div class="ui center-list">
-								
-								<div class="ui three cards">
-									{% for d in list.rows %}
-                                        <!--产品-->
-                                        {% if d.type==1 %}
-                                          {% if d.product %}
-                                            {% include 'block/center/f-product-item.html' %}
-                                          {%endif%}
-                                        {%endif%}
-                                        <!--话题-->
-                                        {% if d.type==2 %}
-                                          {% if d.topic %}
-                                            {% include 'block/center/f-topic-item.html' %}
-                                          {%endif%}
-                                        {%endif%}
-                                        <!--评论-->
-                                        {% if d.type==3 %}
-                                          {% if d.comment %}
-                                            {% include 'block/center/f-comment-item.html' %}
-                                          {%endif%}
-                                        {%endif%}
-                                        <!--灵感-->
-                                        {% if d.type==4 %}
-                                          {% if d.stuff %}
-                                            {% include 'block/center/f-stuff-item.html' %}
-                                          {%endif%}
-                                        {%endif%}
-
-                                      {%endfor%}
-								</div>
-							</div>
-							
-          				{% if list.rows %}
-							<div class="ui pagination">
-				            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-				            {%include 'block/pager.html'%}
-							</div>
-				          {% endif %}
-						</div>
-					</div>
-				</div>
-			</div>
+			<h2 class="ui header">我赞了的</h2>
+            <div class="ui secondary pointing magenta menu">
+                <a href="{{ app_url_my }}/love?type=1" class="ui item {{css_love_product }}">点赞的产品</a>
+                <a href="{{ app_url_my }}/love?type=2" class="ui item {{css_love_topic }}">点赞的话题</a>
+            </div>
+            <div class="ui center-list">
+                {% favorite_list var:'list' page:page user_id:user_id event:2 type:type size:15 %}
+                
+                <!--我赞了的产品-->
+                {% if type == 1 %}
+                <div class="ui three products cards">
+        			{% for item in list.rows %}
+                        {% if item.product %}
+                            {% include "block/center/f-product-item.html" %}
+                        {% endif %}
+        			{% endfor %}
+                </div>
+                {% endif %}
+                
+                <!--我赞了的话题-->
+                {% if type == 2 %}
+                <div class="ui topics segment">
+        			<table class="ui basic topic table">
+                        <tbody>
+                			{% for item in list.rows %}
+                                {% if item.topic %}
+                                    {% include 'block/center/f-topic-item.html' %}
+                                {% endif %}
+                			{% endfor %}
+        				</tbody>
+        			</table>
+                </div>
+                {% endif %}
+            
+                {% if list.rows %}
+    			<div class="ui pagebox">
+                    {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+                    {%include 'block/pager.html'%}
+    			</div>
+                {% endif %}
+            </div>
+            
 		</div>
 	</div>
 </div>
-
 {% endblock %}
-
-
-
-
-
-

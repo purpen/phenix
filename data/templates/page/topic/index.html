@@ -54,7 +54,8 @@
 	});
     $('.mentors > .avatar a')
       .popup({
-        inline: true
+        hoverable: true,
+        position : 'top center',
       });
 {% endblock %}
 
@@ -137,6 +138,7 @@
 
     </div>
     <div class="mainright">
+        {% include "page/topic/usersign.html" %}
         {% include "page/topic/rightbar.html" %}
         {% include "page/topic/hotpeople.html" %}
         {% include "page/topic/stick_list.html" %}

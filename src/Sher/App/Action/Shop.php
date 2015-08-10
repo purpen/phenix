@@ -66,11 +66,11 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
 			return $this->show_message_page('访问的产品等待发布中！', $redirect_url);
 		}
-
+        
 		//添加网站meta标签
 		$this->stash['page_title_suffix'] = sprintf("%s-【%s】-太火鸟商店", $product['title'], $product['category']['title']);
 		if(!empty($product['tags_s'])){
-		  $this->stash['page_keywords_suffix'] = $product['tags_s'];   
+            $this->stash['page_keywords_suffix'] = $product['tags_s'];   
 		}
 		$this->stash['page_description_suffix'] = sprintf("太火鸟Taihuoniao智能硬件商店提供（%s）正品行货，全国正规智能产品购买平台，包括（%s）图片、参数、硬件测评、相关产品、使用技巧等信息，购买（%s）就去太火鸟，放心又轻松。", $product['short_title'], $product['short_title'], $product['short_title']);
 		
@@ -82,23 +82,23 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			return $this->to_redirect($product['view_url']);
 		}
 
-    //判断类型
-    if($product['stage']==Sher_Core_Model_Product::STAGE_SHOP){
-      $item_stage = $this->stash['item_stage'] = 'shop';
-    }elseif($product['stage']==Sher_Core_Model_Product::STAGE_EXCHANGE){
-      $item_stage = $this->stash['item_stage'] = 'exchange';
-    }elseif($product['stage']==Sher_Core_Model_Product::STAGE_IDEA){
-      $item_stage = $this->stash['item_stage'] = 'idea';
-    }else{
-  	  return $this->show_message_page('产品类型错误！', $redirect_url);  
-    }
+        // 判断类型
+        if($product['stage'] == Sher_Core_Model_Product::STAGE_SHOP){
+            $item_stage = $this->stash['item_stage'] = 'shop';
+        }elseif($product['stage'] == Sher_Core_Model_Product::STAGE_EXCHANGE){
+            $item_stage = $this->stash['item_stage'] = 'exchange';
+        }elseif($product['stage'] == Sher_Core_Model_Product::STAGE_IDEA){
+            $item_stage = $this->stash['item_stage'] = 'idea';
+        }else{
+  	        return $this->show_message_page('产品类型错误！', $redirect_url);  
+        }
 
-    //验证积分兑换
-    if($item_stage=='exchange'){
-      if(empty($product['exchanged']) || empty($product['max_bird_coin'])){
-    	  return $this->show_message_page('产品积分异常错误！', $redirect_url);        
-      }
-    }
+        // 验证积分兑换
+        if($item_stage == 'exchange'){
+            if(empty($product['exchanged']) || empty($product['max_bird_coin'])){
+    	        return $this->show_message_page('产品积分异常错误！', $redirect_url);        
+            }
+        }
 		
 		// 未发布上线的产品，仅允许本人及管理员查看
 		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
@@ -291,11 +291,10 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
 			return $this->show_message_page('访问的产品等待发布中！', $redirect_url);
 		}
-
 		//添加网站meta标签
 		$this->stash['page_title_suffix'] = sprintf("%s-【%s】-太火鸟智品库", $product['title'], $product['category']['title']);
 		if(!empty($product['tags_s'])){
-		  $this->stash['page_keywords_suffix'] = $product['tags_s'];   
+            $this->stash['page_keywords_suffix'] = $product['tags_s'];   
 		}
 		$this->stash['page_description_suffix'] = sprintf("太火鸟Taihuoniao智能硬件商店提供（%s）正品行货，全国正规智能产品购买平台，包括（%s）图片、参数、硬件测评、相关产品、使用技巧等信息，购买（%s）就去太火鸟，放心又轻松。", $product['short_title'], $product['short_title'], $product['short_title']);
 		
@@ -308,31 +307,31 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		}
 
 		// 当前用户是否有管理权限
-    $editable = false;
+        $editable = false;
 		if ($this->visitor->id){
 			if ($this->visitor->id == $product['user_id'] || $this->visitor->can_edit){
 				$editable = true;
 			}
 		}
-    $this->stash['editable'] = $editable;
+        $this->stash['editable'] = $editable;
 
-    //判断类型
-    if($product['stage']==Sher_Core_Model_Product::STAGE_SHOP){
-      $item_stage = $this->stash['item_stage'] = 'shop';
-    }elseif($product['stage']==Sher_Core_Model_Product::STAGE_EXCHANGE){
-      $item_stage = $this->stash['item_stage'] = 'exchange';
-    }elseif($product['stage']==Sher_Core_Model_Product::STAGE_IDEA){
-      $item_stage = $this->stash['item_stage'] = 'idea';
-    }else{
-  	  return $this->show_message_page('产品类型错误！', $redirect_url);  
-    }
+        // 判断类型
+        if($product['stage'] == Sher_Core_Model_Product::STAGE_SHOP){
+            $item_stage = $this->stash['item_stage'] = 'shop';
+        }elseif($product['stage'] == Sher_Core_Model_Product::STAGE_EXCHANGE){
+            $item_stage = $this->stash['item_stage'] = 'exchange';
+        }elseif($product['stage'] == Sher_Core_Model_Product::STAGE_IDEA){
+            $item_stage = $this->stash['item_stage'] = 'idea';
+        }else{
+  	        return $this->show_message_page('产品类型错误！', $redirect_url);  
+        }
 
-    //验证积分兑换
-    if($item_stage=='exchange'){
-      if(empty($product['exchanged']) || empty($product['max_bird_coin'])){
-    	  return $this->show_message_page('产品积分异常错误！', $redirect_url);        
-      }
-    }
+        // 验证积分兑换
+        if($item_stage=='exchange'){
+            if(empty($product['exchanged']) || empty($product['max_bird_coin'])){
+    	        return $this->show_message_page('产品积分异常错误！', $redirect_url);        
+            }
+        }
 		
 		// 未发布上线的产品，仅允许本人及管理员查看
 		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
@@ -359,9 +358,9 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$inventory = new Sher_Core_Model_Inventory();
 		//积分兑换商品与销售商品共有sku
 		if($product['stage']==Sher_Core_Model_Product::STAGE_EXCHANGE){
-		  $sku_stage = Sher_Core_Model_Product::STAGE_SHOP;
+            $sku_stage = Sher_Core_Model_Product::STAGE_SHOP;
 		}else{
-		  $sku_stage = $product['stage'];
+            $sku_stage = $product['stage'];
 		}
 		$skus = $inventory->find(array(
 			'product_id' => $id,
@@ -413,28 +412,28 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			'type' => 1,
 		);        
 		if(!empty($sword)){
-      $xun_arr = Sher_Core_Util_XunSearch::search($sword, $options);
-      if($xun_arr['success'] && !empty($xun_arr['data'])){
-        $product_mode = new Sher_Core_Model_Product();
-        $items = array();
-        foreach($xun_arr['data'] as $k=>$v){
-          $product = $product_mode->extend_load((int)$v['oid']);
-          if(!empty($product)){
-            array_push($items, array('product'=>$product));
-          }
-        }
-        $result['rows'] = $items;
-        $result['total_rows'] = $xun_arr['total_count'];
-      }else{
-             $addition_criteria = array(
-                'type' => 1,
-                'target_id' => array('$ne' => (int)$current_id),
-            );
-            $sword = array_values(array_unique(preg_split('/[,，\s]+/u', $sword)));
-			  $result = Sher_Core_Service_Search::instance()->search(implode('',$sword), 'full', $addition_criteria, $options);     
-      }
+            $xun_arr = Sher_Core_Util_XunSearch::search($sword, $options);
+            if($xun_arr['success'] && !empty($xun_arr['data'])){
+                $product_mode = new Sher_Core_Model_Product();
+                $items = array();
+                foreach($xun_arr['data'] as $k=>$v){
+                    $product = $product_mode->extend_load((int)$v['oid']);
+                    if(!empty($product)){
+                        array_push($items, array('product'=>$product));
+                    }
+                }
+                $result['rows'] = $items;
+                $result['total_rows'] = $xun_arr['total_count'];
+            }else{
+                $addition_criteria = array(
+                    'type' => 1,
+                    'target_id' => array('$ne' => (int)$current_id),
+                );
+                $sword = array_values(array_unique(preg_split('/[,，\s]+/u', $sword)));
+                $result = Sher_Core_Service_Search::instance()->search(implode('',$sword), 'full', $addition_criteria, $options);     
+            }
 
-		}
+        }
 		
 		$this->stash['result'] = $result;
 		
@@ -442,10 +441,10 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	}
 	
 	/**
-	 * ajax获取评论
+	 * ajax获取产品用户评价
 	 */
 	public function ajax_fetch_comment(){
-    $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
+        $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
 		$this->stash['page'] = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
 		$this->stash['total_page'] = isset($this->stash['total_page'])?(int)$this->stash['total_page']:1;
@@ -559,9 +558,9 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 */
 	public function edit_ajax_evaluate(){
 
-    if(!$this->visitor->can_edit){
- 		  return $this->ajax_json('没有权限!', true);	   
-    }
+        if(!$this->visitor->can_edit){
+     		  return $this->ajax_json('没有权限!', true);	   
+        }
 		$row = array();
 		$row['user_id'] = $this->stash['user_id'];
 		$row['star'] = $this->stash['star'];
@@ -611,14 +610,12 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
   
   }
 
-  /**
-   * ajax加载商品列表
-   */
-  public function ajax_load_list(){
-
-		return $this->to_taconite_page('page/shop/ajax_list.html');
-  
-  }
+    /**
+     * ajax加载商品列表
+     */
+    public function ajax_load_list(){
+        return $this->to_taconite_page('page/shop/ajax_list.html');
+    }
 
 	/**
 	 * 编辑产品灵感
@@ -684,12 +681,12 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		if(empty($this->stash['title'])){
 			return $this->ajax_json('标题不能为空！', true);
 		}
-    if(empty($this->stash['category_id'])){
-        return $this->ajax_json('请选择一个类别！', true); 
-    }
-    if(empty($this->stash['cover_id'])){
-        return $this->ajax_json('请至少上传一张图片并设置为封面图！', true); 
-    }
+        if(empty($this->stash['category_id'])){
+            return $this->ajax_json('请选择一个类别！', true); 
+        }
+        if(empty($this->stash['cover_id'])){
+            return $this->ajax_json('请至少上传一张图片并设置为封面图！', true); 
+        }
         
 		$id = (int)$this->stash['_id'];
 		
@@ -701,48 +698,47 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$data['tags'] = $this->stash['tags'];
 		$data['category_id'] = (int)$this->stash['category_id'];
 		$data['cooperate_id'] = isset($this->stash['cooperate_id'])?(int)$this->stash['cooperate_id']:0;
-    $data['cover_id'] = isset($this->stash['cover_id'])?$this->stash['cover_id']:null;
-    $data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
+        $data['cover_id'] = isset($this->stash['cover_id'])?$this->stash['cover_id']:null;
+        $data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
+        $data['video'] = $this->stash['video'];
         
-    // 团队介绍
-    $team_introduce = isset($this->stash['team_introduce'])?$this->stash['team_introduce']:null;
-    // 品牌名称
-    $brand = isset($this->stash['brand'])?$this->stash['brand']:null;
-    // 设计师
+        // 团队介绍
+        $team_introduce = isset($this->stash['team_introduce'])?$this->stash['team_introduce']:null;
+        // 品牌名称
+        $brand = isset($this->stash['brand'])?$this->stash['brand']:null;
+        // 设计师
 		$designer = isset($this->stash['designer'])?$this->stash['designer']:null;
-    // 所属国家
+        // 所属国家
 		$country = isset($this->stash['country'])?$this->stash['country']:null;
-    // 上市时间
+        // 上市时间
 		$market_time = isset($this->stash['market_time'])?$this->stash['market_time']:null;
-    // 指导价格
+        // 指导价格
 		$official_price = isset($this->stash['official_price'])?$this->stash['official_price']:null;
-    // 购买地址
+        // 购买地址
 		$buy_url = isset($this->stash['buy_url'])?$this->stash['buy_url']:null;
-    // 产品阶段
+        // 产品阶段
 		$processed = isset($this->stash['processed'])?$this->stash['processed']:0;
 
-    $product_info = array(
-      'team_introduce' => $team_introduce,
-      'brand' => $brand,
-      'designer' => $designer,
-      'country' => $country,
-      'market_time' => $market_time,
-      'official_price' => $official_price,
-      'buy_url' => $buy_url,
-      'processed' => $processed,
-    );
-    $data['product_info'] = $product_info;
+        $product_info = array(
+            'team_introduce' => $team_introduce,
+            'brand' => $brand,
+            'designer' => $designer,
+            'country' => $country,
+            'market_time' => $market_time,
+            'official_price' => $official_price,
+            'buy_url' => $buy_url,
+            'processed' => $processed,
+        );
+        
+        $data['product_info'] = $product_info;
 
-    // 关联产品
-    $data['fever_id'] = isset($this->stash['fever_id'])?(int)$this->stash['fever_id']:0;
-    $data['published'] = isset($this->stash['published'])?(int)$this->stash['published']:0;
+        // 关联产品
+        $data['fever_id'] = isset($this->stash['fever_id'])?(int)$this->stash['fever_id']:0;
+        $data['published'] = isset($this->stash['published'])?(int)$this->stash['published']:0;
 		
 		// 检测编辑器图片数
 		$file_count = isset($this->stash['file_count'])?(int)$this->stash['file_count']:0;
-
-    // 产品类型
-    $data['stage'] = 15;
-		
+        
 		// 检查是否有附件
 		if(isset($this->stash['asset'])){
 			$data['asset'] = $this->stash['asset'];
@@ -755,7 +751,9 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			// 新建记录
 			if(empty($id)){
 				$data['user_id'] = (int)$this->visitor->id;
-				
+                // 产品类型
+                $data['stage'] = 15;
+                
 				$ok = $model->apply_and_save($data);
 				
 				$product = $model->get_data();
@@ -766,13 +764,10 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			}else{
 				$mode = 'edit';
 
-		    $data['_id'] = $id;
-			  $ok = $model->apply_and_update($data);
-
-        if($ok){
-          
-        }
+		        $data['_id'] = $id;
+                $ok = $model->apply_and_update($data);
 			}
+            
 			if(!$ok){
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
@@ -789,19 +784,19 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 				$asset->update_editor_asset($this->stash['file_id'], (int)$id);
 			}
 
-      // 更新全文索引
-      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3); 
-      //更新百度推送
-      if($mode=='create'){
-        Sher_Core_Helper_Search::record_update_to_dig((int)$id, 12); 
-      }
-			
+            // 更新全文索引
+            Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3); 
+            // 更新百度推送
+            if($mode == 'create'){
+                Sher_Core_Helper_Search::record_update_to_dig((int)$id, 12); 
+            }
+            
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());
 			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
 		}
 
-   	$redirect_url = Sher_Core_Helper_Url::shop_view_url($id);       
+   	    $redirect_url = Sher_Core_Helper_Url::shop_view_url($id);       
 
 		return $this->ajax_json('保存成功.', false, $redirect_url);
 	}
@@ -956,10 +951,10 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_EDITOR_PRODUCT;
 	}
 
-  /**
-   * 评论参数
-   */
-  protected function _comment_param($options){
+    /**
+     * 评论参数
+     */
+    protected function _comment_param($options){
     $this->stash['comment_target_id'] = $options['comment_target_id'];
     $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
     $this->stash['comment_type'] = $options['comment_type'];

@@ -2,6 +2,7 @@
  	<div class="ui icon input">
 		<input name="q" type="text" value="{{ q }}" />
 		<i class="search icon"></i>
+		<a href="javascript:void(0);" id="search-button" style="width: 2.67142857em;height: 100%;position: absolute;right: 0;top: 0;"></a>
 	</div>
 </form>
 
@@ -90,9 +91,6 @@
             <div class="header">
                 <a href="{{ app_url_domain }}/my/remind" class="ui link">我的提醒</a> | <a href="{{ app_url_domain }}/my/recive_comment" class="ui link">我的评论</a>
             </div>
-            <div class="item" id="basket-body-content">
-                暂时没有未读消息
-            </div>
         </div>
     </div>
 	<div class="ui top right pointing dropdown icon user-setting button">
@@ -103,17 +101,17 @@
 		    <a class="item" href="{{ app_url_my }}/account">
 		      	<i class="settings icon"></i> 个人中心
 			</a>
-		    <a class="item" href="{{ app_url_my }}/point">
-		      	<i class="signal icon"></i> 会员等级
+		    <a class="item" href="{{ app_url_my }}/favorite">
+		      	<i class="plus icon"></i> 我关注的
+			</a>
+		    <a class="item" href="{{ app_url_my }}/love">
+		      	<i class="heart icon"></i> 我赞了的
 			</a>
 		    <a class="item" href="{{ app_url_my }}/orders">
 		      	<i class="shop icon"></i> 我的订单
 			</a>
 		    <a class="item" href="{{ app_url_action_base }}/helper/question">
 		      	<i class="help icon"></i> 帮助中心
-			</a>
-		    <a class="item" href="{{ app_url_action_base }}/my/service">
-		      	<i class="smile icon"></i> 联系客服
 			</a>
 			{% if visitor.can_admin %}
 		    <a class="item" href="{{ app_url_admin_base }}">

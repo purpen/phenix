@@ -19,16 +19,15 @@
     
     {% if page == 1 %}
     <replace select="#load-more-btn"><![CDATA[
-        {% if comments.rows %}
         <div class="morepages" id="load-more-btn">
+        {% if comments.rows %}
             {% if page < comments.total_page %}
                 <a href="javascript:void(0);" class="fluid ui grey more inverted button" total-page="{{ comments.total_page }}" current-page="{{ page }}">
                     <i class="spinner icon"></i> 查看更多
                 </a>
             {%endif%}
-
-  		</div>
         {% endif %}
+        </div>
     ]]></replace>
     {%endif%}
     
@@ -54,7 +53,7 @@
         var current_page = parseInt("{{ page }}");
         var per_page = parseInt("{{ per_page }}");
         
-        if(current_page >= total_page && total_page != 1){
+        if(current_page >= total_page && total_page != 1 && current_page != 1){
             var html = '<a class="fluid ui grey more inverted disabled button" href="javascript:void(0);">没有更多~~</a>';
             $('#load-more-btn')
                 .html(html)

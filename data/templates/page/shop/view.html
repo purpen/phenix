@@ -9,7 +9,7 @@
 {% endblock %}
 {% block page_css %}
 <style type="text/css">
-
+    
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -56,7 +56,10 @@
         sync: "#carousel"
     });
     
-    
+	// 分享
+	$('.ui.share.button').bind('click', function(){
+		$('.ui.share.modal').modal('show');
+	});
 	phenix.bind_share_list();
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.wap_view_url }}'});
@@ -67,17 +70,18 @@
 	{% else %}
 		var choosed_sku = {{ product._id }};
 	{% endif %}
-	
-
+    
 	// 选择sku
 	$('.attrs .ui.att.button').click(function(){
 		choosed_sku = $(this).data('id');
 		$('.attrs .ui.att.active.button').removeClass('active');
 		$(this).addClass('active');
-    //抢购商品sku价格均为抢购价
-    {% if !product.snatched %}
-		  $('#current-price').html('<span class="unit">￥</span>'+$(this).data('price'));
-		{%endif%}		
+        // 抢购商品sku价格均为抢购价
+        {% if !product.snatched %}
+            $('#current-price').html('销售价：<small class="unit"><i class="yen icon"></i></small>'+$(this).data('price'));
+        {% else %}
+            $('#current-price').html('促销价：<small class="unit"><i class="yen icon"></i></small>'+$(this).data('price'));
+		{%endif%}
 		return false;
 	});
 
@@ -114,15 +118,15 @@
 	
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
-		// 初始化互动，是否收藏、点赞
+		// 初始化互动，是否关注、点赞
 		$.get('{{ app_url_favorite }}/ajax_done', {id: {{product._id}},type:1,event:1}, function(result){
 			if (result.success) {
-				// 验证收藏
+				// 验证关注
 				if (result.data.favorited) {
 					$('.ui.favorite.button')
-						.data('content', '取消')
 						.data('mark', 'y')
-						.addClass('active');
+						.addClass('active')
+                        .html('<i class="minus icon"></i> 已关注');
 				}
 			}
 		}, 'json');
@@ -132,9 +136,9 @@
 			if (result.success) {
 				if (result.data.loved) {
 					$('.ui.love.button')
-						.data('content', '取消')
 						.data('mark', 'y')
-						.addClass('active');
+						.addClass('active')
+                        .html('<i class="heart icon"></i> 赞了');
 				}
 			}
 		}, 'json');
@@ -211,7 +215,7 @@
 
 	{% endif %}
 	
-	// 收藏
+	// 关注
 	$('.ui.favorite.button').bind('click', function(){
 		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
 		// 所有ajax请求，验证是否登录
@@ -223,9 +227,11 @@
 			$.post('{{ app_url_favorite }}/ajax_favorite', {id: id, type:1}, function(result){
 				if (result.success) {
 					$btn
-						.data('content', '取消')
 						.data('mark', 'y')
-						.addClass('active');
+						.addClass('active')
+                        .html('<i class="minus icon"></i> 已关注');
+                        
+                    $('#target-favorite-count').text(result.data.favorite_count);
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -234,9 +240,12 @@
 			$.post('{{ app_url_favorite }}/ajax_cancel_favorite', {id: id, type:1}, function(result){
 				if (result.success) {
 					$btn
-						.data('content', '收藏')
 						.data('mark', 'n')
-						.removeClass('active');
+						.removeClass('active')
+                        .html('<i class="plus icon"></i> 关注');
+                        
+                    $('#target-favorite-count').text(result.data.favorite_count);
+                    
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -244,7 +253,7 @@
 		}
 	});
 	
-	// 喜欢
+	// 点赞
 	$('.ui.love.button').bind('click', function(){
 		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
 		// 所有ajax请求，验证是否登录
@@ -257,11 +266,18 @@
 			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:1}, function(result){
 				if (result.success) {
 					$btn
-						.data('content', '取消')
 						.data('mark', 'y')
-						.addClass('active');
+						.addClass('active')
+                        .html('<i class="heart icon"></i> 赞了');
+                        
 					count += 1;
-					$('#product-love-count').text(count);
+					$('#target-love-count').text(count);
+                    
+                    if(result.data.newadd){
+                        $('#product_'+ id +'_support')
+                            .prepend('<a href=\"/user/'+ result.data.user_id +'\" target=\"_blank\" id=\"user-'+ result.data.user_id +'\" class=\"image\" data-variation=\"wide\" data-html=\"<div class=\'header\'>'+  result.data.nickname +'</div><div class=\'content\'>'+ result.data.city +' '+ result.data.job +'</div>\"><img src=\"'+ result.data.avatar +'\" /></a>');
+                    }
+                    
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -270,11 +286,16 @@
 			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:1}, function(result){
 				if (result.success) {
 					$btn
-						.data('content', '点赞')
 						.data('mark', 'n')
-						.removeClass('active');
-					count -= 1;	
-					$('#product-love-count').text(count);
+						.removeClass('active')
+                        .html('<i class="heart empty icon"></i> 赞');
+                        
+					count -= 1;
+                    
+					$('#target-love-count').text(count);
+                    
+                    $('#user-'+ result.data.user_id).remove();
+                    
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -282,11 +303,6 @@
 		}
 	});
 	
-	// 分享
-	$('.ui.share.button').bind('click', function(){
-		$('.ui.share.modal').modal('show');
-	});
-
 	{% if is_snatch %}
     var times = {{ snatch_time }} ;
     var SysSecond;
@@ -350,7 +366,7 @@
     {%endif%}
 	
 	// 加载推荐商品 
-	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ product.tags_s }}', size: 4, id: {{ product._id }} });
+	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ product.tags_s }}', size: 8, id: {{ product._id }} });
 	
 	// 显示私信框
 	$('.ui.letter.button').bind('click', function(){
@@ -382,7 +398,21 @@
 			$(event.target).ajaxSubmit();
 		}
 	});
+    
+    $('.user.avatars .ui.images .image').livequery(function(){
+        $(this).popup({
+            hoverable: true,
+            position : 'top center',
+        });
+    });
+    
+    $('.ui.sticky')
+      .sticky({
+        context: '#shoppage'
+    });
+      
 {% endblock %}
+
 {% block content %}
 <div class="shop viewtop" style="background-image: url('{{ product.cover.thumbnails.big.view_url }}');">
 	<div class="masthead">
@@ -395,24 +425,33 @@
                                 {{ product.category.title }}
                             </p>
         					<h1 class="block title">{{ product.title }}</h1>
-                            <!--
+                            {% if product.stage == 9 %}
                             <div class="product stars">
-            					<div class="ui small star rating hover">
-                                    <i class="icon active"></i>
-                                    <i class="icon active"></i>
-                                    <i class="icon"></i>
-                                    <i class="icon"></i>
-                                    <i class="icon"></i>
-            					</div>
+                                {% include "block/show_stars.html" %}
             					<small>
-                                    <span class="count">7.3</span> ( <span id="product-love-count">{{ product.comment_count }}</span>条评价 )
+                                    <span class="count">{{ product.stars_value }}</span>  ( <span>{{ product.comment_count }}</span> 条评价 ) 
                                 </small>
-                            </div>-->
+                            </div>
+                            {% endif %}
+                            {% if product.stage != 9 %}
         					<p>
-                                <span>@{{ product.designer.nickname }} 发表</span> 
-                                <span class="clove">{{ product.love_count }} 人点赞</span> / 
-                                <span class="clike">{{ product.favorite_count }} 个收藏</span>
+                                <span class="clove">
+                                    <span id="product-comment-count">{{ product.comment_count }}</span> 个评论
+                                </span>
                             </p>
+                            {% endif %}
+                            
+            				{% if product.tags %}
+            				<div class="idea tags">
+            					{% for tag in product.tags %}
+            					{% if tag %}
+            					<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui small label">
+            						{{ tag }}
+            					</a>
+            					{% endif %}
+            					{% endfor %}
+            				</div>
+            				{% endif %}
         				</div>
         			</div>
         		</div>
@@ -486,29 +525,6 @@
 					<div class="product content froala-element">
 						{{ product.content }}
 					</div>
-
-    				{% if product.tags %}
-    				<div class="idea tags">
-    					{% for tag in product.tags %}
-    					{% if tag %}
-    					<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui link">
-    						# {{ tag }}
-    					</a>
-    					{% endif %}
-    					{% endfor %}
-    				</div>
-    				{% endif %}
-					<div class="ui center aligned zanl">
-						<div class="ui green pop favorite inverted button" data-content="收藏一下" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
-							<i class="star icon"></i> 收藏
-						</div>
-						<div class="ui magenta pop love icon inverted button" data-content="点赞" data-variation="inverted" data-id="{{ product._id }}" data-mark="n">
-							<i class="heart empty icon"></i> 赞
-						</div>
-						<div class="ui blue pop share icon inverted button" data-content="分享" data-variation="inverted">
-							<i class="share icon"></i> 分享
-						</div>
-					</div>
                 </div> 
             </div>
             
@@ -542,7 +558,7 @@
             </div>
             
             <div class="container">
-                {% if product.stage==15 %}
+                {% if product.stage == 15 %}
                 <div class="reviews">
         			<div class="reply box">
           			    <!--ajax comment-->
@@ -563,17 +579,18 @@
           		  	    {% include "block/comment_box_site.html" %}
                     </div>
                 </div>
-
                 {%else%}
-                  {% if product.comment_count != 0 %}
-                  <div class="product reviews">
-                      <div class="block title">
-                          用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
-                      </div>
-                      <!--ajax comment-->
-                      <div class="ui big reply segment" id="comment-list"></div>
-                  </div>
-                  {% endif %}
+                    {% if product.comment_count != 0 %}
+                    <div class="product reviews">
+                        <div class="block title">
+                            用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
+                        </div>
+                        <!--ajax comment-->
+                        <div class="ui big reply segment" id="comment-list">
+                            <div class="ui threaded comments"></div>
+                        </div>
+                    </div>
+                    {% endif %}
                 {%endif%}
             </div>
         </div>
@@ -581,153 +598,179 @@
         <div id="product_guess_list"><!--ajax fetch--></div>
     </div>
     <div class="mainright">
-
-    {% if !item_stage=='idea' %}
-        <div class="sellwrap">
+        <div class="ui sticky">
+            {% if product.stage == 9 %}
+            <div class="sellwrap">
+    			<div class="buy box">
+    				<p>
+    					市场价：<span class="old price"><small class="unit"><i class="yen icon"></i></small>{{ product.market_price }}</span>
+                    </p>
+    				<p>
+                        <span class="price" id="current-price">
+                        {% if product.snatched %}
+    					    促销价：<small class="unit"><i class="yen icon"></i></small>{{ product.snatched_price }}
+                        {%else%}
+    					    销售价：<small class="unit"><i class="yen icon"></i></small>{{ product.sale_price }}
+                        {%endif%}
+                        </span>
+    				</p>
+    			</div>
             
-			<div class="buy box">
-				<p>
-					市场价：<span class="old price"><span class="unit">￥</span>{{ product.market_price }}</span>
-                </p>
-				<p>
-                    <span class="price" id="current-price">
-                    {% if product.snatched %}
-					    促销价：<span class="unit">￥</span>{{ product.snatched_price }}
-                    {%else%}
-					    销售价：<span class="unit">￥</span>{{ product.sale_price }}
-                    {%endif%}
-                    </span>
-				</p>
-			</div>
-            
-			<div class="rbtn buy">
-                <!--样式选项-->
-                {% if skus %}
-                    <div class="product attrs">
-                        {% for m in skus %}
-                            <span class="ui inverted magenta att button" data-id="{{ m._id }}" data-price="{{ m.price }}">{{ m.mode }}</span>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                
-                <!--限时抢购-->
-  				{% if product.snatched %}
-                    {% if !product.snatched_start %}
-                        <div class="product snatched">
-                            <!--<span class="ui text">已 <span class="count">{{ product.appoint_count|default 0}}</span>人预约，</span>-->
-                            <span class="ui text">倒计时：<span id="clock"></span></span>
-                        </div>
-                    {% else %}
-                        <div class="product snatched">
-                            {% if product.can_saled %}
-                            <span class="ui black text">正在抢购中...</span>
-                            {% endif %}
+    			<div class="rbtn buy">
+                    <!--样式选项-->
+                    {% if skus %}
+                        <div class="product attrs">
+                            {% for m in skus %}
+                                <span class="ui inverted magenta att button" data-id="{{ m._id }}" data-price="{{ m.price }}">{{ m.mode }}</span>
+                            {% endfor %}
                         </div>
                     {% endif %}
-                {% endif %}
                 
-                
-                {% if product.snatched %}
-                
-                    {% if !product.snatched_start %}
-                        <div class="fluid ui active magenta tobuy appoint button">
-                            准备开抢
-                        </div>
-                    {% else %}
-                        {% if product.can_saled %}
-                            <div class="fluid ui active magenta tobuy nowbuy inverted button">
-                                立即抢购
+                    <!--限时抢购-->
+      				{% if product.snatched %}
+                        {% if !product.snatched_start %}
+                            <div class="product snatched">
+                                <!--<span class="ui text">已 <span class="count">{{ product.appoint_count|default 0}}</span>人预约，</span>-->
+                                <span class="ui text">倒计时：<span id="clock"></span></span>
                             </div>
                         {% else %}
-                            <div class="fluid ui active grey locknotice inverted button">
-                                已抢完
+                            <div class="product snatched">
+                                {% if product.can_saled %}
+                                <span class="ui black text">正在抢购中...</span>
+                                {% endif %}
                             </div>
                         {% endif %}
                     {% endif %}
-
-                {% else %}
-                    <!--积分兑换商品不能加入购物车 -->
-                    {% if item_stage == 'exchange' %}
-                        <div class="product snatched">
-                            <span class="ui gray text">商品积分兑换</span>
-                        </div>
-                        
-                        {% if product.can_saled %}
-                            <span class="redemption">
-                                {% if product.exchange_price %}
-                                    (兑换要求：<small>￥</small>{{ product.exchange_price }} + {{ product.max_bird_coin }}鸟币) 
-                                {%else%}
-                                    (兑换要求：{{ product.max_bird_coin }}鸟币)
-                                {%endif%}
-                            </span>
-                            <div class="fluid ui active magenta tobuy nowbuy inverted button">
-                                <i class="exchange icon"></i> 立即兑换
+                
+                
+                    {% if product.snatched %}
+                
+                        {% if !product.snatched_start %}
+                            <div class="fluid ui active magenta tobuy appoint button">
+                                准备开抢
                             </div>
-                        {%else%}
-                            <div class="fluid ui active grey locknotice inverted button" data-id="{{ product._id }}">
-                                暂时缺货
-                            </div>
-                        {%endif%}
-                    {%endif%}
-                    
-                    <!--商品-->
-                    {% if item_stage == 'shop' %}
-                        {% if !product.snatched %}
-                            {% if !product.is_try %}
-                                {% if product.can_saled %}
-                                    <div class="ui red tobuy nowbuy inverted button">
-                                        立即购买
-                                    </div>
-                                {% endif %}
-                            {%else%}
-                                <div class="ui magenta text">
-                                    此产品为试用商品，不可销售
-                                </div>
-                            {% endif %}
-                        {% endif %}
-                    {%endif%}
-                    <!--可销售商品-->
-                    {% if item_stage == 'shop' %}
-                        {% if !product.is_try %}
+                        {% else %}
                             {% if product.can_saled %}
-                                <div class="ui active magenta tobuy buy inverted button">
-                                    <i class="cart icon"></i> 加入购物车
+                                <div class="fluid ui active magenta tobuy nowbuy inverted button">
+                                    立即抢购
                                 </div>
                             {% else %}
-                                <div class="fluid ui active grey locknotice inverted button" data-id="{{ product._id }}">
-                                    已售罄
+                                <div class="fluid ui active grey locknotice inverted button">
+                                    已抢完
                                 </div>
                             {% endif %}
-                        {% endif %}				
-                    {% endif %}
+                        {% endif %}
 
-                {%endif%}
-                
+                    {% else %}
+                        <!--积分兑换商品不能加入购物车 -->
+                        {% if item_stage == 'exchange' %}
+                            <div class="product snatched">
+                                <span class="ui gray text">商品积分兑换</span>
+                            </div>
+                        
+                            {% if product.can_saled %}
+                                <span class="redemption">
+                                    {% if product.exchange_price %}
+                                        (兑换要求：<small>￥</small>{{ product.exchange_price }} + {{ product.max_bird_coin }}鸟币) 
+                                    {%else%}
+                                        (兑换要求：{{ product.max_bird_coin }}鸟币)
+                                    {%endif%}
+                                </span>
+                                <div class="fluid ui active magenta tobuy nowbuy inverted button">
+                                    <i class="exchange icon"></i> 立即兑换
+                                </div>
+                            {%else%}
+                                <div class="fluid ui active grey locknotice inverted button" data-id="{{ product._id }}">
+                                    暂时缺货
+                                </div>
+                            {%endif%}
+                        {%endif%}
+                    
+                        <!--商品-->
+                        {% if item_stage == 'shop' %}
+                            {% if !product.snatched %}
+                                {% if !product.is_try %}
+                                    {% if product.can_saled %}
+                                        <div class="ui red tobuy nowbuy inverted button">
+                                            立即购买
+                                        </div>
+                                    {% endif %}
+                                {%else%}
+                                    <div class="ui magenta text">
+                                        此产品为试用商品，不可销售
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {%endif%}
+                        <!--可销售商品-->
+                        {% if item_stage == 'shop' %}
+                            {% if !product.is_try %}
+                                {% if product.can_saled %}
+                                    <div class="ui active magenta tobuy buy inverted button">
+                                        <i class="cart icon"></i> 加入购物车
+                                    </div>
+                                {% else %}
+                                    <div class="fluid ui active grey locknotice inverted button" data-id="{{ product._id }}">
+                                        已售罄
+                                    </div>
+                                {% endif %}
+                            {% endif %}				
+                        {% endif %}
+
+                    {%endif%}
+                </div>
             </div>
-            
+            {% else %}
+                {% if product.product_info.official_price %}
+                <div class="sellwrap">
+        			<div class="buy box">
+        				<p>
+        					指导价格：<span class="old price"><span class="unit"><i class="yen icon"></i></span>{{ product.product_info.official_price }}</span>
+                        </p>
+                    
+                    </div>
+                </div>
+                {% endif %}
+            {% endif %}
+        
+            <div class="sellwrap">
+                <div class="user action">
+                    <p>关注&分享产品</p>
+        			<div class="ui red pop love inverted button" data-id="{{ product._id }}" data-title="点赞支持" data-content="后续可以在‘我赞了的’中快捷查找" data-mark="n">
+        				<i class="heart empty icon"></i> 赞
+        			</div>
+        			<div class="ui magenta pop favorite inverted button" data-title="关注一下" data-content="有关该产品动态及时通知你，后续可以在‘我关注的’中快捷查找" data-id="{{ product._id }}" data-mark="n">
+        				<i class="plus icon"></i> 关注
+        			</div>
+    				<div class="ui magenta pop share icon inverted button" data-content="分享给好友">
+    					<i class="share alternate icon"></i>
+    				</div>
+                </div>
+                <div class="user avatars">
+              	  	<div class="ui images" id="target_{{ product._id }}_support">
+                        {% if product.love_count %}
+                            {% favorite_list var:'userlist' target_id:product._id event:2 type:1 %}
+                            {% for target in userlist.rows %}
+                            <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
+                  	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />
+                            </a>
+                            {% endfor %}
+                        {% endif %}
+              	  	</div>
+                    <p>
+                        已有 <span id="target-love-count">{{ product.love_count }}</span> 个人点赞, <span id="target-favorite-count">{{ product.favorite_count }}</span> 人关注
+                    </p>                    
+                </div>
+            </div>
         </div>
-
-      {%endif%}
         
         <!--品牌相关-->
         <div class="sellwrap">
 			<div class="block title">
-        {% if item_stage=='idea' %}用户{%else%}品牌{%endif%}
+                {% if item_stage == 'idea' %}分享者{%else%}品牌{%endif%}
             </div>
             <div class="brand products">
-              {% if item_stage=='idea' %}
-                <div class="author">
-    				<a href="{{ product.user.home_url }}" class="ui large avatar image" >
-    					<img src="{{ product.user.big_avatar_url }}" alt="{{ product.user.nickname }}" />
-    				</a>
-                    <h4>
-                        {{ product.user.nickname }}
-                    </h4>
-                    <p class="desc">
-                        {{ product.user.summary }}
-                    </p>
-                </div>
-              {%else%}
+                {% if product.designer %}
                 <div class="author">
     				<a href="{{ product.designer.home_url }}" class="ui large avatar image" >
     					<img src="{{ product.designer.big_avatar_url }}" alt="{{ product.designer.nickname }}" />
@@ -735,12 +778,29 @@
                     <h4>
                         {{ product.designer.nickname }}
                     </h4>
+                    {% if product.designer.city %}
+                    <p class="info">{{ product.designer.city }} {{ product.designer.profile.job }}</p>
+                    {% endif %}
                     <p class="desc">
                         {{ product.designer.summary }}
                     </p>
                 </div>
-              {%endif%}
-
+                {% else %}
+                <div class="author">
+    				<a href="{{ product.user.home_url }}" class="ui large avatar image" >
+    					<img src="{{ product.user.big_avatar_url }}" alt="{{ product.user.nickname }}" />
+    				</a>
+                    <h4>
+                        {{ product.user.nickname }}
+                    </h4>
+                    {% if product.user.city %}
+                    <p class="info">{{ product.user.city }} {{ product.user.profile.job }}</p>
+                    {% endif %}
+                    <p class="desc">
+                        {{ product.user.summary }}
+                    </p>
+                </div>
+                {% endif %}
                 
                 {% product_list var:'plist' page:1  only_onsale:1 size:4 user_id:product.user_id  %}
                 <div class="ui two miniproducts blocks">
@@ -749,13 +809,16 @@
             			<div class="image" {% if product.cover %}style="background-image: url('{{ product.cover.thumbnails.hm.view_url }}');"{% endif %}>
                             <a class="transparent" href="{{ product.view_url }}" target="_blank"></a>
             			</div>
-                    
                      </div>    
                      {% endfor %}
                 </div>
+                {% if product.designer %}
     			<div class="more">
-    				<a href="" class="ui link" target="_blank">查看更多产品</a>
+    				<a href="{{ app_url_user }}/{{ product.designer._id }}/submitted" class="ui link" target="_blank">
+                        <i class="search icon"></i> 查看更多产品
+                    </a>
                 </div>
+                {% endif %}
             </div>
 			
         </div>
@@ -786,7 +849,8 @@
         
         {% if visitor.can_edit %}
         <div class="sellwrap">
-            <div class="ui icon green editable buttons">
+            管理：
+            <div class="ui icon green editable inverted buttons">
                 {% if product.featured %}
 				<div class="ui pop fine active button" data-content="取消精选"  data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
 					<i class="star icon"></i>
