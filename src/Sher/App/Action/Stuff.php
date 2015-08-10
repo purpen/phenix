@@ -203,12 +203,10 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$top_category_id = Doggy_Config::$vars['app.stuff.contest_category_id'];
 
 		// 获取父级分类
-		$category = new Sher_Core_Model_Category();
-		$parent_category = $category->extend_load((int)$top_category_id);
-		$parent_category['view_url'] = Doggy_Config::$vars['app.url.stuff'];
-		$this->stash['parent_category'] = $parent_category;
+		$category_model = new Sher_Core_Model_Category();
+		$default_category = $category_model->first('domain'=>4, 'pid'=>(int)$top_category_id);
+		$this->stash['default_category_id'] = !empty($default_category_id)?$default_category['_id']:0;
 		
-		$this->stash['cid'] = $top_category_id;
 		$this->stash['mode'] = 'create';
 		// 图片上传参数
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
