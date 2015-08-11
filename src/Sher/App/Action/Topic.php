@@ -930,7 +930,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			}
 
 			// 更新全文索引
-			Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);
+      if($data['published']==1){
+			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);
+      }
 			//更新百度推送
 			if($mode=='create'){
 			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10); 

@@ -26,22 +26,12 @@
 
 
 {% block content %}
-<div class="shop submenu">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				{%include 'block/find_nav.html'%}
-			</div>
-		</div>
-	</div>
-</div>
-
 <div class="social mentors">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="center aligned column white section-title">
 				<h2 class="block title">社区红人</h2>
-				<p>超过 2000个行业专家在创造未来</p>
+				<p>超过 2000 个行业专家在创造未来</p>
                 <hr>
 			</div>
 		</div>
@@ -97,7 +87,7 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				{% user_list var:'users' only_ok:1 size:12 sort:'time' all_mentors:all_mentors mentor:cid district:district %}
+				{% user_list var:'users' page:page only_ok:1 size:12 sort:'time' all_mentors:all_mentors mentor:cid district:district %}
 				<div class="ui mentors four cards">
 					{% for user in users.rows %}
 				  	<div class="card">
@@ -124,31 +114,11 @@
 		</div>
 		<div class="row">
 			<div class="center aligned column">
-				<h2 class="block title">十分感兴趣成为专家团？</h2>
+				<h2 class="block title">十分感兴趣成为社区红人？</h2>
 				<p></p>
-				<a href="{{ app_url_login }}" class="ui inverted gray button">
+				<a href="{{ app_url_login }}" class="ui large inverted grey button">
 					<i class="user icon"></i>现在加入
 				</a>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="section breadcrumb">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_domin }}">
-						<i class="home icon"></i> 首页
-					</a>
-                    <i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_social }}">
-						发现
-					</a>
-					<i class="angle right icon divider"></i>
-					<div class="active section">行业专家</div>
-				</div>
 			</div>
 		</div>
 	</div>

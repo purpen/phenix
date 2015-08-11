@@ -149,7 +149,7 @@
     	<div class="ui newest responsive grid">
     		<div class="row">
     			<div class="column">
-                    {% product_list var:'newest' page:1 type:5 only_onsale:1 size:8 sort:'latest' %}
+                    {% product_list var:'newest' page:1 type:5 only_onsale:1 size:8 sort:5 %}
                     {% if newest.rows %}
                     <div class="ui four products cards">
     					{% for product in newest.rows %}

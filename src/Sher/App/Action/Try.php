@@ -19,7 +19,6 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 	protected $exclude_method_list = array('execute','get_list','view');
 	
 	public function _init() {
-		$this->set_target_css_state('page_social');
 		$this->set_target_css_state('page_sub_try');
   }
 	
@@ -35,6 +34,10 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 	 */
 	public function get_list(){
 		$this->set_target_css_state('page_try');
+
+    $pager_url = sprintf("%s/list-c%d-t%d-s%d-p%s", Doggy_Config::$vars['app.url.try'], 0, 0, 0, '#p#');
+		
+		$this->stash['pager_url'] = $pager_url;
 		
 		return $this->to_html_page('page/try/list.html');
 	}

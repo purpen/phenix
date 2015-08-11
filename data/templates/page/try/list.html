@@ -52,7 +52,7 @@
                                 <a class="catlink" href="{{ try.view_url }}" style="background-image: url('{{ try.banner.fileurl }}');" target="_blank">
                                     <h2>{{ try.short_title }}</h2>
                                     <p>{{ try.description }}</p>
-                                    <!--<span class="more ui button">申请试用</span>-->
+                                    <span class="more">申请试用</span>
                                 </a>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                 </div>
                 {%endif%}
                 
-				{% try_list var:'list' page:page state:1 %}
+				{% try_list var:'list' page:page state:1 size:9 %}
 				{% for t in list.rows %}
 					<div class="card">
                         <div class="problock">
@@ -130,13 +130,24 @@
                                 <p>产品数量：<span class="count">{{ t.try_count }}</span>  申请人数：<span>{{ t.apply_count }}</span></p>
                             </div>
                             <div class="cats">
-                                <i class="tasks icon"></i> 试用报告：<span> {{ t.pass_count }}</span>
+                                {% if t.step_stat == 1 %}
+                                <i class="calendar icon"></i> 试用名单公布：<span> {{ t.publish_time }}</span>
+                                {% else %}
+                                <i class="tasks icon"></i> 试用评测报告：已有<span> {{ t.pass_count }}</span> 份
+                                {% endif %}
                             </div>
                         </div>
                         
 					</div>
 				{% endfor %}
 			</div>
+
+        	{% if list.total_rows %}
+        	<div class="ui pagination">
+        		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+        		{%include 'block/pager.html'%}
+        	</div>
+        	{% endif %}
             
         </div>
     </div>
@@ -174,20 +185,20 @@
     			</div>
             </div>
         </div>
-        
+
+        {% ad_list var:'adslide' page:1 size:15 state:2 name:'try_list_cooperate_logo' %}
+        {% if adslide.rows %}
         <div class="sellwrap">
         	<div class="block title">
         		合作厂商
             </div>
 			<div class="tryfirm">
-				<img src="http://frstatic.qiniudn.com/images/logo_technode.jpg" alt="动点科技">
-				<img src="http://frstatic.qiniudn.com/images/logo_geekpark.jpg" alt="极客公园">
-                <img src="http://frstatic.qiniudn.com/images/logo_shijue.jpg" alt="视觉中国">
-				<img src="http://frstatic.qiniudn.com/images/logo_tech.jpg" alt="TC">
-                <img src="http://frstatic.qiniudn.com/images/logo_leikeji.jpg" alt="雷科技">
+        {% for ad in adslide.rows %}
+          <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank"><img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}"></a>
+				{% endfor %}
 			</div>
-            
         </div>
+        {%endif%}
         
     </div>
 </div>

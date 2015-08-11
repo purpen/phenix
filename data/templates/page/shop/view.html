@@ -261,7 +261,6 @@
 			phenix.show_login_box();
 			return false;
 		}
-		var count = parseInt($('#product-love-count').text());
 		if (mark == 'n') {
 			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:1}, function(result){
 				if (result.success) {
@@ -269,12 +268,11 @@
 						.data('mark', 'y')
 						.addClass('active')
                         .html('<i class="heart icon"></i> 赞了');
-                        
-					count += 1;
-					$('#target-love-count').text(count);
+                    
+					$('#target-love-count').text(result.data.love_count);
                     
                     if(result.data.newadd){
-                        $('#product_'+ id +'_support')
+                        $('#target_'+ id +'_support')
                             .prepend('<a href=\"/user/'+ result.data.user_id +'\" target=\"_blank\" id=\"user-'+ result.data.user_id +'\" class=\"image\" data-variation=\"wide\" data-html=\"<div class=\'header\'>'+  result.data.nickname +'</div><div class=\'content\'>'+ result.data.city +' '+ result.data.job +'</div>\"><img src=\"'+ result.data.avatar +'\" /></a>');
                     }
                     
@@ -289,10 +287,8 @@
 						.data('mark', 'n')
 						.removeClass('active')
                         .html('<i class="heart empty icon"></i> 赞');
-                        
-					count -= 1;
                     
-					$('#target-love-count').text(count);
+					$('#target-love-count').text(result.data.love_count);
                     
                     $('#user-'+ result.data.user_id).remove();
                     
@@ -725,7 +721,7 @@
                 <div class="sellwrap">
         			<div class="buy box">
         				<p>
-        					指导价格：<span class="old price"><span class="unit"><i class="yen icon"></i></span>{{ product.product_info.official_price }}</span>
+        					指导价格：<span class="price"><span class="unit"><i class="yen icon"></i></span>{{ product.product_info.official_price }}</span>
                         </p>
                     
                     </div>
