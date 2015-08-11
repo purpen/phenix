@@ -611,19 +611,13 @@
                 <!-- 这里是投票部分代码 结束 -->
                 
                 <!--预留广告位-->
-            	{% ad_list var:'ad' page:1 size:1 name:'topic_view_page_t1' sort_field:'latest' state:2 %}
-            	{% if ad %}
-            	<div class="ui responsive grid">
-            		<div class="row">
-            			<div class="column">
-            				<div class="advert bottom content">
-            					<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
-            			      		<img src="{{ ad.cover.fileurl }}" class="ui image" />
-            					</a>
-            				</div>
-            			</div>
-            		</div>
-            	</div>
+            	{% ad_list var:'adone' page:1 size:1 name:'topic_view_page_t1' sort_field:'latest' state:2 %}
+            	{% if adone %}
+                <div class="adblock fixed">
+                    <a href="{{ adone.view_url }}" title="{{ adone.title }}" target="_blank">
+                        <img src="{{ adone.cover.fileurl }}" />
+                    </a>
+                </div>
             	{% endif %}
                 
 				{% if topic.tags %}
