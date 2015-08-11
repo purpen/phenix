@@ -18,13 +18,13 @@
 {% block jquery %}
 
   // 编辑
-  $('.ui.edit.button').bind('click', function(){
+  $('.ui.edit').bind('click', function(){
     var id = $(this).data('id');
     window.open('{{ app_url_topic }}/edit?id='+id);
   });
 
   // 删除
-  $('.ui.remove.button').bind('click', function(){
+  $('.ui.remove').bind('click', function(){
     var id = $(this).data('id');
     if(confirm('确认执行删除操作吗?')){
       $.post('{{ app_url_topic }}/ajax_del', {id:id });
