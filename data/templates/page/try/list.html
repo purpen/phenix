@@ -89,7 +89,7 @@
                 </div>
                 {%endif%}
                 
-				{% try_list var:'list' page:page state:1 size:30 %}
+				{% try_list var:'list' page:page state:1 size:9 %}
 				{% for t in list.rows %}
 					<div class="card">
                         <div class="problock">
@@ -141,6 +141,13 @@
 					</div>
 				{% endfor %}
 			</div>
+
+        	{% if list.total_rows %}
+        	<div class="ui pagination">
+        		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+        		{%include 'block/pager.html'%}
+        	</div>
+        	{% endif %}
             
         </div>
     </div>

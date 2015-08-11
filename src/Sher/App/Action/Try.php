@@ -35,6 +35,10 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 	 */
 	public function get_list(){
 		$this->set_target_css_state('page_try');
+
+		$pager_url = Sher_Core_Helper_Url::try_list_url(null).'p#p#';
+		
+		$this->stash['pager_url'] = $pager_url;
 		
 		return $this->to_html_page('page/try/list.html');
 	}

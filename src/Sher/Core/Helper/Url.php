@@ -84,6 +84,21 @@ class Sher_Core_Helper_Url {
 		
         return self::build_url_path('app.url.active', $category_id).$page;
     }
+
+	/**
+	 * 试用列表访问地址
+	 */
+    public static function try_list_url($category_id=null, $page=null) {
+        if (!is_null($category_id)) {
+            $category_id = 'c'.$category_id;
+        }
+		
+        if (!empty($page)) {
+            $page = "p${page}.html";
+        }
+		
+        return self::build_url_path('app.url.try', $category_id).$page;
+    }
 	
 	/**
 	 * 帖子列表访问地址,优化URL格式
