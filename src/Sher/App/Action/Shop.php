@@ -473,7 +473,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		}
 		
 		if (!empty($id)){
-			$model = new Sher_Core_Model_Asset();
+			$model = new Sher_Core_Model_Product();
 			$model->delete_asset($id, $asset_id);
 		}else{
 			// 仅仅删除附件
