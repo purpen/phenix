@@ -203,7 +203,7 @@
                 {% endif %}
                 
                 <!--精华话题-->
-                {% topic_list var:'topics' type:2 page:1 size:4 %}
+                {% topic_list var:'topics' published:1 type:2 page:1 size:4 %}
                 <div class="ui socialstick stickcount four blocks">
             		{% for topic in topics.rows %}
                     <div class="block">
@@ -240,7 +240,7 @@
                     </div>
                     <div class="card group">
                         <!--推荐话题-->
-                        {% topic_list var:'topics' sort:'update' type:1 page:1 size:6 %}
+                        {% topic_list var:'topics' published:1 sort:'update' type:1 page:1 size:6 %}
                         <div class="problock">
         					{% for topic in topics.rows %}
         						{% if topic.published %}

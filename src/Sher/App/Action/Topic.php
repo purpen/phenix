@@ -869,6 +869,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$data['try_id'] = $this->stash['try_id'];
 		$data['published'] = (int)$this->stash['published'];
+    $old_published = isset($this->stash['old_published'])?(int)$this->stash['old_published']:1;
 
 		$data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
 		$data['t_color'] = isset($this->stash['t_color'])?(int)$this->stash['t_color']:0;
@@ -934,9 +935,13 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);
       }
 			//更新百度推送
-			if($mode=='create'){
+			if($mode=='create' && $data['published']==1){
 			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10); 
 			}
+      // 由草稿转为发布状态
+      if($mode=='edit' && $old_published==0 && $data['published']==1){
+ 			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10);        
+      }
 				
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());

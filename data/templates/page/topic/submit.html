@@ -280,6 +280,7 @@
 						<input type="hidden" name="file_count" id="file_count" />
 						<input type="hidden" name="try_id" value="{{ try_id }}" />
 						<input type="hidden" name="published" value="1" />
+            <input type="hidden" name="old_published" value="{{ topic.published|default 0 }}" />
 						
 						<div class="ui {{ hide }} field">
 							<label>类别</label>

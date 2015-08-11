@@ -105,7 +105,7 @@
         					<table class="ui basic topic half table">
         						<tbody>
                                     {% if t == 1 %}
-        							    {% topic_list var:'list' time:0 sort:0 page:page size:15 user_id:user.id %}
+        							    {% topic_list var:'list' published:1 time:0 sort:0 page:page size:15 user_id:user.id %}
             							{% for topic in list.rows %}
 											<!-- 判断话题是否可以显示 -->
 											{% if topic.published %}

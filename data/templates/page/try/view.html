@@ -369,7 +369,7 @@
                 	<div class="block title">
                 		试用报告
                     </div>
-                    {% topic_list var:'list' try_id:try._id time:'latest' %}
+                    {% topic_list var:'list' published:1 try_id:try._id time:'latest' %}
                     {% if list.rows %}
 					<div class="social">
 						<table class="ui topic table">
