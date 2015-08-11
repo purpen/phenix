@@ -272,7 +272,7 @@
 					$('#target-love-count').text(result.data.love_count);
                     
                     if(result.data.newadd){
-                        $('#product_'+ id +'_support')
+                        $('#target_'+ id +'_support')
                             .prepend('<a href=\"/user/'+ result.data.user_id +'\" target=\"_blank\" id=\"user-'+ result.data.user_id +'\" class=\"image\" data-variation=\"wide\" data-html=\"<div class=\'header\'>'+  result.data.nickname +'</div><div class=\'content\'>'+ result.data.city +' '+ result.data.job +'</div>\"><img src=\"'+ result.data.avatar +'\" /></a>');
                     }
                     
