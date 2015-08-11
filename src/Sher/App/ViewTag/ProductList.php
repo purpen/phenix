@@ -233,6 +233,12 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 			case 3:
 				$options['sort_field'] = 'comment';
 				break;
+			case 4:
+				$options['sort_field'] = 'stick:update';
+				break;
+			case 5:
+				$options['sort_field'] = 'featured:update';
+				break;
 		}
 		
         $result = $service->get_product_list($query, $options);
