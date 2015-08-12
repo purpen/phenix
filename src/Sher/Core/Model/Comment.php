@@ -185,17 +185,18 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                   'parent_related_id'=> $this->data['target_id'],
               );
               $ok = $remind_model->create($arr);            
+            }else{
+              // 非回复他人,给创建者回复提醒
+              if($user_id){
+                  $user = new Sher_Core_Model_User();
+                  $user->update_counter_byinc($user_id, 'comment_count', 1);          
+              }
             }
             
 	          // 添加动态提醒
             if(isset($timeline_type)){
                 $timeline = Sher_Core_Service_Timeline::instance();
                 $timeline->broad_target_comment($this->data['user_id'], (int)$this->data['target_id'], $timeline_type, array('comment_id'=>(string)$this->data['_id']));
-            }
-            
-            if($user_id){
-                $user = new Sher_Core_Model_User();
-                $user->update_counter_byinc($user_id, 'comment_count', 1);          
             }
             
         }
