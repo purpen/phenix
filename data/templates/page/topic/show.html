@@ -742,9 +742,10 @@
         {% include "page/topic/stick_list.html" %}
         {% include "page/topic/adwrap.html" %}
         
-        {% if visitor.can_edit %}
         <div class="sellwrap admin">
 			<div class="ui icon green hide editable buttons">
+
+        {% if visitor.can_edit %}
                 {% if visitor.is_admin %}
 					{% if topic.top == 1 %}
 					<div class="ui pop top active button" data-content="取消站内置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="1">
@@ -786,6 +787,8 @@
 					<i class="flag outline icon"></i>
 				</div>
 				{% endif %}
+
+        {% endif %}
                 
 				{% if editable %}
 				<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ topic._id }}">
@@ -794,10 +797,9 @@
 				<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ topic._id }}">
 					<i class="remove icon"></i>
 				</div>
-                {% endif %}
+        {% endif %}
 			</div>
         </div>
-        {% endif %}
     </div>
 </div>
 {% include "block/sharebox.html" %}
