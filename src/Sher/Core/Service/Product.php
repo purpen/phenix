@@ -7,6 +7,7 @@ class Sher_Core_Service_Product extends Sher_Core_Service_Base {
 	
   protected $sort_fields = array(
 	  'latest' => array('created_on' => -1),
+    'update' => array('updated_on' => -1),
 	  'hot' => array('love_count' => -1),
 	  'price' => array('sale_price' => -1),
 	  'sales' => array('sale_count' => -1),
@@ -14,6 +15,7 @@ class Sher_Core_Service_Product extends Sher_Core_Service_Base {
 	  'presales' => array('presale_count' => -1),
 	  'rand' => array('random' => 1),
 	  'stick' => array('stick' => -1),
+    'featured' => array('featured' => -1),
 	  'vote' => array('vote_favor_count' => -1),
 	  'comment' => array('comment_count' => -1),
 	  'love' => array('love_count' => -1),

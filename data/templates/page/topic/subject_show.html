@@ -223,7 +223,7 @@
 					产品其他话题
 				</h4>
 				<div class="ui segment attached">
-					{% topic_list var:'stick_list' size:5 sort:'latest' target_id:product._id %}
+					{% topic_list var:'stick_list' published:1 size:5 sort:'latest' target_id:product._id %}
 					<div class="ui list">
 						{% for topic in stick_list.rows %}
 							<!-- 判断话题是否可以显示 -->

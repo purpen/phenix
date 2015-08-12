@@ -55,7 +55,7 @@
 		imageUploadURL: "{{ app_url_upload_pictures }}",
 		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ product._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
 		defaultImageWidth: '',
-		maxImageSize: 1024 * 1024 * 3, // 3M
+		maxImageSize: 1024 * 1024 * 5, // 5M
 		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
 	}).on('editable.imageInserted',  function (e, editor, imageURL) {
 		// 记录插入图片数
@@ -74,7 +74,7 @@
         this.deleteImage($img);
     }).on('editable.imageError', function (e, editor, error) {
 		if (error.code == 5){
-			error.message = '图片太大，请选择小于3M！';
+			error.message = '图片太大，请选择小于5M！';
 		}
 		phenix.show_error_note(error.message, 5000);
     });
@@ -286,7 +286,7 @@
 						</div>
 						
 						<div class="field">
-							<label>产品图片 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
+							<label>产品图片 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个封面图)</small></label>
 							<input type="hidden" name="cover_id" id="product_cover_id" value="{{ product.cover_id }}" />
 							<div id="phenix-uploader"></div>
 						
@@ -319,10 +319,10 @@
                             <label for="video">视频链接</label>
 							{% if product.video %}
 								{% for video in product.video %}
-							  	<input type="text" name="video[]" placeholder="支持优酷视频分享" value="{{ video }}" />
+							  	<input type="text" name="video[]" placeholder="支持优酷/腾讯视频分享" value="{{ video }}" />
 								{% endfor %}
 							{% else %}
-								<input type="text" name="video[]" placeholder="支持优酷视频分享：http://player.youku.com/embed/********* 链接格式" />
+								<input type="text" name="video[]" placeholder="支持优酷/腾讯视频分享：http://player.youku.com/embed/********* 链接格式" />
 							{% endif %}
                         </div>
                         

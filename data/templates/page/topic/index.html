@@ -87,7 +87,7 @@
         <div class="mainleft">
             <!--精选话题-->
             <div class="ui topics segment">
-				{% topic_list var:'list' is_top:1 time:time sort:'update' page:1 size:15 %}
+				{% topic_list var:'list' is_top:1 time:time sort:'update' published:1 page:1 size:15 %}
 				<div class="ui computer tablet only block">
 					<table class="ui basic topic table">
                         <tbody id="topic_list_box">
@@ -104,10 +104,7 @@
             
 						{% for topic in list.rows %}
 							{% if !topic.top %}<!--过滤置顶帖子-->
-								<!-- 判断话题是否可以显示 -->
-								{% if topic.published %}
-									{% include "block/topic_item.html" %}
-								{% endif %}
+								{% include "block/topic_item.html" %}
 							{% endif %}
 						{% endfor %}
                         </tbody>

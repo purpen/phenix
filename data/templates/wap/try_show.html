@@ -473,7 +473,7 @@
 					<div class="social">
 						<table class="ui topic table">
 							<tbody>
-							{% topic_list var:'list' try_id:try._id time:'latest' %}
+							{% topic_list var:'list' published:1 try_id:try._id time:'latest' %}
 							{% for topic in list.rows %}
 								{% include "block/wap_report_item.html" %}
 							{% endfor %}

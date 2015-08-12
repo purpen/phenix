@@ -1,8 +1,32 @@
 {%extends 'layout/mobile.html'%}
 {% block title%}{% endblock %}
 {% block page_css %}
+<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/swiper.min.css">
 <style type="text/css">
-
+  #mfrbird{
+  	margin-top:0;
+  	margin-bottom:2em;
+  }
+  #tmenu{
+  	width: 100%;
+  	height: 42px;
+  	overflow: hidden;
+  }
+  #tmenu .swiper-slide {
+  	padding: 0 20px;
+  	width:auto;
+  	line-height: 43px;
+  }
+  #tmenu .swiper-slide a{
+  	color: #5d6266;
+  	text-decoration: none;
+    font-weight: 700;
+  	padding: 10px 0;
+  }
+  .swiper-slide a.ui.active.item {
+    color: #f36 !important;
+    border-bottom: 3px solid #f36;
+  }
 </style>
 {% endblock %}
 
@@ -14,25 +38,34 @@
 			$this.html(event.strftime('%-D'));
 		});
 	});
+	
+	window.onload = function() {
+		var mySwiper2 = new Swiper('#tmenu',{
+		  freeMode : true,
+		  slidesPerView : 'auto',
+	  });
+	}
+  
 {% endblock %}
-
+{% block layout_js %}
+	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
+{% endblock %}
 {% block content %}
-<div class="ui responsive bread grid">
-	<div class="row">
+	<!--<div class="row">
 		<div class="column">
 			<div class="ui breadcrumb">
 			  	<a class="section" href="{{ app_url_wap }}">
 					<i class="icon home"></i>首页
-				</a>
+				</a>-->
 				<!--{% if !presaled %}-->
-			  	<div class="divider"> / </div>
-			  	<div class="section">商品列表</div>
+			  	<!--<div class="divider"> / </div>
+			  	<div class="section">商品列表</div>-->
 				<!--{% else %}
 			  	<div class="divider"> / </div>
 				<div class="section">新品预售</div>
 				{% endif %}-->
 
-			  <div class="divider"> / </div>
+			  <!--<div class="divider"> / </div>
         {% if current %}
         <div class="active section">{{ current.title }}</div>
         {%else%}
@@ -40,8 +73,8 @@
         {%endif%}
 			</div>
 		</div>
-	</div>
-	<div class="row">
+	</div>-->
+<!--	<div class="row">
 		<div class="column">
 			{% category_list var:'category' only_open:only_open domain:1 show_all:0 current:cid %}
 			<div class="ui fluid selection dropdown">
@@ -52,21 +85,33 @@
 				{% endif %}
 			    <i class="dropdown icon"></i>
 			    <div class="menu">
-            <a class="ui item {%if !cid%}{%if !presale%}active{%endif%}{%endif%}" href="{{ app_url_wap }}/shop">全部</a>
+            <a class="ui item {%if !cid%}{%if !presale%}active{%endif%}{%endif%}" href="{{ app_url_wap }}/shop">全部</a>-->
             <!--<a class="ui item {%if presale%}active{%endif%}" href="{{ app_url_wap }}/shop?presale=1">新品预售</a>-->
-					{% for cat in category.rows %}
+				<!--	{% for cat in category.rows %}
 				  		<a class="ui {{ cat.active }} item" href="{{ app_url_wap }}/shop?cid={{ cat._id }}">{{ cat.title }}</a>
 					{% endfor %}
 			    </div>
 			</div>
 		</div>
+	</div>-->
+	
+<div id="tmenu">
+	<div class="swiper-wrapper">
+		{% category_list var:'category' only_open:only_open domain:1 show_all:0 current:cid %}
+		{% for cat in category.rows %}
+			<div class="swiper-slide">
+	  		<a class="ui {{ cat.active }} item" href="{{ app_url_wap }}/shop?cid={{ cat._id }}">{{ cat.title }}</a>
+			</div>
+		{% endfor %}
 	</div>
 </div>
+	
+	
 
 <!--商店商品-->
 {% product_list var:'sale' is_shop_wap:1 only_onsale:1 category_id:cid page:page sort:'stick:latest' %}
 {% if sale.total_rows %}
-<div class="ui responsive grid" id="mproducts">
+<div class="ui responsive grid" id="mproducts" style="border: 1px solid rgba(34,36,38,.15);">
 	<div class="row">
 		<div class="column">
 			<div class="ui two products cards">
