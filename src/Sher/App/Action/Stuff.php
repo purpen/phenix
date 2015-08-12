@@ -204,7 +204,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 
 		// 获取父级分类
 		$category_model = new Sher_Core_Model_Category();
-		$default_category = $category_model->first('domain'=>4, 'pid'=>(int)$top_category_id);
+		$default_category = $category_model->first(array('domain'=>4, 'pid'=>(int)$top_category_id));
 		$this->stash['default_category_id'] = !empty($default_category_id)?$default_category['_id']:0;
 		
 		$this->stash['mode'] = 'create';

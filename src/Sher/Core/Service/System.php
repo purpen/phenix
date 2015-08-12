@@ -26,4 +26,4 @@ class Sher_Core_Service_System extends Sher_Core_Service_Base {
     }
 	
 }
-?>
+
