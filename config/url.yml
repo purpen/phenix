@@ -62,14 +62,14 @@ app.url.sale.view: '{$app.url.sale}/%s.html'
 
 # 社区
 app.url.social: '{$app.url.domain}/social'
-
-#十万火计
-app.url.contest: '{$app.url.domain}/contest'
-
 app.url.topic: '{$app.url.domain}/topic'
 app.url.topic.list : '{$app.url.topic}/list-c%s-t%s-d%s-t%s-p%s.html'
 app.url.topic.view: '{$app.url.topic}/view-%s-%s.html'
+app.url.vote: '{$app.url.domain}/vote'
 app.url.product.subject: '{$app.url.topic}/subject?id=%s&page=%s'
+
+#十万火计
+app.url.contest: '{$app.url.domain}/contest'
 
 # 产品灵感
 app.url.stuff: '{$app.url.domain}/stuff'
