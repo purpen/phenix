@@ -20,6 +20,21 @@
 		产品合作
 	</a>
     {% endif %}
+
+    {% if visitor.is_chief %}
+	<div class="header item">
+	    产品
+	</div>
+	<a class="{{ css_page_product }} item" href="{{ app_url_admin_base }}/product">
+		产品管理
+	</a>
+	<a class="{{ css_page_taobao }} item" href="{{ app_url_admin_base }}/taobao">
+		淘宝店铺
+	</a>
+	<a class="{{ css_page_cooperate }} item" href="{{ app_url_admin_base }}/incubator/cooperate">
+		产品合作
+	</a>
+    {% endif %}
     
     {% if visitor.is_customer %}
 	<div class="header item">
