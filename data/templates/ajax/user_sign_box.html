@@ -1,5 +1,6 @@
 <taconite>
 <replace select="#user-sign-box">
+    //<![CDATA[
       <div id="user-sign-box">
           <div class="reg-border">
               {% if result.has_sign %}
@@ -14,21 +15,23 @@
               
               {% if is_doing %}
                   {% if result.is_true %}
-                  <div class="add"><![CDATA[
+                  <div class="add">
                       经验 +2 {% if result.give_money %}鸟币 +1{%endif%}
-                  ]]></div>
+                  </div>
                   {%endif%}
               {%endif%}
-              <div class="adreg"><![CDATA[连签 <b>{{ result.continuity_times }}</b> 天]]></div>
+              <div class="adreg">	
+                  连签 <b>{{ result.continuity_times }}</b> 天
+              </div>
           </div>
         
           <p>1、每天签到+2个经验值，连续7天+1枚鸟币</p>
           <p>2、赢取最新智能硬件新品</p>
       </div>
-    
+    //]]>
 </replace>
-	
-	<eval>
+
+<eval>
     {% if is_doing %}
       {% if result.is_true %}
         $('.add').addClass('add-active');
@@ -36,5 +39,5 @@
         phenix.show_error_note("{{ result.msg }}");
       {%endif%}
     {%endif%}
-    </eval>
+</eval>
 </taconite>
