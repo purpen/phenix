@@ -103,10 +103,7 @@
             
 						{% for topic in list.rows %}
 							{% if !topic.top %}<!--过滤置顶帖子-->
-								<!-- 判断话题是否可以显示 -->
-								{% if topic.published %}
-									{% include "block/topic_item.html" %}
-								{% endif %}
+								{% include "block/topic_item.html" %}
 							{% endif %}
 						{% endfor %}
                         </tbody>
