@@ -162,13 +162,13 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 
         // 如果是发布状态,创建动态
         if ($this->data['published'] == 1) {
-            $service = Sher_Core_Service_Timeline::instance();
-            $service->broad_topic_post($this->data['user_id'], (int)$this->data['_id']);
+          $service = Sher_Core_Service_Timeline::instance();
+          $service->broad_topic_post($this->data['user_id'], (int)$this->data['_id']);
+
+          // 增长积分
+          $service = Sher_Core_Service_Point::instance();
+          $service->send_event('evt_new_post', $this->data['user_id']);
         }
-        
-        // 增长积分
-        $service = Sher_Core_Service_Point::instance();
-        $service->send_event('evt_new_post', $this->data['user_id']);
 
       }
 

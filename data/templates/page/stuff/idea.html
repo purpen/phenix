@@ -53,7 +53,7 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				{% topic_list var:'list' category_id:idea_category_id sort:0 size:15 page:page %}
+				{% topic_list var:'list' published:1 category_id:idea_category_id sort:0 size:15 page:page %}
 				<div class="ui three cards">
 					{% for topic in list.rows %}
 						<!-- 判断话题是否可以显示 -->

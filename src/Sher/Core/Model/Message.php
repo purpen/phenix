@@ -11,12 +11,13 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 		'users' => array(), #会话对象<from_user,to_user>
 		's_readed' => 0,
 		'b_readed' => 0,
+    'last_time' => 0, # 最后一次回复时间
 		'mailbox' => array(),
     );
 	
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_CUSTOM;
     protected $required_fields = array('_id');
-    protected $int_fields = array('s_readed', 'b_readed');
+    protected $int_fields = array('s_readed', 'b_readed', 'last_time');
     
     protected $created_timestamp_fields = array('created_on');
     protected $updated_timestamp_fields = array('updated_on');
@@ -74,6 +75,7 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 			$some_data['users'] = array((int)$from_user,(int)$to_user);
 			$some_data['mailbox'] = array($item);
       $some_data['created_on'] = time();
+      $some_data['last_time'] = time();
 			
 			$this->create($some_data);
 		}else{
@@ -83,7 +85,7 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 				$some_data['s_readed'] = $row['s_readed'] + 1;
 			}
 			$some_data['updated_on'] = time();
-			
+			$some_data['last_time'] = time();
 			$updated['$set'] = $some_data;
 			$updated['$push']['mailbox'] = $item;
 			

@@ -338,7 +338,7 @@
             							{% endfor %}
             						{% endif %}
                                     
-        							{% topic_list var:'list' time:0 sort:0 size:16 %}
+        							{% topic_list var:'list' published:1 time:0 sort:0 size:16 %}
         							{% for topic in list.rows %}
 										<!-- 判断话题是否可以显示 -->
 										{% if topic.published %}

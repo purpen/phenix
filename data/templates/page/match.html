@@ -1419,7 +1419,7 @@
 			</div>
 			<div class="row">
 				<div class="column">
-					{% topic_list var:'list' category_id:dream_category_id time:time start_time:start_time end_time:end_time sort:sort page:1 size:8 %}
+					{% topic_list var:'list' published:1 category_id:dream_category_id time:time start_time:start_time end_time:end_time sort:sort page:1 size:8 %}
 					<div class="ui four items">
 						{% for topic in list.rows %}
 							<!-- 判断话题是否可以显示 -->

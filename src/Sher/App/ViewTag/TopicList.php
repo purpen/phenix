@@ -26,6 +26,8 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 		$is_top = false;
 		// 二级分类
 		$category_id = 0;
+    // 是否发布状态
+    $published = 0;
 		
 		$type = 0;
 		$time = 0;
@@ -66,6 +68,15 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 		if($try_id){
 			$query['try_id'] = (int)$try_id;
 		}
+
+    // 是否发布
+    if($published){
+      if((int)$published==1){
+        $query['published'] = 1;     
+      }else{
+        $query['published'] = 0;
+      }
+    }
 		
 		// 类别
 		if ($type == 1){
@@ -131,6 +142,9 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
         break;
       case 7:
         $options['sort_field'] = 'last_reply';
+        break;
+      case 8:
+        $options['sort_field'] = 'fine:update';
         break;
 		}
 		

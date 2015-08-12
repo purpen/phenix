@@ -3,7 +3,7 @@
 	<replaceContent select="#topic-box"><![CDATA[
 		<div id="topic-box" style="padding:0;margin:0">
 						
-						{% topic_list var:'list' category_id:category_id sort:sort page:page %}
+						{% topic_list var:'list' published:1 category_id:category_id sort:sort page:page %}
 						<div class="ui topic relaxed divided list item-box">
 							{% for topic in list.rows %}
 							<div class="item">
@@ -69,7 +69,7 @@
 
   {% if type==2 %}
   	<append select=".item-box"><![CDATA[
-						{% topic_list var:'list' category_id:category_id sort:sort page:page %}
+						{% topic_list var:'list' published:1 category_id:category_id sort:sort page:page %}
 							{% for topic in list.rows %}
 							<div class="item">
 								<div class="content" style="display:block;">
