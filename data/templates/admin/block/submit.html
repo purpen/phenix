@@ -136,18 +136,24 @@
 			<input type="text" name="title" value="{{ chunk.title }}" />
 		</div>
 
+		<div class="inline field">
+			<label>补充:</label>
+			<input type="text" name="pack" value="{{ chunk.pack }}" />
+		</div>
+
+    <div class="field">
+      <label>代码:</label>
+      <textarea name="code">{{ chunk.code }}</textarea>
+    </div>
+
     <div class="field">
       <label>内容:</label>
-      <textarea name="content" placeholder="内容" id="editor">
-        {{ chunk.content }}
-      </textarea>
+      <textarea name="content" placeholder="内容" id="editor">{{ chunk.content }}</textarea>
     </div>
 
     <div class="field">
       <label>备注:</label>
-      <textarea name="remark" placeholder="备注">
-        {{ chunk.remark }}
-      </textarea>
+      <textarea name="remark" placeholder="备注">{{ chunk.remark }}</textarea>
     </div>
 		
 		<div class="inline field">
