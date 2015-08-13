@@ -86,7 +86,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		'stick' => self::STICK_DEFAULT,
 		# 精选
 		'featured' => self::FEATURED_DEFAULT,
-        # 属于1.十万火计;2.蛋年;3.奇思甬动-大赛;4.;
+        # 属于1.十万火计;2.蛋年;3.奇思甬动-大赛;4.反向定制;
         'from_to' => 0,
 
         # 用于大赛

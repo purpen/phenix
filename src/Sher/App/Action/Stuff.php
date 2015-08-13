@@ -200,12 +200,17 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 大赛提交入口
 	 */
 	public function contest_submit(){
+    $redirect_url = sprintf("%s/about3", Doggy_Config::$vars['app.url.contest']);
+    $contest_id = isset($this->stash['contest_id'])?(int)$this->stash['contest_id']:0;
+    if(empty($contest_id)){
+			return $this->show_message_page('大赛ID不存在！', $redirect_url);
+    }
 		$top_category_id = Doggy_Config::$vars['app.stuff.contest_category_id'];
 
 		// 获取父级分类
 		$category_model = new Sher_Core_Model_Category();
 		$default_category = $category_model->first(array('domain'=>4, 'pid'=>(int)$top_category_id));
-		$this->stash['default_category_id'] = !empty($default_category_id)?$default_category['_id']:0;
+		$this->stash['default_category_id'] = !empty($default_category)?$default_category['_id']:0;
 		
 		$this->stash['mode'] = 'create';
 		// 图片上传参数
@@ -472,10 +477,10 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			}
 
       // 更新全文索引
-      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 2); 
+      //Sher_Core_Helper_Search::record_update_to_dig((int)$id, 2); 
       //更新百度推送
       if($mode=='create'){
-        Sher_Core_Helper_Search::record_update_to_dig((int)$id, 11); 
+        //Sher_Core_Helper_Search::record_update_to_dig((int)$id, 11); 
       }
 			
 		}catch(Sher_Core_Model_Exception $e){
@@ -489,6 +494,8 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
             $redirect_url = Doggy_Config::$vars['app.url.birdegg'].'/'.$id.'.html';
         }elseif($data['from_to'] == 3){
             $redirect_url = Doggy_Config::$vars['app.url.contest'].'/qsyd_view/'.$id.'.html';
+        }elseif($data['from_to'] == 4){ // 反向定制
+            $redirect_url = Sher_Core_Helper_Url::stuff_view_url($id); 
         }else{
    		    $redirect_url = Sher_Core_Helper_Url::stuff_view_url($id);       
         }
