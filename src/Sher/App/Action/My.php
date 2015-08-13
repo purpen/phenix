@@ -104,7 +104,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     //判断是否为手机号
     $is_bind = strlen((int)$this->visitor->account) == 11 ?true:false;
     $this->stash['is_bind'] = $is_bind;
-    $this->stash['user'] = $user;
+    $this->stash['user_info'] = $user;
     return $this->to_html_page("page/my/bind_phone.html");
   }
 
