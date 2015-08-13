@@ -76,7 +76,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         $query = array();
         $options['page'] = $page;
         $options['size'] = 15;
-		    $options['sort_field'] = 'fine:update';
+		    $options['sort_field'] = 'latest';
         
         $resultlist = $service->get_topic_list($query,$options);
         $next_page = 'no';
