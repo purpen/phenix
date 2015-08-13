@@ -98,9 +98,13 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    */
   public function bind_phone() {
 		$this->set_target_css_state('user_bind');
+
+    $user_model = new Sher_Core_Model_User();
+    $user = $user_model->load((int)$this->visitor->id); 
     //判断是否为手机号
     $is_bind = strlen((int)$this->visitor->account) == 11 ?true:false;
     $this->stash['is_bind'] = $is_bind;
+    $this->stash['user'] = $user;
     return $this->to_html_page("page/my/bind_phone.html");
   }
 
