@@ -21,6 +21,8 @@ class Sher_Core_Model_Vote extends Sher_Core_Model_Base {
         'relate_id' => 0,
 		# 是否启用
 		'status' => 1,
+		# 用户id
+		'user_id' => 0,
 		# 统计数量
 		'nums' => 0,
     );

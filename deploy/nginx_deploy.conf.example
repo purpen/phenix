@@ -142,7 +142,7 @@ server {
         rewrite ^/social/show-(\d+)-(\d+).html$ /app/wap/social/show?id=$1&page=$2 last;
         rewrite ^/social/(.*)$ /app/wap/social/$1 last;
     }
-
+	
     location /topic {
         rewrite ^/topic[/]?$ /app/wap/social last;
       	rewrite ^/topic/c(\d+)[/]?$ /app/wap/social/get_list?category_id=$1 last;
@@ -444,6 +444,11 @@ server {
 		
         location /contact {
 	        rewrite ^/contact[/]?$ /app/site/index/contact last;
+        }
+
+        # 前台投票地址重定向
+        location /vote {
+          rewrite ^/vote(.*)$ /app/site/vote$1 last;
         }
 		
         location /__file_result__/ {
