@@ -35,6 +35,8 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 		'type' => self::TYPE_TRY,
     # 支持人数
     'vote_count' => 0,
+    # 是否虚拟申请账户
+    'is_invented' => 0,
 		
 		'state'  => 0,
     );
