@@ -9,16 +9,19 @@ class Sher_Core_Model_Block extends Sher_Core_Model_Base  {
 	protected $schema = array(
     'mark' => null,
     'title' => null,
+    'code' => null,
     'content' => null,
     //备注
     'remark'  => null,
-    'user_id' => 0,  
+    'user_id' => 0,
+    'kind' => 0,
+    'pack' => null,
 		'state' => 1,
   	);
 
   protected $required_fields = array('mark', 'title');
 
-  protected $int_fields = array('state', 'user_id');
+  protected $int_fields = array('state', 'user_id', 'kind');
 
 
 	/**
@@ -40,10 +43,6 @@ class Sher_Core_Model_Block extends Sher_Core_Model_Base  {
 	 * 删除后事件
 	 */
 	public function mock_after_remove($id) {
-		// 删除Asset
-		$asset = new Sher_Core_Model_Asset();
-		$asset->remove_and_file(array('parent_id' => $id));
-		unset($asset);
 		
 		return true;
 	}
