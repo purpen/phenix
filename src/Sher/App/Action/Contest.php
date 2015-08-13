@@ -18,7 +18,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/social/index.html';
 	
-	protected $exclude_method_list = array('execute','dream','allist','allist2','dream2','about2','cooperate','rank','ajax_fetch_top_province','ajax_fetch_top_college','ajax_load_colleges','qsyd','qsyd_view','qsyd_list');
+	protected $exclude_method_list = array('execute','dream','allist','allist2','dream2','about2','cooperate','rank','ajax_fetch_top_province','ajax_fetch_top_college','ajax_load_colleges','qsyd','qsyd_view','qsyd_list','custom','about3','tooth');
 	
     public function _init() {
         $this->set_target_css_state('page_incubator');
@@ -504,5 +504,29 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
 		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
     }
+	/**
+     * 反向定制
+     */
+	public function custom(){
+		return $this->to_html_page('match/custom.html');
+	}
+	
+	public function about3(){
+		return $this->to_html_page('match/about3.html');
+	}
+	
+	/**
+     * 反向定制
+     */
+	public function tooth(){
+		return $this->to_html_page('match/tooth.html');
+	}
+	
+	/**
+     * 反向定制
+     */
+	public function power(){
+		return $this->to_html_page('match/power.html');
+	}
 	
 }
