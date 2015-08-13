@@ -51,6 +51,8 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		'try_count'  => 0,
 		# 申请人数
 		'apply_count' => 0,
+    # 虚拟申请人数
+    'invented_apply_count' => 0,
 		# 申请通过的人员
 		'pass_users' => array(),
 		
@@ -88,9 +90,9 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	
     protected $required_fields = array('title', 'user_id');
 	
-    protected $int_fields = array('user_id', 'product_id', 'sticked', 'join_away', 'try_count', 'apply_count', 'pass_count', 'season', 'step_stat');
+    protected $int_fields = array('user_id', 'product_id', 'sticked', 'join_away', 'try_count', 'apply_count', 'pass_count', 'season', 'step_stat', 'invented_apply_count');
 	
-	protected $counter_fields = array('view_count', 'love_count', 'comment_count', 'apply_count');
+	protected $counter_fields = array('view_count', 'love_count', 'comment_count', 'apply_count', 'invented_apply_count');
 	/**
 	 * 扩展关联数据
 	 */
