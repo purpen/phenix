@@ -143,7 +143,7 @@
 					'</div>',
 		validation: {
 	        allowedExtensions: ['jpeg', 'jpg', 'png'],
-	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	        sizeLimit: 5245728 // 5M = 5 * 1024 * 1024 bytes
 	    }
     }).on('complete', function (event, id, name, result) {
 		if(result.is_error){
@@ -212,14 +212,11 @@
 		<div class="row">
 			<div class="ui column">
 				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_social }}">
-						<i class="basic icon community"></i> 发现
+				  	<a class="ui section link" href="{{ app_url_contest }}/about3">
+						<i class="basic icon community"></i> 反向定制
 					</a>
-
 				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ parent_category.view_url }}">{{ parent_category.title }}</a>
-				  	<i class="angle right icon divider"></i>
-				  	<div class="active section">{{ label_title }}提交</div>
+				  	<div class="active section">提交作品</div>
 				</div>
 			</div>
 		</div>
@@ -228,7 +225,7 @@
 			<div class="column">
 				<div class="new topic">
 					<h2 class="ui header">
-						{{ label_title }}提交
+						提交作品
 						<a class="icon-link ui pop" href="{{ app_url_helper }}/topic" data-content="查看帮助" data-variation="inverted" target="_blank"><i class="help icon"></i></a>
 					</h2>
 				</div>
@@ -238,35 +235,39 @@
 						<input type="hidden" name="_id" value="{{ stuff._id }}" id="stuff_id" />
 						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
 						<input type="hidden" name="file_count" id="file_count" />
-            <input type="hidden" name="from_to" value="{{ stuff.from_to }}" />
             <input type="hidden" name="verified" value="{{ stuff.verified }}" />
+
             {% if mode=='create' %}
+              <input type="hidden" name="contest_id" value="{{ contest_id }}" />
+              <input type="hidden" name="from_to" value="4" />
               <input type="hidden" name="category_id" value="{{ default_category_id }}" />
             {%else%}
+              <input type="hidden" name="contest_id" value="{{ stuff.contest_id }}" />
+              <input type="hidden" name="from_to" value="{{ stuff.from_to }}" />
               <input type="hidden" name="category_id" value="{{ stuff.category_id }}" />
             {%endif%}
 					
 						<div class="field">
-							<label for="title">{{ label_title }}名称</label>
+							<label for="title">名称</label>
 						  	<input type="text" name="title" value="{{ stuff.title }}" />
 						</div>
-            {% if visitor.can_admin %}
+            {% if visitor.can_editor %}
             <div class="four fields">
               <div class="field">
-                <label for="title">{{ label_title }}短标题</label>
+                <label for="title">短标题</label>
                   <input type="text" name="short_title" value="{{ stuff.short_title }}" />
               </div>
             </div>
             {%endif%}
                         
 						<div class="field">
-							<label>{{ label_title }}标签</label>
+							<label>标签</label>
 						  	<input type="text" name="tags" value="{{ stuff.tags_s }}" placeholder="{{ label_title }}特性/亮点/别名等优化搜索词" />
 							<div class="description">标签之间使用，逗号隔开</div>
 						</div>
 						
 						<div class="field">
-							<label>{{ label_title }}图片 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个封面图)</small></label>
+							<label>图片 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个封面图)</small></label>
 							<input type="hidden" name="cover_id" id="stuff_cover_id" value="{{ stuff.cover_id }}" />
 							<div id="phenix-uploader"></div>
 						
