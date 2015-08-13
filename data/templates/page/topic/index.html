@@ -33,14 +33,13 @@
 </style>
 {% endblock %}
 
-{% block jquery %}
+{% block jquery %} 
     $('#minslider').flexslider({
         animation: "fade",
         controlNav: false,
         slideshow: false,
     });
     
-    $.taconite.debug = 1;
     // ajax加载签到数据
     phenix.signin();
     
@@ -143,4 +142,8 @@
         {% include "page/topic/adwrap.html" %}
     </div>
 </div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
 {% endblock %}
