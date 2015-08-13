@@ -76,7 +76,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         $query = array();
         $options['page'] = $page;
         $options['size'] = 15;
-		$options['sort_field'] = 'latest';
+		    $options['sort_field'] = 'latest';
         
         $resultlist = $service->get_topic_list($query,$options);
         $next_page = 'no';
@@ -452,14 +452,25 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->_comment_param($comment_options);
 		
 		// 投票部分代码
+		$is_vote = 0;
 		if(isset($topic['vote_id']) && !empty($topic['vote_id'])){
 			$model_vote = new Sher_Core_Model_Vote();
 			$voteOne = $model_vote->find_by_id(array('relate_id' => (int)$id));
 			$vote_id = $voteOne['_id'];
 			$vote = $model_vote->statistics((int)$vote_id);
 			$this->stash['vote'] = &$vote;
-			$this->stash['is_vote'] = true;
+			if($vote){
+				$is_vote = 1;
+			}
 		}
+		
+		$vote_show = 0;
+		if($this->visitor->id && (int)$this->visitor->id == (int)$topic['user_id'] && $this->visitor->mentor){
+			$vote_show = 1;
+		}
+		
+		$this->stash['is_vote'] = $is_vote;
+		$this->stash['vote_show'] = $vote_show;
 		return $this->to_html_page($tpl);
 	}
 	
@@ -781,68 +792,6 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	}
 	
 	/**
-	 * 保存投票信息
-	 */
-	public function save_vote(){
-		
-		$back = array(0,0,0);
-		$field_name = 'nums';
-		
-		$vote = json_decode('['.$this->stash['vote'].']',true);
-		$vote = $vote[0];
-		
-		// 验证拒绝重复投票
-		$model_vote_record = new Sher_Core_Model_VoteRecord();
-		$res_vote_record = $model_vote_record->find(array('vote_id' => (int)$vote['vote_id'],'user_id' => (int)$vote['user_id'],'relate_id' => (int)$vote['topic_id']));
-		if($res_vote_record){
-			echo 1;exit;
-		}
-		
-		$problem = json_decode('['.$this->stash['problem'].']',true);
-		$problem = $problem[0];
-		
-		// 更新投票次数
-		$model_vote = new Sher_Core_Model_Vote();
-		if($model_vote->inc_counter($field_name, (int)$vote['vote_id'], $inc=1)){
-			$back[0] = 1;
-		}
-		
-		$vote_record = array();
-		$i = 0;
-		$model_answer = new Sher_Core_Model_Answer();
-		foreach($problem as $k => $v){
-			foreach($v["answer"] as $key => $value){
-				$vote_record[$i]['vote_id'] = (int)$vote['vote_id'];
-				$vote_record[$i]['user_id'] = (int)$vote['user_id'];
-				$vote_record[$i]['relate_id'] = (int)$vote['topic_id'];
-				$vote_record[$i]['problem_id'] = $v['id'];
-				$vote_record[$i]['answer_id'] = $value;
-				// 更新答案次数
-				if($model_answer->inc_counter('nums', $value, $inc=1)){
-					$back[1]++;
-				}
-				$i++;
-			}
-			$i++;
-		}
-		
-		// 添加投票信息记录
-		foreach($vote_record as $v){
-			if($model_vote_record->create($v)){
-				$back[2]++;
-			}
-		}
-		
-		if(!$back[0] || $back[1] !== count($vote_record) || $back[2] !== count($vote_record)){
-			echo 0;exit;
-		}
-		
-		$model = new Sher_Core_Model_Vote();
-		$result = $model->statistics((int)$vote['vote_id']);
-		echo json_encode($result);
-	}
-	
-	/**
 	 * 保存主题信息
 	 */
 	public function save(){
@@ -1021,6 +970,67 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		return $this->to_taconite_page('ajax/product_topic.html');
 	}
 	
+	/**
+	 * 保存投票信息
+	 */
+	public function save_vote(){
+		
+		$back = array(0,0,0);
+		$field_name = 'nums';
+		
+		$vote = json_decode('['.$this->stash['vote'].']',true);
+		$vote = $vote[0];
+		
+		// 验证拒绝重复投票
+		$model_vote_record = new Sher_Core_Model_VoteRecord();
+		$res_vote_record = $model_vote_record->find(array('vote_id' => (int)$vote['vote_id'],'user_id' => (int)$vote['user_id'],'relate_id' => (int)$vote['topic_id']));
+		if($res_vote_record){
+			echo 1;exit;
+		}
+		
+		$problem = json_decode('['.$this->stash['problem'].']',true);
+		$problem = $problem[0];
+		
+		// 更新投票次数
+		$model_vote = new Sher_Core_Model_Vote();
+		if($model_vote->inc_counter($field_name, (int)$vote['vote_id'], $inc=1)){
+			$back[0] = 1;
+		}
+		
+		$vote_record = array();
+		$i = 0;
+		$model_answer = new Sher_Core_Model_Answer();
+		foreach($problem as $k => $v){
+			foreach($v["answer"] as $key => $value){
+				$vote_record[$i]['vote_id'] = (int)$vote['vote_id'];
+				$vote_record[$i]['user_id'] = (int)$vote['user_id'];
+				$vote_record[$i]['relate_id'] = (int)$vote['topic_id'];
+				$vote_record[$i]['problem_id'] = $v['id'];
+				$vote_record[$i]['answer_id'] = $value;
+				// 更新答案次数
+				if($model_answer->inc_counter('nums', $value, $inc=1)){
+					$back[1]++;
+				}
+				$i++;
+			}
+			$i++;
+		}
+		
+		// 添加投票信息记录
+		foreach($vote_record as $v){
+			if($model_vote_record->create($v)){
+				$back[2]++;
+			}
+		}
+		
+		if(!$back[0] || $back[1] !== count($vote_record) || $back[2] !== count($vote_record)){
+			echo 0;exit;
+		}
+		
+		$model = new Sher_Core_Model_Vote();
+		$result = $model->statistics((int)$vote['vote_id']);
+		echo json_encode($result);
+	}
 	
 	/**
 	 * 批量更新附件所属

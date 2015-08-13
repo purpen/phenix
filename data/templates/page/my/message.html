@@ -158,7 +158,7 @@
                         <div class="count">
                             <div class="ui horizontal divided list">
                                 <div class="item">
-                                    共{{ message.total_count }}条对话
+                                  {% if message.last_time %}最后回复时间: {{ message.last_time|relative_datetime }}, {%endif%}共{{ message.total_count }}条对话
                                 </div>
                                 <div class="item">
                                     <a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" user_id="{{ message.f_user._id }}">回复</a>

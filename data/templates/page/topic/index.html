@@ -71,7 +71,7 @@
                 <ul class="slides">                    
 	                {% for ad in adslide.rows %}
                         <li style="background-image: url('{{ ad.cover.fileurl }}');">
-                            <a href="{{ ad.view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}">
+                            <a href="{{ ad.view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}" target="_blank">
                                 <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
                             </a>
                         </li>
@@ -85,9 +85,9 @@
     
     <div class="mainleftwrap">
         <div class="mainleft">
-            <!--精选话题-->
+            <!--最新话题-->
             <div class="ui topics segment">
-				{% topic_list var:'list' is_top:1 time:time sort:'update' published:1 page:1 size:15 %}
+				{% topic_list var:'list' is_top:1 time:time sort:0 published:1 page:1 size:15 %}
 				<div class="ui computer tablet only block">
 					<table class="ui basic topic table">
                         <tbody id="topic_list_box">

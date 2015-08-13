@@ -538,78 +538,78 @@
 				</div>
                 
                 <!-- 这里是投票部分代码 开始 -->
-                <input type="hidden" name="topic_id" value="{{ id }}" />
-  
-                {% if is_vote %}
-				<div class="post vote" style="margin: 20px 0 60px;">
-                    <h3 class="ui header" style="color: #E40039">{{ vote.title }}</h3>
-                    <div class="ui divider"></div>
-                    {% for problem in vote.problem %}
-                    <input type="hidden" name="problem" value="{{ problem._id }}" />
-                    <input type="hidden" name="select_type" value="{{ problem.select_type }}" />
-    
-                    <div class="ui relaxed divided list">
-                        <div class="votep">
-                            <i class="large question middle aligned icon"></i>
-                            <div class="ui from">
-                                <h4 class="ui header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h4>
-                                <div class="" style="margin: 30px 0 20px;padding: 40px 0 0;border: 1px solid rgba(0,0,0,0.1);" id="{{ problem._id }}" >
-                                    {% if problem.select_type == 1 %}
-                                        {% for answer in problem.answer %}
-                                        <div class="field" style="padding-left:60px;">
-                                            <div class="ui radio checkbox">
-                                                <input type="radio" name="{{ problem._id }}" values="{{ answer._id }}" />
-                                                <label>{{ answer.title }}</label>
-                                            </div>
-											<div style="display:block;margin:10px 0;">
-											    <!--<div class="ui red label {{ answer._id }}" style="display:inline-block;width:80%">-->
-												<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
-												    <div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
+				<div id="block_vote">
+					{% if is_vote %}
+					<div class="post vote" style="margin: 20px 0 60px;">
+						<h3 class="ui header" style="color: #E40039">{{ vote.title }}</h3>
+						<div class="ui divider"></div>
+						<input type="hidden" name="topic_id" value="{{ id }}" />
+						{% for problem in vote.problem %}
+						<input type="hidden" name="problem" value="{{ problem._id }}" />
+						<input type="hidden" name="select_type" value="{{ problem.select_type }}" />
+		
+						<div class="ui relaxed divided list">
+							<div class="votep">
+								<i class="large question middle aligned icon"></i>
+								<div class="ui from">
+									<h4 class="ui header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h4>
+									<div class="" style="margin: 30px 0 20px;padding: 40px 0 0;border: 1px solid rgba(0,0,0,0.1);" id="{{ problem._id }}" >
+										{% if problem.select_type == 1 %}
+											{% for answer in problem.answer %}
+											<div class="field" style="padding-left:60px;">
+												<div class="ui radio checkbox">
+													<input type="radio" name="{{ problem._id }}" values="{{ answer._id }}" />
+													<label>{{ answer.title }}</label>
 												</div>
-																
-												<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;float: right;">
-												    {{ answer.nums }}票	（{{ answer.nums_rate }}%）
-												</div>
-										    </div>
-	                                    </div>
-                                        {% endfor %}
-                                    {% else %} 
-              
-                                        {% for answer in problem.answer %}
-										    <div class="field" style="padding-left:60px;">
-                                                <div class="ui checkbox">
-                                                    <input type="checkbox" name="{{ answer._id }}" values="{{ answer._id }}" />
-                                                    <label>{{ answer.title }}</label>
-                                                </div>
-														
 												<div style="display:block;margin:10px 0;">
-												    <div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
-													    <div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
-													</div>			
-													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;float:right;">
-													    {{ answer.nums }}票	（{{ answer.nums_rate }}%）
+													<!--<div class="ui red label {{ answer._id }}" style="display:inline-block;width:80%">-->
+													<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
+														<div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
+													</div>
+																	
+													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;float: right;">
+														{{ answer.nums }}票	（{{ answer.nums_rate }}%）
 													</div>
 												</div>
-		                                    </div>
-											<!--<div style="display:block;margin:10px 0;" class="ui red label {{ answer._id }}">{{ answer.nums_rate }}%</div>-->
-                                        {% endfor %}
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                <div class="ui right floated aligned grid">
-                    <div class="row">
-                        <div class="column">
-                            <div  id="vote-save" class="ui magenta inverted submit button">确认投票</div>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-                <!-- 这里是投票部分代码 结束 -->
-                
+											</div>
+											{% endfor %}
+										{% else %} 
+				  
+											{% for answer in problem.answer %}
+												<div class="field" style="padding-left:60px;">
+													<div class="ui checkbox">
+														<input type="checkbox" name="{{ answer._id }}" values="{{ answer._id }}" />
+														<label>{{ answer.title }}</label>
+													</div>
+															
+													<div style="display:block;margin:10px 0;">
+														<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
+															<div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
+														</div>			
+														<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;float:right;">
+															{{ answer.nums }}票	（{{ answer.nums_rate }}%）
+														</div>
+													</div>
+												</div>
+												<!--<div style="display:block;margin:10px 0;" class="ui red label {{ answer._id }}">{{ answer.nums_rate }}%</div>-->
+											{% endfor %}
+										{% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+					<div class="ui right floated aligned grid">
+						<div class="row">
+							<div class="column">
+								<div  id="vote-save" class="ui magenta inverted submit button">确认投票</div>
+							</div>
+						</div>
+					</div>
+					{% endif %}
+					<!-- 这里是投票部分代码 结束 -->
+				</div>    
                 <!--预留广告位-->
             	{% ad_list var:'adone' page:1 size:1 name:'topic_view_page_t1' sort_field:'latest' state:2 %}
             	{% if adone %}
@@ -738,13 +738,13 @@
         </div>
         
         {% include "page/topic/rightbar.html" %}
-        
         {% include "page/topic/stick_list.html" %}
         {% include "page/topic/adwrap.html" %}
         
-        {% if visitor.can_edit %}
         <div class="sellwrap admin">
 			<div class="ui icon green hide editable buttons">
+
+        {% if visitor.can_edit %}
                 {% if visitor.is_admin %}
 					{% if topic.top == 1 %}
 					<div class="ui pop top active button" data-content="取消站内置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="1">
@@ -786,6 +786,8 @@
 					<i class="flag outline icon"></i>
 				</div>
 				{% endif %}
+
+        {% endif %}
                 
 				{% if editable %}
 				<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ topic._id }}">
@@ -794,10 +796,31 @@
 				<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ topic._id }}">
 					<i class="remove icon"></i>
 				</div>
-                {% endif %}
+        {% endif %}
 			</div>
         </div>
-        {% endif %}
+		
+		{% if vote_show %}
+		<div class="sellwrap">
+			<div class="block title" style="margin-bottom: 20px">
+				<p>投票特权</p>
+			</div>
+			<div class="ui icon blue hide editable buttons">
+				{% if is_vote %}
+				<a href="{{ app_url_vote }}/edit?tid={{ id }}&vid={{ vote._id }}&tn=1" class="ui pop button">
+					<i class="edit icon"></i> 编辑
+				</a>
+				<a href="{{ app_url_vote }}/deleted?tid={{ id }}&vid={{ vote._id }}&tn=1" class="ui ajax pop button">
+					<i class="remove icon"></i> 删除
+				</a>
+				{% else %}
+				<a href="{{ app_url_vote }}/add?tid={{ id }}&tn=1" class="ui pop button">
+					<i class="plus icon"></i> 添加
+				</a>
+				{% endif %}
+			</div>
+		</div>
+		{% endif %}
     </div>
 </div>
 {% include "block/sharebox.html" %}

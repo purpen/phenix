@@ -143,6 +143,9 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
       case 7:
         $options['sort_field'] = 'last_reply';
         break;
+      case 8:
+        $options['sort_field'] = 'fine:update';
+        break;
 		}
 		
         if ($user_id) {

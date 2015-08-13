@@ -32,7 +32,7 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
 			$query['users'] = (int)$user_id;
 		}
 		
-		$options['sort'] = array('updated_on'=>-1);
+		$options['sort'] = array('last_time'=>-1);
 		$options['page'] = $page;
         $options['size'] = $size;
 		
@@ -71,4 +71,4 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
         }
     }
 }
-?>
+

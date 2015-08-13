@@ -129,7 +129,7 @@
                                 </div>
                                 <div class="desc">
                                     <h2>
-                                        <!--{{ ad.title }}-->
+                                        {{ ad.title }}
                                     </h2>
                                     <p>{{ ad.sub_title }}</p>
                                 </div>
@@ -240,7 +240,7 @@
                     </div>
                     <div class="card group">
                         <!--推荐话题-->
-                        {% topic_list var:'topics' published:1 sort:'update' type:1 page:1 size:6 %}
+                        {% topic_list var:'topics' published:1 sort:1 type:1 page:1 size:10 %}
                         <div class="problock">
         					{% for topic in topics.rows %}
         						{% if topic.published %}
