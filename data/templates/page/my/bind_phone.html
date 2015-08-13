@@ -246,7 +246,7 @@
 
         <div class="thirdlogin">
           第三方账户：
-        {% if user.sina_uid %}
+        {% if user_info.sina_uid %}
           <a href="" class="ui red icon inverted button" title="解绑-微博账号">
             <i class="weibo icon"></i>
           </a>
@@ -256,7 +256,7 @@
           </a>
         {%endif%}
 
-        {% if user.qq_uid %}
+        {% if user_info.qq_uid %}
           <a href="" class="ui blue icon inverted button" title="解绑-QQ账号">
             <i class="qq icon"></i>
           </a>
@@ -266,7 +266,7 @@
           </a>
         {%endif%}
 
-        {% if user.wx_open_id %}
+        {% if user_info.wx_open_id %}
           <a class="ui green icon inverted button" title="解绑-微信账号">
             <i class="wechat icon"></i>
           </a>
