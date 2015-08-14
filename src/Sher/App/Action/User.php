@@ -383,7 +383,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
             $this->stash['page_notice_success'] = true;   
         }
         
-        return $this->to_taconite_page('ajax/user_notice.html');
+        return $this->ajax_json('', false, '', $this->stash);
 	}
     
     /**
