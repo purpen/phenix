@@ -74,6 +74,7 @@ class Sher_Admin_Action_Contest extends Sher_Admin_Action_Base implements DoggyX
         $data['short_title'] = $this->stash['short_title'];
         $data['short_name']  = $this->stash['short_name'];
         $data['summary']  = $this->stash['summary'];
+        $data['step_stat']  = (int)$this->stash['step_stat'];
         $data['content']  = $this->stash['content'];
         $data['start_date']  = $this->stash['start_date'];
         $data['finish_date']  = $this->stash['finish_date'];
