@@ -261,6 +261,41 @@
 
 {% block content %}
 
+<div class="shop viewtop" style="background-image: url('{{ stuff.cover.thumbnails.big.view_url }}');">
+	<div class="masthead">
+		<div class="masthead-cover">
+        	<div class="ui responsive grid">
+        		<div class="row">
+        			<div class="column">
+        				<div class="container">
+
+        					<h1 class="block title">{{ stuff.title }}</h1>
+
+        					<p>
+                                <span class="clove">
+                                    <span id="product-comment-count">{{ stuff.comment_count }}</span> 个评论
+                                </span>
+                            </p>
+                            
+            				{% if stuff.tags %}
+            				<div class="idea tags">
+            					{% for tag in product.tags %}
+            					{% if tag %}
+            					<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui small label">
+            						{{ tag }}
+            					</a>
+            					{% endif %}
+            					{% endfor %}
+            				</div>
+            				{% endif %}
+        				</div>
+        			</div>
+        		</div>
+        	</div>
+        </div>
+    </div>
+</div>
+
 <div class="mainwrap" id="shoppage">
     <div class="mainleftwrap">
         <div class="mainleft">
