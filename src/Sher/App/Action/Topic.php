@@ -31,7 +31,21 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->set_target_css_state('page_sub_topic');
         
 		$this->stash['domain'] = Sher_Core_Util_Constant::TYPE_TOPIC;
-  }
+        
+        // 获取登陆者信息
+        $this->stash['user'] = array();
+        if($this->visitor->id){
+            $user = new Sher_Core_Model_User();
+            $row = $user->load((int)$this->visitor->id);
+            if(!empty($row)){
+                $this->stash['user'] = $user->extended_model_row($row);
+            }
+            // 用户实时积分
+            $point_model = new Sher_Core_Model_UserPointBalance();
+            $current_point = $point_model->load((int)$this->visitor->id);
+            $this->stash['current_point'] = $current_point;
+        }
+    }
 	
 	/**
 	 * 社区

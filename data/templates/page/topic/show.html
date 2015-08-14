@@ -705,6 +705,7 @@
     </div>
     <div class="mainright">
         {% include "page/topic/usersign.html" %}
+        {% include "page/topic/login_user.html" %}
         <div class="ui sticky">
             <div class="sellwrap">
                 <div class="user action">
@@ -736,7 +737,6 @@
                 </div>
             </div>
         </div>
-        
         {% include "page/topic/rightbar.html" %}
         {% include "page/topic/stick_list.html" %}
         {% include "page/topic/adwrap.html" %}
@@ -744,7 +744,7 @@
         <div class="sellwrap admin">
 			<div class="ui icon green hide editable buttons">
 
-        {% if visitor.can_edit %}
+            {% if visitor.can_edit %}
                 {% if visitor.is_admin %}
 					{% if topic.top == 1 %}
 					<div class="ui pop top active button" data-content="取消站内置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="1">
@@ -787,7 +787,7 @@
 				</div>
 				{% endif %}
 
-        {% endif %}
+            {% endif %}
                 
 				{% if editable %}
 				<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ topic._id }}">
@@ -796,7 +796,7 @@
 				<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ topic._id }}">
 					<i class="remove icon"></i>
 				</div>
-        {% endif %}
+                {% endif %}
 			</div>
         </div>
 		
@@ -825,4 +825,8 @@
 </div>
 {% include "block/sharebox.html" %}
 {% include "block/qrcode.html" %}
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
 {% endblock %}

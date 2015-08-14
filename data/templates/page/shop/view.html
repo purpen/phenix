@@ -404,7 +404,8 @@
     
     $('.ui.sticky')
       .sticky({
-        context: '#shoppage'
+        bottomOffset : 500,
+        context: '.mainleft'
     });
       
 {% endblock %}
@@ -553,8 +554,8 @@
 				</div>
             </div>
             
-            <div class="container">
-                {% if product.stage == 15 %}
+            {% if product.stage == 15 %}
+            <div class="container">    
                 <div class="reviews">
         			<div class="reply box">
           			    <!--ajax comment-->
@@ -575,8 +576,10 @@
           		  	    {% include "block/comment_box_site.html" %}
                     </div>
                 </div>
-                {%else%}
-                    {% if product.comment_count != 0 %}
+            </div>
+            {%else%}
+                {% if product.comment_count != 0 %}
+                <div class="container">
                     <div class="product reviews">
                         <div class="block title">
                             用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
@@ -586,9 +589,9 @@
                             <div class="ui threaded comments"></div>
                         </div>
                     </div>
-                    {% endif %}
-                {%endif%}
-            </div>
+                </div>
+                {% endif %}
+            {%endif%}
         </div>
         
         <div id="product_guess_list"><!--ajax fetch--></div>
