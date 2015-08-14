@@ -92,11 +92,11 @@
   .ui.table:not(.unstackable) tr{
     display:table-row !important;
   }
-  .ui.table tr td {
+  .ui.table:not(.unstackable) tr>td {
     border-top: 5px solid #613003 !important;
     padding: .25em .5em!important;
   }
-  .ui.celled.table tr td, .ui.celled.table tr th {
+  .ui.celled.table tr td, .ui.celled.table tr th ,.ui.table:not(.unstackable) tr>td{
     border-left: 5px solid #613003 !important;
   }
   i.icon.protectt{

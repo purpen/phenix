@@ -239,13 +239,13 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
   	/**
    * 反向定制
    */
-	public function custom(){
+/*	public function custom(){
 		return $this->to_html_page('wap/contest/custom.html');
 	}
 	
 	public function about3(){
 		return $this->to_html_page('wap/contest/about3.html');
 	}
-	
+	*/
 }
 
