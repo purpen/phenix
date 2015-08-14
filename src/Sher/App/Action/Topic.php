@@ -464,6 +464,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			}
 		}
 		
+		// 添加显示权限(登陆状态、发帖本人、星级会员)
 		$vote_show = 0;
 		if($this->visitor->id && (int)$this->visitor->id == (int)$topic['user_id'] && $this->visitor->mentor){
 			$vote_show = 1;

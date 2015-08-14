@@ -104,7 +104,7 @@ class Sher_Core_Model_Vote extends Sher_Core_Model_Base {
 			$answer_rows = $ans_model->find(array('problem_id' => (string)$pro_id));
 			foreach($answer_rows as $val){
 				$ans_id = $val['_id'];
-				if(!$ans_model->remove(array('_id' => $ans_id))){
+				if(!$ans_model->remove(array('_id' => (string)$ans_id))){
 					$is_ok++;
 				}
 			}

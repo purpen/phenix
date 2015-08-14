@@ -98,8 +98,8 @@
 				</td>
 				<td>
 					<p>
-						<a href="{{ app_url_admin_base }}/vote/edit?id={{ vote._id }}&page={{ page }}" class="ui link item">编辑</a>
-		          		<a href="{{ app_url_admin_base }}/vote/deleted?id={{ vote._id }}&page={{ page }}" class="ui confirm-request link item">
+						<a href="{{ app_url_admin_base }}/vote/edit?vid={{ vote._id }}&rid={{ vote.relate_id }}&page={{ page }}" class="ui link item">编辑</a>
+		          		<a href="{{ app_url_admin_base }}/vote/deleted?vid={{ vote._id }}&rid={{ vote.relate_id }}&page={{ page }}" class="ui confirm-request link item">
 						    删除
 					    </a>
 					</P>
