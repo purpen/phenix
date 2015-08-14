@@ -243,5 +243,9 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 		return $this->to_html_page('wap/contest/custom.html');
 	}
 	
+	public function about3(){
+		return $this->to_html_page('wap/contest/about3.html');
+	}
+	
 }
 
