@@ -86,10 +86,30 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
             }
         }
         
+        $max = count($resultlist['rows']);
+        for($i=0;$i<$max;$i++){
+            if($resultlist['rows'][$i]['asset_count'] > 0){
+                $asset = Sher_Core_Service_Asset::instance();
+                $q = array(
+                    'parent_id'  => $resultlist['rows'][$i]['_id'],
+                    'asset_type' => 55,
+                );
+                $op = array(
+                    'page' => 1,
+                    'size' => !empty($resultlist['rows'][$i]['cover'])?4:5,
+                    'sort_field' => 'positive',
+                );
+                $asset_result = $asset->get_asset_list($q, $op);
+                $resultlist['rows'][$i]['asset_list'] = $asset_result['rows'];
+                
+                //print_r($resultlist['rows'][$i]['asset_list']);
+            }
+        }
+        
         $this->stash['nex_page'] = $next_page;
         $this->stash['results'] = $resultlist;
         
-        return $this->to_taconite_page('ajax/fetch_topics.html');
+        return $this->ajax_json('', false, '', $this->stash);
     }
     
 	/**

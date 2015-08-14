@@ -47,7 +47,10 @@
 	$('.ui.more.button').bind('click', function(){
 		var page = $(this).data('page');
         if(page != 'no'){
-            $.get('{{ app_url_topic }}/ajax_fetch_more', { page:page });
+            $.get('{{ app_url_topic }}/ajax_fetch_more', { page:page }, function(rs){
+                var rendered = phenix.ajax_render_result('#fetch_more_topics_tpl', rs.data);
+                $('#topic_list_box').append(rendered);
+            }, 'json');
         }else{
             $(this).text('没有更多了~');
         }
@@ -146,4 +149,5 @@
 
 {% block templates %}
 {% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
+{% mustache id:'fetch_more_topics_tpl' tpl:'mustache/fetch_more_topics.mustache' %}
 {% endblock %}
