@@ -401,7 +401,7 @@
 			  for(var i = 0; i < date.length; i++){
 				var answer = date[i].answer;
 				for(var j = 0; j < answer.length; j++){
-				  $('.bar.'+answer[j]._id).attr('style','width:'+answer[j].nums_rate+'%');
+				  $('.bar.'+answer[j]._id).attr('style','min-width: 0;width:'+answer[j].nums_rate+'%');
 				  $('.vote_num.'+answer[j]._id).text(answer[j].nums + '票（'+answer[j].nums_rate+'%）');
 				  
 				}
