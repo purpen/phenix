@@ -1,15 +1,21 @@
-{%extends 'layout/column.html'%}
+{%extends 'layout/mobile.html'%}
 {% block title %}{% endblock %}
 
 {% block page_css %}
 <style class="text/css">
-  .custop{
-    background:url({{ app_url_packaged }}/images/match/custom.jpg) no-repeat center center / cover;
-    height:600px;
+  .ui.center.aligned{
+    text-align:center;
+  }
+  #mfrbird{
+    margin-top:0;
   }
   .custop{
-    padding-top:65px;
+    background:url({{ app_url_packaged }}/images/match/custom.jpg) no-repeat center center / cover;
+  }
+  .custop{
+    padding-top:50px;
     color:#fff;
+    padding-bottom:100px;
   }
   .custop h1{
     margin-top: 0px;
@@ -22,6 +28,7 @@
   }
   .ui.big.block{
     margin:0;
+    padding:25px 0;
   }
   .ui.center.aligned.column h3 i,.ui.center.aligned.column h3 .content{
     display:inline-block !important;
@@ -44,9 +51,9 @@
     border-left:1px solid #fff;
     text-align:left;
   }
-  .ui.big.block .column p:first-child{
+  /*.ui.big.block .column p:first-child{
     margin-top:1em;
-  }
+  }*/
   h4{
     margin: 0 auto 0.5rem;
     font-weight: 500;
@@ -57,12 +64,12 @@
   h4.wtop:first-child{
     margin-top:15px;
   }
-  .ui.four.column,.ui.two.wide.column {
+  .ui.seven.column,.ui.five.wide.column {
     margin-top:1em !important;
   }
-  .ui.four.column h4.ui.icon.header{
+  .ui.seven.column h4.ui.icon.header{
     background: #fd7900;
-    color: #fff;
+    color: #fff !important;
     padding: 30px 36px;
     border-radius: 500rem;
   }
@@ -73,10 +80,7 @@
   .ui.header>.icon{
     font-size:2em !important;
   }
-  .ui.grid>.row>[class*="two wide"].column{
-    width:16.5% !important;
-  }
-  .ui.two.wide.column h4.ui.header{
+  .ui.five.wide.column h4.ui.header{
     margin-top:5px;
   }
   .celled.padded{
@@ -85,11 +89,15 @@
     border:none;
     margin:2em 0;
   }
-  .ui.table tr td {
-    border-top: 5px solid #613003;
+  .ui.table:not(.unstackable) tr{
+    display:table-row !important;
   }
-  .ui.celled.table tr td, .ui.celled.table tr th {
-    border-left: 5px solid #613003;
+  .ui.table:not(.unstackable) tr>td {
+    border-top: 5px solid #613003 !important;
+    padding: .25em .5em!important;
+  }
+  .ui.celled.table tr td, .ui.celled.table tr th ,.ui.table:not(.unstackable) tr>td{
+    border-left: 5px solid #613003 !important;
   }
   i.icon.protectt{
     background: url({{ app_url_packaged }}/images/match/customp7.png) no-repeat center center /cover !important;
@@ -197,7 +205,7 @@
         </div>
       </div>
       <div class="ui center aligned row">
-        <div class="ui four wide column">
+        <div class="ui seven wide column">
           <h4 class="ui icon header">
             <i class="users icon"></i>
             设计师
@@ -205,7 +213,7 @@
           <p>有成熟的设计功底却无人问津；<br />
           好点子缺少专业的技术支持；</p>
         </div>
-        <div class="ui four wide column">
+        <div class="ui seven wide column">
           <h4 class="ui icon header">
             <i class="users icon"></i>
             创业者
@@ -213,7 +221,7 @@
           <p>有好的项目却没有合作团队；<br />
           需要协同创业的环境；</p>
         </div>
-        <div class="ui four wide column">
+        <div class="ui seven wide column">
           <h4 class="ui icon header">
             <i class="users icon"></i>
             爱好者
@@ -266,7 +274,7 @@
         </div>
       </div>
       <div class="ui center aligned row">
-        <div class="ui two wide column">
+        <div class="ui five wide column">
           <img src="{{ app_url_packaged }}/images/match/customp1.png" alt="雷海波">
           <h4 class="ui header">
             雷海波 
@@ -275,7 +283,7 @@
             </div>
           </h4>
         </div>
-        <div class="ui two wide column">
+        <div class="ui five wide column">
           <img src="{{ app_url_packaged }}/images/match/customp2.png" alt="田孝义">
           <h4 class="ui header">
             田孝义 
@@ -284,7 +292,7 @@
             </div>
           </h4>
         </div>
-        <div class="ui two wide column">
+        <div class="ui five wide column">
           <img src="{{ app_url_packaged }}/images/match/customp3.png" alt="朱红">
           <h4 class="ui header">
             朱红 
@@ -293,7 +301,7 @@
             </div>
           </h4>
         </div>
-        <div class="ui two wide column">
+        <div class="ui five wide column">
           <img src="{{ app_url_packaged }}/images/match/customp4.png" alt="崔波">
           <h4 class="ui header">
             崔波
@@ -302,7 +310,7 @@
             </div>
           </h4>
         </div>
-        <div class="ui two wide column">
+        <div class="ui five wide column">
           <img src="{{ app_url_packaged }}/images/match/customp5.png" alt="张翀">
           <h4 class="ui header">
             张翀 
@@ -311,7 +319,7 @@
             </div>
           </h4>
         </div>
-        <div class="ui two wide column">
+        <div class="ui five wide column">
           <img src="{{ app_url_packaged }}/images/match/customp6.png" alt="范亚宾">
           <h4 class="ui header">
             范亚宾 
