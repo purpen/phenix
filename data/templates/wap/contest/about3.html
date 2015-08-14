@@ -3,6 +3,9 @@
 
 {% block page_css %}
 <style class="text/css">
+  .ui.center.aligned{
+    text-align:center;
+  }
   #mfrbird{
     margin-top:0;
   }
@@ -61,12 +64,12 @@
   h4.wtop:first-child{
     margin-top:15px;
   }
-  .ui.seven.column,.ui.two.wide.column {
+  .ui.seven.column,.ui.five.wide.column {
     margin-top:1em !important;
   }
   .ui.seven.column h4.ui.icon.header{
     background: #fd7900;
-    color: #fff;
+    color: #fff !important;
     padding: 30px 36px;
     border-radius: 500rem;
   }
@@ -77,10 +80,10 @@
   .ui.header>.icon{
     font-size:2em !important;
   }
-  .ui.grid>.row>[class*="two wide"].column{
+  .ui.grid>.row>[class*="five wide"].column{
     width:16.5% !important;
   }
-  .ui.two.wide.column h4.ui.header{
+  .ui.five.wide.column h4.ui.header{
     margin-top:5px;
   }
   .celled.padded{
@@ -270,7 +273,7 @@
         </div>
       </div>
       <div class="ui center aligned row">
-        <div class="ui two wide column">
+        <div class="ui five wide column">
           <img src="{{ app_url_packaged }}/images/match/customp1.png" alt="雷海波">
           <h4 class="ui header">
             雷海波 
@@ -279,7 +282,7 @@
             </div>
           </h4>
         </div>
-        <div class="ui two wide column">
+        <div class="ui five wide column">
           <img src="{{ app_url_packaged }}/images/match/customp2.png" alt="田孝义">
           <h4 class="ui header">
             田孝义 
@@ -288,7 +291,7 @@
             </div>
           </h4>
         </div>
-        <div class="ui two wide column">
+        <div class="ui five wide column">
           <img src="{{ app_url_packaged }}/images/match/customp3.png" alt="朱红">
           <h4 class="ui header">
             朱红 
@@ -297,7 +300,7 @@
             </div>
           </h4>
         </div>
-        <div class="ui two wide column">
+        <div class="ui five wide column">
           <img src="{{ app_url_packaged }}/images/match/customp4.png" alt="崔波">
           <h4 class="ui header">
             崔波
@@ -306,7 +309,7 @@
             </div>
           </h4>
         </div>
-        <div class="ui two wide column">
+        <div class="ui five wide column">
           <img src="{{ app_url_packaged }}/images/match/customp5.png" alt="张翀">
           <h4 class="ui header">
             张翀 
@@ -315,7 +318,7 @@
             </div>
           </h4>
         </div>
-        <div class="ui two wide column">
+        <div class="ui five wide column">
           <img src="{{ app_url_packaged }}/images/match/customp6.png" alt="范亚宾">
           <h4 class="ui header">
             范亚宾 
