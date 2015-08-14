@@ -445,9 +445,9 @@
         </div>
         {%endif%}
         
-        {% if visitor.can_edit %}
         <div class="sellwrap">
-            管理：
+
+        {% if visitor.can_edit %}
             <div class="ui icon green editable inverted buttons">
                 {% if stuff.featured %}
 				<div class="ui pop fine active button" data-content="取消精选"  data-variation="inverted" data-mark="y" data-id="{{ stuff._id }}">
@@ -467,17 +467,20 @@
 					<i class="flag outline icon"></i>
 				</div>
 				{% endif %}
-        		{% if editable %}
-                      <div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ stuff._id }}">
-                          <i class="edit icon"></i>
-                      </div>
-                      <div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ stuff._id }}">
-                          <i class="remove icon"></i>
-                      </div>
-        		{% endif %}
+
     		</div>
-        </div>
         {%endif%}
+        {% if editable %}
+          <div class="ui icon green editable inverted buttons">
+                  <div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ stuff._id }}">
+                      <i class="edit icon"></i>
+                  </div>
+                  <div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ stuff._id }}">
+                      <i class="remove icon"></i>
+                  </div>
+          </div>
+        {% endif %}
+        </div>
     </div>
 </div>
 {% include "block/sharebox.html" %}
