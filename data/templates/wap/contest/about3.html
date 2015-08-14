@@ -3,6 +3,9 @@
 
 {% block page_css %}
 <style class="text/css">
+  #mfrbird{
+    margin-top:0;
+  }
   .custop{
     background:url({{ app_url_packaged }}/images/match/custom.jpg) no-repeat center center / cover;
   }
@@ -22,6 +25,7 @@
   }
   .ui.big.block{
     margin:0;
+    padding:25px 0;
   }
   .ui.center.aligned.column h3 i,.ui.center.aligned.column h3 .content{
     display:inline-block !important;
@@ -57,10 +61,10 @@
   h4.wtop:first-child{
     margin-top:15px;
   }
-  .ui.four.column,.ui.two.wide.column {
+  .ui.seven.column,.ui.two.wide.column {
     margin-top:1em !important;
   }
-  .ui.four.column h4.ui.icon.header{
+  .ui.seven.column h4.ui.icon.header{
     background: #fd7900;
     color: #fff;
     padding: 30px 36px;
@@ -197,7 +201,7 @@
         </div>
       </div>
       <div class="ui center aligned row">
-        <div class="ui four wide column">
+        <div class="ui seven wide column">
           <h4 class="ui icon header">
             <i class="users icon"></i>
             设计师
@@ -205,7 +209,7 @@
           <p>有成熟的设计功底却无人问津；<br />
           好点子缺少专业的技术支持；</p>
         </div>
-        <div class="ui four wide column">
+        <div class="ui seven wide column">
           <h4 class="ui icon header">
             <i class="users icon"></i>
             创业者
@@ -213,7 +217,7 @@
           <p>有好的项目却没有合作团队；<br />
           需要协同创业的环境；</p>
         </div>
-        <div class="ui four wide column">
+        <div class="ui seven wide column">
           <h4 class="ui icon header">
             <i class="users icon"></i>
             爱好者
