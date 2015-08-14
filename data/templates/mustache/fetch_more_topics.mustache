@@ -9,7 +9,7 @@
 		</a>
 	</td>
 	<td colspan="3" class="htitle nide wide">
-      	<h3 class="title {%if t_color==1%}topic-title-color-red{%endif%}{%if t_color==2%}topic-title-color-blue{%endif%}{%if t_color==3%}topic-title-color-green{%endif%}{%if t_color==4%}topic-title-color-yellow{%endif%}">
+      	<h3 class="title {{#red}} topic-title-color-red{{/red}}{{#blue}} topic-title-color-blue{{/blue}}{{#green}} topic-title-color-green{{/green}}{{#yellow}} topic-title-color-yellow{{/yellow}}">
 			<a href="{{ view_url }}" title="{{ title }}" class="ui line" target="_blank">
                 {{ title }}
                 {{#top}}<span class="ui green small label">置顶</span>{{/top}}

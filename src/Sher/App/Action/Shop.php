@@ -613,8 +613,87 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
     /**
      * ajax加载商品列表
      */
-    public function ajax_load_list(){
-        return $this->to_taconite_page('page/shop/ajax_list.html');
+    public function ajax_load_list(){        
+        $category_id = $this->stash['category_id'];
+        $presaled = isset($this->stash['presaled'])?$this->stash['presaled']:0;
+        $type = $this->stash['type'];
+        
+        $page = $this->stash['page'];
+        $size = $this->stash['size'];
+        $sort = $this->stash['sort'];
+        
+        $service = Sher_Core_Service_Product::instance();
+        $query = array();
+        $options = array();
+        
+		if ($category_id) {
+			$query['category_id'] = (int)$category_id;
+		}
+        // is_shop=1
+        $query['stage'] = array('$in'=>array(5, 9, 12, 15));
+        
+		// 预售
+		if ($presaled) {
+		  $query['stage'] = 5;
+		}
+        // 仅发布
+        $query['published'] = 1;
+        
+        if($type){
+            switch((int)$type){
+                case 1:
+                    $query['stage'] = 15;
+                    break;
+                case 2:
+                    $query['stage'] = array('$in'=>array(5,9));
+                    break;
+                case 3:
+                    $query['stage'] = 12;
+                    break;
+                case 4:
+                    $query['stick'] = 1;
+                    break;
+                case 5:
+                    $query['featured'] = 1;
+                    break;
+                case 6:
+                    $query['snatched'] = 1;
+                    break;
+                case 7:
+                    $query['stage'] = 5;
+                    break;
+            }
+        }
+		// 排序
+		switch ((int)$sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'vote';
+				break;
+			case 2:
+				$options['sort_field'] = 'love';
+				break;
+			case 3:
+				$options['sort_field'] = 'comment';
+				break;
+			case 4:
+				$options['sort_field'] = 'stick:update';
+				break;
+			case 5:
+				$options['sort_field'] = 'featured:update';
+				break;
+		}
+        
+        $options['page'] = $page;
+        $options['size'] = $size;
+        
+        $result = $service->get_product_list($query, $options);
+        
+        $this->stash['results'] = $result;
+        
+        return $this->ajax_json('', false, '', $this->stash);
     }
 
 	/**
