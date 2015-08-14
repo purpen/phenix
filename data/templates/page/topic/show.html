@@ -581,7 +581,7 @@
 												<div style="display:block;margin:10px 0;">
 													<!--<div class="ui red label {{ answer._id }}" style="display:inline-block;width:80%">-->
 													<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
-														<div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
+														<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;"></div>
 													</div>
 																	
 													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;float: right;">
@@ -601,7 +601,7 @@
 															
 													<div style="display:block;margin:10px 0;">
 														<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
-															<div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
+															<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;"></div>
 														</div>			
 														<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;float:right;">
 															{{ answer.nums }}票	（{{ answer.nums_rate }}%）
