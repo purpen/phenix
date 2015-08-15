@@ -13,7 +13,7 @@
     margin-bottom:1em !important;
   }
   .line.column h3.ui.header,.line.column h3.ui.header .sub.header{
-    color:#de3726 !important;
+    color:#ff6100 !important;
   }
   img.inline{
     position: absolute;
@@ -28,14 +28,11 @@
     margin:0;
   }
   .ui.time.block{
-    background:url({{ app_url_packaged }}/images/match/tooth2.jpg) no-repeat center center /cover;
+    background:url({{ app_url_packaged }}/images/match/power2.jpg) no-repeat center center /cover;
     //height:500px;
   }
   .ui.time.block .line.column h3.ui.header,.ui.time.block .line.column h3.ui.header .sub.header{
     color:#fff !important;
-  }
-  .ui.grid>.row>[class*="two wide"].column{
-    width:14.5% !important;
   }
   .time.block .six.wide.column{
     margin: 1em 0 !important;
@@ -45,27 +42,33 @@
     padding: 50px 0;
     border-radius: 500rem;
     background: #fff;
-    color: #de3726;
+    color: #ff6100;
     font-weight: 700;
+    box-shadow: 0 0 0 .2em #ff6100 inset;
   }
   .time.block .six.wide.column h4.ui.header > .sub.header{
     color:#00737c;
   } 
-  .time.block i.caret.icon{
+  i.caret.icon{
     margin-top: 0px;
     color: #f9a200;
   }
   h4.icon.header i.icon{
-    background:#002b67;
+    background:#ff6100;
     color:#fff !important;
     font-size: 2.8em !important;
     margin-bottom:1rem !important;
+    border: none;
+    box-shadow: none;
   }
-  .ui.eight.wide.column{
+  h4.icon.header {
+    color:#ff6100 !important;
+  }
+  .ui.four.wide.column{
     margin:0em auto !important;
   }
   .ui.big.chun.block{
-    background:url({{ app_url_packaged }}/images/match/tooth4.jpg) no-repeat center center /cover;
+    background:url({{ app_url_packaged }}/images/match/power4.jpg) no-repeat center center /cover;
     padding-top: 2.5em;
   }
   .ui.big.chun.block .row{
@@ -74,8 +77,11 @@
   .ui.big.chun.block h3.ui.header,.ui.big.chun.block h3 .sub.header{
     color:#fff !important;
   }
+  .ui.big.chun.block .row p{
+    line-height: 40px;
+  }
   .ui.clim.block{
-    background:url({{ app_url_packaged }}/images/match/tooth3.jpg) no-repeat center center /cover;
+    background: #ffa700;
     color:#fff;
   }
   .ui.clim.block h3.ui.header,.ui.clim.block h3.ui.header .sub.header{
@@ -85,9 +91,8 @@
     margin:3em 3% 1em !important;
   }
   .clim .ui.seven.column p{
-    background:#00e2b1;
+    background:#ff6100;
     padding: 50px 5px 20px;
-    //min-height: 190px;
   }
   .clim .ui.seven.column .clicre{
     position: absolute;
@@ -97,11 +102,12 @@
     height: 70px;
     top: -35px;
     left: 50%;
-    background: #00727c;
+    background: #ffd898;
+    color: #ff6100;
     margin-left: -35px;
   }
   .return.button{
-    background:#002b67 !important;
+    background:#ffa700 !important;
   }
 </style>
 {% endblock %}
@@ -111,18 +117,6 @@
 {% endblock %}
 {% block content %}
 <div id="tooth">
-  <!--<div class="match">
-    <div class="ui responsive grid">
-      <div class="row">
-        <div class="ui center aligned column">
-          <h1 class="ui header">电动牙刷主题设计</h1>
-          <a href="{{ app_url_stuff }}/contest_submit?contest_id=1" class="ui big inverted active button">
-            <i class="cloud upload icon"></i>
-            上传作品</a>
-        </div>
-      </div>
-    </div>
-  </div>-->
   <a href="{{ app_url_stuff }}/contest_submit?contest_id=1">
      <img src="{{ app_url_packaged }}/images/match/tooth5.jpg" width="100%">
   </a>
@@ -136,19 +130,19 @@
               INTRODUCTION
             </div>
           </h3>
-          <img src="{{ app_url_packaged }}/images/match/toothline.png" class="inline">
+          <img src="{{ app_url_packaged }}/images/match/powerline.png" class="inline">
         </div>
       </div>
       <div class="row">
         <div class="ui center aligned column">
-          <p>智能电动牙刷  创意你的一日之晨</p>
-          <p>重要的事才只说三遍,，而刷牙这件事,天天要见.</p>
-          <p>一只能激发处女座恋物癖情结的智能牙刷，才能让你的一天好好开始；</p>
-          <p>为了来满足你对品质感受的追求；</p>
+          <p>无趣、暗淡、厚重，</p>
+          <p>呆板、丑陋、低品。</p>
+          <p>追求工匠情结的你是否感到移动电源的世界无从选择？</p>
           <p>现在，给你一个大显神通的机会！</p>
-          <p>告诉我你有多么精益求精！</p>
-          <p>告诉我你是多么与众不同！</p>
-          <p>告诉我科技时代，刷牙还可以有另外的体验可能！</p>
+          <p>尝试突破它的设计</p>
+          <p>尝试改造它的功能</p>
+          <p>尝试发现更多的可能</p>
+          <p>当你的电力无处不在 我们的魅力才能处处都在</p>
         </div>
       </div>
     </div>
@@ -215,17 +209,17 @@
               CRITERION
             </div>
           </h3>
-          <img src="{{ app_url_packaged }}/images/match/toothline2.png" class="inline">
+          <img src="{{ app_url_packaged }}/images/match/powerline.png" class="inline">
         </div>
       </div>
       <div class="row">
         <div class="ui center aligned column">
-          <p style="color:#de3726;">评审将基于但不限于以下标准</p>
+          <p style="color:#ff6100;">评审将基于但不限于以下标准</p>
         </div>
       </div>
       
       <div class="ui center aligned row">
-        <div class="ui eight wide column">
+        <div class="ui four wide column">
           <h4 class="ui center aligned icon header">
             <i class="circular bookmark icon"></i>
             设计
@@ -234,7 +228,7 @@
             </div>
           </h4>
         </div>
-        <div class="ui eight wide column">
+        <div class="ui four wide column">
           <h4 class="ui center aligned icon header">
             <i class="circular idea icon"></i>
             创意
@@ -243,7 +237,7 @@
             </div>
           </h4>
         </div>
-        <div class="ui eight wide column">
+        <div class="ui four wide column">
           <h4 class="ui center aligned icon header">
             <i class="circular lab icon"></i>
             体验
@@ -252,7 +246,7 @@
             </div>
           </h4>
         </div>
-        <div class="ui eight wide column">
+        <div class="ui four wide column">
           <h4 class="ui center aligned icon header">
             <i class="circular wizard icon"></i>
             功能
@@ -296,7 +290,7 @@
       </div>
       <div class="ui center aligned row">
         <div class="ui seven wide column">
-          <p>作品版面文件格式为JPG/PNG/GIF，分辨率不小于72dpi，大小不超过2M；<br /><br /></p>
+          <p>作品版面文件格式为JPG/PNG/GIF，分辨率不小于72dpi，大小不超过2M；</p>
           <div class="clicre">NO.1</div>
         </div>
         <div class="ui seven wide column">
