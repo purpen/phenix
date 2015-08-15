@@ -9,7 +9,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi');
 
 	
 	/**
@@ -17,6 +17,13 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 */
 	public function execute(){
 		//return $this->coupon();
+	}
+	
+	/**
+	 * 2015 七夕
+	 */
+	public function qixi(){
+		return $this->to_html_page('page/promo/qixi.html');
 	}
 	
 	/**
