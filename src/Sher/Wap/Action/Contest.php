@@ -11,7 +11,7 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 		'category_id' => 0,
 	);
 	
-	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show', 'rank', 'ajax_fetch_top_province', 'ajax_fetch_top_college', 'ajax_load_colleges','matcht','custom','about3');
+	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show', 'rank', 'ajax_fetch_top_province', 'ajax_fetch_top_college', 'ajax_load_colleges','matcht','custom','about3','tooth');
 	
 	/**
 	 * 社区入口
@@ -245,6 +245,10 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 	
 	public function about3(){
 		return $this->to_html_page('wap/contest/about3.html');
+	}
+	
+	public function tooth(){
+		return $this->to_html_page('match/tooth.html');
 	}
 	
 }
