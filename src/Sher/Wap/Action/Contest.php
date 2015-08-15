@@ -248,7 +248,7 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 	}
 	
 	public function tooth(){
-		return $this->to_html_page('match/tooth.html');
+		return $this->to_html_page('wap/contest/tooth.html');
 	}
 	
 }
