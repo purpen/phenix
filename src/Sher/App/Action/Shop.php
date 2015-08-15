@@ -435,9 +435,9 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 
         }
 		
-		$this->stash['result'] = $result;
-		
-		return $this->to_taconite_page('ajax/guess_products.html');
+		$this->stash['results'] = $result;
+        
+        return $this->ajax_json('', false, '', $this->stash);
 	}
 	
 	/**
