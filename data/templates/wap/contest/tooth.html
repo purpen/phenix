@@ -1,4 +1,4 @@
-{%exsixds 'layout/mobile.html'%}
+{%extends 'layout/mobile.html'%}
 {% block title %}{% endblock %}
 
 {% block page_css %}
@@ -52,20 +52,20 @@
   .ui.grid>.row>[class*="two wide"].column{
     width:14.5% !important;
   }
-  .six.wide.column{
-    margin: 2em 6% !important;
+  .time.block .six.wide.column{
+    margin: 1em 6% !important;
   }
-  .six.wide.column h4.ui.header{
-    padding: 57px 0;
+  .time.block .six.wide.column h4.ui.header{
+    padding: 63px 0;
     border-radius: 500rem;
     background: #fff;
     color: #de3726;
     font-weight: 700;
   }
-  .six.wide.column h4.ui.header > .sub.header{
+  .time.block .six.wide.column h4.ui.header > .sub.header{
     color:#00737c;
   } 
-  i.caret.icon{
+  .time.block i.caret.icon{
     margin-top: 0px;
     color: #f9a200;
   }
@@ -123,7 +123,7 @@
 
 
 {% endblock %}
-{% block consixt %}
+{% block content %}
 <div id="tooth">
   <div class="match">
     <div class="ui responsive grid">
