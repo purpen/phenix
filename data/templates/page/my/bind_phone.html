@@ -186,7 +186,7 @@
 			{% include "block/user/sub_menu_center.html" %}
 		</div>
 		<div class="twelve wide column">
-			<h2 class="ui header">账户信息</h2>
+			<h2 class="ui header">账号绑定</h2>
 			<div class="ui segment">
 				<form action="{{app_url_my}}/do_bind_phone" method="post" class="ui fluid form" id="bind-form">
 					<input name="_id" type="hidden" value="{{ user_id }}" />
@@ -243,10 +243,44 @@
                 </div>
                 <div class="field"></div>
               </div>
+
+        <div class="thirdlogin">
+          第三方账户：
+        {% if user_info.sina_uid %}
+          <a href="" class="ui red icon inverted button" title="解绑-微博账号">
+            <i class="weibo icon"></i>
+          </a>
+        {%else%}
+          <a href="" class="ui grey icon inverted button" title="绑定-微博账号">
+            <i class="weibo icon"></i>
+          </a>
+        {%endif%}
+
+        {% if user_info.qq_uid %}
+          <a href="" class="ui blue icon inverted button" title="解绑-QQ账号">
+            <i class="qq icon"></i>
+          </a>
+        {%else%}
+          <a href="" class="ui grey icon inverted button" title="绑定-QQ账号">
+            <i class="qq icon"></i>
+          </a>
+        {%endif%}
+
+        {% if user_info.wx_open_id %}
+          <a class="ui green icon inverted button" title="解绑-微信账号">
+            <i class="wechat icon"></i>
+          </a>
+        {%else%}
+          <a class="ui grey icon inverted button" title="绑定-微信账号">
+            <i class="wechat icon"></i>
+          </a>
+        {%endif%}
+            </div>
           {%endif%}
         </div>
 					
 				</form>
+
 			</div>
 		</div>
 	</div>

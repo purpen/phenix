@@ -1,0 +1,342 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+
+{% block page_css %}
+<style class="text/css">
+  .match{
+    background:url({{ app_url_packaged }}/images/match/power1.jpg) no-repeat center top;
+    height:650px;
+    background-color:#ffa700;
+  }
+  .match h1.ui.header{
+    color:#fff;
+    font-size: 3rem;
+    margin-top: 395px;
+    margin-bottom: 80px;
+    margin-left: -25%;
+  }
+  .match a.big.inverted.active.button{
+    background:#ff6100;
+    color:#fff !important;
+  }
+  .line.column{
+    margin-bottom:1em !important;
+  }
+  .line.column h3.ui.header,.line.column h3.ui.header .sub.header{
+    color:#ff6100 !important;
+  }
+  img.inline{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 7%;
+    margin-top: -2.5%;
+    margin-left: -3.5%;
+  }
+  .ui.big.block{
+    padding-top: 4em;
+    margin:0;
+  }
+  .ui.time.block{
+    background:url({{ app_url_packaged }}/images/match/power2.jpg) no-repeat center center /cover;
+    //height:500px;
+  }
+  .ui.time.block .line.column h3.ui.header,.ui.time.block .line.column h3.ui.header .sub.header{
+    color:#fff !important;
+  }
+  .ui.grid>.row>[class*="two wide"].column{
+    width:14.5% !important;
+  }
+  .two.wide.column{
+    margin: 2em 6% !important;
+  }
+  .two.wide.column h4.ui.header{
+    padding: 57px 0;
+    border-radius: 500rem;
+    background: #fff;
+    color: #ff6100;
+    font-weight: 700;
+    box-shadow: 0 0 0 .2em #ff6100 inset;
+  }
+  .two.wide.column h4.ui.header > .sub.header{
+    color:#00737c;
+  } 
+  i.caret.icon{
+    margin-top: 85px;
+    color: #f9a200;
+  }
+  h4.icon.header i.icon{
+    background:#ff6100;
+    color:#fff !important;
+    font-size: 2.8em !important;
+    margin-bottom:1rem !important;
+    border: none;
+    box-shadow: none;
+  }
+  h4.icon.header {
+    color:#ff6100 !important;
+  }
+  .ui.four.wide.column{
+    margin:2em auto !important;
+  }
+  .ui.big.chun.block{
+    background:url({{ app_url_packaged }}/images/match/power4.jpg) no-repeat center center /cover;
+    padding-top: 2.5em;
+  }
+  .ui.big.chun.block .row{
+    color:#fff;
+  }
+  .ui.big.chun.block h3.ui.header,.ui.big.chun.block h3 .sub.header{
+    color:#fff !important;
+  }
+  .ui.big.chun.block .row p{
+    line-height: 40px;
+  }
+  .ui.clim.block{
+    background: #ffa700;
+    color:#fff;
+  }
+  .ui.clim.block h3.ui.header,.ui.clim.block h3.ui.header .sub.header{
+    color:#fff !important;
+  }
+  .clim .ui.three.column {
+    margin:3em 3% 1em !important;
+  }
+  .clim .ui.three.column p{
+    background:#ff6100;
+    padding: 60px 20px 30px;
+    min-height: 170px;
+  }
+  .clim .ui.three.column .clicre{
+    position: absolute;
+    padding: 1.8em 1.2em;
+    border-radius: 500rem;
+    width: 70px;
+    height: 70px;
+    top: -35px;
+    left: 50%;
+    background: #ffd898;
+    color: #ff6100;
+    margin-left: -35px;
+  }
+  .return.button{
+    background:#ffa700 !important;
+  }
+</style>
+{% endblock %}
+{% block jquery %}
+
+
+{% endblock %}
+{% block content %}
+<div id="tooth">
+  <div class="match">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <h1 class="ui header">移动电源主题设计   8.17-9.17</h1>
+          <a href="{{ app_url_stuff }}/contest_submit?contest_id=2" class="ui big inverted active button">
+            <i class="cloud upload icon"></i>
+            上传作品</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui big gray block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned line column">
+          <h3 class="ui header">
+              活动引言
+            <div class="sub header">
+              INTRODUCTION
+            </div>
+          </h3>
+          <img src="{{ app_url_packaged }}/images/match/powerline.png" class="inline">
+        </div>
+      </div>
+      <div class="row">
+        <div class="ui center aligned column">
+          <p>无趣、暗淡、厚重，</p>
+          <p>呆板、丑陋、低品。</p>
+          <p>追求工匠情结的你是否感到移动电源的世界无从选择？</p>
+          <p>现在，给你一个大显神通的机会！</p>
+          <p>尝试突破它的设计</p>
+          <p>尝试改造它的功能</p>
+          <p>尝试发现更多的可能</p>
+          <p>当你的电力无处不在 我们的魅力才能处处都在</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big time block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned line column">
+          <h3 class="ui header">
+              活动时间
+            <div class="sub header">
+              TIME
+            </div>
+          </h3>
+          <img src="{{ app_url_packaged }}/images/match/toothline1.png" class="inline">
+        </div>
+      </div>
+      
+      <div class="ui center aligned row">
+        <div class="two wide column">
+          <h4 class="ui header">
+              2015.8.17-9.17
+            <div class="sub header">
+              作品收集
+            </div>
+          </h4>
+        </div>
+        <div class="one wide column">
+          <h2 class="ui header">
+          <i class="caret right icon"></i></h2>
+        </div>
+        <div class="two wide column">
+          <h4 class="ui header">
+            2015.9.19-9.21
+            <div class="sub header">
+              作品评选
+            </div>
+          </h4>
+        </div>
+        <div class="one wide column">
+          <h2 class="ui header">
+          <i class="caret right icon"></i></h2>
+        </div>
+        <div class="two wide column">
+          <h4 class="ui header">
+            2015.9.23-9.25
+            <div class="sub header">
+              结果通知
+            </div>
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big gray block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned line column">
+          <h3 class="ui header">
+              评选标准
+            <div class="sub header">
+              CRITERION
+            </div>
+          </h3>
+          <img src="{{ app_url_packaged }}/images/match/powerline.png" class="inline">
+        </div>
+      </div>
+      <div class="row">
+        <div class="ui center aligned column">
+          <p style="color:#ff6100;">评审将基于但不限于以下标准</p>
+        </div>
+      </div>
+      
+      <div class="ui center aligned row">
+        <div class="ui four wide column">
+          <h4 class="ui center aligned icon header">
+            <i class="circular bookmark icon"></i>
+            设计
+            <div class="sub header">
+              鉴于主办方的设计师出身，请参与者 内外兼顾各类外貌协会&格调控等人群
+            </div>
+          </h4>
+        </div>
+        <div class="ui four wide column">
+          <h4 class="ui center aligned icon header">
+            <i class="circular idea icon"></i>
+            创意
+            <div class="sub header">
+              脑洞大开，创意根本停不下来
+            </div>
+          </h4>
+        </div>
+        <div class="ui four wide column">
+          <h4 class="ui center aligned icon header">
+            <i class="circular lab icon"></i>
+            体验
+            <div class="sub header">
+              为最挑剔的用户 提供最独特的体验
+            </div>
+          </h4>
+        </div>
+        <div class="ui four wide column">
+          <h4 class="ui center aligned icon header">
+            <i class="circular wizard icon"></i>
+            功能
+            <div class="sub header">
+              有逼格接地气，功能炫（实） 酷（用）到让人无法反驳
+            </div>
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big chun block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui three wide column">
+          <h3 class="ui right aligned header">
+            创新方向
+            <div class="sub header">
+              Innovation Direction
+            </div>
+          </h3>
+        </div>
+        <div class="ui ten wide column">
+          <p>可以在手柄舒适、刷头创新、功能挖掘、折叠便携，美感度提升等方向展开思路。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big clim block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned line column">
+          <h3 class="ui header">
+              作品要求
+            <div class="sub header">
+              Claim
+            </div>
+          </h3>
+          <img src="{{ app_url_packaged }}/images/match/toothline1.png" class="inline">
+        </div>
+      </div>
+      <div class="ui center aligned row">
+        <div class="ui three wide column">
+          <p>作品版面文件格式为JPG/PNG/GIF，分辨率不小于72dpi，大小不超过2M；</p>
+          <div class="clicre">NO.1</div>
+        </div>
+        <div class="ui three wide column">
+          <p>作品内容包括名称、整体效果图、局部效果图、基本外观尺寸图、设计说明及作品功能介绍；</p>
+          <div class="clicre">NO.2</div>
+        </div>
+        <div class="ui three wide column">
+          <p>作品表现手法不限，不得抄袭，内容健康向上、符合法律法规等要求;</p>
+          <div class="clicre">NO.3</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui big gray block" style="padding-top:2.5em;">
+    <div class="ui responsive grid">
+      <div class="ui center aligned row">
+        <div class="column">
+          <a href="{{ app_url_contest }}/about3" class="ui big inverted return blue active button" title="返回活动首页">返回活动首页</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

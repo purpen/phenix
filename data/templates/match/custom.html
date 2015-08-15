@@ -1,0 +1,221 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+
+{% block page_css %}
+<style class="text/css">
+  .custop{
+    background:url({{ app_url_packaged }}/images/match/custom.jpg) no-repeat center center / cover;
+    height:600px;
+  }  	
+  .mainwrap{
+    margin:10px auto 40px;
+    padding:20px 0;
+  }
+  /*.ui.attached.steps{
+    margin:0 -1px;
+    border:0;
+    border-radius: 0;
+  }
+  .ui.attached.steps .step{
+    background:#ebebeb;
+    border-radius: 0 !important;
+    border-top: 2px solid rgba(255,255,255,0);
+    -webkit-transition:all 0.4s ease;
+    transition: all 0.4s ease;
+    border-right: 1px solid rgba(255,255,255,1);
+  }
+  .ui.attached.steps .step a{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
+  .ui.attached.steps+.ui.attached.segment{
+    border:0;
+    border-radius:0;
+    box-shadow:none;
+    padding:1em 0;
+  }
+  .ui.attached.steps .step.active,.ui.attached.steps .step:hover{
+    background:#fff;
+    border-top:2px solid #f36;
+    color:#666;
+  }
+  .attached.ui.steps .step:last-child{
+    border-right:0;
+  }*/
+  .ui.segment.attached{
+    border: none;
+    background: #f5f5f5;
+  }
+  .ui.attached.segment .ui.one.blocks>.block{
+    width: 100%;
+    //padding: 0 5em 1em;
+    //border-bottom: 1px solid #ededed;
+    border-radius: 0;
+    margin: 20px 0 10px;
+    background:#f5f5f5;
+  }
+  .ui.header .sub.header span.ui.link span{
+    color:rgba(112,123,135,.90);
+  }
+  .ui.header .sub.header .flike{
+    display:inline-block;
+    float:right;
+  }
+  /*.ui.attached.segment .ui.one.blocks>.block:last-child{
+    border-bottom:none;
+  }*/
+  .ui.attached.segment .ui.one.blocks>.block .image img{
+    width:100%;
+  }
+  .ui.attached.segment > .ui.pagination{
+    margin:20px auto 10px;
+  }
+  .ui.attached.segment > .ui.message{
+    margin: 20px 5em;
+    width: calc(100% - 10em);
+    background:#f8f8f9;
+  }
+  .ui.attached.segment > .ui.message span{
+    float:right;
+    line-height: 28px;
+  }
+  .ui.white.block{
+    background:#fff;
+    margin:0;
+  }
+  .more-btn{
+    margin-top:8px;
+  }
+  .custop{
+    padding-top:65px;
+    color:#fff;
+  }
+  .custop h1{
+    margin-top: 0px;
+    font-size: 3rem;
+  }
+  .custop h2{
+    margin-top: 0px;
+    color: #f36;
+    margin-bottom: 30px;
+  }
+</style>
+{% endblock %}
+
+{% block jquery %}
+
+
+{% endblock %}
+{% block content %}
+<div id="custom">
+  <div class="custop">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <img src="{{ app_url_packaged }}/images/match/word.png">
+          <h1>创新产品再设计</h1>
+          <h2>为设计遇见，为热爱实现</h2>
+          <a href="{{ app_url_contest }}/about3" class="ui huge inverted magenta active button">查看规则</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui big white block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <p>设计不是工具，设计是追逐中的梦想</p>
+          <p>创意不是天马行空，创意是践行才能渐远的方向</p>
+          <p>为你的设计插上翅膀、让你的创意扬帆起航</p>
+          <p>只要想 这里就是实现你自己的地方</p>
+
+          <h3>这里是反向定制、这里有梦和远方.</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="mainwrap">
+    <!--<div class="ui five top attached steps">
+      <div class="active step">
+        所有赛事
+        <a href=""></a>
+      </div>
+      <div class="step">
+        活动奖励
+        <a href=""></a>
+      </div>
+      <div class="step">
+        获奖通知
+        <a href=""></a>
+      </div>
+      <div class="step">
+        相关权益
+        <a href=""></a>
+      </div>
+      <div class="step">
+        活动须知
+        <a href=""></a>
+      </div>
+    </div>-->
+    <div class="ui attached segment">
+      <div class="ui one blocks">
+        <div class="block">
+          <h4 class="ui header link"><a class="ui link" href="{{ app_url_contest }}/tooth">太火鸟反向定制－电动牙刷专题设计</a>（进行中） 
+            <div class="sub header">投稿时间：<span class="ui active link">2015-08-17 <span>–</span> 2015-09-17</span>
+              <div class="flike">
+                <i class="like icon"></i>12  
+              </div>
+            </div>
+          </h4>
+          <div class="image">
+            <a href="{{ app_url_stuff }}/contest_submit?contest_id=1">
+              <img src="{{ app_url_packaged }}/images/match/custom1.jpg" >
+            </a>
+          </div>
+          <div class="more-btn">
+            <a href="{{ app_url_contest }}/tooth" class="ui red active inverted button">查看详情</a>&nbsp;
+            <a href="{{ app_url_stuff }}/contest_submit?contest_id=1" class="ui blue active inverted button">提交作品</a>
+          </div>
+        </div>
+        
+        <div class="block">
+          <h4 class="ui header link"><a class="ui link" href="{{ app_url_contest }}/power">太火鸟反向定制－移动电源专题设计</a>（进行中） 
+            <div class="sub header">投稿时间：<span class="ui active link">2015-08-17 <span>–</span> 2015-09-17</span>
+            <div class="flike">
+              <i class="like icon"></i>12
+            </div>
+            </div>
+          </h4>
+          <div class="image">
+            <a href="{{ app_url_stuff }}/contest_submit?contest_id=2">
+              <img src="{{ app_url_packaged }}/images/match/banner1.jpg" >
+            </a>
+          </div>
+          <div class="more-btn">
+            <a href="{{ app_url_contest }}/power" class="ui red active inverted button">查看详情</a>&nbsp;
+            <a href="{{ app_url_stuff }}/contest_submit?contest_id=2" class="ui blue active inverted button">提交作品</a>
+          </div>
+        </div>
+      </div>
+      
+      <!--<div class="ui pagination">
+				{% pager url:pager_url,total_rows:sale.total_rows,total_page:sale.total_page,current_page:page,var:'pager',pager_size:1 %}
+				{% include 'block/pager.html' %}
+			</div>-->
+			
+			<!--<div class="ui message">
+			  <i class="circular phone icon"></i>4008-798-751 &nbsp;&nbsp;&nbsp;&nbsp;
+			  <i class="circular mail outline icon"></i>hi#taihuoniao.com(#换成@)
+			  <span>本活动最终解释权归太火鸟所有</span>
+			</div>-->
+    
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
