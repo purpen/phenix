@@ -3,6 +3,9 @@
 
 {% block page_css %}
 <style type="text/css">
+#mfrbird{
+  margin-top:0;
+}
 #qixi{
   background:url({{ app_url_packaged }}/images/promo/qixibg.jpg) repeat center center;
 }
@@ -11,7 +14,7 @@
 }
 img.word +h2.ui.header{
   margin-top:15px;
-  color:#ffe400;
+  color:#ffe400 !important;
 }
 img.word +h2.ui.header .sub.header{
   color:#fff;
@@ -46,6 +49,9 @@ a.active.button{
   right: 10px;
   bottom: 5px;
   position:absolute;
+}
+img{
+  width:100%;
 }
 </style>
 {% endblock %}
