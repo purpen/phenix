@@ -313,6 +313,24 @@
 					</div>
 				</div>
 			</div>
+
+			<h4 class="ui stage header">进度</h4>
+			<div class="grouped inline fields">
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="step_stat" value="1" {% if contest.step_stat == 1 %}checked="checked"{% endif %} /> 
+						<label>进行中</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="step_stat" value="2" {% if contest.step_stat == 2 %}checked="checked"{% endif %} /> 
+						<label>审核中</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="step_stat" value="5" {% if contest.step_stat == 5 %}checked="checked"{% endif %} /> 
+						<label>结束</label>
+					</div>
+				</div>
+			</div>
             
 			<div class="field">
 			  	<label for="summary">简述：</label>

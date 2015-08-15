@@ -67,7 +67,7 @@
                 <div class="ui three products cards">
                     <!--我提交的产品-->
                     {% if type == 'submited' %}
-                        {% product_list var:'list' page:1 size:12 sort:'stick:latest' user_id:user_id %}
+                        {% product_list var:'list' page:page size:12 sort:'stick:latest' user_id:user_id %}
 
                         {% for product in list.rows %}
                             {% include 'block/product_card_admin.html' %}

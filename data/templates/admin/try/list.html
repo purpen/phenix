@@ -58,7 +58,7 @@
 				</td>
         <td>{{ t.season }}</td>
 				<td>{{ t.try_count }}</td>
-				<td>{{ t.apply_count|default 0 }} 人 / 
+				<td>{{ t.apply_count|default 0 }}/{{ t.invented_apply_count|default 0 }} 人/
 					<a href="{{ app_url_admin_base }}/try/verify?id={{ t._id }}" class="ui magenta link">查看</a>
 				</td>
 				<td>

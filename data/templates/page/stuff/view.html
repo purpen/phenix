@@ -261,6 +261,41 @@
 
 {% block content %}
 
+<div class="shop viewtop" style="background-image: url('{{ stuff.cover.thumbnails.big.view_url }}');">
+	<div class="masthead">
+		<div class="masthead-cover">
+        	<div class="ui responsive grid">
+        		<div class="row">
+        			<div class="column">
+        				<div class="container">
+
+        					<h1 class="block title">{{ stuff.title }}</h1>
+
+        					<p>
+                                <span class="clove">
+                                    <span id="product-comment-count">{{ stuff.comment_count }}</span> 个评论
+                                </span>
+                            </p>
+                            
+            				{% if stuff.tags %}
+            				<div class="idea tags">
+            					{% for tag in product.tags %}
+            					{% if tag %}
+            					<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui small label">
+            						{{ tag }}
+            					</a>
+            					{% endif %}
+            					{% endfor %}
+            				</div>
+            				{% endif %}
+        				</div>
+        			</div>
+        		</div>
+        	</div>
+        </div>
+    </div>
+</div>
+
 <div class="mainwrap" id="shoppage">
     <div class="mainleftwrap">
         <div class="mainleft">
@@ -445,9 +480,9 @@
         </div>
         {%endif%}
         
-        {% if visitor.can_edit %}
         <div class="sellwrap">
-            管理：
+
+        {% if visitor.can_edit %}
             <div class="ui icon green editable inverted buttons">
                 {% if stuff.featured %}
 				<div class="ui pop fine active button" data-content="取消精选"  data-variation="inverted" data-mark="y" data-id="{{ stuff._id }}">
@@ -467,17 +502,20 @@
 					<i class="flag outline icon"></i>
 				</div>
 				{% endif %}
-        		{% if editable %}
-                      <div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ stuff._id }}">
-                          <i class="edit icon"></i>
-                      </div>
-                      <div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ stuff._id }}">
-                          <i class="remove icon"></i>
-                      </div>
-        		{% endif %}
+
     		</div>
-        </div>
         {%endif%}
+        {% if editable %}
+          <div class="ui icon green editable inverted buttons">
+                  <div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ stuff._id }}">
+                      <i class="edit icon"></i>
+                  </div>
+                  <div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ stuff._id }}">
+                      <i class="remove icon"></i>
+                  </div>
+          </div>
+        {% endif %}
+        </div>
     </div>
 </div>
 {% include "block/sharebox.html" %}
