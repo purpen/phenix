@@ -26,6 +26,8 @@ class Sher_Core_Model_Contest extends Sher_Core_Model_Base  {
         # 开始/截止日期
         'start_date'  => '',
         'finish_date' => '',
+        # 状态: 1,进行中, 2,审核中,  5.结束
+        'step_stat' => 1,
         
         'cover_id'    => '',
         
@@ -44,7 +46,7 @@ class Sher_Core_Model_Contest extends Sher_Core_Model_Base  {
     );
 	
     protected $required_fields = array('user_id', 'title', 'short_title');
-    protected $int_fields = array('user_id', 'stuff_count', 'view_count', 'state');
+    protected $int_fields = array('user_id', 'stuff_count', 'view_count', 'state', 'step_stat');
 	
 	/**
 	 * 扩展关联数据
@@ -54,7 +56,22 @@ class Sher_Core_Model_Contest extends Sher_Core_Model_Base  {
 		// 验证是否指定封面图
 		if(empty($row['cover_id'])){
 			$this->mock_cover($row);
-		}
+    }
+        // 状态
+        $row['step_label'] = '';
+        if($row['step_stat']){
+          switch($row['step_stat']){
+            case 1:
+              $row['step_label'] = '进行中';
+              break;
+            case 2:
+              $row['step_label'] = '审核中';
+              break;
+            case 5:
+              $row['step_label'] = '结束';
+              break;
+          }
+        }
     }
     
 	/**

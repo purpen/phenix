@@ -161,51 +161,42 @@
         <a href=""></a>
       </div>
     </div>-->
+
+	{% contest_list var:'list' state:2 page:page %}
+
     <div class="ui attached segment">
       <div class="ui one blocks">
+
+			{% for d in list.rows %}
         <div class="block">
-          <h4 class="ui header link"><a class="ui link" href="{{ app_url_contest }}/tooth">太火鸟反向定制－电动牙刷专题设计</a>（进行中） 
-            <div class="sub header">投稿时间：<span class="ui active link">2015-08-17 <span>–</span> 2015-09-17</span>
+          <h4 class="ui header link"><a class="ui link" href="">{{ d.title }}</a>（{{ d.step_label }}） 
+            <div class="sub header">投稿时间：<span class="ui active link">{{ d.start_date }} <span>–</span> {{ d.finish_date }}</span>
+              <!--
               <div class="flike">
                 <i class="like icon"></i>12  
               </div>
+              -->
             </div>
           </h4>
           <div class="image">
-            <a href="{{ app_url_stuff }}/contest_submit?contest_id=1">
-              <img src="{{ app_url_packaged }}/images/match/custom1.jpg" >
+            <a href="{{ d.link }}">
+              <img src="{{ d.cover.fileurl }}" >
             </a>
           </div>
           <div class="more-btn">
-            <a href="{{ app_url_contest }}/tooth" class="ui red active inverted button">查看详情</a>&nbsp;
-            <a href="{{ app_url_stuff }}/contest_submit?contest_id=1" class="ui blue active inverted button">提交作品</a>
+            <a href="{{ d.link }}" class="ui red active inverted button">查看详情</a>&nbsp;
+            <a href="{{ app_url_stuff }}/contest_submit?contest_id={{ d._id }}" class="ui blue active inverted button">提交作品</a>
           </div>
         </div>
-        
-        <div class="block">
-          <h4 class="ui header link"><a class="ui link" href="{{ app_url_contest }}/power">太火鸟反向定制－移动电源专题设计</a>（进行中） 
-            <div class="sub header">投稿时间：<span class="ui active link">2015-08-17 <span>–</span> 2015-09-17</span>
-            <div class="flike">
-              <i class="like icon"></i>12
-            </div>
-            </div>
-          </h4>
-          <div class="image">
-            <a href="{{ app_url_stuff }}/contest_submit?contest_id=2">
-              <img src="{{ app_url_packaged }}/images/match/banner1.jpg" >
-            </a>
-          </div>
-          <div class="more-btn">
-            <a href="{{ app_url_contest }}/power" class="ui red active inverted button">查看详情</a>&nbsp;
-            <a href="{{ app_url_stuff }}/contest_submit?contest_id=2" class="ui blue active inverted button">提交作品</a>
-          </div>
-        </div>
-      </div>
+
+        {%endfor%}
       
-      <!--<div class="ui pagination">
-				{% pager url:pager_url,total_rows:sale.total_rows,total_page:sale.total_page,current_page:page,var:'pager',pager_size:1 %}
+        {% if list.total_page > 1 %}
+      <div class="ui pagination">
+				{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:1 %}
 				{% include 'block/pager.html' %}
-			</div>-->
+			</div>
+      {%endif%}
 			
 			<!--<div class="ui message">
 			  <i class="circular phone icon"></i>4008-798-751 &nbsp;&nbsp;&nbsp;&nbsp;
@@ -216,6 +207,5 @@
     </div>
   </div>
 </div>
-
 
 {% endblock %}
