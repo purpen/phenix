@@ -392,15 +392,10 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
     public function ajax_fetch_profile(){
         $user = $this->stash['user'];
         
-        $user_info = array(
-            'nickname' => 'purpen',
-            'city' => $user['city'],
-            'job'  => $user['profile']['job'],
-             
-            'last_char' => $this->stash['last_char'],
-            
-        );
-        return $this->to_json(200,'',$user_info);
+        // 验证是否关注
+        $this->validate_ship();
+        
+        return $this->ajax_json('', false, '', $this->stash);
     }
 
     /**

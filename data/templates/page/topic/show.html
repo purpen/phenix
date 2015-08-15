@@ -46,6 +46,7 @@
 	  margin: 0 1em 0 0;
 	  padding: .1em 0 0;
 	} 
+    
 </style>
 {% endblock %}
 
@@ -321,27 +322,6 @@
 	// 加载相关话题
 	$.get('{{ app_url_topic }}/ajax_guess_topics', {id: {{ topic._id }}, sword: '{{ topic.tags_s }}', size: 3});
     
-    // 显示用户信息
-    /*
-    var is_ajax = false;
-    $('.ui.icard.image').hover(function(e){
-        var uid = $(this).data('uid'),pos = $(this).position(),w = $(this).width(),h = $(this).height(),template = $('#user_card').html();
-        if(!is_ajax){
-            $.getJSON('{{ app_url_user }}/ajax_fetch_profile', {id: uid}, function(result){
-                is_ajax = true;
-                var rendered = Mustache.render(template, result.data);
-                $('#user_card_box')
-                    .html(rendered)
-                    .css({top: pos.top+h, left: pos.left-10})
-                    .show(function(){
-                        is_ajax = false;
-                    });
-            });
-        }
-    },function(){
-        //$('#user_card_box').hide();
-    });*/
-    
     // 投票提交部分
     $('#vote-save').click(function(){
     
@@ -498,7 +478,7 @@
             
 			<div class="ui big topic segment">
 				<div class="ui header">
-					<a class="ui small avatar icard image" href="{{ topic.user.home_url }}" data-uid="{{ topic.user_id }}">
+					<a class="ui small avatar idcard image" href="{{ topic.user.home_url }}" data-uid="{{ topic.user_id }}">
 			      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
 						{% if topic.user.kind==1 %}
 						    <img src="{{ app_url_packaged }}/images/V.png" class="image-WV" />
