@@ -57,6 +57,10 @@ class Sher_Core_Model_Contest extends Sher_Core_Model_Base  {
 		if(empty($row['cover_id'])){
 			$this->mock_cover($row);
     }
+
+        if(empty($row['short_title'])){
+          $row['short_title'] = $row['title'];
+        }
         // 状态
         $row['step_label'] = '';
         if($row['step_stat']){
