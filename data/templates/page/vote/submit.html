@@ -35,9 +35,9 @@
 	$('.add-problem').click(function(){
 		var html = '';
 		html += '<li><div class="list-problem"><p><input style="width:80%;margin-right:2%;vertical-align: middle;" type="text" name="problem" value="" /><span class="ui small purple del-problem button">删除此问题</span></p>';
-		html += "<div class='field'><div class='ui radio checkbox'><input type='radio' name='type"+vote_i+"' value='1' style='z-index:100;width:100%;'/><label>单选</label></div>&nbsp;&nbsp;<div class='ui radio checkbox'><input type='radio' name='type"+vote_i+"' value='2' style='z-index:100;width:100%;'/><label>多项</label></div></div>";
+		html += "<div class='field radio'><div class='ui radio checkbox'><input type='radio' name='type"+vote_i+"' value='1' style='z-index:100;width:100%;'/><label>单选</label></div>&nbsp;&nbsp;<div class='ui radio checkbox'><input type='radio' name='type"+vote_i+"' value='2' style='z-index:100;width:100%;'/><label>多项</label></div></div>";
 		html += '</div><div class="answer"><ol class="list-answer">';
-		html+='</ol><div class="ui right aligned grid" style="margin:0 10px 0 0; border-top:1px dashed green;"><div class="column"><div class="ui small green add-answer button">添加答案</div></div></div></div></li>';
+		html += '</ol><div class="ui right aligned grid" style="margin:0 10px 0 0; border-top:1px dashed green;"><div class="column"><div class="ui small green add-answer button">添加答案</div></div></div></div></li>';
 		
 		$('#process-box-edit').append(html);
 		vote_i++;
@@ -55,14 +55,40 @@
 	//删除problem
 	$('.del-problem').livequery(function(){
 		$(this).click(function(){
-			$(this).parents('li').remove();
+			var aid = $(this).parents('li').find('input:hidden[name=problem]').val();
+			var url = "{{ app_url_vote }}/del_problem";
+			var block = $(this).parents('li');
+			if(aid){
+				$.post(url,{id:aid},function(data){
+					if(data){
+						block.remove();
+					}else{
+						phenix.show_error_note("删除数据失败！", 3000);
+					}
+				});
+			}else{
+				$(this).parent('li').remove();
+			}
 		});
 	});
 	
 	//删除answer
 	$('.del-answer').livequery(function(){
 		$(this).click(function(){
-			$(this).parent('li').remove();
+			var aid = $(this).parent('li').find('input:hidden[name=answer]').val();
+			var url = "{{ app_url_vote }}/del_answer";
+			var block = $(this).parent('li');
+			if(aid){
+				$.post(url,{id:aid},function(data){
+					if(data){
+						block.remove();
+					}else{
+						phenix.show_error_note("删除数据失败！", 3000);
+					}
+				});
+			}else{
+				$(this).parent('li').remove();
+			}
 		});
 	});
 	
@@ -103,27 +129,70 @@
 
 	// 数据保存事件->对象的方法处理
 	$('.button.save').click(function(){
+	
+		// 验证数据是否有空值
+		var is_null_answer = 0;
+		$('#process-box-edit').find('.list-answer').each(function(i){
+			if(!$(this).html()){
+				is_null_answer++;
+			}
+		});
+		if(is_null_answer){
+			phenix.show_error_note("每个问题都必须有答案！", 3000);
+			return false;
+		}
+		
+		var is_null_text = 0;
+		$('#process-box-edit').find('input:text').each(function(){
+			if(!$(this).val()){
+				is_null_text++;
+			}
+		});
+		if(is_null_text){
+			phenix.show_error_note("所有表单不能为空！", 3000);
+			return false;
+		}
+		
+		var is_null_radio = 0;
+		$('.list-problem').each(function(i){
+			var obj_answer = $(this).find('input:checked').val();
+			if(!obj_answer){
+				is_null_radio++;
+			}
+		});
+		if(is_null_radio){
+			phenix.show_error_note("请选择单选或者多选！", 3000);
+			return false;
+		}
+		
+		// 收集数据
 		var arr =  {};
 		var result = '';
 		$('.list-problem').each(function(i){
 			var date = {};
+			date.pro_id = $(this).parent('li').find('input:hidden[name=problem]').val();
 			date.pro_title = $(this).find('input[name=problem]').val();
 			date.pro_type = $(this).find('input:checked').val();
 			var answer = {}; 
-			$(this).parent('li').find('input[name=answer]').each(function(j){
-				answer[j] = $(this).val();
+			$(this).parent('li').find('input:text[name=answer]').each(function(j){
+				answer[j] = {};
+				answer[j]['ans_id'] = $(this).prev().val();
+				answer[j]['ans_title'] = $(this).val();
 			});
 			date.pro_answer = answer;
 			arr[i] = date;
 		});
+		
 		result = JSON.stringify(arr);
+		
 		$('input[name=problem_date]').val(result);
 		var pro_back = $('input[name=problem_date]').val();
 		
+		// 判断并提交数据
 		if(pro_back !== '{}'){
 			$(this).submit(); // 调用此表单的提交方法
 		}else{
-			alert('数据为空，请重新填写！');
+			phenix.show_error_note("数据为空，请重新填写！", 3000);
 		}
 	});
 {% endblock %}
@@ -162,7 +231,7 @@
 						<input type="hidden" name="id" value="{{ vote._id }}" />
 						<input type="hidden" name="tn" value="{{ tn }}" />
 						<input type="hidden" name="problem_date" value="" />
-						<input type="hidden" name="relevance_id" value="{{ tid }}" />
+						<input type="hidden" name="relevance_id" value="{{ rid }}" />
 						
 						<div class="ui segment from">
 							<h3 class="ui dividing header">填写投票信息</h3>
@@ -178,36 +247,36 @@
 								<div>
 									<ol id="process-box-edit" class="ui from list">
 										{% for votes in vote.problem %}
-										<input type="hidden" name="problem" value="{{ votes._id}}" />
 										<li>
+											<input type="hidden" name="problem" value="{{ votes._id}}" />
 											<div class="list-problem">
 												<p>
 													<input style="width:80%;margin-right:2%;vertical-align: middle;" type="text" name="problem" value="{{ votes.title}}" />
 													<span class="ui small purple del-problem button">
 														删除此问题
-													</span></p>
-													<div class="field">
-														<div class="ui radio checkbox">
-															<input type="radio" name="{{ votes._id}}" value="1" {% if votes.select_type == 1 %} checked="checked" {% endif %} style="z-index:100;width:100%;" />
-															<label>
-																单选
-															</label>
-														</div>
-														&nbsp;&nbsp;
-														<div class="ui radio checkbox">
-															<input type="radio" name="{{ votes._id}}" value="2" {% if votes.select_type == 2 %} checked="checked" {% endif %} style="z-index:100;width:100%;" />
-															<label>
-																多项
-															</label>
-														</div>
+													</span>
+												</p>
+												<div class="field radio">
+													<div class="ui radio checkbox">
+														<input type="radio" name="{{ votes._id}}" value="1" {% if votes.select_type == 1 %} checked="checked" {% endif %} style="z-index:100;width:100%;" />
+														<label>
+															单选
+														</label>
 													</div>
-											
+													&nbsp;&nbsp;
+													<div class="ui radio checkbox">
+														<input type="radio" name="{{ votes._id}}" value="2" {% if votes.select_type == 2 %} checked="checked" {% endif %} style="z-index:100;width:100%;" />
+														<label>
+															多项
+														</label>
+													</div>
+												</div>
 											</div>
 											<div class="answer">
 												<ol class="list-answer">
 													{% for answer in votes.answer %}
-													<input type="hidden" name="problem" value="{{ answer._id}}" />
 													<li>
+														<input type="hidden" name="answer" value="{{ answer._id}}" />
 														<input style="width:79%;margin-right:2%;vertical-align: middle;" type="text" name="answer" value="{{ answer.title}}" />
 														<span class="ui small blue del-answer button">删除此答案</span>
 													</li>
