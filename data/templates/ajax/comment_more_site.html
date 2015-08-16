@@ -65,6 +65,10 @@
                 fetch_comment(current_page+1, per_page, {{ sort }});
             });
         }
+        
+        $('.ui.sticky')
+          .sticky('refresh')
+        ;
     ]]></eval>
 
 </taconite>
