@@ -750,7 +750,7 @@
                 <div class="user avatars">
               	  	<div class="ui images" id="target_{{ product._id }}_support">
                         {% if product.love_count %}
-                            {% favorite_list var:'userlist' target_id:product._id event:2 type:1 %}
+                            {% favorite_list var:'userlist' target_id:product._id event:2 type:1 size:15 %}
                             {% for target in userlist.rows %}
                             <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
                   	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />

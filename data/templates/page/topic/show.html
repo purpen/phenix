@@ -685,7 +685,6 @@
     </div>
     <div class="mainright">
         {% include "page/topic/usersign.html" %}
-        {% include "page/topic/login_user.html" %}
         <div class="ui sticky">
             <div class="sellwrap">
                 <div class="user action">
@@ -703,7 +702,7 @@
                 <div class="user avatars">
               	  	<div class="ui images" id="target_{{ topic._id }}_support">
                         {% if topic.love_count %}
-                            {% favorite_list var:'userlist' target_id:topic._id event:2 type:2 %}
+                            {% favorite_list var:'userlist' target_id:topic._id event:2 type:2 size:15 %}
                             {% for target in userlist.rows %}
                             <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
                   	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />
