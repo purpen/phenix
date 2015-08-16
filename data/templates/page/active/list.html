@@ -161,8 +161,10 @@
         		合作媒体
             </div>
 			<div class="tryfirm">
-        {% for ad in adslide.rows %}
-          <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank"><img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}"></a>
+                {% for ad in adslide.rows %}
+                    <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
+                        <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}">
+                    </a>
 				{% endfor %}
 			</div>
         </div>
