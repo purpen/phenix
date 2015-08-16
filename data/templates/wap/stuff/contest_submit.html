@@ -149,30 +149,6 @@
           {%endif%}
 					
 					<div class="ui segment">
-						<div class="ui {{ hide }} field">
-							<label>类别</label>
-						   	<div class="ui options">
-								{% if mode == 'edit' %}
-						    		<input type="hidden" name="category_id" value="{{ stuff.category_id }}" id="stuff-category" />
-								{% else %}
-									{% if !is_top %}
-										<input type="hidden" name="category_id" value="{{ cid }}" id="stuff-category" />
-									{% else %}
-										<input type="hidden" name="category_id" id="stuff-category" />
-									{% endif %}
-								{% endif %}
-							
-								{% category_list var:'category' only_open:1 domain:4 pid:cid current:stuff.category_id %}
-								{% for cat in category.rows %}
-						   	 	<div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
-						   	 		<div class="icon">
-						   				<i class="check circle outline icon"></i>
-						   			</div>
-						   	 		{{ cat.title }}
-						   	 	</div>
-								{% endfor %}
-						   	 </div>
-						</div>
 						
 						<div class="field">
 							<label for="title">标题</label>
