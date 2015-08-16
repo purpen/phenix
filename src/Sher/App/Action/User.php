@@ -383,7 +383,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
             $this->stash['page_notice_success'] = true;   
         }
         
-        return $this->to_taconite_page('ajax/user_notice.html');
+        return $this->ajax_json('', false, '', $this->stash);
 	}
     
     /**
@@ -392,15 +392,10 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
     public function ajax_fetch_profile(){
         $user = $this->stash['user'];
         
-        $user_info = array(
-            'nickname' => 'purpen',
-            'city' => $user['city'],
-            'job'  => $user['profile']['job'],
-             
-            'last_char' => $this->stash['last_char'],
-            
-        );
-        return $this->to_json(200,'',$user_info);
+        // 验证是否关注
+        $this->validate_ship();
+        
+        return $this->ajax_json('', false, '', $this->stash);
     }
 
     /**
@@ -473,54 +468,53 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 		return $this->to_taconite_page('ajax/send_ok.html');
     }
 
-  /**
-   * 获取用户签到数据
-   */
-  public function ajax_fetch_user_sign(){
-    $continuity_times = 0;
-    $has_sign = 0;
+    /**
+     * 获取用户签到数据
+     */
+    public function ajax_fetch_user_sign(){
+        $continuity_times = 0;
+        $has_sign = 0;
 		// 当前用户是否有权限
-		if ($this->visitor->id){
-      $user_sign_model = new Sher_Core_Model_UserSign();
-      $user_sign = $user_sign_model->extend_load((int)$this->visitor->id);
+        if($this->visitor->id){
+            $user_sign_model = new Sher_Core_Model_UserSign();
+            $user_sign = $user_sign_model->extend_load((int)$this->visitor->id);
 
-      if($user_sign){
-        $today = (int)date('Ymd');
-        $yesterday = (int)date('Ymd', strtotime('-1 day'));
-        if($user_sign['last_date']==$yesterday){
-          $continuity_times = $user_sign['sign_times'];
-        }elseif($user_sign['last_date']==$today){
-          $has_sign = 1;
-          $continuity_times = $user_sign['sign_times'];
+            if($user_sign){
+                $today = (int)date('Ymd');
+                $yesterday = (int)date('Ymd', strtotime('-1 day'));
+                if($user_sign['last_date'] == $yesterday){
+                    $continuity_times = $user_sign['sign_times'];
+                }elseif($user_sign['last_date'] == $today){
+                    $has_sign = 1;
+                    $continuity_times = $user_sign['sign_times'];
+                }
+                $result = array('is_true'=>1, 'has_sign'=>$has_sign, 'continuity_times'=>$continuity_times, 'data'=>$user_sign);
+            }else{
+                $result = array('is_true'=>0, 'msg'=>'数据不存在', 'has_sign'=>$has_sign, 'continuity_times'=>$continuity_times);
+            }
+        }else{
+            $result = array('is_true'=>0, 'msg'=>'未注册', 'has_sign'=>$has_sign, 'continuity_times'=>$continuity_times);   
         }
-        $result = array('is_true'=>1, 'has_sign'=>$has_sign, 'continuity_times'=>$continuity_times, 'data'=>$user_sign);
-      }else{
-        $result = array('is_true'=>0, 'msg'=>'数据不存在', 'has_sign'=>$has_sign, 'continuity_times'=>$continuity_times);
-      }
-    }else{
-      $result = array('is_true'=>0, 'msg'=>'未注册', 'has_sign'=>$has_sign, 'continuity_times'=>$continuity_times);   
+        // 加载签到操作
+        $result['is_doing'] = false;
+    
+        return $this->ajax_json('', false, '', $result);
     }
-    $this->stash['result'] = $result;
-    //加载签到操作
-    $this->stash['is_doing'] = false;
-    return $this->to_taconite_page('ajax/user_sign_box.html');
-  }
 
-  /**
-   * 用户每日签到
-   */
-  public function ajax_sign_in(){
-    if ($this->visitor->id){
-      $user_sign_model = new Sher_Core_Model_UserSign();
-      $result = $user_sign_model->sign_in((int)$this->visitor->id);   
-    }else{
-      $result = array('is_true'=>0, 'has_sign'=>0, 'msg'=>'没有权限!', 'continuity_times'=>0);    
+    /**
+     * 用户每日签到
+     */
+    public function ajax_sign_in(){
+        if ($this->visitor->id){
+            $user_sign_model = new Sher_Core_Model_UserSign();
+            $result = $user_sign_model->sign_in((int)$this->visitor->id);   
+        }else{
+            $result = array('is_true'=>0, 'has_sign'=>0, 'msg'=>'没有权限!', 'continuity_times'=>0);    
+        }
+        // 执行签到操作
+        $result['is_doing'] = true;
+        
+        return $this->ajax_json('', false, '', $result);
     }
-    //执行签到操作
-    $this->stash['is_doing'] = true;
-
-    $this->stash['result'] = $result;
-    return $this->to_taconite_page('ajax/user_sign_box.html');
-  }
 	
 }

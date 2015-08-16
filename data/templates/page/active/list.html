@@ -78,7 +78,7 @@
                 </div>
                 {%endif%}
                 
-                {% active_list var:'old_list' kind:1 ingore_id:current_list.rows.0._id published:1 deleted:1 step_stat:4 state:2 page:page size:9 %}
+                {% active_list var:'old_list' kind:1 ingore_id:current_list.rows.0._id published:1 deleted:1 step_stat:4 state:2 page:page size:12 %}
                  
                 {% for active in old_list.rows %}
 				<div class="card">
@@ -169,4 +169,8 @@
         {%endif%}
     </div>
 </div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
 {% endblock %}

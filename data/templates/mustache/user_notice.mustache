@@ -1,0 +1,23 @@
+{{#alert_count}}
+    <a href="{{ phenix.domain }}/my/remind" class="item">
+        <i class="alarm icon"></i> 查看提醒 {{ alert_count }} 条提醒
+    </a>
+{{/alert_count}}
+
+{{#message_count}}
+    <a href="{{ phenix.domain }}/my/message" class="item">
+        <i class="mail icon"></i> 查看私信 {{ message_count }} 条私信
+    </a>
+{{/message_count}}
+
+{{#comment_count}}
+    <a href="{{ phenix.domain }}/my/recive_comment" class="item">
+        <i class="comment icon"></i> 查看评论 {{ comment_count }} 条评论
+    </a>
+{{/comment_count}}
+
+{{#fans_count}}
+    <a href="{{ phenix.domain }}/my/fan" class="item">
+        <i class="user icon"></i> 查看粉丝 {{ fans_count }} 条粉丝
+    </a>
+{{/fans_count}}

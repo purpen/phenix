@@ -29,18 +29,16 @@
 #minslider.flexslider:hover .flex-direction-nav .flex-next {
     right: 30px;
 }
-
 </style>
 {% endblock %}
 
-{% block jquery %}
+{% block jquery %} 
     $('#minslider').flexslider({
         animation: "fade",
         controlNav: false,
         slideshow: false,
     });
     
-    $.taconite.debug = 1;
     // ajax加载签到数据
     phenix.signin();
     
@@ -48,7 +46,10 @@
 	$('.ui.more.button').bind('click', function(){
 		var page = $(this).data('page');
         if(page != 'no'){
-            $.get('{{ app_url_topic }}/ajax_fetch_more', { page:page });
+            $.get('{{ app_url_topic }}/ajax_fetch_more', { page:page }, function(rs){
+                var rendered = phenix.ajax_render_result('#fetch_more_topics_tpl', rs.data);
+                $('#topic_list_box').append(rendered);
+            }, 'json');
         }else{
             $(this).text('没有更多了~');
         }
@@ -137,10 +138,16 @@
     </div>
     <div class="mainright">
         {% include "page/topic/usersign.html" %}
+        {% include "page/topic/login_user.html" %}
         {% include "page/topic/rightbar.html" %}
         {% include "page/topic/hotpeople.html" %}
         {% include "page/topic/stick_list.html" %}
         {% include "page/topic/adwrap.html" %}
     </div>
 </div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
+{% mustache id:'fetch_more_topics_tpl' tpl:'mustache/fetch_more_topics.mustache' %}
 {% endblock %}
