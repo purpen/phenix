@@ -1,26 +1,28 @@
 {%extends 'layout/column.html'%}
-{% block title %}我的灵感-{% endblock %}
+{% block title %}我的作品-{% endblock %}
 
 {% block page_css %}
 <style type="text/css">
+    
 </style>
 {% endblock %}
 
 {% block jquery %}
+
   // 编辑
-  $('.ui.edit.button').bind('click', function(){
-    var id = $(this).data('id');
-    window.open('{{ app_url_stuff }}/edit?id='+id);
+  $('.ui.edit.link').bind('click', function(){
+      var id = $(this).data('id');
+      window.open('{{ app_url_stuff }}/edit?id='+id);
   });
 
   // 删除
-  $('.ui.remove.button').bind('click', function(){
-    var id = $(this).data('id');
-    if(confirm('确认执行删除操作吗?')){
-      $.post('{{ app_url_stuff }}/ajax_del', {id:id });
-    }
+  $('.ui.remove.link').bind('click', function(){
+      var id = $(this).data('id');
+      if(confirm('确认执行删除操作吗?')){
+          $.post('{{ app_url_stuff }}/ajax_del', {id:id });
+      }
   });
-	
+  
 {% endblock %}
 
 {% block content %}
@@ -37,7 +39,7 @@
 						个人中心
 					</a>
 					<i class="angle right icon divider"></i>
-					<div class="active section">我的灵感</div>
+					<div class="active section">我的作品</div>
 				</div>
 			</div>
 		</div>
@@ -49,30 +51,39 @@
 		<div class="four wide column">
 			{% include "block/user/sub_menu_center.html" %}
 		</div>
+        
 		<div class="twelve wide column">
-			<h2 class="ui header">我的灵感</h2>
-			{% stuff_list var:'list' page:page user_id:user_id size:15 %}
-			<div class="ui center-list">
-				<div class="ui three products cards">
-					{% for d in list.rows %}
-                        {% include 'block/center/stuff-item.html' %}
-                    {%endfor%}
-		        </div>
-	        </div>
+            <h2 class="ui header">
+                我的作品
+            </h2>
             
-	        {% if list.rows %}
-		    <div class="ui pagebox">
+            <!--
+            <div class="ui secondary pointing magenta menu">
+                <a href="{{ app_url_my }}/product?type=submited" class="ui item {{ css_user_product_submited }}">我提交的</a>
+                <a href="{{ app_url_my }}/product?type=favorited" class="ui item {{ css_user_product_favorited }}">我关注的</a>
+                <a href="{{ app_url_my }}/product?type=loved" class="ui item {{ css_user_product_loved }}">我赞了的</a>
+            </div>
+            -->
+            
+            <div class="ui center-list">
+                <div class="ui three products cards">
+                    <!--我提交的作品-->
+                        {% stuff_list var:'list' page:page size:12 user_id:user_id %}
+
+                        {% for d in list.rows %}
+                            {% include 'block/center/stuff-item.html' %}
+                        {%endfor%}
+
+                </div>
+            </div>
+            
+            {% if list.rows %}
+            <div class="ui pagebox">
                 {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
                 {%include 'block/pager.html'%}
-		    </div>
+            </div>
             {% endif %}
 		</div>
 	</div>
 </div>
 {% endblock %}
-
-
-
-
-
-

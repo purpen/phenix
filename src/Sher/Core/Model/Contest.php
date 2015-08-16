@@ -47,6 +47,7 @@ class Sher_Core_Model_Contest extends Sher_Core_Model_Base  {
 	
     protected $required_fields = array('user_id', 'title', 'short_title');
     protected $int_fields = array('user_id', 'stuff_count', 'view_count', 'state', 'step_stat');
+	  protected $counter_fields = array('stuff_count', 'view_count');
 	
 	/**
 	 * 扩展关联数据
@@ -117,6 +118,40 @@ class Sher_Core_Model_Contest extends Sher_Core_Model_Base  {
 	 */
 	protected function after_save() {
         
+	}
+
+	/**
+	 * 增加计数
+	 */
+	public function increase_counter($field_name, $inc=1, $id=null){
+		if(is_null($id)){
+			$id = $this->id;
+		}
+		if(empty($id) || !in_array($field_name, $this->counter_fields)){
+			return false;
+		}
+		
+		return $this->inc($id, $field_name, $inc);
+	}
+	
+	/**
+	 * 减少计数
+	 * 需验证，防止出现负数
+	 */
+	public function dec_counter($count_name,$id=null,$force=false){
+	    if(is_null($id)){
+	        $id = $this->id;
+	    }
+	    if(empty($id)){
+	        return false;
+	    }
+		if(!$force){
+			$stuff = $this->find_by_id($id);
+			if(!isset($stuff[$count_name]) || $stuff[$count_name] <= 0){
+				return true;
+			}
+		}
+		return $this->dec($id, $count_name);
 	}
 
 }
