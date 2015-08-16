@@ -1,61 +1,67 @@
-<h3 class="ui header">
-	你可能喜欢的产品
-</h3>
-<div class="ui four products cards">
-	{{#results.rows}}
-        <div class="card" id="product-{{ product._id }}">
-            <div class="problock">
-                <a title="{{ product.title }}" alt="{{ product.title }}-太火鸟智能硬件商店" href="{{ product.view_url }}" style="background-image: url({{ product.cover.thumbnails.hm.view_url }});" class="thumb" target="_blank"></a>
-                {{#product.video}}
-                <span class="videomark">
-                    <i class="icon video play"></i>
-                </span>
-                {{/product.video}}
-                <div class="ribbons">
-                    {{#product.newest}}
-                    <a class="ribbon newest" href="{{ app_url_shop }}/list-c0-t0-s0-p1" target="_blank">NEW</a>
-                    {{/product.newest}}
-                    {{#product.hot}}
-                    <a class="ribbon hot" href="{{ app_url_shop }}/list-c0-t0-s2-p1" target="_blank">HOT</a>
-                    {{/product.hot}}
-                    {{#product.featured}}
-                    <a class="ribbon featured" href="{{ app_url_shop }}/list-c0-t5-s0-p1" target="_blank">编辑精选</a>
-                    {{/product.featured}}
-                    {{#product.stick}}
-                    <a class="ribbon stick" href="{{ app_url_shop }}/list-c0-t4-s0-p1" target="_blank">店长推荐</a>
-                    {{/product.stick}}
-                    {{#product.snatched}}
-                    <a class="ribbon snatched" href="{{ app_url_shop }}/list-c0-t6-s0-p1" target="_blank">限时抢购</a>
-                    {{/product.snatched}}
-                    {{#product.presale}}
-                    <a class="ribbon presale" href="{{ app_url_shop }}/list-c0-t7-s0-p1" target="_blank">正在预售</a>
-                    {{/product.presale}}
-                    {{#product.exchange}}
-                    <a class="ribbon exchange" href="{{ app_url_shop }}/list-c0-t3-s0-p1" target="_blank">积分兑换</a>
-                    {{/product.exchange}}
-                </div>
-                <h2>
-                    <a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line" target="_blank">
-        			    {{ product.title }}
-        		    </a>
-                </h2>
-                <div class="excerpt">
-                    <p>{{ product.advantage }}</p>
-                </div>
-                <div class="cats">
-                    {{^product.idea}}
-                        {{#product.hotsale}}
-                        <i class="yen icon"></i>{{ product.sale_price }}
-                        {{/product.hotsale}}
-                        {{#product.presale}}
-                        <i class="yen icon"></i>{{ product.presale_money }}
-                        {{/product.presale}}
-                    {{/product.idea}}
-                </div>
-                <span class="counter">
-                    <i class="heart icon"></i> {{ product.love_count }}
-                </span>
+<div class="ui responsive grid">
+    <div class="row">
+        <div class="column">
+            <h3 class="ui header">
+            	你可能喜欢的产品
+            </h3>
+            <div class="ui four products cards">
+            	{{#results.rows}}
+                    <div class="card" id="product-{{ product._id }}">
+                        <div class="problock">
+                            <a title="{{ product.title }}" alt="{{ product.title }}-太火鸟智能硬件商店" href="{{ product.view_url }}" style="background-image: url({{ product.cover.thumbnails.hm.view_url }});" class="thumb" target="_blank"></a>
+                            {{#product.video}}
+                            <span class="videomark">
+                                <i class="icon video play"></i>
+                            </span>
+                            {{/product.video}}
+                            <div class="ribbons">
+                                {{#product.newest}}
+                                <a class="ribbon newest" href="{{ app_url_shop }}/list-c0-t0-s0-p1" target="_blank">NEW</a>
+                                {{/product.newest}}
+                                {{#product.hot}}
+                                <a class="ribbon hot" href="{{ app_url_shop }}/list-c0-t0-s2-p1" target="_blank">HOT</a>
+                                {{/product.hot}}
+                                {{#product.featured}}
+                                <a class="ribbon featured" href="{{ app_url_shop }}/list-c0-t5-s0-p1" target="_blank">编辑精选</a>
+                                {{/product.featured}}
+                                {{#product.stick}}
+                                <a class="ribbon stick" href="{{ app_url_shop }}/list-c0-t4-s0-p1" target="_blank">店长推荐</a>
+                                {{/product.stick}}
+                                {{#product.snatched}}
+                                <a class="ribbon snatched" href="{{ app_url_shop }}/list-c0-t6-s0-p1" target="_blank">限时抢购</a>
+                                {{/product.snatched}}
+                                {{#product.presale}}
+                                <a class="ribbon presale" href="{{ app_url_shop }}/list-c0-t7-s0-p1" target="_blank">正在预售</a>
+                                {{/product.presale}}
+                                {{#product.exchange}}
+                                <a class="ribbon exchange" href="{{ app_url_shop }}/list-c0-t3-s0-p1" target="_blank">积分兑换</a>
+                                {{/product.exchange}}
+                            </div>
+                            <h2>
+                                <a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line" target="_blank">
+                    			    {{ product.title }}
+                    		    </a>
+                            </h2>
+                            <div class="excerpt">
+                                <p>{{ product.advantage }}</p>
+                            </div>
+                            <div class="cats">
+                                {{^product.idea}}
+                                    {{#product.hotsale}}
+                                    <i class="yen icon"></i>{{ product.sale_price }}
+                                    {{/product.hotsale}}
+                                    {{#product.presale}}
+                                    <i class="yen icon"></i>{{ product.presale_money }}
+                                    {{/product.presale}}
+                                {{/product.idea}}
+                            </div>
+                            <span class="counter">
+                                <i class="heart icon"></i> {{ product.love_count }}
+                            </span>
+                        </div>
+                    </div>
+                {{/results.rows}}
             </div>
         </div>
-    {{/results.rows}}
+    </div>
 </div>
