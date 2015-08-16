@@ -295,12 +295,16 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
                 $row['vote_percent'] = sprintf("%.2f", $row['vote_favor_count']/$lowest*100);
             }else if ($row['stage'] == self::STAGE_PRESALE){
                 $row['stage_label'] = '预售中';
+                $row['presale'] = 1;
             }else if ($row['stage'] == self::STAGE_SHOP){
                 $row['stage_label'] = '热售中';
+                $row['hotsale'] = 1;
             }else if ($row['stage'] == self::STAGE_EXCHANGE){
                 $row['stage_label'] = '积分兑换';
+                $row['exchange'] = 1;
             }else if ($row['stage'] == self::STAGE_IDEA){
                 $row['stage_label'] = '产品灵感';
+                $row['idea'] = 1;
             }else{
                 $row['stage_label'] = '未设置1'; // 未知
             }

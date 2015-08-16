@@ -123,9 +123,14 @@
     </div>
     <div class="mainright">
         {% include "page/topic/usersign.html" %}
+        {% include "page/topic/login_user.html" %}
         {% include "page/topic/rightbar.html" %}
         {% include "page/topic/stick_list.html" %}
         {% include "page/topic/adwrap.html" %}
     </div>
 </div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
 {% endblock %}

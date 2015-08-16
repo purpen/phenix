@@ -1,0 +1,16 @@
+{% if visitor.is_login %}
+<div class="sellwrap loginfo">
+	<a class="ui author link" href="{{ user.home_url }}" title="{{ user.nickname }}">
+        <img src="{{ user.small_avatar_url }}" class="ui avatar medium image" alt="{{ user.nickname }}" />
+        {% if user.kind == 1 %}
+            <img src="{{ app_url_packaged }}/images/V.png" class="image-HV" />
+        {% endif %}
+    </a>
+    <h3><a class="ui line link" href="{{ user.home_url }}" title="{{ user.nickname }}">{{ user.nickname }}</a> <small>{{ user.ext_state.user_rank.title|default '鸟列兵' }} </small></h3>
+    <p>鸟币：<span class="ui magenta text">{{ current_point.balance.money|default 0 }}</span> 经验值：<span class="ui magenta bird text">{{ user.ext_state.rank_point|default 0 }}</span></p>
+    <p>
+        <a href="{{ app_url_my }}/point" target="_blank" class="ui link">查看积分规则</a>
+        <a href="{{ app_url_shop }}/pmall" target="_blank" class="ui link">积分兑换</a>
+    </p>
+</div>
+{% endif %}

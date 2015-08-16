@@ -362,7 +362,10 @@
     {%endif%}
 	
 	// 加载推荐商品 
-	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ product.tags_s }}', size: 8, id: {{ product._id }} });
+	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ product.tags_s }}', size: 8, id: {{ product._id }} }, function(rs){
+        var rendered = phenix.ajax_render_result('#guess_products_tpl', rs.data);
+        $('#product_guess_list').html(rendered);
+    }, 'json');
 	
 	// 显示私信框
 	$('.ui.letter.button').bind('click', function(){
@@ -404,8 +407,8 @@
     
     $('.ui.sticky')
       .sticky({
-        context: '#shoppage'
-    });
+          context: '.mainleft',
+      });
       
 {% endblock %}
 
@@ -553,8 +556,8 @@
 				</div>
             </div>
             
-            <div class="container">
-                {% if product.stage == 15 %}
+            {% if product.stage == 15 %}
+            <div class="container">    
                 <div class="reviews">
         			<div class="reply box">
           			    <!--ajax comment-->
@@ -575,8 +578,10 @@
           		  	    {% include "block/comment_box_site.html" %}
                     </div>
                 </div>
-                {%else%}
-                    {% if product.comment_count != 0 %}
+            </div>
+            {%else%}
+                {% if product.comment_count != 0 %}
+                <div class="container">
                     <div class="product reviews">
                         <div class="block title">
                             用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
@@ -586,12 +591,10 @@
                             <div class="ui threaded comments"></div>
                         </div>
                     </div>
-                    {% endif %}
-                {%endif%}
-            </div>
+                </div>
+                {% endif %}
+            {%endif%}
         </div>
-        
-        <div id="product_guess_list"><!--ajax fetch--></div>
     </div>
     <div class="mainright">
         <div class="ui sticky">
@@ -745,7 +748,7 @@
                 <div class="user avatars">
               	  	<div class="ui images" id="target_{{ product._id }}_support">
                         {% if product.love_count %}
-                            {% favorite_list var:'userlist' target_id:product._id event:2 type:1 %}
+                            {% favorite_list var:'userlist' target_id:product._id event:2 type:1 size:15 %}
                             {% for target in userlist.rows %}
                             <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
                   	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />
@@ -880,6 +883,11 @@
         {%endif%}
     </div>
 </div>
+<div id="product_guess_list" class="product white guess"></div>
 {% include "block/sharebox.html" %}
 {% include "block/qrcode.html" %}
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'guess_products_tpl' tpl:'mustache/guess_products.mustache' %}
 {% endblock %}

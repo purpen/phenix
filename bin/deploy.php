@@ -4,7 +4,7 @@
  * Deploy static files
  * 同步到Qiniu qrsync
  */
-system("doggy dev");
+system("doggy/bin/doggy dev");
 
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {

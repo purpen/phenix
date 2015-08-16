@@ -191,10 +191,32 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 			$row['description'] = htmlspecialchars_decode($row['description']);
 		
 			// 去除 html/php标签
-			$row['strip_description'] = strip_tags($row['description']);
+			$row['strip_description'] = Doggy_Dt_Filters_String::truncate(strip_tags($row['description']), 70);
 		}
 		// 获取封面图
 		$row['cover'] = $this->cover($row);
+        
+        $row['r_created_on'] = Doggy_Dt_Filters_DateTime::relative_datetime($row['created_on']);
+        if(isset($row['last_reply_time'])){
+            $row['r_last_reply_time'] = Doggy_Dt_Filters_DateTime::relative_datetime($row['last_reply_time']);
+        }
+        // 标题颜色
+        if(isset($row['t_color'])){
+            switch($row['t_color']){
+                case 1:
+                    $row['red'] = 1;
+                    break;
+                case 2:
+                    $row['blue'] = 1;
+                    break;
+                case 3:
+                    $row['green'] = 1;
+                    break;
+                case 4:
+                    $row['yellow'] = 1;
+                    break;    
+            }
+        }
 	}
 	
 	/**

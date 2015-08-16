@@ -31,7 +31,21 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->set_target_css_state('page_sub_topic');
         
 		$this->stash['domain'] = Sher_Core_Util_Constant::TYPE_TOPIC;
-  }
+        
+        // 获取登陆者信息
+        $this->stash['user'] = array();
+        if($this->visitor->id){
+            $user = new Sher_Core_Model_User();
+            $row = $user->load((int)$this->visitor->id);
+            if(!empty($row)){
+                $this->stash['user'] = $user->extended_model_row($row);
+            }
+            // 用户实时积分
+            $point_model = new Sher_Core_Model_UserPointBalance();
+            $current_point = $point_model->load((int)$this->visitor->id);
+            $this->stash['current_point'] = $current_point;
+        }
+    }
 	
 	/**
 	 * 社区
@@ -86,10 +100,30 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
             }
         }
         
+        $max = count($resultlist['rows']);
+        for($i=0;$i<$max;$i++){
+            if($resultlist['rows'][$i]['asset_count'] > 0){
+                $asset = Sher_Core_Service_Asset::instance();
+                $q = array(
+                    'parent_id'  => $resultlist['rows'][$i]['_id'],
+                    'asset_type' => 55,
+                );
+                $op = array(
+                    'page' => 1,
+                    'size' => !empty($resultlist['rows'][$i]['cover'])?4:5,
+                    'sort_field' => 'positive',
+                );
+                $asset_result = $asset->get_asset_list($q, $op);
+                $resultlist['rows'][$i]['asset_list'] = $asset_result['rows'];
+                
+                //print_r($resultlist['rows'][$i]['asset_list']);
+            }
+        }
+        
         $this->stash['nex_page'] = $next_page;
         $this->stash['results'] = $resultlist;
         
-        return $this->to_taconite_page('ajax/fetch_topics.html');
+        return $this->ajax_json('', false, '', $this->stash);
     }
     
 	/**
