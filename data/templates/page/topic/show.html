@@ -325,52 +325,69 @@
     // 投票提交部分
     $('#vote-save').click(function(){
     
-      var user_id = '{{ visitor.id }}';
-      if(!user_id){
-        phenix.show_error_note('请登陆后在投票!');
-        return false;
-      }
-      
-      var vote = {};
-      vote.topic_id = $('input[name=topic_id]').val();
-      vote.user_id = user_id;
-      vote.vote_id = '{{ vote._id }}';
-      
-      var problem = {};
-      $('input[name="problem"]').each(function(i){
-        var name = $(this).val();
-        var answer = {};
-        problem[i] = {};
-        $('#'+name).find('input:checked').each(function(j){
-          answer[j] = $(this).attr('values');
-        });
-        problem[i].id = name;
-        problem[i].answer = answer;
-      });
-      
-      var vote = JSON.stringify(vote);
-      var problem = JSON.stringify(problem);
-      
-      $.post(
-        "{{ app_url_action_base }}/topic/save_vote",
-        {vote: vote, problem: problem},
-        function(data){
-          if(data){
-            if(data == 1){
-              phenix.show_error_note('您已经投过票了，谢谢参与！');
-              return false;
-            }
-            var date = eval(data).problem;
-            for(var i = 0; i < date.length; i++){
-              var answer = date[i].answer;
-              for(var j = 0; j < answer.length; j++){
-                $('.bar.'+answer[j]._id).attr('style','width:'+answer[j].nums_rate+'%');
-                $('.vote_num.'+answer[j]._id).text(answer[j].nums + '票（'+answer[j].nums_rate+'%）');
-                
-              }
-            }
-          }
-        }, "json");
+		var user_id = '{{ visitor.id }}';
+		if(!user_id){
+		  phenix.show_error_note('请登陆后在投票!');
+		  return false;
+		}
+		
+		var vote = {};
+		vote.topic_id = $('input[name=topic_id]').val();
+		vote.user_id = user_id;
+		vote.vote_id = '{{ vote._id }}';
+		
+		// 验证所有的单选、多选框有没有被选中
+		var is_ok = 0;
+		var check_nums = 0;
+		$('.pro_block').each(function(i){
+			$(this).find('input:checked').each(function(){
+				is_ok++;
+			});
+			check_nums++;
+		});
+		
+		if(is_ok < check_nums){
+			phenix.show_error_note('还有选项没有被选择！');
+			return false;
+		}
+		
+		// 收集数据
+		var problem = {};
+		$('input[name="problem"]').each(function(i){
+		  var name = $(this).val();
+		  var answer = {};
+		  problem[i] = {};
+		  $('#'+name).find('input:checked').each(function(j){
+			answer[j] = $(this).attr('values');
+		  });
+		  problem[i].id = name;
+		  problem[i].answer = answer;
+		});
+		
+		var vote = JSON.stringify(vote);
+		var problem = JSON.stringify(problem);
+		
+		// 提交数据
+		$.post(
+		  "{{ app_url_action_base }}/topic/save_vote",
+		  {vote: vote, problem: problem},
+		  function(data){
+			if(data){
+			  if(data == 1){
+				phenix.show_error_note('您已经投过票了，谢谢参与！');
+				return false;
+			  }
+			  var date = eval(data).problem;
+			  for(var i = 0; i < date.length; i++){
+				var answer = date[i].answer;
+				for(var j = 0; j < answer.length; j++){
+				  $('.bar.'+answer[j]._id).attr('style','min-width: 0;width:'+answer[j].nums_rate+'%');
+				  $('.vote_num.'+answer[j]._id).text(answer[j].nums + '票（'+answer[j].nums_rate+'%）');
+				  
+				}
+			  }
+			}
+		  }, "json");
 	});
     
     $('.user.avatars .ui.images .image').livequery(function(){
@@ -533,7 +550,7 @@
 								<i class="large question middle aligned icon"></i>
 								<div class="ui from">
 									<h4 class="ui header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h4>
-									<div class="" style="margin: 30px 0 20px;padding: 40px 0 0;border: 1px solid rgba(0,0,0,0.1);" id="{{ problem._id }}" >
+									<div class="pro_block" style="margin: 30px 0 20px;padding: 40px 0 0;border: 1px solid rgba(0,0,0,0.1);" id="{{ problem._id }}" >
 										{% if problem.select_type == 1 %}
 											{% for answer in problem.answer %}
 											<div class="field" style="padding-left:60px;">
@@ -544,7 +561,7 @@
 												<div style="display:block;margin:10px 0;">
 													<!--<div class="ui red label {{ answer._id }}" style="display:inline-block;width:80%">-->
 													<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
-														<div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
+														<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;"></div>
 													</div>
 																	
 													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;float: right;">
@@ -564,7 +581,7 @@
 															
 													<div style="display:block;margin:10px 0;">
 														<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
-															<div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
+															<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;"></div>
 														</div>			
 														<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;float:right;">
 															{{ answer.nums }}票	（{{ answer.nums_rate }}%）
@@ -786,13 +803,13 @@
 			</div>
 			<div class="ui icon blue hide editable buttons">
 				{% if is_vote %}
-				<a href="{{ app_url_vote }}/edit?tid={{ id }}&vid={{ vote._id }}&tn=1" class="ui pop button">
+				<a href="{{ app_url_vote }}/edit?rid={{ id }}&vid={{ vote._id }}&tn=1" class="ui pop button">
 					<i class="edit icon"></i> 编辑
 				</a>
-				<a href="{{ app_url_vote }}/deleted?tid={{ id }}&vid={{ vote._id }}&tn=1" class="ui ajax pop button">
+				<a href="{{ app_url_vote }}/deleted?rid={{ id }}&vid={{ vote._id }}&tn=1" class="ui confirm-request pop button">
 					<i class="remove icon"></i> 删除
 				</a>
-				{% else %}
+				{% else %} 
 				<a href="{{ app_url_vote }}/add?tid={{ id }}&tn=1" class="ui pop button">
 					<i class="plus icon"></i> 添加
 				</a>

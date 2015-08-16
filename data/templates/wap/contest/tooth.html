@@ -1,22 +1,13 @@
-{%extends 'layout/column.html'%}
+{%extends 'layout/mobile.html'%}
 {% block title %}{% endblock %}
 
 {% block page_css %}
 <style class="text/css">
-  .match{
-    background:url({{ app_url_packaged }}/images/match/tooth1.jpg) no-repeat center top;
-    height:600px;
-    background-color:#2653b1;
+  .ui.center.aligned{
+    text-align:center;
   }
-  .match h1.ui.header{
-    color:#fff;
-    font-size: 3rem;
-    margin-top: 360px;
-    margin-bottom: 30px;
-  }
-  .match a.big.inverted.active.button{
-    background:#f9a300;
-    color:#fff !important;
+  #mfrbird{
+    margin-top:0;
   }
   .line.column{
     margin-bottom:1em !important;
@@ -28,12 +19,12 @@
     position: absolute;
     top: 0;
     left: 50%;
-    width: 76px;
-    margin-top: -2%;
-    margin-left: -3%;
+    width: 19%;
+    margin-top: -6.5%;
+    margin-left: -9.5%;
   }
   .ui.big.block{
-    padding-top: 4em;
+    padding: 3em 0 2em;
     margin:0;
   }
   .ui.time.block{
@@ -44,23 +35,24 @@
     color:#fff !important;
   }
   .ui.grid>.row>[class*="two wide"].column{
-    width:174px !important;
+    width:14.5% !important;
   }
-  .two.wide.column{
-    margin: 2em 6% !important;
+  .time.block .six.wide.column{
+    margin: 1em 0 !important;
+    width: 155px !important;
   }
-  .two.wide.column h4.ui.header{
-    padding: 57px 0;
+  .time.block .six.wide.column h4.ui.header{
+    padding: 50px 0;
     border-radius: 500rem;
     background: #fff;
     color: #de3726;
     font-weight: 700;
   }
-  .two.wide.column h4.ui.header > .sub.header{
+  .time.block .six.wide.column h4.ui.header > .sub.header{
     color:#00737c;
   } 
-  i.caret.icon{
-    margin-top: 85px;
+  .time.block i.caret.icon{
+    margin-top: 0px;
     color: #f9a200;
   }
   h4.icon.header i.icon{
@@ -69,8 +61,8 @@
     font-size: 2.8em !important;
     margin-bottom:1rem !important;
   }
-  .ui.four.wide.column{
-    margin:2em auto !important;
+  .ui.eight.wide.column{
+    margin:0em auto !important;
   }
   .ui.big.chun.block{
     background:url({{ app_url_packaged }}/images/match/tooth4.jpg) no-repeat center center /cover;
@@ -82,9 +74,6 @@
   .ui.big.chun.block h3.ui.header,.ui.big.chun.block h3 .sub.header{
     color:#fff !important;
   }
-  .ui.big.chun.block .row p{
-    line-height: 40px;
-  }
   .ui.clim.block{
     background:url({{ app_url_packaged }}/images/match/tooth3.jpg) no-repeat center center /cover;
     color:#fff;
@@ -92,15 +81,15 @@
   .ui.clim.block h3.ui.header,.ui.clim.block h3.ui.header .sub.header{
     color:#fff !important;
   }
-  .clim .ui.three.column {
+  .clim .ui.seven.column {
     margin:3em 3% 1em !important;
   }
-  .clim .ui.three.column p{
+  .clim .ui.seven.column p{
     background:#00e2b1;
-    padding: 60px 20px 30px;
-    min-height: 170px;
+    padding: 50px 5px 20px;
+    //min-height: 190px;
   }
-  .clim .ui.three.column .clicre{
+  .clim .ui.seven.column .clicre{
     position: absolute;
     padding: 1.8em 1.2em;
     border-radius: 500rem;
@@ -122,7 +111,7 @@
 {% endblock %}
 {% block content %}
 <div id="tooth">
-  <div class="match">
+  <!--<div class="match">
     <div class="ui responsive grid">
       <div class="row">
         <div class="ui center aligned column">
@@ -133,7 +122,10 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
+  <a href="{{ app_url_stuff }}/contest_submit?contest_id=1">
+     <img src="{{ app_url_packaged }}/images/match/tooth5.jpg" width="100%">
+  </a>
   <div class="ui big gray block">
     <div class="ui responsive grid">
       <div class="row">
@@ -177,7 +169,7 @@
       </div>
       
       <div class="ui center aligned row">
-        <div class="two wide column">
+        <div class="six wide column">
           <h4 class="ui header">
               2015.8.17-9.17
             <div class="sub header">
@@ -185,11 +177,11 @@
             </div>
           </h4>
         </div>
-        <div class="one wide column">
+        <div class="sixteen wide column">
           <h2 class="ui header">
-          <i class="caret right icon"></i></h2>
+          <i class="caret down icon"></i></h2>
         </div>
-        <div class="two wide column">
+        <div class="six wide column">
           <h4 class="ui header">
             2015.9.19-9.21
             <div class="sub header">
@@ -197,11 +189,11 @@
             </div>
           </h4>
         </div>
-        <div class="one wide column">
+        <div class="sixteen wide column">
           <h2 class="ui header">
-          <i class="caret right icon"></i></h2>
+          <i class="caret down icon"></i></h2>
         </div>
-        <div class="two wide column">
+        <div class="six wide column">
           <h4 class="ui header">
             2015.9.23-9.25
             <div class="sub header">
@@ -233,7 +225,7 @@
       </div>
       
       <div class="ui center aligned row">
-        <div class="ui four wide column">
+        <div class="ui eight wide column">
           <h4 class="ui center aligned icon header">
             <i class="circular bookmark icon"></i>
             设计
@@ -242,7 +234,7 @@
             </div>
           </h4>
         </div>
-        <div class="ui four wide column">
+        <div class="ui eight wide column">
           <h4 class="ui center aligned icon header">
             <i class="circular idea icon"></i>
             创意
@@ -251,7 +243,7 @@
             </div>
           </h4>
         </div>
-        <div class="ui four wide column">
+        <div class="ui eight wide column">
           <h4 class="ui center aligned icon header">
             <i class="circular lab icon"></i>
             体验
@@ -260,7 +252,7 @@
             </div>
           </h4>
         </div>
-        <div class="ui four wide column">
+        <div class="ui eight wide column">
           <h4 class="ui center aligned icon header">
             <i class="circular wizard icon"></i>
             功能
@@ -276,15 +268,13 @@
   <div class="ui big chun block">
     <div class="ui responsive grid">
       <div class="row">
-        <div class="ui three wide column">
-          <h3 class="ui right aligned header">
+        <div class="ui center aligned column">
+          <h3 class="ui center aligned header">
             创新方向
             <div class="sub header">
               Innovation Direction
             </div>
           </h3>
-        </div>
-        <div class="ui ten wide column">
           <p>可以在手柄舒适、刷头创新、功能挖掘、折叠便携，美感度提升等方向展开思路。</p>
         </div>
       </div>
@@ -305,15 +295,15 @@
         </div>
       </div>
       <div class="ui center aligned row">
-        <div class="ui three wide column">
-          <p>作品版面文件格式为JPG/PNG/GIF，分辨率不小于72dpi，大小不超过2M；</p>
+        <div class="ui seven wide column">
+          <p>作品版面文件格式为JPG/PNG/GIF，分辨率不小于72dpi，大小不超过2M；<br /><br /></p>
           <div class="clicre">NO.1</div>
         </div>
-        <div class="ui three wide column">
+        <div class="ui seven wide column">
           <p>作品内容包括名称、整体效果图、局部效果图、基本外观尺寸图、设计说明及作品功能介绍；</p>
           <div class="clicre">NO.2</div>
         </div>
-        <div class="ui three wide column">
+        <div class="ui seven wide column">
           <p>作品表现手法不限，不得抄袭，内容健康向上、符合法律法规等要求;</p>
           <div class="clicre">NO.3</div>
         </div>

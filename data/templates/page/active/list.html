@@ -16,7 +16,7 @@
     <div class="mainleftwrap">
         <div class="mainleft">
 			<div class="ui three products activity cards">
-                {% active_list var:'current_list' published:1 deleted:1 kind:1 step_stat:2 state:2 sort:'stick:asc_created' size:1 %}
+                {% active_list var:'current_list' published:1 deleted:1 step_stat:2 state:2 sort:'stick:asc_created' size:1 %}
                 
                 {% if current_list.rows %}
                     {% for active in current_list.rows %}
@@ -78,7 +78,7 @@
                 </div>
                 {%endif%}
                 
-                {% active_list var:'old_list' kind:1 ingore_id:current_list.rows.0._id published:1 deleted:1 step_stat:4 state:2 page:page size:12 %}
+                {% active_list var:'old_list' ingore_id:current_list.rows.0._id published:1 deleted:1 step_stat:4 state:2 page:page size:12 %}
                  
                 {% for active in old_list.rows %}
 				<div class="card">
@@ -161,8 +161,10 @@
         		合作媒体
             </div>
 			<div class="tryfirm">
-        {% for ad in adslide.rows %}
-          <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank"><img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}"></a>
+                {% for ad in adslide.rows %}
+                    <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
+                        <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}">
+                    </a>
 				{% endfor %}
 			</div>
         </div>
