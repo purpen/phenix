@@ -3,7 +3,7 @@ class Sher_Core_Service_Category extends Sher_Core_Service_Base {
 	
     protected $sort_fields = array(
         'orby' => array('order_by' => 1),
-        'total_desc' => array('total_count' => 1),
+        'total_desc' => array('total_count' => -1),
 	);
 
     protected static $instance;
