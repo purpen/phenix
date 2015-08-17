@@ -123,7 +123,7 @@
 		}, 'json');
 		
 		// 站内置顶
-		$('.ui.top.button').bind('click', function(){
+		$('.ui.dtop.button').bind('click', function(){
 			var id = $(this).data('id'),mark = $(this).data('mark'),type = $(this).data('type'),$btn = $(this),btn_title = '';
             if (type == 1){
                 btn_title = '站内置顶';
@@ -737,17 +737,17 @@
         {% include "page/topic/stick_list.html" %}
         {% include "page/topic/adwrap.html" %}
         
+        {% if editable %}
         <div class="sellwrap admin">
 			<div class="ui icon green hide editable buttons">
-
             {% if visitor.can_edit %}
                 {% if visitor.is_admin %}
 					{% if topic.top == 1 %}
-					<div class="ui pop top active button" data-content="取消站内置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="1">
+					<div class="ui pop dtop active button" data-content="取消站内置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="1">
 						<i class="pin icon"></i>
 					</div>
 					{% else %}
-					<div class="ui pop top button" data-content="站内置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="1">
+					<div class="ui pop dtop button" data-content="站内置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="1">
 						<i class="pin icon"></i>
 					</div>
 					{% endif %}
@@ -785,16 +785,15 @@
 
             {% endif %}
                 
-				{% if editable %}
 				<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ topic._id }}">
 					<i class="edit icon"></i>
 				</div>
 				<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ topic._id }}">
 					<i class="remove icon"></i>
 				</div>
-                {% endif %}
 			</div>
         </div>
+        {% endif %}
 		
 		{% if vote_show %}
 		<div class="sellwrap">
