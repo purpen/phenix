@@ -52,11 +52,11 @@
 	.rundown-timeline-container:before {
 		background: none repeat scroll 0 0 #DCDEE1;
 		content: "";
-		height: 75px;
-		left: 29%;
-		position: absolute;
-		top: 39px;
-		width: 3px;
+		height: 88px;
+    left: 27%;
+    position: absolute;
+    top: 27px;
+    width: 3px;
 	}
 	.rundown-timeline-container.bottom {
 		height: 45px;
@@ -136,11 +136,11 @@
 		margin: .25em 0 .5em;
 		word-wrap: break-word;
 		line-height: 1.325em;
-		font-size:14px;
+		font-size:12px !important;
 	}
 	
 	.ui.w-600 {
-		width: 350px;
+		width: 96%;
 		margin: 0 auto;
 		position: relative;
 		background: rgb(74,74,74);
@@ -177,7 +177,9 @@
 	img.fr-fin {
 		width: 100%;
 	}
-	
+	.ui.center.aligned{
+	  text-align:center;
+	}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -428,11 +430,11 @@
       <div class="ui center aligned row">
         <div class="center aligned column attend-box">
         {% if is_attend %}
-          <a class="ui btn-4 btn-4c block active icon-arrow-right btn" href="javascript:void(0);">
+          <a class="ui btn-4 btn-4c black button active icon-arrow-right btn" href="javascript:void(0);">
             <span>已报名</span><i class="icon-arrow-right-sharp"></i>
           </a>
         {%else%}
-          <a class="ui btn-4 btn-4c attend magenta icon-arrow-right btn" href="javascript:void(0);">
+          <a class="ui btn-4 btn-4c attend magenta inverted button icon-arrow-right btn" href="javascript:void(0);">
             <span>立即报名</span><i class="icon-arrow-right-sharp"></i>
           </a>
         {%endif%}

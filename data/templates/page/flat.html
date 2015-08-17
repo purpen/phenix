@@ -146,6 +146,14 @@ b, strong {
 	$('.ui.computer.video').bind('click', function(){
 		$('.ui.videobox.modal').modal('show');
 	});
+	
+	$('.ui.model').click(function()
+	  {
+	    $('.ui.test.modal')
+  	 .modal('setting', 'transition', 'vertical  flip')
+  	 .modal('show');
+  	}
+	)
 {% endblock %}
 {% block content %}
 <div class="ui four blocks">
@@ -176,7 +184,7 @@ b, strong {
 		<a href="" class="ui icon magenta button">
 			<i class="flat drums1 icon"></i>
 		</a>
-		<a href="#" class="ui magenta link">
+		<a href="#" class="ui magenta link model">
 			<i class="flat dollar78 icon"></i>使用红包
 		</a>
 	</div>
@@ -193,7 +201,26 @@ b, strong {
 	 </div>
 	 
 	 
-
+   <div class="ui dimmer modals">
+	   <div class="ui standard test modal">
+         <div class="header">Select a Photo </div>
+         <div class="image content">
+           <div class="ui medium image">
+             <img src="/images/avatar2/large/rachel.png">
+           </div>
+           <div class="description">
+             <div class="ui header">Default Profile Image</div>
+             <p>We've found the following <a href="https://www.gravatar.com" target="_blank">gravatar</a> image associated with your e-mail address.</p>
+             <p>Is it okay to use this photo?</p>
+           </div>
+         </div>
+         <div class="actions">
+           <div class="ui black deny button">Nope </div>
+           <div class="ui positive right labeled icon button">Yep, that's me <i class="checkmark icon"></i> </div>
+         </div>
+     </div>
+	 </div>
+	 
 	 
 </div>
 {% endblock %}
