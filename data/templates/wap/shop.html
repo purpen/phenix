@@ -76,7 +76,7 @@
 	</div>-->
 <!--	<div class="row">
 		<div class="column">
-			{% category_list var:'category' only_open:only_open domain:1 show_all:0 current:cid %}
+			{% category_list var:'category' only_open:only_open domain:1 show_all:0 current:cid sort_field:'total_desc' %}
 			<div class="ui fluid selection dropdown">
 				{% if current %}
 				<div class="default text">{{ current.title }}</div>
