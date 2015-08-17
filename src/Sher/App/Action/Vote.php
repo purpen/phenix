@@ -11,7 +11,7 @@
             'size' => 20,
         );
         
-        protected $exclude_method_list = array('add','edit','remove');
+        protected $exclude_method_list = array();
         
         public function execute(){
             return $this->add();
