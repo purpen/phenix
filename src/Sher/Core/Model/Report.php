@@ -5,7 +5,7 @@
  */
 class Sher_Core_Model_Report extends Sher_Core_Model_Base  {
 
-    protected $collection = "report";
+    protected $collection = "reports";
     protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
 	# 状态
@@ -47,7 +47,7 @@ class Sher_Core_Model_Report extends Sher_Core_Model_Base  {
     );
 	
     protected $required_fields = array('user_id', 'title', 'short_title');
-    protected $int_fields = array('user_id','view_count', 'state', 'kind', 'publish_date');
+    protected $int_fields = array('user_id','view_count', 'state', 'kind');
 	  protected $counter_fields = array('view_count');
 	
 	/**
@@ -107,32 +107,12 @@ class Sher_Core_Model_Report extends Sher_Core_Model_Base  {
 		$row['cover_id'] = (string)$cover['_id'];
 		$row['cover'] = $asset->extended_model_row($cover);
 	}
-	
-	/**
-	 * 批量更新附件所属
-	 */
-	public function update_batch_assets($ids=array(), $parent_id){
-		if (!empty($ids)){
-			$model = new Sher_Core_Model_Asset();
-			foreach($ids as $id){
-				Doggy_Log_Helper::debug("Update asset[$id] parent_id: $parent_id");
-				$model->update_set($id, array('parent_id' => (int)$parent_id));
-			}
-		}
-	}
     
 	/**
 	 * 更新发布上线
 	 */
 	public function mark_as_publish($id, $published=2) {
 		return $this->update_set($id, array('state' => $published));
-	}
-    
-	/**
-	 * 投票成功后，更新对象票数
-	 */
-	protected function after_save() {
-        
 	}
 
 	/**
@@ -167,6 +147,19 @@ class Sher_Core_Model_Report extends Sher_Core_Model_Base  {
 			}
 		}
 		return $this->dec($id, $count_name);
+	}
+
+	/**
+	 * 批量更新附件所属
+	 */
+	public function update_batch_assets($ids=array(), $parent_id){
+		if (!empty($ids)){
+			$model = new Sher_Core_Model_Asset();
+			foreach($ids as $id){
+				Doggy_Log_Helper::debug("Update asset[$id] parent_id: $parent_id");
+				$model->update_set($id, array('parent_id' => (int)$parent_id));
+			}
+		}
 	}
 
 }

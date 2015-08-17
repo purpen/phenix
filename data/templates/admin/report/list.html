@@ -57,7 +57,7 @@
                     <p><a href="{{ d.link }}" class="ui link" target="_blank">{{ d.link|truncate 30 }}</a></p>
                     {% endif %}
 				</td>
-
+        <td>
 					{% if d.state == 2 %}
 					<label class="ui green label" id="publish-{{ d._id }}-label">已发布</label>
 					{% endif %}

@@ -49,7 +49,7 @@ class Sher_Admin_Action_Report extends Sher_Admin_Action_Base implements DoggyX_
 		$this->stash['pid'] = new MongoId();
 		
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_ASSET;
-		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_Report;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_REPORT;
 		
 		$this->stash['mode'] = $mode;
         
@@ -71,12 +71,12 @@ class Sher_Admin_Action_Report extends Sher_Admin_Action_Base implements DoggyX_
         $data = array();
         
         $data['title'] = $this->stash['title'];
-        $data['kind']  = (int)$this->stash['kind'];
+        $data['kind']  = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
         $data['short_title'] = $this->stash['short_title'];
         $data['summary']  = $this->stash['summary'];
         $data['content']  = $this->stash['content'];
         $data['publish_date']  = $this->stash['publish_date'];
-        $data['tags']  = $this->stash['tags'];
+        $data['tags']  = isset($this->stash['tags']) ? $this->stash['tags'] : null;
         
         $data['cover_id'] = $this->stash['cover_id'];
         
