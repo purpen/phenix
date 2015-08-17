@@ -128,6 +128,7 @@ app.dt.extension_lib.sher_app:
     'timeline_list':'Sher_Core_ViewTag_TimelineList'
     'tag_list':'Sher_Core_ViewTag_TagList'
     'report_list':'Sher_Core_ViewTag_ReportList'
+    'report_tip_list':'Sher_Core_ViewTag_ReportTipList'
     'user_point_stat_list':'Sher_Core_ViewTag_UserPointStatList'
     'contest_list':'Sher_Core_ViewTag_ContestList'
     'device_list':'Sher_Core_ViewTag_DeviceList'
