@@ -116,6 +116,7 @@
 	    {% endblock %}
 		{% block layout_footer %}
 		{% endblock %}
+		{% include "block/yigou.html" %}
         
         <!-- mustache templates begin -->
         {% mustache id:'user_notice_tpl' tpl:'mustache/user_notice.mustache' %}
@@ -203,6 +204,22 @@
             $('#search-button').click(function(){
 		          $('#searchbar').submit();
             });
+         // 易购   
+            $('.ui.yigo.modal')
+            .modal('setting', 'closable', false)
+           .modal('setting', 'transition', 'vertical  flip')
+           .modal('show');
+           $('.ui.close').click(function(){
+             $('.ui.yigo.modal').modal('hide');
+             $('.fixed.button').css({"display":"block","position":"fixed"});
+           })
+           $('.ui.yig.btn').click(function(){
+             $('.ui.yigo.modal')
+             .modal('setting', 'closable', false)
+            .modal('setting', 'transition', 'vertical  flip')
+            .modal('show');
+            $('.fixed.button').css({"display":"none","position":"fixed"});
+           })
 			
     		{% block layout_jquery %}{% endblock %}
     		{% block jquery %}{% endblock %}
