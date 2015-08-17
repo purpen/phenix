@@ -46,6 +46,12 @@
 	  margin: 0 1em 0 0;
 	  padding: .1em 0 0;
 	} 
+	.ui.progress:first-child{
+	  margin:0 0 1em !important;
+	}
+	.ui.progress .bar{
+	  background:#f36;
+	}
     
 </style>
 {% endblock %}
@@ -564,7 +570,7 @@
 														<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;"></div>
 													</div>
 																	
-													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;float: right;">
+													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:14%;margin-left:4%;float: right;">
 														{{ answer.nums }}票	（{{ answer.nums_rate }}%）
 													</div>
 												</div>
@@ -583,7 +589,7 @@
 														<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
 															<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;"></div>
 														</div>			
-														<div class="vote_num {{ answer._id }}" style="display:inline-block;width:13%;margin-left:5%;float:right;">
+														<div class="vote_num {{ answer._id }}" style="display:inline-block;width:14%;margin-left:4%;float:right;">
 															{{ answer.nums }}票	（{{ answer.nums_rate }}%）
 														</div>
 													</div>
