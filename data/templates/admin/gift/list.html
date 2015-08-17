@@ -86,6 +86,8 @@
 				<td>
 					{% if b.used == 2 %}
 						<span class="ui magenta label">已使用</span>
+            <br />
+            <span>{{ b.order_rid }}</span>
 					{% else %}
 						<span class="ui green label">未使用</span>
 					{% endif %}

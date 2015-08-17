@@ -3,115 +3,89 @@
 {% endblock %}
 
 {% block content %}
-	<h3 class="ui header">举报管理</h3>
+	<h3 class="ui header">报道管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/report" class="{{ css_all }} item">
-			全部
-		</a>
-
+		<a href="{{ app_url_admin_base }}/report" class="{{ css_report }} item">全部</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/report/edit" class="item">
+				<i class="add icon"></i>新增报道
+			</a>
+	    </div>
 	</div>
 	
-  <!--
-	<div class="ui grid">
-		<div class="middle aligned row">
-
-			<div class="ten wide column">
-				<div class="ui sub nav">
-					<form action="{{ app_url_admin_base }}/report" method="post">
-						<label>搜索：</label>
-						<div class="ui icon input">
-							<input placeholder="标题..." type="text" name="q">
-							<i class="flat search link icon"></i>
-						</div>
-					</form>
-				</div>
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/report" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="Search..." type="text" name="q">
+				<i class="search link icon"></i>
 			</div>
-		</div>
+		</form>
 	</div>
-  -->
 	
-	<table class="ui table segment">
+	{% report_list var:'list' page:page %}
+	<table class="ui small table">
 		<thead>
 			<tr>
 				<th></th>
-				<th>标题</th>
-        <th>所属</th>
-				<th>举报内容</th>
-				<th>举报人</th>
-				<th>是否处理</th>
+				<th>封面图</th>
+				<th>标题/链接</th>
+				<th>状态</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
-			{% report_list var:'reports' load_item:1 size:30 %}
-			
-			{% for d in reports.rows %}
-			<tr id="{{ d._id }}">
+			{% for d in list.rows %}
+			<tr id="item-{{ d._id }}">
 				<td>
 					<div class="ui checkbox">
 					  	<input name="ids[]" type="checkbox" value="{{ d._id }}" />
 					  	<label></label>
 					</div>
 				</td>
-        <td>
-          <a href="{{ d.target.view_url }}" target="_blank">{{ d.target.title }}</a>
-        </td>
-        <td>
-          {% if d.target_type==1 %}
-            投票
-          {%else%}
-            --
-          {%endif%}
-        </td>
-        <td>
-          {% if d.evt==1 %}
-            侵权: 
-          {%endif%}
-          {% if d.evt==2 %}
-            不良信息: 
-          {%endif%}
-          {% if d.evt==10 %}
-            其它: 
-          {%endif%}
-          {{ d.content|truncate 60 }}
-        </td>
-        <td>
-          <a href="{{ d.user.home_url }}" target="_blank">{{ d.user.nickname }}</a>
-        </td>
+				<td>
+					<div class="ui image">
+						<img src="{{ d.cover.thumbnails.mini.view_url }}" width="80px" />
+					</div>
+				</td>
+				<td>
+		          	<div class="header">
+							{{ d.title|truncate, 30 }}
+					</div>
+                    {% if d.link %}
+                    <p><a href="{{ d.link }}" class="ui link" target="_blank">{{ d.link|truncate 30 }}</a></p>
+                    {% endif %}
+				</td>
 
-        <td>
-          {% if d.status==1 %}
-							<span class="ui small green label">是</span>
+					{% if d.state == 2 %}
+					<label class="ui green label" id="publish-{{ d._id }}-label">已发布</label>
+					{% endif %}
+				
+					{% if d.state == 1 %}
+					<label class="ui orange label" id="publish-{{ d._id }}-label">未发布</label>
+					{% endif %}
+				</td>
+				<td>
+					<div class="ui divided horizontal list">
+						{% if d.state == 2 %}
+						<a href="{{ app_url_admin_base }}/report/unpublish?id={{ d._id }}" class="ui link ajax item" id="publish-{{ d._id }}-button">撤销发布</a>
 						{% else %}
-							<span class="ui small orange label">否</span>
-          {%endif%}
-        </td>
-        <td>
-          {% if !d.status %}
-                <a href="{{ app_url_admin }}/report/ajax_stat?id={{ d._id }}&stat=1" class="ui ajax link item">
-            处理
-          </a>
-          {% else %}
-                <a href="{{ app_url_admin }}/report/ajax_stat?id={{ d._id }}&stat=0" class="ui ajax link item">
-            取消处理
-          </a>
-          {% endif %}
-          | 
-          <a href="{{ app_url_admin }}/report/deleted?id={{ d._id }}" class="ui confirm-request link item">
-              删除
-          </a>
-        </td>
+						<a href="{{ app_url_admin_base }}/report/publish?id={{ d._id }}" class="ui link ajax item" id="publish-{{ d._id }}-button">发布</a>
+						{% endif %}
+						<a href="{{ app_url_admin_base }}/report/edit?id={{ d._id }}" class="ui link item">编辑</a> 
+						<a href="{{ app_url_admin_base }}/report/delete?id={{ d._id }}" class="ui link item confirm-request">删除</a>
+					</div>
+				</td>
 			</tr>
 			{% endfor %}
 		</tbody>
 	</table>
 	
-	{% if reports.total_rows %}
+	{% if list.total_rows %}
 	<div class="ui pagination">
-		{% pager url:pager_url,total_rows:reports.total_rows,total_page:reports.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page, var:'pager',pager_size:9 %}
 		{%include 'block/pager.html'%}
-		<label class="page_count">{{ reports.total_rows }}个</label>
 	</div>
 	{% endif %}
 	
