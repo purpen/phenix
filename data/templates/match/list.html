@@ -236,7 +236,7 @@
 		<div class="ui responsive media allist grid">
 			<div class="row">
 				<div class="column">
-					{% topic_list var:'list' category_id:dream_category_id time:time start_time:start_time end_time:end_time sort:st page:page size:12 %}
+					{% topic_list var:'list' category_id:dream_category_id published:1 time:time start_time:start_time end_time:end_time sort:st page:page size:12 %}
 					<div class="ui four items">
 						{% for topic in list.rows %}
 						<div class="item">

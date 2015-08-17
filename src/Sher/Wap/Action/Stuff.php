@@ -164,6 +164,34 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 		
 		return $this->to_html_page('wap/stuff/show.html');
 	}
+
+	/**
+	 * 大赛提交入口-反向定制
+	 */
+	public function contest_submit(){
+    $redirect_url = sprintf("%s/contest/about3", Doggy_Config::$vars['app.url.wap']);
+    $contest_id = isset($this->stash['contest_id'])?(int)$this->stash['contest_id']:0;
+    if(empty($contest_id)){
+			return $this->show_message_page('大赛ID不存在！', $redirect_url);
+    }
+		$top_category_id = Doggy_Config::$vars['app.stuff.contest_category_id'];
+
+		// 获取父级分类
+		$category_model = new Sher_Core_Model_Category();
+		$default_category = $category_model->first(array('domain'=>4, 'pid'=>(int)$top_category_id));
+		$this->stash['default_category_id'] = !empty($default_category)?$default_category['_id']:0;
+		
+		$this->stash['mode'] = 'create';
+		// 图片上传参数
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_STUFF;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF;
+		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+		$new_file_id = new MongoId();
+		$this->stash['new_file_id'] = (string)$new_file_id;
+		
+		return $this->to_html_page('wap/stuff/contest_submit.html');
+	}
 	
 	/**
 	 * 提交入口
@@ -272,6 +300,9 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 		$data['category_id'] = $this->stash['category_id'];
 		
 		$data['cover_id'] = $this->stash['cover_id'];
+
+    //反定制定
+    $data['contest_id'] = isset($this->stash['contest_id']) ? (int)$this->stash['contest_id'] : 0;
 
     //所属
     if(isset($this->stash['from_to'])){

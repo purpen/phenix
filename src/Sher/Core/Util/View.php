@@ -210,9 +210,9 @@ EOF;
 
   /**
    * 块内容显示
-   * type=0,content内容原样输出，type=1 content内容过滤标签
+   * type=0,code内容原样输出，type=1 content内容过滤标签
    */
-  public static function load_block($mark, $type=0){
+  public static function load_block($mark, $type=1){
     if(empty($mark)){
       return null;
     }
@@ -221,17 +221,72 @@ EOF;
     if(empty($block)){
       return null;
     }
-    if(!empty($block['content'])){
-      $c = $block['content'];
-      if($type==0){
-        return $c;
-      }elseif($type==1){
-        return strip_tags(htmlspecialchars_decode($c));
-      }else{
-        return $c;
-      }
+    if($type==1){
+      $content = $block['code'];
+    }else{
+      $content = $block['content'];
     }
-    return null;
+
+    return $content;
+  }
+
+  /**
+   * 给块添内容
+   */
+  public static function push_block_content($mark, $content){
+    if(empty($mark)){
+      return null;
+    }
+    $model = new Sher_Core_Model_Block();
+    $block = $model->first(array('mark'=>$mark));
+    if(empty($block)){
+      return null;
+    }
+
+    $ok = $model->update_set((string)$block['_id'], array('code'=>(string)$content));
+    return $ok;
+  }
+
+  /**
+   * 从块移除部分内容
+   */
+  public static function remove_part_content($mark, $str, $sep=','){
+    $c = self::load_block($mark, 1);
+
+    if(empty($c)){
+      return null;
+    }
+
+    $arr = explode($sep, $c);
+    $index = array_search($str, $arr);
+    unset($arr[$index]);
+
+    $content = implode($sep, $arr);
+    $ok = self::push_block_content($mark, $content);
+    return $ok; 
+  }
+
+  /**
+   * 获取小号列表--从块
+   */
+  public static function fetch_user_list($mark, $m=1){
+    $user_list_content = Sher_Core_Util_View::load_block($mark, 1);
+    $user_model = new Sher_Core_Model_User();
+    if(empty($user_list_content)){
+      $query = array('kind'=>9);
+      $options = array('field' => array('_id', 'kind'), 'page'=>(int)$m, 'size'=>5000);
+      $users = $user_model->find($query, $options);
+
+      $user_arr = array();
+      foreach($users as $k=>$v){
+        array_push($user_arr, $v['_id']);
+      }
+      $block_content = implode(',', $user_arr);
+      Sher_Core_Util_View::push_block_content($mark, $block_content);
+    }else{
+      $user_arr = explode(',', $user_list_content);
+    }
+    return $user_arr;
   }
 
   /**

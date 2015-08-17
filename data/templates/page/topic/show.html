@@ -46,6 +46,7 @@
 	  margin: 0 1em 0 0;
 	  padding: .1em 0 0;
 	} 
+    
 </style>
 {% endblock %}
 
@@ -321,27 +322,6 @@
 	// 加载相关话题
 	$.get('{{ app_url_topic }}/ajax_guess_topics', {id: {{ topic._id }}, sword: '{{ topic.tags_s }}', size: 3});
     
-    // 显示用户信息
-    /*
-    var is_ajax = false;
-    $('.ui.icard.image').hover(function(e){
-        var uid = $(this).data('uid'),pos = $(this).position(),w = $(this).width(),h = $(this).height(),template = $('#user_card').html();
-        if(!is_ajax){
-            $.getJSON('{{ app_url_user }}/ajax_fetch_profile', {id: uid}, function(result){
-                is_ajax = true;
-                var rendered = Mustache.render(template, result.data);
-                $('#user_card_box')
-                    .html(rendered)
-                    .css({top: pos.top+h, left: pos.left-10})
-                    .show(function(){
-                        is_ajax = false;
-                    });
-            });
-        }
-    },function(){
-        //$('#user_card_box').hide();
-    });*/
-    
     // 投票提交部分
     $('#vote-save').click(function(){
     
@@ -419,8 +399,8 @@
     
     $('.ui.sticky')
       .sticky({
-        context: '#postpage'
-    });
+          context: '.mainleft',
+      });
     
 {% endblock %}
 
@@ -515,7 +495,7 @@
             
 			<div class="ui big topic segment">
 				<div class="ui header">
-					<a class="ui small avatar icard image" href="{{ topic.user.home_url }}" data-uid="{{ topic.user_id }}">
+					<a class="ui small avatar idcard image" href="{{ topic.user.home_url }}" data-uid="{{ topic.user_id }}">
 			      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
 						{% if topic.user.kind==1 %}
 						    <img src="{{ app_url_packaged }}/images/V.png" class="image-WV" />
@@ -739,7 +719,7 @@
                 <div class="user avatars">
               	  	<div class="ui images" id="target_{{ topic._id }}_support">
                         {% if topic.love_count %}
-                            {% favorite_list var:'userlist' target_id:topic._id event:2 type:2 %}
+                            {% favorite_list var:'userlist' target_id:topic._id event:2 type:2 size:15 %}
                             {% for target in userlist.rows %}
                             <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
                   	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />
@@ -753,14 +733,14 @@
                 </div>
             </div>
         </div>
-        
         {% include "page/topic/rightbar.html" %}
         {% include "page/topic/stick_list.html" %}
         {% include "page/topic/adwrap.html" %}
         
-        {% if visitor.can_edit %}
         <div class="sellwrap admin">
 			<div class="ui icon green hide editable buttons">
+
+            {% if visitor.can_edit %}
                 {% if visitor.is_admin %}
 					{% if topic.top == 1 %}
 					<div class="ui pop top active button" data-content="取消站内置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="1">
@@ -802,6 +782,8 @@
 					<i class="flag outline icon"></i>
 				</div>
 				{% endif %}
+
+            {% endif %}
                 
 				{% if editable %}
 				<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ topic._id }}">
@@ -813,7 +795,6 @@
                 {% endif %}
 			</div>
         </div>
-        {% endif %}
 		
 		{% if vote_show %}
 		<div class="sellwrap">
@@ -840,4 +821,8 @@
 </div>
 {% include "block/sharebox.html" %}
 {% include "block/qrcode.html" %}
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
 {% endblock %}

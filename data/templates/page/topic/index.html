@@ -29,11 +29,10 @@
 #minslider.flexslider:hover .flex-direction-nav .flex-next {
     right: 30px;
 }
-
 </style>
 {% endblock %}
 
-{% block jquery %}
+{% block jquery %} 
     $('#minslider').flexslider({
         animation: "fade",
         controlNav: false,
@@ -47,7 +46,10 @@
 	$('.ui.more.button').bind('click', function(){
 		var page = $(this).data('page');
         if(page != 'no'){
-            $.get('{{ app_url_topic }}/ajax_fetch_more', { page:page });
+            $.get('{{ app_url_topic }}/ajax_fetch_more', { page:page }, function(rs){
+                var rendered = phenix.ajax_render_result('#fetch_more_topics_tpl', rs.data);
+                $('#topic_list_box').append(rendered);
+            }, 'json');
         }else{
             $(this).text('没有更多了~');
         }
@@ -70,7 +72,7 @@
                 <ul class="slides">                    
 	                {% for ad in adslide.rows %}
                         <li style="background-image: url('{{ ad.cover.fileurl }}');">
-                            <a href="{{ ad.view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}">
+                            <a href="{{ ad.view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}" target="_blank">
                                 <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
                             </a>
                         </li>
@@ -84,9 +86,9 @@
     
     <div class="mainleftwrap">
         <div class="mainleft">
-            <!--精选话题-->
+            <!--最新话题-->
             <div class="ui topics segment">
-				{% topic_list var:'list' is_top:1 time:time sort:'update' page:1 size:15 %}
+				{% topic_list var:'list' is_top:1 time:time sort:0 published:1 page:1 size:15 %}
 				<div class="ui computer tablet only block">
 					<table class="ui basic topic table">
                         <tbody id="topic_list_box">
@@ -103,10 +105,7 @@
             
 						{% for topic in list.rows %}
 							{% if !topic.top %}<!--过滤置顶帖子-->
-								<!-- 判断话题是否可以显示 -->
-								{% if topic.published %}
-									{% include "block/topic_item.html" %}
-								{% endif %}
+								{% include "block/topic_item.html" %}
 							{% endif %}
 						{% endfor %}
                         </tbody>
@@ -139,10 +138,16 @@
     </div>
     <div class="mainright">
         {% include "page/topic/usersign.html" %}
+        {% include "page/topic/login_user.html" %}
         {% include "page/topic/rightbar.html" %}
         {% include "page/topic/hotpeople.html" %}
         {% include "page/topic/stick_list.html" %}
         {% include "page/topic/adwrap.html" %}
     </div>
 </div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
+{% mustache id:'fetch_more_topics_tpl' tpl:'mustache/fetch_more_topics.mustache' %}
 {% endblock %}

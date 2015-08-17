@@ -174,7 +174,7 @@
 						.addClass('active')
                         .html('<i class="minus icon"></i> 已关注');
                         
-                    $('#product-favorite-count').text(result.data.favorite_count);
+                    $('#target-favorite-count').text(result.data.favorite_count);
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -187,7 +187,7 @@
 						.removeClass('active')
                         .html('<i class="plus icon"></i> 关注');
                         
-                    $('#product-favorite-count').text(result.data.favorite_count);
+                    $('#target-favorite-count').text(result.data.favorite_count);
                     
 				} else {
 					phenix.show_error_note(result.message);
@@ -204,7 +204,6 @@
 			phenix.show_login_box();
 			return false;
 		}
-		var count = parseInt($('#product-love-count').text());
 		if (mark == 'n') {
 			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:1}, function(result){
 				if (result.success) {
@@ -212,12 +211,11 @@
 						.data('mark', 'y')
 						.addClass('active')
                         .html('<i class="heart icon"></i> 赞了');
-                        
-					count += 1;
-					$('#product-love-count').text(count);
+                    
+					$('#target-love-count').text(result.data.love_count);
                     
                     if(result.data.newadd){
-                        $('#product_'+ id +'_support')
+                        $('#target_'+ id +'_support')
                             .prepend('<a href=\"/user/'+ result.data.user_id +'\" target=\"_blank\" id=\"user-'+ result.data.user_id +'\" class=\"image\" data-variation=\"wide\" data-html=\"<div class=\'header\'>'+  result.data.nickname +'</div><div class=\'content\'>'+ result.data.city +' '+ result.data.job +'</div>\"><img src=\"'+ result.data.avatar +'\" /></a>');
                     }
                     
@@ -232,10 +230,8 @@
 						.data('mark', 'n')
 						.removeClass('active')
                         .html('<i class="heart empty icon"></i> 赞');
-                        
-					count -= 1;
                     
-					$('#product-love-count').text(count);
+					$('#target-love-count').text(result.data.love_count);
                     
                     $('#user-'+ result.data.user_id).remove();
                     
@@ -305,6 +301,11 @@
             position : 'top center',
         });
     });
+    
+    $('.ui.sticky')
+      .sticky({
+          context: '.mainleft',
+      });
       
 {% endblock %}
 
@@ -525,7 +526,7 @@
                 <div class="user avatars">
               	  	<div class="ui images" id="product_{{ product._id }}_support">
                         {% if product.love_count %}
-                            {% favorite_list var:'userlist' target_id:product._id event:2 %}
+                            {% favorite_list var:'userlist' target_id:product._id event:2 size:15 %}
                             {% for target in userlist.rows %}
                             <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
                   	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />

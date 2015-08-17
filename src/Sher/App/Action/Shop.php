@@ -435,9 +435,9 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 
         }
 		
-		$this->stash['result'] = $result;
-		
-		return $this->to_taconite_page('ajax/guess_products.html');
+		$this->stash['results'] = $result;
+        
+        return $this->ajax_json('', false, '', $this->stash);
 	}
 	
 	/**
@@ -473,7 +473,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		}
 		
 		if (!empty($id)){
-			$model = new Sher_Core_Model_Contact();
+			$model = new Sher_Core_Model_Product();
 			$model->delete_asset($id, $asset_id);
 		}else{
 			// 仅仅删除附件
@@ -613,8 +613,87 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
     /**
      * ajax加载商品列表
      */
-    public function ajax_load_list(){
-        return $this->to_taconite_page('page/shop/ajax_list.html');
+    public function ajax_load_list(){        
+        $category_id = $this->stash['category_id'];
+        $presaled = isset($this->stash['presaled'])?$this->stash['presaled']:0;
+        $type = $this->stash['type'];
+        
+        $page = $this->stash['page'];
+        $size = $this->stash['size'];
+        $sort = $this->stash['sort'];
+        
+        $service = Sher_Core_Service_Product::instance();
+        $query = array();
+        $options = array();
+        
+		if ($category_id) {
+			$query['category_id'] = (int)$category_id;
+		}
+        // is_shop=1
+        $query['stage'] = array('$in'=>array(5, 9, 12, 15));
+        
+		// 预售
+		if ($presaled) {
+		  $query['stage'] = 5;
+		}
+        // 仅发布
+        $query['published'] = 1;
+        
+        if($type){
+            switch((int)$type){
+                case 1:
+                    $query['stage'] = 15;
+                    break;
+                case 2:
+                    $query['stage'] = array('$in'=>array(5,9));
+                    break;
+                case 3:
+                    $query['stage'] = 12;
+                    break;
+                case 4:
+                    $query['stick'] = 1;
+                    break;
+                case 5:
+                    $query['featured'] = 1;
+                    break;
+                case 6:
+                    $query['snatched'] = 1;
+                    break;
+                case 7:
+                    $query['stage'] = 5;
+                    break;
+            }
+        }
+		// 排序
+		switch ((int)$sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'vote';
+				break;
+			case 2:
+				$options['sort_field'] = 'love';
+				break;
+			case 3:
+				$options['sort_field'] = 'comment';
+				break;
+			case 4:
+				$options['sort_field'] = 'stick:update';
+				break;
+			case 5:
+				$options['sort_field'] = 'featured:update';
+				break;
+		}
+        
+        $options['page'] = $page;
+        $options['size'] = $size;
+        
+        $result = $service->get_product_list($query, $options);
+        
+        $this->stash['results'] = $result;
+        
+        return $this->ajax_json('', false, '', $this->stash);
     }
 
 	/**
@@ -699,15 +778,24 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$data['tags'] = $this->stash['tags'];
 		$data['category_id'] = (int)$this->stash['category_id'];
 		$data['cooperate_id'] = isset($this->stash['cooperate_id'])?(int)$this->stash['cooperate_id']:0;
-        $data['cover_id'] = isset($this->stash['cover_id'])?$this->stash['cover_id']:null;
-        $data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
-        $data['video'] = $this->stash['video'];
-        
-        // 团队介绍
-        $team_introduce = isset($this->stash['team_introduce'])?$this->stash['team_introduce']:null;
-        // 品牌名称
-        $brand = isset($this->stash['brand'])?$this->stash['brand']:null;
-        // 设计师
+    $data['cover_id'] = isset($this->stash['cover_id'])?$this->stash['cover_id']:null;
+    $data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
+
+    // 添加视频
+    $data['video'] = array();
+    if(isset($this->stash['video'])){
+      foreach($this->stash['video'] as $v){
+        if(!empty($v)){
+          array_push($data['video'], $v);
+        }
+      }
+    }
+    
+    // 团队介绍
+    $team_introduce = isset($this->stash['team_introduce'])?$this->stash['team_introduce']:null;
+    // 品牌名称
+    $brand = isset($this->stash['brand'])?$this->stash['brand']:null;
+    // 设计师
 		$designer = isset($this->stash['designer'])?$this->stash['designer']:null;
         // 所属国家
 		$country = isset($this->stash['country'])?$this->stash['country']:null;

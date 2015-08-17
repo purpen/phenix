@@ -31,7 +31,21 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->set_target_css_state('page_sub_topic');
         
 		$this->stash['domain'] = Sher_Core_Util_Constant::TYPE_TOPIC;
-  }
+        
+        // 获取登陆者信息
+        $this->stash['user'] = array();
+        if($this->visitor->id){
+            $user = new Sher_Core_Model_User();
+            $row = $user->load((int)$this->visitor->id);
+            if(!empty($row)){
+                $this->stash['user'] = $user->extended_model_row($row);
+            }
+            // 用户实时积分
+            $point_model = new Sher_Core_Model_UserPointBalance();
+            $current_point = $point_model->load((int)$this->visitor->id);
+            $this->stash['current_point'] = $current_point;
+        }
+    }
 	
 	/**
 	 * 社区
@@ -76,7 +90,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         $query = array();
         $options['page'] = $page;
         $options['size'] = 15;
-		$options['sort_field'] = 'latest';
+		    $options['sort_field'] = 'latest';
         
         $resultlist = $service->get_topic_list($query,$options);
         $next_page = 'no';
@@ -86,10 +100,30 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
             }
         }
         
+        $max = count($resultlist['rows']);
+        for($i=0;$i<$max;$i++){
+            if($resultlist['rows'][$i]['asset_count'] > 0){
+                $asset = Sher_Core_Service_Asset::instance();
+                $q = array(
+                    'parent_id'  => $resultlist['rows'][$i]['_id'],
+                    'asset_type' => 55,
+                );
+                $op = array(
+                    'page' => 1,
+                    'size' => !empty($resultlist['rows'][$i]['cover'])?4:5,
+                    'sort_field' => 'positive',
+                );
+                $asset_result = $asset->get_asset_list($q, $op);
+                $resultlist['rows'][$i]['asset_list'] = $asset_result['rows'];
+                
+                //print_r($resultlist['rows'][$i]['asset_list']);
+            }
+        }
+        
         $this->stash['nex_page'] = $next_page;
         $this->stash['results'] = $resultlist;
         
-        return $this->to_taconite_page('ajax/fetch_topics.html');
+        return $this->ajax_json('', false, '', $this->stash);
     }
     
 	/**
@@ -819,6 +853,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$data['try_id'] = $this->stash['try_id'];
 		$data['published'] = (int)$this->stash['published'];
+    $old_published = isset($this->stash['old_published'])?(int)$this->stash['old_published']:1;
 
 		$data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
 		$data['t_color'] = isset($this->stash['t_color'])?(int)$this->stash['t_color']:0;
@@ -880,11 +915,17 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			}
 
 			// 更新全文索引
-			Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);
+      if($data['published']==1){
+			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);
+      }
 			//更新百度推送
-			if($mode=='create'){
+			if($mode=='create' && $data['published']==1){
 			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10); 
 			}
+      // 由草稿转为发布状态
+      if($mode=='edit' && $old_published==0 && $data['published']==1){
+ 			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10);        
+      }
 				
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());

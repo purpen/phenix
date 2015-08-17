@@ -41,6 +41,9 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
         $is_shop = 0;
         // 搜索类型
         $s_type = 0;
+
+        // 加载大赛
+        $load_contest = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -192,6 +195,27 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
                 }
             }
             unset($college_model);
+        }
+
+        //加载大赛
+        if($load_contest){
+            $contest = null;
+            $contest_model = new Sher_Core_Model_Contest();
+
+            for($i=0;$i<count($result['rows']);$i++){
+                if(isset($result['rows'][$i]['from_to']) && $result['rows'][$i]['from_to'] != 4){
+                    continue;
+                }
+                $contest_id = isset($result['rows'][$i]['contest_id'])?$result['rows'][$i]['contest_id']:0;
+                if(empty($contest_id)){
+                    continue;
+                }
+                $contest = $contest_model->find_by_id((int)$contest_id);
+                if($contest){
+                    $result['rows'][$i]['contest'] = $contest;              
+                }
+            }
+            unset($contest_model);
         }
 
         $context->set($var,$result);

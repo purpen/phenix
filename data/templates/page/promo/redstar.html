@@ -1,0 +1,199 @@
+{%extends 'layout/column.html'%}
+{% block title %}2015 红星奖 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.ui.mainwrap.grid{
+  margin: 15px auto 0;
+}
+.redstar + .ui.mainwrap.grid .row:last-child{
+  padding-top:0;
+}
+#redstar{
+  background:#fff;
+}
+.ui.gray.block{
+  background:#f5f5f5;
+  margin:0;
+  padding-top:0.5em;
+}
+.ui.three.wide.column img{
+  width:80%;
+}
+.ui.three.wide{
+  margin:1em 0 !important;
+}
+.ui.three.wide h3.ui.header{
+  margin:10px 0;
+  color:#e60012;
+}
+</style>
+{% endblock %}
+{% block jquery %}
+  $('.p1.button').click(function(){
+    $('.p1.button').addClass('active');
+    $('.p2.button').removeClass('active');
+    $('img.p1').css('display','block');
+    $('img.p2').css('display','none');
+  })
+  $('.p2.button').click(function(){
+    $('.p2.button').addClass('active');
+    $('.p1.button').removeClass('active');
+    $('img.p1').css('display','none');
+    $('img.p2').css('display','block');
+  })
+{% endblock %}
+{% block content %}
+<div id="redstar">
+  <div class="redstar">
+    <img src="{{ app_url_packaged }}/images/promo/redstar.jpg" width="100%" alt="红星奖">
+  </div>
+  <div class="ui mainwrap grid">
+    <div class="row">
+      <div class="ui center aligned column">
+        <img src="{{ app_url_packaged }}/images/promo/redstart.jpg" alt="红星奖">
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <p>中国是一个有着优秀设计传承的国家，从宋元时期的青花瓷到明清家具，中国设计以其独特的东方审美和精湛的工艺引领世界潮流。今天的中国设计，在更广泛的领域中发挥着作用。</p>
+        <p>2006年创立的中国设计红星奖是中国唯一一个有国际影响力的设计奖项，创立十年来通过鼓励好设计，在提高人民生活品质、提升企业竞争力和促进城市发展方面发挥巨大作用。</p>
+        <p>中国设计红星奖征集范围覆盖产品全领域，包括电子信息、家用电器、新能源和环保、家居用品、服装服饰、玩具、工艺美术、产品包装、医用器械、五金建材、工业仪器、装备制造、建筑装饰、交通工具、航空航天、展览展示、公共设施等。2015年，红星奖征集数量达到6025件，已有来自国内33个省市、地区和世界31个国家参评红星奖。红星奖已经成为中国乃至全球企业趋之若鹜的品牌，是“中国制造”向“中国创造”转型的风向标。红星奖评委由来自全球的设计、经济、市场和媒体等行业权威专家组成。</p>
+      
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <img src="{{ app_url_packaged }}/images/promo/redstar1.jpg" width="100%" alt="红星奖">
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big gray block">
+    <div class="ui mainwrap grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <div class="ui buttons">
+            <div class="ui magenta inverted active button p1">
+              <i class="star icon"></i>2015获奖作品
+            </div>
+            <div class="ui magenta inverted button p2">
+              <i class="star icon"></i>往期经典作品
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <img class="p1" src="{{ app_url_packaged }}/images/promo/redstarp1.png" width="100%" style="display:block;">
+          <img class="p2" src="{{ app_url_packaged }}/images/promo/redstarp2.png" width="100%" style="display:none;">
+        </div>
+      </div>
+        
+        
+    </div>
+  </div>
+  
+  <div class="ui mainwrap grid" style="padding-bottom:40px;">
+    <div class="row">
+      <div class="ui center aligned column">
+        <img src="{{ app_url_packaged }}/images/promo/redstarpw.jpg">
+      </div>
+    </div>
+    <div class="ui center aligned row">
+      <div class="ui three wide column">
+        <img src="{{ app_url_packaged }}/images/promo/redpw1.jpg">
+        <h3 class="ui header">
+          崔波
+          <div class="sub header">
+            太火鸟联合创始人
+          </div>
+        </h4>
+      </div>
+      <div class="ui three wide column">
+        <img src="{{ app_url_packaged }}/images/promo/redpw2.jpg">
+        <h3 class="ui header">
+          Chang Donghoon
+          <div class="sub header">
+            三星电子集团高级副总裁
+          </div>
+        </h3>
+      </div>
+      <div class="ui three wide column">
+        <img src="{{ app_url_packaged }}/images/promo/redpw3.jpg">
+        <h3 class="ui header">
+          Peter Zec
+          <div class="sub header">
+            红点设计奖主席
+          </div>
+        </h3>
+      </div>
+      <div class="ui three wide column">
+        <img src="{{ app_url_packaged }}/images/promo/redpw4.jpg">
+        <h3 class="ui header">
+          Ralph Wiegmann
+          <div class="sub header">
+            德国IF设计奖常务理事
+          </div>
+        </h3>
+      </div>
+      <div class="ui three wide column">
+        <img src="{{ app_url_packaged }}/images/promo/redpw5.jpg">
+        <h3 class="ui header">
+          辛向阳
+          <div class="sub header">
+            江南大学设计学院院长
+          </div>
+        </h3>
+      </div>
+      <div class="ui three wide column">
+        <img src="{{ app_url_packaged }}/images/promo/redpw6.jpg">
+        <h3 class="ui header">
+          柳冠中
+          <div class="sub header">
+            华大学美术学院责任教授
+          </div>
+        </h3>
+      </div>
+      <div class="ui three wide column">
+        <img src="{{ app_url_packaged }}/images/promo/redpw7.jpg">
+        <h3 class="ui header">
+          鲁晓波
+          <div class="sub header">
+            清华大学美术学院院长
+          </div>
+        </h3>
+      </div>
+      <div class="ui three wide column">
+        <img src="{{ app_url_packaged }}/images/promo/redpw8.jpg">
+        <h3 class="ui header">
+          童慧明
+          <div class="sub header">
+            前广州美术学院设计学院院长
+          </div>
+        </h3>
+      </div>
+      <div class="ui three wide column">
+        <img src="{{ app_url_packaged }}/images/promo/redpw9.jpg">
+        <h3 class="ui header">
+          何人可
+          <div class="sub header">
+            湖南大学设计艺术学院院长
+          </div>
+        </h3>
+      </div>
+      <div class="ui three wide column">
+        <img src="{{ app_url_packaged }}/images/promo/redpw10.jpg">
+        <h3 class="ui header">
+          Brandon Gien
+          <div class="sub header">
+            澳大利亚优秀设计协会总经理
+          </div>
+        </h3>
+      </div>
+    </div>
+  </div>
+  
+  
+</div>
+{% endblock %}

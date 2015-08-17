@@ -1,0 +1,468 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+
+{% block page_css %}
+<style class="text/css">
+  .custop{
+    background:url({{ app_url_packaged }}/images/match/custom.jpg) no-repeat center center / cover;
+    height:600px;
+  }
+  .custop{
+    padding-top:65px;
+    color:#fff;
+  }
+  .custop h1{
+    margin-top: 0px;
+    font-size: 3rem;
+  }
+  .custop h2{
+    margin-top: 0px;
+    color: #f36;
+    margin-bottom: 30px;
+  }
+  .ui.big.block{
+    margin:0;
+  }
+  .ui.center.aligned.column h3 i,.ui.center.aligned.column h3 .content{
+    display:inline-block !important;
+  }
+  .ui.big.gray.block h3 .content{
+    border-left:1px solid #b09781;
+    text-align:left;
+  }
+  .ui.big.gray.block h3,.ui.big.gray.block h3 .content .sub.header{
+    color:#613003 !important;
+  }
+  .ui.big.bg.block{
+    color:#fff;
+    background:#613003;
+  }
+  .ui.big.bg.block h3,.ui.big.bg.block h3 .content .sub.header{
+    color:#fff !important;
+  }
+  .ui.big.bg.block h3 .content{
+    border-left:1px solid #fff;
+    text-align:left;
+  }
+  .ui.big.block .column p:first-child{
+    margin-top:1em;
+  }
+  h4{
+    margin: 0 auto 0.5rem;
+    font-weight: 500;
+  }
+  h4.wtop{
+    color: #ff7a00;
+  }
+  h4.wtop:first-child{
+    margin-top:15px;
+  }
+  .ui.four.column,.ui.two.wide.column {
+    margin-top:1em !important;
+  }
+  .ui.four.column h4.ui.icon.header{
+    background: #fd7900;
+    color: #fff;
+    padding: 30px 36px;
+    border-radius: 500rem;
+  }
+  h4.ui.icon .icon{
+    font-size: 2em !important;
+    margin: 0 auto .571rem !important;
+  }
+  .ui.header>.icon{
+    font-size:2em !important;
+  }
+  .ui.grid>.row>[class*="two wide"].column{
+    width:16.5% !important;
+  }
+  .ui.two.wide.column h4.ui.header{
+    margin-top:5px;
+  }
+  .celled.padded{
+    background:#ab611d;
+    color:#fff;
+    border:none;
+    margin:2em 0;
+  }
+  .ui.table tr td {
+    border-top: 5px solid #613003;
+  }
+  .ui.celled.table tr td, .ui.celled.table tr th {
+    border-left: 5px solid #613003;
+  }
+  i.icon.protectt{
+    background: url({{ app_url_packaged }}/images/match/customp7.png) no-repeat center center /cover !important;
+    width: 40px;
+    height: 40px;
+  }
+  i.icon.protecto{
+    background: url({{ app_url_packaged }}/images/match/customp8.png) no-repeat center center /cover !important;
+    width: 40px;
+    height: 40px;
+  }
+</style>
+{% endblock %}
+
+{% block jquery %}
+
+
+{% endblock %}
+{% block content %}
+<div id="custom">
+  <div class="custop">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <img src="{{ app_url_packaged }}/images/match/word.png">
+          <h1>创新产品再设计</h1>
+          <h2>为设计遇见，为热爱实现</h2>
+          <a href="{{ app_url_contest }}/custom" class="ui huge inverted magenta active button">查看命题</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui gray big block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <h3 class="ui header">
+            <i class="file text outline icon"></i>
+            <div class="content">
+              活动介绍
+              <div class="sub header">
+                Activities
+              </div>
+            </div>
+          </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <p>【反向定制】是太火鸟大型系列活动【十万火计】继第二季校园季之后的第三场创意征集活动，与其他征集活动或大赛不同的是，反向定制将于每月推出1-2个命题，针对大众产品中最热门单品，面向所有设计师人群，寻找产品再设计的可能。我们不买断你的创意，我们帮你解决从市场到技术再到推广销售的一切，打造最优质的设计师本身，只为产品创新改造生活点滴！</p>
+          <p>如果你是一名专业的设计师我们欢迎你！如果你还未成为一名成熟的设计师，我们更加欢迎你！「反向定制」是每个有创意有梦想的人的主场，你们负责奇思妙想，我们负责开模打样！太火鸟邀请你们一起用右脑思维缔造性感产品！从0-1创建属于你自己的品牌。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big bg block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <h3 class="ui header">
+            <i class="book icon"></i>
+            <div class="content">
+              服务项目
+              <div class="sub header">
+                Service Items
+              </div>
+            </div>
+          </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <p>为您提供全方位的孵化支持服务，从创意构想到生产面市，太火鸟孵化服务触及产品过程各个阶段。</p>
+          <h4>为您提供生产链资源，解决技术壁垒</h4>
+          <p>太火鸟深圳600平方米的D3in实验室，拥有全球领先的专业测试设备及行业顶尖的专家顾问团队，为您提供研发、测试、可靠度验证，认证，生产良率把控等全方位的技术交流与实验设备服务！协助您攻破技术难关，让您专注的打磨自己的产品，迈向极致。</p>
+          <h4>为您提供技知识产权法律支持</h4>
+          <p>为智能硬件创业者答疑解惑，指点迷津。提供“确权-维权-管理-评估”的知识产权顾问服务，全面保护设计师的知识产权。从此您不必担心创意危险裸奔。</p>
+          <h4>为您解决众筹合作</h4>
+          <p>整合京东、淘宝、苏宁、KICKSTARTER、INDIEGOGO等国内外五大权威众筹平台。</p>
+          <h4 class="wtop" style="margin-top: 30px;">为您提供营销推广</h4>
+          <p>根据孵化产品特点和目标受众属性制定相应的线上线下营销推广计划。</p>
+          <h4 class="wtop">为您建立健全销售渠道</h4>
+          <p>国内外建立了2500家销售渠道，帮助孵化产品迅速打开市场，同步分销。9个月实现3亿销售额。</p>
+          <h4 class="wtop">为您寻找投资支持</h4>
+          <p>李开复、徐小平、童玮亮等超级豪华一线VC阵容为你提供专业指导<br />
+          DFF设计创始人基金、真格基金、创新工场、梧桐树、戈壁投资等顶尖投资机构</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui big gray block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <h3 class="ui header">
+            <i class="users icon"></i>
+            <div class="content">
+              适应人群
+              <div class="sub header">
+                Adaptation Crowd
+              </div>
+            </div>
+          </h3>
+        </div>
+      </div>
+      <div class="ui center aligned row">
+        <div class="ui four wide column">
+          <h4 class="ui icon header">
+            <i class="users icon"></i>
+            设计师
+          </h4>
+          <p>有成熟的设计功底却无人问津；<br />
+          好点子缺少专业的技术支持；</p>
+        </div>
+        <div class="ui four wide column">
+          <h4 class="ui icon header">
+            <i class="users icon"></i>
+            创业者
+          </h4>
+          <p>有好的项目却没有合作团队；<br />
+          需要协同创业的环境；</p>
+        </div>
+        <div class="ui four wide column">
+          <h4 class="ui icon header">
+            <i class="users icon"></i>
+            爱好者
+          </h4>
+          <p>有满满的热爱，渴望伯乐;<br />
+          渴望志趣相同的伙伴;</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big bg block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <h3 class="ui header">
+            <i class="align right icon"></i>
+            <div class="content">
+              征集内容
+              <div class="sub header">
+                Contents
+              </div>
+            </div>
+          </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <p>以清晰传达理念为标准，表现形式不限，可以是未成形的创意点子，也可以是已成型的产品，可以是设计图稿，也可以仅仅只是说明文稿。</p>
+          <p>作品非公开展示，评委能看懂就好，即使作品本次未选中孵化，但仍有机会加入太火鸟“火眼计划”成为我们的明星设计师储备力量。</p>
+          <p>我们看重的是你的态度，我们要的是与你并肩的机会。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big gray block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <h3 class="ui header">
+            <i class="protectt icon"></i>
+            <div class="content">
+              评委专家
+              <div class="sub header">
+                Jury Experts
+              </div>
+            </div>
+          </h3>
+        </div>
+      </div>
+      <div class="ui center aligned row">
+        <div class="ui two wide column">
+          <img src="{{ app_url_packaged }}/images/match/customp1.png" alt="雷海波">
+          <h4 class="ui header">
+            雷海波 
+            <div class="sub header">
+              太火鸟创始人
+            </div>
+          </h4>
+        </div>
+        <div class="ui two wide column">
+          <img src="{{ app_url_packaged }}/images/match/customp2.png" alt="田孝义">
+          <h4 class="ui header">
+            田孝义 
+            <div class="sub header">
+              太火鸟联合创始人
+            </div>
+          </h4>
+        </div>
+        <div class="ui two wide column">
+          <img src="{{ app_url_packaged }}/images/match/customp3.png" alt="朱红">
+          <h4 class="ui header">
+            朱红 
+            <div class="sub header">
+              太火鸟联合创始人
+            </div>
+          </h4>
+        </div>
+        <div class="ui two wide column">
+          <img src="{{ app_url_packaged }}/images/match/customp4.png" alt="崔波">
+          <h4 class="ui header">
+            崔波
+            <div class="sub header">
+              太火鸟联合创始人
+            </div>
+          </h4>
+        </div>
+        <div class="ui two wide column">
+          <img src="{{ app_url_packaged }}/images/match/customp5.png" alt="张翀">
+          <h4 class="ui header">
+            张翀 
+            <div class="sub header">
+              太火鸟联合创始人
+            </div>
+          </h4>
+        </div>
+        <div class="ui two wide column">
+          <img src="{{ app_url_packaged }}/images/match/customp6.png" alt="范亚宾">
+          <h4 class="ui header">
+            范亚宾 
+            <div class="sub header">
+              太火鸟联合创始人
+            </div>
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big bg block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <h3 class="ui header">
+            <i class="protecto icon"></i>
+            <div class="content">
+              活动奖励
+              <div class="sub header">
+                Activity Award
+              </div>
+            </div>
+          </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <p>由太火鸟六大天王评选出最终可孵化的优秀方案（名额不限！），并邀请这些大神（们）前来帝都鸟窝基地进行心与心的沟通，在这场创意与灵魂碰撞的交流会上，你的作品将不只是白纸上的一个idea，而是可以快速落地孵化的产品！用创意改善现实，搅起智能硬件圈新风暴~这种事情，想想就激动！ </p>
+          <p>
+          选中作品的设计师童鞋无须担心创意被带走，作品的所有相关知识产权还是属于你自己！一年合作期内鸟叔将带你参与从创意构想到生产面市，从营销推广到产品销售的各个阶段。
+          <br />另外！鸟叔对原创作品提供维权服务！</p>
+          <p>最后！money！money！money！重要的事情说三遍，鸟叔要跟你谈点更实际的事了~<br />
+          产品成功面世以后，每一份新鲜出炉的产品，你都可以得到分成！量多多，得多多！<br />
+          优胜者所获分成按生产量进行超额累进式计算（按季度结款）</p>
+          
+          <table class="ui celled padded center aligned table">
+            <tbody>
+              <tr>
+                <td>生产量</td>
+                <td>1~3000</td>
+                <td>3001~5000</td>
+                <td>5001~10000</td>
+                <td>10000以上</td>
+              </tr>
+              <tr>
+                <td>单位分成(元)</td>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>5</td>
+              </tr>
+            </tbody>
+          </table>
+            
+           <p>看不懂的同学莫急，请拿出小算盘跟着鸟叔一起做应用题~ </p>
+           <p>例一  小红设计的移动电源貌美如花绝世无双，太火鸟与其火速达成协议落地孵化，双方经过市场考量，首批生产11000台，问小红可获得分成多少？<br />
+           解：3000*1+2000*2+5000*3+1000*5=27000元</p> 
+           <p>例二  小明的电动情趣牙刷被太火鸟选中为落地孵化项目，一个月后生产出第一批牙刷2000件，问小明可获得的分成有多少？<br />
+           解：2000*1=2000元<br />
+           第一批产品（2000件）成功面市后，迅速成为爆款，太火鸟决定再追加生产5000件，问该批产品小明可获得的分成为多少？<br />
+           解：1000*1+2000*2+2000*3=11000元<br />
+           答：在小明与太火鸟合作期间，共生产出小明牌电动牙刷7000件，两次生产小明共获利13000元（2000+11000）。</p>
+            
+           <p>看了以上这些，是不是顿时觉得其他任何奖励都已微不足道成浮云了呢~速速将创意砸向鸟叔~康忙北鼻</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big gray block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <h3 class="ui header">
+            <i class="bookmark icon"></i>
+            <div class="content">
+              活动须知
+              <div class="sub header">
+                Activities Notice
+              </div>
+            </div>
+          </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <p>1. 参与者在提交作品前请确保已经阅读并且愿意遵守相关活动规则，任何违反活动规则的作品，主办方有权取消其参与资格；</p>
+          <p>2. 参与者所提交的作品必须由参与者本人创作或参与创作，并确认拥有作品的著作权及版权，参与者应确认其作品的原创性，主   办单位不承担因作品侵犯他人（或单位）的权利而产生的法律责任，其法律责任由参与者本人承担。</p>
+          <p>3. 活动期间，参与者不得将其作品转让或授权给任何第三方，不得用该作品参与和本活动相同或类似的其他活动；</p>
+          <p>4. 如多人合作，需征得所有合作者同意并标明所有合作者姓名；同一用户名可上传多组不同作品，评选结果以作品为单位，即同一    用户名可获得多个奖项；</p>
+          <p>5. 活动期间有任何疑问可发送邮件至bianluyao@taihuoniao.com</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big bg block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <h3 class="ui header">
+            <i class="trophy icon"></i>
+            <div class="content">
+              入选通知
+              <div class="sub header">
+                Prize notification
+              </div>
+            </div>
+          </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <p>1.  通知将在结果公示后5个工作日内在社区活动页面发帖公布，同时也会通过电子邮件发送至获奖设计师上传作品时预留的邮箱。</p>
+          <p>2.  请入选设计师仔细填写联系信息，并在活动结束后注意查收邮件，在规定时间内回复，并根据邮件内容配合主办方完成获奖作品源     文件收集及后续落地孵化事宜沟通等工作；</p>
+          <p>3.  若入选设计师在规定时间内对获奖通知未做回应，则视为自动放弃；</p>
+          <p>4.  其他相关事宜请关注太火鸟社区内大赛专题首页公告。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big gray block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <h3 class="ui header">
+            <i class="protectt icon"></i>
+            <div class="content">
+              相关权益
+              <div class="sub header">
+                Stakeholders
+              </div>
+            </div>
+          </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <p>1. 参与者保留对其作品的所有相关知识产权；</p>
+          <p>2. 主办方对所有参与作品享有展示、孵化及推广、宣传等权利，并可代为申请专利； </p>
+          <p>3. 所有参与作品内容必须是原创作品，作品未在报刊、杂志、网站及其他媒体公开发表，未参加过其它比赛和活动，参与者须保    证对其参与作品拥有完全充分的知识产权，无仿冒或侵害他人知识产权，入围及获奖作品一经发现存在抄袭或其他侵权行为，主    办单位将有权收回获奖资格以及签约资格，并在有关媒体公布其侵权行为；</p>
+          <p>4. 太火鸟对本活动保留最终解释权。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+  
+  
+  

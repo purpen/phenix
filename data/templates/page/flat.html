@@ -132,25 +132,19 @@ b, strong {
 {% block js %}
 {% endblock %}
 {% block jquery %}	
+    var browser = $.browser;
+    if ( ! browser ) {
+       var ua = navigator.userAgent.toLowerCase();
+       alert(ua);
+       var m = /(msie) ([\w.]+)/.exec( ua ) || ! /compatible/.test(ua) && /(mozilla)/.exec( ua ) || [];
+       browser = { version: m[2] };
+       browser[ m[1] ] = true;
+    }
+    alert(browser.msie);
+    
 	// 显示PC终端视频
 	$('.ui.computer.video').bind('click', function(){
 		$('.ui.videobox.modal').modal('show');
-	});
-	
-	// 显示移动端视频
-	var player = new YKU.Player('video-mobile',{
-		styleid: '1',
-		client_id: '4128f4a10a97103a',
-		vid: 'XNzA5ODI1Mjk2',
-		events:{
-			onPlayStart: function(){ 
-				$('#video-mobile').css('visibility', 'visible');
-				$('.play.icon').fadeOut();
-			}
-		}
-	});
-	$('.ui.tablet.mobile.video').bind('click', function(){
-		player.playVideo();
 	});
 {% endblock %}
 {% block content %}

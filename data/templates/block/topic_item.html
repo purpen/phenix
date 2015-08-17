@@ -1,6 +1,6 @@
 <tr id="{{ topic._id }}">
 	<td class="hide-on-mobile author one wide">
-		<a class="ui small avatar image" href="{{ topic.user.home_url }}">
+		<a class="ui small avatar idcard image" data-uid="{{ topic.user._id }}" href="{{ topic.user.home_url }}">
       		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
 			{% if topic.user.kind==1 %}
 					<img src="{{ app_url_packaged }}/images/V.png" class="image-V">
@@ -29,7 +29,7 @@
 			<div class="hide-on-mobile">
 				{% if !topic.asset_count %}
 					<a class="description" href="{{ topic.view_url }}" target="_blank">
-						{{ topic.strip_description|truncate 70 }}
+						{{ topic.strip_description }}
 					</a>
           <span class="last reply">
           {% if topic.last_user %}

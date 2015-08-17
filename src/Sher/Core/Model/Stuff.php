@@ -86,7 +86,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		'stick' => self::STICK_DEFAULT,
 		# 精选
 		'featured' => self::FEATURED_DEFAULT,
-        # 属于1.十万火计;2.蛋年;3.奇思甬动-大赛;4.;
+        # 属于1.十万火计;2.蛋年;3.奇思甬动-大赛;4.反向定制;
         'from_to' => 0,
 
         # 用于大赛
@@ -129,8 +129,10 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
               $row['view_url'] = Sher_Core_Helper_Url::birdegg_view_url($row['_id']);
             }elseif($row['from_to']==3){ //奇思甬动-大赛
               $row['view_url'] = sprintf(Doggy_Config::$vars['app.url.contest']."/qsyd_view/%s.html", $row['_id']);
+            }elseif($row['from_to']==3){ //反向定制-大赛
+              $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']); 
             }else{
-                $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);   
+              $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);   
             }
         }else{
             $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);  
@@ -312,7 +314,13 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
                 if($college_id){
                     $num_mode->add_record($college_id, 'match2_count', 2);    
                 }
+            }elseif($this->data['from_to'] == 4){ //反定制定
+              if(isset($this->data['contest_id'])){
+                $contest_model = new Sher_Core_Model_Contest();
+                $contest_model->increase_counter('stuff_count', 1, $this->data['contest_id']);
+              }
             }
+
 
       }
 
@@ -402,6 +410,11 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
         }
       }
       unset($num_mode);
+    }elseif($options['from_to']==4){ //反向定制 作品量减1
+      if(isset($options['contest_id'])){
+        $contest_model = new Sher_Core_Model_Contest();
+        $contest_model->dec_counter('stuff_count', (int)$options['contest_id']);
+      }
     }
 
     //删除索引

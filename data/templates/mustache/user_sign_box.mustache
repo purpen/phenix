@@ -1,0 +1,27 @@
+<div class="reg-border">
+    {{#has_sign}}
+    <a href="javascript:void(0);" class="ui big inverted red active button">
+        <i class="calendar icon"></i> 已签到
+    </a>
+    {{/has_sign}}
+    
+    {{^has_sign}}
+    <a href="javascript:void(0);" id="sign-in-btn" class="ui big inverted red active button">
+        <i class="calendar icon"></i> 签到
+    </a>
+    {{/has_sign}}
+
+    {{#is_doing}}
+        {{#is_true}}
+        <div class="add">
+            经验 +2 {{#give_money}}鸟币 +1{{/give_money}}
+        </div>
+        {{/is_true}}
+    {{/is_doing}}
+    <div class="adreg">	
+      连签 <b>{{ continuity_times }}</b> 天
+    </div>
+</div>
+
+<p>1、每天签到+2个经验值，连续7天+1枚鸟币</p>
+<p>2、赢取最新智能硬件新品</p>

@@ -1,0 +1,83 @@
+{{#results.rows}}
+<tr id="{{ _id }}">
+	<td class="hide-on-mobile author one wide">
+		<a class="ui small avatar image" href="{{ user.home_url }}">
+      		<img src="{{ user.small_avatar_url }}" alt="{{ user.nickname }}" />
+			{{#user.kind}}
+				<img src="{{ app_url_packaged }}/images/V.png" class="image-V" />
+			{{/user.kind}}
+		</a>
+	</td>
+	<td colspan="3" class="htitle nide wide">
+      	<h3 class="title {{#red}} topic-title-color-red{{/red}}{{#blue}} topic-title-color-blue{{/blue}}{{#green}} topic-title-color-green{{/green}}{{#yellow}} topic-title-color-yellow{{/yellow}}">
+			<a href="{{ view_url }}" title="{{ title }}" class="ui line" target="_blank">
+                {{ title }}
+                {{#top}}<span class="ui green small label">置顶</span>{{/top}}
+                {{#fine}}<span class="ui orange small label">精华</span>{{/fine}}
+                {{#stick}}<span class="ui yellow small label">编辑推荐</span>{{/stick}}
+            </a>
+		</h3>
+        
+      	<div class="content">
+			<div class="attribute">
+                <span class="category">
+                    {{ category.title }}
+                </span> | 
+				<span class="author">
+					<a href="{{ user.home_url }}" class="ui link">@{{ user.nickname }}</a>  <i class="time icon"></i>{{ r_created_on }}
+				</span>
+			</div>
+			<div class="hide-on-mobile">
+				{{^asset_count}}
+					<a class="description" href="{{ view_url }}" target="_blank">
+						{{ strip_description }}
+					</a>
+                  <span class="last reply">
+                  {{#last_user}}
+                  <a class="ui link" href="{{ last_user.home_url }}" title="{{ last_user.nickname }}">
+                      <img src="{{ last_user.mini_avatar_url }}" class="ui avatar image" alt="{{ user.nickname }}" />
+                  </a>
+                  回复于 {{ r_last_reply_time }}
+                  {{/last_user}}
+                  </span>
+                {{/asset_count}}
+                
+                {{#asset_count}}
+					<!--展示图片-->
+                    
+					<a class="ui mini images" href="{{ view_url }}" target="_blank">
+						{{#cover}}
+						<img class="ui image" src="{{ cover.thumbnails.tiny.view_url }}" />
+						{{/cover}}
+                        
+						{{#asset_list}}
+						  	<img class="ui image" src="{{ thumbnails.tiny.view_url }}" />
+						{{/asset_list}}
+					</a>
+                    <span class="last reply">
+                		{{#last_user}}
+                		<a class="ui link" href="{{ last_user.home_url }}" title="{{ last_user.nickname }}">
+                	  		<img src="{{ last_user.mini_avatar_url }}" class="ui avatar image" alt="{{ user.nickname }}" />
+                		</a>
+                		回复于 {{ r_last_reply_time }}
+                		{{/last_user}}
+                    </span>
+                    
+					<div class="ui count text">
+						<small>{{ asset_count }} 张图片</small>
+					</div>
+				{{/asset_count}}
+			</div>
+            
+            <div class="dot count">
+                <div class="statistic">
+                    <span class="value">{{ comment_count }}</span> <i class="comment outline icon"></i>
+                </div>
+                <div class="statistic">
+                    <span class="value">{{ view_count }}</span> <i class="unhide icon"></i>
+                </div>
+            </div>
+      	</div>
+	</td>
+</tr>
+{{/results.rows}}

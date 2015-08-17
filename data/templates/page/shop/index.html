@@ -9,13 +9,23 @@
 {% endblock %}
 
 {% block layout_js %}
-  <script type="text/javascript" >
+<script type="text/javascript" >
     function ajax_load_more(child_id, type, sort, page, size){
-      var url = '{{ app_url_shop }}/ajax_load_list';
-      $.get(url, { category_id: child_id, sort:sort, page:page, type:type, size:size });
+        var url = '{{ app_url_shop }}/ajax_load_list';
+        $.get(url, { category_id:child_id, sort:sort, page:page, type:type, size:size }, function(rs){
+            // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
+            if(rs.data.results.total_page > rs.data.results.current_page){
+                $('#product-more')
+                    .hide()
+                    .attr({'status': 0, 'p': rs.data.results.current_page});
+            }else{
+                $('#product-more').html('没有更多');
+            }
+            var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
+            $('.item-box').append(rendered);
+        }, 'json');
     }
-  </script>
-
+</script>
 {% endblock %}
 
 {% block jquery %}
@@ -32,30 +42,30 @@
 		});
 	});
 
-  //ajax加载更多(滚动条接近底部加载)
-  $(window).scroll(function(){
-　　var scrollTop = $(this).scrollTop();
-　　var scrollHeight = $(document).height();
-　　var windowHeight = $(this).height();
-　　if(scrollTop + windowHeight > scrollHeight-150){
-      var stat = $('#product-more').attr('status');
-      var page = parseInt($('#product-more').attr('p')) + 1;
-      var cate_id = $('#product-more').attr('c');
-      var type = $('#product-more').attr('t');
-      var sort = $('#product-more').attr('s');
+    // ajax加载更多(滚动条接近底部加载)
+    $(window).scroll(function(){
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        if(scrollTop + windowHeight > scrollHeight-150){
+            var stat = $('#product-more').attr('status');
+            var page = parseInt($('#product-more').attr('p')) + 1;
+            var cate_id = $('#product-more').attr('c');
+            var type = $('#product-more').attr('t');
+            var sort = $('#product-more').attr('s');
 
 
-      //防止频繁请求(在没加载完成时只允许请求一次)
-      if(stat==0){
-        $('#product-more').show();
-        $('#product-more').attr('status', 1);
-        ajax_load_more(cate_id, type, sort, page, 12);
-      }
-　　}
-  });
+            // 防止频繁请求(在没加载完成时只允许请求一次)
+            if(stat == 0){
+                $('#product-more').show();
+                $('#product-more').attr('status', 1);
+                ajax_load_more(cate_id, type, sort, page, 12);
+            }
+        }
+    });
 
-  // ajax加载商品列表
-  ajax_load_more('{{category_id}}', '{{type}}', '{{sort}}', 1, 12);
+    // ajax加载商品列表
+    ajax_load_more('{{category_id}}', '{{type}}', '{{sort}}', 1, 12);
 {% endblock %}
 
 {% block content %}
@@ -161,4 +171,8 @@
 		</div>
 	</div>
 </div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'fetch_more_products_tpl' tpl:'mustache/fetch_more_products.mustache' %}
 {% endblock %}

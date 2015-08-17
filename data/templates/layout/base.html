@@ -69,14 +69,12 @@
                 margin: 2rem auto;
             }
 		</style>
-		
-		
 		{% block layout_css %}{% endblock %}
 		{% block page_css %}{% endblock %}
         <!--把jquery放到body之前-->
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
-    <!--需要body之前加载的js-->
-    {% block before_layout_js %}{% endblock %}
+        <!--需要body之前加载的js-->
+        {% block before_layout_js %}{% endblock %}
         <!--百度统计-->
         <script type="text/javascript">
           {% if baidu_talk_server %}
@@ -120,6 +118,8 @@
 		{% endblock %}
         
         <!-- mustache templates begin -->
+        {% mustache id:'user_notice_tpl' tpl:'mustache/user_notice.mustache' %}
+        {% mustache id:'user_card_tpl' tpl:'mustache/user_card.mustache' %}
         {% block templates %}
         {% endblock %}
         <!-- mustache templates end -->
@@ -129,11 +129,8 @@
 		
 		<!--[if lt IE 9]>
 			<script src="{{ app_url_packaged }}/javascript/html5.js" type="text/javascript"></script>
+            <script src="{{ app_url_packaged }}/javascript/excanvas.js" type="text/javascript"></script>
 		<![endif]-->
-		<!--[if lt IE 9]>
-			<script src="{{ app_url_packaged }}/javascript/excanvas.js" type="text/javascript"></script>
-		<![endif]-->
-		
 		<!--[if lte IE 9]>
 		    <script src="{{ app_url_packaged }}/javascript/ie9.js" type="text/javascript"></script>
 		 <![endif]-->
@@ -169,8 +166,22 @@
             
             // 用户提醒 登录行为
             if(phenix.visitor.is_login){
+                var notice_callback = function(data){
+                    data['phenix'] = phenix.url;
+                    var rendered = phenix.ajax_render_result('#user_notice_tpl', data);
+                    $('#user-notice .item').remove();
+                    $('#user-notice-num')
+                        .show()
+                        .text(data.total_count);
+                    $('#user-notice').append(rendered);
+                }
                 var user_id = phenix.visitor.id;
-                $.get('{{ app_url_action_base }}/user/ajax_fetch_counter');
+                $.get('{{ app_url_action_base }}/user/ajax_fetch_counter',function(rs){
+                    if(rs.data.page_notice_success){
+                        notice_callback(rs.data);
+                    }
+                },'json');
+                
                 // 定时提示,每次5分钟,最多12次
                 var limit_notice_times = 0;
                 setInterval(function(){
@@ -178,7 +189,11 @@
                         return
                     }else{
                       // get默认是异步请求async为true
-                      $.get('{{ app_url_action_base }}/user/ajax_fetch_counter');
+                      $.get('{{ app_url_action_base }}/user/ajax_fetch_counter',function(rs){
+                          if(rs.data.page_notice_success){
+                              notice_callback(rs.data);
+                          }
+                      },'json');
                     }
                     limit_notice_times += 1;
                 }, 1000*60*1);

@@ -89,7 +89,7 @@
                 </div>
                 {%endif%}
                 
-				{% try_list var:'list' page:page state:1 size:9 %}
+				{% try_list var:'list' page:page state:1 size:12 %}
 				{% for t in list.rows %}
 					<div class="card">
                         <div class="problock">
@@ -202,4 +202,8 @@
         
     </div>
 </div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
 {% endblock %}

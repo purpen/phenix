@@ -1,6 +1,6 @@
 <tr id="{{ topic._id }}">
 	<td class="hide-on-mobile author one wide">
-		<a class="ui small avatar image" href="{{ topic.user.home_url }}">
+		<a class="ui small avatar idcard image" data-uid="{{ topic.user._id }}" href="{{ topic.user.home_url }}">
       		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
 		</a>
 	</td>
@@ -60,10 +60,10 @@
                 </div>
                 
                 <div class="statistic">
-                    <a class="ui pop edit link" href="javascript:void(0);" data-id="{{ product._id }}">
+                    <a class="ui pop edit link" href="javascript:void(0);" data-id="{{ topic._id }}">
                         <i class="edit icon"></i> 编辑
                     </a>
-                    <a class="ui pop remove link" href="javascript:void(0);" data-id="{{ product._id }}">
+                    <a class="ui pop remove link" href="javascript:void(0);" data-id="{{ topic._id }}">
                         <i class="remove icon"></i> 删除
                     </a>
                 </div>

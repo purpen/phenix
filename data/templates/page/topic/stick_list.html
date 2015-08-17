@@ -4,7 +4,7 @@
 		编辑推荐
     </div>
     <div class="ui articles bulleted list">
-        {% topic_list var:'list' is_top:1 type:1 sort:sort page:1 size:8 %}
+        {% topic_list var:'list' published:1 is_top:1 type:1 sort:sort page:1 size:8 %}
         {% for topic in list.rows %}
         <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="item" target="_blank">
             {{ topic.title }}

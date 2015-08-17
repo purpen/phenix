@@ -4,7 +4,7 @@
  * Deploy static files
  * 同步到Qiniu qrsync
  */
-system("doggy dev");
+system("doggy/bin/doggy dev");
 
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {
@@ -23,7 +23,7 @@ require $cfg_doggy_bootstrap;
 set_time_limit(0);
 
 $conf_dir = '/Users/xiaoyi';
-$from_src = '/Users/xiaoyi/Project/phenix-ui/build/packaged';
+$from_src = '/Users/xiaoyi/Project/frbird-ui/dist/packaged';
 $to_src = '/Users/xiaoyi/Project/phenix/data/web/packaged';
 
 $css_version = Doggy_Config::$vars['app.version.css_bundle_version'];
@@ -46,9 +46,9 @@ function inc_version($css_version, $js_version, $to_src){
 	echo "Start to inc version ... \n";
 	
 	//未加版本号 css/calendar-theme.css,
-  $css_files = array('css/frbird.min.css','css/mobile.min.css','css/ie8.min.css','css/ie7.min.css','css/froala_editor.min.css');
+  $css_files = array('css/frbird.min.css','css/mobile.min.css','css/ie9.min.css','css/froala_editor.min.css');
   //未加版本号 javascript/calendar.js, javascript/jquery.flexslider.js
-	$js_files = array('javascript/base.min.js', 'javascript/jquery_bundle.min.js', 'javascript/frbird.min.js', 'javascript/froala_editor.min.js');
+	$js_files = array('javascript/jquery-2.min.js', 'javascript/jquery.plugins.min.js', 'javascript/frbird.min.js', 'javascript/froala_editor.min.js');
 	
 	for($i=0;$i<count($css_files);$i++){
 		$file = $css_files[$i];
@@ -76,7 +76,9 @@ function inc_version($css_version, $js_version, $to_src){
 function deploy_sync($conf_dir){
 	echo "Start to sync files ... \n";
 	
-	system("qrsync -skipsym $conf_dir/qiniu/conf.json");
+	// system("qrsync -skipsym $conf_dir/qiniu/conf.json");
+	system("qrsync -skipsym $conf_dir/qiniu/synccss.json");
+	system("qrsync -skipsym $conf_dir/qiniu/syncjs.json");
 	
 	echo "Sync files is ok! \n";
 }

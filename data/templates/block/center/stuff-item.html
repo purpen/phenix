@@ -1,44 +1,40 @@
-<div class="card" id="item-{{d._id}}">
-    {% if d.cover %}
-    <div class="image" style="background-image:url({{ d.cover.thumbnails.md.view_url }});">
-    {%else%}
-    <div class="image">
-    {%endif%}
-        <div class="presell">
-            <label>
-            {% if d.from_to %}
-                {% if d.from_to==1 %}十万火计{%endif%}
-                {% if d.from_to==2 %}蛋年{%endif%}
-                {% if d.from_to==3 %}奇思甬动-大赛{%endif%}
-            {%else%}
-            产品灵感
-            {%endif%}
-            </label>
-            <div class="exit">
-                <div class="ui icon admin green buttons">
-                    <div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ d._id }}">
-                        <i class="edit icon"></i>
-                    </div>
-                    <div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ d._id }}">
-                        <i class="remove icon"></i>
-                    </div>
-                </div>
-            </div>
+
+<div class="card" id="item-{{ d._id }}">
+    <div class="problock">
+        <a title="{{ d.title }}" href="{{ d.view_url }}" style="background-image: url({{ d.cover.thumbnails.hm.view_url }});" class="thumb" target="_blank">
+        </a>
+        <div class="ribbons">
+            {% if d.from_to == 1 %}
+            <a class="ribbon presale">十万火计</a>
+            {% endif %}
+            {% if d.from_to == 2 %}
+            <a class="ribbon presale">蛋年</a>
+            {% endif %}
+            {% if d.from_to == 3 %}
+            <a class="ribbon presale">奇思甬动</a>
+            {% endif %}
+            {% if d.from_to == 4 %}
+            <a class="ribbon presale">反向定制</a>
+            {% endif %}
+
         </div>
-    </div>
-    <div class="content">
-          <div class="header">
-              <a href="{{ d.view_url }}" title="{{ d.title }}" class="ui line" target="_blank">{{ d.title|truncate 26 '' }}</a>
-          </div>
-    </div>
-    <div class="extra">
-        <a class="right floated created">
-            <small><i class="unhide icon"></i>{{ d.view_count }}</small>
-            <small><i class="thumbs outline up icon"></i><span class="love-count">{{ d.love_count }}</span></small>
-        </a>
-        <a href="{{ d.user.home_url }}" class="ui icon link" target="_blank">
-            <img src="{{ d.user.small_avatar_url }}" alt="{{ d.user.nickname }}" class="ui avatar image"> 
-            <small>{{ d.user.nickname }}</small>
-        </a>
+        <h2>
+            <a href="{{ d.view_url }}" title="{{ d.title }}" class="ui line" target="_blank">
+			    {{ d.title|truncate, 32, '' }}
+		    </a>
+        </h2>
+        <!--
+        <div class="excerpt">
+            <p></p>
+        </div>
+        -->
+        <div class="cats admin">
+            <a class="ui pop edit link" href="javascript:void(0);" data-id="{{ d._id }}">
+                <i class="edit icon"></i> 编辑
+            </a>
+            <a class="ui pop remove link" href="javascript:void(0);" data-id="{{ d._id }}">
+                <i class="remove icon"></i> 删除
+            </a>
+        </div>
     </div>
 </div>

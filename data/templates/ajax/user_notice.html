@@ -6,15 +6,15 @@
         </eval>
         
         {% if alert_count %}
-        <append select="#user-notice"><![CDATA[
+        <append select="#user-notice">
             <a href="{{ app_url_my }}/remind" class="item"><i class="alarm icon"></i>查看提醒 {{alert_count}} 条提醒</a>
-        ]]></append>
+        </append>
         {%endif%}
     
         {% if message_count %}
-        <append select="#user-notice"><![CDATA[
+        <append select="#user-notice">
             <a href="{{ app_url_my }}/message" class="item"><i class="mail icon"></i>查看私信 {{message_count}} 条私信</a>
-        ]]></append>
+        </append>
         {%endif%}
     
         {% if comment_count %}

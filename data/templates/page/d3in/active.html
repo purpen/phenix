@@ -59,44 +59,40 @@ h3 .d3word span{
 	<div class="ui responsive grid" style="padding:0 4%;">
 		<div class="row">
 			<div class="column">
-				<div class="ui three activity cards">
+				<div class="ui three products activity cards">
                     {% for active in list.rows %}
 					<div class="card">
-						<div class="image">
-                            <a href="{{ active.view_url }}" title="{{ active.title }}" target="_blank">
-                                <img src="{{ active.cover.thumbnails.md.view_url }}" >
-                            </a>
-							<div class="presell">
-                                第 {{ active.season }} 期
-							</div>
-						</div>
-						<div class="content">
-                        	<div class="header">
-                        		<a href="{{ active.view_url }}" title="{{ active.title }}" class="ui line" target="_blank">{{ active.title|truncate 26 '' }}－{{ active.conduct_city }}站 </a>
-                      	  	</div>
-                            <div class="description">
-                                <span class="people">
-                                    活动地址：{{ active.conduct_city }}{{ active.address }}，限额人数：{{ active.max_number_count }}人
+                        <div class="problock">
+                            <a title="{{ active.title }}" href="{{ active.view_url }}" style="background-image: url('{{ active.cover.thumbnails.md.view_url }}');" class="thumb" target="_blank"></a>
+                            <div class="ribbons">
+                                {% if active.season %}
+                                <span class="ribbon season">
+                                    第 {{ active.season }} 期
                                 </span>
+                                {%endif%}
                             </div>
-                            <div class="i-stats">
-                                <div class="love">
-                                    <span class="address">
-                                        <i class="time icon"></i> {{ active.begin_time|date 'Y/m/d H:i' }}
-                                    </span>
-                                    <span class="apply">
-                                        {% if active.step_stat == 2 %}
-                                            已结束
-                                        {% else %}
-                                        <a class="ui line" href="{{ active.view_url }}">
-                                            我要报名
-                                  	  	</a>
-                                        {% endif %}
-                                    </span>
-                                    
-                                </div>
+                            <h2>
+                                <a href="{{ active.view_url }}" title="{{ active.title }}" class="ui line" target="_blank">
+                    			    {{ active.title }}－{{ active.conduct_city }}站
+                    		    </a>
+                            </h2>
+                            <div class="excerpt">
+                                <p>活动地址：{{ active.conduct_city }}{{ active.address }}，限额人数：{{ active.max_number_count }}人</p>
                             </div>
-						</div>
+                            <div class="cats">
+                                <i class="time icon"></i> {{ active.begin_time|date 'Y/m/d H:i' }}
+                            </div>
+                            <span class="counter">
+                                <i class="heart icon"></i> 
+                                 {% if active.step_stat == 2 %}
+                                     已结束
+                                 {% else %}
+                                 <a class="ui link" target="_blank" href="{{ active.view_url }}">
+                                     我要报名
+                           	  	</a>
+                                 {% endif %}
+                            </span>
+                        </div>
 					</div>
                     {%endfor%}
 				</div>
@@ -116,6 +112,4 @@ h3 .d3word span{
 
 	</div>
 </div>
-
-
 {% endblock %}

@@ -128,10 +128,10 @@
                                     <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank"></a>
                                 </div>
                                 <div class="desc">
-                                    <h2>
-                                        <!--{{ ad.title }}-->
-                                    </h2>
-                                    <p>{{ ad.sub_title }}</p>
+                                    <h4>
+                                        {{ ad.title }}
+                                    </h4>
+                                    <!--<p>{{ ad.sub_title }}</p>-->
                                 </div>
                                 <a href="{{ ad.view_url }}" title="{{ ad.title }}" class="link wrap" target="_blank"></a>
                             </div>
@@ -203,7 +203,7 @@
                 {% endif %}
                 
                 <!--精华话题-->
-                {% topic_list var:'topics' type:2 page:1 size:4 %}
+                {% topic_list var:'topics' published:1 type:2 page:1 size:4 %}
                 <div class="ui socialstick stickcount four blocks">
             		{% for topic in topics.rows %}
                     <div class="block">
@@ -240,11 +240,11 @@
                     </div>
                     <div class="card group">
                         <!--推荐话题-->
-                        {% topic_list var:'topics' sort:'update' type:1 page:1 size:6 %}
+                        {% topic_list var:'topics' published:1 sort:1 type:1 page:1 size:10 %}
                         <div class="problock">
         					{% for topic in topics.rows %}
         						{% if topic.published %}
-                                    <div class="topicbox {% if loop.counter == 5 %}noborder{% endif %}">
+                                    <div class="topicbox {% if loop.counter == 9 %}noborder{% endif %}">
                 						{% if topic.cover %}
                                         <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
                 						    <img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" />
@@ -266,15 +266,14 @@
                                 {% endif %}
                             {% endfor %}
                         </div>
+                        
+                        <div class="resultbox">
+                            <a href="{{ app_url_topic }}" class="ui magenta inverted large more button">
+                               <i class="search icon"></i> 查看更多话题 
+                            </a>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="resultbox">
-                    <a href="{{ app_url_topic }}" class="ui magenta inverted more button">
-                       <i class="search icon"></i> 查看更多话题 
-                    </a>
-                </div>
-                
                 
             </div>
         </div>
