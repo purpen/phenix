@@ -1,0 +1,118 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">举报管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/report_tip" class="{{ css_all }} item">
+			全部
+		</a>
+
+	</div>
+	
+  <!--
+	<div class="ui grid">
+		<div class="middle aligned row">
+
+			<div class="ten wide column">
+				<div class="ui sub nav">
+					<form action="{{ app_url_admin_base }}/report_tip" method="post">
+						<label>搜索：</label>
+						<div class="ui icon input">
+							<input placeholder="标题..." type="text" name="q">
+							<i class="flat search link icon"></i>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+  -->
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>标题</th>
+        <th>所属</th>
+				<th>举报内容</th>
+				<th>举报人</th>
+				<th>是否处理</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% report_tip_list var:'reports' load_item:1 size:30 %}
+			
+			{% for d in reports.rows %}
+			<tr id="{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ d._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+        <td>
+          <a href="{{ d.target.view_url }}" target="_blank">{{ d.target.title }}</a>
+        </td>
+        <td>
+          {% if d.target_type==1 %}
+            投票
+          {%else%}
+            --
+          {%endif%}
+        </td>
+        <td>
+          {% if d.evt==1 %}
+            侵权: 
+          {%endif%}
+          {% if d.evt==2 %}
+            不良信息: 
+          {%endif%}
+          {% if d.evt==10 %}
+            其它: 
+          {%endif%}
+          {{ d.content|truncate 60 }}
+        </td>
+        <td>
+          <a href="{{ d.user.home_url }}" target="_blank">{{ d.user.nickname }}</a>
+        </td>
+
+        <td>
+          {% if d.status==1 %}
+							<span class="ui small green label">是</span>
+						{% else %}
+							<span class="ui small orange label">否</span>
+          {%endif%}
+        </td>
+        <td>
+          {% if !d.status %}
+                <a href="{{ app_url_admin }}/report_tip/ajax_stat?id={{ d._id }}&stat=1" class="ui ajax link item">
+            处理
+          </a>
+          {% else %}
+                <a href="{{ app_url_admin }}/report_tip/ajax_stat?id={{ d._id }}&stat=0" class="ui ajax link item">
+            取消处理
+          </a>
+          {% endif %}
+          | 
+          <a href="{{ app_url_admin }}/report_tip/deleted?id={{ d._id }}" class="ui confirm-request link item">
+              删除
+          </a>
+        </td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if reports.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:reports.total_rows,total_page:reports.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ reports.total_rows }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}

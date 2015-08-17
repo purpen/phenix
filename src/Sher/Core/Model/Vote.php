@@ -161,7 +161,11 @@ class Sher_Core_Model_Vote extends Sher_Core_Model_Base {
 				$nums += (int)$val['nums'];
 			}
 			foreach($v['answer'] as $kl=>$vl){
-				$vote['problem'][$k]['answer'][$kl]['nums_rate'] = (int)(((float)$vl['nums']/$nums) * 100);
+        if($nums==0){
+				  $vote['problem'][$k]['answer'][$kl]['nums_rate'] = 0;
+        }else{
+				  $vote['problem'][$k]['answer'][$kl]['nums_rate'] = (int)(((float)$vl['nums']/$nums) * 100);
+        }
 			}
 		}
 

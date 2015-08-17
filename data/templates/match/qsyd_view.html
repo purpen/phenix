@@ -85,7 +85,7 @@
 		}, 'json');
 		
 		// 精选
-		$('.ui.top.button').bind('click', function(){
+		$('.ui.dtop.button').bind('click', function(){
 			var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
 			if (mark == 'n') {
 				$.post('{{ app_url_stuff }}/ajax_featured', {id: id}, function(result){
@@ -347,11 +347,11 @@
 										</div>
 										{% if visitor.can_admin %}
 											{% if stuff.featured %}
-											<div class="ui pop top active button" data-content="取消精选" data-variation="inverted" data-mark="y" data-id="{{ stuff._id }}">
+											<div class="ui pop dtop active button" data-content="取消精选" data-variation="inverted" data-mark="y" data-id="{{ stuff._id }}">
 												<i class="bookmark icon"></i>
 											</div>
 											{% else %}
-											<div class="ui pop top button" data-content="精选" data-variation="inverted" data-mark="n" data-id="{{ stuff._id }}">
+											<div class="ui pop dtop button" data-content="精选" data-variation="inverted" data-mark="n" data-id="{{ stuff._id }}">
 												<i class="bookmark icon"></i>
 											</div>
 											{% endif %}

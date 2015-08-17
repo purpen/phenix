@@ -11,7 +11,7 @@
             'size' => 20,
         );
         
-        protected $exclude_method_list = array('add','edit','remove');
+        protected $exclude_method_list = array();
         
         public function execute(){
             return $this->add();
@@ -29,7 +29,7 @@
         public function add(){
             
             $mode = 'add';
-            $id = isset($this->stash['tid']) ? (int)$this->stash['tid'] : 0;
+            $id = isset($this->stash['rid']) ? (int)$this->stash['rid'] : 0;
             $tn = isset($this->stash['tn']) ? (int)$this->stash['tn'] : 1;
             
             // $n 表示投票的所属分类，这个跟vote的model里保持一致！

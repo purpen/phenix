@@ -75,6 +75,9 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
     # 大赛封面
     const TYPE_CONTEST = 90;
 
+    # 媒体报道封面
+    const TYPE_REPORT = 92;
+
     protected $schema = array(
 		'user_id' => '',
     	'parent_id' => '',

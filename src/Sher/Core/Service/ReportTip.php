@@ -1,13 +1,12 @@
 <?php
 /**
- * 活动/媒体报道
+ * 举报/投诉
  * @author tianshuai
  */
-class Sher_Core_Service_Report extends Sher_Core_Service_Base {
+class Sher_Core_Service_ReportTip extends Sher_Core_Service_Base {
 	
     protected $sort_fields = array(
         'latest' => array('created_on' => -1),
-        'pub_latest' => array('publish_date' => -1),
 	);
 
     protected static $instance;
@@ -15,11 +14,11 @@ class Sher_Core_Service_Report extends Sher_Core_Service_Base {
     /**
      * current service instance
      *
-     * @return Sher_Core_Service_Report
+     * @return Sher_Core_Service_ReportTip
      */
     public static function instance() {
         if (is_null(self::$instance)) {
-            return self::$instance = new Sher_Core_Service_Report();
+            return self::$instance = new Sher_Core_Service_ReportTip();
         }
         return self::$instance;
     }
@@ -27,8 +26,8 @@ class Sher_Core_Service_Report extends Sher_Core_Service_Base {
     /**
      * 列表
      */
-    public function get_report_list($query=array(), $options=array()) {
-	    $model = new Sher_Core_Model_Report();
+    public function get_report_tip_list($query=array(), $options=array()) {
+	    $model = new Sher_Core_Model_ReportTip();
 		  return $this->query_list($model, $query, $options);
     }
 	
