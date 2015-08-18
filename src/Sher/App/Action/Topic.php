@@ -139,6 +139,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			'page' => 1,
 			'size' => $size,
 			'sort_field' => 'latest',
+      // 最新排序
+      'sort' => 1,
 			'evt' => 'tag',
 			't' => 2,
 			'oid' => $current_id,

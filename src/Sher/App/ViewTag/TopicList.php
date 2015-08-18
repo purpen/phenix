@@ -21,6 +21,9 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
         $user_id = 0;
 		$target_id = 0;
 		$try_id = 0;
+
+    // 是否搜索
+    $s_type = 0;
 		
 		// 是否为一级分类
 		$is_top = false;
@@ -87,6 +90,21 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 		}else{
 			//为0
 		}
+
+    // 搜索
+    if($s_type){
+        switch ((int)$s_type){
+            case 1:
+                $query['_id'] = (int)$s_mark;
+                break;
+            case 2:
+                $query['title'] = array('$regex'=>$s_mark);
+                break;
+            case 3:
+                $query['tags'] = array('$all'=>array($s_mark));
+                break;
+        }
+    }
 		
 		// 时间
 		$day = 24 * 60 * 60;
