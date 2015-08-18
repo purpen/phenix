@@ -149,14 +149,11 @@ h3.ui.header{
 {% endblock %}
 
 {% block jquery %}
-	$('#stuff-form').form({
-		title: {
-			identifier  : 'title',
+	$('#topic-form').form({
+		mark: {
+			identifier  : 'try_id',
 			rules: [
-				{
-					type   : 'empty',
-					prompt : '标题不能为空'
-				}
+
 			]
 		}
 	}, {
@@ -186,39 +183,33 @@ h3.ui.header{
 
 {% block content %}
 <div class="admin">
-	<h3 class="ui header">灵感管理</h3>
+	<h3 class="ui header">话题管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/stuff" class="item">
+		<a href="{{ app_url_admin_base }}/topic" class="item">
 			全部
 		</a>
 
 	  	<div class="right menu">
 			{% if mode == 'edit' %}
 			<div class="active item">
-				<i class="edit icon"></i>编辑灵感
+				<i class="edit icon"></i>编辑话题
 			</div>
 			{% endif %}
       <!--
-			<a href="{{ app_url_admin_base }}/stuff/submit" class="item">
-				<i class="add icon"></i>新增活动
+			<a href="{{ app_url_admin_base }}/topic/submit" class="item">
+				<i class="add icon"></i>新增话题
 			</a>
       -->
 	    </div>
 	</div>
 	
-	<form action="{{ app_url_admin_base }}/stuff/save" class="ui form" method="post" id="stuff-form">
-		<input name="_id" type="hidden" value="{{ stuff._id }}" />
+	<form action="{{ app_url_admin_base }}/topic/save" class="ui form" method="post" id="topic-form">
+		<input name="_id" type="hidden" value="{{ topic._id }}" />
 		
 		<div class="inline field">
-			<label>赞数量:</label>
-      <input type="hidden" name="love_count" value="{{ stuff.love_count }}" />
-      现有数量: <input type="text" name="o_love_count" value="{{ stuff.love_count }}" disabled="disabled" />
-			增加数量: <input type="text" name="add_love_count" value="0" />
-		</div>
-		<div class="inline field">
-			<label>浏览量:</label>
-      <input type="text" name="view_count" value="{{ stuff.view_count }}" /><span style="color:red;"> *保证浏览数量要大于点赞数量</span>
+			<label>评测ID:</label>
+      <input type="text" name="try_id" value="{{ topic.try_id }}" />
 		</div>
 		
 		<div class="inline field">
