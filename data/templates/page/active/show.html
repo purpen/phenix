@@ -73,6 +73,7 @@
 }
 .timeline-content.right {
     float: right;
+    text-align:left;
 }
 .timeline-content {
     float: right;
@@ -93,7 +94,7 @@
 }
 .timeline-content .name {
     font-size: 17px;
-    font-weight: bold;
+    font-weight: 400;
     line-height: 16px;
     margin-top: 25px !important;
     margin-bottom: 0;
@@ -396,7 +397,7 @@ h4.ui.header .map-advantage {
 </section>
 
 <div class="activity summary">
-    <span><i class="time icon"></i> {{ active.begin_time|date 'Y/m/d H:i' }}</span> <span><i class="marker icon"></i> {{ active.address }}</span> <span><i class="users icon"></i> 活动人数：{{ active.max_number_count }}人</span>
+    <span><i class="time icon"></i> {{ active.end_time|date 'Y/m/d H:i' }}</span> <span><i class="marker icon"></i> {{ active.address }}</span> <span><i class="users icon"></i> 活动人数：{{ active.max_number_count }}人</span>
 </div>
           
 <div class="mainwrap" id="activitypage">
