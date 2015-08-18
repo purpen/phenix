@@ -65,9 +65,25 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			$eid = $this->stash['uid'];
 			$hid = $this->stash['hid'];
 			
-			$egou = 1;
-			$this->stash['hid'] = $egou;
+			// 判断e购用户是否已经参加过活动
+			$model = Sher_Core_Model_Egou();
+			$date = array();
+			$date['eid'] = $eid;
+			$date['hid'] = $hid;
+			$result = $model->first($date);
+			
+			if(empty($result)){
+				// 将易购用户信息保存至cookie
+				@setcookie('egou_uid', $eid, 0);
+				@setcookie('egou_hid', $hid, 0);
+				$egou = 1;
+			}
+			
+			// 清除cookie值
+			//setcookie('egou_uid', '', time() - 3600);
+			//setcookie('egou_hid', '', time() - 3600);
 		}
+		$this->stash['egou_show'] = $egou;
         
 		$this->set_target_css_state('page_home');
 
@@ -191,5 +207,13 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
         $service->session->login_token = $token;
         $this->stash['login_token'] = $token;
     }
+	
+	/**
+	 * 访问egou处理方法
+	 */
+	public function egou(){
+		$egou = new Sher_Core_Helper_Egou();
+		return $egou->index();
+	}
 }
 ?>

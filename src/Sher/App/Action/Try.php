@@ -94,19 +94,23 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
             $this->stash['HTTP_REFERER'] = $this->current_page_ref();
 	    }
 
-    // 当前用户是否申请过
-    $is_applied = false;
-    if($this->visitor->id){
-      $apply_model = new Sher_Core_Model_Apply();
-      $has_one_apply = $apply_model->first(array('target_id'=>$try['_id'], 'user_id'=>$this->visitor->id));
-      if(!empty($has_one_apply)){
-        $is_applied = true;
-        $has_one_apply = $apply_model->extended_model_row($has_one_apply);
-        $this->stash['apply'] = $has_one_apply;
-      }
-    }
-
-    $this->stash['is_applied'] = $is_applied;
+		// 当前用户是否申请过
+		$is_applied = false;
+		if($this->visitor->id){
+		  $apply_model = new Sher_Core_Model_Apply();
+		  $has_one_apply = $apply_model->first(array('target_id'=>$try['_id'], 'user_id'=>$this->visitor->id));
+		  if(!empty($has_one_apply)){
+			$is_applied = true;
+			$has_one_apply = $apply_model->extended_model_row($has_one_apply);
+			$this->stash['apply'] = $has_one_apply;
+		  }
+		}
+		
+		// 将易购用户申请试用状态保存至cookie
+		$this->stash['is_applied'] = $is_applied;
+		if($_COOKIE['egou_uid']){
+			@setcookie('is_try', $is_applied, 0);
+		}
 		
 		$this->stash['try'] = &$try;
 		

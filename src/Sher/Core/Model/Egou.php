@@ -9,7 +9,7 @@ class Sher_Core_Model_Egou extends Sher_Core_Model_Base {
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
 	# 所属分类
-	const TYPE = 1; // 代表话题
+	const TYPE = 1; // 易购用户
 	
     protected $schema = array(
 

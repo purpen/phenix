@@ -326,9 +326,9 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$data['category_id'] = (int)$this->stash['category_id'];
 		$data['cooperate_id'] = isset($this->stash['cooperate_id'])?(int)$this->stash['cooperate_id']:0;
         $data['cover_id'] = $this->stash['cover_id'];
-    $data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
-    //反定制定
-    $data['contest_id'] = isset($this->stash['contest_id']) ? (int)$this->stash['contest_id'] : 0;
+		$data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
+		//反定制定
+		$data['contest_id'] = isset($this->stash['contest_id']) ? (int)$this->stash['contest_id'] : 0;
 
         // 所属
         if(isset($this->stash['from_to'])){
@@ -413,6 +413,10 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 				$data['user_id'] = (int)$this->visitor->id;
 				
 				$ok = $model->apply_and_save($data);
+				// 将易购用户反向定制态保存至cookie
+				if($ok && $data['from_to']==4 && $_COOKIE['egou_uid']){
+					@setcookie('is_stuff', true, 0);
+				}
 				
 				$stuff = $model->get_data();
 				$id = (int)$stuff['_id'];
