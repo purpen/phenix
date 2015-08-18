@@ -72,6 +72,7 @@ class Sher_Admin_Action_Report extends Sher_Admin_Action_Base implements DoggyX_
         
         $data['title'] = $this->stash['title'];
         $data['kind']  = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
+        $data['stick']  = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
         $data['short_title'] = isset($this->stash['short_title']) ? $this->stash['short_title'] : null;
         $data['summary']  = $this->stash['summary'];
         $data['content']  = $this->stash['content'];
@@ -169,6 +170,33 @@ class Sher_Admin_Action_Report extends Sher_Admin_Action_Base implements DoggyX_
 		
 		return $this->to_taconite_page('admin/report/published_ok.html');
 	}
+
+  /**
+   * 推荐／取消
+   */
+  public function ajax_stick(){
+ 		$ids = $this->stash['id'];
+		$evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+		if(empty($ids)){
+			return $this->ajax_notification('缺少Id参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_Report();
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u',$ids)));
+		
+		foreach($ids as $id){
+      if($evt==1){
+ 			  $result = $model->mark_as_stick((int)$id);     
+      }else{
+        $result = $model->mark_cancel_stick((int)$id);
+      }
+		}
+
+    $this->stash['ids'] = $ids;
+		
+		return $this->to_taconite_page('admin/report/stick_ok.html');
+  
+  }
 
 }
 
