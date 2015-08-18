@@ -275,10 +275,7 @@
 	$('.ui.attend.btn').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-      // 显示登录框
-      $('.ui.sign-box.modal')
-      .modal('setting', 'transition', 'vertical  flip')
-      .modal('show');
+		  phenix.redirect("{{ app_url_wap }}/auth/login?redirect_url={{ active.wap_view_url }}");
 			return false;
 		}
     $('.ui.user-info-box.modal')
