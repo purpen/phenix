@@ -276,10 +276,14 @@
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
       // 显示登录框
-      $('.ui.sign-box.modal').modal('show');
+      $('.ui.sign-box.modal')
+      .modal('setting', 'transition', 'vertical  flip')
+      .modal('show');
 			return false;
 		}
-    $('.ui.user-info-box.modal').modal('show');
+    $('.ui.user-info-box.modal')
+    .modal('setting', 'transition', 'vertical  flip')
+    .modal('show');
     return false; 
 
 	});
@@ -390,7 +394,7 @@
 					<hr>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" style="overflow: hidden;">
               {% for p in active.process %}
                 <div class="rundown-timeline-container">
                   <div class="timeline-block">
