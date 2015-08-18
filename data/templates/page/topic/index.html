@@ -32,6 +32,26 @@
 </style>
 {% endblock %}
 
+{% block layout_js %}
+<script type="text/javascript" >
+    function ajax_load_more(page, status){
+        var url = '{{ app_url_topic }}/ajax_fetch_more';
+        if(page != 'no'){
+            $.get(url, { page:page }, function(rs){
+                var rendered = phenix.ajax_render_result('#fetch_more_topics_tpl', rs.data);
+                $('#topic_list_box').append(rendered);
+                $('#topic-more').data('status', 0);
+                $('#topic-more').data('page', page);
+                $('#topic-more').hide();
+            }, 'json');
+        }else{
+            $(this).text('没有更多了~');
+        }
+
+    }
+</script>
+{% endblock %}
+
 {% block jquery %} 
     $('#minslider').flexslider({
         animation: "fade",
@@ -45,20 +65,32 @@
 	// 加载更多动态
 	$('.ui.more.button').bind('click', function(){
 		var page = $(this).data('page');
-        if(page != 'no'){
-            $.get('{{ app_url_topic }}/ajax_fetch_more', { page:page }, function(rs){
-                var rendered = phenix.ajax_render_result('#fetch_more_topics_tpl', rs.data);
-                $('#topic_list_box').append(rendered);
-            }, 'json');
-        }else{
-            $(this).text('没有更多了~');
-        }
+    ajax_load_more(page);
+
 	});
     $('.mentors > .avatar a')
       .popup({
         hoverable: true,
         position : 'top center',
       });
+
+    // ajax加载更多(滚动条接近底部加载)
+    $(window).scroll(function(){
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        if(scrollTop + windowHeight > scrollHeight - 200){
+            var stat = $('#topic-more').data('status');
+            var page = parseInt($('#topic-more').data('page')) + 1;
+
+            // 防止频繁请求(在没加载完成时只允许请求一次)
+            if(stat == 0){
+                $('#topic-more').data('status', 1);
+                $('#topic-more').show();
+                ajax_load_more(page);
+            }
+        }
+    });
 {% endblock %}
 
 {% block content %}
@@ -125,11 +157,10 @@
 				</div>
     
                 {% if list.total_page > 1 %}
-                <div class="auto loading">
-                    <div class="ui grey more inverted button" data-page="{{ list.next_page }}">
-                        <i class="chevron circle down icon"></i> 查看下一页
+                    <div id="topic-more" data-page="{{ list.next_page }}" data-status="0" style="text-align:center;margin:10px auto;display:none;">
+                        加载中...
+                        <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
                     </div>
-                </div>
                 {% endif %}
 			</div>
 
