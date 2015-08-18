@@ -76,6 +76,24 @@
 		mobileCheck:function(){},
 		mobileDeceleration:0.004,
 	});	
+	
+	// 易购   
+      $('.ui.yigo.modal')
+      .modal('setting', 'closable', false)
+     .modal('setting', 'transition', 'vertical  flip')
+     .modal('show');
+     $('.fixed.button').css({"display":"none","position":"fixed"});
+     $('.ui.yigo.close').click(function(){
+       $('.ui.yigo.modal').modal('hide');
+       $('.fixed.button').css({"display":"block","position":"fixed"});
+     })
+     $('.ui.yig.btn').click(function(){
+       $('.ui.yigo.modal')
+       .modal('setting', 'closable', false)
+      .modal('setting', 'transition', 'vertical  flip')
+      .modal('show');
+      $('.fixed.button').css({"display":"none","position":"fixed"});
+     })
 {% endblock %}
 
 {% block content %}
