@@ -222,7 +222,7 @@
 			$('#asset-list .ajax-cover.active').removeClass('active');
 			$(this).addClass('active');
 			
-			$('#ad_cover_id').val(id);
+			$('#cover_id').val(id);
 			return false;
 		});
 	});
@@ -283,6 +283,12 @@
 					  	<i class="calendar icon"></i>
 					</div>
 				</div>
+				<div class="field">
+				  	<label>来源：</label>
+					<div class="ui icon input">
+					  	<input type="text" name="from_site" value="{{ report.from_site }}" />
+					</div>
+				</div>
 
 			</div>
             
@@ -293,7 +299,7 @@
 			
 			<div class="upload field">
 				<p>上传图片:</p>
-				<input type="hidden" name="cover_id" id="ad_cover_id" value="{{ report.cover_id }}" />
+				<input type="hidden" name="cover_id" id="cover_id" value="{{ report.cover_id }}" />
 				<div id="phenix-uploader"></div>
 				<div id="asset-list" class="ui four blocks">
 					{% if mode == 'edit' %}

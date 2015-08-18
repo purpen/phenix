@@ -116,9 +116,9 @@
 	    {% endblock %}
 		{% block layout_footer %}
 		{% endblock %}
-    <!--
+		
 		{% include "block/yigou.html" %}
-    -->
+		
         
         <!-- mustache templates begin -->
         {% mustache id:'user_notice_tpl' tpl:'mustache/user_notice.mustache' %}
@@ -210,7 +210,8 @@
             $('.ui.yigo.modal')
             .modal('setting', 'closable', false)
            .modal('setting', 'transition', 'vertical  flip')
-           .modal('show');
+           .modal('hide');
+           $('.fixed.button').css({"display":"block","position":"fixed"});
            $('.ui.yigo.close').click(function(){
              $('.ui.yigo.modal').modal('hide');
              $('.fixed.button').css({"display":"block","position":"fixed"});

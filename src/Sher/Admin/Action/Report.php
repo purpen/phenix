@@ -72,10 +72,11 @@ class Sher_Admin_Action_Report extends Sher_Admin_Action_Base implements DoggyX_
         
         $data['title'] = $this->stash['title'];
         $data['kind']  = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
-        $data['short_title'] = $this->stash['short_title'];
+        $data['short_title'] = isset($this->stash['short_title']) ? $this->stash['short_title'] : null;
         $data['summary']  = $this->stash['summary'];
         $data['content']  = $this->stash['content'];
         $data['publish_date']  = $this->stash['publish_date'];
+        $data['from_site']  = isset($this->stash['from_site']) ? $this->stash['from_site'] : null;
         $data['tags']  = isset($this->stash['tags']) ? $this->stash['tags'] : null;
         
         $data['cover_id'] = $this->stash['cover_id'];
