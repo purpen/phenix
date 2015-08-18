@@ -57,7 +57,19 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
      * @return string
      */
     public function home() {
-        $this->set_target_css_state('page_home');
+		
+		// 易购网入口部分
+		$egou = 0;
+		if($this->stash['uid'] && $this->stash['hid']){
+			
+			$eid = $this->stash['uid'];
+			$hid = $this->stash['hid'];
+			
+			$egou = 1;
+			$this->stash['hid'] = $egou;
+		}
+        
+		$this->set_target_css_state('page_home');
 
         // 商品推荐列表---取块内容
         $product_ids = Sher_Core_Util_View::load_block('index_product_stick', 1);
@@ -75,8 +87,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
         $this->stash['products'] = $products;
         // 商品图片alt显示标签第一个
         $this->stash['product_alt_tag'] = 1;
-
-        
+		
         return $this->to_html_page('page/home.html');
     }
 	
