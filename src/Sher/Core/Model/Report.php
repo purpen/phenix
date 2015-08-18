@@ -29,6 +29,9 @@ class Sher_Core_Model_Report extends Sher_Core_Model_Base  {
         'publish_date'  => 0,
         
         'kind' => self::KIND_MEDIA,
+
+        #来源
+        'from_site' => null,
         
         'cover_id'    => '',
 
@@ -46,7 +49,7 @@ class Sher_Core_Model_Report extends Sher_Core_Model_Base  {
         'cover'  => array('cover_id' => 'Sher_Core_Model_Asset'),
     );
 	
-    protected $required_fields = array('user_id', 'title', 'short_title');
+    protected $required_fields = array('user_id', 'title');
     protected $int_fields = array('user_id','view_count', 'state', 'kind');
 	  protected $counter_fields = array('view_count');
 	
