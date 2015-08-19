@@ -84,6 +84,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			//setcookie('egou_hid', '', time() - 3600);
 		}
 		$this->stash['egou_show'] = $egou;
+		$this->stash['egou_scroll'] = '#.egou';
         
 		$this->set_target_css_state('page_home');
 
