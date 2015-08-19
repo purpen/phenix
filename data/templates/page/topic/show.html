@@ -52,7 +52,6 @@
 	.ui.progress .bar{
 	  background:#f36;
 	}
-    
 </style>
 {% endblock %}
 
@@ -718,9 +717,6 @@
         			<div class="ui magenta pop favorite inverted button" data-title="关注一下" data-content="有关该话题动态及时通知你，后续可以在‘我关注的’中快捷查找" data-id="{{ topic._id }}" data-mark="n">
         				<i class="plus icon"></i> 关注
         			</div>
-    				<div class="ui magenta pop share icon inverted button" data-content="分享给好友">
-    					<i class="share alternate icon"></i>
-    				</div>
                 </div>
                 <div class="user avatars">
               	  	<div class="ui images" id="target_{{ topic._id }}_support">
@@ -736,6 +732,21 @@
                     <p>
                         已有 <span id="target-love-count">{{ topic.love_count }}</span> 个人点赞, <span id="target-favorite-count">{{ topic.favorite_count }}</span> 人关注
                     </p>                    
+                </div>
+                <div class="user share">
+                	<span><i class="share alternate icon"></i>分享：</span>
+                	<a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+                		<i class="weibo icon large circular red inverted"></i>
+                	</a>
+                	<a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+                		<i class="weixin icon large circular green inverted"></i>
+                	</a>
+                	<a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+                		<i class="tencent weibo icon large circular blue inverted"></i>
+                	</a>
+                	<a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+                		<i class="icon renren large circular blue inverted"></i>
+                	</a>
                 </div>
             </div>
         </div>

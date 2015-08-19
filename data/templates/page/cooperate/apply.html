@@ -1,5 +1,12 @@
 {%extends 'layout/column.html'%}
 {% block title %}{% endblock %}
+{% block layout_css %}
+	{% if css_use_bundle %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
+	{% else %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
+	{% endif %}
+{% endblock %}
 
 {% block page_css %}
 <style class="text/css">
@@ -33,8 +40,8 @@
     	position:relative;
     	display:inline-block;
     }
-    .qq-upload-button {
-    	height: 60px;
+    .ui.big.segment {
+        padding: 1.5rem 30px 3rem;
     }
 </style>
 {% endblock %}
@@ -157,7 +164,7 @@
         	endpoint: '{{ app_url_upload_avatar }}'
       	},
 		text: {
-            uploadButton: '<a class="ui active magenta labeled icon upload button" href="javascript:void(0);"><i class="search icon"></i>选择图片</a>'
+            uploadButton: '<a class="ui active orange labeled icon upload button" href="javascript:void(0);"><i class="search icon"></i>选择图片</a>'
 		},
 		template: '<div class="qq-uploader">' +
 					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
@@ -227,7 +234,7 @@
         	endpoint: '{{ app_url_upload_cooperate }}'
       	},
 		text: {
-            uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+            uploadButton: '<a class="ui active orange labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
 		},
 		template: '<div class="qq-uploader">' +
 					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
@@ -292,13 +299,225 @@
 {% endblock %}
 
 {% block content %}
+<div class="cooperate form">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				
+				<h2 class="ui header">
+					合作申请
+				</h2>
+				<div class="ui big segment">
+    				<form action="{{ app_url_action_base }}/cooperate/save" class="ui form" method="post" id="cooperate-form">
+    					<input type="hidden" name="_id" value="{{ cooperate._id }}" id="cooperate_id" />
+    					<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
+    					<input type="hidden" name="file_count" id="file_count" />
+                    
+                        {% category_list var:'category' page:1 only_open:1 domain:6 pid:0 istop:1 %}
+    					<div class="ui field">
+    						<label>所属类型</label>
+    					   	<div class="ui options">
+    							{% if mode == 'edit' %}
+    					    		<input type="hidden" name="type" value="{{ cooperate.type }}" id="cooperate-type" />
+    							{% else %}
+    								<input type="hidden" name="type" id="cooperate-type" />
+    							{% endif %}
+							
+                                {% for m in category.rows %}
+    					   	 	<div class="ui magenta alt {% if m._id == cooperate.type %}active{%endif%} option" data-value="{{ m._id }}">
+    					   	 		<div class="icon">
+    					   				<i class="check circle outline icon"></i>
+    					   			</div>
+    					   	 		{{ m.title }}
+    					   	 	</div>
+                                {% endfor %}
+    					   	 </div>
+    					</div>
+                    
+    					<div class="field">
+    						<label for="category_ids">擅长专业/领域</label>
+                            <div id="categories-box">
+                                {% if mode == 'edit' %}
+                                    {% category_list var:'children' page:1 only_open:1 domain:6 pid:cooperate.type current:cooperate.category_ids %}
+                                    {% for cat in children.rows %}
+                                    <div class="ui checkbox">
+                                        <input name="category_ids[]" type="checkbox" value="{{ cat._id }}" {% if cat.active %}checked="checked"{% endif %} />
+                                        <label for="category_ids[]">{{ cat.title }}</label>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                至少选择一个领域
+                                {% endif %}
+                            </div>
+    					</div>
+				
+    					<div class="field">
+    						<label for="name">公司/机构简称</label>
+    					  	<input type="text" name="name" value="{{ cooperate.name }}" placeholder="如：太火鸟" />
+    					</div>
+    					<div class="field">
+    						<label for="fullname">公司/机构全称</label>
+    					  	<input type="text" name="fullname" value="{{ cooperate.fullname }}" placeholder="如：北京太火鸟科技有限公司" />
+    					</div>
+    					<div class="field">
+    						<label>业务特点</label>
+    					  	<input type="text" name="keywords" value="{{ cooperate.keywords_s }}" placeholder="如：UI设计，硬件开发，WiFi模组，云服务" />
+    						<div class="description">特点之间使用，逗号隔开</div>
+    					</div>
+					
+                        <div class="three fields">
+        					<div class="field">
+        						<label>网址主页</label>
+        					  	<input type="text" name="site_url" value="{{ cooperate.site_url }}" placeholder="http://" />
+        					</div>
+        					<div class="field">
+        						<label>微博链接</label>
+        					  	<input type="text" name="weibo_url" value="{{ cooperate.weibo_url }}" placeholder="http://" />
+        					</div>
+    						<div class="field">
+    							<label for="wechat">微信号</label>
+    					  		<input type="text" name="wechat" value="{{ cooperate.wechat }}" />
+    						</div>
+                        </div>
+					
+    					<div class="three fields">
+    						<div class="field">
+    							<label for="city">所在城市</label>
+    					  		<input type="text" name="city" value="{{ cooperate.city }}" placeholder="北京" />
+    						</div>
+    						<div class="field">
+    							<label for="phone">固定电话</label>
+    					  		<input type="text" name="phone" value="{{ cooperate.phone }}" />
+    						</div>
+    						<div class="field">
+    							<label for="email">Email</label>
+    					  		<input type="text" name="email" value="{{ cooperate.email }}" />
+    						</div>
+    					</div>
+					
+    					<div class="field">
+    						<label for="address">详细地址</label>
+    				  		<input type="text" name="address" value="{{ cooperate.address }}" />
+    					</div>
+                    
+    					<div class="upload field">
+    						<label>Logo <small class="description">(设置一个宽度大于400px、小于3M的JPG)</small></label>
+    						<input type="hidden" name="logo_id" id="cooperate_logo_id" value="{{ cooperate.logo_id }}" />
+                            <input type="hidden" name="qkey" id="cooperate_logo_qkey" value="{{ cooperate.logo.big }}" />
+                        
+                            <div id="avatar-uploader"></div>
+                        
+                            <div class="ui grid">
+                                <div class="three wide center aligned column">
+                                    {% if mode == 'create' %}
+                                    <img src="{{ app_url_packaged }}/images/avatar_default_medium.jpg" class="ui big avatar image" />
+                                    {% else %}
+                                    <img src="{{ cooperate.medium_avatar_url }}" class="ui big avatar image" />
+                                    {% endif %}
+                                </div>
+                                <div class="thirteen wide column">
+            						<div id="avatar-preview" class="ui hide">
+            							<div id="select-area"></div>
+            						</div>
+				
+            						<div class="ui hide" id="avatar-crop-buttons">
+            							<input type="hidden" name="x1" id="x1" />
+            							<input type="hidden" name="x2" id="x2" />
+            							<input type="hidden" name="y1" id="y1" />
+            							<input type="hidden" name="y2" id="y2" />
+            							<input type="hidden" name="w" id="w" />
+            							<input type="hidden" name="h" id="h" />
+            						</div>
+				
+            						<div class="ui active magenta crop button hide">
+            							确认提交
+            						</div>
+                                </div>
+                            </div>
+                        </div>
+					
+    					<div class="upload field">
+    						<label>头图背景 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个背景图)</small></label>
+                            <input type="hidden" name="banner_id" id="cooperate_banner_id" value="{{ cooperate.banner_id }}" />
+    						<div id="phenix-uploader"></div>
+					    
+    						<div id="asset-list" class="ui six blocks">
+    							{% if mode == 'edit' %}
+    								{% asset_list var:'assets' parent_id:cooperate._id sort:'positive' asset_type:80 %}
+    								{% for asset in assets.rows %}
+    								<div class="thumb block" id="{{ asset._id }}">
+    									<div class="image">
+    										<img src="{{ asset.thumbnails.mini.view_url }}" />
+    										<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+    									</div>
+    									<div class="buttons">
+    										<div class="ui large links">
+    											<a href="{{ app_url_stuff }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+    												<i class="remove icon"></i>
+    											</a>
+    											<a href="javascript:void(0);" class="ui link {%if cooperate.banner_id == asset._id %}active{% endif %} ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+    												<i class="checkered flag icon"></i>
+    											</a>
+    										</div>
+    									</div>
+    								</div>
+    								{% endfor %}
+    							{% endif %}
+    						</div>
+    					</div>
+					
+    					<div class="field">
+    						<label for="summary">公司/机构简介</label>
+    					  	<textarea name="summary" placeholder="此处输入简介..." id="editor">{{ cooperate.summary }}</textarea>
+    					</div>
+					
+    					<div class="two fields">
+    						<div class="field">
+    							<label for="people">联系人</label>
+    					  		<input type="text" name="people" value="{{ cooperate.people }}" />
+    						</div>
+    						<div class="field">
+    							<label for="mobile">联系电话</label>
+    					  		<input type="text" name="mobile" value="{{ cooperate.mobile }}" />
+    						</div>
+    					</div>
+                    
+                        {% if visitor.is_admin %}
+            			<h4 class="ui dividing header">标记</h4>
+            			<div class="inline field">
+            				<div class="ui checkbox">
+            		          	<input type="checkbox" name="mark_labs" {% if cooperate.marks.labs %}checked="checked"{% endif %} />
+            		          	<label>孵化实验室</label>
+            		        </div>
+            			</div>
+                        {% endif %}
+					
+                    
+    					<div class="ui grid">
+    						<div class="right aligned column">
+    							<div class="ui grey cancel large inverted button">取消</div>
+    							<div class="ui magenta large submit inverted button">确认提交</div>
+    						</div>
+    					</div>
+				
+    				</form>
+                </div>
+			</div>
+		</div>
+	</div><!--end responsive grid-->
+</div>
+
 <div class="section breadcrumb">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
 				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_social }}">
-						<i class="basic icon community"></i> 发现
+				  	<a class="ui section link" href="{{ app_url_domain }}">
+						<i class="home icon"></i> 首页
+					</a>
+					<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_incubator }}">
+						孵化
 					</a>
 					<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_cooperate }}">
@@ -312,210 +531,4 @@
 	</div>
 </div>
 
-<div class="cooperate form">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				
-				<h2 class="ui header">
-					合作申请
-				</h2>
-				
-				<form action="{{ app_url_action_base }}/cooperate/save" class="ui form segment" method="post" id="cooperate-form">
-					<input type="hidden" name="_id" value="{{ cooperate._id }}" id="cooperate_id" />
-					<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
-					<input type="hidden" name="file_count" id="file_count" />
-                    
-                    {% category_list var:'category' page:1 only_open:1 domain:6 pid:0 istop:1 %}
-					<div class="ui field">
-						<label>所属类型</label>
-					   	<div class="ui options">
-							{% if mode == 'edit' %}
-					    		<input type="hidden" name="type" value="{{ cooperate.type }}" id="cooperate-type" />
-							{% else %}
-								<input type="hidden" name="type" id="cooperate-type" />
-							{% endif %}
-							
-                            {% for m in category.rows %}
-					   	 	<div class="ui magenta alt {% if m._id == cooperate.type %}active{%endif%} option" data-value="{{ m._id }}">
-					   	 		<div class="icon">
-					   				<i class="check circle outline icon"></i>
-					   			</div>
-					   	 		{{ m.title }}
-					   	 	</div>
-                            {% endfor %}
-					   	 </div>
-					</div>
-                    
-					<div class="field">
-						<label for="category_ids">擅长专业/领域</label>
-                        <div id="categories-box">
-                            {% if mode == 'edit' %}
-                                {% category_list var:'children' page:1 only_open:1 domain:6 pid:cooperate.type current:cooperate.category_ids %}
-                                {% for cat in children.rows %}
-                                <div class="ui checkbox">
-                                    <input name="category_ids[]" type="checkbox" value="{{ cat._id }}" {% if cat.active %}checked="checked"{% endif %} />
-                                    <label for="category_ids[]">{{ cat.title }}</label>
-                                </div>
-                                {% endfor %}
-                            {% else %}
-                            至少选择一个领域
-                            {% endif %}
-                        </div>
-					</div>
-				
-					<div class="field">
-						<label for="name">公司/机构简称</label>
-					  	<input type="text" name="name" value="{{ cooperate.name }}" placeholder="如：太火鸟" />
-					</div>
-					<div class="field">
-						<label for="fullname">公司/机构全称</label>
-					  	<input type="text" name="fullname" value="{{ cooperate.fullname }}" placeholder="如：北京太火鸟科技有限公司" />
-					</div>
-					<div class="field">
-						<label>业务特点</label>
-					  	<input type="text" name="keywords" value="{{ cooperate.keywords_s }}" placeholder="如：UI设计，硬件开发，WiFi模组，云服务" />
-						<div class="description">特点之间使用，逗号隔开</div>
-					</div>
-					
-                    <div class="three fields">
-    					<div class="field">
-    						<label>网址主页</label>
-    					  	<input type="text" name="site_url" value="{{ cooperate.site_url }}" placeholder="http://" />
-    					</div>
-    					<div class="field">
-    						<label>微博链接</label>
-    					  	<input type="text" name="weibo_url" value="{{ cooperate.weibo_url }}" placeholder="http://" />
-    					</div>
-						<div class="field">
-							<label for="wechat">微信号</label>
-					  		<input type="text" name="wechat" value="{{ cooperate.wechat }}" />
-						</div>
-                    </div>
-					
-					<div class="three fields">
-						<div class="field">
-							<label for="city">所在城市</label>
-					  		<input type="text" name="city" value="{{ cooperate.city }}" placeholder="北京" />
-						</div>
-						<div class="field">
-							<label for="phone">固定电话</label>
-					  		<input type="text" name="phone" value="{{ cooperate.phone }}" />
-						</div>
-						<div class="field">
-							<label for="email">Email</label>
-					  		<input type="text" name="email" value="{{ cooperate.email }}" />
-						</div>
-					</div>
-					
-					<div class="field">
-						<label for="address">详细地址</label>
-				  		<input type="text" name="address" value="{{ cooperate.address }}" />
-					</div>
-                    
-					<div class="field">
-						<label>Logo <small class="description">(设置一个宽度大于400px、小于3M的JPG)</small></label>
-						<input type="hidden" name="logo_id" id="cooperate_logo_id" value="{{ cooperate.logo_id }}" />
-                        <input type="hidden" name="qkey" id="cooperate_logo_qkey" value="{{ cooperate.logo.big }}" />
-                        
-                        <div id="avatar-uploader"></div>
-                        
-                        <div class="ui grid">
-                            <div class="three wide center aligned column">
-                                {% if mode == 'create' %}
-                                <img src="{{ app_url_packaged }}/images/avatar_default_medium.jpg" class="ui big avatar image" />
-                                {% else %}
-                                <img src="{{ cooperate.medium_avatar_url }}" class="ui big avatar image" />
-                                {% endif %}
-                            </div>
-                            <div class="thirteen wide column">
-        						<div id="avatar-preview" class="ui hide">
-        							<div id="select-area"></div>
-        						</div>
-				
-        						<div class="ui hide" id="avatar-crop-buttons">
-        							<input type="hidden" name="x1" id="x1" />
-        							<input type="hidden" name="x2" id="x2" />
-        							<input type="hidden" name="y1" id="y1" />
-        							<input type="hidden" name="y2" id="y2" />
-        							<input type="hidden" name="w" id="w" />
-        							<input type="hidden" name="h" id="h" />
-        						</div>
-				
-        						<div class="ui active magenta crop button hide">
-        							确认提交
-        						</div>
-                            </div>
-                        </div>
-                    </div>
-					
-					<div class="field">
-						<label>头图背景 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个背景图)</small></label>
-                        <input type="hidden" name="banner_id" id="cooperate_banner_id" value="{{ cooperate.banner_id }}" />
-						<div id="phenix-uploader"></div>
-					    
-						<div id="asset-list" class="ui six blocks">
-							{% if mode == 'edit' %}
-								{% asset_list var:'assets' parent_id:cooperate._id sort:'positive' asset_type:80 %}
-								{% for asset in assets.rows %}
-								<div class="thumb block" id="{{ asset._id }}">
-									<div class="image">
-										<img src="{{ asset.thumbnails.mini.view_url }}" />
-										<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
-									</div>
-									<div class="buttons">
-										<div class="ui large links">
-											<a href="{{ app_url_stuff }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
-												<i class="remove icon"></i>
-											</a>
-											<a href="javascript:void(0);" class="ui link {%if cooperate.banner_id == asset._id %}active{% endif %} ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
-												<i class="checkered flag icon"></i>
-											</a>
-										</div>
-									</div>
-								</div>
-								{% endfor %}
-							{% endif %}
-						</div>
-					</div>
-					
-					<div class="field">
-						<label for="summary">公司/机构简介</label>
-					  	<textarea name="summary" placeholder="此处输入简介..." id="editor">{{ cooperate.summary }}</textarea>
-					</div>
-					
-					<div class="two fields">
-						<div class="field">
-							<label for="people">联系人</label>
-					  		<input type="text" name="people" value="{{ cooperate.people }}" />
-						</div>
-						<div class="field">
-							<label for="mobile">联系电话</label>
-					  		<input type="text" name="mobile" value="{{ cooperate.mobile }}" />
-						</div>
-					</div>
-                    
-                    {% if visitor.is_admin %}
-        			<h4 class="ui dividing header">标记</h4>
-        			<div class="inline field">
-        				<div class="ui checkbox">
-        		          	<input type="checkbox" name="mark_labs" {% if cooperate.marks.labs %}checked="checked"{% endif %} />
-        		          	<label>孵化实验室</label>
-        		        </div>
-        			</div>
-                    {% endif %}
-					
-					<div class="ui right floated aligned grid">
-						<div class="column">
-							<div class="ui gray cancel large inverted button">取消</div>
-							<div class="ui magenta large submit inverted button">确认提交</div>
-						</div>
-					</div>
-				
-				</form>
-				
-			</div>
-		</div>
-	</div><!--end responsive grid-->
-</div>
 {% endblock %}

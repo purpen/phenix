@@ -14,6 +14,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		'n'=>1, // 数量
 		's' => 1, // 型号
 		'payaway' => '', // 支付机构
+    'sort' => 0,
+    'type' => 0,
+    'category_id' => 0,
 		'page_title_suffix' => '太火鸟智品库-智能硬件产品购买、评测、资讯信息库',
 		'page_keywords_suffix' => '太火鸟,太火鸟智品库,智能硬件,产品评测,产品资讯',
 		'page_description_suffix' => '太火鸟智品库有海量智能硬件评测和资讯信息，并提供智能出行设备、智能手表、智能手环、智能家居、运动健康、智能情趣、智能母婴等上百种智能硬件产品的在线销售',
@@ -25,7 +28,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','shop','presale','view','cart','check_snatch_expire','ajax_guess_product','n_view');
+	protected $exclude_method_list = array('execute','shop','presale','view','cart','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list');
 	
 	/**
 	 * 商城入口
@@ -1325,6 +1328,92 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		return $this->to_taconite_page('ajax/guess_products_wap.html');
 	}
+
+  /**
+   * ajax加载商品列表
+   */
+  public function ajax_load_list(){        
+        $category_id = $this->stash['category_id'];
+        $presaled = isset($this->stash['presaled'])?$this->stash['presaled']:0;
+        $type = $this->stash['type'];
+        
+        $page = $this->stash['page'];
+        $size = $this->stash['size'];
+        $sort = $this->stash['sort'];
+        
+        $service = Sher_Core_Service_Product::instance();
+        $query = array();
+        $options = array();
+        
+		if ($category_id) {
+			$query['category_id'] = (int)$category_id;
+		}
+        // is_shop=1
+        $query['stage'] = array('$in'=>array(5, 9, 12));
+        
+		// 预售
+		if ($presaled) {
+		  $query['stage'] = 5;
+		}
+        // 仅发布
+        $query['published'] = 1;
+        
+        if($type){
+            switch((int)$type){
+                case 1:
+                    $query['stage'] = 15;
+                    break;
+                case 2:
+                    $query['stage'] = array('$in'=>array(5,9));
+                    break;
+                case 3:
+                    $query['stage'] = 12;
+                    break;
+                case 4:
+                    $query['stick'] = 1;
+                    break;
+                case 5:
+                    $query['featured'] = 1;
+                    break;
+                case 6:
+                    $query['snatched'] = 1;
+                    break;
+                case 7:
+                    $query['stage'] = 5;
+                    break;
+            }
+        }
+		// 排序
+		switch ((int)$sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'vote';
+				break;
+			case 2:
+				$options['sort_field'] = 'love';
+				break;
+			case 3:
+				$options['sort_field'] = 'comment';
+				break;
+			case 4:
+				$options['sort_field'] = 'stick:update';
+				break;
+			case 5:
+				$options['sort_field'] = 'featured:update';
+				break;
+		}
+        
+        $options['page'] = $page;
+        $options['size'] = $size;
+        
+        $result = $service->get_product_list($query, $options);
+        
+        $this->stash['results'] = $result;
+        
+        return $this->ajax_json('', false, '', $this->stash);
+  }
 	
 }
 

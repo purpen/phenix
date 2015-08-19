@@ -264,8 +264,8 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 * 订阅自动回复
 	 */
 	protected function welcome(){
-		$welcome = '太火鸟 Taihuoniao.com 是中国顶尖的创新产品众包设计平台。更多新鲜，更妙创意，敬请期待！了解更多请回复“太火鸟”。';
-		
+		//$welcome = '太火鸟 Taihuoniao.com 是中国顶尖的创新产品众包设计平台。更多新鲜，更妙创意，敬请期待！了解更多请回复“太火鸟”。';
+		$welcome = "恭喜你加入科技圈。这里有物美价廉的时尚智能硬件，这里有新款智能产品的试用活动，这里更有科技圈的逗比段子和趣味小文助兴。\n如果想跟我们一起嗨，欢迎登陆太火鸟智能硬件社区，与时尚发烧友讨论科技生活。\n太火鸟智能硬件社区\n http://www.taihuoniao.com/topic";
 		return $welcome;
 	}
 	

@@ -30,6 +30,10 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 	 */
 	public function media() {
 		$this->set_target_css_state('page_media');
+
+		$pager_url = sprintf("%s/guide/media?page=#p#", Doggy_Config::$vars['app.url.domain']);
+		$this->stash['pager_url'] = $pager_url;
+
 		return $this->to_html_page('page/guide/media.html');
 	}
 	

@@ -99,6 +99,14 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		array(
 			'id' => 50,
 			'name' => '官方认证'
+    ),
+		array(
+			'id' => 51,
+			'name' => '品牌认证'
+		),
+		array(
+			'id' => 52,
+			'name' => '设计师认证'
 		),
 		array(
 			'id' => 40,
