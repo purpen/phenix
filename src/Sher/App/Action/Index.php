@@ -246,8 +246,8 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		
 		// 易购签到地址
 		$url = "http://www.egou.com/club/qiandao/qiandao.htm?hid={$egou_hid}&k={$k}";
-		echo $url;
-		//return $this->to_redirect($url);
+		
+		return $this->to_redirect($url);
 	}
 }
 ?>
