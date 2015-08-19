@@ -140,6 +140,13 @@
     display:none;
     opacity: 0;
   }
+  .ui.allist .ui.items .item .like{
+    width: 80px;
+    display: inline-block;
+    float: right;
+    text-align: right;
+    line-height: 28px;
+  }
 </style>
 {% endblock %}
 {% block jquery %}
@@ -346,16 +353,17 @@
           {%endfor%}
 
 				</div>
-				  {% if list.total_page %}
-					<div class="ui pagination">
-						{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-						{% include 'block/pager.html' %}
-					</div>
-					{% endif %}
+				  
 			</div>
 		</div>
 		
 	</section>
+	{% if list.total_page %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{% include 'block/pager.html' %}
+	</div>
+	{% endif %}
 	
 </div>
 {% endblock %}
