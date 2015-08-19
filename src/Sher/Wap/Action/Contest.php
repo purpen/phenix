@@ -271,7 +271,7 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
         
     $this->stash['contest'] = $contest;
 
-    $render = sprintf("wap/match/%s.html", $contest['short_name']);
+    $render = sprintf("wap/contest/%s.html", $contest['short_name']);
         
     return $this->to_html_page($render);
   }
