@@ -868,6 +868,18 @@
 	.ui.allist .ui.items .item .like {
 		font-size: 0.875em;
 	}
+	.judges .item.card .image{
+	  width: 75% !important;
+    background: rgba(0,0,0,0);
+	}
+	.judges .item.card {
+	  margin: 40px 10px;
+	  min-height:0 !important;
+	}
+	.judges .item.card .content h4.ui.header{
+	  color: #fff !important;
+	  margin: 0.5em 0 0;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -1238,8 +1250,8 @@
 			<div class="row">
 				<div class="ui ptop center aligned column">
 					
-					<div class="ui five items">
-						<div class="item">
+					<div class="ui five items cards">
+						<div class="item card">
 							<div class="image" data-2580="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2581="-webkit-transform: scale(1); transform: scale(1);">
 								<img alt="陈文龙" src="{{ app_url_packaged }}/images/match/judges_7.png">
 							</div>
@@ -1248,7 +1260,7 @@
 								<h5>台湾创意中心执行长</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-2580="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2581="-webkit-transform: scale(1); transform: scale(1);">
 								<img alt="封昌红" src="{{ app_url_packaged }}/images/match/judges_8.png">
 							</div>
@@ -1257,7 +1269,7 @@
 								<h5>深圳工业设计行业协会秘书长</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-2580="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2581="-webkit-transform: scale(1); transform: scale(1);">
 								<img alt="高胜涛" src="{{ app_url_packaged }}/images/match/judges_4.png">
 							</div>
@@ -1266,7 +1278,7 @@
 								<h5>赛富科技董事长</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-2580="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2581="-webkit-transform: scale(1); transform: scale(1);">
 								<img alt="贾伟" src="{{ app_url_packaged }}/images/match/judges_6.png">
 							</div>
@@ -1275,7 +1287,7 @@
 								<h5>洛可可设计集团创始人</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-2580="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2581="-webkit-transform: scale(1); transform: scale(1)">
 								<img alt="罗成" src="{{ app_url_packaged }}/images/match/judges_10.png">
 							</div>
@@ -1286,8 +1298,8 @@
 						</div>
 					</div>
 				
-					<div class="ui five items">
-						<div class="item">
+					<div class="ui five items cards">
+						<div class="item card">
 							<div class="image" data-2860="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2861="-webkit-transform: scale(1); transform: scale(1)">
 								<img alt="卢刚" src="{{ app_url_packaged }}/images/match/judges_12.png">
 							</div>
@@ -1296,7 +1308,7 @@
 								<h5>动点科技CEO</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-2860="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2861="-webkit-transform: scale(1); transform: scale(1)">
 								<img alt="黎万强" src="{{ app_url_packaged }}/images/match/judges_3.png">
 							</div>
@@ -1305,7 +1317,7 @@
 								<h5>小米科技联合创始人</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-2860="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2861="-webkit-transform: scale(1); transform: scale(1)">
 								<img alt="麻长炜"src="{{ app_url_packaged }}/images/match/judges_9.png">
 							</div>
@@ -1314,7 +1326,7 @@
 								<h5>DFF设计师创始人基金发起人</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-2860="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2861="-webkit-transform: scale(1); transform: scale(1)">
 								<img alt="童玮亮"src="{{ app_url_packaged }}/images/match/judges_5.png">
 							</div>
@@ -1323,7 +1335,7 @@
 								<h5>梧桐树资本创始合伙人</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-2860="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2861="-webkit-transform: scale(1); transform: scale(1)">
 								<img alt="徐小平" src="{{ app_url_packaged }}/images/match/judges_2.png">
 							</div>
@@ -1334,9 +1346,9 @@
 						</div>
 					</div>
 					
-					<div class="ui five items">
-						<div class="item"></div>
-						<div class="item">
+					<div class="ui five items cards">
+						<div class="item card"></div>
+						<div class="item card">
 							<div class="image" data-3160="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3161="-webkit-transform: scale(1); transform: scale(1)">
 								<img alt="谢勇" src="{{ app_url_packaged }}/images/match/judges_13.png">
 							</div>
@@ -1345,7 +1357,7 @@
 								<h5>中关村工业设计产业协会秘书长</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-3160="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3161="-webkit-transform: scale(1); transform: scale(1)">
 								<img alt="杨明洁" src="{{ app_url_packaged }}/images/match/judges_11.png">
 							</div>
@@ -1354,7 +1366,7 @@
 								<h5>杨明洁设计创始人</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-3160="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3161="-webkit-transform: scale(1); transform: scale(1)">
 								<img alt="雷海波"src="{{ app_url_packaged }}/images/match/judges_1.png">
 							</div>
