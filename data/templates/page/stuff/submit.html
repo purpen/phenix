@@ -133,7 +133,7 @@
         	endpoint: '{{ app_url_upload }}/stuff'
       	},
 		text: {
-            uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+            uploadButton: '<a class="ui active orange labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
 		},
 		template: '<div class="qq-uploader">' +
 					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
@@ -224,29 +224,10 @@
 <div class="ui stuffs social">
 	<div class="ui responsive grid">
 		<div class="row">
-			<div class="ui column">
-				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_social }}">
-						<i class="basic icon community"></i> 发现
-					</a>
-                    {% if rid %}
-				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_cooperate }}">孵化资源</a>
-                    {% endif %}
-				  	<i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ parent_category.view_url }}">{{ parent_category.title }}</a>
-				  	<i class="angle right icon divider"></i>
-				  	<div class="active section">{{ label_title }}提交</div>
-				</div>
-			</div>
-		</div>
-		
-		<div class="nopad row">
 			<div class="column">
 				<div class="new topic">
 					<h2 class="ui header">
 						{{ label_title }}提交
-						<a class="icon-link ui pop" href="{{ app_url_helper }}/topic" data-content="查看帮助" data-variation="inverted" target="_blank"><i class="help icon"></i></a>
 					</h2>
 				</div>
 				
@@ -293,14 +274,15 @@
 							<label for="title">{{ label_title }}名称</label>
 						  	<input type="text" name="title" value="{{ stuff.title }}" />
 						</div>
-            {% if visitor.can_admin %}
-            <div class="four fields">
-              <div class="field">
-                <label for="title">{{ label_title }}短标题</label>
-                  <input type="text" name="short_title" value="{{ stuff.short_title }}" />
-              </div>
-            </div>
-            {%endif%}
+                        
+                        {% if visitor.can_admin %}
+                        <div class="four fields">
+                            <div class="field">
+                                <label for="title">{{ label_title }}短名称</label>
+                                <input type="text" name="short_title" value="{{ stuff.short_title }}" />
+                            </div>
+                        </div>
+                        {%endif%}
                         
 						<div class="field">
 							<label>{{ label_title }}标签</label>
@@ -350,7 +332,7 @@
                             {%endif%}
                         {%endif%}
 						
-						<div class="field">
+						<div class="upload field">
 							<label>{{ label_title }}图片 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个封面图)</small></label>
 							<input type="hidden" name="cover_id" id="stuff_cover_id" value="{{ stuff.cover_id }}" />
 							<div id="phenix-uploader"></div>
@@ -439,9 +421,9 @@
                             {% endif %}
                         {% endif %}
 						
-						<div class="ui right floated aligned grid">
-							<div class="column">
-								<div class="ui gray cancel large inverted button">取消</div>
+						<div class="ui grid">
+							<div class="right aligned column">
+								<div class="ui grey cancel large inverted button">取消</div>
 								<div class="ui magenta large submit inverted button">确认提交</div>
 							</div>
 						</div>
@@ -452,5 +434,29 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domain }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_incubator }}">
+						孵化
+					</a>
+                    {% if rid %}
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_cooperate }}">孵化资源</a>
+                    {% endif %}
+				  	<i class="angle right icon divider"></i>
+				  	<div class="active section">{{ label_title }}提交</div>
+				</div>
+			</div>
+		</div>
+    </div>
 </div>
 {% endblock %}
