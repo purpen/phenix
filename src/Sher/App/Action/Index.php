@@ -74,8 +74,8 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			$result = $model->first($date);
 			if(empty($result)){
 				// 将易购用户信息保存至cookie
-				@setcookie('egou_uid', $eid, 0);
-				@setcookie('egou_hid', $hid, 0);
+				@setcookie('egou_uid', $eid, 0, '/');
+				@setcookie('egou_hid', $hid, 0, '/');
 				$egou = 1;
 			}
 			
@@ -215,7 +215,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		
 		// 获取相关数据
 		$try_status = $_COOKIE['is_try'];
-		//$love_status = $_COOKIE['is_love'];
+		$love_status = $_COOKIE['is_love'];
 		$stuff_status = $_COOKIE['is_stuff'];
 		
 		// 判断用户是否登陆
@@ -224,8 +224,8 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		}
 		
 		// 判断用户是否完成任务
-		if(!$try_status && !$stuff_status){
-			return $this->display_note_page('请完成任意一项任务后重新再试');
+		if(!$try_status && !$love_status && !$stuff_status){
+			return $this->display_note_page($try_status.'请完成任意一项任务后重新再试');
 		}
 		 
 		$egou_uid = $_COOKIE['egou_uid'];

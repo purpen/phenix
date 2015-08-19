@@ -109,7 +109,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		// 将易购用户申请试用状态保存至cookie
 		$this->stash['is_applied'] = $is_applied;
 		if($_COOKIE['egou_uid']){
-			@setcookie('is_try', $is_applied, 0);
+			@setcookie('is_try', (int)$is_applied, 0, '/');
 		}
 		
 		$this->stash['try'] = &$try;
