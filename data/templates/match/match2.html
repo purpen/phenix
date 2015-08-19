@@ -520,6 +520,12 @@
 		min-height:320px;
 		border: 1px solid rgba(0,0,0,0.1);
 		cursor:auto;
+		width: calc(25% - 20px);
+    margin-left: 10px;
+    margin-right: 10px;
+	}
+	.ui.allist .ui.four.items .item .ui.dividing.header,.ui.allist .ui.four.items .item .ui.dividing.header .image{
+	  width:100% !important;
 	}
 	.ui.sort.grid > .row {
 		margin-bottom: 2%;
@@ -527,7 +533,46 @@
 	section.ui.block:child-nth(5) h3.ui.header{
 	  color:#fff !important;
 	}
-	
+	.ui.allist .ui.four.items .item .i-stats .schedule {
+    padding-top: 5px;
+  }
+	.image.zan .plus-icon .like{
+	  position: absolute;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+    -webkit-transition: all 500ms cubic-bezier(.175,.885,.32,1.275) 0s !important;
+    transition: all 500ms cubic-bezier(.175,.885,.32,1.275) 0s !important;
+	}
+	.image.zan .add{
+	  top: 50%;
+	}
+	.image.zan .add-active {
+    top: calc(50% - 70px);
+  }
+  i.like.icon:before{
+    border-radius: 50%;
+    display: block;
+    color:#fff;
+    line-height: 52px;
+    text-align: center;
+    -webkit-transition: color .25s ease-in-out 0s;
+    transition: color .25s ease-in-out 0s;
+    font-size: 30px;
+  }
+  .image.zan .plus-icon .like.active:before {
+    color: #F36;
+  }
+  .image.zan .plus-icon i.like.icon:after{
+    display:none;
+    opacity: 0;
+  }
+  .ui.allist .ui.items .item .count +.like{
+    width: 80px;
+    display: inline-block;
+    float: right;
+    text-align: right;
+    line-height: 28px;
+  }
 	
 </style>
 {% endblock %}
@@ -536,6 +581,64 @@
   $('#submit-idea').click(function(){
     var url = "{{ app_url_contest }}/submit?season=dream2";
     phenix.redirect(url);
+  });
+  
+  /* 登录用户行为 */
+  //加载赞状态
+	{% if visitor.is_login %}
+  var current_user_id = phenix.visitor.id;
+  $('#item-list').find('.such-item').each(function(){
+    var obj = $(this).find('.love-btn');
+    var id = obj.attr('item-id');
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id:id, type:4, event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					obj.attr('loved', 1);
+          obj.find('.like').addClass('active');
+				}
+			}
+		}, 'json');
+
+  });
+
+  {%endif%}
+
+  //点赞行为
+  $('.love-btn').click(function(){
+    var obj = $(this);
+    var id = $(this).attr('item-id');
+    var loved = $(this).attr('loved');
+
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (loved == 0) {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					obj.attr('loved', 1);
+          obj.find('.like').addClass('active');
+					$('.item-'+id).find('.add').addClass('add-active');
+          $('.item-'+id).find('.love-count').text(result.data.love_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					obj.attr('loved', 0);
+          obj.find('.like').removeClass('active');
+					$('.item-'+id).find('.add').removeClass('add-active');
+          $('.item-'+id).find('.love-count').text(result.data.love_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+    
   });
 
 	skrollr.init({
@@ -955,49 +1058,91 @@
 		<div class="row">
 			<div class="column">
 
-				<div class="ui four items">
+				<div class="ui four items" id="item-list">
 
 					{% for stuff in list.rows %}
             {% if stuff.cover %}
-              <div class="item"> 
+              <div class="item such-item item-{{stuff._id}}"> 
                <div class="content"> 
-                 <h4 class="ui dividing header"> <a class="ui link" href="{{ stuff.view_url }}" target="_blank">{{ stuff.title|truncate 28 }}</a> 
-                 <div class="image"> 
-                   <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" /> 
-                 </div> 
-                 <div class="advantage">
-                  {{ stuff.strip_description|truncate 140 }} 
-                 </div> </h4> 
-                <div class="i-stats">
-                  <div class="schedule"> 
-                   <div class="status clearfix"> 
-                    <a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank"> <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.user.nickname }}" /> </a> 
-                    <span class="count"> <a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank"> {{ stuff.user.nickname }} </a> </span> 
-                    <span class="like"> <i class="heart icon"></i> <span class="count">{{ stuff.love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
+                 <h4 class="ui dividing header">
+                   <div class="image zan">
+                     <img style="margin-bottom:-5px;" src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" /> 
+                     <div class="image-extra">
+                       <a href="{{ stuff.view_url }}" title="{{ stuff.title|truncate 28 }}" target="_blank"></a>
+                       <div class="extra-content">
+                         <div class="inner-extra">
+                           <div class="single-image plus-icon">
+                             <a href="javascript:void(0);" class="love-btn" item-id="{{ stuff._id }}" loved="0">
+                               <i class="like icon"> </i>
+                             </a>
+                             <div class="add">
+                                           +1      
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+
+                     {% if stuff.college %}
+                     <div class="school">
+                       {{ stuff.college.name }}
+                     </div>
+                     {%endif%}
+                   </div>
+                   <a class="ui link" href="{{ stuff.view_url }}"
+                   target="_blank">
+                     {{ stuff.title|truncate 28 }}
+                   </a>
+                   <div class="sub header">
+                     {{ stuff.strip_description|truncate 140 }} 
+                   </div>
+                 </h4>
+                 <div class="i-stats">
+                   <div class="schedule">
+                     <div class="status clearfix">
+                       <a class="ui avatar image" href="{{ stuff.user.home_url }}"
+                       target="_blank">
+                         <img src="{{ stuff.user.small_avatar_url }}"
+                         alt="{{ stuff.user.nickname }}">
+                       </a>
+                       <span class="count">
+                         <a class="ui small link" href="{{ stuff.user.home_url }}"
+                         target="_blank">
+                           {{ stuff.user.nickname }}
+                         </a>
+                       </span>
+                       <span class="like">
+                         <i class="thumbs outline up icon">
+                         </i>
+                         <span class="count love-count">
+                           {{ stuff.love_count }}
+                         </span>
+                         <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> 
+                       </span>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+             {%else%}
+               <div class="item such-item item-{{stuff._id}}"> 
+                <div class="content"> 
+                 <h4 class="ui dividing header"> <a class="ui link" href="{{ stuff.view_url }}" target="_blank"> {{ stuff.title|truncate 28 }} </a> 
+                  <div class="full advantage">
+                    {{ stuff.strip_description|truncate 580 }} 
+                  </div> </h4> 
+                 <div class="i-stats">
+                   <div class="schedule"> 
+                    <div class="status clearfix"> 
+                     <a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank"> <img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.view_url }}" /> </a> 
+                     <span class="count"> <a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank"> {{ stuff.user.nickname }} </a> </span> 
+                     <span class="like"> <i class="thumbs outline up icon"></i> <span class="count love-count">{{ stuff.love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
+                    </div> 
                    </div> 
-                  </div> 
-                </div>
-               </div> 
-              </div>
-            {%else%}
-              <div class="item"> 
-               <div class="content"> 
-                <h4 class="ui dividing header"> <a class="ui link" href="{{ stuff.view_url }}" target="_blank"> {{ stuff.title|truncate 28 }} </a> 
-                 <div class="full advantage">
-                   {{ stuff.strip_description|truncate 580 }} 
-                 </div> </h4> 
-                <div class="i-stats">
-                  <div class="schedule"> 
-                   <div class="status clearfix"> 
-                    <a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank"> <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.view_url }}" /> </a> 
-                    <span class="count"> <a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank"> {{ stuff.user.nickname }} </a> </span> 
-                    <span class="like"> <i class="heart icon"></i> <span class="count">{{ stuff.love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
-                   </div> 
-                  </div> 
-                </div>
-               </div> 
-              </div>
-            {%endif%}
+                 </div>
+                </div> 
+               </div>
+             {%endif%}
           {%endfor%}
 					
 				</div>

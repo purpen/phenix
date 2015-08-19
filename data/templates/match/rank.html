@@ -231,7 +231,66 @@ ul,li{list-style:none;}
 .ui.items .item{
   min-height:0 !important;
 }
-
+.ui.allist .ui.items > .item{
+	box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
+	background-color: #fff;
+	border-radius: 0.3125em;
+	min-height:320px;
+	border: 1px solid rgba(0,0,0,0.1);
+	cursor:auto;
+	width: calc(25% - 20px);
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.ui.allist .ui.four.items .item .ui.dividing.header,.ui.allist .ui.four.items .item .ui.dividing.header .image{
+  width:100% !important;
+}
+.ui.sort.grid > .row {
+	margin-bottom: 2%;
+}
+section.ui.block:child-nth(5) h3.ui.header{
+  color:#fff !important;
+}
+.ui.allist .ui.four.items .item .i-stats .schedule {
+  padding-top: 5px;
+}
+.image.zan .plus-icon .like{
+  position: absolute;
+  top: calc(50% - 25px);
+  left: calc(50% - 25px);
+  -webkit-transition: all 500ms cubic-bezier(.175,.885,.32,1.275) 0s !important;
+  transition: all 500ms cubic-bezier(.175,.885,.32,1.275) 0s !important;
+}
+.image.zan .add{
+  top: 50%;
+}
+.image.zan .add-active {
+  top: calc(50% - 70px);
+}
+i.like.icon:before{
+  border-radius: 50%;
+  display: block;
+  color:#fff;
+  line-height: 52px;
+  text-align: center;
+  -webkit-transition: color .25s ease-in-out 0s;
+  transition: color .25s ease-in-out 0s;
+  font-size: 30px;
+}
+.image.zan .plus-icon .like.active:before {
+  color: #F36;
+}
+.image.zan .plus-icon i.like.icon:after{
+  display:none;
+  opacity: 0;
+}
+.ui.allist .ui.items .item .count +.like{
+  width: 80px;
+  display: inline-block;
+  float: right;
+  text-align: right;
+  line-height: 28px;
+}
 </style>
 {% endblock %}
 

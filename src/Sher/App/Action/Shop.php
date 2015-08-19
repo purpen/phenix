@@ -154,22 +154,6 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 * 商店首页
 	 */
 	public function index(){
-
-    // 商品推荐列表---取块内容
-    $product_ids = Sher_Core_Util_View::load_block('product_index_stick', 1);
-    $products = array();
-    if($product_ids){
-        $product_model = new Sher_Core_Model_Product();
-        $id_arr = explode(',', $product_ids);
-        foreach(array_slice($id_arr, 0, 8) as $i){
-            $product = $product_model->extend_load((int)$i);
-            if(!empty($product)){
-                array_push($products, $product);
-            }
-        }
-    }
-    $this->stash['stick_products'] = $products;
-
 		return $this->to_html_page('page/shop/home.html');
 	}
 	
@@ -780,24 +764,24 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$data['tags'] = $this->stash['tags'];
 		$data['category_id'] = (int)$this->stash['category_id'];
 		$data['cooperate_id'] = isset($this->stash['cooperate_id'])?(int)$this->stash['cooperate_id']:0;
-    $data['cover_id'] = isset($this->stash['cover_id'])?$this->stash['cover_id']:null;
-    $data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
+        $data['cover_id'] = isset($this->stash['cover_id'])?$this->stash['cover_id']:null;
+        $data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
 
-    // 添加视频
-    $data['video'] = array();
-    if(isset($this->stash['video'])){
-      foreach($this->stash['video'] as $v){
-        if(!empty($v)){
-          array_push($data['video'], $v);
+        // 添加视频
+        $data['video'] = array();
+        if(isset($this->stash['video'])){
+            foreach($this->stash['video'] as $v){
+                if(!empty($v)){
+                    array_push($data['video'], $v);
+                }
+            }
         }
-      }
-    }
     
-    // 团队介绍
-    $team_introduce = isset($this->stash['team_introduce'])?$this->stash['team_introduce']:null;
-    // 品牌名称
-    $brand = isset($this->stash['brand'])?$this->stash['brand']:null;
-    // 设计师
+        // 团队介绍
+        $team_introduce = isset($this->stash['team_introduce'])?$this->stash['team_introduce']:null;
+        // 品牌名称
+        $brand = isset($this->stash['brand'])?$this->stash['brand']:null;
+        // 设计师
 		$designer = isset($this->stash['designer'])?$this->stash['designer']:null;
         // 所属国家
 		$country = isset($this->stash['country'])?$this->stash['country']:null;

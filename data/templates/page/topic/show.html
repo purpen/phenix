@@ -127,7 +127,7 @@
 			}
 		}, 'json');
 		
-		// 站内置顶
+		// 站内/版块置顶
 		$('.ui.dtop.button').bind('click', function(){
 			var id = $(this).data('id'),mark = $(this).data('mark'),type = $(this).data('type'),$btn = $(this),btn_title = '';
             if (type == 1){
@@ -771,11 +771,11 @@
                 {% endif %}
         
 				{% if topic.top == 2 %}
-				<div class="ui pop top active button" data-content="取消版块置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="2">
+				<div class="ui pop dtop active button" data-content="取消版块置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="2">
 					<i class="pointing down icon"></i>
 				</div>
 				{% else %}
-				<div class="ui pop top button" data-content="版块置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="2">
+				<div class="ui pop dtop button" data-content="版块置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="2">
 					<i class="pointing up icon"></i>
 				</div>
 				{% endif %}

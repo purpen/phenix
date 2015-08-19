@@ -72,6 +72,9 @@ app.comeon.product_id: 1120800090
 # 案例作品
 app.stuff.okcase_category_id: 34
 
+# JBL商品ID
+app.product_jbl_id: 1088027398
+
 # 百度推送 token
 baidu_push_token: ''
 

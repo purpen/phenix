@@ -73,6 +73,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				$dig_ids[] = is_array($result['items'][$i]) ? $result['items'][$i]['_id'] : $result['items'][$i];
 	        }
 		}
+
+    // 昨天的日期
+    $yesterday = (int)date('Ymd' , strtotime('-1 day'));
+    $this->stash['yesterday'] = $yesterday;
         
 		$this->stash['dig_ids']  = $dig_ids;
 		$this->stash['dig_list'] = $diglist;
@@ -615,12 +619,12 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->ajax_notification('主题不存在！', true);
 		}
 		$id = $this->stash['id'];
-        $tv = $this->stash['tv'];
+    $tv = $this->stash['tv'];
         
 		Doggy_Log_Helper::debug("Top Topic [$id][$tv]!");
 		try{
 			if (!$this->visitor->can_edit()){
-				return $this->ajax_json('抱歉，你没有权限进行此操作！', true);
+				return $this->ajax_notification('抱歉，你没有权限进行此操作！', true);
 			}
 			
 			$model = new Sher_Core_Model_Topic();
@@ -660,6 +664,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 */
 	public function ajax_cancel_top(){
 		$id = $this->stash['id'];
+    $tv = $this->stash['tv'];
 		if(empty($this->stash['id'])){
 			return $this->ajax_json('主题不存在！', true);
 		}
@@ -670,10 +675,23 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			}
 			
 			$model = new Sher_Core_Model_Topic();
+      $row = $model->load((int)$id);
+      if(empty($row)){
+          return $this->ajax_notification("主题[$id]不存在！", true);
+      }
+
 			$ok = $model->mark_cancel_top((int)$id);
 			if ($ok) {
+        $old_top = $row['top'];
 				$diglist = new Sher_Core_Model_DigList();
-				$diglist->remove_item(Sher_Core_Util_Constant::DIG_TOPIC_TOP, (int)$id, Sher_Core_Util_Constant::TYPE_TOPIC);
+        if ($tv == Sher_Core_Model_Topic::TOP_CATEGORY){
+            $key_id = Sher_Core_Util_Constant::top_topic_category_key($row['category_id']);
+				    $diglist->remove_item($key_id, (int)$id, Sher_Core_Util_Constant::TYPE_TOPIC);
+        }else{
+            $key_id = Sher_Core_Util_Constant::DIG_TOPIC_TOP;
+				    $diglist->remove_item($key_id, (int)$id, Sher_Core_Util_Constant::TYPE_TOPIC);
+        }
+
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('操作失败,请重新再试', true);

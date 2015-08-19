@@ -177,7 +177,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
         }
 
     //添加网站meta标签
-    $this->stash['page_title_suffix'] = sprintf("%s-太火鸟智能硬件社区", $topic['title']);
+    $this->stash['page_title_suffix'] = sprintf("%s-太火鸟智能硬件", $topic['title']);
     if(!empty($topic['tags'])){
       $this->stash['page_keywords_suffix'] = sprintf("智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,%s", $topic['tags'][0]);   
     }

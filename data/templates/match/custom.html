@@ -91,7 +91,7 @@
                         		    </a>
                                 </h2>
                                 <div class="excerpt">
-                                    <p>投稿时间：{{ contest.start_date }} -- {{ contest.finish_date }}</p>
+                                    <p>投稿时间：{{ contest.start_date|date 'Y.m.d' }} -- {{ contest.finish_date|date 'Y.m.d' }}</p>
                                 </div>
                                 <div class="cats">
                                     <span><i class="user icon"></i> 已有 {{ contest.view_count|default 1 }} 人参与 </span>
