@@ -22,14 +22,14 @@
                   </div>
                   <span class="counter">
                       <i class="heart icon"></i> 
-                       {{ #if(step_stat==2) }}
+                       {{ ^is_running }}
                            已结束
-                       {{/if(step_stat==2)}}
-                        {{ #if(step_stat==1) }}
+                       {{/is_running}}
+                        {{ #is_running }}
                        <a class="ui link" href="{{ wap_view_url }}">
                            我要报名
                  	  	</a>
-                       {{/if(step_stat==1)}}
+                       {{/is_running}}
                   </span>
               </div>
               

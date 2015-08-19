@@ -243,6 +243,12 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
         for($i=0;$i<count($result['rows']);$i++){
           $end_time_format = date('Y-m-d', $result['rows'][$i]['end_time']);
           $result['rows'][$i]['end_time_format'] = $end_time_format;
+          $step_stat = $result['rows'][$i]['step_stat'];
+          if($step_stat==1){
+            $result['rows'][$i]['is_running'] = true;         
+          }elseif($step_stat==2){
+            $result['rows'][$i]['is_running'] = false;           
+          }
         }
         
         $this->stash['results'] = $result;
