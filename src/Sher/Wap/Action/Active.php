@@ -16,7 +16,7 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','getlist','view');
+	protected $exclude_method_list = array('execute','getlist','view','ajax_load_list');
 	
 	/**
 	 * 入口
@@ -205,6 +205,55 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
   public function ajax_popup(){
     return $this->to_taconite_page('wap/active/ajax_popup_sign.html');
   
+  }
+
+  /**
+   * ajax加载活动列表
+   */
+  public function ajax_load_list(){        
+        $type = $this->stash['type'];
+        
+        $page = $this->stash['page'];
+        $size = $this->stash['size'];
+        $sort = $this->stash['sort'];
+        
+        $service = Sher_Core_Service_Active::instance();
+        $query = array();
+        $options = array();
+
+        $query['step_stat'] = array('$in'=>array(1,2));
+        $query['state'] = 1;
+        //$query['published'] = 1;
+        $query['deleted'] = 0;
+
+
+		// 排序
+		switch ((int)$sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+		}
+        
+        $options['page'] = $page;
+        $options['size'] = $size;
+        
+        $result = $service->get_active_list($query, $options);
+        //组织数据
+
+        for($i=0;$i<count($result['rows']);$i++){
+          $end_time_format = date('Y-m-d', $result['rows'][$i]['end_time']);
+          $result['rows'][$i]['end_time_format'] = $end_time_format;
+          $step_stat = $result['rows'][$i]['step_stat'];
+          if($step_stat==1){
+            $result['rows'][$i]['is_running'] = true;         
+          }elseif($step_stat==2){
+            $result['rows'][$i]['is_running'] = false;           
+          }
+        }
+        
+        $this->stash['results'] = $result;
+        
+        return $this->ajax_json('', false, '', $this->stash);
   }
 
   /**

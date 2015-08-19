@@ -1,0 +1,37 @@
+{{#results.rows}}
+	<div class="card">
+              <div class="problock">
+                  <a title="{{ title }}" href="{{ wap_view_url }}" style="background-image: url('{{ cover.thumbnails.resp.view_url }}');" class="thumb"></a>
+                  <div class="ribbons">
+                      {{ #season }}
+                      <span class="ribbon season">
+                          第 {{ season }} 期
+                      </span>
+                      {{/season}}
+                  </div>
+                  <h2>
+                      <a href="{{ wap_view_url }}" title="{{ title }}" class="ui line">
+          			    {{ title }}－{{ conduct_city }}站
+          		    </a>
+                  </h2>
+                  <div class="excerpt">
+                      <p>活动地址：{{ conduct_city }}{{ address }}，限额人数：{{ max_number_count }}人</p>
+                  </div>
+                  <div class="cats">
+                      <i class="time icon"></i> {{ end_time_format }}
+                  </div>
+                  <span class="counter">
+                      <i class="heart icon"></i> 
+                       {{ ^is_running }}
+                           已结束
+                       {{/is_running}}
+                        {{ #is_running }}
+                       <a class="ui link" href="{{ wap_view_url }}">
+                           我要报名
+                 	  	</a>
+                       {{/is_running}}
+                  </span>
+              </div>
+              
+	          </div>
+{{/results.rows}}
