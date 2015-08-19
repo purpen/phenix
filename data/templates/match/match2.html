@@ -1006,7 +1006,7 @@
             {% if stuff.cover %}
               <div class="item"> 
                <div class="content"> 
-                 <h4 class="ui dividing header"> <a class="ui link" href="{{ stuff.view_url }}" target="_blank">{{ stuff.title|truncate 28 }}</a> 
+                 <h4 class="ui dividing header">
                    <div class="image zan">
                      <img style="margin-bottom:-5px;" src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" /> 
                      <div class="image-extra">
@@ -1038,43 +1038,53 @@
                    <div class="sub header">
                      {{ stuff.strip_description|truncate 140 }} 
                    </div>
-                 </h4> </h4> 
-                <div class="i-stats">
-                  <div class="schedule"> 
-                   <div class="status clearfix"> 
-                    <a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank"> <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.user.nickname }}" /> </a> 
-                    <span class="count"> <a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank"> {{ stuff.user.nickname }} </a> </span> 
-                    <span class="like"> <i class="heart icon"></i> <span class="count">{{ stuff.love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
+                 </h4>
+                 <div class="i-stats">
+                   <div class="schedule">
+                     <div class="status clearfix">
+                       <a class="ui avatar image" href="{{ stuff.user.home_url }}"
+                       target="_blank">
+                         <img src="{{ stuff.user.small_avatar_url }}"
+                         alt="{{ stuff.user.nickname }}">
+                       </a>
+                       <span class="count">
+                         <a class="ui small link" href="{{ stuff.user.home_url }}"
+                         target="_blank">
+                           {{ stuff.user.nickname }}
+                         </a>
+                       </span>
+                       <span class="like">
+                         <i class="thumbs outline up icon">
+                         </i>
+                         <span class="count love-count">
+                           {{ stuff.love_count }}
+                         </span>
+                         <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> 
+                       </span>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+             {%else%}
+               <div class="item such-item item-{{stuff._id}}"> 
+                <div class="content"> 
+                 <h4 class="ui dividing header"> <a class="ui link" href="{{ stuff.view_url }}" target="_blank"> {{ stuff.title|truncate 28 }} </a> 
+                  <div class="full advantage">
+                    {{ stuff.strip_description|truncate 580 }} 
+                  </div> </h4> 
+                 <div class="i-stats">
+                   <div class="schedule"> 
+                    <div class="status clearfix"> 
+                     <a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank"> <img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.view_url }}" /> </a> 
+                     <span class="count"> <a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank"> {{ stuff.user.nickname }} </a> </span> 
+                     <span class="like"> <i class="thumbs outline up icon"></i> <span class="count love-count">{{ stuff.love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
+                    </div> 
                    </div> 
-                  </div> 
-                </div>
-               </div> 
-              </div>
-            {%else%}
-              <div class="item"> 
-               <div class="content"> 
-                <h4 class="ui dividing header"> <a class="ui link" href="{{ stuff.view_url }}" target="_blank"> {{ stuff.title|truncate 28 }} </a> 
-                 <div class="full advantage">
-                   {{ stuff.strip_description|truncate 580 }} 
-                 </div> </h4> 
-                <div class="i-stats">
-                  <div class="schedule"> 
-                   <div class="status clearfix"> 
-                    <a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank"> <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.view_url }}" /> </a> 
-                    <span class="count"> <a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank"> {{ stuff.user.nickname }} </a> </span> 
-                    <span class="like"> <i class="heart icon"></i> <span class="count">{{ stuff.love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
-                   </div> 
-                  </div> 
-                </div>
-               </div> 
-              </div>
-            {%endif%}
-          {%endfor%}
-					
-				</div>
-			</div>
-		</div>
-    {% endif %}
+                 </div>
+                </div> 
+               </div>
+             {%endif%}
 		<div class="center aligned row">
 			<div class="center aligned column">
 				<a href="{{ app_url_contest }}/allist2" class="ui black active inverted button">
