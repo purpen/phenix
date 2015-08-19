@@ -8,11 +8,11 @@
                                         第 {{ season }} 期
                                     </span>
                                     {{/season}}
-        							{{#step_doing}}
+        							{{#step_ing}}
         							<span class="ribbon apply">
         								申请中
                                     </span>
-        							{{/step_doing}}
+        							{{/step_ing}}
         							{{#step_verify}}
         							<span class="ribbon recoe">
         								名单审核中
@@ -38,12 +38,12 @@
                                     <p>产品数量：<span class="count">{{ try_count }}</span>  申请人数：<span>{{ apply_count }}</span></p>
                                 </div>
                                 <div class="cats">
-                                {{#step_doing}}
+                                {{#step_ing}}
                                 <i class="calendar icon"></i> 试用名单公布：<span> {{ publish_time }}</span>
-                                {{/step_doing}}
-                                {{^step_doing}}
+                                {{/step_ing}}
+                                {{^step_ing}}
                                 <i class="tasks icon"></i> 试用评测报告：已有<span> {{ pass_count }}</span> 份
-                                {{#step_doing}}
+                                {{/step_ing}}
                                 </div>
                             </div>
 
