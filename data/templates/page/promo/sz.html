@@ -10,78 +10,37 @@
 	.ui.social{
 		padding:0;
 	}
-	.ui.items {
-	  margin: 1rem 0 0;
-	}
-	.ui.items > .item,.ui.items > .item:hover{
-		-webkit-box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
-		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset;
-		cursor:auto;
-		background:rgba(0,0,0,0);
-	}
 	.block.title>small{
 		color: rgba(255,255,255,.7);
 		font-size:20px;
 	}
-	.block.title{
+	.block.title {
 		font-size:24px;
-		color:#fff;
-		padding: 15px 0 8px;
-	}
-	.ui.items > .item .image,.ui.items > .item .image img{
-		border-radius:0 !important;
-	}
-	.image a{
-		position: absolute;
-	  top: 0;
-	  left: 0;
-	  width: 100%;
-	  height: 100%;
+		color: #fff;
+		padding: 10px 0 8px;
 	}
 	.ui.w-1180.grid {
 	  width: 1180px;
 	  margin: 0 auto;
 	}
-	.ui.speak.items > .item,.ui.circle.items > .item{
-		  margin-bottom: 1.5rem;
+	.six.wide .block.title {
+		margin-bottom: 10px;
 	}
-	.ui.speak.items .content,.ui.circle.items .content{
-		padding:0 !important;
+	.six.wide p {
+		margin: 8px 0 0;
 	}
-	.ui.speak.items .item .content h4,.ui.circle.items .item .content h4 {
-		margin: .6em 0 5px;
-		color:#fff;
-	}
-	.ui.circle.items .item .content h4{
-		font-size:1rem !important;
-	}
-	.ui.speak.items .content h5,.ui.circle.items .content h5 {
-		margin: 0;
-	}
-	.six.wide .block.title{
-		margin-bottom:0px;
-	}
-	.section-title+.block.title{
-		margin-top: 15px;
-		margin-bottom:0px !important;
-	}
-	.six.wide p{
-		margin:8px 0 0;
-	}
-	.six.wide span{
+	.six.wide span {
 		margin-right:15px;
 	}
 	.ui.header .ui.link {
-	  color: #fff;
+        color: #f5f5f5;
+        line-height: 1.5;
 	}
 	.section-title .ui.header{
 		font-size: 0.96rem!important;
 		margin-bottom: 10px;
 		font-weight: 400;
 	}
-	
-	
-	
 	.logo {
 		padding: 0 0;
 		display:block;
@@ -93,14 +52,30 @@
 		display: inline-block;
 		width:100%;
 	}
-	.mt-25 {
-	  margin-top: 25px;
-		font-size:14px;
-	}
 	h2.item b{
 		color:#5d6266;
 	}
-	
+    
+    .people .ui.blocks > .block {
+        background-color: rgba(0, 0, 0, 0);
+        text-align: center;
+    }
+    .people .ui.blocks > .block > .avatar {
+        border-radius: 500px !important;
+        height: 150px;
+        margin: 0 auto;
+        width: 150px;
+    }
+    .people .ui.blocks > .block > hr {
+        background-color: #fff;
+        border: medium none;
+        height: 2px;
+        margin: 0 auto 10px;
+        width: 30px;
+    }
+	.ui.speak.images > img {
+	    width: calc(25% - 0.5rem);
+	}
 </style>
 {% endblock %}
 
@@ -113,184 +88,111 @@
 	<div class="yue">
 		<img src="{{ app_url_packaged }}/images/promo/szbanner.jpg" width="100%">
 	</div>
-	<div class="ui big block">
-		<div class="ui w-1180 grid">
-			<div class="row">
-				<div class="center aligned wide column">
-					<video id="media" width="70%"  controls="controls" poster="http://frstatic.qiniudn.com/images/birdegg/wap/hq1.png">
-					  <source type="video/mp4" src="http://frstatic.qiniudn.com/images/birdegg/egg2.mp4">
-					</video>
-				</div>
-			</div>
-			
+	<div class="ui big people block">
+		<div class="ui w-1180  grid">			
 			<div class="row">
 				<div class="ten wide column">
+					<video id="media" width="100%"  controls="controls" poster="http://frstatic.qiniudn.com/images/birdegg/wap/hq1.png">
+					  <source type="video/mp4" src="http://frstatic.qiniudn.com/images/birdegg/egg2.mp4">
+					</video>
+                    
 					<h3 class="block title">演讲嘉宾</h3>
-					<div class="ui speak center aligned one items">
-						<div class="item" style="margin-bottom: 0.5rem;">
-							<div class="image">
-								<img alt="雷海波" src="{{ app_url_packaged }}/images/promo/szlz.jpg" style="width:96%">
-							</div>
-							<div class="content">
-								<h4 class="ui header">太火鸟创始人雷海波分享智能硬件趋势报告</h4>
-								<h5> </h5>
-							</div>
-						</div>
-					</div>
-					<div class="ui center aligned three speak items">
-						
-						<div class="item">
-							<div class="image">
-								
-								<img alt="钟晓渝" src="{{ app_url_packaged }}/images/promo/szzly.jpg">
-							</div>
-							<div class="content">
-								<h4 class="ui header">钟晓渝</h4>
-								<h5> 深圳政协副主席</h5>
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img alt="封昌红" src="{{ app_url_packaged }}/images/promo/szfch.jpg">
-							</div>
-							<div class="content">
-								<h4 class="ui header">封昌红</h4>
-								<h5>深圳工业设计协会 / 秘书长</h5>
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img alt="刘宏蛟" src="{{ app_url_packaged }}/images/promo/szlhj.jpg">
-							</div>
-							<div class="content">
-								<h4 class="ui header">刘宏蛟</h4>
-								<h5>硬蛋负责人</h5>
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img alt="刘向峰" src="{{ app_url_packaged }}/images/promo/szlxf.jpg">
-							</div>
-							<div class="content">
-								<h4 class="ui header">刘向峰</h4>
-								<h5>京东JD+孵化器 / 总监</h5>
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img alt="申晨" src="{{ app_url_packaged }}/images/promo/szsc.jpg">
-							</div>
-							<div class="content">
-								<h4 class="ui header">申晨</h4>
-								<h5>熊猫传媒集团 / 董事长</h5>
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img alt="刘宗孺" src="{{ app_url_packaged }}/images/promo/szlzr.jpg">
-							</div>
-							<div class="content">
-								<h4 class="ui header">刘宗孺</h4>
-								<h5>Broadlink / CEO</h5>
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img alt="张建民" src="{{ app_url_packaged }}/images/promo/szzjm.jpg">
-							</div>
-							<div class="content">
-								<h4 class="ui header">张建民</h4>
-								<h5>中世纵横设计 / 董事长</h5>
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img alt="李一舟" src="{{ app_url_packaged }}/images/promo/szlyz.jpg">
-							</div>
-							<div class="content">
-								<h4 class="ui header">李一舟</h4>
-								<h5>匙悟科技 / 创始人</h5>
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img alt="Satish" src="{{ app_url_packaged }}/images/promo/szsk.jpg">
-							</div>
-							<div class="content">
-								<h4 class="ui header">Satish</h4>
-								<h5>Keysight</h5>
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img alt="武守坤" src="{{ app_url_packaged }}/images/promo/szwsk.jpg">
-							</div>
-							<div class="content">
-								<h4 class="ui header">武守坤</h4>
-								<h5>金百泽科技 / 董事长</h5>
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img alt="孙丹青" src="{{ app_url_packaged }}/images/promo/szsdq.jpg">
-							</div>
-							<div class="content">
-								<h4 class="ui header">孙丹青</h4>
-								<h5>微信硬件</h5>
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img alt="李大维" src="{{ app_url_packaged }}/images/promo/szldw.jpg">
-							</div>
-							<div class="content">
-								<h4 class="ui header">李大维</h4>
-								<h5>上海新车间创客空间 / 创始人</h5>
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img alt="杨世毅" src="{{ app_url_packaged }}/images/promo/szysy.jpg">
-							</div>
-							<div class="content">
-								<h4 class="ui header">杨世毅</h4>
-								<h5>京东企业发展部 / 投资总监</h5>
-							</div>
-						</div>
-						
-					</div>
+                    
+        			<div class="ui three blocks">
+        				<div class="block">
+        					<img src="{{ app_url_packaged }}/images/promo/szlz.jpg" class="avatar" />
+        					<h3>雷海波</h3>
+        					<hr>
+        					<p>太火鸟创始人</p>
+        				</div>
+        				<div class="block">
+        					<img src="{{ app_url_packaged }}/images/promo/szzly.jpg" class="avatar" />
+        					<h3>钟晓渝</h3>
+        					<hr>
+        					<p>深圳政协副主席</p>
+        				</div>
+        				<div class="block">
+        					<img src="{{ app_url_packaged }}/images/promo/szfch.jpg" class="avatar" />
+        					<h3>封昌红</h3>
+        					<hr>
+        					<p>深圳工业设计协会 / 秘书长</p>
+        				</div>
+        				<div class="block">
+        					<img src="{{ app_url_packaged }}/images/promo/szlhj.jpg" class="avatar" />
+        					<h3>刘宏蛟</h3>
+        					<hr>
+        					<p>硬蛋负责人</p>
+        				</div>
+        				<div class="block">
+        					<img src="{{ app_url_packaged }}/images/promo/szlxf.jpg" class="avatar" />
+        					<h3>刘向峰</h3>
+        					<hr>
+        					<p>京东JD+孵化器 / 总监</p>
+        				</div>
+        				<div class="block">
+        					<img src="{{ app_url_packaged }}/images/promo/szsc.jpg" class="avatar" />
+        					<h3>申晨</h3>
+        					<hr>
+        					<p>熊猫传媒集团 / 董事长</p>
+        				</div>
+        				<div class="block">
+        					<img src="{{ app_url_packaged }}/images/promo/szlzr.jpg" class="avatar" />
+        					<h3>刘宗孺</h3>
+        					<hr>
+        					<p>Broadlink / CEO</p>
+        				</div>
+        				<div class="block">
+        					<img src="{{ app_url_packaged }}/images/promo/szlzr.jpg" class="avatar" />
+        					<h3>张建民</h3>
+        					<hr>
+        					<p>中世纵横设计 / 董事长</p>
+        				</div>
+        				<div class="block">
+        					<img src="{{ app_url_packaged }}/images/promo/szlyz.jpg" class="avatar" />
+        					<h3>李一舟</h3>
+        					<hr>
+        					<p>匙悟科技 / 创始人</p>
+        				</div>
+        				<div class="block">
+        					<img src="{{ app_url_packaged }}/images/promo/szsk.jpg" class="avatar" />
+        					<h3>Satish</h3>
+        					<hr>
+        					<p>Keysight</p>
+        				</div>
+        				<div class="block">
+        					<img src="{{ app_url_packaged }}/images/promo/szwsk.jpg" class="avatar" />
+        					<h3>武守坤</h3>
+        					<hr>
+        					<p>金百泽科技 / 董事长</p>
+        				</div>
+        				<div class="block">
+        					<img src="{{ app_url_packaged }}/images/promo/szsdq.jpg" class="avatar" />
+        					<h3>孙丹青</h3>
+        					<hr>
+        					<p>微信硬件</p>
+        				</div>
+        				<div class="block">
+        					<img src="{{ app_url_packaged }}/images/promo/szldw.jpg" class="avatar" />
+        					<h3>李大维</h3>
+        					<hr>
+        					<p>上海新车间创客空间 / 创始人</p>
+        				</div>
+        				<div class="block">
+        					<img src="{{ app_url_packaged }}/images/promo/szysy.jpg" class="avatar" />
+        					<h3>杨世毅</h3>
+        					<hr>
+        					<p>京东企业发展部 / 投资总监</p>
+        				</div>
+                    </div>
 				</div>
 					
 				<div class="six wide column" style="padding-left:4rem;">
 					<h2 class="block title">活动报道</h2>
 					<div class="section-title">
-					  <h5 class="ui header"><a href="http://www.taihuoniao.com/topic/view-103207-1.html" class="ui link" target="_black">智能硬件蛋年大会南飞深圳 太火鸟整合南北资源</a>
-            </h5>
-          </div>
+					  <h5 class="ui header">
+                          <a href="http://www.taihuoniao.com/topic/view-103207-1.html" class="ui link" target="_black">智能硬件蛋年大会南飞深圳 太火鸟整合南北资源</a>
+                      </h5>
+                    </div>
 
 					<div class="section-title">
 					  <h5 class="ui header"><a href="http://www.taihuoniao.com/topic/view-103206-1.html" class="ui link" target="_black">太火鸟深圳“D3IN铟立方未来实验室“成立，揭智能硬件高品质新篇章</a>
@@ -327,34 +229,7 @@
 					  <h5 class="ui header"><a href="http://cn.technode.com/post/2015-05-18/taihuoniao-shenzhen-egg/" class="ui link" rel="nofollow" target="_black">设计驱动创新，2015 年智能硬件的七个趋势</a>
             </h5>
           </div>
-
-					<!--	<div class="section-title">
-					  <h5 class="ui header"><a href="http://www.sootoo.com/content/561161.shtml?from=singlemessage&isappinstalled=0" class="ui link" target="_black">徐小平：新BAT将在智能硬件领域诞生</a>
-            </h5>
-          </div>
-
-					<div class="section-title">
-					  <h5 class="ui header"><a href="http://www.jia360.com/m/bj/2015/0413/1428895627273.html?from=singlemessage&isappinstalled=0" class="ui link" target="_black">蛋年创新大会在京举办智能硬件吉尼斯世界纪录挑战</a>
-            </h5>
-          </div>
-
-					<div class="section-title">
-					  <h5 class="ui header"><a href="http://mp.weixin.qq.com/s?__biz=MzA4MTAxOTYwMA==&mid=203911632&idx=1&sn=af1c8cd913da90b46a2d554e2cf5d717&scene=1&key=1936e2bc22c2ceb5704380f5ac49034b9d33022a67eee5745d0f004820a0ef9b55a9a18dc7bf5f049bc5901da5911e69&ascene=1&uin=ODc5MTA2MjU%3D&devicetype=webwx&version=70000001&pass_ticket=fESzva5OU7824ib2YHwgOxHhvTqUvxObA5KKLRIfpSg%3D" class="ui link" target="_black">智能硬件蛋年大会太火了（鸟）</a>
-            </h5>
-          </div>
-
-					<div class="section-title">
-					  <h5 class="ui header"><a href="https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxcheckurl?skey=%40crypt_8af43aff_4c0d9b457b81daa1eccb3ef91ec2b1ec&deviceid=e239629232518321&pass_ticket=fESzva5OU7824ib2YHwgOxHhvTqUvxObA5KKLRIfpSg%253D&opcode=2&requrl=http%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3DMzA4NDEzNDc5NA%3D%3D%26mid%3D204247105%26idx%3D1%26sn%3D8d87f657501e64c7df608dda57d704f2%26scene%3D1%23rd&scene=1&username=@eeac30048e3bdd2366a4266562f30959" class="ui link" target="_black">从“中国制造”到“中国创造”，太火鸟领军蛋年创新大会</a>
-            </h5>
-          </div>
-
-					<div class="section-title">
-					  <h5 class="ui header"><a href="http://www.jia360.com/m/bj/2015/0413/1428895627273.html?from=singlemessage&isappinstalled=0" class="ui link" target="_black">蛋年创新大会在京举办智能硬件吉尼斯世界纪录挑战</a>
-            </h5>
-          </div>
--->
-
-					
+          
 					<h2 class="block title">活动流程</h2>
 					<p><span>18:00-19:00</span> 嘉宾签到</p>
 					<p><span>18:00-19:00</span> 签名走红毯</p>
@@ -376,220 +251,46 @@
 									
 				</div>
 			</div>
-					
-					<h3 class="block title" style="margin-top:1rem;">中国智能硬件蛋年创新大会火爆现场</h3>
-					
-						<img  style="margin:1rem 0;" src="{{ app_url_packaged }}/images/promo/szxc.jpg" width="100%">
-					
-					
-					<h3 class="block title" style="margin-top:1rem;">活动花絮</h3>
-					<div class="ui center aligned five speak items">
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz1.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz2.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz3.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz4.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz5.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz6.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz7.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz8.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz9.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz10.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz11.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz12.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz13.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz14.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz15.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz16.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz17.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz18.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz19.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz20.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz21.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz22.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz23.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz24.jpg">
-							</div>
-						</div>
-						
-						<div class="item">
-							<div class="image">
-								
-								<img src="{{ app_url_packaged }}/images/promo/sz25.jpg">
-							</div>
-						</div>
-
-						
-					</div>
-					
+			<div class="row">
+				<div class="column">
+                    <h3 class="block title" style="margin-top:1rem;">中国智能硬件蛋年创新大会火爆现场</h3>
+	                <img  style="margin:1rem 0;" src="{{ app_url_packaged }}/images/promo/szxc.jpg" width="100%">
+                    <h3 class="block title" style="margin-top:1rem;">活动花絮</h3>
+                    <div class="ui speak images">
+                        <img src="{{ app_url_packaged }}/images/promo/sz1.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz2.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz3.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz4.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz5.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz6.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz7.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz8.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz9.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz10.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz11.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz12.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz13.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz14.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz15.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz16.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz17.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz18.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz19.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz20.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz21.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz22.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz23.jpg">
+                        <img src="{{ app_url_packaged }}/images/promo/sz24.jpg">
+                    </div>
 					
 					<h3 class="block title">五大阵容强强联手</h3>
 					<div class="logo" style="padding-top:20px;">
 						<img src="{{ app_url_packaged }}/images/birdegg/qnn3.png">
 					</div>
-				
-					
-					
-					
 				</div>
 			</div>
-		
-			
 		</div>
-	</div>
-	
-	<!--<div class="ui big block">
-		<div class="ui w-1180 grid">
-			<div class>
-			
-		
-		
-		</div>
-	</div>-->
-		
-		
-		
+	</div>		
 </div>
-
 {% include "block/qrcode.html" %}
 {% endblock %}

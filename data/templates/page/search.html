@@ -22,18 +22,23 @@
   font-style: inherit;
   margin-left: 0.2rem;
 }
-.ui.list .item>img{
+.ui.list .item > img{
 	margin-top: 1rem;
 	margin-left: 1rem;
 	margin-bottom: 1rem;
 }
-#searchpage .idea.tags .ui.line {
-  margin-right: .85em;
-  color: rgba(0,0,0,.4);
+.ui.list .item .attribute {
+    color: rgba(112, 123, 135, 0.91);
 }
-#searchpage .idea.tags .ui.line:hover{
-	color:#f36;
+.ui.list .item .desc {
+    margin: 10px 0;
+    color: rgba(112, 123, 135, 0.91);
 }
+#searchpage .tags .ui.line {
+    margin-right: .85em;
+    font-size: 14px;
+}
+
 .ui.search.list>.item>.image+.content{
 	max-width:70%;
 }
@@ -142,17 +147,6 @@
 						相关度
 					</div>
 				</div>
-				
-				
-				<!--
-				<div class="ui divided horizontal list">
-					<div class="item">
-            <a href="{{ app_url_domain }}/search?t={{ t }}&q={{ q }}&evt={{ evt }}&s=1" class="ui link {{ css_lastest }}">最新</a>
-					</div>
-					<div class="item">
-            <a href="{{ app_url_domain }}/search?t={{ t }}&q={{ q }}&evt={{ evt }}&s=0" class="ui link {{ css_relation }}">相关度</a>
-					</div>
-				</div>-->
 			</div>
 		</div>
 		<div class="row">
@@ -161,35 +155,29 @@
 					<div class="ui search selection list">
 					{% for item in result.data %}
 						{% if item %}
-            <div class="item" id="item-{{ item.pid }}">
-              {% if item.cover_id %}
+                        <div class="item" id="item-{{ item.pid }}">
+                            {% if item.cover_id %}
 							  	<img class="ui medium image" src="{{ item.asset.thumbnails.small.view_url }}" />
-              {%endif%}
+                            {%endif%}
 							<div class="content">
 								<div class="header">
 							      	<a href="{{ item.view_url }}" title="{{ item.title }}" class="ui line" target="_blank">{{ item.high_title }}</a>
-                      <label class="ui magenta active inverted button label">{{ item.kind_name }}</label>
+                                    <label class="ui magenta active inverted button label">{{ item.kind_name }}</label>
 								</div>
 								<div class="attribute">
 									<span class="author">
-                    <a href="{{ item.home_url }}" class="ui link" target="_blank">@{{ item.nickname }}</a>  <i class="time icon"></i>于{{ item.created_on|relative_datetime }}发表
-                    {% if visitor.can_admin %}
-                      <span><a href="/app/site/search/del?id={{ item.pid }}" class="confirm-request ui link"><small>删除</small></a></span>
-                    {%endif%}
+                                        <a href="{{ item.home_url }}" class="ui link" target="_blank">@{{ item.nickname }}</a>  <i class="time icon"></i>于{{ item.created_on|relative_datetime }}发表
+                                        {% if visitor.can_admin %}
+                                        <small>
+                                            <a href="/app/site/search/del?id={{ item.pid }}" class="confirm-request ui link">
+                                                删除
+                                            </a>
+                                        </small>
+                                        {%endif%}
 									</span>
 								</div>
-								<div class="">
-							    <p>{{ item.content }}</p>
-								</div>
-								<div class="">
-							    <p class="idea tags">
-                    {% if item.tags %}
-                      {%for tag in item.tags%}
-                      <a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui line">#{{ tag }}</a>&nbsp;
-                      {%endfor%}
-                    {%endif%}
-                  
-                  </p>
+								<div class="desc">
+							        <p>{{ item.content }}</p>
 								</div>
 							</div>
 						</div>

@@ -5,20 +5,21 @@
 <style class="text/css">
   .custop{
     background:url({{ app_url_packaged }}/images/match/custom.jpg) no-repeat center center / cover;
-    height:600px;
+    height:450px;
   }
   .custop{
-    padding-top:65px;
+    padding-top:35px;
     color:#fff;
   }
   .custop h1{
     margin-top: 0px;
-    font-size: 3rem;
+    font-size: 2.5rem;
   }
   .custop h2{
     margin-top: 0px;
     color: #f36;
     margin-bottom: 30px;
+    font-size: 20px;
   }
   .ui.big.block{
     margin:0;
@@ -117,7 +118,9 @@
           <img src="{{ app_url_packaged }}/images/match/word.png">
           <h1>创新产品再设计</h1>
           <h2>为设计遇见，为热爱实现</h2>
-          <a href="{{ app_url_contest }}/custom" class="ui huge inverted magenta active button">查看命题</a>
+          <a href="{{ app_url_contest }}/custom" class="ui large inverted magenta active button">
+              <i class="idea icon"></i> 查看命题
+          </a>
         </div>
       </div>
     </div>
@@ -461,6 +464,26 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_incubator }}">
+						孵化
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">反向定制规则</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 {% endblock %}
   

@@ -53,29 +53,30 @@ class Sher_Core_Model_Contest extends Sher_Core_Model_Base  {
 	 * 扩展关联数据
 	 */
     protected function extra_extend_model_row(&$row) {
-        $row['view_url'] = Sher_Core_Helper_Url::contest_view_url($row['_id']);;
+        $row['view_url'] = !empty($row['link'])?$row['link']:Sher_Core_Helper_Url::contest_view_url($row['_id']);
 		// 验证是否指定封面图
 		if(empty($row['cover_id'])){
 			$this->mock_cover($row);
-    }
-
+        }
+        
         if(empty($row['short_title'])){
           $row['short_title'] = $row['title'];
         }
+        
         // 状态
         $row['step_label'] = '';
-        if($row['step_stat']){
-          switch($row['step_stat']){
-            case 1:
-              $row['step_label'] = '进行中';
-              break;
-            case 2:
-              $row['step_label'] = '审核中';
-              break;
-            case 5:
-              $row['step_label'] = '结束';
-              break;
-          }
+        if(isset($row['step_stat'])){
+            switch($row['step_stat']){
+                case 1:
+                    $row['step_label'] = '进行中';
+                    break;
+                case 2:
+                    $row['step_label'] = '审核中';
+                    break;
+                case 5:
+                    $row['step_label'] = '结束';
+                    break;
+            }
         }
     }
     
