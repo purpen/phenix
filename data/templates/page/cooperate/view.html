@@ -88,77 +88,76 @@
 {% endif %}
     <div class="masthead-cover">
     	<div class="ui responsive grid">
-    		<div class="column">
-                <div class="container">
-                    <div class="ui grid">
-                        <div class="two column row">
-                            <div class="right aligned column">
-                                <div class="logo">
-                                    {% if cooperate.marks.labs %}
-                                    <div class="ui magenta icon pop button" data-content="孵化实验室" data-variation="inverted">
-                                        <i class="lab icon"></i>
-                                    </div>
-                                    {% endif %}
-                                    <img class="ui big avatar image" src="{{ cooperate.medium_avatar_url }}" />
-                                </div>
-                                <div class="rate">
-                                    <div class="ui small star rating">
-                                        {% for s in cooperate.rank_stars %}
-                					  	<i class="icon {{ s }}"></i>
-                                        {% endfor %}
-                					</div>
-                                </div>
-                            </div>
-                            <div class="column">
-                                <div class="ui header">
-                                    <div class="content">
-                                        {{ cooperate.name }}
-                                        <div class="sub header">
-                                           <i class="map icon"></i> {{ cooperate.type_label.name }} {{ cooperate.city }} 
-                                        </div>
-                                        {% if !is_ship %}
-                                    	<a href="{{ app_url_cooperate }}/ajax_follow?id={{ cooperate._id }}" class="ui small white ajax inverted button" id="cooperate-{{ cooperate._id }}-ship">
-                                    		关注 
-                                    	</a>
-                                        {% else %}
-                                    	<a href="{{ app_url_cooperate }}/ajax_cancel_follow?id={{ cooperate._id }}" class="ui small active white ajax inverted button" id="cooperate-{{ cooperate._id }}-ship">
-                                    		已关注 
-                                    	</a>
-                                        {% endif %}
-                                        {% if cooperate.follow_count %}
-                                        <span id="cooperate-follow-label">{{ cooperate.follow_count }}人已关注</span>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
+            <div class="two column row">
+    		    <div class="right aligned column">
+                    <div class="icontainer">
+                        <div class="logo">
+                            <img class="ui big avatar image" src="{{ cooperate.medium_avatar_url }}" />
+                            {% if cooperate.marks.labs %}
+                            <span class="ui magenta icon pop button" data-content="孵化实验室" data-variation="inverted">
+                                <i class="lab icon"></i>
+                            </span>
+                            {% endif %}
+                        </div>
+                        <div class="rate">
+                            <div class="ui small rating">
+                                {% for s in cooperate.rank_stars %}
+        					  	<i class="icon {{ s }}"></i>
+                                {% endfor %}
+        					</div>
                         </div>
                     </div>
-                    
                 </div>
-    		</div>
+    		    <div class="column">
+                    <div class="ui header">
+                        <div class="content">
+                            {{ cooperate.name }}
+                            
+                            {% if cooperate.city %}
+                            <div class="sub header">
+                               <i class="marker icon"></i> {{ cooperate.type_label.name }} {{ cooperate.city }} 
+                            </div>
+                            {% endif %}
+                            
+                            {% if !is_ship %}
+                        	<a href="{{ app_url_cooperate }}/ajax_follow?id={{ cooperate._id }}" class="ui small white ajax inverted button" id="cooperate-{{ cooperate._id }}-ship">
+                        		<i class="plus icon"></i> 关注 
+                        	</a>
+                            {% else %}
+                        	<a href="{{ app_url_cooperate }}/ajax_cancel_follow?id={{ cooperate._id }}" class="ui small active white ajax inverted button" id="cooperate-{{ cooperate._id }}-ship">
+                        		<i class="minus icon"></i> 已关注 
+                        	</a>
+                            {% endif %}
+                            {% if cooperate.follow_count %}
+                            <span id="cooperate-follow-label">{{ cooperate.follow_count }}人已关注</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
     	</div>
     </div>
 </div>
 
+{% if editable %}
 <div class="cooperate support">
-    <div class="ui pop circular icon support button" data-id="{{ cooperate._id }}" data-mark="n" data-content="我支持" data-variation="inverted">
-        <i class="thumbs up outline icon"></i><div class="love count">{{ cooperate.love_count|default 0 }}</div>
-    </div>
-    
-    {% if editable %}
-    <div class="editable">
-        <div class="ui pop upload icon gray inverted button" data-content="上传案例" data-variation="inverted" data-id="{{ cooperate._id }}">
-            <i class="upload icon"></i>
+	<div class="ui grid">
+        <div class="row">
+		    <div class="right aligned column">
+                <div class="ui pop upload icon grey inverted button" data-content="上传案例" data-variation="inverted" data-id="{{ cooperate._id }}">
+                    <i class="upload icon"></i>
+                </div>
+            	<div class="ui pop edit icon grey inverted button" data-content="编辑信息" data-variation="inverted" data-id="{{ cooperate._id }}">
+            		<i class="edit icon"></i>
+            	</div>
+            </div>
         </div>
-    	<div class="ui pop edit icon gray inverted button" data-content="编辑信息" data-variation="inverted" data-id="{{ cooperate._id }}">
-    		<i class="edit icon"></i>
-    	</div>
     </div>
-    {% endif %}
 </div>
+{% endif %}
 
 <div class="cooperate stuffs">
-	<div class="ui responsive grid">
+	<div class="ui grid">
         <div class="row">
     		<div class="center aligned column section-title">
                 <h2 class="block title">作品案例</h2>
@@ -168,38 +167,9 @@
         <div class="row">
     		<div class="column">
 				{% stuff_list var:'stufflist' sort:sort sticked:sticked cooperate_id:cooperate._id size:6 %}
-				<div class="ui three stuffs okcase cards">
+				<div class="ui three products cards">
 					{% for stuff in stufflist.rows %}
-                        <div class="card">
-                         	<div class="image">
-                                <a href="{{ stuff.view_url }}" title="{{ stuff.title }}" target="_blank">
-                            		<img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
-                          	  	</a>
-                          	</div>
-                          	<div class="content">
-                            	<div class="header">
-                            		<a href="{{ stuff.view_url }}" title="{{ stuff.title }}" class="ui line" target="_blank">{{ stuff.title|truncate 26 '' }}</a>
-                          	  	</div>        
-                                <div class="i-stats">
-                                    <div class="love">
-                                        <span class="ui icon support active magenta button" data-id="{{ stuff._id }}">
-                                            <i class="thumbs up outline icon"></i>
-                                        </span>
-                                  	  	<div class="ui avatars images" id="stuff_{{ stuff._id }}_support">
-                                            {% if stuff.love_count %}
-                                                {% users_list var:'userlist' user_ids:stuff.love_users %}
-                                                {% for u in userlist %}
-                                      	  	        <img src="{{ u.mini_avatar_url }}" class="ui avatar image" />
-                                                {% endfor %}
-                                                <span class="count">
-                                                    {{ stuff.love_count }}<small>+</small>
-                                                </span>
-                                            {% endif %}
-                                  	  	</div>
-                                    </div>
-                                </div>
-                          	</div>
-                        </div>
+                        {% include "block/stuff_item.html" %}
 					{% endfor %}
 				</div>
             </div>
@@ -208,7 +178,7 @@
 </div>
 
 <div class="cooperate content">
-	<div class="ui responsive grid">
+	<div class="ui grid">
         <div class="row">
     		<div class="center aligned column section-title">
                 <h2 class="block title">详细介绍</h2>
@@ -217,13 +187,13 @@
         </div>
         <div class="row">
     		<div class="column">
-                <h3 class="ui center aligned black header">{{ cooperate.fullname }}</h3>
+                <div class="block title">{{ cooperate.fullname }}</div>
     			<div class="summary froala-element">
                     {{ cooperate.summary }}
                 </div>
-                <h3 class="ui center aligned black header">专业领域</h3>
+                <div class="block title">专业领域</div>
+                {% tag_list var:'keywords' keywords:cooperate.keywords %}
                 <div class="expertise">
-                    {% tag_list var:'keywords' keywords:cooperate.keywords %}
                     {% for t in keywords %}
                     <label class="ui {{ t.color }} label">{{ t.name }}</label>
                     {% endfor %}
@@ -232,6 +202,7 @@
         </div>
     </div>
 </div>
+
 <!--
 <div class="cooperate prize">
 	<div class="ui responsive grid">
@@ -250,7 +221,7 @@
 </div>-->
 
 <div class="cooperate prize">
-	<div class="ui responsive grid">
+	<div class="ui grid">
         <div class="row">
     		<div class="center aligned column section-title">
                 <h2 class="block title">关注的人</h2>
@@ -263,7 +234,7 @@
                     {% favorite_list var:'list' target_id:cooperate._id type:6 event:3 %}
                     <div class="ui small images">
                         {% for a in list.rows %}
-                        <a href="{{ a.user.home_url }}" target="_blank" data-content="{{ a.user.nickname }}" data-variation="inverted" class="ui people pop">
+                        <a href="{{ a.user.home_url }}" target="_blank" data-uid="{{ a.user.id }}" data-html="<div class='header'>{{ a.user.nickname }}</div><div class='content'>荣誉：{{ user.ext_state.user_rank.title|default '鸟列兵' }} / 经验值：{{ user.ext_state.rank_point|default 0 }}</div>" data-variation="wide" class="ui people pop">
                             <img class="ui avatar image" src="{{ a.user.small_avatar_url }}" />
                         </a>
                         {% endfor %}
@@ -275,7 +246,7 @@
 </div>
 
 <div class="cooperate contact">
-	<div class="ui responsive grid">
+	<div class="ui grid">
         <div class="row">
     		<div class="center aligned column white section-title">
                 <h2 class="block title">联系我们</h2>
@@ -285,28 +256,24 @@
         <div class="row">
     		<div class="column">
                 <div class="container">
-                    <p>// 网址：{{ cooperate.site_url|default '无' }}</p>
-                    <p>// 地址：{{ cooperate.address|default '无' }}</p>
-                    <p>// 联系人：{{ cooperate.people|default '无' }}</p>
-                    <p>// 联系电话：{{ cooperate.phone|default '无' }}</p>
+                    <p>网址：{{ cooperate.site_url|default '无' }}</p>
+                    <p>地址：{{ cooperate.address|default '无' }}</p>
+                    <p>联系人：{{ cooperate.people|default '无' }}</p>
+                    <p>联系电话：{{ cooperate.phone|default '无' }}</p>
                 </div>
-    		</div>
-        </div>
-        <div class="row">
-    		<div class="center aligned column">
                 <div class="social">
                     {% if cooperate.weibo_url %}
                 	<a href="{{ cooperate.weibo_url }}" target="_blank" class="ui red icon inverted button">
-                		<i class="flat icon_weibo icon"></i>
+                		<i class="weibo icon"></i>
                 	</a>
                     {% endif %}
                     {% if cooperate.wechat %}
                 	<a href="{{ cooperate.wechat }}" target="_blank" class="ui green icon inverted button" title="微信">
-                		<i class="flat icon_weixin icon"></i>
+                		<i class="wechat icon"></i>
                 	</a>
                     {% endif %}
                 </div>
-            </div>
+    		</div>
         </div>
     </div>
 </div>
@@ -320,8 +287,8 @@
 						<i class="home icon"></i> 首页
 					</a>
                     <i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_social }}">
-						发现
+				  	<a class="ui section link" href="{{ app_url_incubator }}">
+						孵化
 					</a>
                     <i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_cooperate }}">

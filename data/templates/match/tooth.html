@@ -122,18 +122,22 @@
 {% endblock %}
 {% block content %}
 <div id="tooth">
-  <div class="match">
-    <div class="ui responsive grid">
-      <div class="row">
-        <div class="ui center aligned column">
-          <h1 class="ui header">电动牙刷主题设计</h1>
-          <a href="{{ app_url_stuff }}/contest_submit?contest_id=1" class="ui big inverted active button">
-            <i class="cloud upload icon"></i>
-            上传作品</a>
+    <div class="match">
+        <div class="ui responsive grid">
+            <div class="row">
+                <div class="ui center aligned column">
+                    <h1 class="ui header">电动牙刷主题设计</h1>
+                    <a href="{{ app_url_contest }}/custom" class="ui big inverted button">
+                        <i class="browser icon"></i> 查看规则
+                    </a>
+                    <a href="{{ app_url_stuff }}/contest_submit?contest_id=1" class="ui big inverted button">
+                        <i class="cloud upload icon"></i> 上传作品
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+    
   <div class="ui big gray block">
     <div class="ui responsive grid">
       <div class="row">
@@ -320,15 +324,42 @@
       </div>
     </div>
   </div>
-  <div class="ui big gray block" style="padding-top:2.5em;">
-    <div class="ui responsive grid">
-      <div class="ui center aligned row">
-        <div class="column">
-          <a href="{{ app_url_contest }}/about3" class="ui big inverted return blue active button" title="返回活动首页">返回活动首页</a>
+  
+    <div class="ui big gray block" style="padding-top:2.5em;">
+        <div class="ui responsive grid">
+            <div class="ui center aligned row">
+                <div class="column">
+                    <a href="{{ app_url_contest }}" class="ui big inverted return blue active button" title="返回定制首页">
+                        <i class="angle left icon"></i> 返回定制首页
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
+</div>
+
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_incubator }}">
+						孵化
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_contest }}">
+						反向定制
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">电动牙刷主题设计</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 {% endblock %}

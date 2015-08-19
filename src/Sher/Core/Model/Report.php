@@ -24,6 +24,8 @@ class Sher_Core_Model_Report extends Sher_Core_Model_Base  {
         'content'     => '',
         # 外链
         'link'        => '',
+        # 推荐
+        'stick'       => 0,
         
         # 发布日期
         'publish_date'  => 0,
@@ -50,7 +52,7 @@ class Sher_Core_Model_Report extends Sher_Core_Model_Base  {
     );
 	
     protected $required_fields = array('user_id', 'title');
-    protected $int_fields = array('user_id','view_count', 'state', 'kind');
+    protected $int_fields = array('user_id','view_count', 'state', 'kind', 'stick');
 	  protected $counter_fields = array('view_count');
 	
 	/**
@@ -163,6 +165,20 @@ class Sher_Core_Model_Report extends Sher_Core_Model_Base  {
 				$model->update_set($id, array('parent_id' => (int)$parent_id));
 			}
 		}
+	}
+
+  /**
+    * 标记主题为编辑推荐
+    */
+  public function mark_as_stick($id, $value=1) {
+      return $this->update_set($id, array('stick' => $value));
+  }
+	
+    /**
+     * 取消主题编辑推荐
+     */
+	public function mark_cancel_stick($id){
+		return $this->update_set($id, array('stick' => 0));
 	}
 
 }

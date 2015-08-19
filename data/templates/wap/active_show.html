@@ -275,11 +275,12 @@
 	$('.ui.attend.btn').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-      // 显示登录框
-      $('.ui.sign-box.modal').modal('show');
+		  phenix.redirect("{{ app_url_wap }}/auth/login?redirect_url={{ active.wap_view_url }}");
 			return false;
 		}
-    $('.ui.user-info-box.modal').modal('show');
+    $('.ui.user-info-box.modal')
+    .modal('setting', 'transition', 'vertical  flip')
+    .modal('show');
     return false; 
 
 	});
@@ -325,7 +326,7 @@
 			<div class="center aligned column">
 				<div class="content">
 					<span>{{ active.title }}<br></span>
-					时间:{{ active.end_time|date 'Y-m-d H:i' }}<br>
+					时间:{{ active.begin_time|date 'Y-m-d H:i' }}<br>
 					地点:{{ active.address }}<br>
 					人数:{{ active.max_number_count }}人
 				</div>
@@ -390,7 +391,7 @@
 					<hr>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" style="overflow: hidden;">
               {% for p in active.process %}
                 <div class="rundown-timeline-container">
                   <div class="timeline-block">
@@ -560,5 +561,4 @@
 	  </div>
 	</div>
 {% include "block/wap_attend_user_info.html" %}
-{% include "mm/loginbox.html" %}
 {% endblock %}

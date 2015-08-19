@@ -3,24 +3,17 @@
 
 {% block page_css %}
 <style class="text/css">
-    
+    .sorts.filter {
+        background-color: #fff;
+        margin-bottom: 0;
+        padding-bottom: 40px;
+        padding-top: 20px;
+    }
 </style>
 {% endblock %}
 
 {% block jquery %}
-	$('.ui.ell.link').click(function(){
-        if($('.social.people.filter').hasClass('active')){
-            $('.social.people.filter')
-                .removeClass('active').slideUp('slow');
-                
-            $(this).html('<i class="arrow circle down icon"></i>');
-        }else{
-            $('.social.people.filter')
-                .addClass('active').slideDown('slow');
-                
-            $(this).html('<i class="arrow circle up icon"></i>');
-        }
-    });
+	
 {% endblock %}
 
 {% block content %}
@@ -29,12 +22,11 @@
     	<div class="ui responsive grid">
     		<div class="center aligned column white section-title">
                 <div class="container">
-        			<h2 class="block title">孵化服务</h2>
-        			<p>每个全新的发明面试，都要经过千万次的试验、以及有好奇心的你。</p>
-        			<hr>
+        			<h2 class="block title">孵化资源</h2>
+        			<p>如果你拥有设计、技术、生产链、资金、营销、媒介等资源，可将其提交到太火鸟资源库，与我们一起携手帮助创业团队实现梦想、改变世界！</p>
         			<div class="buttons">
-        				<a href="{{ app_url_cooperate }}/apply" class="ui inverted gift button">
-        					<i class="edit icon"></i> 申请合作
+        				<a href="{{ app_url_cooperate }}/apply" class="ui large inverted gift button">
+        					<i class="edit icon"></i> 资源提交
         				</a>
         			</div>
                 </div>
@@ -43,29 +35,14 @@
     </div>
 </div>
 
-<div class="cooperate submenu">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="center aligned column">
-                {% category_list var:'category' page:1 only_open:1 domain:6 pid:0 istop:1 %}
-                <div class="ui horizontal specialty list">
-                    {% for m in category.rows %}
-                    <a href="{{ app_url_cooperate }}?rid={{ m._id }}" class="ui {% if rid == m._id %}active{% endif %} item">{{ m.title }}</a>
-                    {% endfor %}
-                </div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="social people {{ show_all }} filter">
+<div class="sorts cubes filter">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
                 <div class="container">
                     {% category_list var:'children' page:1 only_open:1 domain:6 pid:rid current:cid %}
                     {% if children.total_rows > 0 %}
-                    <h2 class="block title">专业领域</h2>
+                    <i class="cubes icon"></i> 专业领域：
                     <div class="ui horizontal specialty list">
                         <div class="item">
                             <a href="{{ app_url_cooperate }}?rid={{ rid }}&d={{ district }}" class="ui {% if !cid %}active{% endif %} link">全部</a>
@@ -77,7 +54,13 @@
                         {% endfor %}
                     </div>
                     {% endif %}
-                    <h2 class="block title">所在地域</h2>
+                </div>
+            </div>
+        </div>
+		<div class="row">
+			<div class="column">
+                <div class="container">
+                    <i class="marker icon"></i> 所在地域：
                     <div class="ui horizontal list">
                         <div class="item">
                             <a href="{{ app_url_cooperate }}?cid={{ cid }}&d=0" class="ui {% if !district %}active{% endif %} link">全部</a>
@@ -89,17 +72,6 @@
                         {% endfor %}
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="social people more">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="center aligned column">
-                <a class="ui ell pop link" href="javascript:void(0);" data-content="按条件检索" data-variation="inverted">
-                    <i class="arrow circle down icon"></i>
-                </a>
             </div>
         </div>
     </div>
@@ -130,63 +102,12 @@
 	
 <div class="cooperate mainlist">
 	<div class="ui responsive grid">
-		{% cooperate_list var:'cooperate' page:page type:rid category_id:cid district:district %}
+		{% cooperate_list var:'cooperate' page:page type:rid category_id:cid district:district size:15 %}
 		<div class="row">
 			<div class="column">
-    			<h2 class="block title">
-    				<a href="{{ app_url_cooperate }}" class="ui line">机构列表</a>
-    			</h2>
-				<div class="ui two cooperate cards">
+				<div class="ui three cooperate cards">
 					{% for b in cooperate.rows %}
-				  	<div class="card">
-                        <div class="container">
-                            <div class="ui small star rating">
-                                {% for s in b.rank_stars %}
-        					  	<i class="icon {{ s }}"></i>
-                                {% endfor %}
-							</div>
-                            <div class="ui list">
-                                <div class="item">
-                                    <div class="logo">
-                                        {% if b.marks.labs %}
-                                        <div class="ui magenta icon pop button" data-content="孵化实验室" data-variation="inverted">
-                                            <i class="lab icon"></i>
-                                        </div>
-                                        {% endif %}
-                                        <img class="ui big avatar image" src="{{ b.medium_avatar_url }}" />
-                                    </div>
-                                    <div class="content">
-                                        <a class="ui name line" href="{{ b.home_url }}" target="_blank">{{ b.name }}</a>
-                                        <div class="description">
-                                            <small>{{ b.type_label.name }} <span>{{ b.city }}</span></small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="summary">
-                                {{ b.strip_summary|truncate 200  }} <a href="{{ b.home_url }}" target="_blank" class="ui magenta line">更多</a>
-                            </div>
-                            <div class="expertise">
-                                {% tag_list var:'keywords' keywords:b.keywords %}
-                                {% for t in keywords %}
-                                <label class="ui {{ t.color }} label">{{ t.name }}</label>
-                                {% endfor %}
-                            </div>
-                            
-                            {% stuff_list var:'stufflist' cooperate_id:b._id size:3 %}
-                            {% if stufflist.total_rows %}
-                            <div class="cases">
-                                <div class="ui three blocks">
-                                    {% for stuff in stufflist.rows %}
-                                    <div class="block">
-                                        <img src="{{ stuff.cover.thumbnails.mini.view_url }}" alt="{{ stuff.title }}" />
-                                    </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            {% endif %}
-                        </div>
-				  	</div>
+				  	    {% include "block/cooperation_card.html" %}
 					{% endfor %}
 				</div>
                 
@@ -211,11 +132,11 @@
 						<i class="home icon"></i> 首页
 					</a>
                     <i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_social }}">
-						发现
+				  	<a class="ui section link" href="{{ app_url_incubator }}">
+						孵化
 					</a>
 					<i class="angle right icon divider"></i>
-					<div class="active section">孵化服务</div>
+					<div class="active section">孵化资源</div>
 				</div>
 			</div>
 		</div>

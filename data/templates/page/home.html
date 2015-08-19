@@ -2,7 +2,9 @@
 
 {% block page_css %}
 <style type="text/css">
-    
+    .fixed.button{
+      display:none !important;
+    }
 </style>
 {% endblock %}
 {% block jquery %}
@@ -78,21 +80,14 @@
 	});	
 	
 	// 易购   
-      $('.ui.yigo.modal')
-      .modal('setting', 'closable', false)
-     .modal('setting', 'transition', 'vertical  flip')
-     .modal('show');
-     $('.fixed.button').css({"display":"none","position":"fixed"});
-     $('.ui.yigo.close').click(function(){
-       $('.ui.yigo.modal').modal('hide');
-       $('.fixed.button').css({"display":"block","position":"fixed"});
-     })
-     $('.ui.yig.btn').click(function(){
+     $('.egou.click').click(function(){
        $('.ui.yigo.modal')
        .modal('setting', 'closable', false)
       .modal('setting', 'transition', 'vertical  flip')
       .modal('show');
-      $('.fixed.button').css({"display":"none","position":"fixed"});
+     })
+     $('.ui.yigo.close').click(function(){
+       $('.ui.yigo.modal').modal('hide');
      })
 {% endblock %}
 
@@ -299,4 +294,9 @@
     
 	
 </div>
+{% if egou_show %}
+<div class="egou click" style="text-align:center;cursor: pointer;">
+  <img src="{{ app_url_packaged }}/images/egouqd.jpg">
+</div>
+{% endif %}
 {% endblock %}

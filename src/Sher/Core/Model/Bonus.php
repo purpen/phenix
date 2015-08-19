@@ -48,6 +48,8 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 		'used_at' => 0,
 		# 是否使用
 		'used' => self::USED_DEFAULT,
+    # 限制使用产品
+    'product_id' =>  0,
 		
 		# 使用在某订单
 		'order_rid' => '',

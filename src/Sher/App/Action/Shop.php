@@ -406,6 +406,8 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			'page' => 1,
 			'size' => $size,
 			'sort_field' => 'latest',
+      // 最新
+      'sort' => 1,
 			'evt' => 'tag',
 			't' => 1,
 			'oid' => $current_id,

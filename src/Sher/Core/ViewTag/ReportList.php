@@ -20,6 +20,8 @@ class Sher_Core_ViewTag_ReportList extends Doggy_Dt_Tag {
 
         $kind = 0;
         $user_id = 0;
+        $state = 0;
+        $stick = 0;
 		
 		    $sort_field = 'latest';
         $var = 'list';
@@ -41,6 +43,12 @@ class Sher_Core_ViewTag_ReportList extends Doggy_Dt_Tag {
 		if($user_id){
 			$query['user_id'] = (int)$user_id;
 		}
+		if($state){
+			$query['state'] = (int)$state;
+		}
+    if($stick){
+      $query['stick'] = (int)$stick;
+    }
 		
         $service = Sher_Core_Service_Report::instance();
         $options['page'] = $page;

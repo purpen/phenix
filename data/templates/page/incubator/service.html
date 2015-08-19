@@ -3,12 +3,10 @@
 
 {% block page_css %}
 <style class="text/css">
-	.incubator.masthead {
-		padding: 150px 0px;
-        height: auto;
+	.incubator.masthead{
+		padding:8% 0 7%;
 		background-repeat:no-repeat;
 	}
-    
 	p.line{
 		line-height: 21px;
 	}
@@ -21,7 +19,7 @@
 		color:#444;
 	}
 	.incubator.serve .ui.inverted.button {
-		border: 1px solid #f36;
+		border:1px solid #f36;
 		-webkit-box-shadow: 0 0 0 0px #fff inset!important;
 	    box-shadow: 0 0 0 0px #fff inset!important;
 	}
@@ -33,316 +31,601 @@
 	.incubator.serve .ui.pd-10 {
 	    padding: 6% 15% 8%;
 	}
+	.gy.active.button,.fh.active.button{
+	  background:#fff !important;
+	}
     
-    .incubator.category {
-        
-    }
-    .incubator.category .row > .column {
-        opacity: 0.9;
-        transition: all 0.3s ease-out 0s;
-    }
-    .incubator.category .row > .column:hover {
-        opacity: 1.0;
-        transition: all 0.3s ease-out 0s;
-    }
-    .incubator.category .feaholder {
-        color: #fff;
-        display: block;
-        margin: 60px 0 80px;
-        position: relative;
-        transition: all 0.3s ease-out 0s;
-    }
-    .incubator.category .feaholder:hover {
-        color: #f5f5f5;
-    }
-    .incubator.category .feaholder > i.icon {
-        font-size: 6em;
-    }
-    .incubator.category .feaholder h4 {
-        margin: 0 1.5em;
-        text-transform: uppercase;
-    }
-    .incubator.category .feaholder p {
-        font-size: 0.875em;
-        line-height: 1.846em;
-        margin: 40px auto 0;
-        max-width: 270px;
-        text-indent: 2em;
-        width: 80%;
-    }
-    .incubator.category .ui.inverted.button {
-        bottom: 2rem;
-        left: 35%;
-        position: absolute;
-        z-index: 99;
-    }
-    
-    .incubator.ideas {
-        padding: 50px 0;
-    }
-    .incubator.ideas .banner.image img {
-        border-radius: 4px;
-    }
-    .incubator.ideas h1 {
-        font-size: 2.5rem;
-        font-weight: bold;
-    }
-    .incubator.ideas .container {
-        position: relative;
-        height: 100%;
-    }
-    .incubator.ideas .container h2 {
-        margin-bottom: 1rem;
-    }
-    .incubator.ideas .container h2 a {
-        color: #ff3366;
-    }
-    .incubator.ideas .sub.title {
-        margin-bottom: 1rem;
-    }
-    .incubator.ideas .join.button {
-        padding-left: 3rem;
-        padding-right: 3rem;
-        position: absolute;
-        bottom: 0.5rem;
-        left: 0;
-        z-index: 2;
-    }
-    
-    .incubator.labs {
-        padding: 50px 0;
-        background-color: #fff;
-    }
 </style>
 {% endblock %}
 
 {% block jquery %}	
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
+	
+	var s = e(window).width();
+	e(".frames > .slide > .item").width(s);
+	
+	var $frame = $('.frames');
+	// Call Sly on frame
+	var sly = new Sly($frame, {
+		horizontal: 1,
+		itemNav: 'basic',
+		smart: 1,
+		activateMiddle: 1,
+		activateOn: 'click',
+		
+		// Automated cycling
+		cycleBy: "items",
+		cycleInterval: 35000,
+		pauseOnHover: 1,
+		
+		// Dragging
+		mouseDragging: 1,
+		touchDragging: 1,
+		releaseSwing: 1,
+		
+		prev: ".frames .prev",
+		next: ".frames .next",
+		
+		// Mixed options
+		startAt: 0,
+		speed: 300,
+		elasticBounds: 1,
+		easing: 'easeInOutExpo',
+		dragHandle: 1,
+		dynamicHandle: 1,
+		clickBar: 1,
+	}).init();
+	
+	$(window).resize(function() {
+		var s=$(window).width();
+		e(".frames > .slide > .item").width(s);
+		
+		$frame.sly('reload');
+	});
+	
+	$('.ui.gy.button').click(function(){
+		sly.activate(0);
+		$(this).addClass('active');
+		$('.ui.fh.button').removeClass('active');
+	});
+	
+	$('.ui.fh.button').click(function(){
+		sly.activate(1);
+		$(this).addClass('active');
+		$('.ui.gy.button').removeClass('active');
+	});
 	
 {% endblock %}
 
 {% block content %}
-<div class="incubator masthead platform">
-    <div class="ui responsive grid">
-	    <div class="center aligned column">
-		    <h2 class="block title">孵化</h2>
-            <p>太火鸟一个带有互联网基因的创新智能硬件孵化平台</p>
-            <p>从商品定义、工业设计、投资融资、硬件品控、软件体验、推广营销、渠道建设等环节全力支持创业团队</p>
+<div class="egg-banner">
+<div class="incubator masthead">
+	<div class="ui responsive grid">
+		<div class="center aligned column white section-title">
+			<h2 class="block title">太火鸟｜中国最火爆的智能硬件孵化平台</h2>
+			<hr>
+			<p>太火鸟是一个带有互联网基因的创新智能硬件孵化平台，拥有北京、苏州、宁波、深圳、香港等多个孵化基地，由中国设计界资深风云人物雷海波创办。太火鸟意推动设计创新和创业，将最性感的产品呈现在大众面前。太火鸟基于消费者及创意大数据，充分依托其互联网优势，使社区用户参与产品开发销售的整个过程，从而打造一个完美的创意生态系统。</p>
+			<p>太火鸟创始人雷海波说：“我希望未来100个智能硬件创新产品或者品牌，有60个都是太火鸟孵化的，那么太火鸟的使命就完成了！”</p>
+			<br />
+			<p class="line">产品孵化：烦请提交BP到邮箱：products@taihuoniao.com<br />
+			产品众筹、产品销售合作：烦请提交产品资料到邮箱：products@taihuoniao.com</p>
+			<!--<div class="buttons">
+				<a href="{{ app_url_incubator }}/cooperate" class="ui inverted button" target="_blank">
+					<i class="edit icon"></i> 提交孵化项目合作
+				</a>
+			</div>-->
 		</div>
 	</div>
 </div>
 
-<div class="incubator category">
-    <div class="ui four column padded grid">
-        <div class="center aligned row">
-            <div class="orange column">
-                <a class="feaholder" href="{{ app_url_contest }}" target="_blank">
-                    <i class="idea icon"></i>
-        			<h4>十万火计</h4>
-        		    <p>2015年太火鸟“反向定制”创意活动正式开启——我们给出命题，你来产出创意，非公开只求精，真正打造可孵化的项目！<br />
-
-这一次，我们我们有目的、有计划、有预谋，面向所有创新产品从业者、创意设计师、相关专业师生。
-“有形设计，无限创意”，形式已定，创意由你。</p>
-                </a>
-                <a href="{{ app_url_contest }}" class="ui inverted button" target="_blank">
-                    <i class="edit icon"></i>创意提交
-                </a>
-            </div>
-            <div class="blue column">
-                <a href="{{ app_url_d3in }}" class="feaholder" target="_blank">
-                    <i class="lab icon"></i>
-        			<h4>D3IN铟立方未来实验室</h4>
-        		    <p>一个开放专业的智能硬件交流分享平台，实验室拥有全球领先的专业测试设备及行业顶尖的专家顾问团队，为创业者在早期资源欠缺或部分能力不足的阶段提供从研发，ID&MD设计，测试，DFM review，可靠度验证，认证，生产良率把控等全方位的交流空间及系统服务！</p>
-                </a>
-                <a href="{{ app_url_d3in }}" class="ui inverted button" target="_blank">
-                    <i class="time icon"></i>预约申请
-                </a>
-            </div>
-            
-            <div class="green column">
-                <a class="feaholder" href="{{ app_url_cooperate }}" target="_blank">
-                    <i class="cubes icon"></i>
-        			<h4>孵化资源</h4>
-        		    <p>太火鸟从商品定义、工业设计、投资融资、硬件品控、软件体验、推广营销、渠道建设等环节全力支持创业团队。<br />
-  如果你拥有设计、技术、生产链、资金、营销、媒介等资源，可将其提交到太火鸟资源库，与我们一起携手帮助创业团队实现梦想、改变世界</p>
-                </a>
-                <a href="{{ app_url_cooperate }}" class="ui inverted button" target="_blank">
-                    <i class="send icon"></i>提交申请
-                </a>
-            </div>
-            <div class="olive column">
-                <a class="feaholder" href="{{ app_url_incubator }}/index" target="_blank">
-                    <i class="food icon"></i>
-        			<h4>孵化服务</h4>
-        		    <p>太火鸟推动设计创新和创业，将最性感的产品呈现在大众面前。太火鸟基于消费者及创意大数据，充分依托其互联网优势，使社区用户参与产品开发销售的整个过程，从而打造一个完美的创意生态系统。</p>
-                </a>
-                <a href="{{ app_url_incubator }}" class="ui inverted button" target="_blank">
-                    <i class="share alternate icon"></i>合作申请
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="incubator ideas">
-    <div class="ui responsive grid">
-        <div class="row">
-    	    <div class="center aligned column">
-    		    <h1 class="block title">创意定制</h1>
-                <p class="sub title">“有形设计，无限创意”，形式已定，创意由你。</p>
-    		</div>
-        </div>
-        <div class="two column row">
-    	    <div class="column">
-                <a href="#" class="ui banner image">
-		            <img src="{{ app_url_packaged }}/images/match_1.jpg" />
-                </a>
-    		</div>
-            <div class="column">
-                <div class="container">
-        		    <h2 class="block title">
-                        <a href="#" class="ui line">Apple Watch配件征集大赛 （第一期）</a>
-                    </h2>
-                    <p>这是场设计才华的博弈。</p>
-
-                    <p>游戏亦有规则，与思绪的畅游并行不悖。这一次，请在既定命题中挥洒创意。</p>
-                    <p>色彩，棱角，线条，质感……带入情境，随意排列，每一个组合都别具匠心。设计是形与意的象征，我们以明朗而坚定的方式，恣意畅快地描绘生活。</p>
-                    <p>征集时间：2015.08.10 -- 2015.09.10</p>
-                    <p>已投数量：<span>30</span> 个</p>
-                    
-                    <a href="#" class="ui large inverted magenta join button">
-                        <i class="write icon"></i> 立即参赛
-                    </a>
-                </div>
-            </div>
-        </div>
-	</div>
-</div>
-
-<div class="incubator ideas labs">
-    <div class="ui responsive grid">
-        <div class="row">
-    	    <div class="center aligned column">
-    		    <h1 class="block title">实验室活动</h1>
-                <p class="sub title">专业培训课程将覆盖研发设计，测试技能，工艺制程，生产管控等领域，以多维度方式满足D3IN实验室会员的需求。</p>
-    		</div>
-        </div>
-        <div class="two column row">
-    	    <div class="column">
-                
-    		</div>
-            <div class="column">
-                <div class="container">
-                    
-                </div>
-            </div>
-        </div>
-	</div>
-</div>
-
-<div class="incubator ideas">
-    <div class="ui responsive grid">
-        <div class="row">
-    	    <div class="center aligned column">
-    		    <h1 class="block title">火眼行动</h1>
-    		</div>
-        </div>
-        <div class="two column row">
-            <div class="column">
-                     <p>太火鸟科技是中国最火爆的智能硬件孵化平台，从商品定义、工业设计、投资融资、硬件品控、软件体验、推广营销、渠道建设等环节全力支持创业团队。</p>
-                  <p>如果你拥有设计、技术、生产链、资金、营销、媒介等资源，可将其提交到太火鸟资源库，与我们一起携手帮助创业团队实现梦想、改变世界！</p>
-                  
-                  <div class="ui four column padded grid">
-                      <div class="center aligned row">
-                          <div class="column">
-                              <div class="ui segment">
-                                  <h1>100</h1> 
-                                  <p>设计公司</p>
-                              </div>
-                          </div>
-                          <div class="column">
-                              <div class="ui segment">
-                                  <h1>30</h1> 
-                                  <p>软件公司</p>
-                              </div>
-                          </div>
-                          <div class="column">
-                              <div class="ui segment">
-                                  <h1>20</h1> 
-                                  <p>院校基地</p>
-                              </div>
-                          </div>
-                          <div class="column">
-                              <div class="ui segment">
-                                  <h1>42</h1> 
-                                  <p>其他资源</p>
-                              </div>
-                          </div>
-                      </div>
-                  </div> 
-    		</div>
-            <div class="column">
-                {% cooperate_list var:'cooperate' page:1 size:2 %}
-				<div class="ui one cooperate cards">
-					{% for b in cooperate.rows %}
-				  	<div class="card">
-                        <div class="container">
-                            <div class="ui small star rating">
-                                {% for s in b.rank_stars %}
-        					  	<i class="icon {{ s }}"></i>
-                                {% endfor %}
-							</div>
-                            <div class="ui list">
-                                <div class="item">
-                                    <div class="logo">
-                                        {% if b.marks.labs %}
-                                        <div class="ui magenta icon pop button" data-content="孵化实验室" data-variation="inverted">
-                                            <i class="lab icon"></i>
-                                        </div>
-                                        {% endif %}
-                                        <img class="ui big avatar image" src="{{ b.medium_avatar_url }}" />
-                                    </div>
-                                    <div class="content">
-                                        <a class="ui name line" href="{{ b.home_url }}" target="_blank">{{ b.name }}</a>
-                                        <div class="description">
-                                            <small>{{ b.type_label.name }} <span>{{ b.city }}</span></small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="summary">
-                                {{ b.strip_summary|truncate 200  }} <a href="{{ b.home_url }}" target="_blank" class="ui magenta line">更多</a>
-                            </div>
-                            <div class="expertise">
-                                {% tag_list var:'keywords' keywords:b.keywords %}
-                                {% for t in keywords %}
-                                <label class="ui {{ t.color }} label">{{ t.name }}</label>
-                                {% endfor %}
-                            </div>
-                        </div>
-				  	</div>
-					{% endfor %}
+<div class="incubator service">
+	<div class="ui responsive grid">
+		<div class="center aligned column white section-title">
+			<h2 class="block title">我们为您提供全方位的孵化支持服务</h2>
+			<hr>
+			<p>从创意构想到生产面市，太火鸟孵化服务触及产品过程各个阶段</p>
+			<div class="ui four blocks">
+				<div class="block">
+					<div class="wtitle" data-500="transform: translate(400px,150px);background-color:rgba(255,51,102,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+						<a href="#.design" class="ui line">设计创新</a>
+					</div>
 				</div>
-                
+				<div class="block">
+					<div class="wtitle" data-500="transform: translate(158px,150px);background-color:rgba(34,34,34,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+						<a href="#.marketing" class="ui line">营销推广</a>
+					</div>
+				</div>
+				<div class="block">
+					<div class="wtitle" data-500="transform: translate(-85px,150px);background-color:rgba(254,172,88,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+						<a href="#.funds" class="ui line">众筹平台</a>
+					</div>
+				</div>
+				<div class="block">
+					<div class="wtitle" data-500="transform: translate(-328px,150px);background-color:rgba(255,255,255,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+						<a href="#.sales" class="ui line">销售渠道</a>
+					</div>
+				</div>
+				<div class="block">
+					<div class="wtitle" data-500="transform: translate(400px,-88px);background-color:rgba(47,193,148,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+						<a href="#.supply" class="ui line">供应链</a>
+					</div>
+				</div>
+				<div class="block">
+					<div class="wtitle" data-500="transform: translate(158px,-88px);background-color:rgba(47,193,148,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+						<a href="#.vc" class="ui line">风投支持</a>
+					</div>
+				</div>
+				<div class="block">
+					<div class="wtitle" data-500="transform: translate(-85px,-88px);background-color:rgba(36,57,55,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+						<a href="#.media" class="ui line">媒体合作</a>
+					</div>
+				</div>
+				<div class="block">
+					<div class="wtitle" data-500="transform: translate(-328px,-88px);background-color:rgba(255,255,255,1);color:rgba(255,255,255,1);" data-550="transform: translate(0px,0px);background-color:rgba(255,255,255,1);color:rgba(255,51,102,1);">
+						<a href="#.submit" class="ui line">孵化提交</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="incubator cases">
+	<div class="ui responsive grid">
+		<div class="center aligned column section-title">
+			<h2 class="block title">太火鸟投资孵化项目</h2>
+			<hr>
+			<p>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇</p>
+			
+			<div class="container">
+				<div class="think">
+					<h3>设计创新</h3>
+					<p>互联网思维与设计思维结合成就智能硬件火爆单品</p>
+				</div>
+				<div class="product miaoxing" data-1150="transform: translate(220px, -50px);opacity:0;" data-1250="transform: translate(0px,0px);opacity:1;">
+					<div class="summary">
+						<b>喵小瞳：</b>智能车载摄像头，是喵星科技与国内顶尖的工业设计公司洛可可联合之作
+					</div>
+					<img src="{{ app_url_packaged }}/images/miaoxing.jpg" />
+				</div>
+				<div class="product yunma" data-1160="transform: translate(190px, 125px);opacity:0;" data-1260="transform: translate(0px,0px);opacity:1;">
+					<div class="summary">
+						<b>云马智行车：</b>满足你所有想象的智能代步工具，其创始人邱懿武是浙江大学工业设计系的硕士
+					</div>
+					<img src="{{ app_url_packaged }}/images/yunma.jpg" />
+				</div>
+				<div class="product peinaiji" data-1170="transform: translate(0px, 225px);opacity:0;" data-1270="transform: translate(0px,0px);opacity:1;">
+					<div class="summary">
+						<b>婴萌配奶机：</b>婴萌创始人陈清华毕业于清华工业设计专业
+					</div>
+					<img src="{{ app_url_packaged }}/images/peinaiji.jpg" />
+				</div>
+				<div class="product shiguangji" data-1180="transform: translate(-200px, 130px);opacity:0;" data-1280="transform: translate(0px,0px);opacity:1;">
+					<div class="summary">
+						<b>时光机：</b>帮助用户养成健康生活方式，其创始人胡木石是极致设计与极简生活的追求者 
+					</div>
+					<img src="{{ app_url_packaged }}/images/shiguangji.jpg" />
+				</div>
+				<div class="product sleep" data-1190="transform: translate(-250px, -45px);opacity:0;" data-1290="transform: translate(0px,0px);opacity:1;">
+					<div class="summary">
+						<b>12sleep：</b>全方位解决睡眠管理和优化问题，其创始人李一舟是清华大学设计学博士，资深用户体验设计师
+					</div>
+					<img src="{{ app_url_packaged }}/images/sleep.jpg" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="incubator design">
+	<div class="ui responsive grid">
+		<div class="center aligned column white section-title">
+			<h2 class="block title">明星设计师</h2>
+			<hr>
+			<p>中国最顶级工业设计师团队提供外观设计，设计团队囊获包括德国红点、iF、日本G-Mark、美国IDEA等至高荣誉。</p>
+			<div class="ui six blocks">
+				<div class="block">
+					<img src="{{ app_url_packaged }}/images/avatar/yangmingjie.jpg" class="avatar" data-1900="transform[bounce]: scale(0.25);opacity:0.25;" data-2000="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>杨明洁</h3>
+					<hr>
+					<p>YANG DESIGN创始人</p>
+				</div>
+				<div class="block">
+					<img src="{{ app_url_packaged }}/images/avatar/fengchanghong.jpg" class="avatar" data-1900="transform[bounce]: scale(0.25);opacity:0.25;" data-2000="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>封昌红</h3>
+					<hr>
+					<p>深圳市工业设计行业协会<br />
+执行副会长兼秘书长</p>
+				</div>
+				<div class="block">
+					<img src="{{ app_url_packaged }}/images/avatar/dingwei.jpg" class="avatar" data-1900="transform[bounce]: scale(0.25);opacity:0.25;" data-2000="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>丁伟</h3>
+					<hr>
+					<p>上海木马 创始人</p>
+				</div>
+				<div class="block">
+					<img src="{{ app_url_packaged }}/images/avatar/jiawei.jpg" class="avatar" data-1900="transform[bounce]: scale(0.25);opacity:0.25;" data-2000="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>贾伟</h3>
+					<hr>
+					<p>洛可可 创始人</p>
+				</div>
+				<div class="block">
+					<img src="{{ app_url_packaged }}/images/avatar/liuguanzhong.jpg" class="avatar" data-1900="transform[bounce]: scale(0.25);opacity:0.25;" data-2000="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>柳冠中</h3>
+					<hr>
+					<p>工业设计学术带头人</p>
+				</div>
+				<div class="block">
+					<img src="{{ app_url_packaged }}/images/avatar/luocheng.jpg" class="avatar" data-1900="transform[bounce]: scale(0.25);opacity:0.25;" data-2000="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>罗成</h3>
+					<hr>
+					<p>浪尖设计 创始人</p>
+				</div>
+				<div class="block">
+					<img src="{{ app_url_packaged }}/images/avatar/zhangjianming.jpg" class="avatar" data-2050="transform[bounce]: scale(0.25);opacity:0.25;" data-2150="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>张建民</h3>
+					<hr>
+					<p>中世纵横 创始人</p>
+				</div>
+				<div class="block">
+					<img src="{{ app_url_packaged }}/images/avatar/liqi.jpg" class="avatar" data-2050="transform[bounce]: scale(0.25);opacity:0.25;" data-2150="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>李琦</h3>
+					<hr>
+					<p>瑞德设计 创始人</p>
+				</div>
+				<div class="block">
+					<img src="{{ app_url_packaged }}/images/avatar/zhongrong.jpg" class="avatar" data-2050="transform[bounce]: scale(0.25);opacity:0.25;" data-2150="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>钟荣</h3>
+					<hr>
+					<p>品物设计 创始人</p>
+				</div>
+				<div class="block">
+					<img src="{{ app_url_packaged }}/images/avatar/lilicheng.jpg" class="avatar"  data-2050="transform[bounce]: scale(0.25);opacity:0.25;" data-2150="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>李立成</h3>
+					<hr>
+					<p>凸凹设计 创始人</p>
+				</div>
+				<div class="block">
+					<img src="{{ app_url_packaged }}/images/avatar/weimin.jpg" class="avatar" data-2050="transform[bounce]: scale(0.25);opacity:0.25;" data-2150="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>魏民</h3>
+					<hr>
+					<p>佳简几何 创始人</p>
+				</div>
+				<div class="block">
+					<img src="{{ app_url_packaged }}/images/avatar/wangshaoqiang.jpg" class="avatar" data-2050="transform[bounce]: scale(0.25);opacity:0.25;" data-2150="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<h3>王绍强</h3>
+					<hr>
+					<p>三度传媒机构 董事长</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="incubator marketing">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column white section-title">
+				<h2 class="block title">营销推广</h2>
+				<hr>
+				<p>根据孵化产品特点和目标受众属性制定相应的线上线下营销推广计划</p>
+				<div class="ui six stepone blocks">
+					<div class="block ma" data-2500="transform[bounce]: translateX(-200px);opacity:0.25;" data-2600="transform[bounce]: translateX(0px);opacity:1.0;">
+						<i class="users icon"></i>
+						<span>消费人群定位</span>
+					</div>
+					<div class="block mb" data-2550="transform[bounce]: translateX(-200px);opacity:0.25;" data-2650="transform[bounce]: translateX(0px);opacity:1.0;">
+						<i class="diamond icon"></i>
+						<span>产品卖点提炼</span>
+					</div>
+					<div class="block mc" data-2600="transform[bounce]: translateX(-200px);opacity:0.25;" data-2700="transform[bounce]: translateX(0px);opacity:1.0;">
+						<i class="lightning icon"></i>
+						<span>营销推广策划</span>
+					</div>
+					<div class="block md" data-2650="transform[bounce]: translateX(-200px);opacity:0.25;" data-2750="transform[bounce]: translateX(0px);opacity:1.0;">
+						<i class="tasks icon"></i>
+						<span>众筹方案制定</span>
+					</div>
+					<div class="block"></div>
+					<div class="block"></div>
+				</div>
+				<div class="ui six steptwo blocks">
+					<div class="block"></div>
+					<div class="block"></div>
+					<div class="block me" data-2750="transform[bounce]: translateX(-200px);opacity:0.25;" data-2900="transform[bounce]: translateX(0px);opacity:1.0;">
+						<i class="announcement icon"></i>
+						<span>线下新品发布</span>
+					</div>
+					<div class="block mf" data-2780="transform[bounce]: translateX(-200px);opacity:0.25;" data-2900="transform[bounce]: translateX(0px);opacity:1.0;">
+						<i class="rocket icon"></i>
+						<span>线上活动推广</span>
+					</div>
+					<div class="block mg" data-2850="transform[bounce]: translateX(-200px);opacity:0.25;" data-2900="transform[bounce]: translateX(0px);opacity:1.0;">
+						<i class="lab icon"></i>
+						<span>媒体试用评测</span>
+					</div>
+					<div class="block mk" data-2890="transform[bounce]: translateX(-200px);opacity:0.25;" data-2900="transform[bounce]: translateX(0px);opacity:1.0;">
+						<i class="money icon"></i>
+						<span>在线销售</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="incubator funds">
+	<div class="ui responsive grid">
+		<div class="center aligned column white section-title">
+			<h2 class="block title">众筹合作</h2>
+			<hr>
+			<p>整合京东、淘宝、苏宁、KICKSTARTER、INDIEGOGO等国内外五大权威众筹平台</p>
+			<img src="{{ app_url_packaged }}/images/incubator/funds-site-01.jpg" />
+			<div class="highlight">
+				<p>不到一年时间，太火鸟共完成众筹项目近<b>50</b>个，筹得资金超<b>5000万</b>元，</p>
+				<p><b>造梦者恒氧净化器</b>-太火鸟打造的国内众筹平台首个突破<b>1200万</b>众筹金额产品；<b>太火鸟孵化产品WeCoach Pro</b>-打造国内第一个可穿戴智能运动私教。</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="incubator sales">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column section-title">
+				<h2 class="block title">销售渠道</h2>
+				<hr>
+				<p>太火鸟在国内外建立了2500家销售渠道，帮助孵化产品迅速打开市场，同步分销。9个月实现3亿销售额。</p>
+			</div>
+		</div>
+		<div class="three column middle aligned row">
+			<div class="column" data-3900="transform[bounce]: translateX(200px);opacity:0;" data-4400="transform[bounce]: translateX(0px);opacity:1.0;">
+				<img src="{{ app_url_packaged }}/images/incubator/channel-online.jpg" />
+			</div>
+			<div class="center aligned column">
+				<img src="{{ app_url_packaged }}/images/incubator/frbird.jpg" />
+			</div>
+			<div class="column" data-3900="transform[bounce]: translateX(-200px);opacity:0;" data-4400="transform[bounce]: translateX(0px);opacity:1.0;">
+				<img src="{{ app_url_packaged }}/images/incubator/channle-offline.jpg" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="incubator supply">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column white section-title">
+				<h2 class="block title">
+					生产链资源
+				</h2>
+				<hr>
+				<p>指导初创团队进行智能硬件产品的技术攻关，协助成熟团队进行智能硬件产品的深度打磨</p>
+				
+				<div class="ui white large buttons">
+					<div class="ui inverted gy button">
+						供应链
+					</div>
+					<div class="ui inverted fh button">
+						孵化基地
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	<div class="frames">
+		<div class="slide clearfix">
+			<div class="item">
+				<div class="supplies">
+					<div class="image">
+						<img src="{{ app_url_packaged }}/images/incubator/world.jpg" />
+					</div>
+					<div class="content">
+						<div class="ui divided bulleted animated list">
+							<div class="item">
+								最完整的供应链体系；
+							</div>
+							<div class="item">
+								实现SMT、组装和测试的电子代工厂；
+							</div>
+							<div class="item">
+								制作精致模具的精密模具厂；
+							</div>
+							<div class="item">
+								电子零组件厂商；
+							</div>
+							<div class="item">
+								CPU solution、硬件、软件支持的方案商；
+							</div>
+							<div class="item">
+								云服务；
+							</div>
+							<div class="item">
+								天线；
+							</div>
+							<div class="item">
+								安规认证实验室……
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="item">
+				<div class="labs">
+					<p>最完备的孵化实验室-深圳 总占地面积600平方米，高带宽示波器、频谱分析仪、网络分析仪、功率检测仪、Power supply、信号发生器、衰减器、WiFi/BT终测仪等测试仪器、实验室装备可以提供DC电源，高速信号完整性，电磁干扰预测，WiFi/BT等网通产品性能验证。</p>
+
+					<p>开拓清华大学、中央美院、广州美院、浙江大学 、西安美院 、四川美院 、天津美院、 鲁迅美院 、湖北美院等高等院校创业新生力量，深入校园，培养新生设计创业团队。</p>
+
+					<p>联手北京创客空间、西湖创客汇等创新平台，营造全方位多角度的孵化环境。</p>
+					
+					<img src="{{ app_url_packaged }}/images/incubator/school.png" class="ui image" />
+				</div>
+			</div>
+		</div>
+		<a class="prev" href="#">
+			<i class="arrow angle left icon"></i>
+		</a>
+		<a class="next" href="#">
+			<i class="arrow angle right icon"></i>
+		</a>
+	</div>
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<a href="{{ app_url_cooperate }}" class="ui inverted button">
+				    <i class="search icon"></i> 查看全部孵化资源
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="incubator serve">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column section-title">
+				<h2 class="block title">
+					孵化服务
+				</h2>
+				<hr>
+				<h4><a href="http://www.taihuoniao.com/active/view-12002.html"class="ui link" target="_blank">太火鸟孵化团队培训计划启动，知识产权培训打响第一发</a></h4>
+				<p>对于孵化团队来讲，专利是其保护自己合法权益的有力武器。<br />为了确保孵化团队在创业过程中遭遇知识产权纠纷时可以切实维护好自己的利益，太火鸟积极启动帮助孵化团队进行创业培训的计划。</p>
+				
+				<!--<div class="ui magenta large buttons">
+					<div class="ui inverted px button">
+						知识产权培训
+					</div>
+					<div class="ui inverted zl button">
+						线下展览组织
+					</div>
+				</div>-->
+				
+			</div>
+		</div>
+	</div>
+	<div class="ui responsive pd-10 grid">
+		<div class="row">
+            <div class="center aligned column">
+    			<div class="ui three blocks">
+    				<div class="block">
+    					<img src="{{ app_url_packaged }}/images/sever1.jpg" class="ui image" />
+    				</div>
+    				<div class="block">
+    					<img src="{{ app_url_packaged }}/images/sever2.jpg" class="ui image" />
+    				</div>
+    				<div class="block">
+    					<img src="{{ app_url_packaged }}/images/sever3.jpg" class="ui image" />
+    				</div>
+    			</div>
             </div>
-        </div>
+		</div>
 	</div>
 </div>
 
 
-<div class="incubator ideas labs">
-    <div class="ui responsive grid">
-        <div class="row">
-    	    <div class="center aligned column">
-    		    <h1 class="block title">孵化服务</h1>
-                <p class="sub title">从创意构想到生产面市，太火鸟孵化服务触及产品过程各个阶段</p>
-    		</div>
-        </div>
-        <div class="row">
-    	    <div class="column">
-                
-    		</div>
-        </div>
+<div class="incubator vc">
+	<div class="ui responsive grid">
+		<div class="center aligned column white section-title">
+			<h2 class="block title">投资支持</h2>
+			<hr>
+			<p>李开复、徐小平、童玮亮等超级豪华一线VC阵容为你提供专业指导</p>
+			<p>DFF设计创始人基金、真格基金、创新工场、梧桐树、戈壁投资等顶尖投资机构</p>
+			<br />
+			
+			<h3>DFF设计创始人基金</h3>
+			<p>DFF设计创始人基金是隶属于米仓资本旗下的专项基金。DFF设计创始人基金由国内数十位资深设计师联合发起，包括阿里巴巴十八罗汉之一的麻长炜、视觉中国创始人/太火鸟创始人雷海波等。他们创办的公司均已经成功上市，或者成为各自行业的领袖级公司，拥有大量的行业资源和丰富的创业经验，并愿意去投资和孵化更多设计驱动的创新项目。DFF设计创始人基金第一期规模1亿人民币，单个项目可以投资100万-600万人民币，重点投资TMT领域设计主导的创新项目，以掀起并推动互联网及消费升级宏大背景下设计师创业热潮作为自己的使命。</p>
+			
+			<div class="ui images">
+				<img src="{{ app_url_packaged }}/images/incubator/zhen.jpg" />
+				<img src="{{ app_url_packaged }}/images/incubator/chuang.jpg" />
+				<img src="{{ app_url_packaged }}/images/incubator/wu.jpg" />
+				<img src="{{ app_url_packaged }}/images/incubator/mi.jpg" />
+				<img src="{{ app_url_packaged }}/images/incubator/rank.jpg" />
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="incubator media">
+	<div class="ui responsive grid">
+		<div class="center aligned column section-title">
+			<h2 class="block title">媒体合作</h2>
+			<hr>
+			<p>上百家媒体联合报道，覆盖全网科技垂直媒体及大众媒体</p>
+			<br />
+			
+			<div class="ui images">
+				<img class="ui image" src="{{ app_url_packaged }}/images/egg_gk.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/egg_tno.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/egg_taio.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/egg_btvo.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/egg_pandao.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/egg_36ko.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/egg_lkjo.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/egg_tco.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/egg_ifengo.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/egg_sohuo.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/egg_wangyio.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/egg_qqo.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/egg_sinao.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/egg_meno.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/egg_fasto.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/egg_bdo.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/lg_leifeng.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/lg_zdx.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/lg_sfws.jpg">
+				<img class="ui image" src="{{ app_url_packaged }}/images/lg_jg.jpg">
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="incubator submit">
+	<div class="ui responsive grid">
+		<div class="center aligned column white section-title">
+			<h2 class="block title">孵化项目要求</h2>
+			<hr>
+			<br />
+			<p>你是拥有创新萌芽的初创团队，还是已经见过风浪的成熟创业者……</p>
+			<p>无论你是什么样的智能硬件创业者，只要你有核心竞争力，你在太火鸟就能找到志同道合的朋友！</p>
+			<p>梦想需要坚持，实现需要助力，你还在等什么？</p>
+			<br />
+			<p class="line">三人以上的创业团队或平台：1.创新思维主导的团队 2.拥有较强的技术研发能力（软件/硬件）3.有供应链资源优势等，以上优势兼一即可，带着澎湃的创业激情和太火鸟一起翱翔吧！</p>
+			<br>
+			<p class="line">产品孵化：烦请提交BP到邮箱：products@taihuoniao.com<br />
+			产品众筹、产品销售合作：烦请提交产品资料到邮箱：products@taihuoniao.com</p>
+			<!--<div class="buttons">
+				<a href="{{ app_url_incubator }}/cooperate" class="ui inverted button" target="_blank">
+					<i class="edit icon"></i> 提交孵化项目合作
+				</a>-->
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="section breadcrumb">
+	<div class="ui responsive relaxed grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domain }}">
+						<i class="icon home"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_incubator }}">
+						孵化
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">孵化服务</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 {% endblock %}
+

@@ -72,6 +72,7 @@ class Sher_Admin_Action_Topic extends Sher_Admin_Action_Base implements DoggyX_A
 			}else{
 				$mode = 'edit';
         $data['_id'] = (int)$this->stash['_id'];
+        $data['try_id'] = isset($this->stash['try_id']) ? (int)$this->stash['try_id'] : 0;
 				$ok = $model->apply_and_update($data);
 			}
 			if(!$ok){

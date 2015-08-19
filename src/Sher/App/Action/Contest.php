@@ -28,14 +28,35 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	 * 社区
 	 */
 	public function execute(){
-		return $this->index();
+		return $this->custom();
 	}
 	
 	/**
-	 * 大赛首页
-	 */
-	public function index(){
-        return $this->to_html_page('page/fever/contest.html');
+     * 反向定制
+     */
+	public function custom(){
+		return $this->to_html_page('match/custom.html');
+	}
+	
+    /**
+     * 规则（分成奖励）
+     */
+	public function reward(){
+		return $this->to_html_page('match/about3.html');
+	}
+	
+	/**
+     * 反向定制-智能牙刷
+     */
+	public function tooth(){
+		return $this->to_html_page('match/tooth.html');
+	}
+	
+	/**
+     * 反向定制-移动电源
+     */
+	public function power(){
+		return $this->to_html_page('match/power.html');
 	}
     
     /**
@@ -504,29 +525,6 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
 		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
     }
-	/**
-     * 反向定制
-     */
-	public function custom(){
-		return $this->to_html_page('match/custom.html');
-	}
 	
-	public function about3(){
-		return $this->to_html_page('match/about3.html');
-	}
-	
-	/**
-     * 反向定制
-     */
-	public function tooth(){
-		return $this->to_html_page('match/tooth.html');
-	}
-	
-	/**
-     * 反向定制
-     */
-	public function power(){
-		return $this->to_html_page('match/power.html');
-	}
 	
 }
