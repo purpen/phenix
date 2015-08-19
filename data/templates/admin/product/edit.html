@@ -791,6 +791,16 @@
 					{{ product.content }}
 				</textarea>
 			</div>
+            <div class="field">
+                <label for="video">视频链接</label>
+				{% if product.video %}
+					{% for video in product.video %}
+				  	<input type="text" name="video[]" placeholder="支持优酷/腾讯视频分享" value="{{ video }}" />
+					{% endfor %}
+				{% else %}
+					<input type="text" name="video[]" placeholder="支持优酷/腾讯视频分享：http://player.youku.com/embed/********* 链接格式" />
+				{% endif %}
+            </div>
 		</div>
 		
 		<div class="ui right aligned grid">
