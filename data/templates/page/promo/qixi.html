@@ -125,11 +125,11 @@ a.active.button{
           本活动最终解释权归太火鸟所有
         </div>
       </div>
-      
-      <a href=" ">
+      {% if egou_uid %}
+      <a href="{{ app_url_domain }}/app/site/index/egou">
         <img src="{{ app_url_packaged }}/images/egend.png" width="170px" style="margin: 20px auto; display: block;">
       </a>
-      
+      {% endif %}
     </div>
   </div>
   

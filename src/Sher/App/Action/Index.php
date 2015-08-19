@@ -67,12 +67,21 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			
 			// 判断e购用户是否已经参加过活动
 			$model = new Sher_Core_Model_Egou();
+			$time = date('Y-m-d',time());
+			$is_egou = 0;
 			
 			$date = array();
 			$date['eid'] = $eid;
 			$date['hid'] = $hid;
-			$result = $model->first($date);
-			if(empty($result)){
+			$result = $model->find($date);
+			if(!empty($result)){
+				foreach($result as $k => $v){
+					if($v['time'] == $time){
+						$is_egou++;
+					}
+				}
+			}
+			if(!$is_egou){
 				// 将易购用户信息保存至cookie
 				@setcookie('egou_uid', $eid, 0, '/');
 				@setcookie('egou_hid', $hid, 0, '/');
@@ -213,21 +222,6 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	 */
 	public function egou(){
 		
-		// 获取相关数据
-		$try_status = $_COOKIE['is_try'];
-		$love_status = $_COOKIE['is_love'];
-		$stuff_status = $_COOKIE['is_stuff'];
-		
-		// 判断用户是否登陆
-		if(!$this->visitor->id){
-			return $this->display_note_page('请登陆后重新再试',null);
-		}
-		
-		// 判断用户是否完成任务
-		if(!$try_status && !$love_status && !$stuff_status){
-			return $this->display_note_page($try_status.'请完成任意一项任务后重新再试');
-		}
-		 
 		$egou_uid = $_COOKIE['egou_uid'];
 		$egou_hid = $_COOKIE['egou_hid'];
 		
@@ -236,10 +230,9 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		$date = array();
 		$date['eid'] = $egou_uid;
 		$date['hid'] = $egou_hid;
-		$date['user_id'] = $this->visitor->id;
-		$ok = $model->create($date);
+		$date['time'] = date('Y-m-d',time());
 		
-		if(!$ok){
+		if(!$model->create($date)){
 			return $this->display_note_page('用户信息插入失败,请重试!');
 		}
 		
@@ -248,14 +241,12 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		$k = MD5($egou_uid.$egou_hid.date('Y-m-d',time()).$key);
 		
 		// 清除cookie值
-		setcookie('is_try', '', time() - 3600);
-		setcookie('is_love', '', time() - 3600);
-		setcookie('is_stuff', '', time() - 3600);
-		setcookie('egou_hid', '', time() - 3600);
-		setcookie('egou_uid', '', time() - 3600);
+		setcookie('egou_hid', '', time() - 3600, '/');
+		setcookie('egou_uid', '', time() - 3600, '/');
 		
 		// 易购签到地址
 		$url = "http://www.egou.com/club/qiandao/qiandao.htm?hid={$egou_hid}&k={$k}";
+		
 		return $this->to_redirect($url);
 	}
 }

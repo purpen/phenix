@@ -413,10 +413,6 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 				$data['user_id'] = (int)$this->visitor->id;
 				
 				$ok = $model->apply_and_save($data);
-				// 将易购用户反向定制态保存至cookie
-				if($ok && $data['from_to']==4 && $_COOKIE['egou_uid']){
-					@setcookie('is_stuff', $ok, 0, '/');
-				}
 				
 				$stuff = $model->get_data();
 				$id = (int)$stuff['_id'];

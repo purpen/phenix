@@ -19,8 +19,8 @@ class Sher_Core_Model_Egou extends Sher_Core_Model_Base {
         'hid' => '',
         # 所属分类(int)
         'type' => self::TYPE,
-		# 用户id(int)
-		'user_id' => 0,
+		# 时间
+		'time' => '',
     );
 	
 	protected $required_fields = array();
