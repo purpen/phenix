@@ -24,11 +24,13 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	public $names = array(
 		'T9', # 上线红包
 		'TG', # 玩蛋去活动
-        'VA', # 情人节红包20
-        'RE', # 注册送
-        'IV', # 邀请送
-        'D1', # 线下活动,注册抽奖(ces,大赛)
-        'ZP', # 招聘H5分享
+    'VA', # 情人节红包20
+    'RE', # 注册送
+    'IV', # 邀请送
+    'D1', # 线下活动,注册抽奖(ces,大赛)
+    'ZP', # 招聘H5分享
+    'QX', # 七夕注册送红包100 满299可用
+    'JBL' # 七夕敦请送JBL指定红包
 	);
 	
     protected $schema = array(
@@ -132,7 +134,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
     if($expired_time){
       $expired_at = (int)$expired_time;
     }else{
-      $expired_at = time() + 7*24*60*60;
+      $expired_at = time() + 30*24*60*60;
     }
 		return $this->update_set($crt, array(
 			'user_id' => (int)$user_id,
@@ -251,12 +253,13 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	 * 批量生成指定限额红包
 	 * @var $count 默认生成红包数量
 	 */
-	public function create_specify_bonus($count=5, $xname='RE', $char='A', $min_char='A'){
+	public function create_specify_bonus($count=5, $xname='RE', $char='A', $min_char='A', $product_id=0){
 		# 红包金额
 	  $bonus = array(
 			'A' => 50,
       'B' => 100,
       'C' => 30, 
+      'D' => 52,
     );
 
     #最低限额
@@ -264,6 +267,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
       'A' =>  99,
       'B' =>  199,
       'C' =>  0,
+      'D' => 299,
     );
 		
     for($i=0; $i<$count; $i++){
@@ -279,6 +283,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 					'amount' => $amount,
           'xname'  => $xname,
           'min_amount'  => $min_amount,
+          'product_id' => (int)$product_id,
 				));
 			}catch(Sher_Core_Model_Exception $e){
 				Doggy_Log_Helper::error('Failed to create bonus:'.$e->getMessage());
@@ -305,4 +310,4 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
     }
 	
 }
-?>
+
