@@ -124,12 +124,12 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	protected function extra_extend_model_row(&$row) {
         if(isset($row['from_to'])){
             if($row['from_to'] == 1){ // 大赛
-              $row['view_url'] = Sher_Core_Helper_Url::match2_view_url($row['_id']); 
+              $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']); 
             }elseif($row['from_to'] == 2){ // 蛋年
-              $row['view_url'] = Sher_Core_Helper_Url::birdegg_view_url($row['_id']);
+              $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);
             }elseif($row['from_to']==3){ //奇思甬动-大赛
               $row['view_url'] = sprintf(Doggy_Config::$vars['app.url.contest']."/qsyd_view/%s.html", $row['_id']);
-            }elseif($row['from_to']==3){ //反向定制-大赛
+            }elseif($row['from_to']==4){ //反向定制-大赛
               $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']); 
             }else{
               $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);   
