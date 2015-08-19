@@ -117,6 +117,24 @@
     top: calc(50% - 25px);
     left: calc(50% - 25px);
 	}
+	.image.zan .add{
+	  top: 50%;
+	}
+	.image.zan .add-active {
+    top: calc(50% - 70px);
+  }
+  i.like.icon:before{
+    border-radius: 50%;
+    display: block;
+    line-height: 57px;
+    text-align: center;
+    -webkit-transition: color .25s ease-in-out 0s;
+    transition: color .25s ease-in-out 0s;
+    font-size: 35px;
+  }
+  i.like.icon:after{
+    content:' ';
+  }
 </style>
 {% endblock %}
 {% block jquery %}
