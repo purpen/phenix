@@ -61,6 +61,10 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		// 易购网入口部分
 		if($this->stash['uid'] && $this->stash['hid']){
 			
+			// 清除cookie值
+			setcookie('egou_uid', '', time() - 3600);
+			setcookie('egou_hid', '', time() - 3600);
+			
 			$eid = $this->stash['uid'];
 			$hid = $this->stash['hid'];
 			
@@ -83,15 +87,12 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			
 			if(!$is_egou){
 				// 将易购用户信息保存至cookie
-				@setcookie('egou_uid', '', 0, '/');
+				@setcookie('egou_uid', $eid, 0, '/');
 				$_COOKIE['egou_uid'] = $eid;
-				@setcookie('egou_hid', '', 0, '/');
+				@setcookie('egou_hid', $eid, 0, '/');
 				$_COOKIE['egou_hid'] = $hid;
 			}
-			
-			// 清除cookie值
-			//setcookie('egou_uid', '', time() - 3600);
-			//setcookie('egou_hid', '', time() - 3600);
+			//var_dump($_COOKIE);
 		}
         
 		$this->set_target_css_state('page_home');
