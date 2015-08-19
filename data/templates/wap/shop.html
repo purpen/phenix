@@ -30,6 +30,27 @@
 </style>
 {% endblock %}
 
+{% block layout_js %}
+	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
+  <script type="text/javascript" >
+      function ajax_load_more(category_id, type, sort, page, size){
+          var url = '{{ app_url_wap }}/shop/ajax_load_list';
+          $.get(url, { category_id:category_id, sort:sort, page:page, type:type, size:size }, function(rs){
+              // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
+              if(rs.data.results.total_page > rs.data.results.current_page){
+                  $('#product-more')
+                      .hide()
+                      .attr({'status': 0, 'page': rs.data.page, category_id: rs.data.category_id});
+              }else{
+                  $('#product-more').html('没有更多');
+              }
+              var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
+              $('.item-box').append(rendered);
+          }, 'json');
+      }
+  </script>
+{% endblock %}
+
 {% block jquery %}
   //预售结束时间
 	$('[data-countdown]').each(function() {
@@ -45,55 +66,30 @@
 		  slidesPerView : 'auto',
 	  });
 	}
+
+  //ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      var stat = $('#product-more').attr('status');
+      var page = parseInt($('#product-more').attr('page')) + 1;
+      var category_id = $('#product-more').attr('child-id');
+
+      if(stat==0){
+        //防止频繁请求(在没加载完成时只允许请求一次)
+        $('#product-more').attr('status', 1);
+        ajax_load_more(category_id, 0, 4, page, 12);
+      }
+　　}
+  });
+
+  ajax_load_more('{{category_id}}', 0, 4, 1, 12);
   
 {% endblock %}
-{% block layout_js %}
-	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
-{% endblock %}
-{% block content %}
-	<!--<div class="row">
-		<div class="column">
-			<div class="ui breadcrumb">
-			  	<a class="section" href="{{ app_url_wap }}">
-					<i class="icon home"></i>首页
-				</a>-->
-				<!--{% if !presaled %}-->
-			  	<!--<div class="divider"> / </div>
-			  	<div class="section">商品列表</div>-->
-				<!--{% else %}
-			  	<div class="divider"> / </div>
-				<div class="section">新品预售</div>
-				{% endif %}-->
 
-			  <!--<div class="divider"> / </div>
-        {% if current %}
-        <div class="active section">{{ current.title }}</div>
-        {%else%}
-			  	<div class="active section">全部类别</div>
-        {%endif%}
-			</div>
-		</div>
-	</div>-->
-<!--	<div class="row">
-		<div class="column">
-			{% category_list var:'category' only_open:only_open domain:1 show_all:0 current:cid sort_field:'total_desc' %}
-			<div class="ui fluid selection dropdown">
-				{% if current %}
-				<div class="default text">{{ current.title }}</div>
-				{% else %}
-			    <div class="default text">全部类别</div>
-				{% endif %}
-			    <i class="dropdown icon"></i>
-			    <div class="menu">
-            <a class="ui item {%if !cid%}{%if !presale%}active{%endif%}{%endif%}" href="{{ app_url_wap }}/shop">全部</a>-->
-            <!--<a class="ui item {%if presale%}active{%endif%}" href="{{ app_url_wap }}/shop?presale=1">新品预售</a>-->
-				<!--	{% for cat in category.rows %}
-				  		<a class="ui {{ cat.active }} item" href="{{ app_url_wap }}/shop?cid={{ cat._id }}">{{ cat.title }}</a>
-					{% endfor %}
-			    </div>
-			</div>
-		</div>
-	</div>-->
+{% block content %}
 	
 <div id="tmenu">
 	<div class="swiper-wrapper">
@@ -106,30 +102,27 @@
 	</div>
 </div>
 	
-	
-
 <!--商店商品-->
-{% product_list var:'sale' is_shop_wap:1 only_onsale:1 category_id:cid page:page sort:'stick:latest' %}
-{% if sale.total_rows %}
 <div class="ui responsive grid" id="mproducts" style="border-top: 1px solid rgba(34,36,38,.15);">
 	<div class="row">
 		<div class="column">
-			<div class="ui two products cards">
-				{% for product in sale.rows %}
-			  			{% include "mm/product-item.html" %}
-			    {% endfor %}
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="ui center aligned column">
-			<div class="ui pagination">
-				{% pager url:pager_url,total_rows:sale.total_rows,total_page:sale.total_page,current_page:page,var:'pager',pager_size:1 %}
-				{% include 'block/pager.html' %}
-			</div>
-		</div>
-	</div>
-</div>
-{% endif %}
+			<div class="ui two products cards item-box">
 
+			</div>
+		</div>
+	</div>
+
+  <!--ajax load-->
+  <div id="product-box" class="topic-box-list" style="display:none;" child-id="{{ category_id }}" status="0">
+    <div style="text-align:center;margin:10px auto;">
+      <img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/fetch_more_products.mustache' %}
 {% endblock %}
