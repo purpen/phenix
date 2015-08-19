@@ -380,38 +380,49 @@
         <div id="product_guess_list"><!--ajax fetch--></div>
     </div>
     <div class="mainright">
-        <div class="ui sticky">
-        
-            <div class="sellwrap">
-                <div class="user action">
-                    <p>收藏&分享产品</p>
-        			<div class="ui red pop love inverted button" data-id="{{ stuff._id }}" data-title="点赞支持" data-content="后续可以在‘我赞了的’中快捷查找" data-mark="n">
-        				<i class="heart empty icon"></i> 赞
-        			</div>
-        			<div class="ui magenta pop favorite inverted button" data-title="收藏" data-content="有关该作品动态及时通知你，后续可以在‘我关注的’中快捷查找" data-id="{{ stuff._id }}" data-mark="n">
-        				<i class="plus icon"></i> 收藏
-        			</div>
-    				<div class="ui magenta pop share icon inverted button" data-content="分享给好友">
-    					<i class="share alternate icon"></i>
-    				</div>
-                </div>
-                <div class="user avatars">
-              	  	<div class="ui images" id="target_{{ stuff._id }}_support">
-                        {% if stuff.love_count %}
-                            {% favorite_list var:'userlist' target_id:stuff._id event:2 type:4 %}
-                            {% for target in userlist.rows %}
-                            <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
-                  	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />
-                            </a>
-                            {% endfor %}
-                        {% endif %}
-              	  	</div>
-                    <p>
-                        已有 <span id="target-love-count">{{ stuff.love_count }}</span> 个人点赞, <span id="target-favorite-count">{{ stuff.favorite_count }}</span> 人关注
-                    </p>                    
-                </div>
-            </div>
-        </div>
+       <div class="ui sticky">
+           <div class="sellwrap">
+               <div class="user action">
+                   <p>关注&分享话题</p>
+       			<div class="ui red pop love inverted button" data-id="{{ topic._id }}" data-title="点赞支持" data-content="后续可以在‘我赞了的’中快捷查找" data-mark="n">
+       				<i class="heart empty icon"></i> 赞
+       			</div>
+       			<div class="ui magenta pop favorite inverted button" data-title="关注一下" data-content="有关该话题动态及时通知你，后续可以在‘我关注的’中快捷查找" data-id="{{ topic._id }}" data-mark="n">
+       				<i class="plus icon"></i> 关注
+       			</div>
+               </div>
+               <div class="user avatars">
+             	  	<div class="ui images" id="target_{{ topic._id }}_support">
+                       {% if topic.love_count %}
+                           {% favorite_list var:'userlist' target_id:topic._id event:2 type:2 size:15 %}
+                           {% for target in userlist.rows %}
+                           <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
+                 	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />
+                           </a>
+                           {% endfor %}
+                       {% endif %}
+             	  	</div>
+                   <p>
+                       已有 <span id="target-love-count">{{ topic.love_count }}</span> 个人点赞, <span id="target-favorite-count">{{ topic.favorite_count }}</span> 人关注
+                   </p>                    
+               </div>
+               <div class="user share">
+               	<span><i class="share alternate icon"></i>分享：</span>
+               	<a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+               		<i class="weibo icon large circular red inverted"></i>
+               	</a>
+               	<a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+               		<i class="weixin icon large circular green inverted"></i>
+               	</a>
+               	<a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+               		<i class="tencent weibo icon large circular blue inverted"></i>
+               	</a>
+               	<a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+               		<i class="icon renren large circular blue inverted"></i>
+               	</a>
+               </div>
+           </div>
+       </div>
         
         <!--品牌相关-->
         <div class="sellwrap">
