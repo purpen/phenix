@@ -1,0 +1,51 @@
+{{#results.rows}}
+    					<div class="card">
+                            <div class="problock">
+                                <a title="{{ title }}" alt="{{ title }}" href="{{ wap_view_url }}" style="background-image: url({{ cover.thumbnails.resp.view_url }});" class="thumb"></a>
+                                <div class="ribbons">
+                                    {{#season}}
+                                    <span class="ribbon season">
+                                        第 {{ season }} 期
+                                    </span>
+                                    {{/season}}
+        							{{#step_doing}}
+        							<span class="ribbon apply">
+        								申请中
+                                    </span>
+        							{{/step_doing}}
+        							{{#step_verify}}
+        							<span class="ribbon recoe">
+        								名单审核中
+                                    </span>
+                                    {{/step_verify}}
+        							{{#step_recover}}
+        							<span class="ribbon callback">
+        								报告回收中
+                                    </span>
+                                    {{/step_recover}}
+        							{{#step_over}}
+        							<span class="ribbon end">
+        								已结束
+                                    </span>
+        							{{/step_over}}
+                                </div>
+                                <h2>
+                                    <a href="{{ wap_view_url }}" title="{{ title }}" class="ui line">
+                        			    {{ title }}
+                        		    </a>
+                                </h2>
+                                <div class="excerpt">
+                                    <p>产品数量：<span class="count">{{ try_count }}</span>  申请人数：<span>{{ apply_count }}</span></p>
+                                </div>
+                                <div class="cats">
+                                {{#step_doing}}
+                                <i class="calendar icon"></i> 试用名单公布：<span> {{ publish_time }}</span>
+                                {{/step_doing}}
+                                {{^step_doing}}
+                                <i class="tasks icon"></i> 试用评测报告：已有<span> {{ pass_count }}</span> 份
+                                {{#step_doing}}
+                                </div>
+                            </div>
+
+    					</div>
+{{/results.rows}}

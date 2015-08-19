@@ -86,8 +86,48 @@
 	}
 </style>
 {% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+      function ajax_load_more(type, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          $('#try-more').show().attr('status', 1);
+          var url = '{{ app_url_wap }}/try/ajax_load_list';
+          $.get(url, { sort:sort, type:type, page:page, size:size }, function(rs){
+              // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
+              if(rs.data.results.total_page > rs.data.results.current_page){
+                  $('#try-more')
+                      .hide()
+                      .attr({'status': 0, 'page': rs.data.page, category_id: rs.data.category_id});
+              }else{
+                  $('#try-more').html('没有更多');
+              }
+              var rendered = phenix.ajax_render_result('#fetch_more_try_tpl', rs.data);
+              $('.item-box').append(rendered);
+          }, 'json');
+      }
+  </script>
+{% endblock %}
+
 {% block jquery %}
-	
+
+  //ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      var stat = $('#try-more').attr('status');
+      var page = parseInt($('#try-more').attr('page')) + 1;
+
+      if(stat==0){
+        ajax_load_more(0, 0, page, 6);
+      }
+　　}
+  });
+
+  ajax_load_more(0, 0, 1, 6);
+
 {% endblock %}
 
 {% block content %}
@@ -106,134 +146,25 @@
 		</div>-->
 		<div class="row">
 			<div class="column">
-				<div class="ui one products tries cards">
-					{% try_list var:'list' ignore_id:try_latest.rows.0._id page:page state:1 %}
-					{% for t in list.rows %}
-					  {% try_list var:'list' page:page state:1 %}
-    				{% for t in list.rows %}
-    					<div class="card">
-                            <div class="problock">
-                                <a title="{{ t.title }}" alt="{{ t.title }}" href="{{ t.view_url }}" style="background-image: url({{ t.cover.thumbnails.resp.view_url }});" class="thumb" target="_blank"></a>
-                                <div class="ribbons">
-                                    {% if t.season %}
-                                    <span class="ribbon season">
-                                        第 {{ t.season }} 期
-                                    </span>
-                                    {%endif%}
-        							{%if t.step_stat == 1%}
-        							<span class="ribbon apply">
-        								申请中
-                                    </span>
-        							{%endif%}
-        							{%if t.step_stat == 2%}
-        							<span class="ribbon recoe">
-        								名单审核中
-                                    </span>
-                                    {%endif%}
-        							{%if t.step_stat == 3%}
-        							<span class="ribbon callback">
-        								报告回收中
-                                    </span>
-                                    {%endif%}
-        							{%if t.step_stat == 5%}
-        							<span class="ribbon end">
-        								已结束
-                                    </span>
-        							{%endif%}
-                                </div>
-                                <h2>
-                                    <a href="{{ t.wap_view_url }}" title="{{ t.title }}" class="ui line" target="_blank">
-                        			    {{ t.title }}
-                        		    </a>
-                                </h2>
-                                <div class="excerpt">
-                                    <p>产品数量：<span class="count">{{ t.try_count }}</span>  申请人数：<span>{{ t.apply_count }}</span></p>
-                                </div>
-                                <div class="cats">
-                                {% if t.step_stat == 1 %}
-                                <i class="calendar icon"></i> 试用名单公布：<span> {{ t.publish_time }}</span>
-                                {% else %}
-                                <i class="tasks icon"></i> 试用评测报告：已有<span> {{ t.pass_count }}</span> 份
-                                {% endif %}
-                                </div>
-                            </div>
-
-    					</div>
-    				{% endfor %}
-					  
-					
-						<!--<div class="card">
-							<div class="image">
-								<a href="{{ t.view_url }}" title="{{ t.title }}" target="_blank">
-									<img src="{{ t.cover.thumbnails.resp.view_url }}" >
-								</a>
-                {% if t.season %}
-								<div class="presell">
-                  第 {{ t.season }} 期
-								</div>
-                {%endif%}
-								{%if t.step_stat==1%}
-								<div class="presell apply">
-									申请中
-								</div>
-								{%endif%}
-								{%if t.step_stat==2%}
-								<div class="presell recoe">
-									名单审核中
-								</div>
-                {%endif%}
-								{%if t.step_stat==3%}
-								<div class="presell callback">
-									报告回收中
-								</div>
-                {%endif%}
-								{%if t.step_stat==5%}
-								<div class="presell end">
-									已结束
-								</div>
-								{%endif%}
-									
-							</div>
-							<div class="content">
-								<div class="header">
-									<a href="{{ t.view_url }}" title="{{ t.title }}" class="ui link" target="_blank">
-										{{ t.title|truncate, 24, '' }}
-									</a>
-                                  </div>
-                                  <div class="description">{{ t.description }}</div>
-								<div class="i-stats">
-									<div class="trycm">
-										<div class="ui icon header">
-											{{ t.try_count }}
-											<div class="sub header">
-												产品数量
-											</div>
-										</div>
-										<div class="ui icon header">
-											{{ t.apply_count }} 
-											<div class="sub header">
-												申请人数
-											</div>
-										</div>
-										<div class="ui icon header">
-											{{ t.pass_count }} 
-											<div class="sub header">
-												试用报告
-											</div>
-										</div>
-								
-									</div>
-								</div>
-								
-							</div>
-						</div>
-					{% endfor %}-->
+				<div class="ui one products tries cards item-box">
+        <!--ajax load-->
 				</div>
 			</div>
 		
-		
-		
 		</div>
+		<div class="row">
+      <!--ajax load-->
+      <div id="try-more" style="display:none;" page="1" status="0">
+        <div style="text-align:center;margin:10px auto;">
+          <img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">
+        </div>
+      </div>
+
+	  </div>
 	</div>
 </div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'fetch_more_try_tpl' tpl:'mustache_m/fetch_more_try.mustache' %}
 {% endblock %}

@@ -18,7 +18,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','getlist','view','apply_success', 'ajax_fetch_rank','tries');
+	protected $exclude_method_list = array('execute','getlist','view','apply_success', 'ajax_fetch_rank','tries', 'ajax_load_list');
 	
 	
 	/**
@@ -342,6 +342,57 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
     $this->stash['apply_top'] = $apply_top;
   
     return $this->to_taconite_page('wap/try/ajax_rank_box.html');
+  }
+
+  /**
+   * ajax加载试用列表
+   */
+  public function ajax_load_list(){        
+        $type = $this->stash['type'];
+        
+        $page = $this->stash['page'];
+        $size = $this->stash['size'];
+        $sort = $this->stash['sort'];
+        
+        $service = Sher_Core_Service_Try::instance();
+        $query = array();
+        $options = array();
+
+        $query['state'] = 1;
+
+				$options['sort_field'] = 'latest';
+        
+        $options['page'] = $page;
+        $options['size'] = $size;
+        
+        $result = $service->get_try_list($query, $options);
+        //组织数据
+
+        for($i=0;$i<count($result['rows']);$i++){
+          $step_stat = isset($result['rows'][$i]['step_stat']) ? $result['rows'][$i]['step_stat'] : 0;
+          switch($step_stat){
+            case 1: //进行中
+              $result['rows'][$i]['step_doing'] = true;
+              break;
+            case 2: // 审核中
+              $result['rows'][$i]['step_verify'] = true;
+              break;
+            case 3: // 报告回收
+              $result['rows'][$i]['step_recover'] = true;
+              break;
+            case 4: // 未定义
+              $result['rows'][$i]['step_no'] = true;
+              break;
+            case 5://结束
+              $result['rows'][$i]['step_over'] = true;
+              break;
+          }
+
+        }
+        
+        $this->stash['results'] = $result;
+        
+        return $this->ajax_json('', false, '', $this->stash);
   }
 
   /**
