@@ -370,10 +370,10 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 
         for($i=0;$i<count($result['rows']);$i++){
           $step_stat = isset($result['rows'][$i]['step_stat']) ? $result['rows'][$i]['step_stat'] : 0;
-          $result['rows'][$i]['step_verify'] = $result['rows'][$i]['step_recover'] = $result['rows'][$i]['step_no'] = $result['rows'][$i]['step_over'] = false;
+          $result['rows'][$i]['step_ing'] = $result['rows'][$i]['step_verify'] = $result['rows'][$i]['step_recover'] = $result['rows'][$i]['step_no'] = $result['rows'][$i]['step_over'] = false;
           switch($step_stat){
             case 1: //进行中
-              //$result['rows'][$i]['step_ing'] = true;
+              $result['rows'][$i]['step_ing'] = true;
               break;
             case 2: // 审核中
               $result['rows'][$i]['step_verify'] = true;
