@@ -59,7 +59,6 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
     public function home() {
 		
 		// 易购网入口部分
-		$egou = 0;
 		if($this->stash['uid'] && $this->stash['hid']){
 			
 			$eid = $this->stash['uid'];
@@ -81,18 +80,19 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 					}
 				}
 			}
+			
 			if(!$is_egou){
 				// 将易购用户信息保存至cookie
-				@setcookie('egou_uid', $eid, 0, '/');
-				@setcookie('egou_hid', $hid, 0, '/');
-				$egou = 1;
+				@setcookie('egou_uid', '', 0, '/');
+				$_COOKIE['egou_uid'] = $eid;
+				@setcookie('egou_hid', '', 0, '/');
+				$_COOKIE['egou_hid'] = $hid;
 			}
 			
 			// 清除cookie值
 			//setcookie('egou_uid', '', time() - 3600);
 			//setcookie('egou_hid', '', time() - 3600);
 		}
-		$this->stash['egou_show'] = $egou;
         
 		$this->set_target_css_state('page_home');
 
@@ -224,6 +224,10 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		
 		$egou_uid = $_COOKIE['egou_uid'];
 		$egou_hid = $_COOKIE['egou_hid'];
+		
+		if(!$egou_uid || !$egou_hid){
+			return $this->display_note_page('非法操作,请重试!');
+		}
 		
 		// 将用户信息插入数据库
 		$model = new Sher_Core_Model_Egou();
