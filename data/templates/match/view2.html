@@ -410,108 +410,23 @@
 <div class="mainwrap social" id="postpage">
     <div class="mainleftwrap">
         <div class="mainleft">
-
-    		{% if product %}
-			<div class="ui segment">
-				<h3 class="ui dividing header">
-					所属产品
-				</h3>
-				<div class="ui grid">
-					<div class="row">
-						<div class="two wide column">
-							<a href="{{ product.view_url }}" title="{{ product.title }}">
-					      		<img src="{{ product.cover.thumbnails.tiny.view_url }}" class="ui image" />
-							</a>
-						</div>
-						<div class="eight wide column">
-					      	<h4 class="ui header">
-							  	<div class="content">
-									<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line">
-										{{ product.title }}
-									</a>
-									<div class="sub header">
-										<label>设计师：</label> {{ product.designer.nickname|default '太火鸟' }}
-									</div>
-							  	</div>
-							</h4>
-							<p class="summary">
-								{{ product.summary }}
-							</p>
-						</div>
-						{% if product.approved %}
-						{% if product.stage == 1%}
-						<div class="six wide column">
-							<div class="ui danger message">
-								<div class="ui header">
-									<div class="picicon">
-										<i class="thumbs up outline icon"></i>
-									</div>
-									<div class="content">
-										投票截止时间
-										<div class="sub header">
-												<div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						{% endif %}
-						{% endif %}
-					</div>
-				</div>
-			</div>
-    		{% endif %}
-            
-    		{% if active %}
-			<div class="ui segment">
-				<h3 class="ui dividing header">
-					所属活动
-				</h3>
-				<div class="ui grid">
-					<div class="row">
-						<div class="two wide column">
-							<a href="{{ active.view_url }}" title="{{ active.title }}">
-					      		<img src="{{ active.cover.thumbnails.tiny.view_url }}" class="ui image" />
-							</a>
-						</div>
-						<div class="eight wide column">
-					      	<h4 class="ui header">
-							  	<div class="content">
-									<a href="{{ active.view_url }}" title="{{ active.title }}" class="ui line">
-										{{ active.title }}
-									</a>
-									<div class="sub header">
-                                        <label>活动状态：</label> {{ active.step_str }}
-									</div>
-							  	</div>
-							</h4>
-							<p class="summary">
-								{{ active.summary }}
-							</p>
-						</div>
-
-					</div>
-				</div>
-			</div>
-    		{% endif %}
-            
-			<div class="ui big topic segment">
-				<div class="ui header">
-					<a class="ui small avatar idcard image" href="{{ topic.user.home_url }}" data-uid="{{ topic.user_id }}">
-			      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
-						{% if topic.user.kind==1 %}
-						    <img src="{{ app_url_packaged }}/images/V.png" class="image-WV" />
-                        {%endif%}
-					</a>
-					<div class="content">
-						{{ topic.title }}
-						<div class="sub header attribute">
-							<span class="category"><a href="{{ app_url_topic }}/c{{ topic.category._id }}" class="ui link">{{ topic.category.title }}</a></span> | 
-							<span class="date"><a class="ui link" href="{{ topic.user.home_url }}">@{{ topic.user.nickname }}</a> 发表于 {{ topic.created_on|relative_datetime }}</span> | 
-							<span class="count">浏览数: {{ topic.view_count }}</span> | <span class="count">回复数: {{ topic.comment_count }}</span>
-						</div>
-					</div>
-				</div>
+			  <div class="ui big topic segment">
+  				<div class="ui header">
+  					<a class="ui small avatar idcard image" href="{{ topic.user.home_url }}" data-uid="{{ topic.user_id }}">
+  			      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
+  						{% if topic.user.kind==1 %}
+  						    <img src="{{ app_url_packaged }}/images/V.png" class="image-WV" />
+                          {%endif%}
+  					</a>
+  					<div class="content">
+  						{{ topic.title }}
+  						<div class="sub header attribute">
+  							<span class="category"><a href="{{ app_url_topic }}/c{{ topic.category._id }}" class="ui link">{{ topic.category.title }}</a></span> | 
+  							<span class="date"><a class="ui link" href="{{ topic.user.home_url }}">@{{ topic.user.nickname }}</a> 发表于 {{ topic.created_on|relative_datetime }}</span> | 
+  							<span class="count">浏览数: {{ topic.view_count }}</span> | <span class="count">回复数: {{ topic.comment_count }}</span>
+  						</div>
+  					</div>
+  				</div>
 	
 				{% if is_match_idea %}
 				<div class="post">
@@ -535,79 +450,7 @@
                         {%endfor%}
                     {%endif%}
 				</div>
-                
-                <!-- 这里是投票部分代码 开始 -->
-				<div id="block_vote">
-					{% if is_vote %}
-					<div class="post vote" style="margin: 20px 0 60px;">
-						<h3 class="ui header" style="color: #E40039">{{ vote.title }}</h3>
-						<div class="ui divider"></div>
-						<input type="hidden" name="topic_id" value="{{ id }}" />
-						{% for problem in vote.problem %}
-						<input type="hidden" name="problem" value="{{ problem._id }}" />
-						<input type="hidden" name="select_type" value="{{ problem.select_type }}" />
-		
-						<div class="ui relaxed divided list">
-							<div class="votep">
-								<i class="large question middle aligned icon"></i>
-								<div class="ui from">
-									<h4 class="ui header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h4>
-									<div class="pro_block" style="margin: 30px 0 20px;padding: 40px 0 0;border: 1px solid rgba(0,0,0,0.1);" id="{{ problem._id }}" >
-										{% if problem.select_type == 1 %}
-											{% for answer in problem.answer %}
-											<div class="field" style="padding-left:60px;">
-												<div class="ui radio checkbox">
-													<input type="radio" name="{{ problem._id }}" values="{{ answer._id }}" />
-													<label>{{ answer.title }}</label>
-												</div>
-												<div style="display:block;margin:10px 0;">
-													<!--<div class="ui red label {{ answer._id }}" style="display:inline-block;width:80%">-->
-													<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
-														<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;"></div>
-													</div>
-																	
-													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:14%;margin-left:4%;float: right;">
-														{{ answer.nums }}票	（{{ answer.nums_rate }}%）
-													</div>
-												</div>
-											</div>
-											{% endfor %}
-										{% else %} 
-				  
-											{% for answer in problem.answer %}
-												<div class="field" style="padding-left:60px;">
-													<div class="ui checkbox">
-														<input type="checkbox" name="{{ answer._id }}" values="{{ answer._id }}" />
-														<label>{{ answer.title }}</label>
-													</div>
-															
-													<div style="display:block;margin:10px 0;">
-														<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
-															<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;"></div>
-														</div>			
-														<div class="vote_num {{ answer._id }}" style="display:inline-block;width:14%;margin-left:4%;float:right;">
-															{{ answer.nums }}票	（{{ answer.nums_rate }}%）
-														</div>
-													</div>
-												</div>
-												<!--<div style="display:block;margin:10px 0;" class="ui red label {{ answer._id }}">{{ answer.nums_rate }}%</div>-->
-											{% endfor %}
-										{% endif %}
-									</div>
-								</div>
-							</div>
-						</div>
-						{% endfor %}
-					</div>
-					<div class="ui right floated aligned grid">
-						<div class="row">
-							<div class="column">
-								<div  id="vote-save" class="ui magenta inverted submit button">确认投票</div>
-							</div>
-						</div>
-					</div>
-					{% endif %}
-					<!-- 这里是投票部分代码 结束 -->
+            
 				</div>    
                 <!--预留广告位-->
             	{% ad_list var:'adone' page:1 size:1 name:'topic_view_page_t1' sort_field:'latest' state:2 %}
