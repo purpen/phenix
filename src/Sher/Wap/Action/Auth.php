@@ -349,15 +349,15 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
           if($user_invite_id){
             $invite_mode = new Sher_Core_Model_InviteRecord();
             $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
-            //送邀请人红包(30元,满199可用)
-            $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'B'));
+            //送邀请人红包(JBL专属)
+            $this->give_bonus($user_invite_id, 'JBL', array('count'=>5, 'xname'=>'JBL', 'bonus'=>'D', 'min_amounts'=>'C', 'product_id'=>Doggy_Config::$vars['app.product_jbl_id']));
           }
         
         }
 
-        //周年庆活动送100红包
+        //活动送100红包
         if(Doggy_Config::$vars['app.anniversary2015.switch']){
-          $this->give_bonus($user_id, 'RE', array('count'=>5, 'xname'=>'RE', 'bonus'=>'B', 'min_amounts'=>'B'));
+          $this->give_bonus($user_id, 'QX', array('count'=>5, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
         }
 
 				// 删除验证码
@@ -377,18 +377,19 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
       $this->send_match_praise($user_id, $user_info['account']);
     }
 		
-    //周年庆活动跳到提示分享页面
+    //活动跳到提示分享页面
     if(Doggy_Config::$vars['app.anniversary2015.switch']){
       //当前用户邀请码
-      $invite_code = Sher_Core_Util_View::fetch_invite_user_code($user_id);
- 		  $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/year?invite_code='.$invite_code; 
+      //$invite_code = Sher_Core_Util_View::fetch_invite_user_code($user_id);
+ 		  //$redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/year?invite_code='.$invite_code; 
     }elseif($this->stash['evt']=='match2' || $this->stash['evt']=='match2_praise'){
       //大赛2
-      $redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/dream2';  
+      //$redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/dream2';  
     }else{
- 		  $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);   
+ 		  //$redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);   
     }
 
+ 		$redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);  
 		
 		$this->clear_auth_return_url();
 		
@@ -454,15 +455,15 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
           if($user_invite_id){
             $invite_mode = new Sher_Core_Model_InviteRecord();
             $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
-            //送邀请人红包
-            //$this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'B'));
+            //送邀请红包(JBL 专属)
+            $this->give_bonus($user_invite_id, 'JBL', array('count'=>5, 'xname'=>'JBL', 'bonus'=>'D', 'min_amounts'=>'C', 'product_id'=>Doggy_Config::$vars['app.product_jbl_id']));
           }
         
         }
 
-        //周年庆活动送100红包
+        //活动送100红包
         if(Doggy_Config::$vars['app.anniversary2015.switch']){
-          //$this->give_bonus($user_id, 'RE', array('count'=>5, 'xname'=>'RE', 'bonus'=>'B', 'min_amounts'=>'B'));
+          $this->give_bonus($user_id, 'QX', array('count'=>5, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
         }
 
 				// 删除验证码
@@ -488,17 +489,19 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
       $this->give_bonus($user_id, 'D1', array('count'=>5, 'xname'=>'D1', 'bonus'=>'C', 'min_amounts'=>'A'));
     }
 		
-    //周年庆活动跳到提示分享页面
+    //活动跳到提示分享页面
     if(Doggy_Config::$vars['app.anniversary2015.switch']){
       //当前用户邀请码
-      $invite_code = Sher_Core_Util_View::fetch_invite_user_code($user_id);
- 		  $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/year?invite_code='.$invite_code; 
+      //$invite_code = Sher_Core_Util_View::fetch_invite_user_code($user_id);
+ 		  //$redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/year?invite_code='.$invite_code; 
     }elseif($this->stash['evt']=='match2' || $this->stash['evt']=='match2_praise'){
       //大赛2
-      $redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/matcht?quickly_signup=1';  
+      //$redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/matcht?quickly_signup=1';  
     }else{
- 		  $redirect_url = Doggy_Config::$vars['app.url.wap'].'?quickly_signup=1';
+ 		  //$redirect_url = Doggy_Config::$vars['app.url.wap'].'?quickly_signup=1';
     }
+
+ 		$redirect_url = Doggy_Config::$vars['app.url.wap'].'?quickly_signup=1';
 
 		$this->clear_auth_return_url();
 		
@@ -689,11 +692,17 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     // 获取红包
     $bonus = new Sher_Core_Model_Bonus();
     $result_code = $bonus->pop($xname);
+
+    // 专属商品ID
+    $product_id = 0;
+    if(isset($options['product_id'])){
+      $product_id = (int)$options['product_id'];
+    }
     
     // 获取为空，重新生产红包
     while(empty($result_code)){
-      //指定生成xname为RE, 100元红包
-      $bonus->create_specify_bonus($options['count'], $options['xname'], $options['bonus'], $options['min_amounts']);
+      //指定生成红包
+      $bonus->create_specify_bonus($options['count'], $options['xname'], $options['bonus'], $options['min_amounts'], $product_id);
       $result_code = $bonus->pop($xname);
       // 跳出循环
       if(!empty($result_code)){
@@ -898,6 +907,11 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
           }
 
         }// has avatar
+
+				//活动送100红包
+				if(Doggy_Config::$vars['app.anniversary2015.switch']){
+				  $this->give_bonus($user_id, 'QX', array('count'=>5, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
+				}
 
         // 实现自动登录
         Sher_Core_Helper_Auth::create_user_session($user_id);
