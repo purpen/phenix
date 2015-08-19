@@ -73,6 +73,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				$dig_ids[] = is_array($result['items'][$i]) ? $result['items'][$i]['_id'] : $result['items'][$i];
 	        }
 		}
+
+    // 昨天的日期
+    $yesterday = (int)date('Ymd' , strtotime('-1 day'));
+    $this->stash['yesterday'] = $yesterday;
         
 		$this->stash['dig_ids']  = $dig_ids;
 		$this->stash['dig_list'] = $diglist;
