@@ -34,6 +34,8 @@
 	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
   <script type="text/javascript" >
       function ajax_load_more(category_id, type, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          $('#product-more').show().attr('status', 1);
           var url = '{{ app_url_wap }}/shop/ajax_load_list';
           $.get(url, { category_id:category_id, sort:sort, page:page, type:type, size:size }, function(rs){
               // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
@@ -78,8 +80,6 @@
       var category_id = $('#product-more').attr('category_id');
 
       if(stat==0){
-        //防止频繁请求(在没加载完成时只允许请求一次)
-        $('#product-more').show().attr('status', 1);
         ajax_load_more(category_id, 0, 4, page, 12);
       }
 　　}
@@ -88,7 +88,10 @@
   ajax_load_more('{{cid}}', 0, 4, 1, 12);
 
   $('.category-btn').click(function(){
+    $('.category-btn').removeClass('active');
+    $(this).addClass('active');
     var category_id = $(this).attr('category_id');
+    $('#product-more').attr('category_id', category_id);
     $('#mproducts .item-box').html('');
     ajax_load_more(category_id, 0, 4, 1, 12);
   });
