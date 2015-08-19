@@ -179,7 +179,7 @@
                                     <p>投稿时间：{{ contest.start_date }} -- {{ contest.finish_date }}</p>
                                 </div>
                                 <div class="cats">
-                                    <i class="user icon"></i> 已有 400 人参与 
+                                    <i class="user icon"></i> 已有 {{ contest.view_count|default 1 }} 人参与 
                                 </div>
                                 <span class="counter">
                                     <a href="{{ contest.view_url }}" class="ui link" target="_blank">
