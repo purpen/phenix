@@ -75,7 +75,7 @@
 　　if(scrollTop + windowHeight > scrollHeight-100){
       var stat = $('#product-more').attr('status');
       var page = parseInt($('#product-more').attr('page')) + 1;
-      var category_id = $('#product-more').attr('child-id');
+      var category_id = $('#product-more').attr('category_id');
 
       if(stat==0){
         //防止频繁请求(在没加载完成时只允许请求一次)
@@ -86,6 +86,12 @@
   });
 
   ajax_load_more('{{cid}}', 0, 4, 1, 12);
+
+  $('.category-btn').click(function(){
+    var category_id = $(this).attr('category_id');
+    $('#mproducts .item-box').html('');
+    ajax_load_more(category_id, 0, 4, 1, 12);
+  });
   
 {% endblock %}
 
@@ -96,7 +102,7 @@
 		{% category_list var:'category' only_open:only_open domain:1 show_all:0 current:cid sort_field:'total_desc' %}
 		{% for cat in category.rows %}
 			<div class="swiper-slide">
-	  		<a class="ui {{ cat.active }} item" href="{{ app_url_wap }}/shop?cid={{ cat._id }}">{{ cat.title }}</a>
+        <a class="ui {{ cat.active }} item category-btn" category_id="{{ cat._id }}" href="javascript:void(0);">{{ cat.title }}</a>
 			</div>
 		{% endfor %}
 	</div>
