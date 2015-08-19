@@ -57,7 +57,35 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
      * @return string
      */
     public function home() {
-        $this->set_target_css_state('page_home');
+		
+		// 易购网入口部分
+		$egou = 0;
+		if($this->stash['uid'] && $this->stash['hid']){
+			
+			$eid = $this->stash['uid'];
+			$hid = $this->stash['hid'];
+			
+			// 判断e购用户是否已经参加过活动
+			$model = new Sher_Core_Model_Egou();
+			
+			$date = array();
+			$date['eid'] = $eid;
+			$date['hid'] = $hid;
+			$result = $model->first($date);
+			if(empty($result)){
+				// 将易购用户信息保存至cookie
+				@setcookie('egou_uid', $eid, 0, '/');
+				@setcookie('egou_hid', $hid, 0, '/');
+				$egou = 1;
+			}
+			
+			// 清除cookie值
+			//setcookie('egou_uid', '', time() - 3600);
+			//setcookie('egou_hid', '', time() - 3600);
+		}
+		$this->stash['egou_show'] = $egou;
+        
+		$this->set_target_css_state('page_home');
 
         // 商品推荐列表---取块内容
         $product_ids = Sher_Core_Util_View::load_block('index_product_stick', 1);
@@ -75,8 +103,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
         $this->stash['products'] = $products;
         // 商品图片alt显示标签第一个
         $this->stash['product_alt_tag'] = 1;
-
-        
+		
         return $this->to_html_page('page/home.html');
     }
 	
@@ -180,5 +207,56 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
         $service->session->login_token = $token;
         $this->stash['login_token'] = $token;
     }
+	
+	/**
+	 * 访问egou处理方法
+	 */
+	public function egou(){
+		
+		// 获取相关数据
+		$try_status = $_COOKIE['is_try'];
+		$love_status = $_COOKIE['is_love'];
+		$stuff_status = $_COOKIE['is_stuff'];
+		
+		// 判断用户是否登陆
+		if(!$this->visitor->id){
+			return $this->display_note_page('请登陆后重新再试',null);
+		}
+		
+		// 判断用户是否完成任务
+		if(!$try_status && !$love_status && !$stuff_status){
+			return $this->display_note_page($try_status.'请完成任意一项任务后重新再试');
+		}
+		 
+		$egou_uid = $_COOKIE['egou_uid'];
+		$egou_hid = $_COOKIE['egou_hid'];
+		
+		// 将用户信息插入数据库
+		$model = new Sher_Core_Model_Egou();
+		$date = array();
+		$date['eid'] = $egou_uid;
+		$date['hid'] = $egou_hid;
+		$date['user_id'] = $this->visitor->id;
+		$ok = $model->create($date);
+		
+		if(!$ok){
+			return $this->display_note_page('用户信息插入失败,请重试!');
+		}
+		
+		// 相关参数
+		$key = "6888aMNnU161m19eaiviB578mY0775";
+		$k = MD5($egou_uid.$egou_hid.date('Y-m-d',time()).$key);
+		
+		// 清除cookie值
+		setcookie('is_try', '', time() - 3600);
+		setcookie('is_love', '', time() - 3600);
+		setcookie('is_stuff', '', time() - 3600);
+		setcookie('egou_hid', '', time() - 3600);
+		setcookie('egou_uid', '', time() - 3600);
+		
+		// 易购签到地址
+		$url = "http://www.egou.com/club/qiandao/qiandao.htm?hid={$egou_hid}&k={$k}";
+		return $this->to_redirect($url);
+	}
 }
 ?>

@@ -1,3 +1,4 @@
+{% if egou_show %}
 <div class="ui dimmer modals">
   <div class="ui standard yigo modal" style="width:700px !important;left:50% !important;background: rgba(0,0,0,0) !important;top:0 !important;margin-top:0 !important;">
     <div style="position:relative">
@@ -11,7 +12,10 @@
     </div>
   </div>
 </div>
+{% endif %}
+{% if egou_uid %}
 <div class="fixed button" style="right:20px;top:120px;z-index:1001 !important;">
-  <a href=""><img src="{{ app_url_packaged }}/images/ygend.png" style="width:170px;"></a>
+  <a href="{{ app_url_home }}/app/site/index/egou"><img src="{{ app_url_packaged }}/images/ygend.png" style="width:170px;"></a>
   <div style="cursor:pointer;" class="ui yig btn"><img src="{{ app_url_packaged }}/images/ygstar.png" style="width:170px;margin:10px 0;"></div>
 </div>
+{% endif %}

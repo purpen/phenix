@@ -21,6 +21,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	 * 2015 七夕
 	 */
 	public function qixi(){
+		
 		return $this->to_html_page('page/promo/qixi.html');
 	}
 	
