@@ -405,7 +405,7 @@
                         {% endif %}
               	  	</div>
                     <p>
-                        已有 <span id="target-love-count">{{ stuff.love_count }}</span> 个人点赞, <span id="target-favorite-count">{{ stuff.favorite_count }}</span> 人关注
+                        已有 <span id="target-love-count">{{ stuff.love_count|default 0 }}</span> 个人点赞, <span id="target-favorite-count">{{ stuff.favorite_count }}</span> 人关注
                     </p>                    
                 </div>
                 <div class="user share">
