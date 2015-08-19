@@ -533,6 +533,9 @@
 	section.ui.block:child-nth(5) h3.ui.header{
 	  color:#fff !important;
 	}
+	.ui.allist .ui.four.items .item .i-stats .schedule {
+    padding-top: 5px;
+  }
 	.image.zan .plus-icon .like{
 	  position: absolute;
     top: calc(50% - 25px);
@@ -1004,12 +1007,38 @@
               <div class="item"> 
                <div class="content"> 
                  <h4 class="ui dividing header"> <a class="ui link" href="{{ stuff.view_url }}" target="_blank">{{ stuff.title|truncate 28 }}</a> 
-                 <div class="image"> 
-                   <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" /> 
-                 </div> 
-                 <div class="advantage">
-                  {{ stuff.strip_description|truncate 140 }} 
-                 </div> </h4> 
+                   <div class="image zan">
+                     <img style="margin-bottom:-5px;" src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" /> 
+                     <div class="image-extra">
+                       <a href="{{ stuff.view_url }}" title="{{ stuff.title|truncate 28 }}" target="_blank"></a>
+                       <div class="extra-content">
+                         <div class="inner-extra">
+                           <div class="single-image plus-icon">
+                             <a href="javascript:void(0);" class="love-btn" item-id="{{ stuff._id }}" loved="0">
+                               <i class="like icon"> </i>
+                             </a>
+                             <div class="add">
+                                           +1      
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+
+                     {% if stuff.college %}
+                     <div class="school">
+                       {{ stuff.college.name }}
+                     </div>
+                     {%endif%}
+                   </div>
+                   <a class="ui link" href="{{ stuff.view_url }}"
+                   target="_blank">
+                     {{ stuff.title|truncate 28 }}
+                   </a>
+                   <div class="sub header">
+                     {{ stuff.strip_description|truncate 140 }} 
+                   </div>
+                 </h4> </h4> 
                 <div class="i-stats">
                   <div class="schedule"> 
                    <div class="status clearfix"> 
