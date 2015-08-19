@@ -94,7 +94,7 @@
                                     <p>投稿时间：{{ contest.start_date }} -- {{ contest.finish_date }}</p>
                                 </div>
                                 <div class="cats">
-                                    <span><i class="user icon"></i> 已有 {{ contest.view_count }} 人参与 </span>
+                                    <span><i class="user icon"></i> 已有 {{ contest.view_count|default 1 }} 人参与 </span>
                                     <span><i class="cubes icon"></i> 已有 {{ contest.stuff_count }} 个作品</span> 
                                 </div>
                                 <span class="counter">
