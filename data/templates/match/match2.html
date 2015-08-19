@@ -527,7 +527,43 @@
 	section.ui.block:child-nth(5) h3.ui.header{
 	  color:#fff !important;
 	}
-	
+	.image.zan .plus-icon .like{
+	  position: absolute;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+    -webkit-transition: all 500ms cubic-bezier(.175,.885,.32,1.275) 0s !important;
+    transition: all 500ms cubic-bezier(.175,.885,.32,1.275) 0s !important;
+	}
+	.image.zan .add{
+	  top: 50%;
+	}
+	.image.zan .add-active {
+    top: calc(50% - 70px);
+  }
+  i.like.icon:before{
+    border-radius: 50%;
+    display: block;
+    color:#fff;
+    line-height: 52px;
+    text-align: center;
+    -webkit-transition: color .25s ease-in-out 0s;
+    transition: color .25s ease-in-out 0s;
+    font-size: 30px;
+  }
+  .image.zan .plus-icon .like.active:before {
+    color: #F36;
+  }
+  .image.zan .plus-icon i.like.icon:after{
+    display:none;
+    opacity: 0;
+  }
+  .ui.allist .ui.items .item .count +.like{
+    width: 80px;
+    display: inline-block;
+    float: right;
+    text-align: right;
+    line-height: 28px;
+  }
 	
 </style>
 {% endblock %}
