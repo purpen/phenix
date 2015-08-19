@@ -388,7 +388,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
               break;
           }
 
-        }
+        }//endfor
         
         $this->stash['results'] = $result;
         

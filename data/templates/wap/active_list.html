@@ -67,7 +67,7 @@
               if(rs.data.results.total_page > rs.data.results.current_page){
                   $('#active-more')
                       .hide()
-                      .attr({'status': 0, 'page': rs.data.page, category_id: rs.data.category_id});
+                      .attr({'status': 0, 'page': rs.data.page});
               }else{
                   $('#active-more').html('没有更多');
               }

@@ -98,7 +98,7 @@
               if(rs.data.results.total_page > rs.data.results.current_page){
                   $('#try-more')
                       .hide()
-                      .attr({'status': 0, 'page': rs.data.page, category_id: rs.data.category_id});
+                      .attr({'status': 0, 'page': rs.data.page});
               }else{
                   $('#try-more').html('没有更多');
               }
