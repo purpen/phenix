@@ -8,9 +8,9 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 	public $stash = array(
 		'id' => '',
 		'page' => 1,
-    'page_title_suffix' => '新品试用-太火鸟智能硬件孵化平台',
-    'page_keywords_suffix' => '智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广',
-    'page_description_suffix' => '【免费】申请智能硬件产品试用，发表产品评测，尽在太火鸟智能硬件孵化平台。',
+		'page_title_suffix' => '新品试用-太火鸟智能硬件孵化平台',
+		'page_keywords_suffix' => '智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广',
+		'page_description_suffix' => '【免费】申请智能硬件产品试用，发表产品评测，尽在太火鸟智能硬件孵化平台。',
 	);
 	
 	protected $page_tab = 'page_user';
