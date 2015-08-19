@@ -126,14 +126,18 @@
   i.like.icon:before{
     border-radius: 50%;
     display: block;
+    color:#fff;
     line-height: 57px;
     text-align: center;
     -webkit-transition: color .25s ease-in-out 0s;
     transition: color .25s ease-in-out 0s;
     font-size: 35px;
   }
+  .image.zan .plus-icon .like.active:before {
+    color: #F36;
+  }
   i.like.icon:after{
-    content:' ';
+    content:none;
   }
 </style>
 {% endblock %}
