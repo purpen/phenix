@@ -29,9 +29,9 @@
 				<div class="row">
 					<div class="ten wide column white section-title">
 						<div class="introduction">
-                			<h2 class="block title">创意征集</h2>
+                			<h2 class="block title">创意定制</h2>
                             <hr>
-                			<p>事实告诉我们，能够真正服务于生活的创意才是我们要寻找的好设计。为此我们建立了一个投票环节，在这里，你所喜欢、支持的创意都有可能制作成产品并成功上市。一个好创意诞生很不容易，希望你们成为优秀的评审团。</p>
+                			<p>2015年太火鸟“反向定制”创意活动正式开启——我们给出命题，你来产出创意，非公开只求精，真正打造可孵化的项目！这一次，我们我们有目的、有计划、有预谋，面向所有创新产品从业者、创意设计师、相关专业师生。 “有形设计，无限创意”，形式已定，创意由你。</p>
                             
                             
 							<a href="{{ app_url_fever }}/submit?step=1" class="ui white inverted button">
@@ -91,7 +91,39 @@
         <!--反向定制-->
 		<div class="row">
 			<div class="column">
-                
+                {% contest_list var:"list" page:page state:2 %}
+                <div class="ui two contest cards">
+                {% if list.rows %}
+                    {% for contest in list.rows %}
+                    <div class="card">
+                        <div class="speblock">
+                            <div class="ribbons">
+                                <span class="ribbon going">进行中</span>
+                            </div>
+                            <a title="{{ contest.title }}"  href="{{ contest.view_url }}" style="background-image: url({{ contest.cover.fileurl }});" class="thumb spethumb" target="_blank">
+                                <div class="shadow"></div>
+                            </a>
+                            <h2>
+                                <a href="{{ contest.view_url }}" title="{{ contest.title }}" class="ui line" target="_blank">
+                    			    {{ contest.title|truncate, 32, '' }}
+                    		    </a>
+                            </h2>
+                            <div class="excerpt">
+                                <p>征集时间：{{ contest.start_date }} -- {{ contest.finish_date }}</p>
+                            </div>
+                            <div class="cats">
+                                <i class="user icon"></i> 已有 400 人参与 
+                            </div>
+                            <span class="counter">
+                                <a href="{{ contest.view_url }}" class="ui link" target="_blank">
+                                    <i class="edit icon"></i> 我要提交
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                </div>
             </div>
         </div>
 		<div class="row">

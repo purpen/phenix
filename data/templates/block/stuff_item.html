@@ -1,37 +1,19 @@
-<div class="card">
- 	<div class="image">
-        <a href="{{ stuff.view_url }}" title="{{ stuff.title }}" target="_blank">
-    		<img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
-  	  	</a>
-  	</div>
-  	<div class="content">
-    	<div class="header nowrap">
-    		<a href="{{ stuff.view_url }}" title="{{ stuff.title }}" class="ui line" target="_blank">{{ stuff.title|truncate 26 '' }}</a>
-  	  	</div>
-  	  	<a href="{{ stuff.user.home_url }}" class="ui icon author link">
-    		<img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> 
-			<small>{{ stuff.user.nickname }}</small>
-  	  	</a>
-        <span class="ui icon support active magenta button" data-id="{{ stuff._id }}">
-            <i class="thumbs up outline icon"></i>
-        </span>        
-        <div class="i-stats">
-            <div class="love">
-                <a class="ui line category" href="{{ app_url_stuff }}/c{{ stuff.category._id }}">
-                    {{ stuff.category.title }}
-          	  	</a>
-          	  	<div class="ui avatars images" id="stuff_{{ stuff._id }}_support">
-                    {% if stuff.love_count %}
-                        {% users_list var:'userlist' user_ids:stuff.love_users %}
-                        {% for u in userlist %}
-              	  	        <img src="{{ u.mini_avatar_url }}" class="ui avatar image" />
-                        {% endfor %}
-                        <span class="count">
-                            {{ stuff.love_count }}<small>+</small>
-                        </span>
-                    {% endif %}
-          	  	</div>
-            </div>
+<div class="card" id="product-{{ stuff._id }}">
+    <div class="problock">
+        <a title="{{ stuff.title }}" href="{{ stuff.view_url }}" style="background-image: url({{ stuff.cover.thumbnails.hm.view_url }});" class="thumb" target="_blank"></a>
+        <h2>
+            <a href="{{ stuff.view_url }}" title="{{ stuff.title }}" class="ui line" target="_blank">
+			    {{ stuff.title|truncate, 32, '' }}
+		    </a>
+        </h2>
+        <div class="excerpt">
+            <p>{{ stuff.strip_description|truncate 70 }}</p>
         </div>
-  	</div>
+        <div class="cats">
+            
+        </div>
+        <span class="counter">
+            <i class="heart icon"></i> {{ stuff.love_count }}
+        </span>
+    </div>
 </div>
