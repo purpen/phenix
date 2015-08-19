@@ -424,109 +424,67 @@
            </div>
        </div>
         
-        <!--品牌相关-->
-        <div class="sellwrap">
-			<div class="block title">
-                分享者
-            </div>
-            <div class="brand products">
-
-                <div class="author">
-    				<a href="{{ stuff.user.home_url }}" class="ui large avatar image" >
-    					<img src="{{ stuff.user.big_avatar_url }}" alt="{{ stuff.user.nickname }}" />
-    				</a>
-                    <h4>
-                        {{ stuff.user.nickname }}
-                    </h4>
-                    {% if stuff.user.city %}
-                    <p class="info">{{ stuff.user.city }} {{ stuff.user.profile.job }}</p>
-                    {% endif %}
-                    <p class="desc">
-                        {{ stuff.user.summary }}
-                    </p>
-                </div>
-                
-                {% stuff_list var:'plist' page:1  only_onsale:1 size:4 user_id:stuff.user_id  %}
-                <div class="ui two miniproducts blocks">
-                    {% for stuff in plist.rows %}
-                    <div class="block">
-            			<div class="image" {% if stuff.cover %}style="background-image: url('{{ stuff.cover.thumbnails.hm.view_url }}');"{% endif %}>
-                            <a class="transparent" href="{{ stuff.view_url }}" target="_blank"></a>
-            			</div>
-                     </div>    
-                     {% endfor %}
-                </div>
-                {% if stuff.user %}
-    			<div class="more">
-    				<a href="javascript:void(0);" class="ui link">
-                        <i class="search icon"></i> 查看更多作品
-                    </a>
-                </div>
+        {% include "page/topic/rightbar.html" %}
+        {% include "page/topic/stick_list.html" %}
+        {% include "page/topic/adwrap.html" %}
+        
+        {% if editable %}
+        <div class="sellwrap admin">
+			<div class="ui icon green hide editable buttons">
+            {% if visitor.can_edit %}
+                {% if visitor.is_admin %}
+					{% if topic.top == 1 %}
+					<div class="ui pop dtop active button" data-content="取消站内置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="1">
+						<i class="pin icon"></i>
+					</div>
+					{% else %}
+					<div class="ui pop dtop button" data-content="站内置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="1">
+						<i class="pin icon"></i>
+					</div>
+					{% endif %}
                 {% endif %}
-            </div>
-			
-        </div>
         
-		{% ad_list var:'adslide2' page:1 size:2 state:2 name:'product_rightbar_stick' %}
-        {% if adslide2.rows %}
-        <div class="adstickwrap">
-            <div class="ui one adverts cards">
-                {% for ad in adslide2.rows %}
-                <div class="card">
-                    <div class="advblock">
-                        <div class="image" style="background-image: url('{{ ad.cover.fileurl }}');padding:30% 0;">
-                            <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank"></a>
-                        </div>
-                        <div class="desc">
-                            <h2>
-                                {{ ad.title }}
-                            </h2>
-                            <p>{{ ad.sub_title }}</p>
-                        </div>
-                        <a href="{{ ad.view_url }}" title="{{ ad.title }}" class="link wrap" target="_blank"></a>
-                    </div>
-                </div>
-                {%endfor%}
-            </div>
-        </div>
-        {%endif%}
-        
-        <div class="sellwrap">
-
-        {% if visitor.can_edit %}
-            <div class="ui icon green editable inverted buttons">
-                {% if stuff.featured %}
-				<div class="ui pop fine active button" data-content="取消精选"  data-variation="inverted" data-mark="y" data-id="{{ stuff._id }}">
+				{% if topic.top == 2 %}
+				<div class="ui pop top active button" data-content="取消版块置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="2">
+					<i class="pointing down icon"></i>
+				</div>
+				{% else %}
+				<div class="ui pop top button" data-content="版块置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="2">
+					<i class="pointing up icon"></i>
+				</div>
+				{% endif %}
+                
+				{% if topic.fine %}
+				<div class="ui pop fine active button" data-content="取消精华"  data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
 					<i class="star icon"></i>
 				</div>
 				{% else %}
-				<div class="ui pop fine button" data-content="标记精选" data-variation="inverted" data-mark="n" data-id="{{ stuff._id }}">
+				<div class="ui pop fine button" data-content="标记精华" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}">
 					<i class="star empty icon"></i>
 				</div>
 				{% endif %}
-				{% if stuff.stick %}
-				<div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ stuff._id }}">
+                
+				{% if topic.stick %}
+				<div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
 					<i class="flag icon"></i>
 				</div>
 				{% else %}
-				<div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ stuff._id }}">
+				<div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}">
 					<i class="flag outline icon"></i>
 				</div>
 				{% endif %}
 
-    		</div>
-        {%endif%}
-        {% if editable %}
-          <div class="ui icon green editable inverted buttons">
-                  <div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ stuff._id }}">
-                      <i class="edit icon"></i>
-                  </div>
-                  <div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ stuff._id }}">
-                      <i class="remove icon"></i>
-                  </div>
-          </div>
-        {% endif %}
+            {% endif %}
+                
+				<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ topic._id }}">
+					<i class="edit icon"></i>
+				</div>
+				<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ topic._id }}">
+					<i class="remove icon"></i>
+				</div>
+			</div>
         </div>
+        {% endif %}
     </div>
 </div>
 {% include "block/sharebox.html" %}
