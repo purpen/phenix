@@ -50,7 +50,7 @@
     	<input type="hidden" name="reply_user_id" value="" />
 		
     	<div class="field">
-        <textarea name="content" id="comment-area" class="comment-textarea" maxlength="140" placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论内容...{%endif%}"></textarea>
+        <textarea name="content" id="comment-area" class="comment-textarea" placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论内容...{%endif%}"></textarea>
       	  	<div id="comment"></div>
     	</div>
   	  	{% if visitor.is_login %}
@@ -288,7 +288,7 @@
             '</div>',
       validation: {
             allowedExtensions: ['jpeg', 'jpg', 'png', 'gif'],
-            sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+            sizeLimit: 5245728 // 5M = 5 * 1024 * 1024 bytes
         }
       }).on('complete', function (event, id, name, result) {
       if(result.is_error){
