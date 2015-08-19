@@ -79,13 +79,13 @@
 
       if(stat==0){
         //防止频繁请求(在没加载完成时只允许请求一次)
-        $('#product-more').attr('status', 1);
+        $('#product-more').show().attr('status', 1);
         ajax_load_more(category_id, 0, 4, page, 12);
       }
 　　}
   });
 
-  ajax_load_more('{{category_id}}', 0, 4, 1, 12);
+  ajax_load_more('{{cid}}', 0, 4, 1, 12);
   
 {% endblock %}
 
@@ -113,7 +113,7 @@
 	</div>
 
   <!--ajax load-->
-  <div id="product-box" class="topic-box-list" style="display:none;" child-id="{{ category_id }}" status="0">
+  <div id="product-more" class="topic-box-list" style="display:none;" category_id="{{ cid }}" page="1" status="0">
     <div style="text-align:center;margin:10px auto;">
       <img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">
     </div>
