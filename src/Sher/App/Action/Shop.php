@@ -778,24 +778,24 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$data['tags'] = $this->stash['tags'];
 		$data['category_id'] = (int)$this->stash['category_id'];
 		$data['cooperate_id'] = isset($this->stash['cooperate_id'])?(int)$this->stash['cooperate_id']:0;
-    $data['cover_id'] = isset($this->stash['cover_id'])?$this->stash['cover_id']:null;
-    $data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
+        $data['cover_id'] = isset($this->stash['cover_id'])?$this->stash['cover_id']:null;
+        $data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
 
-    // 添加视频
-    $data['video'] = array();
-    if(isset($this->stash['video'])){
-      foreach($this->stash['video'] as $v){
-        if(!empty($v)){
-          array_push($data['video'], $v);
+        // 添加视频
+        $data['video'] = array();
+        if(isset($this->stash['video'])){
+            foreach($this->stash['video'] as $v){
+                if(!empty($v)){
+                    array_push($data['video'], $v);
+                }
+            }
         }
-      }
-    }
     
-    // 团队介绍
-    $team_introduce = isset($this->stash['team_introduce'])?$this->stash['team_introduce']:null;
-    // 品牌名称
-    $brand = isset($this->stash['brand'])?$this->stash['brand']:null;
-    // 设计师
+        // 团队介绍
+        $team_introduce = isset($this->stash['team_introduce'])?$this->stash['team_introduce']:null;
+        // 品牌名称
+        $brand = isset($this->stash['brand'])?$this->stash['brand']:null;
+        // 设计师
 		$designer = isset($this->stash['designer'])?$this->stash['designer']:null;
         // 所属国家
 		$country = isset($this->stash['country'])?$this->stash['country']:null;
