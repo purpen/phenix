@@ -582,6 +582,64 @@
     var url = "{{ app_url_contest }}/submit?season=dream2";
     phenix.redirect(url);
   });
+  
+  /* 登录用户行为 */
+  //加载赞状态
+	{% if visitor.is_login %}
+  var current_user_id = phenix.visitor.id;
+  $('#item-list').find('.such-item').each(function(){
+    var obj = $(this).find('.love-btn');
+    var id = obj.attr('item-id');
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id:id, type:4, event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					obj.attr('loved', 1);
+          obj.find('.like').addClass('active');
+				}
+			}
+		}, 'json');
+
+  });
+
+  {%endif%}
+
+  //点赞行为
+  $('.love-btn').click(function(){
+    var obj = $(this);
+    var id = $(this).attr('item-id');
+    var loved = $(this).attr('loved');
+
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (loved == 0) {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					obj.attr('loved', 1);
+          obj.find('.like').addClass('active');
+					$('.item-'+id).find('.add').addClass('add-active');
+          $('.item-'+id).find('.love-count').text(result.data.love_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					obj.attr('loved', 0);
+          obj.find('.like').removeClass('active');
+					$('.item-'+id).find('.add').removeClass('add-active');
+          $('.item-'+id).find('.love-count').text(result.data.love_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+    
+  });
 
 	skrollr.init({
 		forceHeight: false,
