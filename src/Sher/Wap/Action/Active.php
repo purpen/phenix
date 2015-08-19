@@ -238,6 +238,12 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
         $options['size'] = $size;
         
         $result = $service->get_active_list($query, $options);
+        //组织数据
+
+        for($i=0;$i<count($result['rows']);$i++){
+          $end_time_format = date('Y-m-d', $result['rows'][$i]['end_time']);
+          $result['rows'][$i]['end_time_format'] = $end_time_format;
+        }
         
         $this->stash['results'] = $result;
         

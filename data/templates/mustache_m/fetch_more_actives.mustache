@@ -1,7 +1,7 @@
 {{#results.rows}}
 	<div class="card">
               <div class="problock">
-                  <a title="{{ title }}" href="{{ wap_view_url }}" style="background-image: url('{{ cover.thumbnails.resp.view_url }}');" class="thumb" target="_blank"></a>
+                  <a title="{{ title }}" href="{{ wap_view_url }}" style="background-image: url('{{ cover.thumbnails.resp.view_url }}');" class="thumb"></a>
                   <div class="ribbons">
                       {{ #season }}
                       <span class="ribbon season">
@@ -10,7 +10,7 @@
                       {{/season}}
                   </div>
                   <h2>
-                      <a href="{{ wap_view_url }}" title="{{ title }}" class="ui line" target="_blank">
+                      <a href="{{ wap_view_url }}" title="{{ title }}" class="ui line">
           			    {{ title }}－{{ conduct_city }}站
           		    </a>
                   </h2>
@@ -18,18 +18,18 @@
                       <p>活动地址：{{ conduct_city }}{{ address }}，限额人数：{{ max_number_count }}人</p>
                   </div>
                   <div class="cats">
-                      <i class="time icon"></i> {{ end_time }}
+                      <i class="time icon"></i> {{ end_time_format }}
                   </div>
                   <span class="counter">
                       <i class="heart icon"></i> 
-                       {{ #step_stat }}
+                       {{ #if(step_stat==2) }}
                            已结束
-                       {{/step_stat}}
-                        {{ #step_stat }}
+                       {{/if(step_stat==2)}}
+                        {{ #if(step_stat==1) }}
                        <a class="ui link" href="{{ wap_view_url }}">
                            我要报名
                  	  	</a>
-                       {{ /step_stat }}
+                       {{/if(step_stat==1)}}
                   </span>
               </div>
               
