@@ -68,13 +68,20 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			// 判断e购用户是否已经参加过活动
 			$model = new Sher_Core_Model_Egou();
 			$time = date('Y-m-d',time());
+			$is_egou = 0;
 			
 			$date = array();
 			$date['eid'] = $eid;
 			$date['hid'] = $hid;
-			$result = $model->first($date);
-			
-			if(empty($result) && $result['time'] == $time){
+			$result = $model->find($date);
+			if(!empty($result)){
+				foreach($result as $k => $v){
+					if($v['time'] == $time){
+						$is_egou++;
+					}
+				}
+			}
+			if(!$is_egou){
 				// 将易购用户信息保存至cookie
 				@setcookie('egou_uid', $eid, 0, '/');
 				@setcookie('egou_hid', $hid, 0, '/');
@@ -234,13 +241,13 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		$k = MD5($egou_uid.$egou_hid.date('Y-m-d',time()).$key);
 		
 		// 清除cookie值
-		setcookie('egou_hid', '', time() - 3600);
-		setcookie('egou_uid', '', time() - 3600);
+		setcookie('egou_hid', '', time() - 3600, '/');
+		setcookie('egou_uid', '', time() - 3600, '/');
 		
 		// 易购签到地址
 		$url = "http://www.egou.com/club/qiandao/qiandao.htm?hid={$egou_hid}&k={$k}";
 		echo $url;
-		return $this->to_redirect($url);
+		//return $this->to_redirect($url);
 	}
 }
 ?>
