@@ -158,7 +158,7 @@
 			phenix.show_error_message(result.message, $('#product-upload-form'));
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
-			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}'});
+			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type|default 0 }}, 'asset_domain':'{{ domain }}'});
 		}
 	});
 
@@ -189,7 +189,7 @@
 			phenix.show_error_message(result.message, $('#file-upload-form'));
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
-			$.get('{{ app_url_action_base }}/uploader/check_upload_files', {'assets': result.data.ids, 'asset_type': {{ file_asset_type||default 0 }}, 'asset_domain':'{{ domain }}'});
+			$.get('{{ app_url_action_base }}/uploader/check_upload_files', {'assets': result.data.ids, 'asset_type': {{ file_asset_type|default 0 }}, 'asset_domain':'{{ domain }}'});
 		}
 	});
 	
