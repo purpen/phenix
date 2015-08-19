@@ -53,7 +53,8 @@ class Sher_Core_Model_Contest extends Sher_Core_Model_Base  {
 	 * 扩展关联数据
 	 */
     protected function extra_extend_model_row(&$row) {
-        $row['view_url'] = !empty($row['link'])?$row['link']:Sher_Core_Helper_Url::contest_view_url($row['_id']);
+        $row['view_url'] = Sher_Core_Helper_Url::contest_view_url($row['_id']);
+        $row['wap_view_url'] = Sher_Core_Helper_Url::wap_contest_view_url($row['_id']);
 		// 验证是否指定封面图
 		if(empty($row['cover_id'])){
 			$this->mock_cover($row);

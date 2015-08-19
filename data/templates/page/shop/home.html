@@ -66,18 +66,17 @@
     </div>
 </div>
 
+{% product_list var:'stick_list' page:1 type:2 only_onsale:1 size:8 sort:4 %}
 <div class="shop list" id="shoplist">
     <!--店长推荐-->
 	<div class="ui newest responsive grid">
 		<div class="row">
 			<div class="column">
-                {% if stick_products %}
                 <div class="ui four products cards">
-					{% for product in stick_products %}
+					{% for product in stick_list.rows %}
 				  		{% include "block/product_card.html" %}
 				    {% endfor %}
                 </div>
-				{% endif %}
             </div>
         </div>
     </div>

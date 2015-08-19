@@ -159,6 +159,16 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['presale_finish_time'] = $this->stash['presale_finish_time'];
 		$data['presale_goals'] = $this->stash['presale_goals'];
 		$data['presale_inventory'] = $this->stash['presale_inventory'];
+        
+        // 添加视频
+        $data['video'] = array();
+        if(isset($this->stash['video'])){
+            foreach($this->stash['video'] as $v){
+                if(!empty($v)){
+                    array_push($data['video'], $v);
+                }
+            }
+        }
 		
 		// 封面图
 		$data['cover_id'] = $this->stash['cover_id'];

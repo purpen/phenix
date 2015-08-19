@@ -18,7 +18,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/social/index.html';
 	
-	protected $exclude_method_list = array('execute','dream','allist','allist2','dream2','about2','cooperate','rank','ajax_fetch_top_province','ajax_fetch_top_college','ajax_load_colleges','qsyd','qsyd_view','qsyd_list','custom','about3','tooth');
+	protected $exclude_method_list = array('execute','dream','allist','allist2','dream2','about2','cooperate','rank','ajax_fetch_top_province','ajax_fetch_top_college','ajax_load_colleges','qsyd','qsyd_view','qsyd_list','custom', 'show');
 	
     public function _init() {
         $this->set_target_css_state('page_incubator');
@@ -44,34 +44,35 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	public function reward(){
 		return $this->to_html_page('match/about3.html');
 	}
-	
-	/**
-     * 反向定制-智能牙刷
-     */
-	public function tooth(){
-		return $this->to_html_page('match/tooth.html');
-	}
-	
-	/**
-     * 反向定制-移动电源
-     */
-	public function power(){
-		return $this->to_html_page('match/power.html');
-	}
     
-    /**
-     * 大赛详情
-     */
-    public function show(){
-        $id = $this->stash['id'];
+  /**
+   * 大赛详情
+   */
+  public function show(){
+    $id = $this->stash['id'];
+
+    $redirect_url = sprintf("%s/about3", Doggy_Config::$vars['app.url.contest']);
+
+		if(empty($id)){
+			return $this->show_message_page('缺少请求参数！', $redirect_url);
+		}
+    
+    $model = new Sher_Core_Model_Contest();
+    $contest = $model->extend_load((int)$id);
+
+		if(empty($contest)){
+			return $this->show_message_page('访问的主题不存在！', $redirect_url);
+		}
+
+		// 增加pv++
+		$model->increase_counter('view_count', 1, $contest['_id']);
         
-        $model = new Sher_Core_Model_Contest();
-        $contest = $model->extend_load((int)$id);
+    $this->stash['contest'] = $contest;
+
+    $render = sprintf("match/%s.html", $contest['short_name']);
         
-        $this->stash['contest'] = $contest;
-        
-        return $this->to_html_page('page/fever/contest_detail.html');
-    }
+    return $this->to_html_page($render);
+  }
 	
 	/**
 	 * 奇思甬动-大赛

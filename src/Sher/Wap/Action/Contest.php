@@ -11,7 +11,7 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 		'category_id' => 0,
 	);
 	
-	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show', 'rank', 'ajax_fetch_top_province', 'ajax_fetch_top_college', 'ajax_load_colleges','matcht','custom','about3','tooth','power');
+	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show', 'rank', 'ajax_fetch_top_province', 'ajax_fetch_top_college', 'ajax_load_colleges','matcht','custom','about3', 'show');
 	
 	/**
 	 * 社区入口
@@ -246,13 +246,36 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 	public function about3(){
 		return $this->to_html_page('wap/contest/about3.html');
 	}
-	
-	public function tooth(){
-		return $this->to_html_page('wap/contest/tooth.html');
-	}
-	
-	public function power(){
-		return $this->to_html_page('wap/contest/power.html');
-	}
+
+  /**
+   * 大赛详情
+   */
+  public function show(){
+    $id = $this->stash['id'];
+
+    $redirect_url = sprintf("%s/contest/about3", Doggy_Config::$vars['app.url.wap']);
+
+		if(empty($id)){
+			return $this->show_message_page('缺少请求参数！', $redirect_url);
+		}
+    
+    $model = new Sher_Core_Model_Contest();
+    $contest = $model->extend_load((int)$id);
+
+		if(empty($contest)){
+			return $this->show_message_page('访问的主题不存在！', $redirect_url);
+		}
+
+		// 增加pv++
+		$model->increase_counter('view_count', 1, $contest['_id']);
+        
+    $this->stash['contest'] = $contest;
+
+    $render = sprintf("wap/contest/%s.html", $contest['short_name']);
+        
+    return $this->to_html_page($render);
+  }
+
+
 }
 
