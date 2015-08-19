@@ -83,6 +83,7 @@
 		if (error.code == 5){
 			error.message = '图片太大，请选择小于5M！';
 		}
+    file_count++;
 		phenix.show_error_note(error.message, 5000);
     });
 	
@@ -133,7 +134,7 @@
 	
 	// 上传图片
 	$('#phenix-uploader').fineUploader({
-		debug: true,
+		debug: false,
       	request: {
 			inputName:'file',
 			params: {'token': '{{ token }}','x:pid': '{{ new_file_id }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ new_file_id }}' },
@@ -157,14 +158,14 @@
 			$('#product-upload-form').addClass('error');
 			phenix.show_error_message(result.message, $('#product-upload-form'));
 		}else{
-			$('.qq-upload-list').children().eq(id).fadeOut();
+			$('.qq-upload-list').children().eq(id).fadeOut(3000);
 			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type|default 0 }}, 'asset_domain':'{{ domain }}'});
 		}
 	});
 
 	//上传附件
 	$('#phenix-file-uploader').fineUploader({
-		debug: true,
+		debug: false,
       	request: {
 			inputName:'file',
 			params: {'token': '{{ file_token }}','x:pid': '{{ file_pid }}', 'x:domain': '{{ file_domain }}', 'x:ord': ford, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ file_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ file_pid }}' },
@@ -181,7 +182,7 @@
 					'</div>',
 		validation: {
 	        //allowedExtensions: ['jpeg', 'jpg', 'png'],
-	        sizeLimit: 3145728 // 10M = 10 * 1024 * 1024 bytes
+	        sizeLimit: 10485760 // 10M = 10 * 1024 * 1024 bytes
 	    }
     }).on('complete', function (event, id, name, result) {
 		if(result.is_error){
@@ -227,7 +228,6 @@
 	// 触发保存草稿箱
 	$('.save.button').click(function(){
 		$('input[name=published]').val(0); // 设置topic里面published的值
-		//alert($('input[name=published]').val());
 		$(this).submit(); // 调用此表单的提交方法
 	});
 	
