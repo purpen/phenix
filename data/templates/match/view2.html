@@ -226,7 +226,7 @@
 {% endblock %}
 
 {% block content %}
-<!--<div id="postpage">
+<div id="postpage">
 	{% ad_list var:'ad' page:1 size:1 name:'stuff_view_page_t1' sort_field:'latest' state:2 %}
 	{% if ad %}
 	<div class="ui responsive grid">
@@ -299,9 +299,9 @@
 						<p>
 							<img src="{{ stuff.cover.thumbnails.hd.view_url }}" alt="{{ stuff.title }}" class="fr-fin" />
 						</p>
-						{% endif %}-->
+						{% endif %}
 						<!--附件列表-->
-						<!--{% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
+						{% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
 						{% if assets.total_rows %}
 							{% for asset in assets.rows %}
 								{% if asset._id != stuff.cover_id %}
@@ -386,302 +386,21 @@
 					</div>
 				</div>
 				
-    			<div class="ui big reply segment">-->
+    			<div class="ui big reply segment">
 	      			<!--ajax comment-->
-	      		 <!-- 	<div id="comment-list"></div>
+	      		  	<div id="comment-list"></div>
 	      		  	{% include "block/comment_box_site.html" %}
 	    		</div>
 				
 			</div>
 		</div>
 	</div>
-</div>-->
+</div>
 
 <!--你可能喜欢的产品-->
-<!--
-<div id="product_guess_list">-->
+<div id="product_guess_list">
 	<!--ajax fetch-->
-<!--</div>
-
-{% include "block/qrcode.html" %}
-{% endblock %}-->
-
-
-<div class="mainwrap social" id="postpage">
-    <div class="mainleftwrap">
-        <div class="mainleft">
-			  <div class="ui big topic segment">
-  				<div class="ui header">
-  					<a class="ui small avatar idcard image" href="{{ topic.user.home_url }}" data-uid="{{ topic.user_id }}">
-  			      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
-  						{% if topic.user.kind==1 %}
-  						    <img src="{{ app_url_packaged }}/images/V.png" class="image-WV" />
-                          {%endif%}
-  					</a>
-  					<div class="content">
-  						{{ topic.title }}
-  						<div class="sub header attribute">
-  							<span class="category"><a href="{{ app_url_topic }}/c{{ topic.category._id }}" class="ui link">{{ topic.category.title }}</a></span> | 
-  							<span class="date"><a class="ui link" href="{{ topic.user.home_url }}">@{{ topic.user.nickname }}</a> 发表于 {{ topic.created_on|relative_datetime }}</span> | 
-  							<span class="count">浏览数: {{ topic.view_count }}</span> | <span class="count">回复数: {{ topic.comment_count }}</span>
-  						</div>
-  					</div>
-  				</div>
-	
-				{% if is_match_idea %}
-				<div class="post">
-					<div class="ui contest">
-						<a href="{{ app_url_domain }}/dream" target="_blank" class="ui magenta link">太火鸟-十万火计产品创意与创新想法征集活动</a> 参赛作品
-					</div>
-				</div>
-				{% endif %}
-	
-				<div class="post froala-view froala-element clearfix">
-					{{ topic.description }}
-                    
-                    {% if topic.file_asset %}
-                        <hr style="width:100%;" />
-                        <h4 class="ui header">附件下载</h4>
-                        {% asset_list var:'assets' parent_id:topic._id asset_type:56 %}
-                        {% for asset in assets.rows %}
-                        <div class="download">
-                            <span>{{ asset.filename }}</span> <a href="{{ asset.fileurl }}"><span>下载</span></a>
-                        </div>
-                        {%endfor%}
-                    {%endif%}
-				</div>
-            
-				</div>    
-                <!--预留广告位-->
-            	{% ad_list var:'adone' page:1 size:1 name:'topic_view_page_t1' sort_field:'latest' state:2 %}
-            	{% if adone %}
-                <div class="adblock fixed">
-                    <a href="{{ adone.view_url }}" title="{{ adone.title }}" target="_blank">
-                        <img src="{{ adone.cover.fileurl }}" />
-                    </a>
-                </div>
-            	{% endif %}
-                
-				{% if topic.tags %}
-				<div class="idea tags">
-					{% for tag in topic.tags %}
-					{% if tag %}
-					<a href="{{ app_url_search }}?q={{ tag }}&evt=tag" class="ui link">
-						# {{ tag }}
-					</a>
-					{% endif %}
-					{% endfor %}
-				</div>
-				{% endif %}
-                
-            	<!--你可能相关话题-->
-                <div class="topic guess" id="topic_guess_list"><!--ajax fetch--></div>
-			</div>
-            
-            <!--话题作者-->
-            <div class="container">
-                <div class="topic author">
-    	  	        <div class="block title">
-                        作者
-                    </div>
-    				<div class="ui header">
-    					<a class="ui small avatar image" href="{{ topic.user.home_url }}" data-uid="{{ topic.user_id }}" target="_blank">
-    			      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
-    						{% if topic.user.kind == 1 %}
-    						    <img src="{{ app_url_packaged }}/images/V.png" class="image-WV" />
-                            {%endif%}
-    					</a>
-    					<div class="content">
-    						<a href="{{ topic.user.home_url }}" class="ui line" target="_blank">{{ topic.user.nickname }}</a>
-        					{% if topic.user._id != visitor.id %}
-            					{% if !is_ship %}
-                      <a href="{{ app_url_user }}/ajax_follow?id={{ topic.user._id }}" class="ui mini ajax inverted grey button" id="user_{{ topic.user._id }}_ship">
-                                        <i class="plus icon"></i> 关注
-                                    </a>
-            					{% else %}
-            					    <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ topic.user._id }}" class="ui mini ajax inverted active magenta button" id="user_{{ topic.user._id }}_ship">
-                                        <i class="minus icon"></i> 已关注
-                                    </a>
-            					{% endif %}
-        					{% endif %}
-    						<div class="sub header">
-    							{{ topic.user.summary }}
-    						</div>
-    					</div>
-    				</div>
-                </div>
-            </div>
-            
-            <div class="container">
-    			<div class="reply box">
-      			    <!--ajax comment-->
-    	  	        <div class="block title">
-                        全部评论
-                        <small>（{{ topic.comment_count }}）</small>
-                    </div>
-                    <div class="fitsort">
-                        <div class="ui horizontal bulleted list">
-                            <a class="active item" href="javascript:void(0);" data-sort="0">默认</a>
-                            <a class="item" href="javascript:void(0);" data-sort="1">最新</a>
-                        </div>
-                    </div>
-      		  	    <div id="comment-list">
-                        {% comment_list var:'comments' page:1 target_id:topic._id type:2 check_loved:1 only_hotest:1 current_user_id:visitor.id %}
-                        {% if comments.rows %}
-                        <div class="ui threaded hotest comments">
-                            <a class="ui red ribbon label">热门回复</a>
-                    		{% for comment in comments.rows %}
-                    			{%include 'block/comment_item.html'%}
-                    		{% endfor %}
-                            <hr>
-                        </div>
-                        {% endif %}
-                        <div class="ui threaded comments is-comment"></div>
-                        <div class="morepages" id="load-more-btn"></div>
-      		  	    </div>
-      		  	    {% include "block/comment_box_site.html" %}
-                </div>
-            </div>
-			
-        </div>    
-    </div>
-    <div class="mainright">
-        {% include "page/topic/usersign.html" %}
-        <div class="ui sticky">
-            <div class="sellwrap">
-                <div class="user action">
-                    <p>关注&分享话题</p>
-        			<div class="ui red pop love inverted button" data-id="{{ topic._id }}" data-title="点赞支持" data-content="后续可以在‘我赞了的’中快捷查找" data-mark="n">
-        				<i class="heart empty icon"></i> 赞
-        			</div>
-        			<div class="ui magenta pop favorite inverted button" data-title="关注一下" data-content="有关该话题动态及时通知你，后续可以在‘我关注的’中快捷查找" data-id="{{ topic._id }}" data-mark="n">
-        				<i class="plus icon"></i> 关注
-        			</div>
-                </div>
-                <div class="user avatars">
-              	  	<div class="ui images" id="target_{{ topic._id }}_support">
-                        {% if topic.love_count %}
-                            {% favorite_list var:'userlist' target_id:topic._id event:2 type:2 size:15 %}
-                            {% for target in userlist.rows %}
-                            <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
-                  	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />
-                            </a>
-                            {% endfor %}
-                        {% endif %}
-              	  	</div>
-                    <p>
-                        已有 <span id="target-love-count">{{ topic.love_count }}</span> 个人点赞, <span id="target-favorite-count">{{ topic.favorite_count }}</span> 人关注
-                    </p>                    
-                </div>
-                <div class="user share">
-                	<span><i class="share alternate icon"></i>分享：</span>
-                	<a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
-                		<i class="weibo icon large circular red inverted"></i>
-                	</a>
-                	<a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
-                		<i class="weixin icon large circular green inverted"></i>
-                	</a>
-                	<a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
-                		<i class="tencent weibo icon large circular blue inverted"></i>
-                	</a>
-                	<a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
-                		<i class="icon renren large circular blue inverted"></i>
-                	</a>
-                </div>
-            </div>
-        </div>
-        {% include "page/topic/rightbar.html" %}
-        {% include "page/topic/stick_list.html" %}
-        {% include "page/topic/adwrap.html" %}
-        
-        {% if editable %}
-        <div class="sellwrap admin">
-			<div class="ui icon green hide editable buttons">
-            {% if visitor.can_edit %}
-                {% if visitor.is_admin %}
-					{% if topic.top == 1 %}
-					<div class="ui pop dtop active button" data-content="取消站内置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="1">
-						<i class="pin icon"></i>
-					</div>
-					{% else %}
-					<div class="ui pop dtop button" data-content="站内置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="1">
-						<i class="pin icon"></i>
-					</div>
-					{% endif %}
-                {% endif %}
-        
-				{% if topic.top == 2 %}
-				<div class="ui pop top active button" data-content="取消版块置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="2">
-					<i class="pointing down icon"></i>
-				</div>
-				{% else %}
-				<div class="ui pop top button" data-content="版块置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="2">
-					<i class="pointing up icon"></i>
-				</div>
-				{% endif %}
-                
-				{% if topic.fine %}
-				<div class="ui pop fine active button" data-content="取消精华"  data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
-					<i class="star icon"></i>
-				</div>
-				{% else %}
-				<div class="ui pop fine button" data-content="标记精华" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}">
-					<i class="star empty icon"></i>
-				</div>
-				{% endif %}
-                
-				{% if topic.stick %}
-				<div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ topic._id }}">
-					<i class="flag icon"></i>
-				</div>
-				{% else %}
-				<div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}">
-					<i class="flag outline icon"></i>
-				</div>
-				{% endif %}
-
-            {% endif %}
-                
-				<div class="ui pop edit button" data-content="编辑" data-variation="inverted" data-id="{{ topic._id }}">
-					<i class="edit icon"></i>
-				</div>
-				<div class="ui pop remove button" data-content="删除" data-variation="inverted" data-id="{{ topic._id }}">
-					<i class="remove icon"></i>
-				</div>
-			</div>
-        </div>
-        {% endif %}
-		
-		{% if vote_show %}
-		<div class="sellwrap">
-			<div class="block title" style="margin-bottom: 20px">
-				<p>投票特权</p>
-			</div>
-			<div class="ui icon blue hide editable buttons">
-				{% if is_vote %}
-				<a href="{{ app_url_vote }}/edit?rid={{ id }}&vid={{ vote._id }}&tn=1" class="ui pop button">
-					<i class="edit icon"></i> 编辑
-				</a>
-				<a href="{{ app_url_vote }}/deleted?rid={{ id }}&vid={{ vote._id }}&tn=1" class="ui confirm-request pop button">
-					<i class="remove icon"></i> 删除
-				</a>
-				{% else %} 
-				<a href="{{ app_url_vote }}/add?rid={{ id }}&tn=1" class="ui pop button">
-					<i class="plus icon"></i> 添加
-				</a>
-				{% endif %}
-			</div>
-		</div>
-		{% endif %}
-    </div>
 </div>
-{% include "block/sharebox.html" %}
+
 {% include "block/qrcode.html" %}
 {% endblock %}
-
-{% block templates %}
-{% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
-{% endblock %}
-
-
-
