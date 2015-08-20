@@ -9,6 +9,13 @@
 {% endblock %}
 
 {% block jquery %}
+
+  // 判断是否来自易购
+  {% if uid %}
+    {% if hid %}
+      phenix.show_error_note('该活动不支持手机版!', 3000);
+    {%endif%}
+  {%endif%}
 	
 	$('#pc-site').click(function(){
 		phenix.create_cookie('mode', 'pc', 1, 'taihuoniao.com');

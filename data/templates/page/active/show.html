@@ -398,7 +398,7 @@ h4.ui.header .map-advantage {
 </section>
 
 <div class="activity summary">
-    <span><i class="time icon"></i> {{ active.end_time|date 'Y/m/d H:i' }}</span> <span><i class="marker icon"></i> {{ active.address }}</span> <span><i class="users icon"></i> 活动人数：{{ active.max_number_count }}人</span>
+    <span><i class="time icon"></i> {{ active.begin_time|date 'Y/m/d H:i' }}</span> <span><i class="marker icon"></i> {{ active.address }}</span> <span><i class="users icon"></i> 活动人数：{{ active.max_number_count }}人</span>
 </div>
           
 <div class="mainwrap" id="activitypage">
@@ -569,7 +569,7 @@ h4.ui.header .map-advantage {
             <div class="rbox">
     		    <div style="height:300px;border:#ccc solid 1px;" id="map"></div>
                 <p>{{ active.map_info.title }}</p>
-			    <p><i class="map icon"></i>{{ active.address }}</p>
+			    <p><i class="marker icon"></i>{{ active.address }}</p>
             </div>
         </div>
         
