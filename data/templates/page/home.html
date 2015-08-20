@@ -89,9 +89,16 @@
      $('.ui.yigo.close').click(function(){
        $('.ui.yigo.modal').modal('hide');
      })
-     {% if egou_uid %}
-      $('html, body').animate({scrollTop: 2900},3000);
-     {% endif %}
+     
+	{% if uid %}
+		{% if egou_show %}
+			$('html, body').animate({scrollTop: 2900},3000);
+	  	{% endif %}
+	{% else %}
+		{% if egou_uid %}
+			$('html, body').animate({scrollTop: 2900},3000);
+		{% endif %}
+	{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -296,9 +303,17 @@
     </div>
 	
 </div>
-{% if egou_uid %}
-<div class="egou click" style="text-align:center;cursor: pointer;">
-  <img src="{{ app_url_packaged }}/images/egouqd.jpg">
-</div>
+{% if uid %}
+	{% if egou_show %}
+	<div class="egou click" style="text-align:center;cursor: pointer;">
+	  <img src="{{ app_url_packaged }}/images/egouqd.jpg">
+	</div>
+	{% endif %}
+{% else %}
+	{% if egou_uid %}
+	<div class="egou click" style="text-align:center;cursor: pointer;">
+	  <img src="{{ app_url_packaged }}/images/egouqd.jpg">
+	</div>
+	{% endif %}
 {% endif %}
 {% endblock %}
