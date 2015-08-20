@@ -28,20 +28,6 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 	 * 首页
 	 */
 	public function home(){
-    	// 商品推荐列表---取块内容
-    	$product_ids = Sher_Core_Util_View::load_block('index_product_stick', 1);
-    	$products = array();
-    	if($product_ids){
-      		$product_model = new Sher_Core_Model_Product();
-      	    $id_arr = explode(',', $product_ids);
-      	  	foreach(array_slice($id_arr, 0, 8) as $i){
-        		$product = $product_model->extend_load((int)$i);
-        		if(!empty($product)){
-          			array_push($products, $product);
-        		}
-      	  	}
-    	}
-    	$this->stash['products'] = $products;
 		
 		return $this->to_html_page('wap/index.html');
 	}
