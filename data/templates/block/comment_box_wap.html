@@ -376,8 +376,8 @@
       $(':input[name=is_reply]').val(1);
       
       var html='';
-      html += '<div>';
-      html += '<span>回复 #</span>'+ floor +' ';
+      html += '<div class="replytips">';
+      html += '<i class="quote left icon"></i><span>回复 </span>#'+ floor +' ';
       html += '@<a href="'+ user_home_url +'" class="ui magenta link" target="_blank">'+ comment_user_name +'</a> ';
       html += '<span class=""></span> ';
       html += '<a href="javascript:void(0);" class="ui link cancel-reply-btn" recover_comment_user_href="'+ recover_comment_user_href +'" recover_comment_user_name="'+ recover_comment_user_name +'" style="text-align:right">取消</span>';
