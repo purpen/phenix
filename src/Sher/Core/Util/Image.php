@@ -13,7 +13,7 @@ class Sher_Core_Util_Image {
 	/**
 	 * Qiniu upload token
 	 */
-	public static function qiniu_token($callback_url=null, $ext=false) {
+	public static function qiniu_token($callback_url=null, $ext=false, $ord_rand=false) {
 		$key = Doggy_Config::$vars['app.qiniu.key'];
 		$secret = Doggy_Config::$vars['app.qiniu.secret'];
 		
