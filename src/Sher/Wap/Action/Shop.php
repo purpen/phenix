@@ -1300,6 +1300,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			'page' => 1,
 			'size' => $size,
 			'sort_field' => 'latest',
+      // 最新
+      'sort' => 1,
       'evt' => 'tag',
       't' => 1,
       'oid' => $current_id,
