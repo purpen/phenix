@@ -62,8 +62,8 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		if($this->stash['uid'] && $this->stash['hid']){
 			
 			// 清除cookie值
-			setcookie('egou_uid', '', time() - 3600);
-			setcookie('egou_hid', '', time() - 3600);
+			setcookie('egou_uid', '', time() - 3600, '/');
+			setcookie('egou_hid', '', time() - 3600, '/');
 			
 			$eid = $this->stash['uid'];
 			$hid = $this->stash['hid'];
@@ -71,12 +71,14 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			// 判断e购用户是否已经参加过活动
 			$model = new Sher_Core_Model_Egou();
 			$time = date('Y-m-d',time());
-			$is_egou = 0;
+			$is_egou = 0; // 0表示可以通过访问
+			$egou_show = 0;
 			
 			$date = array();
 			$date['eid'] = $eid;
 			$date['hid'] = $hid;
 			$result = $model->find($date);
+			//var_dump($result);
 			if(!empty($result)){
 				foreach($result as $k => $v){
 					if($v['time'] == $time){
@@ -84,15 +86,17 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 					}
 				}
 			}
-			
+			//echo '<br>'.$is_egou.'<br>';
 			if(!$is_egou){
 				// 将易购用户信息保存至cookie
 				@setcookie('egou_uid', $eid, 0, '/');
-				$_COOKIE['egou_uid'] = $eid;
-				@setcookie('egou_hid', $eid, 0, '/');
-				$_COOKIE['egou_hid'] = $hid;
+				//$_COOKIE['egou_uid'] = $eid;
+				@setcookie('egou_hid', $hid, 0, '/');
+				//$_COOKIE['egou_hid'] = $hid;
+				$egou_show = 1;
 			}
 			//var_dump($_COOKIE);
+			$this->stash['egou_show'] = $egou_show;
 		}
         
 		$this->set_target_css_state('page_home');
@@ -230,8 +234,28 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			return $this->display_note_page('非法操作,请重试!');
 		}
 		
-		// 将用户信息插入数据库
+		// 判断e购用户是否已经参加过活动
 		$model = new Sher_Core_Model_Egou();
+		$time = date('Y-m-d',time());
+		$is_egou = 0;
+		
+		$date = array();
+		$date['eid'] = $egou_uid;
+		$date['hid'] = $egou_hid;
+		$result = $model->find($date);
+		if(!empty($result)){
+			foreach($result as $k => $v){
+				if($v['time'] == $time){
+					$is_egou++;
+				}
+			}
+		}
+		
+		if($is_egou){
+			return $this->display_note_page('您已经提交过了,请勿重复提交!');
+		}
+		
+		// 将用户信息插入数据库
 		$date = array();
 		$date['eid'] = $egou_uid;
 		$date['hid'] = $egou_hid;
