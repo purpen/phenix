@@ -2,7 +2,9 @@
 
 {% block page_css %}
 <style type="text/css">
-    
+    .fixed.button{
+      display:none !important;
+    }
 </style>
 {% endblock %}
 {% block jquery %}
@@ -78,22 +80,25 @@
 	});	
 	
 	// 易购   
-      $('.ui.yigo.modal')
-      .modal('setting', 'closable', false)
-     .modal('setting', 'transition', 'vertical  flip')
-     .modal('show');
-     $('.fixed.button').css({"display":"none","position":"fixed"});
-     $('.ui.yigo.close').click(function(){
-       $('.ui.yigo.modal').modal('hide');
-       $('.fixed.button').css({"display":"block","position":"fixed"});
-     })
-     $('.ui.yig.btn').click(function(){
+     $('.egou.click').click(function(){
        $('.ui.yigo.modal')
        .modal('setting', 'closable', false)
       .modal('setting', 'transition', 'vertical  flip')
       .modal('show');
-      $('.fixed.button').css({"display":"none","position":"fixed"});
      })
+     $('.ui.yigo.close').click(function(){
+       $('.ui.yigo.modal').modal('hide');
+     })
+     
+	{% if uid %}
+		{% if egou_show %}
+			$('html, body').animate({scrollTop: 2900},3000);
+	  	{% endif %}
+	{% else %}
+		{% if egou_uid %}
+			$('html, body').animate({scrollTop: 2900},3000);
+		{% endif %}
+	{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -296,7 +301,19 @@
             </div>
         </div>
     </div>
-    
 	
 </div>
+{% if uid %}
+	{% if egou_show %}
+	<div class="egou click" style="text-align:center;cursor: pointer;">
+	  <img src="{{ app_url_packaged }}/images/egouqd.jpg">
+	</div>
+	{% endif %}
+{% else %}
+	{% if egou_uid %}
+	<div class="egou click" style="text-align:center;cursor: pointer;">
+	  <img src="{{ app_url_packaged }}/images/egouqd.jpg">
+	</div>
+	{% endif %}
+{% endif %}
 {% endblock %}

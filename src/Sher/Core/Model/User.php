@@ -158,14 +158,14 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     public static $TWEET_EVENTS = array('post','comment','like','love');
 	
     protected $schema = array(
-    # 用户名
+		# 用户名
 		'account'  => null,
 		'password' => null,
 		'nickname' => null,
 
-    # 唯一登录标识
-    'phone_account' => null,
-    'email_account' => null,
+		# 唯一登录标识
+		'phone_account' => null,
+		'email_account' => null,
 		
 		'email'    => null,
 		
@@ -188,9 +188,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		
 		# weixin open
 		'wx_open_id' => null,
-    'wx_access_token' => null,
-    # weixin unionid 
-    'wx_union_id' => null,
+		'wx_access_token' => null,
+		# weixin unionid 
+		'wx_union_id' => null,
 		
         'last_login'    => 0,
 		'current_login' => 0,
