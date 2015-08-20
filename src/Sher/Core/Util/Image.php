@@ -13,27 +13,21 @@ class Sher_Core_Util_Image {
 	/**
 	 * Qiniu upload token
 	 */
-	public static function qiniu_token($callback_url=null, $ext=false, $rand_ord=false) {
+	public static function qiniu_token($callback_url=null, $ext=false, $ord_rand=false) {
 		$key = Doggy_Config::$vars['app.qiniu.key'];
 		$secret = Doggy_Config::$vars['app.qiniu.secret'];
 		
-    $year = date('y');
-
-    if($rand_ord){
-      $ord = (string)rand(1000,999);
-    }else{
-      $ord = '$(x:ord)';
-    }
+		$year = date('y');
 		
 		if (is_null($callback_url)){
 			$callback_url = Doggy_Config::$vars['app.url.qiniu.assets'];
     }
 
     if($ext){
-      $saveKey = '$(x:domain)/'.$year.'$(mon)$(day)/$(x:pid)-'.$ord.'$(ext)';
+      $saveKey = '$(x:domain)/'.$year.'$(mon)$(day)/$(x:pid)-$(x:ord)$(ext)';
       $persistentOps = '';
     }else{
-      $saveKey = '$(x:domain)/'.$year.'$(mon)$(day)/$(x:pid)-'.$ord;
+      $saveKey = '$(x:domain)/'.$year.'$(mon)$(day)/$(x:pid)-$(x:ord)';
       $persistentOps = 'avthumb/imageView/1/w/580/h/580/q/85|avthumb/imageView/1/w/160/h/120/q/90';
     }
 		
