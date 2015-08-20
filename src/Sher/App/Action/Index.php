@@ -89,9 +89,9 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			//echo '<br>'.$is_egou.'<br>';
 			if(!$is_egou){
 				// 将易购用户信息保存至cookie
-				@setcookie('egou_uid', $eid, 3600, '/');
+				@setcookie('egou_uid', $eid, 0, '/');
 				//$_COOKIE['egou_uid'] = $eid;
-				@setcookie('egou_hid', $hid, 3600, '/');
+				@setcookie('egou_hid', $hid, 0, '/');
 				//$_COOKIE['egou_hid'] = $hid;
 				$egou_show = 1;
 			}
