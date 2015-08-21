@@ -175,10 +175,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 
 		}
     if(!empty($result)){
-      $data['state'] = 0;
+      $data['state'] = 1;
       $data['result'] = $result;
     }else{
-      $data['state'] = 1;
+      $data['state'] = 0;
       $data['result'] = '';   
     }
     return $this->ajax_json('', false, '', $data);
