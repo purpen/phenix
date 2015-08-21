@@ -326,11 +326,16 @@
 
 	// 加载相关话题 
 	$.get('{{ app_url_topic }}/ajax_guess_topics', {sword: '{{ topic.tags_s }}', size: 6, id: {{ topic._id }} }, function(rs){
+      if(rs.data.state==1){
         var rendered = phenix.ajax_render_result('#guess_topic_tpl', rs.data);
         $('#topic_guess_list').html(rendered);
         $('.ui.sticky')
           .sticky('refresh')
-        ;
+        ;     
+      }else{
+        return;
+      }
+
     }, 'json');
     
     // 投票提交部分

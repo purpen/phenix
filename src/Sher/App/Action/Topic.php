@@ -135,7 +135,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 */
 	public function ajax_guess_topics(){
 		$sword = $this->stash['sword'];
-        $current_id = $this->stash['id'];
+    $current_id = $this->stash['id'];
 		$size = $this->stash['size'];
         
 		$result = array();
@@ -174,8 +174,14 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
       }
 
 		}
-		$this->stash['result'] = $result;
-    return $this->ajax_json('', false, '', $this->stash);
+    if(empty($result)){
+      $data['state'] = 0;
+      $data['result'] = $result;
+    }else{
+      $data['state'] = 1;
+      $data['result'] = '';   
+    }
+    return $this->ajax_json('', false, '', $data);
 	}
 	
 	/**
