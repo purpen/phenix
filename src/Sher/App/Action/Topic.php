@@ -174,7 +174,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
       }
 
 		}
-    if(empty($result)){
+    if(!empty($result)){
       $data['state'] = 0;
       $data['result'] = $result;
     }else{
