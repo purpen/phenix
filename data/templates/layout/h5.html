@@ -123,7 +123,6 @@
 	</head>
 	
 	<body>
-	<!--	{% include "mm/header.html" %} -->
 		<section id="mfrbird">
 			{% block layout_promo %}{% endblock %}
 		    {% block layout_header %}{% endblock %}
@@ -133,8 +132,6 @@
 			{% block layout_footer %}
 			{% endblock %}
 		</section>
-	<!--	{% include "mm/footer.html" %}-->
-
     <script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.plugins.min.js"></script>
 		<script type="text/javascript" src="{{ app_url_qiniu_frstatic }}/javascript/semantic.2.0.min.js"></script>
 		{% if js_use_bundle %}
