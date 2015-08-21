@@ -49,6 +49,7 @@
 				<th>用户名</th>
 				<th>联系方式</th>
         <th>优质用户</th>
+        <th>类型</th>
 				<th>注册时间</th>
 				<th>管理操作</th>
 			</tr>
@@ -91,6 +92,7 @@
 						{% endif %}
 					</p>
         </td>
+        <td>{{ user.kind }}</td>
 				<td>
 					{{ user.created_on|date 'Y-m-d H:i'}}
 					<p>
