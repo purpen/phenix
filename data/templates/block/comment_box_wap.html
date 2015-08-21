@@ -172,10 +172,10 @@
 
 		  	</div>
 			<div class="right aligned action">
-			    <div class="ui gray deny inverted button">
+			    <div class="ui gray deny inverted black active button">
 					取消
 			    </div>
-			    <div class="ui magenta comment-submit img inverted button">
+			    <div class="ui magenta active comment-submit img inverted button">
 					插入
 			    </div>
 			</div>
@@ -204,10 +204,10 @@
 				</div>
 		  	</div>
 			<div class="right aligned action">
-			    <div class="ui gray deny inverted button">
+			    <div class="ui gray deny inverted black active button">
 					取消
 			    </div>
-			    <div class="ui magenta comment-submit url inverted button">
+			    <div class="ui magenta active comment-submit url inverted button">
 					插入
 			    </div>
 			</div>
@@ -263,13 +263,19 @@
 
     //图片上传弹出按钮
     $('.comment-upload-btn').click(function(){
-      $('.comment-insert-img').modal('show');
+      $('.comment-insert-img')
+      .modal('setting', 'closable', false)
+      .modal('setting', 'transition', 'fade  up')
+      .modal('show');
       return false; 
     });
     
     //插入链接弹出按钮
     $('.comment-link-btn').click(function(){
-      $('.comment-insert-link').modal('show');
+      $('.comment-insert-link')
+      .modal('setting', 'closable', false)
+      .modal('setting', 'transition', 'fade  up')
+      .modal('show');
       return false; 
     });
 
