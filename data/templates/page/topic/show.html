@@ -323,9 +323,15 @@
 			$this.html(event.strftime('<div class="item"><div class="count">%D<span>天</span></div></div><div class="item"><div class="count">%H<span>时</span></div></div> <div class="item"><div class="count">%M<span>分</span></div></div><div class="magenta item"><div class="count">%S<span>秒</span></div></div>'));
 		});
 	});
-	
-	// 加载相关话题
-	$.get('{{ app_url_topic }}/ajax_guess_topics', {id: {{ topic._id }}, sword: '{{ topic.tags_s }}', size: 3});
+
+	// 加载相关话题 
+	$.get('{{ app_url_topic }}/ajax_guess_topics', {sword: '{{ topic.tags_s }}', size: 6, id: {{ topic._id }} }, function(rs){
+        var rendered = phenix.ajax_render_result('#guess_topic_tpl', rs.data);
+        $('#topic_guess_list').html(rendered);
+        $('.ui.sticky')
+          .sticky('refresh')
+        ;
+    }, 'json');
     
     // 投票提交部分
     $('#vote-save').click(function(){
@@ -840,5 +846,6 @@
 {% endblock %}
 
 {% block templates %}
+{% mustache id:'guess_topic_tpl' tpl:'mustache/guess_topics.mustache' %}
 {% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
 {% endblock %}
