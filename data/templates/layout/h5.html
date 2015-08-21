@@ -20,16 +20,6 @@
     <title>{% block title %}{% endblock %}{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}</title>
 		<link rel="shortcut icon" href="/favicon.ico" />
 		<style type="text/css">
-		  header.ui.wap{
-    		display:none !important;
-    		opacity:0;
-    	}
-    	#mfrbird{
-    		margin:0;
-    	}
-    	.mmfoot{
-    		display:none;
-    	}
     	* { -webkit-appearance: none; }
 
     	html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:hidden}
@@ -150,6 +140,15 @@
 		{% endblock %}
 
 		<script type="text/javascript">
+		window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+
+    function hengshuping() {
+            if (window.orientation == 90 || window.orientation == -90) {
+               $('#mfrbird').hide();
+            } else {
+               $('#mfrbird').show();
+            }
+        }
 		<!--
 		$(function(e){
 			phenix.url = {
