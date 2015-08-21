@@ -67,7 +67,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			
 			$eid = $this->stash['uid'];
 			$hid = $this->stash['hid'];
-			
+			/*
 			// 判断e购用户是否已经参加过活动
 			$model = new Sher_Core_Model_Egou();
 			$time = date('Y-m-d',time());
@@ -86,15 +86,18 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 					}
 				}
 			}
+			*/
 			//echo '<br>'.$is_egou.'<br>';
-			if(!$is_egou){
+			//if(!$is_egou){
 				// 将易购用户信息保存至cookie
 				@setcookie('egou_uid', $eid, 0, '/');
 				//$_COOKIE['egou_uid'] = $eid;
 				@setcookie('egou_hid', $hid, 0, '/');
 				//$_COOKIE['egou_hid'] = $hid;
 				$egou_show = 1;
-			}
+			//}
+			
+			
 			//var_dump($_COOKIE);
 			$this->stash['egou_show'] = $egou_show;
 		}
@@ -230,9 +233,9 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		$egou_uid = $_COOKIE['egou_uid'];
 		$egou_hid = $_COOKIE['egou_hid'];
 		
-		if(!$egou_uid || !$egou_hid){
-			return $this->display_note_page('非法操作,请重试!');
-		}
+		//if(!$egou_uid || !$egou_hid){
+		//	return $this->display_note_page('非法操作,请重试!');
+		//}
 		
 		// 判断e购用户是否已经参加过活动
 		$model = new Sher_Core_Model_Egou();
@@ -251,18 +254,20 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			}
 		}
 		
-		if($is_egou){
-			return $this->display_note_page('您已经提交过了,请勿重复提交!');
-		}
-		
 		// 将用户信息插入数据库
 		$date = array();
 		$date['eid'] = $egou_uid;
 		$date['hid'] = $egou_hid;
 		$date['time'] = date('Y-m-d',time());
 		
-		if(!$model->create($date)){
-			return $this->display_note_page('用户信息插入失败,请重试!');
+		//if($is_egou){
+			//return $this->display_note_page('您已经提交过了,请勿重复提交!');
+		//}
+		
+		if(!$is_egou){
+			if(!$model->create($date)){
+				return $this->display_note_page('用户信息插入失败,请重试!');
+			}
 		}
 		
 		// 相关参数

@@ -49,6 +49,7 @@
 				<th>用户名</th>
 				<th>联系方式</th>
         <th>优质用户</th>
+        <th>类型</th>
 				<th>注册时间</th>
 				<th>管理操作</th>
 			</tr>
@@ -68,13 +69,16 @@
 					  	{{ user.nickname }}
 					</a>
 					<p>
-						{% if user.from_site == 2 %}
-						<i class="flat icon_weibo icon"></i>
+						{% if user.sina_uid %}
+						<i class="weibo icon"></i>
 						{% endif %}
-						{% if user.from_site == 3 %}
-						<i class="flat icon_qq icon"></i>
+						{% if user.qq_uid %}
+						<i class="qq icon"></i>
 						{% endif %}
-						{{ user.account }}
+						{% if user.wx_open_id %}
+						<i class="wechat icon"></i>
+						{% endif %}
+
 					</p>
 				</td>
 				<td>
@@ -91,6 +95,7 @@
 						{% endif %}
 					</p>
         </td>
+        <td>{{ user.kind }}</td>
 				<td>
 					{{ user.created_on|date 'Y-m-d H:i'}}
 					<p>
