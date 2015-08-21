@@ -88,6 +88,7 @@ app.dt.extension_lib.sher_app:
     'asset_list':'Sher_App_ViewTag_AssetList'
     'comment_list':'Sher_App_ViewTag_CommentList'
     'vote_list':'Sher_Core_ViewTag_VoteList'
+    'egou_list':'Sher_Core_ViewTag_EgouList'
     'addbooks_list':'Sher_Core_ViewTag_AddBooksList'
     'order_list':'Sher_Core_ViewTag_OrderList'
     'try_list':'Sher_Core_ViewTag_TryList'

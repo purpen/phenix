@@ -1,0 +1,57 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">易购管理</h3>
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>egou用户ID</th>
+				<th>egou用户标识</th>
+				<th>egou活动ID</th>
+				<th>签到时间</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+            {% egou_list var:'list' page:page size:30 %}
+
+			{% for egou in list.rows %}
+			<tr id="{{ egou._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ egou._id }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>
+					{{ egou._id }}
+				</td>
+				<td>
+					{{ egou.eid }}
+				</td>
+				<td>
+					{{ egou.hid }}
+				</td>
+				<td>
+					{{ egou.time }}
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+{% endblock %}
