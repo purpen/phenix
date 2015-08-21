@@ -223,10 +223,9 @@
 							使用红包
 						</div>
 						<div class="active content">
-							<p></p>
 							{% bonus_list var:'bonus' page:1 size:10 user_id:visitor.id used:1 not_expired:1 %}
 							{% for b in bonus.rows %}
-							<div class="bonus item">
+							<div class="bonus item" style="margin-bottom:1em;">
 								<div class="field">
 									<div class="ui radio checkbox">
                     <input name="bonus" type="radio" value="{{ b.code }}" class="inbonus" />
