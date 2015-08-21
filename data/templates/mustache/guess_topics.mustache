@@ -1,6 +1,6 @@
       <h3 class="ui header">相关话题</h3>
 			<div class="ui socialstick stickcount three blocks">
-                {{#results.rows}}
+                {{#result.rows}}
 				<div class="block">
 					<div class="image" {{#topic.cover}}style="background-image: url('{{ topic.cover.thumbnails.medium.view_url }}');"{{/topic.cover}}>
                         <a class="transparent" href="{{ topic.view_url }}" target="_blank">
@@ -13,6 +13,6 @@
                         </a>
 					</div>
 				</div>
-				{{/results.rows}}
+				{{/result.rows}}
 			</div>
 
