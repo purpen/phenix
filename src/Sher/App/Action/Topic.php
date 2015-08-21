@@ -705,7 +705,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 */
 	protected function editor_params() {
 		$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
-		$this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
+		$this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url, false, true);
 		$new_pic_id = new MongoId();
 		$this->stash['editor_pid'] = (string)$new_pic_id;
 
