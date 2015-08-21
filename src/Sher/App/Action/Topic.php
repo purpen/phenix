@@ -175,8 +175,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 
 		}
 		$this->stash['result'] = $result;
-		
-		return $this->to_taconite_page('ajax/guess_topics.html');
+    return $this->ajax_json('', false, '', $this->stash);
 	}
 	
 	/**
