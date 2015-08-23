@@ -385,6 +385,8 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         // wap 或 site
         $from_site = isset($this->stash['from_site']) ? $this->stash['from_site'] : 'site';
         $target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : null;
+        // 是否加载评分
+        $show_star = isset($this->stash['start']) ? (int)$this->stash['start'] : 0;
 
         if(empty($target_id)){
           return false;
@@ -436,6 +438,31 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
           $is_old_reply = !empty($result['rows'][$i]['reply']) ? true : false;
 
           $is_loved = $favorite->check_loved((int)$current_user_id, (string)$resultlist['rows'][$i]['_id'], Sher_Core_Model_Favorite::TYPE_COMMENT);
+
+          // 加载评分
+          if(!empty($show_star)){
+            $star = isset($resultlist['rows'][$i]['star']) ? (int)$resultlist['rows'][$i]['star'] : 0;
+            switch($star){
+              case 0:
+                $resultlist['rows'][$i]['star0'] = true;
+                break;
+              case 1:
+                $resultlist['rows'][$i]['star1'] = true;
+                break;
+              case 2:
+                $resultlist['rows'][$i]['star2'] = true;
+                break;
+              case 3:
+                $resultlist['rows'][$i]['star3'] = true;
+                break;
+              case 4:
+                $resultlist['rows'][$i]['star4'] = true;
+                break;
+              case 5:
+                $resultlist['rows'][$i]['star5'] = true;
+                break;
+            }
+          }
           $resultlist['rows'][$i]['_id'] = (string)$resultlist['rows'][$i]['_id'];
           $resultlist['rows'][$i]['is_deleted'] = $is_deleted;
           $resultlist['rows'][$i]['is_reply'] = $is_reply;
