@@ -102,15 +102,12 @@
               $('#load-more-btn')
                   .html(html)
                   .unbind('click');          
+            }else{ // 添加加载更多事件
+              $('#load-more-btn').click(function(){
+                fetch_comment(page+1, per_page, rs.data.sort);
+              });
             }
           
-          }
-
-          // 添加加载更多事件
-          if(rs.data.next_page != 'no'){
-            $('#load-more-btn').click(function(){
-            fetch_comment(page+1, per_page, rs.data.sort);
-            });
           }
 
           // 如果是最新,移除热门评论
