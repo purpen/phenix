@@ -58,8 +58,8 @@
 {% block layout_js %}
 <script type="text/javascript">
     var per_page = 10, sort = 0;
-    function fetch_comment(current_page, per_page, sort){
-        var url = '{{ app_url_comment }}/ajax_fetch_comment?a=c';
+    function fetch_comment(page, per_page, sort){
+        var url = '{{ app_url_comment }}/ajax_fetch_comment';
         
         // 添加loading 
         $('.spinner.icon').ajaxStart(function(){
@@ -68,8 +68,14 @@
             $(this).removeClass('roundo');
         });
         
-        $.get(url, {target_id: {{ topic._id }}, type: 2, page: current_page, per_page: per_page, sort: sort, random:Math.random()}, function(rs){
-          if(rs.data.page==1){
+        $.get(url, {target_id: {{ topic._id }}, type: 2, page: page, per_page: per_page, sort: sort, random:Math.random()}, function(rs){
+
+          var total_page = parseInt(rs.data.result.total_page);
+
+          var page = parseInt(rs.data.page);
+          var per_page = parseInt(rs.data.per_page);
+
+          if(page==1){
             rs.data.page_first = true;
           }else{
             rs.data.page_first = false;
@@ -82,9 +88,29 @@
             $('.is-comment.comments').append(rendered);
           }
 
-          if( rs.data.page==1 && rs.data.next_page!='no'){
-            var html_more = '<a href="javascript:void(0);" class="fluid ui grey more inverted button" total-page="'+ rs.data.result.total_page +'" current-page="'+ rs.data.page +'"><i class="spinner icon"></i> 查看更多</a>';
-            $('#load-more-btn').html(html_more);
+          // 第一页
+          if( page==1){
+            //存在下一页,添加查看更多按钮
+            if(rs.data.next_page != 'no'){
+              var html_more = '<a href="javascript:void(0);" class="fluid ui grey more inverted button" total-page="'+ rs.data.result.total_page +'" current-page="'+ rs.data.page +'"><i class="spinner icon"></i> 查看更多</a>';
+              $('#load-more-btn').html(html_more);             
+            }
+          }else{ // 非第一页
+            // 最后一页
+            if(rs.data.next_page=='no'){
+              var html = '<a class="fluid ui grey more inverted disabled button" href="javascript:void(0);">没有更多~~</a>';
+              $('#load-more-btn')
+                  .html(html)
+                  .unbind('click');          
+            }
+          
+          }
+
+          // 添加加载更多事件
+          if(rs.data.next_page != 'no'){
+            $('#load-more-btn').click(function(){
+            fetch_comment(page+1, per_page, rs.data.sort);
+            });
           }
 
           // 如果是最新,移除热门评论
@@ -107,25 +133,6 @@
             });
           });
 
-
-
-          var total_page = parseInt(rs.data.result.total_page);
-
-          var current_page = parseInt(rs.data.page);
-          var per_page = parseInt(rs.data.per_page);
-          
-          if(current_page >= total_page && total_page != 1 && current_page != 1){
-              var html = '<a class="fluid ui grey more inverted disabled button" href="javascript:void(0);">没有更多~~</a>';
-              $('#load-more-btn')
-                  .html(html)
-                  .unbind('click');
-          }
-          
-          if(current_page == 1){
-              $('#load-more-btn').click(function(){
-                  fetch_comment(current_page+1, per_page, rs.data.sort);
-              });
-          }
           
           $('.ui.sticky')
             .sticky('refresh')
