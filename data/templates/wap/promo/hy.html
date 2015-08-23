@@ -163,7 +163,18 @@
 		0% { left:-100px;top:230px;opacity:1; }
 		100% { left:696px;top:954px;opacity:1; }
 	}
-  
+  .pt-0{
+    height:100px;
+    width:100%;
+    left:0;
+    top:0;
+    background:url({{ app_url_packaged }}/images/promo/hy/lt.png) center top /cover;
+		-webkit-animation: 'p1BgAnimation1' 300s linear infinite;
+  }
+  @-webkit-keyframes p1BgAnimation1 {
+		0% { background-position: 0px 0px; }
+		100% { background-position: -10000px 0px; 
+	}
 </style>
 {% endblock %}
 
@@ -371,7 +382,8 @@
 <div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="page page-1-1 page-current">
 	<div class="wrap">
-	  <img src="{{ app_url_packaged }}/images/promo/hy/1t.png" class="st pt-1">
+	  <!--<img src="{{ app_url_packaged }}/images/promo/hy/1t.png" class="st pt-1">-->
+	  <div class="st pt-0"></div>
 	  <img src="{{ app_url_packaged }}/images/promo/hy/xingxx.png" class="st pt-2">
 	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
 	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
