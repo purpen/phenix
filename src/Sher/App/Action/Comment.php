@@ -386,7 +386,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         $from_site = isset($this->stash['from_site']) ? $this->stash['from_site'] : 'site';
         $target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : null;
         // 是否加载评分
-        $show_star = isset($this->stash['start']) ? (int)$this->stash['start'] : 0;
+        $is_start = isset($this->stash['is_start']) ? (int)$this->stash['is_start'] : 0;
 
         if(empty($target_id)){
           return false;
@@ -440,7 +440,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
           $is_loved = $favorite->check_loved((int)$current_user_id, (string)$resultlist['rows'][$i]['_id'], Sher_Core_Model_Favorite::TYPE_COMMENT);
 
           // 加载评分
-          if(!empty($show_star)){
+          if(!empty($is_start)){
             $star = isset($resultlist['rows'][$i]['star']) ? (int)$resultlist['rows'][$i]['star'] : 0;
             switch($star){
               case 0:
