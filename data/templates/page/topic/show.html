@@ -57,19 +57,27 @@
 
 {% block layout_js %}
 <script type="text/javascript">
-    var per_page = 10, sort = 0;
-    function fetch_comment(current_page, per_page, sort){
-        var url = '{{ app_url_comment }}/ajax_fetch_comment_site';
-        
-        // 添加loading 
-        $('.spinner.icon').ajaxStart(function(){
-            $(this).addClass('roundo');
-        }).ajaxStop(function(){
-            $(this).removeClass('roundo');
-        });
-        
-        $.get(url, {target_id: {{ topic._id }}, type: 2, page: current_page, per_page: per_page, sort: sort});
+    var page = 1, per_page = 10, sort = 0;
+    var url = '{{ app_url_comment }}/ajax_fetch_comment';
+    var target_id = "{{ topic._id }}";
+    // 评论类型
+    var type = 2;
+    // 网页或手机
+    var from_site = 'site';
+    // 备用
+    var evt = 1;
+
+    var comment_param = {
+      target_id: target_id,
+      page: page,
+      per_page: per_page,
+      sort: sort,
+      url: url,
+      type: type,
+      from_site: from_site,
+      evt: evt,
     }
+
 </script>
 {% endblock %}
 
@@ -77,7 +85,7 @@
 	phenix.hook_comment_page();
     
     // ajax加载评论
-    fetch_comment(1, per_page, sort);
+    phenix.fetch_comment(comment_param);
     
     // 评论排序
     $('.fitsort .ui.list .item').bind('click', function(){
@@ -87,7 +95,9 @@
             .end()
             .addClass('active');
         // 获取请求
-        fetch_comment(1, per_page, sort);
+        comment_param.page = 1;
+        comment_param.sort = sort;
+        phenix.fetch_comment(comment_param);
     });
     
     // ajax加载签到数据
@@ -851,6 +861,7 @@
 {% endblock %}
 
 {% block templates %}
-{% mustache id:'guess_topic_tpl' tpl:'mustache/guess_topics.mustache' %}
-{% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
+  {% mustache id:'guess_topic_tpl' tpl:'mustache/guess_topics.mustache' %}
+  {% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
+  {% mustache id:'get_comments_tpl' tpl:'mustache/fetch_comments.mustache' %}
 {% endblock %}
