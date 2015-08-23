@@ -123,11 +123,12 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
                 //print_r($resultlist['rows'][$i]['asset_list']);
             }
         }
+
+        $data = array();
+        $data['nex_page'] = $next_page;
+        $data['results'] = $resultlist;
         
-        $this->stash['nex_page'] = $next_page;
-        $this->stash['results'] = $resultlist;
-        
-        return $this->ajax_json('', false, '', $this->stash);
+        return $this->ajax_json('', false, '', $data);
     }
     
 	/**
