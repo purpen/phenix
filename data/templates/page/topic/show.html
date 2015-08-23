@@ -93,7 +93,10 @@
             //存在下一页,添加查看更多按钮
             if(rs.data.next_page != 'no'){
               var html_more = '<a href="javascript:void(0);" class="fluid ui grey more inverted button" total-page="'+ rs.data.result.total_page +'" current-page="'+ rs.data.page +'"><i class="spinner icon"></i> 查看更多</a>';
-              $('#load-more-btn').html(html_more);             
+              $('#load-more-btn').html(html_more).click(function(){
+                page++;
+                fetch_comment(page, per_page, rs.data.sort);
+              });        
             }
           }else{ // 非第一页
             // 最后一页
@@ -102,12 +105,7 @@
               $('#load-more-btn')
                   .html(html)
                   .unbind('click');          
-            }else{ // 添加加载更多事件
-              $('#load-more-btn').click(function(){
-                fetch_comment(page+1, per_page, rs.data.sort);
-              });
             }
-          
           }
 
           // 如果是最新,移除热门评论
@@ -129,7 +127,6 @@
                 }
             });
           });
-
           
           $('.ui.sticky')
             .sticky('refresh')
