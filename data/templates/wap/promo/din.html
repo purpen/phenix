@@ -231,11 +231,11 @@
   }
 
   .fp-controlArrow.fp-next:before {
-  	font-family: "FontFlatIcons";
+  	font-family: "Icons";
   	font-size: 27px;
   	line-height: 1;
   	display: inline-block;
-  	content: '\e0d3';
+  	content: "\f105";
   }
   .fp-controlArrow.fp-next {
   	right: 0px;
@@ -262,11 +262,11 @@
   	-moz-osx-font-smoothing: grayscale;
   }
   .fp-controlArrow.fp-prev:before{
-  	font-family: "FontFlatIcons";
+  	font-family: "Icons";
   	font-size: 27px;
   	line-height: 1;
   	display: inline-block;
-  	content: '\e010';
+  	content: "\f104";
   }
   .fp-controlArrow.fp-prev {
   	left: 0px;
@@ -340,8 +340,24 @@
   }
   .slide img{
     width: 76%;
-    margin-top: 30%;
-    margin-left: 12%;
+    position: absolute;
+    top: 30%;
+    left: 12%;
+  }
+  .p3{
+    opacity:0;
+  }
+  .p3.fadeInUp{
+    -webkit-animation-delay: 0.4s;
+	  animation-delay: 0.4s;
+  }
+  .p4.pt-5,.p5.pt-5{
+    -webkit-animation-delay: 1s;
+	  animation-delay: 1s;
+  }
+  .p4.pt2-2{
+    width:86%;
+    left:7%;
   }
 	</style>
 {% endblock %}
@@ -351,10 +367,10 @@
   <script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript" >
-    var m_name = '2015京东众筹BIGGER大会';
-    var img_url = 'http://frstatic.qiniudn.com/images/promo/jd-share2.jpg';
-    var link = '{{ app_url_wap_promo }}/jd';
-    var desc_str = '京东众筹大举进军生活美学领域，诚邀各位设计师、合作伙伴参加。';
+    var m_name = 'D3in';
+    var img_url = 'http://frstatic.qiniudn.com/images/promo/d3in/share.jpg';
+    var link = '{{ app_url_wap_promo }}/d3in';
+    var desc_str = '铟立方未来实验室';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -417,7 +433,17 @@
     $.get(url, { target_id: 2, count_name:'count', type: 4, kind:4 });
   }
 
+  window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
 
+  function hengshuping() {
+          if (window.orientation == 90 || window.orientation == -90) {
+             $('#mfrbird').hide();
+             $('.hengping').css('display','block');
+          } else {
+             $('#mfrbird').show();
+             $('.hengping').css('display','none');
+          }
+      }
 
 		$('.wrap').fullpage({
 			'css3':true,
@@ -434,6 +460,12 @@
 						if(index == 3){
 							$('.p3').css('display','block');
 						}
+						if(index == 4){
+							$('.p4').css('display','block');
+						}
+						if(index == 5){
+							$('.p5').css('display','block');
+						}
 			},
 			onLeave: function(index, direction){
 						if(index == 1){
@@ -444,6 +476,12 @@
 						}
 						if(index == 3){
 							$('.p3').css('display','none');
+						}
+						if(index == 4){
+							$('.p4').css('display','none');
+						}
+						if(index == 5){
+							$('.p5').css('display','none');
 						}
 			}
 	  });
@@ -459,6 +497,9 @@
 
 
 {% endblock %}
+<div class="hengping" style="background:#000;color:#fff;font-size:16px;height:100%;width:100%;display:none;text-align: center;padding-top: 140px;">
+  为了更好的用户体验，请竖屏浏览
+</div>
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>  
 <div class="wrap">
@@ -482,20 +523,40 @@
     <img src="{{ app_url_packaged }}/images/promo/d3in/tit_2.png" class="st p3 pt2-1 page-logo" style="display:none">
     
     <div class="slide">
-        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_1.png" />
+        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_1.png" class="p3 fadeInUp animated" style="display:none"/>
     </div>
     <div class="slide">
-        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_2.png" />
+        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_2.png" class="p3 fadeInUp animated" style="display:none" />
     </div>
     <div class="slide">
-        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_3.png" />
+        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_3.png" class="p3 fadeInUp animated" style="display:none"/>
     </div>
     <div class="slide">
-        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_4.png" />
+        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_4.png" class="p3 fadeInUp animated" style="display:none"/>
     </div>
     <div class="slide">
-        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_5.png" />
+        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_5.png" class="p3 fadeInUp animated" style="display:none"/>
     </div>
+  </div>
+  
+  <div class="section">
+    <img src="{{ app_url_packaged }}/images/promo/d3in/bg1.jpg" class="bodybg">
+    <img src="{{ app_url_packaged }}/images/promo/d3in/tit_3.png" class="st p4 pt2-1 page-logo" style="display:none">
+    <img src="{{ app_url_packaged }}/images/promo/d3in/p4_1.png" class="st p4 pt2-2 fadeInUpBig animated" style="display:none">
+    <img src="{{ app_url_packaged }}/images/promo/d3in/5.png" class="st p4 pt-5 page-logo" style="display:none">
+  </div>
+  
+  <div class="section">
+    <img src="{{ app_url_packaged }}/images/promo/d3in/bg1.jpg" class="bodybg">
+    <img src="{{ app_url_packaged }}/images/promo/d3in/tit_4.png" class="st p5 pt2-1 page-logo" style="display:none">
+    <div class="ui responsive p5 grid fadeInUpBig animated" style="position: relative;margin-top: 50%;top: 50%;z-index:3;display:none;">
+      <div class="row">
+        <div class="ui center aligned column">
+          <a class="ui magenta inverted active button">立即报名</a>
+        </div>
+      </div>
+    </div>
+    <img src="{{ app_url_packaged }}/images/promo/d3in/5.png" class="st p5 pt-5 page-logo" style="display:none">
   </div>
   
   
