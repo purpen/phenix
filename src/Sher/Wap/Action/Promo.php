@@ -54,6 +54,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         $this->stash['is_attend'] = $mode_attend->check_signup($this->visitor->id, $active['_id'], 1);
       }
 
+      $this->stash['d3in_h5'] = true;
       $this->stash['active'] = $active;
 
 		  return $this->to_html_page('wap/promo/din.html');
