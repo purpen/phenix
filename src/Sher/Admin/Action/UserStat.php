@@ -9,14 +9,14 @@ class Sher_Admin_Action_UserStat extends Sher_Admin_Action_Base implements Doggy
 		'page' => 1,
 		'size' => 50,
     's' => 1,
-    'month' => 0,
-    'week' => 0,
-    'day' => 0,
+    'month' => '',
+    'week' => '',
+    'day' => '',
     'month_sort' => 0,
     'week_sort' => 0,
     'sort_point' => 0,
     'sort_money' => 0,
-    'user_id' => 0,
+    'user_id' => '',
 	);
 	
 	public function _init() {
