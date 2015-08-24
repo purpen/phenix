@@ -10,6 +10,11 @@
 				<div class="ajax result"></div>
 				<input type="hidden" name="is_user_info" value="1" />
 				<input type="hidden" name="target_id" value="{{ active._id }}" />
+        {% if d3in_h5 %}
+				  <input type="hidden" name="evt" value="2" />
+        {%else%}
+				  <input type="hidden" name="evt" value="1" />
+        {%endif%}
 				<div class="ui signup-box">
 					<div class="two fields">
 						<div class="field">

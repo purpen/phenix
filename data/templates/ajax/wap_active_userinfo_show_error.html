@@ -9,19 +9,31 @@
 
   {% if stat %}
     <replace select=".attend-box">
+    {% if evt==2 %}
+      <a class="ui magenta inverted button">您已报名</a>
+    {%else%}
       <a class="ui btn-4 magenta active btn-4c icon-arrow-right btn" href="javascript:void(0);">
         <span>已报名</span><i class="icon-arrow-right-sharp"></i>
       </a>
+
+    {%endif%}
     </replace>
   {%endif%}
 	
 	<eval>
     {% if stat %}
+    {% if evt == 1 %}
       var val = $('.attend-num').text();
       $('.attend-num').text(parseInt(val)+1);
       //重新加载报名列表
       fetch_signup_avatar();
       window.setTimeout("$('.ui.user-info-box.modal').modal('hide')", 1500);
+    {%endif%}
+
+      {% if evt==2 %}
+        $('.ui.user-info-box.modal').modal('hide');
+        phenix.show_ok_note('报名成功!', 3000);
+      {%endif%}
     {%endif%}
 	</eval>
 </taconite>
