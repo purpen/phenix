@@ -310,6 +310,13 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
   	        return $this->show_message_page('产品类型错误！', $redirect_url);  
         }
 
+        // 显示购买及兑换按钮
+        if(in_array($product['stage'], array(9, 12))){
+          $this->stash['show_pay_btn'] = true;
+        }else{
+          $this->stash['show_pay_btn'] = false;       
+        }
+
         // 验证积分兑换
         if($item_stage=='exchange'){
             if(empty($product['exchanged']) || empty($product['max_bird_coin'])){
