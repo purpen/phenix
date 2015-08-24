@@ -9,6 +9,7 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 		'page' => 1,
 		'size' => 20,
     'sort' => 0,
+    'from_to' => 0,
     'load_college' => 0,
 	);
 	
@@ -72,6 +73,22 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 		
 		$this->stash['pager_url'] = $pager_url;
     $this->stash['load_college'] = 1;
+		
+		return $this->to_html_page('admin/stuff/list.html');
+	}
+
+	/**
+	 * 列表--反向定制
+	 */
+	public function redesign_list() {
+    $this->set_target_css_state('redesign_list');
+		$page = (int)$this->stash['page'];
+
+    $this->stash['from_to'] = 4;
+		
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/stuff/redesign_list?page=#p#');
+		
+		$this->stash['pager_url'] = $pager_url;
 		
 		return $this->to_html_page('admin/stuff/list.html');
 	}

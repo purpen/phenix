@@ -25,6 +25,7 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
         $province_id = 0;
         // 孵化资源
         $cooperate_id = 0;
+        $from_to = 0;
 		
 		// 是否为一级分类
 		$is_top = false;
@@ -86,6 +87,11 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
 		if($featured){
 			$query['featured'] = (int)$featured;
 		}
+
+    // 来源
+    if($from_to){
+      $query['from_to'] = (int)$from_to;
+    }
         
         // 已审核的
         if($verified){
