@@ -333,7 +333,9 @@
 	  });*/
 	  
 	  $(function(){
-    		$('#slider-box').touchSlider();
+    		$('#slider').touchSlider({
+    		  direction: 'h',itemSelector:'li',slidePercent:0.3
+    		});
     	});
     
 		var pageIndex = 1,
