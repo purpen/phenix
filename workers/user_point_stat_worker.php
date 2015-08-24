@@ -30,6 +30,7 @@ $point_daily_model = new Sher_Core_Model_UserPointDaily();
 $user_point_stat_model = new Sher_Core_Model_UserPointStat();
 $user_ext_stat_model = new Sher_Core_Model_UserExtState();
 $user_point_model = new Sher_Core_Model_UserPointBalance();
+$user_model = new Sher_Core_Model_User();
 $page = 1;
 $size = 100;
 $is_end = false;
@@ -111,9 +112,14 @@ if(!empty($is_exist)){
         $total_money = $user_point_balance['balance']['money'];
       }
 
+      $user = $user_model->load((int)$user_id);
+      if(!$user){
+        continue;
+      }
       
       $data = array(
         'user_id' => (int)$user_id,
+        'user_kind' => $user['kind'],
         'day' => (int)$yesterday,
         'week' => $week,
         'month' => $month,

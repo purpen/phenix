@@ -106,6 +106,11 @@
 				</td>
 
 				<td>
+          {% if b.user_kind %}
+            {% if b.user_kind==1 %}
+              *
+            {%endif%}
+          {%endif%}
 					<a class="ui image label link" href="{{ b.user.home_url }}" target="_blank">
 					  	<img src="{{ b.user.mini_avatar_url }}">
 					  	{{ b.user.nickname }}

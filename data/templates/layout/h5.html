@@ -20,16 +20,6 @@
     <title>{% block title %}{% endblock %}{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}</title>
 		<link rel="shortcut icon" href="/favicon.ico" />
 		<style type="text/css">
-		  header.ui.wap{
-    		display:none !important;
-    		opacity:0;
-    	}
-    	#mfrbird{
-    		margin:0;
-    	}
-    	.mmfoot{
-    		display:none;
-    	}
     	* { -webkit-appearance: none; }
 
     	html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:hidden}
@@ -106,6 +96,8 @@
 			}
 
 		</style>
+		<link rel="stylesheet" type="text/css" href="http://frstatic.qiniudn.com/wechat/js/animations.css" />
+  	<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
 		
 		<link rel="stylesheet" href="{{ app_url_qiniu_frstatic }}/css/semantic.2.0.min.css" type="text/css" />
 		{% if css_use_bundle %}
@@ -123,7 +115,6 @@
 	</head>
 	
 	<body>
-	<!--	{% include "mm/header.html" %}-->
 		<section id="mfrbird">
 			{% block layout_promo %}{% endblock %}
 		    {% block layout_header %}{% endblock %}
@@ -133,12 +124,13 @@
 			{% block layout_footer %}
 			{% endblock %}
 		</section>
-	<!--	{% include "mm/footer.html" %}-->
-
+		<div class="hengping" style="background:#000;color:#fff;font-size:16px;height:100%;width:100%;display:none;text-align: center;padding-top: 140px;">
+		  为了更好的用户体验，请竖屏浏览
+		</div>
     <script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.plugins.min.js"></script>
 		<script type="text/javascript" src="{{ app_url_qiniu_frstatic }}/javascript/semantic.2.0.min.js"></script>
 		{% if js_use_bundle %}
-		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>
+		<!--<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>-->
 		{% else %}
 
 		{% endif %}
@@ -153,6 +145,17 @@
 		{% endblock %}
 
 		<script type="text/javascript">
+		window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+
+    function hengshuping() {
+            if (window.orientation == 90 || window.orientation == -90) {
+               $('#mfrbird').hide();
+               $('.hengping').css('display','block');
+            } else {
+               $('#mfrbird').show();
+               $('.hengping').css('display','none');
+            }
+        }
 		<!--
 		$(function(e){
 			phenix.url = {
