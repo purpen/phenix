@@ -1,6 +1,7 @@
 {%extends 'layout/h5.html'%}
 {% block title %}{% endblock %}
 {% block page_css %}
+<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/swiper.min.css">
 <style type="text/css">
   #mfrbird{
   	margin:0 auto;
@@ -152,16 +153,16 @@
     left:36%;
     top:53%;
     opacity:0;
-    -webkit-animation-delay: 1.6s;
-	  animation-delay: 1.6s;
+    -webkit-animation-delay: 1.2s;
+	  animation-delay: 1.2s;
   }
   .pt-5{
     width:17%;
     left:41.5%;
     top:85%;
     opacity:0;
-    -webkit-animation-delay: 2.4s;
-	  animation-delay: 2.4s;
+    -webkit-animation-delay: 1.8s;
+	  animation-delay: 1.8s;
   }
   .pt2-1{
     width:46%;
@@ -175,6 +176,24 @@
     top:30%;
     opacity:0;
   }
+  .tslide{
+		width: 100%;
+		height: auto;
+		overflow: hidden;
+		position:absolute;
+		top:15%;
+	}
+	.tslide .swiper-slide {
+		padding:0;
+		width:100%;
+	}
+	.tslide .swiper-slide img{
+		width: 76%;
+	}
+	.tslide .swiper-slide:last-child{
+		margin-right:0;
+		padding-right:0;
+	}
 </style>
 {% endblock %}
 
@@ -182,6 +201,7 @@
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script src="http://frstatic.qiniudn.com/wechat/js/zepto.js"></script>
 	<script src="http://frstatic.qiniudn.com/wechat/js/touch.js"></script>
+	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
 
 	<script type="text/javascript" >
 
@@ -262,7 +282,11 @@
 		//s=window.innerHeight/500;
 		//ss=250*(1-s);
 		//$('.wrap').css('-webkit-transform','scale('+s+','+s+') translate(0px,-'+ss+'px)');
-
+    var mySwiper1 = new Swiper('.tslide',{
+		  freeMode : true,
+		  slidesPerView : 'auto',
+	  });
+    
 		var pageIndex = 1,
 			pageTotal = $('.page').length,
 			towards = { up:1, right:2, down:3, left:4},
@@ -388,6 +412,33 @@
 	  <img src="{{ app_url_packaged }}/images/promo/d3in/tit_1.png" class="st pt2-1 page-logo">
 	  <img src="{{ app_url_packaged }}/images/promo/d3in/p2_1.png" class="st pt2-2 fadeInUpBig animated">
 	</div>
+</div>
+<div class="page page-3-1 hide">
+  <div class="wrap">
+    <img src="{{ app_url_packaged }}/images/promo/d3in/tit_2.png" class="st pt2-1 page-logo">
+    <div class="tslide">
+			<div class="swiper-wrapper">
+			  <div class="swiper-slide" >
+			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_1.png" />
+				</div>
+				<div class="swiper-slide" >
+			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_2.png" />
+				</div>
+				<div class="swiper-slide" >
+			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_3.png" />
+				</div>
+				<div class="swiper-slide" >
+			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_4.png" />
+				</div>
+				<div class="swiper-slide" >
+			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_5.png" />
+				</div>
+			</div>
+		</div>	  
+				
+    
+    
+  </div>
 </div>
 
 
