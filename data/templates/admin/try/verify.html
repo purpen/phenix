@@ -6,9 +6,13 @@
 {% endblock %}
 {% block jquery %}
 	
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+
 {% endblock %}
 {% block content %}
-	<h3 class="ui header">产品公测</h3>
+	<h3 class="ui header">产品试用</h3>
 	
 	<div class="ui secondary pointing magenta menu">
 	  	<a class="item" href="{{ app_url_admin_base }}/try">全部列表</a>
@@ -16,10 +20,39 @@
 			{{ try.title }}
 		</a>
 	</div>
+
+	<div class="ui sub search">
+		<form action="{{ app_url_admin_base }}/try/verify" method="get" class="ui form" id="search-form">
+      <input type="hidden" name="id" value="{{ id }}" />
+			<div class="five fields">
+
+				<div class="field">
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="is_invented" value="{{ is_invented }}" />
+					    <div class="default text">排序</div>
+					    <div class="menu">
+							<div data-value="-1" class="{% if is_invented=='-1' %}active {% endif %}item">真实</div>
+							<div data-value="0" class="{% if is_invented==0 %}active {% endif %}item">全部</div>
+					    </div>
+					</div>
+				</div>
+
+				<div class="field">
+					<div class="ui icon input">
+					  	<input type="text" name="user_id" placeholder="用户ID" value="{{ user_id }}" />
+					</div>
+				</div>
+
+				<div class="field">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
+			</div>
+		</form>
+	</div>
 	
-	<h4>试用人数：{{ try.try_count }} 人, 申请人数：{{ try.pass_count }} / {{ try.apply_count }} 人</h4>
+  <h4>试用人数：{{ try.try_count }} 人, 申请总/虚拟人数：{{ try.pass_count }} / {{ try.apply_count }}/{{ try.invented_apply_count|default 0 }} 人</h4>
 	
-	{% apply_list var:'list' target_id:id page:page size:30 %}
+	{% apply_list var:'list' is_invented:is_invented user_id:user_id target_id:id page:page size:30 %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>
