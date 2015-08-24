@@ -284,19 +284,24 @@
 			'loopTop':true,
 			afterLoad: function(anchorLink, index){
 						if(index == 1){
-							$('.st').css('display','block');
+							$('.p1').css('display','block');
 						}
-						if(index == 2){
-							$('.st').css('display','block');
+			      if(index == 2){
+							$('.p2').css('display','block');
 						}
-			
+						if(index == 3){
+							$('.p3').css('display','block');
+						}
 			},
 			onLeave: function(index, direction){
 						if(index == 1){
-							$('.st').css('display','none');
+							$('.p1').css('display','none');
 						}
 						if(index == 2){
-							$('.st').css('display','none');
+							$('.p2').css('display','none');
+						}
+						if(index == 3){
+							$('.p3').css('display','none');
 						}
 			}
 	  });
@@ -317,17 +322,23 @@
 <div class="wrap">
   <div class="section">
     <img src="{{ app_url_packaged }}/images/promo/d3in/bg1.jpg" class="bodybg">
-    <img src="{{ app_url_packaged }}/images/promo/d3in/1.png" class="st pt-1 page-logo">
-	  <img src="{{ app_url_packaged }}/images/promo/d3in/2.png" class="st pt-2 page-logo">
-	  <img src="{{ app_url_packaged }}/images/promo/d3in/3.png" class="st pt-3 page-logo">
-	  <img src="{{ app_url_packaged }}/images/promo/d3in/4.png" class="st pt-4 fadeInUpBig animated">
-	  <img src="{{ app_url_packaged }}/images/promo/d3in/5.png" class="st pt-5 page-logo">
+    <img src="{{ app_url_packaged }}/images/promo/d3in/1.png" class="st p1 pt-1 page-logo">
+	  <img src="{{ app_url_packaged }}/images/promo/d3in/2.png" class="st p1 pt-2 page-logo">
+	  <img src="{{ app_url_packaged }}/images/promo/d3in/3.png" class="st p1 pt-3 page-logo">
+	  <img src="{{ app_url_packaged }}/images/promo/d3in/4.png" class="st p1 pt-4 fadeInUpBig animated">
+	  <img src="{{ app_url_packaged }}/images/promo/d3in/5.png" class="st p1 pt-5 page-logo">
   </div>
   
   <div class="section">
     <img src="{{ app_url_packaged }}/images/promo/d3in/bg1.jpg" class="bodybg">
-    <img src="{{ app_url_packaged }}/images/promo/d3in/tit_1.png" class="st pt2-1 page-logo" style="display:none">
-	  <img src="{{ app_url_packaged }}/images/promo/d3in/p2_1.png" class="st pt2-2 fadeInUpBig animated" style="display:none">
+    <img src="{{ app_url_packaged }}/images/promo/d3in/tit_1.png" class="st p2 pt2-1 page-logo" style="display:none">
+	  <img src="{{ app_url_packaged }}/images/promo/d3in/p2_1.png" class="st p2 pt2-2 fadeInUpBig animated" style="display:none">
+  </div>
+  
+  <div class="section">
+    <img src="{{ app_url_packaged }}/images/promo/d3in/bg1.jpg" class="bodybg">
+    <img src="{{ app_url_packaged }}/images/promo/d3in/tit_1.png" class="st p3 pt2-1 page-logo" style="display:none">
+	  <img src="{{ app_url_packaged }}/images/promo/d3in/p2_1.png" class="st p3 pt2-2 fadeInUpBig animated" style="display:none">
   </div>
   
   
