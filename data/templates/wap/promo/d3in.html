@@ -291,22 +291,10 @@
       var mySwiper1 = new Swiper('.swiper-container',{
   		  nextButton: '.swiper-button-next',
         prevButton: '.swiper-button-prev',
-        slidesPerView: 1,
+        slidesPerView: 5,
         paginationClickable: true,
-        loop: true,
+        loop: true
   	  });
-  	  
-  	  $('#slider').flexslider({
-          animation: "slide",
-          directionNav: false, 
-          controlNav: true,
-          animationLoop: true,
-          slideshow: true,
-          slideshowSpeed: 5000,
-          animationDuration: 300,
-          animationSpeed: 300,
-      });
-  	  
 		/*  	bgm = new Audio5js({
 		      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
 		      ready: function () {
@@ -360,20 +348,21 @@
   <div class="wrap">
     <img src="{{ app_url_packaged }}/images/promo/d3in/tit_2.png" class="st pt2-1 page-logo">
     <div class="tslide swiper-container">
-			<div id="slider" class="flexslider flex-single">
-        <ul class="slides">
-          <li>
-  			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_1.png" />
-          </li>
-          <li>
-  			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_2.png" />
-          </li>
-          <li>
-  			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_3.png" />
-          </li>
-          <li>
-  			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_4.png" />
-          </li>
+			<div class="swiper-wrapper">
+			  <div class="swiper-slide" >
+			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_1.png" />
+				</div>
+				<div class="swiper-slide" >
+			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_2.png" />
+				</div>
+				<div class="swiper-slide" >
+			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_3.png" />
+				</div>
+				<div class="swiper-slide" >
+			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_4.png" />
+				</div>
+				<div class="swiper-slide" >
+			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_5.png" />
 				</div>
 			</div>
 			<div class="swiper-button-next"></div>
