@@ -3,10 +3,17 @@
 {% block page_css %}
 <link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
 <style type="text/css">
-  #mfrbird{
-  	margin:0 auto;
-  	max-width:640px;
+  header.ui.wap{
+  	display:none !important;
+  	opacity:0;
   }
+  #mfrbird{
+  	margin:0;
+  }
+  .mmfoot{
+  	display:none;
+  }
+  * { -webkit-appearance: none; }
   html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:hidden}
   .wrap {
   	max-width: 640px;
@@ -276,13 +283,19 @@
 			'loopBottom':true,
 			'loopTop':true,
 			afterLoad: function(anchorLink, index){
-						if(index == 1,index == 2){
+						if(index == 1){
+							$('.st').css('display','block');
+						}
+						if(index == 2){
 							$('.st').css('display','block');
 						}
 			
 			},
 			onLeave: function(index, direction){
-						if(index == 1,index == 2){
+						if(index == 1){
+							$('.st').css('display','none');
+						}
+						if(index == 2){
 							$('.st').css('display','none');
 						}
 			}
