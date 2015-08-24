@@ -1,15 +1,8 @@
-{%extends 'layout/mobile.html'%}
+{%extends 'layout/h5.html'%}
 {% block title %}{% endblock %}
 {% block page_css %}
 <link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/swiper.min.css">
 <style type="text/css">
-  .ui.wap{
-    display:none;
-  }
-  .mmfoot{
-		display:none;
-	}
-	* { -webkit-appearance: none; }
   #mfrbird{
   	margin:0 auto;
   	max-width:640px;
@@ -208,7 +201,7 @@
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script src="http://frstatic.qiniudn.com/wechat/js/zepto.js"></script>
 	<script src="http://frstatic.qiniudn.com/wechat/js/touch.js"></script>
-	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
+	<script src="http://frstatic.qiniudn.com/jquery.flexslider.js" type="text/javascript"></script>
 
 	<script type="text/javascript" >
 
@@ -289,7 +282,7 @@
 		//s=window.innerHeight/500;
 		//ss=250*(1-s);
 		//$('.wrap').css('-webkit-transform','scale('+s+','+s+') translate(0px,-'+ss+'px)');
-    /*var mySwiper1 = new Swiper('.swiper-container',{
+   /* var mySwiper1 = new Swiper('.swiper-container',{
 		  nextButton: '.swiper-button-next',
       prevButton: '.swiper-button-prev',
       slidesPerView: 1,
@@ -420,7 +413,7 @@
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
 <div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
-<div class="page page-1-1 hide">
+<div class="page page-1-1 page-current">
 	<div class="wrap">
 	  <img src="{{ app_url_packaged }}/images/promo/d3in/1.png" class="st pt-1 page-logo">
 	  <img src="{{ app_url_packaged }}/images/promo/d3in/2.png" class="st pt-2 page-logo">
@@ -435,26 +428,9 @@
 	  <img src="{{ app_url_packaged }}/images/promo/d3in/p2_1.png" class="st pt2-2 fadeInUpBig animated">
 	</div>
 </div>
-<div class="page page-3-1 page-current">
+<div class="page page-3-1 hide">
   <div class="wrap">
     <img src="{{ app_url_packaged }}/images/promo/d3in/tit_2.png" class="st pt2-1 page-logo">
-    <div id="slider" class="flexslider flex-single">
-      <ul class="slides">
-        <li>
-          <img src="{{ app_url_packaged }}/images/promo/d3in/p3_1.png" />
-        </li>
-        <li>
-          <img src="{{ app_url_packaged }}/images/promo/d3in/p3_2.png" />
-        </li>
-        <li>
-          <img src="{{ app_url_packaged }}/images/promo/d3in/p3_3.png" />
-        </li>
-          
-          
-      </ul>
-    </div>
-        
-    
     <!--<div class="tslide swiper-container">
 			<div class="swiper-wrapper">
 			  <div class="swiper-slide" >
@@ -475,8 +451,20 @@
 			</div>
 			<div class="swiper-button-next"></div>
 			<div class="swiper-button-prev"></div>
-		</div>-->	  
-				
+		</div>	-->  
+		<div id="slider" class="flexslider flex-single">
+      <ul class="slides">
+        <li>
+          <img src="{{ app_url_packaged }}/images/promo/d3in/p3_1.png" />
+        </li>
+        <li>
+          <img src="{{ app_url_packaged }}/images/promo/d3in/p3_2.png" />
+        </li>
+        
+        
+        
+      </ul>
+    </div>
     
     
   </div>
