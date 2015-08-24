@@ -201,7 +201,7 @@
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script src="http://frstatic.qiniudn.com/wechat/js/zepto.js"></script>
 	<script src="http://frstatic.qiniudn.com/wechat/js/touch.js"></script>
-	<script src="http://frstatic.qiniudn.com/jquery.flexslider.js" type="text/javascript"></script>
+	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
 
 	<script type="text/javascript" >
 
@@ -282,25 +282,14 @@
 		//s=window.innerHeight/500;
 		//ss=250*(1-s);
 		//$('.wrap').css('-webkit-transform','scale('+s+','+s+') translate(0px,-'+ss+'px)');
-   /* var mySwiper1 = new Swiper('.swiper-container',{
+    var mySwiper1 = new Swiper('.swiper-container',{
 		  nextButton: '.swiper-button-next',
       prevButton: '.swiper-button-prev',
       slidesPerView: 1,
       paginationClickable: true,
       spaceBetween: 30,
       loop: true
-	  });*/
-	  
-	  $('#slider').flexslider({
-        animation: "slide",
-        directionNav: false, 
-        controlNav: true,
-        animationLoop: true,
-        slideshow: true,
-        slideshowSpeed: 5000,
-        animationDuration: 300,
-        animationSpeed: 300,
-    });
+	  });
     
 		var pageIndex = 1,
 			pageTotal = $('.page').length,
@@ -431,7 +420,7 @@
 <div class="page page-3-1 hide">
   <div class="wrap">
     <img src="{{ app_url_packaged }}/images/promo/d3in/tit_2.png" class="st pt2-1 page-logo">
-    <!--<div class="tslide swiper-container">
+    <div class="tslide swiper-container">
 			<div class="swiper-wrapper">
 			  <div class="swiper-slide" >
 			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_1.png" />
@@ -451,20 +440,8 @@
 			</div>
 			<div class="swiper-button-next"></div>
 			<div class="swiper-button-prev"></div>
-		</div>	-->  
-		<div id="slider" class="flexslider flex-single">
-      <ul class="slides">
-        <li>
-          <img src="{{ app_url_packaged }}/images/promo/d3in/p3_1.png" />
-        </li>
-        <li>
-          <img src="{{ app_url_packaged }}/images/promo/d3in/p3_2.png" />
-        </li>
-        
-        
-        
-      </ul>
-    </div>
+		</div>	  
+				
     
     
   </div>
