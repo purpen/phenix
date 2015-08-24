@@ -853,14 +853,15 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$data['try_id'] = $this->stash['try_id'];
 		$data['published'] = (int)$this->stash['published'];
-    $old_published = isset($this->stash['old_published'])?(int)$this->stash['old_published']:1;
+        $old_published = isset($this->stash['old_published'])?(int)$this->stash['old_published']:1;
 
 		$data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
 		$data['t_color'] = isset($this->stash['t_color'])?(int)$this->stash['t_color']:0;
 		
 		// 检测编辑器图片数
 		$file_count = isset($this->stash['file_count']) ? (int)$this->stash['file_count'] : 0;
-		
+        $newadd_asset_ids = isset($this->stash['newadd_asset_ids'])?$this->stash['newadd_asset_ids']:'';
+        
 		// 检查是否有图片
 		if(isset($this->stash['asset'])){
 			$data['asset'] = $this->stash['asset'];
@@ -902,7 +903,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			if(isset($data['asset']) && !empty($data['asset'])){
 				$this->update_batch_assets($data['asset'], $id);
 			}
-
+            // 上传成功后，更新编辑器图片
+            if(!empty($newadd_asset_ids)){
+                $newadd_asset = array_filter(array_unique(preg_split('/[,]+/u', $newadd_asset_ids)));
+                $this->update_batch_assets($newadd_asset, $id);
+            }
 			// 上传成功后，更新所属的附件
 			if(isset($data['file_asset']) && !empty($data['file_asset'])){
 				$this->update_batch_assets($data['file_asset'], $id);
@@ -913,11 +918,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			if($file_count && !empty($this->stash['file_id'])){
 				$model->update_editor_asset($id, $this->stash['file_id']);
 			}
-
-			// 更新全文索引
-      if($data['published']==1){
-			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);
-      }
+            
+            // 更新全文索引
+            if($data['published'] == 1){
+                Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);
+            }
 			//更新百度推送
 			if($mode=='create' && $data['published']==1){
 			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10); 

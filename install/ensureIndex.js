@@ -12,6 +12,8 @@ db.ordertemp.ensureIndex({'rid':1}, {unique: true}, {background: true});
 
 db.orders.ensureIndex({'rid':1}, {unique: true}, {background: true});
 
+db.orders.ensureIndex({'created_on':-1}, {background: true});
+
 # 产品管理
 
 
@@ -23,6 +25,8 @@ db.user.ensureIndex({'sina_uid':1}, {background: true});
 db.user.ensureIndex({'qq_uid':1}, {background: true});
 
 db.user.ensureIndex({'state':1, 'mentor':1}, {background: true});
+db.user.ensureIndex({'wx_open_id':1}, {background: true});
+db.user.ensureIndex({'created_on':1}, {background: true});
 
 # 手机验证码
 db.verify.ensureIndex({'phone':1,'code':1}, {unique: true}, {background: true});
@@ -33,3 +37,25 @@ db.emailing.ensureIndex({'email':1}, {unique: true}, {background: true});
 
 
 db.phones.ensureIndex({'phone':1}, {unique: true}, {background: true});
+
+# 附件
+db.asset.ensureIndex({'parent_id':1, 'asset_type':1, 'created_on': 1}, {background: true});
+
+db.asset.ensureIndex({'file_id':1}, {background: true});
+
+
+db.session_random.ensureIndex({'session_id':1, 'kind':1}, {background: true});
+
+# 搜索
+db.text_index.ensureIndex({'full':1, 'type':1, 'created_on': -1}, {background: true});
+
+# 积分
+db.points.balance.ensureIndex({'balance.exp':1}, {background: true});
+
+# 收藏
+db.favorite.ensureIndex({'event':1, 'type':1, 'created_on':-1}, {background: true});
+
+
+
+
+
