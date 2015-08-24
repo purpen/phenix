@@ -51,7 +51,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       if ($this->visitor->id){
         $this->stash['user_info'] = &$this->stash['visitor'];
         $mode_attend = new Sher_Core_Model_Attend();
-        $this->stash['is_attend'] $mode_attend->check_signup($this->visitor->id,, $active['_id'], 1);
+        $this->stash['is_attend'] $mode_attend->check_signup($this->visitor->id, $active['_id'], 1);
       }
 
       $this->stash['active'] = $active;
