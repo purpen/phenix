@@ -284,7 +284,12 @@
 		//$('.wrap').css('-webkit-transform','scale('+s+','+s+') translate(0px,-'+ss+'px)');
     var mySwiper1 = new Swiper('.tslide',{
 		  freeMode : true,
-		  slidesPerView : 'auto',
+		  nextButton: '.swiper-button-next',
+      prevButton: '.swiper-button-prev',
+      slidesPerView: 1,
+      paginationClickable: true,
+      spaceBetween: 30,
+      loop: true
 	  });
     
 		var pageIndex = 1,
