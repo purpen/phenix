@@ -193,7 +193,11 @@
 		margin-right:0;
 		padding-right:0;
 	}
-	
+	.pt3-1{
+	  width:76%;
+	  left:12%;
+	  top:30%;
+	}
 </style>
 {% endblock %}
 
@@ -211,87 +215,91 @@
 		//ss=250*(1-s);
 		//$('.wrap').css('-webkit-transform','scale('+s+','+s+') translate(0px,-'+ss+'px)');
     
-		var pageIndex = 1,
-			pageTotal = $('.page').length,
-			towards = { up:1, right:2, down:3, left:4},
-			isAnimating = false;
-		document.addEventListener('touchmove',function(event){
-			event.preventDefault(); },false);
+		(function(){
 
-			function pageMove(tw){
-				var lastPage;
-				if(tw=='1'){
-					if(pageIndex==1){
-						lastPage = ".page-"+pageTotal+"-1";
-					}else{
-						lastPage = ".page-"+(pageIndex-1)+"-1";
-					}
+    var now = { row:1, col:1 }, last = { row:0, col:0};
+    const towards = { up:1, right:2, down:3, left:4};
+    var isAnimating = false;
 
-				}else if(tw=='3'){
-					if(pageIndex==pageTotal){
-						lastPage = ".page-1"+"-1";
-					}else{
-						lastPage = ".page-"+(pageIndex+1)+"-1";
-					}
+    document.addEventListener('touchmove',function(event){
+    	event.preventDefault(); },false);
 
-				}
+    $(document).swipeUp(function(){
+    	if (isAnimating) return;
+    	last.row = now.row;
+    	last.col = now.col;
+    	if (last.row != 5) { now.row = last.row+1; now.col = 1; pageMove(towards.up);}	
+    })
 
-				var nowPage = ".page-"+pageIndex+"-1";
+    $(document).swipeDown(function(){
+    	if (isAnimating) return;
+    	last.row = now.row;
+    	last.col = now.col;
+    	if (last.row!=1) { now.row = last.row-1; now.col = 1; pageMove(towards.down);}	
+    })
 
-				switch(tw) {
-					case towards.up:
-						outClass = 'pt-page-moveToTop';
-						inClass = 'pt-page-moveFromBottom';
-						break;
-					case towards.down:
-						outClass = 'pt-page-moveToBottom';
-						inClass = 'pt-page-moveFromTop';
-						break;
-				}
-				isAnimating = true;
-				$(nowPage).removeClass("hide");
+    $(document).swipeLeft(function(){
+    	if (isAnimating) return;
+    	last.row = now.row;
+    	last.col = now.col;
+    	if (last.row>1 && last.row<5 && last.col==1) { now.row = last.row; now.col = 2; pageMove(towards.left);}	
+    })
 
-				$(lastPage).addClass(outClass);
-				$(nowPage).addClass(inClass);
+    $(document).swipeRight(function(){
+    	if (isAnimating) return;
+    	last.row = now.row;
+    	last.col = now.col;
+    	if (last.row>1 && last.row<5 && last.col==2) { now.row = last.row; now.col = 1; pageMove(towards.right);}	
+    })
 
-				setTimeout(function(){
-					$(lastPage).removeClass('page-current');
-					$(lastPage).removeClass(outClass);
-					$(lastPage).addClass("hide");
-					$(lastPage).find("img").addClass("hide");
+    function pageMove(tw){
+    	var lastPage = ".page-"+last.row+"-"+last.col,
+    		nowPage = ".page-"+now.row+"-"+now.col;
 
-					$(nowPage).addClass('page-current');
-					$(nowPage).removeClass(inClass);
-					$(nowPage).find("img").removeClass("hide");
+    	switch(tw) {
+    		case towards.up:
+    			outClass = 'pt-page-moveToTop';
+    			inClass = 'pt-page-moveFromBottom';
+    			break;
+    		case towards.right:
+    			outClass = 'pt-page-moveToRight';
+    			inClass = 'pt-page-moveFromLeft';
+    			break;
+    		case towards.down:
+    			outClass = 'pt-page-moveToBottom';
+    			inClass = 'pt-page-moveFromTop';
+    			break;
+    		case towards.left:
+    			outClass = 'pt-page-moveToLeft';
+    			inClass = 'pt-page-moveFromRight';
+    			break;
+    	}
+    	isAnimating = true;
+    	$(nowPage).removeClass("hide");
 
-					isAnimating = false;
-				},600);
-			}
+    	$(lastPage).addClass(outClass);
+    	$(nowPage).addClass(inClass);
 
-		  $(document).swipeUp(function(){
-				if (isAnimating) return;
-				if (pageIndex < pageTotal) { 
-					pageIndex+=1; 
-				}else{
-					pageIndex=1;
-				};
-				pageMove(towards.up);
-			});
+    	setTimeout(function(){
+    		$(lastPage).removeClass('page-current');
+    		$(lastPage).removeClass(outClass);
+    		$(lastPage).addClass("hide");
+    		$(lastPage).find("img").addClass("hide");
 
-			$(document).swipeDown(function(){
-				if (isAnimating) return;
-				if (pageIndex > 1) { 
-					pageIndex-=1; 
-				}else{
-					pageIndex=pageTotal;
-				};
-				pageMove(towards.down);	
-			});
+    		$(nowPage).addClass('page-current');
+    		$(nowPage).removeClass(inClass);
+    		$(nowPage).find("img").removeClass("hide");
+
+    		isAnimating = false;
+    	},600);
+    }
+
+    })();
       
       var mySwiper1 = new Swiper('.swiper-container',{
   		  nextButton: '.swiper-button-next',
         prevButton: '.swiper-button-prev',
-        slidesPerView: 5,
+        slidesPerView: 1,
         paginationClickable: true,
         loop: true
   	  });
@@ -347,33 +355,21 @@
 <div class="page page-3-1 hide">
   <div class="wrap">
     <img src="{{ app_url_packaged }}/images/promo/d3in/tit_2.png" class="st pt2-1 page-logo">
-    <div class="tslide swiper-container">
-			<div class="swiper-wrapper">
-			  <div class="swiper-slide" >
-			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_1.png" />
-				</div>
-				<div class="swiper-slide" >
-			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_2.png" />
-				</div>
-				<div class="swiper-slide" >
-			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_3.png" />
-				</div>
-				<div class="swiper-slide" >
-			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_4.png" />
-				</div>
-				<div class="swiper-slide" >
-			  	<img src="{{ app_url_packaged }}/images/promo/d3in/p3_5.png" />
-				</div>
-			</div>
-			<div class="swiper-button-next"></div>
-			<div class="swiper-button-prev"></div>
-		</div>	  
-				
-    
-    
+    <img src="{{ app_url_packaged }}/images/promo/d3in/p3_1.png" class="st pt3-1">
   </div>
 </div>
-
+<div class="page page-3-2 hide">
+  <div class="wrap">
+    <img src="{{ app_url_packaged }}/images/promo/d3in/tit_2.png" class="st pt2-1 page-logo">
+    <img src="{{ app_url_packaged }}/images/promo/d3in/p3_1.png" class="st pt3-2">
+  </div>
+</div>
+<div class="page page-3-3 hide">
+  <div class="wrap">
+    <img src="{{ app_url_packaged }}/images/promo/d3in/tit_2.png" class="st pt2-1 page-logo">
+    <img src="{{ app_url_packaged }}/images/promo/d3in/p3_1.png" class="st pt3-3">
+  </div>
+</div>
 
 
 
