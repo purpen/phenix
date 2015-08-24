@@ -683,10 +683,10 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
         $options['size'] = $size;
         
         $result = $service->get_product_list($query, $options);
+        $data = array();
+        $data['results'] = $result;
         
-        $this->stash['results'] = $result;
-        
-        return $this->ajax_json('', false, '', $this->stash);
+        return $this->ajax_json('', false, '', $data);
     }
 
 	/**
