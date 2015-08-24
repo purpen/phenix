@@ -13,6 +13,8 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		'time' => '',
 		'q' => '',
     'kind' => 0,
+    'start_date' => '',
+    'end_date' => '',
 	);
 	
 	/**
@@ -84,26 +86,32 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		}
 		
 		// 某时间段内
-		$start_time = 0;
-		$end_time = strtotime('today');
-		switch($time){
-			case 'yesterday':
-				$start_time = strtotime('yesterday');
-				$this->set_target_css_state('yesterday');
-				break;
-			case 'week':
-				$start_time = strtotime('-1 week');
-				$this->set_target_css_state('week');
-				break;
-			case 'mouth':
-				$start_time = strtotime('-1 month');
-				$this->set_target_css_state('month');
-				break;
-		}
+    if(!empty($time)){
+      $start_time = 0;
+      $end_time = strtotime('today');
+      switch($time){
+        case 'yesterday':
+          $start_time = strtotime('yesterday');
+          $this->set_target_css_state('yesterday');
+          break;
+        case 'week':
+          $start_time = strtotime('-1 week');
+          $this->set_target_css_state('week');
+          break;
+        case 'mouth':
+          $start_time = strtotime('-1 month');
+          $this->set_target_css_state('month');
+          break;
+      }   
+    }else{
+      $start_time = strtotime($this->stash['start_date']);
+			$end_time = strtotime($this->stash['end_date']);    
+    }
+
 		$this->stash['start_time'] = $start_time;
 		$this->stash['end_time'] = $end_time;
 		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/user?state='.$state.'&time='.$time.'&page=#p#';
+		$pager_url = sprintf("%s/user?state=%d&time=%s&start_date=%s&end_date=%s&page=#p#", Doggy_Config::$vars['app.url.admin'], $state, $time, $this->stash['start_date'], $this->stash['end_date']);
 		
 		$this->stash['pager_url'] = $pager_url;
 		
