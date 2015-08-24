@@ -616,7 +616,6 @@
     </div>
     <div class="mainright">
         <div class="ui sticky">
-            {% if product.stage == 9 %}
             <div class="sellwrap">
     			<div class="buy box">
     				<p>
@@ -737,7 +736,7 @@
                     {%endif%}
                 </div>
             </div>
-            {% else %}
+            {% if item_stage == 'idea' %}
                 {% if product.product_info.official_price %}
                 <div class="sellwrap">
         			<div class="buy box">
@@ -748,7 +747,7 @@
                     </div>
                 </div>
                 {% endif %}
-            {% endif %}
+            {%endif%}
         
             <div class="sellwrap">
                 <div class="user action">
