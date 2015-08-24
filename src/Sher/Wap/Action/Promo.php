@@ -29,7 +29,31 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
 	    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
 	    $this->stash['wxSha1'] = sha1($wxOri);
-		return $this->to_html_page('wap/promo/din.html');
+
+      $active_id = 12024;
+      $active_id = 4;
+      $active_model = new Sher_Core_Model_Active();
+      $active = $active_model->load($active_id);
+
+      if(empty($active) || $active['deleted']){
+        return $this->show_message_page('访问的活动不存在或已被删除！', $redirect_url);
+      }
+
+      if($active['state']==0){
+        return $this->show_message_page('该活动已被禁用！', $redirect_url); 
+      }
+
+      $this->stash['is_attend'] = false;
+      $this->stash['user_info'] = array();
+      //验证用户是否已报名
+      if ($this->visitor->id){
+        $this->stash['user_info'] = &$this->stash['visitor'];
+        $this->stash['is_attend'] = $this->check_user_attend($this->visitor->id, $active['_id'], 1);
+      }
+
+      $this->stash['active'] = $active;
+
+		  return $this->to_html_page('wap/promo/din.html');
 	}
 	
 	/**

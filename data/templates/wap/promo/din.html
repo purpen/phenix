@@ -615,7 +615,11 @@
       <div class="ui responsive p5 grid fadeInUpBig animated" style="position: absolute;top: 50%;left: 50%;z-index:3;margin-left:-60px;display:none;">
         <div class="row">
           <div class="ui center aligned column">
+          {% if is_attend %}
+            <a class="ui magenta inverted button">已报名</a>
+          {%else%}
             <a class="ui magenta inverted active attend button">立即报名</a>
+          {%endif%}
           </div>
         </div>
       </div>
