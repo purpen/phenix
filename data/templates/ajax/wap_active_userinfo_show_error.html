@@ -31,10 +31,8 @@
     {%endif%}
 
       {% if evt==2 %}
-    $('.ui.user-info-box.modal')
-    .modal('setting', 'transition', 'vertical  flip')
-    .modal('hide');
-    return false; 
+        $('.ui.user-info-box.modal').modal('hide');
+        phenix.show_ok_note('报名成功!', 3000);
       {%endif%}
     {%endif%}
 	</eval>
