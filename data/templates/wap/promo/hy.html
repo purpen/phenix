@@ -173,8 +173,138 @@
   }
   @-webkit-keyframes p1BgAnimation1 {
 		0% { background-position: 0px 0px; }
-		100% { background-position: -10000px 0px; 
+		100% { background-position: -10000px 0px; }
 	}
+	.pt-6{
+	  width:100%;
+	  top:50px;
+	  left:0;
+	  -webkit-animation: 'sclae' 6s linear infinite;
+	}
+	@-webkit-keyframes sclae {
+		0% { transform:scale(0,0); }
+		100% { transform:scale(1,1); }
+	}
+	
+	
+	
+	
+	
+	
+	@-webkit-keyframes bounceInLeft{
+	    0%,100%,60%,75%,90%{
+	      -webkit-transition-timing-function:cubic-bezier(0.215,.61,.355,1);
+	      transition-timing-function:cubic-bezier(0.215,.61,.355,1)
+	    }
+	    0%{
+        opacity:0;
+        -webkit-transform:translate3d(-3000px,0,0);
+        transform:translate3d(-3000px,0,0)
+      }
+	    60%{
+        opacity:1;
+        -webkit-transform:translate3d(45px,0,0);
+        transform:translate3d(45px,0,0)
+        }
+        75%{
+          -webkit-transform:translate3d(-20px,0,0);
+          transform:translate3d(-20px,0,0)
+        }
+        90%{
+          -webkit-transform:translate3d(10px,0,0);
+          transform:translate3d(10px,0,0)
+        }
+        100%{
+          -webkit-transform:none;
+          transform:none
+        }
+      }
+	  
+	  
+	  @-webkit-keyframes bounceInRight{
+	    0%,100%,60%,75%,90%{
+	      -webkit-transition-timing-function:cubic-bezier(0.215,.61,.355,1);
+	      transition-timing-function:cubic-bezier(0.215,.61,.355,1)
+	    }
+      0%{
+        opacity:0;
+        -webkit-transform:translate3d(3000px,0,0);
+        transform:translate3d(3000px,0,0)
+      }
+      60%{
+        opacity:1;
+        -webkit-transform:translate3d(-45px,0,0);
+        transform:translate3d(-45px,0,0)
+      }
+      75%{
+        -webkit-transform:translate3d(20px,0,0);
+        transform:translate3d(20px,0,0)
+      }
+      90%{
+        -webkit-transform:translate3d(-10px,0,0);
+        transform:translate3d(-10px,0,0)
+      }
+      100%{
+        -webkit-transform:none;
+        transform:none
+      }
+    }
+	
+  .pt-7{
+    top:150px;
+    width:25%;
+    left:25%;
+  }
+  .pt-8{
+    top:150px;
+    width:25%;
+    right:25%;
+  }
+  .pages-logo{
+		-webkit-animation: 0.4s scale-to-zero-with-center cubic-bezier(.17, .67, .11, .93) forwards;
+		animation: 0.4s scale-to-zero-with-center cubic-bezier(.17, .67, .11, .93) forwards;
+	}
+	.page-logo{
+		-webkit-animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
+		animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
+	}
+	@-webkit-keyframes scale-to-zero-with-center {
+	    0% {
+	        -webkit-transform: translate3d(0, 0, 0) scale(20);
+	        opacity: 0;
+	    }
+	   /* 30% {
+	        opacity: 0.3;
+	    }
+	    60% {
+	        -webkit-transform: translate3d(0, 0, 0) scale(1);
+	        opacity: 1;
+	    }*/
+			20% 		{opacity:0.3;-webkit-transform:scale(.3)}
+			70% 	{opacity:1;-webkit-transform:scale(1.2)}
+			/*70% 	{-webkit-transform:scale(.9)}*/
+			100% 	{opacity:1;-webkit-transform:scale(1)}
+
+	}
+	@-webkit-keyframes scale-to-zero-with-left {
+	    0% {
+	        -webkit-transform: translate3d(0%, 0, 0) scale(20);
+	        opacity: 0;
+	    }
+	    50% {
+	        opacity: 0.3;
+	    }
+	    100% {
+	        -webkit-transform: translate3d(0%, 0, 0) scale(1);
+	        opacity: 1;
+	    }
+	}
+	.pt-9{
+	  width:25%;
+	  top:80px;
+	  left:37.5%;
+	}
+	
 </style>
 {% endblock %}
 
@@ -388,6 +518,12 @@
 	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
 	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
 	  <img src="{{ app_url_packaged }}/images/promo/hy/xing1.png" class="st xing pt-5">
+	  
+	  <img src="{{ app_url_packaged }}/images/promo/hy/clear.png" class="st pt-6">
+	  
+	  <img src="{{ app_url_packaged }}/images/promo/hy/huo.png" class="st pt-7 bounceInLeft animated">
+	  <img src="{{ app_url_packaged }}/images/promo/hy/yan.png" class="st pt-8 bounceInRight animated">
+	  <img src="{{ app_url_packaged }}/images/promo/hy/logo.png" class="st pt-9 page-logo">
 	  
 	</div>
 </div>
