@@ -35,6 +35,8 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       $active_model = new Sher_Core_Model_Active();
       $active = $active_model->load($active_id);
 
+      $redirect_url = Doggy_Config::$vars['app.url.wap.active'];
+
       if(empty($active) || $active['deleted']){
         return $this->show_message_page('访问的活动不存在或已被删除！', $redirect_url);
       }
