@@ -4,17 +4,42 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	$('#user-form').form({
-		mentor: {
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
 
+	$('#user-form').form({
+
+		mentor: {
+			identifier  : 'mentor',
+			rules: [
+
+			]
 		}
 	}, {
-		inline: true,
+		inline : true,
 		onSuccess: function(event){
 			event.preventDefault();
-			$(event.target).ajaxSubmit();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.show_ok_note(data.message);
+					}
+				}
+			});
 		}
 	});
+
+	$('.datepicker').pickadate();
 {% endblock %}
 {% block content %}
 	<h3 class="ui header">用户管理</h3>
@@ -37,14 +62,31 @@
 	    	</div>
 	    </div>
 	</div>
-	<div class="ui nopad grid">
-		<div class="right floated five wide column">
-			<form action="{{ app_url_admin_base }}/user" class="ui form" method="post">
+	<div class="ui sub search">
+		<form action="{{ app_url_admin_base }}/user" method="post" class="ui form" id="search-form">
+			<div class="five fields">
+				<div class="field">
+					<div class="ui icon input">
+					  	<input type="text" name="start_date" placeholder="开始时间" value="{{ start_date }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui icon input">
+					  	<input type="text" name="end_date" placeholder="截止时间" value="{{ end_date }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+
 				<div class="field">
 					<input placeholder="Search..." type="text" name="q" />
 				</div>
-			</form>
-		</div>
+
+				<div class="field">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
+			</div>
+		</form>
 	</div>
 	
 	<div class="ui form segment">
@@ -70,18 +112,32 @@
 			<div class="inline field">
 				<label for="pid">用户认证：</label>
 				<div class="ui selection dropdown">
+					<input type="hidden" name="symbol" value="{{ user.symbol }}" />
+				    <div class="default text">请选择</div>
+				    <i class="angle down icon"></i>
+				    <div class="menu">
+						{% for symbol in symbols %}
+						<div data-value="{{ symbol.id }}" class="{% if symbol.id == user.symbol %}active {% endif %}item">{{ symbol.name }}</div>
+            {% endfor %}
+				    </div>
+				</div>
+			</div>
+
+			<div class="inline field">
+				<label for="pid">用户类型：</label>
+				<div class="ui selection dropdown">
 					<input type="hidden" name="kind" value="{{ user.kind }}" />
 				    <div class="default text">请选择</div>
 				    <i class="angle down icon"></i>
 				    <div class="menu">
-						<div data-value="0" class="{% if user.kind == 0 %}active {% endif %}item">无</div>
-						<div data-value="1" class="{% if user.kind == 1 %}active {% endif %}item">官方认证</div>
-						<div data-value="2" class="{% if user.kind == 2 %}active {% endif %}item">未定义</div>
+						{% for kind in kinds %}
+						<div data-value="{{ kind.id }}" class="{% if kind.id == user.kind %}active {% endif %}item">{{ kind.name }}</div>
+            {% endfor %}
 				    </div>
 				</div>
 			</div>
 			
-			<input type="submit" class="ui magenta inverted button" value="确认保存">
+			<input type="submit" class="ui magenta submit inverted button" value="确认保存">
 			<input type="button" class="ui gray inverted button" value="取消">
 		</form>
 	</div>

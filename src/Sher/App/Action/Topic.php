@@ -106,6 +106,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         
         $max = count($resultlist['rows']);
         for($i=0;$i<$max;$i++){
+            $symbol = isset($resultlist['rows'][$i]['user']['symbol']) ? $resultlist['rows'][$i]['user']['symbol'] : 0;
+            if(!empty($symbol)){
+              $s_key = sprintf("symbol_%d", $symbol);
+              $resultlist['rows'][$i]['user'][$s_key] = true;
+            }
             if($resultlist['rows'][$i]['asset_count'] > 0){
                 $asset = Sher_Core_Service_Asset::instance();
                 $q = array(
