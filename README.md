@@ -75,7 +75,9 @@ froala_editor v1.1.7 普通上传默认设置了key,与七牛云存储key冲突.
 <link href="//d2torojtsnfbm3.cloudfront.net/assets/site.css?1407967365201" media="all" rel="stylesheet" type="text/css" />
 <![endif]-->
 
-
+{% cache cache_key:list_cache_key,ttl:300 %}
+    xxx
+{% endcache %}
 
 
 

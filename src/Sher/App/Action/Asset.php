@@ -107,16 +107,26 @@ class Sher_App_Action_Asset extends Sher_App_Action_Base {
 	 * 从编辑器中删除附件
 	 */
 	public function delete_from_editor(){		
-		if (!isset($this->stash['file_url'])){
+		if (!isset($this->stash['file_url']) && !isset($this->stash['asset_id'])){
 			return $this->ajax_json('附件不存在或已被删除！', true);
 		}
-		$file_urls = parse_url($this->stash['file_url']);
-		$file_path = preg_replace('/-hu\.jpg/', '', $file_urls['path']);
-		
-		Doggy_Log_Helper::debug("Delete image path：".$file_path);
+        
 		try{
-			$asset = new Sher_Core_Model_Asset();
-			$asset->delete_by_path($file_path);
+            $asset = new Sher_Core_Model_Asset();
+            
+            if(!empty($this->stash['file_url'])){
+        		$file_urls = parse_url($this->stash['file_url']);
+        		$file_path = preg_replace('/-hu\.jpg/', '', $file_urls['path']);
+            
+                Doggy_Log_Helper::debug("Delete image path：".$file_path);
+                
+                $asset->delete_by_path($file_path);
+            }
+            
+            if(!empty($this->stash['asset_id'])){
+                $asset->delete_file($this->stash['asset_id']);
+            }
+			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Delete image path failed：".$e->getMessage());
 			return $this->ajax_json('删除图片失败：'.$e->getMessage(), true);
@@ -126,4 +136,3 @@ class Sher_App_Action_Asset extends Sher_App_Action_Base {
 	}
 	
 }
-?>
