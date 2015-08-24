@@ -99,193 +99,24 @@
     -webkit-animation: swipe 1.5s linear infinite; 
   }
   
+  
+  
+  
   .page-1-1{
-		background:url({{ app_url_packaged }}/images/promo/hy/bg01.jpg);
-		-webkit-animation: 'p1BgAnimation' 4s linear infinite;
-		animation: 'p1BgAnimation' 4s linear infinite;
-    background-repeat: no-repeat;
-	}
-	@-webkit-keyframes p1BgAnimation {
-		0% { background-position: 0 -100px; }
-		50% { background-position: 0 -108px; }
-		100% { background-position: 0 -100px; }
-	}
+    background:url({{ app_url_packaged }}/images/promo/d3in/bg1.jpg) no-repeat center center /cover;
+  }
   .st{
 		position:absolute;
 	}
 	.pt-1{
-	  top:0;
-	  left:0;
-	  width:100%;
-	}
-	.pt-2{
-	  bottom:0;
-	  left:0;
-	  width:100%;
-	  -webkit-animation: 'xing' 3s linear infinite;
-	}
-  @-webkit-keyframes xing {
-		0% { opacity:1; }
-		50% { opacity:0; }
-		100% { opacity:1; }
-	}
-  .xing{
-    transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
-    width:128px;
-    height:24px;
-    opacity:0;
-  }
-  .pt-3{
-    -webkit-animation: 'xxing' 4s linear infinite;
-  }
-  @-webkit-keyframes xxing {
-		0% { left:-176px;top:359px;opacity:1; }
-		100% { left:317px;top:781px;opacity:1; }
-	}
-  .pt-4{
-    -webkit-animation: 'xxing1' 5s linear infinite;
-    -webkit-animation-delay: 1.5s;
-	  animation-delay: 1.5s;
-  }
-  @-webkit-keyframes xxing1 {
-		0% { left:-19px;top:200px;opacity:1; }
-		100% { left:678px;top:828px;opacity:1; }
-	}
-  .pt-5{
-    width:138px;
-    height:26px;
-    -webkit-animation: 'xxing2' 5s linear infinite;
-    -webkit-animation-delay: 2.5s;
-	  animation-delay: 2.5s;
-  }
-  @-webkit-keyframes xxing2 {
-		0% { left:-100px;top:230px;opacity:1; }
-		100% { left:696px;top:954px;opacity:1; }
-	}
-  .pt-0{
-    height:100px;
-    width:100%;
-    left:0;
-    top:0;
-    background:url({{ app_url_packaged }}/images/promo/hy/1t.png) left top /cover;
-		-webkit-animation: 'p1BgAnimation1' 300s linear infinite;
-  }
-  @-webkit-keyframes p1BgAnimation1 {
-		0% { background-position: 0px 0px; }
-		100% { background-position: -10000px 0px; }
-	}
-	.pt-6{
-	  width:100%;
-	  top:12%;
-	  left:0;
-	  -webkit-animation: 30s spin linear infinite;
-		animation: 30s spin linear infinite;
-	}
-	
-	
-	
-	
-	
-	
-	@-webkit-keyframes bounceInLeft{
-	    0%,100%,60%,75%,90%{
-	      -webkit-transition-timing-function:cubic-bezier(0.215,.61,.355,1);
-	      transition-timing-function:cubic-bezier(0.215,.61,.355,1)
-	    }
-	    0%{
-        opacity:0;
-        -webkit-transform:translate3d(-3000px,0,0);
-        transform:translate3d(-3000px,0,0)
-      }
-	    60%{
-        opacity:1;
-        -webkit-transform:translate3d(45px,0,0);
-        transform:translate3d(45px,0,0)
-        }
-        75%{
-          -webkit-transform:translate3d(-20px,0,0);
-          transform:translate3d(-20px,0,0)
-        }
-        90%{
-          -webkit-transform:translate3d(10px,0,0);
-          transform:translate3d(10px,0,0)
-        }
-        100%{
-          -webkit-transform:none;
-          transform:none
-        }
-      }
-	  
-	  
-	  @-webkit-keyframes bounceInRight{
-	    0%,100%,60%,75%,90%{
-	      -webkit-transition-timing-function:cubic-bezier(0.215,.61,.355,1);
-	      transition-timing-function:cubic-bezier(0.215,.61,.355,1)
-	    }
-      0%{
-        opacity:0;
-        -webkit-transform:translate3d(3000px,0,0);
-        transform:translate3d(3000px,0,0)
-      }
-      60%{
-        opacity:1;
-        -webkit-transform:translate3d(-45px,0,0);
-        transform:translate3d(-45px,0,0)
-      }
-      75%{
-        -webkit-transform:translate3d(20px,0,0);
-        transform:translate3d(20px,0,0)
-      }
-      90%{
-        -webkit-transform:translate3d(-10px,0,0);
-        transform:translate3d(-10px,0,0)
-      }
-      100%{
-        -webkit-transform:none;
-        transform:none
-      }
-    }
-	
-  .pt-7{
-    top:33%;
-    width:25%;
-    left:25%;
-    animation-delay:1s;
-		-webkit-animation-delay:1s;
-  }
-  .pt-8{
-    top:33%;
-    width:25%;
-    right:25%;
-    animation-delay:1s;
-		-webkit-animation-delay:1s;
-  }
-  .pages-logo{
-		-webkit-animation: 0.4s scale-to-zero-with-center cubic-bezier(.17, .67, .11, .93) forwards;
-		animation: 0.4s scale-to-zero-with-center cubic-bezier(.17, .67, .11, .93) forwards;
+	  width:46;
+	  top:5%;
+	  left:27%;
+	  opacity:0;
 	}
 	.page-logo{
 		-webkit-animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
 		animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
-	}
-	@-webkit-keyframes scale-to-zero-with-center {
-	    0% {
-	        -webkit-transform: translate3d(0, 0, 0) scale(20);
-	        opacity: 0;
-	    }
-	   /* 30% {
-	        opacity: 0.3;
-	    }
-	    60% {
-	        -webkit-transform: translate3d(0, 0, 0) scale(1);
-	        opacity: 1;
-	    }*/
-			20% 		{opacity:0.3;-webkit-transform:scale(.3)}
-			70% 	{opacity:1;-webkit-transform:scale(1.2)}
-			/*70% 	{-webkit-transform:scale(.9)}*/
-			100% 	{opacity:1;-webkit-transform:scale(1)}
-
 	}
 	@-webkit-keyframes scale-to-zero-with-left {
 	    0% {
@@ -300,40 +131,50 @@
 	        opacity: 1;
 	    }
 	}
-	.pt-9{
-	  width:25%;
-	  top:20%;
-	  left:37.5%;
-	  animation-delay:0.6s;
-		-webkit-animation-delay:0.6s;
-		opacity: 0;
-	}
-	.pt-10{
-	  width:30%;
-	  left:35%;
-	  top:50%;
-	  animation-delay:1.5s;
-		-webkit-animation-delay:1.5s;
-	}
-	.pt-11{
-	  width:62%;
-	  left:19%;
-	  top:70%;
-	  animation-delay:1.6s;
-		-webkit-animation-delay:1.6s;
-		-webkit-animation-duration: 2s;
-    animation-duration: 2s;
-	}
-	.pt-12{
-	  width:78%;
-	  left:11%;
-	  top:78%;
-	  animation-delay:1.6s;
-		-webkit-animation-delay:1.6s;
-		-webkit-animation-duration: 2s;
-    animation-duration: 2s;
-	}
-	
+  .pt-2{
+    width:80%;
+    left:10%;
+    top:40%;
+    opacity:0;
+    -webkit-animation-delay: 0.8s;
+	  animation-delay: 0.8s;
+  }
+  .pt-3{
+    width:68%;
+    left:16%;
+    top:48%;
+    opacity:0;
+    -webkit-animation-delay: 1.2s;
+	  animation-delay: 1.2s;
+  }
+  .pt-4{
+    width:28%;
+    left:36%;
+    top:56%;
+    opacity:0;
+    -webkit-animation-delay: 1.6s;
+	  animation-delay: 1.6s;
+  }
+  .pt-5{
+    width:17%;
+    left:41.5%;
+    top:70%;
+    opacity:0;
+    -webkit-animation-delay: 2.4s;
+	  animation-delay: 2.4s;
+  }
+  .pt2-1{
+    width:46%;
+    left:27%;
+    top:5%;
+    opacity:0;
+  }
+  .pt2-2{
+    width:100%;
+    left:0;
+    top:15%;
+    opacity:0;
+  }
 </style>
 {% endblock %}
 
@@ -506,7 +347,7 @@
 		          this.play();
 
 		          this.on('canplay', function(){
-		            
+
 		          });   
 
 		          this.on('ended', function(){
@@ -524,12 +365,6 @@
 						$(this).addClass("playing");
 					}
 			});*/
-			$('img.icon').click(function(){
-          $('#mask').css('display','');
-      });
-      $('#mask').click(function(){
-          $('#mask').css('display','none');
-      });
 	</script>
 	<script>document.write('<style>#loading{display:none}</style>');</script> 
 
@@ -541,32 +376,19 @@
 <div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="page page-1-1 page-current">
 	<div class="wrap">
-	  <!--<img src="{{ app_url_packaged }}/images/promo/hy/1t.png" class="st pt-1">-->
-	  <div class="st pt-0"></div>
-	  <img src="{{ app_url_packaged }}/images/promo/hy/xingxx.png" class="st pt-2">
-	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
-	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
-	  <img src="{{ app_url_packaged }}/images/promo/hy/xing1.png" class="st xing pt-5">
-	  
-	  <img src="{{ app_url_packaged }}/images/promo/hy/clear.png" class="st pt-6">
-	  <img src="{{ app_url_packaged }}/images/promo/hy/huo.png" class="st pt-7 bounceInLeft animated">
-	  <img src="{{ app_url_packaged }}/images/promo/hy/yan.png" class="st pt-8 bounceInRight animated">
-	  <img src="{{ app_url_packaged }}/images/promo/hy/logo.png" class="st pt-9 page-logo">
-	  <img src="{{ app_url_packaged }}/images/promo/hy/time.png" class="st pt-10 zoomIn animated">
-	  <img src="{{ app_url_packaged }}/images/promo/hy/word1.png" class="st pt-11 zoomInLeft animated">
-	  <img src="{{ app_url_packaged }}/images/promo/hy/word2.png" class="st pt-12 zoomInRight animated">
+	  <img src="{{ app_url_packaged }}/images/promo/d3in/1.png" class="st pt-1 page-logo">
+	  <img src="{{ app_url_packaged }}/images/promo/d3in/2.png" class="st pt-2 page-logo">
+	  <img src="{{ app_url_packaged }}/images/promo/d3in/3.png" class="st pt-3 page-logo">
+	  <img src="{{ app_url_packaged }}/images/promo/d3in/4.png" class="st pt-4 fadeInUpBig animated">
+	  <img src="{{ app_url_packaged }}/images/promo/d3in/5.png" class="st pt-5 page-logo">
 	</div>
 </div>
-
-<div class="page page-2-1 page-hide">
-  <div class="wrap">
-    
-  
-  
-  </div>
+<div class="page page-2-1 hide">
+	<div class="wrap">
+	  <img src="{{ app_url_packaged }}/images/promo/d3in/tit_1.png" class="st pt2-1 page-logo">
+	  <img src="{{ app_url_packaged }}/images/promo/d3in/p2_1.png" class="st pt2-2 fadeInUpBig animated">
+	</div>
 </div>
-
-
 
 
 
