@@ -6,6 +6,16 @@
 {% endblock %}
 {% block js %}
 {% endblock %}
+
+{% block jquery %}
+	$('.datepicker').pickadate();
+	
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+
+{% endblock %}
+
 {% block content %}
 	<h3 class="ui header">用户管理</h3>
 	<div class="ui secondary pointing magenta menu">
@@ -31,15 +41,34 @@
 	    	</div>
 	    </div>
 	</div>
-	<div class="ui nopad grid">
-		<div class="right floated five wide column">
-			<form action="{{ app_url_admin_base }}/user" class="ui form" method="post">
+
+	<div class="ui sub search">
+		<form action="{{ app_url_admin_base }}/user" method="post" class="ui form" id="search-form">
+			<div class="five fields">
+				<div class="field">
+					<div class="ui icon input">
+					  	<input type="text" name="start_date" placeholder="开始时间" value="{{ start_date }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui icon input">
+					  	<input type="text" name="end_date" placeholder="截止时间" value="{{ end_date }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+
 				<div class="field">
 					<input placeholder="Search..." type="text" name="q" />
 				</div>
-			</form>
-		</div>
+
+				<div class="field">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
+			</div>
+		</form>
 	</div>
+
 	
 	{% user_list var:'list' only_ok:only_ok only_pending:only_pending only_blocked:only_blocked page:page start_time:start_time end_time:end_time search_passport:search_passport search_id:search_id only_admin:only_admin only_editor:only_editor only_chief:only_chief only_customer:only_customer quality:quality kind:kind %}
 	<table class="ui small table segment">
