@@ -289,12 +289,15 @@
 			});
       
       var mySwiper1 = new Swiper('.swiper-container',{
+        freeMode : false,
   		  nextButton: '.swiper-button-next',
         prevButton: '.swiper-button-prev',
         slidesPerView: 1,
         paginationClickable: true,
         spaceBetween: 30,
-        loop: true
+        loop: true,
+        touchRatio : 0.5,
+        mousewheelControl : true,
   	  });
   	  
 		/*  	bgm = new Audio5js({
