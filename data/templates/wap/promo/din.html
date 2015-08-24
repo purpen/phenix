@@ -201,7 +201,148 @@
     top:30%;
     opacity:0;
   }
-	
+  .w-2{
+  	text-align:center;
+  	width:100%;
+  }
+	.fp-slides {
+  z-index: 1;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  }
+  .fp-slidesContainer {
+  float: left;
+  position: relative;
+  }
+  .fp-section.fp-table, .fp-slide.fp-table {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  }
+  .fp-slide, .fp-slidesContainer {
+  height: 100%;
+  display: block;
+  }
+  .fp-slide {
+  float: left;
+  }
+
+  .fp-controlArrow.fp-next:before {
+  	font-family: "FontFlatIcons";
+  	font-size: 27px;
+  	line-height: 1;
+  	display: inline-block;
+  	content: '\e0d3';
+  }
+  .fp-controlArrow.fp-next {
+  	right: 0px;
+  	display: inline-block;
+  	opacity: .75;
+  	color: #FFF;
+  	margin: 0 .25em 0 0;
+  	width: 1.23em;
+  	height: 1em;
+  	font-family: FontFlatIcons;
+  	font-style: normal;
+  	line-height: 1;
+  	font-weight: 400;
+  	text-decoration: inherit;
+  	text-align: center;
+  	speak: none;
+  	-webkit-box-sizing: border-box;
+  	-moz-box-sizing: border-box;
+  	-ms-box-sizing: border-box;
+  	box-sizing: border-box;
+  	-webkit-font-smoothing: antialiased;
+  	-moz-font-smoothing: antialiased;
+  	font-smoothing: antialiased;
+  	-moz-osx-font-smoothing: grayscale;
+  }
+  .fp-controlArrow.fp-prev:before{
+  	font-family: "FontFlatIcons";
+  	font-size: 27px;
+  	line-height: 1;
+  	display: inline-block;
+  	content: '\e010';
+  }
+  .fp-controlArrow.fp-prev {
+  	left: 0px;
+  	display: inline-block;
+  	opacity: .75;
+  	color: #FFF;
+  	margin: 0 .25em 0 0;
+  	width: 1.23em;
+  	height: 1em;
+  	font-family: FontFlatIcons;
+  	font-style: normal;
+  	line-height: 1;
+  	font-weight: 400;
+  	text-decoration: inherit;
+  	text-align: center;
+  	speak: none;
+  	-webkit-box-sizing: border-box;
+  	-moz-box-sizing: border-box;
+  	-ms-box-sizing: border-box;
+  	box-sizing: border-box;
+  	-webkit-font-smoothing: antialiased;
+  	-moz-font-smoothing: antialiased;
+  	font-smoothing: antialiased;
+  	-moz-osx-font-smoothing: grayscale;
+  }
+  .fp-controlArrow{
+  	top: 50%;
+  	font-size: 27px;
+  	margin-top: -80px;
+  }
+  .fp-controlArrow {
+  position: absolute;
+  z-index: 4;
+
+  cursor: pointer;
+
+  }
+  @-webkit-keyframes arrowRt {
+  	0%{-webkit-transform:translateX(-40px);opacity:0}
+  	60%{-webkit-transform:translateX(-12px);opacity:1}
+  	100%{-webkit-transform:translateX(-0px);opacity:0}
+  }
+  @-moz-keyframes arrowRt {
+  	0%{-webkit-transform:translateX(-40px);opacity:0}
+  	60%{-webkit-transform:translateX(-12px);opacity:1}
+  	100%{-webkit-transform:translateX(-0px);opacity:0}
+  }
+  @keyframes arrowRt {
+  	0%{-webkit-transform:translateX(-40px);opacity:0}
+  	60%{-webkit-transform:translateX(-12px);opacity:1}
+  	100%{-webkit-transform:translateX(-0px);opacity:0}
+  }
+
+  @-webkit-keyframes arrowUp {
+  	0%{-webkit-transform:translateX(40px);opacity:0}
+  	60%{-webkit-transform:translateX(12px);opacity:1}
+  	100%{-webkit-transform:translateX(0px);opacity:0}
+  }
+  @-moz-keyframes arrowUp {
+  	0%{-webkit-transform:translateX(40px);opacity:0}
+  	60%{-webkit-transform:translateX(12px);opacity:1}
+  	100%{-webkit-transform:translateX(0px);opacity:0}
+  }
+  @keyframes arrowUp {
+  	0%{-webkit-transform:translateX(40px);opacity:0}
+  	60%{-webkit-transform:translateX(12px);opacity:1}
+  	100%{-webkit-transform:translateX(0px);opacity:0}
+  }
+  .section{
+    position:relative;
+  }
+  .slide img{
+    width: 76%;
+    margin-top: 30%;
+    margin-left: 12%;
+  }
 	</style>
 {% endblock %}
 
@@ -282,6 +423,7 @@
 			'css3':true,
 			'loopBottom':true,
 			'loopTop':true,
+			'slidesNavigation': true,
 			afterLoad: function(anchorLink, index){
 						if(index == 1){
 							$('.p1').css('display','block');
@@ -337,8 +479,23 @@
   
   <div class="section">
     <img src="{{ app_url_packaged }}/images/promo/d3in/bg1.jpg" class="bodybg">
-    <img src="{{ app_url_packaged }}/images/promo/d3in/tit_1.png" class="st p3 pt2-1 page-logo" style="display:none">
-	  <img src="{{ app_url_packaged }}/images/promo/d3in/p2_1.png" class="st p3 pt2-2 fadeInUpBig animated" style="display:none">
+    <img src="{{ app_url_packaged }}/images/promo/d3in/tit_2.png" class="st p3 pt2-1 page-logo" style="display:none">
+    
+    <div class="slide">
+        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_1.png" />
+    </div>
+    <div class="slide">
+        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_2.png" />
+    </div>
+    <div class="slide">
+        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_3.png" />
+    </div>
+    <div class="slide">
+        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_4.png" />
+    </div>
+    <div class="slide">
+        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_5.png" />
+    </div>
   </div>
   
   
