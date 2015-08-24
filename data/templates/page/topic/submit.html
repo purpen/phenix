@@ -18,51 +18,6 @@
     #asset-list {
         margin-bottom: 1.5rem;
     }
-    .editor-assets {
-        padding: 7px 7px 0;
-        min-width: 450px;
-        overflow: hidden;
-    }
-    .editor-assets .ui.blocks {
-        height: 240px;
-    }
-    .editor-assets .ui.blocks > .block {
-        background-color: rgb(212, 212, 213);
-    }
-    .editor-assets .ui.blocks > .block > .image {
-        cursor: pointer;
-        position: relative;
-    }
-    .editor-assets .ui.blocks > .block > .image > img {
-        width: 100%;
-    }
-    .editor-assets .ui.blocks > .block > .image > .cover {
-        background-color: rgba(0, 0, 0, 0.6);
-        bottom: 0;
-        border-radius: 0.285714rem !important;
-        color: rgb(255, 255, 255);
-        cursor: pointer;
-        font-size: 22px;
-        left: 0;
-        padding: 10px 5px;
-        position: absolute;
-        right: 0;
-        text-align: right;
-        top: 0;
-    }
-    .qq-upload-list li {
-        border-radius: 4px;
-        font-size: 14px;
-    }
-    .select-result {
-        padding: 0 7px 10px;
-        position: relative;
-    }
-    .select-result .ui.remove.button {
-        position: absolute;
-        right: 10px;
-        top: 0px;
-    }
 </style>
 {% endblock %}
 
@@ -87,7 +42,7 @@
 	
 	$('#editor').editable({
 		inlineMode: false,
-    language: "zh_cn",
+        language: "zh_cn",
 		toolbarFixed: false,
         theme: 'gray',
 		language: 'zh_cn',
@@ -119,10 +74,6 @@
 		$('#file_count').val(file_count);
 		
 		file_count++;
-        
-		// 重置参数
-		$('#editor').editable("option", "imageUploadParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' });
-        
     }).on('editable.imageError', function (e, editor, error) {
 		if (error.code == 5){
 			error.message = '图片太大，请选择小于5M！';
@@ -177,7 +128,6 @@
 	
 	// 上传图片
 	$('#phenix-uploader').fineUploader({
-		debug: true,
       	request: {
 			inputName:'file',
 			params: {'token': '{{ token }}','x:pid': '{{ new_file_id }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ new_file_id }}' },
@@ -208,7 +158,6 @@
 
 	//上传附件
 	$('#phenix-file-uploader').fineUploader({
-		debug: true,
       	request: {
 			inputName:'file',
 			params: {'token': '{{ file_token }}','x:pid': '{{ file_pid }}', 'x:domain': '{{ file_domain }}', 'x:ord': ford, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ file_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ file_pid }}' },
