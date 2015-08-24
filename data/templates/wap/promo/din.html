@@ -437,10 +437,10 @@
 
   function hengshuping() {
           if (window.orientation == 90 || window.orientation == -90) {
-             $('#mfrbird').hide();
+             $('.shuping').hide();
              $('.hengping').css('display','block');
           } else {
-             $('#mfrbird').show();
+             $('.shuping').show();
              $('.hengping').css('display','none');
           }
       }
@@ -497,71 +497,70 @@
 
 
 {% endblock %}
+{% block content %}
 <div class="hengping" style="background:#000;color:#fff;font-size:16px;height:100%;width:100%;display:none;text-align: center;padding-top: 140px;">
   为了更好的用户体验，请竖屏浏览
 </div>
-{% block content %}
-<div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>  
-<div class="wrap">
-  <div class="section">
-    <img src="{{ app_url_packaged }}/images/promo/d3in/bg1.jpg" class="bodybg">
-    <img src="{{ app_url_packaged }}/images/promo/d3in/1.png" class="st p1 pt-1 page-logo">
-	  <img src="{{ app_url_packaged }}/images/promo/d3in/2.png" class="st p1 pt-2 page-logo">
-	  <img src="{{ app_url_packaged }}/images/promo/d3in/3.png" class="st p1 pt-3 page-logo">
-	  <img src="{{ app_url_packaged }}/images/promo/d3in/4.png" class="st p1 pt-4 fadeInUpBig animated">
-	  <img src="{{ app_url_packaged }}/images/promo/d3in/5.png" class="st p1 pt-5 page-logo">
-  </div>
+<div class="shuping">
+  <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>  
+  <div class="wrap">
+    <div class="section">
+      <img src="{{ app_url_packaged }}/images/promo/d3in/bg1.jpg" class="bodybg">
+      <img src="{{ app_url_packaged }}/images/promo/d3in/1.png" class="st p1 pt-1 page-logo">
+  	  <img src="{{ app_url_packaged }}/images/promo/d3in/2.png" class="st p1 pt-2 page-logo">
+  	  <img src="{{ app_url_packaged }}/images/promo/d3in/3.png" class="st p1 pt-3 page-logo">
+  	  <img src="{{ app_url_packaged }}/images/promo/d3in/4.png" class="st p1 pt-4 fadeInUpBig animated">
+  	  <img src="{{ app_url_packaged }}/images/promo/d3in/5.png" class="st p1 pt-5 page-logo">
+    </div>
   
-  <div class="section">
-    <img src="{{ app_url_packaged }}/images/promo/d3in/bg1.jpg" class="bodybg">
-    <img src="{{ app_url_packaged }}/images/promo/d3in/tit_1.png" class="st p2 pt2-1 page-logo" style="display:none">
-	  <img src="{{ app_url_packaged }}/images/promo/d3in/p2_1.png" class="st p2 pt2-2 fadeInUpBig animated" style="display:none">
-  </div>
+    <div class="section">
+      <img src="{{ app_url_packaged }}/images/promo/d3in/bg1.jpg" class="bodybg">
+      <img src="{{ app_url_packaged }}/images/promo/d3in/tit_1.png" class="st p2 pt2-1 page-logo" style="display:none">
+  	  <img src="{{ app_url_packaged }}/images/promo/d3in/p2_1.png" class="st p2 pt2-2 fadeInUpBig animated" style="display:none">
+    </div>
   
-  <div class="section">
-    <img src="{{ app_url_packaged }}/images/promo/d3in/bg1.jpg" class="bodybg">
-    <img src="{{ app_url_packaged }}/images/promo/d3in/tit_2.png" class="st p3 pt2-1 page-logo" style="display:none">
+    <div class="section">
+      <img src="{{ app_url_packaged }}/images/promo/d3in/bg1.jpg" class="bodybg">
+      <img src="{{ app_url_packaged }}/images/promo/d3in/tit_2.png" class="st p3 pt2-1 page-logo" style="display:none">
     
-    <div class="slide">
-        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_1.png" class="p3 fadeInUp animated" style="display:none"/>
-    </div>
-    <div class="slide">
-        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_2.png" class="p3 fadeInUp animated" style="display:none" />
-    </div>
-    <div class="slide">
-        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_3.png" class="p3 fadeInUp animated" style="display:none"/>
-    </div>
-    <div class="slide">
-        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_4.png" class="p3 fadeInUp animated" style="display:none"/>
-    </div>
-    <div class="slide">
-        <img src="{{ app_url_packaged }}/images/promo/d3in/p3_5.png" class="p3 fadeInUp animated" style="display:none"/>
-    </div>
-  </div>
-  
-  <div class="section">
-    <img src="{{ app_url_packaged }}/images/promo/d3in/bg1.jpg" class="bodybg">
-    <img src="{{ app_url_packaged }}/images/promo/d3in/tit_3.png" class="st p4 pt2-1 page-logo" style="display:none">
-    <img src="{{ app_url_packaged }}/images/promo/d3in/p4_1.png" class="st p4 pt2-2 fadeInUpBig animated" style="display:none">
-    <img src="{{ app_url_packaged }}/images/promo/d3in/5.png" class="st p4 pt-5 page-logo" style="display:none">
-  </div>
-  
-  <div class="section">
-    <img src="{{ app_url_packaged }}/images/promo/d3in/bg1.jpg" class="bodybg">
-    <img src="{{ app_url_packaged }}/images/promo/d3in/tit_4.png" class="st p5 pt2-1 page-logo" style="display:none">
-    <div class="ui responsive p5 grid fadeInUpBig animated" style="position: relative;margin-top: 50%;top: 50%;z-index:3;display:none;">
-      <div class="row">
-        <div class="ui center aligned column">
-          <a class="ui magenta inverted active button">立即报名</a>
-        </div>
+      <div class="slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3in/p3_1.png" class="p3 fadeInUp animated" style="display:none"/>
+      </div>
+      <div class="slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3in/p3_2.png" class="p3 fadeInUp animated" style="display:none" />
+      </div>
+      <div class="slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3in/p3_3.png" class="p3 fadeInUp animated" style="display:none"/>
+      </div>
+      <div class="slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3in/p3_4.png" class="p3 fadeInUp animated" style="display:none"/>
+      </div>
+      <div class="slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3in/p3_5.png" class="p3 fadeInUp animated" style="display:none"/>
       </div>
     </div>
-    <img src="{{ app_url_packaged }}/images/promo/d3in/5.png" class="st p5 pt-5 page-logo" style="display:none">
+  
+    <div class="section">
+      <img src="{{ app_url_packaged }}/images/promo/d3in/bg1.jpg" class="bodybg">
+      <img src="{{ app_url_packaged }}/images/promo/d3in/tit_3.png" class="st p4 pt2-1 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/d3in/p4_1.png" class="st p4 pt2-2 fadeInUpBig animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/d3in/5.png" class="st p4 pt-5 page-logo" style="display:none">
+    </div>
+  
+    <div class="section">
+      <img src="{{ app_url_packaged }}/images/promo/d3in/bg1.jpg" class="bodybg">
+      <img src="{{ app_url_packaged }}/images/promo/d3in/tit_4.png" class="st p5 pt2-1 page-logo" style="display:none">
+      <div class="ui responsive p5 grid fadeInUpBig animated" style="position: absolute;top: 50%;left: 50%;z-index:3;margin-left:-60px;display:none;">
+        <div class="row">
+          <div class="ui center aligned column">
+            <a class="ui magenta inverted active button">立即报名</a>
+          </div>
+        </div>
+      </div>
+      <img src="{{ app_url_packaged }}/images/promo/d3in/5.png" class="st p5 pt-5 page-logo" style="display:none">
+    </div>
+  
   </div>
-  
-  
-  
-  
 </div>
 
 
