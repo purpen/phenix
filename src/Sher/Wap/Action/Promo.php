@@ -31,7 +31,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	    $this->stash['wxSha1'] = sha1($wxOri);
 
       $active_id = 12024;
-      $active_id = 4;
+      //$active_id = 4;
       $active_model = new Sher_Core_Model_Active();
       $active = $active_model->load($active_id);
 
