@@ -56,8 +56,8 @@
     			<div class="column">
     				<div class="container">
                         <img src="{{ user.big_avatar_url }}" class="ui big avatar image" />
-                        {% if user.kind==1 %}
-												<img src="{{ app_url_packaged }}/images/V.png" class="image-UV">
+                        {% if user.symbol %}
+												<img src="{{ app_url_packaged }}/images/V.png" class="image-UV{%if user.symbol==2%} blue{%endif%}">
                         {%endif%}
 												
                     	<h2 class="ui header">
