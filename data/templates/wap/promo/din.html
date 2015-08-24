@@ -430,7 +430,7 @@
   //记录分享数
   function record_share_num(){
     var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
-    $.get(url, { target_id: 2, count_name:'count', type: 4, kind:4 });
+    $.get(url, { target_id: 5, count_name:'count', type: 4, kind:4 });
   }
 
   window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
@@ -492,7 +492,66 @@
 {% endblock %}
 {% block jquery %}
 
+	$('#user-info-form').livequery(function(){
+		$(this).form({
+			realname: {
+				identifier  : 'realname',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'phone',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '电话不能为空'
+					}
+				]
+			},
+			address: {
+				identifier  : 'address',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '地址不能为空'
+					}
+				]
+			},
+			job: {
+				identifier  : 'job',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '职位不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+				$(this).ajaxSubmit();
+			}
+		});
+	});
 
+  //报名按钮
+	$('.ui.attend.button').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+		  phenix.redirect("{{ app_url_wap }}/auth/login");
+			return false;
+		}
+    $('.ui.user-info-box.modal')
+    .modal('setting', 'transition', 'vertical  flip')
+    .modal('show');
+    return false; 
+
+	});
 
 
 {% endblock %}
@@ -556,7 +615,7 @@
       <div class="ui responsive p5 grid fadeInUpBig animated" style="position: absolute;top: 50%;left: 50%;z-index:3;margin-left:-60px;display:none;">
         <div class="row">
           <div class="ui center aligned column">
-            <a class="ui magenta inverted active button">立即报名</a>
+            <a class="ui magenta inverted active attend button">立即报名</a>
           </div>
         </div>
       </div>
@@ -572,7 +631,7 @@
   
   
   
-  
+  {% include "block/wap_attend_user_info.html" %}
 {% endblock %}  
   
   
