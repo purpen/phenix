@@ -165,7 +165,7 @@
                         <div class="card">
                             <div class="speblock">
                                 <div class="ribbons">
-                                    <span class="ribbon going">进行中</span>
+                                  <span class="ribbon going">{{ contest.step_label }}</span>
                                 </div>
                                 <a title="{{ contest.title }}"  href="{{ contest.view_url }}" style="background-image: url({{ contest.cover.fileurl }});" class="thumb spethumb" target="_blank">
                                     <div class="shadow"></div>
