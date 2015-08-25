@@ -89,6 +89,9 @@
 			<tr>
 				<th></th>
 				<th>用户</th>
+        {% if user_kind==1 %}
+          <th>鸟人</th>
+        {%endif%}
 				<th>天/积/鸟</th>
 				<th>周/积/鸟</th>
 				<th>月/积/鸟</th>
@@ -120,6 +123,36 @@
 					  	{{ b.user.nickname }}
 					</a>
 				</td>
+        {% if b.user_kind==1 %}
+          <td>
+            {% if user.identify_info.position==1 %}
+              产品开发
+            {%endif%}
+            {% if user.identify_info.position==2 %}
+              渠道
+            {%endif%}
+            {% if user.identify_info.position==3 %}
+              市场
+            {%endif%}
+            {% if user.identify_info.position==4 %}
+              电商
+            {%endif%}
+            {% if user.identify_info.position==5 %}
+              社区
+            {%endif%}
+            {% if user.identify_info.position==6 %}
+              支持
+            {%endif%}
+            {% if user.identify_info.position==7 %}
+              深圳
+            {%endif%}
+            {% if user.identify_info.position==8 %}
+              其它
+            {%endif%}
+             - 
+            {{ user.identify_info.user_name }}
+          </td>
+        {%endif%}
 				<td>
           {{ b.day }}|{{ b.day_point_cnt }}/{{ b.day_money_cnt }}
 				</td>
