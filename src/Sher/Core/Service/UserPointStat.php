@@ -9,6 +9,8 @@ class Sher_Core_Service_UserPointStat extends Sher_Core_Service_Base {
         'latest' => array('created_on' => -1),
         'sort_point' => array('total_point' => -1),
         'sort_money' => array('total_money' => -1),
+        'day_point' => array('day_point_cnt' => -1),
+        'day_money' => array('day_money_cnt' => -1),
         'week_point' => array('week_point_cnt' => -1),
         'week_money' => array('week_money_cnt' => -1),
         'month_point' => array('month_point_cnt' => -1),
