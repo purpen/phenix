@@ -49,6 +49,7 @@
 
 	<div class="ui sub search">
 		<form action="{{ app_url_admin_base }}/user_stat" method="get" class="ui form" id="search-form">
+      <input type="hidden" name="user_kind" value="{{ user_kind }}" />
 			<div class="five fields">
 				<div class="field">
 					<input type="text" name="month" placeholder="月份: 201505" value="{{ month }}" />

@@ -3,6 +3,20 @@
 {% endblock %}
 {% block js %}
 {% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript">
+    function change_kind_func(kind){
+      if(kind==1){
+        $('#bird-box').show();
+      }else{
+        $('#bird-box').hide();     
+      }
+    
+    }
+  </script>
+{% endblock %}
+
 {% block jquery %}
 	$('.ui.submit.button.search').click(function(){
 		$('#search-form').submit();
@@ -40,6 +54,17 @@
 	});
 
 	$('.datepicker').pickadate();
+
+  // 操作用户类型
+  $('#select-kind').change(function(){
+    var kind_id = $('input[name=kind]').val();
+    change_kind_func(kind_id);
+    
+  });
+
+  var kind_id = $('input[name=kind]').val();
+  change_kind_func(kind_id);
+
 {% endblock %}
 {% block content %}
 	<h3 class="ui header">用户管理</h3>
@@ -96,7 +121,7 @@
 			<input type="hidden" name="_id" value="{{ user._id }}" id="target_id" />
 			
 			<div class="inline field">
-				<label for="pid">专家身份：</label>
+				<label for="mentor">专家身份：</label>
 				<div class="ui selection dropdown">
 					<input type="hidden" name="mentor" value="{{ user.mentor }}" />
 				    <div class="default text">请选择</div>
@@ -110,7 +135,7 @@
 			</div>
 
 			<div class="inline field">
-				<label for="pid">用户认证：</label>
+				<label for="symbol">用户认证：</label>
 				<div class="ui selection dropdown">
 					<input type="hidden" name="symbol" value="{{ user.symbol }}" />
 				    <div class="default text">请选择</div>
@@ -124,8 +149,8 @@
 			</div>
 
 			<div class="inline field">
-				<label for="pid">用户类型：</label>
-				<div class="ui selection dropdown">
+				<label for="kind">用户类型：</label>
+				<div class="ui selection dropdown" id="select-kind">
 					<input type="hidden" name="kind" value="{{ user.kind }}" />
 				    <div class="default text">请选择</div>
 				    <i class="angle down icon"></i>
@@ -134,6 +159,25 @@
 						<div data-value="{{ kind.id }}" class="{% if kind.id == user.kind %}active {% endif %}item">{{ kind.name }}</div>
             {% endfor %}
 				    </div>
+				</div>
+			</div>
+
+			<div class="four fields" id="bird-box">
+          <label for="">鸟人信息：</label>
+				<div class="field">
+					<div class="ui fluid selection dropdown">
+            <input type="hidden" name="identify_info.position" value="{{ user.identify_info.position }}" />
+					    <div class="default text">职位</div>
+					    <div class="menu">
+							<div data-value="1" class="{% if user.identify_info.position==1 %}active {% endif %}item">aaa</div>
+							<div data-value="2" class="{% if user.identify_info.position==2 %}active {% endif %}item">鸟币</div>
+							<div data-value="3" class="{% if user.identify_info.position==3 %}active {% endif %}item">aaa</div>
+							<div data-value="4" class="{% if user.identify_info.position==4 %}active {% endif %}item">鸟币</div>
+					    </div>
+					</div>
+				</div>
+				<div class="field">
+					<input type="text" name="identify_info.user_name" placeholder="姓名" value="{{ identify_info.user_name }}" />
 				</div>
 			</div>
 			
