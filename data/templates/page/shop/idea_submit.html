@@ -33,57 +33,49 @@
 	var ord = function(){
 		return file_count++;
 	};
-	
+
 	$('#editor').editable({
 		inlineMode: false,
+    language: "zh_cn",
 		toolbarFixed: false,
-        theme: 'gray',
+    theme: 'gray',
 		language: 'zh_cn',
 		borderColor: '#999',
 		editorClass: 'frbird',
-		minHeight: 300,
+		minHeight: 450,
 		plainPaste: true,
 		alwaysBlank: true,
 		typingTimer: 5000,
 		imageMargin: '20px',
 		{% if mode == 'edit' %}
-		defaultImageAlt: '{{ product.title }}',
+		defaultImageTitle: '{{ product.title }}',
 		{% else %}
-		defaultImageAlt: '太火鸟',
+		defaultImageTitle: '太火鸟',
 		{% endif %}
-		buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
-		imageUploadURL: "{{ app_url_upload_pictures }}",
-		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ product._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
+		buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "multiUpload", "insertVideo", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html", "fullscreen"],
+		imageUploadURL: "{{ app_url_upload_feditor }}",
+		imageUploadParams: {'token': '{{ token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ product._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
 		defaultImageWidth: '',
 		maxImageSize: 1024 * 1024 * 5, // 5M
 		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
+        
+        assetType: {{ editor_asset_type|default 55 }},
+        assetDomain: '{{ editor_domain|default 'product' }}',
+        parent_id: {{ product._id|default 0 }},
+        fetchUploadURL: '{{ app_url_action_base }}/uploader/fetch_upload_assets',
 	}).on('editable.imageInserted',  function (e, editor, imageURL) {
 		// 记录插入图片数
 		$('#file_count').val(file_count);
 		
 		file_count++;
-		
-		// 重置参数
-		$('#editor').editable("option", "imageUploadParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ product._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' });
-        
-    }).on('editable.afterRemoveImage', function (e, editor, $img) {
-        // Set the image source to the image delete params.
-        this.options.imageDeleteParams = {file_url: $img.attr('src')};
-        
-        // Make the delete request.
-        this.deleteImage($img);
     }).on('editable.imageError', function (e, editor, error) {
       if (error.code == 5){
         error.message = '图片太大，请选择小于5M！';
       }
-
-      file_count++;
-      
-      // 重置参数
-      $('#editor').editable("option", "imageUploadParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ product._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' });
-
       phenix.show_error_note(error.message, 5000);
     });
+
+
 	
 	$('#product-form').form({
 		title: {
