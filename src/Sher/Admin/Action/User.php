@@ -196,6 +196,8 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
     $mentor = isset($this->stash['mentor'])?(int)$this->stash['mentor']:0;
     $kind = isset($this->stash['kind'])?(int)$this->stash['kind']:0;
     $symbol = isset($this->stash['symbol'])?(int)$this->stash['symbol']:0;
+    $identify_info_position = isset($this->stash['identify_info_position'])?(int)$this->stash['identify_info_position']:0;
+    $identify_info_user_name = isset($this->stash['identify_info_user_name'])?$this->stash['identify_info_user_name']:null;
 		// 验证是否有某人
 		$user = $model->load($user_id);
 		if(empty($user)){
@@ -206,6 +208,9 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 			$model->update_mentor($user_id, $mentor);
 			$model->update_kind($user_id, $kind);
 			$model->update_symbol($user_id, $symbol);
+      if(!empty($identify_info_position) || !empty($identify_info_user_name)){
+        $model->update_set($user_id, array('identify_info.position'=>$identify_info_position, 'identify_info.user_name'=>$identify_info_user_name)); 
+      }
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_notification('Update failed: '.$e->getMessage(), true);
 		}
