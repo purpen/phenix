@@ -125,32 +125,32 @@
 				</td>
         {% if b.user_kind==1 %}
           <td>
-            {% if user.identify_info.position==1 %}
+            {% if b.user.identify_info.position==1 %}
               产品开发
             {%endif%}
-            {% if user.identify_info.position==2 %}
+            {% if b.user.identify_info.position==2 %}
               渠道
             {%endif%}
-            {% if user.identify_info.position==3 %}
+            {% if b.user.identify_info.position==3 %}
               市场
             {%endif%}
-            {% if user.identify_info.position==4 %}
+            {% if b.user.identify_info.position==4 %}
               电商
             {%endif%}
-            {% if user.identify_info.position==5 %}
+            {% if b.user.identify_info.position==5 %}
               社区
             {%endif%}
-            {% if user.identify_info.position==6 %}
+            {% if b.user.identify_info.position==6 %}
               支持
             {%endif%}
-            {% if user.identify_info.position==7 %}
+            {% if b.user.identify_info.position==7 %}
               深圳
             {%endif%}
-            {% if user.identify_info.position==8 %}
+            {% if b.user.identify_info.position==8 %}
               其它
             {%endif%}
              - 
-            {{ user.identify_info.user_name }}
+            {{ b.user.identify_info.user_name }}
           </td>
         {%endif%}
 				<td>
