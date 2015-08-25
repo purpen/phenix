@@ -947,7 +947,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			
 			// 保存成功后，更新编辑器图片
 			Doggy_Log_Helper::debug("Upload file count[$file_count].");
-			if($file_count && !empty($this->stash['file_id'])){
+			if(!empty($this->stash['file_id'])){
 				$model->update_editor_asset($id, $this->stash['file_id']);
 			}
             
