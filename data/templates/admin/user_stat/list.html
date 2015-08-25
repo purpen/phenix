@@ -12,8 +12,11 @@
 	<h3 class="ui header">用户积分统计</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/user_stat" class="{{ css_all }} item">
+		<a href="{{ app_url_admin_base }}/user_stat" class="item{% if user_kind==0 %} active{%endif%}">
 			全部
+		</a>
+    <a href="{{ app_url_admin_base }}/user_stat?user_kind=1" class="item{% if user_kind==1 %} active{%endif%}">
+			鸟人
 		</a>
 
     <!--
@@ -94,7 +97,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% user_point_stat_list var:'list' sort:s week:week month:month day:day user_id:user_id kind:1 state:1 page:page size:50 %}
+			{% user_point_stat_list var:'list' sort:s week:week month:month day:day user_id:user_id user_kind:user_kind kind:1 state:1 page:page size:50 %}
 			
 			{% for b in list.rows %}
 			<tr id="{{ b._id }}">

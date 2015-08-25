@@ -27,6 +27,7 @@ class Sher_Core_ViewTag_UserPointStatList extends Doggy_Dt_Tag {
       $kind = 0;
       $state = 0;
       $sort = 0;
+      $user_kind = 0;
 
 		
         $var = 'list';
@@ -69,6 +70,9 @@ class Sher_Core_ViewTag_UserPointStatList extends Doggy_Dt_Tag {
       }
       if($user_id){
         $query['user_id'] = (int)$user_id;
+      }
+      if($user_kind){
+        $query['user_kind'] = (int)$user_kind;
       }
 
       if($sort){
