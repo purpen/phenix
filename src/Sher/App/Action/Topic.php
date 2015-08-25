@@ -92,6 +92,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         $service = Sher_Core_Service_Topic::instance();
         
         $query = array();
+        $query['published'] = 1;
         $options['page'] = $page;
         $options['size'] = 15;
 		    $options['sort_field'] = 'latest';
