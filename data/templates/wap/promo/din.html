@@ -504,6 +504,33 @@
 			}
 	  });
   
+    bgm = new Audio5js({
+	      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
+	      ready: function () {
+	          this.load('http://frstatic.qiniudn.com/wechat/js/See You Again.mp3');
+	          this.play();
+
+	          this.on('canplay', function(){
+	              //console.log('canplay');
+	          });   
+
+	          this.on('ended', function(){
+	              bgm.play();
+	          })           
+	      }
+	  });
+
+	 $('#music-control').click(function(){
+		    bgm.playPause();
+				if($(this).hasClass("playing")){
+					$(this).removeClass("playing");
+					//$('#music-control > img').attr("src","http://frstatic.qiniudn.com/images/music.png"); //关闭
+				}
+				else{
+					$(this).addClass("playing");
+					//$('#music-control > img').attr("src","http://frstatic.qiniudn.com/images/music.png"); //打开
+				}
+		});
   </script>
 	<script>document.write('<style>#loading{display:none}</style>');</script>
 
@@ -578,11 +605,13 @@
 
 {% endblock %}
 {% block content %}
+<img src="http://frstatic.qiniudn.com/images/promo/d3in/share.jpg" style="display:none;">
 <div class="hengping" style="background:#000;color:#fff;font-size:16px;height:100%;width:100%;display:none;text-align: center;padding-top:140px;position:absolute;">
   为了更好的用户体验，请竖屏浏览
 </div>
 <div class="shuping">
-  <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>  
+  <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
+  <div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>  
   <div class="wrap">
     <div class="section">
       <img src="{{ app_url_packaged }}/images/promo/d3in/bg1.jpg" class="bodybg">
