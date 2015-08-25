@@ -312,7 +312,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     # 用户其它标识说明
     'identify_info' => array(
       'position' => 0,
-      'real_name' => null,
+      'user_name' => null,
     ),
 		# 来源站点
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
