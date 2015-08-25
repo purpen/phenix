@@ -559,12 +559,13 @@
 	});
 
   //报名按钮
-	$('.ui.attend.button').click(function(){
+	$('.ui.attend.button').click(function(e){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
 		  phenix.redirect("{{ app_url_wap }}/auth/login");
 			return false;
 		}
+		e.preventDefault();
     $('.ui.user-info-box.modal')
     .modal('setting', 'transition', 'vertical  flip')
     .modal('show');
@@ -634,13 +635,13 @@
     <div class="section">
       <img src="{{ app_url_packaged }}/images/promo/d3in/bg1.jpg" class="bodybg">
       <img src="{{ app_url_packaged }}/images/promo/d3in/tit_4.png" class="st p5 pt2-1 page-logo" style="display:none">
-      <div class="ui responsive p5 grid fadeInUpBig animated" style="position: absolute;top: 50%;left: 50%;z-index:3;margin-left:-60px;display:none;">
+      <div class="ui responsive p5 grid fadeInUpBig animated" style="position: absolute;top: 50%;left: 50%;z-index:3;margin-left:-70px;width:140px;display:none;">
         <div class="row">
           <div class="ui center aligned column attend-box">
           {% if is_attend %}
-            <a class="ui black inverted  active button" style="width:120px;">已报名</a>
+            <a class="ui black inverted  active button">已报名</a>
           {%else%}
-            <a class="ui magenta inverted active attend button" style="width:120px;">立即报名</a>
+            <a class="ui magenta inverted active attend button">立即报名</a>
           {%endif%}
           </div>
         </div>
