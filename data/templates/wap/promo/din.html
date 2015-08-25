@@ -565,12 +565,11 @@
 		  phenix.redirect("{{ app_url_wap }}/auth/login");
 			return false;
 		}
-		e.preventDefault();
     $('.ui.user-info-box.modal')
+    .modal('setting', 'closable', false)
     .modal('setting', 'transition', 'vertical  flip')
     .modal('show');
     return false; 
-
 	});
 	$('.ui.deny.button').click(function(){
 		$('.ui.user-info-box.modal').modal('hide');
