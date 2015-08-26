@@ -39,7 +39,7 @@ class Sher_Core_Model_Timeline extends Sher_Core_Model_Base  {
                 $row['label'] = '赞过';
                 break;
         	case Sher_Core_Util_Constant::EVT_FOLLOW:
-                $row['label'] = '被关注了';
+                $row['label'] = '被TA关注了';
                 break;
         	case Sher_Core_Util_Constant::EVT_FOLLOWING:
                 $row['label'] = '关注了';
