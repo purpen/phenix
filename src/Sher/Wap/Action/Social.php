@@ -382,6 +382,13 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
         foreach($xun_arr['data'] as $k=>$v){
           $topic = $topic_mode->extend_load((int)$v['oid']);
           if(!empty($topic)){
+            // 过滤用户表
+            if(isset($topic['user'])){
+              $topic['user'] = Sher_Core_Helper_FilterFields::user_list($topic['user']);
+            }
+            if(isset($topic['last_user'])){
+              $topic['last_user'] = Sher_Core_Helper_FilterFields::user_list($topic['last_user']);
+            }
             array_push($items, array('topic'=>$topic));
           }
         }
