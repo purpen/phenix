@@ -1,0 +1,109 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+    .categorybox {
+        background-color: #fff;
+    }
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript" >
+    function ajax_load_more(child_id, type, sort, page, size){
+        var url = '{{ app_url_shop }}/ajax_load_list';
+        $.get(url, { category_id:child_id, sort:sort, page:page, type:type, size:size }, function(rs){
+            // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
+            if(rs.data.results.total_page > rs.data.results.current_page){
+                $('#product-more')
+                    .hide()
+                    .attr({'status': 0, 'p': rs.data.results.current_page});
+            }else{
+                $('#product-more').html('没有更多');
+            }
+            var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
+            $('.item-box').append(rendered);
+        }, 'json');
+    }
+</script>
+{% endblock %}
+
+{% block jquery %}
+	$('.ui.cart.button').click(function(){
+		$.get($(this).attr('href'));
+		return false;
+	});
+
+  //预售结束时间
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('%-D'));
+		});
+	});
+
+    // ajax加载更多(滚动条接近底部加载)
+    $(window).scroll(function(){
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        if(scrollTop + windowHeight > scrollHeight-150){
+            var stat = $('#product-more').attr('status');
+            var page = parseInt($('#product-more').attr('p')) + 1;
+            var cate_id = $('#product-more').attr('c');
+            var type = $('#product-more').attr('t');
+            var sort = $('#product-more').attr('s');
+
+
+            // 防止频繁请求(在没加载完成时只允许请求一次)
+            if(stat == 0){
+                $('#product-more').show();
+                $('#product-more').attr('status', 1);
+                ajax_load_more(cate_id, type, sort, page, 12);
+            }
+        }
+    });
+
+    // ajax加载商品列表
+    ajax_load_more('{{category_id}}', '{{type}}', '{{sort}}', 1, 12);
+{% endblock %}
+
+{% block content %}
+<div class="category image {{ current_category.name }}" >
+	<h1>
+		{{ current_category.title|default '全部专辑' }}
+        
+        <div class="desc" style="margin-top: 20px">
+            <p>{{ current_category.summary|default '我们用心挑选数以万计的创意产品，为你每次的一见钟情' }}</p>
+        </div>
+        
+        {% if visitor.can_edit %}
+        <a href="{{ app_url_domain }}/albums/add" class="ui large inverted button" target="_blank">
+            <i class="edit icon"></i> 新增专辑
+        </a>
+        {%endif%}
+	</h1>
+    <div class="cover"></div>
+</div>
+
+<div class="shop list" id="shoplist" style="border: dashed 2px green">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui four products cards item-box">
+                    <!--ajax load list-->
+                </div>
+            </div>
+
+            <div id="product-more" c="{{ category_id }}" t="{{ type }}" s="{{ sort }}" p="{{ page }}" status="0" style="text-align:center;margin:10px auto;display:none;">
+                <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
+                加载中...
+            </div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'fetch_more_products_tpl' tpl:'mustache/fetch_more_products.mustache' %}
+{% endblock %}
