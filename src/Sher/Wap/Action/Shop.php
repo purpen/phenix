@@ -1315,6 +1315,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         foreach($xun_arr['data'] as $k=>$v){
           $product = $product_mode->extend_load((int)$v['oid']);
           if(!empty($product)){
+            // 过滤用户表
+            if(isset($product['user'])){
+              $product['user'] = Sher_Core_Helper_FilterFields::user_list($product['user']);
+            }
             array_push($items, array('product'=>$product));
           }
         }
@@ -1339,7 +1343,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
   /**
    * ajax加载商品列表
    */
-  public function ajax_load_list(){        
+  public function ajax_load_list(){    
         $category_id = $this->stash['category_id'];
         $presaled = isset($this->stash['presaled'])?$this->stash['presaled']:0;
         $type = $this->stash['type'];
@@ -1414,12 +1418,40 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         
         $options['page'] = $page;
         $options['size'] = $size;
+
+        //限制输出字段
+        $some_fields = array(
+          '_id'=>1, 'title'=>1, 'short_title'=>1, 'snatched'=>1, 'featured'=>1,
+          'stage'=>1, 'stick'=>1, 'category_id'=>1, 'created_on'=>1, 'asset_count'=>1, 'vote_favor_count'=>1,
+          'advantage'=>1, 'sale_price'=>1, 'cover_id'=>1, 'comment_count'=>1, 'view_count'=>1,
+          'updated_on'=>1, 'favorite_count'=>1, 'love_count'=>1, 'deleted'=>1,'presale_money'=>1, 'tags'=>1,
+          'vote_oppose_count'=>1, 'summary'=>1, 'voted_finish_time'=>1, 'succeed'=>1, 'presale_finish_time'=>1,
+          'sale_count'=>1,
+        );
+        $options['some_fields'] = $some_fields;
         
         $result = $service->get_product_list($query, $options);
+
+        $max = count($result['rows']);
+        for($i=0;$i<$max;$i++){
+          // 过滤用户表
+          if(isset($result['rows'][$i]['user'])){
+            $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
+          }
+
+        } //end for
+
+        $data = array();
+
+        $data['type'] = $type;
+        $data['page'] = $page;
+        $data['sort'] = $sort;
+        $data['size'] = $size;
+        $data['presaled'] = $presaled;
+        $data['category_id'] = $category_id;
+        $data['results'] = $result;
         
-        $this->stash['results'] = $result;
-        
-        return $this->ajax_json('', false, '', $this->stash);
+        return $this->ajax_json('', false, '', $data);
   }
 	
 }

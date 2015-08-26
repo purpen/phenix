@@ -371,7 +371,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
     }
 
     /**
-     * ajax获取评论(new)
+     * ajax获取评论(new mustache)
      */
     public function ajax_fetch_comment() {
         $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
@@ -463,6 +463,16 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
                 break;
             }
           }
+
+          // 过滤用户表
+          if(isset($resultlist['rows'][$i]['user'])){
+            $resultlist['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['user']);
+          }
+          // 过滤用户表
+          if(isset($resultlist['rows'][$i]['target_user'])){
+            $resultlist['rows'][$i]['target_user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['target_user']);
+          }
+
           $resultlist['rows'][$i]['_id'] = (string)$resultlist['rows'][$i]['_id'];
           $resultlist['rows'][$i]['is_deleted'] = $is_deleted;
           $resultlist['rows'][$i]['is_reply'] = $is_reply;
