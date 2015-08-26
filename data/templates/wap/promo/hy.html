@@ -334,6 +334,102 @@
     animation-duration: 2s;
 	}
 	
+	.page-2-1{
+	  background:url({{ app_url_packaged }}/images/promo/hy/bg2.jpg) no-repeat center center /cover;
+	}
+	.pt2-1,.pt3-1{
+	  width:100%;
+	  left:0;
+	  top:0;
+	}
+	.st.pt2{
+	 width:60%;
+	 left:20%; 
+	 animation-delay:0.6s;
+		-webkit-animation-delay:0.6s;
+		-webkit-animation-duration: 1.5s;
+   animation-duration: 1.5s;
+   z-index:3;
+	}
+	.pt2-2{
+	  top:37%;
+	}
+	.pt2-3{
+	  top:44%;
+	}
+	.pt2-4{
+	  top:51%;
+	}
+	.pt2-5{
+	  top:59%;
+	}
+	.pt2-6{
+	  top:66%;
+	  animation-delay:1.6s !important;
+  		-webkit-animation-delay:1.6s !important;
+  		-webkit-animation-duration: 0.8s !important;
+     animation-duration: 0.8s !important;
+     width:80% !important;
+     left:10% !important;
+     opacity:0;
+	}
+	.clearb{
+	  bottom:0;
+	  width:100%;
+	  left:0;
+	  opacity:0;
+	  z-index:2;
+	}
+	
+	.page-3-1,.page-4-1{
+	  background:url({{ app_url_packaged }}/images/promo/hy/bg3.jpg) no-repeat center center /cover;
+	}
+	.pt3-2{
+	  width:100%;
+	  opacity:0;
+	  left:0;
+	  top:32%;
+	  animation-delay:0.6s;
+  	-webkit-animation-delay:0.6s;
+	}
+	.pt3-3{
+	  width:60%;
+	  left:20%;
+	  top:60%;
+	  animation-delay:1s;
+  	-webkit-animation-delay:1s;
+  	-webkit-animation-duration: 1.2s !important;
+   animation-duration: 1.2s !important;
+	}
+	.pt3-4{
+	  width:60%;
+	  left:20%;
+	  top:67%;
+	  animation-delay:1s;
+  	-webkit-animation-delay:1s;
+  	-webkit-animation-duration: 1.2s !important;
+   animation-duration: 1.2s !important;
+	}
+	.pt3-5{
+	  width:26%;
+	  left:37%;
+	  top:75%;
+	  opacity:0;
+	  animation-delay:1.6s;
+  	-webkit-animation-delay:1.6s;
+  	-webkit-animation-duration: 0.6s !important;
+   animation-duration: 0.6s !important;
+	}
+	.page-3-1 .clearb{
+	  bottom:-8% !important;
+	}
+	.pt4-1{
+	  width:30%;
+	  top:30%;
+	  left:35%;
+	  animation-delay:1s;
+  	-webkit-animation-delay:1s;
+	}
 </style>
 {% endblock %}
 
@@ -539,7 +635,7 @@
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
 <div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
-<div class="page page-1-1 page-current">
+<div class="page page-1-1 hide">
 	<div class="wrap">
 	  <!--<img src="{{ app_url_packaged }}/images/promo/hy/1t.png" class="st pt-1">-->
 	  <div class="st pt-0"></div>
@@ -558,10 +654,34 @@
 	</div>
 </div>
 
-<div class="page page-2-1 page-hide">
+<div class="page page-2-1 hide">
   <div class="wrap">
-    
+    <img src="{{ app_url_packaged }}/images/promo/hy/t2-1.png" class="st pt2-1 lightSpeedIn animated">
   
+    <img src="{{ app_url_packaged }}/images/promo/hy/t2w1.png" class="st pt2 pt2-2 flipInY animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t2w2.png" class="st pt2 pt2-3 flipInX animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t2w3.png" class="st pt2 pt2-4 bounceInRight animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t2w4.png" class="st pt2 pt2-5 bounceInLeft animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t2w5.png" class="st pt2 pt2-6 page-logo">
+    <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated">
+  </div>
+</div>
+
+<div class="page page-3-1 hide">
+  <div class="wrap">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t3-1.png" class="st pt3-1 lightSpeedIn animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t3w1.png" class="st pt3-2 fadeInUp animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t3w2.png" class="st pt3-3 zoomInLeft animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t3w3.png" class="st pt3-4 zoomInRight animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t3w4.png" class="st pt3-5 page-logo">
+    <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated">
+  </div>
+</div>
+
+<div class="page page-4-1 page-current">
+  <div class="wrap">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t4-1.png" class="st pt3-1 lightSpeedIn animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t4w1.png" class="st pt4-1 flipInY animated">
   
   </div>
 </div>
