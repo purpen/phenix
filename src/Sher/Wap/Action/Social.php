@@ -470,4 +470,66 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
   }
 	
+	/**
+	 * 保存投票信息
+	 */
+	public function save_vote(){
+		
+		$back = array(0,0,0);
+		$field_name = 'nums';
+		
+		$vote = json_decode('['.$this->stash['vote'].']',true);
+		$vote = $vote[0];
+		
+		// 验证拒绝重复投票
+		$model_vote_record = new Sher_Core_Model_VoteRecord();
+		$res_vote_record = $model_vote_record->find(array('vote_id' => (int)$vote['vote_id'],'user_id' => (int)$vote['user_id'],'relate_id' => (int)$vote['topic_id']));
+		if($res_vote_record){
+			echo 1;exit;
+		}
+		
+		$problem = json_decode('['.$this->stash['problem'].']',true);
+		$problem = $problem[0];
+		
+		// 更新投票次数
+		$model_vote = new Sher_Core_Model_Vote();
+		if($model_vote->inc_counter($field_name, (int)$vote['vote_id'], $inc=1)){
+			$back[0] = 1;
+		}
+		
+		$vote_record = array();
+		$i = 0;
+		$model_answer = new Sher_Core_Model_Answer();
+		foreach($problem as $k => $v){
+			foreach($v["answer"] as $key => $value){
+				$vote_record[$i]['vote_id'] = (int)$vote['vote_id'];
+				$vote_record[$i]['user_id'] = (int)$vote['user_id'];
+				$vote_record[$i]['relate_id'] = (int)$vote['topic_id'];
+				$vote_record[$i]['problem_id'] = $v['id'];
+				$vote_record[$i]['answer_id'] = $value;
+				// 更新答案次数
+				if($model_answer->inc_counter('nums', $value, $inc=1)){
+					$back[1]++;
+				}
+				$i++;
+			}
+			$i++;
+		}
+		
+		// 添加投票信息记录
+		foreach($vote_record as $v){
+			if($model_vote_record->create($v)){
+				$back[2]++;
+			}
+		}
+		
+		if(!$back[0] || $back[1] !== count($vote_record) || $back[2] !== count($vote_record)){
+			echo 0;exit;
+		}
+		
+		$model = new Sher_Core_Model_Vote();
+		$result = $model->statistics((int)$vote['vote_id']);
+		echo json_encode($result);
+	}
+	
 }
