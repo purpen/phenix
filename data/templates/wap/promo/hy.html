@@ -381,7 +381,7 @@
 	  z-index:2;
 	}
 	
-	.page-3-1{
+	.page-3-1,.page-4-1{
 	  background:url({{ app_url_packaged }}/images/promo/hy/bg3.jpg) no-repeat center center /cover;
 	}
 	.pt3-2{
@@ -422,6 +422,13 @@
 	}
 	.page-3-1 .clearb{
 	  bottom:-8% !important;
+	}
+	.pt4-1{
+	  width:30%;
+	  top:30%;
+	  left:35%;
+	  animation-delay:1s;
+  	-webkit-animation-delay:1s;
 	}
 </style>
 {% endblock %}
@@ -628,7 +635,7 @@
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
 <div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
-<div class="page page-1-1 page-current">
+<div class="page page-1-1 hide">
 	<div class="wrap">
 	  <!--<img src="{{ app_url_packaged }}/images/promo/hy/1t.png" class="st pt-1">-->
 	  <div class="st pt-0"></div>
@@ -668,6 +675,14 @@
     <img src="{{ app_url_packaged }}/images/promo/hy/t3w3.png" class="st pt3-4 zoomInRight animated">
     <img src="{{ app_url_packaged }}/images/promo/hy/t3w4.png" class="st pt3-5 page-logo">
     <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated">
+  </div>
+</div>
+
+<div class="page page-4-1 page-current">
+  <div class="wrap">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t4-1.png" class="st pt3-1 lightSpeedIn animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t4w1.png" class="st pt4-1 flipInY animated">
+  
   </div>
 </div>
 
