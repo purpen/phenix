@@ -121,7 +121,7 @@
         //跳转参赛上传页面
         phenix.redirect('{{ app_url_wap }}/stuff/contest_submit?contest_id={{ contest._id }}');
       }else if(result=='false'){
-        $('.ui.user-info-box.modal').modal('show');
+        $('#user-info-form').modal('show');
         return false; 
       }
     });
