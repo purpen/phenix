@@ -318,7 +318,78 @@
 
 	// 加载相关话题
 	$.get('{{ app_url_wap }}/topic/ajax_guess_topics', {id: {{ topic._id }}, sword: '{{ topic.tags_s }}', size: 4});
-
+	
+	// 投票提交部分
+    $('#vote-save').click(function(){
+    
+		var user_id = '{{ visitor.id }}';
+		if(!user_id){
+		  phenix.show_error_note('请登陆后在投票!');
+		  return false;
+		}
+		
+		var vote = {};
+		vote.topic_id = $('input[name=topic_id]').val();
+		vote.user_id = user_id;
+		vote.vote_id = '{{ vote._id }}';
+		
+		// 验证所有的单选、多选框有没有被选中
+		var is_ok = 0;
+		var check_nums = 0;
+		$('.pro_block').each(function(i){
+			$(this).find('input:checked').each(function(){
+				is_ok++;
+			});
+			check_nums++;
+		});
+		
+		if(is_ok < check_nums){
+			phenix.show_error_note('还有选项没有被选择！');
+			return false;
+		}
+		
+		// 收集数据
+		var problem = {};
+		$('input[name="problem"]').each(function(i){
+		  var name = $(this).val();
+		  var answer = {};
+		  problem[i] = {};
+		  $('#'+name).find('input:checked').each(function(j){
+			answer[j] = $(this).attr('values');
+		  });
+		  problem[i].id = name;
+		  problem[i].answer = answer;
+		});
+		
+		var vote = JSON.stringify(vote);
+		var problem = JSON.stringify(problem);
+		
+		// 提交数据
+		$.post(
+		  "{{ app_url_action_base }}/topic/save_vote",
+		  {vote: vote, problem: problem},
+		  function(data){
+			if(data){
+			  if(data == 1){
+				phenix.show_error_note('您已经投过票了，谢谢参与！');
+				return false;
+			  }
+			  location.href = '';
+			  /*
+			  var date = eval(data).problem;
+			  for(var i = 0; i < date.length; i++){
+				var answer = date[i].answer;
+				for(var j = 0; j < answer.length; j++){
+				  $('.bar.'+answer[j]._id).attr('style','min-width: 0;width:'+answer[j].nums_rate+'%');
+				  $('.vote_num.'+answer[j]._id).text(answer[j].nums + '票（'+answer[j].nums_rate+'%）');
+				  
+				}
+			  }
+			  */
+			}
+		}, "json");
+	});
+	
 {% endblock %}
 {% block content %}
 <div id="postpage">
@@ -364,7 +435,80 @@
 							<div class="post froala-element clearfix">
 								{{ topic.description }}
 							</div>
-					
+
+                <!-- 这里是投票部分代码 开始 -->
+				<div id="block_vote">
+					{% if is_vote %}
+					<div class="post vote" style="margin: 20px 0 60px;">
+						<h3 class="ui header" style="color: #E40039">[话题投票] {{ vote.title }}</h3>
+						<div class="ui divider"></div>
+						<input type="hidden" name="topic_id" value="{{ id }}" />
+						{% for problem in vote.problem %}
+						<input type="hidden" name="problem" value="{{ problem._id }}" />
+						<input type="hidden" name="select_type" value="{{ problem.select_type }}" />
+		
+						<div class="ui relaxed divided list">
+							<div class="votep">
+								<i class="large question middle aligned icon"></i>
+								<div class="ui from">
+									<h4 class="ui header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h4>
+									<div class="pro_block" style="margin: 30px 0 20px;padding: 25px 0 0;border: 1px solid rgba(0,0,0,0.1);" id="{{ problem._id }}" >
+										{% if problem.select_type == 1 %}
+											{% for answer in problem.answer %}
+											<div class="field" style="padding-left:60px;">
+												<div class="ui radio checkbox">
+													<input type="radio" name="{{ problem._id }}" values="{{ answer._id }}" />
+													<label>{{ answer.title }}</label>
+												</div>
+												<div style="display:block;margin:10px 0;">
+													{% if can_vote %}
+													<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
+														<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;"></div>
+													</div>
+													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:14%;margin-left:4%;float: right;">
+														{{ answer.nums }}票	（{{ answer.nums_rate }}%）
+													</div>
+													{% endif %}
+												</div>
+											</div>
+											{% endfor %}
+										{% else %}
+											{% for answer in problem.answer %}
+												<div class="field" style="padding-left:60px;">
+													<div class="ui checkbox">
+														<input type="checkbox" name="{{ answer._id }}" values="{{ answer._id }}" />
+														<label>{{ answer.title }}</label>
+													</div>
+													<div style="display:block;margin:10px 0;">
+														{% if can_vote %}
+														<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
+															<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;"></div>
+														</div>			
+														<div class="vote_num {{ answer._id }}" style="display:inline-block;width:14%;margin-left:4%;float:right;">
+															{{ answer.nums }}票	（{{ answer.nums_rate }}%）
+														</div>
+														{% endif %}
+													</div>
+												</div>
+											{% endfor %}
+										{% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+					<div class="ui right floated aligned grid">
+						<div class="row">
+							<div class="column">
+								<div  id="vote-save" class="ui magenta inverted submit button">确认投票</div>
+							</div>
+						</div>
+					</div>
+					{% endif %}
+				</div>
+				<!-- 这里是投票部分代码 结束 -->
+				
 							{% if topic.tags %}
 							<div class="tags">
 								{% for tag in topic.tags %}

@@ -382,6 +382,8 @@
 				phenix.show_error_note('您已经投过票了，谢谢参与！');
 				return false;
 			  }
+			  location.href = '';
+			  /*
 			  var date = eval(data).problem;
 			  for(var i = 0; i < date.length; i++){
 				var answer = date[i].answer;
@@ -391,8 +393,9 @@
 				  
 				}
 			  }
+			  */
 			}
-		  }, "json");
+		}, "json");
 	});
     
     $('.user.avatars .ui.images .image').livequery(function(){
@@ -543,7 +546,7 @@
 				<div id="block_vote">
 					{% if is_vote %}
 					<div class="post vote" style="margin: 20px 0 60px;">
-						<h3 class="ui header" style="color: #E40039">{{ vote.title }}</h3>
+						<h3 class="ui header" style="color: #E40039">[话题投票] {{ vote.title }}</h3>
 						<div class="ui divider"></div>
 						<input type="hidden" name="topic_id" value="{{ id }}" />
 						{% for problem in vote.problem %}
@@ -555,7 +558,7 @@
 								<i class="large question middle aligned icon"></i>
 								<div class="ui from">
 									<h4 class="ui header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h4>
-									<div class="pro_block" style="margin: 30px 0 20px;padding: 40px 0 0;border: 1px solid rgba(0,0,0,0.1);" id="{{ problem._id }}" >
+									<div class="pro_block" style="margin: 30px 0 20px;padding: 25px 0 0;border: 1px solid rgba(0,0,0,0.1);" id="{{ problem._id }}" >
 										{% if problem.select_type == 1 %}
 											{% for answer in problem.answer %}
 											<div class="field" style="padding-left:60px;">
@@ -564,36 +567,35 @@
 													<label>{{ answer.title }}</label>
 												</div>
 												<div style="display:block;margin:10px 0;">
-													<!--<div class="ui red label {{ answer._id }}" style="display:inline-block;width:80%">-->
+													{% if can_vote %}
 													<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
 														<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;"></div>
 													</div>
-																	
 													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:14%;margin-left:4%;float: right;">
 														{{ answer.nums }}票	（{{ answer.nums_rate }}%）
 													</div>
+													{% endif %}
 												</div>
 											</div>
 											{% endfor %}
-										{% else %} 
-				  
+										{% else %}
 											{% for answer in problem.answer %}
 												<div class="field" style="padding-left:60px;">
 													<div class="ui checkbox">
 														<input type="checkbox" name="{{ answer._id }}" values="{{ answer._id }}" />
 														<label>{{ answer.title }}</label>
 													</div>
-															
 													<div style="display:block;margin:10px 0;">
+														{% if can_vote %}
 														<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
 															<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;"></div>
 														</div>			
 														<div class="vote_num {{ answer._id }}" style="display:inline-block;width:14%;margin-left:4%;float:right;">
 															{{ answer.nums }}票	（{{ answer.nums_rate }}%）
 														</div>
+														{% endif %}
 													</div>
 												</div>
-												<!--<div style="display:block;margin:10px 0;" class="ui red label {{ answer._id }}">{{ answer.nums_rate }}%</div>-->
 											{% endfor %}
 										{% endif %}
 									</div>
@@ -610,8 +612,9 @@
 						</div>
 					</div>
 					{% endif %}
-					<!-- 这里是投票部分代码 结束 -->
-				</div>    
+				</div>
+				<!-- 这里是投票部分代码 结束 -->
+
                 <!--预留广告位-->
             	{% ad_list var:'adone' page:1 size:1 name:'topic_view_page_t1' sort_field:'latest' state:2 %}
             	{% if adone %}

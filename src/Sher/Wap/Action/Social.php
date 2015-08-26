@@ -9,11 +9,11 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		'page' => 1,
 		'size' => 20,
 		'category_id' => 0,
-    'type' => 1,
-    'sort' => 6,
-    'page_title_suffix' => '太火鸟话题-智能硬件孵化社区',
-    'page_keywords_suffix' => '智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广',
-    'page_description_suffix' => '太火鸟话题是国内最大的智能硬件社区，包括智创学堂，孵化需求，活动动态，品牌专区，产品评测等几大社区板块以及上千个智能硬件话题，太火鸟话题-创意与创意的碰撞。',
+		'type' => 1,
+		'sort' => 6,
+		'page_title_suffix' => '太火鸟话题-智能硬件孵化社区',
+		'page_keywords_suffix' => '智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广',
+		'page_description_suffix' => '太火鸟话题是国内最大的智能硬件社区，包括智创学堂，孵化需求，活动动态，品牌专区，产品评测等几大社区板块以及上千个智能硬件话题，太火鸟话题-创意与创意的碰撞。',
 	);
 	
 	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show', 'ajax_guess_topics', 'ajax_topic_list');
@@ -152,8 +152,8 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 	 * 显示主题详情帖
 	 */
 	public function show(){
-		$id = (int)$this->stash['id'];
 		
+		$id = (int)$this->stash['id'];
 		$redirect_url = Doggy_Config::$vars['app.url.wap.social.list'];
 		if(empty($id)){
 			return $this->show_message_page('访问的主题不存在！', $redirect_url);
@@ -176,12 +176,12 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
             $topic = $model->extended_model_row($topic);
         }
 
-    //添加网站meta标签
-    $this->stash['page_title_suffix'] = sprintf("%s-太火鸟智能硬件", $topic['title']);
-    if(!empty($topic['tags'])){
-      $this->stash['page_keywords_suffix'] = sprintf("智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,%s", $topic['tags'][0]);   
-    }
-    $this->stash['page_description_suffix'] = sprintf("【太火鸟话题】 %s", mb_substr($topic['strip_description'], 0, 140));
+		//添加网站meta标签
+		$this->stash['page_title_suffix'] = sprintf("%s-太火鸟智能硬件", $topic['title']);
+		if(!empty($topic['tags'])){
+		  $this->stash['page_keywords_suffix'] = sprintf("智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,%s", $topic['tags'][0]);   
+		}
+		$this->stash['page_description_suffix'] = sprintf("【太火鸟话题】 %s", mb_substr($topic['strip_description'], 0, 140));
 		
 		// 增加pv++
 		$inc_ran = rand(1,6);
@@ -215,25 +215,61 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 			}
 		}
 
-    //评论参数
-    $comment_options = array(
-      'comment_target_id' =>  $topic['_id'],
-      'comment_target_user_id' => $topic['user_id'],
-      'comment_type'  =>  2,
-      'comment_pager' =>  Sher_Core_Helper_Url::topic_view_url($id, '#p#'),
-      //是否显示上传图片/链接
-      'comment_show_rich' => 1,
-    );
-    $this->_comment_param($comment_options);
+		//评论参数
+		$comment_options = array(
+		  'comment_target_id' =>  $topic['_id'],
+		  'comment_target_user_id' => $topic['user_id'],
+		  'comment_type'  =>  2,
+		  'comment_pager' =>  Sher_Core_Helper_Url::topic_view_url($id, '#p#'),
+		  //是否显示上传图片/链接
+		  'comment_show_rich' => 1,
+		);
+		$this->_comment_param($comment_options);
 
-    //微信分享
-    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
-    $timestamp = $this->stash['timestamp'] = time();
-    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
-    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
-    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
-    $this->stash['wxSha1'] = sha1($wxOri);
+		//微信分享
+		$this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+		$timestamp = $this->stash['timestamp'] = time();
+		$wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+		$wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+		$url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+		$wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+		$this->stash['wxSha1'] = sha1($wxOri);
+		
+		// 投票部分代码
+		$is_vote = 0;
+		if(isset($topic['vote_id']) && !empty($topic['vote_id'])){
+			$model_vote = new Sher_Core_Model_Vote();
+			$voteOne = $model_vote->find_by_id(array('relate_id' => (int)$id));
+			$vote_id = $voteOne['_id'];
+			$vote = $model_vote->statistics((int)$vote_id);
+			$this->stash['vote'] = &$vote;
+			if($vote){
+				$is_vote = 1;
+			}
+		}
+		
+		$can_vote = 0;
+		if(isset($topic['vote_id']) && !empty($topic['vote_id'])){
+			$model = new Sher_Core_Model_VoteRecord();
+			$data = array();
+			$data['vote_id'] = $topic['vote_id'];
+			$data['user_id'] = $this->visitor->id;
+			$data['relate_id'] = (int)$id;
+			$voteRecord = $model->find($data);
+			if(count($voteRecord)){
+				$can_vote = 1;
+			}
+		}
+		
+		// 添加显示权限(登陆状态、发帖本人、星级会员)
+		$vote_show = 0;
+		if($this->visitor->id && (int)$this->visitor->id == (int)$topic['user_id'] && $this->visitor->mentor){
+			$vote_show = 1;
+		}
+		
+		$this->stash['is_vote'] = $is_vote;
+		$this->stash['is_vote'] = $is_vote;
+		$this->stash['can_vote'] = $can_vote;
 		
 		return $this->to_html_page('wap/show.html');
 	}

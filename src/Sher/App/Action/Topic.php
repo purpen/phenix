@@ -504,6 +504,19 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			}
 		}
 		
+		$can_vote = 0;
+		if(isset($topic['vote_id']) && !empty($topic['vote_id'])){
+			$model = new Sher_Core_Model_VoteRecord();
+			$data = array();
+			$data['vote_id'] = $topic['vote_id'];
+			$data['user_id'] = $this->visitor->id;
+			$data['relate_id'] = (int)$id;
+			$voteRecord = $model->find($data);
+			if(count($voteRecord)){
+				$can_vote = 1;
+			}
+		}
+		
 		// 添加显示权限(登陆状态、发帖本人、星级会员)
 		$vote_show = 0;
 		if($this->visitor->id && (int)$this->visitor->id == (int)$topic['user_id'] && $this->visitor->mentor){
@@ -511,7 +524,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		$this->stash['is_vote'] = $is_vote;
-		$this->stash['vote_show'] = $vote_show;
+		$this->stash['is_vote'] = $is_vote;
+		$this->stash['can_vote'] = $can_vote;
 		return $this->to_html_page($tpl);
 	}
 	
