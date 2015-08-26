@@ -389,11 +389,20 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
               break;
           }
 
+          // 过滤用户表
+          if(isset($result['rows'][$i]['user'])){
+            $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
+          }
+
         }//endfor
         
-        $this->stash['results'] = $result;
+        $data['type'] = $type;
+        $data['page'] = $page;
+        $data['sort'] = $sort;
+        $data['size'] = $size;
+        $data['results'] = $result;
         
-        return $this->ajax_json('', false, '', $this->stash);
+        return $this->ajax_json('', false, '', $data);
   }
 
   /**
