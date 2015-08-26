@@ -36,47 +36,43 @@
 	
 	$('#editor').editable({
 		inlineMode: false,
+    language: "zh_cn",
 		toolbarFixed: false,
-        theme: 'gray',
+    theme: 'gray',
 		language: 'zh_cn',
 		borderColor: '#999',
 		editorClass: 'frbird',
-		minHeight: 300,
+		minHeight: 450,
 		plainPaste: true,
 		alwaysBlank: true,
 		typingTimer: 5000,
 		imageMargin: '20px',
 		{% if mode == 'edit' %}
-		defaultImageAlt: '{{ stuff.title }}',
+		defaultImageTitle: '{{ stuff.title }}',
 		{% else %}
-		defaultImageAlt: '太火鸟',
+		defaultImageTitle: '太火鸟',
 		{% endif %}
-		buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "insertImage", "insertVideo", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
-		imageUploadURL: "{{ app_url_upload_pictures }}",
-		imageUploadParams: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
+		buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "multiUpload", "insertVideo", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html", "fullscreen"],
+		imageUploadURL: "{{ app_url_upload_feditor }}",
+		imageUploadParams: {'token': '{{ token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
 		defaultImageWidth: '',
 		maxImageSize: 1024 * 1024 * 5, // 5M
 		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
+        
+        assetType: {{ editor_asset_type|default 55 }},
+        assetDomain: '{{ editor_domain|default 'stuff' }}',
+        parent_id: {{ stuff._id|default 0 }},
+        fetchUploadURL: '{{ app_url_action_base }}/uploader/fetch_upload_assets',
 	}).on('editable.imageInserted',  function (e, editor, imageURL) {
 		// 记录插入图片数
 		$('#file_count').val(file_count);
 		
 		file_count++;
-		
-		// 重置参数
-		$('#editor').editable("option", "imageUploadParams", {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}' });
-        
-    }).on('editable.afterRemoveImage', function (e, editor, $img) {
-        // Set the image source to the image delete params.
-        this.options.imageDeleteParams = {file_url: $img.attr('src')};
-        
-        // Make the delete request.
-        this.deleteImage($img);
     }).on('editable.imageError', function (e, editor, error) {
-		if (error.code == 5){
-			error.message = '图片太大，请选择小于5M！';
-		}
-		phenix.show_error_note(error.message, 5000);
+      if (error.code == 5){
+        error.message = '图片太大，请选择小于5M！';
+      }
+      phenix.show_error_note(error.message, 5000);
     });
 	
 	$('#stuff-form').form({
@@ -236,8 +232,9 @@
 						<input type="hidden" name="_id" value="{{ stuff._id }}" id="stuff_id" />
 						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
 						<input type="hidden" name="file_count" id="file_count" />
-                        <input type="hidden" name="from_to" value="{{ stuff.from_to }}" />
-                        <input type="hidden" name="verified" value="{{ stuff.verified }}" />
+            <input type="hidden" name="from_to" value="{{ stuff.from_to }}" />
+            <input type="hidden" name="verified" value="{{ stuff.verified }}" />
+            <input type="hidden" name="contest_id" value="{{ stuff.contest_id }}" />
 						
                         {% if !rid %}
 						<div class="ui field">
@@ -322,15 +319,6 @@
             </div>
             {%endif%}
           {%endif%}
-
-                        {% if mode=='edit' %}
-                            {% if stuff.from_to==2 %}
-                                <div class="field">
-                                    <label for="description">团队介绍</label>
-                                    <textarea name="team_introduce" placeholder="" >{{ stuff.team_introduce }}</textarea>
-                                </div>
-                            {%endif%}
-                        {%endif%}
 						
 						<div class="upload field">
 							<label>{{ label_title }}图片 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个封面图)</small></label>
@@ -366,60 +354,6 @@
 							<label for="description">详细描述</label>
 						  	<textarea name="description" placeholder="此处输入产品详细描述..." id="editor">{{ stuff.description }}</textarea>
 						</div>
-                        
-                        {% if !rid %}
-                          {% if !is_match %}
-                            <h3 class="ui dividing header">产品参数</h3>
-                        
-    	   			      	<div class="five fields">
-    	   	                	<div class="field">
-    	   	                    	<label>品牌名称</label>
-    	   	                  	  	<input type="text" name="brand" value="{{ stuff.brand }}" />
-    	   	                	</div>
-    	   	                	<div class="field">
-    	   	                    	<label>设计师</label>
-    	   	                  	  	<input type="text" name="designer" value="{{ stuff.designer }}" />
-    	   	                	</div>
-    	   	                	<div class="field">
-    	   	                    	<label>所属国家</label>
-    	   	                  	  	<input type="text" name="country" value="{{ stuff.country }}" />
-    	   	                	</div>
-    	   	                	<div class="field">
-    	   	                    	<label>上市时间</label>
-    	   	                  	  	<input type="text" name="market_time" value="{{ stuff.market_time }}" placeholder="如:2015年1月" />
-    	   	                	</div>
-    	   	                	<div class="field">
-    	   	                    	<label>指导价格</label>
-    	   	                  	  	<input type="text" name="official_price" value="{{ stuff.official_price }}" placeholder="如:100元--999元" />
-    	   	                	</div>
-    	   	           	 	</div>
-                        
-                            {% if visitor.can_edit %}
-    						<div class="two fields">
-    			              	<div class="field">
-    				                <label for="processed">产品阶段</label>
-    				                <div class="ui fluid selection dropdown">
-    				                  	<input type="hidden" name="processed" value="{{ stuff.processed }}" />
-    				                    <div class="default text">请选择</div>
-    				                    <i class="angle down icon"></i>
-    				                    <div class="menu">
-    				                    	<div data-value="1" class="{% if stuff.processed==1 %}active {% endif %}item">设计概念</div>
-    				                    	<div data-value="2" class="{% if stuff.processed==2 %}active {% endif %}item">开发</div>
-    				                    	<div data-value="3" class="{% if stuff.processed==3 %}active {% endif %}item">众筹</div>
-    				                    	<div data-value="5" class="{% if stuff.processed==5 %}active {% endif %}item">预售</div>
-    				                    	<div data-value="9" class="{% if stuff.processed==9 %}active {% endif %}item">销售</div>
-    				                    </div>
-    				                </div>
-    				                <!--<div class="ui pointing top label">必须选择一个产品阶段!</div>-->
-    			              	</div>
-                                <div class="field">
-    							    <label>购买地址</label>
-    						  	    <input type="text" name="buy_url" value="{{ stuff.buy_url }}" placeholder="仅站内/京东/天猫链接" />
-                                </div>
-    						</div>
-                            {% endif %}
-                            {% endif %}
-                        {% endif %}
 						
 						<div class="ui grid">
 							<div class="right aligned column">

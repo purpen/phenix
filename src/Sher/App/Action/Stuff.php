@@ -396,9 +396,6 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
             $data['verified'] = 0;
         }
 		
-		// 检测编辑器图片数
-		$file_count = isset($this->stash['file_count'])?(int)$this->stash['file_count']:0;
-		
 		// 检查是否有附件
 		if(isset($this->stash['asset'])){
 			$data['asset'] = $this->stash['asset'];
@@ -473,8 +470,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			}
 			
 			// 保存成功后，更新编辑器图片
-			if($file_count && !empty($this->stash['file_id'])){
-			  Doggy_Log_Helper::debug("Upload file count[$file_count].");
+			if(!empty($this->stash['file_id'])){
 				$asset->update_editor_asset($this->stash['file_id'], (int)$id);
 			}
 
@@ -699,6 +695,41 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		return $this->to_taconite_page('ajax/del_ok.html');
 	}
+
+  /**
+   * 用户参赛前完善个人信息
+   */
+  public function ajax_user_profile(){
+    $result = array();
+
+    if(!isset($this->stash['target_id'])){
+			return $this->ajax_note('请求失败,缺少必要参数', true);
+    }
+
+    if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['address']) || empty($this->stash['job'])){
+      return $this->ajax_note('请求失败,缺少用户必要参数', true); 
+    }
+
+    $user_data = array();
+    $user_data['profile']['realname'] = $this->stash['realname'];
+    $user_data['profile']['phone'] = $this->stash['phone'];
+    $user_data['profile']['address'] = $this->stash['address'];
+    $user_data['profile']['job'] = $this->stash['job'];
+
+    try {
+      //更新基本信息
+      $user_ok = $this->visitor->save($user_data);
+      if(!$user_ok){
+        return $this->ajax_note("更新用户信息失败", true);  
+      }
+      $redirect_url = sprintf("%s/contest_submit?contest_id=%d", Doggy_Config::$vars['app.url.stuff'], $this->stash['target_id']);
+      return $this->ajax_json('保存成功.', false, $redirect_url);
+    } catch (Sher_Core_Model_Exception $e) {
+      Doggy_Log_Helper::error('Failed to contest user profile:'.$e->getMessage());
+      return $this->ajax_note("更新失败:".$e->getMessage(), true);
+    }
+  
+  }
 	
 	/**
 	 * 删除某个附件
