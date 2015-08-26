@@ -440,7 +440,7 @@
                 <!-- 这里是投票部分代码 开始 -->
 				<div id="block_vote">
 					{% if is_vote %}
-					<div class="post vote" style="margin: 20px 0 60px;">
+					<div class="post vote" style="margin: 20px 0 20px;">
 						<h3 class="ui header" style="color: #E40039">[话题投票] {{ vote.title }}</h3>
 						<div class="ui divider"></div>
 						<input type="hidden" name="topic_id" value="{{ id }}" />
@@ -498,10 +498,10 @@
 						</div>
 						{% endfor %}
 					</div>
-					<div class="ui right floated aligned grid">
+					<div class="ui right floated aligned grid" style="margin: 20px 0 20px;">
 						<div class="row">
 							<div class="column">
-								<div  id="vote-save" class="ui magenta inverted submit button">确认投票</div>
+								<div  id="vote-save" class="ui magenta active inverted submit button">确认投票</div>
 							</div>
 						</div>
 					</div>
