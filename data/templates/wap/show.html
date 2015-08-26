@@ -450,23 +450,22 @@
 		
 						<div class="ui relaxed divided list">
 							<div class="votep">
-								<i class="large question middle aligned icon"></i>
 								<div class="ui from">
-									<h4 class="ui header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h4>
+									<h4 class="ui header"><i class="large question middle aligned icon"></i>{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h4>
 									<div class="pro_block" style="margin: 30px 0 20px;padding: 25px 0 0;border: 1px solid rgba(0,0,0,0.1);" id="{{ problem._id }}" >
 										{% if problem.select_type == 1 %}
 											{% for answer in problem.answer %}
-											<div class="field" style="padding-left:60px;">
+											<div class="field" style="padding-left:10px;">
 												<div class="ui radio checkbox">
 													<input type="radio" name="{{ problem._id }}" values="{{ answer._id }}" />
 													<label>{{ answer.title }}</label>
 												</div>
 												<div style="display:block;margin:10px 0;">
 													{% if can_vote %}
-													<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
+													<div class="ui magenta tiny progress" style="display:inline-block;width:60%;font-size: 1.5rem;margin-bottom: 1em;">
 														<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;"></div>
 													</div>
-													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:14%;margin-left:4%;float: right;">
+													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:36%;margin-left:4%;float: right;">
 														{{ answer.nums }}票	（{{ answer.nums_rate }}%）
 													</div>
 													{% endif %}
@@ -475,17 +474,17 @@
 											{% endfor %}
 										{% else %}
 											{% for answer in problem.answer %}
-												<div class="field" style="padding-left:60px;">
+												<div class="field" style="padding-left:10px;">
 													<div class="ui checkbox">
 														<input type="checkbox" name="{{ answer._id }}" values="{{ answer._id }}" />
 														<label>{{ answer.title }}</label>
 													</div>
 													<div style="display:block;margin:10px 0;">
 														{% if can_vote %}
-														<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
+														<div class="ui magenta tiny progress" style="display:inline-block;width:60%;font-size: 1.5rem;margin-bottom: 1em;">
 															<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;"></div>
 														</div>			
-														<div class="vote_num {{ answer._id }}" style="display:inline-block;width:14%;margin-left:4%;float:right;">
+														<div class="vote_num {{ answer._id }}" style="display:inline-block;width:36%;margin-left:4%;float:right;">
 															{{ answer.nums }}票	（{{ answer.nums_rate }}%）
 														</div>
 														{% endif %}
