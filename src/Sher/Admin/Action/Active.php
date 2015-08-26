@@ -324,8 +324,9 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
   public function get_attend_list(){
 		$page = (int)$this->stash['page'];
     $this->stash['event'] = isset($this->stash['event'])?$this->stash['event']:1;
+    $this->stash['target_id'] = isset($this->stash['target_id'])?$this->stash['target_id']:0;
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/active/get_attend_list?page=#p#');
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/active/get_attend_list?target_id=%d&event=%d&page=#p#', $this->stash['target_id'], $this->stash['event']);
 		
 		$this->stash['pager_url'] = $pager_url;
 		
