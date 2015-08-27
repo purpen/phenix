@@ -60,6 +60,7 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 	 * 专辑添加页面
 	 */
 	public function add(){
+		Doggy_Log_Helper::warn("保存失败");
 		$this->stash['mode'] = 'edit';
 		$this->upload();
 		return $this->to_html_page('page/albums/submit.html');
@@ -84,15 +85,11 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 			return $this->ajax_json('标题不能为空！', true);
 		}
 		
-		$mode = 'create';
-		$id = (int)$this->stash['_id'];
-		
 		$data = array();
-		$data['_id'] = $id;
 		$data['title'] = $this->stash['title'];
 		$data['des'] = $this->stash['des'];
 		$data['cover_id'] = $this->stash['cover_id'];
-		var_dump($data);
+		
 		// 检查是否有图片
 		if(isset($this->stash['asset'])){
 			$data['asset'] = $this->stash['asset'];
@@ -101,21 +98,17 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 		}
 		
 		try{
-			$model = new Sher_Core_Model_Topic();
-			// 新建记录
+			$id = (int)$this->stash['id'];
+			$model = new Sher_Core_Model_Album();
+			
 			if(empty($id)){
+				$mode = 'create';
 				$data['user_id'] = (int)$this->visitor->id;
-				
+				//var_dump($data);
 				$ok = $model->apply_and_save($data);
-				$topic = $model->get_data();
-				
-				$id = $topic['_id'];
-				
-				// 更新用户主题数量
-				$this->visitor->inc_counter('topic_count', $data['user_id']);
-				
 			}else{
 				$mode = 'edit';
+				$data['_id'] = $id;
 				$ok = $model->apply_and_update($data);
 			}
 			
@@ -127,38 +120,17 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 			if(isset($data['asset']) && !empty($data['asset'])){
 				$this->update_batch_assets($data['asset'], $id);
 			}
-
-			// 上传成功后，更新所属的附件
-			if(isset($data['file_asset']) && !empty($data['file_asset'])){
-				$this->update_batch_assets($data['file_asset'], $id);
-			}
-			
-			// 保存成功后，更新编辑器图片
-			Doggy_Log_Helper::debug("Upload file count[$file_count].");
-			if($file_count && !empty($this->stash['file_id'])){
-				$model->update_editor_asset($id, $this->stash['file_id']);
-			}
-
-			// 更新全文索引
-      if($data['published']==1){
-			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);
-      }
-			//更新百度推送
-			if($mode=='create' && $data['published']==1){
-			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10); 
-			}
-      // 由草稿转为发布状态
-      if($mode=='edit' && $old_published==0 && $data['published']==1){
- 			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10);        
-      }
 				
 		}catch(Sher_Core_Model_Exception $e){
-			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());
-			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
+			Doggy_Log_Helper::warn("保存失败：".$e->getMessage());
+			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
+		}catch(Exception $e){
+			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
+			
 		}
 		
-		$redirect_url = Sher_Core_Helper_Url::topic_view_url($id);
-		return $this->ajax_json('保存成功.', false, $redirect_url);
+		//$redirect_url = Sher_Core_Helper_Url::topic_view_url($id);
+		//return $this->ajax_json('保存成功.', false, $redirect_url);
 	}
 	
 	/**

@@ -9,19 +9,15 @@
 				{
 					type   : 'empty',
 					prompt : '标题不能为空'
-				},
-				{
-					type   : 'maxLength[75]',
-					prompt : '标题最多75个字符'
 				}
 			]
 		},
-		description: {
-			identifier  : 'des',
+		cover_id: {
+			identifier  : 'cover_id',
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '详细内容不能为空'
+					prompt : '必须选择封面图'
 				}
 			]
 		}
@@ -32,13 +28,15 @@
 			$(this).ajaxSubmit({
 				dataType: 'json',
 				beforeSubmit: function(){
+					// 点击前触发的事件
 					phenix.before_submit();
 				},
 				success: function(data){
+					// 点击后触发的事件
 					phenix.after_submit();
 					if(data.is_error){
 						$(event.target).addClass('error');
-						phenix.show_error_note(data.message, event.target);
+						phenix.show_error_note(data.message, 3000);
 					}else{
 						phenix.redirect(data.redirect_url);
 					}
@@ -162,7 +160,7 @@
                             </div>
 							<div class="ui right aligned grid">
 								<div class="column">
-									<div class="ui magenta inverted button save">
+									<div class="ui magenta inverted submit button save">
 										确认提交
 									</div>
 									<div class="ui inverted grey button cancel">

@@ -1,6 +1,6 @@
 <?php
 /**
- * 专辑分类 Model
+ * 产品名称 Model
  * @ author caowei@taihuoniao.com
  */
 class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
@@ -9,7 +9,7 @@ class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
     protected $schema = array(
-		# 投票名称
+		# 产品名称
 		'title' => '',
         # 所属描述
         'des' => '',
