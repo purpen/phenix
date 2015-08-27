@@ -1,0 +1,18 @@
+      <h3 class="ui header">相关话题</h3>
+			<div class="ui socialstick stickcount three blocks">
+                {{#result.rows}}
+				<div class="block">
+					<div class="image" {{#topic.cover}}style="background-image: url('{{ topic.cover.thumbnails.medium.view_url }}');"{{/topic.cover}}>
+                        <a class="transparent" href="{{ topic.view_url }}" target="_blank">
+							<div class="sub title">
+								<div style="height:45px;overflow:hidden;">{{ topic.title }}</div>
+        						<div class="extra count">
+        							<i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="comment outline icon"></i> <span>{{ topic.comment_count }}</span>
+        						</div>
+							</div>
+                        </a>
+					</div>
+				</div>
+				{{/result.rows}}
+			</div>
+

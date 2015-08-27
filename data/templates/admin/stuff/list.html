@@ -41,6 +41,9 @@
     <a href="{{ app_url_admin_base }}/stuff/swhj2_list" class="{{ css_swhj2_list }} item">
 			十万火计2
 		</a>
+    <a href="{{ app_url_admin_base }}/stuff/redesign_list" class="{{ css_redesign_list }} item">
+			反向定制
+		</a>
 
 	  	<div class="right menu">
 			<!--
@@ -110,9 +113,9 @@
 		</thead>
 		<tbody>
       {% if is_search %}
-			  {% stuff_list var:'list' load_contest:1 page:page s_type:s s_mark:q load_college:load_college sort:sort page:page size:30 %}
+			  {% stuff_list var:'list' load_contest:1 page:page s_type:s s_mark:q load_college:load_college from_to:from_to sort:sort page:page size:30 %}
       {%else%}
-			  {% stuff_list var:'list' load_contest:1 is_top:is_top category_id:category_id load_college:load_college sort:sort page:page size:30 %}
+			  {% stuff_list var:'list' load_contest:1 is_top:is_top category_id:category_id load_college:load_college from_to:from_to sort:sort page:page size:30 %}
       {%endif%}
 
 			{% for stuff in list.rows %}

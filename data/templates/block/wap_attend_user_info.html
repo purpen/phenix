@@ -1,7 +1,8 @@
-<div class="ui user-info-box small modal transition">
-  	<i class="close icon" style="right: 0 !important;top: 0.3em !important;"></i>
-	<div class="header">
+<div class="ui user-info-box small modal transition" style="margin: 0 0 0 -47.5% !important;position: absolute !important;top:0 !important;">
+  	
+	<div class="header" style="position:relative;">
 	    补全用户信息
+	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;"></i>
 	</div>
 	<div class="container">
 		<form action="{{ app_url_wap }}/active/ajax_attend" class="ui form" method="post" id="user-info-form">
@@ -9,6 +10,11 @@
 				<div class="ajax result"></div>
 				<input type="hidden" name="is_user_info" value="1" />
 				<input type="hidden" name="target_id" value="{{ active._id }}" />
+        {% if d3in_h5 %}
+				  <input type="hidden" name="evt" value="2" />
+        {%else%}
+				  <input type="hidden" name="evt" value="1" />
+        {%endif%}
 				<div class="ui signup-box">
 					<div class="two fields">
 						<div class="field">
@@ -29,8 +35,7 @@
 					</div>
 					<div class="field">
 						<label>地址</label>
-            <textarea name="address" class="small">{{ user_info.profile.address }}</textarea>
-						<div class="description">你的详细地址</div>
+            <input type="text" name="address" value="{{ user_info.profile.address }}" />
 					</div>
 				</div>
 		  	</div>

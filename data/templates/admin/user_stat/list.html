@@ -12,8 +12,11 @@
 	<h3 class="ui header">用户积分统计</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/user_stat" class="{{ css_all }} item">
+		<a href="{{ app_url_admin_base }}/user_stat" class="item{% if user_kind==0 %} active{%endif%}">
 			全部
+		</a>
+    <a href="{{ app_url_admin_base }}/user_stat?user_kind=1" class="item{% if user_kind==1 %} active{%endif%}">
+			鸟人
 		</a>
 
     <!--
@@ -46,6 +49,7 @@
 
 	<div class="ui sub search">
 		<form action="{{ app_url_admin_base }}/user_stat" method="get" class="ui form" id="search-form">
+      <input type="hidden" name="user_kind" value="{{ user_kind }}" />
 			<div class="five fields">
 				<div class="field">
 					<input type="text" name="month" placeholder="月份: 201505" value="{{ month }}" />
@@ -85,6 +89,9 @@
 			<tr>
 				<th></th>
 				<th>用户</th>
+        {% if user_kind==1 %}
+          <th>鸟人</th>
+        {%endif%}
 				<th>天/积/鸟</th>
 				<th>周/积/鸟</th>
 				<th>月/积/鸟</th>
@@ -94,7 +101,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% user_point_stat_list var:'list' sort:s week:week month:month day:day user_id:user_id kind:1 state:1 page:page size:50 %}
+			{% user_point_stat_list var:'list' sort:s week:week month:month day:day user_id:user_id user_kind:user_kind kind:1 state:1 page:page size:50 %}
 			
 			{% for b in list.rows %}
 			<tr id="{{ b._id }}">
@@ -106,11 +113,46 @@
 				</td>
 
 				<td>
+          {% if b.user_kind %}
+            {% if b.user_kind==1 %}
+              *
+            {%endif%}
+          {%endif%}
 					<a class="ui image label link" href="{{ b.user.home_url }}" target="_blank">
 					  	<img src="{{ b.user.mini_avatar_url }}">
 					  	{{ b.user.nickname }}
 					</a>
 				</td>
+        {% if b.user_kind==1 %}
+          <td>
+            {% if b.user.identify_info.position==1 %}
+              产品开发
+            {%endif%}
+            {% if b.user.identify_info.position==2 %}
+              渠道
+            {%endif%}
+            {% if b.user.identify_info.position==3 %}
+              市场
+            {%endif%}
+            {% if b.user.identify_info.position==4 %}
+              电商
+            {%endif%}
+            {% if b.user.identify_info.position==5 %}
+              社区
+            {%endif%}
+            {% if b.user.identify_info.position==6 %}
+              支持
+            {%endif%}
+            {% if b.user.identify_info.position==7 %}
+              深圳
+            {%endif%}
+            {% if b.user.identify_info.position==8 %}
+              其它
+            {%endif%}
+             - 
+            {{ b.user.identify_info.user_name }}
+          </td>
+        {%endif%}
 				<td>
           {{ b.day }}|{{ b.day_point_cnt }}/{{ b.day_money_cnt }}
 				</td>

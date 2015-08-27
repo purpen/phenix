@@ -14,26 +14,39 @@
 {% endblock %}
 {% block layout_js %}
 <script type="text/javascript">
-    var per_page = 10, sort = 0;
-	function fetch_evaluate(current_page, per_page){
-        var total_count = {{ product.comment_count }};
-        var total_page = Math.ceil(total_count/per_page);
-        var url = '{{ app_url_base }}/app/site/shop/ajax_fetch_comment';
-        $.get(url, {target_id: {{ product._id }}, page: current_page, per_page: per_page, total_page: total_page});
+
+    // 评论参数
+    var page = 1, per_page = 10;
+    var url = '{{ app_url_comment }}/ajax_fetch_comment?rand='+Math.random();
+    var target_id = "{{ product._id }}";
+    // 评论类型
+    var type = 4;
+    // 网页或手机
+    var from_site = 'site';
+    // 备用
+    var evt = 1;
+
+    // 是否是加载评分
+    {% if product.stage == 15 %}
+      var is_star = 0;
+      var sort = 0;
+    {%else%}
+      var is_star = 1;
+      var sort = 1;
+    {%endif%}
+
+    var comment_param = {
+      target_id: target_id,
+      page: page,
+      per_page: per_page,
+      sort: sort,
+      url: url,
+      type: type,
+      from_site: from_site,
+      evt: evt,
+      is_star: is_star
     }
-    
-    function fetch_comment(current_page, per_page, sort){
-        var url = '{{ app_url_comment }}/ajax_fetch_comment_site';
-        
-        // 添加loading 
-        $('.spinner.icon').ajaxStart(function(){
-            $(this).addClass('roundo');
-        }).ajaxStop(function(){
-            $(this).removeClass('roundo');
-        });
-        
-        $.get(url, {target_id: {{ product._id }}, type: 4, page: current_page, per_page: per_page, sort: sort});
-    }
+
 </script>
 {% endblock %}
 
@@ -346,7 +359,8 @@
 	phenix.hook_comment_page();
     
     {% if product.stage == 15 %}
-        fetch_comment(1, per_page, sort);
+        // ajax加载评论
+        phenix.fetch_comment(comment_param);
         // 评论排序
         $('.fitsort .ui.list .item').bind('click', function(){
             sort = parseInt($(this).data('sort'));
@@ -355,10 +369,13 @@
                 .end()
                 .addClass('active');
             // 获取请求
-            fetch_comment(1, per_page, sort);
+            comment_param.page = 1;
+            comment_param.sort = sort;
+            phenix.fetch_comment(comment_param);
         });
     {%else%}
-        fetch_evaluate(1, per_page);
+        // ajax加载评论
+        phenix.fetch_comment(comment_param);
     {%endif%}
 	
 	// 加载推荐商品 
@@ -588,7 +605,8 @@
                         </div>
                         <!--ajax comment-->
                         <div class="ui big reply segment" id="comment-list">
-                            <div class="ui threaded comments"></div>
+                            <div class="ui threaded comments is-comment"></div>
+                            <div class="morepages" id="load-more-btn"></div>
                         </div>
                     </div>
                 </div>
@@ -598,7 +616,7 @@
     </div>
     <div class="mainright">
         <div class="ui sticky">
-            {% if product.stage == 9 %}
+            {% if show_pay_btn %}
             <div class="sellwrap">
     			<div class="buy box">
     				<p>
@@ -901,5 +919,12 @@
 {% endblock %}
 
 {% block templates %}
-{% mustache id:'guess_products_tpl' tpl:'mustache/guess_products.mustache' %}
+
+  {% if product.stage == 15 %}
+    {% mustache id:'get_comments_tpl' tpl:'mustache/fetch_comments.mustache' %}
+  {%else%}
+    {% mustache id:'get_comments_tpl' tpl:'mustache/fetch_shop_comments.mustache' %}
+  {%endif%}
+
+  {% mustache id:'guess_products_tpl' tpl:'mustache/guess_products.mustache' %}
 {% endblock %}

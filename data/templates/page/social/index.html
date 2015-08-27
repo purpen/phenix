@@ -364,8 +364,8 @@
 																		<a href="{{ user.home_url }}" target="_blank" title="{{ user.nickname }}">
                                     <img src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" class="avatar" />
 																		</a>
-																		{% if user.kind==1 %}
-																		<img src="{{ app_url_packaged }}/images/V.png" class="image-HV">
+																		{% if user.symbol %}
+																		<img src="{{ app_url_packaged }}/images/V.png" class="image-HV{%if user.symbol==2%} blue{%endif%}">
 									                  {%endif%}
                                 </div>
                                 {% endfor %}

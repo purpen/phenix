@@ -8,6 +8,8 @@ class Sher_Core_Model_UserPointStat extends Sher_Core_Model_Base  {
 	
 	protected $schema = array(
     'user_id' => 0,
+    # 用户类型
+    'user_kind' => 0,
     'day' => 0, //格式 20150501
 
     'week' => 0, //格式 20151
@@ -48,7 +50,7 @@ class Sher_Core_Model_UserPointStat extends Sher_Core_Model_Base  {
 
   protected $required_fields = array('user_id');
 
-  protected $int_fields = array('state', 'user_id', 'kind', 'user_grade');
+  protected $int_fields = array('state', 'user_id', 'kind', 'user_grade', 'user_kind');
 
 	protected $joins = array(
 	  'user'  => array('user_id'  => 'Sher_Core_Model_User'),

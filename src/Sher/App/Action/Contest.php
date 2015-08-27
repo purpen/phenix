@@ -67,6 +67,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 		// 增加pv++
 		$model->increase_counter('view_count', 1, $contest['_id']);
         
+    $this->stash['target_id'] = $contest['_id'];
     $this->stash['contest'] = $contest;
 
     $render = sprintf("match/%s.html", $contest['short_name']);

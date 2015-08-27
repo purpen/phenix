@@ -118,6 +118,7 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
   public function ajax_attend(){
     $this->stash['stat'] = 0;
     $this->stash['msg'] = null;
+    $evt = $this->stash['evt'] = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 1;
     if(!$this->visitor->id){
       $this->stash['msg'] = '请登录';
 			return $this->to_taconite_page('ajax/wap_active_userinfo_show_error.html');
@@ -249,11 +250,21 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
           }elseif($step_stat==2){
             $result['rows'][$i]['is_running'] = false;           
           }
-        }
+
+          // 过滤用户表
+          if(isset($result['rows'][$i]['user'])){
+            $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
+          }
+
+        } // end for
         
-        $this->stash['results'] = $result;
+        $data['type'] = $type;
+        $data['page'] = $page;
+        $data['sort'] = $sort;
+        $data['size'] = $size;
+        $data['results'] = $result;
         
-        return $this->ajax_json('', false, '', $this->stash);
+        return $this->ajax_json('', false, '', $data);
   }
 
   /**

@@ -9,7 +9,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din');
 
 	
 	/**
@@ -17,6 +17,63 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 */
 	public function execute(){
 		//return $this->coupon();
+	}
+	
+	public function din(){
+		$this->stash['page_title_suffix'] = 'D3in';
+		//微信分享
+	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+	    $timestamp = $this->stash['timestamp'] = time();
+	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+	    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+	    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+	    $this->stash['wxSha1'] = sha1($wxOri);
+
+      $active_id = 12024;
+      //$active_id = 4;
+      $active_model = new Sher_Core_Model_Active();
+      $active = $active_model->load($active_id);
+
+      $redirect_url = Doggy_Config::$vars['app.url.wap.active'];
+
+      if(empty($active) || $active['deleted']){
+        return $this->show_message_page('访问的活动不存在或已被删除！', $redirect_url);
+      }
+
+      if($active['state']==0){
+        return $this->show_message_page('该活动已被禁用！', $redirect_url); 
+      }
+
+      $this->stash['is_attend'] = false;
+      $this->stash['user_info'] = array();
+      //验证用户是否已报名
+      if ($this->visitor->id){
+        $this->stash['user_info'] = &$this->stash['visitor'];
+        $mode_attend = new Sher_Core_Model_Attend();
+        $this->stash['is_attend'] = $mode_attend->check_signup($this->visitor->id, $active['_id'], 1);
+      }
+
+      $this->stash['d3in_h5'] = true;
+      $this->stash['active'] = $active;
+
+		  return $this->to_html_page('wap/promo/din.html');
+	}
+	
+	/**
+	 * 招聘
+	 */
+	public function hy(){
+		$this->stash['page_title_suffix'] = '火眼';
+		//微信分享
+	    /*$this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+	    $timestamp = $this->stash['timestamp'] = time();
+	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+	    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+	    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+	    $this->stash['wxSha1'] = sha1($wxOri);*/
+		return $this->to_html_page('wap/promo/hy.html');
 	}
 	
 	/**

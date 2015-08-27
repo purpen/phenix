@@ -424,7 +424,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 				//create new one
 				$asset->set_file($file);
 
-        $ext = end(explode('.', basename($filename)));
+                $ext = end(explode('.', basename($filename)));
 				
 				$image_info['size'] = $size;
 		        $image_info['mime'] = Doggy_Util_File::mime_content_type($filename);
@@ -503,7 +503,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		        if ($ok) {
 					$asset_id = (string)$asset->_id;
 					$result['link'] = Sher_Core_Helper_Url::asset_qiniu_view_url($asset->filepath, 'hd.jpg');
-          $result['filepath'] = Sher_Core_Helper_Url::asset_qiniu_view_url($asset->filepath);
+                    $result['filepath'] = Sher_Core_Helper_Url::asset_qiniu_view_url($asset->filepath);
 				}
 			}
 		} catch (Sher_Core_Model_Exception $e) {
@@ -517,6 +517,54 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		return $this->to_raw_json($result);
 	}
 	
+    /**
+     * 编辑器批量上传图片
+     */
+    public function feditor(){
+		$asset_domain = isset($this->stash['editor_domain'])?$this->stash['editor_domain']:Sher_Core_Util_Constant::STROAGE_ASSET;
+		$asset_type = isset($this->stash['editor_asset_type'])?$this->stash['editor_asset_type']:Sher_Core_Model_Asset::TYPE_ASSET;
+        
+		return $this->handle_upload($asset_type, $asset_domain);
+    }
+    
+    /**
+     * 获取上传的附件列表
+     * @return json
+     */
+    public function fetch_upload_assets(){
+		$assets_ids = isset($this->stash['assets'])?$this->stash['assets']:array();
+		$asset_type = $this->stash['asset_type'];
+		$asset_domain = $this->stash['asset_domain'];
+        $parent_id = (int)$this->stash['parent_id'];
+		
+        if(empty($assets_ids) && empty($parent_id)){
+            return $this->ajax_json(401, true);
+        }
+        
+        if(!empty($assets_ids)){
+            $model = new Sher_Core_Model_Asset();
+            $asset_list = $model->extend_load_all($assets_ids);
+        }
+        
+        // 最大支持100张图片
+        if(!empty($parent_id)){
+            $query = array(
+                'parent_id' => $parent_id,
+                'asset_type' => (int)$asset_type,
+            );
+            $options = array(
+                'page' => 1,
+                'size' => 100,
+                'sort_field' => 'latest',
+            );
+            $service = Sher_Core_Service_Asset::instance();
+            $result = $service->get_asset_list($query, $options);
+            $asset_list = $result['rows'];
+        }
+        
+        return $this->ajax_json('', false, '', $asset_list);
+    }
+    
 	/**
      * 检查指定附件的状态并返回附件列表到上传队列中
      *

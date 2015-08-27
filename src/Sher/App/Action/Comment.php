@@ -369,5 +369,138 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         }
         return $this->to_taconite_page($tmp);
     }
+
+    /**
+     * ajax获取评论(new mustache)
+     */
+    public function ajax_fetch_comment() {
+        $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
+        $target_id = !empty($this->stash['target_id'])?$this->stash['target_id']:-1;
+        $page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+        $per_page = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
+        $type = isset($this->stash['type'])?(int)$this->stash['type']:0;
+        // 加载类型为 分页或更多, 默认更多
+        $comment_load_type = isset($this->stash['comment_load_type'])?(int)$this->stash['comment_load_type']:1;
+        $sort = isset($this->stash['sort'])?(int)$this->stash['sort']:0;
+        // wap 或 site
+        $from_site = isset($this->stash['from_site']) ? $this->stash['from_site'] : 'site';
+        $target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : null;
+        // 是否加载评分
+        $is_star = isset($this->stash['is_star']) ? (int)$this->stash['is_star'] : 0;
+
+        if(empty($target_id)){
+          return false;
+        }
+        
+        $service = Sher_Core_Service_Comment::instance();
+        
+        $query = array();
+        $options = array();
+        $query['target_id'] = $target_id;
+        $query['type'] = $type;
+        $options['page'] = $page;
+        $options['size'] = $per_page;
+
+        // 排序
+        switch ($sort) {
+          case 0:
+            $options['sort_field'] = 'earliest';
+            break;
+          case 1:
+            $options['sort_field'] = 'latest';
+            break;
+          case 2:
+            $options['sort_field'] = 'hotest';
+            break;
+        }
+        
+        $resultlist = $service->get_comment_list($query,$options);
+        $next_page = 'no';
+        if(isset($resultlist['next_page'])){
+            if((int)$resultlist['next_page'] > $page){
+                $next_page = (int)$resultlist['next_page'];
+            }
+        }
+        
+        //加载赞
+        $favorite = new Sher_Core_Model_Favorite();
+        for($i=0;$i<count($resultlist['rows']);$i++){
+          $is_deleted = !empty($resultlist['rows'][$i]['deleted']) ? true : false;
+          $is_reply = !empty($resultlist['rows'][$i]['is_reply']) ? true : false;
+          $is_love_count = !empty($resultlist['rows'][$i]['love_count']) ? true : false;
+          // 是否有删除权限
+          if($this->visitor->can_admin || $current_user_id==$resultlist['rows'][$i]['user_id']){
+            $resultlist['rows'][$i]['is_edit'] = true;           
+          }else{
+            $resultlist['rows'][$i]['is_edit'] = false;          
+          }
+
+          $is_old_reply = !empty($result['rows'][$i]['reply']) ? true : false;
+
+          $is_loved = $favorite->check_loved((int)$current_user_id, (string)$resultlist['rows'][$i]['_id'], Sher_Core_Model_Favorite::TYPE_COMMENT);
+
+          // 加载评分
+          if(!empty($is_star)){
+            $star = isset($resultlist['rows'][$i]['star']) ? (int)$resultlist['rows'][$i]['star'] : 0;
+            switch($star){
+              case 0:
+                $resultlist['rows'][$i]['star0'] = true;
+                break;
+              case 1:
+                $resultlist['rows'][$i]['star1'] = true;
+                break;
+              case 2:
+                $resultlist['rows'][$i]['star2'] = true;
+                break;
+              case 3:
+                $resultlist['rows'][$i]['star3'] = true;
+                break;
+              case 4:
+                $resultlist['rows'][$i]['star4'] = true;
+                break;
+              case 5:
+                $resultlist['rows'][$i]['star5'] = true;
+                break;
+            }
+          }
+
+          // 过滤用户表
+          if(isset($resultlist['rows'][$i]['user'])){
+            $resultlist['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['user']);
+          }
+          // 过滤用户表
+          if(isset($resultlist['rows'][$i]['target_user'])){
+            $resultlist['rows'][$i]['target_user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['target_user']);
+          }
+
+          $resultlist['rows'][$i]['_id'] = (string)$resultlist['rows'][$i]['_id'];
+          $resultlist['rows'][$i]['is_deleted'] = $is_deleted;
+          $resultlist['rows'][$i]['is_reply'] = $is_reply;
+          $resultlist['rows'][$i]['is_love_count'] = $is_love_count;
+          $resultlist['rows'][$i]['is_old_reply'] = $is_old_reply;
+          $resultlist['rows'][$i]['is_loved'] = $is_loved;
+        }
+
+        $data = array();
+
+        if($this->visitor->id){
+          $data['is_login'] = true;
+          if($this->visitor->can_admin){
+            $data['can_admin'] = true;
+          }
+        }else{
+          $data['is_login'] = false;
+        }
+
+        $data['next_page'] = $next_page;
+        $data['page'] = $page;
+        $data['from_site'] = $from_site;
+        $data['comment_load_type'] = $comment_load_type;
+        $data['sort'] = $sort;
+        $data['per_page'] = $per_page;
+        $data['result'] = $resultlist;
+        
+        return $this->ajax_json('', false, '', $data);
+    }
   	
 }

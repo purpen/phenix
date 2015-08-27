@@ -92,9 +92,19 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         $service = Sher_Core_Service_Topic::instance();
         
         $query = array();
+        $query['published'] = 1;
         $options['page'] = $page;
         $options['size'] = 15;
 		    $options['sort_field'] = 'latest';
+
+        //限制输出字段
+        $some_fields = array(
+          '_id'=>1, 'title'=>1, 'short_title'=>1, 'user_id'=>1, 't_color'=>1, 'top'=>1,
+          'fine'=>1, 'stick'=>1, 'category_id'=>1, 'created_on'=>1, 'asset_count'=>1,
+          'last_user'=>1, 'last_reply_time'=>1, 'cover_id'=>1, 'comment_count'=>1, 'view_count'=>1,
+          'updated_on'=>1, 'favorite_count'=>1, 'love_count'=>1, 'deleted'=>1,'published'=>1, 'tags'=>1,
+        );
+        $options['some_fields'] = $some_fields;
         
         $resultlist = $service->get_topic_list($query,$options);
         $next_page = 'no';
@@ -106,6 +116,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         
         $max = count($resultlist['rows']);
         for($i=0;$i<$max;$i++){
+            $symbol = isset($resultlist['rows'][$i]['user']['symbol']) ? $resultlist['rows'][$i]['user']['symbol'] : 0;
+            if(!empty($symbol)){
+              $s_key = sprintf("symbol_%d", $symbol);
+              $resultlist['rows'][$i]['user'][$s_key] = true;
+            }
             if($resultlist['rows'][$i]['asset_count'] > 0){
                 $asset = Sher_Core_Service_Asset::instance();
                 $q = array(
@@ -122,12 +137,21 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
                 
                 //print_r($resultlist['rows'][$i]['asset_list']);
             }
-        }
+
+            // 过滤用户表
+            if(isset($resultlist['rows'][$i]['user'])){
+              $resultlist['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['user']);
+            }
+            if(isset($resultlist['rows'][$i]['last_user'])){
+              $resultlist['rows'][$i]['last_user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['last_user']);
+            }
+        } //end for
+
+        $data = array();
+        $data['nex_page'] = $next_page;
+        $data['results'] = $resultlist;
         
-        $this->stash['nex_page'] = $next_page;
-        $this->stash['results'] = $resultlist;
-        
-        return $this->ajax_json('', false, '', $this->stash);
+        return $this->ajax_json('', false, '', $data);
     }
     
 	/**
@@ -135,7 +159,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 */
 	public function ajax_guess_topics(){
 		$sword = $this->stash['sword'];
-        $current_id = $this->stash['id'];
+    $current_id = $this->stash['id'];
 		$size = $this->stash['size'];
         
 		$result = array();
@@ -159,6 +183,13 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         foreach($xun_arr['data'] as $k=>$v){
           $topic = $topic_mode->extend_load((int)$v['oid']);
           if(!empty($topic)){
+            // 过滤用户表
+            if(isset($topic['user'])){
+              $topic['user'] = Sher_Core_Helper_FilterFields::user_list($topic['user']);
+            }
+            if(isset($topic['last_user'])){
+              $topic['last_user'] = Sher_Core_Helper_FilterFields::user_list($topic['last_user']);
+            }
             array_push($items, array('topic'=>$topic));
           }
         }
@@ -174,9 +205,14 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
       }
 
 		}
-		$this->stash['result'] = $result;
-		
-		return $this->to_taconite_page('ajax/guess_topics.html');
+    if(!empty($result)){
+      $data['state'] = 1;
+      $data['result'] = $result;
+    }else{
+      $data['state'] = 0;
+      $data['result'] = '';   
+    }
+    return $this->ajax_json('', false, '', $data);
 	}
 	
 	/**
@@ -504,6 +540,19 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			}
 		}
 		
+		$can_vote = 0;
+		if(isset($topic['vote_id']) && !empty($topic['vote_id'])){
+			$model = new Sher_Core_Model_VoteRecord();
+			$data = array();
+			$data['vote_id'] = $topic['vote_id'];
+			$data['user_id'] = $this->visitor->id;
+			$data['relate_id'] = (int)$id;
+			$voteRecord = $model->find($data);
+			if(count($voteRecord)){
+				$can_vote = 1;
+			}
+		}
+		
 		// 添加显示权限(登陆状态、发帖本人、星级会员)
 		$vote_show = 0;
 		if($this->visitor->id && (int)$this->visitor->id == (int)$topic['user_id'] && $this->visitor->mentor){
@@ -511,7 +560,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		$this->stash['is_vote'] = $is_vote;
-		$this->stash['vote_show'] = $vote_show;
+		$this->stash['is_vote'] = $is_vote;
+		$this->stash['can_vote'] = $can_vote;
 		return $this->to_html_page($tpl);
 	}
 	
@@ -873,14 +923,15 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$data['try_id'] = $this->stash['try_id'];
 		$data['published'] = (int)$this->stash['published'];
-    $old_published = isset($this->stash['old_published'])?(int)$this->stash['old_published']:1;
+        $old_published = isset($this->stash['old_published'])?(int)$this->stash['old_published']:1;
 
 		$data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
 		$data['t_color'] = isset($this->stash['t_color'])?(int)$this->stash['t_color']:0;
 		
 		// 检测编辑器图片数
 		$file_count = isset($this->stash['file_count']) ? (int)$this->stash['file_count'] : 0;
-		
+        $newadd_asset_ids = isset($this->stash['newadd_asset_ids'])?$this->stash['newadd_asset_ids']:'';
+        
 		// 检查是否有图片
 		if(isset($this->stash['asset'])){
 			$data['asset'] = $this->stash['asset'];
@@ -922,7 +973,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			if(isset($data['asset']) && !empty($data['asset'])){
 				$this->update_batch_assets($data['asset'], $id);
 			}
-
+            // 上传成功后，更新编辑器图片
+            if(!empty($newadd_asset_ids)){
+                $newadd_asset = array_filter(array_unique(preg_split('/[,]+/u', $newadd_asset_ids)));
+                $this->update_batch_assets($newadd_asset, $id);
+            }
 			// 上传成功后，更新所属的附件
 			if(isset($data['file_asset']) && !empty($data['file_asset'])){
 				$this->update_batch_assets($data['file_asset'], $id);
@@ -930,14 +985,14 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			
 			// 保存成功后，更新编辑器图片
 			Doggy_Log_Helper::debug("Upload file count[$file_count].");
-			if($file_count && !empty($this->stash['file_id'])){
+			if(!empty($this->stash['file_id'])){
 				$model->update_editor_asset($id, $this->stash['file_id']);
 			}
-
-			// 更新全文索引
-      if($data['published']==1){
-			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);
-      }
+            
+            // 更新全文索引
+            if($data['published'] == 1){
+                Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);
+            }
 			//更新百度推送
 			if($mode=='create' && $data['published']==1){
 			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10); 

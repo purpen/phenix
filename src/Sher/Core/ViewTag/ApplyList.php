@@ -21,6 +21,7 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
 		$state = 0;
 		$target_id = 0;
 		$user_id = 0;
+    $is_invented = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -46,6 +47,14 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
 		if ($state) {
 			$query['state'] = (int)$state;
 		}
+
+    if($is_invented){
+      if((int)$is_invented==-1){
+        $query['is_invented'] = array('$ne'=>1);
+      }else{
+        $query['is_invented'] = 1;
+      }
+    }
 		
         $service = Sher_Core_Service_Apply::instance();
         $options['page'] = $page;

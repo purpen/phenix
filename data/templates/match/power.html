@@ -126,6 +126,97 @@
 {% endblock %}
 {% block jquery %}
 
+	phenix.bind_share_list();
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ contest.wap_view_url }}'});
+
+  //报名按钮
+	$('.ui.attend.button').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+
+    //验证用户信息齐全
+    $.get('{{ app_url_domain }}/user/ajax_check_userinfo', {}, function(result){
+      if(result=='true'){
+        //跳转参赛上传页面
+        phenix.redirect('{{ app_url_stuff }}/contest_submit?contest_id={{ contest._id }}');
+      }else if(result=='false'){
+        $('.ui.user-info-box.modal').modal('show');
+        return false; 
+      }
+    });
+
+	});
+
+  //取消报名弹出框
+	$('.ui.deny.button').click(function(){
+		$('.ui.user-info-box.modal').modal('hide');
+	});
+
+	$('#user-info-form').livequery(function(){
+		$(this).form({
+			realname: {
+				identifier  : 'realname',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'phone',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '电话不能为空'
+					}
+				]
+			},
+			address: {
+				identifier  : 'address',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '地址不能为空'
+					}
+				]
+			},
+			job: {
+				identifier  : 'job',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '职位不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+        $(this).ajaxSubmit({
+          dataType: 'json',
+          beforeSubmit: function(){
+            phenix.before_submit();
+          },
+          success: function(data){
+            phenix.after_submit();
+            
+            if(data.is_error){
+              $(event.target).addClass('error');
+              phenix.show_error_note(data.message, event.target);
+            }else{
+              phenix.redirect(data.redirect_url);
+            }
+          }
+        });
+			}
+		});
+	});
 
 {% endblock %}
 {% block content %}
@@ -138,13 +229,39 @@
                     <a href="{{ app_url_contest }}/custom" class="ui big inverted active button">
                         <i class="browser icon"></i> 查看规则
                     </a>
-                    <a href="{{ app_url_stuff }}/contest_submit?contest_id={{ contest._id }}" class="ui big inverted active button">
+                    <a href="javascript:void(0);" class="ui big inverted attend active button">
                         <i class="cloud upload icon"></i> 上传作品
                     </a>
                 </div>
             </div>
         </div>
     </div>
+
+  <div class="ui big gray block" style="padding-top:2.5em;">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui right aligned column">
+                <div class="user share">
+                	<span style="line-height: 42px;"><i class="share alternate icon"></i>分享：</span>
+                	<a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+                		<i class="weibo icon large circular red inverted"></i>
+                	</a>
+                	<a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+                		<i class="weixin icon large circular green inverted"></i>
+                	</a>
+                	<a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+                		<i class="tencent weibo icon large circular blue inverted"></i>
+                	</a>
+                	<a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+                		<i class="icon renren large circular blue inverted"></i>
+                	</a>
+                </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
   <div class="ui big gray block">
     <div class="ui responsive grid">
       <div class="row">
@@ -296,7 +413,7 @@
           </h3>
         </div>
         <div class="ui ten wide column">
-          <p>可以在手柄舒适、刷头创新、功能挖掘、折叠便携，美感度提升等方向展开思路。</p>
+          <p>可以在外观工业设计、材质创新、兼容性改善、便携提升等方向展开思路。</p>
         </div>
       </div>
     </div>
@@ -363,10 +480,12 @@
 						反向定制
 					</a>
 					<i class="angle right icon divider"></i>
-					<div class="active section">电动牙刷主题设计</div>
+					<div class="active section">移动电源主题设计</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+{% include "block/contest_attend_user_info.html" %}
+{% include "block/qrcode.html" %}
 {% endblock %}

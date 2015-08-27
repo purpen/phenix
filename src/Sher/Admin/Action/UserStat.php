@@ -9,14 +9,16 @@ class Sher_Admin_Action_UserStat extends Sher_Admin_Action_Base implements Doggy
 		'page' => 1,
 		'size' => 50,
     's' => 1,
-    'month' => 0,
-    'week' => 0,
-    'day' => 0,
+    'month' => '',
+    'week' => '',
+    'day' => '',
     'month_sort' => 0,
     'week_sort' => 0,
     'sort_point' => 0,
     'sort_money' => 0,
-    'user_id' => 0,
+    'user_id' => '',
+    'kind' => 0,
+    'user_kind' => 0,
 	);
 	
 	public function _init() {
@@ -35,10 +37,9 @@ class Sher_Admin_Action_UserStat extends Sher_Admin_Action_Base implements Doggy
 	 */
 	public function get_list() {
 
-    $this->set_target_css_state('all');
 		$page = (int)$this->stash['page'];
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/user_stat?month=%d&week=%d&day=%d&user_id=%d&s=%d&page=#p#', $this->stash['month'], $this->stash['week'], $this->stash['day'], $this->stash['user_id'], $this->stash['s']);
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/user_stat?month=%d&week=%d&day=%d&user_id=%d&s=%d&user_kind=%d&page=#p#', $this->stash['month'], $this->stash['week'], $this->stash['day'], $this->stash['user_id'], $this->stash['s'], $this->stash['user_kind']);
 		
 		$this->stash['pager_url'] = $pager_url;
 		

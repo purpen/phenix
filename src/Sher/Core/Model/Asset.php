@@ -114,8 +114,8 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 			'massive' => array(),
 		),
 
-    // 类型
-    'kind' => 1,
+        // 类型
+        'kind' => 1,
 		
 		'domain' => Sher_Core_Util_Constant::STROAGE_ASSET,
 		'asset_type' => self::TYPE_PRODUCT,
@@ -153,6 +153,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
     protected $int_fields = array('user_id', 'parent_id','size','width','height','asset_type','state');
 	
     protected function extra_extend_model_row(&$row) {
+        $row['id'] = (string)$row['_id'];
 		if (!empty($row['filepath'])){
 			$row['fileurl'] = Sher_Core_Helper_Url::asset_qiniu_view_url($row['filepath']);
 		}

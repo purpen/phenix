@@ -118,11 +118,14 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		}
 		
 		// 获取某个时段内
-		if ($start_time) {
-			$query['created_on'] = array(
-				'$gt' => $start_time,
-				'$lt' => $end_time,
-			);
+		if($start_time && $end_time){
+			$query['created_on'] = array('$gte' => $start_time, '$lte' => $end_time);
+		}
+		if($start_time && !$end_time){
+			$query['created_on'] = array('$gte' => $start_time);
+		}
+		if(!$start_time && $end_time){
+			$query['created_on'] = array('$lte' => $end_time);
 		}
         
         //90天未登录的用户为休眠用户
