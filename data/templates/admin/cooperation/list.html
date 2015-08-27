@@ -52,7 +52,7 @@
 			{% cooperate_list var:'cooperate' page:page type:rid category_id:cid district:district %}
 			
 			{% for b in cooperate.rows %}
-			<tr id="{{ b._id }}">
+			<tr id="item_{{ b._id }}">
 				<td>
 					<div class="ui checkbox">
 					  	<input name="ids[]" type="checkbox" value="{{ b._id }}" />
@@ -67,13 +67,38 @@
           {{ b.city }}
 				</td>
         <td>
-          {{ b.state }}
+					<p class="state-box">
+          {% if b.state=='-1' %}
+							<span class="ui small red label">拒绝</span>
+          {%endif%}
+          {% if b.state==0 %}
+							<span class="ui small orange label">待审核</span>
+          {%endif%}
+          {% if b.state==1 %}
+							<span class="ui small yellow label">审核中</span>
+          {%endif%}
+          {% if b.state==2 %}
+							<span class="ui small green label">通过</span>
+          {%endif%}
+					</p>
         </td>
         <td>
-          <!--
+          <span class="state-button">
+          {% if b.state==0 %}
+            <a href="{{ app_url_admin_base }}/cooperation/ajax_set_state?id={{ b._id }}&state=2" class="ui link ajax item">通过</a>
+            | 
+            <a href="{{ app_url_admin_base }}/cooperation/ajax_set_state?id={{ b._id }}&state=-1" class="ui link ajax item">拒绝</a>
+          {%endif%}
+          {% if b.state=='-1' %}
+            <a href="{{ app_url_admin_base }}/cooperation/ajax_set_state?id={{ b._id }}&state=2" class="ui link ajax item">通过</a>
+          {%endif%}
+          {% if b.state==2 %}
+            <a href="{{ app_url_admin_base }}/cooperation/ajax_set_state?id={{ b._id }}&state=-1" class="ui link ajax item">拒绝</a>
+          {%endif%}
+          </span>
+          |
 					<a href="{{ app_url_admin_base }}/cooperation/submit?id={{ b._id }}" class="ui link item">编辑</a>
           | 
-          -->
           <a href="{{ app_url_admin }}/cooperation/deleted?id={{ b._id }}" class="ui confirm-request link item">
               删除
           </a>
