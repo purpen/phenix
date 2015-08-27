@@ -1,0 +1,125 @@
+{%extends 'layout/column.html'%}
+{% block title %}发私信-{% endblock %}
+{% block page_css %}
+<style class="text/css">
+    .account .avatar {
+    	min-height: 25em;
+    }
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+    /* 个人资料表单验证 */
+	$('#message-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请添写私信内容'
+				}
+
+			]
+		},
+		users: {
+			identifier  : 'users',
+			rules: [
+				{
+					type   : 'checked',
+					prompt : '请选择用户'
+				}
+
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+            phenix.show_ok_note('私信发送成功!');
+            $(':input[name=content]').val('');
+            $(":input[name='users[]']").attr('checked', false);
+					}
+				}
+			});
+		}
+	});
+{% endblock %}
+{% block content %}
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}">
+						个人中心
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">发私信</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="account profile">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu_center.html" %}
+		</div>
+		<div class="twelve wide column">
+			<h2 class="ui header">发私信</h2>
+      {% include "block/center/head_notice_nav.html" %}
+			<div class="ui segment">
+				<form action="{{app_url_my}}/do_send_message" method="post" class="ui fluid form" id="message-form">
+					
+					<h3 class="ui dividing header">关注的人</h3>
+          {% follow_list var:'list' page:page user_id:user_id size:20 myfans:0 %}
+          <div style="margin:5px 5px 20px 0px;">
+
+          {% for f in list.rows %}
+            <div class="ui checkbox">
+					  	<input name="users[]" type="checkbox" value="{{ f.follow._id }}" class="checkbox" />
+					  	<label>
+              <a class="ui image label link" href="javascript:void(0);">
+                  <img src="{{ f.follow.mini_avatar_url }}">
+                  {{ f.follow.nickname }}
+              </a>
+              </label>
+					</div>
+          {%endfor%}
+          
+          </div>
+
+        <div>
+
+						<div class="field">
+							<label>私信内容：</label>
+							<textarea name="content"></textarea>
+						</div>
+        </div>
+
+					<input type="submit" class="ui inverted magenta button" value="发送" />
+					
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
