@@ -124,7 +124,10 @@
         //跳转参赛上传页面
         phenix.redirect('{{ app_url_wap }}/stuff/contest_submit?contest_id={{ contest._id }}');
       }else if(result=='false'){
-        $('#user-info-form').modal('show');
+        
+        $('.user-info-box.modal')
+        .modal('setting', 'transition', 'vertical  flip')
+        .modal('show');
         return false; 
       }
     });
@@ -353,7 +356,7 @@
               Innovation Direction
             </div>
           </h3>
-          <p>可以在手柄舒适、刷头创新、功能挖掘、折叠便携，美感度提升等方向展开思路。</p>
+          <p>可以在外观工业设计、材质创新、兼容性改善、便携提升等方向展开思路。</p>
         </div>
       </div>
     </div>
