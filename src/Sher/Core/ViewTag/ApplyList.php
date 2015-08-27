@@ -50,7 +50,7 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
 
     if($is_invented){
       if((int)$is_invented==-1){
-        $query['is_invented'] = 0;
+        $query['is_invented'] = array('$ne'=>1);
       }else{
         $query['is_invented'] = 1;
       }

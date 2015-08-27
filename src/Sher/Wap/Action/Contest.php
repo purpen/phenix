@@ -269,6 +269,7 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 		// 增加pv++
 		$model->increase_counter('view_count', 1, $contest['_id']);
         
+    $this->stash['target_id'] = $contest['_id'];
     $this->stash['contest'] = $contest;
 
     $render = sprintf("wap/contest/%s.html", $contest['short_name']);
