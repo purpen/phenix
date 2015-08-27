@@ -381,7 +381,7 @@
 	  z-index:2;
 	}
 	
-	.page-3-1,.page-4-1,.page-5-1{
+	.page-3-1,.page-4-1,.page-5-1,.page-6-1{
 	  background:url({{ app_url_packaged }}/images/promo/hy/bg3.jpg) no-repeat center center /cover;
 	}
 	.pt3-2{
@@ -543,6 +543,27 @@
 	  animation-delay:2.6s;
   	-webkit-animation-delay:2.6s;
 	}
+	.pt6-1{
+	  width:100%;
+	  left:0;
+	  top:30%;
+	}
+	.pt6-2{
+	  width:100%;
+	  left:0;
+	  top:45%;
+	}
+	.pt6-3{
+	  width:100%;
+	  left:0;
+	  top:66%;
+	}
+	.pt6-4{
+	  width:100%;
+	  left:0;
+	  top:75%;
+	}
+	
 </style>
 {% endblock %}
 
@@ -748,7 +769,7 @@
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
 <div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
-<div class="page page-1-1 page-current">
+<div class="page page-1-1 hide">
 	<div class="wrap">
 	  <!--<img src="{{ app_url_packaged }}/images/promo/hy/1t.png" class="st pt-1">-->
 	  <div class="st pt-0"></div>
@@ -815,6 +836,17 @@
     <img src="{{ app_url_packaged }}/images/t5w7.png" class="st pt5-7 fadeInLeftBig animated">
     <img src="{{ app_url_packaged }}/images/t5w8.png" class="st pt5-8 fadeInRightBig animated">
     <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated">
+  </div>
+</div>
+
+<div class="page page-6-1 page-current">
+  <div class="wrap">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t6-1.png " class="st pt3-1 lightSpeedIn animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t6w1.png" class="st pt6-1 fadeInUp animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t6w2.png" class="st pt6-2 fadeInUp animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t6w3.png" class="st pt6-3 fadeInUp animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t6w4.png" class="st pt6-4 fadeInUp animated">
+  
   </div>
 </div>
 
