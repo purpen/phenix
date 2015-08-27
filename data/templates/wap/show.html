@@ -503,7 +503,13 @@
 					<div class="ui right floated aligned grid" style="margin: 20px 0 20px;">
 						<div class="row">
 							<div class="column">
+                {% if can_vote %}
+                <div class="ui big inverted active white button">
+                    <span><i class="smile icon"></i> 已投票，感谢参与！</span>
+                </div>
+                {%else%}
 								<div  id="vote-save" class="ui magenta active inverted submit button">确认投票</div>
+                {%endif%}
 							</div>
 						</div>
 					</div>
