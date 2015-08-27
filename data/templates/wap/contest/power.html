@@ -125,7 +125,7 @@
         phenix.redirect('{{ app_url_wap }}/stuff/contest_submit?contest_id={{ contest._id }}');
       }else if(result=='false'){
         
-        $('.user-info-form')
+        $('.user-info-box.modal')
         .modal('setting', 'transition', 'vertical  flip')
         .modal('show');
         return false; 
