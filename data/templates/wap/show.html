@@ -322,12 +322,14 @@
 	
 	// 投票提交部分
     $('#vote-save').click(function(){
-    
-		var user_id = '{{ visitor.id }}';
-		if(!user_id){
-		  phenix.show_error_note('请登陆后在投票!');
-		  return false;
+
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
 		}
+
+		var user_id = '{{ visitor.id }}';
 		
 		var vote = {};
 		vote.topic_id = $('input[name=topic_id]').val();

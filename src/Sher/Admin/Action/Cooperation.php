@@ -75,7 +75,7 @@ class Sher_Admin_Action_Cooperation extends Sher_Admin_Action_Base implements Do
     $state = isset($this->stash['state']) ? (int)$this->stash['state'] : 0;
 
     if(empty($id)){
-      return $this->ajax_note('缺少请求参数!');
+      return $this->ajax_note('缺少请求参数!', true);
     }
 
     $model = new Sher_Core_Model_Cooperation();
@@ -83,7 +83,7 @@ class Sher_Admin_Action_Cooperation extends Sher_Admin_Action_Base implements Do
     if($ok){
  		  return $this->to_taconite_page('admin/cooperation/ajax_state.html');     
     }else{
-      return $this->ajax_note('设置失败!');   
+      return $this->ajax_note('设置失败!', true);   
     }
 
   }
