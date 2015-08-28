@@ -1140,77 +1140,78 @@
       $('#mask').click(function(){
           $('#mask').css('display','none');
       });
+      
+      $('#user-info-form').livequery(function(){
+    		$(this).form({
+    			realname: {
+    				identifier  : 'realname',
+    				rules: [
+    					{
+    						type   : 'empty',
+    						prompt : '姓名不能为空'
+    					}
+    				]
+    			},
+    			phone: {
+    				identifier  : 'phone',
+    				rules: [
+    					{
+    						type   : 'empty',
+    						prompt : '电话不能为空'
+    					}
+    				]
+    			},
+    			address: {
+    				identifier  : 'address',
+    				rules: [
+    					{
+    						type   : 'empty',
+    						prompt : '地址不能为空'
+    					}
+    				]
+    			},
+    			job: {
+    				identifier  : 'job',
+    				rules: [
+    					{
+    						type   : 'empty',
+    						prompt : '职位不能为空'
+    					}
+    				]
+    			}
+    		}, {
+    			inline : true,
+    			onSuccess: function(event){
+    				event.preventDefault();
+    				$(this).ajaxSubmit();
+    			}
+    		});
+    	});
+
+      //报名按钮
+    	$('.join').click(function(){
+    	  alert(123);
+    		// 所有ajax请求，验证是否登录
+    		if (!phenix.visitor.is_login){
+    		  phenix.redirect("{{ app_url_wap }}/auth/login");
+    			return false;
+    		}
+        $('.ui.user-info-box.modal')
+        .modal('setting', 'closable', false)
+        .modal('setting', 'transition', 'vertical  flip')
+        .modal('show');
+        return false; 
+    	});
+    	$('.ui.deny.button').click(function(){
+    		$('.ui.user-info-box.modal').modal('hide');
+    	});
+      
+      
+      
 	</script>
 	<script>document.write('<style>#loading{display:none}</style>');</script> 
 
 
-{% endblock %}
-{% block jquery %}
-
-	$('#user-info-form').livequery(function(){
-		$(this).form({
-			realname: {
-				identifier  : 'realname',
-				rules: [
-					{
-						type   : 'empty',
-						prompt : '姓名不能为空'
-					}
-				]
-			},
-			phone: {
-				identifier  : 'phone',
-				rules: [
-					{
-						type   : 'empty',
-						prompt : '电话不能为空'
-					}
-				]
-			},
-			address: {
-				identifier  : 'address',
-				rules: [
-					{
-						type   : 'empty',
-						prompt : '地址不能为空'
-					}
-				]
-			},
-			job: {
-				identifier  : 'job',
-				rules: [
-					{
-						type   : 'empty',
-						prompt : '职位不能为空'
-					}
-				]
-			}
-		}, {
-			inline : true,
-			onSuccess: function(event){
-				event.preventDefault();
-				$(this).ajaxSubmit();
-			}
-		});
-	});
-
-  //报名按钮
-	$('.join').click(function(){
-	  alert(123);
-		// 所有ajax请求，验证是否登录
-		if (!phenix.visitor.is_login){
-		  phenix.redirect("{{ app_url_wap }}/auth/login");
-			return false;
-		}
-    $('.ui.user-info-box.modal')
-    .modal('setting', 'closable', false)
-    .modal('setting', 'transition', 'vertical  flip')
-    .modal('show');
-    return false; 
-	});
-	$('.ui.deny.button').click(function(){
-		$('.ui.user-info-box.modal').modal('hide');
-	});
 {% endblock %}
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
