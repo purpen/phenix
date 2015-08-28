@@ -934,7 +934,7 @@
 	  left:5%;
 	  top:2%;
 	  z-index:2;
-	  -webkit-animation: 'scal' 6s linear infinite;
+	  -webkit-animation: 'scal' 4s linear infinite;
   }
   @-webkit-keyframes scal {
 		0% { -webkit-transform: scale(0.5); }
@@ -1145,6 +1145,71 @@
 
 
 {% endblock %}
+{% block jquery %}
+
+	$('#user-info-form').livequery(function(){
+		$(this).form({
+			realname: {
+				identifier  : 'realname',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'phone',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '电话不能为空'
+					}
+				]
+			},
+			address: {
+				identifier  : 'address',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '地址不能为空'
+					}
+				]
+			},
+			job: {
+				identifier  : 'job',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '职位不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+				$(this).ajaxSubmit();
+			}
+		});
+	});
+
+  //报名按钮
+	$('.ui.attend.button').click(function(e){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+		  phenix.redirect("{{ app_url_wap }}/auth/login");
+			return false;
+		}
+    $('.ui.user-info-box.modal')
+    .modal('setting', 'closable', false)
+    .modal('setting', 'transition', 'vertical  flip')
+    .modal('show');
+    return false; 
+	});
+	$('.ui.deny.button').click(function(){
+		$('.ui.user-info-box.modal').modal('hide');
+	});
 
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
@@ -1342,8 +1407,10 @@
 
 <div class="page page-15-1 hide">
   <div class="wrap">
+    <div class="ui attend button">
     <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join">
     <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint">
+    </div>
     <img src="{{ app_url_packaged }}/images/promo/hy/t15-1.png" class="st pt3-1 lightSpeedIn animated">
     <img src="{{ app_url_packaged }}/images/promo/hy/t15w1.png" class="st pt15-1 pt15 bounceInLeft animated">
     <img src="{{ app_url_packaged }}/images/promo/hy/t15w2.png" class="st pt15-2 pt15 page-logo">
@@ -1353,4 +1420,5 @@
   </div>
 </div>
 
+{% include "block/wap_attend_user_info.html" %}
 {% endblock %}
