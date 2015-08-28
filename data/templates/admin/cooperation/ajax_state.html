@@ -1,0 +1,19 @@
+<taconite>
+	{% if state == '-1' %}
+  <replaceContent select="#item_{{ id }} .state-box"><![CDATA[
+		<span class="ui small red label">拒绝</span>
+    ]]></replaceContent>
+	<replaceContent select="#item_{{ id }} .state-button"><![CDATA[
+    <a href="{{ app_url_admin_base }}/cooperation/ajax_set_state?id={{ id }}&state=2" class="ui link ajax item">通过</a>
+    ]]></replaceContent>
+	{% endif %}
+	
+	{% if state == 2 %}
+  <replaceContent select="#item_{{ id }} .state-box">
+		<span class="ui small green label">通过</span>
+	</replaceContent>
+	<replaceContent select="#item_{{ id }} .state-button"><![CDATA[
+    <a href="{{ app_url_admin_base }}/cooperation/ajax_set_state?id={{ id }}&state=-1" class="ui link ajax item">拒绝</a>
+    ]]></replaceContent>
+	{% endif %}
+</taconite>

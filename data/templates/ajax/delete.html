@@ -1,6 +1,7 @@
 <taconite>
 	{% for id in ids %}
 		<remove select="#{{id}}" />
+		<remove select="#item_{{id}}" />
 	{% endfor %}
 	{% if redirect_url %}
 		<eval>
