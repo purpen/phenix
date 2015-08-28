@@ -381,7 +381,7 @@
 	  z-index:2;
 	}
 	
-	.page-3-1,.page-4-1,.page-5-1,.page-6-1,.page-7-1,.page-8-1,.page-9-1,.page-10-1{
+	.page-3-1,.page-4-1,.page-5-1,.page-6-1,.page-7-1,.page-8-1,.page-9-1,.page-10-1,.page-11-1{
 	  background:url({{ app_url_packaged }}/images/promo/hy/bg3.jpg) no-repeat center center /cover;
 	}
 	.pt3-2{
@@ -752,6 +752,7 @@
     top:43%;
     animation-delay:2s;
   	-webkit-animation-delay:2s;
+  	opacity:0;
 	}
 	.pt10-7{
 	  width:70%;
@@ -759,6 +760,7 @@
     top:48%;
     animation-delay:2.3s;
   	-webkit-animation-delay:2.3s;
+  	opacity:0;
 	}
 	.pt10-8{
 	  width:54%;
@@ -766,6 +768,14 @@
     top:56%;
     animation-delay:2.5s;
   	-webkit-animation-delay:2.5s;
+  	z-index:3;
+	}
+	.pt11-1{
+	  width:100%;
+	  top:33%;
+	  z-index:3;
+	  animation-delay:0.6s;
+  	-webkit-animation-delay:0.6s;
 	}
 	
 	
@@ -1117,8 +1127,13 @@
   </div>
 </div>
 
-
-
+<div class="page page-11-1 hide">
+  <div class="wrap">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t11-1.png" class="st pt3-1 lightSpeedIn animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t11w1.png" class="st pt11-1 fadeInUp animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated">
+  </div>
+</div>
 
 
 {% endblock %}
