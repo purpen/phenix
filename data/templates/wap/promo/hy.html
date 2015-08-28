@@ -381,7 +381,7 @@
 	  z-index:2;
 	}
 	
-	.page-3-1,.page-4-1,.page-5-1,.page-6-1,.page-7-1,.page-8-1,.page-9-1,.page-10-1,.page-11-1,.page-12-1,.page-13-1,.page-14-1,.page-15-1{
+	.page-3-1,.page-4-1,.page-5-1,.page-6-1,.page-7-1,.page-8-1,.page-9-1,.page-10-1,.page-11-1,.page-12-1,.page-13-1,.page-14-1{
 	  background:url({{ app_url_packaged }}/images/promo/hy/bg3.jpg) no-repeat center center /cover;
 	}
 	.pt3-2{
@@ -887,6 +887,34 @@
 	  animation-delay:1s;
   	-webkit-animation-delay:1s;
 	}
+	.page-15-1{
+	  background:url({{ app_url_packaged }}/images/promo/hy/bg4.jpg) no-repeat center center /cover;
+	}
+	.pt15{
+	  width:60%;
+	  left:20%;
+	}
+	.pt15-1{
+	  top:30%;
+	  
+	}
+	.pt15-2{
+	  top:45%;
+	  opacity:0;
+	}
+	.pt15-3{
+	  top:55%;
+	  
+	}
+	.pt15-4{
+	  top:70%;
+	  
+	}
+	.pt15-5{
+	  top:80%;
+	  opacity:0;
+	}
+	
 </style>
 {% endblock %}
 
@@ -1283,5 +1311,15 @@
   </div>
 </div>
 
+<div class="page page-15-1 hide">
+  <div class="wrap">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t15-1.png" class="st pt3-1 lightSpeedIn animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t15w1.png" class="st pt15-1 pt15 bounceInLeft animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t15w2.png" class="st pt15-2 pt15 page-logo">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t15w3.png" class="st pt15-3 pt15 bounceInRight animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t15w4.png" class="st pt15-4 pt15 flipInX animated">
+    <img src="{{ app_url_packaged }}/images/promo/hy/t15w6.png" class="st pt15-6 pt15 page-logo">
+  </div>
+</div>
 
 {% endblock %}
