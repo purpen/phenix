@@ -60,7 +60,6 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 	 * 专辑添加页面
 	 */
 	public function add(){
-		Doggy_Log_Helper::warn("保存失败");
 		$this->stash['mode'] = 'edit';
 		$this->upload();
 		return $this->to_html_page('page/albums/submit.html');
@@ -104,7 +103,6 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 			if(empty($id)){
 				$mode = 'create';
 				$data['user_id'] = (int)$this->visitor->id;
-				//var_dump($data);
 				$ok = $model->apply_and_save($data);
 			}else{
 				$mode = 'edit';
@@ -116,17 +114,9 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
 			
-			// 上传成功后，更新所属的图片
-			if(isset($data['asset']) && !empty($data['asset'])){
-				$this->update_batch_assets($data['asset'], $id);
-			}
-				
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("保存失败：".$e->getMessage());
 			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
-		}catch(Exception $e){
-			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
-			
 		}
 		
 		//$redirect_url = Sher_Core_Helper_Url::topic_view_url($id);
