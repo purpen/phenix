@@ -1195,7 +1195,7 @@
 	});
 
   //报名按钮
-	$('.ui.attend.button').click(function(e){
+	$('.ui.attend').click(function(e){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
 		  phenix.redirect("{{ app_url_wap }}/auth/login");
@@ -1407,10 +1407,10 @@
 
 <div class="page page-15-1 hide">
   <div class="wrap">
-    <div class="ui attend button">
+    <a class="ui attend">
     <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join">
     <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint">
-    </div>
+    </a>
     <img src="{{ app_url_packaged }}/images/promo/hy/t15-1.png" class="st pt3-1 lightSpeedIn animated">
     <img src="{{ app_url_packaged }}/images/promo/hy/t15w1.png" class="st pt15-1 pt15 bounceInLeft animated">
     <img src="{{ app_url_packaged }}/images/promo/hy/t15w2.png" class="st pt15-2 pt15 page-logo">
