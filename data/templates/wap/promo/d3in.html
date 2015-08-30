@@ -332,36 +332,25 @@
   <script src="http://frstatic.qiniudn.com/wechat/js/swiper.312.min.js" type="text/javascript"></script>
   <script src="http://frstatic.qiniudn.com/wechat/js/swiper.animate.312.min.js" type="text/javascript"></script>
   <script type="text/javascript">  
-	 function fixPagesHeight() {
-			$('.swiper-slide,.swiper-container').css({
-				height: $(window).height(),
-			})
-		}
-		$(window).on('resize', function() {
-			fixPagesHeight();
-		})
-		fixPagesHeight();
-		scaleW=window.innerWidth/320;
-		scaleH=window.innerHeight/480;
-		var resizes = document.querySelectorAll('.resize');
-		for (var j=0; j<resizes.length; j++) {
-			resizes[j].style.width=parseInt(resizes[j].style.width)*scaleW+'px';
-			resizes[j].style.height=parseInt(resizes[j].style.height)*scaleH+'px';
-			resizes[j].style.top=parseInt(resizes[j].style.top)*scaleH+'px';
-			resizes[j].style.left=parseInt(resizes[j].style.left)*scaleW+'px'; 
-		}
-		var scales = document.querySelectorAll('.txt');
-		for (var i=0; i<scales.length; i++) {
-			ss=scales[i].style;
-			ss.webkitTransform = ss.MsTransform = ss.msTransform = ss.MozTransform = ss.OTransform =ss.transform='translateX('+scales[i].offsetWidth*(scaleW-1)/2+'px) translateY('+scales[i].offsetHeight*(scaleH-1)/2+'px)scaleX('+scaleW+') scaleY('+scaleH+') ';
-		}
-
+	 
 		var mySwiper = new Swiper('.swiper-container', {
 		  direction: 'vertical',
 			mousewheelControl: false,
 			watchSlidesProgress: false,
 		/*	followFinger : false,*/
-			onInit: function(swiper){
+		loop:true,
+		//effect : 'slide',
+		effect : 'coverflow',
+    slidesPerView: 1,
+    centeredSlides: true,
+    coverflow: {
+                rotate: 30,
+                stretch: 10,
+                depth: 60,
+                modifier: 2,
+                slideShadows : true
+            }
+		/*	onInit: function(swiper){
 			   swiperAnimateCache(swiper);
 			   swiperAnimate(swiper);
 				 swiper.myactive = 0;
@@ -377,7 +366,7 @@
 			},
 			onSlideChangeEnd: function(swiper){
 				swiperAnimate(swiper);
-			},
+			},*/
 		});
 	 
 		
