@@ -308,7 +308,7 @@
   	fetch_comment(1, per_page);
 	
 	// 加载推荐商品 
-	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ product.tags_s }}', size: 4, id: {{ product._id }} });
+	$.get('{{ app_url_shop }}/ajax_guess_product?rand='+Math.random(), {sword: '{{ product.tags_s }}', size: 4, id: {{ product._id }} });
 	
 	// 显示私信框
 	$('.ui.letter.button').bind('click', function(){
