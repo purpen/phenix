@@ -1,6 +1,6 @@
 <?php
 /**
- * 产品名称 Model
+ * 专辑 Model
  * @ author caowei@taihuoniao.com
  */
 class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
@@ -9,20 +9,21 @@ class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
     protected $schema = array(
-		# 产品名称
+		# 专辑名称
 		'title' => '',
         # 所属描述
         'des' => '',
+        # 封面图
+        'cover_id' => '',
+		# 图片数组
+		'asset' => array(),
+		'asset_count' => 0,
 		# 用户id
 		'user_id' => 0,
         # 浏览量
-        'views' => 0,
+        'view_count' => 0,
         # 点赞数
-        'likes' => 0,
-		# 产品id
-		'pid' => 0,
-		# 专辑分类id
-		'dadid' => 0,
+        'love_count' => 0,
         # 是否启用
 		'status' => 1,
     );
@@ -34,7 +35,8 @@ class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
-	    
+	    'user'  =>  array('user_id' => 'Sher_Core_Model_User'),
+	    'cover' => array('cover_id' => 'Sher_Core_Model_Asset'),
 	);
 	
 	/**
@@ -57,4 +59,19 @@ class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
     protected function after_save(){
         parent::after_save();
     }
+	
+	/**
+	 * 删除某图片
+	 */
+	public function delete_asset($id, $asset_id){
+		
+		// 从图片数组中删除
+		$criteria = $this->_build_query($id);
+		self::$_db->pull($this->collection, $criteria, 'asset', $asset_id);
+		
+		// 删除Asset
+		$asset = new Sher_Core_Model_Asset();
+		$asset->delete_file($asset_id);
+		unset($asset);
+	}
 }

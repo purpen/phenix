@@ -1,0 +1,27 @@
+{{#results.rows}}
+<div class="card" id="albumshop-{{ _id }}">
+    <div class="problock">
+        <a title="{{ product.title }}" href="{{ product.view_url }}" style="background-image: url({{ product.cover.thumbnails.hm.view_url }});" class="thumb" target="_blank">        </a>
+        <h2>
+            <a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line" target="_blank">
+			    {{ product.title }}
+		    </a>
+        </h2>
+        <div class="excerpt">
+            <p>{{ product.advantage }}</p>
+        </div>
+        <div class="cats">
+			<span class="counter">
+				<i class="unhide icon"></i>{{ product.view_count }}
+			</span>
+			<span class="counter">
+				<i class="heart icon"></i> {{ product.love_count }}
+			</span>
+			<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+			<span class="counter">
+				<a href="{{ url }}/delete?id={{_id}}"><i class="remove icon"></i> 删除</a>
+			</span>
+        </div>
+    </div>
+</div>
+{{/results.rows}}

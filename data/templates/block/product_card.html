@@ -1,3 +1,4 @@
+
 <div class="card" id="product-{{ product._id }}">
     <div class="problock">
         <a title="{{ product.title }}" alt="{%if product_alt_tag%}{{ product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ product.view_url }}" style="background-image: url({{ product.cover.thumbnails.hm.view_url }});" class="thumb" target="_blank">
@@ -48,7 +49,11 @@
             {% endif %}
         {%endif%}
         </div>
-
+		<span class="counter" style="right:108px;">
+			<a href="{{ app_url_album_shop }}/add?pid={{ product._id }}">
+				<i class="add icon"></i>加入专辑
+			</a>
+        </span>
         <span class="counter" style="right:60px;">
             <i class="unhide icon"></i>{{ product.view_count }}
         </span>

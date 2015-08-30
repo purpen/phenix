@@ -106,6 +106,18 @@ server {
 		rewrite ^/try/view-(\d+).html$ /app/wap/try/view?id=$1 last;
         rewrite ^/try(.*)$ /app/wap/try$1 last;
     }
+	
+	location /vote {
+		rewrite ^/vote(.*)$ /app/site/vote$1 last;
+	}
+	
+	location /albums {
+		rewrite ^/albums(.*)$ /app/site/albums$1 last;
+	}
+	
+	location /shopalbums {
+		rewrite ^/shopalbums(.*)$ /app/site/shopalbums$1 last;
+	}
 
 	location /active {
 		rewrite ^/active[/]?$ /app/wap/active last;
