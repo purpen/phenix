@@ -32,8 +32,8 @@ class Sher_Core_Util_Sitemap extends Doggy_Exception {
   public function __construct ($compress=false) {
     ini_set('memory_limit', '75M'); // 50M required per tests
     $this->compress = ($compress) ? '.gz' : '';
-    $this->base_url = sprintf('%s/web/', Doggy_Config::$vars['app_deploy_root']);
-    $this->base_uri = sprintf('%s/web/', Doggy_Config::$vars['app_deploy_root']);
+    $this->base_url = sprintf('%s/web/', Doggy_Config::$vars['deploy.root']);
+    $this->base_uri = sprintf('%s/web/', Doggy_Config::$vars['deploy.root']);
   }
   
   public function page ($name) {
@@ -43,8 +43,7 @@ class Sher_Core_Util_Sitemap extends Doggy_Exception {
   }
   
   public function url ($url, $lastmod='', $changefreq='', $priority='') {
-    $url = htmlspecialchars($this->base_url . $url);
-    $lastmod = (int)$lastmod;
+    $url = htmlspecialchars($url);
     $lastmod = (!empty($lastmod)) ? date('Y-m-d', strtotime($lastmod)) : false;
     $changefreq = (!empty($changefreq) && in_array(strtolower($changefreq), array('always', 'hourly', 'daily', 'weekly', 'monthly', 'yearly', 'never'))) ? strtolower($changefreq) : false;
     $priority = (!empty($priority) && is_numeric($priority) && abs($priority) <= 1) ? round(abs($priority), 1) : false;

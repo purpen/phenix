@@ -43,7 +43,7 @@ while(!$is_end){
 	for ($i=0; $i < $max; $i++) {
     $id = $list[$i]['_id'];
     $stage = $list[$i]['stage'];
-    $time = time();
+    $time = date('Y-m-d');
     $url = $model->gen_view_url(array('_id'=>$id, 'stage'=>$stage));
     $sitemap_model->url($url, $time, 'never', '1.0');
     $total++;

@@ -42,7 +42,7 @@ while(!$is_end){
 	$max = count($list);
 	for ($i=0; $i < $max; $i++) {
     $id = $list[$i]['_id'];
-    $time = time();
+    $time = date('Y-m-d');
     $url = Sher_Core_Helper_Url::topic_view_url($id);
     $sitemap_model->url($url, $time, 'never', '1.0');
     $total++;
