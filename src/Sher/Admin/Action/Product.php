@@ -225,9 +225,16 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
 			
+      $asset = new Sher_Core_Model_Asset();
 			// 上传成功后，更新所属的附件
 			if(isset($data['asset']) && !empty($data['asset'])){
-				$this->update_batch_assets($data['asset'], $id);
+				$asset->update_batch_assets($data['asset'], $id);
+			}
+
+			// 保存成功后，更新编辑器图片
+			if(!empty($this->stash['file_id'])){
+			  Doggy_Log_Helper::debug("Upload file count for admin product");
+				$asset->update_editor_asset($this->stash['file_id'], (int)$id);
 			}
 
 		//如果是发布状态,更新索引
