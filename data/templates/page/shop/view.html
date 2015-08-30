@@ -379,7 +379,7 @@
     {%endif%}
 	
 	// 加载推荐商品 
-	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ product.tags_s }}', size: 8, id: {{ product._id }} }, function(rs){
+	$.get('{{ app_url_shop }}/ajax_guess_product?rand='+Math.random(), {sword: '{{ product.tags_s }}', size: 8, id: {{ product._id }} }, function(rs){
         var rendered = phenix.ajax_render_result('#guess_products_tpl', rs.data);
         $('#product_guess_list').html(rendered);
     }, 'json');
