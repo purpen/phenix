@@ -343,13 +343,23 @@
 		effect : 'coverflow',
     slidesPerView: 1,
     centeredSlides: true,
-    coverflow: {
+    resistanceRatio : 0.9,
+    coverflow: 'slide',
+    speed : 500,
+   /* coverflow: {
                 rotate: 30,
                 stretch: 10,
                 depth: 60,
                 modifier: 2,
                 slideShadows : true
-            }
+            },*/
+            onInit: function(swiper){
+               swiperAnimateCache(swiper);
+               swiperAnimate(swiper);
+            	  },
+               onSlideChangeEnd: function(swiper){
+            	swiperAnimate(swiper);
+                }
 		/*	onInit: function(swiper){
 			   swiperAnimateCache(swiper);
 			   swiperAnimate(swiper);
@@ -389,23 +399,23 @@
   	  <img src="{{ app_url_packaged }}/images/promo/hy/xing1.png" class="st xing pt-5">
 
   	  <img src="{{ app_url_packaged }}/images/promo/hy/clear.png" class="st pt-6">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/huo.png" class="st pt-7 bounceInLeft animated">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/yan.png" class="st pt-8 bounceInRight animated">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/logo.png" class="st pt-9 page-logo">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/time.png" class="st pt-10 zoomIn animated">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/word1.png" class="st pt-11 zoomInLeft animated">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/word2.png" class="st pt-12 zoomInRight animated">
+  	  <img src="{{ app_url_packaged }}/images/promo/hy/huo.png" class="st pt-7 ani bounceInLeft animated">
+  	  <img src="{{ app_url_packaged }}/images/promo/hy/yan.png" class="st pt-8 ani bounceInRight animated">
+  	  <img src="{{ app_url_packaged }}/images/promo/hy/logo.png" class="st pt-9 ani page-logo">
+  	  <img src="{{ app_url_packaged }}/images/promo/hy/time.png" class="st pt-10 ani zoomIn animated">
+  	  <img src="{{ app_url_packaged }}/images/promo/hy/word1.png" class="st pt-11 ani zoomInLeft animated">
+  	  <img src="{{ app_url_packaged }}/images/promo/hy/word2.png" class="st pt-12 ani zoomInRight animated">
 		  
 		</div>
 		
 		<div class="swiper-slide page-2">
-		  <img src="{{ app_url_packaged }}/images/promo/hy/t2-1.png" class="st pt2-1 lightSpeedIn animated">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t2w1.png" class="st pt2 pt2-2 flipInX animated">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t2w2.png" class="st pt2 pt2-3 flipInX animated">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t2w3.png" class="st pt2 pt2-4 bounceInRight animated">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t2w4.png" class="st pt2 pt2-5 bounceInLeft animated">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t2w5.png" class="st pt2 pt2-6 page-logo">
-      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t2-1.png" class="st pt2-1 ani lightSpeedIn animated">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t2w1.png" class="st pt2 pt2-2 ani flipInX animated" swiper-animate-effect＝"flipInX">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t2w2.png" class="st pt2 pt2-3 ani flipInX animated" swiper-animate-effect＝"flipInX">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t2w3.png" class="st pt2 pt2-4 ani bounceInRight animated">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t2w4.png" class="st pt2 pt2-5 ani bounceInLeft animated">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t2w5.png" class="st pt2 pt2-6 ani page-logo">
+      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb ani fadeInUpBig animated">
 		  
 		</div>
 		
