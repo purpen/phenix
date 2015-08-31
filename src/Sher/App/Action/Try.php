@@ -107,6 +107,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		}
 		
 		$this->stash['try'] = &$try;
+    $this->stash['is_applied'] = $is_applied;
 		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_view_url($id, '#p#');
