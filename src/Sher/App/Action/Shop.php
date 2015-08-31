@@ -416,6 +416,10 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
                 $product_mode = new Sher_Core_Model_Product();
                 $items = array();
                 foreach($xun_arr['data'] as $k=>$v){
+                    // 过滤当前对象
+                    if((int)$current_id == (int)$v['oid']){
+                      continue;
+                    }
                     $product = $product_mode->extend_load((int)$v['oid']);
                     if(!empty($product)){
                         // 过滤用户表

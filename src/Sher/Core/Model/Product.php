@@ -566,7 +566,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	/**
 	 * 获取产品不同阶段的URL
 	 */
-	protected function gen_view_url($row){
+	public function gen_view_url($row){
 		$stage = isset($row['stage']) ? $row['stage'] : 0;
 		switch($stage) {
 			case self::STAGE_VOTE:

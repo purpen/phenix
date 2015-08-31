@@ -60,16 +60,12 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		// 获取session id
     $service = Sher_Core_Session_Service::instance();
     $sid = $service->session->id;
-    $redirect_url = !empty($this->stash['redirect_url'])?$this->stash['redirect_url']:null;
-    $state = Sher_Core_Helper_Util::generate_mongo_id();
-    $session_random_model = new Sher_Core_Model_SessionRandom();
-    $session_random_model->gen_random($sid, $state, 1, $redirect_url);
 
     // 微信登录参数
     $wx_params = array(
       'app_id' => Doggy_Config::$vars['app.wx.app_id'],
       'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/wap/weixin/call_back'),
-      'state' => $state,
+      'state' => md5($sid),
     );
 
     // 判断是否为微信浏览器
@@ -159,16 +155,12 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		// 获取session id
     $service = Sher_Core_Session_Service::instance();
     $sid = $service->session->id;
-    $redirect_url = isset($this->stash['redirect_url'])?$this->stash['redirect_url']:null;
-    $state = Sher_Core_Helper_Util::generate_mongo_id();
-    $session_random_model = new Sher_Core_Model_SessionRandom();
-    $session_random_model->gen_random($sid, $state, 1, $redirect_url);
 
     // 微信登录参数
     $wx_params = array(
       'app_id' => Doggy_Config::$vars['app.wx.app_id'],
       'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/wap/weixin/call_back'),
-      'state' => $state,
+      'state' => md5($sid),
     );
 
     // 判断是否为微信浏览器
@@ -793,14 +785,16 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     $service = Sher_Core_Session_Service::instance();
     $sid = $service->session->id;
 
-    $session_random_model = new Sher_Core_Model_SessionRandom();
-    $session_random = $session_random_model->is_exist($sid, $session_random, 1);
+    if(empty($session_random)){
+      return $this->ajax_note('拒绝访问,请重新尝试授权链接！', true);   
+    }
+
+    // 获取传来的session_id 可接收其它参数
+    $session_arr = explode('||', $session_random);
 
     // 验证是否非法链接来源
-    if(!$session_random){
+    if($session_arr[0] != md5($sid)){
       return $this->ajax_note('拒绝访问,请重试！', true);
-    }else{
-      $session_random_model->remove($session_random);
     }
 
     $third_source = isset($this->stash['third_source'])?$this->stash['third_source']:null;
@@ -937,15 +931,12 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		// 获取session id
     $service = Sher_Core_Session_Service::instance();
     $sid = $service->session->id;
-    $state = Sher_Core_Helper_Util::generate_mongo_id();
-    $session_random_model = new Sher_Core_Model_SessionRandom();
-    $session_random_model->gen_random($sid, $state, 1);
 
     // 微信登录参数
     $wx_params = array(
       'app_id' => Doggy_Config::$vars['app.wx.app_id'],
       'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/wap/weixin/call_back'),
-      'state' => $state,
+      'state' => md5($sid),
     );
     $url = sprintf("https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s", $wx_params['app_id'], $wx_params['redirect_uri'], $wx_params['state']);
 
