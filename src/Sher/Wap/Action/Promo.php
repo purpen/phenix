@@ -9,7 +9,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','d3in');
 
 	
 	/**
@@ -17,6 +17,10 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 */
 	public function execute(){
 		//return $this->coupon();
+	}
+	
+	public function d3in(){
+		return $this->to_html_page('wap/promo/d3in.html');
 	}
 	
 	public function din(){

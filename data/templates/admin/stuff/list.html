@@ -101,7 +101,8 @@
 					</div>
 				</th>
 				<th>缩略图</th>
-				<th class="five wide">名称</th>
+				<th>名称</th>
+        <th>作者</th>
 				<th>赞名单</th>
 				<th>收藏数</th>
 				<th>评论数</th>
@@ -142,6 +143,12 @@
               <p class="attribute">大学：{{ stuff.college.name }}</p>
             {%endif%}
 				</td>
+        <td>
+					<a class="ui image label link" href="{{ stuff.user.home_url }}" target="_blank">
+					  	<img src="{{ stuff.user.mini_avatar_url }}">
+					  	{{ stuff.user.nickname }}
+					</a>
+        </td>
         <td>
           <span>{{ stuff.love_count }}</span> | <a href="{{ app_url_admin_base }}/stuff/get_love_list?target_id={{ stuff._id }}" class="ui magenta link" target="_blank">名单>></a>
         </td>
