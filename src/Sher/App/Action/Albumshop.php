@@ -90,20 +90,25 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 		try{
 			
 			$model = new Sher_Core_Model_Albumshop();
+			$res = $model->find_by_id($data);
+			
+			if($res){
+				return $this->ajax_notification('已加入专辑,请选择其他专辑!', true);
+			}
+			
 			$ok = $model->apply_and_save($data);
 			
 			if(!$ok){
-				return $this->ajax_json('保存失败,请重新提交', true);
+				return $this->ajax_notification('保存失败,请重新提交', true);
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("保存失败：".$e->getMessage());
-			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
+			return $this->ajax_notification('保存失败:'.$e->getMessage(), true);
 		}
 		
-		$redirect_url = Doggy_Config::$vars['app.url.album.shop'];
-		//return $this->to_redirect($redirect_url);
-		echo $redirect_url.'?did='.(int)$this->stash['dadid'];
+		$redirect_url = Doggy_Config::$vars['app.url.album.shop'].'?did='.(int)$this->stash['dadid'];
+		return $this->to_redirect($redirect_url);
 	}
 	
 	/**
@@ -121,7 +126,7 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 			$result = $model->remove(array('_id' => (int)$id));
 			
 			if(!$result){
-				return $this->ajax_json('保存失败,请重新提交', true);
+				return $this->ajax_notification('保存失败,请重新提交', true);
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){

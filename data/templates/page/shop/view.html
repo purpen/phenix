@@ -407,40 +407,19 @@
 	// 选择专辑分类
 	$('.ui.options').on('click', '.option', function(){
 		var id = $(this).attr('data-value');
+		var pid = {{ product._id }};
+		var url = "{{ app_url_album_shop }}/add?pid="+pid+"&dadid="+id;
 		if ($(this).hasClass('active')){
 			$(this)
 				.removeClass('active');
-			$('#albums_category').val('');
+			$('.ui.OK.button').attr('href',url);
 		}else{
 			$(this)
 				.siblings('.ui.option').removeClass('active')
 				.end()
 				.addClass('active');
-			$('#albums_category').val(id);
+			$('.ui.OK.button').attr('href',url);
 		}
-	});
-	
-	// 提交专辑数据
-	$('.ui.OK.button').bind('click', function(){
-		
-		var dadid = $('#albums_category').val();
-		var pid = {{ product._id }};
-		
-		if(!dadid){
-		  phenix.show_error_note('请选择相应的专辑');
-		  return false;
-		}
-		
-		if(!pid){
-		  phenix.show_error_note('该商品不存在');
-		  return false;
-		}
-		
-		//alert(dadid+pid);
-		
-		$.post('{{ app_url_album_shop }}/add',{pid: pid, dadid: dadid},function(data){
-		  phenix.redirect(data);
-		});
 	});
 	
 	$('#message-form').form({
@@ -826,7 +805,8 @@
 				  </div>
 				  <div class="actions">
 					<div class="ui albums Cancel button">取消</div>
-					<div class="ui albums OK button">提交</div>
+					<a class="ui albums OK button ajax">提交</a>
+					<!--<div class="ui albums OK button">提交</div>-->
 				  </div>
 				</div>
 			  </div>

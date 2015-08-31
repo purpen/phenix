@@ -58,11 +58,6 @@
         <div class="desc">
             <p>{{ current_category.summary|default '我们用心挑选数以万计的创意产品，为你每次的一见钟情!' }}</p>
         </div>
-        {% if visitor.can_edit %}
-        <a href="{{ app_url_albums }}/add" class="ui large inverted button">
-            <i class="edit icon"></i> 新增专辑
-        </a>
-        {%endif%}
 	</h1>
     <div class="cover"></div>
 </div>
