@@ -31,7 +31,7 @@
   	text-align:center;
   	max-width:640px;
   }
-  #music-control {
+  .music-control {
   	width: 30px;
   	height: 30px;
   	position: fixed;
@@ -39,7 +39,7 @@
   	top: 5px;
   	z-index: 9;
   }
-  #music-control.playing{
+  .music-control.playing{
   	-webkit-animation: 2.3s spin linear infinite;
   	animation: 2.3s spin linear infinite;
   }
@@ -830,7 +830,7 @@
 	  animation-delay:1s;
   	-webkit-animation-delay:1s;
 	}
-	.page-15-1{
+	.page-15{
 	  background:url({{ app_url_packaged }}/images/promo/hy/bg4.jpg) no-repeat center center /cover;
 	}
 	.pt15{
@@ -899,7 +899,7 @@
 			mousewheelControl: false,
 			watchSlidesProgress: false,
 		/*	followFinger : false,*/
-		loop:false,
+		loop:true,
 		effect : 'slide',
     slidesPerView: 1,
     centeredSlides: true,
@@ -938,7 +938,93 @@
 			},*/
 		});
 	 
-		
+		$('#user-info-form').livequery(function(){
+  		$(this).form({
+  			realname: {
+  				identifier  : 'realname',
+  				rules: [
+  					{
+  						type   : 'empty',
+  						prompt : '姓名不能为空'
+  					}
+  				]
+  			},
+  			phone: {
+  				identifier  : 'phone',
+  				rules: [
+  					{
+  						type   : 'empty',
+  						prompt : '电话不能为空'
+  					}
+  				]
+  			},
+  			address: {
+  				identifier  : 'address',
+  				rules: [
+  					{
+  						type   : 'empty',
+  						prompt : '地址不能为空'
+  					}
+  				]
+  			},
+  			job: {
+  				identifier  : 'job',
+  				rules: [
+  					{
+  						type   : 'empty',
+  						prompt : '职位不能为空'
+  					}
+  				]
+  			}
+  		}, {
+  			inline : true,
+  			onSuccess: function(event){
+  				event.preventDefault();
+  				$(this).ajaxSubmit();
+  			}
+  		});
+  	});
+
+    //报名按钮
+  	$('.join').click(function(){
+  		// 所有ajax请求，验证是否登录
+  		/*if (!phenix.visitor.is_login){
+  		  phenix.redirect("{{ app_url_wap }}/auth/login");
+  			return false;
+  		}*/
+      $('.ui.user-info-box.modal')
+      .modal('setting', 'closable', false)
+      .modal('setting', 'transition', 'vertical  flip')
+      .modal('show');
+      return false; 
+  	});
+  	$('.ui.deny.button').click(function(){
+  		$('.ui.user-info-box.modal').modal('hide');
+  	});
+  	
+  	
+    var firstTouch = true;
+    $('body').bind("touchstart",function(e){
+    	if ( firstTouch ) {
+    		firstTouch = false;
+    		document.getElementById('bgm').play();
+    	}else{
+    		return;
+    	}
+    });
+
+    $(".music-control").bind("touchstart",function(e){  
+    	//e.preventDefault();
+    	//e.stopPropagation();
+    	var dom = document.getElementById('bgm');
+    	if( dom.paused ){
+    		dom.play();
+    		$(".music-control").removeClass("playing");
+    	}else{
+    		dom.pause();
+    		$(".music-control").addClass("playing");
+    	}
+    });
 	</script>
 	<script>document.write('<style>#loading{display:none}</style>');</script> 
 
@@ -947,7 +1033,8 @@
 
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
-<div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
+<audio id="bgm" src="http://jiangsu.sinaimg.cn/zt/s/yxqxwspds/mobile/bgmcut.mp3" autoplay="autoplay" loop="" style="display: none; width: 0; height: 0;"></audio>
+<div class="music-control playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="swiper-container">
   <div class="swiper-wrapper">
 		<div class="swiper-slide page-1">
@@ -1119,17 +1206,10 @@
       <img src="{{ app_url_packaged }}/images/promo/hy/t15w5.png" class="st pt15-5 ani" swiper-animate-effect="page-logo">
 		</div>
 		
-		
-		
-		
-		
-		
-		
-		
 	</div>
 </div>
 		  
 		  
 
-
+{% include "block/wap_attend_user_info.html" %}
 {% endblock %}
