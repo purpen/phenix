@@ -108,7 +108,8 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 		}
 		
 		$redirect_url = Doggy_Config::$vars['app.url.album.shop'].'?did='.(int)$this->stash['dadid'];
-		return $this->to_redirect($redirect_url);
+		return $this->ajax_json('保存成功.', false, $redirect_url);
+		//return $this->to_redirect($redirect_url);
 	}
 	
 	/**
