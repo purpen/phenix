@@ -14,7 +14,7 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 	);
 
 	protected $page_html = 'page/albums/index.html';
-	protected $exclude_method_list = array('execute','get_list');
+	protected $exclude_method_list = array('execute','get_list','ajax_load_list');
 	
 	public function _init() {
 		$this->set_target_css_state('page_albums');
@@ -151,7 +151,7 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 		
 		$data = array();
 		$data['results'] = $result;
-		$data['can_edit'] = $this->stash['visitor']['can_edit'];
+		$data['can_edit'] = (bool)$this->stash['visitor']['can_edit'];
 		$data['url'] = Doggy_Config::$vars['app.url.albums'];
 		$data['product_url'] = Doggy_Config::$vars['app.url.album.shop'];
         return $this->ajax_json('', false, '', $data);
