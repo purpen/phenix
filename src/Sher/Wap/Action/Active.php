@@ -101,6 +101,17 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
     }
 
     $this->stash['active'] = $active;
+
+    // 获取话题评论数
+    $this->stash['comment_count'] = 0;
+    if(!empty($active['topic_ids'])){
+      $topic_model = new Sher_Core_Model_Topic();
+      $topic = $topic_model->load((int)$active['topic_ids'][0]);
+      if(!empty($topic)){
+        $this->stash['comment_count'] = $topic['comment_count'];
+      }
+    }
+
 		return $this->to_html_page('wap/active_show.html');
 	}
 
