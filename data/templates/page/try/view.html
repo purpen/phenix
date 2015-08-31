@@ -76,6 +76,9 @@
     p.contact {
         margin: 20px 0px 0px;
     }
+    .ui.topic.table .content .ui.mini.images{
+      width:100% !important;
+    }
 </style>
 {% endblock %}
 
@@ -396,7 +399,7 @@
                     {% else %}
                     <p class="resultbox">还没有人为 <a href="{{ try.view_url }}" class="ui link">{{ try.title }}</a> 撰写评测，你想做第一个为它写评测的人么？</p>
                     {% endif %}
-					<div class="ui center aligned">
+					<div class="ui center aligned" style="margin-top:20px;">
 						<a href="{{ app_url_topic }}/report?tid={{ try._id }}" class="ui blue inverted button" target="_blank">
 	                        <i class="tasks icon"></i> 全部报告
 	                    </a>
