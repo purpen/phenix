@@ -886,6 +886,19 @@
 		100% { -webkit-transform: scale(0.5); }
 	}
   
+  
+  
+  .bgm-btn{ position:absolute; top: 16px; right:16px; width: 30px; height: 30px; background-size: 100%; background-image: url("http://s3img.city.sina.com.cn/activity/common/large/9f9acca088ab3e67f12eb612bdd12c07.png"); z-index: 3; -webkit-animation: myrotate 5s linear 0s infinite normal;}
+  .bgm-btn.mut{ background-position: 0px -30px; -webkit-animation: none;}
+
+  @-webkit-keyframes myrotate /*Safari and Chrome*/
+  {
+  0% { -webkit-transform:rotate(0deg);}
+  25% { -webkit-transform:rotate(-90deg);}	
+  50% { -webkit-transform:rotate(-180deg);}
+  75% { -webkit-transform:rotate(-270deg);}
+  100% { -webkit-transform:rotate(-360deg);}
+  }
 </style>
 {% endblock %}
 
@@ -899,12 +912,9 @@
 			mousewheelControl: false,
 			watchSlidesProgress: false,
 		/*	followFinger : false,*/
-		loop:true,
+		loop:false,
 		effect : 'slide',
-    slidesPerView: 1,
     centeredSlides: true,
-    resistanceRatio : 0.9,
-    speed : 500,
    /* coverflow: {
                 rotate: 30,
                 stretch: 10,
@@ -938,7 +948,7 @@
 			},*/
 		});
 	 
-		$('#user-info-form').livequery(function(){
+	/*	$('#user-info-form').livequery(function(){
   		$(this).form({
   			realname: {
   				identifier  : 'realname',
@@ -988,10 +998,10 @@
     //报名按钮
   	$('.join').click(function(){
   		// 所有ajax请求，验证是否登录
-  		/*if (!phenix.visitor.is_login){
+  		if (!phenix.visitor.is_login){
   		  phenix.redirect("{{ app_url_wap }}/auth/login");
   			return false;
-  		}*/
+  		}
       $('.ui.user-info-box.modal')
       .modal('setting', 'closable', false)
       .modal('setting', 'transition', 'vertical  flip')
@@ -1000,9 +1010,10 @@
   	});
   	$('.ui.deny.button').click(function(){
   		$('.ui.user-info-box.modal').modal('hide');
-  	});
+  	});*/
   	
   	
+    
     var firstTouch = true;
     $('body').bind("touchstart",function(e){
     	if ( firstTouch ) {
@@ -1013,16 +1024,16 @@
     	}
     });
 
-    $(".music-control").bind("touchstart",function(e){  
+    $(".bgm-btn").bind("touchstart",function(e){  
     	//e.preventDefault();
     	//e.stopPropagation();
     	var dom = document.getElementById('bgm');
     	if( dom.paused ){
     		dom.play();
-    		$(".music-control").removeClass("playing");
+    		$(".bgm-btn").removeClass("mut");
     	}else{
     		dom.pause();
-    		$(".music-control").addClass("playing");
+    		$(".bgm-btn").addClass("mut");
     	}
     });
 	</script>
@@ -1034,7 +1045,8 @@
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
 <audio id="bgm" src="http://jiangsu.sinaimg.cn/zt/s/yxqxwspds/mobile/bgmcut.mp3" autoplay="autoplay" loop="" style="display: none; width: 0; height: 0;"></audio>
-<div class="music-control playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
+<div class="bgm-btn"></div>
+<!--<div class="music-control playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>-->
 <div class="swiper-container">
   <div class="swiper-wrapper">
 		<div class="swiper-slide page-1">
