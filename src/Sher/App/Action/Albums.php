@@ -155,7 +155,7 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 		if(empty($id)){
 			return $this->ajax_notification('专辑不存在！', true);
 		}
-		var_dump($id);
+		
 		try{
 			$model = new Sher_Core_Model_Albums();
 			$result = $model->remove(array('_id' => (int)$id));
