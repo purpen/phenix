@@ -54,7 +54,6 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 	 */
 	public function edit(){
 		
-		
 		if(empty($this->stash['id'])){
 			return $this->show_message_page('编辑的专辑不存在！', true);
 		}
