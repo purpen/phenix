@@ -396,7 +396,7 @@ i.cart.icon,i.exchange.icon{
 	{% endif %}
 	
 	// 加载推荐商品 
-	$.get('{{ app_url_wap }}/shop/ajax_guess_product', {sword: '{{ product.tags_s }}', size: 4, id: {{ product._id }} });
+	$.get('{{ app_url_wap }}/shop/ajax_guess_product?r='+Math.random(), {sword: '{{ product.tags_s }}', size: 4, id: {{ product._id }} });
 	
 {% endblock %}
 
