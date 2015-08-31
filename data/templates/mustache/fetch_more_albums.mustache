@@ -1,9 +1,9 @@
 {{#results.rows}}
 <div class="card" id="albums-{{ _id }}">
     <div class="problock">
-        <a title="{{ title }}" alt="{{#albums_alt_tag}}{{ tags.0 }}-太火鸟智能硬件商店{{/albums_alt_tag}}{{^albums_alt_tag}}{{ title }}-太火鸟智能硬件商店{{/albums_alt_tag}}" href="{{ view_url }}" style="background-image: url({{ cover.thumbnails.hm.view_url }});" class="thumb" target="_blank">        </a>
+        <a title="{{ title }}" href="{{ product_url }}?did={{_id}}" style="background-image: url({{ cover.thumbnails.hm.view_url }});" class="thumb" target="_blank">        </a>
         <h2>
-            <a href="{{ view_url }}" title="{{ title }}" class="ui line" target="_blank">
+            <a href="{{ product_url }}?did={{_id}}" title="{{ title }}" class="ui line" target="_blank">
 			    {{ title }}
 		    </a>
         </h2>
@@ -17,6 +17,7 @@
 			<span class="counter">
 				<i class="heart icon"></i> {{ love_count }}
 			</span>
+			{{#visitor.can_edit}}
 			<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 			<span class="counter">
 				<a href="{{ url }}/edit?id={{_id}}"><i class="edit icon"></i> 编辑</a>
@@ -24,6 +25,7 @@
 			<span class="counter">
 				<a href="{{ url }}/delete?id={{_id}}"><i class="remove icon"></i> 删除</a>
 			</span>
+			{{/visitor.can_edit}}
         </div>
     </div>
 </div>

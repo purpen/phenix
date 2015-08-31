@@ -11,7 +11,7 @@
 {% block layout_js %}
 <script type="text/javascript" >
     function ajax_load_more(page, size){
-        var url = '{{ app_url_album_shop }}/ajax_load_list?rand='+Math.random();
+        var url = '{{ app_url_album_shop }}/ajax_load_list?did={{ did }}&rand='+Math.random();
         $.get(url, { page:page, size:size }, function(rs){
             if(rs.data.results.total_page > rs.data.results.current_page){
                 $('#albums-more')
@@ -55,17 +55,14 @@
 <div class="category image {{ current_category.name }}" >
 	<h1>
 		{{ current_category.title|default '全部专辑' }}
-        
         <div class="desc">
             <p>{{ current_category.summary|default '我们用心挑选数以万计的创意产品，为你每次的一见钟情!' }}</p>
         </div>
-        <!--
         {% if visitor.can_edit %}
         <a href="{{ app_url_albums }}/add" class="ui large inverted button">
             <i class="edit icon"></i> 新增专辑
         </a>
         {%endif%}
-		-->
 	</h1>
     <div class="cover"></div>
 </div>

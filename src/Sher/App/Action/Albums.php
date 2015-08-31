@@ -141,8 +141,17 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
         $options['size'] = $size;
         
         $result = $service->get_Albums_list($query, $options);
+		// 过滤用户表
+		$max = count($result['rows']);
+        for($i=0;$i<$max;$i++){
+			if(isset($result['rows'][$i]['user'])){
+			  $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
+			}
+        }
+		
         $this->stash['results'] = $result;
 		$this->stash['url'] = Doggy_Config::$vars['app.url.albums'];
+		$this->stash['product_url'] = Doggy_Config::$vars['app.url.album.shop'];
         return $this->ajax_json('', false, '', $this->stash);
     }
 	

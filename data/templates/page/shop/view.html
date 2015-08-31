@@ -388,9 +388,59 @@
 	$('.ui.letter.button').bind('click', function(){
 		$('.ui.letter.modal').modal('show');
 	});
+	
 	// 隐藏私信框
 	$('.ui.cancel.button').bind('click', function(){
 		$('.ui.letter.modal').modal('hide');
+	});
+	
+	// 显示专辑框
+	$('.ui.albums.button').bind('click', function(){
+		$('.ui.albums.modal').modal('show');
+	});
+	
+	// 隐藏专辑框
+	$('.ui.Cancel.button').bind('click', function(){
+		$('.ui.albums.modal').modal('hide');
+	});
+	
+	// 选择专辑分类
+	$('.ui.options').on('click', '.option', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+			$('#albums_category').val('');
+		}else{
+			$(this)
+				.siblings('.ui.option').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#albums_category').val(id);
+		}
+	});
+	
+	// 提交专辑数据
+	$('.ui.OK.button').bind('click', function(){
+		
+		var dadid = $('#albums_category').val();
+		var pid = {{ product._id }};
+		
+		if(!dadid){
+		  phenix.show_error_note('请选择相应的专辑');
+		  return false;
+		}
+		
+		if(!pid){
+		  phenix.show_error_note('该商品不存在');
+		  return false;
+		}
+		
+		//alert(dadid+pid);
+		
+		$.post('{{ app_url_album_shop }}/add',{pid: pid, dadid: dadid},function(data){
+		  phenix.redirect(data);
+		});
 	});
 	
 	$('#message-form').form({
@@ -749,7 +799,40 @@
                 </div>
                 {% endif %}
             {% endif %}
-        
+			
+			{% if visitor.can_edit %}
+			<div class="sellwrap">
+			  <div class="user action">
+				<div style="margin: 15px 0;">
+				  <p>专辑分享产品</p>
+				</div>
+				<div class="ui magenta albums inverted button" data-title="加入专辑" data-content="加入到产品专辑中..." data-id="{{ product._id }}" data-mark="n">
+					<i class="plus icon"></i> 加入专辑
+				</div>
+				
+				<div class="ui albums modal">
+				  <i class="close icon"></i>
+				  <div class="header">
+					将相应的产品加入专辑
+				  </div>
+				  <div class="ui options" style="margin:1em 50px 10px 50px">
+					<input type="hidden" name="category_id" id="albums_category" />					
+					{% for albums in albums %}
+						<div class="ui magenta alt option" data-value="{{ albums._id }}">
+							<i class="check circle outline icon"></i>
+							{{ albums.title }}
+						</div>
+					{% endfor %}
+				  </div>
+				  <div class="actions">
+					<div class="ui albums Cancel button">取消</div>
+					<div class="ui albums OK button">提交</div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+			{% endif %}
+			
             <div class="sellwrap">
                 <div class="user action">
                     <p>关注&分享产品</p>

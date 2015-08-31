@@ -17,10 +17,12 @@
 			<span class="counter">
 				<i class="heart icon"></i> {{ product.love_count }}
 			</span>
+			{{#visitor.can_edit}}
 			<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 			<span class="counter">
 				<a href="{{ url }}/delete?id={{_id}}"><i class="remove icon"></i> 删除</a>
 			</span>
+			{{/visitor.can_edit}}
         </div>
     </div>
 </div>

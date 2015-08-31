@@ -46,11 +46,22 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
         $service = Sher_Core_Service_Albumshop::instance();
         $query = array();
         $options = array();
+		
+		if(!empty($this->stash['did'])){
+			$query['dadid'] = (int)$this->stash['did'];
+		}
         
         $options['page'] = $page;
         $options['size'] = $size;
         
         $result = $service->get_Albumshop_list($query, $options);
+		// 过滤用户表
+		$max = count($result['rows']);
+        for($i=0;$i<$max;$i++){
+			if(isset($result['rows'][$i]['user'])){
+			  $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
+			}
+        }
 		
         $this->stash['results'] = $result;
 		$this->stash['url'] = Doggy_Config::$vars['app.url.album.shop'];
@@ -66,15 +77,14 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 		if(empty($this->stash['pid'])){
 			return $this->ajax_json('此产品不存在！', true);
 		}
-		/*
+		
 		if(empty($this->stash['dadid'])){
 			return $this->ajax_json('未选择专辑！', true);
 		}
-		*/
+		
 		$data = array();
 		$data['pid'] = (int)$this->stash['pid'];
-		//$data['dadid'] = (int)$this->stash['dadid'];
-		$data['dadid'] = 4;
+		$data['dadid'] = (int)$this->stash['dadid'];
 		$data['user_id'] = (int)$this->visitor->id;
 		try{
 			
@@ -91,7 +101,8 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 		}
 		
 		$redirect_url = Doggy_Config::$vars['app.url.album.shop'];
-		return $this->to_redirect($redirect_url);
+		//return $this->to_redirect($redirect_url);
+		echo $redirect_url.'?did='.(int)$this->stash['dadid'];
 	}
 	
 	/**

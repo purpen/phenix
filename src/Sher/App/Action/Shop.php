@@ -381,6 +381,12 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
         // 私信用户
         $this->stash['user'] = $product['designer'];
 		
+		// 获取专辑分类
+		$albums = new Sher_Core_Model_Albums();
+		$albums = $albums->find();
+		$this->stash['albums'] = $albums;
+		//var_dump($albums);
+		
 		return $this->to_html_page('page/shop/view.html');
 	}
 	
@@ -701,13 +707,11 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 
         $max = count($result['rows']);
         for($i=0;$i<$max;$i++){
-
-          // 过滤用户表
-          if(isset($result['rows'][$i]['user'])){
-            $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
-          }
-
-        } //end for
+			// 过滤用户表
+			if(isset($result['rows'][$i]['user'])){
+			  $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
+			}
+        }
 
         $data = array();
         $data['results'] = $result;
