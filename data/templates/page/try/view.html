@@ -395,7 +395,7 @@
                     {% topic_list var:'list' published:1 try_id:try._id time:'latest' %}
                     {% if list.rows %}
 					<div class="social">
-						<table class="ui topic table">
+						<table class="ui topic table" style="border: none;">
 							<tbody>
 							
 							{% for topic in list.rows %}
@@ -407,7 +407,7 @@
                     {% else %}
                     <p class="resultbox">还没有人为 <a href="{{ try.view_url }}" class="ui link">{{ try.title }}</a> 撰写评测，你想做第一个为它写评测的人么？</p>
                     {% endif %}
-					<div class="ui center aligned" style="margin-top:20px;">
+					<div class="ui center aligned" style="padding-top:20px;border-top: 1px solid rgba(34,36,38,.1);">
 						<a href="{{ app_url_topic }}/report?tid={{ try._id }}" class="ui blue inverted button" target="_blank">
 	                        <i class="tasks icon"></i> 全部报告
 	                    </a>

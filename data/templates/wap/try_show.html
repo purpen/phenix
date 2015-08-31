@@ -169,7 +169,19 @@
     overflow-x: visible;
     overflow-y: visible;
   }
-	
+	.fitsort {
+    padding: 10px 10px 0;
+    text-align: right;
+  }
+  .ui.list>a.active.item, .ui.list>a.item:hover {
+    color: #f36 !important;
+  }
+  .ui.horizontal.list>.item{
+    font-size:1rem;
+  }
+  .ui.list>a.item {
+    color: rgba(112,123,135,.92) !important;
+  }
 	
 </style>
 {% endblock %}
@@ -185,7 +197,19 @@
 </script>
 {% endblock %}
 {% block jquery %}
-
+  // 评论排序
+  $('.fitsort .ui.list .item').bind('click', function(){
+      sort = parseInt($(this).data('sort'));
+      $(this)
+          .siblings().removeClass('active')
+          .end()
+          .addClass('active');
+      // 获取请求
+      comment_param.page = 1;
+      comment_param.sort = sort;
+      phenix.fetch_comment(comment_param);
+  });
+  
   //弹出登录框
 	phenix.wap_show_sign_box('', 1);
 
@@ -412,13 +436,19 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-					<h3 class="ui dividing header">
+					<div class="block title" style="background-color: rgba(248,248,248,1);padding: 18px 10px 12px;font-size: 16px;font-weight: 500;border: 1px solid rgba(224,224,224,.46);border-bottom: 0;">
 						回应 <small>（{{ try.comment_count||default 0 }}）</small>
-					</h3>
+					</div>
 					
 					<!--  讨论    -->
-					<div class="ui big reply segment">
+					<div class="ui big reply segment" style="border-radius: 0;border: 1px solid rgba(224,224,224,.46);box-shadow:none;margin:0;">
 		              <!--ajax comment-->
+		              <div class="fitsort">
+                      <div class="ui horizontal bulleted list">
+                          <a class="active item" href="javascript:void(0);" data-sort="0">默认</a>
+                          <a class="item" href="javascript:void(0);" data-sort="1">最新</a>
+                      </div>
+                  </div>
 		              <div id="comment-list" style="padding-bottom:10px;"></div>
 		              {% include "block/comment_box_wap.html" %}
 		            </div>
