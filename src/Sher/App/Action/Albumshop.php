@@ -63,9 +63,10 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 			}
         }
 		
-        $this->stash['results'] = $result;
-		$this->stash['url'] = Doggy_Config::$vars['app.url.album.shop'];
-        return $this->ajax_json('', false, '', $this->stash);
+		$data = array();
+        $data['results'] = $result;
+		$data['url'] = Doggy_Config::$vars['app.url.album.shop'];
+        return $this->ajax_json('', false, '', $data);
     }
 	
 	/**
