@@ -25,14 +25,15 @@
 					<div class="field">
 						<label>详细地址</label>
 						<div class="ui selection province dropdown">
-							<input type="hidden" name="province" value="{{ addbook.province }}" />
-			
-						    <div class="default text">省份/自治区</div>
+							<!--<input type="hidden" name="province" value="{{ addbook.province }}" />-->
+			          <div data-type="element" data-element="button" class="ui large floating dropdown theme button active visible">     
+						    <div class="text">省份/自治区</div>
 						    <i class="flat dropdown icon"></i>
 						    <div class="menu">
 								{% for province in provinces %}
 						        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
 								{% endfor %}
+						    </div>
 						    </div>
 						</div>
 		
