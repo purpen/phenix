@@ -106,9 +106,9 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 			Doggy_Log_Helper::warn("保存失败：".$e->getMessage());
 			return $this->ajax_notification('保存失败:'.$e->getMessage(), true);
 		}
-		
-		$redirect_url = Doggy_Config::$vars['app.url.album.shop'].'?did='.(int)$this->stash['dadid'];
-		return $this->ajax_json('保存成功.', false, $redirect_url);
+		return $this->ajax_note('保存成功', false);
+		//$redirect_url = Doggy_Config::$vars['app.url.album.shop'].'?did='.(int)$this->stash['dadid'];
+		//return $this->ajax_json('保存成功.', false, $redirect_url);
 		//return $this->to_redirect($redirect_url);
 	}
 	
