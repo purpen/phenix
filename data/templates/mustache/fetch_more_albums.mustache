@@ -1,5 +1,5 @@
 {{#results.rows}}
-<div class="card" id="albums-{{ _id }}">
+<div class="card" id="{{ _id }}">
     <div class="problock">
         <a title="{{ title }}" href="{{ product_url }}?did={{_id}}" style="background-image: url({{ cover.thumbnails.hm.view_url }});" class="thumb" target="_blank">        </a>
         <h2>
@@ -17,15 +17,15 @@
 			<span class="counter">
 				<i class="heart icon"></i> {{ love_count }}
 			</span>
-			{{#visitor.can_edit}}
+			{{#can_edit}}
 			<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 			<span class="counter">
 				<a href="{{ url }}/edit?id={{_id}}"><i class="edit icon"></i> 编辑</a>
 			</span>
 			<span class="counter">
-				<a href="{{ url }}/delete?id={{_id}}"><i class="remove icon"></i> 删除</a>
+				<a class="ajax" href="{{ url }}/delete?id={{_id}}"><i class="remove icon"></i> 删除</a>
 			</span>
-			{{/visitor.can_edit}}
+			{{/can_edit}}
         </div>
     </div>
 </div>

@@ -62,9 +62,10 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 			  $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
 			}
         }
-		
 		$data = array();
         $data['results'] = $result;
+		$data['did'] = (int)$this->stash['did'];
+		$data['can_edit'] = $this->stash['visitor']['can_edit'];
 		$data['url'] = Doggy_Config::$vars['app.url.album.shop'];
         return $this->ajax_json('', false, '', $data);
     }
@@ -135,7 +136,9 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 		}
 		
 		// 删除成功后返回URL
-		$this->stash['redirect_url'] = Doggy_Config::$vars['app.url.album.shop'];
+		$this->stash['ids'] = array($id);
+		$this->stash['redirect_url'] = Doggy_Config::$vars['app.url.album.shop'].'?did='.(int)$this->stash['did'];
 		return $this->to_taconite_page('ajax/delete.html');
+		//return $this->to_redirect($redirect_url);
 	}
 }

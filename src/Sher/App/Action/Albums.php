@@ -151,6 +151,7 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 		
 		$data = array();
 		$data['results'] = $result;
+		$data['can_edit'] = $this->stash['visitor']['can_edit'];
 		$data['url'] = Doggy_Config::$vars['app.url.albums'];
 		$data['product_url'] = Doggy_Config::$vars['app.url.album.shop'];
         return $this->ajax_json('', false, '', $data);
@@ -170,13 +171,13 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 			$model = new Sher_Core_Model_Albums();
 			$result = $model->remove(array('_id' => (int)$id));
 			if(!$result){
-				return $this->ajax_json('保存失败,请重新提交', true);
+				return $this->ajax_notification('保存失败,请重新提交', true);
 			}
 			
 			$model = new Sher_Core_Model_Albumshop();
 			$result = $model->remove(array('dadid' => (int)$id));
 			if(!$result){
-				return $this->ajax_json('保存失败,请重新提交', true);
+				return $this->ajax_notification('保存失败,请重新提交', true);
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){
@@ -184,6 +185,7 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 		}
 		
 		// 删除成功后返回URL
+		$this->stash['ids'] = array($id);
 		$this->stash['redirect_url'] = Doggy_Config::$vars['app.url.albums'];
 		return $this->to_taconite_page('ajax/delete.html');
 	}
