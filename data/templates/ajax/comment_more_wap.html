@@ -2,7 +2,7 @@
   {% if page==1 %}
 
 	<replaceContent select="#comment-list"><![CDATA[
-      {% comment_list var:'comments' page:page target_id:target_id type:type size:per_page sort:'earliest' check_loved:1 current_user_id:current_user_id %}
+      {% comment_list var:'comments' page:page target_id:target_id type:type size:per_page sort:sort check_loved:1 current_user_id:current_user_id %}
       <div class="ui threaded minimal comments is-comment">
       {% for comment in comments.rows %}
       <div class="comment" id="{{ comment._id }}">
@@ -111,7 +111,7 @@
   {%else%}
 
 	<append select=".is-comment.comments"><![CDATA[
-      {% comment_list var:'comments' page:page target_id:target_id type:type size:per_page sort:'earliest' check_loved:1 current_user_id:current_user_id %}
+      {% comment_list var:'comments' page:page target_id:target_id type:type size:per_page sort:sort check_loved:1 current_user_id:current_user_id %}
       <div class="ui threaded minimal comments is-comment">
       {% for comment in comments.rows %}
       <div class="comment" id="{{ comment._id }}">
@@ -230,7 +230,7 @@
     }
   if(current_page==1){
        $('#load-more-btn').click(function(){
-        fetch_comment(current_page+1, per_page);
+       fetch_comment(current_page+1, per_page, "{{ sort }}");
       }); 
   }
 
