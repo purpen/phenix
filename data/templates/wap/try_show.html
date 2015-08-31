@@ -169,19 +169,7 @@
     overflow-x: visible;
     overflow-y: visible;
   }
-	.fitsort {
-    padding: 10px 10px 0;
-    text-align: right;
-  }
-  .ui.list>a.active.item, .ui.list>a.item:hover {
-    color: #f36 !important;
-  }
-  .ui.horizontal.list>.item{
-    font-size:1rem;
-  }
-  .ui.list>a.item {
-    color: rgba(112,123,135,.92) !important;
-  }
+	
 	
 </style>
 {% endblock %}
@@ -436,12 +424,12 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-					<div class="block title" style="background-color: rgba(248,248,248,1);padding: 18px 10px 12px;font-size: 16px;font-weight: 500;border: 1px solid rgba(224,224,224,.46);border-bottom: 0;">
+					<div class="block title">
 						回应 <small>（{{ try.comment_count||default 0 }}）</small>
 					</div>
 					
 					<!--  讨论    -->
-					<div class="ui big reply segment" style="border-radius: 0;border: 1px solid rgba(224,224,224,.46);box-shadow:none;margin:0;">
+					<div class="ui big reply segment">
 		              <!--ajax comment-->
 		              <div class="fitsort">
                       <div class="ui horizontal bulleted list">
@@ -462,32 +450,34 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-					<h3 class="ui dividing header">
+					<div class="block title">
 						试用名单
-					</h3>
-					
-					{% if try.pass_users %}
-					<div class="avatars" id="product-apply-people">
-						{% user_list var:'userlist' user_ids:try.pass_users %}
-					    <div class="ui horizontal list">
-							{% for user in userlist  %}
-							<div class="item">
-								<a class="ui avatar pop image" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
-									<img src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" />
-								</a>
-								<!--<div class="content">
-								      <div class="header">
-										  <a href="{{ user.home_url }}" class="ui link" target="_blank">{{ user.nickname }}</a>
-									  </div>
-								      <span>{{ user.city }}</span>
-								</div>-->
-							</div>
-							{% endfor %}
-						</div>
 					</div>
-					{% else %}
-					<div class="ui gray message">没有你的支持，这世界将失去一个伟大的产品!</div>
-					{% endif %}
+					
+					<div class="ui big segment">
+					  {% if try.pass_users %}
+  					<div class="avatars" id="product-apply-people">
+  						{% user_list var:'userlist' user_ids:try.pass_users %}
+  					    <div class="ui horizontal list">
+  							{% for user in userlist  %}
+  							<div class="item">
+  								<a class="ui avatar pop image" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
+  									<img src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" />
+  								</a>
+  								<!--<div class="content">
+  								      <div class="header">
+  										  <a href="{{ user.home_url }}" class="ui link" target="_blank">{{ user.nickname }}</a>
+  									  </div>
+  								      <span>{{ user.city }}</span>
+  								</div>-->
+  							</div>
+  							{% endfor %}
+  						</div>
+  					</div>
+  					{% else %}
+  					<div class="ui gray message">没有你的支持，这世界将失去一个伟大的产品!</div>
+  					{% endif %}
+  				</div>
 				</div>
 			</div>
 		</div>
@@ -497,11 +487,11 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-					<h3 class="ui dividing header">
+					<div class="block title">
 						评测报告
-					</h3>
+					</div>
 					<div class="social">
-						<table class="ui topic table">
+						<table class="ui topic table" style="border-radius:0;border: 1px solid rgba(224,224,224,.46);">
 							<tbody>
 							{% topic_list var:'list' published:1 try_id:try._id time:'latest' %}
 							{% for topic in list.rows %}
