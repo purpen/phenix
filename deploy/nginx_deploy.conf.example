@@ -115,8 +115,8 @@ server {
 		rewrite ^/albums(.*)$ /app/site/albums$1 last;
 	}
 	
-	location /shopalbums {
-		rewrite ^/shopalbums(.*)$ /app/site/shopalbums$1 last;
+	location /albumshop {
+		rewrite ^/albumshop(.*)$ /app/site/albumshop$1 last;
 	}
 
 	location /active {
