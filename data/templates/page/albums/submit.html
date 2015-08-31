@@ -1,6 +1,11 @@
 {%extends 'layout/column.html'%}
 {% block jquery %}
     
+	var asset_count = 1;
+	var ord = function(){
+		return asset_count++;
+	};
+	
 	// 提交表单数据
 	$('#active-form').form({
 		title: {
@@ -50,7 +55,7 @@
 		debug: false,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ new_file_id }}', 'x:domain': '{{ domain }}', 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ albums._id }}','file_id': '{{ new_file_id }}' },
+			params: {'token': '{{ token }}','x:pid': '{{ new_file_id }}', 'x:domain': '{{ domain }}', 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }}, 'x:ord': ord,'x:parent_id': '{{ albums._id }}','file_id': '{{ new_file_id }}' },
         	endpoint: '{{ app_url_upload_albums }}'
       	},
 		text: {
