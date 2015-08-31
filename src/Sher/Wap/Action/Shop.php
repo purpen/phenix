@@ -1303,7 +1303,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       // 最新
       'sort' => 1,
       'evt' => 'tag',
-      't' => 1,
+      't' => 6,
       'oid' => $current_id,
       'type' => 1,
 		);        

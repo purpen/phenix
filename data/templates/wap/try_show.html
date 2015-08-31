@@ -176,16 +176,25 @@
 {% block layout_js %}
 <script type="text/javascript">
 
-  var per_page = 10;
-  function fetch_comment(current_page, per_page){
+  var per_page = 10, sort = 0;
+  function fetch_comment(current_page, per_page, sort){
     var url = '{{ app_url_wap }}/app/site/comment/ajax_fetch_comment_wap';
-    $.get(url, {target_id: {{ try._id }}, type: 3, page: current_page, per_page: per_page});
+    $.get(url, {target_id: {{ try._id }}, type: 3, page: current_page, per_page: per_page, sort: sort});
   }
 
 </script>
 {% endblock %}
 {% block jquery %}
-
+  // 评论排序
+  $('.fitsort .ui.list .item').bind('click', function(){
+      sort = parseInt($(this).data('sort'));
+      $(this)
+          .siblings().removeClass('active')
+          .end()
+          .addClass('active');
+      fetch_comment(1, per_page, sort);
+  });
+  
   //弹出登录框
 	phenix.wap_show_sign_box('', 1);
 
@@ -305,7 +314,7 @@
 	phenix.hook_comment_page();
 	
 	//ajax加载评论
-	  fetch_comment(1, per_page);
+	  fetch_comment(1, per_page, 0);
 	
 	$('.ui.tabox').smint({
     	'scrollSpeed': 1000
@@ -412,13 +421,19 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-					<h3 class="ui dividing header">
-						回应 <small>（{{ try.comment_count||default 0 }}）</small>
-					</h3>
+					<div class="block title">
+						全部评论 <small>（{{ try.comment_count|default 0 }}）</small>
+					</div>
 					
 					<!--  讨论    -->
 					<div class="ui big reply segment">
 		              <!--ajax comment-->
+		              <div class="fitsort">
+                      <div class="ui horizontal bulleted list">
+                          <a class="active item" href="javascript:void(0);" data-sort="0">默认</a>
+                          <a class="item" href="javascript:void(0);" data-sort="1">最新</a>
+                      </div>
+                  </div>
 		              <div id="comment-list" style="padding-bottom:10px;"></div>
 		              {% include "block/comment_box_wap.html" %}
 		            </div>
@@ -432,32 +447,34 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-					<h3 class="ui dividing header">
+					<div class="block title">
 						试用名单
-					</h3>
-					
-					{% if try.pass_users %}
-					<div class="avatars" id="product-apply-people">
-						{% user_list var:'userlist' user_ids:try.pass_users %}
-					    <div class="ui horizontal list">
-							{% for user in userlist  %}
-							<div class="item">
-								<a class="ui avatar pop image" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
-									<img src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" />
-								</a>
-								<!--<div class="content">
-								      <div class="header">
-										  <a href="{{ user.home_url }}" class="ui link" target="_blank">{{ user.nickname }}</a>
-									  </div>
-								      <span>{{ user.city }}</span>
-								</div>-->
-							</div>
-							{% endfor %}
-						</div>
 					</div>
-					{% else %}
-					<div class="ui gray message">没有你的支持，这世界将失去一个伟大的产品!</div>
-					{% endif %}
+					
+					<div class="ui big segment">
+					  {% if try.pass_users %}
+  					<div class="avatars" id="product-apply-people">
+  						{% user_list var:'userlist' user_ids:try.pass_users %}
+  					    <div class="ui horizontal list">
+  							{% for user in userlist  %}
+  							<div class="item">
+  								<a class="ui avatar pop image" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
+  									<img src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" />
+  								</a>
+  								<!--<div class="content">
+  								      <div class="header">
+  										  <a href="{{ user.home_url }}" class="ui link" target="_blank">{{ user.nickname }}</a>
+  									  </div>
+  								      <span>{{ user.city }}</span>
+  								</div>-->
+  							</div>
+  							{% endfor %}
+  						</div>
+  					</div>
+  					{% else %}
+  					<div class="ui gray message">没有你的支持，这世界将失去一个伟大的产品!</div>
+  					{% endif %}
+  				</div>
 				</div>
 			</div>
 		</div>
@@ -467,11 +484,11 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
-					<h3 class="ui dividing header">
+					<div class="block title">
 						评测报告
-					</h3>
+					</div>
 					<div class="social">
-						<table class="ui topic table">
+						<table class="ui topic table" style="border-radius:0;border: 1px solid rgba(224,224,224,.46);">
 							<tbody>
 							{% topic_list var:'list' published:1 try_id:try._id time:'latest' %}
 							{% for topic in list.rows %}

@@ -1,7 +1,6 @@
 {%extends 'layout/mobile.html'%}
 {% block title %}{% endblock %}
 {% block page_css %}
-  <link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/swiper.312.min.css">
   <link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
 <style type="text/css">
   header.ui.wap{
@@ -24,13 +23,32 @@
   	height: 100%;
   	overflow: hidden;
   }
+  .fp-table {
+  	display: table;
+  	width: 100%;
+  }
+  .fp-tableCell {
+  	display: table-cell;
+  	width: 100%;
+  	height: 100%;
+  	position:relative;
+  }
+  .fp-section.fp-table{
+  	display: table;
+  	table-layout: fixed;
+  	width: 100%;
+  }
+  .fp-viewing-firstPage {
+  	height: 100%;
+  	position: relative;
+  }
 
-  .swiper-container{
+  /*.swiper-container{
   	width:100%;
   	height:100%;
   	text-align:center;
   	max-width:640px;
-  }
+  }*/
   #music-control {
   	width: 30px;
   	height: 30px;
@@ -404,9 +422,9 @@
 	
 	@-webkit-keyframes flipInY{
 	  0%{
-	    -webkit-transform:perspective(400px) rotate3d(0,1,0,180deg) !important;
-	    -ms-transform:perspective(400px) rotate3d(0,1,0,180deg) !important;
-	    transform:perspective(400px) rotate3d(0,1,0,180deg) !important;
+	    -webkit-transform:perspective(400px) rotate3d(0,1,0,180deg);
+	    -ms-transform:perspective(400px) rotate3d(0,1,0,180deg);
+	    transform:perspective(400px) rotate3d(0,1,0,180deg);
 	    -webkit-transition-timing-function:ease-in;
 	    transition-timing-function:ease-in;
 	    opacity:0
@@ -830,7 +848,7 @@
 	  animation-delay:1s;
   	-webkit-animation-delay:1s;
 	}
-	.page-15-1{
+	.page-15{
 	  background:url({{ app_url_packaged }}/images/promo/hy/bg4.jpg) no-repeat center center /cover;
 	}
 	.pt15{
@@ -885,251 +903,504 @@
 		75% { -webkit-transform: scale(1.1); }
 		100% { -webkit-transform: scale(0.5); }
 	}
-  
 </style>
 {% endblock %}
 
 {% block layout_js %}
-  <script src="http://frstatic.qiniudn.com/wechat/js/swiper.312.min.js" type="text/javascript"></script>
-  <script src="http://frstatic.qiniudn.com/wechat/js/swiper.animate.312.min.js" type="text/javascript"></script>
-  <script type="text/javascript">  
-	 
-		var mySwiper = new Swiper('.swiper-container', {
-		  direction: 'vertical',
-			mousewheelControl: false,
-			watchSlidesProgress: false,
-		/*	followFinger : false,*/
-		loop:false,
-		effect : 'slide',
-    slidesPerView: 1,
-    centeredSlides: true,
-    resistanceRatio : 0.9,
-    speed : 500,
-   /* coverflow: {
-                rotate: 30,
-                stretch: 10,
-                depth: 60,
-                modifier: 2,
-                slideShadows : true
-            },*/
-            onInit: function(swiper){
-               swiperAnimateCache(swiper);
-               swiperAnimate(swiper);
-            	  },
-               onSlideChangeEnd: function(swiper){
-            	swiperAnimate(swiper);
-                }
-		/*	onInit: function(swiper){
-			   swiperAnimateCache(swiper);
-			   swiperAnimate(swiper);
-				 swiper.myactive = 0;
-			},
-			onSetTransition: function(swiper, speed) {
-				for (var i = 0; i < swiper.slides.length; i++) {
-					//if (i == swiper.myactive) {
+  <script src="http://frstatic.qiniudn.com/wechat/js/audio5.min.js" type="text/javascript"></script>
+  <script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript">
+   /* var m_name = ' ';
+    var img_url = ' ';
+    var link = '{{ app_url_wap_promo }}/hy';
+    var desc_str = ' ';
 
-						es = swiper.slides[i].style;
-						es.webkitTransitionDuration = es.MsTransitionDuration = es.msTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = speed + 'ms';
-					//}
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+
+  wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: 5, count_name:'count', type: 4, kind:4 });
+  }*/
+  
+  
+	 window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+
+   function hengshuping() {
+           if (window.orientation == 90 || window.orientation == -90) {
+              $('.shuping').css('display','none');
+              $('.hengping').css('display','block');
+           } else {
+              $('.shuping').css('display','block');
+              $('.hengping').css('display','none');
+           }
+       }
+
+ 		$('.wrap').fullpage({
+ 			'css3':true,
+ 			//'loopBottom':true,
+ 			'slidesNavigation': true,
+ 			afterLoad: function(anchorLink, index){
+ 						if(index == 1){
+ 							$('.page-1 img').css('display','block');
+ 						}
+ 			      if(index == 2){
+ 							$('.page-2 img').css('display','block');
+ 						}
+ 						if(index == 3){
+ 							$('.page-3 img').css('display','block');
+ 						}
+ 						if(index == 4){
+ 							$('.page-4 img').css('display','block');
+ 						}
+ 						if(index == 5){
+ 							$('.page-5 img').css('display','block');
+ 						}
+ 						if(index == 6){
+ 							$('.page-6 img').css('display','block');
+ 						}
+ 			      if(index == 7){
+ 							$('.page-7 img').css('display','block');
+ 						}
+ 						if(index == 8){
+ 							$('.page-8 img').css('display','block');
+ 						}
+ 						if(index == 9){
+ 							$('.page-9 img').css('display','block');
+ 						}
+ 						if(index == 10){
+ 							$('.page-10 img').css('display','block');
+ 						}
+ 						if(index == 11){
+ 							$('.page-11 img').css('display','block');
+ 						}
+ 			      if(index == 12){
+ 							$('.page-12 img').css('display','block');
+ 						}
+ 						if(index == 13){
+ 							$('.page-13 img').css('display','block');
+ 						}
+ 						if(index == 14){
+ 							$('.page-14 img').css('display','block');
+ 						}
+ 						if(index == 15){
+ 							$('.page-15 img').css('display','block');
+ 						}
+ 			},
+ 			onLeave: function(index, direction){
+ 						if(index == 1){
+ 							$('.page-1 img').css('display','none');
+ 						}
+ 						if(index == 2){
+ 							$('.page-2 img').css('display','none');
+ 						}
+ 						if(index == 3){
+ 							$('.page-3 img').css('display','none');
+ 						}
+ 						if(index == 4){
+ 							$('.page-4 img').css('display','none');
+ 						}
+ 						if(index == 5){
+ 							$('.page-5 img').css('display','none');
+ 						}
+ 						if(index == 6){
+ 							$('.page-6 img').css('display','none');
+ 						}
+ 						if(index == 7){
+ 							$('.page-7 img').css('display','none');
+ 						}
+ 						if(index == 8){
+ 							$('.page-8 img').css('display','none');
+ 						}
+ 						if(index == 9){
+ 							$('.page-9 img').css('display','none');
+ 						}
+ 						if(index == 10){
+ 							$('.page-10 img').css('display','none');
+ 						}
+ 						if(index == 11){
+ 							$('.page-11 img').css('display','none');
+ 						}
+ 						if(index == 12){
+ 							$('.page-12 img').css('display','none');
+ 						}
+ 						if(index == 13){
+ 							$('.page-13 img').css('display','none');
+ 						}
+ 						if(index == 14){
+ 							$('.page-14 img').css('display','none');
+ 						}
+ 						if(index == 15){
+ 							$('.page-15 img').css('display','none');
+ 						}
+ 			}
+ 	  });
+ 	  
+ 	  bgm = new Audio5js({
+	      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
+	      ready: function () {
+	          this.load('http://frstatic.qiniudn.com/wechat/js/See You Again.mp3');
+	          this.play();
+
+	          this.on('canplay', function(){
+	              //console.log('canplay');
+	          });   
+
+	          this.on('ended', function(){
+	              bgm.play();
+	          })           
+	      }
+	  });
+
+	 $('#music-control').click(function(){
+		    bgm.playPause();
+				if($(this).hasClass("playing")){
+					$(this).removeClass("playing");
 				}
-			},
-			onSlideChangeEnd: function(swiper){
-				swiperAnimate(swiper);
-			},*/
+				else{
+					$(this).addClass("playing");
+				}
 		});
-	 
 		
-	</script>
-	<script>document.write('<style>#loading{display:none}</style>');</script> 
+		$('#user-info-form').livequery(function(){
+  		$(this).form({
+  			realname: {
+  				identifier  : 'realname',
+  				rules: [
+  					{
+  						type   : 'empty',
+  						prompt : '姓名不能为空'
+  					}
+  				]
+  			},
+  			phone: {
+  				identifier  : 'phone',
+  				rules: [
+  					{
+  						type   : 'empty',
+  						prompt : '电话不能为空'
+  					}
+  				]
+  			},
+  			address: {
+  				identifier  : 'address',
+  				rules: [
+  					{
+  						type   : 'empty',
+  						prompt : '地址不能为空'
+  					}
+  				]
+  			},
+  			job: {
+  				identifier  : 'job',
+  				rules: [
+  					{
+  						type   : 'empty',
+  						prompt : '职位不能为空'
+  					}
+  				]
+  			}
+  		}, {
+  			inline : true,
+  			onSuccess: function(event){
+  				event.preventDefault();
+  				$(this).ajaxSubmit();
+  			}
+  		});
+  	});
+
+    //报名按钮
+  	$('.join').click(function(){
+  		// 所有ajax请求，验证是否登录
+  		if (!phenix.visitor.is_login){
+  		  phenix.redirect("{{ app_url_wap }}/auth/login");
+  			return false;
+  		}
+      $('.ui.user-info-box.modal')
+      .modal('setting', 'closable', false)
+      .modal('setting', 'transition', 'vertical  flip')
+      .modal('show');
+      return false; 
+  	});
+  	$('.ui.deny.button').click(function(){
+  		$('.ui.user-info-box.modal').modal('hide');
+  	});
+  </script>
+	<script>document.write('<style>#loading{display:none}</style>');</script>
 
 
 {% endblock %}
 
 {% block content %}
-<div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
-<div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
-<div class="swiper-container">
-  <div class="swiper-wrapper">
-		<div class="swiper-slide page-1">
-		  <div class="st pt-0"></div>
+<div class="hengping" style="background:#000;color:#fff;font-size:16px;height:100%;width:100%;display:none;text-align: center;padding-top:140px;position:absolute;">
+  为了更好的用户体验，请竖屏浏览
+</div>
+<div class="shuping">
+  <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
+  <div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div> 
+  <div class="wrap">
+    <div class="section page-1">
+  		<div class="st pt-0"></div>
   	  <img src="{{ app_url_packaged }}/images/promo/hy/xingxx.png" class="st pt-2">
   	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
   	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
   	  <img src="{{ app_url_packaged }}/images/promo/hy/xing1.png" class="st xing pt-5">
+
   	  <img src="{{ app_url_packaged }}/images/promo/hy/clear.png" class="st pt-6">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/huo.png" class="st pt-7 ani" swiper-animate-effect="bounceInLeft">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/yan.png" class="st pt-8 ani" swiper-animate-effect="bounceInRight">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/logo.png" class="st pt-9 ani" swiper-animate-effect="page-logo">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/time.png" class="st pt-10 ani" swiper-animate-effect="zoomIn">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/word1.png" class="st pt-11 ani" swiper-animate-effect="zoomInLeft">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/word2.png" class="st pt-12 ani" swiper-animate-effect="zoomInRight">
-		  
+  	  <img src="{{ app_url_packaged }}/images/promo/hy/huo.png" class="st pt-7 bounceInLeft animated">
+  	  <img src="{{ app_url_packaged }}/images/promo/hy/yan.png" class="st pt-8 bounceInRight animated">
+  	  <img src="{{ app_url_packaged }}/images/promo/hy/logo.png" class="st pt-9 page-logo">
+  	  <img src="{{ app_url_packaged }}/images/promo/hy/time.png" class="st pt-10 zoomIn animated">
+  	  <img src="{{ app_url_packaged }}/images/promo/hy/word1.png" class="st pt-11 zoomInLeft animated">
+  	  <img src="{{ app_url_packaged }}/images/promo/hy/word2.png" class="st pt-12 zoomInRight animated">
+  	  <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+  	</div>
+		
+  	<div class="section page-2">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t2-1.png" class="st pt2-1 lightSpeedIn animated" style="display:none">
+		  <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+
+      <img src="{{ app_url_packaged }}/images/promo/hy/t2w1.png" class="st pt2 pt2-2 flipInX animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t2w2.png" class="st pt2 pt2-3 flipInX animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t2w3.png" class="st pt2 pt2-4 bounceInRight animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t2w4.png" class="st pt2 pt2-5 bounceInLeft animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t2w5.png" class="st pt2 pt2-6 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
+      <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+	  
 		</div>
 		
-		<div class="swiper-slide page-2">
-		  <img src="{{ app_url_packaged }}/images/promo/hy/t2-1.png" class="st pt2-1 ani lightSpeedIn " swiper-animate-effect="">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t2w1.png" class="st pt2 pt2-2 ani" swiper-animate-effect="flipInX">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t2w2.png" class="st pt2 pt2-3 ani" swiper-animate-effect="flipInX">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t2w3.png" class="st pt2 pt2-4 ani" swiper-animate-effect="bounceInRight">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t2w4.png" class="st pt2 pt2-5 ani" swiper-animate-effect="bounceInLeft">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t2w5.png" class="st pt2 pt2-6 ani" swiper-animate-effect="page-logo">
-      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb ani" swiper-animate-effect="fadeInUpBig">
-		  
+		<div class="section page-3">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t3-1.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t3w1.png" class="st pt3-2 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t3w2.png" class="st pt3-3 zoomInLeft animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t3w3.png" class="st pt3-4 zoomInRight animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t3w4.png" class="st pt3-5 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
+      <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 		</div>
-		
-		<div class="swiper-slide page-3">
-		  <img src="{{ app_url_packaged }}/images/promo/hy/t3-1.png" class="st pt3-1  ani" swiper-animate-effect="lightSpeedIn">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t3w1.png" class="st pt3-2 ani" swiper-animate-effect="fadeInUp">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t3w2.png" class="st pt3-3 ani" swiper-animate-effect="zoomInLeft">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t3w3.png" class="st pt3-4 ani" swiper-animate-effect="zoomInRight">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t3w4.png" class="st pt3-5 ani" swiper-animate-effect="page-logo">
-      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb ani" swiper-animate-effect="fadeInUpBig">
+	
+		<div class="section page-4">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t4-1.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t4w1.png" class="st pt4-1 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t4w2.png" class="st pt4-2 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t4w3.png" class="st pt4-3 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t4w4.png" class="st pt4-4 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t4w5.png" class="st pt4-5 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
+      <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 		</div>
-		
-		<div class="swiper-slide page-4">
-		  <img src="{{ app_url_packaged }}/images/promo/hy/t4-1.png" class="st pt3-1 ani" swiper-animate-effect="lightSpeedIn">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t4w1.png" class="st pt4-1 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t4w2.png" class="st pt4-2 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t4w3.png" class="st pt4-3 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t4w4.png" class="st pt4-4 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t4w5.png" class="st pt4-5 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb ani" swiper-animate-effect="fadeInUpBig">
+	
+		<div class="section page-5">
+		  <img src="{{ app_url_packaged }}/images/t5-1.png " class="st pt3-1 lightSpeedIn animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/t5w1.png" class="st pt5-1 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/t5w2.png" class="st pt5-2 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/t5w3.png" class="st pt5-3 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/t5w4.png" class="st pt5-4 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/t5w5.png" class="st pt5-5 fadeInLeftBig animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/t5w6.png" class="st pt5-6 fadeInRightBig animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/t5w7.png" class="st pt5-7 fadeInLeftBig animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/t5w8.png" class="st pt5-8 fadeInRightBig animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
+      <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 		</div>
-		
-		<div class="swiper-slide page-5">
-		  <img src="{{ app_url_packaged }}/images/t5-1.png " class="st pt3-1 ani" swiper-animate-effect="lightSpeedIn">
-      <img src="{{ app_url_packaged }}/images/t5w1.png" class="st pt5-1 ani" swiper-animate-effect="fadeInUp">
-      <img src="{{ app_url_packaged }}/images/t5w2.png" class="st pt5-2 ani" swiper-animate-effect="fadeInUp">
-      <img src="{{ app_url_packaged }}/images/t5w3.png" class="st pt5-3 ani" swiper-animate-effect="fadeInUp">
-      <img src="{{ app_url_packaged }}/images/t5w4.png" class="st pt5-4 ani" swiper-animate-effect="fadeInUp">
-      <img src="{{ app_url_packaged }}/images/t5w5.png" class="st pt5-5 ani" swiper-animate-effect="fadeInLeftBig">
-      <img src="{{ app_url_packaged }}/images/t5w6.png" class="st pt5-6 ani" swiper-animate-effect="fadeInRightBig">
-      <img src="{{ app_url_packaged }}/images/t5w7.png" class="st pt5-7 ani" swiper-animate-effect="fadeInLeftBig">
-      <img src="{{ app_url_packaged }}/images/t5w8.png" class="st pt5-8 ani" swiper-animate-effect="fadeInRightBig">
-      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb ani" swiper-animate-effect="fadeInUpBig">
-		</div>
-		
-		<div class="swiper-slide page-6">
-		  <img src="{{ app_url_packaged }}/images/promo/hy/t6-1.png " class="st pt3-1 ani" swiper-animate-effect="lightSpeedIn">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t6w1.png" class="st pt6-1 ani" swiper-animate-effect="fadeInUp">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t6w2.png" class="st pt6-2 ani" swiper-animate-effect="fadeInUp">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t6w3.png" class="st pt6-3 ani" swiper-animate-effect="fadeInUp">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t6w4.png" class="st pt6-4 ani" swiper-animate-effect="fadeInUp">
-      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb ani" swiper-animate-effect="fadeInUpBig">
-		</div>
-		
-		<div class="swiper-slide page-7">
-		  <img src="{{ app_url_packaged }}/images/promo/hy/t7-1.png " class="st pt3-1 ani" swiper-animate-effect="lightSpeedIn">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t7w1.png" class="st pt7-1 ani" swiper-animate-effect="fadeInUp">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t7w2.png" class="st pt7-2 ani" swiper-animate-effect="fadeInUp">
-      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb ani" swiper-animate-effect="fadeInUpBig">
-		</div>
-		
-		<div class="swiper-slide page-8">
-		  <img src="{{ app_url_packaged }}/images/promo/hy/t8-1.png" class="st pt3-1 ani" swiper-animate-effect="lightSpeedIn">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t8w1.png" class="st pt8-1 pt8 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t8w2.png" class="st pt8-2 pt8 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t8w3.png" class="st pt8-3 pt8 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t8w4.png" class="st pt8-4 pt8 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t8w5.png" class="st pt8-5 pt8 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t8w6.png" class="st pt8-6 pt8 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t8w7.png" class="st pt8-7 pt8 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t8w8.png" class="st pt8-8 pt8 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t8w9.png" class="st pt8-9 pt8 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb ani" swiper-animate-effect="fadeInUpBig">
-		</div>
-		
-		<div class="swiper-slide page-9">
-		  <img src="{{ app_url_packaged }}/images/promo/hy/t9-1.png" class="st pt3-1 ani" swiper-animate-effect="lightSpeedIn">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w1.png" class="st pt9-1 pt9 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w2.png" class="st pt9-2 pt9 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w3.png" class="st pt9-3 pt9 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w4.png" class="st pt9-4 pt9 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w5.png" class="st pt9-5 pt9 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w6.png" class="st pt9-6 pt9 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w7.png" class="st pt9-7 pt9 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w8.png" class="st pt9-8 pt9 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w9.png" class="st pt9-9 pt9 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w10.png" class="st pt9-10 pt9 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w12.png" class="st pt9-12">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w11.png" class="st pt9-11">
-      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb ani" swiper-animate-effect="fadeInUpBig">
-		</div>
-		
-		<div class="swiper-slide page-10">
-		  <img src="{{ app_url_packaged }}/images/promo/hy/t10-1.png" class="st pt3-1 ani" swiper-animate-effect="lightSpeedIn">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t10w1.png" class="st pt10-1 pt10 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t10w2.png" class="st pt10-2 pt10 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t10w3.png" class="st pt10-3 pt10 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t10w4.png" class="st pt10-4 pt10 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t10w5.png" class="st pt10-5 pt10 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t10w6.png" class="st pt10-6 ani" swiper-animate-effect="page-logo">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t10w7.png" class="st pt10-7 ani" swiper-animate-effect="page-logo">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t10w8.png" class="st pt10-8 ani" swiper-animate-effect="fadeInUp">
-      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb ani" swiper-animate-effect="fadeInUpBig">
-		</div>
-		
-		<div class="swiper-slide page-11">
-		  <img src="{{ app_url_packaged }}/images/promo/hy/t11-1.png" class="st pt3-1 ani" swiper-animate-effect="lightSpeedIn">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t11w1.png" class="st pt11-1 ani" swiper-animate-effect="fadeInUp">
-      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb ani" swiper-animate-effect="fadeInUpBig">
-		</div>
-		
-		<div class="swiper-slide page-12">
-		  <img src="{{ app_url_packaged }}/images/promo/hy/t12-1.png" class="st pt3-1 ani" swiper-animate-effect="lightSpeedIn">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t12w1.png" class="st pt12-1 pt12 ani" swiper-animate-effect="page-logo">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t12w2.png" class="st pt12-2 pt12 ani" swiper-animate-effect="page-logo">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t12w3.png" class="st pt12-3 pt12 ani" swiper-animate-effect="bounceInLeft">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t12w4.png" class="st pt12-4 pt12 ani" swiper-animate-effect="bounceInLeft">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t12w5.png" class="st pt12-5 pt12 ani" swiper-animate-effect="bounceInLeft">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t12w6.png" class="st pt12-6 pt12 ani" swiper-animate-effect="bounceInLeft">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t12w7.png" class="st pt12-7 pt12 ani" swiper-animate-effect="bounceInRight">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t12w8.png" class="st pt12-8 pt12 ani" swiper-animate-effect="bounceInRight">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t12w9.png" class="st pt12-9 pt12 ani" swiper-animate-effect="bounceInRight">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t12w10.png" class="st pt12-10 pt12 ani" swiper-animate-effect="bounceInRight">
-      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb ani" swiper-animate-effect="fadeInUpBig">
-		</div>
-		
-		<div class="swiper-slide page-13">
-		  <img src="{{ app_url_packaged }}/images/promo/hy/t12-1.png" class="st pt3-1 ani" swiper-animate-effect="lightSpeedIn">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t13w1.png" class="st pt13-1 ani" swiper-animate-effect="fadeInUp">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t13w2.png" class="st pt13-2 ani" swiper-animate-effect="fadeInUp">
-      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb ani" swiper-animate-effect="fadeInUpBig">
-		</div>
-		
-		<div class="swiper-slide page-14">
-		  <img src="{{ app_url_packaged }}/images/promo/hy/t14-1.png" class="st pt3-1 ani" swiper-animate-effect="lightSpeedIn">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t14w1.png" class="st pt14-1 ani" swiper-animate-effect="fadeInUp">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t14w2.png" class="st pt14-2 pt9 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t14w3.png" class="st pt14-3 pt9 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t14w5.png" class="st pt14-4 pt9 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t14w4.png" class="st pt14-5 pt9 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t14w6.png" class="st pt14-6 pt9 ani" swiper-animate-effect="flipInY">
-      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb ani" swiper-animate-effect="fadeInUpBig">
-		</div>
-		
-		<div class="swiper-slide page-15">
+	
+		<div class="section page-6">
 		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join">
       <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t15-1.png" class="st pt3-1 ani" swiper-animate-effect="lightSpeedIn">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t15w1.png" class="st pt15-1 pt15 ani" swiper-animate-effect="bounceInLeft">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t15w2.png" class="st pt15-2 pt15 ani" swiper-animate-effect="page-logo">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t15w3.png" class="st pt15-3 pt15 ani" swiper-animate-effect="bounceInRight">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t15w4.png" class="st pt15-4 pt15 ani" swiper-animate-effect="flipInX">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t15w5.png" class="st pt15-5 ani" swiper-animate-effect="page-logo">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t6-1.png " class="st pt3-1 lightSpeedIn animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t6w1.png" class="st pt6-1 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t6w2.png" class="st pt6-2 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t6w3.png" class="st pt6-3 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t6w4.png" class="st pt6-4 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
+      <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+		</div>
+	
+		<div class="section page-7">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join">
+      <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t7-1.png " class="st pt3-1 lightSpeedIn animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t7w1.png" class="st pt7-1 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t7w2.png" class="st pt7-2 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
+      <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+		</div>
+	
+		<div class="section page-8">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join">
+      <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t8-1.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t8w1.png" class="st pt8-1 pt8 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t8w2.png" class="st pt8-2 pt8 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t8w3.png" class="st pt8-3 pt8 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t8w4.png" class="st pt8-4 pt8 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t8w5.png" class="st pt8-5 pt8 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t8w6.png" class="st pt8-6 pt8 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t8w7.png" class="st pt8-7 pt8 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t8w8.png" class="st pt8-8 pt8 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t8w9.png" class="st pt8-9 pt8 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
+      <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+		</div>
+	
+		<div class="section page-9">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join">
+      <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t9-1.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t9w1.png" class="st pt9-1 pt9 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t9w2.png" class="st pt9-2 pt9 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t9w3.png" class="st pt9-3 pt9 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t9w4.png" class="st pt9-4 pt9 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t9w5.png" class="st pt9-5 pt9 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t9w6.png" class="st pt9-6 pt9 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t9w7.png" class="st pt9-7 pt9 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t9w8.png" class="st pt9-8 pt9 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t9w9.png" class="st pt9-9 pt9 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t9w10.png" class="st pt9-10 pt9 flipInY animated" style="display:none">
+
+      <img src="{{ app_url_packaged }}/images/promo/hy/t9w12.png" class="st pt9-12">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t9w11.png" class="st pt9-11">
+      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
+      <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 		</div>
 		
+		<div class="section page-10">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join">
+      <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t10-1.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t10w1.png" class="st pt10-1 pt10 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t10w2.png" class="st pt10-2 pt10 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t10w3.png" class="st pt10-3 pt10 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t10w4.png" class="st pt10-4 pt10 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t10w5.png" class="st pt10-5 pt10 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t10w6.png" class="st pt10-6 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t10w7.png" class="st pt10-7 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t10w8.png" class="st pt10-8 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
+      <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+		</div>
+	
+		<div class="section page-11">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join">
+      <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t11-1.png" class="st pt3-1 lightSpeedIn animated"  style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t11w1.png" class="st pt11-1 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
+      <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+		</div>
+	
+		<div class="section page-12">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join">
+      <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t12-1.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t12w1.png" class="st pt12-1 pt12 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t12w2.png" class="st pt12-2 pt12 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t12w3.png" class="st pt12-3 pt12 bounceInLeft animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t12w4.png" class="st pt12-4 pt12 bounceInLeft animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t12w5.png" class="st pt12-5 pt12 bounceInLeft animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t12w6.png" class="st pt12-6 pt12 bounceInLeft animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t12w7.png" class="st pt12-7 pt12 bounceInRight animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t12w8.png" class="st pt12-8 pt12 bounceInRight animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t12w9.png" class="st pt12-9 pt12 bounceInRight animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t12w10.png" class="st pt12-10 pt12 bounceInRight animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
+      <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+		</div>
+	
+		<div class="section page-13">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join">
+      <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t12-1.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t13w1.png" class="st pt13-1 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t13w2.png" class="st pt13-2 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
+      <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+		</div>
+	
+		<div class="section page-14">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join">
+      <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t14-1.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t14w1.png" class="st pt14-1 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t14w2.png" class="st pt14-2 pt9 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t14w3.png" class="st pt14-3 pt9 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t14w5.png" class="st pt14-4 pt9 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t14w4.png" class="st pt14-5 pt9 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t14w6.png" class="st pt14-6 pt9 flipInY animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
+      <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
+		</div>
+	
+		<div class="section page-15">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join">
+      <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t15-1.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t15w1.png" class="st pt15-1 pt15 bounceInLeft animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t15w2.png" class="st pt15-2 pt15 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t15w3.png" class="st pt15-3 pt15 bounceInRight animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t15w4.png" class="st pt15-4 pt15 flipInX animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t15w5.png" class="st pt15-5 page-logo" style="display:none">
+		</div>
 		
-		
-		
-		
-		
-		
-		
-	</div>
+  </div>
 </div>
 		  
 		  
 
-
+{% include "block/wap_attend_user_info.html" %}
 {% endblock %}
