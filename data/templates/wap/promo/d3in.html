@@ -982,10 +982,10 @@
 
    function hengshuping() {
            if (window.orientation == 90 || window.orientation == -90) {
-              $('.shuping').hide();
+              $('.shuping').css('display','none');
               $('.hengping').css('display','block');
            } else {
-              $('.shuping').show();
+              $('.shuping').css('display','block');
               $('.hengping').css('display','none');
            }
        }
