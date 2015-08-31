@@ -230,7 +230,7 @@
     }
   if(current_page==1){
        $('#load-more-btn').click(function(){
-        fetch_comment(current_page+1, per_page);
+       fetch_comment(current_page+1, per_page, "{{ sort }}");
       }); 
   }
 
