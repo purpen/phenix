@@ -550,6 +550,10 @@
 					</div>
 				
             <div class="ui big reply segment">
+              <div class="block title">
+                    全部评论
+                    <small>（{{ topic.comment_count|default 0 }}）</small>
+                </div>
               <!--ajax comment-->
               <div id="comment-list"></div>
               {% include "block/comment_box_wap.html" %}
