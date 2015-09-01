@@ -83,6 +83,7 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 		$data['title'] = $this->stash['title'];
 		$data['des'] = $this->stash['des'];
 		$data['cover_id'] = $this->stash['cover_id'];
+		$data['banner_id'] = $this->stash['banner_id'];
 		
 		// 检查是否有图片
 		if(isset($this->stash['asset'])){
@@ -197,7 +198,7 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 		$id = $this->stash['id'];
 		$asset_id = $this->stash['asset_id'];
 		if (empty($id) || empty($asset_id)){
-			return $this->ajax_note('附件不存在！', true);
+			return $this->ajax_note('图片不存在！', true);
 		}
 		$model = new Sher_Core_Model_Albums();
 		$model->delete_asset($id, $asset_id);

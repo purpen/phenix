@@ -128,7 +128,6 @@
 			phenix.show_error_note(result.message);
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
-			
 			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
 		}
 	});
@@ -183,10 +182,8 @@
 		$(this).click(function(){
 			$this = $(this);
 			var id = $(this).attr('data-value');
-			
 			$('#asset-list .ajax-banner.active').removeClass('active');
 			$(this).addClass('active');
-			
 			$('#try_banner_id').val(id);
 			return false;
 		});

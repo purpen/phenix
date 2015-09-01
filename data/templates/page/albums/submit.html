@@ -90,10 +90,23 @@
 			$('#asset-list .ajax-cover.active').removeClass('active');
 			$(this).addClass('active');
 			
-			$('#topic_cover_id').val(id);
+			$('#albums_cover_id').val(id);
 			return false;
 		});
 	});
+	
+	// 设置Banner图
+	$('#asset-list .ajax-banner').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			$('#asset-list .ajax-banner.active').removeClass('active');
+			$(this).addClass('active');
+			$('#albums_banner_id').val(id);
+			return false;
+		});
+	});
+	
 {% endblock %}
 {% block content %}
 <div class="section breadcrumb">
@@ -137,7 +150,8 @@
                             </div>
 							<div class="field">
                                 <label>上传封面图片 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个封面图)</small></label>
-                                <input type="hidden" name="cover_id" id="topic_cover_id" value="{{ album.cover_id }}" />
+                                <input type="hidden" name="cover_id" id="albums_cover_id" value="{{ albums.cover_id }}" />
+								<input type="hidden" name="banner_id" id="albums_banner_id" value="{{ albums.banner_id }}" />
                                 <div id="phenix-uploader"></div>
                                 <div id="asset-list" class="ui six blocks">
                                     {% if mode == 'edit' %}
@@ -153,9 +167,12 @@
                                                     <a href="{{ app_url_albums }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
                                                         <i class="remove icon"></i>
                                                     </a>
-                                                    <a href="javascript:void(0);" class="ui link ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+                                                    <a href="javascript:void(0);" class="ui link {%if albums.cover_id == asset._id %} active {%endif%} ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
                                                         <i class="checkered flag icon"></i>
                                                     </a>
+													<a href="javascript:void(0);" class="ui link {%if albums.banner_id == asset._id %} active {%endif%} ajax-banner pop" data-content="设置Banner图" data-variation="inverted" data-value="{{ asset._id }}">
+														<i class="checkered sun icon"></i>
+													</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -165,11 +182,11 @@
                             </div>
 							<div class="ui right aligned grid">
 								<div class="column">
-									<div class="ui magenta inverted submit button save">
-										确认提交
-									</div>
 									<div class="ui inverted grey button cancel">
-										点击取消
+										取消
+									</div>
+									<div class="ui magenta inverted submit button save">
+										提交
 									</div>
 								</div>
 							</div>

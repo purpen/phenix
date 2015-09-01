@@ -15,11 +15,14 @@ class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
         'des' => '',
         # 封面图
         'cover_id' => '',
+		# banner图
+		'banner_id' => '',
 		# 图片数组
 		'asset' => array(),
-		'asset_count' => 0,
 		# 用户id
 		'user_id' => 0,
+		# 图片数量
+		'asset_count' => 0,
         # 浏览量
         'view_count' => 0,
         # 点赞数
@@ -37,6 +40,7 @@ class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
 	protected $joins = array(
 	    'user'  =>  array('user_id' => 'Sher_Core_Model_User'),
 	    'cover' => array('cover_id' => 'Sher_Core_Model_Asset'),
+		'banner' => array('banner_id' => 'Sher_Core_Model_Asset'),
 	);
 	
 	/**

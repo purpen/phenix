@@ -5,6 +5,13 @@
     .categorybox {
         background-color: #fff;
     }
+	.category{
+		{% if albums.banner_id %}
+		background: url("{{ banner }}") no-repeat scroll center center / cover rgba(45, 53, 56, 1);
+		{% else %}
+	    background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);
+		{% endif %}
+	}
 </style>
 {% endblock %}
 
@@ -21,7 +28,6 @@
                 $('#albums-more').html('没有更多');
             }
             var rendered = phenix.ajax_render_result('#fetch_more_albumshop_tpl', rs.data);
-			console.log(rs.data);
             $('.item-box').append(rendered);
         }, 'json');
     }
@@ -52,11 +58,11 @@
 {% endblock %}
 
 {% block content %}
-<div class="category image {{ current_category.name }}" >
+<div class="category image {{ albums._id }}" >
 	<h1>
-		{{ current_category.title|default '全部专辑' }}
+		{{ albums.title|default '专辑精选' }}
         <div class="desc">
-            <p>{{ current_category.summary|default '我们用心挑选数以万计的创意产品，为你每次的一见钟情!' }}</p>
+            <p>{{ albums.des|default '我们用心挑选数以万计的创意产品，为你每次的一见钟情!' }}</p>
         </div>
 	</h1>
     <div class="cover"></div>
@@ -70,7 +76,6 @@
                     <!--ajax load list-->
                 </div>
             </div>
-
             <div id="albums-more" p="{{ page }}" style="text-align:center;margin:10px auto;display:none;">
                 <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
                 加载中...
