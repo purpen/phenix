@@ -71,8 +71,7 @@
 					
 					<h3 class="ui dividing header">修改密码</h3>
 
-
-          {% if is_bind %}
+                    {% if is_bind %}
 					<div class="two fields">
 						<div class="field">
 							<label>当前密码</label>
@@ -91,11 +90,11 @@
 						</div>
 					</div>
 
-          {%else%}
-            <div>
-              您的账户还未绑定手机号,请先 <a href="{{ app_url_my }}/bind_phone" class="ui link">绑定手机号</a>
-            </div>
-          {%endif%}
+                    {%else%}
+                    <div class="field">
+                        您的账户还未绑定手机号，请先 <a href="{{ app_url_my }}/bind_phone" class="ui link">绑定手机号</a>
+                    </div>
+                    {%endif%}
 					
 					<input type="submit" class="ui inverted magenta button" value="确认修改" />
 					
