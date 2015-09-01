@@ -24,16 +24,12 @@
 						</div>
 					<div class="field">
 						<label>详细地址</label>
-						<select multiple="">
-                      <option value="">Skills</option>
-                      <option value="angular">Angular</option>
-                      <option value="css">CSS</option>
-                      <option value="ember">Ember</option>
-                      <option value="html">HTML</option>
-                      <option value="javascript">Javascript</option>
-                      <option value="meteor">Meteor</option>
-                      <option value="node">NodeJS</option>
-                    </select>
+						<select>
+						  {% for province in provinces %}
+						    <option value="{{ province._id }}">{{ province.city }}</option>
+						  {% endfor %}
+						</select>
+						  
 						<div class="ui selection province dropdown">
 							<input type="hidden" name="province" value="{{ addbook.province }}" />
 			
