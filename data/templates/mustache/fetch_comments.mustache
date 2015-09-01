@@ -1,0 +1,88 @@
+{{#result.rows}}
+
+<div class="comment" id="{{ _id }}">
+    <a class="avatar" href="{{ user.home_url }}" target="_blank">
+        <img src="{{ user.small_avatar_url }}" alt="{{ user.nickname }}" />
+    </a>
+    <div class="content">
+        <a class="author ui link" href="{{ user.home_url }}" target="_blank">{{ user.nickname }}</a>
+        <div class="metadata">
+            <div class="date"><small>{{ created_on }}</small></div>
+            <span class="floor">{{ floor }}楼</span>
+        </div>
+
+        {{^is_deleted}}
+        <div class="laud">
+            {{#is_loved}}
+            <a class="ui link icon pop ajax" href="/comment/ajax_cancel_laud?id={{ _id }}" id="laud_{{ _id}}" data-content="取消点赞" data-variation="inverted" >
+                <span class="love-count">{{#is_love_count}}{{ love_count }}{{/is_love_count}}</span>
+                <i class="icon heart"></i>
+            </a>
+            {{/is_loved}}
+            {{^is_loved}}
+            <a class="ui link icon pop ajax" href="/comment/ajax_laud?id={{ _id }}" id="laud_{{ _id}}" data-content="点赞" data-variation="inverted" >
+                <span class="love-count">{{#is_love_count}}{{ love_count }}{{/is_love_count}}</span>
+                <i class="icon empty heart"></i>
+            </a>          
+            {{/is_loved}}
+        </div>
+        {{/is_deleted}}
+    
+        {{#is_reply}}
+        <div class="replytips">
+            <i class="quote left icon"></i> 回复 #{{ reply_comment.floor }} <a href="{{ reply_comment.user.home_url }}" class="ui link" target="_blank">@{{ reply_comment.user.nickname }}</a>
+        </div>
+        {{/is_reply}}
+    
+        <div class="text">
+            {{#is_deleted}}
+                该内容已被屏蔽
+            {{/is_deleted}}
+            {{^is_deleted}}
+            {{ &content }}
+            {{/is_deleted}}
+        </div>
+    
+        {{#is_login}}
+        <div class="actions">
+            {{^deleted}}
+                <a class="reply reply-btn" href="javascript:void(0);" comment_id="{{ _id }}" floor="{{ floor }}" comment_user_id="{{ user_id }}" comment_user_name="{{ user.nickname }}">回复</a>
+
+                {{#is_edit}}
+                <a class="delete confirm-request" href="/comment/delete?id={{ comment._id }}">屏蔽</a>
+                {{/is_edit}}
+            {{/deleted}}
+        </div>
+        {{/is_login}}
+    </div>
+
+    {{#is_old_reply}}
+    <div class="comments">
+        {{#reply}}
+        <div class="comment" id="{{ r_id }}">
+            <a class="avatar" href="{{ user.home_url }}" title="{{ user.nickname }}" target="_blank">
+                <img src="{{ user.small_avatar_url }}" alt="{{ user.nickname }}" />
+            </a>
+            <div class="content">
+                <a class="author">{{ user.nickname }}</a>
+                <div class="metadata actions" style="margin-top:0;opacity:1;" >
+                    <span class="date">{{ replied_on }}</span>
+                    {{#can_admin}}
+                        <a class="delete confirm-request" href="/comment/del_reply?id={{ comment._id }}&rid={{ r_id }}">
+                            <small>删除</small>
+                        </a>
+                    {{/can_admin}}
+                </div>
+                <div class="text">
+                    {{ content }}
+                </div>
+            </div>
+        </div>
+        {{/reply}}
+    </div>
+    {{/is_old_reply}}
+</div>
+
+{{/result.rows}}
+
+

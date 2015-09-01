@@ -154,22 +154,6 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 * 商店首页
 	 */
 	public function index(){
-
-    // 商品推荐列表---取块内容
-    $product_ids = Sher_Core_Util_View::load_block('product_index_stick', 1);
-    $products = array();
-    if($product_ids){
-        $product_model = new Sher_Core_Model_Product();
-        $id_arr = explode(',', $product_ids);
-        foreach(array_slice($id_arr, 0, 8) as $i){
-            $product = $product_model->extend_load((int)$i);
-            if(!empty($product)){
-                array_push($products, $product);
-            }
-        }
-    }
-    $this->stash['stick_products'] = $products;
-
 		return $this->to_html_page('page/shop/home.html');
 	}
 	
@@ -326,6 +310,13 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
   	        return $this->show_message_page('产品类型错误！', $redirect_url);  
         }
 
+        // 显示购买及兑换按钮
+        if(in_array($product['stage'], array(9, 12))){
+          $this->stash['show_pay_btn'] = true;
+        }else{
+          $this->stash['show_pay_btn'] = false;       
+        }
+
         // 验证积分兑换
         if($item_stage=='exchange'){
             if(empty($product['exchanged']) || empty($product['max_bird_coin'])){
@@ -406,6 +397,8 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			'page' => 1,
 			'size' => $size,
 			'sort_field' => 'latest',
+      // 最新
+      'sort' => 1,
 			'evt' => 'tag',
 			't' => 1,
 			'oid' => $current_id,
@@ -417,8 +410,16 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
                 $product_mode = new Sher_Core_Model_Product();
                 $items = array();
                 foreach($xun_arr['data'] as $k=>$v){
+                    // 过滤当前对象
+                    if((int)$current_id == (int)$v['oid']){
+                      continue;
+                    }
                     $product = $product_mode->extend_load((int)$v['oid']);
                     if(!empty($product)){
+                        // 过滤用户表
+                        if(isset($product['user'])){
+                          $product['user'] = Sher_Core_Helper_FilterFields::user_list($product['user']);
+                        }
                         array_push($items, array('product'=>$product));
                     }
                 }
@@ -688,12 +689,34 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
         
         $options['page'] = $page;
         $options['size'] = $size;
+
+        //限制输出字段
+        $some_fields = array(
+          '_id'=>1, 'title'=>1, 'short_title'=>1, 'snatched'=>1, 'featured'=>1,
+          'stage'=>1, 'stick'=>1, 'category_id'=>1, 'created_on'=>1, 'asset_count'=>1, 'vote_favor_count'=>1,
+          'advantage'=>1, 'sale_price'=>1, 'cover_id'=>1, 'comment_count'=>1, 'view_count'=>1,
+          'updated_on'=>1, 'favorite_count'=>1, 'love_count'=>1, 'deleted'=>1,'presale_money'=>1, 'tags'=>1,
+          'vote_oppose_count'=>1, 'summary'=>1, 'voted_finish_time'=>1, 'succeed'=>1, 'presale_finish_time'=>1,
+          'sale_count'=>1,
+        );
+        $options['some_fields'] = $some_fields;
         
         $result = $service->get_product_list($query, $options);
+
+        $max = count($result['rows']);
+        for($i=0;$i<$max;$i++){
+
+          // 过滤用户表
+          if(isset($result['rows'][$i]['user'])){
+            $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
+          }
+
+        } //end for
+
+        $data = array();
+        $data['results'] = $result;
         
-        $this->stash['results'] = $result;
-        
-        return $this->ajax_json('', false, '', $this->stash);
+        return $this->ajax_json('', false, '', $data);
     }
 
 	/**
@@ -868,7 +891,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			}
 			
 			// 保存成功后，更新编辑器图片
-			if($file_count && !empty($this->stash['file_id'])){
+			if(!empty($this->stash['file_id'])){
 			  Doggy_Log_Helper::debug("Upload file count[$file_count].");
 				$asset->update_editor_asset($this->stash['file_id'], (int)$id);
 			}

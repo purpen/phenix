@@ -853,6 +853,43 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
   }
 
   /**
+   * 发私信
+   */
+  public function send_message(){
+   	$this->set_target_css_state('user_send_message'); 
+     return $this->to_html_page('page/my/send_message.html'); 
+  }
+
+  /**
+   * 执行群发私信
+   */
+  public function do_send_message(){
+    $content = isset($this->stash['content']) ? $this->stash['content'] : null;
+    $users = isset($this->stash['users']) ? $this->stash['users'] : array();
+    $from_to = isset($this->stash['from_to'])?$this->stash['from_to']:1;
+
+    if(empty($content) || empty($users)){
+      return $this->ajax_note('缺少请求参数!', true);
+    }
+
+    $msg = new Sher_Core_Model_Message();
+
+    // 批量发送
+    try {
+      foreach($users as $v){
+        if(empty($v)){
+          continue;
+        }
+        $msg->send_site_message($content, $this->visitor->id, (int)$v);
+      }
+      return $this->ajax_json('操作成功!', false);
+    }catch(Doggy_Model_ValidateException $e){
+      return $this->ajax_note('发送私信失败:'.$e->getMessage(), true);
+    }
+  
+  }
+
+  /**
    * 我的通知
    */
   public function notice(){

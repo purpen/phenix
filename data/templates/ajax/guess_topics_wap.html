@@ -10,7 +10,7 @@
 								<div class="image" {% if ft.topic.cover %}style="background-image: url('{{ ft.topic.cover.thumbnails.medium.view_url }}');"{% endif %}>
 							    <a class="transparent" href="{{ ft.topic.wap_view_url }}">
 									  <div class="sub title">
-											{{ ft.topic.title }}
+											<div style="height:35px;overflow:hidden;">{{ ft.topic.title }}</div>
 							        <div class="extra count">
 							        	<i class="unhide icon"></i> <span>{{ ft.topic.view_count }}</span> <i class="comment outline icon"></i> <span>{{ ft.topic.comment_count }}</span>
 							        </div>

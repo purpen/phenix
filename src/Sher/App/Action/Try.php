@@ -8,9 +8,9 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 	public $stash = array(
 		'id' => '',
 		'page' => 1,
-    'page_title_suffix' => '新品试用-太火鸟智能硬件孵化平台',
-    'page_keywords_suffix' => '智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广',
-    'page_description_suffix' => '【免费】申请智能硬件产品试用，发表产品评测，尽在太火鸟智能硬件孵化平台。',
+		'page_title_suffix' => '新品试用-太火鸟智能硬件孵化平台',
+		'page_keywords_suffix' => '智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广',
+		'page_description_suffix' => '【免费】申请智能硬件产品试用，发表产品评测，尽在太火鸟智能硬件孵化平台。',
 	);
 	
 	protected $page_tab = 'page_user';
@@ -94,21 +94,20 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
             $this->stash['HTTP_REFERER'] = $this->current_page_ref();
 	    }
 
-    // 当前用户是否申请过
-    $is_applied = false;
-    if($this->visitor->id){
-      $apply_model = new Sher_Core_Model_Apply();
-      $has_one_apply = $apply_model->first(array('target_id'=>$try['_id'], 'user_id'=>$this->visitor->id));
-      if(!empty($has_one_apply)){
-        $is_applied = true;
-        $has_one_apply = $apply_model->extended_model_row($has_one_apply);
-        $this->stash['apply'] = $has_one_apply;
-      }
-    }
-
-    $this->stash['is_applied'] = $is_applied;
+		// 当前用户是否申请过
+		$is_applied = false;
+		if($this->visitor->id){
+		  $apply_model = new Sher_Core_Model_Apply();
+		  $has_one_apply = $apply_model->first(array('target_id'=>$try['_id'], 'user_id'=>$this->visitor->id));
+		  if(!empty($has_one_apply)){
+			$is_applied = true;
+			$has_one_apply = $apply_model->extended_model_row($has_one_apply);
+			$this->stash['apply'] = $has_one_apply;
+		  }
+		}
 		
 		$this->stash['try'] = &$try;
+    $this->stash['is_applied'] = $is_applied;
 		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_view_url($id, '#p#');

@@ -90,15 +90,19 @@ class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
     $service = Sher_Core_Session_Service::instance();
     $sid = $service->session->id;
 
-    $session_random_model = new Sher_Core_Model_SessionRandom();
-    $session_random = $session_random_model->is_exist($sid, $state, 1);
-
-    // 验证是否非法链接来源
-    if(!$session_random){
-      return $this->show_message_page('拒绝访问,请重试！', $error_redirect_url);
+    if(empty($state)){
+      return $this->show_message_page('拒绝访问,请重新尝试授权！', $error_redirect_url);   
     }
 
-    $redirect_url = !empty($session_random['redirect_url'])?$session_random['redirect_url']:null;
+    // 获取传来的session_id 可接收其它参数
+    $session_arr = explode('||', $state);
+
+    // 验证是否非法链接来源
+    if($session_arr[0] != md5($sid)){
+      return $this->ajax_note('拒绝访问,请重试！', true);
+    }
+
+    $redirect_url = null;
   
     $app_id = Doggy_Config::$vars['app.wx.app_id'];
     $secret = Doggy_Config::$vars['app.wx.app_secret'];

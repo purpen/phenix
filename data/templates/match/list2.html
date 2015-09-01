@@ -72,6 +72,12 @@
 		min-height:320px;
 		border: 1px solid rgba(0,0,0,0.1);
 		cursor:auto;
+		width: calc(25% - 20px);
+    margin-left: 10px;
+    margin-right: 10px;
+	}
+	.ui.allist .ui.four.items .item .ui.dividing.header,.ui.allist .ui.four.items .item .ui.dividing.header .image{
+	  width:100% !important;
 	}
 	.ui.sort.grid{
 		padding-bottom:2rem;
@@ -103,6 +109,46 @@
 		left:0;
 		z-index:111;
 	}
+	.ui.allist .ui.four.items .item .i-stats .schedule{
+	  padding-top:5px;
+	}
+	.image.zan .plus-icon .like{
+	  position: absolute;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+    -webkit-transition: all 500ms cubic-bezier(.175,.885,.32,1.275) 0s !important;
+    transition: all 500ms cubic-bezier(.175,.885,.32,1.275) 0s !important;
+	}
+	.image.zan .add{
+	  top: 50%;
+	}
+	.image.zan .add-active {
+    top: calc(50% - 70px);
+  }
+  i.like.icon:before{
+    border-radius: 50%;
+    display: block;
+    color:#fff;
+    line-height: 52px;
+    text-align: center;
+    -webkit-transition: color .25s ease-in-out 0s;
+    transition: color .25s ease-in-out 0s;
+    font-size: 30px;
+  }
+  .image.zan .plus-icon .like.active:before {
+    color: #F36;
+  }
+  .image.zan .plus-icon i.like.icon:after{
+    display:none;
+    opacity: 0;
+  }
+  .ui.allist .ui.items .item .count +.like{
+    width: 80px;
+    display: inline-block;
+    float: right;
+    text-align: right;
+    line-height: 28px;
+  }
 </style>
 {% endblock %}
 {% block jquery %}
@@ -309,16 +355,17 @@
           {%endfor%}
 
 				</div>
-				  {% if list.total_page %}
-					<div class="ui pagination">
-						{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-						{% include 'block/pager.html' %}
-					</div>
-					{% endif %}
+				  
 			</div>
 		</div>
 		
 	</section>
+	{% if list.total_page %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{% include 'block/pager.html' %}
+	</div>
+	{% endif %}
 	
 </div>
 {% endblock %}

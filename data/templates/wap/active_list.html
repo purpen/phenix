@@ -55,8 +55,51 @@
 	}
 </style>
 {% endblock %}
-{% block jquery %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+      function ajax_load_more(type, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          $('#active-more').show().attr('status', 1);
+          var url = '{{ app_url_wap }}/active/ajax_load_list';
+          $.get(url, { sort:sort, type:type, page:page, size:size }, function(rs){
+              // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
+              if(rs.data.results.total_page > rs.data.results.current_page){
+                  $('#active-more')
+                      .hide()
+                      .attr({'status': 0, 'page': rs.data.page});
+              }else{
+                  $('#active-more').html('没有更多');
+              }
+              var rendered = phenix.ajax_render_result('#fetch_more_actives_tpl', rs.data);
+              $('.item-box').append(rendered);
+          }, 'json');
+      }
+  </script>
 {% endblock %}
+
+{% block jquery %}
+
+  //ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      var stat = $('#active-more').attr('status');
+      var page = parseInt($('#active-more').attr('page')) + 1;
+
+      if(stat==0){
+        ajax_load_more(0, 0, page, 6);
+      }
+　　}
+  });
+
+  ajax_load_more(0, 0, 1, 6);
+
+
+{% endblock %}
+
 {% block content %}
 <div class='active page' id="activitypage">
 	<div class="ui responsive grid">
@@ -74,61 +117,25 @@
 		
 		<div class="row">
 			<div class="column">
-				<div class="ui one products activity cards">
-				  
-          {% active_list var:'old_list' kind:1 ingore_id:current_list.rows.0._id published:1 deleted:1 step_stat:4 state:2 page:page size:9 %}
-           
-          {% for active in old_list.rows %}
-	<div class="card">
-              <div class="problock">
-                  <a title="{{ active.title }}" href="{{ active.wap_view_url }}" style="background-image: url('{{ active.cover.thumbnails.resp.view_url }}');" class="thumb" target="_blank"></a>
-                  <div class="ribbons">
-                      {% if active.season %}
-                      <span class="ribbon season">
-                          第 {{ active.season }} 期
-                      </span>
-                      {%endif%}
-                  </div>
-                  <h2>
-                      <a href="{{ active.wap_view_url }}" title="{{ active.title }}" class="ui line" target="_blank">
-          			    {{ active.title }}－{{ active.conduct_city }}站
-          		    </a>
-                  </h2>
-                  <div class="excerpt">
-                      <p>活动地址：{{ active.conduct_city }}{{ active.address }}，限额人数：{{ active.max_number_count }}人</p>
-                  </div>
-                  <div class="cats">
-                      <i class="time icon"></i> {{ active.end_time|date 'Y/m/d H:i' }}
-                  </div>
-                  <span class="counter">
-                      <i class="heart icon"></i> 
-                       {% if active.step_stat == 2 %}
-                           已结束
-                       {% else %}
-                       <a class="ui link" href="{{ active.wap_view_url }}">
-                           我要报名
-                 	  	</a>
-                       {% endif %}
-                  </span>
-              </div>
-              
-	          </div>
-          {%endfor%}
-				  
-
+				<div class="ui one products activity cards item-box">
+        <!--ajax load list-->
 				</div>
 			</div>
 		</div>
 		<div class="row">
-  		<div class="ui center aligned column">
-        {% if list.rows %}
-        <div class="ui pagination">
-          {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-          {%include 'block/pager.html'%}
+
+      <!--ajax load-->
+      <div id="active-more" style="display:none;" page="1" status="0">
+        <div style="text-align:center;margin:10px auto;">
+          <img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">
         </div>
-        {% endif %}	
       </div>
+
 	  </div>
 	</div>
 </div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'fetch_more_actives_tpl' tpl:'mustache_m/fetch_more_actives.mustache' %}
 {% endblock %}

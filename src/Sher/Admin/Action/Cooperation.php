@@ -66,5 +66,27 @@ class Sher_Admin_Action_Cooperation extends Sher_Admin_Action_Base implements Do
 		return $this->to_taconite_page('ajax/delete.html');
 	}
 
+  /**
+   * ajax设置状态
+   */
+  public function ajax_set_state(){
+
+    $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+    $state = isset($this->stash['state']) ? (int)$this->stash['state'] : 0;
+
+    if(empty($id)){
+      return $this->ajax_note('缺少请求参数!', true);
+    }
+
+    $model = new Sher_Core_Model_Cooperation();
+    $ok = $model->update_set($id, array('state'=>$state));
+    if($ok){
+ 		  return $this->to_taconite_page('admin/cooperation/ajax_state.html');     
+    }else{
+      return $this->ajax_note('设置失败!', true);   
+    }
+
+  }
+
 }
-?>
+

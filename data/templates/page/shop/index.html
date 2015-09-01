@@ -11,7 +11,7 @@
 {% block layout_js %}
 <script type="text/javascript" >
     function ajax_load_more(child_id, type, sort, page, size){
-        var url = '{{ app_url_shop }}/ajax_load_list';
+        var url = '{{ app_url_shop }}/ajax_load_list?rand='+Math.random();
         $.get(url, { category_id:child_id, sort:sort, page:page, type:type, size:size }, function(rs){
             // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
             if(rs.data.results.total_page > rs.data.results.current_page){
@@ -165,8 +165,8 @@
             </div>
 
             <div id="product-more" c="{{ category_id }}" t="{{ type }}" s="{{ sort }}" p="{{ page }}" status="0" style="text-align:center;margin:10px auto;display:none;">
-                加载中...
                 <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
+                加载中...
             </div>
 		</div>
 	</div>

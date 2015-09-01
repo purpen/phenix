@@ -1,0 +1,42 @@
+{{#results.rows}}
+<div class="card" id="product-{{ _id }}">
+    <div class="problock">
+        <a title="{{ title }}" alt="{{#product_alt_tag}}{{ tags.0 }}-太火鸟智能硬件商店{{/product_alt_tag}}{{^product_alt_tag}}{{ title }}-太火鸟智能硬件商店{{/product_alt_tag}}" href="{{ view_url }}" style="background-image: url({{ cover.thumbnails.hm.view_url }});" class="thumb"></a>
+        <div class="ribbons">
+            {{#newest}}
+            <a class="ribbon newest" href="javascript:void(0);" target="_blank">NEW</a>
+            {{/newest}}
+            {{#hot}}
+            <a class="ribbon hot" href="javascript:void(0);" target="_blank">HOT</a>
+            {{/hot}}
+            {{#featured}}
+            <a class="ribbon featured" href="javascript:void(0);" target="_blank">编辑精选</a>
+            {{/featured}}
+            {{#stick}}
+            <a class="ribbon stick" href="javascript:void(0);" target="_blank">店长推荐</a>
+            {{/stick}}
+            {{#snatched}}
+            <a class="ribbon snatched" href="javascript:void(0);" target="_blank">限时抢购</a>
+            {{/snatched}}
+            {{#presale}}
+            <a class="ribbon presale" href="javascript:void(0);" target="_blank">正在预售</a>
+            {{/presale}}
+            {{#exchange}}
+            <a class="ribbon exchange" href="javascript:void(0);" target="_blank">积分兑换</a>
+            {{/exchange}}
+        </div>
+        <h2>
+            <a href="{{ view_url }}" title="{{ title }}" class="ui line">
+			    {{ short_title }}
+		    </a>
+        </h2>
+
+        <div class="cats">
+            <span class="unit">￥</span>{{ sale_price }}
+        </div>
+        <span class="counter">
+            <i class="heart icon"></i> {{ love_count }}
+        </span>
+    </div>
+</div>
+{{/results.rows}}

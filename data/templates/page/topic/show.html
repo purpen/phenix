@@ -57,19 +57,27 @@
 
 {% block layout_js %}
 <script type="text/javascript">
-    var per_page = 10, sort = 0;
-    function fetch_comment(current_page, per_page, sort){
-        var url = '{{ app_url_comment }}/ajax_fetch_comment_site';
-        
-        // 添加loading 
-        $('.spinner.icon').ajaxStart(function(){
-            $(this).addClass('roundo');
-        }).ajaxStop(function(){
-            $(this).removeClass('roundo');
-        });
-        
-        $.get(url, {target_id: {{ topic._id }}, type: 2, page: current_page, per_page: per_page, sort: sort});
+    var page = 1, per_page = 10, sort = 0;
+    var url = '{{ app_url_comment }}/ajax_fetch_comment?rand='+Math.random();
+    var target_id = "{{ topic._id }}";
+    // 评论类型
+    var type = 2;
+    // 网页或手机
+    var from_site = 'site';
+    // 备用
+    var evt = 1;
+
+    var comment_param = {
+      target_id: target_id,
+      page: page,
+      per_page: per_page,
+      sort: sort,
+      url: url,
+      type: type,
+      from_site: from_site,
+      evt: evt,
     }
+
 </script>
 {% endblock %}
 
@@ -77,7 +85,7 @@
 	phenix.hook_comment_page();
     
     // ajax加载评论
-    fetch_comment(1, per_page, sort);
+    phenix.fetch_comment(comment_param);
     
     // 评论排序
     $('.fitsort .ui.list .item').bind('click', function(){
@@ -87,7 +95,9 @@
             .end()
             .addClass('active');
         // 获取请求
-        fetch_comment(1, per_page, sort);
+        comment_param.page = 1;
+        comment_param.sort = sort;
+        phenix.fetch_comment(comment_param);
     });
     
     // ajax加载签到数据
@@ -127,7 +137,7 @@
 			}
 		}, 'json');
 		
-		// 站内置顶
+		// 站内/版块置顶
 		$('.ui.dtop.button').bind('click', function(){
 			var id = $(this).data('id'),mark = $(this).data('mark'),type = $(this).data('type'),$btn = $(this),btn_title = '';
             if (type == 1){
@@ -323,18 +333,30 @@
 			$this.html(event.strftime('<div class="item"><div class="count">%D<span>天</span></div></div><div class="item"><div class="count">%H<span>时</span></div></div> <div class="item"><div class="count">%M<span>分</span></div></div><div class="magenta item"><div class="count">%S<span>秒</span></div></div>'));
 		});
 	});
-	
-	// 加载相关话题
-	$.get('{{ app_url_topic }}/ajax_guess_topics', {id: {{ topic._id }}, sword: '{{ topic.tags_s }}', size: 3});
+
+	// 加载相关话题 
+	$.get('{{ app_url_topic }}/ajax_guess_topics?rand='+Math.random(), {sword: '{{ topic.tags_s }}', size: 6, id: {{ topic._id }}, random:Math.random() }, function(rs){
+      if(rs.data.state==1){
+        var rendered = phenix.ajax_render_result('#guess_topic_tpl', rs.data);
+        $('#topic_guess_list').html(rendered);
+        $('.ui.sticky')
+          .sticky('refresh')
+        ;     
+      }else{
+        return;
+      }
+
+    }, 'json');
     
     // 投票提交部分
     $('#vote-save').click(function(){
     
-		var user_id = '{{ visitor.id }}';
-		if(!user_id){
-		  phenix.show_error_note('请登陆后在投票!');
-		  return false;
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
 		}
+		var user_id = '{{ visitor.id }}';
 		
 		var vote = {};
 		vote.topic_id = $('input[name=topic_id]').val();
@@ -382,6 +404,8 @@
 				phenix.show_error_note('您已经投过票了，谢谢参与！');
 				return false;
 			  }
+			  location.href = '';
+			  /*
 			  var date = eval(data).problem;
 			  for(var i = 0; i < date.length; i++){
 				var answer = date[i].answer;
@@ -391,8 +415,9 @@
 				  
 				}
 			  }
+			  */
 			}
-		  }, "json");
+		}, "json");
 	});
     
     $('.user.avatars .ui.images .image').livequery(function(){
@@ -543,7 +568,7 @@
 				<div id="block_vote">
 					{% if is_vote %}
 					<div class="post vote" style="margin: 20px 0 60px;">
-						<h3 class="ui header" style="color: #E40039">{{ vote.title }}</h3>
+						<h3 class="ui header" style="color: #E40039">[话题投票] {{ vote.title }}</h3>
 						<div class="ui divider"></div>
 						<input type="hidden" name="topic_id" value="{{ id }}" />
 						{% for problem in vote.problem %}
@@ -555,7 +580,7 @@
 								<i class="large question middle aligned icon"></i>
 								<div class="ui from">
 									<h4 class="ui header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h4>
-									<div class="pro_block" style="margin: 30px 0 20px;padding: 40px 0 0;border: 1px solid rgba(0,0,0,0.1);" id="{{ problem._id }}" >
+									<div class="pro_block" style="margin: 30px 0 20px;padding: 25px 0 0;border: 1px solid rgba(0,0,0,0.1);" id="{{ problem._id }}" >
 										{% if problem.select_type == 1 %}
 											{% for answer in problem.answer %}
 											<div class="field" style="padding-left:60px;">
@@ -564,36 +589,35 @@
 													<label>{{ answer.title }}</label>
 												</div>
 												<div style="display:block;margin:10px 0;">
-													<!--<div class="ui red label {{ answer._id }}" style="display:inline-block;width:80%">-->
+													{% if can_vote %}
 													<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
 														<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;"></div>
 													</div>
-																	
 													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:14%;margin-left:4%;float: right;">
 														{{ answer.nums }}票	（{{ answer.nums_rate }}%）
 													</div>
+													{% endif %}
 												</div>
 											</div>
 											{% endfor %}
-										{% else %} 
-				  
+										{% else %}
 											{% for answer in problem.answer %}
 												<div class="field" style="padding-left:60px;">
 													<div class="ui checkbox">
 														<input type="checkbox" name="{{ answer._id }}" values="{{ answer._id }}" />
 														<label>{{ answer.title }}</label>
 													</div>
-															
 													<div style="display:block;margin:10px 0;">
+														{% if can_vote %}
 														<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
 															<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;"></div>
 														</div>			
 														<div class="vote_num {{ answer._id }}" style="display:inline-block;width:14%;margin-left:4%;float:right;">
 															{{ answer.nums }}票	（{{ answer.nums_rate }}%）
 														</div>
+														{% endif %}
 													</div>
 												</div>
-												<!--<div style="display:block;margin:10px 0;" class="ui red label {{ answer._id }}">{{ answer.nums_rate }}%</div>-->
 											{% endfor %}
 										{% endif %}
 									</div>
@@ -605,13 +629,20 @@
 					<div class="ui right floated aligned grid">
 						<div class="row">
 							<div class="column">
+{% if can_vote %}
+                <div class="ui big inverted active white button">
+                    <span><i class="smile icon"></i> 已投票，感谢参与！</span>
+                </div>
+                {%else%}
 								<div  id="vote-save" class="ui magenta inverted submit button">确认投票</div>
+                {%endif%}
 							</div>
 						</div>
 					</div>
 					{% endif %}
-					<!-- 这里是投票部分代码 结束 -->
-				</div>    
+				</div>
+				<!-- 这里是投票部分代码 结束 -->
+
                 <!--预留广告位-->
             	{% ad_list var:'adone' page:1 size:1 name:'topic_view_page_t1' sort_field:'latest' state:2 %}
             	{% if adone %}
@@ -676,8 +707,7 @@
     			<div class="reply box">
       			    <!--ajax comment-->
     	  	        <div class="block title">
-                        全部评论
-                        <small>（{{ topic.comment_count }}）</small>
+                        全部评论<small>（{{ topic.comment_count }}）</small>
                     </div>
                     <div class="fitsort">
                         <div class="ui horizontal bulleted list">
@@ -702,7 +732,18 @@
       		  	    {% include "block/comment_box_site.html" %}
                 </div>
             </div>
-			
+			      
+			      
+			      {% if topic._id == 104758 %}
+			        {% if egou_uid %}
+			      <div class="container" style="margin-top:0;">
+              <a href="{{ app_url_domain }}/app/site/index/egou">
+                <img src="{{ app_url_packaged }}/images/egend.png" width="170px" style="margin: 20px auto; display: block;">
+              </a>
+			      </div>
+			       {% endif %}
+			       {% endif %}
+			    
         </div>    
     </div>
     <div class="mainright">
@@ -771,11 +812,11 @@
                 {% endif %}
         
 				{% if topic.top == 2 %}
-				<div class="ui pop top active button" data-content="取消版块置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="2">
+				<div class="ui pop dtop active button" data-content="取消版块置顶" data-variation="inverted" data-mark="y" data-id="{{ topic._id }}" data-type="2">
 					<i class="pointing down icon"></i>
 				</div>
 				{% else %}
-				<div class="ui pop top button" data-content="版块置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="2">
+				<div class="ui pop dtop button" data-content="版块置顶" data-variation="inverted" data-mark="n" data-id="{{ topic._id }}" data-type="2">
 					<i class="pointing up icon"></i>
 				</div>
 				{% endif %}
@@ -840,5 +881,7 @@
 {% endblock %}
 
 {% block templates %}
-{% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
+  {% mustache id:'guess_topic_tpl' tpl:'mustache/guess_topics.mustache' %}
+  {% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
+  {% mustache id:'get_comments_tpl' tpl:'mustache/fetch_comments.mustache' %}
 {% endblock %}

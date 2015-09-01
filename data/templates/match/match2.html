@@ -196,7 +196,7 @@
 	}
 	.ui.times .circles-container{
 		position: absolute;
-		top: 400px;
+		top: 300px;
 		left: 33%;
 		overflow: visible;
 	}
@@ -468,11 +468,12 @@
 		position:relative;
 	}
 	.ui.realize > .ui.grid > .column > img{
-		width:420px;
-		height:420px;
+		width:220px;
+		height:220px;
 		position:absolute;
-		top:-210px;
-		left: 36%;
+		top:-290px;
+		left: 50%;
+		margin-left:-110px;
 	}
 	
 	.right.nav {
@@ -519,12 +520,59 @@
 		min-height:320px;
 		border: 1px solid rgba(0,0,0,0.1);
 		cursor:auto;
+		width: calc(25% - 20px);
+    margin-left: 10px;
+    margin-right: 10px;
+	}
+	.ui.allist .ui.four.items .item .ui.dividing.header,.ui.allist .ui.four.items .item .ui.dividing.header .image{
+	  width:100% !important;
 	}
 	.ui.sort.grid > .row {
 		margin-bottom: 2%;
 	}
-	
-	
+	section.ui.block:child-nth(5) h3.ui.header{
+	  color:#fff !important;
+	}
+	.ui.allist .ui.four.items .item .i-stats .schedule {
+    padding-top: 5px;
+  }
+	.image.zan .plus-icon .like{
+	  position: absolute;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+    -webkit-transition: all 500ms cubic-bezier(.175,.885,.32,1.275) 0s !important;
+    transition: all 500ms cubic-bezier(.175,.885,.32,1.275) 0s !important;
+	}
+	.image.zan .add{
+	  top: 50%;
+	}
+	.image.zan .add-active {
+    top: calc(50% - 70px);
+  }
+  i.like.icon:before{
+    border-radius: 50%;
+    display: block;
+    color:#fff;
+    line-height: 52px;
+    text-align: center;
+    -webkit-transition: color .25s ease-in-out 0s;
+    transition: color .25s ease-in-out 0s;
+    font-size: 30px;
+  }
+  .image.zan .plus-icon .like.active:before {
+    color: #F36;
+  }
+  .image.zan .plus-icon i.like.icon:after{
+    display:none;
+    opacity: 0;
+  }
+  .ui.allist .ui.items .item .count +.like{
+    width: 80px;
+    display: inline-block;
+    float: right;
+    text-align: right;
+    line-height: 28px;
+  }
 	
 </style>
 {% endblock %}
@@ -533,6 +581,64 @@
   $('#submit-idea').click(function(){
     var url = "{{ app_url_contest }}/submit?season=dream2";
     phenix.redirect(url);
+  });
+  
+  /* 登录用户行为 */
+  //加载赞状态
+	{% if visitor.is_login %}
+  var current_user_id = phenix.visitor.id;
+  $('#item-list').find('.such-item').each(function(){
+    var obj = $(this).find('.love-btn');
+    var id = obj.attr('item-id');
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id:id, type:4, event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					obj.attr('loved', 1);
+          obj.find('.like').addClass('active');
+				}
+			}
+		}, 'json');
+
+  });
+
+  {%endif%}
+
+  //点赞行为
+  $('.love-btn').click(function(){
+    var obj = $(this);
+    var id = $(this).attr('item-id');
+    var loved = $(this).attr('loved');
+
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (loved == 0) {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					obj.attr('loved', 1);
+          obj.find('.like').addClass('active');
+					$('.item-'+id).find('.add').addClass('add-active');
+          $('.item-'+id).find('.love-count').text(result.data.love_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					obj.attr('loved', 0);
+          obj.find('.like').removeClass('active');
+					$('.item-'+id).find('.add').removeClass('add-active');
+          $('.item-'+id).find('.love-count').text(result.data.love_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+    
   });
 
 	skrollr.init({
@@ -685,11 +791,11 @@
 		</div>
 	</div>
 </section>
-<section class="ui big times grid">
+<section class="ui block times grid">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="center aligned column section-title">
-				<h3 class="ui header">
+				<h3 class="ui header" style="color:#fff;">
 					大赛日程 / TIMES
 				</h3>
 				<hr>
@@ -698,38 +804,38 @@
 		
 		<div class="row">
 			<div class="circles-container">
-					<img class="image img0" data-3230="display:none;" data-3231="display:block;" src="{{ app_url_packaged }}/images/match_34.png">
-					<img data-3270="display:none;" data-3271="display:block;" class="image img1" src="{{ app_url_packaged }}/images/match_15.png">
-					<img data-3200="display:none;" data-3201="display:block;" class="image img2" src="{{ app_url_packaged }}/images/match_13.jpg">
-					<img class="image img3" data-3205="display:none;" data-3206="display:block;" src="{{ app_url_packaged }}/images/match_13.png">
-					<img class="image img4" data-3260="display:none;" data-3261="display:block;" src="{{ app_url_packaged }}/images/match_14.png">
-					<img class="image img5" data-3210="display:none;" data-3211="display:block;" src="{{ app_url_packaged }}/images/match_13.jpg">
-					<img class="image img6" data-3220="display:none;" data-3221="display:block;" src="{{ app_url_packaged }}/images/match_13.png">
-					<img class="image img7" data-3230="display:none;" data-3231="display:block;" src="{{ app_url_packaged }}/images/match_13.jpg">
-					<img class="image img8" data-3240="display:none;" data-3241="display:block;" src="{{ app_url_packaged }}/images/match_13.png">
-					<img class="image img9" data-3250="display:none;" data-3251="display:block;" src="{{ app_url_packaged }}/images/match_13.jpg">
-					<img class="image img10" data-3250="display:none;" data-3251="display:block;" src="{{ app_url_packaged }}/images/match_13.png">
-					<img class="image img11" data-3260="display:none;" data-3261="display:block;" src="{{ app_url_packaged }}/images/match_13.jpg">
+					<img class="image img0" data-3030="display:none;" data-3031="display:block;" src="{{ app_url_packaged }}/images/match_34.png">
+					<img data-3070="display:none;" data-3071="display:block;" class="image img1" src="{{ app_url_packaged }}/images/match_15.png">
+					<img data-3000="display:none;" data-3001="display:block;" class="image img2" src="{{ app_url_packaged }}/images/match_13.jpg">
+					<img class="image img3" data-3005="display:none;" data-3006="display:block;" src="{{ app_url_packaged }}/images/match_13.png">
+					<img class="image img4" data-3060="display:none;" data-3061="display:block;" src="{{ app_url_packaged }}/images/match_14.png">
+					<img class="image img5" data-3010="display:none;" data-3011="display:block;" src="{{ app_url_packaged }}/images/match_13.jpg">
+					<img class="image img6" data-3020="display:none;" data-3021="display:block;" src="{{ app_url_packaged }}/images/match_13.png">
+					<img class="image img7" data-3030="display:none;" data-3031="display:block;" src="{{ app_url_packaged }}/images/match_13.jpg">
+					<img class="image img8" data-3040="display:none;" data-3041="display:block;" src="{{ app_url_packaged }}/images/match_13.png">
+					<img class="image img9" data-3050="display:none;" data-3051="display:block;" src="{{ app_url_packaged }}/images/match_13.jpg">
+					<img class="image img10" data-3050="display:none;" data-3051="display:block;" src="{{ app_url_packaged }}/images/match_13.png">
+					<img class="image img11" data-3060="display:none;" data-3061="display:block;" src="{{ app_url_packaged }}/images/match_13.jpg">
 					
 					
 					
-					<div class="text cont-1" data-3200="display:none;" data-3201="display:block;">
+					<div class="text cont-1" data-3000="display:none;" data-3001="display:block;">
 						<p>征集阶段<br>
 						15/2/1-15/6/20</p>
 					</div>
-					<div class="text cont-2" data-3210="display:none;" data-3211="display:block;">
+					<div class="text cont-2" data-3010="display:none;" data-3011="display:block;">
 						<p>初选<br>
 							 15/6/21-15/6/22</p>
 					</div>
-					<div class="text cont-3" data-3230="display:none;" data-3231="display:block;">
+					<div class="text cont-3" data-3030="display:none;" data-3031="display:block;">
 						<p>复选<br>
 							15/6/23-15/6/24</p>
 					</div>
-					<div class="text cont-5" data-3250="display:none;" data-3251="display:block;">
+					<div class="text cont-5" data-3050="display:none;" data-3051="display:block;">
 						<p>评审<br>
 							15/6/25-15/6/28</p>
 					</div>
-					<div class="text cont-4" data-3260="display:none;" data-3261="display:block;">
+					<div class="text cont-4" data-3060="display:none;" data-3061="display:block;">
 						<p>获奖公示<br>
 							15/6/29</p>
 					</div>
@@ -859,7 +965,7 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="center aligned column section-title">
-				<h3 class="ui header">
+				<h3 class="ui header" style="color:#fff;">
 					梦想回报 / REPAY
 				</h3>
 				<hr>
@@ -873,7 +979,7 @@
 						<img src="{{ app_url_packaged }}/images/match_24.png">
 					</div>
 					<div class="content">
-						<h4 class="ui header">一等奖（1名）</h4>
+						<h4 class="ui header" style="color:#fff;">一等奖（1名）</h4>
 						<h5> 奖金（￥10000元）+ 荣誉证书</h5>
 					</div>
 				</div>
@@ -883,7 +989,7 @@
 						<img src="{{ app_url_packaged }}/images/match_24.png">
 					</div>
 					<div class="content">
-						<h4 class="ui header">二等奖（2名）</h4>
+						<h4 class="ui header" style="color:#fff;">二等奖（2名）</h4>
 						<h5> ipad mini  64G + 荣誉证书</h5>
 					</div>
 				</div>
@@ -893,7 +999,7 @@
 						<img src="{{ app_url_packaged }}/images/match_24.png">
 					</div>
 					<div class="content">
-						<h4 class="ui header">三等奖（3名）</h4>
+						<h4 class="ui header" style="color:#fff;">三等奖（3名）</h4>
 						<h5> wacom Bamboo绘图板 + 荣誉证书</h5>
 					</div>
 				</div>
@@ -903,7 +1009,7 @@
 						<img src="{{ app_url_packaged }}/images/match_24.png">
 					</div>
 					<div class="content">
-						<h4 class="ui header">入围奖（30名）</h4>
+						<h4 class="ui header" style="color:#fff;">入围奖（30名）</h4>
 						<h5> 荣誉证书</h5>
 					</div>
 				</div>
@@ -913,7 +1019,7 @@
 						<img src="{{ app_url_packaged }}/images/match_24.png">
 					</div>
 					<div class="content">
-						<h4 class="ui header">校园组织奖（3名）</h4>
+						<h4 class="ui header" style="color:#fff;">校园组织奖（3名）</h4>
 						<h5> 荣誉证书</h5>
 					</div>
 				</div>
@@ -923,7 +1029,7 @@
 						<img src="{{ app_url_packaged }}/images/match_24.png">
 					</div>
 					<div class="content" style="margin:0 -15px;">
-						<h4 class="ui header">人气PK奖（个人/院校）</h4>
+						<h4 class="ui header" style="color:#fff;">人气PK奖（个人/院校）</h4>
 						<h5> 具体奖项参考“校园人气争霸”页面详情</h5>
 					</div>
 				</div>
@@ -952,49 +1058,91 @@
 		<div class="row">
 			<div class="column">
 
-				<div class="ui four items">
+				<div class="ui four items" id="item-list">
 
 					{% for stuff in list.rows %}
             {% if stuff.cover %}
-              <div class="item"> 
+              <div class="item such-item item-{{stuff._id}}"> 
                <div class="content"> 
-                 <h4 class="ui dividing header"> <a class="ui link" href="{{ stuff.view_url }}" target="_blank">{{ stuff.title|truncate 28 }}</a> 
-                 <div class="image"> 
-                   <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" /> 
-                 </div> 
-                 <div class="advantage">
-                  {{ stuff.strip_description|truncate 140 }} 
-                 </div> </h4> 
-                <div class="i-stats">
-                  <div class="schedule"> 
-                   <div class="status clearfix"> 
-                    <a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank"> <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.user.nickname }}" /> </a> 
-                    <span class="count"> <a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank"> {{ stuff.user.nickname }} </a> </span> 
-                    <span class="like"> <i class="heart icon"></i> <span class="count">{{ stuff.love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
+                 <h4 class="ui dividing header">
+                   <div class="image zan">
+                     <img style="margin-bottom:-5px;" src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.title }}" /> 
+                     <div class="image-extra">
+                       <a href="{{ stuff.view_url }}" title="{{ stuff.title|truncate 28 }}" target="_blank"></a>
+                       <div class="extra-content">
+                         <div class="inner-extra">
+                           <div class="single-image plus-icon">
+                             <a href="javascript:void(0);" class="love-btn" item-id="{{ stuff._id }}" loved="0">
+                               <i class="like icon"> </i>
+                             </a>
+                             <div class="add">
+                                           +1      
+                             </div>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+
+                     {% if stuff.college %}
+                     <div class="school">
+                       {{ stuff.college.name }}
+                     </div>
+                     {%endif%}
+                   </div>
+                   <a class="ui link" href="{{ stuff.view_url }}"
+                   target="_blank">
+                     {{ stuff.title|truncate 28 }}
+                   </a>
+                   <div class="sub header">
+                     {{ stuff.strip_description|truncate 140 }} 
+                   </div>
+                 </h4>
+                 <div class="i-stats">
+                   <div class="schedule">
+                     <div class="status clearfix">
+                       <a class="ui avatar image" href="{{ stuff.user.home_url }}"
+                       target="_blank">
+                         <img src="{{ stuff.user.small_avatar_url }}"
+                         alt="{{ stuff.user.nickname }}">
+                       </a>
+                       <span class="count">
+                         <a class="ui small link" href="{{ stuff.user.home_url }}"
+                         target="_blank">
+                           {{ stuff.user.nickname }}
+                         </a>
+                       </span>
+                       <span class="like">
+                         <i class="thumbs outline up icon">
+                         </i>
+                         <span class="count love-count">
+                           {{ stuff.love_count }}
+                         </span>
+                         <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> 
+                       </span>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+             {%else%}
+               <div class="item such-item item-{{stuff._id}}"> 
+                <div class="content"> 
+                 <h4 class="ui dividing header"> <a class="ui link" href="{{ stuff.view_url }}" target="_blank"> {{ stuff.title|truncate 28 }} </a> 
+                  <div class="full advantage">
+                    {{ stuff.strip_description|truncate 580 }} 
+                  </div> </h4> 
+                 <div class="i-stats">
+                   <div class="schedule"> 
+                    <div class="status clearfix"> 
+                     <a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank"> <img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.view_url }}" /> </a> 
+                     <span class="count"> <a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank"> {{ stuff.user.nickname }} </a> </span> 
+                     <span class="like"> <i class="thumbs outline up icon"></i> <span class="count love-count">{{ stuff.love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
+                    </div> 
                    </div> 
-                  </div> 
-                </div>
-               </div> 
-              </div>
-            {%else%}
-              <div class="item"> 
-               <div class="content"> 
-                <h4 class="ui dividing header"> <a class="ui link" href="{{ stuff.view_url }}" target="_blank"> {{ stuff.title|truncate 28 }} </a> 
-                 <div class="full advantage">
-                   {{ stuff.strip_description|truncate 580 }} 
-                 </div> </h4> 
-                <div class="i-stats">
-                  <div class="schedule"> 
-                   <div class="status clearfix"> 
-                    <a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank"> <img src="{{ stuff.cover.thumbnails.medium.view_url }}" alt="{{ stuff.view_url }}" /> </a> 
-                    <span class="count"> <a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank"> {{ stuff.user.nickname }} </a> </span> 
-                    <span class="like"> <i class="heart icon"></i> <span class="count">{{ stuff.love_count }}</span> <i class="unhide icon"></i> <span class="count">{{ stuff.view_count }}</span> </span> 
-                   </div> 
-                  </div> 
-                </div>
-               </div> 
-              </div>
-            {%endif%}
+                 </div>
+                </div> 
+               </div>
+             {%endif%}
           {%endfor%}
 					
 				</div>
@@ -1003,10 +1151,10 @@
     {% endif %}
 		<div class="center aligned row">
 			<div class="center aligned column">
-				<a href="{{ app_url_contest }}/allist2" class="ui black inverted button">
+				<a href="{{ app_url_contest }}/allist2" class="ui black active inverted button">
 					<i class="layout icon"></i> 全部创意
 				</a>
-				<a href="{{ app_url_contest }}/submit?season=dream2" class="ui magenta inverted button">
+				<a href="{{ app_url_contest }}/submit?season=dream2" class="ui magenta active inverted button">
 					<i class="edit icon"></i> 提交创意
 				</a>
 			</div>
@@ -1018,7 +1166,7 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="center aligned column section-title">
-				<h3 class="ui header">
+				<h3 class="ui header" style="color:#fff;">
 					院校之星 / Academy Stars
 				</h3>
 				<hr>
@@ -1038,7 +1186,7 @@
 						<img alt="陈清华" src="{{ app_url_packaged }}/images/match_30.png">
 					</div>
 					<div class="content">
-						<h4 class="ui header">陈清华</h4>
+						<h4 class="ui header" style="color:#fff;">陈清华</h4>
 						<h5>婴萌科技创始人 / 清华大学毕业<br>婴萌配奶机</h5>
 					</div>
 				</div>
@@ -1048,7 +1196,7 @@
 						<img alt="邱懿武" src="{{ app_url_packaged }}/images/match_31.png">
 					</div>
 					<div class="content">
-						<h4 class="ui header">邱懿武</h4>
+						<h4 class="ui header" style="color:#fff;">邱懿武</h4>
 						<h5>云造科技创始人 / 浙江大学毕业<br>云造智行车</h5>
 					</div>
 				</div>
@@ -1058,7 +1206,7 @@
 						<img alt="李一舟" src="{{ app_url_packaged }}/images/match_32.png">
 					</div>
 					<div class="content">
-						<h4 class="ui header">李一舟</h4>
+						<h4 class="ui header" style="color:#fff;">李一舟</h4>
 						<h5> 匙悟科技创始人 / 清华大学毕业<br> 睡眠灯</h5>
 					</div>
 				</div>
@@ -1114,11 +1262,11 @@
    
 	</div>
 </section>
-<section class="ui orga grid">
+<section class="ui orga grid block">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="center aligned column section-title">
-				<h3 class="ui header">
+				<h3 class="ui header" style="color:#fff;">
 					组织机构 / ORGANIZATION
 				</h3>
 				<hr>
@@ -1202,7 +1350,7 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="center aligned column section-title">
-				<h3 class="ui header">
+				<h3 class="ui header" style="color:#fff;">
 					联系方式 / CONTACT
 				</h3>
 				<hr>
@@ -1229,22 +1377,22 @@
     				</div>
     				<div class="block">
     					<a href="http://weibo.com/taihuoniao" class="ui weibo circular share icon button" title="新浪微博" target="_blank">
-                            <i class="flat icon_weibo icon"></i>
+                            <i class="weibo icon"></i>
                         </a>
     				</div>
     				<div class="block">
     					<a href="http://t.qq.com/taihuoniao" class="ui blue circular share icon button" title="腾讯微博" target="_blank">
-                            <i class="flat icon_qqweibo icon"></i>
+                            <i class="qq icon"></i>
                         </a>
     				</div>
     				<div class="block">
     					<a href="javascript:void(0);" id="douban-share" class="ui douban circular share icon button" title="豆瓣">
-    						<i class="flat icon_douban icon"></i>
+    						<i class="renren icon"></i>
     					</a>
     				</div>
     				<div class="block">
     					<a href="" class="ui green circular share wechat icon button" title="微信">
-                            <i class="flat icon_weixin icon"></i>
+                            <i class="weixin icon"></i>
                         </a>
     				</div>
     			</div>

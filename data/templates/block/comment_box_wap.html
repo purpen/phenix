@@ -172,10 +172,10 @@
 
 		  	</div>
 			<div class="right aligned action">
-			    <div class="ui gray deny inverted button">
+			    <div class="ui gray deny inverted black active button">
 					取消
 			    </div>
-			    <div class="ui magenta comment-submit img inverted button">
+			    <div class="ui magenta active comment-submit img inverted button">
 					插入
 			    </div>
 			</div>
@@ -204,10 +204,10 @@
 				</div>
 		  	</div>
 			<div class="right aligned action">
-			    <div class="ui gray deny inverted button">
+			    <div class="ui gray deny inverted black active button">
 					取消
 			    </div>
-			    <div class="ui magenta comment-submit url inverted button">
+			    <div class="ui magenta active comment-submit url inverted button">
 					插入
 			    </div>
 			</div>
@@ -263,13 +263,19 @@
 
     //图片上传弹出按钮
     $('.comment-upload-btn').click(function(){
-      $('.comment-insert-img').modal('show');
+      $('.comment-insert-img')
+      .modal('setting', 'closable', false)
+      .modal('setting', 'transition', 'fade  up')
+      .modal('show');
       return false; 
     });
     
     //插入链接弹出按钮
     $('.comment-link-btn').click(function(){
-      $('.comment-insert-link').modal('show');
+      $('.comment-insert-link')
+      .modal('setting', 'closable', false)
+      .modal('setting', 'transition', 'fade  up')
+      .modal('show');
       return false; 
     });
 
@@ -342,7 +348,7 @@
             '</div>',
       validation: {
             allowedExtensions: ['jpeg', 'jpg', 'png', 'gif'],
-            sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+            sizeLimit: 5245728 // 5M = 5 * 1024 * 1024 bytes
         }
       }).on('complete', function (event, id, name, result) {
       if(result.is_error){
@@ -376,8 +382,8 @@
       $(':input[name=is_reply]').val(1);
       
       var html='';
-      html += '<div>';
-      html += '<span>回复 #</span>'+ floor +' ';
+      html += '<div class="replytips">';
+      html += '<i class="quote left icon"></i><span>回复 </span>#'+ floor +' ';
       html += '@<a href="'+ user_home_url +'" class="ui magenta link" target="_blank">'+ comment_user_name +'</a> ';
       html += '<span class=""></span> ';
       html += '<a href="javascript:void(0);" class="ui link cancel-reply-btn" recover_comment_user_href="'+ recover_comment_user_href +'" recover_comment_user_name="'+ recover_comment_user_name +'" style="text-align:right">取消</span>';

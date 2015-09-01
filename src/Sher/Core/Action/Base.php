@@ -120,8 +120,9 @@ class Sher_Core_Action_Base extends DoggyX_Action_Base {
     public function display_note_page($note, $url = null, $delay = 3000) {
         if (!empty($url)) {
             $this->stash['redirect_url'] = $url;
-        	$this->stash['delay'] = $delay;
 		}
+		$this->stash['delay_time'] = $delay;
+		$this->stash['delay'] = $delay/1000;
         $this->stash['note'] = $note;
         return $this->to_html_page('page/note_page.html');
     }

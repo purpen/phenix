@@ -335,10 +335,18 @@
 				<div id="product_guess_wap_list">
 
 				</div>
-				
+				    <div class="block title">
+  						回应 <small>（{{ stuff.comment_count||default 0 }}）</small>
+  					</div>
             <div class="ui big reply segment">
               <!--ajax comment-->
-              <div id="comment-list"></div>
+              <div class="fitsort">
+                  <div class="ui horizontal bulleted list">
+                      <a class="active item" href="javascript:void(0);" data-sort="0">默认</a>
+                      <a class="item" href="javascript:void(0);" data-sort="1">最新</a>
+                  </div>
+              </div>
+              <div id="comment-list" style="padding-bottom:10px;"></div>
               {% include "block/comment_box_wap.html" %}
             </div>
 

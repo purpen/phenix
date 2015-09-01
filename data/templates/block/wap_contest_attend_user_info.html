@@ -1,0 +1,48 @@
+<div class="ui user-info-box small modal transition" style="margin: 0 0 0 -47.5% !important;position: absolute !important;top:0 !important;">
+  	
+	<div class="header" style="position:relative;">
+	    完善个人信息
+	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;"></i>
+	</div>
+	<div class="container">
+		<form action="{{ app_url_wap }}/stuff/ajax_user_profile" class="ui form" method="post" id="user-info-form">
+		  	<div class="content">
+				<div class="ajax result"></div>
+				<input type="hidden" name="target_id" value="{{ target_id }}" />
+
+				<div class="ui signup-box">
+					<div class="two fields">
+						<div class="field">
+							<label>姓名</label>
+              <input type="text" name="realname" value="{{ visitor.profile.realname }}" />
+						</div>
+					</div>
+					<div class="two fields">
+						<div class="field">
+							<label>手机号</label>
+							<input type="text" name="phone" value="{{ visitor.profile.phone }}" placeholder="填写手机号，方便信息核实" />
+						</div>
+					</div>
+
+					<div class="field">
+						<label>职位</label>
+            <input type="text" name="job" value="{{ visitor.profile.job }}" placeholder="" />
+					</div>
+					<div class="field">
+						<label>地址</label>
+            <input type="text" name="address" value="{{ visitor.profile.address }}" />
+					</div>
+				</div>
+		  	</div>
+
+			<div class="right aligned action">
+			    <div class="ui gray deny button">
+					取消
+			    </div>
+			    <div class="ui magenta submit button">
+					确认报名
+			    </div>
+			</div>
+		</form>
+	</div>
+</div>

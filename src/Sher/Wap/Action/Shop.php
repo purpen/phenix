@@ -14,6 +14,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		'n'=>1, // 数量
 		's' => 1, // 型号
 		'payaway' => '', // 支付机构
+    'sort' => 0,
+    'type' => 0,
+    'category_id' => 0,
 		'page_title_suffix' => '太火鸟智品库-智能硬件产品购买、评测、资讯信息库',
 		'page_keywords_suffix' => '太火鸟,太火鸟智品库,智能硬件,产品评测,产品资讯',
 		'page_description_suffix' => '太火鸟智品库有海量智能硬件评测和资讯信息，并提供智能出行设备、智能手表、智能手环、智能家居、运动健康、智能情趣、智能母婴等上百种智能硬件产品的在线销售',
@@ -25,7 +28,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','shop','presale','view','cart','check_snatch_expire','ajax_guess_product','n_view');
+	protected $exclude_method_list = array('execute','shop','presale','view','cart','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list');
 	
 	/**
 	 * 商城入口
@@ -884,8 +887,13 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       if (empty($result)){
         return $this->ajax_json('找不到订单！', true);
       }
+      $items = $result['dict']['items'];
+			if(count($items) != 1){
+				return $this->ajax_json('该红包仅限单一产品！', true);
+			}
+      $product_id = $items[0]['product_id'];
       $total_money = $result['dict']['total_money'];
-			$card_money = Sher_Core_Util_Shopping::get_card_money($code, $total_money);
+			$card_money = Sher_Core_Util_Shopping::get_card_money($code, $total_money, $product_id);
 
 			// 更新临时订单
 			$ok = $model->use_bonus($rid, $code, $card_money);
@@ -1292,8 +1300,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			'page' => 1,
 			'size' => $size,
 			'sort_field' => 'latest',
+      // 最新
+      'sort' => 1,
       'evt' => 'tag',
-      't' => 1,
+      't' => 6,
       'oid' => $current_id,
       'type' => 1,
 		);        
@@ -1305,6 +1315,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         foreach($xun_arr['data'] as $k=>$v){
           $product = $product_mode->extend_load((int)$v['oid']);
           if(!empty($product)){
+            // 过滤用户表
+            if(isset($product['user'])){
+              $product['user'] = Sher_Core_Helper_FilterFields::user_list($product['user']);
+            }
             array_push($items, array('product'=>$product));
           }
         }
@@ -1325,6 +1339,120 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		return $this->to_taconite_page('ajax/guess_products_wap.html');
 	}
+
+  /**
+   * ajax加载商品列表
+   */
+  public function ajax_load_list(){    
+        $category_id = $this->stash['category_id'];
+        $presaled = isset($this->stash['presaled'])?$this->stash['presaled']:0;
+        $type = $this->stash['type'];
+        
+        $page = $this->stash['page'];
+        $size = $this->stash['size'];
+        $sort = $this->stash['sort'];
+        
+        $service = Sher_Core_Service_Product::instance();
+        $query = array();
+        $options = array();
+        
+		if ($category_id) {
+			$query['category_id'] = (int)$category_id;
+		}
+        // is_shop=1
+        $query['stage'] = array('$in'=>array(5, 9, 12));
+        
+		// 预售
+		if ($presaled) {
+		  $query['stage'] = 5;
+		}
+        // 仅发布
+        $query['published'] = 1;
+        
+        if($type){
+            switch((int)$type){
+                case 1:
+                    $query['stage'] = 15;
+                    break;
+                case 2:
+                    $query['stage'] = array('$in'=>array(5,9));
+                    break;
+                case 3:
+                    $query['stage'] = 12;
+                    break;
+                case 4:
+                    $query['stick'] = 1;
+                    break;
+                case 5:
+                    $query['featured'] = 1;
+                    break;
+                case 6:
+                    $query['snatched'] = 1;
+                    break;
+                case 7:
+                    $query['stage'] = 5;
+                    break;
+            }
+        }
+		// 排序
+		switch ((int)$sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'vote';
+				break;
+			case 2:
+				$options['sort_field'] = 'love';
+				break;
+			case 3:
+				$options['sort_field'] = 'comment';
+				break;
+			case 4:
+				$options['sort_field'] = 'stick:update';
+				break;
+			case 5:
+				$options['sort_field'] = 'featured:update';
+				break;
+		}
+        
+        $options['page'] = $page;
+        $options['size'] = $size;
+
+        //限制输出字段
+        $some_fields = array(
+          '_id'=>1, 'title'=>1, 'short_title'=>1, 'snatched'=>1, 'featured'=>1,
+          'stage'=>1, 'stick'=>1, 'category_id'=>1, 'created_on'=>1, 'asset_count'=>1, 'vote_favor_count'=>1,
+          'advantage'=>1, 'sale_price'=>1, 'cover_id'=>1, 'comment_count'=>1, 'view_count'=>1,
+          'updated_on'=>1, 'favorite_count'=>1, 'love_count'=>1, 'deleted'=>1,'presale_money'=>1, 'tags'=>1,
+          'vote_oppose_count'=>1, 'summary'=>1, 'voted_finish_time'=>1, 'succeed'=>1, 'presale_finish_time'=>1,
+          'sale_count'=>1,
+        );
+        $options['some_fields'] = $some_fields;
+        
+        $result = $service->get_product_list($query, $options);
+
+        $max = count($result['rows']);
+        for($i=0;$i<$max;$i++){
+          // 过滤用户表
+          if(isset($result['rows'][$i]['user'])){
+            $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
+          }
+
+        } //end for
+
+        $data = array();
+
+        $data['type'] = $type;
+        $data['page'] = $page;
+        $data['sort'] = $sort;
+        $data['size'] = $size;
+        $data['presaled'] = $presaled;
+        $data['category_id'] = $category_id;
+        $data['results'] = $result;
+        
+        return $this->ajax_json('', false, '', $data);
+  }
 	
 }
 

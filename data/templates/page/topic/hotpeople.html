@@ -11,8 +11,8 @@
             <div class="image">
                 <a href="{{ user.home_url }}" target="_blank" title="{{ user.nickname }}" data-variation="wide" data-html="<div class='header'>{{ user.nickname }}</div><div class='content'>荣誉：{{ user.ext_state.user_rank.title|default '鸟列兵' }} / 经验值：{{ user.ext_state.rank_point|default 0 }}</div>">
                     <img src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" class="avatar" />
-                    {% if user.kind == 1 %}
-                        <img src="{{ app_url_packaged }}/images/V.png" class="image-HV">
+                    {% if user.symbol %}
+                    <img src="{{ app_url_packaged }}/images/V.png" class="image-HV{%if user.symbol==2%} blue{%endif%}">
                     {% endif %}
                 </a>
             </div>

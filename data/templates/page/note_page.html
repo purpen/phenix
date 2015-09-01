@@ -6,9 +6,9 @@
 {% endblock %}
 {% block jquery %}
     {% if redirect_url %}
-        phenix.redirect('{{ redirect_url }}',{{ delay_time|default 2000 }});
+        phenix.redirect('{{ redirect_url }}',{{ delay_time }});
     {% else %}
-        setTimeout("window.history.back(-1)",{{ delay_time|default 2000 }});
+        setTimeout("window.history.back(-1)",{{ delay_time }});
     {% endif %}
 {% endblock %}
 
@@ -21,7 +21,7 @@
 			      	<div class="header">
 			          	{{ note }}
 			      	</div>
-			      	<p class="help">2秒内将自动返回至上一页！</p>
+			      	<p class="help">{{ delay }}秒内将自动返回至上一页！</p>
 			  	</div>
 			</div>
 		</div>

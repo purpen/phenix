@@ -98,7 +98,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 	/**
 	 * 获取红包金额
 	 */
-	public static function get_card_money($code, $total_money=0){
+	public static function get_card_money($code, $total_money=0, $product_id=0){
 		$model = new Sher_Core_Model_Bonus();
 		$bonus = $model->find_by_code($code);
 		$card_money = 0.0;
@@ -122,6 +122,14 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
     if(!empty($bonus['min_amount']) && (int)$bonus['min_amount'] > (int)$total_money){
  			throw new Sher_Core_Model_Exception('此红包满'.$bonus['min_amount'].'元才可使用！');   
     }
+
+    // 指定商品ID
+    if(isset($bonus['product_id']) && !empty($bonus['product_id'])){
+      if($bonus['product_id'] != (int)$product_id){
+ 			  throw new Sher_Core_Model_Exception('该红包只能用于指定商品！'); 
+      }
+    }
+
 		$card_money = $bonus['amount'];
 		
 		return $card_money;
@@ -250,8 +258,4 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
   }
 	
 }
-?>
 
-  
-  
-    

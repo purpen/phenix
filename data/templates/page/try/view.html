@@ -16,7 +16,9 @@
 	    background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);
 		{% endif %}
 	}
-	
+	.mainwrap .mainleft .container:first-child{
+	  margin-top:0;
+	}
 	.try .masthead .ui.header {
 		  margin-top: 0.6em;
 	}
@@ -73,33 +75,47 @@
     white-space: nowrap;
     width: 100px;
 	}
-    p.contact {
-        margin: 20px 0px 0px;
-    }
+  p.contact {
+      margin: 20px 0px 0px;
+  }
+  .ui.topic.table .content .ui.mini.images{
+    width:100% !important;
+  }
+  .ui.comments .comment .avatar{
+    height:2.5em;
+  }
 </style>
 {% endblock %}
 
 {% block layout_js %}
 <script type="text/javascript">
-    var per_page = 10, sort = 0;
-    function fetch_comment(current_page, per_page, sort){
-        var url = '{{ app_url_comment }}/ajax_fetch_comment_site';
-    
-        // 添加loading 
-        $('.spinner.icon').ajaxStart(function(){
-            $(this).addClass('roundo');
-        }).ajaxStop(function(){
-            $(this).removeClass('roundo');
-        });
-    
-        $.get(url, {target_id: {{ try._id }}, type: 3, page: current_page, per_page: per_page, sort: sort});
+    // 评论参数
+    var page = 1, per_page = 10, sort = 0;
+    var url = '{{ app_url_comment }}/ajax_fetch_comment';
+    var target_id = "{{ try._id }}";
+    // 评论类型
+    var type = 3;
+    // 网页或手机
+    var from_site = 'site';
+    // 备用
+    var evt = 1;
+
+    var comment_param = {
+      target_id: target_id,
+      page: page,
+      per_page: per_page,
+      sort: sort,
+      url: url,
+      type: type,
+      from_site: from_site,
+      evt: evt,
     }
 </script>
 {% endblock %}
 
 {% block jquery %}
-    //ajax加载评论
-    fetch_comment(1, per_page, sort);
+    // ajax加载评论
+    phenix.fetch_comment(comment_param);
     
     // 评论排序
     $('.fitsort .ui.list .item').bind('click', function(){
@@ -109,7 +125,9 @@
             .end()
             .addClass('active');
         // 获取请求
-        fetch_comment(1, per_page, sort);
+        comment_param.page = 1;
+        comment_param.sort = sort;
+        phenix.fetch_comment(comment_param);
     });
 	
 	$('.ui.applytry.button').click(function(){
@@ -119,7 +137,9 @@
 			return false;
 		}
 		
-		$('.ui.applytry.modal').modal('show');
+		$('.ui.applytry.modal')
+		.modal('setting', 'transition', 'vertical  flip')
+		.modal('show');
 		return false;
 	});
 	
@@ -225,7 +245,10 @@
 	});
 	
 	phenix.hook_comment_page();
-	
+	// 分享
+	$('.ui.share.button').bind('click', function(){
+		$('.ui.share.modal').modal('show');
+	});
 	phenix.bind_share_list();
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ try.wap_view_url }}'});
@@ -372,7 +395,7 @@
                     {% topic_list var:'list' published:1 try_id:try._id time:'latest' %}
                     {% if list.rows %}
 					<div class="social">
-						<table class="ui topic table">
+						<table class="ui topic table" style="border: none;">
 							<tbody>
 							
 							{% for topic in list.rows %}
@@ -384,7 +407,7 @@
                     {% else %}
                     <p class="resultbox">还没有人为 <a href="{{ try.view_url }}" class="ui link">{{ try.title }}</a> 撰写评测，你想做第一个为它写评测的人么？</p>
                     {% endif %}
-					<div class="ui center aligned">
+					<div class="ui center aligned" style="padding-top:20px;border-top: 1px solid rgba(34,36,38,.1);">
 						<a href="{{ app_url_topic }}/report?tid={{ try._id }}" class="ui blue inverted button" target="_blank">
 	                        <i class="tasks icon"></i> 全部报告
 	                    </a>
@@ -479,8 +502,24 @@
 				厂商合作申请
             </div>
             <p class="contact">邮箱: bianluyao@taihuoniao.com</p>
+            
+            <div class="user share">
+            	<span><i class="share alternate icon"></i>分享：</span>
+            	<a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+            		<i class="weibo icon large circular red inverted"></i>
+            	</a>
+            	<a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+            		<i class="weixin icon large circular green inverted"></i>
+            	</a>
+            	<a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+            		<i class="tencent weibo icon large circular blue inverted"></i>
+            	</a>
+            	<a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+            		<i class="icon renren large circular blue inverted"></i>
+            	</a>
+            </div>
+            
         </div>
-        
         <div class="sellwrap">
 			<div class="block title">
 				这些人在申请
@@ -555,4 +594,8 @@
 {% include "block/apply_try.html" %}
 {% include "block/sharebox.html" %}
 {% include "block/qrcode.html" %}
+{% endblock %}
+
+{% block templates %}
+  {% mustache id:'get_comments_tpl' tpl:'mustache/fetch_comments.mustache' %}
 {% endblock %}

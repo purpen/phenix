@@ -8,7 +8,26 @@
 </style>
 {% endblock %}
 
+{% block layout_js %}
+  <script type="text/javascript" >
+      function ajax_load_more(category_id, type, sort, page, size){
+          var url = '{{ app_url_wap }}/shop/ajax_load_list';
+          $.get(url, { category_id:category_id, sort:sort, page:page, type:type, size:size }, function(rs){
+              var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
+              $('.item-box').append(rendered);
+          }, 'json');
+      }
+  </script>
+{% endblock %}
+
 {% block jquery %}
+
+  // 判断是否来自易购
+  {% if uid %}
+    {% if hid %}
+      phenix.show_error_note('该活动不支持手机版!', 3000);
+    {%endif%}
+  {%endif%}
 	
 	$('#pc-site').click(function(){
 		phenix.create_cookie('mode', 'pc', 1, 'taihuoniao.com');
@@ -55,6 +74,8 @@
       prevText: " ",
       nextText: " ",
     });
+
+  ajax_load_more(0, 2, 4, 1, 10);
 {% endblock %}
 
 {% block content %}
@@ -179,20 +200,12 @@
 </div>-->
 
 <!--商店商品-->
-{% if products %}
 <div class="ui responsive grid" id="mpresale">
 	<div class="row">
 		<div class="column">
 			<h4 class="ui header">热门商品</h4>
-			<div class="ui products two cards">
-          {% for product in products %}
-            <!--{% if product.stage==5 %}
-              {% include "mm/product-presale-item.html" %}
-            {%endif%}
-            {% if product.stage==9 %}-->
-			  		  {% include "mm/product-item.html" %}
-            <!--{%endif%}-->
-			    {% endfor %}
+			<div class="ui products two cards item-box">
+      <!--ajax load-->
 			</div>
 		</div>
 	</div>
@@ -202,7 +215,9 @@
 		</div>
 	</div>
 </div>
-{% endif %}
 
+{% endblock %}
 
+{% block templates %}
+{% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/fetch_more_products.mustache' %}
 {% endblock %}

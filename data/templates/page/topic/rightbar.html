@@ -1,11 +1,11 @@
 <!--用户信息-->
 <div class="sellwrap userinfo">
 	{% if visitor.is_login %}
-		<a href="{{ app_url_topic }}/submit?cid={{ cid }}" class="fluid ui red inverted button" target="_blank">
+		<a href="{{ app_url_topic }}/submit?cid={{ cid }}" class="fluid ui red inverted button">
 			<i class="edit icon"></i> 发表话题
 		</a>
 	{% else %}
-		<a href="{{ app_url_login }}" class="fluid ui grey inverted pop button" data-content="先登录后，可发表话题" target="_blank">
+		<a href="{{ app_url_login }}" class="fluid ui grey inverted pop button" data-content="先登录后，可发表话题">
 			<i class="edit icon"></i> 发表话题
 		</a>
 	{% endif %}

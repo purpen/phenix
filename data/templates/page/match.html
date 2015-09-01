@@ -186,7 +186,7 @@
 	.match.page .ui.collection{
 		background:url("{{ app_url_packaged }}/images/match/match_2.jpg") scroll center center no-repeat;
 		background-size:cover;
-		padding: 2.5em 0 38rem;
+		padding: 2.5em 0 42rem;
 	}
 	.match.page .ui.collection h3,.match.page .ui.collection h5,.match.page .ui.judges h3,.match.page .ui.judges h5,.match.page .ui.products h3,.match.page .ui.products h5,.match.page .ui.organization h3,.match.page .ui.organization h5{
 		color:#fff;
@@ -210,7 +210,7 @@
 	}
 	.circles-container {
 	position: absolute;
-	top: 450px;
+	top: 480px;
 	left: 45%;
 	overflow: visible;
 	height: 1px;
@@ -498,7 +498,8 @@
 		background:#ffb400;
 	}
 	.match.page .ui.judges .item{
-		background:rgba(0,0,0,0) !important;;
+		background:rgba(0,0,0,0) !important;
+		margin:40px 10px !important;
 	}
 	.ui.judges .item .image{
 		width: 75%;
@@ -556,7 +557,7 @@
 		color: #fff;
 		text-align: center;
 		left: -116px;
-		top: 86px;
+		top: 140px;
 	}
 	.word h1 span{
 		font-size:2.2em;
@@ -660,6 +661,8 @@
 	}
 	.ui.teams .ui.three.items .item{
 		box-shadow: 0 0px 0 0 rgba(0,0,0,.2) inset !important;
+		width: 31.333%;
+    margin: 0 1%;
 	}
 	.ui.teams .ui.three.items .item p.description{
 		text-align:left;
@@ -673,9 +676,12 @@
 		margin: 0 auto;
 		min-height:140px;
 		border-radius: 0.3125em;
+		position: relative;
+		padding: 10px;
 	}
 	.ui.teams .ui.three.items .item .content.border+.image{
-		margin-top: 2em;
+		width: 90% !important;
+    margin: 2em auto 1em;
 	}
 	.ui.teams .ui.three.items .item .content.border+.image img{
 		width: 59%;
@@ -868,6 +874,21 @@
 	.ui.allist .ui.items .item .like {
 		font-size: 0.875em;
 	}
+	.judges .item.card .image{
+	  width: 75% !important;
+    background: rgba(0,0,0,0);
+	}
+	.judges .item.card {
+	  margin: 40px 10px;
+	  min-height:0 !important;
+	}
+	.judges .item.card .content h4.ui.header{
+	  color: #fff !important;
+	  margin: 0.5em 0 0;
+	}
+	.ui.eight.items.cards .item.card .content h5.ui.header{
+	  color:#fff !important;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -969,15 +990,15 @@
 					</div>
 					<div class="techer row">
 						<div class="column">
-							<div class="ui eight items">
-								<div class="item mtop">
+							<div class="ui eight items cards">
+								<div class="item mtop card">
 									<div class="content">
 										<h5 class="ui header">
 											梦想嘉宾<span class="ui point text">·</span>
 										</h5>
 									</div>
 								</div>
-								<div class="item">
+								<div class="item card">
 									<div class="content">
 										<h5 class="ui header">
 											徐小平
@@ -985,7 +1006,7 @@
 										</h5>
 									</div>
 								</div>
-								<div class="item">
+								<div class="item card">
 									<div class="content">
 										<h5 class="ui header">
 											黎万强
@@ -993,7 +1014,7 @@
 										</h5>
 									</div>
 								</div>
-								<div class="item">
+								<div class="item card">
 									<div class="content">
 										<h5 class="ui header">
 											常虹
@@ -1001,7 +1022,7 @@
 										</h5>
 									</div>
 								</div>
-								<div class="item">
+								<div class="item card">
 									<div class="content">
 										<h5 class="ui header">
 											卢刚
@@ -1009,7 +1030,7 @@
 										</h5>
 									</div>
 								</div>
-								<div class="item">
+								<div class="item card">
 									<div class="content">
 										<h5 class="ui header">
 											麻长炜
@@ -1017,7 +1038,7 @@
 										</h5>
 									</div>
 								</div>
-								<div class="item">
+								<div class="item card">
 									<div class="content">
 										<h5 class="ui header">
 											谢勇
@@ -1025,7 +1046,7 @@
 										</h5>
 									</div>
 								</div>
-								<div class="item">
+								<div class="item card">
 									<div class="content">
 										<h5 class="ui header">
 											雷海波
@@ -1045,11 +1066,11 @@
 		<div class="middle aligned row">
 			<div class="twelve wide column">
 				<div class="ui magenta horizontal divided list">
-					<a href="{{ app_url_domain }}/dream" class="ui link {{ css_index }} item">大赛首页</a>
-					<a href="{{ app_url_domain }}/dream#plan" class="ui link item">关于十万火计</a>
-					<a href="{{ app_url_domain }}/dream#judges" class="ui link item">评委专家</a>
-					<a href="{{ app_url_social }}/allist" class="ui link {{ css_allist }} item">全部作品</a>
-					<a href="{{ app_url_topic }}/c23/" class="ui link item" target="_blank">社区话题</a>
+					<a href="{{ app_url_domain }}/contest/dream" class="ui link {{ css_index }} item">大赛首页</a>
+					<a href="{{ app_url_domain }}/contest/dream#.plan" class="ui link item">关于十万火计</a>
+					<a href="{{ app_url_domain }}/contest/dream#.judges" class="ui link item">评委专家</a>
+					<a href="{{ app_url_domain }}/contest/allist" class="ui link {{ css_allist }} item">全部作品</a>
+					<a href="{{ app_url_topic }}" class="ui link item" target="_blank">社区话题</a>
 				</div>
 			</div>
 			<div class="right aligned four wide column">
@@ -1171,7 +1192,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row" data-1700="position:relative;top:41rem;opacity: 0;" data-1701="position:relative;top:34rem;opacity: 1;">
+			<div class="row" data-1700="position:relative;top:41rem;opacity: 0;" data-1701="position:relative;top:40rem;opacity: 1;">
 				<div class="transition-frame center aligned column">
 					<p>任何品牌 / 产品都是从一个点子萌生而来，今天的你明天将成为他们之中的一员！</p>
 				</div>
@@ -1238,8 +1259,8 @@
 			<div class="row">
 				<div class="ui ptop center aligned column">
 					
-					<div class="ui five items">
-						<div class="item">
+					<div class="ui five items cards">
+						<div class="item card">
 							<div class="image" data-2580="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2581="-webkit-transform: scale(1); transform: scale(1);">
 								<img alt="陈文龙" src="{{ app_url_packaged }}/images/match/judges_7.png">
 							</div>
@@ -1248,7 +1269,7 @@
 								<h5>台湾创意中心执行长</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-2580="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2581="-webkit-transform: scale(1); transform: scale(1);">
 								<img alt="封昌红" src="{{ app_url_packaged }}/images/match/judges_8.png">
 							</div>
@@ -1257,7 +1278,7 @@
 								<h5>深圳工业设计行业协会秘书长</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-2580="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2581="-webkit-transform: scale(1); transform: scale(1);">
 								<img alt="高胜涛" src="{{ app_url_packaged }}/images/match/judges_4.png">
 							</div>
@@ -1266,7 +1287,7 @@
 								<h5>赛富科技董事长</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-2580="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2581="-webkit-transform: scale(1); transform: scale(1);">
 								<img alt="贾伟" src="{{ app_url_packaged }}/images/match/judges_6.png">
 							</div>
@@ -1275,7 +1296,7 @@
 								<h5>洛可可设计集团创始人</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-2580="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2581="-webkit-transform: scale(1); transform: scale(1)">
 								<img alt="罗成" src="{{ app_url_packaged }}/images/match/judges_10.png">
 							</div>
@@ -1286,8 +1307,8 @@
 						</div>
 					</div>
 				
-					<div class="ui five items">
-						<div class="item">
+					<div class="ui five items cards">
+						<div class="item card">
 							<div class="image" data-2860="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2861="-webkit-transform: scale(1); transform: scale(1)">
 								<img alt="卢刚" src="{{ app_url_packaged }}/images/match/judges_12.png">
 							</div>
@@ -1296,7 +1317,7 @@
 								<h5>动点科技CEO</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-2860="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2861="-webkit-transform: scale(1); transform: scale(1)">
 								<img alt="黎万强" src="{{ app_url_packaged }}/images/match/judges_3.png">
 							</div>
@@ -1305,7 +1326,7 @@
 								<h5>小米科技联合创始人</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-2860="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2861="-webkit-transform: scale(1); transform: scale(1)">
 								<img alt="麻长炜"src="{{ app_url_packaged }}/images/match/judges_9.png">
 							</div>
@@ -1314,7 +1335,7 @@
 								<h5>DFF设计师创始人基金发起人</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-2860="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2861="-webkit-transform: scale(1); transform: scale(1)">
 								<img alt="童玮亮"src="{{ app_url_packaged }}/images/match/judges_5.png">
 							</div>
@@ -1323,7 +1344,7 @@
 								<h5>梧桐树资本创始合伙人</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-2860="-webkit-transform: scale(0.7); transform: scale(0.7);"data-2861="-webkit-transform: scale(1); transform: scale(1)">
 								<img alt="徐小平" src="{{ app_url_packaged }}/images/match/judges_2.png">
 							</div>
@@ -1334,9 +1355,9 @@
 						</div>
 					</div>
 					
-					<div class="ui five items">
-						<div class="item"></div>
-						<div class="item">
+					<div class="ui five items cards">
+						<div class="item card"></div>
+						<div class="item card">
 							<div class="image" data-3160="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3161="-webkit-transform: scale(1); transform: scale(1)">
 								<img alt="谢勇" src="{{ app_url_packaged }}/images/match/judges_13.png">
 							</div>
@@ -1345,7 +1366,7 @@
 								<h5>中关村工业设计产业协会秘书长</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-3160="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3161="-webkit-transform: scale(1); transform: scale(1)">
 								<img alt="杨明洁" src="{{ app_url_packaged }}/images/match/judges_11.png">
 							</div>
@@ -1354,7 +1375,7 @@
 								<h5>杨明洁设计创始人</h5>
 							</div>
 						</div>
-						<div class="item">
+						<div class="item card">
 							<div class="image" data-3160="-webkit-transform: scale(0.7); transform: scale(0.7);"data-3161="-webkit-transform: scale(1); transform: scale(1)">
 								<img alt="雷海波"src="{{ app_url_packaged }}/images/match/judges_1.png">
 							</div>
@@ -1470,7 +1491,7 @@
 			</div>
 			<div class="center aligned row">
 				<div class="center aligned column">
-					<a href="{{ app_url_social }}/allist" class="ui black btn-4 btn-4c icon-arrow-right btn">
+					<a href="{{ app_url_social }}/allist" class="ui black active inverted button btn-4 btn-4c icon-arrow-right btn">
 						全部创意
 					</a>
           <!--

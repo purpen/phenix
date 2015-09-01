@@ -95,12 +95,14 @@
 					</div>
 				</th>
 				<th>缩略图</th>
-				<th class="five wide">名称</th>
+				<th class="two wide">名称</th>
+        <th>作者</th>
         <th>分类</th>
         <th>赞名单</th>
         <th>收藏数</th>
         <th>评论数</th>
         <th>推荐</th>
+        <th>发布</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
@@ -132,6 +134,12 @@
 					</div>
 		          	<p class="attribute">ID：{{ topic._id }}</p>
 				</td>
+        <td>
+					<a class="ui image label link" href="{{ topic.user.home_url }}" target="_blank">
+					  	<img src="{{ topic.user.mini_avatar_url }}">
+					  	{{ topic.user.nickname }}
+					</a>
+        </td>
         <td>{{ topic.category.title }}</td>
         <td>
           <span>{{ topic.love_count }}</span> | <a href="{{ app_url_admin_base }}/topic/get_love_list?target_id={{ topic._id }}" class="ui magenta link" target="_blank">名单>></a>
@@ -142,6 +150,16 @@
 				<td>
 					<p>
 						{% if topic.stick %}
+							<span class="ui small green label">是</span>
+						{% else %}
+							<span class="ui small orange label">否</span>
+						{% endif %}
+					</p>
+				</td>
+
+				<td>
+					<p>
+						{% if topic.published %}
 							<span class="ui small green label">是</span>
 						{% else %}
 							<span class="ui small orange label">否</span>

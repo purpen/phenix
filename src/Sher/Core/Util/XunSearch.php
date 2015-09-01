@@ -119,6 +119,10 @@ public function __construct() {
             $condition .= 'kind:Product (cid:9 OR cid:5 OR cid:12 OR cid:15) ';
             $str_f = sprintf('%s%s', $condition, $str);
             break;
+          case 6:
+            $condition .= 'kind:Product (cid:9 OR cid:5) ';
+            $str_f = sprintf('%s%s', $condition, $str);
+            break;
           case 5:
             $condition .= 'kind:Product cid:1 ';
             $str_f = sprintf('%s%s', $condition, $str);

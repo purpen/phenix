@@ -2,9 +2,8 @@
   {% if page==1 %}
 
 	<replaceContent select="#comment-list"><![CDATA[
-    <div class="ui threaded minimal comments is-comment">
-	    <h3 class="ui dividing header">全部回应</h3>
-      {% comment_list var:'comments' page:page target_id:target_id type:type size:per_page sort:'earliest' check_loved:1 current_user_id:current_user_id %}
+      {% comment_list var:'comments' page:page target_id:target_id type:type size:per_page sort:sort check_loved:1 current_user_id:current_user_id %}
+      <div class="ui threaded minimal comments is-comment">
       {% for comment in comments.rows %}
       <div class="comment" id="{{ comment._id }}">
         <a class="avatar" href="{{ comment.user.home_url }}">
@@ -33,7 +32,7 @@
           </div>
           {%endif%}
           {% if comment.is_reply %}
-          <div>回复 #{{ comment.reply_comment.floor }} @<a class="ui link">{{ comment.reply_comment.user.nickname }}</a></div>
+          <div  class="replytips"><i class="quote left icon"></i> 回复 #{{ comment.reply_comment.floor }} @<a class="ui link">{{ comment.reply_comment.user.nickname }}</a></div>
 
           {%endif%}
           <div class="text">
@@ -94,6 +93,7 @@
     
       </div>
       {% endfor %}
+      </div>
     </div>
 
       {% if comments.rows %}
@@ -111,7 +111,8 @@
   {%else%}
 
 	<append select=".is-comment.comments"><![CDATA[
-      {% comment_list var:'comments' page:page target_id:target_id type:type size:per_page sort:'earliest' check_loved:1 current_user_id:current_user_id %}
+      {% comment_list var:'comments' page:page target_id:target_id type:type size:per_page sort:sort check_loved:1 current_user_id:current_user_id %}
+      <div class="ui threaded minimal comments is-comment">
       {% for comment in comments.rows %}
       <div class="comment" id="{{ comment._id }}">
         <a class="avatar" href="{{ comment.user.home_url }}">
@@ -140,7 +141,7 @@
           </div>
           {%endif%}
           {% if comment.is_reply %}
-          <div>回复 #{{ comment.reply_comment.floor }} @<a class="ui link">{{ comment.reply_comment.user.nickname }}</a></div>
+          <div class="replytips"><i class="quote left icon"></i>回复 #{{ comment.reply_comment.floor }} @<a class="ui link">{{ comment.reply_comment.user.nickname }}</a></div>
           {%endif%}
           <div class="text">
             {% if comment.deleted==1 %}
@@ -199,7 +200,7 @@
     
       </div>
       {% endfor %}
-
+      </div>
 
 	]]></append>
 
@@ -207,15 +208,17 @@
 
   <eval><![CDATA[
     //查看大图
-    $('.comment-img-box').on('click', function(){
-      var evt = $(this).attr('show-type');
-      if(evt==1){
-        $(this).find('img').css({'max-width':'100%', 'cursor':'-webkit-zoom-out', 'cursor':'-moz-zoom-out', 'cursor':'-ms-zoom-out', 'cursor':'-o-zoom-out'});
-        $(this).attr('show-type', 2);
-      }else{
-        $(this).find('img').css({'max-width':'150px', 'cursor':'-webkit-zoom-in', 'cursor':'-moz-zoom-in', 'cursor':'-ms-zoom-in', 'cursor':'-o-zoom-in'});
-        $(this).attr('show-type', 1);
-      }
+    $('.comment-img-box').livequery(function(){
+      $(this).on('click', function(){
+        var evt = $(this).attr('show-type');
+        if(evt==1){
+          $(this).find('img').css({'max-width':'100%', 'cursor':'-webkit-zoom-out', 'cursor':'-moz-zoom-out', 'cursor':'-ms-zoom-out', 'cursor':'-o-zoom-out'});
+          $(this).attr('show-type', 2);
+        }else{
+          $(this).find('img').css({'max-width':'150px', 'cursor':'-webkit-zoom-in', 'cursor':'-moz-zoom-in', 'cursor':'-ms-zoom-in', 'cursor':'-o-zoom-in'});
+          $(this).attr('show-type', 1);
+        }
+      });
     });
 
     var total_page = parseInt("{{ comments.total_page }}");
@@ -227,7 +230,7 @@
     }
   if(current_page==1){
        $('#load-more-btn').click(function(){
-        fetch_comment(current_page+1, per_page);
+       fetch_comment(current_page+1, per_page, "{{ sort }}");
       }); 
   }
 

@@ -60,16 +60,12 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		// 获取session id
     $service = Sher_Core_Session_Service::instance();
     $sid = $service->session->id;
-    $redirect_url = !empty($this->stash['redirect_url'])?$this->stash['redirect_url']:null;
-    $state = Sher_Core_Helper_Util::generate_mongo_id();
-    $session_random_model = new Sher_Core_Model_SessionRandom();
-    $session_random_model->gen_random($sid, $state, 1, $redirect_url);
 
     // 微信登录参数
     $wx_params = array(
       'app_id' => Doggy_Config::$vars['app.wx.app_id'],
       'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/wap/weixin/call_back'),
-      'state' => $state,
+      'state' => md5($sid),
     );
 
     // 判断是否为微信浏览器
@@ -159,16 +155,12 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		// 获取session id
     $service = Sher_Core_Session_Service::instance();
     $sid = $service->session->id;
-    $redirect_url = isset($this->stash['redirect_url'])?$this->stash['redirect_url']:null;
-    $state = Sher_Core_Helper_Util::generate_mongo_id();
-    $session_random_model = new Sher_Core_Model_SessionRandom();
-    $session_random_model->gen_random($sid, $state, 1, $redirect_url);
 
     // 微信登录参数
     $wx_params = array(
       'app_id' => Doggy_Config::$vars['app.wx.app_id'],
       'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/wap/weixin/call_back'),
-      'state' => $state,
+      'state' => md5($sid),
     );
 
     // 判断是否为微信浏览器
@@ -349,15 +341,15 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
           if($user_invite_id){
             $invite_mode = new Sher_Core_Model_InviteRecord();
             $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
-            //送邀请人红包(30元,满199可用)
-            $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'B'));
+            //送邀请人红包(JBL专属)
+            $this->give_bonus($user_invite_id, 'JBL', array('count'=>5, 'xname'=>'JBL', 'bonus'=>'D', 'min_amounts'=>'C', 'product_id'=>Doggy_Config::$vars['app.product_jbl_id']));
           }
         
         }
 
-        //周年庆活动送100红包
+        //活动送100红包
         if(Doggy_Config::$vars['app.anniversary2015.switch']){
-          $this->give_bonus($user_id, 'RE', array('count'=>5, 'xname'=>'RE', 'bonus'=>'B', 'min_amounts'=>'B'));
+          $this->give_bonus($user_id, 'QX', array('count'=>5, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
         }
 
 				// 删除验证码
@@ -377,18 +369,19 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
       $this->send_match_praise($user_id, $user_info['account']);
     }
 		
-    //周年庆活动跳到提示分享页面
+    //活动跳到提示分享页面
     if(Doggy_Config::$vars['app.anniversary2015.switch']){
       //当前用户邀请码
-      $invite_code = Sher_Core_Util_View::fetch_invite_user_code($user_id);
- 		  $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/year?invite_code='.$invite_code; 
+      //$invite_code = Sher_Core_Util_View::fetch_invite_user_code($user_id);
+ 		  //$redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/year?invite_code='.$invite_code; 
     }elseif($this->stash['evt']=='match2' || $this->stash['evt']=='match2_praise'){
       //大赛2
-      $redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/dream2';  
+      //$redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/dream2';  
     }else{
- 		  $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);   
+ 		  //$redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);   
     }
 
+ 		$redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);  
 		
 		$this->clear_auth_return_url();
 		
@@ -454,15 +447,15 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
           if($user_invite_id){
             $invite_mode = new Sher_Core_Model_InviteRecord();
             $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
-            //送邀请人红包
-            //$this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'B'));
+            //送邀请红包(JBL 专属)
+            $this->give_bonus($user_invite_id, 'JBL', array('count'=>5, 'xname'=>'JBL', 'bonus'=>'D', 'min_amounts'=>'C', 'product_id'=>Doggy_Config::$vars['app.product_jbl_id']));
           }
         
         }
 
-        //周年庆活动送100红包
+        //活动送100红包
         if(Doggy_Config::$vars['app.anniversary2015.switch']){
-          //$this->give_bonus($user_id, 'RE', array('count'=>5, 'xname'=>'RE', 'bonus'=>'B', 'min_amounts'=>'B'));
+          $this->give_bonus($user_id, 'QX', array('count'=>5, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
         }
 
 				// 删除验证码
@@ -488,17 +481,19 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
       $this->give_bonus($user_id, 'D1', array('count'=>5, 'xname'=>'D1', 'bonus'=>'C', 'min_amounts'=>'A'));
     }
 		
-    //周年庆活动跳到提示分享页面
+    //活动跳到提示分享页面
     if(Doggy_Config::$vars['app.anniversary2015.switch']){
       //当前用户邀请码
-      $invite_code = Sher_Core_Util_View::fetch_invite_user_code($user_id);
- 		  $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/year?invite_code='.$invite_code; 
+      //$invite_code = Sher_Core_Util_View::fetch_invite_user_code($user_id);
+ 		  //$redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/year?invite_code='.$invite_code; 
     }elseif($this->stash['evt']=='match2' || $this->stash['evt']=='match2_praise'){
       //大赛2
-      $redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/matcht?quickly_signup=1';  
+      //$redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/matcht?quickly_signup=1';  
     }else{
- 		  $redirect_url = Doggy_Config::$vars['app.url.wap'].'?quickly_signup=1';
+ 		  //$redirect_url = Doggy_Config::$vars['app.url.wap'].'?quickly_signup=1';
     }
+
+ 		$redirect_url = Doggy_Config::$vars['app.url.wap'].'?quickly_signup=1';
 
 		$this->clear_auth_return_url();
 		
@@ -689,11 +684,17 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     // 获取红包
     $bonus = new Sher_Core_Model_Bonus();
     $result_code = $bonus->pop($xname);
+
+    // 专属商品ID
+    $product_id = 0;
+    if(isset($options['product_id'])){
+      $product_id = (int)$options['product_id'];
+    }
     
     // 获取为空，重新生产红包
     while(empty($result_code)){
-      //指定生成xname为RE, 100元红包
-      $bonus->create_specify_bonus($options['count'], $options['xname'], $options['bonus'], $options['min_amounts']);
+      //指定生成红包
+      $bonus->create_specify_bonus($options['count'], $options['xname'], $options['bonus'], $options['min_amounts'], $product_id);
       $result_code = $bonus->pop($xname);
       // 跳出循环
       if(!empty($result_code)){
@@ -784,14 +785,16 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     $service = Sher_Core_Session_Service::instance();
     $sid = $service->session->id;
 
-    $session_random_model = new Sher_Core_Model_SessionRandom();
-    $session_random = $session_random_model->is_exist($sid, $session_random, 1);
+    if(empty($session_random)){
+      return $this->ajax_note('拒绝访问,请重新尝试授权链接！', true);   
+    }
+
+    // 获取传来的session_id 可接收其它参数
+    $session_arr = explode('||', $session_random);
 
     // 验证是否非法链接来源
-    if(!$session_random){
+    if($session_arr[0] != md5($sid)){
       return $this->ajax_note('拒绝访问,请重试！', true);
-    }else{
-      $session_random_model->remove($session_random);
     }
 
     $third_source = isset($this->stash['third_source'])?$this->stash['third_source']:null;
@@ -899,6 +902,11 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 
         }// has avatar
 
+				//活动送100红包
+				if(Doggy_Config::$vars['app.anniversary2015.switch']){
+				  $this->give_bonus($user_id, 'QX', array('count'=>5, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
+				}
+
         // 实现自动登录
         Sher_Core_Helper_Auth::create_user_session($user_id);
         $redirect_url = !empty($this->stash['redirect_url'])?$this->stash['redirect_url']:Doggy_Config::$vars['app.url.wap'];
@@ -923,15 +931,12 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		// 获取session id
     $service = Sher_Core_Session_Service::instance();
     $sid = $service->session->id;
-    $state = Sher_Core_Helper_Util::generate_mongo_id();
-    $session_random_model = new Sher_Core_Model_SessionRandom();
-    $session_random_model->gen_random($sid, $state, 1);
 
     // 微信登录参数
     $wx_params = array(
       'app_id' => Doggy_Config::$vars['app.wx.app_id'],
       'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/wap/weixin/call_back'),
-      'state' => $state,
+      'state' => md5($sid),
     );
     $url = sprintf("https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_login&state=%s", $wx_params['app_id'], $wx_params['redirect_uri'], $wx_params['state']);
 

@@ -41,6 +41,9 @@
     <a href="{{ app_url_admin_base }}/stuff/swhj2_list" class="{{ css_swhj2_list }} item">
 			十万火计2
 		</a>
+    <a href="{{ app_url_admin_base }}/stuff/redesign_list" class="{{ css_redesign_list }} item">
+			反向定制
+		</a>
 
 	  	<div class="right menu">
 			<!--
@@ -98,7 +101,8 @@
 					</div>
 				</th>
 				<th>缩略图</th>
-				<th class="five wide">名称</th>
+				<th>名称</th>
+        <th>作者</th>
 				<th>赞名单</th>
 				<th>收藏数</th>
 				<th>评论数</th>
@@ -110,9 +114,9 @@
 		</thead>
 		<tbody>
       {% if is_search %}
-			  {% stuff_list var:'list' load_contest:1 page:page s_type:s s_mark:q load_college:load_college sort:sort page:page size:30 %}
+			  {% stuff_list var:'list' load_contest:1 page:page s_type:s s_mark:q load_college:load_college from_to:from_to sort:sort page:page size:30 %}
       {%else%}
-			  {% stuff_list var:'list' load_contest:1 is_top:is_top category_id:category_id load_college:load_college sort:sort page:page size:30 %}
+			  {% stuff_list var:'list' load_contest:1 is_top:is_top category_id:category_id load_college:load_college from_to:from_to sort:sort page:page size:30 %}
       {%endif%}
 
 			{% for stuff in list.rows %}
@@ -139,6 +143,12 @@
               <p class="attribute">大学：{{ stuff.college.name }}</p>
             {%endif%}
 				</td>
+        <td>
+					<a class="ui image label link" href="{{ stuff.user.home_url }}" target="_blank">
+					  	<img src="{{ stuff.user.mini_avatar_url }}">
+					  	{{ stuff.user.nickname }}
+					</a>
+        </td>
         <td>
           <span>{{ stuff.love_count }}</span> | <a href="{{ app_url_admin_base }}/stuff/get_love_list?target_id={{ stuff._id }}" class="ui magenta link" target="_blank">名单>></a>
         </td>

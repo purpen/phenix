@@ -2,7 +2,9 @@
 
 {% block page_css %}
 <style type="text/css">
-    
+    .fixed.button{
+      display:none !important;
+    }
 </style>
 {% endblock %}
 {% block jquery %}
@@ -78,22 +80,25 @@
 	});	
 	
 	// 易购   
-      $('.ui.yigo.modal')
-      .modal('setting', 'closable', false)
-     .modal('setting', 'transition', 'vertical  flip')
-     .modal('show');
-     $('.fixed.button').css({"display":"none","position":"fixed"});
-     $('.ui.yigo.close').click(function(){
-       $('.ui.yigo.modal').modal('hide');
-       $('.fixed.button').css({"display":"block","position":"fixed"});
-     })
-     $('.ui.yig.btn').click(function(){
+     $('.egou.click').click(function(){
        $('.ui.yigo.modal')
        .modal('setting', 'closable', false)
       .modal('setting', 'transition', 'vertical  flip')
       .modal('show');
-      $('.fixed.button').css({"display":"none","position":"fixed"});
      })
+     $('.ui.yigo.close').click(function(){
+       $('.ui.yigo.modal').modal('hide');
+     })
+     
+	{% if uid %}
+		{% if egou_show %}
+			$('html, body').animate({scrollTop: 2900},3000);
+	  	{% endif %}
+	{% else %}
+		{% if egou_uid %}
+			$('html, body').animate({scrollTop: 2900},3000);
+		{% endif %}
+	{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -254,6 +259,16 @@
                     			</div>
                             </div>
                             {% endfor %}
+                            <!--OM手机助手友链-->
+                            <div class="block">
+                    			<div class="image" style="background-image: url('http://frbird.qiniudn.com/asset/150824/55dad8d9fc8b12a4088b71aa-1');">
+                                    <a class="transparent" href="http://www.yzmg.com" target="_blank">
+                    					<div class="sub title">
+                    						<h3>ROM助手</h3>
+                    					</div>
+                                    </a>
+                    			</div>
+                            </div>
                         </div>
                     </div>
                     <div class="card group">
@@ -296,7 +311,19 @@
             </div>
         </div>
     </div>
-    
 	
 </div>
+{% if uid %}
+	{% if egou_show %}
+	<div class="egou click" style="text-align:center;cursor: pointer;margin-bottom: 2.5rem;">
+	  <img src="{{ app_url_packaged }}/images/egouqd.jpg">
+	</div>
+	{% endif %}
+{% else %}
+	{% if egou_uid %}
+	<div class="egou click" style="text-align:center;cursor: pointer;margin-bottom: 2.5rem;">
+	  <img src="{{ app_url_packaged }}/images/egouqd.jpg">
+	</div>
+	{% endif %}
+{% endif %}
 {% endblock %}

@@ -73,6 +73,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				$dig_ids[] = is_array($result['items'][$i]) ? $result['items'][$i]['_id'] : $result['items'][$i];
 	        }
 		}
+
+    // 昨天的日期
+    $yesterday = (int)date('Ymd' , strtotime('-1 day'));
+    $this->stash['yesterday'] = $yesterday;
         
 		$this->stash['dig_ids']  = $dig_ids;
 		$this->stash['dig_list'] = $diglist;
@@ -88,9 +92,19 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         $service = Sher_Core_Service_Topic::instance();
         
         $query = array();
+        $query['published'] = 1;
         $options['page'] = $page;
         $options['size'] = 15;
 		    $options['sort_field'] = 'latest';
+
+        //限制输出字段
+        $some_fields = array(
+          '_id'=>1, 'title'=>1, 'short_title'=>1, 'user_id'=>1, 't_color'=>1, 'top'=>1,
+          'fine'=>1, 'stick'=>1, 'category_id'=>1, 'created_on'=>1, 'asset_count'=>1,
+          'last_user'=>1, 'last_reply_time'=>1, 'cover_id'=>1, 'comment_count'=>1, 'view_count'=>1,
+          'updated_on'=>1, 'favorite_count'=>1, 'love_count'=>1, 'deleted'=>1,'published'=>1, 'tags'=>1,
+        );
+        $options['some_fields'] = $some_fields;
         
         $resultlist = $service->get_topic_list($query,$options);
         $next_page = 'no';
@@ -102,6 +116,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         
         $max = count($resultlist['rows']);
         for($i=0;$i<$max;$i++){
+            $symbol = isset($resultlist['rows'][$i]['user']['symbol']) ? $resultlist['rows'][$i]['user']['symbol'] : 0;
+            if(!empty($symbol)){
+              $s_key = sprintf("symbol_%d", $symbol);
+              $resultlist['rows'][$i]['user'][$s_key] = true;
+            }
             if($resultlist['rows'][$i]['asset_count'] > 0){
                 $asset = Sher_Core_Service_Asset::instance();
                 $q = array(
@@ -118,12 +137,21 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
                 
                 //print_r($resultlist['rows'][$i]['asset_list']);
             }
-        }
+
+            // 过滤用户表
+            if(isset($resultlist['rows'][$i]['user'])){
+              $resultlist['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['user']);
+            }
+            if(isset($resultlist['rows'][$i]['last_user'])){
+              $resultlist['rows'][$i]['last_user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['last_user']);
+            }
+        } //end for
+
+        $data = array();
+        $data['nex_page'] = $next_page;
+        $data['results'] = $resultlist;
         
-        $this->stash['nex_page'] = $next_page;
-        $this->stash['results'] = $resultlist;
-        
-        return $this->ajax_json('', false, '', $this->stash);
+        return $this->ajax_json('', false, '', $data);
     }
     
 	/**
@@ -131,7 +159,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 */
 	public function ajax_guess_topics(){
 		$sword = $this->stash['sword'];
-        $current_id = $this->stash['id'];
+    $current_id = $this->stash['id'];
 		$size = $this->stash['size'];
         
 		$result = array();
@@ -139,6 +167,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			'page' => 1,
 			'size' => $size,
 			'sort_field' => 'latest',
+      // 最新排序
+      'sort' => 1,
 			'evt' => 'tag',
 			't' => 2,
 			'oid' => $current_id,
@@ -151,8 +181,19 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         $topic_mode = new Sher_Core_Model_Topic();
         $items = array();
         foreach($xun_arr['data'] as $k=>$v){
+          // 过滤当前对象
+          if((int)$current_id == (int)$v['oid']){
+            continue;
+          }
           $topic = $topic_mode->extend_load((int)$v['oid']);
           if(!empty($topic)){
+            // 过滤用户表
+            if(isset($topic['user'])){
+              $topic['user'] = Sher_Core_Helper_FilterFields::user_list($topic['user']);
+            }
+            if(isset($topic['last_user'])){
+              $topic['last_user'] = Sher_Core_Helper_FilterFields::user_list($topic['last_user']);
+            }
             array_push($items, array('topic'=>$topic));
           }
         }
@@ -168,9 +209,14 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
       }
 
 		}
-		$this->stash['result'] = $result;
-		
-		return $this->to_taconite_page('ajax/guess_topics.html');
+    if(!empty($result)){
+      $data['state'] = 1;
+      $data['result'] = $result;
+    }else{
+      $data['state'] = 0;
+      $data['result'] = '';   
+    }
+    return $this->ajax_json('', false, '', $data);
 	}
 	
 	/**
@@ -498,6 +544,19 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			}
 		}
 		
+		$can_vote = 0;
+		if(isset($topic['vote_id']) && !empty($topic['vote_id'])){
+			$model = new Sher_Core_Model_VoteRecord();
+			$data = array();
+			$data['vote_id'] = $topic['vote_id'];
+			$data['user_id'] = $this->visitor->id;
+			$data['relate_id'] = (int)$id;
+			$voteRecord = $model->find($data);
+			if(count($voteRecord)){
+				$can_vote = 1;
+			}
+		}
+		
 		// 添加显示权限(登陆状态、发帖本人、星级会员)
 		$vote_show = 0;
 		if($this->visitor->id && (int)$this->visitor->id == (int)$topic['user_id'] && $this->visitor->mentor){
@@ -505,7 +564,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		$this->stash['is_vote'] = $is_vote;
-		$this->stash['vote_show'] = $vote_show;
+		$this->stash['is_vote'] = $is_vote;
+		$this->stash['can_vote'] = $can_vote;
 		return $this->to_html_page($tpl);
 	}
 	
@@ -613,12 +673,12 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->ajax_notification('主题不存在！', true);
 		}
 		$id = $this->stash['id'];
-        $tv = $this->stash['tv'];
+    $tv = $this->stash['tv'];
         
 		Doggy_Log_Helper::debug("Top Topic [$id][$tv]!");
 		try{
 			if (!$this->visitor->can_edit()){
-				return $this->ajax_json('抱歉，你没有权限进行此操作！', true);
+				return $this->ajax_notification('抱歉，你没有权限进行此操作！', true);
 			}
 			
 			$model = new Sher_Core_Model_Topic();
@@ -658,6 +718,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 */
 	public function ajax_cancel_top(){
 		$id = $this->stash['id'];
+    $tv = $this->stash['tv'];
 		if(empty($this->stash['id'])){
 			return $this->ajax_json('主题不存在！', true);
 		}
@@ -668,10 +729,23 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			}
 			
 			$model = new Sher_Core_Model_Topic();
+      $row = $model->load((int)$id);
+      if(empty($row)){
+          return $this->ajax_notification("主题[$id]不存在！", true);
+      }
+
 			$ok = $model->mark_cancel_top((int)$id);
 			if ($ok) {
+        $old_top = $row['top'];
 				$diglist = new Sher_Core_Model_DigList();
-				$diglist->remove_item(Sher_Core_Util_Constant::DIG_TOPIC_TOP, (int)$id, Sher_Core_Util_Constant::TYPE_TOPIC);
+        if ($tv == Sher_Core_Model_Topic::TOP_CATEGORY){
+            $key_id = Sher_Core_Util_Constant::top_topic_category_key($row['category_id']);
+				    $diglist->remove_item($key_id, (int)$id, Sher_Core_Util_Constant::TYPE_TOPIC);
+        }else{
+            $key_id = Sher_Core_Util_Constant::DIG_TOPIC_TOP;
+				    $diglist->remove_item($key_id, (int)$id, Sher_Core_Util_Constant::TYPE_TOPIC);
+        }
+
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('操作失败,请重新再试', true);
@@ -685,7 +759,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 */
 	protected function editor_params() {
 		$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
-		$this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
+		$this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url, false, true);
 		$new_pic_id = new MongoId();
 		$this->stash['editor_pid'] = (string)$new_pic_id;
 
@@ -915,7 +989,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			
 			// 保存成功后，更新编辑器图片
 			Doggy_Log_Helper::debug("Upload file count[$file_count].");
-			if($file_count && !empty($this->stash['file_id'])){
+			if(!empty($this->stash['file_id'])){
 				$model->update_editor_asset($id, $this->stash['file_id']);
 			}
             

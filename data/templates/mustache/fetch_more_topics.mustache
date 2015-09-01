@@ -3,9 +3,12 @@
 	<td class="hide-on-mobile author one wide">
 		<a class="ui small avatar image" href="{{ user.home_url }}">
       		<img src="{{ user.small_avatar_url }}" alt="{{ user.nickname }}" />
-			{{#user.kind}}
-				<img src="{{ app_url_packaged }}/images/V.png" class="image-V" />
-			{{/user.kind}}
+			{{#user.symbol_1}}
+				<img src="{{ phenix.images }}/V.png" class="image-V" />
+			{{/user.symbol_1}}
+			{{#user.symbol_2}}
+				<img src="{{ phenix.images }}/V.png" class="image-V blue" />
+			{{/user.symbol_2}}
 		</a>
 	</td>
 	<td colspan="3" class="htitle nide wide">
