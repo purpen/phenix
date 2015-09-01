@@ -24,23 +24,20 @@
 						</div>
 					<div class="field">
 						<label>详细地址</label>
-						<div >
+						
 							<input type="hidden" name="province" value="{{ addbook.province }}" />
 						  <select style="width:49%;">
   						  {% for province in provinces %}
   						    <option value="{{ province._id }}">{{ province.city }}</option>
   						  {% endfor %}
   						</select>
-						</div>
 						
-						<div >
 							<input type="hidden" name="district" value="{{ district.city }}" />
 						  <select style="width:49%;float:right;">
   						  {% for district in districts %}
   						    <option value="{{ district._id }}">{{ district.city }}</option>
   						  {% endfor %}
   						</select>
-  					</div>
 						
 						  
 						<!--<div class="ui selection province dropdown">
