@@ -732,7 +732,17 @@
       		  	    {% include "block/comment_box_site.html" %}
                 </div>
             </div>
-			
+			      
+			      
+			      
+			        {% if egou_uid %}
+			      <div class="container">
+              <a href="{{ app_url_domain }}/app/site/index/egou">
+                <img src="{{ app_url_packaged }}/images/egend.png" width="170px" style="margin: 20px auto; display: block;">
+              </a>
+			      </div>
+			       {% endif %}
+			    
         </div>    
     </div>
     <div class="mainright">
