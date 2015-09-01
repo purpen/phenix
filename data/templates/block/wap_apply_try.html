@@ -29,11 +29,22 @@
 			
 						    <div class="default text">省份/自治区</div>
 						    <i class="flat dropdown icon"></i>
-						    <div class="menu">
+						    <select multiple="">
+                          <option value="">Skills</option>
+                          <option value="angular">Angular</option>
+                          <option value="css">CSS</option>
+                          <option value="ember">Ember</option>
+                          <option value="html">HTML</option>
+                          <option value="javascript">Javascript</option>
+                          <option value="meteor">Meteor</option>
+                          <option value="node">NodeJS</option>
+                        </select>
+						    
+						   <!-- <div class="menu">
 								{% for province in provinces %}
 						        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
 								{% endfor %}
-						    </div>
+						    </div>-->
 						</div>
 		
 						<div class="ui selection district dropdown" id="district-menu">
