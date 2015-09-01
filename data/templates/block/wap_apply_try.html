@@ -30,9 +30,17 @@
 						    <div class="default text">省份/自治区</div>
 						    <i class="flat dropdown icon"></i>
 						    <div class="menu">
-								{% for province in provinces %}
+						      <from>
+						      <select name="cars">
+						        {% for province in provinces %}
+						        <option value="{{ province._id }}">{{ province.city }}</option>
+						        
+						        {% endfor %}
+						      </select>
+						      </from>
+								<!--{% for province in provinces %}
 						        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
-								{% endfor %}
+								{% endfor %}-->
 						    </div>
 						</div>
 		
