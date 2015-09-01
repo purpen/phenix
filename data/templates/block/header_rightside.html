@@ -10,7 +10,7 @@
     
     <div class="ui top right pointing dropdown icon basket magenta button" data-url="{{ app_url_cart }}" id="shopping-basket">
 		{% if items_count > 0 %}
-	    <label class="floating circular ui magenta basketnumber label">{{ items_count }}</label>
+	    <label class="floating circular ui magenta basketnumber label" style="padding: .5em 0!important;">{{ items_count }}</label>
 		{% else %}
 		<label class="floating circular ui magenta label hide"></label>
 		{% endif %}
@@ -82,7 +82,7 @@
         
     {% if visitor %}
     <div class="ui icon top right pointing dropdown basket magenta button" data-url="javascript:void(0);">
-        <label class="floating circular ui magenta basketnumber label" id="user-notice-num" style="display:none;">
+        <label class="floating circular ui magenta basketnumber label" id="user-notice-num" style="display:none;padding: .5em 0!important;">
             0
         </label>
         <i class="alarm outline icon"></i>
