@@ -1,7 +1,6 @@
 <taconite>
 	<replace select="#district-menu">
 	  <select id="district-menu">
-		  <input type="hidden" name="district" value="{{ district.city }}" />
 		  {% for district in districts %}
 		    <option value="{{ district._id }}">{{ district.city }}</option>
 		  {% endfor %}
