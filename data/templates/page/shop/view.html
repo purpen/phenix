@@ -409,6 +409,7 @@
 		var id = $(this).attr('data-value');
 		var pid = {{ product._id }};
 		var url = "{{ app_url_album_shop }}/add?pid="+pid+"&dadid="+id;
+		var albums_url = "{{ albums_url }}"+id;
 		if ($(this).hasClass('active')){
 			$(this)
 				.removeClass('active');
@@ -420,6 +421,8 @@
 				.addClass('active');
 			$('.ui.OK.button').attr('href',url);
 		}
+		$('#albums').attr('href',albums_url);
+		$('#albums').attr('style','display:block');
 	});
 	
 	$('#message-form').form({
@@ -802,6 +805,9 @@
 							{{ albums.title }}
 						</div>
 					{% endfor %}
+					<div style="margin:10 50px 10px 50px">
+					  <a id="albums" style="display: none" href="" class="ui blue button" target="_blank">去往专辑页</a>
+					</div>
 				  </div>
 				  <div class="actions">
 					<div class="ui albums Cancel button">取消</div>

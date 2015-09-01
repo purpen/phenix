@@ -384,8 +384,8 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		// 获取专辑分类
 		$albums = new Sher_Core_Model_Albums();
 		$albums = $albums->find();
+		$this->stash['albums_url'] = Doggy_Config::$vars['app.url.album.shop'].'?did=';
 		$this->stash['albums'] = $albums;
-		//var_dump($albums);
 		
 		return $this->to_html_page('page/shop/view.html');
 	}

@@ -73,6 +73,7 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 			  $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
 			}
         }
+		
 		$data = array();
         $data['results'] = $result;
 		$data['did'] = (int)$this->stash['did'];
