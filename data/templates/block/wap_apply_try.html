@@ -24,7 +24,7 @@
 						</div>
 					<div class="field">
 						<label>详细地址</label>
-						<select>
+						<!--<select>
 						  {% for province in provinces %}
 						    <option value="{{ province._id }}">{{ province.city }}</option>
 						  {% endfor %}
@@ -34,10 +34,10 @@
 						  {% for district in districts %}
 						    <option value="{{ district._id }}">{{ district.city }}</option>
 						  {% endfor %}
-						</select>
+						</select>-->
 						
 						  
-						<!-- <div class="ui selection province dropdown">
+						<div class="ui selection province dropdown">
 							<input type="hidden" name="province" value="{{ addbook.province }}" />
 			
 						    <div class="default text">省份/自治区</div>
@@ -47,9 +47,9 @@
 						        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
 								{% endfor %}
 						    </div>
-						</div>-->
+						</div>
 		
-					<!--	<div class="ui selection district dropdown" id="district-menu">
+						<div class="ui selection district dropdown" id="district-menu">
 							<input type="hidden" name="district" value="{{ district.city }}" />
 						    <div class="default text">地区区域</div>
 						    <i class="flat dropdown icon"></i>
@@ -58,7 +58,7 @@
 						        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
 								{% endfor %}
 						    </div>
-						</div>-->
+						</div>
 					</div>
 					<div class="field">
 						<input type="text" name="address" value="" placeholder="街道或小区" />

@@ -1,11 +1,11 @@
 <taconite>
 	<replace select="#district-menu">
-	  <select id="district-menu">
+	  <!--<select id="district-menu">
 		  {% for district in districts %}
 		    <option value="{{ district._id }}">{{ district.city }}</option>
 		  {% endfor %}
-		</select>
-		<!--<div class="ui selection district dropdown" id="district-menu" style="width:49%;float:right;">
+		</select>-->
+		<div class="ui selection district dropdown" id="district-menu" style="width:49%;float:right;">
 			<input type="hidden" name="city" />
 		    <div class="default text">地区区域</div>
 		    <i class="angle dropdown icon"></i>
@@ -14,6 +14,6 @@
 		        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
 				{% endfor %}
 		    </div>
-		</div>-->
+		</div>
 	</replace>
 </taconite>
