@@ -33,9 +33,9 @@
 							        <small><a class="ui small link" href="javascript:void(0);">{{ topic.user.nickname }}</a> {% if topic.last_user %}- 回复于{{ topic.last_reply_time|relative_datetime}} {% endif %}  <span class="like" style="float: right;margin-top: 1px;">
 							<i class="unhide icon"></i> 
 							<span class="count">{{ topic.view_count }}</span>&nbsp;
-							<i class="thumbs outline up icon"></i>
-							<span class="count love-count">
-								{{ topic.love_count|default 0 }}
+							<i class="comment outline up icon"></i>
+							<span class="count comment-count">
+								{{ topic.comment_count|default 0 }}
 							</span>
 					</span></small>
 							    </div>
@@ -98,9 +98,9 @@
 							        <small><a class="ui small link" href="javascript:void(0);">{{ topic.user.nickname }}</a> {% if topic.last_user %}- 回复于{{ topic.last_reply_time|relative_datetime}} {% endif %}  <span class="like" style="float: right;margin-top: 1px;">
 							<i class="unhide icon"></i> 
 							<span class="count">{{ topic.view_count }}</span>&nbsp;
-							<i class="thumbs outline up icon"></i>
-							<span class="count love-count">
-								{{ topic.love_count|default 0 }}
+							<i class="comment outline up icon"></i>
+							<span class="count comment-count">
+								{{ topic.comment_count|default 0 }}
 							</span>
 					</span></small>
 							    </div>

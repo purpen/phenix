@@ -424,8 +424,8 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 					if($user_invite_id){
 					  $invite_mode = new Sher_Core_Model_InviteRecord();
 					  $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
-					  //送邀请人红包(52元,JBL专用)
-					  $this->give_bonus($user_invite_id, 'JBL', array('count'=>5, 'xname'=>'JBL', 'bonus'=>'D', 'min_amounts'=>'C', 'product_id'=>Doggy_Config::$vars['app.product_jbl_id']));
+					  //送邀请人红包(30元)
+					  $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
 					}
 				}
 
