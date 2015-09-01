@@ -121,13 +121,13 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		// 添加随机数
 		$data['random'] = Sher_Core_Helper_Util::gen_random();
 
-    // 描述加内链---注掉,放到action
-    /**
-    if(!empty($data['description'])){
-      $content = Sher_Core_Helper_Util::gen_inlink_keyword($data['description'], 1);
-      $data['description'] = $content;
-    }
-    **/
+        // 描述加内链---注掉,放到action
+        /**
+        if(!empty($data['description'])){
+            $content = Sher_Core_Helper_Util::gen_inlink_keyword($data['description'], 1);
+            $data['description'] = $content;
+        }
+        **/
 		
 	    parent::before_save($data);
 	}
@@ -195,6 +195,10 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		}
 		// 获取封面图
 		$row['cover'] = $this->cover($row);
+        // 封面图作为一个附件图片数
+        if(!empty($row['cover_id'])){
+            $row['asset_count'] += 1;
+        }
         
         $row['r_created_on'] = Doggy_Dt_Filters_DateTime::relative_datetime($row['created_on']);
         if(isset($row['last_reply_time'])){
@@ -388,8 +392,8 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		$textindex->remove(array('target_id' => $id));
 		unset($textindex);
 
-    //删除索引
-    Sher_Core_Util_XunSearch::del_ids('topic_'.(string)$id);
+        // 删除索引
+        Sher_Core_Util_XunSearch::del_ids('topic_'.(string)$id);
 		
 		return true;
 	}
