@@ -15,6 +15,7 @@ class Sher_Core_Helper_View {
         $stash['css_use_bundle'] = Doggy_Config::$vars['app.css.use_bundle'];
         $stash['css_bundle_version'] = Doggy_Config::$vars['app.version.css_bundle_version'];
 		$stash['app_mode'] = Doggy_Config::$vars['app.mode'];
+        $stash['app_disable_cached'] = Doggy_Config::$vars['app.disable_cached'];
 	}
     /**
      * 设置主菜单url

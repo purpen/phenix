@@ -105,7 +105,7 @@
 
 <div id="homepage">
 	<div id="fixedslide" class="frame">
-        {% cache cache_key:'web_index_slide' ttl:600 %}
+        {% cache cache_key:'web_index_slide' ttl:600 disable_cache:app_disable_cached %}
         
 		{% ad_list var:'adslide' page:1 size:6 state:2 name:'web_index_slide' %}
 		<div class="ui slide">
@@ -145,7 +145,7 @@
     	<div class="ui adverts responsive grid">
     		<div class="row">
     			<div class="column">
-                    {% cache cache_key:'web_index_product_stick_slide' ttl:600 %}
+                    {% cache cache_key:'web_index_product_stick_slide' ttl:600 disable_cache:app_disable_cached %}
                     
             		{% ad_list var:'adslide2' page:1 size:4 state:2 name:'web_index_product_stick_slide' %}
                     {% if adslide2.rows %}
@@ -180,7 +180,7 @@
     	<div class="ui newest responsive grid">
     		<div class="row">
     			<div class="column">
-                    {% cache cache_key:'web_index_newest_product' ttl:180 %}
+                    {% cache cache_key:'web_index_newest_product' ttl:180 disable_cache:app_disable_cached %}
                     
                     {% product_list var:'newest' page:1 type:5 only_onsale:1 size:8 sort:5 %}
                     {% if newest.rows %}
@@ -201,7 +201,7 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">  
-                {% cache cache_key:'home_page_activity' ttl:600 %}
+                {% cache cache_key:'home_page_activity' ttl:600 disable_cache:app_disable_cached %}
                 
                 <!--社区试用 活动-->
                 {% ad_list var:'ads' page:1 size:2 state:2 name:'home_page_activity' %}
@@ -242,7 +242,7 @@
                 {% endcache %}
                 
                 <!--精华话题-->
-                {% cache cache_key:'web_index_fine_topics' ttl:300 %}
+                {% cache cache_key:'web_index_fine_topics' ttl:300 disable_cache:app_disable_cached %}
                 
                 {% topic_list var:'topics' published:1 type:2 page:1 size:4 %}
                 <div class="ui socialstick stickcount four blocks">
@@ -266,7 +266,7 @@
                 
                 <div class="ui four products topics cards">
                     <div class="card stick">
-                        {% cache cache_key:'home_page_topic' ttl:600 %}
+                        {% cache cache_key:'home_page_topic' ttl:600 disable_cache:app_disable_cached %}
                         
                         {% ad_list var:'ads' page:1 size:2 state:2 name:'home_page_topic' %}                        
                         <div class="ui socialstick one blocks">
@@ -296,7 +296,7 @@
                         {% endcache %}
                     </div>
                     <div class="card group">
-                        {% cache cache_key:'web_index_stick_topics' ttl:180 %}
+                        {% cache cache_key:'web_index_stick_topics' ttl:180 disable_cache:app_disable_cached %}
                         
                         <!--推荐话题-->
                         {% topic_list var:'topics' published:1 sort:1 type:1 page:1 size:10 %}
