@@ -43,11 +43,11 @@ class Doggy_Dt_Tag_Cache extends Doggy_Dt_Tag {
             }
             
             if ($s) {
-                Doggy_Log_Helper::debug('cache hit!');
+                Doggy_Log_Helper::debug('cache '.$cache_key.' hit!');
                 $stream->write($s);
             }
             else {
-                Doggy_Log_Helper::debug('cache missing!');
+                Doggy_Log_Helper::debug('cache '.$cache_key.' missing!');
                 $body_stream = new Doggy_Dt_StreamWriter();
                 $this->body->render($context,$body_stream);
                 $s = $body_stream->close();

@@ -331,7 +331,7 @@
         <div class="{%if try.step_stat==1%}active{%endif%} item">
             <i class="time icon"></i> 申请
         </div>
-        <div class="{%if try.step_stat==2%}active{%endif%} item">
+        <div class="{%if try.step_stat==2%}active{%endif%} item" style="right:-0.5px;">
             <i class="heart icon"></i> 名单公布
         </div>
         <div class="{%if try.step_stat==3%}active{%endif%} item">
@@ -564,11 +564,11 @@
 <div id="show-support-box">
   {% if !try.is_end %}
     {% if is_applied %}
-    <div class="ui small lapiao modal">
+    <div class="ui small lapiao modal" style="width:30% !important;margin-left:-15% !important;">
         <i class="close icon"></i>
         <div class="content">
-          <div class="ui grid">
-            <div class="ui ten wide column">
+          <div class="ui center aligned grid">
+            <div class="ui sixteen wide column">
               <h3 class="ui header">
                 <img class="ui small avatar image" src="{{ apply.user.big_avatar_url }}">
                 <div class="content">{{ apply.user.nickname }}
@@ -578,11 +578,11 @@
                 </div>
               </h3>
               
-              <h2 class="ui header">恭喜您申请成功</h2>
-              <p>分享到朋友圈和QQ，获取更多支持， 更有机会获取试用资格!</p>
+              <h2 class="ui header">申请已成功</h2>
+              <p>分享至微信、朋友圈或QQ，获取更多支持， 更有机会赢取试用资格!</p>
             </div>
             <div class="ui six wide column">
-              <h2 class="ui header">扫码分享</h2>
+              <h2 class="ui header">扫码分享得支持</h2>
               <div id="lapiao"></div>
             </div>
           </div>
