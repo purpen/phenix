@@ -58,7 +58,7 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
     }
 
     if($q){
-      if((int)$q)==0{
+      if((int)$q==0){
         $query['name'] = $q;
       }elseif(strlen($q)==11){
         $query['phone'] = $q;
