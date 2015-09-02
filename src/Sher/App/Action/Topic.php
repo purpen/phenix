@@ -87,15 +87,15 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
      * 自动加载获取
      */
     public function ajax_fetch_more(){
-        $page = $this->stash['page'];
         
+		$page = $this->stash['page'];
         $service = Sher_Core_Service_Topic::instance();
         
         $query = array();
         $query['published'] = 1;
         $options['page'] = $page;
         $options['size'] = 15;
-		    $options['sort_field'] = 'latest';
+		$options['sort_field'] = 'latest';
 
         //限制输出字段
         $some_fields = array(
@@ -956,10 +956,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			// 新建记录
 			if(empty($id)){
 				$data['user_id'] = (int)$this->visitor->id;
-				
 				$ok = $model->apply_and_save($data);
 				$topic = $model->get_data();
-				
 				$id = $topic['_id'];
 				
 				// 更新用户主题数量
@@ -999,13 +997,13 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
                 Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);
             }
 			//更新百度推送
-			if($mode=='create' && $data['published']==1){
+			if($mode == 'create' && $data['published'] == 1){
 			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10); 
 			}
-      // 由草稿转为发布状态
-      if($mode=='edit' && $old_published==0 && $data['published']==1){
- 			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10);        
-      }
+            // 由草稿转为发布状态
+            if($mode == 'edit' && $old_published == 0 && $data['published'] == 1){
+                Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10);        
+            }
 				
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());

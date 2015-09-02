@@ -1,0 +1,90 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+    .categorybox {
+        background-color: #fff;
+    }
+	.category{
+		{% if albums.banner_id %}
+		background: url("{{ banner }}") no-repeat scroll center center / cover rgba(45, 53, 56, 1);
+		{% else %}
+	    background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);
+		{% endif %}
+	}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript" >
+    function ajax_load_more(page, size){
+        var url = '{{ app_url_album_shop }}/ajax_load_list?did={{ did }}&rand='+Math.random();
+        $.get(url, { page:page, size:size }, function(rs){
+            if(rs.data.results.total_page > rs.data.results.current_page){
+                $('#albums-more')
+                    .hide()
+                    .attr({'status': 0, 'p': rs.data.results.current_page});
+            }else{
+                $('#albums-more').html('没有更多');
+            }
+            var rendered = phenix.ajax_render_result('#fetch_more_albumshop_tpl', rs.data);
+            $('.item-box').append(rendered);
+        }, 'json');
+    }
+</script>
+{% endblock %}
+
+{% block jquery %}
+
+    // ajax加载更多(滚动条接近底部加载)
+    $(window).scroll(function(){
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        if(scrollTop + windowHeight > scrollHeight-150){
+            var page = parseInt($('#albums-more').attr('p')) + 1;
+			var stat = $('#albums-more').attr('status');
+            // 防止频繁请求(在没加载完成时只允许请求一次)
+            if(stat == 0){
+                $('#albums-more').show();
+                ajax_load_more(page, 12);
+            }
+        }
+    });
+
+    // ajax加载商品列表
+    ajax_load_more(1, 12);
+	
+{% endblock %}
+
+{% block content %}
+<div class="category image {{ albums._id }}" >
+	<h1>
+		{{ albums.title|default '专辑精选' }}
+        <div class="desc">
+            <p>{{ albums.des|default '我们用心挑选数以万计的创意产品，为你每次的一见钟情!' }}</p>
+        </div>
+	</h1>
+    <div class="cover"></div>
+</div>
+
+<div class="shop list" id="shoplist">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui four products cards item-box">
+                    <!--ajax load list-->
+                </div>
+            </div>
+            <div id="albums-more" p="{{ page }}" style="text-align:center;margin:10px auto;display:none;">
+                <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
+                加载中...
+            </div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'fetch_more_albumshop_tpl' tpl:'mustache/fetch_more_albumshop.mustache' %}
+{% endblock %}

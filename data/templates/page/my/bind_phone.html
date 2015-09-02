@@ -5,6 +5,11 @@
     .account .avatar {
     	min-height: 25em;
     }
+    #captcha-img,
+    #fetch-verify-code {
+        display: inline-block;
+        margin-top: 28px;
+    }
 </style>
 {% endblock %}
 {% block js %}
@@ -203,23 +208,26 @@
 					</div>
 
 					<div class="two fields">
-            <div class="field">
+                        <div class="field">
 							<label>验证码</label>
-              <input type="text" name="captcha" placeholder="验证码" id="captcha" />
-                  <a href="javascript:void(0);" class="ui gray" id="captcha-img">
-                <img src="/app/site/captcha/view" onclick="this.src='/app/site/captcha/view?'+Math.random();" />
-              </a>
-            </div>
-          </div>
+                            <input type="text" name="captcha" placeholder="验证码" id="captcha" />
+                        </div>
+                        <div class="field">
+                            <a href="javascript:void(0);" class="ui gray" id="captcha-img">
+                                <img src="/app/site/captcha/view" onclick="this.src='/app/site/captcha/view?'+Math.random();" />
+                            </a>
+                        </div>
+                    </div>
 
 					<div class="two fields">
-            <div class="field">
+                        <div class="field">
 							<label>短信验证码</label>
-              <input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" />
-              <a href="javascript:void(0);" class="ui grey inverted active button" id="fetch-verify-code">获取验证码</a>
-            </div>
-						<div class="field"></div>
-          </div>
+                            <input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" />
+                        </div>
+						<div class="field">
+						    <a href="javascript:void(0);" class="ui red inverted button" id="fetch-verify-code">获取验证码</a>
+						</div>
+                    </div>
 
 					<div class="two fields">
 						<div class="field">
@@ -233,51 +241,52 @@
 							<label>确认密码</label>
 							<input type="password" name="password_confirm" />
 						</div>
+                        <div class="field"></div>
 					</div>
 					<input type="submit" class="ui inverted magenta button" value="确认绑定" />
-          {%else%}
-              <div class="two fields">
-                <div class="field">
-                  <label>已绑定的手机号</label>
-                  <input type="text" disabled="disabled" name="account" value="{{ visitor.account }}" />
+                    {%else%}
+                    <div class="two fields">
+                        <div class="field">
+                            <label>已绑定的手机号</label>
+                            <input type="text" disabled="disabled" name="account" value="{{ visitor.account }}" />
+                        </div>
+                        <div class="field"></div>
+                    </div>
+
+                    <div class="thirdlogin">
+                        第三方账户：
+                    {% if user_info.sina_uid %}
+                      <a href="" class="ui red icon inverted button" title="解绑-微博账号">
+                        <i class="weibo icon"></i>
+                      </a>
+                    {%else%}
+                      <a href="" class="ui grey icon inverted button" title="绑定-微博账号">
+                        <i class="weibo icon"></i>
+                      </a>
+                    {%endif%}
+
+                    {% if user_info.qq_uid %}
+                      <a href="" class="ui blue icon inverted button" title="解绑-QQ账号">
+                        <i class="qq icon"></i>
+                      </a>
+                    {%else%}
+                      <a href="" class="ui grey icon inverted button" title="绑定-QQ账号">
+                        <i class="qq icon"></i>
+                      </a>
+                    {%endif%}
+
+                    {% if user_info.wx_open_id %}
+                      <a class="ui green icon inverted button" title="解绑-微信账号">
+                        <i class="wechat icon"></i>
+                      </a>
+                    {%else%}
+                      <a class="ui grey icon inverted button" title="绑定-微信账号">
+                        <i class="wechat icon"></i>
+                      </a>
+                    {%endif%}
+                    </div>
+                {%endif%}
                 </div>
-                <div class="field"></div>
-              </div>
-
-        <div class="thirdlogin">
-          第三方账户：
-        {% if user_info.sina_uid %}
-          <a href="" class="ui red icon inverted button" title="解绑-微博账号">
-            <i class="weibo icon"></i>
-          </a>
-        {%else%}
-          <a href="" class="ui grey icon inverted button" title="绑定-微博账号">
-            <i class="weibo icon"></i>
-          </a>
-        {%endif%}
-
-        {% if user_info.qq_uid %}
-          <a href="" class="ui blue icon inverted button" title="解绑-QQ账号">
-            <i class="qq icon"></i>
-          </a>
-        {%else%}
-          <a href="" class="ui grey icon inverted button" title="绑定-QQ账号">
-            <i class="qq icon"></i>
-          </a>
-        {%endif%}
-
-        {% if user_info.wx_open_id %}
-          <a class="ui green icon inverted button" title="解绑-微信账号">
-            <i class="wechat icon"></i>
-          </a>
-        {%else%}
-          <a class="ui grey icon inverted button" title="绑定-微信账号">
-            <i class="wechat icon"></i>
-          </a>
-        {%endif%}
-            </div>
-          {%endif%}
-        </div>
 					
 				</form>
 

@@ -50,6 +50,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 新增评测
 	 */
 	public function edit() {
+		
 		$this->stash['mode'] = 'create';
 		
 		$data = array();

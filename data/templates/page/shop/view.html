@@ -388,9 +388,41 @@
 	$('.ui.letter.button').bind('click', function(){
 		$('.ui.letter.modal').modal('show');
 	});
+	
 	// 隐藏私信框
 	$('.ui.cancel.button').bind('click', function(){
 		$('.ui.letter.modal').modal('hide');
+	});
+	
+	// 显示专辑框
+	$('.ui.albums.button').bind('click', function(){
+		$('.ui.albums.modal').modal('show');
+	});
+	
+	// 隐藏专辑框
+	$('.ui.Cancel.button').bind('click', function(){
+		$('.ui.albums.modal').modal('hide');
+	});
+	
+	// 选择专辑分类
+	$('.ui.options').on('click', '.option', function(){
+		var id = $(this).attr('data-value');
+		var pid = {{ product._id }};
+		var url = "{{ app_url_album_shop }}/add?pid="+pid+"&dadid="+id;
+		var albums_url = "{{ albums_url }}"+id;
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+			$('.ui.OK.button').attr('href',url);
+		}else{
+			$(this)
+				.siblings('.ui.option').removeClass('active')
+				.end()
+				.addClass('active');
+			$('.ui.OK.button').attr('href',url);
+		}
+		$('#albums').attr('href',albums_url);
+		$('#albums').attr('style','display:block');
 	});
 	
 	$('#message-form').form({
@@ -749,7 +781,44 @@
                 </div>
                 {% endif %}
             {% endif %}
-        
+			
+			{% if visitor.can_edit %}
+			<div class="sellwrap">
+			  <div class="user action">
+				<div style="margin: 15px 0;">
+				  <p>专辑分享产品</p>
+				</div>
+				<div class="ui magenta albums inverted button" data-title="加入专辑" data-content="加入到产品专辑中..." data-id="{{ product._id }}" data-mark="n">
+					<i class="plus icon"></i> 加入专辑
+				</div>
+				
+				<div class="ui albums modal">
+				  <i class="close icon"></i>
+				  <div class="header">
+					将相应的产品加入专辑
+				  </div>
+				  <div class="ui options" style="margin:1em 50px 10px 50px">
+					<input type="hidden" name="category_id" id="albums_category" />					
+					{% for albums in albums %}
+						<div class="ui magenta alt option" data-value="{{ albums._id }}">
+							<i class="check circle outline icon"></i>
+							{{ albums.title }}
+						</div>
+					{% endfor %}
+					<div style="margin:10 50px 10px 50px">
+					  <a id="albums" style="display: none" href="" class="ui blue button" target="_blank">去往专辑页</a>
+					</div>
+				  </div>
+				  <div class="actions">
+					<div class="ui albums Cancel button">取消</div>
+					<a class="ui albums OK button ajax">提交</a>
+					<!--<div class="ui albums OK button">提交</div>-->
+				  </div>
+				</div>
+			  </div>
+			</div>
+			{% endif %}
+			
             <div class="sellwrap">
                 <div class="user action">
                     <p>关注&分享产品</p>
