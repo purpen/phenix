@@ -220,13 +220,13 @@
 	});
 
 	
-	$(':select[name=province]').livequery(function(){
-		$(this).select({
+	$('select[name=province]').livequery(function(){
+    $(this).change(function(){
       var value = $(this).val();
       if (value) {
         $.get('{{ app_url_wap }}/app/site/address/ajax_fetch_districts', {id: value, from_to: 'wap'});
-      }
-		});
+      }   
+    });
 	});
 	
 	$('#apply-form').livequery(function(){
