@@ -10,11 +10,11 @@
 
   <replaceContent select="#show-support-box"><![CDATA[
 
-    <div class="ui small lapiao modal">
+    <div class="ui small lapiao modal" style="width:30% !important;margin-left:-15% !important;">
         <i class="close icon"></i>
         <div class="content">
-          <div class="ui grid">
-            <div class="ui ten wide column">
+          <div class="ui center aligned grid">
+            <div class="ui sixteen wide column">
               <h3 class="ui header">
                 <img class="ui small avatar image" src="{{ apply.user.big_avatar_url }}">
                 <div class="content">{{ apply.user.nickname }}
@@ -24,15 +24,16 @@
                 </div>
               </h3>
               
-              <h2 class="ui header">恭喜您申请成功</h2>
-              <p>分享到朋友圈和QQ，获取更多支持， 更有机会获取试用资格!</p>
+              <h2 class="ui header">申请已提交</h2>
+              <p>分享至微信、朋友圈或QQ<br/>获取更多支持， 更有机会赢取试用资格!</p>
             </div>
-            <div class="ui six wide column">
-              <h2 class="ui header">扫码分享</h2>
+            <div class="ui eight wide column">
+              <h3 class="ui header">扫码分享得支持</h3>
               <div id="lapiao"></div>
             </div>
           </div>
         </div>
+    </div>
         
         <!--<div class="content">
         <div class="ui center aligned grid">

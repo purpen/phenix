@@ -247,7 +247,9 @@
 	phenix.hook_comment_page();
 	// 分享
 	$('.ui.share.button').bind('click', function(){
-		$('.ui.share.modal').modal('show');
+		$('.ui.share.modal')
+		.modal('setting', 'transition', 'vertical  flip')
+		.modal('show');
 	});
 	phenix.bind_share_list();
 	// 生成二维码
@@ -259,7 +261,9 @@
       $('#lapiao').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}'});
 
       $('.lapiao-btn').click(function() {
-        $('.ui.lapiao.modal').modal('show');
+        $('.ui.lapiao.modal')
+        .modal('setting', 'transition', 'vertical  flip')
+        .modal('show');
         return false;
       });
 
@@ -277,6 +281,10 @@
 		});
 	});
 	
+	$('.ui.sticky')
+    .sticky({
+        context: '.mainleft',
+    });
 {% endblock %}
 
 {% block content %}
@@ -300,7 +308,7 @@
 					    {% if !try.is_end %}
                             {% if is_applied %}
                               <a href="javascript:void(0);" class="ui white lapiao-btn inverted button" style="padding: .8em 2em!important;">
-                                <i class="ticket icon"></i> 求支持
+                                <i class="ticket icon"></i> 求好友支持
                               </a>
                             {%else%}
                               <a href="javascript:void(0);" class="ui white applytry inverted button" style="padding: .8em 2em!important;">
@@ -548,15 +556,41 @@
             </div>    
         </div>
         
-        <div class="sellwrap">
+    <div class="sellwrap">
 			<div class="block title">
-				太火鸟微信号
-            </div>
-            <div class="product aption">
+				关注太火鸟
+      </div>
+      <div class="product aption">
 			    <img src="http://frstatic.qiniudn.com/images/weixin-220.jpg" alt="太火鸟-中国最火爆的智能硬件孵化平台">
 			    <p>关注太火鸟有惊喜！</p>
-            </div>
+      </div>
+    </div>
+    
+    <div class="ui sticky">
+        <div class="sellwrap">
+          <div class="block title">
+    				我要试用
+          </div>
+          <p class="contact">
+          {% if !try.is_end %}
+                        {% if is_applied %}
+                          <a href="javascript:void(0);" class="ui magenta lapiao-btn inverted button" style="padding: .8em 2em!important;">
+                            <i class="ticket icon"></i> 求好友支持
+                          </a>
+                        {%else%}
+                          <a href="javascript:void(0);" class="ui magenta applytry inverted button" style="padding: .8em 2em!important;">
+                            <i class="ticket icon"></i> 申请试用
+                          </a>
+                        {%endif%}
+			    {% else %}
+					<a href="javascript:void(0);" class="ui active black inverted button">
+						<i class="lock icon"></i> 已结束
+					</a>
+					{% endif %}
+					</p>
+          
         </div>
+    </div>
         
     </div>
 </div>
@@ -578,11 +612,11 @@
                 </div>
               </h3>
               
-              <h2 class="ui header">申请已成功</h2>
-              <p>分享至微信、朋友圈或QQ，获取更多支持， 更有机会赢取试用资格!</p>
+              <h2 class="ui header">申请已提交</h2>
+              <p>分享至微信、朋友圈或QQ<br/>获取更多支持， 更有机会赢取试用资格!</p>
             </div>
-            <div class="ui six wide column">
-              <h2 class="ui header">扫码分享得支持</h2>
+            <div class="ui eight wide column">
+              <h3 class="ui header">扫码分享得支持</h3>
               <div id="lapiao"></div>
             </div>
           </div>
