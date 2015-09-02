@@ -35,6 +35,7 @@ $urls = array(
   array($domain_base.'/active', '活动首页', '--', 5),
   array($domain_base.'/try', '试用首页', '--', 6),
   array($domain_base.'/d3in', '实验室首页', '--', 7),
+  array($domain_base.'/search', '搜索', '--', 8),
 
   // 商品
   array($domain_base.'/shop/c0', '商品', '全部', 2),
@@ -58,6 +59,14 @@ $urls = array(
   array($domain_base.'/shop/c21', '话题', '品牌专区', 3),
   array($domain_base.'/shop/c18', '话题', '产品评测', 3),
   array($domain_base.'/shop/c27', '话题', '自由讨论', 3),
+
+  // 关于
+  array($domain_base.'/guide/about', '关于我们', '--', 1),
+  array($domain_base.'/guide/media', '媒体报导', '--', 1),
+  array($domain_base.'/guide/contact', '联系我们', '--', 1),
+  array($domain_base.'/guide/succase', '成功案例', '--', 1),
+  array($domain_base.'/guide/join', '加入我们', '--', 1),
+  array($domain_base.'/helper/link', '友情链接', '--', 1),
 
 
 

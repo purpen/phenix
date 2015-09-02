@@ -1303,7 +1303,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       // 最新
       'sort' => 1,
       'evt' => 'tag',
-      't' => 1,
+      't' => 6,
       'oid' => $current_id,
       'type' => 1,
 		);        
@@ -1328,13 +1328,17 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
              $addition_criteria = array(
                 'type' => 1,
                 'target_id' => array('$ne' => (int)$current_id),
+                'stage' => 9,
             );
             $sword = array_values(array_unique(preg_split('/[,，\s]+/u', $sword)));
-			  $result = Sher_Core_Service_Search::instance()->search(implode('',$sword), 'full', $addition_criteria, $options);     
+			  //$result = Sher_Core_Service_Search::instance()->search(implode('',$sword), 'full', $addition_criteria, $options);     
+        $result = array();
       }
 
 		}
-		
+    if(empty($result)){
+      return;
+    }
 		$this->stash['result'] = $result;
 		
 		return $this->to_taconite_page('ajax/guess_products_wap.html');

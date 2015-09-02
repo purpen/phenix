@@ -1,5 +1,12 @@
 <taconite>
 	<replace select="#district-menu">
+    {% if from_to == 'wap' %}
+	  <select id="district-menu" name="district" style="width:49%;">
+		  {% for district in districts %}
+		    <option value="{{ district._id }}">{{ district.city }}</option>
+		  {% endfor %}
+		</select>
+    {%else%}
 		<div class="ui selection district dropdown" id="district-menu" style="width:49%;float:right;">
 			<input type="hidden" name="city" />
 		    <div class="default text">地区区域</div>
@@ -10,5 +17,6 @@
 				{% endfor %}
 		    </div>
 		</div>
+    {%endif%}
 	</replace>
 </taconite>

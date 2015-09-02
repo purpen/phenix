@@ -205,7 +205,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
             'target_id' => array('$ne' => (int)$current_id),
         );
         $sword = array_values(array_unique(preg_split('/[,，\s]+/u', $sword)));
-        $result = Sher_Core_Service_Search::instance()->search(implode('',$sword), 'full', $addition_criteria, $options);     
+        //$result = Sher_Core_Service_Search::instance()->search(implode('',$sword), 'full', $addition_criteria, $options);     
+        $result = array();
       }
 
 		}
@@ -996,13 +997,13 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
                 Sher_Core_Helper_Search::record_update_to_dig((int)$id, 1);
             }
 			//更新百度推送
-			if($mode=='create' && $data['published']==1){
+			if($mode == 'create' && $data['published'] == 1){
 			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10); 
 			}
-      // 由草稿转为发布状态
-      if($mode=='edit' && $old_published==0 && $data['published']==1){
- 			  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10);        
-      }
+            // 由草稿转为发布状态
+            if($mode == 'edit' && $old_published == 0 && $data['published'] == 1){
+                Sher_Core_Helper_Search::record_update_to_dig((int)$id, 10);        
+            }
 				
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("创意保存失败：".$e->getMessage());

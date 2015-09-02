@@ -104,7 +104,7 @@ public function __construct() {
     $asc = isset($options['asc'])?(boolean)$options['asc']:false;
 
     $evt = isset($options['evt'])?(string)$options['evt']:'content';
-    $t = isset($options['t'])?(string)$options['t']:0;
+    $t = isset($options['t'])?(int)$options['t']:0;
     $oid = isset($options['oid'])?(string)$options['oid']:0;
     $type = isset($options['type'])?(int)$options['type']:0;
 
@@ -117,6 +117,10 @@ public function __construct() {
         switch($t){
           case 1:
             $condition .= 'kind:Product (cid:9 OR cid:5 OR cid:12 OR cid:15) ';
+            $str_f = sprintf('%s%s', $condition, $str);
+            break;
+          case 6:
+            $condition .= 'kind:Product (cid:9 OR cid:5) ';
             $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 5:

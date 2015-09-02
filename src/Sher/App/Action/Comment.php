@@ -361,6 +361,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         $this->stash['per_page'] = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
         $this->stash['current_user_id'] = $current_user_id;
         $this->stash['comment_load_type'] = $comment_load_type = isset($this->stash['comment_load_type'])?(int)$this->stash['comment_load_type']:1;
+        $this->stash['sort'] = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 
         if($comment_load_type==1){
           $tmp = 'ajax/comment_more_wap.html';

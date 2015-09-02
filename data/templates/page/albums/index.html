@@ -51,12 +51,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="category image {{ current_category.name }}" >
+<div class="category image" style="background-image: url('{{ app_url_packaged }}/images/albums/albums_01.jpg');" >
 	<h1>
-		{{ current_category.title|default '全部专辑' }}
+		产品专辑
         
         <div class="desc">
-            <p>{{ current_category.summary|default '我们用心挑选数以万计的创意产品，为你每次的一见钟情!' }}</p>
+            <p>甄选你最偏爱的智能创意品味，收获无穷灵感与未来眼界</p>
         </div>
         
         {% if visitor.can_edit %}
