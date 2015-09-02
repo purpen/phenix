@@ -38,6 +38,7 @@ app.redis.default:
     host: '10.9.29.163'
     port: 6379
 
+app.disable_cached: 0
 app.cache.memcached.default:
   servers:
     - 
