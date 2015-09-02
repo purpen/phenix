@@ -80,6 +80,11 @@
 	});	
 	
 	// 易购   
+	  $('.ui.yigo.modal')
+	    .modal('setting', 'closable', false)
+      .modal('setting', 'transition', 'vertical  flip')
+	    .modal('show');
+	  
      $('.egou.click').click(function(){
        $('.ui.yigo.modal')
        .modal('setting', 'closable', false)
@@ -90,7 +95,7 @@
        $('.ui.yigo.modal').modal('hide');
      })
      
-	{% if uid %}
+	/*{% if uid %}
 		{% if egou_show %}
 			$('html, body').animate({scrollTop: 2900},3000);
 	  	{% endif %}
@@ -98,7 +103,7 @@
 		{% if egou_uid %}
 			$('html, body').animate({scrollTop: 2900},3000);
 		{% endif %}
-	{% endif %}
+	{% endif %}*/
 {% endblock %}
 
 {% block content %}
@@ -313,7 +318,7 @@
     </div>
 	
 </div>
-{% if uid %}
+<!--{% if uid %}
 	{% if egou_show %}
 	<div class="egou click" style="text-align:center;cursor: pointer;margin-bottom: 2.5rem;">
 	  <img src="{{ app_url_packaged }}/images/egouqd.jpg">
@@ -325,5 +330,5 @@
 	  <img src="{{ app_url_packaged }}/images/egouqd.jpg">
 	</div>
 	{% endif %}
-{% endif %}
+{% endif %}-->
 {% endblock %}
