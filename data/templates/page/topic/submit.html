@@ -42,7 +42,7 @@
 	
 	$('#editor').editable({
 		inlineMode: false,
-        language: "zh_cn",
+		language: "zh_cn",
 		toolbarFixed: false,
         theme: 'gray',
 		language: 'zh_cn',
@@ -192,7 +192,6 @@
 		if ($(this).hasClass('active')){
 			$(this)
 				.removeClass('active');
-				
 			$('#topic-category').val('');
 		}else{
 			$(this)
@@ -366,7 +365,7 @@
 												<a href="{{ app_url_topic }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
 													<i class="remove icon"></i>
 												</a>
-												<a href="javascript:void(0);" class="ui link ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+												<a href="javascript:void(0);" class="ui link ajax-cover {% if topic.cover_id == asset._id %}active{% endif %} pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
 													<i class="checkered flag icon"></i>
 												</a>
 											</div>

@@ -54,6 +54,8 @@ app.url.tag: '/tag'
 app.url.shop: '{$app.url.domain}/shop'
 app.url.shop.list: '{$app.url.shop}'
 app.url.shop.view: '{$app.url.shop}/%s.html'
+app.url.albums: '{$app.url.domain}/albums'
+app.url.album.shop: '{$app.url.domain}/albumshop'
 
 # 预售
 app.url.sale: '{$app.url.domain}/sale'

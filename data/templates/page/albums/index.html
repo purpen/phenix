@@ -1,0 +1,91 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+    .categorybox {
+        background-color: #fff;
+    }
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript" >
+    function ajax_load_more(page, size){
+        var url = '{{ app_url_albums }}/ajax_load_list?rand='+Math.random();
+        $.get(url, { page:page, size:size }, function(rs){
+            if(rs.data.results.total_page > rs.data.results.current_page){
+                $('#albums-more')
+                    .hide()
+                    .attr({'status': 0, 'p': rs.data.results.current_page});
+            }else{
+                $('#albums-more').html('没有更多');
+            }
+            var rendered = phenix.ajax_render_result('#fetch_more_albums_tpl', rs.data);
+            $('.item-box').append(rendered);
+        }, 'json');
+    }
+</script>
+{% endblock %}
+
+{% block jquery %}
+
+    // ajax加载更多(滚动条接近底部加载)
+    $(window).scroll(function(){
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        if(scrollTop + windowHeight > scrollHeight-150){
+            var page = parseInt($('#albums-more').attr('p')) + 1;
+			var stat = $('#albums-more').attr('status');
+            // 防止频繁请求(在没加载完成时只允许请求一次)
+            if(stat == 0){
+                $('#albums-more').show();
+                ajax_load_more(page, 12);
+            }
+        }
+    });
+
+    // ajax加载商品列表
+    ajax_load_more(1, 12);
+	
+{% endblock %}
+
+{% block content %}
+<div class="category image" style="background-image: url('{{ app_url_packaged }}/images/albums/albums_01.jpg');" >
+	<h1>
+		产品专辑
+        
+        <div class="desc">
+            <p>甄选你最偏爱的智能创意品味，收获无穷灵感与未来眼界</p>
+        </div>
+        
+        {% if visitor.can_edit %}
+        <a href="{{ app_url_albums }}/add" class="ui large inverted button">
+            <i class="edit icon"></i> 新增专辑
+        </a>
+        {%endif%}
+	</h1>
+    <div class="cover"></div>
+</div>
+
+<div class="shop list" id="shoplist">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui four products cards item-box">
+                    <!--ajax load list-->
+                </div>
+            </div>
+
+            <div id="albums-more" p="{{ page }}" style="text-align:center;margin:10px auto;display:none;">
+                <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
+                加载中...
+            </div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'fetch_more_albums_tpl' tpl:'mustache/fetch_more_albums.mustache' %}
+{% endblock %}

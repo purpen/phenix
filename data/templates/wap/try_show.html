@@ -221,24 +221,15 @@
 	$('.ui.deny.button').click(function(){
 		$('.ui.applytry.modal').modal('hide');
 	});
+
 	
-	// 申请表地址信息
-	$('.ui.district.dropdown').livequery(function(){
-		$(this).dropdown();
-	});
-	
-	$('.ui.province.dropdown').livequery(function(){
-		$(this).dropdown({
-			onChange : function(value, text){
-				if (value) {
-					$.get('{{ app_url_wap }}/app/site/address/ajax_fetch_districts', {id: value});
-				}
-			}
+	$(':select[name=province]').livequery(function(){
+		$(this).select({
+      var value = $(this).val();
+      if (value) {
+        $.get('{{ app_url_wap }}/app/site/address/ajax_fetch_districts', {id: value, from_to: 'wap'});
+      }
 		});
-	});
-	
-	$('.ui.district.dropdown').livequery(function(){
-		$(this).dropdown();
 	});
 	
 	$('#apply-form').livequery(function(){

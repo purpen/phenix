@@ -436,10 +436,15 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
             'target_id' => array('$ne' => (int)$current_id),
         );
         $sword = array_values(array_unique(preg_split('/[,，\s]+/u', $sword)));
-        $result = Sher_Core_Service_Search::instance()->search(implode('',$sword), 'full', $addition_criteria, $options);     
+        //$result = Sher_Core_Service_Search::instance()->search(implode('',$sword), 'full', $addition_criteria, $options);     
+        $result = array();
       }
 
-		}
+    }
+
+    if(empty($result)){
+      return;
+    }
 		$this->stash['result'] = $result;
 		
 		return $this->to_taconite_page('ajax/guess_topics_wap.html');
