@@ -25,14 +25,12 @@
 					<div class="field">
 						<label>详细地址</label>
 						
-						<div class="ui province dropdown" style="width:49% !important;">
 							<input type="hidden" name="province" value="{{ addbook.province }}" />
-						  <select style="width:100% !important;display:block !important;">
+						  <select style="width:49%;" class="ui selection province dropdown">
   						  {% for province in provinces %}
   						    <option value="{{ province._id }}">{{ province.city }}</option>
   						  {% endfor %}
   						</select>
-  					</div>
 						
 							<input type="hidden" name="district" value="{{ district.city }}" />
 						  <select style="width:49%;">
