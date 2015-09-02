@@ -214,7 +214,7 @@
 		$(this).dropdown({
 			onChange : function(value, text){
 				if (value) {
-					$.get('{{ app_url_wap }}/app/site/address/ajax_fetch_districts', {id: value});
+					$.get('{{ app_url_wap }}/app/site/address/ajax_fetch_districts', {id: value, from_to: 'wap'});
 				}
 			}
 		});
