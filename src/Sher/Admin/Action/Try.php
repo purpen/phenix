@@ -10,6 +10,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		'size' => 20,
     'user_id' => '',
     'is_invented' => -1,
+    'q' => '',
 	);
 	
 	public function _init() {
