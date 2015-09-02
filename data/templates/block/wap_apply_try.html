@@ -26,7 +26,7 @@
 						<label>详细地址</label>
 						
 							<input type="hidden" name="province" value="{{ addbook.province }}" />
-						  <select style="width:49%;"  class="ui selection province dropdown">
+						  <select style="width:49%;">
   						  {% for province in provinces %}
   						    <option value="{{ province._id }}">{{ province.city }}</option>
   						  {% endfor %}
