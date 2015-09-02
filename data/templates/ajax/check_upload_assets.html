@@ -19,6 +19,11 @@
 						<i class="sun icon"></i>
 					</a>
 					{% endif %}
+					{% if asset_domain == 'albums' %}
+					<a href="javascript:void(0);" class="ui link ajax-banner pop" data-content="设置Banner图" data-variation="inverted" data-value="{{ asset._id }}">
+						<i class="checkered sun icon"></i>
+					</a>
+					{% endif %}
 				</div>
 			</div>
 		</div>

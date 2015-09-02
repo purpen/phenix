@@ -1,0 +1,178 @@
+{%extends 'layout/column.html'%}
+{% block jquery %}
+    
+	// 提交表单数据
+	$('#active-form').form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				}
+			]
+		},
+		cover_id: {
+			identifier  : 'cover_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '必须选择封面图'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					// 点击前触发的事件
+					phenix.before_submit();
+				},
+				success: function(data){
+					// 点击后触发的事件
+					phenix.after_submit();
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, 3000);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+	
+	// 上传图片
+	$('#phenix-uploader').fineUploader({
+		debug: false,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ new_file_id }}', 'x:domain': '{{ domain }}', 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ albums._id }}','file_id': '{{ new_file_id }}' },
+        	endpoint: '{{ app_url_upload_albums }}'
+      	},
+		text: {
+            uploadButton: '<a class="ui active orange labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 5245728 // 5M = 5 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#product-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut(3000);
+			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type|default 0 }}, 'asset_domain':'{{ domain }}'});
+		}
+	});
+	
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#topic_cover_id').val(id);
+			return false;
+		});
+	});
+{% endblock %}
+{% block content %}
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_index }}">
+						<i class="home icon"></i> 首页
+					</a>
+				  	<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_albums }}">
+						专辑
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="ui social post">
+	<div class="ui responsive grid">
+		<div class="nopad row">
+			<div class="column">
+				<div class="ui big segment">
+					<form action="{{ app_url_albums }}/save" class="ui form" method="post" id="active-form">
+						<!-- 隐藏表单 -->
+						<input type="hidden" name="id" value="{{ albums._id }}" />
+						
+						<div class="ui segment from">
+							<h3 class="ui dividing header">填写专辑信息</h3>
+							<div class="field">
+								<div class="field">
+									<label>专辑标题</label>
+									<input type="text" name="title" value="{{ albums.title }}" />
+								</div>
+							</div>
+                            <div class="field">
+                                <label>专辑描述</label>
+                                <textarea name="des" style="height: 118px;" rows="2">{{ albums.des }}</textarea>
+                            </div>
+							<div class="field">
+                                <label>上传封面图片 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个封面图)</small></label>
+                                <input type="hidden" name="cover_id" id="topic_cover_id" value="{{ album.cover_id }}" />
+                                <div id="phenix-uploader"></div>
+                                <div id="asset-list" class="ui six blocks">
+                                    {% if mode == 'edit' %}
+                                        {% asset_list var:'assets' parent_id:album._id asset_type:95 %}
+                                        {% for asset in assets.rows %}
+                                        <div class="thumb card block" id="{{ asset._id }}">
+                                            <div class="image">
+                                                <img src="{{ asset.thumbnails.mini.view_url }}" />
+                                                <input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+                                            </div>
+                                            <div class="buttons">
+                                                <div class="ui large links">
+                                                    <a href="{{ app_url_albums }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+                                                        <i class="remove icon"></i>
+                                                    </a>
+                                                    <a href="javascript:void(0);" class="ui link ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+                                                        <i class="checkered flag icon"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+							<div class="ui right aligned grid">
+								<div class="column">
+									<div class="ui magenta inverted submit button save">
+										确认提交
+									</div>
+									<div class="ui inverted grey button cancel">
+										点击取消
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -445,6 +445,18 @@ server {
         location /contact {
 	        rewrite ^/contact[/]?$ /app/site/index/contact last;
         }
+		
+		location /vote {
+			rewrite ^/vote(.*)$ /app/site/vote$1 last;
+		}
+		
+		location /albums {
+			rewrite ^/albums(.*)$ /app/site/albums$1 last;
+		}
+		
+		location /albumshop {
+			rewrite ^/albumshop(.*)$ /app/site/albumshop$1 last;
+		}
 
         # 前台投票地址重定向
         location /vote {
