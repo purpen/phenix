@@ -224,7 +224,7 @@
 		$(this).dropdown();
 	});
 	
-	/*$('.ui.province.dropdown').livequery(function(){
+	$('.choose.province').on(function(){
 		$(this).dropdown({
 			onChange : function(value, text){
 				if (value) {
@@ -232,14 +232,6 @@
 				}
 			}
 		});
-	});*/
-	
-	$('.choose.province').click(function(){
-	  onChange : function(value, text){
-			if (value) {
-				$.get('{{ app_url_wap }}/app/site/address/ajax_fetch_districts', {id: value});
-			}
-		}
 	});
 	
 	$('.ui.district.dropdown').livequery(function(){
