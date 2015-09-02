@@ -56,6 +56,6 @@ db.points.balance.ensureIndex({'balance.exp':1}, {background: true});
 db.favorite.ensureIndex({'event':1, 'type':1, 'created_on':-1}, {background: true});
 
 
-
+db.egou.ensureIndex({'eid':1, 'hid':1}, {background: true});
 
 
