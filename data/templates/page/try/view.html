@@ -247,7 +247,9 @@
 	phenix.hook_comment_page();
 	// 分享
 	$('.ui.share.button').bind('click', function(){
-		$('.ui.share.modal').modal('show');
+		$('.ui.share.modal')
+		.modal('setting', 'transition', 'vertical  flip')
+		.modal('show');
 	});
 	phenix.bind_share_list();
 	// 生成二维码
@@ -259,7 +261,9 @@
       $('#lapiao').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}'});
 
       $('.lapiao-btn').click(function() {
-        $('.ui.lapiao.modal').modal('show');
+        $('.ui.lapiao.modal')
+        .modal('setting', 'transition', 'vertical  flip')
+        .modal('show');
         return false;
       });
 
