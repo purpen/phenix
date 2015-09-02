@@ -281,6 +281,10 @@
 		});
 	});
 	
+	$('.ui.sticky')
+    .sticky({
+        context: '.mainleft',
+    });
 {% endblock %}
 
 {% block content %}
@@ -552,15 +556,41 @@
             </div>    
         </div>
         
-        <div class="sellwrap">
+    <div class="sellwrap">
 			<div class="block title">
 				关注太火鸟
-            </div>
-            <div class="product aption">
+      </div>
+      <div class="product aption">
 			    <img src="http://frstatic.qiniudn.com/images/weixin-220.jpg" alt="太火鸟-中国最火爆的智能硬件孵化平台">
 			    <p>关注太火鸟有惊喜！</p>
-            </div>
+      </div>
+    </div>
+    
+    <div class="ui sticky">
+        <div class="sellwrap">
+          <div class="block title">
+    				我要试用
+          </div>
+          <p class="contact">
+          {% if !try.is_end %}
+                        {% if is_applied %}
+                          <a href="javascript:void(0);" class="ui magenta lapiao-btn inverted button" style="padding: .8em 2em!important;">
+                            <i class="ticket icon"></i> 求好友支持
+                          </a>
+                        {%else%}
+                          <a href="javascript:void(0);" class="ui magenta applytry inverted button" style="padding: .8em 2em!important;">
+                            <i class="ticket icon"></i> 申请试用
+                          </a>
+                        {%endif%}
+			    {% else %}
+					<a href="javascript:void(0);" class="ui active black inverted button">
+						<i class="lock icon"></i> 已结束
+					</a>
+					{% endif %}
+					</p>
+          
         </div>
+    </div>
         
     </div>
 </div>
