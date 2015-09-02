@@ -28,7 +28,6 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	 */
 	public function execute(){
 		return $this->home();
-		//return $this->to_html_page('page/pubbirdegg.html');
 	}
 	
 	/**
@@ -65,38 +64,26 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			setcookie('egou_uid', '', time() - 3600, '/');
 			setcookie('egou_hid', '', time() - 3600, '/');
 			
-			$eid = $this->stash['uid'];
+			$uid = $this->stash['uid'];
 			$hid = $this->stash['hid'];
-			/*
+			
 			// 判断e购用户是否已经参加过活动
-			$model = new Sher_Core_Model_Egou();
-			$time = date('Y-m-d',time());
-			$is_egou = 0; // 0表示可以通过访问
+			$model = new Sher_Core_Model_Egoutask();
 			$egou_show = 0;
 			
 			$date = array();
-			$date['eid'] = $eid;
+			$date['eid'] = $uid;
 			$date['hid'] = $hid;
 			$result = $model->find($date);
-			//var_dump($result);
-			if(!empty($result)){
-				foreach($result as $k => $v){
-					if($v['time'] == $time){
-						$is_egou++;
-					}
-				}
-			}
-			*/
-			//echo '<br>'.$is_egou.'<br>';
-			//if(!$is_egou){
-				// 将易购用户信息保存至cookie
-				@setcookie('egou_uid', $eid, 0, '/');
-				//$_COOKIE['egou_uid'] = $eid;
-				@setcookie('egou_hid', $hid, 0, '/');
-				//$_COOKIE['egou_hid'] = $hid;
-				$egou_show = 1;
-			//}
 			
+			if(!$result){
+				// 将易购用户信息保存至cookie
+				@setcookie('egou_uid', $uid, 0, '/');
+				$_COOKIE['egou_uid'] = $uid;
+				@setcookie('egou_hid', $hid, 0, '/');
+				$_COOKIE['egou_hid'] = $hid;
+				$egou_show = 1;
+			}
 			
 			//var_dump($_COOKIE);
 			$this->stash['egou_show'] = $egou_show;
@@ -226,6 +213,33 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
     }
 	
 	/**
+	 *  易购回调接口
+	 */
+	public function egou_api(){
+		
+		$hid = $this->stash['hid'];
+		$start_time = $this->stash['startdate'];
+		$end_time = $this->stash['enddate'];
+		
+		if(empty($hid) || empty($start_time) || empty($end_time)){
+			return false;
+		}
+		
+		$option = array();
+		$option['hid'] = $hid;
+		$option['addtime'] = array('$gte' => $start_time, '$lte' => $end_time);
+		
+		$model = Sher_Core_Model_Egoutask();
+		$result = $model->find($option);
+		if(!count($result)){
+			return false;
+		}
+		echo 1561654;
+		var_dump($result);
+		return json_encode($result);
+	}
+	
+	/**
 	 * 访问egou处理方法
 	 */
 	public function egou(){
@@ -233,12 +247,16 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		$egou_uid = $_COOKIE['egou_uid'];
 		$egou_hid = $_COOKIE['egou_hid'];
 		
-		//if(!$egou_uid || !$egou_hid){
-		//	return $this->display_note_page('非法操作,请重试!');
-		//}
+		if(!$egou_uid || !$egou_hid){
+			return $this->display_note_page('非法操作,请重试!');
+		}
+		
+		if(!$this->visitor->id){
+			return $this->display_note_page('请登陆后,请重试!');
+		}
 		
 		// 判断e购用户是否已经参加过活动
-		$model = new Sher_Core_Model_Egou();
+		$model = new Sher_Core_Model_Egoutask();
 		$time = date('Y-m-d',time());
 		$is_egou = 0;
 		
@@ -246,42 +264,16 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		$date['eid'] = $egou_uid;
 		$date['hid'] = $egou_hid;
 		$result = $model->find($date);
-		if(!empty($result)){
-			foreach($result as $k => $v){
-				if($v['time'] == $time){
-					$is_egou++;
-				}
-			}
+		
+		if($result){
+			return $this->display_note_page('您已经提交过了,请勿重复提交!');
 		}
 		
-		// 将用户信息插入数据库
-		$date = array();
-		$date['eid'] = $egou_uid;
-		$date['hid'] = $egou_hid;
-		$date['time'] = date('Y-m-d',time());
-		
-		//if($is_egou){
-			//return $this->display_note_page('您已经提交过了,请勿重复提交!');
-		//}
-		
-		if(!$is_egou){
-			if(!$model->create($date)){
-				return $this->display_note_page('用户信息插入失败,请重试!');
-			}
+		$date['addtime'] = date('Y-m-d',time());
+		$date['user_id'] = $this->visitor->id;
+		if(!$model->create($date)){
+			return $this->display_note_page('用户信息插入失败,请重试!');
 		}
-		
-		// 相关参数
-		$key = "6888aMNnU161m19eaiviB578mY0775";
-		$k = MD5($egou_uid.$egou_hid.date('Y-m-d',time()).$key);
-		
-		// 清除cookie值
-		setcookie('egou_hid', '', time() - 3600, '/');
-		setcookie('egou_uid', '', time() - 3600, '/');
-		
-		// 易购签到地址
-		$url = "http://www.egou.com/club/qiandao/qiandao.htm?hid={$egou_hid}&k={$k}";
-		
-		return $this->to_redirect($url);
 	}
 }
 ?>
