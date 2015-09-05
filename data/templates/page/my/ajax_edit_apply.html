@@ -1,0 +1,10 @@
+<taconite>
+  <eval>
+    {% if apply %}
+      $('.ui.applytry.modal').modal('hide');
+      phenix.show_ok_note('修改成功!', 3000);
+    {%else%}
+      phenix.show_error_note('修改失败!', 3000);
+    {%endif%}
+	</eval>
+</taconite>

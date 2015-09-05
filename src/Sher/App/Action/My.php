@@ -417,6 +417,100 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	}
 
 	/**
+	 * 试用列表
+	 */
+	public function try_list(){
+		$this->set_target_css_state('user_try');
+
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.my'].'/try_list?page=#p#');
+
+		$this->stash['pager_url'] = $pager_url;
+
+		$this->stash['my'] = true;
+
+		return $this->to_html_page("page/my/try_list.html");
+	}
+
+	/**
+	 * 试用详情
+	 */
+	public function try_view(){
+		$this->set_target_css_state('user_try');
+
+		$id = $this->stash['id'];
+		if (empty($id)) {
+			return $this->show_message_page('缺少请求参数!');
+		}
+		$model = new sher_core_model_apply();
+		$apply = $model->extend_load($id);
+
+		// 仅查看本人
+		if($this->visitor->id != $apply['user_id']){
+			return $this->show_message_page('你没有权限查看！');
+		}
+
+    $try_model = new sher_core_model_Try();
+    $try = $try_model->extend_load((int)$apply['target_id']);
+    $apply['try'] = $try;
+
+		// 获取省市列表
+		$areas = new Sher_Core_Model_Areas();
+		$provinces = $areas->fetch_provinces();
+		
+		$this->stash['provinces'] = $provinces;
+
+		$this->stash['apply'] = $apply;
+
+		return $this->to_html_page("page/my/try_view.html");
+	}
+
+	/**
+	 * 修改试用申请
+	 */
+	public function edit_try_apply(){
+		if (!isset($this->stash['target_id'])){
+			return $this->ajax_modal('缺少请求参数！', true);
+		}
+		
+		$target_id = $this->stash['target_id'];
+		$user_id = $this->visitor->id;
+		
+		try{
+			// 验证是否结束
+			$try = new Sher_Core_Model_Try();
+			$row = $try->extend_load((int)$target_id);
+			if($row['is_end']){
+				return $this->ajax_modal('抱歉，活动已结束，等待下次再来！', true);
+			}
+			
+			// 检测是否已提交过申请
+			$model = new Sher_Core_Model_Apply();
+			
+			if(!empty($this->stash['_id'])){
+				if(isset($this->stash['id'])){
+					unset($this->stash['id']);
+				}
+				
+				$ok = $model->apply_and_update($this->stash);
+        if($ok){
+          $this->stash['apply_id'] = $model->id;
+          $apply = $model->extend_load($this->stash['_id']);       
+        }else{
+          $apply = null;
+        }
+        $this->stash['apply'] = $apply;
+
+      }else{
+        return $this->ajax_modal('缺少ID!', true);
+      }
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Create apply failed: ".$e->getMessage());
+			return $this->ajax_modal('提交失败，请重试！', true);
+		}
+		return $this->to_taconite_page('page/my/ajax_edit_apply.html');
+	}
+
+	/**
 	 * 发送私信
 	 */
 	public function ajax_match() {
