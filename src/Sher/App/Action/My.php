@@ -441,7 +441,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		if (empty($id)) {
 			return $this->show_message_page('缺少请求参数!');
 		}
-		$model = new sher_core_model_apply();
+		$model = new Sher_Core_Model_Apply();
 		$apply = $model->extend_load($id);
 
 		// 仅查看本人
@@ -449,7 +449,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 			return $this->show_message_page('你没有权限查看！');
 		}
 
-    $try_model = new sher_core_model_Try();
+    $try_model = new Sher_Core_Model_Try();
     $try = $try_model->extend_load((int)$apply['target_id']);
     $apply['try'] = $try;
 
