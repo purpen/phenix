@@ -132,11 +132,10 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
         $sign_no = 1;
       }
 
-      //$dig_model->add_item_custom($dig_key, array($current_day=>$sign_no));
       $dig_model->update_set($dig_key, array("items.$current_day"=>$sign_no), true);
 	  
       $this->update_set((int)$user_id, array('last_date_no'=>$sign_no));
-			$user_sign = $this->extend_load($user_id);
+			$user_sign = $this->extend_load((int)$user_id);
 			return array('is_true'=>1, 'msg'=>'签到成功!', 'has_sign'=>1, 'continuity_times'=>$sign_times, 'give_money'=>$give_money, 'data'=>$user_sign);
 		}else{
 			return array('is_true'=>0, 'msg'=>'签到失败!', 'has_sign'=>0, 'continuity_times'=>0, 'give_money'=>0);
