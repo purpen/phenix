@@ -17,7 +17,7 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 	 * 社区入口
 	 */
 	public function execute(){
-		return $this->dream2();
+		return $this->custom();
 	}
 	
 	/**
