@@ -2,39 +2,39 @@
   <div class="ui standard yigo modal" style="width:850px !important;left:50% !important;background: rgba(0,0,0,0) !important;top:0 !important;margin-top:0 !important;box-shadow:none !important;">
     <div style="position:relative">
       <img src="{{ app_url_packaged }}/images/egza.png" width="100%">
-      <a class="ui yigo close" style="position: absolute;width: 60px;height: 60px;right: 20px;top: 20px;cursor: pointer;"></a>
+      <a class="ui yigo close" style="position: absolute;width: 60px;height: 60px;right: 15px;top: 10px;cursor: pointer;"></a>
       
       <!--  注册  -->
       {% if uid %}
     		{% if egou_show %}
-      <a href=" " title=" " style="position: absolute;width: 230px;height: 60px;left: 310px;top: 310px;cursor: pointer;"><img src="{{ app_url_packaged }}/images/egsign.png" width="100%"></a>
+      <a href=" " title="立即注册" style="position: absolute;width: 230px;height: 60px;left: 310px;top: 310px;cursor: pointer;"><img src="{{ app_url_packaged }}/images/egsign.png" width="100%"></a>
       {% endif %}
     {% endif %}
       
       <!--  登录  -->
-      <!--<a href=" " title=" " style="position: absolute;width: 230px;height: 60px;left: 310px;top: 310px;cursor: pointer;"><img src="{{ app_url_packaged }}/images/eglogin.png" width="100%"></a>-->
+      <!--<a href=" " title="立即登陆" style="position: absolute;width: 230px;height: 60px;left: 310px;top: 310px;cursor: pointer;"><img src="{{ app_url_packaged }}/images/eglogin.png" width="100%"></a>-->
       
       <!--  邀请  -->
-      <!--<a href=" " title=" " style="position: absolute;width: 230px;height: 60px;left: 310px;top: 310px;cursor: pointer;"><img src="{{ app_url_packaged }}/images/egapply.png" width="100%"></a>-->
+      <!--<a href=" " title="马上邀请" style="position: absolute;width: 230px;height: 60px;left: 310px;top: 310px;cursor: pointer;"><img src="{{ app_url_packaged }}/images/egapply.png" width="100%"></a>-->
       
-      <div class="user share" style="position: absolute;top: 420px;left: 50%;margin-left: -118px;">
-      	<a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+      <div class="user share" style="position: absolute;top: 420px;left: 50%;margin-left: -125px;">
+      	<a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn" style="margin:0 2px;">
       		<i class="weibo icon big circular red inverted"></i>
       	</a>
-      	<a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+      	<a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信" style="margin:0 2px;">
       		<i class="weixin icon big circular green inverted"></i>
       	</a>
-      	<a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+      	<a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn" style="margin:0 2px;">
       		<i class="tencent weibo icon big circular blue inverted"></i>
       	</a>
-      	<a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+      	<a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn" style="margin:0 2px;">
       		<i class="icon renren big circular blue inverted"></i>
       	</a>
       </div>
       
       {% if uid %}
     		{% if egou_show %}
-        <a href=" " title=" 返回易购" style="position: absolute;width: 160px;height: 45px;right: 0px;bottom: 3px;cursor: pointer;"><img src="{{ app_url_packaged }}/images/egreturn.png" width="100%"></a>
+        <a href=" " title="返回易购" style="position: absolute;width: 160px;height: 45px;right: 0px;bottom: 3px;cursor: pointer;"><img src="{{ app_url_packaged }}/images/egreturn.png" width="100%"></a>
         {% endif %}
       {% endif %}
       <!--<img src="{{ app_url_packaged }}/images/egouzat.png" width="100%">
