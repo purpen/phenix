@@ -79,7 +79,14 @@
 		mobileDeceleration:0.004,
 	});	
 	
-	// 易购   
+	// 易购  
+	  $('.ui.green.egou.btn').click(function(){
+	    $('.ui.qrcodet.egou.modal').modal('show');
+  		return false;
+	  });
+	  // 生成二维码
+  	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_domain }}'});
+	 
 	  $('.ui.yigo.modal')
 	    .modal('setting', 'closable', false)
       .modal('setting', 'transition', 'vertical  flip')
