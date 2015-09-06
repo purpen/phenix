@@ -85,10 +85,9 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 				$egou_show = 1;
 			}
 			
-			//var_dump($_COOKIE);
 			$this->stash['egou_show'] = $egou_show;
 		}
-        
+		//var_dump($_COOKIE);
 		$this->set_target_css_state('page_home');
 
         // 商品推荐列表---取块内容
@@ -237,43 +236,6 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		echo 1561654;
 		var_dump($result);
 		return json_encode($result);
-	}
-	
-	/**
-	 * 访问egou处理方法
-	 */
-	public function egou(){
-		
-		$egou_uid = $_COOKIE['egou_uid'];
-		$egou_hid = $_COOKIE['egou_hid'];
-		
-		if(!$egou_uid || !$egou_hid){
-			return $this->display_note_page('非法操作,请重试!');
-		}
-		
-		if(!$this->visitor->id){
-			return $this->display_note_page('请登陆后,请重试!');
-		}
-		
-		// 判断e购用户是否已经参加过活动
-		$model = new Sher_Core_Model_Egoutask();
-		$time = date('Y-m-d',time());
-		$is_egou = 0;
-		
-		$date = array();
-		$date['eid'] = $egou_uid;
-		$date['hid'] = $egou_hid;
-		$result = $model->find($date);
-		
-		if($result){
-			return $this->display_note_page('您已经提交过了,请勿重复提交!');
-		}
-		
-		$date['addtime'] = date('Y-m-d',time());
-		$date['user_id'] = $this->visitor->id;
-		if(!$model->create($date)){
-			return $this->display_note_page('用户信息插入失败,请重试!');
-		}
 	}
 }
 ?>
