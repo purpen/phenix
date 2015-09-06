@@ -40,7 +40,7 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 		$model = new Sher_Core_Model_Albums();
 		$result = $model->extend_load($id);
 		$result['user'] = null; // 过滤用户信息
-		$result['cover'] = null; // 过滤封面图
+		//$result['cover'] = null; // 过滤封面图
 		$this->stash['albums'] = $result;
 		return $this->to_html_page('page/albumshop/index.html');
 	}
