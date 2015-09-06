@@ -23,8 +23,8 @@ require $cfg_doggy_bootstrap;
 set_time_limit(0);
 
 $conf_dir = '/opt/qiniu';
-$from_src = '/opt/project/php/phenix-ui/dist/packaged';
-$to_src = '/opt/project/php/phenix/data/web/packaged';
+$from_src = '/Users/tian/opt/project/php/phenix-ui/dist/packaged';
+$to_src = '/Users/tian/opt/project/php/phenix/data/web/packaged';
 
 $css_version = Doggy_Config::$vars['app.version.css_bundle_version'];
 $js_version = Doggy_Config::$vars['app.version.jquery_bundle_version'];
@@ -78,8 +78,8 @@ function deploy_sync($conf_dir){
 	echo "Start to sync files ... \n";
 	echo "$conf_dir...\n";
 	//system("qrsync -skipsym $conf_dir");
-	system("/opt/qiniu/qrsync -skipsym $conf_dir/frbird_css.json");
-	system("/opt/qiniu/qrsync -skipsym $conf_dir/frbird_js.json");
+	system("/opt/qiniu/qrsync -skipsym $conf_dir/synccss.json");
+	system("/opt/qiniu/qrsync -skipsym $conf_dir/syncjs.json");
 	
 	echo "Sync files ignore img is ok! \n";
 }
