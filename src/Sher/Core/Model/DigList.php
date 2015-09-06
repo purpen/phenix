@@ -174,4 +174,3 @@ class Sher_Core_Model_DigList extends Sher_Core_Model_Base  {
         return array_slice($items, 0, $size);
     }
 }
-?>

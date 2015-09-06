@@ -28,6 +28,7 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 		'province' => '',
 		'district' => '',
 		'address' => '',
+    'zip' => '',
     'wx' => null,
     'qq' => null,
 		

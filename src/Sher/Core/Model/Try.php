@@ -124,6 +124,25 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 				$row['is_end'] = false;
 			}
 		}
+
+    if(isset($row['step_stat'])){
+      switch((int)$row['step_stat']){
+        case 1:
+          $row['step_label'] = '申请中';
+          break;
+        case 2:
+          $row['step_label'] = '审核中';
+          break;
+        case 3:
+          $row['step_label'] = '报告回收中';
+          break;
+        case 5:
+          $row['step_label'] = '结束';
+          break;
+        default:
+          $row['step_label'] = '--';
+      }
+    }
 		
   }
 
