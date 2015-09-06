@@ -22,6 +22,10 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
 		$target_id = 0;
 		$user_id = 0;
     $is_invented = 0;
+    $type = 0;
+    // 加载关联表
+    $load_target = 0;
+    $q = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -48,11 +52,25 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
 			$query['state'] = (int)$state;
 		}
 
+    if($type){
+      $query['type'] = (int)$type;
+    }
+
     if($is_invented){
       if((int)$is_invented==-1){
         $query['is_invented'] = array('$ne'=>1);
       }else{
         $query['is_invented'] = 1;
+      }
+    }
+
+    if($q){
+      if((int)$q==0){
+        $query['name'] = $q;
+      }elseif(strlen($q)==11){
+        $query['phone'] = $q;
+      }else{
+        $query['user_id'] = (int)$q;
       }
     }
 		
@@ -62,6 +80,23 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
 		$options['sort_field'] = $sort_field;
 		
         $result = $service->get_list($query,$options);
+
+        //加载关联表
+        if($load_target){
+            $try_model = new Sher_Core_Model_Try();
+
+            for($i=0;$i<count($result['rows']);$i++){
+                if(isset($result['rows'][$i]['type']) == 1){
+                  $target_id = isset($result['rows'][$i]['target_id'])?$result['rows'][$i]['target_id']:0;
+                  $try = $try_model->extend_load((int)$target_id);
+                  if($try){
+                      $result['rows'][$i]['try'] = $try;              
+                  }                 
+                }
+
+            }
+            unset($try_model);
+        }
 		        
         $context->set($var, $result);
         if ($include_pager) {
@@ -70,4 +105,4 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
         
     }
 }
-?>
+

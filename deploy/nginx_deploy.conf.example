@@ -446,10 +446,6 @@ server {
 	        rewrite ^/contact[/]?$ /app/site/index/contact last;
         }
 		
-		location /vote {
-			rewrite ^/vote(.*)$ /app/site/vote$1 last;
-		}
-		
 		location /albums {
 			rewrite ^/albums(.*)$ /app/site/albums$1 last;
 		}

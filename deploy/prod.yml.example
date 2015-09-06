@@ -38,6 +38,14 @@ app.redis.default:
     host: '10.9.29.163'
     port: 6379
 
+app.disable_cached: 0
+app.cache.memcached.default:
+  servers:
+    - 
+      host: '10.10.134.62'
+      port: 11211
+      weight: 1
+
 #xun_search db name
 app.xun_search_db: 'phenix'
 

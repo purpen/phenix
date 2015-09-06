@@ -123,6 +123,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 	 */
 	public function ajax_topic_list(){
 		$category_id = $this->stash['category_id'];
+    $this->stash['size'] = isset($this->stash['size']) ? (int)$this->stash['size'] : 20;
 		
 		// 获取某类别列表
     if($category_id){

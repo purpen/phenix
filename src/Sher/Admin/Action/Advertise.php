@@ -138,6 +138,17 @@ class Sher_Admin_Action_Advertise extends Sher_Admin_Action_Base implements Dogg
 		
 		try{
 			$model = new Sher_Core_Model_Advertise();
+            
+            $row = $model->extend_load((int)$this->stash['id']);
+            if(!empty($row)){
+                $cache_key = $row['space']['name'];
+                // 清理缓存
+                $mem = Doggy_Cache_Memcached::get_cluster();
+                $mem->delete($cache_key);
+                
+                Doggy_Log_Helper::debug('Delete cache ['.$cache_key.']!');
+            }
+            
 			$model->mark_as_publish((int)$this->stash['id'], $state);
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_notification('请求操作失败，请检查后重试！', true);

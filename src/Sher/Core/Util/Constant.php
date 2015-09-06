@@ -134,6 +134,9 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const DIG_PUSH_BAIDU_STUFF_IDS = 'push_baidu_stuff_ids';
     const DIG_PUSH_BAIDU_PRODUCT_IDS = 'push_baidu_product_ids';
 
+    # 签到每日统计数目
+    const DIG_SIGN_EVERY_DAY_STAT = 'sign_every_day_stat';
+
     /**
      * DigList stuff计数器
      */

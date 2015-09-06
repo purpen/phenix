@@ -31,7 +31,7 @@
   						  {% endfor %}
   						</select>
 						
-						  <select name="district" value="{{ district.city }}" style="width:49%;">
+						  <select name="district" id="district-menu" value="{{ district.city }}" style="width:49%;">
   						  {% for district in districts %}
   						    <option value="{{ district._id }}">{{ district.city }}</option>
   						  {% endfor %}

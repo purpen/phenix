@@ -26,6 +26,8 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 		if (empty($id)){
 			return $this->ajax_notification('Id参数为空！', true);
 		}
+
+    $this->stash['district_id'] = isset($this->stash['district_id']) ? (int)$this->stash['district_id'] : 0;
 		
 		$areas = new Sher_Core_Model_Areas();
 		$districts = $areas->fetch_districts((int)$id);

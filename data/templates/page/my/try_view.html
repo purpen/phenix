@@ -1,0 +1,339 @@
+{%extends 'layout/column.html'%}
+{% block title %}订单详情-{% endblock %}
+{% block page_css %}
+<style class="text/css">
+	
+	
+</style>
+{% endblock %}
+
+{% block jquery %}
+
+  //初始化城市列表
+  var province_id = $('[name=province]').val();
+  if(province_id){
+    var district_id = $('[name=district]').val();   
+    $.get('{{ app_url_address }}/ajax_fetch_districts', {id: province_id, district_id: district_id});
+  }
+
+	$('.ui.applytry.button').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		
+		$('.ui.applytry.modal')
+		.modal('setting', 'transition', 'vertical  flip')
+		.modal('show');
+		return false;
+	});
+	
+	$('.ui.deny.button').click(function(){
+		$('.ui.applytry.modal').modal('hide');
+	});
+	
+	// 申请表地址信息
+	$('.ui.district.dropdown').livequery(function(){
+		$(this).dropdown();
+	});
+
+	
+	$('.ui.province.dropdown').livequery(function(){
+		$(this).dropdown({
+			onChange : function(value, text){
+				if (value) {
+					$.get('{{ app_url_address }}/ajax_fetch_districts', {id: value});
+				}
+			}
+		});
+	});
+	
+	$('.ui.district.dropdown').livequery(function(){
+		$(this).dropdown();
+	});
+	
+	$('#apply-form').livequery(function(){
+		$(this).form({
+			name: {
+				identifier  : 'name',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'password',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '电话不能为空'
+					},
+					{
+						type   : 'length[11]',
+						prompt : '电话必须11位字符'
+					}
+				]
+			},
+			address: {
+				identifier  : 'address',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '地址区域不能为空'
+					}
+				]
+			},
+			zip: {
+				identifier  : 'zip',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '邮编不能为空'
+					}
+				]
+			},
+			wx: {
+				identifier  : 'wx',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '微信号不能为空'
+					}
+				]
+			},
+			qq: {
+				identifier  : 'qq',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : 'QQ号不能为空'
+					}
+				]
+			},
+			content: {
+				identifier  : 'content',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '申请理由不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+				$(this).ajaxSubmit();
+			}
+		});
+	});
+	
+{% endblock %}
+{% block content %}
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}">
+						个人中心
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}/try_list">
+						我的试用
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">试用申请详情</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="account myorders profile">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu_center.html" %}
+		</div>
+		<div class="twelve wide column">
+			<div class="ui middle aligned grid">
+				<div class="row">
+					<div class="three wide column">
+						<h3 class="ui header">试用申请详情</h3>
+					</div>
+
+				</div>
+			</div>
+			
+			<div class="ui top attached header">
+				<div class="ui middle aligned grid">
+					<div class="row">
+            <div class="order-item">
+              <div class="ui top attached header">
+                <div class="ui horizontal divided list">
+                    <div class="item">
+                        试用产品：{{ apply.try.title }}
+                    </div>
+                    <div class="item">
+                        申请时间：{{ apply.created_on|date }}
+                    </div>
+                </div>
+              </div>
+              <div class="middle aligned ui celled white grid">
+                <div class="row">
+                  <div class="center three wide column">
+
+                      <a href="{{ apply.try.view_url }}" class="ui cover image" target="_blank">
+                            <img src="{{ apply.try.cover.thumbnails.mini.view_url }}" alt="{{ apply.try.title }}" />
+                      </a>
+
+                  </div>
+                  <div class=" aligned seven wide column">
+                    <p>{{ apply.content }}</p>
+
+                  </div>
+                  <div class="center aligned three wide column">
+                    <div id="order-{{ apply._id }}-label" class="status-label">
+                      <p>
+                      产品状态: {{ apply.try.step_label }}
+                      </p>
+                    </div>
+
+                  </div>
+                  <div class="center aligned three wide column">
+                      {% if apply.result == 0 %}
+                        <a href="javascript:void(0);" class="ui green applytry inverted button">
+                           修改
+                        </a>
+                      {% endif %}
+                      {% if apply.result == 1 %}
+                      <p>已通过</p>
+                      {% endif %}
+
+                  </div>
+                </div>
+              </div>
+            </div>
+				</div>
+				<div class="row">
+
+				</div>
+			</div>
+			
+			<div class="ui bottom attached segment">
+				<h3 class="ui dividing header">个人信息</h3>
+
+					<div class="ui list">
+					  	<div class="item"><label>姓   名：</label> {{ apply.name }}</div>
+					  	<div class="item"><label>收货地址：</label> {{ apply.area_province.city }} {{ apply.area_district.city }} {{ apply.address }}</div>
+					  	<div class="item"><label>联系电话：</label> {{ apply.phone }}</div>
+					  	<div class="item"><label>邮政编码：</label> {{ apply.zip }}</div>
+					  	<div class="item"><label>微信：</label> {{ apply.wx }}</div>
+					  	<div class="item"><label>ＱＱ：</label> {{ apply.qq }}</div>
+					</div>
+
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+
+
+<!--修改申请弹出层-->
+<div class="ui applytry small modal transition">
+  	<i class="close icon"></i>
+	<div class="header">
+	    修改申请试用
+	</div>
+	<div class="container">
+		<form action="{{ app_url_action_base }}/my/edit_try_apply" class="ui form" method="post" id="apply-form">
+		  	<div class="content">
+				<div class="ajax result"></div>
+				<input type="hidden" name="target_id" value="{{ apply.target_id }}" />
+				<input type="hidden" name="_id" value="{{ apply._id }}" />
+				<div class="ui signup-box">
+
+					<div class="field">
+						<label>申请理由</label>
+            <textarea name="content" class="small">{{ apply.content }}</textarea>
+						<div class="description">来说说你要申请产品试用的理由，真实诚恳将有助我们通过审核。</div>
+					</div>
+
+					<div class="two fields">
+						<div class="field">
+							<label>姓名</label>
+              <input type="text" name="name" value="{{ apply.name }}" />
+						</div>
+						<div class="field">
+							<label>手机号</label>
+              <input type="text" name="phone" value="{{ apply.phone }}" placeholder="填写手机号，方便信息核实" />
+						</div>
+					</div>
+
+					<div class="field">
+						<label>所在地区</label>
+						<div class="ui selection province dropdown" style="width:49% !important;">
+							<input type="hidden" name="province" value="{{ apply.province }}" />
+			
+						    <div class="default text">省份/自治区</div>
+						    <i class="flat arrowbottom icon"></i>
+						    <div class="menu">
+								{% for province in provinces %}
+                <div data-value="{{ province._id }}" class="item{%if province._id==apply.province%} active{%endif%}">{{ province.city }}</div>
+								{% endfor %}
+						    </div>
+						</div>
+		
+						<div class="ui selection district dropdown" id="district-menu" style="width:49% !important;float:right;">
+							<input type="hidden" name="district" value="{{ apply.district }}" />
+						    <div class="default text">地区区域</div>
+						    <i class="flat arrowbottom icon"></i>
+						    <div class="menu">
+								{% for district in districts %}
+						        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
+								{% endfor %}
+						    </div>
+						</div>
+					</div>
+					<div class="field">
+						<label>详细地址</label>
+						<input type="text" name="address" value="{{ apply.address }}" placeholder="" />
+					</div>
+
+					<div class="three fields">
+					<div class="field">
+						<label>邮编</label>
+						<input type="text" name="zip" value="{{ apply.zip }}" placeholder="" />
+					</div>
+						<div class="field">
+							<label>微信号</label>
+              <input type="text" name="wx" value="{{ apply.wx }}" placeholder="" />
+						</div>
+						<div class="field">
+							<label>QQ号</label>
+              <input type="text" name="qq" value="{{ apply.qq }}" placeholder="" />
+						</div>
+					</div>
+
+				</div>
+		  	</div>
+			<div class="right aligned action">
+			    <div class="ui gray deny button">
+					取消
+			    </div>
+			    <div class="ui magenta submit button">
+					确认提交
+			    </div>
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock %}

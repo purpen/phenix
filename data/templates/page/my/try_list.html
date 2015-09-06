@@ -1,0 +1,117 @@
+{%extends 'layout/column.html'%}
+{% block title %}我的试用-{% endblock %}
+{% block page_css %}
+<style class="text/css">
+    
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+
+	
+{% endblock %}
+{% block content %}
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}">
+						个人中心
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">我的试用</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="account myorders profile">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu_center.html" %}
+		</div>
+		<div class="twelve wide column">
+			
+			<div class="ui middle aligned grid">
+				<div class="row">
+					<div class="three wide column">
+						<h2 class="ui header">我的试用</h2>
+					</div>
+				</div>
+			</div>
+			
+	    {% apply_list var:'list' user_id:user_id type:1 load_target:1 page:page size:10 %}
+			
+			{% for d in list.rows %}
+
+            <div id="apply-{{ d._id }}" class="order-item">
+              <div class="ui top attached header">
+                <div class="ui horizontal divided list">
+                    <div class="item">
+                        试用产品：{{ d.try.title }}
+                    </div>
+                    <div class="item">
+                        申请时间：{{ d.created_on|date }}
+                    </div>
+                </div>
+              </div>
+              <div class="middle aligned ui celled white grid">
+                <div class="row">
+                  <div class="center three wide column">
+
+                      <a href="{{ d.try.view_url }}" class="ui cover image" target="_blank">
+                            <img src="{{ d.try.cover.thumbnails.mini.view_url }}" alt="{{ d.try.title }}" />
+                      </a>
+
+                  </div>
+                  <div class=" aligned seven wide column">
+                    <p>{{ d.content }}</p>
+
+                  </div>
+                  <div class="center aligned three wide column">
+                    <div id="order-{{ d._id }}-label" class="status-label">
+                      <p>
+                      产品状态: {{ d.try.step_label }}
+                      </p>
+                    </div>
+
+                  </div>
+                  <div class="center aligned three wide column">
+                      <div class="status-label">
+                        <a href="{{ app_url_my }}/try_view?id={{ d._id }}" class="ui link">申请详情 »</a>
+                      </div>
+
+                      {% if d.result == 1 %}
+                      <p>已通过</p>
+                      {% endif %}
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+			{% else %}
+			<div class="ui segment">
+        <p>您还没有相关试用申请记录，马上申请试用<a href="{{ app_url_try }}" class="ui link">免费产品</a></p>
+			</div>
+			{% endfor %}
+			
+			{% if list.rows %}
+			<div class="ui pagination">
+				{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+				{% include 'block/pager.html' %}
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

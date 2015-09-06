@@ -118,8 +118,24 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
 			if($give_money==1){
 				$service->make_money_in((int)$user_id, self::MONEY_NUM, sprintf("连续签到%d天", self::MONEY_DAYS));
 			}
+
+      // 记录当前签到排名
+      $current_day = (string)date('Ymd');
+      $dig_model = new Sher_Core_Model_DigList();
+      $dig_key = Sher_Core_Util_Constant::DIG_SIGN_EVERY_DAY_STAT;
+
+      $dig = $dig_model->load($dig_key);
+      if(!empty($dig) && !empty($dig['items']) && !empty($dig['items'][$current_day])){
+        $sign_no = $dig['items'][$current_day] + 1;
+        //exit;
+      }else{
+        $sign_no = 1;
+      }
+
+      $dig_model->update_set($dig_key, array("items.$current_day"=>$sign_no), true);
 	  
-			$user_sign = $this->extend_load($user_id);
+      $this->update_set((int)$user_id, array('last_date_no'=>$sign_no));
+			$user_sign = $this->extend_load((int)$user_id);
 			return array('is_true'=>1, 'msg'=>'签到成功!', 'has_sign'=>1, 'continuity_times'=>$sign_times, 'give_money'=>$give_money, 'data'=>$user_sign);
 		}else{
 			return array('is_true'=>0, 'msg'=>'签到失败!', 'has_sign'=>0, 'continuity_times'=>0, 'give_money'=>0);
