@@ -247,7 +247,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			$date[$k]['addtime'] = date('Y-m-d',$v['addtime']);
 		}
 		
-		//var_dump($date);
+		echo json_encode($date);
 		return json_encode($date);
 	}
 }
