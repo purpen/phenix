@@ -7,7 +7,7 @@
     }
 	.category{
 		{% if albums.banner %}
-		background: url("{{ albums.banner }}") no-repeat scroll center center / cover rgba(45, 53, 56, 1);
+		background: url("{{ albums.banner.fileurl }}") no-repeat scroll center center / cover rgba(45, 53, 56, 1);
 		{% else %}
 	    background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);
 		{% endif %}
