@@ -737,8 +737,40 @@ class Sher_Core_Helper_Util {
 		setcookie('egou_uid', '', time() - 3600, '/');
 		setcookie('egou_hid', '', time() - 3600, '/');
 		
-		//@setcookie('egou_finish', (bool)1 , 0, '/');
-		//$_COOKIE['egou_finish'] = (bool)1;
+		@setcookie('egou_finish', (bool)1 , 0, '/');
+		$_COOKIE['egou_finish'] = (bool)1;
 		return true;
-	}	
+	}
+	
+	/**
+	 * 易购用户回答问题库记录查询接口
+	 */
+	public static function egou_auth(){
+		
+		$egou_uid = $_COOKIE['egou_uid'];
+		$egou_hid = $_COOKIE['egou_hid'];
+		$egou_uid = 7207940;
+		$egou_hid = 5942;
+		$startdate = date('Y-m-d',time());
+		$enddate = date('Y-m-d',time());
+		
+		$url = "http://www.egou.com/club/Api/getQuestionLog.htm?userid=".$egou_uid."&hid=".$egou_hid."&startdate=".$startdate."&enddate=".$enddate;
+		
+		//初始化
+		$ch = curl_init();
+		
+		// 设置选项，包括URL
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		
+		// 执行并获取HTML文档内容
+		$data = curl_exec($ch);
+		
+		// 释放curl句柄
+		curl_close($ch);
+		
+		// 返回数据
+		return $data;
+	}
 }

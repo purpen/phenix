@@ -88,6 +88,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			
 			$this->stash['egou_show'] = $egou_show;
 		}
+		
 		//var_dump($_COOKIE);
 		$this->stash['egou_finish'] = $_COOKIE['egou_finish'];
 		$this->set_target_css_state('page_home');
