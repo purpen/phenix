@@ -749,8 +749,6 @@ class Sher_Core_Helper_Util {
 		
 		$egou_uid = $_COOKIE['egou_uid'];
 		$egou_hid = $_COOKIE['egou_hid'];
-		$egou_uid = 7207940;
-		$egou_hid = 5942;
 		$startdate = date('Y-m-d',time());
 		$enddate = date('Y-m-d',time());
 		
