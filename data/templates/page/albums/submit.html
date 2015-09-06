@@ -155,7 +155,7 @@
                                 <div id="phenix-uploader"></div>
                                 <div id="asset-list" class="ui six blocks">
                                     {% if mode == 'edit' %}
-                                        {% asset_list var:'assets' parent_id:album._id asset_type:95 %}
+                                        {% asset_list var:'assets' parent_id:albums._id asset_type:95 %}
                                         {% for asset in assets.rows %}
                                         <div class="thumb card block" id="{{ asset._id }}">
                                             <div class="image">
