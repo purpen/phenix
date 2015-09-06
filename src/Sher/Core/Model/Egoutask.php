@@ -17,16 +17,16 @@ class Sher_Core_Model_Egoutask extends Sher_Core_Model_Base {
 		'user_id' => 0,
 		# 易购会员id(string)
 		'uid' => '',
-        # 易购活动id(string)
+        # 易购活动id(int)
         'hid' => '',
 		# 添加时间
-		'addtime' => '',
+		'addtime' => 0,
 		# 所属分类(int)
         'type' => self::TYPE,
     );
 	
 	protected $required_fields = array();
-	protected $int_fields = array('user_id');
+	protected $int_fields = array('user_id','hid','addtime');
 	protected $float_fields = array();
 	protected $counter_fields = array();
 	protected $retrieve_fields = array();

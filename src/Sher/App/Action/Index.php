@@ -63,6 +63,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			// 清除cookie值
 			setcookie('egou_uid', '', time() - 3600, '/');
 			setcookie('egou_hid', '', time() - 3600, '/');
+			setcookie('egou_finish', '', time() - 3600, '/');
 			
 			$uid = $this->stash['uid'];
 			$hid = $this->stash['hid'];
@@ -88,6 +89,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			$this->stash['egou_show'] = $egou_show;
 		}
 		//var_dump($_COOKIE);
+		$this->stash['egou_finish'] = $_COOKIE['egou_finish'];
 		$this->set_target_css_state('page_home');
 
         // 商品推荐列表---取块内容
@@ -224,18 +226,29 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			return false;
 		}
 		
+		$start_time = strtotime($start_time.' 00:00:00');
+		$end_time = strtotime($end_time.' 23:59:59');
+		
 		$option = array();
-		$option['hid'] = $hid;
+		$option['hid'] = (int)$hid;
 		$option['addtime'] = array('$gte' => $start_time, '$lte' => $end_time);
 		
-		$model = Sher_Core_Model_Egoutask();
+		$model = new Sher_Core_Model_Egoutask();
 		$result = $model->find($option);
+		
 		if(!count($result)){
 			return false;
 		}
-		echo 1561654;
-		var_dump($result);
-		return json_encode($result);
+		
+		$date = array();
+		foreach($result as $k=>$v){
+			$date[$k]['uid'] = $v['uid'];
+			$date[$k]['hid'] = $v['hid'];
+			$date[$k]['addtime'] = date('Y-m-d',$v['addtime']);
+		}
+		
+		//var_dump($date);
+		return json_encode($date);
 	}
 }
 ?>

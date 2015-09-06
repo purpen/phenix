@@ -717,18 +717,17 @@ class Sher_Core_Helper_Util {
 		
 		// 判断e购用户是否已经参加过活动
 		$model = new Sher_Core_Model_Egoutask();
-		$time = date('Y-m-d',time());
 		
 		$date = array();
-		$date['eid'] = $egou_uid;
-		$date['hid'] = $egou_hid;
+		$date['uid'] = $egou_uid;
+		$date['hid'] = (int)$egou_hid;
 		$result = $model->find($date);
 		
 		if($result){
 			return false;
 		}
 		
-		$date['addtime'] = date('Y-m-d',time());
+		$date['addtime'] = time();
 		$date['user_id'] = $user_id;
 		if(!$model->create($date)){
 			return false;
@@ -737,6 +736,9 @@ class Sher_Core_Helper_Util {
 		// 清除cookie值
 		setcookie('egou_uid', '', time() - 3600, '/');
 		setcookie('egou_hid', '', time() - 3600, '/');
+		
+		//@setcookie('egou_finish', (bool)1 , 0, '/');
+		//$_COOKIE['egou_finish'] = (bool)1;
 		return true;
 	}	
 }
