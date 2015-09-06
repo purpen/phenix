@@ -4,7 +4,7 @@
  * Deploy static files
  * 同步到Qiniu qrsync --忽略图片文件
  */
-system("doggy dev");
+system("doggy/bin/doggy dev");
 
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {
@@ -23,8 +23,8 @@ require $cfg_doggy_bootstrap;
 set_time_limit(0);
 
 $conf_dir = '/opt/qiniu';
-$from_src = '/opt/project/php/phenix-ui/dist/packaged';
-$to_src = '/opt/project/php/phenix/data/web/packaged';
+$from_src = '/Users/tian/opt/project/php/phenix-ui/dist/packaged';
+$to_src = '/Users/tian/opt/project/php/phenix/data/web/packaged';
 
 $css_version = Doggy_Config::$vars['app.version.css_bundle_version'];
 $js_version = Doggy_Config::$vars['app.version.jquery_bundle_version'];
