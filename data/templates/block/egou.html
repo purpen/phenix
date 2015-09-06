@@ -2,8 +2,8 @@
   <div class="ui standard yigo modal" style="width:850px !important;left:50% !important;background: rgba(0,0,0,0) !important;top:0 !important;margin-top:0 !important;box-shadow:none !important;">
     <div style="position:relative">
       <img src="{{ app_url_packaged }}/images/egza.png" width="100%">
-      <a class="ui yigo close" style="position: absolute;width: 60px;height: 60px;right: 20px;top: 20px;cursor: pointer;"></a>
-      
+      <a class="ui yigo close" style="position: absolute;width: 60px;height: 60px;right: 15px;top: 10px;cursor: pointer;"></a>
+
       
       {% if !visitor %}
     	{% if egou_show %}
@@ -33,6 +33,11 @@
               <i class="icon renren large circular blue inverted"></i>
           </a>
         </div>
+        
+        {% if egou_show %}
+        <a href=" " title="返回易购" style="position: absolute;width: 160px;height: 45px;right: 0px;bottom: 3px;cursor: pointer;"><img src="{{ app_url_packaged }}/images/egreturn.png" width="100%"></a>
+        {% endif %}
+        
       {% endif %}
       
       <!--<img src="{{ app_url_packaged }}/images/egouzat.png" width="100%">
