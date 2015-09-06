@@ -699,5 +699,46 @@ class Sher_Core_Helper_Util {
     return $data;
   }
 
-    	
+    /**
+	 * 访问egou处理方法
+	 */
+	public static function egou($user_id){
+		
+		$egou_uid = $_COOKIE['egou_uid'];
+		$egou_hid = $_COOKIE['egou_hid'];
+		
+		if(!$egou_uid || !$egou_hid){
+			return false;
+		}
+		
+		if(!$user_id){
+			return false;
+		}
+		
+		// 判断e购用户是否已经参加过活动
+		$model = new Sher_Core_Model_Egoutask();
+		
+		$date = array();
+		$date['uid'] = $egou_uid;
+		$date['hid'] = (int)$egou_hid;
+		$result = $model->find($date);
+		
+		if($result){
+			return false;
+		}
+		
+		$date['addtime'] = time();
+		$date['user_id'] = $user_id;
+		if(!$model->create($date)){
+			return false;
+		}
+		
+		// 清除cookie值
+		setcookie('egou_uid', '', time() - 3600, '/');
+		setcookie('egou_hid', '', time() - 3600, '/');
+		
+		//@setcookie('egou_finish', (bool)1 , 0, '/');
+		//$_COOKIE['egou_finish'] = (bool)1;
+		return true;
+	}	
 }
