@@ -134,7 +134,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
                     'sort_field' => 'positive',
                 );
                 $asset_result = $asset->get_asset_list($q, $op);
-                {{ topic.asset_count }}
+                $resultlist['rows'][$i]['asset_list'] = $asset_result['rows'];
                 
                 //print_r($resultlist['rows'][$i]['asset_list']);
             }else{
