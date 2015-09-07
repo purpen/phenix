@@ -10,6 +10,7 @@
 
 {% block layout_js %}
   <script type="text/javascript" >
+      // 产品
       function ajax_load_product_more(category_id, type, sort, page, size){
           var url = '{{ app_url_wap }}/shop/ajax_load_list';
           $.get(url, { category_id:category_id, sort:sort, page:page, type:type, size:size }, function(rs){
@@ -18,11 +19,21 @@
           }, 'json');
       }
 
+      // 试用
       function ajax_load_try_more(type, sort, page, size){
           var url = '{{ app_url_wap }}/try/ajax_load_list';
           $.get(url, { sort:sort, type:type, page:page, size:size }, function(rs){
               var rendered = phenix.ajax_render_result('#fetch_more_try_tpl', rs.data);
               $('#triespage .item-box').append(rendered);
+          }, 'json');
+      }
+
+      // 评测
+      function ajax_load_topic_eval_more(type, sort, page, size){
+          var url = '{{ app_url_wap }}/topic/ajax_fetch_more';
+          $.get(url, { sort:sort, type:type, page:page, size:size }, function(rs){
+              var rendered = phenix.ajax_render_result('#fetch_more_topic_tpl', rs.data);
+              $('#topicspage .item-box').append(rendered);
           }, 'json');
       }
   </script>
@@ -85,6 +96,7 @@
 
   ajax_load_product_more(0, 2, 4, 1, 10);
   ajax_load_try_more(0, 1, 1, 1);
+  ajax_load_topic_eval_more(5, 1, 1, 6);
 {% endblock %}
 
 {% block content %}
@@ -226,22 +238,32 @@
 </div>
 
 <!--试用-->
-<div class='games page try' id="triespage">
+<div class='games page try'>
 	<div class="ui responsive grid">
-		<div class="row">
+		<div class="row" id="triespage">
 			<div class="column">
 				<div class="ui one products tries cards item-box">
         <!--ajax load-->
 				</div>
 			</div>
-		
 		</div>
-	</div>
-	<div class="row">
-		<div class="ui center aligned column">
-			<a href="{{ app_url_wap }}/try" class="ui fluid black button">更多试用产品</a>
+
+    <!--评测-->
+		<div class="row" id="topicspage">
+			<div class="column">
+				<div class="ui one products cards item-box">
+        <!--ajax load-->
+				</div>
+			</div>
 		</div>
+
+	  <div class="row">
+      <div class="ui center aligned column">
+        <a href="{{ app_url_wap }}/try" class="ui fluid black button">更多试用产品</a>
+      </div>
+	  </div>
 	</div>
+
 </div>
 
 {% endblock %}
@@ -249,4 +271,5 @@
 {% block templates %}
 {% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/fetch_more_products.mustache' %}
 {% mustache id:'fetch_more_try_tpl' tpl:'mustache_m/fetch_more_try.mustache' %}
+{% mustache id:'fetch_more_topic_tpl' tpl:'mustache_m/fetch_more_topic.mustache' %}
 {% endblock %}
