@@ -100,10 +100,17 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 				$mode = 'create';
 				$data['user_id'] = (int)$this->visitor->id;
 				$ok = $model->apply_and_save($data);
+				$albums = $model->get_data();
+				$id = (int)$albums['_id'];
 			}else{
 				$mode = 'edit';
 				$data['_id'] = $id;
 				$ok = $model->apply_and_update($data);
+			}
+			
+			// 上传成功后，更新所属的图片
+			if(isset($data['asset']) && !empty($data['asset'])){
+				$this->update_batch_assets($data['asset'], $id);
 			}
 			
 			if(!$ok){
@@ -204,5 +211,18 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 		$model->delete_asset($id, $asset_id);
 		
 		return $this->to_taconite_page('ajax/delete_asset.html');
+	}
+	
+	/**
+	 * 批量更新附件所属
+	 */
+	protected function update_batch_assets($ids=array(), $parent_id){
+		if (!empty($ids)){
+			$model = new Sher_Core_Model_Asset();
+			foreach($ids as $id){
+				Doggy_Log_Helper::debug("Update asset[$id] parent_id: $parent_id");
+				$model->update_set($id, array('parent_id' => $parent_id));
+			}
+		}
 	}
 }
