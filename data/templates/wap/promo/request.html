@@ -31,7 +31,7 @@ display:none;
 }
 .sign{
   width:100%;
-  margin-top:20%;
+  margin-top:15%;
   margin-bottom:20px;
 }
 .timage{
@@ -39,6 +39,12 @@ display:none;
   border-radius: 500rem;
   margin-top:12%;
   margin-bottom:10px;
+}
+.eginlogo{
+  width:18%;
+  position:absolute;
+  left:41%;
+  bottom:10%;
 }
 </style>
 {% endblock %}
@@ -69,9 +75,9 @@ $('#mask').click(function(){
         </div>
 			  
 			  
-			  
 			</div>
 		</div>
 	</div>
+	<img src="{{ app_url_packaged }}/images/promo/eginlogo.png" class="eginlogo">
 </section>
 {% endblock %}
