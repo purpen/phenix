@@ -399,6 +399,7 @@ h3.ui.header{
     var map = new BMap.Map("allmap");
     // 创建地址解析器实例
 	  var myGeo = new BMap.Geocoder();
+	  map.disableScrollWheelZoom(true);
   	// 将地址解析结果显示在地图上,并调整地图视野
 	  myGeo.getPoint(str, function(point){
       if (point) {
@@ -418,9 +419,6 @@ h3.ui.header{
           $("input[name='map_matter']").val(map.getZoom());
         });
         $("input[name='map_matter']").val(map.getZoom());
-        map.disableScrollWheelZoom(true);
-
-
       }else{
         alert("您选择地址没有解析到结果!");
       }
