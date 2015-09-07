@@ -103,6 +103,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
           'fine'=>1, 'stick'=>1, 'category_id'=>1, 'created_on'=>1, 'asset_count'=>1,
           'last_user'=>1, 'last_reply_time'=>1, 'cover_id'=>1, 'comment_count'=>1, 'view_count'=>1,
           'updated_on'=>1, 'favorite_count'=>1, 'love_count'=>1, 'deleted'=>1,'published'=>1, 'tags'=>1,
+          'strip_description'=>1,
         );
         $options['some_fields'] = $some_fields;
         
