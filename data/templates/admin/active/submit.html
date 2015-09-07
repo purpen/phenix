@@ -382,6 +382,7 @@ h3.ui.header{
     map.addControl(new BMap.NavigationControl());
     map.addOverlay(marker);             // 将标注添加到地图中
     marker.enableDragging();           // 可拖拽
+    map.disableScrollWheelZoom(true);
 
     marker.addEventListener("dragend",function(e){
       $("input[name='map_x']").val(e.point.lng);
@@ -418,8 +419,6 @@ h3.ui.header{
           $("input[name='map_matter']").val(map.getZoom());
         });
         $("input[name='map_matter']").val(map.getZoom());
-
-
       }else{
         alert("您选择地址没有解析到结果!");
       }
@@ -940,7 +939,7 @@ fetch_map_name(val, 15);
 		<div style="margin-bottom:0.5em;">
 			<label>地图</label>
 		</div>
-		<input type="text" value="北京" name="map_text" placeholder="点击右侧显示地图" />
+		<input type="text" value="" name="map_text" placeholder="点击右侧显示地图" />
 		<div type="button" value="按钮" class="map-box-btn" /></div>
       <div id="map-box">
 
