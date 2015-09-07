@@ -31,7 +31,7 @@
 				</span>
 			</div>
 			<div class="hide-on-mobile">
-				{{^asset_count}}
+				{{^has_asset}}
 					<a class="description" href="{{ view_url }}" target="_blank">
 						{{ strip_description }}
 					</a>
@@ -43,9 +43,9 @@
                   回复于 {{ r_last_reply_time }}
                   {{/last_user}}
                   </span>
-                {{/asset_count}}
+                {{/has_asset}}
                 
-                {{#asset_count}}
+                {{#has_asset}}
 					<!--展示图片-->
                     
 					<a class="ui mini images" href="{{ view_url }}" target="_blank">
@@ -69,7 +69,7 @@
 					<div class="ui count text">
 						<small>{{ asset_count }} 张图片</small>
 					</div>
-				{{/asset_count}}
+				{{/has_asset}}
 			</div>
             
             <div class="dot count">
