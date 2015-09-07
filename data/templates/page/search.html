@@ -50,6 +50,22 @@
 	margin-left: 15px;
 	padding: .1em .8em !important;
 }
+#searchpage .ui.tabox .row {
+  padding-bottom: 0 !important;
+}
+.ui.search.list.items>.item {
+  margin-bottom: 0rem; 
+  padding: 1em 0;
+  width: 100% !important;
+  min-height: auto !important;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+.ui.search.list>.item>.image+.content{
+  margin:0 !important;
+}
 </style>
 {% endblock %}
 
@@ -151,15 +167,18 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
+	<!--<div class="row">
 			<div class="ui twelve wide column">
 				<div class="search result">
-					<div class="ui search selection list">
+					<div class="ui search list divided items">
 					{% for item in result.data %}
 						{% if item %}
                         <div class="item" id="item-{{ item.pid }}">
                             {% if item.cover_id %}
-							  	<img class="ui medium image" src="{{ item.asset.thumbnails.small.view_url }}" />
+                            <div class="image">
+                              <a href="{{ item.view_url }}" title="{{ item.title }}" class="ui line" target="_blank">
+							  	            <img class="ui medium image" src="{{ item.asset.thumbnails.small.view_url }}" /></a>
+							  	          </div>
                             {%endif%}
 							<div class="content">
 								<div class="header">
@@ -178,7 +197,7 @@
                                         {%endif%}
 									</span>
 								</div>
-								<div class="desc">
+								<div class="description">
 							        <p>{{ item.content }}</p>
 								</div>
 							</div>
@@ -189,14 +208,66 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="column">
-				{% if result.total_count %}
-					{% pager url:pager_url,total_rows:result.total_count,total_page:result.total_page,current_page:page,var:'pager',pager_size:9 %}
-					{%include 'block/pager.html'%}
-				{% endif %}
-			</div>
+		</div>-->
+		
+		<div class="mainwrap">
+		  <div class="mainleftwrap">
+		    <div class="mainleft">
+		      <div class="search result">
+  					<div class="ui search list divided items">
+  					{% for item in result.data %}
+  						{% if item %}
+                          <div class="item" id="item-{{ item.pid }}">
+                              {% if item.cover_id %}
+                              <div class="image">
+                                <a href="{{ item.view_url }}" title="{{ item.title }}" class="ui line" target="_blank">
+  							  	            <img class="ui medium image" src="{{ item.asset.thumbnails.small.view_url }}" /></a>
+  							  	          </div>
+                              {%endif%}
+  							<div class="content">
+  								<div class="header">
+  							      	<a href="{{ item.view_url }}" title="{{ item.title }}" class="ui line" target="_blank">{{ item.high_title }}</a>
+                                      <label class="ui magenta active inverted button label">{{ item.kind_name }}</label>
+  								</div>
+  								<div class="attribute">
+  									<span class="author">
+                                          <a href="{{ item.home_url }}" class="ui link" target="_blank">@{{ item.nickname }}</a>  <i class="time icon"></i>于{{ item.created_on|relative_datetime }}发表
+                                          {% if visitor.can_admin %}
+                                          <small>
+                                              <a href="/app/site/search/del?id={{ item.pid }}" class="confirm-request ui link">
+                                                  删除
+                                              </a>
+                                          </small>
+                                          {%endif%}
+  									</span>
+  								</div>
+  								<div class="description">
+  							        <p>{{ item.content }}</p>
+  								</div>
+  							</div>
+  						</div>
+  						{% endif %}
+
+  					{% endfor %}
+  					</div>
+  				</div>
+  				<div class="row">
+      			<div class="column">
+      				{% if result.total_count %}
+      					{% pager url:pager_url,total_rows:result.total_count,total_page:result.total_page,current_page:page,var:'pager',pager_size:9 %}
+      					{%include 'block/pager.html'%}
+      				{% endif %}
+      			</div>
+      		</div>
+  				
+		  
+		    </div>
+		  </div>
+		  
+		  <div class="mainright">
+		    {% include "page/topic/adwrap.html" %}
+		  
+		  </div>
 		</div>
 	</div>
 </div>
