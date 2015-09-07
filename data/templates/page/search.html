@@ -216,6 +216,7 @@
 		    </div>
 		  </div>
 		  
+		  {% if item > 0 %}
 		  <div class="mainright">
 		    {% ad_list var:'adone' page:1 size:1 state:2 name:'search_rightbar_adone' %}
         {% if adone %}
@@ -239,6 +240,8 @@
         </div>
         {% endif %}
 		  </div>
+		  {% endif %}
+		  
 		</div>
 	</div>
 </div>
