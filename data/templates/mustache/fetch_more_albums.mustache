@@ -11,22 +11,21 @@
             <p>{{ des }}</p>
         </div>
         <div class="cats">
-			<span class="counter">
+  			  {{#can_edit}}
+    			<span class="counter">
+    				<a href="{{ url }}/edit?id={{_id}}"><i class="edit icon"></i> 编辑</a>
+    			</span>
+    			<span class="counter">
+    				<a class="ajax" href="{{ url }}/delete?id={{_id}}"><i class="remove icon"></i> 删除</a>
+    			</span>
+    			{{/can_edit}}
+  			</div>
+			<span class="counter" style="right:60px;">
 				<i class="unhide icon"></i>{{ view_count }}
 			</span>
 			<span class="counter">
 				<i class="heart icon"></i> {{ love_count }}
 			</span>
-			{{#can_edit}}
-			<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-			<span class="counter">
-				<a href="{{ url }}/edit?id={{_id}}"><i class="edit icon"></i> 编辑</a>
-			</span>
-			<span class="counter">
-				<a class="ajax" href="{{ url }}/delete?id={{_id}}"><i class="remove icon"></i> 删除</a>
-			</span>
-			{{/can_edit}}
-        </div>
     </div>
 </div>
 {{/results.rows}}
