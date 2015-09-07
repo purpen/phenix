@@ -129,7 +129,7 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 	/**
 	 * 专辑列表
 	 */
-	public function get_list() {
+	public function get_list() {		
 		return $this->to_html_page('page/albums/index.html');
 	}
 	

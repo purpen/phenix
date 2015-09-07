@@ -34,7 +34,7 @@ class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
 	protected $required_fields = array('title');
 	protected $int_fields = array();
 	protected $float_fields = array();
-	protected $counter_fields = array();
+	protected $counter_fields = array('view_count','love_count');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
@@ -77,5 +77,21 @@ class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
 		$asset = new Sher_Core_Model_Asset();
 		$asset->delete_file($asset_id);
 		unset($asset);
+	}
+	
+	/**
+	 * 增加计数
+	 */
+	public function inc_counter($field_name, $inc=1, $id=null){
+		
+		if(is_null($id)){
+			$id = $this->id;
+		}
+		
+		if(empty($id) || !in_array($field_name, $this->counter_fields)){
+			return false;
+		}
+		
+		return $this->inc($id, $field_name, $inc);
 	}
 }
