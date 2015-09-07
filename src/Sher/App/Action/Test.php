@@ -255,9 +255,9 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     //440eoXa/yUVmblNoE0B3UZBTMtjHcTeZW8k4dTs7y63izgC+R9fGL+8
     //$a = Sher_Core_Util_View::fetch_invite_user_id('440eoXa/yUVmblNoE0B3UZBTMtjHcTeZW8k4dTs7y63izgC+R9fGL+8');
     //$a = Sher_Core_Util_View::url_short('1');
-        $service = Sher_Core_Session_Service::instance();
-        $sid = $service->session->id;
-        echo $sid;
+        //$service = Sher_Core_Session_Service::instance();
+        //$sid = $service->session->id;
+    echo strip_tags(htmlspecialchars_decode('&lt;a href="aaaaa"&gt;bbbb&lt;/a&gt;'));
     //phpinfo();
   }
 
