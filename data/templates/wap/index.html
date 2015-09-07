@@ -14,7 +14,7 @@
           var url = '{{ app_url_wap }}/shop/ajax_load_list';
           $.get(url, { category_id:category_id, sort:sort, page:page, type:type, size:size }, function(rs){
               var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
-              $('.products.item-box').append(rendered);
+              $('#mpresale .item-box').append(rendered);
           }, 'json');
       }
 
@@ -22,7 +22,7 @@
           var url = '{{ app_url_wap }}/try/ajax_load_list';
           $.get(url, { sort:sort, type:type, page:page, size:size }, function(rs){
               var rendered = phenix.ajax_render_result('#fetch_more_try_tpl', rs.data);
-              $('.tries.item-box').append(rendered);
+              $('#triespage .item-box').append(rendered);
           }, 'json');
       }
   </script>
@@ -226,18 +226,20 @@
 </div>
 
 <!--试用-->
-<div class="ui responsive grid" id="triespage">
-	<div class="row">
-		<div class="column">
-			<h4 class="ui header">免费试用</h4>
-      <div class="ui one tries cards item-box">
-      <!--ajax load-->
-      </div>
+<div class='games page try' id="triespage">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui one products tries cards item-box">
+        <!--ajax load-->
+				</div>
+			</div>
+		
 		</div>
 	</div>
 	<div class="row">
 		<div class="ui center aligned column">
-			<a href="{{ app_url_wap }}/shop" class="ui fluid black button">更多精选商品</a>
+			<a href="{{ app_url_wap }}/try" class="ui fluid black button">更多试用产品</a>
 		</div>
 	</div>
 </div>
