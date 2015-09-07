@@ -84,14 +84,21 @@
 	  $('.ui.yigo.modal')
 	    .modal('setting', 'closable', false)
       .modal('setting', 'transition', 'vertical  flip')
-	    .modal('show')
+	    .modal('show');
+	    $('.ui.yigo.close').css('z-index','100');
 	  $('.ui.qrcodet.egou.modal')
       .modal({ allowMultiple: true })
+      .modal('setting', 'closable', false)
       .modal('attach events', '.ui.green.egou.btn');
 	    
 	  $('.ui.green.egou.btn').click(function(){
-	    $('.ui.qrcodet.egou.modal').modal('show');
-  		return false;
+	    $('.ui.qrcodet.egou.modal')
+	    .modal('setting', 'closable', false)
+	    .modal('show');
+	    $('.ui.yigo.close').css('z-index','-1');
+	  });
+	  $('.qrcodet.egou > .close.icon').click(function(){
+	    $('.ui.yigo.close').css('z-index','100');
 	  });
 	  // 生成二维码
   	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_domain }}'});
