@@ -32,9 +32,7 @@
 			</div>
 			<div class="hide-on-mobile">
 				{{^has_asset}}
-					<a class="description" href="{{ view_url }}" target="_blank">
-						{{ strip_description }}
-					</a>
+					<a class="description" href="{{ view_url }}" target="_blank">{{ strip_description }}</a>
                   <span class="last reply">
                   {{#last_user}}
                   <a class="ui link" href="{{ last_user.home_url }}" title="{{ last_user.nickname }}">
