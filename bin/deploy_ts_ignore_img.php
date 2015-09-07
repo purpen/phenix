@@ -4,7 +4,7 @@
  * Deploy static files
  * 同步到Qiniu qrsync --忽略图片文件
  */
-system("doggy dev");
+system("doggy/bin/doggy dev");
 
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {
@@ -78,8 +78,8 @@ function deploy_sync($conf_dir){
 	echo "Start to sync files ... \n";
 	echo "$conf_dir...\n";
 	//system("qrsync -skipsym $conf_dir");
-	system("/opt/qiniu/qrsync -skipsym $conf_dir/synccss.json");
-	system("/opt/qiniu/qrsync -skipsym $conf_dir/syncjs.json");
+	system("/opt/qiniu/qrsync $conf_dir/frbird_css.json");
+	system("/opt/qiniu/qrsync $conf_dir/frbird_js.json");
 	
 	echo "Sync files ignore img is ok! \n";
 }
