@@ -35,7 +35,7 @@
 {% block layout_js %}
 <script type="text/javascript" >
     function ajax_load_more(page, status){
-        var url = '{{ app_url_topic }}/ajax_fetch_more';
+        var url = '{{ app_url_topic }}/ajax_fetch_more?rand='+Math.random();
         if(page != 'no'){
             $.get(url, { page:page }, function(rs){
                 rs.data['phenix'] = phenix.url;

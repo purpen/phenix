@@ -39,6 +39,7 @@
 				<th>试用数量</th>
 				<th>申请人数</th>
 				<th>活动时间</th>
+        <th>推荐</th>
         <th>状态</th>
 				<th>管理操作</th>
 			</tr>
@@ -79,6 +80,16 @@
 						{% endif %}
 					</p>
 				</td>
+				<td>
+					<p>
+						{% if t.sticked %}
+							<span id="stick-{{ t._id }}-label" class="ui small green label">是</span>
+						{% else %}
+							<span id="stick-{{ t._id }}-label" class="ui small orange label">否</span>
+						{% endif %}
+					</p>
+				</td>
+
         <td>
           {% if t.step_stat==1 %}
             申请中
@@ -99,6 +110,11 @@
 						<a href="{{ app_url_admin_base }}/try/unpublish?id={{ t._id }}" class="ui magenta link ajax item" id="publish-{{ t._id }}-button">撤销发布</a>
 						{% else %}
 						<a href="{{ app_url_admin_base }}/try/publish?id={{ t._id }}" class="ui magenta link ajax item" id="publish-{{ t._id }}-button">发布</a>
+						{% endif %}
+						{% if t.sticked == 1 %}
+						<a href="{{ app_url_admin_base }}/try/ajax_set_stick?id={{ t._id }}&evt=0" class="ui link ajax item" id="stick-{{ t._id }}-button">取消推荐</a>
+						{% else %}
+						<a href="{{ app_url_admin_base }}/try/ajax_set_stick?id={{ t._id }}&evt=1" class="ui link ajax item" id="stick-{{ t._id }}-button">推荐</a>
 						{% endif %}
 						<a href="{{ app_url_admin_base }}/try/edit?id={{ t._id }}" class="ui magenta link item">编辑</a>
 						<a href="{{ app_url_admin_base }}/try/delete?id={{ t._id }}" class="ui magenta link ajax item">删除</a>

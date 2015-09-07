@@ -122,6 +122,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
               $resultlist['rows'][$i]['user'][$s_key] = true;
             }
             if($resultlist['rows'][$i]['asset_count'] > 0){
+                $resultlist['rows'][$i]['has_asset'] = true;
                 $asset = Sher_Core_Service_Asset::instance();
                 $q = array(
                     'parent_id'  => $resultlist['rows'][$i]['_id'],
@@ -133,9 +134,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
                     'sort_field' => 'positive',
                 );
                 $asset_result = $asset->get_asset_list($q, $op);
-                $resultlist['rows'][$i]['asset_list'] = $asset_result['rows'];
+                {{ topic.asset_count }}
                 
                 //print_r($resultlist['rows'][$i]['asset_list']);
+            }else{
+                $resultlist['rows'][$i]['has_asset'] = false;
             }
 
             // 过滤用户表
