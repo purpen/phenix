@@ -23,6 +23,7 @@ class Sher_Core_Util_Sitemap extends Doggy_Exception {
   private $compress;
   private $base_url;
   private $base_uri;
+  private $rss_url;
   private $page = 'index';
   private $index = 1;
   private $count = 1;
@@ -34,6 +35,7 @@ class Sher_Core_Util_Sitemap extends Doggy_Exception {
     $this->compress = ($compress) ? '.gz' : '';
     $this->base_url = sprintf('%s/web/', Doggy_Config::$vars['deploy.root']);
     $this->base_uri = sprintf('%s/web/', Doggy_Config::$vars['deploy.root']);
+    $this->rss_url = "http://rss.taihuoniao.com/";
   }
   
   public function page ($name) {
@@ -116,7 +118,7 @@ class Sher_Core_Util_Sitemap extends Doggy_Exception {
     $xml .= '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
     foreach ($sitemaps as $loc => $lastmod) {
       $xml .= '  <sitemap>' . "\n";
-      $xml .= '    <loc>' . $this->base_url . $loc . '</loc>' . "\n";
+      $xml .= '    <loc>' . $this->rss_url . $loc . '</loc>' . "\n";
       $xml .= '    <lastmod>' . $lastmod . '</lastmod>' . "\n";
       $xml .= '  </sitemap>' . "\n";
     }

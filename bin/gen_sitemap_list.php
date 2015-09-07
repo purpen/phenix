@@ -20,6 +20,7 @@ require $cfg_doggy_bootstrap;
 
 set_time_limit(0);
 ini_set('memory_limit','512M');
+date_default_timezone_set('Asia/shanghai');
 
 $type_list = array(
   'topic',
