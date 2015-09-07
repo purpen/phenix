@@ -564,10 +564,35 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
         $options['page'] = $page;
         $options['size'] = $size;
 
-        if($sort==1){
- 		      $options['sort_field'] = 'latest';
-        }else{
- 		      $options['sort_field'] = 'latest';       
+        // 排序
+        switch ((int)$sort) {
+          case 0:
+            $options['sort_field'] = 'latest';
+            break;
+          case 1:
+            $options['sort_field'] = 'update';
+            break;
+          case 2:
+            $options['sort_field'] = 'comment';
+            break;
+          case 3:
+            $options['sort_field'] = 'favorite';
+            break;
+          case 4:
+            $options['sort_field'] = 'love';
+            break;
+          case 5:
+            $options['sort_field'] = 'view';
+            break;
+          case 6:
+            $options['sort_field'] = 'stick:latest';
+            break;
+          case 7:
+            $options['sort_field'] = 'last_reply';
+            break;
+          case 8:
+            $options['sort_field'] = 'fine:update';
+            break;
         }
 
         //限制输出字段
