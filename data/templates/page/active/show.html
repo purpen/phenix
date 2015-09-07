@@ -211,7 +211,7 @@ h4.ui.header .map-advantage {
 		var point = new BMap.Point({{ active.map_info.x }},{{ active.map_info.y }});
 		map.centerAndZoom(point, {{ active.map_info.matter }});
 		var marker = new BMap.Marker(point);  // 创建标注
-		map.addOverlay(marker);               // 将标注添加到地图中
+		//map.addOverlay(marker);               // 将标注添加到地图中
 		//marker.setAnimation(BMAP_ANIMATION_BOUNCE);	//动画定位
 		
 		map.addControl(new BMap.MapTypeControl());	//地图 卫星 三维
