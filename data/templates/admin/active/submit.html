@@ -382,6 +382,7 @@ h3.ui.header{
     map.addControl(new BMap.NavigationControl());
     map.addOverlay(marker);             // 将标注添加到地图中
     marker.enableDragging();           // 可拖拽
+    map.disableScrollWheelZoom(true);
 
     marker.addEventListener("dragend",function(e){
       $("input[name='map_x']").val(e.point.lng);
