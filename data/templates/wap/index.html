@@ -163,7 +163,7 @@
 
   ajax_load_product_more(0, 2, 4, 1, 10);
   ajax_load_try_more(0, 1, 1, 1);
-  ajax_load_topic_eval_more(5, 1, 1, 6);
+  ajax_load_topic_eval_more(5, 6, 1, 6);
 {% endblock %}
 
 {% block content %}
@@ -318,9 +318,9 @@
 
     <!--评测-->
 		<div class="row" id="topicspage">
-			<div class="column">
+			<div class="column topic-box-list">
 			<h4 class="ui header">评测报告</h4>
-				<div class="ui one products cards item-box">
+				<div class="ui topic relaxed divided list item-box" id="topic-box">
         <!--ajax load-->
 				</div>
 			</div>

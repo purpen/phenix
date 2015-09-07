@@ -557,8 +557,9 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
         
         $query = array();
         $query['published'] = 1;
+        // 是评测
         if($type==5){
-          
+          $query['try_id'] = array('$ne'=>0);
         }
         $options['page'] = $page;
         $options['size'] = $size;
