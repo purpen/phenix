@@ -59,6 +59,9 @@
   display: -ms-flexbox;
   display: flex;
 }
+.ui.pagination.menu{
+  margin-top:20px;
+}
 </style>
 {% endblock %}
 
@@ -122,9 +125,9 @@
 				<div class="column">
 					<div class="ui ten tabs">
             <a href="{{ app_url_domain }}/search?t=0&q={{ q }}" class="{{ css_all }} tab">全部</a>
-            <a href="{{ app_url_domain }}/search?t=5&q={{ q }}" class="{{ css_vote }} tab">创意</a>
+            <!--<a href="{{ app_url_domain }}/search?t=5&q={{ q }}" class="{{ css_vote }} tab">创意</a>-->
+            <a href="{{ app_url_domain }}/search?t=1&q={{ q }}" class="{{ css_product }} tab">产品</a>
             <a href="{{ app_url_domain }}/search?t=2&q={{ q }}" class="{{ css_topic }} tab">话题</a>
-            <a href="{{ app_url_domain }}/search?t=1&q={{ q }}" class="{{ css_product }} tab">商品</a>
             <!--
             <a href="{{ app_url_domain }}/search?t=4&q={{ q }}" class="{{ css_stuff }} tab">智品</a>
             -->
@@ -161,52 +164,10 @@
 			</div>
 		</div>
 	</div>
-	<!--<div class="row">
-			<div class="ui twelve wide column">
-				<div class="search result">
-					<div class="ui search list divided items">
-					{% for item in result.data %}
-						{% if item %}
-                        <div class="item" id="item-{{ item.pid }}">
-                            {% if item.cover_id %}
-                            <div class="image">
-                              <a href="{{ item.view_url }}" title="{{ item.title }}" class="ui line" target="_blank">
-							  	            <img class="ui medium image" src="{{ item.asset.thumbnails.small.view_url }}" /></a>
-							  	          </div>
-                            {%endif%}
-							<div class="content">
-								<div class="header">
-							      	<a href="{{ item.view_url }}" title="{{ item.title }}" class="ui line" target="_blank">{{ item.high_title }}</a>
-                                    <label class="ui magenta active inverted button label">{{ item.kind_name }}</label>
-								</div>
-								<div class="attribute">
-									<span class="author">
-                                        <a href="{{ item.home_url }}" class="ui link" target="_blank">@{{ item.nickname }}</a>  <i class="time icon"></i>于{{ item.created_on|relative_datetime }}发表
-                                        {% if visitor.can_admin %}
-                                        <small>
-                                            <a href="/app/site/search/del?id={{ item.pid }}" class="confirm-request ui link">
-                                                删除
-                                            </a>
-                                        </small>
-                                        {%endif%}
-									</span>
-								</div>
-								<div class="description">
-							        <p>{{ item.content }}</p>
-								</div>
-							</div>
-						</div>
-						{% endif %}
-						
-					{% endfor %}
-					</div>
-				</div>
-			</div>
-		</div>-->
-		
+	
 		<div class="mainwrap">
 		  <div class="mainleftwrap">
-		    <div class="mainleft">
+		    <div class="mainleft" style="min-height:0;">
 		      <div class="search result">
   					<div class="ui search list divided items">
   					{% for item in result.data %}
@@ -258,10 +219,34 @@
 		    </div>
 		  </div>
 		  
+		  {% if item > 0 %}
 		  <div class="mainright">
-		    {% include "page/topic/adwrap.html" %}
-		  
+		    {% ad_list var:'adone' page:1 size:2 state:2 name:'search_rightbar_adone' %}
+        {% if adone.rows %}
+        <div class="adstickwrap">
+            <div class="ui one adverts cards">
+              {% for adone in adone.rows%}
+                <div class="card">
+                    <div class="advblock">
+                        <div class="image" style="background-image: url('{{ adone.cover.fileurl }}');padding:30% 0;">
+                            <a href="{{ adone.view_url }}" title="{{ adone.title }}" target="_blank"></a>
+                        </div>
+                        <div class="desc">
+                            <h2>
+                                {{ adone.title }}
+                            </h2>
+                            <p>{{ adone.sub_title }}</p>
+                        </div>
+                        <a href="{{ adone.view_url }}" title="{{ adone.title }}" class="link wrap" target="_blank"></a>
+                    </div>
+                </div>
+              {%endfor%}
+            </div>
+        </div>
+        {% endif %}
 		  </div>
+		  {% endif %}
+		  
 		</div>
 	</div>
 </div>
