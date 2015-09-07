@@ -80,24 +80,22 @@
 	});	
 	
 	// 易购  
+	 
+	  $('.ui.yigo.modal')
+	    .modal('setting', 'closable', false)
+      .modal('setting', 'transition', 'vertical  flip')
+	    .modal('show')
+	  $('.ui.qrcodet.egou.modal')
+      .modal({ allowMultiple: true })
+      .modal('attach events', '.ui.green.egou.btn');
+	    
 	  $('.ui.green.egou.btn').click(function(){
 	    $('.ui.qrcodet.egou.modal').modal('show');
   		return false;
 	  });
 	  // 生成二维码
   	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_domain }}'});
-	 
-	  $('.ui.yigo.modal')
-	    .modal('setting', 'closable', false)
-      .modal('setting', 'transition', 'vertical  flip')
-	    .modal('show');
-	  
-    /* $('.egou.click').click(function(){
-       $('.ui.yigo.modal')
-       .modal('setting', 'closable', false)
-      .modal('setting', 'transition', 'vertical  flip')
-      .modal('show');
-     })*/
+    	
      $('.ui.yigo.close').click(function(){
        $('.ui.yigo.modal').modal('hide');
      })
