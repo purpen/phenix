@@ -17,7 +17,7 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 	protected $exclude_method_list = array('execute','get_list','ajax_load_list');
 	
 	public function _init() {
-		$this->set_target_css_state('page_albums');
+		$this->set_target_css_state('page_shop');
 		$this->stash['domain'] = Sher_Core_Util_Constant::TYPE_PRODUCT;
     }
 	
