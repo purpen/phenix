@@ -352,7 +352,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
         
         $page = $this->stash['page'];
         $size = $this->stash['size'];
-        $sort = $this->stash['sort'];
+        $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
         
         $service = Sher_Core_Service_Try::instance();
         $query = array();
@@ -360,7 +360,13 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 
         $query['state'] = 1;
 
-				$options['sort_field'] = 'latest';
+        if($sort==0){
+				  $options['sort_field'] = 'latest';
+        }elseif($sort==1){
+          $options['sort_field'] = 'sticked:latest_over';
+        }else{
+          $options['sort_field'] = 'latest'; 
+        }
         
         $options['page'] = $page;
         $options['size'] = $size;

@@ -10,11 +10,19 @@
 
 {% block layout_js %}
   <script type="text/javascript" >
-      function ajax_load_more(category_id, type, sort, page, size){
+      function ajax_load_product_more(category_id, type, sort, page, size){
           var url = '{{ app_url_wap }}/shop/ajax_load_list';
           $.get(url, { category_id:category_id, sort:sort, page:page, type:type, size:size }, function(rs){
               var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
-              $('.item-box').append(rendered);
+              $('.products.item-box').append(rendered);
+          }, 'json');
+      }
+
+      function ajax_load_try_more(type, sort, page, size){
+          var url = '{{ app_url_wap }}/try/ajax_load_list';
+          $.get(url, { sort:sort, type:type, page:page, size:size }, function(rs){
+              var rendered = phenix.ajax_render_result('#fetch_more_try_tpl', rs.data);
+              $('.tries.item-box').append(rendered);
           }, 'json');
       }
   </script>
@@ -75,7 +83,8 @@
       nextText: " ",
     });
 
-  ajax_load_more(0, 2, 4, 1, 10);
+  ajax_load_product_more(0, 2, 4, 1, 10);
+  ajax_load_try_more(0, 1, 1, 1);
 {% endblock %}
 
 {% block content %}
@@ -199,7 +208,7 @@
 	</a>
 </div>-->
 
-<!--商店商品-->
+<!--商品-->
 <div class="ui responsive grid" id="mpresale">
 	<div class="row">
 		<div class="column">
@@ -216,8 +225,26 @@
 	</div>
 </div>
 
+<!--试用-->
+<div class="ui responsive grid" id="triespage">
+	<div class="row">
+		<div class="column">
+			<h4 class="ui header">免费试用</h4>
+      <div class="ui one tries cards item-box">
+      <!--ajax load-->
+      </div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="ui center aligned column">
+			<a href="{{ app_url_wap }}/shop" class="ui fluid black button">更多精选商品</a>
+		</div>
+	</div>
+</div>
+
 {% endblock %}
 
 {% block templates %}
 {% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/fetch_more_products.mustache' %}
+{% mustache id:'fetch_more_try_tpl' tpl:'mustache_m/fetch_more_try.mustache' %}
 {% endblock %}
