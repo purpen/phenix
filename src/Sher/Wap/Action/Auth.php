@@ -342,14 +342,14 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
             $invite_mode = new Sher_Core_Model_InviteRecord();
             $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
             //送邀请人红包(30)
-            $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
+            $this->give_bonus($user_invite_id, 'IV', array('count'=>1, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
           }
         
         }
 
         //活动送100红包
         if(Doggy_Config::$vars['app.anniversary2015.switch']){
-          $this->give_bonus($user_id, 'QX', array('count'=>5, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
+          $this->give_bonus($user_id, 'QX', array('count'=>1, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
         }
 
 				// 删除验证码
@@ -448,14 +448,14 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
             $invite_mode = new Sher_Core_Model_InviteRecord();
             $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
             //送邀请红包(30)
-            $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
+            $this->give_bonus($user_invite_id, 'IV', array('count'=>1, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
           }
         
         }
 
         //活动送100红包
         if(Doggy_Config::$vars['app.anniversary2015.switch']){
-          $this->give_bonus($user_id, 'QX', array('count'=>5, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
+          $this->give_bonus($user_id, 'QX', array('count'=>1, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
         }
 
 				// 删除验证码
@@ -478,7 +478,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     //指定入口送抽奖码/红包
     if($this->stash['evt']=='ces_praise'){
       $this->send_match_praise($user_id, $user_info['account'], 2);
-      $this->give_bonus($user_id, 'D1', array('count'=>5, 'xname'=>'D1', 'bonus'=>'C', 'min_amounts'=>'A'));
+      $this->give_bonus($user_id, 'D1', array('count'=>1, 'xname'=>'D1', 'bonus'=>'C', 'min_amounts'=>'A'));
     }
 		
     //活动跳到提示分享页面
@@ -904,7 +904,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 
 				//活动送100红包
 				if(Doggy_Config::$vars['app.anniversary2015.switch']){
-				  $this->give_bonus($user_id, 'QX', array('count'=>5, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
+				  $this->give_bonus($user_id, 'QX', array('count'=>1, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
 				}
 
         // 实现自动登录
