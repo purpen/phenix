@@ -821,6 +821,9 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 
         }// has avatar
 
+        // 是否是好友邀请
+        $this->is_user_invite($user_id);
+
 				//活动送100红包
 				if(Doggy_Config::$vars['app.anniversary2015.switch']){
 				  $this->give_bonus($user_id, 'QX', array('count'=>1, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
