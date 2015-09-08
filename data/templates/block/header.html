@@ -1,75 +1,54 @@
 <div class="ui responsive grid">
     <div class="two column row">
-        <div class="computer only column">
+        <div class="column">
         	<a href="{{ app_url_domain }}" title="首页" class="logo">
         		<img src="{{ app_url_packaged }}/images/frbird-logo.png" class="ui hide" alt="太火鸟" />太火鸟
         	</a>
-            
-        	<div class="ui labeled icon text mainnav menu">
-        		<a href="{{ app_url_domain }}/home" class="{{ css_page_home }} item">
-        			<i class="home icon"></i> 首页
-        		</a>
-        		<a href="{{ app_url_shop }}" class="{{ css_page_shop }} item">
-        			<i class="cube icon"></i> 产品
-        		</a>
-        		<a href="{{ app_url_topic }}" class="{{ css_page_social }} item">
-        			<i class="comments outline icon"></i> 社区
-        		</a>
-        		<a href="{{ app_url_incubator }}" class="{{ css_page_incubator }} item">
-        			<i class="idea icon"></i> 孵化
-        		</a>
-                <a href="{{ app_url_try }}" class="{{ css_page_sub_try }} item">
-                    <i class="lab icon"></i> 试用
-                </a>
-        	</div>
+          
+          <form class="search item" method="post" action="{{ app_url_domain }}/search" id="searchbar">
+           	<div class="ui icon input">
+          		<input name="q" type="text" value="{{ q }}" />
+          		<i class="search icon"></i>
+          		<a href="javascript:void(0);" id="search-button" style="width: 2.67142857em;height: 100%;position: absolute;right: 0;top: 0;"></a>
+          	</div>
+          </form>
             
         </div>
 
-        <div class="computer only column">
+        <div class="column">
         	{% include "block/header_rightside.html" %}
         </div>
-        
-        <div class="tablet only column">
-        	<a href="{{ app_url_domain }}" title="首页" class="logo">
-        		太火鸟
-        	</a>
-        	<div class="ui labeled icon text magenta main-nav menu">
-        		<a href="{{ app_url_domain }}/home" class="{{ css_page_home }} item">
-        			<i class="home icon"></i>首页
-        		</a>
-        		<a href="{{ app_url_shop }}" class="{{ css_page_shop }} item">
-        			<i class="cube icon"></i>产品
-        		</a>
-        		<a href="{{ app_url_topic }}" class="{{ css_page_social }} item">
-        			<i class="comments outline icon"></i>社区
-        		</a>
-        		<a href="{{ app_url_incubator }}" class="{{ css_page_incubator }} item">
-        			<i class="idea icon"></i>孵化
-        		</a>
-        	</div>
-        	{% include "block/header_rightside.html" %}
-        </div>
-        
-        <div class="mobile only column">
-        	<a href="{{ app_url_domain }}" title="首页" class="logo">
-        		太火鸟
-        	</a>
-        	<div class="ui labeled icon text magenta main-nav menu">
-        		<a href="{{ app_url_domain }}/home" class="{{ css_page_home }} item">
-        			<i class="home icon"></i>首页
-        		</a>
-        		<a href="{{ app_url_shop }}" class="{{ css_page_shop }} item">
-        			<i class="cube icon"></i>产品
-        		</a>
-        		<a href="{{ app_url_topic }}" class="{{ css_page_social }} item">
-        			<i class="comments outline icon"></i>社区
-        		</a>
-        		<a href="{{ app_url_incubator }}" class="{{ css_page_incubator }} item">
-        			<i class="idea icon"></i>孵化
-        		</a>
-        	</div>
-        	{% include "block/header_rightside.html" %}
-        </div>
-        
     </div>
 </div>
+<div class="nav-menu">
+  <div class="ui responsive grid">
+    <div class="row">
+      <div class="column ui mainnav">
+        <a href="{{ app_url_domain }}/home" class="{{ css_page_home }} item">
+    			 首页
+    		</a>
+    		<a href="{{ app_url_shop }}" class="{{ css_page_shop }} item">
+    			 产品
+    		</a>
+    		<a href="{{ app_url_topic }}" class="{{ css_page_social }} item">
+    			社区
+    		</a>
+    		<a href="{{ app_url_incubator }}" class="{{ css_page_incubator }} item">
+    			孵化
+    		</a>
+        <a href="{{ app_url_try }}" class="{{ css_page_sub_try }} item">
+          试用
+        </a>
+        <a href="{{ app_url_active }}" class="{{ css_page_sub_active }} item">
+          活动
+        </a>
+        <a href="{{ app_url_d3in }}" class="{{ css_page_d3in }} item">
+          D3in实验室
+        </a>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
