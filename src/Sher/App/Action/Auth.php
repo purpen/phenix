@@ -376,25 +376,25 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 			$profile['phone'] = $this->stash['account'];
 			$user_info['profile'] = $profile;
 
-      //第三方绑定
-      if(isset($this->stash['third_source'])){
-        if(empty($this->stash['uid']) || empty($this->stash['access_token'])){
-          return $this->ajax_json('绑定信息有误,请重试!', true);
-        }
-
-        if($this->stash['third_source']=='weibo'){
-          $user_info['sina_uid'] = (int)$this->stash['uid'];
-          $user_info['sina_access_token'] = $this->stash['access_token'];      
-        }elseif($this->stash['third_source']=='qq'){
-          $user_info['qq_uid'] = $this->stash['uid'];
-          $user_info['qq_access_token'] = $this->stash['access_token']; 
-        }elseif($this->stash['third_source']=='weixin'){
-          $user_info['wx_open_id'] = $this->stash['uid'];
-          $user_info['wx_access_token'] = $this->stash['access_token'];
-          $user_info['wx_union_id'] = $this->stash['union_id'];
-        }else{
-          //next_third
-        }
+		//第三方绑定
+		if(isset($this->stash['third_source'])){
+		  if(empty($this->stash['uid']) || empty($this->stash['access_token'])){
+			return $this->ajax_json('绑定信息有误,请重试!', true);
+		  }
+  
+		  if($this->stash['third_source']=='weibo'){
+			$user_info['sina_uid'] = (int)$this->stash['uid'];
+			$user_info['sina_access_token'] = $this->stash['access_token'];      
+		  }elseif($this->stash['third_source']=='qq'){
+			$user_info['qq_uid'] = $this->stash['uid'];
+			$user_info['qq_access_token'] = $this->stash['access_token']; 
+		  }elseif($this->stash['third_source']=='weixin'){
+			$user_info['wx_open_id'] = $this->stash['uid'];
+			$user_info['wx_access_token'] = $this->stash['access_token'];
+			$user_info['wx_union_id'] = $this->stash['union_id'];
+		  }else{
+			//next_third
+		  }
 
 				$user_info['nickname'] = $this->stash['nickname'];
 				$user_info['summary'] = $this->stash['summary'];
@@ -459,6 +459,17 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 				}
 					
 				Sher_Core_Helper_Auth::create_user_session($user_id);
+				
+				// 插入易购的用户数据
+				if(isset($_COOKIE['egou_uid']) && !empty($_COOKIE['egou_uid'])){
+					$egou_auth = Sher_Core_Helper_Util::egou_auth();
+					if(!empty($egou_auth)){
+						$arr_egou = json_decode($egou_auth,true);
+						if((int)$arr_egou['result']){
+							Sher_Core_Helper_Util::egou($this->visitor->id);
+						}
+					}
+				}
 			}
 				
 		} catch (Sher_Core_Model_Exception $e) {
@@ -472,7 +483,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		if(Doggy_Config::$vars['app.anniversary2015.switch']){
 		  //$user_profile_url = Sher_Core_Helper_Url::user_home_url($user_id);;  
 		}
-				
+			
 		return $this->ajax_json("注册成功，欢迎你加入太火鸟！", false, $user_profile_url);
 	}
 	
@@ -804,6 +815,17 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 				if(Doggy_Config::$vars['app.anniversary2015.switch']){
 				  $this->give_bonus($user_id, 'QX', array('count'=>5, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
 				}
+				
+		// 插入易购的用户数据
+		if(isset($_COOKIE['egou_uid']) && !empty($_COOKIE['egou_uid'])){
+			$egou_auth = Sher_Core_Helper_Util::egou_auth();
+			if(!empty($egou_auth)){
+				$arr_egou = json_decode($egou_auth,true);
+				if((int)$arr_egou['result']){
+					Sher_Core_Helper_Util::egou($this->visitor->id);
+				}
+			}
+		}
 
         // 实现自动登录
         Sher_Core_Helper_Auth::create_user_session($user_id);
