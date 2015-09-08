@@ -58,6 +58,62 @@
     // ajax加载商品列表
     ajax_load_more(1, 12);
 	
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		
+		// 初始化互动，是否关注、点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{albums._id}},type:8,event:1}, function(result){
+			if (result.success) {
+				// 验证关注
+				if (result.data.favorited) {
+					$('.ui.favorite.button')
+						.data('mark', 'y')
+						.addClass('active')
+                        .html('<i class="minus icon"></i> 已关注');
+				}
+			}
+		}, 'json');
+
+	{% endif %}
+	
+	// 关注
+	$('.ui.favorite.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_favorite', {id: id, type:8}, function(result){
+				if (result.success) {
+					$btn
+						.data('mark', 'y')
+						.addClass('active')
+                        .html('<i class="minus icon"></i> 已关注');
+                        
+                    $('#target-favorite-count').text(result.data.favorite_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_favorite', {id: id, type:8}, function(result){
+				if (result.success) {
+					$btn
+						.data('mark', 'n')
+						.removeClass('active')
+                        .html('<i class="plus icon"></i> 关注');
+                        
+                    $('#target-favorite-count').text(result.data.favorite_count);
+                    
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -67,8 +123,10 @@
         <div class="desc">
             <p>{{ albums.des|default '我们用心挑选数以万计的创意产品，为你每次的一见钟情!' }}</p>
         </div>
+		<div class="ui magenta pop favorite inverted button" data-title="关注一下" data-content="有关该产品动态及时通知你，后续可以在‘我关注的’中快捷查找" data-id="{{ albums._id }}" data-mark="n">
+			<i class="plus icon"></i> 关注
+		</div>
 	</h1>
-    <div class="cover"></div>
 </div>
 
 <div class="shop list" id="shoplist">

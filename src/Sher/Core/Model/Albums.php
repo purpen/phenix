@@ -27,6 +27,8 @@ class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
         'view_count' => 0,
         # 点赞数
         'love_count' => 0,
+		# 关注数
+		'favorite_count' => 0,
         # 是否启用
 		'status' => 1,
     );
@@ -34,7 +36,7 @@ class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
 	protected $required_fields = array('title');
 	protected $int_fields = array();
 	protected $float_fields = array();
-	protected $counter_fields = array('view_count','love_count');
+	protected $counter_fields = array('view_count','love_count','favorite_count');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
@@ -93,5 +95,29 @@ class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
 		}
 		
 		return $this->inc($id, $field_name, $inc);
+	}
+	
+	/**
+	 * 减少计数
+	 * 需验证，防止出现负数
+	 */
+	public function dec_counter($field_name,$id=null,$force=false,$count=1){
+	    
+		if(is_null($id)){
+	        $id = $this->id;
+	    }
+		
+	    if(empty($id)){
+	        return false;
+	    }
+		
+		if(!$force){
+			$albums = $this->find_by_id((int)$id);
+			if(!isset($albums[$field_name]) || $albums[$field_name] <= 0){
+				return true;
+			}
+		}
+		
+		return $this->dec($id, $field_name, $count);
 	}
 }
