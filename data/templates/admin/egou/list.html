@@ -13,10 +13,11 @@
 					  	<label></label>
 					</div>
 				</th>
-				<th>egou用户ID</th>
-				<th>egou用户标识</th>
-				<th>egou活动ID</th>
-				<th>签到时间</th>
+				<th>ID</th>
+				<th>用户ID</th>
+				<th>E用户标识</th>
+				<th>E活动ID</th>
+				<th>注册时间</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -35,13 +36,16 @@
 					{{ egou._id }}
 				</td>
 				<td>
-					{{ egou.eid }}
+					{{ egou.user_id }}
+				</td>
+				<td>
+					{{ egou.uid }}
 				</td>
 				<td>
 					{{ egou.hid }}
 				</td>
 				<td>
-					{{ egou.time }}
+					{{ egou.addtime|date 'Y-m-d H:i' }}
 				</td>
 			</tr>
 			{% endfor %}

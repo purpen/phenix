@@ -9,7 +9,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','d3in');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','d3in','request');
 
 	
 	/**
@@ -17,6 +17,47 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 */
 	public function execute(){
 		//return $this->coupon();
+	}
+	
+	/**
+	 *  注册分享页面
+	 */
+	public function request(){
+		$this->stash['page_title_suffix'] = '太火鸟送你红包100元，马上点击查看！';
+    $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+		$redirect_url = Doggy_Config::$vars['app.url.wap'];
+
+    if(empty($user_id)){
+      return $this->show_message_page('缺少请求参数！', $redirect_url);   
+    }
+
+    $this->stash['is_current_user'] = false;
+    if($this->visitor->id){
+      if($this->visitor->id == $user_id){
+        $this->stash['is_current_user'] = true;       
+      }
+    }
+
+    $user_model = new Sher_Core_Model_User();
+    $user = $user_model->extend_load($user_id);
+    if(empty($user)){
+      return $this->show_message_page('用户不存在！', $redirect_url);    
+    }
+
+    //当前用户邀请码
+    $this->stash['invite_code'] = Sher_Core_Util_View::fetch_invite_user_code($user_id);
+
+    $this->stash['user'] = $user;
+
+		//微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['share_url'] = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
+		return $this->to_html_page('wap/promo/request.html');
 	}
 	
 	public function d3in(){

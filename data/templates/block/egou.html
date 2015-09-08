@@ -1,7 +1,46 @@
-<div class="ui dimmer modals">
-  <div class="ui standard yigo modal" style="width:700px !important;left:50% !important;background: rgba(0,0,0,0) !important;top:0 !important;margin-top:0 !important;">
+<div class="ui dimmer egou modals">
+  <div class="ui standard yigo modal" style="width:840px !important;height:530px !important;left:50% !important;background: rgba(0,0,0,0) !important;top:0 !important;margin-top:0 !important;box-shadow:none !important;">
     <div style="position:relative">
-      <img src="{{ app_url_packaged }}/images/egouzat.png" width="100%">
+      <img src="{{ app_url_packaged }}/images/egza.png" width="100%">
+      <a class="ui yigo close" style="position: absolute;width: 60px;height: 60px;right: 15px;top: 10px;cursor: pointer;"></a>
+
+      
+      {% if !visitor %}
+    	{% if egou_show %}
+          <!--  注册  -->
+          <a href="{{ app_url_register }}" title="注册" style="position: absolute;width: 230px;height: 60px;left: 310px;top: 310px;cursor: pointer;"><img src="{{ app_url_packaged }}/images/egsign.png" width="100%"></a>
+        {% else %}
+          <!--  登录  -->
+          <a href="{{ app_url_login }}" title="登陆" style="position: absolute;width: 230px;height: 60px;left: 310px;top: 310px;cursor: pointer;"><img src="{{ app_url_packaged }}/images/eglogin.png" width="100%"></a>
+        {% endif %}
+      {% endif %}
+      
+      <!--  邀请  -->
+      {% if visitor %}
+        <a href="javascript:void(0)" title="{{ egou_finish }}" style="position: absolute;width: 230px;height: 60px;left: 310px;top: 310px;cursor: pointer;"><img src="{{ app_url_packaged }}/images/egapply.png" width="100%"></a>
+        
+        <div class="user share" style="position: absolute;top: 400px;left: 50%;margin-left: -94px;">
+          <a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn" style="margin:0 2px;">
+              <i class="weibo icon large circular red inverted"></i>
+          </a>
+          <a href="javascript:void(0);" class="ui green egou icon btn" title="微信" style="margin:0 2px;">
+              <i class="weixin icon large circular green inverted"></i>
+          </a>
+          <a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn" style="margin:0 2px;">
+              <i class="tencent weibo icon large circular blue inverted"></i>
+          </a>
+          <a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn" style="margin:0 2px;">
+              <i class="icon renren large circular blue inverted"></i>
+          </a>
+        </div>
+        
+        {% if egou_finish %}
+          <a href="http://www.egou.com/" title="返回易购" style="position: absolute;width: 160px;height: 45px;right: 0px;bottom: 3px;cursor: pointer;"><img src="{{ app_url_packaged }}/images/egreturn.png" width="100%"></a>
+        {% endif %}
+        
+      {% endif %}
+      
+      <!--<img src="{{ app_url_packaged }}/images/egouzat.png" width="100%">
       <a class="ui yigo close" style="position: absolute;width: 60px;height: 60px;right: 20px;top: 20px;cursor: pointer;"></a>
       <a href="{{ app_url_try }}" title="免费试用" style="position: absolute;width: 240px;height: 120px;left: 130px;top: 310px;cursor: pointer;"></a>
       <a href="{{ app_url_topic }}/view-104758-1.html" title="60个OraCleen智能牙刷送送送！" style="position: absolute;width: 240px;height: 120px;right: 80px;top: 420px;cursor: pointer;"></a>
@@ -10,12 +49,29 @@
       <img src="{{ app_url_packaged }}/images/egoubtnl.png" class="egou flex-prev" style="position:absolute; top: 383px; left: 300px;">
       <img src="{{ app_url_packaged }}/images/egoubtnr.png" class="egou flex-next" style="position:absolute; top: 498px; left: 290px;">
       <img src="{{ app_url_packaged }}/images/egoubtnl.png" class="egou flex-prev" style="position:absolute; top: 612px; left: 300px;">
-      <img src="{{ app_url_packaged }}/images/egoubtnr.png" class="egou flex-next" style="position:absolute; top: 713px; left: 320px;">
+      <img src="{{ app_url_packaged }}/images/egoubtnr.png" class="egou flex-next" style="position:absolute; top: 713px; left: 320px;">-->
     </div>
   </div>
 </div>
-{% if egou_uid %}
+
+<div class="ui small qrcodet egou modal">
+  	<i class="close icon"></i>
+  	<div class="content">
+		<div class="ui center aligned grid">
+			<div class="row">
+				<div class="column">
+					<p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+					<div id="qrcode"></div>
+				</div>
+			</div>
+		</div>
+  	</div>
+  	<div class="actions">
+    	<label>太火鸟微信官方账号：太火鸟，关注获取最新动态。</label>
+  	</div>
+</div>
+<!--{% if egou_uid %}
 <div class="fixed button" style="right:20px;top:120px;z-index:1001 !important;">
   <div style="cursor:pointer;" class="ui yig btn"><img src="{{ app_url_packaged }}/images/ygstar.png" style="width:170px;margin:10px 0;"></div>
 </div>
-{% endif %}
+{% endif %}-->

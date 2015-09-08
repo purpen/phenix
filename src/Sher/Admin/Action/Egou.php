@@ -16,7 +16,7 @@
         }
         
         /**
-         * 投票列表
+         * 易购列表
          * @return string
          */
         public function get_list() {

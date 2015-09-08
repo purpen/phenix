@@ -24,7 +24,7 @@
 	   * 获取列表
 	   */
 	  public function get_egou_list($query=array(), $options=array()) {
-		  $model = new Sher_Core_Model_Egou();
+		  $model = new Sher_Core_Model_Egoutask();
 		  return $this->query_list($model, $query, $options);
 	  }
   }
