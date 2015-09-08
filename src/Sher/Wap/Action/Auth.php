@@ -374,11 +374,9 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
       //大赛2
       //$redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/dream2';  
     }else{
- 		  //$redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);   
+ 		  $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);  
     }
 
- 		$redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);  
-		
 		$this->clear_auth_return_url();
 		
 		return $this->ajax_json("欢迎你加入太火鸟！", false, $redirect_url);
@@ -894,8 +892,18 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 
         // 实现自动登录
         Sher_Core_Helper_Auth::create_user_session($user_id);
-        $redirect_url = !empty($this->stash['redirect_url'])?$this->stash['redirect_url']:Doggy_Config::$vars['app.url.wap'];
-        $redirect_url = $this->auth_return_url($redirect_url);
+
+        //活动跳到提示分享页面
+        if(Doggy_Config::$vars['app.anniversary2015.switch']){
+          //当前用户邀请页面
+          $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/request?user_id='.$user_id; 
+        }elseif($this->stash['evt']=='match2' || $this->stash['evt']=='match2_praise'){
+          //大赛2
+          //$redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/dream2';  
+        }else{
+          $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);  
+        }
+
         $this->clear_auth_return_url();
         return $this->ajax_json("注册成功，欢迎你加入太火鸟！", false, $redirect_url);
 
