@@ -6,7 +6,7 @@
 class Sher_Core_Service_Sign extends Sher_Core_Service_Base {
 	
     protected $sort_fields = array(
-        'last_date' => array('last_date' => -1),
+        'last_date' => array('last_sign_time' => -1),
 		'sign_times' => array('sign_times' => -1),
         'exp_count' => array('exp_count' => -1),
 		'money_count' => array('money_count' => -1)
