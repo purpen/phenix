@@ -1,0 +1,166 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}邀请好友 -{% endblock %}
+{% block page_css %}
+<style type="text/css">
+html, body {
+    overflow:hidden;
+    margin:0;
+    padding:0;
+}
+.ui.wap{
+	display:none;
+}
+#mfrbird{
+	margin:0;
+}
+* { -webkit-appearance: none; }
+
+html, body { height: 100%; width: 100%; margin: 0px; background: #000; }
+section { display: block; height: 100%; overflow: hidden;  }
+
+.mmfoot{
+display:none;
+}
+
+.invite{
+	background:url({{ app_url_packaged }}/images/promo/eginbg.jpg) no-repeat;
+	background-size:cover;
+}
+.column{
+  position:relative;
+}
+.sign{
+  width:100%;
+  margin-top:15%;
+  margin-bottom:20px;
+  z-index:3;
+}
+.timage{
+  width:25%;
+  border-radius: 500rem;
+  margin-top:12%;
+  margin-bottom:10px;
+}
+.eginlogo{
+  width:18%;
+  position:absolute;
+  left:41%;
+  bottom:5%;
+  z-index:2;
+}
+.xin{
+  background:#ffe2b3 !important;
+  color:#da3932 !important;
+  
+}
+.ui.grid>.column:not(.row), .ui.grid>.row>.column{
+  width:100% !important;
+}
+</style>
+{% endblock %}
+{% block jquery %}
+$('.showdiv').click(function(){
+    $('#mask').css('display','');
+});
+$('#mask').click(function(){
+    $('#mask').css('display','none');
+});
+{% endblock %}
+{% block layout_js %}
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" >
+    var m_name = '太火鸟送你红包100元，马上点击查看！';
+    var img_url = 'http://frstatic.qiniudn.com/images/promo/eginshare.jpg';
+    var link = '{{ app_url_wap_promo }}/request';
+    var desc_str = '智能生活来袭，红包购物别缓！';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+
+  wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+  </script>
+{% endblock %}
+{% block content %}
+<img src="{{ app_url_packaged }}/images/promo/eginshare.jpg" style="display:none;">
+<section class="invite">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+			  
+			  <!--  邀请   -->
+			  <!--
+			  <img class="ui timage" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avs.jpg" alt="sherry wang">
+			  <p style="font-size:16px;"><b>山货也是货</b></p>
+        <img src="{{ app_url_packaged }}/images/promo/egin.png" class="sign">
+        <a href="javascript:viod(0);" class="ui showdiv magenta active inverted button">立即分享</a>
+        <div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9;left:0; display: none; background: rgb(0, 0, 0);" align="center">
+          <div class="frideshare">
+        	<img src="{{ app_url_packaged }}/images/fenxiang.png" width="100%" >
+          </div>
+        </div>
+        
+        -->
+        
+        <img class="ui timage" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avs.jpg" alt="sherry wang">
+			  <p style="font-size:16px;"><b>山货也是货</b></p>
+			  <img src="{{ app_url_packaged }}/images/promo/eginhb.png" class="sign" style="margin-bottom:-23%;margin-top:8%;">
+			  <a href=" " class="ui active xin button">点击查看钱包</a>
+        
+			  
+			  
+			</div>
+		</div>
+	</div>
+	<img src="{{ app_url_packaged }}/images/promo/eginlogo.png" class="eginlogo">
+</section>
+{% endblock %}
