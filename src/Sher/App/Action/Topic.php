@@ -574,6 +574,14 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		return $this->to_html_page($tpl);
 	}
 	
+    
+    /**
+     * 签到
+     */
+    public function sign(){
+        return $this->to_html_page('page/topic/sign.html');
+    }
+    
 	/**
 	 * 推荐
 	 */
@@ -678,7 +686,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->ajax_notification('主题不存在！', true);
 		}
 		$id = $this->stash['id'];
-    $tv = $this->stash['tv'];
+        $tv = $this->stash['tv'];
         
 		Doggy_Log_Helper::debug("Top Topic [$id][$tv]!");
 		try{
@@ -723,7 +731,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 */
 	public function ajax_cancel_top(){
 		$id = $this->stash['id'];
-    $tv = $this->stash['tv'];
+        $tv = $this->stash['tv'];
 		if(empty($this->stash['id'])){
 			return $this->ajax_json('主题不存在！', true);
 		}
