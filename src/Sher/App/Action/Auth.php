@@ -716,6 +716,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
       return $this->ajax_note('拒绝访问,请重试！', true);
     }
 
+    $third_source = isset($this->stash['third_source'])?$this->stash['third_source']:null;
     $uid = isset($this->stash['uid'])?$this->stash['uid']:null;
 		$access_token = isset($this->stash['access_token'])?$this->stash['access_token']:null;
     $union_id = isset($this->stash['union_id'])?$this->stash['union_id']:null;

@@ -108,7 +108,7 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
           $this->stash['sex'] = $weibo_info['gender'];
           $this->stash['from_site'] = Sher_Core_Util_Constant::FROM_WEIBO;
           $this->stash['login_token'] = Sher_Core_Helper_Auth::gen_login_token();
-          $this->stash['session_random'] = md5($rid);
+          $this->stash['session_random'] = md5($sid);
 
           if($from_to=='wap'){
             return $this->to_html_page('wap/auth/landing.html');         
