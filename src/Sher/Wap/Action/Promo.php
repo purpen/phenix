@@ -28,8 +28,10 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		$redirect_url = Doggy_Config::$vars['app.url.wap'];
 
     if($this->visitor->id){
-      if($this->visitor->id != $user_id);
-      return $this->redirect_to(Doggy_Config::$vars['app.url.wap']."/promo/request?user_id=".$this->visitor->id);
+      if($this->visitor->id != $user_id){
+        $this->stash['user_id'] = $this->visitor->id;
+        return $this->request();
+      }
     }else{
       if(empty($user_id)){
         return $this->show_message_page('缺少请求参数！', $redirect_url);   
