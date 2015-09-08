@@ -287,6 +287,30 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
   
  		return $this->to_html_page('admin/try/vote_list.html'); 
   }
+
+	/**
+	 * 推荐/取消推荐
+	 */
+	public function ajax_set_stick() {
+
+		if(empty($this->stash['id'])){
+			return $this->ajax_note('缺少请求参数！', true);
+		}
+    $evt = $this->stash['evt'] = isset($this->stash['evt']) ? $this->stash['evt'] : 0;
+		
+		try{
+			$model = new Sher_Core_Model_Try();
+      if($evt){
+        $model->mark_as_stick((int)$this->stash['id']);     
+      }else{
+        $model->mark_cancel_stick((int)$this->stash['id']);
+      }
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_note('请求操作失败，请检查后重试！', true);
+		}
+		
+		return $this->to_taconite_page('admin/try/stick_ok.html');
+	}
 	
 	
 }

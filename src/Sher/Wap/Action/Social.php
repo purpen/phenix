@@ -16,7 +16,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		'page_description_suffix' => '太火鸟话题是国内最大的智能硬件社区，包括智创学堂，孵化需求，活动动态，品牌专区，产品评测等几大社区板块以及上千个智能硬件话题，太火鸟话题-创意与创意的碰撞。',
 	);
 	
-	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show', 'ajax_guess_topics', 'ajax_topic_list');
+	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show', 'ajax_guess_topics', 'ajax_topic_list', 'ajax_fetch_more');
 	
 	/**
 	 * 社区入口
@@ -544,5 +544,117 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		$result = $model->statistics((int)$vote['vote_id']);
 		echo json_encode($result);
 	}
+
+  /**
+   * 自动加载获取
+   */
+  public function ajax_fetch_more(){
+        
+		$page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 15;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 1;
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+        
+        $query = array();
+        $query['published'] = 1;
+        // 是评测
+        if($type==5){
+          $query['try_id'] = array('$ne'=>0);
+        }
+        $options['page'] = $page;
+        $options['size'] = $size;
+
+        // 排序
+        switch ((int)$sort) {
+          case 0:
+            $options['sort_field'] = 'latest';
+            break;
+          case 1:
+            $options['sort_field'] = 'update';
+            break;
+          case 2:
+            $options['sort_field'] = 'comment';
+            break;
+          case 3:
+            $options['sort_field'] = 'favorite';
+            break;
+          case 4:
+            $options['sort_field'] = 'love';
+            break;
+          case 5:
+            $options['sort_field'] = 'view';
+            break;
+          case 6:
+            $options['sort_field'] = 'stick:latest';
+            break;
+          case 7:
+            $options['sort_field'] = 'last_reply';
+            break;
+          case 8:
+            $options['sort_field'] = 'fine:update';
+            break;
+        }
+
+        //限制输出字段
+        $some_fields = array(
+          '_id'=>1, 'title'=>1, 'short_title'=>1, 'user_id'=>1, 't_color'=>1, 'top'=>1,
+          'fine'=>1, 'stick'=>1, 'category_id'=>1, 'created_on'=>1, 'asset_count'=>1,
+          'last_user'=>1, 'last_reply_time'=>1, 'cover_id'=>1, 'comment_count'=>1, 'view_count'=>1,
+          'updated_on'=>1, 'favorite_count'=>1, 'love_count'=>1, 'deleted'=>1,'published'=>1, 'tags'=>1,
+          'description'=>1,
+        );
+        $options['some_fields'] = $some_fields;
+        
+        $service = Sher_Core_Service_Topic::instance();
+        $resultlist = $service->get_topic_list($query,$options);
+        $next_page = 'no';
+        if(isset($resultlist['next_page'])){
+            if((int)$resultlist['next_page'] > $page){
+                $next_page = (int)$resultlist['next_page'];
+            }
+        }
+        
+        $max = count($resultlist['rows']);
+        for($i=0;$i<$max;$i++){
+            $symbol = isset($resultlist['rows'][$i]['user']['symbol']) ? $resultlist['rows'][$i]['user']['symbol'] : 0;
+            if(!empty($symbol)){
+              $s_key = sprintf("symbol_%d", $symbol);
+              $resultlist['rows'][$i]['user'][$s_key] = true;
+            }
+            if($resultlist['rows'][$i]['asset_count'] > 0){
+                $resultlist['rows'][$i]['has_asset'] = true;
+                $asset = Sher_Core_Service_Asset::instance();
+                $q = array(
+                    'parent_id'  => $resultlist['rows'][$i]['_id'],
+                    'asset_type' => 55,
+                );
+                $op = array(
+                    'page' => 1,
+                    'size' => !empty($resultlist['rows'][$i]['cover'])?4:5,
+                    'sort_field' => 'positive',
+                );
+                $asset_result = $asset->get_asset_list($q, $op);
+                $resultlist['rows'][$i]['asset_list'] = $asset_result['rows'];
+                
+                //print_r($resultlist['rows'][$i]['asset_list']);
+            }else{
+                $resultlist['rows'][$i]['has_asset'] = false;
+            }
+
+            // 过滤用户表
+            if(isset($resultlist['rows'][$i]['user'])){
+              $resultlist['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['user']);
+            }
+            if(isset($resultlist['rows'][$i]['last_user'])){
+              $resultlist['rows'][$i]['last_user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['last_user']);
+            }
+        } //end for
+
+        $data = array();
+        $data['nex_page'] = $next_page;
+        $data['results'] = $resultlist;
+        
+        return $this->ajax_json('', false, '', $data);
+    }
 	
 }
