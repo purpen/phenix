@@ -90,10 +90,25 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		}
 		
 		//var_dump($_COOKIE);
+    /**
     if(isset($_COOKIE['egou_finish'])){
  		  $this->stash['egou_finish'] = $_COOKIE['egou_finish'];   
     }else{
   	  $this->stash['egou_finish'] = '';    
+    }
+     */
+
+    if($this->visitor->id){
+      //当前用户邀请码
+      $invite_code = Sher_Core_Util_View::fetch_invite_user_code($this->visitor->id);
+      $this->stash['user_invite_code'] = $invite_code;   
+    }else{
+      // 如果存在邀请码，存cookie
+      if(isset($this->stash['user_invite_code']) && !empty($this->stash['user_invite_code'])){
+        // 将邀请码保存至cookie
+        @setcookie('user_invite_code', $this->stash['user_invite_code'], 0, '/');
+        $_COOKIE['user_invite_code'] = $this->stash['user_invite_code'];   
+      }   
     }
 
 		$this->set_target_css_state('page_home');

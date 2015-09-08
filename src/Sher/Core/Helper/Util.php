@@ -737,8 +737,8 @@ class Sher_Core_Helper_Util {
 		setcookie('egou_uid', '', time() - 3600, '/');
 		setcookie('egou_hid', '', time() - 3600, '/');
 		
-		@setcookie('egou_finish', (bool)1 , 0, '/');
-		$_COOKIE['egou_finish'] = (bool)1;
+		//@setcookie('egou_finish', (bool)1 , 0, '/');
+		//$_COOKIE['egou_finish'] = (bool)1;
 		return true;
 	}
 	

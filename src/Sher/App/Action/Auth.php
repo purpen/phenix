@@ -98,10 +98,6 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		// 获取session id
     $service = Sher_Core_Session_Service::instance();
     $sid = $service->session->id;
-    //$redirect_url = !empty($this->stash['redirect_url'])?$this->stash['redirect_url']:null;
-    //$state = Sher_Core_Helper_Util::generate_mongo_id();
-    //$session_random_model = new Sher_Core_Model_SessionRandom();
-    //$session_random_model->gen_random($sid, $state, 1, $redirect_url);
 
     // 微信登录参数
     $wx_params = array(
@@ -408,26 +404,12 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 			if($ok){
 				$user_id = $user->id;
 				
-				// 设置邀请码已使用
-				// $this->mark_invitation_used($user_id);
-				
 				// 删除验证码
 				$verify = new Sher_Core_Model_Verify();
 				$verify->remove((string)$code['_id']);
 
-				//统计好友邀请
-				if(isset($this->stash['user_invite_code']) && !empty($this->stash['user_invite_code'])){
-				  //通过邀请码获取邀请者ID
-				  $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($this->stash['user_invite_code']);
-		
-					//统计邀请记录
-					if($user_invite_id){
-					  $invite_mode = new Sher_Core_Model_InviteRecord();
-					  $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
-					  //送邀请人红包(30元)
-					  $this->give_bonus($user_invite_id, 'IV', array('count'=>1, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
-					}
-				}
+        // 是否是好友邀请
+        $this->is_user_invite($user_id);
 
 				//指定入口送抽奖码
 				if($this->stash['evt']=='match2_praise'){
@@ -682,6 +664,33 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
     // 赠与红包 使用默认时间30天 $end_time = strtotime('2015-06-30 23:59')
     $end_time = 0;
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
+  }
+
+  /**
+   * 判断是否是用户邀请
+   */
+  protected function is_user_invite($user_id){
+    $code = null;
+    if(isset($this->stash['user_invite_code']) && !empty($this->stash['user_invite_code'])){
+      $code = $this->stash['user_invite_code'];
+    }elseif(isset($_COOKIE['user_invite_code']) && !empty($_COOKIE['user_invite_code'])){
+      $code = $_COOKIE['user_invite_code'];
+      // 清除cookie值
+      setcookie('user_invite_code', '', time() - 3600, '/');
+    }
+
+    if($code){
+      $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($code);
+      //统计邀请记录
+      if($user_invite_id){
+        $invite_mode = new Sher_Core_Model_InviteRecord();
+        $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
+        //送邀请人红包(30)
+        $this->give_bonus($user_invite_id, 'IV', array('count'=>1, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
+      }   
+    
+    }
+
   }
 
   /**

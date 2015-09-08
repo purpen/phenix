@@ -70,9 +70,6 @@
 		});
 	});
 	
-	// 分享按钮
-	phenix.bind_share_list();
-	
 	skrollr.init({
 		forceHeight: false,
 		mobileCheck:function(){},
@@ -103,6 +100,66 @@
 
 		// 验证是否登录
 		if (phenix.visitor.is_login){
+      // 分享按钮
+      // 链接，标题，网站名称，子窗口别称，网站链接
+      var link = "{{ app_url_domain }}?user_invite_code={{ user_invite_code }}";
+      var title = title = encodeURIComponent(document.title.substring(0,100));
+      var source = encodeURIComponent('太火鸟'), windowName = 'tShare', site = 'http://www.taihuoniao.com/';
+      var pic_url = 'http://static.taihuoniao.me/images/egza.png';
+      var getParamsOfShareWindow = function(width, height) {
+        return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+      }
+      
+      $('#wechat-share,#wechat-share-1').click(function() {
+        $('.ui.qrcode.modal').modal('show');
+        return false;
+      });
+      
+      $('#sina-share,#sina-share-1').click(function() {
+        var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(607, 523);
+        window.open(url, windowName, params);
+        return false;
+      });
+      // 同一个页面出现2个
+      $('#o-share-weibo').click(function() {
+        var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(607, 523);
+        window.open(url, windowName, params);
+        return false;
+      });
+      $('#tencent-share,#tencent-share-1').click(function() {
+        var url = 'http://v.t.qq.com/share/share.php?title=' + title + '&url=' + link + '&site=' + site + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(634, 668);
+        window.open(url, windowName, params);
+        return false;
+      });
+      $('#douban-share').click(function() {
+        var url = 'http://www.douban.com/recommend/?url=' + link + '&title=' + title + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(450, 350);
+        window.open(url, windowName, params);
+        return false;
+      });
+      $('#renren-share,#renren-share-1').click(function() {
+        var url = 'http://share.renren.com/share/buttonshare?link=' + link + '&title=' + title + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(626, 436);
+        window.open(url, windowName, params);
+        return false;
+      });
+      $('#kaixin001-share').click(function() {
+        var url = 'http://www.kaixin001.com/repaste/share.php?rurl=' + link + '&rcontent=' + link + '&rtitle=' + title + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(540, 342);
+        window.open(url, windowName, params);
+        return false;
+      });
+
+
+
+
+
+
+
+
       // 生成二维码
       $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/request?user_id='+phenix.visitor.id});
 		}
