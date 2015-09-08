@@ -105,7 +105,7 @@
       var link = "{{ app_url_domain }}?user_invite_code={{ user_invite_code }}";
       var title = title = encodeURIComponent(document.title.substring(0,100));
       var source = encodeURIComponent('太火鸟'), windowName = 'tShare', site = 'http://www.taihuoniao.com/';
-      var pic_url = 'http://static.taihuoniao.me/images/egza.png';
+      var pic_url = '{{ app_url_packaged }}/images/promo/eginshare.jpg';
       var getParamsOfShareWindow = function(width, height) {
         return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
       }
