@@ -90,7 +90,12 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		}
 		
 		//var_dump($_COOKIE);
-		$this->stash['egou_finish'] = $_COOKIE['egou_finish'];
+    if(isset($_COOKIE['egou_finish'])){
+ 		  $this->stash['egou_finish'] = $_COOKIE['egou_finish'];   
+    }else{
+  	  $this->stash['egou_finish'] = '';    
+    }
+
 		$this->set_target_css_state('page_home');
 
         // 商品推荐列表---取块内容

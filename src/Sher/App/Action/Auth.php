@@ -456,20 +456,21 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 				//活动送100红包
 				if(Doggy_Config::$vars['app.anniversary2015.switch']){
 				  $this->give_bonus($user_id, 'QX', array('count'=>5, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
-				}
-					
-				Sher_Core_Helper_Auth::create_user_session($user_id);
-				
+        }
+
 				// 插入易购的用户数据
 				if(isset($_COOKIE['egou_uid']) && !empty($_COOKIE['egou_uid'])){
 					$egou_auth = Sher_Core_Helper_Util::egou_auth();
 					if(!empty($egou_auth)){
 						$arr_egou = json_decode($egou_auth,true);
 						if((int)$arr_egou['result']){
-							Sher_Core_Helper_Util::egou($this->visitor->id);
+							Sher_Core_Helper_Util::egou($user_id);
 						}
 					}
 				}
+					
+				Sher_Core_Helper_Auth::create_user_session($user_id);
+				
 			}
 				
 		} catch (Sher_Core_Model_Exception $e) {
@@ -816,16 +817,16 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 				  $this->give_bonus($user_id, 'QX', array('count'=>5, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
 				}
 				
-		// 插入易购的用户数据
-		if(isset($_COOKIE['egou_uid']) && !empty($_COOKIE['egou_uid'])){
-			$egou_auth = Sher_Core_Helper_Util::egou_auth();
-			if(!empty($egou_auth)){
-				$arr_egou = json_decode($egou_auth,true);
-				if((int)$arr_egou['result']){
-					Sher_Core_Helper_Util::egou($this->visitor->id);
-				}
-			}
-		}
+        // 插入易购的用户数据
+        if(isset($_COOKIE['egou_uid']) && !empty($_COOKIE['egou_uid'])){
+          $egou_auth = Sher_Core_Helper_Util::egou_auth();
+          if(!empty($egou_auth)){
+            $arr_egou = json_decode($egou_auth,true);
+            if((int)$arr_egou['result']){
+              Sher_Core_Helper_Util::egou($user_id);
+            }
+          }
+        }
 
         // 实现自动登录
         Sher_Core_Helper_Auth::create_user_session($user_id);

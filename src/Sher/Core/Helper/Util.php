@@ -753,20 +753,26 @@ class Sher_Core_Helper_Util {
 		$enddate = date('Y-m-d',time());
 		
 		$url = "http://www.egou.com/club/Api/getQuestionLog.htm?userid=".$egou_uid."&hid=".$egou_hid."&startdate=".$startdate."&enddate=".$enddate;
-		
-		//初始化
-		$ch = curl_init();
-		
-		// 设置选项，包括URL
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-		
-		// 执行并获取HTML文档内容
-		$data = curl_exec($ch);
-		
-		// 释放curl句柄
-		curl_close($ch);
+
+    try{
+      //初始化
+      $ch = curl_init();
+      
+      // 设置选项，包括URL
+      curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_HEADER, 0);
+      
+      // 执行并获取HTML文档内容
+      $data = curl_exec($ch);
+      
+      // 释放curl句柄
+      curl_close($ch);
+      Doggy_Log_Helper::warn("egou api success $egou_uid");
+    }catch(Exception $e){
+      Doggy_Log_Helper::warn("egou api error: ".$e->getMessage());
+      $data = null;
+    }
 		
 		// 返回数据
 		return $data;
