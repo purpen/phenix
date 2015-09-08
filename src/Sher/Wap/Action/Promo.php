@@ -24,13 +24,13 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 */
 	public function request(){
 		$this->stash['page_title_suffix'] = '太火鸟送你红包100元，马上点击查看！';
-
+    $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$redirect_url = Doggy_Config::$vars['app.url.wap'];
 
     if($this->visitor->id){
-      $user_id = $this->stash['user_id'] = $this->visitor->id;
+      if($this->visitor->id != $user_id);
+      return $this->redirect_to(Doggy_Config::$vars['app.url.wap']."/promo/request?user_id=".$this->visitor->id);
     }else{
-      $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
       if(empty($user_id)){
         return $this->show_message_page('缺少请求参数！', $redirect_url);   
       }
@@ -42,6 +42,9 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     if(empty($user)){
       return $this->show_message_page('用户不存在！', $redirect_url);    
     }
+
+    //当前用户邀请码
+    $this->stash['invite_code'] = Sher_Core_Util_View::fetch_invite_user_code($user_id);
 
     $this->stash['user'] = $user;
 

@@ -160,7 +160,7 @@ $('#mask').click(function(){
         <img class="ui timage" src="{{ user.big_avatar_url }}" alt="{{ user.nickname }}">
         <p style="font-size:16px;"><b>{{ user.nickname }}</b></p>
 			  <img src="{{ app_url_packaged }}/images/promo/eginhb.png" class="sign" style="margin-bottom:-23%;margin-top:8%;">
-			  <a href="" class="ui active xin button">点击查看钱包</a>
+			  <a href="{{ app_url_wap }}/auth/signup?user_invite_code={{ invite_code }}" class="ui active xin button">点击查看钱包</a>
 
         {%endif%}
 			  
