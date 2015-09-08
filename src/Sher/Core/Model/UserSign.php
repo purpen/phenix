@@ -23,6 +23,8 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
 		'last_date' => 0,
     // 当天第N位签到
     'last_date_no' => 0,
+    // 当天签到时间
+    'last_sign_time' => 0,
 		// 记录连续签到天数
 		'sign_times' => 0,
 		// 最高连续登录天数
@@ -36,7 +38,7 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
 			'state' => 1,
 	);
 
-	protected $int_fields = array('state', 'kind', 'last_date', 'sign_times', 'max_sign_times', 'exp_count', 'money_count', 'last_date_no');
+	protected $int_fields = array('state', 'kind', 'last_date', 'sign_times', 'max_sign_times', 'exp_count', 'money_count', 'last_date_no', 'last_sign_time');
 	
 	/**
 	 * 扩展数据
@@ -133,7 +135,7 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
 
       $dig_model->update_set($dig_key, array("items.$current_day"=>$sign_no), true);
 	  
-      $this->update_set((int)$user_id, array('last_date_no'=>$sign_no));
+      $this->update_set((int)$user_id, array('last_date_no'=>$sign_no, 'last_sign_time'=>time()));
 			$user_sign = $this->find_by_id((int)$user_id);
 
 			return array('is_true'=>1, 'msg'=>'签到成功!', 'has_sign'=>1, 'continuity_times'=>$sign_times, 'give_money'=>$give_money, 'data'=>$user_sign);

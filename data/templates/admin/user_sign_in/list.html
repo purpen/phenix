@@ -72,7 +72,7 @@
 					</div>
 				</th>
 				<th>用户信息</th>
-				<th>最后签到日期</th>
+				<th>最后签到时间</th>
 				<th>连续签到天数</th>
 				<th>最高签到天数</th>
 				<th>经验总值</th>
@@ -96,7 +96,7 @@
 					</a>
 				</td>
 				<td>
-						{{ sign.last_date }}
+						{{ sign.last_sign_time|date 'y-m-d H:i:s' }}
 				</td>
 				<td>
 						{{ sign.sign_times }}

@@ -60,18 +60,20 @@ class Sher_Core_ViewTag_SignList extends Doggy_Dt_Tag {
 		
 		// 设置排序
 		switch ($sort) {
-			case 0:
+			case 1:
 				$options['sort_field'] = 'last_date';
 				break;
-			case 1:
+			case 2:
 				$options['sort_field'] = 'sign_times';
 				break;
-			case 2:
+			case 3:
 				$options['sort_field'] = 'exp_count';
 				break;
-			case 3:
+			case 4:
 				$options['sort_field'] = 'money_count';
 				break;
+      default:
+				$options['sort_field'] = 'last_date';
 		}
         
 		// 调用签到列表的获取方法
