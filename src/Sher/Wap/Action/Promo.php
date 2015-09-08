@@ -22,20 +22,19 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	/**
 	 *  注册分享页面
 	 */
-	public function request($user_id=0){
-    $this->stash['page_title_suffix'] = '太火鸟送你红包100元，马上点击查看！';
-    if(empty($user_id)){
-      $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
-    }
+	public function request(){
+		$this->stash['page_title_suffix'] = '太火鸟送你红包100元，马上点击查看！';
+    $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$redirect_url = Doggy_Config::$vars['app.url.wap'];
 
     if(empty($user_id)){
       return $this->show_message_page('缺少请求参数！', $redirect_url);   
     }
 
+    $this->stash['is_current_user'] = false;
     if($this->visitor->id){
-      if($this->visitor->id != $user_id){
-        return $this->request($this->visitor->id);
+      if($this->visitor->id == $user_id){
+        $this->stash['is_current_user'] = true;       
       }
     }
 
