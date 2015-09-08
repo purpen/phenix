@@ -100,8 +100,13 @@
 	  $('.qrcodet.egou > .close.icon').click(function(){
 	    $('.ui.yigo.close').css('z-index','100');
 	  });
-	  // 生成二维码
-  	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_domain }}'});
+
+		// 验证是否登录
+		if (phenix.visitor.is_login){
+      // 生成二维码
+      $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/request?user_id='+phenix.visitor.id});
+		}
+
     	
      $('.ui.yigo.close').click(function(){
        $('.ui.yigo.modal').modal('hide');

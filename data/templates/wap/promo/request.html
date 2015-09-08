@@ -128,6 +128,12 @@ $('#mask').click(function(){
       }
     });
   });
+
+  //记录分享数/同时送积分
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: 6, count_name:'count', type: 4, kind:4 });
+  }
   </script>
 {% endblock %}
 {% block content %}
@@ -138,9 +144,9 @@ $('#mask').click(function(){
 			<div class="center aligned column">
 			  
 			  <!--  邀请   -->
-			  <!--
-			  <img class="ui timage" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avs.jpg" alt="sherry wang">
-			  <p style="font-size:16px;"><b>山货也是货</b></p>
+        {% if visitor %}
+			  <img class="ui timage" src="{{ user.big_avatar_url }}" alt="{{ user.nickname }}">
+			  <p style="font-size:16px;"><b>{{ user.nickname }}</b></p>
         <img src="{{ app_url_packaged }}/images/promo/egin.png" class="sign">
         <a href="javascript:viod(0);" class="ui showdiv magenta active inverted button">立即分享</a>
         <div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9;left:0; display: none; background: rgb(0, 0, 0);" align="center">
@@ -149,14 +155,14 @@ $('#mask').click(function(){
           </div>
         </div>
         
-        -->
+        {%else%}
         
-        <img class="ui timage" src="http://frbird.qiniudn.com/avatar/140815/53ed6e4b989a6a1d078b6725-avs.jpg" alt="sherry wang">
-			  <p style="font-size:16px;"><b>山货也是货</b></p>
+        <img class="ui timage" src="{{ user.big_avatar_url }}" alt="{{ user.nickname }}">
+        <p style="font-size:16px;"><b>{{ user.nickname }}</b></p>
 			  <img src="{{ app_url_packaged }}/images/promo/eginhb.png" class="sign" style="margin-bottom:-23%;margin-top:8%;">
-			  <a href=" " class="ui active xin button">点击查看钱包</a>
-        
-			  
+			  <a href="" class="ui active xin button">点击查看钱包</a>
+
+        {%endif%}
 			  
 			</div>
 		</div>
