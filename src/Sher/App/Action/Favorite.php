@@ -48,6 +48,7 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 	public function ajax_favorite(){
 		$id = $this->stash['id'];
 		$type = $this->stash['type'];
+		
 		if(empty($id) || empty($type)){
 			return $this->ajax_json('缺少请求参数！', true);
 		}
@@ -116,6 +117,10 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 				break;
 			case Sher_Core_Model_Favorite::TYPE_COOPERATE:
 				$model = new Sher_Core_Model_Cooperation();
+				$result = $model->load((int)$id);
+				break;
+			case Sher_Core_Model_Favorite::TYPE_ALBUMS:
+				$model = new Sher_Core_Model_Albums();
 				$result = $model->load((int)$id);
 				break;
 		}
