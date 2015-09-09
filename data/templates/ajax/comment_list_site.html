@@ -106,13 +106,13 @@
 
   <eval>
     //查看大图
-    $('.comment-img-box').on('click', function(){
+    $('.comment-img-box img').on('click', function(){
       var evt = $(this).attr('show-type');
       if(evt==1){
-        $(this).find('img').css({'max-width':'100%', 'cursor':'-webkit-zoom-out', 'cursor':'-moz-zoom-out', 'cursor':'-ms-zoom-out', 'cursor':'-o-zoom-out'});
+        $(this).css({'max-width':'100%', 'cursor':'-webkit-zoom-out', 'cursor':'-moz-zoom-out', 'cursor':'-ms-zoom-out', 'cursor':'-o-zoom-out'});
         $(this).attr('show-type', 2);
       }else{
-        $(this).find('img').css({'max-width':'150px', 'cursor':'-webkit-zoom-in', 'cursor':'-moz-zoom-in', 'cursor':'-ms-zoom-in', 'cursor':'-o-zoom-in'});
+        $(this).css({'max-width':'150px', 'cursor':'-webkit-zoom-in', 'cursor':'-moz-zoom-in', 'cursor':'-ms-zoom-in', 'cursor':'-o-zoom-in'});
         $(this).attr('show-type', 1);
       }
     });
