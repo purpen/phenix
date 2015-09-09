@@ -864,7 +864,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			$page_title = '提交创意';
 			$this->stash['hide'] = 'hide';
 		}else{
-			$page_title = '发表话题';
+			$page_title = '发表主题';
 		}
 		$this->stash['page_title'] = $page_title;
 		
