@@ -27,7 +27,7 @@
     </div>
     
     <div class="fluid ui large vertical category menu">
-        {% category_list var:'category' only_open:1 domain:2 size:10 %}
+        {% category_list var:'category' only_open:1 domain:2 size:15 %}
         {% for cat in category.rows %}
             {% if cat.pid %}
             <a class="item" href="{{ cat.view_url }}">
