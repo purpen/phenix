@@ -51,8 +51,8 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		'try_count'  => 0,
 		# 申请人数
 		'apply_count' => 0,
-    # 虚拟申请人数
-    'invented_apply_count' => 0,
+        # 虚拟申请人数
+        'invented_apply_count' => 0,
 		# 申请通过的人员
 		'pass_users' => array(),
 		

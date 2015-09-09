@@ -244,7 +244,7 @@ h4.ui.header .map-advantage {
   }
 
     // 评论参数
-    var page = 1, per_page = 10, sort = 0;
+    var page = {{ page|default 1 }}, per_page = 10, sort = 0;
     var url = '{{ app_url_comment }}/ajax_fetch_comment';
     var target_id = "{{ active.topic_ids.0 }}";
     // 评论类型
@@ -490,8 +490,6 @@ h4.ui.header .map-advantage {
                 	<div class="block title">
                 		活动报道
                     </div>
-                    
-                    
                 </div>
                 
                 <div class="bar"></div>
@@ -531,14 +529,19 @@ h4.ui.header .map-advantage {
                 <div class="bar"></div>
                 
                 <div class="product activity reviews">
+                    <a name="comment_top"></a>
                 	<div class="block title">
-                		活动讨论
+                		活动讨论 <small>（{{ active.comment_count }}）</small>
+                        
+                        <div class="quick goto">
+                            跳楼：<input type="text" name="floor" class="gotofloor" data-max="{{ active.comment_count }}" data-url="{{ app_url_active }}/view/{{ active._id }}/{{ page }}" title="跳转到指定楼层" />
+                        </div>
                     </div>
                     {% if active.topic_ids %}
                         <!--ajax comment-->
                         <div class="ui big reply segment" id="comment-list">
                             <div class="ui threaded comments is-comment"></div>
-                            <div class="morepages" id="load-more-btn"></div>
+                            <div class="ui pagination pagerbox"></div>
                         </div>
                         {% include "block/comment_box_site.html" %}
                     {% endif %}
@@ -615,4 +618,5 @@ h4.ui.header .map-advantage {
 
 {% block templates %}
   {% mustache id:'get_comments_tpl' tpl:'mustache/fetch_comments.mustache' %}
+  {% mustache id:'pager_tpl' tpl:'mustache/pager.mustache' %}
 {% endblock %}

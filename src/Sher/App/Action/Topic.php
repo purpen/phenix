@@ -15,6 +15,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		'time' => 0,
 		'page' => 1,
 		'cid'  => 0,
+        'floor'=> 0,
 		'ref'  => null,
 		'page_title_suffix' => '太火鸟智能硬件社区',
 		'page_keywords_suffix' => '智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广',
@@ -475,7 +476,6 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 显示主题详情帖
 	 */
 	public function view(){
-		
 		$id = (int)$this->stash['id'];
 		
 		$redirect_url = Doggy_Config::$vars['app.url.topic'];
@@ -503,7 +503,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		//添加网站meta标签
 		$this->stash['page_title_suffix'] = sprintf("%s-太火鸟智能硬件社区", $topic['title']);
 		if(!empty($topic['tags'])){
-		  $this->stash['page_keywords_suffix'] = sprintf("智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,%s", $topic['tags'][0]);   
+            $this->stash['page_keywords_suffix'] = sprintf("智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,%s", $topic['tags'][0]);   
 		}
 		$this->stash['page_description_suffix'] = sprintf("【太火鸟话题】 %s", mb_substr($topic['strip_description'], 0, 140));
 		
@@ -517,8 +517,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				$editable = true;
 			}
 
-      // 验证用户关注关系
-      $this->validate_ship($this->visitor->id, $topic['user_id']);
+            // 验证用户关注关系
+            $this->validate_ship($this->visitor->id, $topic['user_id']);
 		}
 		
 		// 是否出现后一页按钮
@@ -551,7 +551,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			}
 		}
 		
-		//评论参数
+		// 评论参数
 		$comment_options = array(
 		  'comment_target_id' =>  $topic['_id'],
 		  'comment_target_user_id' => $topic['user_id'],
@@ -597,6 +597,14 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['is_vote'] = $is_vote;
 		$this->stash['is_vote'] = $is_vote;
 		$this->stash['can_vote'] = $can_vote;
+        
+        // 跳转楼层
+        $floor = (int)$this->stash['floor'];
+        if($floor){
+            $new_page = ceil($floor/10);
+            $this->stash['page'] = $new_page;
+        }
+        
 		return $this->to_html_page($tpl);
 	}
 	
