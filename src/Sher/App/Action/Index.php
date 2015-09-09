@@ -73,7 +73,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			$egou_show = 0;
 			
 			$date = array();
-			$date['eid'] = $uid;
+			$date['uid'] = $uid;
 			$date['hid'] = $hid;
 			$result = $model->find($date);
 			
