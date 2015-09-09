@@ -96,8 +96,8 @@
 {% block jquery %}
   //分享
   var share_title = '我已成功注册跻身太火鸟英雄汇，这里林子好大，小伙伴们快来哇，成功邀请好友还有红包领取，快来注册并邀请身边好友吧！你们靠谱，我的红包也鼓~~';
-  var share_url = '{{ app_url_register }}?user_invite_code={{ user_invite_code }}';
-  var share_pic = '';
+  var share_url = '{{ app_url_domain }}?user_invite_code={{ user_invite_code }}';
+  var share_pic = '{{ app_url_packaged }}/images/promo/eginshare.jpg';
   social_share(share_url, share_title, share_pic);
 	// 生成二维码
   $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/year_invite?invite_code={{ user_invite_code }}'});

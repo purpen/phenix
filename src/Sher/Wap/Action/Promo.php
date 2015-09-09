@@ -27,14 +27,15 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$redirect_url = Doggy_Config::$vars['app.url.wap'];
 
+    if(empty($user_id)){
+      return $this->show_message_page('缺少请求参数！', $redirect_url);   
+    }
+
+    $this->stash['is_current_user'] = false;
     if($this->visitor->id){
-      if($this->visitor->id != $user_id);
-      return $this->redirect_to(Doggy_Config::$vars['app.url.wap']."/promo/request?user_id=".$this->visitor->id);
-    }else{
-      if(empty($user_id)){
-        return $this->show_message_page('缺少请求参数！', $redirect_url);   
+      if($this->visitor->id == $user_id){
+        $this->stash['is_current_user'] = true;       
       }
-   
     }
 
     $user_model = new Sher_Core_Model_User();
@@ -53,7 +54,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     $timestamp = $this->stash['timestamp'] = time();
     $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
     $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+    $url = $this->stash['share_url'] = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
     $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
     $this->stash['wxSha1'] = sha1($wxOri);
 		return $this->to_html_page('wap/promo/request.html');

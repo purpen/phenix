@@ -253,7 +253,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	 * 批量生成指定限额红包
 	 * @var $count 默认生成红包数量
 	 */
-	public function create_specify_bonus($count=5, $xname='RE', $char='A', $min_char='A', $product_id=0){
+	public function create_specify_bonus($count=1, $xname='RE', $char='A', $min_char='A', $product_id=0){
 		# 红包金额
 	  $bonus = array(
 			'A' => 50,
