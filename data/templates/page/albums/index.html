@@ -29,6 +29,8 @@
 
 {% block jquery %}
 
+    $.ajaxSetup({cache:false});
+
     // ajax加载更多(滚动条接近底部加载)
     $(window).scroll(function(){
         var scrollTop = $(this).scrollTop();
