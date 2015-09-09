@@ -58,7 +58,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 社区首页
 	 */
 	public function index(){
-		
+		$type = $this->stash['type'];
+        
 		// 获取置顶列表
 		$diglist = array();
 		$dig_ids = array();
@@ -74,12 +75,25 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	        }
 		}
 
-    // 昨天的日期
-    $yesterday = (int)date('Ymd' , strtotime('-1 day'));
-    $this->stash['yesterday'] = $yesterday;
+        // 昨天的日期
+        $yesterday = (int)date('Ymd' , strtotime('-1 day'));
+        $this->stash['yesterday'] = $yesterday;
         
 		$this->stash['dig_ids']  = $dig_ids;
 		$this->stash['dig_list'] = $diglist;
+        
+		switch($type){
+			case 1:
+				$this->set_target_css_state('type_stick');
+				break;
+			case 2:
+				$this->set_target_css_state('type_fine');
+				break;
+			default:
+                $this->set_target_css_state('type_all');
+				break;
+		}
+        
 		return $this->to_html_page('page/topic/index.html');
 	}
     
@@ -87,17 +101,29 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
      * 自动加载获取
      */
     public function ajax_fetch_more(){
+        $type = (int)$this->stash['type'];
         
 		$page = $this->stash['page'];
         $service = Sher_Core_Service_Topic::instance();
         
         $query = array();
         $query['published'] = 1;
+        
+		// 类别
+		if($type == 1){
+			// 推荐
+			$query['stick'] = 1;
+		}elseif ($type == 2){
+			$query['fine']  = 1;
+		}else{
+			//为0
+		}
+        
         $options['page'] = $page;
         $options['size'] = 15;
 		$options['sort_field'] = 'latest';
 
-        //限制输出字段
+        // 限制输出字段
         $some_fields = array(
           '_id'=>1, 'title'=>1, 'short_title'=>1, 'user_id'=>1, 't_color'=>1, 'top'=>1,
           'fine'=>1, 'stick'=>1, 'category_id'=>1, 'created_on'=>1, 'asset_count'=>1,
