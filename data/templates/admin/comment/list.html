@@ -68,13 +68,13 @@
 	});
 
   //查看评论大图
-  $('.comment-img-box img').on('click', function(){
+  $('.comment-img-box').on('click', function(){
     var evt = $(this).attr('show-type');
     if(evt==1){
-      $(this).find('img').css({ 'cursor':'-webkit-zoom-out'});
+      $(this).find('img').css({'max-width':'100%', 'cursor':'-webkit-zoom-out'});
       $(this).attr('show-type', 2);
     }else{
-      $(this).find('img').css({ 'cursor':'-webkit-zoom-in'});
+      $(this).find('img').css({'max-width':'150px', 'cursor':'-webkit-zoom-in'});
       $(this).attr('show-type', 1);
     }
   });
