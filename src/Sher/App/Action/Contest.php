@@ -35,6 +35,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
      * 反向定制
      */
 	public function custom(){
+		$this->set_target_css_state('page_custom');
 		return $this->to_html_page('match/custom.html');
 	}
 	
@@ -42,6 +43,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
      * 规则（分成奖励）
      */
 	public function reward(){
+		$this->set_target_css_state('page_custom');
 		return $this->to_html_page('match/about3.html');
 	}
     
