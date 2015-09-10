@@ -22,15 +22,15 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 		$target_id = 0;
 		$try_id = 0;
 
-    // 是否搜索
-    $s_type = 0;
+        // 是否搜索
+        $s_type = 0;
 		
 		// 是否为一级分类
 		$is_top = false;
 		// 二级分类
 		$category_id = 0;
-    // 是否发布状态
-    $published = 0;
+        // 是否发布状态
+        $published = 0;
 		
 		$type = 0;
 		$time = 0;
@@ -72,14 +72,14 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 			$query['try_id'] = (int)$try_id;
 		}
 
-    // 是否发布
-    if($published){
-      if((int)$published==1){
-        $query['published'] = 1;     
-      }else{
-        $query['published'] = 0;
-      }
-    }
+        // 是否发布
+        if($published){
+            if((int)$published==1){
+                $query['published'] = 1;     
+            }else{
+                $query['published'] = 0;
+            }
+        }
 		
 		// 类别
 		if ($type == 1){
@@ -91,20 +91,20 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 			//为0
 		}
 
-    // 搜索
-    if($s_type){
-        switch ((int)$s_type){
-            case 1:
-                $query['_id'] = (int)$s_mark;
-                break;
-            case 2:
-                $query['title'] = array('$regex'=>$s_mark);
-                break;
-            case 3:
-                $query['tags'] = array('$all'=>array($s_mark));
-                break;
+        // 搜索
+        if($s_type){
+            switch ((int)$s_type){
+                case 1:
+                    $query['_id'] = (int)$s_mark;
+                    break;
+                case 2:
+                    $query['title'] = array('$regex'=>$s_mark);
+                    break;
+                case 3:
+                    $query['tags'] = array('$all'=>array($s_mark));
+                    break;
+            }
         }
-    }
 		
 		// 时间
 		$day = 24 * 60 * 60;
@@ -155,15 +155,15 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 			case 5:
 				$options['sort_field'] = 'view';
 				break;
-      case 6:
-        $options['sort_field'] = 'stick:latest';
-        break;
-      case 7:
-        $options['sort_field'] = 'last_reply';
-        break;
-      case 8:
-        $options['sort_field'] = 'fine:update';
-        break;
+            case 6:
+                $options['sort_field'] = 'stick:latest';
+                break;
+            case 7:
+                $options['sort_field'] = 'last_reply';
+                break;
+            case 8:
+                $options['sort_field'] = 'fine:update';
+                break;
 		}
 		
         if ($user_id) {

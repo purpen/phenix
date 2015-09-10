@@ -12,17 +12,6 @@
     
 </style>
 {% endblock %}
-{% block layout_js %}
-<script type="text/javascript">
-    var per_page = 10, sort = 0;
-    function fetch_comment(current_page, per_page, sort){
-        var total_count = {{ product.comment_count }};
-        var total_page = Math.ceil(total_count/per_page);
-        var url = '{{ app_url_base }}/app/site/shop/ajax_fetch_comment';
-        $.get(url, {target_id: {{ product._id }}, page: current_page, per_page: per_page, sort: sort, total_page: total_page});
-    }
-</script>
-{% endblock %}
 
 {% block jquery %}
 	$('#carousel').flexslider({
@@ -45,6 +34,7 @@
     
     
 	phenix.bind_share_list();
+    
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.wap_view_url }}'});
     
@@ -247,53 +237,8 @@
 		$('.ui.share.modal').modal('show');
 	});
 	
-	phenix.hook_comment_page();
-    
-    fetch_comment(1, per_page, sort);
-    // 评论排序
-    $('.fitsort .ui.list .item').bind('click', function(){
-        sort = parseInt($(this).data('sort'));
-        $(this)
-            .siblings().removeClass('active')
-            .end()
-            .addClass('active');
-        // 获取请求
-        fetch_comment(1, per_page, sort);
-    });
-	
 	// 加载推荐商品 
 	$.get('{{ app_url_shop }}/ajax_guess_product', {sword: '{{ product.tags_s }}', size: 8, id: {{ product._id }} });
-	
-	// 显示私信框
-	$('.ui.letter.button').bind('click', function(){
-		$('.ui.letter.modal').modal('show');
-	});
-	// 隐藏私信框
-	$('.ui.cancel.button').bind('click', function(){
-		$('.ui.letter.modal').modal('hide');
-	});
-	
-	$('#message-form').form({
-		content: {
-			identifier  : 'content',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '私信内容不能为空'
-				},
-				{
-					type   : 'maxLength[140]',
-					prompt : '私信内容不超过140字符'
-				}
-			]
-		}
-	}, {
-		inline : true,
-		onSuccess: function(event){
-			event.preventDefault();
-			$(event.target).ajaxSubmit();
-		}
-	});
     
     $('.user.avatars .ui.images .image').livequery(function(){
         $(this).popup({
@@ -406,7 +351,6 @@
 					<div class="ui three tabs">
 						<a href="#.overview" class="tab">产品详情</a>
 						<a href="#.evaluating" class="tab">话题讨论</a>
-                        <a href="#.reviews" class="tab">{% if product.stage==15 %}用户评论{%else%}用户评价{%endif%}</a>
 					</div>
 				</div>
                 
@@ -445,46 +389,7 @@
 					{% endif %}
 				</div>
             </div>
-            
-            <div class="container">
-                {% if product.stage == 15 %}
-                <div class="reviews">
-        			<div class="reply box">
-          			    <!--ajax comment-->
-        	  	        <div class="block title">
-                            全部评论
-                            <small>（{{ product.comment_count|default 0 }}）</small>
-                        </div>
-                        <div class="fitsort">
-                            <div class="ui horizontal bulleted list">
-                                <a class="active item" href="javascript:void(0);" data-sort="0">默认</a>
-                                <a class="item" href="javascript:void(0);" data-sort="1">最新</a>
-                            </div>
-                        </div>
-          		  	    <div id="comment-list">
-                            <div class="ui threaded comments is-comment"></div>
-                            <div class="morepages" id="load-more-btn"></div>
-          		  	    </div>
-          		  	    {% include "block/comment_box_site.html" %}
-                    </div>
-                </div>
-                {%else%}
-                    {% if product.comment_count != 0 %}
-                    <div class="product reviews">
-                        <div class="block title">
-                            用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
-                        </div>
-                        <!--ajax comment-->
-                        <div class="ui big reply segment" id="comment-list">
-                            <div class="ui threaded comments"></div>
-                        </div>
-                    </div>
-                    {% endif %}
-                {%endif%}
-            </div>
         </div>
-        
-        <div id="product_guess_list"><!--ajax fetch--></div>
     </div>
     <div class="mainright">
         <div class="ui sticky">
@@ -723,6 +628,7 @@
         {%endif%}
     </div>
 </div>
+<div id="product_guess_list"><!--ajax fetch--></div>
 {% include "block/sharebox.html" %}
 {% include "block/qrcode.html" %}
 {% endblock %}
