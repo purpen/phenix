@@ -122,6 +122,7 @@ server {
 		rewrite ^/shop/presale/p(\d+).*$ /app/wap/shop/presale?page=$1 last;
     	rewrite ^/shop/list-c(\d+)-t(\d)-s(\d)-p(\d+).*$ /app/wap/shop?category_id=$1&type=$2&sort=$3&page=$4 last;
         rewrite ^/shop/(\d+).html$ /app/wap/shop/view?id=$1 last;
+        rewrite ^/shop/view-(\d+)-(\d+).html$ /app/wap/shop/view?id=$1&page=$2 last;
         rewrite ^/shop/(.*)$ /app/wap/shop/$1 last;
     }
 
