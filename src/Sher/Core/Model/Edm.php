@@ -1,6 +1,6 @@
 <?php
 /**
- * Edm管理
+ * Edm/私信群发管理
  * @author purpen
  */
 class Sher_Core_Model_Edm extends Sher_Core_Model_Base {    
@@ -13,6 +13,10 @@ class Sher_Core_Model_Edm extends Sher_Core_Model_Base {
 	const STATE_SENDING = 2;
 	const STATE_FINISHED = 3;
 	const STATE_FAILED = 4;
+
+  # 类型
+  const KIND_EDM = 1;
+  const KIND_MESSAGE = 2;
 	
     protected $schema = array(		
 		'title' => '',
@@ -20,17 +24,22 @@ class Sher_Core_Model_Edm extends Sher_Core_Model_Base {
 		'summary' => '',
 		# 邮件内容
 		'mailbody' => '',
+    # 用户ID
+    'user_id' => 0,
 		
 		'weekly_number' => 0,
 		'weekly_total' => 0,
 		
 		# 测试用户地址
 		'test_user' => '',
+
+    # 类型：1.edm; 2.私信
+    'kind' => self::KIND_EDM,
 		
 		'state' => self::STATE_DRAFT,
     );
 	
-    protected $int_fields = array('weekly_number', 'weekly_total', 'state');
+    protected $int_fields = array('weekly_number', 'weekly_total', 'state', 'kind');
 
 	protected $required_fields = array('title', 'summary', 'mailbody');
 	

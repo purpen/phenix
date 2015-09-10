@@ -4,10 +4,11 @@
 {% block js %}
 {% endblock %}
 {% block content %}
-	<h3 class="ui header">Edm管理</h3>
+	<h3 class="ui header">Edm/私信管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/cake" class="{{ css_all_edm }} item">全部列表</a>
+		<a href="{{ app_url_admin_base }}/edm/edm" class="{{ css_edm }} item">邮件</a>
+		<a href="{{ app_url_admin_base }}/edm/message" class="{{ css_message }} item">私信</a>
 	  	<div class="right menu">
 			<a href="{{ app_url_admin_base }}/edm/edit" class="magenta item">
 				<i class="plus icon"></i> 新增
@@ -15,7 +16,7 @@
 	    </div>
 	</div>
 	
-	{% edm_list var:'list' state:state page:page %}
+	{% edm_list var:'list' kind:kind state:state page:page %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>

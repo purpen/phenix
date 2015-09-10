@@ -9,6 +9,7 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
     'id' => 0,
 		'page' => 1,
 		'size' => 20,
+    'kind' => 2,
 	);
 	
 	public function _init() {
@@ -19,14 +20,25 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 入口
 	 */
 	public function execute(){
-		return $this->edm();
+		return $this->message();
 	}
 	
 	/** 
-	 * 列表
+	 * emd列表
 	 */
 	public function edm() {
-		$this->set_target_css_state('all_edm');
+		$this->set_target_css_state('edm');
+    $this->stash['kind'] = 1;
+		
+		return $this->to_html_page('admin/edm/list.html');
+	}
+
+	/** 
+	 * message列表
+	 */
+	public function message() {
+		$this->set_target_css_state('message');
+    $this->stash['kind'] = 2;
 		
 		return $this->to_html_page('admin/edm/list.html');
 	}
@@ -37,10 +49,13 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
 	public function edit(){
 		$id = (int)$this->stash['id'];
 		$row = array();
-		if(!empty($id)){
+    if(!empty($id)){
+      $this->stash['mode'] = 'edit';
 			$edm = new Sher_Core_Model_Edm();
 			$row = $edm->load((int)$id);
-		}
+    }else{
+      $this->stash['mode'] = 'create';
+    }
 		
 		$this->stash['edm'] = $row;
 		
@@ -65,9 +80,18 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
 		$ok = $edm->mark_set_wait($id); 
 		if($ok){
 			// 设置发送任务
-			Resque::enqueue('edming', 'Sher_Core_Jobs_Edm', array('edm_id' => $id));
+      if($row['kind']==1){
+			  Resque::enqueue('edming', 'Sher_Core_Jobs_Edm', array('edm_id' => $id));
+      }elseif($row['kind']==2){
+			  Resque::enqueue('message', 'Sher_Core_Jobs_Letter', array('edm_id' => $id));
+      }
 		}
-		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/edm';
+
+    if($row['kind']==1){
+		  $redirect_url = Doggy_Config::$vars['app.url.admin'].'/edm/edm';
+    }elseif($row['kind']==2){
+		  $redirect_url = Doggy_Config::$vars['app.url.admin'].'/edm/message';
+    }
 		
 		return $this->ajax_note('发送设置成功！');
 	}
@@ -86,20 +110,26 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
 			return $this->ajax_note('请求操作有误，请核对！', true);
 		}
 		
-		if(empty($row['test_user'])){
-			return $this->ajax_note('缺少测试用户地址！', true);
-		}
-		
-		$mg = new Mailgun\Mailgun('key-6k-1qi-1gvn4q8dpszcp8uvf-7lmbry0');
-		Doggy_Log_Helper::debug("Mailgun to send test email!");
-		$domain = 'email.taihuoniao.com';
-		
-		$result = $mg->sendMessage($domain, array(
-			'from' => '太火鸟 <noreply@email.taihuoniao.com>',
-			'to' => $row['test_user'],
-			'subject' => $row['title'],
-			'html' => $row['mailbody'],
-		));
+    if($row['kind']==1){
+      if(empty($row['test_user'])){
+        return $this->ajax_note('缺少测试用户地址！', true);
+      }
+      
+      $mg = new Mailgun\Mailgun('key-6k-1qi-1gvn4q8dpszcp8uvf-7lmbry0');
+      Doggy_Log_Helper::debug("Mailgun to send test email!");
+      $domain = 'email.taihuoniao.com';
+      
+      $result = $mg->sendMessage($domain, array(
+        'from' => '太火鸟 <noreply@email.taihuoniao.com>',
+        'to' => $row['test_user'],
+        'subject' => $row['title'],
+        'html' => $row['mailbody'],
+      ));
+
+    }elseif($row['kind']==2){
+    
+    }
+
 		
 		return $this->ajax_note('测试发送成功！');
 	}
@@ -117,6 +147,7 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
         
         $data = array();
         $data['title'] = $this->stash['title'];
+        $data['kind'] = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
         $data['test_user'] = $this->stash['test_user'];
         $data['summary']   = $this->stash['summary'];
         $data['mailbody']  = $this->stash['mailbody'];
@@ -134,7 +165,11 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
 			return $this->ajax_note('数据保存失败,请重新提交', true);
 		}
 		
-		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/edm';
+    if($data['kind']==1){
+		  $redirect_url = Doggy_Config::$vars['app.url.admin'].'/edm/edm';
+    }elseif($data['kind']==2){
+		  $redirect_url = Doggy_Config::$vars['app.url.admin'].'/edm/message';
+    }
 		
 		return $this->ajax_notification('保存成功.', false, $redirect_url);
 	}
