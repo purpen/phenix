@@ -181,14 +181,15 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
 	protected function extra_extend_model_row(&$row) {
 		$row['view_url'] = Sher_Core_Helper_Url::active_view_url($row['_id']);
 		$row['wap_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.active.view'], $row['_id']);
+        $row['comment_view_url'] = sprintf(Doggy_Config::$vars['app.url.active'].'/view/%d/%d', $row['_id'], 1);
 		// HTML 实体转换为字符
 		if (isset($row['content'])){
 			$row['content'] = htmlspecialchars_decode($row['content']);
 		}
 		// 去除 html/php标签
-    if(isset($row['summary'])){
-		  $row['strip_summary'] = strip_tags(htmlspecialchars_decode($row['summary']));
-    }
+        if(isset($row['summary'])){
+            $row['strip_summary'] = strip_tags(htmlspecialchars_decode($row['summary']));
+        }
 
     //进度显示字符串
     if(isset($row['step_stat'])){

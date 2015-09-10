@@ -58,4 +58,7 @@ db.favorite.ensureIndex({'event':1, 'type':1, 'created_on':-1}, {background: tru
 
 db.egou.ensureIndex({'eid':1, 'hid':1}, {background: true});
 
+db.egoutask.ensureIndex({'eid':1, 'hid':1}, {background: true});
+
+
 
