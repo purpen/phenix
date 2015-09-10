@@ -365,7 +365,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		  'comment_target_id' =>  $product['_id'],
 		  'comment_target_user_id' => $product['user_id'],
 		  'comment_type'  =>  4,
-		  'comment_pager' =>  Sher_Core_Helper_Url::sale_view_url($id, '#p#'),
+		  'comment_pager' =>  Sher_Core_Helper_Url::shop_view_url($id, '#p#'),
 		  //是否显示上传图片/链接
 		  'comment_show_rich' => 1,
 		);
