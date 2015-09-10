@@ -274,7 +274,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                 $this->_extend_comment_reply($row['reply'][$i]);
             }
         }
-
+        
         // 加载回复对象
         if(isset($row['is_reply']) && !empty($row['is_reply'])){
           $reply_comment_obj = $this->extend_load($row['reply_id']);
@@ -399,7 +399,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             $merge,
             function($s){
                 $a = explode('::', $s[1]);
-                $img = '<p class="comment-img-box" show-type="1"><img src="'.$a[0].'" alt="'.$a[1].'" title="'.$a[1].'" style="cursor: -webkit-zoom-in;" /></p>';
+                $img = ' <p class="comment-img-box" show-type="1"><img src="'.$a[0].'" alt="'.$a[1].'" title="'.$a[1].'" style="cursor: -webkit-zoom-in;" /></p>';
                 return $img;
             },
             $c
