@@ -278,8 +278,6 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         // 加载回复对象
         if(isset($row['is_reply']) && !empty($row['is_reply'])){
           $reply_comment_obj = $this->extend_load($row['reply_id']);
-          $reply_comment_obj['content_original'] = Sher_Core_Util_View::safe($reply_comment_obj['content']);
-          $reply_comment_obj['content'] = $this->trans_content(Sher_Core_Util_View::safe($reply_comment_obj['content_original']));
           $row['reply_comment'] = $reply_comment_obj;
         }
     }
