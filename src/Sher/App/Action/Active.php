@@ -102,8 +102,14 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 		$inc_ran = rand(1,6);
 		$model->inc_counter('view_count', $inc_ran, $id);
 
+    $this->stash['topic_comment_count'] = 0;
+
         // 评论参数
         if(!empty($active['topic_ids'])){
+            $topic_model = new Sher_Core_Model_Topic();
+            $topic = $topic_model->load((int)$active['topic_ids'][0]);
+            if($topic) $this->stash['topic_comment_count'] = $topic['comment_count'];
+
             $comment_options = array(
                 'comment_target_id' =>  (int)$active['topic_ids'][0],
                 'comment_target_user_id' => $active['user_id'],
