@@ -37,7 +37,7 @@
         {%endif%}
     
         <div class="text">
-            {% if comment.deleted==1 %}
+            {% if comment.deleted==1 %
                 该内容已被屏蔽
             {%else%}
             {{ comment.content|safe }}
