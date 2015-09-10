@@ -743,16 +743,15 @@
   	-webkit-animation-delay:1.7s;
 	}
 	.pt10-6{
-	  width:34%;
-    left:33%;
+	  width:90%;
+    left:5%;
     top:43%;
     animation-delay:2s;
   	-webkit-animation-delay:2s;
-  	opacity:0;
 	}
 	.pt10-7{
-	  width:70%;
-    left:15%;
+	  width:64%;
+    left:18%;
     top:48%;
     animation-delay:2.3s;
   	-webkit-animation-delay:2.3s;
@@ -954,6 +953,120 @@
 		90% { opacity:0;}
 		100% { opacity:1;}
 	}
+	.fp-slides {
+  z-index: 1;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  -webkit-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  }
+  .fp-slidesContainer {
+  float: left;
+  position: relative;
+  }
+  .fp-section.fp-table, .fp-slide.fp-table {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  }
+  .fp-slide, .fp-slidesContainer {
+  height: 100%;
+  display: block;
+  }
+  .fp-slide {
+  float: left;
+  }
+
+  .fp-controlArrow.fp-next:before {
+  	font-family: "Icons";
+  	font-size: 27px;
+  	line-height: 1;
+  	display: inline-block;
+  	content: "\f105";
+  }
+  .fp-controlArrow.fp-next {
+  	right: 0px;
+  	display: inline-block;
+  	opacity: .75;
+  	color: #FFF;
+  	margin: 0 .25em 0 0;
+  	width: 1.23em;
+  	height: 1em;
+  	font-family: FontFlatIcons;
+  	font-style: normal;
+  	line-height: 1;
+  	font-weight: 400;
+  	text-decoration: inherit;
+  	text-align: center;
+  	speak: none;
+  	-webkit-box-sizing: border-box;
+  	-moz-box-sizing: border-box;
+  	-ms-box-sizing: border-box;
+  	box-sizing: border-box;
+  	-webkit-font-smoothing: antialiased;
+  	-moz-font-smoothing: antialiased;
+  	font-smoothing: antialiased;
+  	-moz-osx-font-smoothing: grayscale;
+  }
+  .fp-controlArrow.fp-prev:before{
+  	font-family: "Icons";
+  	font-size: 27px;
+  	line-height: 1;
+  	display: inline-block;
+  	content: "\f104";
+  }
+  .fp-controlArrow.fp-prev {
+  	left: 0px;
+  	display: inline-block;
+  	opacity: .75;
+  	color: #FFF;
+  	margin: 0 .25em 0 0;
+  	width: 1.23em;
+  	height: 1em;
+  	font-family: FontFlatIcons;
+  	font-style: normal;
+  	line-height: 1;
+  	font-weight: 400;
+  	text-decoration: inherit;
+  	text-align: center;
+  	speak: none;
+  	-webkit-box-sizing: border-box;
+  	-moz-box-sizing: border-box;
+  	-ms-box-sizing: border-box;
+  	box-sizing: border-box;
+  	-webkit-font-smoothing: antialiased;
+  	-moz-font-smoothing: antialiased;
+  	font-smoothing: antialiased;
+  	-moz-osx-font-smoothing: grayscale;
+  }
+  .fp-controlArrow{
+  	top: 68%;
+  	font-size: 27px;
+  	margin-top: -80px;
+  }
+  .fp-controlArrow {
+  position: absolute;
+  z-index: 4;
+
+  cursor: pointer;
+  }
+  .section{
+    position:relative;
+  }
+  .slide img{
+    width: 64%;
+    position: absolute;
+    top: 56%;
+    left: 18%;
+  }
+  .p3{
+    opacity:0;
+  }
+  .p3.fadeInUp{
+    -webkit-animation-delay: 0.4s;
+	  animation-delay: 0.4s;
+  }
 </style>
 {% endblock %}
 
@@ -1368,23 +1481,7 @@
 		  <img src="{{ app_url_packaged }}/images/promo/hy/t9w006.png" class="st pt9-9 pt9 bounceInLeft animated" style="display:none">
 		  <img src="{{ app_url_packaged }}/images/promo/hy/t9w007.png" class="st pt9-10 pt9 bounceInLeft animated" style="display:none">
 		  <img src="{{ app_url_packaged }}/images/promo/hy/t9w008.png" class="st pt9-11 pt9 bounceInLeft animated" style="display:none">
-		  
-		  
-		  
-      <!--<img src="{{ app_url_packaged }}/images/promo/hy/t9w1.png" class="st pt9-1 pt9 flipInY animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w2.png" class="st pt9-2 pt9 flipInY animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w3.png" class="st pt9-3 pt9 flipInY animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w4.png" class="st pt9-4 pt9 flipInY animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w5.png" class="st pt9-5 pt9 flipInY animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w6.png" class="st pt9-6 pt9 flipInY animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w7.png" class="st pt9-7 pt9 flipInY animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w8.png" class="st pt9-8 pt9 flipInY animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w9.png" class="st pt9-9 pt9 flipInY animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w10.png" class="st pt9-10 pt9 flipInY animated" style="display:none">
-
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w12.png" class="st pt9-12">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t9w11.png" class="st pt9-11">-->
-      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none;bottom:-10%;">
       <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 		</div>
 		
@@ -1397,9 +1494,17 @@
       <img src="{{ app_url_packaged }}/images/promo/hy/t10w3.png" class="st pt10-3 pt10 flipInY animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t10w4.png" class="st pt10-4 pt10 flipInY animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t10w5.png" class="st pt10-5 pt10 flipInY animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t10w6.png" class="st pt10-6 page-logo" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t10w7.png" class="st pt10-7 page-logo" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t10w8.png" class="st pt10-8 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t10w06.png" class="st pt10-6 fadeInUp animated" style="display:none">
+      
+      <div class="slide">
+          <img src="{{ app_url_packaged }}/images/promo/hy/t10w07.png" class="p3 fadeInUp animated" style="display:none"/>
+      </div>
+      <div class="slide">
+          <img src="{{ app_url_packaged }}/images/promo/hy/t10w08.png" class="p3 fadeInUp animated" style="display:none" />
+      </div>
+      <div class="slide">
+          <img src="{{ app_url_packaged }}/images/promo/hy/t10w09.png" class="p3 fadeInUp animated" style="display:none"/>
+      </div>
       <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
       <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 		</div>
