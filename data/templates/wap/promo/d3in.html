@@ -280,7 +280,7 @@
 	.pt-end{
 	  width:62%;
 	  left:19%;
-	  top:60%;
+	  top:62%;
 	  animation-delay:1.6s;
 		-webkit-animation-delay:1.6s;
 		-webkit-animation-duration: 2s;
@@ -355,38 +355,47 @@
 	  background:url({{ app_url_packaged }}/images/promo/hy/bg3.jpg) no-repeat center center /cover;
 	}
 	.pt3-2{
-	  width:100%;
+	  width:88%;
 	  opacity:0;
-	  left:0;
+	  left:6%;
 	  top:32%;
 	  animation-delay:0.6s;
   	-webkit-animation-delay:0.6s;
 	}
 	.pt3-3{
-	  width:60%;
-	  left:20%;
-	  top:60%;
-	  animation-delay:1s;
-  	-webkit-animation-delay:1s;
-  	-webkit-animation-duration: 1.2s !important;
-   animation-duration: 1.2s !important;
-	}
-	.pt3-4{
-	  width:60%;
-	  left:20%;
-	  top:67%;
-	  animation-delay:1s;
-  	-webkit-animation-delay:1s;
-  	-webkit-animation-duration: 1.2s !important;
-   animation-duration: 1.2s !important;
-	}
-	.pt3-5{
-	  width:26%;
-	  left:37%;
-	  top:75%;
-	  opacity:0;
+	  width:88%;
+	  left:6%;
+	  top:45%;
 	  animation-delay:1.6s;
   	-webkit-animation-delay:1.6s;
+	}
+	.pt3-4{
+	  width:88%;
+	  left:6%;
+	  top:63%;
+	  opacity:0;
+	  animation-delay:2.8s;
+  	-webkit-animation-delay:2.8s;
+  	-webkit-animation-duration: 0.6s !important;
+   animation-duration: 0.6s !important;
+	}
+	.pt3-5{
+	  width:88%;
+	  left:6%;
+	  top:70%;
+	  opacity:0;
+	  animation-delay:3.2s;
+  	-webkit-animation-delay:3.2s;
+  	-webkit-animation-duration: 0.6s !important;
+   animation-duration: 0.6s !important;
+	}
+	.pt3-6{
+	  width:88%;
+	  left:6%;
+	  top:76%;
+	  opacity:0;
+	  animation-delay:3.6s;
+  	-webkit-animation-delay:3.6s;
   	-webkit-animation-duration: 0.6s !important;
    animation-duration: 0.6s !important;
 	}
@@ -912,6 +921,22 @@
 		75% { -webkit-transform: scale(1.1); }
 		100% { -webkit-transform: scale(0.5); }
 	}
+	.fadeInflsh{
+		-webkit-animation-name: fadeInflsh;
+		animation-name: fadeInflsh;
+		-webkit-animation-duration: 1.2s !important;
+		  animation-duration: 1.2s !important;
+		  -webkit-animation-fill-mode: both;
+		  animation-fill-mode: both;
+	}
+	@-webkit-keyframes fadeInflsh {
+		0% { -webkit-transform: translateY(100%);-webkit-opacity:0;}
+		60% { -webkit-transform: translateY(0);-webkit-opacity:1;}
+		70% { opacity:0;}
+		80% { opacity:1;}
+		90% { opacity:0;}
+		100% { opacity:1;}
+	}
 </style>
 {% endblock %}
 
@@ -1236,11 +1261,17 @@
 		
 		<div class="section page-3">
 		  <img src="{{ app_url_packaged }}/images/promo/hy/t3-1.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t3w1.png" class="st pt3-2 fadeInUp animated" style="display:none">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t3w01.png" class="st pt3-2 fadeInflsh animated" style="display:none">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t3w02.png" class="st pt3-3 fadeInflsh animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t3w03.png" class="st pt3-4 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t3w04.png" class="st pt3-5 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t3w05.png" class="st pt3-6 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
+      <!--<img src="{{ app_url_packaged }}/images/promo/hy/t3w1.png" class="st pt3-2 fadeInUp animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t3w2.png" class="st pt3-3 zoomInLeft animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t3w3.png" class="st pt3-4 zoomInRight animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t3w4.png" class="st pt3-5 page-logo" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">-->
       <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 		</div>
 	
