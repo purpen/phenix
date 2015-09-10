@@ -354,7 +354,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 		
 		$this->stash['mode'] = 'message';
 		
-		return $this->to_taconite_page('ajax/send_ok.html');
+		return $this->ajax_json('success!', false);
 	}
 
 
