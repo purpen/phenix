@@ -8,7 +8,8 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 	public $stash = array(
 		'id' => '',
 		'cover_id' => 0,
-		'page' => 1,
+		'page'  => 1,
+        'floor' => 0,
 		'ref'  => null,
         'category_id' => 0,
         'page_title_suffix' => '太火鸟-智能硬件爱好者活动聚集地',
@@ -118,6 +119,13 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 
         $this->stash['avatar_loop'] = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,35,35,36,37,38,39,40,41,42,43,44,45,46,47,48);
 		
+        // 跳转楼层
+        $floor = (int)$this->stash['floor'];
+        if($floor){
+            $new_page = ceil($floor/10);
+            $this->stash['page'] = $new_page;
+        }
+        
 		return $this->to_html_page('page/active/show.html');
 	}
 

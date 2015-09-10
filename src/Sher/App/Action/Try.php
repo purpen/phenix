@@ -8,6 +8,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 	public $stash = array(
 		'id' => '',
 		'page' => 1,
+        'floor' => 0,
 		'page_title_suffix' => '新品试用-太火鸟智能硬件孵化平台',
 		'page_keywords_suffix' => '智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广',
 		'page_description_suffix' => '【免费】申请智能硬件产品试用，发表产品评测，尽在太火鸟智能硬件孵化平台。',
@@ -51,7 +52,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		
 		$redirect_url = Doggy_Config::$vars['app.url.try'];
 		if(empty($id)){
-			return $this->show_message_page('访问的公测产品不存在！', $redirect_url);
+			return $this->show_message_page('访问的试用产品不存在！', $redirect_url);
 		}
 		
 		if(isset($this->stash['referer'])){
@@ -65,26 +66,26 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 			return $this->show_message_page('访问的公测产品不存在或已被删除！', $redirect_url);
 		}
 
-    //加载配图
-    $img_asset = array();
-    if(!empty($try['imgs'])){
-      $asset_model = new Sher_Core_Model_Asset();
-      foreach($try['imgs'] as $k=>$v){
-        if(!empty($v)){
-          $asset = $asset_model->extend_load($v);
-          if($asset){
-            $img_asset[$k] = $asset;
-          }
+        // 加载配图
+        $img_asset = array();
+        if(!empty($try['imgs'])){
+            $asset_model = new Sher_Core_Model_Asset();
+            foreach($try['imgs'] as $k=>$v){
+                if(!empty($v)){
+                    $asset = $asset_model->extend_load($v);
+                    if($asset){
+                        $img_asset[$k] = $asset;
+                    }
+                }
+            }
         }
-      }
-    }
 
-    //添加网站meta标签
-    $this->stash['page_title_suffix'] = sprintf("%s-新品试用-太火鸟智能硬件孵化平台", $try['title']);
-    if(!empty($try['tags'])){
-      $this->stash['page_keywords_suffix'] = sprintf("太火鸟,智能硬件,智能硬件孵化平台,新品试用,%s,产品评测", $try['tags'][0]);   
-    }
-    $this->stash['page_description_suffix'] = sprintf("【免费】申请%s试用，发表产品评测，更多智能硬件使用，就在太火鸟智能硬件孵化平台。", $try['short_title']);
+        // 添加网站meta标签
+        $this->stash['page_title_suffix'] = sprintf("%s-新品试用-太火鸟智能硬件孵化平台", $try['title']);
+        if(!empty($try['tags'])){
+            $this->stash['page_keywords_suffix'] = sprintf("太火鸟,智能硬件,智能硬件孵化平台,新品试用,%s,产品评测", $try['tags'][0]);   
+        }
+        $this->stash['page_description_suffix'] = sprintf("【免费】申请%s试用，发表产品评测，更多智能硬件使用，就在太火鸟智能硬件孵化平台。", $try['short_title']);
 		
 		// 增加pv++
 		$model->increase_counter('view_count', 1, $id);
@@ -97,17 +98,17 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		// 当前用户是否申请过
 		$is_applied = false;
 		if($this->visitor->id){
-		  $apply_model = new Sher_Core_Model_Apply();
-		  $has_one_apply = $apply_model->first(array('target_id'=>$try['_id'], 'user_id'=>$this->visitor->id));
-		  if(!empty($has_one_apply)){
-			$is_applied = true;
-			$has_one_apply = $apply_model->extended_model_row($has_one_apply);
-			$this->stash['apply'] = $has_one_apply;
-		  }
-		}
+            $apply_model = new Sher_Core_Model_Apply();
+            $has_one_apply = $apply_model->first(array('target_id'=>$try['_id'], 'user_id'=>$this->visitor->id));
+            if(!empty($has_one_apply)){
+                $is_applied = true;
+                $has_one_apply = $apply_model->extended_model_row($has_one_apply);
+                $this->stash['apply'] = $has_one_apply;
+            }
+        }
 		
 		$this->stash['try'] = &$try;
-    $this->stash['is_applied'] = $is_applied;
+        $this->stash['is_applied'] = $is_applied;
 		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_view_url($id, '#p#');
@@ -118,7 +119,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		
 		$this->stash['provinces'] = $provinces;
 
-    $this->stash['img_asset'] = $img_asset;
+        $this->stash['img_asset'] = $img_asset;
 		
 		// 评测报告分类
 		$this->stash['report_category_id'] = Doggy_Config::$vars['app.try.report_category_id'];
@@ -133,6 +134,13 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		  'comment_show_rich' => 1,
 		);
 		$this->_comment_param($comment_options);
+        
+        // 跳转楼层
+        $floor = (int)$this->stash['floor'];
+        if($floor){
+            $new_page = ceil($floor/10);
+            $this->stash['page'] = $new_page;
+        }
 		
 		return $this->to_html_page($tpl);
 	}
