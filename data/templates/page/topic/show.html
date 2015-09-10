@@ -52,10 +52,6 @@
 	.ui.progress .bar{
 	  background:#f36;
 	}
-    
-    .contrp .comment-img-box {
-        margin-top: 10px;
-    }
 </style>
 {% endblock %}
 
@@ -704,7 +700,7 @@
                         全部评论<small>（{{ topic.comment_count }}）</small>
                         
                         <div class="quick goto">
-                            跳楼：<input type="text" name="floor" class="gotofloor" data-max="{{ topic.comment_count }}" data-url="{{ app_url_topic }}/view/{{ topic._id }}/{{ page }}" title="跳转到指定楼层" />
+                            直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ topic.comment_count }}" data-url="{{ app_url_topic }}/view/{{ topic._id }}/{{ page }}" title="跳转到指定楼层" />
                         </div>
                     </div>
       		  	    <div id="comment-list">
