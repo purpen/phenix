@@ -22,6 +22,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	
     public function _init() {
         $this->set_target_css_state('page_incubator');
+		$this->set_target_css_state('page_custom');
     }
 	
 	/**
@@ -51,6 +52,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
    * 大赛详情
    */
   public function show(){
+	$this->set_target_css_state('page_custom');
     $id = $this->stash['id'];
 
     $redirect_url = sprintf("%s/about3", Doggy_Config::$vars['app.url.contest']);
