@@ -79,7 +79,9 @@
                                             <p>
                                                 {{ d.target.content_original }}
                                                 {% if d.kind == 3 %}
-                                                <small><a class="ui link" href="{{ d.comment_target.view_url }}" target="_blank">查看原文</a></small>
+                                                <small>
+                                                    <a class="ui link" href="{{ d.comment_target.comment_view_url }}/{{ d.target.floor }}#{{ d.target.floor }}" target="_blank">查看原文</a>
+                                                </small>
                                                 {%endif%}
                                             </p>
                                         {%else%}

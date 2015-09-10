@@ -51,8 +51,8 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		'try_count'  => 0,
 		# 申请人数
 		'apply_count' => 0,
-    # 虚拟申请人数
-    'invented_apply_count' => 0,
+        # 虚拟申请人数
+        'invented_apply_count' => 0,
 		# 申请通过的人员
 		'pass_users' => array(),
 		
@@ -99,7 +99,8 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
   protected function extra_extend_model_row(&$row) {
     	$row['view_url'] = sprintf(Doggy_Config::$vars['app.url.try.view'], $row['_id']);
     	$row['wap_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.try.view'], $row['_id']);
-
+        $row['comment_view_url'] = sprintf(Doggy_Config::$vars['app.url.try'].'/view/%d/%d', $row['_id'], 1);
+        
 		if(!isset($row['short_title']) || empty($row['short_title'])){
 			$row['short_title'] = $row['title'];
 		}
