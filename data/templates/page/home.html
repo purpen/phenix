@@ -348,7 +348,7 @@
                     <div class="card stick">
                         {% cache cache_key:'home_page_topic' ttl:600 disable_cache:app_disable_cached %}
                         
-                        {% ad_list var:'ads' page:1 size:2 state:2 name:'home_page_topic' %}                        
+                        {% ad_list var:'ads' page:1 size:3 state:2 name:'home_page_topic' %}                        
                         <div class="ui socialstick one blocks">
                             {% for ad in ads.rows %}
                             <div class="block">
@@ -361,16 +361,7 @@
                     			</div>
                             </div>
                             {% endfor %}
-                            <!--OM手机助手友链-->
-                            <div class="block">
-                    			<div class="image" style="background-image: url('http://frbird.qiniudn.com/asset/150824/55dad8d9fc8b12a4088b71aa-1');">
-                                    <a class="transparent" href="http://www.yzmg.com" target="_blank">
-                    					<div class="sub title">
-                    						<h3>ROM助手</h3>
-                    					</div>
-                                    </a>
-                    			</div>
-                            </div>
+
                         </div>
                         
                         {% endcache %}

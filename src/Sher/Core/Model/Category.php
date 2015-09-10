@@ -60,7 +60,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		),
 	);
 	
-    protected $int_fields = array('gid','pid','order_by','domain','is_open','total_count','state');
+    protected $int_fields = array('gid','pid','order_by','domain','is_open','total_count','state','reply_count');
 
 	protected $required_fields = array('name','title');
 	

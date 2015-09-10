@@ -141,6 +141,13 @@
 				</div>
 			</div>
 			<div class="inline field">
+			  	<label for="total_count">回复数量：</label>
+				<input type="text" class="form-control" name="reply_count" value="{{ category.reply_count }}" />
+				<div class="ui pointing left label">
+					手动修改主题数量
+				</div>
+			</div>
+			<div class="inline field">
 			  	<label for="tags">分类标签：</label>
 				<textarea rows="3" name="tags" class="small">{{ category.tags_s }}</textarea>
 				<div class="ui pointing top label">
