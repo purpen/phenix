@@ -9,7 +9,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','d3in','request');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request');
 
 	
 	/**
@@ -60,10 +60,6 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		return $this->to_html_page('wap/promo/request.html');
 	}
 	
-	public function d3in(){
-		return $this->to_html_page('wap/promo/d3in.html');
-	}
-	
 	public function din(){
 		$this->stash['page_title_suffix'] = 'D3in';
 		//微信分享
@@ -111,13 +107,13 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function hy(){
 		$this->stash['page_title_suffix'] = '火眼';
 		//微信分享
-	    /*$this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
 	    $timestamp = $this->stash['timestamp'] = time();
 	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
 	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
 	    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
 	    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
-	    $this->stash['wxSha1'] = sha1($wxOri);*/
+	    $this->stash['wxSha1'] = sha1($wxOri);
 		return $this->to_html_page('wap/promo/hy.html');
 	}
 	
