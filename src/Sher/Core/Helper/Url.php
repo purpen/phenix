@@ -196,8 +196,8 @@ class Sher_Core_Helper_Url {
 	/**
 	 * 产品销售查看地址
 	 */
-    public static function shop_view_url($id){
-    	return  sprintf(Doggy_Config::$vars['app.url.shop.view'], $id);
+    public static function shop_view_url($id, $page=1){
+    	return sprintf(Doggy_Config::$vars['app.url.shop.view'], $id, $page);
     }
 	
     /**
@@ -424,8 +424,8 @@ class Sher_Core_Helper_Url {
     /**
      * 产品分享浏览地址
      */
-    public static function stuff_view_url($stuff_id){
-    	return  sprintf(Doggy_Config::$vars['app.url.stuff.view'], $stuff_id);
+    public static function stuff_view_url($stuff_id, $page=1){
+    	return  sprintf(Doggy_Config::$vars['app.url.stuff.view'], $stuff_id, $page);
     }
 
     /**

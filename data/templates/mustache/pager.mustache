@@ -1,0 +1,27 @@
+{{#pager}}
+<div class="ui pagination menu">
+    {{#pager.show_prev}}
+    <a class="icon prev item" href="{{ pager.prev_url }}#comment_top">
+        <i class="left arrow icon"></i>
+    </a>
+    {{/pager.show_prev}}
+
+    {{#pager.pages}}
+        {{#prefix_text }}
+    	<div class="item">{{ prefix_text }}</div>
+    	{{/prefix_text }}
+        
+	    <a class="{{ active }} item" href="{{ url }}#comment_top">{{ page_index }}</a>
+
+        {{#suffix_text}}
+    	<div class="item">{{ suffix_text }}</div>	
+    	{{/suffix_text}}
+    {{/pager.pages}}
+    
+    {{#pager.show_next}}
+	<a class="icon next item" href="{{ pager.next_url }}#comment_top">
+        <i class="right arrow icon"></i>
+    </a>
+    {{/pager.show_next}}
+</div>
+{{/pager}}

@@ -90,7 +90,7 @@
 {% block layout_js %}
 <script type="text/javascript">
     // 评论参数
-    var page = 1, per_page = 10, sort = 0;
+    var page = {{ page|default 1 }}, per_page = 10, sort = 0;
     var url = '{{ app_url_comment }}/ajax_fetch_comment';
     var target_id = "{{ try._id }}";
     // 评论类型
@@ -116,19 +116,6 @@
 {% block jquery %}
     // ajax加载评论
     phenix.fetch_comment(comment_param);
-    
-    // 评论排序
-    $('.fitsort .ui.list .item').bind('click', function(){
-        sort = parseInt($(this).data('sort'));
-        $(this)
-            .siblings().removeClass('active')
-            .end()
-            .addClass('active');
-        // 获取请求
-        comment_param.page = 1;
-        comment_param.sort = sort;
-        phenix.fetch_comment(comment_param);
-    });
 	
 	$('.ui.applytry.button').click(function(){
 		// 所有ajax请求，验证是否登录
@@ -359,7 +346,7 @@
 					<div class="ui four tabs">
 						<a href="#.overview" class="active tab">试用介绍</a>
 						<a href="#.people" class="tab">试用名单</a>
-						<a href="#.reviews" class="tab">讨论 <small>（{{ try.comment_count||default 0 }}）</small></a>
+						<a href="#comment_top" class="tab">讨论 <small>（{{ try.comment_count||default 0 }}）</small></a>
 						<a href="#.report" class="tab">试用报告</a>
 					</div>
 				</div>
@@ -432,15 +419,13 @@
             <div class="container">
                 
 				<div class="product reviews">
-                	
+                	<a name="comment_top"></a>
                     <div class="reply box">
                     	<div class="block title">
                     		讨论 <small>（{{ try.comment_count||default 0 }}）</small>
-                        </div>
-                        <div class="fitsort">
-                            <div class="ui horizontal bulleted list">
-                                <a class="active item" href="javascript:void(0);" data-sort="0">默认</a>
-                                <a class="item" href="javascript:void(0);" data-sort="1">最新</a>
+                            
+                            <div class="quick goto">
+                                直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ try.comment_count }}" data-url="{{ app_url_try }}/view/{{ try._id }}/{{ page }}" title="跳转到指定楼层" />
                             </div>
                         </div>
                         <div id="comment-list">
@@ -455,7 +440,7 @@
                             </div>
                             {% endif %}
                             <div class="ui threaded comments is-comment"></div>
-                            <div class="morepages" id="load-more-btn"></div>
+                            <div class="ui pagination pagerbox"></div>
                         </div>
                         {% include "block/comment_box_site.html" %}
 
@@ -556,16 +541,6 @@
             </div>    
         </div>
         
-    <div class="sellwrap">
-			<div class="block title">
-				关注太火鸟
-      </div>
-      <div class="product aption">
-			    <img src="http://frstatic.qiniudn.com/images/weixin-220.jpg" alt="太火鸟-中国最火爆的智能硬件孵化平台">
-			    <p>关注太火鸟有惊喜！</p>
-      </div>
-    </div>
-    
     <div class="ui sticky">
         <div class="sellwrap">
           <div class="block title">
@@ -589,6 +564,16 @@
 					{% endif %}
 					</p>
           <p class="apply contact">产品数量：<b class="big">{{ try.try_count }}</b>个,&nbsp;<b class="big">{{ try.apply_count }}</b> 人已预约</p>
+        </div>
+    </div>
+    
+    <div class="sellwrap">
+		<div class="block title">
+			关注太火鸟
+        </div>
+        <div class="product aption">
+		    <img src="http://frstatic.qiniudn.com/images/weixin-220.jpg" alt="太火鸟-中国最火爆的智能硬件孵化平台">
+		    <p>关注太火鸟有惊喜！</p>
         </div>
     </div>
         
@@ -632,4 +617,5 @@
 
 {% block templates %}
   {% mustache id:'get_comments_tpl' tpl:'mustache/fetch_comments.mustache' %}
+  {% mustache id:'pager_tpl' tpl:'mustache/pager.mustache' %}
 {% endblock %}

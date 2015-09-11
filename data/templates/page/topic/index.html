@@ -2,10 +2,15 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
+    .ui.topics.segment .ordby {
+        border-bottom: 1px solid rgba(224, 224, 224, 0.46);
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
     .ui.topics.segment .ui.table {
         border: none;
     }
-
+    
     #minslider.flexslider .slides {
         height: 350px;
     }
@@ -34,21 +39,22 @@
 
 {% block layout_js %}
 <script type="text/javascript" >
-    function ajax_load_more(page, status){
+    function ajax_load_more(page, type, status){
         var url = '{{ app_url_topic }}/ajax_fetch_more?rand='+Math.random();
         if(page != 'no'){
-            $.get(url, { page:page }, function(rs){
+            $.get(url, { page:page, type:type }, function(rs){
                 rs.data['phenix'] = phenix.url;
                 var rendered = phenix.ajax_render_result('#fetch_more_topics_tpl', rs.data);
                 $('#topic_list_box').append(rendered);
-                $('#topic-more').data('status', 0);
+                if (rs.data.nex_page != 'no'){
+                    $('#topic-more').data('status', 0);
+                }
                 $('#topic-more').data('page', page);
                 $('#topic-more').hide();
             }, 'json');
         }else{
             $(this).text('没有更多了~');
         }
-
     }
 </script>
 {% endblock %}
@@ -66,9 +72,10 @@
 	// 加载更多动态
 	$('.ui.more.button').bind('click', function(){
 		var page = $(this).data('page');
-    ajax_load_more(page);
-
+        var type = $(this).data('type');
+        ajax_load_more(page, type);
 	});
+    
     $('.mentors > .avatar a')
       .popup({
         hoverable: true,
@@ -80,15 +87,16 @@
         var scrollTop = $(this).scrollTop();
         var scrollHeight = $(document).height();
         var windowHeight = $(this).height();
-        if(scrollTop + windowHeight > scrollHeight - 200){
+        if(scrollTop + windowHeight > scrollHeight - 240){
             var stat = $('#topic-more').data('status');
             var page = parseInt($('#topic-more').data('page')) + 1;
-
+            var type = parseInt($('#topic-more').data('type'));
+            
             // 防止频繁请求(在没加载完成时只允许请求一次)
             if(stat == 0){
                 $('#topic-more').data('status', 1);
                 $('#topic-more').show();
-                ajax_load_more(page);
+                ajax_load_more(page,type);
             }
         }
     });
@@ -113,7 +121,6 @@
                   </ul>
             </div>
             <div class="controls-dots"></div>
-            
 		</div>
     </div>
     
@@ -121,7 +128,21 @@
         <div class="mainleft">
             <!--最新话题-->
             <div class="ui topics segment">
-				{% topic_list var:'list' is_top:1 time:time sort:0 published:1 page:1 size:15 %}
+                <div class="ordby">
+                    <div class="ui secondary menu">
+                        <a class="{{ css_type_all }} item" href="{{ app_url_topic }}">
+                            <i class="time icon"></i> 最新主题
+                        </a>
+                        <a class="{{ css_type_stick }} item" href="{{ app_url_topic }}?type=1">
+                            <i class="checkered flag icon"></i> 编辑推荐
+                        </a>
+                        <a class="{{ css_type_fine }} item" href="{{ app_url_topic }}?type=2">
+                            <i class="diamond icon"></i> 精华主题
+                        </a>
+                    </div>
+                </div>
+                
+				{% topic_list var:'list' is_top:1 time:time sort:sort type:type published:1 page:1 size:20 %}
 				<div class="ui computer tablet only block">
 					<table class="ui basic topic table">
                         <tbody id="topic_list_box">
@@ -144,21 +165,9 @@
                         </tbody>
 					</table>
 				</div>
-
-				<div class="ui mobile only block">
-					<table class="ui basic table">
-						{% for topic in list.rows %}
-							<tr>
-								<td class="{%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}">
-						          	<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link">{{ topic.title }}</a>
-								</td>
-							</tr>
-						{% endfor %}
-					</table>
-				</div>
     
                 {% if list.total_page > 1 %}
-                    <div id="topic-more" data-page="1" data-status="0" style="text-align:center;margin:10px auto;display:none;">
+                    <div id="topic-more" data-page="1" data-status="0" data-type="{{ type }}" style="text-align:center;margin:10px auto;display:none;">
                         <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
                         加载中...
                     </div>

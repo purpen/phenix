@@ -57,7 +57,7 @@
 
 {% block layout_js %}
 <script type="text/javascript">
-    var page = 1, per_page = 10, sort = 0;
+    var page = {{ page|default 1 }}, per_page = 10, sort = 0;
     var url = '{{ app_url_comment }}/ajax_fetch_comment?rand='+Math.random();
     var target_id = "{{ topic._id }}";
     // 评论类型
@@ -77,7 +77,6 @@
       from_site: from_site,
       evt: evt,
     }
-
 </script>
 {% endblock %}
 
@@ -86,19 +85,6 @@
     
     // ajax加载评论
     phenix.fetch_comment(comment_param);
-    
-    // 评论排序
-    $('.fitsort .ui.list .item').bind('click', function(){
-        sort = parseInt($(this).data('sort'));
-        $(this)
-            .siblings().removeClass('active')
-            .end()
-            .addClass('active');
-        // 获取请求
-        comment_param.page = 1;
-        comment_param.sort = sort;
-        phenix.fetch_comment(comment_param);
-    });
     
     // ajax加载签到数据
     phenix.signin();
@@ -708,14 +694,13 @@
             
             <div class="container">
     			<div class="reply box">
+                    <a name="comment_top"></a>
       			    <!--ajax comment-->
     	  	        <div class="block title">
                         全部评论<small>（{{ topic.comment_count }}）</small>
-                    </div>
-                    <div class="fitsort">
-                        <div class="ui horizontal bulleted list">
-                            <a class="active item" href="javascript:void(0);" data-sort="0">默认</a>
-                            <a class="item" href="javascript:void(0);" data-sort="1">最新</a>
+                        
+                        <div class="quick goto">
+                            直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ topic.comment_count }}" data-url="{{ app_url_topic }}/view/{{ topic._id }}/{{ page }}" title="跳转到指定楼层" />
                         </div>
                     </div>
       		  	    <div id="comment-list">
@@ -730,23 +715,20 @@
                         </div>
                         {% endif %}
                         <div class="ui threaded comments is-comment"></div>
-                        <div class="morepages" id="load-more-btn"></div>
+                        <div class="ui pagination pagerbox"></div>
       		  	    </div>
       		  	    {% include "block/comment_box_site.html" %}
                 </div>
             </div>
-			      
-			      
-			      {% if topic._id == 104758 %}
-			        {% if egou_uid %}
-			      <div class="container" style="margin-top:0;">
-              <a href="{{ app_url_domain }}/app/site/index/egou">
-                <img src="{{ app_url_packaged }}/images/egend.png" width="170px" style="margin: 20px auto; display: block;">
-              </a>
-			      </div>
-			       {% endif %}
-			       {% endif %}
-			    
+            {% if topic._id == 104758 %}
+                {% if egou_uid %}
+                <div class="container" style="margin-top:0;">
+                    <a href="{{ app_url_domain }}/app/site/index/egou">
+                        <img src="{{ app_url_packaged }}/images/egend.png" width="170px" style="margin: 20px auto; display: block;">
+                    </a>
+                </div>
+                {% endif %}
+            {% endif %}
         </div>    
     </div>
     <div class="mainright">
@@ -765,7 +747,7 @@
                 <div class="user avatars">
               	  	<div class="ui images" id="target_{{ topic._id }}_support">
                         {% if topic.love_count %}
-                            {% favorite_list var:'userlist' target_id:topic._id event:2 type:2 size:15 %}
+                            {% favorite_list var:'userlist' target_id:topic._id event:2 type:2 size:50 %}
                             {% for target in userlist.rows %}
                             <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
                   	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />
@@ -887,4 +869,5 @@
   {% mustache id:'guess_topic_tpl' tpl:'mustache/guess_topics.mustache' %}
   {% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
   {% mustache id:'get_comments_tpl' tpl:'mustache/fetch_comments.mustache' %}
+  {% mustache id:'pager_tpl' tpl:'mustache/pager.mustache' %}
 {% endblock %}

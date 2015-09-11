@@ -250,7 +250,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         $service = DoggyX_Session_Service::instance();
         $s_t = $service->session->login_token;
         if (empty($s_t) || $s_t != $this->stash['t']) {
-            return $this->ajax_json('页面已经超时,您需要重新刷新后登录',true,Doggy_Config::$vars['app.url.login']);
+            //return $this->ajax_json('页面已经超时,您需要重新刷新后登录',true,Doggy_Config::$vars['app.url.login']);
         }
 		
         if (empty($this->stash['account']) || empty($this->stash['password']) ||empty($this->stash['t'])) {
@@ -320,7 +320,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         $service = DoggyX_Session_Service::instance();
         $s_t = $service->session->login_token;
         if (empty($s_t) || $s_t != $this->stash['t']) {
-            return $this->ajax_json('页面已经超时,您需要重新刷新后登录', true);
+            //return $this->ajax_json('页面已经超时,您需要重新刷新后登录', true);
         }
 		
 	    if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
@@ -534,7 +534,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
     $service = DoggyX_Session_Service::instance();
     $s_t = $service->session->login_token;
     if (empty($s_t) || $s_t != $this->stash['t']) {
-        return $this->ajax_json('页面已经超时,您需要重新刷新后登录', true);
+        //return $this->ajax_json('页面已经超时,您需要重新刷新后登录', true);
     }
 
     if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['user_id']) || empty($this->stash['verify_code']) || empty($this->stash['captcha'])) {

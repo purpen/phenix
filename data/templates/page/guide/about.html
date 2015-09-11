@@ -401,8 +401,42 @@
 			</div>
 		</div>
 	</div>
-	<div class="ui responsive media grid">
-		<div class="four column row">
+
+{% report_list var:'list' state:2 kind:1 sort_field:'stick:pub_latest' page:1 size:4 %}
+	<div class="ui newest responsive grid">
+		<div class="row">
+			<div class="column">
+                <div class="ui four products cards">
+
+      {% for d in list.rows %}
+
+<div class="card" id="item-{{ d._id }}">
+    <div class="problock">
+        <a title="{{ d.title }}" alt="{{ d.title }}" href="{{ d.link }}" style="background-image: url({{ d.cover.thumbnails.hm.view_url }});" class="thumb" target="_blank">
+        </a>
+
+        <h2>
+            <a href="{{ d.link }}" title="{{ d.title }}" class="ui line" target="_blank">
+			    {{ d.title|truncate, 32, '' }}
+		    </a>
+        </h2>
+        <div class="excerpt">
+            <p>{{ d.summary|truncate, 64, '' }}</p>
+        </div>
+        <div class="cats">
+            {{ d.from_site }}
+        </div>
+        <span class="counter">
+            {{ d.publish_date|date 'Y-m-d' }}
+        </span>
+    </div>
+</div>
+      {%endfor%}
+
+      </div>
+        </div>
+
+      <!--
 			<div class="column">
 				<div class="article wrapper">
 					<span class="created time">05/11/2015</span>
@@ -503,6 +537,7 @@
 					</a>
 				</div>				
 			</div>
+      -->
 			
 			
 		</div>

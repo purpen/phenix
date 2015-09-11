@@ -1,0 +1,245 @@
+{%extends 'layout/column.html'%}
+{% block title %}每日签到-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.sign.user {
+    border-radius: 4px;
+    color: rgb(255, 255, 255);
+    min-height: 200px;
+    position: relative;
+}
+.sign.user .cover {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.25);
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
+}
+.sign.user .pai {
+    padding-left: 20px;
+    position: absolute;
+    right: 0;
+    top: 40px;
+    width: 300px;
+    z-index: 9
+}
+.sign.user .pai p {
+    margin-top: 20px;
+}
+.sign.user .mine {
+    position: absolute;
+    z-index: 9;
+    left: 20px;
+    top: 30px;
+}
+.sign.user .mine .author {
+    margin-left: 20px;
+}
+.sign.user .mine .ui.button {
+    margin-left: 50px;
+}
+.sign.user .no {
+    font-size: 22px;
+    margin-left: 10px;
+}
+.sign.user .nol {
+    font-size: 22px;
+    margin-left: 3px;
+} 
+.sign.user .ui.table {
+    color: #fff;
+}
+.cake {
+    margin-top: 20px;
+}
+#signlist .mainleft .container {
+    margin-top: 0px;
+    padding-top: 10px;
+}
+#signlist .ui.table {
+    text-align: center;
+}
+.ui.prize.list .item {
+    margin-bottom: 10px;
+}
+.ui.prize.list .item .description {
+    color: rgba(112, 123, 135, 0.92);
+}
+</style>
+{% endblock %}
+
+{% block jquery %}
+    // ajax加载签到数据
+    phenix.signin();
+    
+{% endblock %}
+
+{% block content %}
+<div class="mainwrap social" id="signlist">
+    <div class="social topstick">
+        <div class="sign user" style="background-image: url('{{ app_url_packaged }}/images/headbg/ucenter-{{ user.last_char|default 0 }}.jpg');">
+            <div class="cover"></div>
+            <div class="pai">
+                <a href="javascript:void(0);" class="ui big inverted red active button">
+                    <i class="calendar icon"></i> 今日已签到
+                </a>
+                <p>今日签到排行: <span class="no">1</span> </p>
+            </div>
+            <div class="mine">
+                <div class="author">
+                	<img src="{{ user.small_avatar_url }}" class="ui small avatar image" />
+                    <label>{{ user.screen_name }}</label>
+                    {% if user.symbol %}
+					<img src="{{ app_url_packaged }}/images/V.png" class="image-V{%if user.symbol==2%} blue{%endif%}">
+			        {%endif%}
+                </div>
+                
+                <table class="ui very basic collapsing celled table">
+                    <tr>
+                        <td rowspan="2">
+                            
+                        </td>
+                        <td>连续签到</td>
+                        <td>签到等级</td>
+                        <td>积分奖励</td>
+                        <td>总天数</td>
+                    </tr>
+                    <tr>
+                        <td><span class="no">20</span> 天</td>
+                        <td>Lv<span class="nol">9</span></td>
+                        <td><span class="no">0</span></td>
+                        <td><span class="no">23</span> 天</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="mainleftwrap">
+        <div class="mainleft">
+
+            <div class="container">
+                <div class="ui secondary pointing magenta menu">
+                    <a href="{{ app_url_admin_base }}/user_sign_in" class="active item">
+                        今日排行
+                    </a>
+                    <a href="{{ app_url_admin_base }}/user_sign_in" class="item">
+                        本周排行
+                    </a>
+                    <a href="{{ app_url_admin_base }}/user_sign_in" class="item">
+                        本月排行
+                    </a>
+                </div>
+                
+            	<table class="ui very basic celled table">
+            		<thead>
+            			<tr>
+            				<th>用户信息</th>
+                            <th>连续签到天数</th>
+                            <th>最高签到天数</th>
+            				<th>上次签到时间</th>
+            				<th>经验总值</th>
+            				<th>鸟币总值</th>
+                            <th>目前等级</th>
+            			</tr>
+            		</thead>
+            		<tbody>
+            		{% sign_list var:'list' load_user:1 sort:sort page:page size:30 %}
+            		{% for sign in list.rows %}
+            			<tr id="{{ sign._id }}">
+            				<td>
+            					<a class="ui image link" href="{{ sign.user.home_url }}" target="_blank">
+            						{{ sign.user.nickname }}
+            					</a>
+            				</td>
+            				<td>
+            					{{ sign.sign_times }}
+            				</td>
+            				<td>
+            					{{ sign.max_sign_times }}	
+            				</td>
+            				<td>
+            					{{ sign.last_sign_time|date 'y-m-d H:i:s' }}
+            				</td>
+            				<td>
+            					{{ sign.exp_count }}
+            				</td>
+            				<td>
+            					{{ sign.money_count }}
+            				</td>
+            				<td>
+            					Lv.{{ sign.user.ext_state.rank_id }}
+            				</td>
+            			</tr>
+            		{% endfor %}
+            		</tbody>
+            	</table>
+            </div>
+            
+        	{% if list.rows %}
+        	<div class="ui pagination">
+        		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+        		{%include 'block/pager.html'%}
+        	</div>
+        	{% endif %}
+    	  	        
+        </div>
+    </div>
+    <div class="mainright">
+        {% cake_list var:'gg' page:1 size:1 %}
+        {% if gg %}
+        <div class="sellwrap">
+			<div class="block title">
+				最新公告
+            </div>
+            <p class="cake">{{ gg.content }}</p>
+        </div>
+        {% endif %}
+        
+        <div class="sellwrap">
+			<div class="block title">
+				中奖鸟友
+            </div>
+            <div class="ui prize list">
+                <div class="item">
+                    <img class="ui avatar image" src="{{ user.small_avatar_url }}">
+                    <div class="content">
+                        <a class="ui link" href="#">{{ user.nickname }}</a>
+                        <div class="description">获得一个55度杯.</div>
+                    </div>
+                </div>
+                <div class="item">
+                    <img class="ui avatar image" src="{{ user.small_avatar_url }}">
+                    <div class="content">
+                        <a class="ui link" href="#">{{ user.nickname }}</a>
+                        <div class="description">获得一个55度杯.</div>
+                    </div>
+                </div>
+                <div class="item">
+                    <img class="ui avatar image" src="{{ user.small_avatar_url }}">
+                    <div class="content">
+                        <a class="ui link" href="#">{{ user.nickname }}</a>
+                        <div class="description">获得一个55度杯.</div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+        
+        <div class="sellwrap">
+			<div class="block title">
+				太火鸟微信号
+            </div>
+            <div class="product aption">
+			    <img src="http://frstatic.qiniudn.com/images/weixin-220.jpg" alt="太火鸟-中国最火爆的智能硬件孵化平台" />
+			    <p>关注太火鸟有惊喜！</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
+{% endblock %}

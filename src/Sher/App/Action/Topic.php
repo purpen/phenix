@@ -15,6 +15,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		'time' => 0,
 		'page' => 1,
 		'cid'  => 0,
+        'floor'=> 0,
 		'ref'  => null,
 		'page_title_suffix' => '太火鸟智能硬件社区',
 		'page_keywords_suffix' => '智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广',
@@ -58,7 +59,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 社区首页
 	 */
 	public function index(){
-		
+		$type = $this->stash['type'];
+        
 		// 获取置顶列表
 		$diglist = array();
 		$dig_ids = array();
@@ -74,12 +76,25 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	        }
 		}
 
-    // 昨天的日期
-    $yesterday = (int)date('Ymd' , strtotime('-1 day'));
-    $this->stash['yesterday'] = $yesterday;
+        // 昨天的日期
+        $yesterday = (int)date('Ymd' , strtotime('-1 day'));
+        $this->stash['yesterday'] = $yesterday;
         
 		$this->stash['dig_ids']  = $dig_ids;
 		$this->stash['dig_list'] = $diglist;
+        
+		switch($type){
+			case 1:
+				$this->set_target_css_state('type_stick');
+				break;
+			case 2:
+				$this->set_target_css_state('type_fine');
+				break;
+			default:
+                $this->set_target_css_state('type_all');
+				break;
+		}
+        
 		return $this->to_html_page('page/topic/index.html');
 	}
     
@@ -87,17 +102,29 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
      * 自动加载获取
      */
     public function ajax_fetch_more(){
+        $type = (int)$this->stash['type'];
         
 		$page = $this->stash['page'];
         $service = Sher_Core_Service_Topic::instance();
         
         $query = array();
         $query['published'] = 1;
+        
+		// 类别
+		if($type == 1){
+			// 推荐
+			$query['stick'] = 1;
+		}elseif ($type == 2){
+			$query['fine']  = 1;
+		}else{
+			//为0
+		}
+        
         $options['page'] = $page;
-        $options['size'] = 15;
+        $options['size'] = 20;
 		$options['sort_field'] = 'latest';
 
-        //限制输出字段
+        // 限制输出字段
         $some_fields = array(
           '_id'=>1, 'title'=>1, 'short_title'=>1, 'user_id'=>1, 't_color'=>1, 'top'=>1,
           'fine'=>1, 'stick'=>1, 'category_id'=>1, 'created_on'=>1, 'asset_count'=>1,
@@ -144,10 +171,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 
             // 过滤用户表
             if(isset($resultlist['rows'][$i]['user'])){
-              $resultlist['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['user']);
+              $resultlist['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['user'], array('symbol_1', 'symbol_2'));
             }
             if(isset($resultlist['rows'][$i]['last_user'])){
-              $resultlist['rows'][$i]['last_user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['last_user']);
+              $resultlist['rows'][$i]['last_user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['last_user'], array('symbol_1', 'symbol_2'));
             }
         } //end for
 
@@ -449,7 +476,6 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 显示主题详情帖
 	 */
 	public function view(){
-		
 		$id = (int)$this->stash['id'];
 		
 		$redirect_url = Doggy_Config::$vars['app.url.topic'];
@@ -477,7 +503,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		//添加网站meta标签
 		$this->stash['page_title_suffix'] = sprintf("%s-太火鸟智能硬件社区", $topic['title']);
 		if(!empty($topic['tags'])){
-		  $this->stash['page_keywords_suffix'] = sprintf("智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,%s", $topic['tags'][0]);   
+            $this->stash['page_keywords_suffix'] = sprintf("智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,%s", $topic['tags'][0]);   
 		}
 		$this->stash['page_description_suffix'] = sprintf("【太火鸟话题】 %s", mb_substr($topic['strip_description'], 0, 140));
 		
@@ -491,8 +517,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				$editable = true;
 			}
 
-      // 验证用户关注关系
-      $this->validate_ship($this->visitor->id, $topic['user_id']);
+            // 验证用户关注关系
+            $this->validate_ship($this->visitor->id, $topic['user_id']);
 		}
 		
 		// 是否出现后一页按钮
@@ -525,7 +551,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			}
 		}
 		
-		//评论参数
+		// 评论参数
 		$comment_options = array(
 		  'comment_target_id' =>  $topic['_id'],
 		  'comment_target_user_id' => $topic['user_id'],
@@ -571,9 +597,25 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['is_vote'] = $is_vote;
 		$this->stash['is_vote'] = $is_vote;
 		$this->stash['can_vote'] = $can_vote;
+        
+        // 跳转楼层
+        $floor = (int)$this->stash['floor'];
+        if($floor){
+            $new_page = ceil($floor/10);
+            $this->stash['page'] = $new_page;
+        }
+        
 		return $this->to_html_page($tpl);
 	}
 	
+    
+    /**
+     * 签到
+     */
+    public function sign(){
+        return $this->to_html_page('page/topic/sign.html');
+    }
+    
 	/**
 	 * 推荐
 	 */
@@ -678,7 +720,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->ajax_notification('主题不存在！', true);
 		}
 		$id = $this->stash['id'];
-    $tv = $this->stash['tv'];
+        $tv = $this->stash['tv'];
         
 		Doggy_Log_Helper::debug("Top Topic [$id][$tv]!");
 		try{
@@ -723,7 +765,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 */
 	public function ajax_cancel_top(){
 		$id = $this->stash['id'];
-    $tv = $this->stash['tv'];
+        $tv = $this->stash['tv'];
 		if(empty($this->stash['id'])){
 			return $this->ajax_json('主题不存在！', true);
 		}
@@ -830,7 +872,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			$page_title = '提交创意';
 			$this->stash['hide'] = 'hide';
 		}else{
-			$page_title = '发表话题';
+			$page_title = '发表主题';
 		}
 		$this->stash['page_title'] = $page_title;
 		

@@ -3,7 +3,6 @@
 
 {% block page_css %}
 <style class="text/css">
-    	
 </style>
 {% endblock %}
 
@@ -14,9 +13,9 @@
 			$this.html(event.strftime('<div class="item"><div class="count">%D<span>&nbsp;天</span></div></div><div class="item"><div class="count">%H<span>&nbsp;时</span></div></div> <div class="item"><div class="count">%M<span>&nbsp;分</span></div></div><div class="magenta item"><div class="count">%S<span>&nbsp;秒</span></div></div>'));
 		});
 	});
+    
     // ajax加载签到数据
     phenix.signin();
-    
     
 {% endblock %}
 
@@ -48,12 +47,24 @@
                             </span>
                         </div>
                         <div class="speblock">
-                            <div class="randomcats">
-                                <a class="catlink" href="{{ try.view_url }}" style="background-image: url('{{ try.banner.fileurl }}');" target="_blank">
-                                    <h2>{{ try.short_title }}</h2>
-                                    <p>{{ try.description }}</p>
-                                    <span class="more">申请试用</span>
-                                </a>
+                            <div class="adbox">
+                                <div class="catbox" style="background-image: url('{{ try.banner.fileurl }}');">
+                                    <div class="content">
+                                        <div class="restime">
+                                            {% if !try.is_end %}
+                                            <div class="ui horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <h2>{{ try.short_title }}</h2>
+                                        <p>{{ try.description }} <span class="big">{{ try.try_count }}</span>个</p>
+                                        
+                                        <a class="ui big inverted red active button" href="{{ try.view_url }}" target="_blank">
+                                            <i class="ticket icon"></i> 申请试用
+                                        </a>
+                                        
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -85,7 +96,6 @@
                             </a>
                         </div>
                     </div>
-
                 </div>
                 {%endif%}
                 

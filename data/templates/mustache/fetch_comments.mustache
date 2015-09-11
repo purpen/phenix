@@ -1,6 +1,6 @@
 {{#result.rows}}
 
-<div class="comment" id="{{ _id }}">
+<div class="comment" id="f{{ floor }}">
     <a class="avatar" href="{{ user.home_url }}" target="_blank">
         <img src="{{ user.small_avatar_url }}" alt="{{ user.nickname }}" />
     </a>
@@ -14,13 +14,13 @@
         {{^is_deleted}}
         <div class="laud">
             {{#is_loved}}
-            <a class="ui link icon pop ajax" href="/comment/ajax_cancel_laud?id={{ _id }}" id="laud_{{ _id}}" data-content="取消点赞" data-variation="inverted" >
+            <a class="ui link icon pop ajax" href="{{ phenix.app_url_action_base }}/comment/ajax_cancel_laud?id={{ _id }}" id="laud_{{ _id}}" data-content="取消点赞" data-variation="inverted" >
                 <span class="love-count">{{#is_love_count}}{{ love_count }}{{/is_love_count}}</span>
                 <i class="icon heart"></i>
             </a>
             {{/is_loved}}
             {{^is_loved}}
-            <a class="ui link icon pop ajax" href="/comment/ajax_laud?id={{ _id }}" id="laud_{{ _id}}" data-content="点赞" data-variation="inverted" >
+            <a class="ui link icon pop ajax" href="{{ phenix.app_url_action_base }}/comment/ajax_laud?id={{ _id }}" id="laud_{{ _id}}" data-content="点赞" data-variation="inverted" >
                 <span class="love-count">{{#is_love_count}}{{ love_count }}{{/is_love_count}}</span>
                 <i class="icon empty heart"></i>
             </a>          
@@ -30,7 +30,14 @@
     
         {{#is_reply}}
         <div class="replytips">
-            <i class="quote left icon"></i> 回复 #{{ reply_comment.floor }} <a href="{{ reply_comment.user.home_url }}" class="ui link" target="_blank">@{{ reply_comment.user.nickname }}</a>
+            <blockquote>
+                <i class="quote left icon"></i> 
+                <a href="{{ reply_comment.user.home_url }}" class="ui link" target="_blank">@{{ reply_comment.user.nickname }}</a> <span class="metadata"><span class="date">发表于 {{ reply_comment.created_on }}</span></span>
+                <div class="contrp text">
+                    {{ &reply_comment.content }}
+                </div>
+                <i class="quote right icon"></i>
+            </blockquote>
         </div>
         {{/is_reply}}
     

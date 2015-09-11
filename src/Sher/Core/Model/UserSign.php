@@ -21,10 +21,10 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
 		'kind' => 1,
 		// 记录最后一次签到日期,格式:20150505
 		'last_date' => 0,
-    // 当天第N位签到
-    'last_date_no' => 0,
-    // 当天签到时间
-    'last_sign_time' => 0,
+        // 当天第N位签到
+        'last_date_no' => 0,
+        // 当天签到时间
+        'last_sign_time' => 0,
 		// 记录连续签到天数
 		'sign_times' => 0,
 		// 最高连续登录天数
@@ -35,7 +35,7 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
 		'money_count' => 0,
 		//备注
 		'remark'  => null,
-			'state' => 1,
+		'state' => 1,
 	);
 
 	protected $int_fields = array('state', 'kind', 'last_date', 'sign_times', 'max_sign_times', 'exp_count', 'money_count', 'last_date_no', 'last_sign_time');

@@ -199,8 +199,9 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	public function do_login(){
         $service = DoggyX_Session_Service::instance();
         $s_t = $service->session->login_token;
+        // 有bug ，先注掉，不验证
         if (empty($s_t) || $s_t != $this->stash['t']) {
-            return $this->ajax_json('页面已经超时,您需要重新刷新后登录', true, Doggy_Config::$vars['app.url.login']);
+            //return $this->ajax_json('页面已经超时,您需要重新刷新后登录', true, Doggy_Config::$vars['app.url.login']);
         }
 		
         if (empty($this->stash['account']) || empty($this->stash['password']) ||empty($this->stash['t'])) {
@@ -264,8 +265,9 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     session_start();
         $service = DoggyX_Session_Service::instance();
         $s_t = $service->session->login_token;
+        // 去掉验证，有bug
         if (empty($s_t) || $s_t != $this->stash['t']) {
-            return $this->ajax_json('页面已经超时,重新刷新后登录', true);
+            //return $this->ajax_json('页面已经超时,重新刷新后登录', true);
         }
 		
 	    if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
@@ -388,8 +390,9 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	public function do_quick_register(){
         $service = DoggyX_Session_Service::instance();
         $s_t = $service->session->login_token;
+        // 去掉验证
         if (empty($s_t) || $s_t != $this->stash['t']) {
-            return $this->ajax_json('页面已经超时,重新刷新后登录', true);
+            //return $this->ajax_json('页面已经超时,重新刷新后登录', true);
         }
 		
 	    if (empty($this->stash['account']) || empty($this->stash['verify_code'])) {

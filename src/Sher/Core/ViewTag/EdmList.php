@@ -19,6 +19,7 @@ class Sher_Core_ViewTag_EdmList extends Doggy_Dt_Tag {
         $size = 15;
 		
 		$state = 0;
+        $kind = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -36,6 +37,9 @@ class Sher_Core_ViewTag_EdmList extends Doggy_Dt_Tag {
 		
 		if ($state) {
 			$query['state'] = (int)$state;
+		}
+		if ($kind) {
+			$query['kind'] = (int)$kind;
 		}
 		
         $service = Sher_Core_Service_Edm::instance();
