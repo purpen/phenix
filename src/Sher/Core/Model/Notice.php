@@ -1,27 +1,38 @@
 <?php
 /**
- * 区块
- * @author purpen
+ * 通知
+ * @author tianshuai
  */
-class Sher_Core_Model_Block extends Sher_Core_Model_Base  {
-	protected $collection = "block";
-	
+class Sher_Core_Model_Notice extends Sher_Core_Model_Base  {
+	protected $collection = "notice";
+
+  ##类型
+  const KIND_NOTICE = 1;
+  const KIND_OTHER = 2;
+
+  ##状态
+  const STATE_NO = 0;
+  const STATE_BEGIN = 1;
+  const STATE_ING = 1;
+  const STATE_FINISH = 3;
+  const STATE_FAIL = 4;
+
 	protected $schema = array(
-    'mark' => null,
     'title' => null,
-    'code' => null,
     'content' => null,
     //备注
     'remark'  => null,
     'user_id' => 0,
-    'kind' => 1,
-    'pack' => null,
-		'state' => 1,
+    's_user_id' => 0,
+    // 发布
+    'published' => 0,
+    'kind' => self::KIND_NOTICE,
+		'state' => self::STATE_NO,
   	);
 
-  protected $required_fields = array('mark', 'title');
+  protected $required_fields = array('title');
 
-  protected $int_fields = array('state', 'user_id', 'kind');
+  protected $int_fields = array('state', 'user_id', 'kind', 's_user_id', 'published');
 
 
 	/**

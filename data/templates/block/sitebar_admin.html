@@ -146,8 +146,8 @@
     {% endif %}
     
     {% if visitor.is_admin %}
-	<a class="{{ css_page_edm }} item" href="{{ app_url_admin_base }}/edm">
-		通知管理
+	<a class="{{ css_page_edm }} item" href="{{ app_url_admin_base }}/edm/edm">
+		Edm管理
 	</a>
 	<a class="{{ css_page_tags }} item" href="{{ app_url_admin_base }}/tags">
 		关键词管理
@@ -201,6 +201,9 @@
     {% if visitor.is_admin %}
 	<a class="{{ css_page_category }} item" href="{{ app_url_admin_base }}/category">
 		分类管理
+	</a>
+	<a class="{{ css_page_notice }} item" href="{{ app_url_admin_base }}/notice">
+		通知管理
 	</a>
 	<a class="{{ css_page_invitation }} item" href="{{ app_url_admin_base }}/invitation">
 		邀请码管理
