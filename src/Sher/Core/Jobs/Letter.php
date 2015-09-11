@@ -1,9 +1,9 @@
 <?php
 /**
- * 群发私信服务
+ * 通知服务
  * @author tianshuai
  */
-class Sher_Core_Jobs_Letter extends Doggy_Object {
+class Sher_Core_Jobs_Notice extends Doggy_Object {
 	
 	/**
 	 * Before perform
@@ -15,7 +15,7 @@ class Sher_Core_Jobs_Letter extends Doggy_Object {
 	 * Run job
 	 */
 	public function perform(){
-		Doggy_Log_Helper::debug("Make letter task jobs!");
+		Doggy_Log_Helper::debug("Make notice task jobs!");
 		$edm_id = $this->args['edm_id'];
 		
 		try{
@@ -27,7 +27,7 @@ class Sher_Core_Jobs_Letter extends Doggy_Object {
 			$model = new Sher_Core_Model_Emd();
 			$result = $model->load((int)$edm_id);
 			if(empty($result)){
-				Doggy_Log_Helper::warn("Waiting letter is empty!");
+				Doggy_Log_Helper::warn("Waiting notice is empty!");
 				return false;
 			}
 			if($result['state'] != Sher_Core_Model_Edm::STATE_WAITING){
@@ -63,14 +63,14 @@ class Sher_Core_Jobs_Letter extends Doggy_Object {
 				$rows = $user_model->find($query, $options);
 				if(empty($rows)){
 					$is_end = true;
-					Doggy_Log_Helper::warn("Waiting letter is end!");
+					Doggy_Log_Helper::warn("Waiting notice is end!");
 					break;
 				}
 				$max = count($rows);
 				for($i=0;$i<$max;$i++){
 					$next_id = $rows[$i]['_id'];
 					
-					Doggy_Log_Helper::warn("sending letter end next_id: ".$next_id);
+					Doggy_Log_Helper::warn("sending notice end next_id: ".$next_id);
           echo "00000000000\n";
 					
 					// 记录发送次数
@@ -79,7 +79,7 @@ class Sher_Core_Jobs_Letter extends Doggy_Object {
 				
 				if($max < $size){
 					$is_end = true;
-					Doggy_Log_Helper::warn("Waiting letter is end!");
+					Doggy_Log_Helper::warn("Waiting notice is end!");
 					
 					// 设置完成状态
 					$model->mark_set_finish($edm_id);
@@ -93,7 +93,7 @@ class Sher_Core_Jobs_Letter extends Doggy_Object {
 			unset($user_model);
 			unset($model);
 		}catch(Sher_Core_Model_Exception $e){
-			Doggy_Log_Helper::warn("Queue letter failed: ".$e->getMessage());
+			Doggy_Log_Helper::warn("Queue notice failed: ".$e->getMessage());
 		}
 		
 	}

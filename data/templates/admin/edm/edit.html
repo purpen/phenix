@@ -62,8 +62,8 @@
 	<h3 class="ui header">群发管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/edm/message" class="{{ css_message }} item">通知</a>
 		<a href="{{ app_url_admin_base }}/edm/edm" class="{{ css_edm }} item">邮件</a>
-		<a href="{{ app_url_admin_base }}/edm/message" class="{{ css_message }} item">私信</a>
 	  	<div class="right menu">
 			<a href="{{ app_url_admin_base }}/edm/edit" class="active item">
 				<i class="plus icon"></i> 新增
@@ -115,7 +115,7 @@
 					</div>
 					<div class="ui radio checkbox">
 						<input type="radio" name="kind" value="2" {% if edm.kind == 2 %}checked="checked"{% endif %} /> 
-						<label>私信</label>
+						<label>通知</label>
 					</div>
 				</div>
 
