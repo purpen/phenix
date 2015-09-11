@@ -15,7 +15,7 @@
 <script type="text/javascript" >
     function ajax_load_more(page, size){
         var url = '{{ app_url_albums }}/ajax_load_list?rand='+Math.random();
-        $.get(url, { page:page, size:size }, function(rs){
+        $.get(url, { page:page, size:size, rand: Math.random() }, function(rs){
             if(rs.data.results.total_page > rs.data.results.current_page){
                 $('#albums-more')
                     .hide()
