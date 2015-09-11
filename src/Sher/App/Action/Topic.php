@@ -121,7 +121,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
         
         $options['page'] = $page;
-        $options['size'] = 15;
+        $options['size'] = 20;
 		$options['sort_field'] = 'latest';
 
         // 限制输出字段
