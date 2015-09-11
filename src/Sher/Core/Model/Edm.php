@@ -1,6 +1,6 @@
 <?php
 /**
- * Edm/私信群发管理
+ * Edm/通知群发管理
  * @author purpen
  */
 class Sher_Core_Model_Edm extends Sher_Core_Model_Base {    
@@ -16,7 +16,7 @@ class Sher_Core_Model_Edm extends Sher_Core_Model_Base {
 
   # 类型
   const KIND_EDM = 1;
-  const KIND_MESSAGE = 2;
+  const KIND_NOTICE = 2;
 	
     protected $schema = array(		
 		'title' => '',
@@ -97,4 +97,4 @@ class Sher_Core_Model_Edm extends Sher_Core_Model_Base {
 	}
 	
 }
-?>
+

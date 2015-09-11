@@ -34,7 +34,7 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
 	}
 
 	/** 
-	 * message列表
+	 * message通知列表
 	 */
 	public function message() {
 		$this->set_target_css_state('message');
@@ -83,7 +83,7 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
       if($row['kind']==1){
 			  Resque::enqueue('edming', 'Sher_Core_Jobs_Edm', array('edm_id' => $id));
       }elseif($row['kind']==2){
-			  Resque::enqueue('message', 'Sher_Core_Jobs_Letter', array('edm_id' => $id));
+			  Resque::enqueue('notice', 'Sher_Core_Jobs_Notice', array('edm_id' => $id));
       }
 		}
 
