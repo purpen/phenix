@@ -908,11 +908,12 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		// 获取当前分类信息
 		$current_category = $category->load((int)$topic['category_id']);
 		// 获取父级分类
-		$parent_category = $category->load((int)$topic['fid']);
+		//$parent_category = $category->load((int)$topic['fid']);
 
 		$this->stash['is_top'] = $is_top;
-		$this->stash['current_category'] = $current_category;
-		$this->stash['parent_category'] = $parent_category;
+    $this->stash['current_category'] = $current_category;
+    $this->stash['parent_category'] = 0;
+		//$this->stash['parent_category'] = $parent_category;
 		
 		$this->stash['cid'] = $topic['category_id'];
 		$this->stash['try_id'] = $topic['try_id'];
@@ -978,6 +979,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 
 		$data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
 		$data['t_color'] = isset($this->stash['t_color'])?(int)$this->stash['t_color']:0;
+
+		$data['source'] = isset($this->stash['source'])?$this->stash['source']:'';
+		$data['attrbute'] = isset($this->stash['attrbute'])?(int)$this->stash['attrbute']:1;
 		
 		// 检测编辑器图片数
 		$file_count = isset($this->stash['file_count']) ? (int)$this->stash['file_count'] : 0;

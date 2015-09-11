@@ -1,4 +1,4 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}我的通知-{% endblock %}
 
 {% block page_css %}
@@ -12,36 +12,58 @@
 {% endblock %}
 
 {% block content %}
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}">
+						个人中心
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">我的通知</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="account profile">
 	<div class="ui responsive grid">
 		<div class="four wide column">
 			{% include "block/user/sub_menu_center.html" %}
 		</div>
 		<div class="twelve wide column">
+			<h2 class="ui header">消息提醒</h2>
 			{% include "block/center/head_notice_nav.html" %}
-			<h2 class="ui header">我的通知</h2>
-			<div class="ui segment">
-				<div class="ui grid">
-					<div class="row">
-						<div class="column">
-
-							<div class="ui dynamic selection list">
-
-	                <p class="mt-20 text-center">未上线~</p>
+			
+			<div class="ui alarm segment">
+                {% message_list var:'list' page:page user_id:user._id %}
+                
+                {% for d in list.rows %}
 
 
-								
-								
-							</div>
-
-							
-							
-            </div>
-					</div>
+    					      {% endfor %}
+                        
+    					{% if list.rows %}
+    						<div class="ui pagination">
+    			            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+    			            {%include 'block/pager.html'%}
+    						</div>
+    			          {% endif %}
+                        
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 {% endblock %}
+
+
+
+
+
 
