@@ -74,7 +74,7 @@ app.mongo.default:
   replicaSet: false
   
 # redisdb
-app.redis_host: 'localhost:6379'
+#app.redis_host: 'localhost:6379'
 
 app.dt.extension_lib.sher_app:
   tags:
