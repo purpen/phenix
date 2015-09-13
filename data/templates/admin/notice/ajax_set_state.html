@@ -1,0 +1,11 @@
+<taconite>
+	{% if state == 1 %}
+	<replaceContent select="#state-{{ id }}-label">
+		发送中
+	</replaceContent>
+	<replace select="#state-{{ id }}-button"><![CDATA[
+		<a href="{{ app_url_admin_base }}/notice/send?id={{ id }}" class="ui link ajax item" id="state-{{ id }}-button">发送中</a>
+    ]]></replace>
+	{% endif %}
+
+</taconite>

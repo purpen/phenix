@@ -989,6 +989,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
   public function notice(){
   	$this->set_target_css_state('user_news');
     $this->set_target_css_state('user_notice');
+    $this->stash['notice_count'] = $this->visitor->counter['notice_count'];
     //清空通知提醒数量
     if($this->visitor->counter['notice_count']>0){
       $this->visitor->update_counter($this->visitor->id, 'notice_count');

@@ -2,8 +2,38 @@
 {% block title %}我的通知-{% endblock %}
 
 {% block page_css %}
-<style type="text/css">
-
+<style class="text/css">
+  span.date{
+    line-height:40px;
+  }
+  .sub_header.text img{
+    max-width:100%;
+  }
+	.remind .ui.list .item {
+		cursor: auto;
+		border-bottom: 1px solid rgba(0,0,0,.1);
+		position: relative;
+        text-align: left;
+	}
+    .remind .ui.list .item .header {
+        margin-bottom: 10px;
+    }
+	.remind .ui.list .item .content {
+		margin-left: 0%;
+		margin-right: 0;
+		display:inline-block;
+        font-size: 14px;
+	}
+	
+	.remind .content >.inline{
+		display:inline-block;
+		line-height: 33px;
+		margin:0 8px;
+	}
+	.remind .description.fsize{
+		font-size: 15px;
+		color: rgba(0,0,0,.7);
+	}	
 </style>
 {% endblock %}
 
@@ -31,7 +61,7 @@
 		</div>
 	</div>
 </div>
-<div class="account profile">
+<div class="account remind">
 	<div class="ui responsive grid">
 		<div class="four wide column">
 			{% include "block/user/sub_menu_center.html" %}
@@ -41,19 +71,36 @@
 			{% include "block/center/head_notice_nav.html" %}
 			
 			<div class="ui alarm segment">
-                {% message_list var:'list' page:page user_id:user._id %}
-                
-                {% for d in list.rows %}
-
-
-    					      {% endfor %}
-                        
-    					{% if list.rows %}
-    						<div class="ui pagination">
-    			            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-    			            {%include 'block/pager.html'%}
-    						</div>
-    			          {% endif %}
+                {% notice_list var:'list' published:1 page:page size:10 %}
+                    {% if list.rows %}
+                        {% for d in list.rows %}
+                            {% if d.s_user %}
+                            <div class="mes-text">
+                                <a href="{{ d.s_user.home_url }}" class="ui photo" target="_blank">
+                                    <img alt="{{ d.s_user.nickname }}" src="{{ d.s_user.small_avatar_url }}">
+                                </a>
+                                <div class="news content">
+                                    <a class="ui link" href="{{ d.s_user.home_url }}" target="_blank">{{ d.s_user.nickname }}</a> {{ d.info }}<span>{{ d.kind_str }}</span> <span class="date">{{ d.created_on|relative_datetime }}</span> {% if loop.counter0 < notice_count %}<span class="ui mini red label">NEW</span>{%endif%}
+                                    <div class="sub_header text">
+                                                {{ d.content }}
+                                                {% if d.url %}
+                                                <small>
+                                                  <a class="ui link" href="{{ d.url }}" target="_blank">查看原文</a>
+                                                </small>
+                                                {%endif%}
+                                    </div>
+                                </div>  
+                            </div>
+                            {%endif%}
+                        {%endfor%}
+                    {%endif%}
+                    
+                {% if list.rows %}
+                    <div class="ui pagination">
+                        {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+	            {%include 'block/pager.html'%}
+                    </div>
+                {% endif %}
                         
 				</div>
 			</div>

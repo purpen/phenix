@@ -22,12 +22,21 @@
 	};
 
 	$('#notice-form').form({
-		mark: {
-			identifier  : 'mark',
+		title: {
+			identifier  : 'title',
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '标记名不能为空'
+					prompt : '标题不能为空'
+				}
+			]
+		},
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '内容不能为空'
 				}
 			]
 		}
@@ -98,7 +107,7 @@
 {% endblock %}
 
 {% block content %}
-	<h3 class="ui header">块管理</h3>
+	<h3 class="ui header">通知管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
 		<a href="{{ app_url_admin_base }}/notice" class="{{ css_all }} item">
@@ -127,9 +136,32 @@
 		<input name="_id" type="hidden" value="{{ notice._id }}" />
 		<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
 
-		<div class="inline field">
+		<div class="field">
 			<label>标题:</label>
 			<input type="text" name="title" value="{{ notice.title }}" />
+		</div>
+
+		<div class="two fields">
+
+      <div class="field">
+			  <label>发送人：</label>
+        <div class="ui fluid selection dropdown">
+          <input type="hidden" name="s_user_id" value="{{ notice.s_user_id }}" />
+            <div class="default text">--选择用户--</div>
+            <div class="menu">
+              {% for user in send_users %}
+              <div data-value="{{ user._id }}" class="{% if notice.s_user_id == user._id %}active {% endif %}item">{{ user.nickname }}</div>
+            {%endfor%}
+            </div>
+        </div>
+      </div>
+
+			<div class="field">
+				<label>链接地址：</label>
+			  	<input type="text" name="url" class="small" value="{{ notice.url }}" placeholder="http://" >
+				  <div class="description">可不添</div>
+			</div>
+			
 		</div>
 
     <div class="field">

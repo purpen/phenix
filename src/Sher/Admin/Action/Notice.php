@@ -53,6 +53,18 @@ class Sher_Admin_Action_Notice extends Sher_Admin_Action_Base implements DoggyX_
 
 		}
 		$this->stash['mode'] = $mode;
+
+    // 发送人数组
+    $send_users = array();
+		$user_model = new Sher_Core_Model_User();
+    $send_user_ids = Doggy_Config::$vars['app.send_notice_users'];
+    $user_arr = explode('|', $send_user_ids);
+    foreach($user_arr as $v){
+      $user = $user_model->load((int)$v);
+      if(!empty($user)) array_push($send_users, $user);
+    }
+
+    $this->stash['send_users'] = $send_users;
 		
 		// 编辑器上传附件
 		$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
@@ -76,6 +88,8 @@ class Sher_Admin_Action_Notice extends Sher_Admin_Action_Base implements DoggyX_
 		$data['content'] = $this->stash['content'];
 		$data['remark'] = $this->stash['remark'];
     $data['kind'] = (int)$this->stash['kind'];
+		$data['url'] = isset($this->stash['url']) ? $this->stash['url'] : null;
+    $data['s_user_id'] = isset($this->stash['s_user_id']) ? (int)$this->stash['s_user_id'] : 0;
 		$data['state'] = 0;
 
 		try{
@@ -177,6 +191,67 @@ class Sher_Admin_Action_Notice extends Sher_Admin_Action_Base implements DoggyX_
       $this->stash['success'] = false;   
     }
   	return $this->to_taconite_page('admin/notice/published_ok.html');
+  
+  }
+
+	/**
+	 * 开始发送
+	 */
+	public function send(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_note('请求参数错误', true);
+		}
+		$notice_model = new Sher_Core_Model_Notice();
+		$row = $notice_model->load($id);
+
+		if(empty($row)){
+			return $this->ajax_note('通知不存在！', true);
+		}
+
+		if(empty($row['published'])){
+			return $this->ajax_note('请先发布通知！', true);
+		}
+		if($row['state'] > Sher_Core_Model_Notice::STATE_NO){
+			return $this->ajax_note('正在发送中...', true);
+		}
+		
+		// 更新等待发送状态
+		$ok = $notice_model->update_set($id, array('state'=>Sher_Core_Model_Notice::STATE_BEGIN)); 
+		if($ok){
+			// 设置发送任务
+			Resque::enqueue('notice', 'Sher_Core_Jobs_Notice', array('notice_id' => $id));
+    }else{
+      return $this->ajax_note('发送失败!', true);
+    }
+
+    $this->stash['state'] = 1;
+
+  	return $this->to_taconite_page('admin/notice/ajax_set_state.html');
+	}
+
+  /**
+   * 设置状态
+   *
+   */
+  public function ajax_set_state(){
+ 		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_note('请求参数错误', true);
+		} 
+
+    $state = isset($this->stash['state']) ? (int)$this->stash['state'] : 1;
+
+		$notice_model = new Sher_Core_Model_Notice();
+
+		// 更新状态
+		$ok = $notice_model->update_set($id, array('state'=>$state)); 
+
+    if($ok){
+      return $this->ajax_note('设置失败!', false);   
+    }else{
+      return $this->ajax_note('设置失败!', true);
+    }
   
   }
 
