@@ -23,6 +23,11 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	const T_COLOR_BLUE = 2;
 	const T_COLOR_GREEN = 3;
 	const T_COLOR_YELLOW = 4;
+
+  ## 文章属性
+  # 转载
+  const ATTR_ORIG = 1;
+  const ATTR_RESHIP = 2;
 	
     protected $schema = array(
 	    'user_id' => null,
@@ -84,6 +89,11 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		'random' => 0,
 		# 投票id
 		'vote_id' => 0,
+
+    # 属性
+    'attrbute' => self::ATTR_ORIG,
+    # 来源
+    'source' => null,
 		
 		# 最后回复者及回复时间
 		'last_reply_time' => 0,

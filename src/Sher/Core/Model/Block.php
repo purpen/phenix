@@ -14,7 +14,7 @@ class Sher_Core_Model_Block extends Sher_Core_Model_Base  {
     //备注
     'remark'  => null,
     'user_id' => 0,
-    'kind' => 0,
+    'kind' => 1,
     'pack' => null,
 		'state' => 1,
   	);
