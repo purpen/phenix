@@ -36,7 +36,7 @@ class Sher_Core_Jobs_Notice extends Doggy_Object {
 			}
 			
 			// 设置为正在发送
-			$model->update_set($notice_id, array('state'=>1));
+			$model->update_set($notice_id, array('state'=>Sher_Core_Model_Notice::STATE_ING));
 			
 			// 形成发送队列
 			$page = 1;
