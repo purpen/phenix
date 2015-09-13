@@ -21,6 +21,7 @@ class Sher_Core_ViewTag_NoticeList extends Doggy_Dt_Tag {
 		$s_user_id = 0;
 		$state = 0;
     $kind = 0;
+    $published = 0;
 
 		
         $var = 'list';
@@ -44,6 +45,10 @@ class Sher_Core_ViewTag_NoticeList extends Doggy_Dt_Tag {
 
 		if($kind){
 			$query['kind'] = (int)$kind;
+		}
+
+		if($published){
+			$query['published'] = 1;
 		}
 
 		if($s_user_id){
