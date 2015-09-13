@@ -3,6 +3,12 @@
 
 {% block page_css %}
 <style class="text/css">
+  span.date{
+    line-height:40px;
+  }
+  .sub_header.text img{
+    max-width:100%;
+  }
 	.remind .ui.list .item {
 		cursor: auto;
 		border-bottom: 1px solid rgba(0,0,0,.1);
@@ -76,15 +82,12 @@
                                 <div class="news content">
                                     <a class="ui link" href="{{ d.s_user.home_url }}" target="_blank">{{ d.s_user.nickname }}</a> {{ d.info }}<span>{{ d.kind_str }}</span> <span class="date">{{ d.created_on|relative_datetime }}</span> {% if loop.counter0 < notice_count %}<span class="ui mini red label">NEW</span>{%endif%}
                                     <div class="sub_header text">
-                                            <p>
                                                 {{ d.content }}
                                                 {% if d.url %}
                                                 <small>
                                                   <a class="ui link" href="{{ d.url }}" target="_blank">查看原文</a>
                                                 </small>
                                                 {%endif%}
-                                            </p>
-
                                     </div>
                                 </div>  
                             </div>
