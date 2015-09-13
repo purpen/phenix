@@ -2,9 +2,7 @@
     <a href="{{ app_url_my }}/remind" class="ui {{css_user_remind}} item">我的提醒  <small>({{user.counter.alert_count}})</small></a>
 		<a href="{{ app_url_my }}/message" class="ui {{css_user_message}} item">我的私信  <small>({{user.counter.message_count}})</small></a>
 		<a href="{{ app_url_my }}/recive_comment" class="ui {{css_user_comment}} item">我的评论  <small>({{user.counter.comment_count}})</small></a>
-	<div class="item">
-		<a href="{{ app_url_my }}/notice" class="ui link {{css_user_notice}}">我的通知({{user.counter.notice_count}})</a>
-	</div>
+		<a href="{{ app_url_my }}/notice" class="ui {{css_user_notice}} item">我的通知({{user.counter.notice_count}})</a>
 
   {% if visitor.quality %}
 	<div class="item right">
