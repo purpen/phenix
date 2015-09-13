@@ -73,7 +73,7 @@ class Sher_Core_Jobs_Notice extends Doggy_Object {
 				for($i=0;$i<$max;$i++){
           $user_id = $next_id = $rows[$i]['_id'];
 					// 更新用户提醒数
-          $user_model->update_counter_byinc($user_id, 'notice_count', 0);
+          $user_model->update_counter_byinc($user_id, 'notice_count', 1);
           //echo "update user $user_id is success...\n";
 					// 记录发送次数
 					$send_count += 1;
