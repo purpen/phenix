@@ -234,7 +234,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
             }
         }
 
-    $row['attr_str'] = " ";
+    $row['attr_str'] = "";
     if(isset($row['attrbute'])){
       switch((int)$row['attrbute']){
         case 1:
