@@ -174,7 +174,7 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
             case self::EVT_REPLY_COMMENT:
                 $info = "回复了你的";
                 break;
-			case self::EVT_AT:
+			      case self::EVT_AT:
                 $info = "@了你的";
                 break;
         }

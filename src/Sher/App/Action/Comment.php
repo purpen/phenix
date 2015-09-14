@@ -70,7 +70,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 				if(strlen((string)$s[1]) <= 25){
 					$userInfo = $user->find(array('nickname'=>(string)$s[1]));
 					if(count($userInfo)){
-						$img = '[l:'.$url.'/'.$userInfo[0]['_id'].'::@'.$userInfo[0]['nickname'].':]';
+						$img = '[at:'.$url.'/'.$userInfo[0]['_id'].'::@'.$userInfo[0]['nickname'].':]';
 					}
 				} else {
 					$img = '';

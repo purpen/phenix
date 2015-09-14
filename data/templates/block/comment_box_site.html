@@ -163,31 +163,8 @@
 </div>
 
 {% block layout_js %}
-
-<link rel="stylesheet" href="http://localhost/At.js/dist/css/jquery.atwho.css" />
-<script type="text/javascript" src="http://localhost/At.js/dist/js/jquery.caret.js"></script>
-<script type="text/javascript" src="http://localhost/At.js/dist/js/jquery.atwho.js"></script>
   
 <script type="text/javascript">
-  
-  // @功能
-  $('#comment-area').atwho({
-	at: "@",
-	data: '{{ app_url_user }}/ajax_follow_list',
-	limit: 50,
-	//insertTpl: '[l:${url}::@${name}:]',
-	insertTpl: '@${name}',
-	callbacks: {
-	  afterMatchFailed: function(at, el) {
-		if (at == '@') {
-		  tags.push(el.text().trim().slice(1));
-		  this.model.save(tags);
-		  this.insert(el.text().trim());
-		  return false;
-		}
-	  }
-	}
-  });
   
   //编辑器指定插入位置
   (function($){

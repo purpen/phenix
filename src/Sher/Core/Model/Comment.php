@@ -385,6 +385,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 
         $c = $this->trans_img($c);
         $c = $this->trans_link($c);
+        $c = $this->trans_at($c);
         
         return $c;
     }
@@ -422,6 +423,27 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             function($s){
                 $a = explode('::', $s[1]);
                 $img = ' <a href="'.$a[0].'" title="'.$a[1].'" target="_blank" >'.$a[1].'</a> ';
+                return $img;
+            },
+            $c
+        );
+        
+        return $c;
+    }
+
+    /**
+     * 转换@格式
+     */
+    protected function trans_at($c){
+        if(empty($c)){
+            return;
+        }
+        $merge = '/\[at:(.*):\]/U';
+        $c = preg_replace_callback(
+            $merge,
+            function($s){
+                $a = explode('::', $s[1]);
+                $img = ' <a href="'.$a[0].'" title="'.$a[1].'" class="comment-at" >'.$a[1].'</a> ';
                 return $img;
             },
             $c
