@@ -1888,21 +1888,8 @@
   function record_share_num(){
     var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
     $.get(url, { target_id: 5, count_name:'count', type: 4, kind:4 });
-  }
+  };
   
-  
-	 window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
-
-   function hengshuping() {
-           if (window.orientation == 90 || window.orientation == -90) {
-              $('.shuping').css('display','none');
-              $('.hengping').css('display','block');
-           } else {
-              $('.shuping').css('display','block');
-              $('.hengping').css('display','none');
-           }
-       }
-
  		$('.wrap').fullpage({
  			'css3':true,
  			//'loopBottom':true,
@@ -2003,6 +1990,25 @@
  			}
  	  });
  	  
+ 	  window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+
+     function hengshuping() {
+             if (window.orientation == 90 || window.orientation == -90) {
+                $('.shuping').css('display','none');
+                $('.hengping').css('display','block');
+             } else {
+                $('.shuping').css('display','block');
+                $('.hengping').css('display','none');
+             }
+         }
+ 	  
+      </script>
+      
+  	<script>document.write('<style>#loading{display:none}</style>');</script>
+ 	  
+{% endblock %}
+
+{% block jquery %}
  	  bgm = new Audio5js({
 	      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
 	      ready: function () {
@@ -2092,8 +2098,6 @@
   	$('.ui.deny.button,i.close').click(function(){
   		$('.ui.user-info-box.modal').modal('hide');
   	});
-  </script>
-	<script>document.write('<style>#loading{display:none}</style>');</script>
 
 
 {% endblock %}
