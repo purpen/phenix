@@ -508,7 +508,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
     public function ajax_sign_in(){
         if ($this->visitor->id){
             $user_sign_model = new Sher_Core_Model_UserSign();
-            $result = $user_sign_model->sign_in((int)$this->visitor->id);   
+            $result = $user_sign_model->sign_in((int)$this->visitor->id, array('user_kind'=>$this->visitor->kind));   
         }else{
             $result = array('is_true'=>0, 'has_sign'=>0, 'msg'=>'没有权限!', 'continuity_times'=>0);    
         }

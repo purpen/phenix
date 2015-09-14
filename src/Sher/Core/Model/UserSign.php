@@ -59,7 +59,7 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
 	/**
 	 * 用户签到
 	 */
-	public function sign_in($user_id){
+	public function sign_in($user_id, $options=array()){
 		$user_sign = $this->extend_load((int)$user_id);
 		$give_money = 0;
 		$sign_times = 1;
@@ -137,6 +137,38 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
 	  
       $this->update_set((int)$user_id, array('last_date_no'=>$sign_no, 'last_sign_time'=>time()));
 			$user_sign = $this->find_by_id((int)$user_id);
+
+      // 每日签到统计
+      $user_sign_stat_model = new Sher_Core_Model_UserSignStat();
+      $month = (int)date('Ym');
+      $year = (int)date('Y');
+
+      //今天周数
+      $week_num = Sher_Core_Helper_Util::get_week_now();
+      $week = (int)((string)$year.(string)$week_num);
+
+      //如果统计表存在,跳过
+      $is_exist = $user_sign_stat_model->first(array('day'=>(int)$today, 'user_id'=>(int)$user_id));
+      if(empty($is_exist)){
+        $user_kind = isset($options['user_kind']) ? (int)$options['user_kind'] : 0;
+        $data = array();
+        $data = array(
+          
+          'user_id' => (int)$user_id,
+          'user_kind' => $user_kind,
+          'day' => (int)$today,
+          'week' => $week,
+          'month' => $month,
+
+          'date_no' => $user_sign['last_date_no'],
+          'sign_time' => $user_sign['last_sign_time'],
+
+        );
+
+        //$user_sign_stat_model->create($data);
+
+      }
+
 
 			return array('is_true'=>1, 'msg'=>'签到成功!', 'has_sign'=>1, 'continuity_times'=>$sign_times, 'give_money'=>$give_money, 'data'=>$user_sign);
 		}else{
