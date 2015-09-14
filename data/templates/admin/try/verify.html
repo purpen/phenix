@@ -42,7 +42,7 @@
 
 				<div class="field">
 					<div class="ui fluid selection dropdown">
-						<input type="hidden" name="is_invented" value="{{ result }}" />
+						<input type="hidden" name="result" value="{{ result }}" />
 					    <div class="default text">是否通过</div>
 					    <div class="menu">
 							<div data-value="0" class="{% if result==0 %}active {% endif %}item">全部</div>
@@ -54,7 +54,7 @@
 
 				<div class="field">
 					<div class="ui fluid selection dropdown">
-						<input type="hidden" name="is_invented" value="{{ result }}" />
+						<input type="hidden" name="sort" value="{{ sort }}" />
 					    <div class="default text">排序</div>
 					    <div class="menu">
 							<div data-value="0" class="{% if sort==0 %}active {% endif %}item">最新</div>

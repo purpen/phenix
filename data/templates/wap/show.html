@@ -431,7 +431,7 @@
 						<div class="ui big topic segment" style="border: 0px solid rgba(34,36,38,.15);">
 							<div class="ui header" style="margin-bottom:1rem;">
 								<div class="content">
-									{{ topic.title }}
+                  {{ topic.attr_str }}{{ topic.title }}
 									<div class="sub header attribute">
 										<span class="category"><a href="{{ app_url_topic }}/c{{ topic.category._id }}" class="ui magenta link">{{ topic.category.title }}</a></span> | 
 										<span class="date">{{ topic.user.nickname }} 发表于 {{ topic.created_on|relative_datetime }}</span> | 

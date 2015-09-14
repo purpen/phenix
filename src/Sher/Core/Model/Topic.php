@@ -26,6 +26,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 
   ## 文章属性
   # 转载
+  const ATTR_DEF = 0;
   const ATTR_ORIG = 1;
   const ATTR_RESHIP = 2;
 	
@@ -91,7 +92,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		'vote_id' => 0,
 
     # 属性
-    'attrbute' => self::ATTR_ORIG,
+    'attrbute' => self::ATTR_DEF,
     # 来源
     'source' => null,
 		
@@ -232,6 +233,18 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
                     break;    
             }
         }
+
+    $row['attr_str'] = " ";
+    if(isset($row['attrbute'])){
+      switch((int)$row['attrbute']){
+        case 1:
+          $row['attr_str'] = "【原创】";
+          break;
+        case 2:
+          $row['attr_str'] = "【转载】";
+          break;
+      }
+    }
 	}
 	
 	/**

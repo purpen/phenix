@@ -112,12 +112,15 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
                 $this->stash['comment'] = &$model->extend_load($comment_id);
 				
 				$str = explode('][',$content);
+        $has_send_users = array();
 				foreach($str as $v){
 					$str_two = explode('::',$v);
 					foreach($str_two as $val){
 						$str_three = explode('/',$val);
 						if(count($str_three) > 1){
-							$uid = (int)$str_three[4];
+              $uid = (int)$str_three[4];
+              // 如果已经发送过，跳过
+              if(in_array($uid, $has_send_users)) continue;
 							// 给用户添加提醒
 							$arr = array(
 								'user_id'=> $uid,
@@ -128,6 +131,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 								'parent_related_id'=> (int)$this->stash['target_id'],
 							);
 							$ok = $remind->create($arr);
+              array_push($has_send_users, $uid);
 						}
 					}
 				}
