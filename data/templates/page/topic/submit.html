@@ -339,10 +339,11 @@
 						  <div class="field">
 							  <label for="t_color">属性</label>
 							<div class="ui fluid selection dropdown">
-							  <input type="hidden" name="attrbute" value="{{ topic.attrbute|default 1 }}" />
+							  <input type="hidden" name="attrbute" value="{{ topic.attrbute|default 0 }}" />
 								<div class="default text">请选择</div>
 								<i class="angle down icon"></i>
 								<div class="menu" style="z-index:9999;">
+								  <div data-value="0" class="{% if topic.attrbute == 0 %}active {% endif %}item">--请选择--</div>
 								  <div data-value="1" class="{% if topic.attrbute == 1 %}active {% endif %}item">原创</div>
 								  <div data-value="2" class="{% if topic.attrbute == 2 %}active {% endif %}item">转载</div>
 								</div>

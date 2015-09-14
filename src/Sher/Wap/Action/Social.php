@@ -124,6 +124,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 	public function ajax_topic_list(){
 		$category_id = $this->stash['category_id'];
     $this->stash['size'] = isset($this->stash['size']) ? (int)$this->stash['size'] : 20;
+    $this->stash['sort'] = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		
 		// 获取某类别列表
     if($category_id){
@@ -552,7 +553,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
         
 		$page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
 		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 15;
-		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 1;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
         
         $query = array();
@@ -601,7 +602,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
           'fine'=>1, 'stick'=>1, 'category_id'=>1, 'created_on'=>1, 'asset_count'=>1,
           'last_user'=>1, 'last_reply_time'=>1, 'cover_id'=>1, 'comment_count'=>1, 'view_count'=>1,
           'updated_on'=>1, 'favorite_count'=>1, 'love_count'=>1, 'deleted'=>1,'published'=>1, 'tags'=>1,
-          'description'=>1,
+          'description'=>1, 'attrbute'=>1,
         );
         $options['some_fields'] = $some_fields;
         

@@ -497,7 +497,7 @@
                         {%endif%}
 					</a>
 					<div class="content">
-						{{ topic.title }}
+            {{ topic.attr_str }}{{ topic.title }}
 						<div class="sub header attribute">
 						  {% if topic.top %}<span class="ui green small label">置顶</span>{% endif %}
               {% if topic.fine %}<span class="ui orange small label">精华</span>{% endif %}
