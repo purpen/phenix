@@ -1824,7 +1824,7 @@
   <script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript">
-  /*  var m_name = ' ';
+    var m_name = ' ';
     var img_url = ' ';
     var link = '{{ app_url_wap_promo }}/hy';
     var desc_str = ' ';
@@ -1888,21 +1888,8 @@
   function record_share_num(){
     var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
     $.get(url, { target_id: 5, count_name:'count', type: 4, kind:4 });
-  }*/
+  };
   
-  
-	 window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
-
-   function hengshuping() {
-           if (window.orientation == 90 || window.orientation == -90) {
-              $('.shuping').css('display','none');
-              $('.hengping').css('display','block');
-           } else {
-              $('.shuping').css('display','block');
-              $('.hengping').css('display','none');
-           }
-       }
-
  		$('.wrap').fullpage({
  			'css3':true,
  			//'loopBottom':true,
@@ -2003,10 +1990,29 @@
  			}
  	  });
  	  
+ 	  window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+
+     function hengshuping() {
+             if (window.orientation == 90 || window.orientation == -90) {
+                $('.shuping').css('display','none');
+                $('.hengping').css('display','block');
+             } else {
+                $('.shuping').css('display','block');
+                $('.hengping').css('display','none');
+             }
+         }
+ 	  
+      </script>
+      
+  	<script>document.write('<style>#loading{display:none}</style>');</script>
+ 	  
+{% endblock %}
+
+{% block jquery %}
  	  bgm = new Audio5js({
 	      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
 	      ready: function () {
-	          this.load('http://frstatic.qiniudn.com/wechat/js/See You Again.mp3');
+	          this.load("http://frstatic.qiniudn.com/wechat/js/Won't Go Home Without You.mp3");
 	          this.play();
 
 	          this.on('canplay', function(){
@@ -2092,8 +2098,6 @@
   	$('.ui.deny.button,i.close').click(function(){
   		$('.ui.user-info-box.modal').modal('hide');
   	});
-  </script>
-	<script>document.write('<style>#loading{display:none}</style>');</script>
 
 
 {% endblock %}
