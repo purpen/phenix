@@ -68,7 +68,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         $merge = '/\@(.*) /U';
         $content = preg_replace_callback($merge,
             function($s) use($user,$url,$remind,&$user_ids){
-				if(!empty((string)$s[1]) && strlen((string)$s[1]) <= 25){
+				if(!empty($s[1]) && strlen($s[1]) <= 25){
 					$userInfo = $user->first(array('nickname'=>(string)$s[1]));
 					if($userInfo){
 						$img = '[at:'.$url.'/'.$userInfo['_id'].'::@'.$userInfo['nickname'].':]';
