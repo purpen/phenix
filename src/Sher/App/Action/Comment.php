@@ -64,13 +64,15 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		if(empty($content)){
             return;
         }
+        $user_ids = array();
         $merge = '/\@(.*) /U';
         $content = preg_replace_callback($merge,
-            function($s) use($user,$url,$remind){
-				if(strlen((string)$s[1]) <= 25){
-					$userInfo = $user->find(array('nickname'=>(string)$s[1]));
-					if(count($userInfo)){
-						$img = '[at:'.$url.'/'.$userInfo[0]['_id'].'::@'.$userInfo[0]['nickname'].':]';
+            function($s) use($user,$url,$remind,&$user_ids){
+				if(!empty((string)$s[1]) && strlen((string)$s[1]) <= 25){
+					$userInfo = $user->first(array('nickname'=>(string)$s[1]));
+					if($userInfo){
+						$img = '[at:'.$url.'/'.$userInfo['_id'].'::@'.$userInfo['nickname'].':]';
+            array_push($user_ids, $userInfo['_id']);
 					}
 				} else {
 					$img = '';
@@ -102,15 +104,15 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
             $row['reply_user_id'] = $reply_user_id;
         }
 		
-		$model = new Sher_Core_Model_Comment();
-        
         try{
+		        $model = new Sher_Core_Model_Comment();
             $ok = $model->apply_and_save($row);
             if($ok){
                 $comment_id = $model->id;
 				//echo $comment_id;
                 $this->stash['comment'] = &$model->extend_load($comment_id);
 				
+                /**
 				$str = explode('][',$content);
         $has_send_users = array();
 				foreach($str as $v){
@@ -134,7 +136,29 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
               array_push($has_send_users, $uid);
 						}
 					}
-				}
+        }
+        **/
+          if(!empty($user_ids)){
+            $has_send_users = array();
+            foreach($user_ids as $uid){
+              $uid = (int)$uid;
+              // 如果已经发送过，跳过
+              if(in_array($uid, $has_send_users)) continue;
+							// 给用户添加提醒
+							$arr = array(
+								'user_id'=> $uid,
+								's_user_id'=> (int)$this->visitor->id,
+								'evt'=> Sher_Core_Model_Remind::EVT_AT,
+								'kind'=> Sher_Core_Model_Remind::KIND_COMMENT,
+								'related_id'=> (string)$comment_id,
+								'parent_related_id'=> (int)$this->stash['target_id'],
+							);
+							$ok = $remind->create($arr);
+              array_push($has_send_users, $uid);
+            
+            }
+          
+          }
             } 
         }catch(Sher_Core_Model_Exception $e){
             $this->stash['is_error'] = true;
