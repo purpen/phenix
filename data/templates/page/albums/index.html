@@ -43,6 +43,7 @@
             // 防止频繁请求(在没加载完成时只允许请求一次)
             if(stat == 0){
                 $('#albums-more').show();
+				$('#albums-more').attr('status', 1);
                 ajax_load_more(page, 12);
             }
         }
@@ -80,7 +81,7 @@
                 </div>
             </div>
 
-            <div id="albums-more" p="{{ page }}" style="text-align:center;margin:10px auto;display:none;">
+            <div id="albums-more" p="{{ page }}" status="1" style="text-align:center;margin:10px auto;display:none;">
                 <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
                 加载中...
             </div>
