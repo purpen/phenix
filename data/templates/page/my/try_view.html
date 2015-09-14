@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}订单详情-{% endblock %}
+{% block title %} 我的试用-{% endblock %}
 {% block page_css %}
 <style class="text/css">
 	
@@ -173,10 +173,10 @@
 			</div>
 			
 			<div class="ui top attached header">
-				<div class="ui middle aligned grid">
+				<div class="ui middle aligned grid" style="margin: -1rem;">
 					<div class="row">
             <div class="order-item">
-              <div class="ui top attached header">
+              <div class="ui attached header">
                 <div class="ui horizontal divided list">
                     <div class="item">
                         试用产品：{{ apply.try.title }}
@@ -186,7 +186,7 @@
                     </div>
                 </div>
               </div>
-              <div class="middle aligned ui celled white grid">
+              <div class="middle aligned ui celled white grid" style="box-shadow: 0 0 0 0px #d4d4d5;">
                 <div class="row">
                   <div class="center three wide column">
 
@@ -227,22 +227,22 @@
 				</div>
 			</div>
 			
-			<div class="ui bottom attached segment">
-				<h3 class="ui dividing header">个人信息</h3>
-
-					<div class="ui list">
-					  	<div class="item"><label>姓   名：</label> {{ apply.name }}</div>
-					  	<div class="item"><label>收货地址：</label> {{ apply.area_province.city }} {{ apply.area_district.city }} {{ apply.address }}</div>
-					  	<div class="item"><label>联系电话：</label> {{ apply.phone }}</div>
-					  	<div class="item"><label>邮政编码：</label> {{ apply.zip }}</div>
-					  	<div class="item"><label>微信：</label> {{ apply.wx }}</div>
-					  	<div class="item"><label>ＱＱ：</label> {{ apply.qq }}</div>
-					</div>
-
-			</div>
-			
-			
 		</div>
+		
+		<div class="ui bottom attached segment">
+			<h3 class="ui dividing header">个人信息</h3>
+
+				<div class="ui list">
+				  	<div class="item"><label>姓   名：</label> {{ apply.name }}</div>
+				  	<div class="item"><label>收货地址：</label> {{ apply.area_province.city }} {{ apply.area_district.city }} {{ apply.address }}</div>
+				  	<div class="item"><label>联系电话：</label> {{ apply.phone }}</div>
+				  	<div class="item"><label>邮政编码：</label> {{ apply.zip }}</div>
+				  	<div class="item"><label>微信：</label> {{ apply.wx }}</div>
+				  	<div class="item"><label>ＱＱ：</label> {{ apply.qq }}</div>
+				</div>
+
+		</div>
+		
 	</div>
 </div>
 
