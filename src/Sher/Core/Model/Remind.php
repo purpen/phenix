@@ -33,6 +33,8 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
     const EVT_PASS = 10;
     # 被管理员推荐
     const EVT_STICK = 11;
+	# 被@的
+    const EVT_AT = 12;
 
     # 投票-支持
     const EVT_VOTE_FAVOR = 13;
@@ -61,9 +63,9 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
 		'kind' => self::KIND_TOPIC,
 		//提醒内容(备用)
 		'content' => null,
-        //关联id 如产品，话题
-        'related_id' => '',
         //关联父ID, 如收藏，评论ID
+        'related_id' => '',
+        //关联id 如产品，话题
         'parent_related_id' => '',
         //提醒事件
         'evt' => self::EVT_POST,
@@ -171,6 +173,9 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
                 break;
             case self::EVT_REPLY_COMMENT:
                 $info = "回复了你的";
+                break;
+			case self::EVT_AT:
+                $info = "@了你的";
                 break;
         }
         

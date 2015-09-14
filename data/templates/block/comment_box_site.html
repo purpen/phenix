@@ -54,7 +54,7 @@
     	<input type="hidden" name="reply_user_id" value="" />
 		
     	<div class="field">
-        <textarea name="content" id="comment-area" class="comment-textarea" {% if visitor.is_login %} placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论内容...{%endif%}" {% endif %} ></textarea>
+			<textarea name="content" id="comment-area" class="comment-textarea" {% if visitor.is_login %} placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论内容...{%endif%}" {% endif %} ></textarea>
       	  	<div id="comment"></div>
     	</div>
   	  	{% if visitor.is_login %}
@@ -65,8 +65,7 @@
       </div>
     	<div class="right aligned column">
         <!--<small class="filter">还可以输入<span class="wordscount">140</span> 字</small>-->
-            
-            
+      
 			<div class="ui magenta large active inverted submit button">
               	<i class="edit icon"></i> 确认提交
             </div>
@@ -85,8 +84,6 @@
   	  	{% endif %}
   	</form>
 </div>
-
-
 
 <div class="ui comment-insert-img small modal transition">
   	<i class="remove circle outline close icon"></i>
@@ -166,7 +163,32 @@
 </div>
 
 {% block layout_js %}
+
+<link rel="stylesheet" href="http://localhost/At.js/dist/css/jquery.atwho.css" />
+<script type="text/javascript" src="http://localhost/At.js/dist/js/jquery.caret.js"></script>
+<script type="text/javascript" src="http://localhost/At.js/dist/js/jquery.atwho.js"></script>
+  
 <script type="text/javascript">
+  
+  // @功能
+  $('#comment-area').atwho({
+	at: "@",
+	data: '{{ app_url_user }}/ajax_follow_list',
+	limit: 50,
+	//insertTpl: '[l:${url}::@${name}:]',
+	insertTpl: '@${name}',
+	callbacks: {
+	  afterMatchFailed: function(at, el) {
+		if (at == '@') {
+		  tags.push(el.text().trim().slice(1));
+		  this.model.save(tags);
+		  this.insert(el.text().trim());
+		  return false;
+		}
+	  }
+	}
+  });
+  
   //编辑器指定插入位置
   (function($){
       $.fn.extend({

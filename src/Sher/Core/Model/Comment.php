@@ -49,7 +49,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
     );
     protected $required_fields = array('user_id','content');
     protected $int_fields = array('user_id','target_user_id','star','love_count','floor','is_reply','reply_user_id');
-	  protected $counter_fields = array('love_count');
+	protected $counter_fields = array('love_count');
 	
 	/**
 	 * 验证数据
@@ -259,7 +259,8 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
-        if ($row['user']['state'] != Sher_Core_Model_User::STATE_OK) {
+        
+		if ($row['user']['state'] != Sher_Core_Model_User::STATE_OK) {
             $row['reply'] = array();
             $row['ori_content'] = htmlspecialchars($row['content']);
             $row['content'] = '因该用户已经被屏蔽,评论被屏蔽';
@@ -310,19 +311,20 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	   	if ($this->update($comment_id, $updated_row)){
 	        $comment_user = $this->extend_load($comment_id);
 	        
-	        // 给用户添加提醒
-          $remind = new Sher_Core_Model_Remind();
-          $arr = array(
-              'user_id'=> $this->data['reply_user_id'],
-              's_user_id'=> $this->data['user_id'],
-              'evt'=> Sher_Core_Model_Remind::EVT_REPLY_COMMENT,
-              'kind'=> Sher_Core_Model_Remind::KIND_COMMENT,
-              'related_id'=> (string)$comment_user['_id'],
-              'parent_related_id'=> (string)$comment_user['target_id'],
-          );
-          $ok = $remind->create($arr);    
-	        return $reply_row;
-		  }
+			// 给用户添加提醒
+			$remind = new Sher_Core_Model_Remind();
+			$arr = array(
+				'user_id'=> $this->data['reply_user_id'],
+				's_user_id'=> $this->data['user_id'],
+				'evt'=> Sher_Core_Model_Remind::EVT_REPLY_COMMENT,
+				'kind'=> Sher_Core_Model_Remind::KIND_COMMENT,
+				'related_id'=> (string)$comment_user['_id'],
+				'parent_related_id'=> (string)$comment_user['target_id'],
+			);
+			$ok = $remind->create($arr);
+			
+			return $reply_row;
+		}
 	   	return null;
     }
 
