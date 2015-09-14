@@ -277,7 +277,7 @@
       debug: true,
           request: {
         inputName:'file',
-        params: {'token': '{{ comment_token }}','x:pid': '{{ comment_pid }}', 'x:domain': '{{ comment_domain }}', 'x:ord': comment_ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ comment_asset_type }},'x:parent_id': '{{ comment_pid }}','file_id': '{{ comment_pid }}' },
+        params: {'token': '{{ comment_token }}','x:pid': '{{ comment_pid }}', 'x:domain': '{{ comment_domain }}', 'x:ord': comment_ord, 'x:user_id': '{{ visitor._id }}','x:asset_type': {{ comment_asset_type|default 0 }},'x:parent_id': '{{ comment_pid }}','file_id': '{{ comment_pid }}' },
             endpoint: '{{ app_url_upload }}/comment'
           },
       text: {
