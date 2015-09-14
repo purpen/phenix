@@ -552,7 +552,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
         
 		$page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
 		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 15;
-		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 1;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
         
         $query = array();
