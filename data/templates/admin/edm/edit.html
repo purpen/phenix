@@ -39,6 +39,15 @@
 					prompt : '公告内容不能为空'
 				}
 			]
+		},
+		kind: {
+			identifier  : 'kind',
+			rules: [
+				{
+					type   : 'checked',
+					prompt : '请选择类型'
+				}
+			]
 		}
 	},
 	{
@@ -50,10 +59,11 @@
 	});
 {% endblock %}
 {% block content %}
-	<h3 class="ui header">Edm管理</h3>
+	<h3 class="ui header">群发管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/edm" class="{{ css_all_edm }} item">全部列表</a>
+		<a href="{{ app_url_admin_base }}/edm/message" class="{{ css_message }} item">通知</a>
+		<a href="{{ app_url_admin_base }}/edm/edm" class="{{ css_edm }} item">邮件</a>
 	  	<div class="right menu">
 			<a href="{{ app_url_admin_base }}/edm/edit" class="active item">
 				<i class="plus icon"></i> 新增
@@ -63,9 +73,9 @@
 	
 	<div class="ui form segment">
 		{% if mode == 'create' %}
-		<h3>新增Edm</h3>
+		<h3>新增</h3>
 		{% else %}
-		<h3>编辑Edm</h3>
+		<h3>编辑</h3>
 		{% endif %}
 		
 		<form action="{{ app_url_admin_base }}/edm/save" method="post" id="edm-form">
@@ -76,7 +86,11 @@
 				<input name="title" type="text" value="{{ edm.title }}" />
 			</div>
 			<div class="field">
-			  	<label>测试用户：</label>
+			  	<label>用户ID：</label>
+				<input name="user_id" type="text" value="{{ edm.user_id }}" />
+			</div>
+			<div class="field">
+			  	<label>测试用户邮箱：</label>
 				<input name="test_user" type="text" value="{{ edm.test_user }}" />
 			</div>
 			<div class="field">
@@ -89,6 +103,22 @@
 			<div class="field">
 			  	<label>内容：</label>
 				<textarea rows="3" name="mailbody">{{ edm.mailbody }}</textarea>
+			</div>
+
+			<h3 class="ui dividing stage header">类型</h3>
+			<div class="grouped inline fields">
+
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="kind" value="1" {% if edm.kind == 1 %}checked="checked"{% endif %} /> 
+						<label>邮件</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="kind" value="2" {% if edm.kind == 2 %}checked="checked"{% endif %} /> 
+						<label>通知</label>
+					</div>
+				</div>
+
 			</div>
 			
 			<button type="submit" class="ui magenta inverted button">确认保存</button>

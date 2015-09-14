@@ -431,7 +431,25 @@
 		inline : true,
 		onSuccess: function(event){
 			event.preventDefault();
-			$(event.target).ajaxSubmit();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+            $('.ui.letter.modal').modal('hide');
+            phenix.show_ok_note('私信发送成功!');
+            $(':input[name=content]').val('');
+            $(":input[name='users[]']").attr('checked', false);
+					}
+				}
+			});
 		}
 	});
     
@@ -816,7 +834,7 @@
                 <div class="user avatars">
               	  	<div class="ui images" id="target_{{ product._id }}_support">
                         {% if product.love_count %}
-                            {% favorite_list var:'userlist' target_id:product._id event:2 type:1 size:15 %}
+                            {% favorite_list var:'userlist' target_id:product._id event:2 type:1 size:50 %}
                             {% for target in userlist.rows %}
                             <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
                   	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />

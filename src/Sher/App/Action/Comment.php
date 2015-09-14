@@ -481,6 +481,12 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
             case 3:
                 $pager_url = sprintf(Doggy_Config::$vars['app.url.try.comment'], $target_id, '#p#');
                 break;
+            case 4:
+                $pager_url = Sher_Core_Helper_Url::shop_view_url($target_id, '#p#');
+                break;
+            case 6:
+                $pager_url = Sher_Core_Helper_Url::stuff_view_url($target_id, '#p#');
+                break;
             default:
                 $pager_url = '';
                 break;

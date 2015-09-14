@@ -122,6 +122,7 @@ server {
 		rewrite ^/shop/presale/p(\d+).*$ /app/wap/shop/presale?page=$1 last;
     	rewrite ^/shop/list-c(\d+)-t(\d)-s(\d)-p(\d+).*$ /app/wap/shop?category_id=$1&type=$2&sort=$3&page=$4 last;
         rewrite ^/shop/(\d+).html$ /app/wap/shop/view?id=$1 last;
+        rewrite ^/shop/view-(\d+)-(\d+).html$ /app/wap/shop/view?id=$1&page=$2 last;
         rewrite ^/shop/(.*)$ /app/wap/shop/$1 last;
     }
 
@@ -310,6 +311,7 @@ server {
   	    	rewrite ^/shop/c(\d+)/p(\d+).*$ /app/site/shop/get_list?category_id=$1&page=$2 last;
   	    	rewrite ^/shop/list-c(\d+)-s(\d)-p(\d+).*$ /app/site/shop/get_list?category_id=$1&sort=$2&page=$3 last;
             rewrite ^/shop/(\d+).html$ /app/site/shop/view?id=$1 last;
+            rewrite ^/shop/view-(\d+)-(\d+).html$ /app/site/shop/view?id=$1&page=$2 last;
             rewrite ^/shop(.*)$ /app/site/shop$1 last;
         }
 		

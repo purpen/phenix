@@ -1,9 +1,39 @@
-{%extends 'layout/board.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}我的通知-{% endblock %}
 
 {% block page_css %}
-<style type="text/css">
-
+<style class="text/css">
+  span.date{
+    line-height:40px;
+  }
+  .sub_header.text img{
+    max-width:100%;
+  }
+	.remind .ui.list .item {
+		cursor: auto;
+		border-bottom: 1px solid rgba(0,0,0,.1);
+		position: relative;
+        text-align: left;
+	}
+    .remind .ui.list .item .header {
+        margin-bottom: 10px;
+    }
+	.remind .ui.list .item .content {
+		margin-left: 0%;
+		margin-right: 0;
+		display:inline-block;
+        font-size: 14px;
+	}
+	
+	.remind .content >.inline{
+		display:inline-block;
+		line-height: 33px;
+		margin:0 8px;
+	}
+	.remind .description.fsize{
+		font-size: 15px;
+		color: rgba(0,0,0,.7);
+	}	
 </style>
 {% endblock %}
 
@@ -12,36 +42,75 @@
 {% endblock %}
 
 {% block content %}
-<div class="account profile">
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}">
+						个人中心
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">我的通知</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="account remind">
 	<div class="ui responsive grid">
 		<div class="four wide column">
 			{% include "block/user/sub_menu_center.html" %}
 		</div>
 		<div class="twelve wide column">
+			<h2 class="ui header">消息提醒</h2>
 			{% include "block/center/head_notice_nav.html" %}
-			<h2 class="ui header">我的通知</h2>
-			<div class="ui segment">
-				<div class="ui grid">
-					<div class="row">
-						<div class="column">
-
-							<div class="ui dynamic selection list">
-
-	                <p class="mt-20 text-center">未上线~</p>
-
-
-								
-								
-							</div>
-
-							
-							
-            </div>
-					</div>
+			
+			<div class="ui alarm segment">
+                {% notice_list var:'list' published:1 page:page size:10 %}
+                    {% if list.rows %}
+                        {% for d in list.rows %}
+                            {% if d.s_user %}
+                            <div class="mes-text">
+                                <a href="{{ d.s_user.home_url }}" class="ui photo" target="_blank">
+                                    <img alt="{{ d.s_user.nickname }}" src="{{ d.s_user.small_avatar_url }}">
+                                </a>
+                                <div class="news content">
+                                    <a class="ui link" href="{{ d.s_user.home_url }}" target="_blank">{{ d.s_user.nickname }}</a> {{ d.info }}<span>{{ d.kind_str }}</span> <span class="date">{{ d.created_on|relative_datetime }}</span> {% if loop.counter0 < notice_count %}<span class="ui mini red label">NEW</span>{%endif%}
+                                    <div class="sub_header text">
+                                                {{ d.content }}
+                                                {% if d.url %}
+                                                <small>
+                                                  <a class="ui link" href="{{ d.url }}" target="_blank">查看原文</a>
+                                                </small>
+                                                {%endif%}
+                                    </div>
+                                </div>  
+                            </div>
+                            {%endif%}
+                        {%endfor%}
+                    {%endif%}
+                    
+                {% if list.rows %}
+                    <div class="ui pagination">
+                        {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+	            {%include 'block/pager.html'%}
+                    </div>
+                {% endif %}
+                        
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 {% endblock %}
+
+
+
+
+
 

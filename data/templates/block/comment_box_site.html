@@ -54,7 +54,7 @@
     	<input type="hidden" name="reply_user_id" value="" />
 		
     	<div class="field">
-        <textarea name="content" id="comment-area" class="comment-textarea comment_at" placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论内容...{%endif%}"></textarea>
+			<textarea name="content" id="comment-area" class="comment-textarea" {% if visitor.is_login %} placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论内容...{%endif%}" {% endif %} ></textarea>
       	  	<div id="comment"></div>
     	</div>
   	  	{% if visitor.is_login %}
