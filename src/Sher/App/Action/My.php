@@ -963,7 +963,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     $from_to = isset($this->stash['from_to'])?$this->stash['from_to']:1;
 
     if(empty($content) || empty($users)){
-      return $this->ajax_note('缺少请求参数!', true);
+      return $this->ajax_json('缺少请求参数!', true);
     }
 
     $msg = new Sher_Core_Model_Message();
@@ -978,7 +978,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
       }
       return $this->ajax_json('操作成功!', false);
     }catch(Doggy_Model_ValidateException $e){
-      return $this->ajax_note('发送私信失败:'.$e->getMessage(), true);
+      return $this->ajax_json('发送私信失败:'.$e->getMessage(), true);
     }
   
   }
