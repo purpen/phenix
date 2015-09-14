@@ -518,4 +518,30 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
         return $this->ajax_json('', false, '', $result);
     }
 	
+	/**
+     * ajax请求粉丝信息
+     */
+	public function ajax_follow_list(){
+		
+		if(!$this->visitor->id){
+            return $this->ajax_note('请登录后在操作!',true);
+        }
+		
+		$uid = $this->visitor->id;
+		$user = new Sher_Core_Model_User();
+		$follow = new Sher_Core_Model_Follow();
+		$follow = $follow->find(array('user_id'=>(int)$uid));
+		
+		$databack = array();
+		$url = Doggy_Config::$vars['app.url.user'];
+		foreach($follow as $k => $v){
+			$userInfo = $user->find_by_id((int)$v['follow_id']);
+			$databack[$k]['uid'] = $v['follow_id'];
+			$databack[$k]['name'] = $userInfo['nickname'];
+			$databack[$k]['url'] = $url.'/'.$v['follow_id'];;
+		}
+		
+		//var_dump($databack);
+		echo json_encode($databack);
+	}
 }

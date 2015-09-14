@@ -47,21 +47,46 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	 * 保存评论
 	 */
 	public function do_save(){
-        $from_to = isset($this->stash['from_to'])?$this->stash['from_to']:'web';
+        
+		$from_to = isset($this->stash['from_to'])?$this->stash['from_to']:'web';
 		$row = array();
 		$row['user_id'] = $this->visitor->id;
 		$row['star'] = $this->stash['star'];
 		$row['target_id'] = $this->stash['target_id'];
 		$row['target_user_id'] = (int)$this->stash['target_user_id'];
-		$row['content'] = $this->stash['content'];
 		$row['type'] = (int)$this->stash['type'];
+		
+		// 处理评论内容
+		$content = $this->stash['content'];
+		$user = new Sher_Core_Model_User();
+		$remind = new Sher_Core_Model_Remind();
+		$url = Doggy_Config::$vars['app.url.user'];
+		if(empty($content)){
+            return;
+        }
+        $merge = '/\@(.*) /U';
+        $content = preg_replace_callback($merge,
+            function($s) use($user,$url,$remind){
+				if(strlen((string)$s[1]) <= 25){
+					$userInfo = $user->find(array('nickname'=>(string)$s[1]));
+					if(count($userInfo)){
+						$img = '[l:'.$url.'/'.$userInfo[0]['_id'].'::@'.$userInfo[0]['nickname'].':]';
+					}
+				} else {
+					$img = '';
+				}
+				return $img;
+            },$content
+        );
+		$row['content'] = $content;
+		
 		// 验证数据
 		if(empty($row['target_id']) || empty($row['content'])){
             $this->stash['is_error'] = true;
 			$this->stash['note'] = '获取数据错误,请重新提交';
             return $this->to_taconite_page('ajax/note.html');
 		}
-
+		
         $is_reply = isset($this->stash['is_reply'])?(int)$this->stash['is_reply']:0;
         if(!empty($is_reply)){
             $reply_id = isset($this->stash['reply_id'])?$this->stash['reply_id']:null;
@@ -83,7 +108,29 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
             $ok = $model->apply_and_save($row);
             if($ok){
                 $comment_id = $model->id;
+				//echo $comment_id;
                 $this->stash['comment'] = &$model->extend_load($comment_id);
+				
+				$str = explode('][',$content);
+				foreach($str as $v){
+					$str_two = explode('::',$v);
+					foreach($str_two as $val){
+						$str_three = explode('/',$val);
+						if(count($str_three) > 1){
+							$uid = (int)$str_three[4];
+							// 给用户添加提醒
+							$arr = array(
+								'user_id'=> $uid,
+								's_user_id'=> (int)$this->visitor->id,
+								'evt'=> Sher_Core_Model_Remind::EVT_AT,
+								'kind'=> Sher_Core_Model_Remind::KIND_COMMENT,
+								'related_id'=> (string)$comment_id,
+								'parent_related_id'=> (int)$this->stash['target_id'],
+							);
+							$ok = $remind->create($arr);
+						}
+					}
+				}
             } 
         }catch(Sher_Core_Model_Exception $e){
             $this->stash['is_error'] = true;
@@ -102,14 +149,14 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	 * 用户发表评价
 	 */
 	public function ajax_evaluate(){
-		$row = array();
 		
+		$row = array();
 		$row['user_id'] = $this->visitor->id;
 		$row['star'] = $this->stash['star'];
 		$row['target_id'] = $this->stash['target_id'];
 		$row['content'] = $this->stash['content'];
 		$row['type'] = (int)$this->stash['type'];
-    $row['sku_id'] = isset($this->stash['sku'])?(int)$this->stash['sku']:0;
+		$row['sku_id'] = isset($this->stash['sku'])?(int)$this->stash['sku']:0;
 		
 		// 验证数据
 		if(empty($row['target_id']) || empty($row['content']) || empty($row['star'])){
@@ -118,16 +165,16 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 
 		$model = new Sher_Core_Model_Comment();
 
-    $query = array();
-    $query['user_id'] = $row['user_id'];
-    $query['target_id'] = $row['target_id'];
-    $query['sku_id'] = $row['sku_id'];
-    $query['type'] = $row['type'];
-    $has_one = $model->first($query);
-
-    if(!empty($has_one)){
-      return $this->ajax_note('该商品不能重复评价!', true);
-    }
+		$query = array();
+		$query['user_id'] = $row['user_id'];
+		$query['target_id'] = $row['target_id'];
+		$query['sku_id'] = $row['sku_id'];
+		$query['type'] = $row['type'];
+		$has_one = $model->first($query);
+	
+		if(!empty($has_one)){
+		  return $this->ajax_note('该商品不能重复评价!', true);
+		}
 
 		$ok = $model->apply_and_save($row);
 		if($ok){
