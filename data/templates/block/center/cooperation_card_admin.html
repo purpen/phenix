@@ -1,0 +1,43 @@
+<div class="card">
+    <div class="brand">
+        <div class="logo">
+            <a class="ui link" href="{{ b.home_url }}" target="_blank">
+                <img class="ui big avatar image" src="{{ b.medium_avatar_url }}" />
+                {% if b.marks.labs %}
+                <span class="ui small circular icon pop button" data-content="孵化实验室" data-variation="inverted">
+                    <i class="lab icon"></i>
+                </span>
+                {% endif %}
+            </a>
+        </div>
+        <h2>
+            <a class="ui name line" href="{{ b.home_url }}" target="_blank">{{ b.name }}</a>
+            <span class="extra">
+                {{ b.type_label.name }} {{ b.city }}
+            </span>
+        </h2>
+        <div class="excerpt">
+            {{ b.strip_summary|truncate 200  }}
+        </div>
+        <div class="cats admin">
+            <a class="ui pop edit link" href="javascript:void(0);" data-id="{{ cooperate._id }}">
+                <i class="edit icon"></i> 编辑
+            </a>
+            <a class="ui pop remove link" href="javascript:void(0);" data-id="{{ cooperate._id }}">
+                <i class="remove icon"></i> 删除
+            </a>
+            <!--{% tag_list var:'keywords' keywords:b.keywords %}
+            {% for t in keywords %}
+            <span class="ui link">{{ t.name }}</span>{% if !loop.last %},{% endif %}
+            {% endfor %}-->
+        </div>
+        <span class="counter" style="color:#f36;">
+            审核中
+          <!--  <div class="ui small rating">
+                {% for s in b.rank_stars %}
+			  	<i class="icon {{ s }}"></i>
+                {% endfor %}-->
+			</div>
+        </span>
+    </div>
+</div>
