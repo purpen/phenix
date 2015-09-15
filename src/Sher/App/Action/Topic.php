@@ -645,6 +645,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         $this->stash['month'] = $month;     
       }
 
+      $pager_url = $pager_url = sprintf(Doggy_Config::$vars['app.url.topic'].'/sign?type=%d&day=%d&month=%d&page=#p#', $type, $this->stash['day'], $this->stash['month']);
+      $this->stash['pager_url'] = $pager_url;
+
       $this->stash['user_sign'] = $user_sign;
       return $this->to_html_page('page/topic/sign.html');
     }
