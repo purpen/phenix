@@ -125,6 +125,22 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 		
 			// 去除 html/php标签
 			$row['strip_summary'] = strip_tags($row['summary']);
+
+      $row['state_label'] = '';
+      switch($row['state']){
+        case -1:
+          $row['state_label'] = '未通过';
+          break;
+        case 0:
+          $row['state_label'] = '待审核';
+          break;
+        case 1:
+          $row['state_label'] = '审核中';
+          break;
+        case 2:
+          $row['state_label'] = '已通过';
+          break;
+      }
 		}
         
 		// logo
@@ -234,5 +250,13 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 		
         return $this->dec((int)$id, $field_name);
     }
+
+	/**
+	 * 删除后事件
+	 */
+	public function mock_after_remove($id) {
+		
+		return true;
+	}
 	
 }

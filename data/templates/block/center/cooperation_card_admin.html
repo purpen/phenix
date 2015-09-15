@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" id="item-{{b._id}}">
     <div class="brand">
         <div class="logo">
             <a class="ui link" href="{{ b.home_url }}" target="_blank">
@@ -20,10 +20,10 @@
             {{ b.strip_summary|truncate 200  }}
         </div>
         <div class="cats admin">
-            <a class="ui pop edit link" href="javascript:void(0);" data-id="{{ cooperate._id }}">
+            <a class="ui pop edit link" href="javascript:void(0);" data-id="{{ b._id }}">
                 <i class="edit icon"></i> 编辑
             </a>
-            <a class="ui pop remove link" href="javascript:void(0);" data-id="{{ cooperate._id }}">
+            <a class="ui pop remove link" href="javascript:void(0);" data-id="{{ b._id }}">
                 <i class="remove icon"></i> 删除
             </a>
             <!--{% tag_list var:'keywords' keywords:b.keywords %}
@@ -32,7 +32,7 @@
             {% endfor %}-->
         </div>
         <span class="counter" style="color:#f36;">
-            审核中
+          {{ b.state_label }}
           <!--  <div class="ui small rating">
                 {% for s in b.rank_stars %}
 			  	<i class="icon {{ s }}"></i>
