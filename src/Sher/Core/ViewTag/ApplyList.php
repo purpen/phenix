@@ -27,6 +27,7 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
     $load_target = 0;
     $q = 0;
     $result = 0;
+    $sort = 0;
 		
         $var = 'list';
         $include_pager = 0;

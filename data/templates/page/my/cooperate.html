@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}我的产品合作-{% endblock %}
+{% block title %}我的孵化合作-{% endblock %}
 
 {% block page_css %}
 <style type="text/css">
@@ -38,7 +38,7 @@
 						个人中心
 					</a>
 					<i class="angle right icon divider"></i>
-					<div class="active section">我的产品合作</div>
+					<div class="active section">孵化合作</div>
 				</div>
 			</div>
 		</div>
@@ -51,27 +51,28 @@
 			{% include "block/user/sub_menu_center.html" %}
 		</div>
 		<div class="twelve wide column">
-			<h2 class="ui header">我的产品合作</h2>
+			<h2 class="ui header">孵化合作</h2>
 			<div>
+
+		    {% cooperate_list var:'list' user_id:user_id page:page size:15 %}
 				<div class="ui grid">
-					<div class="row">
-						<div class="column">
-							{% contact_list var:'list' user_id:user_id page:page user_id:user_id size:15 %}
-							<div class="ui center-list">
-								<div class="ui three cards">
-									{% for d in list.rows %}
-                                        {% include 'block/center/cooperate-item.html' %}
-                                    {%endfor%}
-						        </div>
-					        </div>
-          			        {% if list.rows %}
-						    <div class="ui pagebox">
-			                    {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-			                    {%include 'block/pager.html'%}
-						    </div>
-			                {% endif %}
-						</div>
-					</div>
+            <div class="row">
+              <div class="column">
+                <div class="ui three cooperate cards">
+                  {% for b in list.rows %}
+                        {% include "block/cooperation_card.html" %}
+                  {% endfor %}
+                </div>
+                        
+                {% if cooperate.total_page > 1 %}
+                <div class="ui pagination grid">
+                  {% pager url:pager_url,total_rows:cooperate.total_rows,total_page:cooperate.total_page,current_page:page,var:'pager',pager_size:9 %}
+                  {%include 'block/pager.html'%}
+                </div>
+                {% endif %}
+                              
+              </div>
+            </div>
 				</div>
 			</div>
 		</div>
