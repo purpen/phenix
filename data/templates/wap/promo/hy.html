@@ -1813,6 +1813,22 @@
 		0% { -webkit-transform: rotate(90deg);left:100%;top:10%;opacity:0;}
 		100% { -webkit-transform: rotate(0deg);left:72%;opacity:1;}
 	}
+	.cloud1{
+		width: 100%;
+		top:0%;
+		left:-8%;
+		-webkit-animation: cloudSmall 105s infinite;
+		  animation: cloudSmall 105s infinite;
+	}
+	@-webkit-keyframes cloudSmall {
+	 	0% {
+		 left: -8%;
+		}
+		 100% {
+		 left: 105%;
+		}
+	}
+	
 </style>
 {% endblock %}
 
@@ -2111,6 +2127,7 @@
   <div class="wrap">
     <div class="section page-1">
   		<!--<div class="st pt-0"></div>-->
+  		<img src="{{ app_url_packaged }}/images/promo/hy/bird2.png" class="st cloud1">
   	  <img src="{{ app_url_packaged }}/images/promo/hy/xingxx.png" class="st pt-2">
   	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
   	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
