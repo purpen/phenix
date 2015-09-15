@@ -146,6 +146,11 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
         
         $model = new Sher_Core_Model_Cooperation();
         $cooperate = $model->extend_load((int)$id);
+
+        // 仅管理员或本人具有权限
+        if (!$this->visitor->can_edit() && !($cooperate['user_id'] == $this->visitor->id)){
+          return $this->show_message_page('你没有权限编辑的该主题！', true);
+        }
         
         $this->stash['cooperate'] = $cooperate;
         

@@ -1900,7 +1900,7 @@
   //记录分享数
   function record_share_num(){
     var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
-    $.get(url, { target_id: 5, count_name:'count', type: 4, kind:4 });
+    $.get(url, { target_id: 6, count_name:'count', type: 4, kind:4 });
   };
   
  		$('.wrap').fullpage({
@@ -2048,8 +2048,8 @@
 
        		$('#user-info-form').livequery(function(){
          		$(this).form({
-         			realname: {
-         				identifier  : 'realname',
+         			people: {
+         				identifier  : 'people',
          				rules: [
          					{
          						type   : 'empty',
@@ -2057,8 +2057,8 @@
          					}
          				]
          			},
-         			phone: {
-         				identifier  : 'phone',
+         			mobile: {
+         				identifier  : 'mobile',
          				rules: [
          					{
          						type   : 'empty',
@@ -2075,12 +2075,30 @@
          					}
          				]
          			},
-         			job: {
-         				identifier  : 'job',
+         			position: {
+         				identifier  : 'position',
          				rules: [
          					{
          						type   : 'empty',
          						prompt : '职位不能为空'
+         					}
+         				]
+         			},
+         			fullname: {
+         				identifier  : 'fullname',
+         				rules: [
+         					{
+         						type   : 'empty',
+         						prompt : '公司不能为空'
+         					}
+         				]
+         			},
+         			wechat: {
+         				identifier  : 'wechat',
+         				rules: [
+         					{
+         						type   : 'empty',
+         						prompt : '微信号不能为空'
          					}
          				]
          			}
@@ -2481,7 +2499,69 @@
   </div>
 </div>
 		  
-		  
+<!--申请弹层-->	  
+<div class="ui user-info-box small modal transition">
+  	
+	<div class="header" style="position:relative;">
+	    项目入驻-补全基本信息
+	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;"></i>
+	</div>
+	<div class="container">
+		<form action="{{ app_url_wap }}/incubator/ajax_attend" class="ui form" method="post" id="user-info-form">
+		  	<div class="content">
+				<div class="ajax result"></div>
 
-{% include "block/wap_attend_user_info.html" %}
+				<div class="ui signup-box">
+					<div class="two fields">
+						<div class="field">
+							<label>姓名</label>
+              <input type="text" name="people" value="{{ visitor.profile.realname }}" />
+						</div>
+					</div>
+					<div class="two fields">
+						<div class="field">
+							<label>电话</label>
+							<input type="text" name="mobile" value="{{ visitor.profile.phone }}" placeholder="填写手机号，方便信息核实" />
+						</div>
+					</div>
+					<div class="two fields">
+						<div class="field">
+							<label>Email</label>
+							<input type="text" name="email" value="{{ visitor.email }}" placeholder="Email" />
+						</div>
+					</div>
+					<div class="two fields">
+						<div class="field">
+							<label>微信号</label>
+							<input type="text" name="wechat" value="" placeholder="Wechat" />
+						</div>
+					</div>
+					<div class="field">
+						<label>公司</label>
+            <input type="text" name="fullname" value="" />
+					</div>
+					<div class="field">
+						<label>职位</label>
+            <input type="text" name="position" value="{{ visitor.profile.job }}" />
+					</div>
+					<div class="field">
+						<label>地址</label>
+            <input type="text" name="address" value="{{ visitor.profile.address }}" />
+					</div>
+				</div>
+		  	</div>
+
+			<div class="right aligned action">
+			    <div class="ui gray deny button">
+					取消
+			    </div>
+			    <div class="ui magenta submit button">
+					确认报名
+			    </div>
+			</div>
+		</form>
+	</div>
+</div>
+
+
 {% endblock %}

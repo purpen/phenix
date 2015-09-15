@@ -40,6 +40,8 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 		# 联系人
 		'people'   	 => '',
 		'mobile'     => '',
+    # 职位
+    'position'  => '',
 		
 		# 网站
 		'site_url'   => '',
