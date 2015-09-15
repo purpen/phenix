@@ -2116,7 +2116,7 @@
                     
                     if(data.is_error){
                       $(event.target).addClass('error');
-                      phenix.show_error_note(data.message, event.target);
+                      phenix.show_error_note(data.message);
                     }else{
                       $('.ui.user-info-box.modal').modal('hide');
                       phenix.show_ok_note(data.message, 5000);
