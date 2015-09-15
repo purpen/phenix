@@ -44,7 +44,7 @@ class Sher_Core_ViewTag_RemindList extends Doggy_Dt_Tag {
         $options['size'] = $size;
 		$options['sort_field'] = $sort_field;
         $result = $service->get_remind_list($query,$options);
-
+		
         //设置已读
         if(!empty($set_readed)){
           $remind = new Sher_Core_Model_Remind();
@@ -60,7 +60,7 @@ class Sher_Core_ViewTag_RemindList extends Doggy_Dt_Tag {
         }
 		
         $context->set($var, $result);
-		
+		//var_dump($result);
         if ($include_pager) {
             $context->set($pager_var,$result['pager']);
         }

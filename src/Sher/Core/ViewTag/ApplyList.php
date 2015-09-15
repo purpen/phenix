@@ -26,6 +26,7 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
     // 加载关联表
     $load_target = 0;
     $q = 0;
+    $result = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -64,6 +65,14 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
       }
     }
 
+    if($result){
+      if((int)$result==-1){
+        $query['result'] = 0;
+      }elseif((int)$result==1){
+        $query['result'] = 1;     
+      }
+    }
+
     if($q){
       if((int)$q==0){
         $query['name'] = $q;
@@ -77,8 +86,18 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
         $service = Sher_Core_Service_Apply::instance();
         $options['page'] = $page;
         $options['size'] = $size;
-		$options['sort_field'] = $sort_field;
-		
+		    $options['sort_field'] = $sort_field;
+
+		// 设置排序
+		switch ((int)$sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'vote';
+				break;
+		}
+
         $result = $service->get_list($query,$options);
 
         //加载关联表

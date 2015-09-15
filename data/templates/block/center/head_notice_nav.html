@@ -4,7 +4,7 @@
 		<a href="{{ app_url_my }}/recive_comment" class="ui {{css_user_comment}} item">我的评论  <small>({{user.counter.comment_count}})</small></a>
 		<a href="{{ app_url_my }}/notice" class="ui {{css_user_notice}} item">我的通知({{user.counter.notice_count}})</a>
 
-  {% if visitor.quality %}
+  {% if visitor.can_edit %}
 	<div class="item right">
 		<a href="{{ app_url_my }}/send_message" class="ui link {{css_user_send_message}}">+发私信</a>
 	</div>

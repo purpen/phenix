@@ -19,7 +19,7 @@
                 {% if topic.fine %}
                 <i class="ui pop basic star icon" data-content="精华话题" data-variation="inverted"></i>
                 {% endif %}
-                {{ topic.title|truncate 60 }}
+                {{ topic.attr_str }}{{ topic.title|truncate 60 }}
             </a>
 		</h3>
       	<div class="content">

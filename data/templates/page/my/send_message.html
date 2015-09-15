@@ -46,7 +46,7 @@
 					
 					if(data.is_error){
 						$(event.target).addClass('error');
-						phenix.show_error_note(data.message, event.target);
+						phenix.show_error_note(data.message);
 					}else{
             phenix.show_ok_note('私信发送成功!');
             $(':input[name=content]').val('');

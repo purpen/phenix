@@ -130,7 +130,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
           'fine'=>1, 'stick'=>1, 'category_id'=>1, 'created_on'=>1, 'asset_count'=>1,
           'last_user'=>1, 'last_reply_time'=>1, 'cover_id'=>1, 'comment_count'=>1, 'view_count'=>1,
           'updated_on'=>1, 'favorite_count'=>1, 'love_count'=>1, 'deleted'=>1,'published'=>1, 'tags'=>1,
-          'description'=>1,
+          'description'=>1, 'attrbute'=>1,
         );
         $options['some_fields'] = $some_fields;
         
@@ -981,7 +981,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$data['t_color'] = isset($this->stash['t_color'])?(int)$this->stash['t_color']:0;
 
 		$data['source'] = isset($this->stash['source'])?$this->stash['source']:'';
-		$data['attrbute'] = isset($this->stash['attrbute'])?(int)$this->stash['attrbute']:1;
+		$data['attrbute'] = isset($this->stash['attrbute'])?(int)$this->stash['attrbute']:0;
 		
 		// 检测编辑器图片数
 		$file_count = isset($this->stash['file_count']) ? (int)$this->stash['file_count'] : 0;

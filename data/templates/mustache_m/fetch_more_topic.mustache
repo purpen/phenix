@@ -1,7 +1,7 @@
 {{#results.rows}}
 							<div class="item">
 								<div class="content" style="display:block;">
-							    	<div class="header {{#red}} topic-title-color-red{{/red}}{{#blue}} topic-title-color-blue{{/blue}}{{#green}} topic-title-color-green{{/green}}{{#yellow}} topic-title-color-yellow{{/yellow}}"><a href="{{ wap_view_url }}" title="{{ title }}" class="ui line link">{{ title }}</a></div>
+							    	<div class="header {{#red}} topic-title-color-red{{/red}}{{#blue}} topic-title-color-blue{{/blue}}{{#green}} topic-title-color-green{{/green}}{{#yellow}} topic-title-color-yellow{{/yellow}}"><a href="{{ wap_view_url }}" title="{{ title }}" class="ui line link">{{ attr_str }}{{ title }}</a></div>
 										{{^has_asset}}
 											<div class="description">
 												{{ strip_description }}

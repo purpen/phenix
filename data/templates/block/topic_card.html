@@ -14,7 +14,7 @@
         </div>
         <h2>
             <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
-			    {{ topic.title|truncate, 32, '' }}
+			    {{ topic.attr_str }}{{ topic.title|truncate, 32, '' }}
 		    </a>
         </h2>
         <div class="excerpt">

@@ -166,7 +166,7 @@
   var per_page = 10, sort = 0;
   function fetch_comment(current_page, per_page, sort){
     var url = '{{ app_url_wap }}/app/site/comment/ajax_fetch_comment_wap';
-    $.get(url, {target_id: {{ topic._id }}, type: 2, page: current_page, per_page: per_page, sort:sort});
+    $.get(url, {target_id: '{{ topic._id }}', type: 2, page: current_page, per_page: per_page, sort:sort});
   }
 
     var m_name = '{{ page_title_suffix }}';
@@ -248,7 +248,7 @@
 {% endblock %}
 
 {% block jquery %}
-	phenix.hook_comment_page();
+	phenix.hook_comment_page('wap');
 
   //ajax加载评论
   fetch_comment(1, per_page, 0);
@@ -431,7 +431,7 @@
 						<div class="ui big topic segment" style="border: 0px solid rgba(34,36,38,.15);">
 							<div class="ui header" style="margin-bottom:1rem;">
 								<div class="content">
-									{{ topic.title }}
+                  {{ topic.attr_str }}{{ topic.title }}
 									<div class="sub header attribute">
 										<span class="category"><a href="{{ app_url_topic }}/c{{ topic.category._id }}" class="ui magenta link">{{ topic.category.title }}</a></span> | 
 										<span class="date">{{ topic.user.nickname }} 发表于 {{ topic.created_on|relative_datetime }}</span> | 
