@@ -158,7 +158,7 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 
     $mode = new Sher_Core_Model_Cooperation();
 
-    if(empty($this->stash['people']) || empty($this->stash['mobile']) || empty($this->stash['wechat']) || empty($this->stash['position']) || empty($this->stash['fullname'])){
+    if(empty($this->stash['people']) || empty($this->stash['mobile']) || empty($this->stash['wechat']) || empty($this->stash['position']) || empty($this->stash['name'])){
       return $this->ajax_note('请求失败,缺少用户必要参数', true); 
     }
 
@@ -169,9 +169,8 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
     $data['email'] = $this->stash['email'];
     $data['mobile'] = $this->stash['mobile'];
     $data['wechat'] = $this->stash['wechat'];
-    $data['fullname'] = $this->stash['fullname'];
-    $data['wechat'] = (int)$this->stash['wechat'];
-    $data['position'] = (int)$this->stash['position'];
+    $data['name'] = $this->stash['name'];
+    $data['position'] = $this->stash['position'];
     try{
       $ok = $mode->apply_and_save($data);
       if($ok){

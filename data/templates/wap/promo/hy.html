@@ -2084,8 +2084,8 @@
          					}
          				]
          			},
-         			fullname: {
-         				identifier  : 'fullname',
+         			name: {
+         				identifier  : 'name',
          				rules: [
          					{
          						type   : 'empty',
@@ -2106,7 +2106,23 @@
          			inline : true,
          			onSuccess: function(event){
          				event.preventDefault();
-         				$(this).ajaxSubmit();
+                $(this).ajaxSubmit({
+                  dataType: 'json',
+                  beforeSubmit: function(){
+                    phenix.before_submit();
+                  },
+                  success: function(data){
+                    phenix.after_submit();
+                    
+                    if(data.is_error){
+                      $(event.target).addClass('error');
+                      phenix.show_error_note(data.message, event.target);
+                    }else{
+                      $('.ui.user-info-box.modal').modal('hide');
+                      phenix.show_ok_note(data.message, 5000);
+                    }
+                  }
+                });
          			}
          		});
          	});
@@ -2538,7 +2554,7 @@
 					</div>
 					<div class="field">
 						<label>公司</label>
-            <input type="text" name="fullname" value="" />
+            <input type="text" name="name" value="" />
 					</div>
 					<div class="field">
 						<label>职位</label>
