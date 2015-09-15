@@ -5,6 +5,9 @@
  */
 class Sher_Core_Model_UserSignStat extends Sher_Core_Model_Base  {
 	protected $collection = "user_sign_stat";
+
+  const DRAW_EVT_DEFAULT = 0;
+  const DRAW_EVT_ONE = 1;
 	
 	protected $schema = array(
     'user_id' => 0,
@@ -24,15 +27,45 @@ class Sher_Core_Model_UserSignStat extends Sher_Core_Model_Base  {
     # 是否当前月最终统计
     'month_latest' => 1,
 
+    // 当日签到时间
+    'sign_time' => 0,
+    // 连续签到天数
+    'sign_times' => 0,
+    // 最高签到天数
+    'max_sign_times' => 0,
+
+    // 当日获取的经验值和鸟币
+		'day_exp_count' => 0,
+		'day_money_count' => 0,
+
+    // 当周获取的经验值和鸟币
+		'week_exp_count' => 0,
+		'week_money_count' => 0,
+
+    // 当月获取的经验值和鸟币
+		'month_exp_count' => 0,
+		'month_money_count' => 0,
+
+		// 获取经验总值
+		'total_exp_count' => 0,
+		// 获取鸟币数量
+		'total_money_count' => 0,
+
+    // 签到总天数
+    'total_sign_times' => 0,
+
     # 类型
     'kind' => 1,
     # 状态
 		'state' => 1,
+
+    # 中奖类型
+    'draw_evt' => self::DRAW_EVT_DEFAULT,
   	);
 
   protected $required_fields = array('user_id','day');
 
-  protected $int_fields = array('state', 'user_id', 'kind', 'day', 'user_kind', 'sign_time', 'sign_no');
+  protected $int_fields = array('state', 'user_id', 'kind', 'day', 'week', 'week_latest', 'month', 'month_latest', 'user_kind', 'sign_time', 'sign_no', 'sign_times', 'max_sign_times', 'day_exp_count', 'day_money_count', 'week_exp_count', 'week_money_count', 'month_exp_count', 'month_money_count', 'total_exp_count', 'total_money_count', 'total_sign_times');
 
 	protected $joins = array(
 	  'user'  => array('user_id'  => 'Sher_Core_Model_User'),
