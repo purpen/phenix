@@ -613,7 +613,40 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
      * 签到
      */
     public function sign(){
-        return $this->to_html_page('page/topic/sign.html');
+      $this->stash['has_sign'] = false;
+      $user_model = new Sher_Core_Model_User();
+      $user = $user_model->load((int)$this->visitor->id);
+      if(!empty($user)){
+          $this->stash['user'] = $user_model->extended_model_row($user);
+      }
+      $user_sign_model = new Sher_Core_Model_UserSign();
+      $user_sign = $user_sign_model->extend_load((int)$this->visitor->id);
+      $redirect_url = Doggy_Config::$vars['app.url.topic'];
+      if(empty($user_sign)){
+        return $this->show_message_page('数据不存在！', $redirect_url);
+      }
+
+      $today = (int)date('Ymd');
+      $month = (int)date('Ym');
+      $yesterday = (int)date('Ymd', strtotime('-1 day'));
+      if($user_sign['last_date'] == $yesterday){
+          $continuity_times = $user_sign['sign_times'];
+      }elseif($user_sign['last_date'] == $today){
+          $this->stash['has_sign'] = true;
+          $continuity_times = $user_sign['sign_times'];
+      }
+
+      $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+
+      $this->stash['type'] = $type;
+      if($type==1){
+        $this->stash['day'] = $today;
+      }elseif($type==2){
+        $this->stash['month'] = $month;     
+      }
+
+      $this->stash['user_sign'] = $user_sign;
+      return $this->to_html_page('page/topic/sign.html');
     }
     
 	/**
