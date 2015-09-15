@@ -2530,39 +2530,29 @@
 				<div class="ui signup-box">
 					<div class="two fields">
 						<div class="field">
-							<label>姓名</label>
-              <input type="text" name="people" value="{{ visitor.profile.realname }}" />
+              <input type="text" name="people" value="{{ visitor.profile.realname }}" placeholder="姓名" />
 						</div>
 					</div>
 					<div class="two fields">
 						<div class="field">
-							<label>电话</label>
 							<input type="text" name="mobile" value="{{ visitor.profile.phone }}" placeholder="填写手机号，方便信息核实" />
 						</div>
 					</div>
 					<div class="two fields">
 						<div class="field">
-							<label>Email</label>
 							<input type="text" name="email" value="{{ visitor.email }}" placeholder="Email" />
 						</div>
 					</div>
 					<div class="two fields">
 						<div class="field">
-							<label>微信号</label>
-							<input type="text" name="wechat" value="" placeholder="Wechat" />
+							<input type="text" name="wechat" value="" placeholder="微信号" />
 						</div>
 					</div>
 					<div class="field">
-						<label>公司</label>
-            <input type="text" name="name" value="" />
+            <input type="text" name="name" value="" placeholder="公司名称" />
 					</div>
 					<div class="field">
-						<label>职位</label>
-            <input type="text" name="position" value="{{ visitor.profile.job }}" />
-					</div>
-					<div class="field">
-						<label>地址</label>
-            <input type="text" name="address" value="{{ visitor.profile.address }}" />
+            <input type="text" name="position" value="{{ visitor.profile.job }}" placeholder="职位" />
 					</div>
 				</div>
 		  	</div>

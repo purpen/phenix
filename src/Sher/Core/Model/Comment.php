@@ -17,6 +17,9 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	const TYPE_PRODUCT = 4;
   	const TYPE_ACTIVE = 5;
 	const TYPE_STUFF  = 6;
+  const TYPE_ALBUM = 7;
+  // 专题评论
+  const TYPE_SUBJECT = 10;
 	
     protected $schema = array(
         'user_id' => 0,
