@@ -16,74 +16,6 @@
 	    background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);
 		{% endif %}
 	}
-	.mainwrap .mainleft .container:first-child{
-	  margin-top:0;
-	}
-	.try .masthead .ui.header {
-		  margin-top: 0.6em;
-	}
-	.try .masthead .ui.header .sub.header{
-		color: #fff;
-		font-size: 1.5rem;
-		margin-top: 0;
-		line-height: 46px;
-	}
-	.try .masthead .ui.button{
-		width:180px;
-	}
-	.try .masthead .ui.header .sub.header span{
-		font-size: 18px;
-	}
-    
-	.try .apply {
-	  margin-top: 1.3em;
-	  line-height: 28px;
-	}
-    
-	.ui.horizontal.timer.list>.item{
-		margin-left: 1em !important;
-		margin: 10px 0;
-	}
-	.product.overview{
-		padding-bottom:1em;
-	}
-	
-	.product.aption img,.product.aption p{
-		margin:0 auto;
-		display:block;
-		text-align:center;
-	}
-	.product.aption p{
-		margin-bottom: 1em;
-	}
-    .product.report {
-        padding-bottom: 2rem;
-    }
-
-	.ui.lapiao{
-	    border:0px solid #fff !important;
-	}
-    .ui.lapiao > .content{
-	    background:url({{ app_url_packaged }}/images/trybox.jpg) no-repeat center center /cover;
-	}
-	#lapiao canvas{
-	  width:100% !important;
-	}
-	.product.appli td.author .content{
-	  overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 100px;
-	}
-  p.contact {
-      margin: 20px 0px 0px;
-  }
-  .ui.topic.table .content .ui.mini.images{
-    width:100% !important;
-  }
-  .ui.comments .comment .avatar{
-    height:2.5em;
-  }
 </style>
 {% endblock %}
 
@@ -390,7 +322,7 @@
                     {% topic_list var:'list' published:1 try_id:try._id time:'latest' %}
                     {% if list.rows %}
 					<div class="social">
-						<table class="ui topic table" style="border: none;">
+						<table class="ui topic table">
 							<tbody>
 							
 							{% for topic in list.rows %}
@@ -402,7 +334,7 @@
                     {% else %}
                     <p class="resultbox">还没有人为 <a href="{{ try.view_url }}" class="ui link">{{ try.title }}</a> 撰写评测，你想做第一个为它写评测的人么？</p>
                     {% endif %}
-					<div class="ui center aligned" style="padding-top:20px;border-top: 1px solid rgba(34,36,38,.1);">
+					<div class="ui center aligned reportbtn">
 						<a href="{{ app_url_topic }}/report?tid={{ try._id }}" class="ui blue inverted button" target="_blank">
 	                        <i class="tasks icon"></i> 全部报告
 	                    </a>
@@ -477,7 +409,7 @@
 			<div class="block title">
 				品牌介绍
             </div>
-            <div class="brand products" style="text-align:center;">
+            <div class="ui center aligned brand products">
                 <div class="author">
                     {% if img_asset.brand_avatar %}
                         <img src="{{ img_asset.brand_avatar.fileurl }}" alt="{{ try.short_title }}" />
@@ -494,7 +426,7 @@
 			<div class="block title">
 				厂商合作申请
             </div>
-            <p class="contact">邮箱: bianluyao@taihuoniao.com</p>
+            <p class="user action">邮箱: bianluyao@taihuoniao.com</p>
         </div>
         <div class="sellwrap">
           <div class="user share" style="border-top:none;">
@@ -546,7 +478,7 @@
           <div class="block title">
     				我要试用
           </div>
-          <p class="contact">
+          <p class="user action">
           {% if !try.is_end %}
                         {% if is_applied %}
                           <a href="javascript:void(0);" class="ui magenta lapiao-btn inverted button" style="width:100%;">
@@ -563,7 +495,7 @@
 					</a>
 					{% endif %}
 					</p>
-          <p class="apply contact">产品数量：<b class="big">{{ try.try_count }}</b>个,&nbsp;<b class="big">{{ try.apply_count }}</b> 人已预约</p>
+          <p class="user action">产品数量：<b class="big">{{ try.try_count }}</b>个,&nbsp;<b class="big">{{ try.apply_count }}</b> 人已预约</p>
         </div>
     </div>
     
@@ -583,7 +515,7 @@
 <div id="show-support-box">
   {% if !try.is_end %}
     {% if is_applied %}
-    <div class="ui small lapiao modal" style="width:30% !important;margin-left:-15% !important;">
+    <div class="ui small lapiao modal">
         <i class="close icon"></i>
         <div class="content">
           <div class="ui center aligned grid">

@@ -127,10 +127,11 @@
   
   
   .page-1{
-		background:url({{ app_url_packaged }}/images/promo/hy/bg01.jpg);
-		-webkit-animation: 'p1BgAnimation' 4s linear infinite;
-		animation: 'p1BgAnimation' 4s linear infinite;
+		background:url({{ app_url_packaged }}/images/promo/hy/bj1.jpg) center center;
+		/*-webkit-animation: 'p1BgAnimation' 4s linear infinite;
+		animation: 'p1BgAnimation' 4s linear infinite;*/
     background-repeat: no-repeat;
+    background-size:cover;
 	}
 	@-webkit-keyframes p1BgAnimation {
 		0% { background-position: 0 -100px; }
@@ -1773,9 +1774,8 @@
 	  animation-fill-mode: both;
 	}
 	@-webkit-keyframes clicr6 {
-		0% { -webkit-transform: rotate(720deg);left:100%;margin-top:-200px;opacity:0;}
-		50% { -webkit-transform: rotate(360deg);left:60%;margin-top:0px;opacity:1;}
-		100% { -webkit-transform: rotate(0deg);left:3%;}
+		0% { -webkit-transform: rotate(720deg);left:100%;opacity:0;}
+		100% { -webkit-transform: rotate(0deg);left:3%;opacity:1;}
 	}
 	.clicr7{
 		-webkit-animation-name: clicr7;
@@ -1786,9 +1786,8 @@
 	  animation-fill-mode: both;
 	}
 	@-webkit-keyframes clicr7 {
-		0% { -webkit-transform: rotate(360deg);left:100%;margin-top:-200px;opacity:0;}
-		50% { -webkit-transform: rotate(180deg);left:70%;margin-top:0px;opacity:1;}
-		100% { -webkit-transform: rotate(0deg);left:26%;}
+		0% { -webkit-transform: rotate(360deg);left:100%;opacity:0;}
+		100% { -webkit-transform: rotate(0deg);left:26%;opacity:1;}
 	}
 	.clicr8{
 		-webkit-animation-name: clicr8;
@@ -1799,9 +1798,8 @@
 	  animation-fill-mode: both;
 	}
 	@-webkit-keyframes clicr8 {
-		0% { -webkit-transform: rotate(180deg);left:100%;margin-top:-200px;opacity:0;}
-		50% { -webkit-transform: rotate(90deg);left:60%;margin-top:0px;opacity:1;}
-		100% { -webkit-transform: rotate(0deg);left:49%;}
+		0% { -webkit-transform: rotate(180deg);left:100%;opacity:0;}
+		100% { -webkit-transform: rotate(0deg);left:49%;opacity:1;}
 	}
 	.clicr9{
 		-webkit-animation-name: clicr9;
@@ -1812,10 +1810,25 @@
 	  animation-fill-mode: both;
 	}
 	@-webkit-keyframes clicr9 {
-		0% { -webkit-transform: rotate(90deg);left:100%;margin-top:-200px;opacity:0;}
-		50% { -webkit-transform: rotate(45deg);left:80%;margin-top:0px;opacity:1;}
-		100% { -webkit-transform: rotate(0deg);left:72%;}
+		0% { -webkit-transform: rotate(90deg);left:100%;top:10%;opacity:0;}
+		100% { -webkit-transform: rotate(0deg);left:72%;opacity:1;}
 	}
+	.cloud1{
+		width: 100%;
+		top:-9%;
+		opacity:0.9;
+		-webkit-animation: cloudSmall 8s ease;
+		  animation: cloudSmall 8s ease;
+	}
+	@-webkit-keyframes cloudSmall {
+	 	0% {
+		 left: -70%;
+		}
+		 100% {
+		 left: 0%;
+		}
+	}
+	
 </style>
 {% endblock %}
 
@@ -1893,6 +1906,8 @@
  		$('.wrap').fullpage({
  			'css3':true,
  			//'loopBottom':true,
+ 			'loopBottom':true,
+			'loopTop':true,
  			'slidesNavigation': true,
  			afterLoad: function(anchorLink, index){
  						if(index == 1){
@@ -1989,6 +2004,9 @@
  						}
  			}
  	  });
+ 	  setInterval(function(){
+		        $.fn.fullpage.moveSlideRight();
+		    }, 4000);
  	  
  	  window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
 
@@ -2002,102 +2020,99 @@
              }
          }
  	  
+ 	        bgm = new Audio5js({
+       	      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
+       	      ready: function () {
+       	          this.load("http://frstatic.qiniudn.com/wechat/js/Won't Go Home Without You.mp3");
+       	          this.play();
+
+       	          this.on('canplay', function(){
+       	              //console.log('canplay');
+       	          });   
+
+       	          this.on('ended', function(){
+       	              bgm.play();
+       	          })           
+       	      }
+       	  });
+
+       	 $('#music-control').click(function(){
+       		    bgm.playPause();
+       				if($(this).hasClass("playing")){
+       					$(this).removeClass("playing");
+       				}
+       				else{
+       					$(this).addClass("playing");
+       				}
+       		});
+
+       		$('#user-info-form').livequery(function(){
+         		$(this).form({
+         			realname: {
+         				identifier  : 'realname',
+         				rules: [
+         					{
+         						type   : 'empty',
+         						prompt : '姓名不能为空'
+         					}
+         				]
+         			},
+         			phone: {
+         				identifier  : 'phone',
+         				rules: [
+         					{
+         						type   : 'empty',
+         						prompt : '电话不能为空'
+         					}
+         				]
+         			},
+         			address: {
+         				identifier  : 'address',
+         				rules: [
+         					{
+         						type   : 'empty',
+         						prompt : '地址不能为空'
+         					}
+         				]
+         			},
+         			job: {
+         				identifier  : 'job',
+         				rules: [
+         					{
+         						type   : 'empty',
+         						prompt : '职位不能为空'
+         					}
+         				]
+         			}
+         		}, {
+         			inline : true,
+         			onSuccess: function(event){
+         				event.preventDefault();
+         				$(this).ajaxSubmit();
+         			}
+         		});
+         	});
+
+           //报名按钮
+         	$('.join').click(function(){
+         		// 所有ajax请求，验证是否登录
+         		if (!phenix.visitor.is_login){
+         		  phenix.redirect("{{ app_url_wap }}/auth/login");
+         			return false;
+         		}
+             $('.ui.user-info-box.modal')
+             .modal('setting', 'closable', false)
+             .modal('setting', 'transition', 'vertical  flip')
+             .modal('show');
+             return false; 
+         	});
+         	$('.ui.deny.button,i.close').click(function(){
+         		$('.ui.user-info-box.modal').modal('hide');
+         	});
+ 	  
       </script>
       
   	<script>document.write('<style>#loading{display:none}</style>');</script>
- 	  
-{% endblock %}
-
-{% block jquery %}
- 	  bgm = new Audio5js({
-	      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
-	      ready: function () {
-	          this.load("http://frstatic.qiniudn.com/wechat/js/Won't Go Home Without You.mp3");
-	          this.play();
-
-	          this.on('canplay', function(){
-	              //console.log('canplay');
-	          });   
-
-	          this.on('ended', function(){
-	              bgm.play();
-	          })           
-	      }
-	  });
-
-	 $('#music-control').click(function(){
-		    bgm.playPause();
-				if($(this).hasClass("playing")){
-					$(this).removeClass("playing");
-				}
-				else{
-					$(this).addClass("playing");
-				}
-		});
-		
-		$('#user-info-form').livequery(function(){
-  		$(this).form({
-  			realname: {
-  				identifier  : 'realname',
-  				rules: [
-  					{
-  						type   : 'empty',
-  						prompt : '姓名不能为空'
-  					}
-  				]
-  			},
-  			phone: {
-  				identifier  : 'phone',
-  				rules: [
-  					{
-  						type   : 'empty',
-  						prompt : '电话不能为空'
-  					}
-  				]
-  			},
-  			address: {
-  				identifier  : 'address',
-  				rules: [
-  					{
-  						type   : 'empty',
-  						prompt : '地址不能为空'
-  					}
-  				]
-  			},
-  			job: {
-  				identifier  : 'job',
-  				rules: [
-  					{
-  						type   : 'empty',
-  						prompt : '职位不能为空'
-  					}
-  				]
-  			}
-  		}, {
-  			inline : true,
-  			onSuccess: function(event){
-  				event.preventDefault();
-  				$(this).ajaxSubmit();
-  			}
-  		});
-  	});
-
-    //报名按钮
-  	$('.join').click(function(){
-  		// 所有ajax请求，验证是否登录
-  		if (!phenix.visitor.is_login){
-  		  phenix.redirect("{{ app_url_wap }}/auth/login");
-  			return false;
-  		}
-      $('.ui.user-info-box.modal')
-      .modal('setting', 'closable', false)
-      .modal('setting', 'transition', 'vertical  flip')
-      .modal('show');
-      return false; 
-  	});
-  	$('.ui.deny.button,i.close').click(function(){
-  		$('.ui.user-info-box.modal').modal('hide');
-  	});
 
 
 {% endblock %}
@@ -2111,7 +2126,8 @@
   <div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div> 
   <div class="wrap">
     <div class="section page-1">
-  		<div class="st pt-0"></div>
+  		<!--<div class="st pt-0"></div>-->
+  		<img src="{{ app_url_packaged }}/images/promo/hy/bird2.png" class="st cloud1">
   	  <img src="{{ app_url_packaged }}/images/promo/hy/xingxx.png" class="st pt-2">
   	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
   	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
