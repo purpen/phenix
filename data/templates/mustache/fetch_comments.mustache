@@ -56,7 +56,7 @@
                 <a class="reply reply-btn" href="javascript:void(0);" comment_id="{{ _id }}" floor="{{ floor }}" comment_user_id="{{ user_id }}" comment_user_name="{{ user.nickname }}">回复</a>
 
                 {{#is_edit}}
-                <a class="delete confirm-request" href="/comment/delete?id={{ comment._id }}">屏蔽</a>
+                <a class="delete confirm-request" href="/comment/delete?id={{ _id }}">屏蔽</a>
                 {{/is_edit}}
             {{/deleted}}
         </div>
