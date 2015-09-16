@@ -82,9 +82,8 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 					$data = $this->node();
 					$result = $weObj->news($data)->reply(array(), true);
 				}elseif($content == '红包'){
-					//$data = $this->node();
-					//$result = $weObj->news($data)->reply(array(), true);
-					$result = '我给你红包';
+					$text = $this->hongbao();
+					$result = $weObj->text($text)->reply(array(), true);
 				}
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_EVENT:
@@ -291,6 +290,14 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 */
 	protected function z(){
 		$text = '太火鸟已经将您的信息收录喽，中奖名单将于8月13日公布，敬请期待！';
+		return $text;
+	}
+	
+	/**
+	 * 智造革命专题
+	 */
+	protected function hongbao(){
+		$text = '我给你红包！';
 		return $text;
 	}
 	
