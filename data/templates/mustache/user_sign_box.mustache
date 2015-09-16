@@ -19,13 +19,14 @@
         {{/is_true}}
     {{/is_doing}}
     <div class="adreg">	
-      连签 <b>{{ continuity_times }}</b> 天
+      连签 <b>{{ continuity_times }}</b> 天 
     </div>
 </div>
 
 {{#has_sign}}
 <p>
-* 今日签到排行: <b style="color:green;">{{ data.last_date_no }}</b>
+* 今日签到排行: <b style="color:green;">{{ data.last_date_no }}</b> 
+&nbsp;&nbsp;<a href="/topic/sign"><small>查看排名&gt;&gt;</small></a>
 </p>
 {{/has_sign}}
 

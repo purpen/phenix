@@ -8,6 +8,7 @@ class Sher_Core_Service_SignStat extends Sher_Core_Service_Base {
     protected $sort_fields = array(
         'sign_no' => array('sign_no' => 1),
 		'sign_time' => array('sign_time' => -1),
+		'day_desc' => array('day' => -1),
 		'week_exp_count' => array('week_exp_count' => -1),
 		'month_exp_count' => array('month_exp_count' => -1),
 
