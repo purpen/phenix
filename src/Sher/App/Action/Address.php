@@ -28,6 +28,8 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 			return $this->ajax_notification('Id参数为空！', true);
 		}
 
+    $type = $this->stash['type'] = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+
     $this->stash['district_id'] = isset($this->stash['district_id']) ? (int)$this->stash['district_id'] : 0;
 		
 		$areas = new Sher_Core_Model_Areas();
@@ -180,12 +182,16 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 	public function remove_address(){
 		$id = $this->stash['id'];
 		if(empty($id)){
-			return $this->ajax_json('地址不存在！', true);
+			return $this->ajax_json('缺少请求参数！', true);
 		}
 		
 		try{
 			$model = new Sher_Core_Model_AddBooks();
 			$addbook = $model->load($id);
+
+      if(empty($addbook)){
+ 			  return $this->ajax_json('地址不存在！', true);       
+      }
 			
 			// 仅管理员或本人具有删除权限
 			if ($this->visitor->can_admin() || $addbook['user_id'] == $this->visitor->id){
