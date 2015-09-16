@@ -74,6 +74,18 @@
 {% block jquery %}
     // ajax加载签到数据
     //phenix.signin();
+
+    $('.ui.sign-btn.button').click(function(){
+      $.post("{{ app_url_user }}/ajax_sign_in", {type: 1}, function(obj){
+        if(obj.success){
+          $('span[name=sign-text]').text('今日已签到');
+          var sign_no = obj.data.data.last_date_no;
+          $('.sign-number-text').show().find('.no').text(sign_no);
+        }else{
+          phenix.show_error_note('签到失败!');
+        }
+      }, 'json');
+    });
     
 {% endblock %}
 
@@ -92,8 +104,9 @@
             {%else%}
             <div class="pai">
                 <a href="javascript:void(0);" class="ui big inverted red active sign-btn button">
-                    <i class="calendar icon"></i> 签到
+                  <i class="calendar icon"></i> <span name="sign-text">签到</span>
                 </a>
+                <p class="sign-number-text" style="display:none;">今日签到排行: <span class="no"></span> </p>
             </div>
             {%endif%}
             <div class="mine">
@@ -274,6 +287,3 @@
 </div>
 {% endblock %}
 
-{% block templates %}
-{% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
-{% endblock %}
