@@ -313,6 +313,115 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		
 		return $this->to_taconite_page('admin/try/stick_ok.html');
 	}
+
+  /**
+   * 导出申请人资料
+   */
+  public function apply_export(){
+  
+		$query = array();
+		$options = array();
+		$page = 1;
+		$size = 500;
+
+    $is_invented = isset($this->stash['is_invented']) ? (int)$this->stash['is_invented'] : 0;
+    $result = isset($this->stash['result']) ? (int)$this->stash['result'] : 0;
+    $target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
+    $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+
+    if($target_id){
+      $query['target_id'] = $target_id;   
+    }
+    if($is_invented){
+      $query['is_invented'] = array('$ne'=>1);
+    }
+    if($result){
+      if($result==-1){
+        $query['result'] = 0;
+      }elseif($result==1){
+        $query['result'] = 1;
+      }
+    }
+    $query['type'] = 1;
+		
+		if(empty($query)){
+			return $this->ajax_json('请选择导出数据条件！', true);
+		}
+		
+		// 设置不超时
+		set_time_limit(0);
+			
+		 header('Content-Type: application/vnd.ms-excel');
+		 header('Content-Disposition: attachment;filename="user_info.csv"');
+		 header('Cache-Control: max-age=0');
+		
+    //Windows下使用BOM来标记文本文件的编码方式 -解决windows下乱码
+    //fwrite($export_file, chr(0xEF).chr(0xBB).chr(0xBF)); 
+		// 打开PHP文件句柄，php://output表示直接输出到浏览器
+     $fp = fopen('php://output', 'a');
+
+    	// Windows下使用BOM来标记文本文件的编码方式 
+    	fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
+		
+		// 输出Excel列名信息
+		$head = array('ID', '姓名', '电话', '地址', '邮编', '微信', 'QQ', '支持数', '申请内容');
+		foreach($head as $i => $v){
+			// CSV的Excel支持GBK编码，一定要转换，否则乱码
+			// $head[$i] = iconv('utf-8', 'gbk', $v);
+		}
+		// 将数据通过fputcsv写到文件句柄
+		fputcsv($fp, $head);
+		
+		$service = Sher_Core_Service_Apply::instance();
+		
+		$is_end = false;
+		$counter = 0;
+		$limit = 1000;
+        $options['size'] = $size;
+		$options['sort_field'] = 'latest';
+		
+		while(!$is_end){
+			$options['page'] = $page;
+			
+			Doggy_Log_Helper::warn("Export try apply page[$page],size[$size]!");
+			
+			$result = $service->get_list($query, $options);
+			
+			$max = count($result['rows']);
+			for($i=0; $i<$max; $i++){
+				$counter ++;
+				if($limit == $counter){
+					ob_flush();
+					flush();
+					$counter = 0;
+				}
+				
+        $apply = $result['rows'][$i];
+        $address = sprintf("%s-%s-%s", $apply['area_province']['city'], $apply['area_district']['city'], $apply['address']);
+				$row = array($apply['user_id'], $apply['name'], $apply['phone'], $address, $apply['zip'], $apply['wx'], $apply['qq'], $apply['vote_count'], $apply['content']);
+				
+				/*
+				foreach($row as $k => $v){
+					// CSV的Excel支持GBK编码，一定要转换，否则乱码
+					// $row[$i] = iconv('utf-8', 'gbk', $v);
+				}*/
+				
+				fputcsv($fp, $row);
+				
+				unset($row);
+			}
+			
+			if($max < $size){
+				$is_end = true;
+				break;
+			}
+			
+			$page++;
+		}
+		
+		fclose($fp);
+  
+  }
 	
 	
 }
