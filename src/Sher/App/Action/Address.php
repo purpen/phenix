@@ -6,6 +6,7 @@
 class Sher_App_Action_Address extends Sher_App_Action_Base {
 	public $stash = array(
 		'id' => 0,
+    '_id' => 0,
     'from_to' => 'site',
 	);
 	

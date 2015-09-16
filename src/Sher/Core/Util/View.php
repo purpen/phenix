@@ -221,6 +221,7 @@ EOF;
     if(empty($block)){
       return null;
     }
+    $block = $model->extended_model_row($block);
     if($type==1){
       $content = $block['code'];
     }else{
