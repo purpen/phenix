@@ -332,9 +332,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     if($target_id){
       $query['target_id'] = $target_id;   
     }
-    if($is_invented){
-      $query['is_invented'] = array('$ne'=>1);
-    }
+
     if($result){
       if($result==-1){
         $query['result'] = 0;
@@ -343,6 +341,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
       }
     }
     $query['type'] = 1;
+    $query['is_invented'] = array('$ne'=>1);
 		
 		if(empty($query)){
 			return $this->ajax_json('请选择导出数据条件！', true);
