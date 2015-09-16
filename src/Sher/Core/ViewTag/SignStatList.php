@@ -23,6 +23,7 @@ class Sher_Core_ViewTag_SignStatList extends Doggy_Dt_Tag {
         $kind = 0;
         $state = 0;
         $user_kind = 0;
+        $draw_evt = 0;
         $day = 0;
         $week = 0;
         $month = 0;
@@ -48,6 +49,9 @@ class Sher_Core_ViewTag_SignStatList extends Doggy_Dt_Tag {
         if($user_kind){
           $query['kind'] = (int)$user_kind;
         }
+        if($draw_evt){
+          $query['draw_evt'] = (int)$draw_evt;
+        }
         if($day){
           $query['day'] = (int)$day;
         }
@@ -70,6 +74,9 @@ class Sher_Core_ViewTag_SignStatList extends Doggy_Dt_Tag {
 		switch ($sort) {
 			case 0:
 				$options['sort_field'] = 'sign_no';
+				break;
+			case 1:
+				$options['sort_field'] = 'day_desc';
 				break;
 		}
 

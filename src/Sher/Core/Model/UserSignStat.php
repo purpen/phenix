@@ -61,6 +61,8 @@ class Sher_Core_Model_UserSignStat extends Sher_Core_Model_Base  {
 
     # 中奖类型
     'draw_evt' => self::DRAW_EVT_DEFAULT,
+    'draw_txt' => '',
+    'draw_time' => 0,
   	);
 
   protected $required_fields = array('user_id','day');
