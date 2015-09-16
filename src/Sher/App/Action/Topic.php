@@ -639,9 +639,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
       $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
 
       $this->stash['type'] = $type;
-      if($type==1){
+      if($type==0){
         $this->stash['day'] = $today;
-      }elseif($type==2){
+      }elseif($type==1){
         $this->stash['month'] = $month;     
       }
 
