@@ -8,13 +8,21 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi','rank');
 	
 	/**
 	 * 网站入口
 	 */
 	public function execute(){
 		return $this->coupon();
+	}
+	
+	/**
+	 * 2015 神嘴
+	 */
+	public function rank(){
+		$this->set_target_css_state('page_social');
+		return $this->to_html_page('page/promo/rank.html');
 	}
 	
 	/**
