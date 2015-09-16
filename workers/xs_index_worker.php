@@ -46,7 +46,7 @@ $size = 1000;
 $is_end = false;
 $total = 0;
 while(!$is_end){
-	$query = array('deleted'=>0, 'created_on'=>array('$gt'=>$topic_last_created_on));
+	$query = array('deleted'=>0, 'published'=>1, 'created_on'=>array('$gt'=>$topic_last_created_on));
   $options = array('sort'=>array('created_on'=>1), 'page'=>$page, 'size'=>$size);
   $last_created_on = 0;
   $fail_ids = array();
