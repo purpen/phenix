@@ -81,9 +81,9 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 				}elseif($content == '惊喜'){
 					$data = $this->node();
 					$result = $weObj->news($data)->reply(array(), true);
-				}elseif($content == '红包'){
-					$text = $this->hongbao();
-					$result = $weObj->text($text)->reply(array(), true);
+				}else{
+					$data = $this->welcome();
+					$result = $weObj->text($data)->reply(array(), true);
 				}
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_EVENT:
@@ -294,14 +294,6 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	}
 	
 	/**
-	 * 智造革命专题
-	 */
-	protected function hongbao(){
-		$text = '我给你红包！';
-		return $text;
-	}
-	
-	/**
 	 * 极地风暴
 	 */
 	protected function node(){
@@ -396,10 +388,9 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 * 查看菜单
 	 */
 	public function get_menu(){
+		
 		$we = new Sher_Core_Util_Wechat($this->options);
-		
 		$menu = $we->getMenu();
-		
 		print_r($menu);
 	}
 	
