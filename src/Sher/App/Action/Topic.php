@@ -636,6 +636,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
           $continuity_times = $user_sign['sign_times'];
       }
 
+      // 公告---取块内容
+      $notice = Sher_Core_Util_View::load_block('sign_notice', 2);
+      $this->stash['notice'] = $notice;
+
       $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
 
       $this->stash['day'] = 0;
