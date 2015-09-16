@@ -1,5 +1,36 @@
 <div class="card such-item item-{{stuff._id}}">
-  <input type="hidden" name="item_id" value="{{stuff._id}}" />
+  <div class="problock">
+    <a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank"
+     {% if stuff.cover %}
+      style="background-image: url({{ stuff.cover.thumbnails.md.view_url }});"
+      {%else%}
+      style="{{ app_url_packaged }}/images/egg_zlist.jpg"
+      {%endif%}
+       class="thumb">
+    </a>
+    <h2>
+      <a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" class="ui line">{{ stuff.title|truncate 26 '' }}</a>
+    </h2>
+    <div class="excerpt">
+    {{ stuff.strip_description|truncate 60 '' }}
+    </div>
+    <div class="cats">
+      <a class="ui avatar image" href="{{ stuff.user.home_url }}" target="_blank">
+        <img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" />
+      </a>
+      <span class="count">
+        <a class="ui small link" href="{{ stuff.user.home_url }}" target="_blank">
+           {{ stuff.user.nickname }}
+        </a>
+      </span>
+    </div>
+    <span class="counter">
+        <i class="thumbs outline up icon"></i>{{ stuff.love_count }}
+    </span>
+  </div>
+</div>
+
+  <!--<input type="hidden" name="item_id" value="{{stuff._id}}" />
   <div class="image">
     {% if stuff.cover %}
       <img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
@@ -33,11 +64,10 @@
   </div>
   <div class="extra">
         <a class="right floated created">
-          <!--<small><i class="unhide icon"></i>{{ stuff.view_count }}</small>-->
           <small><i class="thumbs outline up icon"></i><span class="love-count">{{ stuff.love_count }}</span></small>
   </a>
   <a href="{{ stuff.user.home_url }}" class="ui icon link">
     <img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> <small>{{ stuff.user.nickname }}</small>
   </a>
   </div>
-</div>
+</div>-->
