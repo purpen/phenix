@@ -30,9 +30,17 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 */
 	public function _init() {
 		$this->options = array(
-			'token'=>Doggy_Config::$vars['app.wechat.ser_token'],
-			'appid'=>Doggy_Config::$vars['app.wechat.ser_app_id'],
-			'appsecret'=>Doggy_Config::$vars['app.wechat.ser_app_secret'],
+			
+			// 正式环境
+			//'token'=>Doggy_Config::$vars['app.wechat.ser_token'],
+			//'appid'=>Doggy_Config::$vars['app.wechat.ser_app_id'],
+			//'appsecret'=>Doggy_Config::$vars['app.wechat.ser_app_secret'],
+			
+			// 测试环境
+			'token'=>Doggy_Config::$vars['app.wechat.token'],
+			'appid'=>Doggy_Config::$vars['app.wechat.app_id'],
+			'appsecret'=>Doggy_Config::$vars['app.wechat.app_secret'],
+			
 			'partnerid'=>Doggy_Config::$vars['app.wechat.ser_partner_id'],
 			'partnerkey'=>Doggy_Config::$vars['app.wechat.ser_partner_key'],
 			'paysignkey'=>'' //商户签名密钥Key

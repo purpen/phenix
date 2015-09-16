@@ -218,11 +218,6 @@ app.wechat.report_levenl : 1
 #app.wechat.app_id: 'wx4cf88d6bf30430db'
 #app.wechat.app_secret: '795ff8ca3d4a57ae645e4d217c193988'
 
-# 微信开发测试信息
-app.wechat.token: '2fcf248db939f26475791946cfa39a7c'
-app.wechat.app_id: 'wx9d4f5e2904b0ce25'
-app.wechat.app_secret: 'dc7f16f1f65262c4939c7bc4896afdde'
-
 # 财付通
 app.tenpay.partner: '1220172801'
 app.tenpay.key: 'c61bea76f78ee72048aaa6570ad36ab3'
