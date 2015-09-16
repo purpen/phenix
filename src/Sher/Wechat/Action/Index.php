@@ -51,6 +51,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 * 微信入口
 	 */
 	public function execute(){
+		
 		Doggy_Log_Helper::warn("Get wexin request!");
 		
 		$weObj = new Sher_Core_Util_Wechat($this->options);
@@ -59,15 +60,17 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		$event = $weObj->getRev()->getRevEvent();
 		$fromUserName = $weObj->getRev()->getRevFrom();
 		
-		Doggy_Log_Helper::warn("Get wexin type[$type], event[".$event['key']."], fromUserName[$fromUserName]!");
-//		Doggy_Log_Helper::warn("Get rev content [".json_encode($revcontent)."]!");
+		//Doggy_Log_Helper::warn("Get wexin type[$type], event[".$event['key']."], fromUserName[$fromUserName]!");
+		//Doggy_Log_Helper::warn("Get rev content [".json_encode($revcontent)."]!");
 		
 		$this->wx_open_id = $fromUserName;
+		
+		Doggy_Log_Helper::warn("Get wexin open_id[$this->wx_open_id], content[$revcontent]!");
 		
 		switch($type) {
 			case Sher_Core_Util_Wechat::MSGTYPE_TEXT:
 				$revcontent = $weObj->getRev()->getRevContent();
-				Doggy_Log_Helper::warn("Get wexin type[$type], content[$revcontent]!");
+				//Doggy_Log_Helper::warn("Get wexin type[$type], content[$revcontent]!");
 				// 转换为小写
 				$content = strtolower($revcontent);
 				
@@ -110,7 +113,9 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 * 处理文本回复
 	 */
 	protected function handle_text($content, $rev_data=array()){
+		
 		Doggy_Log_Helper::warn("Handle wexin content[$content]!");
+		
 		// 转换为小写
 		$content = strtolower($content);
 		$result = array();
