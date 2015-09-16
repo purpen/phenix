@@ -82,6 +82,11 @@ class Sher_Core_ViewTag_SignStatList extends Doggy_Dt_Tag {
         
 		// 调用签到列表的获取方法
         $result = $service->get_sign_stat_list($query, $options); // 获取到的列表数据
+
+        $number_id = ((int)$page - 1) * (int)$size;
+            for($i=0; $i<count($result['rows']); $i++){
+                $result['rows'][$i]['number_id'] = $number_id + $i + 1;
+            }
 		
         $context->set($var,$result);
         if ($include_pager) {

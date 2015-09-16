@@ -143,23 +143,26 @@
             	<table class="ui very basic celled table">
             		<thead>
             			<tr>
+            				<th>排名</th>
             				<th>用户信息</th>
             				<th>上次签到时间</th>
             				<th>经验值</th>
             				<th>鸟币</th>
+                    <th>最高连签天数</th>
                     <th>累积天数</th>
                     <th>用户等级</th>
             			</tr>
             		</thead>
             		<tbody>
                 {% if type==3 %}
-            		  {% sign_list var:'list' load_user:1 sort:3 page:page size:30 %}
+            		  {% sign_list var:'list' load_user:1 sort:3 page:page size:size %}
                 {%else%}
-            		  {% sign_stat_list var:'list' day:day week:week month:month sort:sort page:page size:30 %}
+            		  {% sign_stat_list var:'list' day:day week:week month:month sort:sort page:page size:size %}
                 {%endif%}
             		{% for sign in list.rows %}
                   {% if type==3 %}
                     <tr id="sign-{{ sign._id }}">
+                      <td>{{ sign.number_id }}</td>
                       <td>
                         <a class="ui image link" href="{{ sign.user.home_url }}" target="_blank">
                           {{ sign.user.nickname }}
@@ -174,7 +177,9 @@
                       <td>
                         {{ sign.money_count }}
                       </td>
-
+                      <td>
+                        {{ sign.max_sign_times }}
+                      </td>
                       <td>
                         {{ sign.total_sign_times }}
                       </td>
@@ -184,6 +189,7 @@
                     </tr>
                   {%else%}
                     <tr id="sign-{{ sign._id }}">
+                      <td>{{ sign.number_id }}</td>
                       <td>
                         <a class="ui image link" href="{{ sign.user.home_url }}" target="_blank">
                           {{ sign.user.nickname }}
@@ -208,7 +214,9 @@
                           {{ sign.month_money_count }}
                         {%endif%}
                       </td>
-
+                      <td>
+                        {{ sign.max_sign_times }}
+                      </td>
                       <td>
                         {{ sign.total_sign_times }}
                       </td>
