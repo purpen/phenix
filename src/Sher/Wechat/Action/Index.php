@@ -60,7 +60,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		$event = $weObj->getRev()->getRevEvent();
 		$fromUserName = $weObj->getRev()->getRevFrom();
 		
-		//Doggy_Log_Helper::warn("Get wexin type[$type], event[".$event['key']."], fromUserName[$fromUserName]!");
+		Doggy_Log_Helper::warn("Get wexin type[$type], event[".$event['key']."], fromUserName[$fromUserName]!");
 		//Doggy_Log_Helper::warn("Get rev content [".json_encode($revcontent)."]!");
 		
 		$this->wx_open_id = $fromUserName;
@@ -68,7 +68,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		switch($type) {
 			case Sher_Core_Util_Wechat::MSGTYPE_TEXT:
 				$revcontent = $weObj->getRev()->getRevContent();
-				//Doggy_Log_Helper::warn("Get wexin type[$type], content[$revcontent]!");
+				Doggy_Log_Helper::warn("Get wexin type[$type], content[$revcontent]!");
 				// 转换为小写
 				$content = strtolower($revcontent);
 				
@@ -81,6 +81,10 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 				}elseif($content == '惊喜'){
 					$data = $this->node();
 					$result = $weObj->news($data)->reply(array(), true);
+				}elseif($content == '红包'){
+					//$data = $this->node();
+					//$result = $weObj->news($data)->reply(array(), true);
+					$result = '我给你红包';
 				}
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_EVENT:
