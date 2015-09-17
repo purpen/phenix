@@ -7,8 +7,12 @@
 		  {% endfor %}
 		</select>
     {%else%}
-		<div class="ui selection district dropdown" id="district-menu" style="width:49%;float:right;">
+    <div class="ui selection district dropdown" id="district-menu" {% if type==1 %}style="width:49%;float:right;"{%endif%}>
+      {% if type==1 %}
       <input type="hidden" name="district" value="{{ district_id }}" />
+      {%else%}
+      <input type="hidden" name="city" value="{{ district_id }}" />
+      {%endif%}
 		    <div class="default text">地区区域</div>
 		    <i class="angle dropdown icon"></i>
 		    <div class="menu">
