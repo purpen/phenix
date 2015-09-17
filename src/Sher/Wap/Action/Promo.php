@@ -105,7 +105,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 * 招聘
 	 */
 	public function hy(){
-		$this->stash['page_title_suffix'] = '火眼';
+		$this->stash['page_title_suffix'] = '绝密行动 代号“火眼”';
 		//微信分享
 	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
 	    $timestamp = $this->stash['timestamp'] = time();
