@@ -130,6 +130,14 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
                       $r_obj = &DoggyX_Model_Mapper::load_model((int)$obj['target_id'], 'Sher_Core_Model_Stuff');
                       $c_type_str = '创意灵感';
                       break;
+                    case 7:
+                      $r_obj = &DoggyX_Model_Mapper::load_model((int)$obj['target_id'], 'Sher_Core_Model_Albums');
+                      $c_type_str = '专辑';
+                      break;
+                    case 10:
+                      $r_obj = null;
+                      $c_type_str = '专题';
+                      break;
                   }
                 
                 }
