@@ -181,6 +181,35 @@ p{
 }
 </style>
 {% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript">
+  function support_event(cid){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+
+    // 难证是否支持过
+    $.get("{{ app_url_domain_base }}/app/site/promo_func/ajax_attend", {target_id: 1, event: 5, cid: cid}, function(result){
+      if(result.success){
+        phenix.show_ok_note(result.message);
+        if(cid==1){
+          var l_count = parseInt($('.support-l-count').text());
+        }else if(cid==2){
+          var r_count = parseInt($('.support-r-count').text());       
+        }
+
+      }else{
+        phenix.show_error_note(result.message);
+        return;
+      }
+    }, 'json');
+  }
+</script>
+{% endblock %}
+
 {% block jquery %}
   $(window).scroll(function(){
 	    var scrollTop = $(window).scrollTop();
@@ -189,6 +218,18 @@ p{
         
       }
   })
+
+  // 支持左方铵钮
+  $('.support-l-btn').click(function(){
+    var cid = $(this).data('cid');
+    support_event(cid);
+  });
+
+  // 支持右方铵钮
+  $('.support-r-btn').click(function(){
+    var cid = $(this).data('cid');
+    support_event(cid);
+  });
 {% endblock %}
 {% block content %}
 <div id="srank">
@@ -270,13 +311,12 @@ p{
       <div class="pkhf"></div>
       <div class="pklf"></div>
       
-      <a class="pkhbtn" href="javascript:void(0);"></a>
-      <a class="pklbtn" href="javascript:void(0);"></a>
+      <a class="pkhbtn support-l-btn" data-cid="1" href="javascript:void(0);"></a>
+      <a class="pklbtn support-r-btn" data-cid="2" href="javascript:void(0);"></a>
       
     </div>
-    <div class="rankhpro" style="width:50%">1231</div>
-    <div class="ranklpro" style="width:50%">4567</div>
-    
+    <div class="rankhpro support-l-count" style="width:70%"></div>
+    <div class="ranklpro support-r-count" style="width:50%"></div>
     
   </div>
   <div class="ui mainwrap commentrank grid">
