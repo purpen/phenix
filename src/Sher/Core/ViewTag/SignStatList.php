@@ -71,7 +71,7 @@ class Sher_Core_ViewTag_SignStatList extends Doggy_Dt_Tag {
         $options['size'] = $size;
 		
 		// 设置排序
-		switch ($sort) {
+		switch ((int)$sort) {
 			case 0:
 				$options['sort_field'] = 'sign_no';
 				break;
