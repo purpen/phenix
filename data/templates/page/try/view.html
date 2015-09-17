@@ -387,12 +387,12 @@
         {% if img_asset.qr_ios %}
         <div class="sellwrap">
             <div class="block title">
-                APP下载
+                厂商公众号
             </div>
             {% if img_asset.qr_ios %}
-			    <img src="{{ img_asset.qr_ios.fileurl }}" style="width: 47%;margin-right: 6%;display: inline-block;float: left;" alt="app-iphone">
+			    <img src="{{ img_asset.qr_ios.fileurl }}" style="width: 50%;margin: 20px 25% 0;" alt="厂商公众号">
             {%endif%}
-            {% if img_asset.qr_android %}
+           <!-- {% if img_asset.qr_android %}
 				<img src="{{ img_asset.qr_android.fileurl }}" style="width: 47%;">
             {%endif%}
             {% if img_asset.qr_ios %}
@@ -400,7 +400,7 @@
             {%endif%}
             {% if img_asset.qr_android %}
 				<p style="width: 47%;display: inline-block;float: left;text-align:center;">andriod</p>
-            {%endif%}
+            {%endif%}-->
         </div>
         {%endif%}
 
