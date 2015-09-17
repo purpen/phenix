@@ -55,6 +55,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$row['target_id'] = $this->stash['target_id'];
 		$row['target_user_id'] = (int)$this->stash['target_user_id'];
 		$row['type'] = (int)$this->stash['type'];
+		$row['sku_id'] = isset($this->stash['sku_id']) ? (int)$this->stash['sku_id'] : 0;
 		
 		// 处理评论内容
 		$content = $this->stash['content'];
@@ -109,35 +110,10 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
             $ok = $model->apply_and_save($row);
             if($ok){
                 $comment_id = $model->id;
+                
 				//echo $comment_id;
                 $this->stash['comment'] = &$model->extend_load($comment_id);
-				
-                /**
-				$str = explode('][',$content);
-        $has_send_users = array();
-				foreach($str as $v){
-					$str_two = explode('::',$v);
-					foreach($str_two as $val){
-						$str_three = explode('/',$val);
-						if(count($str_three) > 1){
-              $uid = (int)$str_three[4];
-              // 如果已经发送过，跳过
-              if(in_array($uid, $has_send_users)) continue;
-							// 给用户添加提醒
-							$arr = array(
-								'user_id'=> $uid,
-								's_user_id'=> (int)$this->visitor->id,
-								'evt'=> Sher_Core_Model_Remind::EVT_AT,
-								'kind'=> Sher_Core_Model_Remind::KIND_COMMENT,
-								'related_id'=> (string)$comment_id,
-								'parent_related_id'=> (int)$this->stash['target_id'],
-							);
-							$ok = $remind->create($arr);
-              array_push($has_send_users, $uid);
-						}
-					}
-        }
-        **/
+
           if(!empty($user_ids)){
             $has_send_users = array();
             foreach($user_ids as $uid){
