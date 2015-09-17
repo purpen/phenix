@@ -226,6 +226,28 @@ p{
 
 {% block layout_js %}
 <script type="text/javascript">
+
+    var page = {{ page|default 1 }}, per_page = 10, sort = 0;
+    var url = '{{ app_url_comment }}/ajax_fetch_comment?rand='+Math.random();
+    var target_id = 1;
+    // 评论类型
+    var type = 10;
+    // 网页或手机
+    var from_site = 'site';
+    // 备用
+    var evt = 1;
+
+    var comment_param = {
+      target_id: target_id,
+      page: page,
+      per_page: per_page,
+      sort: sort,
+      url: url,
+      type: type,
+      from_site: from_site,
+      evt: evt,
+    }
+
   function support_event(cid){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
@@ -237,10 +259,15 @@ p{
     $.get("{{ app_url_domain_base }}/app/site/promo_func/ajax_attend", {target_id: 1, event: 5, cid: cid}, function(result){
       if(result.success){
         phenix.show_ok_note(result.message);
+        var l_count = parseInt($('.support-l-count').text());
+        var r_count = parseInt($('.support-r-count').text());
+
         if(cid==1){
-          var l_count = parseInt($('.support-l-count').text());
+          $('.support-l-count').text(l_count+1);
+          fetch_present(l_count+1, r_count);
         }else if(cid==2){
-          var r_count = parseInt($('.support-r-count').text());       
+          $('.support-r-count').text(r_count+1);
+          fetch_present(l_count, r_count+1);
         }
 
       }else{
@@ -248,6 +275,27 @@ p{
         return;
       }
     }, 'json');
+  }
+
+  // 得到两个数百分比
+  function fetch_present(x, y){
+    var total = x+y;
+    if(total==0){
+      var l_per = 50;
+      var r_per = 50;   
+    }else{
+      var l_per = (x/total)*100;
+      var r_per = (y/total)*100;
+    }
+
+    $('.support-l-count').show().css('width', l_per+"%");
+    $('.support-r-count').show().css('width', r_per+"%");
+    if(l_per==0){
+      $('.support-l-count').hide();
+    }else if(r_per==0){
+      $('.support-r-count').hide();
+    }
+
   }
 </script>
 {% endblock %}
@@ -268,6 +316,11 @@ p{
       }
   })
 
+	phenix.hook_comment_page();
+    
+  // ajax加载评论
+  phenix.fetch_comment(comment_param);
+
   // 支持左方铵钮
   $('.support-l-btn').click(function(){
     var cid = $(this).data('cid');
@@ -279,6 +332,8 @@ p{
     var cid = $(this).data('cid');
     support_event(cid);
   });
+
+  fetch_present({{count_01|default 0}}, {{count_02|default 0}});
 {% endblock %}
 {% block content %}
 <div id="srank">
@@ -364,8 +419,8 @@ p{
       <a class="pklbtn support-r-btn" data-cid="2" href="javascript:void(0);"></a>
       
     </div>
-    <div class="rankhpro support-l-count" style="width:70%"></div>
-    <div class="ranklpro support-r-count" style="width:50%"></div>
+    <div class="rankhpro support-l-count">{{ count_01 }}</div>
+    <div class="ranklpro support-r-count">{{ count_02 }}</div>
     
   </div>
   <div class="ui mainwrap commentrank grid">
@@ -375,14 +430,14 @@ p{
               <a name="comment_top"></a>
 			    <!--ajax comment-->
   	        <div class="block title">
-                  全部评论<small>（{{ topic.comment_count }}）</small>
+                  全部评论<small>（{{ comment_count }}）</small>
                   
                   <div class="quick goto">
-                      直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ topic.comment_count }}" data-url="{{ app_url_topic }}/view/{{ topic._id }}/{{ page }}" title="跳转到指定楼层" />
+                      直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ comment_count }}" data-url="{{ app_url_promo }}/rank/{{ page }}" title="跳转到指定楼层" />
                   </div>
               </div>
 		  	    <div id="comment-list">
-                  {% comment_list var:'comments' page:1 target_id:topic._id type:2 check_loved:1 only_hotest:1 current_user_id:visitor.id %}
+                  {% comment_list var:'comments' page:1 size:5 target_id:1 type:10 check_loved:1 only_hotest:1 current_user_id:visitor.id %}
                   {% if comments.rows %}
                   <div class="ui threaded hotest comments">
                       <a class="ui red ribbon label">热门回复</a>

@@ -45,9 +45,17 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
 
     $ok = $mode_attend->create($data);
     if($ok){
-      return $this->ajax_json('支持成功!', false, '', $data);
+      $dig_model = new Sher_Core_Model_DigList();
+      $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_YMC1_01;
+      if(!empty($cid)){
+        if($cid==1) $dig_model->inc($dig_key, 'items.count_01', 1);
+        if($cid==2) $dig_model->inc($dig_key, 'items.count_02', 1);
+      }
+      $dig_model->inc($dig_key, 'items.total_count', 1);
+
+      return $this->ajax_json('感谢支持!', false, '', $data);
     }else{
-      return $this->ajax_json('支持失败!', true);     
+      return $this->ajax_json('哟，出问题了!', true);     
     }
 
   }

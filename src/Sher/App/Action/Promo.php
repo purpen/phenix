@@ -6,6 +6,8 @@
 class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	public $stash = array(
 		'page'=>1,
+    'size'=>10,
+    'floor'=>0,
 	);
 	
 	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi','rank');
@@ -18,10 +20,57 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	}
 	
 	/**
-	 * 2015 神嘴
+	 * 2015 云马Ｃ1神嘴pk
 	 */
 	public function rank(){
 		$this->set_target_css_state('page_social');
+
+    $dig_model = new Sher_Core_Model_DigList();
+    $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_YMC1_01;
+
+    $this->stash['id'] = 1;
+    $this->stash['count_01'] = $count_01 = 0;
+    $this->stash['count_02'] = $count_02 = 0;
+    $this->stash['total_count'] = 0;
+    $this->stash['view_count'] = 0;
+    $this->stash['comment_count'] = 0;
+
+    $dig = $dig_model->load($dig_key);
+    if(empty($dig)){
+      $dig_model->update_set($dig_key, array('items.id'=>1, 'items.count_01'=>0, 'items.count_02'=>0, 'items.total_count'=>0, 'items.view_count'=>0, 'items.comment_count'=>0), true);     
+    }else{
+      $this->stash['count_01'] = $count_01 = $dig['items']['count_01'];
+      $this->stash['count_02'] = $count_02 = $dig['items']['count_02'];
+      $this->stash['total_count'] = $dig['items']['total_count'];
+      $this->stash['view_count'] = $dig['items']['view_count'];
+      $this->stash['comment_count'] = $dig['items']['comment_count'];
+    }
+
+    // 计算百分比
+
+
+    // 增加浏览量
+    $dig_model->inc($dig_key, "items.view_count", 1);
+
+		// 评论参数
+		$comment_options = array(
+		  'comment_target_id' =>  1,
+		  'comment_target_user_id' => 0,
+		  'comment_type'  =>  10,
+		  'comment_pager' =>  '',
+		  //是否显示上传图片/链接
+		  'comment_show_rich' => 1,
+		);
+		$this->_comment_param($comment_options);
+
+    // 跳转楼层
+    $floor = (int)$this->stash['floor'];
+    if($floor){
+        $new_page = ceil($floor/10);
+        $this->stash['page'] = $new_page;
+    }
+
+
 		return $this->to_html_page('page/promo/rank.html');
 	}
 	
@@ -546,6 +595,25 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
   
   }
 
+
+  /**
+   * 评论参数
+   */
+  protected function _comment_param($options){
+        $this->stash['comment_target_id'] = $options['comment_target_id'];
+        $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
+        $this->stash['comment_type'] = $options['comment_type'];
+		// 评论的链接URL
+		$this->stash['pager_url'] = isset($options['comment_pager'])?$options['comment_pager']:0;
+
+        // 是否显示图文并茂
+        $this->stash['comment_show_rich'] = isset($options['comment_show_rich'])?$options['comment_show_rich']:0;
+		// 评论图片上传参数
+		$this->stash['comment_token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
+		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
+		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+  }
 
 }
 
