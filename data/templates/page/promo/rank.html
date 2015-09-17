@@ -226,6 +226,68 @@ p{
 }
 </style>
 {% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript">
+
+  var has_support = {{ has_support|default 0 }};
+  var support_cid = {{ support_cid|default 0 }};
+
+  function support_event(cid){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+
+    // 难证是否支持过
+    $.get("{{ app_url_domain_base }}/app/site/promo_func/ajax_attend", {target_id: 1, event: 5, cid: cid}, function(result){
+      if(result.success){
+        // 已投票标识
+        has_support = 1;
+        support_cid = cid;
+        phenix.show_ok_note(result.message);
+        var l_count = parseInt($('.support-l-count').text());
+        var r_count = parseInt($('.support-r-count').text());
+
+        if(cid==1){
+          $('.support-l-count').text(l_count+1);
+          fetch_present(l_count+1, r_count);
+        }else if(cid==2){
+          $('.support-r-count').text(r_count+1);
+          fetch_present(l_count, r_count+1);
+        }
+
+      }else{
+        phenix.show_error_note(result.message);
+        return;
+      }
+    }, 'json');
+  }
+
+  // 得到两个数百分比
+  function fetch_present(x, y){
+    var total = x+y;
+    if(total==0){
+      var l_per = 50;
+      var r_per = 50;   
+    }else{
+      var l_per = (x/total)*100;
+      var r_per = (y/total)*100;
+    }
+
+    $('.support-l-count').show().css('width', l_per+"%");
+    $('.support-r-count').show().css('width', r_per+"%");
+    if(l_per==0){
+      $('.support-l-count').hide();
+    }else if(r_per==0){
+      $('.support-r-count').hide();
+    }
+
+  }
+</script>
+{% endblock %}
+
 {% block jquery %}
   $(window).scroll(function(){
 	    var scrollTop = $(window).scrollTop();
@@ -241,6 +303,31 @@ p{
         $('.pklf').addClass('transition slide left in');
       }
   })
+
+	phenix.hook_comment_page();
+
+  // 支持左方铵钮
+  $('.support-l-btn').click(function(){
+    var cid = $(this).data('cid');
+    support_event(cid);
+  });
+
+  // 支持右方铵钮
+  $('.support-r-btn').click(function(){
+    var cid = $(this).data('cid');
+    support_event(cid);
+  });
+
+  fetch_present({{count_01|default 0}}, {{count_02|default 0}});
+
+  $('.ui.submit.button').click(function(){
+    if(has_support==0){
+      phenix.show_error_note('投票后才有权力发表意见哦~');
+      return false;
+    }
+    $('#comment-form :input[name=sku_id]').val(cid);
+
+  });
 {% endblock %}
 {% block content %}
 <div id="srank">
@@ -322,13 +409,12 @@ p{
       <div class="pkhf"></div>
       <div class="pklf"></div>
       
-      <a class="pkhbtn" href="javascript:void(0);"></a>
-      <a class="pklbtn" href="javascript:void(0);"></a>
+      <a class="pkhbtn support-l-btn" data-cid="1" href="javascript:void(0);"></a>
+      <a class="pklbtn support-r-btn" data-cid="2" href="javascript:void(0);"></a>
       
     </div>
-    <div class="rankhpro" style="width:50%">1231</div>
-    <div class="ranklpro" style="width:50%">4567</div>
-    
+    <div class="rankhpro support-l-count">{{ count_01 }}</div>
+    <div class="ranklpro support-r-count">{{ count_02 }}</div>
     
   </div>
   <div class="ui mainwrap commentrank grid">
@@ -338,14 +424,14 @@ p{
               <a name="comment_top"></a>
 			    <!--ajax comment-->
   	        <div class="block title">
-                  全部评论<small>（{{ topic.comment_count }}）</small>
+                  全部评论<small>（{{ comment_count }}）</small>
                   
                   <div class="quick goto">
-                      直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ topic.comment_count }}" data-url="{{ app_url_topic }}/view/{{ topic._id }}/{{ page }}" title="跳转到指定楼层" />
+                      直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ comment_count }}" data-url="{{ app_url_promo }}/rank/{{ page }}" title="跳转到指定楼层" />
                   </div>
               </div>
 		  	    <div id="comment-list">
-                  {% comment_list var:'comments' page:1 target_id:topic._id type:2 check_loved:1 only_hotest:1 current_user_id:visitor.id %}
+                  {% comment_list var:'comments' page:1 size:5 target_id:1 type:10 check_loved:1 only_hotest:1 current_user_id:visitor.id %}
                   {% if comments.rows %}
                   <div class="ui threaded hotest comments">
                       <a class="ui red ribbon label">热门回复</a>
@@ -355,7 +441,12 @@ p{
                       <hr>
                   </div>
                   {% endif %}
-                  <div class="ui threaded comments is-comment"></div>
+                  <div class="ui threaded comments is-comment">
+                    {% comment_list var:'comment_list' page:page size:20 target_id:1 type:10 check_loved:1 current_user_id:visitor.id %}                {% for comment in comment_list.rows %}
+                      {%include 'block/comment_rank_item.html'%}
+                    {%endfor%}
+                  
+                  </div>
                   <div class="ui pagination pagerbox"></div>
 		  	    </div>
 		  	    {% include "block/comment_box_site.html" %}

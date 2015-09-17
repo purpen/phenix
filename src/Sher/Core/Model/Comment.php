@@ -25,7 +25,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         'user_id' => 0,
         'target_id' => 0,
         'target_user_id' => 0,
-        //指定商品sku
+        //指定商品sku, 如果是专题，类型为正方反方
         'sku_id' => 0,
 		'star' => 0,
         'content' => '',
@@ -171,6 +171,23 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                     $stuff = $model->find_by_id((int)$this->data['target_id']);
                     $user_id = $stuff['user_id'];
                     $model->inc_counter('comment_count', 1, (int)$this->data['target_id']);
+                    break;
+                case self::TYPE_SUBJECT:
+                    $kind = Sher_Core_Model_Remind::KIND_SUBJECT;
+                    $model = new Sher_Core_Model_DigList();
+                    $dig_key = null;
+                    switch((int)$this->data['target_id']){
+                      case 1:
+                        $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_YMC1_01;
+                        break;
+                      case 2:
+                        $dig_key = '';
+                        break;
+                    }
+                    // 增加评论数
+                    if($dig_key){
+                      $model->inc($dig_key, 'items.comment_count', 1);
+                    }
                     break;
                 default:
                     break;

@@ -312,6 +312,7 @@ server {
   	    	rewrite ^/shop/list-c(\d+)-s(\d)-p(\d+).*$ /app/site/shop/get_list?category_id=$1&sort=$2&page=$3 last;
             rewrite ^/shop/(\d+).html$ /app/site/shop/view?id=$1 last;
             rewrite ^/shop/view-(\d+)-(\d+).html$ /app/site/shop/view?id=$1&page=$2 last;
+            rewrite ^/shop/view/(\d+)/(\d+)/(\d+)[/]?$ /app/site/shop/view?id=$1&page=$2&floor=$3 last;
             rewrite ^/shop(.*)$ /app/site/shop$1 last;
         }
 		
