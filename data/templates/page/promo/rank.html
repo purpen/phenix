@@ -322,7 +322,7 @@ p{
 
   fetch_present({{count_01|default 0}}, {{count_02|default 0}});
 
-  $('.ui.submit.button').click(function(){
+  $('#comment-box .ui.submit.button').click(function(){
     if(has_support==0){
       phenix.show_error_note('投票后才有权力发表意见哦~');
       return false;
