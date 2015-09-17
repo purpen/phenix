@@ -137,6 +137,10 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     # 签到每日统计数目
     const DIG_SIGN_EVERY_DAY_STAT = 'sign_every_day_stat';
 
+    # 云马Ｃ1专题活动 名嘴争霸
+    const DIG_SUBJECT_YMC1_01 = 'subject_ymc1_01';
+    const DIG_SUBJECT_02 = '2';
+
     /**
      * DigList stuff计数器
      */

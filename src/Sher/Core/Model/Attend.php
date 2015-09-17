@@ -14,17 +14,23 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
   const EVENT_ACTIVE = 1;
   # 试用申请 拉票人数
 	const EVENT_APPLY = 2;
+
+  # 专题
+  const EVENT_SUBJECT = 5;
 	
   protected $schema = array(
     'user_id' => null,
+    # 如果是专题：1. 云马C1PK; 2. default
     'target_id' => null,
     'ticket' => 1,
     'event'  => self::EVENT_ACTIVE,
+    # 子ID, 用于专题PK论战 1.正方;2.反方
+    'cid' => 0,
   );
 
   protected $joins = array(
     'user'  => array('user_id'  => 'Sher_Core_Model_User'),
-    'target'  => array('target_id'  => 'Sher_Core_Model_Active'),
+    //'target'  => array('target_id'  => 'Sher_Core_Model_Active'),
   );
 
 	
@@ -85,4 +91,4 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
   }
 	
 }
-?>
+

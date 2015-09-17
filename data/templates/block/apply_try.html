@@ -12,7 +12,7 @@
 
 					<div class="field">
 						<label>申请理由</label>
-						<textarea name="content" class="small"></textarea>
+						<textarea name="content" class="small" placeholder="有试用朋友圈或微博分享截图，才有资格中签"></textarea>
 						<div class="description">来说说你要申请产品试用的理由，真实诚恳将有助我们通过审核。</div>
 					</div>
 
@@ -54,7 +54,8 @@
 					</div>
 					<div class="field">
 						<label>详细地址</label>
-						<input type="text" name="address" value="{{ visitor.profile.address }}" placeholder="" />
+						<input type="text" name="address" value="{{ visitor.profile.address }}" placeholder="完整的地址" />
+            <div class="description">地址包含省、市、区三级</div>
 					</div>
 
 					<div class="three fields">
