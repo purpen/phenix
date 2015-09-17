@@ -305,6 +305,8 @@ p{
   })
 
 	phenix.hook_comment_page();
+  // 查看大图
+  phenix.comment_blow_up_img();
 
   // 支持左方铵钮
   $('.support-l-btn').click(function(){
@@ -328,6 +330,21 @@ p{
     $('#comment-form :input[name=sku_id]').val(support_cid);
 
   });
+
+    // 绑定跳楼
+    $('.gotofloor').bind('keydown', function(e){
+        var floor = $(this).val(), max = parseInt($(this).data('max')), url = $(this).data('url');
+        if(e.keyCode == 13){
+            if (isNaN(floor)){
+                alert('必须输入一个数字！');
+                return false;
+            }
+            if (floor > max){
+                floor = max;
+            }
+            window.location.href = url + '?floor=' + floor + '#f' + floor;
+        }
+    });
 {% endblock %}
 {% block content %}
 <div id="srank">
@@ -427,7 +444,7 @@ p{
                   全部评论<small>（{{ comment_count }}）</small>
                   
                   <div class="quick goto">
-                      直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ comment_count }}" data-url="{{ app_url_promo }}/rank/{{ page }}" title="跳转到指定楼层" />
+                      直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ comment_count }}" data-url="{{ app_url_promo }}/rank" title="跳转到指定楼层" />
                   </div>
               </div>
 		  	    <div id="comment-list">
@@ -442,12 +459,17 @@ p{
                   </div>
                   {% endif %}
                   <div class="ui threaded comments is-comment">
-                    {% comment_list var:'comment_list' page:page size:20 target_id:1 type:10 check_loved:1 current_user_id:visitor.id %}                {% for comment in comment_list.rows %}
+                    {% comment_list var:'comment_list' page:page size:10 target_id:1 type:10 check_loved:1 current_user_id:visitor.id %}                {% for comment in comment_list.rows %}
                       {%include 'block/comment_rank_item.html'%}
                     {%endfor%}
                   
                   </div>
-                  <div class="ui pagination pagerbox"></div>
+                {% if comment_list.total_rows %}
+                <div class="ui pagination pagerbox">
+                  {% pager url:pager_url,total_rows:comment_list.total_rows,total_page:comment_list.total_page,current_page:page,var:'pager',pager_size:9 %}
+                  {%include 'block/pager.html'%}
+                </div>
+                {% endif %}
 		  	    </div>
 		  	    {% include "block/comment_box_site.html" %}
           </div>

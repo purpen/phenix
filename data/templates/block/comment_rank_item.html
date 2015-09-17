@@ -1,4 +1,4 @@
-<div class="comment" id="{{ comment._id }}">
+<div class="comment" id="f{{ comment.floor }}">
     <a class="avatar" href="{{ comment.user.home_url }}" target="_blank">
         <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
     </a>
@@ -36,7 +36,7 @@
         </div>
         {%endif%}
     
-        <div class="text" {%if comment.sku_id==1%}stylel="color:red;"{%endif%}>
+        <div class="text" {%if comment.sku_id==1%}style="color:red;"{%endif%}>
             {% if comment.deleted==1 %}
                 该内容已被屏蔽
             {%else%}

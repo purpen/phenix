@@ -94,7 +94,12 @@
                                             <p class="text">
                                                 {{ d.target.content }}
                                                 <small>
+                                                  {% if d.comment_target.comment_type=='subject' %}
+                                                    <a class="ui link" href="{{ d.comment_target.comment_view_url }}?floor={{ d.target.floor }}#f{{ d.target.floor }}" target="_blank">查看原文</a>
+                                                  {%else%}
                                                     <a class="ui link" href="{{ d.comment_target.comment_view_url }}/{{ d.target.floor }}#f{{ d.target.floor }}" target="_blank">查看原文</a>
+                                                  {%endif%}
+
                                                 </small>
                                             </p>
                                         {%else%}
