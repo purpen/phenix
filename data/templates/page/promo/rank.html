@@ -221,32 +221,17 @@ p{
   padding: 0 !important;
   min-height: 0 !important;
 }
+.post.comment,.ui.comments{
+  font-size:1rem !important;
+}
 </style>
 {% endblock %}
 
 {% block layout_js %}
 <script type="text/javascript">
 
-    var page = {{ page|default 1 }}, per_page = 10, sort = 0;
-    var url = '{{ app_url_comment }}/ajax_fetch_comment?rand='+Math.random();
-    var target_id = 1;
-    // 评论类型
-    var type = 10;
-    // 网页或手机
-    var from_site = 'site';
-    // 备用
-    var evt = 1;
-
-    var comment_param = {
-      target_id: target_id,
-      page: page,
-      per_page: per_page,
-      sort: sort,
-      url: url,
-      type: type,
-      from_site: from_site,
-      evt: evt,
-    }
+  var has_support = {{ has_support|default 0 }};
+  var support_cid = {{ support_cid|default 0 }};
 
   function support_event(cid){
 		// 所有ajax请求，验证是否登录
@@ -258,6 +243,9 @@ p{
     // 难证是否支持过
     $.get("{{ app_url_domain_base }}/app/site/promo_func/ajax_attend", {target_id: 1, event: 5, cid: cid}, function(result){
       if(result.success){
+        // 已投票标识
+        has_support = 1;
+        support_cid = cid;
         phenix.show_ok_note(result.message);
         var l_count = parseInt($('.support-l-count').text());
         var r_count = parseInt($('.support-r-count').text());
@@ -317,9 +305,8 @@ p{
   })
 
 	phenix.hook_comment_page();
-    
-  // ajax加载评论
-  phenix.fetch_comment(comment_param);
+  // 查看大图
+  phenix.comment_blow_up_img();
 
   // 支持左方铵钮
   $('.support-l-btn').click(function(){
@@ -334,6 +321,30 @@ p{
   });
 
   fetch_present({{count_01|default 0}}, {{count_02|default 0}});
+
+  $('.ui.submit.button').click(function(){
+    if(has_support==0){
+      phenix.show_error_note('投票后才有权力发表意见哦~');
+      return false;
+    }
+    $('#comment-form :input[name=sku_id]').val(support_cid);
+
+  });
+
+    // 绑定跳楼
+    $('.gotofloor').bind('keydown', function(e){
+        var floor = $(this).val(), max = parseInt($(this).data('max')), url = $(this).data('url');
+        if(e.keyCode == 13){
+            if (isNaN(floor)){
+                alert('必须输入一个数字！');
+                return false;
+            }
+            if (floor > max){
+                floor = max;
+            }
+            window.location.href = url + '?floor=' + floor + '#f' + floor;
+        }
+    });
 {% endblock %}
 {% block content %}
 <div id="srank">
@@ -433,7 +444,7 @@ p{
                   全部评论<small>（{{ comment_count }}）</small>
                   
                   <div class="quick goto">
-                      直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ comment_count }}" data-url="{{ app_url_promo }}/rank/{{ page }}" title="跳转到指定楼层" />
+                      直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ comment_count }}" data-url="{{ app_url_promo }}/rank" title="跳转到指定楼层" />
                   </div>
               </div>
 		  	    <div id="comment-list">
@@ -447,8 +458,18 @@ p{
                       <hr>
                   </div>
                   {% endif %}
-                  <div class="ui threaded comments is-comment"></div>
-                  <div class="ui pagination pagerbox"></div>
+                  <div class="ui threaded comments is-comment">
+                    {% comment_list var:'comment_list' page:page size:10 target_id:1 type:10 check_loved:1 current_user_id:visitor.id %}                {% for comment in comment_list.rows %}
+                      {%include 'block/comment_rank_item.html'%}
+                    {%endfor%}
+                  
+                  </div>
+                {% if comment_list.total_rows %}
+                <div class="ui pagination pagerbox">
+                  {% pager url:pager_url,total_rows:comment_list.total_rows,total_page:comment_list.total_page,current_page:page,var:'pager',pager_size:9 %}
+                  {%include 'block/pager.html'%}
+                </div>
+                {% endif %}
 		  	    </div>
 		  	    {% include "block/comment_box_site.html" %}
           </div>

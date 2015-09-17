@@ -51,6 +51,7 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
     const KIND_FOLLOW = 5;  //关注
     const KIND_TRY = 6;  //产品试用
     const KIND_STUFF = 7; //产品灵感
+    const KIND_SUBJECT = 10; //专题
 
     protected $schema = array(
         //收到提醒的人
@@ -135,7 +136,16 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
                       $c_type_str = '专辑';
                       break;
                     case 10:
-                      $r_obj = null;
+                      $url = '';
+                      switch((int)$obj['target_id']){
+                        case 1:
+                          $url = sprintf("%s/rank", Doggy_Config::$vars['app.url.promo']);
+                          break;
+                        case 2:
+                          $url = '';
+                          break;
+                      }
+                      $r_obj = array('comment_view_url'=>$url, 'comment_type'=>'subject');
                       $c_type_str = '专题';
                       break;
                   }
@@ -223,4 +233,4 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
     }
 	
 }
-?>
+

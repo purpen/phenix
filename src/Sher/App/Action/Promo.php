@@ -46,8 +46,17 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
       $this->stash['comment_count'] = $dig['items']['comment_count'];
     }
 
-    // 计算百分比
-
+    //  判断用户是否已投票
+    $this->stash['has_support'] = 0;
+    $this->stash['support_cid'] = 0;
+    if($this->visitor->id){
+      $mode_attend = new Sher_Core_Model_Attend();
+      $attend = $mode_attend->first(array('user_id'=>$this->visitor->id, 'target_id'=>1, 'event'=>5));
+      if(!empty($attend)){
+        $this->stash['has_support'] = 1;
+        $this->stash['support_cid'] = $attend['cid'];     
+      }   
+    }
 
     // 增加浏览量
     $dig_model->inc($dig_key, "items.view_count", 1);
@@ -70,6 +79,8 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
         $this->stash['page'] = $new_page;
     }
 
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.promo'].'/rank?page=#p##comment_top');
+		$this->stash['pager_url'] = $pager_url;
 
 		return $this->to_html_page('page/promo/rank.html');
 	}

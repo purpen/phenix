@@ -72,6 +72,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	 */
 	protected function before_save(&$data) {
     if(empty($data['floor'])){
+      $target_model = null;
       $type = $data['type'];
       switch($type){
         case 2:
@@ -86,12 +87,39 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         case 6:
           $target_model = new Sher_Core_Model_Stuff();
           break;
+        case 7:
+          $target_model = new Sher_Core_Model_Albums();
+          break;
         default:
-          return;
+          $target_model = null;
       }
-      $target = $target_model->load((int)$data['target_id']);
-      if($target){
-        $data['floor'] = $target['comment_count'] + 1;
+
+      if($data['type']==self::TYPE_SUBJECT){
+        $dig_model = new Sher_Core_Model_DigList();
+        $dig_key = null;
+        switch((int)$data['target_id']){
+          case 1:
+            $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_YMC1_01;
+            break;
+          case 2:
+            $dig_key = '';
+            break;
+        }
+        if(!empty($dig_key)){
+          $dig = $dig_model->load($dig_key);
+          if(!empty($dig) && isset($dig['items']) && isset($dig['items']['comment_count'])){
+            $data['floor'] = (int)$dig['items']['comment_count'] + 1;
+          }else{
+            $data['floor'] = 1;
+          }
+        }
+      }else{
+        if($target_model){
+          $target = $target_model->load((int)$data['target_id']);
+          if($target){
+            $data['floor'] = $target['comment_count'] + 1;
+          }     
+        }   
       }
 
     }
@@ -107,6 +135,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         if(isset($this->data['product_idea']) && $this->data['product_idea']==1){
           return;
         }
+        $timeline_type = 0;
         // 如果是新的记录
         if($this->insert_mode) {
             $type = $this->data['type'];
@@ -172,6 +201,23 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                     $user_id = $stuff['user_id'];
                     $model->inc_counter('comment_count', 1, (int)$this->data['target_id']);
                     break;
+                case self::TYPE_SUBJECT:
+                    $kind = Sher_Core_Model_Remind::KIND_SUBJECT;
+                    $model = new Sher_Core_Model_DigList();
+                    $dig_key = null;
+                    switch((int)$this->data['target_id']){
+                      case 1:
+                        $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_YMC1_01;
+                        break;
+                      case 2:
+                        $dig_key = '';
+                        break;
+                    }
+                    // 增加评论数
+                    if($dig_key){
+                      $model->inc($dig_key, 'items.comment_count', 1);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -197,7 +243,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             }
             
 	          // 添加动态提醒
-            if(isset($timeline_type)){
+            if(isset($timeline_type) && !empty($timeline)){
                 $timeline = Sher_Core_Service_Timeline::instance();
                 $timeline->broad_target_comment($this->data['user_id'], (int)$this->data['target_id'], $timeline_type, array('comment_id'=>(string)$this->data['_id']));
             }
