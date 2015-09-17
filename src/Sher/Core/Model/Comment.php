@@ -107,6 +107,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         if(isset($this->data['product_idea']) && $this->data['product_idea']==1){
           return;
         }
+        $timeline_type = 0;
         // 如果是新的记录
         if($this->insert_mode) {
             $type = $this->data['type'];
@@ -214,7 +215,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             }
             
 	          // 添加动态提醒
-            if(isset($timeline_type)){
+            if(isset($timeline_type) && !empty($timeline)){
                 $timeline = Sher_Core_Service_Timeline::instance();
                 $timeline->broad_target_comment($this->data['user_id'], (int)$this->data['target_id'], $timeline_type, array('comment_id'=>(string)$this->data['_id']));
             }
