@@ -36,14 +36,14 @@
         <a title="{{ d.title }}" alt="{{ d.title }}" href="{{ d.link }}" style="background-image: url({{ d.cover.thumbnails.hm.view_url }});" class="thumb" target="_blank">
         </a>
 
-        <h2>
+        <h2 style="height: 70px;margin-bottom: 15px;white-space: normal;">
             <a href="{{ d.link }}" title="{{ d.title }}" class="ui line" target="_blank">
-			    {{ d.title|truncate, 32, '' }}
+			    {{ d.title|truncate, 56, '' }}
 		    </a>
         </h2>
-        <div class="excerpt">
+        <!--<div class="excerpt">
             <p>{{ d.summary|truncate, 64, '' }}</p>
-        </div>
+        </div>-->
         <div class="cats">
             {{ d.from_site }}
         </div>
