@@ -1837,10 +1837,10 @@
   <script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript">
-    var m_name = '火眼计划-太火鸟';
-    var img_url = '';
+    var m_name = '绝密行动 代号“火眼”';
+    var img_url = 'm.taihuoniao.com';
     var link = '{{ app_url_wap_promo }}/hy';
-    var desc_str = ' ';
+    var desc_str = '{{ app_url_packaged }}/images/promo/hy/share.jpg';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -2152,6 +2152,7 @@
 {% endblock %}
 
 {% block content %}
+<img src="{{ app_url_packaged }}/images/promo/hy/share.jpg" style="display:none;">
 <div class="hengping" style="background:#000;color:#fff;font-size:16px;height:100%;width:100%;display:none;text-align: center;padding-top:140px;position:absolute;">
   为了更好的用户体验，请竖屏浏览
 </div>

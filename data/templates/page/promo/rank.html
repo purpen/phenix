@@ -56,6 +56,10 @@ p{
   padding:40px 100px !important;
   color:#fff;
   text-align:center !important;
+  opacity: 0;
+}
+.pktitle.transition.fly{
+  opacity:1;
 }
 .pktitle p{
   font-size:16px;
@@ -76,6 +80,16 @@ p{
   background:url({{ app_url_packaged }}/images/promo/rankhf.png);
   background-size:cover;
   height:300px;
+  opacity:0;
+  -webkit-animation-duration: 800ms;
+  animation-duration: 800ms;
+  -webkit-transition-delay: 800ms;
+  transition-delay: 800ms;
+}
+.pkhf.slide{
+  opacity:1;
+  -webkit-transition-delay: 800ms !important;
+  transition-delay: 800ms !important;
 }
 .pklf{
   position:absolute;
@@ -85,6 +99,16 @@ p{
   background:url({{ app_url_packaged }}/images/promo/ranklf.png);
   background-size:cover;
   height:300px;
+  opacity:0;
+  -webkit-animation-duration: 800ms;
+  animation-duration: 800ms;
+  -webkit-transition-delay: 800ms;
+  transition-delay: 800ms;
+}
+.pklf.slide{
+  opacity:1;
+  -webkit-transition-delay: 800ms !important;
+  transition-delay: 800ms !important;
 }
 .pkhs{
   position:absolute;
@@ -94,6 +118,11 @@ p{
   background:url({{ app_url_packaged }}/images/promo/rankh.png);
   background-size:cover;
   height:123px;
+  opacity:0;
+  transition-delay: 1s;
+  -moz-transition-delay: 1s; 
+  -webkit-transition-delay: 1s; 
+  -o-transition-delay: 1s;
 }
 .pkls{
   position:absolute;
@@ -103,6 +132,11 @@ p{
   background:url({{ app_url_packaged }}/images/promo/rankl.png);
   background-size:cover;
   height:123px;
+  opacity:0;
+  transition-delay: 1s;
+  -moz-transition-delay: 1s; 
+  -webkit-transition-delay: 1s; 
+  -o-transition-delay: 1s;
 }
 .pkvs{
   position:absolute;
@@ -113,6 +147,10 @@ p{
   background:url({{ app_url_packaged }}/images/promo/rankvs.jpg);
   background-size:cover;
   height:169px;
+  opacity:0;
+}
+.pkvs.flip{
+  opacity:1;
 }
 .pkp{
   position:absolute;
@@ -123,6 +161,10 @@ p{
   background:url({{ app_url_packaged }}/images/promo/rankp.png);
   background-size:cover;
   height:256px;
+  opacity:0;
+}
+.pkp.fly{
+  opacity:1;
 }
 
 .pkhbtn{
@@ -185,8 +227,15 @@ p{
   $(window).scroll(function(){
 	    var scrollTop = $(window).scrollTop();
 			if(scrollTop > 1600){
-        
-        
+        $('.pktitle').addClass('transition fly up in');
+        $('.pkhs').addClass('transition fly in');
+        $('.pkls').addClass('transition fly in');
+        $('.pkvs').addClass('transition flip vertical in');
+      }
+      if(scrollTop > 1700){
+        $('.pkp').addClass('transition fly down in');
+        $('.pkhf').addClass('transition slide right in');
+        $('.pklf').addClass('transition slide left in');
       }
   })
 {% endblock %}
