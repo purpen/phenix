@@ -310,7 +310,6 @@ p{
               </div>
               <!--ajax comment-->
               <div id="comment-list" style="padding-bottom:20px;">
-    <div class="ui threaded minimal is-comment comments">
       {% comment_list var:'comments' page:page target_id:1 type:10 size:size sort:sort check_loved:1 current_user_id:visitor.id %}
       <div class="ui threaded minimal comments is-comment">
       {% for comment in comments.rows %}
@@ -371,7 +370,6 @@ p{
     
       </div>
       {% endfor %}
-      </div>
     </div>
                   
                 {% if comments.total_rows %}
