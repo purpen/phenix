@@ -6,6 +6,7 @@
 class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public $stash = array(
 		'page'=>1,
+    'sort'=>0,
 	);
 	
 
@@ -72,7 +73,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		);
 		$this->_comment_param($comment_options);
 
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.wap'].'/promo/rank?page=#p##comment_top');
+		$pager_url = sprintf("%s/promo/rank?sort=%d&page=#p##comment_top", Doggy_Config::$vars['app.url.wap'], $this->stash['sort']);
 		$this->stash['pager_url'] = $pager_url;
 
 		return $this->to_html_page('wap/promo/rank.html');
