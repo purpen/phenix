@@ -1,4 +1,4 @@
-{%extends 'layout/column.html'%}
+{%extends 'layout/mobile.html'%}
 {% block title %}神嘴争霸赛 -{% endblock %}
 
 {% block page_css %}
@@ -172,20 +172,18 @@ p{
   bottom: 20px;
   width:100px;
   left:200px;
-  background:url({{ app_url_packaged }}/images/promo/rankhzc.png);
+  background:url({{ app_url_packaged }}/images/promo/rankhz.png);
   background-size:cover;
   height:100px;
-  z-index:9;
 }
 .pklbtn{
   position:absolute;
   bottom: 20px;
   width:100px;
   right:200px;
-  background:url({{ app_url_packaged }}/images/promo/ranklzc.png);
+  background:url({{ app_url_packaged }}/images/promo/ranklz.png);
   background-size:cover;
   height:100px;
-  z-index:9;
 }
 .rankhpro{
   background:url({{ app_url_packaged }}/images/promo/rankhpro.jpg);
@@ -225,38 +223,6 @@ p{
 }
 .post.comment,.ui.comments{
   font-size:1rem !important;
-}
-.joint,.ranzc{
-  position: absolute;
-  bottom: 20px;
-  width: 100px;
-  left: 200px;
-  background: url({{ app_url_packaged }}/images/promo/rankzc.png);
-  background-size: cover;
-  height: 100px;
-  z-index:2;
-  animation:scal 4s ease-in infinite;
-  -webkit-animation:scal 4s ease-in infinite;
-  -moz-animation:scal 4s ease-in infinite;
-}
-@-webkit-keyframes scal {
-	0% { -webkit-transform: scale(0.8); }
-	50% { -webkit-transform: scale(1.15); }
-	100% { -webkit-transform: scale(0.8); }
-}
-@keyframes scal {
-	0% { transform: scale(0.8); }
-	50% { transform: scale(1.15); }
-	100% { transform: scale(0.8); }
-}
-@-moz-keyframes scal {
-	0% { -moz-transform: scale(0.8); }
-	50% { -moz-transform: scale(1.15); }
-	100% { -moz-transform: scale(0.8); }
-}
-.ranzc{
-  right: 200px;
-  left: inherit;
 }
 </style>
 {% endblock %}
@@ -461,9 +427,7 @@ p{
       <div class="pklf"></div>
       
       <a class="pkhbtn support-l-btn" data-cid="1" href="javascript:void(0);"></a>
-      <div class="joint"></div>
       <a class="pklbtn support-r-btn" data-cid="2" href="javascript:void(0);"></a>
-      <div class="ranzc right"></div>
       
     </div>
     <div class="rankhpro support-l-count">{{ count_01 }}</div>
@@ -507,7 +471,7 @@ p{
                 </div>
                 {% endif %}
 		  	    </div>
-		  	    {% include "block/comment_box_site.html" %}
+		  	    {% include "block/comment_box_wap.html" %}
           </div>
       </div>
       
