@@ -109,7 +109,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     $this->stash['user'] = $user;
 
 		//微信分享
-    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
     $timestamp = $this->stash['timestamp'] = time();
     $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
     $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
@@ -122,7 +122,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function din(){
 		$this->stash['page_title_suffix'] = 'D3in';
 		//微信分享
-	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
 	    $timestamp = $this->stash['timestamp'] = time();
 	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
 	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
@@ -166,7 +166,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function hy(){
 		$this->stash['page_title_suffix'] = '绝密行动 代号“火眼”';
 		//微信分享
-	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
 	    $timestamp = $this->stash['timestamp'] = time();
 	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
 	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
@@ -189,7 +189,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function zp(){
 		$this->stash['page_title_suffix'] = '年轻多金潜力股，求扑倒！';
 		//微信分享
-	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
 	    $timestamp = $this->stash['timestamp'] = time();
 	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
 	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
@@ -206,7 +206,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		
 		$this->stash['page_title_suffix'] = '69';
 		//微信分享
-	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
 	    $timestamp = $this->stash['timestamp'] = time();
 	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
 	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
@@ -224,7 +224,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		
 		$this->stash['page_title_suffix'] = '69';
 		//微信分享
-	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
 	    $timestamp = $this->stash['timestamp'] = time();
 	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
 	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
@@ -247,7 +247,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 */
 	public function jd(){
     //微信分享
-    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
     $timestamp = $this->stash['timestamp'] = time();
     $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
     $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
@@ -436,7 +436,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
      */
   public function chinadesign(){
     //微信分享
-    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
     $timestamp = $this->stash['timestamp'] = time();
     $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
     $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();

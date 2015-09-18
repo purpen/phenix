@@ -177,7 +177,7 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
    */
   public function sz(){
     //微信分享
-    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
     $timestamp = $this->stash['timestamp'] = time();
     $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
     $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
@@ -203,7 +203,7 @@ class Sher_Wap_Action_Birdegg extends Sher_Wap_Action_Base {
    */
   public function sz_share(){
     //微信分享
-    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
     $timestamp = $this->stash['timestamp'] = time();
     $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
     $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
