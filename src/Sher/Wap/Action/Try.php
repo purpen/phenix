@@ -120,6 +120,12 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 			return $this->show_message_page('访问的公测产品不存在或已被删除！', $redirect_url);
 		}
 
+    // 不可申请状态
+    $this->stash['cannot_apply'] = false;
+    if($try['step_stat']==0){
+      $this->stash['cannot_apply'] = true;
+    }
+
     //添加网站meta标签
     $this->stash['page_title_suffix'] = sprintf("%s-新品试用-太火鸟智能硬件孵化平台", $try['title']);
     if(!empty($try['tags'])){
@@ -202,6 +208,12 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 			// 验证是否结束
 			$try = new Sher_Core_Model_Try();
 			$row = $try->extend_load((int)$target_id);
+
+      // 预热状态不可申请
+			if($row['step_stat']==0){
+        $this->stash['msg'] = '预热中是不能申请的！';
+			  return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
+			}
 			if($row['is_end']){
         $this->stash['msg'] = '抱歉，活动已结束，等待下次再来！';
 			  return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
@@ -378,6 +390,9 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
           $step_stat = isset($result['rows'][$i]['step_stat']) ? $result['rows'][$i]['step_stat'] : 0;
           $result['rows'][$i]['step_ing'] = $result['rows'][$i]['step_verify'] = $result['rows'][$i]['step_recover'] = $result['rows'][$i]['step_no'] = $result['rows'][$i]['step_over'] = false;
           switch($step_stat){
+            case 0: //预热
+              $result['rows'][$i]['step_ready'] = true;
+              break;
             case 1: //进行中
               $result['rows'][$i]['step_ing'] = true;
               break;

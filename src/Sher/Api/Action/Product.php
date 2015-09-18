@@ -63,6 +63,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		
 		$stage = isset($this->stash['stage']) ? (int)$this->stash['stage'] : Sher_Core_Model_Product::STAGE_SHOP;
 			
@@ -77,20 +78,41 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 			$query['user_id'] = (int)$user_id;
 		}
 		// 状态
-		$query['stage'] = array('$in'=>array(5,9));
+		$query['stage'] = $stage;
 		// 已审核
 		$query['approved']  = 1;
 		// 已发布上线
 		$query['published'] = 1;
 		
 		if($stick){
-			$query['stick'] = 1;
+			$query['stick'] = $stick;
 		}
 		
 		// 分页参数
         $options['page'] = $page;
         $options['size'] = $size;
-		$options['sort_field'] = 'latest';
+
+		// 排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'vote';
+				break;
+			case 2:
+				$options['sort_field'] = 'love';
+				break;
+			case 3:
+				$options['sort_field'] = 'comment';
+				break;
+			case 4:
+				$options['sort_field'] = 'stick:update';
+				break;
+			case 5:
+				$options['sort_field'] = 'featured:update';
+				break;
+		}
 		
 		$options['some_fields'] = $some_fields;
 		// 开启查询

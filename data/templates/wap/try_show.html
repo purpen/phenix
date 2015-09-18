@@ -529,9 +529,16 @@
           <!--<i class="ticket icon"></i>--> 求支持
         </a>
       {%else%}
-        <a href="javascript:void(0);" class="ui magenta active inverted applytry button">
-          <!--<i class="ticket icon"></i>--> 申请试用
-        </a>
+        {% if try.step_stat==0 %}
+          <a href="javascript:void(0);" class="ui magenta active inverted button">
+            <!--<i class="ticket icon"></i>--> 预热中
+          </a>
+        {%else%}
+          <a href="javascript:void(0);" class="ui magenta active inverted applytry button">
+            <!--<i class="ticket icon"></i>--> 申请试用
+          </a>
+        {%endif%}
+
       {%endif%}
 
 		{% else %}
