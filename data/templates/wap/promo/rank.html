@@ -40,150 +40,28 @@ p{
   background:url({{ app_url_packaged }}/images/promo/rankmtime.png);
   background-size:cover;
 }
-.mainwrap.bpk{
-  padding: 0 !important;
-  margin: 25px auto !important;
-  background: rgba(0,0,0,0) !important;
-}
 .propk{
-  height:700px;
-  background:url({{ app_url_packaged }}/images/promo/rankbl.jpg);
-  background-size:cover;
-  padding:0 !important;
+  padding-bottom:0 !important;
   position:relative;
-}
-.pktitle{
-  padding:40px 100px !important;
-  color:#fff;
-  text-align:center !important;
-  opacity: 0;
-}
-.pktitle.transition.fly{
-  opacity:1;
-}
-.pktitle p{
-  font-size:16px;
-  text-align:left;
-}
-.pktitle p span{
-  font-size: 20px;
-  font-weight: 500;
-  margin: 0 10px;
-  font-style: italic;
-}
-
-.pkhf{
-  position:absolute;
-  top:280px;
-  left:0;
-  width:500px;
-  background:url({{ app_url_packaged }}/images/promo/rankhf.png);
-  background-size:cover;
-  height:300px;
-  opacity:0;
-  -webkit-animation-duration: 800ms;
-  animation-duration: 800ms;
-  -webkit-transition-delay: 800ms;
-  transition-delay: 800ms;
-}
-.pkhf.slide{
-  opacity:1;
-  -webkit-transition-delay: 800ms !important;
-  transition-delay: 800ms !important;
-}
-.pklf{
-  position:absolute;
-  top:280px;
-  right:0;
-  width:500px;
-  background:url({{ app_url_packaged }}/images/promo/ranklf.png);
-  background-size:cover;
-  height:300px;
-  opacity:0;
-  -webkit-animation-duration: 800ms;
-  animation-duration: 800ms;
-  -webkit-transition-delay: 800ms;
-  transition-delay: 800ms;
-}
-.pklf.slide{
-  opacity:1;
-  -webkit-transition-delay: 800ms !important;
-  transition-delay: 800ms !important;
-}
-.pkhs{
-  position:absolute;
-  top:150px;
-  left:290px;
-  width: 180px;
-  background:url({{ app_url_packaged }}/images/promo/rankh.png);
-  background-size:cover;
-  height:123px;
-  opacity:0;
-  transition-delay: 1s;
-  -moz-transition-delay: 1s; 
-  -webkit-transition-delay: 1s; 
-  -o-transition-delay: 1s;
-}
-.pkls{
-  position:absolute;
-  top:150px;
-  right:290px;
-  width: 180px;
-  background:url({{ app_url_packaged }}/images/promo/rankl.png);
-  background-size:cover;
-  height:123px;
-  opacity:0;
-  transition-delay: 1s;
-  -moz-transition-delay: 1s; 
-  -webkit-transition-delay: 1s; 
-  -o-transition-delay: 1s;
-}
-.pkvs{
-  position:absolute;
-  top: 180px;
-  left: 50%;
-  width: 230px;
-  margin-left: -115px;
-  background:url({{ app_url_packaged }}/images/promo/rankvs.jpg);
-  background-size:cover;
-  height:169px;
-  opacity:0;
-}
-.pkvs.flip{
-  opacity:1;
-}
-.pkp{
-  position:absolute;
-  bottom:0;
-  width: 360px;
-  left: 50%;
-  margin-left: -180px;
-  background:url({{ app_url_packaged }}/images/promo/rankp.png);
-  background-size:cover;
-  height:256px;
-  opacity:0;
-}
-.pkp.fly{
-  opacity:1;
 }
 
 .pkhbtn{
   position:absolute;
   bottom: 20px;
-  width:100px;
-  left:200px;
+  width:70px;
+  left:50px;
   background:url({{ app_url_packaged }}/images/promo/rankhz.png);
   background-size:cover;
-  height:100px;
+  height:70px;
 }
 .pklbtn{
   position:absolute;
   bottom: 20px;
-  width:100px;
-  right:200px;
+  width:70px;
+  right:50px;
   background:url({{ app_url_packaged }}/images/promo/ranklz.png);
   background-size:cover;
-  height:100px;
+  height:70px;
 }
 .rankhpro{
   background:url({{ app_url_packaged }}/images/promo/rankhpro.jpg);
@@ -191,9 +69,9 @@ p{
   background-repeat:repeat;
   display:inline-block;
   border-bottom-left-radius: 8px;
-  padding: 0 20px !important;
+  padding: 0 10px !important;
   line-height: 50px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   color: #fff;
   letter-spacing: 1px;
@@ -204,22 +82,13 @@ p{
   background-repeat:repeat;
   display:inline-block;
   border-bottom-right-radius: 8px;
-  padding: 0 20px !important;
+  padding: 0 10px !important;
   line-height: 50px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   color: #fff;
   letter-spacing: 1px;
   text-align:right;
-}
-.mainwrap.commentrank{
-  padding: 0 !important;
-  margin: 15px auto 35px !important;
-}
-.mainwrap.commentrank .mainleft{
-  margin: 0 !important;
-  padding: 0 !important;
-  min-height: 0 !important;
 }
 .post.comment,.ui.comments{
   font-size:1rem !important;
@@ -228,7 +97,7 @@ p{
 .ui.white.block{
   background:#fff;
   margin: 0;
-  padding: 10px 0;
+  padding: 10px 0 0;
 }
 </style>
 {% endblock %}
@@ -355,7 +224,7 @@ p{
 {% block content %}
 <div id="srank">
   <img src="{{ app_url_packaged }}/images/promo/rankmt.jpg" width="100%" alt="神嘴争霸赛">
-  <div class="ui big white block">
+  <div class="ui big white block" style="margin-top:-3px;">
     <div class="ui responsive grid">
       <div class="row">
         <div class="column">
@@ -379,7 +248,6 @@ p{
             活动时间
           </div>
           <div class="time"></div>
-          
         </div>
       </div>
       <div class="line"></div>
@@ -398,9 +266,9 @@ p{
           <p>3.根据辩论精彩程度，将从双方各自挑选三名获得”太火鸟名嘴“称号，获得太火鸟送出的云马神秘新品发布会VIP门票。</p>
           <p class="ui magenta link">（PS：届时，发布会现场将会邀请行业精英与圈内大咖，甚至神秘嘉宾到场，徐小平？雷军？或是？展开你的想象力，我只告诉你这是一场高手云集，错过后悔的大场面！现场除100家媒体外，只供内部席位，太火鸟将设6个特别名额，快点来抢吧！）</p>
           <p>4.根据回复楼层百分比挑选六名用户获得”太火鸟硬嘴“称号，获得太火鸟独家定制神秘礼包。</p>
-          <div class="line"></div>
         </div>
-      </div>
+      </div>  
+      <div class="line"></div>
     
       <div class="row">
         <div class="column">
@@ -413,16 +281,16 @@ p{
           <p>4.中奖楼层为总楼层的 15%、25%、35%、55%、65%、75%。中奖时涉及到小数点的楼层取整数；</p>
           <p>5.云马神秘新品如何领取将由太火鸟官方工作人员电话通知；</p>
           <p>6.本次活动最终解释权归太火鸟所有。<br/></p>
-          <div class="line"></div>  
         </div>
       </div>
+      <div class="line"></div>  
     
       <div class="row">
         <div class="column">
           <div class="rtitle">
             奖品设置
           </div>
-          <img src="{{ app_url_packaged }}/images/promo/rankpk.jpg" width="100%">
+          <img src="{{ app_url_packaged }}/images/promo/rankmj.jpg" width="100%">
           <p><br/></p>
         </div>
       </div>
@@ -433,16 +301,7 @@ p{
   
   <div class="ui mainwrap bpk grid">
     <div class="propk row">
-      <div class="pktitle column">
-        <h2>场景模拟</h2>
-        <p><span>假设</span> 你现在手头非常不宽裕，于是想到了一条快速来钱的方法—碰瓷！摆在你面前的有两个安全碰瓷的选择—一辆正在缓慢行驶的特斯拉or骑一部充满了土豪气息自行车的人。</p>
-      </div>
-      <div class="pkhs"></div>
-      <div class="pkls"></div>
-      <div class="pkvs"></div>
-      <div class="pkp"></div>
-      <div class="pkhf"></div>
-      <div class="pklf"></div>
+      <img src="{{ app_url_packaged }}/images/promo/rankmvs.jpg" width="100%">
       
       <a class="pkhbtn support-l-btn" data-cid="1" href="javascript:void(0);"></a>
       <a class="pklbtn support-r-btn" data-cid="2" href="javascript:void(0);"></a>
