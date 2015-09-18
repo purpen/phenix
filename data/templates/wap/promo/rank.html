@@ -117,7 +117,7 @@ p{
 		}
 
     // 难证是否支持过
-    $.get("{{ app_url_domain_base }}/app/site/promo_func/ajax_attend", {target_id: 1, event: 5, cid: cid}, function(result){
+    $.get("{{ app_url_wap }}/app/site/promo_func/ajax_attend", {target_id: 1, event: 5, cid: cid}, function(result){
       if(result.success){
         // 已投票标识
         has_support = 1;
@@ -310,9 +310,63 @@ p{
               </div>
               <!--ajax comment-->
               <div id="comment-list" style="padding-bottom:20px;">
-                    {% comment_list var:'comment_list' page:page size:size target_id:1 type:10 check_loved:1 current_user_id:visitor.id %}                {% for comment in comment_list.rows %}
-                      {%include 'block/comment_rank_item.html'%}
-                    {%endfor%}
+    <div class="ui threaded minimal is-comment comments">
+      {% comment_list var:'comments' page:page target_id:1 type:10 size:size sort:sort check_loved:1 current_user_id:visitor.id %}
+      {% for comment in comments.rows %}
+      <div class="comment" id="{{ comment._id }}">
+        <a class="avatar" href="{{ comment.user.home_url }}">
+          <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
+        </a>
+        <div class="content">
+          <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
+          <div class="metadata">
+            <div class="date">{{ comment.created_on }}</div>
+          </div>
+{% if !comment.deleted %}
+          <div class="laud">
+
+            {% if comment.is_loved %}
+            <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消喜欢" data-variation="inverted" >
+            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+              <i class="icon heart"></i>
+            </a>
+            {%else%}
+              <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
+            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+              <i class="icon empty heart"></i>
+            </a>          
+            {%endif%}
+          </div>
+{%endif%}
+          
+          <div class="text">
+            {% if comment.deleted==1 %}
+              该内容已被屏蔽
+            {%else%}
+              {{ comment.content|safe }}
+            {%endif%}
+          </div>
+          {% if visitor.is_login %}
+          <div class="actions">
+            {% if !comment.deleted %}
+            <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
+            
+            {% if visitor.can_admin %}
+              <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">屏蔽</a>
+            {%else%}
+              {% if visitor.id==comment.user_id %}
+                <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">屏蔽</a>
+              {%endif%}
+            {%endif%}
+          {%endif%}
+          </div>
+
+          {% endif %}
+        </div>
+    
+      </div>
+      {% endfor %}
+    </div>
                   
                 {% if comment_list.total_rows %}
                 <div class="ui pagination pagerbox">
