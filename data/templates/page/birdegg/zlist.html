@@ -334,7 +334,7 @@
 			<div class="column">
 				
 				{% stuff_list var:'stufflist' category_id:cid is_top:is_top verified:1 sort:st page:page size:40 %}
-				<div id="item-list" class="ui four cards">
+				<div id="item-list" class="ui four products cards">
 					{% for stuff in stufflist.rows %}
             {% include "block/birdegg_item.html" %}
 					{% endfor %}

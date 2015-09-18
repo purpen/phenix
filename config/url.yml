@@ -53,7 +53,7 @@ app.url.tag: '/tag'
 # 商店
 app.url.shop: '{$app.url.domain}/shop'
 app.url.shop.list: '{$app.url.shop}'
-app.url.shop.view: '{$app.url.shop}/%s.html'
+app.url.shop.view: '{$app.url.shop}/view-%s-%s.html'
 app.url.albums: '{$app.url.domain}/albums'
 app.url.album.shop: '{$app.url.domain}/albumshop'
 

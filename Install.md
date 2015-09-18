@@ -4,6 +4,7 @@ mongodb: v2.6.4
 nginx: v1.6.2
 git
 redis: v2.8.9
+xun-search: v1.4.9
 
 
 ### PHP5.3.0+安装（for Mac）

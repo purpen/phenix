@@ -1125,7 +1125,7 @@ background-color: #fff;
 {% block content %}
 <div class="ui eggmenu tabox">
 	<div class="ui responsive grid">
-		<div class="two column middle aligned row">
+		<div class="two column middle aligned row" style="padding:0;">
 			<div class="ten wide column">
 				<div class="ui tabs">
 					<a class="tab active smt" href="#topbanner">首页</a>
@@ -1138,15 +1138,15 @@ background-color: #fff;
         </div>
       </div>
 			<div class="six wide right aligned column">
-				<a class="ui magenta extLink btn-4 btn-4c btn" href="http://www.huodongxing.com/event/2273122928800" target="_blank">
+				<!--<a class="ui magenta extLink btn-4 btn-4c inverted button" href="http://www.huodongxing.com/event/2273122928800" target="_blank">
           			<span>立即报名</span>
-        		</a>
-				<a class="ui magenta extLink btn-4 btn-4c btn" href="{{ app_url_birdegg }}/zlist">
+        		</a>-->
+				<a class="ui magenta extLink btn-4 btn-4c inverted button" href="{{ app_url_birdegg }}/zlist">
           			<span>全部作品</span><i class="icon-arrow-right-sharp"></i>
         		</a>
-				<a class="ui magenta extLink btn-4 btn" href="{{ app_url_birdegg }}/submit" target="_blank">
+			<!--	<a class="ui magenta extLink btn-4 inverted button" href="{{ app_url_birdegg }}/submit" target="_blank">
           			<span>产品提交</span>
-        		</a>
+        		</a>-->
 			</div>
    	</div>
   </div>
@@ -1158,7 +1158,7 @@ background-color: #fff;
 			<section class="pagex">
 				<img src="{{ app_url_packaged }}/images/egg-header.jpg" class="ui image" />
 				<a href="javascript:void(0);" class="ui more arrow pop" data-content="滚动查看更多" data-variation="inverted">
-					<i class="flat arrow403 icon"></i>
+					<i class="circle arrow up icon"></i>
 				</a>
 			</section>
 		</div>
@@ -1602,10 +1602,10 @@ background-color: #fff;
 					</div>
 					<div class="pages"></div>
 					<a class="prev" href="#">
-						<i class="flat arrow_left icon"></i>
+						<i class="angle left icon"></i>
 					</a>
 					<a class="next" href="#">
-						<i class="flat arrow_right icon"></i>
+						<i class="angle right icon"></i>
 					</a>
 				</div>
 				
@@ -1701,7 +1701,7 @@ background-color: #fff;
 					<img src="{{ app_url_packaged }}/images/egg_line.png" />
 					
 					<div class="featured">
-						<div id="item-list" class="ui four cards">
+						<div id="item-list" class="ui four products cards">
 							{% for stuff in stuffs %}
                 {% include "block/birdegg_item.html" %}
 							{% endfor %}

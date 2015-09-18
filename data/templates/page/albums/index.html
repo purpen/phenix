@@ -5,6 +5,9 @@
     .categorybox {
         background-color: #fff;
     }
+    .ui.products.cards>.card>.problock>a.thumb{
+      padding-top:65% !important;
+    }
 </style>
 {% endblock %}
 
@@ -12,7 +15,7 @@
 <script type="text/javascript" >
     function ajax_load_more(page, size){
         var url = '{{ app_url_albums }}/ajax_load_list?rand='+Math.random();
-        $.get(url, { page:page, size:size }, function(rs){
+        $.get(url, { page:page, size:size, rand: Math.random() }, function(rs){
             if(rs.data.results.total_page > rs.data.results.current_page){
                 $('#albums-more')
                     .hide()
@@ -40,6 +43,7 @@
             // 防止频繁请求(在没加载完成时只允许请求一次)
             if(stat == 0){
                 $('#albums-more').show();
+				$('#albums-more').attr('status', 1);
                 ajax_load_more(page, 12);
             }
         }
@@ -72,12 +76,12 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				<div class="ui three products cards item-box">
+				<div class="ui two products cards item-box">
                     <!--ajax load list-->
                 </div>
             </div>
 
-            <div id="albums-more" p="{{ page }}" style="text-align:center;margin:10px auto;display:none;">
+            <div id="albums-more" p="{{ page }}" status="1" style="text-align:center;margin:10px auto;display:none;">
                 <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
                 加载中...
             </div>

@@ -143,7 +143,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
         
         $options['page'] = $page;
-        $options['size'] = 15;
+        $options['size'] = 20;
         
 		// 排序
 		switch ((int)$sort) {
@@ -170,7 +170,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
           'fine'=>1, 'stick'=>1, 'category_id'=>1, 'created_on'=>1, 'asset_count'=>1,
           'last_user'=>1, 'last_reply_time'=>1, 'cover_id'=>1, 'comment_count'=>1, 'view_count'=>1,
           'updated_on'=>1, 'favorite_count'=>1, 'love_count'=>1, 'deleted'=>1,'published'=>1, 'tags'=>1,
-          'description'=>1,
+          'description'=>1, 'attrbute'=>1,
         );
         $options['some_fields'] = $some_fields;
         
@@ -211,10 +211,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 
             // 过滤用户表
             if(isset($resultlist['rows'][$i]['user'])){
-              $resultlist['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['user']);
+              $resultlist['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['user'], array('symbol_1', 'symbol_2'));
             }
             if(isset($resultlist['rows'][$i]['last_user'])){
-              $resultlist['rows'][$i]['last_user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['last_user']);
+              $resultlist['rows'][$i]['last_user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['last_user'], array('symbol_1', 'symbol_2'));
             }
         } //end for
 
@@ -659,7 +659,52 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
      * 签到
      */
     public function sign(){
-        return $this->to_html_page('page/topic/sign.html');
+      $this->stash['has_sign'] = false;
+      $user_model = new Sher_Core_Model_User();
+      $user = $user_model->load((int)$this->visitor->id);
+      if(!empty($user)){
+          $this->stash['user'] = $user_model->extended_model_row($user);
+      }
+      $user_sign_model = new Sher_Core_Model_UserSign();
+      $user_sign = $user_sign_model->extend_load((int)$this->visitor->id);
+      $redirect_url = Doggy_Config::$vars['app.url.topic'];
+      if(empty($user_sign)){
+        return $this->show_message_page('数据不存在！', $redirect_url);
+      }
+
+      $today = (int)date('Ymd');
+      $month = (int)date('Ym');
+      $yesterday = (int)date('Ymd', strtotime('-1 day'));
+      if($user_sign['last_date'] == $yesterday){
+          $continuity_times = $user_sign['sign_times'];
+      }elseif($user_sign['last_date'] == $today){
+          $this->stash['has_sign'] = true;
+          $continuity_times = $user_sign['sign_times'];
+      }
+
+      // 公告---取块内容
+      $notice = Sher_Core_Util_View::load_block('sign_notice', 2);
+      $this->stash['notice'] = $notice;
+
+      $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+
+      $this->stash['day'] = 0;
+      $this->stash['month'] = 0;
+      $this->stash['month'] = 0;     
+      $this->stash['type'] = $type;
+      if($type==0){
+        $this->stash['day'] = $today;
+      }elseif($type==1){
+        $this->stash['month'] = $month;
+      }
+
+      $size = $this->stash['size'] = 30;
+
+      $pager_url = $pager_url = sprintf(Doggy_Config::$vars['app.url.topic'].'/sign?type=%d&day=%d&month=%d&page=#p#', $type, $this->stash['day'], $this->stash['month']);
+      $this->stash['pager_url'] = $pager_url;
+
+      $this->stash['user_sign'] = $user_sign;
+      return $this->to_html_page('page/topic/sign.html');
     }
     
 	/**
@@ -954,11 +999,12 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		// 获取当前分类信息
 		$current_category = $category->load((int)$topic['category_id']);
 		// 获取父级分类
-		$parent_category = $category->load((int)$topic['fid']);
+		//$parent_category = $category->load((int)$topic['fid']);
 
 		$this->stash['is_top'] = $is_top;
-		$this->stash['current_category'] = $current_category;
-		$this->stash['parent_category'] = $parent_category;
+    $this->stash['current_category'] = $current_category;
+    $this->stash['parent_category'] = 0;
+		//$this->stash['parent_category'] = $parent_category;
 		
 		$this->stash['cid'] = $topic['category_id'];
 		$this->stash['try_id'] = $topic['try_id'];
@@ -1024,6 +1070,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 
 		$data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
 		$data['t_color'] = isset($this->stash['t_color'])?(int)$this->stash['t_color']:0;
+
+		$data['source'] = isset($this->stash['source'])?$this->stash['source']:'';
+		$data['attrbute'] = isset($this->stash['attrbute'])?(int)$this->stash['attrbute']:0;
 		
 		// 检测编辑器图片数
 		$file_count = isset($this->stash['file_count']) ? (int)$this->stash['file_count'] : 0;

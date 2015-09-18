@@ -464,7 +464,26 @@
 		inline : true,
 		onSuccess: function(event){
 			event.preventDefault();
-			$(event.target).ajaxSubmit();
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+            $('.ui.letter.modal').modal('hide');
+            phenix.show_ok_note('私信发送成功!');
+            $(':input[name=content]').val('');
+            $(":input[name='users[]']").attr('checked', false);
+					}
+				}
+			});
 		}
 	});
 

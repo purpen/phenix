@@ -20,38 +20,17 @@
 	  margin-top: 10px;
 	  margin-bottom: 15px;
 	}
-	.post.vote .description .field .ui.checkbox{
+	
+	
+	/*.post.vote .description .field .ui.checkbox{
 		margin-right: 35px;
 		display: block;
 		margin: 15px 5px;
 		min-height:40px;
 	}
-	.post.vote .field .ui.checkbox label{
-		  line-height: 20px;
-	}
-	.post.vote .field .ui.checkbox label:before,.post.vote .field .ui.checkbox label:after{
-		margin-top: 2px;
-	}
 	.post.vote .description .field .ui.checkbox:first-child{
 		margin-top:40px;
-	}
-	.post.vote .ui.relaxed.list h4.ui.header{
-		margin-bottom: 1em;
-		margin-top: 6px;
-	}
-	.post.vote .ui.relaxed.list .votep> i{
-		margin-top:6px;
-		display: block;
-		float: left;
-	  margin: 0 1em 0 0;
-	  padding: .1em 0 0;
-	} 
-	.ui.progress:first-child{
-	  margin:0 0 1em !important;
-	}
-	.ui.progress .bar{
-	  background:#f36;
-	}
+	}*/
 </style>
 {% endblock %}
 
@@ -396,7 +375,7 @@
 			  for(var i = 0; i < date.length; i++){
 				var answer = date[i].answer;
 				for(var j = 0; j < answer.length; j++){
-				  $('.bar.'+answer[j]._id).attr('style','min-width: 0;width:'+answer[j].nums_rate+'%');
+				  $('.bar.'+answer[j]._id).attr('style','width:'+answer[j].nums_rate+'%');
 				  $('.vote_num.'+answer[j]._id).text(answer[j].nums + '票（'+answer[j].nums_rate+'%）');
 				  
 				}
@@ -518,13 +497,16 @@
                         {%endif%}
 					</a>
 					<div class="content">
-						{{ topic.title }}
+            {{ topic.attr_str }}{{ topic.title }}
 						<div class="sub header attribute">
 						  {% if topic.top %}<span class="ui green small label">置顶</span>{% endif %}
               {% if topic.fine %}<span class="ui orange small label">精华</span>{% endif %}
               {% if topic.stick %}<span class="ui yellow small label">编辑推荐</span>{% endif %}
 							<span class="category"><a href="{{ app_url_topic }}/c{{ topic.category._id }}" class="ui link">{{ topic.category.title }}</a></span> | 
 							<span class="date"><a class="ui link" href="{{ topic.user.home_url }}">@{{ topic.user.nickname }}</a> 发表于 {{ topic.created_on|relative_datetime }}</span> | 
+              {% if topic.source %}
+              <span>来源: {{ topic.source }}</span> | 
+              {%endif%}
 							<span class="count">浏览数: {{ topic.view_count }}</span> | <span class="count">回复数: {{ topic.comment_count }}</span>
 						</div>
 					</div>
@@ -556,8 +538,8 @@
                 <!-- 这里是投票部分代码 开始 -->
 				<div id="block_vote">
 					{% if is_vote %}
-					<div class="post vote" style="margin: 20px 0 60px;">
-						<h3 class="ui header" style="color: #E40039">[话题投票] {{ vote.title }}</h3>
+					<div class="post vote">
+						<h3 class="ui header">[话题投票] {{ vote.title }}</h3>
 						<div class="ui divider"></div>
 						<input type="hidden" name="topic_id" value="{{ id }}" />
 						{% for problem in vote.problem %}
@@ -569,43 +551,43 @@
 								<i class="large question middle aligned icon"></i>
 								<div class="ui from">
 									<h4 class="ui header">{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h4>
-									<div class="pro_block" style="margin: 30px 0 20px;padding: 25px 0 0;border: 1px solid rgba(0,0,0,0.1);" id="{{ problem._id }}" >
+									<div class="pro_block" id="{{ problem._id }}" >
 										{% if problem.select_type == 1 %}
 											{% for answer in problem.answer %}
-											<div class="field" style="padding-left:60px;">
+											<div class="field">
 												<div class="ui radio checkbox">
 													<input type="radio" name="{{ problem._id }}" values="{{ answer._id }}" />
 													<label>{{ answer.title }}</label>
 												</div>
-												<div style="display:block;margin:10px 0;">
-													{% if can_vote %}
-													<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
-														<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;"></div>
+												{% if can_vote %}
+												<div class="vote_bar">
+													<div class="ui magenta tiny progress">
+														<div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
 													</div>
-													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:14%;margin-left:4%;float: right;">
+													<div class="vote_num {{ answer._id }}">
 														{{ answer.nums }}票	（{{ answer.nums_rate }}%）
 													</div>
-													{% endif %}
-												</div>
+												</div>  
+												{% endif %}
 											</div>
 											{% endfor %}
 										{% else %}
 											{% for answer in problem.answer %}
-												<div class="field" style="padding-left:60px;">
+												<div class="field">
 													<div class="ui checkbox">
 														<input type="checkbox" name="{{ answer._id }}" values="{{ answer._id }}" />
 														<label>{{ answer.title }}</label>
 													</div>
-													<div style="display:block;margin:10px 0;">
-														{% if can_vote %}
-														<div class="ui magenta tiny progress" style="display:inline-block;width:80%;font-size: 1.5rem;">
-															<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;"></div>
+													{% if can_vote %}
+													<div class="vote_bar">
+														<div class="ui magenta tiny progress">
+															<div class="bar {{ answer._id }}" style="width:{{ answer.nums_rate }}%;"></div>
 														</div>			
-														<div class="vote_num {{ answer._id }}" style="display:inline-block;width:14%;margin-left:4%;float:right;">
+														<div class="vote_num {{ answer._id }}">
 															{{ answer.nums }}票	（{{ answer.nums_rate }}%）
 														</div>
-														{% endif %}
-													</div>
+													</div>  
+													{% endif %}
 												</div>
 											{% endfor %}
 										{% endif %}
@@ -747,7 +729,7 @@
                 <div class="user avatars">
               	  	<div class="ui images" id="target_{{ topic._id }}_support">
                         {% if topic.love_count %}
-                            {% favorite_list var:'userlist' target_id:topic._id event:2 type:2 size:15 %}
+                            {% favorite_list var:'userlist' target_id:topic._id event:2 type:2 size:50 %}
                             {% for target in userlist.rows %}
                             <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
                   	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />

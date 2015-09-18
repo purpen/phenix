@@ -46,7 +46,7 @@ class Sher_App_ViewTag_CakeList extends Doggy_Dt_Tag {
 		
         $result = $service->get_cake_list($query,$options);
         
-		if ($size == 1 && !empty($result)){
+		if ($size == 1 && !empty($result['rows'])){
 			$context->set($var,$result['rows'][0]);
 		}else{
 			$context->set($var,$result);

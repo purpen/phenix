@@ -9,7 +9,12 @@
 {% endblock %}
 {% block page_css %}
 <style type="text/css">
-    
+    .buy.box p{
+      font-size:1rem;
+    }
+    .buy.box .price{
+      font-size:1.5rem !important;
+    }
 </style>
 {% endblock %}
 
@@ -246,11 +251,12 @@
             position : 'top center',
         });
     });
-    
+    /**
     $('.ui.sticky')
       .sticky({
           context: '.mainleft',
       });
+      **/
       
 {% endblock %}
 
@@ -463,7 +469,7 @@
     	{% if presales.total_rows %}
         <div class="ui one xrange cards">
             {% for presale in presales.rows %}
-            <div class="card">
+            <div class="buy box card">
                 <h3 class="ui header">{{ presale.name }}</h3>
 				<p class="time">
 					{% if presale.mode %}

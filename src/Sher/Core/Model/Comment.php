@@ -17,12 +17,15 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	const TYPE_PRODUCT = 4;
   	const TYPE_ACTIVE = 5;
 	const TYPE_STUFF  = 6;
+  const TYPE_ALBUM = 7;
+  // 专题评论
+  const TYPE_SUBJECT = 10;
 	
     protected $schema = array(
         'user_id' => 0,
         'target_id' => 0,
         'target_user_id' => 0,
-        //指定商品sku
+        //指定商品sku, 如果是专题，类型为正方反方
         'sku_id' => 0,
 		'star' => 0,
         'content' => '',
@@ -49,7 +52,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
     );
     protected $required_fields = array('user_id','content');
     protected $int_fields = array('user_id','target_user_id','star','love_count','floor','is_reply','reply_user_id');
-	  protected $counter_fields = array('love_count');
+	protected $counter_fields = array('love_count');
 	
 	/**
 	 * 验证数据
@@ -69,6 +72,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	 */
 	protected function before_save(&$data) {
     if(empty($data['floor'])){
+      $target_model = null;
       $type = $data['type'];
       switch($type){
         case 2:
@@ -83,12 +87,39 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         case 6:
           $target_model = new Sher_Core_Model_Stuff();
           break;
+        case 7:
+          $target_model = new Sher_Core_Model_Albums();
+          break;
         default:
-          return;
+          $target_model = null;
       }
-      $target = $target_model->load((int)$data['target_id']);
-      if($target){
-        $data['floor'] = $target['comment_count'] + 1;
+
+      if($data['type']==self::TYPE_SUBJECT){
+        $dig_model = new Sher_Core_Model_DigList();
+        $dig_key = null;
+        switch((int)$data['target_id']){
+          case 1:
+            $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_YMC1_01;
+            break;
+          case 2:
+            $dig_key = '';
+            break;
+        }
+        if(!empty($dig_key)){
+          $dig = $dig_model->load($dig_key);
+          if(!empty($dig) && isset($dig['items']) && isset($dig['items']['comment_count'])){
+            $data['floor'] = (int)$dig['items']['comment_count'] + 1;
+          }else{
+            $data['floor'] = 1;
+          }
+        }
+      }else{
+        if($target_model){
+          $target = $target_model->load((int)$data['target_id']);
+          if($target){
+            $data['floor'] = $target['comment_count'] + 1;
+          }     
+        }   
       }
 
     }
@@ -104,6 +135,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         if(isset($this->data['product_idea']) && $this->data['product_idea']==1){
           return;
         }
+        $timeline_type = 0;
         // 如果是新的记录
         if($this->insert_mode) {
             $type = $this->data['type'];
@@ -169,6 +201,23 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                     $user_id = $stuff['user_id'];
                     $model->inc_counter('comment_count', 1, (int)$this->data['target_id']);
                     break;
+                case self::TYPE_SUBJECT:
+                    $kind = Sher_Core_Model_Remind::KIND_SUBJECT;
+                    $model = new Sher_Core_Model_DigList();
+                    $dig_key = null;
+                    switch((int)$this->data['target_id']){
+                      case 1:
+                        $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_YMC1_01;
+                        break;
+                      case 2:
+                        $dig_key = '';
+                        break;
+                    }
+                    // 增加评论数
+                    if($dig_key){
+                      $model->inc($dig_key, 'items.comment_count', 1);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -194,7 +243,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             }
             
 	          // 添加动态提醒
-            if(isset($timeline_type)){
+            if(isset($timeline_type) && !empty($timeline)){
                 $timeline = Sher_Core_Service_Timeline::instance();
                 $timeline->broad_target_comment($this->data['user_id'], (int)$this->data['target_id'], $timeline_type, array('comment_id'=>(string)$this->data['_id']));
             }
@@ -259,7 +308,8 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
-        if ($row['user']['state'] != Sher_Core_Model_User::STATE_OK) {
+        
+		if ($row['user']['state'] != Sher_Core_Model_User::STATE_OK) {
             $row['reply'] = array();
             $row['ori_content'] = htmlspecialchars($row['content']);
             $row['content'] = '因该用户已经被屏蔽,评论被屏蔽';
@@ -310,19 +360,20 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	   	if ($this->update($comment_id, $updated_row)){
 	        $comment_user = $this->extend_load($comment_id);
 	        
-	        // 给用户添加提醒
-          $remind = new Sher_Core_Model_Remind();
-          $arr = array(
-              'user_id'=> $this->data['reply_user_id'],
-              's_user_id'=> $this->data['user_id'],
-              'evt'=> Sher_Core_Model_Remind::EVT_REPLY_COMMENT,
-              'kind'=> Sher_Core_Model_Remind::KIND_COMMENT,
-              'related_id'=> (string)$comment_user['_id'],
-              'parent_related_id'=> (string)$comment_user['target_id'],
-          );
-          $ok = $remind->create($arr);    
-	        return $reply_row;
-		  }
+			// 给用户添加提醒
+			$remind = new Sher_Core_Model_Remind();
+			$arr = array(
+				'user_id'=> $this->data['reply_user_id'],
+				's_user_id'=> $this->data['user_id'],
+				'evt'=> Sher_Core_Model_Remind::EVT_REPLY_COMMENT,
+				'kind'=> Sher_Core_Model_Remind::KIND_COMMENT,
+				'related_id'=> (string)$comment_user['_id'],
+				'parent_related_id'=> (string)$comment_user['target_id'],
+			);
+			$ok = $remind->create($arr);
+			
+			return $reply_row;
+		}
 	   	return null;
     }
 
@@ -383,6 +434,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 
         $c = $this->trans_img($c);
         $c = $this->trans_link($c);
+        $c = $this->trans_at($c);
         
         return $c;
     }
@@ -420,6 +472,27 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             function($s){
                 $a = explode('::', $s[1]);
                 $img = ' <a href="'.$a[0].'" title="'.$a[1].'" target="_blank" >'.$a[1].'</a> ';
+                return $img;
+            },
+            $c
+        );
+        
+        return $c;
+    }
+
+    /**
+     * 转换@格式
+     */
+    protected function trans_at($c){
+        if(empty($c)){
+            return;
+        }
+        $merge = '/\[at:(.*):\]/U';
+        $c = preg_replace_callback(
+            $merge,
+            function($s){
+                $a = explode('::', $s[1]);
+                $img = ' <a href="'.$a[0].'" title="'.$a[1].'" class="comment-at" >'.$a[1].'</a> ';
                 return $img;
             },
             $c

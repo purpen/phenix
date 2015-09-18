@@ -146,6 +146,11 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
         
         $model = new Sher_Core_Model_Cooperation();
         $cooperate = $model->extend_load((int)$id);
+
+        // 仅管理员或本人具有权限
+        if (!$this->visitor->can_edit() && !($cooperate['user_id'] == $this->visitor->id)){
+          return $this->show_message_page('你没有权限编辑的该主题！', true);
+        }
         
         $this->stash['cooperate'] = $cooperate;
         
@@ -298,6 +303,35 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
         }
         
 		return $this->to_taconite_page('ajax/follow_cooperate_ok.html');
+	}
+
+	/**
+	 * 删除孵化合作
+	 */
+	public function ajax_del(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_note('主题不存在！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_Cooperation();
+			$cooperation = $model->load((int)$id);
+			
+			// 仅编辑权限或本人具有删除权限
+			if ($this->visitor->can_edit() || $cooperation['user_id'] == $this->visitor->id){
+				$model->remove((int)$id);
+				
+				// 删除关联对象
+				$model->mock_after_remove($id);
+
+			}
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_note('操作失败,请重新再试', true);
+		}
+		
+		return $this->to_taconite_page('ajax/del_ok.html');
 	}
     
     /**
