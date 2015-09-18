@@ -68,6 +68,12 @@
 .ui.prize.list .item .description {
     color: rgba(112, 123, 135, 0.92);
 }
+.ui.prize.list .ui.avatar.image{
+  vertical-align: middle !important;
+}
+.ui.prize.list .content{
+  margin-top:8px;
+}
 </style>
 {% endblock %}
 
@@ -203,7 +209,7 @@
                       </td>
                     </tr>
                   {%else%}
-                  <tr id="sign-{{ sign._id }}" {% if sign.draw_evt==1 %}style="background: #3ff;"{%endif%}>
+                  <tr id="sign-{{ sign._id }}" {% if sign.draw_evt==1 %}style="background: #f36; color:#fff;"{%endif%}>
                       <td>{{ sign.number_id }}</td>
                       <td>
                         <a class="ui image link" href="{{ sign.user.home_url }}" target="_blank">
@@ -276,8 +282,8 @@
               {% for sign in draw_list.rows %}
                 <div class="item">
                     <img class="ui avatar image" src="{{ sign.user.small_avatar_url }}">
+                    <a class="ui link" href="{{ sign.user.home_url }}" target="_blank">{{ sign.user.nickname }}</a>
                     <div class="content">
-                      <a class="ui link" href="{{ sign.user.home_url }}" target="_blank">{{ sign.user.nickname }}</a>
                         <div class="description">{{ sign.draw_txt }}</div>
                     </div>
                 </div>
