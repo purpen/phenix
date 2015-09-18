@@ -65,12 +65,12 @@ class Sher_Wap_Action_Pay extends Sher_Wap_Action_Base implements DoggyX_Action_
 		
 		// 微信参数
 		$this->wechat_options = array(
-			'token' => Doggy_Config::$vars['app.wechat.ser_token'],
-			'appid' => Doggy_Config::$vars['app.wechat.ser_app_id'],
-			'appsecret' => Doggy_Config::$vars['app.wechat.ser_app_secret'],
-			'partnerid' => Doggy_Config::$vars['app.wechat.ser_partner_id'],
-			'partnerkey' => Doggy_Config::$vars['app.wechat.ser_partner_key'],
-			'paysignkey' => Doggy_Config::$vars['app.wechat.ser_paysignkey'] //商户签名密钥Key
+			'token' => Doggy_Config::$vars['app.wechat.token'],
+			'appid' => Doggy_Config::$vars['app.wechat.app_id'],
+			'appsecret' => Doggy_Config::$vars['app.wechat.app_secret'],
+			'partnerid' => Doggy_Config::$vars['app.wechat.partner_id'],
+			'partnerkey' => Doggy_Config::$vars['app.wechat.partner_key'],
+			'paysignkey' => Doggy_Config::$vars['app.wechat.paysign_key'],
 		);
     }
 	
