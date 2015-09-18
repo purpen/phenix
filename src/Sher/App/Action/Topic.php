@@ -59,7 +59,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 社区首页
 	 */
 	public function index(){
+        $category_id = $this->stash['category_id'];
 		$type = $this->stash['type'];
+        $time = $this->stash['time'];
+        $sort = $this->stash['sort'];
+        $page = $this->stash['page'];
         
 		// 获取置顶列表
 		$diglist = array();
@@ -83,17 +87,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['dig_ids']  = $dig_ids;
 		$this->stash['dig_list'] = $diglist;
         
-		switch($type){
-			case 1:
-				$this->set_target_css_state('type_stick');
-				break;
-			case 2:
-				$this->set_target_css_state('type_fine');
-				break;
-			default:
-                $this->set_target_css_state('type_all');
-				break;
-		}
+        $this->gen_advanced_links($category_id, $type, $time, $sort, $page);
         
 		return $this->to_html_page('page/topic/index.html');
 	}
@@ -102,12 +96,21 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
      * 自动加载获取
      */
     public function ajax_fetch_more(){
-        $type = (int)$this->stash['type'];
+        $category_id = (int)$this->stash['category_id'];
+		$type = (int)$this->stash['type'];
+        $time = (int)$this->stash['time'];
+        $sort = (int)$this->stash['sort'];
+        $page = (int)$this->stash['page'];
         
 		$page = $this->stash['page'];
         $service = Sher_Core_Service_Topic::instance();
         
         $query = array();
+        
+		if($category_id){
+			$query['category_id'] = (int)$category_id;
+		}
+        
         $query['published'] = 1;
         
 		// 类别
@@ -120,9 +123,46 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			//为0
 		}
         
+		// 时间
+		$day = 24 * 60 * 60;
+		switch ($time) {
+			case 0:
+				break;
+			case 1:
+				$query['created_on'] = array('$gte'=> time() - $day);
+				break;
+			case 2:
+				$query['created_on'] = array('$gte'=> time() - 7*$day);
+				break;
+			case 3:
+				$query['created_on'] = array('$gte'=> time() - 30*$day);
+				break;
+			case 4:
+				$query['created_on'] = array('$gte'=> time() - 90*$day);
+				break;
+		}
+        
         $options['page'] = $page;
         $options['size'] = 15;
-		$options['sort_field'] = 'latest';
+        
+		// 排序
+		switch ((int)$sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'update';
+				break;
+			case 2:
+				$options['sort_field'] = 'comment';
+				break;
+			case 5:
+				$options['sort_field'] = 'view';
+				break;
+            case 7:
+                $options['sort_field'] = 'last_reply';
+                break;
+		}
 
         // 限制输出字段
         $some_fields = array(
@@ -310,7 +350,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		// 是否为一级分类
 		$is_top = true;
 		// 获取当前分类信息
-		if ($category_id){
+		if($category_id){
             // 根据分类ID,显示描述信息
             $this->stash['category_desc'] = Sher_Core_Helper_View::category_desc_show($category_id);
 			$category = new Sher_Core_Model_Category();
@@ -326,6 +366,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
             $this->stash['page_title_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 1);
             $this->stash['page_keywords_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 2);   
             $this->stash['page_description_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 3);
+            
+            $tpl = 'page/topic/list.html';
+		}else{
+		    $tpl = 'page/topic/index.html';
 		}
 
 		// 分页链接
@@ -337,7 +381,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['current_category'] = $current_category;
 		$this->stash['parent_category'] = $parent_category;
 		
-		return $this->to_html_page('page/topic/list.html');
+		return $this->to_html_page($tpl);
 	}
 	
 	/**
@@ -357,9 +401,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			case 2:
 				$this->set_target_css_state('type_fine');
 				break;
-      case 3:
-        $this->set_target_css_state('type_reply');
-        break;
+            case 3:
+                $this->set_target_css_state('type_reply');
+                break;
 			default:
                 $this->set_target_css_state('type_all');
 				break;
@@ -389,24 +433,19 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				break;
 			default:
 				break;
-		}
-		
+		}        
+        
 		// 排序
 		// 默认发帖时间
 		$links['sort_default_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, $type, $time, 0, $page);
 		// 最近回复
 		$links['sort_updated_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, $type, $time,  7,$page);
 		$links['sort_comment_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, $type, $time, 2, $page);
+        $links['sort_view_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, $type, $time, 5, $page);
 		$links['sort_favorite_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, $type, $time, 3, $page);
 		$links['sort_laud_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, $type, $time, 4, $page);
 		
 		switch($sort){
-			case 0:
-				$this->set_target_css_state('sort_default');
-				break;
-			case 7:
-				$this->set_target_css_state('sort_update');
-				break;
 			case 2:
 				$this->set_target_css_state('sort_comment');
 				break;
@@ -416,7 +455,14 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			case 4:
 				$this->set_target_css_state('sort_love');
 				break;
+			case 5:
+				$this->set_target_css_state('sort_view');
+				break;
+			case 7:
+				$this->set_target_css_state('sort_update');
+				break;
 			default:
+                $this->set_target_css_state('sort_default');
 				break;
 		}
 		
