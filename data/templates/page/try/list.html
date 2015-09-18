@@ -110,6 +110,11 @@
                                     第 {{ t.season }} 期
                                 </span>
                                 {%endif%}
+    							{%if t.step_stat == 0%}
+    							<span class="ribbon recoe">
+    								预热中
+                                </span>
+    							{%endif%}
     							{%if t.step_stat == 1%}
     							<span class="ribbon apply">
     								申请中

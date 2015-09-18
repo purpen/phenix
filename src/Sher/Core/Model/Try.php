@@ -26,7 +26,7 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		'content' => '',
         # 第几期
         'season' => 0,
-        # 状态: 1,申请中, 2,审核中, 3.提交反馈, 5.结束
+        # 状态: 0.预热, 1,申请中, 2,审核中, 3.提交反馈, 5.结束
         'step_stat' => 0,
         
         # 标签
@@ -128,6 +128,9 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 
     if(isset($row['step_stat'])){
       switch((int)$row['step_stat']){
+        case 0:
+          $row['step_label'] = '预热';
+          break;
         case 1:
           $row['step_label'] = '申请中';
           break;

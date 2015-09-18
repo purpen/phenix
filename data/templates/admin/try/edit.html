@@ -400,6 +400,10 @@
 			<div class="grouped inline fields">
 				<div class="field">
 					<div class="ui radio checkbox">
+						<input type="radio" name="step_stat" value="0" {% if try.step_stat == 0 %}checked="checked"{% endif %} /> 
+						<label>预热</label>
+					</div>
+					<div class="ui radio checkbox">
 						<input type="radio" name="step_stat" value="1" {% if try.step_stat == 1 %}checked="checked"{% endif %} /> 
 						<label>申请中</label>
 					</div>
