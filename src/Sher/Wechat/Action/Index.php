@@ -30,12 +30,25 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 */
 	public function _init() {
 		$this->options = array(
-			'token'=>Doggy_Config::$vars['app.wechat.ser_token'],
-			'appid'=>Doggy_Config::$vars['app.wechat.ser_app_id'],
-			'appsecret'=>Doggy_Config::$vars['app.wechat.ser_app_secret'],
-			'partnerid'=>Doggy_Config::$vars['app.wechat.ser_partner_id'],
-			'partnerkey'=>Doggy_Config::$vars['app.wechat.ser_partner_key'],
-			'paysignkey'=>'' //商户签名密钥Key
+			
+			// 正式环境
+			'token'=>Doggy_Config::$vars['app.wechat.token'],
+			'appid'=>Doggy_Config::$vars['app.wechat.app_id'],
+			'appsecret'=>Doggy_Config::$vars['app.wechat.app_secret'],
+			
+			// 测试环境
+			//'token'=>Doggy_Config::$vars['app.wechat.token'],
+			//'appid'=>Doggy_Config::$vars['app.wechat.app_id'],
+			//'appsecret'=>Doggy_Config::$vars['app.wechat.app_secret'],
+			
+			'partnerid'=>Doggy_Config::$vars['app.wechat.partner_id'],
+			'partnerkey'=>Doggy_Config::$vars['app.wechat.partner_key'],
+			'paysignkey'=>Doggy_Config::$vars['app.wechat.paysign_key'],
+			
+			'key'=>Doggy_Config::$vars['app.wechat.key'],
+			'apiclient_cert'=>Doggy_Config::$vars['app.wechat.sslcert_path'],
+			'apiclient_key'=>Doggy_Config::$vars['app.wechat.sslkey_path'],
+			'rootca'=>Doggy_Config::$vars['app.wechat.rootca']
 		);
     }
 	
@@ -43,6 +56,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 * 微信入口
 	 */
 	public function execute(){
+		
 		Doggy_Log_Helper::warn("Get wexin request!");
 		
 		$weObj = new Sher_Core_Util_Wechat($this->options);
@@ -52,7 +66,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		$fromUserName = $weObj->getRev()->getRevFrom();
 		
 		Doggy_Log_Helper::warn("Get wexin type[$type], event[".$event['key']."], fromUserName[$fromUserName]!");
-//		Doggy_Log_Helper::warn("Get rev content [".json_encode($revcontent)."]!");
+		//Doggy_Log_Helper::warn("Get rev content [".json_encode($revcontent)."]!");
 		
 		$this->wx_open_id = $fromUserName;
 		
@@ -72,6 +86,13 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 				}elseif($content == '惊喜'){
 					$data = $this->node();
 					$result = $weObj->news($data)->reply(array(), true);
+				}elseif($content == '我要红包'){
+					$redEnvelope = new Sher_Core_Util_WechatRedEnvelope();
+					$result = $redEnvelope->payRedEnvelope($this->wx_open_id);
+					Doggy_Log_Helper::warn("我是[$this->wx_open_id], 快接收红包", $result);
+				}else{
+					$data = $this->welcome();
+					$result = $weObj->text($data)->reply(array(), true);
 				}
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_EVENT:
@@ -95,6 +116,8 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 				break;
 		}
 		
+		Doggy_Log_Helper::warn("Get wexin open_id[$this->wx_open_id], content[$revcontent]!");
+		
 		return $this->to_raw($result);
 	}
 	
@@ -102,7 +125,9 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 * 处理文本回复
 	 */
 	protected function handle_text($content, $rev_data=array()){
+		
 		Doggy_Log_Helper::warn("Handle wexin content[$content]!");
+		
 		// 转换为小写
 		$content = strtolower($content);
 		$result = array();
@@ -372,10 +397,9 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 * 查看菜单
 	 */
 	public function get_menu(){
+		
 		$we = new Sher_Core_Util_Wechat($this->options);
-		
 		$menu = $we->getMenu();
-		
 		print_r($menu);
 	}
 	
