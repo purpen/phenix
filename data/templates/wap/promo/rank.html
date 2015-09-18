@@ -312,6 +312,7 @@ p{
               <div id="comment-list" style="padding-bottom:20px;">
     <div class="ui threaded minimal is-comment comments">
       {% comment_list var:'comments' page:page target_id:1 type:10 size:size sort:sort check_loved:1 current_user_id:visitor.id %}
+      <div class="ui threaded minimal comments is-comment">
       {% for comment in comments.rows %}
       <div class="comment" id="{{ comment._id }}">
         <a class="avatar" href="{{ comment.user.home_url }}">
@@ -321,6 +322,7 @@ p{
           <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
           <div class="metadata">
             <div class="date">{{ comment.created_on }}</div>
+            <div>{{ comment.floor }}楼</div>
           </div>
 {% if !comment.deleted %}
           <div class="laud">
@@ -337,8 +339,11 @@ p{
             </a>          
             {%endif%}
           </div>
-{%endif%}
-          
+          {%endif%}
+          {% if comment.is_reply %}
+          <div  class="replytips"><i class="quote left icon"></i> 回复 #{{ comment.reply_comment.floor }} @<a class="ui link">{{ comment.reply_comment.user.nickname }}</a></div>
+
+          {%endif%}
           <div class="text">
             {% if comment.deleted==1 %}
               该内容已被屏蔽
@@ -349,7 +354,7 @@ p{
           {% if visitor.is_login %}
           <div class="actions">
             {% if !comment.deleted %}
-            <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
+            <a class="reply reply-btn" href="javascript:void(0);" comment_id="{{ comment._id }}" floor="{{ comment.floor|default 0 }}" comment_user_id="{{ comment.user_id }}" comment_user_name="{{ comment.user.nickname }}">回复</a>
             
             {% if visitor.can_admin %}
               <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">屏蔽</a>
@@ -358,7 +363,7 @@ p{
                 <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">屏蔽</a>
               {%endif%}
             {%endif%}
-          {%endif%}
+{%endif%}
           </div>
 
           {% endif %}
@@ -366,11 +371,12 @@ p{
     
       </div>
       {% endfor %}
+      </div>
     </div>
                   
-                {% if comment_list.total_rows %}
+                {% if comments.total_rows %}
                 <div class="ui pagination pagerbox">
-                  {% pager url:pager_url,total_rows:comment_list.total_rows,total_page:comment_list.total_page,current_page:page,var:'pager',pager_size:9 %}
+                  {% pager url:pager_url,total_rows:comments.total_rows,total_page:comments.total_page,current_page:page,var:'pager',pager_size:9 %}
                   {%include 'block/pager.html'%}
                 </div>
                 {% endif %}

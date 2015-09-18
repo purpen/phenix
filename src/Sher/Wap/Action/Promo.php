@@ -23,7 +23,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 * 2015 云马Ｃ1神嘴pk
 	 */
 	public function rank(){
-    $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 20;
+    $this->stash['size'] = isset($this->stash['size']) ? (int)$this->stash['size'] : 20;
 
     $dig_model = new Sher_Core_Model_DigList();
     $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_YMC1_01;
