@@ -79,6 +79,8 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
         $this->stash['page'] = $new_page;
     }
 
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.promo'].'/rank?page=#p##comment_top');
+		$this->stash['pager_url'] = $pager_url;
 
 		return $this->to_html_page('page/promo/rank.html');
 	}

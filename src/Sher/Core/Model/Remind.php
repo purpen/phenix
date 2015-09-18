@@ -136,7 +136,16 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
                       $c_type_str = '专辑';
                       break;
                     case 10:
-                      $r_obj = null;
+                      $url = '';
+                      switch((int)$obj['target_id']){
+                        case 1:
+                          $url = sprintf("%s/rank", Doggy_Config::$vars['app.url.promo']);
+                          break;
+                        case 2:
+                          $url = '';
+                          break;
+                      }
+                      $r_obj = array('comment_view_url'=>$url, 'comment_type'=>'subject');
                       $c_type_str = '专题';
                       break;
                   }
@@ -224,4 +233,4 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
     }
 	
 }
-?>
+
