@@ -795,6 +795,25 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
     return $code_ok;
   }
+
+  /**
+   * 评论参数
+   */
+  protected function _comment_param($options){
+        $this->stash['comment_target_id'] = $options['comment_target_id'];
+        $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
+        $this->stash['comment_type'] = $options['comment_type'];
+		// 评论的链接URL
+		$this->stash['pager_url'] = isset($options['comment_pager'])?$options['comment_pager']:0;
+
+        // 是否显示图文并茂
+        $this->stash['comment_show_rich'] = isset($options['comment_show_rich'])?$options['comment_show_rich']:0;
+		// 评论图片上传参数
+		$this->stash['comment_token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
+		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
+		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+  }
 	
 }
 
