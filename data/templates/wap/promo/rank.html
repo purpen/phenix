@@ -180,9 +180,7 @@ p{
       }
   })
 
-	phenix.hook_comment_page();
-  // 查看大图
-  phenix.comment_blow_up_img();
+	phenix.hook_comment_page('wap');
 
   // 支持左方铵钮
   $('.support-l-btn').click(function(){
@@ -207,20 +205,6 @@ p{
 
   });
 
-    // 绑定跳楼
-    $('.gotofloor').bind('keydown', function(e){
-        var floor = $(this).val(), max = parseInt($(this).data('max')), url = $(this).data('url');
-        if(e.keyCode == 13){
-            if (isNaN(floor)){
-                alert('必须输入一个数字！');
-                return false;
-            }
-            if (floor > max){
-                floor = max;
-            }
-            window.location.href = url + '?floor=' + floor + '#f' + floor;
-        }
-    });
 {% endblock %}
 {% block content %}
 <div id="srank">
@@ -312,6 +296,34 @@ p{
     <div class="ranklpro support-r-count">{{ count_02 }}</div>
     
   </div>
+
+				    <div class="block title">
+                  全部评论
+                  <small>（{{ comment_count }}）</small>
+             </div>
+            <div class="ui big reply segment">
+              <div class="fitsort">
+                  <div class="ui horizontal bulleted list">
+                      <a class="active item" href="javascript:void(0);" data-sort="0">默认</a>
+                      <a class="item" href="javascript:void(0);" data-sort="1">最新</a>
+                  </div>
+              </div>
+              <!--ajax comment-->
+              <div id="comment-list" style="padding-bottom:20px;">
+                    {% comment_list var:'comment_list' page:page size:size target_id:1 type:10 check_loved:1 current_user_id:visitor.id %}                {% for comment in comment_list.rows %}
+                      {%include 'block/comment_rank_item.html'%}
+                    {%endfor%}
+                  
+                {% if comment_list.total_rows %}
+                <div class="ui pagination pagerbox">
+                  {% pager url:pager_url,total_rows:comment_list.total_rows,total_page:comment_list.total_page,current_page:page,var:'pager',pager_size:9 %}
+                  {%include 'block/pager.html'%}
+                </div>
+                {% endif %}
+              
+              </div>
+              {% include "block/comment_box_wap.html" %}
+            </div>
   
 </div>
 {% endblock %}
