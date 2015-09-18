@@ -32,18 +32,23 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		$this->options = array(
 			
 			// 正式环境
-			//'token'=>Doggy_Config::$vars['app.wechat.ser_token'],
-			//'appid'=>Doggy_Config::$vars['app.wechat.ser_app_id'],
-			//'appsecret'=>Doggy_Config::$vars['app.wechat.ser_app_secret'],
-			
-			// 测试环境
 			'token'=>Doggy_Config::$vars['app.wechat.token'],
 			'appid'=>Doggy_Config::$vars['app.wechat.app_id'],
 			'appsecret'=>Doggy_Config::$vars['app.wechat.app_secret'],
 			
-			'partnerid'=>Doggy_Config::$vars['app.wechat.ser_partner_id'],
-			'partnerkey'=>Doggy_Config::$vars['app.wechat.ser_partner_key'],
-			'paysignkey'=>'' //商户签名密钥Key
+			// 测试环境
+			//'token'=>Doggy_Config::$vars['app.wechat.token'],
+			//'appid'=>Doggy_Config::$vars['app.wechat.app_id'],
+			//'appsecret'=>Doggy_Config::$vars['app.wechat.app_secret'],
+			
+			'partnerid'=>Doggy_Config::$vars['app.wechat.partner_id'],
+			'partnerkey'=>Doggy_Config::$vars['app.wechat.partner_key'],
+			'paysignkey'=>Doggy_Config::$vars['app.wechat.paysign_key'],
+			
+			'key'=>Doggy_Config::$vars['app.wechat.key'],
+			'apiclient_cert'=>Doggy_Config::$vars['app.wechat.sslcert_path'],
+			'apiclient_key'=>Doggy_Config::$vars['app.wechat.sslkey_path'],
+			'rootca'=>Doggy_Config::$vars['app.wechat.rootca']
 		);
     }
 	
@@ -81,6 +86,10 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 				}elseif($content == '惊喜'){
 					$data = $this->node();
 					$result = $weObj->news($data)->reply(array(), true);
+				}elseif($content == '我要红包'){
+					$redEnvelope = new Sher_Core_Util_WechatRedEnvelope();
+					$result = $redEnvelope->payRedEnvelope($this->wx_open_id);
+					Doggy_Log_Helper::warn("我是[$this->wx_open_id], 快接收红包", $result);
 				}else{
 					$data = $this->welcome();
 					$result = $weObj->text($data)->reply(array(), true);

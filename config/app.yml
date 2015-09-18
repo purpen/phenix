@@ -177,39 +177,34 @@ app.vote.lowest: 200
 app.presale.interval: 15
 app.presale.lowest: 10
 
-# 微信服务号token
-app.wechat.ser_token: '5382021d5771db562c1ce1de'
-app.wechat.ser_app_id: 'wx75a9ffb78f202fb3'
-app.wechat.ser_app_secret: 'f80ae853ef243f66284ad13781cb69de'
-app.wechat.ser_partner_id: '1219487201'
-app.wechat.ser_partner_key: '8db453c4e80d0c28aa5b4664e22ea013'
-app.wechat.ser_paysignkey: 'ArioxptbBJu25ANvabeBqavpE7diWUfTtDu1FCkt66Ojdzb1N3ajKoGAX3xdT3GIsj7C8g1pglSBVqaUNrqsoz5vfiASYrinEL4bAvuhTBgs1ZrdX7gJNgx8qgHBG0V4'
+# 微信服务号配置信息
+
+# 微信Token(令牌)
+app.wechat.token: '5382021d5771db562c1ce1de'
+# 微信APPID：绑定支付的APPID（必须配置，开户邮件中可查看）
+app.wechat.app_id: 'wx75a9ffb78f202fb3'
+# 微信APPSECRET：公众帐号secert（仅JSAPI支付的时候需要配置， 登录公众平台，进入开发者中心可设置）
+app.wechat.app_secret: 'f80ae853ef243f66284ad13781cb69de'
+# 微信MCHID：商户号（必须配置，开户邮件中可查看）
+app.wechat.partner_id: '1219487201'
+
+# 两个未知配置参数(待考证)
+app.wechat.partner_key: '8db453c4e80d0c28aa5b4664e22ea013'
+app.wechat.paysign_key: 'ArioxptbBJu25ANvabeBqavpE7diWUfTtDu1FCkt66Ojdzb1N3ajKoGAX3xdT3GIsj7C8g1pglSBVqaUNrqsoz5vfiASYrinEL4bAvuhTBgs1ZrdX7gJNgx8qgHBG0V4'
 
 # 微信支付
 
-# APPID：绑定支付的APPID（必须配置，开户邮件中可查看）
-app.wechat.appid: 'wx75a9ffb78f202fb3'
-  
-# MCHID：商户号（必须配置，开户邮件中可查看）
-app.wechat.mchid: '1219487201'
-  
 # KEY：商户支付密钥，参考开户邮件设置（必须配置，登录商户平台自行设置）
 app.wechat.key: '9E0530C588C8003395A929B0B94AC46B'
-  
-# APPSECRET：公众帐号secert（仅JSAPI支付的时候需要配置， 登录公众平台，进入开发者中心可设置）
-app.wechat.secret: 'f80ae853ef243f66284ad13781cb69de'
-  
 # 异步通知url
 app.wechat.notify_url: ''
-  
 # TODO：设置商户证书路径
 app.wechat.sslcert_path: '/opt/project/phenix/vendor/wechat_cert/apiclient_cert.pem'
 app.wechat.sslkey_path: '/opt/project/phenix/vendor/wechat_cert/apiclient_key.pem'
-  
+app.wechat.rootca: '/opt/project/phenix/vendor/wechat_cert/rootca.pem'
 # TODO：这里设置代理机器，只有需要代理的时候才设置，不需要代理，请设置为0.0.0.0和0
 app.wechat.proxy_host : "0.0.0.0"
 app.wechat.proxy_post : 0
-  
 # TODO：接口调用上报等级，默认紧错误上报（注意：上报超时间为【1s】，上报无论成败【永不抛出异常】
 app.wechat.report_levenl : 1
 
