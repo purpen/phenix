@@ -9,7 +9,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank');
 
 	
 	/**
@@ -17,6 +17,65 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 */
 	public function execute(){
 		//return $this->coupon();
+	}
+
+	/**
+	 * 2015 云马Ｃ1神嘴pk
+	 */
+	public function rank(){
+    $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 30;
+
+    $dig_model = new Sher_Core_Model_DigList();
+    $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_YMC1_01;
+
+    $this->stash['id'] = 1;
+    $this->stash['count_01'] = $count_01 = 0;
+    $this->stash['count_02'] = $count_02 = 0;
+    $this->stash['total_count'] = 0;
+    $this->stash['view_count'] = 0;
+    $this->stash['comment_count'] = 0;
+
+    $dig = $dig_model->load($dig_key);
+    if(empty($dig)){
+      $dig_model->update_set($dig_key, array('items.id'=>1, 'items.count_01'=>0, 'items.count_02'=>0, 'items.total_count'=>0, 'items.view_count'=>0, 'items.comment_count'=>0), true);     
+    }else{
+      $this->stash['count_01'] = $count_01 = $dig['items']['count_01'];
+      $this->stash['count_02'] = $count_02 = $dig['items']['count_02'];
+      $this->stash['total_count'] = $dig['items']['total_count'];
+      $this->stash['view_count'] = $dig['items']['view_count'];
+      $this->stash['comment_count'] = $dig['items']['comment_count'];
+    }
+
+    //  判断用户是否已投票
+    $this->stash['has_support'] = 0;
+    $this->stash['support_cid'] = 0;
+    if($this->visitor->id){
+      $mode_attend = new Sher_Core_Model_Attend();
+      $attend = $mode_attend->first(array('user_id'=>$this->visitor->id, 'target_id'=>1, 'event'=>5));
+      if(!empty($attend)){
+        $this->stash['has_support'] = 1;
+        $this->stash['support_cid'] = $attend['cid'];     
+      }   
+    }
+
+    // 增加浏览量
+    $dig_model->inc($dig_key, "items.view_count", 1);
+
+		// 评论参数
+		$comment_options = array(
+		  'comment_target_id' =>  1,
+		  'comment_target_user_id' => 0,
+		  'comment_type'  =>  10,
+		  'comment_pager' =>  '',
+		  //是否显示上传图片/链接
+		  'comment_show_rich' => 1,
+		);
+		$this->_comment_param($comment_options);
+
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.wap'].'/promo/rank?page=#p##comment_top');
+		$this->stash['pager_url'] = $pager_url;
+
+		return $this->to_html_page('wap/promo/rank.html');
 	}
 	
 	/**
