@@ -6,7 +6,7 @@
 class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	public $stash = array(
 		'page'=>1,
-    'size'=>10,
+    'size'=>30,
     'floor'=>0,
 	);
 	
@@ -24,6 +24,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	 */
 	public function rank(){
 		$this->set_target_css_state('page_social');
+    $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 30;
 
     $dig_model = new Sher_Core_Model_DigList();
     $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_YMC1_01;
@@ -75,7 +76,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
     // 跳转楼层
     $floor = (int)$this->stash['floor'];
     if($floor){
-        $new_page = ceil($floor/10);
+        $new_page = ceil($floor/$size);
         $this->stash['page'] = $new_page;
     }
 

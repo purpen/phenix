@@ -66,6 +66,12 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 			return $this->show_message_page('访问的公测产品不存在或已被删除！', $redirect_url);
 		}
 
+    // 不可申请状态
+    $this->stash['cannot_apply'] = false;
+    if($try['step_stat']==0){
+      $this->stash['cannot_apply'] = true;
+    }
+
         // 加载配图
         $img_asset = array();
         if(!empty($try['imgs'])){
@@ -160,6 +166,11 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 			// 验证是否结束
 			$try = new Sher_Core_Model_Try();
 			$row = $try->extend_load((int)$target_id);
+
+      // 预热状态不可申请
+			if($row['step_stat']==0){
+				return $this->ajax_modal('预热中是不能申请的！', true);
+			}
 			if($row['is_end']){
 				return $this->ajax_modal('抱歉，活动已结束，等待下次再来！', true);
 			}
