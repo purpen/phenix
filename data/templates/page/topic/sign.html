@@ -70,6 +70,7 @@
 }
 .ui.prize.list .ui.avatar.image{
   vertical-align: middle !important;
+  margin-right: 0.5em;
 }
 .ui.prize.list .content{
   margin-top:8px;
@@ -212,7 +213,7 @@
                   <tr id="sign-{{ sign._id }}" {% if sign.draw_evt==1 %}style="background: #f36; color:#fff;"{%endif%}>
                       <td>{{ sign.number_id }}</td>
                       <td>
-                        <a class="ui image link" href="{{ sign.user.home_url }}" target="_blank">
+                        <a class="ui image link" href="{{ sign.user.home_url }}" target="_blank" {% if sign.draw_evt==1 %}style="color:#fff;"{%endif%}>
                           {{ sign.user.nickname }}
                         </a>
                       </td>
