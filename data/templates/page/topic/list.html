@@ -98,7 +98,7 @@
     				{% endif %}
             
                     <!--分类列表-->
-    				{% topic_list var:'list' published:1 category_id:category_id is_top:is_top type:type time:time sort:sort page:page %}
+    				{% topic_list var:'list' published:1 category_id:category_id is_top:is_top type:type time:time sort:sort page:page size:20 %}
     				{% for topic in list.rows %}
     					{% if !topic.top %}<!--过滤置顶帖子-->
     						<!-- 判断话题是否可以显示 -->

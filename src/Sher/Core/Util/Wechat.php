@@ -459,32 +459,6 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 	}
 	
 	/**
-	 * 设置回复音乐
-	 * @param string $title
-	 * @param string $desc
-	 * @param string $musicurl
-	 * @param string $hgmusicurl
-	 */
-	public function music($title,$desc,$musicurl,$hgmusicurl='') {
-		$FuncFlag = $this->_funcflag ? 1 : 0;
-		$msg = array(
-			'ToUserName' => $this->getRevFrom(),
-			'FromUserName'=>$this->getRevTo(),
-			'CreateTime'=>time(),
-			'MsgType'=>self::MSGTYPE_MUSIC,
-			'Music'=>array(
-				'Title'=>$title,
-				'Description'=>$desc,
-				'MusicUrl'=>$musicurl,
-				'HQMusicUrl'=>$hgmusicurl
-			),
-			'FuncFlag'=>$FuncFlag
-		);
-		$this->Message($msg);
-		return $this;
-	}
-	
-	/**
 	 * 设置回复图文
 	 * @param array $newsData 
 	 * 数组结构:
@@ -510,6 +484,32 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 			'CreateTime'=>time(),
 			'ArticleCount'=>$count,
 			'Articles'=>$newsData,
+			'FuncFlag'=>$FuncFlag
+		);
+		$this->Message($msg);
+		return $this;
+	}
+	
+	/**
+	 * 设置回复音乐
+	 * @param string $title
+	 * @param string $desc
+	 * @param string $musicurl
+	 * @param string $hgmusicurl
+	 */
+	public function music($title,$desc,$musicurl,$hgmusicurl='') {
+		$FuncFlag = $this->_funcflag ? 1 : 0;
+		$msg = array(
+			'ToUserName' => $this->getRevFrom(),
+			'FromUserName'=>$this->getRevTo(),
+			'CreateTime'=>time(),
+			'MsgType'=>self::MSGTYPE_MUSIC,
+			'Music'=>array(
+				'Title'=>$title,
+				'Description'=>$desc,
+				'MusicUrl'=>$musicurl,
+				'HQMusicUrl'=>$hgmusicurl
+			),
 			'FuncFlag'=>$FuncFlag
 		);
 		$this->Message($msg);
@@ -1374,7 +1374,5 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 		}
 		return false;
 	}
-		
 }
-
 ?>

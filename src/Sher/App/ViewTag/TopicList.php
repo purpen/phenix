@@ -121,7 +121,7 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 				$query['created_on'] = array('$gte'=> time() - 30*$day);
 				break;
 			case 4:
-				$query['created_on'] = array('$gte'=> time() - 365*$day);
+				$query['created_on'] = array('$gte'=> time() - 90*$day);
 				break;
 		}
 		// 开始时间
@@ -187,4 +187,3 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
         }
     }
 }
-

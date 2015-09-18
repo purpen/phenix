@@ -21,12 +21,12 @@ class Sher_Core_Helper_Auth {
 	 */
 	public static function create_weixin_user($open_id, $scene_id=''){
 		$options = array(
-			'token'=>Doggy_Config::$vars['app.wechat.ser_token'],
-			'appid'=>Doggy_Config::$vars['app.wechat.ser_app_id'],
-			'appsecret'=>Doggy_Config::$vars['app.wechat.ser_app_secret'],
-			'partnerid'=>'',
-			'partnerkey'=>'',
-			'paysignkey'=>''
+			'token' => Doggy_Config::$vars['app.wechat.token'],
+			'appid' => Doggy_Config::$vars['app.wechat.app_id'],
+			'appsecret' => Doggy_Config::$vars['app.wechat.app_secret'],
+			'partnerid' => Doggy_Config::$vars['app.wechat.partner_id'],
+			'partnerkey' => Doggy_Config::$vars['app.wechat.partner_key'],
+			'paysignkey' => Doggy_Config::$vars['app.wechat.paysign_key'],
 		);
 		
 		// 检测是否存在用户
