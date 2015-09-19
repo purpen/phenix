@@ -268,10 +268,9 @@
 		 * 微信红包访问方法
 		 */
 		public function WechatRedEnvelope($open_id){
-			Doggy_Log_Helper::warn("我是[$this->wx_open_id], 快接收红包");
 			$redEnvelope = new Sher_Core_Util_WechatRedEnvelope();
 			$result = $redEnvelope->payRedEnvelope($open_id);
-			Doggy_Log_Helper::warn("我是[$this->wx_open_id], 快接收红包", $result);
+			return $result;
 		}
 	}
 
