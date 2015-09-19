@@ -268,6 +268,7 @@
 		 * 微信红包访问方法
 		 */
 		public function WechatRedEnvelope($open_id){
+			Doggy_Log_Helper::warn("我是".$open_id.", 我是在app下的支付类里面!");
 			$redEnvelope = new Sher_Core_Util_WechatRedEnvelope();
 			$result = $redEnvelope->payRedEnvelope($open_id);
 			return $result;

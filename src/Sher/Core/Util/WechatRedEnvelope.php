@@ -32,6 +32,7 @@
         */
         public function payRedEnvelope($re_openid)
         {
+            Doggy_Log_Helper::warn("我是".$re_openid.", 我在微信红包接口类里!");
             $this->parameters['nonce_str'] = $this->set_rand(32,true); // 随机字符串，不长于32位
             $this->parameters['sign'] = ''; // 签名字符串,长度32位
             $this->parameters['mch_billno'] = set_billno($re_openid); // 订单号
