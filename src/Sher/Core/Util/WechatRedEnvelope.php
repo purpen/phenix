@@ -34,7 +34,6 @@
         {
             Doggy_Log_Helper::warn("我是".$re_openid.", 我在微信红包接口类里!");
             $this->parameters['nonce_str'] = $this->set_rand(32,true); // 随机字符串，不长于32位
-            $this->parameters['sign'] = ''; // 签名字符串,长度32位
             $this->parameters['mch_billno'] = $this->set_billno($re_openid); // 订单号
             $this->parameters['mch_id'] = $this->partnerid; // 商户号
             $this->parameters['wxappid'] = $this->appid; // 公众账号appid
@@ -46,8 +45,6 @@
             $this->parameters['wishing'] = '感谢您参加猜灯谜活动，祝您生活愉快！'; // 红包祝福语
             $this->parameters['act_name'] = '红包活动'; // 商家活劢名称
             $this->parameters['remark'] = '快来抢！'; // 备注信息
-            
-            Doggy_Log_Helper::warn(json_encode($this->parameters));
             
             $postXml = $this->create_xml();
             $url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack';
@@ -61,7 +58,6 @@
         */
         protected function check_sign_parameters(){
             if($this->parameters["nonce_str"] == null ||
-                $this->parameters["sign"] == null ||
                 $this->parameters["mch_billno"] == null ||
                 $this->parameters["mch_id"] == null ||
                 $this->parameters["wxappid"] == null ||
@@ -86,7 +82,8 @@
         protected function create_xml(){
             try {
                 
-                $this->setParameter('sign', $this->get_sign());
+                $this->parameters['sign'] =  $this->get_sign(); // 签名字符串,长度32位
+                Doggy_Log_Helper::warn(json_encode($this->parameters));
                 return  $this->arrayToXml($this->parameters);
             
             }catch (Sher_Core_Model_Exception $e)
@@ -116,6 +113,29 @@
         }
         
         /**
+        * formatQueryParaMap 拼接字符串
+        * 格式:appid=wxd930ea5d5a258f4f&body=test&device_info=1000&mch_id=10000100&nonce_str=ibuaiVcKdpRxkhJA
+        * @param value
+        */
+        protected function formatQueryParaMap($paraMap, $urlencode){
+            $buff = "";
+            ksort($paraMap);
+            foreach ($paraMap as $k => $v){
+                if (null != $v && "null" != $v && "sign" != $k) {
+                    if($urlencode){
+                       $v = urlencode($v);
+                    }
+                    $buff .= $k . "=" . $v . "&";
+                }
+            }
+            $reqPar;
+            if (strlen($buff) > 0) {
+                $reqPar = substr($buff, 0, strlen($buff)-1);
+            }
+            return $reqPar;
+        }
+        
+        /**
         * 生成签名
         */
         protected function sign($content, $key) {
@@ -127,7 +147,7 @@
                    throw new Exception("签名内容不能为空" . "<br>");
                 }
                 $signStr = $content . "&key=" . $key;
-                return MD5($signStr).toUpperCase();
+                return strtoupper(md5($signStr));
             
             }catch (Sher_Core_Model_Exception $e)
             {
@@ -183,29 +203,6 @@
             }
             $xml.="</xml>";
             return $xml; 
-        }
-        
-        /**
-        * formatQueryParaMap 拼接字符串
-        * 格式:appid=wxd930ea5d5a258f4f&body=test&device_info=1000&mch_id=10000100&nonce_str=ibuaiVcKdpRxkhJA
-        * @param value
-        */
-        protected function formatQueryParaMap($paraMap, $urlencode){
-            $buff = "";
-            ksort($paraMap);
-            foreach ($paraMap as $k => $v){
-                if (null != $v && "null" != $v && "sign" != $k) {
-                    if($urlencode){
-                       $v = urlencode($v);
-                    }
-                    $buff .= $k . "=" . $v . "&";
-                }
-            }
-            $reqPar;
-            if (strlen($buff) > 0) {
-                $reqPar = substr($buff, 0, strlen($buff)-1);
-            }
-            return $reqPar;
         }
         
         /**
