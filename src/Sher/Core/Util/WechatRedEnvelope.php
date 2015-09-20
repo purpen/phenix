@@ -1,11 +1,12 @@
 <?php
     
     /**
+     *
      * 微信红包开发接口
      * @caowei caowei@taihuoniao.com
      * time:2015-9-17
-     */
-    
+     *
+    */
     class Sher_Core_Util_WechatRedEnvelope extends Doggy_Object {
         
         public $parameters = array(); // 微信红包接口参数
@@ -34,7 +35,7 @@
         {
             Doggy_Log_Helper::warn("我是".$re_openid.", 我在微信红包接口类里!");
             $this->parameters['nonce_str'] = $this->set_rand(32,true); // 随机字符串，不长于32位
-            $this->parameters['mch_billno'] = $this->set_billno($re_openid); // 订单号
+            $this->parameters['mch_billno'] = $this->set_billno($this->partnerid); // 订单号
             $this->parameters['mch_id'] = $this->partnerid; // 商户号
             $this->parameters['wxappid'] = $this->appid; // 公众账号appid
             $this->parameters['send_name'] = '太火鸟智能馆'; // 商户名称
@@ -47,9 +48,12 @@
             $this->parameters['remark'] = '快来抢！'; // 备注信息
             
             $postXml = $this->create_xml();
+            Doggy_Log_Helper::warn($postXml);
             $url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack';
             $responseXml = $this->curl_post_ssl($url, $postXml);
+            Doggy_Log_Helper::warn($responseXml);
             $responseObj = simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
+            Doggy_Log_Helper::warn($responseObj);
             return $responseObj->return_code;
         }
         
