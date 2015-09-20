@@ -10,18 +10,48 @@ class Sher_Core_Model_Space extends Sher_Core_Model_Base  {
     
 	const TYPE_IMAGE = 1;
 	const TYPE_TEXT  = 2;
-	const TYPE_INFO  = 3;
+  const TYPE_INFO  = 3;
+
+  const KIND_SITE = 1;
+  const KIND_WAP = 2;
+  const KIND_APP = 3;
+
+	// 用户身份
+	protected $kinds = array(
+		array(
+			'id' => self::KIND_SITE,
+			'name' => '电脑版'
+		),
+		array(
+			'id' => self::KIND_WAP,
+			'name' => '手机版'
+		),
+		array(
+			'id' => self::KIND_APP,
+			'name' => 'APP版'
+		),
+
+	);
 	
     protected $schema = array(
         'name' => '',
 		'title' => '',
         'type' => self::TYPE_INFO,
+        'kind' => self::KIND_SITE,
+        # 图片尺寸
+        'width' => 0,
+        'height' => 0,
     );
 	
     protected $required_fields = array('name','title');
-    protected $int_fields = array('type');
+    protected $int_fields = array('type', 'kind', 'width', 'height');
     
     protected function extra_extend_model_row(&$row) {
+
+      $row['kind_name'] = '';
+      if(isset($row['kind'])){
+        $row['kind_name'] = $this->find_kinds($row['kind']);
+      }
     	
     }
     
@@ -54,6 +84,21 @@ class Sher_Core_Model_Space extends Sher_Core_Model_Base  {
 		
 		return true;
 	}
+
+	/**
+	 * 获取kind类型选项
+	 */
+	public function find_kinds($id=0){
+		if($id){
+			for($i=0;$i<count($this->kinds);$i++){
+				if ($this->kinds[$i]['id'] == $id){
+					return $this->kinds[$i];
+				}
+			}
+			return '--';
+		}
+		return $this->kinds;
+	}
 	
 }
-?>
+
