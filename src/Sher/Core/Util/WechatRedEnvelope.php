@@ -10,7 +10,7 @@
         
         public $parameters = array(); // 微信红包接口参数
         
-        function __construct($options){
+        public function __construct($options){
             
             // 实例化对象初始化函数
             $this->token = isset($options['token']) ? $options['token'] : '';
@@ -35,10 +35,10 @@
             Doggy_Log_Helper::warn("我是".$re_openid.", 我在微信红包接口类里!");
             $this->parameters['nonce_str'] = $this->set_rand(32,true); // 随机字符串，不长于32位
             $this->parameters['sign'] = ''; // 签名字符串,长度32位
-            $this->parameters['mch_billno'] = set_billno($re_openid); // 订单号
+            $this->parameters['mch_billno'] = $this->set_billno($re_openid); // 订单号
             $this->parameters['mch_id'] = $this->partnerid; // 商户号
-            $this->parameters['wxappid'] = $this->mchid; // 公众账号appid
-            $this->parameters['send_name'] = ''; // 商户名称
+            $this->parameters['wxappid'] = $this->appid; // 公众账号appid
+            $this->parameters['send_name'] = '太火鸟智能馆'; // 商户名称
             $this->parameters['re_openid'] = $re_openid; // openid
             $this->parameters['total_amount'] = 100; // 付款金额，单位分
             $this->parameters['total_num'] = 1; // 红包収放总人数
@@ -46,7 +46,9 @@
             $this->parameters['wishing'] = '感谢您参加猜灯谜活动，祝您生活愉快！'; // 红包祝福语
             $this->parameters['act_name'] = '红包活动'; // 商家活劢名称
             $this->parameters['remark'] = '快来抢！'; // 备注信息
-           
+            
+            Doggy_Log_Helper::warn(json_encode($this->parameters));
+            
             $postXml = $this->create_xml();
             $url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack';
             $responseXml = $this->curl_post_ssl($url, $postXml);
@@ -57,7 +59,7 @@
         /**
         *  检测微信红包接口参数是否合法
         */
-        function check_sign_parameters(){
+        protected function check_sign_parameters(){
             if($this->parameters["nonce_str"] == null ||
                 $this->parameters["sign"] == null ||
                 $this->parameters["mch_billno"] == null ||
@@ -81,7 +83,7 @@
         /**
         * 生成红包接口XML信息
         */
-        function create_xml($retcode = 0, $reterrmsg = "ok"){
+        protected function create_xml(){
             try {
                 
                 $this->setParameter('sign', $this->get_sign());
@@ -116,7 +118,7 @@
         /**
         * 生成签名
         */
-        function sign($content, $key) {
+        protected function sign($content, $key) {
             try {
                 if (null == $key) {
                    throw new Exception("签名key不能为空！" . "<br>");
@@ -136,20 +138,20 @@
         /**
         * 微信商户订单号 - 最长28位字符串
         */
-        public function set_billno($mchid = NULL) {
+        protected function set_billno($mchid = NULL) {
             
             if(!$mchid){
                 return false;
             }
             
-            $data = $mchid.data('Ymd',time()).mt_rand(1000000000,9999999999);
+            $data = $mchid.date('Ymd',time()).mt_rand(1000000000,9999999999);
             return $data;
         }
         
         /**
         * 生成随机数
         */
-        public function set_rand($length = 16, $type = FALSE) {
+        protected function set_rand($length = 16, $type = FALSE) {
             $chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
             $str = "";
             for ($i = 0; $i < $length; $i++) {
@@ -166,7 +168,7 @@
         /**
         * 将数组转化成xml格式
         */
-        function arrayToXml($arr)
+        protected function arrayToXml($arr)
         {
             $xml = "<xml>";
             foreach ($arr as $key=>$val)
@@ -188,7 +190,7 @@
         * 格式:appid=wxd930ea5d5a258f4f&body=test&device_info=1000&mch_id=10000100&nonce_str=ibuaiVcKdpRxkhJA
         * @param value
         */
-        function formatQueryParaMap($paraMap, $urlencode){
+        protected function formatQueryParaMap($paraMap, $urlencode){
             $buff = "";
             ksort($paraMap);
             foreach ($paraMap as $k => $v){
@@ -210,7 +212,7 @@
         * trim 
         * @param value
         */
-        static function trimString($value){
+        protected function trimString($value){
             $ret = null;
             if (null != $value) {
                 $ret = $value;
@@ -224,7 +226,7 @@
         /**
         * 带有证书的接口访问方法
         */
-        function curl_post_ssl($url, $vars, $second=30, $aHeader=array())
+        protected function curl_post_ssl($url, $vars, $second=30, $aHeader=array())
         {
             $ch = curl_init();
             //超时时间
