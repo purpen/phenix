@@ -87,8 +87,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 					$data = $this->node();
 					$result = $weObj->news($data)->reply(array(), true);
 				}elseif($content == '我要红包'){
-					Doggy_Log_Helper::warn("我是[$this->wx_open_id], 快接收红包");
-					$redEnvelope = new Sher_App_Action_Wxpay();
+					$redEnvelope = new Sher_Core_Util_WechatRedEnvelope($this->options);
 					$result = $redEnvelope->payRedEnvelope($this->wx_open_id);
 					Doggy_Log_Helper::warn("我是[$this->wx_open_id], 快接收红包", $result);
 				}else{
