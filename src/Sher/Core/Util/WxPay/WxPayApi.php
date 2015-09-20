@@ -45,8 +45,8 @@ class Sher_Core_Util_WxPay_WxPayApi
 			$inputObj->SetNotify_url(Doggy_Config::$vars['app.wechat.notify_url']);//异步通知url
 		}
 		
-		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.appid']);//公众账号ID
-		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.mchid']);//商户号
+		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.app_id']);//公众账号ID
+		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.partner_id']);//商户号
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
 		
 		//签名
@@ -77,8 +77,8 @@ class Sher_Core_Util_WxPay_WxPayApi
 		if(!$inputObj->IsOut_trade_noSet() && !$inputObj->IsTransaction_idSet()) {
 			throw new Sher_Core_Util_WxPay_WxPayException("订单查询接口中，out_trade_no、transaction_id至少填一个！");
 		}
-		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.appid']);//公众账号ID
-		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.mchid']);//商户号
+		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.app_id']);//公众账号ID
+		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.partner_id']);//商户号
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
 		
 		$inputObj->SetSign();//签名
@@ -108,8 +108,8 @@ class Sher_Core_Util_WxPay_WxPayApi
 		if(!$inputObj->IsOut_trade_noSet()) {
 			throw new Sher_Core_Util_WxPay_WxPayException("订单查询接口中，out_trade_no必填！");
 		}
-		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.appid']);//公众账号ID
-		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.mchid']);//商户号
+		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.app_id']);//公众账号ID
+		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.partner_id']);//商户号
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
 		
 		$inputObj->SetSign();//签名
@@ -148,8 +148,8 @@ class Sher_Core_Util_WxPay_WxPayApi
 		}else if(!$inputObj->IsOp_user_idSet()){
 			throw new Sher_Core_Util_WxPay_WxPayException("退款申请接口中，缺少必填参数op_user_id！");
 		}
-		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.appid']);//公众账号ID
-		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.mchid']);//商户号
+		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.app_id']);//公众账号ID
+		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.partner_id']);//商户号
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
 		$inputObj->SetSign();//签名
 		
@@ -184,8 +184,8 @@ class Sher_Core_Util_WxPay_WxPayApi
 			!$inputObj->IsRefund_idSet()) {
 			throw new Sher_Core_Util_WxPay_WxPayException("退款查询接口中，out_refund_no、out_trade_no、transaction_id、refund_id四个参数必填一个！");
 		}
-		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.appid']);//公众账号ID
-		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.mchid']);//商户号
+		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.app_id']);//公众账号ID
+		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.partner_id']);//商户号
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
 		
 		$inputObj->SetSign();//签名
@@ -214,8 +214,8 @@ class Sher_Core_Util_WxPay_WxPayApi
 		if(!$inputObj->IsBill_dateSet()) {
 			throw new Sher_Core_Util_WxPay_WxPayException("对账单接口中，缺少必填参数bill_date！");
 		}
-		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.appid']);//公众账号ID
-		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.mchid']);//商户号
+		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.app_id']);//公众账号ID
+		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.partner_id']);//商户号
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
 		
 		$inputObj->SetSign();//签名
@@ -251,8 +251,8 @@ class Sher_Core_Util_WxPay_WxPayApi
 			throw new Sher_Core_Util_WxPay_WxPayException("提交被扫支付API接口中，缺少必填参数auth_code！");
 		}
 		
-		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.appid']);//公众账号ID
-		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.mchid']);//商户号
+		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.app_id']);//公众账号ID
+		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.partner_id']);//商户号
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
 		
 		$inputObj->SetSign();//签名
@@ -282,8 +282,8 @@ class Sher_Core_Util_WxPay_WxPayApi
 			throw new Sher_Core_Util_WxPay_WxPayException("撤销订单API接口中，参数out_trade_no和transaction_id必须填写一个！");
 		}
 		
-		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.appid']);//公众账号ID
-		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.mchid']);//商户号
+		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.app_id']);//公众账号ID
+		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.partner_id']);//商户号
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
 		
 		$inputObj->SetSign();//签名
@@ -322,8 +322,8 @@ class Sher_Core_Util_WxPay_WxPayApi
 		} if(!$inputObj->IsExecute_time_Set()) {
 			throw new Sher_Core_Util_WxPay_WxPayException("接口耗时，缺少必填参数execute_time_！");
 		}
-		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.appid']);//公众账号ID
-		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.mchid']);//商户号
+		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.app_id']);//公众账号ID
+		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.partner_id']);//商户号
 		$inputObj->SetUser_ip($_SERVER['REMOTE_ADDR']);//终端ip
 		$inputObj->SetTime(date("YmdHis"));//商户上报时间	 
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
@@ -351,8 +351,8 @@ class Sher_Core_Util_WxPay_WxPayApi
 			throw new Sher_Core_Util_WxPay_WxPayException("生成二维码，缺少必填参数product_id！");
 		}
 		
-		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.appid']);//公众账号ID
-		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.mchid']);//商户号
+		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.app_id']);//公众账号ID
+		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.partner_id']);//商户号
 		$inputObj->SetTime_stamp(time());//时间戳	 
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
 		
@@ -379,8 +379,8 @@ class Sher_Core_Util_WxPay_WxPayApi
 		if(!$inputObj->IsLong_urlSet()) {
 			throw new Sher_Core_Util_WxPay_WxPayException("需要转换的URL，签名用原串，传输需URL encode！");
 		}
-		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.appid']);//公众账号ID
-		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.mchid']);//商户号
+		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.app_id']);//公众账号ID
+		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.partner_id']);//商户号
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
 		
 		$inputObj->SetSign();//签名
@@ -453,11 +453,11 @@ class Sher_Core_Util_WxPay_WxPayApi
 	private static function reportCostTime($url, $startTimeStamp, $data)
 	{
 		//如果不需要上报数据
-		if((int)Doggy_Config::$vars['app.wechat.appid'] == 0){
+		if((int)Doggy_Config::$vars['app.wechat.app_id'] == 0){
 			return;
 		} 
 		//如果仅失败上报
-		if((int)Doggy_Config::$vars['app.wechat.appid'] == 1 &&
+		if((int)Doggy_Config::$vars['app.wechat.app_id'] == 1 &&
 			 array_key_exists("return_code", $data) &&
 			 $data["return_code"] == "SUCCESS" &&
 			 array_key_exists("result_code", $data) &&
