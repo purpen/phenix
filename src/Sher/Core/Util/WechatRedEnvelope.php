@@ -57,8 +57,8 @@
             // 判断是否发送红包成功
             if($responseObj->return_code == 'SUCCESS' && $responseObj->result_code == 'SUCCESS'){
                 $arr = $this->object_to_array($responseObj);
-                Doggy_Log_Helper::warn('result:'.json_encode($arr));
-                return true;
+                //Doggy_Log_Helper::warn('result:'.json_encode($arr));
+                return $arr;
             }
             
             return false;
