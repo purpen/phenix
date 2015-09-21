@@ -107,7 +107,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 					$result = $redEnvelope->payRedEnvelope($this->wx_open_id);
 					
 					// 将成功的结果保存到数据库
-					if($result){
+					if(count($result)){
 						Doggy_Log_Helper::warn("给用户[".$this->wx_open_id."]发送红包的结果是:".json_encode($result));
 					}
 				}else{

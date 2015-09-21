@@ -54,13 +54,13 @@
             $responseObj = simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
             
             // 判断是否发送红包成功
+            $arr = array();
             if($responseObj->return_code == 'SUCCESS' && $responseObj->result_code == 'SUCCESS'){
                 $arr = $this->object_to_array($responseObj);
                 //Doggy_Log_Helper::warn('result:'.json_encode($arr));
-                return $arr;
+                
             }
-            
-            return false;
+            return $arr;
         }
         
         /**
