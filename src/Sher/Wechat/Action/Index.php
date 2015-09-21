@@ -87,9 +87,29 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 					$data = $this->node();
 					$result = $weObj->news($data)->reply(array(), true);
 				}elseif($content == '我要红包'){
+					
+					/*
+					 * <xml>
+					 * <return_code><![CDATA[SUCCESS]]></return_code>
+					 * <return_msg><![CDATA[发放成功]]></return_msg>
+					 * <result_code><![CDATA[SUCCESS]]></result_code>
+					 * <mch_billno><![CDATA[1219487201201509215797813428]]></mch_billno>
+					 * <mch_id>1219487201</mch_id>
+					 * <wxappid><![CDATA[wx75a9ffb78f202fb3]]></wxappid>
+					 * <re_openid><![CDATA[oEjaBt4W3xwhr5WiwtFGSTcVDRPA]]></re_openid>
+					 * <total_amount>100</total_amount>
+					 * <send_listid><![CDATA[0010044308201509210223986084]]></send_listid>
+					 * d_time><![CDATA[20150921114932]]></send_time>
+					 * </xml>
+					 */
+					
 					$redEnvelope = new Sher_Core_Util_WechatRedEnvelope($this->options);
 					$result = $redEnvelope->payRedEnvelope($this->wx_open_id);
-					Doggy_Log_Helper::warn("给用户[".$this->wx_open_id."]发送红包的结果是:".json_encode($result));
+					
+					// 将成功的结果保存到数据库
+					if($result){
+						Doggy_Log_Helper::warn("给用户[".$this->wx_open_id."]发送红包的结果是:".json_encode($result));
+					}
 				}else{
 					$data = $this->welcome();
 					$result = $weObj->text($data)->reply(array(), true);
