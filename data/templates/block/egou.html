@@ -8,29 +8,29 @@
       {% if !visitor %}
     	{% if egou_show %}
           <!--  注册  -->
-          <a href="{{ app_url_register }}" title="注册" style="position: absolute;width: 230px;height: 60px;left: 310px;top: 310px;cursor: pointer;"><img src="{{ app_url_packaged }}/images/egsign.png" width="100%"></a>
+          <a href="{{ app_url_register }}" title="注册" style="position: absolute;width: 160px;height: 50px;left: 340px;top: 400px;cursor: pointer;"><img src="{{ app_url_packaged }}/images/egsign.png" width="100%"></a>
         {% else %}
           <!--  登录  -->
-          <a href="{{ app_url_login }}" title="登陆" style="position: absolute;width: 230px;height: 60px;left: 310px;top: 310px;cursor: pointer;"><img src="{{ app_url_packaged }}/images/eglogin.png" width="100%"></a>
+          <a href="{{ app_url_login }}" title="登陆" style="position: absolute;width: 160px;height: 50px;left: 340px;top: 400px;cursor: pointer;"><img src="{{ app_url_packaged }}/images/eglogin.png" width="100%"></a>
         {% endif %}
       {% endif %}
       
       <!--  邀请  -->
       {% if visitor %}
-        <a href="javascript:void(0)" title="{{ egou_finish }}" style="position: absolute;width: 230px;height: 60px;left: 310px;top: 310px;cursor: pointer;"><img src="{{ app_url_packaged }}/images/egapply.png" width="100%"></a>
+        <a href="javascript:void(0)" title="{{ egou_finish }}" style="position: absolute;width: 160px;height: 50px;left: 340px;top: 400px;cursor: default;"><img src="{{ app_url_packaged }}/images/egapply.png" width="100%"></a>
         
-        <div class="user share" style="position: absolute;top: 400px;left: 50%;margin-left: -94px;">
+        <div class="user share" style="position: absolute;top: 310px;left: 295px;width: 250px;">
           <a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn" style="margin:0 2px;">
-              <i class="weibo icon large circular red inverted"></i>
+              <i class="weibo icon big circular red inverted"></i>
           </a>
           <a href="javascript:void(0);" class="ui green egou icon btn" title="微信" style="margin:0 2px;">
-              <i class="weixin icon large circular green inverted"></i>
+              <i class="weixin icon big circular green inverted"></i>
           </a>
           <a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn" style="margin:0 2px;">
-              <i class="tencent weibo icon large circular blue inverted"></i>
+              <i class="tencent weibo icon big circular blue inverted"></i>
           </a>
           <a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn" style="margin:0 2px;">
-              <i class="icon renren large circular blue inverted"></i>
+              <i class="icon renren big circular blue inverted"></i>
           </a>
         </div>
         
