@@ -103,7 +103,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 					 * </xml>
 					 */
 					
-					//$model = new Sher_Core_Model_WechatRedEnvelope();
+					$model = new Sher_Core_Model_WechatRedEnvelope();
 					
 					// 访问发放红包类
 					$redEnvelope = new Sher_Core_Util_WechatRedEnvelope($this->options);
@@ -122,9 +122,13 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 						$date['openid'] = $result['re_openid'];
 						$date['total_amount'] = $result['total_amount'];
 						$date['send_listid'] = $result['send_listid'];
-						$date['send_listid'] = $result['send_listid'];
+						$date['send_time'] = $result['send_time'];
 						
 						Doggy_Log_Helper::warn("给用户[".$this->wx_open_id."]发送红包的结果是:".json_encode($date));
+						
+						$result = $model->create($date);
+						
+						Doggy_Log_Helper::warn("保存数据库的结果是:".json_encode($result));
 					}
 				}else{
 					$data = $this->welcome();
