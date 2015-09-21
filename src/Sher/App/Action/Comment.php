@@ -118,7 +118,6 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
             
             }
 
-
             $ok = $model->apply_and_save($row);
             if($ok){
                 $comment_id = $model->id;
