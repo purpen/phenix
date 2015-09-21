@@ -6,6 +6,7 @@
 class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public $stash = array(
 		'page'=>1,
+    'sort'=>0,
 	);
 	
 
@@ -23,7 +24,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 * 2015 云马Ｃ1神嘴pk
 	 */
 	public function rank(){
-    $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 30;
+    $this->stash['size'] = isset($this->stash['size']) ? (int)$this->stash['size'] : 20;
 
     $dig_model = new Sher_Core_Model_DigList();
     $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_YMC1_01;
@@ -72,7 +73,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		);
 		$this->_comment_param($comment_options);
 
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.wap'].'/promo/rank?page=#p##comment_top');
+		$pager_url = sprintf("%s/promo/rank?sort=%d&page=#p##comment_top", Doggy_Config::$vars['app.url.wap'], $this->stash['sort']);
 		$this->stash['pager_url'] = $pager_url;
 
 		return $this->to_html_page('wap/promo/rank.html');

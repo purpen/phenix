@@ -27,7 +27,7 @@
 			<div class="eleven wide column">
 				<div class="ui medium breadcrumb">
 				  	<a class="ui section link" href="{{ app_url_topic }}">
-						<i class="basic icon community"></i> 社区
+						<i class="home icon"></i> 社区
 					</a>
 				  	<i class="angle right icon divider"></i>
 				  	<a class="ui section link" href="{{ app_url_topic }}/c{{ subject_category._id }}">{{ subject_category.title }}</a>
@@ -46,10 +46,10 @@
 		
 		<div class="row">
 			<div class="column">
+				<h3 class="ui header">
+					所属试用
+				</h3>
 				<div class="ui segment">
-					<h3 class="ui dividing header">
-						所属试用
-					</h3>
 					<div class="ui grid">
 						<div class="row">
 							<div class="two wide column">
@@ -86,16 +86,8 @@
 					全部报告
 				</h3>
 				{% topic_list var:'list' published:1 page:page try_id:tid %}
-				<div class="ui segment">
-					<table class="ui basic sortable topic table">
-						<thead>
-							<tr>
-								<th>发布者</th>
-								<th>主题</th>
-								<th>最后回应</th>
-								<th>浏览数</th>
-							</tr>
-						</thead>
+				<div class="ui topics segment">
+					<table class="ui basic topic table">
 						<tbody class="ui topic list">
 							{% for topic in list.rows %}
 								<!-- 判断话题是否可以显示 -->

@@ -112,12 +112,12 @@ p{
   function support_event(cid){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
+		  phenix.redirect("{{ app_url_wap }}/auth/login");
 			return false;
 		}
 
     // 难证是否支持过
-    $.get("{{ app_url_domain_base }}/app/site/promo_func/ajax_attend", {target_id: 1, event: 5, cid: cid}, function(result){
+    $.get("{{ app_url_wap }}/app/site/promo_func/ajax_attend", {target_id: 1, event: 5, cid: cid}, function(result){
       if(result.success){
         // 已投票标识
         has_support = 1;
@@ -180,9 +180,7 @@ p{
       }
   })
 
-	phenix.hook_comment_page();
-  // 查看大图
-  phenix.comment_blow_up_img();
+	phenix.hook_comment_page('wap');
 
   // 支持左方铵钮
   $('.support-l-btn').click(function(){
@@ -207,20 +205,6 @@ p{
 
   });
 
-    // 绑定跳楼
-    $('.gotofloor').bind('keydown', function(e){
-        var floor = $(this).val(), max = parseInt($(this).data('max')), url = $(this).data('url');
-        if(e.keyCode == 13){
-            if (isNaN(floor)){
-                alert('必须输入一个数字！');
-                return false;
-            }
-            if (floor > max){
-                floor = max;
-            }
-            window.location.href = url + '?floor=' + floor + '#f' + floor;
-        }
-    });
 {% endblock %}
 {% block content %}
 <div id="srank">
@@ -312,6 +296,92 @@ p{
     <div class="ranklpro support-r-count">{{ count_02 }}</div>
     
   </div>
+            <a name="comment_top"></a>
+				    <div class="block title">
+                  全部评论
+                  <small>（{{ comment_count }}）</small>
+             </div>
+            <div class="ui big reply segment">
+              <div class="fitsort">
+                  <div class="ui horizontal bulleted list">
+                    <a class="item {% if sort==0 %}active{%endif%}" href="{{ app_url_wap }}/promo/rank?sort=0&page={{page}}">默认</a>
+                      <a class="item {% if sort==1 %}active{%endif%}" href="{{ app_url_wap }}/promo/rank?sort=1&page={{page}}" data-sort="1">最新</a>
+                  </div>
+              </div>
+              <!--ajax comment-->
+              <div id="comment-list" style="padding-bottom:20px;">
+      {% comment_list var:'comments' page:page target_id:1 type:10 size:size sort:sort check_loved:1 current_user_id:visitor.id %}
+      <div class="ui threaded minimal comments is-comment">
+      {% for comment in comments.rows %}
+      <div class="comment" id="{{ comment._id }}">
+        <a class="avatar" href="{{ comment.user.home_url }}">
+          <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
+        </a>
+        <div class="content">
+          <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
+          <div class="metadata">
+            <div class="date">{{ comment.created_on }}</div>
+            <div>{{ comment.floor }}楼</div>
+          </div>
+{% if !comment.deleted %}
+          <div class="laud">
+
+            {% if comment.is_loved %}
+            <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消喜欢" data-variation="inverted" >
+            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+              <i class="icon heart"></i>
+            </a>
+            {%else%}
+              <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
+            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+              <i class="icon empty heart"></i>
+            </a>          
+            {%endif%}
+          </div>
+          {%endif%}
+          {% if comment.is_reply %}
+          <div  class="replytips"><i class="quote left icon"></i> 回复 #{{ comment.reply_comment.floor }} @<a class="ui link">{{ comment.reply_comment.user.nickname }}</a></div>
+
+          {%endif%}
+          <div class="text">
+            {% if comment.deleted==1 %}
+              该内容已被屏蔽
+            {%else%}
+              {{ comment.content|safe }}
+            {%endif%}
+          </div>
+          {% if visitor.is_login %}
+          <div class="actions">
+            {% if !comment.deleted %}
+            <a class="reply reply-btn" href="javascript:void(0);" comment_id="{{ comment._id }}" floor="{{ comment.floor|default 0 }}" comment_user_id="{{ comment.user_id }}" comment_user_name="{{ comment.user.nickname }}">回复</a>
+            
+            {% if visitor.can_admin %}
+              <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">屏蔽</a>
+            {%else%}
+              {% if visitor.id==comment.user_id %}
+                <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">屏蔽</a>
+              {%endif%}
+            {%endif%}
+{%endif%}
+          </div>
+
+          {% endif %}
+        </div>
+    
+      </div>
+      {% endfor %}
+    </div>
+                  
+                {% if comments.total_rows %}
+                <div class="ui pagination pagerbox">
+                  {% pager url:pager_url,total_rows:comments.total_rows,total_page:comments.total_page,current_page:page,var:'pager',pager_size:9 %}
+                  {%include 'block/pager.html'%}
+                </div>
+                {% endif %}
+              
+              </div>
+              {% include "block/comment_box_wap.html" %}
+            </div>
   
 </div>
 {% endblock %}

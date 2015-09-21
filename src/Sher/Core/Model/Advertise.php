@@ -15,6 +15,11 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
 	const TYPE_URL  = 1;
 	const TYPE_ID   = 2;
 	const TYPE_WORD = 3;
+
+  # 来源
+  const KIND_SITE = 1;
+  const KIND_WAP = 2;
+  const KIND_APP = 3;
 	
 	# 显示方式
 	const MODE_IMAGE = 1;
@@ -40,7 +45,9 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
 		# 类型
 		'type' => self::TYPE_URL,
 		# 图片或文本显示方式
-		'mode' => self::MODE_TXTANDIMA,
+    'mode' => self::MODE_TXTANDIMA,
+    # 来源地
+    'kind' => 1,
 		
 		# 附件图片
 		'cover_id' => '',
@@ -59,7 +66,7 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
 	
     protected $required_fields = array('title', 'web_url');
 	
-    protected $int_fields = array('space_id', 'view_count', 'click_count', 'ordby', 'state', 'mode', 'b_color');
+    protected $int_fields = array('space_id', 'view_count', 'click_count', 'ordby', 'state', 'mode', 'b_color', 'kind');
     
 	
 	protected $joins = array(
@@ -135,4 +142,4 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
 	}
 	
 }
-?>
+

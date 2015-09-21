@@ -21,7 +21,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 	
 	public function _init() {
 		$this->set_target_css_state('page_sub_try');
-  }
+    }
 	
 	/**
 	 * 列表
@@ -36,9 +36,12 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 	public function get_list(){
 		$this->set_target_css_state('page_try');
 
-    $pager_url = sprintf("%s/list-c%d-t%d-s%d-p%s", Doggy_Config::$vars['app.url.try'], 0, 0, 0, '#p#');
+        $pager_url = sprintf("%s/list-c%d-t%d-s%d-p%s", Doggy_Config::$vars['app.url.try'], 0, 0, 0, '#p#');
 		
 		$this->stash['pager_url'] = $pager_url;
+        
+		// 评测报告分类
+		$this->stash['report_category_id'] = Doggy_Config::$vars['app.try.report_category_id'];
 		
 		return $this->to_html_page('page/try/list.html');
 	}
@@ -66,11 +69,11 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 			return $this->show_message_page('访问的公测产品不存在或已被删除！', $redirect_url);
 		}
 
-    // 不可申请状态
-    $this->stash['cannot_apply'] = false;
-    if($try['step_stat']==0){
-      $this->stash['cannot_apply'] = true;
-    }
+        // 不可申请状态
+        $this->stash['cannot_apply'] = false;
+        if($try['step_stat']==0){
+            $this->stash['cannot_apply'] = true;
+        }
 
         // 加载配图
         $img_asset = array();
@@ -149,7 +152,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
         }
 		
 		return $this->to_html_page($tpl);
-	}
+    }
 	
 	/**
 	 * 提交申请
@@ -205,16 +208,16 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		return $this->to_taconite_page('ajax/attend_ok.html');
 	}
 
-  /**
-   * 评论参数
-   */
-  protected function _comment_param($options){
+    /**
+     * 评论参数
+     */
+    protected function _comment_param($options){
         $this->stash['comment_target_id'] = $options['comment_target_id'];
         $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
         $this->stash['comment_type'] = $options['comment_type'];
 		// 评论的链接URL
 		$this->stash['pager_url'] = isset($options['comment_pager'])?$options['comment_pager']:0;
-
+        
         // 是否显示图文并茂
         $this->stash['comment_show_rich'] = isset($options['comment_show_rich'])?$options['comment_show_rich']:0;
 		// 评论图片上传参数
@@ -222,7 +225,6 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
 		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
 		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
-  }
+    }
 	
 }
-
