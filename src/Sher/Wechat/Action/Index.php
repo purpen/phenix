@@ -99,16 +99,32 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 					 * <re_openid><![CDATA[oEjaBt4W3xwhr5WiwtFGSTcVDRPA]]></re_openid>
 					 * <total_amount>100</total_amount>
 					 * <send_listid><![CDATA[0010044308201509210223986084]]></send_listid>
-					 * d_time><![CDATA[20150921114932]]></send_time>
+					 * <send_time><![CDATA[20150921114932]]></send_time>
 					 * </xml>
 					 */
 					
+					//$model = new Sher_Core_Model_WechatRedEnvelope();
+					
+					// 访问发放红包类
 					$redEnvelope = new Sher_Core_Util_WechatRedEnvelope($this->options);
 					$result = $redEnvelope->payRedEnvelope($this->wx_open_id);
 					
 					// 将成功的结果保存到数据库
 					if(count($result)){
-						Doggy_Log_Helper::warn("给用户[".$this->wx_open_id."]发送红包的结果是:".json_encode($result));
+						
+						$date = array();
+						$date['return_code'] = $result['return_code'];
+						$date['result_code'] = $result['result_code'];
+						$date['return_msg'] = $result['return_msg'];
+						$date['mch_billno'] = $result['mch_billno'];
+						$date['mch_id'] = $result['mch_id'];
+						$date['wxappid'] = $result['wxappid'];
+						$date['openid'] = $result['re_openid'];
+						$date['total_amount'] = $result['total_amount'];
+						$date['send_listid'] = $result['send_listid'];
+						$date['send_listid'] = $result['send_listid'];
+						
+						Doggy_Log_Helper::warn("给用户[".$this->wx_open_id."]发送红包的结果是:".json_encode($date));
 					}
 				}else{
 					$data = $this->welcome();
