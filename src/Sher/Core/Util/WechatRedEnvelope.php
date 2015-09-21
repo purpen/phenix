@@ -53,7 +53,8 @@
             $responseXml = $this->curl_post_ssl($url, $postXml);
             Doggy_Log_Helper::warn($responseXml);
             $responseObj = simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
-            Doggy_Log_Helper::warn($responseObj);
+            Doggy_Log_Helper::warn($responseObj->return_code);
+            Doggy_Log_Helper::warn($responseObj->result_code);
             return $responseObj->return_code;
         }
         
