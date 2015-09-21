@@ -26,7 +26,7 @@ class Sher_Core_Model_WechatRedEnvelope extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array();
-	protected $int_fields = array('type','user_id');
+	protected $int_fields = array();
 	protected $float_fields = array();
 	protected $counter_fields = array();
 	protected $retrieve_fields = array();

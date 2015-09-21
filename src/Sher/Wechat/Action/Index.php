@@ -116,12 +116,12 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 						$date['return_code'] = $result['return_code'];
 						$date['result_code'] = $result['result_code'];
 						$date['return_msg'] = $result['return_msg'];
-						$date['mch_billno'] = $result['mch_billno'];
-						$date['mch_id'] = $result['mch_id'];
+						$date['mch_billno'] = (int)$result['mch_billno'];
+						$date['mch_id'] = (int)$result['mch_id'];
 						$date['wxappid'] = $result['wxappid'];
 						$date['openid'] = $result['re_openid'];
-						$date['total_amount'] = $result['total_amount'];
-						$date['send_listid'] = $result['send_listid'];
+						$date['total_amount'] = (int)$result['total_amount'];
+						$date['send_listid'] = (int)$result['send_listid'];
 						$date['send_time'] = $result['send_time'];
 						
 						Doggy_Log_Helper::warn("给用户[".$this->wx_open_id."]发送红包的结果是:".json_encode($date));
