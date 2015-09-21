@@ -53,10 +53,11 @@
             $responseXml = $this->curl_post_ssl($url, $postXml);
             Doggy_Log_Helper::warn($responseXml);
             $responseObj = simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
-            Doggy_Log_Helper::warn('result:'.json_decode($responseObj,true));
             
             // 判断是否发送红包成功
             if($responseObj->return_code == 'SUCCESS' && $responseObj->result_code == 'SUCCESS'){
+                $arr = $this->object_to_array($responseObj);
+                Doggy_Log_Helper::warn('result:'.json_encode($arr));
                 return true;
             }
             
@@ -266,4 +267,21 @@
                 return false;
             }
         }
+        
+        /**
+         * 对象转关联数组
+         * @author
+         * @param object $obj
+         * @return array
+         */
+        protected function object_to_array($obj)
+        {
+            $_arr = is_object($obj) ? get_object_vars($obj) : $obj;
+            foreach ($_arr as $key => $val)
+            {
+                $val = (is_array($val) || is_object($val)) ? $this->object_to_array($val) : $val;
+                $arr[$key] = $val;
+            }
+            return $arr;
+        } 
     }
