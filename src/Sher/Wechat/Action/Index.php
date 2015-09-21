@@ -104,31 +104,35 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 					 */
 					
 					$model = new Sher_Core_Model_WechatRedEnvelope();
+					$redEnvelope = $model->find(array('openid'=>$this->wx_open_id));
 					
-					// 访问发放红包类
-					$redEnvelope = new Sher_Core_Util_WechatRedEnvelope($this->options);
-					$result = $redEnvelope->payRedEnvelope($this->wx_open_id);
-					
-					// 将成功的结果保存到数据库
-					if(count($result)){
+					if(!$redEnvelope){
+						// 访问发放红包类
+						$redEnvelope = new Sher_Core_Util_WechatRedEnvelope($this->options);
+						$result = $redEnvelope->payRedEnvelope($this->wx_open_id);
 						
-						$date = array();
-						$date['return_code'] = $result['return_code'];
-						$date['result_code'] = $result['result_code'];
-						$date['return_msg'] = $result['return_msg'];
-						$date['mch_billno'] = (int)$result['mch_billno'];
-						$date['mch_id'] = (int)$result['mch_id'];
-						$date['wxappid'] = $result['wxappid'];
-						$date['openid'] = $result['re_openid'];
-						$date['total_amount'] = (int)$result['total_amount'];
-						$date['send_listid'] = (int)$result['send_listid'];
-						$date['send_time'] = $result['send_time'];
-						
-						Doggy_Log_Helper::warn("给用户[".$this->wx_open_id."]发送红包的结果是:".json_encode($date));
-						
-						$result = $model->create($date);
-						
-						Doggy_Log_Helper::warn("保存数据库的结果是:".json_encode($result));
+						// 将成功的结果保存到数据库
+						if(count($result)){
+							
+							$date = array();
+							$date['return_code'] = $result['return_code'];
+							$date['result_code'] = $result['result_code'];
+							$date['return_msg'] = $result['return_msg'];
+							$date['mch_billno'] = (int)$result['mch_billno'];
+							$date['mch_id'] = (int)$result['mch_id'];
+							$date['wxappid'] = $result['wxappid'];
+							$date['openid'] = $result['re_openid'];
+							$date['total_amount'] = (int)$result['total_amount'];
+							$date['send_listid'] = (int)$result['send_listid'];
+							$date['send_time'] = $result['send_time'];
+							
+							Doggy_Log_Helper::warn("给用户[".$this->wx_open_id."]发送红包的结果是:".json_encode($date));
+							$result = $model->create($date);
+							Doggy_Log_Helper::warn("保存数据库的结果是:".json_encode($result));
+						}
+					}else{
+						$text = $this->redmsg();
+						$result = $weObj->text($text)->reply(array(), true);
 					}
 				}else{
 					$data = $this->welcome();
@@ -315,6 +319,14 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		}
 		
 		return $result_text;
+	}
+	
+	/**
+	 * 联系我们
+	 */
+	protected function redmsg(){
+		$contact = '您已经领取过了红包,请勿重复领取!';
+		return $contact;
 	}
 	
 	/**
