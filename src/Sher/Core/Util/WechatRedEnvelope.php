@@ -53,9 +53,15 @@
             $responseXml = $this->curl_post_ssl($url, $postXml);
             Doggy_Log_Helper::warn($responseXml);
             $responseObj = simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
-            Doggy_Log_Helper::warn($responseObj->return_code);
-            Doggy_Log_Helper::warn($responseObj->result_code);
-            return $responseObj->return_code;
+            Doggy_Log_Helper::warn('return_code:'.$responseObj->return_code);
+            Doggy_Log_Helper::warn('result_code:'.$responseObj->result_code);
+            
+            // 判断是否发送红包成功
+            if($responseObj->return_code == 'SUCCESS' && $responseObj->result_code == 'SUCCESS'){
+                return true;
+            }
+            
+            return false;
         }
         
         /**
