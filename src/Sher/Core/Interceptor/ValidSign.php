@@ -11,7 +11,7 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 
         // 判断是否验证签名
         $is_validate_sign = (int)Doggy_Config::$vars['app.api.is_validate_sign'];
-        if(empty($is_validate_sign){
+        if(empty($is_validate_sign)){
           return $invocation->invoke();
         }
 
