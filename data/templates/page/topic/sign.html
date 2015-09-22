@@ -37,6 +37,7 @@
 }
 .sign.user .mine .author {
     margin-left: 20px;
+    position:relative;
 }
 .sign.user .mine .ui.button {
     margin-left: 50px;
@@ -74,6 +75,12 @@
 }
 .ui.prize.list .content{
   margin-top:8px;
+}
+.mine .author img.image-HV{
+  left: 40px;
+  top: 35px;
+  width: 1.2rem !important;
+  height: 1.2rem !important;
 }
 </style>
 {% endblock %}
@@ -121,7 +128,7 @@
                 	<img src="{{ user.small_avatar_url }}" class="ui small avatar image" />
                     <label>{{ user.screen_name }}</label>
                     {% if user.symbol %}
-					<img src="{{ app_url_packaged }}/images/V.png" class="image-V{%if user.symbol==2%} blue{%endif%}">
+					<img src="{{ app_url_packaged }}/images/V.png" class="image-HV{%if user.symbol==2%} blue{%endif%}">
 			        {%endif%}
                 </div>
                 

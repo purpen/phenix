@@ -41,7 +41,7 @@ while(!$is_end){
 	for ($i=0; $i < $max; $i++) {
     $id = (string)$list[$i]['_id'];
     if(!isset($list[$i]['only_index']) || empty($list[$i]['only_index'])){
-      $ok = $model->update_set($id, array('only_index'=>md5(sprintf("%s_%s", (string)$list[$i]['day'], (string)$list[$i]['user_id']))));
+      //$ok = $model->update_set($id, array('only_index'=>md5(sprintf("%s_%s", (string)$list[$i]['day'], (string)$list[$i]['user_id']))));
       if($ok){
         echo "ok: $id. \n";
         $total++;
