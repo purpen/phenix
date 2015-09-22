@@ -9,10 +9,12 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 	 */
     public function intercept(Doggy_Dispatcher_ActionInvocation $invocation) {
 
-      // 判断是否验证签名
-      if(empty(int(Doggy_Config::$vars['app.api.is_validate_sign'])){
-        return $invocation->invoke();
-      }
+        // 判断是否验证签名
+        $is_validate_sign = (int)Doggy_Config::$vars['app.api.is_validate_sign'];
+        if(empty($is_validate_sign){
+          return $invocation->invoke();
+        }
+
         $action  = $invocation->getAction();
         $request = $invocation->getInvocationContext()->getRequest();
         if ($action instanceof Sher_Core_Action_Funnel) {
