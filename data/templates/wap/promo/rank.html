@@ -415,7 +415,7 @@ p{
           <div  class="replytips"><i class="quote left icon"></i> 回复 #{{ comment.reply_comment.floor }} @<a class="ui link">{{ comment.reply_comment.user.nickname }}</a></div>
 
           {%endif%}
-          <div class="text">
+          <div class="text" {%if comment.sku_id==1%}style="color:red;"{%endif%}{%if comment.sku_id==2%}style="color:blue;"{%endif%}>
             {% if comment.deleted==1 %}
               该内容已被屏蔽
             {%else%}
