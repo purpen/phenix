@@ -101,4 +101,4 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 	}
 	
 }
-?>
+

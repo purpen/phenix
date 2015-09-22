@@ -33,20 +33,39 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 		// 请求参数
 		$space_id = isset($this->stash['space_id']) ? $this->stash['space_id'] : 0;
 		$name = isset($this->stash['name']) ? $this->stash['name'] : '';
+    $category_name = isset($this->stash['category_name']) ? $this->stash['category_name'] : '';
 		if(empty($name) && empty($space_id)){
 			return $this->api_json('请求参数不足', 3000);
 		}
 		
 		// 获取某位置的推荐内容
-		if(!empty($name) && empty($space_id)){
+    if(!empty($name) && empty($space_id)){
 			$model = new Sher_Core_Model_Space();
-			$row = $model->first(array('name' => $name));
-			if(!empty($row)){
-				$space_id = (int)$row['_id'];
-			}else{
-				return $this->api_json('请求参数不足', 3002);
-			}
+      if(!empty($category_name)){
+        $c_name = sprintf("%s_%s", $name, $category_name);
+			  $row = $model->first(array('name' => $c_name));
+        if(!empty($row)){
+          $space_id = (int)$row['_id'];
+        }else{
+          $row = $model->first(array('name' => $name));
+          if(!empty($row)){
+            $space_id = (int)$row['_id'];
+          }else{
+            return $this->api_json('请求参数不足', 3002);
+          }
+        }
+      }else{
+        $row = $model->first(array('name' => $name));
+        if(!empty($row)){
+          $space_id = (int)$row['_id'];
+        }else{
+          return $this->api_json('请求参数不足', 3002);
+        }
+      }
+
 		}
+
+    // 
 		
 		$query   = array();
 		$options = array();
@@ -69,8 +88,8 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 
     //显示的字段
     $options['some_fields'] = array(
-      '_id'=> 1, 'title'=>1, 'space_id'=>1, 'sub_title'=>1, 'web_url'=>1, 'summary'=>1, 'cover_id'=>1, 'type'=>1, 'ordby'=>1,
-      'created_on'=>1,
+      '_id'=> 1, 'title'=>1, 'space_id'=>1, 'sub_title'=>1, 'web_url'=>1, 'summary'=>1, 'cover_id'=>1, 'type'=>1, 'ordby'=>1, 'kind'=>1,
+      'created_on'=>1, 'state'=>1
     );
 
 		// 重建数据结果

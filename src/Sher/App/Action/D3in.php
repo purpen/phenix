@@ -9,7 +9,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base implements DoggyX_Action
     'size'=>50,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'active','tool','member','volunteer','buy','hardware','partner1','partner2','partner3','partner4');
+	protected $exclude_method_list = array('execute', 'coupon', 'active','tool','member','volunteer','buy','hardware','partner1','partner2','partner3','partner4','partner5');
 	
 	public function _init() {
 		$this->set_target_css_state('page_d3in');
@@ -63,6 +63,13 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base implements DoggyX_Action
 	 */
 	public function partner4(){
 		return $this->to_html_page('page/d3in/partner-4.html');
+	}
+	
+	/**
+	 * d3in 合作伙伴
+	 */
+	public function partner5(){
+		return $this->to_html_page('page/d3in/partner-5.html');
 	}
 	
 	/**

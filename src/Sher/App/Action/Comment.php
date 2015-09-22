@@ -107,6 +107,17 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		
         try{
 		        $model = new Sher_Core_Model_Comment();
+
+            // 如果是神嘴争霸，验证用户是否首次评论
+            $this->stash['rank_has_first_comment'] = false;
+            if($row['type']==Sher_Core_Model_Comment::TYPE_SUBJECT && (int)$row['target_id']==1){
+              $has_comment = $model->count(array('type'=>$row['type'], 'target_id'=>$row['target_id'], 'user_id'=>$row['user_id']));
+              if($has_comment==0){
+                $this->stash['rank_has_first_comment'] = true;
+              }
+            
+            }
+
             $ok = $model->apply_and_save($row);
             if($ok){
                 $comment_id = $model->id;
