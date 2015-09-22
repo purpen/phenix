@@ -25,13 +25,13 @@ echo "fix user sign stat only index ...\n";
 
 $model = new Sher_Core_Model_UserSignStat();
 $page = 1;
-$size = 200;
+$size = 1000;
 $is_end = false;
 $total = 0;
 $fail_total = 0;
 while(!$is_end){
 	$query = array();
-	$options = array('field' => array('page'=>$page,'size'=>$size));
+	$options = array('page'=>$page,'size'=>$size);
 	$list = $model->find($query, $options);
 	if(empty($list)){
 		echo "get user_sign_stat list is null,exit......\n";
