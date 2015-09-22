@@ -715,6 +715,7 @@
     </div>
     <div class="mainright">
         {% include "page/topic/usersign.html" %}
+        {% if !editable %}
         <div class="ui sticky">
             <div class="sellwrap">
                 <div class="user action">
@@ -758,13 +759,14 @@
                 </div>
             </div>
         </div>
+        {% endif %}
         {% include "page/topic/rightbar.html" %}
         {% include "page/topic/stick_list.html" %}
         {% include "page/topic/adwrap.html" %}
         
         {% if editable %}
-        <div class="sellwrap admin">
-			<div class="ui icon green hide editable buttons">
+        <div class="sellwrap admin ui sticky">
+			<div class="ui icon green editable buttons">
             {% if visitor.can_edit %}
                 {% if visitor.is_admin %}
 					{% if topic.top == 1 %}
