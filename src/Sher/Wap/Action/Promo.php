@@ -30,25 +30,17 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       return $this->to_redirect($redirect_url);      
     }
 
-    $user_invite_id, array('count'=>1, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C')
-
     $user_id = $this->visitor->id;
-    $x_name = 'SQR';
+    $xname = 'SQR';
 
     // 获取红包
     $bonus = new Sher_Core_Model_Bonus();
     $result_code = $bonus->pop($xname);
-
-    // 专属商品ID
-    $product_id = 0;
-    if(isset($options['product_id'])){
-      $product_id = (int)$options['product_id'];
-    }
     
     // 获取为空，重新生产红包
     while(empty($result_code)){
       //指定生成红包
-      $bonus->create_specify_bonus(5, $x_name, 'C', 'C', 0);
+      $bonus->create_specify_bonus(5, $xname, 'C', 'C', 0);
       $result_code = $bonus->pop($xname);
       // 跳出循环
       if(!empty($result_code)){
