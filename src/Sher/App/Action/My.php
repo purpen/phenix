@@ -657,7 +657,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	        //更新基本信息
 	        $ok = $this->visitor->save($user_info);
             if($ok){
-                if(!empty($user_info['address']) && !empty($user_info['city']) && !empty($profile['phone']) && !empty($profile['realname']) && !empty($user_info['summary'])){
+                if(!empty($user_info['address']) && !empty($profile['phone']) && !empty($profile['realname'])){
                     if($this->stash['user']['first_login'] == 1){
                         // 增加积分
                         $service = Sher_Core_Service_Point::instance();
