@@ -20,6 +20,14 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		//return $this->coupon();
 	}
 
+  /**
+   * 手机扫码送红包
+   */
+  public function fetch_bonus(){
+    $redirect_url = Doggy_Config::$vars['app.url.wap'].'/my/bonus'; 
+    return $this->to_redirect($redirect_url); 
+  }
+
 	/**
 	 * 2015 云马Ｃ1神嘴pk
 	 */
