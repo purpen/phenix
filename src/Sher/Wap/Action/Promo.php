@@ -27,14 +27,22 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 
     if(!$this->visitor->id){
       $redirect_url = Doggy_Config::$vars['app.url.wap'].'/auth/login'; 
-      return $this->to_redirect($redirect_url);      
+      echo '<script>window.location="'. $redirect_url .'"</script>';exit;
     }
+    $redirect_url = Doggy_Config::$vars['app.url.wap'].'/my/bonus'; 
 
     $user_id = $this->visitor->id;
     $xname = 'SQR';
 
     // 获取红包
     $bonus = new Sher_Core_Model_Bonus();
+
+    // 先判断用户是否领取过该红包
+    $has_one = $bonus->first(array('user_id'=>$user_id, 'xname'=>'SQR'));
+    if($has_one){
+      return $this->to_redirect($redirect_url);   
+    }
+
     $result_code = $bonus->pop($xname);
     
     // 获取为空，重新生产红包
@@ -51,8 +59,6 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     // 赠与红包 使用默认时间30天
     $end_time = 0;
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
-
-    $redirect_url = Doggy_Config::$vars['app.url.wap'].'/my/bonus'; 
     return $this->to_redirect($redirect_url); 
   }
 
