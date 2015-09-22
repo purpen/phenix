@@ -152,5 +152,37 @@ class Sher_Admin_Action_UserSignIn extends Sher_Admin_Action_Base implements Dog
     }
   }
 
+	/**
+	 * 删除每日统计
+	 */
+	public function deleted_sign_stat(){
+		$id = isset($this->stash['id'])?$this->stash['id']:0;
+		if(empty($id)){
+			return $this->ajax_note('内容不存在！', true);
+		}
+		
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
+		
+		try{
+			$model = new Sher_Core_Model_UserSignStat();
+			
+			foreach($ids as $id){
+				$sign_stat = $model->load($id);
+				
+        if (!empty($sign_stat)){
+		      $model->remove($id);
+			    $model->mock_after_remove($id, $sign_stat);
+				}
+			}
+			
+			$this->stash['ids'] = $ids;
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_note('操作失败,请重新再试', true);
+		}
+		
+		return $this->to_taconite_page('ajax/delete.html');
+	}
+
 }
 
