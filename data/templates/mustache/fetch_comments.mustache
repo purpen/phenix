@@ -14,13 +14,13 @@
         {{^is_deleted}}
         <div class="laud">
             {{#is_loved}}
-            <a class="ui link icon pop ajax" href="{{ phenix.app_url_action_base }}/comment/ajax_cancel_laud?id={{ _id }}" id="laud_{{ _id}}" data-content="取消点赞" data-variation="inverted" >
+            <a class="ui link icon pop ajax" href="/comment/ajax_cancel_laud?id={{ _id }}" id="laud_{{ _id}}" data-content="取消点赞" data-variation="inverted" >
                 <span class="love-count">{{#is_love_count}}{{ love_count }}{{/is_love_count}}</span>
                 <i class="icon heart"></i>
             </a>
             {{/is_loved}}
             {{^is_loved}}
-            <a class="ui link icon pop ajax" href="{{ phenix.app_url_action_base }}/comment/ajax_laud?id={{ _id }}" id="laud_{{ _id}}" data-content="点赞" data-variation="inverted" >
+            <a class="ui link icon pop ajax" href="/comment/ajax_laud?id={{ _id }}" id="laud_{{ _id}}" data-content="点赞" data-variation="inverted" >
                 <span class="love-count">{{#is_love_count}}{{ love_count }}{{/is_love_count}}</span>
                 <i class="icon empty heart"></i>
             </a>          

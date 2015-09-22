@@ -109,11 +109,11 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		        $model = new Sher_Core_Model_Comment();
 
             // 如果是神嘴争霸，验证用户是否首次评论
-            $this->stash['rank_has_first_comment'] = false;
+            $rank_has_first_comment = $this->stash['rank_has_first_comment'] = false;
             if($row['type']==Sher_Core_Model_Comment::TYPE_SUBJECT && (int)$row['target_id']==1){
               $has_comment = $model->count(array('type'=>$row['type'], 'target_id'=>$row['target_id'], 'user_id'=>$row['user_id']));
               if($has_comment==0){
-                $this->stash['rank_has_first_comment'] = true;
+                $rank_has_first_comment = $this->stash['rank_has_first_comment'] = true;
               }
             
             }
@@ -152,12 +152,6 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 			$this->stash['note'] = $e->getMessage();
             return $this->ajax_json($e->getMessage(), true);  
         }
-
-        if($from_to == 'wap'){
-            return $this->to_taconite_page('ajax/comment_wap_ok.html'); 
-        }
-
-
 
         //加载赞
         $favorite = new Sher_Core_Model_Favorite();
@@ -229,10 +223,12 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         }
 
         $comment['from_site'] = $from_to;
+
+        // 神嘴争霸wap 以后去掉
+        $comment['rank_has_first_comment'] = $rank_has_first_comment;
         
         return $this->ajax_json('', false, '', $comment);
 
-        //return $this->to_taconite_page('ajax/comment_ok.html');
 	}
 	
 	/**
