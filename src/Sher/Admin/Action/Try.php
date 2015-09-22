@@ -286,7 +286,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
    * 支持名单
    */
   public function vote_list(){
-    $pager_url = Doggy_Config::$vars['app.url.admin_base'].'/try/vote_list?apply_id=%s&page=#p#'
+    $pager_url = Doggy_Config::$vars['app.url.admin_base'].'/try/vote_list?apply_id=%s&page=#p#';
 		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['apply_id']);
  		return $this->to_html_page('admin/try/vote_list.html'); 
   }
