@@ -14,8 +14,9 @@
         <i class="icon empty heart"></i>
       </a> 
     </div>
-
+      {{#is_reply}}
       <div>回复 #{{ reply_comment.floor }} @<a href="javascript:void(0);" class="ui link">{{ reply_comment.user.nickname }}</a></div>
+    {{/is_reply}}
 
     <div class="text">
       {{ &content }}
