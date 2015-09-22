@@ -292,6 +292,11 @@ p{
           fetch_present(l_count, r_count+1);
         }
 
+        // 分享
+        		$('.ui.share.modal')
+		          .modal('setting', 'transition', 'vertical  flip')
+		          .modal('show');
+
       }else{
         phenix.show_error_note(result.message);
         return;
@@ -379,6 +384,10 @@ p{
             window.location.href = url + '?floor=' + floor + '#f' + floor;
         }
     });
+
+	phenix.bind_share_list();
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/rank'});
 {% endblock %}
 {% block content %}
 <div id="srank">
@@ -514,4 +523,7 @@ p{
     </div>
   </div>
 </div>
+
+{% include "block/sharebox.html" %}
+{% include "block/qrcode.html" %}
 {% endblock %}

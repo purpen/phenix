@@ -16,8 +16,6 @@ class Sher_Core_Model_UserSignStat extends Sher_Core_Model_Base  {
     'day' => 0, //格式 20150501
     // 当天第N位签到
     'sign_no' => 0,
-    // 当天签到时间
-    'sign_time' => 0,
 
     'week' => 0, //格式 20151
     # 是否当前周最终统计
@@ -63,7 +61,10 @@ class Sher_Core_Model_UserSignStat extends Sher_Core_Model_Base  {
     'draw_evt' => self::DRAW_EVT_DEFAULT,
     'draw_txt' => '',
     'draw_time' => 0,
-  	);
+
+    # 用户ID与当前时间生成唯一索引
+    'only_index' => null,
+  );
 
   protected $required_fields = array('user_id','day');
 
@@ -87,6 +88,13 @@ class Sher_Core_Model_UserSignStat extends Sher_Core_Model_Base  {
 
 		return true;
 	}
+
+  /**
+   * 保存前事件
+   */
+  protected function before_save(&$data) {
+
+  }
 
   /**
    * 保存后事件

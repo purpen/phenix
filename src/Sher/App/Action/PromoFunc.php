@@ -53,7 +53,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
       }
       $dig_model->inc($dig_key, 'items.total_count', 1);
 
-      return $this->ajax_json('感谢支持!', false, '', $data);
+      return $this->ajax_json('支持成功，赶快评论赢取奖品！', false, '', $data);
     }else{
       return $this->ajax_json('哟，出问题了!', true);     
     }

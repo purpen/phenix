@@ -9,6 +9,7 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
 		'page' => 1,
 		'size' => 20,
     's' => 'money',
+    'user_id' => 0,
 	);
 
 	/**
@@ -24,7 +25,7 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
 	public function point_record_list() {
         $this->set_target_css_state('point');
         $this->set_target_css_state('page_point_list');
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/point/record_list?page=#p#');
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/point/record_list?user_id=%d&page=#p#', $this->stash['user_id']);
 		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('admin/point/point_record_list.html');
 	}

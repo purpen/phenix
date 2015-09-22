@@ -50,6 +50,13 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
 		// $row['user'] = &DoggyX_Model_Mapper::load_model($row['_id'], 'Sher_Core_Model_User');
 	}
 
+  /**
+   * 保存前事件
+   */
+  protected function before_save(&$data) {
+
+  }
+
 	/**
 	 * 删除后事件
 	 */
