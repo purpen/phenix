@@ -10,7 +10,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus');
 
 	
 	/**
@@ -24,6 +24,42 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
    * 手机扫码送红包
    */
   public function fetch_bonus(){
+
+    if(!$this->visitor->id){
+      $redirect_url = Doggy_Config::$vars['app.url.wap'].'/auth/login'; 
+      return $this->to_redirect($redirect_url);      
+    }
+
+    $user_invite_id, array('count'=>1, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C')
+
+    $user_id = $this->visitor->id;
+    $x_name = 'SQR';
+
+    // 获取红包
+    $bonus = new Sher_Core_Model_Bonus();
+    $result_code = $bonus->pop($xname);
+
+    // 专属商品ID
+    $product_id = 0;
+    if(isset($options['product_id'])){
+      $product_id = (int)$options['product_id'];
+    }
+    
+    // 获取为空，重新生产红包
+    while(empty($result_code)){
+      //指定生成红包
+      $bonus->create_specify_bonus(5, $x_name, 'C', 'C', 0);
+      $result_code = $bonus->pop($xname);
+      // 跳出循环
+      if(!empty($result_code)){
+        break;
+      }
+    }
+    
+    // 赠与红包 使用默认时间30天
+    $end_time = 0;
+    $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
+
     $redirect_url = Doggy_Config::$vars['app.url.wap'].'/my/bonus'; 
     return $this->to_redirect($redirect_url); 
   }

@@ -31,6 +31,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
     'ZP', # 招聘H5分享
     'QX', # 七夕注册送红包100 满299可用
     'JBL' # 七夕敦请送JBL指定红包
+    'SQR' # 扫码送30元红包
 	);
 	
     protected $schema = array(
