@@ -364,8 +364,8 @@ p{
       <a class="pklbtn support-r-btn" data-cid="2" href="javascript:void(0);"></a>
       
     </div>
-    <div class="rankhpro support-l-count">{{ count_01 }}</div>
-    <div class="ranklpro support-r-count">{{ count_02 }}</div>
+    <div class="rankhpro support-l-count support-l-btn" data-cid="1">{{ count_01 }}</div>
+    <div class="ranklpro support-r-count support-r-btn" data-cid="2">{{ count_02 }}</div>
     
   </div>
             <a name="comment_top"></a>
@@ -445,7 +445,7 @@ p{
     </div>
                   
                 {% if comments.total_rows %}
-                <div class="ui pagination pagerbox">
+                <div class="ui pagination pagerbox" style="text-align:center;">
                   {% pager url:pager_url,total_rows:comments.total_rows,total_page:comments.total_page,current_page:page,var:'pager',pager_size:9 %}
                   {%include 'block/pager.html'%}
                 </div>
