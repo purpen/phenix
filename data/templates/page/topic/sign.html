@@ -2,6 +2,13 @@
 {% block title %}每日签到-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+#signlist .ui.secondary.pointing.menu{
+  margin-bottom:0;
+}
+#signlist .ui.secondary.pointing.menu > .ui.celled.table{
+  margin-top:0;
+  border:none;
+}
 .sign.user {
     border-radius: 4px;
     color: rgb(255, 255, 255);
@@ -169,7 +176,7 @@
                     {%endif%}
                 </div>
                 
-            	<table class="ui very basic celled table">
+            	<table class="ui celled table">
             		<thead>
             			<tr>
             				<th>排名</th>
