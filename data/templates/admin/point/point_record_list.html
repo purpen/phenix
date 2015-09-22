@@ -12,7 +12,7 @@
 		<a class="{{ css_point }} item" href="{{ app_url_admin }}/point/point_record_list">积分记录</a>
 		<a class="{{ css_event }} item" href="{{ app_url_admin }}/point/event_record_list">事件记录</a>
 	</div>
-	{% point_record_list var:'list' page:page size:50  %}
+	{% point_record_list var:'list' user_id:user_id page:page size:50  %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>
