@@ -715,8 +715,7 @@
     </div>
     <div class="mainright">
         {% include "page/topic/usersign.html" %}
-        {% if !editable %}
-        <div class="ui sticky">
+        <div class="ui {% if !editable %} sticky {% endif %}">
             <div class="sellwrap">
                 <div class="user action">
                     <p>关注&分享话题</p>
@@ -759,7 +758,6 @@
                 </div>
             </div>
         </div>
-        {% endif %}
         {% include "page/topic/rightbar.html" %}
         {% include "page/topic/stick_list.html" %}
         {% include "page/topic/adwrap.html" %}
