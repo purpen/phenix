@@ -51,15 +51,26 @@
                                   {{#step_ready}}
                                     预热中 敬请期待!
                                   {{/step_ready}}
-                                  {{^step_ready}}
-                                    {{#step_ing}}
-                                    <i class="calendar icon"></i> 试用名单公布：<span> {{ publish_time }}</span>
-                                    {{/step_ing}}
+                                  {{#step_ing}}
+                                  <i class="calendar icon"></i> 试用名单公布：<span> {{ publish_time }}</span>
+                                  {{/step_ing}}
+                                  {{#step_verify}}
+                                    试用报告正在回收中...
+                                  {{/step_verify}}
 
-                                    {{^step_ing}}
-                                    <i class="tasks icon"></i> 试用评测报告：已有<span> {{ pass_count }}</span> 份
-                                    {{/step_ing}}
-                                  {{/step_ready}}
+                                  {{#step_recover}}
+                                    {{#has_report}}
+                                      <i class="tasks icon"></i> 试用评测报告：已有<span> {{ report_count }}</span> 份
+                                    {{/has_report}}
+                                    {{^has_report}}
+                                      试用报告正在回收中...
+                                    {{/has_report}}
+                                  {{/step_recover}}
+
+                                  {{#step_over}}
+                                    <i class="tasks icon"></i> 试用评测报告：已有<span> {{ report_count }}</span> 份
+                                  {{/step_over}}
+
                                 </div>
                             </div>
 

@@ -419,6 +419,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
         for($i=0;$i<count($result['rows']);$i++){
           $step_stat = isset($result['rows'][$i]['step_stat']) ? $result['rows'][$i]['step_stat'] : 0;
           $result['rows'][$i]['step_ing'] = $result['rows'][$i]['step_verify'] = $result['rows'][$i]['step_recover'] = $result['rows'][$i]['step_no'] = $result['rows'][$i]['step_over'] = false;
+          
           switch($step_stat){
             case 0: //预热
               $result['rows'][$i]['step_ready'] = true;
@@ -439,6 +440,9 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
               $result['rows'][$i]['step_over'] = true;
               break;
           }
+
+          // 是否有试用报告
+          $result['rows'][$i]['has_report'] = empty($result['rows'][$i]['report_count']) ? false : true;
 
           // 过滤用户表
           if(isset($result['rows'][$i]['user'])){
