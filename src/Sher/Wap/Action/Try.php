@@ -122,8 +122,16 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 
     // 不可申请状态
     $this->stash['cannot_apply'] = false;
+    // 是否已想要
+    $this->stash['is_want'] = false;
     if($try['step_stat']==0){
       $this->stash['cannot_apply'] = true;
+      if($this->visitor->id){
+        $attend_model = new Sher_Core_Model_Attend();
+        $is_want = $attend_model->check_signup($this->visitor->id, $try['_id'], Sher_Core_Model_Attend::EVENT_TRY_WANT);
+        if($is_want) $this->stash['is_want'] = true;
+      }
+        
     }
 
     //添加网站meta标签

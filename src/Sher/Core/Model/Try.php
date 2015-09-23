@@ -60,6 +60,9 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
         'invented_apply_count' => 0,
 		# 申请通过的人员
 		'pass_users' => array(),
+
+    # 预热想要数量
+    'want_count' => 0,
 		
 		# 参与方式
 		'join_away' => self::JOIN_FREE_AWAY,
@@ -102,7 +105,7 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	
     protected $int_fields = array('user_id', 'product_id', 'sticked', 'join_away', 'try_count', 'apply_count', 'pass_count', 'season', 'step_stat', 'invented_apply_count', 'apply_term');
 	
-	protected $counter_fields = array('view_count', 'love_count', 'comment_count', 'apply_count', 'invented_apply_count');
+	protected $counter_fields = array('view_count', 'love_count', 'comment_count', 'apply_count', 'invented_apply_count', 'want_count');
 	/**
 	 * 扩展关联数据
 	 */

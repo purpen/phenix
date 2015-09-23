@@ -70,31 +70,39 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		}
 
         // 不可申请状态
-        $this->stash['cannot_apply'] = false;
-        if($try['step_stat']==0){
-            $this->stash['cannot_apply'] = true;
-        }
+    $this->stash['cannot_apply'] = false;
+    // 是否已想要
+    $this->stash['is_want'] = false;
+    if($try['step_stat']==0){
+      $this->stash['cannot_apply'] = true;
+      if($this->visitor->id){
+        $attend_model = new Sher_Core_Model_Attend();
+        $is_want = $attend_model->check_signup($this->visitor->id, $try['_id'], Sher_Core_Model_Attend::EVENT_TRY_WANT);
+        if($is_want) $this->stash['is_want'] = true;
+      }
+        
+    }
 
-        // 加载配图
-        $img_asset = array();
-        if(!empty($try['imgs'])){
-            $asset_model = new Sher_Core_Model_Asset();
-            foreach($try['imgs'] as $k=>$v){
-                if(!empty($v)){
-                    $asset = $asset_model->extend_load($v);
-                    if($asset){
-                        $img_asset[$k] = $asset;
-                    }
+    // 加载配图
+    $img_asset = array();
+    if(!empty($try['imgs'])){
+        $asset_model = new Sher_Core_Model_Asset();
+        foreach($try['imgs'] as $k=>$v){
+            if(!empty($v)){
+                $asset = $asset_model->extend_load($v);
+                if($asset){
+                    $img_asset[$k] = $asset;
                 }
             }
         }
+    }
 
-        // 添加网站meta标签
-        $this->stash['page_title_suffix'] = sprintf("%s-新品试用-太火鸟智能硬件孵化平台", $try['title']);
-        if(!empty($try['tags'])){
-            $this->stash['page_keywords_suffix'] = sprintf("太火鸟,智能硬件,智能硬件孵化平台,新品试用,%s,产品评测", $try['tags'][0]);   
-        }
-        $this->stash['page_description_suffix'] = sprintf("【免费】申请%s试用，发表产品评测，更多智能硬件使用，就在太火鸟智能硬件孵化平台。", $try['short_title']);
+    // 添加网站meta标签
+    $this->stash['page_title_suffix'] = sprintf("%s-新品试用-太火鸟智能硬件孵化平台", $try['title']);
+    if(!empty($try['tags'])){
+        $this->stash['page_keywords_suffix'] = sprintf("太火鸟,智能硬件,智能硬件孵化平台,新品试用,%s,产品评测", $try['tags'][0]);   
+    }
+    $this->stash['page_description_suffix'] = sprintf("【免费】申请%s试用，发表产品评测，更多智能硬件使用，就在太火鸟智能硬件孵化平台。", $try['short_title']);
 		
 		// 增加pv++
 		$model->increase_counter('view_count', 1, $id);
@@ -245,5 +253,45 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
 		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
     }
+
+
+  /**
+   * 预热预约提醒
+   *
+   */
+  public function want_attend(){
+    $try_id = isset($this->stash['try_id']) ? (int)$this->stash['try_id'] : 0;
+    if(empty($try_id)){
+      return $this->ajax_json('缺少请求参数!', true);
+    }
+		$try_model = new Sher_Core_Model_Try();
+		$try = $try_model->load($try_id);
+    if(empty($try)){
+      return $this->ajax_json('试用产品不存在!', true);
+    }
+    if($try['step_stat'] != 0){
+      return $this->ajax_json('不是预热状态!', true);
+    }
+    
+    $attend_model = new Sher_Core_Model_Attend();
+    $is_want = $attend_model->check_signup($this->visitor->id, $try_id, Sher_Core_Model_Attend::EVENT_TRY_WANT);
+    if($is_want){
+      return $this->ajax_json('已经预约过!', true);
+    }
+
+    $data = array(
+      'user_id' => $this->visitor->id,
+      'target_id' => $try_id,
+      'event'  => Sher_Core_Model_Attend::EVENT_TRY_WANT,
+    );
+
+    $ok = $attend_model->create($data);
+    if($ok){
+      return $this->ajax_json('操作成功!', false, '', $data);
+    }else{
+      return $this->ajax_json('操作失败！', true);   
+    }
+  
+  }
 	
 }

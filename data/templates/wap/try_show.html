@@ -344,6 +344,20 @@
     $('.support-btn').click(function(){
       phenix.redirect("{{ app_url_wap }}/try/apply_success?apply_id={{ apply._id }}");
     });
+
+    // 想要
+    $('.want_btn').click(function(){
+      var url = "{{ app_url_wap }}/app/site/try/want_attend";
+      $.post(url, {try_id: {{ try._id }}, type: 1}, function(result){
+        if(result.success){
+          phenix.show_ok_note(result.message);
+          $('.want_btn').removeClass('want_btn').find('i').removeClass('empty').siblings('span').text('已想要');
+
+        }else{
+          phenix.show_error_note(result.message);
+        }
+      }, 'json');
+    });
 {% endblock %}
 
 {% block content %}
@@ -528,9 +542,15 @@
 	<div class="layer">
 
     {% if try.step_stat==0 %}
-      <a href="javascript:void(0);" class="ui magenta active inverted button">
-        <!--<i class="ticket icon"></i>--> 预热中
-      </a>
+      {% if is_want %}
+        <a href="javascript:void(0);" class="ui magenta active inverted button">
+          <i class="heart icon"></i><span> 已想要</span>
+        </a>
+      {%else%}
+        <a href="javascript:void(0);" class="ui magenta active inverted button want_btn">
+          <i class="heart empty icon"></i><span> 我想要</span>
+        </a>
+      {%endif%}
     {%else%}
       {% if !try.is_end %}
         {% if is_applied %}
@@ -551,8 +571,11 @@
 
     {%endif%}
 
-		
-	  {% if !try.is_end %}剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %}结束时间：{{ try.end_time }}{% endif %}</div>
+    {% if try.step_stat==0 %}
+      预热中，敬请期待
+    {%else%}
+	    {% if !try.is_end %}剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %}结束时间：{{ try.end_time }}{% endif %}</div>
+    {%endif%}
 	</div>
 	
 </div>
