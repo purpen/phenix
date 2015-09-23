@@ -39,6 +39,7 @@
 				<th>试用数量</th>
 				<th>申请人数</th>
 				<th>活动时间</th>
+        <th>申请条件</th>
         <th>推荐</th>
         <th>状态</th>
 				<th>管理操作</th>
@@ -80,6 +81,17 @@
 						{% endif %}
 					</p>
 				</td>
+        <td>
+          {% if t.apply_term==0 %}
+            --
+          {%endif%}
+          {% if t.apply_term==1 %}
+            {{ t.term_count }} 等级
+          {%endif%}
+          {% if t.apply_term==2 %}
+            {{ t.term_count }} 鸟币
+          {%endif%}
+        </td>
 				<td>
 					<p>
 						{% if t.sticked %}

@@ -16,6 +16,11 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	## 状态
 	const STATE_DRAFT = 0;
 	const STATE_PUBLISH = 1;
+
+  ## 申请限制
+  const APPLY_TERM_NO = 0;  // 不限制
+  const APPLY_TERM_LEVEL = 1; // 等级限制
+  const APPLY_TERM_MONEY = 2; //  鸟币限制
 	
     protected $schema = array(
 		'title' => '',
@@ -74,6 +79,11 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
             'qr_ios' => null,
             'qr_android' => null,
         ),
+
+    # 申请限制开关
+        'apply_term' => self::APPLY_TERM_NO,
+    # 限制条件，比如等级和鸟币
+        'term_count' => 0,
 		
 		# 设置推荐
 		'sticked' => 0,
@@ -90,7 +100,7 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	
     protected $required_fields = array('title', 'user_id');
 	
-    protected $int_fields = array('user_id', 'product_id', 'sticked', 'join_away', 'try_count', 'apply_count', 'pass_count', 'season', 'step_stat', 'invented_apply_count');
+    protected $int_fields = array('user_id', 'product_id', 'sticked', 'join_away', 'try_count', 'apply_count', 'pass_count', 'season', 'step_stat', 'invented_apply_count', 'apply_term');
 	
 	protected $counter_fields = array('view_count', 'love_count', 'comment_count', 'apply_count', 'invented_apply_count');
 	/**

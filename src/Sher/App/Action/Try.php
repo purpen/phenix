@@ -177,6 +177,25 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 			if($row['is_end']){
 				return $this->ajax_modal('抱歉，活动已结束，等待下次再来！', true);
 			}
+
+      // 是否符合申请条件
+      if(isset($row['apply_term']) && !empty($row['apply_term'])){
+        if($row['apply_term']==1){  // 等级
+          $user_model = new Sher_Core_Model_User();
+          $user = $user_model->extend_load((int)$user_id);
+          if((int)$user['ext_state']['rank_id'] < (int)$row['term_count']){
+            return $this->ajax_modal('您的等级不能申请当前试用产品！', true);
+          }
+        }elseif($row['apply_term']==2){ // 鸟币
+          // 用户实时积分
+          $point_model = new Sher_Core_Model_UserPointBalance();
+          $current_point = $point_model->load((int)$user_id);
+          if($current_point['balance']['money'] < (int)$row['term_count']){
+            return $this->ajax_modal('您的鸟币数量不足，不能申请当前试用产品！', true);         
+          }
+        }
+        
+      }
 			
 			// 检测是否已提交过申请
 			$model = new Sher_Core_Model_Apply();
