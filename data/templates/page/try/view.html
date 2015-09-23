@@ -277,6 +277,7 @@
                     </div>
                     {%else%}
                       <h4>预热中...敬请期待!</h4>
+                      {% if try.want_count %}<div class="">有 <b>{{ try.want_count }}</b> 人想要</div>{%endif%}
                     {%endif%}
 				</div>
 			</div>
