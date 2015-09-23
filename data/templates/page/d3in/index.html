@@ -137,48 +137,6 @@
     border-top-left-radius: 0.285714rem;
     border-top-right-radius: 0.285714rem;
 }
-
-@-webkit-keyframes fadeInDown { 
-    0% { 
-        opacity: 0; 
-        -webkit-transform: translateY(-400px); 
-    } 
-    50%{
-       opacity: 0.3; 
-    }
-    100% { 
-        opacity: 1; 
-        -webkit-transform: translateY(0); 
-    } 
-} 
-@keyframes fadeInDown { 
-    0% { 
-        opacity: 0; 
-        transform: translateY(-400px); 
-    } 
-    50%{
-       opacity: 0.3; 
-    }
-    100% { 
-        opacity: 1; 
-        transform: translateY(0); 
-    } 
-} 
-.fadeInDown{ 
-    opacity: 0; 
-    -webkit-transform: translateY(-400px); 
-    transform: translateY(-400px);
-}
-.fadeInDown.animated { 
-    -webkit-animation-name: fadeInDown; 
-    animation-name: fadeInDown; 
-}
-.animated { 
-    -webkit-animation-duration: 0.8s; 
-    animation-duration: 0s; 
-    -webkit-animation-fill-mode: both; 
-    animation-fill-mode: both; 
-}
 .ui.grid>.row>[class*="two wide"].column{
   width:16.5% !important;
 }
@@ -213,22 +171,31 @@ h3 .d3word span{
   line-height:6px;
   vertical-align:top;
 }
+.lab.fixed{
+  position: fixed; 
+  z-index: 100; 
+  background: rgb(255, 255, 255);
+  top:0;
+  margin-top:-100%;
+  color:#444 !important;
+  transition: all 1s 0s ease;
+  -moz-transition: all 1s 0s ease; 
+  -webkit-transition: all 1s 0s ease;
+  -o-transition: all 1s 0s ease;
+}
+.d3in .lab.submenu.fixed a.ui.line{
+  color:#444;
+}
 </style>
 {% endblock %}
 {% block jquery %}
 	$(window).scroll(function(){
 	    var scrollTop = $(window).scrollTop();
-			if(scrollTop >125 ){
-				$('.lab.submenu').css({"background":"#fff","position":"fixed","z-index":"100"});
-				$('.lab.submenu h3,.d3in .lab.submenu a.ui.line').css('color','#444');
-				$('.lab.submenu').addClass('fadeInDown animated');
-				$('.d3in .ui.title').css('padding-top','180px');
+			if(scrollTop >160 ){
+				$('.lab.fixed').css('margin-top','0');
 			}
-			if(scrollTop < 125){
-				$('.lab.submenu').css({"background":"auto","position":"auto","color":"auto"});
-				$('.lab.submenu h3,.d3in .lab.submenu a.ui.line').css('color','auto');
-				$('.lab.submenu').removeClass('fadeInDown animated');
-				$('.d3in .ui.title').css('padding-top','8rem');
+			if(scrollTop < 160){
+			  $('.lab.fixed').css('margin-top','-100%');
 			}
 	})
 {% endblock %}
@@ -246,7 +213,19 @@ h3 .d3word span{
 					</div>
 				</div>
 			</div>
-		</div>
+			
+		  <div class="lab submenu fixed">
+  		  <div class="ui responsive grid" style="padding:0 4%;">
+				  <div class="row">
+					  <div class="six wide column">
+						  <h3><span class="d3word">D<span>3</span>IN</span>铟立方未来实验室</h3>
+					  </div>
+					  <div class="ten wide right aligned column">
+                        {% include "block/d3in/sub_nav.html" %}
+					  </div>
+				  </div>
+			  </div>
+		  </div>
 		<div class="ui title grid">
 			<div class="row">
 				<div class="center aligned column">
