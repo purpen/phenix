@@ -33,6 +33,18 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try?page=#p#';
 		
 		$this->stash['pager_url'] = $pager_url;
+
+    // 发送人数组
+    $send_users = array();
+		$user_model = new Sher_Core_Model_User();
+    $send_user_ids = Doggy_Config::$vars['app.send_notice_users'];
+    $user_arr = explode('|', $send_user_ids);
+    foreach($user_arr as $v){
+      $user = $user_model->load((int)$v);
+      if(!empty($user)) array_push($send_users, $user);
+    }
+
+    $this->stash['send_users'] = $send_users;
 		
 		return $this->to_html_page('admin/try/list.html');
 	}
@@ -117,6 +129,8 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     $data['end_time'] = $this->stash['end_time'];
     $data['publish_time'] = $this->stash['publish_time'];
     $data['try_count'] = (int)$this->stash['try_count'];
+    $data['apply_term'] = (int)$this->stash['apply_term'];
+    $data['term_count'] = (int)$this->stash['term_count'];
     $data['imgs'] = $imgs;
 
 		$model = new Sher_Core_Model_Try();
@@ -420,6 +434,46 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		}
 		
 		fclose($fp);
+  
+  }
+
+  /**
+   * 给想买的群发私信
+   */
+  public function ajax_send_message(){
+    $try_id = isset($this->stash['try_id']) ? (int)$this->stash['try_id'] : 0;
+    $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+    $content = isset($this->stash['content']) ? $this->stash['content'] : null;
+    if(empty($try_id) || empty($user_id) || empty($content)){
+      return $this->ajax_json('缺少请求参数!', true);
+    }
+
+    $attend_model = new Sher_Core_Model_Attend();
+    $msg = new Sher_Core_Model_Message();
+    $page = 1;
+    $size = 1000;
+    $is_end = false;
+    $total = 0;
+    while(!$is_end){
+      $query = array('target_id'=>$try_id, 'event'=>Sher_Core_Model_Attend::EVENT_TRY_WANT);
+      $options = array('page'=>$page, 'size'=>$size);
+      $list = $attend_model->find($query, $options);
+      if(empty($list)){
+        break;
+      }
+      $max = count($list);
+      for ($i=0; $i<$max; $i++) {
+        $r_user_id = $list[$i]['user_id'];
+        $msg->send_site_message($content, $user_id, (int)$r_user_id);
+        $total++;
+      }
+      if($max < $size){
+        break;
+      }
+      $page++;
+    } 
+
+    return $this->ajax_json("发送成功 count: $total!", false);
   
   }
 	
