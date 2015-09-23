@@ -159,10 +159,14 @@
                                 {% if t.step_stat == 2 %}
                                 <i class="calendar icon"></i> 试用报告 正在回收中···                                                {% endif %}
                                 {% if t.step_stat == 3 %}
-                                <i class="tasks icon"></i> 试用报告已回收 <span> {{ t.pass_count }}</span> 份
+                                  {% if t.report_count==0 %}
+                                    <i class="tasks icon"></i> 试用报告正在回收中...
+                                  {%else%}
+                                    <i class="tasks icon"></i> 试用报告已回收 <span> {{ t.report_count }}</span> 份
+                                  {%endif%}
                                 {% endif %}
                                 {% if t.step_stat == 5 %}
-                                <i class="tasks icon"></i> 试用报告已回收 <span> {{ t.pass_count }}</span> 份
+                                <i class="tasks icon"></i> 试用报告已回收 <span> {{ t.report_count }}</span> 份
                                 {% endif %}
                             </div>
                         </div>
