@@ -20,6 +20,9 @@
 	  margin-top: 10px;
 	  margin-bottom: 15px;
 	}
+	.sellwrap.admin{
+	  background:#fff !important;
+	}
 	
 	
 	/*.post.vote .description .field .ui.checkbox{
@@ -402,7 +405,7 @@
 {% block content %}
 <div class="mainwrap social" id="postpage">
     <div class="mainleftwrap">
-        <div class="mainleft">
+        <div class="mainleft" {% if editable %} style="min-height:2080px !important;" {% endif %}>
 
     		{% if product %}
 			<div class="ui segment">
@@ -707,7 +710,7 @@
     </div>
     <div class="mainright">
         {% include "page/topic/usersign.html" %}
-        <div class="ui sticky">
+        <div class="ui {% if !editable %} sticky {% endif %}">
             <div class="sellwrap">
                 <div class="user action">
                     <p>关注&分享话题</p>
@@ -755,8 +758,8 @@
         {% include "page/topic/adwrap.html" %}
         
         {% if editable %}
-        <div class="sellwrap admin">
-			<div class="ui icon green hide editable buttons">
+        <div class="sellwrap admin ui sticky">
+			<div class="ui icon green editable buttons">
             {% if visitor.can_edit %}
                 {% if visitor.is_admin %}
 					{% if topic.top == 1 %}
