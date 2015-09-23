@@ -347,6 +347,11 @@
 
     // 想要
     $('.want_btn').click(function(){
+      // 所有ajax请求，验证是否登录
+		  if (!phenix.visitor.is_login){
+        phenix.redirect("{{ app_url_wap }}/auth/login");
+			  return false;
+		  }
       var url = "{{ app_url_wap }}/app/site/try/want_attend";
       $.post(url, {try_id: {{ try._id }}, type: 1}, function(result){
         if(result.success){
