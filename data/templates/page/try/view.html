@@ -224,27 +224,31 @@
     							</div>
     						</div>
     					</h1>
-					    {% if !try.is_end %}
-                            {% if is_applied %}
-                              <a href="javascript:void(0);" class="ui white lapiao-btn inverted button">
-                                <i class="ticket icon"></i> 求好友支持
-                              </a>
-                            {%else%}
-                              {% if try.step_stat==0 %}
-                              <a href="javascript:void(0);" class="ui white inverted button">
-                                <i class="ticket icon"></i> 预热中
-                              </a>
+
+              {% if try.step_stat==0 %}
+              <a href="javascript:void(0);" class="ui white inverted button">
+                <i class="ticket icon"></i> 预热中
+              </a>
+              {%else%}
+
+                {% if !try.is_end %}
+                              {% if is_applied %}
+                                <a href="javascript:void(0);" class="ui white lapiao-btn inverted button">
+                                  <i class="ticket icon"></i> 求好友支持
+                                </a>
                               {%else%}
-                              <a href="javascript:void(0);" class="ui white applytry inverted button">
-                                <i class="ticket icon"></i> 申请试用
-                              </a>
+                                <a href="javascript:void(0);" class="ui white applytry inverted button">
+                                  <i class="ticket icon"></i> 申请试用
+                                </a>
                               {%endif%}
-                            {%endif%}
-					    {% else %}
-    					<a href="javascript:void(0);" class="ui active white inverted button">
-    						<i class="lock icon"></i> 已结束
-    					</a>
-    					{% endif %}
+                {% else %}
+                <a href="javascript:void(0);" class="ui active white inverted button">
+                  <i class="lock icon"></i> 已结束
+                </a>
+                {% endif %}
+
+              {%endif%}
+
                         <div class="ui white inverted pop share icon inverted button">
                             <i class="share alternate icon"></i> 分享
                         </div>
