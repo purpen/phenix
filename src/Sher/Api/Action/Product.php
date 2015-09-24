@@ -447,6 +447,9 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
             if(isset($product['user'])){
               $product['user'] = Sher_Core_Helper_FilterFields::user_list($product['user']);
             }
+            if(isset($product['designer'])){
+              $product['designer'] = Sher_Core_Helper_FilterFields::user_list($product['designer']);
+            }
             array_push($items, array('product'=>$product));
           }
         }
