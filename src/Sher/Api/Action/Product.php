@@ -413,7 +413,56 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 		}
 		
 		return $count;
+  }
+
+	/**
+	 * 获取推荐产品
+	 */
+	public function fetch_relation_product(){
+		$sword = $this->stash['sword'];
+    $current_id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 4;
+		
+		$result = array();
+		$options = array(
+			'page' => 1,
+			'size' => $size,
+			'sort_field' => 'latest',
+      // 最新
+      'sort' => 1,
+      'evt' => 'tag',
+      't' => 7,
+      'oid' => $current_id,
+      'type' => 1,
+		);        
+		if(!empty($sword)){
+      $xun_arr = Sher_Core_Util_XunSearch::search($sword, $options);
+      if($xun_arr['success'] && !empty($xun_arr['data'])){
+        $product_mode = new Sher_Core_Model_Product();
+        $items = array();
+        foreach($xun_arr['data'] as $k=>$v){
+          $product = $product_mode->extend_load((int)$v['oid']);
+          if(!empty($product)){
+            // 过滤用户表
+            if(isset($product['user'])){
+              $product['user'] = Sher_Core_Helper_FilterFields::user_list($product['user']);
+            }
+            array_push($items, array('product'=>$product));
+          }
+        }
+        $result['rows'] = $items;
+        $result['total_rows'] = $xun_arr['total_count'];
+      }else{
+        $result = array();
+      }
+
+		}
+    if(empty($result)){
+      return;
+    }
+
+		return $this->api_json('操作成功', 0, $result);
 	}
 	
 }
-?>
+
