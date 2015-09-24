@@ -426,6 +426,9 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
                         if(isset($product['user'])){
                           $product['user'] = Sher_Core_Helper_FilterFields::user_list($product['user']);
                         }
+                        if(isset($product['designer'])){
+                          $product['designer'] = Sher_Core_Helper_FilterFields::user_list($product['designer']);
+                        }
                         array_push($items, array('product'=>$product));
                     }
                 }
@@ -718,10 +721,13 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 
         $max = count($result['rows']);
         for($i=0;$i<$max;$i++){
-			// 过滤用户表
-			if(isset($result['rows'][$i]['user'])){
-			  $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
-			}
+          // 过滤用户表
+          if(isset($result['rows'][$i]['user'])){
+            $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
+          }
+          if(isset($result['rows'][$i]['designer'])){
+            $result['rows'][$i]['designer'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['designer']);
+          }
         }
 
         $data = array();

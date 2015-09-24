@@ -92,9 +92,15 @@
       function ajax_load_more(type, sort, page, size){
           //防止频繁请求(在没加载完成时只允许请求一次)
           $('#try-more').show().attr('status', 1);
-          var url = '{{ app_url_wap }}/try/ajax_load_list?rand='+Math.random();
-          $.get(url, { sort:sort, type:type, page:page, size:size }, function(rs){
-              // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
+          var url = '{{ app_url_wap }}/try/ajax_load_list';
+
+          $.ajax({
+            type: "GET",
+            url: url,
+            data: { sort:sort, type:type, page:page, size:size },
+            dataType: 'json',
+            cache: false,
+            success: function(rs){
               if(rs.data.results.total_page > rs.data.results.current_page){
                   $('#try-more')
                       .hide()
@@ -104,7 +110,8 @@
               }
               var rendered = phenix.ajax_render_result('#fetch_more_try_tpl', rs.data);
               $('.item-box').append(rendered);
-          }, 'json');
+            }
+          });
       }
   </script>
 {% endblock %}

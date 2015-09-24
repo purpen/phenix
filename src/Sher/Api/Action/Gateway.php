@@ -319,6 +319,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 		
 		return $this->api_json('意见反馈成功！', 0);
 	}
+
 	
 }
 
