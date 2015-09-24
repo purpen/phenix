@@ -141,6 +141,9 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const DIG_SUBJECT_YMC1_01 = 'subject_ymc1_01';
     const DIG_SUBJECT_02 = '2';
 
+    # 第三方站点访问量统计
+    const DIG_THIRD_SITE_STAT = 'third_site_stat';
+
     /**
      * DigList stuff计数器
      */

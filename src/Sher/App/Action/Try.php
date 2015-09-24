@@ -36,6 +36,27 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 	public function get_list(){
 		$this->set_target_css_state('page_try');
 
+    // 记录其它地过来用户注册统计
+    if(isset($this->stash['from'])){
+      $from = (int)$this->stash['from'];
+      // 统计点击数量
+      $dig_model = new Sher_Core_Model_DigList();
+      $dig_key = Sher_Core_Util_Constant::DIG_THIRD_SITE_STAT;
+
+      $dig = $dig_model->load($dig_key);
+      if(empty($dig) || !isset($dig['items']["stat_$from"])){
+        $dig_model->update_set($dig_key, array("items.stat_$from"=>1), true);     
+      }else{
+        // 增加浏览量
+        $dig_model->inc($dig_key, "items.stat_$from", 1);
+      }
+
+      // 存cookie
+      @setcookie('from_origin', $from, time()+3600*24, '/');
+      $_COOKIE['from_origin'] = $from;
+
+    }
+
         $pager_url = sprintf("%s/list-c%d-t%d-s%d-p%s", Doggy_Config::$vars['app.url.try'], 0, 0, 0, '#p#');
 		
 		$this->stash['pager_url'] = $pager_url;
