@@ -12,7 +12,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
   );
    */
 	
-	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'comments', 'ajax_favorite', 'ajax_love', 'ajax_comment');
+	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'comments', 'ajax_favorite', 'ajax_love', 'ajax_comment', 'fetch_relation_product');
 	
 	/**
 	 * 入口
@@ -458,7 +458,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 
 		}
     if(empty($result)){
-      return;
+      return $this->api_json('没有找到相关商品', 0, $result);
     }
 
 		return $this->api_json('操作成功', 0, $result);
