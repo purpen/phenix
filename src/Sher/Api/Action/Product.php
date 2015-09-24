@@ -47,6 +47,14 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 
         $service = Sher_Core_Service_Category::instance();
         $result = $service->get_category_list($query, $options);
+
+        // 过滤多余属性
+        foreach($result as $k){
+          $result[$k] = unset($result[$k]['view_url']);
+          $result[$k] = unset($result[$k]['__extend__']);
+          $result[$k] = unset($result[$k]['is_open']);
+          $result[$k] = unset($result[$k]['state']);
+        }
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
