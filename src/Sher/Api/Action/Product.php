@@ -464,8 +464,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
             array_push($items, array('product'=>$product));
           }
         }
-        $result['rows'] = $items;
-        $result['total_rows'] = $xun_arr['total_count'];
+        $result = $items;
       }else{
         $result = array();
       }
