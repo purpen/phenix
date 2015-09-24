@@ -49,13 +49,9 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
         $result = $service->get_category_list($query, $options);
 
         // 过滤多余属性
-        foreach($result as $k){
-          $result[$k] = unset($result[$k]['view_url']);
-          $result[$k] = unset($result[$k]['__extend__']);
-          $result[$k] = unset($result[$k]['is_open']);
-          $result[$k] = unset($result[$k]['state']);
-        }
-		
+        $filter_fields = array('view_url', 'state', 'is_open', '__extend__');
+        $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+
 		return $this->api_json('请求成功', 0, $result);
 	}
 	
