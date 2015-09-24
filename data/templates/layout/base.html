@@ -30,48 +30,6 @@
 		{% endif %}
         
 		<style type="text/css">
-		@-webkit-keyframes arrowRt {
-        		0%{-webkit-transform:translateX(0px);opacity:0}
-        		60%{-webkit-transform:translateX(10px);opacity:1}
-        		100%{-webkit-transform:translateX(20px);opacity:0}
-        	}
-        	@-moz-keyframes arrowRt {
-        		0%{-webkit-transform:translateX(0px);opacity:0}
-        		60%{-webkit-transform:translateX(10px);opacity:1}
-        		100%{-webkit-transform:translateX(20px);opacity:0}
-        	}
-        	@keyframes arrowRt {
-        		0%{-webkit-transform:translateX(0px);opacity:0}
-        		60%{-webkit-transform:translateX(10px);opacity:1}
-        		100%{-webkit-transform:translateX(20px);opacity:0}
-        	}
-        	@-webkit-keyframes arrowUp {
-        		0%{-webkit-transform:translateX(0px);opacity:0}
-        		60%{-webkit-transform:translateX(-10px);opacity:1}
-        		100%{-webkit-transform:translateX(-20px);opacity:0}
-        	}
-        	@-moz-keyframes arrowUp {
-        		0%{-webkit-transform:translateX(0px);opacity:0}
-        		60%{-webkit-transform:translateX(-10px);opacity:1}
-        		100%{-webkit-transform:translateX(-20px);opacity:0}
-        	}
-        	@keyframes arrowUp {
-        		0%{-webkit-transform:translateX(0px);opacity:0}
-        		60%{-webkit-transform:translateX(-10px);opacity:1}
-        		100%{-webkit-transform:translateX(-20px);opacity:0}
-        	}
-          .egou.flex-prev{
-              -webkit-animation: arrowUp 2s linear infinite;
-      		    -moz-animation: arrowUp 2s linear infinite;
-      		  animation: arrowUp 2s linear infinite;
-      		  left:0;
-    		  }
-    		  .egou.flex-next{
-              -webkit-animation: arrowRt 2s linear infinite;
-      	    -moz-animation: arrowRt 2s linear infinite;
-      	    animation: arrowRt 2s linear infinite;
-      	    right:0;
-    		  }
 			body {
 			    background-color: #f5f5f5;
 			    color: #5d6266;
@@ -247,23 +205,6 @@
             $('#search-button').click(function(){
 		          $('#searchbar').submit();
             });
-         // 易购   
-          /*  $('.ui.yigo.modal')
-            .modal('setting', 'closable', false)
-           .modal('setting', 'transition', 'vertical  flip')
-           .modal('hide');
-           $('.fixed.button').css({"display":"block","position":"fixed"});
-           $('.ui.yigo.close').click(function(){
-             $('.ui.yigo.modal').modal('hide');
-             $('.fixed.button').css({"display":"block","position":"fixed"});
-           })
-           $('.ui.yig.btn').click(function(){
-             $('.ui.yigo.modal')
-             .modal('setting', 'closable', false)
-            .modal('setting', 'transition', 'vertical  flip')
-            .modal('show');
-            $('.fixed.button').css({"display":"none","position":"fixed"});
-           })*/
 			
     		{% block layout_jquery %}{% endblock %}
     		{% block jquery %}{% endblock %}
