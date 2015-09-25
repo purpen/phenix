@@ -1,7 +1,7 @@
 <style type="text/css">
   .item.topicbox{
     display: inline-block;
-    padding: 5px 0px 10px 0;
+    padding: 5px 0px 10px 0 !important;
     position: relative;
     width: 100%;
     border-bottom: 1px solid rgba(224,224,224,.46);
@@ -37,6 +37,9 @@
       font-size: 9pt;
       color: rgba(146,147,163,.9);
       text-align: right;
+      position:absolute;
+      bottom:5px;
+      right:0;
   }
   .topicbox .author span {
       margin-right: 15px;
@@ -51,7 +54,7 @@
       {% topic_list var:'list' published:1 is_top:1 type:1 sort:sort page:1 size:3 %}
       {% for topic in list.rows %}
         <div class="item topicbox">
-          <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
+          <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover" target="_blank">
             <img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" alt="{{ topic.title }}">
           </a>
           <h2>
@@ -70,9 +73,9 @@
       
       
       
-        <!--{% topic_list var:'list' published:1 is_top:1 type:1 sort:sort page:1 size:8 %}
+        {% topic_list var:'list' published:1 is_top:1 type:1 sort:sort page:1 size:5 %}
         {% for topic in list.rows %}
-        <div class="item">
+        <div class="item topicbox">
             <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
                 {{ topic.title }}
                 <div class="extra">
@@ -86,6 +89,6 @@
                 </div>
             </a>
         </div>
-        {% endfor %}-->
+        {% endfor %}
     </div>
 </div>
