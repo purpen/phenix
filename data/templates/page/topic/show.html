@@ -303,7 +303,14 @@
 	});
 
 	// 加载相关话题 
-	$.get('{{ app_url_topic }}/ajax_guess_topics?rand='+Math.random(), {sword: '{{ topic.tags_s }}', size: 6, id: {{ topic._id }}, random:Math.random() }, function(rs){
+  $.ajax({
+    type: "GET",
+    url: '{{ app_url_topic }}/ajax_guess_topics',
+    data: {sword: '{{ topic.tags_s }}', size: 6, id: {{ topic._id }} },
+    dataType: 'json',
+    cache: false,
+    async: false,
+    success: function(rs){
       if(rs.data.state==1){
         var rendered = phenix.ajax_render_result('#guess_topic_tpl', rs.data);
         $('#topic_guess_list').html(rendered);
@@ -312,9 +319,9 @@
         ;     
       }else{
         return;
-      }
-
-    }, 'json');
+      }   
+    }
+  });
     
     // 投票提交部分
     $('#vote-save').click(function(){
