@@ -63,8 +63,12 @@
             </a>
           </h2>
           <p class="author">
-             <i class="unhide icon"></i> <span>{{ topic.view_count }}</span>
-              <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
+            <div class="dotcount">
+                <div class="statistic">
+                    <i class="unhide icon"></i> <span class="value">{{ topic.view_count }}</span>
+                    <i class="comment outline icon"></i> <span class="value">{{ topic.comment_count }}</span>
+                </div>
+            </div>
           </p>
       
         </div>
@@ -75,7 +79,7 @@
       
         {% topic_list var:'list' published:1 is_top:1 type:1 sort:sort page:1 size:5 %}
         {% for topic in list.rows %}
-        <div class="item topicbox">
+        <div class="item ">
             <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
                 {{ topic.title }}
                 <div class="extra">
