@@ -66,7 +66,7 @@
 	phenix.hook_comment_page();
     
     // ajax加载评论
-    phenix.fetch_comment(comment_param);
+    //phenix.fetch_comment(comment_param);
     
     // ajax加载签到数据
     phenix.signin();
@@ -689,18 +689,29 @@
                         </div>
                     </div>
       		  	    <div id="comment-list">
-                        {% comment_list var:'comments' page:1 target_id:topic._id type:2 check_loved:1 only_hotest:1 current_user_id:visitor.id %}
+                        {% comment_list var:'hot_comments' page:1 target_id:topic._id type:2 check_loved:1 only_hotest:1 current_user_id:visitor.id %}
                         {% if comments.rows %}
                         <div class="ui threaded hotest comments">
                             <a class="ui red ribbon label">热门回复</a>
-                    		{% for comment in comments.rows %}
+                    		{% for comment in hot_comments.rows %}
                     			{%include 'block/comment_item.html'%}
                     		{% endfor %}
                             <hr>
                         </div>
                         {% endif %}
-                        <div class="ui threaded comments is-comment"></div>
-                        <div class="ui pagination pagerbox"></div>
+                        {% comment_list var:'comments' page:page target_id:topic._id type:2 sort:sort check_loved:1 current_user_id:visitor.id %}
+                        <div class="ui threaded comments is-comment">
+                        {% for comment in comments.rows %}
+                    			{%include 'block/comment_item.html'%}
+                    		{% endfor %}
+                        
+                        </div>
+                        {% if comments.total_page > 1 %}
+                        <div class="ui pagination pagerbox">
+                          {% pager url:pager_url,total_rows:comments.total_rows,total_page:comments.total_page,current_page:page,var:'pager',pager_size:9 %}
+                          {% include 'block/pager.html' %}
+                        </div>
+                        {%endif%}
       		  	    </div>
       		  	    {% include "block/comment_box_site.html" %}
                 </div>

@@ -606,7 +606,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		  'comment_target_id' =>  $topic['_id'],
 		  'comment_target_user_id' => $topic['user_id'],
 		  'comment_type'  =>  2,
-		  'comment_pager' =>  Sher_Core_Helper_Url::topic_view_url($id, '#p#'),
+		  'comment_pager' =>  Sher_Core_Helper_Url::topic_view_url($id, '#p#')."#comment_top",
 		  //是否显示上传图片/链接
 		  'comment_show_rich' => 1,
 		);
