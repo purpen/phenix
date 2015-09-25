@@ -245,6 +245,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         'featured' => 0,
 		# 是否成功案例产品
 		'okcase' => 0,
+
+    # 产品所在专辑
+    'album_ids' => array(),
 		
 		# 状态
 		'state' => 0,
