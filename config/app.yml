@@ -138,6 +138,7 @@ app.dt.extension_lib.sher_app:
     'd_order_list':'Sher_Core_ViewTag_DOrderList'
     'd_member_list':'Sher_Core_ViewTag_DMemberList'
     'd_appoint_list':'Sher_Core_ViewTag_DAppointList'
+    'third_site_stat_list':'Sher_Core_ViewTag_ThirdSiteStatList'
   filters: []
 
 app.js.use_bundle: false
