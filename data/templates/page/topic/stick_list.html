@@ -76,7 +76,18 @@
         {% topic_list var:'list' published:1 is_top:1 type:1 sort:sort page:1 size:5 %}
         {% for topic in list.rows %}
         <div class="item topicbox">
+          <h2>
             <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
+                {{ topic.title }}
+            </a>
+          </h2>
+          <p class="author">
+            <span class="author">{{ topic.user.nickname }}</span>
+             <i class="unhide icon"></i> <span>{{ topic.view_count }}</span>
+              <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
+          </p>
+          
+            <!--<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
                 {{ topic.title }}
                 <div class="extra">
                     <span class="author">{{ topic.user.nickname }}</span>
@@ -87,7 +98,7 @@
                         </div>
                     </div>
                 </div>
-            </a>
+            </a>-->
         </div>
         {% endfor %}
     </div>
