@@ -40,9 +40,13 @@
       position:absolute;
       bottom:5px;
       right:0;
+      width:100%;
   }
   .topicbox .author span {
       margin-right: 15px;
+  }
+  .topicbox .author .nickname{
+    float:left;
   }
 </style>
 <!--热门话题-->
@@ -82,7 +86,7 @@
             </a>
           </h2>
           <p class="author">
-            <span class="author">{{ topic.user.nickname }}</span>
+            <div class="nickname">{{ topic.user.nickname }}</div>
              <i class="unhide icon"></i> <span>{{ topic.view_count }}</span>
               <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
           </p>
