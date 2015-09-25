@@ -73,8 +73,10 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 	 * 组装数据
 	 */
 	protected function extra_extend_model_row(&$row) {
-		$row['tags_s'] = !empty($row['tags']) ? implode(',', $row['tags']) : '';
-		if (isset($row['gid'])) {
+    if(isset($row['tags']) && !empty($row['tags'])){
+		  $row['tags_s'] = implode(',', $row['tags']);
+    }
+		if (isset($row['gid']) && !empty($row['gid'])) {
 			$row['group']  = $this->find_groups($row['gid']);
 		}
 		

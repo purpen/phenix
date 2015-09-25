@@ -450,6 +450,11 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 						}
 					}
 				}
+
+        // 如果来自第三方则统计
+        if(isset($_COOKIE['from_origin']) && !empty($_COOKIE['from_origin'])){
+          $this->from_origin_stat($user_id);
+        }
 					
 				Sher_Core_Helper_Auth::create_user_session($user_id);
 				
@@ -840,6 +845,11 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
           }
         }
 
+        // 如果来自第三方则统计
+        if(isset($_COOKIE['from_origin']) && !empty($_COOKIE['from_origin'])){
+          $this->from_origin_stat($user_id);
+        }
+
         // 实现自动登录
         Sher_Core_Helper_Auth::create_user_session($user_id);
         $redirect_url = !empty($this->stash['redirect_url'])?$this->stash['redirect_url']:Sher_Core_Helper_Url::user_home_url($user_id);
@@ -855,6 +865,21 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
       return $this->ajax_note("注册失败:".$e->getMessage(), true);   
     }
 
+  }
+
+  /**
+   * 统计来源网站注册量
+   */
+  protected function from_origin_stat($user_id){
+    $from_origin = $_COOKIE['from_origin'];
+    $third_site_stat_model = new Sher_Core_Model_ThirdSiteStat();
+    $data = array(
+      'user_id' => $user_id,
+      'kind' => (int)$from_origin,
+    );
+    $ok = $third_site_stat_model->create($data);
+		// 清除cookie值
+		setcookie('from_origin', '', time() - 3600, '/');
   }
 	
 }
