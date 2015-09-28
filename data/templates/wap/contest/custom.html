@@ -73,12 +73,13 @@
 		  phenix.redirect("{{ app_url_wap }}/auth/login");
 			return false;
 		}
+    var id=$(this).data("id");
 
     //验证用户信息齐全
     $.get('{{ app_url_wap }}/app/site/user/ajax_check_userinfo', {}, function(result){
       if(result=='true'){
         //跳转参赛上传页面
-        phenix.redirect('{{ app_url_wap }}/stuff/contest_submit?contest_id={{ d._id }}');
+        phenix.redirect('{{ app_url_wap }}/stuff/contest_submit?contest_id='+id);
       }else if(result=='false'){
         $('.user-info-box.modal')
         .modal('setting', 'transition', 'vertical  flip')
@@ -231,7 +232,7 @@
           </div>
           <div class="more-btn">
             <a href="{{ d.wap_view_url }}" class="ui red active inverted button">查看详情</a>&nbsp;
-            <a href="javascript:void(0);" class="ui attend-btn blue active inverted button">提交作品</a>
+            <a href="javascript:void(0);" class="ui attend-btn blue active inverted button" data-id="{{ d._id }}">提交作品</a>
           </div>
         </div>
       {%endfor%}
