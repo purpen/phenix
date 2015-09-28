@@ -294,7 +294,7 @@
         
         <div class="sellwrap">
 
-      {% sign_stat_list var:'draw_list' draw_evt:1 sort:1 page:1 size:10 %}
+      {% sign_stat_list var:'draw_list' draw_evt:1 sort:1 page:1 size:8 %}
 			<div class="block title">
 				中奖鸟友
             </div>
@@ -309,7 +309,8 @@
                     </div>
                 </div>
               {%endfor%}
-
+              <hr />
+              <div>共有 <b>{{ draw_list.total_rows }}</b> 位获奖鸟友</div>
             </div> 
         </div>
         
