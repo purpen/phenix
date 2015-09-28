@@ -67,7 +67,7 @@
 {% block jquery %}
 
   //报名按钮
-	$('#attend-btn').click(function(){
+	$('.attend-btn').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
 		  phenix.redirect("{{ app_url_wap }}/auth/login");
@@ -231,7 +231,7 @@
           </div>
           <div class="more-btn">
             <a href="{{ d.wap_view_url }}" class="ui red active inverted button">查看详情</a>&nbsp;
-            <a href="javascript:void(0);" id="attend-btn" class="ui blue active inverted button">提交作品</a>
+            <a href="javascript:void(0);" class="ui attend-btn blue active inverted button">提交作品</a>
           </div>
         </div>
       {%endfor%}
