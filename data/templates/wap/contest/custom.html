@@ -78,7 +78,7 @@
     $.get('{{ app_url_wap }}/app/site/user/ajax_check_userinfo', {}, function(result){
       if(result=='true'){
         //跳转参赛上传页面
-        phenix.redirect('{{ app_url_wap }}/stuff/contest_submit?contest_id={{ contest._id }}');
+        phenix.redirect('{{ app_url_wap }}/stuff/contest_submit?contest_id={{ d._id }}');
       }else if(result=='false'){
         $('.user-info-box.modal')
         .modal('setting', 'transition', 'vertical  flip')
