@@ -20,10 +20,6 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 		return $this->custom();
 	}
 	
-	public function socket(){
-		
-		return $this->to_html_page('wap/contest/socket.html');
-	}
 	/**
 	 * 十万火计
 	 */
