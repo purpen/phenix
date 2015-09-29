@@ -98,6 +98,17 @@
   .ui.dimmer{
     overflow:auto !important;
   }
+  .ui.modal > .header .close{
+      cursor: pointer;
+      position: absolute;
+      z-index: 1;
+      opacity: .8;
+      font-size: 1.25em;
+      top: 19px;
+      right: 1rem;
+      width: 30px;
+      height: 30px;
+  }
 </style>
 
 
@@ -149,8 +160,8 @@
 </div>
 
 <div class="ui comment-insert-img small modal transition">
-  	<i class="close icon"></i>
 	<div class="header">
+	  <i class="close icon"></i>
 	    插入图片
 	</div>
 	<div class="container">

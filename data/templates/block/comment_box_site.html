@@ -89,9 +89,9 @@
 </div>
 
 <div class="ui comment-insert-img small modal transition">
-  	<i class="close icon"></i>
 	<div class="header">
 	    插入图片
+	    <i class="close icon"></i>
 	</div>
 	<div class="container">
     <div class="img-tab"><a href="javascript:void(0);" class="img-url-btn">链接地址</a>|<a href="javascript:void(0);" class="img-upload-btn">本地上传</a></div>
@@ -284,7 +284,7 @@
             endpoint: '{{ app_url_upload }}/comment'
           },
       text: {
-              uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+              uploadButton: '<a class="ui active magenta labeled inverted icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
       },
       template: '<div class="qq-uploader">' +
             '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
