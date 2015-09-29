@@ -1,4 +1,4 @@
-<style type="text/css">
+<!--<style type="text/css">
   .item.topicbox{
     display: inline-block;
     padding: 5px 0px 10px 0 !important;
@@ -32,7 +32,6 @@
       font-size: 14px;
       letter-spacing: .2px;
       text-decoration: none;
-      height: 50px;
       overflow: hidden;
   }
   .topicbox .author {
@@ -50,7 +49,10 @@
   .topicbox .author .nickname{
     float:left;
   }
-</style>
+  .item.topicbox:last-child{
+    border:none;
+  }
+</style>-->
 <!--热门话题-->
 <div class="sellwrap">
 	<div class="block title">
@@ -93,18 +95,6 @@
               <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
           </div>
           
-            <!--<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
-                {{ topic.title }}
-                <div class="extra">
-                    <span class="author">{{ topic.user.nickname }}</span>
-                    <div class="dotcount">
-                        <div class="statistic">
-                            <i class="unhide icon"></i> <span class="value">{{ topic.view_count }}</span>
-                            <i class="comment outline icon"></i> <span class="value">{{ topic.comment_count }}</span>
-                        </div>
-                    </div>
-                </div>
-            </a>-->
         </div>
         {% endfor %}
     </div>
