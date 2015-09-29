@@ -208,6 +208,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 			}
 
       // 是否符合申请条件
+      /**
       if(isset($row['apply_term']) && !empty($row['apply_term'])){
         if($row['apply_term']==1){  // 等级
           $user_model = new Sher_Core_Model_User();
@@ -225,6 +226,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
         }
         
       }
+      **/
 			
 			// 检测是否已提交过申请
 			$model = new Sher_Core_Model_Apply();

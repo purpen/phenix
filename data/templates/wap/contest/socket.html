@@ -1,0 +1,421 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+
+{% block page_css %}
+<style class="text/css">
+  .ui.center.aligned{
+    text-align:center;
+  }
+  #mfrbird{
+    margin-top:0;
+  }
+  .line.column{
+    margin-bottom:1em !important;
+  }
+  .line.column h3.ui.header,.line.column h3.ui.header .sub.header{
+    color:#f34900 !important;
+  }
+  img.inline{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 19%;
+    margin-top: -6.5%;
+    margin-left: -9.5%;
+  }
+  .ui.big.block{
+    padding: 3em 0 2em;
+    margin:0;
+  }
+  .ui.time.block{
+    background:url({{ app_url_packaged }}/images/match/socket2.jpg) no-repeat center center /cover;
+    //height:500px;
+  }
+  .ui.time.block .line.column h3.ui.header,.ui.time.block .line.column h3.ui.header .sub.header{
+    color:#fff !important;
+  }
+  .ui.grid>.row>[class*="two wide"].column{
+    width:14.5% !important;
+  }
+  .time.block .six.wide.column{
+    margin: 1em 0 !important;
+    width: 155px !important;
+  }
+  .time.block .six.wide.column h4.ui.header{
+    padding: 50px 0;
+    border-radius: 500rem;
+    background: #fff;
+    color: #f34900 !important;
+    font-weight: 700;
+    box-shadow: 0 0 0 .2em #00717c inset;
+  }
+  h4.icon.header{
+    color:#00717c !important;
+  }
+  .two.wide.column h4.ui.header > .sub.header{
+    color:#00717c;
+  }
+  .time.block i.caret.icon{
+    margin-top: 0px;
+    color: #f9a200;
+  }
+  h4.icon.header i.icon{
+    background:#00717c;
+    color:#fff !important;
+    font-size: 2.8em !important;
+    margin-bottom:1rem !important;
+  }
+  .ui.eight.wide.column{
+    margin:0em auto !important;
+  }
+  .ui.big.chun.block{
+    background:url({{ app_url_packaged }}/images/match/socket4.jpg) no-repeat center center /cover;
+    padding-top: 2.5em;
+  }
+  .ui.big.chun.block .row{
+    color:#fff;
+  }
+  .ui.big.chun.block h3.ui.header,.ui.big.chun.block h3 .sub.header{
+    color:#fff !important;
+  }
+  .ui.clim.block{
+    background:url({{ app_url_packaged }}/images/match/socket3.jpg) no-repeat center center /cover;
+    color:#fff;
+  }
+  .ui.clim.block h3.ui.header,.ui.clim.block h3.ui.header .sub.header{
+    color:#fff !important;
+  }
+  .clim .ui.seven.column {
+    margin:3em 3% 1em !important;
+  }
+  .clim .ui.seven.column p{
+    background:#fff;
+    padding: 50px 5px 20px;
+    color:#00717c;
+    //min-height: 190px;
+  }
+  .clim .ui.seven.column .clicre{
+    position: absolute;
+    padding: 1.8em 1.2em;
+    border-radius: 500rem;
+    width: 70px;
+    height: 70px;
+    top: -35px;
+    left: 50%;
+    background: #00737c;
+    margin-left: -35px;
+    color:#fff;
+  }
+  .return.button{
+    background:#00717c !important;
+  }
+</style>
+{% endblock %}
+{% block jquery %}
+
+  //报名按钮
+	$('#attend-btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+		  phenix.redirect("{{ app_url_wap }}/auth/login");
+			return false;
+		}
+
+    //验证用户信息齐全
+    $.get('{{ app_url_wap }}/app/site/user/ajax_check_userinfo', {}, function(result){
+      if(result=='true'){
+        //跳转参赛上传页面
+        phenix.redirect('{{ app_url_wap }}/stuff/contest_submit?contest_id={{ contest._id }}');
+      }else if(result=='false'){
+        $('.user-info-box.modal')
+        .modal('setting', 'transition', 'vertical  flip')
+        .modal('show');
+        return false; 
+      }
+    });
+
+	});
+
+  //取消报名弹出框
+	$('.ui.deny.button').click(function(){
+		$('.ui.user-info-box.modal').modal('hide');
+	});
+
+	$('#user-info-form').livequery(function(){
+		$(this).form({
+			realname: {
+				identifier  : 'realname',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'phone',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '电话不能为空'
+					}
+				]
+			},
+			address: {
+				identifier  : 'address',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '地址不能为空'
+					}
+				]
+			},
+			job: {
+				identifier  : 'job',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '职位不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+        $(this).ajaxSubmit({
+          dataType: 'json',
+          beforeSubmit: function(){
+            phenix.before_submit();
+          },
+          success: function(data){
+            phenix.after_submit();
+            
+            if(data.is_error){
+              $(event.target).addClass('error');
+              phenix.show_error_note(data.message, event.target);
+            }else{
+              phenix.redirect(data.redirect_url);
+            }
+          }
+        });
+			}
+		});
+	});
+
+{% endblock %}
+{% block content %}
+<div id="tooth">
+  <!--<div class="match">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <h1 class="ui header">电动牙刷主题设计</h1>
+          <a href="{{ app_url_stuff }}/contest_submit?contest_id=1" class="ui big inverted active button">
+            <i class="cloud upload icon"></i>
+            上传作品</a>
+        </div>
+      </div>
+    </div>
+  </div>-->
+  <a href="javascript:void(0);" id="attend-btn">
+     <img src="{{ app_url_packaged }}/images/match/socket5.jpg" width="100%">
+  </a>
+  <div class="ui big gray block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned line column">
+          <h3 class="ui header">
+              活动引言
+            <div class="sub header">
+              INTRODUCTION
+            </div>
+          </h3>
+          <img src="{{ app_url_packaged }}/images/match/toothline.png" class="inline">
+        </div>
+      </div>
+      <div class="row">
+        <div class="ui center aligned column">
+          <p>为什么电源板总是那么难看？</p>
+          <p>谁说提供电力就可以叫做好插排？</p>
+          <p>我们认为安全供电只是基本能力，</p>
+          <p>插排的颜值也应重新定义；</p>
+          <p>他的绝不应该长得千篇一律，不应该显得苍白无力；</p>
+          <p>我们要让插排成为一件桌面缤纷的陈设；</p>
+          <p>无论是在办公桌前还是在咖啡馆；</p>
+          <p>都可以和同事或伙伴一起分享电力，增进友谊。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big time block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned line column">
+          <h3 class="ui header">
+              活动时间
+            <div class="sub header">
+              TIME
+            </div>
+          </h3>
+          <img src="{{ app_url_packaged }}/images/match/toothline1.png" class="inline">
+        </div>
+      </div>
+      
+      <div class="ui center aligned row">
+        <div class="six wide column">
+          <h4 class="ui header">
+              2015.10.8-11.8
+            <div class="sub header">
+              作品收集
+            </div>
+          </h4>
+        </div>
+        <div class="sixteen wide column">
+          <h2 class="ui header">
+          <i class="caret down icon"></i></h2>
+        </div>
+        <div class="six wide column">
+          <h4 class="ui header">
+            2015.11.12-11.16
+            <div class="sub header">
+              作品评选
+            </div>
+          </h4>
+        </div>
+        <div class="sixteen wide column">
+          <h2 class="ui header">
+          <i class="caret down icon"></i></h2>
+        </div>
+        <div class="six wide column">
+          <h4 class="ui header">
+            2015.11.18-11.21
+            <div class="sub header">
+              结果通知
+            </div>
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big gray block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned line column">
+          <h3 class="ui header">
+              评选标准
+            <div class="sub header">
+              CRITERION
+            </div>
+          </h3>
+          <img src="{{ app_url_packaged }}/images/match/toothline2.png" class="inline">
+        </div>
+      </div>
+      <div class="row">
+        <div class="ui center aligned column">
+          <p style="color:#de3726;">评审将基于但不限于以下标准</p>
+        </div>
+      </div>
+      
+      <div class="ui center aligned row">
+        <div class="ui eight wide column">
+          <h4 class="ui center aligned icon header">
+            <i class="circular bookmark icon"></i>
+            设计
+            <div class="sub header">
+              鉴于主办方的设计师出身，请参与者 内外兼顾各类外貌协会&格调控等人群
+            </div>
+          </h4>
+        </div>
+        <div class="ui eight wide column">
+          <h4 class="ui center aligned icon header">
+            <i class="circular idea icon"></i>
+            创意
+            <div class="sub header">
+              脑洞大开，创意根本停不下来
+            </div>
+          </h4>
+        </div>
+        <div class="ui eight wide column">
+          <h4 class="ui center aligned icon header">
+            <i class="circular lab icon"></i>
+            体验
+            <div class="sub header">
+              为最挑剔的用户 提供最独特的体验
+            </div>
+          </h4>
+        </div>
+        <div class="ui eight wide column">
+          <h4 class="ui center aligned icon header">
+            <i class="circular wizard icon"></i>
+            功能
+            <div class="sub header">
+              有逼格接地气，功能炫（实） 酷（用）到让人无法反驳
+            </div>
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big chun block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <h3 class="ui center aligned header">
+            创新方向
+            <div class="sub header">
+              Innovation Direction
+            </div>
+          </h3>
+          <p>尝试打破固有的插座傻直白的形象，展开想像力；提高插座空间的利用率尝试更多的设计方式；</p>
+          <p>别再让电源线的缠绕另人无语；这些小问题想想好，就能解决出大问题。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big clim block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned line column">
+          <h3 class="ui header">
+              作品要求
+            <div class="sub header">
+              Claim
+            </div>
+          </h3>
+          <img src="{{ app_url_packaged }}/images/match/toothline1.png" class="inline">
+        </div>
+      </div>
+      <div class="ui center aligned row">
+        <div class="ui seven wide column">
+          <p>作品版面文件格式为JPG/PNG/GIF，分辨率不小于72dpi，大小不超过2M；<br /><br /></p>
+          <div class="clicre">NO.1</div>
+        </div>
+        <div class="ui seven wide column">
+          <p>作品内容包括名称、整体效果图、局部效果图、基本外观尺寸图、设计说明及作品功能介绍；</p>
+          <div class="clicre">NO.2</div>
+        </div>
+        <div class="ui seven wide column">
+          <p>作品表现手法不限，不得抄袭，内容健康向上、符合法律法规等要求;</p>
+          <div class="clicre">NO.3</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui big gray block" style="padding-top:2.5em;">
+    <div class="ui responsive grid">
+      <div class="ui center aligned row">
+        <div class="column">
+          <a href="{{ app_url_wap }}/contest/about3" class="ui big inverted return blue active button" title="返回活动首页">返回活动首页</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% include "block/wap_contest_attend_user_info.html" %}
+{% endblock %}

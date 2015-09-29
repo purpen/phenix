@@ -20,7 +20,7 @@
 	phenix.bind_share_list(pic_url);
 	
 	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com/guide/lisa'});
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com'});
 	
 	$('#wechat-share').click(function() {
 		$('.ui.qrcode.modal').modal('show');
@@ -90,11 +90,11 @@
 					<p>此外，LISA孕表也为孕妈妈及产后的妈妈们提供产前控制体重和产后塑形方案。佩戴LISA孕表便可自动记录孕妈妈的运动量，控制孕期体重合理增长。哺乳期过后，根据孕表的记录，孕妈妈则可以增强运动量。同时，孕表手机端APP内置多种运动指导，还可记录卡路里消耗。</p>
 				</div>
 				
-				<div class="ui two items">
-					<div class="item">
+				<div class="ui two blocks">
+					<div class="block">
 						<img src="{{ app_url_packaged }}/images/lisa_01.jpg" class="ui image" />
 					</div>
-					<div class="item">
+					<div class="block">
 						<img src="{{ app_url_packaged }}/images/lisa_02.jpg" class="ui image" />
 					</div>
 				</div>
@@ -106,16 +106,16 @@
 				</div>
 				
 				<h2 class="ui header">传播推广</h2>
-				<div class="ui three items">
-					<div class="item">
+				<div class="ui three blocks">
+					<div class="block">
 						<img src="{{ app_url_packaged }}/images/lisa_03.jpg" class="ui image" />
 						<p>与大姨吗APP联合，在其APP做产品推广</p>
 					</div>
-					<div class="item">
+					<div class="block">
 						<img src="{{ app_url_packaged }}/images/lisa_04.jpg" class="ui image" />
 						<p>与太平洋亲子网联合推广Lisa孕表</p>
 					</div>
-					<div class="item">
+					<div class="block">
 						<img src="{{ app_url_packaged }}/images/lisa_05.jpg" class="ui image" />
 						<p>在淘宝母婴频道的焦点广告</p>
 					</div>
@@ -126,7 +126,7 @@
 		
 		<div class="row">
 			<div class="center aligned column">
-				<a class="ui btn-4 btn-4c magenta active icon-arrow-right btn" href="{{ app_url_domain }}/shop/1080959165.html">
+				<a class="ui btn-4 btn-4c magenta active inverted button" href="{{ app_url_domain }}/shop/1080959165.html">
 						<span>立即购买</span><i class="icon-arrow-right-sharp"></i>
 					</a>
 				<h5 class="ui header">分享案例故事</h5>
