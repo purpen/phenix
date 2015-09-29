@@ -193,7 +193,7 @@
         		评测报告
             </div>
             <div class="ui articles list">
-                {% topic_list var:'tlist' published:1 category_id:report_category_id type:1 page:1 size:3 %}
+                {% topic_list var:'tlist' published:1 category_id:report_category_id type:1 page:1 size:8 %}
                 {% for topic in tlist.rows %}
                   {% if !loop.counter>3 %}
                     <div class="item topicbox">
