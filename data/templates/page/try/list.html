@@ -193,7 +193,7 @@
         		评测报告
             </div>
             <div class="ui articles list">
-                {% topic_list var:'tlist' published:1 category_id:report_category_id sort:sort type:1 page:1 size:3 %}
+                {% topic_list var:'tlist' published:1 category_id:report_category_id type:1 page:1 size:8 %}
                 {% for topic in tlist.rows %}
                 <div class="item">
                     <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
@@ -210,27 +210,6 @@
                     </a>
                 </div>
                 {% endfor %}
-                
-                
-                 {% topic_list var:'tlist' published:1 category_id:report_category_id sort:sort type:1 page:1 size:5 %}
-                  {% for topic in tlist.rows %}
-                  <div class="item">
-                      <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
-                          {{ topic.title }}
-                          <div class="extra">
-                              <span class="author">{{ topic.user.nickname }}</span>
-                              <div class="dotcount">
-                                  <div class="statistic">
-                                      <i class="unhide icon"></i> <span class="value">{{ topic.view_count }}</span>
-                                      <i class="comment outline icon"></i> <span class="value">{{ topic.comment_count }}</span>
-                                  </div>
-                              </div>
-                          </div>
-                      </a>
-                  </div>
-                  {% endfor %}
-                
-                
             </div>
         </div>
         
