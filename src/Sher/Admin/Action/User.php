@@ -15,6 +15,7 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
     'kind' => 0,
     'start_date' => '',
     'end_date' => '',
+    'sort' => 0,
 	);
 	
 	/**

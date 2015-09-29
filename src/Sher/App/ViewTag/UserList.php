@@ -54,7 +54,7 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		// 批量获取用户
 		$user_ids = array();
         
-        $sort = 'latest';
+        $sort = 0;
         $var = 'list';
         $include_pager = 0;
         $pager_var = 'pager';
@@ -67,7 +67,7 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		
         $query = array();
 		
-        $options['sort_field'] = $sort;
+        $options['sort_field'] = 'latest';
 		
         if ($only_pending) {
             $query['state'] = Sher_Core_Model_User::STATE_PENDING;
@@ -164,7 +164,20 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         if($district){
             $query['district'] = (int)$district;
         }
-        
+
+		// 排序
+		switch ((int)$sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'popular';
+				break;
+			case 2:
+				$options['sort_field'] = 'topic_count';
+				break;
+		}
+
         $options['page'] = $page;
         $options['size'] = $size;
         if ($user_id) {

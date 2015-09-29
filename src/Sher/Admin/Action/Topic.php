@@ -9,6 +9,8 @@ class Sher_Admin_Action_Topic extends Sher_Admin_Action_Base implements DoggyX_A
 		'page' => 1,
 		'size' => 20,
     'sort' => 0,
+    'start_date' => '',
+    'end_date' => '',
 	);
 	
 	public function _init() {
@@ -125,10 +127,18 @@ class Sher_Admin_Action_Topic extends Sher_Admin_Action_Base implements DoggyX_A
    */
   public function search(){
     $this->stash['is_search'] = true;
-		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/topic/search?s=%d&q=%s&sort=%d&page=#p#';
+    $this->stash['start_time'] = $this->stash['end_time'] = 0;
+    if($this->stash['start_date']){
+      $this->stash['start_time'] = strtotime($this->stash['start_date']);
+    }
 
-		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['s'], $this->stash['q'], $this->stash['sort']);
+    if($this->stash['end_date']){
+      $this->stash['end_time'] = strtotime($this->stash['end_date']);  
+    }
+		
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/topic/search?s=%d&q=%s&sort=%d&start_time=%d&end_time=%d&page=#p#';
+
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['s'], $this->stash['q'], $this->stash['sort'], $this->stash['start_time'], $this->stash['end_time']);
     return $this->to_html_page('admin/topic/list.html');
   
   }
