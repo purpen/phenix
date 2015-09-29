@@ -59,43 +59,41 @@
 		编辑推荐
     </div>
     <div class="ui articles list">
-      {% topic_list var:'list' published:1 is_top:1 type:1 sort:sort page:1 size:3 %}
+      {% topic_list var:'list' published:1 is_top:1 type:1 sort:0 page:1 size:8 %}
       {% for topic in list.rows %}
-        <div class="item topicbox">
-          <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover" target="_blank">
-            <img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" alt="{{ topic.title }}">
-          </a>
-          <h2>
-            <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
-                {{ topic.title }}
+        {% if !loop.count>3 %}
+          <div class="item topicbox">
+            <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover" target="_blank">
+              <img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" alt="{{ topic.title }}">
             </a>
-          </h2>
-          <p class="author">
-             <i class="unhide icon"></i> <span>{{ topic.view_count }}</span>
-              <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
-          </p>
-      
-        </div>
-      {% endfor %}
-      
-      
-      
-      
-        {% topic_list var:'list' published:1 is_top:1 type:1 sort:sort page:1 size:5 %}
-        {% for topic in list.rows %}
-        <div class="item topicbox">
-          <h2>
-            <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
-                {{ topic.title }}
-            </a>
-          </h2>
-          <div class="author">
-            <div class="nickname">{{ topic.user.nickname }}</div>
-             <i class="unhide icon"></i> <span>{{ topic.view_count }}</span>
-              <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
+            <h2>
+              <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
+                  {{ topic.title }}
+              </a>
+            </h2>
+            <p class="author">
+               <i class="unhide icon"></i> <span>{{ topic.view_count }}</span>
+                <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
+            </p>
+        
           </div>
-          
-        </div>
-        {% endfor %}
+
+        {%else%}
+
+          <div class="item topicbox">
+            <h2>
+              <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
+                  {{ topic.title }}
+              </a>
+            </h2>
+            <div class="author">
+              <div class="nickname">{{ topic.user.nickname }}</div>
+               <i class="unhide icon"></i> <span>{{ topic.view_count }}</span>
+                <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
+            </div>
+            
+          </div>
+        {%endif%}
+      {% endfor %}
     </div>
 </div>
