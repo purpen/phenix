@@ -23,7 +23,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/shop/index.html';
 	
-	protected $exclude_method_list = array('execute','get_list','view','ajax_fetch_comment','check_snatch_expire','pmall','ajax_guess_product', 'product_list', 'edit_evaluate', 'ajax_load_list');
+	protected $exclude_method_list = array('execute','get_list','view','ajax_fetch_comment','check_snatch_expire','pmall','ajax_guess_product', 'product_list', 'edit_evaluate', 'ajax_load_list', 'ajax_load_albums_list');
 	
 	public function _init() {
 		$this->set_target_css_state('page_shop');
@@ -1098,5 +1098,44 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
 		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
   }
+
+	/**
+     * ajax加载商品所在专辑列表
+     */
+    public function ajax_load_albums_list(){
+      $pid = isset($this->stash['pid']) ? (int)$this->stash['pid'] : 0;
+        
+        $service = Sher_Core_Service_Albumshop::instance();
+        $query = array();
+        $options = array();
+		
+		if(empty($pid)){
+      return $this->ajax_json('缺少请求参数!', true);
+		}
+
+			  $query['pid'] = $pid;
+        
+        $options['page'] = 1;
+        $options['size'] = 10;
+        
+        $result = $service->get_Albumshop_list($query, $options);
+		// 过滤用户
+        $max = count($result['rows']);
+        $album_model = new Sher_Core_Model_Albums();
+        for($i=0;$i<$max;$i++){
+			if(isset($result['rows'][$i]['user'])){
+			  $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
+        $album = $album_model->load($result['rows'][$i]['dadid']);
+        $result['rows'][$i]['album'] = $album;
+        unset($result['rows'][$i]['product']);
+			}
+        }
+		
+		$data = array();
+        $data['has_one'] = $max>0 ? true : false;
+        $data['album_url'] = Doggy_Config::$vars['app.url.album.shop'];
+        $data['result'] = $result;
+        return $this->ajax_json('', false, '', $data);
+    }
 	
 }

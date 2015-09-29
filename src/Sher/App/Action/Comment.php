@@ -51,7 +51,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$from_to = isset($this->stash['from_to'])?$this->stash['from_to']:'web';
 		$row = array();
 		$row['user_id'] = $this->visitor->id;
-		$row['star'] = $this->stash['star'];
+		$row['star'] = isset($this->stash['star']) ? (int)$this->stash['star'] : 0;
 		$row['target_id'] = $this->stash['target_id'];
 		$row['target_user_id'] = (int)$this->stash['target_user_id'];
 		$row['type'] = (int)$this->stash['type'];
@@ -62,8 +62,12 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$user = new Sher_Core_Model_User();
 		$remind = new Sher_Core_Model_Remind();
 		$url = Doggy_Config::$vars['app.url.user'];
+
+		if(empty($row['target_id'])){
+            return $this->ajax_json('缺少请求参数 !', true);
+        }
 		if(empty($content)){
-            return;
+            return $this->ajax_json('评论内容不能为空!', true);
         }
         $user_ids = array();
         $merge = '/\@(.*) /U';
@@ -227,7 +231,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         // 神嘴争霸wap 以后去掉
         $comment['rank_has_first_comment'] = $rank_has_first_comment;
         
-        return $this->ajax_json('', false, '', $comment);
+        return $this->ajax_json('操作成功', false, '', $comment);
 
 	}
 	
@@ -664,6 +668,15 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         $data['pager'] = $pager;
         
         return $this->ajax_json('', false, '', $data);
+    }
+
+
+    /**
+     * 个人中心快捷回复
+     */
+    public function quick_reply(){
+    
+    
     }
   	
 }
