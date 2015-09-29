@@ -1,0 +1,123 @@
+{%extends 'layout/column.html'%}
+{% block title%}超千人申请试用的69智能电臀-成功案例-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.success.case .banner {
+		background:url(http://frbird.qiniudn.com/try/150729/55b7e3d0fc8b12767c8caef7-1) scroll no-repeat center top;
+		background-size:cover;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}	
+	phenix.doit('goccia-money', 6531345,10000);
+	phenix.doit('goccia-people', 2355,6);
+	phenix.doit('goccia-precent', 653,2);
+	
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/resp_bg.jpg';
+	phenix.bind_share_list(pic_url);
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com/guide/dt'});
+	
+	$('#wechat-share').click(function() {
+		$('.ui.qrcode.modal').modal('show');
+		return false;
+	});
+	
+{% endblock %}
+
+{% block content %}
+
+<div class="success case">
+	<section class="banner">
+		<div class="pad">
+			<h3><i class="trophy icon"></i>成功案例</h3>
+			<h1 class="ui header">
+				<div class="content">
+					69智能电臀 <br />超千人申请试用的69智能电臀
+					<div class="sub header">
+						6月19日，有中国最火爆的智能硬件孵化平台和美国成人产业奠基TopcoSales旗下高端情趣时尚品牌“69”品牌共同推出一款颠覆传统的智能情趣用品——69智能电臀。9智能电臀的众筹及营销由太火鸟操刀，产品众筹首日即突破120万，近500位粉丝支持。
+					</div>
+				</div>
+			</h1>
+			<div class="category">
+				<p>类别</p>
+				<p>情趣用品</p>
+			</div>
+			<p>滚动阅读更多<i class="angle down icon"></i></p>
+			<a class="ui white inverted button btn" href="{{ app_url_domain }}/shop/1065451935.html">
+					<span>立即购买</span><i class="icon-arrow-right-sharp"></i>
+				</a>
+		</div>
+	</section>
+	
+	<div class="ui responsive onepage grid">
+		<div class="center aligned three column count row">
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-money">6531345</span></h1>
+						<p>众筹金额</p>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-people">2355</span></h1>
+						<p>支持人数</p>
+					</div>
+					
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-precent">653</span>%</h1>
+						<p>达成率</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="wz">
+					<p>69智能电臀采用的是全球顶级虚拟肌肤专利技术技术CyberSkin，极致肉感;产品脱胎于美国“花花公子”杂志签约艳星真人导模，无论是形状还是手感 都是尤物之选，除此之外，69智能电臀无需外部干预，内部自动加热至37℃;另外，研发团队还历时485天，对美国100多位电臀舞女郎进行数据采集，它 可以跟随音乐进行律动。结合APP随心所欲调整电臀模式——夹吸震颤四大功能，配合赠送的3D VR眼镜，自行上传女神影片，感受现象级立体互动，让你心眼合一，腰马合一，天人合一…从此爱动片不再让你单纯的“看”。</p>
+					<p>上线淘宝众筹之前，太火鸟在微信、微博、官网进行预热活动，吸引一大批围观粉丝，预热文章阅读量10000+。6月19日，在太火鸟的协助推广下，69智能电臀一经上线淘宝众筹，众筹金额旋即突破120万元。在杭州举办的发布会，更是盛况空前被几十家科技媒体及大众媒体争相报道。众筹期间，和邪社、香蕉社区、百度知道、知乎问答等相关平台进行宣传，其中知乎问答平台就有1502人关注，被浏览90598次。策划拍摄宣传视频，腾讯点击量高达5000+次。太火鸟官网为配合宣传还推出了太火鸟史上规模最大的产品免费试用活动，总共收到1500+人次申请试用。</p>
+				</div>
+				
+				<h2 class="ui header">传播推广</h2>
+				
+				<div class="ui two blocks">
+					<div class="block">
+						<img src="{{ app_url_packaged }}/images/dt-3.png" class="ui image" />
+					</div>
+					<div class="block">
+						<img src="{{ app_url_packaged }}/images/dt-2.png" class="ui image" />
+					</div>
+					<div class="block">
+						<img src="{{ app_url_packaged }}/images/dt-1.png" class="ui image" />
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<a class="ui btn-4 btn-4c magenta active inverted button" href="{{ app_url_domain }}/shop/1065451935.html">
+						<span>立即购买</span><i class="icon-arrow-right-sharp"></i>
+					</a>
+				<h5 class="ui header">分享案例故事</h5>
+				{% include "block/big-circel-share.html" %}
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% include "block/qrcode.html" %}
+{% endblock %}
