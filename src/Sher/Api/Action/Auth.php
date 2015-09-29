@@ -28,7 +28,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 		$this->resparams = array_merge($this->resparams, array('mobile','password'));
 		// 验证请求签名
 		if(Sher_Core_Helper_Util::get_signature($this->stash, $this->resparams, $this->client_id) != $this->sign){
-			return $this->api_json('请求签名验证错误,请重试!', 3000);
+			//return $this->api_json('请求签名验证错误,请重试!', 3000);
 		}
 		
         if (empty($this->stash['mobile']) || empty($this->stash['password'])) {
