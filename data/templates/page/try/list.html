@@ -195,42 +195,37 @@
             <div class="ui articles list">
                 {% topic_list var:'tlist' published:1 category_id:report_category_id type:1 page:1 size:3 %}
                 {% for topic in tlist.rows %}
-                <div class="item topicbox">
-                    <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover" target="_blank">
-                      <img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" alt="{{ topic.title }}">
-                    </a>
-                    <h2>
-                      <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
-                        {{ topic.title }}
-                      </a>
-                    </h2>
-                    
-                    <p class="author">
-                       <i class="unhide icon"></i> <span>{{ topic.view_count }}</span>
-                        <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
-                    </p>
-                    
-                    
-                </div>
-                {% endfor %}
-                
-                
-                {% topic_list var:'tlist' published:1 category_id:report_category_id type:1 page:1 size:5 %}
-                {% for topic in tlist.rows %}
-                <div class="item topicbox">
-                  <h2>
-                    <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
-                        {{ topic.title }}
-                    </a>
-                  </h2>
-                  <div class="author">
-                    <div class="nickname">{{ topic.user.nickname }}</div>
-                     <i class="unhide icon"></i> <span>{{ topic.view_count }}</span>
-                      <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
-                  </div>
-
-                </div>
-                {% endfor %}
+                  {% if !loop.counter>3 %}
+                    <div class="item topicbox">
+                        <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover" target="_blank">
+                          <img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" alt="{{ topic.title }}">
+                        </a>
+                        <h2>
+                          <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
+                            {{ topic.title }}
+                          </a>
+                        </h2>
+                        
+                        <p class="author">
+                           <i class="unhide icon"></i> <span>{{ topic.view_count }}</span>
+                            <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
+                        </p>
+                    </div>
+                  {% else %}
+                    <div class="item topicbox">
+                      <h2>
+                        <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
+                            {{ topic.title }}
+                        </a>
+                      </h2>
+                      <div class="author">
+                        <div class="nickname">{{ topic.user.nickname }}</div>
+                         <i class="unhide icon"></i> <span>{{ topic.view_count }}</span>
+                          <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
+                      </div>
+                    </div>
+                {%endif%}
+              {% endfor %}
                 
             </div>
         </div>
