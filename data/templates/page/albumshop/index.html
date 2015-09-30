@@ -12,6 +12,9 @@
 	    background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);
 		{% endif %}
 	}
+	.mainleft{
+	  min-height:auto !important;
+	}
 </style>
 {% endblock %}
 
@@ -91,6 +94,10 @@
                         .html('<i class="minus icon"></i> 已关注');
                         
                     $('#target-favorite-count').text(result.data.favorite_count);
+                    if(result.data.new_fav){
+                        $('#target_favorite_support')
+                            .prepend('<a href=\"/user/'+ result.data.user_id +'\" target=\"_blank\" id=\"user-'+ result.data.user_id +'\" class=\"image\" data-variation=\"wide\" data-html=\"<div class=\'header\'>'+  result.data.nickname +'</div><div class=\'content\'>'+ result.data.city +' '+ result.data.job +'</div>\"><img src=\"'+ result.data.avatar +'\" /></a>');
+                    }
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -111,6 +118,20 @@
 			}, 'json');
 		}
 	});
+
+    // ajax加载签到数据
+    phenix.signin();
+
+    // 加载推荐专辑
+    $.get('{{ app_url_albums }}/ajax_load_list?rand='+Math.random(), { page: 1, size: 4, album_id: "{{ albums._id }}" }, function(rs){
+          if(rs.success){
+              var rendered = phenix.ajax_render_result('#get_shop_albums_tpl', rs.data);
+              $('.shop-albums').html(rendered);                          
+          }else{
+              phenix.show_error_note(rs.message);
+          }
+
+      }, 'json');
 	
 {% endblock %}
 
@@ -121,29 +142,102 @@
         <div class="desc">
             <p>{{ albums.des|default '我们用心挑选数以万计的创意产品，为你每次的一见钟情!' }}</p>
         </div>
+        <!--
 		<div class="ui magenta pop favorite inverted button" data-title="关注一下" data-content="有关该产品动态及时通知你，后续可以在‘我关注的’中快捷查找" data-id="{{ albums._id }}" data-mark="n">
 			<i class="plus icon"></i> 关注
 		</div>
+    -->
 	</h1>
 </div>
 
-<div class="shop list" id="shoplist">
-	<div class="ui responsive grid">
+<div class="shop list mainwrap social" id="shoplist">
+  <div class="mainleftwrap">
+    <div class="mainleft">
+      <div class="ui three products cards item-box">
+                  <!--ajax load list-->
+              </div>
+      <div id="albums-more" p="{{ page }}" status="1" style="text-align:center;margin:10px auto;display:none;">
+          <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
+          加载中...
+      </div>
+
+    </div>
+  </div>
+  <div class="mainright">
+    {% include "page/topic/usersign.html" %}
+
+    {% if visitor.can_edit %}
+      <div class="sellwrap userinfo">
+        <a href="{{ app_url_albums }}/add" class="fluid ui red inverted button">
+          <i class="edit icon"></i> 创建新专辑
+        </a>
+        <p>甄选你最偏爱的智能创意品味，收获无穷灵感与未来眼界。</p>
+      </div>
+    {%endif%}
+
+        <div class="ui sticky">
+            <div class="sellwrap">
+                <div class="block title">
+                         关注 
+                </div>
+                <div class="user action">
+        			<div class="ui magenta pop favorite inverted button" data-title="关注一下" data-content="有关该专辑动态及时通知你，后续可以在‘我关注的’中快捷查找" data-id="{{ albums._id }}" data-mark="n">
+        				<i class="plus icon"></i> 关注
+        			</div>
+                </div>
+                <div class="user avatars">
+              	  	<div class="ui images" id="target_favorite_support">
+                        {% if albums.favorite_count %}
+                            {% favorite_list var:'userlist' target_id:albums._id event:1 type:8 size:50 %}
+                            {% for target in userlist.rows %}
+                            <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
+                  	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />
+                            </a>
+                            {% endfor %}
+                        {% endif %}
+              	  	</div>
+                    <p>
+                        已有 <span id="target-favorite-count">{{ albums.favorite_count }}</span> 人关注
+                    </p>                    
+                </div>
+
+            </div>
+        </div>
+
+        <!--推荐专辑-->
+        <div class="sellwrap" id="shop-albums-list">
+			<div class="block title">
+               推荐专辑 
+      </div>
+            <div class="ui articles shop-albums list">
+
+            </div>
+    </div>
+
+    
+  </div>
+  
+  
+  
+  
+	<!--<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				<div class="ui four products cards item-box">
+				<div class="ui four products cards item-box">-->
                     <!--ajax load list-->
-                </div>
+              <!--  </div>
             </div>
             <div id="albums-more" p="{{ page }}" status="1" style="text-align:center;margin:10px auto;display:none;">
                 <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
                 加载中...
             </div>
 		</div>
-	</div>
+	</div>-->
 </div>
 {% endblock %}
 
 {% block templates %}
-{% mustache id:'fetch_more_albumshop_tpl' tpl:'mustache/fetch_more_albumshop.mustache' %}
+  {% mustache id:'fetch_more_albumshop_tpl' tpl:'mustache/fetch_more_albumshop.mustache' %}
+  {% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
+  {% mustache id:'get_shop_albums_tpl' tpl:'mustache/fetch_albums_right.mustache' %}
 {% endblock %}

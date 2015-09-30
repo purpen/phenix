@@ -1104,19 +1104,29 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
      */
     public function ajax_load_albums_list(){
       $pid = isset($this->stash['pid']) ? (int)$this->stash['pid'] : 0;
+      $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 5;
+      $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+      $load_type = isset($this->stash['load_type']) ? (int)$this->stash['load_type'] : 1;
         
         $service = Sher_Core_Service_Albumshop::instance();
         $query = array();
         $options = array();
-		
-		if(empty($pid)){
-      return $this->ajax_json('缺少请求参数!', true);
-		}
 
-			  $query['pid'] = $pid;
+        if($pid){
+			    $query['pid'] = $pid;
+        }
+
+        switch($sort){
+          case 0:
+          $options['sort_field'] = 'latest';
+          break;
+          case 1:
+          $options['sort_field'] = 'latest';
+          break;
+        }
         
         $options['page'] = 1;
-        $options['size'] = 10;
+        $options['size'] = $size;
         
         $result = $service->get_Albumshop_list($query, $options);
 		// 过滤用户
