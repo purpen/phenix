@@ -12,6 +12,9 @@
 	    background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);
 		{% endif %}
 	}
+	.mainleft{
+	  min-height:auto !important;
+	}
 </style>
 {% endblock %}
 
@@ -127,20 +130,40 @@
 	</h1>
 </div>
 
-<div class="shop list" id="shoplist">
-	<div class="ui responsive grid">
+<div class="shop list mainwrap social" id="shoplist">
+  <div class="mainleftwrap">
+    <div class="mainleft">
+      <div class="ui three products cards item-box">
+                  <!--ajax load list-->
+              </div>
+      <div id="albums-more" p="{{ page }}" status="1" style="text-align:center;margin:10px auto;display:none;">
+          <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
+          加载中...
+      </div>
+
+    </div>
+  </div>
+  <div class="mainright">
+    
+    
+  </div>
+  
+  
+  
+  
+	<!--<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				<div class="ui four products cards item-box">
+				<div class="ui four products cards item-box">-->
                     <!--ajax load list-->
-                </div>
+              <!--  </div>
             </div>
             <div id="albums-more" p="{{ page }}" status="1" style="text-align:center;margin:10px auto;display:none;">
                 <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
                 加载中...
             </div>
 		</div>
-	</div>
+	</div>-->
 </div>
 {% endblock %}
 
