@@ -446,7 +446,7 @@ p{
                   
                 {% if comments.total_rows %}
                 <div class="ui pagination pagerbox" style="text-align:center;">
-                  {% pager url:pager_url,total_rows:comments.total_rows,total_page:comments.total_page,current_page:page,var:'pager',pager_size:9 %}
+                  {% pager url:pager_url,total_rows:comments.total_rows,total_page:comments.total_page,current_page:page,var:'pager',pager_size:3 %}
                   {%include 'block/pager.html'%}
                 </div>
                 {% endif %}
