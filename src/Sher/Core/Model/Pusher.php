@@ -6,19 +6,27 @@
 class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
 	protected $collection = "pusher";
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
+
+  const FROM_IOS = 1;
+  const FROM_ANDROID = 2;
+  const FROM_WIN = 3;
+  const FROM_IPAD = 4;
 	
 	protected $schema = array(
   	    'user_id' => 0,
 		'uuid' => '',
 		
   	    'push_count' => 0,
+        'from_to' => self::FROM_IOS,
+        // 是否登录
+        'is_login' => 1,
   	  	
 		'state' => 1,
   	);
 
   	protected $required_fields = array('uuid', 'user_id');
 	
-  	protected $int_fields = array('user_id', 'push_count', 'state');
+  	protected $int_fields = array('user_id', 'push_count', 'state', 'from_to', 'is_login');
 	
 	
     protected function extra_extend_model_row(&$row) {
@@ -57,4 +65,4 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
 	}
 	
 }
-?>
+
