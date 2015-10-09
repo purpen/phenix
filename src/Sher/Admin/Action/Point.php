@@ -52,7 +52,7 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
         $rows = $model->find();
         $this->stash['events'] = $rows;
 
-        $pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/point/event_record_list?page=#p#');
+        $pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/point/event_record_list?event_code=%s&page=#p#', $this->stash['event_code']);
         $this->stash['pager_url'] = $pager_url;
         return $this->to_html_page('admin/point/event_record_list.html');
     }
