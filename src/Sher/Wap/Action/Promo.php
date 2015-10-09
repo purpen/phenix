@@ -10,7 +10,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus');
 
 	
 	/**
@@ -19,6 +19,48 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->coupon();
 	}
+
+  /**
+   * 手机扫码送红包
+   */
+  public function fetch_bonus(){
+
+    if(!$this->visitor->id){
+      $redirect_url = Doggy_Config::$vars['app.url.wap'].'/auth/login'; 
+      echo '<script>window.location="'. $redirect_url .'"</script>';exit;
+    }
+    $redirect_url = Doggy_Config::$vars['app.url.wap'].'/my/bonus'; 
+
+    $user_id = $this->visitor->id;
+    $xname = 'SQR';
+
+    // 获取红包
+    $bonus = new Sher_Core_Model_Bonus();
+
+    // 先判断用户是否领取过该红包
+    $has_one = $bonus->first(array('user_id'=>$user_id, 'xname'=>'SQR'));
+    if($has_one){
+      return $this->to_redirect($redirect_url);   
+    }
+
+    $result_code = $bonus->pop($xname);
+    
+    // 获取为空，重新生产红包
+    while(empty($result_code)){
+      //指定生成红包
+      $bonus->create_specify_bonus(5, $xname, 'C', 'C', 0);
+      $result_code = $bonus->pop($xname);
+      // 跳出循环
+      if(!empty($result_code)){
+        break;
+      }
+    }
+    
+    // 赠与红包 使用默认时间30天
+    $end_time = 0;
+    $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
+    return $this->to_redirect($redirect_url); 
+  }
 
 	/**
 	 * 2015 云马Ｃ1神嘴pk

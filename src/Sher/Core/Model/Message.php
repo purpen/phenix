@@ -124,4 +124,4 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 		return self::$_db->pull($this->collection,$criteria,'mailbox',$removed_reply);
     }
 }
-?>
+

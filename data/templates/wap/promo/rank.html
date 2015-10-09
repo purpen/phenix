@@ -415,7 +415,7 @@ p{
           <div  class="replytips"><i class="quote left icon"></i> 回复 #{{ comment.reply_comment.floor }} @<a class="ui link">{{ comment.reply_comment.user.nickname }}</a></div>
 
           {%endif%}
-          <div class="text">
+          <div class="text" {%if comment.sku_id==1%}style="color:red;"{%endif%}{%if comment.sku_id==2%}style="color:blue;"{%endif%}>
             {% if comment.deleted==1 %}
               该内容已被屏蔽
             {%else%}
@@ -446,7 +446,7 @@ p{
                   
                 {% if comments.total_rows %}
                 <div class="ui pagination pagerbox" style="text-align:center;">
-                  {% pager url:pager_url,total_rows:comments.total_rows,total_page:comments.total_page,current_page:page,var:'pager',pager_size:9 %}
+                  {% pager url:pager_url,total_rows:comments.total_rows,total_page:comments.total_page,current_page:page,var:'pager',pager_size:3 %}
                   {%include 'block/pager.html'%}
                 </div>
                 {% endif %}

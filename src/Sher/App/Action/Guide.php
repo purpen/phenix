@@ -69,6 +69,22 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 	}
 	
 	/**
+	 * 成功案例-wecoach
+	 */
+	public function wecoach() {
+		$this->set_target_css_state('page_succase');
+		return $this->to_html_page('page/case/wecoach.html');
+	}
+	
+	/**
+	 * 成功案例-电臀
+	 */
+	public function dt() {
+		$this->set_target_css_state('page_succase');
+		return $this->to_html_page('page/case/dt.html');
+	}
+	
+	/**
 	 * 成功案例-Goccia
 	 */
 	public function goccia() {

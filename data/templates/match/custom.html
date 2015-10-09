@@ -29,6 +29,9 @@
       padding-bottom: 40px;
       padding-top: 20px;
   }
+  .ui.contest.cards>.card>.speblock:hover{
+    margin-top:0;
+  }
 </style>
 {% endblock %}
 
@@ -74,7 +77,7 @@
         	    <div class="column">
                     <!--比赛列表-->
                     {% contest_list var:"list" page:page state:2 %}
-                    <div class="ui one contest cards">
+                    <div class="ui one contest products cards">
                     {% if list.rows %}
                         {% for contest in list.rows %}
                         <div class="card">

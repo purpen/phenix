@@ -23,7 +23,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/shop/index.html';
 	
-	protected $exclude_method_list = array('execute','get_list','view','ajax_fetch_comment','check_snatch_expire','pmall','ajax_guess_product', 'product_list', 'edit_evaluate', 'ajax_load_list');
+	protected $exclude_method_list = array('execute','get_list','view','ajax_fetch_comment','check_snatch_expire','pmall','ajax_guess_product', 'product_list', 'edit_evaluate', 'ajax_load_list', 'ajax_load_albums_list');
 	
 	public function _init() {
 		$this->set_target_css_state('page_shop');
@@ -426,6 +426,9 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
                         if(isset($product['user'])){
                           $product['user'] = Sher_Core_Helper_FilterFields::user_list($product['user']);
                         }
+                        if(isset($product['designer'])){
+                          $product['designer'] = Sher_Core_Helper_FilterFields::user_list($product['designer']);
+                        }
                         array_push($items, array('product'=>$product));
                     }
                 }
@@ -718,10 +721,13 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 
         $max = count($result['rows']);
         for($i=0;$i<$max;$i++){
-			// 过滤用户表
-			if(isset($result['rows'][$i]['user'])){
-			  $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
-			}
+          // 过滤用户表
+          if(isset($result['rows'][$i]['user'])){
+            $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
+          }
+          if(isset($result['rows'][$i]['designer'])){
+            $result['rows'][$i]['designer'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['designer']);
+          }
         }
 
         $data = array();
@@ -1092,5 +1098,54 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
 		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
   }
+
+	/**
+     * ajax加载商品所在专辑列表
+     */
+    public function ajax_load_albums_list(){
+      $pid = isset($this->stash['pid']) ? (int)$this->stash['pid'] : 0;
+      $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 5;
+      $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+      $load_type = isset($this->stash['load_type']) ? (int)$this->stash['load_type'] : 1;
+        
+        $service = Sher_Core_Service_Albumshop::instance();
+        $query = array();
+        $options = array();
+
+        if($pid){
+			    $query['pid'] = $pid;
+        }
+
+        switch($sort){
+          case 0:
+          $options['sort_field'] = 'latest';
+          break;
+          case 1:
+          $options['sort_field'] = 'latest';
+          break;
+        }
+        
+        $options['page'] = 1;
+        $options['size'] = $size;
+        
+        $result = $service->get_Albumshop_list($query, $options);
+		// 过滤用户
+        $max = count($result['rows']);
+        $album_model = new Sher_Core_Model_Albums();
+        for($i=0;$i<$max;$i++){
+			if(isset($result['rows'][$i]['user'])){
+			  $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
+        $album = $album_model->load($result['rows'][$i]['dadid']);
+        $result['rows'][$i]['album'] = $album;
+        unset($result['rows'][$i]['product']);
+			}
+        }
+		
+		$data = array();
+        $data['has_one'] = $max>0 ? true : false;
+        $data['album_url'] = Doggy_Config::$vars['app.url.album.shop'];
+        $data['result'] = $result;
+        return $this->ajax_json('', false, '', $data);
+    }
 	
 }

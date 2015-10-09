@@ -27,6 +27,8 @@ class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
         'view_count' => 0,
         # 点赞数
         'love_count' => 0,
+        # 评论数
+        'comment_count' => 0,
 		# 关注数
 		'favorite_count' => 0,
         # 是否启用
@@ -34,9 +36,9 @@ class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('title');
-	protected $int_fields = array();
+	protected $int_fields = array('status', 'user_id', 'asset_count','view_count','love_count','favorite_count','comment_count');
 	protected $float_fields = array();
-	protected $counter_fields = array('view_count','love_count','favorite_count');
+	protected $counter_fields = array('view_count','love_count','favorite_count','comment_count');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(

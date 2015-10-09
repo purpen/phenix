@@ -93,10 +93,6 @@ class Sher_Core_Model_UserSignStat extends Sher_Core_Model_Base  {
    * 保存前事件
    */
   protected function before_save(&$data) {
-    //用户ID与当前时间生成唯一索引(每天每用户只允许生成一条记录!)
-    if(!empty($data['user_id']) && !empty($data['day'])){
-      $data['only_index'] = md5(sprintf("%s_%s", (string)$data['day'], (string)$data['user_id']));
-    }
 
   }
 

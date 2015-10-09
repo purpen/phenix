@@ -142,19 +142,31 @@
                     		    </a>
                             </h2>
                             <div class="excerpt">
+                              {% if t.step_stat==0 %}
+                                <p>想要人数：<span>{{ t.want_count }}</span></p>
+                              {%else%}
                                 <p>产品数量：<span class="count">{{ t.try_count }}</span>  申请人数：<span>{{ t.apply_count }}</span></p>
+                              {%endif%}
+
                             </div>
                             <div class="cats">
+                                {% if t.step_stat == 0 %}
+                                  预热中 敬请期待!
+                                {%endif%}
                                 {% if t.step_stat == 1 %}
                                 <i class="calendar icon"></i> 试用名单公布：<span> {{ t.publish_time }}</span>
                                 {%endif%}
                                 {% if t.step_stat == 2 %}
                                 <i class="calendar icon"></i> 试用报告 正在回收中···                                                {% endif %}
                                 {% if t.step_stat == 3 %}
-                                <i class="tasks icon"></i> 试用报告已回收 <span> {{ t.pass_count }}</span> 份
+                                  {% if t.report_count==0 %}
+                                    <i class="tasks icon"></i> 试用报告正在回收中...
+                                  {%else%}
+                                    <i class="tasks icon"></i> 试用报告已回收 <span> {{ t.report_count }}</span> 份
+                                  {%endif%}
                                 {% endif %}
                                 {% if t.step_stat == 5 %}
-                                <i class="tasks icon"></i> 试用报告已回收 <span> {{ t.pass_count }}</span> 份
+                                <i class="tasks icon"></i> 试用报告已回收 <span> {{ t.report_count }}</span> 份
                                 {% endif %}
                             </div>
                         </div>
@@ -183,21 +195,38 @@
             <div class="ui articles list">
                 {% topic_list var:'tlist' published:1 category_id:report_category_id type:1 page:1 size:8 %}
                 {% for topic in tlist.rows %}
-                <div class="item">
-                    <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
-                        {{ topic.title }}
-                        <div class="extra">
-                            <span class="author">{{ topic.user.nickname }}</span>
-                            <div class="dotcount">
-                                <div class="statistic">
-                                    <i class="unhide icon"></i> <span class="value">{{ topic.view_count }}</span>
-                                    <i class="comment outline icon"></i> <span class="value">{{ topic.comment_count }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                {% endfor %}
+                  {% if !loop.counter>3 %}
+                    <div class="item topicbox">
+                        <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover" target="_blank">
+                          <img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" alt="{{ topic.title }}">
+                        </a>
+                        <h2>
+                          <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
+                            {{ topic.title }}
+                          </a>
+                        </h2>
+                        
+                        <p class="author">
+                           <i class="unhide icon"></i> <span>{{ topic.view_count }}</span>
+                            <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
+                        </p>
+                    </div>
+                  {% else %}
+                    <div class="item topicbox">
+                      <h2>
+                        <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
+                            {{ topic.title }}
+                        </a>
+                      </h2>
+                      <div class="author">
+                        <div class="nickname">{{ topic.user.nickname }}</div>
+                         <i class="unhide icon"></i> <span>{{ topic.view_count }}</span>
+                          <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
+                      </div>
+                    </div>
+                {%endif%}
+              {% endfor %}
+                
             </div>
         </div>
         

@@ -20,6 +20,9 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		'pid' => 0,
 		# 分类标签，含：近义词、同类词、英文词
 		'tags' => array(),
+
+    # 移动端封面图片路径
+    'app_cover_url' => null,
 		# 排列顺序
 		'order_by' => 0,
 		# 分类域
@@ -34,7 +37,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		'state' => 0,
     );
 	
-	protected $retrieve_fields = array('name'=>1,'title'=>1,'summary'=>1,'gid'=>1,'pid'=>1,'order_by'=>1,'domain'=>1,'total_count'=>1,'reply_count'=>1,'state'=>1,'is_open'=>1,'tags'=>1);
+	protected $retrieve_fields = array('name'=>1,'title'=>1,'summary'=>1,'gid'=>1,'pid'=>1,'order_by'=>1,'domain'=>1,'total_count'=>1,'reply_count'=>1,'state'=>1,'is_open'=>1,'tags'=>1,'app_cover_url'=>1);
 	
 	// 类组
 	protected $groups = array(
@@ -70,8 +73,10 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 	 * 组装数据
 	 */
 	protected function extra_extend_model_row(&$row) {
-		$row['tags_s'] = !empty($row['tags']) ? implode(',', $row['tags']) : '';
-		if (isset($row['gid'])) {
+    if(isset($row['tags']) && !empty($row['tags'])){
+		  $row['tags_s'] = implode(',', $row['tags']);
+    }
+		if (isset($row['gid']) && !empty($row['gid'])) {
 			$row['group']  = $this->find_groups($row['gid']);
 		}
 		

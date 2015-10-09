@@ -46,6 +46,18 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 		$result['user'] = null; // 过滤用户信息
 		//$result['cover'] = null; // 过滤封面图
 		$this->stash['albums'] = $result;
+
+		//评论参数
+		$comment_options = array(
+		  'comment_target_id' =>  $result['_id'],
+		  'comment_target_user_id' => $result['user_id'],
+		  'comment_type'  =>  Sher_Core_Model_Comment::TYPE_ALBUM,
+		  'comment_pager' =>  '',
+		  //是否显示上传图片/链接
+		  'comment_show_rich' => 0,
+		);
+		$this->_comment_param($comment_options);
+
 		return $this->to_html_page('page/albumshop/index.html');
 	}
 	
@@ -80,7 +92,7 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 		$data = array();
         $data['results'] = $result;
 		$data['did'] = (int)$this->stash['did'];
-		$data['can_edit'] = (bool)$this->stash['visitor']['can_edit'];
+		$data['can_edit'] = isset($this->stash['visitor']['can_edit']) ? (bool)$this->stash['visitor']['can_edit'] : false;
 		$data['url'] = Doggy_Config::$vars['app.url.album.shop'];
         return $this->ajax_json('', false, '', $data);
     }
@@ -106,21 +118,21 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 		try{
 			
 			$model = new Sher_Core_Model_Albumshop();
-			$res = $model->find_by_id($data);
+			$res = $model->first(array('pid'=>$data['pid'], 'dadid'=>$data['dadid']));
 			
 			if($res){
-				return $this->ajax_notification('已加入专辑,请选择其他专辑!', true);
+				return $this->ajax_json('已加入专辑,请选择其他专辑!', true);
 			}
 			
 			$ok = $model->apply_and_save($data);
 			
 			if(!$ok){
-				return $this->ajax_notification('保存失败,请重新提交', true);
+				return $this->ajax_json('保存失败,请重新提交', true);
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("保存失败：".$e->getMessage());
-			return $this->ajax_notification('保存失败:'.$e->getMessage(), true);
+			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
 		}
 		return $this->ajax_note('保存成功', false);
 		//$redirect_url = Doggy_Config::$vars['app.url.album.shop'].'?did='.(int)$this->stash['dadid'];
@@ -156,4 +168,24 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 		return $this->to_taconite_page('ajax/delete.html');
 		//return $this->to_redirect($redirect_url);
 	}
+
+  /**
+   * 评论参数
+   */
+  protected function _comment_param($options){
+    $this->stash['comment_target_id'] = $options['comment_target_id'];
+    $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
+    $this->stash['comment_type'] = $options['comment_type'];
+    // 评论的链接URL
+    $this->stash['pager_url'] = isset($options['comment_pager'])?$options['comment_pager']:0;
+
+    // 是否显示图文并茂
+    $this->stash['comment_show_rich'] = isset($options['comment_show_rich'])?$options['comment_show_rich']:0;
+		// 评论图片上传参数
+		$this->stash['comment_token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
+		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
+		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+  }
+
 }

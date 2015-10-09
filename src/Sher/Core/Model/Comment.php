@@ -34,6 +34,8 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         // 子类型,1.商品下的灵感; 2.
         'sub_type' => 1,
 		'love_count' => 0,
+        // 虚拟点赞人数
+        'invented_love_count' => 0,
         
         // 是否是回复某人的评论
         'is_reply' => 0,
@@ -51,8 +53,8 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         'target_user' => array('target_user_id' => 'Sher_Core_Model_User'),
     );
     protected $required_fields = array('user_id','content');
-    protected $int_fields = array('user_id','target_user_id','star','love_count','floor','is_reply','reply_user_id');
-	protected $counter_fields = array('love_count');
+    protected $int_fields = array('user_id','target_user_id','star','love_count','floor','is_reply','reply_user_id','invented_love_count');
+	protected $counter_fields = array('love_count','invented_love_count');
 	
 	/**
 	 * 验证数据
@@ -201,6 +203,17 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                     $user_id = $stuff['user_id'];
                     $model->inc_counter('comment_count', 1, (int)$this->data['target_id']);
                     break;
+                case self::TYPE_ALBUM:
+                    // 不添加动态
+                    //$timeline_type = Sher_Core_Util_Constant::TYPE_ALBUM;
+                    //$kind = Sher_Core_Model_Remind::KIND_ALBUM;
+                    
+                    $model = new Sher_Core_Model_Albums();
+                    //获取目标用户ID
+                    $album = $model->find_by_id((int)$this->data['target_id']);
+                    $user_id = $album['user_id'];
+                    $model->inc_counter('comment_count', 1, (int)$this->data['target_id']);
+                    break;
                 case self::TYPE_SUBJECT:
                     $kind = Sher_Core_Model_Remind::KIND_SUBJECT;
                     $model = new Sher_Core_Model_DigList();
@@ -243,7 +256,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             }
             
 	          // 添加动态提醒
-            if(isset($timeline_type) && !empty($timeline)){
+            if(!empty($timeline_type)){
                 $timeline = Sher_Core_Service_Timeline::instance();
                 $timeline->broad_target_comment($this->data['user_id'], (int)$this->data['target_id'], $timeline_type, array('comment_id'=>(string)$this->data['_id']));
             }

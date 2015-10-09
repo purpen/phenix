@@ -51,6 +51,7 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
     const KIND_FOLLOW = 5;  //关注
     const KIND_TRY = 6;  //产品试用
     const KIND_STUFF = 7; //产品灵感
+    const KIND_ALBUM = 8; //产品灵感
     const KIND_SUBJECT = 10; //专题
 
     protected $schema = array(

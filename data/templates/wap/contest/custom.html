@@ -66,6 +66,96 @@
 
 {% block jquery %}
 
+  //报名按钮
+	$('.attend-btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+		  phenix.redirect("{{ app_url_wap }}/auth/login");
+			return false;
+		}
+    var id=$(this).data("id");
+
+    //验证用户信息齐全
+    $.get('{{ app_url_wap }}/app/site/user/ajax_check_userinfo', {}, function(result){
+      if(result=='true'){
+        //跳转参赛上传页面
+        phenix.redirect('{{ app_url_wap }}/stuff/contest_submit?contest_id='+id);
+      }else if(result=='false'){
+        $('.user-info-box.modal')
+        .modal('setting', 'transition', 'vertical  flip')
+        .modal('show');
+        return false; 
+      }
+    });
+
+	});
+
+  //取消报名弹出框
+	$('.ui.deny.button').click(function(){
+		$('.ui.user-info-box.modal').modal('hide');
+	});
+
+	$('#user-info-form').livequery(function(){
+		$(this).form({
+			realname: {
+				identifier  : 'realname',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'phone',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '电话不能为空'
+					}
+				]
+			},
+			address: {
+				identifier  : 'address',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '地址不能为空'
+					}
+				]
+			},
+			job: {
+				identifier  : 'job',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '职位不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+        $(this).ajaxSubmit({
+          dataType: 'json',
+          beforeSubmit: function(){
+            phenix.before_submit();
+          },
+          success: function(data){
+            phenix.after_submit();
+            
+            if(data.is_error){
+              $(event.target).addClass('error');
+              phenix.show_error_note(data.message, event.target);
+            }else{
+              phenix.redirect(data.redirect_url);
+            }
+          }
+        });
+			}
+		});
+	});
 
 {% endblock %}
 {% block content %}
@@ -142,7 +232,7 @@
           </div>
           <div class="more-btn">
             <a href="{{ d.wap_view_url }}" class="ui red active inverted button">查看详情</a>&nbsp;
-            <a href="{{ d.wap_view_url }}" class="ui blue active inverted button">提交作品</a>
+            <a href="javascript:void(0);" class="ui attend-btn blue active inverted button" data-id="{{ d._id }}">提交作品</a>
           </div>
         </div>
       {%endfor%}
@@ -159,5 +249,5 @@
     </div>
   </div>
 </div>
-
+{% include "block/wap_contest_attend_user_info.html" %}
 {% endblock %}

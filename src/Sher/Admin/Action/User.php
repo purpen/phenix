@@ -15,6 +15,7 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
     'kind' => 0,
     'start_date' => '',
     'end_date' => '',
+    'sort' => 0,
 	);
 	
 	/**
@@ -111,7 +112,7 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		$this->stash['start_time'] = $start_time;
 		$this->stash['end_time'] = $end_time;
 		
-		$pager_url = sprintf("%s/user?state=%d&time=%s&start_date=%s&end_date=%s&page=#p#", Doggy_Config::$vars['app.url.admin'], $state, $time, $this->stash['start_date'], $this->stash['end_date']);
+		$pager_url = sprintf("%s/user?state=%d&time=%s&start_date=%s&end_date=%s&sort=%d&page=#p#", Doggy_Config::$vars['app.url.admin'], $state, $time, $this->stash['start_date'], $this->stash['end_date'], $this->stash['sort']);
 		
 		$this->stash['pager_url'] = $pager_url;
 		

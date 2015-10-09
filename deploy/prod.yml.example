@@ -52,6 +52,9 @@ app.cache.memcached.default:
 #xun_search db name
 app.xun_search_db: 'phenix'
 
+# 是否验证api签名
+app.api.is_validate_sign: 1
+
 # 周年庆送红包活动 开关
 app.anniversary2015.switch: 0
 
