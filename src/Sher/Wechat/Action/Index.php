@@ -463,7 +463,6 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
     public function verify() {
         $echoStr = $this->stash["echostr"];
 		
-        //valid signature , option
         if($this->check_signature()){
 			return $this->to_raw($echoStr);
         }
