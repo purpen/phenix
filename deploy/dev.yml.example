@@ -42,7 +42,7 @@ app.redis.default:
 
 # redisdb
 app.redis_host: 'localhost:6379'
-
+app.disable_cached: 1
 app.cache.memcached.default:
   servers:
     -
