@@ -20,6 +20,12 @@
 	  margin-top: 10px;
 	  margin-bottom: 15px;
 	}
+	.sellwrap.admin{
+	  background:#fff !important;
+	}
+	.froala-element td img {
+      width: 100%;
+  }
 	
 	
 	/*.post.vote .description .field .ui.checkbox{
@@ -63,7 +69,10 @@
 	phenix.hook_comment_page();
     
     // ajax加载评论
-    phenix.fetch_comment(comment_param);
+    //phenix.fetch_comment(comment_param);
+
+    // 查看大图
+    phenix.comment_blow_up_img();
     
     // ajax加载签到数据
     phenix.signin();
@@ -300,7 +309,14 @@
 	});
 
 	// 加载相关话题 
-	$.get('{{ app_url_topic }}/ajax_guess_topics?rand='+Math.random(), {sword: '{{ topic.tags_s }}', size: 6, id: {{ topic._id }}, random:Math.random() }, function(rs){
+  $.ajax({
+    type: "GET",
+    url: '{{ app_url_topic }}/ajax_guess_topics',
+    data: {sword: '{{ topic.tags_s }}', size: 6, id: {{ topic._id }} },
+    dataType: 'json',
+    cache: false,
+    async: false,
+    success: function(rs){
       if(rs.data.state==1){
         var rendered = phenix.ajax_render_result('#guess_topic_tpl', rs.data);
         $('#topic_guess_list').html(rendered);
@@ -309,9 +325,9 @@
         ;     
       }else{
         return;
-      }
-
-    }, 'json');
+      }   
+    }
+  });
     
     // 投票提交部分
     $('#vote-save').click(function(){
@@ -402,7 +418,7 @@
 {% block content %}
 <div class="mainwrap social" id="postpage">
     <div class="mainleftwrap">
-        <div class="mainleft">
+        <div class="mainleft" {% if editable %} style="min-height:2300px !important;" {% endif %}>
 
     		{% if product %}
 			<div class="ui segment">
@@ -686,36 +702,39 @@
                         </div>
                     </div>
       		  	    <div id="comment-list">
-                        {% comment_list var:'comments' page:1 target_id:topic._id type:2 check_loved:1 only_hotest:1 current_user_id:visitor.id %}
+                        {% comment_list var:'hot_comments' page:1 target_id:topic._id type:2 check_loved:1 only_hotest:1 current_user_id:visitor.id %}
                         {% if comments.rows %}
                         <div class="ui threaded hotest comments">
                             <a class="ui red ribbon label">热门回复</a>
-                    		{% for comment in comments.rows %}
+                    		{% for comment in hot_comments.rows %}
                     			{%include 'block/comment_item.html'%}
                     		{% endfor %}
                             <hr>
                         </div>
                         {% endif %}
-                        <div class="ui threaded comments is-comment"></div>
-                        <div class="ui pagination pagerbox"></div>
+                        {% comment_list var:'comments' page:page target_id:topic._id type:2 sort:sort check_loved:1 current_user_id:visitor.id %}
+                        <div class="ui threaded comments is-comment">
+                        {% for comment in comments.rows %}
+                    			{%include 'block/comment_item.html'%}
+                    		{% endfor %}
+                        
+                        </div>
+                        {% if comments.total_page > 1 %}
+                        <div class="ui pagination pagerbox">
+                          {% pager url:pager_url,total_rows:comments.total_rows,total_page:comments.total_page,current_page:page,var:'pager',pager_size:9 %}
+                          {% include 'block/pager.html' %}
+                        </div>
+                        {%endif%}
       		  	    </div>
       		  	    {% include "block/comment_box_site.html" %}
                 </div>
             </div>
-            {% if topic._id == 104758 %}
-                {% if egou_uid %}
-                <div class="container" style="margin-top:0;">
-                    <a href="{{ app_url_domain }}/app/site/index/egou">
-                        <img src="{{ app_url_packaged }}/images/egend.png" width="170px" style="margin: 20px auto; display: block;">
-                    </a>
-                </div>
-                {% endif %}
-            {% endif %}
+
         </div>    
     </div>
     <div class="mainright">
         {% include "page/topic/usersign.html" %}
-        <div class="ui sticky">
+        <div class="ui {% if !editable %} sticky {% endif %}">
             <div class="sellwrap">
                 <div class="user action">
                     <p>关注&分享话题</p>
@@ -763,8 +782,8 @@
         {% include "page/topic/adwrap.html" %}
         
         {% if editable %}
-        <div class="sellwrap admin">
-			<div class="ui icon green hide editable buttons">
+        <div class="sellwrap admin ui sticky">
+			<div class="ui icon green editable buttons">
             {% if visitor.can_edit %}
                 {% if visitor.is_admin %}
 					{% if topic.top == 1 %}

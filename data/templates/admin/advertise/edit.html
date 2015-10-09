@@ -136,7 +136,7 @@
 					    <i class="angle down icon"></i>
 					    <div class="menu">
 							{% for space in spacelist.rows %}
-							<div data-value="{{ space._id }}" class="{% if space._id == advertise.space_id %}active {% endif %}item">{{ space.title }}</div>
+              <div data-value="{{ space._id }}" class="{% if space._id == advertise.space_id %}active {% endif %}item">{% if space.kind_name %}[{{ space.kind_name.name }}]{%endif%}{{ space.title }}</div>
 							{% endfor %}
 					    </div>
 					</div>
@@ -198,7 +198,7 @@
 			</div>
 			
 			<div class="field">
-			  	<label for="web_url">链接：</label>
+			  	<label for="web_url">链接(ID)：</label>
 				<input type="text" name="web_url" value="{{ advertise.web_url }}" placeholder="普通链接/ID/关键词" />
 			</div>
 			

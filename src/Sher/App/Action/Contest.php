@@ -68,6 +68,10 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 			return $this->show_message_page('访问的主题不存在！', $redirect_url);
 		}
 
+    if($contest['short_name']=='socket'){
+      $this->stash['page_title_suffix'] = '反向定制第三期命题·插排-太火鸟智能硬件孵化平台';
+    }
+
 		// 增加pv++
 		$model->increase_counter('view_count', 1, $contest['_id']);
         

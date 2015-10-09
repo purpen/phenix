@@ -159,7 +159,7 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 		
 		$data = array();
 		$data['results'] = $result;
-		$data['can_edit'] = (bool)$this->stash['visitor']['can_edit'];
+		$data['can_edit'] = isset($this->stash['visitor']['can_edit']) ? (bool)$this->stash['visitor']['can_edit'] : false;
 		$data['url'] = Doggy_Config::$vars['app.url.albums'];
 		$data['product_url'] = Doggy_Config::$vars['app.url.album.shop'];
         return $this->ajax_json('', false, '', $data);

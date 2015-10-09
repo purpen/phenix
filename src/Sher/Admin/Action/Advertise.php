@@ -180,7 +180,8 @@ class Sher_Admin_Action_Advertise extends Sher_Admin_Action_Base implements Dogg
 		if(!empty($this->stash['id'])) {
 			$this->stash['space'] = $model->extend_load((int)$this->stash['id']);
 			$mode = 'edit';
-		}		
+    }
+    $this->stash['kinds'] = $model->find_kinds();
 		$this->stash['mode'] = $mode;
 		return $this->to_html_page('admin/advertise/space_edit.html');
 	}

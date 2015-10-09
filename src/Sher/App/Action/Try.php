@@ -36,6 +36,27 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 	public function get_list(){
 		$this->set_target_css_state('page_try');
 
+    // 记录其它地过来用户注册统计
+    if(isset($this->stash['from'])){
+      $from = (int)$this->stash['from'];
+      // 统计点击数量
+      $dig_model = new Sher_Core_Model_DigList();
+      $dig_key = Sher_Core_Util_Constant::DIG_THIRD_SITE_STAT;
+
+      $dig = $dig_model->load($dig_key);
+      if(empty($dig) || !isset($dig['items']["stat_$from"])){
+        $dig_model->update_set($dig_key, array("items.stat_$from"=>1), true);     
+      }else{
+        // 增加浏览量
+        $dig_model->inc($dig_key, "items.stat_$from", 1);
+      }
+
+      // 存cookie
+      @setcookie('from_origin', $from, time()+3600*24, '/');
+      $_COOKIE['from_origin'] = $from;
+
+    }
+
         $pager_url = sprintf("%s/list-c%d-t%d-s%d-p%s", Doggy_Config::$vars['app.url.try'], 0, 0, 0, '#p#');
 		
 		$this->stash['pager_url'] = $pager_url;
@@ -70,31 +91,39 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		}
 
         // 不可申请状态
-        $this->stash['cannot_apply'] = false;
-        if($try['step_stat']==0){
-            $this->stash['cannot_apply'] = true;
-        }
+    $this->stash['cannot_apply'] = false;
+    // 是否已想要
+    $this->stash['is_want'] = false;
+    if($try['step_stat']==0){
+      $this->stash['cannot_apply'] = true;
+      if($this->visitor->id){
+        $attend_model = new Sher_Core_Model_Attend();
+        $is_want = $attend_model->check_signup($this->visitor->id, $try['_id'], Sher_Core_Model_Attend::EVENT_TRY_WANT);
+        if($is_want) $this->stash['is_want'] = true;
+      }
+        
+    }
 
-        // 加载配图
-        $img_asset = array();
-        if(!empty($try['imgs'])){
-            $asset_model = new Sher_Core_Model_Asset();
-            foreach($try['imgs'] as $k=>$v){
-                if(!empty($v)){
-                    $asset = $asset_model->extend_load($v);
-                    if($asset){
-                        $img_asset[$k] = $asset;
-                    }
+    // 加载配图
+    $img_asset = array();
+    if(!empty($try['imgs'])){
+        $asset_model = new Sher_Core_Model_Asset();
+        foreach($try['imgs'] as $k=>$v){
+            if(!empty($v)){
+                $asset = $asset_model->extend_load($v);
+                if($asset){
+                    $img_asset[$k] = $asset;
                 }
             }
         }
+    }
 
-        // 添加网站meta标签
-        $this->stash['page_title_suffix'] = sprintf("%s-新品试用-太火鸟智能硬件孵化平台", $try['title']);
-        if(!empty($try['tags'])){
-            $this->stash['page_keywords_suffix'] = sprintf("太火鸟,智能硬件,智能硬件孵化平台,新品试用,%s,产品评测", $try['tags'][0]);   
-        }
-        $this->stash['page_description_suffix'] = sprintf("【免费】申请%s试用，发表产品评测，更多智能硬件使用，就在太火鸟智能硬件孵化平台。", $try['short_title']);
+    // 添加网站meta标签
+    $this->stash['page_title_suffix'] = sprintf("%s-新品试用-太火鸟智能硬件孵化平台", $try['title']);
+    if(!empty($try['tags'])){
+        $this->stash['page_keywords_suffix'] = sprintf("太火鸟,智能硬件,智能硬件孵化平台,新品试用,%s,产品评测", $try['tags'][0]);   
+    }
+    $this->stash['page_description_suffix'] = sprintf("【免费】申请%s试用，发表产品评测，更多智能硬件使用，就在太火鸟智能硬件孵化平台。", $try['short_title']);
 		
 		// 增加pv++
 		$model->increase_counter('view_count', 1, $id);
@@ -177,6 +206,27 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 			if($row['is_end']){
 				return $this->ajax_modal('抱歉，活动已结束，等待下次再来！', true);
 			}
+
+      // 是否符合申请条件
+      /**
+      if(isset($row['apply_term']) && !empty($row['apply_term'])){
+        if($row['apply_term']==1){  // 等级
+          $user_model = new Sher_Core_Model_User();
+          $user = $user_model->extend_load((int)$user_id);
+          if((int)$user['ext_state']['rank_id'] < (int)$row['term_count']){
+            return $this->ajax_modal('您的等级不能申请当前试用产品！', true);
+          }
+        }elseif($row['apply_term']==2){ // 鸟币
+          // 用户实时积分
+          $point_model = new Sher_Core_Model_UserPointBalance();
+          $current_point = $point_model->load((int)$user_id);
+          if($current_point['balance']['money'] < (int)$row['term_count']){
+            return $this->ajax_modal('您的鸟币数量不足，不能申请当前试用产品！', true);         
+          }
+        }
+        
+      }
+      **/
 			
 			// 检测是否已提交过申请
 			$model = new Sher_Core_Model_Apply();
@@ -226,5 +276,45 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
 		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
     }
+
+
+  /**
+   * 预热预约提醒
+   *
+   */
+  public function want_attend(){
+    $try_id = isset($this->stash['try_id']) ? (int)$this->stash['try_id'] : 0;
+    if(empty($try_id)){
+      return $this->ajax_json('缺少请求参数!', true);
+    }
+		$try_model = new Sher_Core_Model_Try();
+		$try = $try_model->load($try_id);
+    if(empty($try)){
+      return $this->ajax_json('试用产品不存在!', true);
+    }
+    if($try['step_stat'] != 0){
+      return $this->ajax_json('不是预热状态!', true);
+    }
+    
+    $attend_model = new Sher_Core_Model_Attend();
+    $is_want = $attend_model->check_signup($this->visitor->id, $try_id, Sher_Core_Model_Attend::EVENT_TRY_WANT);
+    if($is_want){
+      return $this->ajax_json('已经预约过!', true);
+    }
+
+    $data = array(
+      'user_id' => $this->visitor->id,
+      'target_id' => $try_id,
+      'event'  => Sher_Core_Model_Attend::EVENT_TRY_WANT,
+    );
+
+    $ok = $attend_model->create($data);
+    if($ok){
+      return $this->ajax_json('操作成功!', false, '', $data);
+    }else{
+      return $this->ajax_json('操作失败！', true);   
+    }
+  
+  }
 	
 }

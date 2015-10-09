@@ -51,7 +51,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$from_to = isset($this->stash['from_to'])?$this->stash['from_to']:'web';
 		$row = array();
 		$row['user_id'] = $this->visitor->id;
-		$row['star'] = $this->stash['star'];
+		$row['star'] = isset($this->stash['star']) ? (int)$this->stash['star'] : 0;
 		$row['target_id'] = $this->stash['target_id'];
 		$row['target_user_id'] = (int)$this->stash['target_user_id'];
 		$row['type'] = (int)$this->stash['type'];
@@ -62,8 +62,12 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$user = new Sher_Core_Model_User();
 		$remind = new Sher_Core_Model_Remind();
 		$url = Doggy_Config::$vars['app.url.user'];
+
+		if(empty($row['target_id'])){
+            return $this->ajax_json('缺少请求参数 !', true);
+        }
 		if(empty($content)){
-            return;
+            return $this->ajax_json('评论内容不能为空!', true);
         }
         $user_ids = array();
         $merge = '/\@(.*) /U';
@@ -87,7 +91,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		if(empty($row['target_id']) || empty($row['content'])){
             $this->stash['is_error'] = true;
 			$this->stash['note'] = '获取数据错误,请重新提交';
-            return $this->to_taconite_page('ajax/note.html');
+            return $this->ajax_json('获取数据错误,请重新提交', true);
 		}
 		
         $is_reply = isset($this->stash['is_reply'])?(int)$this->stash['is_reply']:0;
@@ -95,10 +99,10 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
             $reply_id = isset($this->stash['reply_id'])?$this->stash['reply_id']:null;
             $reply_user_id = isset($this->stash['reply_user_id'])?(int)$this->stash['reply_user_id']:0;
             if(empty($reply_id)){
-            return $this->ajax_note('回复ID不存在!', true);
+            return $this->ajax_json('回复ID不存在!', true);
             }
             if(empty($reply_user_id)){
-            return $this->ajax_note('回复用户ID不存在!', true);
+            return $this->ajax_json('回复用户ID不存在!', true);
             }
             $row['is_reply'] = $is_reply;
             $row['reply_id'] = $reply_id;
@@ -107,12 +111,23 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		
         try{
 		        $model = new Sher_Core_Model_Comment();
+
+            // 如果是神嘴争霸，验证用户是否首次评论
+            $rank_has_first_comment = $this->stash['rank_has_first_comment'] = false;
+            if($row['type']==Sher_Core_Model_Comment::TYPE_SUBJECT && (int)$row['target_id']==1){
+              $has_comment = $model->count(array('type'=>$row['type'], 'target_id'=>$row['target_id'], 'user_id'=>$row['user_id']));
+              if($has_comment==0){
+                $rank_has_first_comment = $this->stash['rank_has_first_comment'] = true;
+              }
+            
+            }
+
             $ok = $model->apply_and_save($row);
             if($ok){
                 $comment_id = $model->id;
                 
 				//echo $comment_id;
-                $this->stash['comment'] = &$model->extend_load($comment_id);
+                $comment = $this->stash['comment'] = &$model->extend_load($comment_id);
 
           if(!empty($user_ids)){
             $has_send_users = array();
@@ -139,14 +154,85 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         }catch(Sher_Core_Model_Exception $e){
             $this->stash['is_error'] = true;
 			$this->stash['note'] = $e->getMessage();
-            return $this->to_taconite_page('ajax/note.html');  
+            return $this->ajax_json($e->getMessage(), true);  
         }
 
-        if($from_to == 'wap'){
-            return $this->to_taconite_page('ajax/comment_wap_ok.html'); 
+        //加载赞
+        $favorite = new Sher_Core_Model_Favorite();
+
+        $is_deleted = !empty($comment['deleted']) ? true : false;
+        $is_reply = !empty($comment['is_reply']) ? true : false;
+        $is_love_count = !empty($comment['love_count']) ? true : false;
+        // 是否有删除权限
+        if($this->visitor->can_admin || (int)$this->visitor->id==$comment['user_id']){
+          $comment['is_edit'] = true;           
+        }else{
+          $comment['is_edit'] = false;          
         }
+
+        $is_old_reply = !empty($comment['reply']) ? true : false;
+
+        $is_loved = $favorite->check_loved((int)$this->visitor->id, (string)$comment['_id'], Sher_Core_Model_Favorite::TYPE_COMMENT);
+
+        // 加载评分
+        if(!empty($is_star)){
+          $star = isset($comment['star']) ? (int)$comment['star'] : 0;
+          switch($star){
+            case 0:
+              $comment['star0'] = true;
+              break;
+            case 1:
+              $comment['star1'] = true;
+              break;
+            case 2:
+              $comment['star2'] = true;
+              break;
+            case 3:
+              $comment['star3'] = true;
+              break;
+            case 4:
+              $comment['star4'] = true;
+              break;
+            case 5:
+              $comment['star5'] = true;
+              break;
+          }
+        }
+
+        // 过滤用户表
+        if(isset($comment['user'])){
+          $comment['user'] = Sher_Core_Helper_FilterFields::user_list($comment['user']);
+        }
+        // 过滤用户表
+        if(isset($comment['target_user'])){
+          $comment['target_user'] = Sher_Core_Helper_FilterFields::user_list($comment['target_user']);
+        }
+
+        $comment['_id'] = (string)$comment['_id'];
+        $comment['is_deleted'] = $is_deleted;
+        $comment['is_reply'] = $is_reply;
+        $comment['is_love_count'] = $is_love_count;
+        $comment['is_old_reply'] = $is_old_reply;
+        $comment['is_loved'] = $is_loved;
+
+        $data = array();
+
+        if($this->visitor->id){
+          $comment['is_login'] = true;
+          if($this->visitor->can_admin){
+            $comment['can_admin'] = true;
+          }
+        }else{
+          $comment['is_login'] = false;
+        }
+
+        $comment['from_site'] = $from_to;
+
+        // 神嘴争霸wap 以后去掉
+        $comment['rank_has_first_comment'] = $rank_has_first_comment;
         
-        return $this->to_taconite_page('ajax/comment_ok.html');
+        return $this->ajax_json('操作成功', false, '', $comment);
+
 	}
 	
 	/**
@@ -582,6 +668,15 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         $data['pager'] = $pager;
         
         return $this->ajax_json('', false, '', $data);
+    }
+
+
+    /**
+     * 个人中心快捷回复
+     */
+    public function quick_reply(){
+    
+    
     }
   	
 }

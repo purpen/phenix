@@ -87,7 +87,7 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				{% user_list var:'users' page:page only_ok:1 size:12 sort:'time' all_mentors:all_mentors mentor:cid district:district %}
+				{% user_list var:'users' page:page only_ok:1 size:12 sort:'time' symbol:symbol mentor:cid district:district %}
 				<div class="ui mentors products four cards">
 					{% for user in users.rows %}
 				  	<div class="card">

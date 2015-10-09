@@ -396,6 +396,35 @@
 			</div>
 		</div>
 
+			<h4 class="ui stage header">申请条件</h4>
+
+    <div class="five fields">
+      <div class="field">
+        <label>条件类型：</label>
+        <div class="grouped inline fields">
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" name="apply_term" value="0" {% if try.apply_term == 0 %}checked="checked"{% endif %} /> 
+              <label>无</label>
+            </div>
+            <div class="ui radio checkbox">
+              <input type="radio" name="apply_term" value="1" {% if try.apply_term == 1 %}checked="checked"{% endif %} /> 
+              <label>等级</label>
+            </div>
+            <div class="ui radio checkbox">
+              <input type="radio" name="apply_term" value="2" {% if try.apply_term == 2 %}checked="checked"{% endif %} /> 
+              <label>鸟币</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+          <label>限制条件：</label>
+        <input type="text" name="term_count"  value="{{ try.term_count }}" />
+<div class="description">等级或鸟币限制数量</div>
+      </div>
+    </div>
+
 			<h4 class="ui stage header">进度</h4>
 			<div class="grouped inline fields">
 				<div class="field">

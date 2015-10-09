@@ -12,7 +12,29 @@
 		<a class="{{ css_point }} item" href="{{ app_url_admin }}/point/point_record_list">积分记录</a>
 		<a class="{{ css_event }} item" href="{{ app_url_admin }}/point/event_record_list">事件记录</a>
 	</div>
-	{% event_record_list var:'list' page:page size:50 %}
+
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/point/event_record_list" method="get">
+			<label>搜索：</label>
+      <div class="ui selection dropdown">
+        <input type="hidden" name="event_code" value="{{ event_code }}" />
+        <div class="default text">选择条件</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          {% for d in events %}
+          <div class="item {%if d._id==event_code%}active{%endif%}" data-value="{{ d._id }}">{{ d.name }}</div>
+          {%endfor%}
+        </div>
+      </div>
+
+			<div class="ui icon input">
+        <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
+	</div>
+
+	{% event_record_list var:'list' event_code:event_code page:page size:50 %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>
