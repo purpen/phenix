@@ -10,6 +10,7 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
 		'size' => 20,
     's' => 'money',
     'user_id' => 0,
+    'event_code' => '',
 	);
 
 	/**
@@ -46,6 +47,11 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
     public function event_record_list() {
         $this->set_target_css_state('event');
         $this->set_target_css_state('page_point_list');
+
+        $model = new Sher_Core_Model_PointEvent();
+        $rows = $model->find();
+        $this->stash['events'] = $rows;
+
         $pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/point/event_record_list?page=#p#');
         $this->stash['pager_url'] = $pager_url;
         return $this->to_html_page('admin/point/event_record_list.html');
