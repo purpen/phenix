@@ -16,9 +16,12 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         $only_ok = 0;
         $only_blocked = 0;
         
-		// 专家
+		// 专家身份(暂没有使用)
 		$mentor = 0;
 		$all_mentors = 0;
+
+    // 专家认证和企业认证（红人）
+    $symbol = 0;
         
         // 城市
         $district = '';
@@ -116,6 +119,16 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		if($mentor){
 			$query['mentor'] = (int)$mentor;
 		}
+
+    if($symbol){
+      $symbol = (int)$symbol;
+      if($symbol==-1){
+        // 所有红人
+        $query['symbol'] = array('$gt'=>0);
+      }else{
+        $query['symbol'] = (int)$symbol;     
+      }
+    }
 		
 		// 获取某个时段内
 		if($start_time && $end_time){
