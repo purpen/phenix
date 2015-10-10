@@ -220,6 +220,9 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
     }
 
   }
-
 	
+	// 创建微信二维码
+	public function createcode(){
+		
+	}
 }
