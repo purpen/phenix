@@ -154,11 +154,15 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 			case Sher_Core_Util_Wechat::MSGTYPE_EVENT:
 				
 				$ticket_data = $weObj->getRev()->getRevTicket();
-				$rev_data = $weObj->getRev()->getRevData();
-				$data = $this->handle_event($event, $rev_data);
-				Doggy_Log_Helper::warn("ticket is [".$ticket_data."]!");
+				$ticket_info = 'gQGA7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL1pFemdPSXptOXdhT2I4Q1ItV0RXAAIEfmcnVAMEAAAAAA==';
+				
+				if($ticket_data == $ticket_info){
+					Doggy_Log_Helper::warn("ticket is [".$ticket_data."]!@@@@@@");
+				}
 				
 				/*
+				$rev_data = $weObj->getRev()->getRevData();
+				$data = $this->handle_event($event, $rev_data);
 				if ($event['key'] == 'MENU_KEY_SOCIAL_CONTACT' || $event['key'] == 'MENU_KEY_ORDER'){ // 联系我们，我的订单
 					$result = $weObj->text($data)->reply(array(), true);
 				} else {
