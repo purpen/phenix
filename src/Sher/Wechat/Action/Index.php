@@ -152,10 +152,13 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 				}
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_EVENT:
-				$rev_data = $weObj->getRev()->getRevData();
+				
 				$ticket_data = $weObj->getRev()->getRevTicket();
+				$rev_data = $weObj->getRev()->getRevData();
 				$data = $this->handle_event($event, $rev_data);
 				Doggy_Log_Helper::warn("ticket is [".$ticket_data."]!");
+				
+				/*
 				if ($event['key'] == 'MENU_KEY_SOCIAL_CONTACT' || $event['key'] == 'MENU_KEY_ORDER'){ // 联系我们，我的订单
 					$result = $weObj->text($data)->reply(array(), true);
 				} else {
@@ -165,6 +168,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 						$result = $weObj->news($data)->reply(array(), true);
 					}
 				}
+				*/
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_IMAGE:
 				$result = '';
