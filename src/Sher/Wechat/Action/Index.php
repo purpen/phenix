@@ -69,6 +69,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		//Doggy_Log_Helper::warn("Get rev content [".json_encode($revcontent)."]!");
 		
 		$this->wx_open_id = $fromUserName;
+		Doggy_Log_Helper::warn("Get rev type [".$type."]!");
 		
 		switch($type) {
 			case Sher_Core_Util_Wechat::MSGTYPE_TEXT:
