@@ -234,6 +234,6 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
 		$ticket = $wechat->getQRCode($scene_id,0);
 		// 获取二维码图片
 		$url = $wechat->getQRUrl($ticket['ticket']);
-		echo $url;
+		return $this->to_redirect($url);
 	}
 }
