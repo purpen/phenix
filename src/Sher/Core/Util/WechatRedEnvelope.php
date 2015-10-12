@@ -31,20 +31,20 @@
         * 
         * @param string $openid 用户openid
         */
-        public function payRedEnvelope($re_openid)
+        public function payRedEnvelope($data)
         {
             $this->parameters['nonce_str'] = $this->set_rand(32,true); // 随机字符串，不长于32位
             $this->parameters['mch_billno'] = $this->set_billno($this->partnerid); // 订单号
             $this->parameters['mch_id'] = $this->partnerid; // 商户号
             $this->parameters['wxappid'] = $this->appid; // 公众账号appid
-            $this->parameters['send_name'] = '太火鸟智能馆'; // 商户名称
-            $this->parameters['re_openid'] = $re_openid; // openid
-            $this->parameters['total_amount'] = 100; // 付款金额，单位分
-            $this->parameters['total_num'] = 1; // 红包収放总人数
-            $this->parameters['client_ip'] = '127.0.0.1'; // 商家服务器ip地址
-            $this->parameters['wishing'] = '感谢您参加猜灯谜活动，祝您生活愉快！'; // 红包祝福语
-            $this->parameters['act_name'] = '红包活动'; // 商家活劢名称
-            $this->parameters['remark'] = '快来抢！'; // 备注信息
+            $this->parameters['send_name'] = $data['send_name']; // 商户名称
+            $this->parameters['re_openid'] = $data['re_openid']; // openid
+            $this->parameters['total_amount'] = $data['total_amount']; // 付款金额，单位分
+            $this->parameters['total_num'] = $data['total_num']; // 红包収放总人数
+            $this->parameters['client_ip'] = $data['client_ip']; // 商家服务器ip地址
+            $this->parameters['wishing'] = $data['wishing']; // 红包祝福语
+            $this->parameters['act_name'] = $data['act_name']; // 商家活劢名称
+            $this->parameters['remark'] = $data['remark']; // 备注信息
             
             $postXml = $this->create_xml();
             Doggy_Log_Helper::warn($postXml);

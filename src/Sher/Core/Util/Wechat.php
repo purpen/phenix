@@ -344,6 +344,27 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 	}
 	
 	/**
+	 * 获取接收TICKET
+	 */
+	public function getRevTicket(){
+	if (isset($this->_receive['Ticket'])){
+		return $this->_receive['Ticket'];
+	} else
+		return false;
+    }
+	
+    /**
+     * 获取二维码的场景值
+     */
+    public function getRevSceneId (){
+    	if (isset($this->_receive['EventKey'])){
+    		return str_replace('qrscene_','',$this->_receive['EventKey']);
+    	} else{
+    		return false;
+    	}
+    }
+	
+	/**
 	 * 获取接收语言推送
 	 */
 	public function getRevVoice(){
@@ -779,27 +800,6 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 		}
 		return false;
 	}
-	
-	/**
-	 * 获取接收TICKET
-	 */
-	public function getRevTicket(){
-	if (isset($this->_receive['Ticket'])){
-		return $this->_receive['Ticket'];
-	} else
-		return false;
-    }
-	
-    /**
-     * 获取二维码的场景值
-     */
-    public function getRevSceneId (){
-    	if (isset($this->_receive['EventKey'])){
-    		return str_replace('qrscene_','',$this->_receive['EventKey']);
-    	} else{
-    		return false;
-    	}
-    }
 	
 	/**
 	 * 创建二维码ticket
