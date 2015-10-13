@@ -107,9 +107,21 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 					$redEnvelope = $model->find(array('openid'=>$this->wx_open_id));
 					
 					if(!$redEnvelope){
+						
+						// 配置红包信息
+						$datainfo = array();
+						$datainfo['wx_open_id'] = $this->wx_open_id;
+						$datainfo['send_name'] = '太火鸟智能馆';
+						$datainfo['total_amount'] = 100;
+						$datainfo['total_num'] = 1;
+						$datainfo['client_ip'] = '127.0.0.1';
+						$datainfo['wishing'] = '感谢您参加猜灯谜活动，祝您生活愉快！';
+						$datainfo['act_name'] = '红包活动';
+						$datainfo['remark'] = '快来抢！';
+						
 						// 访问发放红包类
 						$redEnvelope = new Sher_Core_Util_WechatRedEnvelope($this->options);
-						$result = $redEnvelope->payRedEnvelope($this->wx_open_id);
+						$result = $redEnvelope->payRedEnvelope($datainfo);
 						
 						// 将成功的结果保存到数据库
 						if(count($result)){
@@ -140,6 +152,57 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 				}
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_EVENT:
+				
+				$ticket_data = $weObj->getRev()->getRevTicket();
+				$ticket_info = 'gQGA7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL1pFemdPSXptOXdhT2I4Q1ItV0RXAAIEfmcnVAMEAAAAAA==';
+				
+				if($ticket_data == $ticket_info){
+					$model = new Sher_Core_Model_WechatRedEnvelope();
+					$redEnvelope = $model->find(array('openid'=>$this->wx_open_id));
+					if(!$redEnvelope){
+						
+						// 配置红包信息
+						$datainfo = array();
+						$datainfo['wx_open_id'] = $this->wx_open_id;
+						$datainfo['send_name'] = '太火鸟智能馆';
+						$datainfo['total_amount'] = 100;
+						$datainfo['total_num'] = 1;
+						$datainfo['client_ip'] = '127.0.0.1';
+						$datainfo['wishing'] = '感谢您参加猜灯谜活动，祝您生活愉快！';
+						$datainfo['act_name'] = '红包活动';
+						$datainfo['remark'] = '快来抢！';
+						
+						// 访问发放红包类
+						$redEnvelope = new Sher_Core_Util_WechatRedEnvelope($this->options);
+						$result = $redEnvelope->payRedEnvelope($datainfo);
+						
+						// 将成功的结果保存到数据库
+						if(count($result)){
+							
+							$date = array();
+							$date['return_code'] = $result['return_code'];
+							$date['result_code'] = $result['result_code'];
+							$date['return_msg'] = $result['return_msg'];
+							$date['mch_billno'] = (int)$result['mch_billno'];
+							$date['mch_id'] = (int)$result['mch_id'];
+							$date['wxappid'] = $result['wxappid'];
+							$date['openid'] = $result['re_openid'];
+							$date['total_amount'] = (int)$result['total_amount'];
+							$date['send_listid'] = (int)$result['send_listid'];
+							$date['send_time'] = $result['send_time'];
+							
+							Doggy_Log_Helper::warn("给用户[".$this->wx_open_id."]发送红包的结果是:".json_encode($date));
+							$result = $model->create($date);
+							Doggy_Log_Helper::warn("保存数据库的结果是:".json_encode($result));
+						}
+					}else{
+						$text = $this->redmsg();
+						$result = $weObj->text($text)->reply(array(), true);
+					}
+					Doggy_Log_Helper::warn("ticket is [".$ticket_data."]!@@@@@@");
+				}
+				
+				/*
 				$rev_data = $weObj->getRev()->getRevData();
 				$data = $this->handle_event($event, $rev_data);
 				if ($event['key'] == 'MENU_KEY_SOCIAL_CONTACT' || $event['key'] == 'MENU_KEY_ORDER'){ // 联系我们，我的订单
@@ -151,6 +214,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 						$result = $weObj->news($data)->reply(array(), true);
 					}
 				}
+				*/
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_IMAGE:
 				$result = '';
@@ -463,7 +527,6 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
     public function verify() {
         $echoStr = $this->stash["echostr"];
 		
-        //valid signature , option
         if($this->check_signature()){
 			return $this->to_raw($echoStr);
         }
