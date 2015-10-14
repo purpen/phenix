@@ -132,6 +132,33 @@
 					prompt : '详细描述不能为空'
 				}
 			]
+		},
+		people: {
+			identifier  : 'people',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '联系人不能为空'
+				}
+			]
+		},
+		mobile: {
+			identifier  : 'mobile',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '电话不能为空'
+				}
+			]
+		},
+		agreemnet: {
+			identifier  : 'agreemnet',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请查看合作协议，点击“同意合作“按钮，确保您阅读并同意此协议！'
+				}
+			]
 		}
 	}, {
 		inline : true,
@@ -277,6 +304,18 @@
 		}
 	});
 	
+	// 显示合作协议
+	$('#Agreement').on('click',function(){
+		$('.ui.modal.agree').modal('show');
+	});
+	
+	// 同意合作协议
+	$('#button_agree').click(function(){
+		$('input[name=checkagree]').attr('checked','checked');
+		$('input[name=agreemnet]').attr('value','yes');
+		$('.ui.modal.agree').modal('hide');
+	});
+	
 	// 设置封面图
 	$('#asset-list .ajax-cover').livequery(function(){
 		$(this).click(function(){
@@ -296,6 +335,7 @@
 			return false;
 		});
 	});
+
 {% endblock %}
 
 {% block content %}
@@ -435,7 +475,7 @@
                                 </div>
                             </div>
                         </div>
-					
+<!--					
     					<div class="upload field">
     						<label>头图背景 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个背景图)</small></label>
                             <input type="hidden" name="banner_id" id="cooperate_banner_id" value="{{ cooperate.banner_id }}" />
@@ -465,7 +505,7 @@
     							{% endif %}
     						</div>
     					</div>
-					
+-->					
     					<div class="field">
     						<label for="summary">公司/机构简介</label>
     					  	<textarea name="summary" placeholder="此处输入简介..." id="editor">{{ cooperate.summary }}</textarea>
@@ -491,7 +531,29 @@
             		        </div>
             			</div>
                         {% endif %}
-					
+						
+						<div class="inline field">
+            				<div class="ui checkbox">
+								<input type="hidden" name="agreemnet" value="" />
+            		          	<input type="checkbox" name="checkagree" disabled="disabled" />
+            		          	<label for="checkagree">同意并接受</label>
+            		        </div>
+							<a href="javascript:void(0)" id="Agreement" style="color: red">查看《合作协议》</a>
+            			</div>
+						
+						<div class='ui modal agree' style="padding: 20px">
+							<div>
+								<p>【审慎阅读】您在申请注册流程中点击同意前，应当认真阅读以下协议。请您务必审慎阅读、充分理解协议中相关条款内容，其中包括：</p>
+								<p>1、与您约定免除或限制责任的条款；</p>
+								<p>2、与您约定法律适用和管辖的条款；</p>
+								<p>3、其他以粗体下划线标识的重要条款。</p>
+								<p>如您对协议有任何疑问，可向平台客服咨询。</p>
+								<p>【特别提示】当您按照注册页面提示填写信息、阅读并同意协议且完成全部注册程序后，即表示您已充分阅读、理解并接受协议的全部内容。</p>
+								<p>如您因平台服务与淘宝发生争议的，适用《淘宝平台服务协议》处理。如您在使用平台服务过程中与其他用户发生争议的，依您与其他用户达成的协议处理。</p>
+								<p>如果您不同意相关协议或其中任何条款约定，您应立即停止注册程序。</p>
+							</div>
+							<button class="ui pink button" id="button_agree" style="margin: 20px 0 0 0">同意合作</button>	
+						</div>
                     
     					<div class="ui grid">
     						<div class="right aligned column">

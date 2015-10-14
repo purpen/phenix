@@ -165,6 +165,7 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
 		if(empty($this->stash['name'])){
 			return $this->ajax_json('名称不能为空！', true);
 		}
+		exit;
         $mode = 'create';
         $data = $this->stash;
         
