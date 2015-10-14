@@ -70,6 +70,9 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 
     # 预热想要数量
     'want_count' => 0,
+
+    # 预热开启条件(想要人数)
+    'open_limit' => 0,
 		
 		# 参与方式
 		'join_away' => self::JOIN_FREE_AWAY,
@@ -113,7 +116,7 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	
     protected $required_fields = array('title', 'user_id');
 	
-    protected $int_fields = array('user_id', 'product_id', 'sticked', 'join_away', 'try_count', 'apply_count', 'pass_count', 'season', 'step_stat', 'invented_apply_count', 'apply_term', 'want_count', 'report_count', 'kind');
+    protected $int_fields = array('user_id', 'product_id', 'sticked', 'join_away', 'try_count', 'apply_count', 'pass_count', 'season', 'step_stat', 'invented_apply_count', 'apply_term', 'want_count', 'report_count', 'kind', 'open_limit');
 	
 	protected $counter_fields = array('view_count', 'love_count', 'comment_count', 'apply_count', 'invented_apply_count', 'want_count', 'report_count');
 	/**

@@ -107,7 +107,7 @@
                             <div class="ribbons">
                                 {% if t.season %}
                                 <span class="ribbon season">
-                                    第 {{ t.season }} 期
+                                    {{ t.kind_label }}
                                 </span>
                                 {%endif%}
     							{%if t.step_stat == 0%}
