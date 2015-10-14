@@ -230,7 +230,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base implements Sher_Core_Act
 	 * 获取用户信息
 	 */
 	public function user(){
-		$id = (int)$this->stash['id'];
+		$id = (int)$this->current_user_id;
 		if(empty($id)){
 			return $this->api_json('访问的用户不存在！', 3000);
 		}
