@@ -450,6 +450,24 @@
 					</div>
 				</div>
 			</div>
+
+			<h4 class="ui stage header">类型</h4>
+			<div class="grouped inline fields">
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="kind" value="1" {% if try.kind == 1 %}checked="checked"{% endif %} /> 
+						<label>0元免费</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="kind" value="2" {% if try.kind == 2 %}checked="checked"{% endif %} /> 
+            <label>超级试用</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="kind" value="3" {% if try.kind == 3 %}checked="checked"{% endif %} /> 
+						<label>闪电试用</label>
+					</div>
+				</div>
+			</div>
 		
 		<div class="field">
 		  	<label>活动内容：</label>
