@@ -152,7 +152,7 @@ class Sher_Core_Util_WxPay_WxJsApiPay extends Sher_Core_Util_WxPay_WxPayApi
 	{	
 		$getData = $this->data;
 		$data = array();
-		$data["appid"] = Doggy_Config::$vars['app.wechat.appid'];
+		$data["appid"] = Doggy_Config::$vars['app.wechat.app_id'];
 		$data["url"] = "http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 		$time = time();
 		$data["timestamp"] = "$time";
@@ -166,7 +166,7 @@ class Sher_Core_Util_WxPay_WxJsApiPay extends Sher_Core_Util_WxPay_WxPayApi
 			"addrSign" => $addrSign,
 			"signType" => "sha1",
 			"scope" => "jsapi_address",
-			"appId" => Doggy_Config::$vars['app.wechat.appid'],
+			"appId" => Doggy_Config::$vars['app.wechat.app_id'],
 			"timeStamp" => $data["timestamp"],
 			"nonceStr" => $data["noncestr"]
 		);
@@ -183,7 +183,7 @@ class Sher_Core_Util_WxPay_WxJsApiPay extends Sher_Core_Util_WxPay_WxPayApi
 	 */
 	private function __CreateOauthUrlForCode($redirectUrl)
 	{
-		$urlObj["appid"] = Doggy_Config::$vars['app.wechat.appid'];
+		$urlObj["appid"] = Doggy_Config::$vars['app.wechat.app_id'];
 		$urlObj["redirect_uri"] = "$redirectUrl";
 		$urlObj["response_type"] = "code";
 		$urlObj["scope"] = "snsapi_base";
@@ -201,8 +201,8 @@ class Sher_Core_Util_WxPay_WxJsApiPay extends Sher_Core_Util_WxPay_WxPayApi
 	 */
 	private function __CreateOauthUrlForOpenid($code)
 	{
-		$urlObj["appid"] = Doggy_Config::$vars['app.wechat.appid'];
-		$urlObj["secret"] = Doggy_Config::$vars['app.wechat.secret'];
+		$urlObj["appid"] = Doggy_Config::$vars['app.wechat.app_id'];
+		$urlObj["secret"] = Doggy_Config::$vars['app.wechat.app_secret'];
 		$urlObj["code"] = $code;
 		$urlObj["grant_type"] = "authorization_code";
 		$bizString = $this->ToUrlParams($urlObj);
