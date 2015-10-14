@@ -39,6 +39,7 @@ class Sher_Core_Action_Base extends DoggyX_Action_Base {
 	 * API接口返回数据
 	 */
 	public function api_json($msg, $error_code=0, $data=array()){
+    $data['current_user_id'] = isset($this->current_user_id) ? $this->current_user_id : 0;
 		$is_error = !empty($error_code) ? true : false;
 		return $this->ajax_json($msg, $is_error, null, $data, $error_code);
 	}
