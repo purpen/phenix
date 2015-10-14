@@ -21,6 +21,11 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
   const APPLY_TERM_NO = 0;  // 不限制
   const APPLY_TERM_LEVEL = 1; // 等级限制
   const APPLY_TERM_MONEY = 2; //  鸟币限制
+
+  ## 类型
+  const KIND_FREE = 1;  // 零元免费
+  const KIND_SUPER = 2; // 超级试用
+  const KIND_FAST = 3;  // 闪电试用
 	
     protected $schema = array(
 		'title' => '',
@@ -89,6 +94,9 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
         'apply_term' => self::APPLY_TERM_NO,
     # 限制条件，比如等级和鸟币
         'term_count' => 0,
+
+    # 申请类型
+      'kind' => self::KIND_FREE,
 		
 		# 设置推荐
 		'sticked' => 0,
@@ -105,7 +113,7 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	
     protected $required_fields = array('title', 'user_id');
 	
-    protected $int_fields = array('user_id', 'product_id', 'sticked', 'join_away', 'try_count', 'apply_count', 'pass_count', 'season', 'step_stat', 'invented_apply_count', 'apply_term', 'want_count', 'report_count');
+    protected $int_fields = array('user_id', 'product_id', 'sticked', 'join_away', 'try_count', 'apply_count', 'pass_count', 'season', 'step_stat', 'invented_apply_count', 'apply_term', 'want_count', 'report_count', 'kind');
 	
 	protected $counter_fields = array('view_count', 'love_count', 'comment_count', 'apply_count', 'invented_apply_count', 'want_count', 'report_count');
 	/**
@@ -140,6 +148,23 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 				$row['is_end'] = false;
 			}
 		}
+
+    // 灰型说明
+    if(isset($row['kind'])){
+      switch($row['kind']){
+        case 1:
+          $row['kind_label'] = '0元免费';
+          break;
+        case 2:
+          $row['kind_label'] = '超级试用';
+          break;
+        case 3:
+          $row['kind_label'] = '闪电试用';
+          break;
+        default:
+          $row['kind_label'] = '--';
+      }
+    }
 
     if(isset($row['step_stat'])){
       switch((int)$row['step_stat']){

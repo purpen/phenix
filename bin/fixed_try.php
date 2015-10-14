@@ -40,9 +40,8 @@ while(!$is_end){
 	$max = count($list);
 	for ($i=0; $i < $max; $i++) {
     $id = $list[$i]['_id'];
-    if(!isset($list[$i]['report_count'])){
-      $topic_count = $topic_model->count(array('try_id'=>$id));
-      $ok = $try_model->update_set($id, array('report_count'=>$topic_count));
+    if(!isset($list[$i]['kind'])){
+      $ok = $try_model->update_set($id, array('kind'=>1));
       if($ok){
         $total++;
       }

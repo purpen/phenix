@@ -20,6 +20,8 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
         'from_to' => self::FROM_IOS,
         // 是否登录
         'is_login' => 1,
+        // 应用最后登录时间
+        'last_time' => 0,
   	  	
 		'state' => 1,
   	);
@@ -36,19 +38,23 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
 	/**
 	 * 绑定设备与用户
 	 */
-	public function binding($uuid, $user_id){
+	public function binding($uuid, $user_id, $from_to){
 		if(empty($uuid) || empty($user_id)){
 			throw new Sher_Core_Model_Exception('绑定操作缺少参数！');
 		}
 		
-		// 检测是否已绑定
-		if($this->count(array('user_id'=>(int)$user_id, 'uuid'=>$uuid))){
+    // 检测是否已绑定
+    $pusher = $this->first(array('uuid'=>$uuid, 'from_to'=>$from_to));
+    if($pusher){
+      $this->update_set($pusher['_id'], array('is_login'=>1, 'last_time'=>time()));
 			return true;
 		}
 		// 新增记录
 		$data = array(
 			'user_id' => (int)$user_id,
-			'uuid' => $uuid,
+      'uuid' => $uuid,
+      'from_to' => (int)$from_to,
+      'last_time' => time(),
 		);
 		
 		return $this->create($data);
@@ -57,11 +63,17 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
 	/**
 	 * 解绑设备与用户
 	 */
-	public function unbinding($uuid, $user_id){
-		if(empty($uuid) || empty($user_id)){
+	public function unbinding($uuid, $from_to){
+		if(empty($uuid) || empty($from_to)){
 			throw new Sher_Core_Model_Exception('绑定操作缺少参数！');
 		}
-		return $this->remove(array('user_id'=>(int)$user_id,'uuid'=>$uuid));
+    $pusher = $this->first(array('uuid'=>$uuid, 'from_to'=>$from_to));
+    if($pusher){
+      $ok = $this->update_set($pusher['_id'], array('is_login'=>0));
+      return $ok;
+    }else{
+      return false;
+    }
 	}
 	
 }

@@ -118,6 +118,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     $data = array();
     $data['title'] = $this->stash['title'];
     $data['short_title'] = $this->stash['short_title'];
+    $data['kind'] = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
     $data['season'] = (int)$this->stash['season'];
     $data['description'] = $this->stash['description'];
     $data['brand_introduce'] = $this->stash['brand_introduce'];
