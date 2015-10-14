@@ -10,7 +10,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea');
 
 	
 	/**
@@ -19,7 +19,15 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->coupon();
 	}
-
+	
+	/**
+	 * idea
+	 */
+	public function idea(){
+		return $this->to_html_page('wap/promo/idea.html');
+	}
+	
+	
   /**
    * 手机扫码送红包
    */

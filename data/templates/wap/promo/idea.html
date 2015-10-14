@@ -1,0 +1,337 @@
+{%extends 'layout/mobile.html'%}
+{% block title %} -{% endblock %}
+{% block page_css %}
+<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
+<style type="text/css">
+header.ui.wap{
+	display:none !important;
+	opacity:0;
+}
+#mfrbird{
+	margin:0;
+}
+.mmfoot{
+	display:none;
+}
+* { -webkit-appearance: none; }
+
+html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:hidden}
+.wrap {
+	max-width: 640px;
+	margin: 0 auto;
+	height: 100%;
+	overflow: hidden;
+}
+.fp-table {
+	display: table;
+	width: 100%;
+}
+.fp-tableCell {
+	display: table-cell;
+	width: 100%;
+	height: 100%;
+	position:relative;
+}
+.fp-section.fp-table{
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+}
+.fp-viewing-firstPage {
+	height: 100%;
+	position: relative;
+}
+@-webkit-keyframes swipe {
+	0%{-webkit-transform:translateY(40px);opacity:0}
+	60%{-webkit-transform:translateY(12px);opacity:1}
+	100%{-webkit-transform:translateY(0px);opacity:0}
+}
+@-moz-keyframes swipe {
+	0%{-webkit-transform:translateY(40px);opacity:0}
+	60%{-webkit-transform:translateY(12px);opacity:1}
+	100%{-webkit-transform:translateY(0px);opacity:0}
+}
+@keyframes swipe {
+	0%{-webkit-transform:translateY(40px);opacity:0}
+	60%{-webkit-transform:translateY(12px);opacity:1}
+	100%{-webkit-transform:translateY(0px);opacity:0}
+}
+.swipe { 
+	position: absolute; 
+	width: 28px; 
+	height: 16px; 
+	bottom: 45px; 
+	left: 50%; 
+	margin-left: -14px;
+	z-index:4;
+	animation: swipe 1.5s linear infinite;
+  -webkit-animation: swipe 1.5s linear infinite; 
+}
+#music-control {
+	width: 30px;
+	height: 30px;
+	position: fixed;
+	right: 5px;
+	top: 5px;
+	z-index: 100000;
+}
+.bodybg {
+  z-index: 1;
+  position: absolute;
+  left: 0;
+	height:100%;
+  width: 100%;
+  bottom: 0;
+}
+.animated{
+	-webkit-animation-duration: 0.6s;
+	animation-duration: 0.6s;
+}
+.pages-logo{
+	-webkit-animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
+}
+.page-logo {
+  -webkit-animation: 1s scale-to-zero-with-center cubic-bezier(.17, .67, .11, .93) forwards;
+}
+@-webkit-keyframes scale-to-zero-with-center {
+    0% {
+        -webkit-transform: translate3d(0, 0, 0) scale(20);
+        opacity: 0;
+    }
+   /* 30% {
+        opacity: 0.3;
+    }
+    60% {
+        -webkit-transform: translate3d(0, 0, 0) scale(1);
+        opacity: 1;
+    }*/
+		20% 		{opacity:0.3;-webkit-transform:scale(.3)}
+		70% 	{opacity:1;-webkit-transform:scale(1.2)}
+		/*70% 	{-webkit-transform:scale(.9)}*/
+		100% 	{opacity:1;-webkit-transform:scale(1)}
+		
+}
+@-webkit-keyframes scale-to-zero-with-left {
+    0% {
+        -webkit-transform: translate3d(0%, 0, 0) scale(20);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        -webkit-transform: translate3d(0%, 0, 0) scale(1);
+        opacity: 1;
+    }
+}
+
+#music-control.playing{
+	-webkit-animation: 2.3s spin linear infinite;
+}
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotateZ(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotateZ(360deg);
+    }
+}
+
+.s {
+  position:absolute;
+}
+.p{
+  background:url({{ app_url_packaged }}/images/promo/jts/bj.jpg) center center no-repeat;
+  background-size:cover;
+}
+.s1-01{
+  width:100%;
+  top:5%;
+  height: 28%;
+  left:0;
+}
+.s1-1{
+  width:100%;
+  top:0%;
+  height: 100%;
+  background:url({{ app_url_packaged }}/images/promo/jts/p1_01.png);
+  background-size: 200% 100%;
+  -webkit-animation: s_1_i 0.4s step-start 1s infinite;
+}
+@-webkit-keyframes s_1_i {
+	0% {
+		background-position: 100% 0
+	}
+	50%{
+	  background-position: 0 0
+	}
+	100% {
+		background-position: 100% 0
+	}
+}
+.s1-02{
+  width:100%;
+  top:5%;
+  height: 28%;
+  left:0;
+}
+.s1-2{
+  width:100%;
+  top:0%;
+  height: 100%;
+  background:url({{ app_url_packaged }}/images/promo/jts/p1_02.png);
+  background-size: 200% 100%;
+  -webkit-animation: s_1_i 0.8s step-start 1s infinite;
+}
+.s1-3{
+  width:100%;
+  top:0%;
+  height: 100%;
+  background:url({{ app_url_packaged }}/images/promo/jts/p1_03.png);
+  background-size: 200% 100%;
+  -webkit-animation: s_1_i 0.4s step-start 2s infinite;
+}
+.s1-4{
+  width:100%;
+  top:10%;
+  height: 100%;
+  background:url({{ app_url_packaged }}/images/promo/jts/p1_04.png);
+  background-size: 200% 100%;
+  -webkit-animation-delay:0.8s;
+}
+.s1-5{
+  width:100%;
+  top:0%;
+  height: 100%;
+  background:url({{ app_url_packaged }}/images/promo/jts/p1_04a.png);
+  background-size: 200% 100%;
+}
+.s1-6{
+  width:100%;
+  top:30%;
+  -webkit-animation-delay:1.4s;
+  opacity:0;
+}
+.s1-7{
+  width:100%;
+  top:38%;
+  -webkit-animation-delay:1.6s;
+  opacity:0;
+}
+
+.s1-8{
+  width:100%;
+  top:50%;
+  -webkit-animation-delay:2s;
+  opacity:0;
+}
+
+.s1-9{
+  width:100%;
+  top:80%;
+  -webkit-animation-delay:2.4s;
+  opacity:0;
+}
+.s1-9.animated{
+  opacity:1;
+}
+.s1-10{
+  width:100%;
+  top:92%;
+  -webkit-animation-delay:2.6s;
+}
+
+	
+</style>
+{% endblock %}
+
+{% block layout_js %}
+	<script src="http://frstatic.qiniudn.com/wechat/js/audio5.min.js" type="text/javascript"></script>
+  <script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" >
+	
+	
+	
+	$('.wrap').fullpage({
+		'css3':true,
+		'loopBottom':true,
+		'loopTop':true,
+		afterRender: function(){
+					$('.s1-01').addClass('bounceInDown animated');
+					$('.s1-02,.s1-9,.s1-10').addClass('bounceInUp animated');
+					$('.s1-4').addClass('fadeInLeftBig animated');
+					$('.s1-6,.s1-7,.s1-8').addClass('pages-logo');
+		},
+		afterLoad: function(anchorLink, index){
+					if(index == 1){
+					  $('.s1-01').addClass('bounceInDown animated');
+  					$('.s1-02,.s1-9,.s1-10').addClass('bounceInUp animated');
+  					$('.s1-4').addClass('fadeInLeftBig animated');
+  					$('.s1-6,.s1-7,.s1-8').addClass('pages-logo');
+					}
+					
+					
+		},
+		onLeave: function(index, direction){
+		  if(index == 1){
+			  $('.s1-01').removeClass('bounceInDown animated');
+				$('.s1-02,.s1-9,.s1-10').removeClass('bounceInUp animated');
+				$('.s1-4').removeClass('fadeInLeftBig animated');
+				$('.s1-6,.s1-7,.s1-8').removeClass('pages-logo');
+			}
+		  
+		  
+		}
+	
+	});
+  </script>
+  <script>document.write('<style>#loading{display:none}</style>');</script>
+
+
+{% endblock %}
+
+{% block jquery %}
+
+
+
+{% endblock %}
+{% block content %}
+<div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
+<div id="music-control"  class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
+<div class="wrap">
+  <div class="section p">
+    
+    <div class="s s1-01"><div class="s s1-1"></div></div>
+    <div class="s s1-02"><div class="s s1-2"></div><div class="s s1-3"></div><div class="s s1-4"></div><div class="s s1-5"></div></div>
+    <img src="{{ app_url_packaged }}/images/promo/jts/p1_05.png" class="s s1-6">
+    <img src="{{ app_url_packaged }}/images/promo/jts/p1_06.png" class="s s1-7">
+    <img src="{{ app_url_packaged }}/images/promo/jts/p1_07.png" class="s s1-8">
+    <img src="{{ app_url_packaged }}/images/promo/jts/p1_08.png" class="s s1-9">
+    <img src="{{ app_url_packaged }}/images/promo/jts/p1_09.png" class="s s1-10">
+    
+    
+  </div>
+  
+  <div class="section p">
+    
+  </div>
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+</div>
+
+
+{% include "mm/loginbox.html" %}
+{% endblock %}
+
