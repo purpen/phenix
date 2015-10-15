@@ -24,6 +24,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 * idea
 	 */
 	public function idea(){
+		$this->stash['page_title_suffix'] = '巅峰对话，用创意撬动商业未来';
 		//微信分享
     $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
     $timestamp = $this->stash['timestamp'] = time();
