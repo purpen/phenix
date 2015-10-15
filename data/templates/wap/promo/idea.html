@@ -419,27 +419,35 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 }
 .s6-4{
   top:22%;
+  -webkit-animation-delay:0.4s;
 }
 .s6-5{
   top:35%;
+  -webkit-animation-delay:0.6s;
 }
 .s6-6{
   top:43%;
+  -webkit-animation-delay:0.8s;
 }
 .s6-7{
   top:53%;
+  -webkit-animation-delay:1s;
 }
 .s6-8{
   top:61%;
+  -webkit-animation-delay:1.2s;
 }
 .s6-9{
   top:71%;
+  -webkit-animation-delay:1.4s;
 }
 .s6-10{
   top:79%;
+  -webkit-animation-delay:1.6s;
 }
 .s6-11{
   top:89%;
+  -webkit-animation-delay:1.8s;
 }
 .s7-3{
   top:15%;
@@ -497,18 +505,22 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
   					$('.s1-6,.s1-7,.s1-8').addClass('pages-logo');
 					}
 					if(index == 2){
-						$('.s2-2').addClass('fadeInLeftBig animated');
-    				$('.s2-3').addClass('fadeInRightBig animated');
+						$('.p2 img').css('display','block');
 					}
 					if(index == 3){
-						$('.s3-2').addClass('fadeInLeftBig animated');
-    				$('.s3-3').addClass('fadeInRightBig animated');
+						$('.p3 img').css('display','block');
 					}
 					if(index == 4){
 						$('.p4 img').css('display','block');
 					}
 					if(index == 5){
 						$('.p5 img').css('display','block');
+					}
+					if(index == 6){
+						$('.p6 img').css('display','block');
+					}
+					if(index == 7){
+						$('.p7 img').css('display','block');
 					}
 					
 					
@@ -521,18 +533,22 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 				$('.s1-6,.s1-7,.s1-8').removeClass('pages-logo');
 			}
 			if(index == 2){
-				$('.s2-2').removeClass('fadeInLeftBig animated');
-				$('.s2-3').removeClass('fadeInRightBig animated');
+				$('.p2 img').css('display','none');
 			}
 			if(index == 3){
-				$('.s3-2').removeClass('fadeInLeftBig animated');
-				$('.s3-3').removeClass('fadeInRightBig animated');
+				$('.p3 img').css('display','none');
 			}
 			if(index == 4){
 				$('.p4 img').css('display','none');
 			}
 			if(index == 5){
 				$('.p5 img').css('display','none');
+			}
+			if(index == 6){
+				$('.p6 img').css('display','none');
+			}
+			if(index == 7){
+				$('.p7 img').css('display','none');
 			}
 			
 		  
@@ -583,14 +599,14 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
   
     <div class="section p p2">
       <img src="{{ app_url_packaged }}/images/promo/jts/p2_01.png" class="s s2-1">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p2_02.png" class="s s2-2">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p2_03.png" class="s s2-3">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p2_02.png" class="s s2-2 zoomInLeft animated" style="display:none;">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p2_03.png" class="s s2-3 zoomInRight animated" style="display:none;">
     </div>
   
     <div class="section p p3">
       <img src="{{ app_url_packaged }}/images/promo/jts/p2_01.png" class="s s2-1">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p2_004.png" class="s s3-2">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p2_05.png" class="s s3-3">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p2_004.png" class="s s3-2 zoomInLeft animated" style="display:none;">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p2_05.png" class="s s3-3 zoomInRight animated" style="display:none;">
     </div>
     
     <div class="section p p4">
@@ -620,14 +636,14 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
       <img src="{{ app_url_packaged }}/images/promo/jts/p6_01.png" class="s s6-1">
       <img src="{{ app_url_packaged }}/images/promo/jts/p6_02.png" class="s s6-2">
       <img src="{{ app_url_packaged }}/images/promo/jts/p6_03.png" class="s s6-3">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p6_04.png" class="s s6-4">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p6_05.png" class="s s6-5">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p6_06.png" class="s s6-6">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p6_07.png" class="s s6-7">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p6_08.png" class="s s6-8">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p6_09.png" class="s s6-9">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p6_10.png" class="s s6-10">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p6_11.png" class="s s6-11">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p6_04.png" class="s s6-4 bounceInUp animated" style="display:none;">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p6_05.png" class="s s6-5 bounceInUp animated" style="display:none;">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p6_06.png" class="s s6-6 bounceInUp animated" style="display:none;">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p6_07.png" class="s s6-7 bounceInUp animated" style="display:none;">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p6_08.png" class="s s6-8 bounceInUp animated" style="display:none;">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p6_09.png" class="s s6-9 bounceInUp animated" style="display:none;">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p6_10.png" class="s s6-10 bounceInUp animated" style="display:none;">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p6_11.png" class="s s6-11 bounceInUp animated" style="display:none;">
     </div>
     
     <div class="section p p7">
