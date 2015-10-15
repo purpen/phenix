@@ -269,6 +269,25 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
           $this->stash['msg'] = '提交失败，请重试！';
           return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');       
         }
+
+        $user_data = array();
+        if(empty($this->visitor->profile->address)){
+          $user_data['profile.address'] = isset($this->stash['address']) ? $this->stash['address'] : null;
+        }
+        if(empty($this->visitor->profile->zip)){
+          $user_data['profile.zip'] = isset($this->stash['zip']) ? $this->stash['zip'] : null;
+        }
+        if(empty($this->visitor->profile->weixin)){
+          $user_data['profile.weixin'] = isset($this->stash['wx']) ? $this->stash['wx'] : null;
+        }
+        if(empty($this->visitor->profile->im_qq)){
+          $user_data['profile.im_qq'] = isset($this->stash['qq']) ? $this->stash['qq'] : null;
+        }
+
+        //更新基本信息
+        $this->visitor->update_set($this->visitor->id, $user_data);
+
+
         $apply = $model->get_data();
         $this->stash['apply'] = $apply;
         $this->stash['try'] = $row;

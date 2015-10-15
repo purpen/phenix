@@ -242,6 +242,24 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 				
 				$ok = $model->apply_and_save($this->stash);
         if($ok){
+
+          $user_data = array();
+          if(empty($this->visitor->profile->address)){
+            $user_data['profile.address'] = isset($this->stash['address']) ? $this->stash['address'] : null;
+          }
+          if(empty($this->visitor->profile->zip)){
+            $user_data['profile.zip'] = isset($this->stash['zip']) ? $this->stash['zip'] : null;
+          }
+          if(empty($this->visitor->profile->weixin)){
+            $user_data['profile.weixin'] = isset($this->stash['wx']) ? $this->stash['wx'] : null;
+          }
+          if(empty($this->visitor->profile->im_qq)){
+            $user_data['profile.im_qq'] = isset($this->stash['qq']) ? $this->stash['qq'] : null;
+          }
+
+          //更新基本信息
+          $this->visitor->update_set($this->visitor->id, $user_data);
+
           $this->stash['apply_id'] = $model->id;
           $apply = $model->extend_load((string)$model->id);       
         }else{
