@@ -306,7 +306,38 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 .s2-2.animated,.s3-2.animated,.s2-3.animated,.s3-3.animated{
   opacity:1;
 }
-	
+
+.s4-01{
+  width:40%;
+  left:0;
+  top:0;
+}
+.s4{
+  width:25%;
+}
+.s4-1{
+  top:13%;
+  left:51.25%;
+}
+.s4-2{
+  top:18%;
+  left:23.75%;
+}
+.s4-3{
+  top:40%;
+  left:10%;
+}
+.s4-4{
+  top:35%;
+  left:37.5%;
+}
+.s4-5{
+  top:30%;
+  right:10%;
+}
+
+
+
 </style>
 {% endblock %}
 
@@ -334,12 +365,15 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
   					$('.s1-6,.s1-7,.s1-8').addClass('pages-logo');
 					}
 					if(index == 2){
-						$('.s2-2').addClass('fadeInUpBig animated');
-    				$('.s2-3').addClass('fadeInUpBig animated');
+						$('.s2-2').addClass('fadeInLeftBig animated');
+    				$('.s2-3').addClass('fadeInRightBig animated');
 					}
 					if(index == 3){
-						$('.s3-2').addClass('fadeInUpBig animated');
-    				$('.s3-3').addClass('fadeInUpBig animated');
+						$('.s3-2').addClass('fadeInLeftBig animated');
+    				$('.s3-3').addClass('fadeInRightBig animated');
+					}
+					if(index == 4){
+						$('.p4 img').css('display','block');
 					}
 					
 					
@@ -352,12 +386,15 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 				$('.s1-6,.s1-7,.s1-8').removeClass('pages-logo');
 			}
 			if(index == 2){
-				$('.s2-2').removeClass('fadeInUpBig animated');
-				$('.s2-3').removeClass('fadeInUpBig animated');
+				$('.s2-2').removeClass('fadeInLeftBig animated');
+				$('.s2-3').removeClass('fadeInRightBig animated');
 			}
 			if(index == 3){
-				$('.s3-2').removeClass('fadeInUpBig animated');
-				$('.s3-3').removeClass('fadeInUpBig animated');
+				$('.s3-2').removeClass('fadeInLeftBig animated');
+				$('.s3-3').removeClass('fadeInRightBig animated');
+			}
+			if(index == 4){
+				$('.p4 img').css('display','none');
 			}
 			
 		  
@@ -404,20 +441,31 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
       <img src="{{ app_url_packaged }}/images/promo/jts/p1_07.png" class="s s1-8">
       <img src="{{ app_url_packaged }}/images/promo/jts/p1_08.png" class="s s1-9">
       <img src="{{ app_url_packaged }}/images/promo/jts/p1_09.png" class="s s1-10">
-    
-    
     </div>
   
     <div class="section p p2">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p2_01.png" class="s s2-1" style="display:none;">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p2_01.png" class="s s2-1">
       <img src="{{ app_url_packaged }}/images/promo/jts/p2_02.png" class="s s2-2">
       <img src="{{ app_url_packaged }}/images/promo/jts/p2_03.png" class="s s2-3">
     </div>
   
     <div class="section p p3">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p2_01.png" class="s s2-1" style="display:none;">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p2_04.png" class="s s3-2">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p2_01.png" class="s s2-1">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p2_004.png" class="s s3-2">
       <img src="{{ app_url_packaged }}/images/promo/jts/p2_05.png" class="s s3-3">
+    </div>
+    
+    <div class="section p p4">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p3_01.png" class="s s4-01">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p3_02.png" class="s s4 s4-1">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p3_03.png" class="s s4 s4-2">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p4_06.png" class="s s4 s4-3">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p4_05.png" class="s s4 s4-4">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p3_04.png" class="s s4 s4-5">
+      
+      
+      
+      
     </div>
   
   
