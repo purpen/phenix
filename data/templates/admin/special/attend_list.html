@@ -68,14 +68,16 @@
             </td>
             <td>
               {% if target_id==5 %}
+                <p class="attribute">姓名：{{ f.info.realname }}</p>
+                <p class="attribute">电话：{{ f.info.phone }}</p>
+                <p class="attribute">邮箱：{{ f.info.email }}</p>
+                <p class="attribute">公司：{{ f.info.company }}</p>
+                <p class="attribute">职位：{{ f.info.job }}</p>
 
               {%endif%}
 
             </td>
 
-            <td>
-              <p>{{ f.user.profile.address }}</p>
-            </td>
             <td>
 					  {{ f.user.created_on|date 'Y-m-d H:i'}}
             <p>
