@@ -321,7 +321,9 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		}
 	
 	});
-	
+	setInterval(function(){
+	        $.fn.fullpage.moveSlideRight();
+	    }, 5000);
 	window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
 
    function hengshuping() {
