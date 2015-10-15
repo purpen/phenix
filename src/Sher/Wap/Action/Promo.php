@@ -24,7 +24,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 * idea
 	 */
 	public function idea(){
-		return $this->to_html_page('wap/promo/idea.html');
+		return $this->to_html_page('wap/promo/jts.html');
 	}
 	
 	
