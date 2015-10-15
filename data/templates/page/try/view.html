@@ -170,7 +170,7 @@
 		.modal('setting', 'transition', 'vertical  flip')
 		.modal('show');
 	});
-	phenix.bind_share_list();
+	phenix.bind_share_list("{{ try.banner.fileurl }}");
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ try.wap_view_url }}'});
 

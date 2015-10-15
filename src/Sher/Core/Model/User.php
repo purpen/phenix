@@ -263,6 +263,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
             'address' => null,
             'zip' => null,
             'im_qq' => null,
+            'weixin' => null,
 			// 身高
 			'height' => null,
 			// 体重
@@ -272,8 +273,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			// 出生年月日
       'age'  => array(),
       // 所在公司
-      'current_company' => null,
+      'company' => null,
         ),
+
 		// 所在城市
 		'city' => null,
         // 所在区域ID
@@ -475,6 +477,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
             'address' => null,
             'zip' => null,
             'im_qq' => null,
+            'weixin' => null,
 			// 身高
 			'height' => null,
 			// 体重
@@ -483,6 +486,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			'marital' => self::MARR_SINGLE,
 			// 出生年月日
 			'age'  => array(),
+      // 所在公司
+      'company' => null,
         );
 		return $default_profile;
 	}

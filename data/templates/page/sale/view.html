@@ -38,7 +38,7 @@
     });
     
     
-	phenix.bind_share_list();
+	phenix.bind_share_list("{{ product.cover.thumbnails.hm.view_url }}");
     
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.wap_view_url }}'});
