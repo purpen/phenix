@@ -719,10 +719,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 	 * 获取某个省市的地区
 	 */
 	public function ajax_districts(){
-		$id = $this->stash['id'];
-		if (empty($id)){
-			return $this->api_json('省市ID参数为空！', 3000);
-		}
+		$id = isset($this->stash['id']) ? $this->stash['id'] : 0;
 		
 		$areas = new Sher_Core_Model_Areas();
 		$districts = $areas->fetch_districts((int)$id);

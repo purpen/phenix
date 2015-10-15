@@ -91,7 +91,7 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
               $msg = "亲爱的会员您好，我们很遗憾的通知您，由于报名人数过多，会场空间有限，您报名的 中国智能硬件蛋年创新大会·深圳站 未通过审核，更多精彩活动请关注：http://dwz.cn/ISlKP";
             }
             // 开始发送
-            $message = Sher_Core_Helper_Util::send_defined_mms($user['profile']['phone'], $msg);
+            //$message = Sher_Core_Helper_Util::send_defined_mms($user['profile']['phone'], $msg);
           }
 
           //私信提醒
@@ -101,8 +101,8 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
             }elseif($state==2){
               $msg = "亲爱的会员您好：我们很抱歉的通知您，由于报名人数过多，会场空间有限，您报名的“2015京东众筹BIGGER大会”未能通过审核。更多精彩活动请关注太火鸟官网";
             }
-			      $message = new Sher_Core_Model_Message();
-            $message->send_site_message($msg, $this->visitor->id, $user['_id']);
+			      //$message = new Sher_Core_Model_Message();
+            //$message->send_site_message($msg, $this->visitor->id, $user['_id']);
           }
           
         }

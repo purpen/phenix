@@ -27,7 +27,7 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
     // 号码
     'number' => 0,
     'user_id' => null,
-    //1,apple_watch;2,京东众筹报名; 3.蛋年(深圳)报名; 4.招聘H5分享记录
+    //1,apple_watch;2,京东众筹报名; 3.蛋年(深圳)报名; 4.招聘H5分享记录(没用); 5.金投赏报名
     'target_id' => null,
     // 3.蛋年: 领域, 感兴趣的/
     'option01' => 0,
