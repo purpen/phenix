@@ -2,7 +2,9 @@
 {% block title %}报名-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+	#mfrbird{
+	  margin:1em 0;
+	}
 </style>
 {% endblock %}
 
@@ -97,9 +99,9 @@
 		<div class="row">
 			<div class="column">
 				<div class="new topic">
-					<h2 class="ui header">
+					<h3 class="ui header" style="margin-bottom:10px;">
 						请填写报名信息
-					</h2>
+					</h3>
 				</div>
 				
 				<div class="fever content">
@@ -141,10 +143,10 @@
 						
 						<div class="ui grid">
 							<div class="right aligned column">
-								<div class="ui gray cancel large inverted button">
+								<div class="ui gray cancel large active button">
 									取消
 								</div>
-								<div class="ui magenta submit large inverted button">
+								<div class="ui magenta submit large active inverted button">
 									提交
 								</div>
 							</div>
