@@ -475,9 +475,56 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript">
 	
-	
-	
 	$('.wrap').fullpage({
+		'css3':true,
+		//'loopBottom':true,
+		//'loopBottom':true,
+		//'loopTop':true,
+		'slidesNavigation': true,
+		afterLoad: function(anchorLink, index){
+					if(index == 1){
+						$('.s1-01').addClass('bounceInDown animated');
+  					$('.s1-02,.s1-9,.s1-10').addClass('bounceInUp animated');
+  					$('.s1-4').addClass('fadeInLeftBig animated');
+  					$('.s1-6,.s1-7,.s1-8').addClass('pages-logo');
+					}
+		      if(index == 2){
+						$('.s2-2').addClass('fadeInLeftBig animated');
+    				$('.s2-3').addClass('fadeInRightBig animated');
+					}
+					if(index == 3){
+						$('.s3-2').addClass('fadeInLeftBig animated');
+    				$('.s3-3').addClass('fadeInRightBig animated');
+					}
+					if(index == 4){
+						$('.p4 img').css('display','block');
+					}
+		},
+		onLeave: function(index, direction){
+					if(index == 1){
+						$('.s1-01').removeClass('bounceInDown animated');
+    				$('.s1-02,.s1-9,.s1-10').removeClass('bounceInUp animated');
+    				$('.s1-4').removeClass('fadeInLeftBig animated');
+    				$('.s1-6,.s1-7,.s1-8').removeClass('pages-logo');
+					}
+					if(index == 2){
+    				$('.s2-2').removeClass('fadeInLeftBig animated');
+    				$('.s2-3').removeClass('fadeInRightBig animated');
+    			}
+    			if(index == 3){
+    				$('.s3-2').removeClass('fadeInLeftBig animated');
+    				$('.s3-3').removeClass('fadeInRightBig animated');
+    			}
+    			if(index == 4){
+    				$('.p4 img').css('display','none');
+    			}
+		}
+  });
+  setInterval(function(){
+	        $.fn.fullpage.moveSlideRight();
+	    }, 5000);
+	
+	/*$('.wrap').fullpage({
 		'css3':true,
 		afterRender: function(){
 					$('.s1-01').addClass('bounceInDown animated');
@@ -529,7 +576,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		  
 		}
 	
-	});
+	});*/
 	window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
 
    function hengshuping() {
