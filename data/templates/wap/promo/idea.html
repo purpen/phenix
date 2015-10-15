@@ -419,11 +419,11 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 }
 .s6-4{
   top:22%;
-  -webkit-animation-delay:0.4s;
+  -webkit-animation-delay:0.2s;
 }
 .s6-5{
   top:36%;
-  -webkit-animation-delay:0.6s;
+  -webkit-animation-delay:0.5s;
 }
 .s6-6{
   top:45%;
@@ -431,23 +431,23 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 }
 .s6-7{
   top:56%;
-  -webkit-animation-delay:1s;
+  -webkit-animation-delay:1.1s;
 }
 .s6-8{
   top:65%;
-  -webkit-animation-delay:1.2s;
+  -webkit-animation-delay:1.4s;
 }
 .s6-9{
   top:75%;
-  -webkit-animation-delay:1.4s;
+  -webkit-animation-delay:1.7s;
 }
 .s6-10{
   top:84%;
-  -webkit-animation-delay:1.6s;
+  -webkit-animation-delay:2s;
 }
 .s6-11{
   top:89%;
-  -webkit-animation-delay:1.8s;
+  -webkit-animation-delay:2.3s;
 }
 .s7-3{
   top:15%;
@@ -497,7 +497,71 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
   <script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript">
-	
+	var m_name = ' ';
+  var img_url = '{{ app_url_packaged }}/images/promo/jts/sharea.jpg';
+  var link = '{{ app_url_wap_promo }}/idea';
+  var desc_str = ' ';
+
+  wx.config({
+      debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+      appId: '{{ app_id }}', // 必填，公众号的唯一标识
+      timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+      nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+      signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+      jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+  });
+
+wx.ready(function(){
+  // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+   wx.onMenuShareAppMessage({
+    title: m_name,
+    desc: desc_str,
+    link: link,
+    imgUrl: img_url,
+    success: function (res) {
+      record_share_num();
+    }
+  });      
+
+  // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+  wx.onMenuShareTimeline({
+    title: m_name,
+    desc: desc_str,
+    link: link,
+    imgUrl: img_url,
+    success: function (res) {
+      record_share_num();
+    }
+  });
+
+  // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+  wx.onMenuShareQQ({
+    title: m_name,
+    desc: desc_str,
+    link: link,
+    imgUrl: img_url,
+    success: function (res) {
+      record_share_num();
+    }
+  });
+
+  // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+  wx.onMenuShareWeibo({
+    title: m_name,
+    desc: desc_str,
+    link: link,
+    imgUrl: img_url,
+    success: function (res) {
+      record_share_num();
+    }
+  });
+});
+
+//记录分享数
+/*function record_share_num(){
+  var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+  $.get(url, { target_id: 7, count_name:'count', type: 4, kind:4 });
+};*/
 	
 	
 	$('.wrap').fullpage({
@@ -580,7 +644,33 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
        }
   </script>
   <script>document.write('<style>#loading{display:none}</style>');</script>
+  
+  bgm = new Audio5js({
+      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
+      ready: function () {
+          this.load("http://frstatic.qiniudn.com/wechat/js/Guardians at the Gate-AudioMachine.mp3");
+          this.play();
 
+          this.on('canplay', function(){
+              //console.log('canplay');
+          });   
+
+          this.on('ended', function(){
+              bgm.play();
+          })           
+      }
+  });
+
+ $('#music-control').click(function(){
+	    bgm.playPause();
+			if($(this).hasClass("playing")){
+				$(this).removeClass("playing");
+			}
+			else{
+				$(this).addClass("playing");
+			}
+	});
+  
 
 {% endblock %}
 
@@ -590,6 +680,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 
 {% endblock %}
 {% block content %}
+<img src="{{ app_url_packaged }}/images/promo/jts/sharea.jpg" style="display:none;">
 <div class="hengping" style="background:#000;color:#fff;font-size:16px;height:100%;width:100%;display:none;text-align: center;padding-top:140px;position:absolute;">
   为了更好的用户体验，请竖屏浏览
 </div>
@@ -670,17 +761,6 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
       <img src="{{ app_url_packaged }}/images/promo/jts/p7_008.png" class="s s7-10 bounceInUp animated" style="display:none;">
       <img src="{{ app_url_packaged }}/images/promo/jts/p7_09.png" class="s s7-11 bounceInUp animated" style="display:none;">
     </div>
-  
-  
-  
-  
-
-
-
-
-
-
-
   </div>
 </div>
 
