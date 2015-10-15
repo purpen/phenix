@@ -385,21 +385,25 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
   top:10%;
   width:100%;
   left:0;
+  -webkit-animation-delay:0.2s;
 }
 .s5-2{
   top:10%;
   width:100%;
   left:0;
+  -webkit-animation-delay:0.4s;
 }
 .s5-3{
   top:55%;
   width:100%;
   left:0;
+  -webkit-animation-delay:0.4s;
 }
 .s5-4{
   top:63%;
   width:100%;
   left:0;
+  -webkit-animation-delay:0.6s;
 }
 .p6 img,.p7 img{
   width:100%;
@@ -503,6 +507,9 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 					if(index == 4){
 						$('.p4 img').css('display','block');
 					}
+					if(index == 5){
+						$('.p5 img').css('display','block');
+					}
 					
 					
 		},
@@ -523,6 +530,9 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 			}
 			if(index == 4){
 				$('.p4 img').css('display','none');
+			}
+			if(index == 5){
+				$('.p5 img').css('display','none');
 			}
 			
 		  
@@ -600,10 +610,10 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
     </div>
     
     <div class="section p p5">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p5_01.png" class="s s5-1">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p5_02.png" class="s s5-2">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p5_03.png" class="s s5-3">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p5_04.png" class="s s5-4">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p5_01.png" class="s s5-1 zoomIn animated" style="display:none;">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p5_02.png" class="s s5-2 zoomIn animated" style="display:none;">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p5_03.png" class="s s5-3 bounceInUp animated" style="display:none;">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p5_04.png" class="s s5-4 bounceInUp animated" style="display:none;">
     </div>
     
     <div class="section p p6">
