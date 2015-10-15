@@ -74,7 +74,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       }
 
       //更新基本信息
-      $user_ok = $this->visitor->save($user_data);
+      $user_ok = $this->visitor->update_set($this->visitor->id, $user_data);
 
       if($ok){
         if($target_id==3){
