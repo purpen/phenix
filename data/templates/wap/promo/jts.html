@@ -481,6 +481,12 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		//'loopBottom':true,
 		//'loopTop':true,
 		'slidesNavigation': true,
+		afterRender: function(){
+					$('.s1-01').addClass('bounceInDown animated');
+					$('.s1-02,.s1-9,.s1-10').addClass('bounceInUp animated');
+					$('.s1-4').addClass('fadeInLeftBig animated');
+					$('.s1-6,.s1-7,.s1-8').addClass('pages-logo');
+		},
 		afterLoad: function(anchorLink, index){
 					if(index == 1){
 						$('.s1-01').addClass('bounceInDown animated');
@@ -489,8 +495,8 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
   					$('.s1-6,.s1-7,.s1-8').addClass('pages-logo');
 					}
 		      if(index == 2){
-						$('.s2-2').addClass('fadeInLeftBig animated');
-    				$('.s2-3').addClass('fadeInRightBig animated');
+						$('.s2-2').css('display','block');
+    				$('.s2-3').css('display','block');
 					}
 					if(index == 3){
 						$('.s3-2').addClass('fadeInLeftBig animated');
@@ -508,8 +514,8 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
     				$('.s1-6,.s1-7,.s1-8').removeClass('pages-logo');
 					}
 					if(index == 2){
-    				$('.s2-2').removeClass('fadeInLeftBig animated');
-    				$('.s2-3').removeClass('fadeInRightBig animated');
+    				$('.s2-2').css('display','none');
+    				$('.s2-3').css('display','none');
     			}
     			if(index == 3){
     				$('.s3-2').removeClass('fadeInLeftBig animated');
@@ -620,8 +626,8 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
   
     <div class="section p p2">
       <img src="{{ app_url_packaged }}/images/promo/jts/p2_01.png" class="s s2-1">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p2_02.png" class="s s2-2">
-      <img src="{{ app_url_packaged }}/images/promo/jts/p2_03.png" class="s s2-3">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p2_02.png" class="s s2-2 fadeInLeftBig animated" style="display:none;">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p2_03.png" class="s s2-3 fadeInRightBig animated" style="display:none;">
     </div>
   
     <div class="section p p3">
