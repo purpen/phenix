@@ -61,7 +61,24 @@
 			inline : true,
 			onSuccess: function(event){
 				event.preventDefault();
-				$(this).ajaxSubmit();
+        $(this).ajaxSubmit({
+          dataType: 'json',
+          beforeSubmit: function(){
+            // 点击前触发的事件
+            phenix.before_submit();
+          },
+          success: function(data){
+            // 点击后触发的事件
+            phenix.after_submit();
+            if(data.is_error){
+              $(event.target).addClass('error');
+              phenix.show_error_note(data.message, 3000);
+            }else{
+              phenix.show_ok_note(data.message, 3000);
+              phenix.redirect(data.redirect_url, 3000);
+            }
+          }
+        });
 			}
 		});
 	});

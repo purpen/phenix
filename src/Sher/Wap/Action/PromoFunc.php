@@ -29,18 +29,18 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     $event = isset($this->stash['event'])?(int)$this->stash['event']:1;
 
     if(empty($target_id)){
-      return $this->ajax_note('参数不存在!', true);   
+      return $this->ajax_json('参数不存在!', true);   
     }
 
     $model = new Sher_Core_Model_SubjectRecord();
     $is_sign = $model->check_appoint($this->visitor->id, $target_id, $event);
 
     if($is_sign){
-      return $this->ajax_note('您已经参与,不能重复操作!', true);
+      return $this->ajax_json('您已经参与,不能重复操作!', true);
     }
 
-    if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['company']) || empty($this->stash['job'])){
-      return $this->ajax_note('请求失败,缺少用户必要参数!', true);
+    if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['company']) || empty($this->stash['job']) || empty($this->stash['email'])){
+      return $this->ajax_json('请求失败,缺少用户必要参数!', true);
     }
 
     $data = array();
@@ -92,12 +92,12 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
         $this->stash['show_note_time'] = 2000;
 
 		    $this->stash['redirect_url'] = $redirect_url;
-		    return $this->to_taconite_page('ajax/note.html');
+		    return $this->ajax_json($this->stash['note'], false, $redirect_url);
       }else{
-        return $this->ajax_note('保存失败!', true);
+        return $this->ajax_json('保存失败!', true);
       }  
     }catch(Sher_Core_Model_Exception $e){
-      return $this->ajax_note('保存失败!'.$e->getMessage(), true);
+      return $this->ajax_json('保存失败!'.$e->getMessage(), true);
     }
   
   }
