@@ -10,7 +10,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign');
 
 	
 	/**
@@ -655,6 +655,10 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
    */
   public function idea_sign(){
     
+    if(isset($this->stash['no_sign']) && (int)$this->stash['no_sign']==1){
+      $redirect_url = Doggy_Config::$vars['app.url.wap'].'/auth/login';
+      return $this->to_redirect($redirect_url);
+    }
     return $this->to_html_page('wap/promo/idea_sign.html');
   
   }

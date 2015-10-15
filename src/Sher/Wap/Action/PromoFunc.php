@@ -58,16 +58,16 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 
       $user_data = array();
       if(empty($this->visitor->profile->realname)){
-        $user_data['profile']['realname'] = $this->stash['realname'];
+        $user_data['profile.realname'] = $this->stash['realname'];
       }
       if(empty($this->visitor->profile->phone)){
-        $user_data['profile']['phone'] = $this->stash['phone'];
+        $user_data['profile.phone'] = $this->stash['phone'];
       }
       if(empty($this->visitor->profile->company)){
-        $user_data['profile']['company'] = $this->stash['company'];
+        $user_data['profile.company'] = $this->stash['company'];
       }
       if(empty($this->visitor->profile->job)){
-        $user_data['profile']['job'] = $this->stash['job'];
+        $user_data['profile.job'] = $this->stash['job'];
       }
       if(empty($this->visitor->email)){
         $user_data['email'] = $this->stash['email'];
