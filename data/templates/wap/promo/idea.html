@@ -251,16 +251,19 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 .s2-1{
   width:35%;
   right:0;
+  display:block !important;
 }
 .s2-2,.s3-2{
   width:100%;
   left:0;
   top:20%;
+  -webkit-animation-delay:0.6s;
 }
 .s2-3,.s3-3{
   width:100%;
   left:0;
   top:20%;
+  -webkit-animation-delay:0.6s;
 }
 	
 </style>
@@ -291,6 +294,12 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
   					$('.s1-4').addClass('fadeInLeftBig animated');
   					$('.s1-6,.s1-7,.s1-8').addClass('pages-logo');
 					}
+					if(index == 2){
+						$('.p2 img').css('display','block');
+					}
+					if(index == 3){
+						$('.p3 img').css('display','block');
+					}
 					
 					
 		},
@@ -301,11 +310,30 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 				$('.s1-4').removeClass('fadeInLeftBig animated');
 				$('.s1-6,.s1-7,.s1-8').removeClass('pages-logo');
 			}
+			if(index == 2){
+				$('.p2 img').css('display','none');
+			}
+			if(index == 3){
+				$('.p3 img').css('display','none');
+			}
+			
 		  
 		  
 		}
 	
 	});
+	
+	window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+
+   function hengshuping() {
+           if (window.orientation == 90 || window.orientation == -90) {
+              $('.shuping').css('display','none');
+              $('.hengping').css('display','block');
+           } else {
+              $('.shuping').css('display','block');
+              $('.hengping').css('display','none');
+           }
+       }
   </script>
   <script>document.write('<style>#loading{display:none}</style>');</script>
 
@@ -318,47 +346,51 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 
 {% endblock %}
 {% block content %}
-<div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
-<div id="music-control"  class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
-<div class="wrap">
-  <div class="section p">
-    
-    <div class="s s1-01"><div class="s s1-1"></div></div>
-    <div class="s s1-02"><div class="s s1-2"></div><div class="s s1-3"></div><div class="s s1-4"></div><div class="s s1-5"></div></div>
-    <img src="{{ app_url_packaged }}/images/promo/jts/p1_05.png" class="s s1-6">
-    <img src="{{ app_url_packaged }}/images/promo/jts/p1_06.png" class="s s1-7">
-    <img src="{{ app_url_packaged }}/images/promo/jts/p1_07.png" class="s s1-8">
-    <img src="{{ app_url_packaged }}/images/promo/jts/p1_08.png" class="s s1-9">
-    <img src="{{ app_url_packaged }}/images/promo/jts/p1_09.png" class="s s1-10">
-    
-    
-  </div>
-  
-  <div class="section p">
-    <img src="{{ app_url_packaged }}/images/promo/jts/p2_01.png" class="s s2-1">
-    <img src="{{ app_url_packaged }}/images/promo/jts/p2_02.png" class="s s2-2">
-    <img src="{{ app_url_packaged }}/images/promo/jts/p2_03.png" class="s s2-3">
-  </div>
-  
-  <div class="section p">
-    <img src="{{ app_url_packaged }}/images/promo/jts/p2_01.png" class="s s2-1">
-    <img src="{{ app_url_packaged }}/images/promo/jts/p2_04.png" class="s s3-2">
-    <img src="{{ app_url_packaged }}/images/promo/jts/p2_05.png" class="s s3-3">
-  </div>
-  
-  
-  
-  
-  
-
-
-
-
-
-
-
+<div class="hengping" style="background:#000;color:#fff;font-size:16px;height:100%;width:100%;display:none;text-align: center;padding-top:140px;position:absolute;">
+  为了更好的用户体验，请竖屏浏览
 </div>
+<div class="shuping">
+  <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
+  <div id="music-control"  class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
+  <div class="wrap">
+    <div class="section p">
+    
+      <div class="s s1-01"><div class="s s1-1"></div></div>
+      <div class="s s1-02"><div class="s s1-2"></div><div class="s s1-3"></div><div class="s s1-4"></div><div class="s s1-5"></div></div>
+      <img src="{{ app_url_packaged }}/images/promo/jts/p1_05.png" class="s s1-6">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p1_06.png" class="s s1-7">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p1_07.png" class="s s1-8">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p1_08.png" class="s s1-9">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p1_09.png" class="s s1-10">
+    
+    
+    </div>
+  
+    <div class="section p p2">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p2_01.png" class="s s2-1" style="display:none;">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p2_02.png" class="s s2-2 fadeInLeftBig animated" style="display:none;">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p2_03.png" class="s s2-3 fadeInRightBig animated" style="display:none;">
+    </div>
+  
+    <div class="section p p3">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p2_01.png" class="s s2-1" style="display:none;">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p2_04.png" class="s s3-2 fadeInRightBig animated" style="display:none;">
+      <img src="{{ app_url_packaged }}/images/promo/jts/p2_05.png" class="s s3-3 fadeInLeftBig animated" style="display:none;">
+    </div>
+  
+  
+  
+  
+  
 
+
+
+
+
+
+
+  </div>
+</div>
 
 {% include "mm/loginbox.html" %}
 {% endblock %}
