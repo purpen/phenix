@@ -698,6 +698,7 @@ html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:h
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
       //phenix.redirect('{{ app_url_wap }}/auth/login');
+      phenix.redirect('{{ app_url_wap_promo }}/idea_sign');
     }else{
       phenix.redirect('{{ app_url_wap_promo }}/idea_sign');
     }
