@@ -44,7 +44,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       return $this->ajax_json('您已经参与过了!', true);
     }
 
-    if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['company']) || empty($this->stash['job']) || empty($this->stash['email'])){
+    if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['company']) || empty($this->stash['job'])){
       return $this->ajax_json('请求失败,缺少用户必要参数!', true);
     }
 
@@ -56,7 +56,6 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     $data['info']['phone'] = trim($this->stash['phone']);
     $data['info']['company'] = $this->stash['company'];
     $data['info']['job'] = $this->stash['job'];
-    $data['info']['email'] = $this->stash['email'];
 
     try{
       $ok = $model->apply_and_save($data);
@@ -75,9 +74,6 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
         }
         if(empty($this->visitor->profile->job)){
           $user_data['profile.job'] = $this->stash['job'];
-        }
-        if(empty($this->visitor->email)){
-          $user_data['email'] = $this->stash['email'];
         }
 
         //更新基本信息
