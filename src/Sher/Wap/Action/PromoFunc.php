@@ -10,7 +10,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute');
+	protected $exclude_method_list = array('execute', 'save_subject_sign');
 
 	
 	/**
@@ -27,16 +27,21 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 
     $target_id = isset($this->stash['target_id'])?(int)$this->stash['target_id']:0;
     $event = isset($this->stash['event'])?(int)$this->stash['event']:1;
+    $user_id = isset($this->stash['user_id'])?(int)$this->stash['user_id']:0;
 
     if(empty($target_id)){
       return $this->ajax_json('参数不存在!', true);   
     }
 
-    $model = new Sher_Core_Model_SubjectRecord();
-    $is_sign = $model->check_appoint($this->visitor->id, $target_id, $event);
+    if(!preg_match("/1[3458]{1}\d{9}$/",trim($this->stash['phone']))){  
+      return $this->ajax_json('请输入正确的手机号码格式!', true);     
+    }
 
-    if($is_sign){
-      return $this->ajax_json('您已经参与,不能重复操作!', true);
+    $model = new Sher_Core_Model_SubjectRecord();
+    $has_sign = $model->first(array('target_id'=>$target_id, 'event'=>$event, 'info.phone'=>trim($this->stash['phone'])));
+
+    if($has_sign){
+      return $this->ajax_json('您已经参与过了!', true);
     }
 
     if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['company']) || empty($this->stash['job']) || empty($this->stash['email'])){
@@ -44,11 +49,11 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     }
 
     $data = array();
-    $data['user_id'] = (int)$this->visitor->id;
+    $data['user_id'] = $user_id;
     $data['target_id'] = $target_id;
     $data['event'] = $event;
     $data['info']['realname'] = $this->stash['realname'];
-    $data['info']['phone'] = $this->stash['phone'];
+    $data['info']['phone'] = trim($this->stash['phone']);
     $data['info']['company'] = $this->stash['company'];
     $data['info']['job'] = $this->stash['job'];
     $data['info']['email'] = $this->stash['email'];
@@ -57,24 +62,28 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       $ok = $model->apply_and_save($data);
 
       $user_data = array();
-      if(empty($this->visitor->profile->realname)){
-        $user_data['profile.realname'] = $this->stash['realname'];
-      }
-      if(empty($this->visitor->profile->phone)){
-        $user_data['profile.phone'] = $this->stash['phone'];
-      }
-      if(empty($this->visitor->profile->company)){
-        $user_data['profile.company'] = $this->stash['company'];
-      }
-      if(empty($this->visitor->profile->job)){
-        $user_data['profile.job'] = $this->stash['job'];
-      }
-      if(empty($this->visitor->email)){
-        $user_data['email'] = $this->stash['email'];
-      }
 
-      //更新基本信息
-      $user_ok = $this->visitor->update_set($this->visitor->id, $user_data);
+      if($this->visitor->id){
+        if(empty($this->visitor->profile->realname)){
+          $user_data['profile.realname'] = $this->stash['realname'];
+        }
+        if(empty($this->visitor->profile->phone)){
+          $user_data['profile.phone'] = trim($this->stash['phone']);
+        }
+        if(empty($this->visitor->profile->company)){
+          $user_data['profile.company'] = $this->stash['company'];
+        }
+        if(empty($this->visitor->profile->job)){
+          $user_data['profile.job'] = $this->stash['job'];
+        }
+        if(empty($this->visitor->email)){
+          $user_data['email'] = $this->stash['email'];
+        }
+
+        //更新基本信息
+        $user_ok = $this->visitor->update_set($this->visitor->id, $user_data);     
+      
+      }
 
       if($ok){
         if($target_id==3){
