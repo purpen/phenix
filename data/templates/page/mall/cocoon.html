@@ -1,7 +1,7 @@
 {%extends 'layout/column.html'%}
 {% block title %}cocoon -{% endblock %}
-
 {% block page_css %}
+<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
 <style type="text/css">
 	.section{
 		position:relative;
@@ -80,6 +80,7 @@
 	  margin-left:-215px;
 	  top:50%;
 	  margin-top:-120px;
+	  opacity:0;
 	}
 	p.word{
 	  width:30%;
@@ -88,6 +89,7 @@
 	  left:10%;
 	  font-size:16px;
 	  color: #7d7d7d;
+	  opacity:0;
 	}
 	.section4{
 	  background:url({{ app_url_packaged }}/images/mall/con5.jpg) no-repeat center center /cover;
@@ -102,6 +104,7 @@
 	  left:20%;
 	  background-repeat:no-repeat !important;
 	  background-size:70% !important;
+	  opacity:0;
 	}
 	.section5{
 	  background:url({{ app_url_packaged }}/images/mall/con7.jpg) no-repeat center center /cover;
@@ -142,6 +145,7 @@
 	  position:absolute;
 	  left:65%;
 	  top:28%;
+	  opacity:0;
 	}
 	.word1{
 	  width:40%;
@@ -150,6 +154,10 @@
 	  font-size:16px;
 	  top: 28%;
     margin-top: 270px;
+    opacity:0;
+	}
+	.animated{
+	  opacity:1;
 	}
 </style>
 {% endblock %}
@@ -159,6 +167,42 @@
 		mobileCheck:function(){},
 		mobileDeceleration:0.004,
 	});
+	$(window).scroll(function(){
+	    var scrollTop = $(window).scrollTop();
+	    if(scrollTop > 490){
+	      $('.tlogo').removeClass('zoomIn animated');
+	      $('p.word').removeClass('fadeInUpBig animated');
+	      $('.section4 .cire').removeClass('flipInY animated');
+	      $('.section6 .cire').removeClass('flipInY animated');
+	      $('.section8 .cire').removeClass('flipInY animated');
+	      $('.cicle').removeClass('flipInY animated');
+	      $('.word1').removeClass('fadeInUpBig animated');
+	    }
+			if(scrollTop > 700){
+			  $('.tlogo').addClass('zoomIn animated');
+			}
+			if(scrollTop > 1020){
+			  $('p.word').addClass('fadeInUpBig animated');
+			}
+			if(scrollTop > 1410){
+			  $('.section4 .cire').addClass('flipInY animated');
+			}
+			if(scrollTop > 3010){
+			  $('.section6 .cire').addClass('flipInY animated');
+			}
+			if(scrollTop > 5180){
+			  $('.section8 .cire').addClass('flipInY animated');
+			}
+			if(scrollTop > 5850){
+			  $('.cicle').addClass('flipInY animated');
+			}
+			if(scrollTop > 5900){
+			  $('.word1').addClass('fadeInUpBig animated');
+			}
+	})
+	
+	
+	
 {% endblock %}
 {% block content %}
 <div class="ui white responsive grid" data-0="opacity:0;display:none;" data-130="opacity:1;display:block;" style="width: 100% !important;">
