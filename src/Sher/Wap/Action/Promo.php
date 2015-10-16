@@ -24,7 +24,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 * idea
 	 */
 	public function idea(){
-		$this->stash['page_title_suffix'] = '巅峰对话，用创意撬动商业未来';
+		$this->stash['page_title_suffix'] = '金投赏巅峰对话：从广告营销看工业设计的跨界融合';
 		//微信分享
     $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
     $timestamp = $this->stash['timestamp'] = time();
@@ -656,9 +656,10 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
    */
   public function idea_sign(){
     
-    if(isset($this->stash['no_sign']) && (int)$this->stash['no_sign']==1){
-      $redirect_url = Doggy_Config::$vars['app.url.wap'].'/auth/login';
-      return $this->to_redirect($redirect_url);
+    if($this->visitor->id){
+      $this->stash['user_id'] = $this->visitor->id;
+    }else{
+      $this->stash['user_id'] = 0;
     }
     return $this->to_html_page('wap/promo/idea_sign.html');
   
