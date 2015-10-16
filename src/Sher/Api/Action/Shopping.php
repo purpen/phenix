@@ -714,7 +714,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 		$options = array();
 		
 		$query['parent_id'] = 0;
-		$query['status'] = 1;
 		
     $options['page'] = 1;
     $options['size'] = 500;
@@ -745,7 +744,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
     }else{
 		  $query['parent_id'] = $id;
     }
-		$query['status'] = 1;
 		
     $options['page'] = 1;
     $options['size'] = 1000;
