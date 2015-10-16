@@ -62,6 +62,11 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
 
 		$model = new Sher_Core_Model_SubjectRecord();
     $user_model = new Sher_Core_Model_User();
+
+    $subject_record = $model->load($id);
+    if(!$subject_record){
+ 			return $this->ajax_notification('数据不存在！', true);   
+    }
 		$result = $model->mark_as_state((string)$id, $state);
     if($result['status']){
       $this->stash['success'] = true;
@@ -110,28 +115,17 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
 
       //金投赏-短信私信提醒
       if($target_id==5){
-        $user = $user_model->find_by_id((int)$result['user_id']);
-        if(!empty($user)){
+        if(isset($subject_record['info']['phone']) && !empty($subject_record['info']['phone'])){
+          $user_phone = $subject_record['info']['phone'];
           //短信提醒
-          if(!empty($user['profile']['phone'])){
+          if(!empty($user_phone)){
             if($state==1 && !empty($number)){
               $msg = "您好，您已通过报名申请，请于10月22日13:30，准时参加位于：上海市南京西路1376号波特曼四层大宴会厅的《金投赏产品创意趋势论坛》。——[金投赏]";
             }elseif($state==2){
               $msg = "对不起，由于名额已满，您的报名申请没有通过，感谢支持，请您继续关注我们的活动。——[金投赏]";
             }
             // 开始发送
-            $message = Sher_Core_Helper_Util::send_defined_mms($user['profile']['phone'], $msg);
-          }
-
-          //私信提醒
-          if(!empty($user['profile']['phone'])){
-            if($state==1 && !empty($number)){
-              $msg = "您好，您已通过报名申请，请于10月22日13:30，准时参加位于：上海市南京西路1376号波特曼四层大宴会厅的《金投赏产品创意趋势论坛》。——[金投赏]";
-            }elseif($state==2){
-              $msg = "对不起，由于名额已满，您的报名申请没有通过，感谢支持，请您继续关注我们的活动。——[金投赏]";
-            }
-			      //$message = new Sher_Core_Model_Message();
-            //$message->send_site_message($msg, $this->visitor->id, $user['_id']);
+            $message = Sher_Core_Helper_Util::send_defined_mms($user_phone, $msg);
           }
           
         }

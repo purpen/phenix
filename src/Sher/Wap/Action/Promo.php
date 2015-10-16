@@ -656,9 +656,10 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
    */
   public function idea_sign(){
     
-    if(isset($this->stash['no_sign']) && (int)$this->stash['no_sign']==1){
-      $redirect_url = Doggy_Config::$vars['app.url.wap'].'/auth/login';
-      return $this->to_redirect($redirect_url);
+    if($this->visitor->id){
+      $this->stash['user_id'] = $this->visitor->id;
+    }else{
+      $this->stash['user_id'] = 0;
     }
     return $this->to_html_page('wap/promo/idea_sign.html');
   
