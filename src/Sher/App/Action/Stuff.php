@@ -296,6 +296,13 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 保存产品信息
 	 */
 	public function save(){
+		
+		// 禁用用户无法操作
+		if(!$this->stash["visitor"]['state']){
+			$redirect_url = Doggy_Config::$vars['app.domain.base'];
+			return $this->to_redirect($redirect_url);
+		}
+		
 		// 验证数据
 		if(empty($this->stash['title'])){
 			return $this->ajax_json('标题不能为空！', true);
