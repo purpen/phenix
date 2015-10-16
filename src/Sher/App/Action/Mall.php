@@ -8,7 +8,7 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute','lunar','fitbit','gopro','tlunar','tfitbit','tgopro','milk','tmilk');
+	protected $exclude_method_list = array('execute','lunar','fitbit','gopro','tlunar','tfitbit','tgopro','milk','tmilk','cocoon','tcocoon');
 	
 	/**
 	 * 网站入口
