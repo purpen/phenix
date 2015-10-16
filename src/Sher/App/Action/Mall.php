@@ -26,6 +26,14 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
 	}
 	
 	/**
+	 * cocoon 图集
+	 */
+	public function tcocoon(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/tcocoon.html');
+	}
+	
+	/**
 	 * lunar 祝眠灯
 	 */
 	public function lunar(){

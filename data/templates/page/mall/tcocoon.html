@@ -1,0 +1,167 @@
+{%extends 'layout/column.html'%}
+{% block title %}cocoon -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lightbox{
+	top:10px;
+}
+.lb-outerContainer{
+	position:relative;
+	backconund-color: rgba(0,0,0,0);
+}
+.lb-number{
+	display:none !important;
+}
+.lb-data .lb-close{
+	position:absolute;
+	top:-40px;
+	right:40px;
+	width:40px;
+	height:40px;
+}
+.lb-nav a.lb-next,.lb-nav a.lb-prev{
+	opacity:0.6;
+}
+.lightbox .lb-image {
+  display: block;
+  height: auto;
+  max-width: inherit;
+  border-radius: 3px;
+}
+.ui.photos .row{
+	padding:5px 0;
+}
+.ui.photos h3{
+	font-weight: normal;
+  margin: 0;
+  line-height: 41px;
+}
+.ui.photos{
+	top:0;
+	left:0;
+	width:100%;
+	z-index:999;
+	opacity:1;
+	padding-top:3px !important;
+	border-bottom:1px solid rgba(0,0,0,0.15);
+}
+.ui.photos .eight+.eight{
+	text-align:right;
+	line-height: 41px;
+}
+.ui.photos .eight+.eight a.ui.item{
+	margin:0 10px;
+}
+.card{
+	margin:0.5% !important;
+}
+.ui.grid{
+	margin:0;
+}
+.ui.four.cards {
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+}
+.lb-cancel{
+	backconund: url({{ app_url_packaged }}/images/mall/loading1.gif) no-repeat;
+}
+</style>
+{% endblock %}
+{% block jquery %}
+
+{% endblock %}
+{% block content %}
+<div class="ui photos responsive grid" style="  max-width: 100% !important;">
+	<div class="row">
+		<div class="eight wide column">
+			<h3>cocoon 图集</h3>
+		</div>
+		<div class="eight wide column">
+			<a href="{{ app_url_domain }}/mall/gopro" class="ui link item">概述</a>|
+			<!--<a href="#.team" class="ui link item">我们的团队</a>|-->
+			<a href="javascript:void(0)" class="ui link item active">图集</a>|
+			<a href=" " title=" " class="ui item link" target="_blank">讨论区</a>
+			<a href="{{ app_url_domain }}/mall/cocoon#.buy" class="ui inverted active black button" style="padding: 0.5em 1em;margin-bottom: 2px;font-weight: 400; vertical-align: middle;" title="Cocoon">立即购买</a>
+		</div>
+	</div>
+</div>
+<div class="ui big block">
+	<div class="ui center aligned grid">
+		<div class="row" style="padding:0 6%;">
+			<div class="ui four cards">
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/cont01.jpg" data-lightbox="images" class="ui image">
+		        <img src="{{ app_url_packaged }}/images/mall/cont1.jpg" alt="cocoon" />
+		      </a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/cont02.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/cont2.jpg" alt="cocoon" />
+	        </a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/cont03.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/cont3.jpg" alt="cocoon" />
+	        </a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/cont04.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/cont4.jpg" alt="cocoon" />
+	      	</a>
+				</div>
+			
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/cont05.jpg" data-lightbox="images" class="ui image">
+		        <img src="{{ app_url_packaged }}/images/mall/cont5.jpg" alt="cocoon" />
+		      </a>
+				</div>
+			
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/cont06.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/cont6.jpg" alt="cocoon" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/cont07.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/cont7.jpg" alt="cocoon" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/cont09.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/cont9.jpg" alt="cocoon" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/cont010.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/cont10.jpg" alt="cocoon" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/cont011.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/cont11.jpg" alt="cocoon" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/cont012.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/cont12.jpg" alt="cocoon" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/cont013.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/cont13.jpg" alt="cocoon" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/cont014.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/cont14.jpg" alt="cocoon" />
+	      	</a>
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
