@@ -1,0 +1,183 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}报名-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	#mfrbird{
+	  margin:1em 0;
+	}
+</style>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+{% block jquery %}
+
+	$('#sign-form').livequery(function(){
+		$(this).form({
+			realname: {
+				identifier  : 'realname',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'phone',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '电话不能为空'
+					}
+				]
+			},
+			email: {
+				identifier  : 'email',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '邮箱不能为空'
+					}
+				]
+			},
+			company: {
+				identifier  : 'company',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '请添写所在公司'
+					}
+				]
+			},
+			job: {
+				identifier  : 'job',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '职位不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+        $(this).ajaxSubmit({
+          dataType: 'json',
+          beforeSubmit: function(){
+            // 点击前触发的事件
+            phenix.before_submit();
+          },
+          success: function(data){
+            // 点击后触发的事件
+            phenix.after_submit();
+            if(data.is_error){
+              $(event.target).addClass('error');
+              phenix.show_error_note(data.message, 3000);
+            }else{
+              phenix.show_ok_note(data.message, 3000);
+              phenix.redirect(data.redirect_url, 3000);
+            }
+          }
+        });
+			}
+		});
+	});
+
+  //取消
+  $('.cancel.btn').click(function(){
+    phenix.redirect('{{ app_url_wap_promo }}/idea', 0);
+  });
+
+{% endblock %}
+
+{% block content %}
+<div class="ui social">
+	<div class="ui responsive grid">
+
+		<div class="row">
+			<div class="column">
+				<div class="new topic">
+					<h3 class="ui header" style="margin-bottom:10px;">
+						请填写报名信息
+					</h3>
+				</div>
+				
+				<div class="fever content">
+					<form action="{{ app_url_wap }}/app/wap/promo_func/save_subject_sign" class="ui form" method="post" id="sign-form">
+						<div class="ui segment">
+							<input type="hidden" name="target_id" value="5" />
+							<input type="hidden" name="event" value="3" />
+
+							<div class="field">
+								<label>姓名</label>
+							  	<input type="text" name="realname" value="{{ visitor.profile.realname }}" />
+								<div class="description"></div>
+							</div>
+
+							<div class="field">
+								<label>所在公司</label>
+							  	<input type="text" name="company" value="{{ visitor.profile.company }}" />
+								<div class="description"></div>
+							</div>
+
+							<div class="field">
+								<label>职位</label>
+							  	<input type="text" name="job" value="{{ visitor.profile.job }}" />
+								<div class="description"></div>
+							</div>
+
+							<div class="field">
+								<label>电话</label>
+							  	<input type="text" name="phone" value="{{ visitor.profile.phone }}" />
+								<div class="description"></div>
+							</div>
+							<div class="field">
+								<label>邮箱</label>
+							  	<input type="text" name="email" value="{{ visitor.email }}" />
+								<div class="description"></div>
+							</div>
+
+						</div>
+						
+						<div class="ui grid">
+							<div class="right aligned column">
+								<div class="ui gray cancel large active button">
+									取消
+								</div>
+								<div class="ui magenta submit large active inverted button">
+									提交
+								</div>
+							</div>
+						</div>
+						
+					</form>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="section breadcrumb">
+	<div class="ui responsive relaxed grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_wap }}">
+						<i class="icon home"></i> 首页
+					</a>
+					<i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_wap }}/promo/idea">
+						金投赏
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">报名入口</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

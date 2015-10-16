@@ -81,7 +81,7 @@
 	$('.ui.share.button').bind('click', function(){
 		$('.ui.share.modal').modal('show');
 	});
-	phenix.bind_share_list();
+  phenix.bind_share_list("{{ topic.cover.thumbnails.hm.view_url }}");
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ topic.wap_view_url }}'});
 	
