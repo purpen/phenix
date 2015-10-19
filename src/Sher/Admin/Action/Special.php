@@ -120,7 +120,7 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
           //短信提醒
           if(!empty($user_phone)){
             if($state==1 && !empty($number)){
-              $msg = "您好，您已通过报名申请，请于10月22日13:30，准时参加位于：上海市南京西路1376号波特曼四层大宴会厅的《金投赏产品创意趋势论坛》。——[金投赏]";
+              $msg = "您好，您已通过报名申请，您的票号是: ".$number."， 请于10月22日13:30，准时参加位于：上海市南京西路1376号波特曼四层大宴会厅的《金投赏产品创意趋势论坛》。——[金投赏]";
             }elseif($state==2){
               $msg = "对不起，由于名额已满，您的报名申请没有通过，感谢支持，请您继续关注我们的活动。——[金投赏]";
             }
