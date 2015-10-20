@@ -703,7 +703,7 @@
                     </div>
       		  	    <div id="comment-list">
                         {% comment_list var:'hot_comments' page:1 target_id:topic._id type:2 check_loved:1 only_hotest:1 current_user_id:visitor.id %}
-                        {% if comments.rows %}
+                        {% if hot_comments.rows %}
                         <div class="ui threaded hotest comments">
                             <a class="ui red ribbon label">热门回复</a>
                     		{% for comment in hot_comments.rows %}
