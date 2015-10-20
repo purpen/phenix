@@ -702,6 +702,7 @@
                         </div>
                     </div>
       		  	    <div id="comment-list">
+                    {% if page==1 %}
                         {% comment_list var:'hot_comments' page:1 target_id:topic._id type:2 check_loved:1 only_hotest:1 current_user_id:visitor.id %}
                         {% if hot_comments.rows %}
                         <div class="ui threaded hotest comments">
@@ -712,6 +713,7 @@
                             <hr>
                         </div>
                         {% endif %}
+                      {%endif%}
                         {% comment_list var:'comments' page:page target_id:topic._id type:2 sort:sort check_loved:1 current_user_id:visitor.id %}
                         <div class="ui threaded comments is-comment">
                         {% for comment in comments.rows %}
