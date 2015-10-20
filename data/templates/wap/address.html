@@ -78,6 +78,12 @@
 		});
 	});
 
+  // 初始化省份
+  var province_id = $('select[name=province]').val();
+  if(province_id){
+    ajax_fetch_district(province_id, 0);
+  }
+
 	$('select[name=province]').livequery(function(){
     $(this).change(function(){
       var value = $(this).val();
