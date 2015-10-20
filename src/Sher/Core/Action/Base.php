@@ -41,14 +41,14 @@ class Sher_Core_Action_Base extends DoggyX_Action_Base {
 	public function api_json($msg, $error_code=0, $data=array()){
     $data['current_user_id'] = isset($this->current_user_id) ? $this->current_user_id : 0;
 		$is_error = !empty($error_code) ? true : false;
-		return $this->ajax_json($msg, $is_error, null, $data, $error_code);
+		return $this->ajax_json($msg, $is_error, null, $data, $error_code, 2);
 	}
 	
     /**
      * alias to_raw_json
 	 * error_code 错误码，默认0为正确； 
      */
-	public function ajax_json($msg, $is_error=false, $url=null, $data=array(), $error_code=0) {
+	public function ajax_json($msg, $is_error=false, $url=null, $data=array(), $error_code=0, $evt=1) {
 		$result = array(
 			'success'  => !$is_error,
 			'is_error' => $is_error,
@@ -60,7 +60,11 @@ class Sher_Core_Action_Base extends DoggyX_Action_Base {
 		}
 		if (!empty($data)){
 			$result['data'] = $data;
-		}
+    }
+    if($evt==2){
+      $result['current_user_id'] = $data['current_user_id'];
+      unset($data['current_user_id']);
+    }
 		
 		return $this->to_raw_json($result);
 	}
