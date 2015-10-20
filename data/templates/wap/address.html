@@ -9,6 +9,17 @@
 </style>
 {% endblock %}
 
+{% block layout_js %}
+<script type="text/javascript">
+
+  // ajax 加载省份城市
+  function ajax_fetch_district(p_id, d_id){
+    $.get('{{ app_url_wap }}/app/site/address/ajax_fetch_districts', {id: p_id, d_id: d_id, from_to: 'wap'});
+  }
+
+</script>
+{% endblock %}
+
 {% block jquery %}
 	$('#addbook-form').livequery(function(){
 		$(this).form({
@@ -60,20 +71,16 @@
 			}
 		});
 	});
-	
-	$('.ui.province.dropdown').livequery(function(){
-		$(this).dropdown({
-			onChange : function(value, text){
-				if (value) {
-					$.get('{{ app_url_wap }}/app/site/address/ajax_fetch_districts', {id: value, d_id:0, from_to:'wap'});
-				}
-			}
-		});
+
+	$('select[name=province]').livequery(function(){
+    $(this).change(function(){
+      var value = $(this).val();
+      if (value) {
+        ajax_fetch_district(value, 0);
+      }   
+    });
 	});
-	
-	$('.ui.district.dropdown').livequery(function(){
-		$(this).dropdown();
-	});
+
 	
 {% endblock %}
 
@@ -135,21 +142,20 @@
 								  	<input type="text" name="phone" placeholder="11位手机号码" value="{{ addbook.phone }}" />
 								</div>
 								
-								<div class="ui field">
+								<div class="field">
 									<label>地址</label>
 
-						  <select style="width:49%;" name="province" value="{{ addbook.province }}" class="choose province">
-  						  {% for province in provinces %}
-  						    <option value="{{ province._id }}">{{ province.city }}</option>
-  						  {% endfor %}
-  						</select>
-						
-						  <select name="district" id="district-menu" value="{{ district.city }}" style="width:49%;">
-  						  {% for district in districts %}
-  						    <option value="{{ district._id }}">{{ district.city }}</option>
-  						  {% endfor %}
-  						</select>
-
+                  <select style="width:49%;" name="province" value="{{ addbook.province }}" class="choose province">
+                    {% for province in provinces %}
+                      <option value="{{ province._id }}">{{ province.city }}</option>
+                    {% endfor %}
+                  </select>
+                
+                  <select name="district" id="district-menu" value="{{ district.city }}" style="width:49%;">
+                    {% for district in districts %}
+                      <option value="{{ district._id }}">{{ district.city }}</option>
+                    {% endfor %}
+                  </select>
 
                 <!--
 								  <div class="ui selection province dropdown">
