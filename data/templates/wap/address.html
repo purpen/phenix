@@ -137,10 +137,24 @@
 								
 								<div class="ui field">
 									<label>地址</label>
+
+						  <select style="width:49%;" name="province" value="{{ addbook.province }}" class="choose province">
+  						  {% for province in provinces %}
+  						    <option value="{{ province._id }}">{{ province.city }}</option>
+  						  {% endfor %}
+  						</select>
+						
+						  <select name="district" id="district-menu" value="{{ district.city }}" style="width:49%;">
+  						  {% for district in districts %}
+  						    <option value="{{ district._id }}">{{ district.city }}</option>
+  						  {% endfor %}
+  						</select>
+
+
+                <!--
 								  <div class="ui selection province dropdown">
 										<input type="hidden" name="province" value="{{ addbook.province }}" />
 
-                    <!--
 									    <div class="default text">省份/自治区</div>
 									    <i class="flat dropdown icon"></i>
 									    <div class="menu">
@@ -160,20 +174,8 @@
 											{% endfor %}
 									    </div>
 									</div>
-								</div>
                 -->
-
-						  <select style="width:49%;" name="province" value="{{ addbook.province }}" class="choose province">
-  						  {% for province in provinces %}
-  						    <option value="{{ province._id }}">{{ province.city }}</option>
-  						  {% endfor %}
-  						</select>
-						
-						  <select name="district" id="district-menu" value="{{ district.city }}" style="width:49%;">
-  						  {% for district in districts %}
-  						    <option value="{{ district._id }}">{{ district.city }}</option>
-  						  {% endfor %}
-  						</select>
+								</div>
 								
 								<div class="field">
 									<textarea name="address" class="small">{{ addbook.address }}</textarea>
