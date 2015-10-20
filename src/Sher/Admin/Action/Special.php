@@ -173,7 +173,7 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
     	fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
 		
 		// 输出Excel列名信息
-		$head = array('ID', '编号', '姓名', '电话', '公司', '职位', '地址', '状态');
+		$head = array('ID', '编号', '姓名', '电话', '公司', '职位', '状态');
 		foreach($head as $i => $v){
 			// CSV的Excel支持GBK编码，一定要转换，否则乱码
 			// $head[$i] = iconv('utf-8', 'gbk', $v);
@@ -203,14 +203,14 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
 					$counter = 0;
 				}
 				
-        $user = $result['rows'][$i]['user'];
-        $number = isset($result['rows'][$i]['number'])?$result['rows'][$i]['number']:0;
-        $realname = isset($user['profile']['realname'])?$user['profile']['realname']:'--';
-        $phone = isset($user['profile']['phone'])?$user['profile']['phone']:'--';
-        $company = isset($user['profile']['company'])?$user['profile']['company']:'--';
-        $job = isset($user['profile']['job'])?$user['profile']['job']:'--';
-        $address = isset($user['profile']['address'])?$user['profile']['address']:'--';
-        $state = $result['rows'][$i]['state'];
+        $data = $result['rows'][$i];
+        $user_id = $data['user_id'];
+        $number = isset($data['number'])?$data['number']:0;
+        $realname = isset($data['info']['realname'])?$data['info']['realname']:'--';
+        $phone = isset($data['info']['phone'])?$data['info']['phone']:'--';
+        $company = isset($data['info']['company'])?$data['info']['company']:'--';
+        $job = isset($data['info']['job'])?$data['info']['job']:'--';
+        $state = $data['state'];
         if($state==0){
           $stat_str = '未审核';
         }elseif($state==1){
@@ -219,7 +219,7 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
           $stat_str = '拒绝';       
         }
 				
-				$row = array($user['_id'], $number, $realname, $phone, $company, $job, $address, $stat_str);
+				$row = array($user_id, $number, $realname, $phone, $company, $job, $stat_str);
 				
 				/*
 				foreach($row as $k => $v){
