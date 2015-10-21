@@ -1,0 +1,49 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}太火鸟商城-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+  .draw{width:320px; height:320px; position:relative; margin:20px auto}
+  #disk{width:320px; height:320px; background:url({{ app_url_packaged }}/images/promo/draw1.png) no-repeat;background-size:cover;}
+  #start{width:30%; height:30%; position:absolute; top:35%; left:35%;}
+  #start img{cursor:pointer;width:100%}
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" src="http://frstatic.qiniudn.com/wechat/jsjQueryRotate.2.2.js"></script>
+  <script type="text/javascript">
+  $(function(){
+  	$("#startbtn").rotate({
+  		bind:{
+  			click:function(){
+  				var a = Math.floor(Math.random() * 360);
+  				 $(this).rotate({
+  					 	duration:3000,
+  					 	angle: 0, 
+              			animateTo:1440+a,
+  						easing: $.easing.easeOutSine,
+  						callback: function(){
+  							alert('中奖了！');
+  						}
+  				 });
+  			}
+  		}
+  	});
+  });
+  </script>
+
+{% endblock %}
+{% block content %}
+<div class="ui responsive grid">
+  <div class="draw">
+    <div id="disk"></div>
+    <div id="start"><img src="{{ app_url_packaged }}/images/promo/draw2.png" id="startbtn"></div>
+  </div>
+</div>
+
+
+
+
+
+{% endblock %}
