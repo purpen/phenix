@@ -12,10 +12,10 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		'state' => 0,
 		'time' => '',
 		'q' => '',
-    'kind' => 0,
-    'start_date' => '',
-    'end_date' => '',
-    'sort' => 0,
+		'kind' => 0,
+		'start_date' => '',
+		'end_date' => '',
+		'sort' => 0,
 	);
 	
 	/**
@@ -194,11 +194,11 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		}
 		$user_id = (int)$this->stash['_id'];
 		$model = new Sher_Core_Model_User();
-    $mentor = isset($this->stash['mentor'])?(int)$this->stash['mentor']:0;
-    $kind = isset($this->stash['kind'])?(int)$this->stash['kind']:0;
-    $symbol = isset($this->stash['symbol'])?(int)$this->stash['symbol']:0;
-    $identify_info_position = isset($this->stash['identify_info_position'])?(int)$this->stash['identify_info_position']:0;
-    $identify_info_user_name = isset($this->stash['identify_info_user_name'])?$this->stash['identify_info_user_name']:null;
+		$mentor = isset($this->stash['mentor'])?(int)$this->stash['mentor']:0;
+		$kind = isset($this->stash['kind'])?(int)$this->stash['kind']:0;
+		$symbol = isset($this->stash['symbol'])?(int)$this->stash['symbol']:0;
+		$identify_info_position = isset($this->stash['identify_info_position'])?(int)$this->stash['identify_info_position']:0;
+		$identify_info_user_name = isset($this->stash['identify_info_user_name'])?$this->stash['identify_info_user_name']:null;
 		// 验证是否有某人
 		$user = $model->load($user_id);
 		if(empty($user)){
@@ -254,20 +254,20 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		return $this->to_taconite_page('admin/del_ok.html');
 	}
 
-  /**
-   * 设置/取消优质用户
-   */
-  public function set_quality() {
- 		if(empty($this->stash['id'])){
-			return $this->ajax_notification('缺少请求参数！', true);
-		}
-    $this->stash['evt'] = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
-		
-		$model = new Sher_Core_Model_User();
-		$ok = $model->set_quality($this->stash['id'], $this->stash['evt']);
-		
-		return $this->to_taconite_page('admin/user/set_quality.html');
-  }
+	/**
+	 * 设置/取消优质用户
+	 */
+	public function set_quality() {
+		  if(empty($this->stash['id'])){
+			  return $this->ajax_notification('缺少请求参数！', true);
+		  }
+	  $this->stash['evt'] = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+		  
+		  $model = new Sher_Core_Model_User();
+		  $ok = $model->set_quality($this->stash['id'], $this->stash['evt']);
+		  
+		  return $this->to_taconite_page('admin/user/set_quality.html');
+	}
 	
 	/**
 	 * 删除用户
@@ -287,5 +287,42 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		return $this->to_taconite_page('admin/del_ok.html');
 	}
 	
+	/**
+	 * 手动添加鸟币
+	 */
+	public function birdmoney_add(){
+		
+		if(empty($this->stash['receive_user_id'])){
+			return $this->ajax_notification('缺少请求参数！', true);
+		}
+		
+		if(empty($this->stash['send_user_id'])){
+			return $this->ajax_notification('缺少请求参数！', true);
+		}
+		
+		if(empty($this->stash['bird_money'])){
+			return $this->ajax_notification('请输入鸟币金额！', true);
+		}
+		
+		if(empty($this->stash['bird_money_explanation'])){
+			return $this->ajax_notification('请输入鸟币说明！', true);
+		}
+		
+		$receive_user_id = (int)$this->stash['receive_user_id'];
+		$send_user_id = (int)$this->stash['send_user_id'];
+		$bird_money = (int)$this->stash['bird_money'];
+		$bird_money_explanation = (int)$this->stash['bird_money_explanation'];
+		
+		try{
+			$bird_money_obj = new Sher_Core_Service_Point();
+			if(!$bird_money_obj->make_money_in($receive_user_id, $bird_money, $bird_money_explanation, 2, $send_user_id)){
+				return $this->ajax_notification('赠送鸟币失败！', true);
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification($e->getMessage(), true);
+		}
+		
+		return $this->ajax_json('更新成功！');
+	}
 }
 ?>

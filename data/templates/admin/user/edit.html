@@ -23,7 +23,6 @@
 	});
 
 	$('#user-form').form({
-
 		mentor: {
 			identifier  : 'mentor',
 			rules: [
@@ -42,6 +41,47 @@
 				success: function(data){
 					phenix.after_submit();
 					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.show_ok_note(data.message);
+					}
+				}
+			});
+		}
+	});
+	
+	$('#birdmoney').form({
+		bird_money: {
+			identifier  : 'bird_money',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请输入鸟币金额'
+				}
+			]
+		},
+		bird_money_explanation: {
+			identifier  : 'bird_money_explanation',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请输入鸟币说明'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
 					if(data.is_error){
 						$(event.target).addClass('error');
 						phenix.show_error_note(data.message, event.target);
@@ -185,6 +225,24 @@
 				</div>
 			</div>
 			
+			<input type="submit" class="ui magenta submit inverted button" value="确认保存">
+			<input type="button" class="ui gray inverted button" value="取消">
+		</form>
+	</div>
+	
+	<div class="ui form segment">
+		<h4>赠送鸟币</h4>
+		<form action="{{ app_url_admin_base }}/user/birdmoney_add" class="ajax-form" method="post" id="birdmoney">
+			<input type="hidden" name="receive_user_id" value="{{ user._id }}" />
+			<input type="hidden" name="send_user_id" value="{{ visitor._id }}" />
+			<div class="fields two">
+			  <div class="field">
+				<input type="text" name="bird_money" placeholder="赠送鸟币金额" value="" />
+			  </div>
+			   <div class="field">
+				<input type="text" name="bird_money_explanation" placeholder="赠送鸟币说明" value="" />
+			  </div>
+			</div>
 			<input type="submit" class="ui magenta submit inverted button" value="确认保存">
 			<input type="button" class="ui gray inverted button" value="取消">
 		</form>
