@@ -1,0 +1,687 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+
+{% block page_css %}
+<style class="text/css">
+  .ui.block{
+    margin:0;
+  }
+  .brood.service{
+    background:url({{ app_url_packaged }}/images/incubator/vcbj1.jpg) ;
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-position: top center;
+    height:450px;
+    position:relative;
+  }
+  @media only screen and (min-width: 1620px){
+    .brood.service{
+      height:560px;
+    }
+  }
+  .join{
+    width:220px;
+    position:absolute;
+    left:50%;
+    margin-left:-110px;
+    bottom:50px;
+    cursor:pointer;
+  }
+  .ui.big.block p > span{
+    color:#f36;
+  }
+  .brood.dcol{
+    background:#d82545;
+  }
+  .incubator.service .ui.five.blocks > .block .wtitle{
+    background:url({{ app_url_packaged }}/images/incubator/circle.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    width:180px;
+    height:180px;
+    margin:auto;
+    transform: rotate(0deg);
+    transition-duration: 1s;
+  }
+  .incubator.service .ui.five.blocks > .block .wtitle:hover{
+    transform: rotate(90deg);
+  }
+  .incubator.service .ui.five.blocks > .block .wtitle a,.incubator.service .ui.five.blocks > .block .wtitle a:hover{
+    margin-top:0px;
+    color:#fff;
+    border:none;
+    transform: rotate(0deg);
+    line-height: 180px;
+    width: 100%;
+    border-radius:500rem;
+    transition-duration: 1.5s !important;
+    
+  }
+  .incubator.service .ui.five.blocks > .block .wtitle a:hover{
+    transform: rotate(-90deg);
+  }
+  .section-title h2.block.title{
+    color:rgba(0,0,0,.87);
+  }
+  h2.block.title + hr + p{
+    margin-bottom:2.5rem;
+  }
+  .brood.design .flexslider,.brood.skill .flexslider{
+    background:rgba(0,0,0,0);
+  }
+  .brood.design ul.slides li{
+    margin-right:20px !important;
+    visibility:visible !important;
+    -webkit-backface-visibility: visible !important;
+  }
+  .brood.design .ui.cooperate.cards>.card>.brand:hover{
+    margin-top:0;
+  }
+  .brood.design .ui.cooperate.cards,.brood.design .ui.cooperate.cards>.card{
+    margin:0;
+  }
+  .brood.design .ui.cooperate.cards>.card .addmap{
+    width:100px;
+    height:20px;
+    font-size:15px;
+    position:absolute;
+    top:15px;
+    left:15px;
+    z-index:9;
+    text-align:left;
+  }
+  .brood.design .ui.cooperate.cards>.card .addmap i{
+    margin:0;
+  }
+  .brood.design .ui.cooperate.cards>.card .brand a.name.line{
+    color:#f36;
+    font-size:18px;
+  }
+  .brood.design .ui.cooperate.cards>.card .brand h3.ui.header{
+    margin:10px 20px 10px !important;
+    text-align:left;
+    color:#00a0da;
+    font-size:16px;
+  }
+  .brood.design .ui.cooperate.cards>.card .brand p.descript{
+    text-align:left;
+    margin:5px 20px;
+    font-size:15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .brood.design .flexslider .slides,.brood.design .flexslider .slides>li{
+    height:355px;
+  }
+  .brood.design .flex-direction-nav a{
+    top:50%;
+    margin-top:-10px;
+  }
+  .brood.design .flex-direction-nav .flex-prev,.brood.design .flex-direction-nav .flex-prev:hover{
+    opacity:1 !important;
+    left:-50px !important;
+  }
+  .brood.design .flex-direction-nav .flex-next,.brood.design .flex-direction-nav .flex-next:hover{
+    opacity:1 !important;
+    right:-50px !important;
+  }
+  .brood.skill{
+    background:#d82545;
+  }
+  .brood.skill h2.block.title{
+    color:#fff;
+  }
+  .brood.skill h2.block.title + hr{
+    background:#fff;
+  }
+  .brood.skill h2.block.title + hr + p{
+    color:#fff;
+  }
+  .brood.skill .card{
+    height: 280px;
+    background: rgba(0,0,0,0);
+    box-shadow: none;
+  }
+  .brood.skill .card > .ui.image{
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0);
+  }
+  .brood.skill .card > .ui.image .hidden.content{
+    height: 94%;
+    width: 94%;
+    background: #fff;
+    margin: 3%;
+    padding: 17% 30px;
+    text-align: left;
+  }
+  .brood.skill .card > .ui.image .hidden.content h2{
+    margin-bottom: 10px;
+  }
+  .brood.skill .card > .ui.image .hidden.content h2 a.name.line{
+    color: #f36;
+    font-size: 18px;
+  }
+  .brood.skill .card > .ui.image .hidden.content h3.ui.header{
+    margin: 0px 0 10px !important;
+    text-align: left;
+    font-size: 16px;
+    color:#f36;
+    border-left-width: 3px;
+    border-left-style: solid;
+    padding-left: 8px;
+    line-height: 16px;
+    position:relative;
+  }
+  .brood.skill .card > .ui.image .hidden.content h3.ui.header .addmap{
+    height: 16px;
+    font-size: 15px;
+    position: absolute;
+    top: 0;
+    left: 120px;
+    z-index: 9;
+    color:rgba(0,0,0,.87);
+  }
+  .brood.skill .card > .ui.image .hidden.content h3.ui.header .addmap i.icon{
+    font-size: 18px;
+    margin:0;
+    width:auto;
+  }
+  .brood.skill .card > .ui.image .hidden.content .descript{
+    text-align: left;
+    margin: 5px 0px;
+    font-size: 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .brood.skill .card > .ui.image .hidden.content .excerpt{
+    color: rgba(146,147,163,.9);
+    font-size: 14px;
+    height: 66px;
+    letter-spacing: .1px;
+    line-height: 1.6;
+    overflow: hidden;
+    text-align: left;
+  }
+  .brood.skill .card > .ui.image .hidden.content .excerpt span{
+    height: 16px;
+    display: inline-block;
+    width: 3px;
+    background: #f36;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+  .brood.make{
+    background:#222;
+    color:#fff;
+  }
+  .brood.make .section-title h2.block.title{
+    color:#fff;
+  }
+  .brood.make .section-title h2.block.title + hr{
+    background:#fff;
+  }
+</style>
+{% endblock %}
+
+{% block jquery %}
+  $(".design .flexslider").flexslider({
+    animation: "slide",
+    controlNav: false,
+    animationLoop: false,
+    slideshow: true,
+    itemWidth: 280,
+    itemMargin: 20,
+    move: 1,
+  }); 
+
+
+{% endblock %}
+
+{% block content %}
+<div id="hatch">
+  <div class="brood service">
+    <img src="{{ app_url_packaged }}/images/incubator/join.png" class="join">
+  </div>
+  <div class="ui big block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="center aligned column">
+          <p>如果你有<span>设计、技术研发、生产链、资金、营销、媒介</span>等资源；可将其提交到太火鸟孵化资源库，帮助那些需要帮助的团队；</p>
+          <p>如果你的团队缺少某些资源，也可在太火鸟孵化资源库中寻找志同道合的伙伴，<span>资源互补</span>；</p>
+          <h3 class="ui header">携手共同完成创业梦想!</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui big block incubator service">
+    <div class="ui responsive grid">
+      <div class="ui center aligned row">
+        <div class="center alignd column">
+          <div class="ui five blocks" style="margin-top:0;">
+            <div class="block">
+              <div class="wtitle">
+                <a href="javascript:void(0);">设计</a>
+              </div>
+            </div>
+          
+            <div class="block">
+              <div class="wtitle">
+                <a href="javascript:void(0);">技术开发</a>
+              </div>
+            </div>
+          
+            <div class="block">
+              <div class="wtitle">
+                <a href="javascript:void(0);">生产链</a>
+              </div>
+            </div>
+          
+            <div class="block">
+              <div class="wtitle">
+                <a href="javascript:void(0);">合作院校</a>
+              </div>
+            </div>
+          
+            <div class="block">
+              <div class="wtitle">
+                <a href="javascript:void(0);">其他</a>
+              </div>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big block brood design">
+    <div class="ui responsive grid">
+      <div class="center aligned column section-title">
+        <h2 class="block title">设计</h2>
+        <hr>
+        <p>中国最顶级工业设计师团队提供外观设计，设计团队囊获包括德国红点、iF、日本G-Mark、美国IDEA等至高荣誉。</p>
+        
+        
+        <div class="flexslider">
+          <ul class="slides">
+            <li>
+              <div class="ui cooperate cards">
+                <div class="card">
+                  <div class="addmap">
+                    <i class="marker icon"></i>
+                    北京
+                  </div>
+                  
+                  <div class="brand">
+                    <div class="logo">
+                      <a class="ui link" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">
+                        <img class="ui big avatar image" src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
+                      </a>
+                    </div>
+                    <h2>
+                      <a class="ui name line" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">N22</a>
+                      <!--<span class="extra">
+                                   上海，北京
+                      </span>-->
+                    </h2>
+                    
+                    <h3 class="ui header">擅长专业/领域</h3>
+                    <p class="descript">外观设计 结构设计 交互设计 品牌设计 .....</p>
+                    
+                    <div class="excerpt">
+                              上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
+                    </div>
+                    
+                    <div class="cats"></div>
+                   </div>
+                </div>
+              </div>
+              
+            </li>
+            <li>
+              <div class="ui cooperate cards">
+                <div class="card">
+                  <div class="addmap">
+                    <i class="marker icon"></i>
+                    北京
+                  </div>
+                  
+                  <div class="brand">
+                    <div class="logo">
+                      <a class="ui link" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">
+                        <img class="ui big avatar image" src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
+                      </a>
+                    </div>
+                    <h2>
+                      <a class="ui name line" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">N22</a>
+                      <!--<span class="extra">
+                                   上海，北京
+                      </span>-->
+                    </h2>
+                    
+                    <h3 class="ui header">擅长专业/领域</h3>
+                    <p class="descript">外观设计 结构设计 交互设计 品牌设计 .....</p>
+                    
+                    <div class="excerpt">
+                              上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
+                    </div>
+                    
+                    <div class="cats"></div>
+                   </div>
+                </div>
+              </div>
+              
+            </li>
+            <li>
+              <div class="ui cooperate cards">
+                <div class="card">
+                  <div class="addmap">
+                    <i class="marker icon"></i>
+                    北京
+                  </div>
+                  
+                  <div class="brand">
+                    <div class="logo">
+                      <a class="ui link" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">
+                        <img class="ui big avatar image" src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
+                      </a>
+                    </div>
+                    <h2>
+                      <a class="ui name line" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">N22</a>
+                      <!--<span class="extra">
+                                   上海，北京
+                      </span>-->
+                    </h2>
+                    
+                    <h3 class="ui header">擅长专业/领域</h3>
+                    <p class="descript">外观设计 结构设计 交互设计 品牌设计 .....</p>
+                    
+                    <div class="excerpt">
+                              上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
+                    </div>
+                    
+                    <div class="cats"></div>
+                   </div>
+                </div>
+              </div>
+              
+            </li>
+            <li>
+              <div class="ui cooperate cards">
+                <div class="card">
+                  <div class="addmap">
+                    <i class="marker icon"></i>
+                    北京
+                  </div>
+                  
+                  <div class="brand">
+                    <div class="logo">
+                      <a class="ui link" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">
+                        <img class="ui big avatar image" src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
+                      </a>
+                    </div>
+                    <h2>
+                      <a class="ui name line" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">N22</a>
+                      <!--<span class="extra">
+                                   上海，北京
+                      </span>-->
+                    </h2>
+                    
+                    <h3 class="ui header">擅长专业/领域</h3>
+                    <p class="descript">外观设计 结构设计 交互设计 品牌设计 .....</p>
+                    
+                    <div class="excerpt">
+                              上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
+                    </div>
+                    
+                    <div class="cats"></div>
+                   </div>
+                </div>
+              </div>
+              
+            </li>
+            <li>
+              <div class="ui cooperate cards">
+                <div class="card">
+                  <div class="addmap">
+                    <i class="marker icon"></i>
+                    北京
+                  </div>
+                  
+                  <div class="brand">
+                    <div class="logo">
+                      <a class="ui link" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">
+                        <img class="ui big avatar image" src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
+                      </a>
+                    </div>
+                    <h2>
+                      <a class="ui name line" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">N22</a>
+                      <!--<span class="extra">
+                                   上海，北京
+                      </span>-->
+                    </h2>
+                    
+                    <h3 class="ui header">擅长专业/领域</h3>
+                    <p class="descript">外观设计 结构设计 交互设计 品牌设计 .....</p>
+                    
+                    <div class="excerpt">
+                              上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
+                    </div>
+                    
+                    <div class="cats"></div>
+                   </div>
+                </div>
+              </div>
+              
+            </li>
+            <li>
+              <div class="ui cooperate cards">
+                <div class="card">
+                  <div class="addmap">
+                    <i class="marker icon"></i>
+                    北京
+                  </div>
+                  
+                  <div class="brand">
+                    <div class="logo">
+                      <a class="ui link" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">
+                        <img class="ui big avatar image" src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
+                      </a>
+                    </div>
+                    <h2>
+                      <a class="ui name line" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">N22</a>
+                      <!--<span class="extra">
+                                   上海，北京
+                      </span>-->
+                    </h2>
+                    
+                    <h3 class="ui header">擅长专业/领域</h3>
+                    <p class="descript">外观设计 结构设计 交互设计 品牌设计 .....</p>
+                    
+                    <div class="excerpt">
+                              上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
+                    </div>
+                    
+                    <div class="cats"></div>
+                   </div>
+                </div>
+              </div>
+              
+            </li>
+          
+          
+          </ul>
+        </div>
+        
+      </div>
+    
+    </div>
+  </div>
+  
+
+  <div class="ui big block brood skill">
+    <div class="ui responsive grid">
+      <div class="center aligned column section-title">
+        <h2 class="block title">技术开发</h2>
+        <hr>
+        <p>软硬件资源汇聚，云、技术方案、芯片、模组等技术应有尽有，助力创业团队的早期产品开发。</p>
+        
+        <div class="flexslide">
+          <div class="slider">
+            <div class="ui four cards">
+              <div class="card">
+                <div class="ui small circular rotate reveal image">
+                  <img src="{{ app_url_packaged }}/images/incubator/circle1.png" draggable="false" width="100%" height="100%" class="visible content">
+                  <div class="hidden content"> 
+                    <h2>
+                      <a class="ui name line" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">N22</a>
+                    </h2>
+                    
+                    <h3 class="ui header">擅长专业/领域
+                      <div class="addmap">
+                        <i class="marker icon"></i>
+                        北京
+                      </div>
+                    </h3>
+                    <p class="descript">外观设计 结构设计 交互设计 品牌设计 .....</p>
+                    
+                    <div class="excerpt">
+                      <span></span>   上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
+                    </div>
+                  </div>
+                </div>
+                
+                
+              </div>
+              
+              <div class="card">
+                <div class="ui small circular left rotate reveal image">
+                  <img src="{{ app_url_packaged }}/images/incubator/circle1.png" draggable="false" width="100%" height="100%" class="visible content">
+                  <div class="hidden content">
+                    <h2>
+                      <a class="ui name line" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">N22</a>
+                    </h2>
+                    
+                    <h3 class="ui header">擅长专业/领域
+                      <div class="addmap">
+                        <i class="marker icon"></i>
+                        北京
+                      </div>
+                    </h3>
+                    <p class="descript">外观设计 结构设计 交互设计 品牌设计 .....</p>
+                    
+                    <div class="excerpt">
+                      <span></span>      上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="card">
+                <div class="ui small circular rotate reveal image">
+                  <img src="{{ app_url_packaged }}/images/incubator/circle1.png" draggable="false" width="100%" height="100%" class="visible content">
+                  <div class="hidden content">
+                    <h2>
+                      <a class="ui name line" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">N22</a>
+                    </h2>
+                    
+                    <h3 class="ui header">擅长专业/领域
+                      <div class="addmap">
+                        <i class="marker icon"></i>
+                        北京
+                      </div>
+                    </h3>
+                    <p class="descript">外观设计 结构设计 交互设计 品牌设计 .....</p>
+                    
+                    <div class="excerpt">
+                      <span></span>    上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="card">
+                <div class="ui small circular left rotate reveal image">
+                  <img src="{{ app_url_packaged }}/images/incubator/circle1.png" draggable="false" width="100%" height="100%" class="visible content">
+                  <div class="hidden content">
+                    <h2>
+                      <a class="ui name line" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">N22</a>
+                    </h2>
+                    
+                    <h3 class="ui header">擅长专业/领域
+                      <div class="addmap">
+                        <i class="marker icon"></i>
+                        北京
+                      </div>
+                    </h3>
+                    <p class="descript">外观设计 结构设计 交互设计 品牌设计 .....</p>
+                    
+                    <div class="excerpt">
+                      <span></span>   上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
+                    </div>
+                  </div>
+                </div>
+              </div>
+        
+            
+            
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="ui big block brood make">
+    <div class="ui responsive grid">
+      <div class="center aligned column section-title">
+        <h2 class="block title">生产链</h2>
+        <hr>
+        <p>生产链万事俱备，太火鸟<span style="letter-spacing: 1px;margin: 0 2px;color: #fff;">D<span style="font-size: 12px;vertical-align: top;line-height: 4px;">3</span>IN</span>铟立方实验室指导初创团队进行智能硬件产品技术攻关，协助成熟团队，进行智能硬件产品的深度打磨。</p>
+      </div>
+    
+      <div class="ui five cards">
+        <div class="card">
+          <img src="http://static.taihuoniao.me/images/incubator/circle1.png" draggable="false" width="100%" height="100%" class="visible content">
+        </div>
+        <div class="card">
+          <img src="http://static.taihuoniao.me/images/incubator/circle1.png" draggable="false" width="100%" height="100%" class="visible content">
+        </div>
+        <div class="card">
+          <img src="http://static.taihuoniao.me/images/incubator/circle1.png" draggable="false" width="100%" height="100%" class="visible content">
+        </div>
+        <div class="card">
+          <img src="http://static.taihuoniao.me/images/incubator/circle1.png" draggable="false" width="100%" height="100%" class="visible content">
+        </div>
+        <div class="card">
+          <img src="http://static.taihuoniao.me/images/incubator/circle1.png" draggable="false" width="100%" height="100%" class="visible content">
+        </div>
+        <div class="card">
+          <img src="http://static.taihuoniao.me/images/incubator/circle1.png" draggable="false" width="100%" height="100%" class="visible content">
+        </div>
+        <div class="card">
+          <img src="http://static.taihuoniao.me/images/incubator/circle1.png" draggable="false" width="100%" height="100%" class="visible content">
+        </div>
+        <div class="card">
+          <img src="http://static.taihuoniao.me/images/incubator/circle1.png" draggable="false" width="100%" height="100%" class="visible content">
+        </div>
+        <div class="card">
+          <img src="http://static.taihuoniao.me/images/incubator/circle1.png" draggable="false" width="100%" height="100%" class="visible content">
+        </div>
+        <div class="card">
+          <img src="http://static.taihuoniao.me/images/incubator/circle1.png" draggable="false" width="100%" height="100%" class="visible content">
+        </div>
+        
+        
+      </div>
+    
+    </div>
+  </div>
+
+
+</div>
+{% endblock %}

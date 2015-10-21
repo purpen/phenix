@@ -32,9 +32,14 @@
   		<a href="{{ app_url_topic }}" class="{{ css_page_social }} item">
   			社区
   		</a>
-  		<a href="{{ app_url_incubator }}/service" class="{{ css_page_incubator }} item">
+  		<div class="ui dropdown {{ css_page_incubator }}t item">
   			孵化
-  		</a>
+  			<div class="menu transition hidden">
+  			  <a href="{{ app_url_incubator }}/index" class="item">孵化资源</a>
+  			  <a href="{{ app_url_incubator }}/service" class="item">孵化服务</a>
+  			  
+  			</div>
+  		</div>
       <a href="{{ app_url_active }}" class="{{ css_page_sub_active }} item">
         活动
       </a>
