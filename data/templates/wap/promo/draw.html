@@ -2,12 +2,30 @@
 {% block title%}试用福利-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-  .draw{width:320px; height:320px; position:relative; margin:20px auto;overflow:hidden;}
+  .draw{width:320px; height:320px; position:relative; margin:0px auto 20px;overflow:hidden;}
   #disk{width:320px; height:320px; background:url({{ app_url_packaged }}/images/promo/draw1.png) no-repeat;background-size:cover;}
   #start{width:30%; height:30%; position:absolute; top:35%; left:35%;}
   #start img{cursor:pointer;width:100%}
   .ui.red.button{
     margin:5px;
+  }
+  .ui.wap,.mmfoot{
+    display:none;
+  }
+  #mfrbird{
+    margin:0;
+    height:100%;
+    overflow:hidden;
+    width:100%;
+    background:url({{ app_url_packaged }}/images/promo/draw4.jpg) center top no-repeat;
+    background-size:cover;
+  }
+  .ui.top.grid h2.ui.header,.ui.top.grid p{
+    color:#d94c2e !important;
+  }
+  .ui.top.grid h2.ui.header{
+    margin-bottom:8px;
+    margin-top:12px;
   }
 </style>
 {% endblock %}
@@ -153,15 +171,34 @@
   
   //分享
   $('.red.fenxiang').click(function(){
+      $('.ui.drawmes.modal').modal('hide');
       $('#mask').css('display','');
   });
   $('#mask').click(function(){
       $('#mask').css('display','none');
   });
+  
+  window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
 
+   function hengshuping() {
+           if (window.orientation == 90 || window.orientation == -90) {
+              $('#mfrbird').css({'overflow':'scroll','height':'auto'});
+           } else {
+              $('#mfrbird').css({'overflow':'scroll','height':'100%'});
+           }
+       }
 {% endblock %}
 
 {% block content %}
+<div class="ui responsive top grid">
+  <div class="row">
+    <div class="center aligned column">
+      <h2 class="ui header">云马试用抽奖</h2>
+      <p>太火鸟试用频道隆重推出试用抽奖活动</p>
+      
+    </div>
+  </div>
+</div>
 <div class="draw">
   <div id="disk"></div>
   <div id="start"><img src="{{ app_url_packaged }}/images/promo/draw3.png" id="startbtn"></div>
@@ -180,11 +217,14 @@
       <a class="ui red fenxiang deny button share_show" style="display:none;">
       					分享再玩一次
       </a>
+      <div class="share_show" style="display:none;height:0;">
       <br/>
+      </div>
       <a href="{{ app_url_wap }}/my/pmall" class="ui red deny button go_shop" style="display:none;">
       					前往兑换中心
       </a>
-      <br/>
+      <div class="go_shop" style="display:none;height:0;">
+      <br/></div>
       <a href="{{ app_url_wap }}/try/view-52039.html" class="ui red deny button">
       					直接申请云马试用
       </a>
