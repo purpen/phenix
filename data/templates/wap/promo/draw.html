@@ -16,10 +16,10 @@
   <script type="text/javascript" src="http://frstatic.qiniudn.com/wechat/jsjQueryRotate.2.2.js"></script>
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript" >
-    var m_name = '太火鸟铟立方实验室首期线下沙龙';
+    var m_name = '试用抽奖';
     var img_url = 'http://frstatic.qiniudn.com/images/promo/d3in/share.jpg';
     var link = '{{ app_url_wap_promo }}/din';
-    var desc_str = '“去掉”互联网+ “脱掉”智能的外衣 回归产品初心 8.29 约你一起畅谈';
+    var desc_str = '试用抽奖啦〜';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -137,6 +137,12 @@
         }else{
           $('.share_show').hide();
         }
+        // 是否抽中鸟币
+        if(result.data.bird_count==0){
+          $('.go_shop').hide();
+        }else{
+          $('.go_shop').show();         
+        }
         rotateFn(result.data.id, result.data.code, result.data.desc);
       }else{
         phenix.show_error_note(result.message);
@@ -175,11 +181,11 @@
       					分享再玩一次
       </a>
       <br/>
-      <a class="ui red deny button">
+      <a href="{{ app_url_wap }}/my/pmall" class="ui red deny button go_shop" style="display:none;">
       					前往兑换中心
       </a>
       <br/>
-      <a class="ui red deny button">
+      <a href="{{ app_url_wap }}/try/view-52039.html" class="ui red deny button">
       					直接申请云马试用
       </a>
     </div>
