@@ -41,10 +41,10 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 
     // 验证用户是否有权限抽奖
     if(!empty($attend)){
+      if($attend['ticket']==2) $can_share = 0;
       if($attend['state']==0){
         if($attend['ticket']==2){
-          $can_share = 0;
-          return $this->ajax_json('不能重复抽奖~', true);
+          return $this->ajax_json('您的机会已用尽，等待下次试用吧~', true);
         }elseif($attend['ticket']==1){
           return $this->ajax_json('已抽完,分享后还有一次机会哦~', true);       
         }
@@ -53,12 +53,12 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 
     // 随机获取奖品
     $prize_arr = array(
-        '1' => array('id'=>1,'is_prize'=>1,'count'=>20,'prize'=>'恭喜您抽中20鸟币','v'=>3,'min'=>136,'max'=>179),   
-        '2' => array('id'=>2,'is_prize'=>1,'count'=>10,'prize'=>'恭喜您抽中10鸟币','v'=>7,'min'=>91,'max'=>134),   
-        '3' => array('id'=>3,'is_prize'=>1,'count'=>5,'prize'=>'恭喜您抽中5鸟币','v'=>15,'min'=>46,'max'=>89),   
-        '4' => array('id'=>4,'is_prize'=>0,'count'=>0,'prize'=>'哎呀，您未中奖，但是20台云马C1试用正在申请中，快快申请吧!','v'=>25,'min'=>316,'max'=>359),   
-        '5' => array('id'=>5,'is_prize'=>0,'count'=>0,'prize'=>'哎呀，您未中奖，但是20台云马C1试用正在申请中，快快申请吧!','v'=>25,'min'=>226,'max'=>269),   
-        '6' => array('id'=>6,'is_prize'=>0,'count'=>0,'prize'=>'哎呀，您未中奖，但是20台云马C1试用正在申请中，快快申请吧!','v'=>25,'min'=>136,'max'=>179), 
+        '1' => array('id'=>1,'is_prize'=>1,'count'=>20,'prize'=>'恭喜您抽中20鸟币!','v'=>3,'min'=>182,'max'=>223),   
+        '2' => array('id'=>2,'is_prize'=>1,'count'=>10,'prize'=>'恭喜您抽中10鸟币!','v'=>7,'min'=>92,'max'=>133),   
+        '3' => array('id'=>3,'is_prize'=>1,'count'=>5,'prize'=>'恭喜您抽中5鸟币!','v'=>15,'min'=>47,'max'=>88),   
+        '4' => array('id'=>4,'is_prize'=>0,'count'=>0,'prize'=>'哎呀，您未中奖，但是20台云马C1试用正在申请中，快快申请吧!','v'=>25,'min'=>317,'max'=>358),   
+        '5' => array('id'=>5,'is_prize'=>0,'count'=>0,'prize'=>'哎呀，您未中奖，但是20台云马C1试用正在申请中，快快申请吧!','v'=>25,'min'=>227,'max'=>268),   
+        '6' => array('id'=>6,'is_prize'=>0,'count'=>0,'prize'=>'哎呀，您未中奖，但是20台云马C1试用正在申请中，快快申请吧!','v'=>25,'min'=>137,'max'=>178), 
     );
 
     $arr = array();
@@ -69,7 +69,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 
     $is_prize_arr = $prize_arr[$rid];
     $prize_info = array('id'=>1);
-    if($can_share){
+    if(!empty($can_share)){
       $field_name = 'bird_money_1';
     }else{
       $field_name = 'bird_money_2';
@@ -105,7 +105,6 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
   public function draw_share(){
     $user_id = $this->visitor->id;
     $try_id = 52039;
-    $can_share = 1;
 
     $attend_model = new Sher_Core_Model_Attend();
 

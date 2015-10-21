@@ -32,7 +32,77 @@
 
 {% block layout_js %}
   <script type="text/javascript" src="http://frstatic.qiniudn.com/wechat/jsjQueryRotate.2.2.js"></script>
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" >
+    var m_name = '试用抽奖';
+    var img_url = 'http://frstatic.qiniudn.com/images/promo/d3in/share.jpg';
+    var link = '{{ app_url_wap_promo }}/din';
+    var desc_str = '试用抽奖啦〜';
 
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+
+  wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: 10, count_name:'count', type: 4, kind:4 });
+    $.get("{{ app_url_wap }}/app/wap/promo_func/draw_share", {});
+    $('#mask').css('display','none');
+  }
+
+  </script>
 {% endblock %}
 
 {% block jquery %}
@@ -85,6 +155,12 @@
         }else{
           $('.share_show').hide();
         }
+        // 是否抽中鸟币
+        if(result.data.bird_count==0){
+          $('.go_shop').hide();
+        }else{
+          $('.go_shop').show();         
+        }
         rotateFn(result.data.id, result.data.code, result.data.desc);
       }else{
         phenix.show_error_note(result.message);
@@ -129,15 +205,15 @@
   <div class="container">
     <div class="content" style="text-align:center;">
       <p class="desc"></p>
-      <a class="ui red fenxiang deny button" style="display:none;">
+      <a class="ui red fenxiang deny button share_show" style="display:none;">
       					分享再玩一次
       </a>
       <br/>
-      <a class="ui red deny button">
+      <a href="{{ app_url_wap }}/my/pmall" class="ui red deny button go_shop" style="display:none;">
       					前往兑换中心
       </a>
       <br/>
-      <a class="ui red deny button">
+      <a href="{{ app_url_wap }}/try/view-52039.html" class="ui red deny button">
       					直接申请云马试用
       </a>
     </div>
