@@ -39,6 +39,7 @@
   			animateTo:angles+1800,
   			duration:8000,
   			callback:function (){
+          $('.content .desc').text(txt);
   				$('.ui.drawmes.modal')
           //.modal('setting', 'closable', false)
           .modal('setting', 'transition', 'vertical  flip')
@@ -48,6 +49,7 @@
   			}
   		})
   	};
+
 
   // 抽奖点击事件
   $('#start').click(function(){
@@ -59,6 +61,12 @@
     var url = "{{ app_url_wap }}/app/wap/promo_func/fetch_draw";
     $.post(url, {type: 1}, function(result){
       if(result.success){
+        // 是否可以分享再玩
+        if(result.data.can_play==1){
+          $('.share_show').show();
+        }else{
+          $('.share_show').hide();
+        }
         rotateFn(result.data.id, result.data.code, result.data.desc);
       }else{
         phenix.show_error_note(result.message);
@@ -85,8 +93,8 @@
 	</div>
   <div class="container">
     <div class="content" style="text-align:center;">
-      <p>哎呀，您未中奖，但是20台云马C1试用正在申请中，快快申请吧</p>
-      <a class="ui red deny button">
+      <p class="desc"></p>
+      <a class="ui red deny button share_show" style="display:none;">
       					分享再玩一次
       </a>
       <br/>
