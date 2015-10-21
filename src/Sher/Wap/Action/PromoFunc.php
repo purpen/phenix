@@ -41,9 +41,9 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 
     // 验证用户是否有权限抽奖
     if(!empty($attend)){
+      if($attend['ticket']==2) $can_share = 0;
       if($attend['state']==0){
         if($attend['ticket']==2){
-          $can_share = 0;
           return $this->ajax_json('您的机会已用尽，等待下次试用吧~', true);
         }elseif($attend['ticket']==1){
           return $this->ajax_json('已抽完,分享后还有一次机会哦~', true);       
