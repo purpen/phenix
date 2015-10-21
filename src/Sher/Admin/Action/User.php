@@ -293,19 +293,19 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 	public function birdmoney_add(){
 		
 		if(empty($this->stash['receive_user_id'])){
-			return $this->ajax_notification('缺少请求参数！', true);
+			return $this->ajax_json('缺少请求参数！', true);
 		}
 		
 		if(empty($this->stash['send_user_id'])){
-			return $this->ajax_notification('缺少请求参数！', true);
+			return $this->ajax_json('缺少请求参数！', true);
 		}
 		
 		if(empty($this->stash['bird_money'])){
-			return $this->ajax_notification('请输入鸟币金额！', true);
+			return $this->ajax_json('请输入鸟币金额！', true);
 		}
 		
 		if(empty($this->stash['bird_money_explanation'])){
-			return $this->ajax_notification('请输入鸟币说明！', true);
+			return $this->ajax_json('请输入鸟币说明！', true);
 		}
 		
 		$receive_user_id = (int)$this->stash['receive_user_id'];
@@ -316,13 +316,13 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		try{
 			$bird_money_obj = new Sher_Core_Service_Point();
 			if(!$bird_money_obj->make_money_in($receive_user_id, $bird_money, $bird_money_explanation, 2, $send_user_id)){
-				return $this->ajax_notification('赠送鸟币失败！', true);
+				return $this->ajax_json('赠送鸟币失败！', true);
 			}
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_notification($e->getMessage(), true);
+			return $this->ajax_json($e->getMessage(), true);
 		}
 		
-		return $this->ajax_json('更新成功！');
+		return $this->ajax_json('更新成功！', false);
 	}
 }
 ?>

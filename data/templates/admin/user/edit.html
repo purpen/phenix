@@ -10,9 +10,8 @@
       if(kind==1){
         $('#bird-box').show();
       }else{
-        $('#bird-box').hide();     
+        $('#bird-box').hide();
       }
-    
     }
   </script>
 {% endblock %}
@@ -40,7 +39,6 @@
 				},
 				success: function(data){
 					phenix.after_submit();
-					
 					if(data.is_error){
 						$(event.target).addClass('error');
 						phenix.show_error_note(data.message, event.target);
@@ -78,10 +76,10 @@
 			$(this).ajaxSubmit({
 				dataType: 'json',
 				beforeSubmit: function(){
-					phenix.before_submit();
+					$('.ui.submit.button.birdmoney').attr('disabled','disabled');
 				},
 				success: function(data){
-					phenix.after_submit();
+					$('.ui.submit.button.birdmoney').removeAttr('disabled');
 					if(data.is_error){
 						$(event.target).addClass('error');
 						phenix.show_error_note(data.message, event.target);
@@ -243,7 +241,7 @@
 				<input type="text" name="bird_money_explanation" placeholder="赠送鸟币说明" value="" />
 			  </div>
 			</div>
-			<input type="submit" class="ui magenta submit inverted button" value="确认保存">
+			<input type="submit" class="ui magenta submit inverted button birdmoney" value="确认保存">
 			<input type="button" class="ui gray inverted button" value="取消">
 		</form>
 	</div>
