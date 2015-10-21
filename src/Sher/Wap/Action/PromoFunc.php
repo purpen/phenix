@@ -54,11 +54,11 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     // 随机获取奖品
     $prize_arr = array(
         '1' => array('id'=>1,'is_prize'=>1,'count'=>20,'prize'=>'恭喜您抽中20鸟币','v'=>3,'min'=>136,'max'=>179),   
-        '2' => array('id'=>2,'is_prize'=>1,'count'=>10,'prize'=>'恭喜您抽中10鸟币','v'=>7,'min'=>226,'max'=>269),   
-        '3' => array('id'=>3,'is_prize'=>1,'count'=>5,'prize'=>'恭喜您抽中5鸟币','v'=>15,'min'=>271,'max'=>314),   
-        '4' => array('id'=>4,'is_prize'=>0,'count'=>0,'prize'=>'哎呀，您未中奖，但是20台云马C1试用正在申请中，快快申请吧!','v'=>25,'min'=>1,'max'=>44),   
-        '5' => array('id'=>5,'is_prize'=>0,'count'=>0,'prize'=>'哎呀，您未中奖，但是20台云马C1试用正在申请中，快快申请吧!','v'=>25,'min'=>91,'max'=>134),   
-        '6' => array('id'=>6,'is_prize'=>0,'count'=>0,'prize'=>'哎呀，您未中奖，但是20台云马C1试用正在申请中，快快申请吧!','v'=>25,'min'=>181,'max'=>224), 
+        '2' => array('id'=>2,'is_prize'=>1,'count'=>10,'prize'=>'恭喜您抽中10鸟币','v'=>7,'min'=>91,'max'=>134),   
+        '3' => array('id'=>3,'is_prize'=>1,'count'=>5,'prize'=>'恭喜您抽中5鸟币','v'=>15,'min'=>46,'max'=>89),   
+        '4' => array('id'=>4,'is_prize'=>0,'count'=>0,'prize'=>'哎呀，您未中奖，但是20台云马C1试用正在申请中，快快申请吧!','v'=>25,'min'=>316,'max'=>359),   
+        '5' => array('id'=>5,'is_prize'=>0,'count'=>0,'prize'=>'哎呀，您未中奖，但是20台云马C1试用正在申请中，快快申请吧!','v'=>25,'min'=>226,'max'=>269),   
+        '6' => array('id'=>6,'is_prize'=>0,'count'=>0,'prize'=>'哎呀，您未中奖，但是20台云马C1试用正在申请中，快快申请吧!','v'=>25,'min'=>136,'max'=>179), 
     );
 
     $arr = array();
@@ -94,7 +94,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       }
     }
     
-    $code = mt_rand($is_prize_arr['min'], $is_prize_arr['min']);
+    $code = mt_rand($is_prize_arr['min'], $is_prize_arr['max']);
     return $this->ajax_json("操作成功!", false, '', array('id'=>$is_prize_arr['id'],'bird_count'=>$is_prize_arr['count'], 'code'=>$code, 'desc'=>$is_prize_arr['prize'], 'can_play'=>$can_share));
 
   }
