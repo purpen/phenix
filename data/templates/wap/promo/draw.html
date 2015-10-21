@@ -2,7 +2,7 @@
 {% block title%}试用福利-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-  .draw{width:320px; height:320px; position:relative; margin:20px auto;overflow:hidden;}
+  .draw{width:320px; height:320px; position:relative; margin:0px auto 20px;overflow:hidden;}
   #disk{width:320px; height:320px; background:url({{ app_url_packaged }}/images/promo/draw1.png) no-repeat;background-size:cover;}
   #start{width:30%; height:30%; position:absolute; top:35%; left:35%;}
   #start img{cursor:pointer;width:100%}
@@ -17,9 +17,15 @@
     height:100%;
     overflow:hidden;
     width:100%;
-    background:url({{ app_url_packaged }}/images/promo/draw4.jpg) center center no-repeat;
+    background:url({{ app_url_packaged }}/images/promo/draw4.jpg) center top no-repeat;
     background-size:cover;
-    background-position: -14px 0;
+  }
+  .ui.top.grid h2.ui.header,.ui.top.grid p{
+    color:#d94c2e !important;
+  }
+  .ui.top.grid h2.ui.header{
+    margin-bottom:8px;
+    margin-top:12px;
   }
 </style>
 {% endblock %}
@@ -99,7 +105,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui responsive grid">
+<div class="ui responsive top grid">
   <div class="row">
     <div class="center aligned column">
       <h2 class="ui header">云马试用抽奖</h2>
