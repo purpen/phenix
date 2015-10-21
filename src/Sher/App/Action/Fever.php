@@ -589,6 +589,12 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 保存产品创意信息
 	 */
 	public function save(){
+		
+		// 禁用用户无法操作
+		if(!$this->stash["visitor"]['state']){
+			return $this->ajax_json('您不能添加产品创意信息 !', true);
+		}
+		
 		$step = (int)$this->stash['step'];
 		
 		Doggy_Log_Helper::debug("Start save step[$step].");
@@ -697,6 +703,12 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 保存附件图片及视频
 	 */
 	protected function save_upload(){
+		
+		// 禁用用户无法操作
+		if(!$this->stash["visitor"]['state']){
+			return $this->ajax_json('您不能附件图片及视频 !', true);
+		}
+
 		$id = (int)$this->stash['_id'];
 		// 验证数据
 		if(empty($id)){

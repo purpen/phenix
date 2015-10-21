@@ -1048,6 +1048,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 */
 	public function save(){
 		
+		// 禁用用户无法操作
+		if(!$this->stash["visitor"]['state']){
+			return $this->ajax_json('您不能添加话题信息！', true);
+		}
+		
 		// 验证数据
 		if(empty($this->stash['title'])){
 			return $this->ajax_json('标题不能为空！', true);
@@ -1163,6 +1168,12 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 保存产品话题信息
 	 */
 	public function ajax_save(){
+		
+		// 禁用用户无法操作
+		if(!$this->stash["visitor"]['state']){
+			return $this->ajax_json('您不能添加话题信息！', true);
+		}
+		
 		// 验证数据
 		$target_id = $this->stash['target_id'];
 		if(empty($this->stash['title']) || empty($this->stash['description'])){
