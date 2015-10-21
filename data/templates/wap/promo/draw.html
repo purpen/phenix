@@ -9,6 +9,18 @@
   .ui.red.button{
     margin:5px;
   }
+  .ui.wap,.mmfoot{
+    display:none;
+  }
+  #mfrbird{
+    margin:0;
+    height:100%;
+    overflow:hidden;
+    width:100%;
+    background:url({{ app_url_packaged }}/images/promo/draw4.jpg) center center no-repeat;
+    background-size:cover;
+    background-position: -14px 0;
+  }
 </style>
 {% endblock %}
 
@@ -87,6 +99,15 @@
 {% endblock %}
 
 {% block content %}
+<div class="ui responsive grid">
+  <div class="row">
+    <div class="center aligned column">
+      <h2 class="ui header">云马试用抽奖</h2>
+      <p>太火鸟试用频道隆重推出试用抽奖活动</p>
+      
+    </div>
+  </div>
+</div>
 <div class="draw">
   <div id="disk"></div>
   <div id="start"><img src="{{ app_url_packaged }}/images/promo/draw3.png" id="startbtn"></div>
