@@ -311,7 +311,7 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		$receive_user_id = (int)$this->stash['receive_user_id'];
 		$send_user_id = (int)$this->stash['send_user_id'];
 		$bird_money = (int)$this->stash['bird_money'];
-		$bird_money_explanation = (int)$this->stash['bird_money_explanation'];
+		$bird_money_explanation = $this->stash['bird_money_explanation'];
 		
 		try{
 			$bird_money_obj = new Sher_Core_Service_Point();
