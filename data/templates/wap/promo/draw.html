@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title%}太火鸟商城-{% endblock %}
+{% block title%}试用福利-{% endblock %}
 {% block page_css %}
 <style type="text/css">
   .draw{width:320px; height:320px; position:relative; margin:20px auto;overflow:hidden;}
@@ -112,10 +112,34 @@
   </script>
 
 {% endblock %}
+
+{% block jquery %}
+
+  // 抽奖点击事件
+  $('#start').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+      phenix.redirect('{{ app_url_wap }}/auth/login');
+      return;
+    }
+    var url = "{{ app_url_wap }}/app/wap/promo_func/fetch_draw";
+    $.post(url, {type: 1}, function(result){
+      if(result.success){
+        rotateFn(result.data.id, result.data.code, result.data.desc);
+      }else{
+        phenix.show_error_note(result.message);
+      }
+    
+    }, 'json');
+  });
+
+
+{% endblock %}
+
 {% block content %}
 <div class="draw">
   <div id="disk"></div>
-  <div id="start"><img src="{{ app_url_packaged }}/images/promo/draw2.png" id="startbtn"></div>
+  <div id="start"><img src="{{ app_url_packaged }}/images/promo/draw3.png" id="startbtn"></div>
 </div>
 
 
