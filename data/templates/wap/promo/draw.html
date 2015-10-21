@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title%}太火鸟商城-{% endblock %}
+{% block title%}试用福利-{% endblock %}
 {% block page_css %}
 <style type="text/css">
   .draw{width:320px; height:320px; position:relative; margin:20px auto;overflow:hidden;}
@@ -14,26 +14,10 @@
 
 {% block layout_js %}
   <script type="text/javascript" src="http://frstatic.qiniudn.com/wechat/jsjQueryRotate.2.2.js"></script>
-  <script type="text/javascript">
-  /*$(function(){
-  	$("#startbtn").rotate({
-  		bind:{
-  			click:function(){
-  				var a = Math.floor(Math.random() * 360);
-  				 $(this).rotate({
-  					 	duration:3000,
-  					 	angle: 0, 
-              			animateTo:1440+a,
-  						easing: $.easing.easeOutSine,
-  						callback: function(){
-  							alert('中奖了！');
-  						}
-  				 });
-  			}
-  		}
-  	});
-  });*/
-  $(function (){
+
+{% endblock %}
+
+{% block jquery %}
 
   	var rotateTimeOut = function (){
   		$('#disk').rotate({
@@ -55,8 +39,7 @@
   			animateTo:angles+1800,
   			duration:8000,
   			callback:function (){
-  			  
-  			  $('.ui.drawmes.modal')
+  				$('.ui.drawmes.modal')
           //.modal('setting', 'closable', false)
           .modal('setting', 'transition', 'vertical  flip')
           .modal('show');
@@ -66,62 +49,31 @@
   		})
   	};
 
-  	$('#start').click(function (){
-
-  		if(bRotate)return;
-  		
-  		var item = rnd(0,7);
-
-  		switch (item) {
-  			case 0:
-  				//var angle = [26, 88, 137, 185, 235, 287, 337];
-  				rotateFn(0, 337, '未中奖');
-  				break;
-  			case 1:
-  				//var angle = [88, 137, 185, 235, 287];
-  				rotateFn(1, 26, '免单4999元');
-  				break;
-  			case 2:
-  				//var angle = [137, 185, 235, 287];
-  				rotateFn(2, 88, '免单50元');
-  				break;
-  			case 3:
-  				//var angle = [137, 185, 235, 287];
-  				rotateFn(3, 137, '免单10元');
-  				break;
-  			case 4:
-  				//var angle = [185, 235, 287];
-  				rotateFn(4, 185, '免单5元');
-  				break;
-  			case 5:
-  				//var angle = [185, 235, 287];
-  				rotateFn(5, 185, '免单5元');
-  				break;
-  			case 6:
-  				//var angle = [235, 287];
-  				rotateFn(6, 235, '免分期服务费');
-  				break;
-  			case 7:
-  				//var angle = [287];
-  				rotateFn(7, 287, '提高白条额度');
-  				break;
-  		}
-
-  		console.log(item);
-  	});
+  // 抽奖点击事件
+  $('#start').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+      phenix.redirect('{{ app_url_wap }}/auth/login');
+      return;
+    }
+    var url = "{{ app_url_wap }}/app/wap/promo_func/fetch_draw";
+    $.post(url, {type: 1}, function(result){
+      if(result.success){
+        rotateFn(result.data.id, result.data.code, result.data.desc);
+      }else{
+        phenix.show_error_note(result.message);
+      }
+    
+    }, 'json');
   });
-  function rnd(n, m){
-  	return Math.floor(Math.random()*(m-n+1)+n)
-  }
-  
-  
-  </script>
+
 
 {% endblock %}
+
 {% block content %}
 <div class="draw">
   <div id="disk"></div>
-  <div id="start"><img src="{{ app_url_packaged }}/images/promo/draw2.png" id="startbtn"></div>
+  <div id="start"><img src="{{ app_url_packaged }}/images/promo/draw3.png" id="startbtn"></div>
 </div>
 
 
