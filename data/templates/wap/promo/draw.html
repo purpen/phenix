@@ -41,7 +41,7 @@
   			callback:function (){
           $('.content .desc').text(txt);
   				$('.ui.drawmes.modal')
-          //.modal('setting', 'closable', false)
+          .modal('setting', 'closable', false)
           .modal('setting', 'transition', 'vertical  flip')
           .modal('show');
   				//alert(txt);
@@ -74,7 +74,14 @@
     
     }, 'json');
   });
-
+  
+  //分享
+  $('.red.fenxiang').click(function(){
+      $('#mask').css('display','');
+  });
+  $('#mask').click(function(){
+      $('#mask').css('display','none');
+  });
 
 {% endblock %}
 
@@ -94,7 +101,7 @@
   <div class="container">
     <div class="content" style="text-align:center;">
       <p class="desc"></p>
-      <a class="ui red deny button share_show" style="display:none;">
+      <a class="ui red fenxiang deny button" style="display:none;">
       					分享再玩一次
       </a>
       <br/>
@@ -107,6 +114,11 @@
       </a>
     </div>
       
+  </div>
+</div>
+<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);">
+  <div class="frideshare">
+	<img src="http://frstatic.qiniudn.com/images/fenxiang.png" width="100%" >
   </div>
 </div>
 {% endblock %}
