@@ -53,7 +53,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 
     // 随机获取奖品
     $prize_arr = array(
-        '1' => array('id'=>1,'is_prize'=>1,'count'=>20,'prize'=>'恭喜您抽中20鸟币','v'=>3,'min'=>136,'max'=>179),   
+        '1' => array('id'=>1,'is_prize'=>1,'count'=>20,'prize'=>'恭喜您抽中20鸟币','v'=>3,'min'=>181,'max'=>224),   
         '2' => array('id'=>2,'is_prize'=>1,'count'=>10,'prize'=>'恭喜您抽中10鸟币','v'=>7,'min'=>91,'max'=>134),   
         '3' => array('id'=>3,'is_prize'=>1,'count'=>5,'prize'=>'恭喜您抽中5鸟币','v'=>15,'min'=>46,'max'=>89),   
         '4' => array('id'=>4,'is_prize'=>0,'count'=>0,'prize'=>'哎呀，您未中奖，但是20台云马C1试用正在申请中，快快申请吧!','v'=>25,'min'=>316,'max'=>359),   
