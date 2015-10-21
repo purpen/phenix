@@ -44,7 +44,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       if($attend['state']==0){
         if($attend['ticket']==2){
           $can_share = 0;
-          return $this->ajax_json('不能重复抽奖~', true);
+          return $this->ajax_json('您的机会已用尽，等待下次试用吧~', true);
         }elseif($attend['ticket']==1){
           return $this->ajax_json('已抽完,分享后还有一次机会哦~', true);       
         }
@@ -69,7 +69,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 
     $is_prize_arr = $prize_arr[$rid];
     $prize_info = array('id'=>1);
-    if($can_share){
+    if(!empty($can_share)){
       $field_name = 'bird_money_1';
     }else{
       $field_name = 'bird_money_2';
@@ -105,7 +105,6 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
   public function draw_share(){
     $user_id = $this->visitor->id;
     $try_id = 52039;
-    $can_share = 1;
 
     $attend_model = new Sher_Core_Model_Attend();
 
