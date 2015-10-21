@@ -34,32 +34,9 @@
   
   $(function (){
 
-  	var rotateTimeOut = function (){
-  		$('#disk').rotate({
-  			angle:0,
-  			animateTo:2160,
-  			duration:8000,
-  			callback:function (){
-  				alert('网络超时，请检查您的网络设置！');
-  			}
-  		});
-  	};
-  	var bRotate = false;
 
-  	var rotateFn = function (awards, angles, txt){
-  		bRotate = !bRotate;
-  		$('#disk').stopRotate();
-  		$('#disk').rotate({
-  			angle:0,
-  			animateTo:angles+1800,
-  			duration:8000,
-  			callback:function (){
-  				alert(txt);
-  				bRotate = !bRotate;
-  			}
-  		})
-  	};
 
+    /**
   	$('#start').click(function (){
 
   		if(bRotate)return;
@@ -107,6 +84,8 @@
   function rnd(n, m){
   	return Math.floor(Math.random()*(m-n+1)+n)
   }
+
+  **/
   
   
   </script>
@@ -114,6 +93,32 @@
 {% endblock %}
 
 {% block jquery %}
+
+  	var rotateTimeOut = function (){
+  		$('#disk').rotate({
+  			angle:0,
+  			animateTo:2160,
+  			duration:8000,
+  			callback:function (){
+  				alert('网络超时，请检查您的网络设置！');
+  			}
+  		});
+  	};
+  	var bRotate = false;
+
+  	var rotateFn = function (awards, angles, txt){
+  		bRotate = !bRotate;
+  		$('#disk').stopRotate();
+  		$('#disk').rotate({
+  			angle:0,
+  			animateTo:angles+1800,
+  			duration:8000,
+  			callback:function (){
+  				alert(txt);
+  				bRotate = !bRotate;
+  			}
+  		})
+  	};
 
   // 抽奖点击事件
   $('#start').click(function(){

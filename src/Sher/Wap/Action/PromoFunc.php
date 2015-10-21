@@ -95,7 +95,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     }
     
     $code = mt_rand($is_prize_arr['min'], $is_prize_arr['min']);
-    return $this->ajax_json("操作成功!", '', array('id'=>$is_prize_arr['id'],'bird_count'=>$is_prize_arr['count'], 'code'=>$code, 'desc'=>$is_prize_arr['prize'], 'can_play'=>$can_share));
+    return $this->ajax_json("操作成功!", false, '', array('id'=>$is_prize_arr['id'],'bird_count'=>$is_prize_arr['count'], 'code'=>$code, 'desc'=>$is_prize_arr['prize'], 'can_play'=>$can_share));
 
   }
 
