@@ -25,7 +25,9 @@
 				<th></th>
 				<th>标识</th>
 				<th>名称</th>
+        <th>尺寸</th>
 				<th>创建时间</th>
+        <th>指向</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
@@ -42,7 +44,11 @@
 					{{ space.name }}
 				</td>
 				<td>{{ space.title }}</td>
+				<td>
+					{{ space.width }} * {{ space.height }}
+				</td>
 				<td>{{ space.created_on|date 'Y-m-d H:i' }}</td>
+        <td>{{ space.kind_name.name }}</td>
 				<td>
 					<div class="ui divided horizontal list">
 						<a href="{{ app_url_admin }}/advertise?space_id={{ space._id}}" class="ui link item">查看内容</a>

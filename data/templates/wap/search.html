@@ -157,6 +157,9 @@
 		padding: 0px 0 30px;
 		color:#fff;
 	}
+	#searchpage .ui.tabox .row{
+	  padding-bottom:0 !important;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -175,11 +178,11 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column white section-title">
-                <h3 class="block title">高级搜索</h3>
+                <h3 class="title">高级搜索</h3>
 				<form class="ui form" action="{{ app_url_wap }}/search" method="get" id="searchbar">
-                 	<div class="ui icon input">
-                		<input name="q" type="text" value="{{ q }}" />
-                		<input name="t" type="hidden" value="{{ t }}" />
+                 	<div class="ui icon input" style="display:block;">
+                		<input name="q" type="text" value="{{ q }}" style="width:100% !important;"/>
+                		<input name="t" type="hidden" value="{{ t }}" style="width:100% !important;" />
                 		<i class="search icon"></i>
                 	</div>
                 </form>
@@ -211,9 +214,9 @@
 				<div class="column">
 					<div class="ui ten tabs">
             <a href="{{ app_url_domain }}/search?t=0&q={{ q }}" class="{{ css_all }} tab">全部</a>
-            <a href="{{ app_url_domain }}/search?t=5&q={{ q }}" class="{{ css_vote }} tab">创意</a>
+            <a href="{{ app_url_domain }}/search?t=1&q={{ q }}" class="{{ css_product }} tab">产品</a>
+            <!--<a href="{{ app_url_domain }}/search?t=5&q={{ q }}" class="{{ css_vote }} tab">创意</a>-->
             <a href="{{ app_url_domain }}/search?t=2&q={{ q }}" class="{{ css_topic }} tab">话题</a>
-            <a href="{{ app_url_domain }}/search?t=1&q={{ q }}" class="{{ css_product }} tab">商品</a>
             <!--
             <a href="{{ app_url_domain }}/search?t=4&q={{ q }}" class="{{ css_stuff }} tab">智品</a>
             -->

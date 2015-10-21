@@ -249,6 +249,11 @@
 						    同步销售
 					    </a>
               {%endif%}
+                {% if product.stage == 5 %}
+		          		<a href="{{ app_url_admin }}/product/sync_sold?id={{ product._id }}" class="ui link item">
+						    同步销售
+					    </a>
+              {%endif%}
 						{% if visitor.is_system %}
 							{% if product.stage == 5 %}
 			          		<a href="{{ app_url_admin }}/product/ajax_recount?id={{ product._id }}" class="ui ajax link item">

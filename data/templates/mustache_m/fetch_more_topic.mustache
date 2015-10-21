@@ -1,0 +1,43 @@
+{{#results.rows}}
+							<div class="item">
+								<div class="content" style="display:block;">
+							    	<div class="header {{#red}} topic-title-color-red{{/red}}{{#blue}} topic-title-color-blue{{/blue}}{{#green}} topic-title-color-green{{/green}}{{#yellow}} topic-title-color-yellow{{/yellow}}"><a href="{{ wap_view_url }}" title="{{ title }}" class="ui line link">{{ attr_str }}{{ title }}</a></div>
+										{{^has_asset}}
+											<div class="description">
+												{{ strip_description }}
+											</div>
+											{{/has_asset}}
+                      {{#has_asset}}
+											<div class="tslide">
+													<div class="swiper-wrapper">
+
+						            {{#cover}}
+                            <div class="swiper-slide" >
+                              <img src="{{ cover.thumbnails.tiny.view_url }}" />
+                            </div>
+						            {{/cover}}
+
+                        {{#asset_list}}
+                            <div class="swiper-slide" >
+                              <img src="{{ thumbnails.tiny.view_url }}" />
+                            </div>
+                        {{/asset_list}}
+
+													</div>
+												</div>
+											{{/has_asset}}
+										
+							        <small><a class="ui small link" href="javascript:void(0);">{{ user.nickname }}</a> 
+                      {{#last_user}} - 回复于{{ r_last_reply_time }} {{/last_user}}
+                      <span class="like" style="float: right;margin-top: 1px;">
+							<i class="unhide icon"></i> 
+							<span class="count">{{ view_count }}</span>&nbsp;
+							<i class="comment outline up icon"></i>
+							<span class="count comment-count">
+								{{ comment_count }}
+							</span>
+					</span></small>
+							    </div>
+							</div>
+
+{{/results.rows}}

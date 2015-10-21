@@ -1,4 +1,4 @@
-<div class="comment" id="{{ comment._id }}">
+<div class="comment" id="f{{ comment.floor }}">
     <a class="avatar" href="{{ comment.user.home_url }}" target="_blank">
         <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
     </a>
@@ -27,7 +27,12 @@
     
         {% if comment.is_reply %}
         <div class="replytips">
-            <i class="quote left icon"></i> 回复 #{{ comment.reply_comment.floor }} <a href="{{ comment.reply_comment.user.home_url }}" class="ui link" target="_blank">@{{ comment.reply_comment.user.nickname }}</a>
+            <blockquote>
+                <i class="quote left icon"></i> 
+                <a href="{{ comment.reply_comment.user.home_url }}" class="ui link" target="_blank">@{{ comment.reply_comment.user.nickname }}</a> <span class="metadata"><span class="date">发表于 {{ comment.reply_comment.created_on }}</span></span>
+                <div class="contrp text">{{ comment.reply_comment.content|safe }}</div>
+                <i class="quote right icon"></i>
+            </blockquote>
         </div>
         {%endif%}
     

@@ -27,10 +27,19 @@
 		font-size: 15px;
 		color: rgba(0,0,0,.7);
 	}	
+  .content .text img{
+    max-width: 150px;
+    max-height: 800px;
+    overflow: hidden;
+    padding: 10px 10px 0 0;
+  }
 </style>
 {% endblock %}
 
 {% block jquery %}
+
+  // 查看大图
+  phenix.comment_blow_up_img();
 	
 {% endblock %}
 {% block content %}
@@ -73,14 +82,25 @@
                                     <img alt="{{ d.s_user.nickname }}" src="{{ d.s_user.small_avatar_url }}">
                                 </a>
                                 <div class="news content">
-                                    <a class="ui link" href="{{ d.s_user.home_url }}" target="_blank">{{ d.s_user.nickname }}</a> {{ d.info }}<span>{{ d.kind_str }}</span> <span class="date">{{ d.created_on|relative_datetime }}</span> {% if !d.is_read %}<span class="ui mini red label">NEW</span>{%endif%}
+                                  <a class="ui link" href="{{ d.s_user.home_url }}" target="_blank">{{ d.s_user.nickname }}</a>
+                                  {% if d.evt==12 %}
+                                    在评论中提到了你
+                                  {%else%}
+                                     {{ d.info }}<span>{{ d.kind_str }}</span> 
+                                  {%endif%}
+                                    <span class="date">{{ d.created_on|relative_datetime }}</span> {% if !d.is_read %}<span class="ui mini red label">NEW</span>{%endif%}
                                     <div class="sub_header text">
                                         {% if d.kind == 3 %}
-                                            <p>
-                                                {{ d.target.content_original }}
-                                                {% if d.kind == 3 %}
-                                                <small><a class="ui link" href="{{ d.comment_target.view_url }}" target="_blank">查看原文</a></small>
-                                                {%endif%}
+                                            <p class="text">
+                                                {{ d.target.content }}
+                                                <small>
+                                                  {% if d.comment_target.comment_type=='subject' %}
+                                                    <a class="ui link" href="{{ d.comment_target.comment_view_url }}?floor={{ d.target.floor }}#f{{ d.target.floor }}" target="_blank">查看原文</a>
+                                                  {%else%}
+                                                    <a class="ui link" href="{{ d.comment_target.comment_view_url }}/{{ d.target.floor }}#f{{ d.target.floor }}" target="_blank">查看原文</a>
+                                                  {%endif%}
+
+                                                </small>
                                             </p>
                                         {%else%}
                                             <p>

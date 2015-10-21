@@ -686,18 +686,96 @@ class Sher_Core_Helper_Util {
   
   }
 
-  /**
-   * 转换为utf8编码
-   */
-	public static function characet($data){
-    if( !empty($data) ){
-      $fileType = mb_detect_encoding($data , array('UTF-8','GBK','LATIN1','BIG5')) ;
-      if( $fileType != 'UTF-8'){
-        $data = mb_convert_encoding($data ,'utf-8' , $fileType);
-      }
+    /**
+     * 转换为utf8编码
+     */
+    public static function characet($data){
+        if( !empty($data) ){
+            $fileType = mb_detect_encoding($data , array('UTF-8','GBK','LATIN1','BIG5')) ;
+            if( $fileType != 'UTF-8'){
+                $data = mb_convert_encoding($data ,'utf-8' , $fileType);
+            }
+        }
+        return $data;
     }
-    return $data;
-  }
+    
+    /**
+     * 分页生成器
+     */
+    public static function pager($total_rows,$total_page,$current_page=1,$pager_size=9,$url='#p#'){
+        $offset = $current_page % $pager_size;
+        $more_text = '...';
+		
+        // first-index
+        if ( $offset == 1) {
+            $pager_start = max($current_page-1, 1);
+            $pager_end = min($pager_start+$pager_size-1, $total_page);
+        }
+        elseif ($offset == 0) {
+            $pager_end = min($current_page+1, $total_page);
+            $pager_start = max($pager_end-$pager_size+1, 1);
+        }
+        else {
+            $pager_start = max($current_page-$offset+1, 1);
+            $pager_end = min($pager_start+$pager_size-1, $total_page);
+        }
+        // last page,from end-page rollback
+        if ($current_page >= $total_page) {
+            $pager_end = $total_page;
+            $pager_start = max($total_page - $pager_size+1, 1);
+        }
+        
+        $pages = array();
+        $page_index = $pager_start;
+        for ($i=0; $i < $pager_size && $page_index <= $pager_end; $i++) {
+            $page['page_index'] = $page_index;
+            $page['active'] = $current_page == $page_index ? 'active' : '';
+            $page['url'] = str_replace('#p#', $page_index, $url);
+            $pages[] = $page;
+            $page_index++;
+        }
+        
+        if ($pager_start > 1) {
+            array_unshift($pages,array(
+                'page_index'=>1,
+                'suffix_text'=> $more_text,
+                'url'=>str_replace('#p#',1,$url),
+            ));
+        }
+        if ($pager_end!=$total_page) {
+            array_push($pages,array(
+                'page_index'=>$total_page,
+                'css'=>'',
+                'prefix_text'=> $more_text,
+                'url'=> str_replace('#p#',$total_page,$url),
+            ));
+        }
+
+        $prev_page = max($current_page-1,1);
+        $next_page = min($current_page+1,$total_page);
+
+        if ($total_page <=1 || $current_page == 1) {
+            $pager['show_prev'] = false;
+        }
+        else {
+            $pager['show_prev'] = true;
+        }
+        if ($total_page <= 1 || $current_page == $total_page) {
+            $pager['show_next'] = false;
+        }
+        else {
+            $pager['show_next'] = true;
+        }
+        $pager['total_rows'] = $total_rows;
+        $pager['current_page'] = $current_page;
+        $pager['total_page'] = $total_page;
+        $pager['prev_url'] = str_replace('#p#', $prev_page, $url);
+        $pager['next_url'] = str_replace('#p#', $next_page, $url);
+        
+        $pager['pages'] = $pages;
+        
+        return $pager;
+    }
 
     /**
 	 * 访问egou处理方法
@@ -740,5 +818,41 @@ class Sher_Core_Helper_Util {
 		//@setcookie('egou_finish', (bool)1 , 0, '/');
 		//$_COOKIE['egou_finish'] = (bool)1;
 		return true;
-	}	
+	}
+	
+	/**
+	 * 易购用户回答问题库记录查询接口
+	 */
+	public static function egou_auth(){
+		
+		$egou_uid = $_COOKIE['egou_uid'];
+		$egou_hid = $_COOKIE['egou_hid'];
+		$startdate = date('Y-m-d',time());
+		$enddate = date('Y-m-d',time());
+		
+		$url = "http://www.egou.com/club/Api/getQuestionLog.htm?userid=".$egou_uid."&hid=".$egou_hid."&startdate=".$startdate."&enddate=".$enddate;
+
+		try{
+		  //初始化
+		  $ch = curl_init();
+		  
+		  // 设置选项，包括URL
+		  curl_setopt($ch, CURLOPT_URL, $url);
+		  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		  curl_setopt($ch, CURLOPT_HEADER, 0);
+		  
+		  // 执行并获取HTML文档内容
+		  $data = curl_exec($ch);
+		  
+		  // 释放curl句柄
+		  curl_close($ch);
+		  Doggy_Log_Helper::warn("egou api success $egou_uid");
+		}catch(Exception $e){
+		  Doggy_Log_Helper::warn("egou api error: ".$e->getMessage());
+		  $data = null;
+		}
+		
+		// 返回数据
+		return $data;
+	}
 }

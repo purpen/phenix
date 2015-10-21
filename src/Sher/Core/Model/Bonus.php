@@ -30,7 +30,8 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
     'D1', # 线下活动,注册抽奖(ces,大赛)
     'ZP', # 招聘H5分享
     'QX', # 七夕注册送红包100 满299可用
-    'JBL' # 七夕敦请送JBL指定红包
+    'JBL', # 七夕敦请送JBL指定红包
+    'SQR', # 扫码送30元红包
 	);
 	
     protected $schema = array(
@@ -253,7 +254,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	 * 批量生成指定限额红包
 	 * @var $count 默认生成红包数量
 	 */
-	public function create_specify_bonus($count=5, $xname='RE', $char='A', $min_char='A', $product_id=0){
+	public function create_specify_bonus($count=1, $xname='RE', $char='A', $min_char='A', $product_id=0){
 		# 红包金额
 	  $bonus = array(
 			'A' => 50,

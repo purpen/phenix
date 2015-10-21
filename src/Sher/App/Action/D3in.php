@@ -3,14 +3,17 @@
  * D3IN铟立方未来实验室
  * @author purpen
  */
-class Sher_App_Action_D3in extends Sher_App_Action_Base {
+class Sher_App_Action_D3in extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
 	public $stash = array(
 		'page'=>1,
     'size'=>50,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'active','tool','member','volunteer','buy','hardware','partner1','partner2','partner3');
+	protected $exclude_method_list = array('execute', 'coupon', 'active','tool','member','volunteer','buy','hardware','partner1','partner2','partner3','partner4','partner5');
 	
+	public function _init() {
+		$this->set_target_css_state('page_d3in');
+    }
 	/**
 	 * 网站入口
 	 */
@@ -53,6 +56,20 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base {
 	 */
 	public function partner3(){
 		return $this->to_html_page('page/d3in/partner-3.html');
+	}
+	
+	/**
+	 * d3in 合作伙伴
+	 */
+	public function partner4(){
+		return $this->to_html_page('page/d3in/partner-4.html');
+	}
+	
+	/**
+	 * d3in 合作伙伴
+	 */
+	public function partner5(){
+		return $this->to_html_page('page/d3in/partner-5.html');
 	}
 	
 	/**

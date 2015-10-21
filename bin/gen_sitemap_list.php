@@ -20,6 +20,7 @@ require $cfg_doggy_bootstrap;
 
 set_time_limit(0);
 ini_set('memory_limit','512M');
+date_default_timezone_set('Asia/shanghai');
 
 $type_list = array(
   'topic',
@@ -67,7 +68,7 @@ function gen_mode_list($type_mode){
 
     switch($type_mode){
     case 'topic':
-      $query['published'] = 1;
+      //$query['published'] = 1;
       $fields = array('_id', 'published', 'created_on', 'updated_on');
       break;
     case 'product':
@@ -87,7 +88,7 @@ function gen_mode_list($type_mode){
       $fields = array();
     }
 
-    $options = array('field' => $fields,'page'=>$page,'size'=>$size);
+    $options = array('field' => $fields,'page'=>$page,'size'=>$size,'sort'=>array('created_on'=>-1));
 
     $list = $model->find($query, $options);
     if(empty($list)){

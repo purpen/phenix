@@ -6,17 +6,109 @@
         background-color: #fff;
     }
 	.category{
-		{% if albums.banner_id %}
-		background: url("{{ banner }}") no-repeat scroll center center / cover rgba(45, 53, 56, 1);
+		{% if albums.banner %}
+		background: url("{{ albums.banner.fileurl }}") no-repeat scroll center center / cover rgba(45, 53, 56, 1);
 		{% else %}
 	    background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);
 		{% endif %}
 	}
+	.mainleft{
+	  min-height:auto !important;
+	}
+
+  /**
+  *评论样式
+  */
+  .ui.threaded.comments .content .text img{
+    max-width: 150px;
+    overflow: hidden;
+    padding: 10px 10px 0 0;
+    cursor: -webkit-zoom-in;
+    cursor: -moz-zoom-in; 
+    cursor: -ms-zoom-in; 
+    cursor: -o-zoom-in;
+  }
+  .ui.threaded.comments .content .text p{
+    margin:0;
+  }
+
+  .ui.threaded.comments .content .text a{
+    text-decoration:none;
+    color:#f36;
+  }
+
+  .ui.threaded.comments .content .text a:hover{
+    text-decoration:underline;
+    color:#f36;
+  }
+
+  .ui.reply.form .left {
+  display:inline-block;
+  }
+  .ui.reply.form .left a{
+  text-decoration: none;
+  color: #5d6266;
+  }
+
+  .img-tab{
+    margin:5px;
+  }
+  .img-tab a{
+    margin:5px;
+    text-decoration:none;
+  }
+  .ui.dimmer{
+    overflow:auto !important;
+  }
+  .post.comment{
+    padding: 0;
+  }
+
+  .ui.form textarea:not([rows]){
+    height: 3em;
+  }
+
+  #comment-list{
+    padding: 10px 0 10px 0;
+  }
+
+  .ui.pagerbox{
+    width: 250px;
+    text-align: right;
+    padding: 0 0 10px 0;
+  }
+  .ui.pagerbox span{
+    cursor: pointer;
+  }
+
 </style>
 {% endblock %}
 
 {% block layout_js %}
 <script type="text/javascript" >
+
+    // 评论参数
+    var page = {{ page|default 1 }}, per_page = 5;
+    var url = '{{ app_url_comment }}/ajax_fetch_comment?rand='+Math.random();
+    var target_id = "{{ albums._id }}";
+    // 评论类型
+    var type = 7;
+    // 网页或手机
+    var from_site = 'site';
+    // 备用
+    var evt = 1;
+
+    var comment_param = {
+      target_id: target_id,
+      page: page,
+      per_page: per_page,
+      sort: 0,
+      url: url,
+      type: type,
+      from_site: from_site,
+      evt: evt
+    }
+
     function ajax_load_more(page, size){
         var url = '{{ app_url_album_shop }}/ajax_load_list?did={{ did }}&rand='+Math.random();
         $.get(url, { page:page, size:size }, function(rs){
@@ -31,6 +123,8 @@
             $('.item-box').append(rendered);
         }, 'json');
     }
+
+
 </script>
 {% endblock %}
 
@@ -47,6 +141,7 @@
             // 防止频繁请求(在没加载完成时只允许请求一次)
             if(stat == 0){
                 $('#albums-more').show();
+				$('#albums-more').attr('status', 1);
                 ajax_load_more(page, 12);
             }
         }
@@ -55,6 +150,295 @@
     // ajax加载商品列表
     ajax_load_more(1, 12);
 	
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		
+		// 初始化互动，是否关注、点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{albums._id}},type:8,event:1}, function(result){
+			if (result.success) {
+				// 验证关注
+				if (result.data.favorited) {
+					$('.ui.favorite.button')
+						.data('mark', 'y')
+						.addClass('active')
+                        .html('<i class="minus icon"></i> 已关注');
+				}
+			}
+		}, 'json');
+
+	{% endif %}
+	
+	// 关注
+	$('.ui.favorite.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_favorite', {id: id, type:8}, function(result){
+				if (result.success) {
+					$btn
+						.data('mark', 'y')
+						.addClass('active')
+                        .html('<i class="minus icon"></i> 已关注');
+                        
+                    $('#target-favorite-count').text(result.data.favorite_count);
+                    if(result.data.new_fav){
+                        $('#target_favorite_support')
+                            .prepend('<a href=\"/user/'+ result.data.user_id +'\" target=\"_blank\" id=\"user-'+ result.data.user_id +'\" class=\"image\" data-variation=\"wide\" data-html=\"<div class=\'header\'>'+  result.data.nickname +'</div><div class=\'content\'>'+ result.data.city +' '+ result.data.job +'</div>\"><img src=\"'+ result.data.avatar +'\" /></a>');
+                    }
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_favorite', {id: id, type:8}, function(result){
+				if (result.success) {
+					$btn
+						.data('mark', 'n')
+						.removeClass('active')
+                        .html('<i class="plus icon"></i> 关注');
+                        
+                    $('#target-favorite-count').text(result.data.favorite_count);
+                    
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
+    // ajax加载签到数据
+    phenix.signin();
+
+  // 评论
+	phenix.hook_comment_page();
+
+  // ajax加载评论
+  phenix.fetch_comment(comment_param);
+
+    // 加载推荐专辑
+    $.get('{{ app_url_albums }}/ajax_load_list?rand='+Math.random(), { page: 1, size: 4, album_id: "{{ albums._id }}" }, function(rs){
+          if(rs.success){
+              var rendered = phenix.ajax_render_result('#get_shop_albums_tpl', rs.data);
+              $('.shop-albums').html(rendered);                          
+          }else{
+              phenix.show_error_note(rs.message);
+          }
+
+      }, 'json');
+
+
+  // 评论分页
+  $('.ui.pagerbox span').click(function(){
+    var total_count = {{ albums.comment_count|default 0 }};
+    var evt = $(this).data('evt');
+    if(evt=='p'){
+    
+    }else if(evt=='n'){
+    var have_next = (page * per_page) < total_count ? false : true;
+      if(have_next){
+        alert('没有更多评论~');
+      }else{
+        page++;
+        // ajax加载评论
+        comment_param.page = page;
+        phenix.fetch_comment(comment_param);
+      }
+
+    }
+  });
+	
+
+  //评论
+
+  //编辑器指定插入位置
+  (function($){
+      $.fn.extend({
+          insertAtCaret: function(myValue){
+              var $t=$(this)[0];
+              if (document.selection) {
+                  this.focus();
+                  sel = document.selection.createRange();
+                  sel.text = myValue;
+                  this.focus();
+              }
+              else
+                  if ($t.selectionStart || $t.selectionStart == '0') {
+                      var startPos = $t.selectionStart;
+                      var endPos = $t.selectionEnd;
+                      var scrollTop = $t.scrollTop;
+                      $t.value = $t.value.substring(0, startPos) + myValue + $t.value.substring(endPos, $t.value.length);
+                      this.focus();
+                      $t.selectionStart = startPos + myValue.length;
+                      $t.selectionEnd = startPos + myValue.length;
+                      $t.scrollTop = scrollTop;
+                  }
+                  else {
+                      this.value += myValue;
+                      this.focus();
+                  }
+          }
+      })  
+  })(jQuery);
+
+
+    //图片上传方式切换
+    $('.img-url-btn').click(function(){
+      $('#img-link-box').show();
+      $('#img-upload-box').hide();
+      $(':input[name=img-type]').val(1);
+    });
+    $('.img-upload-btn').click(function(){
+      $('#img-upload-box').show();
+      $('#img-link-box').hide();
+      $(':input[name=img-type]').val(2);
+    });
+
+    //图片上传弹出按钮
+    $('.comment-upload-btn').click(function(){
+      $('.comment-insert-img').modal('show');
+      return false; 
+    });
+    
+    //插入链接弹出按钮
+    $('.comment-link-btn').click(function(){
+      $('.comment-insert-link').modal('show');
+      return false; 
+    });
+
+
+    //取消插入弹出框
+    $('.ui.deny.button').click(function(){
+      $('.comment-insert-img').modal('hide');
+      $('.comment-insert-link').modal('hide');
+    });
+
+
+		//插入图片到编辑器
+    $('.ui.comment-submit.img').on('click', function(){
+      var img_type = $(':input[name=img-type]').val();
+      if(img_type==1){
+        var img_url = $(":input[name='comment-img-url']").val();
+        var img_title = $(":input[name='comment-img-title']").val();
+        if(img_url != ''){
+          var img_info = "[i:"+img_url+"::"+img_title+":]";
+          $('#comment-area').insertAtCaret(img_info);   
+        }
+      }else{
+        var i = 0;
+        var img_descs = $(":input[name='comment-asset-desc']");
+        $(":input[name='comment-asset']").each(function(){
+          var img_url = $(this).attr('img_url');
+          var img_desc = $(img_descs[i]).val();
+          var img_info = "[i:"+img_url+"::"+img_desc+":]";
+          $('#comment-area').insertAtCaret(img_info);
+          i++;
+        });
+        $('#asset-list').html('');     
+      }
+			$('.comment-insert-img').modal('hide');
+        
+    });
+
+		//插入链接到编辑器
+    $('.ui.comment-submit.url').on('click', function(){
+      var link_url = $(":input[name='comment-link-url']").val();
+      var link_title = $(":input[name='comment-link-title']").val();
+      if(link_url != '' || link_title != ''){
+        var link_info = "[l:"+link_url+"::"+link_title+":]";
+        $('#comment-area').insertAtCaret(link_info);     
+      }
+      $('.comment-insert-link').modal('hide');
+    });
+
+
+    var comment_file_count = 1;
+    var comment_ord = function(){
+      return comment_file_count++;
+    };
+    //评论图片上传
+    $('#phenix-comment-uploader').fineUploader({
+      debug: true,
+          request: {
+        inputName:'file',
+        params: {'token': '{{ comment_token }}','x:pid': '{{ comment_pid }}', 'x:domain': '{{ comment_domain }}', 'x:ord': comment_ord, 'x:user_id': '{{ visitor._id }}','x:asset_type': {{ comment_asset_type|default 0 }},'x:parent_id': '{{ comment_pid }}','file_id': '{{ comment_pid }}' },
+            endpoint: '{{ app_url_upload }}/comment'
+          },
+      text: {
+              uploadButton: '<a class="ui active magenta labeled inverted icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+      },
+      template: '<div class="qq-uploader">' +
+            '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+            '<div class="qq-upload-button">{uploadButtonText}</div>' +
+            '<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+            '<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+            '</div>',
+      validation: {
+            allowedExtensions: ['jpeg', 'jpg', 'png', 'gif'],
+            sizeLimit: 5245728 // 5M = 5 * 1024 * 1024 bytes
+        }
+      }).on('complete', function (event, id, name, result) {
+      if(result.is_error){
+        phenix.show_error_note(result.message);
+      }else{
+        $('.qq-upload-list').children().eq(id).fadeOut();
+        
+        $.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ comment_asset_type||default 0 }}, 'asset_domain':'{{ comment_domain }}'});
+      }
+    });
+
+
+  //评论回复按钮
+  $('.reply-btn').livequery(function(){
+    $(this).click(function(){
+      // 定位到评论框
+      $('html,body').animate({
+          scrollTop: $('#comment-box').offset().top
+      }, 500);
+      // 提示回复信息
+      var comment_title_obj = $('#comment-box').find('.comment-title');
+      var comment_user_id = comment_title_obj.find('a').attr('comment_user_id');
+      var recover_comment_user_href = comment_title_obj.find('a').attr('href');
+      var recover_comment_user_name = comment_title_obj.find('a').text();
+      var comment_id = $(this).attr('comment_id');
+      var floor = $(this).attr('floor');
+      var comment_user_id = $(this).attr('comment_user_id');
+      var comment_user_name = $(this).attr('comment_user_name');
+      var user_home_url = "{{ app_url_user }}/"+comment_user_id+"";
+
+      $(':input[name=reply_id]').val(comment_id);
+      $(':input[name=reply_user_id]').val(comment_user_id);
+      $(':input[name=is_reply]').val(1);
+      
+      var html ='';
+      html += '<div class="replytips">';
+      html += '<i class="quote left icon"></i> <span>回复 </span>#'+ floor +' ';
+      html += '<a href="'+ user_home_url +'" class="ui magenta link" target="_blank">@'+ comment_user_name +'</a> ';
+      html += '<span class=""></span> ';
+      html += '<a href="javascript:void(0);" class="ui link cancel-reply-btn" recover_comment_user_href="'+ recover_comment_user_href +'" recover_comment_user_name="'+ recover_comment_user_name +'" style="text-align:right"><small>取消</small></span>';
+      html += '</div>';
+      comment_title_obj.html(html);
+    });
+  });
+
+  //取消回复评论
+  $('.cancel-reply-btn').livequery(function(){
+    $(this).click(function(){
+      // 清空回复ID
+      $(':input[name=reply_id]').val('');
+      $(':input[name=is_reply]').val(0);
+      $(':input[name=reply_user_id]').val('');
+      var recover_comment_user_href = $(this).attr('recover_comment_user_href');
+      var recover_comment_user_name = $(this).attr('recover_comment_user_name');
+      var html = '<a href="'+ recover_comment_user_href +'" class="ui magenta link">'+ recover_comment_user_name +'</a> 发表评论';
+      $('#comment-box').find('.comment-title').html(html);   
+    });
+  }); 
+
+
 {% endblock %}
 
 {% block content %}
@@ -64,27 +448,244 @@
         <div class="desc">
             <p>{{ albums.des|default '我们用心挑选数以万计的创意产品，为你每次的一见钟情!' }}</p>
         </div>
+        <!--
+		<div class="ui magenta pop favorite inverted button" data-title="关注一下" data-content="有关该产品动态及时通知你，后续可以在‘我关注的’中快捷查找" data-id="{{ albums._id }}" data-mark="n">
+			<i class="plus icon"></i> 关注
+		</div>
+    -->
 	</h1>
-    <div class="cover"></div>
 </div>
 
-<div class="shop list" id="shoplist">
-	<div class="ui responsive grid">
+<div class="shop list mainwrap social" id="shoplist">
+  <div class="mainleftwrap">
+    <div class="mainleft">
+      <div class="ui three products cards item-box">
+                  <!--ajax load list-->
+              </div>
+      <div id="albums-more" p="{{ page }}" status="1" style="text-align:center;margin:10px auto;display:none;">
+          <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
+          加载中...
+      </div>
+
+    </div>
+  </div>
+  <div class="mainright">
+    {% include "page/topic/usersign.html" %}
+
+    {% if visitor.can_edit %}
+      <div class="sellwrap userinfo">
+        <a href="{{ app_url_albums }}/add" class="fluid ui red inverted button">
+          <i class="edit icon"></i> 创建新专辑
+        </a>
+        <p>甄选你最偏爱的智能创意品味，收获无穷灵感与未来眼界。</p>
+      </div>
+    {%endif%}
+
+        <div class="ui sticky_">
+            <div class="sellwrap">
+                <div class="block title">
+                         关注 
+                </div>
+                <div class="user action">
+        			<div class="ui magenta pop favorite inverted button" data-title="关注一下" data-content="有关该专辑动态及时通知你，后续可以在‘我关注的’中快捷查找" data-id="{{ albums._id }}" data-mark="n">
+        				<i class="plus icon"></i> 关注
+        			</div>
+                </div>
+                <div class="user avatars">
+              	  	<div class="ui images" id="target_favorite_support">
+                        {% if albums.favorite_count %}
+                            {% favorite_list var:'userlist' target_id:albums._id event:1 type:8 size:50 %}
+                            {% for target in userlist.rows %}
+                            <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
+                  	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />
+                            </a>
+                            {% endfor %}
+                        {% endif %}
+              	  	</div>
+                    <p>
+                        已有 <span id="target-favorite-count">{{ albums.favorite_count }}</span> 人关注
+                    </p>                    
+                </div>
+
+            </div>
+        </div>
+
+    <!--推荐专辑-->
+    <div class="sellwrap" id="shop-albums-list">
+			<div class="block title">推荐专辑</div>
+            <div class="ui articles shop-albums list"></div>
+    </div>
+
+    <!--评论-->
+    <div class="sellwrap">
+      <div class="block title">评论({{ albums.comment_count|default 0 }})</div>
+        			<div class="reply box">
+          			  <!--ajax comment-->
+                  <div id="comment-list">
+                        <div class="ui threaded comments is-comment"></div>
+
+                        {% if albums.comment_count > 5 %}
+                        <div class="ui pagerbox">
+                          <small><!--<span class="ui link" data-evt="p">上一页</span>|--><span class="ui link" data-evt="n">下一页</span></small>
+                        </div>
+                        {%endif%}
+                  </div>
+
+
+                <div id="comment-box" class="post comment">
+                    <p class="comment-title">
+                    <a href="{{ visitor.home_url }}" class="ui magenta link">{{ visitor.nickname }}</a> 发表评论
+                  </p>
+                    <form class="ui reply form" action="{{ app_url_comment }}/do_save" method="post" id="comment-form">
+                      <input type="hidden" name="target_id" value="{{ comment_target_id }}" />
+                      <input type="hidden" name="target_user_id" value="{{ comment_target_user_id }}" />
+                      <input type="hidden" name="type" value="{{ comment_type }}" />
+                      <input type="hidden" name="star" value="0" />
+                      <input type="hidden" name="is_reply" value="0" />
+                      <input type="hidden" name="reply_id" value="" />
+                      <input type="hidden" name="reply_user_id" value="" />
+                      <input type="hidden" name="sku_id" value="0" />
+                    
+                      <div class="field">
+                      <textarea name="content" id="comment-area" class="comment-textarea" {% if visitor.is_login %} placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论内容...{%endif%}" {% endif %} ></textarea>
+                            <div id="comment"></div>
+                      </div>
+                        {% if visitor.is_login %}
+                      <div class="left">
+                        <a href="javascript:void(0);" class="comment-upload-btn" >插入图片</a>
+                        |
+                        <a href="javascript:void(0);" class="comment-link-btn">插入链接</a>
+                      </div>
+                      <div class="right aligned column">
+                        <!--<small class="filter">还可以输入<span class="wordscount">140</span> 字</small>-->
+                      
+                      <div class="ui magenta mini active inverted submit button">
+                                <i class="edit icon"></i> 评论
+                            </div>
+                      </div>
+                        {% else %}
+                      <div class="not login">
+                          <div class="ui grid">
+                            <div class="row">
+                                  <div class="center aligned column">
+                                  <a href="{{ app_url_register }}" class="ui green inverted button mini  btn">注册</a> <a href="{{ app_url_login }}" class="ui magenta mini inverted button  btn">登录</a>
+                                  <p class="ui gray text">注册登录后可发评论</p>
+                                  </div>
+                            </div>
+                            </div>
+                      </div>
+                        {% endif %}
+                    </form>
+                </div>
+
+                <div class="ui comment-insert-img small modal transition">
+                  <div class="header">
+                      插入图片
+                      <i class="close icon"></i>
+                  </div>
+                  <div class="container">
+                    <div class="img-tab"><a href="javascript:void(0);" class="img-url-btn">链接地址</a>|<a href="javascript:void(0);" class="img-upload-btn">本地上传</a></div>
+                    <form action="" class="ui form" method="post" id="comment-upload-form">
+                        <div class="content">
+                        <input type="hidden" name="img-type" value="1" />
+                        <div class="ui signup-box" id="img-link-box">
+                          <div class="field">
+                            <label>图片地址</label>
+                            <input type="text" name="comment-img-url" value="" placeholder="http://" />
+                          </div>
+                          <div class="field">
+                            <label>图片描述</label>
+                            <input type="text" name="comment-img-title" value="" />
+                          </div>
+                        </div>
+
+                        <div class="ui signup-box" id="img-upload-box" style="display:none;">
+                              <div id="phenix-comment-uploader"></div>
+                              <div id="asset-list" class="ui four blocks"></div>
+                        </div>
+
+                        </div>
+                      <div class="right aligned action">
+                          <div class="ui active grey deny inverted button">
+                          取消
+                          </div>
+                          <div class="ui magenta active comment-submit img inverted button">
+                          <i class="add circle icon"></i> 确认
+                          </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+                <div class="ui comment-insert-link small modal transition">
+                    <i class="remove circle outline close icon"></i>
+                  <div class="header">
+                      插入链接
+                  </div>
+                  <div class="container">
+                    <form action="" class="ui form" method="post" id="comment-link-form">
+                        <div class="content">
+
+                        <div class="ui signup-box">
+                          <div class="field">
+                            <label>链接地址</label>
+                            <input type="text" name="comment-link-url" value="" placeholder="http://" />
+                          </div>
+                          <div class="field">
+                            <label>链接名称</label>
+                            <input type="text" name="comment-link-title" value="" />
+                          </div>
+                        </div>
+                        </div>
+                            
+                      <div class="ui grid">
+                                <div class="row">
+                          <div class="right aligned column">
+                                  <div class="ui active grey deny inverted button">
+                                  取消
+                                  </div>
+                                  <div class="ui magenta active comment-submit url inverted button">
+                                  <i class="edit icon"></i> 确认提交
+                                  </div>
+                          </div>
+                                </div>
+                      </div>
+                            
+                    </form>
+                  </div>
+                </div>
+
+
+              </div>
+
+    </div>
+
+    
+  </div>
+  
+  
+  
+  
+	<!--<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				<div class="ui four products cards item-box">
+				<div class="ui four products cards item-box">-->
                     <!--ajax load list-->
-                </div>
+              <!--  </div>
             </div>
-            <div id="albums-more" p="{{ page }}" style="text-align:center;margin:10px auto;display:none;">
+            <div id="albums-more" p="{{ page }}" status="1" style="text-align:center;margin:10px auto;display:none;">
                 <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
                 加载中...
             </div>
 		</div>
-	</div>
+	</div>-->
 </div>
 {% endblock %}
 
 {% block templates %}
-{% mustache id:'fetch_more_albumshop_tpl' tpl:'mustache/fetch_more_albumshop.mustache' %}
+  {% mustache id:'fetch_more_albumshop_tpl' tpl:'mustache/fetch_more_albumshop.mustache' %}
+  {% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
+  {% mustache id:'get_shop_albums_tpl' tpl:'mustache/fetch_albums_right.mustache' %}
+  {% mustache id:'get_comments_tpl' tpl:'mustache/fetch_comments.mustache' %}
+  {% mustache id:'get_single_comment_tpl' tpl:'mustache/fetch_single_comment.mustache' %}
 {% endblock %}

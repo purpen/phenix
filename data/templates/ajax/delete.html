@@ -2,6 +2,7 @@
 	{% for id in ids %}
 		<remove select="#{{id}}" />
 		<remove select="#item_{{id}}" />
+		<remove select="#item-{{id}}" />
 	{% endfor %}
 	{% if redirect_url %}
 		<eval>

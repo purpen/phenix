@@ -42,8 +42,18 @@
 	    </div>
 	</div>
 
+			<div class="three wide column">
+				<label>排序：</label>
+        <a href="{{ app_url_admin }}/user?sort=0&page={{page}}" class="ui link {%if sort==0%}active{%endif%}">最新</a>
+        <a href="{{ app_url_admin }}/user?sort=1&page={{page}}" class="ui link {%if sort==1%}active{%endif%}">粉丝</a>
+        <a href="{{ app_url_admin }}/user?sort=2&page={{page}}" class="ui link {%if sort==2%}active{%endif%}">文章</a>
+			</div>
+
+        <hr />
+
 	<div class="ui sub search">
 		<form action="{{ app_url_admin_base }}/user" method="post" class="ui form" id="search-form">
+      <input type="hidden" name="sort" value="{{ sort }}" />
 			<div class="five fields">
 				<div class="field">
 					<div class="ui icon input">
@@ -70,13 +80,14 @@
 	</div>
 
 	
-	{% user_list var:'list' only_ok:only_ok only_pending:only_pending only_blocked:only_blocked page:page start_time:start_time end_time:end_time search_passport:search_passport search_id:search_id only_admin:only_admin only_editor:only_editor only_chief:only_chief only_customer:only_customer quality:quality kind:kind %}
+	{% user_list var:'list' only_ok:only_ok only_pending:only_pending only_blocked:only_blocked page:page start_time:start_time end_time:end_time search_passport:search_passport search_id:search_id only_admin:only_admin only_editor:only_editor only_chief:only_chief only_customer:only_customer quality:quality kind:kind sort:sort %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>
 				<th></th>
 				<th>用户名</th>
 				<th>联系方式</th>
+        <th>关注|粉丝|文章|产品</th>
         <th>优质用户</th>
         <th>类型</th>
 				<th>注册时间</th>
@@ -115,6 +126,7 @@
           {{ user.profile.phone }}<br />
           {{ user.profile.realname }}
 				</td>
+        <td>{{ user.follow_count|default 0 }}|{{ user.fans_count|default 0 }}|{{ user.topic_count|default 0 }}|{{ user.product_count|default 0 }}</td>
         <td>
           <p id="user-quality-{{user._id}}">
 						{% if user.quality %}

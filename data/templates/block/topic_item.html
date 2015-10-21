@@ -9,8 +9,8 @@
 	</td>
 	<td colspan="3" class="htitle nide wide">
       	<h3 class="title {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}">
-			<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
-                {{ topic.title|truncate 60 }}
+			<a href="{{ topic.view_url }}" title="{{ topic.title }}-太火鸟智能硬件社区" class="ui line" target="_blank">
+                {{ topic.attr_str }}{{ topic.title|truncate 60 }}
                 {% if topic.top %}<span class="ui green small label">置顶</span>{% endif %}
                 {% if topic.fine %}<span class="ui orange small label">精华</span>{% endif %}
                 {% if topic.stick %}<span class="ui yellow small label">编辑推荐</span>{% endif %}
@@ -48,11 +48,11 @@
 					<!--展示图片-->
 					<a class="ui mini images" href="{{ topic.view_url }}" target="_blank">
 						{% if topic.cover %}
-						<img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" />
+						<img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" alt="{{ topic.title }}-太火鸟智能硬件社区"/>
 						{% endif %}
 						{% for asset in assets.rows %}
 							{% if topic.cover._id != asset._id %}
-						  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
+						  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" alt="{{ topic.title }}-太火鸟智能硬件社区" />
 							{% endif %}
 						{% endfor %}
 					</a>

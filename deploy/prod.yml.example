@@ -38,6 +38,9 @@ app.redis.default:
     host: '10.9.29.163'
     port: 6379
 
+# redisdb-resque
+app.redis_host: '10.10.39.2:6379'
+
 app.disable_cached: 0
 app.cache.memcached.default:
   servers:
@@ -48,6 +51,9 @@ app.cache.memcached.default:
 
 #xun_search db name
 app.xun_search_db: 'phenix'
+
+# 是否验证api签名
+app.api.is_validate_sign: 1
 
 # 周年庆送红包活动 开关
 app.anniversary2015.switch: 0
@@ -79,6 +85,9 @@ app.product_jbl_id: 1088027398
 
 # 就现在商品
 app.comeon.product_id: 1112616234
+
+# 发送通知用户组
+app.send_notice_users: '10|544066'
 
 # 评测报告类别
 app.try.report_category_id: 18

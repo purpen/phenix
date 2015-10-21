@@ -35,7 +35,26 @@
 		inline : true,
 		onSuccess: function(event){
 			event.preventDefault();
-			$(event.target).ajaxSubmit();
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+            $('.ui.letter.modal').modal('hide');
+            phenix.show_ok_note('私信发送成功!');
+            $(':input[name=content]').val('');
+            $(":input[name='users[]']").attr('checked', false);
+					}
+				}
+			});
 		}
 	});
 	
@@ -102,7 +121,7 @@
                     <div class="twelve wide column">
         				<div class="ui segment">
                             
-        					<table class="ui basic topic half table">
+        					<table class="ui basic topic half table" style="border:none !important;">
         						<tbody>
                                     {% if t == 1 %}
         							    {% topic_list var:'list' published:1 time:0 sort:0 page:page size:15 user_id:user.id %}

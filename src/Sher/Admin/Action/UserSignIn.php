@@ -9,6 +9,9 @@ class Sher_Admin_Action_UserSignIn extends Sher_Admin_Action_Base implements Dog
 		'page' => 1,
 		'size' => 20,
 		'sort' => 0,
+    'month' => '',
+    'day' => '',
+    'user_id' => '',
 	);
 	
 	public function _init() {
@@ -29,10 +32,20 @@ class Sher_Admin_Action_UserSignIn extends Sher_Admin_Action_Base implements Dog
 	public function get_list() {
 		
 		$this->set_target_css_state('all_list');
-		$page = (int)$this->stash['page'];
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/user_sign_in?sort=%d&page=#p#', $this->stash['sort']);
 		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('admin/user_sign_in/list.html');
+	}
+
+	/**
+	 * 统计列表--全部
+	 */
+	public function sign_stat_list() {
+		
+		$this->set_target_css_state('sign_stat_list');
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/user_sign_in/sign_stat_list?month=%s&day=%s&user_id=%s&page=#p#', $this->stash['month'], $this->stash['day'], $this->stash['user_id']);
+		$this->stash['pager_url'] = $pager_url;
+		return $this->to_html_page('admin/user_sign_in/sign_stat_list.html');
 	}
 
 	/**
@@ -117,5 +130,59 @@ class Sher_Admin_Action_UserSignIn extends Sher_Admin_Action_Base implements Dog
 		
 		return $this->to_taconite_page('ajax/delete.html');
 	}
+
+  /**
+   * 设置签到中奖
+   */
+  public function ajax_set_draw(){
+		$id = isset($this->stash['id'])?(string)$this->stash['id']:null;
+		if(empty($id)){
+			return $this->ajax_json('缺少请求参数！', true);
+		}
+
+    $draw_evt = isset($this->stash['draw_evt'])?(int)$this->stash['draw_evt']:1;
+    $draw_txt = isset($this->stash['draw_txt'])?$this->stash['draw_txt']:null;
+
+    $user_sign_stat_model = new Sher_Core_Model_UserSignStat();
+    $ok = $user_sign_stat_model->update_set($id, array('draw_evt'=>$draw_evt, 'draw_txt'=>$draw_txt, 'draw_time'=>time()));
+    if($ok){
+ 			return $this->ajax_json('设置成功！', false, '', array('id'=>$id));   
+    }else{
+ 			return $this->ajax_json('设置失败！', true);   
+    }
+  }
+
+	/**
+	 * 删除每日统计
+	 */
+	public function deleted_sign_stat(){
+		$id = isset($this->stash['id'])?$this->stash['id']:0;
+		if(empty($id)){
+			return $this->ajax_note('内容不存在！', true);
+		}
+		
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
+		
+		try{
+			$model = new Sher_Core_Model_UserSignStat();
+			
+			foreach($ids as $id){
+				$sign_stat = $model->load($id);
+				
+        if (!empty($sign_stat)){
+		      $model->remove($id);
+			    $model->mock_after_remove($id, $sign_stat);
+				}
+			}
+			
+			$this->stash['ids'] = $ids;
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_note('操作失败,请重新再试', true);
+		}
+		
+		return $this->to_taconite_page('ajax/delete.html');
+	}
+
 }
 

@@ -1,0 +1,111 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">通知管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/notice" class="{{ css_all }} item">
+			全部
+		</a>
+
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/notice/submit" class="item">
+				<i class="add icon"></i>添加
+			</a>
+	    </div>
+	</div>
+	
+  <!--
+	<div class="ui grid">
+		<div class="middle aligned row">
+
+			<div class="ten wide column">
+				<div class="ui sub nav">
+					<form action="{{ app_url_admin_base }}/notice" method="post">
+						<label>搜索：</label>
+						<div class="ui icon input">
+							<input placeholder="标题..." type="text" name="q">
+							<i class="flat search link icon"></i>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+  -->
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>标题</th>
+        <th>发送数量</th>
+        <th>发布</th>
+				<th>状 态</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% notice_list var:'list' kind:kind size:30 %}
+			
+			{% for b in list.rows %}
+			<tr id="{{ b._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ b._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+
+				<td>
+          {{ b.title }}
+				</td>
+        <td>{{ b.send_count|default 0 }}</td>
+				<td>
+					{% if b.published %}
+					<label class="ui green label" id="publish-{{ b._id }}-label">是</label>
+					{% else %}
+					<label class="ui orange label" id="publish-{{ b._id }}-label">否</label>
+					{% endif %}
+				</td>
+
+        <td>
+          <p id="state-{{ b._id }}-label">
+          {{ b.state_label }}
+        </td>
+        <td>
+          {% if b.state==0 %}
+          <a href="{{ app_url_admin_base }}/notice/send?id={{ b._id }}" class="ui link ajax item" id="state-{{ b._id }}-button">开始发送</a>
+          {%else%}
+          <a href="javascript:void(0);" class="ui link item">{{ b.state_label }}</a>
+          {% endif %}
+          |
+
+          {% if b.published==1 %}
+          <a href="{{ app_url_admin_base }}/notice/ajax_publish?id={{ b._id }}&evt=0" class="ui link ajax item" id="publish-{{ b._id }}-button">撤销发布</a> |
+          {% else %}
+          <a href="{{ app_url_admin_base }}/notice/ajax_publish?id={{ b._id }}&evt=1" class="ui link ajax item" id="publish-{{ b._id }}-button">发布</a> |
+          {% endif %}
+
+					<a href="{{ app_url_admin_base }}/notice/submit?id={{ b._id }}" class="ui link item">编辑</a>
+          | 
+          <a href="{{ app_url_admin }}/notice/deleted?id={{ b._id }}" class="ui confirm-request link item">
+              删除
+          </a>
+        </td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}

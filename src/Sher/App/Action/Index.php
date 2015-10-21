@@ -19,7 +19,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute', 'welcome', 'home', 'coupon', 'fire', 'goccia', 'dm', 'activity', 'verify_code', 'contact', 'comeon','egg','egou');
+	protected $exclude_method_list = array('execute', 'welcome', 'home', 'coupon', 'fire', 'goccia', 'dm', 'activity', 'verify_code', 'contact', 'comeon','egg','egou','egou_api');
 	
 	protected $admin_method_list = array();
 	
@@ -73,7 +73,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			$egou_show = 0;
 			
 			$date = array();
-			$date['eid'] = $uid;
+			$date['uid'] = $uid;
 			$date['hid'] = $hid;
 			$result = $model->find($date);
 			
@@ -88,8 +88,29 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			
 			$this->stash['egou_show'] = $egou_show;
 		}
+		
 		//var_dump($_COOKIE);
-		$this->stash['egou_finish'] = $_COOKIE['egou_finish'];
+    /**
+    if(isset($_COOKIE['egou_finish'])){
+ 		  $this->stash['egou_finish'] = $_COOKIE['egou_finish'];   
+    }else{
+  	  $this->stash['egou_finish'] = '';    
+    }
+     */
+
+    if($this->visitor->id){
+      //当前用户邀请码
+      $invite_code = Sher_Core_Util_View::fetch_invite_user_code($this->visitor->id);
+      $this->stash['user_invite_code'] = $invite_code;   
+    }else{
+      // 如果存在邀请码，存cookie
+      if(isset($this->stash['user_invite_code']) && !empty($this->stash['user_invite_code'])){
+        // 将邀请码保存至cookie
+        @setcookie('user_invite_code', $this->stash['user_invite_code'], 0, '/');
+        $_COOKIE['user_invite_code'] = $this->stash['user_invite_code'];   
+      }   
+    }
+
 		$this->set_target_css_state('page_home');
 
         // 商品推荐列表---取块内容
@@ -247,8 +268,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 			$date[$k]['addtime'] = date('Y-m-d',$v['addtime']);
 		}
 		
-		//var_dump($date);
-		return json_encode($date);
+		echo json_encode($date);
 	}
 }
 ?>

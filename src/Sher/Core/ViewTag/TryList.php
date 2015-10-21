@@ -21,6 +21,7 @@ class Sher_Core_ViewTag_TryList extends Doggy_Dt_Tag {
 		$state = 0;
         $ignore_id = 0;
         $step_stat = 0;
+        $sticked = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -41,6 +42,13 @@ class Sher_Core_ViewTag_TryList extends Doggy_Dt_Tag {
 
         if($step_stat){
           $query['step_stat'] = (int)$step_stat;
+        }
+        if($sticked){
+          if((int)$sticked==-1){
+            $query['sticked'] = 0;
+          }elseif((int)$sticked==1){
+            $query['sticked'] = 1;
+          }
         }
 
         if($ignore_id){

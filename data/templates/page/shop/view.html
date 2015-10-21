@@ -16,7 +16,7 @@
 <script type="text/javascript">
 
     // 评论参数
-    var page = 1, per_page = 10;
+    var page = {{ page|default 1 }}, per_page = 10;
     var url = '{{ app_url_comment }}/ajax_fetch_comment?rand='+Math.random();
     var target_id = "{{ product._id }}";
     // 评论类型
@@ -73,7 +73,7 @@
 	$('.ui.share.button').bind('click', function(){
 		$('.ui.share.modal').modal('show');
 	});
-	phenix.bind_share_list();
+	phenix.bind_share_list("{{ product.cover.thumbnails.hm.view_url }}");
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.wap_view_url }}'});
 	
@@ -361,18 +361,22 @@
     {% if product.stage == 15 %}
         // ajax加载评论
         phenix.fetch_comment(comment_param);
-        // 评论排序
-        $('.fitsort .ui.list .item').bind('click', function(){
-            sort = parseInt($(this).data('sort'));
-            $(this)
-                .siblings().removeClass('active')
-                .end()
-                .addClass('active');
-            // 获取请求
-            comment_param.page = 1;
-            comment_param.sort = sort;
-            phenix.fetch_comment(comment_param);
-        });
+
+        // 加载所在专辑
+        $.get('{{ app_url_shop }}/ajax_load_albums_list?rand='+Math.random(), { size: 8, pid: {{ product._id }} }, function(rs){
+              if(rs.success){
+                  if(rs.data.has_one){
+                      $('#shop-albums-list').show();
+                      var rendered = phenix.ajax_render_result('#get_shop_albums_tpl', rs.data);
+                      $('.shop-albums').html(rendered);                          
+                  }
+
+              }else{
+                  phenix.show_error_note(rs.message);
+              }
+
+          }, 'json');
+
     {%else%}
         // ajax加载评论
         phenix.fetch_comment(comment_param);
@@ -443,7 +447,25 @@
 		inline : true,
 		onSuccess: function(event){
 			event.preventDefault();
-			$(event.target).ajaxSubmit();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+            $('.ui.letter.modal').modal('hide');
+            phenix.show_ok_note('私信发送成功!');
+            $(':input[name=content]').val('');
+            $(":input[name='users[]']").attr('checked', false);
+					}
+				}
+			});
 		}
 	});
     
@@ -565,7 +587,7 @@
 					<div class="ui three tabs">
 						<a href="#.overview" class="tab">产品详情</a>
 						<a href="#.evaluating" class="tab">产品评测</a>
-                        <a href="#.reviews" class="tab">{% if product.stage==15 %}用户评论{%else%}用户评价{%endif%}</a>
+                        <a href="#comment_top" class="tab">{% if product.stage==15 %}用户评论{%else%}用户评价{%endif%}</a>
 					</div>
 				</div>
                 
@@ -608,21 +630,16 @@
             {% if product.stage == 15 %}
             <div class="container">    
                 <div class="reviews">
+                    <a name="comment_top"></a>
         			<div class="reply box">
           			    <!--ajax comment-->
         	  	        <div class="block title">
                             全部评论
                             <small>（{{ product.comment_count|default 0 }}）</small>
                         </div>
-                        <div class="fitsort">
-                            <div class="ui horizontal bulleted list">
-                                <a class="active item" href="javascript:void(0);" data-sort="0">默认</a>
-                                <a class="item" href="javascript:void(0);" data-sort="1">最新</a>
-                            </div>
-                        </div>
           		  	    <div id="comment-list">
                             <div class="ui threaded comments is-comment"></div>
-                            <div class="morepages" id="load-more-btn"></div>
+                            <div class="ui pagination pagerbox"></div>
           		  	    </div>
           		  	    {% include "block/comment_box_site.html" %}
                     </div>
@@ -631,6 +648,7 @@
             {%else%}
                 {% if product.comment_count != 0 %}
                 <div class="container">
+                    <a name="comment_top"></a>
                     <div class="product reviews">
                         <div class="block title">
                             用户评价 {% if product.comment_count %}<small>（{{ product.comment_count }}）</small>{% endif %}
@@ -638,7 +656,7 @@
                         <!--ajax comment-->
                         <div class="ui big reply segment" id="comment-list">
                             <div class="ui threaded comments is-comment"></div>
-                            <div class="morepages" id="load-more-btn"></div>
+                            <div class="ui pagination pagerbox"></div>
                         </div>
                     </div>
                 </div>
@@ -781,6 +799,7 @@
                 </div>
                 {% endif %}
             {% endif %}
+        </div>
 			
 			{% if visitor.can_edit %}
 			<div class="sellwrap">
@@ -832,7 +851,7 @@
                 <div class="user avatars">
               	  	<div class="ui images" id="target_{{ product._id }}_support">
                         {% if product.love_count %}
-                            {% favorite_list var:'userlist' target_id:product._id event:2 type:1 size:15 %}
+                            {% favorite_list var:'userlist' target_id:product._id event:2 type:1 size:50 %}
                             {% for target in userlist.rows %}
                             <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
                   	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />
@@ -860,7 +879,7 @@
                 	</a>
                 </div>
             </div>
-        </div>
+       
         
         <!--品牌相关-->
         <div class="sellwrap">
@@ -920,6 +939,16 @@
             </div>
 			
         </div>
+
+        <!--专辑-->
+        <div class="sellwrap" id="shop-albums-list" style="display:none;">
+			<div class="block title">
+               产品所在专辑 
+      </div>
+            <div class="ui articles shop-albums list">
+
+            </div>
+    </div>
         
 		{% ad_list var:'adslide2' page:1 size:2 state:2 name:'product_rightbar_stick' %}
         {% if adslide2.rows %}
@@ -991,9 +1020,10 @@
 
   {% if product.stage == 15 %}
     {% mustache id:'get_comments_tpl' tpl:'mustache/fetch_comments.mustache' %}
+    {% mustache id:'get_shop_albums_tpl' tpl:'mustache/fetch_shop_albums.mustache' %}
   {%else%}
     {% mustache id:'get_comments_tpl' tpl:'mustache/fetch_shop_comments.mustache' %}
   {%endif%}
-
+  {% mustache id:'pager_tpl' tpl:'mustache/pager.mustache' %}
   {% mustache id:'guess_products_tpl' tpl:'mustache/guess_products.mustache' %}
 {% endblock %}

@@ -1,0 +1,329 @@
+{%extends 'layout/column.html'%}
+{% block title %}每日签到-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#signlist .author + .collapsing.table.ui.celled.table tr td{
+  border:none !important;
+}
+#signlist .ui.secondary.pointing.menu{
+  margin-bottom:0;
+}
+#signlist .ui.secondary.pointing.menu + .ui.celled.table{
+  margin-top:0;
+  border:none;
+}
+#signlist .mainleft{
+  min-height:0px;
+}
+.sign.user {
+    border-radius: 4px;
+    color: rgb(255, 255, 255);
+    min-height: 200px;
+    position: relative;
+}
+.sign.user .cover {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.25);
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 2;
+}
+.sign.user .pai {
+    padding-left: 20px;
+    position: absolute;
+    right: 0;
+    top: 40px;
+    width: 300px;
+    z-index: 9
+}
+.sign.user .pai p {
+    margin-top: 20px;
+}
+.sign.user .mine {
+    position: absolute;
+    z-index: 9;
+    left: 20px;
+    top: 30px;
+}
+.sign.user .mine .author {
+    margin-left: 20px;
+    position:relative;
+}
+.sign.user .mine .ui.button {
+    margin-left: 50px;
+}
+.sign.user .no {
+    font-size: 22px;
+    margin-left: 10px;
+}
+.sign.user .nol {
+    font-size: 22px;
+    margin-left: 3px;
+} 
+.sign.user .ui.table {
+    color: #fff;
+}
+.cake {
+    margin-top: 20px;
+}
+#signlist .mainleft .container {
+    margin-top: 0px;
+    padding-top: 10px;
+}
+#signlist .ui.table {
+    text-align: center;
+}
+.ui.prize.list .item {
+    margin-bottom: 10px;
+}
+.ui.prize.list .item .description {
+    color: rgba(112, 123, 135, 0.92);
+}
+.ui.prize.list .ui.avatar.image{
+  vertical-align: middle !important;
+  margin-right: 0.5em;
+}
+.ui.prize.list .content{
+  margin-top:8px;
+}
+.mine .author img.image-HV{
+  left: 40px;
+  top: 35px;
+  width: 1.2rem !important;
+  height: 1.2rem !important;
+}
+</style>
+{% endblock %}
+
+{% block jquery %}
+    // ajax加载签到数据
+    //phenix.signin();
+
+    $('.ui.sign-btn.button').click(function(){
+      $.post("{{ app_url_user }}/ajax_sign_in", {type: 1}, function(obj){
+        if(obj.success){
+          $('span[name=sign-text]').text('今日已签到');
+          var sign_no = obj.data.data.last_date_no;
+          $('.sign-number-text').show().find('.no').text(sign_no);
+        }else{
+          phenix.show_error_note('签到失败!');
+        }
+      }, 'json');
+    });
+    
+{% endblock %}
+
+{% block content %}
+<div class="mainwrap social" id="signlist">
+    <div class="social topstick">
+        <div class="sign user" style="background-image: url('{{ app_url_packaged }}/images/headbg/ucenter-{{ user.last_char|default 0 }}.jpg');">
+            <div class="cover"></div>
+            {% if has_sign %}
+            <div class="pai">
+                <a href="javascript:void(0);" class="ui big inverted red active button">
+                    <i class="calendar icon"></i> 今日已签到
+                </a>
+                <p>今日签到排行: <span class="no">{{ user_sign.last_date_no }}</span> </p>
+            </div>
+            {%else%}
+            <div class="pai">
+                <a href="javascript:void(0);" class="ui big inverted red active sign-btn button">
+                  <i class="calendar icon"></i> <span name="sign-text">签到</span>
+                </a>
+                <p class="sign-number-text" style="display:none;">今日签到排行: <span class="no"></span> </p>
+            </div>
+            {%endif%}
+            <div class="mine">
+                <div class="author">
+                	<img src="{{ user.small_avatar_url }}" class="ui small avatar image" />
+                    <label>{{ user.screen_name }}</label>
+                    {% if user.symbol %}
+					<img src="{{ app_url_packaged }}/images/V.png" class="image-HV{%if user.symbol==2%} blue{%endif%}">
+			        {%endif%}
+                </div>
+                
+                <table class="ui very basic collapsing celled table">
+                    <tr>
+                        <td rowspan="2">
+                        </td>
+                        <td>连续签到</td>
+                        <td>积分奖励</td>
+                        <td>鸟币奖励</td>
+                        <td>累积天数</td>
+                    </tr>
+                    <tr>
+                      <td><span class="no">{{ user_sign.sign_times }}</span> 天</td>
+                        <td><span class="nol">{{ user_sign.exp_count }}</span></td>
+                        <td><span class="no">{{ user_sign.money_count }}</span></td>
+                        <td><span class="no">{{ user_sign.total_sign_times }}</span> 天</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="mainleftwrap">
+        <div class="mainleft">
+
+            <div class="container">
+                <div class="ui secondary pointing magenta menu">
+                  <a href="{{ app_url_topic }}/sign?type=0&day={{day}}&month=0" class="{%if type==0%}active{%endif%} item">
+                        今日排行
+                    </a>
+                    {% if visitor.can_edit %}
+                    <a href="{{ app_url_topic }}/sign?type=1&day=0&month={{month}}" class="{%if type==1%}active{%endif%} item">
+                        本月排行
+                    </a>
+                    <a href="{{ app_url_topic }}/sign?type=3" class="{%if type==3%}active{%endif%} item">
+                        总排行
+                    </a>
+                    {%endif%}
+                </div>
+                
+            	<table class="ui celled table">
+            		<thead>
+            			<tr>
+            				<th>排名</th>
+            				<th>用户信息</th>
+            				<th>上次签到时间</th>
+            				<th>经验值</th>
+            				<th>鸟币</th>
+                    <th>最高连签天数</th>
+                    <th>累积天数</th>
+                    <th>用户等级</th>
+            			</tr>
+            		</thead>
+            		<tbody>
+                {% if type==3 %}
+            		  {% sign_list var:'list' load_user:1 sort:3 page:page size:size %}
+                {%else%}
+            		  {% sign_stat_list var:'list' day:day week:week month:month sort:sort page:page size:size %}
+                {%endif%}
+            		{% for sign in list.rows %}
+                  {% if type==3 %}
+                    <tr id="sign-{{ sign._id }}">
+                      <td>{{ sign.number_id }}</td>
+                      <td>
+                        <a class="ui image link" href="{{ sign.user.home_url }}" target="_blank">
+                          {{ sign.user.nickname }}
+                        </a>
+                      </td>
+                      <td>
+                        {{ sign.last_sign_time|date 'y-m-d H:i:s' }}
+                      </td>
+                      <td>
+                        {{ sign.exp_count }}
+                      </td>
+                      <td>
+                        {{ sign.money_count }}
+                      </td>
+                      <td>
+                        {{ sign.max_sign_times }}
+                      </td>
+                      <td>
+                        {{ sign.total_sign_times }}
+                      </td>
+                      <td>
+                        Lv.{{ sign.user.ext_state.rank_id }}
+                      </td>
+                    </tr>
+                  {%else%}
+                  <tr id="sign-{{ sign._id }}" {% if sign.draw_evt==1 %}style="background: #f36; color:#fff;"{%endif%}>
+                      <td>{{ sign.number_id }}</td>
+                      <td>
+                        <a class="ui image link" href="{{ sign.user.home_url }}" target="_blank" {% if sign.draw_evt==1 %}style="color:#fff;"{%endif%}>
+                          {{ sign.user.nickname }}
+                        </a>
+                      </td>
+                      <td>
+                        {{ sign.sign_time|date 'y-m-d H:i:s' }}
+                      </td>
+                      <td>
+                        {% if type==0 %}
+                          {{ sign.day_exp_count }}
+                        {%endif%}
+                        {% if type==1 %}
+                          {{ sign.month_exp_count }}
+                        {%endif%}
+                      </td>
+                      <td>
+                        {% if type==0 %}
+                          {{ sign.day_money_count }}
+                        {%endif%}
+                        {% if type==1 %}
+                          {{ sign.month_money_count }}
+                        {%endif%}
+                      </td>
+                      <td>
+                        {{ sign.max_sign_times }}
+                      </td>
+                      <td>
+                        {{ sign.total_sign_times }}
+                      </td>
+                      <td>
+                        Lv.{{ sign.user.ext_state.rank_id }}
+                      </td>
+                    </tr>
+                  {%endif%}
+            		{% endfor %}
+            		</tbody>
+            	</table>
+            </div>
+            
+        	{% if list.rows %}
+        	<div class="ui pagination">
+        		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+        		{%include 'block/pager.html'%}
+        	</div>
+        	{% endif %}
+    	  	        
+        </div>
+    </div>
+    <div class="mainright">
+
+        {% if notice %}
+        <div class="sellwrap">
+			<div class="block title">
+				最新公告
+            </div>
+            <p class="cake">{{ notice }}</p>
+        </div>
+        {% endif %}
+        
+        <div class="sellwrap">
+
+      {% sign_stat_list var:'draw_list' draw_evt:1 sort:1 page:1 size:8 %}
+			<div class="block title">
+				中奖鸟友
+            </div>
+            <div class="ui prize list">
+
+              {% for sign in draw_list.rows %}
+                <div class="item">
+                    <img class="ui avatar image" src="{{ sign.user.small_avatar_url }}">
+                    <a class="ui link" href="{{ sign.user.home_url }}" target="_blank">{{ sign.user.nickname }}</a>
+                    <div class="content">
+                        <div class="description">{{ sign.draw_txt }}</div>
+                    </div>
+                </div>
+              {%endfor%}
+              <hr />
+              <div>共有 <b>{{ draw_list.total_rows }}</b> 位获奖鸟友</div>
+            </div> 
+        </div>
+        
+        <div class="sellwrap">
+			<div class="block title">
+				太火鸟微信号
+            </div>
+            <div class="product aption">
+			    <img src="http://frstatic.qiniudn.com/images/weixin-220.jpg" alt="太火鸟-中国最火爆的智能硬件孵化平台" />
+			    <p>关注太火鸟有惊喜！</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

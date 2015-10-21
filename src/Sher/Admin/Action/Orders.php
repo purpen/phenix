@@ -432,12 +432,12 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 				$openid = $user_info['wx_open_id'];
 				
 				$options = array(
-					'token' => Doggy_Config::$vars['app.wechat.ser_token'],
-					'appid' => Doggy_Config::$vars['app.wechat.ser_app_id'],
-					'appsecret' => Doggy_Config::$vars['app.wechat.ser_app_secret'],
-					'partnerid' => Doggy_Config::$vars['app.wechat.ser_partner_id'],
-					'partnerkey' => Doggy_Config::$vars['app.wechat.ser_partner_key'],
-					'paysignkey' => Doggy_Config::$vars['app.wechat.ser_paysignkey'],
+					'token' => Doggy_Config::$vars['app.wechat.token'],
+					'appid' => Doggy_Config::$vars['app.wechat.app_id'],
+					'appsecret' => Doggy_Config::$vars['app.wechat.app_secret'],
+					'partnerid' => Doggy_Config::$vars['app.wechat.partner_id'],
+					'partnerkey' => Doggy_Config::$vars['app.wechat.partner_key'],
+					'paysignkey' => Doggy_Config::$vars['app.wechat.paysign_key'],
 				);
 				$wechat = new Sher_Core_Util_Wechat($options);
 				

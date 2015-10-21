@@ -1,9 +1,12 @@
 <style type="text/css">
   .ui.threaded.comments .content .text img{
     max-width: 150px;
-    max-height: 800px;
     overflow: hidden;
     padding: 10px 10px 0 0;
+    cursor: -webkit-zoom-in;
+    cursor: -moz-zoom-in; 
+    cursor: -ms-zoom-in; 
+    cursor: -o-zoom-in;
   }
   .ui.threaded.comments .content .text p{
     margin:0;
@@ -34,6 +37,9 @@
     margin:5px;
     text-decoration:none;
   }
+  .ui.dimmer{
+    overflow:auto !important;
+  }
 </style>
 
 <div id="comment-box" class="post comment">
@@ -48,9 +54,10 @@
     	<input type="hidden" name="is_reply" value="0" />
     	<input type="hidden" name="reply_id" value="" />
     	<input type="hidden" name="reply_user_id" value="" />
+    	<input type="hidden" name="sku_id" value="0" />
 		
     	<div class="field">
-        <textarea name="content" id="comment-area" class="comment-textarea" placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论内容...{%endif%}"></textarea>
+			<textarea name="content" id="comment-area" class="comment-textarea" {% if visitor.is_login %} placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论内容...{%endif%}" {% endif %} ></textarea>
       	  	<div id="comment"></div>
     	</div>
   	  	{% if visitor.is_login %}
@@ -61,8 +68,7 @@
       </div>
     	<div class="right aligned column">
         <!--<small class="filter">还可以输入<span class="wordscount">140</span> 字</small>-->
-            
-            
+      
 			<div class="ui magenta large active inverted submit button">
               	<i class="edit icon"></i> 确认提交
             </div>
@@ -82,12 +88,10 @@
   	</form>
 </div>
 
-
-
 <div class="ui comment-insert-img small modal transition">
-  	<i class="remove circle outline close icon"></i>
 	<div class="header">
 	    插入图片
+	    <i class="close icon"></i>
 	</div>
 	<div class="container">
     <div class="img-tab"><a href="javascript:void(0);" class="img-url-btn">链接地址</a>|<a href="javascript:void(0);" class="img-upload-btn">本地上传</a></div>
@@ -162,7 +166,9 @@
 </div>
 
 {% block layout_js %}
+  
 <script type="text/javascript">
+  
   //编辑器指定插入位置
   (function($){
       $.fn.extend({
@@ -274,11 +280,11 @@
       debug: true,
           request: {
         inputName:'file',
-        params: {'token': '{{ comment_token }}','x:pid': '{{ comment_pid }}', 'x:domain': '{{ comment_domain }}', 'x:ord': comment_ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ comment_asset_type }},'x:parent_id': '{{ comment_pid }}','file_id': '{{ comment_pid }}' },
+        params: {'token': '{{ comment_token }}','x:pid': '{{ comment_pid }}', 'x:domain': '{{ comment_domain }}', 'x:ord': comment_ord, 'x:user_id': '{{ visitor._id }}','x:asset_type': {{ comment_asset_type|default 0 }},'x:parent_id': '{{ comment_pid }}','file_id': '{{ comment_pid }}' },
             endpoint: '{{ app_url_upload }}/comment'
           },
       text: {
-              uploadButton: '<a class="ui active magenta labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+              uploadButton: '<a class="ui active magenta labeled inverted icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
       },
       template: '<div class="qq-uploader">' +
             '<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
@@ -331,8 +337,6 @@
       html += '<a href="javascript:void(0);" class="ui link cancel-reply-btn" recover_comment_user_href="'+ recover_comment_user_href +'" recover_comment_user_name="'+ recover_comment_user_name +'" style="text-align:right"><small>取消</small></span>';
       html += '</div>';
       comment_title_obj.html(html);
-      
-
     });
   });
 
@@ -348,12 +352,13 @@
       var html = '<a href="'+ recover_comment_user_href +'" class="ui magenta link">'+ recover_comment_user_name +'</a> 发表评论';
       $('#comment-box').find('.comment-title').html(html);   
     });
-
-  });
-
-      
+  }); 
   });
 
 
 </script>
+{% endblock %}
+
+{% block templates %}
+  {% mustache id:'get_single_comment_tpl' tpl:'mustache/fetch_single_comment.mustache' %}
 {% endblock %}

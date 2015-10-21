@@ -6,10 +6,11 @@
 class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public $stash = array(
 		'page'=>1,
+    'sort'=>0,
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','d3in');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign');
 
 	
 	/**
@@ -19,14 +20,178 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		//return $this->coupon();
 	}
 	
-	public function d3in(){
-		return $this->to_html_page('wap/promo/d3in.html');
+	/**
+	 * idea
+	 */
+	public function idea(){
+		$this->stash['page_title_suffix'] = '金投赏巅峰对话：从广告营销看工业设计的跨界融合';
+		//微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
+		return $this->to_html_page('wap/promo/idea.html');
+	}
+	
+	
+  /**
+   * 手机扫码送红包
+   */
+  public function fetch_bonus(){
+
+    if(!$this->visitor->id){
+      $redirect_url = Doggy_Config::$vars['app.url.wap'].'/auth/login'; 
+      echo '<script>window.location="'. $redirect_url .'"</script>';exit;
+    }
+    $redirect_url = Doggy_Config::$vars['app.url.wap'].'/my/bonus'; 
+
+    $user_id = $this->visitor->id;
+    $xname = 'SQR';
+
+    // 获取红包
+    $bonus = new Sher_Core_Model_Bonus();
+
+    // 先判断用户是否领取过该红包
+    $has_one = $bonus->first(array('user_id'=>$user_id, 'xname'=>'SQR'));
+    if($has_one){
+      return $this->to_redirect($redirect_url);   
+    }
+
+    $result_code = $bonus->pop($xname);
+    
+    // 获取为空，重新生产红包
+    while(empty($result_code)){
+      //指定生成红包
+      $bonus->create_specify_bonus(5, $xname, 'C', 'C', 0);
+      $result_code = $bonus->pop($xname);
+      // 跳出循环
+      if(!empty($result_code)){
+        break;
+      }
+    }
+    
+    // 赠与红包 使用默认时间30天
+    $end_time = 0;
+    $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
+    return $this->to_redirect($redirect_url); 
+  }
+
+	/**
+	 * 2015 云马Ｃ1神嘴pk
+	 */
+	public function rank(){
+    $this->stash['size'] = isset($this->stash['size']) ? (int)$this->stash['size'] : 20;
+
+    $dig_model = new Sher_Core_Model_DigList();
+    $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_YMC1_01;
+
+    $this->stash['id'] = 1;
+    $this->stash['count_01'] = $count_01 = 0;
+    $this->stash['count_02'] = $count_02 = 0;
+    $this->stash['total_count'] = 0;
+    $this->stash['view_count'] = 0;
+    $this->stash['comment_count'] = 0;
+
+    $dig = $dig_model->load($dig_key);
+    if(empty($dig)){
+      $dig_model->update_set($dig_key, array('items.id'=>1, 'items.count_01'=>0, 'items.count_02'=>0, 'items.total_count'=>0, 'items.view_count'=>0, 'items.comment_count'=>0), true);     
+    }else{
+      $this->stash['count_01'] = $count_01 = $dig['items']['count_01'];
+      $this->stash['count_02'] = $count_02 = $dig['items']['count_02'];
+      $this->stash['total_count'] = $dig['items']['total_count'];
+      $this->stash['view_count'] = $dig['items']['view_count'];
+      $this->stash['comment_count'] = $dig['items']['comment_count'];
+    }
+
+    //  判断用户是否已投票
+    $this->stash['has_support'] = 0;
+    $this->stash['support_cid'] = 0;
+    if($this->visitor->id){
+      $mode_attend = new Sher_Core_Model_Attend();
+      $attend = $mode_attend->first(array('user_id'=>$this->visitor->id, 'target_id'=>1, 'event'=>5));
+      if(!empty($attend)){
+        $this->stash['has_support'] = 1;
+        $this->stash['support_cid'] = $attend['cid'];     
+      }   
+    }
+
+    // 增加浏览量
+    $dig_model->inc($dig_key, "items.view_count", 1);
+
+		// 评论参数
+		$comment_options = array(
+		  'comment_target_id' =>  1,
+		  'comment_target_user_id' => 0,
+		  'comment_type'  =>  10,
+		  'comment_pager' =>  '',
+		  //是否显示上传图片/链接
+		  'comment_show_rich' => 1,
+		);
+		$this->_comment_param($comment_options);
+
+		$pager_url = sprintf("%s/promo/rank?sort=%d&page=#p##comment_top", Doggy_Config::$vars['app.url.wap'], $this->stash['sort']);
+		$this->stash['pager_url'] = $pager_url;
+
+		//微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['share_url'] = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
+
+		return $this->to_html_page('wap/promo/rank.html');
+	}
+	
+	/**
+	 *  注册分享页面
+	 */
+	public function request(){
+		$this->stash['page_title_suffix'] = '太火鸟送你红包100元，马上点击查看！';
+    $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+		$redirect_url = Doggy_Config::$vars['app.url.wap'];
+
+    if(empty($user_id)){
+      return $this->show_message_page('缺少请求参数！', $redirect_url);   
+    }
+
+    $this->stash['is_current_user'] = false;
+    if($this->visitor->id){
+      if($this->visitor->id == $user_id){
+        $this->stash['is_current_user'] = true;       
+      }
+    }
+
+    $user_model = new Sher_Core_Model_User();
+    $user = $user_model->extend_load($user_id);
+    if(empty($user)){
+      return $this->show_message_page('用户不存在！', $redirect_url);    
+    }
+
+    //当前用户邀请码
+    $this->stash['invite_code'] = Sher_Core_Util_View::fetch_invite_user_code($user_id);
+
+    $this->stash['user'] = $user;
+
+		//微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['share_url'] = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
+		return $this->to_html_page('wap/promo/request.html');
 	}
 	
 	public function din(){
 		$this->stash['page_title_suffix'] = 'D3in';
 		//微信分享
-	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
 	    $timestamp = $this->stash['timestamp'] = time();
 	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
 	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
@@ -68,15 +233,15 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 * 招聘
 	 */
 	public function hy(){
-		$this->stash['page_title_suffix'] = '火眼';
+		$this->stash['page_title_suffix'] = '绝密行动 代号“火眼”';
 		//微信分享
-	    /*$this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
 	    $timestamp = $this->stash['timestamp'] = time();
 	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
 	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
 	    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
 	    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
-	    $this->stash['wxSha1'] = sha1($wxOri);*/
+	    $this->stash['wxSha1'] = sha1($wxOri);
 		return $this->to_html_page('wap/promo/hy.html');
 	}
 	
@@ -93,7 +258,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function zp(){
 		$this->stash['page_title_suffix'] = '年轻多金潜力股，求扑倒！';
 		//微信分享
-	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
 	    $timestamp = $this->stash['timestamp'] = time();
 	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
 	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
@@ -110,7 +275,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		
 		$this->stash['page_title_suffix'] = '69';
 		//微信分享
-	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
 	    $timestamp = $this->stash['timestamp'] = time();
 	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
 	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
@@ -128,7 +293,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		
 		$this->stash['page_title_suffix'] = '69';
 		//微信分享
-	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
 	    $timestamp = $this->stash['timestamp'] = time();
 	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
 	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
@@ -151,7 +316,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 */
 	public function jd(){
     //微信分享
-    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
     $timestamp = $this->stash['timestamp'] = time();
     $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
     $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
@@ -340,7 +505,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
      */
   public function chinadesign(){
     //微信分享
-    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
     $timestamp = $this->stash['timestamp'] = time();
     $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
     $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
@@ -483,6 +648,20 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
   public function sign_jd(){
     
     return $this->to_html_page('wap/promo/sign_jd.html');
+  
+  }
+
+  /**
+   * 金投赏－－报名
+   */
+  public function idea_sign(){
+    
+    if($this->visitor->id){
+      $this->stash['user_id'] = $this->visitor->id;
+    }else{
+      $this->stash['user_id'] = 0;
+    }
+    return $this->to_html_page('wap/promo/idea_sign.html');
   
   }
 
@@ -698,6 +877,25 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     $end_time = 0;
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
     return $code_ok;
+  }
+
+  /**
+   * 评论参数
+   */
+  protected function _comment_param($options){
+        $this->stash['comment_target_id'] = $options['comment_target_id'];
+        $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
+        $this->stash['comment_type'] = $options['comment_type'];
+		// 评论的链接URL
+		$this->stash['pager_url'] = isset($options['comment_pager'])?$options['comment_pager']:0;
+
+        // 是否显示图文并茂
+        $this->stash['comment_show_rich'] = isset($options['comment_show_rich'])?$options['comment_show_rich']:0;
+		// 评论图片上传参数
+		$this->stash['comment_token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
+		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
+		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
   }
 	
 }

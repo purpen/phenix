@@ -40,6 +40,9 @@ app.redis.default:
     host: '127.0.0.1'
     port: 6379
 
+# redisdb
+app.redis_host: 'localhost:6379'
+app.disable_cached: 1
 app.cache.memcached.default:
   servers:
     -
@@ -49,6 +52,9 @@ app.cache.memcached.default:
 
 #xun_search db name
 app.xun_search_db: 'phenix_dev'
+
+# 是否验证api签名
+app.api.is_validate_sign: 1
 
 # 周年庆送红包活动(包括注册,邀请送红包) 开关
 app.anniversary2015.switch: 1
@@ -76,6 +82,9 @@ app.stuff.okcase_category_id: 34
 # JBL商品ID
 app.product_jbl_id: 1088027398
 
+# 发送通知用户组
+app.send_notice_users: '1|5|9'
+
 # 百度推送 token
 baidu_push_token: ''
 
@@ -89,6 +98,11 @@ app.alipay.pendir: '/opt/project/php/phenix/vendor'
 app.taobao.key: '21781655'
 app.taobao.secret: '0b36c8be771fae402ba28bd59b75d589'
 
+# WeiXin API(test-conf)
+app.wx.app_id: 'wx34b60f01932004af'
+app.wx.app_secret: '85e685889332e9d69a6268fdec18b92e'
+app.wx.callback_url: '{$app.url.domain}/weixin/call_back'
+
 # SinaWeibo API
 app.sinaweibo.app_key: '3156984431'
 app.sinaweibo.app_secret: '392108a844e55d5d9db81a585feab60b'
@@ -101,11 +115,6 @@ app.qq.app_key: 'ba61849a6ab90421e849c116f4f4dea4'
 app.qq.callback_url: '{$app.url.domain}/qq/authorize'
 app.qq.wap_callback_url: '{$app.url.wap}/app/site/qq/wap_authorize'
 app.qq.scope: 'get_user_info,add_share,add_weibo,add_t,add_pic_t,get_info'
-
-# WeiXin API(test-conf)
-app.wx.app_id: 'wx34b60f01932004af'
-app.wx.app_secret: '85e685889332e9d69a6268fdec18b92e'
-app.wx.callback_url: '{$app.url.domain}/weixin/call_back'
 
 # 七牛存储（开发环境使用本地存储）
 app.url.qiniu.upload: '{$app.url.action_base}/uploader'
@@ -125,6 +134,11 @@ app.quickpay.secret: '88888888'
 app.url.front_pay_url: 'http://202.101.25.184/UpopWeb/api/Pay.action'
 app.url.back_pay_url: 'http://202.101.25.184/UpopWeb/api/BSPay.action'
 app.url.query_url: 'http://202.101.25.184/UpopWeb/api/Query.action'
+
+# 微信开发测试信息
+app.wechat.token: '2fcf248db939f26475791946cfa39a7c'
+app.wechat.app_id: 'wx9d4f5e2904b0ce25'
+app.wechat.app_secret: 'dc7f16f1f65262c4939c7bc4896afdde'
 
 # 临时数据存储目录
 #app.storage.tmpdir: '/Users/xiaoyi/data/export'

@@ -21,7 +21,8 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	protected $exclude_method_list = array('execute','dream','allist','allist2','dream2','about2','cooperate','rank','ajax_fetch_top_province','ajax_fetch_top_college','ajax_load_colleges','qsyd','qsyd_view','qsyd_list','custom', 'show');
 	
     public function _init() {
-        $this->set_target_css_state('page_incubator');
+        //$this->set_target_css_state('page_incubator');
+		//$this->set_target_css_state('page_custom');
     }
 	
 	/**
@@ -35,6 +36,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
      * 反向定制
      */
 	public function custom(){
+		$this->set_target_css_state('page_custom');
 		return $this->to_html_page('match/custom.html');
 	}
 	
@@ -42,6 +44,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
      * 规则（分成奖励）
      */
 	public function reward(){
+		$this->set_target_css_state('page_custom');
 		return $this->to_html_page('match/about3.html');
 	}
     
@@ -49,6 +52,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
    * 大赛详情
    */
   public function show(){
+	$this->set_target_css_state('page_custom');
     $id = $this->stash['id'];
 
     $redirect_url = sprintf("%s/about3", Doggy_Config::$vars['app.url.contest']);
@@ -63,6 +67,10 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 		if(empty($contest)){
 			return $this->show_message_page('访问的主题不存在！', $redirect_url);
 		}
+
+    if($contest['short_name']=='socket'){
+      $this->stash['page_title_suffix'] = '反向定制第三期命题·插排-太火鸟智能硬件孵化平台';
+    }
 
 		// 增加pv++
 		$model->increase_counter('view_count', 1, $contest['_id']);
@@ -79,7 +87,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	 * 奇思甬动-大赛
 	 */
 	public function qsyd(){
-		$this->set_target_css_state('index');
+		$this->set_target_css_state('page_incubator');
 		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.qsyd_category_id'];
 		
 		return $this->to_html_page('match/qsyd.html');
@@ -89,7 +97,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	 * 十万火计
 	 */
 	public function dream(){
-		$this->set_target_css_state('index');
+		$this->set_target_css_state('page_incubator');
 		
 		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
 
@@ -108,7 +116,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	 * 十万火计--第二季
 	 */
 	public function dream2(){
-		$this->set_target_css_state('index');
+		$this->set_target_css_state('page_incubator');
 		
 		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
 
@@ -127,6 +135,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	 * 十万火计--第二季 合作资源
 	 */
     public function cooperate() {
+		$this->set_target_css_state('page_incubator');
 		$this->set_target_css_state('cooperate');
 		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
 
@@ -142,6 +151,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	 * 十万火计--第二季 作品排行
 	 */
     public function rank() {
+		$this->set_target_css_state('page_incubator');
 		$this->set_target_css_state('active2');
         $this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
 
@@ -157,6 +167,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	 * 十万火计--第二季 活动介绍
 	 */
     public function about2() {
+		$this->set_target_css_state('page_incubator');
 		$this->set_target_css_state('about');
 		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.dream2_category_id'];
 
@@ -172,6 +183,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	 * 十万火计 全部创意列表
 	 */
 	public function allist(){
+		$this->set_target_css_state('page_incubator');
 		$this->set_target_css_state('allist');
 		$sort = $this->stash['st'];
 		
@@ -196,6 +208,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	 * 十万火计--第二季 列表页
 	 */
     public function allist2() {
+		$this->set_target_css_state('page_incubator');
 		$this->set_target_css_state('allist');
         $sort = $this->stash['st'];
         $this->stash['pid'] = (int)$this->stash['pid'];
@@ -222,6 +235,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	 * 奇思甬动-大赛-- 列表页
 	 */
     public function qsyd_list() {
+		$this->set_target_css_state('page_incubator');
 		$this->set_target_css_state('allist');
         $sort = $this->stash['st'];
         $this->stash['pid'] = (int)$this->stash['pid'];

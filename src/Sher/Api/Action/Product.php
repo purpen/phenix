@@ -12,7 +12,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
   );
    */
 	
-	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'comments', 'ajax_favorite', 'ajax_love', 'ajax_comment');
+	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'comments', 'ajax_favorite', 'ajax_love', 'ajax_comment', 'fetch_relation_product');
 	
 	/**
 	 * 入口
@@ -36,11 +36,22 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 		
         $options['page'] = $page;
         $options['size'] = $size;
-		$options['sort_field'] = 'orby';
+        $options['sort_field'] = 'orby';
+
+        $some_fields = array(
+          '_id'=>1, 'title'=>1, 'name'=>1, 'gid'=>1, 'pid'=>1, 'order_by'=>1,
+          'domain'=>1, 'is_open'=>1, 'total_count'=>1, 'reply_count'=>1, 'state'=>1, 'app_cover_url'=>1,
+        );
 		
+        $options['some_fields'] = $some_fields;
+
         $service = Sher_Core_Service_Category::instance();
         $result = $service->get_category_list($query, $options);
-		
+
+        // 过滤多余属性
+        $filter_fields = array('view_url', 'state', 'is_open', '__extend__');
+        $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+
 		return $this->api_json('请求成功', 0, $result);
 	}
 	
@@ -56,13 +67,14 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 			'presale_percent'=>1, 'cover_id'=>1, 'designer_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
 			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
 			'snatched_time'=>1, 'inventory'=>1, 'can_saled'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
-      'presale_goals'=>1,
+      'presale_goals'=>1, 'stick'=>1,
 		);
 		
 		// 请求参数
 		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		
 		$stage = isset($this->stash['stage']) ? (int)$this->stash['stage'] : Sher_Core_Model_Product::STAGE_SHOP;
 			
@@ -77,20 +89,41 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 			$query['user_id'] = (int)$user_id;
 		}
 		// 状态
-		$query['stage'] = array('$in'=>array(5,9));
+		$query['stage'] = $stage;
 		// 已审核
 		$query['approved']  = 1;
 		// 已发布上线
 		$query['published'] = 1;
 		
 		if($stick){
-			$query['stick'] = 1;
+			$query['stick'] = $stick;
 		}
 		
 		// 分页参数
         $options['page'] = $page;
         $options['size'] = $size;
-		$options['sort_field'] = 'latest';
+
+		// 排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'vote';
+				break;
+			case 2:
+				$options['sort_field'] = 'love';
+				break;
+			case 3:
+				$options['sort_field'] = 'comment';
+				break;
+			case 4:
+				$options['sort_field'] = 'stick:update';
+				break;
+			case 5:
+				$options['sort_field'] = 'featured:update';
+				break;
+		}
 		
 		$options['some_fields'] = $some_fields;
 		// 开启查询
@@ -391,7 +424,58 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 		}
 		
 		return $count;
+  }
+
+	/**
+	 * 获取推荐产品
+	 */
+	public function fetch_relation_product(){
+		$sword = $this->stash['sword'];
+    $current_id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 4;
+		
+		$result = array();
+		$options = array(
+			'page' => 1,
+			'size' => $size,
+			'sort_field' => 'latest',
+      // 最新
+      'sort' => 1,
+      'evt' => 'tag',
+      't' => 7,
+      'oid' => $current_id,
+      'type' => 1,
+		);        
+		if(!empty($sword)){
+      $xun_arr = Sher_Core_Util_XunSearch::search($sword, $options);
+      if($xun_arr['success'] && !empty($xun_arr['data'])){
+        $product_mode = new Sher_Core_Model_Product();
+        $items = array();
+        foreach($xun_arr['data'] as $k=>$v){
+          $product = $product_mode->extend_load((int)$v['oid']);
+          if(!empty($product)){
+            // 过滤用户表
+            if(isset($product['user'])){
+              $product['user'] = Sher_Core_Helper_FilterFields::user_list($product['user']);
+            }
+            if(isset($product['designer'])){
+              $product['designer'] = Sher_Core_Helper_FilterFields::user_list($product['designer']);
+            }
+            array_push($items, $product);
+          }
+        }
+        $result = $items;
+      }else{
+        $result = array();
+      }
+
+		}
+    if(empty($result)){
+      return $this->api_json('没有找到相关商品', 0, $result);
+    }
+
+		return $this->api_json('操作成功', 0, $result);
 	}
 	
 }
-?>
+

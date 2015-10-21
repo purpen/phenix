@@ -32,7 +32,7 @@ class Sher_Core_Util_Sitemap extends Doggy_Exception {
   public function __construct ($compress=false) {
     ini_set('memory_limit', '75M'); // 50M required per tests
     $this->compress = ($compress) ? '.gz' : '';
-    $this->base_url = sprintf('%s/web/', Doggy_Config::$vars['deploy.root']);
+    $this->base_url = sprintf("%s/", Doggy_Config::$vars['app.domain.base']);
     $this->base_uri = sprintf('%s/web/', Doggy_Config::$vars['deploy.root']);
   }
   

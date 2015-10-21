@@ -245,6 +245,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         'featured' => 0,
 		# 是否成功案例产品
 		'okcase' => 0,
+
+    # 产品所在专辑
+    'album_ids' => array(),
 		
 		# 状态
 		'state' => 0,
@@ -283,6 +286,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$row['subject_view_url'] = Sher_Core_Helper_Url::product_subject_url($row['_id']);
 		$row['vote_view_url'] = Sher_Core_Helper_Url::vote_view_url($row['_id']);
 		$row['presale_view_url'] = Sher_Core_Helper_Url::sale_view_url($row['_id']);
+
+    $row['comment_view_url'] = sprintf(Doggy_Config::$vars['app.url.shop'].'/view/%d/%d', $row['_id'], 1);
 		
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
 		$row['vote_count'] = $row['vote_favor_count'] + $row['vote_oppose_count'];

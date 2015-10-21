@@ -27,14 +27,18 @@ class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
         'view_count' => 0,
         # 点赞数
         'love_count' => 0,
+        # 评论数
+        'comment_count' => 0,
+		# 关注数
+		'favorite_count' => 0,
         # 是否启用
 		'status' => 1,
     );
 	
 	protected $required_fields = array('title');
-	protected $int_fields = array();
+	protected $int_fields = array('status', 'user_id', 'asset_count','view_count','love_count','favorite_count','comment_count');
 	protected $float_fields = array();
-	protected $counter_fields = array();
+	protected $counter_fields = array('view_count','love_count','favorite_count','comment_count');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
@@ -77,5 +81,45 @@ class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
 		$asset = new Sher_Core_Model_Asset();
 		$asset->delete_file($asset_id);
 		unset($asset);
+	}
+	
+	/**
+	 * 增加计数
+	 */
+	public function inc_counter($field_name, $inc=1, $id=null){
+		
+		if(is_null($id)){
+			$id = $this->id;
+		}
+		
+		if(empty($id) || !in_array($field_name, $this->counter_fields)){
+			return false;
+		}
+		
+		return $this->inc($id, $field_name, $inc);
+	}
+	
+	/**
+	 * 减少计数
+	 * 需验证，防止出现负数
+	 */
+	public function dec_counter($field_name,$id=null,$force=false,$count=1){
+	    
+		if(is_null($id)){
+	        $id = $this->id;
+	    }
+		
+	    if(empty($id)){
+	        return false;
+	    }
+		
+		if(!$force){
+			$albums = $this->find_by_id((int)$id);
+			if(!isset($albums[$field_name]) || $albums[$field_name] <= 0){
+				return true;
+			}
+		}
+		
+		return $this->dec($id, $field_name, $count);
 	}
 }

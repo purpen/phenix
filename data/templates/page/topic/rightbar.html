@@ -2,11 +2,11 @@
 <div class="sellwrap userinfo">
 	{% if visitor.is_login %}
 		<a href="{{ app_url_topic }}/submit?cid={{ cid }}" class="fluid ui red inverted button">
-			<i class="edit icon"></i> 发表话题
+			<i class="edit icon"></i> 发表新主题
 		</a>
 	{% else %}
 		<a href="{{ app_url_login }}" class="fluid ui grey inverted pop button" data-content="先登录后，可发表话题">
-			<i class="edit icon"></i> 发表话题
+			<i class="edit icon"></i> 发表新主题
 		</a>
 	{% endif %}
     <p>太火鸟社区致力打造智能硬件圈草根领袖聚集地和最酷最好玩的智品库，搭建创业者和爱好者之间的沟通桥梁。</p>
@@ -27,7 +27,7 @@
     </div>
     
     <div class="fluid ui large vertical category menu">
-        {% category_list var:'category' only_open:1 domain:2 size:10 %}
+        {% category_list var:'category' only_open:1 domain:2 size:15 %}
         {% for cat in category.rows %}
             {% if cat.pid %}
             <a class="item" href="{{ cat.view_url }}">

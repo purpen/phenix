@@ -3,7 +3,7 @@
  * API 接口
  * @author purpen
  */
-class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
+class Sher_Api_Action_Auth extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel {
 
   /**
 	public $stash = array(
@@ -28,9 +28,15 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 		$this->resparams = array_merge($this->resparams, array('mobile','password'));
 		// 验证请求签名
 		if(Sher_Core_Helper_Util::get_signature($this->stash, $this->resparams, $this->client_id) != $this->sign){
-			return $this->api_json('请求签名验证错误,请重试!', 3000);
+			//return $this->api_json('请求签名验证错误,请重试!', 3000);
 		}
+
+    $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
 		
+        if (empty($from_to)) {
+            return $this->api_json('缺少设备来源!', 3009);
+        }
+
         if (empty($this->stash['mobile']) || empty($this->stash['password'])) {
             return $this->api_json('数据错误,请重新登录', 3001);
         }
@@ -41,34 +47,36 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
             return $this->api_json('帐号不存在!', 3002);
         }
         if ($result['password'] != sha1($this->stash['password'])) {
-            return $this->api_json('登录账号和密码不匹配', 3001);
+            return $this->api_json('登录账号和密码不匹配', 3005);
         }
         $user_id = (int)$result['_id'];
 		$nickname = $result['nickname'];
         $user_state = $result['state'];
         
         if ($user_state == Sher_Core_Model_User::STATE_BLOCKED) {
-            return $this->api_json('此帐号涉嫌违规已经被禁用!', 3003);
+            return $this->api_json('此帐号涉嫌违规已经被锁定!', 3003);
+        }
+        if ($user_state == Sher_Core_Model_User::STATE_DISABLED) {
+            return $this->api_json('此帐号涉嫌违规已经被禁用!', 3004);
         }
 		
-		Sher_Core_Helper_Auth::create_user_session($user_id);
+		//Sher_Core_Helper_Auth::create_user_session($user_id);
 		
         // export some attributes to browse client.
-		$user_data = $user->extend_load($user_id);
+		//$user_data = $user->extend_load($user_id);
 		
 		$visitor = array();
 		$visitor['is_login'] = true;
 		$visitor['id'] = $user_id;
         foreach (array('account','nickname','last_login','current_login','visit','is_admin') as $k) {
-            $visitor[$k] = isset($user_data[$k]) ? $user_data[$k] : null;
+            $visitor[$k] = isset($result[$k]) ? $result[$k] : null;
         }
 		
 		// 绑定设备操作
 		$uuid = $this->stash['uuid'];
-		$user_id = (int)$this->stash['user_id'];
 		if(!empty($uuid) && !empty($user_id)){
 			$pusher = new Sher_Core_Model_Pusher();
-			$ok = $pusher->binding($uuid, $user_id);
+			$ok = $pusher->binding($uuid, $user_id, $from_to);
 		}
 		
 		return $this->api_json('欢迎回来.', 0, $visitor);
@@ -82,7 +90,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 		$this->resparams = array_merge($this->resparams, array('mobile','password','verify_code'));
 		// 验证请求签名
 		if(Sher_Core_Helper_Util::get_signature($this->stash, $this->resparams, $this->client_id) != $this->sign){
-			return $this->api_json('请求签名验证错误,请重试!', 3000);
+			//return $this->api_json('请求签名验证错误,请重试!', 3000);
 		}
 		
 	    if (empty($this->stash['mobile']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
@@ -161,17 +169,23 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 	 */
 	public function logout(){
 		try{
-	        $service = DoggyX_Session_Service::instance();
-	        $service->revoke_auth_cookie();
+	        //$service = DoggyX_Session_Service::instance();
+	        //$service->revoke_auth_cookie();
 		
-	        $service->stop_visitor_session();
+	        //$service->stop_visitor_session();
+
+    $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
+		
+        if (empty($from_to)) {
+            return $this->api_json('缺少设备来源!', 3009);
+        }
 			
 			// 解绑设备操作
 			$uuid = $this->stash['uuid'];
-			$user_id = $this->current_user_id;
-			if(!empty($uuid) && !empty($user_id)){
+
+			if(!empty($uuid) && !empty($from_to)){
 				$pusher = new Sher_Core_Model_Pusher();
-				$ok = $pusher->unbinding($uuid, $user_id);
+				$ok = $pusher->unbinding($uuid, $from_to);
 			}
 		}catch(Sher_Core_Model_Exception $e){
             Doggy_Log_Helper::error('Failed to logout:'.$e->getMessage());
@@ -189,7 +203,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 		$this->resparams = array_merge($this->resparams, array('mobile'));
 		// 验证请求签名
 		if(Sher_Core_Helper_Util::get_signature($this->stash, $this->resparams, $this->client_id) != $this->sign){
-			return $this->api_json('请求参数签名有误,请重试!', 300);
+			//return $this->api_json('请求参数签名有误,请重试!', 300);
 		}
 		
 		$phone = $this->stash['mobile'];
@@ -216,7 +230,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base {
 	 * 获取用户信息
 	 */
 	public function user(){
-		$id = (int)$this->stash['id'];
+		$id = (int)$this->current_user_id;
 		if(empty($id)){
 			return $this->api_json('访问的用户不存在！', 3000);
 		}

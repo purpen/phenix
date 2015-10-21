@@ -30,12 +30,25 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 */
 	public function _init() {
 		$this->options = array(
-			'token'=>Doggy_Config::$vars['app.wechat.ser_token'],
-			'appid'=>Doggy_Config::$vars['app.wechat.ser_app_id'],
-			'appsecret'=>Doggy_Config::$vars['app.wechat.ser_app_secret'],
-			'partnerid'=>Doggy_Config::$vars['app.wechat.ser_partner_id'],
-			'partnerkey'=>Doggy_Config::$vars['app.wechat.ser_partner_key'],
-			'paysignkey'=>'' //商户签名密钥Key
+			
+			// 正式环境
+			'token'=>Doggy_Config::$vars['app.wechat.token'],
+			'appid'=>Doggy_Config::$vars['app.wechat.app_id'],
+			'appsecret'=>Doggy_Config::$vars['app.wechat.app_secret'],
+			
+			// 测试环境
+			//'token'=>Doggy_Config::$vars['app.wechat.token'],
+			//'appid'=>Doggy_Config::$vars['app.wechat.app_id'],
+			//'appsecret'=>Doggy_Config::$vars['app.wechat.app_secret'],
+			
+			'partnerid'=>Doggy_Config::$vars['app.wechat.partner_id'],
+			'partnerkey'=>Doggy_Config::$vars['app.wechat.partner_key'],
+			'paysignkey'=>Doggy_Config::$vars['app.wechat.paysign_key'],
+			
+			'key'=>Doggy_Config::$vars['app.wechat.key'],
+			'apiclient_cert'=>Doggy_Config::$vars['app.wechat.sslcert_path'],
+			'apiclient_key'=>Doggy_Config::$vars['app.wechat.sslkey_path'],
+			'rootca'=>Doggy_Config::$vars['app.wechat.rootca']
 		);
     }
 	
@@ -43,6 +56,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 * 微信入口
 	 */
 	public function execute(){
+		
 		Doggy_Log_Helper::warn("Get wexin request!");
 		
 		$weObj = new Sher_Core_Util_Wechat($this->options);
@@ -51,15 +65,15 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 		$event = $weObj->getRev()->getRevEvent();
 		$fromUserName = $weObj->getRev()->getRevFrom();
 		
-		Doggy_Log_Helper::warn("Get wexin type[$type], event[".$event['key']."], fromUserName[$fromUserName]!");
-//		Doggy_Log_Helper::warn("Get rev content [".json_encode($revcontent)."]!");
+		//Doggy_Log_Helper::warn("Get wexin type[$type], event[".$event['key']."], fromUserName[$fromUserName]!");
+		//Doggy_Log_Helper::warn("Get rev content [".json_encode($revcontent)."]!");
 		
 		$this->wx_open_id = $fromUserName;
 		
 		switch($type) {
 			case Sher_Core_Util_Wechat::MSGTYPE_TEXT:
 				$revcontent = $weObj->getRev()->getRevContent();
-				Doggy_Log_Helper::warn("Get wexin type[$type], content[$revcontent]!");
+				//Doggy_Log_Helper::warn("Get wexin type[$type], content[$revcontent]!");
 				// 转换为小写
 				$content = strtolower($revcontent);
 				
@@ -72,9 +86,123 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 				}elseif($content == '惊喜'){
 					$data = $this->node();
 					$result = $weObj->news($data)->reply(array(), true);
+				}elseif($content == '我要红包'){
+					
+					/*
+					 * <xml>
+					 * <return_code><![CDATA[SUCCESS]]></return_code>
+					 * <return_msg><![CDATA[发放成功]]></return_msg>
+					 * <result_code><![CDATA[SUCCESS]]></result_code>
+					 * <mch_billno><![CDATA[1219487201201509215797813428]]></mch_billno>
+					 * <mch_id>1219487201</mch_id>
+					 * <wxappid><![CDATA[wx75a9ffb78f202fb3]]></wxappid>
+					 * <re_openid><![CDATA[oEjaBt4W3xwhr5WiwtFGSTcVDRPA]]></re_openid>
+					 * <total_amount>100</total_amount>
+					 * <send_listid><![CDATA[0010044308201509210223986084]]></send_listid>
+					 * <send_time><![CDATA[20150921114932]]></send_time>
+					 * </xml>
+					 */
+					
+					$model = new Sher_Core_Model_WechatRedEnvelope();
+					$redEnvelope = $model->find(array('openid'=>$this->wx_open_id));
+					
+					if(!$redEnvelope){
+						
+						// 配置红包信息
+						$datainfo = array();
+						$datainfo['wx_open_id'] = $this->wx_open_id;
+						$datainfo['send_name'] = '太火鸟智能馆';
+						$datainfo['total_amount'] = 100;
+						$datainfo['total_num'] = 1;
+						$datainfo['client_ip'] = '127.0.0.1';
+						$datainfo['wishing'] = '感谢您参加猜灯谜活动，祝您生活愉快！';
+						$datainfo['act_name'] = '红包活动';
+						$datainfo['remark'] = '快来抢！';
+						
+						// 访问发放红包类
+						$redEnvelope = new Sher_Core_Util_WechatRedEnvelope($this->options);
+						$result = $redEnvelope->payRedEnvelope($datainfo);
+						
+						// 将成功的结果保存到数据库
+						if(count($result)){
+							
+							$date = array();
+							$date['return_code'] = $result['return_code'];
+							$date['result_code'] = $result['result_code'];
+							$date['return_msg'] = $result['return_msg'];
+							$date['mch_billno'] = (int)$result['mch_billno'];
+							$date['mch_id'] = (int)$result['mch_id'];
+							$date['wxappid'] = $result['wxappid'];
+							$date['openid'] = $result['re_openid'];
+							$date['total_amount'] = (int)$result['total_amount'];
+							$date['send_listid'] = (int)$result['send_listid'];
+							$date['send_time'] = $result['send_time'];
+							
+							Doggy_Log_Helper::warn("给用户[".$this->wx_open_id."]发送红包的结果是:".json_encode($date));
+							$result = $model->create($date);
+							Doggy_Log_Helper::warn("保存数据库的结果是:".json_encode($result));
+						}
+					}else{
+						$text = $this->redmsg();
+						$result = $weObj->text($text)->reply(array(), true);
+					}
+				}else{
+					$data = $this->welcome();
+					$result = $weObj->text($data)->reply(array(), true);
 				}
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_EVENT:
+				
+				$ticket_data = $weObj->getRev()->getRevTicket();
+				$ticket_info = 'gQGA7zoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL1pFemdPSXptOXdhT2I4Q1ItV0RXAAIEfmcnVAMEAAAAAA==';
+				
+				if($ticket_data == $ticket_info){
+					$model = new Sher_Core_Model_WechatRedEnvelope();
+					$redEnvelope = $model->find(array('openid'=>$this->wx_open_id));
+					if(!$redEnvelope){
+						
+						// 配置红包信息
+						$datainfo = array();
+						$datainfo['wx_open_id'] = $this->wx_open_id;
+						$datainfo['send_name'] = '太火鸟智能馆';
+						$datainfo['total_amount'] = 100;
+						$datainfo['total_num'] = 1;
+						$datainfo['client_ip'] = '127.0.0.1';
+						$datainfo['wishing'] = '感谢您参加猜灯谜活动，祝您生活愉快！';
+						$datainfo['act_name'] = '红包活动';
+						$datainfo['remark'] = '快来抢！';
+						
+						// 访问发放红包类
+						$redEnvelope = new Sher_Core_Util_WechatRedEnvelope($this->options);
+						$result = $redEnvelope->payRedEnvelope($datainfo);
+						
+						// 将成功的结果保存到数据库
+						if(count($result)){
+							
+							$date = array();
+							$date['return_code'] = $result['return_code'];
+							$date['result_code'] = $result['result_code'];
+							$date['return_msg'] = $result['return_msg'];
+							$date['mch_billno'] = (int)$result['mch_billno'];
+							$date['mch_id'] = (int)$result['mch_id'];
+							$date['wxappid'] = $result['wxappid'];
+							$date['openid'] = $result['re_openid'];
+							$date['total_amount'] = (int)$result['total_amount'];
+							$date['send_listid'] = (int)$result['send_listid'];
+							$date['send_time'] = $result['send_time'];
+							
+							Doggy_Log_Helper::warn("给用户[".$this->wx_open_id."]发送红包的结果是:".json_encode($date));
+							$result = $model->create($date);
+							Doggy_Log_Helper::warn("保存数据库的结果是:".json_encode($result));
+						}
+					}else{
+						$text = $this->redmsg();
+						$result = $weObj->text($text)->reply(array(), true);
+					}
+					Doggy_Log_Helper::warn("ticket is [".$ticket_data."]!@@@@@@");
+				}
+				
+				/*
 				$rev_data = $weObj->getRev()->getRevData();
 				$data = $this->handle_event($event, $rev_data);
 				if ($event['key'] == 'MENU_KEY_SOCIAL_CONTACT' || $event['key'] == 'MENU_KEY_ORDER'){ // 联系我们，我的订单
@@ -86,6 +214,7 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 						$result = $weObj->news($data)->reply(array(), true);
 					}
 				}
+				*/
 				break;
 			case Sher_Core_Util_Wechat::MSGTYPE_IMAGE:
 				$result = '';
@@ -95,6 +224,8 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 				break;
 		}
 		
+		//Doggy_Log_Helper::warn("Get wexin open_id[$this->wx_open_id], content[$revcontent]!");
+		
 		return $this->to_raw($result);
 	}
 	
@@ -102,7 +233,9 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 * 处理文本回复
 	 */
 	protected function handle_text($content, $rev_data=array()){
+		
 		Doggy_Log_Helper::warn("Handle wexin content[$content]!");
+		
 		// 转换为小写
 		$content = strtolower($content);
 		$result = array();
@@ -255,6 +388,14 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	/**
 	 * 联系我们
 	 */
+	protected function redmsg(){
+		$contact = '您已经领取过了红包,请勿重复领取!';
+		return $contact;
+	}
+	
+	/**
+	 * 联系我们
+	 */
 	protected function contact(){
 		$contact = '如果您有独特的产品实物，如果您有待实现的设计草图，甚至，您只有一个新奇的创意点子，如果您愿意跟我们聊聊，zhangting@taihuoniao.com;\n如果您对我们的产品有浓厚的兴趣，如果您想批量购买，联系这里liuhui@taihuoniao.com，有优惠！\n如果您的产品与我们的平台调性很搭，如果您觉得我们一起传播效果更佳，那还等什么，来吧！wangxinyu@taihuoniao.com';
 		return $contact;
@@ -372,10 +513,9 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 * 查看菜单
 	 */
 	public function get_menu(){
+		
 		$we = new Sher_Core_Util_Wechat($this->options);
-		
 		$menu = $we->getMenu();
-		
 		print_r($menu);
 	}
 	
@@ -387,7 +527,6 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
     public function verify() {
         $echoStr = $this->stash["echostr"];
 		
-        //valid signature , option
         if($this->check_signature()){
 			return $this->to_raw($echoStr);
         }

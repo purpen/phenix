@@ -150,6 +150,40 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 		
 		return $this->to_taconite_page('ajax/note.html');
     }
+
+  /**
+   * 用户申请孵化合作
+   */
+  public function ajax_attend(){
+
+    $mode = new Sher_Core_Model_Cooperation();
+
+    if(empty($this->stash['people']) || empty($this->stash['mobile']) || empty($this->stash['wechat']) || empty($this->stash['position']) || empty($this->stash['name'])){
+      return $this->ajax_json('请求失败,缺少用户必要参数', true); 
+    }
+
+    $data = array();
+    $data['user_id'] = (int)$this->visitor->id;
+    $data['people'] = $this->stash['people'];
+    $data['address'] = isset($this->stash['address']) ? $this->stash['address'] : '';
+    $data['email'] = $this->stash['email'];
+    $data['mobile'] = $this->stash['mobile'];
+    $data['wechat'] = $this->stash['wechat'];
+    $data['name'] = $this->stash['name'];
+    $data['position'] = $this->stash['position'];
+    try{
+      $ok = $mode->apply_and_save($data);
+      if($ok){
+		    return $this->ajax_json('申请成功,需要登录电脑版补全信息!', false);
+      }else{
+  			return $this->ajax_json('申请失败!', true);   
+      }  
+    }catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Save cooperation failed: ".$e->getMessage());
+ 			return $this->ajax_json('申请失败.!', true); 
+    }
+  
+  }
 	
 }
-?>
+

@@ -46,7 +46,7 @@ $size = 1000;
 $is_end = false;
 $total = 0;
 while(!$is_end){
-	$query = array('deleted'=>0, 'created_on'=>array('$gt'=>$topic_last_created_on));
+	$query = array('deleted'=>0, 'published'=>1, 'created_on'=>array('$gt'=>$topic_last_created_on));
   $options = array('sort'=>array('created_on'=>1), 'page'=>$page, 'size'=>$size);
   $last_created_on = 0;
   $fail_ids = array();
@@ -78,7 +78,7 @@ while(!$is_end){
         'cid' => 1,
         'title' => $item['title'],
         'cover_id' => $cover_id,
-        'content' => strip_tags(html_entity_decode($item['description'])),
+        'content' => strip_tags(htmlspecialchars_decode($item['description'])),
         'user_id' => $item['user_id'],
         'tags' => !empty($item['tags']) ? implode(',', $item['tags']) : '',
         'created_on' => $item['created_on'],
@@ -159,7 +159,7 @@ while(!$is_end){
         'cid' => $stage,
         'title' => $item['title'],
         'cover_id' => $cover_id,
-        'content' => strip_tags(html_entity_decode($item['content'])),
+        'content' => strip_tags(htmlspecialchars_decode($item['content'])),
         'desc'  =>$item['advantage'],
         'user_id' => $item['user_id'],
         'tags' => !empty($item['tags']) ? implode(',', $item['tags']) : '',
@@ -234,7 +234,7 @@ while(!$is_end){
         'cid' => isset($item['from_to'])?$item['from_to']:0,
         'title' => $item['title'],
         'cover_id' => $cover_id,
-        'content' => strip_tags(html_entity_decode($item['description'])),
+        'content' => strip_tags(htmlspecialchars_decode($item['description'])),
         'user_id' => $item['user_id'],
         'tags' => !empty($item['tags']) ? implode(',', $item['tags']) : '',
         'created_on' => $item['created_on'],

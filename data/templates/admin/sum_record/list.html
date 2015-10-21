@@ -122,12 +122,7 @@
           {% if s.type==4 %}
             专题分享
           {%endif%}
-          {% if s.type==5 %}
-            实验室线下沙龙
-          {%endif%}
-          {% if s.type==6 %}
-            --
-          {%endif%}
+
           </p>
 		      <p class="attribute">ID：{{ s.target_id }}</p>
 		      <p class="attribute">名称：
@@ -180,9 +175,11 @@
 				<td>
 					<p>
           <a href="{{ app_url_admin_base }}/sum_record/submit?id={{ s._id }}" class="ui link item">编辑</a>
+          <!--
 		          		<a href="{{ app_url_admin }}/sum_record/deleted?id={{ s._id }}" class="ui confirm-request link item">
 						    删除
 					    </a>
+              -->
 					</P>
 				</td>
 			</tr>

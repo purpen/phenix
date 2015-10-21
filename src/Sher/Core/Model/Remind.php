@@ -33,6 +33,8 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
     const EVT_PASS = 10;
     # 被管理员推荐
     const EVT_STICK = 11;
+	# 被@的
+    const EVT_AT = 12;
 
     # 投票-支持
     const EVT_VOTE_FAVOR = 13;
@@ -49,6 +51,8 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
     const KIND_FOLLOW = 5;  //关注
     const KIND_TRY = 6;  //产品试用
     const KIND_STUFF = 7; //产品灵感
+    const KIND_ALBUM = 8; //产品灵感
+    const KIND_SUBJECT = 10; //专题
 
     protected $schema = array(
         //收到提醒的人
@@ -61,9 +65,9 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
 		'kind' => self::KIND_TOPIC,
 		//提醒内容(备用)
 		'content' => null,
-        //关联id 如产品，话题
-        'related_id' => '',
         //关联父ID, 如收藏，评论ID
+        'related_id' => '',
+        //关联id 如产品，话题
         'parent_related_id' => '',
         //提醒事件
         'evt' => self::EVT_POST,
@@ -128,6 +132,23 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
                       $r_obj = &DoggyX_Model_Mapper::load_model((int)$obj['target_id'], 'Sher_Core_Model_Stuff');
                       $c_type_str = '创意灵感';
                       break;
+                    case 7:
+                      $r_obj = &DoggyX_Model_Mapper::load_model((int)$obj['target_id'], 'Sher_Core_Model_Albums');
+                      $c_type_str = '专辑';
+                      break;
+                    case 10:
+                      $url = '';
+                      switch((int)$obj['target_id']){
+                        case 1:
+                          $url = sprintf("%s/rank", Doggy_Config::$vars['app.url.promo']);
+                          break;
+                        case 2:
+                          $url = '';
+                          break;
+                      }
+                      $r_obj = array('comment_view_url'=>$url, 'comment_type'=>'subject');
+                      $c_type_str = '专题';
+                      break;
                   }
                 
                 }
@@ -172,6 +193,9 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
             case self::EVT_REPLY_COMMENT:
                 $info = "回复了你的";
                 break;
+			      case self::EVT_AT:
+                $info = "@了你的";
+                break;
         }
         
         $row['target'] = $obj;
@@ -210,4 +234,4 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
     }
 	
 }
-?>
+

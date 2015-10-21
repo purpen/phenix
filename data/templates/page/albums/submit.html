@@ -131,13 +131,14 @@
 	<div class="ui responsive grid">
 		<div class="nopad row">
 			<div class="column">
-				<div class="ui big segment">
+			  <h3 class="ui header">填写专辑信息</h3>
+				<div class="ui big segment" style="margin-bottom:3rem;">
 					<form action="{{ app_url_albums }}/save" class="ui form" method="post" id="active-form">
 						<!-- 隐藏表单 -->
 						<input type="hidden" name="id" value="{{ albums._id }}" />
 						
-						<div class="ui segment from">
-							<h3 class="ui dividing header">填写专辑信息</h3>
+						<div class="ui from">
+							
 							<div class="field">
 								<div class="field">
 									<label>专辑标题</label>
@@ -155,7 +156,7 @@
                                 <div id="phenix-uploader"></div>
                                 <div id="asset-list" class="ui six blocks">
                                     {% if mode == 'edit' %}
-                                        {% asset_list var:'assets' parent_id:album._id asset_type:95 %}
+                                        {% asset_list var:'assets' parent_id:albums._id asset_type:95 %}
                                         {% for asset in assets.rows %}
                                         <div class="thumb card block" id="{{ asset._id }}">
                                             <div class="image">

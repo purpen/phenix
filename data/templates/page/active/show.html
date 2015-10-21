@@ -11,129 +11,9 @@
 <style type="text/css">
 .start{
     background: url({{ active.banner.fileurl }}) no-repeat center center;
-    background-size: cover;
-	color: #fff;
-	padding: 100px 0% 40px;
-    position: relative;
-}
-.start h2.ui.header {
-	font-weight: 400;
-}
-.start h2.ui.header .content {
-	text-align:left;
-}
-.start .row {
-	padding-top: 248px !important;
-	margin:0;
-}
-.start h2.ui.header span,.start .row:nth-child(2) h2.ui.header{
-	font-size:30px !important;
-}
-.start .row:first-child h2.ui.header{
-	font-size:60px !important;
 }
 
-
-
-.rundown-timeline-container {
-	height: auto;
-	margin: 0 auto;
-	max-width: 1000px;
-	position: relative;
-	width: 100%;
-}
-.rundown-timeline-container:before {
-	background: none repeat scroll 0 0 #DCDEE1;
-	content: "";
-	height: 90px;
-	left: 49%;
-	position: absolute;
-	top: 29px;
-	width: 3px;
-}
-.rundown-timeline-container.bottom:before{
-	height:0;
-}
-.timeline-red-dot {
-	background-color: #00b6ae;
-	border-radius: 14px 14px 14px 14px;
-	height: 13px;
-	left: 49%;
-	margin-left: -5px;
-	position: absolute;
-	top: 23px;
-	width: 13px;
-	border: 7px solid #cdf5f3;
-}
-.timeline-block {
-    height: 100px;
-    margin: 0;
-    position: relative;
-    top: -5px;
-}
-.timeline-content.right {
-    float: right;
-    text-align:left;
-}
-.timeline-content {
-    float: right;
-    width: 46%;
-}
-.timeline-content.right .time {
-    font-weight: normal;
-    top: 14px;
-    min-width: 90px;
-    text-align: center;
-}
-.timeline-content .time {
-    font-size: 16px;
-    font-weight: bold;
-    left: 34%;
-    line-height: 38px !important;
-    position: absolute;
-}
-.timeline-content .name {
-    font-size: 17px;
-    font-weight: 400;
-    line-height: 16px;
-    margin-top: 25px !important;
-    margin-bottom: 0;
-    color: #222;
-}
-.timeline-content .name.top{
-	margin-top: 25px !important;
-	font-size: 20px;
-}
-.timeline-content .title {
-    font-size: 14px;
-    line-height: 16px;
-    margin: 9px 0 5px !important;
-}
-.title img {
-	display: block;
-	margin: 0 auto;
-	width: 3em;
-	height: 3em;
-	border-radius: 500px;
-	float: left;
-}
-.title .content {
-	padding-top: .25em;
-	margin-left: 3.5em;
-	font-size:14px;
-	color:#666;
-}
-.text {
-    margin: .25em 0 .5em;
-    word-wrap: break-word;
-    line-height: 1.325em;
-    font-size:14px;
-}
-
-
-
-
-.position.row h4.ui.header{
+/*.position.row h4.ui.header{
 	font-size:1em;
 	font-weight:400;
 	padding-bottom:1rem;
@@ -173,7 +53,7 @@ h4.ui.header .map-advantage {
 }
 .icon-place.icon{
 	opacity:1;
-}
+}*/
 
 /*@media only screen and (max-width: 1350px){
     .position.row{
@@ -190,11 +70,6 @@ h4.ui.header .map-advantage {
 		left:54%;
 	}
   }*/
-
-.mainwrap .mainright .user.noline.share {
-    border-top: none;
-}
-
 </style>
 {% endblock %}
 
@@ -225,11 +100,11 @@ h4.ui.header .map-advantage {
 			var label = new BMap.Label("{{ active.map_info.title }}", opts);  // 创建文本标注对象
 				label.setStyle({
 					 color : "#666",
-					 fontSize : "14px",
-					 height : "20px",
+					 fontSize : "0px",
+					 height : "0px",
 					 lineHeight : "20px",
 					 fontFamily:"微软雅黑",
-					 border:"1px solid #ccc",
+					 border:"1px solid rgba(0,0,0,0)",
 					 padding:"0 5px"
 				 });
 			map.addOverlay(label);
@@ -244,7 +119,7 @@ h4.ui.header .map-advantage {
   }
 
     // 评论参数
-    var page = 1, per_page = 10, sort = 0;
+    var page = {{ page|default 1 }}, per_page = 10, sort = 0;
     var url = '{{ app_url_comment }}/ajax_fetch_comment';
     var target_id = "{{ active.topic_ids.0 }}";
     // 评论类型
@@ -490,8 +365,6 @@ h4.ui.header .map-advantage {
                 	<div class="block title">
                 		活动报道
                     </div>
-                    
-                    
                 </div>
                 
                 <div class="bar"></div>
@@ -531,14 +404,19 @@ h4.ui.header .map-advantage {
                 <div class="bar"></div>
                 
                 <div class="product activity reviews">
+                    <a name="comment_top"></a>
                 	<div class="block title">
-                		活动讨论
+                		全部讨论 <small>（{{ topic_comment_count }}）</small>
+                        
+                        <div class="quick goto">
+                            直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ topic_comment_count }}" data-url="{{ app_url_active }}/view/{{ active._id }}/{{ page }}" title="跳转到指定楼层" />
+                        </div>
                     </div>
                     {% if active.topic_ids %}
                         <!--ajax comment-->
                         <div class="ui big reply segment" id="comment-list">
                             <div class="ui threaded comments is-comment"></div>
-                            <div class="morepages" id="load-more-btn"></div>
+                            <div class="ui pagination pagerbox"></div>
                         </div>
                         {% include "block/comment_box_site.html" %}
                     {% endif %}
@@ -615,4 +493,5 @@ h4.ui.header .map-advantage {
 
 {% block templates %}
   {% mustache id:'get_comments_tpl' tpl:'mustache/fetch_comments.mustache' %}
+  {% mustache id:'pager_tpl' tpl:'mustache/pager.mustache' %}
 {% endblock %}

@@ -27,7 +27,7 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
     // 号码
     'number' => 0,
     'user_id' => null,
-    //1,apple_watch;2,京东众筹报名; 3.蛋年(深圳)报名; 4.招聘H5分享记录
+    //1,apple_watch;2,京东众筹报名; 3.蛋年(深圳)报名; 4.招聘H5分享记录(没用); 5.金投赏报名
     'target_id' => null,
     // 3.蛋年: 领域, 感兴趣的/
     'option01' => 0,
@@ -43,7 +43,7 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
     'user' => array('user_id' => 'Sher_Core_Model_User'),
 	);
 	
-    protected $required_fields = array('user_id', 'target_id');
+    protected $required_fields = array('target_id');
     protected $int_fields = array('user_id', 'type', 'event', 'state', 'number');
 	
     protected function before_save(&$data) {

@@ -60,18 +60,20 @@ class Sher_Core_ViewTag_SignList extends Doggy_Dt_Tag {
 		
 		// 设置排序
 		switch ($sort) {
-			case 0:
+			case 1:
 				$options['sort_field'] = 'last_date';
 				break;
-			case 1:
+			case 2:
 				$options['sort_field'] = 'sign_times';
 				break;
-			case 2:
+			case 3:
 				$options['sort_field'] = 'exp_count';
 				break;
-			case 3:
+			case 4:
 				$options['sort_field'] = 'money_count';
 				break;
+      default:
+				$options['sort_field'] = 'last_date';
 		}
         
 		// 调用签到列表的获取方法
@@ -83,9 +85,10 @@ class Sher_Core_ViewTag_SignList extends Doggy_Dt_Tag {
             $user = null;
 			// 实例化用户数据模型类
             $user_model = new Sher_Core_Model_User();
-			
+			      $number_id = ((int)$page - 1) * (int)$size;
             for($i=0; $i<count($result['rows']); $i++){
 				$user_id = isset($result['rows'][$i]['_id']) ? $result['rows'][$i]['_id'] : 0;
+                $result['rows'][$i]['number_id'] = $number_id + $i + 1;
                 if(empty($user_id)){
                     continue;
                 }

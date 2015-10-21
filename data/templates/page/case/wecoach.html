@@ -1,0 +1,130 @@
+{%extends 'layout/column.html'%}
+{% block title%}WeCoach Pro-可穿戴的专属私人教练-成功案例-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.success.case .banner {
+		background:url(http://frbird.qiniudn.com/product/150908/55eecce9fc8b12b8148b833c-2-bi.jpg) scroll no-repeat center top;
+		background-size:cover;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}	
+	phenix.doit('goccia-money', 4729633,11000);
+	phenix.doit('goccia-people', 21372,90);
+	phenix.doit('goccia-precent', 472,2);
+	
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/wecoach.png';
+	phenix.bind_share_list(pic_url);
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com'});
+	
+	$('#wechat-share').click(function() {
+		$('.ui.qrcode.modal').modal('show');
+		return false;
+	});
+	
+{% endblock %}
+
+{% block content %}
+
+<div class="success case">
+	<section class="banner">
+		<div class="pad">
+			<h3><i class="trophy icon"></i>成功案例</h3>
+			<h1 class="ui header">
+				<div class="content">
+					WeCoach Pro-可穿戴的专属私人教练 <br />真正懂得运动的设备
+					<div class="sub header">
+						带着对WeCoach Pro-可穿戴的专属私人教练产品理念的认可，太火鸟结合社会热点新闻，联合众多媒体资源对产品进行多轮报道。淘宝众筹从6月25日到8月10日，共取得21 372位粉丝支持，筹资4 729 633元，达到472%众筹目标。
+					</div>
+				</div>
+			</h1>
+			<div class="category">
+				<p>类别</p>
+				<p>智能穿戴</p>
+			</div>
+			<p>滚动阅读更多<i class="angle down icon"></i></p>
+			<a class="ui white inverted button btn" href="{{ app_url_domain }}/shop/1065690266.html">
+					<span>立即购买</span><i class="icon-arrow-right-sharp"></i>
+				</a>
+		</div>
+	</section>
+	
+	<div class="ui responsive onepage grid">
+		<div class="center aligned three column count row">
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-money">4729633</span></h1>
+						<p>众筹金额</p>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-people">21372</span></h1>
+						<p>支持人数</p>
+					</div>
+					
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-precent">472</span>%</h1>
+						<p>达成率</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="wz">
+					<p>从自己的健身需要出发，做一款在运动的时候，能记录并且指导自己更好的完成运动的产品。这样接地气的初心，鼓舞匠物科技团队突破了市场上运动手环只记录运动结果的限制，增加了骑行、游泳、力量训练甚至瑜伽等运动的功能。</p>
+					<div class="ui two blocks">
+  					<div class="block">
+  						<img src="{{ app_url_packaged }}/images/wecoach-1.png" class="ui image" width="100%" />
+  					</div>
+      			<div class="block">
+  						<img src="{{ app_url_packaged }}/images/wecoach.png" class="ui image" width="77%" style="margin: 0 auto;"/>
+  					</div>
+  				</div>
+					
+					
+					<p>与市场上大多数运动手环只有三轴加速度计记录步行不同，WeCoach Pro 拥有三轴加速度计、三轴陀螺仪、三轴磁罗盘，采集线性加速度、角加速度、磁偏转、心率数据。从而可以在三维空间内，实现3D 动作捕捉。结合采集专业教练提供的运动数据，使WeCoach Pro可以达到私人教练级的专业运动指导水平。显著提高运动效果，不管是健身爱好者还是专业运动员均能从中受益。还有编制健身计划功能，帮助喜爱运动的人改变自己。</p>
+					
+					<p>2014年底，太火鸟携手米仓资本，共同对匠物科技进行了天使轮投资。2015年6月25日太火鸟为支持WeCoach Pro登陆淘宝众筹，提前一天在太火鸟官网社区和太火鸟官方微信发文推广。从6月25日众筹开始到8月10日众筹结束，太火鸟单独发布推广文章9次，联合动点科技、美通社、新浪、凤凰网等130余家合作媒体，先后5次发布新闻稿，得到了21 372位运动爱好者的订购支持！</p>
+				</div>
+				
+				<h2 class="ui header">传播推广</h2>
+				
+				<div class="ui two blocks">
+					<div class="block">
+						<img src="{{ app_url_packaged }}/images/wecoach-2.png" class="ui image" />
+						<p>太火鸟天猫店主页推广</p>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<a class="ui btn-4 btn-4c magenta active inverted button" href="{{ app_url_domain }}/shop/1065690266.html">
+						<span>立即购买</span><i class="icon-arrow-right-sharp"></i>
+					</a>
+				<h5 class="ui header">分享案例故事</h5>
+				{% include "block/big-circel-share.html" %}
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% include "block/qrcode.html" %}
+{% endblock %}

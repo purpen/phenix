@@ -709,25 +709,54 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 	 * 获取某个省市列表
 	 */
 	public function ajax_provinces(){
-		$areas = new Sher_Core_Model_Areas();
-		$provinces = $areas->fetch_provinces();
+
+		$query   = array();
+		$options = array();
 		
-		return $this->api_json('请求成功', 0, $provinces);
+		$query['parent_id'] = 0;
+		
+    $options['page'] = 1;
+    $options['size'] = 500;
+    $options['sort_field'] = 'sort';
+
+    $some_fields = array();
+
+    $options['some_fields'] = $some_fields;
+
+    $service = Sher_Core_Service_Areas::instance();
+    $result = $service->get_area_list($query, $options);
+
+		return $this->api_json('请求成功', 0, $result);
+		
 	}
 	
 	/**
 	 * 获取某个省市的地区
 	 */
 	public function ajax_districts(){
-		$id = $this->stash['id'];
-		if (empty($id)){
-			return $this->api_json('省市ID参数为空！', 3000);
-		}
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+
+		$query   = array();
+		$options = array();
+
+    if(empty($id)){
+		  $query['layer'] = 2;
+    }else{
+		  $query['parent_id'] = $id;
+    }
 		
-		$areas = new Sher_Core_Model_Areas();
-		$districts = $areas->fetch_districts((int)$id);
+    $options['page'] = 1;
+    $options['size'] = 1000;
+    $options['sort_field'] = 'sort';
+
+    $some_fields = array();
+
+    $options['some_fields'] = $some_fields;
+
+    $service = Sher_Core_Service_Areas::instance();
+    $result = $service->get_area_list($query, $options);
 		
-		return $this->api_json('请求成功', 0, $districts);
+		return $this->api_json('请求成功', 0, $result);
 	}
 	
 	/**

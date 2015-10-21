@@ -11,13 +11,13 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 		'category_id' => 0,
 	);
 	
-	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show', 'rank', 'ajax_fetch_top_province', 'ajax_fetch_top_college', 'ajax_load_colleges','matcht','custom','about3', 'show');
+	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show', 'rank', 'ajax_fetch_top_province', 'ajax_fetch_top_college', 'ajax_load_colleges','matcht','custom','about3');
 	
 	/**
 	 * 社区入口
 	 */
 	public function execute(){
-		return $this->dream2();
+		return $this->custom();
 	}
 	
 	/**
@@ -265,6 +265,10 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 		if(empty($contest)){
 			return $this->show_message_page('访问的主题不存在！', $redirect_url);
 		}
+
+    if($contest['short_name']=='socket'){
+      $this->stash['page_title_suffix'] = '反向定制第三期命题·插排-太火鸟智能硬件孵化平台';
+    }
 
 		// 增加pv++
 		$model->increase_counter('view_count', 1, $contest['_id']);

@@ -48,10 +48,11 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 	public function ajax_favorite(){
 		$id = $this->stash['id'];
 		$type = $this->stash['type'];
+		
 		if(empty($id) || empty($type)){
 			return $this->ajax_json('缺少请求参数！', true);
 		}
-		
+		$new_fav = false;
 		try{
 			$model = new Sher_Core_Model_Favorite();
 			$fav_info = array(
@@ -60,14 +61,33 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 			if (!$model->check_favorite($this->visitor->id, $id, $type)) {
 				$ok = $model->add_favorite($this->visitor->id, $id, $fav_info);
 			}
+      if($ok){
+        $new_fav = true;
+      }
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('操作失败,请重新再试:'.$e->getMessage(), true);
 		}
         
 		// 获取计数
 		$favorite_count = $this->remath_count($id, $type);
+
+    if(isset($this->visitor->avatar['mini'])){
+        $avatar = Sher_Core_Helper_Url::avatar_cloud_view_url($this->visitor->avatar['mini'], 'avn.jpg');
+    }else{
+        $avatar = Doggy_Config::$vars['app.url.packaged'].'/images/avatar_default_mini.jpg';
+    }
+
+    $data = array(
+        'favorite_count' => $favorite_count,
+        'new_fav'     => $new_fav,
+        'avatar'     => $avatar,
+        'nickname'   => $this->visitor->nickname,
+        'city'       => $this->visitor->city,
+        'job'        => $this->visitor->profile['job'],
+        'user_id'    => $this->visitor->id,
+    );
 		
-		return $this->ajax_json('操作成功',false,'',array('favorite_count'=>$favorite_count));
+		return $this->ajax_json('操作成功',false,'', $data);
 	}
 	
 	/**
@@ -116,6 +136,10 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 				break;
 			case Sher_Core_Model_Favorite::TYPE_COOPERATE:
 				$model = new Sher_Core_Model_Cooperation();
+				$result = $model->load((int)$id);
+				break;
+			case Sher_Core_Model_Favorite::TYPE_ALBUMS:
+				$model = new Sher_Core_Model_Albums();
 				$result = $model->load((int)$id);
 				break;
 		}

@@ -8,12 +8,13 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 	public $stash = array(
 		'id' => '',
 		'cover_id' => 0,
-		'page' => 1,
+		'page'  => 1,
+        'floor' => 0,
 		'ref'  => null,
-    'category_id' => 0,
-    'page_title_suffix' => '太火鸟-智能硬件爱好者活动聚集地',
-    'page_keywords_suffix' => '太火鸟,智能硬件,智能硬件孵化平台,智能硬件活动',
-    'page_description_suffix' => '太火鸟-智能硬件爱好者活动聚集地，智能硬件校园巡回宣讲，十万火计创意征集大赛，中国智能硬件蛋年创新大会等上百场活动等待你的发起和参与。',
+        'category_id' => 0,
+        'page_title_suffix' => '太火鸟-智能硬件爱好者活动聚集地',
+        'page_keywords_suffix' => '太火鸟,智能硬件,智能硬件孵化平台,智能硬件活动',
+        'page_description_suffix' => '太火鸟-智能硬件爱好者活动聚集地，智能硬件校园巡回宣讲，十万火计创意征集大赛，中国智能硬件蛋年创新大会等上百场活动等待你的发起和参与。',
 	);
 	
 	protected $page_tab = 'page_active';
@@ -22,7 +23,7 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 	protected $exclude_method_list = array('execute', 'index', 'get_list', 'view','campaign','ajax_fetch_signup');
 	
 	public function _init() {
-		$this->set_target_css_state('page_social');
+		//$this->set_target_css_state('page_social');
 		$this->set_target_css_state('page_sub_active');
 		$this->stash['domain'] = Sher_Core_Util_Constant::TYPE_ACTIVE;
   }
@@ -77,47 +78,60 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 		
 		if(empty($active) || $active['deleted']){
 			return $this->show_message_page('访问的活动不存在或已被删除！', $redirect_url);
-    }
+        }
 
-    if($active['state']==0){
+        if($active['state']==0){
  			return $this->show_message_page('该活动已被禁用！', $redirect_url); 
-    }
+        }
 
-    //加载扩展数据
-    $active = $model->extended_model_row($active);
+        //加载扩展数据
+        $active = $model->extended_model_row($active);
 
-    $this->stash['is_attend'] = false;
-    $this->stash['user_info'] = array();
-    //验证用户是否已报名
-    if ($this->visitor->id){
-      $this->stash['user_info'] = &$this->stash['visitor'];
-      $this->stash['is_attend'] = $this->check_user_attend($this->visitor->id, $active['_id'], 1);
-    }
+        $this->stash['is_attend'] = false;
+        $this->stash['user_info'] = array();
+        //验证用户是否已报名
+        if ($this->visitor->id){
+            $this->stash['user_info'] = &$this->stash['visitor'];
+            $this->stash['is_attend'] = $this->check_user_attend($this->visitor->id, $active['_id'], 1);
+        }
 
-    //添加网站meta标签
-    $this->stash['page_title_suffix'] = sprintf("%s-太火鸟-智能硬件爱好者活动聚集地", $active['title']);
+        // 添加网站meta标签
+        $this->stash['page_title_suffix'] = sprintf("%s-太火鸟-智能硬件爱好者活动聚集地", $active['title']);
 
 		// 增加pv++
 		$inc_ran = rand(1,6);
 		$model->inc_counter('view_count', $inc_ran, $id);
 
-    //评论参数
-    if(!empty($active['topic_ids'])){
-      $comment_options = array(
-        'comment_target_id' =>  (int)$active['topic_ids'][0],
-        'comment_target_user_id' => $active['user_id'],
-        'comment_type'  =>  2,
-        'comment_pager' =>  Sher_Core_Helper_Url::active_view_url($id, '#p#'),
-        //是否显示上传图片/链接
-        'comment_show_rich' => 1,
-      );
-      $this->_comment_param($comment_options);
-    }
+    $this->stash['topic_comment_count'] = 0;
 
-    $this->stash['active'] = $active;
+        // 评论参数
+        if(!empty($active['topic_ids'])){
+            $topic_model = new Sher_Core_Model_Topic();
+            $topic = $topic_model->load((int)$active['topic_ids'][0]);
+            if($topic) $this->stash['topic_comment_count'] = $topic['comment_count'];
 
-    $this->stash['avatar_loop'] = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,35,35,36,37,38,39,40,41,42,43,44,45,46,47,48);
+            $comment_options = array(
+                'comment_target_id' =>  (int)$active['topic_ids'][0],
+                'comment_target_user_id' => $active['user_id'],
+                'comment_type'  =>  2,
+                'comment_pager' =>  Sher_Core_Helper_Url::active_view_url($id, '#p#'),
+                //是否显示上传图片/链接
+                'comment_show_rich' => 1,
+            );
+            $this->_comment_param($comment_options);
+        }
+        
+        $this->stash['active'] = $active;
+
+        $this->stash['avatar_loop'] = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,35,35,36,37,38,39,40,41,42,43,44,45,46,47,48);
 		
+        // 跳转楼层
+        $floor = (int)$this->stash['floor'];
+        if($floor){
+            $new_page = ceil($floor/10);
+            $this->stash['page'] = $new_page;
+        }
+        
 		return $this->to_html_page('page/active/show.html');
 	}
 

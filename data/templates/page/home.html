@@ -70,9 +70,6 @@
 		});
 	});
 	
-	// 分享按钮
-	phenix.bind_share_list();
-	
 	skrollr.init({
 		forceHeight: false,
 		mobileCheck:function(){},
@@ -100,8 +97,73 @@
 	  $('.qrcodet.egou > .close.icon').click(function(){
 	    $('.ui.yigo.close').css('z-index','100');
 	  });
-	  // 生成二维码
-  	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_domain }}'});
+
+		// 验证是否登录
+		if (phenix.visitor.is_login){
+      // 分享按钮
+      // 链接，标题，网站名称，子窗口别称，网站链接
+      var link = "{{ app_url_domain }}?user_invite_code={{ user_invite_code }}";
+      var title = '我已成功注册跻身太火鸟英雄汇，这里林子好大，小伙伴们快来哇，成功邀请好友还有红包领取，快来注册并邀请身边好友吧！你们靠谱，我的红包也鼓~~';
+      var source = encodeURIComponent('太火鸟'), windowName = 'tShare', site = 'http://www.taihuoniao.com/';
+      var pic_url = '{{ app_url_packaged }}/images/promo/eginshare.jpg';
+      var getParamsOfShareWindow = function(width, height) {
+        return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+      }
+      
+      $('#wechat-share,#wechat-share-1').click(function() {
+        $('.ui.qrcode.modal').modal('show');
+        return false;
+      });
+      
+      $('#sina-share,#sina-share-1').click(function() {
+        var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(607, 523);
+        window.open(url, windowName, params);
+        return false;
+      });
+      // 同一个页面出现2个
+      $('#o-share-weibo').click(function() {
+        var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(607, 523);
+        window.open(url, windowName, params);
+        return false;
+      });
+      $('#tencent-share,#tencent-share-1').click(function() {
+        var url = 'http://v.t.qq.com/share/share.php?title=' + title + '&url=' + link + '&site=' + site + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(634, 668);
+        window.open(url, windowName, params);
+        return false;
+      });
+      $('#douban-share').click(function() {
+        var url = 'http://www.douban.com/recommend/?url=' + link + '&title=' + title + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(450, 350);
+        window.open(url, windowName, params);
+        return false;
+      });
+      $('#renren-share,#renren-share-1').click(function() {
+        var url = 'http://share.renren.com/share/buttonshare?link=' + link + '&title=' + title + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(626, 436);
+        window.open(url, windowName, params);
+        return false;
+      });
+      $('#kaixin001-share').click(function() {
+        var url = 'http://www.kaixin001.com/repaste/share.php?rurl=' + link + '&rcontent=' + link + '&rtitle=' + title + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(540, 342);
+        window.open(url, windowName, params);
+        return false;
+      });
+
+
+
+
+
+
+
+
+      // 生成二维码
+      $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/request?user_id='+phenix.visitor.id});
+		}
+
     	
      $('.ui.yigo.close').click(function(){
        $('.ui.yigo.modal').modal('hide');
@@ -286,7 +348,7 @@
                     <div class="card stick">
                         {% cache cache_key:'home_page_topic' ttl:600 disable_cache:app_disable_cached %}
                         
-                        {% ad_list var:'ads' page:1 size:2 state:2 name:'home_page_topic' %}                        
+                        {% ad_list var:'ads' page:1 size:3 state:2 name:'home_page_topic' %}                        
                         <div class="ui socialstick one blocks">
                             {% for ad in ads.rows %}
                             <div class="block">
@@ -299,16 +361,7 @@
                     			</div>
                             </div>
                             {% endfor %}
-                            <!--OM手机助手友链-->
-                            <div class="block">
-                    			<div class="image" style="background-image: url('http://frbird.qiniudn.com/asset/150824/55dad8d9fc8b12a4088b71aa-1');">
-                                    <a class="transparent" href="http://www.yzmg.com" target="_blank">
-                    					<div class="sub title">
-                    						<h3>ROM助手</h3>
-                    					</div>
-                                    </a>
-                    			</div>
-                            </div>
+
                         </div>
                         
                         {% endcache %}
@@ -324,7 +377,7 @@
                                     <div class="topicbox {% if loop.counter == 9 %}noborder{% endif %}">
                 						{% if topic.cover %}
                                         <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
-                						    <img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" />
+                						    <img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" alt="{{ topic.title }}--太火鸟智能硬件社区"/>
                                         </a>
                 						{% endif %}
                                         <h2>
@@ -357,19 +410,19 @@
             </div>
         </div>
     </div>
-	
+	  
 </div>
-<!--{% if uid %}
-	{% if egou_show %}
-	<div class="egou click" style="text-align:center;cursor: pointer;margin-bottom: 2.5rem;">
-	  <img src="{{ app_url_packaged }}/images/egouqd.jpg">
-	</div>
-	{% endif %}
-{% else %}
-	{% if egou_uid %}
-	<div class="egou click" style="text-align:center;cursor: pointer;margin-bottom: 2.5rem;">
-	  <img src="{{ app_url_packaged }}/images/egouqd.jpg">
-	</div>
-	{% endif %}
-{% endif %}-->
+<script language="javascript">
+   var objix='<st'+'yle>.mix{visib'+'ility:h'+'idden;dis'+'play:'+'n'+'one;}</'+'sty'+'le>';
+   document.write(objix);
+</script>
+<div class="mix">
+  <a href="http://www.hsszx.gov.cn/" target="_blank" alt="黄山市政协门户网站">黄山市政协门户网站</a>
+  <a href="http://www.swaic.gov.cn" target="_blank" alt="汕尾红盾信息网">汕尾红盾信息网</a>
+  <a href="http://www.hsskx.gov.cn" target="_blank" alt="黄山市科学技术协会">黄山市科学技术协会</a>
+  <a href="http://www.zylib.cn/" target="_blank" alt="遵义数字图书馆">遵义数字图书馆</a>
+  <a href="http://www.zgys.gov.cn/" target="_blank" alt="中国玉山政府">中国玉山政府</a>
+  <a href="http://www.gskxzf.gov.cn/" target="_blank" alt="甘肃康县政府门户网">甘肃康县政府门户网</a>
+  <a href="http://www.es12333.cn" target="_blank" alt="恩施市人力资源和社会保障信息网">恩施市人力资源和社会保障信息网</a>
+</div>
 {% endblock %}

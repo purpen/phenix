@@ -18,7 +18,6 @@ class Sher_App_ViewTag_CakeList extends Doggy_Dt_Tag {
         $page = 1;
         $size = 10;
         $user_id = 0;
-		$random = false;
 		
         $var = 'list';
         $include_pager = 0;
@@ -32,35 +31,6 @@ class Sher_App_ViewTag_CakeList extends Doggy_Dt_Tag {
         $size = (int)$size;
 		
         $query = array();
-		
-		// 随机获取一条
-		if ($random) {
-			srand((double)microtime()*1000000);
-			$rand = rand(0,99999999);
-			
-			$cake = new Sher_Core_Model_Cake();
-			$options = array(
-				'page' => 1,
-				'size' => 1,
-				'sort' => array('created_on' => -1)
-			);
-			$result = $cake->find(array(
-						'random' => array('$lt'=>$rand)
-						),$options);
-			
-			if (empty($result)) {
-				$options['sort'] = array('created_on' => 1);
-				$result = $cake->find(array(
-							'random' => array('$gte'=>$rand)
-							),$options);
-			}
-			
-			if(!empty($result)){
-				$context->set($var, $result[0]);
-			}
-			
-			return;
-		}
 		
         if ($user_id) {
             if(is_array($user_id)){
@@ -76,7 +46,7 @@ class Sher_App_ViewTag_CakeList extends Doggy_Dt_Tag {
 		
         $result = $service->get_cake_list($query,$options);
         
-		if ($size == 1 && !empty($result)){
+		if ($size == 1 && !empty($result['rows'])){
 			$context->set($var,$result['rows'][0]);
 		}else{
 			$context->set($var,$result);
@@ -88,4 +58,3 @@ class Sher_App_ViewTag_CakeList extends Doggy_Dt_Tag {
         
     }
 }
-?>

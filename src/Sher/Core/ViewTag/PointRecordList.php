@@ -12,6 +12,10 @@ class Sher_Core_ViewTag_PointRecordList extends Doggy_Dt_Tag {
     public function render($context, $stream) {
         $page = 1;
         $size = 10;
+
+        $user_id = 0;
+
+
         $var = 'list';
         $include_pager = 0;
         $pager_var = 'pager';
@@ -24,6 +28,10 @@ class Sher_Core_ViewTag_PointRecordList extends Doggy_Dt_Tag {
         $size = (int)$size;
 
         $query = array();
+
+        if($user_id){
+          $query['user_id'] = (int)$user_id;
+        }
 
         $service = Sher_Core_Service_Point::instance();
         $options['page'] = $page;

@@ -1,6 +1,6 @@
 {{#result.rows}}
 
-<div class="comment" id="{{ _id }}">
+<div class="comment" id="f{{ floor }}">
     <a class="avatar" href="{{ user.home_url }}" target="_blank">
         <img src="{{ user.small_avatar_url }}" alt="{{ user.nickname }}" />
     </a>
@@ -30,7 +30,14 @@
     
         {{#is_reply}}
         <div class="replytips">
-            <i class="quote left icon"></i> 回复 #{{ reply_comment.floor }} <a href="{{ reply_comment.user.home_url }}" class="ui link" target="_blank">@{{ reply_comment.user.nickname }}</a>
+            <blockquote>
+                <i class="quote left icon"></i> 
+                <a href="{{ reply_comment.user.home_url }}" class="ui link" target="_blank">@{{ reply_comment.user.nickname }}</a> <span class="metadata"><span class="date">发表于 {{ reply_comment.created_on }}</span></span>
+                <div class="contrp text">
+                    {{ &reply_comment.content }}
+                </div>
+                <i class="quote right icon"></i>
+            </blockquote>
         </div>
         {{/is_reply}}
     
@@ -49,7 +56,7 @@
                 <a class="reply reply-btn" href="javascript:void(0);" comment_id="{{ _id }}" floor="{{ floor }}" comment_user_id="{{ user_id }}" comment_user_name="{{ user.nickname }}">回复</a>
 
                 {{#is_edit}}
-                <a class="delete confirm-request" href="/comment/delete?id={{ comment._id }}">屏蔽</a>
+                <a class="delete confirm-request" href="/comment/delete?id={{ _id }}">屏蔽</a>
                 {{/is_edit}}
             {{/deleted}}
         </div>

@@ -1,13 +1,13 @@
 <div class="reg-border">
     {{#has_sign}}
-    <a href="javascript:void(0);" class="ui big inverted red active button">
+    <a href="javascript:void(0);" class="ui big inverted red active button" style="width: 140px;padding-right: 1em;padding-left: 1em;">
         <i class="calendar icon"></i> 已签到
     </a>
     {{/has_sign}}
     
     {{^has_sign}}
-    <a href="javascript:void(0);" id="sign-in-btn" class="ui big inverted red active button">
-        <i class="calendar icon"></i> 签到
+    <a href="javascript:void(0);" id="sign-in-btn" class="ui big inverted red active button" style="width: 140px;padding-right: 1em;padding-left: 1em;">
+        <i class="calendar icon"></i> 签到有奖
     </a>
     {{/has_sign}}
 
@@ -19,15 +19,17 @@
         {{/is_true}}
     {{/is_doing}}
     <div class="adreg">	
-      连签 <b>{{ continuity_times }}</b> 天
+      连签 <b>{{ continuity_times }}</b> 天 
     </div>
 </div>
 
 {{#has_sign}}
 <p>
-*今日签到排行: <b style="color:green;">{{ data.last_date_no }}</b>
+* 今日签到排行: <b style="color:green;">{{ data.last_date_no }}</b> 
+&nbsp;&nbsp;<a href="/topic/sign"><small>查看排名&gt;&gt;</small></a>
 </p>
 {{/has_sign}}
 
-<p>1、每天签到+2个经验值，连续7天+1枚鸟币</p>
-<p>2、赢取最新智能硬件新品</p>
+<p>1、礼物：关注签到页公告，完成名次任务，就可以轻松获得神秘礼物</p>
+<p>2、经验值：每次签到都会获得2个经验值</p>
+<p>3、鸟币：连续7天签到，送1枚鸟币</p>

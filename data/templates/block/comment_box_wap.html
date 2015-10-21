@@ -56,6 +56,7 @@
 	  width: 48%;
     margin-left: 1%;
     margin-right: 1%;
+    margin-bottom: 10px;
 	}
 	.ui.blocks>.block{
 	  max-width: 100%;
@@ -95,6 +96,23 @@
     margin-top: .5em;
     padding-top: .5em;
   }
+  .ui.dimmer{
+    overflow:auto !important;
+  }
+  .ui.modal > .header{
+    position:relative;
+  }
+  .ui.modal > .header .close{
+      cursor: pointer;
+      position: absolute;
+      z-index: 1;
+      opacity: .8;
+      font-size: 1.25em;
+      top: 10px;
+      right: 0.8rem;
+      width: 30px;
+      height: 30px;
+  }
 </style>
 
 
@@ -109,6 +127,7 @@
     <input type="hidden" name="reply_id" value="" />
     <input type="hidden" name="reply_user_id" value="" />
     <input type="hidden" name="from_to" value="wap" />
+    <input type="hidden" name="sku_id" value="0" />
     <div class="field">
       <textarea name="content" id="comment-area" class="comment-textarea" placeholder="{%if comment_alert%}{{comment_alert}}{%else%}输入评论...{%endif%}"></textarea>
       <div id="comment"></div>
@@ -144,9 +163,9 @@
   </form>
 </div>
 
-<div class="ui comment-insert-img small modal transition">
-  	<i class="close icon"></i>
+<div class="ui comment-insert-img small long modal transition">
 	<div class="header">
+	  <i class="close icon"></i>
 	    插入图片
 	</div>
 	<div class="container">
@@ -334,7 +353,7 @@
       debug: true,
           request: {
         inputName:'file',
-        params: {'token': '{{ comment_token }}','x:pid': '{{ comment_pid }}', 'x:domain': '{{ comment_domain }}', 'x:ord': comment_ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ comment_asset_type }},'x:parent_id': '{{ comment_pid }}','file_id': '{{ comment_pid }}' },
+        params: {'token': '{{ comment_token }}','x:pid': '{{ comment_pid }}', 'x:domain': '{{ comment_domain }}', 'x:ord': comment_ord, 'x:user_id': '{{ visitor._id }}','x:asset_type': {{ comment_asset_type|default 0 }},'x:parent_id': '{{ comment_pid }}','file_id': '{{ comment_pid }}' },
             endpoint: '{{ app_url_upload }}/comment'
           },
       text: {
@@ -414,4 +433,8 @@
 
 
 </script>
+{% endblock %}
+
+{% block templates %}
+  {% mustache id:'get_single_comment_tpl' tpl:'mustache_m/fetch_single_comment.mustache' %}
 {% endblock %}

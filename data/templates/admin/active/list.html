@@ -84,6 +84,7 @@
 				<th>缩略图</th>
 				<th class="five wide">名称</th>
 				<th>类型</th>
+        <th>浏览量</th>
 				<th>报名列表</th>
 				<th>期数</th>
 				<th>是否发布</th>
@@ -128,6 +129,7 @@
 					实验室
 				  {%endif%}
 				</td>
+        <td>{{ active.view_count }}</td>
 				<td>
 				  <a href="{{ app_url_admin_base }}/active/get_attend_list?target_id={{ active._id }}&event=1" class="ui magenta  link">报名列表({{ active.signup_count }})</a>
 				</td>

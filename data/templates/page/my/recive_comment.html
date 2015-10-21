@@ -29,18 +29,8 @@
 {% block js %}
 {% endblock %}
 {% block jquery %}
-	// 显示私信框
-	$('.reply_message').bind('click', function(){
-    $('[name=nickname]').val($(this).attr('nickname'));
-    $('[name=to]').val($(this).attr('user_id'));
-		$('.ui.letter.modal').modal('show');
-	});
-	// 隐藏私信框
-	$('.ui.cancel.button').bind('click', function(){
-		$('.ui.letter.modal').modal('hide');
-	});
 	
-	$('#message-form').form({
+	$('.comment-form').form({
 		content: {
 			identifier  : 'content',
 			rules: [
@@ -48,17 +38,38 @@
 					type   : 'empty',
 					prompt : '评论内容不能为空'
 				},
-				{
-					type   : 'maxLength[140]',
-					prompt : '评论内容不超过140字符'
-				}
+        {
+          type   : 'length[5]',
+          prompt : '评论内容不能少于5个字符'
+        },
+        {
+          type   : 'maxLength[1000]',
+          prompt : '评论内容不超过1000个字符'
+        }
 			]
 		}
 	}, {
 		inline : true,
 		onSuccess: function(event){
 			event.preventDefault();
-			$(event.target).ajaxSubmit();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					//phenix.before_submit();
+				},
+				success: function(result){
+					//phenix.after_submit();
+					
+					if(result.is_error){
+            phenix.show_error_note(result.message);
+					}else{
+            phenix.show_ok_note(result.message);
+            var comment_id = result.data.reply_id;
+            $('#comment-'+comment_id).find('.quick_reply_box').hide();
+            $(':input[name=content]').val('');
+					}
+				}
+			});
 		}
 	});
 	
@@ -88,6 +99,17 @@
         $(this).find('img').css({'max-width':'150px', 'cursor':'-webkit-zoom-in', 'cursor':'-moz-zoom-in', 'cursor':'-ms-zoom-in', 'cursor':'-o-zoom-in'});
         $(this).attr('show-type', 1);
       }
+    });
+
+    // 快捷回复事件
+    $('.quick_reply_btn').click(function(){
+      var reply_box = $(this).closest('.mes-text').find('.quick_reply_box');
+      if(reply_box.is(':hidden')){
+        reply_box.show();
+      }else{
+        reply_box.hide();
+      }
+    
     });
 	
 {% endblock %}
@@ -134,16 +156,44 @@
                 
                 {% comment_list var:'list' page:page size:20 sort:1 target_user_id:user_id load_item:1 %}
                 {% for d in list.rows %}
-                <div class="mes-text">
+                <div class="mes-text" id="comment-{{ d._id }}">
                     <a href="{{ d.user.home_url }}" class="ui photo" target="_blank">
                         <img alt="{{ d.user.nickname }}" src="{{ d.user.small_avatar_url }}">
                     </a>
                     <div class="news content">
                         <a class="ui link" href="{{ d.user.home_url }}" target="_blank">{{ d.user.nickname }}</a>  评论了你的<span>{{ d.type_str }}</span> 
-                        <a class="ui link" href="{{ d.target.view_url }}" target="_blank">{{ d.target.title }}</a>
+                        <a class="ui magenta link" href="{{ d.target.view_url }}" target="_blank">{{ d.target.title }}</a>
                         <span class="date">{{ d.created_on }}</span>
-                        <div class="sub_header text"> {{ d.content }}</div>
+                        <div class="sub_header text">
+                          {{ d.content }}
+                        
+                          <span class="date quick_reply_btn" style="cursor:pointer;">快捷回复</span>
+                        </div>
+                        
                     </div>  
+
+                    <div class="quick_reply_box" style="margin:10px 0px 0px 50px;display:none;">
+                      <form action="{{ app_url_comment }}/do_save" method="post" class="ui form comment-form">
+                        <input type="hidden" name="target_id" value="{{ d.target_id }}" />
+                        <input type="hidden" name="target_user_id" value="{{ d.target_user_id }}" />
+                        <input type="hidden" name="type" value="{{ d.type }}" />
+                        <input type="hidden" name="is_reply" value="1" />
+                        <input type="hidden" name="reply_id" value="{{ d._id }}" />
+                        <input type="hidden" name="reply_user_id" value="{{ d.user_id }}" />
+                        <div class="two fields">
+
+                          <div class="field">
+                            <input type="text" name="content" />
+                          </div>
+
+                          <div class="field">
+                            <div class="ui active small green submit button">提交</div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+
+
                 </div>
                 {%endfor%}
                 

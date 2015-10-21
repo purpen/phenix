@@ -11,6 +11,8 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     'user_id' => '',
     'is_invented' => -1,
     'q' => '',
+    'sort' => 0,
+    'result' => 0,
 	);
 	
 	public function _init() {
@@ -31,6 +33,18 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try?page=#p#';
 		
 		$this->stash['pager_url'] = $pager_url;
+
+    // 发送人数组
+    $send_users = array();
+		$user_model = new Sher_Core_Model_User();
+    $send_user_ids = Doggy_Config::$vars['app.send_notice_users'];
+    $user_arr = explode('|', $send_user_ids);
+    foreach($user_arr as $v){
+      $user = $user_model->load((int)$v);
+      if(!empty($user)) array_push($send_users, $user);
+    }
+
+    $this->stash['send_users'] = $send_users;
 		
 		return $this->to_html_page('admin/try/list.html');
 	}
@@ -104,6 +118,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     $data = array();
     $data['title'] = $this->stash['title'];
     $data['short_title'] = $this->stash['short_title'];
+    $data['kind'] = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
     $data['season'] = (int)$this->stash['season'];
     $data['description'] = $this->stash['description'];
     $data['brand_introduce'] = $this->stash['brand_introduce'];
@@ -115,6 +130,9 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     $data['end_time'] = $this->stash['end_time'];
     $data['publish_time'] = $this->stash['publish_time'];
     $data['try_count'] = (int)$this->stash['try_count'];
+    $data['apply_term'] = (int)$this->stash['apply_term'];
+    $data['term_count'] = (int)$this->stash['term_count'];
+    $data['open_limit'] = isset($this->stash['open_limit']) ? (int)$this->stash['open_limit'] : 0;
     $data['imgs'] = $imgs;
 
 		$model = new Sher_Core_Model_Try();
@@ -206,11 +224,11 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		if(empty($this->stash['id'])){
 			return $this->ajax_notification('缺少请求参数！', true);
 		}
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try/verify?id=%d&is_invented=%d&user_id=%d&page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try/verify?id=%d&is_invented=%d&user_id=%d&result=%d&sort=$d&page=#p#';
 		
 		$id = (int)$this->stash['id'];
 
-		$this->stash['pager_url'] = sprintf($pager_url, $id, $this->stash['is_invented'], $this->stash['user_id']);
+		$this->stash['pager_url'] = sprintf($pager_url, $id, $this->stash['is_invented'], $this->stash['user_id'], $this->stash['result'], $this->stash['sort']);
 		
 		$model = new Sher_Core_Model_Try();
 		$try = &$model->extend_load($id);
@@ -284,8 +302,181 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
    * 支持名单
    */
   public function vote_list(){
-  
+    $pager_url = Doggy_Config::$vars['app.url.admin_base'].'/try/vote_list?apply_id=%s&page=#p#';
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['apply_id']);
  		return $this->to_html_page('admin/try/vote_list.html'); 
+  }
+
+	/**
+	 * 推荐/取消推荐
+	 */
+	public function ajax_set_stick() {
+
+		if(empty($this->stash['id'])){
+			return $this->ajax_note('缺少请求参数！', true);
+		}
+    $evt = $this->stash['evt'] = isset($this->stash['evt']) ? $this->stash['evt'] : 0;
+		
+		try{
+			$model = new Sher_Core_Model_Try();
+      if($evt){
+        $model->mark_as_stick((int)$this->stash['id']);     
+      }else{
+        $model->mark_cancel_stick((int)$this->stash['id']);
+      }
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_note('请求操作失败，请检查后重试！', true);
+		}
+		
+		return $this->to_taconite_page('admin/try/stick_ok.html');
+	}
+
+  /**
+   * 导出申请人资料
+   */
+  public function apply_export(){
+  
+		$query = array();
+		$options = array();
+		$page = 1;
+		$size = 500;
+
+    $is_invented = isset($this->stash['is_invented']) ? (int)$this->stash['is_invented'] : 0;
+    $result = isset($this->stash['result']) ? (int)$this->stash['result'] : 0;
+    $target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
+    $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+
+    if($target_id){
+      $query['target_id'] = $target_id;   
+    }
+
+    if($result){
+      if($result==-1){
+        $query['result'] = 0;
+      }elseif($result==1){
+        $query['result'] = 1;
+      }
+    }
+    $query['type'] = 1;
+    $query['is_invented'] = array('$ne'=>1);
+		
+		if(empty($query)){
+			return $this->ajax_json('请选择导出数据条件！', true);
+		}
+		
+		// 设置不超时
+		set_time_limit(0);
+			
+		 header('Content-Type: application/vnd.ms-excel');
+		 header('Content-Disposition: attachment;filename="user_info.csv"');
+		 header('Cache-Control: max-age=0');
+		
+    //Windows下使用BOM来标记文本文件的编码方式 -解决windows下乱码
+    //fwrite($export_file, chr(0xEF).chr(0xBB).chr(0xBF)); 
+		// 打开PHP文件句柄，php://output表示直接输出到浏览器
+     $fp = fopen('php://output', 'a');
+
+    	// Windows下使用BOM来标记文本文件的编码方式 
+    	fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
+		
+		// 输出Excel列名信息
+		$head = array('ID', '姓名', '电话', '地址', '邮编', '微信', 'QQ', '支持数', '申请内容');
+		foreach($head as $i => $v){
+			// CSV的Excel支持GBK编码，一定要转换，否则乱码
+			// $head[$i] = iconv('utf-8', 'gbk', $v);
+		}
+		// 将数据通过fputcsv写到文件句柄
+		fputcsv($fp, $head);
+		
+		$service = Sher_Core_Service_Apply::instance();
+		
+		$is_end = false;
+		$counter = 0;
+		$limit = 1000;
+        $options['size'] = $size;
+		$options['sort_field'] = 'latest';
+		
+		while(!$is_end){
+			$options['page'] = $page;
+			
+			Doggy_Log_Helper::warn("Export try apply page[$page],size[$size]!");
+			
+			$result = $service->get_list($query, $options);
+			
+			$max = count($result['rows']);
+			for($i=0; $i<$max; $i++){
+				$counter ++;
+				if($limit == $counter){
+					ob_flush();
+					flush();
+					$counter = 0;
+				}
+				
+        $apply = $result['rows'][$i];
+        $address = sprintf("%s-%s-%s", $apply['area_province']['city'], $apply['area_district']['city'], $apply['address']);
+				$row = array($apply['user_id'], $apply['name'], $apply['phone'], $address, $apply['zip'], $apply['wx'], $apply['qq'], $apply['vote_count'], $apply['content']);
+				
+				/*
+				foreach($row as $k => $v){
+					// CSV的Excel支持GBK编码，一定要转换，否则乱码
+					// $row[$i] = iconv('utf-8', 'gbk', $v);
+				}*/
+				
+				fputcsv($fp, $row);
+				
+				unset($row);
+			}
+			
+			if($max < $size){
+				$is_end = true;
+				break;
+			}
+			
+			$page++;
+		}
+		
+		fclose($fp);
+  
+  }
+
+  /**
+   * 给想买的群发私信
+   */
+  public function ajax_send_message(){
+    $try_id = isset($this->stash['try_id']) ? (int)$this->stash['try_id'] : 0;
+    $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+    $content = isset($this->stash['content']) ? $this->stash['content'] : null;
+    if(empty($try_id) || empty($user_id) || empty($content)){
+      return $this->ajax_json('缺少请求参数!', true);
+    }
+
+    $attend_model = new Sher_Core_Model_Attend();
+    $msg = new Sher_Core_Model_Message();
+    $page = 1;
+    $size = 1000;
+    $is_end = false;
+    $total = 0;
+    while(!$is_end){
+      $query = array('target_id'=>$try_id, 'event'=>Sher_Core_Model_Attend::EVENT_TRY_WANT);
+      $options = array('page'=>$page, 'size'=>$size);
+      $list = $attend_model->find($query, $options);
+      if(empty($list)){
+        break;
+      }
+      $max = count($list);
+      for ($i=0; $i<$max; $i++) {
+        $r_user_id = $list[$i]['user_id'];
+        $msg->send_site_message($content, $user_id, (int)$r_user_id);
+        $total++;
+      }
+      if($max < $size){
+        break;
+      }
+      $page++;
+    } 
+
+    return $this->ajax_json("发送成功 count: $total!", false);
+  
   }
 	
 	

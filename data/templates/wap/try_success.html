@@ -180,6 +180,9 @@
   overflow: hidden;
   width: 60%;
 }
+#scrollUp{
+  display:none !important;
+}
 </style>
 {% endblock %}
 
@@ -311,6 +314,7 @@ fetch_rank();
 
 {% endblock %}
 {% block content %}
+<img src="{{ try.cover.thumbnails.resp.view_url }}" style="display:none;">
 <div id="try-success">
   <div class="tries">
     <div class="ui responsive grid">
@@ -370,8 +374,9 @@ fetch_rank();
 
         		</p>
             {%endif%}
-
+            {% if !try.step_stat==0 %}
             <label class="ui magenta inverted active button label" style="min-width: 74px;">免费试用</label> &nbsp;  <label class="ui magenta inverted active button label">数量{{ try.try_count }} 个</label>&nbsp; <label class="ui magenta inverted active button label">{{ try.apply_count }} 人申请</label>
+            {%endif%}
           </div>
         </div>
         

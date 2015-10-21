@@ -2,10 +2,24 @@
 	<append select=".ui.threaded.comments"><![CDATA[
 		{% include "block/comment_item.html" %}
 	]]></append>
-	<eval>
+	<eval><![CDATA[
 		$('.comment-textarea').val('');
         $('.ui.sticky')
           .sticky('refresh')
         ;
-	</eval>
+
+
+    var is_reply = $(':input[name=is_reply]').val();
+    if(is_reply==1){
+      // 清空回复ID
+      $(':input[name=reply_id]').val('');
+      $(':input[name=is_reply]').val(0);
+      $(':input[name=reply_user_id]').val('');
+      var recover_comment_user_href = $('.cancel-reply-btn').attr('recover_comment_user_href');
+      var recover_comment_user_name = $('.cancel-reply-btn').attr('recover_comment_user_name');
+      var html = '<a href="'+ recover_comment_user_href +'" class="ui magenta link">'+ recover_comment_user_name +'</a> 发表评论';
+      $('#comment-box').find('.comment-title').html(html);    
+    }
+
+    ]]></eval>
 </taconite>

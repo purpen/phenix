@@ -25,6 +25,12 @@
 		
 		return false;
 	});
+
+	$('.datepicker').pickadate();
+
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
 	
 {% endblock %}
 	
@@ -50,17 +56,27 @@
 
 	<div class="ui grid">
 		<div class="middle aligned row">
-			<div class="six wide column">
+			<div class="three wide column">
 				<label>排序：</label>
         <a href="{{ app_url_admin_base }}/topic?sort=0&page={{page}}" class="ui link {%if sort==0%}active{%endif%}">最新</a>
+        <a href="{{ app_url_admin_base }}/topic?sort=5&page={{page}}" class="ui link {%if sort==5%}active{%endif%}">浏览</a>
         <a href="{{ app_url_admin_base }}/topic?sort=4&page={{page}}" class="ui link {%if sort==4%}active{%endif%}">点赞</a>
         <a href="{{ app_url_admin_base }}/topic?sort=2&page={{page}}" class="ui link {%if sort==2%}active{%endif%}">评论</a>
-        <a href="{{ app_url_admin_base }}/topic?sort=3&page={{page}}" class="ui link {%if sort==3%}active{%endif%}">收藏</a>
 			</div>
-			<div class="ten wide column">
-        <div class="ui sub nav">
-          <form action="{{ app_url_admin_base }}/topic/search" method="get">
+			<div class=" wide column">
+        <div class="ten ui sub nav">
+          <form action="{{ app_url_admin_base }}/topic/search" method="get" id="search-form">
             <label>搜索：</label>
+            <input type="hidden" name="sort" value="{{ sort }}" />
+            <div class="ui icon input">
+                <input type="text" name="start_date" placeholder="开始时间" value="{{ start_date }}" class="datepicker" />
+                <i class="calendar icon"></i>
+            </div>
+            <div class="ui icon input">
+                <input type="text" name="end_date" placeholder="截止时间" value="{{ end_date }}" class="datepicker" />
+                <i class="calendar icon"></i>
+            </div>
+
             <div class="ui selection dropdown">
               <input type="hidden" name="s" value="{{ s }}" />
               <div class="default text">选择条件</div>
@@ -74,17 +90,16 @@
 
             <div class="ui icon input">
               <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
-              <i class="flat search link icon"></i>
             </div>
+				<div class="ui icon input">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
           </form>
         </div>
 			</div>
 		</div>
 	</div>
 
-	
-
-	
 	<table class="ui small table segment">
 		<thead>
 			<tr>
@@ -99,8 +114,8 @@
         <th>作者</th>
         <th>分类</th>
         <th>赞名单</th>
-        <th>收藏数</th>
-        <th>评论数</th>
+        <th>点赞|评论|浏览(数)</th>
+        <th>创建时间</th>
         <th>推荐</th>
         <th>发布</th>
 				<th>管理操作</th>
@@ -108,7 +123,7 @@
 		</thead>
 		<tbody>
       {% if is_search %}
-			  {% topic_list var:'list' page:page s_type:s s_mark:q sort:sort page:page size:30 %}
+			  {% topic_list var:'list' page:page s_type:s s_mark:q sort:sort start_time:start_time end_time:end_time page:page size:30 %}
       {%else%}
 			  {% topic_list var:'list' is_top:is_top category_id:category_id sort:sort page:page size:30 %}
       {%endif%}
@@ -144,9 +159,8 @@
         <td>
           <span>{{ topic.love_count }}</span> | <a href="{{ app_url_admin_base }}/topic/get_love_list?target_id={{ topic._id }}" class="ui magenta link" target="_blank">名单>></a>
         </td>
-        <td>{{ topic.favorite_count }}</td>
-        <td>{{ topic.comment_count }}</td>
-
+        <td>{{ topic.love_count }}|{{ topic.comment_count }}|{{ topic.view_count }}</td>
+        <td>{{ topic.created_on|date 'Y-m-d' }}</td>
 				<td>
 					<p>
 						{% if topic.stick %}

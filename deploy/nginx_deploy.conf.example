@@ -122,6 +122,7 @@ server {
 		rewrite ^/shop/presale/p(\d+).*$ /app/wap/shop/presale?page=$1 last;
     	rewrite ^/shop/list-c(\d+)-t(\d)-s(\d)-p(\d+).*$ /app/wap/shop?category_id=$1&type=$2&sort=$3&page=$4 last;
         rewrite ^/shop/(\d+).html$ /app/wap/shop/view?id=$1 last;
+        rewrite ^/shop/view-(\d+)-(\d+).html$ /app/wap/shop/view?id=$1&page=$2 last;
         rewrite ^/shop/(.*)$ /app/wap/shop/$1 last;
     }
 
@@ -310,6 +311,8 @@ server {
   	    	rewrite ^/shop/c(\d+)/p(\d+).*$ /app/site/shop/get_list?category_id=$1&page=$2 last;
   	    	rewrite ^/shop/list-c(\d+)-s(\d)-p(\d+).*$ /app/site/shop/get_list?category_id=$1&sort=$2&page=$3 last;
             rewrite ^/shop/(\d+).html$ /app/site/shop/view?id=$1 last;
+            rewrite ^/shop/view-(\d+)-(\d+).html$ /app/site/shop/view?id=$1&page=$2 last;
+            rewrite ^/shop/view/(\d+)/(\d+)/(\d+)[/]?$ /app/site/shop/view?id=$1&page=$2&floor=$3 last;
             rewrite ^/shop(.*)$ /app/site/shop$1 last;
         }
 		
@@ -321,6 +324,8 @@ server {
 			rewrite ^/try[/]?$ /app/site/try last;
       rewrite ^/try/list-c(\d+)-t(\d+)-s(\d+)-p(\d+).*$ /app/site/try/get_list?category_id=$1&type=$2&s=$3&page=$4 last;
 			rewrite ^/try/view-(\d+).html$ /app/site/try/view?id=$1 last;
+            rewrite ^/try/view-(\d+)-(\d+).html$ /app/site/try/view?id=$1&page=$2 last;
+            rewrite ^/try/view/(\d+)/(\d+)/(\d+)[/]?$ /app/site/try/view?id=$1&page=$2&floor=$3 last;
             rewrite ^/try(.*)$ /app/site/try$1 last;
         }
 		
@@ -334,6 +339,7 @@ server {
           	rewrite ^/topic/list-c(\d+)-t(\d+)-d(\d+)-t(\d)-p(\d+).*$ /app/site/topic/get_list?category_id=$1&type=$2&time=$3&sort=$4&page=$5 last;
           	rewrite ^/topic/view-(\d+).html$ /app/site/topic/view?id=$1 last;
           	rewrite ^/topic/view-(\d+)-(\d+).html$ /app/site/topic/view?id=$1&page=$2 last;
+            rewrite ^/topic/view/(\d+)/(\d+)/(\d+)[/]?$ /app/site/topic/view?id=$1&page=$2&floor=$3 last;
           	rewrite ^/topic(.*)$ /app/site/topic$1 last;
         }
 
@@ -343,6 +349,7 @@ server {
           	rewrite ^/active/c(\d+)/p(\d+)[/]?$ /app/site/active?category_id=$1&page=$2 last;
           	rewrite ^/active/view-(\d+).html$ /app/site/active/view?id=$1 last;
           	rewrite ^/active/view-(\d+)-(\d+).html$ /app/site/active/view?id=$1&page=$2 last;
+            rewrite ^/active/view/(\d+)/(\d+)/(\d+)[/]?$ /app/site/active/view?id=$1&page=$2&floor=$3 last;
           	rewrite ^/active(.*)$ /app/site/active$1 last;
         }
 		

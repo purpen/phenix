@@ -1,0 +1,226 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+
+	$('#draw-form').form({
+		draw_txt: {
+			identifier  : 'draw_txt',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '内容不能为空'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '内容不超过140字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+            $('.ui.draw.modal').modal('hide');
+            $('#draw-form :input[name=id]').val('');
+            //$("#draw-form :input[name=draw_txt]").val('');
+            $('#draw-'+ data.data.id +'-label').html('<span class="ui small green label">是</span>');
+					}
+				}
+			});
+		}
+	});
+
+  $('.set-draw').click(function(){
+    var id = $(this).data('id');
+    var name = $(this).data('name');
+
+    $('#draw-form :input[name=id]').val(id);
+    $('#draw-form :input[name=nickname]').val(name);
+    $('.ui.draw.modal').modal('show');
+    
+  });
+{%endblock%}
+
+{% block content %}
+	<h3 class="ui header">用户积分统计</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/user_sign_in" class="{{ css_all_list }} item">
+			全部
+		</a>
+		<a href="{{ app_url_admin_base }}/user_sign_in/sign_stat_list" class="{{ css_sign_stat_list }} item">
+			签到每日统计
+		</a>
+
+    <!--
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/block/submit" class="item">
+				<i class="add icon"></i>添加
+			</a>
+	    </div>
+      -->
+	</div>
+	
+  <!--
+	<div class="ui grid">
+		<div class="middle aligned row">
+
+			<div class="ten wide column">
+				<div class="ui sub nav">
+					<form action="{{ app_url_admin_base }}/user_sign_in" method="post">
+						<label>搜索：</label>
+						<div class="ui icon input">
+							<input placeholder="标题..." type="text" name="q">
+							<i class="flat search link icon"></i>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+  -->
+
+	<div class="ui sub search">
+		<form action="{{ app_url_admin_base }}/user_sign_in/sign_stat_list" method="get" class="ui form" id="search-form">
+			<div class="five fields">
+				<div class="field">
+					<input type="text" name="month" placeholder="月份: 201505" value="{{ month }}" />
+				</div>
+				<div class="field">
+					<input type="text" name="day" placeholder="日: 20150606" value="{{ day }}" />
+				</div>
+				<div class="field">
+					<input type="text" name="user_id" placeholder="用户ID" value="{{ user_id }}" />
+				</div>
+
+			</div>
+			<div class="five fields">
+
+				<div class="field">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th></th>
+        <th>排名</th>
+        <th>用户信息</th>
+        <th>上次签到时间</th>
+        <th>最高连签天数</th>
+        <th>累积天数</th>
+        <th>是否中奖</th>
+        <th>奖项说明</th>
+        <th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% sign_stat_list var:'list' day:day week:week month:month sort:0 page:page size:100 %}
+			
+			{% for sign in list.rows %}
+			<tr id="item-{{ sign._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ sign._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+
+        <td>{{ sign.number_id }}({{ sign.sign_no }})</td>
+            <td>
+              <a class="ui image link" href="{{ sign.user.home_url }}" target="_blank">
+                {{ sign.user.nickname }}
+              </a>
+            </td>
+            <td>
+              {{ sign.sign_time|date 'y-m-d H:i:s' }}
+            </td>
+            <td>
+              {{ sign.max_sign_times }}
+            </td>
+            <td>
+              {{ sign.total_sign_times }}
+            </td>
+            <td>
+              <p id="draw-{{ sign._id }}-label">
+                {% if sign.draw_evt %}
+                  <span class="ui small green label">是</span>
+                {% else %}
+                  <span class="ui small orange label">否</span>
+                {% endif %}
+              </p>
+            </td>
+            <td>{{ sign.draw_txt|default '--' }}</td>
+        <td>
+          <a href="javascript:void(0);" data-id="{{ sign._id }}" data-name="{{ sign.user.nickname }}" class="ui set-draw link item">
+              设置奖项
+          </a>
+          <!--
+          | 
+		      <a href="{{ app_url_admin }}/user_sign_in/deleted_sign_stat?id={{ sign._id }}" class="ui confirm-request link item">
+						    删除
+					</a>
+          -->
+        </td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+
+
+<!-- 设置奖项 -->
+<div class="ui small draw modal">
+  	<i class="close icon"></i>
+	<div class="header">
+		设置奖项
+	</div>
+  	<div class="content">
+		<form action="{{ app_url_admin }}/user_sign_in/ajax_set_draw" class="ui form" method="post" id="draw-form">
+			<div class="field">
+				<label>用户：</label>
+				<input type="text" name="nickname" value="" disabled="disabled" />
+				<input type="hidden" name="id" value="" />
+				<input type="hidden" name="draw_evt" value="1" />
+			</div>
+			<div class="field">
+				<label>内容：</label>
+				<textarea name="draw_txt" rows="3"></textarea>
+			</div>
+			
+			<div class="right aligned field ">
+				<div class="ui gray cancel button">取消</div>
+				<div class="ui active magenta submit button" >发送</div>
+			</div>
+		</form>
+  	</div>
+</div>
+	
+{% endblock %}

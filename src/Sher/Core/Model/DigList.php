@@ -30,6 +30,15 @@ class Sher_Core_Model_DigList extends Sher_Core_Model_Base  {
             case Sher_Core_Util_Constant::DIG_CES_PRAISE_STAT:
               $str = 'CES线下抽奖';
               break;
+            case Sher_Core_Util_Constant::DIG_SIGN_EVERY_DAY_STAT:
+              $str = '每日签到统计';
+              break;
+            case Sher_Core_Util_Constant::DIG_SUBJECT_YMC1_01:
+              $str = '云马Ｃ1(名嘴争霸)';
+              break;
+            case Sher_Core_Util_Constant::DIG_THIRD_SITE_STAT:
+              $str = '第三方站点访问量统计';
+              break;
             default:
                 $str = '未定义';
         }
