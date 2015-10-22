@@ -36,7 +36,7 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
 	}
 
   /**
-   * 名单
+   * 名单 SubjectRecord
    */
   public function get_attend_list(){
 		$page = (int)$this->stash['page'];
@@ -48,6 +48,21 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
 		$this->stash['pager_url'] = $pager_url;
 		
 		return $this->to_html_page('admin/special/attend_list.html');
+  }
+
+  /**
+   * 名单 Attend
+   */
+  public function get_visitor_list(){
+		$page = (int)$this->stash['page'];
+    $this->stash['target_id'] = isset($this->stash['target_id'])?$this->stash['target_id']:0;
+    $this->stash['event'] = isset($this->stash['event'])?$this->stash['event']:1;
+		
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/special/get_visitor_list?target_id=%s&event=%s&page=#p#', $this->stash['target_id'], $this->stash['event']);
+		
+		$this->stash['pager_url'] = $pager_url;
+		
+		return $this->to_html_page('admin/special/visitor_list.html');
   }
 
   /**
@@ -246,7 +261,7 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
 	}
 
 	/**
-	 * 删除参与记录
+	 * 删除参与记录 subject_record
 	 */
 	public function del_attend(){
 		$id = $this->stash['id'];
@@ -258,6 +273,36 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
 		
 		try{
 			$model = new Sher_Core_Model_SubjectRecord();
+			foreach($ids as $id){
+				$record = $model->load($id);
+				// 
+				if ($record){
+					$model->remove($id);
+				}
+			}
+			
+			$this->stash['ids'] = $ids;
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		return $this->to_taconite_page('ajax/delete.html');
+	}
+
+	/**
+	 * 删除参与记录 attend
+	 */
+	public function del_visitor(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('ID不存在！', true);
+		}
+		
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
+		
+		try{
+			$model = new Sher_Core_Model_Attend();
 			foreach($ids as $id){
 				$record = $model->load($id);
 				// 
