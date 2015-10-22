@@ -107,10 +107,26 @@
                                                 <a class="ui link" href="{{ d.target.view_url }}" title="{{ d.target.title }}" target="_blank">
                                                     {{ d.target.title }}
                                                 </a>
+		
                                             </p>
                                         {%endif%}
                                     </div>
                                 </div>  
+                            </div>
+							{%else%}
+							<div class="mes-text">
+                                <a href="{{ d.s_user.home_url }}" class="ui photo" target="_blank">
+                                    <img alt="{{ d.s_user.nickname }}" src="{{ d.s_user.small_avatar_url }}">
+                                </a>
+                                <div class="news content">
+                                  <a class="ui link" href="{{ d.s_user.home_url }}" target="_blank">{{ d.s_user.nickname }}</a>
+                                     {{ d.info }}
+                                    <span class="date">{{ d.created_on|relative_datetime }}</span> {% if !d.is_read %}<span class="ui mini red label">NEW</span>{%endif%}
+                                    <div class="sub_header text"></div>
+                                </div>
+								<div class="sub_header text">
+                  {% if d.evt==16 %}赠送说明：{%endif%}{{ d.content }}
+								</div>
                             </div>
                             {%endif%}
                         {%endfor%}
