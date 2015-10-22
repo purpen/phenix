@@ -10,7 +10,7 @@ body{
 #mfrbird{
   position: absolute;
   top: 50%;
-  margin: -220px 0 0;
+  margin: -120px 0 0;
   width: 100%;
 }
 .ui.wap,.mmfoot{
@@ -136,6 +136,10 @@ body{
     
   });
   
+  $('.fluid.bang').click(function(){
+    $('#login-form').css('display','block');
+    $('#mfrbird').css('margin-top','-220px')
+  })
   
 {% endblock %}
 
@@ -164,13 +168,13 @@ body{
 					</div>
 					
 					<div class="field active" data-tab="first" style="z-index:99;position:relative;">
-						<a class="ui fluid black active btn-4 btn-4c icon btn inverted button" data-tab="first" style="border-radius:0;">
+						<a class="ui fluid black active bang btn-4 btn-4c icon btn inverted button" data-tab="first" style="border-radius:0;">
 								 绑定已有账号
 						</a>
 					</div>
 				</div>
 
-		<form action="{{ app_url_wap }}/auth/do_login" class="ui form" method="post" id="login-form">
+		<form action="{{ app_url_wap }}/auth/do_login" class="ui form" method="post" id="login-form" style="display:none;">
 			<input type="hidden" name="t" value="{{ login_token }}" />
 			<input type="hidden" name="third_source" value="{{ third_source }}" />
 			<input type="hidden" name="uid" value="{{ uid }}" />
