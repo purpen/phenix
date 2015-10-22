@@ -43,7 +43,7 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
     'user' => array('user_id' => 'Sher_Core_Model_User'),
 	);
 	
-    protected $required_fields = array('user_id', 'target_id');
+    protected $required_fields = array('target_id');
     protected $int_fields = array('user_id', 'type', 'event', 'state', 'number');
 	
     protected function before_save(&$data) {

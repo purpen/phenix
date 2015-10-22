@@ -238,7 +238,9 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
      * 设置已读标识
      */
     public function set_readed($id){
+      if(!empty($id)){
         return $this->update_set((string)$id, array('readed' => 1));
+      }
     }
 	
 }

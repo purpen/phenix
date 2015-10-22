@@ -28,16 +28,7 @@
 				rules: [
 					{
 						type   : 'empty',
-						prompt : '电话不能为空'
-					}
-				]
-			},
-			email: {
-				identifier  : 'email',
-				rules: [
-					{
-						type   : 'empty',
-						prompt : '邮箱不能为空'
+						prompt : '手机号不能为空'
 					}
 				]
 			},
@@ -109,6 +100,7 @@
 						<div class="ui segment">
 							<input type="hidden" name="target_id" value="5" />
 							<input type="hidden" name="event" value="3" />
+              <input type="hidden" name="user_id" value="{{ user_id }}" />
 
 							<div class="field">
 								<label>姓名</label>
@@ -117,7 +109,7 @@
 							</div>
 
 							<div class="field">
-								<label>所在公司</label>
+								<label>公司</label>
 							  	<input type="text" name="company" value="{{ visitor.profile.company }}" />
 								<div class="description"></div>
 							</div>
@@ -129,13 +121,8 @@
 							</div>
 
 							<div class="field">
-								<label>电话</label>
+								<label>手机</label>
 							  	<input type="text" name="phone" value="{{ visitor.profile.phone }}" />
-								<div class="description"></div>
-							</div>
-							<div class="field">
-								<label>邮箱</label>
-							  	<input type="text" name="email" value="{{ visitor.email }}" />
 								<div class="description"></div>
 							</div>
 

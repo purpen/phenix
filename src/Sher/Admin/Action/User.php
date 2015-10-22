@@ -326,12 +326,13 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 				'user_id'=> $receive_user_id,
 				's_user_id'=> (int)$this->visitor->id,
 				'evt'=> Sher_Core_Model_Remind::EVT_BIRD_MONRY,
-				'kind'=> Sher_Core_Model_Remind::EVT_BIRD_MONRY,
+				'kind'=> Sher_Core_Model_Remind::KIND_BIRD_ADMIN,
 				'content'=>$bird_money_explanation
 			);
-			$ok = $remind->create($arr);
+			$ok = $remind->apply_and_save($arr);
+
 			if($ok){
-				$user_model->update_counter_byinc($receive_user_id, 'notice_count', 1);
+				//$user_model->update_counter_byinc($receive_user_id, 'notice_count', 1);
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){
