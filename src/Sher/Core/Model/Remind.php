@@ -193,7 +193,7 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
                 $info = "@了你的";
                 break;
 			case self::EVT_BIRD_MONRY:
-                $info = "给您赠送了鸟币，快到《会员等级》查看吧！";
+                $info = "给您赠送了鸟币，快到个人中心的【会员等级】中查看吧！";
                 break;
         }
 		
