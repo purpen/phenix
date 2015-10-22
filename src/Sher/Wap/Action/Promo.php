@@ -24,6 +24,8 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 
     // 判断是否为微信浏览器
     if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
+      // 设置cookie
+      @setcookie('auth_return_url', Doggy_Config::$vars['app.url.wap.promo'].'/draw', 0, '/');
       $is_weixin = true;
     }else{
       $is_weixin = false;
