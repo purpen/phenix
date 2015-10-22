@@ -107,12 +107,14 @@
               {% endif %}
             </td>
             <td>
+              <!--
 			          <a href="{{ app_url_admin }}/special/ajax_state?id={{ f._id }}&state=1" class="ui ajax link item">
 							通过
 						</a> | 
 			          <a href="{{ app_url_admin }}/special/ajax_state?id={{ f._id }}&state=0" class="ui ajax link item">
 							拒绝
 						</a> | 
+            -->
 						<a href="{{ app_url_admin }}/special/del_visitor?id={{ f._id }}" class="ui confirm-request link">删除</a>
             </td>
           </tr>
