@@ -4,15 +4,19 @@
  *
  */
 class Sher_Core_Model_UserPointRecord extends Sher_Core_Model_Base {
+    
     protected $collection = 'points.records';
+    
+    # 所属分类
+	const ADD_TYPE = 1; // 默认为自动添加，2为手动添加
 
     protected $schema = array(
         'user_id' => null,
-//        积分类型
+        // 积分类型
         'type' => null,
-//        变动值
+        // 变动值
         'val' => null,
-//        事由说明
+        // 事由说明
         'note' => null,
         // 发生时间
         'time' => null,
@@ -24,6 +28,10 @@ class Sher_Core_Model_UserPointRecord extends Sher_Core_Model_Base {
         'account_state' => 0,
         // 事务最后执行的时间
         't_time' => null,
+        // 添加类型
+        'add_type' => self::ADD_TYPE,
+        // 添加管理管id
+        'send_user_id' => null
     );
     protected $joins = array(
         'user' => array('user_id' => 'Sher_Core_Model_User'),

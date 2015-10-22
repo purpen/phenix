@@ -47,6 +47,11 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	 * 保存评论
 	 */
 	public function do_save(){
+		
+		// 禁用用户无法操作
+		if(!$this->stash["visitor"]['state']){
+			return $this->ajax_json('您不能参与评论 !', true);
+		}
         
 		$from_to = isset($this->stash['from_to'])?$this->stash['from_to']:'web';
 		$row = array();
@@ -279,6 +284,12 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	 * 点赞
 	 */
 	public function ajax_laud(){
+		
+		// 禁用用户无法操作
+		if(!$this->stash["visitor"]['state']){
+			return $this->ajax_json('您不能参与点赞 !', true);
+		}
+		
 		$id = $this->stash['id'];
 		$type = Sher_Core_Model_Favorite::TYPE_COMMENT;
 		if(empty($id)){
@@ -422,6 +433,12 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	 * 保存回复
 	 */
 	public function ajax_reply(){
+		
+		// 禁用用户无法操作
+		if(!$this->stash["visitor"]['state']){
+			return $this->ajax_json('您不能参与点赞 !', true);
+		}
+		
 		$comment_id = $this->stash['comment_id'];
 		$target_id = $this->stash['target_id'];
 		

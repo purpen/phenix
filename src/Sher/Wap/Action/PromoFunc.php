@@ -19,6 +19,109 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->coupon();
 	}
+
+  /**
+   * 试用抽奖获取值页面
+   */
+  public function fetch_draw(){
+    $evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 1;
+    $user_id = $this->visitor->id;
+    $try_id = 52039;
+    $can_share = 1;
+
+    $attend_model = new Sher_Core_Model_Attend();
+
+    $data = array(
+      'user_id' => $user_id,
+      'target_id' => 2,
+      'cid' => $try_id,
+      'event' => 5,
+    );
+    $attend = $attend_model->first($data);
+
+    // 验证用户是否有权限抽奖
+    if(!empty($attend)){
+      if($attend['ticket']>=2) $can_share = 0;
+      if($attend['state']==0){
+        if($attend['ticket']>=2){
+          return $this->ajax_json('您的机会已用尽，等待下次试用吧~', true);
+        }elseif($attend['ticket']==1){
+          return $this->ajax_json('已抽完,分享后还有一次机会哦~', true);       
+        }
+      }
+    }
+
+    // 随机获取奖品
+    $prize_arr = array(
+        '1' => array('id'=>1,'is_prize'=>1,'count'=>20,'prize'=>'恭喜您抽中20鸟币!','v'=>3,'min'=>182,'max'=>223),   
+        '2' => array('id'=>2,'is_prize'=>1,'count'=>10,'prize'=>'恭喜您抽中10鸟币!','v'=>7,'min'=>92,'max'=>133),   
+        '3' => array('id'=>3,'is_prize'=>1,'count'=>5,'prize'=>'恭喜您抽中5鸟币!','v'=>15,'min'=>47,'max'=>88),   
+        '4' => array('id'=>4,'is_prize'=>0,'count'=>0,'prize'=>'哎呀，您未中奖，但是20台云马C1试用正在申请中，快快申请吧!','v'=>25,'min'=>317,'max'=>358),   
+        '5' => array('id'=>5,'is_prize'=>0,'count'=>0,'prize'=>'哎呀，您未中奖，但是20台云马C1试用正在申请中，快快申请吧!','v'=>25,'min'=>227,'max'=>268),   
+        '6' => array('id'=>6,'is_prize'=>0,'count'=>0,'prize'=>'哎呀，您未中奖，但是20台云马C1试用正在申请中，快快申请吧!','v'=>25,'min'=>137,'max'=>178), 
+    );
+
+    $arr = array();
+    foreach ($prize_arr as $key => $val) {   
+        $arr[$val['id']] = $val['v'];   
+    }   
+    $rid = Sher_Core_Util_View::get_rand_draw($arr); //根据概率获取奖项id  
+
+    $is_prize_arr = $prize_arr[$rid];
+    $prize_info = array('id'=>1);
+    if(!empty($can_share)){
+      $field_name = 'bird_money_1';
+    }else{
+      $field_name = 'bird_money_2';
+    }
+    
+    if(empty($attend)){
+      $data['state'] = 0;
+      $data['info'][$field_name] = $is_prize_arr['count'];  
+      $ok = $attend_model->create($data); 
+    }else{
+      $ok = $attend_model->update_set((string)$attend['_id'], array('state'=>0, "info.$field_name"=>$is_prize_arr['count']));
+    }
+    if(!$ok){
+      return $this->ajax_json('系统内部出错!', true);
+    } 
+
+    // 中奖送鸟币
+    if($is_prize_arr['count']>0){
+      if(in_array($is_prize_arr['count'], array(5,10,20))){
+        $service = Sher_Core_Service_Point::instance();
+        $service->make_money_in((int)$user_id, $is_prize_arr['count'], "试用抽奖中鸟币");     
+      }
+    }
+    
+    $code = mt_rand($is_prize_arr['min'], $is_prize_arr['max']);
+    return $this->ajax_json("操作成功!", false, '', array('id'=>$is_prize_arr['id'],'bird_count'=>$is_prize_arr['count'], 'code'=>$code, 'desc'=>$is_prize_arr['prize'], 'can_play'=>$can_share));
+
+  }
+
+  /**
+   * 试用抽奖分享后允许再玩机会
+   */
+  public function draw_share(){
+    $user_id = $this->visitor->id;
+    $try_id = 52039;
+
+    $attend_model = new Sher_Core_Model_Attend();
+
+    $data = array(
+      'user_id' => $user_id,
+      'target_id' => 2,
+      'cid' => $try_id,
+      'event' => 5,
+    );
+    $attend = $attend_model->first($data);
+
+    // 验证用户是否有权限抽奖
+    if(!empty($attend) && $attend['ticket']==1){
+      $attend_model->update_set((string)$attend['_id'], array('state'=>1, 'ticket'=>2));
+    }
+
+  }
 	
  /**
    * 保存报名信息

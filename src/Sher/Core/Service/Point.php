@@ -110,9 +110,9 @@ class Sher_Core_Service_Point extends Sher_Core_Service_Base {
      * @throws Sher_Core_Model_Exception
      */
     public function make_transaction($user_id, $amount, $note, $trans_type=Sher_Core_Util_Constant::TRANS_TYPE_IN,
-                                     $point_type=null, $evt_id=null, $time=null) {
+                                     $point_type=null, $evt_id=null, $add_type = 1, $send_user_id = null, $time=null) {
 
-        $trans_out_mode = $trans_type == Sher_Core_Util_Constant::TRANS_TYPE_OUT? true: false;
+        $trans_out_mode = $trans_type == Sher_Core_Util_Constant::TRANS_TYPE_OUT ? true: false;
 
         if (empty($point_type)) {
             throw new Sher_Core_Model_Exception('NULL point_type');
@@ -147,7 +147,8 @@ class Sher_Core_Service_Point extends Sher_Core_Service_Base {
         // 1
         $_trans_d = intval(date('Ymd', intval($time)));
         $_trans_m = intval(date('Ym', intval($time)));
-        $record->create(array(
+        
+        $data = array(
             'user_id' => $user_id,
             'val' => $trans_out_mode? $amount * -1.0: $amount * 1.0,
             'type' => $point_type,
@@ -157,8 +158,15 @@ class Sher_Core_Service_Point extends Sher_Core_Service_Base {
             'm' => $_trans_m,
             'evt_id' => $evt_id,
             'state' => Sher_Core_Util_Constant::TRANS_STATE_INIT,
-            't_time' => time(),
-        ));
+            't_time' => time()
+        );
+        
+        if($add_type == 2 && $send_user_id){
+            $data['add_type'] = $add_type;
+            $data['send_user_id'] = $send_user_id;
+        }
+        
+        $record->create($data);
         $record_id = $record->id;
         // 2.
         if ($trans_out_mode) {
@@ -205,9 +213,8 @@ class Sher_Core_Service_Point extends Sher_Core_Service_Base {
      * @param $note string 事由
      * @return bool
      */
-    public static function make_money_in($user_id, $amount, $note) {
-        return self::instance()->make_transaction($user_id, $amount, $note,
-            Sher_Core_Util_Constant::TRANS_TYPE_IN, Doggy_Config::$vars['app.point.money_point_code']);
+    public static function make_money_in($user_id, $amount, $note, $add_type = 1, $send_user_id = null) {
+        return self::instance()->make_transaction($user_id, $amount, $note, Sher_Core_Util_Constant::TRANS_TYPE_IN, Doggy_Config::$vars['app.point.money_point_code'], null, $add_type, $send_user_id);
     }
 
     /**

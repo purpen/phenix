@@ -1,0 +1,293 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}太火鸟试用抽奖转盘赢云马C1和鸟币红包，获惊喜大奖，享智能科技{% endblock %}
+{% block page_css %}
+<style type="text/css">
+  .draw{width:320px; height:320px; position:relative; margin:-10px auto -20px;overflow:hidden;}
+  #disk{width:320px; height:320px; background:url({{ app_url_packaged }}/images/promo/draw1.png) no-repeat;background-size:cover;}
+  #start{width:30%; height:30%; position:absolute; top:35%; left:35%;}
+  #start img{cursor:pointer;width:100%}
+  .ui.red.button{
+    margin:5px;
+  }
+  .ui.wap,.mmfoot{
+    display:none;
+  }
+  #mfrbird{
+    margin:0;
+    min-height:100%;
+    height:auto;
+    /*overflow:hidden;*/
+    width:100%;
+    background:url({{ app_url_packaged }}/images/promo/draw4.jpg) center top no-repeat;
+    background-size:cover;
+  }
+  .ui.top.grid h2.ui.header,.ui.top.grid p{
+    color:#d94c2e !important;
+  }
+  .ui.top.grid h2.ui.header{
+    margin-bottom:8px;
+    margin-top:12px;
+  }
+  .ui.bottom.grid h3.ui.header{
+    color:#ffc000 !important;
+  }
+  .ui.bottom.grid p{
+    color:#fff;
+  }
+  .ui.bottom.grid .ui.header+p{
+    margin-bottom:5px !important;
+  }
+  .ui.bottom.grid p span{
+    margin-left:70px;
+    display:block;
+  }
+  .cover{
+    background-color:rgba(0,0,0,0.25);
+  }
+  @media only screen and (min-width: 350px){
+    .draw,#disk{
+      width:350px; height:350px;
+    }
+  }
+  @media only screen and (min-width: 400px){
+    .draw,#disk{
+      width:400px; height:400px;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" src="http://frstatic.qiniudn.com/wechat/jsjQueryRotate.2.2.js"></script>
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" >
+    var m_name = '我正在参与太火鸟云马试用抽奖活动，云马智行车在向你招手';
+    var img_url = 'http://frstatic.qiniudn.com/images/promo/draw8.jpg';
+    var link = '{{ app_url_wap_promo }}/draw';
+    var desc_str = '太火鸟试用抽奖转盘赢云马C1和鸟币红包，获惊喜大奖，享智能科技';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+
+  wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: 10, count_name:'count', type: 4, kind:4 });
+    $.get("{{ app_url_wap }}/app/wap/promo_func/draw_share", {});
+    $('#mask').css('display','none');
+  }
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+  	var rotateTimeOut = function (){
+  		$('#disk').rotate({
+  			angle:0,
+  			animateTo:2160,
+  			duration:8000,
+  			callback:function (){
+  				alert('网络超时，请检查您的网络设置！');
+  			}
+  		});
+  	};
+  	var bRotate = false;
+
+  	var rotateFn = function (awards, angles, txt){
+  		bRotate = !bRotate;
+  		$('#disk').stopRotate();
+  		$('#disk').rotate({
+  			angle:0,
+  			animateTo:angles+1800,
+  			duration:8000,
+  			callback:function (){
+          $('.content .desc').text(txt);
+  				$('.ui.drawmes.modal')
+          .modal('setting', 'closable', false)
+          .modal('setting', 'transition', 'vertical  flip')
+          .modal('show');
+  				//alert(txt);
+  				bRotate = !bRotate;
+  			}
+  		})
+  	};
+
+
+  // 抽奖点击事件
+  $('#start').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+      {% if is_weixin %}
+        phenix.redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&redirect_uri={{wx_params.redirect_uri}}&response_type=code&scope=snsapi_login&state={{wx_params.state}}');
+      {%else%}
+        phenix.redirect('{{ app_url_wap }}/auth/login');
+      {%endif%}
+      return;
+    }
+    var url = "{{ app_url_wap }}/app/wap/promo_func/fetch_draw";
+    $.post(url, {type: 1}, function(result){
+      if(result.success){
+        // 是否可以分享再玩
+        if(result.data.can_play==1){
+          $('.share_show').show();
+        }else{
+          $('.share_show').hide();
+        }
+        // 是否抽中鸟币
+        if(result.data.bird_count==0){
+          $('.go_shop').hide();
+        }else{
+          $('.go_shop').show();         
+        }
+        rotateFn(result.data.id, result.data.code, result.data.desc);
+      }else{
+        phenix.show_error_note(result.message);
+      }
+    
+    }, 'json');
+  });
+  
+  //分享
+  $('.red.fenxiang').click(function(){
+      $('.ui.drawmes.modal').modal('hide');
+      $('#mask').css('display','');
+  });
+  $('#mask').click(function(){
+      $('#mask').css('display','none');
+  });
+  
+  window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+
+   function hengshuping() {
+           if (window.orientation == 90 || window.orientation == -90) {
+              $('#mfrbird').css({'overflow':'scroll','height':'auto'});
+           } else {
+              $('#mfrbird').css({'overflow':'scroll'});
+           }
+       }
+{% endblock %}
+
+{% block content %}
+<img src="http://frstatic.qiniudn.com/images/promo/draw8.jpg" style="display:none;" />
+<div class="cover">
+<div class="ui responsive top grid">
+  <div class="row">
+    <div class="center aligned column">
+      <h2 class="ui header">云马试用抽奖</h2>
+      <p>太火鸟试用频道隆重推出试用抽奖活动</p>
+      
+    </div>
+  </div>
+</div>
+<div class="draw">
+  <div id="disk"></div>
+  <div id="start"><img src="{{ app_url_packaged }}/images/promo/draw3.png" id="startbtn"></div>
+</div>
+<div class="ui responsive bottom grid">
+  <div class="row">
+    <div class="column">
+      <h3 class="ui header">活动说明</h3>
+      <p>活动时间：云马试用结束之前</p>
+      <p>活动规则：1、每个账号仅有一次机会
+        <span>2、微信分享后额外获得1次抽奖机会</span>
+        <span>3、鸟币可兑换礼品（1鸟币=1元）</span>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="center aligned column">
+      <a href="{{ app_url_wap }}/topic"><img src="{{ app_url_packaged }}/images/promo/draw5.png" width="29%"></a>
+      <a href="{{ app_url_wap }}/try/view-52039.html"><img src="{{ app_url_packaged }}/images/promo/draw6.png" width="29%"></a>
+      <a href="{{ app_url_wap }}/my/pmall"><img src="{{ app_url_packaged }}/images/promo/draw7.png" width="29%"></a>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- 弹出层   -->
+<div class="ui drawmes small modal transition">
+  <div class="header" style="position:relative;">
+	   试用抽奖
+	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;"></i>
+	</div>
+  <div class="container">
+    <div class="content" style="text-align:center;">
+      <p class="desc"></p>
+      <a class="ui red fenxiang deny button share_show" style="display:none;">
+      					分享再玩一次
+      </a>
+      <div class="share_show" style="display:none;height:0;">
+      <br/>
+      </div>
+      <a href="{{ app_url_wap }}/my/pmall" class="ui red deny button go_shop" style="display:none;">
+      					前往兑换中心
+      </a>
+      <div class="go_shop" style="display:none;height:0;">
+      <br/></div>
+      <a href="{{ app_url_wap }}/try/view-52039.html" class="ui red deny button">
+      					直接申请云马试用
+      </a>
+    </div>
+      
+  </div>
+</div>
+<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);">
+  <div class="frideshare">
+	<img src="http://frstatic.qiniudn.com/images/fenxiang.png" width="100%" >
+  </div>
+</div>
+{% endblock %}
