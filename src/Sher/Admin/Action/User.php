@@ -330,9 +330,6 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 				'content'=>$bird_money_explanation
 			);
 			$ok = $remind->create($arr);
-			if($ok){
-				$user_model->update_counter_byinc($receive_user_id, 'notice_count', 1);
-			}
 			
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json($e->getMessage(), true);
