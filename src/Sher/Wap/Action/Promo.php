@@ -29,6 +29,10 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       $is_weixin = false;
     }
 
+		// 获取session id
+    $service = Sher_Core_Session_Service::instance();
+    $sid = $service->session->id;
+
     // 微信登录参数
     $wx_params = array(
       'app_id' => Doggy_Config::$vars['app.wx.app_id'],
