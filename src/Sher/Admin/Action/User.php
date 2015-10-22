@@ -318,6 +318,22 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 			if(!$bird_money_obj->make_money_in($receive_user_id, $bird_money, $bird_money_explanation, 2, $send_user_id)){
 				return $this->ajax_json('赠送鸟币失败！', true);
 			}
+			
+			// 添加提醒
+			$remind = new Sher_Core_Model_Remind();
+			$user_model = new Sher_Core_Model_User();
+			$arr = array(
+				'user_id'=> $receive_user_id,
+				's_user_id'=> (int)$this->visitor->id,
+				'evt'=> Sher_Core_Model_Remind::EVT_BIRD_MONRY,
+				'kind'=> Sher_Core_Model_Remind::EVT_BIRD_MONRY,
+				'content'=>$bird_money_explanation
+			);
+			$ok = $remind->create($arr);
+			if($ok){
+				$user_model->update_counter_byinc($receive_user_id, 'notice_count', 1);
+			}
+			
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json($e->getMessage(), true);
 		}
