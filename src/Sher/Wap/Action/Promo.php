@@ -21,6 +21,27 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	}
 	
 	public function draw(){
+
+    // 判断是否为微信浏览器
+    if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
+      // 设置cookie
+      @setcookie('auth_return_url', Doggy_Config::$vars['app.url.wap.promo'].'/draw', 0, '/');
+      $is_weixin = true;
+    }else{
+      $is_weixin = false;
+    }
+
+		// 获取session id
+    $service = Sher_Core_Session_Service::instance();
+    $sid = $service->session->id;
+
+    // 微信登录参数
+    $wx_params = array(
+      'app_id' => Doggy_Config::$vars['app.wx.app_id'],
+      'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/wap/weixin/call_back'),
+      'state' => md5($sid),
+    );
+
 		//微信分享
     $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
     $timestamp = $this->stash['timestamp'] = time();
@@ -29,6 +50,10 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
     $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
     $this->stash['wxSha1'] = sha1($wxOri);
+
+    $this->stash['is_weixin'] = $is_weixin;
+    $this->stash['wx_params'] = $wx_params;
+
 		return $this->to_html_page('wap/promo/draw.html');
 	}	
 	

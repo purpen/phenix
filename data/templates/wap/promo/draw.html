@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title%}试用福利-{% endblock %}
+{% block title%}太火鸟试用抽奖转盘赢云马C1和鸟币红包，获惊喜大奖，享智能科技{% endblock %}
 {% block page_css %}
 <style type="text/css">
   .draw{width:320px; height:320px; position:relative; margin:-10px auto -20px;overflow:hidden;}
@@ -61,10 +61,10 @@
   <script type="text/javascript" src="http://frstatic.qiniudn.com/wechat/jsjQueryRotate.2.2.js"></script>
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript" >
-    var m_name = '试用抽奖';
-    var img_url = 'http://frstatic.qiniudn.com/images/promo/d3in/share.jpg';
+    var m_name = '我正在参与太火鸟云马试用抽奖活动，云马智行车在向你招手';
+    var img_url = 'http://frstatic.qiniudn.com/images/promo/draw8.jpg';
     var link = '{{ app_url_wap_promo }}/draw';
-    var desc_str = '试用抽奖啦〜';
+    var desc_str = '太火鸟试用抽奖转盘赢云马C1和鸟币红包，获惊喜大奖，享智能科技';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -170,7 +170,11 @@
   $('#start').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-      phenix.redirect('{{ app_url_wap }}/auth/login');
+      {% if is_weixin %}
+        phenix.redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&redirect_uri={{wx_params.redirect_uri}}&response_type=code&scope=snsapi_login&state={{wx_params.state}}');
+      {%else%}
+        phenix.redirect('{{ app_url_wap }}/auth/login');
+      {%endif%}
       return;
     }
     var url = "{{ app_url_wap }}/app/wap/promo_func/fetch_draw";
@@ -217,6 +221,7 @@
 {% endblock %}
 
 {% block content %}
+<img src="http://frstatic.qiniudn.com/images/promo/draw8.jpg" style="display:none;" />
 <div class="cover">
 <div class="ui responsive top grid">
   <div class="row">
