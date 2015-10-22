@@ -2,7 +2,7 @@
 {% block title%}太火鸟试用抽奖转盘赢云马C1和鸟币红包，获惊喜大奖，享智能科技{% endblock %}
 {% block page_css %}
 <style type="text/css">
-  .draw{width:320px; height:320px; position:relative; margin:0px auto 20px;overflow:hidden;}
+  .draw{width:320px; height:320px; position:relative; margin:-10px auto -20px;overflow:hidden;}
   #disk{width:320px; height:320px; background:url({{ app_url_packaged }}/images/promo/draw1.png) no-repeat;background-size:cover;}
   #start{width:30%; height:30%; position:absolute; top:35%; left:35%;}
   #start img{cursor:pointer;width:100%}
@@ -14,8 +14,9 @@
   }
   #mfrbird{
     margin:0;
-    height:100%;
-    overflow:hidden;
+    min-height:100%;
+    height:auto;
+    /*overflow:hidden;*/
     width:100%;
     background:url({{ app_url_packaged }}/images/promo/draw4.jpg) center top no-repeat;
     background-size:cover;
@@ -26,6 +27,32 @@
   .ui.top.grid h2.ui.header{
     margin-bottom:8px;
     margin-top:12px;
+  }
+  .ui.bottom.grid h3.ui.header{
+    color:#ffc000 !important;
+  }
+  .ui.bottom.grid p{
+    color:#fff;
+  }
+  .ui.bottom.grid .ui.header+p{
+    margin-bottom:5px !important;
+  }
+  .ui.bottom.grid p span{
+    margin-left:70px;
+    display:block;
+  }
+  .cover{
+    background-color:rgba(0,0,0,0.25);
+  }
+  @media only screen and (min-width: 350px){
+    .draw,#disk{
+      width:350px; height:350px;
+    }
+  }
+  @media only screen and (min-width: 400px){
+    .draw,#disk{
+      width:400px; height:400px;
+    }
   }
 </style>
 {% endblock %}
@@ -188,13 +215,14 @@
            if (window.orientation == 90 || window.orientation == -90) {
               $('#mfrbird').css({'overflow':'scroll','height':'auto'});
            } else {
-              $('#mfrbird').css({'overflow':'scroll','height':'100%'});
+              $('#mfrbird').css({'overflow':'scroll'});
            }
        }
 {% endblock %}
 
 {% block content %}
 <img src="http://frstatic.qiniudn.com/images/promo/draw8.jpg" style="display:none;" />
+<div class="cover">
 <div class="ui responsive top grid">
   <div class="row">
     <div class="center aligned column">
@@ -207,6 +235,26 @@
 <div class="draw">
   <div id="disk"></div>
   <div id="start"><img src="{{ app_url_packaged }}/images/promo/draw3.png" id="startbtn"></div>
+</div>
+<div class="ui responsive bottom grid">
+  <div class="row">
+    <div class="column">
+      <h3 class="ui header">活动说明</h3>
+      <p>活动时间：云马试用结束之前</p>
+      <p>活动规则：1、每个账号仅有一次机会
+        <span>2、微信分享后额外获得1次抽奖机会</span>
+        <span>3、鸟币可兑换礼品（1鸟币=1元）</span>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="center aligned column">
+      <a href="{{ app_url_wap }}/topic"><img src="{{ app_url_packaged }}/images/promo/draw5.png" width="29%"></a>
+      <a href="{{ app_url_wap }}/try/view-52039.html"><img src="{{ app_url_packaged }}/images/promo/draw6.png" width="29%"></a>
+      <a href="{{ app_url_wap }}/my/pmall"><img src="{{ app_url_packaged }}/images/promo/draw7.png" width="29%"></a>
+    </div>
+  </div>
+</div>
 </div>
 
 
