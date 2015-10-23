@@ -323,6 +323,20 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
           $service = Sher_Core_Service_Point::instance();
           // 购买商品扣除相应鸟币
           $service->make_money_out($apply_user_id, (int)$term_count, '试用扣除鸟币');
+          $money_reason = sprintf("恭喜，您申请的试用产品[%s]已通过试用，%d鸟币已扣除", $try['title'], $term_count);
+
+          // 添加提醒
+          $remind = new Sher_Core_Model_Remind();
+          $user_model = new Sher_Core_Model_User();
+          $arr = array(
+            'user_id'=> $apply_user_id,
+            's_user_id'=> (int)$this->visitor->id,
+            'evt'=> Sher_Core_Model_Remind::EVT_RE_BIRD_MONRY,
+            'kind'=> Sher_Core_Model_Remind::KIND_BIRD_ADMIN,
+            'content'=>$money_reason,
+          );
+          $remind->apply_and_save($arr);
+
         }
 
 				$try_model->update_pass_users($try_id, $apply_user_id, $is_add);
