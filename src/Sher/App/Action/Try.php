@@ -44,6 +44,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 	public function get_list(){
 		$this->set_target_css_state('page_try');
 
+    /**
     // 记录其它地过来用户注册统计
     if(isset($this->stash['from'])){
       $from = (int)$this->stash['from'];
@@ -64,6 +65,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
       $_COOKIE['from_origin'] = $from;
 
     }
+    **/
 
         $pager_url = sprintf("%s/list-c%d-t%d-s%d-p%s", Doggy_Config::$vars['app.url.try'], 0, 0, 0, '#p#');
 		

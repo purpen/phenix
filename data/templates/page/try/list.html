@@ -152,7 +152,7 @@
                 </div>
                 {%endif%}
                 
-				{% try_list var:'list' page:page state:1 size:18 %}
+				{% try_list var:'list' page:1 state:1 sort:1 size:9 %}
 				{% for t in list.rows %}
 					<div class="card">
                         <div class="problock">
@@ -242,152 +242,51 @@
           <div class="block title">
         		评测报告
           </div>
+          {% topic_list var:'topic_list' published:1 category_id:59 sort:6 page:1 size:8 %}
           <div id="homepage">
-            
-            <div class="topicbox">
-              <a href="http://www.taihuoniao.com/topic/view-106901-1.html" title="智·联WE来 京东智能发布联接和生态战略" class="ui cover line" target="_blank">
-                <img class="ui image" src="http://frbird.qiniudn.com/topic/151022/56285fb620de8d385a8b76e8-1-ti.jpg" alt="智·联WE来 京东智能发布联接和生态战略--太火鸟智能硬件社区">
-              </a>
-              <h2>
-                <a href="http://www.taihuoniao.com/topic/view-106901-1.html" title="智·联WE来 京东智能发布联接和生态战略" class="ui line" target="_blank">
-                   智·联WE来 京东智能发布联接和生态
-                </a>
-              </h2>
-              <p class="description">
-    						&nbsp; &nbsp; &nbsp;京东智能“智•联WE来”建生态&amp;midd...
-    					</p>
+            {% for topic in topic_list.rows %}
+              {% if !loop.counter>4 %}
+                <div class="topicbox">
+                  <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
+                    <img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" alt="{{ topic.title }}">
+                  </a>
+                  <h2>
+                    <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
+                       {{ topic.title }}
+                    </a>
+                  </h2>
+                  <p class="description">
+                    {{ topic.strip_description|truncate 140 }}
+                  </p>
 
-              <p class="author">
-                <i class="unhide icon"></i> <span>207</span> <i class="comments outline icon"></i> <span>2</span>
-              </p>
-            </div>
+                  <p class="author">
+                    <i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
+                  </p>
+                </div>
+            {%else%}
             
-            <div class="topicbox">
-              <a href="http://www.taihuoniao.com/topic/view-106901-1.html" title="智·联WE来 京东智能发布联接和生态战略" class="ui cover line" target="_blank">
-                <img class="ui image" src="http://frbird.qiniudn.com/topic/151022/56285fb620de8d385a8b76e8-1-ti.jpg" alt="智·联WE来 京东智能发布联接和生态战略--太火鸟智能硬件社区">
-              </a>
-              <h2>
-                <a href="http://www.taihuoniao.com/topic/view-106901-1.html" title="智·联WE来 京东智能发布联接和生态战略" class="ui line" target="_blank">
-                   智·联WE来 京东智能发布联接和生态
-                </a>
-              </h2>
-              <p class="description">
-    						&nbsp; &nbsp; &nbsp;京东智能“智•联WE来”建生态&amp;midd...
-    					</p>
+              <div class="topicbox">
+                <h2>
+                  <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
+                     {{ topic.title }}
+                  </a>
+                </h2>
+                <p class="description">
+                  {{ topic.strip_description|truncate 140 }}
+                </p>
 
-              <p class="author">
-                <i class="unhide icon"></i> <span>207</span> <i class="comments outline icon"></i> <span>2</span>
-              </p>
-            </div>
-            
-            <div class="topicbox">
-              <a href="http://www.taihuoniao.com/topic/view-106901-1.html" title="智·联WE来 京东智能发布联接和生态战略" class="ui cover line" target="_blank">
-                <img class="ui image" src="http://frbird.qiniudn.com/topic/151022/56285fb620de8d385a8b76e8-1-ti.jpg" alt="智·联WE来 京东智能发布联接和生态战略--太火鸟智能硬件社区">
-              </a>
-              <h2>
-                <a href="http://www.taihuoniao.com/topic/view-106901-1.html" title="智·联WE来 京东智能发布联接和生态战略" class="ui line" target="_blank">
-                   智·联WE来 京东智能发布联接和生态
-                </a>
-              </h2>
-              <p class="description">
-    						&nbsp; &nbsp; &nbsp;京东智能“智•联WE来”建生态&amp;midd...
-    					</p>
-
-              <p class="author">
-                <i class="unhide icon"></i> <span>207</span> <i class="comments outline icon"></i> <span>2</span>
-              </p>
-            </div>
-            
-            <div class="topicbox">
-              <a href="http://www.taihuoniao.com/topic/view-106901-1.html" title="智·联WE来 京东智能发布联接和生态战略" class="ui cover line" target="_blank">
-                <img class="ui image" src="http://frbird.qiniudn.com/topic/151022/56285fb620de8d385a8b76e8-1-ti.jpg" alt="智·联WE来 京东智能发布联接和生态战略--太火鸟智能硬件社区">
-              </a>
-              <h2>
-                <a href="http://www.taihuoniao.com/topic/view-106901-1.html" title="智·联WE来 京东智能发布联接和生态战略" class="ui line" target="_blank">
-                   智·联WE来 京东智能发布联接和生态
-                </a>
-              </h2>
-              <p class="description">
-    						&nbsp; &nbsp; &nbsp;京东智能“智•联WE来”建生态&amp;midd...
-    					</p>
-
-              <p class="author">
-                <i class="unhide icon"></i> <span>207</span> <i class="comments outline icon"></i> <span>2</span>
-              </p>
-            </div>
-            
-            
-            <div class="topicbox">
-              <h2>
-                <a href="http://www.taihuoniao.com/topic/view-106901-1.html" title="智·联WE来 京东智能发布联接和生态战略" class="ui line" target="_blank">
-                   智·联WE来 京东智能发布联接和生态
-                </a>
-              </h2>
-              <p class="description">
-    						京东智能“智•联WE来”建生态&amp;midd...京东智能“智•联WE来”建生态&amp;midd...京东智能“智•联WE来”建生态&amp;midd...
-    					</p>
-
-              <p class="author">
-                <a class="nickname ui link" href="{{ }}" target="_blank">Lemon</a>
-                <i class="unhide icon"></i> <span>207</span> <i class="comments outline icon"></i> <span>2</span>
-              </p>
-            </div>
-            
-            <div class="topicbox">
-              <h2>
-                <a href="http://www.taihuoniao.com/topic/view-106901-1.html" title="智·联WE来 京东智能发布联接和生态战略" class="ui line" target="_blank">
-                   智·联WE来 京东智能发布联接和生态
-                </a>
-              </h2>
-              <p class="description">
-    						京东智能“智•联WE来”建生态&amp;midd...京东智能“智•联WE来”建生态&amp;midd...京东智能“智•联WE来”建生态&amp;midd...
-    					</p>
-
-              <p class="author">
-                <a class="nickname ui link" href="{{ }}" target="_blank">Lemon</a>
-                <i class="unhide icon"></i> <span>207</span> <i class="comments outline icon"></i> <span>2</span>
-              </p>
-            </div>
-            
-            <div class="topicbox">
-              <h2>
-                <a href="http://www.taihuoniao.com/topic/view-106901-1.html" title="智·联WE来 京东智能发布联接和生态战略" class="ui line" target="_blank">
-                   智·联WE来 京东智能发布联接和生态
-                </a>
-              </h2>
-              <p class="description">
-    						京东智能“智•联WE来”建生态&amp;midd...京东智能“智•联WE来”建生态&amp;midd...京东智能“智•联WE来”建生态&amp;midd...
-    					</p>
-
-              <p class="author">
-                <a class="nickname ui link" href="{{ }}" target="_blank">Lemon</a>
-                <i class="unhide icon"></i> <span>207</span> <i class="comments outline icon"></i> <span>2</span>
-              </p>
-            </div>
-            
-            <div class="topicbox">
-              <h2>
-                <a href="http://www.taihuoniao.com/topic/view-106901-1.html" title="智·联WE来 京东智能发布联接和生态战略" class="ui line" target="_blank">
-                   智·联WE来 京东智能发布联接和生态
-                </a>
-              </h2>
-              <p class="description">
-    						京东智能“智•联WE来”建生态&amp;midd...京东智能“智•联WE来”建生态&amp;midd...京东智能“智•联WE来”建生态&amp;midd...
-    					</p>
-
-              <p class="author">
-                <a class="nickname ui link" href="{{ }}" target="_blank">Lemon</a>
-                <i class="unhide icon"></i> <span>207</span> <i class="comments outline icon"></i> <span>2</span>
-              </p>
-            </div>
-            
-            
-            
+                <p class="author">
+                  <a class="nickname ui link" href="{{ topic.user.home_url }}" target="_blank">{{ topic.user.nickname }}</a>
+                  <i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
+                </p>
+              </div>
+              {%endif%}
+            {%endfor%}
           
           </div>
           
           <div class="ui right aligned column">
-          	<a href="{{ app_url_topic }}/c18/ " class="ui magenta inverted large more button">
+          	<a href="{{ app_url_topic }}/c18/" class="ui magenta inverted large more button">
               查看更多
             </a>
         	</div>

@@ -29,7 +29,7 @@
 			<div class="hide-on-mobile">
 				{% if !topic.asset_count %}
 					<a class="description" href="{{ topic.view_url }}" target="_blank">
-						{{ topic.strip_description }}
+						{{ topic.strip_description|truncate 60 }}
 					</a>
                   <span class="last reply">
                   {% if topic.last_user %}
