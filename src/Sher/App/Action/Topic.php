@@ -1161,7 +1161,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		$redirect_url = Sher_Core_Helper_Url::topic_view_url($id);
-		return $this->ajax_json('保存成功.', false, $redirect_url);
+		return $this->ajax_json('保存成功,您已经获得10经验值！.', false, $redirect_url);
 	}
 	
 	/**

@@ -11,7 +11,7 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 		'users' => array(), #会话对象<from_user,to_user>
 		's_readed' => 0,
 		'b_readed' => 0,
-    'last_time' => 0, # 最后一次回复时间
+		'last_time' => 0, # 最后一次回复时间
 		'mailbox' => array(),
     );
 	
@@ -58,7 +58,7 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 			'from' => (int)$from_user,
 			'to'   => (int)$to_user,
 			'content' => $content,
-      'is_read' => 0,
+			'is_read' => 0,
 			'created_on' => time(),
 		);
 		$some_data = array();
@@ -74,8 +74,8 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 			$some_data['_id'] = $_id;
 			$some_data['users'] = array((int)$from_user,(int)$to_user);
 			$some_data['mailbox'] = array($item);
-      $some_data['created_on'] = time();
-      $some_data['last_time'] = time();
+			$some_data['created_on'] = time();
+			$some_data['last_time'] = time();
 			
 			$this->create($some_data);
 		}else{
@@ -94,7 +94,7 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 		
 		// 更新用户未读私信数
 		$user = new Sher_Core_Model_User();
-    $user->update_counter_byinc($to_user, 'message_count', 1);
+		$user->update_counter_byinc($to_user, 'message_count', 1);
 
 		unset($user);
 		
