@@ -210,7 +210,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 			$row['description'] = htmlspecialchars_decode($row['description']);
 		
 			// 去除 html/php标签
-			$row['strip_description'] = Doggy_Dt_Filters_String::truncate(strip_tags($row['description']), 70);
+			$row['strip_description'] = Doggy_Dt_Filters_String::truncate(strip_tags($row['description']), 140);
 		}
 		// 获取封面图
 		$row['cover'] = $this->cover($row);
