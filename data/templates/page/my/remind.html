@@ -125,7 +125,7 @@
                                     <div class="sub_header text"></div>
                                 </div>
 								<div class="sub_header text">
-                  {% if d.evt==16 %}赠送说明：{%endif%}{{ d.content }}
+                  {% if d.evt==16 %}说明：{%endif%}{% if d.evt==17 %}说明：{%endif%}{{ d.content }}
 								</div>
                             </div>
                             {%endif%}
