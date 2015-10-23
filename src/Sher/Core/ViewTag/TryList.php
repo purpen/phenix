@@ -61,7 +61,7 @@ class Sher_Core_ViewTag_TryList extends Doggy_Dt_Tag {
 		$options['sort_field'] = $sort_field;
 		
         $result = $service->get_try_list($query,$options);
-		        
+		
         $context->set($var, $result);
         if ($include_pager) {
             $context->set($pager_var,$result['pager']);

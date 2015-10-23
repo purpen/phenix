@@ -30,21 +30,21 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 列表
 	 */
 	public function get_list() {		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try?page=#p#';
 		
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try?page=#p#';
 		$this->stash['pager_url'] = $pager_url;
 
-    // 发送人数组
-    $send_users = array();
+		// 发送人数组
+		$send_users = array();
 		$user_model = new Sher_Core_Model_User();
-    $send_user_ids = Doggy_Config::$vars['app.send_notice_users'];
-    $user_arr = explode('|', $send_user_ids);
-    foreach($user_arr as $v){
-      $user = $user_model->load((int)$v);
-      if(!empty($user)) array_push($send_users, $user);
-    }
-
-    $this->stash['send_users'] = $send_users;
+		$send_user_ids = Doggy_Config::$vars['app.send_notice_users'];
+		$user_arr = explode('|', $send_user_ids);
+		foreach($user_arr as $v){
+		  $user = $user_model->load((int)$v);
+		  if(!empty($user)) array_push($send_users, $user);
+		}
+	
+		$this->stash['send_users'] = $send_users;
 		
 		return $this->to_html_page('admin/try/list.html');
 	}
@@ -221,6 +221,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 查看申请人数
 	 */
 	public function verify() {
+		
 		if(empty($this->stash['id'])){
 			return $this->ajax_notification('缺少请求参数！', true);
 		}
@@ -241,6 +242,18 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		$model->increase_counter('view_count', 1, $id);
 		
 		$this->stash['try'] = &$try;
+		
+		// 发送人数组
+		$send_users = array();
+		$user_model = new Sher_Core_Model_User();
+		$send_user_ids = Doggy_Config::$vars['app.send_letter_users'];
+		$user_arr = explode('|', $send_user_ids);
+		foreach($user_arr as $v){
+		  $user = $user_model->load((int)$v);
+		  if(!empty($user)) array_push($send_users, $user);
+		}
+		
+		$this->stash['send_users'] = $send_users;
 		
 		return $this->to_html_page('admin/try/verify.html');
 	}
@@ -292,8 +305,6 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		} catch (Sher_Core_Model_Exception $e){
 			return $this->ajax_notification('申请审核操作失败，请检查后重试！', true);
 		}
-		
-		
 		
 		return $this->to_taconite_page('admin/verify_ok.html');
 	}
@@ -438,6 +449,73 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		fclose($fp);
   
   }
+  
+  /**
+	 * 批量发送私信
+	 * 
+	 * @return string
+	 */
+    public function ajax_user_message(){
+		
+		$user_type = (int)isset($this->stash['user_type']) ? $this->stash['user_type'] : 0;
+        $send_user_id = (int)$this->stash["send_admin"];
+		$letter_content = $this->stash["letter_content"];
+		$try_id = (int)$this->stash["try_id"];
+		
+		if(!$try_id){
+            return $this->ajax_notification("此试用信息不存在！",true);
+        }
+		if(!$send_user_id){
+            return $this->ajax_notification("你没有选择发送的用户",true);
+        }
+        if(empty($letter_content)){
+            return $this->ajax_notification("你没有输入私信内容",true);
+        }
+		
+		try {
+			
+			$user = new Sher_Core_Model_User();
+			$msg = new Sher_Core_Model_Message();
+			$apply = new Sher_Core_Model_Apply();
+			
+			switch($user_type){
+				case 0: // 全部
+					$apply_info = $apply->find(array('target_id'=>$try_id));
+					foreach($apply_info as $v){
+						$user_id = $v['user_id'];
+						$res = $user->find_by_id($user_id);
+						if(!$res) {continue;}
+						$ok = $msg->send_site_message($letter_content, $send_user_id, $user_id);
+					}
+					break;
+				case 1: // 通过的
+					$apply_info = $apply->find(array('target_id'=>$try_id,'result'=>1));
+					foreach($apply_info as $v){
+						$user_id = $v['user_id'];
+						$res = $user->find_by_id($user_id);
+						if(!$res) {continue;}
+						$ok = $msg->send_site_message($letter_content, $send_user_id, $user_id);
+					}
+					break;
+				case -1: // 为通过的
+					$apply_info = $apply->find(array('target_id'=>$try_id,'result'=>0));
+					foreach($apply_info as $v){
+						$user_id = $v['user_id'];
+						$res = $user->find_by_id($user_id);
+						if(!$res) {continue;}
+						$ok = $msg->send_site_message($letter_content, $send_user_id, $user_id);
+					}
+					break;
+			}
+
+        } catch (Doggy_Model_ValidateException $e) {
+            return $this->ajax_notification('发送私信失败:'.$e->getMessage(),true);
+        }
+		
+		$this->stash['mode'] = 'message';
+		
+		return $this->ajax_json('发送私信成功!', false);
+	}
 
   /**
    * 给想买的群发私信
@@ -478,7 +556,5 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     return $this->ajax_json("发送成功 count: $total!", false);
   
   }
-	
-	
 }
 
