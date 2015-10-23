@@ -1006,8 +1006,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		//$parent_category = $category->load((int)$topic['fid']);
 
 		$this->stash['is_top'] = $is_top;
-    $this->stash['current_category'] = $current_category;
-    $this->stash['parent_category'] = 0;
+		$this->stash['current_category'] = $current_category;
+		$this->stash['parent_category'] = 0;
 		//$this->stash['parent_category'] = $parent_category;
 		
 		$this->stash['cid'] = $topic['category_id'];
