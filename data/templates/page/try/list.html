@@ -152,7 +152,7 @@
                 </div>
                 {%endif%}
                 
-				{% try_list var:'list' page:1 state:1 sort:1 size:9 %}
+				{% try_list var:'list' ignore_id:try_latest.rows.0._id page:1 state:1 sort:6 size:9 %}
 				{% for t in list.rows %}
 					<div class="card">
                         <div class="problock">
