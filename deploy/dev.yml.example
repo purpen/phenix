@@ -85,9 +85,6 @@ app.product_jbl_id: 1088027398
 # 发送通知用户组
 app.send_notice_users: '1|5|9'
 
-# 发送私信用户组
-app.send_letter_users: '1|5|9'
-
 # 百度推送 token
 baidu_push_token: ''
 

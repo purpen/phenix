@@ -246,7 +246,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		// 发送人数组
 		$send_users = array();
 		$user_model = new Sher_Core_Model_User();
-		$send_user_ids = Doggy_Config::$vars['app.send_letter_users'];
+		$send_user_ids = Doggy_Config::$vars['app.send_notice_users'];
 		$user_arr = explode('|', $send_user_ids);
 		foreach($user_arr as $v){
 		  $user = $user_model->load((int)$v);
@@ -503,7 +503,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
   }
   
   /**
-	 * 批量发送私信
+	 * 给申请人批量发送私信
 	 * 
 	 * @return string
 	 */
