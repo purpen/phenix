@@ -322,7 +322,7 @@ server {
 		
 		location /try {
 			rewrite ^/try[/]?$ /app/site/try last;
-      rewrite ^/try/list-c(\d+)-t(\d+)-s(\d+)-p(\d+).*$ /app/site/try/get_list?category_id=$1&type=$2&s=$3&page=$4 last;
+			rewrite ^/try/list-c(\d+)-t(\d+)-s(\d+)-p(\d+).*$ /app/site/try/get_list?category_id=$1&type=$2&s=$3&page=$4 last;
 			rewrite ^/try/view-(\d+).html$ /app/site/try/view?id=$1 last;
             rewrite ^/try/view-(\d+)-(\d+).html$ /app/site/try/view?id=$1&page=$2 last;
             rewrite ^/try/view/(\d+)/(\d+)/(\d+)[/]?$ /app/site/try/view?id=$1&page=$2&floor=$3 last;

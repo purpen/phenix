@@ -59,7 +59,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 社区首页
 	 */
 	public function index(){
-        $category_id = $this->stash['category_id'];
+        
+		$category_id = $this->stash['category_id'];
 		$type = $this->stash['type'];
         $time = $this->stash['time'];
         $sort = $this->stash['sort'];
@@ -295,6 +296,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 社区列表
 	 */
 	public function get_list(){
+		
 		// 获取置顶列表
 		$diglist = array();
 		$dig_ids = array();
@@ -314,6 +316,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         
 		// 获取列表
 		$category_id = $this->stash['category_id'];
+		
 		$type = $this->stash['type'];
 		$time = $this->stash['time'];
 		$sort = $this->stash['sort'];
@@ -372,9 +375,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		    $tpl = 'page/topic/index.html';
 		}
 
-    // 昨天的日期
-    $yesterday = (int)date('Ymd' , strtotime('-1 day'));
-    $this->stash['yesterday'] = $yesterday;
+		// 昨天的日期
+		$yesterday = (int)date('Ymd' , strtotime('-1 day'));
+		$this->stash['yesterday'] = $yesterday;
 
 		// 分页链接
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, $type, $time, $sort, '#p#');
