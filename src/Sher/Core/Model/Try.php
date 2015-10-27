@@ -56,6 +56,8 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		'user_id' => 0,
  		# 关联的产品
     	'product_id' => 0,
+    # 购买链接
+    'buy_url' => null,
 		
 		# 试用数量
 		'try_count'  => 0,
