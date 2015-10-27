@@ -489,7 +489,19 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
                     $has_sign = 1;
                     $continuity_times = $user_sign['sign_times'];
                 }
+				
                 $result = array('is_true'=>1, 'has_sign'=>$has_sign, 'continuity_times'=>$continuity_times, 'data'=>$user_sign);
+				
+				// 查看前三名签到的用户名单
+				$userinfo = array();
+				$user_model = new Sher_Core_Model_User();
+				$res = $user_sign_model->find(array(),array('field'=>array('_id'),'page'=>1,'size'=>3,'sort'=>array('last_sign_time'=>-1)));
+				foreach($res as $k => $v){
+					$user_id = $v['_id'];
+					$user = $user_model->extend_load((int)$user_id);
+					$userinfo[$k] = $user;
+				}
+				$result['data']['sign'] = $userinfo;
             }else{
                 $result = array('is_true'=>0, 'msg'=>'数据不存在', 'has_sign'=>$has_sign, 'continuity_times'=>$continuity_times);
             }

@@ -21,7 +21,7 @@ echo "begin change order stat...\n";
 //这个用户订单状态是由待发货－>已退款
 //记录历史操作的rid: 115010409490,
 $rid = '';
-$user_id = ;
+$user_id = 0;
 $order_mode = new Sher_Core_Model_Orders();
 $order = $order_mode->find_by_rid($rid);
 if(empty($order)){

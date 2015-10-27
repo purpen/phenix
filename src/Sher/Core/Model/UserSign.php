@@ -21,16 +21,16 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
 		'kind' => 1,
 		// 记录最后一次签到日期,格式:20150505
 		'last_date' => 0,
-    // 当天第N位签到
-    'last_date_no' => 0,
-    // 当天签到时间
-    'last_sign_time' => 0,
+		// 当天第N位签到
+		'last_date_no' => 0,
+		// 当天签到时间
+		'last_sign_time' => 0,
 		// 记录连续签到天数
 		'sign_times' => 0,
 		// 最高连续登录天数
 		'max_sign_times' => 0,
-    // 记录签到总天数
-    'total_sign_times' => 0,
+		// 记录签到总天数
+		'total_sign_times' => 0,
 		// 获取经验总值
 		'exp_count' => 0,
 		// 获取鸟币数量
