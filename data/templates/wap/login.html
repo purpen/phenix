@@ -6,21 +6,42 @@
 	text-align: center;
 }
 #mfrbird {
-    margin: 0; 
-    height: 100%;
-    overflow: hidden;
+    height: 480px;
+    margin: 0;
     width: 100%;
+    top: 50%;
+    position: absolute;
+    margin-top: -240px;
 }
 .ui.wap,.mmfoot{
   display:none;
 }
-.auth.page .ui.responsive.grid{
-  margin:auto !important;
-  width: 100%;
-  height: 480px !important;
-  top: 50%;
+.ui.log-in>.ui.header.logo {
+  background-color: #F2F2F2;
+  padding: 0;
+  text-align: center;
+}
+.ui.bottom.attached{
+  height:379px;
+  position:relative;
+}
+.third.login{
   position: absolute;
-  margin-top: -240px !important;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  padding: 20px 0;
+  text-align:center;
+}
+.third.login .three.fields{
+  font-size:0;
+}
+.third.login .inline.field{
+  display:inline-block;
+  width:33.33%;
+}
+.third.login .inline.field i.icon{
+  height:1em;
 }
 </style>
 {% endblock %}
@@ -44,9 +65,64 @@
 {% block content %}
 <div class="auth page">
 	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				<form action="{{ app_url_wap }}/auth/do_login" class="ui small top form segment" method="post" id="login-form">
+		<div class="ui column width">
+			<div class="ui log-in signup">
+			  <div class="ui top attached header logo">
+			    <a href="{{ app_url_wap }}" title="返回首页">
+  					<img src="{{ app_url_packaged }}/images/auth-logo.png" />
+  				</a>
+  			</div>
+				
+				<div class="ui bottom attached segment">
+				  <form action="{{ app_url_wap }}/auth/do_login" class="ui small top form" method="post" id="login-form">
+				    <div class="field">
+				      <input type="text" name="account" placeholder="手机号">
+				    </div>
+				    
+				    <div class="field ">
+              <div class="fluid ui active magenta inverted submit button">登录/注册</div>
+            </div>
+				  </form>
+				  
+				  
+				  
+				  
+				  <!-- 第三方帐号登录 -->
+				  <div class="third login">
+            <h4>第三方帐号登录</h4>
+            
+            <div class="ui center aligned three fields">
+  						<div class="inline field" style="text-align:center;">
+  							<a href="{{ weibo_auth_url }}" class="ui big weibo red circular share icon button">
+  								<i class="big weibo icon"></i> 
+  							</a>
+  						</div>
+
+  						<div class="inline field" style="text-align:center;">
+                  <a href="{{ app_url_qq_login_wap }}" class="ui big qq blue circular share icon button">
+                    <i class="big qq icon"></i>
+                  </a>
+  						</div>
+  						<div class="inline field" style="text-align:center;">
+                {% if is_weixin %}
+  							<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&redirect_uri={{wx_params.redirect_uri}}&response_type=code&scope=snsapi_login&state={{wx_params.state}}" class="ui big green circular share icon button">
+  								<i class="big weixin icon"></i>
+  							</a>
+                {%else%}
+                <a href="javascript:void(0);" class="ui big green no-weixin circular share icon button">
+  								<i class="flat big weixin icon"></i>
+  							</a>
+                {%endif%}
+  						</div>
+  					</div>
+            
+            
+
+				  </div>
+				</div>
+			  
+			  
+				<!--<form action="{{ app_url_wap }}/auth/do_login" class="ui small top form segment" method="post" id="login-form">
 					<input type="hidden" name="t" value="{{ login_token }}" />
 					<h5 class="ui center aligned dividing header">登录太火鸟</h5>
 
@@ -101,7 +177,7 @@
 				</form>
 				<div class="sign-up">
           <label>没有太火鸟账号？<a href="{{ app_url_wap }}/auth/signup" title="立即注册" class="ui magenta link" >立即注册</a></label>
-				</div>
+				</div>-->
 			</div>
 		</div>
 	</div>
