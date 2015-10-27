@@ -499,7 +499,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 				foreach($res as $k => $v){
 					$user_id = $v['_id'];
 					$user = $user_model->extend_load((int)$user_id);
-					$userinfo[$k] = $user;
+          if($user) $userinfo[$k] = $user;
 				}
 				$result['data']['sign'] = $userinfo;
             }else{
@@ -529,7 +529,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 			foreach($res as $k => $v){
 				$user_id = $v['_id'];
 				$user = $user_model->extend_load((int)$user_id);
-				$userinfo[$k] = $user;
+				if($user) $userinfo[$k] = $user;
 			}
 			$result['data']['sign'] = $userinfo;
         }else{
