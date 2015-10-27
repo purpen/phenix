@@ -18,6 +18,7 @@ class Sher_Core_ViewTag_TryList extends Doggy_Dt_Tag {
         $page = 1;
         $size = 10;
         $sort = 0;
+        $type = 0;
 		
 		$state = 0;
         $ignore_id = 0;
@@ -54,6 +55,13 @@ class Sher_Core_ViewTag_TryList extends Doggy_Dt_Tag {
 
         if($ignore_id){
           $query['_id'] = array('$ne'=>(int)$ignore_id);
+        }
+
+        if($type){
+          switch((int)$type){
+            case 5: // 是评测
+              $query['try_id'] = array('$ne'=>0);
+          }
         }
 		
         $service = Sher_Core_Service_Try::instance();
