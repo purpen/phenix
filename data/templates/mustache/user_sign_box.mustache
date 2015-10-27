@@ -24,6 +24,18 @@
 </div>
 
 {{#has_sign}}
+    <div class="ui mini avatar images">
+        {{#data.sign}}
+        <div class="image">
+            <a href="{{ home_url }}" target="_blank" title="{{ nickname }}" data-variation="wide" data-html="<div class='header'>{{ nickname }}</div>">
+                <img src="{{ medium_avatar_url }}" alt="{{ nickname }}" class="avatar" />
+            </a>
+        </div>
+        {{/data.sign}}
+    </div>
+{{/has_sign}}
+
+{{#has_sign}}
 <p>
 * 今日签到排行: <b style="color:green;">{{ data.last_date_no }}</b> 
 &nbsp;&nbsp;<a href="/topic/sign"><small>查看排名&gt;&gt;</small></a>
