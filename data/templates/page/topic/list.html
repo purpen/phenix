@@ -75,7 +75,6 @@
                     </a>
                 </div>
             </div>
-            
             <div class="ui topics segment">
     			<table class="ui basic topic table">
     				<tbody>
@@ -87,7 +86,6 @@
     						{% endif %}
     					{% endfor %}
     				{% endif %}
-            
     			    <!--版块置顶-->
     				{% if dig_cate_list %}
     					{% for topic in dig_cate_list %}
@@ -96,7 +94,6 @@
     						{% endif %}
     					{% endfor %}
     				{% endif %}
-            
                     <!--分类列表-->
     				{% topic_list var:'list' published:1 category_id:category_id is_top:is_top type:type time:time sort:sort page:page size:20 %}
     				{% for topic in list.rows %}
