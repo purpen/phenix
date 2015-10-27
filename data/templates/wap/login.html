@@ -30,6 +30,7 @@ body{
 .ui.bottom.attached{
   height:379px;
   position:relative;
+  padding-top:25px;
 }
 .third.login{
   position: absolute;
@@ -85,9 +86,21 @@ body{
 				      <input type="text" name="account" placeholder="手机号">
 				    </div>
 				    
+				    <!-- 用户存在 输入密码 -->
+				    <div class="field">
+				      <input type="password" name="password" id="password" placeholder="登录密码" />
+				    </div>
+				    
+				    
+				    
+				    
 				    <div class="field ">
               <div class="fluid ui active magenta inverted submit button">登录/注册</div>
             </div>
+            
+            <div class="inline field">
+              <a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
+  					</div>
 				  </form>
 				  
 				  
