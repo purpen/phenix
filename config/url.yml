@@ -1,5 +1,5 @@
 ---
-app.domain.base: 'http://taihuoniao.me'
+app.domain.base: 'http://www.taihuoniao.me'
 app.domain.static: 'http://static.taihuoniao.me'
 app.domain.app: '{$app.domain.base}'
 
