@@ -31,6 +31,53 @@
     bottom: -21px;
     cursor: pointer;
   }
+  .ui.big.block p > span{
+    color:#fa6b00;
+  }
+  .ui.big.block {
+    padding-top: 2em;
+    padding-bottom: 2em;
+  }
+  .brood.service + .ui.big.block{
+    padding-top:2.5em;
+  }
+  .ui.incubator.menu {
+    background: url(http://static.taihuoniao.me/images/incubator/bg3.jpg) center center no-repeat;
+    background-size: cover;
+    border: none;
+    border-radius: 0;
+  }
+  .incubator.service .ui.five.blocks > .block{
+    display:inline-block;
+  }
+  .incubator.service .ui.five.blocks > .block .wtitle{
+    background:url({{ app_url_packaged }}/images/incubator/circle.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    width:80px;
+    height:80px;
+    margin:auto;
+    transform: rotate(0deg);
+    transition-duration: 1s;
+  }
+  .incubator.service .ui.five.blocks > .block .wtitle:hover{
+    transform: rotate(90deg);
+  }
+  .incubator.service .ui.five.blocks > .block .wtitle a,.incubator.service .ui.five.blocks > .block .wtitle a:hover{
+    margin-top:0px;
+    color:#fff;
+    border:none;
+    transform: rotate(0deg);
+    line-height: 80px;
+    width: 100%;
+    border-radius:500rem;
+    transition-duration: 1.5s !important;
+    
+  }
+  .incubator.service .ui.five.blocks > .block .wtitle a:hover{
+    transform: rotate(-90deg);
+  }
+  
 </style>
 {% endblock %}
 
@@ -51,6 +98,59 @@
 <div id="hatch">
   <div class="brood service">
     <img src="{{ app_url_packaged }}/images/incubator/wap_join.png" class="join">
+  </div>
+  
+  <div class="ui big block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="center aligned column">
+          <p>如果你有<span>设计、技术研发、生产链、资金、营销、媒介</span>等资源；可将其提交到太火鸟孵化资源库，帮助那些需要帮助的团队；</p>
+          <p>如果你的团队缺少某些资源，也可在太火鸟孵化资源库中寻找志同道合的伙伴，<span>资源互补</span>；</p>
+          <h3 class="ui header">携手共同完成创业梦想!</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big block incubator service menu">
+    <div class="ui responsive grid">
+      <div class="ui center aligned row">
+        <div class="center alignd column">
+          <div class="ui five blocks" style="margin-top:0;">
+            <div class="block">
+              <div class="wtitle">
+                <a href="#.design">设计</a>
+              </div>
+            </div>
+          
+            <div class="block">
+              <div class="wtitle">
+                <a href="#.skill">技术开发</a>
+              </div>
+            </div>
+          
+            <div class="block">
+              <div class="wtitle">
+                <a href="#.make">生产链</a>
+              </div>
+            </div>
+          
+            <div class="block">
+              <div class="wtitle">
+                <a href="#.school">合作院校</a>
+              </div>
+            </div>
+          
+            <div class="block">
+              <div class="wtitle">
+                <a href="#.other">其他</a>
+              </div>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   
   
