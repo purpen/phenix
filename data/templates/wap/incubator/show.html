@@ -1,0 +1,48 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style class="text/css">
+  #mfrbird{
+    margin-top:0;
+  }
+  .brood.service{
+    background:url({{ app_url_packaged }}/images/incubator/wap_bg.jpg) ;
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 220px;
+    position:relative;
+  }
+  .join{
+    width: 150px;
+    position: absolute;
+    left: 50%;
+    margin-left: -75px;
+    bottom: -21px;
+    cursor: pointer;
+  }
+</style>
+{% endblock %}
+
+{% block jquery %}
+  
+  $('.tanup')
+      .popup({
+        hoverable: true,
+        delay: {
+          show: 100,
+          hide: 500
+        }
+      })
+    ;
+{% endblock %}
+
+{% block content %}
+<div id="hatch">
+  <div class="brood service">
+    <img src="{{ app_url_packaged }}/images/incubator/wap_join.png" class="join">
+  </div>
+  
+  
+</div>
+{% endblock %}
