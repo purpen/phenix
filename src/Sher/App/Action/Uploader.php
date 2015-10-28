@@ -45,6 +45,12 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
             $result['message'] = $image_info['format'].'图片格式无法识别，请上传jpg,png,jpeg格式的图片';
             return $this->to_raw_json($result);
         }
+
+        if($image_info['width']<400 || $image_info['height']<400){
+            $result['code'] = 400;
+            $result['message'] = '图片尺寸必须大于400px * 400px';
+            return $this->to_raw_json($result);       
+        }
 		
         $asset = new Sher_Core_Model_Asset();
 		// 获取是否存在旧记录
