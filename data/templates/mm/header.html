@@ -8,27 +8,23 @@
 </div>
 <div id="cover" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.6; background: rgb(0, 0, 0);display: none;">        
             </div>
-<!--<div class="ui fixed transparent inverted main menu">
-	<div class="container">
-		<a class="launch item active"><i class="icon list layout"></i> 内容</a>
-	</div>
-</div>-->
+            
 <header class="ui wap">
 	<div class="ui responsive two column grid">
 		<div class="middle aligned row">
 			<div class="six wide column">
-				<a class="launch item active ui small icon" style="padding: 15px 10px 15px 0;cursor: pointer;"><i class="sidebar icon" style="font-size: 1.6em !important;height:auto !important;vertical-align: inherit !important;"></i></a>
+				<a class="launch item active ui small icon" style="padding: 15px 10px 15px 0;cursor: pointer;"><i class="sidebar icon" style="font-size: 1.6em !important;height:auto !important;vertical-align: bottom !important;"></i></a>
 			</div>
 			<div class="four wide column">
 				<h4 class="ui header">
 					<a href="{{ app_url_wap }}" class="ui link">
-						<img src="{{ app_url_packaged }}/images/logo-home.png" alt="logo" class="ui tiny image" style="margin:0 auto;width:65%;" />
+						<img src="{{ app_url_packaged }}/images/logo-home.png" alt="logo" class="ui tiny image" style="margin:0 auto;width:45px;" />
 					</a>
 				</h4>
 			</div>
-			<div class="six wide right aligned column" style="height:36px;">
+			<div class="six wide right aligned column" style="height:33px;float: right;width: 37% !important;">
 				<a class="ui small icon" href="{{ app_url_wap }}/shop/cart">
-					<i class="cart icon" style="font-size: 1.6em !important;height:auto !important;vertical-align: inherit !important;margin-right:8px;"></i>
+					<i class="cart icon" style="font-size: 1.6em !important;height:auto !important;vertical-align: bottom !important;margin-right:8px;"></i>
 				</a>
 				{% if visitor %}
 				
@@ -37,44 +33,12 @@
 				</div>
 				{% else %}
 				<a href="{{ app_url_wap }}/auth/login" class="ui small icon">
-					<i class="user icon" style="font-size: 1.6em !important;height:auto !important;vertical-align: inherit !important;"></i>
+					<i class="user icon" style="font-size: 1.6em !important;height:auto !important;vertical-align: bottom !important;"></i>
 				</a>
 				{% endif %}
 				
 			</div>
-			
-			<!--<div class="column">
-				<h4 class="ui header">
-					<a class="launch item active"><i class="icon list layout"></i></a>
-					<a href="{{ app_url_wap }}" class="ui link">
-						<img src="{{ app_url_packaged }}/images/logo-home.png" class="ui tiny image" />
-					</a>
-				</h4>
-			</div>
-			<div class="right aligned column">-->
-        <!--
-				<a href="{{ app_url_wap }}/shop/cart" class="ui small icon gray basket button">
-					{% if items_count > 0 %}
-					<label class="floating ui magenta circular label">{{ items_count }}</label>
-					{% else %}
-					<label class="floating ui magenta circular label hide"></label>
-					{% endif %}
-					<i class="cart icon"></i>
-				</a>
-        -->
-				<!--<a class="ui small icon gray button" href="{{ app_url_wap }}/search">
-					<i class="search icon"></i>
-				</a>
-				{% if visitor %}
-				<a class="ui small icon avatar button" href="{{ app_url_wap }}/my" title="{{ visitor.nickname }}">
-			  		<img src="{{ visitor.mini_avatar_url }}" class="ui image" alt="{{ visitor.screen_name }}" />
-				</a>
-				{% else %}
-				<a href="{{ app_url_wap }}/auth/login" class="ui small icon gray button">
-					<i class="user icon"></i>
-				</a>
-				{% endif %}
-			</div>-->
+      
 		</div>
 	</div>
 </header>

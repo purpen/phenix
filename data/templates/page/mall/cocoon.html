@@ -1,0 +1,274 @@
+{%extends 'layout/column.html'%}
+{% block title %}cocoon -{% endblock %}
+{% block page_css %}
+<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
+<style type="text/css">
+	.section{
+		position:relative;
+		-webkit-font-smoothing: antialiased;
+		margin-top:-4px;
+	}
+	.section img{
+		text-align:center;
+	}
+	.contide{
+		width:800px;
+		margin:0 auto;
+		padding-top:90px;
+		text-align: center;
+	}
+	.ui.white .row{
+		padding:5px 8%;
+	}
+	.ui.white h3{
+		font-weight: normal;
+	  margin: 0;
+	  line-height: 41px;
+	}
+	.ui.white{
+		position:fixed;
+		top:0;
+		left:0;
+		width:100%;
+		z-index:999;
+		opacity:0;
+		padding-top:3px !important;
+		background:rgba(255,255,255,0.8) !important;
+		-webkit-transition: all .3s ease-out 0s;
+		transition: all .3s ease-out 0s;
+	}
+	.ui.white .eight+.eight{
+		text-align:right;
+		line-height: 41px;
+	}
+	.ui.white .eight+.eight a.ui.item{
+		margin:0 10px;
+	}
+	.contide{
+		width:800px;
+		margin:0 auto;
+		padding-top:90px;
+		text-align: center;
+	}
+	
+	.section1{
+	  background:url({{ app_url_packaged }}/images/mall/con1.jpg) no-repeat center center /cover;
+	  height:850px;
+	}
+	.section2{
+	  background:#fff;
+	  height:90px;
+	}
+	.section2 img{
+	  width:25%;
+	}
+	.section2 p.ui.header{
+	  font-size: 16px;
+    line-height: 70px;
+    text-align: right;
+	}
+	.section3{
+	  background:url({{ app_url_packaged }}/images/mall/con3.jpg) no-repeat center center /cover;
+	  height:750px;
+	}
+	.tlogo{
+	  width:430px;
+	  height:240px;
+	  background:url({{ app_url_packaged }}/images/mall/con4.jpg);
+	  position:absolute;
+	  left:70%;
+	  margin-left:-215px;
+	  top:50%;
+	  margin-top:-120px;
+	  opacity:0;
+	}
+	p.word{
+	  width:30%;
+	  position:absolute;
+	  bottom:60px;
+	  left:10%;
+	  font-size:16px;
+	  color: #7d7d7d;
+	  opacity:0;
+	}
+	.section4{
+	  background:url({{ app_url_packaged }}/images/mall/con5.jpg) no-repeat center center /cover;
+	  height:750px;
+	}
+	.cire{
+	  width:240px;
+	  height:240px;
+	  background:url({{ app_url_packaged }}/images/mall/con6.png);
+	  position:absolute;
+	  top:20%;
+	  left:20%;
+	  background-repeat:no-repeat !important;
+	  background-size:70% !important;
+	  opacity:0;
+	}
+	.section5{
+	  background:url({{ app_url_packaged }}/images/mall/con7.jpg) no-repeat center center /cover;
+	  height:800px;
+	}
+	.section6{
+	  background:url({{ app_url_packaged }}/images/mall/con8.jpg) no-repeat center center /cover;
+	  height:750px;
+	}
+	.section6 .cire{
+	  background:url({{ app_url_packaged }}/images/mall/con9.png);
+	  left:83%;
+	  top:30%;
+	}
+	.section7{
+	  background:url({{ app_url_packaged }}/images/mall/con10.jpg) no-repeat center center /cover;
+	  height:1300px;
+	}
+	.section8{
+	  background:url({{ app_url_packaged }}/images/mall/con11.jpg) no-repeat center center /cover;
+	  height:750px;
+	}
+	.section8 .cire{
+	  background:url({{ app_url_packaged }}/images/mall/con12.png);
+	  left:80%;
+	  top:30%;
+	}
+	.section9{
+	  background:url({{ app_url_packaged }}/images/mall/con13.jpg) no-repeat center center /cover;
+	  height:750px;
+	}
+	.cicle{
+	  background:url({{ app_url_packaged }}/images/mall/con14.png);
+	  width:350px;
+	  height:350px;
+	  background-repeat:no-repeat;
+	  background-size:70%;
+	  position:absolute;
+	  left:65%;
+	  top:28%;
+	  opacity:0;
+	}
+	.word1{
+	  width:40%;
+	  left:60%;
+	  position:absolute;
+	  font-size:16px;
+	  top: 28%;
+    margin-top: 270px;
+    opacity:0;
+	}
+	.animated{
+	  opacity:1;
+	}
+</style>
+{% endblock %}
+{% block jquery %}
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
+	$(window).scroll(function(){
+	    var scrollTop = $(window).scrollTop();
+	    if(scrollTop > 490){
+	      $('.tlogo').removeClass('zoomIn animated');
+	      $('p.word').removeClass('fadeInUpBig animated');
+	      $('.section4 .cire').removeClass('flipInY animated');
+	      $('.section6 .cire').removeClass('flipInY animated');
+	      $('.section8 .cire').removeClass('flipInY animated');
+	      $('.cicle').removeClass('flipInY animated');
+	      $('.word1').removeClass('fadeInUpBig animated');
+	    }
+			if(scrollTop > 700){
+			  $('.tlogo').addClass('zoomIn animated');
+			}
+			if(scrollTop > 1020){
+			  $('p.word').addClass('fadeInUpBig animated');
+			}
+			if(scrollTop > 1410){
+			  $('.section4 .cire').addClass('flipInY animated');
+			}
+			if(scrollTop > 3010){
+			  $('.section6 .cire').addClass('flipInY animated');
+			}
+			if(scrollTop > 5180){
+			  $('.section8 .cire').addClass('flipInY animated');
+			}
+			if(scrollTop > 5850){
+			  $('.cicle').addClass('flipInY animated');
+			}
+			if(scrollTop > 5900){
+			  $('.word1').addClass('fadeInUpBig animated');
+			}
+	})
+	
+	
+	
+{% endblock %}
+{% block content %}
+<div class="ui white responsive grid" data-0="opacity:0;display:none;" data-130="opacity:1;display:block;" style="width: 100% !important;">
+	<div class="row">
+		<div class="eight wide column">
+			<h3>cocoon </h3>
+		</div>
+		<div class="eight wide column">
+			<a href="javascript:void(0)" class="ui link item active">概述</a>|
+			<a href="{{ app_url_domain }}/mall/tcocoon" class="ui link item">图集</a>|
+			<a href=" http://www.taihuoniao.com/topic/view-106007-1.html" title="一个海归奶爸的智能喂养“新花招”" class="ui item link" target="_blank">讨论区</a>
+			<a href="#.buy" class="ui inverted active black button" style="padding: 0.5em 1em;margin-bottom: 2px;font-weight: 400;vertical-align: middle;" title="Fitbit Surge">立即购买</a>
+		</div>
+	</div>
+</div>
+
+<div class="cocoon">
+  <div class="section section1">
+  </div>
+  <div class="section section2">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui eight wide column">
+          <img src="{{ app_url_packaged }}/images/mall/con2.jpg">
+        </div>
+        <div class="ui eight wide column">
+          <p class="ui header">产品功能 &nbsp;&nbsp; 奶瓶  &nbsp;&nbsp; 胶囊   &nbsp;&nbsp;  参数规格  &nbsp;&nbsp;  众筹预订</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section section3">
+    <div class="tlogo"></div>
+    <p class="word">模拟水浴加热，采用包围式低温供热，既能有效 加热母乳，又能保护奶液中的营养成分。</p>
+  </div>
+  <div class="section section4"><div class="cire"></div></div>
+  <div class="section section5"></div>
+  <div class="section section6"><div class="cire"></div></div>
+  <div class="section section7"></div>
+  <div class="section section8"><div class="cire"></div></div>
+  <div class="section section9">
+    <div class="cicle"></div>
+    <p class="word1">整合底部发热、包围发热与高性能保温，将快速热
+    水、温和热奶与主动保温融为一体。独特的温控算
+    法，有效保证母乳与配方奶精确温度备奶。</div>
+    
+  </div>
+  <img src="{{ app_url_packaged }}/images/mall/con15.jpg" width="100%">
+  <img src="{{ app_url_packaged }}/images/mall/con16.jpg" width="100%" style="margin-top:-5px;">
+  
+  <div class="ui responsive grid" style="padding: 40px 0 80px;">
+		<div class="row">
+			<div class="center aligned buy column">
+				<a href="http://www.taihuoniao.com/sale/1112772991.html" target="_blank" class="ui inverted active magenta button" title="cocoon 吻吻鱼">立即购买</a>
+			</div>
+		</div>
+	</div>
+	
+	
+</div>
+
+
+
+
+
+
+
+
+{% endblock %}
