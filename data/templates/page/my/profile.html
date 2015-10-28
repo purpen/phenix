@@ -58,35 +58,38 @@
             phenix.show_error_note(message,5000);
         }
     }).on('complete', function (event, id, name, result) {
-		$('.qq-upload-list').children().eq(id).fadeOut();
 		
-		if (result.success) {
-			wps_width  = result.data.asset.width;
-			wps_height = result.data.asset.height;
-			
-            if(Math.floor(wps_height*480/wps_width) < 300){
-                var imghtml =  '<img id="avatar-photo" src="'+result.data.asset.file_url+'" style="height: 300px;">';
-            }else{
-    			if (wps_width > 480){
-    				var imghtml =  '<img id="avatar-photo" src="'+result.data.asset.file_url+'" style="width: 480px;">';
-    			} else {
-    				var imghtml = '<img id="avatar-photo" src="'+result.data.asset.file_url+'" >';
-    			}
+      if (result.success) {
+        wps_width  = result.data.asset.width;
+        wps_height = result.data.asset.height;
+        
+              if(Math.floor(wps_height*480/wps_width) < 300){
+                  var imghtml =  '<img id="avatar-photo" src="'+result.data.asset.file_url+'" style="height: 300px;">';
+              }else{
+            if (wps_width > 480){
+              var imghtml =  '<img id="avatar-photo" src="'+result.data.asset.file_url+'" style="width: 480px;">';
+            } else {
+              var imghtml = '<img id="avatar-photo" src="'+result.data.asset.file_url+'" >';
             }
-			
-			// 更新附件Id
-			$('#avatar_id').val(result.data.asset.id);
-			
-			$('#avatar-preview')
-				.removeClass('hide')
-				.find('#select-area')
-				.html(imghtml);
-				
-			// 显示裁切头像
-			$('.ui.crop.button').removeClass('hide');
-			
-			phenix.hook_imgarea_select();
-		}
+              }
+        
+        // 更新附件Id
+        $('#avatar_id').val(result.data.asset.id);
+        
+        $('#avatar-preview')
+          .removeClass('hide')
+          .find('#select-area')
+          .html(imghtml);
+          
+        // 显示裁切头像
+        $('.ui.crop.button').removeClass('hide');
+        
+        phenix.hook_imgarea_select();
+
+		    $('.qq-upload-list').children().eq(id).text(result.message).fadeOut(1000);
+      }else{
+		    $('.qq-upload-list').children().eq(id).text(result.message).fadeOut(3000);
+      }
 	});
 	
 	$('.ui.crop.button').bind('click', function(){
