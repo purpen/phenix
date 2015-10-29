@@ -45,6 +45,15 @@ class Sher_Core_ViewTag_RemindList extends Doggy_Dt_Tag {
 		$options['sort_field'] = $sort_field;
         $result = $service->get_remind_list($query,$options);
 		
+		/*
+			$n = 0;
+			unset($result['rows'][$n]['user']);
+			unset($result['rows'][$n]['s_user']);
+			unset($result['rows'][$n]['target']);
+			unset($result['rows'][$n]['comment_target']);
+			var_dump($result['rows'][$n]);die;
+		*/
+		
         //设置已读
         if(!empty($set_readed)){
           $remind = new Sher_Core_Model_Remind();

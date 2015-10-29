@@ -37,7 +37,8 @@ $head = array('ID', '标题', '用户', '链接', '创建时间');
 fputcsv($fp, $head);
 
 while(!$is_end){
-	$query = array();
+  $query = array();
+  $query['deleted'] = 0;
 	$options = array('page'=>$page,'size'=>$size);
 	$list = $topic_model->find($query, $options);
 	if(empty($list)){

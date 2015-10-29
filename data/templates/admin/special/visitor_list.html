@@ -14,11 +14,13 @@
 			全部
 		</a>
 
+    <!--
 	  	<div class="right menu">
         <a href="{{ app_url_admin_base }}/special/export?target_id={{target_id}}" class="item">
           导出Excel
         </a>
 	    </div>
+      -->
 	</div>
 	
 	<table class="ui small table segment">
@@ -39,7 +41,7 @@
 		</thead>
 		<tbody>
 
-			{% subject_record_list var:'list' target_id:target_id type:1 event:event page:page size:50 %}
+			{% attend_list var:'list' target_id:target_id type:1 event:event page:page size:50 %}
 
 			{% for f in list.rows %}
         
@@ -61,42 +63,59 @@
               {%endif%}
             </td>
             <td>
-                <p class="attribute">Number：{{ f.number }}</p>
-                {% if target_id==3 %}
-                <p class="attribute">领域: {{ f.option01 }}, 兴趣: {{ f.option02 }}</p>
+                {% if event==1 %}
+                <p class="attribute">活动报名</p>
+                {%endif%}
+                {% if event==2 %}
+                <p class="attribute">试用拉票</p>
+                {%endif%}
+                {% if event==3 %}
+                <p class="attribute">试用预热想要</p>
+                {%endif%}
+                {% if event==4 %}
+                <p class="attribute">--</p>
+                {%endif%}
+                {% if event==5 %}
+                <p class="attribute">
+                  专题-&gt;
+                  {% if target_id==1 %}
+                  <span class="attribute">云马Ｃ1支持</span>
+                  {%endif%}
+                  {% if target_id==2 %}
+                  <span class="attribute">试用抽奖</span>
+                  {%endif%}
+                </p>
                 {%endif%}
             </td>
             <td>
-              {% if target_id==5 %}
-                <p class="attribute">姓名：{{ f.info.realname }}</p>
-                <p class="attribute">手机：{{ f.info.phone }}</p>
-                <p class="attribute">公司：{{ f.info.company }}</p>
-                <p class="attribute">职位：{{ f.info.job }}</p>
+              {% if f.event == 5 %}
+                {% if target_id==2 %}
+                  <p class="attribute">默认：{{ f.info.bird_money_1|default '--' }}</p>
+                  <p class="attribute">分享：{{ f.info.bird_money_2|default '--' }}</p>
+                {%endif%}
               {%endif%}
 
             </td>
 
             <td id="stat-{{ f._id }}">
               {% if f.state == 1 %}
-              <label class="ui green label">通过</label>
-              {% endif %}
-              
-              {% if f.state == 2 %}
-              <label class="ui orange label">未通过</label>
+              <label class="ui green label">未抽</label>
               {% endif %}
               
               {% if f.state == 0 %}
-              <label class="ui gray label">审核中</label>
+              <label class="ui gray label">已抽</label>
               {% endif %}
             </td>
             <td>
+              <!--
 			          <a href="{{ app_url_admin }}/special/ajax_state?id={{ f._id }}&state=1" class="ui ajax link item">
 							通过
 						</a> | 
-			          <a href="{{ app_url_admin }}/special/ajax_state?id={{ f._id }}&state=2" class="ui ajax link item">
+			          <a href="{{ app_url_admin }}/special/ajax_state?id={{ f._id }}&state=0" class="ui ajax link item">
 							拒绝
 						</a> | 
-						<a href="{{ app_url_admin }}/special/del_attend?id={{ f._id }}" class="ui confirm-request link">删除</a>
+            -->
+						<a href="{{ app_url_admin }}/special/del_visitor?id={{ f._id }}" class="ui confirm-request link">删除</a>
             </td>
           </tr>
 			{% endfor %}

@@ -21,16 +21,16 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
 		'kind' => 1,
 		// 记录最后一次签到日期,格式:20150505
 		'last_date' => 0,
-    // 当天第N位签到
-    'last_date_no' => 0,
-    // 当天签到时间
-    'last_sign_time' => 0,
+		// 当天第N位签到
+		'last_date_no' => 0,
+		// 当天签到时间
+		'last_sign_time' => 0,
 		// 记录连续签到天数
 		'sign_times' => 0,
 		// 最高连续登录天数
 		'max_sign_times' => 0,
-    // 记录签到总天数
-    'total_sign_times' => 0,
+		// 记录签到总天数
+		'total_sign_times' => 0,
 		// 获取经验总值
 		'exp_count' => 0,
 		// 获取鸟币数量
@@ -122,7 +122,7 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
 				'max_sign_times' => $max_sign_times,
 				'exp_count' => $exp_count,
 				'money_count' => $money_count,
-        'total_sign_times' => isset($user_sign['total_sign_times']) ? ($user_sign['total_sign_times']+1) : 1,
+				'total_sign_times' => isset($user_sign['total_sign_times']) ? ($user_sign['total_sign_times']+1) : 1,
 			);
 			$ok = $this->apply_and_update($data);
 		}
@@ -151,7 +151,7 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
       $dig_model->update_set($dig_key, array("items.$current_day"=>$sign_no), true);
 	  
       $this->update_set((int)$user_id, array('last_date_no'=>$sign_no, 'last_sign_time'=>time()));
-			$user_sign = $this->find_by_id((int)$user_id);
+		$user_sign = $this->find_by_id((int)$user_id);
 
       // 每日签到统计
       $user_sign_stat_model = new Sher_Core_Model_UserSignStat();

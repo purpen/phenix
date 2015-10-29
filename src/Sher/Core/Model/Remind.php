@@ -42,6 +42,10 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
     const EVT_VOTE_OPPOSE = 14;
     # 回复评论
     const EVT_REPLY_COMMENT = 15;
+	  # 赠送鸟币
+	  const EVT_BIRD_MONRY = 16;
+    # 扣除鸟币
+    const EVT_RE_BIRD_MONRY = 17;
 
     // 类型
     const KIND_TOPIC = 1; //话题
@@ -53,6 +57,7 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
     const KIND_STUFF = 7; //产品灵感
     const KIND_ALBUM = 8; //产品灵感
     const KIND_SUBJECT = 10; //专题
+	  const KIND_BIRD_ADMIN = 11; // 系统操作
 
     protected $schema = array(
         //收到提醒的人
@@ -163,13 +168,6 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
                 break;
         }
       
-        // 提醒信息输出
-        if(!$obj){
-            return;
-        }
-        if(!$kind_str){
-            return;
-        }
         if(!$row['s_user']){
             return;
         }
@@ -193,15 +191,30 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
             case self::EVT_REPLY_COMMENT:
                 $info = "回复了你的";
                 break;
-			      case self::EVT_AT:
+			case self::EVT_AT:
                 $info = "@了你的";
                 break;
+			case self::EVT_BIRD_MONRY:
+                $info = "给您赠送了鸟币";
+                break;
+			case self::EVT_RE_BIRD_MONRY:
+                $info = "扣除了您的鸟币";
+                break;
+        }
+		
+		$row['info'] = $info;
+
+		// 提醒信息输出
+        if(!$obj){
+            return;
+        }
+        if(!$kind_str){
+            return;
         }
         
         $row['target'] = $obj;
         $row['comment_target'] = $r_obj;
         $row['comment_type_str'] = $c_type_str;
-        $row['info'] = $info;
         $row['kind_str'] = $kind_str;
     }
 	
@@ -230,7 +243,9 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
      * 设置已读标识
      */
     public function set_readed($id){
+      if(!empty($id)){
         return $this->update_set((string)$id, array('readed' => 1));
+      }
     }
 	
 }

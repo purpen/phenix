@@ -17,6 +17,8 @@ class Sher_Core_ViewTag_TryList extends Doggy_Dt_Tag {
     public function render($context, $stream) {
         $page = 1;
         $size = 10;
+        $sort = 0;
+        $type = 0;
 		
 		$state = 0;
         $ignore_id = 0;
@@ -54,14 +56,30 @@ class Sher_Core_ViewTag_TryList extends Doggy_Dt_Tag {
         if($ignore_id){
           $query['_id'] = array('$ne'=>(int)$ignore_id);
         }
+
+        if($type){
+          switch((int)$type){
+            case 5: // 是评测
+              $query['try_id'] = array('$ne'=>0);
+          }
+        }
 		
         $service = Sher_Core_Service_Try::instance();
         $options['page'] = $page;
         $options['size'] = $size;
-		$options['sort_field'] = $sort_field;
+
+		// 排序
+		switch ((int)$sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'sticked:latest';
+				break;
+		}
 		
         $result = $service->get_try_list($query,$options);
-		        
+		
         $context->set($var, $result);
         if ($include_pager) {
             $context->set($pager_var,$result['pager']);

@@ -59,7 +59,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 社区首页
 	 */
 	public function index(){
-        $category_id = $this->stash['category_id'];
+        
+		$category_id = $this->stash['category_id'];
 		$type = $this->stash['type'];
         $time = $this->stash['time'];
         $sort = $this->stash['sort'];
@@ -295,6 +296,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 社区列表
 	 */
 	public function get_list(){
+		
 		// 获取置顶列表
 		$diglist = array();
 		$dig_ids = array();
@@ -314,6 +316,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         
 		// 获取列表
 		$category_id = $this->stash['category_id'];
+		
 		$type = $this->stash['type'];
 		$time = $this->stash['time'];
 		$sort = $this->stash['sort'];
@@ -372,9 +375,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		    $tpl = 'page/topic/index.html';
 		}
 
-    // 昨天的日期
-    $yesterday = (int)date('Ymd' , strtotime('-1 day'));
-    $this->stash['yesterday'] = $yesterday;
+		// 昨天的日期
+		$yesterday = (int)date('Ymd' , strtotime('-1 day'));
+		$this->stash['yesterday'] = $yesterday;
 
 		// 分页链接
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, $type, $time, $sort, '#p#');
@@ -1006,8 +1009,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		//$parent_category = $category->load((int)$topic['fid']);
 
 		$this->stash['is_top'] = $is_top;
-    $this->stash['current_category'] = $current_category;
-    $this->stash['parent_category'] = 0;
+		$this->stash['current_category'] = $current_category;
+		$this->stash['parent_category'] = 0;
 		//$this->stash['parent_category'] = $parent_category;
 		
 		$this->stash['cid'] = $topic['category_id'];
@@ -1047,6 +1050,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 保存主题信息
 	 */
 	public function save(){
+		
+		// 禁用用户无法操作
+		if(!$this->stash["visitor"]['state']){
+			return $this->ajax_json('您不能添加话题信息！', true);
+		}
 		
 		// 验证数据
 		if(empty($this->stash['title'])){
@@ -1156,13 +1164,19 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		
 		$redirect_url = Sher_Core_Helper_Url::topic_view_url($id);
-		return $this->ajax_json('保存成功.', false, $redirect_url);
+		return $this->ajax_json('保存成功,您已经获得10经验值！.', false, $redirect_url);
 	}
 	
 	/**
 	 * 保存产品话题信息
 	 */
 	public function ajax_save(){
+		
+		// 禁用用户无法操作
+		if(!$this->stash["visitor"]['state']){
+			return $this->ajax_json('您不能添加话题信息！', true);
+		}
+		
 		// 验证数据
 		$target_id = $this->stash['target_id'];
 		if(empty($this->stash['title']) || empty($this->stash['description'])){

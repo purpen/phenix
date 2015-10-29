@@ -26,7 +26,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	/**
 	 * 网站入口
 	 */
-	public function execute(){
+	public function execute(){		
 		return $this->home();
 	}
 	

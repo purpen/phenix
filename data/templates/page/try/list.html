@@ -3,6 +3,57 @@
 
 {% block page_css %}
 <style class="text/css">
+  #triespage .mainleftwrap .mainleft{
+    min-height:760px !important;
+    margin-bottom:0;
+  }
+  #triespage .mainleft .sellwrap {
+      background: #fff;
+      margin: 0 0 20px;
+      border: 1px solid rgba(224,224,224,.46);
+      border-radius: 4px;
+      text-align: left;
+      padding: 0 20px 20px;
+  }
+  .mainwrap .mainleft .sellwrap .block.title{
+      margin-left: -20px;
+      margin-right: -20px;
+      padding-left: 20px;
+      font-size: 18px;
+  }
+  #triespage #homepage{
+      margin-top: 5px;
+      font-size: 0;
+  }
+  #triespage #homepage .topicbox{
+      width:48.5% !important;
+      height:140px;
+      margin: 0px 5px;
+      padding-right: 0;
+      padding-top:25px;
+  }
+  #triespage #homepage .topicbox:last-child{
+      border-bottom: 1px solid rgba(224,224,224,.46);
+  }
+  #triespage #homepage .topicbox .author .nickname{
+      float:left;
+  }
+  #triespage #homepage + .ui.right.column{
+    margin-bottom: 7px;
+  }
+  .tryfirm img{
+    margin: 5px 5px 5px 0;
+    border: 1px solid #f0f0f0;
+    width: 137px;
+  }
+  .ui.products.cards>.card>.speblock>.adbox .catbox .content {
+      margin: 7pc 100px 0;
+  }
+  .ui.products.cards>.card>.speblock>.adbox .catbox .restime {
+      font-size: 15px;
+      margin: 10px 0px;
+      line-height:25px;
+  }
 </style>
 {% endblock %}
 
@@ -21,8 +72,7 @@
 
 {% block content %}
 <div class="mainwrap social" id="triespage">
-    <div class="mainleftwrap">
-        <div class="mainleft">
+    <div class="social topstick">
 			<div class="ui three products cards">
                 {% try_list var:'try_latest' page:1 state:1 sticked:1 sort_field:'sticked:latest_over' step_stat:1 size:1 %}
         
@@ -50,14 +100,18 @@
                             <div class="adbox">
                                 <div class="catbox" style="background-image: url('{{ try.banner.fileurl }}');">
                                     <div class="content">
-                                        <div class="restime">
-                                            {% if !try.is_end %}
-                                            <div class="ui horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>
-                                            {% endif %}
-                                        </div>
+                                        
                                         
                                         <h2>{{ try.short_title }}</h2>
                                         <p>{{ try.description }} <span class="big">{{ try.try_count }}</span>个</p>
+                                        <div class="restime">
+                                            {% if !try.is_end %}
+                                            剩余时间 ：
+                                            <div class="ui horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>
+                                            {% endif %}
+                                            
+                                           <br/> 产品数量 ：<b class="big">{{ try.try_count }}</b>个,&nbsp;<b class="big">{{ try.apply_count }}</b> 人已预约
+                                        </div>
                                         
                                         <a class="ui big inverted red active button" href="{{ try.view_url }}" target="_blank">
                                             <i class="ticket icon"></i> 申请试用
@@ -99,7 +153,7 @@
                 </div>
                 {%endif%}
                 
-				{% try_list var:'list' page:page state:1 size:18 %}
+				{% try_list var:'list' ignore_id:try_latest.rows.0._id page:1 state:1 sort:1 size:9 %}
 				{% for t in list.rows %}
 					<div class="card">
                         <div class="problock">
@@ -175,60 +229,78 @@
 				{% endfor %}
 			</div>
 
-        	{% if list.total_rows %}
         	<div class="ui pagination">
-        		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-        		{%include 'block/pager.html'%}
+        		<a href="{{ app_url_try}}/trylist " class="ui magenta inverted large more button">
+               <i class="search icon"></i> 查看更多
+            </a>
         	</div>
-        	{% endif %}
-            
-        </div>
     </div>
-    <div class="mainright">
-        {% include "page/topic/usersign.html" %}
-        {% include "page/topic/rightbar.html" %}
-        
+    
+    
+    <div class="mainleftwrap">
+      <div class="mainleft">
         <div class="sellwrap">
-        	<div class="block title">
+          <div class="block title">
         		评测报告
-            </div>
-            <div class="ui articles list">
-                {% topic_list var:'tlist' published:1 category_id:report_category_id type:1 page:1 size:8 %}
-                {% for topic in tlist.rows %}
-                  {% if !loop.counter>3 %}
-                    <div class="item topicbox">
-                        <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover" target="_blank">
-                          <img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" alt="{{ topic.title }}">
-                        </a>
-                        <h2>
-                          <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
-                            {{ topic.title }}
-                          </a>
-                        </h2>
-                        
-                        <p class="author">
-                           <i class="unhide icon"></i> <span>{{ topic.view_count }}</span>
-                            <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
-                        </p>
-                    </div>
-                  {% else %}
-                    <div class="item topicbox">
-                      <h2>
-                        <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui link" target="_blank">
-                            {{ topic.title }}
-                        </a>
-                      </h2>
-                      <div class="author">
-                        <div class="nickname">{{ topic.user.nickname }}</div>
-                         <i class="unhide icon"></i> <span>{{ topic.view_count }}</span>
-                          <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
-                      </div>
-                    </div>
-                {%endif%}
-              {% endfor %}
-                
-            </div>
-        </div>
+          </div>
+          {% topic_list var:'topic_list' published:1 type:5 sort:1 page:1 size:8 %}
+          <div id="homepage">
+            {% for topic in topic_list.rows %}
+              {% if !loop.counter>4 %}
+                <div class="topicbox">
+                  <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
+                    <img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" alt="{{ topic.title }}">
+                  </a>
+                  <h2>
+                    <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
+                       {{ topic.title }}
+                    </a>
+                  </h2>
+                  <p class="description">
+                    {{ topic.strip_description|truncate 140 }}
+                  </p>
+
+                  <p class="author">
+                    <i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
+                  </p>
+                </div>
+            {%else%}
+            
+              <div class="topicbox">
+                <h2>
+                  <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
+                     {{ topic.title }}
+                  </a>
+                </h2>
+                <p class="description">
+                  {{ topic.strip_description|truncate 140 }}
+                </p>
+
+                <p class="author">
+                  <a class="nickname ui link" href="{{ topic.user.home_url }}" target="_blank">{{ topic.user.nickname }}</a>
+                  <i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
+                </p>
+              </div>
+              {%endif%}
+            {%endfor%}
+          
+          </div>
+          
+          <div class="ui right aligned column">
+          	<a href="{{ app_url_topic }}/c18/" class="ui magenta inverted large more button">
+              查看更多
+            </a>
+        	</div>
+        </div> 
+      </div>
+    </div>
+    
+    
+    
+    
+    
+   <div class="mainright">
+        
         
         <div class="sellwrap tryapply">
         	<div class="block title">
@@ -258,31 +330,31 @@
     			<div class="circle">
     				提交报告
     			</div>
-            </div>
         </div>
+      </div>
+        
+    </div>
+</div>
 
-        {% ad_list var:'adslide' page:1 size:15 state:2 name:'try_list_cooperate_logo' %}
+
+<div class="ui responsive grid" style="padding: 0 8px 30px;">
+  <div class="row">
+    <div class="center aligned column">
+      <h3 class="ui header">合作厂商</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="column">
+      {% ad_list var:'adslide' page:1 size:15 state:2 name:'try_list_cooperate_logo' %}
         {% if adslide.rows %}
-        <div class="sellwrap">
-        	<div class="block title">
-        		合作厂商
-            </div>
 			<div class="tryfirm">
                 {% for ad in adslide.rows %}
                 <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank"><img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}"></a>
 				{% endfor %}
 			</div>
-        </div>
         {%endif%}
-        {% if egou_uid %}
-        <a href="{{ app_url_domain }}/app/site/index/egou">
-            <img src="{{ app_url_packaged }}/images/egend.png" width="170px">
-        </a>
-		{% endif %}
     </div>
+  </div>
 </div>
 {% endblock %}
 
-{% block templates %}
-{% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
-{% endblock %}

@@ -22,12 +22,15 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
 	
   protected $schema = array(
     'user_id' => null,
-    # 如果是专题：1. 云马C1PK; 2. default
+    # 如果是专题：1. 云马C1PK; 2. 试用抽奖 
     'target_id' => null,
+    # 活动报名人数，抽奖次数 
     'ticket' => 1,
     'event'  => self::EVENT_ACTIVE,
-    # 子ID, 用于专题PK论战 1.正方;2.反方
+    # 子ID, 用于专题PK论战 1.正方;2.反方；所属试用ＩＤ
     'cid' => 0,
+    'state' => 1,
+    'info' => array(),
   );
 
   protected $joins = array(
