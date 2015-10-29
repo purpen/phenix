@@ -43,7 +43,9 @@
 			<tr>
 				<th></th>
 				<th>名称</th>
+        <th>创建人</th>
 				<th>城市</th>
+				<th>是否推荐</th>
 				<th>状 态</th>
 				<th>管理操作</th>
 			</tr>
@@ -61,10 +63,30 @@
 				</td>
 
 				<td>
-          <a class="ui name line" href="{{ b.home_url }}" target="_blank">{{ b.name }}</a>
+          <p>
+            公司名称: <a class="ui name line" href="{{ b.home_url }}" target="_blank">{{ b.name }}</a>
+          </p>
+          <p>
+            联系人: {{ b.people }}
+          </p>
+          <p>
+            电  话: {{ b.mobile }}
+          </p>
 				</td>
+        <td>
+          <a href="{{ b.user.home_url }}" title="{{ b.user.nickname }}" target="_blank">{{ b.user.nickname }}</a>
+        </td>
 				<td>
           {{ b.city }}
+				</td>
+				<td>
+					<p>
+						{% if b.stick %}
+              <span class="ui small green label" id="stick-{{ b._id }}-label">是</span>
+						{% else %}
+							<span class="ui small orange label" id="stick-{{ b._id }}-label">否</span>
+						{% endif %}
+					</p>
 				</td>
         <td>
 					<p class="state-box">
@@ -83,7 +105,20 @@
 					</p>
         </td>
         <td>
+          <span class="stick-button">
+						{% if !b.stick %}
+			          	<a href="{{ app_url_admin }}/cooperation/ajax_stick?id={{ b._id }}&evt=1" class="ui ajax link item" id="stick-{{ b._id }}-button">
+							推荐
+						</a>
+						{% else %}
+			          	<a href="{{ app_url_admin }}/cooperation/ajax_stick?id={{ b._id }}&evt=0" class="ui ajax link item" id="stick-{{ b._id }}-button">
+							取消推荐
+						</a>
+						{% endif %}
+          </span>
+            |
           <span class="state-button">
+
           {% if b.state==0 %}
             <a href="{{ app_url_admin_base }}/cooperation/ajax_set_state?id={{ b._id }}&state=2" class="ui link ajax item">通过</a>
             | 
