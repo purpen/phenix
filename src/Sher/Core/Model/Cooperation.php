@@ -119,6 +119,7 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
     protected function extra_extend_model_row(&$row) {
         $id = $row['id'] = $row['_id'];
         $row['home_url'] = Sher_Core_Helper_Url::cooperate_home_url($id);
+        $row['wap_home_url'] = Sher_Core_Helper_Url::wap_cooperate_home_url($id);
         $row['keywords_s'] = !empty($row['keywords']) ? implode(',', $row['keywords']) : '';
 		if(isset($row['summary'])){
 			// 转码
