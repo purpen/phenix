@@ -27,6 +27,72 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	 * @return void
 	 */
 	public function login_signup(){
+		
+		$return_url = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:Doggy_Config::$vars['app.url.wap'];
+		// 过滤上一步来源为退出链接
+		if(!strpos($return_url,'logout')){
+			$this->stash['return_url'] = $return_url;
+		}
+		
+		// 当前有登录用户
+		if ($this->visitor->id){
+			//指定入口送抽奖码
+			if($this->stash['evt']=='match2_praise'){
+				$this->send_match_praise((int)$this->visitor->id, (string)$this->visitor->account);
+				//大赛2
+				$redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/dream2'; 
+				return $this->to_redirect($redirect_url);
+			}
+			$redirect_url = !empty($this->stash['return_url']) ? $this->stash['return_url'] : Sher_Core_Helper_Url::user_home_url($this->visitor->id);
+			Doggy_Log_Helper::warn("Logined and redirect url: $redirect_url");
+			return $this->to_redirect($redirect_url);
+		}
+		
+		// 如果是用户邀请，存cookie 用于第三方注册获取
+		if(isset($this->stash['user_invite_code']) && !empty($this->stash['user_invite_code'])){
+			// 将邀请码保存至cookie
+			@setcookie('user_invite_code', $this->stash['user_invite_code'], 0, '/');
+			$_COOKIE['user_invite_code'] = $this->stash['user_invite_code'];  
+		}
+		
+		// 设置cookie
+        if (!empty($this->stash['return_url'])) {
+			@setcookie('auth_return_url', $this->stash['return_url'], 0, '/');
+        }
+		
+       	$this->gen_login_token();
+		
+		// 获取微博登录的Url
+		$akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
+		$skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
+		$callback = Doggy_Config::$vars['app.sinaweibo.wap_callback_url'];
+		
+		$oa = new Sher_Core_Helper_SaeTOAuthV2($akey, $skey);
+		$weibo_auth_url = $oa->getAuthorizeURL($callback);
+		
+		$this->stash['weibo_auth_url'] = $weibo_auth_url;
+
+		// 获取session id
+		$service = Sher_Core_Session_Service::instance();
+		$sid = $service->session->id;
+	
+		// 微信登录参数
+		$wx_params = array(
+		  'app_id' => Doggy_Config::$vars['app.wx.app_id'],
+		  'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/wap/weixin/call_back'),
+		  'state' => md5($sid),
+		);
+	
+		// 判断是否为微信浏览器
+		if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
+		  $is_weixin = true;
+		}else{
+		  $is_weixin = false;
+		}
+	
+		$this->stash['is_weixin'] = $is_weixin;
+		$this->stash['wx_params'] = $wx_params;
+		
 		return $this->to_html_page('wap/auth/login_signup.html');
 	}
 	
@@ -208,11 +274,12 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	public function do_login(){
         $service = DoggyX_Session_Service::instance();
         $s_t = $service->session->login_token;
-        // 有bug ，先注掉，不验证
+/*
+        // 有bug ，先注释，不验证
         if (empty($s_t) || $s_t != $this->stash['t']) {
-            //return $this->ajax_json('页面已经超时,您需要重新刷新后登录', true, Doggy_Config::$vars['app.url.login']);
+            return $this->ajax_json('页面已经超时,您需要重新刷新后登录', true, Doggy_Config::$vars['app.url.login']);
         }
-		
+*/		
         if (empty($this->stash['account']) || empty($this->stash['password']) ||empty($this->stash['t'])) {
             return $this->ajax_json('数据错误,请重新登录', true, Doggy_Config::$vars['app.url.login']);
         }
@@ -270,14 +337,16 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	 * 创建帐号,完成提交注册信息
 	 */
 	public function do_register(){
+		
 		session_start();
         $service = DoggyX_Session_Service::instance();
         $s_t = $service->session->login_token;
+/*
         // 去掉验证，有bug
         if (empty($s_t) || $s_t != $this->stash['t']) {
             //return $this->ajax_json('页面已经超时,重新刷新后登录', true);
         }
-		
+*/		
 	    if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
             return $this->ajax_note('数据错误,请重试', true);
         }
@@ -291,13 +360,13 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		if(strlen($this->stash['password'])<6 || strlen($this->stash['password'])>30){
 		  return $this->ajax_json('密码长度介于6-30字符内！', true);    
 		}
-		
+/*		
 		// 验证密码是否一致
 		$password_confirm = $this->stash['password_confirm'];
 		if(empty($password_confirm) || $this->stash['password_confirm'] != $this->stash['password']){
 			return $this->ajax_json('两次输入密码不一致！', true);
 		}
-		
+*/		
 		// 验证验证码是否有效
 		$verify = new Sher_Core_Model_Verify();
 		$code = $verify->first(array('phone'=>$this->stash['account'],'code'=>$this->stash['verify_code']));
@@ -322,21 +391,19 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			//第三方绑定
 			if(isset($this->stash['third_source'])){
 				if(empty($this->stash['uid']) || empty($this->stash['access_token'])){
-				  return $this->ajax_json('绑定信息有误,请重试!', true);
+					return $this->ajax_json('绑定信息有误,请重试!', true);
 				}
 		
 				if($this->stash['third_source']=='weibo'){
-				  $user_info['sina_uid'] = (int)$this->stash['uid'];
-				  $user_info['sina_access_token'] = $this->stash['access_token'];      
+					$user_info['sina_uid'] = (int)$this->stash['uid'];
+					$user_info['sina_access_token'] = $this->stash['access_token'];      
 				}elseif($this->stash['third_source']=='qq'){
-				  $user_info['qq_uid'] = $this->stash['uid'];
-				  $user_info['qq_access_token'] = $this->stash['access_token']; 
+					$user_info['qq_uid'] = $this->stash['uid'];
+					$user_info['qq_access_token'] = $this->stash['access_token']; 
 				}elseif($this->stash['third_source']=='weixin'){
-				  $user_info['wx_open_id'] = $this->stash['uid'];
-				  $user_info['wx_access_token'] = $this->stash['access_token'];
-				  $user_info['wx_union_id'] = $this->stash['union_id'];
-				}else{
-				  //next_third
+					$user_info['wx_open_id'] = $this->stash['uid'];
+					$user_info['wx_access_token'] = $this->stash['access_token'];
+					$user_info['wx_union_id'] = $this->stash['union_id'];
 				}
 	  
 				$user_info['nickname'] = $this->stash['nickname'];
