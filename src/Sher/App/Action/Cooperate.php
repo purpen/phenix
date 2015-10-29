@@ -37,6 +37,16 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
         $district = $this->stash['d'];
         $rid = $this->stash['rid'];
         $cid = $this->stash['cid'];
+        $mark = isset($this->stash['mark']) ? $this->stash['mark'] : null;
+
+        // 分类标识
+        if(!empty($mark)){
+          $category_mode = new Sher_Core_Model_Category();
+          $category = $category_mode->first(array('name'=>$mark));
+          if($category){
+            $rid = $this->stash['rid'] = $category['_id'];
+          }
+        }
         
         if($cid || $district){
             $show_all = 'showall';

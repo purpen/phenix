@@ -88,5 +88,32 @@ class Sher_Admin_Action_Cooperation extends Sher_Admin_Action_Base implements Do
 
   }
 
+  /**
+   * 推荐／取消
+   */
+  public function ajax_stick(){
+ 		$ids = $this->stash['id'];
+		$evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+		if(empty($ids)){
+			return $this->ajax_notification('缺少Id参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_Cooperation();
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u',$ids)));
+		
+		foreach($ids as $id){
+      if($evt==1){
+ 			  $result = $model->mark_as_stick((int)$id);     
+      }else{
+        $result = $model->mark_cancel_stick((int)$id);
+      }
+		}
+
+    $this->stash['ids'] = $ids;
+		
+		return $this->to_taconite_page('admin/cooperation/stick_ok.html');
+  
+  }
+
 }
 

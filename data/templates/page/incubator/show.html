@@ -1,0 +1,742 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+
+{% block page_css %}
+<style class="text/css">
+  .ui.block{
+    margin:0;
+  }
+  .brood.service{
+    background:url({{ app_url_packaged }}/images/incubator/vcbj1.jpg) ;
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-position: top center;
+    height:450px;
+    position:relative;
+  }
+  @media only screen and (min-width: 1620px){
+    .brood.service{
+      height:560px;
+    }
+  }
+  .join{
+    width:220px;
+    position:absolute;
+    left:50%;
+    margin-left:-110px;
+    bottom:50px;
+    cursor:pointer;
+  }
+  .ui.big.block p > span{
+    color:#fa6b00;
+  }
+  .brood.dcol{
+    background:#d82545;
+  }
+  .incubator.service .ui.five.blocks > .block .wtitle{
+    background:url({{ app_url_packaged }}/images/incubator/circle.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    width:180px;
+    height:180px;
+    margin:auto;
+    transform: rotate(0deg);
+    transition-duration: 1s;
+  }
+  .incubator.service .ui.five.blocks > .block .wtitle:hover{
+    transform: rotate(90deg);
+  }
+  .incubator.service .ui.five.blocks > .block .wtitle a,.incubator.service .ui.five.blocks > .block .wtitle a:hover{
+    margin-top:0px;
+    color:#fff;
+    border:none;
+    transform: rotate(0deg);
+    line-height: 180px;
+    width: 100%;
+    border-radius:500rem;
+    transition-duration: 1.5s !important;
+    
+  }
+  .incubator.service .ui.five.blocks > .block .wtitle a:hover{
+    transform: rotate(-90deg);
+  }
+  .section-title h2.block.title{
+    color:rgba(0,0,0,.87);
+  }
+  h2.block.title + hr + p{
+    margin-bottom:2.5rem;
+  }
+  .brood.design{
+    background:#d82545;
+  }
+  .brood.design h2.block.title{
+    color:#fff;
+  }
+  .brood.design h2.block.title + hr{
+    background:#fff;
+  }
+  .brood.design h2.block.title + hr + p{
+    color:#fff;
+  }
+  .brood.other .ui.cooperate.cards>.card>.brand:hover{
+    margin-top:0;
+  }
+  .brood.other .ui.cooperate.cards,.brood.design .ui.cooperate.cards>.card{
+    margin:0;
+  }
+  .brood.other .ui.cooperate.cards>.card .addmap{
+    width:100px;
+    height:20px;
+    font-size:15px;
+    position:absolute;
+    top:15px;
+    left:15px;
+    z-index:9;
+    text-align:left;
+  }
+  .brood.other .ui.cooperate.cards>.card .addmap i{
+    margin:0;
+  }
+  .brood.other .ui.cooperate.cards>.card .brand a.name.line{
+    color:#222;
+    font-size:18px;
+  }
+  .brood.other .ui.cooperate.cards>.card .brand h3.ui.header{
+    margin:10px 20px 10px !important;
+    text-align:left;
+    color:#00a0da;
+    font-size:16px;
+  }
+  .brood.other .ui.cooperate.cards>.card .brand p.descript{
+    text-align:left;
+    margin:5px 20px;
+    font-size:15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .ui.incubator.menu{
+    background:url({{ app_url_packaged }}/images/incubator/bg3.jpg) center center no-repeat;
+    background-size:cover;
+    border: none;
+    border-radius: 0;
+  }
+  .card>.brand{
+    border-bottom: none !important;
+  }
+  .brood.design .card .addmap{
+    height: 20px;
+    font-size: 15px;
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    z-index: 9;
+    text-align: left;
+  }
+  .brood.design .card .content{
+    padding:20px;
+  }
+  .brood.design .card .content a img{
+    width:120px;
+    height:120px;
+  }
+  .brood.design .card .content .ui.cover.line{
+    display: inline-block;
+    float: left;
+    margin-right: 20px;
+    padding: 0;
+    border: 1px solid rgba(0,0,0,0.05);
+    vertical-align: middle;
+  }
+  .brood.design .card .content h2{
+    height: 24px;
+    line-height: 24px;
+    margin-bottom: 10px;
+    margin-top: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .brood.design .card .content h2 a,.brood.skill .card h2 a,.brood.make .card h2 a{
+    color:#222;
+  }
+  .brood.design .card .content .descript{
+    margin: 5px 0px;
+    font-size: 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color:#f86b07;
+  }
+  .brood.design .card .content .excerpt {
+    color: rgba(146,147,163,.9);
+    font-size: 14px;
+    height: 66px;
+    letter-spacing: .1px;
+    line-height: 1.6;
+    overflow: hidden;
+    text-align: left;
+  }
+  
+  .brood.skill .section-title hr{
+    background:#f86b07;
+  }
+  .brood.skill .card{
+    padding:15px;
+  }
+  .brood.skill .card h2 .content{
+    width:69%;
+  }
+  .brood.skill .card h2 .content .sub.header{
+    margin: 5px 0px;
+    font-size: 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #f86b07;
+  }
+  .brood.skill .card h2 > a{
+    line-height:58px;
+    margin-right:10px;
+  }
+  .brood.skill .card h2 a img{
+    display: inline-block;
+    margin-top: 0;
+    width: 55px;
+    height: 55px;
+    vertical-align: middle;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  .brood.skill .card h2.ui.header{
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    padding-bottom: 10px;
+    border-radius: 0 !important;
+  }
+  .brood.skill .card .excerpt{
+    color: rgba(146,147,163,.9);
+    font-size: 14px;
+    height: 108px;
+    letter-spacing: .1px;
+    line-height: 1.6;
+    overflow: hidden;
+    text-align: left;
+    margin-bottom: 20px;
+  }
+  .brood.skill .card .addmap{
+    height: 20px;
+    font-size: 15px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    z-index: 9;
+    text-align: left;
+  }
+  
+  
+  .brood.make{
+    background:#1096a2;
+    color:#fff;
+  }
+  .brood.make .section-title h2.block.title{
+    color:#fff;
+  }
+  .brood.make .section-title h2.block.title + hr,.brood.school .section-title h2.block.title + hr,.brood.other .section-title h2.block.title + hr{
+    background:#f86b07;
+  }
+  .brood.make .card{
+    padding:15px;
+    box-shadow: none;
+  }
+  .brood.make .card .bgcolor{
+    margin: -15px;
+    width: calc(100% + 30px);
+    height:90px;
+    background:#40d8c8;
+    color:#fff;
+    text-align:center;
+    padding:20px;
+    margin-bottom: 50px;
+    position: relative;
+  }
+  .brood.make .card .bgcolor .addmap{
+    height: 20px;
+    font-size: 15px;
+    z-index: 9;
+  }
+  .brood.make .card .bgcolor a{
+    position:absolute;
+    left:50%;
+    margin-left:-35px;
+    bottom:0;
+    margin-bottom:-35px;
+  }
+  .brood.make .card .bgcolor a img{
+    width:70px;
+    height:70px;
+    border:1px solid rgba(0,0,0,0.05);
+  }
+  .brood.make .card h2 {
+    height: 24px;
+    line-height: 24px;
+    margin-bottom: 10px;
+    margin-top: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align:center;
+  }
+  .brood.make .card .excerpt{
+    color: rgba(146,147,163,.9);
+    font-size: 14px;
+    height: 108px;
+    letter-spacing: .1px;
+    line-height: 1.6;
+    overflow: hidden;
+    text-align: left;
+    margin-bottom: 40px;
+  }
+  .brood.make .card .descript {
+    margin: 0px;
+    font-size: 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    position:absolute;
+    left:0;
+    bottom:0;
+    background:#f8f8f8;
+    padding: 10px 15px;
+    width: 100%;
+    color:#555;
+  }
+  .brood.make .card .descript span{
+    color:#00a0da;
+  }
+  .brood.school .card{
+    text-align:center;
+  }
+  .brood.school .card img{
+    vertical-align: bottom;
+  }
+  .brood.school .popup{
+    width:400px !important;
+    padding:20px;
+  }
+  .brood.school h3.ui.header {
+    margin: 0px 0 10px !important;
+    text-align: left;
+    font-size: 16px;
+    color: #00a0da;
+    border-left-width: 3px;
+    border-left-style: solid;
+    padding-left: 8px;
+    line-height: 16px;
+    position: relative;
+  }
+  .brood.school h3.ui.header .addmap {
+    height: 16px;
+    font-size: 15px;
+    position: absolute;
+    top: 0;
+    left: 120px;
+    z-index: 9;
+    color: rgba(0,0,0,.87);
+  }
+  .brood.school .descript {
+    text-align: left;
+    margin: 5px 0px;
+    font-size: 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .brood.school .excerpt {
+    color: rgba(146,147,163,.9);
+    font-size: 14px;
+    height: 66px;
+    letter-spacing: .1px;
+    line-height: 1.6;
+    overflow: hidden;
+    text-align: left;
+  }
+  .brood.school .excerpt span {
+    height: 16px;
+    display: inline-block;
+    width: 3px;
+    background: #00a0da;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+  .brood.other {
+    background:#dfdfdf;
+  }
+  .brood.other .ui.cooperate.cards>.card>.brand{
+    padding-top:40px;
+  }
+  .brood.other .ui.cooperate.cards>.card>.brand img.avatar{
+    height:5em;
+    width:5em;
+    border-radius:0;
+  }
+  .brood.bottom{
+    background:url({{ app_url_packaged }}/images/incubator/bg4.jpg) no-repeat center center;
+    background-size:cover;
+  }
+  .brood.bottom a img{
+    background: rgba(255,255,255,0.2);
+    height: 65px;
+    width: 435px;
+    border-radius: 8px;
+    vertical-align: middle;
+  }
+</style>
+{% endblock %}
+
+{% block jquery %}
+  
+  $('.tanup')
+      .popup({
+        hoverable: true,
+        delay: {
+          show: 100,
+          hide: 500
+        }
+      })
+    ;
+{% endblock %}
+
+{% block content %}
+<div id="hatch">
+  <div class="brood service">
+    <img src="{{ app_url_packaged }}/images/incubator/join.png" class="join">
+  </div>
+  <div class="ui big block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="center aligned column">
+          <p>如果你有<span>设计、技术研发、生产链、资金、营销、媒介</span>等资源；可将其提交到太火鸟孵化资源库，帮助那些需要帮助的团队；</p>
+          <p>如果你的团队缺少某些资源，也可在太火鸟孵化资源库中寻找志同道合的伙伴，<span>资源互补</span>；</p>
+          <h3 class="ui header">携手共同完成创业梦想!</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui big block incubator service menu">
+    <div class="ui responsive grid">
+      <div class="ui center aligned row">
+        <div class="center alignd column">
+          <div class="ui five blocks" style="margin-top:0;">
+            <div class="block">
+              <div class="wtitle">
+                <a href="#.design">设计</a>
+              </div>
+            </div>
+          
+            <div class="block">
+              <div class="wtitle">
+                <a href="#.skill">技术开发</a>
+              </div>
+            </div>
+          
+            <div class="block">
+              <div class="wtitle">
+                <a href="#.make">生产链</a>
+              </div>
+            </div>
+          
+            <div class="block">
+              <div class="wtitle">
+                <a href="#.school">合作院校</a>
+              </div>
+            </div>
+          
+            <div class="block">
+              <div class="wtitle">
+                <a href="#.other">其他</a>
+              </div>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big block brood design">
+    <div class="ui responsive grid">
+      <div class="center aligned column section-title">
+        <h2 class="block title">设计</h2>
+        <hr>
+        <p>中国最顶级工业设计师团队提供外观设计，设计团队囊获包括德国红点、iF、日本G-Mark、美国IDEA等至高荣誉。</p>
+        
+        {% cooperate_list var:'cooperate_designcompany' load_sub_cate:1 type_mark:'designcompany' state:2 page:1 size:6 sort:1 %}
+        <div class="ui left aligned two cards">
+         <!-- card 6个 -->
+
+          {% for d in cooperate_designcompany.rows %}
+              <div class="card">
+                <div class="addmap">
+                  <i class="marker icon"></i>
+                  {{ d.city }}
+                </div>
+                
+                <div class="content">
+                  <a href="{{ d.home_url }}" title="{{ d.name }}" class="ui cover line" target="_blank">
+                    <img class="ui middle aligned image" src="{{ d.medium_avatar_url }}" alt="{{ d.name }}">
+                  </a>
+                  
+                  <h2>
+                    <a href="{{ d.home_url }}" title="{{ d.name }}" class="ui line" target="_blank">
+                      {{ d.name }}
+                    </a>
+                  </h2>
+                  <p class="descript">
+                  {% if d.category_objs %}
+                    {% for c in d.category_objs %}
+                      {{ c.title }}&nbsp;
+                    {%endfor%}
+                  {%endif%}
+                  
+                  </p>
+                  <div class="excerpt">
+                        {{ d.strip_summary|truncate 200  }}
+                  </div>
+                </div>   
+              </div>
+              <!-- end -->
+          {%endfor%}
+              
+          <div class="ui pagination">
+            <a href="{{ app_url_domain }}/cooperate/index?mark=designcompany" class="ui inverted large more button">
+               <i class="search icon"></i> 查看更多
+            </a>
+        	</div>
+        
+        </div>
+        
+      </div>
+    
+    </div>
+  </div>
+  
+
+  <div class="ui big block brood skill">
+    <div class="ui responsive grid">
+      <div class="center aligned column section-title">
+        <h2 class="block title">技术开发</h2>
+        <hr>
+        <p>软硬件资源汇聚，云、技术方案、芯片、模组等技术应有尽有，助力创业团队的早期产品开发。</p>
+        
+        <div class="ui left aligned four cards">
+        {% cooperate_list var:'cooperate_techdevelop' load_sub_cate:1 type_mark:'techdevelop' state:2 page:1 size:8 sort:1 %}
+          
+          <!-- card   8个-->
+          {% for d in cooperate_techdevelop.rows %}
+              <div class="card">
+                <h2 class="ui header">
+                  <a href="{{ d.home_url }}" title="{{ d.name }}" target="_blank">
+                    <img src="{{ d.medium_avatar_url }}" class="ui image">
+                  </a>
+                  <div class="content">
+                    <a href="{{ d.home_url }}" title="{{ d.name }}" class="ui line" target="_blank">
+                                       {{ d.name }}
+                                    </a>
+                    <div class="sub header">
+                      {% if d.category_objs %}
+                        {% for c in d.category_objs %}
+                          {{ c.title }}&nbsp;
+                        {%endfor%}
+                      {%endif%}
+                    </div>
+                  </div>
+                
+                </h2>
+                
+                <div class="excerpt">
+                      {{ d.strip_summary|truncate 200  }}
+                </div>
+                
+                <div class="addmap">
+                  <i class="marker icon"></i>
+                  {{ d.city }}
+                </div>
+              </div>
+          {%endfor%}
+          <!-- end -->
+          
+          <div class="ui pagination">
+           	<a href="{{ app_url_domain }}/cooperate/index?mark=techdevelop" class="ui magenta inverted large more button">
+               <i class="search icon"></i> 查看更多
+            </a>
+        	</div>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+
+  <div class="ui big block brood make">
+    <div class="ui responsive grid">
+      <div class="center aligned column section-title">
+        <h2 class="block title">生产链</h2>
+        <hr>
+        <p>生产链万事俱备，太火鸟<span style="letter-spacing: 1px;margin: 0 2px;color: #fff;">D<span style="font-size: 12px;vertical-align: top;line-height: 4px;">3</span>IN</span>铟立方实验室指导初创团队进行智能硬件产品技术攻关，协助成熟团队，进行智能硬件产品的深度打磨。</p>
+      </div>
+      {% cooperate_list var:'cooperate_ProductionChain' load_sub_cate:1 type_mark:'ProductionChain' state:2 page:1 size:8 sort:1 %}
+      <div class="ui four cards">
+        <!-- card 8个 -->
+        {% for d in cooperate_ProductionChain.rows %}
+            <div class="card">
+              <div class="bgcolor">
+                <div class="addmap">
+                  <i class="marker icon"></i>
+                  {{ d.city }}
+                </div>
+                <a href="{{ d.home_url }}" title="{{ d.name }}" target="_blank">
+                  <img src="{{ d.medium_avatar_url }}" class="ui image">
+                </a>
+              </div>
+              
+              <h2>
+                <a href="{{ d.home_url }}" title="{{ d.name }}" class="ui line" target="_blank">
+                   {{ d.name }}
+                </a>
+              </h2>
+              <div class="excerpt">
+                  {{ d.strip_summary|truncate 200 }}
+              </div>
+              
+              <p class="descript"><span>所属领域 : </span>
+                  {% if d.category_objs %}
+                    {% for c in d.category_objs %}
+                      {{ c.title }}&nbsp;
+                    {%endfor%}
+                  {%endif%}
+              </p>
+            </div>
+        {%endfor%}
+        <!-- end -->
+      
+      <div class="ui pagination">
+       	<a href="{{ app_url_domain }}/cooperate/index?mark=ProductionChain" class="ui inverted large more button">
+           <i class="search icon"></i> 查看更多
+        </a>
+    	</div>
+    </div>
+  </div>
+  
+  <div class="ui big block brood school">
+    <div class="ui responsive grid">
+      <div class="center aligned column section-title">
+        <h2 class="block title">合作院校</h2>
+        <hr>
+        <p>联合全国设计院校建立孵化实验室，从最早期发现创业萌芽，接通社会创业资源。</p>
+      </div>
+      {% cooperate_list var:'cooperate_schoollabs' load_sub_cate:1 type_mark:'schoollabs' state:2 page:1 size:15 sort:1 %}
+      <div class="ui five cards">
+        <!-- card 15个 -->
+        {% for d in cooperate_schoollabs.rows %}
+            <div class="card">
+              <div class="tanup">
+                <a href="{{ d.home_url }}">
+                  <img src="{{ d.medium_avatar_url }}">
+                </a>
+              </div>
+              <div class="ui fluid popup">
+                <div class="content">
+                  <h3 class="ui header">擅长专业/领域
+                    <div class="addmap">
+                      <i class="marker icon"></i>
+                      {{ d.city }}
+                    </div>
+                  </h3>
+                  <p class="descript">
+                    {% if d.category_objs %}
+                      {% for c in d.category_objs %}
+                        {{ c.title }}&nbsp;
+                      {%endfor%}
+                    {%endif%}
+                  </p>
+                  <div class="excerpt"><span></span>{{ d.strip_summary|truncate 200 }}
+                   </div>
+                  
+                </div>
+              </div>
+            </div>
+        {%endfor%}
+        <!-- end -->
+      
+      
+        <div class="ui pagination">
+         	<a href="{{ app_url_domain }}/cooperate/index?mark=schoollabs" class="ui magenta inverted large more button">
+             <i class="search icon"></i> 查看更多
+          </a>
+      	</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui big block brood other">
+    <div class="ui responsive grid">
+      <div class="center aligned column section-title">
+        <h2 class="block title">其它</h2>
+        <hr>
+        <p>不论您从事于任何行业，只要与智能硬件创业相关，期待将您的资源共享到火眼资源库，携手创业共成长。</p>
+      </div>
+      {% cooperate_list var:'cooperate_OtherResources' load_sub_cate:1 type_mark:'OtherResources' state:2 page:1 size:4 sort:1 %}
+      <div class="ui cooperate four cards">
+        <!-- card 4个  -->
+        {% for d in cooperate_OtherResources.rows %}
+          <div class="card">
+            <div class="addmap">
+              <i class="marker icon"></i>
+              {{ d.city }}
+            </div>
+            
+            <div class="brand">
+              <div class="logo">
+                <a class="ui link" href="{{ d.home_url }}" target="_blank">
+                  <img class="ui big avatar image" src="{{ d.medium_avatar_url }}">
+                </a>
+              </div>
+              <h2>
+                <a class="ui name line" href="{{ d.home_url }}" target="_blank">{{ d.name }}</a>
+                
+              </h2>
+              
+              <h3 class="ui header">擅长专业/领域</h3>
+              <p class="descript">
+                  {% if d.category_objs %}
+                    {% for c in d.category_objs %}
+                      {{ c.title }}&nbsp;
+                    {%endfor%}
+                  {%endif%}
+              </p>
+              
+              <div class="excerpt">
+                  {{ d.strip_summary|truncate 200 }}
+              </div>
+              
+              <div class="cats"></div>
+             </div>
+          </div>
+        {%endfor%}
+        <!-- end -->
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="ui big block brood bottom">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <a href="{{ app_url_domain }}/cooperate/apply" >
+            <img src="{{ app_url_packaged }}/images/incubator/btn4.png">
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
