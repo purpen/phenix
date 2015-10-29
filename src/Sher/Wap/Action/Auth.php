@@ -280,7 +280,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
             return $this->ajax_json('页面已经超时,您需要重新刷新后登录', true, Doggy_Config::$vars['app.url.login']);
         }
 */		
-        if (empty($this->stash['account']) || empty($this->stash['password']) ||empty($this->stash['t'])) {
+        if (empty($this->stash['account']) || empty($this->stash['password'])) {
             return $this->ajax_json('数据错误,请重新登录', true, Doggy_Config::$vars['app.url.login']);
         }
         
