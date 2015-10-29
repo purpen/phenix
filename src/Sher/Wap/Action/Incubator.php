@@ -28,8 +28,8 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 	/**
 	 * 首页
 	 */
-	public function index(){		
-		return $this->to_html_page('wap/incubator/show.html');
+	public function index(){
+		return $this->to_html_page('wap/incubator/index.html');
 	}
 	
   	/**
