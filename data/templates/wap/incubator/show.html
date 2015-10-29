@@ -416,6 +416,104 @@
         }
       })
     ;
+
+       		$('#user-info-form').livequery(function(){
+         		$(this).form({
+         			people: {
+         				identifier  : 'people',
+         				rules: [
+         					{
+         						type   : 'empty',
+         						prompt : '姓名不能为空'
+         					}
+         				]
+         			},
+         			mobile: {
+         				identifier  : 'mobile',
+         				rules: [
+         					{
+         						type   : 'empty',
+         						prompt : '电话不能为空'
+         					}
+         				]
+         			},
+         			address: {
+         				identifier  : 'address',
+         				rules: [
+         					{
+         						type   : 'empty',
+         						prompt : '地址不能为空'
+         					}
+         				]
+         			},
+         			position: {
+         				identifier  : 'position',
+         				rules: [
+         					{
+         						type   : 'empty',
+         						prompt : '职位不能为空'
+         					}
+         				]
+         			},
+         			name: {
+         				identifier  : 'name',
+         				rules: [
+         					{
+         						type   : 'empty',
+         						prompt : '公司不能为空'
+         					}
+         				]
+         			},
+         			wechat: {
+         				identifier  : 'wechat',
+         				rules: [
+         					{
+         						type   : 'empty',
+         						prompt : '微信号不能为空'
+         					}
+         				]
+         			}
+         		}, {
+         			inline : true,
+         			onSuccess: function(event){
+         				event.preventDefault();
+                $(this).ajaxSubmit({
+                  dataType: 'json',
+                  beforeSubmit: function(){
+                    phenix.before_submit();
+                  },
+                  success: function(data){
+                    phenix.after_submit();
+                    
+                    if(data.is_error){
+                      $(event.target).addClass('error');
+                      phenix.show_error_note(data.message);
+                    }else{
+                      $('.ui.user-info-box.modal').modal('hide');
+                      phenix.show_ok_note(data.message, 5000);
+                    }
+                  }
+                });
+         			}
+         		});
+         	});
+
+           //报名按钮
+         	$('.join').click(function(){
+         		// 所有ajax请求，验证是否登录
+         		if (!phenix.visitor.is_login){
+         		  phenix.redirect("{{ app_url_wap }}/auth/login");
+         			return false;
+         		}
+             $('.ui.user-info-box.modal')
+             .modal('setting', 'closable', false)
+             .modal('setting', 'transition', 'vertical  flip')
+             .modal('show');
+             return false; 
+         	});
+         	$('.ui.deny.button,i.close').click(function(){
+         		$('.ui.user-info-box.modal').modal('hide');
+         	});
 {% endblock %}
 
 {% block content %}
@@ -485,77 +583,39 @@
         <p>中国最顶级工业设计师团队提供外观设计，设计团队囊获包括德国红点、iF、日本G-Mark、美国IDEA等至高荣誉。</p>
         
         <div class="ui left aligned one cards">
+        {% cooperate_list var:'cooperate_designcompany' load_sub_cate:1 type_mark:'designcompany' state:2 page:1 size:3 sort:1 %}
          <!-- card 3个 -->
-          <div class="card">
-            <div class="addmap">
-              <i class="marker icon"></i>
-              北京
-            </div>
-            
-            <div class="content">
-              <a href=" " title=" " class="ui cover line" target="_blank">
-                <img class="ui middle aligned image" src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg" alt=" ">
-              </a>
-              
-              <h2>
-                <a href=" " title=" " class="ui line" target="_blank">
-                   太火鸟科技
-                </a>
-              </h2>
-              <p class="descript">外观设计 结构设计 交互设计 品牌设计 .....</p>
-              <div class="excerpt">
-                                          上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
+          {% for d in cooperate_designcompany.rows %}
+              <div class="card">
+                <div class="addmap">
+                  <i class="marker icon"></i>
+                  {{ d.city }}
+                </div>
+                
+                <div class="content">
+                  <a href="{{ d.wap_home_url }}" title="{{ d.name }}" class="ui cover line" target="_blank">
+                    <img class="ui middle aligned image" src="{{ d.medium_avatar_url }}" alt="{{ d.name }}">
+                  </a>
+                  
+                  <h2>
+                    <a href="{{ d.wap_home_url }}" title="{{ d.name }}" class="ui line" target="_blank">
+                       {{ d.name }}
+                    </a>
+                  </h2>
+                  <p class="descript">
+                    {% if d.category_objs %}
+                      {% for c in d.category_objs %}
+                        {{ c.title }}&nbsp;
+                      {%endfor%}
+                    {%endif%}
+                  </p>
+                  <div class="excerpt">
+                      {{ d.strip_summary|truncate 200  }}
+                  </div>
+                </div>   
               </div>
-            </div>   
-          </div>
+          {%endfor%}
           <!-- end -->
-          
-          <div class="card">
-            <div class="addmap">
-              <i class="marker icon"></i>
-              北京
-            </div>
-            
-            <div class="content">
-              <a href=" " title=" " class="ui cover line" target="_blank">
-                <img class="ui middle aligned image" src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg" alt=" ">
-              </a>
-              
-              <h2>
-                <a href=" " title=" " class="ui line" target="_blank">
-                   太火鸟科技
-                </a>
-              </h2>
-              <p class="descript">外观设计 结构设计 交互设计 品牌设计 .....</p>
-              <div class="excerpt">
-                                          上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
-              </div>
-            </div>   
-          </div>
-          <div class="card">
-            <div class="addmap">
-              <i class="marker icon"></i>
-              北京
-            </div>
-            
-            <div class="content">
-              <a href=" " title=" " class="ui cover line" target="_blank">
-                <img class="ui middle aligned image" src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg" alt=" ">
-              </a>
-              
-              <h2>
-                <a href=" " title=" " class="ui line" target="_blank">
-                   太火鸟科技
-                </a>
-              </h2>
-              <p class="descript">外观设计 结构设计 交互设计 品牌设计 .....</p>
-              <div class="excerpt">
-                                          上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
-              </div>
-            </div>   
-          </div>
-          
-          
           
         </div>
         
@@ -576,102 +636,40 @@
         <p>软硬件资源汇聚，云、技术方案、芯片、模组等技术应有尽有，助力创业团队的早期产品开发。</p>
         
         <div class="ui left aligned one cards">
+          {% cooperate_list var:'cooperate_techdevelop' load_sub_cate:1 type_mark:'techdevelop' state:2 page:1 size:4 sort:1 %}
           <!-- card   4个-->
-          <div class="card">
-            <h2 class="ui header">
-              <a href=" " title=" " target="_blank">
-                <img src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg" class="ui image">
-              </a>
-              <div class="content">
-                <a href=" " title=" " class="ui line" target="_blank">
-                                   太火鸟科技
-                                </a>
-                <div class="sub header">外观设计 结构设计 交互设计 品牌设计 .....</div>
+          {% for d in cooperate_techdevelop.rows %}
+              <div class="card">
+                <h2 class="ui header">
+                  <a href="{{ d.wap_home_url }}" title="{{ d.name }}" target="_blank">
+                    <img src="{{ d.medium_avatar_url }}" class="ui image">
+                  </a>
+                  <div class="content">
+                    <a href="{{ d.wap_home_url }}" title="{{ d.name }}" class="ui line" target="_blank">
+                                       {{ d.name }}
+                                    </a>
+                    <div class="sub header">
+                        {% if d.category_objs %}
+                          {% for c in d.category_objs %}
+                            {{ c.title }}&nbsp;
+                          {%endfor%}
+                        {%endif%}
+                    </div>
+                  </div>
+
+                </h2>
+
+                <div class="excerpt">
+                    {{ d.strip_summary|truncate 200 }}
+                </div>
+
+                <div class="addmap">
+                  <i class="marker icon"></i>
+                  {{ d.city }}
+                </div>
               </div>
-
-            </h2>
-
-            <div class="excerpt">
-                                        上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
-            </div>
-
-            <div class="addmap">
-              <i class="marker icon"></i>
-              北京
-            </div>
-          </div>
+          {%endfor%}
           <!-- end -->
-          
-          <div class="card">
-            <h2 class="ui header">
-              <a href=" " title=" " target="_blank">
-                <img src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg" class="ui image">
-              </a>
-              <div class="content">
-                <a href=" " title=" " class="ui line" target="_blank">
-                                   太火鸟科技
-                                </a>
-                <div class="sub header">外观设计 结构设计 交互设计 品牌设计 .....</div>
-              </div>
-
-            </h2>
-
-            <div class="excerpt">
-                                        上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
-            </div>
-
-            <div class="addmap">
-              <i class="marker icon"></i>
-              北京
-            </div>
-          </div>
-          <div class="card">
-            <h2 class="ui header">
-              <a href=" " title=" " target="_blank">
-                <img src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg" class="ui image">
-              </a>
-              <div class="content">
-                <a href=" " title=" " class="ui line" target="_blank">
-                                   太火鸟科技
-                                </a>
-                <div class="sub header">外观设计 结构设计 交互设计 品牌设计 .....</div>
-              </div>
-
-            </h2>
-
-            <div class="excerpt">
-                                        上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
-            </div>
-
-            <div class="addmap">
-              <i class="marker icon"></i>
-              北京
-            </div>
-          </div>
-          <div class="card">
-            <h2 class="ui header">
-              <a href=" " title=" " target="_blank">
-                <img src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg" class="ui image">
-              </a>
-              <div class="content">
-                <a href=" " title=" " class="ui line" target="_blank">
-                                   太火鸟科技
-                                </a>
-                <div class="sub header">外观设计 结构设计 交互设计 品牌设计 .....</div>
-              </div>
-
-            </h2>
-
-            <div class="excerpt">
-                                        上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
-            </div>
-
-            <div class="addmap">
-              <i class="marker icon"></i>
-              北京
-            </div>
-          </div>
-        
         
         </div>
         <div class="ui center aligned ant">
@@ -689,100 +687,42 @@
         <h2 class="block title">生产链</h2>
         <hr>
         <p>生产链万事俱备，太火鸟<span style="letter-spacing: 1px;margin: 0 2px;color: #fff;">D<span style="font-size: 12px;vertical-align: top;line-height: 4px;">3</span>IN</span>铟立方实验室指导初创团队进行智能硬件产品技术攻关，协助成熟团队，进行智能硬件产品的深度打磨。</p>
+
+        {% cooperate_list var:'cooperate_ProductionChain' load_sub_cate:1 type_mark:'ProductionChain' state:2 page:1 size:4 sort:1 %}
         
         <div class="ui left aligned one cards">
           <!-- card 4个 -->
+          {% for d in cooperate_ProductionChain.rows %}
           <div class="card">
             <div class="bgcolor">
               <div class="addmap">
                 <i class="marker icon"></i>
-                北京
+                {{ d.city }}
               </div>
-              <a href=" " title=" " target="_blank">
-                <img src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg" class="ui image">
+              <a href="{{ d.wap_home_url }}" title="{{ d.name }}" target="_blank">
+                <img src="{{ d.medium_avatar_url }}" class="ui image">
               </a>
             </div>
 
             <h2>
-              <a href=" " title=" " class="ui line" target="_blank">
-                 太火鸟科技
+              <a href="{{ d.wap_home_url }}" title="{{ d.name }}" class="ui line" target="_blank">
+                 {{ d.name }}
               </a>
             </h2>
             <div class="excerpt">
-                                                      上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
+                {{ d.strip_summary|truncate 200 }}
             </div>
 
-            <p class="descript"><span>所属领域 : </span>外观设计 结构设计 交互设计 品牌设计 .....</p>
+            <p class="descript"><span>所属领域 : </span>
+                {% if d.category_objs %}
+                  {% for c in d.category_objs %}
+                    {{ c.title }}&nbsp;
+                  {%endfor%}
+                {%endif%}
+            </p>
           </div>
+          {%endfor%}
           <!-- end -->
-          <div class="card">
-            <div class="bgcolor">
-              <div class="addmap">
-                <i class="marker icon"></i>
-                北京
-              </div>
-              <a href=" " title=" " target="_blank">
-                <img src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg" class="ui image">
-              </a>
-            </div>
-
-            <h2>
-              <a href=" " title=" " class="ui line" target="_blank">
-                 太火鸟科技
-              </a>
-            </h2>
-            <div class="excerpt">
-                                                      上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
-            </div>
-
-            <p class="descript"><span>所属领域 : </span>外观设计 结构设计 交互设计 品牌设计 .....</p>
-          </div>
-          <div class="card">
-            <div class="bgcolor">
-              <div class="addmap">
-                <i class="marker icon"></i>
-                北京
-              </div>
-              <a href=" " title=" " target="_blank">
-                <img src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg" class="ui image">
-              </a>
-            </div>
-
-            <h2>
-              <a href=" " title=" " class="ui line" target="_blank">
-                 太火鸟科技
-              </a>
-            </h2>
-            <div class="excerpt">
-                                                      上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
-            </div>
-
-            <p class="descript"><span>所属领域 : </span>外观设计 结构设计 交互设计 品牌设计 .....</p>
-          </div>
-          <div class="card">
-            <div class="bgcolor">
-              <div class="addmap">
-                <i class="marker icon"></i>
-                北京
-              </div>
-              <a href=" " title=" " target="_blank">
-                <img src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg" class="ui image">
-              </a>
-            </div>
-
-            <h2>
-              <a href=" " title=" " class="ui line" target="_blank">
-                 太火鸟科技
-              </a>
-            </h2>
-            <div class="excerpt">
-                                                      上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
-            </div>
-
-            <p class="descript"><span>所属领域 : </span>外观设计 结构设计 交互设计 品牌设计 .....</p>
-          </div>
-        
-        
         
         </div>
         <div class="ui center aligned ant">
@@ -801,72 +741,18 @@
         <hr>
         <p>联合全国设计院校建立孵化实验室，从最早期发现创业萌芽，接通社会创业资源。</p>
         <div class="ui left three cards">
+          {% cooperate_list var:'cooperate_schoollabs' load_sub_cate:1 type_mark:'schoollabs' state:2 page:1 size:9 sort:1 %}
           <!-- card 9个 -->
-          <div class="card">
-            <div class="tanup">
-              <a href="">
-                <img src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
-              </a>
-            </div>
-          </div>
+          {% for d in cooperate_schoollabs.rows %}
+              <div class="card">
+                <div class="tanup">
+                  <a href="{{ d.wap_home_url }}">
+                    <img src="{{ d.medium_avatar_url }}">
+                  </a>
+                </div>
+              </div>
+          {%endfor%}
           <!-- end -->
-          <div class="card">
-            <div class="tanup">
-              <a href="">
-                <img src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
-              </a>
-            </div>
-          </div>
-          <div class="card">
-            <div class="tanup">
-              <a href="">
-                <img src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
-              </a>
-            </div>
-          </div>
-          <div class="card">
-            <div class="tanup">
-              <a href="">
-                <img src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
-              </a>
-            </div>
-          </div>
-          <div class="card">
-            <div class="tanup">
-              <a href="">
-                <img src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
-              </a>
-            </div>
-          </div>
-          <div class="card">
-            <div class="tanup">
-              <a href="">
-                <img src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
-              </a>
-            </div>
-          </div>
-          <div class="card">
-            <div class="tanup">
-              <a href="">
-                <img src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
-              </a>
-            </div>
-          </div>
-          <div class="card">
-            <div class="tanup">
-              <a href="">
-                <img src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
-              </a>
-            </div>
-          </div>
-          <div class="card">
-            <div class="tanup">
-              <a href="">
-                <img src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
-              </a>
-            </div>
-          </div>
-        
           
         </div>
         <div class="ui center aligned ant">
@@ -885,130 +771,55 @@
         <hr>
         <p>不论您从事于任何行业，只要与智能硬件创业相关，期待将您的资源共享到火眼资源库，携手创业共成长。</p>
         <div class="ui cooperate one cards">
+      {% cooperate_list var:'cooperate_OtherResources' load_sub_cate:1 type_mark:'OtherResources' state:2 page:1 size:4 sort:1 %}
           <!-- card 4个  -->
-          <div class="card">
-            <div class="addmap">
-              <i class="marker icon"></i>
-              北京
-            </div>
+          {% for d in cooperate_OtherResources.rows %}
+              <div class="card">
+                <div class="addmap">
+                  <i class="marker icon"></i>
+                  {{ d.city }}
+                </div>
 
-            <div class="brand">
-              <div class="logo">
-                <a class="ui link" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">
-                  <img class="ui big avatar image" src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
-                </a>
+                <div class="brand">
+                  <div class="logo">
+                    <a class="ui link" href="{{ d.wap_home_url }}" target="_blank">
+                      <img class="ui big avatar image" src="{{ d.medium_avatar_url }}">
+                    </a>
+                  </div>
+                  <h2>
+                    <a class="ui name line" href="{{ d.wap_home_url }}" target="_blank">{{ d.name }}</a>
+
+                  </h2>
+
+                  <h3 class="ui header">擅长专业/领域</h3>
+                  <p class="descript">
+                    {% if d.category_objs %}
+                      {% for c in d.category_objs %}
+                        {{ c.title }}&nbsp;
+                      {%endfor%}
+                    {%endif%}
+                  </p>
+
+                  <div class="excerpt">
+                      {{ d.strip_summary|truncate 200 }}
+                  </div>
+
+                  <div class="cats"></div>
+                 </div>
               </div>
-              <h2>
-                <a class="ui name line" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">N22</a>
-
-              </h2>
-
-              <h3 class="ui header">擅长专业/领域</h3>
-              <p class="descript">外观设计 结构设计 交互设计 品牌设计 .....</p>
-
-              <div class="excerpt">
-                        上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
-              </div>
-
-              <div class="cats"></div>
-             </div>
-          </div>
-
+          {%endfor%}
           <!-- end -->
-          <div class="card">
-            <div class="addmap">
-              <i class="marker icon"></i>
-              北京
-            </div>
-
-            <div class="brand">
-              <div class="logo">
-                <a class="ui link" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">
-                  <img class="ui big avatar image" src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
-                </a>
-              </div>
-              <h2>
-                <a class="ui name line" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">N22</a>
-
-              </h2>
-
-              <h3 class="ui header">擅长专业/领域</h3>
-              <p class="descript">外观设计 结构设计 交互设计 品牌设计 .....</p>
-
-              <div class="excerpt">
-                        上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
-              </div>
-
-              <div class="cats"></div>
-             </div>
-          </div>
-          <div class="card">
-            <div class="addmap">
-              <i class="marker icon"></i>
-              北京
-            </div>
-
-            <div class="brand">
-              <div class="logo">
-                <a class="ui link" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">
-                  <img class="ui big avatar image" src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
-                </a>
-              </div>
-              <h2>
-                <a class="ui name line" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">N22</a>
-
-              </h2>
-
-              <h3 class="ui header">擅长专业/领域</h3>
-              <p class="descript">外观设计 结构设计 交互设计 品牌设计 .....</p>
-
-              <div class="excerpt">
-                        上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
-              </div>
-
-              <div class="cats"></div>
-             </div>
-          </div>
-          <div class="card">
-            <div class="addmap">
-              <i class="marker icon"></i>
-              北京
-            </div>
-
-            <div class="brand">
-              <div class="logo">
-                <a class="ui link" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">
-                  <img class="ui big avatar image" src="http://frbird.qiniudn.com/avatar/150826/55dd64dd20de8d597a8b961e-avm.jpg">
-                </a>
-              </div>
-              <h2>
-                <a class="ui name line" href="http://www.taihuoniao.com/cooperate/view?id=35" target="_blank">N22</a>
-
-              </h2>
-
-              <h3 class="ui header">擅长专业/领域</h3>
-              <p class="descript">外观设计 结构设计 交互设计 品牌设计 .....</p>
-
-              <div class="excerpt">
-                        上海耀诚通信科技有限公司（N22）专注于技术革新近10年。作为物联网通信技术的革新者和先驱，其所拥有的专利通信技术长牙™已被认证和使用。长牙™是N22与思科共同合作10年，开发了一款基于TCP/IP或者w...
-              </div>
-
-              <div class="cats"></div>
-             </div>
-          </div>
         
         </div>
       </div>
     </div>
   </div>
       
-      
-    
   <div class="ui big block brood bottom">
     <div class="ui responsive grid">
       <div class="row">
         <div class="ui center aligned column">
-          <a href="{{ }}" target="_blank" >
+          <a href="javascript:void(0);" class="join" target="_blank" >
             <img src="{{ app_url_packaged }}/images/incubator/btn4.png">
           </a>
         </div>
@@ -1016,5 +827,59 @@
     </div>
   </div> 
       
+</div>
+
+<!--申请弹层-->	  
+<div class="ui user-info-box small modal transition">
+  	
+	<div class="header" style="position:relative;">
+	    项目入驻-补全基本信息
+	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;"></i>
+	</div>
+	<div class="container">
+		<form action="{{ app_url_wap }}/incubator/ajax_attend" class="ui form" method="post" id="user-info-form">
+		  	<div class="content">
+				<div class="ajax result"></div>
+
+				<div class="ui signup-box">
+					<div class="two fields">
+						<div class="field">
+              <input type="text" name="people" value="{{ visitor.profile.realname }}" placeholder="姓名" />
+						</div>
+					</div>
+					<div class="two fields">
+						<div class="field">
+							<input type="text" name="mobile" value="{{ visitor.profile.phone }}" placeholder="填写手机号，方便信息核实" />
+						</div>
+					</div>
+					<div class="two fields">
+						<div class="field">
+							<input type="text" name="email" value="{{ visitor.email }}" placeholder="Email" />
+						</div>
+					</div>
+					<div class="two fields">
+						<div class="field">
+							<input type="text" name="wechat" value="" placeholder="微信号" />
+						</div>
+					</div>
+					<div class="field">
+            <input type="text" name="name" value="" placeholder="公司名称" />
+					</div>
+					<div class="field">
+            <input type="text" name="position" value="{{ visitor.profile.job }}" placeholder="职位" />
+					</div>
+				</div>
+		  	</div>
+
+			<div class="right aligned action">
+			    <div class="ui gray deny button">
+					取消
+			    </div>
+			    <div class="ui magenta submit button">
+					确认报名
+			    </div>
+			</div>
+		</form>
+	</div>
 </div>
 {% endblock %}
