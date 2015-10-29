@@ -138,106 +138,92 @@ body{
 	<div class="ui responsive grid">
 		<div class="ui column width">
 			<div class="ui log-in signup">
-			  <div class="ui top attached header logo">
-			    <a href="{{ app_url_wap }}" title="返回首页">
-  					<img src="{{ app_url_packaged }}/images/auth-logo.png" />
-  				</a>
-  			</div>
+				<div class="ui top attached header logo">
+					<a href="{{ app_url_wap }}" title="返回首页">
+						<img src="{{ app_url_packaged }}/images/auth-logo.png" />
+					</a>
+				</div>
 				
 				<div class="ui bottom attached segment">
-				  <form action="{{ app_url_wap }}/auth/do_login" class="ui small top form" method="post" id="login-form">
-				    <div class="field">
-				      <input type="text" name="account" placeholder="手机号">
-				    </div>
+					<form action="{{ app_url_wap }}/auth/do_login" class="ui small top form" method="post" id="login-form">
+						<div class="field">
+						  <input type="text" name="account" placeholder="手机号">
+						</div>
 				    
-				    <!-- 用户存在 输入密码 -->
-				    
-				    <!--
-				    <div class="field">
-				      <input type="password" name="password" id="password" placeholder="登录密码" />
-				    </div>-->
-				    
-				    <!-- end -->
-				    
-				    <!-- 用户不存在 注册 -->
-				    <div class="inline field">
-  						<input type="text" name="captcha" placeholder="验证码" id="captcha" style="width:48%;" />
-              			<a href="javascript:void(0);" class="ui gray" id="captcha-img">
-  							<img src="/app/site/captcha/view" onclick="this.src='/app/site/captcha/view?'+Math.random();" style="position:absolute;margin-left:5px;" />
-  						</a>
-  					</div>
+						<!-- 用户存在 输入密码 -->
+						
+						<!--
+						<div class="field">
+						  <input type="password" name="password" id="password" placeholder="登录密码" />
+						</div>-->
+						
+						<!-- end -->
+						
+						<!-- 用户不存在 注册 -->
+						<div class="inline field">
+							<input type="text" name="captcha" placeholder="验证码" id="captcha" style="width:48%;" />
+							<a href="javascript:void(0);" class="ui gray" id="captcha-img">
+								<img src="/app/site/captcha/view" onclick="this.src='/app/site/captcha/view?'+Math.random();" style="position:absolute;margin-left:5px;" />
+							</a>
+						</div>
   					
-  					<div class="inline field">
-  						<input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" style="width:48%;" />
-  						<a href="javascript:void(0);" class="ui small inverted magenta button" id="fetch-verify-code">获取验证码</a>
-  					</div>
+						<div class="inline field">
+							<input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" style="width:48%;" />
+							<a href="javascript:void(0);" class="ui small inverted magenta button" id="fetch-verify-code">获取验证码</a>
+						</div>
 
-  					<div class="field">
-  						<input type="password" name="password" id="password" placeholder="设置至少6位登录密码" />
-  					</div>
+						<div class="field">
+							<input type="password" name="password" id="password" placeholder="设置至少6位登录密码" />
+						</div>
   					
-  					<!-- end -->
+						<!-- end -->
 				    
-				    
-				    
-				    
-				    
-				    <div class="field ">
-              <div class="fluid ui active magenta inverted submit button">登录/注册</div>
-            </div>
+						<div class="field ">
+							<div class="fluid ui active magenta inverted submit button">登录/注册</div>
+						</div>
             
-            <!-- 登陆时存在  -->
-            <div class="inline field">
-              <a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
-  					</div>
-  					<!-- end -->
-				  </form>
-				  
-				  
-				  
-				  
-				  <!-- 第三方帐号登录 -->
-				  <!-- 验证手机之后隐藏 -->
-				  <div class="third login">
-            <h4>第三方帐号登录</h4>
+						<!-- 登陆时存在  -->
+						<div class="inline field">
+						  <a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
+						</div>
+						<!-- end -->
+					</form>
+					
+					<!-- 第三方帐号登录 -->
+					
+					<!-- 验证手机之后隐藏 -->
+					<div class="third login">
+						<h4>第三方帐号登录</h4>
             
-            <div class="ui center aligned three fields">
-  						<div class="inline field" style="text-align:center;">
-  							<a href="{{ weibo_auth_url }}" class="ui big weibo red circular share icon button">
-  								<i class="large weibo icon"></i> 
-  							</a>
-  						</div>
+						<div class="ui center aligned three fields">
+							<div class="inline field" style="text-align:center;">
+								<a href="{{ weibo_auth_url }}" class="ui big weibo red circular share icon button">
+									<i class="large weibo icon"></i> 
+								</a>
+							</div>
 
-  						<div class="inline field" style="text-align:center;">
-                  <a href="{{ app_url_qq_login_wap }}" class="ui big qq blue circular share icon button">
-                    <i class="large qq icon"></i>
-                  </a>
-  						</div>
-  						<div class="inline field" style="text-align:center;">
-                {% if is_weixin %}
-  							<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&redirect_uri={{wx_params.redirect_uri}}&response_type=code&scope=snsapi_login&state={{wx_params.state}}" class="ui big green circular share icon button">
-  								<i class="large weixin icon"></i>
-  							</a>
-                {%else%}
-                <a href="javascript:void(0);" class="ui big green no-weixin circular share icon button">
-  								<i class="flat large weixin icon"></i>
-  							</a>
-                {%endif%}
-  						</div>
-  					</div>
+							<div class="inline field" style="text-align:center;">
+								<a href="{{ app_url_qq_login_wap }}" class="ui big qq blue circular share icon button">
+									<i class="large qq icon"></i>
+								</a>
+							</div>
+							
+							<div class="inline field" style="text-align:center;">
+								{% if is_weixin %}
+								<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&redirect_uri={{wx_params.redirect_uri}}&response_type=code&scope=snsapi_login&state={{wx_params.state}}" class="ui big green circular share icon button">
+									<i class="large weixin icon"></i>
+								</a>
+								{%else%}
+								<a href="javascript:void(0);" class="ui big green no-weixin circular share icon button">
+									<i class="flat large weixin icon"></i>
+								</a>
+								{%endif%}
+							</div>
+						</div>
   					
-				  </div>
-				  
-				  
-				  <!-- end -->
-				  
-				  
-				  
-				  
-				  
+					</div> 
+					<!-- end --> 
 				</div>
-			  
-			  
 			</div>
 		</div>
 	</div>
