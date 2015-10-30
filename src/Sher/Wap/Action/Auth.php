@@ -272,6 +272,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	 * 执行用户登录流程
 	 */
 	public function do_login(){
+		
         $service = DoggyX_Session_Service::instance();
         $s_t = $service->session->login_token;
 /*
@@ -713,6 +714,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	 * 验证手机是否存在
 	 */
 	public function check_account(){
+		
 		//验证手机号码是否重复
 		$user = new Sher_Core_Model_User();
 		$has_phone = $user->first(array('account' => $this->stash['phone']));
