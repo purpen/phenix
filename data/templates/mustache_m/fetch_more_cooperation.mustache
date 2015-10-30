@@ -1,0 +1,26 @@
+{{#results.rows}}
+    <div class="card">
+      <div class="brand">
+              <div class="logo">
+                  <a class="ui link" href="{{ wap_home_url }}">
+                      <img class="ui big avatar image" src="{{ medium_avatar_url }}">
+                                  </a>
+              </div>
+              <h2>
+                  <a class="ui name line" href="{{ wap_home_url }}">{{ name }}</a>
+                  <span class="extra">
+                       {{ city }}
+                  </span>
+              </h2>
+              <div class="excerpt">
+                  {{ &strip_summary }}
+              </div>
+              <div class="cats">
+              {{#category_objs}}
+                <span class="ui link">{{ title }}</span>
+              {{/category_objs}}
+             </div>
+          </div>
+    </div>
+
+{{/results.rows}}

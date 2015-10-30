@@ -1,9 +1,66 @@
-{%extends 'layout/column.html'%}
+{%extends 'layout/mobile.html'%}
 {% block title %}{% endblock %}
 
 {% block page_css %}
 <style class="text/css">
-    
+#mfrbird{
+	margin-top:0;
+	margin-bottom:1em;
+}
+.icontainer{
+	padding:45px 0 30px;
+	text-align:right;
+}
+.logo img.avatar.image{
+	background:#fff;
+	border:3px solid #fff;
+	width:5em !important;
+	height:5em !important;
+}
+.cooperate.masthead .ui.header {
+    color: #fff !important;
+    position: relative;
+    padding: 50px 0 40px;
+}
+.cooperate.masthead .ui.header .content .sub.header {
+    color: #fff;
+    margin-bottom: 0.5rem;
+    margin-top: .35rem;
+}
+#cooperate-follow-label {
+    font-size: .875rem;
+    font-weight: 400;
+    margin-left: .5rem;
+}
+.block.title{
+	background:rgba(0,0,0,0);
+	border:none;
+}
+.section-title hr {
+    background: #f36;
+    border: none;
+    height: 2px;
+    width: 50px;
+}
+.expertise .ui.label{
+	margin:5px;
+}
+#people-list img {
+    width: 60px;
+    height: 60px;
+}
+.cooperate.contact {
+    background-color: rgba(56,67,77,.9);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #fff;
+    background-image: url({{ app_url_packaged }}/images/headbg/city.jpg);
+    padding: 20px 0 40px;
+}
+.cooperate.contact > .ui.gird{
+	padding:0 5%;
+}
 </style>
 {% endblock %}
 
@@ -121,6 +178,7 @@
                             </div>
                             {% endif %}
                             
+                            <!--
                             {% if !is_ship %}
                         	<a href="{{ app_url_cooperate }}/ajax_follow?id={{ cooperate._id }}" class="ui small white ajax inverted button" id="cooperate-{{ cooperate._id }}-ship">
                         		<i class="plus icon"></i> 关注 
@@ -130,6 +188,7 @@
                         		<i class="minus icon"></i> 已关注 
                         	</a>
                             {% endif %}
+                            -->
                             {% if cooperate.follow_count %}
                             <span id="cooperate-follow-label">{{ cooperate.follow_count }}人已关注</span>
                             {% endif %}
@@ -141,7 +200,7 @@
     </div>
 </div>
 
-{% if editable %}
+<!--{% if editable %}
 <div class="cooperate support">
 	<div class="ui grid">
         <div class="row">
@@ -156,10 +215,10 @@
         </div>
     </div>
 </div>
-{% endif %}
+{% endif %}-->
 
 <div class="cooperate stuffs">
-	<div class="ui grid">
+	<div class="ui responsive grid">
         <div class="row">
     		<div class="center aligned column section-title">
                 <h2 class="block title">作品案例</h2>
@@ -169,7 +228,7 @@
         <div class="row">
     		<div class="column">
 				{% stuff_list var:'stufflist' sort:sort sticked:sticked cooperate_id:cooperate._id size:6 %}
-				<div class="ui three products cards">
+				<div class="ui one products cards">
 					{% for stuff in stufflist.rows %}
                         {% include "block/stuff_item.html" %}
 					{% endfor %}
@@ -180,7 +239,7 @@
 </div>
 
 <div class="cooperate content">
-	<div class="ui grid">
+	<div class="ui responsive grid">
         <div class="row">
     		<div class="center aligned column section-title">
                 <h2 class="block title">详细介绍</h2>
@@ -286,15 +345,15 @@
 		<div class="row">
 			<div class="column">
 				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_domin }}">
+				  	<a class="ui section link" href="{{ app_url_wap }}">
 						<i class="home icon"></i> 首页
 					</a>
                     <i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_incubator }}">
+				  	<a class="ui section link" href="{{ app_url_wap }}/incubator">
 						孵化
 					</a>
                     <i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_cooperate }}">
+				  	<a class="ui section link" href="{{ app_url_wap }}/incubator/resource">
 						孵化资源
 					</a>
 					<i class="angle right icon divider"></i>

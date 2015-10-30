@@ -274,5 +274,20 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 	public function mark_cancel_stick($id){
 		return $this->update_set($id, array('stick' => 0));
 	}
+
+	/**
+	 * 增加计数
+	 */
+	public function increase_counter($field_name, $inc=1, $id=null){
+		if(is_null($id)){
+			$id = $this->id;
+		}
+		if(empty($id) || !in_array($field_name, $this->counter_fields)){
+			return false;
+		}
+		
+		return $this->inc($id, $field_name, $inc);
+	}
+
 	
 }
