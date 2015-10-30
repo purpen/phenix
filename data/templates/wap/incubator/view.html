@@ -1,0 +1,363 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+
+{% block page_css %}
+<style class="text/css">
+#mfrbird{
+	margin-top:0;
+	margin-bottom:1em;
+}
+.icontainer{
+	padding:45px 0 30px;
+	text-align:right;
+}
+.logo img.avatar.image{
+	background:#fff;
+	border:3px solid #fff;
+	width:5em !important;
+	height:5em !important;
+}
+.cooperate.masthead .ui.header {
+    color: #fff !important;
+    position: relative;
+    padding: 50px 0 40px;
+}
+.cooperate.masthead .ui.header .content .sub.header {
+    color: #fff;
+    margin-bottom: 0.5rem;
+    margin-top: .35rem;
+}
+#cooperate-follow-label {
+    font-size: .875rem;
+    font-weight: 400;
+    margin-left: .5rem;
+}
+.block.title{
+	background:rgba(0,0,0,0);
+	border:none;
+}
+.section-title hr {
+    background: #f36;
+    border: none;
+    height: 2px;
+    width: 50px;
+}
+.expertise .ui.label{
+	margin:5px;
+}
+#people-list img {
+    width: 60px;
+    height: 60px;
+}
+.cooperate.contact {
+    background-color: rgba(56,67,77,.9);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #fff;
+    background-image: url({{ app_url_packaged }}/images/headbg/city.jpg);
+    padding: 20px 0 40px;
+}
+.cooperate.contact > .ui.gird{
+	padding:0 5%;
+}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	/* 登录用户行为 */
+	{% if visitor.is_login %}		
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{cooperate._id}},type:6,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.support.button')
+						.data('content', '取消支持')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+		
+    	// 上传信息
+    	$('.ui.upload.button').bind('click', function(){
+    		var id = $(this).data('id');
+    		phenix.redirect('{{ app_url_stuff }}/submit?rid='+id);
+    	});
+    	// 编辑
+    	$('.ui.edit.button').bind('click', function(){
+    		var id = $(this).data('id');
+    		phenix.redirect('{{ app_url_cooperate }}/edit?id='+id);
+    	});
+    	// 删除
+    	$('.ui.remove.button').bind('click', function(){
+    		var id = $(this).data('id');
+    		if(confirm('确认执行删除操作吗?')){
+    			$.post('{{ app_url_cooperate }}/deleted', {id: id });
+    		}
+    	});
+		
+		/* 登录用户行为 */
+	{% endif %}
+    
+	// 喜欢
+	$('.ui.support.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:6}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消支持')
+						.data('mark', 'y')
+						.addClass('active')									
+						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:6}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '我支持')
+						.data('mark', 'n')
+						.removeClass('active')
+						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
+{% endblock %}
+
+{% block content %}
+{% if cooperate.banner %}
+<div class="user cooperate masthead" style="background-image: url('{{ cooperate.banner.fileurl }}');">
+{% else %}
+<div class="user cooperate masthead" style="background-image: url('{{ app_url_packaged }}/images/headbg/ucenter-{{ last_char |default 0 }}.jpg');">
+{% endif %}
+    <div class="masthead-cover">
+    	<div class="ui responsive grid">
+            <div class="two column row">
+    		    <div class="right aligned column">
+                    <div class="icontainer">
+                        <div class="logo">
+                            <img class="ui big avatar image" src="{{ cooperate.medium_avatar_url }}" />
+                            {% if cooperate.marks.labs %}
+                            <span class="ui magenta icon pop button" data-content="孵化实验室" data-variation="inverted">
+                                <i class="lab icon"></i>
+                            </span>
+                            {% endif %}
+                        </div>
+                        <!--
+                        <div class="rate">
+                            <div class="ui small rating">
+                                {% for s in cooperate.rank_stars %}
+        					  	<i class="icon {{ s }}"></i>
+                                {% endfor %}
+        					</div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+    		    <div class="column">
+                    <div class="ui header">
+                        <div class="content">
+                            {{ cooperate.name }}
+                            
+                            {% if cooperate.city %}
+                            <div class="sub header">
+                               <i class="marker icon"></i> {{ cooperate.type_label.name }} {{ cooperate.city }} 
+                            </div>
+                            {% endif %}
+                            
+                            {% if !is_ship %}
+                        	<a href="{{ app_url_cooperate }}/ajax_follow?id={{ cooperate._id }}" class="ui small white ajax inverted button" id="cooperate-{{ cooperate._id }}-ship">
+                        		<i class="plus icon"></i> 关注 
+                        	</a>
+                            {% else %}
+                        	<a href="{{ app_url_cooperate }}/ajax_cancel_follow?id={{ cooperate._id }}" class="ui small active white ajax inverted button" id="cooperate-{{ cooperate._id }}-ship">
+                        		<i class="minus icon"></i> 已关注 
+                        	</a>
+                            {% endif %}
+                            {% if cooperate.follow_count %}
+                            <span id="cooperate-follow-label">{{ cooperate.follow_count }}人已关注</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+    	</div>
+    </div>
+</div>
+
+<!--{% if editable %}
+<div class="cooperate support">
+	<div class="ui grid">
+        <div class="row">
+		    <div class="right aligned column">
+                <div class="ui pop upload icon grey inverted button" data-content="上传案例" data-variation="inverted" data-id="{{ cooperate._id }}">
+                    <i class="upload icon"></i>
+                </div>
+            	<div class="ui pop edit icon grey inverted button" data-content="编辑信息" data-variation="inverted" data-id="{{ cooperate._id }}">
+            		<i class="edit icon"></i>
+            	</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}-->
+
+<div class="cooperate stuffs">
+	<div class="ui responsive grid">
+        <div class="row">
+    		<div class="center aligned column section-title">
+                <h2 class="block title">作品案例</h2>
+                <hr>
+    		</div>
+        </div>
+        <div class="row">
+    		<div class="column">
+				{% stuff_list var:'stufflist' sort:sort sticked:sticked cooperate_id:cooperate._id size:6 %}
+				<div class="ui one products cards">
+					{% for stuff in stufflist.rows %}
+                        {% include "block/stuff_item.html" %}
+					{% endfor %}
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cooperate content">
+	<div class="ui responsive grid">
+        <div class="row">
+    		<div class="center aligned column section-title">
+                <h2 class="block title">详细介绍</h2>
+                <hr>
+    		</div>
+        </div>
+        <div class="row">
+    		<div class="column">
+                <div class="block title">{{ cooperate.fullname }}</div>
+    			<div class="summary froala-element">
+                    {{ cooperate.summary }}
+                </div>
+                <div class="block title">专业领域</div>
+                {% tag_list var:'keywords' keywords:cooperate.keywords %}
+                <div class="expertise">
+                    {% for t in keywords %}
+                    <label class="ui {{ t.color }} label">{{ t.name }}</label>
+                    {% endfor %}
+                </div>
+    		</div>
+        </div>
+    </div>
+</div>
+
+<!--
+<div class="cooperate prize">
+	<div class="ui responsive grid">
+        <div class="row">
+    		<div class="center aligned column section-title">
+                <h2 class="block title">荣誉与奖项</h2>
+                <hr>
+    		</div>
+        </div>
+        <div class="row">
+    		<div class="column">
+               
+    		</div>
+        </div>
+    </div>
+</div>-->
+
+<div class="cooperate prize">
+	<div class="ui grid">
+        <div class="row">
+    		<div class="center aligned column section-title">
+                <h2 class="block title">关注的人</h2>
+                <hr>
+    		</div>
+        </div>
+        <div class="row">
+    		<div class="column">
+                <div class="avatars" id="people-list">
+                    {% favorite_list var:'list' target_id:cooperate._id type:6 event:3 %}
+                    <div class="ui small images">
+                        {% for a in list.rows %}
+                        <a href="{{ a.user.home_url }}" target="_blank" data-uid="{{ a.user.id }}" data-html="<div class='header'>{{ a.user.nickname }}</div><div class='content'>荣誉：{{ user.ext_state.user_rank.title|default '鸟列兵' }} / 经验值：{{ user.ext_state.rank_point|default 0 }}</div>" data-variation="wide" class="ui people pop">
+                            <img class="ui avatar image" src="{{ a.user.small_avatar_url }}" />
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+    		</div>
+        </div>
+	</div>
+</div>
+
+<div class="cooperate contact">
+	<div class="ui grid">
+        <div class="row">
+    		<div class="center aligned column white section-title">
+                <h2 class="block title">联系我们</h2>
+                <hr>
+    		</div>
+        </div>
+        <div class="row">
+    		<div class="column">
+                <div class="container">
+                    <p>网址：{{ cooperate.site_url|default '无' }}</p>
+                    <p>地址：{{ cooperate.address|default '无' }}</p>
+                    <p>联系人：{{ cooperate.people|default '无' }}</p>
+                    <p>联系电话：{{ cooperate.phone|default '无' }}</p>
+                </div>
+                <div class="social">
+                    {% if cooperate.weibo_url %}
+                	<a href="{{ cooperate.weibo_url }}" target="_blank" class="ui red icon inverted button">
+                		<i class="weibo icon"></i>
+                	</a>
+                    {% endif %}
+                    {% if cooperate.wechat %}
+                	<a href="{{ cooperate.wechat }}" target="_blank" class="ui green icon inverted button" title="微信">
+                		<i class="wechat icon"></i>
+                	</a>
+                    {% endif %}
+                </div>
+    		</div>
+        </div>
+    </div>
+</div>
+
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_incubator }}">
+						孵化
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_cooperate }}">
+						孵化资源
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">{{ cooperate.name }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
