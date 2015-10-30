@@ -209,11 +209,11 @@ body{
 	
 	$('.show_password').livequery(function(){
 		$(this).click(function(){
-			if($(this).text() == '显示'){
-				$(this).text('隐藏');
+			if($(this).html()=='<i class="unhide icon"></i>'){
+				$(this).html('<i class="hide icon" style="display:block;"></i>');
 				$(this).prev().attr('type','text');
-			} else {
-				$(this).text('显示');
+			}else{
+				$(this).html('<i class="unhide icon"></i>');
 				$(this).prev().attr('type','password');
 			}
 		});
@@ -226,11 +226,11 @@ body{
 				$(this).parent().addClass('ui grid');
 				$(this).addClass('ten wide column');
 				$(this).next().addClass('six wide column show_password');
-				$(this).next().html('显示');
+				$(this).next().html('<i class="unhide icon"></i>');
 			} else {
 				$(this).parent().removeClass('ui grid');
-				$(this).removeClass('fourteen wide column');
-				$(this).next().removeClass('two wide column show_password');
+				$(this).removeClass('ten wide column');
+				$(this).next().removeClass('six wide column show_password');
 				$(this).next().html('');
 			}
 		});
