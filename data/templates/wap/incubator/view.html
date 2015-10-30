@@ -250,13 +250,14 @@
     			<div class="summary froala-element">
                     {{ cooperate.summary }}
                 </div>
-                <div class="block title">专业领域</div>
-                {% tag_list var:'keywords' keywords:cooperate.keywords %}
-                <div class="expertise">
-                    {% for t in keywords %}
-                    <label class="ui {{ t.color }} label">{{ t.name }}</label>
-                    {% endfor %}
-                </div>
+                {% if category_objs %}
+                    <div class="block title">专业领域</div>
+                    <div class="expertise">
+                        {% for t in category_objs %}
+                        <label class="ui label">{{ t.title }}</label>
+                        {% endfor %}
+                    </div>
+                {%endif%}
     		</div>
         </div>
     </div>
@@ -342,15 +343,15 @@
 		<div class="row">
 			<div class="column">
 				<div class="ui medium breadcrumb">
-				  	<a class="ui section link" href="{{ app_url_domin }}">
+				  	<a class="ui section link" href="{{ app_url_wap }}">
 						<i class="home icon"></i> 首页
 					</a>
                     <i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_incubator }}">
+				  	<a class="ui section link" href="{{ app_url_wap }}/incubator">
 						孵化
 					</a>
                     <i class="angle right icon divider"></i>
-				  	<a class="ui section link" href="{{ app_url_cooperate }}">
+				  	<a class="ui section link" href="{{ app_url_wap }}/incubator/resource">
 						孵化资源
 					</a>
 					<i class="angle right icon divider"></i>

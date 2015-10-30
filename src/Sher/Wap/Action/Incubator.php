@@ -12,7 +12,7 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 		
 	);
 	
-	protected $exclude_method_list = array('execute','index','resource');
+	protected $exclude_method_list = array('execute','index','resource','get_list','view');
 	
 	public function _init() {
 		//$this->set_target_css_state('page_incubator');
@@ -37,6 +37,47 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 	 */
 	public function resource(){
 		return $this->to_html_page('wap/incubator/show.html');
+	}
+
+	/**
+	 * 孵化资源列表页
+	 */
+	public function get_list(){
+		return $this->to_html_page('wap/incubator/list.html');
+	}
+
+	/**
+	 * 孵化资源详情
+	 */
+	public function view(){
+    $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+    
+    $model = new Sher_Core_Model_Cooperation();
+    $cooperate = $model->extend_load($id);
+
+		// 增加pv++
+		$model->increase_counter('view_count', 1, $id);
+
+    $category_objs = array();
+    if(!empty($cooperate['category_ids'])){
+      $category_mode = new Sher_Core_Model_Category();
+      foreach($cooperate['category_ids'] as $v){
+        $category_sub = $category_mode->load((int)$v);
+        if($category_sub) array_push($category_objs, $category_sub);
+      }
+    }
+    
+    $this->stash['category_objs'] = $category_objs;
+    $this->stash['cooperate'] = $cooperate;
+
+    //添加网站meta标签
+    $this->stash['page_title_suffix'] = sprintf("%s-太火鸟智能硬件平台合作方", $cooperate['name']);
+    if(!empty($try['tags'])){
+      $this->stash['page_keywords_suffix'] = "太火鸟,智能硬件,智能硬件孵化平台,孵化资源,设计公司,技术开发,合作院校,创意设计,硬件研发,硬件推广";   
+    }
+    $this->stash['page_description_suffix'] = sprintf("%s-中国最火爆的智能硬件孵化平台-太火鸟合作方，为您提供商品定义、投资融资、硬件品控、软件体验、推广营销、渠道建设等每个环节全程全力支持。", $cooperate['name']);
+
+		return $this->to_html_page('wap/incubator/view.html');
 	}
 	
   	/**
