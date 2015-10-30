@@ -6,6 +6,7 @@
 class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
+    'category_id' => 0,
     'page_title_suffix' => '孵化资源-太火鸟-中国最火爆的智能硬件孵化平台',
     'page_keywords_suffix' => '太火鸟,智能硬件,智能硬件孵化平台,孵化资源,设计公司,技术开发,合作院校,创意设计,硬件研发,硬件推广',
     'page_description_suffix' => '中国最火爆的智能硬件孵化平台-太火鸟聚集了上百家智能硬件相关资源，包括硬件设计公司、技术开发公司、合作院校等，可以为您提供从创意设计-研发-推广一条龙服务。',
@@ -43,6 +44,16 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 	 * 孵化资源列表页
 	 */
 	public function get_list(){
+    $mark = isset($this->stash['mark']) ? $this->stash['mark'] : null;
+
+    // 分类标识
+    if(!empty($mark)){
+      $category_mode = new Sher_Core_Model_Category();
+      $category = $category_mode->first(array('name'=>$mark));
+      if($category){
+        $this->stash['category_id'] = $category['_id'];
+      }
+    }
 		return $this->to_html_page('wap/incubator/list.html');
 	}
 
@@ -256,7 +267,7 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
         
         $query = array();
-
+        $query['state'] = 2;
         if($category_id){
           $query['type'] = $category_id;
         }

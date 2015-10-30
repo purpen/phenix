@@ -64,6 +64,7 @@ a.line, a.line:visited {
 
 {% block layout_js %}
   <script type="text/javascript" >
+      var category_id = "{{ category_id }}";
       function ajax_load_more(category_id, type, sort, page, size){
           //防止频繁请求(在没加载完成时只允许请求一次)
           $('#cooperation-more').show().attr('status', 1);
@@ -105,12 +106,12 @@ a.line, a.line:visited {
       var page = parseInt($('#cooperation-more').attr('page')) + 1;
 
       if(stat==0){
-        ajax_load_more(0, 0, 0, page, 6);
+        ajax_load_more(category_id, 0, 0, page, 6);
       }
 　　}
   });
 
-  ajax_load_more(0, 0, 0, 1, 6);
+  ajax_load_more(category_id, 0, 0, 1, 6);
 	
 {% endblock %}
 
