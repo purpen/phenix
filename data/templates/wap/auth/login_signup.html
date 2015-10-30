@@ -54,10 +54,20 @@ body{
 	margin: 10px 0 0 0;
 }
 .show_password{
+<<<<<<< HEAD
+=======
+	margin: 0 0 0em 0;
+>>>>>>> origin/ts
 	cursor: pointer;
 	margin: 0 0 1em 0;
 }
+<<<<<<< HEAD
 
+=======
+.ui.grid.field{
+	margin-bottom:1rem;
+}
+>>>>>>> origin/ts
 </style>
 {% endblock %}
 
@@ -364,15 +374,15 @@ body{
 			</a>
 		</div>
 	
-		<div class="inline field">
-			<input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" style="width:48%;" />
+		<div class="field">
+			<input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" style="width:48%;margin: 0 .85714286em 0 0;" />
 			<a href="javascript:void(0);" class="ui small inverted magenta button" id="fetch-verify-code">获取验证码</a>
 		</div>
-
+		
 		<div class="field">
 			<input class="" type="password" name="password" id="signup_password" placeholder="设置至少6位登录密码" />
 			<div class=""></div>
-		</div> 
+		</div>
 	
 		<div class="field ">
 			<div class="fluid ui active magenta inverted submit button">注册</div>
