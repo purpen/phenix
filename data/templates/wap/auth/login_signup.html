@@ -51,12 +51,13 @@ body{
   height:1em;
 }
 .login_point{
-	margin: 10px 0 0 10px;
+	margin: 10px 0 0 0;
 }
 .show_password{
-	margin: 0 0 1em 0;
 	cursor: pointer;
+	margin: 0 0 1em 0;
 }
+
 </style>
 {% endblock %}
 
@@ -149,13 +150,17 @@ body{
 		}
 		
 		return false;
-	} 
+	}
 	
 	// 手机号码验证事件
 	$('input[name=account]').keyup(function(){
 		
 		var phone = $(this).val();
 		if(phone.length!==11){
+			$('#include').html($('#default_block').html());
+			$('form[name=new_login_signup]').attr('action','');
+			$('.third.login').show();
+			$('#login_point').show();
 			return false;
 		}
 		
@@ -175,9 +180,11 @@ body{
 			// 隐藏第三方登陆
 			$('.third.login').hide();
 			$('#login_point').hide();
+			$('#loading').show();
 			//验证手机是否注册过
 			var check_phone_url = '/app/site/auth/check_account';
 			$.get(check_phone_url, {phone: phone}, function(r){
+				$('#loading').hide();
 				if(r == 1){
 					$('form[name=new_login_signup]').attr('action','{{ app_url_wap }}/auth/do_login');
 					$('form[name=new_login_signup]').attr('id','login-form');
@@ -208,6 +215,34 @@ body{
 			}
 		});
 	});
+	 
+	$('#signup_password').livequery(function(){
+		$(this).keyup(function(){
+			if($(this).val()){
+				$(this).attr('type','password');
+				$(this).parent().addClass('ui grid');
+				$(this).addClass('fourteen wide column');
+				$(this).next().addClass('two wide column show_password');
+				$(this).next().html('显示');
+			} else {
+				$(this).parent().removeClass('ui grid');
+				$(this).removeClass('fourteen wide column');
+				$(this).next().removeClass('two wide column show_password');
+				$(this).next().html('');
+			}
+		});
+	});
+	
+	$('.three_login').livequery(function(){
+		$(this).click(function(){
+			$('form[name=new_login_signup]').attr('action','');
+			$('form[name=new_login_signup]').attr('id','');
+			$('#include').html($('#default_block').html());
+			$('.third.login').show();
+			$('#login_point').show();
+			$('input[name=account]').val('');
+		});
+	});
 {% endblock %}
 
 {% block content %}
@@ -225,8 +260,11 @@ body{
 					<form action="" class="ui small top form" name="new_login_signup" method="post">
 						
 						<div class="field">
-						  <input type="text" name="account" placeholder="手机号码">
-						  <div class="ui login_point" id="login_point">温馨提示：请您输入手机号后再做后续操作！</div>
+							<input type="text" name="account" placeholder="手机号码" style="position: relative">
+							<div style="position: absolute; top: 2px; right: 0; display: none" id="loading">
+							  <img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">
+							</div>
+							<div class="ui login_point" id="login_point">温馨提示：输入手机号后方可进行下一步操作！</div>
 						</div>
 						
 						<div id="include">
@@ -282,6 +320,17 @@ body{
 		</div>
 	</div>
 </div>
+<div id="default_block" style="display: none">
+	<div class="field ">
+		<div class="fluid ui active magenta inverted submit button">登录 / 注册</div>
+	</div>
+	
+	<!-- 登陆时存在  -->
+	<div class="inline field">
+		<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
+	</div>
+	<!-- end -->
+</div>
 <div id="login_block">
 	<!-- 用户存在 登陆 -->
 	<div id="login" style="display: none">
@@ -297,6 +346,7 @@ body{
 		<!-- 登陆时存在  -->
 		<div class="inline field">
 			<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
+			<a href="javascript:void(0);" title="合作账号登陆" class="ui link three_login">合作账号登陆</a>
 		</div>
 		<!-- end -->
 		
@@ -319,13 +369,17 @@ body{
 			<a href="javascript:void(0);" class="ui small inverted magenta button" id="fetch-verify-code">获取验证码</a>
 		</div>
 
-		<div class="ui grid field">
-			<input class="fourteen wide column" type="password" name="password" id="password" placeholder="设置至少6位登录密码" />
-			<div class="two wide column show_password">显示</div>
-		</div>
+		<div class="field">
+			<input class="" type="password" name="password" id="signup_password" placeholder="设置至少6位登录密码" />
+			<div class=""></div>
+		</div> 
 	
 		<div class="field ">
 			<div class="fluid ui active magenta inverted submit button">注册</div>
+		</div>
+		
+		<div class="inline field">
+			<a href="javascript:void(0);" title="合作账号登陆" class="ui link three_login">合作账号登陆</a>
 		</div>
 	</div>
 	<!-- end -->
