@@ -63,6 +63,10 @@ body{
 	margin: 0 0 0em 0;
 >>>>>>> origin/ts
 	cursor: pointer;
+	padding:8px 15px 2px;
+}
+.show_password i.icon{
+	font-size:1.7em !important;
 }
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -226,11 +230,11 @@ body{
 	
 	$('.show_password').livequery(function(){
 		$(this).click(function(){
-			if($(this).text() == '显示'){
-				$(this).text('隐藏');
+			if($(this).html()=='<i class="unhide icon"></i>'){
+				$(this).html('<i class="hide icon" style="display:block;"></i>');
 				$(this).prev().attr('type','text');
-			} else {
-				$(this).text('显示');
+			}else{
+				$(this).html('<i class="unhide icon"></i>');
 				$(this).prev().attr('type','password');
 			}
 		});
@@ -241,13 +245,13 @@ body{
 			if($(this).val()){
 				$(this).attr('type','password');
 				$(this).parent().addClass('ui grid');
-				$(this).addClass('fourteen wide column');
-				$(this).next().addClass('two wide column show_password');
-				$(this).next().html('显示');
+				$(this).addClass('ten wide column');
+				$(this).next().addClass('six wide column show_password');
+				$(this).next().html('<i class="unhide icon"></i>');
 			} else {
 				$(this).parent().removeClass('ui grid');
-				$(this).removeClass('fourteen wide column');
-				$(this).next().removeClass('two wide column show_password');
+				$(this).removeClass('ten wide column');
+				$(this).next().removeClass('six wide column show_password');
 				$(this).next().html('');
 			}
 		});
@@ -281,8 +285,8 @@ body{
 						
 						<div class="field">
 							<input type="text" name="account" placeholder="手机号码" style="position: relative">
-							<div style="position: absolute; top: 2px; right: 0; display: none" id="loading">
-							  <img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">
+							<div style="position: absolute; top: 2px; right: 2px; display: none" id="loading">
+							  <img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">
 							</div>
 							<div class="ui login_point" id="login_point">温馨提示：输入手机号后方可进行下一步操作！</div>
 						</div>
