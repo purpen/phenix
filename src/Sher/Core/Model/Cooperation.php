@@ -78,6 +78,7 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
     protected $counter_fields = array('follow_count', 'love_count', 'view_count', 'stuff_count');
     
 	protected $joins = array(
+        'user' => array('user_id' => 'Sher_Core_Model_User'),
         'banner' => array('banner_id' => 'Sher_Core_Model_Asset'),
 	);
 	
@@ -118,6 +119,7 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
     protected function extra_extend_model_row(&$row) {
         $id = $row['id'] = $row['_id'];
         $row['home_url'] = Sher_Core_Helper_Url::cooperate_home_url($id);
+        $row['wap_home_url'] = Sher_Core_Helper_Url::wap_cooperate_home_url($id);
         $row['keywords_s'] = !empty($row['keywords']) ? implode(',', $row['keywords']) : '';
 		if(isset($row['summary'])){
 			// 转码
@@ -257,6 +259,20 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 	public function mock_after_remove($id) {
 		
 		return true;
+	}
+
+  /**
+    * 标记主题为编辑推荐
+    */
+  public function mark_as_stick($id, $value=1) {
+      return $this->update_set($id, array('stick' => $value));
+  }
+	
+    /**
+     * 取消主题编辑推荐
+     */
+	public function mark_cancel_stick($id){
+		return $this->update_set($id, array('stick' => 0));
 	}
 	
 }

@@ -352,7 +352,7 @@
                         <div class="ui socialstick one blocks">
                             {% for ad in ads.rows %}
                             <div class="block">
-                    			<div class="image" {% if ad.cover %}style="background-image: url('{{ ad.cover.fileurl }}');"{% endif %}>
+                    			<div class="image" {% if ad.cover %}style="background-image: url('{{ ad.cover.fileurl }}');height:220px;"{% endif %}>
                                     <a class="transparent" href="{{ ad.view_url }}" target="_blank">
                     					<div class="sub title">
                     						<h3>{{ ad.title }}</h3>

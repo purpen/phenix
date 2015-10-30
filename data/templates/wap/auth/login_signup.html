@@ -137,7 +137,7 @@ body{
 		{ 
 		   return 1; // 手机号码不能为空
 		}     
-		if(mobile.length!=11) 
+		if(mobile.length!==11) 
 		{   
 			return 2; // 手机号码长度不对
 		} 
@@ -152,8 +152,13 @@ body{
 	} 
 	
 	// 手机号码验证事件
-	$('input[name=account]').change(function(){
+	$('input[name=account]').keyup(function(){
+		
 		var phone = $(this).val();
+		if(phone.length!==11){
+			return false;
+		}
+		
 		if(validatemobile(phone) == 1){
 			phenix.show_error_note('手机号码不能为空！');
 			return false;
@@ -174,19 +179,17 @@ body{
 			var check_phone_url = '/app/site/auth/check_account';
 			$.get(check_phone_url, {phone: phone}, function(r){
 				if(r == 1){
-					$('#signup').hide();
-					$('#login').show();
 					$('form[name=new_login_signup]').attr('action','{{ app_url_wap }}/auth/do_login');
 					$('form[name=new_login_signup]').attr('id','login-form');
 					$('#include').html($('#login_block').html());
-					$('#login_block').html('');
+					$('#signup').hide();
+					$('#login').show();
 				}else{
-					$('#login').hide(); 
-					$('#signup').show();
 					$('form[name=new_login_signup]').attr('action','{{ app_url_wap }}/auth/do_register');
 					$('form[name=new_login_signup]').attr('id','register-form');
 					$('#include').html($('#signup_block').html());
-					$('#signup_block').html('');
+					$('#login').hide(); 
+					$('#signup').show();
 				}
 				/* 登录表单验证 */
 				phenix.build_auth_page();

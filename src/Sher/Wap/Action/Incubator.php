@@ -12,7 +12,7 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 		
 	);
 	
-	protected $exclude_method_list = array('execute','index');
+	protected $exclude_method_list = array('execute','index','resource');
 	
 	public function _init() {
 		//$this->set_target_css_state('page_incubator');
@@ -28,8 +28,15 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 	/**
 	 * 首页
 	 */
-	public function index(){		
+	public function index(){
 		return $this->to_html_page('wap/incubator/index.html');
+	}
+
+	/**
+	 * 孵化资源首页
+	 */
+	public function resource(){
+		return $this->to_html_page('wap/incubator/show.html');
 	}
 	
   	/**
