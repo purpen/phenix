@@ -1,5 +1,5 @@
 ---
-app.domain.base: 'http://taihuoniao.me'
+app.domain.base: 'http://www.taihuoniao.me'
 app.domain.static: 'http://static.taihuoniao.me'
 app.domain.app: '{$app.domain.base}'
 
@@ -7,7 +7,7 @@ app.url.domain:         '{$app.domain.base}'
 app.url.action_base:    '{$app.domain.app}/app/site'
 app.url.admin_base:    '{$app.domain.app}/app/admin'
 
-app.domain.mobile: 'http://m.taihuoniao.me'
+app.domain.mobile: 'http://wap.taihuoniao.me'
 app.url.mobile: '{$app.domain.mobile}'
 app.url.wap: '{$app.domain.mobile}'
 
@@ -192,7 +192,7 @@ app.url.try.comment: '{$app.url.domain}/try/view-%s-%s.html'
 
 #登录,登出,注册,忘记密码,输入邀请码
 app.url.auth:		'{$app.url.domain}/auth'
-app.url.login: 		'{$app.url.auth}/login'
+app.url.login: 		'{$app.url.auth}/'
 app.url.logout: 	'{$app.url.auth}/logout'
 app.url.register: 	'{$app.url.auth}/signup'
 app.url.forget: 	'{$app.url.auth}/forget'

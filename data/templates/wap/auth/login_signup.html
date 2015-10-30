@@ -1,0 +1,336 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}现在登录-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.sign-up {
+	text-align: center;
+}
+body{
+  min-height:100%;
+  height:auto;
+  background:url({{ app_url_packaged }}/images/landbj.jpg) center center no-repeat;
+  background-size:cover;
+}
+#mfrbird {
+    height: 480px;
+    margin: 0;
+    width: 100%;
+    top: 50%;
+    position: absolute;
+    margin-top: -250px;
+}
+.ui.wap,.mmfoot{
+  display:none;
+}
+.ui.log-in>.ui.header.logo {
+  background-color: #F2F2F2;
+  padding: 0;
+  text-align: center;
+}
+.ui.bottom.attached{
+  height:379px;
+  position:relative;
+  padding-top:25px;
+}
+.third.login{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  padding: 20px 40px;
+  text-align:center;
+}
+.third.login .three.fields{
+  font-size:0;
+}
+.third.login .inline.field{
+  display:inline-block;
+  width:33.33%;
+}
+.third.login .inline.field i.icon{
+  height:1em;
+}
+.login_point{
+	margin: 10px 0 0 10px;
+}
+.show_password{
+	margin: 0 0 0em 0;
+	cursor: pointer;
+}
+.ui.grid.field{
+	margin-bottom:1rem;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+	
+	var wait = 60,can_send=true;
+	var limitime = function(){
+		if(wait == 0){
+			can_send = true;
+			wait = 60;
+			$('#fetch-verify-code').removeClass('active').text('获取验证码');
+		}else{
+			can_send = false;
+			
+			wait--;
+			$('#fetch-verify-code').addClass('active').text('重新发送('+wait+')');
+			setTimeout(function(){
+				limitime();
+			}, 1000);
+		}
+	}
+	
+	$('#fetch-verify-code').livequery(function(){
+		$(this).click(function(){
+			var phone = $('input[name=account]').val();
+			if(!can_send){
+				return false;
+			}
+			if(phone){
+				// 先输入验证码再发送
+				var captcha = $('#captcha').val();
+				if(captcha == ''){
+					phenix.show_error_note('请先输入验证码！');
+					return false;
+				}
+				// 验证验证码
+				var url = '/app/site/captcha/check';
+				$.get(url, {code: captcha, type: 0}, function(result){
+					if(result == '0'){
+						phenix.show_error_note('验证码不正确！');
+						// 刷新验证码
+						$('#captcha-img img').click();
+						return false;
+					}else{
+						// 添加发送频率
+						limitime();
+						$this = $('#fetch-verify-code');
+						$.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
+							if(result.errorCode == 200){
+								$this.removeClass('disabled').text('获取验证码');
+							}
+						}); 
+					};
+				});
+			}else{
+				phenix.show_error_note('请正确填写手机号码！');
+			}
+		});
+	});
+
+
+	$('.ui.no-weixin').click(function(){
+		phenix.show_error_note('请使用微信客户端登录!');
+		return false;
+		phenix.redirect("{{ app_url_wap }}/auth/qr_code");
+	});
+	
+	// js验证手机号码格式
+	function validatemobile(mobile) 
+	{ 
+		if(mobile.length==0) 
+		{ 
+		   return 1; // 手机号码不能为空
+		}     
+		if(mobile.length!==11) 
+		{   
+			return 2; // 手机号码长度不对
+		} 
+		 
+		var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
+		if(!myreg.test(mobile)) 
+		{
+			return 3; // 手机号码格式不对
+		}
+		
+		return false;
+	} 
+	
+	// 手机号码验证事件
+	$('input[name=account]').keyup(function(){
+		
+		var phone = $(this).val();
+		if(phone.length!==11){
+			return false;
+		}
+		
+		if(validatemobile(phone) == 1){
+			phenix.show_error_note('手机号码不能为空！');
+			return false;
+		}
+		if(validatemobile(phone) == 2){
+			phenix.show_error_note('手机号码长度不对！');
+			return false;
+		}
+		if(validatemobile(phone) == 3){
+			phenix.show_error_note('手机号码格式不对！');
+			return false;
+		}
+		if(!validatemobile(phone)){
+			// 隐藏第三方登陆
+			$('.third.login').hide();
+			$('#login_point').hide();
+			//验证手机是否注册过
+			var check_phone_url = '/app/site/auth/check_account';
+			$.get(check_phone_url, {phone: phone}, function(r){
+				if(r == 1){
+					$('form[name=new_login_signup]').attr('action','{{ app_url_wap }}/auth/do_login');
+					$('form[name=new_login_signup]').attr('id','login-form');
+					$('#include').html($('#login_block').html());
+					$('#signup').hide();
+					$('#login').show();
+				}else{
+					$('form[name=new_login_signup]').attr('action','{{ app_url_wap }}/auth/do_register');
+					$('form[name=new_login_signup]').attr('id','register-form');
+					$('#include').html($('#signup_block').html());
+					$('#login').hide(); 
+					$('#signup').show();
+				}
+				/* 登录表单验证 */
+				phenix.build_auth_page();
+			});
+		}
+	});
+	
+	$('.show_password').livequery(function(){
+		$(this).click(function(){
+			if($(this).text() == '显示'){
+				$(this).text('隐藏');
+				$(this).prev().attr('type','text');
+			} else {
+				$(this).text('显示');
+				$(this).prev().attr('type','password');
+			}
+		});
+	});
+{% endblock %}
+
+{% block content %}
+<div class="auth page">
+	<div class="ui responsive grid">
+		<div class="ui column width">
+			<div class="ui log-in signup">
+				<div class="ui top attached header logo">
+					<a href="{{ app_url_wap }}" title="返回首页">
+						<img src="{{ app_url_packaged }}/images/auth-logo.png" />
+					</a>
+				</div>
+				
+				<div class="ui bottom attached segment">
+					<form action="" class="ui small top form" name="new_login_signup" method="post">
+						
+						<div class="field">
+						  <input type="text" name="account" placeholder="手机号码">
+						  <div class="ui login_point" id="login_point">温馨提示：请您输入手机号后再做后续操作！</div>
+						</div>
+						
+						<div id="include">
+							<div class="field ">
+								<div class="fluid ui active magenta inverted submit button">登录 / 注册</div>
+							</div>
+							
+							<!-- 登陆时存在  -->
+							<div class="inline field">
+								<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
+							</div>
+							<!-- end -->
+						</div>
+						
+					</form>
+					
+					<!-- 第三方帐号登录 -->
+					
+					<!-- 验证手机之后隐藏 -->
+					<div class="third login">
+						<h4>第三方帐号登录</h4>
+            
+						<div class="ui center aligned three fields">
+							<div class="inline field" style="text-align:center;">
+								<a href="{{ weibo_auth_url }}" class="ui big weibo red circular share icon button">
+									<i class="large weibo icon"></i> 
+								</a>
+							</div>
+
+							<div class="inline field" style="text-align:center;">
+								<a href="{{ app_url_qq_login_wap }}" class="ui big qq blue circular share icon button">
+									<i class="large qq icon"></i>
+								</a>
+							</div>
+							
+							<div class="inline field" style="text-align:center;">
+								{% if is_weixin %}
+								<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&redirect_uri={{wx_params.redirect_uri}}&response_type=code&scope=snsapi_login&state={{wx_params.state}}" class="ui big green circular share icon button">
+									<i class="large weixin icon"></i>
+								</a>
+								{%else%}
+								<a href="javascript:void(0);" class="ui big green no-weixin circular share icon button">
+									<i class="flat large weixin icon"></i>
+								</a>
+								{%endif%}
+							</div>
+						</div>
+  					
+					</div> 
+					<!-- end --> 
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="login_block">
+	<!-- 用户存在 登陆 -->
+	<div id="login" style="display: none">
+		
+		<div class="field">
+			<input type="password" name="password" id="password" placeholder="登录密码" />
+		</div>
+		
+		<div class="field ">
+			<div class="fluid ui active magenta inverted submit button">登录</div>
+		</div>
+		
+		<!-- 登陆时存在  -->
+		<div class="inline field">
+			<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
+		</div>
+		<!-- end -->
+		
+	</div>
+	<!-- end -->
+</div>
+<div id="signup_block">
+	<!-- 用户不存在 注册 -->
+	<div id="signup" style="display: none">
+		<input type="hidden" name="evt" value="{{ evt }}" />
+		<div class="inline field">
+			<input type="text" name="captcha" placeholder="验证码" id="captcha" style="width:48%;" />
+			<a href="javascript:void(0);" class="ui gray" id="captcha-img">
+				<img src="/app/site/captcha/view" onclick="this.src='/app/site/captcha/view?'+Math.random();" style="position:absolute;margin-left:5px;" />
+			</a>
+		</div>
+	
+		<div class="field">
+			<input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" style="width:48%;margin: 0 .85714286em 0 0;" />
+			<a href="javascript:void(0);" class="ui small inverted magenta button" id="fetch-verify-code">获取验证码</a>
+		</div>
+
+		<div class="ui grid field">
+			<input class="ten wide column" type="password" name="password" id="password" placeholder="设置至少6位登录密码" />
+			<div class="six wide column show_password">显示</div>
+		</div>
+	
+		<div class="field ">
+			<div class="fluid ui active magenta inverted submit button">注册</div>
+		</div>
+	</div>
+	<!-- end -->
+</div>
+{% endblock %}
