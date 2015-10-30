@@ -54,8 +54,11 @@ body{
 	margin: 10px 0 0 10px;
 }
 .show_password{
-	margin: 0 0 1em 0;
+	margin: 0 0 0em 0;
 	cursor: pointer;
+}
+.ui.grid.field{
+	margin-bottom:1rem;
 }
 </style>
 {% endblock %}
@@ -314,14 +317,14 @@ body{
 			</a>
 		</div>
 	
-		<div class="inline field">
-			<input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" style="width:48%;" />
+		<div class="field">
+			<input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" style="width:48%;margin: 0 .85714286em 0 0;" />
 			<a href="javascript:void(0);" class="ui small inverted magenta button" id="fetch-verify-code">获取验证码</a>
 		</div>
 
 		<div class="ui grid field">
-			<input class="fourteen wide column" type="password" name="password" id="password" placeholder="设置至少6位登录密码" />
-			<div class="two wide column show_password">显示</div>
+			<input class="ten wide column" type="password" name="password" id="password" placeholder="设置至少6位登录密码" />
+			<div class="six wide column show_password">显示</div>
 		</div>
 	
 		<div class="field ">
