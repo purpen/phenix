@@ -226,10 +226,20 @@ body{
 						
 						<div class="field">
 						  <input type="text" name="account" placeholder="手机号码">
-						  <div class="ui login_point" id="login_point">温馨提示：输入手机号后会自动显示登陆或者注册按钮！</div>
+						  <div class="ui login_point" id="login_point">温馨提示：请您输入手机号后再做后续操作！</div>
 						</div>
 						
-						<div id="include"></div>
+						<div id="include">
+							<div class="field ">
+								<div class="fluid ui active magenta inverted submit button">登录 / 注册</div>
+							</div>
+							
+							<!-- 登陆时存在  -->
+							<div class="inline field">
+								<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
+							</div>
+							<!-- end -->
+						</div>
 						
 					</form>
 					
