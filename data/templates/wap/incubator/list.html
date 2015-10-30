@@ -62,7 +62,55 @@ a.line, a.line:visited {
 </style>
 {% endblock %}
 
+{% block layout_js %}
+  <script type="text/javascript" >
+      function ajax_load_more(category_id, type, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          $('#cooperation-more').show().attr('status', 1);
+          var url = '{{ app_url_wap }}/incubator/ajax_fetch_more';
+
+          $.ajax({
+            type: "GET",
+            url: url,
+            data: { category_id:category_id, sort:sort, type:type, page:page, size:size },
+            dataType: 'json',
+            cache: false,
+            success: function(rs){
+              if(rs.data.results.total_page > rs.data.results.current_page){
+                  $('#cooperation-more')
+                      .hide()
+                      .attr({'status': 0, 'page': rs.data.page});
+              }else{
+                  $('#cooperation-more').html('没有更多');
+              }
+              var rendered = phenix.ajax_render_result('#fetch_more_cooperation_tpl', rs.data);
+              $('.item-box').append(rendered);
+            }
+          });
+      }
+  </script>
+
+
+{% endblock %}
+
 {% block jquery %}
+
+  //ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      var stat = $('#cooperation-more').attr('status');
+      var page = parseInt($('#cooperation-more').attr('page')) + 1;
+
+      if(stat==0){
+        ajax_load_more(0, 0, 0, page, 6);
+      }
+　　}
+  });
+
+  ajax_load_more(0, 0, 0, 1, 6);
 	
 {% endblock %}
 
@@ -70,35 +118,27 @@ a.line, a.line:visited {
 <div class="ui responsive grid">
 	<div class="row">
 		<div class="column">
-			<div class="ui cooperate one cards">
+			<div class="ui cooperate one cards item-box">
 				
-				<div class="card">
-					<div class="brand">
-					        <div class="logo">
-					            <a class="ui link" href="http://www.taihuoniao.com/cooperate/view?id=21" target="_blank">
-					                <img class="ui big avatar image" src="http://frbird.qiniudn.com/avatar/150507/554b252dfc8b12290c8bd605-avm.jpg">
-					                            </a>
-					        </div>
-					        <h2>
-					            <a class="ui name line" href="http://www.taihuoniao.com/cooperate/view?id=21" target="_blank">中世纵横设计</a>
-					            <span class="extra">
-					                 深圳
-					            </span>
-					        </h2>
-					        <div class="excerpt">
-					            公司创建于1994年，是深圳市重点文化企业，首批入住深圳“设计之都”创意产业园，办公面积1500平米，目前已经发展成为一家纵贯顾问、调研、策划、设计、监理、实施等多个环节，横跨品牌塑造、视觉传达、空间导向、...
-					        </div>
-					        <div class="cats">
-					                                    <span class="ui link">用户体验设计</span><span class="ui link">用户体验设计</span><span class="ui link"></span><span class="ui link"></span>                    </div>
-        
-					    </div>
-				
-				
-				</div>
+
 			
 			
 			</div>
 		</div>
 	</div>
+
+		<div class="row">
+      <!--ajax load-->
+      <div id="cooperation-more" style="display:none;" page="1" status="0">
+        <div style="text-align:center;margin:10px auto;">
+          <img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">
+        </div>
+      </div>
+	  </div>
+
 </div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'fetch_more_cooperation_tpl' tpl:'mustache_m/fetch_more_cooperation.mustache' %}
 {% endblock %}

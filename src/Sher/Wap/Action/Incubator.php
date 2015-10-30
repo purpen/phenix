@@ -12,7 +12,7 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 		
 	);
 	
-	protected $exclude_method_list = array('execute','index','resource','get_list','view');
+	protected $exclude_method_list = array('execute','index','resource','get_list','view','ajax_fetch_more');
 	
 	public function _init() {
 		//$this->set_target_css_state('page_incubator');
@@ -243,6 +243,79 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 		$is_ship = $model->has_exist_follow($this->visitor->id, $id);
 		$this->stash['is_ship'] = $is_ship;
   }
+
+  /**
+   * 自动加载获取
+   */
+  public function ajax_fetch_more(){
+        
+		$page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 10;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
+        
+        $query = array();
+
+        if($category_id){
+          $query['type'] = $category_id;
+        }
+
+        $options['page'] = $page;
+        $options['size'] = $size;
+
+        // 排序
+        switch ((int)$sort) {
+          case 0:
+            $options['sort_field'] = 'latest';
+            break;
+          case 1:
+            $options['sort_field'] = 'stick:latest';
+            break;
+        }
+
+        //限制输出字段
+        $some_fields = array(
+
+        );
+        //$options['some_fields'] = $some_fields;
+        
+        $category_mode = new Sher_Core_Model_Category();
+        $service = Sher_Core_Service_Cooperate::instance();
+        $resultlist = $service->get_latest_list($query,$options);
+        $next_page = 'no';
+        if(isset($resultlist['next_page'])){
+            if((int)$resultlist['next_page'] > $page){
+                $next_page = (int)$resultlist['next_page'];
+            }
+        }
+        
+        $max = count($resultlist['rows']);
+        for($i=0;$i<$max;$i++){
+
+          //加载子分类
+          $category_ids = isset($resultlist['rows'][$i]['category_ids']) ? $resultlist['rows'][$i]['category_ids'] : array();
+          $category_objs = array();
+          if($category_ids){
+            for($j=0;$j<count($category_ids);$j++){
+              $category_sub = $category_mode->load((int)$v);
+              if($category_sub) array_push($category_objs, $category_sub); 
+            }
+            $resultlist['rows'][$i]['category_objs'] = $category_objs;
+          }
+          // 过滤用户表
+          if(isset($resultlist['rows'][$i]['user'])){
+            $resultlist['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['user']);
+          }
+
+        } //end for
+
+        $data = array();
+        $data['nex_page'] = $next_page;
+        $data['results'] = $resultlist;
+        
+        return $this->ajax_json('', false, '', $data);
+    }
 	
 }
 
