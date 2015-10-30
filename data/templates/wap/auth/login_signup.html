@@ -53,6 +53,10 @@ body{
 .login_point{
 	margin: 10px 0 0 10px;
 }
+.show_password{
+	margin: 0 0 1em 0;
+	cursor: pointer;
+}
 </style>
 {% endblock %}
 
@@ -63,9 +67,6 @@ body{
 {% endblock %}
 
 {% block jquery %}
-	
-	/* 登录表单验证 */
-	phenix.build_auth_page();
 	
 	var wait = 60,can_send=true;
 	var limitime = function(){
@@ -175,18 +176,34 @@ body{
 				if(r == 1){
 					$('#signup').hide();
 					$('#login').show();
-					$('#login-form').attr('action','{{ app_url_wap }}/auth/do_login');
+					$('form[name=new_login_signup]').attr('action','{{ app_url_wap }}/auth/do_login');
+					$('form[name=new_login_signup]').attr('id','login-form');
 					$('#include').html($('#login_block').html());
 					$('#login_block').html('');
 				}else{
 					$('#login').hide(); 
 					$('#signup').show();
-					$('#login-form').attr('action','{{ app_url_wap }}/auth/do_register');
+					$('form[name=new_login_signup]').attr('action','{{ app_url_wap }}/auth/do_register');
+					$('form[name=new_login_signup]').attr('id','register-form');
 					$('#include').html($('#signup_block').html());
 					$('#signup_block').html('');
 				}
+				/* 登录表单验证 */
+				phenix.build_auth_page();
 			});
 		}
+	});
+	
+	$('.show_password').livequery(function(){
+		$(this).click(function(){
+			if($(this).text() == '显示'){
+				$(this).text('隐藏');
+				$(this).prev().attr('type','text');
+			} else {
+				$(this).text('显示');
+				$(this).prev().attr('type','password');
+			}
+		});
 	});
 {% endblock %}
 
@@ -202,7 +219,7 @@ body{
 				</div>
 				
 				<div class="ui bottom attached segment">
-					<form action="" class="ui small top form" method="post" id="login-form">
+					<form action="" class="ui small top form" name="new_login_signup" method="post">
 						
 						<div class="field">
 						  <input type="text" name="account" placeholder="手机号码">
@@ -257,7 +274,7 @@ body{
 	<div id="login" style="display: none">
 		
 		<div class="field">
-		  <input type="password" name="password" id="password" placeholder="登录密码" />
+			<input type="password" name="password" id="password" placeholder="登录密码" />
 		</div>
 		
 		<div class="field ">
@@ -289,8 +306,9 @@ body{
 			<a href="javascript:void(0);" class="ui small inverted magenta button" id="fetch-verify-code">获取验证码</a>
 		</div>
 
-		<div class="field">
-			<input type="password" name="password" id="password" placeholder="设置至少6位登录密码" />
+		<div class="ui grid field">
+			<input class="fourteen wide column" type="password" name="password" id="password" placeholder="设置至少6位登录密码" />
+			<div class="two wide column show_password">显示</div>
 		</div>
 	
 		<div class="field ">
