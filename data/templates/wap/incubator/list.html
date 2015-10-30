@@ -1,0 +1,104 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style class="text/css">
+.ui.cards > .card{
+	margin:0;
+}
+.ui.cooperate.cards>.card>.brand {
+    background-color: #fff;
+    border-bottom: 4px solid #f3f2f2;
+    position: relative;
+    padding: 20px 0 0;
+}
+.logo{
+	text-align:center;
+}
+.ui.cooperate.cards>.card>.brand img.avatar {
+    border: 1px solid rgba(0,0,0,.03);
+    height: 4em;
+    width: 4em;
+}
+.ui.cooperate.cards>.card>.brand h2 {
+    color: #797979;
+    font-weight: 400;
+    letter-spacing: .15px;
+    margin: 0;
+    padding: 5px 20px 0;
+    text-align: center;
+}
+.ui.cooperate.cards>.card>.brand>.excerpt {
+    color: rgba(146,147,163,.9);
+    font-size: 14px;
+    height: 58px;
+    letter-spacing: .1px;
+    line-height: 1.4;
+    overflow: hidden;
+    padding: 0 20px;
+    text-align: left;
+    margin-bottom: 15px;
+}
+.ui.cooperate.cards>.card>.brand>.cats {
+    font-size: 9pt;
+    font-weight: 400;
+    height: 15px;
+    padding: 9pt 54px 30px 21px;
+    text-align: left;
+    text-transform: uppercase;
+    background-color: #f8f8f8;
+}
+.ui.cooperate.cards>.card>.brand>.cats .ui.link {
+    font-size: 9pt;
+}
+.ui.cooperate.cards>.card>.brand .extra {
+    font-size: 9pt;
+    color: rgba(146,147,163,.9);
+}
+a.line, a.line:visited {
+    font-size: 1pc;
+    text-decoration: none;
+	color: rgba(112,123,135,.92);
+}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+
+{% block content %}
+<div class="ui responsive grid">
+	<div class="row">
+		<div class="column">
+			<div class="ui cooperate one cards">
+				
+				<div class="card">
+					<div class="brand">
+					        <div class="logo">
+					            <a class="ui link" href="http://www.taihuoniao.com/cooperate/view?id=21" target="_blank">
+					                <img class="ui big avatar image" src="http://frbird.qiniudn.com/avatar/150507/554b252dfc8b12290c8bd605-avm.jpg">
+					                            </a>
+					        </div>
+					        <h2>
+					            <a class="ui name line" href="http://www.taihuoniao.com/cooperate/view?id=21" target="_blank">中世纵横设计</a>
+					            <span class="extra">
+					                 深圳
+					            </span>
+					        </h2>
+					        <div class="excerpt">
+					            公司创建于1994年，是深圳市重点文化企业，首批入住深圳“设计之都”创意产业园，办公面积1500平米，目前已经发展成为一家纵贯顾问、调研、策划、设计、监理、实施等多个环节，横跨品牌塑造、视觉传达、空间导向、...
+					        </div>
+					        <div class="cats">
+					                                    <span class="ui link">用户体验设计</span><span class="ui link">用户体验设计</span><span class="ui link"></span><span class="ui link"></span>                    </div>
+        
+					    </div>
+				
+				
+				</div>
+			
+			
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
