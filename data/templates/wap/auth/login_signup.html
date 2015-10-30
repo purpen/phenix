@@ -50,38 +50,20 @@ body{
 .third.login .inline.field i.icon{
   height:1em;
 }
-.login_point{
-	margin: 10px 0 0 0;
-}
+
 .show_password{
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 	margin: 0 0 0em 0;
->>>>>>> origin/ts
-=======
-	margin: 0 0 0em 0;
->>>>>>> origin/ts
 	cursor: pointer;
 	padding:8px 15px 2px;
 }
 .show_password i.icon{
 	font-size:1.7em !important;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-=======
-.ui.grid.field{
-	margin-bottom:1rem;
-}
->>>>>>> origin/ts
-=======
 .ui.grid.field{
 	margin-bottom:1rem;
 }
 
->>>>>>> origin/ts
 </style>
 {% endblock %}
 
@@ -184,7 +166,6 @@ body{
 			$('#include').html($('#default_block').html());
 			$('form[name=new_login_signup]').attr('action','');
 			$('.third.login').show();
-			$('#login_point').show();
 			return false;
 		}
 		
@@ -203,7 +184,6 @@ body{
 		if(!validatemobile(phone)){
 			// 隐藏第三方登陆
 			$('.third.login').hide();
-			$('#login_point').hide();
 			$('#loading').show();
 			//验证手机是否注册过
 			var check_phone_url = '/app/site/auth/check_account';
@@ -263,7 +243,6 @@ body{
 			$('form[name=new_login_signup]').attr('id','');
 			$('#include').html($('#default_block').html());
 			$('.third.login').show();
-			$('#login_point').show();
 			$('input[name=account]').val('');
 		});
 	});
@@ -288,7 +267,6 @@ body{
 							<div style="position: absolute; top: 2px; right: 2px; display: none" id="loading">
 							  <img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">
 							</div>
-							<div class="ui login_point" id="login_point">温馨提示：输入手机号后方可进行下一步操作！</div>
 						</div>
 						
 						<div id="include">
