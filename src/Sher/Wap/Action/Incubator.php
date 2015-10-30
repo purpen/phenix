@@ -67,6 +67,7 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
       }
     }
     
+    $this->validate_ship($id);
     $this->stash['category_objs'] = $category_objs;
     $this->stash['cooperate'] = $cooperate;
 
@@ -231,6 +232,16 @@ class Sher_Wap_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
  			return $this->ajax_json('申请失败.!', true); 
     }
   
+  }
+
+  /**
+   * 验证关系
+   */
+  protected function validate_ship($id){
+		// 验证关注关系
+		$model = new Sher_Core_Model_Favorite();
+		$is_ship = $model->has_exist_follow($this->visitor->id, $id);
+		$this->stash['is_ship'] = $is_ship;
   }
 	
 }

@@ -288,25 +288,6 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 		
 		return $this->inc($id, $field_name, $inc);
 	}
-	
-	/**
-	 * 减少计数
-	 * 需验证，防止出现负数
-	 */
-	public function dec_counter($count_name,$topic_id=null,$force=false){
-	    if(is_null($topic_id)){
-	        $topic_id = $this->id;
-	    }
-	    if(empty($topic_id)){
-	        return false;
-	    }
-		if(!$force){
-			$stuff = $this->find_by_id($topic_id);
-			if(!isset($stuff[$count_name]) || $stuff[$count_name] <= 0){
-				return true;
-			}
-		}
-		return $this->dec($topic_id, $count_name);
-	}
+
 	
 }
