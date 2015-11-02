@@ -8,7 +8,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = array('execute','flat','add_user','test_func');
+	protected $exclude_method_list = array('execute','flat','add_user','test_func','tweleve');
 
 	/**
 	 * 默认入口
@@ -138,7 +138,11 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 		return $this->to_html_page('wap/noodles.html');
 	}
 	public function tweleve() {
-		return $this->to_html_page('page/dreamk.html');
+<<<<<<< HEAD
+		return $this->to_html_page('wap/incubator/list.html');
+=======
+		return $this->to_html_page('wap/auth/logsin.html');
+>>>>>>> d0aaf1c59bfe7c7795dde529aeb4a2b0b29dc6d1
 	}
 
   /**

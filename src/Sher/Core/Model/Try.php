@@ -16,6 +16,16 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	## 状态
 	const STATE_DRAFT = 0;
 	const STATE_PUBLISH = 1;
+
+  ## 申请限制
+  const APPLY_TERM_NO = 0;  // 不限制
+  const APPLY_TERM_LEVEL = 1; // 等级限制
+  const APPLY_TERM_MONEY = 2; //  鸟币限制
+
+  ## 类型
+  const KIND_FREE = 1;  // 零元免费
+  const KIND_SUPER = 2; // 超级试用
+  const KIND_FAST = 3;  // 闪电试用
 	
     protected $schema = array(
 		'title' => '',
@@ -46,15 +56,25 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		'user_id' => 0,
  		# 关联的产品
     	'product_id' => 0,
+    # 购买链接
+    'buy_url' => null,
 		
 		# 试用数量
 		'try_count'  => 0,
 		# 申请人数
 		'apply_count' => 0,
+    # 评测报告数量
+    'report_count' => 0,
         # 虚拟申请人数
         'invented_apply_count' => 0,
 		# 申请通过的人员
 		'pass_users' => array(),
+
+    # 预热想要数量
+    'want_count' => 0,
+
+    # 预热开启条件(想要人数)
+    'open_limit' => 0,
 		
 		# 参与方式
 		'join_away' => self::JOIN_FREE_AWAY,
@@ -74,6 +94,14 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
             'qr_ios' => null,
             'qr_android' => null,
         ),
+
+    # 申请限制开关
+        'apply_term' => self::APPLY_TERM_NO,
+    # 限制条件，比如等级和鸟币
+        'term_count' => 0,
+
+    # 申请类型
+      'kind' => self::KIND_FREE,
 		
 		# 设置推荐
 		'sticked' => 0,
@@ -90,9 +118,9 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	
     protected $required_fields = array('title', 'user_id');
 	
-    protected $int_fields = array('user_id', 'product_id', 'sticked', 'join_away', 'try_count', 'apply_count', 'pass_count', 'season', 'step_stat', 'invented_apply_count');
+    protected $int_fields = array('user_id', 'product_id', 'sticked', 'join_away', 'try_count', 'apply_count', 'pass_count', 'season', 'step_stat', 'invented_apply_count', 'apply_term', 'want_count', 'report_count', 'kind', 'open_limit');
 	
-	protected $counter_fields = array('view_count', 'love_count', 'comment_count', 'apply_count', 'invented_apply_count');
+	protected $counter_fields = array('view_count', 'love_count', 'comment_count', 'apply_count', 'invented_apply_count', 'want_count', 'report_count');
 	/**
 	 * 扩展关联数据
 	 */
@@ -125,6 +153,23 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 				$row['is_end'] = false;
 			}
 		}
+
+    // 灰型说明
+    if(isset($row['kind'])){
+      switch($row['kind']){
+        case 1:
+          $row['kind_label'] = '0元免费';
+          break;
+        case 2:
+          $row['kind_label'] = '超级试用';
+          break;
+        case 3:
+          $row['kind_label'] = '闪电试用';
+          break;
+        default:
+          $row['kind_label'] = '--';
+      }
+    }
 
     if(isset($row['step_stat'])){
       switch((int)$row['step_stat']){

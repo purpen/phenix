@@ -48,5 +48,10 @@
 	]]></append>
 	<eval>
 		$('.comment-textarea').val('');
+
+    {% if rank_has_first_comment %}
+      //神嘴争霸赛弹出分享事件
+      $('#mask').css('display','');
+    {%endif%}
 	</eval>
 </taconite>

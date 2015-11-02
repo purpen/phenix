@@ -1,0 +1,885 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style class="text/css">
+  #mfrbird{
+    margin:0 0 1em;
+  }
+  .one.cards > .card{
+    margin:10px 0 !important;
+  }
+  .ui.left.aligned{
+    text-align:left;
+  }
+  a.line{
+    font-size:16px;
+  }
+  .brood.service{
+    background:url({{ app_url_packaged }}/images/incubator/wap_bg.jpg) ;
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 160px;
+    position:relative;
+  }
+  @media only screen and (min-width: 375px){
+    .brood.service{
+      height:180px;
+    }
+  }
+  @media only screen and (min-width: 415px){
+    .brood.service{
+      height:220px;
+    }
+  }
+  .join{
+    width: 200px;
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    bottom: -24px;
+    cursor: pointer;
+  }
+  .ui.big.block p > span{
+    color:#fa6b00;
+  }
+  .ui.big.block {
+    padding-top: 2em;
+    padding-bottom: 2em;
+    margin:0;
+  }
+  .brood.service + .ui.big.block{
+    padding-top:2.5em;
+  }
+  .ui.incubator.menu {
+    background: url({{ app_url_packaged }}/images/incubator/bg3.jpg) center center no-repeat;
+    background-size: cover;
+    border: none;
+    border-radius: 0;
+  }
+  .incubator.service .ui.five.blocks > .block{
+    display:inline-block;
+    margin:0 10px;
+  }
+  .incubator.service .ui.five.blocks > .block .wtitle{
+    background:url({{ app_url_packaged }}/images/incubator/circle.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    width:80px;
+    height:80px;
+    margin:auto;
+    transform: rotate(0deg);
+    transition-duration: 1s;
+  }
+  .incubator.service .ui.five.blocks > .block .wtitle:hover{
+    transform: rotate(20deg);
+  }
+  .incubator.service .ui.five.blocks > .block .wtitle a,.incubator.service .ui.five.blocks > .block .wtitle a:hover{
+    margin-top:0px;
+    color:#fff;
+    border:none;
+    transform: rotate(0deg);
+    line-height: 80px;
+    width: 100%;
+    border-radius:500rem;
+    transition-duration: 1.5s !important;
+    
+  }
+  .incubator.service .ui.five.blocks > .block .wtitle a:hover{
+    transform: rotate(-20deg);
+  }
+  .section-title h2.block.title {
+    font-size: 28px;
+    margin: 0 0 .5rem;
+    color: #fff;
+    padding-top: 0px;
+    line-height: 32px;
+    padding-bottom: .5rem;
+    font-weight: 400;
+    background:rgba(0,0,0,0);
+    border:none;
+  }
+  .section-title hr {
+    background: #f36;
+    border: none;
+    height: 2px;
+    margin: 0 auto 1.5rem;
+    width: 100px;
+  }
+  .brood.design{
+    background:#d82545;
+  }
+  .brood.design h2.block.title{
+    color:#fff;
+  }
+  .brood.design h2.block.title + hr{
+    background:#fff;
+  }
+  .brood.design h2.block.title + hr + p,.brood.make h2.block.title + hr + p{
+    color:#fff;
+    margin-bottom: 2rem;
+  }
+  .brood.design .card .addmap{
+    height: 20px;
+    font-size: 15px;
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    z-index: 9;
+    text-align: left;
+  }
+  .brood.design .card .content{
+    padding:20px;
+  }
+  .brood.design .card .content a img{
+    width:90px;
+    height:90px;
+  }
+  .brood.design .card .content .ui.cover.line{
+    display: inline-block;
+    float: left;
+    margin-right: 15px;
+    padding: 0;
+    border: 1px solid rgba(0,0,0,0.05);
+    vertical-align: middle;
+  }
+  .brood.design .card .content h2{
+    height: 24px;
+    line-height: 24px;
+    margin-bottom: 5px;
+    margin-top: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .brood.design .card .content h2 a,.brood.skill .card h2 a,.brood.make .card h2 a{
+    color:#222;
+  }
+  .brood.design .card .content .descript{
+    margin: 5px 0px;
+    font-size: 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color:#f86b07;
+  }
+  .brood.design .card .content .excerpt {
+    color: rgba(146,147,163,.9);
+    font-size: 14px;
+    height: 36px;
+    letter-spacing: .1px;
+    line-height: 1.4;
+    overflow: hidden;
+    text-align: left;
+  }
+  .ui.ant{
+    margin-top:30px;
+  }
+  
+  .brood.skill .section-title h2.block.title,.brood.school .section-title h2.block.title ,.brood.other .section-title h2.block.title {
+      color: rgba(0,0,0,.87);
+  }
+  .section-title hr {
+      background: #f86b07;
+  }
+  
+  .brood.skill .card{
+    padding:15px;
+  }
+  .brood.skill .card h2 .content{
+    width:69%;
+  }
+  .brood.skill .card h2 .content .sub.header{
+    margin: 5px 0px;
+    font-size: 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #f86b07;
+  }
+  .brood.skill .card h2 > a{
+    line-height:58px;
+    margin-right:10px;
+  }
+  .brood.skill .card h2 a img{
+    display: inline-block;
+    margin-top: 0;
+    width: 55px;
+    height: 55px;
+    vertical-align: middle;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  .brood.skill .card h2.ui.header{
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    padding-bottom: 10px;
+    border-radius: 0 !important;
+  }
+  .brood.skill .card .excerpt{
+    color: rgba(146,147,163,.9);
+    font-size: 14px;
+    height: 76px;
+    letter-spacing: .1px;
+    line-height: 1.4;
+    overflow: hidden;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+  .brood.skill .card .addmap{
+    height: 20px;
+    font-size: 15px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    z-index: 9;
+    text-align: left;
+  }
+  .brood.skill h2.block.title + hr + p,.brood.school h2.block.title + hr + p,.brood.other h2.block.title + hr + p{
+    margin-bottom:2rem;
+  }
+  
+  .brood.make{
+    background:#1096a2;
+    color:#fff;
+  }
+  .brood.make .card{
+    padding:15px;
+    box-shadow: none;
+  }
+  .brood.make .card .bgcolor{
+    margin: -15px;
+    width: calc(100% + 30px);
+    height:90px;
+    background:#40d8c8;
+    color:#fff;
+    text-align:center;
+    padding:20px;
+    margin-bottom: 50px;
+    position: relative;
+  }
+  .brood.make .card .bgcolor .addmap{
+    height: 20px;
+    font-size: 15px;
+    z-index: 9;
+  }
+  .brood.make .card .bgcolor a{
+    position:absolute;
+    left:50%;
+    margin-left:-35px;
+    bottom:0;
+    margin-bottom:-35px;
+  }
+  .brood.make .card .bgcolor a img{
+    width:70px;
+    height:70px;
+    border:1px solid rgba(0,0,0,0.05);
+  }
+  .brood.make .card h2 {
+    height: 24px;
+    line-height: 24px;
+    margin-bottom: 10px;
+    margin-top: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align:center;
+  }
+  .brood.make .card .excerpt{
+    color: rgba(146,147,163,.9);
+    font-size: 14px;
+    height: 76px;
+    letter-spacing: .1px;
+    line-height: 1.4;
+    overflow: hidden;
+    text-align: left;
+    margin-bottom: 40px;
+  }
+  .brood.make .card .descript {
+    margin: 0px;
+    font-size: 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    position:absolute;
+    left:0;
+    bottom:0;
+    background:#f8f8f8;
+    padding: 10px 15px;
+    width: 100%;
+    color:#555;
+  }
+  .brood.make .card .descript span{
+    color:#00a0da;
+  }
+  .brood.school .card img {
+      vertical-align: bottom;
+      width:100%;
+  }
+  .ui.three.cards .card{
+    width:28%;
+    box-shadow: none;
+  }
+  
+  .brood.other .ui.cooperate.cards>.card>.brand:hover{
+    margin-top:0;
+  }
+  .brood.other .ui.cooperate.cards,.brood.design .ui.cooperate.cards>.card{
+    margin:0;
+  }
+  .brood.other .ui.cooperate.cards>.card .addmap{
+    width:100px;
+    height:20px;
+    font-size:15px;
+    position:absolute;
+    top:15px;
+    left:15px;
+    z-index:9;
+    text-align:left;
+  }
+  .brood.other .ui.cooperate.cards>.card .addmap i{
+    margin:0;
+  }
+  .brood.other .ui.cooperate.cards>.card .brand a.name.line{
+    color:#222;
+    font-size:18px;
+  }
+  .brood.other .ui.cooperate.cards>.card .brand h3.ui.header{
+    margin:10px 20px 10px !important;
+    text-align:left;
+    color:#00a0da !important;
+    font-size:16px;
+  }
+  .brood.other .ui.cooperate.cards>.card .brand p.descript{
+    text-align:left;
+    margin:5px 20px;
+    font-size:15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .brood.other {
+    background:#dfdfdf;
+  }
+  .brood.other .ui.cooperate.cards>.card>.brand{
+    padding-top:40px;
+  }
+  .brood.other .ui.cooperate.cards>.card>.brand img.avatar{
+    height:5em;
+    width:5em;
+    border-radius:0;
+    border: 1px solid rgba(0,0,0,.03);
+  }
+  .ui.cooperate.cards>.card>.brand>.excerpt {
+      color: rgba(146,147,163,.9);
+      font-size: 14px;
+      height: 56px;
+      letter-spacing: .1px;
+      line-height: 1.4;
+      overflow: hidden;
+      padding: 0 20px;
+      text-align: left;
+  }
+  .ui.cooperate.cards>.card>.brand>.cats {
+      font-size: 12px;
+      font-weight: 400;
+      height: 15px;
+      padding: 12px 54px 16px 20px;
+      text-align: left;
+      text-transform: uppercase;
+  }
+  .ui.cooperate.cards>.card>.brand h2 {
+      color: #797979;
+      font-weight: 400;
+      letter-spacing: .15px;
+      margin: 0;
+      padding: 10px 20px 0;
+      text-align: center;
+  }
+  .brood.bottom{
+    background:url({{ app_url_packaged }}/images/incubator/wap_bg1.jpg) no-repeat center center;
+    background-size:cover;
+  }
+  .brood.bottom a img{
+    background: rgba(255,255,255,0.2);
+    width: 100%;
+    border-radius: 8px;
+    vertical-align: middle;
+  }
+</style>
+{% endblock %}
+
+{% block jquery %}
+  
+  $('.tanup')
+      .popup({
+        hoverable: true,
+        delay: {
+          show: 100,
+          hide: 500
+        }
+      })
+    ;
+
+       		$('#user-info-form').livequery(function(){
+         		$(this).form({
+         			people: {
+         				identifier  : 'people',
+         				rules: [
+         					{
+         						type   : 'empty',
+         						prompt : '姓名不能为空'
+         					}
+         				]
+         			},
+         			mobile: {
+         				identifier  : 'mobile',
+         				rules: [
+         					{
+         						type   : 'empty',
+         						prompt : '电话不能为空'
+         					}
+         				]
+         			},
+         			address: {
+         				identifier  : 'address',
+         				rules: [
+         					{
+         						type   : 'empty',
+         						prompt : '地址不能为空'
+         					}
+         				]
+         			},
+         			position: {
+         				identifier  : 'position',
+         				rules: [
+         					{
+         						type   : 'empty',
+         						prompt : '职位不能为空'
+         					}
+         				]
+         			},
+         			name: {
+         				identifier  : 'name',
+         				rules: [
+         					{
+         						type   : 'empty',
+         						prompt : '公司不能为空'
+         					}
+         				]
+         			},
+         			wechat: {
+         				identifier  : 'wechat',
+         				rules: [
+         					{
+         						type   : 'empty',
+         						prompt : '微信号不能为空'
+         					}
+         				]
+         			}
+         		}, {
+         			inline : true,
+         			onSuccess: function(event){
+         				event.preventDefault();
+                $(this).ajaxSubmit({
+                  dataType: 'json',
+                  beforeSubmit: function(){
+                    phenix.before_submit();
+                  },
+                  success: function(data){
+                    phenix.after_submit();
+                    
+                    if(data.is_error){
+                      $(event.target).addClass('error');
+                      phenix.show_error_note(data.message);
+                    }else{
+                      $('.ui.user-info-box.modal').modal('hide');
+                      phenix.show_ok_note(data.message, 5000);
+                    }
+                  }
+                });
+         			}
+         		});
+         	});
+
+           //报名按钮
+         	$('.join').click(function(){
+         		// 所有ajax请求，验证是否登录
+         		if (!phenix.visitor.is_login){
+         		  phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+         			return false;
+         		}
+             $('.ui.user-info-box.modal')
+             .modal('setting', 'closable', false)
+             .modal('setting', 'transition', 'vertical  flip')
+             .modal('show');
+             return false; 
+         	});
+         	$('.ui.deny.button,i.close').click(function(){
+         		$('.ui.user-info-box.modal').modal('hide');
+         	});
+{% endblock %}
+
+{% block content %}
+<div id="hatch">
+  <div class="brood service">
+    <img src="{{ app_url_packaged }}/images/incubator/wap_join.png" class="join">
+  </div>
+  
+  <div class="ui big block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="center aligned column">
+          <p>如果你有<span>设计、技术研发、生产链、资金、营销、媒介</span>等资源；可将其提交到太火鸟孵化资源库，帮助那些需要帮助的团队；</p>
+          <p>如果你的团队缺少某些资源，也可在太火鸟孵化资源库中寻找志同道合的伙伴，<span>资源互补</span>；</p>
+          <h3 class="ui header">携手共同完成创业梦想!</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big block incubator service menu">
+    <div class="ui responsive grid">
+      <div class="ui center aligned row">
+        <div class="center alignd column">
+          <div class="ui five blocks" style="margin-top:0;">
+            <div class="block">
+              <div class="wtitle">
+                <a href="#.design">设计</a>
+              </div>
+            </div>
+          
+            <div class="block">
+              <div class="wtitle">
+                <a href="#.skill">技术开发</a>
+              </div>
+            </div>
+          
+            <div class="block">
+              <div class="wtitle">
+                <a href="#.make">生产链</a>
+              </div>
+            </div>
+          
+            <div class="block">
+              <div class="wtitle">
+                <a href="#.school">合作院校</a>
+              </div>
+            </div>
+          
+            <div class="block">
+              <div class="wtitle">
+                <a href="#.other">其他</a>
+              </div>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big block brood design">
+    <div class="ui responsive grid">
+      <div class="center aligned column section-title">
+        <h2 class="block title">设计</h2>
+        <hr>
+        <p>中国最顶级工业设计师团队提供外观设计，设计团队囊获包括德国红点、iF、日本G-Mark、美国IDEA等至高荣誉。</p>
+        
+        <div class="ui left aligned one cards">
+        {% cooperate_list var:'cooperate_designcompany' load_sub_cate:1 type_mark:'designcompany' state:2 page:1 size:3 sort:1 %}
+         <!-- card 3个 -->
+          {% for d in cooperate_designcompany.rows %}
+              <div class="card">
+                <div class="addmap">
+                  <i class="marker icon"></i>
+                  {{ d.city }}
+                </div>
+                
+                <div class="content">
+                  <a href="{{ d.wap_home_url }}" title="{{ d.name }}" class="ui cover line" target="_blank">
+                    <img class="ui middle aligned image" src="{{ d.medium_avatar_url }}" alt="{{ d.name }}">
+                  </a>
+                  
+                  <h2>
+                    <a href="{{ d.wap_home_url }}" title="{{ d.name }}" class="ui line" target="_blank">
+                       {{ d.name }}
+                    </a>
+                  </h2>
+                  <p class="descript">
+                    {% if d.category_objs %}
+                      {% for c in d.category_objs %}
+                        {{ c.title }}&nbsp;
+                      {%endfor%}
+                    {%endif%}
+                  </p>
+                  <div class="excerpt">
+                      {{ d.strip_summary|truncate 200  }}
+                  </div>
+                </div>   
+              </div>
+          {%endfor%}
+          <!-- end -->
+          
+        </div>
+        
+        <div class="ui center aligned ant">
+         	<a href="{{ app_url_wap }}/incubator/get_list?mark=designcompany" class="ui inverted large more button">
+             <i class="search icon"></i> 查看更多
+          </a>
+      	</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big block brood skill">
+    <div class="ui responsive grid">
+      <div class="center aligned column section-title">
+        <h2 class="block title">技术开发</h2>
+        <hr>
+        <p>软硬件资源汇聚，云、技术方案、芯片、模组等技术应有尽有，助力创业团队的早期产品开发。</p>
+        
+        <div class="ui left aligned one cards">
+          {% cooperate_list var:'cooperate_techdevelop' load_sub_cate:1 type_mark:'techdevelop' state:2 page:1 size:4 sort:1 %}
+          <!-- card   4个-->
+          {% for d in cooperate_techdevelop.rows %}
+              <div class="card">
+                <h2 class="ui header">
+                  <a href="{{ d.wap_home_url }}" title="{{ d.name }}" target="_blank">
+                    <img src="{{ d.medium_avatar_url }}" class="ui image">
+                  </a>
+                  <div class="content">
+                    <a href="{{ d.wap_home_url }}" title="{{ d.name }}" class="ui line" target="_blank">
+                                       {{ d.name }}
+                                    </a>
+                    <div class="sub header">
+                        {% if d.category_objs %}
+                          {% for c in d.category_objs %}
+                            {{ c.title }}&nbsp;
+                          {%endfor%}
+                        {%endif%}
+                    </div>
+                  </div>
+
+                </h2>
+
+                <div class="excerpt">
+                    {{ d.strip_summary|truncate 200 }}
+                </div>
+
+                <div class="addmap">
+                  <i class="marker icon"></i>
+                  {{ d.city }}
+                </div>
+              </div>
+          {%endfor%}
+          <!-- end -->
+        
+        </div>
+        <div class="ui center aligned ant">
+         	<a href="{{ app_url_wap }}/incubator/get_list?mark=techdevelop" class="ui magenta inverted large more button">
+             <i class="search icon"></i> 查看更多
+          </a>
+      	</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big block brood make">
+    <div class="ui responsive grid">
+      <div class="center aligned column section-title">
+        <h2 class="block title">生产链</h2>
+        <hr>
+        <p>生产链万事俱备，太火鸟<span style="letter-spacing: 1px;margin: 0 2px;color: #fff;">D<span style="font-size: 12px;vertical-align: top;line-height: 4px;">3</span>IN</span>铟立方实验室指导初创团队进行智能硬件产品技术攻关，协助成熟团队，进行智能硬件产品的深度打磨。</p>
+
+        {% cooperate_list var:'cooperate_ProductionChain' load_sub_cate:1 type_mark:'ProductionChain' state:2 page:1 size:4 sort:1 %}
+        
+        <div class="ui left aligned one cards">
+          <!-- card 4个 -->
+          {% for d in cooperate_ProductionChain.rows %}
+          <div class="card">
+            <div class="bgcolor">
+              <div class="addmap">
+                <i class="marker icon"></i>
+                {{ d.city }}
+              </div>
+              <a href="{{ d.wap_home_url }}" title="{{ d.name }}" target="_blank">
+                <img src="{{ d.medium_avatar_url }}" class="ui image">
+              </a>
+            </div>
+
+            <h2>
+              <a href="{{ d.wap_home_url }}" title="{{ d.name }}" class="ui line" target="_blank">
+                 {{ d.name }}
+              </a>
+            </h2>
+            <div class="excerpt">
+                {{ d.strip_summary|truncate 200 }}
+            </div>
+
+            <p class="descript"><span>所属领域 : </span>
+                {% if d.category_objs %}
+                  {% for c in d.category_objs %}
+                    {{ c.title }}&nbsp;
+                  {%endfor%}
+                {%endif%}
+            </p>
+          </div>
+          {%endfor%}
+          <!-- end -->
+        
+        </div>
+        <div class="ui center aligned ant">
+         	<a href="{{ app_url_wap }}/incubator/get_list?mark=ProductionChain" class="ui inverted large more button">
+             <i class="search icon"></i> 查看更多
+          </a>
+      	</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big block brood school">
+    <div class="ui responsive grid">
+      <div class="center aligned column section-title">
+        <h2 class="block title">合作院校</h2>
+        <hr>
+        <p>联合全国设计院校建立孵化实验室，从最早期发现创业萌芽，接通社会创业资源。</p>
+        <div class="ui left three cards">
+          {% cooperate_list var:'cooperate_schoollabs' load_sub_cate:1 type_mark:'schoollabs' state:2 page:1 size:9 sort:1 %}
+          <!-- card 9个 -->
+          {% for d in cooperate_schoollabs.rows %}
+              <div class="card">
+                <div class="tanup">
+                  <a href="{{ d.wap_home_url }}">
+                    <img src="{{ d.medium_avatar_url }}">
+                  </a>
+                </div>
+              </div>
+          {%endfor%}
+          <!-- end -->
+          
+        </div>
+        <div class="ui center aligned ant">
+         	<a href="{{ app_url_wap }}/incubator/get_list?mark=schoollabs" class="ui magenta inverted large more button">
+             <i class="search icon"></i> 查看更多
+          </a>
+      	</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big block brood other">
+    <div class="ui responsive grid">
+      <div class="center aligned column section-title">
+        <h2 class="block title">其它</h2>
+        <hr>
+        <p>不论您从事于任何行业，只要与智能硬件创业相关，期待将您的资源共享到火眼资源库，携手创业共成长。</p>
+        <div class="ui cooperate one cards">
+      {% cooperate_list var:'cooperate_OtherResources' load_sub_cate:1 type_mark:'OtherResources' state:2 page:1 size:4 sort:1 %}
+          <!-- card 4个  -->
+          {% for d in cooperate_OtherResources.rows %}
+              <div class="card">
+                <div class="addmap">
+                  <i class="marker icon"></i>
+                  {{ d.city }}
+                </div>
+
+                <div class="brand">
+                  <div class="logo">
+                    <a class="ui link" href="{{ d.wap_home_url }}" target="_blank">
+                      <img class="ui big avatar image" src="{{ d.medium_avatar_url }}">
+                    </a>
+                  </div>
+                  <h2>
+                    <a class="ui name line" href="{{ d.wap_home_url }}" target="_blank">{{ d.name }}</a>
+
+                  </h2>
+
+                  <h3 class="ui header">擅长专业/领域</h3>
+                  <p class="descript">
+                    {% if d.category_objs %}
+                      {% for c in d.category_objs %}
+                        {{ c.title }}&nbsp;
+                      {%endfor%}
+                    {%endif%}
+                  </p>
+
+                  <div class="excerpt">
+                      {{ d.strip_summary|truncate 200 }}
+                  </div>
+
+                  <div class="cats"></div>
+                 </div>
+              </div>
+          {%endfor%}
+          <!-- end -->
+        
+        </div>
+      </div>
+    </div>
+  </div>
+      
+  <div class="ui big block brood bottom">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <a href="javascript:void(0);" class="join" >
+            <img src="{{ app_url_packaged }}/images/incubator/btn4.png">
+          </a>
+        </div>
+      </div>
+    </div>
+  </div> 
+      
+</div>
+
+<!--申请弹层-->	  
+<div class="ui user-info-box small modal transition">
+  	
+	<div class="header" style="position:relative;">
+	    项目入驻-补全基本信息
+	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;"></i>
+	</div>
+	<div class="container">
+		<form action="{{ app_url_wap }}/incubator/ajax_attend" class="ui form" method="post" id="user-info-form">
+		  	<div class="content">
+				<div class="ajax result"></div>
+
+				<div class="ui signup-box">
+					<div class="two fields">
+						<div class="field">
+              <input type="text" name="people" value="{{ visitor.profile.realname }}" placeholder="姓名" />
+						</div>
+					</div>
+					<div class="two fields">
+						<div class="field">
+							<input type="text" name="mobile" value="{{ visitor.profile.phone }}" placeholder="填写手机号，方便信息核实" />
+						</div>
+					</div>
+					<div class="two fields">
+						<div class="field">
+							<input type="text" name="email" value="{{ visitor.email }}" placeholder="Email" />
+						</div>
+					</div>
+					<div class="two fields">
+						<div class="field">
+							<input type="text" name="wechat" value="" placeholder="微信号" />
+						</div>
+					</div>
+					<div class="field">
+            <input type="text" name="name" value="" placeholder="公司名称" />
+					</div>
+					<div class="field">
+            <input type="text" name="position" value="{{ visitor.profile.job }}" placeholder="职位" />
+					</div>
+				</div>
+		  	</div>
+
+			<div class="right aligned action">
+			    <div class="ui gray deny button">
+					取消
+			    </div>
+			    <div class="ui magenta submit button">
+					确认报名
+			    </div>
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock %}

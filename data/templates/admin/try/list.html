@@ -5,10 +5,58 @@
 </style>
 {% endblock %}
 {% block jquery %}
+
+	// 显示私信框
+	$('.message-alert-btn').bind('click', function(){
+    var try_id = $(this).attr('try_id');
+    var try_title = $(this).attr('try_title');
+    var want_count = $(this).attr('want_count');
+    $('#message-form [name=try_id]').val(try_id);
+    $('#message-form [name=try-title-show]').text(try_title);
+    $('#message-form [name=try-want-count-show]').text(want_count);
+		$('.ui.message-box.modal').modal('show');
+	});
+	
+	$('#message-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '私信内容不能为空'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '内容不超过140字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					if(data.is_error){
+					  phenix.after_submit();
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message);
+					}else{
+ 						phenix.show_ok_note(data.message);
+		        $('.ui.message-box.modal').modal('hide');
+					}
+				}
+			});
+		}
+	});
 	
 {% endblock %}
 {% block content %}
-	<h3 class="ui header">产品公测</h3>
+	<h3 class="ui header">新品试用</h3>
 	
 	<div class="ui secondary pointing magenta menu">
 	  	<a class="active item" href="{{ app_url_admin_base }}/try">全部列表</a>
@@ -36,9 +84,11 @@
 				<th></th>
 				<th>活动标题</th>
         <th>期数</th>
+				<th>预约数量</th>
 				<th>试用数量</th>
 				<th>申请人数</th>
 				<th>活动时间</th>
+        <th>申请条件</th>
         <th>推荐</th>
         <th>状态</th>
 				<th>管理操作</th>
@@ -56,8 +106,10 @@
 				<td>
 					<a href="{{ t.view_url }}" target="_blank" class="ui link" title="{{ t.title }}">{{ t.title |truncate 20 }}</a>
 					<p>ID: {{ t._id }}</p>
+					<p>类型: {{ t.kind_label }}</p>
 				</td>
         <td>{{ t.season }}</td>
+				<td>{{ t.want_count }}</td>
 				<td>{{ t.try_count }}</td>
 				<td>{{ t.apply_count|default 0 }}/{{ t.invented_apply_count|default 0 }} 人/
 					<a href="{{ app_url_admin_base }}/try/verify?id={{ t._id }}" class="ui magenta link">查看</a>
@@ -80,6 +132,17 @@
 						{% endif %}
 					</p>
 				</td>
+        <td>
+          {% if t.apply_term==0 %}
+            --
+          {%endif%}
+          {% if t.apply_term==1 %}
+            {{ t.term_count }} 等级
+          {%endif%}
+          {% if t.apply_term==2 %}
+            {{ t.term_count }} 鸟币
+          {%endif%}
+        </td>
 				<td>
 					<p>
 						{% if t.sticked %}
@@ -91,6 +154,9 @@
 				</td>
 
         <td>
+          {% if t.step_stat==0 %}
+            预热中
+          {%endif%}
           {% if t.step_stat==1 %}
             申请中
           {%endif%}
@@ -106,6 +172,7 @@
         </td>
 				<td>
 					<div class="ui small divided horizontal list">
+            <a href="javascript:void(0);" class="ui magenta link ajax item message-alert-btn" try_id="{{ t._id }}" try_title="{{ t.title }}" want_count="{{ t.want_count }}">提醒</a>
 						{% if t.state %}
 						<a href="{{ app_url_admin_base }}/try/unpublish?id={{ t._id }}" class="ui magenta link ajax item" id="publish-{{ t._id }}-button">撤销发布</a>
 						{% else %}
@@ -132,5 +199,44 @@
 		<label class="page_count">{{ list.total_rows }}个</label>
 	</div>
 	{% endif %}
+
+<!-- 私信提醒弹出层 -->
+<div class="ui small message-box modal">
+    <i class="close icon"></i>
+  <div class="header">
+    私信提醒:
+  </div>
+    <div class="content">
+    <form action="{{ app_url_admin }}/try/ajax_send_message" class="ui form" method="post" id="message-form">
+      <div class="field">
+        <label>试用产品: <span name="try-title-show"></span></label>
+        <label>预热申请人数: <span name="try-want-count-show"></span></label>
+        <input type="hidden" name="try_id" value="" />
+      </div>
+      <div class="three fields">
+        <div class="field">
+          <label>发送人：</label>
+          <div class="ui fluid selection dropdown">
+            <input type="hidden" name="user_id" value="" />
+              <div class="default text">--选择用户--</div>
+              <div class="menu">
+                {% for user in send_users %}
+                <div data-value="{{ user._id }}" class="item">{{ user.nickname }}</div>
+				{%endfor%}
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>内容：</label>
+        <textarea name="content" rows="3"></textarea>
+      </div>
+      <div class="right aligned field ">
+        <div class="ui gray cancel button">取消</div>
+        <div class="ui active magenta submit button" >发送</div>
+      </div>
+    </form>
+    </div>
+</div>
 	
 {% endblock %}

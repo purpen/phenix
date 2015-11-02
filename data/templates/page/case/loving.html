@@ -20,7 +20,7 @@
 	phenix.bind_share_list(pic_url);
 	
 	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com/guide/loving'});
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com'});
 	
 	$('#wechat-share').click(function() {
 		$('.ui.qrcode.modal').modal('show');
@@ -89,11 +89,11 @@
 					<p>连爱手环设计简洁，功能强大，能够实时查看运动数据监测，每周/月运动数据回顾对比，它不仅具有卡路里数据监测及运动数据回顾功能，告诉你一天的运动量是否得当，给您建议，方便适度调整，同时，对比上月或者上周运动量，给自己下周的运动定个目标。另外，连爱手环还能够监测睡眠质量，根据睡眠数据，调整睡眠，提升睡眠质量，精力更充沛。连爱手环的APP能够及时数据更新，下拉界面刷新，简单快捷的更新每小时所有数据；当天数据汇总，检查今天运动任务是否达成；分享朋友圈，友圈排行榜实时更新，让你的运动不在寂寞孤单，充满乐趣。</p>
 				</div>
 				
-				<div class="ui two items">
-					<div class="item">
+				<div class="ui two blocks">
+					<div class="block">
 						<img src="{{ app_url_packaged }}/images/sh_01.jpg" class="ui image" />
 					</div>
-					<div class="item">
+					<div class="block">
 						<img src="{{ app_url_packaged }}/images/sh_02.jpg" class="ui image" />
 					</div>
 				</div>
@@ -105,12 +105,12 @@
 				
 				<h2 class="ui header">传播推广</h2>
 				
-				<div class="ui two items">
-					<div class="item">
+				<div class="ui two blocks">
+					<div class="block">
 						<img src="{{ app_url_packaged }}/images/sh_03.jpg" class="ui image" />
 						<p>上线 首日，淘宝首页焦点图</p>
 					</div>
-					<div class="item">
+					<div class="block">
 						<img src="{{ app_url_packaged }}/images/sh_04.jpg" class="ui image" />
 						<p>在创意及工业设计圈子中发声，形成大量传播</p>
 					</div>
@@ -121,7 +121,7 @@
 		
 		<div class="row">
 			<div class="center aligned column">
-				<a class="ui btn-4 btn-4c magenta active icon-arrow-right btn" href="{{ app_url_domain }}/shop/1080959172.html">
+				<a class="ui btn-4 btn-4c magenta active inverted button" href="{{ app_url_domain }}/shop/1080959172.html">
 						<span>立即购买</span><i class="icon-arrow-right-sharp"></i>
 					</a>
 				<h5 class="ui header">分享案例故事</h5>

@@ -20,7 +20,7 @@
 	phenix.bind_share_list(pic_url);
 	
 	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com/guide/cm'});
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com'});
 	
 	$('#wechat-share').click(function() {
 		$('.ui.qrcode.modal').modal('show');
@@ -90,11 +90,11 @@
 					<p>在空气净化方面，厘米采用高级椰壳活性炭材料与优质HEPA高效过滤的一体化设计，能有效的吸附甲醛等化学污染物、异味，去除PM2.5、粉尘，保证在10㎡左右的空间内的净化效果.</p>
 				</div>
 				
-				<div class="ui two items">
-					<div class="item">
+				<div class="ui two blocks">
+					<div class="block">
 						<img src="{{ app_url_packaged }}/images/cm-1.jpg" class="ui image" />
 					</div>
-					<div class="item">
+					<div class="block">
 						<img src="{{ app_url_packaged }}/images/cm-2.jpg" class="ui image" />
 					</div>
 				</div>
@@ -106,16 +106,16 @@
 				
 				<h2 class="ui header">传播推广</h2>
 				
-				<div class="ui three items">
-					<div class="item">
+				<div class="ui two blocks">
+					<div class="block">
 						<img src="{{ app_url_packaged }}/images/cm-1.png" class="ui image" />
 						<p>动点科技新闻报道</p>
 					</div>
-					<div class="item">
+					<div class="block">
 						<img src="{{ app_url_packaged }}/images/cm-2.png" class="ui image" />
 						<p>淘宝网首页定投</p>
 					</div>
-					<div class="item">
+					<div class="block">
 						<img src="{{ app_url_packaged }}/images/cm-3.png" class="ui image" />
 						<p>淘宝首页焦点图</p>
 					</div>
@@ -126,7 +126,7 @@
 		
 		<div class="row">
 			<div class="center aligned column">
-				<a class="ui btn-4 btn-4c magenta active icon-arrow-right btn" href="{{ app_url_domain }}/shop/1082994847.html">
+				<a class="ui btn-4 btn-4c magenta active inverted button" href="{{ app_url_domain }}/shop/1082994847.html">
 										<span>立即购买</span><i class="icon-arrow-right-sharp"></i>
 									</a>
 				<h5 class="ui header">分享案例故事</h5>

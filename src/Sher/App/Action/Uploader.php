@@ -45,6 +45,12 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
             $result['message'] = $image_info['format'].'图片格式无法识别，请上传jpg,png,jpeg格式的图片';
             return $this->to_raw_json($result);
         }
+
+        if($image_info['width']<400 || $image_info['height']<400){
+            $result['code'] = 400;
+            $result['message'] = '图片尺寸必须大于400px * 400px';
+            return $this->to_raw_json($result);       
+        }
 		
         $asset = new Sher_Core_Model_Asset();
 		// 获取是否存在旧记录
@@ -97,11 +103,10 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	public function crop_avatar(){
 		$avatar_id = $this->stash['avatar_id'];
 		
-		$x1 = $this->stash['x1'];
-		$y1 = $this->stash['y1'];
-		$w = $this->stash['w'];
-		$h = $this->stash['h'];
-		
+		$x1 = $this->stash['x1'] ? $this->stash['x1'] : 0;
+		$y1 = $this->stash['y1'] ? $this->stash['y1'] : 0;
+		$w = $this->stash['w'] ? $this->stash['w'] : 300;
+		$h = $this->stash['h'] ? $this->stash['h'] : 300;
 		$result = array();
 		
 		$asset = new Sher_Core_Model_Asset();
@@ -159,10 +164,10 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		$avatar_id = $this->stash['avatar_id'];
         $id = $this->stash['target_id'];
 		
-		$x1 = $this->stash['x1'];
-		$y1 = $this->stash['y1'];
-		$w = $this->stash['w'];
-		$h = $this->stash['h'];
+		$x1 = $this->stash['x1'] ? $this->stash['x1'] : 0;
+		$y1 = $this->stash['y1'] ? $this->stash['y1'] : 0;
+		$w = $this->stash['w'] ? $this->stash['w'] : 300;
+		$h = $this->stash['h'] ? $this->stash['h'] : 300;
 		
 		$result = array();
 		

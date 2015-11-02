@@ -67,7 +67,7 @@ p#clock span {
 	$('.ui.appoint.btn').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-			phenix.redirect('{{ app_url_wap }}/auth/login');
+			phenix.redirect('{{ app_url_wap }}/auth/login_signup');
 			return false;
 		}
     {% if appointed %}

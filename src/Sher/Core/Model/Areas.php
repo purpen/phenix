@@ -101,8 +101,13 @@ class Sher_Core_Model_Areas extends Sher_Core_Model_Base  {
 	 * 获取所有二级地区列表
 	 */
 	public function fetch_districts($fid=0){
-		$query['parent_id'] = (int)$fid;
-		$options['sort'] = array('sort' => 1);
+    $options = array();
+    if(empty($fid)){
+      $query['layer'] = 2;
+    }else{
+      $query['parent_id'] = (int)$fid;
+      $options['sort'] = array('sort' => 1);   
+    }
 		
 		return $this->find($query, $options);
 	}

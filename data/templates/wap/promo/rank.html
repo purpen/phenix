@@ -1,0 +1,466 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}神嘴争霸赛 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+	margin-top:0;
+	margin-bottom:2em;
+}
+.rtitle{
+  background:url({{ app_url_packaged }}/images/promo/rankbj.png);
+  width:180px;
+  height:50px;
+  color: #fff;
+  text-align: center;
+  line-height: 50px;
+  font-size: 1.28rem;
+  padding-left: 15px;
+  margin: 0 auto 15px;
+}
+p{
+  margin-bottom:0.8rem;
+}
+.line{
+  width: 100%;
+  height: 20px;
+  background: url({{ app_url_packaged }}/images/promo/rankline.jpg);
+  background-position: 0px -4px;
+}
+.rtitle.tmr{
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  margin-left: -90px;
+}
+.time{
+  margin-top: 30px;
+  width:100%;
+  padding-top: 37%;
+  background:url({{ app_url_packaged }}/images/promo/rankmtime.png);
+  background-size:cover;
+}
+.propk{
+  padding:0 !important;
+  position:relative;
+  margin-bottom: -10px;
+}
+
+.pkhbtn{
+  position:absolute;
+  bottom: 20px;
+  width:70px;
+  left:50px;
+  background:url({{ app_url_packaged }}/images/promo/rankhz.png);
+  background-size:cover;
+  height:70px;
+}
+.pklbtn{
+  position:absolute;
+  bottom: 20px;
+  width:70px;
+  right:50px;
+  background:url({{ app_url_packaged }}/images/promo/ranklz.png);
+  background-size:cover;
+  height:70px;
+}
+.rankhpro{
+  background:url({{ app_url_packaged }}/images/promo/rankhpro.jpg);
+  height:40px;
+  background-repeat:repeat;
+  display:inline-block;
+  border-bottom-left-radius: 8px;
+  padding: 0 10px !important;
+  line-height: 40px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 1px;
+}
+.ranklpro{
+  background:url({{ app_url_packaged }}/images/promo/ranklpro.jpg);
+  height:40px;
+  background-repeat:repeat;
+  display:inline-block;
+  border-bottom-right-radius: 8px;
+  padding: 0 10px !important;
+  line-height: 40px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 1px;
+  text-align:right;
+}
+.post.comment,.ui.comments{
+  font-size:1rem !important;
+}
+
+.ui.white.block{
+  background:#fff;
+  margin: 0;
+  padding: 10px 0 0;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+    var m_name = '神嘴争霸赛-太火鸟-中国最火爆的智能硬件孵化平台';
+    var img_url = '{{ app_url_packaged }}/images/promo/rankfxx.jpg';
+    var link = '{{ app_url_wap_promo }}/rank';
+    var desc_str = 'm.taihuoniao.com';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+
+  wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: 8, count_name:'count', type: 4, kind:4 });
+  };
+
+  var has_support = {{ has_support|default 0 }};
+  var support_cid = {{ support_cid|default 0 }};
+
+  function support_event(cid){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+		  phenix.redirect("{{ app_url_wap }}/auth/login");
+			return false;
+		}
+
+    // 难证是否支持过
+    $.get("{{ app_url_wap }}/app/site/promo_func/ajax_attend", {target_id: 1, event: 5, cid: cid}, function(result){
+      if(result.success){
+        // 已投票标识
+        has_support = 1;
+        support_cid = cid;
+        phenix.show_ok_note(result.message);
+        var l_count = parseInt($('.support-l-count').text());
+        var r_count = parseInt($('.support-r-count').text());
+
+        if(cid==1){
+          $('.support-l-count').text(l_count+1);
+          fetch_present(l_count+1, r_count);
+        }else if(cid==2){
+          $('.support-r-count').text(r_count+1);
+          fetch_present(l_count, r_count+1);
+        }
+
+      }else{
+        phenix.show_error_note(result.message);
+        return;
+      }
+    }, 'json');
+  }
+
+  // 得到两个数百分比
+  function fetch_present(x, y){
+    var total = x+y;
+    if(total==0){
+      var l_per = 50;
+      var r_per = 50;   
+    }else{
+      var l_per = (x/total)*100;
+      var r_per = (y/total)*100;
+    }
+
+    $('.support-l-count').show().css('width', l_per+"%");
+    $('.support-r-count').show().css('width', r_per+"%");
+    if(l_per==0){
+      $('.support-l-count').hide();
+    }else if(r_per==0){
+      $('.support-r-count').hide();
+    }
+
+  }
+</script>
+{% endblock %}
+
+{% block jquery %}
+  $(window).scroll(function(){
+	    var scrollTop = $(window).scrollTop();
+			if(scrollTop > 1600){
+        $('.pktitle').addClass('transition fly up in');
+        $('.pkhs').addClass('transition fly in');
+        $('.pkls').addClass('transition fly in');
+        $('.pkvs').addClass('transition flip vertical in');
+      }
+      if(scrollTop > 1700){
+        $('.pkp').addClass('transition fly down in');
+        $('.pkhf').addClass('transition slide right in');
+        $('.pklf').addClass('transition slide left in');
+      }
+  })
+
+	phenix.hook_comment_page('wap');
+
+  // 支持左方铵钮
+  $('.support-l-btn').click(function(){
+    var cid = $(this).data('cid');
+    support_event(cid);
+  });
+
+  // 支持右方铵钮
+  $('.support-r-btn').click(function(){
+    var cid = $(this).data('cid');
+    support_event(cid);
+  });
+
+  fetch_present({{count_01|default 0}}, {{count_02|default 0}});
+
+  $('#comment-box .ui.submit.button').click(function(){
+    if(has_support==0){
+      phenix.show_error_note('投票后才有权力发表意见哦~');
+      return false;
+    }
+    $('#comment-form :input[name=sku_id]').val(support_cid);
+
+  });
+
+  $('#mask').click(function(){
+    $('#mask').css('display','none');
+  });
+
+{% endblock %}
+{% block content %}
+<img src="{{ app_url_packaged }}/images/promo/rankfxx.jpg" style="display:none;" />
+<div id="srank">
+  <img src="{{ app_url_packaged }}/images/promo/rankmt.jpg" width="100%" alt="神嘴争霸赛">
+  <div class="ui big white block" style="margin-top:-3px;">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="column">
+          <div class="rtitle">
+            活动介绍
+          </div>
+          <p>这是一场不见硝烟的战争，这是一次无关对错的辩论。我们举办此次活动，只为找到能够开口就让别人吐几十两鲜血的旷世人才！</p>
+          <p>霸气总侧漏！好胆你就来！这次争霸赛就是为你而生！让撕X来的更猛烈些吧！</p>
+          
+        </div>
+        <div class="line"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="column">
+          <div class="rtitle tmr">
+            活动时间
+          </div>
+          <div class="time"></div>
+        </div>
+      </div>
+      <div class="line"></div>
+    </div>
+  </div>
+    
+  <div class="ui big white block">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="column">
+          <div class="rtitle">
+            活动规则
+          </div>
+          <p>1.根据辩题分为正反两方，用户可以自行选择对战方阵。</p>
+          <p>2.正反双方人气最高且最具领袖风范的用户将获得”太火鸟神嘴“称号，各自获得太火鸟送出的让许多大咖爱不释手的云马神秘新品！</p>
+          <p>3.根据辩论精彩程度，将从双方各自挑选三名获得”太火鸟名嘴“称号，获得太火鸟送出的云马神秘新品发布会VIP门票。</p>
+          <p class="ui magenta link">（PS：届时，发布会现场将会邀请行业精英与圈内大咖，甚至神秘嘉宾到场，徐小平？雷军？或是？展开你的想象力，我只告诉你这是一场高手云集，错过后悔的大场面！现场除100家媒体外，只供内部席位，太火鸟将设6个特别名额，快点来抢吧！）</p>
+          <p>4.根据回复楼层百分比挑选六名用户获得”太火鸟硬嘴“称号，获得太火鸟独家定制神秘礼包。</p>
+        </div>
+      </div>  
+      <div class="line"></div>
+    
+      <div class="row">
+        <div class="column">
+          <div class="rtitle">
+            注意事项
+          </div>
+          <p>1.严禁辩论双方进行人身攻击；</p>
+          <p>2.跟帖留言用户不得恶意复制他人内容回复，同样内容回复超过两次，超长式刷屏按灌水违规禁言处理；</p>
+          <p>3.同一ID、电话、联系人、地址均视为同一人，不得重复中奖；</p>
+          <p>4.中奖楼层为总楼层的 15%、25%、35%、55%、65%、75%。中奖时涉及到小数点的楼层取整数(四舍五入，向上取整)；</p>
+          <p>5.云马神秘新品如何领取将由太火鸟官方工作人员电话通知；</p>
+          <p>6.本次活动最终解释权归太火鸟所有。<br/></p>
+        </div>
+      </div>
+      <div class="line"></div>  
+    
+      <div class="row">
+        <div class="column">
+          <div class="rtitle">
+            奖品设置
+          </div>
+          <img src="{{ app_url_packaged }}/images/promo/rankmj.jpg" width="100%">
+          <p><br/></p>
+        </div>
+      </div>
+    
+    </div>
+  </div>
+  
+  
+  <div class="ui responsive grid">
+    <div class="propk row">
+      <img src="{{ app_url_packaged }}/images/promo/rankmvs.jpg" width="100%">
+      
+      <a class="pkhbtn support-l-btn" data-cid="1" href="javascript:void(0);"></a>
+      <a class="pklbtn support-r-btn" data-cid="2" href="javascript:void(0);"></a>
+      
+    </div>
+    <div class="rankhpro support-l-count support-l-btn" data-cid="1">{{ count_01 }}</div>
+    <div class="ranklpro support-r-count support-r-btn" data-cid="2">{{ count_02 }}</div>
+    
+  </div>
+            <a name="comment_top"></a>
+				    <div class="block title">
+                  全部评论
+                  <small>（{{ comment_count }}）</small>
+             </div>
+            <div class="ui big reply segment">
+              <div class="fitsort">
+                  <div class="ui horizontal bulleted list">
+                    <a class="item {% if sort==0 %}active{%endif%}" href="{{ app_url_wap }}/promo/rank?sort=0&page={{page}}">默认</a>
+                      <a class="item {% if sort==1 %}active{%endif%}" href="{{ app_url_wap }}/promo/rank?sort=1&page={{page}}" data-sort="1">最新</a>
+                  </div>
+              </div>
+              <!--ajax comment-->
+              <div id="comment-list" style="padding-bottom:20px;">
+      {% comment_list var:'comments' page:page target_id:1 type:10 size:size sort:sort check_loved:1 current_user_id:visitor.id %}
+      <div class="ui threaded minimal comments is-comment">
+      {% for comment in comments.rows %}
+      <div class="comment" id="{{ comment._id }}">
+        <a class="avatar" href="{{ comment.user.home_url }}">
+          <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
+        </a>
+        <div class="content">
+          <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
+          <div class="metadata">
+            <div class="date">{{ comment.created_on }}</div>
+            <div>{{ comment.floor }}楼</div>
+          </div>
+{% if !comment.deleted %}
+          <div class="laud">
+
+            {% if comment.is_loved %}
+            <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消喜欢" data-variation="inverted" >
+            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+              <i class="icon heart"></i>
+            </a>
+            {%else%}
+              <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
+            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+              <i class="icon empty heart"></i>
+            </a>          
+            {%endif%}
+          </div>
+          {%endif%}
+          {% if comment.is_reply %}
+          <div  class="replytips"><i class="quote left icon"></i> 回复 #{{ comment.reply_comment.floor }} @<a class="ui link">{{ comment.reply_comment.user.nickname }}</a></div>
+
+          {%endif%}
+          <div class="text" {%if comment.sku_id==1%}style="color:red;"{%endif%}{%if comment.sku_id==2%}style="color:blue;"{%endif%}>
+            {% if comment.deleted==1 %}
+              该内容已被屏蔽
+            {%else%}
+              {{ comment.content|safe }}
+            {%endif%}
+          </div>
+          {% if visitor.is_login %}
+          <div class="actions">
+            {% if !comment.deleted %}
+            <a class="reply reply-btn" href="javascript:void(0);" comment_id="{{ comment._id }}" floor="{{ comment.floor|default 0 }}" comment_user_id="{{ comment.user_id }}" comment_user_name="{{ comment.user.nickname }}">回复</a>
+            
+            {% if visitor.can_admin %}
+              <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">屏蔽</a>
+            {%else%}
+              {% if visitor.id==comment.user_id %}
+                <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">屏蔽</a>
+              {%endif%}
+            {%endif%}
+{%endif%}
+          </div>
+
+          {% endif %}
+        </div>
+    
+      </div>
+      {% endfor %}
+    </div>
+                  
+                {% if comments.total_rows %}
+                <div class="ui pagination pagerbox" style="text-align:center;">
+                  {% pager url:pager_url,total_rows:comments.total_rows,total_page:comments.total_page,current_page:page,var:'pager',pager_size:3 %}
+                  {%include 'block/pager.html'%}
+                </div>
+                {% endif %}
+              
+              </div>
+              {% include "block/comment_box_wap.html" %}
+            </div>
+  
+</div>
+
+<!--神嘴争霸赛弹出分享事件-->
+<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);">
+  <div class="frideshare">
+	<img src="http://frstatic.qiniudn.com/images/promo/rankfx.png" width="100%" >
+  </div>
+</div>
+{% endblock %}

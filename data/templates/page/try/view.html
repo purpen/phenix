@@ -170,7 +170,7 @@
 		.modal('setting', 'transition', 'vertical  flip')
 		.modal('show');
 	});
-	phenix.bind_share_list();
+	phenix.bind_share_list("{{ try.banner.fileurl }}");
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ try.wap_view_url }}'});
 
@@ -204,6 +204,21 @@
     .sticky({
         context: '.mainleft',
     });
+
+    // 想要
+    $('.want_btn').click(function(){
+      var url = "{{ app_url_try }}/want_attend";
+      $.post(url, {try_id: {{ try._id }}, type: 1}, function(result){
+        if(result.success){
+          //phenix.show_ok_note(result.message);
+          $('.want_btn').removeClass('want_btn').find('i').removeClass('empty').siblings('span').text('已想要');
+          $('.want_alert').find('h4').text('产品上线后会有私信提醒哦!');
+          $('.want_alert').find('b').text(parseInt($('.want_alert').find('b').text()) + 1);
+        }else{
+          phenix.show_error_note(result.message);
+        }
+      }, 'json');
+    });
 {% endblock %}
 
 {% block content %}
@@ -224,32 +239,64 @@
     							</div>
     						</div>
     					</h1>
-					    {% if !try.is_end %}
-                            {% if is_applied %}
-                              <a href="javascript:void(0);" class="ui white lapiao-btn inverted button">
-                                <i class="ticket icon"></i> 求好友支持
-                              </a>
-                            {%else%}
-                              {% if try.step_stat==0 %}
-                              <a href="javascript:void(0);" class="ui white inverted button">
-                                <i class="ticket icon"></i> 预热中
-                              </a>
+
+              {% if try.step_stat==0 %}
+                {% if is_want %}
+                  <a href="javascript:void(0);" class="ui white inverted button">
+                    <i class="heart icon"></i><span> 已想要</span>
+                  </a>
+                {%else%}
+                  <a href="javascript:void(0);" class="ui white inverted button want_btn">
+                    <i class="heart empty icon"></i><span> 我想要</span>
+                  </a>
+                {%endif%}
+              {%else%}
+
+                {% if !try.is_end %}
+                              {% if is_applied %}
+                                <a href="javascript:void(0);" class="ui white lapiao-btn inverted button">
+                                  <i class="ticket icon"></i> 求好友支持
+                                </a>
                               {%else%}
-                              <a href="javascript:void(0);" class="ui white applytry inverted button">
-                                <i class="ticket icon"></i> 申请试用
-                              </a>
+                                <a href="javascript:void(0);" class="ui white applytry inverted button">
+                                  <i class="ticket icon"></i> 申请试用
+                                </a>
                               {%endif%}
-                            {%endif%}
-					    {% else %}
-    					<a href="javascript:void(0);" class="ui active white inverted button">
-    						<i class="lock icon"></i> 已结束
-    					</a>
-    					{% endif %}
+                {% else %}
+                <a href="javascript:void(0);" class="ui active white inverted button">
+                  <i class="lock icon"></i> 已结束
+                </a>
+                {% endif %}
+
+              {%endif%}
+
                         <div class="ui white inverted pop share icon inverted button">
                             <i class="share alternate icon"></i> 分享
                         </div>
+                        {% if try.buy_url %}
+                          <a href="{{ try.buy_url }}" class="ui white inverted button" target="_blank">
+                            <i class="cart icon"></i> 去购买 
+                          </a>
+                        {%endif%}
+                    {% if !try.step_stat==0 %}
                         <div class="apply">{% if !try.is_end %} 剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %} 结束时间：{{ try.end_time }}{% endif %}<br/>产品数量：<b class="big">{{ try.try_count }}</b>个,&nbsp;<b class="big">{{ try.apply_count }}</b> 人已预约</div>
+                        {% if try.apply_term==1 %}
+                          <br />
+                          申请条件：试用结束前会员等级达到 <b class="big">{{ try.term_count }}</b> 级
+                          (满足条件才有机会通过审核哦~)
+                        {%endif%}
+                        {% if try.apply_term==2 %}
+                          <br />
+                          申请条件：试用结束前鸟币数量达到 <b class="big">{{ try.term_count }}</b> 个
+                          (满足条件才有机会通过审核哦~)
+                        {%endif%}
                     </div>
+                    {%else%}
+                      <div class="want_alert" style="margin-top:20px;">
+                      <h4>预热中...敬请期待!</h4>
+                      {% if try.want_count %}<div class="">已有 <b>{{ try.want_count }}</b> 人想要</div>{%endif%}
+                      </div>
+                    {%endif%}
 				</div>
 			</div>
 		</div>
@@ -267,7 +314,7 @@
         <div class="{%if try.step_stat==1%}active{%endif%} item">
             <i class="time icon"></i> 申请
         </div>
-        <div class="{%if try.step_stat==2%}active{%endif%} item" style="right:-0.5px;">
+        <div class="{%if try.step_stat==2%}active{%endif%} item">
             <i class="heart icon"></i> 名单公布
         </div>
         <div class="{%if try.step_stat==3%}active{%endif%} item">

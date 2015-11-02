@@ -37,6 +37,16 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
         $district = $this->stash['d'];
         $rid = $this->stash['rid'];
         $cid = $this->stash['cid'];
+        $mark = isset($this->stash['mark']) ? $this->stash['mark'] : null;
+
+        // 分类标识
+        if(!empty($mark)){
+          $category_mode = new Sher_Core_Model_Category();
+          $category = $category_mode->first(array('name'=>$mark));
+          if($category){
+            $rid = $this->stash['rid'] = $category['_id'];
+          }
+        }
         
         if($cid || $district){
             $show_all = 'showall';
@@ -82,7 +92,7 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
      * 详情查看
      */
     public function view(){
-        $id = $this->stash['id'];
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
         $editable = false;
         
         $model = new Sher_Core_Model_Cooperation();
@@ -91,6 +101,20 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
         if($this->visitor->can_admin()){
             $editable = true;
         }
+
+        // 增加pv++
+        $model->increase_counter('view_count', 1, $id);
+
+        $category_objs = array();
+        if(!empty($cooperate['category_ids'])){
+          $category_mode = new Sher_Core_Model_Category();
+          foreach($cooperate['category_ids'] as $v){
+            $category_sub = $category_mode->load((int)$v);
+            if($category_sub) array_push($category_objs, $category_sub);
+          }
+        }
+        
+        $this->stash['category_objs'] = $category_objs;
         
         $this->stash['cooperate'] = $cooperate;
 

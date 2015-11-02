@@ -344,6 +344,27 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 	}
 	
 	/**
+	 * 获取接收TICKET
+	 */
+	public function getRevTicket(){
+	if (isset($this->_receive['Ticket'])){
+		return $this->_receive['Ticket'];
+	} else
+		return false;
+    }
+	
+    /**
+     * 获取二维码的场景值
+     */
+    public function getRevSceneId (){
+    	if (isset($this->_receive['EventKey'])){
+    		return str_replace('qrscene_','',$this->_receive['EventKey']);
+    	} else{
+    		return false;
+    	}
+    }
+	
+	/**
 	 * 获取接收语言推送
 	 */
 	public function getRevVoice(){
@@ -368,27 +389,6 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 		} else
 			return false;
 	}
-	
-	/**
-	 * 获取接收TICKET
-	 */
-	public function getRevTicket(){
-	if (isset($this->_receive['Ticket'])){
-		return $this->_receive['Ticket'];
-	} else
-		return false;
-    }
-	
-    /**
-     * 获取二维码的场景值
-     */
-    public function getRevSceneId (){
-    	if (isset($this->_receive['EventKey'])){
-    		return str_replace('qrscene_','',$this->_receive['EventKey']);
-    	} else{
-    		return false;
-    	}
-    }
     
 	public static function xmlSafeStr($str)
 	{   
@@ -459,32 +459,6 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 	}
 	
 	/**
-	 * 设置回复音乐
-	 * @param string $title
-	 * @param string $desc
-	 * @param string $musicurl
-	 * @param string $hgmusicurl
-	 */
-	public function music($title,$desc,$musicurl,$hgmusicurl='') {
-		$FuncFlag = $this->_funcflag ? 1 : 0;
-		$msg = array(
-			'ToUserName' => $this->getRevFrom(),
-			'FromUserName'=>$this->getRevTo(),
-			'CreateTime'=>time(),
-			'MsgType'=>self::MSGTYPE_MUSIC,
-			'Music'=>array(
-				'Title'=>$title,
-				'Description'=>$desc,
-				'MusicUrl'=>$musicurl,
-				'HQMusicUrl'=>$hgmusicurl
-			),
-			'FuncFlag'=>$FuncFlag
-		);
-		$this->Message($msg);
-		return $this;
-	}
-	
-	/**
 	 * 设置回复图文
 	 * @param array $newsData 
 	 * 数组结构:
@@ -510,6 +484,32 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 			'CreateTime'=>time(),
 			'ArticleCount'=>$count,
 			'Articles'=>$newsData,
+			'FuncFlag'=>$FuncFlag
+		);
+		$this->Message($msg);
+		return $this;
+	}
+	
+	/**
+	 * 设置回复音乐
+	 * @param string $title
+	 * @param string $desc
+	 * @param string $musicurl
+	 * @param string $hgmusicurl
+	 */
+	public function music($title,$desc,$musicurl,$hgmusicurl='') {
+		$FuncFlag = $this->_funcflag ? 1 : 0;
+		$msg = array(
+			'ToUserName' => $this->getRevFrom(),
+			'FromUserName'=>$this->getRevTo(),
+			'CreateTime'=>time(),
+			'MsgType'=>self::MSGTYPE_MUSIC,
+			'Music'=>array(
+				'Title'=>$title,
+				'Description'=>$desc,
+				'MusicUrl'=>$musicurl,
+				'HQMusicUrl'=>$hgmusicurl
+			),
 			'FuncFlag'=>$FuncFlag
 		);
 		$this->Message($msg);
@@ -799,7 +799,7 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 			return $json;
 		}
 		return false;
-	}	
+	}
 	
 	/**
 	 * 创建二维码ticket
@@ -1374,7 +1374,5 @@ class Sher_Core_Util_Wechat extends Doggy_Object {
 		}
 		return false;
 	}
-		
 }
-
 ?>

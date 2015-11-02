@@ -1,0 +1,145 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style class="text/css">
+.ui.cards > .card{
+	margin:10px 0;
+}
+.ui.cooperate.cards>.card>.brand {
+    background-color: #fff;
+    border-bottom: 4px solid #f3f2f2;
+    position: relative;
+    padding: 20px 0 0;
+}
+.logo{
+	text-align:center;
+}
+.ui.cooperate.cards>.card>.brand img.avatar {
+    border: 1px solid rgba(0,0,0,.03);
+    height: 4em;
+    width: 4em;
+}
+.ui.cooperate.cards>.card>.brand h2 {
+    color: #797979;
+    font-weight: 400;
+    letter-spacing: .15px;
+    margin: 0;
+    padding: 5px 20px 0;
+    text-align: center;
+}
+.ui.cooperate.cards>.card>.brand>.excerpt {
+    color: rgba(146,147,163,.9);
+    font-size: 14px;
+    height: 58px;
+    letter-spacing: .1px;
+    line-height: 1.4;
+    overflow: hidden;
+    padding: 0 20px;
+    text-align: left;
+    margin-bottom: 15px;
+}
+.ui.cooperate.cards>.card>.brand>.cats {
+    font-size: 9pt;
+    font-weight: 400;
+    height: 15px;
+    padding: 9pt 54px 30px 21px;
+    text-align: left;
+    text-transform: uppercase;
+    background-color: #f8f8f8;
+}
+.ui.cooperate.cards>.card>.brand>.cats .ui.link {
+    font-size: 9pt;
+}
+.ui.cooperate.cards>.card>.brand .extra {
+    font-size: 9pt;
+    color: rgba(146,147,163,.9);
+}
+a.line, a.line:visited {
+    font-size: 1pc;
+    text-decoration: none;
+	color: rgba(112,123,135,.92);
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+      var category_id = "{{ category_id }}";
+      function ajax_load_more(category_id, type, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          $('#cooperation-more').show().attr('status', 1);
+          var url = '{{ app_url_wap }}/incubator/ajax_fetch_more';
+
+          $.ajax({
+            type: "GET",
+            url: url,
+            data: { category_id:category_id, sort:sort, type:type, page:page, size:size },
+            dataType: 'json',
+            cache: false,
+            success: function(rs){
+              if(rs.data.results.total_page > rs.data.results.current_page){
+                  $('#cooperation-more')
+                      .hide()
+                      .attr({'status': 0, 'page': rs.data.page});
+              }else{
+                  $('#cooperation-more').html('没有更多');
+              }
+              var rendered = phenix.ajax_render_result('#fetch_more_cooperation_tpl', rs.data);
+              $('.item-box').append(rendered);
+            }
+          });
+      }
+  </script>
+
+
+{% endblock %}
+
+{% block jquery %}
+
+  //ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      var stat = $('#cooperation-more').attr('status');
+      var page = parseInt($('#cooperation-more').attr('page')) + 1;
+
+      if(stat==0){
+        ajax_load_more(category_id, 0, 0, page, 6);
+      }
+　　}
+  });
+
+  ajax_load_more(category_id, 0, 0, 1, 6);
+	
+{% endblock %}
+
+{% block content %}
+<div class="ui responsive grid">
+	<div class="row">
+		<div class="column">
+			<div class="ui cooperate one cards item-box">
+				
+
+			
+			
+			</div>
+		</div>
+	</div>
+
+		<div class="row">
+      <!--ajax load-->
+      <div id="cooperation-more" style="display:none;" page="1" status="0">
+        <div style="text-align:center;margin:10px auto;">
+          <img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">
+        </div>
+      </div>
+	  </div>
+
+</div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'fetch_more_cooperation_tpl' tpl:'mustache_m/fetch_more_cooperation.mustache' %}
+{% endblock %}

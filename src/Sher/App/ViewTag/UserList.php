@@ -16,9 +16,12 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         $only_ok = 0;
         $only_blocked = 0;
         
-		// 专家
+		// 专家身份(暂没有使用)
 		$mentor = 0;
 		$all_mentors = 0;
+
+    // 专家认证和企业认证（红人）
+    $symbol = 0;
         
         // 城市
         $district = '';
@@ -54,7 +57,7 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		// 批量获取用户
 		$user_ids = array();
         
-        $sort = 'latest';
+        $sort = 0;
         $var = 'list';
         $include_pager = 0;
         $pager_var = 'pager';
@@ -67,7 +70,7 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		
         $query = array();
 		
-        $options['sort_field'] = $sort;
+        $options['sort_field'] = 'latest';
 		
         if ($only_pending) {
             $query['state'] = Sher_Core_Model_User::STATE_PENDING;
@@ -116,6 +119,16 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 		if($mentor){
 			$query['mentor'] = (int)$mentor;
 		}
+
+    if($symbol){
+      $symbol = (int)$symbol;
+      if($symbol==-1){
+        // 所有红人
+        $query['symbol'] = array('$gt'=>0);
+      }else{
+        $query['symbol'] = (int)$symbol;     
+      }
+    }
 		
 		// 获取某个时段内
 		if($start_time && $end_time){
@@ -164,7 +177,20 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         if($district){
             $query['district'] = (int)$district;
         }
-        
+
+		// 排序
+		switch ((int)$sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'popular';
+				break;
+			case 2:
+				$options['sort_field'] = 'topic_count';
+				break;
+		}
+
         $options['page'] = $page;
         $options['size'] = $size;
         if ($user_id) {

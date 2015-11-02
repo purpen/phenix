@@ -649,15 +649,14 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		$user_info['summary'] = $this->stash['summary'];
 		$user_info['email'] = $this->stash['email'];
 
-		$user_info['first_login'] = 0;
-
 		$redirect_url = Sher_Core_Helper_Url::user_home_url($this->visitor->id);
 
 		try {
 	        //更新基本信息
 	        $ok = $this->visitor->save($user_info);
             if($ok){
-                if(!empty($user_info['address']) && !empty($user_info['city']) && !empty($profile['phone']) && !empty($profile['realname']) && !empty($user_info['summary'])){
+                if(!empty($profile['address']) && !empty($profile['phone']) && !empty($profile['realname'])){
+
                     if($this->stash['user']['first_login'] == 1){
                         // 增加积分
                         $service = Sher_Core_Service_Point::instance();
@@ -665,6 +664,9 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
                         $service->send_event('evt_profile_ok', $this->visitor->id);
                         // 鸟币
                         $service->make_money_in($this->visitor->id, 3, '完善资料赠送鸟币');
+
+                        // 取消首次登录标识
+                        $this->visitor->update_set($this->visitor->id, array('first_login'=>0));
                     }
                 }
             }

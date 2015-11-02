@@ -99,6 +99,7 @@
                             </span>
                             {% endif %}
                         </div>
+                        <!--
                         <div class="rate">
                             <div class="ui small rating">
                                 {% for s in cooperate.rank_stars %}
@@ -106,6 +107,7 @@
                                 {% endfor %}
         					</div>
                         </div>
+                        -->
                     </div>
                 </div>
     		    <div class="column">
@@ -191,13 +193,14 @@
     			<div class="summary froala-element">
                     {{ cooperate.summary }}
                 </div>
-                <div class="block title">专业领域</div>
-                {% tag_list var:'keywords' keywords:cooperate.keywords %}
-                <div class="expertise">
-                    {% for t in keywords %}
-                    <label class="ui {{ t.color }} label">{{ t.name }}</label>
-                    {% endfor %}
-                </div>
+                {% if category_objs %}
+                    <div class="block title">专业领域</div>
+                    <div class="expertise">
+                        {% for t in category_objs %}
+                        <label class="ui label">{{ t.title }}</label>
+                        {% endfor %}
+                    </div>
+                {%endif%}
     		</div>
         </div>
     </div>

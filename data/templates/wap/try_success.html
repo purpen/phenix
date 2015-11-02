@@ -180,6 +180,9 @@
   overflow: hidden;
   width: 60%;
 }
+#scrollUp{
+  display:none !important;
+}
 </style>
 {% endblock %}
 
@@ -298,7 +301,7 @@ $('[data-countdown]').each(function() {
 $('.support-btn').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-      phenix.redirect("{{ app_url_wap }}/auth/login");
+      phenix.redirect("{{ app_url_wap }}/auth/login_signup");
 			return false;
 		}
     var url = "{{ app_url_wap }}/try/ajax_support";
@@ -371,8 +374,9 @@ fetch_rank();
 
         		</p>
             {%endif%}
-
+            {% if !try.step_stat==0 %}
             <label class="ui magenta inverted active button label" style="min-width: 74px;">免费试用</label> &nbsp;  <label class="ui magenta inverted active button label">数量{{ try.try_count }} 个</label>&nbsp; <label class="ui magenta inverted active button label">{{ try.apply_count }} 人申请</label>
+            {%endif%}
           </div>
         </div>
         

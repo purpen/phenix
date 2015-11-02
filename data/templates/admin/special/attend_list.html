@@ -32,10 +32,7 @@
 				</th>
 				<th>缩略图</th>
 				<th>ID/number</th>
-        <th>姓名/电话</th>
-				<th>职业/公司</th>
-        <th>地址</th>
-				<th>激活</th>
+        <th>信息</th>
         <th>状态</th>
         <th>操作</th>
 			</tr>
@@ -45,7 +42,7 @@
 			{% subject_record_list var:'list' target_id:target_id type:1 event:event page:page size:50 %}
 
 			{% for f in list.rows %}
-        {% if f.user %}
+        
           <tr id="{{ f._id }}">
             <td>
               <div class="ui checkbox">
@@ -54,47 +51,31 @@
               </div>
             </td>
             <td>
+              {% if f.user %}
               <a class="ui image label link" href="{{ f.user.home_url }}" target="_blank">
                   <img src="{{ f.user.mini_avatar_url }}">
                   {{ f.user.nickname }}
               </a>
+              {%else%}
+                游客
+              {%endif%}
             </td>
             <td>
+                <p class="attribute">Number：{{ f.number }}</p>
+                {% if target_id==3 %}
+                <p class="attribute">领域: {{ f.option01 }}, 兴趣: {{ f.option02 }}</p>
+                {%endif%}
+            </td>
+            <td>
+              {% if target_id==5 %}
+                <p class="attribute">姓名：{{ f.info.realname }}</p>
+                <p class="attribute">手机：{{ f.info.phone }}</p>
+                <p class="attribute">公司：{{ f.info.company }}</p>
+                <p class="attribute">职位：{{ f.info.job }}</p>
+              {%endif%}
 
-              </div>
-                    <p class="attribute">ID：{{ f.user._id }}</p>
-                    <p class="attribute">Number：{{ f.number }}</p>
-                    {% if target_id==3 %}
-                    <p class="attribute">领域: {{ f.option01 }}, 兴趣: {{ f.option02 }}</p>
-                    {%endif%}
             </td>
-            <td>
-              <p>{{ f.user.profile.realname }}</p>
-              <p>{{ f.user.profile.phone }}</p>
-            </td>
-            <td>
-              <p>{{ f.user.profile.job }}</p>
-              <p>{{ f.user.profile.company }}</p>
-            </td>
-            <td>
-              <p>{{ f.user.profile.address }}</p>
-            </td>
-            <td>
-					  {{ f.user.created_on|date 'Y-m-d H:i'}}
-            <p>
-              {% if f.user.state == 2 %}
-              <label class="ui magenta label">已激活</label>
-              {% endif %}
-              
-              {% if f.user.state == 1 %}
-              <label class="ui orange label">未激活</label>
-              {% endif %}
-              
-              {% if f.user.state == 0 %}
-              <label class="ui gray label">已禁用</label>
-              {% endif %}
-            </p>
-            </td>
+
             <td id="stat-{{ f._id }}">
               {% if f.state == 1 %}
               <label class="ui green label">通过</label>
@@ -118,7 +99,6 @@
 						<a href="{{ app_url_admin }}/special/del_attend?id={{ f._id }}" class="ui confirm-request link">删除</a>
             </td>
           </tr>
-        {%endif%}
 			{% endfor %}
 		</tbody>
 	</table>

@@ -252,10 +252,10 @@
 		
 		<h3 class="ui dividing header">新增试用产品</h3>
 		<div class="inline field">
-		  	<label>关联产品：</label>
-			<input type="text" name="product_id" value="{{ try.product_id }}" />
+		  	<label>购买链接 ：</label>
+			<input type="text" name="buy_url" value="{{ try.buy_url }}" placeholder="http://" />
 			<div class="ui pointing left label">
-				填写关联产品ID!
+				购买的链接地址
 			</div>
 		</div>
 		
@@ -396,6 +396,40 @@
 			</div>
 		</div>
 
+			<h4 class="ui stage header">申请条件</h4>
+
+    <div class="five fields">
+      <div class="field">
+        <label>条件类型：</label>
+        <div class="grouped inline fields">
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" name="apply_term" value="0" {% if try.apply_term == 0 %}checked="checked"{% endif %} /> 
+              <label>无</label>
+            </div>
+            <div class="ui radio checkbox">
+              <input type="radio" name="apply_term" value="1" {% if try.apply_term == 1 %}checked="checked"{% endif %} /> 
+              <label>等级</label>
+            </div>
+            <div class="ui radio checkbox">
+              <input type="radio" name="apply_term" value="2" {% if try.apply_term == 2 %}checked="checked"{% endif %} /> 
+              <label>鸟币</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+          <label>限制条件：</label>
+        <input type="text" name="term_count"  value="{{ try.term_count }}" />
+<div class="description">等级或鸟币限制数量</div>
+      </div>
+      <div class="field">
+          <label>预热开启条件：</label>
+        <input type="text" name="open_limit"  value="{{ try.open_limit }}" />
+<div class="description">预约数量达到某个数量才会开启</div>
+      </div>
+    </div>
+
 			<h4 class="ui stage header">进度</h4>
 			<div class="grouped inline fields">
 				<div class="field">
@@ -418,6 +452,24 @@
 					<div class="ui radio checkbox">
 						<input type="radio" name="step_stat" value="5" {% if try.step_stat == 5 %}checked="checked"{% endif %} /> 
 						<label>结束</label>
+					</div>
+				</div>
+			</div>
+
+			<h4 class="ui stage header">类型</h4>
+			<div class="grouped inline fields">
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="kind" value="1" {% if try.kind == 1 %}checked="checked"{% endif %} /> 
+						<label>0元免费</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="kind" value="2" {% if try.kind == 2 %}checked="checked"{% endif %} /> 
+            <label>超级试用</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="kind" value="3" {% if try.kind == 3 %}checked="checked"{% endif %} /> 
+						<label>闪电试用</label>
 					</div>
 				</div>
 			</div>

@@ -9,6 +9,8 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
 		'page' => 1,
 		'size' => 20,
     's' => 'money',
+    'user_id' => 0,
+    'event_code' => '',
 	);
 
 	/**
@@ -24,7 +26,7 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
 	public function point_record_list() {
         $this->set_target_css_state('point');
         $this->set_target_css_state('page_point_list');
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/point/record_list?page=#p#');
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/point/record_list?user_id=%d&page=#p#', $this->stash['user_id']);
 		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('admin/point/point_record_list.html');
 	}
@@ -45,7 +47,12 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
     public function event_record_list() {
         $this->set_target_css_state('event');
         $this->set_target_css_state('page_point_list');
-        $pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/point/event_record_list?page=#p#');
+
+        $model = new Sher_Core_Model_PointEvent();
+        $rows = $model->find();
+        $this->stash['events'] = $rows;
+
+        $pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/point/event_record_list?event_code=%s&page=#p#', $this->stash['event_code']);
         $this->stash['pager_url'] = $pager_url;
         return $this->to_html_page('admin/point/event_record_list.html');
     }

@@ -14,23 +14,27 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
   const EVENT_ACTIVE = 1;
   # 试用申请 拉票人数
 	const EVENT_APPLY = 2;
+  # 试用预热想要
+  const EVENT_TRY_WANT = 3;
 
   # 专题
   const EVENT_SUBJECT = 5;
 	
   protected $schema = array(
     'user_id' => null,
-    # 如果是专题：1. 云马C1PK; 2. default
+    # 如果是专题：1. 云马C1PK; 2. 试用抽奖 
     'target_id' => null,
+    # 活动报名人数，抽奖次数 
     'ticket' => 1,
     'event'  => self::EVENT_ACTIVE,
-    # 子ID, 用于专题PK论战 1.正方;2.反方
+    # 子ID, 用于专题PK论战 1.正方;2.反方；所属试用ＩＤ
     'cid' => 0,
+    'state' => 1,
+    'info' => array(),
   );
 
   protected $joins = array(
     'user'  => array('user_id'  => 'Sher_Core_Model_User'),
-    //'target'  => array('target_id'  => 'Sher_Core_Model_Active'),
   );
 
 	
@@ -58,6 +62,11 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
         $apply->inc_counter('vote_count', 1, $this->data['target_id']);
         unset($apply);
       }
+      if ($this->data['event'] == self::EVENT_TRY_WANT){
+        $try = new Sher_Core_Model_Try();
+        $try->increase_counter('want_count', 1, (int)$this->data['target_id']);
+        unset($try);
+      }
     }
 	}
 	
@@ -77,10 +86,11 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
    * 检测是否报名
    */
   public function check_signup($user_id, $target_id, $event=1){
-    if($event==self::EVENT_ACTIVE){
-      $query['target_id'] = (int) $target_id;   
-    }elseif($event==self::EVENT_APPLY){
-      $query['target_id'] = $target_id;   
+    $int_target_ids = array(self::EVENT_ACTIVE, self::EVENT_TRY_WANT, self::EVENT_SUBJECT);
+    if(in_array((int)$event, $int_target_ids)){
+      $query['target_id'] = (int) $target_id;    
+    }else{
+      $query['target_id'] = $target_id;    
     }
 
     $query['user_id'] = (int) $user_id;

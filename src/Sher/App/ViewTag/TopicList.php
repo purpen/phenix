@@ -87,6 +87,8 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 			$query['stick'] = 1;
 		}elseif ($type == 2){
 			$query['fine']  = 1;
+    }elseif ($type == 5){
+      $query['try_id'] = array('$ne'=>0);
 		}else{
 			//为0
 		}
@@ -180,7 +182,7 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 		
 		// 查询到的列表结果
         $result = $service->get_topic_list($query,$options);
-		//var_dump($result['rows'][0]['published']);
+		//var_dump($result['rows'][0]['top']);
         $context->set($var,$result);
         if ($include_pager) {
             $context->set($pager_var,$result['pager']);

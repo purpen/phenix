@@ -8,18 +8,38 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 	 * 实现过程
 	 */
     public function intercept(Doggy_Dispatcher_ActionInvocation $invocation) {
+
         $action  = $invocation->getAction();
         $request = $invocation->getInvocationContext()->getRequest();
         if ($action instanceof Sher_Core_Action_Funnel) {
+
+          $current_user_id = 0;
+          // 通过uuid获取当前用户ID
+          $uuid = $request->get('uuid');
+          if(!empty($uuid)){
+            $pusher_model = new Sher_Core_Model_Pusher();
+            $pusher = $pusher_model->first(array('uuid'=> $uuid, 'is_login'=>1));
+            if($pusher){
+              $current_user_id = $pusher['user_id'];
+            }
+          }
+
+          $action->current_user_id = $current_user_id;
+
+          // 判断是否验证签名
+          $is_validate_sign = (int)Doggy_Config::$vars['app.api.is_validate_sign'];
+          if(empty($is_validate_sign)){
+            return $invocation->invoke();
+          }
+
 	        // 验证传递参数
 
-			$current_user_id = $request->get('current_user_id');
 			if($current_user_id == 0){
 				return $this->deny_anonymous($action);
 			}
 			$stash = $action->stash;
-			$client_id = $stash['client_id'];
-			$sign = $stash['sign'];
+			$client_id = isset($stash['client_id']) ? $stash['client_id'] : null;
+			$sign = isset($stash['sign']) ? $stash['sign'] : null;
 
       if(empty($client_id)){
         return $this->mismatch_sign($action);
@@ -101,4 +121,4 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 	}
 	
 }
-?>
+

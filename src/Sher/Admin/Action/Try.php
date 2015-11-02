@@ -30,9 +30,21 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 列表
 	 */
 	public function get_list() {		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try?page=#p#';
 		
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try?page=#p#';
 		$this->stash['pager_url'] = $pager_url;
+
+		// 发送人数组
+		$send_users = array();
+		$user_model = new Sher_Core_Model_User();
+		$send_user_ids = Doggy_Config::$vars['app.send_notice_users'];
+		$user_arr = explode('|', $send_user_ids);
+		foreach($user_arr as $v){
+		  $user = $user_model->load((int)$v);
+		  if(!empty($user)) array_push($send_users, $user);
+		}
+	
+		$this->stash['send_users'] = $send_users;
 		
 		return $this->to_html_page('admin/try/list.html');
 	}
@@ -106,6 +118,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     $data = array();
     $data['title'] = $this->stash['title'];
     $data['short_title'] = $this->stash['short_title'];
+    $data['kind'] = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
     $data['season'] = (int)$this->stash['season'];
     $data['description'] = $this->stash['description'];
     $data['brand_introduce'] = $this->stash['brand_introduce'];
@@ -117,6 +130,10 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     $data['end_time'] = $this->stash['end_time'];
     $data['publish_time'] = $this->stash['publish_time'];
     $data['try_count'] = (int)$this->stash['try_count'];
+    $data['apply_term'] = (int)$this->stash['apply_term'];
+    $data['term_count'] = (int)$this->stash['term_count'];
+    $data['open_limit'] = isset($this->stash['open_limit']) ? (int)$this->stash['open_limit'] : 0;
+    $data['buy_url'] = isset($this->stash['buy_url']) ? $this->stash['buy_url'] : '';
     $data['imgs'] = $imgs;
 
 		$model = new Sher_Core_Model_Try();
@@ -205,6 +222,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 查看申请人数
 	 */
 	public function verify() {
+		
 		if(empty($this->stash['id'])){
 			return $this->ajax_notification('缺少请求参数！', true);
 		}
@@ -225,6 +243,18 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		$model->increase_counter('view_count', 1, $id);
 		
 		$this->stash['try'] = &$try;
+		
+		// 发送人数组
+		$send_users = array();
+		$user_model = new Sher_Core_Model_User();
+		$send_user_ids = Doggy_Config::$vars['app.send_notice_users'];
+		$user_arr = explode('|', $send_user_ids);
+		foreach($user_arr as $v){
+		  $user = $user_model->load((int)$v);
+		  if(!empty($user)) array_push($send_users, $user);
+		}
+		
+		$this->stash['send_users'] = $send_users;
 		
 		return $this->to_html_page('admin/try/verify.html');
 	}
@@ -255,6 +285,8 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		if (is_null($result) || empty($id)){
 			return $this->ajax_notification('缺少请求参数！', true);
 		}
+
+    $bird_money_limit = false;
 		
 		try{
 			$apply = new Sher_Core_Model_Apply();
@@ -262,22 +294,70 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 			if(empty($row)){
 				return $this->ajax_notification('该申请不存在或已被删除！', true);
 			}
+
 			$apply_user_id = $row['user_id'];
 			$try_id = (int)$row['target_id'];
+
+      // 判断申请人是否符合要求
+      $try_model = new Sher_Core_Model_Try();
+
+      $try = $try_model->find_by_id($try_id);
+      if(empty($try)){
+ 				return $this->ajax_notification('试用产品不存在！', true);     
+      }
+
+      if($result==1 && !empty($try['apply_term'])){
+        $term_count = (int)$try['term_count'];
+        if($try['apply_term']==1){  // 等级限制
+          $user_ext_model = new Sher_Core_Model_UserExtState();
+          $ext = $user_ext_model->load((int)$apply_user_id);
+          if(empty($ext) || (!empty($ext) && $ext['rank_id']<$term_count)){
+  				  return $this->ajax_notification('用户等级不达标，无法通过！', true);            
+          }
+        }elseif($try['apply_term']==2){ // 鸟币限制
+          $bird_money_limit = true;
+          // 用户实时积分鸟币
+          $point_model = new Sher_Core_Model_UserPointBalance();
+          $point = $point_model->load($apply_user_id);
+          if(empty($point) || (!empty($point) && $point['balance']['money']<$term_count)){
+       			return $this->ajax_notification('用户鸟币不足，无法通过！', true);      
+          }
+        
+        }
+      }
+
 			// 更新状态
 			$ok = $apply->mark_set_result($id, $result);
 			
 			$is_add = ($result == Sher_Core_Model_Apply::RESULT_PASS) ? 1 : 0;
 			// 同步更新公测
 			if ($ok) {
-				$try = new Sher_Core_Model_Try();
-				$try->update_pass_users($try_id, $apply_user_id, $is_add);
+        // 如果有鸟币限制，扣取相应鸟币
+        if($bird_money_limit && (int)$result==1){
+          $service = Sher_Core_Service_Point::instance();
+          // 购买商品扣除相应鸟币
+          $service->make_money_out($apply_user_id, (int)$term_count, '试用扣除鸟币');
+          $money_reason = sprintf("恭喜，您申请的试用产品[%s]已通过试用，%d鸟币已扣除", $try['title'], $term_count);
+
+          // 添加提醒
+          $remind = new Sher_Core_Model_Remind();
+          $user_model = new Sher_Core_Model_User();
+          $arr = array(
+            'user_id'=> $apply_user_id,
+            's_user_id'=> (int)$this->visitor->id,
+            'evt'=> Sher_Core_Model_Remind::EVT_RE_BIRD_MONRY,
+            'kind'=> Sher_Core_Model_Remind::KIND_BIRD_ADMIN,
+            'content'=>$money_reason,
+          );
+          $remind->apply_and_save($arr);
+
+        }
+
+				$try_model->update_pass_users($try_id, $apply_user_id, $is_add);
 			}
 		} catch (Sher_Core_Model_Exception $e){
 			return $this->ajax_notification('申请审核操作失败，请检查后重试！', true);
 		}
-		
-		
 		
 		return $this->to_taconite_page('admin/verify_ok.html');
 	}
@@ -286,7 +366,8 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
    * 支持名单
    */
   public function vote_list(){
-  
+    $pager_url = Doggy_Config::$vars['app.url.admin_base'].'/try/vote_list?apply_id=%s&page=#p#';
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['apply_id']);
  		return $this->to_html_page('admin/try/vote_list.html'); 
   }
 
@@ -421,7 +502,112 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		fclose($fp);
   
   }
-	
-	
+  
+  /**
+	 * 给申请人批量发送私信
+	 * 
+	 * @return string
+	 */
+    public function ajax_user_message(){
+		
+		$user_type = (int)isset($this->stash['user_type']) ? $this->stash['user_type'] : 0;
+        $send_user_id = (int)$this->stash["send_admin"];
+		$letter_content = $this->stash["letter_content"];
+		$try_id = (int)$this->stash["try_id"];
+		
+		if(!$try_id){
+            return $this->ajax_notification("此试用信息不存在！",true);
+        }
+		if(!$send_user_id){
+            return $this->ajax_notification("你没有选择发送的用户",true);
+        }
+        if(empty($letter_content)){
+            return $this->ajax_notification("你没有输入私信内容",true);
+        }
+		
+		try {
+			
+			$user = new Sher_Core_Model_User();
+			$msg = new Sher_Core_Model_Message();
+			$apply = new Sher_Core_Model_Apply();
+			
+			switch($user_type){
+				case 0: // 全部
+					$apply_info = $apply->find(array('target_id'=>$try_id));
+					foreach($apply_info as $v){
+						$user_id = $v['user_id'];
+						$res = $user->find_by_id($user_id);
+						if(!$res) {continue;}
+						$ok = $msg->send_site_message($letter_content, $send_user_id, $user_id);
+					}
+					break;
+				case 1: // 通过的
+					$apply_info = $apply->find(array('target_id'=>$try_id,'result'=>1));
+					foreach($apply_info as $v){
+						$user_id = $v['user_id'];
+						$res = $user->find_by_id($user_id);
+						if(!$res) {continue;}
+						$ok = $msg->send_site_message($letter_content, $send_user_id, $user_id);
+					}
+					break;
+				case -1: // 为通过的
+					$apply_info = $apply->find(array('target_id'=>$try_id,'result'=>0));
+					foreach($apply_info as $v){
+						$user_id = $v['user_id'];
+						$res = $user->find_by_id($user_id);
+						if(!$res) {continue;}
+						$ok = $msg->send_site_message($letter_content, $send_user_id, $user_id);
+					}
+					break;
+			}
+
+        } catch (Doggy_Model_ValidateException $e) {
+            return $this->ajax_notification('发送私信失败:'.$e->getMessage(),true);
+        }
+		
+		$this->stash['mode'] = 'message';
+		
+		return $this->ajax_json('发送私信成功!', false);
+	}
+
+  /**
+   * 给想买的群发私信
+   */
+  public function ajax_send_message(){
+    $try_id = isset($this->stash['try_id']) ? (int)$this->stash['try_id'] : 0;
+    $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+    $content = isset($this->stash['content']) ? $this->stash['content'] : null;
+    if(empty($try_id) || empty($user_id) || empty($content)){
+      return $this->ajax_json('缺少请求参数!', true);
+    }
+
+    $attend_model = new Sher_Core_Model_Attend();
+    $msg = new Sher_Core_Model_Message();
+    $page = 1;
+    $size = 1000;
+    $is_end = false;
+    $total = 0;
+    while(!$is_end){
+      $query = array('target_id'=>$try_id, 'event'=>Sher_Core_Model_Attend::EVENT_TRY_WANT);
+      $options = array('page'=>$page, 'size'=>$size);
+      $list = $attend_model->find($query, $options);
+      if(empty($list)){
+        break;
+      }
+      $max = count($list);
+      for ($i=0; $i<$max; $i++) {
+        $r_user_id = $list[$i]['user_id'];
+        $msg->send_site_message($content, $user_id, (int)$r_user_id);
+        $total++;
+      }
+      if($max < $size){
+        break;
+      }
+      $page++;
+    } 
+
+    return $this->ajax_json("发送成功 count: $total!", false);
+  
+  }
 }
 

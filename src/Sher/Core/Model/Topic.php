@@ -171,6 +171,13 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
         // 更新话题总数
         Sher_Core_Util_Tracker::update_topic_counter();
 
+        // 是试用报告则添加评测数量
+        if(isset($this->data['try_id']) && !empty($this->data['try_id'])){
+          $try_model = new Sher_Core_Model_Try();
+          //$try_model->increase_counter('report_count', 1, (int)$this->data['try_id']);
+          unset($try_model);
+        }
+
         // 如果是发布状态,创建动态
         if ($this->data['published'] == 1) {
           $service = Sher_Core_Service_Timeline::instance();
@@ -203,7 +210,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 			$row['description'] = htmlspecialchars_decode($row['description']);
 		
 			// 去除 html/php标签
-			$row['strip_description'] = Doggy_Dt_Filters_String::truncate(strip_tags($row['description']), 70);
+			$row['strip_description'] = Doggy_Dt_Filters_String::truncate(strip_tags($row['description']), 140);
 		}
 		// 获取封面图
 		$row['cover'] = $this->cover($row);

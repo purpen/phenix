@@ -73,7 +73,7 @@
 	$('.ui.share.button').bind('click', function(){
 		$('.ui.share.modal').modal('show');
 	});
-	phenix.bind_share_list();
+	phenix.bind_share_list("{{ product.cover.thumbnails.hm.view_url }}");
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ product.wap_view_url }}'});
 	
@@ -361,6 +361,22 @@
     {% if product.stage == 15 %}
         // ajax加载评论
         phenix.fetch_comment(comment_param);
+
+        // 加载所在专辑
+        $.get('{{ app_url_shop }}/ajax_load_albums_list?rand='+Math.random(), { size: 8, pid: {{ product._id }} }, function(rs){
+              if(rs.success){
+                  if(rs.data.has_one){
+                      $('#shop-albums-list').show();
+                      var rendered = phenix.ajax_render_result('#get_shop_albums_tpl', rs.data);
+                      $('.shop-albums').html(rendered);                          
+                  }
+
+              }else{
+                  phenix.show_error_note(rs.message);
+              }
+
+          }, 'json');
+
     {%else%}
         // ajax加载评论
         phenix.fetch_comment(comment_param);
@@ -783,6 +799,7 @@
                 </div>
                 {% endif %}
             {% endif %}
+        </div>
 			
 			{% if visitor.can_edit %}
 			<div class="sellwrap">
@@ -862,7 +879,7 @@
                 	</a>
                 </div>
             </div>
-        </div>
+       
         
         <!--品牌相关-->
         <div class="sellwrap">
@@ -922,6 +939,16 @@
             </div>
 			
         </div>
+
+        <!--专辑-->
+        <div class="sellwrap" id="shop-albums-list" style="display:none;">
+			<div class="block title">
+               产品所在专辑 
+      </div>
+            <div class="ui articles shop-albums list">
+
+            </div>
+    </div>
         
 		{% ad_list var:'adslide2' page:1 size:2 state:2 name:'product_rightbar_stick' %}
         {% if adslide2.rows %}
@@ -993,6 +1020,7 @@
 
   {% if product.stage == 15 %}
     {% mustache id:'get_comments_tpl' tpl:'mustache/fetch_comments.mustache' %}
+    {% mustache id:'get_shop_albums_tpl' tpl:'mustache/fetch_shop_albums.mustache' %}
   {%else%}
     {% mustache id:'get_comments_tpl' tpl:'mustache/fetch_shop_comments.mustache' %}
   {%endif%}

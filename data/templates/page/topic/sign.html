@@ -2,6 +2,19 @@
 {% block title %}每日签到-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+#signlist .author + .collapsing.table.ui.celled.table tr td{
+  border:none !important;
+}
+#signlist .ui.secondary.pointing.menu{
+  margin-bottom:0;
+}
+#signlist .ui.secondary.pointing.menu + .ui.celled.table{
+  margin-top:0;
+  border:none;
+}
+#signlist .mainleft{
+  min-height:0px;
+}
 .sign.user {
     border-radius: 4px;
     color: rgb(255, 255, 255);
@@ -37,6 +50,7 @@
 }
 .sign.user .mine .author {
     margin-left: 20px;
+    position:relative;
 }
 .sign.user .mine .ui.button {
     margin-left: 50px;
@@ -74,6 +88,12 @@
 }
 .ui.prize.list .content{
   margin-top:8px;
+}
+.mine .author img.image-HV{
+  left: 40px;
+  top: 35px;
+  width: 1.2rem !important;
+  height: 1.2rem !important;
 }
 </style>
 {% endblock %}
@@ -121,7 +141,7 @@
                 	<img src="{{ user.small_avatar_url }}" class="ui small avatar image" />
                     <label>{{ user.screen_name }}</label>
                     {% if user.symbol %}
-					<img src="{{ app_url_packaged }}/images/V.png" class="image-V{%if user.symbol==2%} blue{%endif%}">
+					<img src="{{ app_url_packaged }}/images/V.png" class="image-HV{%if user.symbol==2%} blue{%endif%}">
 			        {%endif%}
                 </div>
                 
@@ -162,7 +182,7 @@
                     {%endif%}
                 </div>
                 
-            	<table class="ui very basic celled table">
+            	<table class="ui celled table">
             		<thead>
             			<tr>
             				<th>排名</th>
@@ -274,7 +294,7 @@
         
         <div class="sellwrap">
 
-      {% sign_stat_list var:'draw_list' draw_evt:1 sort:1 page:1 size:10 %}
+      {% sign_stat_list var:'draw_list' draw_evt:1 sort:1 page:1 size:8 %}
 			<div class="block title">
 				中奖鸟友
             </div>
@@ -289,7 +309,8 @@
                     </div>
                 </div>
               {%endfor%}
-
+              <hr />
+              <div>共有 <b>{{ draw_list.total_rows }}</b> 位获奖鸟友</div>
             </div> 
         </div>
         

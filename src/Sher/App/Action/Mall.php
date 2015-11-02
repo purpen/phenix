@@ -8,13 +8,29 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute','lunar','fitbit','gopro','tlunar','tfitbit','tgopro','milk','tmilk');
+	protected $exclude_method_list = array('execute','lunar','fitbit','gopro','tlunar','tfitbit','tgopro','milk','tmilk','cocoon','tcocoon');
 	
 	/**
 	 * 网站入口
 	 */
 	public function execute(){
 		return $this->lunar();
+	}
+	
+	/**
+	 * cocoon 吻吻鱼
+	 */
+	public function cocoon(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/cocoon.html');
+	}
+	
+	/**
+	 * cocoon 图集
+	 */
+	public function tcocoon(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/tcocoon.html');
 	}
 	
 	/**

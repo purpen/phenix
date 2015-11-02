@@ -48,11 +48,18 @@
 </section>
 <div class="ui frind big block">
 	<div class="ui responsive grid">
+
+    {% friend_link_list var:'partner_list' kind:2 status:1 sort_field: 'sort:latest' size:100 %}
 		<div class="row">
 			<div class="column">
 				<h3 class="ui header">
 					合作伙伴
 				</h3>
+        {% for d in partner_list.rows %}
+          <a href="{{ d.link }}" title="{{ d.title }}" target="_blank"><img src="{{ d.img_url }}" alt="{{ d.title }}"></a>
+        {%endfor%}
+
+        <!--
 				<a href="http://cn.technode.com/ " title="动点科技" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_technode.jpg" alt="动点科技"></a>
 				<a href="http://www.geekpark.net/" title="极客公园" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_geekpark.jpg" alt="极客公园"></a>
 				<a href="http://www.leikeji.com/" title="雷科技" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_leikeji.jpg" alt="雷科技"></a>
@@ -61,17 +68,22 @@
 				<a href="http://www.huodongxing.com/" title="活动行" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_huodongxing.jpg" alt="活动行"></a>
 				<a href="http://www.zhidx.com/" title="智东西" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_zhidongxi.jpg" alt="智东西"></a>
                 <a href="http://www.1243.com/" title="三分微视" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_sfws.jpg" alt="三分微视"></a>
+                -->
 			</div>
 		</div>
+
+    {% friend_link_list var:'friend_list' kind:1 status:1 sort_field: 'sort:latest' size:100 %}
 		<div class="row">
 			<div class="column">
 				<h3 class="ui header">
 					友情链接
 				</h3>
-				<a href="http://ixdc.org/" title="IXDC" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_IXDC.jpg" alt="IXDC"></a>
+        {% for d in friend_list.rows %}
+          <a href="{{ d.link }}" title="{{ d.title }}" target="_blank"><img src="{{ d.img_url }}" alt="{{ d.title }}"></a>
+        {%endfor%}
+
         <!--
-				<a href="http://www.jiguo.com/" title="极果" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_jiguo.jpg" alt="极果"></a>
-        -->
+				<a href="http://ixdc.org/" title="IXDC" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_IXDC.jpg" alt="IXDC"></a>
 				<a href="http://wanwushuo.com/" title="玩物说" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_wws.jpg" alt="玩物说"></a>
 				<a href="http://znjchina.com/" title="智能界" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_znj.jpg" alt="智能界"></a>
 				<a href="http://www.qikoo.com/" title="奇酷" target="_blank"><img src="http://frstatic.qiniudn.com/images/logo_qk.jpg" alt="奇酷 "></a>
@@ -85,6 +97,8 @@
 				<a href="http://bbs.xgimi.cn/" title="极米" target="_blank"><img src="{{ app_url_packaged }}/images/xgimi_logo.jpg" alt="极米"></a>
 				<a href="http://www.cecport.com/" title="中电港" target="_blank"><img src="{{ app_url_packaged }}/images/cec_logo.jpg" alt="中电港"></a>
 				<a href="http://www.smarthomeexpo.com.cn/" title="智能家具展" target="_blank"><img src="{{ app_url_packaged }}/images/csh_logo.jpg" alt="智能家具展"></a>
+				<a href="http://wearable.ofweek.com/" title="可穿戴设备网" target="_blank"><img src="{{ app_url_packaged }}/images/kcd_logo.jpg" alt="可穿戴设备网"></a>
+        -->
 			</div>
 		</div>
 		

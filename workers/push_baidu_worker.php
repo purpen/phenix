@@ -108,7 +108,7 @@ if(!empty($product_ids) && !empty($product_ids['items'])){
   echo "-------------//////////////-------------\n";
 }//endif
 
-
+/**
 //获取灵感更新的ID数组
 $stuff_ids = $digged->load(Sher_Core_Util_Constant::DIG_PUSH_BAIDU_STUFF_IDS);
 if(!empty($stuff_ids) && !empty($stuff_ids['items'])){
@@ -148,6 +148,8 @@ if(!empty($stuff_ids) && !empty($stuff_ids['items'])){
   echo "success push baidu stuff $total .\n";
   echo "-------------//////////////-------------\n";
 }//endif
+
+**/
 
 echo "All content push baidu works done.\n";
 echo "===========================PUSH BAIDU WORKER DONE==================\n";

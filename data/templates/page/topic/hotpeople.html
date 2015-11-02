@@ -3,8 +3,9 @@
 	<h2 class="block title">
 		社区红人
 	</h2>
-    
-    {% user_list var:'users' only_ok:1 size:15 sort:'time' all_mentors:1 %}
+    {% cache cache_key:'topic_page_hotpeople' ttl:3600 disable_cache:app_disable_cached %}
+
+    {% user_list var:'users' only_ok:1 size:15 sort:'time' symbol:'-1' %}
     <div class="mentors">
         <div class="ui mini avatar images">
             {% for user in users.rows %}
@@ -18,10 +19,11 @@
             </div>
             {% endfor %}
 	  	</div>
-		<div class="more">
-			<a href="{{ app_url_social }}/mentors" class="ui link" target="_blank">
+		  <div class="more">
+			      <a href="{{ app_url_social }}/mentors" class="ui link" target="_blank">
                 <i class="search icon"></i> 浏览全部红人
             </a>
-        </div>
+      </div>
     </div>
+  {% endcache %}
 </div>

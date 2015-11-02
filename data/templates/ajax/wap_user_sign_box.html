@@ -3,11 +3,11 @@
       <div id="wap-user-sign-box" style="display: inline-block;position:relative;">
         {% if result.has_sign %}
         <!--  已签到 -->
-        <a class="ui small icon avatar button" href="{{ app_url_wap }}/my" title="{{ visitor.nickname }}">
+        <a class="ui small icon avatar button" href="{{ app_url_wap }}/my" title="{{ visitor.nickname }}" style="width:33px !important;">
 			  		<img src="{{ visitor.mini_avatar_url }}" class="ui image" alt="{{ visitor.screen_name }}" />
 				</a>
         {%else%}
-        <a href="javascript:void(0);" id="sign-in-btn" class="ui inverted green active button" style="padding:7px 10px !important;vertical-align:top;margin-top: -1px;">签到</a>
+        <a href="javascript:void(0);" id="sign-in-btn" class="ui inverted green active button" style="padding:0 !important;vertical-align:bottom;width:50px;height:33px;line-height:33px;">签到</a>
         {%endif%}
 
 				{% if is_doing %}

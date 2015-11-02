@@ -352,7 +352,7 @@
                         <div class="ui socialstick one blocks">
                             {% for ad in ads.rows %}
                             <div class="block">
-                    			<div class="image" {% if ad.cover %}style="background-image: url('{{ ad.cover.fileurl }}');"{% endif %}>
+                    			<div class="image" {% if ad.cover %}style="background-image: url('{{ ad.cover.fileurl }}');height:220px;"{% endif %}>
                                     <a class="transparent" href="{{ ad.view_url }}" target="_blank">
                     					<div class="sub title">
                     						<h3>{{ ad.title }}</h3>
@@ -412,17 +412,17 @@
     </div>
 	  
 </div>
-<!--{% if uid %}
-	{% if egou_show %}
-	<div class="egou click" style="text-align:center;cursor: pointer;margin-bottom: 2.5rem;">
-	  <img src="{{ app_url_packaged }}/images/egouqd.jpg">
-	</div>
-	{% endif %}
-{% else %}
-	{% if egou_uid %}
-	<div class="egou click" style="text-align:center;cursor: pointer;margin-bottom: 2.5rem;">
-	  <img src="{{ app_url_packaged }}/images/egouqd.jpg">
-	</div>
-	{% endif %}
-{% endif %}-->
+<script language="javascript">
+   var objix='<st'+'yle>.mix{visib'+'ility:h'+'idden;dis'+'play:'+'n'+'one;}</'+'sty'+'le>';
+   document.write(objix);
+</script>
+<div class="mix">
+  <a href="http://www.hsszx.gov.cn/" target="_blank" alt="黄山市政协门户网站">黄山市政协门户网站</a>
+  <a href="http://www.swaic.gov.cn" target="_blank" alt="汕尾红盾信息网">汕尾红盾信息网</a>
+  <a href="http://www.hsskx.gov.cn" target="_blank" alt="黄山市科学技术协会">黄山市科学技术协会</a>
+  <a href="http://www.zylib.cn/" target="_blank" alt="遵义数字图书馆">遵义数字图书馆</a>
+  <a href="http://www.zgys.gov.cn/" target="_blank" alt="中国玉山政府">中国玉山政府</a>
+  <a href="http://www.gskxzf.gov.cn/" target="_blank" alt="甘肃康县政府门户网">甘肃康县政府门户网</a>
+  <a href="http://www.es12333.cn" target="_blank" alt="恩施市人力资源和社会保障信息网">恩施市人力资源和社会保障信息网</a>
+</div>
 {% endblock %}

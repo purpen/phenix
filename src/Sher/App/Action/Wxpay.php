@@ -19,10 +19,10 @@
 		 */
 		public function _init() {
 			$this->options = array(
-				'appid' => Doggy_Config::$vars['app.wechat.appid'],
-				'mchid' => Doggy_Config::$vars['app.wechat.mchid'],
+				'appid' => Doggy_Config::$vars['app.wechat.app_id'],
+				'secret' => Doggy_Config::$vars['app.wechat.app_secret'],
+				'mchid' => Doggy_Config::$vars['app.wechat.partner_id'],
 				'key' => Doggy_Config::$vars['app.wechat.key'],
-				'secret' => Doggy_Config::$vars['app.wechat.secret']
 			);
 		}
 		

@@ -517,6 +517,13 @@ class Sher_Core_Helper_Url {
     public static function cooperate_home_url($id){
         return sprintf(Doggy_Config::$vars['app.url.cooperate.view'], $id);
     }
+
+    /**
+     * 孵化资源-wao
+     */
+    public static function wap_cooperate_home_url($id){
+        return sprintf(Doggy_Config::$vars['app.url.wap']."/incubator/view?id=%d", $id);
+    }
     
 	/**
 	 * 设置向导

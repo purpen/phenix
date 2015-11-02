@@ -11,7 +11,7 @@ class Sher_App_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
         'page_description_suffix' => '中国最火爆的智能硬件孵化平台-太火鸟聚集了上百家智能硬件相关资源，包括硬件设计公司、技术开发公司、合作院校等，可以为您提供从创意设计-研发-推广一条龙服务。',
 	);
 	
-	protected $exclude_method_list = array('execute','index','view');
+	protected $exclude_method_list = array('execute','index','view','service');
 	
 	public function _init() {
 		$this->set_target_css_state('page_incubator');
@@ -27,8 +27,9 @@ class Sher_App_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 	/**
 	 * 首页
 	 */
-	public function index(){	
-        return $this->to_html_page('page/incubator/index.html');	
+	public function index(){
+		return $this->to_html_page('page/incubator/show.html');	
+        //return $this->to_html_page('page/incubator/index.html');	
 	}
     
     /**
@@ -183,4 +184,4 @@ class Sher_App_Action_Incubator extends Sher_App_Action_Base implements DoggyX_A
 	}
 	
 }
-?>
+

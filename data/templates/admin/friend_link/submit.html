@@ -1,0 +1,179 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block layout_js %}
+{% endblock %}
+
+{% block jquery %}
+
+	$('#friend-link-form').form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				}
+			]
+		},
+		link: {
+			identifier  : 'link',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '链接不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">链接管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/friend_link?kind=0" class="{{ css_all }} item">
+			全部
+		</a>
+		<a href="{{ app_url_admin_base }}/friend_link?kind=1" class="{{ css_friend }} item">
+			友情链接
+		</a>
+		<a href="{{ app_url_admin_base }}/friend_link?kind=2" class="{{ css_partner }} item">
+			合作伙伴
+		</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/friend_link/submit" class="item">
+				<i class="add icon"></i>添加
+			</a>
+	    </div>
+	</div>
+	
+  <!--
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/friend_link" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="红包码..." type="text" name="q">
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
+	</div>
+  -->
+	
+	<form class="ui form segment" action="{{ app_url_admin_base }}/friend_link/save" method="post" id="friend-link-form">
+		<input name="_id" type="hidden" value="{{ link._id }}" />
+		
+		<div class="inline field">
+			<label>标题:</label>
+			<input type="text" name="title" value="{{ link.title }}" />
+		</div>
+		<div class="inline field">
+			<label>子标题:</label>
+			<input type="text" name="short_title" value="{{ link.short_title }}" />
+		</div>
+
+		<div class="inline field">
+			<label>链接:</label>
+			<input type="text" name="link" value="{{ link.link }}" />
+		</div>
+		<div class="inline field">
+			<label>图片地址:</label>
+			<input type="text" name="img_url" value="{{ link.img_url }}" />
+      <div class="description">*可以在后台附件管理上传图片，logo尺寸为300*80</div>
+		</div>
+		<div class="inline field">
+			<label>排序:</label>
+			<input type="text" name="sort" value="{{ link.sort }}" />
+		</div>
+
+    <div class="field">
+      <label>类型：</label>
+      <div class="grouped inline fields">
+        <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="kind" value="1" {% if link.kind == 1 %}checked="checked"{% endif %} /> 
+            <label>友链</label>
+          </div>
+          <div class="ui radio checkbox">
+            <input type="radio" name="kind" value="2" {% if link.kind == 2 %}checked="checked"{% endif %} /> 
+            <label>合作伙伴</label>
+          </div>
+          <div class="ui radio checkbox">
+            <input type="radio" name="kind" value="3" {% if link.kind == 3 %}checked="checked"{% endif %} /> 
+            <label>其它</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>推荐：</label>
+      <div class="grouped inline fields">
+        <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="stick" value="0" {% if link.stick == 0 %}checked="checked"{% endif %} /> 
+            <label>否</label>
+          </div>
+          <div class="ui radio checkbox">
+            <input type="radio" name="stick" value="1" {% if link.stick == 1 %}checked="checked"{% endif %} /> 
+            <label>是</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>状态：</label>
+      <div class="grouped inline fields">
+        <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="status" value="1" {% if link.status == 1 %}checked="checked"{% endif %} /> 
+            <label>启用</label>
+          </div>
+          <div class="ui radio checkbox">
+            <input type="radio" name="status" value="0" {% if link.status == 0 %}checked="checked"{% endif %} /> 
+            <label>禁用</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>备注:</label>
+      <textarea name="remark" placeholder="备注">{{ link.remark }}</textarea>
+    </div>
+		
+		<div class="inline field">
+			<div class="ui magenta submit inverted button">
+				确认提交
+			</div>
+			<div class="ui gray cancel inverted button">
+				取消
+			</div>
+		</div>
+	</form>
+	
+{% endblock %}

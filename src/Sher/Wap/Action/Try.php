@@ -66,7 +66,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
     }
 
     //微信分享
-    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.ser_app_id'];
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
     $timestamp = $this->stash['timestamp'] = time();
     $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
     $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
@@ -122,8 +122,16 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 
     // 不可申请状态
     $this->stash['cannot_apply'] = false;
+    // 是否已想要
+    $this->stash['is_want'] = false;
     if($try['step_stat']==0){
       $this->stash['cannot_apply'] = true;
+      if($this->visitor->id){
+        $attend_model = new Sher_Core_Model_Attend();
+        $is_want = $attend_model->check_signup($this->visitor->id, $try['_id'], Sher_Core_Model_Attend::EVENT_TRY_WANT);
+        if($is_want) $this->stash['is_want'] = true;
+      }
+        
     }
 
     //添加网站meta标签
@@ -214,10 +222,34 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
         $this->stash['msg'] = '预热中是不能申请的！';
 			  return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
 			}
+
 			if($row['is_end']){
         $this->stash['msg'] = '抱歉，活动已结束，等待下次再来！';
 			  return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
 			}
+
+      // 是否符合申请条件
+      /**
+      if(isset($row['apply_term']) && !empty($row['apply_term'])){
+        if($row['apply_term']==1){  // 等级
+          $user_model = new Sher_Core_Model_User();
+          $user = $user_model->extend_load((int)$user_id);
+          if((int)$user['ext_state']['rank_id'] < (int)$row['term_count']){
+            $this->stash['msg'] = '您的等级不能申请当前试用产品！';
+            return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
+          }
+        }elseif($row['apply_term']==2){ // 鸟币
+          // 用户实时积分
+          $point_model = new Sher_Core_Model_UserPointBalance();
+          $current_point = $point_model->load((int)$user_id);
+          if($current_point['balance']['money'] < (int)$row['term_count']){
+            $this->stash['msg'] = '您的鸟币数量不足，不能申请当前试用产品！';
+            return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
+          }
+        }
+        
+      }
+      **/
 			
 			// 检测是否已提交过申请
 			$model = new Sher_Core_Model_Apply();
@@ -237,6 +269,25 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
           $this->stash['msg'] = '提交失败，请重试！';
           return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');       
         }
+
+        $user_data = array();
+        if(empty($this->visitor->profile->address)){
+          $user_data['profile.address'] = isset($this->stash['address']) ? $this->stash['address'] : null;
+        }
+        if(empty($this->visitor->profile->zip)){
+          $user_data['profile.zip'] = isset($this->stash['zip']) ? $this->stash['zip'] : null;
+        }
+        if(empty($this->visitor->profile->weixin)){
+          $user_data['profile.weixin'] = isset($this->stash['wx']) ? $this->stash['wx'] : null;
+        }
+        if(empty($this->visitor->profile->im_qq)){
+          $user_data['profile.im_qq'] = isset($this->stash['qq']) ? $this->stash['qq'] : null;
+        }
+
+        //更新基本信息
+        $this->visitor->update_set($this->visitor->id, $user_data);
+
+
         $apply = $model->get_data();
         $this->stash['apply'] = $apply;
         $this->stash['try'] = $row;
@@ -389,6 +440,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
         for($i=0;$i<count($result['rows']);$i++){
           $step_stat = isset($result['rows'][$i]['step_stat']) ? $result['rows'][$i]['step_stat'] : 0;
           $result['rows'][$i]['step_ing'] = $result['rows'][$i]['step_verify'] = $result['rows'][$i]['step_recover'] = $result['rows'][$i]['step_no'] = $result['rows'][$i]['step_over'] = false;
+          
           switch($step_stat){
             case 0: //预热
               $result['rows'][$i]['step_ready'] = true;
@@ -409,6 +461,9 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
               $result['rows'][$i]['step_over'] = true;
               break;
           }
+
+          // 是否有试用报告
+          $result['rows'][$i]['has_report'] = empty($result['rows'][$i]['report_count']) ? false : true;
 
           // 过滤用户表
           if(isset($result['rows'][$i]['user'])){

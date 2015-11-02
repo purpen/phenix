@@ -1,0 +1,31 @@
+<div class="comment" id="{{ _id }}">
+  <a class="avatar" href="javascript:void(0);" title="{{ user.nickname }}">
+    <img src="{{ user.small_avatar_url }}" />
+  </a>
+  <div class="content">
+    <a class="author ui magenta link" href="javascript:void(0);">{{ user.nickname }}</a>
+    <div class="metadata">
+      <div class="date">{{ created_on }}</div>
+      <div>{{ floor }}楼</div>
+    </div>
+    <div class="laud">
+      <a class="ui link icon pop ajax" href="/app/site/comment/ajax_laud?id={{ _id }}" id="laud_{{ _id}}" data-content="点赞" data-variation="inverted" >
+      <span class="love-count"></span>
+        <i class="icon empty heart"></i>
+      </a> 
+    </div>
+      {{#is_reply}}
+      <div>回复 #{{ reply_comment.floor }} @<a href="javascript:void(0);" class="ui link">{{ reply_comment.user.nickname }}</a></div>
+    {{/is_reply}}
+
+    <div class="text">
+      {{ &content }}
+    </div>
+    <div class="actions">
+      <a class="reply showbox reply-btn" href="javascript:void(0);" comment_id="{{ _id }}" floor="{{ floor }}" comment_user_id="{{ user_id }}" comment_user_name="{{ user.nickname }}">回复</a>
+      {{#is_edit}}
+        <a class="delete confirm-request" href="/app/site/comment/delete?id={{ _id }}">屏蔽</a>
+      {{/is_edit}}
+    </div>
+  </div>
+</div>
