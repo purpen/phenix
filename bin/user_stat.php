@@ -1,7 +1,8 @@
 #!/usr/bin/env php
 <?php
 /**
- * 用户注册时间统计
+ * 用户统计
+ * @tianshuai
  */
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {
@@ -19,48 +20,42 @@ require $cfg_doggy_bootstrap;
 @require $cfg_app_rc;
 
 set_time_limit(0);
-ini_set('memory_limit','512M');
 
-echo "begin stat user register...\n";
+echo "begin fetch users...\n";
+$user_model = new Sher_Core_Model_User();
+$page = 1;
+$size = 1000;
+$is_end = false;
+$total = 0;
 
-$date_arr = array(
-  array('2014-01', '2014-01-01', '2014-01-31'),
-  array('2014-02', '2014-02-01', '2014-02-28'),
-  array('2014-03', '2014-03-01', '2014-03-31'),
-  array('2014-04', '2014-04-01', '2014-04-30'),
-  array('2014-05', '2014-05-01', '2014-05-31'),
-  array('2014-06', '2014-06-01', '2014-06-30'),
-  array('2014-07', '2014-07-01', '2014-07-31'),
-  array('2014-08', '2014-08-01', '2014-08-31'),
-  array('2014-09', '2014-09-01', '2014-09-30'),
-  array('2014-10', '2014-10-01', '2014-10-31'),
-  array('2014-11', '2014-11-01', '2014-11-30'),
-  array('2014-12', '2014-12-01', '2014-12-31'),
-  array('2015-01', '2015-01-01', '2015-01-31'),
-  array('2015-02', '2015-02-01', '2015-02-28'),
-  array('2015-03', '2015-03-01', '2015-03-31'),
-  array('2015-04', '2015-04-01', '2015-04-30'),
-  array('2015-05', '2015-05-01', '2015-05-31'),
-  array('2015-06', '2015-06-01', '2015-06-30'),
-  array('2015-07', '2015-07-01', '2015-07-31'),
-  array('2015-08', '2015-08-01', '2015-08-31'),
-  array('2015-09', '2015-09-01', '2015-09-30'),
-  array('2015-10', '2015-10-01', '2015-10-31'),
+while(!$is_end){
+	$query = array('kind'=>6);
+	$options = array('page'=>$page,'size'=>$size);
+	$list = $user_model->find($query, $options);
+	if(empty($list)){
+		echo "get user list is null,exit......\n";
+		break;
+	}
+	$max = count($list);
+  for ($i=0; $i < $max; $i++) {
+    $user = $list[$i];
+    if(empty($user)){
+      continue;
+    }
+    $d = date('y-m-d', $user['created_on']);
+    $nickname = $user['nickname'];
 
-);
-$model_user = new Sher_Core_Model_User();
-
-foreach($date_arr as $key=>$val){
-  $query = array('created_on'=>array(
-      '$gt' => strtotime($val[1]),
-      '$lt' => strtotime($val[2]),
-  ));
-  $options = array();
-  $user_count = $model_user->count($query, $options);
-  echo "$val[0] user register count: $user_count.\n";
+    $total++;
+	}
+	if($max < $size){
+		echo "user list is end!!!!!!!!!,exit.\n";
+    $is_end = true;
+		break;
+	}
+	$page++;
+	echo "page [$page] updated---------\n";
 }
 
-$user_count = $model_user->count();
-echo "users total count: $user_count.\n";
-
+echo "Total count: $total \n";
+echo "All user stat done.\n";
 
