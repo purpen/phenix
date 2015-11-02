@@ -6,6 +6,8 @@ db.bonus.ensureIndex({'status':1}, {background: true});
 
 db.bonus.ensureIndex({'used':1,'status':1}, {background: true});
 
+db.bonus.ensureIndex({'used':1,'status':1,'xname':1}, {background: true});
+
 
 # 订单管理
 db.ordertemp.ensureIndex({'rid':1}, {unique: true}, {background: true});
@@ -27,6 +29,8 @@ db.user.ensureIndex({'qq_uid':1}, {background: true});
 db.user.ensureIndex({'state':1, 'mentor':1}, {background: true});
 db.user.ensureIndex({'wx_open_id':1}, {background: true});
 db.user.ensureIndex({'created_on':1}, {background: true});
+
+db.user.ensureIndex({'symbol': 1}, {background: true});
 
 # 手机验证码
 db.verify.ensureIndex({'phone':1,'code':1}, {unique: true}, {background: true});
@@ -59,6 +63,14 @@ db.favorite.ensureIndex({'event':1, 'type':1, 'created_on':-1}, {background: tru
 db.egou.ensureIndex({'eid':1, 'hid':1}, {background: true});
 
 db.egoutask.ensureIndex({'eid':1, 'hid':1}, {background: true});
+
+
+db.user_sign_stat.ensureIndex({only_index:1}, {unique: true}, {background: true});
+
+db.user_sign_stat.ensureIndex({user_id:1, day:1}, {unique: true}, {background: true});
+
+
+db.user_point_stat.ensureIndex({'state':1, 'kind':1, 'total_point': -1}, {background: true});
 
 
 
