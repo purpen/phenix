@@ -1,0 +1,177 @@
+{%extends 'layout/column.html'%}
+{% block title %}C1 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lightbox{
+	top:10px;
+}
+.lb-outerContainer{
+	position:relative;
+	background-color: rgba(0,0,0,0);
+}
+.lb-number{
+	display:none !important;
+}
+.lb-data .lb-close{
+	position:absolute;
+	top:-40px;
+	right:40px;
+	width:40px;
+	height:40px;
+}
+.lb-nav a.lb-next,.lb-nav a.lb-prev{
+	opacity:0.6;
+}
+.lightbox .lb-image {
+  display: block;
+  height: auto;
+  max-width: inherit;
+  border-radius: 3px;
+}
+.ui.photos .row{
+	padding:5px 0;
+}
+.ui.photos h3{
+	font-weight: normal;
+  margin: 0;
+  line-height: 41px;
+}
+.ui.photos{
+	top:0;
+	left:0;
+	width:100%;
+	z-index:999;
+	opacity:1;
+	padding-top:3px !important;
+	border-bottom:1px solid rgba(0,0,0,0.15);
+}
+.ui.photos .eight+.eight{
+	text-align:right;
+	line-height: 41px;
+}
+.ui.photos .eight+.eight a.ui.item{
+	margin:0 10px;
+}
+.card{
+	margin:0.5% !important;
+}
+.ui.grid{
+	margin:0;
+}
+.ui.four.cards {
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+}
+.lb-cancel{
+	background: url({{ app_url_packaged }}/images/mall/loading1.gif) no-repeat;
+}
+</style>
+{% endblock %}
+{% block jquery %}
+
+{% endblock %}
+{% block content %}
+<div class="ui photos responsive grid" style="  max-width: 100% !important;">
+	<div class="row">
+		<div class="eight wide column">
+			<h3><img src="{{ app_url_packaged }}/images/mall/c1.png" style="vertical-align: middle;"> 图集</h3>
+		</div>
+		<div class="eight wide column">
+			<a href="{{ app_url_domain }}/mall/milk" class="ui link item">概述</a>|
+			<!--<a href="#.team" class="ui link item">我们的团队</a>|-->
+			<a href="javascript:void(0)" class="ui link item active">图集</a>|
+			<a href="http://www.taihuoniao.com/topic/view-106702-1.html" title="设计驱动创业，年轻人的电单车云马C1众筹首日破百万" class="ui item link" target="_blank">讨论区</a>
+			<a href="{{ app_url_domain }}/mall/zxc#.buy" class="ui inverted active black button" style="padding: 0.4em 1em;margin-bottom: 2px;font-weight: 400;" title="C1">立即购买</a>
+		</div>
+	</div>
+</div>
+<div class="ui big block">
+	<div class="ui center aligned grid">
+		<div class="row" style="padding:0 6%;">
+			<div class="ui four cards">
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/mikt01.jpg" data-lightbox="images" class="ui image">
+		        <img src="{{ app_url_packaged }}/images/mall/mikt1.jpg" alt="婴萌配奶机" />
+		      </a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/mikt02.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/mikt2.jpg" alt="婴萌配奶机" />
+	        </a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/mikt03.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/mikt3.jpg" alt="婴萌配奶机" />
+	        </a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/mikt04.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/mikt4.jpg" alt="婴萌配奶机" />
+	      	</a>
+				</div>
+			
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/mikt05.jpg" data-lightbox="images" class="ui image">
+		        <img src="{{ app_url_packaged }}/images/mall/mikt5.jpg" alt="婴萌配奶机" />
+		      </a>
+				</div>
+			
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/mikt06.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/mikt6.jpg" alt="婴萌配奶机" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/mikt07.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/mikt7.jpg" alt="婴萌配奶机" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/mikt08.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/mikt8.jpg" alt="婴萌配奶机" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/mikt09.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/mikt9.jpg" alt="婴萌配奶机" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/mikt010.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/mikt10.jpg" alt="婴萌配奶机" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/mikt011.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/mikt11.jpg" alt="婴萌配奶机" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/mikt012.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/mikt12.jpg" alt="婴萌配奶机" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/mikt013.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/mikt13.jpg" alt="婴萌配奶机" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/mikt014.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/mikt14.jpg" alt="婴萌配奶机" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/mikt015.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/mikt15.jpg" alt="婴萌配奶机" />
+	      	</a>
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
