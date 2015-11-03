@@ -1,0 +1,2258 @@
+{%extends 'layout/column.html'%}
+{% block title %}C1 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+  .ui.white .row{
+  	padding:5px 8%;
+  }
+  .ui.white h3{
+  	font-weight: normal;
+    margin: 0;
+    line-height: 41px;
+  }
+  .ui.white{
+  	position:fixed;
+  	top:0;
+  	left:0;
+  	width:100%;
+  	z-index:999;
+  	opacity:0;
+  	padding-top:3px !important;
+  	background:rgba(255,255,255,0.8) !important;
+  	-webkit-transition: all .3s ease-out 0s;
+  	transition: all .3s ease-out 0s;
+  }
+  .ui.white .eight+.eight{
+  	text-align:right;
+  	line-height: 41px;
+  }
+  .ui.white .eight+.eight a.ui.item{
+  	margin:0 10px;
+  }
+  section{
+    position:relative;
+    -webkit-font-smoothing: antialiased;
+  }
+  #pager .sec-background {
+      background-position: center;
+      background-size: cover;
+      width: 100%;
+  }
+  #sec-01 {
+      background: #f9f9f9 url({{ app_url_packaged }}/images/mall/banner-top.png);
+      height: 750px;
+      padding-top: 60px;
+      background-size: inherit !important;
+      background-position:50% !important;
+  }
+  #sec-01 .color {
+      width: 293px;
+      height: 218px;
+      background: url({{ app_url_packaged }}/images/mall/color.png);
+      position: absolute;
+      left: 50%;
+      margin-left: -172px;
+      top: 50%;
+      margin-top: -107px;
+  }
+  #sec-01 .price {
+      font-size: 18px;
+      color: #f58557;
+      width: 100%;
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      margin-top: 130px;
+  }
+  
+  #sec-002 {
+      background: #000000;
+      height: 600px;
+  }
+  #sec-002 .bg-banner-001 {
+      background: url("{{ app_url_packaged }}/images/mall/banner-001.png");
+      height: 100%;
+      width: 57%;
+      background-position: right;
+      background-size: cover;
+      position: absolute;
+      left: 0;
+      top: 0;
+  }
+  #sec-002 .bg-white {
+      position: absolute;
+      right: 0;
+      top: 0;
+  }
+  .bg-white {
+      background: #ffffff;
+      height: 100%;
+      width: 43%;
+  }
+  #sec-002 .line-border {
+      width: 326px;
+      height: 326px;
+      border: 1px solid rgba(245, 133, 87, 1);
+      position: absolute;
+      left: 50%;
+      margin-left: 250px;
+      top: 70px;
+  }
+  #sec-002 .line-border:after {
+      content: "";
+      width: 326px;
+      height: 326px;
+      border: 1px solid rgba(245, 133, 87, .4);
+      position: absolute;
+      left: 7px;
+      top: 7px;
+  }
+  #sec-002 .sec-info {
+      position: absolute;
+      left: 50%;
+      top: 160px;
+      width: 190px;
+      height: 170px;
+      margin-left: 210px;
+  }
+  #sec-002 .sec-info .sec-split {
+      width: 24px;
+      height: 3px;
+      background: #f58557;
+  }
+  .clear-10 {
+      clear: both;
+      height: 10px;
+      font-size: 0px;
+      float: none;
+      overflow: hidden;
+  }
+  #sec-002 .sec-info .sec-title {
+      font-size: 24px;
+      color: #000000;
+      line-height: 50px;
+  }
+  #sec-002 .sec-info .sec-name {
+      font-size: 36px;
+      color: #000000;
+      margin-bottom: 20px;
+      line-height: 54px;
+  }
+  #sec-002 .sec-info .sec-desc {
+      font-size: 14px;
+      color: rgba(0, 0, 0, .5);
+      line-height: 21px;
+      white-space: nowrap;
+  }
+  
+  #sec-003 {
+      background: #c9cec9;
+      height: 600px;
+  }
+  #sec-003 .bg-banner-002 {
+      background: url("{{ app_url_packaged }}/images/mall/banner-002.png");
+      height: 100%;
+      width: 57%;
+      background-position: left;
+      background-size: cover;
+      position: absolute;
+      right: 0;
+      top: 0;
+  }
+  #sec-003 .bg-or {
+      position: absolute;
+      left: 0;
+      top: 0;
+  }
+  .bg-or {
+      background: #f58557;
+      height: 100%;
+      width: 43%;
+  }
+  #sec-003 .line-border {
+      width: 326px;
+      height: 326px;
+      border: 1px solid #ffffff;
+      position: absolute;
+      left: 50%;
+      margin-left: -420px;
+      top: 95px;
+  }
+  #sec-003 .line-border:after {
+      content: "";
+      width: 326px;
+      height: 326px;
+      border: 1px solid rgba(255, 255, 255, .4);
+      position: absolute;
+      left: 7px;
+      top: 7px;
+  }
+  #sec-003 .sec-info {
+      position: absolute;
+      left: 50%;
+      top: 160px;
+      width: 200px;
+      height: 170px;
+      margin-left: -455px;
+  }
+  #sec-003 .sec-info .sec-split {
+      width: 24px;
+      height: 3px;
+      background: #ffffff;
+  }
+  .clear-10 {
+      clear: both;
+      height: 10px;
+      font-size: 0px;
+      float: none;
+      overflow: hidden;
+  }
+  #sec-003 .sec-info .sec-title {
+      font-size: 24px;
+      color: #ffffff;
+      line-height: 50px;
+  }
+  #sec-003 .sec-info .sec-name {
+      font-size: 36px;
+      color: #ffffff;
+      margin-bottom: 20px;
+      line-height: 54px;
+  }
+  #sec-003 .sec-info .sec-desc {
+      font-size: 14px;
+      color: rgba(255, 255, 255, .5);
+      line-height: 21px;
+      white-space: nowrap;
+  }
+  
+  #sec-004 {
+      background: #000;
+      height: 600px;
+  }
+  #sec-004 .bg-banner-003 {
+      background: url("{{ app_url_packaged }}/images/mall/banner-003.png");
+      height: 100%;
+      width: 57%;
+      background-position: right;
+      background-size: cover;
+      position: absolute;
+      left: 0;
+      top: 0;
+  }
+  #sec-004 .bg-gray {
+      position: absolute;
+      right: 0;
+      top: 0;
+  }
+  .bg-gray {
+      background: #f8f8f8;
+      height: 100%;
+      width: 43%;
+  }
+  #sec-004 .line-border {
+      width: 810px;
+      height: 326px;
+      border: 1px solid rgba(245, 133, 87, 1);
+      position: absolute;
+      left: 50%;
+      margin-left: -420px;
+      top: 145px;
+  }
+  #sec-004 .line-border:after {
+      content: "";
+      width: 810px;
+      height: 326px;
+      border: 1px solid rgba(245, 133, 87, .4);
+      position: absolute;
+      left: 7px;
+      top: 7px;
+  }
+  #sec-004 .sec-info {
+      position: absolute;
+      left: 50%;
+      top: 230px;
+      width: 190px;
+      height: 170px;
+      margin-left: 338px;
+  }
+  #sec-004 .sec-info .sec-split {
+      width: 24px;
+      height: 3px;
+      background: #f58557;
+  }
+  .clear-10 {
+      clear: both;
+      height: 10px;
+      font-size: 0px;
+      float: none;
+      overflow: hidden;
+  }
+  #sec-004 .sec-info .sec-title {
+      font-size: 24px;
+      color: #000000;
+      line-height: 50px;
+  }
+  #sec-004 .sec-info .sec-name {
+      font-size: 36px;
+      color: #000000;
+      margin-bottom: 20px;
+      line-height: 54px;
+  }
+  #sec-004 .sec-info .sec-desc {
+      font-size: 14px;
+      color: rgba(0, 0, 0, .5);
+      line-height: 21px;
+      white-space: nowrap;
+  }
+  
+  .sec-dec {
+      height: 250px;
+      padding-top: 90px;
+      background:#fff;
+  }
+  .sec-dec .descri {
+      text-align: center;
+  }
+  .sec-dec .title {
+      font-size: 24px;
+      font-family: "PingFang";
+      color: #000;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-bottom: 0;
+  }
+  .sec-dec .title-1 {
+      font-size: 14px;
+      font-family: "Adobe Heiti Std";
+      color: rgb(182, 182, 182);
+      text-transform: uppercase;
+      margin: 10px 0;
+  }
+  .sec-dec .line {
+      height: 3px;
+      width: 24px;
+      background-color: #fc6e51;
+      margin: auto;
+  }
+  
+  
+  #sec-005 {
+      background: url("{{ app_url_packaged }}/images/mall/sec-04.png");
+      height: 600px;
+  }
+  #sec-005 .line-border {
+      width: 326px;
+      height: 326px;
+      border: 1px solid rgba(245, 133, 87, 1);
+      position: absolute;
+      left: 50%;
+      margin-left: 170px;
+      top: 70px;
+  }
+  #sec-005 .line-border:after {
+      content: "";
+      width: 326px;
+      height: 326px;
+      border: 1px solid rgba(245, 133, 87, .4);
+      position: absolute;
+      left: 7px;
+      top: 7px;
+  }
+  #sec-005 .sec-info {
+      position: absolute;
+      left: 50%;
+      top: 160px;
+      width: 190px;
+      height: 190px;
+      margin-left: 150px;
+  }
+  #sec-005 .sec-info .sec-split {
+      width: 24px;
+      height: 3px;
+      background: #f58557;
+  }
+  #sec-005 .sec-info .sec-title {
+      font-size: 24px;
+      color: #ffffff;
+      line-height: 50px;
+  }
+  #sec-005 .sec-info .sec-name {
+      font-size: 36px;
+      color: #ffffff;
+      margin-bottom: 20px;
+      line-height: 54px;
+  }
+  #sec-005 .sec-info .sec-desc {
+      font-size: 14px;
+      color: rgba(255, 255, 255, .5);
+      line-height: 21px;
+      white-space: nowrap;
+  }
+  
+  #sec-006 {
+      background: #54585e;
+      height: 700px;
+  }
+  #sec-006 .person-1 {
+      width: 363px;
+      height: 402px;
+      background: url("{{ app_url_packaged }}/images/mall/person-1.png");
+      background-position: center;
+      background-size: cover;
+      position: absolute;
+      left: 50%;
+      bottom: 75px;
+      margin-left: -525px;
+  }
+  #sec-006 .person-2 {
+      width: 367px;
+      height: 415px;
+      background: url("{{ app_url_packaged }}/images/mall/person-2.png");
+      background-position: center;
+      background-size: cover;
+      position: absolute;
+      left: 50%;
+      bottom: 75px;
+      margin-left: 185px;
+  }
+  #sec-006 .line-border {
+      width: 60px;
+      height: 150px;
+      border: 1px solid rgba(245, 133, 87, 1);
+      position: absolute;
+      left: 50%;
+      margin-left: -30px;
+      top: 50%;
+      margin-top: -75px;
+  }
+  #sec-006 .line-border:after {
+      content: "";
+      width: 60px;
+      height: 150px;
+      border: 1px solid rgba(245, 133, 87, .4);
+      position: absolute;
+      left: 7px;
+      top: 7px;
+  }
+  #sec-006 .sec-info {
+      width: 100%;
+      text-align: center;
+      padding-top: 70px;
+  }
+  #sec-006 .sec-info .item-title {
+      font-size: 30px;
+      color: #ffffff;
+  }
+  #sec-006 .sec-info .item-split {
+      width: 24px;
+      height: 3px;
+      background: #f58557;
+      margin: 20px auto;
+  }
+  #sec-006 .sec-info .item-title-2 {
+      font-size: 16px;
+      color: #e6e6e6;
+  }
+  #sec-006 .sec-extra-info {
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+      color: #ffffff;
+      margin-top: 150px;
+  }
+  
+  #sec-007 {
+      background: #ffffff;
+      height: 700px;
+  }
+  #sec-007 .bike {
+      width: 946px;
+      height: 596px;
+      background: url("{{ app_url_packaged }}/images/mall/bike-v1.png");
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      left: 50%;
+      bottom: -60px;
+      margin-left: -390px;
+  }
+  #sec-007 .bike .battery-dec {
+      background: url("{{ app_url_packaged }}/images/mall/battery-dec.png") no-repeat;
+      position: absolute;
+      background-size: cover;
+      width: 32px;
+      left: 50%;
+      top: 50%;
+      height: 86px;
+      margin-left: 169px;
+      margin-top: -115px;
+      cursor: pointer;
+      overflow: hidden;
+  }
+  #sec-007 .bike .head-lamp {
+      background: url("{{ app_url_packaged }}/images/mall/head-lamp.png") no-repeat;
+      position: absolute;
+      background-size: cover;
+      width: 54px;
+      height: 70px;
+      left: 50%;
+      top: 50%;
+      margin-top: -128px;
+      background-position-x: -77px;
+      margin-left: -193px;
+  }
+  #sec-007 .bike .driver {
+      background: url("{{ app_url_packaged }}/images/mall/driver.png") no-repeat;
+      position: absolute;
+      width: 45px;
+      height: 29px;
+      top: 50%;
+      left: 50%;
+      margin-top: -56px;
+      margin-left: 111px;
+      background-position-x: -86px;
+  }
+  #sec-007 .bike .crank-dec {
+      background: url("{{ app_url_packaged }}/images/mall/crank-dec.png") no-repeat;
+      position: absolute;
+      width: 26px;
+      height: 18px;
+      top: 50%;
+      left: 50%;
+      margin-top: -235px;
+      margin-left: -183px;
+      background-position-x: -125px;
+  }
+  #sec-007 .bike .speed-sensor {
+      background: url("{{ app_url_packaged }}/images/mall/speed-sensor.png") no-repeat;
+      position: absolute;
+      width: 29px;
+      height: 27px;
+      top: 50%;
+      left: 50%;
+      background-size: cover;
+      margin-top: 89px;
+      margin-left: 39px;
+      background-position-x: -98px;
+  }
+  #sec-007 .bike .auto-engine {
+      background: url("{{ app_url_packaged }}/images/mall/auto-engine.png") no-repeat;
+      position: absolute;
+      width: 85px;
+      height: 80px;
+      top: 50%;
+      left: 50%;
+      background-size: cover;
+      margin-left: 220px;
+      margin-top: 72px;
+  }
+  #sec-007 .bike .ecu-dec {
+      background: url("{{ app_url_packaged }}/images/mall/ecu-dec.png") no-repeat;
+      position: absolute;
+      width: 42px;
+      height: 36px;
+      top: 50%;
+      left: 50%;
+      margin-top: -105px;
+      margin-left: 116px;
+      background-position-x: -109px;
+      background-size: cover;
+  }
+  #sec-007 .line-border {
+      width: 326px;
+      height: 360px;
+      border: 1px solid rgba(245, 133, 87, 1);
+      position: absolute;
+      left: 50%;
+      margin-left: -580px;
+      top: 40px;
+  }
+  #sec-007 .line-border:after {
+      content: "";
+      width: 326px;
+      height: 360px;
+      border: 1px solid rgba(245, 133, 87, .4);
+      position: absolute;
+      left: 7px;
+      top: 7px;
+  }
+  #sec-007 .sec-info {
+      position: absolute;
+      left: 50%;
+      top: 70px;
+      width: 190px;
+      height: 190px;
+      margin-left: -600px;
+  }
+  #sec-007 .sec-info .sec-split {
+      width: 24px;
+      height: 3px;
+      background: #f58557;
+  }
+  #sec-007 .sec-info .sec-title {
+      font-size: 24px;
+      color: #000000;
+      line-height: 50px;
+  }
+  #sec-007 .sec-info .sec-name {
+      font-size: 36px;
+      color: #000000;
+      margin-bottom: 20px;
+      font-weight: bold;
+      line-height:54px;
+  }
+  #sec-007 .sec-info .sec-desc {
+      font-size: 14px;
+      color: rgba(0, 0, 0, .4);
+      line-height:21px;
+  }
+  #sec-007 .sec-extra-info {
+      font-size: 14px;
+      color: #494949;
+      width: 300px;
+      height: 100px;
+      position: absolute;
+      top: 295px;
+      left: 50%;
+      margin-left: -505px;
+  }
+  #sec-008 {
+      background: #353535;
+      height: 70px;
+  }
+  #sec-009 {
+      background: #2d2d2d;
+      height: 40px;
+  }
+  
+  #sec-010 {
+      background: #000000;
+      height: 800px;
+  }
+  #sec-010 .bg-banner-010 {
+      background: url("{{ app_url_packaged }}/images/mall/banner-010.jpg");
+      background-size: cover;
+      background-position: center;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+  }
+  #sec-010 .line-border {
+      width: 310px;
+      height: 480px;
+      border: 1px solid rgba(245, 133, 87, 1);
+      position: absolute;
+      left: 50%;
+      margin-left: -535px;
+      top: 155px;
+  }
+  #sec-010 .line-border:after {
+      content: "";
+      width: 310px;
+      height: 480px;
+      border: 1px solid rgba(245, 133, 87, .4);
+      position: absolute;
+      left: 7px;
+      top: 7px;
+  }
+  #sec-010 .sec-info {
+      position: absolute;
+      left: 50%;
+      top: 180px;
+      width: 190px;
+      height: 190px;
+      margin-left: -555px;
+  }
+  #sec-010 .sec-info .sec-split {
+      width: 24px;
+      height: 3px;
+      background: #f58557;
+  }
+  #sec-010 .sec-info .sec-name {
+      font-size: 36px;
+      color: #ffffff;
+      margin-bottom: 20px;
+      line-height:54px;
+  }
+  #sec-010 .sec-info .sec-desc {
+      font-size: 14px;
+      color: rgba(255, 255, 255, .6);
+  }
+  #sec-010 .sec-extra-info {
+      font-size: 14px;
+      color: #ffffff;
+      width: 160px;
+      text-align: justify;
+      height: 100px;
+      position: absolute;
+      top: 465px;
+      left: 50%;
+      margin-left: -420px;
+  }
+  
+  #sec-011 {
+      background: #f58557;
+      height: 600px;
+  }
+  #sec-011 .bg-banner-011 {
+      background: url("{{ app_url_packaged }}/images/mall/banner-011.jpg");
+      background-size: cover;
+      background-position: right;
+      width: 50%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+  }
+  #sec-011 .number-5 {
+      background: url("{{ app_url_packaged }}/images/mall/number-5.png");
+      width: 193px;
+      height: 285px;
+      background-position: center;
+      background-size: cover;
+      position: absolute;
+      left: 50%;
+      margin-left: 70px;
+      top: -20px;
+  }
+  #sec-011 .line-border {
+      width: 420px;
+      height: 190px;
+      border: 1px solid rgba(255, 255, 255, 1);
+      position: absolute;
+      left: 50%;
+      margin-left: 70px;
+      top: 90px;
+  }
+  #sec-011 .line-border:after {
+      content: "";
+      width: 420px;
+      height: 190px;
+      border: 1px solid rgba(255, 255, 255, .4);
+      position: absolute;
+      left: 7px;
+      top: 7px;
+  }
+  #sec-011 .sec-info {
+      position: absolute;
+      left: 50%;
+      top: 340px;
+      height: 190px;
+      margin-left: 70px;
+  }
+  #sec-011 .sec-info .sec-split {
+      width: 24px;
+      height: 3px;
+      background: #ffffff;
+  }
+  #sec-011 .sec-info .sec-title {
+      font-size: 24px;
+      color: #ffffff;
+      line-height: 50px;
+  }
+  #sec-011 .sec-info .sec-name {
+      font-size: 36px;
+      color: #ffffff;
+      margin-bottom: 20px;
+      line-height:54px;
+  }
+  #sec-011 .sec-info .sec-desc {
+      font-size: 14px;
+      color: rgba(255, 255, 255, .5);
+      white-space: nowrap;
+  }
+  
+  #sec-012 {
+      background: #f2f2f2;
+      height: 700px;
+      padding-top: 50px;
+  }
+  #sec-012 .quan {
+      width: 1078px;
+      height: 600px;
+      background: url("{{ app_url_packaged }}/images/mall/quan.png");
+      background-position: center;
+      background-size: cover;
+      position: absolute;
+      margin-left: -539px;
+      left: 50%;
+      top: 0;
+  }
+  #sec-012 .licheng {
+      width: 882px;
+      height: 99px;
+      position: absolute;
+      left: 50%;
+      margin-left: -441px;
+      bottom: 110px;
+  }
+  #sec-012 .licheng .c1 {
+      position: relative;
+  }
+  #sec-012 .licheng .c1 .percent {
+      max-width: 793px;
+      float: left;
+      height: 30px;
+  }
+  #sec-012 .licheng .c1 .bike {
+      position: relative;
+      top: -10px;
+  }
+  #sec-012 .licheng .c1 .dec {
+      font-size: 14px;
+      color: rgb(255, 255, 255);
+      text-transform: uppercase;
+      line-height: 2.143;
+      position: absolute;
+      left: 100px;
+      top: 0;
+  }
+  .clear {
+      clear: both;
+  }
+  #sec-012 .licheng .normal .percent {
+      max-width: 493px;
+      float: left;
+      height: 30px;
+  }
+  .percent-animation
+  {
+      -webkit-animation: percent 2s 1 ease-out forwards;
+      -moz-animation: percent 2s 1 ease-out forwards;
+      -o-animation: percent 2s 1 ease-out forwards;
+  }
+
+  @-webkit-keyframes percent
+  {
+      0% { width: 0; }
+      100% { width: 100%; }
+
+  }
+  #sec-012 .licheng .normal .bike {
+      position: relative;
+      top: -10px;
+      float: left;
+  }
+  #sec-012 .licheng .normal .dec {
+      font-size: 14px;
+      color: rgb(49, 48, 48);
+      text-transform: uppercase;
+      line-height: 2.143;
+      position: absolute;
+      left: 200px;
+      display: none;
+  }
+  #sec-012 .sec-info {
+      width: 100%;
+      text-align: center;
+      font-size: 14px;
+      color: #484848;
+      line-height: 24px;
+  }
+  
+  
+  #sec-013 {
+      background: #ffffff;
+      height: 600px;
+  }
+  #sec-013 .motor {
+      width: 980px;
+      height: 600px;
+      background: url("{{ app_url_packaged }}/images/mall/motor.png");
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      left: 50%;
+      margin-left: -490px;
+      top: 0;
+  }
+  #sec-013 .line-border {
+      width: 330px;
+      height: 490px;
+      border: 1px solid rgba(245, 133, 87, 1);
+      position: absolute;
+      left: 50%;
+      margin-left: -165px;
+      top: -50px;
+  }
+  #sec-013 .sec-info {
+      position: absolute;
+      top: -15px;
+      height: 190px;
+      width: 100%;
+      text-align: center;
+  }
+  #sec-013 .sec-info .sec-split {
+      width: 24px;
+      height: 3px;
+      background: #f58557;
+      margin: 0 auto;
+  }
+  #sec-013 .sec-info .sec-title {
+      font-size: 24px;
+      color: #fff;
+      line-height: 50px;
+  }
+  #sec-013 .sec-info .sec-name {
+      font-size: 36px;
+      color: #fff;
+      margin-bottom: 20px;
+  }
+  #sec-013 .sec-extra-info {
+      width: 100%;
+      text-align: center;
+      font-size: 14px;
+      color: #484848;
+      line-height: 24px;
+      position: absolute;
+      bottom: 60px;
+  }
+  
+  #sec-014 {
+      background: #f2f2f2;
+      height: 600px;
+  }
+  #sec-014 .dian-bike {
+      width: 1280px;
+      height: 600px;
+      background: url("{{ app_url_packaged }}/images/mall/dian-bike.png");
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      left: 50%;
+      top: 0;
+  }
+  #sec-014 .map {
+      width: 333px;
+      height: 319px;
+      background: url("{{ app_url_packaged }}/images/mall/map.png");
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      left: 50%;
+      margin-left: -200px;
+      top: 140px;
+  }
+  #sec-014 .lasting {
+      background: #fff;
+      background-position: center;
+      background-size: cover;
+  }
+  #sec-014 .sec-info {
+      position: absolute;
+      top: 130px;
+      height: 190px;
+      left: 50%;
+      margin-left: -600px;
+  }
+  #sec-014 .sec-info .sec-split {
+      width: 24px;
+      height: 3px;
+      background: #f58557;
+  }
+  #sec-014 .sec-info .sec-title {
+      font-size: 24px;
+      color: #000;
+      line-height: 50px;
+  }
+  #sec-014 .sec-info .sec-name {
+      font-size: 36px;
+      color: #000;
+      margin-bottom: 20px;
+      line-height: 54px;
+  }
+  #sec-014 .sec-info .sec-desc {
+      font-size: 14px;
+      color: rgba(0 ,0 ,0, .5);
+      line-height:21px;
+  }
+  #sec-014 .sec-info .sec-ar {
+      font-size: 14px;
+      color: #484848;
+      margin-top: 37px;
+      margin-bottom: 40px;
+      line-height: 21px;
+  }
+  #sec-014 .sec-info .sec-power {
+      font-size: 18px;
+      color: #787878;
+  }
+  #sec-014 .sec-info .sec-power img {
+      display: block;
+      margin-top: 5px;
+  }
+  
+  #sec-015 {
+      background: #ffffff;
+      height: 600px;
+      overflow: hidden;
+  }
+  #sec-015 .pulse-1 {
+      width: 284px;
+      height: 284px;
+      background: url("{{ app_url_packaged }}/images/mall/pulse1.png");
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      left: 50%;
+      margin-left: -575px;
+      top: 150px;
+      opacity: 0;
+  }
+  #sec-015 .pulse-2 {
+      width: 582px;
+      height: 582px;
+      background: url("{{ app_url_packaged }}/images/mall/pulse2.png");
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      left: 50%;
+      margin-left: -721px;
+      top: 0px;
+      opacity: 0;
+  }
+  #sec-015 .pulse-3 {
+      width: 944px;
+      height: 944px;
+      background: url("{{ app_url_packaged }}/images/mall/pulse3.png");
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      left: 50%;
+      margin-left: -900px;
+      top: -185px;
+      opacity: 0;
+  }
+  #sec-015 .baby-device {
+      width: 694px;
+      height: 397px;
+      background: url("{{ app_url_packaged }}/images/mall/baby-device.png");
+      background-position: center;
+      background-size: cover;
+      position: absolute;
+      top: 110px;
+      left: 50%;
+      margin-left: -530px;
+  }
+  #sec-015 .line-border {
+      width: 100px;
+      height: 360px;
+      border: 1px solid rgba(245, 133, 87, 1);
+      position: absolute;
+      left: 50%;
+      margin-left: 280px;
+      top: 93px;
+  }
+  #sec-015 .line-border {
+      width: 100px;
+      height: 360px;
+      border: 1px solid rgba(245, 133, 87, 1);
+      position: absolute;
+      left: 50%;
+      margin-left: 280px;
+      top: 93px;
+  }
+  #sec-015 .sec-info {
+      position: absolute;
+      height: 190px;
+      left: 50%;
+      margin-left: 260px;
+      top: 124px;
+  }
+  #sec-015 .sec-info .sec-split {
+      width: 24px;
+      height: 3px;
+      background: #f58557;
+  }
+  #sec-015 .sec-info .sec-title {
+      font-size: 24px;
+      color: #000;
+      line-height: 50px;
+  }
+  #sec-015 .sec-info .sec-name {
+      font-size: 36px;
+      color: #000;
+      margin-bottom: 20px;
+      line-height: 54px;
+  }
+  #sec-015 .sec-info .sec-desc {
+      font-size: 14px;
+      color: rgba(0, 0, 0, .5);
+      line-height: 21px;
+  }
+  #sec-015 .sec-extra-info {
+      width: 300px;
+      font-size: 14px;
+      color: #484848;
+      line-height: 24px;
+      position: absolute;
+      left: 50%;
+      margin-left: 260px;
+      top: 320px;
+  }
+  .animation-scale-1
+  {
+      -webkit-animation: animation-scale 1.5s 1 0s ease forwards;
+      -moz-animation: animation-scale 1.5s 1 0s ease forwards;
+      -o-animation: animation-scale 1.5s 1 0s ease forwards;
+  }
+  .animation-scale-2
+  {
+      -webkit-animation: animation-scale 1.5s 1 1.5s ease forwards;
+      -moz-animation: animation-scale 1.5s 1 1.5s ease forwards;
+      -o-animation: animation-scale 1.5s 1 1.5s ease forwards;
+  }
+  .animation-scale-3
+  {
+      -webkit-animation: animation-scale 1.5s 1 3s ease forwards;
+      -moz-animation: animation-scale 1.5s 1 3s ease forwards;
+      -o-animation: animation-scale 1.5s 1 3s ease forwards;
+  }
+
+  @-webkit-keyframes animation-scale
+  {
+      0% { opacity: 0.6 ; transform: scale(0.6);}
+      100% { opacity: 1 ; transform: scale(1);}
+  }
+  
+  #sec-016 {
+      background: #f2f2f2;
+      height: 600px;
+      overflow: hidden;
+  }
+  #sec-016 .number-8 {
+      width: 202px;
+      height: 289px;
+      background: url("{{ app_url_packaged }}/images/mall/8.png");
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      top: -52px;
+      left: 50%;
+      margin-left: -520px;
+  }
+  #sec-016 .line-border {
+      width: 250px;
+      height: 438px;
+      border: 1px solid rgba(245, 133, 87, 1);
+      position: absolute;
+      left: 50%;
+      margin-left: -500px;
+      top: 93px;
+  }
+  #sec-016 .line-border:after {
+      content: "";
+      width: 250px;
+      height: 438px;
+      border: 1px solid rgba(245, 133, 87, .4);
+      position: absolute;
+      left: 7px;
+      top: 7px;
+  }
+  #sec-016 .sec-info {
+      position: absolute;
+      height: 190px;
+      left: 50%;
+      margin-left: -526px;
+      top: 165px;
+  }
+  #sec-016 .sec-info .sec-title {
+      font-size: 24px;
+      color: #000;
+      line-height: 50px;
+  }
+  #sec-016 .sec-info .sec-split {
+      width: 24px;
+      height: 3px;
+      background: #f58557;
+      margin-bottom: 20px;
+  }
+  #sec-016 .sec-info .sec-desc {
+      font-size: 14px;
+      color: rgba(0 ,0 , 0, .5);
+  }
+  #sec-016 .property-holder {
+      width: 645px;
+      height: 417px;
+      position: absolute;
+      left: 50%;
+      top: 94px;
+      margin-left: -100px;
+  }
+  #sec-016 .property-holder .property {
+      display: inline-block;
+      width: 320px;
+      margin-bottom: 55px;
+      height: 65px;
+  }
+  #sec-016 .property-holder .property img {
+      width: 58px;
+      height: 59px;
+      display: inline-block;
+  }
+  #sec-016 .property-holder .property .info {
+      display: inline-block;
+      margin-left: 20px;
+  }
+  #sec-016 .property-holder .property .title {
+      font-size: 18px;
+      color: #4a4a4a;
+      line-height: 27px;
+  }
+  #sec-016 .property-holder .property .desc {
+      font-size: 12px;
+      color: #787878;
+      line-height: 21px;
+  }
+  
+  #sec-017 {
+      height: 600px;
+      margin-bottom: 130px;
+  }
+  #sec-017 .line-border {
+      width: 307px;
+      height: 351px;
+      border: 1px solid rgba(255, 255, 255, 1);
+      position: absolute;
+      left: 50%;
+      margin-left: -500px;
+      top: 35px;
+  }
+  #sec-017 .line-border:after {
+      content: "";
+      width: 307px;
+      height: 351px;
+      border: 1px solid rgba(255, 255, 255, .4);
+      position: absolute;
+      left: 7px;
+      top: 7px;
+  }
+  #sec-017 .sec-info {
+      position: absolute;
+      height: 190px;
+      left: 50%;
+      margin-left: -266px;
+      top: 74px;
+  }
+  #sec-017 .sec-info .sec-title {
+      font-size: 36px;
+      color: #ffffff;
+      line-height: 54px;
+  }
+  #sec-017 .sec-extra-info {
+      font-size: 14px;
+      color: #fffefe;
+      position: absolute;
+      left: 50%;
+      margin-left: -485px;
+      top: 355px;
+  }
+  #sec-017 .bike {
+      left: 50%;
+      bottom: -150px;
+      margin-left: -555px;
+      position: absolute;
+  }
+  #sec-017 .brake-crank {
+      position: absolute;
+      left: 50%;
+      margin-left: 165px;
+      top: 20px;
+  }
+  #sec-017 .brake-crank .title {
+      text-align: center;
+      margin-bottom: 20px;
+  }
+  #sec-017 .brake-crank .normal .c1 {
+      margin-top: 10px;
+      color: #f8a684;
+  }
+  #sec-017 .brake-crank .dec {
+      margin-top: 20px;
+      font-size: 15px;
+      line-height:23px;
+  }
+  .direction-icon {
+      background: url("{{ app_url_packaged }}/images/mall/direction-icon.png");
+      width: 30px;
+      height: 17px;
+      display: inline-block;
+      background-position: center;
+      background-size: cover;
+      margin-top: 30px;
+  }
+  #sec-017 .bg {
+      background: #f58557;
+      width: 50%;
+      height: 100%;
+  }
+  #sec-018 {
+      background: #000000;
+      height: 800px;
+  }
+  #sec-018 .light {
+      width: 980px;
+      height: 800px;
+      background: url("{{ app_url_packaged }}/images/mall/light.png");
+      background-position: center;
+      background-size: cover;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      margin-left: -490px;
+  }
+  #sec-018 .sec-info {
+      position: absolute;
+      height: 190px;
+      left: 50%;
+      margin-left: -100px;
+      top: 295px;
+  }
+  #sec-018 .sec-info .sec-split {
+      width: 24px;
+      height: 3px;
+      background: #f58557;
+      margin-bottom: 20px;
+  }
+  #sec-018 .sec-info .sec-title {
+      font-size: 24px;
+      color: #ffffff;
+      line-height: 54px;
+  }
+  #sec-018 .sec-info .sec-name {
+      font-size: 36px;
+      color: #FFFFFF;
+      margin-bottom: 20px;
+      line-height: 54px;
+  }
+  #sec-018 .sec-info .sec-desc {
+      font-size: 14px;
+      color: rgba(255, 255, 255, .5);
+  }
+  #sec-019 {
+      background: #f2f2f2 url("{{ app_url_packaged }}/images/mall/banner-019.jpg");
+      background-size: cover!important;
+      height: 600px;
+      padding-top: 50px;
+  }
+  #sec-019 .title {
+      width: 100%;
+      text-align: center;
+      font-size: 36px;
+      color: #000000;
+  }
+  #sec-019 .split {
+      width: 24px;
+      height: 3px;
+      background: #f58557;
+      margin: 20px auto;
+  }
+  #sec-020 {
+      background: #ffffff;
+      height: 800px;
+  }
+  #sec-020 .iphone-6 {
+      width: 323px;
+      height: 570px;
+      background: url("{{ app_url_packaged }}/images/mall/ipone6.png");
+      background-position: center;
+      background-size: cover;
+      position: absolute;
+      left: 50%;
+      top: -440px;
+  }
+  #sec-020 .near {
+      background: url('{{ app_url_packaged }}/images/mall/near-v1.png');
+      width: 1397px;
+      height: 573px;
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      margin-left: -700px;
+  }
+  #sec-020 .photo-1 {
+      background: url('{{ app_url_packaged }}/images/mall/photo-1.png');
+      width: 43px;
+      height: 52px;
+      margin-left: -158px;
+      margin-top: 50px;
+  }
+  #sec-020 .person {
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+  }
+  .animation {
+      -webkit-animation: photo-shake 2s infinite ease-in-out;
+      -moz-animation: photo-shake 2s infinite ease-in-out;
+      -o-animation: photo-shake 2s infinite ease-in-out;
+  }
+  #sec-020 .photo-2 {
+      background: url('{{ app_url_packaged }}/images/mall/photo-2.png');
+      width: 61px;
+      height: 74px;
+      margin-left: -20px;
+      margin-top: 85px;
+  }
+  #sec-020 .photo-3 {
+      background: url('{{ app_url_packaged }}/images/mall/photo-3.png');
+      width: 24px;
+      height: 30px;
+      margin-left: 5px;
+      margin-top: -28px;
+  }
+  #sec-020 .photo-4 {
+      background: url('{{ app_url_packaged }}/images/mall/photo-4.png');
+      width: 43px;
+      height: 53px;
+      margin-left: 171px;
+      margin-top: 11px;
+  }
+  #sec-020 .photo-5 {
+      background: url('{{ app_url_packaged }}/images/mall/photo-5.png');
+      width: 24px;
+      height: 30px;
+      margin-left: 300px;
+      margin-top: 11px;
+  }
+  #sec-020 .photo-6 {
+      background: url('{{ app_url_packaged }}/images/mall/photo-6.png');
+      width: 62px;
+      height: 74px;
+      margin-left: 316px;
+      margin-top: 109px;
+  }
+  #sec-020 .photo-7 {
+      background: url('{{ app_url_packaged }}/images/mall/photo-7.png');
+      width: 24px;
+      height: 29px;
+      margin-left: 388px;
+      margin-top: 50px;
+  }
+  .animation
+  {
+      -webkit-animation: photo-shake 2s infinite ease-in-out;
+      -moz-animation: photo-shake 2s  infinite ease-in-out;
+      -o-animation: photo-shake 2s infinite ease-in-out;
+  }
+  @-webkit-keyframes photo-shake
+  {
+      0% { top: 50%; }
+      60% { top: 56%; }
+      100% { top: 50%; }
+  }
+  #sec-020 .line-border {
+      width: 617px;
+      height: 327px;
+      border: 1px solid rgba(245, 133, 87, 1);
+      position: absolute;
+      left: 50%;
+      margin-left: -85px;
+      top: 138px;
+  }
+  #sec-020 .line-border:after {
+      content: "";
+      width: 617px;
+      height: 327px;
+      border: 1px solid rgba(245, 133, 87, .4);
+      position: absolute;
+      left: 7px;
+      top: 7px;
+  }
+  #sec-020 .sec-info {
+      position: absolute;
+      height: 190px;
+      left: 50%;
+      margin-left: -100px;
+      top: 168px;
+  }
+  #sec-020 .sec-info .sec-split {
+      width: 24px;
+      height: 3px;
+      background: #f58557;
+      margin-bottom: 22px;
+  }
+  #sec-020 .sec-info .sec-title {
+      font-size: 24px;
+      color: #000;
+      line-height: 40px;
+      margin-bottom: 22px;
+  }
+  #sec-020 .sec-info .sec-desc {
+      font-size: 14px;
+      color: rgba(0, 0, 0, .5);
+  }
+  #sec-020 .sec-extra-info {
+      font-size: 14px;
+      color: #777676;
+      position: absolute;
+      left: 50%;
+      top: 295px;
+      margin-left: 340px;
+  }
+  #sec-021 {
+      background: #000000 url("{{ app_url_packaged }}/images/mall/jifen-banner.jpg");
+      background-size: cover!important;
+      height: 800px;
+  }
+  #sec-021 .line-border {
+      width: 251px;
+      height: 438px;
+      border: 1px solid rgba(245, 133, 87, 1);
+      position: absolute;
+      left: 50%;
+      margin-left: -385px;
+      top: 120px;
+  }
+  #sec-021 .line-border:after {
+      content: "";
+      width: 251px;
+      height: 438px;
+      border: 1px solid rgba(245, 133, 87, .4);
+      position: absolute;
+      left: 7px;
+      top: 7px;
+  }
+  #sec-021 .sec-info {
+      position: absolute;
+      height: 190px;
+      left: 50%;
+      margin-left: -415px;
+      top: 222px;
+  }
+  #sec-021 .sec-info .sec-title {
+      font-size: 24px;
+      color: #fff;
+      line-height: 40px;
+      margin-bottom: 22px;
+  }
+  #sec-021 .sec-info .sec-split {
+      width: 24px;
+      height: 3px;
+      background: #f58557;
+      margin-bottom: 22px;
+  }
+  #sec-021 .sec-info .sec-desc {
+      font-size: 14px;
+      color: rgba(255, 255, 255, .5);
+  }
+  #sec-021 .sec-extra-info {
+      font-size: 14px;
+      color: #ffffff;
+      position: absolute;
+      top: 400px;
+      left: 50%;
+      margin-left: -415px;
+  }
+  #sec-022 {
+      background: #86c150;
+      height: 620px;
+  }
+  #sec-022 .sec-info {
+      position: absolute;
+      width: 36px;
+      text-align: center;
+      top: 60px;
+      left: 50%;
+      margin-left: -18px;
+  }
+  #sec-022 .sec-info .sec-title {
+      font-size: 36px;
+      color: #fff;
+      line-height: 40px;
+      width: 36px;
+  }
+  #sec-022 .property-holder {
+      width: 900px;
+      margin: 0 auto;
+      padding: 25px;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      margin-left: -450px;
+  }
+  #sec-022 .property-holder .property {
+      width: 420px;
+      text-align: center;
+      display: inline-block;
+      height: 130px;
+      margin-bottom: 50px;
+  }
+  #sec-022 .property-holder .property img {
+      margin-bottom: 15px;
+  }
+  #sec-022 .property-holder .property .title {
+      font-size: 18px;
+      color: #fff;
+  }
+  #sec-023 {
+      background: #ffffff;
+      height: 600px;
+  }
+  #sec-023 .after-bike {
+      background: url("{{ app_url_packaged }}/images/mall/after-bike.png");
+      width: 539px;
+      height: 600px;
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      left: 50%;
+      margin-left: -539px;
+      top: 0px;
+  }
+  #sec-023 .bg-or {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 50%;
+  }
+  #sec-023 .line-border {
+      width: 307px;
+      height: 351px;
+      border: 1px solid rgba(255, 255, 255, 1);
+      position: absolute;
+      left: 50%;
+      margin-left: 115px;
+      top: 120px;
+  }
+  #sec-023 .line-border:after {
+      content: "";
+      width: 307px;
+      height: 351px;
+      border: 1px solid rgba(255, 255, 255, .4);
+      position: absolute;
+      left: 7px;
+      top: 7px;
+  }
+  #sec-023 .sec-info {
+      position: absolute;
+      top: 170px;
+      height: 190px;
+      left: 50%;
+      margin-left: 90px;
+  }
+  #sec-023 .sec-info .sec-title {
+      font-size: 24px;
+      color: #fff;
+      line-height: 50px;
+  }
+  #sec-023 .sec-extra-info {
+      font-size: 14px;
+      color: #fffefe;
+      position: absolute;
+      left: 50%;
+      margin-left: 190px;
+      top: 410px;
+      line-height: 21px;
+      white-space: nowrap;
+  }
+  #sec-024 {
+      background: #f2f2f2;
+      height: 600px;
+  }
+  #sec-024 .know-you-bike {
+      width: 706px;
+      height: 525px;
+      background: url("{{ app_url_packaged }}/images/mall/know-you-bike.png");
+      background-position: center;
+      background-size: cover;
+      position: absolute;
+      left: 50%;
+      bottom: 20px;
+      margin-left: -115px;
+  }
+  #sec-024 .line-border {
+      width: 307px;
+      height: 351px;
+      border: 1px solid rgba(245, 133, 87, 1);
+      position: absolute;
+      left: 50%;
+      margin-left: -500px;
+      top: 120px;
+  }
+  #sec-024 .line-border:after {
+      content: "";
+      width: 307px;
+      height: 351px;
+      border: 1px solid rgba(245, 133, 87, .4);
+      position: absolute;
+      left: 7px;
+      top: 7px;
+  }
+  #sec-024 .sec-info {
+      position: absolute;
+      top: 170px;
+      height: 190px;
+      left: 50%;
+      margin-left: -520px;
+  }
+  #sec-024 .sec-info .sec-split {
+      width: 24px;
+      height: 3px;
+      background: #f58557;
+  }
+  #sec-024 .sec-info .sec-title {
+      font-size: 24px;
+      color: #000;
+      line-height: 50px;
+  }
+  #sec-024 .sec-info .sec-name {
+      font-size: 36px;
+      color: #000;
+      margin-bottom: 10px;
+      line-height:54px;
+  }
+  #sec-024 .sec-info .sec-desc {
+      font-size: 14px;
+      color: rgba(0, 0, 0, .5);
+  }
+  #sec-024 .sec-extra-info {
+      font-size: 14px;
+      color: #000;
+      position: absolute;
+      left: 50%;
+      margin-left: -435px;
+      top: 410px;
+      line-height: 21px;
+      white-space: nowrap;
+  }
+  #sec-025 {
+      background: #fff;
+      height: 935px;
+  }
+  #sec-025 .property-holder {
+      width: 980px;
+      margin: 0 auto;
+      padding: 25px;
+  }
+  #sec-025 .property-holder .property {
+      width: 460px;
+      text-align: center;
+      display: inline-block;
+      height: 230px;
+      margin-bottom: 65px;
+  }
+  #sec-025 .property-holder .property img {
+      margin-bottom: 25px;
+  }
+  #sec-025 .property-holder .property .title {
+      font-size: 18px;
+      color: #000000;
+  }
+  #sec-026 {
+      background: #f2f2f2 url("{{ app_url_packaged }}/images/mall/banner-bottom.jpg");
+      background-size: cover!important;
+      height: 800px;
+  }
+</style>
+{% endblock %}
+{% block jquery %}
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
+	$(window).scroll(function(){
+	    var scrollTop = $(window).scrollTop();
+			if (scrollTop > 8150){
+				$('.pulse-1').addClass('animation-scale-1');
+				$('.pulse-2').addClass('animation-scale-2');
+				$('.pulse-3').addClass('animation-scale-3');
+			}
+	})
+	
+	
+{% endblock %}
+{% block content %}
+<div class="ui white responsive grid" data-0="opacity:0;display:none;" data-100="opacity:1;display:block;" style="width: 100% !important;">
+	<div class="row">
+		<div class="eight wide column">
+			<h3><img src="{{ app_url_packaged }}/images/mall/c1.png" style="vertical-align: middle;"></h3>
+		</div>
+		<div class="eight wide column">
+			<a href="javascript:void(0)" class="ui link item active">概述</a>|
+			<a href="{{ app_url_domain }}/mall/tzxc" class="ui link item">图集</a>|
+			<a href="http://www.taihuoniao.com/topic/view-106702-1.html" title="设计驱动创业，年轻人的电单车云马C1众筹首日破百万" class="ui item link" target="_blank">讨论区</a>
+			<a href="#.buy" class="ui inverted active black button" style="padding: 0.4em 1em;margin-bottom: 2px;font-weight: 400;">立即购买</a>
+		</div>
+	</div>
+</div>
+
+<div id="pager">
+  <section id="sec-01" class="sec-background">
+    <div class="color"></div>
+    <div class="price">仅售1999元起</div>
+  </section>
+  <section id="sec-002" class="sec-background">
+    <div class="bg-banner-001"></div>
+    <div class="bg-white"></div>
+    <div class="line-border"></div>
+    <div class="sec-info">
+      <div class="sec-split"></div>
+      <div class="clear-10"></div>
+      <div class="sec-title">探索城市 <br>我必须</div>
+      <div class="sec-name">骑得更远</div>
+      <div class="sec-desc">TO EXPLORE THE CITY <br>I HAVE TO RIDE FURTHER</div>
+    </div>
+  </section>
+  <section id="sec-003" class="sec-background">
+    <div class="bg-banner-002"></div>
+    <div class="bg-or"></div>
+    <div class="line-border"></div>
+    <div class="sec-info">
+      <div class="sec-split"></div>
+      <div class="clear-10"></div>
+      <div class="sec-title">比自行车</div>
+      <div class="sec-name">更加顺畅</div>
+      <div class="sec-desc">MUCH MORE SMOOTH<br>
+          THAN A NORMAL BICYCLE</div>
+    </div>
+  </section>
+  <section id="sec-004" class="sec-background">
+    <div class="bg-banner-003"></div>
+    <div class="bg-gray"></div>
+    <div class="line-border"></div>
+    <div class="sec-info">
+      <div class="sec-split"></div>
+      <div class="clear-10"></div>
+      <div class="sec-title">没有智能</div>
+      <div class="sec-name">怎年轻</div>
+      <div class="sec-desc">IT CAN'T BE YOUNG<br />
+          WITHOUT TECHNOLOGY</div>
+    </div>
+  </section>
+  <section id="sec-05" class="sec-dec">
+    <div class="descri">
+      <p class="title">为年轻人设计的第一辆电单车</p>
+      <p class="title-1">THE FIRST EBIKE DESIGNED FOR YOUNG GENERATION</p>
+      <div class="line"></div>
+    </div>
+  </section>
+  <section id="sec-005" class="sec-background">
+    <div class="line-border"></div>
+    <div class="sec-info">
+      <div class="sec-split"></div>
+      <div class="clear-10"></div>
+      <div class="sec-title">微激进下的演绎 <br>无数次修改</div>
+      <div class="sec-name">年轻不浮躁</div>
+      <div class="sec-desc">YOUNG <br>BUT NO FICKLENESS</div>
+    </div>
+  </section>
+  <section id="sec-006" class="sec-background">
+    <div class="person-1"></div>
+    <div class="person-2"></div>
+    <div class="line-border"></div>
+    <div class="sec-info">
+      <div class="item-title">人体工学设计</div>
+      <div class="item-split"></div>
+      <div class="item-title-2">追求超越自行车的舒适感</div>
+    </div>
+    <div class="sec-extra-info">
+      ／46T：16T传动齿比 <br>
+      ／510mm外径的20×1-1/8”的轮胎 <br>
+      ／165mm曲柄长度
+    </div>
+  </section>
+  <section id="sec-007" class="sec-background">
+    <div class="bike">
+      <div class="battery-dec"></div>
+      <div class="head-lamp"></div>
+      <div class="driver"></div>
+      <div class="crank-dec"></div>
+      <div class="speed-sensor"></div>
+      <div class="auto-engine"></div>
+      <div class="ecu-dec"></div>
+    </div>
+    <div class="line-border"></div>
+    <div class="sec-info">
+      <div class="sec-split"></div>
+      <div class="clear-10"></div>
+      <div class="sec-title">模块化设计</div>
+      <div class="sec-name">就是要简便</div>
+      <div class="sec-desc">MODULAR DESIGN IS <br>
+          CONVENIENT</div>
+    </div>
+    <div class="sec-extra-info">
+        高度整合、数位优化的电器方案，将电 <br>
+        池、控制器、ECU打包成为一个整体 <br>
+        当你偶尔也想自己动动手DIY的时候，<br>
+        它会最大限度减免你拆装的麻烦
+    </div>
+  </section>
+  <section id="sec-008" class="sec-background"></section>
+  <section id="sec-009" class="sec-background"></section>
+  <section id="sec-10" class="sec-dec">
+    <div class="descri">
+        <p class="title">年轻，势必有一颗强劲却无阻的心脏</p>
+        <p class="title-1">YOU ARE YOUNG, YOU ARE POWERFUL</p>
+        <div class="line"></div>
+    </div>
+  </section>
+  <section id="sec-010" class="sec-background">
+    <div class="bg-banner-010"></div>
+    <div class="line-border"></div>
+    <div class="sec-info">
+        <div class="sec-split"></div>
+        <div class="clear-10"></div>
+        <div class="sec-name">坡度识别</div>
+        <div class="sec-desc">SLOPE RECOGNITION</div>
+    </div>
+    <div class="sec-extra-info">
+        云马C1内置3轴加速度 <br>
+        传感器，3轴陀螺仪；遇 <br>
+        到坡度，它的智能系统能 <br>
+        够瞬间感应到你的动力补 <br>
+        给需求，自动助你轻松上 <br>
+        坡，而无需费力骑踏，骑 <br>
+        行就是如此美妙！
+    </div>
+  </section>
+  <section id="sec-011" class="sec-background">
+    <div class="bg-banner-011"></div>
+    <div class="number-5"></div>
+    <div class="line-border"></div>
+    <div class="sec-info">
+        <div class="sec-split"></div>
+        <div class="clear-10"></div>
+        <div class="sec-title">OFF ／  ECO ／ NORMAL ／ SPORT ／ ON <br>
+            五种模式</div>
+        <div class="sec-name">自由切换</div>
+        <div class="sec-desc">FIVE MODES FOR DIFFERENT CYCLING</div>
+    </div>
+  </section>
+  <section id="sec-012" class="sec-background">
+    <div class="quan"></div>
+    <div class="licheng wow-2 animated" style="visibility: visible;">
+      <div class="c1">
+        <img class="percent percent-animation" src="{{ app_url_packaged }}/images/mall/bg-percent.png" alt="">
+        <img class="bike" src="{{ app_url_packaged }}/images/mall/bg-bike.png" alt="">
+        <div class="dec  fadeIn" style="display: block;">yunbike™智能动力驱动系统，就是能让你花更少的力量，让你骑更远的距离</div>
+        <div class="clear"></div>
+      </div>
+      <div class="normal">
+        <img class="percent percent-animation" src="{{ app_url_packaged }}/images/mall/bg-normal-percent.png" alt="">
+        <img class="bike" src="{{ app_url_packaged }}/images/mall/bg-normal-bike.png" alt="">
+        <div class="dec  fadeIn" style="display: block;">一般助力车</div>
+        <div class="clear"></div>
+      </div>
+    </div>
+    <div class="sec-info">云造团队专业研发的YunbikE™动力驱动系统，读懂你的骑行习惯和路况 <br>
+        让你自由切换脚踏跟动能助力等不同的模式</div>
+  </section>
+  <section id="sec-013" class="sec-background">
+    <div class="motor"></div>
+    <div class="line-border"></div>
+    <div class="sec-info">
+        <div class="sec-split"></div>
+        <div class="clear-10"></div>
+        <div class="sec-title">YUNBIKE ™ MOTOR</div>
+        <div class="sec-name">自主电机</div>
+    </div>
+    <div class="sec-extra-info">有电运转时，Yunbike™自主电机给你提供超高效率的电能转换，传动转化效率高达86％以上；无电骑行时，相对市 <br>
+        面上198直径的电机磁阻减少80%，不给你带来一丝阻力</div>
+  </section>
+  <section id="sec-014" class="sec-background">
+    <div class="dian-bike"></div>
+    <div class="map"></div>
+    <div class="lasting"></div>
+    <div class="sec-info">
+      <div class="sec-split"></div>
+      <div class="clear-10"></div>
+      <div class="sec-title">持久续航</div>
+      <div class="sec-name">你想骑多远？</div>
+      <div class="sec-desc">How FAR <br>
+          DO YOU WANT TO RIDE?</div>
+      <div class="sec-ar">SAMSUNG高密度进口电芯，全铝合金 <br>
+          金属外壳，超长助力续航75km，可比 <br>
+          京城三环多一环
+      </div>
+      <div class="sec-power">
+          POWER BY <img src="{{ app_url_packaged }}/images/mall/samsung.png" alt="">
+      </div>
+    </div>
+  </section>
+  <section id="sec-015" class="sec-background wow-1 animated" style="visibility: visible;">
+    <div class="pulse-1  "></div>
+    <div class="pulse-2  "></div>
+    <div class="pulse-3  "></div>
+    <div class="baby-device"></div>
+    <div class="line-border"></div>
+    <div class="sec-info">
+      <div class="sec-split"></div>
+      <div class="clear-10"></div>
+      <div class="sec-title">超实用</div>
+      <div class="sec-name">移动充电宝</div>
+      <div class="sec-desc">SUPER PRACTIVAL <br>
+          CHARGER BABY</div>
+    </div>
+    <div class="sec-extra-info">可根据被充电的设备，自动 <br>
+        调节输出电量。双USB输出， <br>
+        为众多数码产品充电，手机， <br>
+        手提，平板，相机…….统统 <br>
+        放马过来吧</div>
+  </section>
+  <section id="sec-016" class="sec-background">
+    <div class="number-8"></div>
+    <div class="line-border"></div>
+    <div class="sec-info">
+      <div class="sec-title">8重电池保护</div>
+      <div class="sec-split"></div>
+      <div class="sec-desc">8 BATTERY PROTECTION</div>
+    </div>
+    <div class="property-holder">
+      <div class="property">
+          <img src="{{ app_url_packaged }}/images/mall/protect-1.png" alt="">
+          <div class="info">
+              <div class="title">温度保护</div>
+              <div class="desc">具备电池芯温度监控, 以确保锂 <br>电池在安全之温度范围运作</div>
+          </div>
+      </div>
+      <div class="property">
+          <img src="{{ app_url_packaged }}/images/mall/protect-2.png" alt="">
+          <div class="info">
+              <div class="title">电芯PTC保护</div>
+              <div class="desc">电池芯具备PTC保护机制, 当温度 <br>或电流出现异常时自动限制使用</div>
+          </div>
+      </div>
+      <div class="property">
+          <img src="{{ app_url_packaged }}/images/mall/protect-3.png" alt="">
+          <div class="info">
+              <div class="title">短路保护</div>
+              <div class="desc">由硬件实时监控, 一旦短路立即 <br>切断线路以避免造成线路损伤</div>
+          </div>
+      </div>
+      <div class="property">
+          <img src="{{ app_url_packaged }}/images/mall/protect-4.png" alt="">
+          <div class="info">
+              <div class="title">充电过电压保护</div>
+              <div class="desc">当使用电压不适当时, 电池提供保护 <br>以避免过电压造成电芯及电池损伤</div>
+          </div>
+      </div>
+      <div class="property">
+          <img src="{{ app_url_packaged }}/images/mall/protect-5.png" alt="">
+          <div class="info">
+              <div class="title">充电过电流保护</div>
+              <div class="desc">当充电器提供之电流过大时, 电池提 <br>供保护以避免造成线路及电池损伤</div>
+          </div>
+      </div>
+      <div class="property">
+          <img src="{{ app_url_packaged }}/images/mall/protect-6.png" alt="">
+          <div class="info">
+              <div class="title">充电防逆向保护</div>
+              <div class="desc">当充电线插反或不慎短路时, 电 <br>路具备逆向保护中断电流</div>
+          </div>
+      </div>
+      <div class="property">
+          <img src="{{ app_url_packaged }}/images/mall/protect-7.png" alt="">
+          <div class="info">
+              <div class="title">输出过电流保护</div>
+              <div class="desc">当输出电流过大时, 电路会自动中断 <br>以避免造成线路及电池损伤</div>
+          </div>
+      </div>
+      <div class="property">
+          <img src="{{ app_url_packaged }}/images/mall/protect-8.png" alt="">
+          <div class="info">
+              <div class="title">电池过放电保护</div>
+              <div class="desc">电池电压过低时会进入保护状态避 <br>免电池因电压过低造成电芯损伤</div>
+          </div>
+      </div>
+    </div>
+  </section>
+  <section id="sec-11" class="sec-dec">
+    <div class="descri">
+        <p class="title">你的安全是我们最关心的事</p>
+        <p class="title-1">SAFETY FIRST</p>
+        <div class="line"></div>
+    </div>
+  </section>
+  <section id="sec-017" class="sec-background">
+    <div class="line-border"></div>
+    <div class="sec-info">
+        <div class="sec-title">传统刹把 <br>
+            VS <br>
+            C1刹把</div>
+    </div>
+    <div class="sec-extra-info">BRAKE LEVERS</div>
+    <div class="bike">
+        <img src="{{ app_url_packaged }}/images/mall/sec-017-bike.png" alt="">
+    </div>
+    <div class="brake-crank">
+        <div class="normal">
+            <div class="title">传统</div>
+            <img src="{{ app_url_packaged }}/images/mall/normal-brake-crank.png" alt="">
+        </div>
+        <div class="normal">
+            <div class="title c1">C1</div>
+            <img src="{{ app_url_packaged }}/images/mall/c1-brake-crank.png" alt="">
+        </div>
+        <div class="dec">
+            更加整洁的Yunbike™中控制动集成系统，在你<br>任一刹车之际，中控系统更快更准的发出断电指<br>令，电机将不再提供动力，让你骑行更加安全
+        </div>
+        <div class="direction-icon"></div>
+    </div>
+    <div class="bg"></div>
+  </section>
+  <section id="sec-018" class="sec-background">
+    <div class="light"></div>
+    <div class="sec-info">
+        <div class="sec-split"></div>
+        <div class="sec-title">灯光亮起</div>
+        <div class="sec-name">守护你</div>
+        <div class="sec-desc">LIGHT UP TO GUARD YOU</div>
+    </div>
+  </section>
+  <section id="sec-12" class="sec-dec">
+    <div class="descri">
+      <p class="title">我们还为你准备了APP</p>
+      <p class="title-1">APPLICATION FOR ZHIXINGCHE</p>
+      <div class="line"></div>
+    </div>
+  </section>
+  <section id="sec-019" class="sec-background">
+    <div class="title">时刻监测车况，安全有保障</div>
+    <div class="split"></div>
+  </section>
+  <section id="sec-020" class="sec-background">
+    <div class="iphone-6"></div>
+    <div class="near">
+        <div class="person photo-1 animation"></div>
+        <div class="person photo-2 animation"></div>
+        <div class="person photo-3 animation"></div>
+        <div class="person photo-4 animation"></div>
+        <div class="person photo-5 animation"></div>
+        <div class="person photo-6 animation"></div>
+        <div class="person photo-7 animation"></div>
+    </div>
+    <div class="line-border"></div>
+    <div class="sec-info">
+        <div class="sec-split"></div>
+        <div class="sec-title">社区 <br>附近的人</div>
+        <div class="sec-desc">INTERESTING COMMUNITY</div>
+    </div>
+    <div class="sec-extra-info">骑友偶然邂逅，缘分那么近</div>
+  </section>
+  <section id="sec-021" class="sec-background">
+    <div class="line-border"></div>
+    <div class="sec-info">
+        <div class="sec-title">积分</div>
+        <div class="sec-split"></div>
+        <div class="sec-desc">POINT REWARD</div>
+    </div>
+    <div class="sec-extra-info">发帖讨论纪录，积累经验值</div>
+  </section>
+  <section id="sec-13" class="sec-dec">
+    <div class="descri">
+        <p class="title">你就是你，独一无二</p>
+        <p class="title-1">YOU ARE SPECIAL</p>
+        <div class="line"></div>
+    </div>
+  </section>
+  <section id="sec-022" class="sec-background">
+    <div class="sec-info">
+      <div class="sec-title">为出色的C1来个出彩的搭配</div>
+    </div>
+    <div class="property-holder">
+      <div class="property">
+          <img src="{{ app_url_packaged }}/images/mall/bike-1.png" alt="">
+          <div class="title">金属色</div>
+      </div>
+      <div class="property">
+          <img src="{{ app_url_packaged }}/images/mall/bike-2.png" alt="">
+          <div class="title">奔驰白</div>
+      </div>
+      <div class="property">
+          <img src="{{ app_url_packaged }}/images/mall/bike-3.png" alt="">
+          <div class="title">太空灰</div>
+      </div>
+      <div class="property">
+          <img src="{{ app_url_packaged }}/images/mall/bike-4.png" alt="">
+          <div class="title">薄荷绿</div>
+      </div>
+      <div class="property">
+          <img src="{{ app_url_packaged }}/images/mall/bike-5.png" alt="">
+          <div class="title">清新白</div>
+      </div>
+      <div class="property">
+          <img src="{{ app_url_packaged }}/images/mall/bike-6.png" alt="">
+          <div class="title">典雅红</div>
+      </div>
+    </div>
+  </section>
+  <section id="sec-023" class="sec-background">
+      <div class="after-bike"></div>
+      <div class="bg-or"></div>
+      <div class="line-border"></div>
+      <div class="sec-info">
+          <div class="sec-title">减速慢行 <br>
+              让大家欣赏 <br>
+              你的调调</div>
+      </div>
+      <div class="sec-extra-info">SLOW DOWN TO LET OTHERS <br>
+          KNOW YOUR STYLE</div>
+  </section>
+  <section id="sec-024" class="sec-background">
+      <div class="know-you-bike"></div>
+      <div class="line-border"></div>
+      <div class="sec-info">
+          <div class="sec-split"></div>
+          <div class="sec-title">C1</div>
+          <div class="sec-name">就是懂你</div>
+          <div class="sec-desc">JUST KNOW YOU</div>
+      </div>
+      <div class="sec-extra-info">女友专座，宝贝专座，车篮，水壶架， <br>手机架…C1，懂你的各种需求</div>
+  </section>
+  <section id="sec-14" class="sec-dec">
+      <div class="descri">
+          <p class="title">细节</p>
+          <p class="title-1">DETAILS</p>
+          <div class="line"></div>
+      </div>
+  </section>
+  <section id="sec-025" class="sec-background">
+    <div class="property-holder">
+        <div class="property">
+            <img src="{{ app_url_packaged }}/images/mall/p1.png" alt="">
+            <div class="title">防脱钩爪</div>
+        </div>
+        <div class="property">
+            <img src="{{ app_url_packaged }}/images/mall/p2.png" alt="">
+            <div class="title">闷骚辐条</div>
+        </div>
+        <div class="property">
+            <img src="{{ app_url_packaged }}/images/mall/p3.png" alt="">
+            <div class="title">全铝车架</div>
+        </div>
+        <div class="property">
+            <img src="{{ app_url_packaged }}/images/mall/p4.png" alt="">
+            <div class="title">CNC立杆</div>
+        </div>
+        <div class="property">
+            <img src="{{ app_url_packaged }}/images/mall/p5.png" alt="">
+            <div class="title">便携抽取</div>
+        </div>
+        <div class="property">
+            <img src="{{ app_url_packaged }}/images/mall/p6.png" alt="">
+            <div class="title">简洁中控</div>
+        </div>
+    </div>
+  </section>
+  <section id="sec-026" class="sec-background">
+      </section>
+  <section class="ui responsive grid buy" style="padding: 40px 0;">        
+    <div class="row">
+    				<div class="center aligned buy column">
+    					<a href="http://www.taihuoniao.com/sale/1112673501.html" target="_blank" class="ui inverted active magenta button" title="C1">立即购买</a>
+    				</div>
+    			</div>
+  
+  </section>
+  
+</div>
+{% endblock %}
