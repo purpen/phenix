@@ -47,6 +47,8 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 		//$result['cover'] = null; // 过滤封面图
 		$this->stash['albums'] = $result;
 
+    $this->stash['page_title_suffix'] = sprintf("%s-太火鸟", $result['title']);
+
 		//评论参数
 		$comment_options = array(
 		  'comment_target_id' =>  $result['_id'],

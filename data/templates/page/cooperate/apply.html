@@ -207,7 +207,6 @@
             phenix.show_error_note(message,5000);
         }
     }).on('complete', function (event, id, name, result) {
-		$('.qq-upload-list').children().eq(id).fadeOut();
 		
 		if (result.success) {
 			wps_width  = result.data.asset.width;
@@ -233,9 +232,13 @@
 				
 			// 显示裁切头像
 			$('.ui.crop.button').removeClass('hide');
+
+		  $('.qq-upload-list').children().eq(id).fadeOut();
 			
 			phenix.hook_imgarea_select();
-		}
+    }else{
+      $('.qq-upload-list').children().eq(id).text(result.message).fadeOut(3000);  
+    }
 	});
 	
 	$('.ui.crop.button').bind('click', function(){
@@ -443,7 +446,7 @@
     					</div>
                     
     					<div class="upload field">
-    						<label>Logo <small class="description">(设置一个宽度大于400px、小于3M的JPG)</small></label>
+    						<label>Logo <small class="description">(设置一个尺寸大于400px*400px、小于3M的JPG)</small></label>
     						<input type="hidden" name="logo_id" id="cooperate_logo_id" value="{{ cooperate.logo_id }}" />
                             <input type="hidden" name="qkey" id="cooperate_logo_qkey" value="{{ cooperate.logo.big }}" />
                         
