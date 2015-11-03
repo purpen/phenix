@@ -1,9 +1,27 @@
-{%extends 'layout/app.html'%}
+{%extends 'layout/mobile.html'%}
 {% block title%}关于太火鸟-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+  #mfrbird{
+    margin:0;
+  }
 	.aboutus {
-		margin: 2em auto;
+		margin: 0em auto;
+	}
+	.about{
+	  background:url(http://frstatic.qiniudn.com/images/incubator/about.jpg) center center no-repeat;
+	  background-size:cover;
+	  color:#fff;
+	  
+	}
+	.about h3.ui.header{
+	  color:#fff !important;
+	  padding:40px 15px;
+	}
+	.about h3.ui.header .sub.header{
+	  color: #fff;
+    margin-top: 10px;
+    line-height: 24px;
 	}
 	.aboutus hr {
 	    background: none repeat scroll 0 0 #c3bbbe;
@@ -22,6 +40,28 @@
 
 {% block content %}
 <div class="aboutus">
+  <div class="about">
+    <div class="ui center aligned responsive grid">
+      <div class="row">
+        <div class="column">
+          <h3 class="ui header">
+            <div class="content">
+              关于太火鸟
+  						<div class="sub header">
+  						  太火鸟是中国最火爆的智能硬件孵化平台。太火鸟致力于建设重构产品研发创新流程，
+                努力帮助设计师和创意者实现商业价值，从广泛的创意中寻找具有「创新价值」且可以
+                被称为「性感设计」的产品，开启一个全新的众包设计时代。太火鸟孵化的团队将从商
+                品定义、投资融资、硬件品控、软件体验、推广营销、渠道建设等每个环节全程全力支持，
+                真正做到一条龙服务式的智能硬件孵化平台；全力打造一个完美的智能硬件创意生态系统。
+  						</div>
+            </div>
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
 	<div class="ui center aligned responsive grid">
 		<div class="row">
 			<div class="column">
