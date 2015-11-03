@@ -1,0 +1,102 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}D3in未来实验室-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird {
+    margin: 0em 0 2em ;
+}
+.ui.block{
+  padding:25px 0;
+}
+.ui.responsive.grid{
+  padding:0 15px !important;
+}
+.ui.white.block{
+  background:#fff;
+  margin:0;
+}
+.d3word {
+    display: inline-block;
+    letter-spacing: 2px;
+}
+h3 .d3word span {
+    font-size: 14px;
+    line-height: 6px;
+    vertical-align: top;
+}
+.bgf1.background {
+    background: -ms-linear-gradient(top, #f1f1f1, rgba(255,255,255,0.85));
+    background: -moz-linear-gradient(top,#f1f1f1,rgba(255,255,255,0.85));
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(#f1f1f1), to(rgba(255,255,255,0.85)));
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f1f1f1), to(rgba(255,255,255,0.85)));
+    background: -webkit-linear-gradient(top, #f1f1f1, rgba(255,255,255,0.85));
+    background: -o-linear-gradient(top, #f1f1f1, rgba(255,255,255,0.85));
+}
+.ui.bgf1 .row:first-child .column{
+  padding:20px 0;
+  border-bottom:1px solid rgba(0,0,0,.2);
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="d3in">
+  <img src="http://frstatic.qiniudn.com/images/incubator/wap_d3in.jpg" width="100%">
+
+  <div class="ui white big block" style="margin-top: -5px;">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="ui center aligned column">
+          <h3 class="ui header">
+            关于<span class="d3word">D<span>3</span>IN</span>铟立方未来实验室
+          </h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="column">
+          <p>D3IN铟立方未来实验室，R&S RTE 1104数字示波器、Tektronix DPO 7254C示波器、Agilent MSO-X 93204A、Agilent EXG N5172B射频矢量信号发生器、Keysight PXA实时频谱分析仪、Keysight E5080A ENA网络分析仪、R&S CMW 270无线通信测试仪、Agilent EXM无线测试仪等专业设备仪器映入眼前，据介绍，实验室还在进一步完善中，未来将有更多专业的测试仪器进驻到实验室之中。</p>
+        </div>
+      </div>
+        
+    </div>
+  </div>
+  
+  <div class="ui big bgf1 background block">
+    
+    <div class="ui responsive center aligned grid">
+    	<div class="row">
+				<div class="column">
+					<img src="http://frstatic.qiniudn.com/images/d3inn9.png" alt="D3in">
+					<h3 class="ui header">培训课／主题沙龙</h3>
+					<p><span class="d3word">D<span>3</span>IN</span>实验室定期举办的专业培训课程将覆盖研发设计，测试技能，工艺制程，生产管控等领域，以多维度方式满足<span class="d3word">D<span>3</span>IN</span>实验室会员的需求。 同时开展各类主题沙龙分享会，<span class="d3word">D<span>3</span>IN</span>实验室会员通过互动来分享各自的收获与感悟，共创互通。
+					</p>
+
+				</div>
+    		<div class="column">
+					<img src="http://frstatic.qiniudn.com/images/d3inn10.png" alt="D3in">
+					<h3 class="ui header">平台资源</h3>
+					<p>凭借与各个合作伙伴的良好关系，从而拥有丰富的资源接口，涉及芯片方案，IC代理，制造生产，云端服务，语音识别，模组量化等企业/厂商。<span class="d3word">D<span>3</span>IN</span>实验室将提供此平台，帮助并指导有需求的<span class="d3word">D<span>3</span>IN</span>实验室会员解决其所遇到的硬件&amp;软件资源接口不足的难题。</p>
+				</div>	
+				<div class="column">
+					<img src="http://frstatic.qiniudn.com/images/d3inn11.png" alt="D3in">
+					<h3 class="ui header">专家大牛</h3>
+					<p>拥有来自南方科技大学无线射频教授，世界领先测试仪器厂KeySight的测试专家，产品模块化设计资深硬件大师，硬件管控资深大牛，结构设计大师，EMC整改资深大牛等将会在线常驻<span class="d3word">D<span>3</span>IN</span>实验室。<span class="d3word">D<span>3</span>IN</span>实验室会员可向专家大牛取经，从而提升产品整体的竞争力。</p>
+				</div>
+			</div>
+
+    	<div class="row">
+				<div class="center aligned column">
+          <a href="http://www.taihuoniao.com/d3in/active" class="ui magenta inverted button" style="min-width: 160px;">
+						活动列表
+					</a>
+				</div>
+			</div>
+
+		</div>
+
+    
+  </div>
+  
+  
+  
+</div>
+{% endblock %}
