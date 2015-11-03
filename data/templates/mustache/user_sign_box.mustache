@@ -24,12 +24,12 @@
 </div>
 
 {{#has_sign}}
-    <div class="ui mini avatar images">
+    <div class="ui mini avatar images Ranking">
         {{#data.sign}}
         <div class="image"  style="position:relative;text-align:center;">
-            <div style="width: 43px;height: 43px;text-align: center;font-size: 14px;background-repeat: no-repeat;background-position: center center;background-size: 30px 30px;color: #fff;background-image: url(http://www.jq-school.com/upload/20150625195451416/images/r1.png);line-height: 38px;position: absolute;bottom: -3px; right: 0px;z-index: 10;">1</div>
+            <div class="besticon" style="background-image: url(http://www.jq-school.com/upload/20150625195451416/images/r1.png);">1</div>
             <a href="{{ home_url }}" target="_blank" title="{{ nickname }}" data-variation="wide" data-html="<div class='header'>{{ nickname }}</div>">
-                <img src="{{ medium_avatar_url }}" alt="{{ nickname }}" class="avatar" style="width:50px;"/>
+                <img src="{{ medium_avatar_url }}" alt="{{ nickname }}" class="avatar" />
             </a>
         </div>
         {{/data.sign}}
