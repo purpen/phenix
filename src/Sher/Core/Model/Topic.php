@@ -174,7 +174,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
         // 是试用报告则添加评测数量
         if(isset($this->data['try_id']) && !empty($this->data['try_id'])){
           $try_model = new Sher_Core_Model_Try();
-          //$try_model->increase_counter('report_count', 1, (int)$this->data['try_id']);
+          $try_model->increase_counter('report_count', 1, (int)$this->data['try_id']);
           unset($try_model);
         }
 

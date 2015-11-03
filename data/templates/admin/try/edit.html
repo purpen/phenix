@@ -260,11 +260,6 @@
 		</div>
 		
 		<div class="inline field">
-		  	<label>试用数量：</label>
-			<input type="text" name="try_count"  value="{{ try.try_count||default 20 }}" />
-		</div>
-		
-		<div class="inline field">
 		  	<label>参与方式：</label>
 			<div class="ui radio checkbox">
 				<input type="radio" name="join_away" value="1" checked="checked" />
@@ -395,6 +390,23 @@
 				</div>
 			</div>
 		</div>
+
+			<h4 class="ui stage header">数量设置</h4>
+
+    <div class="five fields">
+      <div class="field">
+          <label>试用数量：</label>
+        <input type="text" name="try_count"  value="{{ try.try_count|default 0 }}" />
+<div class="description">试用产品数量</div>
+      </div>
+      <div class="field">
+          <label>回收报名数量：</label>
+        <input type="text" name="report_count"  value="{{ try.report_count|default 0 }}" />
+<div class="description">评测报告回收数量</div>
+      </div>
+    </div>
+
+
 
 			<h4 class="ui stage header">申请条件</h4>
 
