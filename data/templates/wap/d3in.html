@@ -87,7 +87,9 @@ h3 .d3word span {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-
+.label{
+  margin: 5px 3px;
+}
 </style>
 {% endblock %}
 {% block content %}
@@ -326,8 +328,13 @@ h3 .d3word span {
 				</div>
 			</div>
       
+      <div class="ui center aligned row" style="text-align:center;padding-top:20px;">
+        <label class="ui magenta active inverted button label">{{ vip_money.month }}元 / 月</label>
+        <label class="ui magenta active inverted button label">{{ vip_money.quarter }}元 / 季 (88折)</label><br />
+        <label class="ui magenta active inverted button label">{{ vip_money.self_year }}元 / 半年 (8折)</label>
+        <label class="ui magenta active inverted button label">{{ vip_money.year }}元 / 全年 (8折)</label>
       
-      
+      </div>
       
     </div>
   </div>
