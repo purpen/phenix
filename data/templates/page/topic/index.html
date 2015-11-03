@@ -25,6 +25,16 @@
         }
     }
     
+    function settime(){
+    {% if is_doing %}
+      {% if result.is_true %}
+        $('.add').addClass('add-active');
+      {%else%}
+        phenix.show_error_note("{{ result.msg }}");
+      {%endif%}
+    {%endif%}
+    }
+    window.setTimeout(settime,500);
 </script>
 {% endblock %}
 

@@ -46,20 +46,3 @@
 <p>1、礼物：关注签到页公告，完成名次任务，就可以轻松获得神秘礼物</p>
 <p>2、经验值：每次签到都会获得2个经验值</p>
 <p>3、鸟币：连续7天签到，送1枚鸟币</p>
-
-{{#is_doing}}
-    {{#is_true}}
-    <script type="text/javascript" >
-      function settime(){
-      {% if is_doing %}
-        {% if result.is_true %}
-          $('.add').addClass('add-active');
-        {%else%}
-          phenix.show_error_note("{{ result.msg }}");
-        {%endif%}
-      {%endif%}
-      }
-      window.setTimeout(settime,500);
-      </script>
-    {{/is_true}}
-{{/is_doing}}
