@@ -190,6 +190,11 @@ server {
           	rewrite ^/birdegg/(\d+)-(\d+).html$ /app/wap/birdegg/view?id=$1&page=$2 last;
 			rewrite ^/birdegg(.*)$ /app/wap/birdegg$1 last;
 		}
+
+    location /d3in {
+        rewrite ^/d3in[/]?$ /app/wap/d3in last;
+        rewrite ^/d3in/(.*)$ /app/wap/d3in/$1 last;
+    }
 		
 		location /search {
 		     rewrite ^/search[/]?$ /app/wap/search last;
