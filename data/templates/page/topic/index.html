@@ -25,7 +25,6 @@
         }
     }
     
-    function settime(){
     {% if is_doing %}
       {% if result.is_true %}
         $('.add').addClass('add-active');
@@ -34,7 +33,6 @@
       {%endif%}
     {%endif%}
 		}
-		window.setTimeout(settime,500);
     
 </script>
 {% endblock %}
