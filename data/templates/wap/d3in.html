@@ -29,18 +29,18 @@ h3 .d3word span {
     background: -webkit-linear-gradient(top, #f1f1f1, rgba(255,255,255,0.85));
     background: -o-linear-gradient(top, #f1f1f1, rgba(255,255,255,0.85));
 }
-.ui.bgf1 .row:first-child .column{
+.ui.bgf1.about .row:first-child .column{
   padding:20px 5px;
   margin: 0 5px;
   border-bottom:1px solid rgba(0,0,0,.2);
 }
-.ui.bgf1 .row:first-child .column:first-child{
+.ui.bgf1.about .row:first-child .column:first-child{
   padding-top:0 !important;
 } 
-.ui.bgf1 .row:first-child .column:last-child{
+.ui.bgf1.about .row:first-child .column:last-child{
   border:none;
 }
-.ui.bgf1 .row:first-child .column h4{
+.ui.bgf1.about .row:first-child .column h4{
   margin:8px 0;
 }
 
@@ -56,6 +56,32 @@ h3 .d3word span {
     margin-top: 5px;
     color: rgba(146,147,163,.9);
 }
+.ui.gray{
+  background:#f5f5f5;
+}
+.ui.gray h3.ui.header+p{
+  margin:5px;
+}
+.ui.gray.block .cards .card{
+  text-align:center;
+}
+.ui.gray.block .cards .card i.icon{
+	font-size: 58px;
+	margin: 0;
+}
+.ui.gray.block .cards .card .content{
+	margin:1.5rem 1rem;
+}
+.ui.gray.block .cards .card .content h4{
+	color:#f36 !important;
+}
+.ui.gray.block .cards .card p{
+	font-size:14px;
+	white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 </style>
 {% endblock %}
 {% block content %}
@@ -80,7 +106,7 @@ h3 .d3word span {
     </div>
   </div>
   
-  <div class="ui big bgf1 background block">
+  <div class="ui big bgf1 about background block">
     
     <div class="ui responsive center aligned grid">
     	<div class="row">
@@ -205,10 +231,98 @@ h3 .d3word span {
 						</div>
 					</h4>
 				</div>
-
+			</div>
+    </div>
+  </div>
+  
+  <div class="ui big gray block">
+    <div class="ui center aligned responsive grid">
+      <div class="row">
+        <div class="center aligned column">
+					<h3 class="ui header">实验室VIP会员</h3>
+					<p>您需要体验 Plex 最好的一切。</p><p> 您的订阅让您享用独有的高级功能且提早使用新功能。</p>
+				</div>
+      </div>
+      
+      <div class="center aligned row">
+				<div class="ui two cards">
+					<div class="ui center aligned card">
+						<div class="content">
+							<h4 class="ui header">免费沙龙</h4>
+							<i class="flat icon"><img src="{{ app_url_packaged }}/images/d3inn1.jpg" width="80%" alt="D3in"></i>
+							<p>免费参加太火鸟定期举办的沙龙，分享会</p>
+						</div>
+					</div>
+					<div class="ui center aligned card">
+						<div class="content">
+							<h4 class="ui header">免费分享会</h4>
+							<i class="flat icon"><img src="{{ app_url_packaged }}/images/d3inn2.jpg" width="80%" alt="D3in"></i>
+							<p>免费参加外聘讲师做的training，分享会</p>
+						</div>
+					</div>
+				</div>
 			</div>
 			
-  
+			<div class="center aligned row">
+				<div class="ui two cards">
+				  <div class="ui center aligned card">
+						<div class="content">
+							<h4 class="ui header">使用测试仪器</h4>
+							<i class="flat icon"><img src="{{ app_url_packaged }}/images/d3inn3.jpg" width="80%" alt="D3in"></i>
+							<p>提前预约，免费使用各类测试仪器</p>
+						</div>
+					</div>
+					<div class="ui center aligned card">
+						<div class="content">
+							<h4 class="ui header">单独储物空间</h4>
+							<i class="flat icon"><img src="{{ app_url_packaged }}/images/d3inn4.jpg" width="80%" alt="D3in"></i>
+							<p>免费提供1个单独储物空间</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="center aligned row">
+				<div class="ui two cards">
+					<div class="ui center aligned card">
+						<div class="content">
+							<h4 class="ui header">开放工作区域</h4>
+							<i class="flat icon"><img src="{{ app_url_packaged }}/images/d3inn5.jpg" width="80%" alt="D3in"></i>
+							<p>无单独办公位置，提供开放工作区域</p>
+						</div>
+					</div>
+					<div class="ui center aligned card">
+						<div class="content">
+							<h4 class="ui header">产品咨询服务</h4>
+							<i class="flat icon"><img src="{{ app_url_packaged }}/images/d3inn6.jpg" width="80%" alt="D3in"></i>
+							<p>免费提供产品DFM review咨询服务</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="center aligned row">
+				<div class="ui two cards">
+					<div class="ui center aligned card">
+						<div class="content">
+							<h4 class="ui header">技术支持</h4>
+							<i class="flat icon"><img src="{{ app_url_packaged }}/images/d3inn7.jpg" width="80%" alt="D3in"></i>
+							<p>免费提供产品trouble shooting技术支持</p>
+						</div>
+					</div>
+					<div class="ui center aligned card">
+						<div class="content">
+							<h4 class="ui header">产品测试指导</h4>
+							<i class="flat icon"><img src="{{ app_url_packaged }}/images/d3inn8.jpg" width="80%" alt="D3in"></i>
+							<p>免费提供产品的测试指导</p>
+						</div>
+					</div>
+				</div>
+			</div>
+      
+      
+      
+      
     </div>
   </div>
   
