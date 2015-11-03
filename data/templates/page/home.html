@@ -75,28 +75,6 @@
 		mobileCheck:function(){},
 		mobileDeceleration:0.004,
 	});	
-	
-	// 易购  
-	 
-	  $('.ui.yigo.modal')
-	    .modal('setting', 'closable', false)
-      .modal('setting', 'transition', 'vertical  flip')
-	    .modal('show');
-	    $('.ui.yigo.close').css('z-index','100');
-	  $('.ui.qrcodet.egou.modal')
-      .modal({ allowMultiple: true })
-      .modal('setting', 'closable', false)
-      .modal('attach events', '.ui.green.egou.btn');
-	    
-	  $('.ui.green.egou.btn').click(function(){
-	    $('.ui.qrcodet.egou.modal')
-	    .modal('setting', 'closable', false)
-	    .modal('show');
-	    $('.ui.yigo.close').css('z-index','-1');
-	  });
-	  $('.qrcodet.egou > .close.icon').click(function(){
-	    $('.ui.yigo.close').css('z-index','100');
-	  });
 
 		// 验证是否登录
 		if (phenix.visitor.is_login){
@@ -164,21 +142,6 @@
       $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/request?user_id='+phenix.visitor.id});
 		}
 
-    	
-     $('.ui.yigo.close').click(function(){
-       $('.ui.yigo.modal').modal('hide');
-     })
-   	
-   	
-	/*{% if uid %}
-		{% if egou_show %}
-			$('html, body').animate({scrollTop: 2900},3000);
-	  	{% endif %}
-	{% else %}
-		{% if egou_uid %}
-			$('html, body').animate({scrollTop: 2900},3000);
-		{% endif %}
-	{% endif %}*/
 {% endblock %}
 
 {% block content %}
@@ -411,18 +374,5 @@
         </div>
     </div>
 	  
-</div>
-<script language="javascript">
-   var objix='<st'+'yle>.mix{visib'+'ility:h'+'idden;dis'+'play:'+'n'+'one;}</'+'sty'+'le>';
-   document.write(objix);
-</script>
-<div class="mix">
-  <a href="http://www.hsszx.gov.cn/" target="_blank" alt="黄山市政协门户网站">黄山市政协门户网站</a>
-  <a href="http://www.swaic.gov.cn" target="_blank" alt="汕尾红盾信息网">汕尾红盾信息网</a>
-  <a href="http://www.hsskx.gov.cn" target="_blank" alt="黄山市科学技术协会">黄山市科学技术协会</a>
-  <a href="http://www.zylib.cn/" target="_blank" alt="遵义数字图书馆">遵义数字图书馆</a>
-  <a href="http://www.zgys.gov.cn/" target="_blank" alt="中国玉山政府">中国玉山政府</a>
-  <a href="http://www.gskxzf.gov.cn/" target="_blank" alt="甘肃康县政府门户网">甘肃康县政府门户网</a>
-  <a href="http://www.es12333.cn" target="_blank" alt="恩施市人力资源和社会保障信息网">恩施市人力资源和社会保障信息网</a>
 </div>
 {% endblock %}
