@@ -12,7 +12,7 @@
 	  margin-top: 15px;
 	}
 	.about{
-	  background:url(http://frstatic.qiniudn.com/images/incubator/about.jpg) center center no-repeat;
+	  background:url({{ app_url_packaged }}/images/incubator/about.jpg) center center no-repeat;
 	  background-size:cover;
 	  color:#fff;
 	}
@@ -57,7 +57,7 @@
   }
   
   .photo{
-	  background:url(http://frstatic.qiniudn.com/images/incubator/about1.jpg) center center no-repeat;
+	  background:url({{ app_url_packaged }}/incubator/about1.jpg) center center no-repeat;
 	  background-size:cover;
 	  color:#fff;
 	  padding:25px 0 20px;
@@ -65,6 +65,21 @@
 	.photo h2.ui.header,.photo h3.ui.header{
 	  color:#fff !important;
 	}
+	.photo h2.ui.header + p{
+	  margin-bottom:5px !important;
+	}
+	
+	.contact .card .content {
+      border-radius: .2875em !important;
+      box-shadow: 0 2px 0 #f36 inset !important;
+      font-size: 1rem !important;
+      line-height: 2em;
+      padding: 1em !important;
+      background:#fff !important;
+  }
+  .ui.center.aligned.row{
+    text-align:center;
+  }
 </style>
 {% endblock %}
 
@@ -142,6 +157,103 @@
           <p>Http://www.taihuoniao.com</p>
           <p>Hotline: 4008 - 798 - 751</p>
         </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big contact block">
+    <div class="ui center aligned responsive grid">
+      <div class="row">
+        <div class="column">
+          <p>地址：北京市 朝阳区 酒仙桥路4号 751北京时尚设计广场 极地创新中心218室 / P.c.100015</p>
+          <p>深圳市 福田区 保税区市花路 花样年福年广场 B栋629室 / P.c.518000</p>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="ui two products cards">
+          <div class="card">
+            <div class="content">
+            	<h4 class="ui header">商品合作</h4>
+							<p>+8610  8459 9327</p>
+							<p>products@taihuoniao.com</p>
+						</div>
+          </div>
+          <div class="card">
+            <div class="content">
+            	<h4 class="ui header">市场合作</h4>
+							<p>+8610   8459 9374</p>
+							<p>support@taihuoniao.com</p>
+						</div>
+          </div>
+          <div class="card">
+            <div class="content">
+            	<h4 class="ui header">渠道合作</h4>
+							<p>+8610  8459 9374</p>
+							<p>sales@taihuoniao.com</p>
+						</div>
+          </div>
+          <div class="card">
+            <div class="content">
+            	<h4 class="ui header">社区合作</h4>
+							<p>+8610  8459 9323</p>
+							<p>bbs@taihuoniao.com</p>
+						</div>
+          </div>
+          <div class="card">
+            <div class="content">
+            	<h4 class="ui header">铟立方未来实验室</h4>
+							<p>+0755  2266 2313</p>
+							<p>d3in@taihuoniao.com</p>
+						</div>
+          </div>
+          <div class="card">
+            <div class="content">
+            	<h4 class="ui header">售后服务</h4>
+							<p>+8610  8459 9327</p>
+							<p>service@taihuoniao.com</p>
+						</div>
+          </div>
+          <div class="card">
+            <div class="content">
+            	<h4 class="ui header">加入我们</h4>
+							<p>+8610  8459 9328</p>
+							<p>hi@taihuoniao.com</p>
+						</div>
+          </div>
+          <div class="card">
+            <div class="content">
+            	<h4 class="ui header">意见反馈</h4>
+							<p>feedback@taihuoniao.com</p>
+							<p>&nbsp;</p>
+						</div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui white big block">
+    <div class="ui responsive center aligned grid">
+      <div class="ui center aligned row">
+        <div class="center aligned five wide column">
+        	<div class="image">
+  					<img src="{{ app_url_packaged }}/images/weixin-220.jpg" alt="太火鸟-中国最火爆的智能硬件孵化平台">
+  				</div>
+  				<div class="content">
+  					微信号－<b>taihuoniao</b>
+  				</div>
+  			</div>
+  			<div class="center aligned five wide column">
+        	<div class="image">
+  					<img src="{{ app_url_packaged }}/images/weibo-220.jpg" alt="太火鸟-中国最火爆的智能硬件孵化平台">
+  				</div>
+  				<div class="content">
+  					微博－<b>太火鸟</b>
+  				</div>
+  			</div>
+    
       </div>
     </div>
   </div>
