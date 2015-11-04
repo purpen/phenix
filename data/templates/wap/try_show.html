@@ -224,7 +224,8 @@
 			return false;
 		}
 		
-		$('.ui.applytry.modal').modal('show');
+		$('.ui.applytry.modal').modal('show')
+		.modal('setting', 'transition', 'fade Up')
 		return false;
 	});
 	
