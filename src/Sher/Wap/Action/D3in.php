@@ -10,22 +10,22 @@ class Sher_Wap_Action_D3in extends Sher_Wap_Action_Base {
 	  'size'=>6,
 	);
 	
-	protected $exclude_method_list = array('execute','d3in');
+	protected $exclude_method_list = array('execute','about');
 	
 	/**
 	 * 网站入口
 	 */
 	public function execute(){
-		return $this->d3in();
+		return $this->about();
 	}
 	
 	/**
-	 * d3in
+	 * about
 	 */
-	public function d3in(){
+	public function about(){
 		$vip_money = Doggy_Config::$vars['app.d3in.vip_money'];
 	  $this->stash['vip_money'] = $vip_money;
-		return $this->to_html_page('wap/d3in.html');
+		return $this->to_html_page('wap/d3in/about.html');
 	}
 	
 }
