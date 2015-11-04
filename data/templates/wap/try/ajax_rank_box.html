@@ -17,19 +17,21 @@
       <div class="user-report" style="display:none">
         <div class="myrank">
           <div class="ui large feed">
-            <div class="label"><img src="{{ d.user.medium_avatar_url }}" alt="{{ apply.user.nickname }}"></div>
-            <div class="content">
-              <div class="summary">
-                <a class="user">{{ apply.user.nickname }}</a>
-              </div>
-              <div class="meta">
-                <a class="like active">
-                  <i class="like icon"></i>
-                  {{ apply.vote_count }}
-                </a>
-              </div>
-              <div class="rankb">
-                NO.<span>1</span>
+            <div class="event">
+              <div class="label"><img src="{{ d.user.medium_avatar_url }}" alt="{{ apply.user.nickname }}"></div>
+              <div class="content">
+                <div class="summary">
+                  <a class="user">{{ apply.user.nickname }}</a>
+                </div>
+                <div class="meta">
+                  <a class="like active">
+                    <i class="like icon"></i>
+                    {{ apply.vote_count }}
+                  </a>
+                </div>
+                <div class="rankb">
+                  NO.<span>1</span>
+                </div>
               </div>
               
               
