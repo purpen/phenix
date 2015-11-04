@@ -27,11 +27,15 @@
 	  $('.ui.right.attached.button').click(function(){ 
 	    $(this).addClass('active'); 
 	    $('.ui.left.attached.button').removeClass('active');
+	    $('.user-list').hide();
+	    $('.user-report').show();
 	  });
 	  
 	  $('.ui.left.attached.button').click(function(){ 
 	    $(this).addClass('active'); 
 	    $('.ui.right.attached.button').removeClass('active');
+	    $('.user-report').hide();
+	    $('.user-list').show();
 	  });
 	  
 	</eval> 
