@@ -22,5 +22,17 @@
     {%else%}
         <p style="text-algin:center;">赶快叫好友来支持你吧！</p>
     {%endif%}
-	]]></replace> 
+	]]></replace>
+	<eval>
+	  $('.ui.right.attached.button').click(function(){ 
+	    $(this).addClass('active'); 
+	    $('.ui.left.attached.button').removeClass('active');
+	  });
+	  
+	  $('.ui.left.attached.button').click(function(){ 
+	    $(this).addClass('active'); 
+	    $('.ui.right.attached.button').removeClass('active');
+	  });
+	  
+	</eval> 
 </taconite>

@@ -303,18 +303,6 @@ $('.showdiv').click(function(){
 $('#mask').click(function(){
     $('#mask').css('display','none');
 });
-$('.ui.right.attached.button').click(function(){
-  $('ui.left.active.attached.button').removeClass('active');
-  $('.ui.right.attached.button').addClass('active');
-  $('.usr-list').css('display','none');
-  $('.report-list').css('display','block');
-});
-$('.ui.left.attached.button').click(function(){
-  $('.ui.left.attached.button').addClass('active');
-  $('ui.right.attached.button').removeClass('active');
-  $('.usr-list').css('display','block');
-  $('.report-list').css('display','none');
-})
 
 $('[data-countdown]').each(function() {
 	var $this = $(this), finalDate = $(this).data('countdown');
