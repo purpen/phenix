@@ -162,9 +162,6 @@
 		width: 100%;
 		z-index: 99;
 	}*/
-	.ui.modal{
-	  top:35% !important;
-	}
 	.froala-element {
     overflow-x: visible;
     overflow-y: visible;
@@ -181,6 +178,11 @@
     display:none !important;
   }
 	
+	.modals.dimmer .ui.scrolling.modal{
+	  position:absolute !important;
+	  top:0 !important;
+	  margin: 0 0 0 -47.5% !important;
+	}
 	
 </style>
 {% endblock %}
@@ -222,7 +224,9 @@
 			return false;
 		}
 		
-		$('.ui.applytry.modal').modal('show');
+		$('.ui.applytry.modal')
+		.modal('setting', 'transition', 'vertical  flip')
+		.modal('show');
 		return false;
 	});
 	
@@ -370,51 +374,6 @@
 
 {% block content %}
 <div class="ui try" id="trypage"> 
-	<!--<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				<div class="ui breadcrumb">
-				  	<a class="section" href="{{ app_url_wap }}">
-						<i class="icon home"></i>首页
-					</a>
-				  	<div class="divider"> / </div>
-					<a class="section" href="{{ app_url_wap }}/shop">新品试用</a>
-					<div class="divider"> / </div>
-				  	<div class="active section">{{ try.title|truncate 12 }}</div>
-				</div>
-			</div>
-		</div>
-	</div>-->
-	
-	<!--<div class="masthead">
-		<div class="masthead-cover">
-			<div class="ui responsive grid" style="margin:0 auto;">
-				<div class="column">
-					<h1 class="ui header">
-						<div class="content">
-							{{ try.title }}
-							<div class="sub header">
-								{{ try.description }}
-							</div>
-						</div>
-					</h1>
-					{% if !try.is_end %}
-					<a href="javascript:void(0);" class="ui white applytry inverted button">
-						<i class="ticket icon"></i> 申请试用
-					</a>
-					{% else %}
-					<a href="javascript:void(0);" class="ui active white inverted button">
-						<i class="lock icon"></i> 已结束
-					</a>
-					{% endif %}
-					<a href="{{ try.product.wap_view_url }}" class="ui white inverted button" target="_blank">
-						<i class="browser icon"></i> 产品详情
-					</a>
-					<div class="apply"><b class="big">{{ try.apply_count }}</b> 人预约{% if !try.is_end %}, 剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %}, 结束时间：{{ try.end_time }}{% endif %}</div>
-				</div>
-			</div>
-		</div>
-	</div>-->
 	
 	<div class="trytitle">
 		<img src="{{ try.cover.thumbnails.resp.view_url }}" width="100%">
