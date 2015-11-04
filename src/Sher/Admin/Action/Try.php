@@ -353,6 +353,13 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 				}
 
 				$try_model->update_pass_users($try_id, $apply_user_id, $is_add);
+				
+				// 删除快递单号
+				$date = array(
+					'_id' => $id,
+					'tracking_number' => ''
+				);
+				$apply->apply_and_update($date);
 			}
 		} catch (Sher_Core_Model_Exception $e){
 			return $this->ajax_notification('申请审核操作失败，请检查后重试！', true);
