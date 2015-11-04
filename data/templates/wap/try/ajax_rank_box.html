@@ -1,5 +1,5 @@
 <taconite>
-	<replaceContent select="#rank-box"><![CDATA[
+	<replace select="#rank-box"><![CDATA[
 	  
     {% if apply.vote_count > 0 %}
     <div class="apply-report">
@@ -14,9 +14,28 @@
         {%endfor%}
       </div>
       
+      <div class="user-report" style="display:none">
+        
+      </div>
+      
     </div>
     {%else%}
         <p style="text-algin:center;">赶快叫好友来支持你吧！</p>
     {%endif%}
-	]]></replaceContent>
+	]]></replace>
+<eval>
+	  $('.ui.right.attached.button').click(function(){
+	    $('ui.left.attached.button').removeClass('active');
+	    $(this).addClass('active');
+	    $('.usr-list').hide();
+	    $('.report-list').show();
+	  })
+	  $('.ui.left.attached.button').click(function(){
+	    $('ui.right.attached.button').removeClass('active');
+	    $(this).addClass('active');
+	    $('.usr-list').show();
+	    $('.report-list').hide();
+	  })
+	  
+</eval>	  
 </taconite>
