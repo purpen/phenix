@@ -281,10 +281,10 @@
 						<div id="tracking_number_block{{ t._id }}" class="tracking_number_block">
 						{% if t.result %}
 							{% if !t.tracking_number %}
-							<span class="tracking_number_content{{ t._id }}">快递单号:没有快递信息</span><br />
+							快递单号:<span class="tracking_number_content{{ t._id }}">没有快递信息</span><br />
 							<a href="javascript:void(0);" class="ui magenta link ajax item tracking_number" id="tracking_number_button{{ t._id }}" data="{{ t._id }}">添加</a>
 							{% else %}
-							<span class="tracking_number_content{{ t._id }}">快递单号:{{ t.tracking_number }}</span><br />
+							快递单号:<span class="tracking_number_content{{ t._id }}">{{ t.tracking_number }}</span><br />
 							<a href="javascript:void(0);" class="ui magenta link ajax item tracking_number" id="tracking_number_button{{ t._id }}" data="{{ t._id }}">修改</a>
 							{% endif %}
 						{% endif %}

@@ -7,10 +7,10 @@
 	<replace select="#tracking_number_block{{ id }}">
 		<div id="tracking_number_block{{ id }}" class="tracking_number_block">
 		{% if !apply_rows.tracking_number %}
-		<span class="tracking_number_content{{ apply_rows._id }}">快递单号:没有快递信息</span><br />
+		快递单号:<span class="tracking_number_content{{ apply_rows._id }}">没有快递信息</span><br />
 		<a href="javascript:void(0);" class="ui magenta link ajax item tracking_number" id="tracking_number_button{{ apply_rows._id }}" data="{{ apply_rows._id }}">添加</a>
 		{% else %}
-		<span class="tracking_number_content{{ apply_rows._id }}">快递单号:{{ apply_rows.tracking_number }}</span><br />
+		快递单号:<span class="tracking_number_content{{ apply_rows._id }}">{{ apply_rows.tracking_number }}</span><br />
 		<a href="javascript:void(0);" class="ui magenta link ajax item tracking_number" id="tracking_number_button{{ apply_rows._id }}" data="{{ apply_rows._id }}">修改</a>
 		{% endif %}
 		</div>
