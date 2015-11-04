@@ -4,10 +4,24 @@
 	<replace select="#verify-{{ id }}-button">
 		<a href="{{ app_url_admin_base }}/try/reject?id={{ id }}" class="ui magenta link ajax item" id="verify-{{ id }}-button">驳回</a>
 	</replace>
+	<replace select="#tracking_number_block{{ id }}">
+		<div id="tracking_number_block{{ id }}" class="tracking_number_block">
+		{% if !apply_rows.tracking_number %}
+		快递单号:没有快递信息<br />
+		<a href="javascript:void(0);" class="ui magenta link ajax item tracking_number" data="{{ apply_rows._id }}">添加</a>
+		{% else %}
+		<span class="tracking_number_content{{ apply_rows._id }}">快递单号:{{ apply_rows.tracking_number }}</span><br />
+		<a href="javascript:void(0);" class="ui magenta link ajax item tracking_number" id="tracking_number_button{{ apply_rows._id }}" data="{{ apply_rows._id }}">修改</a>
+		{% endif %}
+		</div>
+	</replace>
 	{% else %}
 	<removeClass select="#listr-{{ id }}" value="positive" />
 	<replace select="#verify-{{ id }}-button">
 		<a href="{{ app_url_admin_base }}/try/pass?id={{ id }}" class="ui magenta link ajax item" id="verify-{{ id }}-button">通过</a>
+	</replace>
+	<replace select="#tracking_number_block{{ id }}">
+		<div id="tracking_number_block{{ id }}" class="tracking_number_block"></div>
 	</replace>
 	{% endif %}
 </taconite>

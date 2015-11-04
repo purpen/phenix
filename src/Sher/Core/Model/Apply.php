@@ -28,16 +28,19 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 		'province' => '',
 		'district' => '',
 		'address' => '',
-    'zip' => '',
-    'wx' => null,
-    'qq' => null,
-		
+		'zip' => '',
+		'wx' => null,
+		'qq' => null,
     	'result' => self::RESULT_REJECT,
 		'type' => self::TYPE_TRY,
-    # 支持人数
-    'vote_count' => 0,
-    # 是否虚拟申请账户
-    'is_invented' => 0,
+		
+		# 快递单号
+		'tracking_number' => '',
+
+		# 支持人数
+		'vote_count' => 0,
+		# 是否虚拟申请账户
+		'is_invented' => 0,
 		
 		'state'  => 0,
     );
@@ -52,7 +55,7 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 	
     protected $int_fields = array('user_id', 'target_id', 'province', 'district', 'state', 'result', 'vote_count');
 
-	  protected $counter_fields = array('vote_count');
+	protected $counter_fields = array('vote_count');
 	
 	/**
 	 * 扩展关联数据
@@ -93,10 +96,10 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 			$try = new Sher_Core_Model_Try();
 			$try->increase_counter('apply_count', 1, (int)$target_id);
 
-      // 小号申请
-      if(isset($this->data['is_invented']) && $this->data['is_invented']==1){
- 			  $try->increase_counter('invented_apply_count', 1, (int)$target_id);     
-      }
+			// 小号申请
+			if(isset($this->data['is_invented']) && $this->data['is_invented']==1){
+				$try->increase_counter('invented_apply_count', 1, (int)$target_id);     
+			}
             
             // 增加积分
             $service = Sher_Core_Service_Point::instance();

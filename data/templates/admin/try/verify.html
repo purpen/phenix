@@ -2,9 +2,22 @@
 {% block page_css %}
 <style class="text/css">
 	.ui.table tr td {
-    word-break: break-all;
-    word-wrap: break-word;
-  }
+		word-break: break-all;
+		word-wrap: break-word;
+	}
+	
+	.tracking_number_block{
+		color: red;
+		margin: 10px 0 10px 0;
+	}
+	
+	.tracking_number_show{
+		display: block;
+	}
+	
+	.tracking_number_hide{
+		display: none;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -72,6 +85,46 @@
 				}
 			});
 		}
+	});
+	
+	// 显示快递单号页面
+	$('.ajax.item.tracking_number').click(function(){
+		var id = $(this).attr('data');
+		var number_old = $('#listr-'+id).find('.tracking_number_save').text();
+		$('#tracking_number').find('input[name=id]').val(id);
+		$('#tracking_number').find('input[name=number]').val(number_old);
+		$('#tracking_number').modal('show');
+	});
+	
+	$('.no.tracking_number').click(function(){
+		$(this).parents('.tracking_number').modal('hide');
+	});
+	
+	$('.submit.button.tracking_number').click(function(){
+		
+		var id = $(this).parents('#tracking_number').find('input[name=id]').val();
+		var number = $(this).parents('#tracking_number').find('input[name=number]').val();
+		var url = '{{ app_url_admin_base }}/try/ajax_tracking_number';
+		
+		if(!id){
+			return false;
+		}
+		if(!number){
+			phenix.show_error_note('请输入快递单号！', 3000);
+			return false;
+		}
+		
+		$.post(url, { "id": id, "number": number },
+		function(data){
+			if(!data.success){
+				phenix.show_error_note(data.message, 3000);
+				return false;
+			}
+			$('.tracking_number_content'+id).text(number);
+			$('#listr-'+id).find('.tracking_number_save').text(number);
+			$('#tracking_number_button'+id).text('修改');
+			$('#tracking_number').modal('hide');
+		}, "json");
 	});
 
 {% endblock %}
@@ -213,15 +266,27 @@
 				</td>
 				<td>
 					<a href="{{ t.user.home_url }}" target="_blank" class="ui link">{{ t.user.nickname }}</a>
+					<div class="tracking_number_save" hidden="hidden">{{ t.tracking_number }}</div>
 				</td>
 				<td>
 					<p>
 						姓名: {{ t.name }}<br />
 						电话: {{ t.phone }}<br />
-            地址: {{ t.area_province.city }}-{{ t.area_district.city }}-{{ t.address }}<br />
-            邮编: {{ t.zip }}<br />
-            微信: {{ t.wx }}<br />
-            QQ: {{ t.qq }}
+						地址: {{ t.area_province.city }}-{{ t.area_district.city }}-{{ t.address }}<br />
+						邮编: {{ t.zip }}<br />
+						微信: {{ t.wx }}<br />
+						QQ: {{ t.qq }}<br />
+						<div id="tracking_number_block{{ t._id }}" class="tracking_number_block">
+						{% if t.result %}
+							{% if !t.tracking_number %}
+							快递单号:没有快递信息<br />
+							<a href="javascript:void(0);" class="ui magenta link ajax item tracking_number" data="{{ t._id }}">添加</a>
+							{% else %}
+							<span class="tracking_number_content{{ t._id }}">快递单号:{{ t.tracking_number }}</span><br />
+							<a href="javascript:void(0);" class="ui magenta link ajax item tracking_number" id="tracking_number_button{{ t._id }}" data="{{ t._id }}">修改</a>
+							{% endif %}
+						{% endif %}
+						</div>
 					</p>
 				</td>
 				<td class="seven wide">{{ t.content|truncate 1800 }}</td>
@@ -231,17 +296,30 @@
 				<td>
 					<div class="ui small divided horizontal list">
 						{% if !t.result %}
-						<a href="{{ app_url_admin_base }}/try/pass?id={{ t._id }}" class="ui magenta link ajax item" id="verify-{{ t._id }}-button">通过</a>
+						<a href="{{ app_url_admin_base }}/try/pass?id={{ t._id }}" class="{{ t._id }}ui magenta link ajax item" id="verify-{{ t._id }}-button">通过</a>
+						
 						{% else %}
 						<a href="{{ app_url_admin_base }}/try/reject?id={{ t._id }}" class="ui link ajax item" id="verify-{{ t._id }}-button">驳回</a>
 						{% endif %}
-						
 					</div>
 				</td>
 			</tr>
 			{% endfor %}
 		</tbody>
 	</table>
+	<div class="ui modal tracking_number" id="tracking_number" hidden="hidden">
+		<div class="header">填写快递单号</div>
+		<div class="content">
+			<input type="hidden" name="id" value="" />
+			<div class="ui input bluid" style="margin-bottom: 20px">
+				<input type="text" name="number" value="" placeholder="快递单号" />
+			</div>
+			<div class="actions">
+			  <div class="ui button no tracking_number">取消</div>
+			  <div class="ui green submit button tracking_number">发送</div>
+			</div>
+		</div>
+	</div>
 	{% if list.total_page > 1 %}
 	<div class="ui pagination">
 		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}

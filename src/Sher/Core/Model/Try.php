@@ -17,15 +17,15 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	const STATE_DRAFT = 0;
 	const STATE_PUBLISH = 1;
 
-  ## 申请限制
-  const APPLY_TERM_NO = 0;  // 不限制
-  const APPLY_TERM_LEVEL = 1; // 等级限制
-  const APPLY_TERM_MONEY = 2; //  鸟币限制
+	## 申请限制
+	const APPLY_TERM_NO = 0;  // 不限制
+	const APPLY_TERM_LEVEL = 1; // 等级限制
+	const APPLY_TERM_MONEY = 2; //  鸟币限制
 
-  ## 类型
-  const KIND_FREE = 1;  // 零元免费
-  const KIND_SUPER = 2; // 超级试用
-  const KIND_FAST = 3;  // 闪电试用
+	## 类型
+	const KIND_FREE = 1;  // 零元免费
+	const KIND_SUPER = 2; // 超级试用
+	const KIND_FAST = 3;  // 闪电试用
 	
     protected $schema = array(
 		'title' => '',
@@ -56,25 +56,25 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		'user_id' => 0,
  		# 关联的产品
     	'product_id' => 0,
-    # 购买链接
-    'buy_url' => null,
+		# 购买链接
+		'buy_url' => null,
 		
 		# 试用数量
 		'try_count'  => 0,
 		# 申请人数
 		'apply_count' => 0,
-    # 评测报告数量
-    'report_count' => 0,
+		# 评测报告数量
+		'report_count' => 0,
         # 虚拟申请人数
         'invented_apply_count' => 0,
 		# 申请通过的人员
 		'pass_users' => array(),
 
-    # 预热想要数量
-    'want_count' => 0,
-
-    # 预热开启条件(想要人数)
-    'open_limit' => 0,
+		# 预热想要数量
+		'want_count' => 0,
+	
+		# 预热开启条件(想要人数)
+		'open_limit' => 0,
 		
 		# 参与方式
 		'join_away' => self::JOIN_FREE_AWAY,
@@ -95,13 +95,13 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
             'qr_android' => null,
         ),
 
-    # 申请限制开关
+		# 申请限制开关
         'apply_term' => self::APPLY_TERM_NO,
-    # 限制条件，比如等级和鸟币
+		# 限制条件，比如等级和鸟币
         'term_count' => 0,
 
-    # 申请类型
-      'kind' => self::KIND_FREE,
+		# 申请类型
+		'kind' => self::KIND_FREE,
 		
 		# 设置推荐
 		'sticked' => 0,
