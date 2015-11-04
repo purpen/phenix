@@ -72,7 +72,7 @@
   height:50px;
   border:2px solid #f5f5f5;
   display:inline-block;
-  margin: 3px 2px;
+  margin: 3px;
   border-radius:50%;
 }
 .user-list{
@@ -85,14 +85,17 @@
   border: 2px solid #f5f5f5;
   display: inline-block;
   background-size:100%;
-  margin:3px;
+  margin:3px 2px;
 }
 
-@media only screen and (max-width: 320px){
+@media only screen and (max-width: 374px){
+  .user-list{
+    margin:0 -4px !important;
+  }
   .user-list .userid{
-    margin:0px !important;
-    height: 40px !important;
-    width: 40px !important;
+    margin: 3px 0 !important;
+    height: 45px !important;
+    width: 45px !important;
   }
 }
 .barrer {
