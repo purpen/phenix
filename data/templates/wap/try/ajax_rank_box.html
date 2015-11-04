@@ -25,16 +25,16 @@
 	]]></replace>
 <eval>
 	  $('.ui.right.attached.button').click(function(){
-	    $('ui.left.attached.button').removeClass('active');
+	    $('ui.left.active.attached.button').removeClass('active');
 	    $(this).addClass('active');
-	    $('.usr-list').hide();
-	    $('.report-list').show();
+	    $('.usr-list').css('display','none');
+	    $('.report-list').css('display','block');
 	  })
 	  $('.ui.left.attached.button').click(function(){
 	    $('ui.right.attached.button').removeClass('active');
 	    $(this).addClass('active');
-	    $('.usr-list').show();
-	    $('.report-list').hide();
+	    $('.usr-list').css('display','block');
+	    $('.report-list').css('display','none');
 	  })
 	  
 </eval>	  
