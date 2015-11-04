@@ -80,6 +80,12 @@
                       <p>
                       产品状态: {{ d.try.step_label }}
                       </p>
+					  <p>
+						快递单号:
+						{% if !d.tracking_number %}没有快递信息<br />
+						{% else %}{{ d.tracking_number }}<br />
+						{% endif %}
+					  </p>
                     </div>
 
                   </div>

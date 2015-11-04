@@ -204,6 +204,12 @@
                       <p>
                       产品状态: {{ apply.try.step_label }}
                       </p>
+                      <p>
+						快递单号:
+						{% if !apply.tracking_number %}没有快递信息<br />
+						{% else %}{{ apply.tracking_number }}<br />
+						{% endif %}
+					  </p>
                     </div>
 
                   </div>
