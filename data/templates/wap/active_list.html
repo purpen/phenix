@@ -58,11 +58,13 @@
 
 {% block layout_js %}
   <script type="text/javascript" >
-      function ajax_load_more(type, sort, page, size){
+
+      var kind = "{{ kind|default 0 }}";
+      function ajax_load_more(type, kind, sort, page, size){
           //防止频繁请求(在没加载完成时只允许请求一次)
           $('#active-more').show().attr('status', 1);
           var url = '{{ app_url_wap }}/active/ajax_load_list';
-          $.get(url, { sort:sort, type:type, page:page, size:size }, function(rs){
+          $.get(url, { sort:sort, type:type, kind:kind, page:page, size:size }, function(rs){
               // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
               if(rs.data.results.total_page > rs.data.results.current_page){
                   $('#active-more')
@@ -90,12 +92,12 @@
       var page = parseInt($('#active-more').attr('page')) + 1;
 
       if(stat==0){
-        ajax_load_more(0, 0, page, 6);
+        ajax_load_more(0, kind, 0, page, 6);
       }
 　　}
   });
 
-  ajax_load_more(0, 0, 1, 6);
+  ajax_load_more(0, kind, 0, 1, 6);
 
 
 {% endblock %}

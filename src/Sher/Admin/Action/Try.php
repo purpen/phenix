@@ -130,6 +130,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     $data['end_time'] = $this->stash['end_time'];
     $data['publish_time'] = $this->stash['publish_time'];
     $data['try_count'] = (int)$this->stash['try_count'];
+    $data['report_count'] = (int)$this->stash['report_count'];
     $data['apply_term'] = (int)$this->stash['apply_term'];
     $data['term_count'] = (int)$this->stash['term_count'];
     $data['open_limit'] = isset($this->stash['open_limit']) ? (int)$this->stash['open_limit'] : 0;

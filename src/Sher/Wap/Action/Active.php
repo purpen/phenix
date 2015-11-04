@@ -8,6 +8,8 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
 	public $stash = array(
 		'page' => 1,
     'category_id' => 0,
+    'type' => 0,
+    'kind' => 0,
     'page_title_suffix' => '太火鸟-智能硬件爱好者活动聚集地',
     'page_keywords_suffix' => '太火鸟,智能硬件,智能硬件孵化平台,智能硬件活动',
     'page_description_suffix' => '太火鸟-智能硬件爱好者活动聚集地，智能硬件校园巡回宣讲，十万火计创意征集大赛，中国智能硬件蛋年创新大会等上百场活动等待你的发起和参与。',
@@ -228,6 +230,7 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
         $page = $this->stash['page'];
         $size = $this->stash['size'];
         $sort = $this->stash['sort'];
+        $kind = (int)$this->stash['kind'];
         
         $service = Sher_Core_Service_Active::instance();
         $query = array();
@@ -237,6 +240,10 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
         $query['state'] = 1;
         //$query['published'] = 1;
         $query['deleted'] = 0;
+
+        if($kind){
+          $query['kind'] = $kind;
+        }
 
 
 		// 排序
