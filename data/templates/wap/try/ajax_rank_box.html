@@ -5,7 +5,7 @@
     <div class="apply-report">
     
 	  <div class="ui left magenta active inverted attached button"><i class="users icon"></i>好友支持({{ apply.vote_count }})</div>
-	  <div class="ui right magenta inverted attached button"><i class="signal icon"></i>总排名({{ apply.vote_count }})</div>
+	  <div class="ui right magenta inverted attached button"><i class="signal icon"></i>总排名({{ rank_no }})</div>
       {% attend_list var:'list' target_id:apply._id event:2 page:1 size:50 %}
       <div class="user-list">
         {% for d in list.rows %}
@@ -15,28 +15,31 @@
       </div>
       
       <div class="user-report" style="display:none">
+        {% for d in apply_top %}
         <div class="myrank">
           <div class="ui large feed">
             <div class="event">
-              <div class="label"><img src="{{ apply.user.big_avatar_url }}" alt="{{ apply.user.nickname }}"></div>
+              <div class="label"><img src="{{ d.user.big_avatar_url }}" alt="{{ d.user.nickname }}"></div>
               <div class="content">
                 <div class="summary">
-                  <a class="ui link">{{ apply.user.nickname }}</a>
+                  <a class="ui link">{{ d.user.nickname }}</a>
                 </div>
                 <div class="meta">
                   <a class="like active">
                     <i class="like icon"></i>
-                    {{ apply.vote_count }}票
+                    {{ d.vote_count }}票
                   </a>
                 </div>
                 <div class="rankb">
-                  NO.<span>1</span>
+                  NO.<span>{{ loop.count1 }}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        {%endfor%}
         
+        <!--
         <div class="frrank">
           <div class="ui large feed">
             <div class="event">
@@ -57,7 +60,7 @@
               </div>
             </div>
           </div>
-          
+          -->
           
           
           

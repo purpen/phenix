@@ -378,6 +378,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
         }
       }
       if($max < $size){
+        $is_end = true;
         break;
       }
       $page++;
