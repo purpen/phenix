@@ -26,6 +26,7 @@ class Sher_App_ViewTag_ActiveList extends Doggy_Dt_Tag {
         $step_stat = 0;
         $deleted = 0;
         $ingore_id = 0;
+        $type = 0;
 		
 		$sort = 'latest';
 		

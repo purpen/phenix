@@ -7,7 +7,7 @@ class Sher_Wap_Action_D3in extends Sher_Wap_Action_Base {
 
 	public $stash = array(
 		'page'=>1,
-	    'size'=>50,
+	  'size'=>6,
 	);
 	
 	protected $exclude_method_list = array('execute','d3in');
@@ -24,7 +24,7 @@ class Sher_Wap_Action_D3in extends Sher_Wap_Action_Base {
 	 */
 	public function d3in(){
 		$vip_money = Doggy_Config::$vars['app.d3in.vip_money'];
-	    $this->stash['vip_money'] = $vip_money;
+	  $this->stash['vip_money'] = $vip_money;
 		return $this->to_html_page('wap/d3in.html');
 	}
 	
