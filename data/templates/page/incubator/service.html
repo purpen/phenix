@@ -34,7 +34,53 @@
 	.gy.active.button,.fh.active.button{
 	  background:#fff !important;
 	}
-    
+  .incubator.cases .container{
+    min-height:700px;
+  }
+  .incubator.cases .container>.yunma {
+      bottom: 60%;
+      left: 22%;
+  }
+  .incubator.cases .container>.miaoxing {
+      bottom: 40%;
+      left: 18%;
+  }
+  .incubator.cases .container>.beibei {
+      bottom: 20%;
+      left: 18%;
+  }
+  .incubator.cases .container>.wecoach {
+      bottom: 0%;
+      left: 22%;
+  }
+  .incubator.cases .container>.peinaiji {
+      bottom: 75%;
+      left: 42%;
+  }
+  .incubator.cases .container>.shiguangji {
+      bottom: 60%;
+      left: 62%;
+  }
+  .incubator.cases .container>.sleep {
+      bottom: 40%;
+      left: 67%;
+  }
+  .incubator.cases .container>.mood {
+      bottom: 20%;
+      left: 67%;
+  }
+  .incubator.cases .container>.cocoon {
+      bottom: 0%;
+      left: 62%;
+  }
+  .incubator.cases .container>.mood .summary,.incubator.cases .container>.cocoon .summary{
+      left:160px;
+  }
+  .incubator.cases .container>.think{
+      bottom:27%;
+      left: 50%;
+      margin-left: -100px;
+  }
 </style>
 {% endblock %}
 
@@ -106,11 +152,12 @@
 <div class="incubator masthead">
 	<div class="ui responsive grid">
 		<div class="center aligned column white section-title">
-			<h2 class="block title">太火鸟｜中国最火爆的智能硬件孵化平台</h2>
+			<h2 class="block title">太火鸟|创新产品孵化器</h2>
 			<hr>
-			<p>太火鸟是一个带有互联网基因的创新智能硬件孵化平台，拥有北京、苏州、宁波、深圳、香港等多个孵化基地，由中国设计界资深风云人物雷海波创办。太火鸟意推动设计创新和创业，将最性感的产品呈现在大众面前。太火鸟基于消费者及创意大数据，充分依托其互联网优势，使社区用户参与产品开发销售的整个过程，从而打造一个完美的创意生态系统。</p>
+			<p>太火鸟是一个带有互联网基因的创新智能硬件孵化平台，致力孵化设计驱动的创新智能硬件产品。拥有北京、苏州、宁波、深圳、香港等多个孵化基地，由中国设计界资深风云人物雷海波创办。太火鸟意推动设计创新和创业，将最性感的产品呈现在大众面前。太火鸟基于消费者及创意大数据，充分依托其互联网优势，使社区用户参与产品开发销售的整个过程，从而打造一个完美的创意生态系统。</p>
 			<p>太火鸟创始人雷海波说：“我希望未来100个智能硬件创新产品或者品牌，有60个都是太火鸟孵化的，那么太火鸟的使命就完成了！”</p>
-			<br />
+			
+			<h3>项目合作</h3>
 			<p class="line">产品孵化：烦请提交BP到邮箱：zhangting@taihuoniao.com<br />
 			产品众筹、产品销售合作：烦请提交产品资料到邮箱：products@taihuoniao.com</p>
 			<!--<div class="buttons">
@@ -200,7 +247,7 @@
 				</div>
 				<div class="product peinaiji" data-1170="transform: translate(0px, 225px);opacity:0;" data-1270="transform: translate(0px,0px);opacity:1;">
 					<div class="summary">
-						<b>婴萌配奶机：</b>婴萌创始人陈清华毕业于清华工业设计专业
+						<b>婴萌配奶机：</b>国内最早推出的一款解决新手爸妈喂奶问题的产品，其创始人陈清华毕业于清华工业设计专业
 					</div>
 					<img src="{{ app_url_packaged }}/images/peinaiji.jpg" />
 				</div>
@@ -216,6 +263,34 @@
 					</div>
 					<img src="{{ app_url_packaged }}/images/sleep.jpg" />
 				</div>
+				
+				<div class="product beibei" data-1270="transform: translate(220px, -50px);opacity:0;" data-1370="transform: translate(0px,0px);opacity:1;">
+				  <div class="summary">
+				    <b>空气贝贝：</b>自动感知并治理室内空气污染，为环境家电解决方案提供平台,产品外观由大业产品设计有限公司共同打造
+				  </div>
+				  <img src="http://frstatic.qiniudn.com/images/incubator/beibei.jpg">
+				</div>
+				<div class="product wecoach" data-1410="transform: translate(190px, -125px);opacity:0;" data-1510="transform: translate(0px,0px);opacity:1;">
+				  <div class="summary">
+				    <b>WeCoach Pro智能健身私教：</b>是国内第一款能监测动态心率的运动设备，产品外观联合杭州热浪工业设计公司共同打造
+				  </div>
+				  <img src="http://frstatic.qiniudn.com/images/incubator/wecoach.jpg">
+				</div>
+				<div class="product mood" data-1280="transform: translate(-220px, -50px);opacity:0;" data-1380="transform: translate(0px,0px);opacity:1;">
+				  <div class="summary">
+				    <b>萌动胎儿监护贴：</b>用科技呵护你与你的挚爱，拥有自主研发的被动式等监测技术
+				  </div>
+				  <img src="http://frstatic.qiniudn.com/images/incubator/mood.jpg">
+				</div>
+				<div class="product cocoon" data-1420="transform: translate(-190px, -125px);opacity:0;" data-1520="transform: translate(0px,0px);opacity:1;">
+				  <div class="summary">
+				    <b>Cocoon奶瓶：</b>便携式智能恒温奶瓶，解决奶爸、奶妈出行及暖奶问题，其创始人倪裕伟毕业于浙江大学工业设计系并曾从事设计行业教学工作
+				  </div>
+				  <img src="http://frstatic.qiniudn.com/images/incubator/wenwenyu.jpg">
+				</div>
+				
+				
+				
 			</div>
 		</div>
 	</div>
@@ -272,31 +347,31 @@
 					<p>中世纵横 创始人</p>
 				</div>
 				<div class="block">
-					<img src="{{ app_url_packaged }}/images/avatar/liqi.jpg" class="avatar" data-2050="transform[bounce]: scale(0.25);opacity:0.25;" data-2150="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<img src="{{ app_url_packaged }}/images/avatar/liqi.jpg" class="avatar" data-2070="transform[bounce]: scale(0.25);opacity:0.25;" data-2170="transform[bounce]: scale(1.0);opacity:1.0;" />
 					<h3>李琦</h3>
 					<hr>
 					<p>瑞德设计 创始人</p>
 				</div>
 				<div class="block">
-					<img src="{{ app_url_packaged }}/images/avatar/zhongrong.jpg" class="avatar" data-2050="transform[bounce]: scale(0.25);opacity:0.25;" data-2150="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<img src="{{ app_url_packaged }}/images/avatar/zhongrong.jpg" class="avatar" data-2070="transform[bounce]: scale(0.25);opacity:0.25;" data-2170="transform[bounce]: scale(1.0);opacity:1.0;" />
 					<h3>钟荣</h3>
 					<hr>
 					<p>品物设计 创始人</p>
 				</div>
 				<div class="block">
-					<img src="{{ app_url_packaged }}/images/avatar/lilicheng.jpg" class="avatar"  data-2050="transform[bounce]: scale(0.25);opacity:0.25;" data-2150="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<img src="{{ app_url_packaged }}/images/avatar/lilicheng.jpg" class="avatar"  data-2070="transform[bounce]: scale(0.25);opacity:0.25;" data-2170="transform[bounce]: scale(1.0);opacity:1.0;" />
 					<h3>李立成</h3>
 					<hr>
 					<p>凸凹设计 创始人</p>
 				</div>
 				<div class="block">
-					<img src="{{ app_url_packaged }}/images/avatar/weimin.jpg" class="avatar" data-2050="transform[bounce]: scale(0.25);opacity:0.25;" data-2150="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<img src="{{ app_url_packaged }}/images/avatar/weimin.jpg" class="avatar" data-2070="transform[bounce]: scale(0.25);opacity:0.25;" data-2170="transform[bounce]: scale(1.0);opacity:1.0;" />
 					<h3>魏民</h3>
 					<hr>
 					<p>佳简几何 创始人</p>
 				</div>
 				<div class="block">
-					<img src="{{ app_url_packaged }}/images/avatar/wangshaoqiang.jpg" class="avatar" data-2050="transform[bounce]: scale(0.25);opacity:0.25;" data-2150="transform[bounce]: scale(1.0);opacity:1.0;" />
+					<img src="{{ app_url_packaged }}/images/avatar/wangshaoqiang.jpg" class="avatar" data-2070="transform[bounce]: scale(0.25);opacity:0.25;" data-2170="transform[bounce]: scale(1.0);opacity:1.0;" />
 					<h3>王绍强</h3>
 					<hr>
 					<p>三度传媒机构 董事长</p>
@@ -366,8 +441,8 @@
 			<p>整合京东、淘宝、苏宁、KICKSTARTER、INDIEGOGO等国内外五大权威众筹平台</p>
 			<img src="{{ app_url_packaged }}/images/incubator/funds-site-02.png" />
 			<div class="highlight">
-				<p>不到一年时间，太火鸟共完成众筹项目近<b>50</b>个，筹得资金超<b>5000万</b>元，</p>
-				<p><b>造梦者恒氧净化器</b>-太火鸟打造的国内众筹平台首个突破<b>1200万</b>众筹金额产品；<b>太火鸟孵化产品WeCoach Pro</b>-打造国内第一个可穿戴智能运动私教。</p>
+			  <p>一年多时间，太火鸟共完成众筹项目<b>50</b>多个，筹得资金超<b>5000万</b>元，</p>
+			  <p><b>造梦者恒氧净化器</b>-太火鸟打造的国内众筹平台首个突破<b>1200万</b>众筹金额产品，<b>太火鸟孵化产品WeCoach Pro运动私教</b>-打造国内最早可穿戴智能运动私教。</p>
 			</div>
 		</div>
 	</div>
@@ -383,13 +458,13 @@
 			</div>
 		</div>
 		<div class="three column middle aligned row">
-			<div class="column" data-3900="transform[bounce]: translateX(200px);opacity:0;" data-4400="transform[bounce]: translateX(0px);opacity:1.0;">
+			<div class="column" data-4050="transform[bounce]: translateX(200px);opacity:0;" data-4550="transform[bounce]: translateX(0px);opacity:1.0;">
 				<img src="{{ app_url_packaged }}/images/incubator/channel-online.jpg" />
 			</div>
 			<div class="center aligned column">
 				<img src="{{ app_url_packaged }}/images/incubator/frbird.jpg" />
 			</div>
-			<div class="column" data-3900="transform[bounce]: translateX(-200px);opacity:0;" data-4400="transform[bounce]: translateX(0px);opacity:1.0;">
+			<div class="column" data-4050="transform[bounce]: translateX(-200px);opacity:0;" data-4550="transform[bounce]: translateX(0px);opacity:1.0;">
 				<img src="{{ app_url_packaged }}/images/incubator/channle-offline.jpg" />
 			</div>
 		</div>
@@ -463,7 +538,7 @@
 
 					<p>联手北京创客空间、西湖创客汇等创新平台，营造全方位多角度的孵化环境。</p>
 					
-					<img src="{{ app_url_packaged }}/images/incubator/school.png" class="ui image" />
+					<img src="{{ app_url_packaged }}/images/incubator/school_new.png" class="ui image" />
 				</div>
 			</div>
 		</div>
@@ -579,7 +654,6 @@
 				<img class="ui image" src="{{ app_url_packaged }}/images/lg_leifeng.jpg">
 				<img class="ui image" src="{{ app_url_packaged }}/images/lg_zdx.jpg">
 				<img class="ui image" src="{{ app_url_packaged }}/images/lg_sfws.jpg">
-				<img class="ui image" src="{{ app_url_packaged }}/images/lg_jg.jpg">
 			</div>
 		</div>
 	</div>
@@ -597,6 +671,7 @@
 			<br />
 			<p class="line">三人以上的创业团队或平台：1.创新思维主导的团队 2.拥有较强的技术研发能力（软件/硬件）3.有供应链资源优势等，以上优势兼一即可，带着澎湃的创业激情和太火鸟一起翱翔吧！</p>
 			<br>
+			<h3>项目合作</h3>
 			<p class="line">产品孵化：烦请提交BP到邮箱：zhangting@taihuoniao.com<br />
 			产品众筹、产品销售合作：烦请提交产品资料到邮箱：products@taihuoniao.com</p>
 			<!--<div class="buttons">
