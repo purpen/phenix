@@ -64,7 +64,7 @@
           //防止频繁请求(在没加载完成时只允许请求一次)
           $('#active-more').show().attr('status', 1);
           var url = '{{ app_url_wap }}/active/ajax_load_list';
-          $.get(url, { sort:sort, type:type, page:page, size:size }, function(rs){
+          $.get(url, { sort:sort, type:type, kind:kind, page:page, size:size }, function(rs){
               // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
               if(rs.data.results.total_page > rs.data.results.current_page){
                   $('#active-more')
