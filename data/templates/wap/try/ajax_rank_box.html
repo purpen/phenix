@@ -19,7 +19,9 @@
         <div class="myrank">
           <div class="ui large feed">
             <div class="event">
-              <div class="label"><img src="{{ d.user.big_avatar_url }}" alt="{{ d.user.nickname }}"></div>
+              <div class="label">
+                <div class="userid" style="background-image:url({{ d.user.big_avatar_url }});"></div>
+              </div>
               <div class="content">
                 <div class="summary">
                   <a class="ui link">{{ d.user.nickname }}</a>

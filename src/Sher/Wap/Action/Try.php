@@ -374,6 +374,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
       for ($i=0; $i < $max; $i++) {
         $total++;
         if($list[$i]['user_id']==$apply['user_id']){
+          $is_end = true;
           break;
         }
       }
