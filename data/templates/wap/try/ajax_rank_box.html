@@ -2,7 +2,10 @@
 	<replaceContent select="#rank-box"><![CDATA[
 	  
     {% if apply.vote_count > 0 %}
-	  <label class="ui fluid label" style="text-align:center;padding: 10px 0;font-size:1em;"><i class="users icon"></i>好友支持({{ apply.vote_count }})</label>
+    <div class="apply-report">
+    
+	  <label class="ui left magenta active inverted attached button" style="text-align:center;padding: 10px 0;font-size:1em;width:50%;"><i class="users icon"></i>好友支持({{ apply.vote_count }})</label>
+	  <label class="ui right magenta active inverted attached button" style="text-align:center;padding: 10px 0;font-size:1em;width:50%;"><i class="users icon"></i>好友支持({{ apply.vote_count }})</label>
       {% attend_list var:'list' target_id:apply._id event:2 page:1 size:50 %}
       <div class="user-list">
         {% for d in list.rows %}
@@ -10,6 +13,8 @@
         </div>
         {%endfor%}
       </div>
+      
+    </div>
     {%else%}
         <p style="text-algin:center;">赶快叫好友来支持你吧！</p>
     {%endif%}
