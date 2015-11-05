@@ -47,7 +47,7 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 		//$result['cover'] = null; // 过滤封面图
 		$this->stash['albums'] = $result;
 
-    $this->stash['page_title_suffix'] = sprintf("%s-太火鸟", $result['title']);
+		$this->stash['page_title_suffix'] = sprintf("%s-太火鸟", $result['title']);
 
 		//评论参数
 		$comment_options = array(
@@ -132,14 +132,15 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
 			
+			$model = new Sher_Core_Model_Albums();
+			// 增加pv++
+			$model->inc_counter('product_count', 1, $id);
+			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("保存失败：".$e->getMessage());
 			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
 		}
 		return $this->ajax_note('保存成功', false);
-		//$redirect_url = Doggy_Config::$vars['app.url.album.shop'].'?did='.(int)$this->stash['dadid'];
-		//return $this->ajax_json('保存成功.', false, $redirect_url);
-		//return $this->to_redirect($redirect_url);
 	}
 	
 	/**
@@ -160,6 +161,10 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 				return $this->ajax_notification('保存失败,请重新提交', true);
 			}
 			
+			$model = new Sher_Core_Model_Albums();
+			// 减少pv++
+			$model->dec_counter('product_count', 1, $id);
+			
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_notification('操作失败,请重新再试', true);
 		}
@@ -168,26 +173,24 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 		$this->stash['ids'] = array($id);
 		$this->stash['redirect_url'] = Doggy_Config::$vars['app.url.album.shop'].'?did='.(int)$this->stash['did'];
 		return $this->to_taconite_page('ajax/delete.html');
-		//return $this->to_redirect($redirect_url);
 	}
 
-  /**
-   * 评论参数
-   */
-  protected function _comment_param($options){
-    $this->stash['comment_target_id'] = $options['comment_target_id'];
-    $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
-    $this->stash['comment_type'] = $options['comment_type'];
-    // 评论的链接URL
-    $this->stash['pager_url'] = isset($options['comment_pager'])?$options['comment_pager']:0;
-
-    // 是否显示图文并茂
-    $this->stash['comment_show_rich'] = isset($options['comment_show_rich'])?$options['comment_show_rich']:0;
+	/**
+	 * 评论参数
+	 */
+	protected function _comment_param($options){
+		$this->stash['comment_target_id'] = $options['comment_target_id'];
+		$this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
+		$this->stash['comment_type'] = $options['comment_type'];
+		// 评论的链接URL
+		$this->stash['pager_url'] = isset($options['comment_pager'])?$options['comment_pager']:0;
+	
+		// 是否显示图文并茂
+		$this->stash['comment_show_rich'] = isset($options['comment_show_rich'])?$options['comment_show_rich']:0;
 		// 评论图片上传参数
 		$this->stash['comment_token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
 		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
 		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
-  }
-
+	}
 }
