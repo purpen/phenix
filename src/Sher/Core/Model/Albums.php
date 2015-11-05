@@ -31,6 +31,8 @@ class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
         'comment_count' => 0,
 		# 关注数
 		'favorite_count' => 0,
+		# 商品数量
+		'product_count' => 0,
         # 是否启用
 		'status' => 1,
     );
