@@ -17,13 +17,14 @@ ini_set('memory_limit','512M');
 
 echo "Prepare to build albums fields index...\n";
 $album_model = new Sher_Core_Model_Albums();
+$album_shop_model = new Sher_Core_Model_Albumshop();
 $page = 1;
 $size = 1000;
 $is_end = false;
 $total = 0;
 while(!$is_end){
 	$query = array();
-	$options = array('field' => array('_id', 'comment_count'), 'page'=>$page, 'size'=>$size);
+	$options = array('field' => array('_id', 'comment_count', 'product_count'), 'page'=>$page, 'size'=>$size);
 	$list = $album_model->find($query, $options);
 	if(empty($list)){
 		echo "get albums list is null,exit......\n";
@@ -32,10 +33,11 @@ while(!$is_end){
 	$max = count($list);
   for ($i=0; $i<$max; $i++) {
     $id = $list[$i]['_id'];
-    if(!isset($list[$i]['comment_count'])){
-      $ok = $album_model->update_set($id, array('comment_count'=>0));
+    if(!isset($list[$i]['product_count'])){
+      $product_count = $album_shop_model->count(array('dadid'=>$id));
+      $ok = $album_model->update_set($id, array('product_count'=>(int)$product_count));
       if($ok){
-        echo "success album_id: $id ok.\n";
+        echo "success album_id: $id count: $product_count ok.\n";
 	      $total++;      
       }
     }

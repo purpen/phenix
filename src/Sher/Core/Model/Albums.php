@@ -38,9 +38,9 @@ class Sher_Core_Model_Albums extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('title');
-	protected $int_fields = array('status', 'user_id', 'asset_count','view_count','love_count','favorite_count','comment_count');
+	protected $int_fields = array('status', 'user_id', 'asset_count','view_count','love_count','favorite_count','comment_count','product_count');
 	protected $float_fields = array();
-	protected $counter_fields = array('view_count','love_count','favorite_count','comment_count');
+	protected $counter_fields = array('view_count','love_count','favorite_count','comment_count','product_count');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(

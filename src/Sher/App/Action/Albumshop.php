@@ -133,8 +133,8 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 			}
 			
 			$model = new Sher_Core_Model_Albums();
-			// 增加pv++
-			$model->inc_counter('product_count', 1, $id);
+			// 数量加1
+			$model->inc_counter('product_count', 1, $data['dadid']);
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("保存失败：".$e->getMessage());
