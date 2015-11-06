@@ -54,12 +54,12 @@
 			<h2 class="ui header">孵化合作</h2>
 			<div>
 
-		    {% cooperate_list var:'list' user_id:user_id page:page size:15 %}
+		    {% cooperate_list var:'cooperate' user_id:user_id page:page size:15 %}
 				<div class="ui grid">
             <div class="row">
               <div class="column">
                 <div class="ui two cooperate cards">
-                  {% for b in list.rows %}
+                  {% for b in cooperate.rows %}
                         {% include "block/center/cooperation_card_admin.html" %}
                   {% endfor %}
                 </div>

@@ -412,7 +412,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	 */
 	public function cooperate(){
 		$this->set_target_css_state('user_cooperate');
-
+		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/cooperate?page=#p#';
 		return $this->to_html_page("page/my/cooperate.html");
 	}
 

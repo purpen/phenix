@@ -7,7 +7,7 @@ class Sher_Admin_Action_Cooperation extends Sher_Admin_Action_Base implements Do
 	
 	public $stash = array(
 		'page' => 1,
-		'size' => 20,
+		'size' => 50,
 	);
 	
 	public function _init() {
