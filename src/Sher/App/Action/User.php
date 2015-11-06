@@ -495,7 +495,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 				// 查看前三名签到的用户名单
 				$userinfo = array();
 				$user_model = new Sher_Core_Model_User();
-				$res = $user_sign_model->find(array('last_date'=>(int)date('Ymd',time())),array('field'=>array('_id'),'page'=>1,'size'=>3,'sort'=>array('last_sign_time'=>1)));
+				$res = $user_sign_model->find(array('last_date'=>(int)date('Ymd',time())),array('field'=>array('_id'),'page'=>1,'size'=>3,'sort'=>array('last_date_no'=>1)));
 				foreach($res as $k => $v){
 					$user_id = $v['_id'];
 					$user = $user_model->extend_load((int)$user_id);
@@ -528,7 +528,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 			// 查看前三名签到的用户名单
 			$userinfo = array();
 			$user_model = new Sher_Core_Model_User();
-			$res = $user_sign_model->find(array('last_date'=>(int)date('Ymd',time())),array('field'=>array('_id'),'page'=>1,'size'=>3,'sort'=>array('last_sign_time'=>1)));
+			$res = $user_sign_model->find(array('last_date'=>(int)date('Ymd',time())),array('field'=>array('_id'),'page'=>1,'size'=>3,'sort'=>array('last_date_no'=>1)));
 			foreach($res as $k => $v){
 				$user_id = $v['_id'];
 				$user = $user_model->extend_load((int)$user_id);
