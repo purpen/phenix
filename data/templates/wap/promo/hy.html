@@ -1996,16 +1996,17 @@
                 $('.shuping').css('display','none');
                 $('.shupimg img').css('display','none');
                 $('.hengping').css('display','block');
-                if (window.orientation == 90 || window.orientation == -90) {
-                  $('.shuping').css('display','block');
-                  $('.shupimg img').css('display','block');
-                  $('.hengping').css('display','none');
-                }
-             } else {
+             } 
+             if (window.orientation !== 90 || window.orientation !== -90) {
                 $('.shuping').css('display','block');
                 $('.shupimg img').css('display','block');
                 $('.hengping').css('display','none');
-             }
+              }
+             /*else {
+                $('.shuping').css('display','block');
+                $('.shupimg img').css('display','block');
+                $('.hengping').css('display','none');
+             }*/
          }
  	  
  	        bgm = new Audio5js({
