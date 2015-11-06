@@ -263,6 +263,55 @@
 	        opacity: 1;
 	    }
 	}
+	
+	@-webkit-keyframes scale-to-zero-with-move{
+	  0% {
+        -webkit-transform: translate3d(0%, 0, 0) scale(20);
+        opacity: 0;
+        width:30%;
+        left: 35%;
+        top: 42%;
+        z-index: 3;
+    }
+    45%{
+      -webkit-transform: translate3d(0%, 0, 0) scale(1);
+      opacity: 0.3;
+      width:30%;
+      left: 35%;
+      top: 42%;
+      z-index: 3;
+    }
+    90%{
+      -webkit-transform: translate3d(0%, 0, 0) scale(1);
+      opacity: 1;
+      width:30%;
+      left: 35%;
+      top: 42%;
+      z-index: 3;
+    }
+    100%{
+      -webkit-transform: translate3d(0%, 0, 0) scale(1);
+      opacity: 1;
+      width:18%;
+      left: 5%;
+      top: 2%;
+      z-index: 3;
+    }
+	  
+	  
+	}
+	.page-6 .joint{
+	  animation-delay: 10s;
+    -webkit-animation-delay: 10s;
+	}
+	.pagem-logo {
+      -webkit-animation: 8s scale-to-zero-with-move cubic-bezier(.17, .67, .11, .93) forwards;
+      animation: 8s scale-to-zero-with-move cubic-bezier(.17, .67, .11, .93) forwards;
+      animation-delay: 2s;
+      -webkit-animation-delay: 2s;
+  }
+	
+	
 	.pt-9{
 	  width:25%;
 	  top:18%;
@@ -2496,7 +2545,7 @@
 		</div>
 	-->
 		<div class="section page-6">
-		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join page-logo" style="display:none">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st pagem-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t15-1.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t15w1.png" class="st pt15-1 pt15 bounceInLeft animated" style="display:none">
