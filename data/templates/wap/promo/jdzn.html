@@ -708,14 +708,12 @@
   // 报名点击事件
   $('#sign-btn').click(function(){
 		// 所有ajax请求，验证是否登录
-		phenix.redirect('{{ app_url_wap_promo }}/idea_sign');
-		
-		<!-- /*if (!phenix.visitor.is_login){
+		if (!phenix.visitor.is_login){
       //phenix.redirect('{{ app_url_wap }}/auth/login');
       phenix.redirect('{{ app_url_wap_promo }}/idea_sign?no_sign=1');
     }else{
       phenix.redirect('{{ app_url_wap_promo }}/idea_sign');
-    } */ -->
+    }
   });
 
 
@@ -724,7 +722,7 @@
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
 <div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
-<div class="page page-1-1 hide">
+<div class="page page-1-1 page-current">
   <div class="wrap">
     <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/zao.png" class="st zao bounceInLeft animated">
     <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/dian.png" class="st dian zoomIn animated">
@@ -839,7 +837,7 @@
   </div>
 </div>
 
-<div class="page page-7-1 page-current">
+<div class="page page-7-1 hide">
   <div class="wrap">
     <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/zao.png" class="st zao bounceInLeft animated">
     <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/dian.png" class="st dian zoomIn animated">
