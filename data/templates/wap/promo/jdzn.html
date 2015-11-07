@@ -542,19 +542,38 @@
   }
   
   .line-1{
-    width:23px;
-    height:60%;
+    width:3%;
+    height:70%;
     top:0;
-    left:3%;
+    left:5%;
     background:url(http://frstatic.qiniudn.com/images/promo/hy/zn/line1.png) no-repeat center bottom /cover;
+    animation: line 10s linear infinite;
+	  -webkit-animation: line 10s linear infinite;
   }
   .line-2{
-    width:22px;
+    width:2%;
     height:54%;
     top:0;
-    left:8%;
+    left:15%;
     background:url(http://frstatic.qiniudn.com/images/promo/hy/zn/line2.png) no-repeat center bottom /cover;
+    animation: linet 10s linear infinite;
+	  -webkit-animation: linet 10s linear infinite;
   }
+  
+  @-webkit-keyframes line {
+		0%{-webkit-transform:translateX(0px)}
+		25%{-webkit-transform:translateX(12px)}
+		50%{-webkit-transform:translateX(24px)}
+		75%{-webkit-transform:translateX(12px)}
+		100%{-webkit-transform:translateX(0px)}
+	}
+	@-webkit-keyframes linet {
+		0%{-webkit-transform:translateX(0px)}
+		25%{-webkit-transform:translateX(-12px)}
+		50%{-webkit-transform:translateX(-24px)}
+		75%{-webkit-transform:translateX(-12px)}
+		100%{-webkit-transform:translateX(0px)}
+	}
   </style>
 {% endblock %}
 
@@ -790,7 +809,7 @@
       <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-6.png" class="st p1-6 page-logo">
     </div>
     
-    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo.png" class="st logo page-logo">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo1.png" class="st logo page-logo">
     <div class="yun"></div>
     <img class="swipe" src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" />
   </div>
@@ -815,7 +834,7 @@
     
     <img class="swipe" src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" />
     <div class="yun"></div>
-    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo.png" class="st logo zoomIn animated">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo1.png" class="st logo zoomIn animated">
   </div>
 </div>
 
@@ -829,7 +848,7 @@
       <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/6.png" class="st p2-3 bounceInRight animated">
     </div>
     
-    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo.png" class="st logo">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo1.png" class="st logo">
     <img class="swipe" src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" />
     <div class="yun"></div>
   </div>
@@ -845,7 +864,7 @@
       <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/9.png" class="st p2-3 bounceInLeft animated">
     </div>
     
-    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo.png" class="st logo zoomIn animated">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo1.png" class="st logo zoomIn animated">
     <img class="swipe" src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" />
     <div class="yun"></div>
   </div>
@@ -866,7 +885,7 @@
     <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p6-5.png" class="st p6-5 page-logo">
     
     
-    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo.png" class="st logo page-logo">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo1.png" class="st logo page-logo">
     <img class="swipe" src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" />
     <div class="yun"></div>
   </div>
@@ -884,7 +903,7 @@
     <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/w3.png" class="st w3 wid fadeInUpBig animated">
     <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/w4.png" class="st w4 wid page-logo">
     <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/w5.png" class="st w5 wid fadeInUpBig animated">
-    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo.png" class="st logo page-logo">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo1.png" class="st logo page-logo">
     <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/w6.png" class="st w6 wid fadeInUpBig animated">
     <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/w7.png" class="st w7 wid page-logo">
     <img class="swipe" src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" />
@@ -912,7 +931,7 @@
     
     <div id="sign-btn" class="st s5-5 zoomIn animated">立即报名</div>
     
-    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo.png" class="st logo page-logo">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo1.png" class="st logo page-logo">
     <div class="yun"></div>
   </div>
 </div>
