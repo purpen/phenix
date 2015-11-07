@@ -267,7 +267,7 @@
     animation-delay:5.5s ;
 		-webkit-animation-delay:5.5s ;
 	}
-	.show-2{
+	.show-2,.show-4{
 	  position: absolute;
     top: 0;
     left: 0;
@@ -275,7 +275,64 @@
     height: 100%;
 	}
 	
-	
+	.page-2-1{
+	  background: url(http://frstatic.qiniudn.com/images/promo/hy/zn/bg.jpg) center bottom /cover;
+		-webkit-animation: 'p1BgAnimation1' 300s linear infinite;
+	}
+	.page-2-1 .logo{
+	  animation-delay:0.5s !important;
+		-webkit-animation-delay:0.5s !important;
+		opacity:1;
+	}
+	.title{
+	  width:44%;
+	  top:3%;
+	  left:28%;
+	  animation-delay:0.5s !important;
+		-webkit-animation-delay:0.5s !important;
+	}
+	.p2-1{
+	  width:100%;
+	  top:25%;
+	  left:0;
+	  animation-delay:1s;
+		-webkit-animation-delay:1s;
+	}
+	.p2-2{
+	  width:100%;
+	  top:45%;
+	  left:0;
+	  animation-delay:1.5s;
+		-webkit-animation-delay:1.5s;
+	}
+	.p2-3{
+	  width:100%;
+	  top:65%;
+	  left:0;
+	  animation-delay:2s;
+		-webkit-animation-delay:2s;
+	}
+	.show-3{
+	  position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    animation-delay:4s ;
+		-webkit-animation-delay:4s ;
+	}
+	.show-4 .p2-1{
+	  animation-delay:5s !important;
+		-webkit-animation-delay:5s !important;
+	}
+	.show-4 .p2-2{
+	  animation-delay:5.5s !important;
+		-webkit-animation-delay:5.5s !important;
+	}
+	.show-4 .p2-3{
+	  animation-delay:6s !important;
+		-webkit-animation-delay:6s !important;
+	}
   </style>
 {% endblock %}
 
@@ -508,7 +565,23 @@
 
 <div class="page page-2-1 page-hide">
   <div class="wrap">
-  
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p2-1.png" class="st title zoomIn animated">
+    
+    <div class="show-3 slideOutUp animated">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/1.png" class="st p2-1 bounceInLeft animated">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/2.png" class="st p2-2 bounceInRight animated">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/3.png" class="st p2-3 bounceInLeft animated">
+    </div>
+    
+    <div class="show-4">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/4.png" class="st p2-1 bounceInRight animated">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/5.png" class="st p2-2 bounceInLeft animated">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/6.png" class="st p2-3 bounceInRight animated">
+    </div>
+    
+    
+    
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo.png" class="st logo zoomIn animated">
   </div>
 </div>
 
