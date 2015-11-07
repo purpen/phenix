@@ -275,7 +275,7 @@
     height: 100%;
 	}
 	
-	.page-2-1,.page-3-1,.page-4-1{
+	.page-2-1,.page-3-1,.page-4-1,.page-5-1{
 	  background: url(http://frstatic.qiniudn.com/images/promo/hy/zn/bg.jpg) center bottom /cover;
 		-webkit-animation: 'p1BgAnimation1' 300s linear infinite;
 	}
@@ -333,7 +333,54 @@
 	  animation-delay:6s !important;
 		-webkit-animation-delay:6s !important;
 	}*/
-	
+	.wid{
+	  width:80%;
+	  left:10%;
+	}
+	.w1{
+	  top:30%;
+	  animation-delay:1s !important;
+		-webkit-animation-delay:1s !important;
+	}
+	.w2{
+	  top:34%;
+	  opacity:0;
+	  animation-delay:2s !important;
+		-webkit-animation-delay:2s !important;
+	}
+	.w3{
+	  top:40%;
+	  animation-delay:2s !important;
+		-webkit-animation-delay:2s !important;
+	}
+	.w4{
+	  top:44%;
+	  opacity:0;
+	  animation-delay:3s !important;
+		-webkit-animation-delay:3s !important;
+	}
+	.w5{
+	  top:50%;
+	  animation-delay:3s !important;
+		-webkit-animation-delay:3s !important;
+	}
+	.page-5-1 .logo{
+	  animation-delay:4s !important;
+		-webkit-animation-delay:4s !important;
+		opacity:0;
+		top:54% !important;
+	}
+	.w6{
+	  top:64%;
+	  animation-delay:4s !important;
+		-webkit-animation-delay:4s !important;
+	}
+	.w7{
+	  top:68%;
+	  opacity:0;
+	  animation-delay:5s !important;
+		-webkit-animation-delay:5s !important;
+	}
   </style>
 {% endblock %}
 
@@ -537,7 +584,7 @@
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
 <div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
-<div class="page page-1-1 page-current">
+<div class="page page-1-1 hide">
   <div class="wrap">
     <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/zao.png" class="st zao bounceInLeft animated">
     <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/dian.png" class="st dian zoomIn animated">
@@ -611,6 +658,25 @@
     </div>
     
     <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo.png" class="st logo zoomIn animated">
+  </div>
+</div>
+
+<div class="page page-5-1 page-current">
+  <div class="wrap">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/zao.png" class="st zao bounceInLeft animated">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/dian.png" class="st dian zoomIn animated">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/ni.png" class="st ni bounceInRight animated">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/word.png" class="st word zoomIn animated">
+    
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/w1.png" class="st w1 wid fadeInUpBig animated">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/w2.png" class="st w2 wid page-logo">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/w3.png" class="st w3 wid fadeInUpBig animated">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/w4.png" class="st w4 wid page-logo">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/w5.png" class="st w5 wid fadeInUpBig animated">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo.png" class="st logo page-logo">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/w6.png" class="st w6 wid fadeInUpBig animated">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/w7.png" class="st w7 wid page-logo">
+    
   </div>
 </div>
 
