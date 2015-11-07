@@ -136,32 +136,135 @@
 	  width:100%;
 	  top:20%;
 	  left:0;
+	  -webkit-animation-duration: 1s !important;
+		  animation-duration: 1s !important;
+		  animation-delay:1s !important;
+  		-webkit-animation-delay:1s !important;
+  		opacity:0;
+	}
+	.p1-2{
+	  width:100%;
+	  top:20%;
+	  left:0;
+	  opacity:0;
+	  -webkit-animation-duration: 1s !important;
+		animation-duration: 1s !important;
+	  animation-delay:6s !important;
+		-webkit-animation-delay:6s !important;
 	}
 	.ruhe{
 	  left:28%;
 	  width:23%;
-	  top:35%;
+	  top:30%;
+	  animation-delay:2s ;
+		-webkit-animation-delay:2s ;
+	}
+	.show-2 .ruhe{
+	  animation-delay:7s !important;
+		-webkit-animation-delay:7s !important;
 	}
 	.p1-3{
 	  width:74%;
 	  left:13%;
-	  top:45%;
+	  top:40%;
+	  animation-delay:2.5s !important;
+		-webkit-animation-delay:2.5s !important;
+		opacity:0;
+	}
+	.p1-4{
+	  width:74%;
+	  left:13%;
+	  top:40%;
+	  opacity:0;
+		animation-delay:8s !important;
+		-webkit-animation-delay:8s !important;
 	}
 	.p1-5{
 	  width:54%;
 	  left:23%;
-	  top:70%;
+	  top:60%;
+	  animation-delay:2s ;
+		-webkit-animation-delay:2s ;
+	}
+	.p1-6{
+	  width:54%;
+	  left:23%;
+	  top:60%;
+	  animation-delay:7s ;
+		-webkit-animation-delay:7s ;
 	}
 	.word{
 	  width:44%;
 	  left:28%;
 	  top:18%;
+	  animation-delay:0.6s ;
+		-webkit-animation-delay:0.6s ;
 	}
 	.logo{
 	  width:46%;
 	  left:27%;
 	  bottom:8%;
+	  opacity:0;
+	  animation-delay:8s !important;
+		-webkit-animation-delay:8s !important;
 	}
+	.pages-logo{
+		-webkit-animation: 0.4s scale-to-zero-with-center cubic-bezier(.17, .67, .11, .93) forwards;
+		animation: 0.4s scale-to-zero-with-center cubic-bezier(.17, .67, .11, .93) forwards;
+	}
+	.page-logo{
+		-webkit-animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
+		animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
+	}
+	@-webkit-keyframes scale-to-zero-with-center {
+	    0% {
+	        -webkit-transform: translate3d(0, 0, 0) scale(20);
+	        opacity: 0;
+	    }
+	   /* 30% {
+	        opacity: 0.3;
+	    }
+	    60% {
+	        -webkit-transform: translate3d(0, 0, 0) scale(1);
+	        opacity: 1;
+	    }*/
+			20% 		{opacity:0.3;-webkit-transform:scale(.3)}
+			70% 	{opacity:1;-webkit-transform:scale(1.2)}
+			/*70% 	{-webkit-transform:scale(.9)}*/
+			100% 	{opacity:1;-webkit-transform:scale(1)}
+
+	}
+	@-webkit-keyframes scale-to-zero-with-left {
+	    0% {
+	        -webkit-transform: translate3d(0%, 0, 0) scale(20);
+	        opacity: 0;
+	    }
+	    50% {
+	        opacity: 0.3;
+	    }
+	    100% {
+	        -webkit-transform: translate3d(0%, 0, 0) scale(1);
+	        opacity: 1;
+	    }
+	}
+	.show-1{
+	  position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    animation-delay:5s ;
+		-webkit-animation-delay:5s ;
+	}
+	.show-2{
+	  position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+	}
+	
+	
   </style>
 {% endblock %}
 
@@ -367,18 +470,37 @@
 <div id="music-control" class="playing"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
 <div class="page page-1-1 page-current">
   <div class="wrap">
-    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/zao.png" class="st zao">
-    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/dian.png" class="st dian">
-    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/ni.png" class="st ni">
-    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-1.png" class="st p1-1">
-    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/ruhe.png" class="st ruhe">
-    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-3.png" class="st p1-3">
-    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/word.png" class="st word">
-    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-5.png" class="st p1-5">
-    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo.png" class="st logo">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/zao.png" class="st zao bounceInLeft animated">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/dian.png" class="st dian zoomIn animated">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/ni.png" class="st ni bounceInRight animated">
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/word.png" class="st word zoomIn animated">
+    
+    <!-- p1 -->
+    <div class="show-1 flipOutY animated">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-1.png" class="st p1-1 pages-logo">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/ruhe.png" class="st ruhe flipInY animated">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-3.png" class="st p1-3 page-logo">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-5.png" class="st p1-5 flipInY animated">
+    </div>
+    <!-- end -->
+    <div class="show-2">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-2.png" class="st p1-2 pages-logo">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/ruhe.png" class="st ruhe flipInY animated">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-4.png" class="st p1-4 page-logo">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-6.png" class="st p1-6 flipInY animated">
+    </div>
+    
+    <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo.png" class="st logo page-logo">
     
   </div>
 </div>
+
+<div class="page page-2-1 page-hide">
+  <div class="wrap">
+  
+  </div>
+</div>
+
   
 {% endblock %}
   
