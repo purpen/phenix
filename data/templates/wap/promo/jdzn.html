@@ -495,13 +495,14 @@
       background: #f36;
       width: 40%;
       left: 30%;
-      bottom: 15%;
+      bottom: 18%;
       cursor: pointer;
       color: #fff;
       padding: 10px;
       font-size: 20px;
       text-align: center;
       border-radius: 5px;
+      z-index:9;
       -webkit-animation-delay: 5s;
   }
   </style>
@@ -513,11 +514,11 @@
 	<script src="http://frstatic.qiniudn.com/wechat/js/touch.js"></script>
 
 	<script type="text/javascript" >
-/*
-    var m_name = '年轻多金潜力股，求扑倒！';
-    var img_url = 'http://frstatic.qiniudn.com/images/promo/zp/pin3.jpg';
-    var link = '{{ app_url_wap }}/promo/zp';
-    var desc_str = '人生是场大设计 www.taihuoniao.com';
+
+    var m_name = ' ';
+    var img_url = ' ';
+    var link = '{{ app_url_wap }}/promo/jdzn';
+    var desc_str = ' ';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -581,7 +582,7 @@
     // 分享送红包
     phenix.redirect("{{ app_url_wap }}/promo/zp_share");
   }
-*/
+
 	</script>
 {% endblock %}
 
@@ -666,7 +667,7 @@
 				pageMove(towards.down);	
 			});
 
-		/* 	bgm = new Audio5js({
+		 	bgm = new Audio5js({
 		      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
 		      ready: function () {
 		          this.load('http://frstatic.qiniudn.com/wechat/js/La1.mp3');
@@ -680,7 +681,7 @@
 		              bgm.play();
 		          })           
 		      }
-		  });*/
+		  });
 
 		 $('#music-control').click(function(){
 			    bgm.playPause();
@@ -692,11 +693,6 @@
 						$(this).addClass("playing");
 					}
 			});
-			$('img.icon').click(function(){
-          $('#mask').css('display','');
-      });
-      $('#mask').click(function(){
-          $('#mask').css('display','none');
       });
 	</script>
 	<script>document.write('<style>#loading{display:none}</style>');</script> 
