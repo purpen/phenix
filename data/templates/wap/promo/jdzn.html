@@ -427,8 +427,8 @@
     -webkit-animation-delay: 3.5s !important;
 	}
 	.page-7-1 .logo{
-	  animation-delay: 4s !important;
-    -webkit-animation-delay: 4s !important;
+	  animation-delay: 0.4s !important;
+    -webkit-animation-delay: 0.4s !important;
 	}
 	.p7-01{
 	  width:29%;
@@ -449,47 +449,61 @@
 	  left:45%;
 	}
 	.p7-1{
-	  top:23%;
+	  top:25%;
 	  opacity:0;
 	  animation-delay: 2.5s !important;
     -webkit-animation-delay: 2.5s !important;
 	}
 	.p7-2{
-	  top:29%;
+	  top:31%;
 	  opacity:0;
 	  animation-delay: 2.9s !important;
     -webkit-animation-delay: 2.9s !important;
 	}
 	.p7-3{
-	  top:35%;
+	  top:37%;
 	  opacity:0;
 	  animation-delay: 3.3s !important;
     -webkit-animation-delay: 3.3s !important;
 	}
 	.p7-4{
-	  top:41%;
+	  top:43%;
 	  opacity:0;
 	  animation-delay: 3.7s !important;
     -webkit-animation-delay: 3.7s !important;
 	}
 	.p7-5{
-	  top:47%;
+	  top:49%;
 	  opacity:0;
 	  animation-delay: 4.1s !important;
     -webkit-animation-delay: 4.1s !important;
 	}
 	.p7-6{
-	  top:53%;
+	  top:55%;
 	  opacity:0;
 	  animation-delay: 4.5s !important;
     -webkit-animation-delay: 4.5s !important;
 	}
 	.p7-7{
-	  top:60%;
+	  top:62%;
 	  opacity:0;
 	  animation-delay: 4.9s !important;
     -webkit-animation-delay: 4.9s !important;
 	}
+	
+	.s5-5 {
+      background: #f36;
+      width: 40%;
+      left: 30%;
+      bottom: 15%;
+      cursor: pointer;
+      color: #fff;
+      padding: 10px;
+      font-size: 20px;
+      text-align: center;
+      border-radius: 5px;
+      -webkit-animation-delay: 5s;
+  }
   </style>
 {% endblock %}
 
@@ -689,6 +703,23 @@
 
 
 {% endblock %}
+{% block jquery %}
+
+  // 报名点击事件
+  $('#sign-btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		phenix.redirect('{{ app_url_wap_promo }}/idea_sign');
+		
+		<!-- /*if (!phenix.visitor.is_login){
+      //phenix.redirect('{{ app_url_wap }}/auth/login');
+      phenix.redirect('{{ app_url_wap_promo }}/idea_sign?no_sign=1');
+    }else{
+      phenix.redirect('{{ app_url_wap_promo }}/idea_sign');
+    } */ -->
+  });
+
+
+{% endblock %}
 
 {% block content %}
 <div id='loading'><div class="loadbox"><div class="loadbg"></div></div></div>
@@ -826,7 +857,7 @@
     <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/06.png" class="st p7-6 p7 page-logo">
     <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/07.png" class="st p7-7 p7 page-logo">
     
-    
+    <div id="sign-btn" class="st s5-5 zoomIn animated">立即报名</div>
     
     <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/logo.png" class="st logo page-logo">
   </div>
