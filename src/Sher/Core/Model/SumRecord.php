@@ -36,6 +36,8 @@ class Sher_Core_Model_SumRecord extends Sher_Core_Model_Base  {
       'kind' => 0,
 
       'count' => 0,
+      # 浏览数
+      'view_count' => 0,
       # 十万火计2数量
       'match2_count' => 0,
       # 十万火计2 人气数量(大学点赞)
@@ -47,8 +49,8 @@ class Sher_Core_Model_SumRecord extends Sher_Core_Model_Base  {
     protected $joins = array();
 	
     protected $required_fields = array('target_id','type');
-    protected $int_fields = array('type','count','match2_count','kind','match2_love_count');
-    protected $counter_fields = array('count','match2_count','match2_love_count');
+    protected $int_fields = array('type','count','match2_count','kind','match2_love_count','view_count');
+    protected $counter_fields = array('count','match2_count','match2_love_count','view_count');
 	
 	/**
 	 * 扩展关联数据

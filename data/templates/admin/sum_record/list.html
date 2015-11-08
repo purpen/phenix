@@ -92,7 +92,7 @@
 				</th>
 				<th class="five wide">所属</th>
         <th>类型</th>
-        <th>数量</th>
+        <th>分享数量/浏览量</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
@@ -168,7 +168,7 @@
           {{ s.count }}
           {%endif%}
           {% if s.type==4 %}
-          {{ s.count }}
+          {{ s.count }}/{{ s.view_count|default 0 }}
           {%endif%}
         </td>
 

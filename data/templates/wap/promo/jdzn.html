@@ -709,9 +709,7 @@
   //记录分享数
   function record_share_num(){
     var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
-    $.get(url, { target_id: 4, count_name:'count', type: 4, kind:4 });
-    // 分享送红包
-    phenix.redirect("{{ app_url_wap }}/promo/zp_share");
+    $.get(url, { target_id: 11, count_name:'count', type: 4, kind:4 });
   }
   
 	</script>
@@ -824,23 +822,13 @@
 						$(this).addClass("playing");
 					}
 			});
+
+      // 报名点击事件
+      $('#sign-btn').click(function(){
+        window.location = '{{ app_url_wap_promo }}/common_sign?target_id=6&event=3';
+      });
 	</script>
 	<script>document.write('<style>#loading{display:none}</style>');</script> 
-
-
-{% endblock %}
-{% block jquery %}
-
-  // 报名点击事件
-  $('#sign-btn').click(function(){
-		// 所有ajax请求，验证是否登录
-		if (!phenix.visitor.is_login){
-      //phenix.redirect('{{ app_url_wap }}/auth/login');
-      phenix.redirect('{{ app_url_wap_promo }}/idea_sign?no_sign=1');
-    }else{
-      phenix.redirect('{{ app_url_wap_promo }}/idea_sign');
-    }
-  });
 
 
 {% endblock %}
