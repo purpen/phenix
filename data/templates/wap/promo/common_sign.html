@@ -116,32 +116,15 @@
 		    return false;
 		}
 		if(phone){
-	        // 先输入验证码再发送
-	        var captcha = $('#captcha').val();
-	        if(captcha == ''){
-			    phenix.show_error_note('请先输入验证码！');
-	    	    return false;
-	        }
-	        // 验证验证码
-	        var url = '/app/site/captcha/check';
-	        $.get(url, {code: captcha, type: 0}, function(result){
-			  if(result == '0'){
-				  phenix.show_error_note('验证码不正确！');
-				  // 刷新验证码
-	          	  $('#captcha-img img').click();
-	          	  return false;
-	        }else{
-            // 添加发送频率
-            limitime();
-        
-            $this = $('#fetch-verify-code');
-            $.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
-              if(result.errorCode == 200){
-                $this.removeClass('disabled').text('获取验证码');
-              }
-            }); 
-			  }
-	        });
+      // 添加发送频率
+      limitime();
+  
+      $this = $('#fetch-verify-code');
+      $.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
+        if(result.errorCode == 200){
+          $this.removeClass('disabled').text('获取验证码');
+        }
+      }); 
 		}else{
 			phenix.show_error_note('请正确填写手机号码！');
 		}

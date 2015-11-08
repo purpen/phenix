@@ -822,17 +822,13 @@
 						$(this).addClass("playing");
 					}
 			});
+
+      // 报名点击事件
+      $('#sign-btn').click(function(){
+        window.location = '{{ app_url_wap_promo }}/common_sign?target_id=6&event=3';
+      });
 	</script>
 	<script>document.write('<style>#loading{display:none}</style>');</script> 
-
-
-{% endblock %}
-{% block jquery %}
-
-  // 报名点击事件
-  $('#sign-btn').click(function(){
-    window.location = '{{ app_url_wap_promo }}/common_sign?target_id=6&event=3';
-  });
 
 
 {% endblock %}
