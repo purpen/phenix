@@ -5,18 +5,17 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content=" initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta name="format-detection" content="telephone=no">
-	
-	<meta name="wxm:timeline_title" content="分享到朋友圈的标题">
-  <meta name="wxm:appmessage_title" content="分享给好友的标题">
-  <meta name="wxm:appmessage_desc" content="分享给好友的详情">
-  <!-- 分享缩略图，必须为绝对路径-->
-  <meta name="wxm:img_url" content="http://wximg.gtimg.com/tmt/_demo/wxmoment/img/thumb.jpg">
-  <!-- 分享链接-->
-  <meta name="wxm:link" content="http://wximg.gtimg.com/tmt/_demo/wxmoment/share.html">
+	  <meta name="wxm:timeline_title" content="回归，是创造手品之美的起点">
+    <meta name="wxm:appmessage_title" content="回归，是创造手品之美的起点">
+    <meta name="wxm:appmessage_desc" content="回归美的原点，vivo创造手品之美，X5Pro心动上市">
+    <!-- 分享缩略图，必须为绝对路径-->
+    <meta name="wxm:img_url" content="http://wximg.gtimg.com/tmt/_demo/wxmoment/img/thumb.jpg">
+    <!-- 分享链接-->
+    <meta name="wxm:link" content="http://wximg.gtimg.com/tmt/_demo/wxmoment/share.html">
+        <title>手品之美vivo X5Pro</title>
 	
 	<!-- Date: 2015-11-08 -->
 	
-	<script src="http://frstatic.qiniudn.com/wechat/js/wxmoment.min.js"></script>
 	<style>
     *{
         margin: 0;
@@ -330,15 +329,35 @@
     <audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/js/La1.mp3" autoplay></audio>
 </div>
 
-<div id="orientLayer" class="mod-orient-layer">
+<!--<div id="orientLayer" class="mod-orient-layer">
     <div class="mod-orient-layer__content"><i class="icon mod-orient-layer__icon-orient"></i>
 
         <div class="mod-orient-layer__desc">为了更好的体验，请使用竖屏浏览</div>
     </div>
-</div>
+</div>-->
 
+<script src="http://frstatic.qiniudn.com/wechat/js/wxmoment.min.js"></script>
 <script>
     $(document).ready(function(){
+        // 放大元素,按照320x504定位,按比例scale
+        function scaleEle(selector,position){
+            var pageScale;
+            var currentScale=screenWidth/screenHeight;
+            var originScale=320/504;
+            if(currentScale>originScale){
+                pageScale=screenHeight/504;
+            }else{
+                pageScale=screenWidth/320;
+            }
+            $(selector).css({"-webkit-transform-origin":position,"transform-origin":position,"-webkit-transform":"scale("+pageScale+");","transform":"scale("+pageScale+");"});
+        }
+
+        var screenHeight = document.documentElement.clientHeight,
+            screenWidth = document.documentElement.clientWidth;
+
+        scaleEle(".screen__inner","center");
+        
+        
         new WxMoment.OrientationTip();
         var pageSlider = new WxMoment.PageSlider({
             pages: $('.screen'),
@@ -410,29 +429,7 @@
          loader.start();
         });
         
-        
-        
-        $(document).ready(function(){
-           // 放大元素,按照320x504定位,按比例scale
-          function scaleEle(selector,position){
-              var pageScale;
-              var currentScale=screenWidth/screenHeight;
-              var originScale=320/504;
-              if(currentScale>originScale){
-                  pageScale=screenHeight/504;
-              }else{
-                  pageScale=screenWidth/320;
-              }
-              $(selector).css({"-webkit-transform-origin":position,"transform-origin":position,"-webkit-transform":"scale("+pageScale+");","transform":"scale("+pageScale+");"});
-          }
 
-          var screenHeight = document.documentElement.clientHeight,
-              screenWidth = document.documentElement.clientWidth;
-
-          scaleEle(".screen__inner","center");
-        });
-        
-        
         $('.music').click(function(){
     				if($(this).hasClass("playing")){
   					  $('#app_bgm').get(0).pause();
@@ -442,9 +439,10 @@
   						$(this).addClass("playing").removeClass('stop');
   						$('#app_bgm').get(0).play();
   					}
-    			});
+    		});
         
-        
+        //分享
+        var share = new WxMoment.Share();
         
       
         
