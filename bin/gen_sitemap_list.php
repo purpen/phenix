@@ -59,7 +59,7 @@ function gen_mode_list($type_mode){
 
   $sitemap_model->page($type_mode);
   $page = 1;
-  $size = 200;
+  $size = 1000;
   $is_end = false;
   $total = 0;
   while(!$is_end){
@@ -88,7 +88,7 @@ function gen_mode_list($type_mode){
       $fields = array();
     }
 
-    $options = array('field' => $fields,'page'=>$page,'size'=>$size,'sort'=>array('created_on'=>-1));
+    $options = array('field' => $fields,'page'=>$page,'size'=>$size,'sort'=>array('_id'=>-1));
 
     $list = $model->find($query, $options);
     if(empty($list)){
@@ -131,6 +131,7 @@ function gen_mode_list($type_mode){
 
   echo "gen sitemap $type_mode num: $total is OK! \n";
 
+  unset($model);
   unset($sitemap_model);
 
 }
