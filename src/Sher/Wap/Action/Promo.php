@@ -7,10 +7,11 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public $stash = array(
 		'page'=>1,
     'sort'=>0,
+    'target_id'=>0,
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign');
 
 	
 	/**
@@ -25,6 +26,11 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 */
 	public function jdzn(){
 			$this->stash['page_title_suffix'] = ' ';
+
+      // 记录浏览数
+      $num_mode = new Sher_Core_Model_SumRecord();
+      $num_mode->add_record(11, 'view_count', 4, 4); 
+
 			//微信分享
 	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
 	    $timestamp = $this->stash['timestamp'] = time();
@@ -898,6 +904,22 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     $this->stash['result'] = $result;
     return $this->to_html_page('wap/promo/zp_share.html');
 	}
+
+  /**
+   * 通用报名入口，直接注册
+   */
+  public function common_sign(){
+    $target_id = (int)$this->stash['target_id'];
+    $event = isset($this->stash['event'])? (int)$this->stash['event'] : 3;
+    $redirect_url = Doggy_Config::$vars['app.url.wap'];
+
+    if(empty($target_id) || empty($event)){
+ 			return $this->show_message_page('缺少请求参数！', $redirect_url);     
+    }
+
+    return $this->to_html_page('wap/promo/common_sign.html');
+  
+  }
 
 
   /**
