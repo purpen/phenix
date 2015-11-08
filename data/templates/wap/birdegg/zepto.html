@@ -387,12 +387,14 @@
              }
 
              loader.addImage(basePath + path);
+             $('#app_bgm').get(0).pause();
          }
 
          loader.addCompletionListener(function () {
              $('.loading').remove();
              $('.screen').eq(0).addClass('current');
              $('.wrap').show();
+             $('#app_bgm').get(0).play();
          });
 
          //loading 进度监听
