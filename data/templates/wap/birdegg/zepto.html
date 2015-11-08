@@ -82,10 +82,10 @@
         position: absolute;
         left: 50%;
         top: 50%;
-        margin-left: -26px;
-        margin-top: -16px;
-        width: 52px;
-        height: 32px;
+        margin-left: -52px;
+        margin-top: -32px;
+        width: 104px;
+        height: 64px;
         text-align: center;
         color: #666;
         font-size: 12px;
@@ -325,6 +325,11 @@
     </section>
     <section class="screen screen3">
     </section>
+    
+    
+    
+    <div class="music playing"></div>
+    <audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/js/La1.mp3" autoplay></audio>
 </div>
 
 <div id="orientLayer" class="mod-orient-layer">
@@ -333,8 +338,6 @@
         <div class="mod-orient-layer__desc">为了更好的体验，请使用竖屏浏览</div>
     </div>
 </div>
-<div class="music playing"></div>
-<audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/js/La1.mp3" autoplay></audio>
 
 <script>
     $(document).ready(function(){
@@ -359,47 +362,75 @@
             onSwipeRight: function () {}    //可选，swipeRight 回调
         });
         
+        
+        /* 加载 */
         var basePath = "http://frstatic.qiniudn.com/images/promo/hy/";
-        if ("function" != typeof webpsupport) var webpsupport = function(e) {
-          e()
-        };
-        webpsupport(function(e) {
-          for (var n = new WxMoment.Loader,
-          i = ['zn/01.png','zn/02.png','zn/03.png','zn/04.png','zn/05.png','zn/06.png','zn/07.png','zn/yun.png','zn/yun1.png','zn/p1-1.png','zn/p1-2.png','zn/p1-3.png','zn/p1-4.png','zn/p1-5.png','zn/p1-6.png','zn/1.png','zn/2.png','zn/3.png','zn/4.png','zn/5.png','zn/6.png','zn/7.png','zn/8.png','zn/9.png'], g = 0; g < i.length; g++) {
-            var t = i[g].substring(i[g].lastIndexOf("/") + 1);
-            if (e && img_map && t in img_map && img_map[t]) var c = i[g].replace(/\.\w+/, ".webp");
-            else var c = i[g];
-            n.addImage(basePath + c)
-          }
-          n.addCompletionListener(function() {
-            $(".loading").remove(),
-            $(".screen").eq(0).addClass("current"),
-            $(".wrap").show()
-          }),
-          n.addProgressListener(function(e) {
-            var n = Math.round(e.completedCount / e.totalCount * 100);
-            $(".loading-num").text(n + "%")
-          }),
-          n.start()
+        if (!(typeof webpsupport == 'function')) {
+            var webpsupport = function (cb) {
+                cb();
+            }
+        }
+
+        webpsupport(function (webpa) {
+            var loader = new WxMoment.Loader(),
+         fileList =[
+         'zn/01.png',
+         'zn/02.png',
+         'zn/03.png',
+         'zn/04.png','zn/05.png','zn/06.png','zn/07.png','zn/yun.png','zn/yun1.png','zn/p1-1.png','zn/p1-2.png','zn/p1-3.png','zn/p1-4.png','zn/p1-5.png','zn/p1-6.png','zn/1.png','zn/2.png','zn/3.png','zn/4.png','zn/5.png','zn/6.png','zn/7.png','zn/8.png','zn/9.png'];
+         
+         for (var i = 0; i < fileList.length; i++) {
+             var basename = fileList[i].substring(fileList[i].lastIndexOf('/') + 1);
+
+             if (webpa && img_map && (basename in img_map) && img_map[basename]) { //if webp
+                 var path = fileList[i].replace(/\.\w+/, '.webp');
+             } else {
+                 var path = fileList[i];
+             }
+
+             loader.addImage(basePath + path);
+         }
+
+         loader.addCompletionListener(function () {
+             $('.loading').remove();
+             $('.screen').eq(0).addClass('current');
+             $('.wrap').show();
+         });
+
+         //loading 进度监听
+         loader.addProgressListener(function (e) {
+             var percentUp = Math.round((e.completedCount / e.totalCount) * 100), //正序, 1-100
+                 progressDown = 100 - percentUp;                                   //倒序, 100-1
+
+
+             $('.loading-num').text(percentUp + '%');
+         });
+
+         //启动
+         loader.start();
         });
         
         
         
-        
-        function e(e, g) {
-          var t, c = i / n,
-          r = 320 / 504;
-          t = c > r ? n / 504 : i / 320,
-          $(e).css({
-            "-webkit-transform-origin": g,
-            "transform-origin": g,
-            "-webkit-transform": "scale(" + t + ");",
-            transform: "scale(" + t + ");"
-          })
-        }
-        var n = document.documentElement.clientHeight,
-        i = document.documentElement.clientWidth;
-        e(".screen__inner", "center");
+        $(document).ready(function(){
+           // 放大元素,按照320x504定位,按比例scale
+          function scaleEle(selector,position){
+              var pageScale;
+              var currentScale=screenWidth/screenHeight;
+              var originScale=320/504;
+              if(currentScale>originScale){
+                  pageScale=screenHeight/504;
+              }else{
+                  pageScale=screenWidth/320;
+              }
+              $(selector).css({"-webkit-transform-origin":position,"transform-origin":position,"-webkit-transform":"scale("+pageScale+");","transform":"scale("+pageScale+");"});
+          }
+
+          var screenHeight = document.documentElement.clientHeight,
+              screenWidth = document.documentElement.clientWidth;
+
+          scaleEle(".screen__inner","center");
+        });
         
         
         $('.music').click(function(){
