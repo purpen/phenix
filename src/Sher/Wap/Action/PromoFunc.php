@@ -282,7 +282,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
         $profile['company'] = $this->stash['company'];
         $user_info['profile'] = $profile;
 
-        $user_ok = $user->create($user_info);
+        $user_ok = $user_model->create($user_info);
 
         if($user_ok){
           $user_id = $user_model->id;

@@ -146,6 +146,24 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
         }
       }
 
+      //京东造逆-短信私信提醒
+      if($target_id==6){
+        if(isset($subject_record['info']['phone']) && !empty($subject_record['info']['phone'])){
+          $user_phone = $subject_record['info']['phone'];
+          //短信提醒
+          if(!empty($user_phone)){
+            if($state==1 && !empty($number)){
+              $msg = "您好，您已通过报名申请，您的票号是: ".$number;
+            }elseif($state==2){
+              $msg = "对不起，由于名额已满，您的报名申请没有通过";
+            }
+            // 开始发送
+            $message = Sher_Core_Helper_Util::send_defined_mms($user_phone, $msg);
+          }
+          
+        }
+      }
+
     }else{
  		  $this->stash['success'] = false;   
     }
