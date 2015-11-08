@@ -4,15 +4,21 @@
     <meta charset="UTF-8">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content=" initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <meta name="format-detection" content="telephone=no">
-	  <meta name="wxm:timeline_title" content="回归，是创造手品之美的起点">
-    <meta name="wxm:appmessage_title" content="回归，是创造手品之美的起点">
-    <meta name="wxm:appmessage_desc" content="回归美的原点，vivo创造手品之美，X5Pro心动上市">
-    <!-- 分享缩略图，必须为绝对路径-->
-    <meta name="wxm:img_url" content="http://wximg.gtimg.com/tmt/_demo/wxmoment/img/thumb.jpg">
-    <!-- 分享链接-->
-    <meta name="wxm:link" content="http://wximg.gtimg.com/tmt/_demo/wxmoment/share.html">
-        <title>手品之美vivo X5Pro</title>
+    <link href="frbird.qiniudn.com" rel="dns-prefetch">
+		<link href="frstatic.qiniudn.com" rel="dns-prefetch">
+		<meta property="wb:webmaster" content="81aee06b936cdcd8">
+		<meta property="qc:admins" content="2554576457641105761176375">
+		<meta name="baidu_union_verify" content="f533716307633cc500536ab620c726a2">
+		<meta name="360-site-verification" content="7c6bef1e758da3cc0f4e79d444ce2114" />
+		<meta name="format-detection" content="telephone=no"/>
+		{%block meta%}
+		<meta name="title" content="{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}" />
+		<meta name="keywords" content="{%if page_keywords_suffix%}{{page_keywords_suffix}}{%else%}太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广{%endif%}"/>
+		<meta name="description" content="{%if page_description_suffix%}{{page_description_suffix}}{%else%}太火鸟是中国最火爆的一条龙服务式智能硬件孵化平台。太火鸟致力于帮助设计师和创意者实现商业价值，开启一个全新的众包设计时代，全力打造一个完美的智能硬件创意生态系统。{%endif%}" />
+		<meta content="太火鸟" name="author" />
+		{%endblock%}
+    <title>{% block title %}{% endblock %}{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}</title>
+		<link rel="shortcut icon" href="/favicon.ico" />
 	
 	<!-- Date: 2015-11-08 -->
 	
@@ -443,10 +449,10 @@
     		});
         
         
-        var m_name = ' ';
+        var m_name = ' tets';
         var img_url = 'http://frstatic.qiniudn.com/images/promo/hy/zn/zn.jpg';
         var link = '{{ app_url_wap }}/promo/jdzn';
-        var desc_str = ' ';
+        var desc_str = ' test';
 
         wx.config({
             debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
