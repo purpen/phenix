@@ -236,12 +236,10 @@
 	</head>
 	<body>
 
+		{% block content %}{% endblock %}
 		
 		
 		{% block layout_js %}{% endblock %}
-		{% block page_js %}
-		
-		{% endblock %}
 		<script src="http://frstatic.qiniudn.com/wechat/js/wxmoment.min.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script type="text/javascript">
