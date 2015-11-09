@@ -168,7 +168,7 @@
 						{% endif %}
             
 						{% for topic in list.rows %}
-							{% if !topic.top %}<!--过滤置顶帖子-->
+							{% if !topic.top==1 %}<!--过滤置顶帖子-->
 								{% include "block/topic_item.html" %}
 							{% endif %}
 						{% endfor %}
