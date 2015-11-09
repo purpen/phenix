@@ -173,7 +173,7 @@
       {% if is_weixin %}
         phenix.redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&redirect_uri={{wx_params.redirect_uri}}&response_type=code&scope=snsapi_login&state={{wx_params.state}}');
       {%else%}
-        phenix.redirect('{{ app_url_wap }}/auth/login');
+        phenix.redirect('{{ app_url_wap }}/auth/login_signup');
       {%endif%}
       return;
     }
