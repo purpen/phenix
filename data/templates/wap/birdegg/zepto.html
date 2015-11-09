@@ -1,1 +1,463 @@
-{%extends 'layout/weixin.html'%}{% endblock %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content=" initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link href="frbird.qiniudn.com" rel="dns-prefetch">
+		<link href="frstatic.qiniudn.com" rel="dns-prefetch">
+		<meta property="wb:webmaster" content="81aee06b936cdcd8">
+		<meta property="qc:admins" content="2554576457641105761176375">
+		<meta name="baidu_union_verify" content="f533716307633cc500536ab620c726a2">
+		<meta name="360-site-verification" content="7c6bef1e758da3cc0f4e79d444ce2114" />
+		<meta name="format-detection" content="telephone=no"/>
+		{%block meta%}
+		<meta name="title" content="{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}" />
+		<meta name="keywords" content="{%if page_keywords_suffix%}{{page_keywords_suffix}}{%else%}太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广{%endif%}"/>
+		<meta name="description" content="{%if page_description_suffix%}{{page_description_suffix}}{%else%}太火鸟是中国最火爆的一条龙服务式智能硬件孵化平台。太火鸟致力于帮助设计师和创意者实现商业价值，开启一个全新的众包设计时代，全力打造一个完美的智能硬件创意生态系统。{%endif%}" />
+		<meta content="太火鸟" name="author" />
+		{%endblock%}
+    <title>{% block title %}{% endblock %}{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}</title>
+		<link rel="shortcut icon" href="/favicon.ico" />
+	
+	<!-- Date: 2015-11-08 -->
+	
+	<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    html, body {
+        height: 100%;
+        -webkit-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -webkit-overflow-scrolling: touch;
+        -webkit-tap-highlight-color:rgba(0, 0, 0, 0);
+        -webkit-backface-visibility:hidden;
+        -webkit-perspective:1000;
+        overflow: hidden;
+    }
+
+    .wrap{
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+    .screen{
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        -webkit-backface-visibility: hidden;
+        -webkit-perspective: 1000;
+    }
+
+    .screen1{
+        background: green;
+    }
+
+    .screen2{
+        background: blue;
+    }
+
+    .screen3{
+        background: red;
+    }
+    
+    html, body {
+                height: 100%;
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+                overflow: hidden;
+                background-color: #070709;
+            }
+    
+    .loading{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background-color: #070709;
+    }
+
+    .loading__inner{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -26px;
+        margin-top: -16px;
+        width: 52px;
+        height: 32px;
+        text-align: center;
+        color: #666;
+        font-size: 12px;
+        background-color: #070709;
+    }
+
+    .loading__img{
+        width: 52px;
+        height: 32px;
+        background: url(http://wximg.gtimg.com/tmt/_events/20150514-promo-vivo/dist/img/loading.png) no-repeat;
+        background-size: 52px auto;
+    }
+
+    .loading-num{
+        position: absolute;
+        left: 0;
+        bottom: -10px;
+        width: 100%;
+        text-align: center;
+    }
+
+    @-webkit-keyframes rotation {
+        10% {
+            transform: rotate(90deg);
+            -webkit-transform: rotate(90deg)
+        }
+        50%, 60% {
+            transform: rotate(0deg);
+            -webkit-transform: rotate(0deg)
+        }
+        90% {
+            transform: rotate(90deg);
+            -webkit-transform: rotate(90deg)
+        }
+        100% {
+            transform: rotate(90deg);
+            -webkit-transform: rotate(90deg)
+        }
+    }
+
+    @keyframes rotation {
+        10% {
+            transform: rotate(90deg);
+            -webkit-transform: rotate(90deg)
+        }
+        50%, 60% {
+            transform: rotate(0deg);
+            -webkit-transform: rotate(0deg)
+        }
+        90% {
+            transform: rotate(90deg);
+            -webkit-transform: rotate(90deg)
+        }
+        100% {
+            transform: rotate(90deg);
+            -webkit-transform: rotate(90deg)
+        }
+    }
+
+    #orientLayer {
+        display: none;
+    }
+
+    @media screen and (min-aspect-ratio: 13/8) {
+        #orientLayer {
+            display: block;
+        }
+    }
+
+    .mod-orient-layer {
+        display: none;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background: #000;
+        z-index: 9997
+    }
+
+    .mod-orient-layer__content {
+        position: absolute;
+        width: 100%;
+        top: 45%;
+        margin-top: -75px;
+        text-align: center
+    }
+
+    .mod-orient-layer__icon-orient {
+        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIYAAADaCAMAAABU68ovAAAAXVBMVEUAAAD29vb////x8fH////////x8fH5+fn29vby8vL////5+fn39/f6+vr////x8fH////////+/v7////09PT////x8fH39/f////////////////////x8fH///+WLTLGAAAAHXRSTlMAIpML+gb4ZhHWn1c2gvHBvq1uKJcC6k8b187lQ9yhhboAAAQYSURBVHja7d3blpowFIDhTUIAOchZDkre/zE7ycySrbUUpsRN2/1fzO18KzEqxEVgTiZNfgmmtxRc8iaR8HNe8x4BtjQePKayYCIoyBSgvNNE1AkNSHqZyLqk97EgUCCHBzZ5mkg7ScvIJuIyOyXBRFxgpqWZyGsAZLB1KjsJi8nutHU4JCRbFRH8tmirI9k8Jx2sqNs8K/m0LQkrktO2crgcgXGB4AiTEsB0hJfo9MGgX7CGcYiYwQxmMOOvZwRhBG8tCoMXjBDeXvWCEcHbi14wgCBmMIMZzGAGM5jxETNwzMAxA8cMHDNwzMAxA8cMHDNwzMAxA8cMHDNwzMAxY6E2rUQxnH2tz9cirlJFwFBJedaPnUv0M7++egPDE8iAJcIDmxwH5wwv9vUviw2kLbVO3TJU5uul/EyB0FoLp4x60PdGUd3qPurrWyjGGTc05u+1dcgI7/+tCCPARWGhH7o5Y7RCf+bH9ctXLp6v2BVDxfqz0oPXeSVaNtINo/1SXDv4dck8IIkbhtC2ol+iouEonTBCbYvVMnXOjxww6s/RFrBUpXHh/gw1rHj5d/qhYn9Gpk2FWh6xRBRX5Oj3Znh2Sq49/L6+y8pB26q9GbE2dbA2mVbx6I+7MfBglLCttm73ZQi7AD3iL4HqjFYJHSPRppqaUaJ3ATpGa+ckpGak2hRRMyqjGMkvl+xyFeSMwjAqcsZgGDdyhl0oNTnDN4yenJGZFGxNChP5/Y3efh6SM2rDOJMzboYxkDMqwyjIGcIw6F+io2FU1IxIm1JqRmgXSkvNKNCXeTpGrU0JNSO2c6LIGPgCS8AuDHz9ta0SXWDtxoDRH+MqlbC2Dt2G2JFRadtQZt2qq/orGowdGb2euxYiqWEpVWhTBnszoNAPdStuQwxqf0aocdWKW4Z+DfszIh8pxJqbuCE4YAC+4bm0evtipjpgJHeFnyyt1Ku2xa0bhjxr27p75rECNwyI9ZwvXkHq+7aTaMEV44YYy/spfgjgjNHaWW+GeUhGEX7tLlVinIFDDSgnOwhi1V6bU0b6tVS9eAERe863g4dRrtiHdc6o+nn5vtyVVgR79Cqt4uL6gfHPQyGqtP2vf7HADGbcYwaOGThm4JiBYwaOGThm4JiBYwaOGThm4JiBYwaOGThm4JiBYwaOGThm4JjhtOM+J/AgT008yDMkN/dPP9hzS8zAMQN3OEYeekp5YU7KOKXwVXqiY+QS7smcinGKABWdiBgpPJTSMHJ4KidhhPBUSMLw4CmPhKHgKUXCkHsygum71ftNSgCX6bsl8FQyfbcL5EdYsDk0R3j7aiA5wpt5AjKg/2gLJEBD/0Hf2OOf/vRrj6z/7GtP4B3nMKyjHA12kIPSjnJs3FEO0TvKkYJHOWCR+rjJH0Vn6fI5PjNbAAAAAElFTkSuQmCC");
+        display: inline-block;
+        width: 67px;
+        height: 109px;
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg);
+        -webkit-animation: rotation infinite 1.5s ease-in-out;
+        animation: rotation infinite 1.5s ease-in-out;
+        -webkit-background-size: 67px;
+        background-size: 67px
+    }
+
+    .mod-orient-layer__desc {
+        margin-top: 20px;
+        font-size: 15px;
+        color: #fff
+    } 
+    
+    
+    .screen1__bg {
+        background: url(http://wximg.gtimg.com/tmt/_events/20150514-promo-vivo/dist/img/screen1_bg.jpg)no-repeat center top;
+        -webkit-background-size: contain;
+        background-size: contain;
+    }
+    .screen__bg {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+    }
+    .screen__inner {
+        position: absolute;
+        width: 320px;
+        height: 504px;
+        top: 50%;
+        left: 50%;
+        margin: -252px 0 0 -160px;
+        -webkit-perspective: 1000;
+        perspective: 1000;
+        overflow: hidden;
+    }
+    .screen1__icon {
+        background: url(http://wximg.gtimg.com/tmt/_events/20150514-promo-vivo/dist/img/screen1_icon.png)no-repeat;
+        -webkit-background-size: 50px;
+        background-size: 50px;
+    }
+    .screen__icon {
+        position: absolute;
+        left: 50%;
+        top: 34px;
+        width: 50px;
+        height: 50px;
+        margin-left: -25px;
+        opacity: 1;
+    }
+    
+    
+    .music.playing{
+  		-webkit-animation: 2.3s spin linear infinite;
+  		animation: 2.3s spin linear infinite;
+  	}
+  	@-webkit-keyframes spin {
+  	    0% {
+  	        -webkit-transform: rotateZ(0deg);
+  	    }
+
+  	    100% {
+  	        -webkit-transform: rotateZ(360deg);
+  	    }
+  	}
+    .music {
+        position: fixed;
+        background: url(http://frstatic.qiniudn.com/images/promo/music_bg.png) 0 0 no-repeat;
+        z-index: 999;
+        width: 1.85rem;
+        height: 1.85rem;
+        right: 0.5rem;
+        top: 0.5rem;
+        background-size: 100% auto;
+    }
+    .music.stop {
+        background-position: 0 -1.85rem;
+    }
+    
+    .screen__inner {
+        position: absolute;
+        width: 320px;
+        height: 504px;
+        top: 50%;
+        left: 50%;
+        margin: -252px 0 0 -160px;
+        -webkit-perspective: 1000;
+        perspective: 1000;
+        overflow: hidden;
+    }
+    </style>
+    
+  </style>
+</head>
+<body>
+  <div class="loading">
+      <div class="loading__inner">
+          <div class="loading__img"></div>
+          <div class="loading-num">0%</div>
+      </div>
+  </div>
+  
+<div class="wrap"  style="display: none">
+  
+    <section class="screen screen1">
+      <div class="screen__bg screen1__bg"></div>
+      <div class="screen__inner">
+      <div class="screen__icon screen1__icon"></div>
+      </div>
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/01.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/02.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/03.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/04.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/05.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/06.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/07.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/yun1.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/yun.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-1.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-2.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-3.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-4.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-5.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-6.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/1.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/2.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/3.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/4.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/5.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/6.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/7.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/8.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/9.png">
+        <div class="screen-arrow"></div>
+    </section>
+    <section class="screen screen2" data-lock-next="true">
+        <div class="screen-arrow">
+        </div>
+    </section>
+    <section class="screen screen3">
+    </section>
+    
+    
+    
+</div>    
+<div class="music playing"></div>
+<audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/js/La1.mp3" autoplay></audio>
+
+<!--<div id="orientLayer" class="mod-orient-layer">
+    <div class="mod-orient-layer__content"><i class="icon mod-orient-layer__icon-orient"></i>
+
+        <div class="mod-orient-layer__desc">为了更好的体验，请使用竖屏浏览</div>
+    </div>
+</div>-->
+
+  <script src="http://frstatic.qiniudn.com/wechat/js/wxmoment.min.js"></script>
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    $(document).ready(function(){
+        // 放大元素,按照320x504定位,按比例scale
+        function scaleEle(selector,position){
+            var pageScale;
+            var currentScale=screenWidth/screenHeight;
+            var originScale=320/504;
+            if(currentScale>originScale){
+                pageScale=screenHeight/504;
+            }else{
+                pageScale=screenWidth/320;
+            }
+            $(selector).css({"-webkit-transform-origin":position,"transform-origin":position,"-webkit-transform":"scale("+pageScale+");","transform":"scale("+pageScale+");"});
+        }
+
+        var screenHeight = document.documentElement.clientHeight,
+            screenWidth = document.documentElement.clientWidth;
+
+        scaleEle(".screen__inner","center");
+        
+        
+        new WxMoment.OrientationTip();
+        var pageSlider = new WxMoment.PageSlider({
+            pages: $('.screen'),
+            direction: 'vertical',          //可选，vertical 或 v 为上下滑动，horizontal 或 h 为左右滑动，默认为 vertical
+            currentClass: 'current',        //可选, 当前屏的class (方便实现内容的进场动画)，默认值为 'current'
+            rememberLastVisited: true,      //可选，记住上一次访问结束后的索引值，可用于实现页面返回后是否回到上次访问的页面
+            animationPlayOnce: false,       //可选，切换页面时，动画只执行一次
+            oninit: function () {
+              if(this.rememberLastVisited){
+                  //如果返回是true，就执行下面跳转代码
+                  this.moveTo(this.lastVisitedIndex, true);
+              }
+            },         //可选，初始化完成时的回调
+            onbeforechange: function () {}, //可选，开始切换前的回调
+            onchange: function () {},       //可选，每一屏切换完成时的回调
+            onSwipeUp: function () {},      //可选，swipeUp 回调
+            onSwipeDown: function () {},    //可选，swipeDown 回调
+            onSwipeLeft: function () {},    //可选，swipeLeft 回调
+            onSwipeRight: function () {}    //可选，swipeRight 回调
+        });
+        
+        
+        /* 加载 */
+        var basePath = "http://frstatic.qiniudn.com/images/promo/hy/";
+        if (!(typeof webpsupport == 'function')) {
+            var webpsupport = function (cb) {
+                cb();
+            }
+        }
+
+        webpsupport(function (webpa) {
+            var loader = new WxMoment.Loader(),
+         fileList =[
+         'zn/01.png',
+         'zn/02.png',
+         'zn/03.png',
+         'zn/04.png','zn/05.png','zn/06.png','zn/07.png','zn/yun.png','zn/yun1.png','zn/p1-1.png','zn/p1-2.png','zn/p1-3.png','zn/p1-4.png','zn/p1-5.png','zn/p1-6.png','zn/1.png','zn/2.png','zn/3.png','zn/4.png','zn/5.png','zn/6.png','zn/7.png','zn/8.png','zn/9.png'];
+         
+         for (var i = 0; i < fileList.length; i++) {
+             var basename = fileList[i].substring(fileList[i].lastIndexOf('/') + 1);
+
+             if (webpa && img_map && (basename in img_map) && img_map[basename]) { //if webp
+                 var path = fileList[i].replace(/\.\w+/, '.webp');
+             } else {
+                 var path = fileList[i];
+             }
+
+             loader.addImage(basePath + path);
+             $('#app_bgm').get(0).pause();
+         }
+
+         loader.addCompletionListener(function () {
+             $('.loading').remove();
+             $('.screen').eq(0).addClass('current');
+             $('.wrap').show();
+             $('#app_bgm').get(0).play();
+         });
+
+         //loading 进度监听
+         loader.addProgressListener(function (e) {
+             var percentUp = Math.round((e.completedCount / e.totalCount) * 100), //正序, 1-100
+                 progressDown = 100 - percentUp;                                   //倒序, 100-1
+
+
+             $('.loading-num').text(percentUp + '%');
+         });
+
+         //启动
+         loader.start();
+        });
+        
+
+        $('.music').click(function(){
+    				if($(this).hasClass("playing")){
+  					  $('#app_bgm').get(0).pause();
+  						$(this).removeClass("playing").addClass('stop');
+  					}
+  					else{
+  						$(this).addClass("playing").removeClass('stop');
+  						$('#app_bgm').get(0).play();
+  					}
+    		});
+    		
+    });
+        
+        
+    
+        
+     
+</script>
+
+
+
+
+</body>
+</html>
