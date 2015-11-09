@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content=" initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link href="frbird.qiniudn.com" rel="dns-prefetch">
+		<link href="frstatic.qiniudn.com" rel="dns-prefetch">
+		<meta property="wb:webmaster" content="81aee06b936cdcd8">
+		<meta property="qc:admins" content="2554576457641105761176375">
+		<meta name="baidu_union_verify" content="f533716307633cc500536ab620c726a2">
+		<meta name="360-site-verification" content="7c6bef1e758da3cc0f4e79d444ce2114" />
+		<meta name="format-detection" content="telephone=no"/>
+		{%block meta%}
+		<meta name="title" content="{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}" />
+		<meta name="keywords" content="{%if page_keywords_suffix%}{{page_keywords_suffix}}{%else%}太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广{%endif%}"/>
+		<meta name="description" content="{%if page_description_suffix%}{{page_description_suffix}}{%else%}太火鸟是中国最火爆的一条龙服务式智能硬件孵化平台。太火鸟致力于帮助设计师和创意者实现商业价值，开启一个全新的众包设计时代，全力打造一个完美的智能硬件创意生态系统。{%endif%}" />
+		<meta content="太火鸟" name="author" />
+		{%endblock%}
+    <title>{% block title %}{% endblock %}{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}</title>
+		<link rel="shortcut icon" href="/favicon.ico" />
+		
+		<style type="text/css">
+		  *{
+          margin: 0;
+          padding: 0;
+      }
+      html, body {
+          height: 100%;
+          -webkit-box-sizing: border-box;
+          -ms-box-sizing: border-box;
+          box-sizing: border-box;
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -webkit-overflow-scrolling: touch;
+          -webkit-tap-highlight-color:rgba(0, 0, 0, 0);
+          -webkit-backface-visibility:hidden;
+          -webkit-perspective:1000;
+          overflow: hidden;
+      }
+
+      .wrap{
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+      }
+      .screen{
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+          -webkit-backface-visibility: hidden;
+          -webkit-perspective: 1000;
+      }
+      
+      .loading{
+          position: relative;
+          width: 100%;
+          height: 100%;
+          background-color: #070709;
+      }
+
+      .loading__inner{
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          margin-left: -26px;
+          margin-top: -16px;
+          width: 52px;
+          height: 32px;
+          text-align: center;
+          color: #666;
+          font-size: 12px;
+          background-color: #070709;
+      }
+      .loading__img{
+          width: 52px;
+          height: 32px;
+          
+          background: url(http://wximg.gtimg.com/tmt/_events/20150514-promo-vivo/dist/img/loading.png) no-repeat;
+          
+          background-size: 52px auto;
+      }
+      .loading-num{
+          position: absolute;
+          left: 0;
+          bottom: -10px;
+          width: 100%;
+          text-align: center;
+      }
+		
+		  /**** 横屏 ****/
+		  @-webkit-keyframes rotation {
+          10% {
+              transform: rotate(90deg);
+              -webkit-transform: rotate(90deg)
+          }
+          50%, 60% {
+              transform: rotate(0deg);
+              -webkit-transform: rotate(0deg)
+          }
+          90% {
+              transform: rotate(90deg);
+              -webkit-transform: rotate(90deg)
+          }
+          100% {
+              transform: rotate(90deg);
+              -webkit-transform: rotate(90deg)
+          }
+      }
+
+      @keyframes rotation {
+          10% {
+              transform: rotate(90deg);
+              -webkit-transform: rotate(90deg)
+          }
+          50%, 60% {
+              transform: rotate(0deg);
+              -webkit-transform: rotate(0deg)
+          }
+          90% {
+              transform: rotate(90deg);
+              -webkit-transform: rotate(90deg)
+          }
+          100% {
+              transform: rotate(90deg);
+              -webkit-transform: rotate(90deg)
+          }
+      }
+
+      #orientLayer {
+          display: none;
+      }
+
+      @media screen and (min-aspect-ratio: 13/8) {
+          #orientLayer {
+              display: block;
+          }
+      }
+
+      .mod-orient-layer {
+          display: none;
+          position: fixed;
+          height: 100%;
+          width: 100%;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          background: #000;
+          z-index: 9997
+      }
+
+      .mod-orient-layer__content {
+          position: absolute;
+          width: 100%;
+          top: 45%;
+          margin-top: -75px;
+          text-align: center
+      }
+
+      .mod-orient-layer__icon-orient {
+          background-image: url(http://frstatic.qiniudn.com/images/promo/hengping.png);
+          display: inline-block;
+          width: 67px;
+          height: 109px;
+          transform: rotate(90deg);
+          -webkit-transform: rotate(90deg);
+          -webkit-animation: rotation infinite 1.5s ease-in-out;
+          animation: rotation infinite 1.5s ease-in-out;
+          -webkit-background-size: 67px;
+          background-size: 67px
+      }
+
+      .mod-orient-layer__desc {
+          margin-top: 20px;
+          font-size: 15px;
+          color: #fff
+      }
+      .music.playing{
+    		-webkit-animation: 2.3s spin linear infinite;
+    		animation: 2.3s spin linear infinite;
+    	}
+    	@-webkit-keyframes spin {
+    	    0% {
+    	        -webkit-transform: rotateZ(0deg);
+    	    }
+
+    	    100% {
+    	        -webkit-transform: rotateZ(360deg);
+    	    }
+    	}
+      .music {
+          position: fixed;
+          background: url(http://frstatic.qiniudn.com/images/promo/music_bg.png) 0 0 no-repeat;
+          z-index: 999;
+          width: 1.85rem;
+          height: 1.85rem;
+          right: 0.5rem;
+          top: 0.5rem;
+          background-size: 100% auto;
+      }
+      .music.stop {
+          background-position: 0 -1.85rem;
+      }
+      
+      .screen__bg {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 1;
+      }
+      .screen__inner {
+          position: absolute;
+          width: 320px;
+          height: 504px;
+          top: 50%;
+          left: 50%;
+          margin: -252px 0 0 -160px;
+          -webkit-perspective: 1000;
+          perspective: 1000;
+          overflow: hidden;
+      }
+      
+      
+    </style>
+  	<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
+  	{% block layout_css %}{% endblock %}
+		{% block page_css %}{% endblock %}
+
+    <!--需要body之前加载的js-->
+    {% block before_layout_js %}{% endblock %}
+		<!--把jquery放到body之前-->
+		
+	</head>
+	<body>
+
+		
+		
+		{% block layout_js %}{% endblock %}
+		{% block page_js %}
+		
+		{% endblock %}
+		<script src="http://frstatic.qiniudn.com/wechat/js/wxmoment.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+          // 放大元素,按照320x504定位,按比例scale
+          function scaleEle(selector,position){
+              var pageScale;
+              var currentScale=screenWidth/screenHeight;
+              var originScale=320/504;
+              if(currentScale>originScale){
+                  pageScale=screenHeight/504;
+              }else{
+                  pageScale=screenWidth/320;
+              }
+              $(selector).css({"-webkit-transform-origin":position,"transform-origin":position,"-webkit-transform":"scale("+pageScale+");","transform":"scale("+pageScale+");"});
+          }
+
+          var screenHeight = document.documentElement.clientHeight,
+              screenWidth = document.documentElement.clientWidth;
+
+          scaleEle(".screen__inner","center");
+
+
+          new WxMoment.OrientationTip();
+          var pageSlider = new WxMoment.PageSlider({
+              pages: $('.screen'),
+              direction: 'vertical',          //可选，vertical 或 v 为上下滑动，horizontal 或 h 为左右滑动，默认为 vertical
+              currentClass: 'current',        //可选, 当前屏的class (方便实现内容的进场动画)，默认值为 'current'
+              rememberLastVisited: true,      //可选，记住上一次访问结束后的索引值，可用于实现页面返回后是否回到上次访问的页面
+              animationPlayOnce: false,       //可选，切换页面时，动画只执行一次
+              oninit: function () {
+                if(this.rememberLastVisited){
+                    //如果返回是true，就执行下面跳转代码
+                    this.moveTo(this.lastVisitedIndex, true);
+                }
+              },         //可选，初始化完成时的回调
+              onbeforechange: function () {}, //可选，开始切换前的回调
+              onchange: function () {},       //可选，每一屏切换完成时的回调
+              onSwipeUp: function () {},      //可选，swipeUp 回调
+              onSwipeDown: function () {},    //可选，swipeDown 回调
+              onSwipeLeft: function () {},    //可选，swipeLeft 回调
+              onSwipeRight: function () {}    //可选，swipeRight 回调
+          });
+          
+          $('.music').click(function(){
+      				if($(this).hasClass("playing")){
+    					  $('#app_bgm').get(0).pause();
+    						$(this).removeClass("playing").addClass('stop');
+    					}
+    					else{
+    						$(this).addClass("playing").removeClass('stop');
+    						$('#app_bgm').get(0).play();
+    					}
+      		});
+      
+      });	
+          
+    </script>
+    
+	  {% if css_use_bundle %}
+		<div class="ui tongji hide">
+			<script type="text/javascript">
+			var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+			document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdb22f2cd57330bf18e5b0ff1e27e745f' type='text/javascript'%3E%3C/script%3E"));
+			</script>
+			
+			<script>
+			  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			  ga('create', 'UA-50478715-2', 'auto');
+			  ga('send', 'pageview');
+
+			</script>
+		</div>
+		{% endif %}
+		
+	</body>
+</html>

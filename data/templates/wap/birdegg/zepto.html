@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
@@ -18,9 +18,13 @@
 		<meta content="太火鸟" name="author" />
 		{%endblock%}
     <title>{% block title %}{% endblock %}{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}</title>
-		<link rel="shortcut icon" href="/favicon.ico" />
+		<link rel="shortcut icon" href="/favicon.ico" />-->
 	
 	<!-- Date: 2015-11-08 -->
+	
+{%extends 'layout/weixin.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
 	
 	<style>
     *{
@@ -66,7 +70,7 @@
         background: red;
     }
     
-    html, body {
+   /* html, body {
                 height: 100%;
                 -webkit-box-sizing: border-box;
                 box-sizing: border-box;
@@ -197,32 +201,14 @@
         font-size: 15px;
         color: #fff
     } 
-    
+    */
     
     .screen1__bg {
         background: url(http://wximg.gtimg.com/tmt/_events/20150514-promo-vivo/dist/img/screen1_bg.jpg)no-repeat center top;
         -webkit-background-size: contain;
         background-size: contain;
     }
-    .screen__bg {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 1;
-    }
-    .screen__inner {
-        position: absolute;
-        width: 320px;
-        height: 504px;
-        top: 50%;
-        left: 50%;
-        margin: -252px 0 0 -160px;
-        -webkit-perspective: 1000;
-        perspective: 1000;
-        overflow: hidden;
-    }
+    
     .screen1__icon {
         background: url(http://wximg.gtimg.com/tmt/_events/20150514-promo-vivo/dist/img/screen1_icon.png)no-repeat;
         -webkit-background-size: 50px;
@@ -239,7 +225,7 @@
     }
     
     
-    .music.playing{
+    /*.music.playing{
   		-webkit-animation: 2.3s spin linear infinite;
   		animation: 2.3s spin linear infinite;
   	}
@@ -264,7 +250,7 @@
     }
     .music.stop {
         background-position: 0 -1.85rem;
-    }
+    }*/
     
     .screen__inner {
         position: absolute;
@@ -277,9 +263,131 @@
         perspective: 1000;
         overflow: hidden;
     }
-    </style>
+</style>
+{% endblock %}
+
+{% block layout_js %}    
+  <script type="text/javascript" >
+    /* 加载 */
+    var basePath = "http://frstatic.qiniudn.com/images/promo/hy/";
+    if (!(typeof webpsupport == 'function')) {
+        var webpsupport = function (cb) {
+            cb();
+        }
+    }
+
+    webpsupport(function (webpa) {
+        var loader = new WxMoment.Loader(),
+     fileList =[
+     'zn/01.png',
+     'zn/02.png',
+     'zn/03.png',
+     'zn/04.png','zn/05.png','zn/06.png','zn/07.png','zn/yun.png','zn/yun1.png','zn/p1-1.png','zn/p1-2.png','zn/p1-3.png','zn/p1-4.png','zn/p1-5.png','zn/p1-6.png','zn/1.png','zn/2.png','zn/3.png','zn/4.png','zn/5.png','zn/6.png','zn/7.png','zn/8.png','zn/9.png'];
+     
+     for (var i = 0; i < fileList.length; i++) {
+         var basename = fileList[i].substring(fileList[i].lastIndexOf('/') + 1);
+
+         if (webpa && img_map && (basename in img_map) && img_map[basename]) { //if webp
+             var path = fileList[i].replace(/\.\w+/, '.webp');
+         } else {
+             var path = fileList[i];
+         }
+
+         loader.addImage(basePath + path);
+         $('#app_bgm').get(0).pause();
+     }
+
+     loader.addCompletionListener(function () {
+         $('.loading').remove();
+         $('.screen').eq(0).addClass('current');
+         $('.wrap').show();
+         $('#app_bgm').get(0).play();
+     });
+
+     //loading 进度监听
+     loader.addProgressListener(function (e) {
+         var percentUp = Math.round((e.completedCount / e.totalCount) * 100), //正序, 1-100
+             progressDown = 100 - percentUp;                                   //倒序, 100-1
+
+
+         $('.loading-num').text(percentUp + '%');
+     });
+
+     //启动
+     loader.start();
+    });
     
-  </style>
+    var m_name = ' tets';
+    var img_url = 'http://frstatic.qiniudn.com/images/promo/hy/zn/zn.jpg';
+    var link = '{{ app_url_wap }}/promo/jdzn';
+    var desc_str = ' test';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+   });
+
+	wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: 11, count_name:'count', type: 4, kind:4 });
+  }
+  
+    
+  
+
+  </script>
+{% endblock %}
 </head>
 <body>
   <div class="loading">
@@ -342,7 +450,7 @@
     </div>
 </div>-->
 
-  <script src="http://frstatic.qiniudn.com/wechat/js/wxmoment.min.js"></script>
+<!--  <script src="http://frstatic.qiniudn.com/wechat/js/wxmoment.min.js"></script>
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script>
     $(document).ready(function(){
@@ -523,7 +631,7 @@
     
         
      
-</script>
+</script>-->
 
 
 
