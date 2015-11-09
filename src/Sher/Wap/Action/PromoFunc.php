@@ -336,7 +336,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     	    $this->stash['note'] = '申请已提交，我们会尽快短信通知您审核结果!';
         }elseif($target_id==6){
           $redirect_url = Doggy_Config::$vars['app.url.wap'].'/promo/jdzn';
-    	    $this->stash['note'] = '申请已提交，我们会尽快短信通知您审核结果!';
+    	    $this->stash['note'] = '感谢您的参与，我们会尽快处理，并将在11月14日前短信通知您审核结果，请您及时关注消息推送。';
         }elseif($target_id==7){
           $redirect_url = Doggy_Config::$vars['app.url.wap'].'/promo/jdzn';
     	    $this->stash['note'] = '申请已提交，我们会尽快短信通知您审核结果!';
