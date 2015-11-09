@@ -76,10 +76,10 @@ display:none;
     var url = "{{ app_url_wap }}/app/wap/promo_func/fetch_db_bonus";
     $.post(url, {type: 1}, function(result){
       if(result.success){
-        phenix.show_error_note('result.message', 3000);
+        phenix.show_error_note(result.message, 3000);
         phenix.redirect(result.redirect_url);
       }else{
-        phenix.show_error_note('result.message', 3000);
+        phenix.show_error_note(result.message, 3000);
       }
     }, 'json');
   });

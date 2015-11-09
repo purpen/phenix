@@ -383,9 +383,9 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     $ok = $attend_model->create($data);
     if($ok){
       $redirect_url = Doggy_Config::$vars['app.url.wap'].'/my/bonus';
-      $this->ajax_json('领取成功!', false, $redirect_url);
+      return $this->ajax_json('领取成功!', false, $redirect_url);
     }else{
-      $this->ajax_json('领取失败!', true);
+      return $this->ajax_json('领取失败!', true);
     }
   
   }
