@@ -25,7 +25,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 * 造逆 
 	 */
 	public function jdzn(){
-			$this->stash['page_title_suffix'] = ' ';
+			$this->stash['page_title_suffix'] = '『造·逆』——一场逆向思维的智能硬件营销论剑';
 
       // 记录浏览数
       $num_mode = new Sher_Core_Model_SumRecord();
