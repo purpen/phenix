@@ -358,6 +358,37 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     }
 
   }
+
+  /**
+   * 兑吧领取红包
+   */
+  public function fetch_db_bonus(){
+  
+    // 判断用户是否已领取
+    $attend_model = new Sher_Core_Model_Attend();
+    $data = array(
+      'user_id' => $this->visitor->id,
+      'target_id' => 3,
+      'event' => 5,
+    );
+    $attend = $attend_model->first($data);
+
+    // 验证用户是否已领过红包 
+    if(!empty($attend)){
+      return $this->ajax_json('您已经领取过了!', true);
+    }
+
+    $data['state'] = 0;
+    $data['info']['bonus_money'] = 100;
+    $ok = $attend_model->create($data);
+    if($ok){
+      $redirect_url = Doggy_Config::$vars['app.url.wap'].'/my/bonus';
+      $this->ajax_json('领取成功!', false, $redirect_url);
+    }else{
+      $this->ajax_json('领取失败!', true);
+    }
+  
+  }
 	
 }
 

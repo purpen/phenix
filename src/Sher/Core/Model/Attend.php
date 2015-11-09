@@ -22,7 +22,7 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
 	
   protected $schema = array(
     'user_id' => null,
-    # 如果是专题：1. 云马C1PK; 2. 试用抽奖 
+    # 如果是专题：1. 云马C1PK; 2. 试用抽奖; 3. 兑吧抽奖送红包 4. --
     'target_id' => null,
     # 活动报名人数，抽奖次数 
     'ticket' => 1,

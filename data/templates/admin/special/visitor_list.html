@@ -93,6 +93,9 @@
                   <p class="attribute">默认：{{ f.info.bird_money_1|default '--' }}</p>
                   <p class="attribute">分享：{{ f.info.bird_money_2|default '--' }}</p>
                 {%endif%}
+                {% if target_id==3 %}
+                  <p class="attribute">红包金额：{{ f.info.bonus_money|default '--' }}</p>
+                {%endif%}
               {%endif%}
 
             </td>

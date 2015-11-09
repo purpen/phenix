@@ -11,7 +11,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus');
 
 	
 	/**
@@ -20,6 +20,32 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->coupon();
 	}
+
+  /**
+   * 兑吧抽奖送红包活动
+   */
+  public function db_bonus(){
+    $this->stash['is_obtain'] = false;
+    // 验证是否登录用户 
+    if($this->visitor->id){
+      // 判断用户是否已领取
+      $attend_model = new Sher_Core_Model_Attend();
+      $data = array(
+        'user_id' => $this->visitor->id,
+        'target_id' => 3,
+        'event' => 5,
+      );
+      $attend = $attend_model->first($data);
+
+      // 验证用户是否已领过红包 
+      if(!empty($attend)){
+        $this->stash['is_obtain'] = true;
+      }
+
+    }
+    
+    return $this->to_html_page('wap/promo/db_bonus.html');
+  }
 	
 	/**
 	 * 造逆 
