@@ -378,7 +378,8 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       return $this->ajax_json('您已经领取过了!', true);
     }
 
-    $is_send_bonus = $this->give_bonus($this->visitor->id, 'DB', array('count'=>5, 'xname'=>'DB', 'bonus'=>'B', 'min_amounts'=>'B'));
+    $end_time = time() + 60*60*24*7;
+    $is_send_bonus = $this->give_bonus($this->visitor->id, 'DB', array('count'=>5, 'xname'=>'DB', 'bonus'=>'B', 'min_amounts'=>'B', 'expired_time'=>$end_time));
     if($is_send_bonus){
       $data['state'] = 0;
       $data['info']['bonus_money'] = 100;
@@ -416,8 +417,11 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       }
     }
     
-    // 赠与红包 使用默认时间7天 $end_time = strtotime('2015-06-30 23:59')
+    // 赠与红包 使用默认时间1月 $end_time = strtotime('2015-06-30 23:59')
     $end_time = 0;
+    if(isset($options['expired_time'])){
+      $end_time = (int)$options['expired_time'];
+    }
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
     return $code_ok;
   }
