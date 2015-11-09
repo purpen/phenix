@@ -378,16 +378,48 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       return $this->ajax_json('您已经领取过了!', true);
     }
 
-    $data['state'] = 0;
-    $data['info']['bonus_money'] = 100;
-    $ok = $attend_model->create($data);
-    if($ok){
-      $redirect_url = Doggy_Config::$vars['app.url.wap'].'/my/bonus';
-      return $this->ajax_json('领取成功!', false, $redirect_url);
+    $is_send_bonus = $this->give_bonus($this->visitor->id, 'DB', array('count'=>5, 'xname'=>'DB', 'bonus'=>'B', 'min_amounts'=>'B'));
+    if($is_send_bonus){
+      $data['state'] = 0;
+      $data['info']['bonus_money'] = 100;
+      $ok = $attend_model->create($data);
+      if($ok){
+        $redirect_url = Doggy_Config::$vars['app.url.wap'].'/my/bonus';
+        return $this->ajax_json('领取成功!', false, $redirect_url);
+      }else{
+        return $this->ajax_json('领取失败!', true);
+      }   
     }else{
-      return $this->ajax_json('领取失败!', true);
+      return $this->ajax_json('领取失败.!', true);   
     }
+
   
+  }
+
+  //红包赠于
+  protected function give_bonus($user_id, $xname, $options=array()){
+    if(empty($options)){
+      return false;
+    }
+    // 获取红包
+    $bonus = new Sher_Core_Model_Bonus();
+    $result_code = $bonus->pop($xname);
+    
+    // 获取为空，重新生产红包
+    while(empty($result_code)){
+      //指定生成红包
+      $bonus->create_specify_bonus($options['count'], $options['xname'], $options['bonus'], $options['min_amounts']);
+      $result_code = $bonus->pop($xname);
+      // 跳出循环
+      if(!empty($result_code)){
+        break;
+      }
+    }
+    
+    // 赠与红包 使用默认时间7天 $end_time = strtotime('2015-06-30 23:59')
+    $end_time = 0;
+    $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
+    return $code_ok;
   }
 	
 }
