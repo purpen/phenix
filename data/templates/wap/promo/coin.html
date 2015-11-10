@@ -37,7 +37,6 @@
 	  height:77px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_04.png) no-repeat;
 	  background-size:25px;
-	  -webkit-background-style:25px;
   }
   .screen_cir1{
 	  position:absolute;
@@ -47,7 +46,6 @@
 	  height:18px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_3.png) no-repeat;
 	  background-size:18px;
-	  -webkit-background-style:18px;
 	  animation: btopr 5s linear infinite alternate;
 	  -webkit-animation: btopr 5s linear infinite alternate;
   }
@@ -81,7 +79,6 @@
 	  height:77px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_05.png) no-repeat;
 	  background-size:25px;
-	  -webkit-background-style:25px;
   }
   .screen_cir2{
 	  position:absolute;
@@ -91,7 +88,6 @@
 	  height:18px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_3.png) no-repeat;
 	  background-size:18px;
-	  -webkit-background-style:18px;
 	  animation: btop 5s linear infinite alternate;
 	  -webkit-animation: btop 5s linear infinite alternate;
   }
@@ -105,8 +101,6 @@
 	  height:504px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_25.png) no-repeat;
 	  background-size:320px;
-	  -webkit-background-style:320px;
-	  
   }
   .p1_cicle{
 	  position:absolute;
@@ -116,7 +110,6 @@
 	  height:320px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_22.png) no-repeat;
 	  background-size:320px;
-	  -webkit-background-style:320px;
   }
   .p1_zhuan{
 	  position:absolute;
@@ -126,7 +119,6 @@
 	  height:320px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_21.png) no-repeat;
 	  background-size:320px;
-	  -webkit-background-style:320px;
 	  -webkit-animation: 60s spin linear infinite;
 	  animation: 60s spin linear infinite;
   }
@@ -138,7 +130,6 @@
 	  height:320px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_23.png) no-repeat;
 	  background-size:320px;
-	  -webkit-background-style:320px;
 	  -webkit-animation: 10s spin linear infinite;
 	  animation: 10s spin linear infinite;
   }
@@ -150,10 +141,28 @@
 	  height:320px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_24.png) no-repeat;
 	  background-size:320px;
-	  -webkit-background-style:320px;
 	  -webkit-animation: 10s spin linear infinite;
 	  animation: 10s spin linear infinite;
   }
+  .page-logo{
+	  -webkit-animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
+	  animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
+	  opacity:0;
+  }
+  @-webkit-keyframes scale-to-zero-with-left {
+    	0% {
+        -webkit-transform: translate3d(0%, 0, 0) scale(20);
+        opacity: 0;
+     }
+     50% {
+        opacity: 0.3;
+     }
+     100% {
+        -webkit-transform: translate3d(0%, 0, 0) scale(1);
+        opacity: 1;
+     }
+  }
+
   .p1_text2{
 	  position:absolute;
 	  left:50%;
@@ -163,7 +172,6 @@
 	  height:25px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_2.png) no-repeat;
 	  background-size:235px;
-	  -webkit-background-style:235px;	
 	  animation-delay:1.5s;
 	  -webkit-animation-delay:1.5s;
   }
@@ -175,10 +183,32 @@
 	  width:170px;
 	  height:88px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p_1.png) no-repeat;
-	  background-size:170px;
-	  -webkit-background-style:170px;	
+	  background-size:170px;	
 	  animation-delay:1s;
 	  -webkit-animation-delay:1s;
+  }
+  
+  .p1_co1{
+	  position:absolute;
+	  right:0px;
+	  top:40px;
+	  width:60px;
+	  height:60px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_11.png) no-repeat;
+	  background-size:60px;
+	  -webkit-animation: 15s spin linear infinite;
+	  animation: 15s spin linear infinite;
+  } 
+  .p1_co2{
+	  position:absolute;
+	  left: 34px;
+	  top: 462px;
+	  width:40px;
+	  height:40px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_15.png) no-repeat;
+	  background-size:40px;
+	  -webkit-animation: 20s spin linear infinite;
+	  animation: 20s spin linear infinite;
   }
   
 </style>
@@ -195,7 +225,7 @@
     webpsupport(function (webpa) {
     var loader = new WxMoment.Loader(),
      fileList =[
-		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png'
+		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png','p1_11.png','p1_15.png'
 	];
      
      for (var i = 0; i < fileList.length; i++) {
@@ -318,11 +348,14 @@
 					<div class="screen_cir2"></div>
 				</div>
 				<div class="p1_text1 zoomIn animated"></div>
-				<div class="p1_text2 bounceInUp animated"></div>
+				<div class="p1_text2 page-logo"></div>
 				<div class="p1_zhuan"></div>
 				<div class="p1_zhuan1"></div>
 				<div class="p1_zhuan2"></div>
 			</div>
+			
+			<div class="p1_co1"></div>
+			<div class="p1_co2"></div>
 				
 				
 			
