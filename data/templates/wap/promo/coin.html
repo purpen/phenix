@@ -207,8 +207,12 @@
 	  height:40px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/P1_15.png) no-repeat;
 	  background-size:40px;
-	  -webkit-animation: 20s spin linear infinite;
-	  animation: 20s spin linear infinite;
+	  -webkit-animation: 10s scal linear infinite alternate;
+	  animation: 10s scal linear infinite alternate;
+  }
+  @-webkit-keyframes scal{
+      0%,100%{  -webkit-transform: scale(0.9)  }
+	 50%{  -webkit-transform: scale(1.1)  }
   }
   
 </style>
