@@ -38,7 +38,7 @@
   .screen_cir1{
 	  position:absolute;
 	  top:13px;
-	  right:-4px;
+	  right:-5px;
 	  width:18px;
 	  height:18px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_3.png) no-repeat;
@@ -67,7 +67,7 @@
   .screen_cir2{
 	  position:absolute;
 	  top:13px;
-	  left:-4px;
+	  left:-5px;
 	  width:18px;
 	  height:18px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_3.png) no-repeat;
@@ -87,6 +87,16 @@
 	  -webkit-background-style:320px;
 	  
   }
+  .p1_cicle{
+	  position:absolute;
+	  left:0;
+	  top:90px;
+	  width:320px;
+	  height:320px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_22.png) no-repeat;
+	  background-size:320px;
+	  -webkit-background-style:320px;
+  }
   
 </style>
 {% endblock %}
@@ -102,7 +112,7 @@
     webpsupport(function (webpa) {
     var loader = new WxMoment.Loader(),
      fileList =[
-		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png'
+		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png'
 	];
      
      for (var i = 0; i < fileList.length; i++) {
@@ -222,6 +232,10 @@
 				<div class="screen_icon2"></div>
 				<div class="screen_cir2"></div>
 			</div>
+			
+			<div class="p1_cicle"></div>
+				
+				
 			
 		
 		</div>
