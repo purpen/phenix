@@ -18,12 +18,12 @@
   }
   .p1_left{
 	  position:absolute;
-	  top:170px;
-	  right:40px;
+	  top:90px;
+	  right:50px;
 	  width:25px;
 	  height:77px;
-	  transform: translateX(-80px);
-	  -webkit-transform: translateX(-80px);
+	  /*transform: translateX(-80px);
+	  -webkit-transform: translateX(-80px);*/
   }
   .screen_icon1{
 	  position:absolute;
@@ -47,12 +47,12 @@
   }
   .p1_right{
 	  position:absolute;
-	  top:170px;
-	  left:40px;
+	  top:90px;
+	  left:50px;
 	  width:25px;
 	  height:77px;
-	  transform: translateX(80px);
-	  -webkit-transform: translateX(80px);
+	  /*transform: translateX(80px);
+	  -webkit-transform: translateX(80px);*/
   }
   .screen_icon2{
 	  position:absolute;
@@ -97,6 +97,38 @@
 	  background-size:320px;
 	  -webkit-background-style:320px;
   }
+  .p1_zhuan{
+	  position:absolute;
+	  left:0;
+	  top:0px;
+	  width:320px;
+	  height:320px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_21.png) no-repeat;
+	  background-size:320px;
+	  -webkit-background-style:320px;
+  }
+  .p1_text2{
+	  position:absolute;
+	  left:50%;
+	  margin-left:-117.5px;
+	  top:185px;
+	  width:235px;
+	  height:25px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_2.png) no-repeat;
+	  background-size:235px;
+	  -webkit-background-style:235px;	
+  }
+  .p1_text1{
+	  position:absolute;
+	  left:50%;
+	  margin-left:-85px;
+	  top:80px;
+	  width:170px;
+	  height:88px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p_1.png) no-repeat;
+	  background-size:170px;
+	  -webkit-background-style:170px;	
+  }
   
 </style>
 {% endblock %}
@@ -112,7 +144,7 @@
     webpsupport(function (webpa) {
     var loader = new WxMoment.Loader(),
      fileList =[
-		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png'
+		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png'
 	];
      
      for (var i = 0; i < fileList.length; i++) {
@@ -224,16 +256,21 @@
      	<div class="screen__bg"></div>
 		<div class="screen__inner">
 			<div class="p1_bg1"></div>
-			<div class="p1_left">
-				<div class="screen_icon1"></div>
-				<div class="screen_cir1"></div>
-			</div>
-			<div class="p1_right">
-				<div class="screen_icon2"></div>
-				<div class="screen_cir2"></div>
-			</div>
 			
-			<div class="p1_cicle"></div>
+			<div class="p1_cicle">
+				<div class="p1_zhuan">
+					<div class="p1_left">
+						<div class="screen_icon1"></div>
+						<div class="screen_cir1"></div>
+					</div>
+					<div class="p1_right">
+						<div class="screen_icon2"></div>
+						<div class="screen_cir2"></div>
+					</div>
+					<div class="p1_text1"></div>
+					<div class="p1_text2"></div>
+				</div>
+			</div>
 				
 				
 			
