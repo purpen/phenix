@@ -32,6 +32,9 @@
       margin-left: -25px;
       opacity: 1;
   }
+  .loading__img{
+  	background: url(http://wximg.gtimg.com/tmt/_events/20150514-promo-vivo/dist/img/loading.png) no-repeat;
+  }
 
 </style>
 {% endblock %}
@@ -65,7 +68,7 @@
          loader.addImage(basePath + path);
          $('#app_bgm').get(0).pause();
      }
-
+	
      loader.addCompletionListener(function () {
          $('.loading').remove();
          $('.screen').eq(0).addClass('current');
