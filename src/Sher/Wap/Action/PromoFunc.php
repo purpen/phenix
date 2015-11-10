@@ -378,7 +378,8 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       return $this->ajax_json('您已经领取过了!', true);
     }
 
-    $end_time = time() + 60*60*24*7;
+    // 有效期截止为11月30日
+    $end_time = strtotime('2015-11-30 23:59');
     $is_send_bonus = $this->give_bonus($this->visitor->id, 'DB', array('count'=>5, 'xname'=>'DB', 'bonus'=>'B', 'min_amounts'=>'B', 'expired_time'=>$end_time));
     if($is_send_bonus){
       $data['state'] = 0;
