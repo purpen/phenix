@@ -84,6 +84,9 @@
                   {% if target_id==2 %}
                   <span class="attribute">试用抽奖</span>
                   {%endif%}
+                  {% if target_id==3 %}
+                  <span class="attribute">兑吧红包</span>
+                  {%endif%}
                 </p>
                 {%endif%}
             </td>
@@ -92,6 +95,9 @@
                 {% if target_id==2 %}
                   <p class="attribute">默认：{{ f.info.bird_money_1|default '--' }}</p>
                   <p class="attribute">分享：{{ f.info.bird_money_2|default '--' }}</p>
+                {%endif%}
+                {% if target_id==3 %}
+                  <p class="attribute">红包金额：{{ f.info.bonus_money|default '--' }}</p>
                 {%endif%}
               {%endif%}
 
