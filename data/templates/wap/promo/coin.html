@@ -16,30 +16,82 @@
       -webkit-background-size: contain;
       background-size: contain;
   }
+  .p1_left{
+	  position:absolute;
+	  top:170px;
+	  right:40px;
+	  width:25px;
+	  height:77px;
+	  transform: translateX(-80px);
+	  -webkit-transform: translateX(-80px);
+  }
   .screen_icon1{
 	  position:absolute;
-	  top:220px;
+	  top:170px;
 	  right:40px;
 	  width:25px;
 	  height:77px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_04.png) no-repeat;
 	  background-size:25px;
 	  -webkit-background-style:25px;
+  }
+  .screen_cir1{
+	  position:absolute;
+	  top:185px;
+	  right:36px;
+	  width:18px;
+	  height:18px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_3.png) no-repeat;
+	  background-size:18px;
+	  -webkit-background-style:18px;
 	  transform: translateX(-80px);
 	  -webkit-transform: translateX(-80px);
   }
+  .p1_right{
+	  position:absolute;
+	  top:170px;
+	  left:40px;
+	  width:25px;
+	  height:77px;
+	  transform: translateX(80px);
+	  -webkit-transform: translateX(80px);
+  }
   .screen_icon2{
 	  position:absolute;
-	  top:220px;
+	  top:170px;
 	  left:40px;
 	  width:25px;
 	  height:77px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_05.png) no-repeat;
 	  background-size:25px;
 	  -webkit-background-style:25px;
+  }
+  .screen_cir2{
+	  position:absolute;
+	  top:185px;
+	  left:36px;
+	  width:18px;
+	  height:18px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_3.png) no-repeat;
+	  background-size:18px;
+	  -webkit-background-style:18px;
 	  transform: translateX(80px);
 	  -webkit-transform: translateX(80px);
   }
+  
+  
+  .p1_bg1{
+	  position:absolute;
+	  left:0;
+	  top:0;
+	  width:320px;
+	  height:504px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_25.png) no-repeat;
+	  background-size:320px;
+	  -webkit-background-style:320px;
+	  
+  }
+  
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -54,7 +106,7 @@
     webpsupport(function (webpa) {
     var loader = new WxMoment.Loader(),
      fileList =[
-		'bj.png','p1_04.png','p1_05.png'
+		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png'
 	];
      
      for (var i = 0; i < fileList.length; i++) {
@@ -165,9 +217,16 @@
      <section class="screen screen1">
      	<div class="screen__bg"></div>
 		<div class="screen__inner">
-			<div class="screen_icon1"></div>
-			<div class="screen_icon2"></div>
-		
+			<div class="p1_bg1"></div>
+			<div class="p1_left">
+				<div class="screen_icon1"></div>
+				<div class="screen_cir1"></div>
+			</div>
+			<div class="p1_right">
+				<div class="screen_icon2"></div>
+				<div class="screen_cir2"></div>
+			</div>
+			
 		
 		</div>
 	</section>
