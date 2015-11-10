@@ -44,6 +44,17 @@
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_3.png) no-repeat;
 	  background-size:18px;
 	  -webkit-background-style:18px;
+	  animation: btopr 5s linear infinite alternate;
+	  -webkit-animation: btopr 5s linear infinite alternate;
+  }
+
+  @-webkit-keyframes btop{
+      0%, 100%{  -webkit-transform: translateY(0)  }
+      50%{  -webkit-transform: translateY(37px)  }
+  }
+  @-webkit-keyframes btopr{
+      0%, 100%{  -webkit-transform: translateY(37px)  }
+      50%{  -webkit-transform: translateY(0)  }
   }
   .p1_right{
 	  position:absolute;
@@ -73,6 +84,8 @@
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_3.png) no-repeat;
 	  background-size:18px;
 	  -webkit-background-style:18px;
+	  animation: btop 5s linear infinite alternate;
+	  -webkit-animation: btop 5s linear infinite alternate;
   }
   
   
@@ -106,6 +119,8 @@
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_21.png) no-repeat;
 	  background-size:320px;
 	  -webkit-background-style:320px;
+	  -webkit-animation: 60s spin linear infinite;
+	  animation: 60s spin linear infinite;
   }
   .p1_zhuan1{
 	  position:absolute;
@@ -282,18 +297,17 @@
 			<div class="p1_bg1"></div>
 			
 			<div class="p1_cicle">
-				<div class="p1_zhuan">
-					<div class="p1_left">
-						<div class="screen_icon1"></div>
-						<div class="screen_cir1"></div>
-					</div>
-					<div class="p1_right">
-						<div class="screen_icon2"></div>
-						<div class="screen_cir2"></div>
-					</div>
-					<div class="p1_text1"></div>
-					<div class="p1_text2"></div>
+				<div class="p1_left">
+					<div class="screen_icon1"></div>
+					<div class="screen_cir1"></div>
 				</div>
+				<div class="p1_right">
+					<div class="screen_icon2"></div>
+					<div class="screen_cir2"></div>
+				</div>
+				<div class="p1_text1"></div>
+				<div class="p1_text2"></div>
+				<div class="p1_zhuan"></div>
 				<div class="p1_zhuan1"></div>
 				<div class="p1_zhuan2"></div>
 			</div>
