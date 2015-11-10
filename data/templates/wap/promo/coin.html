@@ -22,8 +22,12 @@
 	  right:50px;
 	  width:25px;
 	  height:77px;
-	  /*transform: translateX(-80px);
-	  -webkit-transform: translateX(-80px);*/
+	  -webkit-animation: rightto 1.5s 0.5s ease both;
+	  animation: rightto 1.5s 0.5s ease both;
+  }
+  @-webkit-keyframes rightto{
+      0%{  -webkit-transform: translateX(-80px)  }
+      100%{  -webkit-transform: translateX(0)  }
   }
   .screen_icon1{
 	  position:absolute;
@@ -62,8 +66,12 @@
 	  left:50px;
 	  width:25px;
 	  height:77px;
-	  /*transform: translateX(80px);
-	  -webkit-transform: translateX(80px);*/
+	  -webkit-animation: leftto 1.5s 0.5s ease both;
+	  animation: leftto 1.5s 0.5s ease both;
+  }
+  @-webkit-keyframes leftto{
+      0%{  -webkit-transform: translateX(80px)  }
+      100%{  -webkit-transform: translateX(0)  }
   }
   .screen_icon2{
 	  position:absolute;
@@ -156,6 +164,8 @@
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_2.png) no-repeat;
 	  background-size:235px;
 	  -webkit-background-style:235px;	
+	  animation-delay:1.5s;
+	  -webkit-animation-delay:1.5s;
   }
   .p1_text1{
 	  position:absolute;
@@ -167,6 +177,8 @@
 	  background:url({{ app_url_packaged }}/images/promo/coin/p_1.png) no-repeat;
 	  background-size:170px;
 	  -webkit-background-style:170px;	
+	  animation-delay:1s;
+	  -webkit-animation-delay:1s;
   }
   
 </style>
@@ -305,8 +317,8 @@
 					<div class="screen_icon2"></div>
 					<div class="screen_cir2"></div>
 				</div>
-				<div class="p1_text1"></div>
-				<div class="p1_text2"></div>
+				<div class="p1_text1 zoomIn animated"></div>
+				<div class="p1_text2 bounceInUp animated"></div>
 				<div class="p1_zhuan"></div>
 				<div class="p1_zhuan1"></div>
 				<div class="p1_zhuan2"></div>
