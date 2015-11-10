@@ -11,7 +11,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin');
 
 	
 	/**
@@ -20,7 +20,15 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->coupon();
 	}
-
+	
+	/**
+	 * 创造 
+	 */
+	public function coin(){
+		
+		return $this->to_html_page('wap/promo/coin.html');
+	}
+	
   /**
    * 兑吧抽奖送红包活动
    */
