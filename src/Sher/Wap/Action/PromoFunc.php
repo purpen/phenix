@@ -378,23 +378,22 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       return $this->ajax_json('您已经领取过了!', true);
     }
 
-    // 有效期截止为11月30日
-    $end_time = strtotime('2015-11-30 23:59');
-    $is_send_bonus = $this->give_bonus($this->visitor->id, 'DB', array('count'=>5, 'xname'=>'DB', 'bonus'=>'B', 'min_amounts'=>'B', 'expired_time'=>$end_time));
-    if($is_send_bonus){
-      $data['state'] = 0;
-      $data['info']['bonus_money'] = 100;
-      $ok = $attend_model->create($data);
-      if($ok){
+    $data['state'] = 0;
+    $data['info']['bonus_money'] = 100;
+    $ok = $attend_model->apply_and_save($data);
+    if($ok){
+      // 有效期截止为11月30日
+      $end_time = strtotime('2015-11-30 23:59');
+      $is_send_bonus = $this->give_bonus($this->visitor->id, 'DB', array('count'=>5, 'xname'=>'DB', 'bonus'=>'B', 'min_amounts'=>'B', 'expired_time'=>$end_time));
+      if($is_send_bonus){
         $redirect_url = Doggy_Config::$vars['app.url.wap'].'/my/bonus';
-        return $this->ajax_json('领取成功!', false, $redirect_url);
+        return $this->ajax_json('领取成功!', false, $redirect_url);     
       }else{
         return $this->ajax_json('领取失败!', true);
-      }   
+      }
     }else{
       return $this->ajax_json('领取失败.!', true);   
     }
-
   
   }
 
