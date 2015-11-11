@@ -22,12 +22,14 @@
 	  right:50px;
 	  width:25px;
 	  height:77px;
-	  -webkit-animation: rightto 1.5s 0.5s ease both;
-	  animation: rightto 1.5s 0.5s ease both;
   }
   @-webkit-keyframes rightto{
       0%{  -webkit-transform: translateX(-80px)  }
       100%{  -webkit-transform: translateX(0)  }
+  }
+  .current .p1_left{
+	  -webkit-animation: rightto 1.5s 0.5s ease both;
+	  animation: rightto 1.5s 0.5s ease both;
   }
   .screen_icon1{
 	  position:absolute;
@@ -64,12 +66,14 @@
 	  left:50px;
 	  width:25px;
 	  height:77px;
-	  -webkit-animation: leftto 1.5s 0.5s ease both;
-	  animation: leftto 1.5s 0.5s ease both;
   }
   @-webkit-keyframes leftto{
       0%{  -webkit-transform: translateX(80px)  }
       100%{  -webkit-transform: translateX(0)  }
+  }
+  .current .p1_right{
+	  -webkit-animation: leftto 1.5s 0.5s ease both;
+	  animation: leftto 1.5s 0.5s ease both;
   }
   .screen_icon2{
 	  position:absolute;
@@ -145,9 +149,11 @@
 	  animation: 10s spin linear infinite;
   }
   .page-logo{
+	  opacity:0;
+  }
+  .current .page-logo{
 	  -webkit-animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
 	  animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
-	  opacity:0;
   }
   @-webkit-keyframes scale-to-zero-with-left {
     	0% {
@@ -172,6 +178,8 @@
 	  height:25px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p1_2.png) no-repeat;
 	  background-size:235px;
+  }
+  .current .p1_text2{
 	  animation-delay:1.5s;
 	  -webkit-animation-delay:1.5s;
   }
@@ -184,8 +192,20 @@
 	  height:88px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p_1.png) no-repeat;
 	  background-size:170px;	
-	  animation-delay:1s;
-	  -webkit-animation-delay:1s;
+	  opacity:0;
+  }
+  .current .p1_text1{
+	  -webkit-animation: 1s zoomIn 1s both;
+	  animation: 1s zoomIn 1s  both;
+	  opacity:1;
+  }
+  @-webkit-keyframes zoomIn{
+	  0%{opacity:0;-webkit-transform:scale3d(.3,.3,.3);transform:scale3d(.3,.3,.3)}
+	  50%{opacity:1}
+  }
+  @keyframes zoomIn{
+	0%{opacity:0;-webkit-transform:scale3d(.3,.3,.3);-ms-transform:scale3d(.3,.3,.3);transform:scale3d(.3,.3,.3)}
+	  50%{opacity:1}
   }
   
   .p1_co1{
@@ -503,7 +523,7 @@
 					<div class="screen_icon2"></div>
 					<div class="screen_cir2"></div>
 				</div>
-				<div class="p1_text1 zoomIn animated"></div>
+				<div class="p1_text1"></div>
 				<div class="p1_text2 page-logo"></div>
 				<div class="p1_zhuan"></div>
 				<div class="p1_zhuan1"></div>
@@ -530,7 +550,10 @@
 		
 		</div>
 	</section>
-	
+	<section class="screen screen2">
+		
+		
+	</section>
 	  
 	  
 	
