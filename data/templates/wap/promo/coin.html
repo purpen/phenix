@@ -313,6 +313,59 @@
 	  -webkit-animation: 3s slineX linear infinite alternate;
 	  animation: 3s slineX linear infinite alternate;
   }
+  .p1_line6{
+	  position:absolute;
+	  right:90px;
+	  top:50px;
+	  width:19px;
+	  height:18px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_08.png) no-repeat;
+	  background-size:19px;
+	  -webkit-animation: 5s slineY linear infinite alternate;
+	  animation: 5s slineY linear infinite alternate;
+  }
+  .p1_line7{
+	  position:absolute;
+	  right:65px;
+	  top:78px;
+	  width:19px;
+	  height:13px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_09.png) no-repeat;
+	  background-size:19px;
+	  -webkit-animation: 3s slineX linear infinite alternate;
+	  animation: 3s slineX linear infinite alternate;
+  }
+  .p1_line8{
+	  position:absolute;
+	  left:40px;
+	  top:100px;
+	  width:10px;
+	  height:14px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_06.png) no-repeat;
+	  background-size:10px;
+	  -webkit-animation: 3s slineX linear infinite alternate;
+	  animation: 3s slineX linear infinite alternate;
+  }
+  .p1_line9{
+	  position:absolute;
+	  left:20px;
+	  top:110px;
+	  width:14px;
+	  height:43px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_07.png) no-repeat;
+	  background-size:14px;
+	  -webkit-animation: 3s slineY linear infinite alternate;
+	  animation: 3s slineY linear infinite alternate;
+  }
+  .logo{
+	  position:absolute;
+	  top:20px;
+	  left:20px;
+	  width:108px;
+	  height:33px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/logo.png) no-repeat;
+	  background-size:108px;
+  }
   
 </style>
 {% endblock %}
@@ -328,7 +381,7 @@
     webpsupport(function (webpa) {
     var loader = new WxMoment.Loader(),
      fileList =[
-		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png','p1_11.png','P1_15.png','P1_16.png','p1_17.png','p1_18.png','p1_19.png','p1_20.png','P1_13.png','P1_14.png'
+		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png','p1_11.png','P1_15.png','P1_16.png','p1_17.png','p1_18.png','p1_19.png','p1_20.png','P1_13.png','P1_14.png','p1_06.png','p1_07.png','p1_08.png','p1_09.png','logo.png'
 	];
      
      for (var i = 0; i < fileList.length; i++) {
@@ -440,7 +493,7 @@
      	<div class="screen__bg"></div>
 		<div class="screen__inner">
 			<div class="p1_bg1"></div>
-			
+			<div class="logo"></div>
 			<div class="p1_cicle">
 				<div class="p1_left">
 					<div class="screen_icon1"></div>
@@ -467,6 +520,10 @@
 			<div class="p1_line3"></div>
 			<div class="p1_line4"></div>
 			<div class="p1_line5"></div>
+			<div class="p1_line6"></div>
+			<div class="p1_line7"></div>
+			<div class="p1_line8"></div>
+			<div class="p1_line9"></div>
 			
 				
 			
