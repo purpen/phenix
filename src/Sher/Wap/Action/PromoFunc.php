@@ -267,12 +267,12 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       $user = $user_model->first(array('account'=>$this->stash['phone']));
       if(empty($user)){ //注册用户, 生成随机密码 
         $user_info = array(
-          'account' => $this->stash['phone'],
-				  'nickname' => $this->stash['phone'],
-				  'password' => sha1(rand(100000, 999999)),
-          //报名注册标记(随机密码)
-          'kind'  => 21,
-          'state' => Sher_Core_Model_User::STATE_OK
+			'account' => $this->stash['phone'],
+			'nickname' => $this->stash['phone'],
+			'password' => sha1(rand(100000, 999999)),
+			//报名注册标记(随机密码)
+			'kind'  => 21,
+			'state' => Sher_Core_Model_User::STATE_OK
         );
 			
         $profile = $user_model->get_profile();
