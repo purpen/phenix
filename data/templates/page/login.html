@@ -133,11 +133,11 @@
 				dataType: 'json',
 				beforeSubmit: function(){
 					// 点击前触发的事件
-					//phenix.before_submit();
+					phenix.before_submit();
 				},
 				success: function(data){
 					// 点击后触发的事件
-					//phenix.after_submit();
+					phenix.after_submit();
 					if(data.is_error){
 						$(event.target).addClass('error');
 						phenix.show_error_note(data.message, 3000);
