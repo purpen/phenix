@@ -9,12 +9,16 @@
      background-size: 52px auto;
   }
   .screen{
-	  background:#efefef;
+	  background-color:#efefef;
   }
-  .screen1__bg {
+  .screen__bg {
       background: url({{ app_url_packaged }}/images/promo/coin/bj.png)no-repeat center top;
-      -webkit-background-size: contain;
-      background-size: contain;
+      background-size: 320px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 320px;
+      height: 504px;
   }
   .p1_left{
 	  position:absolute;
@@ -412,6 +416,32 @@
       0%{  opacity:0; }
 	 100%{  opacity:1;  }
   }
+  
+  
+  .p2_bg1{
+	  position:absolute;
+	  top:0;
+	  left:0;
+	  width:320px;
+	  height:504px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p2-2.png) no-repeat;
+	  background-position:100%;
+  }
+  .current .p2_bg1{
+  	 -webkit-animation: bg2 1s 0.5s both;
+ 	 animation: bg2 0.5s 1s both;
+  }
+  @-webkit-keyframes bg2 {
+  	0% {
+  		background-size:-380px 100%;
+  	}
+  	100%{
+  	  	background-size:320px 100%;
+  	}
+  }
+  
+  
+  
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -535,8 +565,8 @@
 {% block content %}
 <div class="wrap"  style="display: none">
      <section class="screen screen1">
-     	<div class="screen__bg"></div>
 		<div class="screen__inner">
+			<div class="screen__bg"></div>
 			<div class="p1_bg1"></div>
 			<div class="logo"></div>
 			<div class="p1_cicle">
@@ -578,8 +608,12 @@
 		</div>
 	</section>
 	<section class="screen screen2">
+		<div class="screen__inner">
+			<div class="screen__bg"></div>
+			<div class="p2_bg1"></div>
 		
 		
+		</div>
 	</section>
 	  
 	  
