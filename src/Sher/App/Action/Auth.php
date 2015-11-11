@@ -404,7 +404,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 				}
 				$this->clear_auth_return_url();
 				
-				$msg = "尊敬的".$account."用户，您好！恭喜您成为太火鸟的用户，您的用户名是：".$account.",密码是：".$password."，请您尽快登陆官网修改密码，以确保账户的安全！我们的网址是：http://www.taihuoniao.com";
+				$msg = "恭喜您成为太火鸟的用户，您的用户名是：".$account.",密码是：".$password."，请您尽快登陆官网个人中心修改密码，以确保账户的安全！";
 				// 注册成功，发送短信
 				$message = Sher_Core_Helper_Util::send_defined_mms($account, $msg);
 			}else{
