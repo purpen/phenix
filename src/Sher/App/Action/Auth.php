@@ -317,13 +317,6 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	 */
 	public function dynamic_do_login(){
 		
-        $service = DoggyX_Session_Service::instance();
-        $s_t = $service->session->login_token;
-		
-        if (empty($s_t) || $s_t != $this->stash['t']) {
-            //return $this->ajax_json('页面已经超时,您需要重新刷新后登录',true,Doggy_Config::$vars['app.url.login']);
-        }
-		
 		// 验证短信验证吗
 		$verify_code = isset($this->stash['verify_code']) ? $this->stash['verify_code'] : null;
 		if(empty($verify_code)){
@@ -339,12 +332,6 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		// 验证手机号码是否合法
 		if(!preg_match("/1[3458]{1}\d{9}$/",trim($account))){  
 			return $this->ajax_json('请输入正确的手机号码格式!', true);     
-		}
-		
-		// 验证手机号码是否为空
-		$t = isset($this->stash['t']) ? $this->stash['t'] : null;
-		if(empty($t)){
-		  return $this->ajax_json('请输入手机号!', true);
 		}
 		
 		$user = new Sher_Core_Model_User();
@@ -405,14 +392,26 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 			$user_ok = $user_model->create($user_info);
 			if($user_ok){
 				$user_id = $user_model->id;
+				
+				// 删除验证码
+				$verify_model->remove((string)$has_code['_id']);
+				
+				Sher_Core_Helper_Auth::create_user_session($user_id);
+				
+				$redirect_url = $this->auth_return_url(Sher_Core_Helper_Url::user_home_url($user_id));
+				if (empty($redirect_url)) {
+					$redirect_url = '/';
+				}
+				$this->clear_auth_return_url();
+				
 				$msg = "尊敬的".$account."用户，您好！恭喜您成为太火鸟的用户，您的用户名是：".$account.",密码是：".$password."，请您尽快登陆官网修改密码，以确保账户的安全！我们的网址是：http://www.taihuoniao.com";
 				// 注册成功，发送短信
 				$message = Sher_Core_Helper_Util::send_defined_mms($account, $msg);
-				// 删除验证码
-				$verify_model->remove((string)$has_code['_id']);
 			}else{
 				return $this->ajax_json('注册失败!', true);  
 			}
+			
+			return $this->ajax_json("注册成功，欢迎你加入太火鸟！", false, $redirect_url);
 		}	
 	}
     

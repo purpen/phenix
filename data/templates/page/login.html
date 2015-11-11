@@ -36,12 +36,42 @@
 			}, 1000);
 		}
 	}
+	
+	// js验证手机号码格式
+	function validatemobile(mobile) 
+	{ 
+		if(mobile.length==0) 
+		{ 
+		   return false;
+		}
+		
+		if(mobile.length!==11) 
+		{   
+			return false;
+		} 
+		 
+		var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
+		if(!myreg.test(mobile)) 
+		{
+			return false;
+		}
+		
+		return true;
+	}
 
 	$('#fetch-verify-code').click(function(){
+		
 		var phone = $('#account').val();
+		
+		if(!validatemobile(phone)){
+			phenix.show_error_note('手机号码格式不对！');
+		    return false;
+		}
+		
 		if(!can_send){
 		    return false;
 		}
+		
 		if(phone){
 	        // 先输入验证码再发送
 	        var captcha = $('#captcha').val();
