@@ -214,6 +214,105 @@
       0%,100%{  -webkit-transform: scale(0.9)  }
 	 50%{  -webkit-transform: scale(1.05)  }
   }
+  .p1_co3{
+	  position:absolute;
+	  left: 40px;
+	  top: 450px;
+	  width:31px;
+	  height:15px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/P1_16.png) no-repeat;
+	  background-size:31px;
+	  -webkit-animation: 10s scal linear infinite alternate;
+	  animation: 10s scal linear infinite alternate;
+  }
+  .p1_co4{
+	  position:absolute;
+	  right: 35px;
+	  top: 445px;
+	  width:36px;
+	  height:36px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_17.png) no-repeat;
+	  background-size:36px;
+	  -webkit-animation: 10s scal linear infinite alternate;
+	  animation: 10s scal linear infinite alternate;
+  }
+  .p1_co5{
+	  position:absolute;
+	  right: 33px;
+	  top: 432px;
+	  width:31px;
+	  height:15px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/P1_16.png) no-repeat;
+	  background-size:31px;
+	  -webkit-animation: 10s scal linear infinite alternate;
+	  animation: 10s scal linear infinite alternate;
+  }
+  @-webkit-keyframes slineX{
+      0%,100%{  -webkit-transform: translateX(0px)  }
+	 50%{  -webkit-transform: translateX(5px)  }
+  }
+  @-webkit-keyframes slineY{
+      0%,100%{  -webkit-transform: translateY(0px)  }
+	 50%{  -webkit-transform: translateY(5px)  }
+  }
+  
+  
+  .p1_line1{
+	  position:absolute;
+	  right:75px;
+	  top:455px;
+	  width:13px;
+	  height:6px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_18.png) no-repeat;
+	  background-size:13px;
+	  -webkit-animation: 4s slineX linear infinite alternate;
+	  animation: 4s slineX linear infinite alternate;
+  }
+  .p1_line2{
+	  position:absolute;
+	  right:40px;
+	  top:485px;
+	  width:34px;
+	  height:15px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_19.png) no-repeat;
+	  background-size:34px;
+	  -webkit-animation: 5s slineY linear infinite alternate;
+	  animation: 5s slineY linear infinite alternate;
+  }
+  .p1_line3{
+	  position:absolute;
+	  right:20px;
+	  top:460px;
+	  width:11px;
+	  height:14px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_20.png) no-repeat;
+	  background-size:11px;
+	  -webkit-animation: 3s slineX linear infinite alternate;
+	  animation: 3s slineX linear infinite alternate;
+  }
+  
+  .p1_line4{
+	  position:absolute;
+	  left:80px;
+	  top:465px;
+	  width:22px;
+	  height:21px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_13.png) no-repeat;
+	  background-size:22px;
+	  -webkit-animation: 5s slineY linear infinite alternate;
+	  animation: 5s slineY linear infinite alternate;
+  }
+  .p1_line5{
+	  position:absolute;
+	  left:80px;
+	  top:490px;
+	  width:18px;
+	  height:19px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_14.png) no-repeat;
+	  background-size:18px;
+	  -webkit-animation: 3s slineX linear infinite alternate;
+	  animation: 3s slineX linear infinite alternate;
+  }
   
 </style>
 {% endblock %}
@@ -229,7 +328,7 @@
     webpsupport(function (webpa) {
     var loader = new WxMoment.Loader(),
      fileList =[
-		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png','p1_11.png','P1_15.png'
+		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png','p1_11.png','P1_15.png','P1_16.png','p1_17.png','p1_18.png','p1_19.png','p1_20.png','p1_13.png','p1_14.png'
 	];
      
      for (var i = 0; i < fileList.length; i++) {
@@ -360,7 +459,15 @@
 			
 			<div class="p1_co1"></div>
 			<div class="p1_co2"></div>
-				
+			<div class="p1_co3"></div>
+			<div class="p1_co4"></div>
+			<div class="p1_co5"></div>
+			<div class="p1_line1"></div>
+			<div class="p1_line2"></div>
+			<div class="p1_line3"></div>
+			<div class="p1_line4"></div>
+			<div class="p1_line5"></div>
+			
 				
 			
 		
