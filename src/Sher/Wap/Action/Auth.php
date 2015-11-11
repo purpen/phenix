@@ -101,7 +101,10 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	 *
 	 * @return void
 	 */
-	public function login(){
+  public function login(){
+    // 跳转到新版
+    return $this->login_signup();
+
 		$return_url = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:Doggy_Config::$vars['app.url.wap'];
 		// 过滤上一步来源为退出链接
 		if(!strpos($return_url,'logout')){
@@ -204,6 +207,9 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	 * 注册页面
 	 */
 	public function signup(){
+    // 跳转到新版
+    return $this->login_signup();
+
 		// 当前有登录用户
 		if ($this->visitor->id){
 			//指定入口送抽奖码
