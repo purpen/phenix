@@ -1,0 +1,592 @@
+{%extends 'layout/weixin.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+  .loading__img{
+  	/*background: url(http://wximg.gtimg.com/tmt/_events/20150514-promo-vivo/dist/img/loading.png) no-repeat;*/
+     width: 52px;
+     height: 32px;
+     background-size: 52px auto;
+  }
+  .screen{
+	  background:#efefef;
+  }
+  .screen1__bg {
+      background: url({{ app_url_packaged }}/images/promo/coin/bj.png)no-repeat center top;
+      -webkit-background-size: contain;
+      background-size: contain;
+  }
+  .p1_left{
+	  position:absolute;
+	  top:95px;
+	  right:130px;
+	  width:25px;
+	  height:77px;
+  }
+  @-webkit-keyframes rightto{
+      0%{  -webkit-transform: translateX(0px);opacity:0;  }
+	 20%{  -webkit-transform: translateX(0px);opacity:0;  }
+      100%{  -webkit-transform: translateX(80px);opacity:1;  }
+  }
+  .current .p1_left{
+	  -webkit-animation: rightto 1.5s 1s ease both;
+	  animation: rightto 1.5s 1s ease both;
+  }
+  .screen_icon1{
+	  position:absolute;
+	  top:0px;
+	  right:0px;
+	  width:25px;
+	  height:77px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_04.png) no-repeat;
+	  background-size:25px;
+  }
+  .screen_cir1{
+	  position:absolute;
+	  top:13px;
+	  right:-5px;
+	  width:18px;
+	  height:18px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_3.png) no-repeat;
+	  background-size:18px;
+	  animation: btopr 5s linear infinite alternate;
+	  -webkit-animation: btopr 5s linear infinite alternate;
+  }
+
+  @-webkit-keyframes btop{
+      0%, 100%{  -webkit-transform: translateY(0)  }
+      50%{  -webkit-transform: translateY(37px)  }
+  }
+  @-webkit-keyframes btopr{
+      0%, 100%{  -webkit-transform: translateY(37px)  }
+      50%{  -webkit-transform: translateY(0)  }
+  }
+  .p1_right{
+	  position:absolute;
+	  top:95px;
+	  left:130px;
+	  width:25px;
+	  height:77px;
+  }
+  @-webkit-keyframes leftto{
+      0%{  -webkit-transform: translateX(0px);opacity:0; }
+	 20%{  -webkit-transform: translateX(0px);opacity:0;  }
+      100%{  -webkit-transform: translateX(-80px);opacity:1;  }
+  }
+  .current .p1_right{
+	  -webkit-animation: leftto 1.5s 1s ease both;
+	  animation: leftto 1.5s 1s ease both;
+  }
+  .screen_icon2{
+	  position:absolute;
+	  top:0px;
+	  left:0px;
+	  width:25px;
+	  height:77px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_05.png) no-repeat;
+	  background-size:25px;
+  }
+  .screen_cir2{
+	  position:absolute;
+	  top:13px;
+	  left:-5px;
+	  width:18px;
+	  height:18px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_3.png) no-repeat;
+	  background-size:18px;
+	  animation: btop 5s linear infinite alternate;
+	  -webkit-animation: btop 5s linear infinite alternate;
+  }
+  
+  
+  .p1_bg1{
+	  position:absolute;
+	  left:0;
+	  top:0;
+	  width:320px;
+	  height:504px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_25.png) no-repeat;
+	  background-size:320px;
+	  opacity:0;
+  }
+  .current .p1_bg1{
+	  opacity:1;
+	  -webkit-animation: 1.5s zoomIn 3.5s both;
+	  animation: 1.5s zoomIn 3.5s both;
+  }
+  .p1_cicle{
+	  position:absolute;
+	  left:0;
+	  top:98px;
+	  width:320px;
+	  height:320px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_22.png) no-repeat;
+	  background-size:320px;
+	  opacity:0;
+  }
+  .current .p1_cicle{
+	  opacity:1;
+	  -webkit-animation: 1s zoomIn 0.5s both;
+	  animation: 1s zoomIn 0.5s both;
+  }
+  .p1_zhuan{
+	  position:absolute;
+	  left:0;
+	  top:0px;
+	  width:320px;
+	  height:320px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_21.png) no-repeat;
+	  background-size:320px;
+	  -webkit-animation: 60s spin linear infinite;
+	  animation: 60s spin linear infinite;
+  }
+  .p1_zhuan1{
+	  position:absolute;
+	  left:0;
+	  top:0px;
+	  width:320px;
+	  height:320px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_23.png) no-repeat;
+	  background-size:320px;
+	  -webkit-animation: 10s spin linear infinite;
+	  animation: 10s spin linear infinite;
+  }
+  .p1_zhuan2{
+	  position:absolute;
+	  left:0;
+	  top:0px;
+	  width:320px;
+	  height:320px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_24.png) no-repeat;
+	  background-size:320px;
+	  -webkit-animation: 10s spin linear infinite;
+	  animation: 10s spin linear infinite;
+  }
+  .page-logo{
+	  opacity:0;
+  }
+  .current .page-logo{
+	  -webkit-animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
+	  animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
+  }
+  @-webkit-keyframes scale-to-zero-with-left {
+    	0% {
+        -webkit-transform: translate3d(0%, 0, 0) scale(20);
+        opacity: 0;
+     }
+     50% {
+        opacity: 0.3;
+     }
+     100% {
+        -webkit-transform: translate3d(0%, 0, 0) scale(1);
+        opacity: 1;
+     }
+  }
+
+  .p1_text2{
+	  position:absolute;
+	  left:50%;
+	  margin-left:-117.5px;
+	  top:193px;
+	  width:235px;
+	  height:25px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_2.png) no-repeat;
+	  background-size:235px;
+  }
+  .current .p1_text2{
+	  animation-delay:2.8s;
+	  -webkit-animation-delay:2.8s;
+  }
+  .p1_text1{
+	  position:absolute;
+	  left:50%;
+	  margin-left:-85px;
+	  top:85px;
+	  width:170px;
+	  height:88px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p_1.png) no-repeat;
+	  background-size:170px;	
+	  opacity:0;
+  }
+  .current .p1_text1{
+	  -webkit-animation: 1s zoomIn 2s both;
+	  animation: 1s zoomIn 2s  both;
+	  opacity:1;
+  }
+  @-webkit-keyframes zoomIn{
+	  0%{opacity:0;-webkit-transform:scale3d(.3,.3,.3);transform:scale3d(.3,.3,.3)}
+	  50%{opacity:1}
+  }
+  @keyframes zoomIn{
+	0%{opacity:0;-webkit-transform:scale3d(.3,.3,.3);-ms-transform:scale3d(.3,.3,.3);transform:scale3d(.3,.3,.3)}
+	  50%{opacity:1}
+  }
+  
+  .p1_co1{
+	  position:absolute;
+	  right:2px;
+	  top:43px;
+	  width:60px;
+	  height:60px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_11.png) no-repeat;
+	  background-size:60px;
+	  -webkit-animation: 15s spin linear infinite;
+	  animation: 15s spin linear infinite;
+  } 
+  .p1_co2{
+	  position:absolute;
+	  left: 34px;
+	  top: 462px;
+	  width:40px;
+	  height:40px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/P1_15.png) no-repeat;
+	  background-size:40px;
+	  -webkit-animation: 10s scal linear infinite alternate;
+	  animation: 10s scal linear infinite alternate;
+  }
+  @-webkit-keyframes scal{
+      0%,100%{  -webkit-transform: scale(0.9)  }
+	 50%{  -webkit-transform: scale(1.05)  }
+  }
+  .p1_co3{
+	  position:absolute;
+	  left: 40px;
+	  top: 450px;
+	  width:31px;
+	  height:15px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/P1_16.png) no-repeat;
+	  background-size:31px;
+	  -webkit-animation: 10s scal linear infinite alternate;
+	  animation: 10s scal linear infinite alternate;
+  }
+  .p1_co4{
+	  position:absolute;
+	  right: 35px;
+	  top: 445px;
+	  width:36px;
+	  height:36px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_17.png) no-repeat;
+	  background-size:36px;
+	  -webkit-animation: 10s scal linear infinite alternate;
+	  animation: 10s scal linear infinite alternate;
+  }
+  .p1_co5{
+	  position:absolute;
+	  right: 33px;
+	  top: 432px;
+	  width:31px;
+	  height:15px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/P1_16.png) no-repeat;
+	  background-size:31px;
+	  -webkit-animation: 10s scal linear infinite alternate;
+	  animation: 10s scal linear infinite alternate;
+  }
+  @-webkit-keyframes slineX{
+      0%,100%{  -webkit-transform: translateX(0px)  }
+	 50%{  -webkit-transform: translateX(5px)  }
+  }
+  @-webkit-keyframes slineY{
+      0%,100%{  -webkit-transform: translateY(0px)  }
+	 50%{  -webkit-transform: translateY(5px)  }
+  }
+  
+  
+  .p1_line1{
+	  position:absolute;
+	  right:75px;
+	  top:455px;
+	  width:13px;
+	  height:6px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_18.png) no-repeat;
+	  background-size:13px;
+	  -webkit-animation: 4s slineX linear infinite alternate;
+	  animation: 4s slineX linear infinite alternate;
+  }
+  .p1_line2{
+	  position:absolute;
+	  right:40px;
+	  top:485px;
+	  width:34px;
+	  height:15px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_19.png) no-repeat;
+	  background-size:34px;
+	  -webkit-animation: 5s slineY linear infinite alternate;
+	  animation: 5s slineY linear infinite alternate;
+  }
+  .p1_line3{
+	  position:absolute;
+	  right:20px;
+	  top:460px;
+	  width:11px;
+	  height:14px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_20.png) no-repeat;
+	  background-size:11px;
+	  -webkit-animation: 3s slineX linear infinite alternate;
+	  animation: 3s slineX linear infinite alternate;
+  }
+  
+  .p1_line4{
+	  position:absolute;
+	  left:80px;
+	  top:465px;
+	  width:22px;
+	  height:21px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/P1_13.png) no-repeat;
+	  background-size:22px;
+	  -webkit-animation: 5s slineY linear infinite alternate;
+	  animation: 5s slineY linear infinite alternate;
+  }
+  .p1_line5{
+	  position:absolute;
+	  left:80px;
+	  top:490px;
+	  width:18px;
+	  height:19px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/P1_14.png) no-repeat;
+	  background-size:18px;
+	  -webkit-animation: 3s slineX linear infinite alternate;
+	  animation: 3s slineX linear infinite alternate;
+  }
+  .p1_line6{
+	  position:absolute;
+	  right:90px;
+	  top:50px;
+	  width:19px;
+	  height:18px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_08.png) no-repeat;
+	  background-size:19px;
+	  -webkit-animation: 5s slineY linear infinite alternate;
+	  animation: 5s slineY linear infinite alternate;
+  }
+  .p1_line7{
+	  position:absolute;
+	  right:65px;
+	  top:78px;
+	  width:19px;
+	  height:13px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_09.png) no-repeat;
+	  background-size:19px;
+	  -webkit-animation: 3s slineX linear infinite alternate;
+	  animation: 3s slineX linear infinite alternate;
+  }
+  .p1_line8{
+	  position:absolute;
+	  left:40px;
+	  top:100px;
+	  width:10px;
+	  height:14px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_06.png) no-repeat;
+	  background-size:10px;
+	  -webkit-animation: 3s slineX linear infinite alternate;
+	  animation: 3s slineX linear infinite alternate;
+  }
+  .p1_line9{
+	  position:absolute;
+	  left:20px;
+	  top:110px;
+	  width:14px;
+	  height:43px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p1_07.png) no-repeat;
+	  background-size:14px;
+	  -webkit-animation: 3s slineY linear infinite alternate;
+	  animation: 3s slineY linear infinite alternate;
+  }
+  .logo{
+	  position:absolute;
+	  top:20px;
+	  left:20px;
+	  width:108px;
+	  height:33px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/logo.png) no-repeat;
+	  background-size:108px;
+  }
+  .show{
+	  opacity:0;
+  }
+  .current .show{
+	  opacity:1;
+	  animation:fade 1s 4s both;
+	  -webkit-animation:fade 1s 4s both;
+  }
+  @-webkit-keyframes fade{
+      0%{  opacity:0; }
+	 100%{  opacity:1;  }
+  }
+</style>
+{% endblock %}
+{% block layout_js %}
+<script type="text/javascript" >
+    /* 加载 */
+    var basePath = "{{ app_url_packaged }}/images/promo/coin/";
+    if (!(typeof webpsupport == 'function')) {
+        var webpsupport = function (cb) {
+            cb();
+        }
+    }
+    webpsupport(function (webpa) {
+    var loader = new WxMoment.Loader(),
+     fileList =[
+		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png','p1_11.png','P1_15.png','P1_16.png','p1_17.png','p1_18.png','p1_19.png','p1_20.png','P1_13.png','P1_14.png','p1_06.png','p1_07.png','p1_08.png','p1_09.png','logo.png'
+	];
+     
+     for (var i = 0; i < fileList.length; i++) {
+         var basename = fileList[i].substring(fileList[i].lastIndexOf('/') + 1);
+
+         if (webpa && img_map && (basename in img_map) && img_map[basename]) { //if webp
+             var path = fileList[i].replace(/\.\w+/, '.webp');
+         } else {
+             var path = fileList[i];
+         }
+
+         loader.addImage(basePath + path);
+         $('#app_bgm').get(0).pause();
+     }
+
+     loader.addCompletionListener(function () {
+         $('.loading').remove();
+         $('.screen').eq(0).addClass('current');
+         $('.wrap').show();
+         $('#app_bgm').get(0).play();
+         $('.music').show();
+     });
+
+     //loading 进度监听
+     loader.addProgressListener(function (e) {
+         var percentUp = Math.round((e.completedCount / e.totalCount) * 100), //正序, 1-100
+             progressDown = 100 - percentUp;                                   //倒序, 100-1
+
+
+         $('.loading-num').text(percentUp + '%');
+     });
+
+     //启动
+     loader.start();
+    });
+    
+   /* var m_name = ' tets';
+    var img_url = 'http://frstatic.qiniudn.com/images/promo/hy/zn/zn.jpg';
+    var link = '{{ app_url_wap }}/birdegg/test';
+    var desc_str = ' test';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+   });
+
+	wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: 11, count_name:'count', type: 4, kind:4 });
+  }*/
+    
+</script>
+
+{% endblock %}
+{% block content %}
+<div class="wrap"  style="display: none">
+     <section class="screen screen1">
+     	<div class="screen__bg"></div>
+		<div class="screen__inner">
+			<div class="p1_bg1"></div>
+			<div class="logo"></div>
+			<div class="p1_cicle">
+				<div class="p1_left">
+					<div class="screen_icon1"></div>
+					<div class="screen_cir1"></div>
+				</div>
+				<div class="p1_right">
+					<div class="screen_icon2"></div>
+					<div class="screen_cir2"></div>
+				</div>
+				<div class="p1_text1"></div>
+				<div class="p1_text2 page-logo"></div>
+				<div class="p1_zhuan"></div>
+				<div class="p1_zhuan1"></div>
+				<div class="p1_zhuan2"></div>
+			</div>
+			
+			<div class="show">
+			<div class="p1_co1"></div>
+			<div class="p1_co2"></div>
+			<div class="p1_co3"></div>
+			<div class="p1_co4"></div>
+			<div class="p1_co5"></div>
+			<div class="p1_line1"></div>
+			<div class="p1_line2"></div>
+			<div class="p1_line3"></div>
+			<div class="p1_line4"></div>
+			<div class="p1_line5"></div>
+			<div class="p1_line6"></div>
+			<div class="p1_line7"></div>
+			<div class="p1_line8"></div>
+			<div class="p1_line9"></div>
+			</div>
+			
+				
+			
+		
+		</div>
+	</section>
+	<section class="screen screen2">
+		
+		
+	</section>
+	  
+	  
+	
+
+
+</div>
+<div class="music playing" style="display:none;"></div>
+<audio id="app_bgm" src="http://sc1.111ttt.com:8282/2015/1/09/29/102291034153.mp3" autoplay></audio>
+{% endblock %}
