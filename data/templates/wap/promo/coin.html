@@ -32,7 +32,17 @@
 	 20%{   transform: translateX(0px);opacity:0;  }
       100%{   transform: translateX(80px);opacity:1;  }
   }
+  @-webkit-keyframes rightto{
+      0%{   transform: translateX(0px);opacity:0;  }
+	 20%{   transform: translateX(0px);opacity:0;  }
+      100%{   transform: translateX(80px);opacity:1;  }
+  }
   @keyframes rightto{
+      0%{   transform: translateX(0px);opacity:0;  }
+	 20%{   transform: translateX(0px);opacity:0;  }
+      100%{   transform: translateX(80px);opacity:1;  }
+  }
+  @-webkit-keyframes rightto{
       0%{   transform: translateX(0px);opacity:0;  }
 	 20%{   transform: translateX(0px);opacity:0;  }
       100%{   transform: translateX(80px);opacity:1;  }
@@ -66,7 +76,15 @@
       0%, 100%{   transform: translateY(0)  }
       50%{   transform: translateY(37px)  }
   }
+  @-webkit-keyframes btop{
+      0%, 100%{   transform: translateY(0)  }
+      50%{   transform: translateY(37px)  }
+  }
   @keyframes btopr{
+      0%, 100%{  transform: translateY(37px)  }
+      50%{  transform: translateY(0)  }
+  }
+  @-webkit-keyframes btopr{
       0%, 100%{  transform: translateY(37px)  }
       50%{  transform: translateY(0)  }
   }
@@ -78,9 +96,14 @@
 	  height:77px;
   }
   @keyframes leftto{
-      0%{  transform: translateX(0px);opacity:0; }
-	 20%{  transform: translateX(0px);opacity:0;  }
-      100%{  transform: translateX(-80px);opacity:1;  }
+      0%{  transform: translateX(0px);transform: -webkit-translateX(0px);opacity:0; }
+	 20%{  transform: translateX(0px);transform: -webkit-translateX(0px);opacity:0;  }
+      100%{  transform: translateX(-80px);transform: -webkit-translateX(-80px);opacity:1;  }
+  }
+  @-webkit-keyframes leftto{
+      0%{  transform: translateX(0px);transform: -webkit-translateX(0px);opacity:0; }
+	 20%{  transform: translateX(0px);transform: -webkit-translateX(0px);opacity:0;  }
+      100%{  transform: translateX(-80px);transform: -webkit-translateX(-80px);opacity:1;  }
   }
   .current .p1_right{
 	  animation: leftto 1.5s 1s ease both;
@@ -223,7 +246,7 @@
 	  opacity:1;
   }
   @keyframes zoomIn{
-	  0%{opacity:0; transform:scale3d(.3,.3,.3);}
+	  0%{opacity:0; transform:scale3d(.3,.3,.3);-webkit-transform:scale3d(.3,.3,.3);}
 	  50%{opacity:1}
   }
   
