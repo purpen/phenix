@@ -346,7 +346,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		}
 		
 		// 验证手机号码是否为空
-		$account = isset($this->stash['phone']) ? $this->stash['phone'] : null;
+		$account = isset($this->stash['dynamic_phone']) ? $this->stash['dynamic_phone'] : null;
 		if(empty($verify_code)){
 		  return $this->ajax_json('请输入手机号!', true);     
 		}
