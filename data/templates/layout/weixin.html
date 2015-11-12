@@ -220,62 +220,6 @@
   	<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
 		{% block page_css %}{% endblock %}
 		<script src="http://frstatic.qiniudn.com/wechat/js/wxmoment.min.js"></script>
-	     <script type="text/javascript">
-	       $(document).ready(function(){
-	           // 放大元素,按照320x504定位,按比例scale
-	           function scaleEle(selector,position){
-	               var pageScale;
-	               var currentScale=screenWidth/screenHeight;
-	               var originScale=320/504;
-	               if(currentScale>originScale){
-	                   pageScale=screenHeight/504;
-	               }else{
-	                   pageScale=screenWidth/320;
-	               }
-	               $(selector).css({"-webkit-transform-origin":position,"transform-origin":position,"-webkit-transform":"scale("+pageScale+");","transform":"scale("+pageScale+");"});
-	           }
-
-	           var screenHeight = document.documentElement.clientHeight,
-	               screenWidth = document.documentElement.clientWidth;
-
-	           scaleEle(".screen__inner","center");
-
-
-	           new WxMoment.OrientationTip();
-	           var pageSlider = new WxMoment.PageSlider({
-	               pages: $('.screen'),
-	               direction: 'vertical',          //可选，vertical 或 v 为上下滑动，horizontal 或 h 为左右滑动，默认为 vertical
-	               currentClass: 'current',        //可选, 当前屏的class (方便实现内容的进场动画)，默认值为 'current'
-	               rememberLastVisited: true,      //可选，记住上一次访问结束后的索引值，可用于实现页面返回后是否回到上次访问的页面
-	               animationPlayOnce: false,       //可选，切换页面时，动画只执行一次
-	               oninit: function () {
-	                 if(this.rememberLastVisited){
-	                     //如果返回是true，就执行下面跳转代码
-	                     this.moveTo(this.lastVisitedIndex, true);
-	                 }
-	               },         //可选，初始化完成时的回调
-	               onbeforechange: function () {}, //可选，开始切换前的回调
-	               onchange: function () {},       //可选，每一屏切换完成时的回调
-	               onSwipeUp: function () {},      //可选，swipeUp 回调
-	               onSwipeDown: function () {},    //可选，swipeDown 回调
-	               onSwipeLeft: function () {},    //可选，swipeLeft 回调
-	               onSwipeRight: function () {}    //可选，swipeRight 回调
-	           });
-          
-	           $('.music').click(function(){
-	       				if($(this).hasClass("playing")){
-	     					  $('#app_bgm').get(0).pause();
-	     						$(this).removeClass("playing").addClass('stop');
-	     					}
-	     					else{
-	     						$(this).addClass("playing").removeClass('stop');
-	     						$('#app_bgm').get(0).play();
-	     					}
-	       		});
-      
-	       });	
-          
-	     </script>
 		
 	</head>
 	<body>
@@ -288,7 +232,62 @@
 		{% block content %}{% endblock %}
 		
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    
+    <script type="text/javascript">
+      $(document).ready(function(){
+          // 放大元素,按照320x504定位,按比例scale
+          function scaleEle(selector,position){
+              var pageScale;
+              var currentScale=screenWidth/screenHeight;
+              var originScale=320/504;
+              if(currentScale>originScale){
+                  pageScale=screenHeight/504;
+              }else{
+                  pageScale=screenWidth/320;
+              }
+              $(selector).css({"-webkit-transform-origin":position,"transform-origin":position,"-webkit-transform":"scale("+pageScale+");","transform":"scale("+pageScale+");","transform":"CGAffineTransformMakeScale("+pageScale+");"});
+          }
+
+          var screenHeight = document.documentElement.clientHeight,
+              screenWidth = document.documentElement.clientWidth;
+
+          scaleEle(".screen__inner","center");
+
+
+          new WxMoment.OrientationTip();
+          var pageSlider = new WxMoment.PageSlider({
+              pages: $('.screen'),
+              direction: 'vertical',          //可选，vertical 或 v 为上下滑动，horizontal 或 h 为左右滑动，默认为 vertical
+              currentClass: 'current',        //可选, 当前屏的class (方便实现内容的进场动画)，默认值为 'current'
+              rememberLastVisited: true,      //可选，记住上一次访问结束后的索引值，可用于实现页面返回后是否回到上次访问的页面
+              animationPlayOnce: false,       //可选，切换页面时，动画只执行一次
+              oninit: function () {
+                if(this.rememberLastVisited){
+                    //如果返回是true，就执行下面跳转代码
+                    this.moveTo(this.lastVisitedIndex, true);
+                }
+              },         //可选，初始化完成时的回调
+              onbeforechange: function () {}, //可选，开始切换前的回调
+              onchange: function () {},       //可选，每一屏切换完成时的回调
+              onSwipeUp: function () {},      //可选，swipeUp 回调
+              onSwipeDown: function () {},    //可选，swipeDown 回调
+              onSwipeLeft: function () {},    //可选，swipeLeft 回调
+              onSwipeRight: function () {}    //可选，swipeRight 回调
+          });
+          
+          $('.music').click(function(){
+      				if($(this).hasClass("playing")){
+    					  $('#app_bgm').get(0).pause();
+    						$(this).removeClass("playing").addClass('stop');
+    					}
+    					else{
+    						$(this).addClass("playing").removeClass('stop');
+    						$('#app_bgm').get(0).play();
+    					}
+      		});
+      
+      });	
+          
+    </script>
 		{% block layout_js %}{% endblock %}
 	  {% if css_use_bundle %}
 		<div class="ui tongji hide">
