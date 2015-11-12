@@ -370,7 +370,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			
 			// 判断用户权限
 			if($result['role_id'] !== 1){
-				return $this->ajax_json('您没有动态密码登陆的权限，请用静态密码登陆!', true);     
+				return $this->ajax_json('您没有短信方式登陆的权限，请用普通方式登陆!', true);     
 			}
 			
 			// now login
