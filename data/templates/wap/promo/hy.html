@@ -2082,8 +2082,8 @@
 
        		$('#user-info-form').livequery(function(){
          		$(this).form({
-         			people: {
-         				identifier  : 'people',
+         			realname: {
+         				identifier  : 'realname',
          				rules: [
          					{
          						type   : 'empty',
@@ -2091,26 +2091,17 @@
          					}
          				]
          			},
-         			mobile: {
-         				identifier  : 'mobile',
+         			phone: {
+         				identifier  : 'phone',
          				rules: [
          					{
          						type   : 'empty',
-         						prompt : '电话不能为空'
+         						prompt : '手机号不能为空'
          					}
          				]
          			},
-         			address: {
-         				identifier  : 'address',
-         				rules: [
-         					{
-         						type   : 'empty',
-         						prompt : '地址不能为空'
-         					}
-         				]
-         			},
-         			position: {
-         				identifier  : 'position',
+         			job: {
+         				identifier  : 'job',
          				rules: [
          					{
          						type   : 'empty',
@@ -2118,21 +2109,12 @@
          					}
          				]
          			},
-         			name: {
-         				identifier  : 'name',
+         			company: {
+         				identifier  : 'company',
          				rules: [
          					{
          						type   : 'empty',
          						prompt : '公司不能为空'
-         					}
-         				]
-         			},
-         			wechat: {
-         				identifier  : 'wechat',
-         				rules: [
-         					{
-         						type   : 'empty',
-         						prompt : '微信号不能为空'
          					}
          				]
          			}
@@ -2165,8 +2147,8 @@
          	$('.join,.pagem-logo').click(function(){
          		// 所有ajax请求，验证是否登录
          		if (!phenix.visitor.is_login){
-         		  phenix.redirect("{{ app_url_wap }}/auth/login_signup");
-         			return false;
+         		  //phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+         			//return false;
          		}
              $('.ui.user-info-box.modal')
              .modal('setting', 'closable', false)
@@ -2567,36 +2549,29 @@
 	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;"></i>
 	</div>
 	<div class="container">
-		<form action="{{ app_url_wap }}/incubator/ajax_attend" class="ui form" method="post" id="user-info-form">
+		<form action="{{ app_url_wap }}/app/wap/promo_func/save_common_sign" class="ui form" method="post" id="user-info-form">
+        <input type="hidden" name="target_id" value="4" />
+        <input type="hidden" name="event" value="5" />
+        <input type="hidden" name="from_to" value="2" />
 		  	<div class="content">
 				<div class="ajax result"></div>
 
 				<div class="ui signup-box">
 					<div class="two fields">
 						<div class="field">
-              <input type="text" name="people" value="{{ visitor.profile.realname }}" placeholder="姓名" />
+              <input type="text" name="realname" value="{{ visitor.profile.realname }}" placeholder="姓名" />
 						</div>
 					</div>
 					<div class="two fields">
 						<div class="field">
-							<input type="text" name="mobile" value="{{ visitor.profile.phone }}" placeholder="填写手机号，方便信息核实" />
-						</div>
-					</div>
-					<div class="two fields">
-						<div class="field">
-							<input type="text" name="email" value="{{ visitor.email }}" placeholder="Email" />
-						</div>
-					</div>
-					<div class="two fields">
-						<div class="field">
-							<input type="text" name="wechat" value="" placeholder="微信号" />
+							<input type="text" name="phone" value="{{ visitor.profile.phone }}" placeholder="填写手机号，方便信息核实" />
 						</div>
 					</div>
 					<div class="field">
-            <input type="text" name="name" value="" placeholder="公司名称" />
+            <input type="text" name="company" value="{{ visitor.profile.company }}" placeholder="公司名称" />
 					</div>
 					<div class="field">
-            <input type="text" name="position" value="{{ visitor.profile.job }}" placeholder="职位" />
+            <input type="text" name="job" value="{{ visitor.profile.job }}" placeholder="职位" />
 					</div>
 				</div>
 		  	</div>

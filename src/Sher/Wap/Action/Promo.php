@@ -950,6 +950,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
   public function common_sign(){
     $target_id = (int)$this->stash['target_id'];
     $event = isset($this->stash['event'])? (int)$this->stash['event'] : 3;
+    $from_to = isset($this->stash['from_to'])? (int)$this->stash['from_to'] : 1;
     $redirect_url = Doggy_Config::$vars['app.url.wap'];
 
     if(empty($target_id) || empty($event)){
