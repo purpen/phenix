@@ -162,22 +162,22 @@ body{
 	$('input[name=account]').keyup(function(){
 		
 		var phone = $(this).val();
-		
 		if(validatemobile(phone) == 1){
-			phenix.show_error_note('手机号码不能为空！');
+			//phenix.show_error_note('手机号码不能为空！');
 			return false;
 		}
 		if(validatemobile(phone) == 2){
-			phenix.show_error_note('手机号码长度不对！');
-			return false;
-		}
-		if(validatemobile(phone) == 3){
 			$('#include').html($('#default_block').html());
 			$('form[name=new_login_signup]').attr('action','');
 			$('.third.login').show();
-			phenix.show_error_note('手机号码格式不对！');
+			//phenix.show_error_note('手机号码长度不对！');
 			return false;
 		}
+		if(validatemobile(phone) == 3){
+			//phenix.show_error_note('手机号码格式不对！');
+			return false;
+		}
+		
 		if(!validatemobile(phone)){
 			// 隐藏第三方登陆
 			$('.third.login').hide();
@@ -244,14 +244,18 @@ body{
 		});
 	});
 	
-	$(".dynamic_login").click(function(){
-		$(".dynamic-form").hide();
-		$(".static-form").show();
+	$('.dynamic_login').livequery(function(){
+		$(this).click(function(){
+			$(".dynamic-form").hide();
+			$(".static-form").show();
+		});
 	});
 	
-	$(".static_login").click(function(){
-		$(".static-form").hide();
-		$(".dynamic-form").show();
+	$('.static_login').livequery(function(){
+		$(this).click(function(){
+			$(".static-form").hide();
+			$(".dynamic-form").show();
+		});
 	});
 	
 	var dynamic_limitime = function(){
@@ -379,7 +383,7 @@ body{
 							<!-- 登陆时存在  -->
 							<div class="inline field">
 								<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>|&nbsp;&nbsp;
-								<a href="javascript:void(0);" title="短信密码登陆" class="ui link static_login">短信密码登陆</a>
+								<a href="javascript:void(0);" title="短信方式登陆" class="ui link static_login">短信方式登陆</a>
 							</div>
 							<!-- end -->
 						</div>
@@ -402,7 +406,7 @@ body{
 						</div>
 						
 						<div class="field">
-							<a href="javascript:void(0);" title="普通密码登陆" class="ui link dynamic_login">普通密码登陆</a>
+							<a href="javascript:void(0);" title="普通方式登陆" class="ui link dynamic_login">普通方式登陆</a>
 						</div>
 						
 					</form>
@@ -453,7 +457,8 @@ body{
 	
 	<!-- 登陆时存在  -->
 	<div class="inline field">
-		<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
+		<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>|&nbsp;&nbsp;
+		<a href="javascript:void(0);" title="短信方式登陆" class="ui link static_login">短信方式登陆</a>
 	</div>
 	<!-- end -->
 </div>
@@ -472,7 +477,8 @@ body{
 		<!-- 登陆时存在  -->
 		<div class="inline field">
 			<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
-			<a href="javascript:void(0);" title="合作账号登陆" class="ui link three_login">合作账号登陆</a>
+			<a href="javascript:void(0);" title="合作账号登陆" class="ui link three_login">合作账号登陆</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+			<a href="javascript:void(0);" title="短信方式登陆" class="ui link static_login">短信方式登陆</a>
 		</div>
 		<!-- end -->
 		
@@ -505,7 +511,8 @@ body{
 		</div>
 		
 		<div class="inline field">
-			<a href="javascript:void(0);" title="合作账号登陆" class="ui link three_login">合作账号登陆</a>
+			<a href="javascript:void(0);" title="合作账号登陆" class="ui link three_login">合作账号登陆</a>|&nbsp;&nbsp;
+			<a href="javascript:void(0);" title="短信方式登陆" class="ui link static_login">短信方式登陆</a>
 		</div>
 	</div>
 	<!-- end -->

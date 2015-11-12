@@ -176,7 +176,7 @@
     					<img src="{{ app_url_packaged }}/images/auth-logo.png" />
     				</a>
     			</div>
-				<!-- 普通密码登陆 -->
+				<!-- 普通方式登陆 -->
 				<form action="{{ app_url_action_base }}/auth/do_login" class="ui form auth-form" method="post" id="login-form">
 					<input type="hidden" name="t" value="{{ login_token }}" />
                     
@@ -198,10 +198,10 @@
 						<div class="fluid ui large active magenta inverted submit button">登录</div>
 					</div>
 					<div class="field">
-						<a href="javascript:void(0);" title="短信密码登陆" class="ui link DynamicPassword">短信密码登陆</a>
+						<a href="javascript:void(0);" title="短信方式登陆" class="ui link DynamicPassword">短信方式登陆</a>
 					</div>
 				</form>
-				<!-- 短信密码登陆 -->
+				<!-- 短信方式登陆 -->
 				<form action="{{ app_url_action_base }}/auth/dynamic_do_login" class="ui form auth-form" method="post" id="dynamic-login-form" style="display: none">
 					<input type="hidden" name="t" value="{{ login_token }}" />
                     
@@ -223,7 +223,7 @@
 						<div class="fluid ui large active magenta inverted submit button">登录</div>
 					</div>
 					<div class="field">
-						<a href="javascript:void(0);" title="普通密码登陆" class="ui link StaticPassword">普通密码登陆</a>
+						<a href="javascript:void(0);" title="普通方式登陆" class="ui link StaticPassword">普通方式登陆</a>
 					</div>
 				</form>
 
