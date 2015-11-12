@@ -2162,7 +2162,7 @@
          	});
 
            //报名按钮
-         	$('.join').click(function(){
+         	$('.join,.pagem-logo').click(function(){
          		// 所有ajax请求，验证是否登录
          		if (!phenix.visitor.is_login){
          		  phenix.redirect("{{ app_url_wap }}/auth/login_signup");

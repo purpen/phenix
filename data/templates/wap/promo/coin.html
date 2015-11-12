@@ -893,30 +893,31 @@
   }
   .p3_l1{
 	  position:absolute;
-	  top:221px;
-	  right:135px;
-	  width:27px;
-	  height:45px;
+	  top:225px;
+	  right:147px;
+	  width:20px;
+	  height:23px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p3_l1.png) no-repeat;
-	  background-size:27px;
+	  background-size:20px;
   }
   .p3_l2{
 	  position:absolute;
 	  top: 172px;
-       right: 100px;
-       width: 70px;
-       height: 90px;
+       right: 107px;
+       width: 85px;
+       height: 75px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p3_l2.png) no-repeat;
-	  background-size:87px;
+	  background-size:86px;
   }
   .p3_c1{
 	  position:absolute;
-       top: 247px;
-       right: 124px;
+       top: 232px;
+       right: 139px;
        width: 29px;
        height: 29px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p3_c1.png) no-repeat;
 	  background-size:29px;
+	  animation: 10s spin linear infinite;
   }
   .jw{
 	  position:absolute;
@@ -1050,6 +1051,72 @@
 	  height:504px;
 	  top:-10px;
 	  left:0;
+  }
+  .p3_1{
+	  position:absolute;
+	  top:0;
+	  left:105px;
+       width: 14px;
+       height: 43px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p1_07.png) no-repeat;
+       background-size: 14px;
+       animation: 3s slineX linear infinite alternate;
+  }
+  .p3_2{
+	  position:absolute;
+	  top:15px;
+	  left:95px;
+	  width: 10px;
+       height: 14px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p1_06.png) no-repeat;
+       background-size: 10px;
+       animation: 4s slineY linear infinite alternate;
+  }
+  .p3_3{
+	  position:absolute;
+	  top:190px;
+	  left:172px;
+	  width: 10px;
+       height: 14px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p1_06.png) no-repeat;
+       background-size: 10px;
+       animation: 3s slineX linear infinite alternate;
+  }
+  .p3_4{
+	  position:absolute;
+	  top:240px;
+	  left:180px;
+	  width: 22px;
+	  height: 21px;
+	  transform: rotateY(180deg);
+  }
+  .p3_04{
+  	  position:absolute;
+	  top:0;
+	  left:0;
+	  width: 22px;
+	  height: 21px;
+	  background: url({{ app_url_packaged }}/images/promo/coin/P1_13.png) no-repeat;
+	  background-size: 22px;
+	  animation: 5s slineX linear infinite alternate;
+  }
+  .p3_5{
+	  position:absolute;
+	  top:258px;
+	  left:188px;
+	  width: 18px;
+	  height: 19px;
+	  transform: rotateY(180deg);
+  }
+  .p3_05{
+  	  position:absolute;
+	  top:0;
+	  left:0;
+	  width: 18px;
+	  height: 19px;
+	  background: url({{ app_url_packaged }}/images/promo/coin/P1_14.png) no-repeat;
+	  background-size: 18px;
+	  animation: 5s slineY linear infinite alternate;
   }
 </style>
 {% endblock %}
@@ -1283,6 +1350,20 @@
 				<div class="mbb1"></div>
 				<div class="zxd"></div>
 				<div class="zxd1"></div>
+			</div>
+			
+			<div class="p3_show">
+				<div class="p3_1"></div>
+				<div class="p3_2"></div>
+				<div class="p3_3"></div>
+				<div class="p3_4">
+					<div class="p3_04"></div>
+				</div>
+				<div class="p3_5">
+					<div class="p3_05"></div>
+				</div>
+				
+				
 			</div>
 			
 			
