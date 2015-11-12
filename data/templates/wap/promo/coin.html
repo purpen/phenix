@@ -439,7 +439,233 @@
   	  	background-size:320px 100%;
   	}
   }
+  .p2_text{
+	  position:absolute;
+	  top:17px;
+	  right:50px;
+	  width:73px;
+	  height:35px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p2_1.png) no-repeat;
+	  background-size:73px;
+	  opacity:0;
+  }
+  .current .p2_text{
+	  -webkit-animation: 1s zoomIn 1.5s both;
+	  animation: 1s zoomIn 1.5s  both;
+	  opacity:1;
+  }
+  .p2_line1{
+	  position:absolute;
+	  top:26px;
+	  left:71px;
+	  width:55px;
+	  height:98px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p2_3.png) no-repeat;
+	  background-size:55px;
+	  opacity:0;
+  }
+  .current .p2_line1{
+	  opacity:1;
+	  animation:fade 1s 1.5s both;
+	  -webkit-animation:fade 1s 1.5s both;
+  }
+  .p2_line2{
+	  position:absolute;
+	  top:65px;
+	  left:11px;
+	  width:83px;
+	  height:143px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p2_4.png) no-repeat;
+	  background-size:83px;
+	  opacity:0;
+  }
+  .current .p2_line2{
+	  opacity:1;
+	  animation:fadeDown 1s 1.5s both;
+	  -webkit-animation:fadeDown 1s 1.5s both;
+  }
+  @-webkit-keyframes fadeDown{
+      0%{  -webkit-transform: translateY(0px);opacity:0; }
+	 20%{  -webkit-transform: translateY(0px);opacity:0;  }
+      100%{  -webkit-transform: translateY(30px);opacity:1;  }
+  }
+  .p2_line3{
+	  position:absolute;
+	  top:0px;
+	  left:0px;
+	  width:320px;
+	  height:130px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p2_5.png) no-repeat;
+	  background-size:320px;
+  }
+  .current .p2_line3{
+	  animation:bgheight 1.5s 2s both;
+	  -webkit-animation:bgheight 1.5s 2s both;
+  }
+  @-webkit-keyframes bgheight{
+      0%{  height:130px; }
+      100%{  height:320px;  }
+  }
+  .p2_line4{
+	  position:absolute;
+	  top:270px;
+	  left:64px;
+	  width:26px;
+	  height:93px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p2_6.png) no-repeat;
+	  background-size:26px;
+	  opacity:0;
+  }
+  .current .p2_line4{
+	  opacity:1;
+	  animation:fadeDown 1s 3s both;
+	  -webkit-animation:fadeDown 1s 3s both;
+  }
+  .p2_line5{
+	  position:absolute;
+	  top:377px;
+	  left:0px;
+	  width:83px;
+	  height:124px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p2_7.png) no-repeat;
+	  background-size:83px;
+	  opacity:0;
+  }
+  .current .p2_line5{
+	  opacity:1;
+	  animation:fade 1s 3.2s both;
+	  -webkit-animation:fade 1s 3.2s both;
+	  
+  }
+  .p2_line6{
+	  position:absolute;
+	  top:382px;
+	  left:30px;
+	  width:50px;
+	  height:0px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p2_9.png) no-repeat;
+	  background-size:50px;
+  }
+  .current .p2_line6{
+	  animation:bgheight2 1.5s 3.5s both;
+	  -webkit-animation:bgheight2 1.5s 3.5s both;
+  }
+  @-webkit-keyframes bgheight2{
+      0%{  height:0px; }
+      100%{  height:54px;  }
+  }
   
+  .p2_line7{
+	  position:absolute;
+	  top:428px;
+	  left:0px;
+	  width:58px;
+	  height:72px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p2_8.png) no-repeat;
+	  background-size:58px;
+  }
+  .p2_line8{
+	  position:absolute;
+	  top:434px;
+	  left:170px;
+	  width:64px;
+	  height:70px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p2_10.png) no-repeat;
+	  background-size:64px;
+	  opacity:0;
+  }
+  .current .p2_line8{
+	  opacity:1;
+	  animation:fadeLeft 1s 5s both;
+	  -webkit-animation:fadeLeft 1s 5s both;
+  }
+  @-webkit-keyframes fadeLeft{
+      0%{  -webkit-transform: translateX(0px);opacity:0; }
+	 20%{  -webkit-transform: translateX(0px);opacity:0;  }
+      100%{  -webkit-transform: translateX(30px);opacity:1;  }
+  }
+  
+  .p2_co1{
+       position: absolute;
+       left: 210px;
+       top: 450px;
+       width: 10px;
+       height: 14px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p1_06.png) no-repeat;
+       background-size: 10px;
+	  -webkit-animation: 4s slineY linear infinite alternate;
+	  animation: 4s slineY linear infinite alternate;
+  }
+  .p2_co2{
+       position: absolute;
+       left: 70px;
+       top: 450px;
+       width: 22px;
+       height: 24px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p2_11.png) no-repeat;
+       background-size: 22px;
+	  -webkit-animation: 3s slineY linear infinite alternate;
+	  animation: 3s slineY linear infinite alternate;
+  }
+  .p2_co3{
+       position: absolute;
+       left: 45px;
+       top: 467px;
+       width: 23px;
+       height: 24px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p2_12.png) no-repeat;
+       background-size: 23px;
+	  -webkit-animation: 5s slineX linear infinite alternate;
+	  animation: 5s slineX linear infinite alternate;
+  }
+  .p2_co4{
+       position: absolute;
+       left: 40px;
+       top: 80px;
+       width: 36px;
+       height: 30px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p2_13.png) no-repeat;
+       background-size: 36px;
+	  -webkit-animation: 5s slineY linear infinite alternate;
+	  animation: 5s slineY linear infinite alternate;
+  }
+  .p2_co5{
+       position: absolute;
+       left: 35px;
+       top: 95px;
+       width: 16px;
+       height: 18px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p2_14.png) no-repeat;
+       background-size: 16px;
+	  -webkit-animation: 5s slineX linear infinite alternate;
+	  animation: 5s slineX linear infinite alternate;
+  }
+  .p2_co6{
+      position: absolute;
+      left: 55px;
+      top: 442px;
+      width: 31px;
+      height: 15px;
+      background: url({{ app_url_packaged }}/images/promo/coin/P1_16.png) no-repeat;
+      background-size: 31px;
+      -webkit-animation: 10s scal linear infinite alternate;
+      animation: 10s scal linear infinite alternate;
+  }
+  .p2_co7{
+      position: absolute;
+      left: 80px;
+      top: 80px;
+      width: 31px;
+      height: 15px;
+      background: url({{ app_url_packaged }}/images/promo/coin/P1_16.png) no-repeat;
+      background-size: 31px;
+      -webkit-animation: 10s scal linear infinite alternate;
+      animation: 10s scal linear infinite alternate;
+  }
+  .screen2.current .show{
+	  animation: fade 1s 5s both;
+	  -webkit-animation: fade 1s 5s both;
+  }
   
   
 </style>
@@ -456,7 +682,7 @@
     webpsupport(function (webpa) {
     var loader = new WxMoment.Loader(),
      fileList =[
-		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png','p1_11.png','P1_15.png','P1_16.png','p1_17.png','p1_18.png','p1_19.png','p1_20.png','P1_13.png','P1_14.png','p1_06.png','p1_07.png','p1_08.png','p1_09.png','logo.png'
+		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png','p1_11.png','P1_15.png','P1_16.png','p1_17.png','p1_18.png','p1_19.png','p1_20.png','P1_13.png','P1_14.png','p1_06.png','p1_07.png','p1_08.png','p1_09.png','logo.png','p2-2','p2_1','p2_2','p2_3','p2_4','p2_5','p2_6','p2_7','p2_8','p2_9','p2_10','p2_11','p2_12','p2_13','p2_14'
 	];
      
      for (var i = 0; i < fileList.length; i++) {
@@ -611,8 +837,27 @@
 		<div class="screen__bg"></div>
 		<div class="screen__inner">
 			<div class="p2_bg1"></div>
-		
-		
+			<div class="p2_text"></div>
+			<div class="p2_line1"></div>
+			<div class="p2_line2"></div>
+			<div class="p2_line3"></div>
+			<div class="p2_line4"></div>
+			<div class="p2_line5"></div>
+			<div class="p2_line6"></div>
+			<div class="p2_line8"></div>
+			<div class="show">
+				<div class="p2_line7"></div>
+				
+				<div class="p2_co1"></div>
+				<div class="p2_co2"></div>
+				<div class="p2_co3"></div>
+				<div class="p2_co4"></div>
+				<div class="p2_co5"></div>
+				<div class="p2_co6"></div>
+				<div class="p2_co7"></div>	
+			</div>	
+			
+			
 		</div>
 	</section>
 	  
