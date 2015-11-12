@@ -252,6 +252,9 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 				}
 				$this->stash['user_id'] = $user_id;
 				
+				$nickname = $this->visitor->nickname;
+				$this->stash['nickname'] = $nickname;
+				
 				$ok = $model->apply_and_save($this->stash);
         if($ok){
 
