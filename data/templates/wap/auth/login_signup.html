@@ -130,7 +130,6 @@ body{
 		});
 	});
 
-
 	$('.ui.no-weixin').click(function(){
 		phenix.show_error_note('请使用微信客户端登录!');
 		return false;
@@ -143,7 +142,8 @@ body{
 		if(mobile.length==0) 
 		{ 
 		   return 1; // 手机号码不能为空
-		}     
+		}
+		
 		if(mobile.length!==11) 
 		{   
 			return 2; // 手机号码长度不对
@@ -162,25 +162,22 @@ body{
 	$('input[name=account]').keyup(function(){
 		
 		var phone = $(this).val();
-		if(phone.length!==11){
-			$('#include').html($('#default_block').html());
-			$('form[name=new_login_signup]').attr('action','');
-			$('.third.login').show();
-			return false;
-		}
-		
 		if(validatemobile(phone) == 1){
-			phenix.show_error_note('手机号码不能为空！');
+			//phenix.show_error_note('手机号码不能为空！');
 			return false;
 		}
 		if(validatemobile(phone) == 2){
-			phenix.show_error_note('手机号码长度不对！');
+			$('#include').html($('#default_block').html());
+			$('form[name=new_login_signup]').attr('action','');
+			$('.third.login').show();
+			//phenix.show_error_note('手机号码长度不对！');
 			return false;
 		}
 		if(validatemobile(phone) == 3){
-			phenix.show_error_note('手机号码格式不对！');
+			//phenix.show_error_note('手机号码格式不对！');
 			return false;
 		}
+		
 		if(!validatemobile(phone)){
 			// 隐藏第三方登陆
 			$('.third.login').hide();
@@ -246,6 +243,115 @@ body{
 			$('input[name=account]').val('');
 		});
 	});
+	
+	$('.dynamic_login').livequery(function(){
+		$(this).click(function(){
+			$(".dynamic-form").hide();
+			$(".static-form").show();
+		});
+	});
+	
+	$('.static_login').livequery(function(){
+		$(this).click(function(){
+			$(".static-form").hide();
+			$(".dynamic-form").show();
+		});
+	});
+	
+	var dynamic_limitime = function(){
+		if(wait == 0){
+			can_send = true;
+			wait = 60;
+			$('#dynamic-verify-code').removeClass('active').text('获取验证码');
+		}else{
+			can_send = false;
+			
+			wait--;
+			$('#dynamic-verify-code').addClass('active').text('重新发送('+wait+')');
+			setTimeout(function(){
+				dynamic_limitime();
+			}, 1000);
+		}
+	}
+	
+	$('#dynamic-verify-code').click(function(){
+		var phone = $('input[name=dynamic_phone]').val();
+		
+		if(validatemobile(phone) == 1){
+			phenix.show_error_note('手机号码不能为空！');
+			return false;
+		}
+		if(validatemobile(phone) == 2){
+			phenix.show_error_note('手机号码长度不对！');
+			return false;
+		}
+		
+		if(validatemobile(phone) == 3){
+			phenix.show_error_note('手机号码格式不对！');
+			return false;
+		}
+		
+		if(!can_send){
+			return false;
+		}
+		if(phone){
+			
+			// 添加发送频率
+			dynamic_limitime();
+			$.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
+				if(result.errorCode == 200){
+					$this.removeClass('disabled').text('获取验证码');
+				}
+			});
+		}else{
+			phenix.show_error_note('请正确填写手机号码！');
+		}
+	});
+	
+	// 提交表单数据
+	$('#dynamic-login-form').form({
+		dynamic_phone: {
+			identifier  : 'dynamic_phone',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '手机号不能为空'
+				}
+			]
+		},
+		dynamic_verify_code: {
+			identifier  : 'dynamic_verify_code',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '短信验证码不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					// 点击前触发的事件
+					phenix.before_submit();
+				},
+				success: function(data){
+					// 点击后触发的事件
+					phenix.after_submit();
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, 3000);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+
 {% endblock %}
 
 {% block content %}
@@ -260,7 +366,7 @@ body{
 				</div>
 				
 				<div class="ui bottom attached segment">
-					<form action="" class="ui small top form" name="new_login_signup" method="post">
+					<form action="" class="ui small top form static-form" name="new_login_signup" method="post">
 						
 						<div class="field">
 							<input type="text" name="account" placeholder="手机号码" style="position: relative">
@@ -276,9 +382,31 @@ body{
 							
 							<!-- 登陆时存在  -->
 							<div class="inline field">
-								<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
+								<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>|&nbsp;&nbsp;
+								<a href="javascript:void(0);" title="短信方式登陆" class="ui link static_login">短信方式登陆</a>
 							</div>
 							<!-- end -->
+						</div>
+						
+					</form>
+					
+					<form action="{{ app_url_wap }}/auth/dynamic_do_login" class="ui small form dynamic-form" method="post" id="dynamic-login-form" style="display: none">
+						
+						<div class="field">
+							<input type="text" name="dynamic_phone" placeholder="手机号码">
+						</div>
+					
+						<div class="field">
+							<input name="dynamic_verify_code" type="text" placeholder="短信验证码" style="width:48%;margin: 0 .85714286em 0 0;" />
+							<a href="javascript:void(0);" class="ui small inverted magenta button" id="dynamic-verify-code">获取验证码</a>
+						</div>
+						
+						<div class="field ">
+							<div class="fluid ui active magenta inverted submit button">登录</div>
+						</div>
+						
+						<div class="field">
+							<a href="javascript:void(0);" title="普通方式登陆" class="ui link dynamic_login">普通方式登陆</a>
 						</div>
 						
 					</form>
@@ -329,7 +457,8 @@ body{
 	
 	<!-- 登陆时存在  -->
 	<div class="inline field">
-		<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
+		<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>|&nbsp;&nbsp;
+		<a href="javascript:void(0);" title="短信方式登陆" class="ui link static_login">短信方式登陆</a>
 	</div>
 	<!-- end -->
 </div>
@@ -348,7 +477,8 @@ body{
 		<!-- 登陆时存在  -->
 		<div class="inline field">
 			<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
-			<a href="javascript:void(0);" title="合作账号登陆" class="ui link three_login">合作账号登陆</a>
+			<a href="javascript:void(0);" title="合作账号登陆" class="ui link three_login">合作账号登陆</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+			<a href="javascript:void(0);" title="短信方式登陆" class="ui link static_login">短信方式登陆</a>
 		</div>
 		<!-- end -->
 		
@@ -381,7 +511,8 @@ body{
 		</div>
 		
 		<div class="inline field">
-			<a href="javascript:void(0);" title="合作账号登陆" class="ui link three_login">合作账号登陆</a>
+			<a href="javascript:void(0);" title="合作账号登陆" class="ui link three_login">合作账号登陆</a>|&nbsp;&nbsp;
+			<a href="javascript:void(0);" title="短信方式登陆" class="ui link static_login">短信方式登陆</a>
 		</div>
 	</div>
 	<!-- end -->

@@ -50,13 +50,6 @@ class Sher_Core_Helper_Util {
 		$res = curl_exec( $ch );
 		curl_close( $ch );
 		
-		// $res  = curl_error( $ch );
-		// {"error":0,"msg":"ok"}
-		// var_dump($res);
-		// if (!$res['error']){
-		//	return false;
-		// }
-		
 		return true;
 	}
 	
