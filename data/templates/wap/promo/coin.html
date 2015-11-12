@@ -262,7 +262,10 @@
 	  0%{opacity:0; transform:scale3d(.3,.3,.3);-webkit-transform:scale3d(.3,.3,.3);}
 	  50%{opacity:1}
   }
-  
+  @-webkit-keyframes zoomIn{
+	  0%{opacity:0; transform:scale3d(.3,.3,.3);-webkit-transform:scale3d(.3,.3,.3);}
+	  50%{opacity:1}
+  }
   .p1_co1{
 	  position:absolute;
 	  right:2px;
@@ -286,6 +289,10 @@
 	  -webkit-animation: 10s scal linear infinite alternate;
   }
   @keyframes scal{
+      0%,100%{   transform: scale(0.9);-webkit-transform: scale(0.9);  }
+	 50%{   transform: scale(1.05);-webkit-transform: scale(0.9);  }
+  }
+  @-webkit-keyframes scal{
       0%,100%{   transform: scale(0.9);-webkit-transform: scale(0.9);  }
 	 50%{   transform: scale(1.05);-webkit-transform: scale(0.9);  }
   }
@@ -326,12 +333,18 @@
       0%,100%{   transform: translateX(0px);-webkit-transform: translateX(0px);  }
 	 50%{   transform: translateX(5px);-webkit-transform: translateX(5px);  }
   }
+  @-webkit-keyframes slineX{
+      0%,100%{   transform: translateX(0px);-webkit-transform: translateX(0px);  }
+	 50%{   transform: translateX(5px);-webkit-transform: translateX(5px);  }
+  }
   @keyframes slineY{
       0%,100%{   transform: translateY(0px);-webkit-transform: translateY(0px);  }
 	 50%{   transform: translateY(5px);-webkit-transform: translateY(5px);  }
   }
-  
-  
+  @-webkit-keyframes slineY{
+      0%,100%{   transform: translateY(0px);-webkit-transform: translateY(0px);  }
+	 50%{   transform: translateY(5px);-webkit-transform: translateY(5px);  }
+  }
   .p1_line1{
 	  position:absolute;
 	  right:75px;
@@ -453,6 +466,10 @@
       0%{  opacity:0; }
 	 100%{  opacity:1;  }
   }
+  @-webkit-keyframes fade{
+      0%{  opacity:0; }
+	 100%{  opacity:1;  }
+  }
   
   
   .p2_bg1{
@@ -470,6 +487,14 @@
 	 -webkit-animation: bg2 1s 0.5s both;
   }
   @keyframes bg2 {
+  	0% {
+  		background-size:-380px 100%;
+  	}
+  	100%{
+  	  	background-size:320px 100%;
+  	}
+  }
+  @-webkit-keyframes bg2 {
   	0% {
   		background-size:-380px 100%;
   	}
@@ -527,6 +552,11 @@
 	 20%{   transform: translateY(0px);opacity:0;-webkit-transform: translateY(0px);  }
       100%{   transform: translateY(30px);opacity:1;-webkit-transform: translateY(30px);  }
   }
+  @-webkit-keyframes fadeDown{
+      0%{   transform: translateY(0px);opacity:0;-webkit-transform: translateY(0px); }
+	 20%{   transform: translateY(0px);opacity:0;-webkit-transform: translateY(0px);  }
+      100%{   transform: translateY(30px);opacity:1;-webkit-transform: translateY(30px);  }
+  }
   .p2_line3{
 	  position:absolute;
 	  top:0px;
@@ -541,6 +571,10 @@
 	  -webkit-animation:bgheight 1.5s 2s both;
   }
   @keyframes bgheight{
+      0%{  height:130px; }
+      100%{  height:320px;  }
+  }
+  @-webkit-keyframes bgheight{
       0%{  height:130px; }
       100%{  height:320px;  }
   }
@@ -591,6 +625,10 @@
       0%{  height:0px; }
       100%{  height:54px;  }
   }
+  @-webkit-keyframes bgheight2{
+      0%{  height:0px; }
+      100%{  height:54px;  }
+  }
   
   .p2_line7{
 	  position:absolute;
@@ -617,6 +655,11 @@
 	  -webkit-animation:fadeLeft 1s 5s both;
   }
   @keyframes fadeLeft{
+      0%{   transform: translateX(0px);opacity:0;-webkit-transform: translateX(0px); }
+	 20%{   transform: translateX(0px);opacity:0;-webkit-transform: translateX(0px); }
+      100%{   transform: translateX(30px);opacity:1;-webkit-transform: translateX(30px);  }
+  }
+  @-webkit-keyframes fadeLeft{
       0%{   transform: translateX(0px);opacity:0;-webkit-transform: translateX(0px); }
 	 20%{   transform: translateX(0px);opacity:0;-webkit-transform: translateX(0px); }
       100%{   transform: translateX(30px);opacity:1;-webkit-transform: translateX(30px);  }
@@ -717,6 +760,11 @@
 	-webkit-animation: 0.6s fadeUp ease-out forwards;
   }
   @keyframes fadeUp{
+      0%{   transform: translateY(0px);opacity:0;-webkit-transform: translateY(0px); }
+	 20%{   transform: translateY(0px);opacity:0;-webkit-transform: translateY(0px);  }
+      100%{   transform: translateY(-60px);opacity:1;-webkit-transform: translateY(-60px);  }
+  }
+  @-webkit-keyframes fadeUp{
       0%{   transform: translateY(0px);opacity:0;-webkit-transform: translateY(0px); }
 	 20%{   transform: translateY(0px);opacity:0;-webkit-transform: translateY(0px);  }
       100%{   transform: translateY(-60px);opacity:1;-webkit-transform: translateY(-60px);  }
