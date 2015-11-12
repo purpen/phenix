@@ -39,6 +39,8 @@ app.mongo.default:
 app.redis.default:
     host: '127.0.0.1'
     port: 6379
+    verified: 0
+    requirepass: ''
 
 # redisdb
 app.redis_host: 'localhost:6379'

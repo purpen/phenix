@@ -37,6 +37,8 @@ app.css.use_bundle: 1
 app.redis.default: 
     host: '10.9.29.163'
     port: 6379
+    verified: 1
+    requirepass: 'Fr%bird@201403$01'
 
 # redisdb-resque
 app.redis_host: '10.10.39.2:6379'
