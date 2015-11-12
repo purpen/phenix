@@ -432,16 +432,6 @@
   	 -webkit-animation: bg2 1s 0.5s both;
  	 animation: bg2 0.5s 1s both;
   }
-  @-webkit-keyframes bg1{
-    	0% {
-    		width:0;
-    	}
-    	100%{
-    	  	width:320px;
-    	}
-  
-  }
-  
   @-webkit-keyframes bg2 {
   	0% {
   		background-size:-380px 100%;
@@ -677,6 +667,123 @@
 	  animation: fade 1s 5s both;
 	  -webkit-animation: fade 1s 5s both;
   }
+  .p2_texto{
+	  position: absolute;
+       height: 504px;
+       width: 320px;
+       top: 0px;
+  }
+  .p2_t1{
+	  position:absolute;
+	  right:0px;
+	  top:85px;
+	  width:226px;
+	  height:14px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p2_t1.png) no-repeat;
+       background-size: 226px;
+  }
+  .p2_t2{
+	  position:absolute;
+	  right:0px;
+	  top:105px;
+	  width:226px;
+	  height:14px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p2_t2.png) no-repeat;
+       background-size: 226px;
+  }
+  .p2_t3{
+	  position:absolute;
+	  right:0px;
+	  top:133px;
+	  width:226px;
+	  height:14px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p2_t3.png) no-repeat;
+       background-size: 226px;
+  }
+  .p2_t4{
+	  position:absolute;
+	  right:0px;
+	  top:153px;
+	  width:226px;
+	  height:14px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p2_t4.png) no-repeat;
+       background-size: 226px;
+  }
+  .p2_t5{
+	  position:absolute;
+	  right:0px;
+	  top:181px;
+	  width:200px;
+	  height:14px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p2_t5.png) no-repeat;
+       background-size: 226px;
+  }
+  .p2_t6{
+	  position:absolute;
+	  right:0px;
+	  top:220px;
+	  width:226px;
+	  height:14px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p2_t6.png) no-repeat;
+       background-size: 226px;
+  }
+  .p2_t7{
+	  position:absolute;
+	  right:0px;
+	  top:240px;
+	  width:226px;
+	  height:14px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p2_t5.png) no-repeat;
+       background-size: 226px;
+  }
+  .p2_t8{
+	  position:absolute;
+	  right:0px;
+	  top:260px;
+	  width:226px;
+	  height:14px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p2_t7.png) no-repeat;
+       background-size: 226px;
+  }
+  .p2_t9{
+	  position:absolute;
+	  right:0px;
+	  top:280px;
+	  width:226px;
+	  height:14px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p2_t5.png) no-repeat;
+       background-size: 226px;
+  }
+  .p2_t10{
+	  position:absolute;
+	  right:0px;
+	  top:300px;
+	  width:226px;
+	  height:14px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p2_t8.png) no-repeat;
+       background-size: 226px;
+  }
+  
+  .p2_t11{
+	  position:absolute;
+	  right:0px;
+	  top:350px;
+	  width:226px;
+	  height:14px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p2_t9.png) no-repeat;
+       background-size: 226px;
+  }
+  .p2_t12{
+	  position:absolute;
+	  right:0px;
+	  top:380px;
+	  width:226px;
+	  height:24px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p2_t10.png) no-repeat;
+       background-size: 226px;
+  }
+  
+  
   
   
 </style>
@@ -693,7 +800,7 @@
     webpsupport(function (webpa) {
     var loader = new WxMoment.Loader(),
      fileList =[
-		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png','p1_11.png','P1_15.png','P1_16.png','p1_17.png','p1_18.png','p1_19.png','p1_20.png','P1_13.png','P1_14.png','p1_06.png','p1_07.png','p1_08.png','p1_09.png','logo.png','p2-2','p2_1','p2_2','p2_3','p2_4','p2_5','p2_6','p2_7','p2_8','p2_9','p2_10','p2_11','p2_12','p2_13','p2_14'
+		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png','p1_11.png','P1_15.png','P1_16.png','p1_17.png','p1_18.png','p1_19.png','p1_20.png','P1_13.png','P1_14.png','p1_06.png','p1_07.png','p1_08.png','p1_09.png','logo.png','p2-2','p2_1','p2_2','p2_3','p2_4','p2_5','p2_6','p2_7','p2_8','p2_9','p2_10','p2_11','p2_12','p2_13','p2_14','p2_t1','p2_t2','p2_t3','p2_t4','p2_t5','p2_t6','p2_t7','p2_t8','p2_t9','p2_t10'
 	];
      
      for (var i = 0; i < fileList.length; i++) {
@@ -821,27 +928,22 @@
 				<div class="p1_zhuan1"></div>
 				<div class="p1_zhuan2"></div>
 			</div>
-			
 			<div class="show">
-			<div class="p1_co1"></div>
-			<div class="p1_co2"></div>
-			<div class="p1_co3"></div>
-			<div class="p1_co4"></div>
-			<div class="p1_co5"></div>
-			<div class="p1_line1"></div>
-			<div class="p1_line2"></div>
-			<div class="p1_line3"></div>
-			<div class="p1_line4"></div>
-			<div class="p1_line5"></div>
-			<div class="p1_line6"></div>
-			<div class="p1_line7"></div>
-			<div class="p1_line8"></div>
-			<div class="p1_line9"></div>
+				<div class="p1_co1"></div>
+				<div class="p1_co2"></div>
+				<div class="p1_co3"></div>
+				<div class="p1_co4"></div>
+				<div class="p1_co5"></div>
+				<div class="p1_line1"></div>
+				<div class="p1_line2"></div>
+				<div class="p1_line3"></div>
+				<div class="p1_line4"></div>
+				<div class="p1_line5"></div>
+				<div class="p1_line6"></div>
+				<div class="p1_line7"></div>
+				<div class="p1_line8"></div>
+				<div class="p1_line9"></div>
 			</div>
-			
-				
-			
-		
 		</div>
 	</section>
 	<section class="screen screen2">
@@ -858,7 +960,6 @@
 			<div class="p2_line8"></div>
 			<div class="show">
 				<div class="p2_line7"></div>
-				
 				<div class="p2_co1"></div>
 				<div class="p2_co2"></div>
 				<div class="p2_co3"></div>
@@ -867,8 +968,20 @@
 				<div class="p2_co6"></div>
 				<div class="p2_co7"></div>	
 			</div>	
-			
-			
+			<div class="p2_texto">
+				<div class="p2_t1"></div>
+				<div class="p2_t2"></div>
+				<div class="p2_t3"></div>
+				<div class="p2_t4"></div>
+				<div class="p2_t5"></div>
+				<div class="p2_t6"></div>
+				<div class="p2_t7"></div>
+				<div class="p2_t8"></div>
+				<div class="p2_t9"></div>
+				<div class="p2_t10"></div>
+				<div class="p2_t11"></div>
+				<div class="p2_t12"></div>
+			</div>
 		</div>
 	</section>
 	  
