@@ -623,8 +623,20 @@
 	  position: absolute;
        height: 504px;
        width: 320px;
-       top: 0px;
+       top: 60px;
   }
+  .fadeUp{
+	  opacity:0;
+  }
+  .current .fadeUp{
+  	animation: 1s fadeUp cubic-bezier(.17, .67, .11, .93) forwards;
+  }
+  @keyframes fadeUp{
+      0%{   transform: translateY(0px);opacity:0; }
+	 20%{   transform: translateY(0px);opacity:0;  }
+      100%{   transform: translateY(-60px);opacity:1;  }
+  }
+  
   .p2_t1{
 	  position:absolute;
 	  right:0px;
@@ -955,18 +967,18 @@
 				<div class="p2_co7"></div>	
 			</div>	
 			<div class="p2_texto">
-				<div class="p2_t1 page-logo"></div>
-				<div class="p2_t2 page-logo"></div>
-				<div class="p2_t3 page-logo"></div>
-				<div class="p2_t4 page-logo"></div>
-				<div class="p2_t5 page-logo"></div>
-				<div class="p2_t6 page-logo"></div>
-				<div class="p2_t7 page-logo"></div>
-				<div class="p2_t8 page-logo"></div>
-				<div class="p2_t9 page-logo"></div>
-				<div class="p2_t10 page-logo"></div>
-				<div class="p2_t11 page-logo"></div>
-				<div class="p2_t12 page-logo"></div>
+				<div class="p2_t1 fadeUp"></div>
+				<div class="p2_t2 fadeUp"></div>
+				<div class="p2_t3 fadeUp"></div>
+				<div class="p2_t4 fadeUp"></div>
+				<div class="p2_t5 fadeUp"></div>
+				<div class="p2_t6 fadeUp"></div>
+				<div class="p2_t7 fadeUp"></div>
+				<div class="p2_t8 fadeUp"></div>
+				<div class="p2_t9 fadeUp"></div>
+				<div class="p2_t10 fadeUp"></div>
+				<div class="p2_t11 fadeUp"></div>
+				<div class="p2_t12 fadeUp"></div>
 			</div>
 		</div>
 	</section>
