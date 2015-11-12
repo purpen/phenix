@@ -426,11 +426,22 @@
 	  height:504px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p2-2.png) no-repeat;
 	  background-position:100%;
+	  background-size:-380px 100%;
   }
   .current .p2_bg1{
   	 -webkit-animation: bg2 1s 0.5s both;
  	 animation: bg2 0.5s 1s both;
   }
+  @-webkit-keyframes bg1{
+    	0% {
+    		width:0;
+    	}
+    	100%{
+    	  	width:320px;
+    	}
+  
+  }
+  
   @-webkit-keyframes bg2 {
   	0% {
   		background-size:-380px 100%;
