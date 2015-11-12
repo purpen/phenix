@@ -310,6 +310,51 @@ body{
 			}
 		});
 	});
+	
+	// 提交表单数据
+	$('#dynamic-login-form').form({
+		phone: {
+			identifier  : 'phone',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '手机号不能为空'
+				}
+			]
+		},
+		dynamic_verify_code: {
+			identifier  : 'dynamic_verify_code',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '短信验证码不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					// 点击前触发的事件
+					phenix.before_submit();
+				},
+				success: function(data){
+					// 点击后触发的事件
+					phenix.after_submit();
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, 3000);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+
 {% endblock %}
 
 {% block content %}
@@ -348,7 +393,7 @@ body{
 						
 					</form>
 					
-					<form action="" class="ui small form dynamic-form" method="post" style="display: none">
+					<form action="{{ app_url_wap }}/auth/dynamic_do_login" class="ui small form dynamic-form" method="post" id="dynamic-login-form" style="display: none">
 						
 						<div class="field">
 							<input type="text" name="phone" placeholder="手机号码">
@@ -362,7 +407,7 @@ body{
 						</div>
 					
 						<div class="field">
-							<input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" style="width:48%;margin: 0 .85714286em 0 0;" />
+							<input name="dynamic_verify_code" type="text" placeholder="短信验证码" style="width:48%;margin: 0 .85714286em 0 0;" />
 							<a href="javascript:void(0);" class="ui small inverted magenta button" id="dynamic-verify-code">获取验证码</a>
 						</div>
 						

@@ -313,7 +313,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	}
 	
 	/**
-	 * 执行用户登录流程
+	 * 动态密码登录流程
 	 */
 	public function dynamic_do_login(){
 		
