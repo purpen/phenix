@@ -2136,7 +2136,6 @@
         $(this).ajaxSubmit({
           dataType: 'json',
           beforeSubmit: function(){
-          alert(123);
             // 点击前触发的事件
             phenix.before_submit();
           },
@@ -2608,8 +2607,7 @@
               <input type="hidden" name="from_to" value="2" />
 
 							<div class="field">
-								<label>手机</label>
-							  	<input type="text" id="account" name="phone" value="{{ visitor.profile.phone }}" />
+							  	<input type="text" id="account" name="phone" value="{{ visitor.profile.phone }}" placeholder="手机号" />
 								<div class="description"></div>
 							</div>
              {% if !visitor.is_login %} 
@@ -2619,20 +2617,17 @@
               </div>
               {%endif%}
 							<div class="field">
-								<label>姓名</label>
-							  	<input type="text" name="realname" value="{{ visitor.profile.realname }}" />
+							  	<input type="text" name="realname" value="{{ visitor.profile.realname }}" placeholder="姓名" />
 								<div class="description"></div>
 							</div>
 
 							<div class="field">
-								<label>公司</label>
-							  	<input type="text" name="company" value="{{ visitor.profile.company }}" />
+							  	<input type="text" name="company" value="{{ visitor.profile.company }}" placeholder="公司名称" />
 								<div class="description"></div>
 							</div>
 
 							<div class="field">
-								<label>职位</label>
-							  	<input type="text" name="job" value="{{ visitor.profile.job }}" />
+							  	<input type="text" name="job" value="{{ visitor.profile.job }}" placeholder="职位" />
 								<div class="description"></div>
 							</div>
 
