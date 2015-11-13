@@ -1373,17 +1373,53 @@
   }
   .p3_14{
 	  position:absolute;
-	  right;0;
+	  right:0;
 	  top:347px;
 	  width:19px;
 	  height:27px;
        background: url({{ app_url_packaged }}/images/promo/coin/p3_z4.png) no-repeat;
        background-size: 19px;
   }
+  .current .p3_show.show{
+	  opacity: 1; 
+	  animation: fade 0.5s 0.2s both;
+	  -webkit-animation: fade 0.5s 0.2s both;
+  }
+  .p3_jd1,.jdk.p3_jd1{
+	  width: 0%;
+       height: 100%;
+       position: absolute;
+       top: 0;
+       right: 0;
+  }
+  .current .mt-10.show{
+	  animation: zoomIn 0.5s 0.5s both;
+	  -webkit-animation: zoomIn 0.5s 0.5s both;
+	  opacity:1;
+  }
+  .current .jdk.p3_jd1{
+	  animation: widjd 2s 1s both;
+	  -webkit-animation: widjd 2s 1s both;
+  }
+  @keyframes widjd{
+      0%{  width:0;  }
+	 30%{  width:0;  }
+      100%{  width:100%;  }
+  }
+  @-webkit-keyframes widjd{
+       0%{  width:0;  }
+	  30%{  width:0;  }
+       100%{  width:100%;  }
+  }
+  .current .p3_jd1{
+       animation: 1s zoomIn 0.7s both;
+       -webkit-animation: 1s zoomIn 0.7s both;
+       opacity: 1;
+  }
 </style>
 {% endblock %}
 {% block layout_js %}
-<script type="text/javascript" >
+<script type="text/javascript">
     /* 加载 */
     var basePath = "{{ app_url_packaged }}/images/promo/coin/";
     if (!(typeof webpsupport == 'function')) {
@@ -1582,39 +1618,67 @@
 	<section class="screen screen3">
 		<div class="screen__bg"></div>
 		<div class="screen__inner">
-			<div class="mt-10">
+			<div class="mt-10 show">
+				<div class="jdk p3_jd1">
 				<div class="ghs"></div>
 				<div class="ghs1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="csq"></div>
 				<div class="csq1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="hh"></div>
 				<div class="hh1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="nww"></div>
 				<div class="nww1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="lhb"></div>
 				<div class="lhb1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="xy"></div>
 				<div class="xy1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="p3_l1"></div>
 				<div class="p3_l2"></div>
+				</div>
 				<div class="p3_c1"></div>
+				<div class="jdk p3_jd1">
 				<div class="jw"></div>
 				<div class="jw1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="sc"></div>
 				<div class="sc1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="dsy"></div>
 				<div class="dsy1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="lb"></div>
 				<div class="lb1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="zdy"></div>
 				<div class="zdy1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="mbb"></div>
 				<div class="mbb1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="zxd"></div>
 				<div class="zxd1"></div>
+				</div>
 			</div>
 			
-			<div class="p3_show">
+			<div class="p3_show show">
 				<div class="p3_1"></div>
 				<div class="p3_2"></div>
 				<div class="p3_3"></div>
