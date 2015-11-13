@@ -20,6 +20,7 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 		'target_id' => 0,
 		
         'user_id' => 0,
+		'nickname' => 0,
     	'content' => '',
 		
         # 申请信息
