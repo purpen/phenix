@@ -87,6 +87,9 @@
                   {% if target_id==3 %}
                   <span class="attribute">兑吧红包</span>
                   {%endif%}
+                  {% if target_id==4 %}
+                  <span class="attribute">火眼-项目入驻</span>
+                  {%endif%}
                 </p>
                 {%endif%}
             </td>
@@ -98,6 +101,12 @@
                 {%endif%}
                 {% if target_id==3 %}
                   <p class="attribute">红包金额：{{ f.info.bonus_money|default '--' }}</p>
+                {%endif%}
+                {% if target_id==4 %}
+                  <p class="attribute">姓名：{{ f.info.realname|default '--' }}</p>
+                  <p class="attribute">电话：{{ f.info.phone|default '--' }}</p>
+                  <p class="attribute">公司：{{ f.info.company|default '--' }}</p>
+                  <p class="attribute">职位：{{ f.info.job|default '--' }}</p>
                 {%endif%}
               {%endif%}
 

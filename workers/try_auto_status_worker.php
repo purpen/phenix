@@ -45,7 +45,7 @@ while(!$is_end){
   $current_time = time();
 	for ($i=0; $i<$max; $i++) {
     $try_id = (int)$list[$i]['_id'];
-    $end_time = $list[$i]['end_time'];
+    $end_time = strtotime($list[$i]['end_time']);
     $title = $list[$i]['title'];
     if($current_time>$end_time){
       $ok = $try_mode->update_set($try_id, array('step_stat'=>2));
