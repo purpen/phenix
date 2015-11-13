@@ -205,7 +205,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
     $this->stash['stat'] = 0;
     $this->stash['msg'] = null;
 		if (!isset($this->stash['target_id'])){
-      $this->stash['msg'] = '缺少请求参数';
+		$this->stash['msg'] = '缺少请求参数';
 			return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
 		}
 		
@@ -263,6 +263,9 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 					unset($this->stash['id']);
 				}
 				$this->stash['user_id'] = $user_id;
+				
+				$nickname = $this->visitor->nickname;
+				$this->stash['nickname'] = $nickname;
 				
 				$ok = $model->apply_and_save($this->stash);
         if(!$ok){
