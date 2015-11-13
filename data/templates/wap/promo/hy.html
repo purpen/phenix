@@ -2159,6 +2159,43 @@
          	$('.ui.deny.button,i.close').click(function(){
          		$('.ui.user-info-box.modal').modal('hide');
          	});
+
+	var wait = 60,can_send=true;
+	var limitime = function(){
+		if(wait == 0){
+			can_send = true;
+			wait = 60;
+			$('#fetch-verify-code').removeClass('active').text('获取验证码');
+		}else{
+			can_send = false;
+			
+			wait--;
+			$('#fetch-verify-code').addClass('active').text('重新发送('+wait+')');
+			setTimeout(function(){
+				limitime();
+			}, 1000);
+		}
+	}
+		
+	$('#fetch-verify-code').click(function(){
+		var phone = $('#account').val();
+		if(!can_send){
+		    return false;
+		}
+		if(phone){
+      // 添加发送频率
+      limitime();
+  
+      $this = $('#fetch-verify-code');
+      $.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
+        if(result.errorCode == 200){
+          $this.removeClass('disabled').text('获取验证码');
+        }
+      }); 
+		}else{
+			phenix.show_error_note('请正确填写手机号码！');
+		}
+	});
  	  
       </script>
       
@@ -2556,24 +2593,36 @@
 		  	<div class="content">
 				<div class="ajax result"></div>
 
-				<div class="ui signup-box">
-					<div class="two fields">
-						<div class="field">
-              <input type="text" name="realname" value="{{ visitor.profile.realname }}" placeholder="姓名" />
+							<div class="field">
+								<label>手机</label>
+							  	<input type="text" id="account" name="phone" value="{{ visitor.profile.phone }}" />
+								<div class="description"></div>
+							</div>
+             {% if !visitor.is_login %} 
+              <div class="inline field">
+                <input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" style="width:48%;" />
+                <a href="javascript:void(0);" class="ui small inverted magenta button" id="fetch-verify-code">获取验证码</a>
+              </div>
+              {%endif%}
+							<div class="field">
+								<label>姓名</label>
+							  	<input type="text" name="realname" value="{{ visitor.profile.realname }}" />
+								<div class="description"></div>
+							</div>
+
+							<div class="field">
+								<label>公司</label>
+							  	<input type="text" name="company" value="{{ visitor.profile.company }}" />
+								<div class="description"></div>
+							</div>
+
+							<div class="field">
+								<label>职位</label>
+							  	<input type="text" name="job" value="{{ visitor.profile.job }}" />
+								<div class="description"></div>
+							</div>
+
 						</div>
-					</div>
-					<div class="two fields">
-						<div class="field">
-							<input type="text" name="phone" value="{{ visitor.profile.phone }}" placeholder="填写手机号，方便信息核实" />
-						</div>
-					</div>
-					<div class="field">
-            <input type="text" name="company" value="{{ visitor.profile.company }}" placeholder="公司名称" />
-					</div>
-					<div class="field">
-            <input type="text" name="job" value="{{ visitor.profile.job }}" placeholder="职位" />
-					</div>
-				</div>
 		  	</div>
 
 			<div class="right aligned action">

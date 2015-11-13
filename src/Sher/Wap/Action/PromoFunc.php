@@ -218,6 +218,9 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     $target_id = isset($this->stash['target_id'])?(int)$this->stash['target_id']:0;
     $event = isset($this->stash['event'])?(int)$this->stash['event']:0;
     $from_to = isset($this->stash['from_to'])?(int)$this->stash['from_to']:1;
+    if(empty($from_to)){
+      $from_to = 1;
+    }
 
     if(empty($target_id) || empty($event)){
       return $this->ajax_json('参数不存在!', true);   
