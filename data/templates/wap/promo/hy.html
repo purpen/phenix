@@ -2136,6 +2136,7 @@
         $(this).ajaxSubmit({
           dataType: 'json',
           beforeSubmit: function(){
+          alert(123);
             // 点击前触发的事件
             phenix.before_submit();
           },
@@ -2600,12 +2601,11 @@
 	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;"></i>
 	</div>
 	<div class="container">
-		<form action="{{ app_url_wap }}/app/wap/promo_func/save_common_sign" class="ui form" method="post" id="sign-form">
-        <input type="hidden" name="target_id" value="4" />
-        <input type="hidden" name="event" value="5" />
-        <input type="hidden" name="from_to" value="2" />
-		  	<div class="content">
-				<div class="ajax result"></div>
+					<form action="{{ app_url_wap }}/app/wap/promo_func/save_common_sign" class="ui form" method="post" id="sign-form">
+						<div class="ui segment">
+              <input type="hidden" name="target_id" value="4" />
+              <input type="hidden" name="event" value="5" />
+              <input type="hidden" name="from_to" value="2" />
 
 							<div class="field">
 								<label>手机</label>
@@ -2637,8 +2637,7 @@
 							</div>
 
 						</div>
-		  	</div>
-
+						
 						<div class="ui grid">
 							<div class="right aligned column">
 								<div class="ui gray cancel large active button">
@@ -2649,7 +2648,8 @@
 								</div>
 							</div>
 						</div>
-		</form>
+						
+					</form>
 	</div>
 </div>
 
