@@ -10,8 +10,8 @@ class DoggyX_Model_Mongo_Base {
 
     const MONGO_ID_NAME = '_id';
     const MONGO_ID_NATIVE = 1;
-    const MONGO_ID_SEQ = 2;
-    const MONGO_ID_CUSTOM = 3;
+    const MONGO_ID_SEQ = 2; // id自增
+    const MONGO_ID_CUSTOM = 3; // id自定义
     const MONGO_SEQ_COLLECTION = 'sequence';
     
     protected $force_schema_free = false;

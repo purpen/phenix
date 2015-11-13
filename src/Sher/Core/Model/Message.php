@@ -3,19 +3,26 @@
  * 站内私信 old remove
  * @author purpen
  */
-class Sher_Core_Model_Message extends Sher_Core_Model_Base {    
+class Sher_Core_Model_Message extends Sher_Core_Model_Base {
+	
+	# 所属分类
+	const TYPE_USER = 1; // 普通用户
+	const TYPE_ADMIN = 2; // 普通用户
+	
     protected $collection = "message";
-
+	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_CUSTOM;
+	
     protected $schema = array(
 		'_id'  => null, #标识对话的key id <small_big>
 		'users' => array(), #会话对象<from_user,to_user>
 		's_readed' => 0,
 		'b_readed' => 0,
-		'last_time' => 0, # 最后一次回复时间
 		'mailbox' => array(),
+		'group_id' => '',
+		'type' => self::TYPE_USER,
+		'last_time' => 0, # 最后一次回复时间
     );
 	
-	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_CUSTOM;
     protected $required_fields = array('_id');
     protected $int_fields = array('s_readed', 'b_readed', 'last_time');
     
@@ -51,6 +58,7 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
      * @return int
      */
     public function send_site_message($content,$from_user,$to_user){
+		
 		$_id = Sher_Core_Helper_Util::gen_secrect_key($from_user,$to_user);
 		
 		$item = array(
@@ -59,6 +67,7 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 			'to'   => (int)$to_user,
 			'content' => $content,
 			'is_read' => 0,
+			'is_reply' => 0,
 			'created_on' => time(),
 		);
 		$some_data = array();
@@ -125,3 +134,35 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
     }
 }
 
+/*
+{
+	"_id" : "8973069c28eba2ed0928d159ce6744c6",
+	"b_readed" : NumberLong(3),
+	"s_readed" : NumberLong(0),
+	"users" : [ NumberLong(1048), NumberLong(1087) ],
+	"mailbox" : [
+		{
+			"r_id" : ObjectId("5444b1ca621e19bf128b4e0c"),
+			"from" : NumberLong(1048),
+			"to" : NumberLong(1087),
+			"content" : "您好！您申请试用的鼻净舒应该已经到货一段时间了，请您务必尽快提交试用报告以守承诺，感谢！有任何问题可以私信我或者加qq137486066联系~",
+			"created_on" : NumberLong(1413788106)
+		},
+		{
+			"r_id" : ObjectId("5444b1d1621e19c4128b4e2a"),
+			"from" : NumberLong(1048),
+			"to" : NumberLong(1087),
+			"content" : "您好！您申请试用的鼻净舒应该已经到货一段时间了，请您务必尽快提交试用报告以守承诺，感谢！有任何问题可以私信我或者加qq137486066联系~",
+			"created_on" : NumberLong(1413788113)
+		},
+		{
+			"r_id" : ObjectId("5444b1dd621e19c3128b4e2f"),
+			"from" : NumberLong(1048),
+			"to" : NumberLong(1087),
+			"content" : "您好！您申请试用的鼻净舒应该已经到货一段时间了，请您务必尽快提交试用报告以守承诺，感谢！有任何问题可以私信我或者加qq137486066联系~",
+			"created_on" : NumberLong(1413788125)
+		}
+	],
+	"updated_on" : NumberLong(1413788125)
+}
+*/
