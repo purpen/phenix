@@ -132,7 +132,8 @@
 
       .mod-orient-layer {
           display: none;
-          position: fixed;
+          position: absolute !important;
+		overflow:hidden !important;
           height: 100%;
           width: 100%;
           left: 0;
@@ -140,14 +141,14 @@
           right: 0;
           bottom: 0;
           background: #000;
-          z-index: 9997
+          z-index: 9997;
       }
 
       .mod-orient-layer__content {
           position: absolute;
           width: 100%;
           top: 45%;
-          margin-top: -75px;
+          margin-top: -35px !important;
           text-align: center
       }
 
@@ -166,7 +167,7 @@
 
       .mod-orient-layer__desc {
           margin-top: 10px !important;
-          font-size: 12px !important;
+          font-size: 10px !important;
           color: #fff
       }
       .music.playing{
