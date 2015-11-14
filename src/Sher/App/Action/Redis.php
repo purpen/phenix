@@ -27,4 +27,4 @@ class Sher_App_Action_Redis extends Sher_App_Action_Base {
   }
 	
 }
-?>
+

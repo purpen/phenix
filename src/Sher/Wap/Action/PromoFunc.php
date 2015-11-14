@@ -217,6 +217,10 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 
     $target_id = isset($this->stash['target_id'])?(int)$this->stash['target_id']:0;
     $event = isset($this->stash['event'])?(int)$this->stash['event']:0;
+    $from_to = isset($this->stash['from_to'])?(int)$this->stash['from_to']:1;
+    if(empty($from_to)){
+      $from_to = 1;
+    }
 
     if(empty($target_id) || empty($event)){
       return $this->ajax_json('参数不存在!', true);   
@@ -230,12 +234,16 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       return $this->ajax_json('请输入正确的手机号码格式!', true);     
     }
 
-    $model = new Sher_Core_Model_SubjectRecord();
+    if($from_to==1){
+      $model = new Sher_Core_Model_SubjectRecord();
+    }elseif($from_to==2){
+      $model = new Sher_Core_Model_Attend();
+    }
     $has_sign = $model->first(array('target_id'=>$target_id, 'event'=>$event, 'info.phone'=>trim($this->stash['phone'])));
 
     // 是否已报名
     if($has_sign){
-      return $this->ajax_json('您已经报名了，不能重复参与!', true);
+      return $this->ajax_json('不能重复参与!', true);
     }
 
     // 验证是否登录用户 
@@ -267,12 +275,12 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       $user = $user_model->first(array('account'=>$this->stash['phone']));
       if(empty($user)){ //注册用户, 生成随机密码 
         $user_info = array(
-          'account' => $this->stash['phone'],
-				  'nickname' => $this->stash['phone'],
-				  'password' => sha1(rand(100000, 999999)),
-          //报名注册标记(随机密码)
-          'kind'  => 21,
-          'state' => Sher_Core_Model_User::STATE_OK
+			'account' => $this->stash['phone'],
+			'nickname' => $this->stash['phone'],
+			'password' => sha1(rand(100000, 999999)),
+			//报名注册标记(随机密码)
+			'kind'  => 21,
+			'state' => Sher_Core_Model_User::STATE_OK
         );
 			
         $profile = $user_model->get_profile();
@@ -328,25 +336,35 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       $ok = $model->apply_and_save($data);
 
       if($ok){
-        if($target_id==3){
-          $redirect_url = Doggy_Config::$vars['app.url.wap'].'/birdegg/sz_share';
-    	    $this->stash['note'] = '申请已提交，我们会尽快短信通知您审核结果!';
-        }elseif($target_id==5){
-          $redirect_url = Doggy_Config::$vars['app.url.wap'].'/promo/idea';
-    	    $this->stash['note'] = '申请已提交，我们会尽快短信通知您审核结果!';
-        }elseif($target_id==6){
-          $redirect_url = Doggy_Config::$vars['app.url.wap'].'/promo/jdzn';
-    	    $this->stash['note'] = '感谢您的参与，我们会尽快处理，并将在11月14日前短信通知您审核结果，请您及时关注消息推送。';
-        }elseif($target_id==7){
-          $redirect_url = Doggy_Config::$vars['app.url.wap'].'/promo/jdzn';
-    	    $this->stash['note'] = '申请已提交，我们会尽快短信通知您审核结果!';
+        if($from_to==1){
+          if($target_id==3){
+            $redirect_url = Doggy_Config::$vars['app.url.wap'].'/birdegg/sz_share';
+            $this->stash['note'] = '申请已提交，我们会尽快短信通知您审核结果!';
+          }elseif($target_id==5){
+            $redirect_url = Doggy_Config::$vars['app.url.wap'].'/promo/idea';
+            $this->stash['note'] = '申请已提交，我们会尽快短信通知您审核结果!';
+          }elseif($target_id==6){
+            $redirect_url = Doggy_Config::$vars['app.url.wap'].'/promo/jdzn';
+            $this->stash['note'] = '感谢您的参与，我们会尽快处理，并将在11月14日前短信通知您审核结果，请您及时关注消息推送。';
+          }elseif($target_id==7){
+            $redirect_url = Doggy_Config::$vars['app.url.wap'].'/promo/jdzn';
+            $this->stash['note'] = '申请已提交，我们会尽快短信通知您审核结果!';
+          }else{
+            $redirect_url = Doggy_Config::$vars['app.url.wap'];
+            $this->stash['note'] = '操作成功!';
+          }       
         }else{
-          $redirect_url = Doggy_Config::$vars['app.url.wap'];
-    	    $this->stash['note'] = '操作成功!';
+          if($target_id==4){
+            $redirect_url = Doggy_Config::$vars['app.url.wap'].'/promo/hy';
+            $this->stash['note'] = '感谢您的参与！请务必电脑登录太火鸟官网-孵化资源，完成“项目入驻”申请。';
+          }else{
+            $redirect_url = Doggy_Config::$vars['app.url.wap'];
+            $this->stash['note'] = '操作成功!';
+          }        
         }
 
     	  $this->stash['is_error'] = false;
-        $this->stash['show_note_time'] = 2000;
+        $this->stash['show_note_time'] = 3000;
 
 		    $this->stash['redirect_url'] = $redirect_url;
 		    return $this->ajax_json($this->stash['note'], false, $redirect_url);
@@ -378,22 +396,22 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       return $this->ajax_json('您已经领取过了!', true);
     }
 
-    $end_time = time() + 60*60*24*7;
-    $is_send_bonus = $this->give_bonus($this->visitor->id, 'DB', array('count'=>5, 'xname'=>'DB', 'bonus'=>'B', 'min_amounts'=>'B', 'expired_time'=>$end_time));
-    if($is_send_bonus){
-      $data['state'] = 0;
-      $data['info']['bonus_money'] = 100;
-      $ok = $attend_model->create($data);
-      if($ok){
+    $data['state'] = 0;
+    $data['info']['bonus_money'] = 100;
+    $ok = $attend_model->apply_and_save($data);
+    if($ok){
+      // 有效期截止为11月30日
+      $end_time = strtotime('2015-11-30 23:59');
+      $is_send_bonus = $this->give_bonus($this->visitor->id, 'DB', array('count'=>5, 'xname'=>'DB', 'bonus'=>'B', 'min_amounts'=>'B', 'expired_time'=>$end_time));
+      if($is_send_bonus){
         $redirect_url = Doggy_Config::$vars['app.url.wap'].'/my/bonus';
-        return $this->ajax_json('领取成功!', false, $redirect_url);
+        return $this->ajax_json('领取成功!', false, $redirect_url);     
       }else{
         return $this->ajax_json('领取失败!', true);
-      }   
+      }
     }else{
       return $this->ajax_json('领取失败.!', true);   
     }
-
   
   }
 

@@ -152,6 +152,24 @@ class Sher_Admin_Action_UserSignIn extends Sher_Admin_Action_Base implements Dog
     }
   }
 
+  /**
+   * 取消中奖
+   */
+  public function ajax_cancel_draw(){
+		$id = isset($this->stash['id'])?(string)$this->stash['id']:null;
+		if(empty($id)){
+			return $this->ajax_json('缺少请求参数！', true);
+		}
+
+    $user_sign_stat_model = new Sher_Core_Model_UserSignStat();
+    $ok = $user_sign_stat_model->update_set($id, array('draw_evt'=>0, 'draw_txt'=>null, 'draw_time'=>0));
+    if($ok){
+ 			return $this->ajax_json('设置成功！', false, '', array('id'=>$id));   
+    }else{
+ 			return $this->ajax_json('设置失败！', true);   
+    }
+  }
+
 	/**
 	 * 删除每日统计
 	 */
