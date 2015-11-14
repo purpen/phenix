@@ -1468,18 +1468,48 @@
 	  top:20px;
 	  left:0;
 	  height:33px;
-	  width:125px;
+	  width:0px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p4_2.png) no-repeat;
 	  background-size:125px;
+	  opacity:0;
+  }
+  .current .p4_1{
+	  opacity:1;
+	  animation: p4_1 1s 0.7s both;
+	  -webkit-animation: p4_1 1s 0.7s both;
+  }
+  @keyframes p4_1{
+      0%{  width:0;  }
+	 30%{  width:0;  }
+      100%{  width:125px;  }
+  }
+  @-webkit-keyframes p4_1{
+       0%{  width:0;  }
+	  30%{  width:0;  }
+       100%{  width:125px;  }
   }
   .p4_2{
 	  position:absolute;
 	  top:20px;
 	  right:0;
 	  height:33px;
-	  width:115px;
+	  width:0px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p4_1.png) no-repeat;
 	  background-size:115px;
+	  opacity:0;
+  }
+  .current .p4_2{
+	  opacity:1;
+	  animation: p4_2 1s 0.7s both;
+	  -webkit-animation: p4_2 1s 0.7s both;
+  }
+  @keyframes p4_2{
+      0%{  background-position:-115px;width:0;  }
+      100%{  background-position:0;width:115px;  }
+  }
+  @-webkit-keyframes p4_2{
+       0%{  background-position:-115px;width:0;  }
+       100%{  background-position:0;width:115px;  }
   }
   .p4_3{
 	  position:absolute;
@@ -1712,7 +1742,14 @@
   }
   
   
-  
+  .p4_show{
+	  opacity:0;
+  }
+  .current .p4_show{
+	  opacity: 1;
+	  animation: fade 1s 4s both;
+	  -webkit-animation: fade 1s 4s both;
+  }
   
 </style>
 {% endblock %}
@@ -1836,7 +1873,7 @@
 {% endblock %}
 {% block content %}
 <div class="wrap"  style="display: none">
-     <section class="screen screen1">
+     <!--<section class="screen screen1">
 		<div class="screen__bg"></div>
 		<div class="screen__inner">
 			<div class="p1_bg1"></div>
@@ -2002,7 +2039,7 @@
 				<div class="p3_14"></div>
 			</div>
 		</div>
-	</section>
+	</section>-->
 	  
 	<section class="screen screen4">
 		<div class="screen_bg"></div>
