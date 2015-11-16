@@ -10,7 +10,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'save_subject_sign', 'save_common_sign');
+	protected $exclude_method_list = array('execute', 'save_subject_sign', 'save_common_sign', 'save_hy_sign');
 
 	
 	/**
@@ -370,6 +370,126 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 		    return $this->ajax_json($this->stash['note'], false, $redirect_url);
       }else{
         return $this->ajax_json('保存失败!', true);
+      }  
+    }catch(Sher_Core_Model_Exception $e){
+      return $this->ajax_json('保存失败!'.$e->getMessage(), true);
+    }
+
+  }
+
+  /**
+   * 保存火眼报名－－自动注册
+   */
+  public function save_hy_sign(){
+
+    if(empty($this->stash['people']) || empty($this->stash['mobile']) || empty($this->stash['fullname']) || empty($this->stash['job']) || empty($this->stash['type']) || empty($this->stash['email'])){
+      return $this->ajax_json('请求失败,缺少用户必要参数!', true);
+    }
+
+    if(!preg_match("/1[3458]{1}\d{9}$/",trim($this->stash['mobile']))){  
+      return $this->ajax_json('请输入正确的手机号码格式!', true);     
+    }
+
+
+    // 验证是否登录用户 
+    if($this->visitor->id){
+      $is_login = true;
+      $user_id = $this->visitor->id;
+    }else{  // 如果该手机号没有注册，马上注册
+      $is_login = false;
+      $user_id = 0;
+
+      // 验证短信验证吗
+      $verify_code = isset($this->stash['verify_code']) ? $this->stash['verify_code'] : null;
+      if(empty($verify_code)){
+        return $this->ajax_json('请输入验证码!', true);     
+      }
+
+      // 验证验证码是否有效
+      $verify_model = new Sher_Core_Model_Verify();
+      $has_code = $verify_model->first(array('phone'=>$this->stash['mobile'],'code'=>$verify_code));
+      if(empty($has_code)){
+        return $this->ajax_json('验证码有误，请重新获取！', true);
+      }else{
+        // 删除验证码
+        $verify_model->remove((string)$has_code['_id']);
+      }
+
+      // 该手机号是否注册
+      $user_model = new Sher_Core_Model_User();
+      $user = $user_model->first(array('account'=>$this->stash['mobile']));
+      if(empty($user)){ //注册用户, 生成随机密码 
+        $user_info = array(
+			'account' => $this->stash['mobile'],
+			'nickname' => $this->stash['mobile'],
+			'password' => sha1(rand(100000, 999999)),
+			//报名注册标记(随机密码)
+			'kind'  => 21,
+			'state' => Sher_Core_Model_User::STATE_OK
+        );
+			
+        $profile = $user_model->get_profile();
+        $profile['phone'] = $this->stash['mobile'];
+        $profile['realname'] = $this->stash['people'];
+        $profile['job'] = $this->stash['job'];
+        $profile['company'] = $this->stash['fullname'];
+        $user_info['profile'] = $profile;
+
+        $user_ok = $user_model->create($user_info);
+
+        if($user_ok){
+          $user_id = $user_model->id;
+        }else{
+          return $this->ajax_json('申请失败!', true);  
+        } //endif $user_ok
+      
+      }else{  //该手机号已注册，提取ID
+        $user_id = $user['_id'];
+        $user_data = array();
+        if(empty($user['profile']['realname'])){
+          $user_data['profile.realname'] = $this->stash['people'];
+        }
+        if(empty($user['profile']['phone'])){
+          $user_data['profile.phone'] = trim($this->stash['mobile']);
+        }
+        if(empty($user['profile']['company'])){
+          $user_data['profile.company'] = $this->stash['fullname'];
+        }
+        if(empty($user['profile']['job'])){
+          $user_data['profile.job'] = $this->stash['job'];
+        }
+
+        //完善基本信息
+        if(!empty($user_data)) $user_model->update_set($user_id, $user_data);   
+
+      } // endif $no_user
+
+    } // endif $is_login
+
+
+    // 开始保存报名信息
+    $data = array();
+    $data['user_id'] = $user_id;
+    $data['people'] = $this->stash['people'];
+    $data['mobile'] = trim($this->stash['mobile']);
+    $data['fullname'] = $this->stash['fullname'];
+    $data['name'] = $this->stash['fullname'];
+    $data['email'] = $this->stash['email'];
+    $data['job'] = $this->stash['job'];
+    $data['type'] = (int)$this->stash['type'];
+
+    try{
+      $model = new Sher_Core_Model_Cooperation();
+      $ok = $model->apply_and_save($data);
+
+      if($ok){
+        $redirect_url = Doggy_Config::$vars['app.url.wap'].'/promo/hy';
+        $this->stash['note'] = '感谢您的参与！“项目入驻”审核成功后，我们将以短信方式通知您。';
+
+		    $this->stash['redirect_url'] = $redirect_url;
+		    return $this->ajax_json($this->stash['note'], false, $redirect_url);
+      }else{
+        return $this->ajax_json('申请失败!', true);
       }  
     }catch(Sher_Core_Model_Exception $e){
       return $this->ajax_json('保存失败!'.$e->getMessage(), true);

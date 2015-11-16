@@ -37,15 +37,15 @@
 	 20%{   -webkit-transform: translateX(0px);opacity:0;  }
       100%{   -webkit-transform: translateX(80px);opacity:1;  }
   }
-  @keyframes rightto{
+  @keyframes righttoo{
       0%{   transform: translateX(0px);opacity:0;  }
 	 20%{   transform: translateX(0px);opacity:0;  }
-      100%{   transform: translateX(80px);opacity:1;  }
+      100%{   transform: translateX(30px);opacity:1;  }
   }
-  @-webkit-keyframes rightto{
+  @-webkit-keyframes righttoo{
       0%{   -webkit-transform: translateX(0px);opacity:0;  }
 	 20%{   -webkit-transform: translateX(0px);opacity:0;  }
-      100%{   -webkit-transform: translateX(80px);opacity:1;  }
+      100%{   -webkit-transform: translateX(30px);opacity:1;  }
   }
   .current .p1_left{
 	  animation: rightto 1.5s 1s ease both;
@@ -80,12 +80,28 @@
       0%, 100%{   -webkit-transform: translateY(0)  }
       50%{   -webkit-transform: translateY(37px)  }
   }
+  @keyframes btopo{
+      0%, 100%{   transform: translateY(0)  }
+      50%{   transform: translateY(25px)  }
+  }
+  @-webkit-keyframes btopo{
+      0%, 100%{   -webkit-transform: translateY(0)  }
+      50%{   -webkit-transform: translateY(25px)  }
+  }
   @keyframes btopr{
       0%, 100%{  transform: translateY(37px)  }
       50%{  transform: translateY(0)  }
   }
   @-webkit-keyframes btopr{
       0%, 100%{  -webkit-transform: translateY(37px)  }
+      50%{  -webkit-transform: translateY(0)  }
+  }
+  @keyframes btopro{
+      0%, 100%{  transform: translateY(25px)  }
+      50%{  transform: translateY(0)  }
+  }
+  @-webkit-keyframes btopro{
+      0%, 100%{  -webkit-transform: translateY(25px)  }
       50%{  -webkit-transform: translateY(0)  }
   }
   .p1_right{
@@ -104,6 +120,16 @@
       0%{  -webkit-transform: translateX(0px);opacity:0; }
 	 20%{  -webkit-transform: translateX(0px);opacity:0;  }
       100%{  -webkit-transform: translateX(-80px);opacity:1;  }
+  }
+  @keyframes lefttoo{
+      0%{  transform: translateX(0px); opacity:0; }
+	 20%{  transform: translateX(0px); opacity:0;  }
+      100%{  transform: translateX(-30px);opacity:1;  }
+  }
+  @-webkit-keyframes lefttoo{
+      0%{  -webkit-transform: translateX(0px);opacity:0; }
+	 20%{  -webkit-transform: translateX(0px);opacity:0;  }
+      100%{  -webkit-transform: translateX(-30px);opacity:1;  }
   }
   .current .p1_right{
 	  animation: leftto 1.5s 1s ease both;
@@ -936,6 +962,8 @@
 	  height:83px;
        background: url({{ app_url_packaged }}/images/promo/coin/ghs.png) no-repeat;
        background-size: 95px;
+       animation: 3s slineX linear infinite alternate;
+       -webkit-animation: 3s slineX linear infinite alternate;
   }
   .ghs1{
 	  position:absolute;
@@ -945,6 +973,8 @@
 	  height:24px;
        background: url({{ app_url_packaged }}/images/promo/coin/ghs1.png) no-repeat;
        background-size: 84px;
+       animation: 3s slineX linear infinite alternate;
+       -webkit-animation: 3s slineX linear infinite alternate;
   }
   .csq{
 	  position:absolute;
@@ -954,6 +984,8 @@
 	  height:83px;
        background: url({{ app_url_packaged }}/images/promo/coin/csq.png) no-repeat;
        background-size: 95px;
+       animation: 4s slineX linear infinite alternate;
+       -webkit-animation: 4s slineX linear infinite alternate;
   }
   .csq1{
 	  position:absolute;
@@ -963,6 +995,8 @@
 	  height:24px;
        background: url({{ app_url_packaged }}/images/promo/coin/csq1.png) no-repeat;
        background-size: 84px;
+       animation: 4s slineX linear infinite alternate;
+       -webkit-animation: 4s slineX linear infinite alternate;
   }
   .hh{
 	  position:absolute;
@@ -972,6 +1006,8 @@
 	  height:83px;
        background: url({{ app_url_packaged }}/images/promo/coin/hh.png) no-repeat;
        background-size: 95px;
+       animation: 3s slineX linear infinite alternate;
+       -webkit-animation: 3s slineX linear infinite alternate;
   }
   .hh1{
 	  position:absolute;
@@ -981,6 +1017,8 @@
 	  height:24px;
        background: url({{ app_url_packaged }}/images/promo/coin/hh1.png) no-repeat;
        background-size: 84px;
+       animation: 3s slineX linear infinite alternate;
+       -webkit-animation: 3s slineX linear infinite alternate;
   }
   .nww{
 	  position:absolute;
@@ -990,6 +1028,8 @@
 	  height:83px;
        background: url({{ app_url_packaged }}/images/promo/coin/nww.png) no-repeat;
        background-size: 95px;
+       animation: 3s slineX linear infinite alternate;
+       -webkit-animation: 3s slineX linear infinite alternate;
   }
   .nww1{
 	  position:absolute;
@@ -999,6 +1039,8 @@
 	  height:24px;
        background: url({{ app_url_packaged }}/images/promo/coin/nww1.png) no-repeat;
        background-size: 84px;
+       animation: 3s slineY linear infinite alternate;
+       -webkit-animation: 3s slineY linear infinite alternate;
   }
   .lhb{
 	  position:absolute;
@@ -1008,6 +1050,8 @@
 	  height:83px;
        background: url({{ app_url_packaged }}/images/promo/coin/lhb.png) no-repeat;
        background-size: 95px;
+       animation: 3s slineY linear infinite alternate;
+       -webkit-animation: 3s slineY linear infinite alternate;
   }
   .lhb1{
 	  position:absolute;
@@ -1017,6 +1061,8 @@
 	  height:24px;
        background: url({{ app_url_packaged }}/images/promo/coin/lhb1.png) no-repeat;
        background-size: 84px;
+       animation: 3s slineY linear infinite alternate;
+       -webkit-animation: 3s slineY linear infinite alternate;
   }
   .xy{
 	  position:absolute;
@@ -1026,6 +1072,8 @@
 	  height:83px;
        background: url({{ app_url_packaged }}/images/promo/coin/xy.png) no-repeat;
        background-size: 95px;
+       animation: 4s slineY linear infinite alternate;
+       -webkit-animation: 4s slineY linear infinite alternate;
   }
   .xy1{
 	  position:absolute;
@@ -1035,6 +1083,8 @@
 	  height:24px;
        background: url({{ app_url_packaged }}/images/promo/coin/xy1.png) no-repeat;
        background-size: 84px;
+       animation: 4s slineY linear infinite alternate;
+       -webkit-animation: 4s slineY linear infinite alternate;
   }
   .p3_l1{
 	  position:absolute;
@@ -1073,6 +1123,8 @@
 	  height:83px;
        background: url({{ app_url_packaged }}/images/promo/coin/jw.png) no-repeat;
        background-size: 95px;
+       animation: 3s slineY linear infinite alternate;
+       -webkit-animation: 3s slineY linear infinite alternate;
   }
   .jw1{
 	  position:absolute;
@@ -1082,6 +1134,8 @@
 	  height:24px;
        background: url({{ app_url_packaged }}/images/promo/coin/jw1.png) no-repeat;
        background-size: 84px;
+       animation: 3s slineY linear infinite alternate;
+       -webkit-animation: 3s slineY linear infinite alternate;
   }
   .sc{
 	  position:absolute;
@@ -1091,6 +1145,8 @@
 	  height:83px;
        background: url({{ app_url_packaged }}/images/promo/coin/sc.png) no-repeat;
        background-size: 95px;
+       animation: 3s slineX linear infinite alternate;
+       -webkit-animation: 3s slineX linear infinite alternate;
   }
   .sc1{
 	  position:absolute;
@@ -1100,6 +1156,8 @@
 	  height:24px;
        background: url({{ app_url_packaged }}/images/promo/coin/sc1.png) no-repeat;
        background-size: 84px;
+       animation: 3s slineX linear infinite alternate;
+       -webkit-animation: 3s slineX linear infinite alternate;
   }
   .dsy{
 	  position:absolute;
@@ -1109,6 +1167,8 @@
 	  height:83px;
        background: url({{ app_url_packaged }}/images/promo/coin/dsy.png) no-repeat;
        background-size: 95px;
+       animation: 3s slineY linear infinite alternate;
+       -webkit-animation: 3s slineY linear infinite alternate;
   }
   .dsy1{
 	  position:absolute;
@@ -1118,6 +1178,8 @@
 	  height:24px;
        background: url({{ app_url_packaged }}/images/promo/coin/dsy1.png) no-repeat;
        background-size: 84px;
+       animation: 3s slineY linear infinite alternate;
+       -webkit-animation: 3s slineY linear infinite alternate;
   }
   .lb{
 	  position:absolute;
@@ -1127,6 +1189,8 @@
 	  height:83px;
        background: url({{ app_url_packaged }}/images/promo/coin/lb.png) no-repeat;
        background-size: 95px;
+       animation: 4s slineY linear infinite alternate;
+       -webkit-animation: 4s slineY linear infinite alternate;
   }
   .lb1{
 	  position:absolute;
@@ -1136,6 +1200,8 @@
 	  height:24px;
        background: url({{ app_url_packaged }}/images/promo/coin/lb1.png) no-repeat;
        background-size: 84px;
+       animation: 4s slineY linear infinite alternate;
+       -webkit-animation: 4s slineY linear infinite alternate;
   }
   .zdy{
 	  position:absolute;
@@ -1145,6 +1211,8 @@
 	  height:83px;
        background: url({{ app_url_packaged }}/images/promo/coin/zdy.png) no-repeat;
        background-size: 95px;
+       animation: 3s slineX linear infinite alternate;
+       -webkit-animation: 3s slineX linear infinite alternate;
   }
   .zdy1{
 	  position:absolute;
@@ -1154,6 +1222,8 @@
 	  height:24px;
        background: url({{ app_url_packaged }}/images/promo/coin/zdy1.png) no-repeat;
        background-size: 84px;
+       animation: 3s slineX linear infinite alternate;
+       -webkit-animation: 3s slineX linear infinite alternate;
   }
   .mbb{
 	  position:absolute;
@@ -1163,6 +1233,8 @@
 	  height:83px;
        background: url({{ app_url_packaged }}/images/promo/coin/mbb.png) no-repeat;
        background-size: 95px;
+       animation: 3s slineX linear infinite alternate;
+       -webkit-animation: 3s slineX linear infinite alternate;
   }
   .mbb1{
 	  position:absolute;
@@ -1172,6 +1244,8 @@
 	  height:24px;
        background: url({{ app_url_packaged }}/images/promo/coin/mbb1.png) no-repeat;
        background-size: 84px;
+       animation: 3s slineX linear infinite alternate;
+       -webkit-animation: 3s slineX linear infinite alternate;
   }
   .zxd{
 	  position:absolute;
@@ -1181,6 +1255,8 @@
 	  height:83px;
        background: url({{ app_url_packaged }}/images/promo/coin/zxd.png) no-repeat;
        background-size: 95px;
+       animation: 4s slineY linear infinite alternate;
+       -webkit-animation: 4s slineY linear infinite alternate;
   }
   .zxd1{
 	  position:absolute;
@@ -1190,6 +1266,8 @@
 	  height:24px;
        background: url({{ app_url_packaged }}/images/promo/coin/zxd1.png) no-repeat;
        background-size: 84px;
+       animation: 4s slineY linear infinite alternate;
+       -webkit-animation: 4s slineY linear infinite alternate;
   }
   .mt-10{
 	  position:absolute;
@@ -1373,17 +1451,985 @@
   }
   .p3_14{
 	  position:absolute;
-	  right;0;
+	  right:0;
 	  top:347px;
 	  width:19px;
 	  height:27px;
        background: url({{ app_url_packaged }}/images/promo/coin/p3_z4.png) no-repeat;
        background-size: 19px;
   }
+  .current .p3_show.show{
+	  opacity: 1; 
+	  animation: fade 0.5s 0.2s both;
+	  -webkit-animation: fade 0.5s 0.2s both;
+  }
+  .p3_jd1,.jdk.p3_jd1{
+	  width: 0%;
+       height: 100%;
+       position: absolute;
+       top: 0;
+       right: 0;
+  }
+  .current .mt-10.show{
+	  animation: fade 0.5s 0.5s both;
+	  -webkit-animation: fade 0.5s 0.5s both;
+	  opacity:1;
+  }
+  .current .jdk.p3_jd1{
+	  animation: widjd 1s 0.7s both;
+	  -webkit-animation: widjd 1s 0.7s both;
+  }
+  @keyframes widjd{
+      0%{  width:0;  }
+	 30%{  width:0;  }
+      100%{  width:100%;  }
+  }
+  @-webkit-keyframes widjd{
+       0%{  width:0;  }
+	  30%{  width:0;  }
+       100%{  width:100%;  }
+  }
+  .p4_1{
+	  position:absolute;
+	  top:20px;
+	  left:0;
+	  height:33px;
+	  width:0px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p4_2.png) no-repeat;
+	  background-size:125px;
+	  opacity:0;
+  }
+  .current .p4_1{
+	  opacity:1;
+	  animation: p4_1 1s 0.7s both;
+	  -webkit-animation: p4_1 1s 0.7s both;
+  }
+  @keyframes p4_1{
+      0%{  width:0;  }
+	 30%{  width:0;  }
+      100%{  width:125px;  }
+  }
+  @-webkit-keyframes p4_1{
+       0%{  width:0;  }
+	  30%{  width:0;  }
+       100%{  width:125px;  }
+  }
+  .p4_2{
+	  position:absolute;
+	  top:20px;
+	  right:0;
+	  height:33px;
+	  width:0px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p4_1.png) no-repeat;
+	  background-size:115px;
+	  opacity:0;
+  }
+  .current .p4_2{
+	  opacity:1;
+	  animation: p4_2 1s 0.7s both;
+	  -webkit-animation: p4_2 1s 0.7s both;
+  }
+  @keyframes p4_2{
+      0%{  background-position:-115px;width:0;  }
+      100%{  background-position:0px;width:115px;  }
+  }
+  @-webkit-keyframes p4_2{
+       0%{  background-position:-115px;width:0;  }
+       100%{  background-position:0;width:115px;  }
+  }
+  .p4_3{
+	  position:absolute;
+	  top:17px;
+	  right:118px;
+	  width:76px;
+	  height:36px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p4_3.png) no-repeat;
+	  background-size:76px;
+  }
+  .current .p4_3{
+	  animation-delay:1.5s;
+	  -webkit-animation-delay:1.5s;
+  }
+  .p4_4{
+	  position:absolute;
+	  top:75px;
+	  right:141.5px;
+	  width:37px;
+	  height:15px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p4_4.png) no-repeat;
+	  background-size:37px;
+  }
+  .p4_5{
+	  position:absolute;
+	  top:95px;
+	  right:153.5px;
+	  width:13px;
+	  height:390px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p4_5.png) no-repeat;
+	  background-size:13px;
+  }
+  .current .p4_5{
+	  animation: p4_5 8s 1s both;
+	  -webkit-animation: p4_5 8s 1s both;
+  }
+  @keyframes p4_5{
+      0%{  height:20px;  }
+      100%{  height:390px;  }
+  }
+  @-webkit-keyframes p4_5{
+      0%{  height:20px;  }
+      100%{  height:390px;  }
+  }
+  .p4_6{
+	  position:absolute;
+	  top:105px;
+	  width:28px;
+	  right:154.5px;
+	  height:23px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p4_01.png) no-repeat;
+	  background-size:56px;
+	  background-position:-28px 0;
+  }
+  .current .p4_6{
+	  animation: p4_6 1s 2s both;
+	  -webkit-animation: p4_6 1s 2s both;
+  }
+  @keyframes p4_6{
+      0%{  opacity:0;-webkit-transform: translateY(-20px);  }
+      100%{ opacity:1;-webkit-transform: translateY(0px);  }
+  }
+  @-webkit-keyframes p4_6{
+       0%{  opacity:0;-webkit-transform: translateY(-20px);  }
+       100%{ opacity:1;-webkit-transform: translateY(0px);  }
+  }
+  .p4_7{
+	  position:absolute;
+	  top:105px;
+	  width:28px;
+	  right:182px;
+	  height:23px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p4_01.png) no-repeat;
+	  background-size:56px;
+  }
+  .current .p4_7{
+	  animation: p4_7 1s 2.2s both;
+	  -webkit-animation: p4_7 1s 2.2s both;
+  }
+  @keyframes p4_7{
+      0%{  opacity:0;-webkit-transform: translateY(20px);  }
+      100%{ opacity:1;-webkit-transform: translateY(0px);  }
+  }
+  @-webkit-keyframes p4_7{
+       0%{  opacity:0;-webkit-transform: translateY(20px);  }
+       100%{ opacity:1;-webkit-transform: translateY(0px);  }
+  }
+  .p4_8{
+	  position:absolute;
+	  top:110px;
+	  width:30px;
+	  left:156px;
+	  height:32px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p4_02.png) no-repeat;
+	  background-size:75px;
+  }
+  .current .p4_8{
+	  animation: p4_6 1s 2.4s both;
+	  -webkit-animation: p4_6 1s 2.4s both;
+  }
+  .p4_9{
+	  position:absolute;
+	  top:110px;
+	  width:45px;
+	  left:187px;
+	  height:32px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p4_02.png) no-repeat;
+	  background-size:75px;
+	  background-position:-30px 0;
+  }
+  .current .p4_9{
+	  animation: p4_7 1s 2.6s both;
+	  -webkit-animation: p4_7 1s 2.6s both;
+  }
+  .p4_10{
+	  position:absolute;
+	  top:145px;
+	  width:40px;
+	  right:154.5px;
+	  height:21px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p4_03.png) no-repeat;
+	  background-size:63px;
+	  background-position:-24px 0;
+  }
+  .current .p4_10{
+	  animation: p4_6 1s 2.8s both;
+	  -webkit-animation: p4_6 1s 2.8s both;
+  }
+  .p4_11{
+	  position:absolute;
+	  top:145px;
+	  width:28px;
+	  right:190px;
+	  height:21px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p4_03.png) no-repeat;
+	  background-size:63px;
+  }
+  .current .p4_11{
+	  animation: p4_7 1s 3s both;
+	  -webkit-animation: p4_7 1s 3s both;
+  }
+  .p4_12{
+	  position:absolute;
+	  top:162px;
+	  left:154.5px;
+	  width:35px;
+	  height:34px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p4_04.png) no-repeat;
+	  background-size:97px;
+  }
+  .current .p4_12{
+	  animation: p4_6 1s 3.2s both;
+	  -webkit-animation: p4_6 1s 3.2s both;
+  }
+  .p4_13{
+	  position: absolute;
+       top: 162px;
+       left: 190px;
+       width: 62px;
+       height: 34px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p4_04.png) no-repeat;
+       background-size: 97px;
+       background-position: -35px 0;
+  }
+  .current .p4_13{
+	  animation: p4_7 1s 3.4s both;
+	  -webkit-animation: p4_7 1s 3.4s both;
+  }
+  .p4_14{
+	  position: absolute;
+       top: 185px;
+       right:156.5px;
+       width: 20px;
+       height: 41px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p4_05.png) no-repeat;
+       background-size: 20px;
+  }
+  .current .p4_14{
+	  animation: p4_6 1s 3.6s both;
+	  -webkit-animation: p4_6 1s 3.6s both;
+  }
+  .p4_15{
+	  position: absolute;
+       top: 232px;
+       left:157.5px;
+       width: 20px;
+       height: 12px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p4_06.png) no-repeat;
+       background-size: 89px;
+  }
+  .current .p4_15{
+	  animation: p4_7 1s 3.8s both;
+	  -webkit-animation: p4_7 1s 3.8s both;
+  }
+  .p4_16{
+	  position: absolute;
+       top: 232px;
+       left: 179.5px;
+       width: 69px;
+       height: 12px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p4_06.png) no-repeat;
+       background-size: 89px;
+       background-position: -20px 0;
+  }
+  .current .p4_16{
+	  animation: p4_6 1s 4s both;
+	  -webkit-animation: p4_6 1s 4s both;
+  }
+  .p4_17{
+	  position: absolute;
+       top: 240px;
+       right: 154.5px;
+       width: 20px;
+       height: 37px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p4_07.png) no-repeat;
+       background-size: 77px;
+	  background-position:-57px 0;
+  }
+  .current .p4_17{
+	  animation: p4_7 1s 4.2s both;
+	  -webkit-animation: p4_7 1s 4.2s both;
+  }
+  .p4_18{
+	  position: absolute;
+       top: 240px;
+       right: 174.5px;
+       width: 57px;
+       height: 37px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p4_07.png) no-repeat;
+       background-size: 77px;
+  }
+  .current .p4_18{
+	  animation: p4_6 1s 4.4s both;
+	  -webkit-animation: p4_6 1s 4.4s both;
+  }
+  .p4_19{
+	  position: absolute;
+       top: 285px;
+       right: 154.5px;
+       width: 23px;
+       height: 105px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p4_09.png) no-repeat;
+       background-size: 23px;
+  }
+  .current .p4_19{
+	  animation: p4_8 2.5s 4.6s both;
+	  -webkit-animation: p4_8 2.5s 4.6s both;
+  }
+  @keyframes p4_8{
+      0%{  opacity:0;height:0px;  }
+      100%{ opacity:1;height:105px;  }
+  }
+  @-webkit-keyframes p4_8{
+       0%{  opacity:0;height:0px;  }
+       100%{ opacity:1;height:105px;  }
+  }
+  .p4_20{
+	  position: absolute;
+       top: 300px;
+       left: 156.5px;
+       width: 71px;
+       height: 30px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p4_08.png) no-repeat;
+       background-size: 71px;
+  }
+  .current .p4_20{
+	  animation: p4_6 1s 5.8s both;
+	  -webkit-animation: p4_6 1s 5.8s both;
+  }
+  .p4_21{
+	  position: absolute;
+       top: 400px;
+       right: 156.5px;
+       width: 30px;
+       height: 33px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p4_11.png) no-repeat;
+       background-size: 75px;
+	  background-position:-45px 0;
+  }
+  .current .p4_21{
+	  animation: p4_7 1s 6.4s both;
+	  -webkit-animation: p4_7 1s 6.4s both;
+  }
+  .p4_22{
+	  position: absolute;
+       top: 400px;
+       right: 186.5px;
+       width: 45px;
+       height: 33px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p4_11.png) no-repeat;
+       background-size: 75px;
+  }
+  .current .p4_22{
+	  animation: p4_6 1s 6.6s both;
+	  -webkit-animation: p4_6 1s 6.6s both;
+  }
+  .p4_23{
+	  position: absolute;
+	  top: 390px;
+	  left: 155.5px;
+	  width: 52px;
+	  height: 32px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p4_10.png) no-repeat;
+       background-size: 52px;
+  }
+  .current .p4_23{
+	  animation: p4_7 1s 6.8s both;
+	  -webkit-animation: p4_7 1s 6.8s both;
+  }
+  .p4_24{
+	  position: absolute;
+	  top: 430px;
+	  left: 155.5px;
+	  width: 47px;
+	  height: 38px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p4_12.png) no-repeat;
+       background-size: 47px;
+  }
+  .current .p4_24{
+	  animation: p4_6 1s 7s both;
+	  -webkit-animation: p4_6 1s 7s both;
+  }
+  .p4_25{
+	  position: absolute;
+	  top: 290px;
+	  left: 80px;
+	  width: 23px;
+	  height: 18px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p4_13.png) no-repeat;
+       background-size: 23px;
+	  animation: 5s slineY linear infinite alternate;
+	  -webkit-animation: 5s slineY linear infinite alternate;
+  }
+  .p4_26{
+	  position: absolute;
+	  top: 295px;
+	  left: 105px;
+	  width: 21px;
+	  height: 17px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p4_14.png) no-repeat;
+       background-size: 21px;
+	  animation: 5s slineX linear infinite alternate;
+	  -webkit-animation: 5s slineX linear infinite alternate;
+  }
+  .p4_show{
+	  opacity:0;
+  }
+  .current .p4_show{
+	  opacity: 1;
+	  animation: fade 1s 1.5s both;
+	  -webkit-animation: fade 1s 1.5s both;
+  }
+  .p44_show{
+  	opacity:0;
+  }
+  .current .p44_show{
+	  opacity: 1;
+	  animation: fade 1s 5s both;
+	  -webkit-animation: fade 1s 5s both;
+  }
+  .p5_1{
+	  position: absolute;
+	  top: 20px;
+	  left: 0px;
+	  width: 140px;
+	  height: 12px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_1.png) no-repeat;
+       background-size: 140px;
+	  opacity:0;
+  }
+  .current .p5_1{
+	  opacity:1;
+	  animation: p5_1 1s 0.3s both;
+	  -webkit-animation: p5_1 1s 0.3s both;
+  }
+  @keyframes p5_1{
+      0%{  width:0;  }
+      100%{  width:140px;  }
+  }
+  @-webkit-keyframes p5_1{
+       0%{  width:0;  }
+       100%{  width:140px;  }
+  }
+  .p5_2{
+	  position: absolute;
+	  top: 20px;
+	  right: 0px;
+	  width: 140px;
+	  height: 12px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_2.png) no-repeat;
+       background-size: 140px;
+	  opacity:0;
+  }
+  .current .p5_2{
+	  opacity:1;
+	  animation: p5_2 1s 0.3s both;
+	  -webkit-animation: p5_2 1s 0.3s both;
+  }
+  @keyframes p5_2{
+      0%{  width:0;background-position:-140px;  }
+      100%{  width:140px;background-position:0px;  }
+  }
+  @-webkit-keyframes p5_2{
+       0%{  width:0;background-position:-140px;  }
+       100%{  width:140px;background-position:0px;  }
+  }
+  .p5_t1{
+	  position: absolute;
+	  top: 20px;
+	  right: 137px;
+	  width: 46px;
+	  height: 12px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_t1.png) no-repeat;
+       background-size: 46px;
+	  opacity:0;
+  }
+  .current .p5_t1{
+	  opacity:1;
+	  animation: zoomIn 1s 1s both;
+	  -webkit-animation: zoomIn 1s 1s both;
+  }
+  .p5_01{
+	  position: absolute;
+	  top: 50px;
+	  right: 117px;
+	  width: 86px;
+	  height: 24px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_l01.png) no-repeat;
+       background-size: 86px;
+  }
+  .current .p5_01.page-logo{
+	  animation-delay:1.5s;
+	  -webkit-animation-delay:1.5s;
+  }
+  .p5_3{
+	  position: absolute;
+	  top: 90px;
+	  left: 0px;
+	  width: 140px;
+	  height: 12px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_3.png) no-repeat;
+       background-size: 140px;
+	  opacity:0;
+  }
+  .current .p5_3{
+	  opacity:1;
+	  animation: p5_1 1s 2s both;
+	  -webkit-animation: p5_1 1s 2s both;
+  }
+  .p5_4{
+	  position: absolute;
+	  top: 90px;
+	  right: 0px;
+	  width: 140px;
+	  height: 12px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_4.png) no-repeat;
+       background-size: 140px;
+	  opacity:0;
+  }
+  .current .p5_4{
+	  opacity:1;
+	  animation: p5_2 1s 2s both;
+	  -webkit-animation: p5_2 1s 2s both;
+  }
+  .p5_t2{
+	  position: absolute;
+	  top: 90px;
+	  right: 137px;
+	  width: 46px;
+	  height: 12px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_t2.png) no-repeat;
+       background-size: 46px;
+	  opacity:0;
+  }
+  .current .p5_t2{
+	  opacity:1;
+	  animation: zoomIn 1s 2.5s both;
+	  -webkit-animation: zoomIn 1s 2.5s both;
+  }
+  .p5_02{
+	  position: absolute;
+	  top: 105px;
+	  left: 131px;
+	  width: 58px;
+	  height: 46px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_l02.png) no-repeat;
+       background-size: 58px;
+  }
+  .current .p5_02.page-logo{
+	  animation-delay:3s;
+	  -webkit-animation-delay:3s;
+  }
+  .p5_5{
+	  position: absolute;
+	  top: 165px;
+	  left: 0px;
+	  width: 140px;
+	  height: 12px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_5.png) no-repeat;
+       background-size: 140px;
+	  opacity:0;
+  }
+  .current .p5_5{
+	  opacity:1;
+	  animation: p5_1 1s 3.5s both;
+	  -webkit-animation: p5_1 1s 3.5s both;
+  }
+  .p5_6{
+	  position: absolute;
+	  top: 165px;
+	  right: 0px;
+	  width: 140px;
+	  height: 12px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_6.png) no-repeat;
+       background-size: 140px;
+	  opacity:0;
+  }
+  .current .p5_6{
+	  opacity:1;
+	  animation: p5_2 1s 3.5s both;
+	  -webkit-animation: p5_2 1s 3.5s both;
+  }
+  .p5_t3{
+	  position: absolute;
+	  top: 165px;
+	  right: 137px;
+	  width: 46px;
+	  height: 12px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_t3.png) no-repeat;
+       background-size: 46px;
+	  opacity:0;
+  }
+  .current .p5_t3{
+	  opacity:1;
+	  animation: zoomIn 1s 4s both;
+	  -webkit-animation: zoomIn 1s 4s both;
+  }
+  .p5_l1{
+	  position: absolute;
+	  top: 190px;
+	  right: 9px;
+	  width: 302px;
+	  height: 310px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_l1.png) no-repeat;
+       background-size: 302px;
+  }
+  .current .p5_l1.page-logo{
+	  animation-delay:4.5s;
+	  -webkit-animation-delay:4.5s;
+  }
+  .p5_l2{
+	  position: absolute;
+	  top: 190px;
+	  right: 9px;
+	  width: 302px;
+	  height: 310px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_l2.png) no-repeat;
+       background-size: 302px;
+  }
+  .current .p5_l2.page-logo{
+	  animation-delay:4.6s;
+	  -webkit-animation-delay:4.6s;
+  }
+  .p5_l3{
+	  position: absolute;
+	  top: 190px;
+	  right: 9px;
+	  width: 302px;
+	  height: 310px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_l3.png) no-repeat;
+       background-size: 302px;
+  }
+  .current .p5_l3.page-logo{
+	  animation-delay:4.7s;
+	  -webkit-animation-delay:4.7s;
+  }
+  .p5_l4{
+	  position: absolute;
+	  top: 190px;
+	  right: 9px;
+	  width: 302px;
+	  height: 310px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_l4.png) no-repeat;
+       background-size: 302px;
+  }
+  .current .p5_l4.page-logo{
+	  animation-delay:4.7s;
+	  -webkit-animation-delay:4.7s;
+  }
+  .p5_l5{
+	  position: absolute;
+	  top: 190px;
+	  right: 9px;
+	  width: 302px;
+	  height: 310px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_l5.png) no-repeat;
+       background-size: 302px;
+  }
+  .current .p5_l5.page-logo{
+	  animation-delay:4.8s;
+	  -webkit-animation-delay:4.8s;
+  }
+  .p5_l6{
+	  position: absolute;
+	  top: 190px;
+	  right: 9px;
+	  width: 302px;
+	  height: 310px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_l6.png) no-repeat;
+       background-size: 302px;
+  }
+  .current .p5_l6.page-logo{
+	  animation-delay:4.9s;
+	  -webkit-animation-delay:4.9s;
+  }
+  .p5_l7{
+	  position: absolute;
+	  top: 190px;
+	  right: 9px;
+	  width: 302px;
+	  height: 310px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_l7.png) no-repeat;
+       background-size: 302px;
+  }
+  .current .p5_l7.page-logo{
+	  animation-delay:5s;
+	  -webkit-animation-delay:5s;
+  }
+  .p5_l8{
+	  position: absolute;
+	  top: 190px;
+	  right: 9px;
+	  width: 302px;
+	  height: 310px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_l8.png) no-repeat;
+       background-size: 302px;
+  }
+  .current .p5_l8.page-logo{
+	  animation-delay:5.1s;
+	  -webkit-animation-delay:5.1s;
+  }
+  .p5_l9{
+	  position: absolute;
+	  top: 190px;
+	  right: 9px;
+	  width: 302px;
+	  height: 310px;
+       background: url({{ app_url_packaged }}/images/promo/coin/p5_l9.png) no-repeat;
+       background-size: 302px;
+	  background-size: 302px;
+  }
+  .current .p5_l9.page-logo{
+	  animation-delay:5.2s;
+	  -webkit-animation-delay:5.2s;
+  }
+  
+  .screen__bg6 {
+      background: url({{ app_url_packaged }}/images/promo/coin/p6_bg.png)no-repeat center bottom;
+      background-size: 100%;
+      position: absolute;
+      left: 0;
+      bottom: -340px;
+      width: 100%;
+      height: 100%;
+  }
+  .current .screen__bg6{
+	  animation: bg6 1s 0s both;
+	  -webkit-animation: bg6 1s 0s both;
+  }
+  @keyframes bg6{
+      0%{  bottom: -340px;  }
+      100%{  bottom:0;  }
+  }
+  @-webkit-keyframes bg6{
+       0%{  bottom: -340px;  }
+       100%{  bottom:0;  }
+  }
+  
+  .p6_1{
+	  position:absolute;
+	  width:96px;
+	  height:25px;
+	  top:15px;
+	  left:20px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p6_logo.png) no-repeat;
+	  background-size:96px;
+  }
+  .p6_2{
+	  position:absolute;
+	  width:232px;
+	  height:185px;
+	  top:-15px;
+	  left:0px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p6_l2.png) no-repeat;
+	  background-size:232px;
+  }
+  .p6_3{
+	  position:absolute;
+	  width:144px;
+	  height:206px;
+	  top:-15px;
+	  right:-1px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p6_l1.png) no-repeat;
+	  background-size:144px;
+  }
+  
+  .p6_left{
+	  position:absolute;
+	  left:145px;
+	  top:87px;
+	  width:12px;
+	  height:38px;
+	  opacity:0;
+  }
+  .current .p6_left {
+      animation: lefttoo 1.5s 1s ease both;
+      -webkit-animation: lefttoo 1.5s 1s ease both;
+  }
+  .p6_icon1 {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 12px;
+      height: 38px;
+      background: url({{ app_url_packaged }}/images/promo/coin/p1_05.png) no-repeat;
+      background-size: 12px;
+  }
+  .p6_cir1 {
+      position: absolute;
+      top: 1px;
+      left: -2px;
+      width: 8px;
+      height: 8px;
+      background: url({{ app_url_packaged }}/images/promo/coin/p1_3.png) no-repeat;
+      background-size: 8px;
+      animation: btopo 5s linear infinite alternate;
+      -webkit-animation: btopo 5s linear infinite alternate;
+  }
+  .p6_right{
+	  position:absolute;
+	  right:145px;
+	  top:87px;
+	  width:12px;
+	  height:38px;
+	  opacity:0;
+  }
+  .current .p6_right {
+      animation: righttoo 1.5s 1s ease both;
+      -webkit-animation: righttoo 1.5s 1s ease both;
+  }
+  .p6_icon2 {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 12px;
+      height: 38px;
+      background: url({{ app_url_packaged }}/images/promo/coin/p1_04.png) no-repeat;
+      background-size: 12px;
+  }
+  .p6_cir2 {
+      position: absolute;
+      top: 1px;
+      right: -2px;
+      width: 8px;
+      height: 8px;
+      background: url({{ app_url_packaged }}/images/promo/coin/p1_3.png) no-repeat;
+      background-size: 8px;
+      animation: btopro 5s linear infinite alternate;
+      -webkit-animation: btopro 5s linear infinite alternate;
+  }
+  .p6_t1{
+  	position: absolute;
+	top:90px;
+	left:130px;
+	width:60px;
+	height:30px;
+     background: url({{ app_url_packaged }}/images/promo/coin/p6_t1.png) no-repeat;
+     background-size: 60px;
+	opacity:0;
+  }
+  .current .p6_t1 {
+      animation: 1s zoomIn 2s both;
+      -webkit-animation: 1s zoomIn 2s both;
+      opacity: 1;
+  }
+  .p6_t2{
+  	position: absolute;
+	top:130px;
+	left:116px;
+	width:88px;
+	height:20px;
+     background: url({{ app_url_packaged }}/images/promo/coin/p6_t2.png) no-repeat;
+     background-size: 88px;
+	opacity:0;
+  }
+  .current .p6_t2.page-logo{
+	  animation-delay:2.5s;
+	  -webkit-animation-delay:2.5s;
+  }
+  .p6_t3{
+  	position: absolute;
+	top:150px;
+	left:116px;
+	width:88px;
+	height:20px;
+     background: url({{ app_url_packaged }}/images/promo/coin/p6_t3.png) no-repeat;
+     background-size: 88px;
+	opacity:0;
+  }
+  .current .p6_t3.page-logo{
+	  animation-delay:2.8s;
+	  -webkit-animation-delay:2.8s;
+  }
+  
+  
+  .click_btn{
+	  position:absolute;
+	  top:165px;
+	  left:0;
+	  width:320px;
+	  height:0px;
+	  overflow:hidden;
+  }
+  .current .click_btn{
+       animation: 4s clcih 3s both;
+       -webkit-animation: 4s clcih 3s both;
+  }
+  @keyframes clcih{
+      0%{  height: 0px;  }
+      100%{  height:180px;  }
+  }
+  @-webkit-keyframes clcih{
+       0%{  height: 0px;  }
+       100%{  height:180px;  }
+  }
+  .p6_c1{
+	  position:absolute;
+	  top:5px;
+	  left:123px;
+	  width:74px;
+	  height:112px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p6_1.png) no-repeat;
+	  background-size:74px;
+  }
+  .p6_t4{
+	  position:absolute;
+	  top:125px;
+	  left:0px;
+	  width:106px;
+	  height:17px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p6_t4.png) no-repeat;
+	  background-size:106px;
+  }
+  .p6_t5{
+	  position:absolute;
+	  top:125px;
+	  right:0px;
+	  width:106px;
+	  height:17px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p6_t5.png) no-repeat;
+	  background-size:106px;
+  }
+  .p6_t6{
+	  position:absolute;
+	  top:125px;
+	  left:133px;
+	  width:54px;
+	  height:14px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p6_t6.png) no-repeat;
+	  background-size:54px;
+  }
+  .p6_t7{
+	  position:absolute;
+	  top:145px;
+	  left:28px;
+	  width:264px;
+	  height:18px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p6_t7.png) no-repeat;
+	  background-size:264px;
+  }
+  .p6_t8{
+	  position:absolute;
+	  top:167px;
+	  left:79px;
+	  width:192px;
+	  height:12px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p6_t8.png) no-repeat;
+	  background-size:192px;
+  }
+  
 </style>
 {% endblock %}
 {% block layout_js %}
-<script type="text/javascript" >
+<script type="text/javascript">
     /* 加载 */
     var basePath = "{{ app_url_packaged }}/images/promo/coin/";
     if (!(typeof webpsupport == 'function')) {
@@ -1394,7 +2440,7 @@
     webpsupport(function (webpa) {
     var loader = new WxMoment.Loader(),
      fileList =[
-		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png','p1_11.png','P1_15.png','P1_16.png','p1_17.png','p1_18.png','p1_19.png','p1_20.png','P1_13.png','P1_14.png','p1_06.png','p1_07.png','p1_08.png','p1_09.png','logo.png','p2-2.png','p2_1.png','p2_3.png','p2_4.png','p2_5.png','p2_6.png','p2_7.png','p2_8.png','p2_9.png','p2_10.png','p2_11.png','p2_12.png','p2_13.png','p2_14.png','p2_t1.png','p2_t2.png','p2_t3.png','p2_t4.png','p2_t5.png','p2_t6.png','p2_t7.png','p2_t8.png','p2_t9.png','p2_t10.png','p3_c1.png','p3_l1.png','p3_l2.png','ghs.png','ghs1.png','csq.png','csq1.png','hh.png','hh1.png','nww.png','nww1.png','lhb.png','lhb1.png','xy.png','xy1.png','jw.png','jw1.png','sc.png','sc1.png','dsy.png','dsy1.png','lb.png','lb1.png','zdy.png','zdy1.png','mbb.png','mbb1.png','zxd.png','zxd1.png','p3_c2.png','p3_z1.png','p3_z2.png','p3_z3.png','p3_z4.png'
+		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png','p1_11.png','P1_15.png','P1_16.png','p1_17.png','p1_18.png','p1_19.png','p1_20.png','P1_13.png','P1_14.png','p1_06.png','p1_07.png','p1_08.png','p1_09.png','logo.png','p2-2.png','p2_1.png','p2_3.png','p2_4.png','p2_5.png','p2_6.png','p2_7.png','p2_8.png','p2_9.png','p2_10.png','p2_11.png','p2_12.png','p2_13.png','p2_14.png','p2_t1.png','p2_t2.png','p2_t3.png','p2_t4.png','p2_t5.png','p2_t6.png','p2_t7.png','p2_t8.png','p2_t9.png','p2_t10.png','p3_c1.png','p3_l1.png','p3_l2.png','ghs.png','ghs1.png','csq.png','csq1.png','hh.png','hh1.png','nww.png','nww1.png','lhb.png','lhb1.png','xy.png','xy1.png','jw.png','jw1.png','sc.png','sc1.png','dsy.png','dsy1.png','lb.png','lb1.png','zdy.png','zdy1.png','mbb.png','mbb1.png','zxd.png','zxd1.png','p3_c2.png','p3_z1.png','p3_z2.png','p3_z3.png','p3_z4.png','p4_1.png','p4_2.png','p4_3.png','p4_4.png','p4_5.png','p4_01.png','p4_02.png','p4_03.png','p4_04.png','p4_05.png','p4_06.png','p4_07.png','p4_08.png','p4_09.png','p4_10.png','p4_11.png','p4_12.png','p4_13.png','p4_14.png','p5_1.png','p5_2.png','p5_3.png','p5_4.png','p5_5.png','p5_6.png','p5_l01.png','p5_l02.png','p5_t1.png','p5_t2.png','p5_t3.png','p5_l1.png','p5_l2.png','p5_l3.png','p5_l4.png','p5_l5.png','p5_l6.png','p5_l7.png','p5_l8.png','p5_l9.png','p6_bg.png','p6_1.png','p6_l1.png','p6_l2.png','p6_logo.png','p6_t1.png','p6_t2.png','p6_t3.png','p6_t4.png','p6_t5.png','p6_t6.png','p6_t7.png','p6_t8.png'
 	];
      
      for (var i = 0; i < fileList.length; i++) {
@@ -1429,6 +2475,12 @@
 
      //启动
      loader.start();
+    });
+    
+    $('.p6_c1').bind("touchstart",function(){
+        setTimeout(function(){
+            location.href = "{{ app_url_wap }}/promo/coin_submit";     //跳转在延迟200ms后执行
+        }, 1000)
     });
     
    /* var m_name = ' tets';
@@ -1582,39 +2634,67 @@
 	<section class="screen screen3">
 		<div class="screen__bg"></div>
 		<div class="screen__inner">
-			<div class="mt-10">
+			<div class="mt-10 show">
+				<div class="jdk p3_jd1">
 				<div class="ghs"></div>
 				<div class="ghs1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="csq"></div>
 				<div class="csq1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="hh"></div>
 				<div class="hh1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="nww"></div>
 				<div class="nww1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="lhb"></div>
 				<div class="lhb1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="xy"></div>
 				<div class="xy1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="p3_l1"></div>
 				<div class="p3_l2"></div>
+				</div>
 				<div class="p3_c1"></div>
+				<div class="jdk p3_jd1">
 				<div class="jw"></div>
 				<div class="jw1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="sc"></div>
 				<div class="sc1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="dsy"></div>
 				<div class="dsy1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="lb"></div>
 				<div class="lb1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="zdy"></div>
 				<div class="zdy1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="mbb"></div>
 				<div class="mbb1"></div>
+				</div>
+				<div class="jdk p3_jd1">
 				<div class="zxd"></div>
 				<div class="zxd1"></div>
+				</div>
 			</div>
 			
-			<div class="p3_show">
+			<div class="p3_show show">
 				<div class="p3_1"></div>
 				<div class="p3_2"></div>
 				<div class="p3_3"></div>
@@ -1638,17 +2718,107 @@
 					<div class="p3_13"></div>
 				</div>
 				<div class="p3_14"></div>
-				
-				
+			</div>
+		</div>
+	</section>
+	  
+	<section class="screen screen4">
+		<div class="screen_bg"></div>
+		<div class="screen__inner">
+			<div class="p4_1"></div>
+			<div class="p4_2"></div>
+			<div class="p4_3 page-logo"></div>
+			<div class="p4_show">
+				<div class="p4_4"></div>
+				<div class="p4_5"></div>
+				<div class="p4_6"></div>
+				<div class="p4_7"></div>
+				<div class="p4_8"></div>
+				<div class="p4_9"></div>
+				<div class="p4_10"></div>
+				<div class="p4_11"></div>
+				<div class="p4_12"></div>
+				<div class="p4_13"></div>
+				<div class="p4_14"></div>
+				<div class="p4_15"></div>
+				<div class="p4_16"></div>
+				<div class="p4_17"></div>
+				<div class="p4_18"></div>
+				<div class="p4_19"></div>
+				<div class="p4_20"></div>
+				<div class="p4_21"></div>
+				<div class="p4_22"></div>
+				<div class="p4_23"></div>
+				<div class="p4_24"></div>
+				<div class="p44_show">
+					<div class="p4_25"></div>
+					<div class="p4_26"></div>
+				</div>
+			</div>
+			
+		
+		</div>
+	</section>
+	
+	<section class="screen screen5">
+		<div class="screen__bg"></div>
+		<div class="screen__inner">
+			<div class="p5_1"></div>
+			<div class="p5_2"></div>
+			<div class="p5_t1"></div>
+			<div class="p5_01 page-logo"></div>
+			<div class="p5_3"></div>
+			<div class="p5_4"></div>
+			<div class="p5_t2"></div>
+			<div class="p5_02 page-logo"></div>
+			<div class="p5_5"></div>
+			<div class="p5_6"></div>
+			<div class="p5_t3"></div>
+			<div class="p5_l1 page-logo"></div>
+			<div class="p5_l2 page-logo"></div>
+			<div class="p5_l3 page-logo"></div>
+			<div class="p5_l4 page-logo"></div>
+			<div class="p5_l5 page-logo"></div>
+			<div class="p5_l6 page-logo"></div>
+			<div class="p5_l7 page-logo"></div>
+			<div class="p5_l8 page-logo"></div>
+			<div class="p5_l9 page-logo"></div>
+		</div>
+	</section>
+
+	<section class="screen screen6">
+		<div class="screen__bg6"></div>
+		<div class="screen__inner">
+			<div class="p6_1"></div>
+			<div class="p6_2"></div>
+			<div class="p6_3"></div>
+			<div class="p6_left">
+				<div class="p6_icon1"></div>
+				<div class="p6_cir1"></div>
+			</div>
+			<div class="p6_right">
+				<div class="p6_icon2"></div>
+				<div class="p6_cir2"></div>
+			</div>
+			<div class="p6_t1"></div>
+			<div class="p6_t2 page-logo"></div>
+			<div class="p6_t3 page-logo"></div>
+			
+			<div class="click_btn">
+				<div class="p6_c1"></div>
+				<div class="p6_t4"></div>
+				<div class="p6_t5"></div>
+				<div class="p6_t6"></div>
+				<div class="p6_t7"></div>
+				<div class="p6_t8"></div>
 			</div>
 			
 			
 			
 			
 		</div>
-	</section>
-	  
-	  
+	</section> 
+	 
 	
 
 

@@ -10,15 +10,20 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     'target_id'=>0,
 	);
 	
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign');
 
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin');
-
-	
 	/**
 	 * 网站入口
 	 */
 	public function execute(){
 		//return $this->coupon();
+	}
+	/**
+	 * 创造提交 
+	 */
+	public function coin_submit(){
+		
+		return $this->to_html_page('wap/promo/coin_submit.html');
 	}
 	
 	/**
@@ -959,6 +964,13 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 
     return $this->to_html_page('wap/promo/common_sign.html');
   
+  }
+
+  /**
+   * 火眼报名入口，直接注册
+   */
+  public function hy_sign(){
+    return $this->to_html_page('wap/promo/hy_sign.html');
   }
 
 
