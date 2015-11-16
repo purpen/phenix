@@ -48,14 +48,17 @@ display:none;
 }
 .excel{
 	width:100%;
-	top:15%;
+	top:7%;
 	position:absolute;
 	left:0;
+	margin-top: 30px;
 }
 .hname{
 	position: relative;
      width: 80%;
      left: 10%;
+     height: 35px;
+	margin: 25px 0;
 }
 .name_t{
      position: relative;
@@ -63,11 +66,16 @@ display:none;
      left: 0;
      height: 38px;
 }
-.ui.name.input{
+.ui.input{
 	position: absolute;
-     width: 80%;
+     width: 78%;
      top: 0;
      right: 0;
+}
+.excel .ui.input input{
+	border:none;
+	background-color: #e3e3e3;
+	box-shadow: -1px -1px 1px 1px rgba(0,0,0,0.2),0 0 0 1px rgba(0,0,0,0.1);
 }
 </style>
 {% endblock %}
@@ -89,10 +97,30 @@ display:none;
 	<img class="p4_3" src="{{ app_url_packaged }}/images/promo/coin/p4_3.png">
 	
 	<div class="excel">
-		
 		<div class="hname">
 			<img class="name_t" src="{{ app_url_packaged }}/images/promo/coin/p7_1.png">
 			<div class="ui input focus name">
+				<input type="text">
+			</div>
+		</div>
+		
+		<div class="hname">
+			<img class="name_t" src="{{ app_url_packaged }}/images/promo/coin/p7_02.png" style="margin-top:-1px;">
+			<div class="ui input focus">
+				<input type="text">
+			</div>
+		</div>
+		
+		<div class="hname">
+			<img class="name_t" src="{{ app_url_packaged }}/images/promo/coin/p7_3.png">
+			<div class="ui input focus">
+				<input type="text">
+			</div>
+		</div>
+		
+		<div class="hname">
+			<img class="name_t" src="{{ app_url_packaged }}/images/promo/coin/p7_4.png">
+			<div class="ui input focus">
 				<input type="text">
 			</div>
 		</div>

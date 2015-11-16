@@ -220,10 +220,10 @@
                 <div class="ui fluid selection dropdown">
                   <input type="hidden" name="type" value="" />
                     <div class="default text">请选择</div>
-                    <i class="angle down icon"></i>
-                    <div class="menu">
+                    <i class="angle dropdown icon"></i>
+                    <div class="menu" style="width:100%;">
                     {% for c in category.rows %}
-                    <div data-value="{{ c._id }}" class="item">{{ c.title }}</div>
+                    <div data-value="{{ c._id }}" class="item" style="width:100%;">{{ c.title }}</div>
                     {% endfor %}
                     </div>
                 </div>
