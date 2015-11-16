@@ -197,11 +197,14 @@
                             </h2>
                             <div class="excerpt">
                               {% if t.step_stat==0 %}
-                                <p>想要人数：<span>{{ t.want_count }}</span></p>
+                                <p>想要人数：<span class="count">{{ t.want_count|default 0 }}</span>
                               {%else%}
-                                <p>产品数量：<span class="count">{{ t.try_count }}</span>  申请人数：<span>{{ t.apply_count }}</span></p>
+                                <p>产品数量：<span class="count">{{ t.try_count }}</span>  申请人数：<span class="count">{{ t.apply_count }}</span>
                               {%endif%}
-
+                                {% if t.price %}
+                                  产品价格：<span>{{ t.price }}</span>
+                                {%endif%}
+                              </p>
                             </div>
                             <div class="cats">
                                 {% if t.step_stat == 0 %}
