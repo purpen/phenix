@@ -1,0 +1,105 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}  {% endblock %}
+{% block page_css %}
+<style type="text/css">
+html, body {
+    overflow:hidden;
+    margin:0;
+    padding:0;
+}
+.ui.wap{
+	display:none;
+}
+#mfrbird{
+	margin:0;
+}
+* { -webkit-appearance: none; }
+
+html, body { height: 100%; width: 100%; margin: 0px; }
+section { display: block; height: 100%; overflow: hidden;  }
+
+.mmfoot{
+display:none;
+}
+.coin{
+	background: url({{ app_url_packaged }}/images/promo/coin/bj.png)no-repeat center top;
+     background-size: 100%;
+     position: relative;
+     width: 100%;
+     height: 100%;
+}
+.p4_1{
+	position:absolute;
+	top:3%;
+	left:0;
+	width:39%;
+}
+.p4_2{
+	position:absolute;
+	top:3%;
+	right:0;
+	width:39%;
+}
+.p4_3{
+	position:absolute;
+	top:2.5%;
+	right:38.5%;
+	width:23%;
+}
+.excel{
+	width:100%;
+	top:15%;
+	position:absolute;
+	left:0;
+}
+.hname{
+	position: relative;
+     width: 80%;
+     left: 10%;
+}
+.name_t{
+     position: relative;
+     top: 0;
+     left: 0;
+     height: 38px;
+}
+.ui.name.input{
+	position: absolute;
+     width: 80%;
+     top: 0;
+     right: 0;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+{% endblock %}
+
+{% block content %}
+<div class="coin">
+	<img class="p4_1" src="{{ app_url_packaged }}/images/promo/coin/p4_2.png">
+	<img class="p4_2" src="{{ app_url_packaged }}/images/promo/coin/p4_1.png">
+	<img class="p4_3" src="{{ app_url_packaged }}/images/promo/coin/p4_3.png">
+	
+	<div class="excel">
+		
+		<div class="hname">
+			<img class="name_t" src="{{ app_url_packaged }}/images/promo/coin/p7_1.png">
+			<div class="ui input focus name">
+				<input type="text">
+			</div>
+		</div>
+		
+	</div>
+	
+	
+
+</div>
+{% endblock %}
