@@ -2477,7 +2477,7 @@
      loader.start();
     });
     
-    $('.click_btn').click(function(){
+    $('.click_btn').bind("touchstart",function(){
         setTimeout(function(){
             location.href = "http://m.taihuoniao.com";     //跳转在延迟200ms后执行
         }, 200)
