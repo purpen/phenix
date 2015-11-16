@@ -2356,7 +2356,20 @@
 	  top:165px;
 	  left:0;
 	  width:320px;
-	  height:170px;
+	  height:0px;
+	  overflow:hidden;
+  }
+  .current .click_btn{
+       animation: 4s clcih 3s both;
+       -webkit-animation: 4s clcih 3s both;
+  }
+  @keyframes clcih{
+      0%{  height: 0px;  }
+      100%{  height:180px;  }
+  }
+  @-webkit-keyframes clcih{
+       0%{  height: 0px;  }
+       100%{  height:180px;  }
   }
   .p6_c1{
 	  position:absolute;
@@ -2464,6 +2477,12 @@
      loader.start();
     });
     
+    $('.click_btn').click(function(){
+        setTimeout(function(){
+            location.href = "http://m.taihuoniao.com";     //跳转在延迟200ms后执行
+        }, 200)
+    });
+    
    /* var m_name = ' tets';
     var img_url = 'http://frstatic.qiniudn.com/images/promo/hy/zn/zn.jpg';
     var link = '{{ app_url_wap }}/birdegg/test';
@@ -2535,7 +2554,7 @@
 {% endblock %}
 {% block content %}
 <div class="wrap"  style="display: none">
-  <!--   <section class="screen screen1">
+     <section class="screen screen1">
 		<div class="screen__bg"></div>
 		<div class="screen__inner">
 			<div class="p1_bg1"></div>
@@ -2766,8 +2785,7 @@
 			<div class="p5_l9 page-logo"></div>
 		</div>
 	</section>
-	 
-	  -->
+	
 	<section class="screen screen6">
 		<div class="screen__bg6"></div>
 		<div class="screen__inner">
