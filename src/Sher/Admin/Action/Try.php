@@ -135,6 +135,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     $data['term_count'] = (int)$this->stash['term_count'];
     $data['open_limit'] = isset($this->stash['open_limit']) ? (int)$this->stash['open_limit'] : 0;
     $data['buy_url'] = isset($this->stash['buy_url']) ? $this->stash['buy_url'] : '';
+    $data['price'] = isset($this->stash['price']) ? (float)$this->stash['price'] : 0;
     $data['imgs'] = $imgs;
 
 		$model = new Sher_Core_Model_Try();

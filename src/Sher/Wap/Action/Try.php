@@ -467,6 +467,12 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
               break;
           }
 
+          if(isset($result['rows'][$i]['price']) && !empty($result['rows'][$i]['price'])){
+            $result['rows'][$i]['has_price'] = true;
+          }else{
+            $result['rows'][$i]['has_price'] = false;
+          }
+
           // 是否有试用报告
           $result['rows'][$i]['has_report'] = empty($result['rows'][$i]['report_count']) ? false : true;
 
