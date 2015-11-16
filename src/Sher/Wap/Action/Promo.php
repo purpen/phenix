@@ -20,6 +20,13 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->coupon();
 	}
+	/**
+	 * 创造提交 
+	 */
+	public function coin_submit(){
+		
+		return $this->to_html_page('wap/promo/coin_submit.html');
+	}
 	
 	/**
 	 * 创造 
