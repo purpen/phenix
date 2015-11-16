@@ -1,0 +1,284 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}项目入驻-火眼-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	#mfrbird{
+	  margin:1em 0;
+	}
+</style>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+{% block jquery %}
+
+	$('#sign-form').livequery(function(){
+		$(this).form({
+    {% if !visitor.is_login %}
+		  verify_code: {
+				identifier  : 'verify_code',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '验证码不能为空'
+					}
+				]
+			},
+    {%endif%}
+			people: {
+				identifier  : 'people',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '姓名不能为空'
+					}
+				]
+			},
+			mobile: {
+				identifier  : 'mobile',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '手机号不能为空'
+					}
+				]
+			},
+			fullname: {
+				identifier  : 'fullname',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '请添写所在公司'
+					}
+				]
+			},
+			email: {
+				identifier  : 'email',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '请添写公司邮箱'
+					}
+				]
+			},
+			job: {
+				identifier  : 'job',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '职位不能为空'
+					}
+				]
+			},
+      agreemnet: {
+        identifier  : 'checkagree',
+        rules: [
+          {
+            type   : 'checked',
+            prompt : '请查看合作协议，点击“同意合作“按钮，确保您阅读并同意此协议！'
+          }
+        ]
+      }
+		}, {
+			inline : true,
+			onSuccess: function(event){
+				event.preventDefault();
+        $(this).ajaxSubmit({
+          dataType: 'json',
+          beforeSubmit: function(){
+            // 点击前触发的事件
+            phenix.before_submit();
+          },
+          success: function(data){
+            // 点击后触发的事件
+            phenix.after_submit();
+            if(data.is_error){
+              $(event.target).addClass('error');
+              phenix.show_error_note(data.message, 3000);
+            }else{
+              //phenix.show_ok_note(data.message, 3000);
+              alert(data.message);
+              phenix.redirect(data.redirect_url, 0);
+            }
+          }
+        });
+			}
+		});
+	});
+
+  //取消
+  $('.cancel.btn').click(function(){
+    phenix.redirect('{{ app_url_wap_promo }}/jdzn', 0);
+  });
+
+
+	var wait = 60,can_send=true;
+	var limitime = function(){
+		if(wait == 0){
+			can_send = true;
+			wait = 60;
+			$('#fetch-verify-code').removeClass('active').text('获取验证码');
+		}else{
+			can_send = false;
+			
+			wait--;
+			$('#fetch-verify-code').addClass('active').text('重新发送('+wait+')');
+			setTimeout(function(){
+				limitime();
+			}, 1000);
+		}
+	}
+		
+	$('#fetch-verify-code').click(function(){
+		var phone = $('#account').val();
+		if(!can_send){
+		    return false;
+		}
+		if(phone){
+      // 添加发送频率
+      limitime();
+  
+      $this = $('#fetch-verify-code');
+      $.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
+        if(result.errorCode == 200){
+          $this.removeClass('disabled').text('获取验证码');
+        }
+      }); 
+		}else{
+			phenix.show_error_note('请正确填写手机号码！');
+		}
+	});
+
+	// 显示合作协议
+	$('#Agreement').on('click',function(){
+		$('.ui.modal.agree').modal('show');
+	});
+	
+	// 同意合作协议
+	$('#button_agree').click(function(){
+		$('input[name=checkagree]').prop('checked',true);
+		$('input[name=agreemnet]').attr('value','yes');
+		$('.ui.modal.agree').modal('hide');
+	});
+
+{% endblock %}
+
+{% block content %}
+<div class="ui social">
+	<div class="ui responsive grid">
+
+		<div class="row">
+			<div class="column">
+				<div class="new topic">
+					<h3 class="ui header" style="margin-bottom:10px;">
+						项目入驻
+					</h3>
+				</div>
+				
+				<div class="fever content">
+					<form action="{{ app_url_domain }}/app/wap/promo_func/save_hy_sign" class="ui form" method="post" id="sign-form">
+						<div class="ui segment">
+
+							<div class="field">
+								<label>手机</label>
+							  	<input type="text" id="account" name="mobile" value="{{ visitor.profile.phone }}" />
+								<div class="description"></div>
+							</div>
+             {% if !visitor.is_login %} 
+              <div class="inline field">
+                <input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" style="width:48%;" />
+                <a href="javascript:void(0);" class="ui small inverted magenta button" id="fetch-verify-code">获取验证码</a>
+              </div>
+              {%endif%}
+							<div class="field">
+								<label>对接人</label>
+							  	<input type="text" name="people" value="{{ visitor.profile.realname }}" />
+								<div class="description"></div>
+							</div>
+
+							<div class="field">
+								<label>公司全称</label>
+							  	<input type="text" name="fullname" value="{{ visitor.profile.company }}" />
+								<div class="description"></div>
+							</div>
+
+							<div class="field">
+								<label>公司邮箱</label>
+							  	<input type="text" name="email" value="" />
+								<div class="description"></div>
+							</div>
+
+							<div class="field">
+								<label>职位</label>
+							  	<input type="text" name="job" value="{{ visitor.profile.job }}" />
+								<div class="description"></div>
+							</div>
+
+              <div class="field">
+                <label for="space_id">类型：</label>
+                {% category_list var:'category' page:1 only_open:1 domain:6 pid:0 istop:1 %}
+                <div class="ui fluid selection dropdown">
+                  <input type="hidden" name="type" value="" />
+                    <div class="default text">请选择</div>
+                    <i class="angle down icon"></i>
+                    <div class="menu">
+                    {% for c in category.rows %}
+                    <div data-value="{{ c._id }}" class="item">{{ c.title }}</div>
+                    {% endfor %}
+                    </div>
+                </div>
+              </div>
+
+              <div class="inline field">
+                      <div class="ui checkbox">
+                  <input type="checkbox" name="checkagree" disabled="disabled" />
+                              <label for="checkagree">同意协议</label>
+                          </div>
+                <a href="javascript:void(0)" id="Agreement" style="color: red">查看《合作协议》</a>
+              </div>
+
+						</div>
+						
+						<div class="ui grid">
+							<div class="right aligned column">
+								<div class="ui gray cancel large active button">
+									取消
+								</div>
+								<div class="ui magenta submit large active inverted button">
+									提交
+								</div>
+							</div>
+						</div>
+						
+					</form>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+						<div class='ui modal agree' style="padding: 20px">
+							<div>
+								<p>尊敬的伙伴：请仔细阅读以下协议内容，通过互联网、移动端在《火眼》活动页提交“同意协议”即表示您同意本协议全部内容并与北京太火红鸟科技有限公司达成战略合作。</p>
+								<p>《火眼》阐述：作为中国设计创新智能硬件孵化平台，太火鸟希望联合拥有智能硬件创业生态资源伙伴，就智能硬件与创新产品孵化服务的创业生态资源合作关系达成共识。双方愿意结成战略合作伙伴，一致同意就火爆的智能硬件、创新产品领域开展长期合作，资源共享、共同创赢。</p>
+								<p>1合作宗旨</p>
+								<p>甲方与乙方的合作宗旨是通过双方的紧密合作，打造双赢、可持续发展的战略合作伙伴关系。</p>
+								<p>2 合作目标</p>
+								<p>甲乙双方相信，通过本次战略合作，能够帮助双方实现智能硬件创新产品的有效资源对接，提高产品可实现性的成功率，扩大双方在智能硬件创新产品领域的影响力，实现双方未来的市场扩张策略及获得智能硬件服务的市场份额，并且为双方合作创造更大的商业价值。</p>
+								<p>3 合作内容与范围</p>
+								<p>双方就智能硬件创新产品开发的孵化服务展开深度合作。</p>
+                <p>3.1 甲乙双方在自身所覆盖的区域推动《火眼》项目的发展，包括但不仅限于创业服务输出、协调创业项目所需的各类资源等方面均展开有效的合作。</p>
+                <p>3.2 甲方需配合乙方自身所覆盖的区域内推动《火眼》项目的发展，提供包括但不限于公司Logo、公司介绍、经典案例及一切相关授权文件；</p>
+                <p>4合作期限</p>
+                <p>本框架协议自甲方同意协议之日起生效，有效期为3年。如双方均未对合作事项提出异议，本合同自动延续三年。</p>
+                <p>5保密义务</p>
+                <p>5.1 双方对于本框架协议的保密义务，不因双方的合作终止而失效，在合作终止之日起的一年内，对双方仍具有约束力。</p>
+                <p>5.2 在任何时候，任何一方对在本框架协议过程中了解的有关另一方的保密资讯，均应承担保密义务。除非另一方书面同意，任何一方在任意时间不得向任何人透露任何保密资讯。</p>
+                <p>“同意协议”即表示您同意本协议全部内容，将符合国家及行业法规要求。</p>
+
+							</div>
+							<button class="ui pink button" id="button_agree" style="margin: 20px 0 0 0">同意合作</button>	
+						</div>
+
+{% endblock %}

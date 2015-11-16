@@ -32,6 +32,7 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 		
 		'email'      => '',
 		'phone'      => '',
+    'job'         => '',
 		# 所在城市
 		'city'       => '',
 		'address'    => '',
