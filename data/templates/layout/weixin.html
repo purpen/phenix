@@ -11,7 +11,7 @@
 		<meta name="baidu_union_verify" content="f533716307633cc500536ab620c726a2">
 		<meta name="360-site-verification" content="7c6bef1e758da3cc0f4e79d444ce2114" />
 		<meta name="format-detection" content="telephone=no"/>
-		<meta name="viewport" content="width=320">
+		<!--<meta name="viewport" content="width=320">-->
 		{%block meta%}
 		<meta name="title" content="{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}" />
 		<meta name="keywords" content="{%if page_keywords_suffix%}{{page_keywords_suffix}}{%else%}太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广{%endif%}"/>
@@ -207,11 +207,13 @@
       }
       .screen__inner {
           position: absolute;
-          width: 320px;
+		width:100%;
+		height:100%;
+         /* width: 320px;
           height: 504px;
           top: 50%;
           left: 50%;
-          margin: -252px 0 0 -160px;
+          margin: -252px 0 0 -160px;*/
           -webkit-perspective: 1000;
           perspective: 1000;
           overflow: hidden;
@@ -237,7 +239,7 @@
     <script type="text/javascript">
       $(document).ready(function(){
           // 放大元素,按照320x504定位,按比例scale
-          function scaleEle(selector,position){
+       /*   function scaleEle(selector,position){
               var pageScale;
               var currentScale=screenWidth/screenHeight;
               var originScale=320/504;
@@ -252,7 +254,7 @@
           var screenHeight = document.documentElement.clientHeight,
               screenWidth = document.documentElement.clientWidth;
 
-          scaleEle(".screen__inner","center");
+          scaleEle(".screen__inner","center");*/
 
 
           new WxMoment.OrientationTip();
