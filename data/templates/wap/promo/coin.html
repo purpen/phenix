@@ -40,12 +40,12 @@
   @keyframes righttoo{
       0%{   transform: translateX(0px);opacity:0;  }
 	 20%{   transform: translateX(0px);opacity:0;  }
-      100%{   transform: translateX(40px);opacity:1;  }
+      100%{   transform: translateX(30px);opacity:1;  }
   }
   @-webkit-keyframes righttoo{
       0%{   -webkit-transform: translateX(0px);opacity:0;  }
 	 20%{   -webkit-transform: translateX(0px);opacity:0;  }
-      100%{   -webkit-transform: translateX(40px);opacity:1;  }
+      100%{   -webkit-transform: translateX(30px);opacity:1;  }
   }
   .current .p1_left{
 	  animation: rightto 1.5s 1s ease both;
@@ -80,12 +80,28 @@
       0%, 100%{   -webkit-transform: translateY(0)  }
       50%{   -webkit-transform: translateY(37px)  }
   }
+  @keyframes btopo{
+      0%, 100%{   transform: translateY(0)  }
+      50%{   transform: translateY(25px)  }
+  }
+  @-webkit-keyframes btopo{
+      0%, 100%{   -webkit-transform: translateY(0)  }
+      50%{   -webkit-transform: translateY(25px)  }
+  }
   @keyframes btopr{
       0%, 100%{  transform: translateY(37px)  }
       50%{  transform: translateY(0)  }
   }
   @-webkit-keyframes btopr{
       0%, 100%{  -webkit-transform: translateY(37px)  }
+      50%{  -webkit-transform: translateY(0)  }
+  }
+  @keyframes btopro{
+      0%, 100%{  transform: translateY(25px)  }
+      50%{  transform: translateY(0)  }
+  }
+  @-webkit-keyframes btopro{
+      0%, 100%{  -webkit-transform: translateY(25px)  }
       50%{  -webkit-transform: translateY(0)  }
   }
   .p1_right{
@@ -108,12 +124,12 @@
   @keyframes lefttoo{
       0%{  transform: translateX(0px); opacity:0; }
 	 20%{  transform: translateX(0px); opacity:0;  }
-      100%{  transform: translateX(-40px);opacity:1;  }
+      100%{  transform: translateX(-30px);opacity:1;  }
   }
   @-webkit-keyframes lefttoo{
       0%{  -webkit-transform: translateX(0px);opacity:0; }
 	 20%{  -webkit-transform: translateX(0px);opacity:0;  }
-      100%{  -webkit-transform: translateX(-40px);opacity:1;  }
+      100%{  -webkit-transform: translateX(-30px);opacity:1;  }
   }
   .current .p1_right{
 	  animation: leftto 1.5s 1s ease both;
@@ -2211,7 +2227,7 @@
 	  position:absolute;
 	  width:232px;
 	  height:185px;
-	  top:0px;
+	  top:-5px;
 	  left:0px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p6_l2.png) no-repeat;
 	  background-size:232px;
@@ -2220,7 +2236,7 @@
 	  position:absolute;
 	  width:144px;
 	  height:206px;
-	  top:0px;
+	  top:-5px;
 	  right:-1px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p6_l1.png) no-repeat;
 	  background-size:144px;
@@ -2228,10 +2244,10 @@
   
   .p6_left{
 	  position:absolute;
-	  left:160px;
-	  top:100px;
-	  width:16px;
-	  height:50px;
+	  left:145px;
+	  top:102px;
+	  width:12px;
+	  height:38px;
 	  opacity:0;
   }
   .current .p6_left {
@@ -2242,28 +2258,28 @@
       position: absolute;
       top: 0px;
       left: 0px;
-      width: 16px;
-      height: 50px;
+      width: 12px;
+      height: 38px;
       background: url({{ app_url_packaged }}/images/promo/coin/p1_05.png) no-repeat;
-      background-size: 16px;
+      background-size: 12px;
   }
   .p6_cir1 {
       position: absolute;
       top: 1px;
       left: -2px;
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       background: url({{ app_url_packaged }}/images/promo/coin/p1_3.png) no-repeat;
-      background-size: 10px;
-      animation: btop 5s linear infinite alternate;
-      -webkit-animation: btop 5s linear infinite alternate;
+      background-size: 8px;
+      animation: btopo 5s linear infinite alternate;
+      -webkit-animation: btopo 5s linear infinite alternate;
   }
   .p6_right{
 	  position:absolute;
-	  right:130px;
-	  top:100px;
-	  width:16px;
-	  height:50px;
+	  right:145px;
+	  top:102px;
+	  width:12px;
+	  height:38px;
 	  opacity:0;
   }
   .current .p6_right {
@@ -2274,36 +2290,127 @@
       position: absolute;
       top: 0px;
       left: 0px;
-      width: 16px;
-      height: 50px;
+      width: 12px;
+      height: 38px;
       background: url({{ app_url_packaged }}/images/promo/coin/p1_04.png) no-repeat;
-      background-size: 16px;
+      background-size: 12px;
   }
   .p6_cir2 {
       position: absolute;
       top: 1px;
       right: -2px;
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       background: url({{ app_url_packaged }}/images/promo/coin/p1_3.png) no-repeat;
-      background-size: 10px;
-      animation: btopr 5s linear infinite alternate;
-      -webkit-animation: btopr 5s linear infinite alternate;
+      background-size: 8px;
+      animation: btopro 5s linear infinite alternate;
+      -webkit-animation: btopro 5s linear infinite alternate;
   }
   .p6_t1{
   	position: absolute;
 	top:105px;
-	left:141px;
-	width:74px;
-	height:38px;
+	left:130px;
+	width:60px;
+	height:30px;
      background: url({{ app_url_packaged }}/images/promo/coin/p6_t1.png) no-repeat;
-     background-size: 74px;
+     background-size: 60px;
 	opacity:0;
   }
   .current .p6_t1 {
       animation: 1s zoomIn 2s both;
       -webkit-animation: 1s zoomIn 2s both;
       opacity: 1;
+  }
+  .p6_t2{
+  	position: absolute;
+	top:145px;
+	left:116px;
+	width:88px;
+	height:20px;
+     background: url({{ app_url_packaged }}/images/promo/coin/p6_t2.png) no-repeat;
+     background-size: 88px;
+	opacity:0;
+  }
+  .current .p6_t2.page-logo{
+	  animation-delay:2.5s;
+	  -webkit-animation-delay:2.5s;
+  }
+  .p6_t3{
+  	position: absolute;
+	top:165px;
+	left:116px;
+	width:88px;
+	height:20px;
+     background: url({{ app_url_packaged }}/images/promo/coin/p6_t3.png) no-repeat;
+     background-size: 88px;
+	opacity:0;
+  }
+  .current .p6_t3.page-logo{
+	  animation-delay:2.8s;
+	  -webkit-animation-delay:2.8s;
+  }
+  
+  
+  .click_btn{
+	  position:absolute;
+	  top:180px;
+	  left:0;
+	  width:320px;
+	  height:170px;
+  }
+  .p6_c1{
+	  position:absolute;
+	  top:5px;
+	  left:123px;
+	  width:74px;
+	  height:112px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p6_1.png) no-repeat;
+	  background-size:74px;
+  }
+  .p6_t4{
+	  position:absolute;
+	  top:125px;
+	  left:0px;
+	  width:106px;
+	  height:17px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p6_t4.png) no-repeat;
+	  background-size:106px;
+  }
+  .p6_t5{
+	  position:absolute;
+	  top:125px;
+	  right:0px;
+	  width:106px;
+	  height:17px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p6_t5.png) no-repeat;
+	  background-size:106px;
+  }
+  .p6_t6{
+	  position:absolute;
+	  top:125px;
+	  left:133px;
+	  width:54px;
+	  height:14px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p6_t6.png) no-repeat;
+	  background-size:54px;
+  }
+  .p6_t7{
+	  position:absolute;
+	  top:140px;
+	  left:28px;
+	  width:264px;
+	  height:18px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p6_t7.png) no-repeat;
+	  background-size:264px;
+  }
+  .p6_t8{
+	  position:absolute;
+	  top:160px;
+	  left:79px;
+	  width:192px;
+	  height:12px;
+	  background:url({{ app_url_packaged }}/images/promo/coin/p6_t8.png) no-repeat;
+	  background-size:192px;
   }
   
 </style>
@@ -2428,7 +2535,7 @@
 {% endblock %}
 {% block content %}
 <div class="wrap"  style="display: none">
-     <section class="screen screen1">
+  <!--   <section class="screen screen1">
 		<div class="screen__bg"></div>
 		<div class="screen__inner">
 			<div class="p1_bg1"></div>
@@ -2660,7 +2767,7 @@
 		</div>
 	</section>
 	 
-	  
+	  -->
 	<section class="screen screen6">
 		<div class="screen__bg6"></div>
 		<div class="screen__inner">
@@ -2676,6 +2783,17 @@
 				<div class="p6_cir2"></div>
 			</div>
 			<div class="p6_t1"></div>
+			<div class="p6_t2 page-logo"></div>
+			<div class="p6_t3 page-logo"></div>
+			
+			<div class="click_btn">
+				<div class="p6_c1"></div>
+				<div class="p6_t4"></div>
+				<div class="p6_t5"></div>
+				<div class="p6_t6"></div>
+				<div class="p6_t7"></div>
+				<div class="p6_t8"></div>
+			</div>
 			
 			
 			
