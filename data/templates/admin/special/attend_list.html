@@ -71,6 +71,13 @@
               <p class="attribute">手机：{{ f.info.phone|default '--' }}</p>
               <p class="attribute">公司：{{ f.info.company|default '--' }}</p>
               <p class="attribute">职位：{{ f.info.job|default '--' }}</p>
+              {% if f.info.option_01 %}
+              <p class="attribute">option_01：{{ f.info.option_01|default '--' }}</p>
+              {%endif%}
+              {% if f.info.option_02 %}
+              <p class="attribute">option_02：{{ f.info.option_02|default '--' }}</p>
+              {%endif%}
+
             </td>
 
             <td id="stat-{{ f._id }}">

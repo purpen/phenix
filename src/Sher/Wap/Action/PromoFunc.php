@@ -331,6 +331,12 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     $data['info']['phone'] = trim($this->stash['phone']);
     $data['info']['company'] = $this->stash['company'];
     $data['info']['job'] = $this->stash['job'];
+    if(isset($this->stash['option_01'])){
+      $data['info']['option_01'] = $this->stash['option_01'];
+    }
+    if(isset($this->stash['option_02'])){
+      $data['info']['option_02'] = $this->stash['option_02'];
+    }
 
     try{
       $ok = $model->apply_and_save($data);
@@ -347,7 +353,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
             $redirect_url = Doggy_Config::$vars['app.url.wap'].'/promo/jdzn';
             $this->stash['note'] = '感谢您的参与，我们会尽快处理，并将在11月14日前短信通知您审核结果，请您及时关注消息推送。';
           }elseif($target_id==7){
-            $redirect_url = Doggy_Config::$vars['app.url.wap'].'/promo/jdzn';
+            $redirect_url = Doggy_Config::$vars['app.url.wap'].'/promo/coin';
             $this->stash['note'] = '申请已提交，我们会尽快短信通知您审核结果!';
           }else{
             $redirect_url = Doggy_Config::$vars['app.url.wap'];

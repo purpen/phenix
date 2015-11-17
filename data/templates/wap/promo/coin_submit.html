@@ -3,7 +3,6 @@
 {% block page_css %}
 <style type="text/css">
 html, body {
-    overflow:hidden;
     margin:0;
     padding:0;
 }
@@ -15,50 +14,58 @@ html, body {
 }
 * { -webkit-appearance: none; }
 
-html, body { height: 100%; width: 100%; margin: 0px; }
-section { display: block; height: 100%; overflow: hidden;  }
+html, body { width: 100%; margin: 0px; }
+section { display: block; height: 100%; }
 
 .mmfoot{
 display:none;
 }
 .coin{
 	background: url({{ app_url_packaged }}/images/promo/coin/bj.png)no-repeat center top;
-     background-size: 100%;
+     background-size: cover;
      position: relative;
      width: 100%;
-     height: 100%;
+	max-width: 674px;
+	margin: 0 auto;
+	padding: 60px 0 25px;
+	text-align:center;
+	min-height:100%;
 }
 .p4_1{
 	position:absolute;
 	top:3%;
 	left:0;
-	width:39%;
+     width: auto;
+     height: 35px;
 }
 .p4_2{
 	position:absolute;
 	top:3%;
 	right:0;
-	width:39%;
+     width: auto;
+     height: 35px;
 }
 .p4_3{
 	position:absolute;
 	top:2.5%;
-	right:38.5%;
-	width:23%;
+     width: 75px;
+     height: 35px;
+     right: 50%;
+     margin-right: -37.5px;
 }
 .excel{
 	width:100%;
 	top:7%;
-	position:absolute;
+	position:relative;
 	left:0;
 	margin-top: 30px;
 }
 .hname{
 	position: relative;
      width: 80%;
-     left: 10%;
      height: 35px;
-	margin: 25px 0;
+	margin: 25px auto;
+	text-align:left;
 }
 .name_t{
      position: relative;
@@ -76,6 +83,56 @@ display:none;
 	border:none;
 	background-color: #e3e3e3;
 	box-shadow: -1px -1px 1px 1px rgba(0,0,0,0.2),0 0 0 1px rgba(0,0,0,0.1);
+	width: 100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.check.input{
+	width: 35%;
+	right: 43%;
+}
+.checkout.button,.checkout.button:hover,.checkout.button.active{
+     right: -2px;
+     position: absolute;
+	border:none;
+	background-color: #e3e3e3;
+	box-shadow: -1px -1px 1px 1px rgba(0,0,0,0.2),0 0 0 1px rgba(0,0,0,0.1);
+	color:rgba(0,0,0,0.8);
+	padding-left:1em;
+	padding-right:1em;
+}
+.p7_t1{
+	width:80%;
+	margin:0 10%;
+}
+.p7_radio{
+	width:80%;
+	margin:10px 10%;
+	font-size:0;
+	text-align: left;
+}
+.p7_radio .ui.radio.checkbox{
+	width:60%;
+	margin: 0;
+	height:24px;
+}
+.p7_radio .ui.radio.checkbox:nth-child(2n){
+	width:40%;
+}
+.p7_radio .ui.radio.checkbox img{
+	height: 22px;
+	width: auto;
+	margin-top: -2px;
+}
+.p7_line{
+	width: 104%;
+	margin-left: -2%;
+}
+.join_btn{
+	width:33%;
+	margin:0 33.5%;
+	max-width: 140px;
 }
 </style>
 {% endblock %}
@@ -87,6 +144,105 @@ display:none;
 {% endblock %}
 
 {% block jquery %}
+
+  $('#join-btn').click(function(){
+    var realname = $(':input[name=realname]').val();
+    if(!realname){
+      phenix.show_error_note('请填写姓名!');
+      return false;
+    }
+    var phone = $(':input[name=phone]').val();
+    if(!phone){
+      phenix.show_error_note('请填写手机号!');
+      return false;
+    }
+    var company = $(':input[name=company]').val();
+    if(!company){
+      phenix.show_error_note('请填写公司名称!');
+      return false;
+    }
+    var job = $(':input[name=job]').val();
+    if(!job){
+      phenix.show_error_note('请填写职位信息!');
+      return false;
+    }
+    var frequency = $(':input[name=frequency]:checked').val();
+    if(!frequency){
+      phenix.show_error_note('请选择所属行业!');
+      return false;
+    }
+
+    var verify_code = null;
+    {% if !visitor.is_login %}
+      var verify_code = $(':input[name=verify_code]').val();
+      if(!verify_code){
+        phenix.show_error_note('请输入验证码!');
+        return false;
+      }
+    {%endif%}
+    
+    var url = "{{ app_url_wap }}/app/wap/promo_func/save_common_sign";
+    param = {
+      'target_id' : 7,
+      'event' : 3,
+      'realname' : realname,
+      'phone' : phone,
+      'company' : company,
+      'job' : job,
+      'option_01' : frequency,
+      'verify_code' : verify_code
+    }
+    $.post(url, param, function(result){
+      if(result.success){
+        alert(result.message);
+        phenix.redirect(result.redirect_url, 0);
+      }else{
+        phenix.show_error_note(result.message);
+      }
+    }, 'json');
+
+  
+  });
+
+
+	var wait = 60,can_send=true;
+	var limitime = function(){
+		if(wait == 0){
+			can_send = true;
+			wait = 60;
+			$('#fetch-verify-code').removeClass('active').text('获取验证码');
+		}else{
+			can_send = false;
+			
+			wait--;
+			$('#fetch-verify-code').addClass('active').text('重新发送('+wait+')');
+			setTimeout(function(){
+				limitime();
+			}, 1000);
+		}
+	}
+		
+	$('#fetch-verify-code').click(function(){
+		var phone = $('#account').val();
+		if(!can_send){
+		    return false;
+		}
+		if(phone){
+  
+      $this = $('#fetch-verify-code');
+      $.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
+        if(result.errorCode == 200){
+          $this.removeClass('disabled').text('获取验证码');
+        }
+
+        // 添加发送频率
+        limitime();
+      }); 
+
+		}else{
+			phenix.show_error_note('请正确填写手机号码！');
+		}
+	});
 
 {% endblock %}
 
@@ -100,34 +256,66 @@ display:none;
 		<div class="hname">
 			<img class="name_t" src="{{ app_url_packaged }}/images/promo/coin/p7_1.png">
 			<div class="ui input focus name">
-				<input type="text">
+				<input type="text" name="realname" value="{{ visitor.profile.realname }}" />
 			</div>
 		</div>
 		
 		<div class="hname">
 			<img class="name_t" src="{{ app_url_packaged }}/images/promo/coin/p7_02.png" style="margin-top:-1px;">
 			<div class="ui input focus">
-				<input type="text">
+				<input type="text" name="company" value="{{ visitor.profile.company }}" />
 			</div>
 		</div>
 		
 		<div class="hname">
 			<img class="name_t" src="{{ app_url_packaged }}/images/promo/coin/p7_3.png">
 			<div class="ui input focus">
-				<input type="text">
+        <input type="text" name="job" value="{{ visitor.profile.job }}" />
 			</div>
 		</div>
 		
 		<div class="hname">
 			<img class="name_t" src="{{ app_url_packaged }}/images/promo/coin/p7_4.png">
 			<div class="ui input focus">
-				<input type="text">
+				<input type="text" id="account" name="phone" value="{{ visitor.profile.phone }}" />
 			</div>
 		</div>
 		
+    {% if !visitor.is_login %}
+		<div class="hname">
+			<div class="ui input focus check">
+				<input type="text" name="verify_code" id="verify_code" value=""  />
+			</div>
+			<a href="javascript:void(0);" class="ui button checkout" id="fetch-verify-code">获取验证码</a>
+		</div>
+    {%endif%}
+		
+		<img class="p7_t1" src="{{ app_url_packaged }}/images/promo/coin/p7_5.png">
+		
+		<div class="p7_radio">
+			<div class="ui radio checkbox">
+				<input type="radio" name="frequency" value="创业者/创业团队" checked="checked" />
+				<label><img src="{{ app_url_packaged }}/images/promo/coin/p7_6.png"></label>
+			</div>
+			<div class="ui radio checkbox">
+				<input type="radio" name="frequency" value="营销/市场" />
+				<label><img src="{{ app_url_packaged }}/images/promo/coin/p7_7.png"></label>
+			</div>
+			<div class="ui radio checkbox">
+				<input type="radio" name="frequency" value="设计师/设计机构" />
+				<label><img src="{{ app_url_packaged }}/images/promo/coin/p7_8.png"></label>
+			</div>
+			<div class="ui radio checkbox">
+				<input type="radio" name="frequency" value="供应链/上游链" />
+				<label><img src="{{ app_url_packaged }}/images/promo/coin/p7_9.png"></label>
+			</div>
+			
+			<img class="p7_line" src="{{ app_url_packaged }}/images/promo/coin/p7_10.png">
+		</div>
+			
+			
+			<a href="javascript:void(0);" id="join-btn"><img class="join_btn" src="{{ app_url_packaged }}/images/promo/coin/p7_11.png"></a>
 	</div>
-	
-	
 
 </div>
 {% endblock %}
