@@ -1,225 +1,209 @@
-{%extends 'layout/h5.html'%}
+{%extends 'layout/weixin.html'%}
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	header.ui.wap{
-		display:none !important;
-		opacity:0;
-	}
-	#mfrbird{
-		margin:0;
-	}
-	.mmfoot{
-		display:none;
-	}
-	* { -webkit-appearance: none; }
+  .screen1{
+      background: green;
+  }
 
-	html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:hidden}
-	.page .wrap {
-	  height:100% !important;
-	}
-	.hide{ display:none;}
+  .screen2{
+      background: blue;
+  }
 
-	.page{
-		width:100%;
-		height:100%;
-		position:absolute;
-		font-size:100px;
-		text-align:center;
-	}
+  .screen3{
+      background: red;
+  }
+  .screen1__bg {
+      background: url(http://wximg.gtimg.com/tmt/_events/20150514-promo-vivo/dist/img/screen1_bg.jpg)no-repeat center top;
+      -webkit-background-size: contain;
+      background-size: contain;
+  }
+  .screen1__icon {
+      background: url(http://wximg.gtimg.com/tmt/_events/20150514-promo-vivo/dist/img/screen1_icon.png)no-repeat;
+      -webkit-background-size: 50px;
+      background-size: 50px;
+  }
+  .screen__icon {
+      position: absolute;
+      left: 50%;
+      top: 34px;
+      width: 50px;
+      height: 50px;
+      margin-left: -25px;
+      opacity: 1;
+  }
+  .loading__img{
+  	background: url(http://wximg.gtimg.com/tmt/_events/20150514-promo-vivo/dist/img/loading.png) no-repeat;
+     width: 52px;
+     height: 32px;
+     background-size: 52px auto;
+  }
+
 </style>
-
-	<link rel="stylesheet" type="text/css" href="http://www.zzfriend.com/demo/shouji/ztjob/css/reset.css" />
-	<link rel="stylesheet" type="text/css" href="http://www.zzfriend.com/demo/shouji/ztjob/css/index.css" />
-	<link rel="stylesheet" type="text/css" href="http://www.zzfriend.com/demo/shouji/ztjob/css/animations.css" />
-	    <link rel="stylesheet" type="text/css" href="http://www.zzfriend.com/demo/shouji/ztjob/css/load.css" />
 {% endblock %}
 
 {% block layout_js %}
-	<script src="http://frstatic.qiniudn.com/wechat/js/zepto.js"></script>
-	<script src="http://frstatic.qiniudn.com/wechat/js/touch.js"></script>
-	<script type="text/javascript">
-		
-		s=window.innerHeight/500;
-		ss=250*(1-s);
+  <script type="text/javascript" >
+    /* 加载 */
+    var basePath = "http://frstatic.qiniudn.com/images/promo/hy/";
+    if (!(typeof webpsupport == 'function')) {
+        var webpsupport = function (cb) {
+            cb();
+        }
+    }
+    webpsupport(function (webpa) {
+    var loader = new WxMoment.Loader(),
+     fileList =[
+     'zn/01.png',
+     'zn/02.png',
+     'zn/03.png',
+     'zn/04.png','zn/05.png','zn/06.png','zn/07.png','zn/yun.png','zn/yun1.png','zn/p1-1.png','zn/p1-2.png','zn/p1-3.png','zn/p1-4.png','zn/p1-5.png','zn/p1-6.png','zn/1.png','zn/2.png','zn/3.png','zn/4.png','zn/5.png','zn/6.png','zn/7.png','zn/8.png','zn/9.png'];
+     
+     for (var i = 0; i < fileList.length; i++) {
+         var basename = fileList[i].substring(fileList[i].lastIndexOf('/') + 1);
 
-		$('.wrap').css('-webkit-transform','scale('+s+','+s+') translate(0px,-'+ss+'px)');
+         if (webpa && img_map && (basename in img_map) && img_map[basename]) { //if webp
+             var path = fileList[i].replace(/\.\w+/, '.webp');
+         } else {
+             var path = fileList[i];
+         }
 
-		var pageIndex = 1,
-			pageTotal = $('.page').length,
-			towards = { up:1, right:2, down:3, left:4},
-			isAnimating = false;
-		document.addEventListener('touchmove',function(event){
-			event.preventDefault(); },false);
+         loader.addImage(basePath + path);
+         $('#app_bgm').get(0).pause();
+     }
 	
-			function pageMove(tw){
-				var lastPage;
-				if(tw=='1'){
-					if(pageIndex==1){
-						lastPage = ".page-"+pageTotal+"-1";
-					}else{
-						lastPage = ".page-"+(pageIndex-1)+"-1";
-					}
+     loader.addCompletionListener(function () {
+         $('.loading').remove();
+         $('.screen').eq(0).addClass('current');
+         $('.wrap').show();
+         $('#app_bgm').get(0).play();
+         $('.music').show();
+     });
 
-				}else if(tw=='3'){
-					if(pageIndex==pageTotal){
-						lastPage = ".page-1"+"-1";
-					}else{
-						lastPage = ".page-"+(pageIndex+1)+"-1";
-					}
+     //loading 进度监听
+     loader.addProgressListener(function (e) {
+         var percentUp = Math.round((e.completedCount / e.totalCount) * 100), //正序, 1-100
+             progressDown = 100 - percentUp;                                   //倒序, 100-1
 
-				}
 
-				var nowPage = ".page-"+pageIndex+"-1";
+         $('.loading-num').text(percentUp + '%');
+     });
 
-				switch(tw) {
-					case towards.up:
-						outClass = 'pt-page-moveToTop';
-						inClass = 'pt-page-moveFromBottom';
-						break;
-					case towards.down:
-						outClass = 'pt-page-moveToBottom';
-						inClass = 'pt-page-moveFromTop';
-						break;
-				}
-				isAnimating = true;
-				$(nowPage).removeClass("hide");
+     //启动
+     loader.start();
+    });
+    
+    var m_name = ' tets';
+    var img_url = 'http://frstatic.qiniudn.com/images/promo/hy/zn/zn.jpg';
+    var link = '{{ app_url_wap }}/birdegg/test';
+    var desc_str = ' test';
 
-				$(lastPage).addClass(outClass);
-				$(nowPage).addClass(inClass);
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+   });
 
-				setTimeout(function(){
-					$(lastPage).removeClass('page-current');
-					$(lastPage).removeClass(outClass);
-					$(lastPage).addClass("hide");
-					$(lastPage).find("img").addClass("hide");
+	wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
 
-					$(nowPage).addClass('page-current');
-					$(nowPage).removeClass(inClass);
-					$(nowPage).find("img").removeClass("hide");
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
 
-					isAnimating = false;
-				},600);
-			}
-	
-		  $(document).swipeUp(function(){
-				if (isAnimating) return;
-				if (pageIndex < pageTotal) { 
-					pageIndex+=1; 
-				}else{
-					pageIndex=1;
-				};
-				pageMove(towards.up);
-			});
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
 
-			$(document).swipeDown(function(){
-				if (isAnimating) return;
-				if (pageIndex > 1) { 
-					pageIndex-=1; 
-				}else{
-					pageIndex=pageTotal;
-				};
-				pageMove(towards.down);	
-			});
-	
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: 11, count_name:'count', type: 4, kind:4 });
+  }
+    
+
 	</script>
 
 {% endblock %}
 {% block content %}
-<div class="page page-1-1 page-current">
-	<div class="wrap">
-		<img src="http://frstatic.qiniudn.com/wechat/js/test/z1.jpg" width="100%" height="100%">
-	<!--	<img class="img_1 pt-page-moveFromTop" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t1-text.png" />
-              <img class="img_2 pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t1-yuan.png" />
-		<img class="img_3 pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" />-->
-	</div>
-</div>
-<div class="page page-2-1 hide">
-	<div class="wrap">
-		<img src="http://frstatic.qiniudn.com/wechat/js/test/z2.jpg" width="100%" height="100%">
-		<!--<img class="img_1 hide pt-page-moveFromLeft" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t2-3.png" />
-		<img class="img_3 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t2-2.png" />
-              <img class="img_6 pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" />-->
-	</div>
-</div>
-<div class="page page-3-1 hide">
-	<div class="wrap">
-		<img src="http://frstatic.qiniudn.com/wechat/js/test/z3.jpg" width="100%" height="100%">
-		<!--<img class="img_1 hide pt-page-moveFromRight" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t3-2.png" />
-		<img class="img_2 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t3-1.png" />
-		<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> -->
-	</div>
-</div>
-<div class="page page-4-1 hide">
-	<div class="wrap">
-		<img src="http://frstatic.qiniudn.com/wechat/js/test/z4.jpg" width="100%" height="100%">
-		<!--<img class="img_1 hide pt-page-moveFromLeft" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t4-1.png" /> 
-		<img class="img_3 pt-page-moveFromRight hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t4-2.png" />
-              <img class="img_4 pt-page-moveFromBottom hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t4-3.png" /> 
-		<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> -->
-	</div>
-</div> 
-      
-      <div class="page page-5-1 hide">
-	<div class="wrap">
-		<img src="http://frstatic.qiniudn.com/wechat/js/test/z5.jpg" width="100%" height="100%">
-		<!--<img class="img_1 hide pt-page-moveFromBottom" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t5-1.png" /> 
-		<img class="img_2 pt-page-moveFromLeft hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t5-2.png" />
-              <img class="img_3 pt-page-moveFromLeft hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t5-3.png" /> 
-		<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> -->
-	</div>
-</div>
-      
-      <div class="page page-6-1 hide">
-	<div class="wrap">
-		<img src="http://frstatic.qiniudn.com/wechat/js/test/z6.jpg" width="100%" height="100%">
-		<!--<img class="img_1 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t6-1.png" /> 
-		<img class="img_2 pt-page-moveFromRight hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t6-2.png" />
-              <img class="img_3 pt-page-moveFromLeft hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t6-3.png" /> 
-		<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> -->
-	</div>
-</div>
-      
-      <div class="page page-7-1 hide">
-	<div class="wrap">
-		<img class="img_1 hide pt-page-moveFromTop" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t7-1.png" /> 
-		<img class="img_2 pt-page-moveCircle hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t7-2.png" />
-              <img class="img_3 pt-page-moveFromLeft hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t7-3.png" /> 
-		<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> 
-	</div>
-</div>
-      
-      <div class="page page-8-1 hide">
-	<div class="wrap">
-		<img class="img_1 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t8-1.png" /> 
-		<img class="img_2 pt-page-moveFromRight hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t8-2.png" />
-              <img class="img_3 pt-page-moveFromBottom hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t8-3.png" /> 
-		<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> 
-	</div>
-</div>
-      
-      <div class="page page-9-1 hide">
-	<div class="wrap">
-		<img class="img_1 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t9-1.png" /> 
-		<img class="img_2 pt-page-moveFromBottom hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t9-2.png" /> 
-		<img class="img_6 hide pt-page-moveIconUp" src="http://www.zzfriend.com/demo/shouji/ztjob/img/icon_up.png" /> 
-	</div>
-</div>
-      
-<div class="page page-10-1 hide">
-	<div class="wrap">
-		<img class="img_1 hide pt-page-moveCircle" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t10-1.png" /> 
-		<div class="text">
-    	<h2 style="padding:5px; margin:0px">中通快递股份有限公司招聘</h2> 
-        电话：<a href="tel:021-69787567">021-69787567</a>(汪小姐)<br> 
-        邮箱：<a href="mailto:zp-hr@zto.cn">zp-hr@zto.cn</a><br> 
-    </div>
-               <img onclick="shareDialog()" class="img_3 pt-page-moveFromBottom hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t10-3.png" />
-               <a href="http://m.zzfriend.com"><img  id="img" class="img_logo pt-page-moveFromBottom hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t10-5.png" /></a>
-              <a href="#"><img  id="img" class="img_7 pt-page-moveFromBottom hide" src="http://www.zzfriend.com/demo/shouji/ztjob/img/t10-4.png" /></a>
-	</div>
-</div>
+<div class="wrap"  style="display: none">
 
-
-
-{% endblock %}
+    <section class="screen screen1">
+      <div class="screen__bg screen1__bg"></div>
+      <div class="screen__inner">
+      <div class="screen__icon screen1__icon"></div>
+      </div>
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/01.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/02.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/03.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/04.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/05.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/06.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/07.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/yun1.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/yun.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-1.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-2.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-3.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-4.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-5.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/p1-6.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/1.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/2.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/3.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/4.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/5.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/6.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/7.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/8.png">
+      <img src="http://frstatic.qiniudn.com/images/promo/hy/zn/9.png">
+        <div class="screen-arrow"></div>
+    </section>
+    <section class="screen screen2" data-lock-next="true">
+        <div class="screen-arrow">
+        </div>
+    </section>
+    <section class="screen screen3">
+    </section>
+</div>    
+<div class="music playing" style="display:none;"></div>
+<audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/js/La1.mp3" autoplay></audio>
+{%endblock%}

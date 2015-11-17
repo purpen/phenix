@@ -168,7 +168,7 @@
 						{% endif %}
             
 						{% for topic in list.rows %}
-							{% if !topic.top %}<!--过滤置顶帖子-->
+							{% if !topic.top==1 %}<!--过滤置顶帖子-->
 								{% include "block/topic_item.html" %}
 							{% endif %}
 						{% endfor %}
@@ -190,7 +190,7 @@
         {% include "page/topic/usersign.html" %}
         {% include "page/topic/login_user.html" %}
         {% include "page/topic/rightbar.html" %}
-        {% include "page/topic/hotpeople.html" %}
+        {% include "page/topic/right_active.html" %}
         {% include "page/topic/top_user.html" %}
         {% include "page/topic/stick_list.html" %}
         {% include "page/topic/adwrap.html" %}

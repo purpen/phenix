@@ -153,9 +153,9 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
           //短信提醒
           if(!empty($user_phone)){
             if($state==1 && !empty($number)){
-              $msg = "您好，您已通过报名申请，您的票号是: ".$number;
+              $msg = "您已通过报名申请，邀请码是[$number]，请于11月14日（周六）13:30，凭借邀请函或短信邀请码入场。地点: 北京中关村创业大街京东智能奶茶馆。[ 逆·造 ]";
             }elseif($state==2){
-              $msg = "对不起，由于名额已满，您的报名申请没有通过";
+              $msg = "对不起，由于名额已满，您没有报名成功，感谢支持，请您继续关注我们的活动。[ 逆·造 ]";
             }
             // 开始发送
             $message = Sher_Core_Helper_Util::send_defined_mms($user_phone, $msg);

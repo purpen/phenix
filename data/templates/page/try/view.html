@@ -279,22 +279,32 @@
                           </a>
                         {%endif%}
                     {% if !try.step_stat==0 %}
-                        <div class="apply">{% if !try.is_end %} 剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %} 结束时间：{{ try.end_time }}{% endif %}<br/>产品数量：<b class="big">{{ try.try_count }}</b>个,&nbsp;<b class="big">{{ try.apply_count }}</b> 人已预约</div>
+                        <div class="apply">
+                          {% if !try.is_end %}
+                            剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %} 结束时间：{{ try.end_time }}
+                          {% endif %}
+                            <br/>产品数量：<b class="big">{{ try.try_count }}</b>个,&nbsp;<b class="big">{{ try.apply_count }}</b> 人已预约
+                          &nbsp;&nbsp;{% if try.price %}<span>产品价格: <b>{{ try.price }}</b></span>{%endif%}
+                          
+                        </div>
                         {% if try.apply_term==1 %}
                           <br />
-                          申请条件：试用结束前会员等级达到 <b class="big">{{ try.term_count }}</b> 级
+                          中签条件：试用结束前会员等级达到 <b class="big">{{ try.term_count }}</b> 级
                           (满足条件才有机会通过审核哦~)
                         {%endif%}
                         {% if try.apply_term==2 %}
                           <br />
-                          申请条件：试用结束前鸟币数量达到 <b class="big">{{ try.term_count }}</b> 个
+                          中签条件：试用结束前鸟币数量达到 <b class="big">{{ try.term_count }}</b> 个
                           (满足条件才有机会通过审核哦~)
                         {%endif%}
                     </div>
                     {%else%}
                       <div class="want_alert" style="margin-top:20px;">
-                      <h4>预热中...敬请期待!</h4>
-                      {% if try.want_count %}<div class="">已有 <b>{{ try.want_count }}</b> 人想要</div>{%endif%}
+                        <h4>预热中...敬请期待!</h4>
+                        <div class="">
+                          {% if try.want_count %}<span style="margin-right:20px;">已有 <b>{{ try.want_count }}</b> 人想要</span>{%endif%}
+                          {% if try.price %}<span>产品价格: <b>{{ try.price }}</b></span>{%endif%}
+                        </div>
                       </div>
                     {%endif%}
 				</div>

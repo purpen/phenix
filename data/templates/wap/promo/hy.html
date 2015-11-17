@@ -127,7 +127,7 @@
   
   
   .page-1{
-		background:url({{ app_url_packaged }}/images/promo/hy/bj1.jpg) center center;
+		background:url({{ app_url_packaged }}/images/promo/hy/bg0001.jpg) center top;
 		/*-webkit-animation: 'p1BgAnimation' 4s linear infinite;
 		animation: 'p1BgAnimation' 4s linear infinite;*/
     background-repeat: no-repeat;
@@ -1577,7 +1577,9 @@
   	-webkit-animation-delay:0.6s;
 	}
 	.pt15-4{
-	  top:70%;
+	  top:69%;
+	  width:62%;
+	  left:19%;
 	  animation-delay:1.6s;
   	-webkit-animation-delay:1.6s;
 	}
@@ -1926,7 +1928,7 @@
     var m_name = '绝密行动 代号“火眼”';
     var img_url = '{{ app_url_packaged }}/images/promo/hy/share.jpg';
     var link = '{{ app_url_wap_promo }}/hy';
-    var desc_str = 'm.taihuoniao.com';
+    var desc_str = '加入火眼行动，一齐披荆斩棘，共同铸就智能硬件未来';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -2057,7 +2059,7 @@
  	        bgm = new Audio5js({
        	      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
        	      ready: function () {
-       	          this.load("http://frstatic.qiniudn.com/wechat/js/Won't Go Home Without You.mp3");
+       	          this.load("http://frstatic.qiniudn.com/wechat/js/He's%20a%20Pirate-Klaus%20Badelt—700.mp3");
        	          this.play();
 
        	          this.on('canplay', function(){
@@ -2080,103 +2082,20 @@
        				}
        		});
 
-       		$('#user-info-form').livequery(function(){
-         		$(this).form({
-         			people: {
-         				identifier  : 'people',
-         				rules: [
-         					{
-         						type   : 'empty',
-         						prompt : '姓名不能为空'
-         					}
-         				]
-         			},
-         			mobile: {
-         				identifier  : 'mobile',
-         				rules: [
-         					{
-         						type   : 'empty',
-         						prompt : '电话不能为空'
-         					}
-         				]
-         			},
-         			address: {
-         				identifier  : 'address',
-         				rules: [
-         					{
-         						type   : 'empty',
-         						prompt : '地址不能为空'
-         					}
-         				]
-         			},
-         			position: {
-         				identifier  : 'position',
-         				rules: [
-         					{
-         						type   : 'empty',
-         						prompt : '职位不能为空'
-         					}
-         				]
-         			},
-         			name: {
-         				identifier  : 'name',
-         				rules: [
-         					{
-         						type   : 'empty',
-         						prompt : '公司不能为空'
-         					}
-         				]
-         			},
-         			wechat: {
-         				identifier  : 'wechat',
-         				rules: [
-         					{
-         						type   : 'empty',
-         						prompt : '微信号不能为空'
-         					}
-         				]
-         			}
-         		}, {
-         			inline : true,
-         			onSuccess: function(event){
-         				event.preventDefault();
-                $(this).ajaxSubmit({
-                  dataType: 'json',
-                  beforeSubmit: function(){
-                    phenix.before_submit();
-                  },
-                  success: function(data){
-                    phenix.after_submit();
-                    
-                    if(data.is_error){
-                      $(event.target).addClass('error');
-                      phenix.show_error_note(data.message);
-                    }else{
-                      $('.ui.user-info-box.modal').modal('hide');
-                      phenix.show_ok_note(data.message, 5000);
-                    }
-                  }
-                });
-         			}
-         		});
-         	});
-
            //报名按钮
-         	$('.join').click(function(){
+         	$('.join,.pagem-logo').click(function(){
          		// 所有ajax请求，验证是否登录
          		if (!phenix.visitor.is_login){
-         		  phenix.redirect("{{ app_url_wap }}/auth/login");
-         			return false;
+         		  //phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+         			//return false;
          		}
-             $('.ui.user-info-box.modal')
-             .modal('setting', 'closable', false)
-             .modal('setting', 'transition', 'vertical  flip')
-             .modal('show');
-             return false; 
+         		phenix.redirect("{{ app_url_wap }}/promo/hy_sign");
+         		return false;
          	});
-         	$('.ui.deny.button,i.close').click(function(){
+         	$('.cancel.btn').click(function(){
          		$('.ui.user-info-box.modal').modal('hide');
          	});
+
  	  
       </script>
       
@@ -2517,7 +2436,9 @@
 		  <img src="{{ app_url_packaged }}/images/promo/hy/zt5w3.png" class="st zpt5-3 page-logo" style="display:none">
 		  <img src="{{ app_url_packaged }}/images/promo/hy/zt5w4.png" class="st zpt5-4 page-logo" style="display:none">
 		  
-      
+      <div class="slide">
+          <img src="{{ app_url_packaged }}/images/promo/hy/t10w010.png" class="p3 fadeInUp animated" style="display:none"/>
+      </div>
       <div class="slide">
           <img src="{{ app_url_packaged }}/images/promo/hy/t10w07.png" class="p3 fadeInUp animated" style="display:none"/>
       </div>
@@ -2553,7 +2474,7 @@
       <img src="{{ app_url_packaged }}/images/promo/hy/t15w1.png" class="st pt15-1 pt15 bounceInLeft animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t15w2.png" class="st pt15-2 pt15 page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t15w03.png" class="st pt15-3 pt15 bounceInRight animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/zt15w04.png" class="st pt15-4 pt15 flipInX animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/zt15w004.png" class="st pt15-4 pt15 flipInX animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t15w5.png" class="st pt15-5 page-logo" style="display:none">
 		</div>
   </div>
@@ -2567,49 +2488,51 @@
 	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;"></i>
 	</div>
 	<div class="container">
-		<form action="{{ app_url_wap }}/incubator/ajax_attend" class="ui form" method="post" id="user-info-form">
-		  	<div class="content">
-				<div class="ajax result"></div>
+					<form action="{{ app_url_wap }}/app/wap/promo_func/save_common_sign" class="ui form" method="post" id="sign-form">
+						<div class="ui segment">
+              <input type="hidden" name="target_id" value="4" />
+              <input type="hidden" name="event" value="5" />
+              <input type="hidden" name="from_to" value="2" />
 
-				<div class="ui signup-box">
-					<div class="two fields">
-						<div class="field">
-              <input type="text" name="people" value="{{ visitor.profile.realname }}" placeholder="姓名" />
-						</div>
-					</div>
-					<div class="two fields">
-						<div class="field">
-							<input type="text" name="mobile" value="{{ visitor.profile.phone }}" placeholder="填写手机号，方便信息核实" />
-						</div>
-					</div>
-					<div class="two fields">
-						<div class="field">
-							<input type="text" name="email" value="{{ visitor.email }}" placeholder="Email" />
-						</div>
-					</div>
-					<div class="two fields">
-						<div class="field">
-							<input type="text" name="wechat" value="" placeholder="微信号" />
-						</div>
-					</div>
-					<div class="field">
-            <input type="text" name="name" value="" placeholder="公司名称" />
-					</div>
-					<div class="field">
-            <input type="text" name="position" value="{{ visitor.profile.job }}" placeholder="职位" />
-					</div>
-				</div>
-		  	</div>
+							<div class="field">
+							  	<input type="text" id="account" name="phone" value="{{ visitor.profile.phone }}" placeholder="手机号" />
+								<div class="description"></div>
+							</div>
+             {% if !visitor.is_login %} 
+              <div class="inline field">
+                <input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" style="width:48%;" />
+                <a href="javascript:void(0);" class="ui small inverted magenta button" id="fetch-verify-code">获取验证码</a>
+              </div>
+              {%endif%}
+							<div class="field">
+							  	<input type="text" name="realname" value="{{ visitor.profile.realname }}" placeholder="姓名" />
+								<div class="description"></div>
+							</div>
 
-			<div class="right aligned action">
-			    <div class="ui gray deny button">
-					取消
-			    </div>
-			    <div class="ui magenta submit button">
-					确认报名
-			    </div>
-			</div>
-		</form>
+							<div class="field">
+							  	<input type="text" name="company" value="{{ visitor.profile.company }}" placeholder="公司名称" />
+								<div class="description"></div>
+							</div>
+
+							<div class="field">
+							  	<input type="text" name="job" value="{{ visitor.profile.job }}" placeholder="职位" />
+								<div class="description"></div>
+							</div>
+
+						</div>
+						
+						<div class="ui grid">
+							<div class="right aligned column">
+								<div class="ui gray cancel large active button">
+									取消
+								</div>
+								<div class="ui magenta submit large active inverted button">
+									提交
+								</div>
+							</div>
+						</div>
+						
+					</form>
 	</div>
 </div>
 

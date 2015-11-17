@@ -10,22 +10,61 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     'target_id'=>0,
 	);
 	
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign');
 
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign');
-
-	
 	/**
 	 * 网站入口
 	 */
 	public function execute(){
 		//return $this->coupon();
 	}
+	/**
+	 * 创造提交 
+	 */
+	public function coin_submit(){
+		
+		return $this->to_html_page('wap/promo/coin_submit.html');
+	}
+	
+	/**
+	 * 创造 
+	 */
+	public function coin(){
+		
+		return $this->to_html_page('wap/promo/coin.html');
+	}
+	
+  /**
+   * 兑吧抽奖送红包活动
+   */
+  public function db_bonus(){
+    $this->stash['is_obtain'] = false;
+    // 验证是否登录用户 
+    if($this->visitor->id){
+      // 判断用户是否已领取
+      $attend_model = new Sher_Core_Model_Attend();
+      $data = array(
+        'user_id' => $this->visitor->id,
+        'target_id' => 3,
+        'event' => 5,
+      );
+      $attend = $attend_model->first($data);
+
+      // 验证用户是否已领过红包 
+      if(!empty($attend)){
+        $this->stash['is_obtain'] = true;
+      }
+
+    }
+    
+    return $this->to_html_page('wap/promo/db_bonus.html');
+  }
 	
 	/**
 	 * 造逆 
 	 */
 	public function jdzn(){
-			$this->stash['page_title_suffix'] = ' ';
+			$this->stash['page_title_suffix'] = '『造·逆』一场逆向思维的智能硬件营销论剑';
 
       // 记录浏览数
       $num_mode = new Sher_Core_Model_SumRecord();
@@ -294,14 +333,19 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 */
 	public function hy(){
 		$this->stash['page_title_suffix'] = '绝密行动 代号“火眼”';
+
+    // 记录浏览数
+    $num_mode = new Sher_Core_Model_SumRecord();
+    $num_mode->add_record('7', 'view_count', 4, 4); 
+
 		//微信分享
-	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
-	    $timestamp = $this->stash['timestamp'] = time();
-	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
-	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-	    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
-	    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
-	    $this->stash['wxSha1'] = sha1($wxOri);
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
 		return $this->to_html_page('wap/promo/hy.html');
 	}
 	
@@ -911,6 +955,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
   public function common_sign(){
     $target_id = (int)$this->stash['target_id'];
     $event = isset($this->stash['event'])? (int)$this->stash['event'] : 3;
+    $from_to = isset($this->stash['from_to'])? (int)$this->stash['from_to'] : 1;
     $redirect_url = Doggy_Config::$vars['app.url.wap'];
 
     if(empty($target_id) || empty($event)){
@@ -919,6 +964,13 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 
     return $this->to_html_page('wap/promo/common_sign.html');
   
+  }
+
+  /**
+   * 火眼报名入口，直接注册
+   */
+  public function hy_sign(){
+    return $this->to_html_page('wap/promo/hy_sign.html');
   }
 
 

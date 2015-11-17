@@ -78,8 +78,9 @@
               $(event.target).addClass('error');
               phenix.show_error_note(data.message, 3000);
             }else{
-              phenix.show_ok_note(data.message, 3000);
-              phenix.redirect(data.redirect_url, 3000);
+              //phenix.show_ok_note(data.message, 3000);
+              alert(data.message);
+              phenix.redirect(data.redirect_url, 0);
             }
           }
         });
@@ -149,6 +150,7 @@
 						<div class="ui segment">
               <input type="hidden" name="target_id" value="{{ target_id }}" />
               <input type="hidden" name="event" value="{{ event }}" />
+              <input type="hidden" name="from_to" value="{{ from_to }}" />
 
 							<div class="field">
 								<label>手机</label>

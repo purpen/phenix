@@ -124,7 +124,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 	 */
 	public function test_get(){
     $redis = new Sher_Core_Cache_Redis();
-    $redis->set('test', 'aaaa', 20);
+    $redis->set('test', 'aaaabb', 20);
 		echo $redis->get('test');
 	}
 	
@@ -138,11 +138,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 		return $this->to_html_page('wap/noodles.html');
 	}
 	public function tweleve() {
-<<<<<<< HEAD
 		return $this->to_html_page('wap/incubator/list.html');
-=======
-		return $this->to_html_page('wap/auth/logsin.html');
->>>>>>> d0aaf1c59bfe7c7795dde529aeb4a2b0b29dc6d1
 	}
 
   /**

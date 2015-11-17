@@ -274,6 +274,9 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
         }
 
         $user_data = array();
+        if(empty($this->visitor->profile->realname)){
+          $user_data['profile.realname'] = isset($this->stash['name']) ? $this->stash['name'] : null;
+        }
         if(empty($this->visitor->profile->address)){
           $user_data['profile.address'] = isset($this->stash['address']) ? $this->stash['address'] : null;
         }
@@ -465,6 +468,12 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
             case 5://结束
               $result['rows'][$i]['step_over'] = true;
               break;
+          }
+
+          if(isset($result['rows'][$i]['price']) && !empty($result['rows'][$i]['price'])){
+            $result['rows'][$i]['has_price'] = true;
+          }else{
+            $result['rows'][$i]['has_price'] = false;
           }
 
           // 是否有试用报告

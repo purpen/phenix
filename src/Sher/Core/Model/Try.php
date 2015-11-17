@@ -75,6 +75,9 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	
 		# 预热开启条件(想要人数)
 		'open_limit' => 0,
+
+    # 产品价格
+    'price' => 0,
 		
 		# 参与方式
 		'join_away' => self::JOIN_FREE_AWAY,
@@ -119,6 +122,7 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
     protected $required_fields = array('title', 'user_id');
 	
     protected $int_fields = array('user_id', 'product_id', 'sticked', 'join_away', 'try_count', 'apply_count', 'pass_count', 'season', 'step_stat', 'invented_apply_count', 'apply_term', 'want_count', 'report_count', 'kind', 'open_limit');
+	  protected $float_fields = array('price');
 	
 	protected $counter_fields = array('view_count', 'love_count', 'comment_count', 'apply_count', 'invented_apply_count', 'want_count', 'report_count');
 	/**
@@ -147,7 +151,8 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		# 验证是否结束
 		if (isset($row['end_time'])){
 			// end_time 是0时，应该按24时截止，+1day
-			if(strtotime($row['end_time'])+24*60*60 < time()){
+			//if(strtotime($row['end_time'])+24*60*60 < time()){
+			if(strtotime($row['end_time']) < time()){
 				$row['is_end'] = true;
 			}else{
 				$row['is_end'] = false;
