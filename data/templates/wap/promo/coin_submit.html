@@ -234,10 +234,11 @@ display:none;
         if(result.errorCode == 200){
           $this.removeClass('disabled').text('获取验证码');
         }
+
+        // 添加发送频率
+        limitime();
       }); 
 
-      // 添加发送频率
-      limitime();
 		}else{
 			phenix.show_error_note('请正确填写手机号码！');
 		}
