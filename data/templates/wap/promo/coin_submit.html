@@ -3,7 +3,6 @@
 {% block page_css %}
 <style type="text/css">
 html, body {
-    overflow:hidden;
     margin:0;
     padding:0;
 }
@@ -15,50 +14,58 @@ html, body {
 }
 * { -webkit-appearance: none; }
 
-html, body { height: 100%; width: 100%; margin: 0px; }
-section { display: block; height: 100%; overflow: hidden;  }
+html, body { width: 100%; margin: 0px; }
+section { display: block; height: 100%; }
 
 .mmfoot{
 display:none;
 }
 .coin{
 	background: url({{ app_url_packaged }}/images/promo/coin/bj.png)no-repeat center top;
-     background-size: 100%;
+     background-size: cover;
      position: relative;
      width: 100%;
-     height: 100%;
+	max-width: 674px;
+	margin: 0 auto;
+	padding: 60px 0 25px;
+	text-align:center;
+	min-height:100%;
 }
 .p4_1{
 	position:absolute;
 	top:3%;
 	left:0;
-	width:39%;
+     width: auto;
+     height: 35px;
 }
 .p4_2{
 	position:absolute;
 	top:3%;
 	right:0;
-	width:39%;
+     width: auto;
+     height: 35px;
 }
 .p4_3{
 	position:absolute;
 	top:2.5%;
-	right:38.5%;
-	width:23%;
+     width: 75px;
+     height: 35px;
+     right: 50%;
+     margin-right: -37.5px;
 }
 .excel{
 	width:100%;
 	top:7%;
-	position:absolute;
+	position:relative;
 	left:0;
 	margin-top: 30px;
 }
 .hname{
 	position: relative;
      width: 80%;
-     left: 10%;
      height: 35px;
-	margin: 25px 0;
+	margin: 25px auto;
+	text-align:left;
 }
 .name_t{
      position: relative;
@@ -76,6 +83,56 @@ display:none;
 	border:none;
 	background-color: #e3e3e3;
 	box-shadow: -1px -1px 1px 1px rgba(0,0,0,0.2),0 0 0 1px rgba(0,0,0,0.1);
+	width: 100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.check.input{
+	width: 35%;
+	right: 43%;
+}
+.checkout.button,.checkout.button:hover{
+     right: -2px;
+     position: absolute;
+	border:none;
+	background-color: #e3e3e3;
+	box-shadow: -1px -1px 1px 1px rgba(0,0,0,0.2),0 0 0 1px rgba(0,0,0,0.1);
+	color:rgba(0,0,0,0.8);
+	padding-left:1em;
+	padding-right:1em;
+}
+.p7_t1{
+	width:80%;
+	margin:0 10%;
+}
+.p7_radio{
+	width:80%;
+	margin:10px 10%;
+	font-size:0;
+	text-align: left;
+}
+.p7_radio .ui.radio.checkbox{
+	width:60%;
+	margin: 0;
+	height:24px;
+}
+.p7_radio .ui.radio.checkbox:nth-child(2n){
+	width:40%;
+}
+.p7_radio .ui.radio.checkbox img{
+	height: 22px;
+	width: auto;
+	margin-top: -2px;
+}
+.p7_line{
+	width: 104%;
+	margin-left: -2%;
+}
+.join_btn{
+	width:33%;
+	margin:0 33.5%;
+	max-width: 140px;
 }
 </style>
 {% endblock %}
@@ -125,9 +182,40 @@ display:none;
 			</div>
 		</div>
 		
+		<div class="hname">
+			<div class="ui input focus check">
+				<input type="text"  />
+			</div>
+			<a href="javascript:void(0);" class="ui button checkout" id="fetch-verify-code">获取验证码</a>
+		</div>
+		
+		
+		<img class="p7_t1" src="{{ app_url_packaged }}/images/promo/coin/p7_5.png">
+		
+		<div class="p7_radio">
+			<div class="ui radio checkbox">
+				<input type="radio" name="frequency" checked="checked">
+				<label><img src="{{ app_url_packaged }}/images/promo/coin/p7_6.png"></label>
+			</div>
+			<div class="ui radio checkbox">
+				<input type="radio" name="frequency" checked="checked">
+				<label><img src="{{ app_url_packaged }}/images/promo/coin/p7_7.png"></label>
+			</div>
+			<div class="ui radio checkbox">
+				<input type="radio" name="frequency" checked="checked">
+				<label><img src="{{ app_url_packaged }}/images/promo/coin/p7_8.png"></label>
+			</div>
+			<div class="ui radio checkbox">
+				<input type="radio" name="frequency" checked="checked">
+				<label><img src="{{ app_url_packaged }}/images/promo/coin/p7_9.png"></label>
+			</div>
+			
+			<img class="p7_line" src="{{ app_url_packaged }}/images/promo/coin/p7_10.png">
+		</div>
+			
+			
+			<a href=""><img class="join_btn" src="{{ app_url_packaged }}/images/promo/coin/p7_11.png"></a>
 	</div>
-	
-	
 
 </div>
 {% endblock %}
