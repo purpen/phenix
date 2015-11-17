@@ -3,7 +3,6 @@
 {% block page_css %}
 <style type="text/css">
 html, body {
-    overflow:hidden;
     margin:0;
     padding:0;
 }
@@ -15,8 +14,8 @@ html, body {
 }
 * { -webkit-appearance: none; }
 
-html, body { height: 100%; width: 100%; margin: 0px; }
-section { display: block; height: 100%; overflow: hidden;  }
+html, body { width: 100%; margin: 0px; }
+section { display: block; height: 100%; }
 
 .mmfoot{
 display:none;
@@ -96,6 +95,28 @@ display:none;
 	padding-left:1em;
 	padding-right:1em;
 }
+.p7_t1{
+	width:80%;
+	margin:0 10%;
+}
+.p7_radio{
+	width:80%;
+	margin:10px 10%;
+	font-size:0;
+}
+.p7_radio .ui.radio.checkbox{
+	width:60%;
+	margin: 0;
+	height:24px;
+}
+.p7_radio .ui.radio.checkbox:nth-child(2n){
+	width:40%;
+}
+.p7_radio .ui.radio.checkbox img{
+	height: 22px;
+	width: auto;
+	margin-top: -2px;
+}
 </style>
 {% endblock %}
 
@@ -145,14 +166,35 @@ display:none;
 		</div>
 		
 		<div class="hname">
-			
 			<div class="ui input focus check">
 				<input type="text"  />
 			</div>
 			<a href="javascript:void(0);" class="ui button checkout" id="fetch-verify-code">获取验证码</a>
-				
-			
 		</div>
+		
+		
+		<img class="p7_t1" src="{{ app_url_packaged }}/images/promo/coin/p7_5.png">
+		
+		<div class="p7_radio">
+			<div class="ui radio checkbox">
+				<input type="radio" name="frequency" checked="checked">
+				<label><img src="{{ app_url_packaged }}/images/promo/coin/p7_6.png"></label>
+			</div>
+			<div class="ui radio checkbox">
+				<input type="radio" name="frequency" checked="checked">
+				<label><img src="{{ app_url_packaged }}/images/promo/coin/p7_7.png"></label>
+			</div>
+			<div class="ui radio checkbox">
+				<input type="radio" name="frequency" checked="checked">
+				<label><img src="{{ app_url_packaged }}/images/promo/coin/p7_8.png"></label>
+			</div>
+			<div class="ui radio checkbox">
+				<input type="radio" name="frequency" checked="checked">
+				<label><img src="{{ app_url_packaged }}/images/promo/coin/p7_9.png"></label>
+			</div>
+		</div>
+		
+		
 		
 	</div>
 	
