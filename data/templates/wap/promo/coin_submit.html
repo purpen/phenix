@@ -194,8 +194,8 @@ display:none;
     }
     $.post(url, param, function(result){
       if(result.success){
-        alert(data.message);
-        phenix.redirect(data.redirect_url, 0);
+        alert(result.message);
+        phenix.redirect(result.redirect_url, 0);
       }else{
         phenix.show_error_note(result.message);
       }
