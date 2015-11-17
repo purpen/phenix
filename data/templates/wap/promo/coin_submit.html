@@ -149,22 +149,22 @@ display:none;
   $('#join-btn').click(function(){
     var realname = $(':input[name=realname]').val();
     if(!realname){
-      phenix.show_error_note('请添写姓名!');
+      phenix.show_error_note('请填写姓名!');
       return false;
     }
     var phone = $(':input[name=phone]').val();
     if(!phone){
-      phenix.show_error_note('请添写手机号!');
+      phenix.show_error_note('请填写手机号!');
       return false;
     }
     var company = $(':input[name=company]').val();
     if(!company){
-      phenix.show_error_note('请添写公司名称!');
+      phenix.show_error_note('请填写公司名称!');
       return false;
     }
     var job = $(':input[name=job]').val();
     if(!job){
-      phenix.show_error_note('请添写职位信息!');
+      phenix.show_error_note('请填写职位信息!');
       return false;
     }
     var frequency = $(':input[name=frequency]:checked').val();
