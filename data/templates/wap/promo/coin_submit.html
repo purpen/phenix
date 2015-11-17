@@ -228,8 +228,6 @@ display:none;
 		    return false;
 		}
 		if(phone){
-      // 添加发送频率
-      limitime();
   
       $this = $('#fetch-verify-code');
       $.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
@@ -237,6 +235,9 @@ display:none;
           $this.removeClass('disabled').text('获取验证码');
         }
       }); 
+
+      // 添加发送频率
+      limitime();
 		}else{
 			phenix.show_error_note('请正确填写手机号码！');
 		}
