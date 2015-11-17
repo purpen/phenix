@@ -42,6 +42,9 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 		'vote_count' => 0,
 		# 是否虚拟申请账户
 		'is_invented' => 0,
+
+    # 来源 1. 电脑; 2.APP
+    'from_to' => 1,
 		
 		'state'  => 0,
     );
