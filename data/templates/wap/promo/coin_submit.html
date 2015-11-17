@@ -77,6 +77,22 @@ display:none;
 	background-color: #e3e3e3;
 	box-shadow: -1px -1px 1px 1px rgba(0,0,0,0.2),0 0 0 1px rgba(0,0,0,0.1);
 }
+.ui.verify.input{
+	width: 35%;
+	right: 43%;
+}
+.check.input{
+	width: 35%;
+	right: 43%;
+}
+.checkout.button,.checkout.button:hover{
+     right: -2px;
+     position: absolute;
+	border:none;
+	background-color: #e3e3e3;
+	box-shadow: -1px -1px 1px 1px rgba(0,0,0,0.2),0 0 0 1px rgba(0,0,0,0.1);
+	color:rgba(0,0,0,0.8);
+}
 </style>
 {% endblock %}
 
@@ -123,6 +139,16 @@ display:none;
 			<div class="ui input focus">
 				<input type="text">
 			</div>
+		</div>
+		
+		<div class="hname">
+			
+			<div class="ui input focus check">
+				<input type="text"  />
+			</div>
+			<a href="javascript:void(0);" class="ui small button checkout" id="fetch-verify-code">获取验证码</a>
+				
+			
 		</div>
 		
 	</div>
