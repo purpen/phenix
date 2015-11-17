@@ -2834,7 +2834,7 @@
          $('.loading').remove();
          $('.screen').eq(0).addClass('current');
          $('.wrap').show();
-         $('#app_bgm').get(0).play().loop;
+         $('#app_bgm').get(0).play();
          $('.music').show();
      });
 
@@ -3190,5 +3190,5 @@
 
 </div>
 <div class="music playing" style="display:none;"></div>
-<audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/js/bigger.mp3" autoplay></audio>
+<audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/js/bigger.mp3" loop="true" autoplay></audio>
 {% endblock %}
