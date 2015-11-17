@@ -6,12 +6,11 @@
 class Sher_Core_Model_MessageGroup extends Sher_Core_Model_Base {
 
     protected $collection = "message_group";
-	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_CUSTOM;
 	
     protected $schema = array(
         
-		# 标题
-        'title' => 0,
+		# 名称
+        'name' => 0,
 		# 描述
 		'des' => '',
 		# 关联用户id
@@ -20,8 +19,8 @@ class Sher_Core_Model_MessageGroup extends Sher_Core_Model_Base {
 		'user_id' =>0,
     );
 	
-	protected $required_fields = array('title','des');
-	protected $int_fields = array();
+	protected $required_fields = array('name','des','user_id');
+	protected $int_fields = array('user_id');
 	protected $float_fields = array();
 	protected $counter_fields = array();
 	protected $retrieve_fields = array();

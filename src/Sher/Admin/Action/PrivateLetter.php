@@ -1,7 +1,7 @@
 <?php
 /**
  * 后台私信管理
- * @author tianshuai
+ * @author caowei@taihuoniao.com
  */
 class Sher_Admin_Action_PrivateLetter extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {
 	
@@ -11,7 +11,7 @@ class Sher_Admin_Action_PrivateLetter extends Sher_Admin_Action_Base implements 
 	);
 	
 	public function _init() {
-		$this->set_target_css_state('css_page_private_letter');
+		$this->set_target_css_state('page_private_letter');
     }
 	
 	/**
@@ -34,39 +34,148 @@ class Sher_Admin_Action_PrivateLetter extends Sher_Admin_Action_Base implements 
 		
 		return $this->to_html_page('admin/private_letter/list.html');
 	}
-
+	
 	/**
-	 * 删除
+	 * 添加分组信息
 	 */
-	public function deleted(){
-		$id = $this->stash['id'];
-		if(empty($id)){
-			return $this->ajax_notification('内容不存在！', true);
+	public function group_save(){
+		
+		$id = $this->stash['group_id'];
+		$name = $this->stash['letter_name'];
+		$letter_des = $this->stash['letter_des'];
+		$letter_ids = $this->stash['letter_ids'];
+		
+		// 验证name
+		if(empty($name)){
+			return $this->ajax_json('分组名称不能为空！', true);
 		}
 		
-		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
+		// 验证letter_des
+		if(empty($letter_des)){
+			return $this->ajax_json('分组描述不能为空！', true);
+		}
+		
+		// 验证letter_ids
+		if(empty($letter_ids)){
+			return $this->ajax_json('分组用户id不能为空！', true);
+		}
+		
+		// 处理字符串
+		$ids = explode(',',$letter_ids);
+		foreach($ids as $k => $v){
+			$ids[$k] = (int)$v;
+		}
+		
+		$date = array(
+			'name' => $name,
+			'des' => $letter_des,
+			'user_ids' => $ids,
+			'user_id' => (int)$this->visitor->id
+		);
+		//var_dump($date);
+		try{
+			$model = new Sher_Core_Model_MessageGroup();
+			if(empty($id)){
+				// add
+				$ok = $model->apply_and_save($date);
+			} else {
+				// edit
+				$date['_id'] = $id;
+				$ok = $model->apply_and_update($date);
+			}
+			
+			if(!$ok){
+				return $this->ajax_json('保存失败,请重新提交', true);
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
+		}
+		
+		return $this->ajax_json('保存成功！', false);
+	}
+	
+	/**
+	 * 查看新组信息-多条
+	 */
+	public function ajax_group_list(){
+		
+		$model = new Sher_Core_Model_MessageGroup();
+		$result = $model->find();
+		$date = array();
+		foreach($result as $k => $v){
+			$date[$k]['id'] = (string)$v['_id'];
+			$date[$k]['name'] = $v['name'];
+			$date[$k]['des'] = $v['des'];
+		}
+		return $this->ajax_json('success', false, '', $date);
+	}
+	
+	/**
+	 * 查看分组信息-单条
+	 */
+	public function ajax_group_one(){
+		
+		$id = $this->stash['id'];
+		// 验证letter_ids
+		if(empty($id)){
+			return $this->ajax_json('分组用户id不能为空！', true);
+		}
+		$model = new Sher_Core_Model_MessageGroup();
+		$result = $model->find_by_id($id);
+		$date = array(
+			'id' => (string)$result['_id'],
+			'name' => $result['name'],
+			'des' => $result['des'],
+			'ids' => implode(',',$result['user_ids'])
+		);
+		return $this->ajax_json('success', false, '', $date);
+	}
+	
+	/**
+	 * 添加私信信息
+	 */
+	public function letter_save(){
+		
+		$group_id = $this->stash['group_id'];
+		$content = $this->stash['letter_content'];
+		
+		// 验证
+		if(empty($group_id)){
+			return $this->ajax_json('请选择用户分组！', true);
+		}
+		
+		// 验证name
+		if(empty($content)){
+			return $this->ajax_json('私信内容不能为空！', true);
+		}
 		
 		try{
-			$model = new Sher_Core_Model_UserPointStat();
+			$model = new Sher_Core_Model_MessageGroup();
+			$result = $model->find_by_id($group_id);
+			$user_ids = $result['user_ids'];
+			$send_user_id = (int)$this->visitor->id;
+			$date_error = array();
 			
-			foreach($ids as $id){
-				$user_stat = $model->load($id);
-				
-				if (!empty($user_stat)){
-					$model->remove($id);
-					// 删除关联对象
-					$model->mock_after_remove($id);
+			$user = new Sher_Core_Model_User();
+			$msg = new Sher_Core_Model_Message();
+			foreach($user_ids as $k => $v){
+				$user_id = $v;
+				$res = $user->find_by_id($user_id);
+				if(!$res) {continue;}
+				$ok = $msg->send_site_message($content, $send_user_id, $user_id,$group_id,2);
+				if(!$ok){
+					array_push($date_error, $user_id);
 				}
 			}
 			
-			$this->stash['ids'] = $ids;
-			
+			if(count($date_error)){
+				return $this->ajax_json('私信发送失败', true, null, $date_error);
+			}
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_notification('操作失败,请重新再试', true);
+			return $this->ajax_json('这些用户私信发送失败:'.implode(',',$date_error).$e->getMessage(), true);
 		}
 		
-		return $this->to_taconite_page('ajax/delete.html');
+		return $this->ajax_json('success', false);
 	}
-
 }
 

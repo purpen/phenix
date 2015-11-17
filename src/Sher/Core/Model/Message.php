@@ -1,6 +1,6 @@
 <?php
 /**
- * 站内私信 old remove
+ * 站内私信
  * @author purpen
  */
 class Sher_Core_Model_Message extends Sher_Core_Model_Base {
@@ -57,7 +57,7 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
      * @param $to_user
      * @return int
      */
-    public function send_site_message($content,$from_user,$to_user){
+    public function send_site_message($content,$from_user,$to_user,$group_id,$type = 1){
 		
 		$_id = Sher_Core_Helper_Util::gen_secrect_key($from_user,$to_user);
 		
@@ -85,6 +85,11 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 			$some_data['mailbox'] = array($item);
 			$some_data['created_on'] = time();
 			$some_data['last_time'] = time();
+			
+			if(isset($group_id) && !empty($group_id)){
+				$some_data['group_id'] = $group_id;
+				$some_data['type'] = $type;
+			}
 			
 			$this->create($some_data);
 		}else{

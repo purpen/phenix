@@ -1,0 +1,401 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+  <style type="text/css">
+    .content-text img{
+      max-width: 150px;
+      max-height: 800px;
+      overflow: hidden;
+      padding: 10px 10px 0 0;
+    }
+    .content-text p{
+      margin:0;
+    }
+
+    .content-text a{
+      text-decoration:none;
+      color:#f36;
+    }
+
+    .content-text a:hover{
+      text-decoration:underline;
+      color:#f36;
+    }
+
+    .ui.reply.form .left {
+    display:inline-block;
+    }
+    .ui.reply.form .left a{
+    text-decoration: none;
+    color: #5d6266;
+    }
+    .ui.reply.form .right.aligned.column{
+    display:inline-block;
+    float:right;
+    }
+
+    .img-tab{
+      margin:5px;
+    }
+    .img-tab a{
+      margin:5px;
+      text-decoration:none;
+    }
+  </style>
+{% endblock %}
+
+{% block jquery %}
+	
+    // 显示分组管理页面
+    $('.group_menu').click(function(){
+        $('#group_menu.fullscreen.modal').modal('show');
+		ajax_load_list();
+    });
+    
+    // 关闭分组管理页面  
+    $('.no.group_menu').click(function(){
+		$('#group_menu.fullscreen.modal').modal('hide');
+	});
+	
+	// 清空表单数据
+	function del_form(){
+	  var form = $('.ui.form.letter');
+	  form.find('input[name=group_id]').val('');
+	  form.find('input[name=letter_name]').val('');
+	  form.find('input[name=letter_des]').val('');
+	  form.find('textarea[name=letter_ids]').val('');
+	}
+	
+	// ajax渲染模板
+	function ajax_load_list(){
+        var url = '{{ app_url_admin_base }}/private_letter/ajax_group_list?rand='+Math.random();
+        $.post(url, {}, function(e){
+			if(!e.error){
+			  $("div").remove(".ui.alt.option");
+			  var rendered = phenix.ajax_render_result('#fetch_message_group_tpl', e);
+			  $('.item-box').append(rendered);
+			  del_form();
+			}
+        }, 'json');
+    }
+    
+    // 显示已有分组
+	$('.ui.options').on('click', '.option', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+		  $(this).removeClass('active');
+		  $('.ui.green.submit.button.yes').text('添加');
+		  del_form();
+		}else{
+		  $(this).siblings('.ui.option').removeClass('active').end().addClass('active');
+		  $.post('{{ app_url_admin_base }}/private_letter/ajax_group_one',{id:id},function(e){
+			if(e.is_error){
+			  phenix.show_error_note(e.message, 3000);
+			} else {
+			  var form = $('.ui.form.letter');
+			  form.find('input[name=group_id]').val(id);
+			  form.find('input[name=letter_name]').val(e.data.name);
+			  form.find('input[name=letter_des]').val(e.data.des);
+			  form.find('textarea[name=letter_ids]').val(e.data.ids);
+			  $('.ui.green.submit.button.yes.group_menu').text('修改');
+			}
+		  },'json');
+		}  
+	});
+    
+    // 表单验证
+	$('#group-letter-form').form({
+		letter_name: {
+			identifier  : 'letter_name',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '分组名称不能为空！'
+				}
+			]
+		},
+		letter_des: {
+			identifier  : 'letter_des',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '分组描述不能为空！'
+				}
+			]
+		},
+		letter_ids: {
+			identifier  : 'letter_ids',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请输入需要发送私信的用户id！'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					// 点击前触发的事件
+					phenix.before_submit();
+				},
+				success: function(data){
+					// 点击后触发的事件
+					phenix.after_submit();
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, 3000);
+					}else{
+						$('#group_menu.fullscreen.modal').modal('hide');
+					}
+				}
+			});
+		}
+	});
+	
+	// 显示分组管理页面
+    $('.send_letter').click(function(){
+        $('#send_letter.fullscreen.modal').modal('show');
+		ajax_load_list();
+    });
+    
+    // 关闭分组管理页面  
+    $('.no.send_letter').click(function(){
+		$('#send_letter.fullscreen.modal').modal('hide');
+	});
+	
+	// 表单验证
+	$('#send-letter-form').livequery(function(){
+	  $(this).on('click','.ui.green.submit.button.yes.send_letter',function(){
+		var group_id = $('#send-letter-form').find('input[name=group_id]').val();
+		if(!group_id){
+		  phenix.show_error_note("请选择用户分组！", 3000);
+		}
+	  }).form({
+		  group_id: {
+			  identifier  : 'group_id',
+			  rules: [
+				  {
+					  type   : 'empty',
+					  prompt : '请选择用户分组！'
+				  }
+			  ]
+		  },
+		  letter_content: {
+			  identifier  : 'letter_content',
+			  rules: [
+				  {
+					  type   : 'empty',
+					  prompt : '私信内容不能为空！'
+				  }
+			  ]
+		  },
+		  letter_ids: {
+			  identifier  : 'letter_ids',
+			  rules: [
+				  {
+					  type   : 'empty',
+					  prompt : '请输入需要发送私信的用户id！'
+				  }
+			  ]
+		  }
+	  }, {
+		  inline : true,
+		  onSuccess: function(event){
+			  event.preventDefault();
+			  $(this).ajaxSubmit({
+				  dataType: 'json',
+				  beforeSubmit: function(){
+					  // 点击前触发的事件
+					  //phenix.before_submit();
+				  },
+				  success: function(data){
+					  // 点击后触发的事件
+					  //phenix.after_submit();
+					  if(data.is_error){
+						  $(event.target).addClass('error');
+						  phenix.show_error_note(data.message, 3000);
+					  }else{
+						  $('#send_letter.fullscreen.modal').modal('hide');
+					  }
+				  }
+			  });
+		  }
+	  });
+	});
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">私信管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/comment" class="active item">
+			全部
+		</a>
+
+	  	<div class="right menu">
+			<a href="javascript:void(0);" class="item send_letter">
+				<i class="plus square outline icon"></i>发送私信
+			</a>
+			<a href="javascript:void(0);" class="item group_menu">
+				<i class="mail icon"></i>分组管理
+			</a>
+	    </div>
+	</div>
+    
+    <div id="send_letter" class="ui fullscreen modal transition scrolling" style="display: none">
+        <div class="header">发送私信</div>
+		<div class="content">
+			<form action="{{ app_url_admin_base }}/private_letter/letter_save" method="post" class="ui form letter" id="send-letter-form">
+                <div class="ui options item-box">
+                    <input type="hidden" name="group_id" id="group_category" />
+                </div>
+                <div class="field">
+                    <textarea name="letter_content" placeholder="填写私信内容！"></textarea>
+				</div>
+				<div class="actions">
+                    <div class="ui button no send_letter">取消</div>
+                    <div class="ui green submit button yes send_letter">发送</div>
+				</div>
+			</form>
+		</div>
+    </div>
+	
+	<div id="group_menu" class="ui fullscreen modal transition scrolling" style="display: none">
+        <div class="header">分组管理</div>
+		<div class="content">
+			<form action="{{ app_url_admin_base }}/private_letter/group_save" method="post" class="ui form letter" id="group-letter-form">
+                <div class="ui options item-box">
+                    <input type="hidden" name="group_id" id="group_category" />
+                </div>
+                <div class="field">
+                    <input type="text" name="letter_name" value="" placeholder="分组名称" />
+				</div>
+				<div class="field">
+                    <input type="text" name="letter_des" value="" placeholder="分组描述" />
+				</div>
+                <div class="field">
+                    <textarea name="letter_ids" placeholder="多个分组用户id，请用英文字符的“，”隔开！"></textarea>
+				</div>
+				<div class="actions">
+                    <div class="ui button no group_menu">取消</div>
+                    <div class="ui green submit button yes group_menu">添加</div>
+				</div>
+			</form>
+		</div>
+    </div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/comment/search" method="get">
+			<label>搜索：</label>
+            <div class="ui selection dropdown">
+                <input type="hidden" name="t" value="{{ t }}" />
+                <div class="default text">选择条件</div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item" data-value="0">全部</div>
+                    <div class="item" data-value="6">灵感</div>
+                    <div class="item" data-value="2">话题</div>
+                    <div class="item" data-value="3">试用</div>
+                    <div class="item" data-value="4">商品</div>
+                </div>
+            </div>
+
+            <div class="ui selection dropdown">
+                <input type="hidden" name="s" value="{{ s }}" />
+                <div class="default text">选择条件</div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item" data-value="0">最早</div>
+                    <div class="item" data-value="1">最新</div>
+                    <div class="item" data-value="2">点赞</div>
+                </div>
+            </div>
+
+			<div class="ui icon input">
+                <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
+				<i class="search link icon"></i>
+			</div>
+		</form>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th class="five wide">内容</th>
+				<th>点赞名单</th>
+                <th>赞数量</th>
+                <th>所属</th>
+				<th>关联ID</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+      {% if is_search %}
+			  {% comment_list var:'list' page:page type:t target_id:q sort:s size:50 %}
+      {%else%}
+			  {% comment_list var:'list' page:page sort:1 size:50 %}
+      {%endif%}
+
+			{% for comment in list.rows %}
+			<tr id="{{ comment._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ comment._id }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+        <td>
+          <div class="content-text">{{ comment.content }}</div>
+        </td>
+
+        <td>
+          <a href="{{ app_url_admin_base }}/comment/get_attend_list?target_id={{ comment._id }}&t={{ comment.type }}" class="ui magenta link">点赞名单</a>
+        </td>
+
+				<td>
+					<p>
+            <span class="ui small green label">{{ comment.love_count }}</span>
+					</p>
+				</td>
+        <td>
+          {%if comment.type==1%}用户{%endif%}
+          {%if comment.type==2%}话题{%endif%}
+          {%if comment.type==3%}试用{%endif%}
+          {%if comment.type==4%}产品{%endif%}
+          {%if comment.type==6%}灵感{%endif%}
+        </td>
+        <td>{{ comment.target_id }}</td>
+				<td>
+					<p>
+						<a href="{{ app_url_admin }}/comment/submit?id={{ comment._id }}" class="ui link item">编辑</a>
+		          		<a href="{{ app_url_admin }}/comment/deleted?id={{ comment._id }}" class="ui confirm-request link item">
+						    删除
+					    </a>
+					</P>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+{% endblock %}
+
+{% block templates %}
+  {% mustache id:'fetch_message_group_tpl' tpl:'mustache/message_group.mustache' %}
+{% endblock %}
