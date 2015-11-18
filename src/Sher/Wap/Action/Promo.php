@@ -30,7 +30,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 * 创造 
 	 */
 	public function coin(){
-		$this->stash['page_title_suffix'] = '[ 创 x 造 ] 京东众筹BIGGER大会';
+		$this->stash['page_title_suffix'] = '[ 创 x 造 ]';
       // 记录浏览数
       $num_mode = new Sher_Core_Model_SumRecord();
       $num_mode->add_record('12', 'view_count', 4, 4); 
