@@ -254,7 +254,6 @@
         opacity: 1;
      }
   }
-
   .p1_text2{
 	  position:absolute;
 	  left:50%;
@@ -2006,20 +2005,29 @@
 	  top:165px;
 	  left:0;
 	  width:320px;
-	  height:0px;
-	  overflow:hidden;
+	 /* height:0px;
+	  overflow:hidden;*/
   }
-  .current .click_btn{
-       animation: 4s clcih 3s both;
-       -webkit-animation: 4s clcih 3s both;
+  
+  .clic_height{
+	  position:absolute;
+	  top:125px;
+	  left:0;
+	  width:320px;
+	  height:0px;
+	  overflow:hidden
+  }
+  .current .clic_height{
+       animation: 4s clcih 3.5s both;
+       -webkit-animation: 4s clcih 3.5s both;
   }
   @keyframes clcih{
-      0%{  height: 112px;  }
-      100%{  height:180px;  }
+      0%{  height: 0px;  }
+      100%{  height:80px;  }
   }
   @-webkit-keyframes clcih{
-       0%{  height: 112px;  }
-       100%{  height:180px;  }
+       0%{  height: 0px;  }
+       100%{  height:80px;  }
   }
   .p6_c1{
 	  position:absolute;
@@ -2032,7 +2040,7 @@
   }
   .p6_t4{
 	  position:absolute;
-	  top:125px;
+	  top:0px;
 	  left:0px;
 	  width:106px;
 	  height:17px;
@@ -2041,7 +2049,7 @@
   }
   .p6_t5{
 	  position:absolute;
-	  top:125px;
+	  top:0px;
 	  right:0px;
 	  width:106px;
 	  height:17px;
@@ -2050,7 +2058,7 @@
   }
   .p6_t6{
 	  position:absolute;
-	  top:125px;
+	  top:0px;
 	  left:133px;
 	  width:54px;
 	  height:14px;
@@ -2059,7 +2067,7 @@
   }
   .p6_t7{
 	  position:absolute;
-	  top:145px;
+	  top:20px;
 	  left:28px;
 	  width:264px;
 	  height:18px;
@@ -2068,8 +2076,8 @@
   }
   .p6_t8{
 	  position:absolute;
-	  top:167px;
-	  left:79px;
+	  top:42px;
+	  left:69px;
 	  width:192px;
 	  height:12px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p6_t8.png) no-repeat;
@@ -2540,10 +2548,10 @@
     });
     
     // 微信分享统计
-    var m_name = '创造';
-    var img_url = ' ';
+    var m_name = '[ 创 x 造 ] 京东众筹BIGGER大会';
+    var img_url = '{{ app_url_packaged }}/images/promo/coin/2.pic.jpg';
     var link = '{{ app_url_wap }}/promo/coin';
-    var desc_str = ' test';
+    var desc_str = '跨界融合 · 裂变重生，一场极具高逼格的众筹新品牌运动盛宴。';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -2610,6 +2618,7 @@
 
 {% endblock %}
 {% block content %}
+<img src="{{ app_url_packaged }}/images/promo/coin/2.pic.jpg" style="display:none;">
 <div class="wrap"  style="display: none">
      <section class="screen screen1">
 		<div class="screen__bg"></div>
@@ -2844,11 +2853,13 @@
 			
 			<div class="click_btn">
 				<div class="p6_c1 page-logo"></div>
-				<div class="p6_t4"></div>
-				<div class="p6_t5"></div>
-				<div class="p6_t6"></div>
-				<div class="p6_t7"></div>
-				<div class="p6_t8"></div>
+				<div class="clic_height">
+					<div class="p6_t4"></div>
+					<div class="p6_t5"></div>
+					<div class="p6_t6"></div>
+					<div class="p6_t7"></div>
+					<div class="p6_t8"></div>
+				</div>
 			</div>
 			
 		</div>
