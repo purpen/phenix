@@ -909,7 +909,7 @@
        background: url({{ app_url_packaged }}/images/promo/coin/p2_t10.png) no-repeat;
        background-size: 226px;
   }
-  .current .p2_t9{
+  .current .p2_t9.page-logo{
 	  animation-delay:4.6s;
 	  -webkit-animation-delay:4.6s;
   }
@@ -2445,7 +2445,7 @@
 	  background-size: 31px;
   }
   
-  @-webkit-keyframes flipInY{
+  /*@-webkit-keyframes flipInY{
 	  0%{-webkit-transform:perspective(400px) rotate3d(0,1,0,90deg);transform:perspective(400px) rotate3d(0,1,0,90deg);-webkit-transition-timing-function:ease-in;transition-timing-function:ease-in;opacity:0}
 	  40%{-webkit-transform:perspective(400px) rotate3d(0,1,0,-20deg);transform:perspective(400px) rotate3d(0,1,0,-20deg);-webkit-transition-timing-function:ease-in;transition-timing-function:ease-in}
 	  60%{-webkit-transform:perspective(400px) rotate3d(0,1,0,10deg);transform:perspective(400px) rotate3d(0,1,0,10deg);opacity:1}
@@ -2479,7 +2479,7 @@
 	  .current .p3_t13,.current .p3_t013,.current .p3_t15,.current .p3_t015{
 	       animation: flipInY 1s 2.4s both;
 	       -webkit-animation: flipInY 1s 2.4s both;
-	  }
+	  }*/
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -2678,7 +2678,7 @@
 				<div class="p2_t6 fadeUp"></div>
 				<div class="p2_t7 fadeUp"></div>
 				<div class="p2_t8 fadeUp"></div>
-				<div class="p2_t9 fadeUp"></div>
+				<div class="p2_t9 pago-logo"></div>
 			</div>
 		</div>
 	</section>
