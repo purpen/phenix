@@ -1,54 +1,62 @@
 {%extends 'layout/admin.html'%}
 {% block page_css %}
   <style type="text/css">
-    .content-text img{
-      max-width: 150px;
-      max-height: 800px;
-      overflow: hidden;
-      padding: 10px 10px 0 0;
-    }
-    .content-text p{
-      margin:0;
-    }
-
-    .content-text a{
-      text-decoration:none;
-      color:#f36;
-    }
-
-    .content-text a:hover{
-      text-decoration:underline;
-      color:#f36;
-    }
-
-    .ui.reply.form .left {
-    display:inline-block;
-    }
-    .ui.reply.form .left a{
-    text-decoration: none;
-    color: #5d6266;
-    }
-    .ui.reply.form .right.aligned.column{
-    display:inline-block;
-    float:right;
-    }
-
-    .img-tab{
-      margin:5px;
-    }
-    .img-tab a{
-      margin:5px;
-      text-decoration:none;
-    }
+	.ui.white.background{
+		background:#fff;
+	}
+	.user .ui.message.eleven{
+		padding:1.5%;
+		border:0px solid rgba(0,0,0,0) !important;
+	}
+	.mes-text{
+		width:100%;
+		padding:1rem 0;
+	}
+	.mes-text a.ui.photo{
+		float: left; 
+		width: 50px; 
+		height: 60px; 
+		margin-right: 10px;
+	}
+	.mes-text a.ui.photo img{
+		height:50px;
+		width:50px;
+		border-radius: 25px;
+	}
+	.mes-text .news{
+		padding: 6px 0 0 60px; 
+		overflow: visible;
+		font-size: 17px;
+		font-weight: 700;
+	}
+	.mes-text .news .sub_header{
+		font-size: 14px;
+		font-weight: 400;
+		padding-top: 5px;
+		line-height: 20px;
+	}
+	.mes-text .news .report {
+		padding: 0 0 20px;
+		height: 20px;
+		font-size: 14px;
+		font-weight: 400;
+	}
+	.mes-text .news .report .count {
+		float:right;
+		cursor:pointer;
+		padding-right:5px;
+	}
+	.mes-text .news .report .count .ui.horizontal.list > .item {
+		font-size: 12px;
+	}
   </style>
 {% endblock %}
 
 {% block jquery %}
 	
     // 显示分组管理页面
-    $('.group_menu').click(function(){
+    $('.item.group_menu').click(function(){
         $('#group_menu.fullscreen.modal').modal('show');
-		ajax_load_list();
     });
     
     // 关闭分组管理页面  
@@ -156,7 +164,7 @@
 	});
 	
 	// 显示分组管理页面
-    $('.send_letter').click(function(){
+    $('.item.send_letter').click(function(){
         $('#send_letter.fullscreen.modal').modal('show');
 		ajax_load_list();
     });
@@ -226,6 +234,74 @@
 	  });
 	});
 	
+	// 显示私信框
+	$('.reply_message').bind('click', function(){
+		$('[name=nickname]').val($(this).attr('nickname'));
+		$('[name=to]').val($(this).attr('user_id'));
+		$('.ui.letter.modal').modal('show');
+	});
+	// 隐藏私信框
+	$('.ui.cancel').bind('click', function(){
+		$('.ui.letter.modal').modal('hide');
+		return;
+	});
+	
+	$('#message-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '评论内容不能为空'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '评论内容不超过140字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+            phenix.show_ok_note('私信已发送成功', 2000, '#message-form');
+            $('.ui.letter.modal').modal('hide');
+					}
+				}
+			});
+		}
+	});
+	
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('%-D'));
+		});
+	});
+	
+	$(".sub_switch").click(function(){
+		var text = $(this).text();
+		if(text == "展开"){
+			$(this).text("收缩");
+			$(this).parents('.news').find('.sub_header').show();
+		} else {
+			$(this).text("展开");
+			$(this).parents('.news').find('.sub_header').hide();
+			$(this).parents('.news').find('.sub_header').first().show(); 
+		}
+	});
+	
 {% endblock %}
 	
 {% block content %}
@@ -288,112 +364,58 @@
 		</div>
     </div>
 	
-	<div class="ui sub nav">
-		<form action="{{ app_url_admin_base }}/comment/search" method="get">
-			<label>搜索：</label>
-            <div class="ui selection dropdown">
-                <input type="hidden" name="t" value="{{ t }}" />
-                <div class="default text">选择条件</div>
-                <i class="dropdown icon"></i>
-                <div class="menu">
-                    <div class="item" data-value="0">全部</div>
-                    <div class="item" data-value="6">灵感</div>
-                    <div class="item" data-value="2">话题</div>
-                    <div class="item" data-value="3">试用</div>
-                    <div class="item" data-value="4">商品</div>
-                </div>
-            </div>
-
-            <div class="ui selection dropdown">
-                <input type="hidden" name="s" value="{{ s }}" />
-                <div class="default text">选择条件</div>
-                <i class="dropdown icon"></i>
-                <div class="menu">
-                    <div class="item" data-value="0">最早</div>
-                    <div class="item" data-value="1">最新</div>
-                    <div class="item" data-value="2">点赞</div>
-                </div>
-            </div>
-
-			<div class="ui icon input">
-                <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
-				<i class="search link icon"></i>
-			</div>
-		</form>
-	</div>
-	
-	<table class="ui small table segment">
-		<thead>
-			<tr>
-				<th>
-					<div class="ui checkbox">
-					  	<input name="ids" type="checkbox" />
-					  	<label></label>
+	<div class="ui alarm segment">
+	  {% message_list var:'list' page:page user_id:user._id %}
+	  
+	  {% for message in list.rows %}
+	  <div id="message_{{ message._id }}" class="mes-text" style="width:100%">
+		  <a class="ui photo">
+			  <img alt="{{ message.f_user.nickname }}" src="{{ message.f_user.big_avatar_url }}">
+		  </a>
+		  <div class="news">
+			  <div class="sub_title">
+				  与<a class="ui link" href="{{ message.f_user.home_url }}" target="_blank">{{ message.f_user.nickname }}</a>的对话
+				  <a href="javascript:void(0);" class="ui mini button green sub_switch" style="margin-left: 2em">展开</a>
+			  </div>
+			  {% for m in message.mailbox %}
+			  <div class="sub_header" {% if loop.counter == 1 %}style='display:block'{% else %}style='display:none'{% endif %}>
+				  {%if m.from==user._id%}
+					  <span>我 </span>: &nbsp;{{ m.content }}  &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}
+				  {%else%}
+					  <span> {{ message.f_user.nickname }}</span>:  &nbsp;{{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;<span class="date">{{ m.created_on|relative_datetime }}</span>
+					  <!--显示未读标识-->
+					  {% if loop.counter <= message.readed %}
+						&nbsp;<span class="ui red label">new</span>
+					  {%endif%}
+				  {%endif%}
+			  </div>
+			  {% endfor %}
+			  <div class="report">
+					<div class="count">
+						<div class="ui horizontal divided list">
+							<div class="item">
+							  {% if message.last_time %}最后回复时间: {{ message.last_time|relative_datetime }}, {%endif%}共{{ message.total_count }}条对话
+							</div>
+							<div class="item">
+								<a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" user_id="{{ message.f_user._id }}">回复</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/delete_message?id={{ message._id }}" class="ui link confirm-request">删除</a>
+							</div>
+						</div>
 					</div>
-				</th>
-				<th class="five wide">内容</th>
-				<th>点赞名单</th>
-                <th>赞数量</th>
-                <th>所属</th>
-				<th>关联ID</th>
-				<th>管理操作</th>
-			</tr>
-		</thead>
-		<tbody>
-      {% if is_search %}
-			  {% comment_list var:'list' page:page type:t target_id:q sort:s size:50 %}
-      {%else%}
-			  {% comment_list var:'list' page:page sort:1 size:50 %}
-      {%endif%}
-
-			{% for comment in list.rows %}
-			<tr id="{{ comment._id }}">
-				<td>
-					<div class="ui checkbox">
-					  	<input name="ids" type="checkbox" value="{{ comment._id }}" class="checkbox" />
-					  	<label></label>
-					</div>
-				</td>
-        <td>
-          <div class="content-text">{{ comment.content }}</div>
-        </td>
-
-        <td>
-          <a href="{{ app_url_admin_base }}/comment/get_attend_list?target_id={{ comment._id }}&t={{ comment.type }}" class="ui magenta link">点赞名单</a>
-        </td>
-
-				<td>
-					<p>
-            <span class="ui small green label">{{ comment.love_count }}</span>
-					</p>
-				</td>
-        <td>
-          {%if comment.type==1%}用户{%endif%}
-          {%if comment.type==2%}话题{%endif%}
-          {%if comment.type==3%}试用{%endif%}
-          {%if comment.type==4%}产品{%endif%}
-          {%if comment.type==6%}灵感{%endif%}
-        </td>
-        <td>{{ comment.target_id }}</td>
-				<td>
-					<p>
-						<a href="{{ app_url_admin }}/comment/submit?id={{ comment._id }}" class="ui link item">编辑</a>
-		          		<a href="{{ app_url_admin }}/comment/deleted?id={{ comment._id }}" class="ui confirm-request link item">
-						    删除
-					    </a>
-					</P>
-				</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	
-	{% if list.rows %}
-	<div class="ui pagination">
-		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-		{%include 'block/pager.html'%}
-	</div>
-	{% endif %}
+			  </div>
+		  </div>
+	  </div>
+	  {% endfor %}
+			  
+	  {% if list.rows %}
+	  <div class="ui pagination">
+	  {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+	  {%include 'block/pager.html'%}
+	  </div>
+	  {% endif %}
+  </div>
 {% endblock %}
 
 {% block templates %}

@@ -13,7 +13,7 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
     
     public function render($context, $stream) {
         $page = 1;
-        $size = 20;
+        $size = 10;
         $user_id = 0;
 		
         $var = 'list';
