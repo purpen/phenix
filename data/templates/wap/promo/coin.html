@@ -2016,11 +2016,11 @@
        -webkit-animation: 4s clcih 3s both;
   }
   @keyframes clcih{
-      0%{  height: 0px;  }
+      0%{  height: 112px;  }
       100%{  height:180px;  }
   }
   @-webkit-keyframes clcih{
-       0%{  height: 0px;  }
+       0%{  height: 112px;  }
        100%{  height:180px;  }
   }
   .p6_c1{
@@ -2445,7 +2445,7 @@
 	  background-size: 31px;
   }
   
-  /*@-webkit-keyframes flipInY{
+  @-webkit-keyframes flipInY{
 	  0%{-webkit-transform:perspective(400px) rotate3d(0,1,0,90deg);transform:perspective(400px) rotate3d(0,1,0,90deg);-webkit-transition-timing-function:ease-in;transition-timing-function:ease-in;opacity:0}
 	  40%{-webkit-transform:perspective(400px) rotate3d(0,1,0,-20deg);transform:perspective(400px) rotate3d(0,1,0,-20deg);-webkit-transition-timing-function:ease-in;transition-timing-function:ease-in}
 	  60%{-webkit-transform:perspective(400px) rotate3d(0,1,0,10deg);transform:perspective(400px) rotate3d(0,1,0,10deg);opacity:1}
@@ -2479,7 +2479,12 @@
 	  .current .p3_t13,.current .p3_t013,.current .p3_t15,.current .p3_t015{
 	       animation: flipInY 1s 2.4s both;
 	       -webkit-animation: flipInY 1s 2.4s both;
-	  }*/
+	  }
+	  
+	  .current .p6_c1.page-logo{
+		  animation-delay:3s;
+		  -webkit-animation-delay:3s;
+	  }
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -2841,7 +2846,7 @@
 			<div class="p6_t3 page-logo"></div>
 			
 			<div class="click_btn">
-				<div class="p6_c1"></div>
+				<div class="p6_c1 page-logo"></div>
 				<div class="p6_t4"></div>
 				<div class="p6_t5"></div>
 				<div class="p6_t6"></div>
