@@ -2008,17 +2008,26 @@
 	 /* height:0px;
 	  overflow:hidden;*/
   }
-  .current .click_btn{
-       animation: 4s clcih 3s both;
-       -webkit-animation: 4s clcih 3s both;
+  
+  .clic_height{
+	  position:absolute;
+	  top:125px;
+	  left:0;
+	  width:320px;
+	  height:0px;
+	  overflow:hidden
+  }
+  .current .clic_height{
+       animation: 4s clcih 3.5s both;
+       -webkit-animation: 4s clcih 3.5s both;
   }
   @keyframes clcih{
-      0%{  height: 112px;  }
-      100%{  height:180px;  }
+      0%{  height: 0px;  }
+      100%{  height:80px;  }
   }
   @-webkit-keyframes clcih{
-       0%{  height: 112px;  }
-       100%{  height:180px;  }
+       0%{  height: 0px;  }
+       100%{  height:80px;  }
   }
   .p6_c1{
 	  position:absolute;
@@ -2026,12 +2035,12 @@
 	  left:123px;
 	  width:74px;
 	  height:112px;
-	  /*background:url({{ app_url_packaged }}/images/promo/coin/p6_1.png) no-repeat;
-	  background-size:74px;*/
+	  background:url({{ app_url_packaged }}/images/promo/coin/p6_1.png) no-repeat;
+	  background-size:74px;
   }
   .p6_t4{
 	  position:absolute;
-	  top:125px;
+	  top:0px;
 	  left:0px;
 	  width:106px;
 	  height:17px;
@@ -2040,7 +2049,7 @@
   }
   .p6_t5{
 	  position:absolute;
-	  top:125px;
+	  top:0px;
 	  right:0px;
 	  width:106px;
 	  height:17px;
@@ -2049,7 +2058,7 @@
   }
   .p6_t6{
 	  position:absolute;
-	  top:125px;
+	  top:0px;
 	  left:133px;
 	  width:54px;
 	  height:14px;
@@ -2058,7 +2067,7 @@
   }
   .p6_t7{
 	  position:absolute;
-	  top:145px;
+	  top:20px;
 	  left:28px;
 	  width:264px;
 	  height:18px;
@@ -2067,7 +2076,7 @@
   }
   .p6_t8{
 	  position:absolute;
-	  top:167px;
+	  top:42px;
 	  left:69px;
 	  width:192px;
 	  height:12px;
@@ -2477,7 +2486,7 @@
 	       animation: flipInY 1s 2.4s both;
 	       -webkit-animation: fade 1s 2.4s both;
 	  }
-	  .current .p6_c1 img.page-logo{
+	  .current .p6_c1.page-logo{
 		  animation-delay:3s;
 		  -webkit-animation-delay:3s;
 	  }
@@ -2842,12 +2851,14 @@
 			<div class="p6_t3 page-logo"></div>
 			
 			<div class="click_btn">
-				<div class="p6_c1"> <img class="page-logo" src="{{ app_url_packaged }}/images/promo/coin/p6_1.png"></div>
-				<div class="p6_t4"></div>
-				<div class="p6_t5"></div>
-				<div class="p6_t6"></div>
-				<div class="p6_t7"></div>
-				<div class="p6_t8"></div>
+				<div class="p6_c1 page-logo"></div>
+				<div class="clic_height">
+					<div class="p6_t4"></div>
+					<div class="p6_t5"></div>
+					<div class="p6_t6"></div>
+					<div class="p6_t7"></div>
+					<div class="p6_t8"></div>
+				</div>
 			</div>
 			
 		</div>
