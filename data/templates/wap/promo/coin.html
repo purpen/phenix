@@ -2800,6 +2800,52 @@
 	  animation: 10s scal linear infinite alternate;
 	  -webkit-animation: 10s scal linear infinite alternate;
   }
+  
+  @-webkit-keyframes flipInY{
+	  0%{-webkit-transform:perspective(400px) rotate3d(0,1,0,90deg);transform:perspective(400px) rotate3d(0,1,0,90deg);-webkit-transition-timing-function:ease-in;transition-timing-function:ease-in;opacity:0}
+	  40%{-webkit-transform:perspective(400px) rotate3d(0,1,0,-20deg);transform:perspective(400px) rotate3d(0,1,0,-20deg);-webkit-transition-timing-function:ease-in;transition-timing-function:ease-in}
+	  60%{-webkit-transform:perspective(400px) rotate3d(0,1,0,10deg);transform:perspective(400px) rotate3d(0,1,0,10deg);opacity:1}
+	  80%{-webkit-transform:perspective(400px) rotate3d(0,1,0,-5deg);transform:perspective(400px) rotate3d(0,1,0,-5deg)}
+	  100%{-webkit-transform:perspective(400px);transform:perspective(400px)}
+  }
+  @keyframes flipInY{
+	  0%{-webkit-transform:perspective(400px) rotate3d(0,1,0,90deg);-ms-transform:perspective(400px) rotate3d(0,1,0,90deg);transform:perspective(400px) rotate3d(0,1,0,90deg);-webkit-transition-timing-function:ease-in;transition-timing-function:ease-in;opacity:0}
+	  40%{-webkit-transform:perspective(400px) rotate3d(0,1,0,-20deg);-ms-transform:perspective(400px) rotate3d(0,1,0,-20deg);transform:perspective(400px) rotate3d(0,1,0,-20deg);-webkit-transition-timing-function:ease-in;transition-timing-function:ease-in}
+	  60%{-webkit-transform:perspective(400px) rotate3d(0,1,0,10deg);-ms-transform:perspective(400px) rotate3d(0,1,0,10deg);transform:perspective(400px) rotate3d(0,1,0,10deg);opacity:1}
+	  80%{-webkit-transform:perspective(400px) rotate3d(0,1,0,-5deg);-ms-transform:perspective(400px) rotate3d(0,1,0,-5deg);transform:perspective(400px) rotate3d(0,1,0,-5deg)}
+	  100%{-webkit-transform:perspective(400px);-ms-transform:perspective(400px);transform:perspective(400px)}
+	  }
+	  .flipInY{
+		  -webkit-backface-visibility:visible!important;
+		  -ms-backface-visibility:visible!important;
+		  backface-visibility:visible!important;
+	      -webkit-animation-fill-mode: both;
+	      animation-fill-mode: both;
+	  	-webkit-animation-name:flipInY;
+	  	animation-name:flipInY;
+      	-webkit-animation-duration: 1s;
+      	animation-duration: 1s;
+	  }
+	  .current .p3_r1.flipInY{
+    	  	animation-delay:1.2s;
+    	  	-webkit-animation-delay:1.2s;
+	  }
+	  .current .p3_r2.flipInY,.current .p3_r4.flipInY,.current .p3_r6.flipInY{
+    	  	animation-delay:1.6s;
+    	  	-webkit-animation-delay:1.6s;
+	  }
+	  .current .p3_r3.flipInY,.current .p3_r5.flipInY,.current .p3_r7.flipInY,.current .p3_r9.flipInY,.current .p3_r11.flipInY{
+    	  	animation-delay:2s;
+    	  	-webkit-animation-delay:2s;
+	  }
+	  .current .p3_r8.flipInY,.current .p3_r10.flipInY,.current .p3_r12.flipInY,.current .p3_r14.flipInY{
+      	  	animation-delay:2.4s;
+      	  	-webkit-animation-delay:2.4s;
+	  }
+	  .current .p3_r13.flipInY,.current .p3_r15.flipInY{
+   	  	animation-delay:2.8s;
+   	  	-webkit-animation-delay:2.8s;
+	  }
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -3008,51 +3054,67 @@
 		<div class="screen__inner">
 			<div class="mt-10 show">
 				
+				<div class="p3_r1 flipInY">
 				<div class="p3_t1"></div>
 				<div class="p3_t01"></div>
+				</div>
 				
-				<div class="p3_t2"></div>
-				<div class="p3_t02"></div>
-				
+				<div class="p3_r2 flipInY">
+				<div class="p3_t2 "></div>
+				<div class="p3_t02 "></div>
+				</div>
+				<div class="p3_r3 flipInY">
 				<div class="p3_t3"></div>
 				<div class="p3_t03"></div>
-				
+				</div>
+				<div class="p3_r4 flipInY">
 				<div class="p3_t4"></div>
 				<div class="p3_t04"></div>
-				
+				</div>
+				<div class="p3_r5 flipInY">
 				<div class="p3_t5"></div>
 				<div class="p3_t05"></div>
-				
+				</div>
+				<div class="p3_r6 flipInY">
 				<div class="p3_t6"></div>
 				<div class="p3_t06"></div>
-				
+				</div>
+				<div class="p3_r7 flipInY">
 				<div class="p3_t7"></div>
 				<div class="p3_t07"></div>
-				
+				</div>
+				<div class="p3_r8 flipInY">
 				<div class="p3_t8"></div>
 				<div class="p3_t08"></div>
-				
+				</div>
+				<div class="p3_r9 flipInY">
 				<div class="p3_t9"></div>
 				<div class="p3_t09"></div>
-				
+				</div>
+				<div class="p3_r10 flipInY">
 				<div class="p3_t10"></div>
 				<div class="p3_t010"></div>
-				
+				</div>
+				<div class="p3_r11 flipInY">
 				<div class="p3_t11"></div>
 				<div class="p3_t011"></div>
-				
+				</div>
+				<div class="p3_r12 flipInY">
 				<div class="p3_t12"></div>
 				<div class="p3_t012"></div>
-				
+				</div>
+				<div class="p3_r13 flipInY">
 				<div class="p3_t13"></div>
 				<div class="p3_t013"></div>
-				
+				</div>
+				<div class="p3_r14 flipInY">
 				<div class="p3_t14"></div>
 				<div class="p3_t014"></div>
-				
+				</div>
+				<div class="p3_r15 flipInY">
 				<div class="p3_t15"></div>
 				<div class="p3_t015"></div>
-				
+				</div>
 					
 			</div>
 			
