@@ -22,7 +22,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 * 创造提交 
 	 */
 	public function coin_submit(){
-		
+		$this->stash['page_title_suffix'] = '[ 创 x 造 ]';
 		return $this->to_html_page('wap/promo/coin_submit.html');
 	}
 	
