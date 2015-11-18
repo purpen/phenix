@@ -2446,7 +2446,7 @@
 	  background-size: 31px;
   }
   
-  /*@-webkit-keyframes flipInY{
+  @-webkit-keyframes flipInY{
 	  0%{-webkit-transform:perspective(400px) rotate3d(0,1,0,90deg);transform:perspective(400px) rotate3d(0,1,0,90deg);-webkit-transition-timing-function:ease-in;transition-timing-function:ease-in;opacity:0}
 	  40%{-webkit-transform:perspective(400px) rotate3d(0,1,0,-20deg);transform:perspective(400px) rotate3d(0,1,0,-20deg);-webkit-transition-timing-function:ease-in;transition-timing-function:ease-in}
 	  60%{-webkit-transform:perspective(400px) rotate3d(0,1,0,10deg);transform:perspective(400px) rotate3d(0,1,0,10deg);opacity:1}
@@ -2463,24 +2463,24 @@
 	  
 	  .current .p3_t1,.current .p3_t01{
 	       animation: flipInY 1s 0.8s both;
-	       -webkit-animation: flipInY 1s 0.8s both;
+	       -webkit-animation: fadeUp 1s 0.8s both;
 	  }
 	  .current .p3_t2,.current .p3_t02,.current .p3_t4,.current .p3_t04,.current .p3_t6,.current .p3_t06{
 	       animation: flipInY 1s 1.2s both;
-	       -webkit-animation: flipInY 1s 1.2s both;
+	       -webkit-animation: fadeUp 1s 1.2s both;
 	  }
 	  .current .p3_t3,.current .p3_t03,.current .p3_t5,.current .p3_t05,.current .p3_t7,.current .p3_t07,.current .p3_t9,.current .p3_t09,.current .p3_t11,.current .p3_t011{
 	       animation: flipInY 1s 1.6s both;
-	       -webkit-animation: flipInY 1s 1.6s both;
+	       -webkit-animation: fadeUp 1s 1.6s both;
 	  }
 	  .current .p3_t8,.current .p3_t08,.current .p3_t10,.current .p3_t010,.current .p3_t12,.current .p3_t012,.current .p3_t14,.current .p3_t014{
 	       animation: flipInY 1s 2s both;
-	       -webkit-animation: flipInY 1s 2s both;
+	       -webkit-animation: fadeUp 1s 2s both;
 	  }
 	  .current .p3_t13,.current .p3_t013,.current .p3_t15,.current .p3_t015{
 	       animation: flipInY 1s 2.4s both;
-	       -webkit-animation: flipInY 1s 2.4s both;
-	  }*/
+	       -webkit-animation: fadeUp 1s 2.4s both;
+	  }
 	  
 	  .current .p6_c1.page-logo{
 		  animation-delay:3s;
@@ -2500,7 +2500,7 @@
     webpsupport(function (webpa) {
     var loader = new WxMoment.Loader(),
      fileList =[
-		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png','p1_11.png','P1_15.png','P1_16.png','p1_17.png','p1_18.png','p1_19.png','p1_20.png','P1_13.png','P1_14.png','p1_06.png','p1_07.png','p1_08.png','p1_09.png','logo.png','p2-2.png','p2_1.png','p2_3.png','p2_4.png','p2_5.png','p2_6.png','p2_7.png','p2_8.png','p2_9.png','p2_10.png','p2_11.png','p2_12.png','p2_13.png','p2_14.png','p2_t1.png','p2_t2.png','p2_t3.png','p2_t4.png','p2_t5.png','p2_t6.png','p2_t7.png','p2_t8.png','p2_t9.png','p2_t10.png','p3_c1.png','p3_l1.png','p3_l2.png','ghs.png','ghs1.png','csq.png','csq1.png','hh.png','hh1.png','nww.png','nww1.png','lhb.png','lhb1.png','xy.png','xy1.png','jw.png','jw1.png','sc.png','sc1.png','dsy.png','dsy1.png','lb.png','lb1.png','zdy.png','zdy1.png','mbb.png','mbb1.png','zxd.png','zxd1.png','p3_c2.png','p3_z1.png','p3_z2.png','p3_z3.png','p3_z4.png','p4_1.png','p4_2.png','p4_3.png','p4_4.png','p4_5.png','p4_01.png','p4_02.png','p4_03.png','p4_04.png','p4_05.png','p4_06.png','p4_07.png','p4_08.png','p4_09.png','p4_10.png','p4_11.png','p4_12.png','p4_13.png','p4_14.png','p5_1.png','p5_2.png','p5_3.png','p5_4.png','p5_5.png','p5_6.png','p5_l01.png','p5_l02.png','p5_t1.png','p5_t2.png','p5_t3.png','p5_l1.png','p5_l2.png','p5_l3.png','p5_l4.png','p5_l5.png','p5_l6.png','p5_l7.png','p5_l8.png','p5_l9.png','p6_bg.png','p6_1.png','p6_l1.png','p6_l2.png','p6_logo.png','p6_t1.png','p6_t2.png','p6_t3.png','p6_t4.png','p6_t5.png','p6_t6.png','p6_t7.png','p6_t8.png'
+		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png','p1_11.png','P1_15.png','P1_16.png','p1_17.png','p1_18.png','p1_19.png','p1_20.png','P1_13.png','P1_14.png','p1_06.png','p1_07.png','p1_08.png','p1_09.png','logo.png','p2-2.png','p2_1.png','p2_3.png','p2_4.png','p2_5.png','p2_6.png','p2_7.png','p2_8.png','p2_9.png','p2_10.png','p2_11.png','p2_12.png','p2_13.png','p2_14.png','p2_t1.png','p2_t2.png','p2_t3.png','p2_t4.png','p2_t5.png','p2_t6.png','p2_t7.png','p2_t8.png','p2_t9.png','p2_t10.png','p3_c1.png','p3_l1.png','p3_l2.png','n1.png','n1a.png','n2.png','n2a.png','n3.png','n3a.png','n4.png','n4a.png','n5.png','n5a.png','n6.png','n6a.png','n15.png','n15a.png','n8.png','n8a.png','n9.png','n9a.png','n10.png','n10a.png','n11.png','n11a.png','n12.png','n12a.png','n13.png','n13a.png','n14.png','n14a.png','n16.png','n16a.png','p3_c2.png','p3_z1.png','p3_z2.png','p3_z3.png','p3_z4.png','p4_1.png','p4_2.png','p4_3.png','p4_4.png','p4_5.png','p4_01.png','p4_02.png','p4_03.png','p4_04.png','p4_05.png','p4_06.png','p4_07.png','p4_08.png','p4_09.png','p4_10.png','p4_11.png','p4_12.png','p4_13.png','p4_14.png','p5_1.png','p5_2.png','p5_3.png','p5_4.png','p5_5.png','p5_6.png','p5_l01.png','p5_l02.png','p5_t1.png','p5_t2.png','p5_t3.png','p5_00l1.png','p5_00l2.png','p5_00l3.png','p5_00l4.png','p5_00l5.png','p5_00l6.png','p5_00l7.png','p5_00l8.png','p5_00l9.png','p6_bg.png','p6_1.png','p6_l1.png','p6_l2.png','p6_logo.png','p6_t1.png','p6_t2.png','p6_t3.png','p6_t4.png','p6_t5.png','p6_t6.png','p6_t7.png','p6_t8.png'
 	];
      
      for (var i = 0; i < fileList.length; i++) {
