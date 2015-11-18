@@ -254,7 +254,6 @@
         opacity: 1;
      }
   }
-
   .p1_text2{
 	  position:absolute;
 	  left:50%;
@@ -2006,8 +2005,8 @@
 	  top:165px;
 	  left:0;
 	  width:320px;
-	  height:0px;
-	  overflow:hidden;
+	 /* height:0px;
+	  overflow:hidden;*/
   }
   .current .click_btn{
        animation: 4s clcih 3s both;
@@ -2027,8 +2026,8 @@
 	  left:123px;
 	  width:74px;
 	  height:112px;
-	  background:url({{ app_url_packaged }}/images/promo/coin/p6_1.png) no-repeat;
-	  background-size:74px;
+	  /*background:url({{ app_url_packaged }}/images/promo/coin/p6_1.png) no-repeat;
+	  background-size:74px;*/
   }
   .p6_t4{
 	  position:absolute;
@@ -2069,7 +2068,7 @@
   .p6_t8{
 	  position:absolute;
 	  top:167px;
-	  left:79px;
+	  left:69px;
 	  width:192px;
 	  height:12px;
 	  background:url({{ app_url_packaged }}/images/promo/coin/p6_t8.png) no-repeat;
@@ -2478,7 +2477,7 @@
 	       animation: flipInY 1s 2.4s both;
 	       -webkit-animation: fade 1s 2.4s both;
 	  }
-	  .current .p6_c1.page-logo{
+	  .current .p6_c1 img.page-logo{
 		  animation-delay:3s;
 		  -webkit-animation-delay:3s;
 	  }
@@ -2540,10 +2539,10 @@
     });
     
     // 微信分享统计
-    var m_name = '创造';
-    var img_url = ' ';
+    var m_name = '[ 创 x 造 ] 京东众筹BIGGER大会';
+    var img_url = '{{ app_url_packaged }}/images/promo/2.pic.jpg';
     var link = '{{ app_url_wap }}/promo/coin';
-    var desc_str = ' test';
+    var desc_str = '跨界融合 · 裂变重生，一场极具高逼格的众筹新品牌运动盛宴。';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -2843,7 +2842,7 @@
 			<div class="p6_t3 page-logo"></div>
 			
 			<div class="click_btn">
-				<div class="p6_c1 page-logo"></div>
+				<div class="p6_c1"> <img class="page-logo" src="{{ app_url_packaged }}/images/promo/coin/p6_1.png"></div>
 				<div class="p6_t4"></div>
 				<div class="p6_t5"></div>
 				<div class="p6_t6"></div>
