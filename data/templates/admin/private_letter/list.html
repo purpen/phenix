@@ -365,7 +365,7 @@
     </div>
 	
 	<div class="ui alarm segment">
-	  {% message_list var:'list' page:page user_id:user._id %}
+	  {% message_list var:'list' page:page user_id:user_id %}
 	  
 	  {% for message in list.rows %}
 	  <div id="message_{{ message._id }}" class="mes-text" style="width:100%">
@@ -411,7 +411,7 @@
 			  
 	  {% if list.rows %}
 	  <div class="ui pagination">
-	  {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+	  {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:10 %}
 	  {%include 'block/pager.html'%}
 	  </div>
 	  {% endif %}

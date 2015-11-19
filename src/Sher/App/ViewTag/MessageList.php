@@ -13,7 +13,7 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
     
     public function render($context, $stream) {
         $page = 1;
-        $size = 10;
+        $size = 20;
         $user_id = 0;
 		
         $var = 'list';
@@ -38,6 +38,7 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
 		
         $service = Sher_Core_Service_System::instance();
         $result = $service->get_message_list($query,$options);
+		
 		if(!empty($result['rows'])){
 			
 			$message = new Sher_Core_Model_Message();

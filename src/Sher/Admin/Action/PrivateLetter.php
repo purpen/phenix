@@ -27,10 +27,13 @@ class Sher_Admin_Action_PrivateLetter extends Sher_Admin_Action_Base implements 
 	public function get_list() {
 
 		$page = (int)$this->stash['page'];
+		$this->stash['user_id'] = $this->visitor->id;
 		
-		//$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/user_stat?month=%d&week=%d&day=%d&user_id=%d&s=%d&user_kind=%d&page=#p#', $this->stash['month'], $this->stash['week'], $this->stash['day'], $this->stash['user_id'], $this->stash['s'], $this->stash['user_kind']);
-		
-		//$this->stash['pager_url'] = $pager_url;
+		//清空私信提醒数量
+		if($this->visitor->counter['message_count']>0){
+		  $this->visitor->update_counter($this->visitor->id, 'message_count');   
+		}
+		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.admin'].'/private_letter/get_list?page=#p#';
 		
 		return $this->to_html_page('admin/private_letter/list.html');
 	}
