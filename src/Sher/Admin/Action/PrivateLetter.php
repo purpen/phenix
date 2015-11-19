@@ -26,6 +26,12 @@ class Sher_Admin_Action_PrivateLetter extends Sher_Admin_Action_Base implements 
 	 */
 	public function get_list() {
 
+    if(isset($this->stash['reply_id'])){
+      $this->set_target_css_state('no_reply');
+    }else{
+      $this->set_target_css_state('all');
+    }
+
 		$page = (int)$this->stash['page'];
 		$this->stash['user_id'] = $this->visitor->id;
 		
