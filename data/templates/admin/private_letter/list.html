@@ -57,6 +57,7 @@
     // 显示分组管理页面
     $('.item.group_menu').click(function(){
         $('#group_menu.fullscreen.modal').modal('show');
+		ajax_load_list();
     });
     
     // 关闭分组管理页面  
@@ -275,8 +276,8 @@
 						$(event.target).addClass('error');
 						phenix.show_error_note(data.message, event.target);
 					}else{
-            phenix.show_ok_note('私信已发送成功', 2000, '#message-form');
-            $('.ui.letter.modal').modal('hide');
+						phenix.show_ok_note('私信已发送成功', 2000, '#message-form');
+						$('.ui.letter.modal').modal('hide');
 					}
 				}
 			});
@@ -308,7 +309,7 @@
 	<h3 class="ui header">私信管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/comment" class="active item">
+		<a href="{{ app_url_admin_base }}/private_letter" class="active item">
 			全部
 		</a>
 
@@ -365,7 +366,8 @@
     </div>
 	
 	<div class="ui alarm segment">
-	  {% message_list var:'list' page:page user_id:user_id %}
+	  
+	  {% message_list var:'list' page:page type:2 user_id:user_id %}
 	  
 	  {% for message in list.rows %}
 	  <div id="message_{{ message._id }}" class="mes-text" style="width:100%">
@@ -376,10 +378,15 @@
 			  <div class="sub_title">
 				  与<a class="ui link" href="{{ message.f_user.home_url }}" target="_blank">{{ message.f_user.nickname }}</a>的对话
 				  <a href="javascript:void(0);" class="ui mini button green sub_switch" style="margin-left: 2em">展开</a>
+				  {%if message.reply_id == user_id %}
+					<span class="ui mini green button">已回复</span>
+				  {%else%}
+					<span class="ui mini red button">未回复</span>
+				  {%endif%}
 			  </div>
 			  {% for m in message.mailbox %}
 			  <div class="sub_header" {% if loop.counter == 1 %}style='display:block'{% else %}style='display:none'{% endif %}>
-				  {%if m.from==user._id%}
+				  {%if m.from==user_id%}
 					  <span>我 </span>: &nbsp;{{ m.content }}  &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}
 				  {%else%}
 					  <span> {{ message.f_user.nickname }}</span>:  &nbsp;{{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;<span class="date">{{ m.created_on|relative_datetime }}</span>
@@ -416,6 +423,7 @@
 	  </div>
 	  {% endif %}
   </div>
+	{% include "block/message.html" %}
 {% endblock %}
 
 {% block templates %}

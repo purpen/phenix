@@ -7,7 +7,7 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 	
 	# 所属分类
 	const TYPE_USER = 1; // 普通用户
-	const TYPE_ADMIN = 2; // 普通用户
+	const TYPE_ADMIN = 2; // 系统管理员用户
 	
     protected $collection = "message";
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_CUSTOM;
@@ -15,11 +15,11 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
     protected $schema = array(
 		'_id'  => null, #标识对话的key id <small_big>
 		'users' => array(), #会话对象<from_user,to_user>
-		's_readed' => 0,
-		'b_readed' => 0,
+		's_readed' => 0, // small
+		'b_readed' => 0, // big
 		'mailbox' => array(),
-		'group_id' => '',
 		'type' => self::TYPE_USER,
+		'reply_id' => 0, // 回复者的id
 		'last_time' => 0, # 最后一次回复时间
     );
 	
@@ -57,7 +57,7 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
      * @param $to_user
      * @return int
      */
-    public function send_site_message($content,$from_user,$to_user,$group_id,$type = 1){
+    public function send_site_message($content,$from_user,$to_user,$group_id = '',$type = 1){
 		
 		$_id = Sher_Core_Helper_Util::gen_secrect_key($from_user,$to_user);
 		
@@ -67,10 +67,16 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 			'to'   => (int)$to_user,
 			'content' => $content,
 			'is_read' => 0,
-			'is_reply' => 0,
+			'group_id' => '',
 			'created_on' => time(),
 		);
 		$some_data = array();
+		$some_data['last_time'] = time();
+		
+		if(isset($group_id) && !empty($group_id)){
+			$item['group_id'] = $group_id;
+			$some_data['type'] = $type;
+		}
 		
 		$row = $this->find_by_id((string)$_id);
 		if(empty($row)){
@@ -84,12 +90,6 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 			$some_data['users'] = array((int)$from_user,(int)$to_user);
 			$some_data['mailbox'] = array($item);
 			$some_data['created_on'] = time();
-			$some_data['last_time'] = time();
-			
-			if(isset($group_id) && !empty($group_id)){
-				$some_data['group_id'] = $group_id;
-				$some_data['type'] = $type;
-			}
 			
 			$this->create($some_data);
 		}else{
@@ -99,7 +99,7 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 				$some_data['s_readed'] = $row['s_readed'] + 1;
 			}
 			$some_data['updated_on'] = time();
-			$some_data['last_time'] = time();
+			$some_data['reply_id'] = $from_user;
 			$updated['$set'] = $some_data;
 			$updated['$push']['mailbox'] = $item;
 			
@@ -121,6 +121,16 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
      * @return void
      */
     public function mark_message_readed($id,$field){
+		$crt['_id'] = (string)$id;
+    	$this->update_set($crt,array($field=>0));
+    }
+	
+	/**
+     * 设置某人回复了站内私信
+     * 
+     * @return void
+     */
+    public function mark_message_reply($id,$field){
 		$crt['_id'] = (string)$id;
     	$this->update_set($crt,array($field=>0));
     }

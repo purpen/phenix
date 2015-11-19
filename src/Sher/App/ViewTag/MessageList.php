@@ -12,9 +12,9 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
     }
     
     public function render($context, $stream) {
-        $page = 1;
-        $size = 20;
-        $user_id = 0;
+        $page = 1; 
+        $size = 10;
+		$user_id = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -28,8 +28,12 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
         
         $query = array();
         
-        if($user_id){
+        if(isset($user_id) && $user_id){
 			$query['users'] = (int)$user_id;
+		}
+		
+		if(isset($type) && $type){
+			$query['type'] = $type;
 		}
 		
 		$options['sort'] = array('last_time'=>-1);
@@ -55,17 +59,18 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
 					$message->mark_message_readed($result['rows'][$i]['_id'], 'b_readed');
 				}
 
-        if($result['rows'][$i]['users'][0]==$user_id){
- 				  $result['rows'][$i]['f_user'] = $result['rows'][$i]['to_user'];       
-        }else{
-  				$result['rows'][$i]['f_user'] = $result['rows'][$i]['from_user'];       
-        }
+				if($result['rows'][$i]['users'][0]==$user_id){
+						  $result['rows'][$i]['f_user'] = $result['rows'][$i]['to_user'];       
+				}else{
+						$result['rows'][$i]['f_user'] = $result['rows'][$i]['from_user'];       
+				}
 				
 				//$result['rows'][$i]['latest'] = array_pop($result['rows'][$i]['mailbox']);
 			}
 			
 			unset($message);
 		}
+		
         $context->set($var,$result);
         if ($include_pager) {
             $context->set($pager_var,$result['pager']);
