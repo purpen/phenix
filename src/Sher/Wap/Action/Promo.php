@@ -32,7 +32,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function coin(){
 		$this->stash['page_title_suffix'] = '[ 创 x 造 ]';
       // 记录浏览数
-      $num_mode = new Sher_Core_Model_SumRecord();
+    /*  $num_mode = new Sher_Core_Model_SumRecord();
       $num_mode->add_record('12', 'view_count', 4, 4); 
 
 			//微信分享
@@ -42,7 +42,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
 	    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
 	    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
-	    $this->stash['wxSha1'] = sha1($wxOri);
+	    $this->stash['wxSha1'] = sha1($wxOri);*/
 		
 		return $this->to_html_page('wap/promo/coin.html');
 	}
