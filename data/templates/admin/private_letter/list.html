@@ -239,6 +239,7 @@
 	$('.reply_message').bind('click', function(){
 		$('[name=nickname]').val($(this).attr('nickname'));
 		$('[name=to]').val($(this).attr('user_id'));
+		$('[name=message_id]').val($(this).attr('name'));
 		$('.ui.letter.modal').modal('show');
 	});
 	// 隐藏私信框
@@ -247,41 +248,50 @@
 		return;
 	});
 	
-	$('#message-form').form({
-		content: {
-			identifier  : 'content',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '评论内容不能为空'
-				},
-				{
-					type   : 'maxLength[140]',
-					prompt : '评论内容不超过140字符'
-				}
-			]
-		}
-	}, {
-		inline : true,
-		onSuccess: function(event){
-			event.preventDefault();
-			$(this).ajaxSubmit({
-				dataType: 'json',
-				beforeSubmit: function(){
-					phenix.before_submit();
-				},
-				success: function(data){
-					phenix.after_submit();
-					if(data.is_error){
-						$(event.target).addClass('error');
-						phenix.show_error_note(data.message, event.target);
-					}else{
-						phenix.show_ok_note('私信已发送成功', 2000, '#message-form');
-						$('.ui.letter.modal').modal('hide');
-					}
-				}
-			});
-		}
+	// 表单验证
+	var message_id = '';
+	$('#message-form').livequery(function(){
+	  $(this).on('click',function(){
+		message_id = $('[name=message_id]').val();
+	  }).form({
+		  content: {
+			  identifier  : 'content',
+			  rules: [
+				  {
+					  type   : 'empty',
+					  prompt : '评论内容不能为空'
+				  },
+				  {
+					  type   : 'maxLength[140]',
+					  prompt : '评论内容不超过140字符'
+				  }
+			  ]
+		  }
+	  }, {
+		  inline : true,
+		  onSuccess: function(event){
+			  event.preventDefault();
+			  $(this).ajaxSubmit({
+				  dataType: 'json',
+				  beforeSubmit: function(){
+					  phenix.before_submit();
+				  },
+				  success: function(data){
+					  phenix.after_submit();
+					  if(data.is_error){
+						  $(event.target).addClass('error');
+						  phenix.show_error_note(data.message, event.target);
+					  }else{
+						  $('.is_reply'+message_id).addClass("green");
+						  $('.is_reply'+message_id).removeClass("red");
+						  $('.is_reply'+message_id).text("已回复");
+						  phenix.show_ok_note('私信已发送成功', 2000, '#message-form');
+						  $('.ui.letter.modal').modal('hide');
+					  }
+				  }
+			  });
+		  }
+	  });
 	});
 	
 	$('[data-countdown]').each(function() {
@@ -379,9 +389,9 @@
 				  与<a class="ui link" href="{{ message.f_user.home_url }}" target="_blank">{{ message.f_user.nickname }}</a>的对话
 				  <a href="javascript:void(0);" class="ui mini button green sub_switch" style="margin-left: 2em">展开</a>
 				  {%if message.reply_id == user_id %}
-					<span class="ui mini green button">已回复</span>
+					<span class="ui mini green button is_reply{{ message._id }}">已回复</span>
 				  {%else%}
-					<span class="ui mini red button">未回复</span>
+					<span class="ui mini red button is_reply{{ message._id }}">未回复</span>
 				  {%endif%}
 			  </div>
 			  {% for m in message.mailbox %}
@@ -404,7 +414,7 @@
 							  {% if message.last_time %}最后回复时间: {{ message.last_time|relative_datetime }}, {%endif%}共{{ message.total_count }}条对话
 							</div>
 							<div class="item">
-								<a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" user_id="{{ message.f_user._id }}">回复</a>
+								<a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" name="{{ message._id }}" user_id="{{ message.f_user._id }}">回复</a>
 							</div>
 							<div class="item">
 								<a href="{{ app_url_my }}/delete_message?id={{ message._id }}" class="ui link confirm-request">删除</a>
