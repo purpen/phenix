@@ -71,6 +71,7 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 			'created_on' => time(),
 		);
 		$some_data = array();
+		$some_data['reply_id'] = $from_user;
 		$some_data['last_time'] = time();
 		
 		if(isset($group_id) && !empty($group_id)){
@@ -99,7 +100,6 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 				$some_data['s_readed'] = $row['s_readed'] + 1;
 			}
 			$some_data['updated_on'] = time();
-			$some_data['reply_id'] = $from_user;
 			$updated['$set'] = $some_data;
 			$updated['$push']['mailbox'] = $item;
 			
