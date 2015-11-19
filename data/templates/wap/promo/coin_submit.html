@@ -92,15 +92,16 @@ display:none;
 	width: 35%;
 	right: 43%;
 }
-.checkout.button,.checkout.button:hover{
+.checkout.button,.checkout.button:hover,.checkout.button.active{
      right: -2px;
      position: absolute;
 	border:none;
-	background-color: #e3e3e3;
+	background-color: #e3e3e3 !important;
 	box-shadow: -1px -1px 1px 1px rgba(0,0,0,0.2),0 0 0 1px rgba(0,0,0,0.1);
-	color:rgba(0,0,0,0.8);
-	padding-left:1em;
-	padding-right:1em;
+	color:rgba(0,0,0,0.8) !important;
+	padding-left:0.2em;
+	padding-right:0.2em;
+	width:110px;
 }
 .p7_t1{
 	width:80%;
@@ -148,22 +149,22 @@ display:none;
   $('#join-btn').click(function(){
     var realname = $(':input[name=realname]').val();
     if(!realname){
-      phenix.show_error_note('请添写姓名!');
+      phenix.show_error_note('请填写姓名!');
       return false;
     }
     var phone = $(':input[name=phone]').val();
     if(!phone){
-      phenix.show_error_note('请添写手机号!');
+      phenix.show_error_note('请填写手机号!');
       return false;
     }
     var company = $(':input[name=company]').val();
     if(!company){
-      phenix.show_error_note('请添写公司名称!');
+      phenix.show_error_note('请填写公司名称!');
       return false;
     }
     var job = $(':input[name=job]').val();
     if(!job){
-      phenix.show_error_note('请添写职位信息!');
+      phenix.show_error_note('请填写职位信息!');
       return false;
     }
     var frequency = $(':input[name=frequency]:checked').val();
@@ -194,8 +195,8 @@ display:none;
     }
     $.post(url, param, function(result){
       if(result.success){
-        alert(data.message);
-        phenix.redirect(data.redirect_url, 0);
+        alert(result.message);
+        phenix.redirect(result.redirect_url, 0);
       }else{
         phenix.show_error_note(result.message);
       }
@@ -228,15 +229,17 @@ display:none;
 		    return false;
 		}
 		if(phone){
-      // 添加发送频率
-      limitime();
   
       $this = $('#fetch-verify-code');
       $.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
         if(result.errorCode == 200){
           $this.removeClass('disabled').text('获取验证码');
         }
+
+        // 添加发送频率
+        limitime();
       }); 
+
 		}else{
 			phenix.show_error_note('请正确填写手机号码！');
 		}
@@ -245,6 +248,7 @@ display:none;
 {% endblock %}
 
 {% block content %}
+<img src="{{ app_url_packaged }}/images/promo/coin/2.pic.jpg" style="display:none;">
 <div class="coin">
 	<img class="p4_1" src="{{ app_url_packaged }}/images/promo/coin/p4_2.png">
 	<img class="p4_2" src="{{ app_url_packaged }}/images/promo/coin/p4_1.png">
@@ -292,19 +296,19 @@ display:none;
 		
 		<div class="p7_radio">
 			<div class="ui radio checkbox">
-				<input type="radio" name="frequency" value="1" checked="checked" />
+				<input type="radio" name="frequency" value="创业者/创业团队" checked="checked" />
 				<label><img src="{{ app_url_packaged }}/images/promo/coin/p7_6.png"></label>
 			</div>
 			<div class="ui radio checkbox">
-				<input type="radio" name="frequency" value="2" />
+				<input type="radio" name="frequency" value="营销/市场" />
 				<label><img src="{{ app_url_packaged }}/images/promo/coin/p7_7.png"></label>
 			</div>
 			<div class="ui radio checkbox">
-				<input type="radio" name="frequency" value="3" />
+				<input type="radio" name="frequency" value="设计师/设计机构" />
 				<label><img src="{{ app_url_packaged }}/images/promo/coin/p7_8.png"></label>
 			</div>
 			<div class="ui radio checkbox">
-				<input type="radio" name="frequency" value="4" />
+				<input type="radio" name="frequency" value="供应链/上游链" />
 				<label><img src="{{ app_url_packaged }}/images/promo/coin/p7_9.png"></label>
 			</div>
 			

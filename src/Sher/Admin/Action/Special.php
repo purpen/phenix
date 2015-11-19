@@ -164,6 +164,25 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
         }
       }
 
+      //京东bigger2-短信私信提醒
+      if($target_id==7){
+        if(isset($subject_record['info']['phone']) && !empty($subject_record['info']['phone'])){
+          $user_phone = $subject_record['info']['phone'];
+          //短信提醒
+          if(!empty($user_phone)){
+            if($state==1 && !empty($number)){
+              $msg = "您已通过报名申请!";
+              // 开始发送
+              $message = Sher_Core_Helper_Util::send_defined_mms($user_phone, $msg);
+            }elseif($state==2){
+              //$msg = "";
+            }
+
+          }
+          
+        }
+      }
+
     }else{
  		  $this->stash['success'] = false;   
     }
