@@ -59,14 +59,14 @@
 {% block jquery %}
 	// 显示私信框
 	$('.reply_message').bind('click', function(){
-    $('[name=nickname]').val($(this).attr('nickname'));
-    $('[name=to]').val($(this).attr('user_id'));
+		$('[name=nickname]').val($(this).attr('nickname'));
+		$('[name=to]').val($(this).attr('user_id'));
 		$('.ui.letter.modal').modal('show');
 	});
 	// 隐藏私信框
 	$('.ui.cancel').bind('click', function(){
 		$('.ui.letter.modal').modal('hide');
-    return;
+		return;
 	});
 	
 	$('#message-form').form({
@@ -169,46 +169,44 @@
 							与<a class="ui link" href="{{ message.f_user.home_url }}" target="_blank">{{ message.f_user.nickname }}</a>的对话
 							<a href="javascript:void(0);" class="ui mini button green sub_switch" style="margin-left: 2em">展开</a>
 						</div>
-                    {% for m in message.mailbox %}
-                    <div class="sub_header" {% if loop.counter == 1 %}style='display:block'{% else %}style='display:none'{% endif %}>
-                        {%if m.from==user._id%}
-							<span>我 </span>: &nbsp;{{ m.content }}  &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}
-						{%else%}
-							<span> {{ message.f_user.nickname }}</span>:  &nbsp;{{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;<span class="date">{{ m.created_on|relative_datetime }}</span>
-							<!--显示未读标识-->
-							{% if loop.counter <= message.readed %}
-							  &nbsp;<span class="ui red label">new</span>
+						{% for m in message.mailbox %}
+						<div class="sub_header" {% if loop.counter == 1 %}style='display:block'{% else %}style='display:none'{% endif %}>
+							{%if m.from==user._id%}
+								<span>我 </span>: &nbsp;{{ m.content }}  &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}
+							{%else%}
+								<span> {{ message.f_user.nickname }}</span>:  &nbsp;{{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;<span class="date">{{ m.created_on|relative_datetime }}</span>
+								<!--显示未读标识-->
+								{% if loop.counter <= message.readed %}
+								  &nbsp;<span class="ui red label">new</span>
+								{%endif%}
 							{%endif%}
-						{%endif%}
-					</div>
-					{% endfor %}
-					<div class="report">
-						  <div class="count">
-							  <div class="ui horizontal divided list">
-								  <div class="item">
-									{% if message.last_time %}最后回复时间: {{ message.last_time|relative_datetime }}, {%endif%}共{{ message.total_count }}条对话
-								  </div>
-								  <div class="item">
-									  <a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" user_id="{{ message.f_user._id }}">回复</a>
-								  </div>
-								  <div class="item">
-									  <a href="{{ app_url_my }}/delete_message?id={{ message._id }}" class="ui link confirm-request">删除</a>
+						</div>
+						{% endfor %}
+						<div class="report">
+							  <div class="count">
+								  <div class="ui horizontal divided list">
+									  <div class="item">
+										{% if message.last_time %}最后回复时间: {{ message.last_time|relative_datetime }}, {%endif%}共{{ message.total_count }}条对话
+									  </div>
+									  <div class="item">
+										  <a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" user_id="{{ message.f_user._id }}">回复</a>
+									  </div>
+									  <div class="item">
+										  <a href="{{ app_url_my }}/delete_message?id={{ message._id }}" class="ui link confirm-request">删除</a>
+									  </div>
 								  </div>
 							  </div>
-						  </div>
+						</div>
 					</div>
-                  </div>
                 </div>
-    					{% endfor %}
+    			{% endfor %}
                         
-    					{% if list.rows %}
-    						<div class="ui pagination">
-    			            {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-    			            {%include 'block/pager.html'%}
-    						</div>
-    			          {% endif %}
-                        
+				{% if list.rows %}
+				<div class="ui pagination">
+				{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:10 %}
+				{%include 'block/pager.html'%}
 				</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>

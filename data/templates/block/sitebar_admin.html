@@ -145,6 +145,9 @@
 	<a class="{{ css_page_cooperation }} item" href="{{ app_url_admin_base }}/cooperation">
 		合作资源管理
 	</a>
+	<a class="{{ css_page_private_letter }} item" href="{{ app_url_admin_base }}/private_letter">
+		私信管理
+	</a>
     {% endif %}
     
     {% if visitor.is_admin %}
@@ -155,7 +158,6 @@
 		关键词管理
 	</a>
     {% endif %}
-
     {% if visitor.is_chief %}
 	<div class="header item"><b>实验室</b></div>
 

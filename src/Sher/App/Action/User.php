@@ -347,7 +347,6 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
               //Sher_Core_Helper_Util::send_defined_mms($phone, $msg);
             }
 
-
         } catch (Doggy_Model_ValidateException $e) {
             return $this->ajax_notification('发送私信失败:'.$e->getMessage(),true);
         }

@@ -1,0 +1,447 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+  <style type="text/css">
+	.ui.white.background{
+		background:#fff;
+	}
+	.user .ui.message.eleven{
+		padding:1.5%;
+		border:0px solid rgba(0,0,0,0) !important;
+	}
+	.mes-text{
+		width:100%;
+		padding:1rem 0;
+	}
+	.mes-text a.ui.photo{
+		float: left; 
+		width: 50px; 
+		height: 60px; 
+		margin-right: 10px;
+	}
+	.mes-text a.ui.photo img{
+		height:50px;
+		width:50px;
+		border-radius: 25px;
+	}
+	.mes-text .news{
+		padding: 6px 0 0 60px; 
+		overflow: visible;
+		font-size: 17px;
+		font-weight: 700;
+	}
+	.mes-text .news .sub_header{
+		font-size: 14px;
+		font-weight: 400;
+		padding-top: 5px;
+		line-height: 20px;
+	}
+	.mes-text .news .report {
+		padding: 0 0 20px;
+		height: 20px;
+		font-size: 14px;
+		font-weight: 400;
+	}
+	.mes-text .news .report .count {
+		float:right;
+		cursor:pointer;
+		padding-right:5px;
+	}
+	.mes-text .news .report .count .ui.horizontal.list > .item {
+		font-size: 12px;
+	}
+  </style>
+{% endblock %}
+
+{% block jquery %}
+	
+    // 显示分组管理页面
+    $('.item.group_menu').click(function(){
+        $('#group_menu.fullscreen.modal').modal('show');
+		ajax_load_list();
+    });
+    
+    // 关闭分组管理页面  
+    $('.no.group_menu').click(function(){
+		$('#group_menu.fullscreen.modal').modal('hide');
+	});
+	
+	// 清空表单数据
+	function del_form(){
+	  var form = $('.ui.form.letter');
+	  form.find('input[name=group_id]').val('');
+	  form.find('input[name=letter_name]').val('');
+	  form.find('input[name=letter_des]').val('');
+	  form.find('textarea[name=letter_ids]').val('');
+	}
+	
+	// ajax渲染模板
+	function ajax_load_list(){
+        var url = '{{ app_url_admin_base }}/private_letter/ajax_group_list?rand='+Math.random();
+        $.post(url, {}, function(e){
+			if(!e.error){
+			  $("div").remove(".ui.alt.option");
+			  var rendered = phenix.ajax_render_result('#fetch_message_group_tpl', e);
+			  $('.item-box').append(rendered);
+			  del_form();
+			}
+        }, 'json');
+    }
+    
+    // 显示已有分组
+	$('.ui.options').on('click', '.option', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+		  $(this).removeClass('active');
+		  $('.ui.green.submit.button.yes').text('添加');
+		  del_form();
+		}else{
+		  $(this).siblings('.ui.option').removeClass('active').end().addClass('active');
+		  $.post('{{ app_url_admin_base }}/private_letter/ajax_group_one',{id:id},function(e){
+			if(e.is_error){
+			  phenix.show_error_note(e.message, 3000);
+			} else {
+			  var form = $('.ui.form.letter');
+			  form.find('input[name=group_id]').val(id);
+			  form.find('input[name=letter_name]').val(e.data.name);
+			  form.find('input[name=letter_des]').val(e.data.des);
+			  form.find('textarea[name=letter_ids]').val(e.data.ids);
+			  $('.ui.green.submit.button.yes.group_menu').text('修改');
+			}
+		  },'json');
+		}  
+	});
+    
+    // 表单验证
+	$('#group-letter-form').form({
+		letter_name: {
+			identifier  : 'letter_name',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '分组名称不能为空！'
+				}
+			]
+		},
+		letter_des: {
+			identifier  : 'letter_des',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '分组描述不能为空！'
+				}
+			]
+		},
+		letter_ids: {
+			identifier  : 'letter_ids',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请输入需要发送私信的用户id！'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					// 点击前触发的事件
+					phenix.before_submit();
+				},
+				success: function(data){
+					// 点击后触发的事件
+					phenix.after_submit();
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, 3000);
+					}else{
+						$('#group_menu.fullscreen.modal').modal('hide');
+					}
+				}
+			});
+		}
+	});
+	
+	// 显示分组管理页面
+    $('.item.send_letter').click(function(){
+        $('#send_letter.fullscreen.modal').modal('show');
+		ajax_load_list();
+    });
+    
+    // 关闭分组管理页面  
+    $('.no.send_letter').click(function(){
+		$('#send_letter.fullscreen.modal').modal('hide');
+	});
+	
+	// 表单验证
+	$('#send-letter-form').livequery(function(){
+	  $(this).on('click','.ui.green.submit.button.yes.send_letter',function(){
+		var group_id = $('#send-letter-form').find('input[name=group_id]').val();
+		if(!group_id){
+		  phenix.show_error_note("请选择用户分组！", 3000);
+		}
+	  }).form({
+		  group_id: {
+			  identifier  : 'group_id',
+			  rules: [
+				  {
+					  type   : 'empty',
+					  prompt : '请选择用户分组！'
+				  }
+			  ]
+		  },
+		  letter_content: {
+			  identifier  : 'letter_content',
+			  rules: [
+				  {
+					  type   : 'empty',
+					  prompt : '私信内容不能为空！'
+				  }
+			  ]
+		  },
+		  letter_ids: {
+			  identifier  : 'letter_ids',
+			  rules: [
+				  {
+					  type   : 'empty',
+					  prompt : '请输入需要发送私信的用户id！'
+				  }
+			  ]
+		  }
+	  }, {
+		  inline : true,
+		  onSuccess: function(event){
+			  event.preventDefault();
+			  $(this).ajaxSubmit({
+				  dataType: 'json',
+				  beforeSubmit: function(){
+					  // 点击前触发的事件
+					  //phenix.before_submit();
+				  },
+				  success: function(data){
+					  // 点击后触发的事件
+					  //phenix.after_submit();
+					  if(data.is_error){
+						  $(event.target).addClass('error');
+						  phenix.show_error_note(data.message, 3000);
+					  }else{
+						  $('#send_letter.fullscreen.modal').modal('hide');
+					  }
+				  }
+			  });
+		  }
+	  });
+	});
+	
+	// 显示私信框
+	$('.reply_message').bind('click', function(){
+		$('[name=nickname]').val($(this).attr('nickname'));
+		$('[name=to]').val($(this).attr('user_id'));
+		$('[name=message_id]').val($(this).attr('name'));
+		$('.ui.letter.modal').modal('show');
+	});
+	// 隐藏私信框
+	$('.ui.cancel').bind('click', function(){
+		$('.ui.letter.modal').modal('hide');
+		return;
+	});
+	
+	// 表单验证
+	var message_id = '';
+	$('#message-form').livequery(function(){
+	  $(this).on('click',function(){
+		message_id = $('[name=message_id]').val();
+	  }).form({
+		  content: {
+			  identifier  : 'content',
+			  rules: [
+				  {
+					  type   : 'empty',
+					  prompt : '评论内容不能为空'
+				  },
+				  {
+					  type   : 'maxLength[140]',
+					  prompt : '评论内容不超过140字符'
+				  }
+			  ]
+		  }
+	  }, {
+		  inline : true,
+		  onSuccess: function(event){
+			  event.preventDefault();
+			  $(this).ajaxSubmit({
+				  dataType: 'json',
+				  beforeSubmit: function(){
+					  phenix.before_submit();
+				  },
+				  success: function(data){
+					  phenix.after_submit();
+					  if(data.is_error){
+						  $(event.target).addClass('error');
+						  phenix.show_error_note(data.message, event.target);
+					  }else{
+						  $('.is_reply'+message_id).addClass("green");
+						  $('.is_reply'+message_id).removeClass("red");
+						  $('.is_reply'+message_id).text("已回复");
+						  phenix.show_ok_note('私信已发送成功', 2000, '#message-form');
+						  $('.ui.letter.modal').modal('hide');
+					  }
+				  }
+			  });
+		  }
+	  });
+	});
+	
+	$('[data-countdown]').each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.html(event.strftime('%-D'));
+		});
+	});
+	
+	$(".sub_switch").click(function(){
+		var text = $(this).text();
+		if(text == "展开"){
+			$(this).text("收缩");
+			$(this).parents('.news').find('.sub_header').show();
+		} else {
+			$(this).text("展开");
+			$(this).parents('.news').find('.sub_header').hide();
+			$(this).parents('.news').find('.sub_header').first().show(); 
+		}
+	});
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">私信管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/private_letter" class="item {{ css_all }}">
+			全部
+		</a>
+    <a href="{{ app_url_admin_base }}/private_letter/get_list?reply_id={{user_id}}" class="item {{ css_no_reply }}">
+			未回复
+		</a>
+
+	  	<div class="right menu">
+			<a href="javascript:void(0);" class="item send_letter">
+				<i class="plus square outline icon"></i>发送私信
+			</a>
+			<a href="javascript:void(0);" class="item group_menu">
+				<i class="mail icon"></i>分组管理
+			</a>
+	    </div>
+	</div>
+    
+    <div id="send_letter" class="ui fullscreen modal transition scrolling" style="display: none">
+        <div class="header">发送私信</div>
+		<div class="content">
+			<form action="{{ app_url_admin_base }}/private_letter/letter_save" method="post" class="ui form letter" id="send-letter-form">
+                <div class="ui options item-box">
+                    <input type="hidden" name="group_id" id="group_category" />
+                </div>
+                <div class="field">
+                    <textarea name="letter_content" placeholder="填写私信内容！"></textarea>
+				</div>
+				<div class="actions">
+                    <div class="ui button no send_letter">取消</div>
+                    <div class="ui green submit button yes send_letter">发送</div>
+				</div>
+			</form>
+		</div>
+    </div>
+	
+	<div id="group_menu" class="ui fullscreen modal transition scrolling" style="display: none">
+        <div class="header">分组管理</div>
+		<div class="content">
+			<form action="{{ app_url_admin_base }}/private_letter/group_save" method="post" class="ui form letter" id="group-letter-form">
+                <div class="ui options item-box">
+                    <input type="hidden" name="group_id" id="group_category" />
+                </div>
+                <div class="field">
+                    <input type="text" name="letter_name" value="" placeholder="分组名称" />
+				</div>
+				<div class="field">
+                    <input type="text" name="letter_des" value="" placeholder="分组描述" />
+				</div>
+                <div class="field">
+                    <textarea name="letter_ids" placeholder="多个分组用户id，请用英文字符的“，”隔开！"></textarea>
+				</div>
+				<div class="actions">
+                    <div class="ui button no group_menu">取消</div>
+                    <div class="ui green submit button yes group_menu">添加</div>
+				</div>
+			</form>
+		</div>
+    </div>
+	
+	<div class="ui alarm segment">
+	  
+	  {% message_list var:'list' page:page type:2 user_id:user_id reply_id:reply_id %}
+	  
+	  {% for message in list.rows %}
+	  <div id="message_{{ message._id }}" class="mes-text" style="width:100%">
+		  <a class="ui photo">
+			  <img alt="{{ message.f_user.nickname }}" src="{{ message.f_user.big_avatar_url }}">
+		  </a>
+		  <div class="news">
+			  <div class="sub_title">
+				  与<a class="ui link" href="{{ message.f_user.home_url }}" target="_blank">{{ message.f_user.nickname }}</a>的对话
+				  <a href="javascript:void(0);" class="ui mini button green sub_switch" style="margin-left: 2em">展开</a>
+				  {%if message.reply_id == user_id %}
+					<span class="ui mini green button is_reply{{ message._id }}">已回复</span>
+				  {%else%}
+					<span class="ui mini red button is_reply{{ message._id }}">未回复</span>
+				  {%endif%}
+			  </div>
+			  {% for m in message.mailbox %}
+			  <div class="sub_header" {% if loop.counter == 1 %}style='display:block'{% else %}style='display:none'{% endif %}>
+				  {%if m.from==user_id%}
+					  <span>我 </span>: &nbsp;{{ m.content }}  &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}
+				  {%else%}
+					  <span> {{ message.f_user.nickname }}</span>:  &nbsp;{{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;<span class="date">{{ m.created_on|relative_datetime }}</span>
+					  <!--显示未读标识-->
+					  {% if loop.counter <= message.readed %}
+						&nbsp;<span class="ui red label">new</span>
+					  {%endif%}
+				  {%endif%}
+				  {% if m.group_name %}
+				  <span class="ui blue label">{{m.group_name}}</span>
+				  {%endif%}
+			  </div>
+			  {% endfor %}
+			  <div class="report">
+					<div class="count">
+						<div class="ui horizontal divided list">
+							<div class="item">
+							  {% if message.last_time %}最后回复时间: {{ message.last_time|relative_datetime }}, {%endif%}共{{ message.total_count }}条对话
+							</div>
+							<div class="item">
+								<a class="ui link reply_message" nickname="{{ message.f_user.nickname }}" name="{{ message._id }}" user_id="{{ message.f_user._id }}">回复</a>
+							</div>
+							<div class="item">
+								<a href="{{ app_url_my }}/delete_message?id={{ message._id }}" class="ui link confirm-request">删除</a>
+							</div>
+						</div>
+					</div>
+			  </div>
+		  </div>
+	  </div>
+	  {% endfor %}
+			  
+	  {% if list.rows %}
+	  <div class="ui pagination">
+	  {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:10 %}
+	  {%include 'block/pager.html'%}
+	  </div>
+	  {% endif %}
+  </div>
+	{% include "block/message.html" %}
+{% endblock %}
+
+{% block templates %}
+  {% mustache id:'fetch_message_group_tpl' tpl:'mustache/message_group.mustache' %}
+{% endblock %}
