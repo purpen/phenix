@@ -15,6 +15,7 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
         $page = 1; 
         $size = 10;
 		$user_id = 0;
+		$reply_id = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -36,6 +37,10 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
 			$query['type'] = $type;
 		}
 		
+		if(isset($reply_id) && $reply_id){
+			$query['reply_id'] = array('$ne' => (int)$reply_id);
+		}
+		
 		$options['sort'] = array('last_time'=>-1);
 		$options['page'] = $page;
         $options['size'] = $size;
@@ -46,6 +51,7 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
 		if(!empty($result['rows'])){
 			
 			$message = new Sher_Core_Model_Message();
+			$message_group = new Sher_Core_Model_MessageGroup();
 			
 			for($i=0;$i<count($result['rows']);$i++){
 				$small_user = min($result['rows'][$i]['users']);
@@ -63,6 +69,16 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
 						  $result['rows'][$i]['f_user'] = $result['rows'][$i]['to_user'];       
 				}else{
 						$result['rows'][$i]['f_user'] = $result['rows'][$i]['from_user'];       
+				}
+				
+				// 查看分组信息
+				$group_arr = $result['rows'][$i]['mailbox'];
+				for($j=0;$j<count($group_arr);$j++){
+					$group_id = $group_arr[$j]['group_id'];
+					if(!$group_id){continue;}
+					$res = $message_group->find_by_id($group_id);
+					$result['rows'][$i]['mailbox'][$j]['group_name'] = $res['name'];
+					//echo $res['name'].'-';
 				}
 				
 				//$result['rows'][$i]['latest'] = array_pop($result['rows'][$i]['mailbox']);

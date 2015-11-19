@@ -322,6 +322,9 @@
 		<a href="{{ app_url_admin_base }}/private_letter" class="active item">
 			全部
 		</a>
+		<a href="{{ app_url_admin_base }}/private_letter/get_list?reply_id={{user_id}}" class="item">
+			未回复
+		</a>
 
 	  	<div class="right menu">
 			<a href="javascript:void(0);" class="item send_letter">
@@ -377,7 +380,7 @@
 	
 	<div class="ui alarm segment">
 	  
-	  {% message_list var:'list' page:page type:2 user_id:user_id %}
+	  {% message_list var:'list' page:page type:2 user_id:user_id reply_id:reply_id %}
 	  
 	  {% for message in list.rows %}
 	  <div id="message_{{ message._id }}" class="mes-text" style="width:100%">
@@ -404,6 +407,9 @@
 					  {% if loop.counter <= message.readed %}
 						&nbsp;<span class="ui red label">new</span>
 					  {%endif%}
+				  {%endif%}
+				  {% if m.group_name %}
+				  <span class="ui blue label">{{m.group_name}}</span>
 				  {%endif%}
 			  </div>
 			  {% endfor %}
