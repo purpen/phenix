@@ -723,7 +723,7 @@
 	  /*animation: 5s slineX linear infinite alternate;
 	  -webkit-animation: 5s slineX linear infinite alternate;*/
   }
-  .p2_co4{
+  .p2_co4,.p2_co04{
        position: absolute;
        left: 40px;
        top: 80px;
@@ -890,7 +890,7 @@
 	  top:235px;
 	  width:153px;
 	  height:18px;
-       background: url({{ app_url_packaged }}/images/promo/coin/p2_tt07.png) no-repeat;
+       background: url({{ app_url_packaged }}/images/promo/coin/p2_tt007.png) no-repeat;
        background-size: 153px;
   }
   .current .p2_t7{
@@ -1538,10 +1538,8 @@
 	  left: 70px;
 	  width: 23px;
 	  height: 18px;
-       background: url({{ app_url_packaged }}/images/promo/coin/p4_13.png) no-repeat;
+       background: url({{ app_url_packaged }}/images/promo/coin/p1_08.png) no-repeat;
        background-size: 23px;
-	  animation: 5s slineY linear infinite alternate;
-	  -webkit-animation: 5s slineY linear infinite alternate;
   }
   .p4_26{
 	  position: absolute;
@@ -1996,7 +1994,7 @@
   }
   .p6_t2{
   	position: absolute;
-	top:95px;
+	top:90px;
 	left:116px;
 	width:88px;
 	height:20px;
@@ -2010,7 +2008,7 @@
   }
   .p6_t3{
   	position: absolute;
-	top:118px;
+	top:113px;
 	left:116px;
 	width:88px;
 	height:20px;
@@ -2026,7 +2024,7 @@
   
   .click_btn{
 	  position:absolute;
-	  top:138px;
+	  top:128px;
 	  left:0;
 	  width:320px;
 	 /* height:0px;
@@ -2035,7 +2033,7 @@
   
   .clic_height{
 	  position:absolute;
-	  top:170px;
+	  top:164px;
 	  left:0;
 	  width:320px;
 	  height:0px;
@@ -2064,7 +2062,7 @@
   }
   .p6_t4{
 	  position:absolute;
-	  top:155px;
+	  top:152px;
 	  left:0px;
 	  width:0px;
 	  height:27px;
@@ -2073,7 +2071,7 @@
   }
   .p6_t5{
 	  position:absolute;
-	  top:155px;
+	  top:152px;
 	  right:0px;
 	  width:0px;
 	  height:27px;
@@ -2082,7 +2080,7 @@
   }
   .p6_t6{
 	  position:absolute;
-	  top:155px;
+	  top:152px;
 	  left:107px;
 	  width:106px;
 	  height:27px;
@@ -2616,6 +2614,10 @@
 	  .screen7 .p2_co4{
 		  left:270px;
 	  }
+	  .screen7 .p2_co04{
+		  left: 175px;
+		  top: 240px;
+	  }
 	  .screen7 .p2_co5{
 		  left:253px;
 	  }
@@ -2716,7 +2718,7 @@
 		  width:102px;
 		  height:85px;
 		  right:109px;
-		  top:265px;
+		  top:260px;
 		  position: absolute;
 	  }
 	  .current .p3_o6.page-logo{
@@ -2978,6 +2980,26 @@
 		  left: 56px;
 		  top: 4px;
 	  }
+	  .p44_show .p1_line9{
+	      left: 70px;
+	      top: 150px;
+	  }
+	  .screen7 .p1_line6{
+		  right: 150px;
+		  top: 100px;
+	  }
+	  .screen7 .p1_line8{
+		  left: 180px;
+		  top: 120px;
+	  }
+	  .p44_show .p2_co4{
+		  left: 75px;
+		  top: 280px;
+	  }
+	  .p44_show .p2_co8{
+	      right: 80px;
+	      bottom: 170px;
+	  }
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -2992,7 +3014,7 @@
     webpsupport(function (webpa) {
     var loader = new WxMoment.Loader(),
      fileList =[
-		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png','p1_11.png','P1_15.png','P1_16.png','p1_17.png','p1_18.png','p1_19.png','p1_20.png','P1_13.png','P1_14.png','p1_06.png','p1_07.png','p1_08.png','p1_09.png','logo.png','p2-2.png','p2_1.png','p2_3.png','p2_4.png','p2_5.png','p2_6.png','p2_7.png','p2_8.png','p2_9.png','p2_10.png','p2_11.png','p2_12.png','p2_13.png','p2_14.png','p2_tt01.png','p2_tt02.png','p2_tt03.png','p2_tt04.png','p2_tt05.png','p2_tt06.png','p2_tt07.png','p2_tt08.png','p2_tt09.png','p2_tt010.png','p2_tt011.png','p3_c1.png','p3_l1.png','p3_l2.png','p3_o1.png','p3_o2.png','p3_o3.png','p3_o4.png','p3_o8.png','p3_o9.png','p3_o10.png','p3_o11.png','p3_o12.png','p3_o13.png','p3_o14.png','p3_o15.png','p3_o16.png','p3_o17.png','p3_o5.png','p3_o6.png','p3_o7.png','p3_c2.png','p3_z1.png','p3_z2.png','p3_z3.png','p3_z4.png','p4_t1.png','p4_t2.png','p4_t003.png','p4_t004.png','p4_t005.png','p4_t6.png','p4_t7.png','p4_1.png','p4_2.png','p4_3.png','p4_4.png','p4_5.png','p4_01.png','p4_02.png','p4_03.png','p4_04.png','p4_05.png','p4_06.png','p4_07.png','p4_08.png','p4_09.png','p4_10.png','p4_11.png','p4_12.png','p4_13.png','p4_14.png','p5_1.png','p5_2.png','p5_3.png','p5_4.png','p5_5.png','p5_6.png','p5_l01.png','p5_l02.png','p5_t1.png','p5_t02.png','p5_t3.png','p5_tt1.png','p5_tt2.png','p5_tt3.png','p5_tt4.png','p5_tt5.png','p5_tt6.png','p5_tt7.png','p5_tt8.png','p5_tt9.png','p6_bg.png','p6_1.png','p6_l1.png','p6_l2.png','p6_logo.png','p6_t1.png','p6_t02.png','p6_t3.png','p6_t04.png','p6_t05.png','p6_t006.png','p6_t7.png','p6_t8.png','2.pic2.jpg','p7_tt1.png','p7_t1.png','p7_t2.png','p7_t3.png','p7_t4.png','p7_t5.png','p7_t6.png','p7_t7.png','p7_t8.png','p7_t9.png','p7_t10.png','p33_9.png','p33_1.png','p33_2.png','p33_13.png','p88_4.png','p88_4a.png','p88_4b.png'
+		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png','p1_11.png','P1_15.png','P1_16.png','p1_17.png','p1_18.png','p1_19.png','p1_20.png','P1_13.png','P1_14.png','p1_06.png','p1_07.png','p1_08.png','p1_09.png','logo.png','p2-2.png','p2_1.png','p2_3.png','p2_4.png','p2_5.png','p2_6.png','p2_7.png','p2_8.png','p2_9.png','p2_10.png','p2_11.png','p2_12.png','p2_13.png','p2_14.png','p2_tt01.png','p2_tt02.png','p2_tt03.png','p2_tt04.png','p2_tt05.png','p2_tt06.png','p2_tt007.png','p2_tt08.png','p2_tt09.png','p2_tt010.png','p2_tt011.png','p3_c1.png','p3_l1.png','p3_l2.png','p3_o1.png','p3_o2.png','p3_o3.png','p3_o4.png','p3_o8.png','p3_o9.png','p3_o10.png','p3_o11.png','p3_o12.png','p3_o13.png','p3_o14.png','p3_o15.png','p3_o16.png','p3_o17.png','p3_o5.png','p3_o6.png','p3_o7.png','p3_c2.png','p3_z1.png','p3_z2.png','p3_z3.png','p3_z4.png','p4_t1.png','p4_t2.png','p4_t003.png','p4_t004.png','p4_t005.png','p4_t6.png','p4_t7.png','p4_1.png','p4_2.png','p4_3.png','p4_4.png','p4_5.png','p4_01.png','p4_02.png','p4_03.png','p4_04.png','p4_05.png','p4_06.png','p4_07.png','p4_08.png','p4_09.png','p4_10.png','p4_11.png','p4_12.png','p4_13.png','p4_14.png','p5_1.png','p5_2.png','p5_3.png','p5_4.png','p5_5.png','p5_6.png','p5_l01.png','p5_l02.png','p5_t1.png','p5_t02.png','p5_t3.png','p5_tt1.png','p5_tt2.png','p5_tt3.png','p5_tt4.png','p5_tt5.png','p5_tt6.png','p5_tt7.png','p5_tt8.png','p5_tt9.png','p6_bg.png','p6_1.png','p6_l1.png','p6_l2.png','p6_logo.png','p6_t1.png','p6_t02.png','p6_t3.png','p6_t04.png','p6_t05.png','p6_t006.png','p6_t7.png','p6_t8.png','2.pic2.jpg','p7_tt1.png','p7_t1.png','p7_t2.png','p7_t3.png','p7_t4.png','p7_t5.png','p7_t6.png','p7_t7.png','p7_t8.png','p7_t9.png','p7_t10.png','p33_9.png','p33_1.png','p33_2.png','p33_13.png','p88_4.png','p88_4a.png','p88_4b.png'
 	];
      
      for (var i = 0; i < fileList.length; i++) {
@@ -3304,9 +3326,12 @@
 				<div class="p4_023"></div>
 				<div class="p4_24"></div>
 				<div class="p44_show">
+					<div class="p1_line9"></div>
 					<div class="p4_25"></div>
 					<div class="p4_26"></div>
 					<div class="p4_t8"></div>
+					<div class="p2_co4"></div>
+					<div class="p2_co8"></div>
 				</div>
 			</div>
 			
@@ -3359,6 +3384,8 @@
 			<div class="p2_line6"></div>
 			<div class="p2_line8"></div>
 			<div class="show">
+				<div class="p1_line6"></div>
+				<div class="p1_line8"></div>
 				<div class="p2_line7"></div>
 				<div class="p2_co1"></div>
 				<div class="p2_co2"></div>
@@ -3368,6 +3395,7 @@
 				<div class="p2_co6"></div>
 				<div class="p2_co7"></div>	
 				<div class="p2_co8"></div>
+				<div class="p2_co04"></div>
 			</div>	
 			<div class="p2_texto">
 				<div class="p2_t1 fadeUp"></div>
