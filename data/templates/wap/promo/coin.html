@@ -3004,37 +3004,7 @@
 {% endblock %}
 {% block layout_js %}
 <script type="text/javascript">
-    /* 加载 */
-    var basePath = "{{ app_url_packaged }}/images/promo/coin/";
-    if (!(typeof webpsupport == 'function')) {
-        var webpsupport = function (cb) {
-            cb();
-        }
-    }
-    webpsupport(function (webpa) {
-    var loader = new WxMoment.Loader(),
-     
-
-     loader.addCompletionListener(function () {
-         $('.loading').remove();
-         $('.screen').eq(0).addClass('current');
-         $('.wrap').show();
-         $('#app_bgm').get(0).play();
-         $('.music').show();
-     });
-
-     //loading 进度监听
-     loader.addProgressListener(function (e) {
-         var percentUp = Math.round((e.completedCount / e.totalCount) * 100), //正序, 1-100
-             progressDown = 100 - percentUp;                                   //倒序, 100-1
-
-
-         $('.loading-num').text(percentUp + '%');
-     });
-
-     //启动
-     loader.start();
-    });
+    
     
     $('.p6_c1,.p6_t6').bind("touchstart",function(){
         setTimeout(function(){
