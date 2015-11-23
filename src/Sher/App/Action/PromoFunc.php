@@ -46,7 +46,15 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
     $ok = $mode_attend->create($data);
     if($ok){
       $dig_model = new Sher_Core_Model_DigList();
-      $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_YMC1_01;
+      switch($target_id){
+      case: 1
+        $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_YMC1_01;
+        break;
+      case: 5
+        $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_03;
+        break;
+      }
+
       if(!empty($cid)){
         if($cid==1) $dig_model->inc($dig_key, 'items.count_01', 1);
         if($cid==2) $dig_model->inc($dig_key, 'items.count_02', 1);
