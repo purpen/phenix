@@ -119,7 +119,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 
             // 如果是神嘴争霸，验证用户是否首次评论
             $rank_has_first_comment = $this->stash['rank_has_first_comment'] = false;
-            if($row['type']==Sher_Core_Model_Comment::TYPE_SUBJECT && (int)$row['target_id']==1){
+            if($row['type']==Sher_Core_Model_Comment::TYPE_SUBJECT && (int)$row['target_id']==5){
               $has_comment = $model->count(array('type'=>$row['type'], 'target_id'=>$row['target_id'], 'user_id'=>$row['user_id']));
               if($has_comment==0){
                 $rank_has_first_comment = $this->stash['rank_has_first_comment'] = true;
