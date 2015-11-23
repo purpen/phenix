@@ -206,11 +206,11 @@
       }
       .screen__inner {
           position: absolute;
-          width: 640px;
-          height: 1008px;
+          width: 320px;
+          height: 504px;
           top: 50%;
           left: 50%;
-          margin: -504px 0 0 -320px;
+          margin: -252px 0 0 -160px;
           -webkit-perspective: 1000;
           perspective: 1000;
           overflow: hidden;
@@ -239,11 +239,11 @@
           function scaleEle(selector,position){
               var pageScale;
               var currentScale=screenWidth/screenHeight;
-              var originScale=640/1008;
+              var originScale=320/504;
               if(currentScale>originScale){
-                  pageScale=screenHeight/1008;
+                  pageScale=screenHeight/504;
               }else{
-                  pageScale=screenWidth/640;
+                  pageScale=screenWidth/320;
               }
               $(selector).css({"-webkit-transform-origin":position,"transform-origin":position,"-webkit-transform":"scale("+pageScale+");","transform":"scale("+pageScale+");","transform":"CGAffineTransformMakeScale("+pageScale+");"});
           }
