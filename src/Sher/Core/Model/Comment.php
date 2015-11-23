@@ -103,8 +103,8 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
           case 1:
             $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_YMC1_01;
             break;
-          case 2:
-            $dig_key = '';
+          case 5:
+            $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_03;
             break;
         }
         if(!empty($dig_key)){
