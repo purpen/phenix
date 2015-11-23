@@ -171,7 +171,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 
     //转换描述格式
     $product['content'] = null;
-    $product['content_view_url'] = sprintf('%s/view/product_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $product['_id'], $this->current_user_id);
+    $product['content_view_url'] = sprintf('%s/app/api/view/product_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $product['_id'], $this->current_user_id);
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
