@@ -141,6 +141,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     # 云马Ｃ1专题活动 名嘴争霸
     const DIG_SUBJECT_YMC1_01 = 'subject_ymc1_01';
     const DIG_SUBJECT_02 = '2';
+    # 奶妈奶爸PK
+    const DIG_SUBJECT_03 = 'subject_03';
 
     # 第三方站点访问量统计
     const DIG_THIRD_SITE_STAT = 'third_site_stat';
