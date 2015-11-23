@@ -290,7 +290,7 @@ p{
 		}
 
     // 难证是否支持过
-    $.get("{{ app_url_domain_base }}/app/site/promo_func/ajax_attend", {target_id: 1, event: 5, cid: cid}, function(result){
+    $.get("{{ app_url_domain_base }}/app/site/promo_func/ajax_attend", {target_id: 5, event: 5, cid: cid}, function(result){
       if(result.success){
         // 已投票标识
         has_support = 1;
@@ -519,7 +519,7 @@ p{
                   </div>
               </div>
 		  	    <div id="comment-list">
-                  {% comment_list var:'comments' page:1 size:5 target_id:1 type:10 check_loved:1 only_hotest:1 current_user_id:visitor.id %}
+                  {% comment_list var:'comments' page:1 size:5 target_id:5 type:10 check_loved:1 only_hotest:1 current_user_id:visitor.id %}
                   {% if comments.rows %}
                   <div class="ui threaded hotest comments">
                       <a class="ui red ribbon label">热门回复</a>
@@ -530,7 +530,7 @@ p{
                   </div>
                   {% endif %}
                   <div class="ui threaded comments is-comment">
-                    {% comment_list var:'comment_list' page:page size:size target_id:1 type:10 check_loved:1 current_user_id:visitor.id %}                {% for comment in comment_list.rows %}
+                    {% comment_list var:'comment_list' page:page size:size target_id:5 type:10 check_loved:1 current_user_id:visitor.id %}                {% for comment in comment_list.rows %}
                       {%include 'block/comment_rank_item.html'%}
                     {%endfor%}
                   

@@ -177,7 +177,7 @@ p{
   //记录分享数
   function record_share_num(){
     var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
-    $.get(url, { target_id: 8, count_name:'count', type: 4, kind:4 });
+    $.get(url, { target_id: 13, count_name:'count', type: 4, kind:4 });
   };
 
   var has_support = {{ has_support|default 0 }};
@@ -186,12 +186,12 @@ p{
   function support_event(cid){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-		  phenix.redirect("{{ app_url_wap }}/auth/login");
+		  phenix.redirect("{{ app_url_wap }}/auth/login_signup");
 			return false;
 		}
 
     // 难证是否支持过
-    $.get("{{ app_url_wap }}/app/site/promo_func/ajax_attend", {target_id: 1, event: 5, cid: cid}, function(result){
+    $.get("{{ app_url_wap }}/app/site/promo_func/ajax_attend", {target_id: 5, event: 5, cid: cid}, function(result){
       if(result.success){
         // 已投票标识
         has_support = 1;
@@ -388,7 +388,7 @@ p{
               </div>
               <!--ajax comment-->
               <div id="comment-list" style="padding-bottom:20px;">
-      {% comment_list var:'comments' page:page target_id:1 type:10 size:size sort:sort check_loved:1 current_user_id:visitor.id %}
+      {% comment_list var:'comments' page:page target_id:5 type:10 size:size sort:sort check_loved:1 current_user_id:visitor.id %}
       <div class="ui threaded minimal comments is-comment">
       {% for comment in comments.rows %}
       <div class="comment" id="{{ comment._id }}">

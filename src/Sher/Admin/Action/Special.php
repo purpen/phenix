@@ -171,7 +171,7 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
           //短信提醒
           if(!empty($user_phone)){
             if($state==1 && !empty($number)){
-              $msg = "您已通过报名申请!";
+              $msg = "您好，您已通过报名！请于11月26日14:00（周四）凭借手机号码准时参加由京东众筹主办，太火鸟协办的“创X造”京东众筹BIGGER大会（深圳站），非常感谢！地址：深圳市万科前海国际会议中心一层大宴会厅";
               // 开始发送
               $message = Sher_Core_Helper_Util::send_defined_mms($user_phone, $msg);
             }elseif($state==2){
