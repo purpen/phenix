@@ -1,0 +1,555 @@
+{%extends 'layout/column.html'%}
+{% block title %}神嘴争霸赛 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.ui.mainwrap.grid{
+  margin:15px auto;
+  background:#fff;
+  padding: 10px 15px;
+}
+.rtitle{
+  background:url({{ app_url_packaged }}/images/promo/rank/rankbj.png) no-repeat;
+  width:150px;
+  height:50px;
+  background-size:150px;
+  color: #fff;
+  text-align: left;
+  line-height: 50px;
+  font-size: 1.28rem;
+  margin-bottom: 15px;
+  padding-left: 15px;
+}
+p{
+  margin-bottom:0.8rem;
+}
+.line{
+  width: 100%;
+  height: 20px;
+  background: url({{ app_url_packaged }}/images/promo/rankline.jpg);
+  background-position: 0px -4px;
+}
+.rtitle.tmr{
+  position: absolute;
+  left: 10px;
+  top: 0;
+}
+.time{
+  margin-top: 10px;
+  width:100%;
+  height:170px;
+  background:url({{ app_url_packaged }}/images/promo/rank/ranktime.png);
+  background-size:cover;
+}
+.mainwrap.bpk{
+  padding: 0 !important;
+  margin: 25px auto !important;
+  background: rgba(0,0,0,0) !important;
+}
+.propk{
+  height:860px;
+  background:url({{ app_url_packaged }}/images/promo/rank/rankbl.jpg);
+  background-size:cover;
+  padding:0 !important;
+  position:relative;
+}
+.pktitle{
+  padding:40px 100px !important;
+  color:#fff;
+  text-align:center !important;
+  opacity: 0;
+}
+.pktitle.transition.fly{
+  opacity:1;
+}
+.pktitle p{
+  font-size:16px;
+  text-align:left;
+}
+.pktitle p span{
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0 10px;
+  font-style: italic;
+}
+
+.pkhf{
+  position:absolute;
+  top:400px;
+  left:0;
+  width:500px;
+  background:url({{ app_url_packaged }}/images/promo/rank/rankhf.png) no-repeat;
+  background-size:420px;
+  height:320px;
+  opacity:0;
+  -webkit-animation-duration: 800ms;
+  animation-duration: 800ms;
+  -webkit-transition-delay: 800ms;
+  transition-delay: 800ms;
+}
+.pkhf.slide{
+  opacity:1;
+  -webkit-transition-delay: 800ms !important;
+  transition-delay: 800ms !important;
+}
+.pklf{
+  position:absolute;
+  top:400px;
+  right:0;
+  width:420px;
+  background:url({{ app_url_packaged }}/images/promo/rank/ranklf.png) no-repeat;
+  background-size:420px;
+  height:320px;
+  opacity:0;
+  -webkit-animation-duration: 800ms;
+  animation-duration: 800ms;
+  -webkit-transition-delay: 800ms;
+  transition-delay: 800ms;
+}
+.pklf.slide{
+  opacity:1;
+  -webkit-transition-delay: 800ms !important;
+  transition-delay: 800ms !important;
+}
+.pkhs{
+  position:absolute;
+  top:285px;
+  left:290px;
+  width: 180px;
+  background:url({{ app_url_packaged }}/images/promo/rankh.png);
+  background-size:cover;
+  height:123px;
+  opacity:0;
+  transition-delay: 1s;
+  -moz-transition-delay: 1s; 
+  -webkit-transition-delay: 1s; 
+  -o-transition-delay: 1s;
+}
+.pkls{
+  position:absolute;
+  top:285px;
+  right:290px;
+  width: 180px;
+  background:url({{ app_url_packaged }}/images/promo/rankl.png);
+  background-size:cover;
+  height:123px;
+  opacity:0;
+  transition-delay: 1s;
+  -moz-transition-delay: 1s; 
+  -webkit-transition-delay: 1s; 
+  -o-transition-delay: 1s;
+}
+.pkvs{
+  position:absolute;
+  top: 320px;
+  left: 50%;
+  width: 230px;
+  margin-left: -115px;
+  background:url({{ app_url_packaged }}/images/promo/rankvs.jpg);
+  background-size:cover;
+  height:169px;
+  opacity:0;
+}
+.pkvs.flip{
+  opacity:1;
+}
+.pkp{
+  position:absolute;
+  bottom:0;
+  width: 360px;
+  left: 50%;
+  margin-left: -180px;
+  background:url({{ app_url_packaged }}/images/promo/rankp.png);
+  background-size:cover;
+  height:256px;
+  opacity:0;
+}
+.pkp.fly{
+  opacity:1;
+}
+
+.pkhbtn{
+  position:absolute;
+  bottom: 50px;
+  width:100px;
+  left:200px;
+  background:url({{ app_url_packaged }}/images/promo/rankhzc.png);
+  background-size:cover;
+  height:100px;
+  z-index:9;
+}
+.pklbtn{
+  position:absolute;
+  bottom: 50px;
+  width:100px;
+  right:200px;
+  background:url({{ app_url_packaged }}/images/promo/ranklzc.png);
+  background-size:cover;
+  height:100px;
+  z-index:9;
+}
+.rankhpro{
+  background:url({{ app_url_packaged }}/images/promo/rankhpro.jpg);
+  height:50px;
+  background-repeat:repeat;
+  display:inline-block;
+  border-bottom-left-radius: 8px;
+  padding: 0 20px !important;
+  line-height: 50px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 1px;
+}
+.ranklpro{
+  background:url({{ app_url_packaged }}/images/promo/ranklpro.jpg);
+  height:50px;
+  background-repeat:repeat;
+  display:inline-block;
+  border-bottom-right-radius: 8px;
+  padding: 0 20px !important;
+  line-height: 50px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 1px;
+  text-align:right;
+}
+.mainwrap.commentrank{
+  padding: 0 !important;
+  margin: 15px auto 35px !important;
+}
+.mainwrap.commentrank .mainleft{
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+}
+.post.comment,.ui.comments{
+  font-size:1rem !important;
+}
+.joint,.ranzc{
+  position: absolute;
+  bottom: 50px;
+  width: 100px;
+  left: 200px;
+  background: url({{ app_url_packaged }}/images/promo/rankzc.png);
+  background-size: cover;
+  height: 100px;
+  z-index:2;
+  animation:scal 4s ease-in infinite;
+  -webkit-animation:scal 4s ease-in infinite;
+  -moz-animation:scal 4s ease-in infinite;
+}
+@-webkit-keyframes scal {
+	0% { -webkit-transform: scale(0.8); }
+	50% { -webkit-transform: scale(1.15); }
+	100% { -webkit-transform: scale(0.8); }
+}
+@keyframes scal {
+	0% { transform: scale(0.8); }
+	50% { transform: scale(1.15); }
+	100% { transform: scale(0.8); }
+}
+@-moz-keyframes scal {
+	0% { -moz-transform: scale(0.8); }
+	50% { -moz-transform: scale(1.15); }
+	100% { -moz-transform: scale(0.8); }
+}
+.ranzc{
+  right: 200px;
+  left: inherit;
+}
+.boyname{
+    margin-left: 35px;
+    margin-top: 20px;
+	position:relative;
+}
+.boyname img{
+	width: 24px;
+    position: absolute;
+    left: -35px;
+    top: -5px;
+}
+.boyname+.boyname img{
+	top:5px;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript">
+
+  var has_support = {{ has_support|default 0 }};
+  var support_cid = {{ support_cid|default 0 }};
+
+  function support_event(cid){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+
+    // 难证是否支持过
+    $.get("{{ app_url_domain_base }}/app/site/promo_func/ajax_attend", {target_id: 5, event: 5, cid: cid}, function(result){
+      if(result.success){
+        // 已投票标识
+        has_support = 1;
+        support_cid = cid;
+        phenix.show_ok_note(result.message);
+        var l_count = parseInt($('.support-l-count').text());
+        var r_count = parseInt($('.support-r-count').text());
+
+        if(cid==1){
+          $('.support-l-count').text(l_count+1);
+          fetch_present(l_count+1, r_count);
+        }else if(cid==2){
+          $('.support-r-count').text(r_count+1);
+          fetch_present(l_count, r_count+1);
+        }
+
+        // 分享
+        		$('.ui.share.modal')
+		          .modal('setting', 'transition', 'vertical  flip')
+		          .modal('show');
+
+      }else{
+        phenix.show_error_note(result.message);
+        return;
+      }
+    }, 'json');
+  }
+
+  // 得到两个数百分比
+  function fetch_present(x, y){
+    var total = x+y;
+    if(total==0){
+      var l_per = 50;
+      var r_per = 50;   
+    }else{
+      var l_per = (x/total)*100;
+      var r_per = (y/total)*100;
+    }
+
+    $('.support-l-count').show().css('width', l_per+"%");
+    $('.support-r-count').show().css('width', r_per+"%");
+    if(l_per==0){
+      $('.support-l-count').hide();
+    }else if(r_per==0){
+      $('.support-r-count').hide();
+    }
+
+  }
+</script>
+{% endblock %}
+
+{% block jquery %}
+  $(window).scroll(function(){
+	    var scrollTop = $(window).scrollTop();
+			if(scrollTop > 1600){
+        $('.pktitle').addClass('transition fly up in');
+        $('.pkhs').addClass('transition fly in');
+        $('.pkls').addClass('transition fly in');
+        $('.pkvs').addClass('transition flip vertical in');
+      }
+      if(scrollTop > 1700){
+        $('.pkp').addClass('transition fly down in');
+        $('.pkhf').addClass('transition slide right in');
+        $('.pklf').addClass('transition slide left in');
+      }
+  })
+
+	phenix.hook_comment_page();
+  // 查看大图
+  phenix.comment_blow_up_img();
+
+  // 支持左方铵钮
+  $('.support-l-btn').click(function(){
+    var cid = $(this).data('cid');
+    support_event(cid);
+  });
+
+  // 支持右方铵钮
+  $('.support-r-btn').click(function(){
+    var cid = $(this).data('cid');
+    support_event(cid);
+  });
+
+  fetch_present({{count_01|default 0}}, {{count_02|default 0}});
+
+  $('#comment-box .ui.submit.button').click(function(){
+    if(has_support==0){
+      phenix.show_error_note('投票后才有权力发表意见哦~');
+      return false;
+    }
+    $('#comment-form :input[name=sku_id]').val(support_cid);
+
+  });
+
+    // 绑定跳楼
+    $('.gotofloor').bind('keydown', function(e){
+        var floor = $(this).val(), max = parseInt($(this).data('max')), url = $(this).data('url');
+        if(e.keyCode == 13){
+            if (isNaN(floor)){
+                alert('必须输入一个数字！');
+                return false;
+            }
+            if (floor > max){
+                floor = max;
+            }
+            window.location.href = url + '?floor=' + floor + '#f' + floor;
+        }
+    });
+
+	phenix.bind_share_list();
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/rank'});
+{% endblock %}
+{% block content %}
+<div id="srank">
+  <img src="{{ app_url_packaged }}/images/promo/rank/rank.jpg" width="100%" alt="神嘴争霸赛">
+  <div class="ui mainwrap grid">
+    <div class="row">
+      <div class="column">
+        <div class="rtitle">
+          活动介绍
+        </div>
+        <p>这是一场不见硝烟的战争，这是一次无关对错的辩论。我们举办此次活动，只为找到能够开口就让别人吐几十两鲜血的旷世人才！</p>
+        <p>霸气总侧漏！好胆你就来！这次争霸赛就是为你而生！让撕X来的更猛烈些吧！</p>
+        <div class="line"></div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="column">
+        <div class="rtitle tmr">
+          活动时间
+        </div>
+        <div class="time"></div>
+        <div class="line"></div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="column">
+        <div class="rtitle">
+          活动规则
+        </div>
+        <p>1.根据辩题分为正反两方，用户可以自行选择对战方阵。</p>
+        <p>2.评论中点赞支持数最高的人气用户将获得”太火鸟嘴神“称号，获得太火鸟送出的<span style="color:#ed4711;">奶爸爸智能冲奶机全额兑换券</span>！</p>
+        <p>3.评论在总楼层的11%、33%、55%、77%、99%的用户将获得”太火鸟名嘴“称号，获得太火鸟送出的太火鸟独家定制神秘大礼包。</p>
+        <p class="ui link">
+（中奖时涉及到小数点的楼层四舍五入取整数)</p>
+        <div class="line"></div>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="column">
+        <div class="rtitle">
+          注意事项
+        </div>
+        <p>1.严禁辩论双方进行人身攻击；</p>
+        <p>2.跟帖留言用户不得恶意复制他人内容回复，同样内容回复超过两次，超长式刷屏按灌水违规禁言处理；</p>
+        <p>3.同一ID、电话、联系人、地址均视为同一人，不得重复中奖；</p>
+        <p>4.奶爸爸智能冲奶机全额兑换券需在产品开始众筹时使用，发货时间与众筹发货时间同步；</p>
+        <p>5.本次活动最终解释权归太火鸟所有。<br/></p>
+        <div class="line"></div>  
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="column">
+        <div class="rtitle">
+          奖品设置
+        </div>
+        <img src="{{ app_url_packaged }}/images/promo/rank/rankpk.jpg" width="100%">
+        <p><br/></p>
+      </div>
+    </div>
+    
+  </div>
+  
+  
+  <div class="ui mainwrap bpk grid">
+    <div class="propk row">
+      <div class="pktitle column">
+        <h2>场景模拟</h2>
+        <p><span>假设</span> 期盼已久，十月怀胎后你们的爱情结晶终于呱呱坠地，可是养娃好难！</p>
+		
+		<p class="boyname">
+			<img src="{{ app_url_packaged }}/images/promo/rank/boy.png">
+			作为奶爸，不仅要在外拼搏应酬老板客户拼命赚奶粉钱，对内还要安抚妻子照顾宝宝，三头六臂都不够了，做个奶爸好难！
+		</p>
+		<p class="boyname">
+			<img src="{{ app_url_packaged }}/images/promo/rank/girl.png">
+			作为辣妈，牺牲身材十月怀胎，一朝分娩撕心裂肺，日夜陪伴全心呵护，身体精神多重考验，要照顾宝宝也要兼顾自己的事业，做个辣妈好难！
+		</p>
+		<p>你说说到底<span>辣妈</span>和<span>奶爸 </span>谁最苦逼！</p>
+		
+		
+      </div>
+      <div class="pkhs"></div>
+      <div class="pkls"></div>
+      <div class="pkvs"></div>
+      <div class="pkp"></div>
+      <div class="pkhf"></div>
+      <div class="pklf"></div>
+      
+      <a class="pkhbtn support-l-btn" data-cid="1" href="javascript:void(0);"></a>
+      <div class="joint"></div>
+      <a class="pklbtn support-r-btn" data-cid="2" href="javascript:void(0);"></a>
+      <div class="ranzc right"></div>
+      
+    </div>
+    <div class="rankhpro support-l-count">{{ count_01 }}</div>
+    <div class="ranklpro support-r-count">{{ count_02 }}</div>
+    
+  </div>
+  <div class="ui mainwrap commentrank grid">
+    <div class="mainleft">
+      <div class="container">
+		<div class="reply box">
+              <a name="comment_top"></a>
+			    <!--ajax comment-->
+  	        <div class="block title">
+                  全部评论<small>（{{ comment_count }}）</small>
+                  
+                  <div class="quick goto">
+                      直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ comment_count }}" data-url="{{ app_url_promo }}/rank" title="跳转到指定楼层" />
+                  </div>
+              </div>
+		  	    <div id="comment-list">
+                  {% comment_list var:'comments' page:1 size:5 target_id:5 type:10 check_loved:1 only_hotest:1 current_user_id:visitor.id %}
+                  {% if comments.rows %}
+                  <div class="ui threaded hotest comments">
+                      <a class="ui red ribbon label">热门回复</a>
+              		{% for comment in comments.rows %}
+              			{%include 'block/comment_rank_item.html'%}
+              		{% endfor %}
+                      <hr>
+                  </div>
+                  {% endif %}
+                  <div class="ui threaded comments is-comment">
+                    {% comment_list var:'comment_list' page:page size:size target_id:5 type:10 check_loved:1 current_user_id:visitor.id %}                {% for comment in comment_list.rows %}
+                      {%include 'block/comment_rank_item.html'%}
+                    {%endfor%}
+                  
+                  </div>
+                {% if comment_list.total_rows %}
+                <div class="ui pagination pagerbox">
+                  {% pager url:pager_url,total_rows:comment_list.total_rows,total_page:comment_list.total_page,current_page:page,var:'pager',pager_size:9 %}
+                  {%include 'block/pager.html'%}
+                </div>
+                {% endif %}
+		  	    </div>
+		  	    {% include "block/comment_box_site.html" %}
+          </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+{% include "block/sharebox.html" %}
+{% include "block/qrcode.html" %}
+{% endblock %}
