@@ -177,7 +177,7 @@ p{
   //记录分享数
   function record_share_num(){
     var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
-    $.get(url, { target_id: 8, count_name:'count', type: 4, kind:4 });
+    $.get(url, { target_id: 13, count_name:'count', type: 4, kind:4 });
   };
 
   var has_support = {{ has_support|default 0 }};
@@ -186,7 +186,7 @@ p{
   function support_event(cid){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
-		  phenix.redirect("{{ app_url_wap }}/auth/login");
+		  phenix.redirect("{{ app_url_wap }}/auth/login_signup");
 			return false;
 		}
 
