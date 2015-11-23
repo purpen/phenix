@@ -10,7 +10,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     'target_id'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2');
 
 	/**
 	 * 网站入口
@@ -190,7 +190,13 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
     return $this->to_redirect($redirect_url); 
   }
-
+	/**
+	* 2015 辣妈奶爸神嘴pk
+	*/
+	public function rank2(){
+		
+		return $this->to_html_page('wap/promo/rank2.html');
+	}
 	/**
 	 * 2015 云马Ｃ1神嘴pk
 	 */

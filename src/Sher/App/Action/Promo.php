@@ -10,13 +10,21 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
     'floor'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi','rank');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi','rank','rank2');
 	
 	/**
 	 * 网站入口
 	 */
 	public function execute(){
 		return $this->coupon();
+	}
+	
+	/**
+	 * 2015 辣妈奶爸神嘴pk
+	 */
+	public function rank2(){
+		$this->set_target_css_state('page_social');
+		return $this->to_html_page('page/promo/rank2.html');
 	}
 	
 	/**
