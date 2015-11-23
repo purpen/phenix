@@ -1,902 +1,340 @@
-{%extends 'layout/mobile.html'%}
-{% block title %}{% endblock %}
-{% block page_css %}
-<style type="text/css">
-	header.ui.wap{
-		display:none !important;
-		opacity:0;
-	}
-	#mfrbird{
-		margin:0;
-	}
-	.mmfoot{
-		display:none;
-	}
-	* { -webkit-appearance: none; }
+<!DOCTYPE html>
+<html>
+	<head lang="zh-CN">
+		<meta charset="UTF-8">
+    	<meta name="apple-mobile-web-app-capable" content="yes">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="format-detection" content="telephone=no"/>
+		<script src="http://frstatic.qiniudn.com/wechat/js/plugins.min.js"></script>
+	    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<style type="text/css">
+        .loading{
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: #070709;
+        }
 
-	html, body { height: 100%; width: 100%; margin: 0px;position:relative;overflow:hidden}
-	.wrap {
-	width: 640px;
-	margin: 0 auto;
-	height: 100%;
-	overflow: hidden;
-	}
-	@media only screen and (min-width: 561px){
-		.menu{
-			height: 200px;
-		}
-		.w-2{
-			width:380px;
-		}
-		.s3 .w-2{
-			margin-right:100px;
-		}
-		img.s1-1{
-			width: 457px;
-			margin-top: -167px;
-			margin-left: -181.5px;
-		}
-	}
-	@media only screen and (max-width: 560px){
-	.wrap {
-	width: 100%;
-	}
-	.menu{
-		height: 200px;
-	}
-	.w-2{
-		width:380px;
-	}
-	img.s1-1{
-		width: 302px;
-		margin-top: -202px;
-		margin-left: -123.5px;
-	}
-}
+        .loading__inner{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -26px;
+            margin-top: -16px;
+            width: 52px;
+            height: 32px;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            background-color: #070709;
+        }
+        .loading-num{
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 100%;
+            text-align: center;
+        }
+		
+	  /**** 横屏 ****/
+	  @-webkit-keyframes rotation {
+        10% {
+            transform: rotate(90deg);
+            -webkit-transform: rotate(90deg)
+        }
+        50%, 60% {
+            transform: rotate(0deg);
+            -webkit-transform: rotate(0deg)
+        }
+        90% {
+            transform: rotate(90deg);
+            -webkit-transform: rotate(90deg)
+        }
+        100% {
+            transform: rotate(90deg);
+            -webkit-transform: rotate(90deg)
+        }
+    }
 
-	
-	@media only screen and (max-width: 414px){
-		.menu{
-			height: 120px;
-		}
-		img.s1-1{
-			width: 302px;
-			margin-top: -202px;
-			margin-left: -117.5px;
-		}
-		.w-2{
-			width:310px;
-		}
-	}
-	@media only screen and (max-width: 375px){
-		.menu{
-			height: 120px;
-		}
-	img.s1-1{
-		width: 275px;
-		margin-top: -160px;
-		margin-left: -117.5px;
-	}
-	.w-2{
-		width:280px;
-	}
-	.s3 .w-2{
-		width:310px;
-	}
-}
-@media only screen and (max-width: 320px){
-	img.s1-1{
-		width: 249px;
-		margin-top: -160px;
-		margin-left: -117.5px;
-	}
-	.menu{
-		height: 85px;
-	}
-	.s3 .w-2{
-		width:310px;
-	}
-}
-	
-.section.s1{
-	background: url(http://frstatic.qiniudn.com/images/egg/egg_bg.jpg) no-repeat;
-	background-size:cover;
-}
-.section.s2{
-	background: url(http://frstatic.qiniudn.com/images/egg/egg_2.jpg) no-repeat;
-	background-size:cover;
-}
-.section.s3,.section.s6,.section.s7{
-	background: url(http://frstatic.qiniudn.com/images/egg/egg_3.jpg) no-repeat;
-	background-size:cover;
-	position:relative;
-}
-.section.s4{
-	background: url(http://frstatic.qiniudn.com/images/egg/egg_4.jpg) no-repeat;
-	background-size:cover;
-	position:relative;
-}
-.section.s5{
-	background: url(http://frstatic.qiniudn.com/images/egg/egg_5.jpg) no-repeat;
-}
+    @keyframes rotation {
+        10% {
+            transform: rotate(90deg);
+            -webkit-transform: rotate(90deg)
+        }
+        50%, 60% {
+            transform: rotate(0deg);
+            -webkit-transform: rotate(0deg)
+        }
+        90% {
+            transform: rotate(90deg);
+            -webkit-transform: rotate(90deg)
+        }
+        100% {
+            transform: rotate(90deg);
+            -webkit-transform: rotate(90deg)
+        }
+    }
 
+    #orientLayer {
+        display: none;
+    }
 
-img.s1-1 {
-	position: absolute;
-	opacity: 1;
-	top: 50%;
-	left: 50%;
-	z-index:1;
-}
-.active .page-bounceIn{
-	-webkit-animation:bounceIn 1s .2s ease both;
-	-moz-animation:bounceIn 1s .2s ease both;
-	animation:bounceIn 1s .2s ease both;
-}
-@-webkit-keyframes bounceIn{
-	0% 		{opacity:0;-webkit-transform:scale(.3)}
-	50% 	{opacity:1;-webkit-transform:scale(1.05)}
-	70% 	{-webkit-transform:scale(.9)}
-	100% 	{opacity:1;-webkit-transform:scale(1)}
-}
-@-moz-keyframes bounceIn{
-	0% 		{opacity:0;-moz-transform:scale(.3)}
-	50% 	{opacity:1;-moz-transform:scale(1.05)}
-	70% 	{-moz-transform:scale(.9)}
-	100% 	{opacity:1;-moz-transform:scale(1)}
-}
-@keyframes bounceIn{
-	0% 		{opacity:0;transform:scale(.3)}
-	50% 	{opacity:1;transform:scale(1.05)}
-	70% 	{transform:scale(.9)}
-	100% 	{opacity:1;transform:scale(1)}
-}
+    @media screen and (min-aspect-ratio: 12/8) {
+        #orientLayer {
+            display: block;
+        }
+    }
 
+    .mod-orient-layer {
+        display: none;
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background: #000;
+        z-index: 9997;
+    }
 
-.active .page-fadeInDown {
--webkit-animation: fadeInDown 1s ease both;
--moz-animation: fadeInDown 1s ease both;
-animation: fadeInDown 1s ease both;
-}
+    .mod-orient-layer__content {
+        position: absolute;
+        width: 100%;
+        top: 45%;
+        margin-top: -75px;
+        text-align: center
+    }
 
-@-webkit-keyframes fadeInDown{
-	0% 		{opacity:0;-webkit-transform:translateY(-40px)}
-	100% 	{opacity:1;-webkit-transform:translateY(0)}
-}
-@-moz-keyframes fadeInDown{
-	0% 		{opacity:0;-moz-transform:translateY(-40px)}
-	100% 	{opacity:1;-moz-transform:translateY(0)}
-}
-@keyframes fadeInDown{
-	0% 		{opacity:0;-moz-transform:translateY(-40px)}
-	100% 	{opacity:1;-moz-transform:translateY(0)}
-}
+    .mod-orient-layer__icon-orient {
+        background-image: url(http://frstatic.qiniudn.com/images/promo/hengping.png);
+        display: inline-block;
+        width: 67px;
+        height: 109px;
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg);
+        -webkit-animation: rotation infinite 1.5s ease-in-out;
+        animation: rotation infinite 1.5s ease-in-out;
+        -webkit-background-size: 67px;
+        background-size: 67px;
+    }
 
+    .mod-orient-layer__desc {
+        margin-top: 20px;
+        font-size: 15px;
+        color: #fff
+    }
+    .music.playing{
+  		-webkit-animation: 2.3s spin linear infinite;
+  		animation: 2.3s spin linear infinite;
+  	}
+  	@-webkit-keyframes spin {
+  	    0% {
+  	        -webkit-transform: rotateZ(0deg);
+  	    }
 
-.fp-viewing-firstPage {
-height: 100%;
-position: relative;
-}
-.fp-table {
-display: table;
-width: 100%;
-}
-.fp-tableCell {
-display: table-cell;
-width: 100%;
-height: 100%;
-position:relative;
-}
-
-
-.menu{
-	opacity: 0;
-	margin-left: -300px;
-	width:100%;
-	background-size:100%;
-	transition: all .2s;
-}
-.menu.p2{
-	background:url(http://frstatic.qiniudn.com/images/egg/menu1.png) no-repeat;
-	background-size: 100%;
-}
-.menu.p3{
-	background:url(http://frstatic.qiniudn.com/images/egg/menu2.png) no-repeat;
-	background-size: 100%;
-}
-.menu.p4{
-	background:url(http://frstatic.qiniudn.com/images/egg/menu3.png) no-repeat;
-	background-size: 100%;
-}
-.menu.p5{
-	background:url(http://frstatic.qiniudn.com/images/egg/menu4.png) no-repeat;
-	background-size: 100%;
-}
-.menu.p6{
-	background:url(http://frstatic.qiniudn.com/images/egg/menu5.png) no-repeat;
-	background-size: 100%;
-}
-.active .menu{
-	margin-left:0;
-	opacity: 1;
-	transition-delay: 0.7s;
-}
-.s2-2{
-	position: relative;
-	transform: rotate(360deg);
-	-ms-transform:rotate(360deg); 	/* IE 9 */
-	-moz-transform:rotate(360deg); 	/* Firefox */
-	-webkit-transform:rotate(360deg); /* Safari 和 Chrome */
-	-o-transform:rotate(360deg);
-	opacity: 0;
-	transition: all .3s;
-}
-.active .s2-2{
-	transform: rotate(-360deg);
-	-ms-transform:rotate(-360deg); 	/* IE 9 */
-	-moz-transform:rotate(-360deg); 	/* Firefox */
-	-webkit-transform:rotate(-360deg); /* Safari 和 Chrome */
-	-o-transform:rotate(-360deg);
-	opacity: 1;
-	transition-delay: 0.7s;
-}
-.s2-3{
-	position: relative;
-	top:0px;
-	right:0%;
-	margin-right:-100px;
-	opacity: 0;
-	transform:scale(0);
-	-ms-transform:scale(0); 	/* IE 9 */
-	-moz-transform:scale(0); 	/* Firefox */
-	-webkit-transform:scale(0); /* Safari 和 Chrome */
-	-o-transform:scale(0);
-	transition: all .7s;
-}
-.active .s2-3{
-	margin-top: 0px;
-	margin-left: 0;
-	opacity: 1;
-	transform: scale(1);
-	-ms-transform:scale(1); 	/* IE 9 */
-	-moz-transform:scale(1); 	/* Firefox */
-	-webkit-transform:scale(1); /* Safari 和 Chrome */
-	-o-transform:scale(1);
-	transition-delay: .9s;
-}
-.s2-4{
-	position:relative;
-	opacity: 0;
-	transition: all .7s;
-	margin-bottom: -300px;
-}
-.active .s2-4{
-	opacity: 1;
-	transition-delay: 1.4s;
-	margin-bottom: 0;
-}
-.s2-5{
-	position: absolute;
-	left:0px;
-	opacity: 0;
-	transition: all .7s;
-}
-.active .s2-5{
-	right:50%;
-	margin-right:-100px;
-	opacity: 1;
-	transition-delay: 0.7s;
-}
-.s2 img,.s3 img{
-	width:80%;
-}
-
-.w-2{
-	margin:0 auto;
-	height:auto;
-}
-.s3 .w-2,.s4 .w-2{
-	text-align:center;
-	position:relative;
-}
-.s3 .w-2 img{
-	position:absolute;
-	right: 50%;
-	margin-right: -117px;
-}
-.s3-1,.s3-2,.s3-3,.s3-4,.s3-5{
-	transform:scale(0);
-	-ms-transform:scale(0); 	/* IE 9 */
-	-moz-transform:scale(0); 	/* Firefox */
-	-webkit-transform:scale(0); /* Safari 和 Chrome */
-	-o-transform:scale(0);
-}
-.active .s3-1,.active .s3-2,.active .s3-3,.active .s3-4,.active .s3-5{
-	transform:scale(1);
-	-ms-transform:scale(1); 	/* IE 9 */
-	-moz-transform:scale(1); 	/* Firefox */
-	-webkit-transform:scale(1); /* Safari 和 Chrome */
-	-o-transform:scale(1);
-}
-.s3-1{
-	opacity:0;
-	transition: all .7s;
-}
-.active .s3-1{
-	opacity:1;
-	transition-delay: 0.3s;
-}
-.s3-2{
-	opacity:0;
-	transition: all .7s;
-}
-.active .s3-2{
-	opacity:1;
-	transition-delay: 0.6s;
-}
-.s3-3{
-	opacity:0;
-	transition: all .7s;
-}
-.active .s3-3{
-	opacity:1;
-	transition-delay: 0.9s;
-}
-.s3-4{
-	opacity:0;
-	transition: all .7s;
-}
-.active .s3-4{
-	opacity:1;
-	transition-delay: 1.2s;
-}
-.s3-5{
-	opacity:0;
-	transition: all .7s;
-}
-.active .s3-5{
-	opacity:1;
-	transition-delay: 1.5s;
-}
-
-.s4 .w-2{
-	text-align:center;
-	width:100%;
-}
-.slide h3.ui.header{
-	margin: 1em 0 0rem;
-}
-.slide h3,.slide p{
-	margin:0;
-	color:#fff;
-}
-
-
-.fp-slides {
-z-index: 1;
-height: 100%;
-overflow: hidden;
-position: relative;
--webkit-transition: all 0.3s ease-out;
-transition: all 0.3s ease-out;
-}
-.fp-slidesContainer {
-float: left;
-position: relative;
-}
-.fp-section.fp-table, .fp-slide.fp-table {
-display: table;
-table-layout: fixed;
-width: 100%;
-}
-.fp-slide, .fp-slidesContainer {
-height: 100%;
-display: block;
-}
-.fp-slide {
-float: left;
-}
-
-.fp-controlArrow.fp-next:before {
-	font-family: "FontFlatIcons";
-	font-size: 27px;
-	line-height: 1;
-	display: inline-block;
-	content: '\e0d3';
-}
-.s6 .fp-controlArrow.fp-next{
-	-webkit-animation: arrowRt 1.5s linear infinite;
-	-moz-animation: arrowRt 1.5s linear infinite;
-	animation: arrowRt 1.5s linear infinite;
-}
-.fp-controlArrow.fp-next {
-	right: 0px;
-	display: inline-block;
-	opacity: .75;
-	color: #FFF;
-	margin: 0 .25em 0 0;
-	width: 1.23em;
-	height: 1em;
-	font-family: FontFlatIcons;
-	font-style: normal;
-	line-height: 1;
-	font-weight: 400;
-	text-decoration: inherit;
-	text-align: center;
-	speak: none;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-ms-box-sizing: border-box;
-	box-sizing: border-box;
-	-webkit-font-smoothing: antialiased;
-	-moz-font-smoothing: antialiased;
-	font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-.fp-controlArrow.fp-prev:before{
-	font-family: "FontFlatIcons";
-	font-size: 27px;
-	line-height: 1;
-	display: inline-block;
-	content: '\e010';
-}
-.s6 .fp-controlArrow.fp-prev {
-	-webkit-animation: arrowUp 1.5s linear infinite;
-	-moz-animation: arrowUp 1.5s linear infinite;
-	animation: arrowUp 1.5s linear infinite;
-}
-.fp-controlArrow.fp-prev {
-	left: 0px;
-	display: inline-block;
-	opacity: .75;
-	color: #FFF;
-	margin: 0 .25em 0 0;
-	width: 1.23em;
-	height: 1em;
-	font-family: FontFlatIcons;
-	font-style: normal;
-	line-height: 1;
-	font-weight: 400;
-	text-decoration: inherit;
-	text-align: center;
-	speak: none;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	-ms-box-sizing: border-box;
-	box-sizing: border-box;
-	-webkit-font-smoothing: antialiased;
-	-moz-font-smoothing: antialiased;
-	font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-.s4 .fp-controlArrow{
-	top: 50%;
-	font-size: 27px;
-	margin-top: -80px;
-}
-.fp-controlArrow {
-position: absolute;
-z-index: 4;
-
-cursor: pointer;
-
-}
-@-webkit-keyframes arrowRt {
-	0%{-webkit-transform:translateX(-40px);opacity:0}
-	60%{-webkit-transform:translateX(-12px);opacity:1}
-	100%{-webkit-transform:translateX(-0px);opacity:0}
-}
-@-moz-keyframes arrowRt {
-	0%{-webkit-transform:translateX(-40px);opacity:0}
-	60%{-webkit-transform:translateX(-12px);opacity:1}
-	100%{-webkit-transform:translateX(-0px);opacity:0}
-}
-@keyframes arrowRt {
-	0%{-webkit-transform:translateX(-40px);opacity:0}
-	60%{-webkit-transform:translateX(-12px);opacity:1}
-	100%{-webkit-transform:translateX(-0px);opacity:0}
-}
-
-@-webkit-keyframes arrowUp {
-	0%{-webkit-transform:translateX(40px);opacity:0}
-	60%{-webkit-transform:translateX(12px);opacity:1}
-	100%{-webkit-transform:translateX(0px);opacity:0}
-}
-@-moz-keyframes arrowUp {
-	0%{-webkit-transform:translateX(40px);opacity:0}
-	60%{-webkit-transform:translateX(12px);opacity:1}
-	100%{-webkit-transform:translateX(0px);opacity:0}
-}
-@keyframes arrowUp {
-	0%{-webkit-transform:translateX(40px);opacity:0}
-	60%{-webkit-transform:translateX(12px);opacity:1}
-	100%{-webkit-transform:translateX(0px);opacity:0}
-}
-
-.s6 .fp-controlArrow {
-	top: 50%;
-	margin-top: -50px;
-}
-.s5-1{
-	opacity:0;
-	transition: all .7s;
-}
-.active .s5-1{
-	opacity:1;
-	transition-delay: .2s;
-}
-.s5-2{
-	opacity:0;
-	transition: all .4s;
-	margin-bottom:-400px;
-}
-.active .s5-2{
-	opacity:1;
-	transition-delay: .4s;
-	margin-bottom:0;
-}
-.s5-3{
-	opacity:0;
-	transition: all 1s;
-	margin-bottom:-400px;
-}
-.active .s5-3{
-	opacity:1;
-	transition-delay: .6s;
-	margin-bottom:0;
-}
-.s5 .w-2 img,.s7 .w-2 img{
-	width:80%;
-}
-.s7 .w-2{
-	margin-top: -20px;
-	padding-top: 50%;
-	text-align: center;
-}
-.s7-2{
-	opacity: 0;
-	transform: scale(0);
-	transition: all .5s;
-}
-.active .s7-2{
-	opacity: 1;
-	transition-delay: 1.5s;
-	transform: scale(1);
-}
-img.s7-4, img.s7-g, img.s7-11 {
-	display: inline-block;
-	width: 25% !important;
-}
-.s7-4{
-	transform: rotate(360deg);
-	-ms-transform:rotate(360deg); 	/* IE 9 */
-	-moz-transform:rotate(360deg); 	/* Firefox */
-	-webkit-transform:rotate(360deg); /* Safari 和 Chrome */
-	-o-transform:rotate(360deg);
-	opacity: 0;
-	transition: all .3s;
-	margin-left:-60%;
-}
-.active .s7-4{
-	transform: rotate(-360deg);
-	-ms-transform:rotate(-360deg); 	/* IE 9 */
-	-moz-transform:rotate(-360deg); 	/* Firefox */
-	-webkit-transform:rotate(-360deg); /* Safari 和 Chrome */
-	-o-transform:rotate(-360deg);
-	opacity: 1;
-	transition-delay: .3s;
-	margin-left:0;
-}
-.s7-11{
-	transform: rotate(-360deg);
-	-ms-transform:rotate(-360deg); 	/* IE 9 */
-	-moz-transform:rotate(-360deg); 	/* Firefox */
-	-webkit-transform:rotate(-360deg); /* Safari 和 Chrome */
-	-o-transform:rotate(-360deg);
-	transition: all .6s;
-	opacity: 0;
-	margin-right:-60%;
-}
-.active .s7-11{
-	transform: rotate(360deg);
-	-ms-transform:rotate(360deg); 	/* IE 9 */
-	-moz-transform:rotate(360deg); 	/* Firefox */
-	-webkit-transform:rotate(360deg); /* Safari 和 Chrome */
-	-o-transform:rotate(360deg);
-	transition-delay: .6s;
-	margin-right:0;
-	opacity: 1;
-}
-.s7-g{
-	opacity: 0;
-	transition: all .3s;
-	transform: scale(0);
-}
-.active .s7-g{
-	opacity: 1;
-	transition-delay: 1.2s;
-	transform: scale(1);
-}
-#music-control {
-width: 30px;
-height: 30px;
-position: fixed;
-right: 5px;
-top: 5px;
-z-index: 100000;
-}
-
-.slide-list{
-	width:100%;
-	margin-top: -16px;
-}
-
-
-@-webkit-keyframes swipe {
-	0%{-webkit-transform:translateY(40px);opacity:0}
-	60%{-webkit-transform:translateY(12px);opacity:1}
-	100%{-webkit-transform:translateY(0px);opacity:0}
-}
-@-moz-keyframes swipe {
-	0%{-webkit-transform:translateY(40px);opacity:0}
-	60%{-webkit-transform:translateY(12px);opacity:1}
-	100%{-webkit-transform:translateY(0px);opacity:0}
-}
-@keyframes swipe {
-	0%{-webkit-transform:translateY(40px);opacity:0}
-	60%{-webkit-transform:translateY(12px);opacity:1}
-	100%{-webkit-transform:translateY(0px);opacity:0}
-}
-/*@keyframes swipe { 
-    0% { top: 92%; opacity: 1 }
-    100% { top: 90%; opacity: 0}  
-}
-@-webkit-keyframes swipe { 
-    0% { top: 92%; opacity: 1 }
-    100% { top: 90%; opacity: 0} 
-}*/
-.ui.btn{
-	padding:1em 2em !important;
-}
-.swipe { 
-    animation: swipe 1.5s linear infinite;
-    -webkit-animation: swipe 1.5s linear infinite;
-}
-.swipe { position: absolute; width: 28px; height: 16px; top: 90%; left: 50%; margin-left: -14px; }
-a.line, a.line:visited {
-color: #444;
-border-bottom: 2px solid rgba(255,255,255,0);
--webkit-transition: all .3s ease-in-out 0s;
-transition: all .3s ease-in-out 0s;
-text-decoration: none;
-}
-a.line:hover{
-	color:#f36;
-	border-bottom: 2px solid #f36;
-}
-.ui.one.cards>.card>.content{
-	height:24px !important;
-}
-</style>
-{% endblock %}
-
-{% block layout_js %}
-	<script src="http://frstatic.qiniudn.com/wechat/js/audio5.min.js" type="text/javascript"></script>
-	<script src="http://frstatic.qiniudn.com/javascript/jquery.fullPage.min.js"></script>
-	<script type="text/javascript" >
-		$('.wrap').fullpage({
-			'verticalCentered': true,
-			'sectionsColor':['#000','#000','#000','#000','#000','#190119'],
-			'css3':false,
-			'slidesNavigation': true,
-			afterRender: function(){
-						$('.s1-1').addClass('page-bounceIn');
-						$('.s1-3').addClass('page-fadeInDown');
-			},
+  	    100% {
+  	        -webkit-transform: rotateZ(360deg);
+  	    }
+  	}
+    .music {
+        position: fixed;
+        background: url(http://frstatic.qiniudn.com/images/promo/music_bg.png) 0 0 no-repeat;
+        z-index: 999;
+        width: 1.5rem;
+        height: 1.5rem;
+        right: 0.4rem;
+        top: 0.4rem;
+        background-size: 100% auto;
+    }
+    .music.stop {
+        background-position: 0 -1.5rem;
+    }
+		
+		*{
+            margin: 0;
+            padding: 0;
+        }
+        html, body {
+            height: 100%;
+            -webkit-box-sizing: border-box;
+            -ms-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -webkit-overflow-scrolling: touch;
+            -webkit-tap-highlight-color:rgba(0, 0, 0, 0);
+            -webkit-backface-visibility:hidden;
+            -webkit-perspective:1000;
+            overflow: hidden;
+        }
+		.wrap{
+            width: 100%;
+            height: 100%;
+        }
+		.page{
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            -webkit-perspective: 1000;
+        }
+		
+        .page-1{
+            background: green;
+        }
+        .page-2{
+            background: blue;
+        }
+        .page-3{
+            background: red;
+        }
 			
-		});
-	</script>
-	
-{% endblock %}
-
-{% block jquery %}
-	bgm = new Audio5js({
-      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
-      ready: function () {
-          this.load('http://frstatic.qiniudn.com/wechat/js/790105 Fireflies.mp3');
-          this.play();
-
-          this.on('canplay', function(){
-              //console.log('canplay');
-          });   
-
-          this.on('ended', function(){
-              bgm.play();
-          })           
-      }
-  });
-
-  $('#music-control').click(function(){
-      bgm.playPause();
-  });
-{% endblock %}
-{% block content %}
-<div style="display:none;"><img src="http://frstatic.qiniudn.com/images/egg/egg_fen.jpg"></div>
-<div id="music-control"><img src="http://frstatic.qiniudn.com/images/music.png" width="29" height="29" /></div>
-<div class="wrap">
-	<div class="section s1">
-		<img src="http://frstatic.qiniudn.com/images/egg/egg_1.png" class="s1-1 page-bounceIn">
-		<img src="http://frstatic.qiniudn.com/images/egg/egg_f.png" width="100%" class="s1-3 page-fadeInDown">
-		
-		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
-	</div>
-	
-	<div class="section s2">
-		<div class="menu p2"></div>
-		<div class="w-2">
-		<img src="http://frstatic.qiniudn.com/images/egg/word.png" class="s2-2">
-		<img src="http://frstatic.qiniudn.com/images/egg/btn.png" class="s2-3">
-		<img src="http://frstatic.qiniudn.com/images/egg/150.png" class="s2-4">
-		<!--<img src="http://frstatic.qiniudn.com/images/egg/line.png" class="s2-5">-->
-		</div>
-		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
-	</div>
-	
-	<div class="section s3">
-		<div class="menu p3"></div>
-		<div class="w-2">
-			<img src="http://frstatic.qiniudn.com/images/egg/pl1.png" class="s3-1">
-			<img src="http://frstatic.qiniudn.com/images/egg/pl2.png" class="s3-2">
-			<img src="http://frstatic.qiniudn.com/images/egg/pr1.png" class="s3-3">
-			<img src="http://frstatic.qiniudn.com/images/egg/pr2.png" class="s3-4">
-			<img src="http://frstatic.qiniudn.com/images/egg/pd.png" class="s3-5">
-		</div>
-		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
-	</div>
-	
-	
-	<div class="section s4">
-		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
-		<div class="menu p4"></div>
-		<div class="slide">
-			<div class="w-2">
-				<img src="http://frstatic.qiniudn.com/images/egg_xxpo.jpg">
-				<h3 class="ui header">徐小平</h3>
-				<p>真格基金创始人</p>
-			</div>
-		</div>
-		<div class="slide">
-			<div class="w-2">
-				<img src="http://frstatic.qiniudn.com/images/egg_lkfo.jpg">
-				<h3 class="ui header">李开复</h3>
-				<p>创新工场创始人</p>
-			</div>
-		</div>
-		<div class="slide">
-			<div class="w-2">
-				<img src="http://frstatic.qiniudn.com/images/egg_hhqo.jpg">
-				<h3 class="ui header">胡海泉<small>（拟）</small></h3>
-				<p>著名歌手</p>
-			</div>
-		</div>
-		<div class="slide">
-			<div class="w-2">
-				<img src="http://frstatic.qiniudn.com/images/egg_lwqo.jpg">
-				<h3 class="ui header">黎万强</h3>
-				<p>小米联合创始人</p>
-			</div>
-		</div>
-		<div class="slide">
-			<div class="w-2">
-				<img src="http://frstatic.qiniudn.com/images/egg_ldho.jpg">
-				<h3 class="ui header">刘东华</h3>
-				<p>正和岛董事长</p>
-			</div>
-		</div>
-		<div class="slide">
-			<div class="w-2">
-				<img src="http://frstatic.qiniudn.com/images/egg_lgo.jpg">
-				<h3 class="ui header">卢刚</h3>
-				<p>动点科技 CEO</p>
-			</div>
-		</div>
-		<div class="slide">
-			<div class="w-2">
-				<img src="http://frstatic.qiniudn.com/images/egg_mcwo.jpg">
-				<h3 class="ui header">麻长炜</h3>
-				<p>DFF基金 董事长 <br /> 淘宝十八罗汉之一</p>
-			</div>
-		</div>
-		<div class="slide">
-			<div class="w-2">
-				<img src="http://frstatic.qiniudn.com/images/egg_zpo.jpg">
-				<h3 class="ui header">张鹏</h3>
-				<p>极客公园 创始人</p>
-			</div>
-		</div>
-	
-	</div>
-	<div class="section s5">
-		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
-		<div class="menu p5"></div>
-		<div class="w-2">
-			<img src="http://frstatic.qiniudn.com/images/egg/ct.png" class="s5-1">
-			<img src="http://frstatic.qiniudn.com/images/egg/cz.png" class="s5-2">
-			<img src="http://frstatic.qiniudn.com/images/egg/cb.png" class="s5-3">
+		</style>
+		</head>
+		<body>
+	    <div class="loading">
+	        <div class="loading__inner">
+	            <div class="loading__img"></div>
+	            <div class="loading-num">0%</div>
+	        </div>
+	    </div>
 			
-		</div>
-	</div>
-	<div class="section s6">
-		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
-		<div class="menu p6"></div>
-		
-		{% stuff_list var:'stufflist' category_id:top_category_id is_top:1 verified:1 sort:4 size:8 %}
-		{% for stuff in stufflist.rows %}
-		<div class="slide">
-			<div class="slide-list">
-				<div class="ui grid" style="padding:0 15%;">
-					<div class="column">
-						<div class="ui one cards">
-							<div class="card">
-								<div class="image">
-			                  	<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" target="_blank">
-			                    {% if stuff.cover %}
-			                      <img src="{{ stuff.cover.thumbnails.md.view_url }}" alt="{{ stuff.title }}" />
-			                    {%else%}
-			                      <img src="{{ app_url_packaged }}/images/egg_zlist.jpg" alt="{{ stuff.title }}" />
-			                    {%endif%}
-			                	</a>
-					    	</div>
-					    	<div class="content">
-					      	  	<div class="header">
-									<a href="{{ app_url_birdegg }}/{{ stuff._id }}.html" title="{{ stuff.title }}" class="ui line">{{ stuff.title|truncate 26 '' }}</a>
-								</div>
-					    	</div>
-					    	<div class="extra">
-					      	  	<a class="right floated created">
-                        <!--<small><i class="unhide icon"></i>{{ stuff.view_count }}</small>-->
-									<small><i class="thumbs outline up icon"></i>{{ stuff.love_count }}</small>
-								</a>
-								<a href="{{ stuff.user.home_url }}" class="ui icon link">
-									<img src="{{ stuff.user.small_avatar_url }}" alt="{{ stuff.user.nickname }}" class="ui avatar image" /> <small>{{ stuff.user.nickname }}</small>
-								</a>
-					    	</div>
-					
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		{% endfor %}
-				
-				
-		<div class="center aligned column" style="position: absolute;bottom: 60px;text-align: center;width: 100%;z-index:1111;">
-      <a href="{{ app_url_wap }}/birdegg/submit" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
-					提交创意
-				</a>
-								<a href="{{ app_url_wap }}/birdegg/zlist" class="ui magenta btn-4 btn-4c icon-arrow-right btn">
-									全部创意
-								</a>
-			
+		<div class="wrap">
+		    <div class="page page-1">
+		        <div class="title">page one</div>
+		        <div class="subtitle">page one subtitle</div>
+		        <div class="arrow"></div>
+		    </div>
+
+		    <div class="page page-2">
+		        <div class="title">page two</div>
+		        <div class="subtitle">page two subtitle</div>
+		        <div class="arrow"></div>
+		    </div>
+		    <div class="page page-3">
+		        <div class="title">page three</div>
+		        <div class="subtitle">page three subtitle</div>
+		        <div class="arrow"></div>
+		    </div>
+		    <div class="page page-1">
+		        <div class="title">page four</div>
+		        <div class="subtitle">page four subtitle</div>
+		    </div>
 		</div>
 		
-		
-		
-		
-	</div>
-	
-	
-	<div class="section s7">
-		<div class="w-2">
-			<img src="http://frstatic.qiniudn.com/images/egg/4.png" class="s7-4">
-			<img src="http://frstatic.qiniudn.com/images/egg/g.png" class="s7-g">
-			<img src="http://frstatic.qiniudn.com/images/egg/11.png" class="s7-11">
-			<img src="http://frstatic.qiniudn.com/images/egg/751.png" class="s7-2">
-			
+		<div id="orientLayer" class="mod-orient-layer">
+		    <div class="mod-orient-layer__content"><i class="icon mod-orient-layer__icon-orient"></i>
+		        <div class="mod-orient-layer__desc">为了更好的体验，请使用竖屏浏览</div>
+		    </div>
 		</div>
-	</div>
-	
-	
-</div>
-{%endblock%}
+		<div class="music playing" style="display:none;"></div>
+		<audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/js/bigger.mp3" loop="true" autoplay></audio>
+		
+	  	<script type="text/javascript" >
+	      var m_name = '2015京东众筹BIGGER大会';
+	      var img_url = 'http://frstatic.qiniudn.com/images/promo/jd-share2.jpg';
+	      var link = '{{ app_url_wap_promo }}/jd';
+	      var desc_str = '京东众筹大举进军生活美学领域，诚邀各位设计师、合作伙伴参加。';
+
+	      wx.config({
+	          debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	          appId: 'wxa6e5c6ac4ab1b807', // 必填，公众号的唯一标识
+	          //timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+	          //nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+	          //signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+	          jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	      });
+		  wx.ready(function(){
+		    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+		     wx.onMenuShareAppMessage({
+		      title: m_name,
+		      desc: desc_str,
+		      link: link,
+		      imgUrl: img_url,
+		      /*success: function (res) {
+		        record_share_num();
+		      }*/
+		    });      
+
+		    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+		    wx.onMenuShareTimeline({
+		      title: m_name,
+		      desc: desc_str,
+		      link: link,
+		      imgUrl: img_url,
+		      /*success: function (res) {
+		        record_share_num();
+		      }*/
+		    });
+
+		    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+		    wx.onMenuShareQQ({
+		      title: m_name,
+		      desc: desc_str,
+		      link: link,
+		      imgUrl: img_url,
+		      /*success: function (res) {
+		        record_share_num();
+		      }*/
+		    });
+
+		    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+		    wx.onMenuShareWeibo({
+		      title: m_name,
+		      desc: desc_str,
+		      link: link,
+		      imgUrl: img_url,
+		      /*success: function (res) {
+		        record_share_num();
+		      }*/
+		    });
+		  });
+		  
+		  
+	    var basePath = "http://frstatic.qiniudn.com/images/promo/coin/";
+	    if (!(typeof webpsupport == 'function')) {
+	        var webpsupport = function (cb) {
+	            cb();
+	        }
+	    }
+	    webpsupport(function (webpa) {
+	    var loader = new PxLoader(),
+	     fileList =[
+			'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png','p1_11.png','P1_15.png','P1_16.png','p1_17.png','p1_18.png','p1_19.png','p1_20.png','P1_13.png','P1_14.png','p1_06.png','p1_07.png','p1_08.png','p1_09.png','logo.png','p2-2.png','p2_1.png','p2_3.png','p2_4.png','p2_5.png','p2_6.png','p2_7.png','p2_8.png','p2_9.png','p2_10.png','p2_11.png','p2_12.png','p2_13.png','p2_14.png','p2_t01.png','p2_t02.png','p2_t03.png','p2_t04.png','p2_t005.png','p2_t06.png','p2_t07.png','p2_t08.png','p2_t9.png','p3_c1.png','p3_l1.png','p3_l2.png','n1.png','n1a.png','n2.png','n2a.png','n3.png','n3a.png','n4.png','n4a.png','n5.png','n5a.png','n6.png','n6a.png','n15.png','n15a.png','n8.png','n8a.png','n9.png','n9a.png','n10.png','n10a.png','n11.png','n11a.png','n12.png','n12a.png','n13.png','n13a.png','n14.png','n14a.png','n16.png','n16a.png','p3_c2.png','p3_z1.png','p3_z2.png','p3_z3.png','p3_z4.png','p4_t1.png','p4_t2.png','p4_t03.png','p4_t04.png','p4_t5.png','p4_t6.png','p4_t7.png','p4_1.png','p4_2.png','p4_3.png','p4_4.png','p4_5.png','p4_01.png','p4_02.png','p4_03.png','p4_04.png','p4_05.png','p4_06.png','p4_07.png','p4_08.png','p4_09.png','p4_10.png','p4_11.png','p4_12.png','p4_13.png','p4_14.png','p5_1.png','p5_2.png','p5_3.png','p5_4.png','p5_5.png','p5_6.png','p5_l01.png','p5_l02.png','p5_t1.png','p5_t02.png','p5_t3.png','p5_00l1.png','p5_00l2.png','p5_00l3.png','p5_00l4.png','p5_00l5.png','p5_00l6.png','p5_00l7.png','p5_00l8.png','p5_00l9.png','p6_bg.png','p6_1.png','p6_l1.png','p6_l2.png','p6_logo.png','p6_t1.png','p6_t02.png','p6_t3.png','p6_t04.png','p6_t05.png','p6_t06.png','p6_t7.png','p6_t8.png'
+		];
+     
+	     for (var i = 0; i < fileList.length; i++) {
+	         var basename = fileList[i].substring(fileList[i].lastIndexOf('/') + 1);
+
+	         if (webpa && img_map && (basename in img_map) && img_map[basename]) { //if webp
+	             var path = fileList[i].replace(/\.\w+/, '.webp');
+	         } else {
+	             var path = fileList[i];
+	         }
+	         $('#app_bgm').get(0).pause();
+	         loader.addImage(basePath + path);
+	     }
+
+	     loader.addCompletionListener(function () {
+	         $('.loading').remove();
+	         $('.page').eq(0).addClass('current');
+	         $('.wrap').show();
+	         $('#app_bgm').get(0).play();
+	         $('.music').show();
+	     });
+
+	     //loading 进度监听
+	     loader.addProgressListener(function (e) {
+	         var percentUp = Math.round((e.completedCount / e.totalCount) * 100), //正序, 1-100
+	             progressDown = 100 - percentUp;      
+	         $('.loading-num').text(percentUp + '%');
+	     });
+
+	     //启动
+	     loader.start();
+	    });
+		
+		</script>
+	</body>
+</html>		
+		
