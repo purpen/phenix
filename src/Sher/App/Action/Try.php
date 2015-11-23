@@ -156,6 +156,13 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
                 $this->stash['apply'] = $has_one_apply;
             }
         }
+
+    // 是否含有产品参数
+    if((isset($try['price']) && !empty($try['price'])) || (isset($try['buy_url']) && !empty($try['buy_url'])) ){
+      $this->stash['has_product_parameter'] = true;
+    }else{
+      $this->stash['has_product_parameter'] = false;   
+    }
 		
 		$this->stash['try'] = &$try;
         $this->stash['is_applied'] = $is_applied;
