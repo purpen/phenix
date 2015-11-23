@@ -530,7 +530,7 @@ p{
                   </div>
                   {% endif %}
                   <div class="ui threaded comments is-comment">
-                    {% comment_list var:'comment_list' page:page size:size target_id:1 type:10 check_loved:1 current_user_id:visitor.id %}                {% for comment in comment_list.rows %}
+                    {% comment_list var:'comment_list' page:page size:size target_id:5 type:10 check_loved:1 current_user_id:visitor.id %}                {% for comment in comment_list.rows %}
                       {%include 'block/comment_rank_item.html'%}
                     {%endfor%}
                   
