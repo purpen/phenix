@@ -1,0 +1,470 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.ui.wap,.mmfoot{
+	display:none;
+}
+#mfrbird{
+	margin:0 0 20px 0;
+}
+.row.pt-5{
+	padding-top:5px !important;
+}
+.ui.segment{
+	box-shadow:none;
+	border:none;
+}
+.ui.poptop{
+	padding:1em 10px;
+}
+.comment_vote .ui.segment i.icon{
+	color:#f36;
+	font-size: 1.5rem;
+	margin-right:0 !important;
+}
+.ui.segment i.thumbs.icon{
+	transform:rotate(180deg);
+	-ms-transform:rotate(180deg);
+	-moz-transform:rotate(180deg);
+	-webkit-transform:rotate(180deg); 
+}
+.ui.segment i.signal.icon{
+	vertical-align: top;
+}
+.user-list{
+	padding-left:2px;
+}
+.user-list .userid {
+    border-radius: 50%;
+    border: 2px solid #f5f5f5;
+    display: inline-block;
+    background-size: 100%;
+    margin: 3px 1px;
+}
+.myrank {
+    border: 1px solid rgba(0,0,0,0.1);
+    padding: 5px 8px;
+    border-radius: 8px;
+    margin: 12px 0;
+}
+.ui.feed>.event>.label {
+    margin-top: 4px;
+    width: 50px;
+    height: 50px;
+}
+.user-report .label .userid {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border: 2px solid #f5f5f5;
+    display: inline-block;
+    background-size: 100%;
+    margin: 0px;
+}
+.user-report .ui.feed>.event .content {
+    position: relative;
+}
+.user-report .ui.feed>.event>.content .summary {
+    font-size: 14px;
+    max-width: 120px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.ui.feed>.event>.content a {
+    cursor: pointer;
+}
+.ui.feed>.event>.content .meta {
+    display: inline-block;
+    font-size: .85714286em;
+    margin: .5em 0 0;
+    background: 0 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    color: rgba(0,0,0,.6);
+}
+.ui.feed>.event>.content .meta .active.like .icon {
+    color: #ef404a;
+	font-size:1rem;
+}
+.rankb {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    line-height: 44px;
+    font-size: 14px;
+}
+.rankb span {
+    color: #f36;
+    font-weight: 700;
+    font-size: 18px;
+}
+.ui.support.button {
+    padding: 18px 0;
+    width: 80px;
+    height: 80px;
+    vertical-align: middle;
+    font-size: 2rem;
+    background-color: transparent;
+    -webkit-box-shadow: 0 0 0 2px #F42156 inset!important;
+    box-shadow: 0 0 0 2px #F42156 inset!important;
+    color: #F42156;
+}
+.ui.support.button .thumbs.icon{
+    width: 1em;
+    vertical-align: baseline;
+}
+.ui.support.button .love.count {
+    font-size: 16px;
+}
+.doudown{
+    width: 80px;
+    height: 30px;
+    text-align: center;
+    margin: 5px auto 0;
+    line-height: 27px;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+
+</script>
+{% endblock %}
+
+{% block jquery %}
+	var screenWidth = $('body').width();
+	var width = '';
+	if(screenWidth > 414){
+		width = (screenWidth - 50)/9 - 5;
+	}
+	else{
+		width = (screenWidth - 50)/5 - 4;
+	}
+	$('.poptop .userid').css({"width":width,"height":width,});
+	
+	$('.doudown').click(function(){
+		$('.overtop').show(1000);
+	})
+{% endblock %}
+{% block content %}
+<div class="comment_vote">
+	<img src="http://frstatic.qiniudn.com/images/promo/rankmt.jpg" width="100%" alt="">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<a class="ui fluid magenta inverted active button" href="">
+					我也要参加
+				</a>
+			</div>
+		</div>
+		
+		<div class="row pt-5">
+			<div class="column">
+				<div class="ui poptop segment">
+					<h3 class="ui header">
+						<i class="thumbs down icon"></i>
+						赞过Ta的
+					</h3>
+					<div class="user-list">
+						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
+						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
+						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
+						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
+						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
+						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
+						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
+						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
+						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
+						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
+						
+						
+						<!--  多于10个  -->
+						<div class="overtop" style="display:none">
+							<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
+							<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
+							<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
+							
+						</div>
+						<div class="doudown">
+							<i class="angle double down icon"></i>
+						</div>
+						<!-- end -->
+						
+					</div>
+				</div>
+				
+				<div class="ui center aligned column" style="text-align:center;">
+					<div class="ui pop icon support circular inverted magenta button" data-content="点赞" data-variation="inverted" data-id="108001" data-mark="n">
+					  	<i class="thumbs outline up icon"></i>
+						<div class="love count">
+							2
+						</div>
+					</div>
+				</div>
+				
+				<div class="ui segment">
+					<p>有7说3冬天的美是R傲的39不像春那6羞涩3N那6袒¥3秋那6凄 凉4如果我们难以细数S究竟能变VEOT种美丽的风景来冲击我们的视 觉4何不来一场说走就走的旅行3亿航无7机体验最美的冬天。参H活动 就有机会获得价值07299元的亿航无7机 GHOSTDRONE 2. 旗舰版1含 .R眼镜一G3瞬间变身~D达~2</p>
+					
+					<a class="ui fluid magenta inverted active button" href="">点击查看原贴>></a>
+				</div>
+				
+				<div class="ui segment">
+					<h3 class="ui header">
+						<i class="signal icon"></i>
+						总排名
+					</h3>
+					
+					<div class="user-report">
+						
+						<div class="myrank">
+					    	<div class="ui large feed">
+					            <div class="event">
+					              <div class="label">
+					                <div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/150915/55f6f67bfc8b12de0c8b4b56-avb.jpg);"></div>
+					              </div>
+					              <div class="content">
+					                <div class="summary">
+					                  <a class="ui link">时灯酒茶</a>
+					                </div>
+					                <div class="meta">
+					                  <a class="like active">
+					                    <i class="like icon"></i>
+					                    254票
+					                  </a>
+					                </div>
+					                <div class="rankb">
+					                  NO.<span>1</span>
+					                </div>
+					              </div>
+					            </div>
+					          </div>
+					        </div>
+							
+							
+					                <div class="myrank">
+					          <div class="ui large feed">
+					            <div class="event">
+					              <div class="label">
+					                <div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/150817/55d1da4620de8dbf108be6db-avb.jpg);"></div>
+					              </div>
+					              <div class="content">
+					                <div class="summary">
+					                  <a class="ui link">单臂擒方腊</a>
+					                </div>
+					                <div class="meta">
+					                  <a class="like active">
+					                    <i class="like icon"></i>
+					                    246票
+					                  </a>
+					                </div>
+					                <div class="rankb">
+					                  NO.<span>2</span>
+					                </div>
+					              </div>
+					            </div>
+					          </div>
+					        </div>
+					                <div class="myrank">
+					          <div class="ui large feed">
+					            <div class="event">
+					              <div class="label">
+					                <div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/150914/55f5a695fc8b12740f8b46b2-avb.jpg);"></div>
+					              </div>
+					              <div class="content">
+					                <div class="summary">
+					                  <a class="ui link">未发之中已发之和</a>
+					                </div>
+					                <div class="meta">
+					                  <a class="like active">
+					                    <i class="like icon"></i>
+					                    242票
+					                  </a>
+					                </div>
+					                <div class="rankb">
+					                  NO.<span>3</span>
+					                </div>
+					              </div>
+					            </div>
+					          </div>
+					        </div>
+					                <div class="myrank">
+					          <div class="ui large feed">
+					            <div class="event">
+					              <div class="label">
+					                <div class="userid" style="background-image:url(http://frstatic.qiniudn.com/images/deavatar/004.jpg);"></div>
+					              </div>
+					              <div class="content">
+					                <div class="summary">
+					                  <a class="ui link">小水果</a>
+					                </div>
+					                <div class="meta">
+					                  <a class="like active">
+					                    <i class="like icon"></i>
+					                    98票
+					                  </a>
+					                </div>
+					                <div class="rankb">
+					                  NO.<span>4</span>
+					                </div>
+					              </div>
+					            </div>
+					          </div>
+					        </div>
+					                <div class="myrank">
+					          <div class="ui large feed">
+					            <div class="event">
+					              <div class="label">
+					                <div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/150915/55f7a19220de8d0a4d8b540f-avb.jpg);"></div>
+					              </div>
+					              <div class="content">
+					                <div class="summary">
+					                  <a class="ui link">kevin_zhangzj</a>
+					                </div>
+					                <div class="meta">
+					                  <a class="like active">
+					                    <i class="like icon"></i>
+					                    2票
+					                  </a>
+					                </div>
+					                <div class="rankb">
+					                  NO.<span>5</span>
+					                </div>
+					              </div>
+					            </div>
+					          </div>
+					        </div>
+					                <div class="myrank">
+					          <div class="ui large feed">
+					            <div class="event">
+					              <div class="label">
+					                <div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/150119/54bc72f7fc8b1290428b5e4a-avb.jpg);"></div>
+					              </div>
+					              <div class="content">
+					                <div class="summary">
+					                  <a class="ui link">grug</a>
+					                </div>
+					                <div class="meta">
+					                  <a class="like active">
+					                    <i class="like icon"></i>
+					                    2票
+					                  </a>
+					                </div>
+					                <div class="rankb">
+					                  NO.<span>6</span>
+					                </div>
+					              </div>
+					            </div>
+					          </div>
+					        </div>
+					                <div class="myrank">
+					          <div class="ui large feed">
+					            <div class="event">
+					              <div class="label">
+					                <div class="userid" style="background-image:url(http://frstatic.qiniudn.com/images/deavatar/007.jpg);"></div>
+					              </div>
+					              <div class="content">
+					                <div class="summary">
+					                  <a class="ui link">online2me</a>
+					                </div>
+					                <div class="meta">
+					                  <a class="like active">
+					                    <i class="like icon"></i>
+					                    2票
+					                  </a>
+					                </div>
+					                <div class="rankb">
+					                  NO.<span>7</span>
+					                </div>
+					              </div>
+					            </div>
+					          </div>
+					        </div>
+					                <div class="myrank">
+					          <div class="ui large feed">
+					            <div class="event">
+					              <div class="label">
+					                <div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561fa95620de8d00658b8cfd-avb.jpg);"></div>
+					              </div>
+					              <div class="content">
+					                <div class="summary">
+					                  <a class="ui link">微信用户-味道</a>
+					                </div>
+					                <div class="meta">
+					                  <a class="like active">
+					                    <i class="like icon"></i>
+					                    2票
+					                  </a>
+					                </div>
+					                <div class="rankb">
+					                  NO.<span>8</span>
+					                </div>
+					              </div>
+					            </div>
+					          </div>
+					        </div>
+					                <div class="myrank">
+					          <div class="ui large feed">
+					            <div class="event">
+					              <div class="label">
+					                <div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151028/5630405bfc8b1268348b5524-avb.jpg);"></div>
+					              </div>
+					              <div class="content">
+					                <div class="summary">
+					                  <a class="ui link">吃烧饼</a>
+					                </div>
+					                <div class="meta">
+					                  <a class="like active">
+					                    <i class="like icon"></i>
+					                    1票
+					                  </a>
+					                </div>
+					                <div class="rankb">
+					                  NO.<span>9</span>
+					                </div>
+					              </div>
+					            </div>
+					          </div>
+					        </div>
+					                <div class="myrank">
+					          <div class="ui large feed">
+					            <div class="event">
+					              <div class="label">
+					                <div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151123/5652b86cfc8b1264348c9ac3-avb.jpg);"></div>
+					              </div>
+					              <div class="content">
+					                <div class="summary">
+					                  <a class="ui link">无双</a>
+					                </div>
+					                <div class="meta">
+					                  <a class="like active">
+					                    <i class="like icon"></i>
+					                    1票
+					                  </a>
+					                </div>
+					                <div class="rankb">
+					                  NO.<span>10</span>
+					                </div>
+					              </div>
+					            </div>
+					          </div>
+					        </div>
+          
+					      </div>
+					
+					
+					
+				</div>
+				
+			</div>
+		</div>
+	
+	
+	</div>
+</div>
+{% endblock %}
