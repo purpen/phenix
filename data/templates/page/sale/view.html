@@ -36,6 +36,14 @@
         slideshow: false,
         sync: "#carousel"
     });
+
+	$('#clock').countdown('{{ product.presale_finish_time|date 'Y/m/d H:i:s' }}').on('update.countdown', function(event){
+		var $this = $(this).html(event.strftime(''
+		+ '<span>%D</span> 天 '
+		+ '<span>%H</span> 时 '
+		+ '<span>%M</span> 分 '
+		+ '<span>%S</span> 秒'));
+	});
     
     
 	phenix.bind_share_list("{{ product.cover.thumbnails.hm.view_url }}");
@@ -432,7 +440,7 @@
         			</div>
                 </div>
                 <div class="user avatars">
-              	  	<div class="ui images" id="product_{{ product._id }}_support">
+              	  	<div class="ui images" id="target_{{ product._id }}_support">
                         {% if product.love_count %}
                             {% favorite_list var:'userlist' target_id:product._id event:2 size:100 %}
                             {% for target in userlist.rows %}
