@@ -47,7 +47,13 @@
 
 {% block jquery %}
 	var screenWidth = $('body').width();
-	var width = (screenWidth - 50)/5 - 4;
+	var width = '';
+	if(screenWidth > 414){
+		width = (screenWidth - 50)/8 - 5;
+	}
+	else{
+		width = (screenWidth - 50)/5 - 4;
+	}
 	$('.userid').css({"width":width,"height":width,});
 {% endblock %}
 {% block content %}
