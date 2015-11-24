@@ -120,6 +120,13 @@
 .ui.support.button .love.count {
     font-size: 16px;
 }
+.doudown{
+    width: 80px;
+    height: 30px;
+    text-align: center;
+    margin: 5px auto 0;
+    line-height: 27px;
+}
 </style>
 {% endblock %}
 
@@ -140,6 +147,10 @@
 		width = (screenWidth - 50)/5 - 4;
 	}
 	$('.poptop .userid').css({"width":width,"height":width,});
+	
+	$('.doudown').click(function(){
+		$('.overtop').show(1000);
+	})
 {% endblock %}
 {% block content %}
 <div class="comment_vote">
@@ -171,12 +182,20 @@
 						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
 						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
 						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
-						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
-						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
-						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
-						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
-						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
-						<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
+						
+						
+						<!--  多于10个  -->
+						<div class="overtop" style="display:none">
+							<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
+							<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
+							<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
+							
+						</div>
+						<div class="doudown">
+							<i class="angle double down icon"></i>
+						</div>
+						<!-- end -->
+						
 					</div>
 				</div>
 				
