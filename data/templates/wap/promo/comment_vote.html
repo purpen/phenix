@@ -136,45 +136,129 @@
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript">
 
+    // 微信分享统计
+    var m_name = '{{ result.title }}';
+    var img_url = '{{ result.cover_url }}';
+    var link = '{{ app_url_wap }}/promo/comment_vote_share?comment_id={{comment_id}}';
+    var desc_str = '{{ result.desc }}';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+   });
+
+	wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    $('#mask').css('display','none');
+  }
+
+
+
+    function ajax_load_more(target_id, type, event, sort, page, size){
+        var url = '{{ app_url_domain }}/app/site/favorite/ajax_load_list';
+
+        $.ajax({
+          type: "GET",
+          url: url,
+          data: { target_id:target_id, event:event, sort:sort, type:type, page:page, size:size },
+          dataType: 'json',
+          cache: false,
+          success: function(rs){
+            if(rs.data.results.total_rows==0){
+              $('.user-list').html('还没有人帮TA点赞');
+              return;
+            }
+            if(rs.data.results.total_rows>10){
+              $('.doudown').show();
+            }else{
+              $('.doudown').hide();
+            }
+
+            var rendered = phenix.ajax_render_result('#fetch_more_comment_fav_tpl', rs.data);
+            $('.user-list').append(rendered);
+            //加载宽高
+            var screenWidth = $('body').width();
+            var width = '';
+            if(screenWidth > 414){
+              width = (screenWidth - 50)/9 - 5;
+            }
+            else{
+              width = (screenWidth - 50)/5 - 4;
+            }
+            $('.poptop .userid').css({"width":width,"height":width,});
+          }
+        });
+    }
+
 </script>
 {% endblock %}
 
 {% block jquery %}
-	var screenWidth = $('body').width();
-	var width = '';
-	if(screenWidth > 414){
-		width = (screenWidth - 50)/9 - 5;
-	}
-	else{
-		width = (screenWidth - 50)/5 - 4;
-	}
-	$('.poptop .userid').css({"width":width,"height":width,});
 	
 	$('.doudown').click(function(){
-		$('.overtop').show(1000);
+    $('.user-list').html('');
+	  ajax_load_more('{{comment_id}}', 3, 2, 0, 1, 50);	
 	})
 
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
-		// 初始化互动，是否收藏、点赞
-		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: {{result.target_id}},type:2,event:1}, function(result){
-			if (result.success) {
-				// 验证收藏
-				if (result.data.favorited) {
-					$('.ui.favorite.button')
-						.data('content', '取消')
-						.data('mark', 'y')
-						.addClass('active');
-				}
-			}
-		}, 'json');
 		
 		// 验证点赞
 		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: {{result.target_id}},type:2,event:2}, function(result){
 			if (result.success) {
 				if (result.data.loved) {
 					$('.ui.support.button')
-						.data('content', '取消支持')
+						.data('content', '取消赞')
 						.data('mark', 'y')
 						.addClass('active');
 				}
@@ -200,6 +284,8 @@
 						.data('mark', 'y')
 						.addClass('active')									
 						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+            $('.user-list').html('');
+	          ajax_load_more('{{comment_id}}', 3, 2, 0, 1, 10);	
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -219,16 +305,32 @@
 		}
 	});
 
+  ajax_load_more('{{comment_id}}', 3, 2, 0, 1, 10);
+
+  $('.share_btn').click(function(){
+    $('#mask').css('display','');
+  });
+
+  $('#mask').click(function(){
+    $('#mask').css('display','none');
+  });
+
 {% endblock %}
 {% block content %}
 <div class="comment_vote">
-  <img src="{{ result.banner_url }}" width="100%" alt="">
+  <img src="{{ result.banner_url }}" width="100%" alt="{{ result.title }}">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="center aligned column">
-        <a class="ui fluid magenta inverted active button" href="{{ result.view_url }}">
-					我也要参加
-				</a>
+        {% if is_current_user %}
+          <a class="ui fluid magenta inverted active button share_btn" href="javascript:void(0);">
+            分享给好友，让他们帮我点赞
+          </a>
+        {%else%}
+          <a class="ui fluid magenta inverted active button" href="{{ result.view_url }}">
+            我也要参加
+          </a>
+        {%endif%}
 			</div>
 		</div>
 		
@@ -237,31 +339,24 @@
 				<div class="ui poptop segment">
 					<h3 class="ui header">
 						<i class="thumbs down icon"></i>
-						赞过Ta的
+            赞过{% if is_current_user %}我{%else%}Ta{%endif%}的
 					</h3>
-          {% favorite_list var:'list' target_id:comment_id type:3 event:2 page:1 size:50 %}
 
 					<div class="user-list">
-          {% for f in list.rows %}
-          <div class="userid" style="background-image:url({{ f.user.medium_avatar_url }});"></div>
-          {%endfor%}
 						
-						
+					</div>
 						<!--  多于10个  -->
 						<div class="overtop" style="display:none">
-							<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
-							<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
-							<div class="userid" style="background-image:url(http://frbird.qiniudn.com/avatar/151015/561f64abfc8b1226408bdba6-avm.jpg);"></div>
 							
 						</div>
-						<div class="doudown">
+						<div class="doudown" style="display:none;">
 							<i class="angle double down icon"></i>
 						</div>
 						<!-- end -->
 						
-					</div>
 				</div>
 				
+        {% if !is_current_user %}
 				<div class="ui center aligned column" style="text-align:center;">
           <div class="ui pop icon support circular inverted magenta button" data-content="点赞" data-variation="inverted" data-id="{{ result.target_id }}" data-mark="n">
 					  	<i class="thumbs outline up icon"></i>
@@ -270,6 +365,7 @@
 						</div>
 					</div>
 				</div>
+        {%endif%}
 				
 				<div class="ui segment">
           <p>{{ result.desc }}</p>
@@ -321,4 +417,14 @@
 	
 	</div>
 </div>
+
+<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; background: rgb(0, 0, 0);display:none;">
+  <div class="frideshare">
+	<img src="{{ app_url_packaged }}/images/fenxiang.png" width="100%">
+  </div>
+</div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'fetch_more_comment_fav_tpl' tpl:'mustache_m/fetch_more_comment_fav_tpl.mustache' %}
 {% endblock %}

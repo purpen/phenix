@@ -242,7 +242,11 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
     public function check_favorite($user_id, $target_id, $type){
 		
 		$query['user_id'] = (int)$user_id;
-        $query['target_id'] = (int)$target_id;
+    if($type==self::TYPE_COMMENT){
+      $query['target_id'] = (string)$target_id;   
+    }else{
+      $query['target_id'] = (int)$target_id;
+    }
 		$query['type'] = (int)$type;
 		$query['event'] = self::EVENT_FAVORITE;
         $result = $this->count($query);
@@ -255,7 +259,11 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
     public function remove_favorite($user_id, $target_id, $type){
 		
 		$query['user_id'] = (int)$user_id;
-        $query['target_id'] = (int)$target_id;
+    if($type==self::TYPE_COMMENT){
+      $query['target_id'] = (string)$target_id;   
+    }else{
+      $query['target_id'] = (int)$target_id;
+    }
 		$query['type'] = (int)$type;
 		$query['event'] = self::EVENT_FAVORITE;
         return $this->remove($query);
