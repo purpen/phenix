@@ -66,6 +66,12 @@
 {% endblock %}
 
 {% block jquery %}
+	//评论分享
+	$('.ui.vote.btn').bimd('click',function(){
+		$('.ui.qrcode.modal').modal('show');
+	});
+	
+	
 	phenix.hook_comment_page();
     
     // ajax加载评论
