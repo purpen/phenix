@@ -254,7 +254,7 @@
 	{% if visitor.is_login %}
 		
 		// 验证点赞
-		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: {{comment_id}},type:2,event:2}, function(result){
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: "{{comment_id}}",type:2,event:2}, function(result){
 			if (result.success) {
 				if (result.data.loved) {
 					$('.ui.support.button')
