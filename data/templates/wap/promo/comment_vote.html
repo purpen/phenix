@@ -254,7 +254,7 @@
 	{% if visitor.is_login %}
 		
 		// 验证点赞
-		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: "{{comment_id}}",type:2,event:2}, function(result){
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: "{{comment_id}}",type:3,event:2}, function(result){
 			if (result.success) {
 				if (result.data.loved) {
 					$('.ui.support.button')
@@ -277,7 +277,7 @@
 			return false;
 		}
 		if (mark == 'n') {
-			$.post('{{ app_url_wap }}/app/site/favorite/ajax_laud', {id: id, type:2}, function(result){
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_laud', {id: id, type:3}, function(result){
 				if (result.success) {
 					$btn
 						.data('content', '取消赞')
@@ -291,7 +291,7 @@
 				}
 			}, 'json');
 		} else {
-			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_laud', {id: id, type:2}, function(result){
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_laud', {id: id, type:3}, function(result){
 				if (result.success) {
 					$btn
 						.data('content', '点赞')
