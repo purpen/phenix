@@ -239,7 +239,7 @@
 						<i class="thumbs down icon"></i>
 						赞过Ta的
 					</h3>
-          {% favorite_list var:'list' target_id:result.target_id type:result.comment_type page:1 size:50 %}
+          {% favorite_list var:'list' target_id:comment_id type:3 event:2 page:1 size:50 %}
 
 					<div class="user-list">
           {% for f in list.rows %}
