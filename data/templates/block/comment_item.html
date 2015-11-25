@@ -23,9 +23,11 @@
             </a>          
             {%endif%}
 			
-			<a class="ui link vote btn" href="javascript:void(0);" data-content="分享" data-variation="inverted">
-				<i class="icon share"></i>	
-			</a>
+            {% if is_comment_share %}
+            <a class="ui link vote btn comment_share_btn" href="javascript:void(0);" comment_id="{{ comment._id }}" data-content="分享" data-variation="inverted">
+                <i class="icon share"></i>	
+              </a>
+            {%endif%}
 			
         </div>
         {%endif%}

@@ -10,7 +10,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     'target_id'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share');
 
 	/**
 	 * 网站入口
@@ -18,6 +18,63 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->coupon();
 	}
+
+  /**
+   * 评论投票分享
+   */
+  public function comment_vote_share(){
+  
+    $comment_id = isset($this->stash['comment_id']) ? $this->stash['comment_id'] : null;
+
+    $redirect_url = Doggy_Config::$vars['app.url.wap']; 
+    if(empty($comment_id)){
+      return $this->to_redirect($redirect_url); 
+    }
+
+    $comment_model = new Sher_Core_Model_Comment();
+    $comment = $comment_model->load($comment_id);
+    if(empty($comment)){
+      return $this->to_redirect($redirect_url);   
+    }
+
+    $comment_type = $comment['type'];
+    $target_id = $comment['target_id'];
+    $comment_mark = sprintf("%s-%d", $target_id, $comment_type);
+
+    $block_str = Sher_Core_Util_View::load_block('comment_vote_content');
+    if(empty($block_str)){
+      return $this->to_redirect($redirect_url);    
+    }
+
+    $result = array();
+
+    $list_arr = explode(';;', $block_str);
+    for($i=0;$i<count($list_arr);$i++){
+      $item_arr = explode('||', $list_arr[$i]);
+      if($item_arr[0]==$comment_mark){
+        $result = array(
+          'target_id' => $target_id,
+          'comment_type' => $comment_type,
+          'title' => $item_arr[1],
+          'desc' => $item_arr[2],
+          'cover_url' => $item_arr[3],
+          'banner_url' => $item_arr[4],
+          'evt' => $item_arr[5],
+          'view_url' => sprintf(Doggy_Config::$vars['app.url.wap.social.show'], $target_id, 0),
+          'love_count' => $comment['love_count'],
+        );
+      }
+    }
+
+    if(empty($result)){
+      return $this->to_redirect($redirect_url);     
+    }
+
+    $this->stash['result'] = $result;
+
+    return $this->to_html_page('wap/promo/comment_vote.html');
+  }
+
 	/**
 	 * 创造提交 
 	 */

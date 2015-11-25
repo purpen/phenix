@@ -87,6 +87,9 @@ app.product_jbl_id: 1088027398
 # 发送通知用户组
 app.send_notice_users: '1|5|9'
 
+# 参与评论投票的话题ID
+app.topic_comment_ids: '37|36'
+
 # 百度推送 token
 baidu_push_token: ''
 

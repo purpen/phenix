@@ -68,10 +68,13 @@
 {% block jquery %}
 	//评论分享
 	$('.ui.vote.btn').bind('click',function(){
+    var comment_id = $(this).attr('comment_id');
+    // 生成二维码
+    $('#comment_vote').html('');
+    $('#comment_vote').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/comment_vote_share?comment_id='+comment_id});
 		$('.ui.vote.modal').modal('show');
 	});
-	// 生成二维码
-	$('#vote').qrcode({width: 256, height: 256, text: '{{ topic.wap_view_url }}'});
+
 	
 	phenix.hook_comment_page();
     
@@ -878,7 +881,7 @@
 			<div class="row">
 				<div class="column">
 					<p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
-					<div id="vote"></div>
+					<div id="comment_vote"></div>
 				</div>
 			</div>
 		</div>

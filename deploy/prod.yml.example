@@ -91,6 +91,9 @@ app.comeon.product_id: 1112616234
 # 发送通知用户组
 app.send_notice_users: '10|544066'
 
+# 参与评论投票的话题ID
+app.topic_comment_ids: '37|36'
+
 # 评测报告类别
 app.try.report_category_id: 18
 
