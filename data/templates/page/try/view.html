@@ -273,18 +273,13 @@
                         <div class="ui white inverted pop share icon inverted button">
                             <i class="share alternate icon"></i> 分享
                         </div>
-                        {% if try.buy_url %}
-                          <a href="{{ try.buy_url }}" class="ui white inverted button" target="_blank">
-                            <i class="cart icon"></i> 去购买 
-                          </a>
-                        {%endif%}
+
                     {% if !try.step_stat==0 %}
                         <div class="apply">
                           {% if !try.is_end %}
                             剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %} 结束时间：{{ try.end_time }}
                           {% endif %}
                             <br/>产品数量：<b class="big">{{ try.try_count }}</b>个,&nbsp;<b class="big">{{ try.apply_count }}</b> 人已预约
-                          &nbsp;&nbsp;{% if try.price %}<span>产品价格: <b>{{ try.price }}</b></span>{%endif%}
                           
                         </div>
                         {% if try.apply_term==1 %}
@@ -303,7 +298,6 @@
                         <h4>预热中...敬请期待!</h4>
                         <div class="">
                           {% if try.want_count %}<span style="margin-right:20px;">已有 <b>{{ try.want_count }}</b> 人想要</span>{%endif%}
-                          {% if try.price %}<span>产品价格: <b>{{ try.price }}</b></span>{%endif%}
                         </div>
                       </div>
                     {%endif%}
@@ -449,6 +443,26 @@
         </div>
     </div>
     <div class="mainright">
+
+    {% if has_product_parameter %}
+    <div class="ui sticky">
+        <div class="sellwrap">
+          <div class="block title">
+    				产品参数
+          </div>
+          {% if try.price %}
+            <p class="user action">市场参考价： <b class="big">{{ try.price }}</b> 元
+          {%endif%}
+          {% if try.buy_url %}
+            <p class="user action">
+                <a href="{{ try.buy_url }}" class="ui magenta inverted button" target="_blank" style="width:100%;">
+                  <i class="cart icon"></i> 购买链接
+                </a>
+            </p>
+          {%endif%}
+        </div>
+    </div>
+    {%endif%}
         
         {% if img_asset.qr_ios %}
         <div class="sellwrap">
