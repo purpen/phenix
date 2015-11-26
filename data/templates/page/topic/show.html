@@ -67,12 +67,14 @@
 
 {% block jquery %}
 	//评论分享
-	$('.ui.vote.btn').bind('click',function(){
-    var comment_id = $(this).attr('comment_id');
-    // 生成二维码
-    $('#comment_vote').html('');
-    $('#comment_vote').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/comment_vote_share?comment_id='+comment_id});
-		$('.ui.vote.modal').modal('show');
+  $('.ui.vote.btn').livequery(function(){
+    $(this).bind('click',function(){
+      var comment_id = $(this).attr('comment_id');
+      // 生成二维码
+      $('#comment_vote').html('');
+      $('#comment_vote').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/comment_vote_share?comment_id='+comment_id});
+      $('.ui.vote.modal').modal('show');
+    });
 	});
 
 	

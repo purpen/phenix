@@ -235,8 +235,12 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 
         // 神嘴争霸wap 以后去掉
         $comment['rank_has_first_comment'] = $rank_has_first_comment;
-        
-        return $this->ajax_json('操作成功', false, '', $comment);
+
+        // 查看该贴子是否属于评论分享贴
+        $is_comment_share = $this->is_comment_share($comment['target_id'], $comment['type']);
+        $comment['is_comment_share'] = $is_comment_share;
+
+    return $this->ajax_json('操作成功', false, '', $comment);
 
 	}
 	
@@ -524,6 +528,11 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         }elseif($comment_load_type==2){
           $tmp = 'ajax/comment_list_wap.html';
         }
+
+        // 查看该贴子是否属于评论分享贴
+        $is_comment_share = $this->is_comment_share($this->stash['target_id'], (int)$this->stash['type']);
+        $this->stash['is_comment_share'] = $is_comment_share;
+
         return $this->to_taconite_page($tmp);
     }
 
@@ -695,5 +704,28 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
     
     
     }
+
+  /**
+   * 判断是否是评论分享的贴子
+   */
+  protected function is_comment_share($target_id, $type){
+    // 查看该贴子是否属于评论分享贴
+    $is_comment_share = false;
+    if($type==Sher_Core_Model_Comment::TYPE_TOPIC){
+      $target_ids = Doggy_Config::$vars['app.topic_comment_ids'];
+    }else{
+      $target_ids = array();
+    }
+    if(!empty($target_ids)){
+      $target_arr = explode('|', $target_ids);
+      for($i=0;$i<count($target_arr);$i++){
+        if((int)$target_arr[$i]==(int)$target_id){
+          $is_comment_share = true;
+          break;
+        }
+      }
+    }
+    return $is_comment_share;
+  }
   	
 }
