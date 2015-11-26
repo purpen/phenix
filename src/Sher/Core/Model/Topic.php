@@ -279,14 +279,27 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
      * 标记主题为编辑推荐
      */
     public function mark_as_stick($id, $value=self::STICK_EDITOR) {
-        return $this->update_set($id, array('stick' => $value));
+        $ok = $this->update_set($id, array('stick' => $value));
+        if($ok){
+            $data = $this->load($id);
+            // 增加消费积分（鸟币）
+            $service = Sher_Core_Service_Point::instance();
+            $service->make_money_in($data['user_id'], 2, '话题被推荐');
+        }
+        return $ok;
     }
 	
     /**
      * 取消主题编辑推荐
      */
 	public function mark_cancel_stick($id){
-		return $this->update_set($id, array('stick' => 0));
+		    $ok = $this->update_set($id, array('stick' => 0));
+        if($ok){
+            $data = $this->load($id);
+            // 减少消费积分（鸟币）
+            $service = Sher_Core_Service_Point::instance();
+            $service->make_money_out($data['user_id'], 2, '话题被取消推荐');
+        }
 	}
 	
     /**

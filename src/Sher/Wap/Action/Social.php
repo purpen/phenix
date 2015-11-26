@@ -217,6 +217,20 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 			}
 		}
 
+    // 查看该贴子是否属于评论分享贴
+    $is_comment_share = false;
+    $comment_topic_ids = Doggy_Config::$vars['app.topic_comment_ids'];
+    if(!empty($comment_topic_ids)){
+      $comment_topic_arr = explode('|', $comment_topic_ids);
+      for($i=0;$i<count($comment_topic_arr);$i++){
+        if((int)$comment_topic_arr[$i]==$topic['_id']){
+          $is_comment_share = true;
+          break;
+        }
+      }
+    }
+    $this->stash['is_comment_share'] = $is_comment_share;
+
 		//评论参数
 		$comment_options = array(
 		  'comment_target_id' =>  $topic['_id'],

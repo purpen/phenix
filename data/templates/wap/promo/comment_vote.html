@@ -1,0 +1,430 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.ui.wap,.mmfoot{
+	display:none;
+}
+#mfrbird{
+	margin:0 0 20px 0;
+}
+.row.pt-5{
+	padding-top:5px !important;
+}
+.ui.segment{
+	box-shadow:none;
+	border:none;
+}
+.ui.poptop{
+	padding:1em 10px;
+}
+.comment_vote .ui.segment i.icon{
+	color:#f36;
+	font-size: 1.5rem;
+	margin-right:0 !important;
+}
+.ui.segment i.thumbs.icon{
+	transform:rotate(180deg);
+	-ms-transform:rotate(180deg);
+	-moz-transform:rotate(180deg);
+	-webkit-transform:rotate(180deg); 
+}
+.ui.segment i.signal.icon{
+	vertical-align: top;
+}
+.user-list{
+	padding-left:2px;
+}
+.user-list .userid {
+    border-radius: 50%;
+    border: 2px solid #f5f5f5;
+    display: inline-block;
+    background-size: 100%;
+    margin: 3px 1px;
+}
+.myrank {
+    border: 1px solid rgba(0,0,0,0.1);
+    padding: 5px 8px;
+    border-radius: 8px;
+    margin: 12px 0;
+}
+.ui.feed>.event>.label {
+    margin-top: 4px;
+    width: 50px;
+    height: 50px;
+}
+.user-report .label .userid {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border: 2px solid #f5f5f5;
+    display: inline-block;
+    background-size: 100%;
+    margin: 0px;
+}
+.user-report .ui.feed>.event .content {
+    position: relative;
+}
+.user-report .ui.feed>.event>.content .summary {
+    font-size: 14px;
+    max-width: 120px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.ui.feed>.event>.content a {
+    cursor: pointer;
+}
+.ui.feed>.event>.content .meta {
+    display: inline-block;
+    font-size: .85714286em;
+    margin: .5em 0 0;
+    background: 0 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    color: rgba(0,0,0,.6);
+}
+.ui.feed>.event>.content .meta .active.like .icon {
+    color: #ef404a;
+	font-size:1rem;
+}
+.rankb {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    line-height: 44px;
+    font-size: 14px;
+	padding-left: 12px;
+	border-left: 1px solid rgba(0,0,0,0.15);
+}
+.rankb span {
+    color: #f36;
+    font-weight: 700;
+    font-size: 18px;
+}
+.ui.support.button {
+    padding: 18px 0;
+    width: 80px;
+    height: 80px;
+    vertical-align: middle;
+    font-size: 2rem;
+    background-color: transparent;
+    -webkit-box-shadow: 0 0 0 2px #F42156 inset!important;
+    box-shadow: 0 0 0 2px #F42156 inset!important;
+    color: #F42156;
+}
+.ui.support.button .thumbs.icon{
+    width: 1em;
+    vertical-align: baseline;
+}
+.ui.support.button .love.count {
+    font-size: 16px;
+}
+.doudown{
+    width: 80px;
+    height: 30px;
+    text-align: center;
+    margin: 5px auto 0;
+    line-height: 27px;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+
+    // 微信分享统计
+    var m_name = '{{ result.title }}';
+    var img_url = '{{ result.cover_url }}';
+    var link = '{{ app_url_wap }}/promo/comment_vote_share?comment_id={{comment_id}}';
+    var desc_str = '{{ result.desc }}';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+   });
+
+	wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    $('#mask').css('display','none');
+  }
+
+
+
+    function ajax_load_more(target_id, type, event, sort, page, size){
+        var url = '{{ app_url_wap }}/app/site/favorite/ajax_load_list';
+
+        $.ajax({
+          type: "GET",
+          url: url,
+          data: { target_id:target_id, event:event, sort:sort, type:type, page:page, size:size },
+          dataType: 'json',
+          cache: false,
+          success: function(rs){
+            if(rs.data.results.total_rows==0){
+              $('.user-list').html('还没有人帮TA点赞');
+              return;
+            }
+            if(rs.data.results.total_rows>10){
+              $('.doudown').show();
+            }else{
+              $('.doudown').hide();
+            }
+
+            var rendered = phenix.ajax_render_result('#fetch_more_comment_fav_tpl', rs.data);
+            $('.user-list').append(rendered);
+            //加载宽高
+            var screenWidth = $('body').width();
+            var width = '';
+            if(screenWidth > 414){
+              width = (screenWidth - 50)/9 - 5;
+            }
+            else{
+              width = (screenWidth - 50)/5 - 4;
+            }
+            $('.poptop .userid').css({"width":width,"height":width,});
+          }
+        });
+    }
+
+</script>
+{% endblock %}
+
+{% block jquery %}
+	
+	$('.doudown').click(function(){
+    $('.user-list').html('');
+	  ajax_load_more('{{comment_id}}', 3, 2, 0, 1, 50);	
+	})
+
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		
+		// 验证点赞
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: "{{comment_id}}",type:3,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.support.button')
+						.data('content', '取消赞')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+
+		/* 登录用户行为 */
+	{% endif %}
+
+	// 点赞
+	$('.ui.support.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+      phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_laud', {id: id, type:3}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消赞')
+						.data('mark', 'y')
+						.addClass('active')									
+						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+            $('.user-list').html('');
+	          ajax_load_more('{{comment_id}}', 3, 2, 0, 1, 10);	
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_laud', {id: id, type:3}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '点赞')
+						.data('mark', 'n')
+						.removeClass('active')
+						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
+  ajax_load_more('{{comment_id}}', 3, 2, 0, 1, 10);
+
+  $('.share_btn').click(function(){
+    $('#mask').css('display','');
+  });
+
+  $('#mask').click(function(){
+    $('#mask').css('display','none');
+  });
+
+{% endblock %}
+{% block content %}
+<div class="comment_vote">
+  <img src="{{ result.banner_url }}" width="100%" alt="{{ result.title }}">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+        {% if is_current_user %}
+          <a class="ui fluid magenta inverted active button share_btn" href="javascript:void(0);">
+            分享给好友，让他们帮我点赞
+          </a>
+        {%else%}
+          <a class="ui fluid magenta inverted active button" href="{{ result.view_url }}">
+            我也要参加
+          </a>
+        {%endif%}
+			</div>
+		</div>
+		
+		<div class="row pt-5">
+			<div class="column">
+				<div class="ui poptop segment">
+					<h3 class="ui header">
+						<i class="thumbs down icon"></i>
+            赞过{% if is_current_user %}我{%else%}Ta{%endif%}的
+					</h3>
+
+					<div class="user-list">
+						
+					</div>
+						<!--  多于10个  -->
+						<div class="overtop" style="display:none">
+							
+						</div>
+						<div class="doudown" style="display:none;">
+							<i class="angle double down icon"></i>
+						</div>
+						<!-- end -->
+						
+				</div>
+				
+        {% if !is_current_user %}
+				<div class="ui center aligned column" style="text-align:center;">
+          <div class="ui pop icon support circular inverted magenta button" data-content="点赞" data-variation="inverted" data-id="{{comment_id}}" data-mark="n">
+					  	<i class="thumbs outline up icon"></i>
+						<div class="love count">
+              {{ result.love_count }}
+						</div>
+					</div>
+				</div>
+        {%endif%}
+				
+				<div class="ui segment">
+          <p>{{ result.desc }}</p>
+					
+					<a class="ui fluid magenta inverted active button" href="{{ result.view_url }}">点击查看原贴>></a>
+				</div>
+				
+				<div class="ui segment">
+					<h3 class="ui header">
+						<i class="signal icon"></i>
+						总排名
+					</h3>
+					
+          {% comment_list var:'list' target_id:result.target_id type:result.comment_type page:1 size:3 sort:2 %}
+					<div class="user-report">
+						{% for d in list.rows %}
+              <div class="myrank">
+                  <div class="ui large feed">
+                        <div class="event">
+                          <div class="label">
+                            <div class="userid" style="background-image:url({{ d.user.medium_avatar_url }});"></div>
+                          </div>
+                          <div class="content">
+                            <div class="summary">
+                              <a class="ui link">{{ d.user.nickname }}</a>
+                            </div>
+                            <div class="meta">
+                              <a class="like active">
+                                <i class="like icon"></i>
+                                {{ d.love_count }}票
+                              </a>
+                            </div>
+                            <div class="rankb">
+                              NO.<span>{{ loop.counter }}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {%endfor%}
+          
+					      </div>
+					
+				</div>
+				
+			</div>
+		</div>
+	
+	
+	</div>
+</div>
+
+<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; background: rgb(0, 0, 0);display:none;">
+  <div class="frideshare">
+	<img src="{{ app_url_packaged }}/images/fenxiang.png" width="100%">
+  </div>
+</div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'fetch_more_comment_fav_tpl' tpl:'mustache_m/fetch_more_comment_fav_tpl.mustache' %}
+{% endblock %}

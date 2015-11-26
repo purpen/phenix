@@ -636,6 +636,20 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				$this->stash['is_match_idea'] = true;
 			}
 		}
+
+    // 查看该贴子是否属于评论分享贴
+    $is_comment_share = false;
+    $comment_topic_ids = Doggy_Config::$vars['app.topic_comment_ids'];
+    if(!empty($comment_topic_ids)){
+      $comment_topic_arr = explode('|', $comment_topic_ids);
+      for($i=0;$i<count($comment_topic_arr);$i++){
+        if((int)$comment_topic_arr[$i]==$topic['_id']){
+          $is_comment_share = true;
+          break;
+        }
+      }
+    }
+    $this->stash['is_comment_share'] = $is_comment_share;
 		
 		// 评论参数
 		$comment_options = array(
