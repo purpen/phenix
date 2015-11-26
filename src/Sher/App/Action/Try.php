@@ -262,6 +262,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 				$nickname = $this->visitor->nickname;
 				$this->stash['nickname'] = $nickname;
 				
+        $this->stash['ip'] = Sher_Core_Helper_Auth::get_ip();
 				$ok = $model->apply_and_save($this->stash);
         if($ok){
 
