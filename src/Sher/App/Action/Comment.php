@@ -235,8 +235,25 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 
         // 神嘴争霸wap 以后去掉
         $comment['rank_has_first_comment'] = $rank_has_first_comment;
-        
-        return $this->ajax_json('操作成功', false, '', $comment);
+
+        // 查看该贴子是否属于评论分享贴
+        $is_comment_share = false;
+        if($comment['type']==Sher_Core_Model_Comment::TYPE_TOPIC){
+          $comment_topic_ids = Doggy_Config::$vars['app.topic_comment_ids'];
+          if(!empty($comment_topic_ids)){
+            $comment_topic_arr = explode('|', $comment_topic_ids);
+            for($i=0;$i<count($comment_topic_arr);$i++){
+              if((int)$comment_topic_arr[$i]==(int)$comment['target_id']){
+                $is_comment_share = true;
+                break;
+              }
+            }
+          }       
+        }
+        $comment['is_comment_share'] = $is_comment_share;
+
+
+    return $this->ajax_json('操作成功', false, '', $comment);
 
 	}
 	

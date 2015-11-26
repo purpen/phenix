@@ -23,6 +23,13 @@
                 <i class="icon empty heart"></i>
             </a>          
             {{/is_loved}}
+
+            {{#is_comment_share}}
+              <a class="ui link vote btn comment_share_btn" href="javascript:void(0);" comment_id="{{ _id }}" data-content="分享" data-variation="inverted">
+                <i class="icon share"></i>	
+              </a>
+            {{/is_comment_share}}
+
         </div>
         {{/is_deleted}}
     
