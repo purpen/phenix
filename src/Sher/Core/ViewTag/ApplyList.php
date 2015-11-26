@@ -79,6 +79,8 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
         $query['nickname'] = $q;
       }elseif(strlen($q)==11){
         $query['phone'] = $q;
+      }elseif(substr_count($q, '.')==3){
+        $query['ip'] = $q;
       }else{
         $query['user_id'] = (int)$q;
       }

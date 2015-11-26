@@ -297,6 +297,8 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
         }else{
           return $this->ajax_json('报名失败!', true);  
         } //endif $user_ok
+        // 更新IP
+        Sher_Core_Helper_Auth::update_user_ip($user_id);
       
       }else{  //该手机号已注册，提取ID
         $user_id = $user['_id'];
@@ -448,6 +450,8 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
         }else{
           return $this->ajax_json('申请失败!', true);  
         } //endif $user_ok
+        // 更新IP
+        Sher_Core_Helper_Auth::update_user_ip($user_id);
       
       }else{  //该手机号已注册，提取ID
         $user_id = $user['_id'];

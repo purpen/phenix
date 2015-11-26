@@ -267,6 +267,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 				$nickname = $this->visitor->nickname;
 				$this->stash['nickname'] = $nickname;
 				
+        $this->stash['ip'] = Sher_Core_Helper_Auth::get_ip();
 				$ok = $model->apply_and_save($this->stash);
         if(!$ok){
           $this->stash['msg'] = '提交失败，请重试！';
