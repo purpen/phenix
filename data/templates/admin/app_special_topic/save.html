@@ -1,0 +1,293 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+<style type="text/css">
+  .iphone{
+	float: left;
+	width: 515px;
+	height: 890px;
+	max-width: 890px;
+	border: solid 2px #ccc;
+	border-radius: 20px;
+	margin: 5px;
+	padding: 0;
+  }
+  
+  .iphone_content{
+	width: 475px;
+	height: 850px;
+	margin: 20px auto 0;
+	position: relative;
+  }
+  
+  .iphone_content table{
+	margin-top: 40px;
+  }
+  
+  .iphone_content table td{
+	width: 115px;
+	height: 115px;
+	border: dashed 1px #ccc;
+  }
+  
+  .iphone_content .iphone_gridster{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 475px;
+	height: 808px;
+	padding: 0;
+	overflow: scroll;
+  }
+  
+  .gridster * {
+	margin:0;
+	padding:0;
+  }
+  
+  ul {
+	list-style-type: none;
+  }
+  
+  .controls {
+	  margin-bottom: 20px;
+  }
+  
+  .gridster ul {
+	  background-color: #EFEFEF;
+  }
+  
+  .gridster li {
+	  font-size: 1em;
+	  font-weight: bold;
+	  text-align: center;
+	  line-height: 100%;
+	  border: solid 1px #aaa;
+	  position: relative;
+  }
+  
+  
+  .gridster {
+	  margin: 0 auto;
+	  width: 460px;
+	  opacity: .8;
+	  -webkit-transition: opacity .6s;
+	  -moz-transition: opacity .6s;
+	  -o-transition: opacity .6s;
+	  -ms-transition: opacity .6s;
+	  transition: opacity .6s;
+  }
+  
+  .gridster .gs-w {
+	  background: #DDD;
+	  cursor: pointer;
+  }
+  
+  .gridster .player {
+	  background: #BBB;
+  }
+  
+  .gridster .preview-holder {
+	  border: none!important;
+	  background: red!important;
+  }
+  
+  .gridster li .header {
+	  background: #aaa;
+	  display: none;
+	  width: 100%;
+	  height: 30px;
+	  line-height: 30px;
+	  font-size: 14px;
+	  cursor: move;
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+  }
+  
+  .gridster li .header header,.gridster li .header span{
+	display: inline-block;
+	width: 35px;
+	color: #fff;
+  }
+  
+</style>
+{% endblock %}
+
+{% block jquery %}
+  var gridster;
+  var serialization = [
+  {
+	  col: 1,
+	  row: 1,
+	  size_x: 1,
+	  size_y: 1
+  },
+  {
+	  col: 2,
+	  row: 1,
+	  size_x: 1,
+	  size_y: 1
+  },
+  {
+	  col: 3,
+	  row: 1,
+	  size_x: 1,
+	  size_y: 1
+  },
+  {
+	  col: 4,
+	  row: 1,
+	  size_x: 1,
+	  size_y: 1
+  },
+  {
+	  col: 2,
+	  row: 2,
+	  size_x: 1,
+	  size_y: 1
+  },
+  {
+	  col: 3,
+	  row: 2,
+	  size_x: 1,
+	  size_y: 1
+  },
+  {
+	  col: 1,
+	  row: 3,
+	  size_x: 1,
+	  size_y: 1
+  },
+  {
+	  col: 2,
+	  row: 3,
+	  size_x: 1,
+	  size_y: 1
+  }
+  ];
+  
+  // sort serialization
+  serialization = Gridster.sort_by_row_and_col_asc(serialization);
+  
+  $(function(){
+
+	  gridster = $(".gridster > ul").gridster({
+		  widget_margins: [0, 0],
+		  widget_base_dimensions: [115, 115],
+		  draggable: {
+			  handle: 'header'
+		  },
+		  avoid_overlapped_widgets: true,
+		  resize:{enabled: true}
+	  }).data('gridster');
+	  
+	  var html = "<img src='http://localhost/gridster/mao.jpg' width='100%' height='100%'>";
+
+	  var widgets = [
+		  ['<li><div class="header"><header>移动</header><span class="edit">编辑</span><span class="remove">删除</span></div>'+html+'</li>', 1, 1]
+	  ];
+	  
+	  $.each(serialization, function() {
+		  gridster.add_widget('<li><div class="header"><header>移动</header><span class="edit">编辑</span><span class="remove">删除</span></div>'+html+'</li>', this.size_x, this.size_y, this.col, this.row);
+	  });
+	  
+	  $('.add').click(function(){
+		  $.each(widgets, function(i, widget){
+			  gridster.add_widget.apply(gridster, widget)
+		  });
+	  });
+	  
+	  $('.gridster > ul > li').livequery(function(){
+		$(this).mouseover(function(){
+		  $(this).find('.header').css('display','block');
+		});
+		
+		$(this).mouseout(function(){
+		  $(this).find('.header').css('display','none');
+		});
+		
+		$(this).find('.remove').click(function(){
+		  gridster.remove_widget($(this).parents('li'));
+		});
+		
+	  });
+  });
+{% endblock %}
+	
+{% block content %}
+	<link rel="stylesheet" type="text/css" href="http://localhost/gridster/jquery.gridster.css">
+	<script src="http://localhost/gridster/jquery.gridster.js" type="text/javascript" charset="utf-8"></script>
+	<h3 class="ui header">app专题管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/app_special_topic" class="active item">
+			全部
+		</a>
+
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/app_special_topic/add_page" class="item add_topic">
+				<i class="plus square outline icon"></i>新建专题
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui alarm segment">
+		
+		<div class="ui iphone">
+		  <div class="ui iphone_content">
+			<table>
+			  <tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			  </tr>
+			  <tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			  </tr>
+			  <tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			  </tr>
+			  <tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			  </tr>
+			  <tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			  </tr>
+			  <tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			  </tr>
+			  <tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			  </tr>
+			</table>
+			
+			<div class="iphone_gridster">
+			  <div class="gridster">
+				<ul></ul>
+			  </div>
+			</div>
+		  </div>
+		</div>
+		<div class="add">add</div>
+		<div style="clear: both"></div>
+	</div>
+{% endblock %}
