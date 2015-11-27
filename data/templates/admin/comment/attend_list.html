@@ -30,7 +30,7 @@
 				</th>
 				<th>缩略图</th>
 				<th>ID</th>
-        <th>姓名/电话</th>
+        <th>姓名/电话/IP</th>
 				<th>职业</th>
         <th>地址</th>
 				<th>状态</th>
@@ -63,6 +63,7 @@
             <td>
               <p>{{ f.user.profile.realname }}</p>
               <p>{{ f.user.profile.phone }}</p>
+              <p>{{ f.user.last_ip }}</p>
             </td>
             <td>
               <p>{{ f.user.profile.job }}</p>
