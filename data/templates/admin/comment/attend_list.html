@@ -29,10 +29,10 @@
 					</div>
 				</th>
 				<th>缩略图</th>
-				<th>ID</th>
         <th>用户信息</th>
         <th>类型</th>
-				<th>状态</th>
+				<th>用户状态</th>
+        <th>点赞时间</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -54,20 +54,19 @@
                   {{ f.user.nickname }}
               </a>
             </td>
+
             <td>
-                    <p class="attribute">ID：{{ f.user._id }}</p>
-            </td>
-            <td>
-              <p>{{ f.user.profile.realname }}</p>
-              <p>{{ f.user.profile.phone }}</p>
-              <p>{{ f.user.profile.job }}</p>
-              <p>{{ f.user.profile.address }}</p>
+              <p>ID: {{ f.user._id }}</p>
+              <p>姓名: {{ f.user.profile.realname }}</p>
+              <p>电话: {{ f.user.profile.phone }}</p>
+              <p>工作: {{ f.user.profile.job }}</p>
+              <p>地址: {{ f.user.profile.address }}</p>
             </td>
             <td>
               {{ f.user.kind }}
             </td>
             <td>
-					  {{ f.user.created_on|date 'Y-m-d H:i'}}
+					  {{ f.user.created_on|date 'Y-m-d H:i:s'}}
             <p>{{ f.user.last_ip|default '--' }}</p>
             <p>
               {% if f.user.state == 2 %}
@@ -82,6 +81,9 @@
               <label class="ui gray label">已禁用</label>
               {% endif %}
             </p>
+            </td>
+            <td>
+            	{{ f.created_on|date 'Y-m-d H:i:s'}}
             </td>
 
           </tr>
