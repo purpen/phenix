@@ -27,6 +27,8 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
         'private'=> 0,
         'type'   => self::TYPE_TOPIC,
 		'event'  => self::EVENT_FAVORITE,
+    # IP记录(防做弊)
+    'ip' => null,
     );
 	
     protected $joins = array(
@@ -38,6 +40,9 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 	
 	
     protected function before_save(&$data) {
+      // 记录IP
+      $ip = Sher_Core_Helper_Auth::get_ip();
+      if($ip) $data['ip'] = $ip;
         if (isset($data['tags']) && !is_array($data['tags'])) {
             $data['tags'] = array_values(array_unique(preg_split('/[,，\s]+/u',strip_tags($data['tags']))));
         }

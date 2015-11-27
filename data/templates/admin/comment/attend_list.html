@@ -32,7 +32,7 @@
         <th>用户信息</th>
         <th>类型</th>
 				<th>用户状态</th>
-        <th>点赞时间</th>
+        <th>点赞时间|IP</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -83,7 +83,8 @@
             </p>
             </td>
             <td>
-            	{{ f.created_on|date 'Y-m-d H:i:s'}}
+              <p>{{ f.created_on|date 'Y-m-d H:i:s'}}</p>
+              <p>{{ f.ip|default '--'}}</p>
             </td>
 
           </tr>
