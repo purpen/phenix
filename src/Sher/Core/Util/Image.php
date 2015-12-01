@@ -488,7 +488,7 @@ class Sher_Core_Util_Image {
       $user = new Sher_Core_Model_User();
       $ok = $user->update_avatar($avatar, $img_info['parent_id']);
             
-      $result['asset'] = array(
+      $result = array(
         'id' => $avatar_id,
 				'file_url' => Sher_Core_Helper_Url::asset_qiniu_view_url($asset->filepath),
 				'width'  => $image_info['width'],
@@ -496,7 +496,7 @@ class Sher_Core_Util_Image {
       );
 			
       $s['stat'] = 1;
-      $s['result'] = $result;
+      $s['asset'] = $result;
     } else {
 			$s['msg'] = '上传失败!';
     }

@@ -64,7 +64,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 		}
     
     if($result['stat']){
-      return $this->api_json('上传成功!', 0, $result['result']);
+      return $this->api_json('上传成功!', 0, $result['asset']);
     }else{
  		  return $this->api_json('上传失败!', 3005); 
     }
@@ -104,18 +104,52 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 		
 		$user_info = array();
 		
-		$profile = array();
-        $profile['job'] = $this->stash['job'];
-		$profile['phone'] = $this->stash['phone'];
-		$profile['address'] = $this->stash['address'];
-		$profile['realname'] = $this->stash['realname'];
+    $profile = array();
+    if(isset($this->stash['job'])){
+      $profile['job'] = $this->stash['job'];
+    }
+    if(isset($this->stash['company'])){
+      $profile['company'] = $this->stash['company'];
+    }
+    if(isset($this->stash['phone'])){
+      $profile['phone'] = $this->stash['phone'];
+    }
+    if(isset($this->stash['address'])){
+      $profile['address'] = $this->stash['address'];
+    }
+    if(isset($this->stash['realname'])){
+      $profile['realname'] = $this->stash['realname'];
+    }
+    if(isset($this->stash['province_id'])){
+      $profile['province_id'] = (int)$this->stash['province_id'];
+    }
+    if(isset($this->stash['district_id'])){
+      $profile['district_id'] = (int)$this->stash['district_id'];
+    }
+    if(isset($this->stash['zip'])){
+      $profile['zip'] = $this->stash['zip'];
+    }
+    if(isset($this->stash['im_qq'])){
+      $profile['im_qq'] = $this->stash['im_qq'];
+    }
+    if(isset($this->stash['weixin'])){
+      $profile['weixin'] = $this->stash['weixin'];
+    }
 		
 		$user_info['profile'] = $profile;
 		
-		$user_info['sex']  = (int)$this->stash['sex'];
-		$user_info['city'] = $this->stash['city'];
-		$user_info['email'] = $this->stash['email'];
-		$user_info['summary'] = $this->stash['summary'];
+    if(isset($this->stash['sex'])){
+      $user_info['sex'] = (int)$this->stash['sex'];
+    }
+    if(isset($this->stash['city'])){
+      $user_info['city'] = $this->stash['city'];
+    }
+    if(isset($this->stash['email'])){
+      $user_info['email'] = $this->stash['email'];
+    }
+    if(isset($this->stash['summary'])){
+      $user_info['summary'] = $this->stash['summary'];
+    }
 		
 		try {
 			$user = new Sher_Core_Model_User();
@@ -127,7 +161,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 			
 			$user_info['nickname'] = $nickname;
 			
-	        //更新基本信息
+	    //更新基本信息
 			$user_info['_id'] = $user_id;
 			
 			$ok = $user->apply_and_update($user_info);
@@ -225,27 +259,29 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 		if (empty($rid)) {
 			return $this->api_json('缺少请求参数！', 3000);
 		}
+		if (empty($user_id)) {
+			return $this->api_json('请先登录！', 3001);
+		}
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->find_by_rid($rid);
 		
     //订单不存在
     if(empty($order_info)){
- 			return $this->api_json('订单不存在！', 3001);   
+ 			return $this->api_json('订单不存在！', 3002);   
     }
 		// 未支付订单才允许关闭
 		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
- 			return $this->api_json('该订单出现异常，请联系客服！', 3002);   
+ 			return $this->api_json('该订单出现异常，请联系客服！', 3003);   
 		}
 		try {
 			// 关闭订单
 			$model->canceled_order($order_info['_id']);
     } catch (Sher_Core_Model_Exception $e) {
- 		  return $this->api_json('取消订单失败:'.$e->getMessage(), 3003);   
+ 		  return $this->api_json('取消订单失败:'.$e->getMessage(), 3004);   
     }
 		
-		$orders = $model->find_by_rid($rid);
- 		return $this->api_json('操作成功！', 0, $orders); 
+ 		return $this->api_json('操作成功！', 0, array('rid'=> $rid)); 
 	}
 	
 }
-?>
+

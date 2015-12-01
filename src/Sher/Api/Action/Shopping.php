@@ -238,6 +238,12 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 		if (empty($sku) || empty($quantity)){
       return $this->api_json('操作异常，请重试！', 3001);
 		}
+
+		$user_id = $this->current_user_id;
+		// 验证用户
+		if (empty($user_id)){
+      return $this->api_json('请先登录！', 3001);
+		}
 		
 		// 验证是否预约过抢购商品
 		if(!$this->validate_appoint($sku)){
@@ -247,8 +253,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 		if(!$this->validate_snatch($sku)){
       return $this->api_json('不要重复抢哦', 3003);
 		}
-		
-		$user_id = $this->current_user_id;
 		
 		// 验证库存数量
 		$inventory = new Sher_Core_Model_Inventory();
@@ -325,6 +329,12 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
       return $this->api_json('请选择收货地址！', 3001);
 		}
 
+		// 订单用户
+		$user_id = $this->current_user_id;
+		if(empty($user_id)){
+      return $this->api_json('请先登录！', 3001);
+		}
+
     $from_site = isset($this->stash['from_site']) ? (int)$this->stash['from_site'] : 7;
 
     //验证地址
@@ -334,7 +344,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
       return $this->api_json('地址不存在！', 3002);
     }
 
-		
 		Doggy_Log_Helper::debug("Submit Order [$rrid]！");
 		// 是否预售订单
 		$is_presaled = isset($this->stash['is_presaled']) ? (int)$this->stash['is_presaled'] : false;
@@ -342,8 +351,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 		// 是否立即购买订单
 		$is_nowbuy = isset($this->stash['is_nowbuy']) ? (int)$this->stash['is_nowbuy'] : false;
 		
-		// 订单用户
-		$user_id = $this->current_user_id;
 		
 		// 预生成临时订单
 		$model = new Sher_Core_Model_OrderTemp();
@@ -513,23 +520,26 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 		$some_fields = array(
 			'_id'=>1, 'user_id'=>1,'name'=>1,'phone'=>1,'province'=>1,'city'=>1,'area'=>1,'address'=>1,'zip'=>1,'is_default'=>1,
 		);
+
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录！', 3001); 
+    }
 		
 		$query   = array();
 		$options = array();
 		
 		// 查询条件
-        if($this->current_user_id){
-            $query['user_id'] = $this->current_user_id;
-        }
+    $query['user_id'] = $this->current_user_id;
 		
 		// 分页参数
-        $options['page'] = $page;
-        $options['size'] = $size;
-        $options['sort_field'] = 'latest';
+    $options['page'] = $page;
+    $options['size'] = $size;
+    $options['sort_field'] = 'latest';
 		
 		// 开启查询
-        $service = Sher_Core_Service_AddBooks::instance();
-        $result = $service->get_address_list($query, $options);
+    $service = Sher_Core_Service_AddBooks::instance();
+    $result = $service->get_address_list($query, $options);
 		
 		// 重建数据结果
 		$data = array();
@@ -557,6 +567,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 		// 验证数据
 		$id = isset($this->stash['_id'])?$this->stash['_id']:0;
     $user_id = $this->current_user_id;
+		if(empty($user_id)){
+			return $this->api_json('请先登录!', 3000);
+		}
 		if(empty($this->stash['name']) || empty($this->stash['phone']) || empty($this->stash['province']) || empty($this->stash['city']) || empty($this->stash['address'])){
 			return $this->api_json('请求参数错误', 3000);
 		}
@@ -573,13 +586,14 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
     $new_data = array();
 		
 		$data = array();
-		$data['email'] = $this->stash['email'];
+		$data['email'] = isset($this->stash['email']) ? $this->stash['email'] : null;
 		$data['name'] = $this->stash['name'];
 		$data['phone'] = $this->stash['phone'];
 		$data['province'] = $this->stash['province'];
 		$data['city']  = $this->stash['city'];
 		$data['address'] = $this->stash['address'];
 		$data['zip']  = $this->stash['zip'];
+ 		$data['is_default']  = 1;       
 		
 		try{
 			$model = new Sher_Core_Model_AddBooks();
@@ -587,24 +601,28 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 			if(empty($id)){
 				$data['user_id'] = (int)$user_id;
 
-        //如果没有默认地址，则自动设为默认
-        $result = $model->find(array(
-          'user_id' => (int)$user_id,
-          'is_default' => 1,
-        ));
-        if(empty($result)){
- 		      $data['is_default']  = 1;       
-        }
-				
 				$ok = $model->apply_and_save($data);
 				 
 				$data = $model->get_data();
 				$id = (string)$data['_id'];
 			}else{
 				$mode = 'edit';
-				
 				$data['_id'] = $id;
-				
+
+        if($is_default){
+          //如果有默认地址，批量取消
+          $result = $model->find(array(
+            'user_id' => (int)$user_id,
+            'is_default' => 1,
+          ));
+          if(!empty($result)){
+            for($i=0;$i<count($result);$i++){
+              $model->update_set((string)$result[$i]['_id'], array('is_default'=>0));
+            }
+          }
+                 
+        }
+
 				$ok = $model->apply_and_update($data);
 			}
 			
@@ -675,7 +693,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
     //设置默认地址
     $ok = $model->update_set((string)$id, array('is_default' => 1));
     if($ok){
-  	  return $this->api_json('设置成功!', 0);   
+  	  return $this->api_json('设置成功!', 0, array('id'=>(string)$id));   
     }else{
    	  return $this->api_json('设置失败!', 3005);   
     }
@@ -926,6 +944,14 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 		
 		// 红包金额
 		$card_money = 0.0;
+
+    //礼品券金额
+    $gift_money = 0.0;
+
+    //鸟币数量
+    $bird_coin_count = 0;
+    //鸟币抵金额
+    $bird_coin_money = 0.0;
 		
 		// 设置订单默认值
 		$default_data = array(
@@ -934,9 +960,12 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 	        'transfer_time' => 'a',
 	        'summary' => '',
 	        'invoice_type' => 0,
-			'freight' => $freight,
-			'card_money' => $card_money,
-			'coin_money' => $coin_money,
+          'freight' => $freight,
+          'card_money' => $card_money,
+          'coin_money' => $coin_money,
+          'gift_money' => $gift_money,
+          'bird_coin_money' => $bird_coin_money,
+          'bird_coin_count' => $bird_coin_count,
 	        'invoice_caty' => 'p',
 	        'invoice_content' => 'd'
 	    );
@@ -1067,7 +1096,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 				Doggy_Log_Helper::warn('Validate snatch log key: '.$cache_key);
 				// 设置缓存
 				$redis = new Sher_Core_Cache_Redis();
-        $redis->set($cache_key, 1);
+        $redis->set($cache_key, 1, 3600);
       }
     }
   }
@@ -1093,6 +1122,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 			case 'alipay':
         $pay_url = Doggy_Config::$vars['app.url.domain'].'/app/api/alipay/payment?rid='.$rid;
 				break;
+			case 'weichat':
+        $pay_url = Doggy_Config::$vars['app.url.domain'].'/app/api/alipay/payment?rid='.$rid;
+				break;
 			default:
 			  return $this->api_json('找不到支付类型！', 3002);
 				break;
@@ -1101,4 +1133,4 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 	}
 	
 }
-?>
+
