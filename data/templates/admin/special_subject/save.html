@@ -4,23 +4,38 @@
   .iphone{
 	float: left;
 	width: 515px;
-	height: 890px;
-	max-width: 890px;
+	height: 925px;
 	border: solid 2px #ccc;
 	border-radius: 20px;
 	margin: 5px;
 	padding: 0;
   }
   
+  .topic_form{
+	float: left;
+	margin: 5px 0 0 10px;
+	padding: 5px;
+	height: 925px;
+  }
+  
+  .topic_form input{
+	min-width: 270px;
+  }
+  
+  .field a{
+	height: 25px !important;
+	margin: 2px 0 !important;
+  }
+  
   .iphone_content{
 	width: 475px;
-	height: 850px;
+	height: 880px;
 	margin: 20px auto 0;
 	position: relative;
   }
   
   .iphone_content table{
-	margin-top: 40px;
+	margin-bottom: 30px;
   }
   
   .iphone_content table td{
@@ -33,8 +48,8 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 475px;
-	height: 808px;
+	width: 476px;
+	height: 820px;
 	padding: 0;
 	overflow: scroll;
   }
@@ -110,6 +125,43 @@
 	color: #fff;
   }
   
+  .topic_button{
+	border: 1px solid #999;
+	border-radius: 25px;
+	width: 50px;
+	height: 50px;
+	line-height: 50px;
+	display: inline-block;
+	text-align: center;
+  }
+  
+  .topic_button:hover{
+	background: #eee;
+  }
+  
+  .select_type_content{
+	width: 100%;
+	background: #bbb !important;
+	padding: 5px 0;
+	position: absolute;
+	top: 30px;
+	left: 0;
+	z-index: 1000;
+	overflow: visible;
+  }
+  
+  .select_type_content li{
+	margin: 2px;
+	padding: 4px;
+	border: 0;
+	border-bottom: dashed 1px #eee;
+  }
+  
+  .select_type_content li:hover{
+	cursor: pointer;
+	color: #000;
+  }
+  
 </style>
 {% endblock %}
 
@@ -170,7 +222,21 @@
   serialization = Gridster.sort_by_row_and_col_asc(serialization);
   
   $(function(){
-
+	  
+	  var select_type_html = "\
+		<ul class=\"select_type_content\">\
+		  <li>文字</li>\
+		  <li>图片</li>\
+		  <li>视频</li>\
+		</ul>\
+	  ";
+	  
+	  var html = "<img src='http://localhost/gridster/mao.jpg' width='100%' height='100%'>";
+	  
+	  var widgets = [
+		  ['<li><div class="header"><header>移动</header><span class="edit">编辑</span><span class="remove">删除</span></div>'+html+'</li>', 1, 1]
+	  ];
+	  
 	  gridster = $(".gridster > ul").gridster({
 		  widget_margins: [0, 0],
 		  widget_base_dimensions: [115, 115],
@@ -180,18 +246,12 @@
 		  avoid_overlapped_widgets: true,
 		  resize:{enabled: true}
 	  }).data('gridster');
-	  
-	  var html = "<img src='http://localhost/gridster/mao.jpg' width='100%' height='100%'>";
 
-	  var widgets = [
-		  ['<li><div class="header"><header>移动</header><span class="edit">编辑</span><span class="remove">删除</span></div>'+html+'</li>', 1, 1]
-	  ];
-	  
 	  $.each(serialization, function() {
 		  gridster.add_widget('<li><div class="header"><header>移动</header><span class="edit">编辑</span><span class="remove">删除</span></div>'+html+'</li>', this.size_x, this.size_y, this.col, this.row);
 	  });
 	  
-	  $('.add').click(function(){
+	  $('.topic_button').click(function(){
 		  $.each(widgets, function(i, widget){
 			  gridster.add_widget.apply(gridster, widget)
 		  });
@@ -210,6 +270,12 @@
 		  gridster.remove_widget($(this).parents('li'));
 		});
 		
+		var select_tmp = 0;
+		$(this).find('.edit').click(function(){
+		  $('.select_type_content').remove();
+		  $(this).parents('li').append(select_type_html);
+		});
+		
 	  });
   });
 {% endblock %}
@@ -220,12 +286,12 @@
 	<h3 class="ui header">app专题管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/app_special_topic" class="active item">
+		<a href="{{ app_url_admin_base }}/special_subject" class="active item">
 			全部
 		</a>
 
 	  	<div class="right menu">
-			<a href="{{ app_url_admin_base }}/app_special_topic/add_page" class="item add_topic">
+			<a href="{{ app_url_admin_base }}/special_subject/add_page" class="item add_topic">
 				<i class="plus square outline icon"></i>新建专题
 			</a>
 	    </div>
@@ -285,9 +351,41 @@
 				<ul></ul>
 			  </div>
 			</div>
+			<a href="javascript:void(0);" class="ui topic_button"></a>
 		  </div>
 		</div>
-		<div class="add">add</div>
+		<div class="ui topic_form">
+		  <form action="{{ app_url_admin_base }}/topic/save" class="ui form" method="post" id="topic-form">
+			  <input name="_id" type="hidden" value="{{ topic._id }}" />
+			  
+			  <div class="inline field">
+				  <label>专题标题:</label>
+				  <input type="text" name="try_id" value="" />
+			  </div>
+			  <div class="inline field">
+				  <label>专题标签:</label>
+				  <input type="text" name="try_id" value="" />
+			  </div>
+			  <div class="field" style="max-width:360px ">
+				<a class="ui label">智能硬件</a>
+				<a class="ui label">母婴</a>
+				<a class="ui label">太火鸟</a>
+				<a class="ui label">智能硬件</a>
+				<a class="ui label">母婴</a>
+				<a class="ui label">太火鸟</a>
+				<a class="ui label">&nbsp;+&nbsp;</a>
+			  </div>
+			  
+			  <div class="inline field" style="float: right;margin-top: 50px;">
+				<div class="ui gray cancel button">
+					取消
+				</div>
+				<div class="ui magenta submit button">
+					保存
+				</div>
+			  </div> 
+		  </form>
+		</div>
 		<div style="clear: both"></div>
 	</div>
 {% endblock %}

@@ -3,7 +3,7 @@
  * 后台app专题管理
  * @author caowei@taihuoniao.com
  */
-class Sher_Admin_Action_AppSpecialTopic extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {
+class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
 		'page' => 1,
@@ -11,7 +11,7 @@ class Sher_Admin_Action_AppSpecialTopic extends Sher_Admin_Action_Base implement
 	);
 	
 	public function _init() {
-		$this->set_target_css_state('page_app_special_topic');
+		$this->set_target_css_state('page_special_subject');
     }
 	
 	/**
@@ -35,14 +35,14 @@ class Sher_Admin_Action_AppSpecialTopic extends Sher_Admin_Action_Base implement
 		}
 		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.admin'].'/private_letter/get_list?page=#p#';
 		
-		return $this->to_html_page('admin/app_special_topic/list.html');
+		return $this->to_html_page('admin/special_subject/list.html');
 	}
 	
 	/**
 	 * 添加页面
 	 */
 	public function add_page(){
-		return $this->to_html_page('admin/app_special_topic/save.html');
+		return $this->to_html_page('admin/special_subject/save.html');
 	}
 }
 
