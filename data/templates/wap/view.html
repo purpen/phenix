@@ -20,9 +20,6 @@ body{
 	margin-bottom: 1rem;
 }
 
-#frslide{
-	max-height:216px !important;
-}
 
 .ui.basic.table tbody tr {
 border-bottom: 0px solid rgba(0,0,0,0) !important;
@@ -372,50 +369,7 @@ i.cart.icon,i.exchange.icon{
 {% endblock %}
 
 {% block content %}
-<!--<div class="ui responsive grid" id="mshoppage">
-	<div class="row">
-		<div class="column">
-			<div class="ui breadcrumb">
-			  	<a class="section" href="{{ app_url_wap }}">
-					<i class="home icon"></i>首页
-				</a>
-			  	<div class="divider"> / </div>
-				{% if product.stage == 9 %}
-			  	<a class="section" href="{{ app_url_wap }}/shop">商品</a>
-				{% endif %}
-				{% if product.stage == 5 %}
-			  	<a class="section" href="{{ app_url_wap }}/shop/presale">预售</a>
-				{% endif %}
-				{% if product.stage == 12 %}
-			  	<a class="section" href="{{ app_url_wap }}/shop/exchange">积分兑换</a>
-				{% endif %}
-			  	<div class="divider"> / </div>
-			  	<div class="active section">{{ product.short_title }}</div>
-			</div>
-		</div>
-	</div>
-</div>-->
-
 <!--产品图片-->
-<!--{% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
-<div id="frslide" class="frame">
-	<div class="ui slide">
-		<div class="item">
-			<img src="{{ product.cover.thumbnails.big.view_url }}"  alt="{{ product.title }}" class="ui image" />
-		</div>
-		{% for asset in assets.rows %}
-			{% if asset._id != product.cover_id %}
-			<div class="item">
-				<img src="{{ asset.thumbnails.big.view_url }}"  alt="{{ product.title }}" class="ui image"  />
-			</div>
-			{% endif %}
-		{% endfor %}
-	</div>
-	<div class="pages"></div>
-	<div class="ui active icon circular share btn">
-		<i class="circular inverted large share alternate icon"></i>
-	</div>
-</div>-->
 {% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
 <div id="slider" class="flexslider flex-single">
 	<ul class="slides">
@@ -437,8 +391,6 @@ i.cart.icon,i.exchange.icon{
 		{% endfor %}
 	  
 	</ul>  
-	
-	
 	<div class="ui active icon circular share btn">
 		<i class="circular inverted large share alternate icon"></i>
 	</div>
