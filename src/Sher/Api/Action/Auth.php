@@ -192,7 +192,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base implements Sher_Core_Act
             return $this->api_json($e->getMessage(), 4001);
 		}
 		
-		return $this->api_json("您已成功的退出登录,稍候将跳转到主页.", 0);
+    return $this->api_json("您已成功的退出登录,稍候将跳转到主页.", 0, array());
 	}
 	
 	/**

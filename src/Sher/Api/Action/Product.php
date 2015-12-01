@@ -12,7 +12,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
   );
    */
 	
-	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'comments', 'ajax_favorite', 'ajax_love', 'ajax_comment', 'fetch_relation_product');
+	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'comments', 'ajax_favorite', 'ajax_love', 'ajax_comment', 'fetch_relation_product', 'ajax_cancel_love');
 	
 	/**
 	 * 入口
@@ -308,6 +308,9 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 	public function ajax_cancel_love(){
     $id = $this->stash['id'];
     $user_id = $this->current_user_id;
+		if(empty($user_id)){
+			return $this->api_json('请先登录!', 3005);
+		}
 		if(empty($id)){
 			return $this->api_json('缺少请求参数！', 3000);
 		}
