@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/swiper.min.css">
 <style type="text/css">
 	#mfrbird {
-	    margin: 0em 0 3em !important;
+	    margin: 0em auto 3em !important;
 	}
 
 .tslide{
@@ -148,7 +148,7 @@
       animationDuration: 300,
       animationSpeed: 300,
   });
-  var s=$('body').width();
+  var s=$('#mfrbird').width();
   $('#mchildmenu').flexslider({
       animation: "slide",
       animationLoop: false,
@@ -179,18 +179,6 @@
     {% endfor %}
   </ul>
 </div>
-<!--<div id="frslide" class="frame">
-	<div class="ui slide">
-		{% for ad in ad.rows %}
-		<div class="item">
-			<a href="{{ ad.mm_view_url }}" title="{{ ad.title }}">
-	      		<img src="{{ ad.cover.fileurl }}" class="ui image" alt="{{ ad.title }}" />
-			</a>
-		</div>
-		{% endfor %}
-	</div>
-	<div class="pages"></div>
-</div>-->
 
 <div id="mchildmenu" class="flexslider flex-single">
   <ul class="slides">
@@ -238,54 +226,6 @@
   
   </div>
 </div>
-
-
-<!--<div id="mchildmenu" class="frame">
-	<div class="ui slide">
-		<div class="meslide">
-			<div class="ui fluid four item labeled main icon magenta menu">
-				<a class="item" href="{{ app_url_wap }}/shop">
-		    	全部商品
-		  	</a>
-		  	<a class="item" href="{{ app_url_wap }}/topic">
-		    	社区话题
-		  	</a>
-		  	<a class="item" href="{{ app_url_wap }}/try">
-		    	新品试用
-		  	</a>
-		  	<a class="item" href="{{ app_url_wap }}/active">
-		    	活动
-		  	</a>
-		  	
-	
-			</div>
-		</div>
-		<div class="meslide">
-			<div class="ui fluid four item labeled main icon magenta menu">
-			  
-		  	<a class="item" href="{{ app_url_wap }}/incubator">
-		    	孵化
-		  	</a>
-  			<a class="item" href="{{ app_url_wap }}/contest/dream2">
-		    	十万火计
-		  	</a>
-  		  <a class="item" href="{{ app_url_wap }}/birdegg">
-		    	蛋年
-		  	</a>
-		  	<a class="item" href="{{ app_url_wap }}/clients">
-		    	客户端
-		  	</a>
-			
-			</div>
-		</div>
-	</div>
-	<a class="prev" href="#">
-		<i class="flat fp-controlArrow angle left icon"></i>
-	</a>
-	<a class="next" href="#">
-		<i class="flat fp-controlArrow angle right icon"></i>
-	</a>
-</div>-->
 
 <!--商品-->
 <div class="ui responsive grid" id="mpresale">
