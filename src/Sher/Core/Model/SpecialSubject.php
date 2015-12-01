@@ -7,9 +7,9 @@ class Sher_Core_Model_Block extends Sher_Core_Model_Base  {
   protected $collection = "special_subject";
 
   ##常量
-  #类型
-  KIND_CUSTOM = 1;
-  KIND_APPOINT = 2;
+  #类型:1.自定义内容；2.指定商品ID
+  const KIND_CUSTOM = 1;
+  const KIND_APPOINT = 2;
 	
 	protected $schema = array(
     'title' => null,
@@ -18,6 +18,8 @@ class Sher_Core_Model_Block extends Sher_Core_Model_Base  {
     'user_id' => null,
     # 分类ID
     'category_id' => null,
+    # 商品ID数组
+    'products' => array(),
     # 内容
     'content' => null,
     # 简述
