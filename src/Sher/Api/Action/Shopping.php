@@ -325,6 +325,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
       return $this->api_json('请选择收货地址！', 3001);
 		}
 
+    $from_site = isset($this->stash['from_site']) ? (int)$this->stash['from_site'] : 7;
+
     //验证地址
     $add_book_model = new Sher_Core_Model_AddBooks();
     $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
@@ -398,7 +400,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 			}
 
       //来源 api手机应用
-      $order_info['from_site'] = Sher_Core_Util_Constant::FROM_IAPP;
+      $order_info['from_site'] = $from_site;
 			
 			// 商品金额
 			$order_info['total_money'] = $total_money;
@@ -815,7 +817,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core
 			'card_money'=>1, 'coin_money'=>1, 'freight'=>1, 'discount'=>1, 'user_id'=>1, 'addbook_id'=>1,
 			'express_info'=>1, 'invoice_type'=>1, 'invoice_caty'=>1, 'invoice_title'=>1, 'invoice_content'=>1,
 			'payment_method'=>1, 'express_caty'=>1, 'express_no'=>1, 'sended_date'=>1,'card_code'=>1, 'is_presaled'=>1,
-      'expired_time'=>1, 'from_site'=>1, 'status'=>1,
+      'expired_time'=>1, 'from_site'=>1, 'status'=>1, 'gift_code'=>1, 'bird_coin_count'=>1, 'bird_coin_money'=>1,
+      'gift_money'=>1,
 		);
 		$options['some_fields'] = $some_fields;
 
