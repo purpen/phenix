@@ -85,6 +85,11 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 			throw new Sher_Core_Model_Exception('产品不存在！');
 		}
 
+    // 预售产品不可使用
+		if ($product['stage'] == 5){
+ 			throw new Sher_Core_Model_Exception('预售产品不可使用！');
+		}
+
     // 礼品券最低消费限额
     if(!empty($gift['min_cost']) && $gift['min_cost']>$product['sale_price']){
  			throw new Sher_Core_Model_Exception('该礼品券要求当前商品最低消费限额 '.$gift['min_cost'].'元！');   
@@ -130,6 +135,19 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
       }
     }
 
+		$product_model = new Sher_Core_Model_Product();
+		$product = $product_model->find_by_id((int)$product_id);
+		
+    //验证产品
+		if (empty($product)){
+ 			throw new Sher_Core_Model_Exception('该红包只能用于指定商品！');
+		}
+
+    // 预售产品不可使用
+		if ($product['stage'] != 9){
+ 			throw new Sher_Core_Model_Exception('该产品不可使用红包！');
+		}
+
 		$card_money = $bonus['amount'];
 		
 		return $card_money;
@@ -163,6 +181,11 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 			  throw new Sher_Core_Model_Exception('您输入的鸟币数量小于指定数量！');
       }
     }
+
+    // 预售产品不可使用
+		if ($product['stage'] == 5){
+ 			throw new Sher_Core_Model_Exception('预售产品不可使用鸟币！');
+		}
 
 		//您输入的鸟币数量超过指定数量
 		if ($bird_coin > $product['max_bird_coin']){
@@ -229,6 +252,12 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
         return $message;
       }
     }
+
+    // 预售产品不可使用
+		if ($product['stage'] == 5){
+      $message['msg'] = '预售产品不可使用鸟币!';
+      return $message;
+		}
 
     //验证当前用户鸟币是否足够
     // 用户实时积分

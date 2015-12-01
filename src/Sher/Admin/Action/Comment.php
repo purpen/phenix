@@ -64,7 +64,7 @@ class Sher_Admin_Action_Comment extends Sher_Admin_Action_Base implements DoggyX
 		$data = array();
 		$data['content'] = $this->stash['content'];
 		$data['love_count'] = (int)$this->stash['love_count'];
-
+		$data['floor'] = (int)$this->stash['floor'];
 
 		try{
 			$model = new Sher_Core_Model_Comment();

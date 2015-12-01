@@ -251,21 +251,6 @@
 		<input type="hidden" name="file_id" value="{{ pid }}" id="file_id" />
 		
 		<h3 class="ui dividing header">新增试用产品</h3>
-		<div class="inline field">
-		  	<label>购买链接 ：</label>
-			<input type="text" name="buy_url" value="{{ try.buy_url }}" placeholder="http://" />
-			<div class="ui pointing left label">
-				购买的链接地址
-			</div>
-		</div>
-		
-		<div class="inline field">
-		  	<label>参与方式：</label>
-			<div class="ui radio checkbox">
-				<input type="radio" name="join_away" value="1" checked="checked" />
-				<label>免费参加</label>
-			</div>
-		</div>
 		
 		<div class="field">
 		  	<label>活动标题：</label>
@@ -444,6 +429,21 @@
 <div class="description">预约数量达到某个数量才会开启</div>
       </div>
     </div>
+
+    <div class="two fields">
+      <div class="field">
+          <label>购买链接 ：</label>
+        <input type="text" name="buy_url" value="{{ try.buy_url }}" placeholder="http://" />
+      </div>
+    </div>
+		
+		<div class="field">
+		  	<label>参与方式：</label>
+			<div class="ui radio checkbox">
+				<input type="radio" name="join_away" value="1" checked="checked" />
+				<label>免费参加</label>
+			</div>
+		</div>
 
 			<h4 class="ui stage header">进度</h4>
 			<div class="grouped inline fields">

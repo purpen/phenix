@@ -73,7 +73,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base implements Sher_Core_Act
         }
 		
 		// 绑定设备操作
-		$uuid = $this->stash['uuid'];
+		$uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
 		if(!empty($uuid) && !empty($user_id)){
 			$pusher = new Sher_Core_Model_Pusher();
 			$ok = $pusher->binding($uuid, $user_id, $from_to);

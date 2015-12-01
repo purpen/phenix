@@ -32,6 +32,7 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 		'zip' => '',
 		'wx' => null,
 		'qq' => null,
+    'ip' => null,
     	'result' => self::RESULT_REJECT,
 		'type' => self::TYPE_TRY,
 		

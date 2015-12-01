@@ -10,7 +10,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     'target_id'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share');
 
 	/**
 	 * 网站入口
@@ -18,6 +18,81 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->coupon();
 	}
+
+  /**
+   * 评论投票分享
+   */
+  public function comment_vote_share(){
+  
+    $comment_id = isset($this->stash['comment_id']) ? $this->stash['comment_id'] : null;
+
+    $redirect_url = Doggy_Config::$vars['app.url.wap']; 
+    if(empty($comment_id)){
+      return $this->to_redirect($redirect_url); 
+    }
+
+    $comment_model = new Sher_Core_Model_Comment();
+    $comment = $comment_model->load($comment_id);
+    if(empty($comment)){
+      return $this->to_redirect($redirect_url);   
+    }
+
+    $comment_type = $comment['type'];
+    $target_id = $comment['target_id'];
+    $comment_mark = sprintf("%s-%d", $target_id, $comment_type);
+
+    $block_str = Sher_Core_Util_View::load_block('comment_vote_content');
+    if(empty($block_str)){
+      return $this->to_redirect($redirect_url);    
+    }
+
+    $result = array();
+
+    $list_arr = explode(';;', $block_str);
+    for($i=0;$i<count($list_arr);$i++){
+      $item_arr = explode('||', $list_arr[$i]);
+      if($item_arr[0]==$comment_mark){
+        $result = array(
+          'target_id' => $target_id,
+          'comment_type' => $comment_type,
+          'title' => $item_arr[1],
+          'desc' => $item_arr[2],
+          'cover_url' => $item_arr[3],
+          'banner_url' => $item_arr[4],
+          'evt' => $item_arr[5],
+          'view_url' => sprintf(Doggy_Config::$vars['app.url.wap.social.show'], $target_id, 0),
+          'love_count' => $comment['love_count'],
+        );
+      }
+    }
+
+    if(empty($result)){
+      return $this->to_redirect($redirect_url);     
+    }
+
+    // 判断是否是当前用户
+    $is_current_user = false;
+    if($this->visitor->id){
+      if($this->visitor->id==$comment['user_id']){
+        $is_current_user = true;
+      }
+    }
+
+    $this->stash['is_current_user'] = $is_current_user;
+    $this->stash['result'] = $result;
+
+    //微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
+
+    return $this->to_html_page('wap/promo/comment_vote.html');
+  }
+
 	/**
 	 * 创造提交 
 	 */
@@ -190,7 +265,72 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
     return $this->to_redirect($redirect_url); 
   }
+	/**
+	* 2015 辣妈奶爸神嘴pk
+	*/
+	public function rank2(){
+		$this->stash['size'] = isset($this->stash['size']) ? (int)$this->stash['size'] : 20;
 
+    $dig_model = new Sher_Core_Model_DigList();
+    $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_03;
+
+    $this->stash['id'] = 1;
+    $this->stash['count_01'] = $count_01 = 0;
+    $this->stash['count_02'] = $count_02 = 0;
+    $this->stash['total_count'] = 0;
+    $this->stash['view_count'] = 0;
+    $this->stash['comment_count'] = 0;
+
+    $dig = $dig_model->load($dig_key);
+    if(empty($dig)){
+      $dig_model->update_set($dig_key, array('items.id'=>1, 'items.count_01'=>0, 'items.count_02'=>0, 'items.total_count'=>0, 'items.view_count'=>0, 'items.comment_count'=>0), true);     
+    }else{
+      $this->stash['count_01'] = $count_01 = $dig['items']['count_01'];
+      $this->stash['count_02'] = $count_02 = $dig['items']['count_02'];
+      $this->stash['total_count'] = $dig['items']['total_count'];
+      $this->stash['view_count'] = $dig['items']['view_count'];
+      $this->stash['comment_count'] = $dig['items']['comment_count'];
+    }
+
+    //  判断用户是否已投票
+    $this->stash['has_support'] = 0;
+    $this->stash['support_cid'] = 0;
+    if($this->visitor->id){
+      $mode_attend = new Sher_Core_Model_Attend();
+      $attend = $mode_attend->first(array('user_id'=>$this->visitor->id, 'target_id'=>5, 'event'=>5));
+      if(!empty($attend)){
+        $this->stash['has_support'] = 1;
+        $this->stash['support_cid'] = $attend['cid'];     
+      }   
+    }
+
+    // 增加浏览量
+    $dig_model->inc($dig_key, "items.view_count", 1);
+
+		// 评论参数
+		$comment_options = array(
+		  'comment_target_id' =>  5,
+		  'comment_target_user_id' => 0,
+		  'comment_type'  =>  10,
+		  'comment_pager' =>  '',
+		  //是否显示上传图片/链接
+		  'comment_show_rich' => 1,
+		);
+		$this->_comment_param($comment_options);
+
+		$pager_url = sprintf("%s/promo/rank2?sort=%d&page=#p##comment_top", Doggy_Config::$vars['app.url.wap'], $this->stash['sort']);
+		$this->stash['pager_url'] = $pager_url;
+
+		//微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['share_url'] = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
+		return $this->to_html_page('wap/promo/rank2.html');
+	}
 	/**
 	 * 2015 云马Ｃ1神嘴pk
 	 */

@@ -489,6 +489,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$subject_category = $category->extend_load($category_id);
 		// 获取父级分类
 		$parent_category = $category->extend_load((int)$subject_category['pid']);
+    $this->stash['category_id'] = $category_id;
 		$this->stash['subject_category'] = $subject_category;
 		$this->stash['parent_category'] = $parent_category;
 		
@@ -497,6 +498,38 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::product_subject_url($id, '#p#');
+
+		$this->stash['mode'] = 'create';
+		
+		// 图片上传参数
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_TOPIC;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_TOPIC;
+		$new_file_id = new MongoId();
+		$this->stash['new_file_id'] = (string)$new_file_id;
+		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+
+		// 附件上传参数
+		$this->stash['file_token'] = Sher_Core_Util_Image::qiniu_token(null, true);
+		$this->stash['file_domain'] = Sher_Core_Util_Constant::STROAGE_TOPIC;
+		$this->stash['file_asset_type'] = Sher_Core_Model_Asset::TYPE_FILE_TOPIC;
+		$this->stash['file_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+		
+		// 评测对象
+		if(isset($this->stash['tid'])){
+			$this->stash['try_id'] = $this->stash['tid'];
+		}
+		
+		// 判断来源
+		if(isset($this->stash['ref']) && $this->stash['ref'] == 'dream'){
+			$page_title = '提交创意';
+			$this->stash['hide'] = 'hide';
+		}else{
+			$page_title = '发表主题';
+		}
+		$this->stash['page_title'] = $page_title;
+		
+		$this->editor_params();
 		
 		return $this->to_html_page('page/topic/subject_list.html');
 	}
@@ -603,6 +636,20 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				$this->stash['is_match_idea'] = true;
 			}
 		}
+
+    // 查看该贴子是否属于评论分享贴
+    $is_comment_share = false;
+    $comment_topic_ids = Doggy_Config::$vars['app.topic_comment_ids'];
+    if(!empty($comment_topic_ids)){
+      $comment_topic_arr = explode('|', $comment_topic_ids);
+      for($i=0;$i<count($comment_topic_arr);$i++){
+        if((int)$comment_topic_arr[$i]==$topic['_id']){
+          $is_comment_share = true;
+          break;
+        }
+      }
+    }
+    $this->stash['is_comment_share'] = $is_comment_share;
 		
 		// 评论参数
 		$comment_options = array(
@@ -1072,9 +1119,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$data['description'] = Sher_Core_Helper_Util::gen_inlink_keyword($data['description'], 1);
 		$data['tags'] = $this->stash['tags'];
 		$data['category_id'] = $this->stash['category_id'];
-		$data['category_id'] = $this->stash['category_id'];
 		
 		$data['cover_id'] = $this->stash['cover_id'];
+    $data['target_id'] = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
 		
 		$data['try_id'] = $this->stash['try_id'];
 		$data['published'] = (int)$this->stash['published'];

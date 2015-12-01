@@ -319,10 +319,10 @@
 	<h3 class="ui header">私信管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/private_letter" class="active item">
+		<a href="{{ app_url_admin_base }}/private_letter" class="item {{ css_all }}">
 			全部
 		</a>
-		<a href="{{ app_url_admin_base }}/private_letter/get_list?reply_id={{user_id}}" class="item">
+    <a href="{{ app_url_admin_base }}/private_letter/get_list?reply_id={{user_id}}" class="item {{ css_no_reply }}">
 			未回复
 		</a>
 

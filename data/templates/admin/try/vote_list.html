@@ -68,6 +68,7 @@
             </td>
             <td>
 					  {{ attend.user.created_on|date 'Y-m-d H:i'}}
+            <p>{{ attend.user.last_ip|default '--' }}</p>
             <p>
               {% if attend.user.state == 2 %}
               <label class="ui magenta label">已激活</label>

@@ -36,6 +36,12 @@
                 <i class="icon empty heart"></i>
               </a> 
             {%endif%}
+			
+            {% if is_comment_share %}
+              <a class="ui link vote btn" href="{{ app_url_wap }}/promo/comment_vote_share?comment_id={{ comment._id }}" data-content="分享" data-variation="inverted">
+                <i class="icon share"></i>	
+              </a>
+            {%endif%}
           </div>
           {%endif%}
           {% if comment.is_reply %}
@@ -149,6 +155,12 @@
               <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
                 <i class="icon empty heart"></i>
               </a> 
+            {%endif%}
+			
+            {% if is_comment_share %}
+            <a class="ui link vote btn" href="{{ app_url_wap }}/promo/comment_vote_share?comment_id={{ comment._id }}" data-content="分享" data-variation="inverted">
+                <i class="icon share"></i>	
+              </a>
             {%endif%}
           </div>
           {%endif%}

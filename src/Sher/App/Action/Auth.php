@@ -936,17 +936,6 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 				if(Doggy_Config::$vars['app.anniversary2015.switch']){
 				  $this->give_bonus($user_id, 'QX', array('count'=>1, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
 				}
-				
-        // 插入易购的用户数据
-        if(isset($_COOKIE['egou_uid']) && !empty($_COOKIE['egou_uid'])){
-          $egou_auth = Sher_Core_Helper_Util::egou_auth();
-          if(!empty($egou_auth)){
-            $arr_egou = json_decode($egou_auth,true);
-            if((int)$arr_egou['result']){
-              Sher_Core_Helper_Util::egou($user_id);
-            }
-          }
-        }
 
         // 如果来自第三方则统计
         if(isset($_COOKIE['from_origin']) && !empty($_COOKIE['from_origin'])){
