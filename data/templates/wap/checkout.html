@@ -217,7 +217,7 @@
 						</div>
 					</div>
 					
-					<div class="ui styled fluid accordion">
+					<div class="ui styled fluid accordion" style="display:inline-block !important;font-size:0;">
 						<div class="active title">
 							<i class="dropdown icon"></i>
 							使用红包
@@ -228,8 +228,8 @@
 							<div class="bonus item" style="margin-bottom:1em;">
 								<div class="field">
 									<div class="ui radio checkbox">
-                    <input name="bonus" type="radio" value="{{ b.code }}" class="inbonus" />
-                    <label>
+                    <input name="bonus" type="radio" value="{{ b.code }}" class="inbonus" style="width:64% !important; font-size:1rem;display:inline-block;"/>
+                    <label style="display:inline-block;">
                       <span class="ui magenta text">{{ b.amount }}元</span> <small>{{ b.expired_label }} </small>
                       <a href="javascript:void(0);" class="code-select" code="{{ b.code }}"> 插入</a>
                     </label>
@@ -239,8 +239,8 @@
 							{% endfor %}
 							
 							<div class="ui fluid action input">
-							  <input placeholder="输入红包码..." name="bonus_code" type="text" id="bonus-code" />
-							  <div class="ui active magenta inverted button" id="submit-bonus">确定</div>
+							  <input placeholder="输入红包码..." name="bonus_code" type="text" id="bonus-code" style="width:64% !important; font-size:1rem;display:inline-block;" />
+							  <div class="ui active magenta inverted button" id="submit-bonus" style="display:inline-block;">确定</div>
 							</div>
 					    </div>
 						
@@ -250,8 +250,8 @@
 						</div>
 						<div class="content">
 							<div class="ui fluid action input">
-							  <input placeholder="输入礼品码..." name="gift_code" type="text" id="gift-code" style="width:74% !important;"/>
-							  <div class="ui active magenta inverted button" id="submit-gift">确定</div>
+							  <input placeholder="输入礼品码..." name="gift_code" type="text" id="gift-code" style="width:64% !important; font-size:1rem;display:inline-block;" />
+							  <div class="ui active magenta inverted button" id="submit-gift" style="display:inline-block;">确定</div>
 							</div>
 					    </div>
 
