@@ -205,7 +205,7 @@
 						<div class="ui celled goods list">
 							{% for product in data.items %}
 							<div class="item" id="product_{{ product.sku }}">
-						    	<img class="ui mini image" src="{{ product.cover }}" />
+						    	<img class="ui mini image" src="{{ product.cover }}" style="margin-top:3px;"/>
 						    	<div class="content">
 						      		<div class="header">
 										<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
