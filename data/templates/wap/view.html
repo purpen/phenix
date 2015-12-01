@@ -257,48 +257,6 @@ i.cart.icon,i.exchange.icon{
 {% endblock %}
 
 {% block jquery %}
-	var s=e('#frslide').width();
-	e("#frslide > .ui.slide > .item").width(s);
-	
-	var $frame = $('#frslide');
-	// Call Sly on frame
-	$frame.sly({
-		horizontal: 1,
-		itemNav: 'basic',
-		smart: 1,
-		activateMiddle: 1,
-		activateOn: 'click',
-		mouseDragging: 1,
-		touchDragging: 1,
-		releaseSwing: 1,
-		startAt: 0,
-		pagesBar: $frame.find('.pages'),
-		pageItem: 'pages',
-		activatePageOn: 'click',
-		pageBuilder: function (index) {
-			return '<a href="javascript:void(0);">' + (index + 1) + '</a>';
-		},
-		speed: 300,
-		elasticBounds: 1,
-		easing: 'easeOutExpo',
-		
-		// Automated cycling
-		//cycleBy: "items",
-		//cycleInterval: 3000,
-		//pauseOnHover:1,
-		
-		dragHandle: 1,
-		dynamicHandle: 1,
-		clickBar: 1,
-	});
-	
-	$(window).resize(function() {
-		var s=$('#frslide').width();
-		e("#frslide > .ui.slide > .item").width(s);
-		
-		$frame.sly('reload');
-	});
-	
   	$('#slider').flexslider({
         animation: "slide",
         directionNav: false, 
