@@ -299,6 +299,19 @@ i.cart.icon,i.exchange.icon{
 		$frame.sly('reload');
 	});
 	
+  	$('#slider').flexslider({
+        animation: "slide",
+        directionNav: false, 
+        controlNav: true,
+        animationLoop: true,
+        slideshow: true,
+        slideshowSpeed: 5000,
+        animationDuration: 300,
+        animationSpeed: 300,
+    });
+	
+	
+	
 	phenix.bind_share_list();
 	// 分享
 	$('.ui.share.btn').bind('click', function(){
@@ -426,7 +439,7 @@ i.cart.icon,i.exchange.icon{
 </div>-->
 
 <!--产品图片-->
-{% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
+<!--{% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
 <div id="frslide" class="frame">
 	<div class="ui slide">
 		<div class="item">
@@ -441,6 +454,33 @@ i.cart.icon,i.exchange.icon{
 		{% endfor %}
 	</div>
 	<div class="pages"></div>
+	<div class="ui active icon circular share btn">
+		<i class="circular inverted large share alternate icon"></i>
+	</div>
+</div>-->
+{% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
+<div id="slider" class="flexslider flex-single">
+	<ul class="slides">
+        <li style="background-image: url('{{ ad.cover.fileurl }}');">
+          <a href="javascript:void(0);" title="{{ ad.title }}" alt="{{ ad.title }}">
+              <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
+          </a>
+        </li>
+		
+		{% for asset in assets.rows %}
+			{% if asset._id != product.cover_id %}
+		        <li style="background-image: url('{{ asset.thumbnails.big.view_url }}');">
+		          <a href="javascript:void(0);" title="{{ product.title }}" alt="{{ product.title }}">
+		              <img src="{{ asset.thumbnails.big.view_url }}" alt="{{ product.title }}" style="display: none;" />
+		          </a>
+		        </li>
+		
+			{% endif %}
+		{% endfor %}
+	  
+	</ul>  
+	
+	
 	<div class="ui active icon circular share btn">
 		<i class="circular inverted large share alternate icon"></i>
 	</div>
