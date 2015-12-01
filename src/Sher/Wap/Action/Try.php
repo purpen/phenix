@@ -278,6 +278,9 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
         if(empty($this->visitor->profile->realname)){
           $user_data['profile.realname'] = isset($this->stash['name']) ? $this->stash['name'] : null;
         }
+        if(empty($this->visitor->profile->phone)){
+          $user_data['profile.phone'] = isset($this->stash['phone']) ? $this->stash['phone'] : null;
+        }
         if(empty($this->visitor->profile->address)){
           $user_data['profile.address'] = isset($this->stash['address']) ? $this->stash['address'] : null;
         }

@@ -213,6 +213,9 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base implements Sher_Core_Acti
       if(empty($user['profile']['realname'])){
         $user_data['profile.realname'] = isset($this->stash['name']) ? $this->stash['name'] : null;
       }
+      if(empty($user['profile']['phone'])){
+        $user_data['profile.phone'] = isset($this->stash['phone']) ? $this->stash['phone'] : null;
+      }
       if(empty($user['profile']['address'])){
         $user_data['profile.address'] = isset($this->stash['address']) ? $this->stash['address'] : null;
       }

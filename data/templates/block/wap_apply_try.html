@@ -27,7 +27,7 @@
 						
 						  <select style="width:49%;" name="province" value="{{ visitor.profile.province_id }}" class="choose province">
   						  {% for province in provinces %}
-  						    <option value="{{ province._id }}">{{ province.city }}</option>
+                <option{%if province._id==visitor.profile.province_id%} selected="selected"{%endif%} value="{{ province._id }}">{{ province.city }}</option>
   						  {% endfor %}
   						</select>
 						

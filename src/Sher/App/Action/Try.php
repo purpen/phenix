@@ -270,6 +270,9 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
           if(empty($this->visitor->profile->realname)){
             $user_data['profile.realname'] = isset($this->stash['name']) ? $this->stash['name'] : null;
           }
+          if(empty($this->visitor->profile->phone)){
+            $user_data['profile.phone'] = isset($this->stash['phone']) ? $this->stash['phone'] : null;
+          }
           if(empty($this->visitor->profile->address)){
             $user_data['profile.address'] = isset($this->stash['address']) ? $this->stash['address'] : null;
           }
