@@ -421,14 +421,12 @@ i.cart.icon,i.exchange.icon{
 	<ul class="slides">
 		
 		{% for asset in assets.rows %}
-			{% if asset._id != product.cover_id %}
 		        <li style="background-image: url('{{ asset.thumbnails.big.view_url }}');">
 		          <a href="javascript:void(0);" title="{{ product.title }}" alt="{{ product.title }}">
 		              <img src="{{ asset.thumbnails.big.view_url }}" alt="{{ product.title }}" style="display: none;" />
 		          </a>
 		        </li>
 		
-			{% endif %}
 		{% endfor %}
 	  
 	</ul>  
