@@ -2,7 +2,23 @@
 {% block title%}填写订单信息-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	
+.celled.goods.list .item{
+	font-size:0;
+	padding:7px 3px;
+}
+.celled.goods.list .item img.ui.image{
+	width: 15%;
+}
+.celled.goods.list .item .content{
+    font-size: 1.15rem;
+    width: 85%;
+}
+.celled.goods.list .item .content .header{
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+	line-height: 22px;
+}
 </style>
 {% endblock %}
 
@@ -205,7 +221,7 @@
 						<div class="ui celled goods list">
 							{% for product in data.items %}
 							<div class="item" id="product_{{ product.sku }}">
-						    	<img class="ui mini image" src="{{ product.cover }}" style="margin-top:3px;"/>
+						    	<img class="ui mini image" src="{{ product.cover }}" />
 						    	<div class="content">
 						      		<div class="header">
 										<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
