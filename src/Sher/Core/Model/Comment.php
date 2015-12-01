@@ -18,6 +18,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
   	const TYPE_ACTIVE = 5;
 	const TYPE_STUFF  = 6;
   const TYPE_ALBUM = 7;
+  const TYPE_SPECIAL_SUBJECT = 8;
   // 专题评论 target_id 1:云马C1争霸; 5.奶爸奶妈PK; 2.--; 3.--; 4.--
   const TYPE_SUBJECT = 10;
 	

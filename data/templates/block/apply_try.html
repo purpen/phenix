@@ -30,7 +30,7 @@
 					<div class="field">
 						<label>所在地区</label>
 						<div class="ui selection province dropdown" style="width:49% !important;">
-							<input type="hidden" name="province" value="{{ addbook.province }}" />
+							<input type="hidden" name="province" value="{{ visitor.profile.province_id }}" />
 			
 						    <div class="default text">省份/自治区</div>
 						    <i class="flat arrowbottom icon"></i>
@@ -42,7 +42,7 @@
 						</div>
 		
 						<div class="ui selection district dropdown" id="district-menu" style="width:49% !important;float:right;">
-							<input type="hidden" name="district" value="{{ district.city }}" />
+							<input type="hidden" name="district" value="{{ visitor.profile.district_id }}" />
 						    <div class="default text">地区区域</div>
 						    <i class="flat arrowbottom icon"></i>
 						    <div class="menu">

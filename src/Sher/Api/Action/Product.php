@@ -362,7 +362,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 			$query['target_id'] = (string)$target_id;
 		}
 		if($type){
-			$query['type'] = (int)$type;
+			$query['type'] = $type;
 		}
 		
 		// 分页参数
@@ -373,6 +373,15 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 		// 开启查询
         $service = Sher_Core_Service_Comment::instance();
         $result = $service->get_comment_list($query, $options);
+
+        for($i=0;$i<count($result['rows']);$i++){
+          if($result['rows'][$i]['user']){
+            $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
+          }
+          if($result['rows'][$i]['target_user']){
+            $result['rows'][$i]['target_user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['target_user']);
+          }
+        }
 		
 		return $this->api_json('请求成功', 0, $result);
 	}

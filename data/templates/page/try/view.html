@@ -48,6 +48,13 @@
 {% block jquery %}
     // ajax加载评论
     phenix.fetch_comment(comment_param);
+
+  // 初始化省份
+  var province_id = $('[name=province]').val();
+  var district_id = $('[name=district]').val();
+  if(province_id){
+    $.get('{{ app_url_address }}/ajax_fetch_districts', {id: province_id, district_id: district_id});
+  }
 	
 	$('.ui.applytry.button').click(function(){
 		// 所有ajax请求，验证是否登录
@@ -80,10 +87,7 @@
 			}
 		});
 	});
-	
-	$('.ui.district.dropdown').livequery(function(){
-		$(this).dropdown();
-	});
+
 	
 	$('#apply-form').livequery(function(){
 		$(this).form({
