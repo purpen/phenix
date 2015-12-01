@@ -282,6 +282,12 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
           if(empty($this->visitor->profile->im_qq)){
             $user_data['profile.im_qq'] = isset($this->stash['qq']) ? $this->stash['qq'] : null;
           }
+          if(empty($this->visitor->profile->province_id)){
+            $user_data['profile.province_id'] = isset($this->stash['province']) ? (int)$this->stash['province'] : 0;
+          }
+          if(empty($this->visitor->profile->district_id)){
+            $user_data['profile.district_id'] = isset($this->stash['district']) ? (int)$this->stash['district'] : 0;
+          }
 
           //更新基本信息
           $this->visitor->update_set($this->visitor->id, $user_data);

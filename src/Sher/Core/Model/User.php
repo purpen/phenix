@@ -274,11 +274,15 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
       'age'  => array(),
       // 所在公司
       'company' => null,
-        ),
+      // 省份
+      'province_id' => 0,
+      // 城市
+      'district_id' => 0,
+    ),
 
 		// 所在城市
 		'city' => null,
-        // 所在区域ID
+        // 所在区域ID(暂时不用,在profile里)
         'district' => 0,
 		// 性别
 		'sex' => self::SEX_HIDE,
@@ -490,6 +494,10 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			'age'  => array(),
       // 所在公司
       'company' => null,
+      // 省份
+      'province_id' => 0,
+      // 城市
+      'district_id' => 0,
         );
 		return $default_profile;
 	}
