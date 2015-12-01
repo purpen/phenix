@@ -42,7 +42,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const FROM_ALIPAY = 4;
 	const FROM_WEIXIN = 5;
 	const FROM_WAP = 6;
-	const FROM_IAPP = 7;
+	const FROM_IAPP = 7;  // iphone,ipad
+  const FROM_APP_ANDROID = 8; // android
     
     /**
      * 事件类型
