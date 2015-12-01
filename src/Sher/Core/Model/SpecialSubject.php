@@ -8,8 +8,8 @@ class Sher_Core_Model_Block extends Sher_Core_Model_Base  {
 
   ##常量
   #类型
-  KIND_CUSTOM = 1;
-  KIND_APPOINT = 2;
+  const KIND_CUSTOM = 1;
+  const KIND_APPOINT = 2;
 	
 	protected $schema = array(
     'title' => null,
