@@ -228,7 +228,7 @@
 							<div class="bonus item" style="margin-bottom:1em;">
 								<div class="field">
 									<div class="ui radio checkbox">
-                    <input name="bonus" type="radio" value="{{ b.code }}" class="inbonus" style="width:64% !important;max-width:64% !important; font-size:1rem;display:inline-block;"/>
+                    <input name="bonus" type="radio" value="{{ b.code }}" class="inbonus" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;"/>
                     <label style="display:inline-block;">
                       <span class="ui magenta text">{{ b.amount }}元</span> <small>{{ b.expired_label }} </small>
                       <a href="javascript:void(0);" class="code-select" code="{{ b.code }}"> 插入</a>
@@ -250,7 +250,7 @@
 						</div>
 						<div class="content">
 							<div class="ui fluid action input" style="display:inline-block;font-size:0;">
-							  <input placeholder="输入礼品码..." name="gift_code" type="text" id="gift-code" style="width:64% !important;max-width:64% !important; font-size:1rem;display:inline-block;" />
+							  <input placeholder="输入礼品码..." name="gift_code" type="text" id="gift-code" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;" />
 							  <div class="ui active magenta inverted button" id="submit-gift" style="display:inline-block;">确定</div>
 							</div>
 					    </div>
@@ -263,7 +263,7 @@
 						<div class="content">
               <h4>{%if max_bird_coin==min_bird_coin %}可使用鸟币 <span>{{ max_bird_coin }}</span>, {%else%}可使用鸟币范围 <span>[{{ min_bird_coin }},{{ max_bird_coin }}]</span> {%endif%} 当前可用鸟币 <span id="current-bird-coin">{{ current_bird_coin }}</span> 枚</h4>
 							<div class="ui fluid action input" style="display:inline-block;font-size:0;">
-							  <input placeholder="输入鸟币..." name="bird_coin" type="text" id="bird-coin" style="width:64% !important;max-width:64% !important; font-size:1rem;display:inline-block;" />
+							  <input placeholder="输入鸟币..." name="bird_coin" type="text" id="bird-coin" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;" />
 							  <div class="ui active magenta inverted button" id="submit-bird-coin" style="display:inline-block;">确定</div>
 							</div>
 							<p class="ui magenta text"><b style="font-size: 20px;vertical-align: middle;">*</b>    下单成功后鸟币将不能退还</p>
