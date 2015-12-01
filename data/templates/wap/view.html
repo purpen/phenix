@@ -88,14 +88,14 @@ i.cart.icon,i.exchange.icon{
 	position: relative !important;
 	padding-top:0 !important;
 }
-#frslide .ui.active.icon.share.btn{
+#slider .ui.active.icon.share.btn{
 	position: absolute;
 	top: 10px;
 	right: 10px;
 	z-index: 99;
 	color: #fff;
 }
-#frslide .ui.active.icon.share.btn .share.icon{
+#slider .ui.active.icon.share.btn .share.icon{
   background-color:rgba(0,0,0,0.2) !important;
 }
 .froala-element p:first-child{
@@ -420,8 +420,8 @@ i.cart.icon,i.exchange.icon{
 <div id="slider" class="flexslider flex-single">
 	<ul class="slides">
         <li style="background-image: url('{{ product.cover.thumbnails.big.view_url }}');">
-          <a href="javascript:void(0);" title="{{ ad.title }}" alt="{{ ad.title }}">
-              <img src="{{ product.cover.thumbnails.big.view_url }}" alt="{{ ad.title }}" style="display: none;" />
+          <a href="javascript:void(0);" title="{{ product.title }}" alt="{{ product.title }}">
+              <img src="{{ product.cover.thumbnails.big.view_url }}" alt="{{ product.title }}" style="display: none;" />
           </a>
         </li>
 		
