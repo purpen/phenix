@@ -461,9 +461,9 @@ i.cart.icon,i.exchange.icon{
 {% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
 <div id="slider" class="flexslider flex-single">
 	<ul class="slides">
-        <li style="background-image: url('{{ ad.cover.fileurl }}');">
+        <li style="background-image: url('{{ product.cover.thumbnails.big.view_url }}');">
           <a href="javascript:void(0);" title="{{ ad.title }}" alt="{{ ad.title }}">
-              <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
+              <img src="{{ product.cover.thumbnails.big.view_url }}" alt="{{ ad.title }}" style="display: none;" />
           </a>
         </li>
 		
