@@ -96,22 +96,22 @@
                             <div class="container">
                                 <label><i class="cubes icon"></i>选项：</label>
                                 <div class="ui horizontal list">
-                                  <a class="{% if step == 0 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=0&page={{page}}">
+                                  <a class="{% if step == 0 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=0">
                                         全部
                                     </a>
-                                    <a class="{% if step == '-1' %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=-1&page={{page}}">
+                                    <a class="{% if step == '-1' %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=-1">
                                        预热中
                                     </a>
-                                    <a class="{% if step == 1 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=1&page={{page}}">
+                                    <a class="{% if step == 1 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=1">
                                         申请中
                                     </a>
-                                    <a class="{% if step == 2 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=2&page={{page}}">
-                                        审核
+                                    <a class="{% if step == 2 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=2">
+                                        审核中
                                     </a>
-                                    <a class="{% if step == 3 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=3&page={{page}}">
-                                        回收报告
+                                    <a class="{% if step == 3 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=3">
+                                        回收报告中
                                     </a>
-                                    <a class="{% if step == 5 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=5&page={{page}}">
+                                    <a class="{% if step == 5 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=5">
                                         结束
                                     </a>
                                 </div>
