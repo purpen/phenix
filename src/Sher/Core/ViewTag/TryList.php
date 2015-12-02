@@ -43,7 +43,11 @@ class Sher_Core_ViewTag_TryList extends Doggy_Dt_Tag {
 		}
 
         if($step_stat){
-          $query['step_stat'] = (int)$step_stat;
+          if((int)$step_stat==-1){
+            $query['step_stat'] = 0;
+          }else{
+            $query['step_stat'] = (int)$step_stat;
+          }
         }
         if($sticked){
           if((int)$sticked==-1){
