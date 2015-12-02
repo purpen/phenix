@@ -130,7 +130,7 @@
 	});
 
   // 用户申请记录查询
-  $('#query_apply_record').click(function(){
+  $('.query_apply_record').click(function(){
     var user_id = $(this).data('user_id');
     var url = "{{ app_url_admin_base }}/try/query_apply_record";
     $.post(url, { user_id:user_id }, function(result){
@@ -306,7 +306,9 @@
 						</div>
 					</p>
 				</td>
-				<td class="seven wide">{{ t.content|truncate 1800 }}</td>
+				<td class="five wide">
+          <textarea rows="5" cols="50">{{ t.content|truncate 1800 }}</textarea>
+        </td>
         <td><a href="{{ app_url_admin_base }}/try/vote_list?apply_id={{ t._id }}" target="_blank">支持名单({{ t.vote_count }})</a></td>
 				<td>{{ t.created_on|date 'y-m-d H:i' }}
 				</td>
@@ -319,7 +321,7 @@
 						<a href="{{ app_url_admin_base }}/try/reject?id={{ t._id }}" class="ui link ajax item" id="verify-{{ t._id }}-button">驳回</a>
 						{% endif %}
 						<a href="{{ app_url_admin_base }}/user/edit?id={{ t.user_id }}" class="ui magenta link item" target="_blank">送鸟币</a>
-            <a href="javascript:void(0);" class="ui magenta link item" id="query_apply_record" data-user_id="{{ t.user_id }}">查询</a>
+            <a href="javascript:void(0);" class="ui magenta link item query_apply_record" data-user_id="{{ t.user_id }}">查询</a>
 					</div>
 				</td>
 			</tr>
