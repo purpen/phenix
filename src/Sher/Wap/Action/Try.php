@@ -228,6 +228,12 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 			  return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
 			}
 
+      // 验证是否加入黑名单(未提交报告用户)
+      if(Sher_Core_Helper_Try::check_try_apply_blacklist($user_id)){
+        $this->stash['msg'] = '您的账户已被列入试用黑名单，请联系太火鸟社区组！';
+			  return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
+      }
+
       // 是否符合申请条件
       /**
       if(isset($row['apply_term']) && !empty($row['apply_term'])){
