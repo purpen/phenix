@@ -654,5 +654,23 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		
 		return $this->ajax_json('修改快递单号成功!', false);
 	}
+
+  /**
+   * 查询用户申请记录
+   */
+  public function query_apply_record(){
+    $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+    if(empty($user_id)){
+      return $this->ajax_json('缺少请求参数!', true);
+    }
+
+    $result = array();
+    $apply_model = new Sher_Core_Model_Apply();
+    $result['apply_count'] = $apply_model->count(array('type'=>1, 'user_id'=>$user_id));
+    $result['pass_count'] = $apply_model->count(array('type'=>1, 'user_id'=>$user_id, 'result'=>1));
+
+    return $this->ajax_json('ＯＫ!', false, 0, $result);
+  }
+
 }
 
