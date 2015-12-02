@@ -15,7 +15,6 @@ class Sher_Core_Model_Block extends Sher_Core_Model_Base  {
     'title' => null,
     'cover_id' => null,
     'banner_id' => null,
-    'user_id' => null,
     # 分类ID
     'category_id' => null,
     # 商品ID数组
@@ -29,7 +28,6 @@ class Sher_Core_Model_Block extends Sher_Core_Model_Base  {
     'remark'  => null,
     'user_id' => 0,
     'kind' => self::KIND_CUSTOM,
-    'pack' => null,
     'stick' => 0,
     'state' => 1,
     'view_count' => 0,
