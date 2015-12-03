@@ -162,6 +162,21 @@
                     </tr>
                 </table>
             </div>
+			
+		    <p style="margin-top: 15px;">
+				{% if has_sign %}
+		        <a href="{{ app_url_my }}/pmall" target="_blank" class="ui mini red inverted active button">积分商城</a>
+		        <a href="{{ app_url_shop }}/pmall" target="_blank" class="ui mini red inverted active button" style="position:relative;">幸运抽奖
+				<img src="{{ app_url_packaged }}/images/new.gif" style="position: absolute;top: -11px;right: -23px;cursor: default;">
+				</a>
+				{%else%}
+		        <a href="{{ app_url_my }}/pmall" target="_blank" class="ui mini active button" style="background: #999;color: #fff;">积分商城</a>
+		        <a href="javascript:void(0);" target="_blank" class="ui mini active button" style="background: #999;color: #fff;position:relative;">幸运抽奖
+				<img src="{{ app_url_packaged }}/images/new.gif" style="position: absolute;top: -11px;right: -23px;cursor: default;">
+				</a>
+				{%endif%}
+		    </p>
+			
         </div>
     </div>
     <div class="mainleftwrap">
