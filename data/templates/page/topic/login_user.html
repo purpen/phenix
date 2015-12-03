@@ -9,8 +9,24 @@
     <h3><a class="ui line link" href="{{ user.home_url }}" title="{{ user.nickname }}">{{ user.nickname }}</a> <small>{{ user.ext_state.user_rank.title|default '鸟列兵' }} </small></h3>
     <p>鸟币：<span class="ui magenta text">{{ current_point.balance.money|default 0 }}</span> 经验值：<span class="ui magenta bird text">{{ user.ext_state.rank_point|default 0 }}</span></p>
     <p>
-        <a href="{{ app_url_my }}/point" target="_blank" class="ui link">查看积分规则</a>
-        <a href="{{ app_url_shop }}/pmall" target="_blank" class="ui link">积分兑换</a>
+        
+		
+		
+		{% if has_sign %}
+        <a href="{{ app_url_my }}/pmall" target="_blank" class="ui mini red inverted active button">积分商城</a>
+        <a href="{{ app_url_shop }}/pmall" target="_blank" class="ui mini red inverted active button" style="position:relative;">幸运抽奖
+		<img src="{{ app_url_packaged }}/images/new.gif" style="position: absolute;top: -11px;right: -23px;cursor: default;">
+		</a>
+		
+		
+		{%else%}
+        <a href="{{ app_url_my }}/pmall" target="_blank" class="ui mini active button">积分商城</a>
+        <a href="javascript:void(0);" target="_blank" class="ui mini active button" style="position:relative;">幸运抽奖
+		<img src="{{ app_url_packaged }}/images/new.gif" style="position: absolute;top: -11px;right: -23px;cursor: default;">
+		</a>
+		
+		
+		{%endif%}
     </p>
 </div>
 {% endif %}
