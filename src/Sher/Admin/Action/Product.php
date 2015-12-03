@@ -881,7 +881,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
     if(is_array($data)){
       $arr = $data;
     }else{
-      if(empty(trim($data))) return array();
+      $data = trim($data);
+      if(empty($data)) return array();
       $arr = explode($ext, $data);   
     }
     for($i=0;$i<count($arr);$i++){
