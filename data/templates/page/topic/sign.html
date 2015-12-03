@@ -304,7 +304,7 @@
                 <div class="item">
                     <img class="ui avatar image" src="{{ sign.user.small_avatar_url }}">
                     <a class="ui link" href="{{ sign.user.home_url }}" target="_blank">{{ sign.user.nickname }}</a> 
-                    {% if sign.is_latest_day%}<span class="ui mini red label" style="padding: 3px;">NEW</span>{%endif%}
+                    {% if sign.is_latest_day%}<img src="{{ app_url_packaged }}/images/new.gif" alt="NEW">{%endif%}
                     <div class="content">
                         <div class="description">{{ sign.draw_txt }}</div>
                     </div>
