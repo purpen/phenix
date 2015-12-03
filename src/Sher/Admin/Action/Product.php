@@ -205,7 +205,18 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 					return $this->ajax_json('积分兑换数据输入不准确！', true);       
 			  }
 			}
-			
+
+      // 更新标签分类(风格，场景)
+      $old_scene_ids = $new_scene_ids = $old_style_ids = $new_style_ids = array();
+
+      // 获取新的标签
+      if(isset($this->stash['sences'])){
+        $new_scene_ids = $data['scene_ids'] = $this->array_to_int($this->stash['sences']);
+      }
+      if(isset($this->stash['styles'])){
+        $new_style_ids = $data['style_ids'] = $this->array_to_int($this->stash['styles']);
+      }
+
 			if(empty($id)){
 				$mode = 'create';
 				$data['user_id'] = (int)$this->visitor->id;
@@ -213,10 +224,15 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 				$ok = $model->apply_and_save($data);
 				
 				$id = (int)$model->id;
+
 			}else{
 				$mode = 'edit';
 				$data['_id'] = $id;
-                $data['last_editor_id'] = (int)$this->visitor->id;
+        $data['last_editor_id'] = (int)$this->visitor->id;
+
+        // 获取老的标签
+        $old_scene_ids = $this->array_to_int($this->stash['old_scene_ids_to_s']);
+        $old_style_ids = $this->array_to_int($this->stash['old_style_ids_to_s']);
 				
 				$ok = $model->apply_and_update($data);
 			}
@@ -224,7 +240,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			if(!$ok){
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
-			
+
       $asset = new Sher_Core_Model_Asset();
 			// 上传成功后，更新所属的附件
 			if(isset($data['asset']) && !empty($data['asset'])){
@@ -856,6 +872,22 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['stage'], $this->stash['s'], $this->stash['q']);
     return $this->to_html_page('admin/product/list.html');
   
+  }
+
+  /**
+   * 把数组或字符串整理
+   */
+  protected function array_to_int($data, $ext=',', $type=1){
+    if(is_array($data)){
+      $arr = $data;
+    }else{
+      if(empty(trim($data))) return array();
+      $arr = explode($ext, $data);   
+    }
+    for($i=0;$i<count($arr);$i++){
+      $arr[$i] = (int)$arr[$i];
+    }
+    return $arr;
   }
 
 }
