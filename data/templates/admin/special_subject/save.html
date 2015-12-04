@@ -178,12 +178,13 @@
   var date_height = 1;
   var width = 115;
   var height = 115;
+  var cell = 50;
   
   $(function(){
   
 	  gridster = $(".gridster > ul").gridster({
 		  widget_margins: [0, 0],
-		  widget_base_dimensions: [115, 115],
+		  widget_base_dimensions: [cell, cell],
 		  avoid_overlapped_widgets: true,
 		  resize:{enabled: true}
 	  }).data('gridster');
@@ -206,7 +207,7 @@
 	  var html = "<li><div class=\"this_content\" style=\"word-wrap:break-word;\"></div></li>";
 	  
 	  $('.topic_button').click(function(){
-		gridster.add_widget(html);
+		gridster.add_widget(html,2,2);
 	  });
 	  
 	  $('.gridster > ul > li').livequery(function(){
@@ -278,7 +279,7 @@
 		var keyword = $('input[name=img_keyword]').val();
 		var product_id = $('input[name=product_id]').val();
 		var is_show_price = $('input[name=is_show_price]').val();
-		var content = '<a class=\"\" href=\"'+link+'\"><img src=\"'+src+'\" width=\"'+date_width*width+'\" height=\"'+date_height*height+'\" product_id=\"'+product_id+'\" is_show_price=\"'+is_show_price+'\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
+		var content = '<a class=\"\" href=\"'+link+'\"><img src=\"'+src+'\" width=\"'+date_width*cell+'\" height=\"'+date_height*cell+'\" product_id=\"'+product_id+'\" is_show_price=\"'+is_show_price+'\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
 		$('li[data-col='+date_col+'][data-row='+date_row+']').find('.this_content').html(content);
 		$('#block_images').modal('hide');
 	  });
@@ -286,8 +287,8 @@
 	  $('.ui.yes.video').livequery(function(){
 		$(this).on('click', function(){
 		  var video_link = $('input[name=video_link]').val();
-		  //var content = '<iframe width='+date_width*height+' height='+date_height*width+' src=\"'+video_link+'\" frameborder=0 allowfullscreen></iframe>';
-		  var content = '<embed src=\"'+video_link+'\" allowFullScreen=\"true\" width=\"'+date_width*width+'\" height=\"'+date_height*height+'\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>';
+		  //var content = '<iframe width='+date_width*cell+' height='+date_height*cell+' src=\"'+video_link+'\" frameborder=0 allowfullscreen></iframe>';
+		  var content = '<embed src=\"'+video_link+'\" allowFullScreen=\"true\" width=\"'+date_width*cell+'\" height=\"'+date_height*cell+'\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>';
 		  $('li[data-col='+date_col+'][data-row='+date_row+']').find('.this_content').html(content);
 		  $('#block_video').modal('hide');
 		});
@@ -346,14 +347,67 @@
 			$('#avatar_id').val(result.data.asset.id);
 			
 			if(Math.floor(wps_width/wps_height) >= 1){
-				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"width: '+date_width*width+'px\">';
+				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"width: '+date_width*cell+'px\">';
 			}else{
-				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"height: '+date_height*height+'px\">';
+				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"height: '+date_height*cell+'px\">';
 			}
 			
 			$('#show_images').html(imghtml);
 		}
 	});
+  });
+  
+  // 表单验证
+  $('#special_subject_form').form({
+	  special_subject_title: {
+		  identifier  : 'special_subject_title',
+		  rules: [
+			  {
+				  type   : 'empty',
+				  prompt : '标题不能为空'
+			  }
+		  ]
+	  },
+	  special_subject_tag: {
+		  identifier  : 'special_subject_tag',
+		  rules: [
+			  {
+				  type   : 'empty',
+				  prompt : '标签不能为空'
+			  }
+		  ]
+	  },
+	  special_subject_html: {
+		  identifier  : 'special_subject_html',
+		  rules: [
+			  {
+				  type   : 'empty',
+				  prompt : '内容不能为空'
+			  }
+		  ]
+	  }
+  }, {
+	  inline : true,
+	  onSuccess: function(event){
+		  event.preventDefault();
+		  $(this).ajaxSubmit({
+			  dataType: 'json',
+			  beforeSubmit: function(){
+				  // 点击前触发的事件
+				  //phenix.before_submit();
+			  },
+			  success: function(data){
+				  // 点击后触发的事件
+				  //phenix.after_submit();
+				  if(data.is_error){
+					  $(event.target).addClass('error');
+					  phenix.show_error_note(data.message, 3000);
+				  }else{
+					  phenix.redirect(data.redirect_url);
+				  }
+			  }
+		  });
+	  }
   });
 {% endblock %}
 	
@@ -514,16 +568,17 @@
 		  </div>
 		</div>
 		<div class="ui topic_form">
-		  <form action="{{ app_url_admin_base }}/topic/save" class="ui form" method="post" id="topic-form">
+		  <form action="{{ app_url_admin_base }}/topic/save" class="ui form" method="post" id="special_subject_form">
 			  <input name="_id" type="hidden" value="{{ topic._id }}" />
+			  <input name="special_subject_html" type="hidden" value="" />
 			  
 			  <div class="inline field">
 				  <label>专题标题:</label>
-				  <input type="text" name="try_id" value="" />
+				  <input type="text" name="special_subject_title" value="" />
 			  </div>
 			  <div class="inline field">
 				  <label>专题标签:</label>
-				  <input type="text" name="try_id" value="" />
+				  <input type="text" name="special_subject_tag" value="" />
 			  </div>
 			  <!--
 			  <div class="field" style="max-width:360px ">
