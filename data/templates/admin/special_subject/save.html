@@ -176,8 +176,8 @@
   var date_row = 1;
   var date_width = 1;
   var date_height = 1;
-  var width = 115;
-  var height = 115;
+  var back_x = 1;
+  var back_y = 1;
   var cell = 50;
   
   $(function(){
@@ -343,8 +343,9 @@
 	
 			wps_width  = result.data.asset.width;
 			wps_height = result.data.asset.height;
-			// 更新附件Id
-			$('#avatar_id').val(result.data.asset.id);
+			
+			back_x = Math.floor(wps_width/cell);
+			back_y = Math.floor(wps_height/cell);
 			
 			if(Math.floor(wps_width/wps_height) >= 1){
 				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"width: '+date_width*cell+'px\">';
