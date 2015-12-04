@@ -129,6 +129,20 @@
 		}, "json");
 	});
 
+  // 用户申请记录查询
+  $('.query_apply_record').click(function(){
+    var user_id = $(this).data('user_id');
+    var url = "{{ app_url_admin_base }}/try/query_apply_record";
+    $.post(url, { user_id:user_id }, function(result){
+      if(result.success){
+        var txt = "申请次数: "+ result.data.apply_count +"; 通过次数: "+ result.data.pass_count +"";
+        alert(txt);
+      }else{
+        alert(result.message);
+      }
+    }, 'json');
+  });
+
 {% endblock %}
 {% block content %}
 	<h3 class="ui header">产品试用</h3>
@@ -292,11 +306,13 @@
 						</div>
 					</p>
 				</td>
-				<td class="seven wide">{{ t.content|truncate 1800 }}</td>
-        <td><a href="{{ app_url_admin_base }}/try/vote_list?apply_id={{ t._id }}" target="_blank">支持名单({{ t.vote_count }})</a></td>
-				<td>{{ t.created_on|date 'y-m-d H:i' }}
+				<td class="four wide">
+          <textarea rows="5" cols="50">{{ t.content|truncate 1800 }}</textarea>
+        </td>
+        <td class="two wide"><a href="{{ app_url_admin_base }}/try/vote_list?apply_id={{ t._id }}" target="_blank">支持名单({{ t.vote_count }})</a></td>
+				<td class="two wide">{{ t.created_on|date 'y-m-d H:i' }}
 				</td>
-				<td>
+				<td class="three wide">
 					<div class="ui small divided horizontal list">
 						{% if !t.result %}
 						<a href="{{ app_url_admin_base }}/try/pass?id={{ t._id }}" class="{{ t._id }}ui magenta link ajax item" id="verify-{{ t._id }}-button">通过</a>
@@ -304,6 +320,8 @@
 						{% else %}
 						<a href="{{ app_url_admin_base }}/try/reject?id={{ t._id }}" class="ui link ajax item" id="verify-{{ t._id }}-button">驳回</a>
 						{% endif %}
+						<a href="{{ app_url_admin_base }}/user/edit?id={{ t.user_id }}" class="ui magenta link item" target="_blank">送鸟币</a>
+            <a href="javascript:void(0);" class="ui magenta link item query_apply_record" data-user_id="{{ t.user_id }}">查询</a>
 					</div>
 				</td>
 			</tr>

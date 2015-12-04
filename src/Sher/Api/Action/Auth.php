@@ -192,7 +192,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base implements Sher_Core_Act
             return $this->api_json($e->getMessage(), 4001);
 		}
 		
-		return $this->api_json("您已成功的退出登录,稍候将跳转到主页.", 0);
+    return $this->api_json("您已成功的退出登录,稍候将跳转到主页.", 0, array());
 	}
 	
 	/**
@@ -293,7 +293,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base implements Sher_Core_Act
       if($ok){
         // 删除验证码
         $verify->remove($code['_id']);
-		    return $this->api_json('请求成功', 0, $user['_id']);
+		    return $this->api_json('请求成功', 0, array('user_id'=>$user['_id']));
       }else{
   		  return $this->api_json('修改失败！', 3005);      
       }

@@ -213,6 +213,9 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base implements Sher_Core_Acti
       if(empty($user['profile']['realname'])){
         $user_data['profile.realname'] = isset($this->stash['name']) ? $this->stash['name'] : null;
       }
+      if(empty($user['profile']['phone'])){
+        $user_data['profile.phone'] = isset($this->stash['phone']) ? $this->stash['phone'] : null;
+      }
       if(empty($user['profile']['address'])){
         $user_data['profile.address'] = isset($this->stash['address']) ? $this->stash['address'] : null;
       }
@@ -224,6 +227,12 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base implements Sher_Core_Acti
       }
       if(empty($user['profile']['im_qq'])){
         $user_data['profile.im_qq'] = isset($this->stash['qq']) ? $this->stash['qq'] : null;
+      }
+      if(empty($user['profile']['province_id'])){
+        $user_data['profile.province_id'] = isset($this->stash['province']) ? (int)$this->stash['province'] : 0;
+      }
+      if(empty($user['profile']['district_id'])){
+        $user_data['profile.district_id'] = isset($this->stash['district']) ? (int)$this->stash['district'] : 0;
       }
 
       //更新基本信息

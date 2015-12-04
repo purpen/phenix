@@ -20,9 +20,6 @@ body{
 	margin-bottom: 1rem;
 }
 
-#frslide{
-	max-height:216px !important;
-}
 
 .ui.basic.table tbody tr {
 border-bottom: 0px solid rgba(0,0,0,0) !important;
@@ -88,14 +85,14 @@ i.cart.icon,i.exchange.icon{
 	position: relative !important;
 	padding-top:0 !important;
 }
-#frslide .ui.active.icon.share.btn{
+#slider .ui.active.icon.share.btn{
 	position: absolute;
 	top: 10px;
 	right: 10px;
 	z-index: 99;
 	color: #fff;
 }
-#frslide .ui.active.icon.share.btn .share.icon{
+#slider .ui.active.icon.share.btn .share.icon{
   background-color:rgba(0,0,0,0.2) !important;
 }
 .froala-element p:first-child{
@@ -257,47 +254,18 @@ i.cart.icon,i.exchange.icon{
 {% endblock %}
 
 {% block jquery %}
-	var s=e('#frslide').width();
-	e("#frslide > .ui.slide > .item").width(s);
+  	$('#slider').flexslider({
+        animation: "slide",
+        directionNav: false, 
+        controlNav: true,
+        animationLoop: true,
+        slideshow: true,
+        slideshowSpeed: 5000,
+        animationDuration: 300,
+        animationSpeed: 300,
+    });
 	
-	var $frame = $('#frslide');
-	// Call Sly on frame
-	$frame.sly({
-		horizontal: 1,
-		itemNav: 'basic',
-		smart: 1,
-		activateMiddle: 1,
-		activateOn: 'click',
-		mouseDragging: 1,
-		touchDragging: 1,
-		releaseSwing: 1,
-		startAt: 0,
-		pagesBar: $frame.find('.pages'),
-		pageItem: 'pages',
-		activatePageOn: 'click',
-		pageBuilder: function (index) {
-			return '<a href="javascript:void(0);">' + (index + 1) + '</a>';
-		},
-		speed: 300,
-		elasticBounds: 1,
-		easing: 'easeOutExpo',
-		
-		// Automated cycling
-		//cycleBy: "items",
-		//cycleInterval: 3000,
-		//pauseOnHover:1,
-		
-		dragHandle: 1,
-		dynamicHandle: 1,
-		clickBar: 1,
-	});
 	
-	$(window).resize(function() {
-		var s=$('#frslide').width();
-		e("#frslide > .ui.slide > .item").width(s);
-		
-		$frame.sly('reload');
-	});
 	
 	phenix.bind_share_list();
 	// 分享
@@ -401,46 +369,28 @@ i.cart.icon,i.exchange.icon{
 {% endblock %}
 
 {% block content %}
-<!--<div class="ui responsive grid" id="mshoppage">
-	<div class="row">
-		<div class="column">
-			<div class="ui breadcrumb">
-			  	<a class="section" href="{{ app_url_wap }}">
-					<i class="home icon"></i>首页
-				</a>
-			  	<div class="divider"> / </div>
-				{% if product.stage == 9 %}
-			  	<a class="section" href="{{ app_url_wap }}/shop">商品</a>
-				{% endif %}
-				{% if product.stage == 5 %}
-			  	<a class="section" href="{{ app_url_wap }}/shop/presale">预售</a>
-				{% endif %}
-				{% if product.stage == 12 %}
-			  	<a class="section" href="{{ app_url_wap }}/shop/exchange">积分兑换</a>
-				{% endif %}
-			  	<div class="divider"> / </div>
-			  	<div class="active section">{{ product.short_title }}</div>
-			</div>
-		</div>
-	</div>
-</div>-->
-
 <!--产品图片-->
 {% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
-<div id="frslide" class="frame">
-	<div class="ui slide">
-		<div class="item">
-			<img src="{{ product.cover.thumbnails.big.view_url }}"  alt="{{ product.title }}" class="ui image" />
-		</div>
+<div id="slider" class="flexslider flex-single">
+	<ul class="slides">
+        <li style="background-image: url('{{ product.cover.thumbnails.big.view_url }}');">
+          <a href="javascript:void(0);" title="{{ product.title }}" alt="{{ product.title }}">
+              <img src="{{ product.cover.thumbnails.big.view_url }}" alt="{{ product.title }}" style="display: none;" />
+          </a>
+        </li>
+		
 		{% for asset in assets.rows %}
 			{% if asset._id != product.cover_id %}
-			<div class="item">
-				<img src="{{ asset.thumbnails.big.view_url }}"  alt="{{ product.title }}" class="ui image"  />
-			</div>
+		        <li style="background-image: url('{{ asset.thumbnails.big.view_url }}');">
+		          <a href="javascript:void(0);" title="{{ product.title }}" alt="{{ product.title }}">
+		              <img src="{{ asset.thumbnails.big.view_url }}" alt="{{ product.title }}" style="display: none;" />
+		          </a>
+		        </li>
+		
 			{% endif %}
 		{% endfor %}
-	</div>
-	<div class="pages"></div>
+	  
+	</ul>  
 	<div class="ui active icon circular share btn">
 		<i class="circular inverted large share alternate icon"></i>
 	</div>

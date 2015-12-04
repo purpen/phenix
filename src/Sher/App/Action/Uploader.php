@@ -356,6 +356,16 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	}
 
 	/**
+	 * 上传标签分类封面图
+	 */
+	public function style_tag() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_STYLE_TAG;
+		$asset_type = Sher_Core_Model_Asset::TYPE_STYLE_TAG;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+
+	/**
 	 * 上传媒体/活动报道图片
 	 */
 	public function report() {

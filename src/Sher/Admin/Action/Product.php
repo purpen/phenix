@@ -205,7 +205,19 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 					return $this->ajax_json('积分兑换数据输入不准确！', true);       
 			  }
 			}
-			
+
+      // 更新标签分类(风格，场景)
+      $old_scene_ids = $new_scene_ids = $old_style_ids = $new_style_ids = array();
+
+      // 获取新的标签
+      $data['scene_ids'] = $data['style_ids'] = array();
+      if(isset($this->stash['sences'])){
+        $new_scene_ids = $data['scene_ids'] = $this->array_to_int($this->stash['sences']);
+      }
+      if(isset($this->stash['styles'])){
+        $new_style_ids = $data['style_ids'] = $this->array_to_int($this->stash['styles']);
+      }
+
 			if(empty($id)){
 				$mode = 'create';
 				$data['user_id'] = (int)$this->visitor->id;
@@ -213,10 +225,15 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 				$ok = $model->apply_and_save($data);
 				
 				$id = (int)$model->id;
+
 			}else{
 				$mode = 'edit';
 				$data['_id'] = $id;
-                $data['last_editor_id'] = (int)$this->visitor->id;
+        $data['last_editor_id'] = (int)$this->visitor->id;
+
+        // 获取老的标签
+        $old_scene_ids = $this->array_to_int($this->stash['old_scene_ids_to_s']);
+        $old_style_ids = $this->array_to_int($this->stash['old_style_ids_to_s']);
 				
 				$ok = $model->apply_and_update($data);
 			}
@@ -224,7 +241,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			if(!$ok){
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
-			
+
       $asset = new Sher_Core_Model_Asset();
 			// 上传成功后，更新所属的附件
 			if(isset($data['asset']) && !empty($data['asset'])){
@@ -236,6 +253,10 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			  Doggy_Log_Helper::debug("Upload file count for admin product");
 				$asset->update_editor_asset($this->stash['file_id'], (int)$id);
 			}
+
+      // 更新标签记录表
+      $this->update_style_tag_record($id, $old_scene_ids, $new_scene_ids, 1, 1);
+      $this->update_style_tag_record($id, $old_style_ids, $new_style_ids, 2, 1);
 
 		//如果是发布状态,更新索引
 		$product = $model->load((int)$id);
@@ -855,6 +876,88 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		}
 		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['stage'], $this->stash['s'], $this->stash['q']);
     return $this->to_html_page('admin/product/list.html');
+  
+  }
+
+  /**
+   * 把数组元素换为整理
+   */
+  protected function array_to_int($data, $ext=',', $type=1){
+    if(is_array($data)){
+      $arr = $data;
+    }else{
+      $data = trim($data);
+      if(empty($data)) return array();
+      $arr = explode($ext, $data);   
+    }
+    for($i=0;$i<count($arr);$i++){
+      $arr[$i] = (int)$arr[$i];
+    }
+    return $arr;
+  }
+
+  /**
+   * 更新标签分类到记录表
+   */
+  protected function update_style_tag_record($target_id, $old_ids, $new_ids, $kind=1, $domain=1){
+    if(empty($target_id)){
+      return;
+    }
+    if(empty($old_ids) && empty($new_ids)){
+      return;
+    }
+
+    $style_tag_record_model = new Sher_Core_Model_StyleTagRecord();
+
+    if(empty($old_ids)){  // 老数据为空，添加新数据
+      for($i=0;$i<count($new_ids);$i++){
+        $style_tag_record_model->create(array(
+          'target_id'=>$target_id,
+          'tag_id'=>(int)$new_ids[$i],
+          'user_id'=>$this->visitor->id,
+          'kind'=>$kind,
+          'domain'=>$domain,
+        ));
+      }
+    }elseif(empty($new_ids)){ // 新数据为空, 清空老数据
+      $data = $style_tag_record_model->find(array('domain'=>$domain, 'kind'=>$kind, 'target_id'=>$target_id));
+      for($i=0;$i<count($data);$i++){
+        $ok = $style_tag_record_model->remove((string)$data[$i]['_id']);
+        if($ok){
+          $style_tag_record_model->mock_after_remove((string)$data[$i]['_id'], array('tag_id'=>$data[$i]['tag_id']));
+        }
+      }
+    }else{  // 都不为空
+      // 移除删掉的数据
+      for($i=0;$i<count($old_ids);$i++){
+        if(!in_array($old_ids[$i], $new_ids)){
+          $data = array(
+            'target_id'=>$target_id,
+            'tag_id'=>$old_ids[$i],
+            'kind'=>$kind,
+            'domain'=>$domain,
+          );
+          $ok = $style_tag_record_model->remove($data);
+          if($ok){
+            $style_tag_record_model->mock_after_remove('', array('tag_id'=>$old_ids[$i]));
+          }
+        }
+      }
+      // 添加新的数据
+      for($i=0;$i<count($new_ids);$i++){
+        if(!in_array($new_ids[$i], $old_ids)){
+          $style_tag_record_model->create(array(
+            'target_id'=>$target_id,
+            'tag_id'=>(int)$new_ids[$i],
+            'user_id'=>$this->visitor->id,
+            'kind'=>$kind,
+            'domain'=>$domain,
+          ));         
+        }
+      }
+    
+    } // endif
+    
   
   }
 

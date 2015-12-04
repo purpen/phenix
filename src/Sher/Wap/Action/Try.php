@@ -228,6 +228,12 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 			  return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
 			}
 
+      // 验证是否加入黑名单(未提交报告用户)
+      if(Sher_Core_Helper_Try::check_try_apply_blacklist($user_id)){
+        $this->stash['msg'] = '您的账户已被列入试用黑名单，请联系太火鸟社区组！';
+			  return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
+      }
+
       // 是否符合申请条件
       /**
       if(isset($row['apply_term']) && !empty($row['apply_term'])){
@@ -278,6 +284,9 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
         if(empty($this->visitor->profile->realname)){
           $user_data['profile.realname'] = isset($this->stash['name']) ? $this->stash['name'] : null;
         }
+        if(empty($this->visitor->profile->phone)){
+          $user_data['profile.phone'] = isset($this->stash['phone']) ? $this->stash['phone'] : null;
+        }
         if(empty($this->visitor->profile->address)){
           $user_data['profile.address'] = isset($this->stash['address']) ? $this->stash['address'] : null;
         }
@@ -289,6 +298,12 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
         }
         if(empty($this->visitor->profile->im_qq)){
           $user_data['profile.im_qq'] = isset($this->stash['qq']) ? $this->stash['qq'] : null;
+        }
+        if(empty($this->visitor->profile->province_id)){
+          $user_data['profile.province_id'] = isset($this->stash['province']) ? (int)$this->stash['province'] : 0;
+        }
+        if(empty($this->visitor->profile->district_id)){
+          $user_data['profile.district_id'] = isset($this->stash['district']) ? (int)$this->stash['district'] : 0;
         }
 
         //更新基本信息

@@ -1,0 +1,98 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">分类标签管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/style_tag" class="{{ css_all }} item">全部</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/style_tag/edit" class="item">
+				<i class="add icon"></i>新增标签
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/style_tag" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="Search..." type="text" name="q">
+				<i class="search link icon"></i>
+			</div>
+		</form>
+	</div>
+	
+	{% style_tag_list var:'list' page:page %}
+	<table class="ui small table">
+		<thead>
+			<tr>
+				<th></th>
+				<th>封面图</th>
+				<th>标签</th>
+				<th>类型</th>
+				<th>排序</th>
+				<th>是否推荐</th>
+				<th>是否显示</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for d in list.rows %}
+			<tr id="item-{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ d._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>
+					<div class="ui image">
+						<img src="{{ d.cover.thumbnails.mini.view_url }}" width="80px" />
+					</div>
+				</td>
+				<td>
+		          	<div class="header">
+                  {{ d.title }}{%if d.mark%}[{{ d.mark }}]{%endif%}
+					</div>
+
+        <td>{{ d.kind_label }}</td>
+        <td>{{ d.sort }}</td>
+        <td>
+					{% if d.stick == 1 %}
+					<label class="ui green label" id="stick-{{ d._id }}-label">是</label>
+					{% endif %}
+				
+					{% if d.stick == 0 %}
+					<label class="ui orange label" id="stick-{{ d._id }}-label">否</label>
+					{% endif %}
+				</td>
+        <td>
+					{% if d.state == 1 %}
+					<label class="ui green label" id="state-{{ d._id }}-label">是</label>
+					{% endif %}
+				
+					{% if d.state == 0 %}
+					<label class="ui orange label" id="state-{{ d._id }}-label">否</label>
+					{% endif %}
+        </td>
+				<td>
+					<div class="ui divided horizontal list">
+						<a href="{{ app_url_admin_base }}/style_tag/edit?id={{ d._id }}" class="ui link item">编辑</a> 
+						<a href="{{ app_url_admin_base }}/style_tag/delete?id={{ d._id }}" class="ui link item confirm-request">删除</a>
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+	
+{% endblock %}
