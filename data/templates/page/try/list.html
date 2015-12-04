@@ -72,11 +72,11 @@
 
 {% block content %}
 <div class="mainwrap social" id="triespage">
+	<!--幸运大转盘
 	<a href="{{ app_url_domain }}/promo/sign" target="_blank">
 		<img src="{{ app_url_packaged }}/images/promo/draw-banner.png" style="position:fixed; bottom:120px;right:20px;z-index:999;">
 	</a>
-	
-	
+	-->
     <div class="social topstick">
 			<div class="ui three products cards">
                 {% try_list var:'try_latest' page:1 state:1 sticked:1 sort_field:'sticked:latest_over' step_stat:1 size:1 %}
