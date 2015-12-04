@@ -4,7 +4,7 @@
   .iphone{
 	float: left;
 	width: 515px;
-	height: 925px;
+	height: 870px;
 	border: solid 2px #ccc;
 	border-radius: 20px;
 	margin: 5px;
@@ -15,7 +15,7 @@
 	float: left;
 	margin: 5px 0 0 10px;
 	padding: 5px;
-	height: 925px;
+	height: 870px;
   }
   
   .topic_form input{
@@ -29,7 +29,7 @@
   
   .iphone_content{
 	width: 475px;
-	height: 880px;
+	height: 850px;
 	margin: 20px auto 0;
 	position: relative;
   }
@@ -80,7 +80,6 @@
 	  position: relative;
   }
   
-  
   .gridster {
 	  margin: 0 auto;
 	  width: 460px;
@@ -108,12 +107,10 @@
   
   .gridster li .header {
 	  background: #aaa;
-	  display: none;
 	  width: 100%;
 	  height: 30px;
 	  line-height: 30px;
 	  font-size: 14px;
-	  cursor: move;
 	  position: absolute;
 	  top: 0;
 	  left: 0;
@@ -124,21 +121,24 @@
 	width: 35px;
 	color: #fff;
   }
-  
+
   .topic_button{
-	border: 1px solid #999;
-	border-radius: 25px;
-	width: 50px;
-	height: 50px;
-	line-height: 50px;
+	border-radius: 5px;
+	width: 75px;
+	height: 35px;
+	line-height: 35px;
 	display: inline-block;
 	text-align: center;
+	color: #555;
+	background: #ccc;
+	margin-top: 10px !important;
   }
   
   .topic_button:hover{
-	background: #eee;
+	background: #555;
+	color: #eee;
   }
-  
+
   .select_type_content{
 	width: 100%;
 	background: #bbb !important;
@@ -162,129 +162,215 @@
 	color: #000;
   }
   
+  .left{
+	float: left;
+  }
+  
 </style>
 {% endblock %}
 
 {% block jquery %}
-  var gridster;
-  var serialization = [
-  {
-	  col: 1,
-	  row: 1,
-	  size_x: 1,
-	  size_y: 1
-  },
-  {
-	  col: 2,
-	  row: 1,
-	  size_x: 1,
-	  size_y: 1
-  },
-  {
-	  col: 3,
-	  row: 1,
-	  size_x: 1,
-	  size_y: 1
-  },
-  {
-	  col: 4,
-	  row: 1,
-	  size_x: 1,
-	  size_y: 1
-  },
-  {
-	  col: 2,
-	  row: 2,
-	  size_x: 1,
-	  size_y: 1
-  },
-  {
-	  col: 3,
-	  row: 2,
-	  size_x: 1,
-	  size_y: 1
-  },
-  {
-	  col: 1,
-	  row: 3,
-	  size_x: 1,
-	  size_y: 1
-  },
-  {
-	  col: 2,
-	  row: 3,
-	  size_x: 1,
-	  size_y: 1
-  }
-  ];
   
-  // sort serialization
-  serialization = Gridster.sort_by_row_and_col_asc(serialization);
+  var gridster;
+  var date_col = 1;
+  var date_row = 1;
+  var date_width = 1;
+  var date_height = 1;
+  var width = 115;
+  var height = 115;
   
   $(function(){
-	  
-	  var select_type_html = "\
-		<ul class=\"select_type_content\">\
-		  <li>文字</li>\
-		  <li>图片</li>\
-		  <li>视频</li>\
-		</ul>\
-	  ";
-	  
-	  var html = "<img src='http://localhost/gridster/mao.jpg' width='100%' height='100%'>";
-	  
-	  var widgets = [
-		  ['<li><div class="header"><header>移动</header><span class="edit">编辑</span><span class="remove">删除</span></div>'+html+'</li>', 1, 1]
-	  ];
-	  
+  
 	  gridster = $(".gridster > ul").gridster({
 		  widget_margins: [0, 0],
 		  widget_base_dimensions: [115, 115],
-		  draggable: {
-			  handle: 'header'
-		  },
 		  avoid_overlapped_widgets: true,
 		  resize:{enabled: true}
 	  }).data('gridster');
-
-	  $.each(serialization, function() {
-		  gridster.add_widget('<li><div class="header"><header>移动</header><span class="edit">编辑</span><span class="remove">删除</span></div>'+html+'</li>', this.size_x, this.size_y, this.col, this.row);
-	  });
+	  
+	  var select_type_html = "\
+		<ul class=\"select_type_content\">\
+		  <li class=\"add_text\">文字</li>\
+		  <li class=\"add_images\">图片</li>\
+		  <li class=\"add_video\">视频</li>\
+		</ul>\
+	  ";
+	  
+	  var operating_html = "\
+		<div class=\"header\">\
+		  <span class=\"edit\">编辑</span>\
+		  <span class=\"remove\">删除</span>\
+		</div>\
+	  ";
+	  
+	  var html = "<li><div class=\"this_content\" style=\"word-wrap:break-word;\"></div></li>";
 	  
 	  $('.topic_button').click(function(){
-		  $.each(widgets, function(i, widget){
-			  gridster.add_widget.apply(gridster, widget)
-		  });
+		gridster.add_widget(html);
 	  });
 	  
 	  $('.gridster > ul > li').livequery(function(){
-		$(this).mouseover(function(){
-		  $(this).find('.header').css('display','block');
-		});
 		
-		$(this).mouseout(function(){
-		  $(this).find('.header').css('display','none');
-		});
-		
-		$(this).find('.remove').click(function(){
+		$(this).on('click','.remove',function(){
 		  gridster.remove_widget($(this).parents('li'));
 		});
 		
-		var select_tmp = 0;
-		$(this).find('.edit').click(function(){
-		  $('.select_type_content').remove();
+		$(this).on('click','.edit',function(){
 		  $(this).parents('li').append(select_type_html);
 		});
 		
+		$(this).mouseenter(function(){
+		  $(this).append(operating_html);
+		});
+		
+		$(this).mouseleave(function(){
+		  $(this).find('.header').remove();
+		  $(this).find('.select_type_content').remove();
+		});
+		
+		$(this).on('click','.add_text',function(){
+		  date_col = $(this).parents('li').attr('data-col');
+		  date_row = $(this).parents('li').attr('data-row');
+		  date_width = $(this).parents('li').attr('data-sizex');
+		  date_height = $(this).parents('li').attr('data-sizey');
+		  $('#block_text.fullscreen.modal').modal('show');
+		});
+		
+		$(this).on('click','.add_images',function(){
+		  date_col = $(this).parents('li').attr('data-col');
+		  date_row = $(this).parents('li').attr('data-row');
+		  date_width = $(this).parents('li').attr('data-sizex');
+		  date_height = $(this).parents('li').attr('data-sizey');
+		  $('#block_images.fullscreen.modal').modal('show');
+		});
+		
+		$(this).on('click','.add_video',function(){
+		  date_col = $(this).parents('li').attr('data-col');
+		  date_row = $(this).parents('li').attr('data-row');
+		  date_width = $(this).parents('li').attr('data-sizex');
+		  date_height = $(this).parents('li').attr('data-sizey');
+		  $('#block_video.fullscreen.modal').modal('show');
+		});
 	  });
+	  
+	  $('.ui.no.button.text').on('click', function(){
+		$('#block_text').modal('hide');
+	  });
+	  
+	  $('.ui.no.button.img').on('click', function(){
+		$('#block_images').modal('hide');
+	  });
+	  
+	  $('.ui.no.button.video').on('click', function(){
+		$('#block_video').modal('hide');
+	  });
+	  
+	  $('.ui.yes.text').on('click', function(){
+		var content = $('textarea[name=content]').val();
+		$('li[data-col='+date_col+'][data-row='+date_row+']').find('.this_content').html(content);
+		$('li[data-col='+date_col+'][data-row='+date_row+']').find('.this_content').css('padding','10px');
+		$('#block_text').modal('hide');
+	  });
+	  
+	  $('.ui.yes.img').on('click', function(){
+		var src = $('#avatar-photo').attr('src');
+		var link = $('input[name=img_link]').val();
+		var keyword = $('input[name=img_keyword]').val();
+		var product_id = $('input[name=product_id]').val();
+		var is_show_price = $('input[name=is_show_price]').val();
+		var content = '<a class=\"\" href=\"'+link+'\"><img src=\"'+src+'\" width=\"'+date_width*width+'\" height=\"'+date_height*height+'\" product_id=\"'+product_id+'\" is_show_price=\"'+is_show_price+'\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
+		$('li[data-col='+date_col+'][data-row='+date_row+']').find('.this_content').html(content);
+		$('#block_images').modal('hide');
+	  });
+	  
+	  $('.ui.yes.video').livequery(function(){
+		$(this).on('click', function(){
+		  var video_link = $('input[name=video_link]').val();
+		  //var content = '<iframe width='+date_width*height+' height='+date_height*width+' src=\"'+video_link+'\" frameborder=0 allowfullscreen></iframe>';
+		  var content = '<embed src=\"'+video_link+'\" allowFullScreen=\"true\" width=\"'+date_width*width+'\" height=\"'+date_height*height+'\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>';
+		  $('li[data-col='+date_col+'][data-row='+date_row+']').find('.this_content').html(content);
+		  $('#block_video').modal('hide');
+		});
+	  });
+	  
+	  $('#editor').editable({
+		  inlineMode: false,
+		  toolbarFixed: false,
+		  theme: 'gray',
+		  language: 'zh_cn',
+		  borderColor: '#999',
+		  editorClass: 'bird',
+		  minHeight: 300,
+		  plainPaste: true,
+		  alwaysBlank: true,
+		  typingTimer: 2000,
+		  buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
+	  });
+	  
+	  var file_count = 1;
+	  var ord = function(){
+		  return file_count++;
+	  };
+	
+	  $('#phenix-uploader').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ active._id }}','file_id': '{{ pid }}' },
+        	endpoint: '{{ app_url_upload }}/special_subject'
+      	},
+		text: {
+            uploadButton: '<a class="ui active magenta labeled icon upload button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#phenix-uploader').addClass('error');
+			phenix.show_error_message(result.message, $('#phenix-uploader'));
+		}else{
+		
+			$('.qq-upload-list').children().eq(id).fadeOut();
+	
+			wps_width  = result.data.asset.width;
+			wps_height = result.data.asset.height;
+			// 更新附件Id
+			$('#avatar_id').val(result.data.asset.id);
+			
+			if(Math.floor(wps_width/wps_height) >= 1){
+				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"width: '+date_width*width+'px\">';
+			}else{
+				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"height: '+date_height*height+'px\">';
+			}
+			
+			$('#show_images').html(imghtml);
+		}
+	});
   });
 {% endblock %}
 	
 {% block content %}
+	{% if css_use_bundle %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
+	{% else %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
+	{% endif %}
+	{% if js_use_bundle %}
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/froala_editor.min.{{ js_jquery_bundle_version }}.js"></script>
+	{% else %}
+		<script src="{{ app_url_packaged }}/javascript/froala_editor.min.js" type="text/javascript"></script>
+	{% endif %}
 	<link rel="stylesheet" type="text/css" href="http://localhost/gridster/jquery.gridster.css">
 	<script src="http://localhost/gridster/jquery.gridster.js" type="text/javascript" charset="utf-8"></script>
 	<h3 class="ui header">app专题管理</h3>
-	
 	<div class="ui secondary pointing magenta menu">
 		<a href="{{ app_url_admin_base }}/special_subject" class="active item">
 			全部
@@ -297,8 +383,80 @@
 	    </div>
 	</div>
 	
+	<div id="block_text" class="ui fullscreen modal transition scrolling" style="display: none">
+        <div class="header">添加文字</div>
+		<div class="content">
+		  <textarea name="content" placeholder="添加文字" id="editor">
+			
+		  </textarea>
+		  <div class="actions">
+			  <div class="ui button no text">取消</div>
+			  <div class="ui green submit button yes text">确定</div>
+		  </div>
+		</div>
+    </div>
+	
+	<div id="block_images" class="ui fullscreen modal transition scrolling" style="display: none">
+        <div class="header">添加图片</div>
+		<input type="hidden" name="avatar_id" id="avatar_id" />
+		<div class="content">
+		  <div class="ui form">
+			<div class="left" style="width:50%">
+			  <div id="phenix-uploader"></div>
+			  <div id="show_images"></div>
+			</div>
+			<div class="left" style="width:50%">
+			  <div class="field">
+				  <label>链接地址</label>
+				  <input type="text" name="img_link" value="" />
+			  </div>
+			  <div class="field">
+				  <label>关键字</label>
+				  <input type="text" name="img_keyword" value="" />
+			  </div>
+			  <div class="field">
+				  <label>产品id</label>
+				  <input type="text" name="product_id" value="" />
+			  </div>
+			  <div class="inline field fields">
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="is_show_price" value="1" /> 
+						<label>显示价格</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="is_show_price" value="0" /> 
+						<label>不显示价格</label>
+					</div>
+				</div>
+			  </div>
+			</div>
+			<div style="clear: both"></div>
+		  </div>
+		  <div class="actions" style="margin-top: 20px">
+			  <div class="ui button no img">取消</div>
+			  <div class="ui green submit button yes img">确定</div>
+		  </div>
+		</div>
+    </div>
+	
+	<div id="block_video" class="ui fullscreen modal transition scrolling" style="display: none">
+        <div class="header">添加视频</div>
+		<div class="content">
+		  <div class="ui form">
+			<div class="field">
+				<label>视频链接</label>
+				<input type="text" name="video_link" value="" />
+			</div>
+		  </div>
+		  <div class="actions">
+			  <div class="ui button no video">取消</div>
+			  <div class="ui green submit button yes video">确定</div>
+		  </div>
+		</div>
+    </div>
+	
 	<div class="ui alarm segment">
-		
 		<div class="ui iphone">
 		  <div class="ui iphone_content">
 			<table>
@@ -349,9 +507,10 @@
 			<div class="iphone_gridster">
 			  <div class="gridster">
 				<ul></ul>
+				<div style="clear: both"></div>
+				<a href="javascript:void(0);" class="ui topic_button">添加</a>
 			  </div>
 			</div>
-			<a href="javascript:void(0);" class="ui topic_button"></a>
 		  </div>
 		</div>
 		<div class="ui topic_form">
@@ -366,6 +525,7 @@
 				  <label>专题标签:</label>
 				  <input type="text" name="try_id" value="" />
 			  </div>
+			  <!--
 			  <div class="field" style="max-width:360px ">
 				<a class="ui label">智能硬件</a>
 				<a class="ui label">母婴</a>
@@ -375,7 +535,7 @@
 				<a class="ui label">太火鸟</a>
 				<a class="ui label">&nbsp;+&nbsp;</a>
 			  </div>
-			  
+			  -->
 			  <div class="inline field" style="float: right;margin-top: 50px;">
 				<div class="ui gray cancel button">
 					取消

@@ -98,6 +98,80 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
     }
 	
 	/**
+	 * 上传专题图片
+	 */
+	public function special_subject() {
+		
+		if (!$this->visitor->id) {
+            $result['code'] = 403;
+            $result['message'] = 'session expired, please login.';
+            return $this->to_raw_json($result);
+        }
+		
+        $file = $this->asset[0]['path'];
+        $file_name = $this->asset[0]['name'];
+        $size = $this->asset[0]['size'];
+		
+        $image_info = Sher_Core_Util_Image::image_info($file);
+
+        if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
+            $result['code'] = 400;
+            $result['message'] = $image_info['format'].'图片格式无法识别，请上传jpg,png,jpeg格式的图片';
+            return $this->to_raw_json($result);
+        }
+
+        if($image_info['width']<100 || $image_info['height']<100){
+            $result['code'] = 400;
+            $result['message'] = '图片尺寸必须大于100px * 100px';
+            return $this->to_raw_json($result);       
+        }
+		
+        $asset = new Sher_Core_Model_Asset();
+		// 获取是否存在旧记录
+        $old_avatar = $asset->first(
+			array(
+				'parent_id' => $this->visitor->id,
+				'asset_type' => Sher_Core_Model_Asset::TYPE_SPECIAL_SUBJECT
+			)
+		);
+		
+        //create new one
+		$asset->set_file($file);
+		
+        $image_type = Doggy_Util_File::mime_content_type($file_name);
+		$image_info['size'] = $size;
+        $image_info['mime'] = Doggy_Util_File::mime_content_type($file_name);
+        $image_info['filename'] = basename($file_name);
+		$image_info['filepath'] = Sher_Core_Util_Image::gen_path($file_name,'special_subject');
+        $image_info['asset_type'] = Sher_Core_Model_Asset::TYPE_SPECIAL_SUBJECT;
+        $image_info['parent_id'] = $this->visitor->id;
+		
+		$ok = $asset->apply_and_save($image_info);
+		
+        if ($ok) {
+            $avatar_id = (string)$asset->id;
+            if (!empty($old_avatar)) {
+                $asset->delete_file($old_avatar['_id']);
+            }
+            
+            $result['asset'] = array(
+            	'id' => $avatar_id,
+				'file_url' => Sher_Core_Helper_Url::asset_qiniu_view_url($asset->filepath),
+				'width'  => $image_info['width'],
+				'height' => $image_info['height']
+            );
+			
+			$is_error = false;
+			$msg = '上传图片成功！';
+        } else {
+			$is_error = true;
+			$msg = 'Unkown Error！';
+        }
+		
+		return $this->ajax_json($msg, $is_error, null, $result);
+	}
+	
+	/**
 	 * 裁切头像
 	 */
 	public function crop_avatar(){
@@ -225,7 +299,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	}
 	
 	/**
-	 * 上传专题图片
+	 * 上传专辑图片
 	 */
 	public function albums() {
 		$asset_domain = Sher_Core_Util_Constant::STROAGE_ALBUMS;

@@ -78,8 +78,11 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
     # 媒体报道封面
     const TYPE_REPORT = 92;
 	
-	# 专题封面
+	# 专辑封面
 	const TYPE_ALBUMS = 95;
+	
+	# 图片
+	const TYPE_SPECIAL_SUBJECT = 96;
 
     protected $schema = array(
 		'user_id' => '',

@@ -42,6 +42,12 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 	 * 添加页面
 	 */
 	public function add_page(){
+		
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['pid'] = new MongoId();
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SPECIAL_SUBJECT;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SPECIAL_SUBJECT;
+		
 		return $this->to_html_page('admin/special_subject/save.html');
 	}
 }
