@@ -182,7 +182,7 @@
                         试用产品：{{ apply.try.title }}
                     </div>
                     <div class="item">
-                        申请时间：{{ apply.created_on|date }}
+                        申请时间：{{ apply.created_on|date 'Y-m-d' }}
                     </div>
                 </div>
               </div>
@@ -206,7 +206,7 @@
                       </p>
                       <p>
 						快递单号:
-						{% if !apply.tracking_number %}没有快递信息<br />
+						{% if !apply.tracking_number %}无<br />
 						{% else %}{{ apply.tracking_number }}<br />
 						{% endif %}
 					  </p>
