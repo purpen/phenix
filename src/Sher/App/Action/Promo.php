@@ -20,6 +20,14 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	}
 	
 	/**
+	 * 签到 抽奖
+	 */
+	public function sign(){
+		$this->set_target_css_state('page_social');
+		return $this->to_html_page('page/promo/sign.html');
+	}
+	
+	/**
 	 * 2015 辣妈奶爸神嘴pk
 	 */
 	public function rank2(){
