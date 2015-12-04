@@ -62,7 +62,7 @@
 
                   </div>
                   <div class=" aligned seven wide column">
-                    <p>试用产品: {{ d.try.title }}</p>
+                    <p>试用产品: <a href="{{ d.try.view_url }}" class="ui link" target="_blank">{{ d.try.title }}</a></p>
                     <p>申请时间: {{ d.created_on|date 'Y-m-d' }}</p>
 
                   </div>
