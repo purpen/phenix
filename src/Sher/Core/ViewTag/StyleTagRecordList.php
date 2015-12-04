@@ -1,9 +1,9 @@
 <?php
 /**
- * 分类标签
+ * 分类标签记录
  * @author tianshuai
  */
-class Sher_Core_ViewTag_StyleTagList extends Doggy_Dt_Tag {
+class Sher_Core_ViewTag_StyleTagRecordList extends Doggy_Dt_Tag {
     protected $argstring;
 	
     public function __construct($argstring, $parser, $pos = 0) {
@@ -18,14 +18,11 @@ class Sher_Core_ViewTag_StyleTagList extends Doggy_Dt_Tag {
         $page = 1;
         $size = 10;
 
-        $fetch_current_target = 0;
-        $current_tag_ids = 0;
-
+        $target_id = 0;
 		    $user_id = 0;
         $domain = 0;
         $stick = 0;
         $kind = 0;
-        $mark = 0;
         $state = 0;
         $sort = 0;
 		
@@ -59,12 +56,12 @@ class Sher_Core_ViewTag_StyleTagList extends Doggy_Dt_Tag {
 		if($state){
 			$query['state'] = (int)$state==-1 ? 0 : 1;
 		}
-		if($mark){
-			$query['mark'] = $mark;
+		if($target_id){
+			$query['target_id'] = (int)$target_id;
     }
 
 		
-        $service = Sher_Core_Service_StyleTag::instance();
+        $service = Sher_Core_Service_StyleTagRecord::instance();
         $options['page'] = $page;
         $options['size'] = $size;
 		$options['sort_field'] = $sort_field;
@@ -72,28 +69,11 @@ class Sher_Core_ViewTag_StyleTagList extends Doggy_Dt_Tag {
 		// 设置排序
 		switch ((int)$sort) {
 			case 1:
-				$options['sort_field'] = 'sort';
-				break;
-			case 2:
 				$options['sort_field'] = 'stick';
-				break;
-			case 3:
-				$options['sort_field'] = 'stick:latest';
 				break;
 		}
 
         $result = $service->get_style_tag_list($query,$options);
-
-        // 获取当前存在的标签
-        if($fetch_current_target && $current_tag_ids){
-          $arr = explode(',', $current_tag_ids);
-          for($i=0;$i<count($result['rows']);$i++){
-            $id = $result['rows'][$i]['_id'];
-            if(in_array((string)$id, $arr)){
-              $result['rows'][$i]['active'] = 'active';
-            }
-          }
-        }
 		
         $context->set($var, $result);
 		

@@ -127,18 +127,21 @@
 		<input name="_id" type="hidden" value="{{ chunk._id }}" />
 		<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
 		
-		<div class="inline field">
-			<label>标识:</label>
-			<input type="text" name="mark" value="{{ chunk.mark }}" />
-		</div>
-		<div class="inline field">
-			<label>标题:</label>
-			<input type="text" name="title" value="{{ chunk.title }}" />
-		</div>
+    <div class="three fields">
+      <div class="field">
+        <label>标识:</label>
+        <input type="text" name="mark" value="{{ chunk.mark }}" />
+      </div>
+      <div class="field">
+        <label>标题:</label>
+        <input type="text" name="title" value="{{ chunk.title }}" />
+      </div>
+    </div>
 
-		<div class="inline field">
-			<label>补充:</label>
+		<div class="field">
+			<label>回调:</label>
 			<input type="text" name="pack" value="{{ chunk.pack }}" />
+      <div class="description">禁止修改此处,用于程序回调</div>
 		</div>
 
     <div class="field">
