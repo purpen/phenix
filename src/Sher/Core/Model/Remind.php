@@ -147,8 +147,8 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
                         case 1:
                           $url = sprintf("%s/rank", Doggy_Config::$vars['app.url.promo']);
                           break;
-                        case 2:
-                          $url = '';
+                        case 5:
+                          $url = sprintf("%s/rank2", Doggy_Config::$vars['app.url.promo']);
                           break;
                       }
                       $r_obj = array('comment_view_url'=>$url, 'comment_type'=>'subject');

@@ -84,6 +84,18 @@ class Sher_Core_Model_StyleTag extends Sher_Core_Model_Base {
 	}
 
 	/**
+	 * 保存之前,处理
+	 */
+  protected function before_save(&$data) {
+    // 防止负数
+    if($data['item_count']<0){
+      $data['item_count'] = 0;
+    }
+		
+	  parent::before_save($data);
+	}
+
+	/**
 	 * 删除后事件
 	 */
 	public function mock_after_remove($id) {
@@ -102,6 +114,35 @@ class Sher_Core_Model_StyleTag extends Sher_Core_Model_Base {
 				$model->update_set($id, array('parent_id' => (int)$parent_id));
 			}
 		}
+	}
+
+	/**
+	 * 增加计数
+	 */
+	public function inc_counter($count_name, $inc=1, $id=null){
+		if(is_null($id)){
+			$id = $this->id;
+		}
+		if(empty($id) || !in_array($count_name, $this->counter_fields)){
+			return false;
+		}
+		
+		return $this->inc($id, $count_name, $inc);
+	}
+	
+	/**
+	 * 减少计数
+	 * 需验证，防止出现负数
+	 */
+	public function dec_counter($count_name, $dec=1, $id=null){
+    if(is_null($id)){
+        $id = $this->id;
+    }
+		if(empty($id) || !in_array($count_name, $this->counter_fields)){
+			return false;
+		}
+		
+		return $this->dec($id, $count_name, $dec);
 	}
 	
 }

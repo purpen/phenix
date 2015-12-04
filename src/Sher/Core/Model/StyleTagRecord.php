@@ -19,6 +19,7 @@ class Sher_Core_Model_StyleTagRecord extends Sher_Core_Model_Base {
 	
   protected $schema = array(
     'target_id' => 0,
+    'tag_id' => 0,
     'user_id' => 0,
     'kind' => self::KIND_SCENE,
     // 所属域
@@ -28,7 +29,7 @@ class Sher_Core_Model_StyleTagRecord extends Sher_Core_Model_Base {
 
   );
 
-  protected $required_fields = array('target_id');
+  protected $required_fields = array('target_id', 'tag_id');
 
   protected $int_fields = array('state', 'user_id', 'domain', 'kind', 'stick');
 
@@ -81,9 +82,28 @@ class Sher_Core_Model_StyleTagRecord extends Sher_Core_Model_Base {
 	}
 
 	/**
+	 * 保存之后，更新相关count
+	 */
+  protected function after_save() {
+
+    // 如果是新的记录
+    if($this->insert_mode){
+      $style_tag_model = new Sher_Core_Model_StyleTag();
+      $style_tag_model->inc_counter('item_count', 1, $this->data['tag_id']);
+      unset($style_tag_model);
+    }
+
+  }
+
+	/**
 	 * 删除后事件
 	 */
-	public function mock_after_remove($id) {
+	public function mock_after_remove($id, $options=array()) {
+    if(isset($options['tag_id']) && !empty($options['tag_id'])){
+      $style_tag_model = new Sher_Core_Model_StyleTag();
+      $style_tag_model->dec_counter('item_count', 1, (int)$options['tag_id']);
+      unset($style_tag_model);   
+    }
 		
 		return true;
 	}
