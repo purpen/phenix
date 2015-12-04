@@ -18,8 +18,8 @@ class Sher_Core_ViewTag_StyleTagList extends Doggy_Dt_Tag {
         $page = 1;
         $size = 10;
 
-        $is_current_target = 0;
-        $current_target_id = 0;
+        $fetch_current_target = 0;
+        $current_tag_ids = 0;
 
 		    $user_id = 0;
         $domain = 0;
@@ -83,6 +83,17 @@ class Sher_Core_ViewTag_StyleTagList extends Doggy_Dt_Tag {
 		}
 
         $result = $service->get_style_tag_list($query,$options);
+
+        // 获取当前存在的标签
+        if($fetch_current_target && $current_tag_ids){
+          $arr = explode(',', $current_tag_ids);
+          for($i=0;$i<count($result['rows']);$i++){
+            $id = $result['rows'][$i]['_id'];
+            if(in_array((string)$id, $arr)){
+              $result['rows'][$i]['active'] = 'active';
+            }
+          }
+        }
 		
         $context->set($var, $result);
 		
