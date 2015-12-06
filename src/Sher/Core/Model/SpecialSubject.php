@@ -3,7 +3,7 @@
  * app专题
  * @author tianshuai
  */
-class Sher_Core_Model_Block extends Sher_Core_Model_Base  {
+class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
   protected $collection = "special_subject";
 
   ##常量
@@ -51,9 +51,9 @@ class Sher_Core_Model_Block extends Sher_Core_Model_Base  {
 			$row['content'] = htmlspecialchars_decode($row['content']);
 		}
 		// 去除 html/php标签
-    if(isset($row['remark'])){
-		  $row['strip_remark'] = strip_tags(htmlspecialchars_decode($row['remark']));
-    }
+		if(isset($row['remark'])){
+			  $row['strip_remark'] = strip_tags(htmlspecialchars_decode($row['remark']));
+		}
 
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
 		

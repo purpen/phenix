@@ -53,74 +53,6 @@
 	padding: 0;
 	overflow: scroll;
   }
-  
-  .gridster * {
-	margin:0;
-	padding:0;
-  }
-  
-  ul {
-	list-style-type: none;
-  }
-  
-  .controls {
-	  margin-bottom: 20px;
-  }
-  
-  .gridster ul {
-	  background-color: #EFEFEF;
-  }
-  
-  .gridster li {
-	  font-size: 1em;
-	  font-weight: bold;
-	  text-align: center;
-	  line-height: 100%;
-	  border: solid 1px #aaa;
-	  position: relative;
-  }
-  
-  .gridster {
-	  margin: 0 auto;
-	  width: 460px;
-	  opacity: .8;
-	  -webkit-transition: opacity .6s;
-	  -moz-transition: opacity .6s;
-	  -o-transition: opacity .6s;
-	  -ms-transition: opacity .6s;
-	  transition: opacity .6s;
-  }
-  
-  .gridster .gs-w {
-	  background: #DDD;
-	  cursor: pointer;
-  }
-  
-  .gridster .player {
-	  background: #BBB;
-  }
-  
-  .gridster .preview-holder {
-	  border: none!important;
-	  background: red!important;
-  }
-  
-  .gridster li .header {
-	  background: #aaa;
-	  width: 100%;
-	  height: 30px;
-	  line-height: 30px;
-	  font-size: 14px;
-	  position: absolute;
-	  top: 0;
-	  left: 0;
-  }
-  
-  .gridster li .header header,.gridster li .header span{
-	display: inline-block;
-	width: 35px;
-	color: #fff;
-  }
 
   .topic_button{
 	border-radius: 5px;
@@ -148,13 +80,14 @@
 	left: 0;
 	z-index: 1000;
 	overflow: visible;
+	list-style-type: none;
   }
   
   .select_type_content li{
-	margin: 2px;
-	padding: 4px;
-	border: 0;
-	border-bottom: dashed 1px #eee;
+	margin: 5px;
+	padding: 5px 10px;
+	border: 0px !important;
+	border-bottom: dashed 1px #eee !important;
   }
   
   .select_type_content li:hover{
@@ -174,11 +107,13 @@
   var gridster;
   var date_col = 1;
   var date_row = 1;
-  var date_width = 1;
-  var date_height = 1;
+  var date_x = 1;
+  var date_y = 1;
   var back_x = 1;
   var back_y = 1;
-  var cell = 50;
+  var cell = 20;
+  var width = 1;
+  var height = 1;
   
   $(function(){
   
@@ -207,7 +142,7 @@
 	  var html = "<li><div class=\"this_content\" style=\"word-wrap:break-word;\"></div></li>";
 	  
 	  $('.topic_button').click(function(){
-		gridster.add_widget(html,2,2);
+		gridster.add_widget(html,10,10);
 	  });
 	  
 	  $('.gridster > ul > li').livequery(function(){
@@ -232,24 +167,24 @@
 		$(this).on('click','.add_text',function(){
 		  date_col = $(this).parents('li').attr('data-col');
 		  date_row = $(this).parents('li').attr('data-row');
-		  date_width = $(this).parents('li').attr('data-sizex');
-		  date_height = $(this).parents('li').attr('data-sizey');
+		  date_x = $(this).parents('li').attr('data-sizex');
+		  date_y = $(this).parents('li').attr('data-sizey');
 		  $('#block_text.fullscreen.modal').modal('show');
 		});
 		
 		$(this).on('click','.add_images',function(){
 		  date_col = $(this).parents('li').attr('data-col');
 		  date_row = $(this).parents('li').attr('data-row');
-		  date_width = $(this).parents('li').attr('data-sizex');
-		  date_height = $(this).parents('li').attr('data-sizey');
+		  date_x = $(this).parents('li').attr('data-sizex');
+		  date_y = $(this).parents('li').attr('data-sizey');
 		  $('#block_images.fullscreen.modal').modal('show');
 		});
 		
 		$(this).on('click','.add_video',function(){
 		  date_col = $(this).parents('li').attr('data-col');
 		  date_row = $(this).parents('li').attr('data-row');
-		  date_width = $(this).parents('li').attr('data-sizex');
-		  date_height = $(this).parents('li').attr('data-sizey');
+		  date_x = $(this).parents('li').attr('data-sizex');
+		  date_y = $(this).parents('li').attr('data-sizey');
 		  $('#block_video.fullscreen.modal').modal('show');
 		});
 	  });
@@ -269,7 +204,10 @@
 	  $('.ui.yes.text').on('click', function(){
 		var content = $('textarea[name=content]').val();
 		$('li[data-col='+date_col+'][data-row='+date_row+']').find('.this_content').html(content);
-		$('li[data-col='+date_col+'][data-row='+date_row+']').find('.this_content').css('padding','10px');
+		$('li[data-col='+date_col+'][data-row='+date_row+']').attr('data-sizey',date_x);
+		$('li[data-col='+date_col+'][data-row='+date_row+']').css('width',date_x*cell+'px');
+		$('li[data-col='+date_col+'][data-row='+date_row+']').css('height',date_y*cell+'px');
+		$('li[data-col='+date_col+'][data-row='+date_row+']').css('overflow','auto');
 		$('#block_text').modal('hide');
 	  });
 	  
@@ -279,17 +217,24 @@
 		var keyword = $('input[name=img_keyword]').val();
 		var product_id = $('input[name=product_id]').val();
 		var is_show_price = $('input[name=is_show_price]').val();
-		var content = '<a class=\"\" href=\"'+link+'\"><img src=\"'+src+'\" width=\"'+date_width*cell+'\" height=\"'+date_height*cell+'\" product_id=\"'+product_id+'\" is_show_price=\"'+is_show_price+'\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
+		var content = '<a class=\"\" href=\"'+link+'\"><img src=\"'+src+'\" style=\"width:'+date_x*cell+'px\" product_id=\"'+product_id+'\" is_show_price=\"'+is_show_price+'\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
 		$('li[data-col='+date_col+'][data-row='+date_row+']').find('.this_content').html(content);
+		$('li[data-col='+date_col+'][data-row='+date_row+']').attr('data-sizey',Math.ceil((date_x*height)/width));
+		$('li[data-col='+date_col+'][data-row='+date_row+']').css('width',date_x*cell+'px');
+		$('li[data-col='+date_col+'][data-row='+date_row+']').css('height',Math.ceil((date_x*height)/width)*cell+'px');
 		$('#block_images').modal('hide');
 	  });
 	  
 	  $('.ui.yes.video').livequery(function(){
 		$(this).on('click', function(){
 		  var video_link = $('input[name=video_link]').val();
-		  //var content = '<iframe width='+date_width*cell+' height='+date_height*cell+' src=\"'+video_link+'\" frameborder=0 allowfullscreen></iframe>';
-		  var content = '<embed src=\"'+video_link+'\" allowFullScreen=\"true\" width=\"'+date_width*cell+'\" height=\"'+date_height*cell+'\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>';
+		  //var content = '<iframe width='+date_x*cell+' height='+date_y*cell+' src=\"'+video_link+'\" frameborder=0 allowfullscreen></iframe>';
+		  var content = '<embed src=\"'+video_link+'\" allowFullScreen=\"true\" style=\"width:'+date_x*cell+'px; height:'+date_y*cell+'px\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>';
 		  $('li[data-col='+date_col+'][data-row='+date_row+']').find('.this_content').html(content);
+		  $('li[data-col='+date_col+'][data-row='+date_row+']').attr('data-sizey',Math.ceil((date_x*height)/width));
+		  $('li[data-col='+date_col+'][data-row='+date_row+']').attr('data-sizey',Math.ceil((date_x*height)/width));
+		  $('li[data-col='+date_col+'][data-row='+date_row+']').css('width',date_x*cell+'px');
+		  $('li[data-col='+date_col+'][data-row='+date_row+']').css('height',date_y*cell+'px');
 		  $('#block_video').modal('hide');
 		});
 	  });
@@ -344,13 +289,16 @@
 			wps_width  = result.data.asset.width;
 			wps_height = result.data.asset.height;
 			
-			back_x = Math.floor(wps_width/cell);
-			back_y = Math.floor(wps_height/cell);
+			width  = wps_width;
+			height = wps_height;
+			
+			back_x = Math.ceil(wps_width/cell);
+			back_y = Math.ceil(wps_height/cell);
 			
 			if(Math.floor(wps_width/wps_height) >= 1){
-				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"width: '+date_width*cell+'px\">';
+				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"width: '+date_x*cell+'px\">';
 			}else{
-				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"height: '+date_height*cell+'px\">';
+				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"height: '+date_y*cell+'px\">';
 			}
 			
 			$('#show_images').html(imghtml);
@@ -359,7 +307,13 @@
   });
   
   // 表单验证
-  $('#special_subject_form').form({
+  $('#special_subject_form').on('click','.submit',function(){
+	if(!$('.gridster_ul').html()){
+	  phenix.show_error_note("内容不能为空！", 3000);
+	  return false;
+	}
+	$('input[name=special_subject_html]').val($('.gridster').html());
+  }).form({
 	  special_subject_title: {
 		  identifier  : 'special_subject_title',
 		  rules: [
@@ -375,15 +329,6 @@
 			  {
 				  type   : 'empty',
 				  prompt : '标签不能为空'
-			  }
-		  ]
-	  },
-	  special_subject_html: {
-		  identifier  : 'special_subject_html',
-		  rules: [
-			  {
-				  type   : 'empty',
-				  prompt : '内容不能为空'
 			  }
 		  ]
 	  }
@@ -410,6 +355,7 @@
 		  });
 	  }
   });
+	
 {% endblock %}
 	
 {% block content %}
@@ -446,7 +392,7 @@
 		  </textarea>
 		  <div class="actions">
 			  <div class="ui button no text">取消</div>
-			  <div class="ui green submit button yes text">确定</div>
+			  <div class="ui green submit button yes text" style="color: #fff!important">确定</div>
 		  </div>
 		</div>
     </div>
@@ -561,15 +507,79 @@
 			
 			<div class="iphone_gridster">
 			  <div class="gridster">
-				<ul></ul>
+{% if mode == 'create'%}
+<style>
+  .gridster * {
+	margin:0;
+	padding:0;
+  }
+  
+  .gridster {
+	  margin: 0 auto;
+	  width: 460px;
+	  opacity: .8;
+	  -webkit-transition: opacity .6s;
+	  -moz-transition: opacity .6s;
+	  -o-transition: opacity .6s;
+	  -ms-transition: opacity .6s;
+	  transition: opacity .6s;
+  }
+  
+  .gridster_ul {
+	  background-color: #EFEFEF;
+	  list-style-type: none;
+  }
+  
+  .gridster_ul li {
+	  font-size: 1em;
+	  font-weight: bold;
+	  text-align: center;
+	  line-height: 100%;
+	  position: relative;
+	  float: left;
+  }
+  
+  .gridster_ul .gs-w {
+	  background: #DDD;
+	  cursor: pointer;
+  }
+  
+  .gridster_ul .player {
+	  background: #BBB;
+  }
+  
+  .gridster_ul .preview-holder {
+	  border: none!important;
+	  background: red!important;
+  }
+  
+  .gridster_ul li .header {
+	  background: #aaa;
+	  width: 100%;
+	  height: 30px;
+	  line-height: 30px;
+	  font-size: 14px;
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+  }
+  
+  .gridster_ul li .header header,.gridster_ul li .header span{
+	display: inline-block;
+	width: 35px;
+	color: #fff;
+  }
+</style>
+{% endif %}
+				<ul class="gridster_ul"></ul>
+			  </div>
 				<div style="clear: both"></div>
 				<a href="javascript:void(0);" class="ui topic_button">添加</a>
-			  </div>
 			</div>
 		  </div>
 		</div>
 		<div class="ui topic_form">
-		  <form action="{{ app_url_admin_base }}/topic/save" class="ui form" method="post" id="special_subject_form">
+		  <form action="{{ app_url_admin_base }}/special_subject/save" class="ui form" method="post" id="special_subject_form">
 			  <input name="_id" type="hidden" value="{{ topic._id }}" />
 			  <input name="special_subject_html" type="hidden" value="" />
 			  

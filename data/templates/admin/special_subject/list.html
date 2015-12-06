@@ -24,19 +24,44 @@
 	    </div>
 	</div>
 	
-	<div class="ui alarm segment">
-	  
-	  {% message_list var:'list' page:page type:2 user_id:user_id reply_id:reply_id %}
-	  
-	  {% for message in list.rows %}
-	  
-	  {% endfor %}
-			  
-	  {% if list.rows %}
-	  <div class="ui pagination">
-	  {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:10 %}
-	  {%include 'block/pager.html'%}
-	  </div>
-	  {% endif %}
-  </div>
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>标题</th>
+				<th>标签</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% special_subject_list var:'list' page:page type:2 user_id:user_id reply_id:reply_id %}
+		{% for special_subject in list.rows %}
+			<tr id="{{ sign._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ sign._id }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>
+						{{ special_subject.title }}
+				</td>
+				<td>
+						{{ special_subject.title }}
+				</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
 {% endblock %}
