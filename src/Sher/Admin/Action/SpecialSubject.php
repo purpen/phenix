@@ -56,7 +56,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 	 * 保存方法
 	 */
 	public function save(){
-		
+		echo 'ok';
 		$id = $this->stash['_id'];
 		$special_subject_html = $this->stash['special_subject_html'];
 		$special_subject_title = $this->stash['special_subject_title'];

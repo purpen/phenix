@@ -306,7 +306,6 @@
 	});
   });
   
-  // 表单验证
   $('#special_subject_form').on('click','.submit',function(){
 	if(!$('.gridster_ul').html()){
 	  phenix.show_error_note("内容不能为空！", 3000);
@@ -314,47 +313,47 @@
 	}
 	$('input[name=special_subject_html]').val($('.gridster').html());
   }).form({
-	  special_subject_title: {
-		  identifier  : 'special_subject_title',
-		  rules: [
-			  {
-				  type   : 'empty',
-				  prompt : '标题不能为空'
-			  }
-		  ]
-	  },
-	  special_subject_tag: {
-		  identifier  : 'special_subject_tag',
-		  rules: [
-			  {
-				  type   : 'empty',
-				  prompt : '标签不能为空'
-			  }
-		  ]
-	  }
-  }, {
-	  inline : true,
-	  onSuccess: function(event){
-		  event.preventDefault();
-		  $(this).ajaxSubmit({
-			  dataType: 'json',
-			  beforeSubmit: function(){
-				  // 点击前触发的事件
-				  //phenix.before_submit();
-			  },
-			  success: function(data){
-				  // 点击后触发的事件
-				  //phenix.after_submit();
-				  if(data.is_error){
-					  $(event.target).addClass('error');
-					  phenix.show_error_note(data.message, 3000);
-				  }else{
-					  phenix.redirect(data.redirect_url);
-				  }
-			  }
-		  });
-	  }
-  });
+		special_subject_title: {
+			identifier  : 'special_subject_title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				}
+			]
+		},
+		special_subject_tag: {
+			identifier  : 'special_subject_tag',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标签不能为空'
+				}
+			]
+		}
+
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					//phenix.before_submit();
+				},
+				success: function(data){
+					//phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, 3000);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
 	
 {% endblock %}
 	
@@ -369,8 +368,8 @@
 	{% else %}
 		<script src="{{ app_url_packaged }}/javascript/froala_editor.min.js" type="text/javascript"></script>
 	{% endif %}
-	<link rel="stylesheet" type="text/css" href="http://localhost/gridster/jquery.gridster.css">
-	<script src="http://localhost/gridster/jquery.gridster.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/jquery.gridster/0.5.6/jquery.gridster.min.css">
+	<script src="cdn.bootcss.com/jquery.gridster/0.5.6/jquery.gridster.min.js" type="text/javascript" charset="utf-8"></script>
 	<h3 class="ui header">app专题管理</h3>
 	<div class="ui secondary pointing magenta menu">
 		<a href="{{ app_url_admin_base }}/special_subject" class="active item">
