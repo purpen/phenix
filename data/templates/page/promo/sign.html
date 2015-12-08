@@ -148,8 +148,12 @@ p.nobtn{
 .address.modal .two.fields{
 	margin-bottom:0;
 }
-.address.modal .content > .field+.field{
+.address.modal .content > .field+.field+.field{
 	margin-bottom:2em;
+}
+
+p span.red {
+  color: #f36;
 }
 
 </style>
@@ -158,6 +162,8 @@ p.nobtn{
   <script type="text/javascript" src="http://frstatic.qiniudn.com/wechat/jsjQueryRotate.2.2.js"></script>
   
   <script language="javascript">
+
+/**
   window.onload=function(){
     new Marquee(
       "slidework",  //容器ID
@@ -268,8 +274,6 @@ p.nobtn{
 	                                msobj.Step = Math.round(msobj.AbsCenter * (msobj.BakStep*2) / msobj.HalfWidth);
 	                            }
 	                        }
-              /**
-                *取消鼠标经过停止效果
 	            msobj.ID.onmouseover = function()
 	                        {
 	                            if(msobj.ScrollStep == 0)return;
@@ -290,7 +294,6 @@ p.nobtn{
 	                                msobj.TimerID = setInterval(msobj.StartID,timer);
 	                            }
 	                        }
-                          **/
 	        }
 	        setTimeout(msobj.Begin,waittime);
 	}
@@ -373,6 +376,8 @@ p.nobtn{
 	    }
 	}
 
+*/
+
   	var rotateTimeOut = function (){
   		$('#disk').rotate({
   			angle:0,
@@ -402,22 +407,26 @@ p.nobtn{
           })
           switch(data.type){
             case 0:
+		          $('.ui.share.modal').modal('attach events', '.share.button');
               $('.ui.type_00.drawmes.modal').modal('show');
             break;
             case 1:
               $('.ui.type_01.drawmes.modal').modal('show');
+		          $('.ui.share.modal').modal('attach events', '.share.button');
             break;
             case 2:
               $('.ui.type_02.drawmes.modal').modal('show');
-		          $('.second.gettwo.modal').modal('attach events', '.clrik.button');
+		          $('.ui.share.modal').modal('attach events', '.share.button');
             break;
             case 3:
+              $('#sign_draw_id').val(data.sid);
               $('span.draw_name').text(data.title);
               $('.ui.type_03.drawmes.modal').modal('show');
             break;
             case 4:
               $('span.draw_name').text(data.title);
               $('.ui.type_04.drawmes.modal').modal('show');
+		          $('.ui.share.modal').modal('attach events', '.share.button');
             break;
           }
 
@@ -450,13 +459,41 @@ p.nobtn{
   }
 
   var page = 1;
+  var size = 10;
   var day = "{{ day|default 0 }}";
   // ajax 加载中奖用户列表
-  function fetch_draw_user(page, size, type, day){
+  function fetch_draw_user(page, size, type, day, evt){
     var url = "{{ app_url_domain }}/app/site/promo_func/ajax_fetch_draw_record";
     $.get(url, {page:page, size:size, type:type, day:day}, function(result){
-      //alert(result);
-    });
+        var html = '';
+        if(result.success){
+          var list = result.data.results.rows;
+          var count = result.data.results.total_rows;
+          for(var i=0;i<count;i++){
+            var z_event = list[i]["event"];
+            var z_title = list[i]["title"];
+            var z_count = list[i]["count"];
+            var z_desc = '';
+            switch(z_event){
+              case 1:
+              z_desc = "鸟币"+ z_count +"枚";
+              break;
+              case 2:
+              z_desc = "红包"+ z_count +"元";
+              break;
+              case 3:
+              z_desc = z_title + "1个";
+              break;
+              case 4:
+              z_desc = z_title;
+              break;
+            }
+            html += '<p>恭喜 '+ list[i]["user"]["nickname"] +' 获得 '+ z_desc +'!</p>';
+          }
+          $('#slidework').html(html);
+
+        }
+    }, 'json');
   }
   </script>
 {% endblock %}
@@ -468,10 +505,101 @@ p.nobtn{
 
   });
 
-  fetch_draw_user(1, 10, 1, day);
+  fetch_draw_user(1, size, 1, day, 1);
+
+  // 初始化省份
+  var province_id = $('[name=province]').val();
+  var district_id = $('[name=district]').val();
+  if(province_id){
+    $.get('{{ app_url_address }}/ajax_fetch_districts', {id: province_id, district_id: district_id});
+  }
+
+	// 申请表地址信息
+	$('.ui.district.dropdown').livequery(function(){
+		$(this).dropdown();
+	});
+
+	$('.ui.province.dropdown').livequery(function(){
+		$(this).dropdown({
+			onChange : function(value, text){
+				if (value) {
+					$.get('{{ app_url_address }}/ajax_fetch_districts', {id: value});
+				}
+			}
+		});
+	});
+
+	phenix.bind_share_list("");
+  // 生成支持二维码
+  $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/sign'});
+
+	$('#apply-form').livequery(function(){
+		$(this).form({
+			name: {
+				identifier  : 'name',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'password',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '电话不能为空'
+					},
+					{
+						type   : 'length[11]',
+						prompt : '电话必须11位字符'
+					}
+				]
+			},
+			address: {
+				identifier  : 'address',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '地址区域不能为空'
+					}
+				]
+			},
+			zip: {
+				identifier  : 'zip',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '邮编不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+        event.preventDefault();
+        $(this).ajaxSubmit({
+          dataType: 'json',
+          beforeSubmit: function(){
+          },
+          success: function(data){
+            if(data.is_error){
+              $(event.target).addClass('error');
+              phenix.show_error_note(data.message, event.target);
+            }else{
+              $('.ui.type_03.drawmes.modal').modal('hide');
+              phenix.show_ok_note("保存成功!", event.target);
+            }
+          }
+        });
+			}
+		});
+	});
+
+  // ajax加载签到数据
+  phenix.signin();
 	
-  
-    $('.address.modal').modal('show')
 {% endblock %}
 {% block content %}
 <div id="sign">
@@ -484,12 +612,8 @@ p.nobtn{
 				<div class="row" >
 					<div class="ui six wide backg column">
 						<div id="slidework" style="overflow: hidden;">
-							<p>恭喜 action001   获得太火鸟鸟币100枚</p>
-							<p>恭喜 action002   获得太火鸟鸟币100枚</p>
-							<p>恭喜 action003   获得太火鸟鸟币100枚</p>
-							<p>恭喜 action004   获得太火鸟鸟币100枚</p>
-							<p>恭喜 action005   获得太火鸟鸟币100枚</p>
-							<p>恭喜 action006   获得太火鸟鸟币100枚</p>
+              <!--<p>恭喜 action001   获得太火鸟鸟币100枚</p>-->
+
 						</div>
 						
 					</div>
@@ -500,16 +624,14 @@ p.nobtn{
 						<p>规则</p>
 						<p>1.用户必须登录成功后才可参加抽奖活动；</p>
 						<p>2.太火鸟社区签到即有1次机会参与抽奖；</p>
-						<p>3.连续签到3天以上（含三天）每天有两次
-       抽奖机会；</p>
-						<p>4.分享此页面可增加一次抽奖机会（每天
+						<p>3.如果未抽中，微信分享此页面可增加一次抽奖机会（每天
        限增加1次）；</p>
-						<p>5.活动中奖结果均以弹出页面中奖信息为
+						<p>4.活动中奖结果均以弹出页面中奖信息为
        准；</p>
-						<p>6.禁止任何不正当手段及舞弊行为参与活
+						<p>5.禁止任何不正当手段及舞弊行为参与活
        动，一经发现，太火鸟有权取消用户的
        获奖资格；</p>
-						<p>7.本次活动最终解释权归太火鸟所有！</p>
+						<p>6.本次活动最终解释权归太火鸟所有！</p>
 						<p><i class="help circle icon"></i><a class="question" href="" target="_blank"> 我有疑问</a></p>
 					</div>
 					
@@ -530,18 +652,7 @@ p.nobtn{
 		<div class="mainright">
 			<div class="sellwrap usersign">
 				<div id="user-sign-box">
-					<div class="reg-border">
-					    <a href="javascript:void(0);" class="ui big inverted red active button" style="width: 140px;padding-right: 1em;padding-left: 1em;">
-					        <i class="calendar icon"></i> 已签到
-					    </a>
-						<div class="adreg" style="padding: 0 5px;">	
-					      还可抽奖 <b>3</b> 次 
-					    </div>
-						<p>
-						* 今日签到排行: <b style="color:green;">107</b> 
-						&nbsp;&nbsp;<a href="/topic/sign"><small>查看排名&gt;&gt;</small></a>
-						</p>
-					</div>
+          <!--ajax load-->
 				</div>
 			</div>
 			
@@ -550,9 +661,6 @@ p.nobtn{
 			
 		</div>
 		
-		
-		
-
 	</div>
 </div>
 
@@ -567,15 +675,11 @@ p.nobtn{
 					<p>很遗憾，您没有抽中，分享到微信将赠送一次抽奖机会!</p>
 					
 			        <p class="desc"></p>
-			        
-			        <a href="javascript:void(0);" class="ui red clrik button">
-			        					分享
+			        <a href="javascript:void(0);" class="ui red share button">
+			        					马上分享
 			        </a>
-					
 			    </div>
-      
 		    </div>
-			
 			
 	  	</div>
 	</div>
@@ -586,16 +690,16 @@ p.nobtn{
 			
 		    <div class="container">
 				<div class="content" style="text-align:center;">
-					<p>亲爱的用户 <br>恭喜您获得1枚鸟币!</p>
+          <p>亲爱的用户 <br>恭喜您获得<span class="red">1枚鸟币</span>!</p>
 					
 			        <p class="desc"></p>
 			        
-			        <a href="javascript:void(0);" class="ui red clrik button">
+			        <a href="javascript:void(0);" class="ui red share button">
 			        					马上分享
 			        </a>
 					
 					<br>
-					<a href=""><p class="nobtn">看看我的鸟币能兑换啥 Go></p></a>
+          <a href="{{ app_url_shop }}/pmall" target="_blank"><p class="nobtn">看看我的鸟币能兑换啥 Go></p></a>
 					
 			    </div>
       
@@ -611,21 +715,19 @@ p.nobtn{
 			
 		    <div class="container">
 				<div class="content" style="text-align:center;">
-					<p>亲爱的用户 <br>恭喜您获得太火鸟红包一个!</p>
+          <p>亲爱的用户 <br>恭喜您获得<span class="red">太火鸟红包</span>一个!</p>
 					
 			        <p class="desc"></p>
 			        
-			        <a href="javascript:void(0);" class="ui red clrik button">
+			        <a href="javascript:void(0);" class="ui red share button">
 			        					马上分享
 			        </a>
 					
 					<br>
-					<a href=""><p class="nobtn">看看红包能买啥 Go></p></a>
+          <a href="{{ app_url_shop }}" target="_blank"><p class="nobtn">看看红包能买啥 Go></p></a>
 					
 			    </div>
-      
 		    </div>
-			
 			
 	  	</div>
 	</div>	
@@ -636,12 +738,12 @@ p.nobtn{
 			
 		    <div class="container">
 				<div class="content" style="text-align:center;">
-          <p>亲爱的用户 <br>恭喜您获得<span class="draw_name"></span>一个!</p>
+          <p>亲爱的用户 <br />恭喜您获得<span class="red draw_name"></span>一个!</p>
 					
-					<from action="" class="ui form" method="post">
+					<form action="{{ app_url_domain }}/app/site/promo_func/save_draw_address" class="ui form" id="apply-form" method="post">
 					  	<div class="content">
 							<div class="ajax result"></div>
-							<input type="hidden" name=" " value=" " />
+							<input type="hidden" name="id" id="sign_draw_id" value="" />
 							
 		  					<div class="two fields">
 		  						<div class="field">
@@ -683,24 +785,20 @@ p.nobtn{
 							
 							<div class="field">
 								<label>详细地址</label>
-								<input type="text" name="address" value=" " placeholder="完整的地址">
-		            			<div class="description">地址包含省、市、区三级</div>
+                <input type="text" name="address" value="{{ visitor.profile.address }}">
 							</div>
-								
-
-					
-					        <a href="javascript:void(0);" class="ui red button">
-					        					马上分享
-					        </a>
+								<div class="field">
+                  <label>邮编</label>
+                  <input type="text" name="zip" value="{{ visitor.profile.zip }}" />
+                </div>
 						</div>
-						
-						
-					</from>
+              <div class="ui magenta inverted active submit button">
+              确认收货地址
+              </div>
+					</form>
 					
 			    </div>
-      
 		    </div>
-			
 			
 	  	</div>
 	</div>	
@@ -711,66 +809,13 @@ p.nobtn{
 			
 		    <div class="container">
 				<div class="content" style="text-align:center;">
-          <p>亲爱的用户 <br>恭喜您获得<span class="draw_name"></span></p>
+          <p>亲爱的用户 <br>恭喜您获得<span class="red draw_name"></span></p>
+								        <a href="javascript:void(0);" class="ui red share button ">
+			        					马上分享
+			        </a>
 					
-					<from action="" class="ui form" method="post">
-					  	<div class="content">
-							<div class="ajax result"></div>
-							<input type="hidden" name=" " value=" " />
-							
-		  					<div class="two fields">
-		  						<div class="field">
-		  							<label>姓名</label>
-		                <input type="text" name="name" value="{{ visitor.profile.realname }}" />
-		  						</div>
-		  						<div class="field">
-		  							<label>手机号</label>
-		                <input type="text" name="phone" value="{{ visitor.profile.phone }}" placeholder="填写手机号，方便信息核实" />
-		  						</div>
-		  					</div>
-							
-							<div class="field">
-								<label>所在地区</label>
-								<div class="ui selection province dropdown" style="width:49% !important;">
-									<input type="hidden" name="province" value="{{ visitor.profile.province_id }}" />
-			
-								    <div class="default text">省份/自治区</div>
-								    <i class="flat arrowbottom icon"></i>
-								    <div class="menu">
-										{% for province in provinces %}
-								        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
-										{% endfor %}
-								    </div>
-								</div>
-		
-								<div class="ui selection district dropdown" id="district-menu" style="width:49% !important;float:right;">
-									<input type="hidden" name="district" value="{{ visitor.profile.district_id }}" />
-								    <div class="default text">地区区域</div>
-								    <i class="flat arrowbottom icon"></i>
-								    <div class="menu">
-										{% for district in districts %}
-								        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
-										{% endfor %}
-								    </div>
-								</div>
-								
-							</div>
-								
-							<div class="field">
-								<label>详细地址</label>
-								<input type="text" name="address" value=" " placeholder="完整的地址">
-		            			<div class="description">地址包含省、市、区三级</div>
-							</div>
-					
-					        <a href="javascript:void(0);" class="ui red button">
-					        					马上分享
-					        </a>
-						</div>
-						
-						
-					</from>
-					
-					<a href=""><p class="nobtn">不抽奖啦 看看红包能买啥 Go></p></a>
+					<br>
+					<p class="nobtn">我们会在一周之内把资料通过私信发送给您，请注意查收!</p>
 					
 			    </div>
       
@@ -791,82 +836,11 @@ p.nobtn{
 		</div>
 	</div>
 	
-	
-	<div class="ui small address modal transtion">
-	    <div class="header" style="position:relative;">
-	  	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;color:#fff;"></i>
-		    <div class="container">
-				<div class="content" style="text-align:center;">
-					<p>亲爱的用户 <br>恭喜您获得太火鸟周边 1 份</p>
-					<from action="" class="ui form" method="post">
-					  	<div class="content">
-							<div class="ajax result"></div>
-							<input type="hidden" name=" " value=" " />
-							
-		  					<div class="two fields">
-		  						<div class="field">
-		  							<label>姓名</label>
-		                <input type="text" name="name" value="{{ visitor.profile.realname }}" />
-		  						</div>
-		  						<div class="field">
-		  							<label>手机号</label>
-		                <input type="text" name="phone" value="{{ visitor.profile.phone }}" placeholder="填写手机号，方便信息核实" />
-		  						</div>
-		  					</div>
-							
-							<div class="field">
-								<label>所在地区</label>
-								<div class="ui selection province dropdown" style="width:49% !important;">
-									<input type="hidden" name="province" value="{{ visitor.profile.province_id }}" />
-			
-								    <div class="default text">省份/自治区</div>
-								    <i class="flat arrowbottom icon"></i>
-								    <div class="menu">
-										{% for province in provinces %}
-								        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
-										{% endfor %}
-								    </div>
-								</div>
-		
-								<div class="ui selection district dropdown" id="district-menu" style="width:49% !important;float:right;">
-									<input type="hidden" name="district" value="{{ visitor.profile.district_id }}" />
-								    <div class="default text">地区区域</div>
-								    <i class="flat arrowbottom icon"></i>
-								    <div class="menu">
-										{% for district in districts %}
-								        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
-										{% endfor %}
-								    </div>
-								</div>
-								
-							</div>
-							
-							<div class="field">
-								<label>详细地址</label>
-								<input type="text" name="address" value=" " placeholder="完整的地址">
-		            			<div class="description">地址包含省、市、区三级</div>
-							</div>
-
-					
-					        <a href="javascript:void(0);" class="ui red button">
-					        					领取并分享
-					        </a>
-						</div>
-						
-						
-					</from>
-					
-					<a href=""><p class="nobtn">不抽奖啦 去试用拼拼人品 Go  ></p></a>
-					
-					
-				</div>
-			</div>
-		</div>
-		
-	</div>
-	
-	
-	
 </div>	
-	
+{% include "block/sharebox.html" %}
+{% include "block/qrcode.html" %}
+{% endblock %}
+
+{% block templates %}
+  {% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
 {% endblock %}

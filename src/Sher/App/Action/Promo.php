@@ -25,6 +25,12 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	public function sign(){
 		$this->set_target_css_state('page_social');
     $this->stash['day'] = date('Ymd');
+
+		// 获取省市列表
+		$areas = new Sher_Core_Model_Areas();
+		$provinces = $areas->fetch_provinces();
+		$this->stash['provinces'] = $provinces;
+
 		return $this->to_html_page('page/promo/sign.html');
 	}
 	

@@ -53,8 +53,16 @@
               </a>
             </td>
             <td>
-              <P>{{ f.desc|default '--' }}</p>
+              <P>{{ f.number_id }}.{{ f.desc|default '--' }}</p>
               <p>{{ f.event_str }}</p>
+              {% if f.receipt %}
+                <hr />
+              <P>姓名:{{ f.receipt.name }}</p>
+              <p>电话:{{ f.receipt.phone }}</p>
+              <P>城市:{{ f.receipt.province }}-{{ f.receipt.district }}</p>
+              <p>地址:{{ f.receipt.address }}</p>
+              <p>邮编:{{ f.receipt.zip }}</p>
+              {%endif%}
             </td>
             <td>
               <p>{{ f.day }}</p>

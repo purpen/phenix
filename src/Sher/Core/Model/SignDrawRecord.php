@@ -17,6 +17,7 @@ class Sher_Core_Model_SignDrawRecord extends Sher_Core_Model_Base  {
     'user_id' => null,
     # 第几期抽奖 
     'target_id' => null,
+    'title' => null,
     # 抽奖时间 格式: 20151206
     'day' => 0,
     # 事件：0.未中奖；1,鸟币；2.红包；3.实物；4.虚拟币(乐视会员)
@@ -25,18 +26,24 @@ class Sher_Core_Model_SignDrawRecord extends Sher_Core_Model_Base  {
     'is_share' => 0,
     # 抽奖次数
     'draw_times' => 1,
+    # 奖品代号
+    'number_id' => 0,
     # 中奖信息描述
     'desc' => null,
+    # 奖品数量
+    'count' => 0,
     'kind' => self::KIND_ONE,
     # 状态：是否奖品已发放(鸟币红包及未中奖自动发放)
     'state' => 0,
     # 记录IP
     'ip' => null,
+    # 用户收货地址信息
+    'receipt' => array(),
     'info' => array(),
   );
 
   protected $required_fields = array('user_id', 'target_id');
-  protected $int_fields = array('user_id', 'target_id', 'kind', 'event', 'day', 'draw_times');
+  protected $int_fields = array('user_id', 'target_id', 'kind', 'event', 'day', 'draw_times', 'number_id', 'count');
 
   protected $joins = array(
     'user'  => array('user_id'  => 'Sher_Core_Model_User'),

@@ -139,7 +139,10 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
         'is_share' => 1,
         'draw_times' => 2,
         'event' => $is_prize_arr['type'],
+        'number_id' => $is_prize_arr['id'],
+        'title' => $is_prize_arr['title'],
         'desc' => sprintf("%s: %d", $is_prize_arr['title'], $is_prize_arr['count']),
+        'count' => $is_prize_arr['count'],
         'state' => in_array($is_prize_arr['type'], $sign_draw_record_model->need_contact_user_event()) ? 0 : 1,
       );
       $ok = $sign_draw_record_model->update_set($sid, $data);
@@ -152,7 +155,10 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
         'day' => $today,
         'event' => $is_prize_arr['type'],
         'ip' => Sher_Core_Helper_Auth::get_ip(),
+        'number_id' => $is_prize_arr['id'],
+        'title' => $is_prize_arr['title'],
         'desc' => sprintf("%s: %d", $is_prize_arr['title'], $is_prize_arr['count']),
+        'count' => $is_prize_arr['count'],
         'state' => in_array($is_prize_arr['type'], $sign_draw_record_model->need_contact_user_event()) ? 0 : 1,
       );
       $ok = $sign_draw_record_model->apply_and_save($data);
@@ -291,6 +297,89 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
     
     return $this->ajax_json('', false, '', $data);
   }
+
+	/**
+	 * 签到抽奖添写收货地址
+	 */
+	public function save_draw_address(){
+    $id = $this->stash['id'];
+		if (empty($id)){
+			return $this->ajax_json('缺少请求参数！', true);
+		}
+
+		$user_id = $this->visitor->id;
+		
+		try{
+			// 验证是否存在该对象
+			$sign_draw_record_model = new Sher_Core_Model_SignDrawRecord();
+			$row = $sign_draw_record_model->extend_load($id);
+
+      if(empty($row)){
+			  return $this->ajax_json('对象不存在！', true);    
+      }
+			
+      $province = null;
+      $district = null;
+      $areas_model = new Sher_Core_Model_Areas();
+      if($this->stash['province']){
+        $p_obj = $areas_model->load((int)$this->stash['province']);
+        if($p_obj) $province = $p_obj['city'];
+
+      }
+      if($this->stash['district']){
+        $d_obj = $areas_model->load((int)$this->stash['district']);
+        if($d_obj) $district = $d_obj['city'];
+      }
+
+      $data = array();
+      $data['receipt'] = array(
+        'name' => $this->stash['name'],
+        'phone' => $this->stash['phone'],
+        'address' => $this->stash['address'],
+        'zip' => $this->stash['zip'],
+        'province_id' => (int)$this->stash['province'],
+        'district_id' => (int)$this->stash['district'],
+        'province' => $province,
+        'district' => $district,
+      );
+      $ok = $sign_draw_record_model->update_set($id, $data);
+      if($ok){
+
+        $user_data = array();
+        if(empty($this->visitor->profile->realname)){
+          $user_data['profile.realname'] = isset($this->stash['name']) ? $this->stash['name'] : null;
+        }
+        if(empty($this->visitor->profile->phone)){
+          $user_data['profile.phone'] = isset($this->stash['phone']) ? $this->stash['phone'] : null;
+        }
+        if(empty($this->visitor->profile->address)){
+          $user_data['profile.address'] = isset($this->stash['address']) ? $this->stash['address'] : null;
+        }
+        if(empty($this->visitor->profile->zip)){
+          $user_data['profile.zip'] = isset($this->stash['zip']) ? $this->stash['zip'] : null;
+        }
+
+        if(empty($this->visitor->profile->province_id)){
+          $user_data['profile.province_id'] = isset($this->stash['province']) ? (int)$this->stash['province'] : 0;
+        }
+        if(empty($this->visitor->profile->district_id)){
+          $user_data['profile.district_id'] = isset($this->stash['district']) ? (int)$this->stash['district'] : 0;
+        }
+
+        //更新基本信息
+        $this->visitor->update_set($this->visitor->id, $user_data);
+      
+      }else{
+			  return $this->ajax_json('保存失败，请联系管理员！', true);  
+      }
+
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Create apply failed: ".$e->getMessage());
+			return $this->ajax_json('提交失败，请重试！', true);
+		}
+		$this->stash['is_try'] = true;
+		return $this->ajax_json('提交成功！', false);
+	}
 
 
   //红包赠于
