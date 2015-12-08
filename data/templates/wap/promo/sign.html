@@ -19,7 +19,7 @@
     /*overflow:hidden;*/
     width:100%;
     background:url({{ app_url_packaged }}/images/promo/w_sign_draw.jpg) center top no-repeat;
-    background-size:cover;
+    background-size:100%;
   }
   .ui.top.grid{
 	  padding-top:12px;
@@ -296,6 +296,11 @@
     }, 'json');
   }
 
+  // ajax 加载省份城市
+  function ajax_fetch_district(p_id, d_id){
+    $.get('{{ app_url_wap }}/app/site/address/ajax_fetch_districts', {id: p_id, district_id: d_id, from_to: 'wap'});
+  }
+
   </script>
 {% endblock %}
 
@@ -309,27 +314,21 @@
 
   fetch_draw_user(1, size, 1, day, 1);
 
+	$('select[name=province]').livequery(function(){
+    $(this).change(function(){
+      var value = $(this).val();
+      if (value) {
+        ajax_fetch_district(value, 0);
+      }   
+    });
+	});
+
   // 初始化省份
-  var province_id = $('[name=province]').val();
-  var district_id = $('[name=district]').val();
+  var province_id = $('select[name=province]').val();
+  var district_id = $('select[name=district]').val();
   if(province_id){
-    $.get('{{ app_url_wap }}/app/site/address/ajax_fetch_districts', {id: province_id, district_id: district_id});
+    ajax_fetch_district(province_id, district_id);
   }
-
-	// 申请表地址信息
-	$('.ui.district.dropdown').livequery(function(){
-		$(this).dropdown();
-	});
-
-	$('.ui.province.dropdown').livequery(function(){
-		$(this).dropdown({
-			onChange : function(value, text){
-				if (value) {
-					$.get('{{ app_url_wap }}/app/site/address/ajax_fetch_districts', {id: value});
-				}
-			}
-		});
-	});
 
 	$('#apply-form').livequery(function(){
 		$(this).form({
@@ -418,7 +417,7 @@
 {% block content %}
 <div class="ui responsive top grid">
   <div class="row">
-	<div class="ui eight wide backg column">
+	<div class="ui twelve wide backg column">
 		<div id="slidework" style="overflow: hidden;">
       <!--<p>恭喜 action001   获得太火鸟鸟币100枚</p>-->
 
@@ -548,29 +547,17 @@
 							
 							<div class="field">
 								<label>所在地区</label>
-								<div class="ui selection province dropdown" style="width:49% !important;">
-									<input type="hidden" name="province" value="{{ visitor.profile.province_id }}" />
-			
-								    <div class="default text">省份/自治区</div>
-								    <i class="flat arrowbottom icon"></i>
-								    <div class="menu">
-										{% for province in provinces %}
-								        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
-										{% endfor %}
-								    </div>
-								</div>
-		
-								<div class="ui selection district dropdown" id="district-menu" style="width:49% !important;float:right;">
-									<input type="hidden" name="district" value="{{ visitor.profile.district_id }}" />
-								    <div class="default text">地区区域</div>
-								    <i class="flat arrowbottom icon"></i>
-								    <div class="menu">
-										{% for district in districts %}
-								        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
-										{% endfor %}
-								    </div>
-								</div>
-								
+                <select style="width:49%;" name="province" value="{{ visitor.profile.province_id }}" class="choose province">
+                  {% for province in provinces %}
+                  <option{%if province._id==visitor.profile.province_id%} selected="selected"{%endif%} value="{{ province._id }}">{{ province.city }}</option>
+                  {% endfor %}
+                </select>
+              
+                <select name="district" id="district-menu" value="{{ visitor.profile.district_id }}" style="width:49%;">
+                  {% for district in districts %}
+                    <option value="{{ district._id }}">{{ district.city }}</option>
+                  {% endfor %}
+                </select>
 							</div>
 							
 							<div class="field">
