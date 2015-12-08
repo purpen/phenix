@@ -511,7 +511,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         }
 
         // 如果是第三方注册，昵称过长，自动截取前10
-        if(!empty($row['nickname']) && strlen((int)$row['nickname'])>11){
+        if(!empty($row['nickname']) && strlen($row['nickname'])>11){
             $row['nickname'] = substr((int)$row['nickname'],0,8)."...";
         }
 		// 显示名称
