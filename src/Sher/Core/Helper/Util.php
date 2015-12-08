@@ -849,5 +849,81 @@ class Sher_Core_Helper_Util {
 		return $data;
 	}
 
+  /**
+   * 签到抽奖获取配置信息
+   */
+  public static function sign_draw_fetch_info(){
+    $result = array();
+    $result['success'] = false;
+    $result['message'] = '';
+    $result['data'] = array();
+    // 从块获取信息
+    $draw_conf = Sher_Core_Util_View::load_block('sign_draw_conf', 1);
+    if(empty($draw_conf)){
+      $result['message'] = '数据不存在！';
+      return $result; 
+    }
+
+    // 组合基本抽奖参数
+    $draw_conf = explode('@@', trim($draw_conf));
+    $conf_arr = explode('|', $draw_conf[0]);
+    if(count($conf_arr)<5){
+      $result['message'] = '缺少数组参数！';
+      return $result; 
+    }
+
+    $result['id'] = (int)$conf_arr[0];
+    $result['title'] = $conf_arr[1];
+    $result['switch'] = empty((int)$conf_arr[2]) ? false : true;
+    $result['dial_img'] = $conf_arr[3];
+    $draw_param = $conf_arr[4];
+
+    if(!$result['switch']){
+      $result['message'] = '抽奖活动未开启！';
+      return $result;  
+    }
+
+    // 奖项必须为8个
+    $draw_arr = explode(';', $draw_param);
+    if(count($draw_arr) < 8){
+      $result['message'] = '奖项数目设置不正确!';
+      return $result;
+    }
+
+    // 获取每个奖项的参数信息
+    $item_arr = array();
+    for($i=0;$i<count($draw_arr);$i++){
+      $item = explode('$', $draw_arr[$i]);
+      $item_id = (int)$item[0];
+      if(count($item) < 8){
+        $result['message'] = "奖项:[$item_id]数目设置不正确!";
+        return $result;   
+      }
+
+      $item_arr[$item_id] = array(
+        'id' => $item_id,
+        'type' => (int)$item[1],
+        'title' => $item[2],
+        'count' => (int)$item[3],
+        'limit' => (int)$item[4],
+        // 如果数量限制为0,则概率为0
+        'chance' => empty((int)$item[4]) ? 0 : (int)$item[5],
+        'back' => $item[7],
+      );
+
+      $degree = explode('-', $item[6]);
+      if(count($degree) != 2){
+        $result['message'] = "奖项:[$item_id]degree设置不正确!";
+        return $result;      
+      }
+      $item_arr[$item_id]['degree'] = mt_rand($degree[0], $degree[1]);
+
+    } // endfor
+
+    $result['success'] = true;
+    $result['message'] = '请求成功!';
+    $result['data'] = $item_arr;
+    return $result;
+  }
 
 }

@@ -487,9 +487,13 @@ class Sher_App_Action_Fever extends Sher_App_Action_Base implements DoggyX_Actio
 	}
 	
 	/**
-	 * 提交创意
+   * 提交创意
+   * 已关闭，跳到首页
 	 */
-	public function submit(){
+  public function submit(){
+ 		$redirect_url = Doggy_Config::$vars['app.url.domain'];
+    return $this->show_message_page('内容不存在，返回首页！', $redirect_url);
+
 		$row = array();
 		
 		$step = (int)$this->stash['step'];
