@@ -1,0 +1,288 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}我正在参与太火鸟云马试用抽奖活动，云马智行车在向你招手{% endblock %}
+{% block page_css %}
+<style type="text/css">
+  .draw{width:320px; height:320px; position:relative; margin:-10px auto -20px;overflow:hidden;}
+  #disk{width:320px; height:320px; background:url({{ app_url_packaged }}/images/promo/zzhuan.png) no-repeat;background-size:cover;}
+  #start{width:30%; height:30%; position:absolute; top:35%; left:35%;}
+  #start img{cursor:pointer;width:100%}
+  .ui.red.button{
+    margin:5px;
+  }
+  .ui.wap,.mmfoot{
+    display:none;
+  }
+  #mfrbird{
+    margin:0 auto;
+    min-height:100%;
+    height:auto;
+    /*overflow:hidden;*/
+    width:100%;
+    background:url({{ app_url_packaged }}/images/promo/w_sign_draw.jpg) center top no-repeat;
+    background-size:cover;
+  }
+  .ui.top.grid{
+	  padding-top:12px;
+  }
+  .ui.bottom.grid h3.ui.header{
+  	margin-top: 15px;
+  }
+  .ui.bottom.grid p{
+    margin-bottom:5px !important;
+  }
+  @media only screen and (min-width: 350px){
+    .draw,#disk{
+      width:350px; height:350px;
+    }
+  }
+  @media only screen and (min-width: 400px){
+    .draw,#disk{
+      width:400px; height:400px;
+    }
+  }
+  #slidework{
+  	height:72px;
+  }
+  #slidework p{
+      font-size: 14px;
+  	margin-bottom:6px;
+  	color:#fff;
+  	overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+  }
+  .backg.column {
+      background: #ff5044;
+      color: #fff;
+      padding: 16px 10px 10px 20px !important;
+      margin-left: 15px;
+  	border-radius: 8px;
+  }
+  .question,.question:hover{
+      color: #fff;
+      text-decoration: underline;
+  }
+  .help.circle.icon{
+  	color:#fff;
+  	font-size: 1.4rem;
+  	vertical-align: middle;
+  }
+  .ui.bottom.grid{
+	  color:#000;
+  }
+</style>
+{% endblock %}
+{% block layout_js %}
+  <script type="text/javascript" src="http://frstatic.qiniudn.com/wechat/jsjQueryRotate.2.2.js"></script>
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" >
+    var m_name = '我正在参与太火鸟云马试用抽奖活动，云马智行车在向你招手';
+    var img_url = 'http://frstatic.qiniudn.com/images/promo/draw8.jpg';
+    var link = '{{ app_url_wap_promo }}/draw';
+    var desc_str = '太火鸟试用抽奖转盘赢云马C1和鸟币红包，获惊喜大奖，享智能科技';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+
+  wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: 10, count_name:'count', type: 4, kind:4 });
+    $.get("{{ app_url_wap }}/app/wap/promo_func/draw_share", {});
+    $('#mask').css('display','none');
+  }
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+  	var rotateTimeOut = function (){
+  		$('#disk').rotate({
+  			angle:0,
+  			animateTo:2160,
+  			duration:8000,
+  			callback:function (){
+  				alert('网络超时，请检查您的网络设置！');
+  			}
+  		});
+  	};
+  	var bRotate = false;
+
+  	var rotateFn = function (awards, angles, txt){
+  		bRotate = !bRotate;
+  		$('#disk').stopRotate();
+  		$('#disk').rotate({
+  			angle:0,
+  			animateTo:angles+1800,
+  			duration:8000,
+  			callback:function (){
+          $('.content .desc').text(txt);
+  				$('.ui.drawmes.modal')
+          .modal('setting', 'closable', false)
+          .modal('setting', 'transition', 'vertical  flip')
+          .modal('show');
+  				//alert(txt);
+  				bRotate = !bRotate;
+  			}
+  		})
+  	};
+
+
+  // 抽奖点击事件
+  $('#start').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+      {% if is_weixin %}
+        phenix.redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&redirect_uri={{wx_params.redirect_uri}}&response_type=code&scope=snsapi_login&state={{wx_params.state}}');
+      {%else%}
+        phenix.redirect('{{ app_url_wap }}/auth/login_signup');
+      {%endif%}
+      return;
+    }
+    var url = "{{ app_url_wap }}/app/wap/promo_func/fetch_draw";
+    $.post(url, {type: 1}, function(result){
+      if(result.success){
+        // 是否可以分享再玩
+        if(result.data.can_play==1){
+          $('.share_show').show();
+        }else{
+          $('.share_show').hide();
+        }
+        // 是否抽中鸟币
+        if(result.data.bird_count==0){
+          $('.go_shop').hide();
+        }else{
+          $('.go_shop').show();         
+        }
+        rotateFn(result.data.id, result.data.code, result.data.desc);
+      }else{
+        phenix.show_error_note(result.message);
+      }
+    
+    }, 'json');
+  });
+  
+  //分享
+  $('.red.fenxiang').click(function(){
+      $('.ui.drawmes.modal').modal('hide');
+      $('#mask').css('display','');
+  });
+  $('#mask').click(function(){
+      $('#mask').css('display','none');
+  });
+  
+  window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+
+   function hengshuping() {
+           if (window.orientation == 90 || window.orientation == -90) {
+              $('#mfrbird').css({'overflow':'scroll','height':'auto'});
+           } else {
+              $('#mfrbird').css({'overflow':'scroll'});
+           }
+       }
+{% endblock %}
+
+{% block content %}
+<div class="ui responsive top grid">
+  <div class="row">
+	<div class="ui eight wide backg column">
+		<div id="slidework" style="overflow: hidden;">
+			<p>恭喜 action001   获得太火鸟鸟币100枚</p>
+			<p>恭喜 action002   获得太火鸟鸟币100枚</p>
+			<p>恭喜 action003   获得太火鸟鸟币100枚</p>
+		</div>
+	</div>
+  </div>
+</div>
+<div class="draw">
+  <div id="disk"></div>
+  <div id="start"><img src="{{ app_url_packaged }}/images/promo/zzhuan1.png" id="startbtn"></div>
+</div>
+
+<div class="ui responsive bottom grid">
+	<div class="row">
+	    <div class="column">
+			<p><i class="help circle icon"></i><a class="question" href="" target="_blank"> 我有疑问</a></p>
+	      	<h3 class="ui header">规则</h3>
+			<p>1.用户必须登录成功后才可参加抽奖活动；</p>
+			<p>2.太火鸟社区签到即有1次机会参与抽奖；</p>
+			<p>3.连续签到3天以上（含三天）每天有两次
+		抽奖机会；</p>
+			<p>4.分享此页面可增加一次抽奖机会（每天
+		限增加1次）；</p>
+			<p>5.活动中奖结果均以弹出页面中奖信息为
+		准；</p>
+			<p>6.禁止任何不正当手段及舞弊行为参与活
+		动，一经发现，太火鸟有权取消用户的
+		获奖资格；</p>
+			<p>7.本次活动最终解释权归太火鸟所有！</p>
+	    </div>
+	</div>
+	
+	<div class="row">
+	    <div class="center aligned column">
+	      <a href="{{ app_url_wap }}/topic"><img src="{{ app_url_packaged }}/images/promo/draw5.png" width="29%"></a>
+	      <a href="{{ app_url_wap }}/try"><img src="{{ app_url_packaged }}/images/promo/draw06.png" width="29%"></a>
+	      <a href="{{ app_url_wap }}/my/pmall"><img src="{{ app_url_packaged }}/images/promo/draw7.png" width="29%"></a>
+	    </div>
+		
+	</div>
+
+</div>
+{% endblock %}
+
+
+
