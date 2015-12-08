@@ -871,10 +871,10 @@ class Sher_Core_Helper_Util {
       $result['message'] = '缺少数组参数！';
       return $result; 
     }
-
+    $switch = (int)$conf_arr[2];
     $result['id'] = (int)$conf_arr[0];
     $result['title'] = $conf_arr[1];
-    $result['switch'] = empty((int)$conf_arr[2]) ? false : true;
+    $result['switch'] = empty($switch) ? false : true;
     $result['dial_img'] = $conf_arr[3];
     $draw_param = $conf_arr[4];
 
@@ -895,6 +895,13 @@ class Sher_Core_Helper_Util {
     for($i=0;$i<count($draw_arr);$i++){
       $item = explode('$', $draw_arr[$i]);
       $item_id = (int)$item[0];
+      $item_type = (int)$item[1];
+      $item_title = $item[2];
+      $item_count = (int)$item[3];
+      $item_limit = (int)$item[4];
+      $item_chance = (int)$item[5];
+      $item_degree = $item[6];
+      $item_back = $item[7];
       if(count($item) < 8){
         $result['message'] = "奖项:[$item_id]数目设置不正确!";
         return $result;   
@@ -902,16 +909,16 @@ class Sher_Core_Helper_Util {
 
       $item_arr[$item_id] = array(
         'id' => $item_id,
-        'type' => (int)$item[1],
-        'title' => $item[2],
-        'count' => (int)$item[3],
-        'limit' => (int)$item[4],
+        'type' => $item_type,
+        'title' => $item_title,
+        'count' => $item_count,
+        'limit' => $item_limit,
         // 如果数量限制为0,则概率为0
-        'chance' => empty((int)$item[4]) ? 0 : (int)$item[5],
-        'back' => $item[7],
+        'chance' => empty($item_limit) ? 0 : $item_chance,
+        'back' => $item_back,
       );
 
-      $degree = explode('-', $item[6]);
+      $degree = explode('-', $item_degree);
       if(count($degree) != 2){
         $result['message'] = "奖项:[$item_id]degree设置不正确!";
         return $result;      
