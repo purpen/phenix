@@ -43,7 +43,7 @@ class Sher_Core_Model_SignDrawRecord extends Sher_Core_Model_Base  {
   );
 
   protected $required_fields = array('user_id', 'target_id');
-  protected $int_fields = array('user_id', 'target_id', 'kind', 'event', 'day', 'draw_times', 'number_id', 'count');
+  protected $int_fields = array('user_id', 'is_share', 'target_id', 'kind', 'event', 'day', 'draw_times', 'number_id', 'count');
 
   protected $joins = array(
     'user'  => array('user_id'  => 'Sher_Core_Model_User'),

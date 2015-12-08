@@ -136,7 +136,6 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
     if($can_draw['obj']){
       $sid = (string)$can_draw['obj']['_id'];
       $data = array(
-        'is_share' => 1,
         'draw_times' => 2,
         'event' => $is_prize_arr['type'],
         'number_id' => $is_prize_arr['id'],
@@ -386,7 +385,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
    */
   public function draw_share_add_chance(){
     $user_id = $this->visitor->id;
-    $day = date('Ymd');
+    $day = (int)date('Ymd');
 
     $sign_draw_record_model = new Sher_Core_Model_SignDrawRecord();
     $row = $sign_draw_record_model->first(array('user_id'=>$user_id, 'day'=>$day, 'kind'=>1));
