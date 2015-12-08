@@ -16,6 +16,38 @@
 	    background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);
 		{% endif %}
 	}
+		.modals.dimmer > .ui.applytry.modal{
+			position:absolute !important;
+			margin: 3.5rem -24%!important;
+			overflow:visible !important;
+			top:auto !important;
+		}
+		.modals.dimmer > .ui.magenta.applytry.modal{
+			position:fixed !important;
+		}
+		.modals.dimmer  .ui.share.basic.modal{
+			top:0 !important;
+			margin-top:150px !important;
+		}
+		.scrolling.dimmable>.dimmer {
+		    position: absolute;
+		}
+		.modals.dimmer > .ui.lapiao.modal{
+			position:absolute !important;
+			margin: 3.5rem -15%!important;
+			top:150px !important;
+		}
+		.modals.dimmer > .ui.wechat.modal{
+			position:fixed !important;
+			margin: 3.5rem -24%!important;
+			top:100px !important;
+		}
+		.modals.dimmer > .ui.qrcode.modal{
+			position:absolute !important;
+			margin: 3.5rem -24%!important;
+			top:100px !important;
+		}
+		
 </style>
 {% endblock %}
 
@@ -55,7 +87,7 @@
   if(province_id){
     $.get('{{ app_url_address }}/ajax_fetch_districts', {id: province_id, district_id: district_id});
   }
-	
+  
 	$('.ui.applytry.button').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
@@ -64,8 +96,10 @@
 		}
 		
 		$('.ui.applytry.modal')
+		.modal('setting', 'closable', false)
 		.modal('setting', 'transition', 'vertical  flip')
 		.modal('show');
+		$('.ui.dimmer.modals.page').css('height',$(document).innerHeight());
 		return false;
 	});
 	
@@ -171,8 +205,10 @@
 	// 分享
 	$('.ui.share.button').bind('click', function(){
 		$('.ui.share.modal')
+		.modal('setting', 'closable', false)
 		.modal('setting', 'transition', 'vertical  flip')
 		.modal('show');
+		$('.ui.dimmer.modals.page').css('height',$(document).innerHeight());
 	});
 	phenix.bind_share_list("{{ try.banner.fileurl }}");
 	// 生成二维码
@@ -187,6 +223,7 @@
         $('.ui.lapiao.modal')
         .modal('setting', 'transition', 'vertical  flip')
         .modal('show');
+		$('.ui.dimmer.modals.page').css('height',$(document).innerHeight());
         return false;
       });
 
@@ -194,7 +231,11 @@
   {%endif%}
 	// 分享
 	$('.ui.share.button').bind('click', function(){
-		$('.ui.share.modal').modal('show');
+		$('.ui.share.modal')
+		.modal('show')
+		.modal('setting', 'closable', false)
+		.modal('setting', 'transition', 'vertical  fade')
+		$('.ui.dimmer.modals.page').css('height',$(document).innerHeight());
 	});
 	
 	$('[data-countdown]').each(function() {
