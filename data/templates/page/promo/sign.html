@@ -148,7 +148,7 @@ p.nobtn{
 .address.modal .two.fields{
 	margin-bottom:0;
 }
-.address.modal .two.fields + .field{
+.address.modal .content > .field+.field{
 	margin-bottom:2em;
 }
 
@@ -470,7 +470,8 @@ p.nobtn{
 
   fetch_draw_user(1, 10, 1, day);
 	
-	
+  
+    $('.address.modal').modal('show')
 {% endblock %}
 {% block content %}
 <div id="sign">
@@ -679,6 +680,12 @@ p.nobtn{
 								</div>
 								
 							</div>
+							
+							<div class="field">
+								<label>详细地址</label>
+								<input type="text" name="address" value=" " placeholder="完整的地址">
+		            			<div class="description">地址包含省、市、区三级</div>
+							</div>
 								
 
 					
@@ -749,7 +756,11 @@ p.nobtn{
 								
 							</div>
 								
-
+							<div class="field">
+								<label>详细地址</label>
+								<input type="text" name="address" value=" " placeholder="完整的地址">
+		            			<div class="description">地址包含省、市、区三级</div>
+							</div>
 					
 					        <a href="javascript:void(0);" class="ui red button">
 					        					马上分享
@@ -829,7 +840,12 @@ p.nobtn{
 								</div>
 								
 							</div>
-								
+							
+							<div class="field">
+								<label>详细地址</label>
+								<input type="text" name="address" value=" " placeholder="完整的地址">
+		            			<div class="description">地址包含省、市、区三级</div>
+							</div>
 
 					
 					        <a href="javascript:void(0);" class="ui red button">
