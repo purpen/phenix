@@ -3,7 +3,7 @@
 {% block page_css %}
 <style type="text/css">
   .draw{width:320px; height:320px; position:relative; margin:-10px auto -20px;overflow:hidden;}
-  #disk{width:320px; height:320px; background:url({{ app_url_packaged }}/images/promo/zzhuan.png) no-repeat;background-size:cover;}
+  #disk{width:320px; height:320px; background:url({{ app_url_packaged }}/images/promo/zzhuan.png) no-repeat;background-size:100%;}
   #start{width:30%; height:30%; position:absolute; top:34%; left:35%;}
   #start img{cursor:pointer;width:100%}
   .ui.red.button{
@@ -246,7 +246,7 @@
       phenix.show_login_box();
       return;
     }
-    var url = "{{ app_url_domain }}/app/site/promo_func/fetch_sign_draw";
+    var url = "{{ app_url_wap }}/app/site/promo_func/fetch_sign_draw";
     $.post(url, {type: 1}, function(result){
 
       if(result.success){
@@ -263,7 +263,7 @@
   var day = "{{ day|default 0 }}";
   // ajax 加载中奖用户列表
   function fetch_draw_user(page, size, type, day, evt){
-    var url = "{{ app_url_domain }}/app/site/promo_func/ajax_fetch_draw_record";
+    var url = "{{ app_url_wap }}/app/site/promo_func/ajax_fetch_draw_record";
     $.get(url, {page:page, size:size, type:type, day:day}, function(result){
         var html = '';
         if(result.success){
