@@ -113,6 +113,11 @@
     background: #fff !important;
     display: inline-block !important;
   }
+
+  .ui.modal .header > .container {
+      padding-top: 20px;
+      padding-bottom: 20px;
+  }
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -216,22 +221,22 @@
           })
           switch(data.type){
             case 0:
-              $('.ui.type_00.drawmes.modal').modal('show');
+              $('.ui.type_00.drawmes.modal').modal('setting', 'closable', false).modal('show');
             break;
             case 1:
-              $('.ui.type_01.drawmes.modal').modal('show');
+              $('.ui.type_01.drawmes.modal').modal('setting', 'closable', false).modal('show');
             break;
             case 2:
-              $('.ui.type_02.drawmes.modal').modal('show');
+              $('.ui.type_02.drawmes.modal').modal('setting', 'closable', false).modal('show');
             break;
             case 3:
               $('#sign_draw_id').val(data.sid);
               $('span.draw_name').text(data.title);
-              $('.ui.type_03.drawmes.modal').modal('show');
+              $('.ui.type_03.drawmes.modal').modal('setting', 'closable', false).modal('show');
             break;
             case 4:
               $('span.draw_name').text(data.title);
-              $('.ui.type_04.drawmes.modal').modal('show');
+              $('.ui.type_04.drawmes.modal').modal('setting', 'closable', false).modal('show');
             break;
           }
 
