@@ -168,6 +168,14 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	    $this->stash['wxSha1'] = sha1($wxOri);
 			return $this->to_html_page('wap/promo/jdzn.html');
 	}
+	/**
+	 * 签到 抽奖
+	 */
+	public function sign(){
+		$this->set_target_css_state('page_social');
+    $this->stash['day'] = date('Ymd');
+		return $this->to_html_page('wap/promo/sign.html');
+	}
 	
 	
 	public function draw(){
