@@ -41,7 +41,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 	/**
 	 * 添加页面
 	 */
-	public function add_page(){
+	public function add(){
 		
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = new MongoId();
@@ -53,10 +53,34 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 	}
 	
 	/**
+	 * 添加页面
+	 */
+	public function edit(){
+		
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['pid'] = new MongoId();
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SPECIAL_SUBJECT;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SPECIAL_SUBJECT;
+		$this->stash['mode'] = 'edit';
+		
+		$id = isset($this->stash['id']) ? $this->stash['id'] : 0;
+		// 验证id
+		if(!$id){
+			return $this->ajax_json('该专题不存在！', true);
+		}
+		
+		$model = new Sher_Core_Model_SpecialSubject();
+		$result = $model->extend_load($id);
+		$this->stash['special_subject'] = $result;
+		
+		return $this->to_html_page('admin/special_subject/save.html');
+	}
+	
+	/**
 	 * 保存方法
 	 */
 	public function save(){
-		echo 'ok';
+		
 		$id = $this->stash['_id'];
 		$special_subject_html = $this->stash['special_subject_html'];
 		$special_subject_title = $this->stash['special_subject_title'];
@@ -83,11 +107,13 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 		$date = array(
 			'title' => $special_subject_title,
 			'tags' => $tags_arr,
+			//'content' => htmlspecialchars_decode(htmlspecialchars($special_subject_html)),
 			'content' => $special_subject_html,
-			'category_id' => '0',
+			# 分类ID
+			'category_id' => 1,
 			'user_id' => (int)$this->visitor->id
 		);
-		//var_dump($date);die;
+		//var_dump($date['content']);die;
 		
 		try{
 			$model = new Sher_Core_Model_SpecialSubject();
@@ -107,7 +133,36 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
 		}
 		
-		return $this->ajax_json('保存成功！', false);
+		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/special_subject';
+		return $this->ajax_json('保存成功', false, $redirect_url);
+	}
+	
+	/**
+	* 删除专题
+	*/
+	public function deleted(){
+	   
+		$id = isset($this->stash['id']) ? $this->stash['id'] : 0;
+		
+		if(empty($id)){
+		   return $this->ajax_notification('专题信息不存在！', true);
+		}
+	   
+		try{
+			 $model = new Sher_Core_Model_SpecialSubject();
+			 $ok = $model->remove($id);
+			 
+			 if(!$ok){
+				 return $this->ajax_json('保存失败,请重新提交', true);
+			 }
+			 
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
+		$this->stash['ids'] = $ids;
+		return $this->to_taconite_page('ajax/delete.html');
 	}
 }
 

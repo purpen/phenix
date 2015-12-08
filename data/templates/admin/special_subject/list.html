@@ -18,7 +18,7 @@
 		</a>
 
 	  	<div class="right menu">
-			<a href="{{ app_url_admin_base }}/special_subject/add_page" class="item add_topic">
+			<a href="{{ app_url_admin_base }}/special_subject/add" class="item add_topic">
 				<i class="plus square outline icon"></i>新建专题
 			</a>
 	    </div>
@@ -35,12 +35,13 @@
 				</th>
 				<th>标题</th>
 				<th>标签</th>
+				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
 		{% special_subject_list var:'list' page:page type:2 user_id:user_id reply_id:reply_id %}
 		{% for special_subject in list.rows %}
-			<tr id="{{ sign._id }}">
+			<tr id="{{ special_subject._id }}">
 				<td>
 					<div class="ui checkbox">
 					  	<input name="ids" type="checkbox" value="{{ sign._id }}" class="checkbox" />
@@ -52,6 +53,12 @@
 				</td>
 				<td>
 						{{ special_subject.title }}
+				</td>
+				<td>
+					<p>
+						<a href="{{ app_url_admin_base }}/special_subject/edit?id={{ special_subject._id }}&page={{ page }}" class="ui link item">编辑</a>
+		          		<a href="{{ app_url_admin_base }}/special_subject/deleted?id={{ special_subject._id }}&page={{ page }}" class="ui confirm-request link item">删除</a>
+					</P>
 				</td>
 			</tr>
 		{% endfor %}
