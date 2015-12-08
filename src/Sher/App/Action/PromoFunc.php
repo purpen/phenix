@@ -381,6 +381,24 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
 		return $this->ajax_json('提交成功！', false);
 	}
 
+  /**
+   * 签到抽奖微信分享后增加机会
+   */
+  public function draw_share_add_chance(){
+    $user_id = $this->visitor->id;
+    $day = date('Ymd');
+
+    $sign_draw_record_model = new Sher_Core_Model_SignDrawRecord();
+    $row = $sign_draw_record_model->first(array('user_id'=>$user_id, 'day'=>$day, 'kind'=>1));
+    if(!empty($row)){
+      // 允许再抽一次条件
+      if($row['is_share']==0 && $row['event']==0 && $row['draw_times']<Sher_Core_Model_SignDrawRecord::ALLOW_MAX_TIMES){
+        $sign_draw_record_model->update_set((string)$row['_id'], array('is_share'=>1));
+      }
+    }
+  
+  }
+
 
   //红包赠于
   protected function give_bonus($user_id, $xname, $options=array()){
