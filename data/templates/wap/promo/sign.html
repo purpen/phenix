@@ -20,7 +20,6 @@
     width:100%;
     background:url({{ app_url_packaged }}/images/promo/w_sign_draw.jpg) center top no-repeat;
     background-size: cover;
-    background-position-x: -66px;
   }
   .ui.top.grid{
 	  padding-top:12px;
@@ -109,12 +108,10 @@
   	margin-bottom:2em;
   }
 
-  .ui.form .field>.selection.dropdown {
-    width: 49% !important;
-    min-width: 3em !important;
-  }
-  .ui.form .field>.selection.dropdown + .selection.dropdown{
-    float:right;
+  select {
+    height: 2.7142em !important;
+    background: #fff !important;
+    display: inline-block !important;
   }
 </style>
 {% endblock %}
@@ -124,7 +121,7 @@
 	<script type="text/javascript" >
     var m_name = '太火鸟签到抽奖，每天大奖等你拿!';
     var img_url = 'http://frstatic.qiniudn.com/images/promo/draw8.jpg';
-    var link = '{{ app_url_wap_promo }}/draw';
+    var link = '{{ app_url_wap_promo }}/sign';
     var desc_str = '太火鸟签到抽奖活动，全新上线';
 
     wx.config({
