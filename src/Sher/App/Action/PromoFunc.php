@@ -122,7 +122,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
     $draw_arr = $draw_info['data'];
     $arr = array();
     foreach ($draw_arr as $key => $val) {
-      $chance = $val['chance'];
+      $chance = (int)$val['chance'];
       $arr[$val['id']] = $chance;   
     }   
 
