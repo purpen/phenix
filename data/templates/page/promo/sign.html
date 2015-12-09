@@ -465,7 +465,7 @@ p span.red {
   }
 
   var page = 1;
-  var size = 10;
+  var size = 5;
   var day = "{{ day|default 0 }}";
   // ajax 加载中奖用户列表
   function fetch_draw_user(page, size, type, day, evt){
@@ -474,8 +474,7 @@ p span.red {
         var html = '';
         if(result.success){
           var list = result.data.results.rows;
-          var count = result.data.results.total_rows;
-          for(var i=0;i<count;i++){
+          for(var i=0;i<list.length;i++){
             var z_event = list[i]["event"];
             var z_title = list[i]["title"];
             var z_count = list[i]["count"];
