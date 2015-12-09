@@ -25,7 +25,7 @@
 	padding-top: 15px;
 }
 #slidework{
-	height:200px;
+	height:100px;
 }
 #slidework p{
     font-size: 14px;
@@ -595,7 +595,7 @@ p span.red {
               phenix.show_error_note(data.message, event.target);
             }else{
               $('.ui.type_03.drawmes.modal').modal('hide');
-              phenix.show_ok_note("保存成功!", event.target);
+              phenix.show_ok_note("已收到您的地址，工作人员会尽快给您发货。", 3000);
             }
           }
         });
@@ -603,8 +603,18 @@ p span.red {
 		});
 	});
 
-  // ajax加载签到数据
-  //phenix.signin();
+    // ajax加载签到数据
+    $('.ui.sign-btn.button').click(function(){
+      $.post("{{ app_url_user }}/ajax_sign_in", {type: 1}, function(obj){
+        if(obj.success){
+          $('span[name=sign-text]').text('今日已签到');
+          var sign_no = obj.data.data.last_date_no;
+          $('.sign-number-text').show().find('.no').text(sign_no);
+        }else{
+          phenix.show_error_note('签到失败!');
+        }
+      }, 'json');
+    });
 
 {% endblock %}
 {% block content %}
@@ -626,7 +636,7 @@ p span.red {
 				</div>
 				
 				<div class="row">
-					<div class="ui six wide column" style="margin-top:70px;">
+					<div class="ui six wide column" style="margin-top:30px;">
 						<p>规则</p>
 						<p>1.用户必须登录成功后才可参加抽奖活动；</p>
 						<p>2.太火鸟社区签到即有1次机会参与抽奖；</p>
@@ -657,9 +667,23 @@ p span.red {
 		</div>
 		<div class="mainright">
 			<div class="sellwrap usersign">
-				<div id="user-sign-box">
-          <!--ajax load-->
-				</div>
+            {% if has_sign %}
+            <div class="pai">
+                <a href="javascript:void(0);" class="ui big inverted red active button">
+                    <i class="calendar icon"></i> 今日已签到
+                </a>
+                <!--<p>今日签到排行: <span class="no">{{ last_date_no }}</span> </p>-->
+				
+            </div>
+            {%else%}
+            <div class="pai">
+                <a href="javascript:void(0);" class="ui big inverted red active sign-btn button">
+                  <i class="calendar icon"></i> <span name="sign-text">签到</span>
+                </a>
+                <p class="sign-number-text" style="display:none;">今日签到排行: <span class="no"></span> </p>
+				
+            </div>
+            {%endif%}
 			</div>
 			
 			{% include "page/topic/right_active.html" %}
@@ -872,7 +896,7 @@ p span.red {
         	</a>
 					
 					<br>
-					<p class="nobtn">我们会在一周之内把资料通过私信发送给您，请注意查收!</p>
+					<p class="nobtn">我们会通过私信告知您兑换码，请登录太火鸟社区查收。</p>
 					
 			    </div>
       
