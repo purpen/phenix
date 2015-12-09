@@ -159,6 +159,9 @@ p span.red {
 	color: #000;
 	border-top:none;
 }
+.ui.modal .content a i.large.icon{
+	font-size:1.2em;
+}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -410,26 +413,26 @@ p span.red {
           })
           switch(data.type){
             case 0:
-		          $('.ui.share.modal').modal('attach events', '.share.button');
-              $('.ui.type_00.drawmes.modal').modal('show');
+		         // $('.ui.share.modal').modal('setting', 'closable', false).modal('attach events', '.share.button');
+              $('.ui.type_00.drawmes.modal').modal('setting', 'closable', false).modal('show');
             break;
             case 1:
-              $('.ui.type_01.drawmes.modal').modal('show');
-		          $('.ui.share.modal').modal('attach events', '.share.button');
+              $('.ui.type_01.drawmes.modal').modal('setting', 'closable', false).modal('show');
+		         // $('.ui.share.modal').modal('setting', 'closable', false).modal('attach events', '.share.button');
             break;
             case 2:
-              $('.ui.type_02.drawmes.modal').modal('show');
-		          $('.ui.share.modal').modal('attach events', '.share.button');
+              $('.ui.type_02.drawmes.modal').modal('setting', 'closable', false).modal('show');
+		         // $('.ui.share.modal').modal('setting', 'closable', false).modal('attach events', '.share.button');
             break;
             case 3:
               $('#sign_draw_id').val(data.sid);
               $('span.draw_name').text(data.title);
-              $('.ui.type_03.drawmes.modal').modal('show');
+              $('.ui.type_03.drawmes.modal').modal('setting', 'closable', false).modal('show');
             break;
             case 4:
               $('span.draw_name').text(data.title);
-              $('.ui.type_04.drawmes.modal').modal('show');
-		          $('.ui.share.modal').modal('attach events', '.share.button');
+              $('.ui.type_04.drawmes.modal').modal('setting', 'closable', false).modal('show');
+		       //   $('.ui.share.modal').modal('setting', 'closable', false).modal('attach events', '.share.button');
             break;
           }
 
@@ -694,9 +697,18 @@ p span.red {
 					<p>很遗憾，您没有抽中，分享到微信将赠送一次抽奖机会!</p>
 					
 			        <p class="desc"></p>
-			        <a href="javascript:void(0);" class="ui red share button">
-			        					马上分享
-			        </a>
+	            	<a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+	            		<i class="weibo icon large circular red inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+	            		<i class="weixin icon large circular green inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+	            		<i class="tencent weibo icon large circular blue inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+	            		<i class="icon renren large circular blue inverted"></i>
+	            	</a>
 			    </div>
 		    </div>
 			
@@ -713,10 +725,18 @@ p span.red {
 					
 			        <p class="desc"></p>
 			        
-			        <a href="javascript:void(0);" class="ui red share button">
-			        					马上分享
-			        </a>
-					
+	            	<a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+	            		<i class="weibo icon large circular red inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+	            		<i class="weixin icon large circular green inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+	            		<i class="tencent weibo icon large circular blue inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+	            		<i class="icon renren large circular blue inverted"></i>
+	            	</a>
 					<br>
           <a href="{{ app_url_shop }}/pmall" target="_blank"><p class="nobtn">看看我的鸟币能兑换啥 Go></p></a>
 					
@@ -738,9 +758,18 @@ p span.red {
 					
 			        <p class="desc"></p>
 			        
-			        <a href="javascript:void(0);" class="ui red share button">
-			        					马上分享
-			        </a>
+	            	<a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+	            		<i class="weibo icon large circular red inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+	            		<i class="weixin icon large circular green inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+	            		<i class="tencent weibo icon large circular blue inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+	            		<i class="icon renren large circular blue inverted"></i>
+	            	</a>
 					
 					<br>
           <a href="{{ app_url_shop }}" target="_blank"><p class="nobtn">看看红包能买啥 Go></p></a>
@@ -829,9 +858,18 @@ p span.red {
 		    <div class="container">
 				<div class="content" style="text-align:center;">
           <p>亲爱的用户 <br>恭喜您获得<span class="red draw_name"></span></p>
-								        <a href="javascript:void(0);" class="ui red share button ">
-			        					马上分享
-			        </a>
+        	<a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+        		<i class="weibo icon large circular red inverted"></i>
+        	</a>
+        	<a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+        		<i class="weixin icon large circular green inverted"></i>
+        	</a>
+        	<a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+        		<i class="tencent weibo icon large circular blue inverted"></i>
+        	</a>
+        	<a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+        		<i class="icon renren large circular blue inverted"></i>
+        	</a>
 					
 					<br>
 					<p class="nobtn">我们会在一周之内把资料通过私信发送给您，请注意查收!</p>
