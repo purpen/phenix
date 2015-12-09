@@ -258,7 +258,7 @@
       return;
     }
     var url = "{{ app_url_wap }}/app/site/promo_func/fetch_sign_draw";
-    $.post(url, {type: 1}, function(result){
+    $.post(url, {from_to: 2}, function(result){
 
       if(result.success){
         rotateFn(result.data.code, result.data);

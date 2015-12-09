@@ -30,6 +30,7 @@
 				<th>日期/IP</th>
         <th>抽奖次数</th>
         <th>是否处理</th>
+        <th>来源</th>
         <th>操作</th>
 			</tr>
 		</thead>
@@ -78,6 +79,14 @@
               {% if f.state == 0 %}
               <label class="ui red label">否</label>
               {% endif %}
+            </td>
+            <td>
+              {% if f.from_to==1 %}
+                电脑
+              {%endif%}
+              {% if f.from_to==2 %}
+                手机
+              {%endif%}
             </td>
             <td>
               <div class="ui divided horizontal list">
