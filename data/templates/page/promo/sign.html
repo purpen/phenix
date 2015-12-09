@@ -453,7 +453,7 @@ p span.red {
       return;
     }
     var url = "{{ app_url_domain }}/app/site/promo_func/fetch_sign_draw";
-    $.post(url, {type: 1}, function(result){
+    $.post(url, {from_to: 1}, function(result){
 
       if(result.success){
         rotateFn(result.data.code, result.data);

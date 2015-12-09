@@ -40,10 +40,12 @@ class Sher_Core_Model_SignDrawRecord extends Sher_Core_Model_Base  {
     # 用户收货地址信息
     'receipt' => array(),
     'info' => array(),
+    # 来源1,web;2,wap
+    'from_to' => 1,
   );
 
   protected $required_fields = array('user_id', 'target_id');
-  protected $int_fields = array('user_id', 'is_share', 'target_id', 'kind', 'event', 'day', 'draw_times', 'number_id', 'count');
+  protected $int_fields = array('user_id', 'is_share', 'target_id', 'kind', 'event', 'day', 'draw_times', 'number_id', 'count', 'from_to');
 
   protected $joins = array(
     'user'  => array('user_id'  => 'Sher_Core_Model_User'),

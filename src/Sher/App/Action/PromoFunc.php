@@ -103,6 +103,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
    */
   public function fetch_sign_draw(){
     $evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 1;
+    $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 1;
     $user_id = $this->visitor->id;
 
     // 签到抽奖参数---取块内容
@@ -177,6 +178,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
         'desc' => sprintf("%s: %d", $is_prize_arr['title'], $is_prize_arr['count']),
         'count' => $is_prize_arr['count'],
         'state' => in_array($is_prize_arr['type'], $sign_draw_record_model->need_contact_user_event()) ? 0 : 1,
+        'from_to' => $from_to,
       );
       $ok = $sign_draw_record_model->apply_and_save($data);
       if($ok){
@@ -317,6 +319,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
       if(isset($resultlist['rows'][$i]['user'])){
         $resultlist['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['user'], array('symbol_1', 'symbol_2'));
       }
+      $resultlist['rows'][$i]['id'] = (string)$resultlist['rows'][$i]['_id'];
 
     } //end for
 
