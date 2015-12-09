@@ -531,7 +531,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     $ok = $attend_model->apply_and_save($data);
     if($ok){
       // 有效期领取后延期一个月
-      $is_send_bonus = $this->give_bonus($this->visitor->id, 'DB', array('count'=>5, 'xname'=>'DB', 'bonus'=>'B', 'min_amounts'=>'B');
+      $is_send_bonus = $this->give_bonus($this->visitor->id, 'DB', array('count'=>5, 'xname'=>'DB', 'bonus'=>'B', 'min_amounts'=>'B'));
       if($is_send_bonus){
         $redirect_url = Doggy_Config::$vars['app.url.wap'].'/my/bonus';
         return $this->ajax_json('领取成功!', false, $redirect_url);     
