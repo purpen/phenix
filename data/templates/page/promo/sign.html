@@ -410,16 +410,16 @@ p span.red {
           })
           switch(data.type){
             case 0:
-		          $('.ui.share.modal').modal('setting', 'closable', false).modal('attach events', '.share.button');
+		         // $('.ui.share.modal').modal('setting', 'closable', false).modal('attach events', '.share.button');
               $('.ui.type_00.drawmes.modal').modal('setting', 'closable', false).modal('show');
             break;
             case 1:
               $('.ui.type_01.drawmes.modal').modal('setting', 'closable', false).modal('show');
-		          $('.ui.share.modal').modal('setting', 'closable', false).modal('attach events', '.share.button');
+		         // $('.ui.share.modal').modal('setting', 'closable', false).modal('attach events', '.share.button');
             break;
             case 2:
               $('.ui.type_02.drawmes.modal').modal('setting', 'closable', false).modal('show');
-		          $('.ui.share.modal').modal('setting', 'closable', false).modal('attach events', '.share.button');
+		         // $('.ui.share.modal').modal('setting', 'closable', false).modal('attach events', '.share.button');
             break;
             case 3:
               $('#sign_draw_id').val(data.sid);
@@ -429,7 +429,7 @@ p span.red {
             case 4:
               $('span.draw_name').text(data.title);
               $('.ui.type_04.drawmes.modal').modal('setting', 'closable', false).modal('show');
-		          $('.ui.share.modal').modal('setting', 'closable', false).modal('attach events', '.share.button');
+		       //   $('.ui.share.modal').modal('setting', 'closable', false).modal('attach events', '.share.button');
             break;
           }
 
@@ -694,6 +694,21 @@ p span.red {
 					<p>很遗憾，您没有抽中，分享到微信将赠送一次抽奖机会!</p>
 					
 			        <p class="desc"></p>
+	            	<a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+	            		<i class="weibo icon large circular red inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+	            		<i class="weixin icon large circular green inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+	            		<i class="tencent weibo icon large circular blue inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+	            		<i class="icon renren large circular blue inverted"></i>
+	            	</a>
+					
+					
+					
 			        <a href="javascript:void(0);" class="ui red share button">
 			        					马上分享
 			        </a>
