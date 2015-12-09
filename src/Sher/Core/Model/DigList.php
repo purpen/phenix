@@ -42,6 +42,9 @@ class Sher_Core_Model_DigList extends Sher_Core_Model_Base  {
             case Sher_Core_Util_Constant::DIG_SUBJECT_03:
               $str = '奶妈奶爸(名嘴争霸)';
               break;
+            case Sher_Core_Util_Constant::DIG_SIGN_DRAW_RECORD:
+              $str = '签到抽奖统计';
+              break;
             default:
                 $str = '未定义';
         }

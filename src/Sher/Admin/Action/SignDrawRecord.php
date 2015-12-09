@@ -36,6 +36,32 @@ class Sher_Admin_Action_SignDrawRecord extends Sher_Admin_Action_Base implements
 		return $this->to_html_page('admin/sign_draw_record/list.html');
 	}
 
+  /**
+   * 通过/拒绝
+   */
+  public function ajax_state(){
+    $id = $this->stash['id'];
+    $state = isset($this->stash['state'])?(int)$this->stash['state']:0;
+    if(empty($id)){
+			return $this->ajax_notification('缺少参数！', true);
+    }
+
+		$model = new Sher_Core_Model_SignDrawRecord();
+
+    $draw_sign_record = $model->load($id);
+    if(!$draw_sign_record){
+ 			return $this->ajax_notification('数据不存在！', true);   
+    }
+		$ok = $model->update_set($id, array('state'=>$state));
+    if(!$ok){
+			return $this->ajax_notification('操作失败！', true);  
+    }
+    $this->stash['success'] = true;
+    $this->stash['state'] = $state;
+
+		return $this->to_taconite_page('admin/sign_draw_record/ajax_state.html');
+  }
+
 	/**
 	 * 删除
 	 */
