@@ -10,7 +10,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
     'sort'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute');
+	protected $exclude_method_list = array('execute', 'ajax_fetch_draw_record');
 	
 	/**
 	 * 网站入口
@@ -122,7 +122,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
     $draw_arr = $draw_info['data'];
     $arr = array();
     foreach ($draw_arr as $key => $val) {
-      $chance = $val['chance'];
+      $chance = (int)$val['chance'];
       $arr[$val['id']] = $chance;   
     }   
 
