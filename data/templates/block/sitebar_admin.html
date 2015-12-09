@@ -59,22 +59,19 @@
 	    <i class="users icon"></i>用户
 	</div>
 	<a class="{{ css_page_user_point_stat }} item" href="{{ app_url_admin_base }}/user_stat">
-		用户积分统计
+		积分统计
+	</a>
+	<a class="{{ css_page_sign_in }} item" href="{{ app_url_admin_base }}/user_sign_in">
+		用户签到
+	</a>
+	<a class="{{ css_page_sign_draw_record }} item" href="{{ app_url_admin_base }}/sign_draw_record">
+		抽奖统计
 	</a>
     {% endif %}
 	
     {% if visitor.is_admin %}
 	<a class="{{ css_page_user }} item" href="{{ app_url_admin_base }}/user">
 		用户管理
-	</a>
-    {% endif %}
-    
-	{% if visitor.is_admin %}
-	<a class="{{ css_page_sign_in }} item" href="{{ app_url_admin_base }}/user_sign_in">
-		用户签到
-	</a>
-	<a class="{{ css_page_sign_draw_record }} item" href="{{ app_url_admin_base }}/sign_draw_record">
-		抽奖统计管理
 	</a>
     {% endif %}
     
