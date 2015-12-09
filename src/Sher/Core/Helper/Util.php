@@ -933,4 +933,42 @@ class Sher_Core_Helper_Util {
     return $result;
   }
 
+  /** 
+   * @brief strlen_mb 计算字符串长度，支持中文，自动检测编码，UTF-8与GBK测试通过 
+   * 
+   * @param $str 
+   * 
+   * @return 
+   */  
+  public static function strlen_mb($str){  
+    $mb_len = mb_detect_encoding($str) == 'UTF-8' ? 2 : 1;  
+    $patt = '/([\x00-\x7f]|[\x80-\xff].{' . $mb_len . '})/';  
+    $match = preg_match_all($patt, $str, $groups);  
+    if($groups){  
+        return count($groups[0]);  
+    }else{  
+        return false;  
+    }  
+  } 
+
+  /** 
+   * @brief substr_mb 截取字符串，中文防乱码，自动检测编码，UTF-8与GBK测试通过 
+   * 
+   * @param $str 
+   * @param $start 
+   * @param $len 
+   * 
+   * @return 
+   */  
+  public static function substr_mb($str, $start, $len){  
+      $mb_len = mb_detect_encoding($str) == 'UTF-8' ? 2 : 1;  
+      $patt = '/([\x00-\x7f]|[\x80-\xff].{' . $mb_len . '}){' . $len . '}/';  
+      preg_match($patt, $str, $groups);  
+      if($groups){  
+          return $groups[0];  
+      }else{  
+          return false;  
+      }  
+  }  
+
 }
