@@ -33,6 +33,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
     'JBL', # 七夕敦请送JBL指定红包
     'SQR', # 扫码送30元红包
     'DB', # 兑吧送红包
+    'SD', # 签到抽奖红包
 	);
 	
     protected $schema = array(
