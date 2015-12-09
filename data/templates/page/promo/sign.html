@@ -155,7 +155,10 @@ p.nobtn{
 p span.red {
   color: #f36;
 }
-
+.mainwrap .mainright .user.share{
+	color: #000;
+	border-top:none;
+}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -635,7 +638,7 @@ p span.red {
 						<p><i class="help circle icon"></i><a class="question" href="http://www.taihuoniao.com/user/544066/" target="_blank"> 我有疑问</a></p>
 					</div>
 					
-					<div class="ui ten wide column">
+					<div class="ui ten wide column" style="margin-top:-180px;">
 						<div class="draw">
 						  <div id="disk"></div>
 						  <div id="start"><img src="{{ app_url_packaged }}/images/promo/zzhuan1.png" width="100%" id="startbtn"></div>
@@ -658,6 +661,22 @@ p span.red {
 			
 			{% include "page/topic/right_active.html" %}
 			{% include "page/topic/adwrap.html" %}
+			
+            <div class="user share">
+            	<span><i class="share alternate icon"></i>分享：</span>
+            	<a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+            		<i class="weibo icon large circular red inverted"></i>
+            	</a>
+            	<a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+            		<i class="weixin icon large circular green inverted"></i>
+            	</a>
+            	<a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+            		<i class="tencent weibo icon large circular blue inverted"></i>
+            	</a>
+            	<a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+            		<i class="icon renren large circular blue inverted"></i>
+            	</a>
+            </div>
 			
 		</div>
 		
