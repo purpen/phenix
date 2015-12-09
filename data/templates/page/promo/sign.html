@@ -605,11 +605,16 @@ p span.red {
 
     // ajax加载签到数据
     $('.ui.sign-btn.button').click(function(){
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.show_login_box();
+        return;
+      }
       $.post("{{ app_url_user }}/ajax_sign_in", {type: 1}, function(obj){
         if(obj.success){
           $('span[name=sign-text]').text('今日已签到');
-          var sign_no = obj.data.data.last_date_no;
-          $('.sign-number-text').show().find('.no').text(sign_no);
+          //var sign_no = obj.data.data.last_date_no;
+          //$('.sign-number-text').show().find('.no').text(sign_no);
         }else{
           phenix.show_error_note('签到失败!');
         }
