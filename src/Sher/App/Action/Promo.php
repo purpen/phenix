@@ -26,6 +26,22 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		$this->set_target_css_state('page_social');
     $this->stash['day'] = date('Ymd');
 
+    // 判断用户是否连签
+    $user_sign_model = new Sher_Core_Model_UserSign();
+    $user_sign = $user_sign_model->extend_load((int)$this->visitor->id);
+    $this->stash['has_sign'] = false;
+    if(!empty($user_sign)){
+      $today = (int)date('Ymd');
+      $yesterday = (int)date('Ymd', strtotime('-1 day'));
+      if($user_sign['last_date'] == $yesterday){
+        $continuity_times = $user_sign['sign_times'];
+      }elseif($user_sign['last_date'] == $today){
+        $continuity_times = $user_sign['sign_times'];
+        $this->stash['has_sign'] = true;
+        $this->stash['last_date_no'] = $user_sign['last_date_no'];
+      }
+    }
+
 		// 获取省市列表
 		$areas = new Sher_Core_Model_Areas();
 		$provinces = $areas->fetch_provinces();
