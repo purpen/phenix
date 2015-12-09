@@ -120,10 +120,28 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
       return $this->ajax_json($can_draw['message'], true);  
     }
     $draw_arr = $draw_info['data'];
+
+    // 查看库存，如果为空了，则机率设置为空
+    $dig_model = new Sher_Core_Model_DigList();
+    $dig_key = Sher_Core_Util_Constant::DIG_SIGN_DRAW_RECORD;
+
+    $dig = $dig_model->load($dig_key);
+    $draw_dig_key = "season_".$draw_info['id'];
+    $dig_arr = array();
+    if(!empty($dig) && isset($dig['items'][$draw_dig_key])){
+      $dig_arr = $dig['items'][$draw_dig_key];
+    }
+
     $arr = array();
     foreach ($draw_arr as $key => $val) {
-      $chance = (int)$val['chance'];
-      $arr[$val['id']] = $chance;   
+      $d_chance = (int)$val['chance'];
+      $d_limit = (int)$val['limit'];
+      if($d_limit>0){
+        if(!empty($dig_arr) && (isset($dig_arr[$val['id']]) && (int)$dig_arr[$val['id']]>=$d_limit )){
+          $d_chance = 0;
+        }
+      }
+      $arr[$val['id']] = $d_chance;   
     }   
 
     $rid = Sher_Core_Util_View::get_rand_draw($arr); //根据概率获取奖项id  
@@ -164,12 +182,24 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
       if($ok){
         // 获取抽奖记录ID
         $sign_draw_record = $sign_draw_record_model->get_data();
-        $sid = (string)$sign_draw_record['_id'];    
+        $sid = (string)$sign_draw_record['_id'];  
       }
     }
 
     if(!$ok){
       return $this->ajax_json("操作失败，请重试!", true);    
+    }
+
+    // 记录抽奖数
+    $prize_arr_id = $is_prize_arr['id'];
+    if($dig){
+      if(isset($dig['items'][$draw_dig_key][$is_prize_arr['id']])){
+        $dig_model->inc($dig_key, "items.$draw_dig_key.$prize_arr_id", 1);
+      }else{
+        $dig_model->update_set($dig_key, array("items.$draw_dig_key.$prize_arr_id"=>1));
+      }
+    }else{
+      $dig_model->create(array('_id'=>$dig_key, 'name'=>'签到抽奖统计', 'items'=>array($draw_dig_key=>array($prize_arr_id=>1))));
     }
 
     switch($is_prize_arr['type']){

@@ -80,15 +80,20 @@
               {% endif %}
             </td>
             <td>
-              <!--
-			          <a href="{{ app_url_admin }}/sign_draw_record/ajax_state?id={{ f._id }}&state=1" class="ui ajax link item">
-							通过
-						</a> | 
-			          <a href="{{ app_url_admin }}/sign_draw_record/ajax_state?id={{ f._id }}&state=0" class="ui ajax link item">
-							拒绝
-						</a> | 
-            -->
-						<a href="{{ app_url_admin }}/sign_draw_record/deleted?id={{ f._id }}" class="ui confirm-request link">删除</a>
+              <div class="ui divided horizontal list">
+                {% if f.state == 0 %}
+                <a href="{{ app_url_admin }}/sign_draw_record/ajax_state?id={{ f._id }}&state=1" id="stat-btn-{{f._id}}" class="ui ajax link item">
+                  发货
+                </a>
+                {%else%}
+                <!--
+			          <a href="{{ app_url_admin }}/sign_draw_record/ajax_state?id={{ f._id }}&state=0" id="stat-btn-{{f._id}}" class="ui ajax link item">
+                  取消
+                </a>
+                -->
+                {%endif%}
+                <a href="{{ app_url_admin }}/sign_draw_record/deleted?id={{ f._id }}" class="ui confirm-request link item">删除</a>
+              </div>
             </td>
           </tr>
 			{% endfor %}

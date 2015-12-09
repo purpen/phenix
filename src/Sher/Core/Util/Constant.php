@@ -148,6 +148,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 
     # 第三方站点访问量统计
     const DIG_THIRD_SITE_STAT = 'third_site_stat';
+    # 签到抽奖统计
+    const DIG_SIGN_DRAW_RECORD = 'sign_draw_record';
 
     /**
      * DigList stuff计数器

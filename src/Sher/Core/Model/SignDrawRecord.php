@@ -112,7 +112,8 @@ class Sher_Core_Model_SignDrawRecord extends Sher_Core_Model_Base  {
     //判断是否已签到
     $user_sign_model = new Sher_Core_Model_UserSign();
     $user_sign = $user_sign_model->load($user_id);
-    if(empty($user_sign) || !$user_sign['last_date']==$today){
+
+    if(empty($user_sign) || $user_sign['last_date']!=$today){
       return array('success'=>false, 'message'=>'您今天还没有签到哦~');
     }
 
