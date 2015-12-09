@@ -10,7 +10,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
     'sort'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute');
+	protected $exclude_method_list = array('execute', 'ajax_fetch_draw_record');
 	
 	/**
 	 * 网站入口
