@@ -126,13 +126,13 @@ class Sher_Core_Model_SignDrawRecord extends Sher_Core_Model_Base  {
     $obj = null;
     if($has_one){
       if($has_one['draw_times'] >= self::ALLOW_MAX_TIMES){
-        return array('success'=>false, 'message'=>'您今天的抽奖机会已用完~');      
+        //return array('success'=>false, 'message'=>'您今天的抽奖机会已用完~');      
       }else{
         if(!empty($has_one['event'])){
-          return array('success'=>false, 'message'=>'不要太贪哦~');   
+          //return array('success'=>false, 'message'=>'不要太贪哦~');   
         }
         if(empty($has_one['is_share'])){
-          return array('success'=>false, 'message'=>'您今天已抽过,微信分享后赠送一次抽奖机会~');   
+          //return array('success'=>false, 'message'=>'您今天已抽过,微信分享后赠送一次抽奖机会~');   
         }
       }
       $obj = $has_one;
