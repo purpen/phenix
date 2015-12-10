@@ -249,6 +249,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
     $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
     $target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
     $state = isset($this->stash['state']) ? (int)$this->stash['state'] : 0;
+    $delayed = isset($this->stash['delayed']) ? (int)$this->stash['delayed'] : 0;
     $sort = (int)$this->stash['sort'];
     $page = (int)$this->stash['page'];
     $size = (int)$this->stash['size'];
@@ -268,6 +269,10 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
 			  $query['event'] = (int)$event;
       }
 		}
+
+    if(isset($this->stash['next_id']) && !empty($this->stash['next_id'])){
+      $query['_id'] = array('$gt'=>DoggyX_Mongo_Db::id($this->stash['next_id']));
+    }
 
     if($type){
       if($type==1){
@@ -289,6 +294,10 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
 
     if($target_id){
       $query['target_id'] = $target_id;   
+    }
+
+    if($delayed){
+      $query['created_on'] = array('$lt'=>time()-$delayed);
     }
         
     $options['page'] = $page;

@@ -282,6 +282,56 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 		
  		return $this->api_json('操作成功！', 0, array('rid'=> $rid)); 
 	}
+
+	/**
+	 * 修改密码
+	 */
+	public function modify_password(){
+
+    $user_id = $this->current_user_id;
+    if (empty($this->stash['password']) || empty($this->stash['new_password'])) {
+        return $this->api_json('数据错误,请重新登录', 3001);
+    }
+
+    if (strlen($this->stash['password'])<6 || strlen($this->stash['new_password'])<6) {
+        return $this->api_json('密码要大于6位', 3002);
+    }
+		
+		$user_model = new Sher_Core_Model_User();
+		$user = $user_model->load($user_id);
+    if (empty($user)) {
+        return $this->api_json('帐号不存在!', 3003);
+    }
+    if ($user['password'] != sha1($this->stash['password'])) {
+        return $this->api_json('登录账号和密码不匹配', 3004);
+    }
+    $nickname = $user['nickname'];
+    $user_state = $user['state'];
+    
+    if ($user_state == Sher_Core_Model_User::STATE_BLOCKED) {
+        return $this->api_json('此帐号涉嫌违规已经被锁定!', 3005);
+    }
+    if ($user_state == Sher_Core_Model_User::STATE_DISABLED) {
+        return $this->api_json('此帐号涉嫌违规已经被禁用!', 3006);
+    }
+
+    // 更新密码
+    $ok = $user_model->update_set($user_id, array('password'=>sha1($this->stash['new_password'])));
+    if(!$ok){
+      return $this->api_json('更新密码失败!', 3007);   
+    }
+
+		$user_data = $user_model->extended_model_row($user);
+		$some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'true_nickname'=>1,'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'email'=>1,'medium_avatar_url'=>1);
+		
+		// 重建数据结果
+		$data = array();
+		foreach($some_fields as $key=>$value){
+			$data[$key] = $user_data[$key];
+		}
+		
+		return $this->api_json('欢迎回来.', 0, $data);
+	}
 	
 }
 

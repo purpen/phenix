@@ -376,6 +376,48 @@
       phenix.show_error_note(error.message, 5000);
     });
 
+    // 手机版详情
+	$('#editor_wap').editable({
+		inlineMode: false,
+    language: "zh_cn",
+		toolbarFixed: false,
+    theme: 'gray',
+		language: 'zh_cn',
+		borderColor: '#999',
+		editorClass: 'frbird',
+		minHeight: 450,
+		plainPaste: true,
+		alwaysBlank: true,
+		typingTimer: 5000,
+		imageMargin: '20px',
+		{% if mode == 'edit' %}
+		defaultImageTitle: '{{ product.title }}',
+		{% else %}
+		defaultImageTitle: '太火鸟',
+		{% endif %}
+		buttons: ["bold", "italic", "underline","strikeThrough", "fontSize", "color", "formatBlock", "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "multiUpload", "insertVideo", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html", "fullscreen"],
+		imageUploadURL: "{{ app_url_upload_feditor }}",
+		imageUploadParams: {'token': '{{ token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ product._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
+		defaultImageWidth: '',
+		maxImageSize: 1024 * 1024 * 5, // 5M
+		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
+        
+        assetType: {{ editor_asset_type }},
+        assetDomain: '{{ editor_domain|default 'product' }}',
+        parent_id: {{ product._id|default 0 }},
+        fetchUploadURL: '{{ app_url_action_base }}/uploader/fetch_upload_assets',
+	}).on('editable.imageInserted',  function (e, editor, imageURL) {
+		// 记录插入图片数
+		$('#file_count').val(file_count);
+		
+		file_count++;
+    }).on('editable.imageError', function (e, editor, error) {
+      if (error.code == 5){
+        error.message = '图片太大，请选择小于5M！';
+      }
+      phenix.show_error_note(error.message, 5000);
+    });
+
 
 	$('#phenix-uploader').fineUploader({
 		debug: true,
@@ -424,7 +466,19 @@
 	});
 	
 	$('.datepicker').pickadate();
-	
+
+  $('.set-box-button').click(function(){
+    var id = $(this).attr('box_id');
+    if($('#'+id).is(":hidden")){
+      $(this).text('隐藏');
+      $('#'+id).slideDown();
+    }else{ 
+      $(this).text('显示');
+      $('#'+id).slideUp();
+    }
+  });
+
+
 {% endblock %}
 
 {% block content %}
@@ -464,6 +518,7 @@
     <input type="hidden" name="old_style_ids_to_s" value="{{ product.style_ids_to_s }}" />
 		
 		<div class="ui segment">
+		<div class="ui segment">
 			<h3 class="ui dividing header">基本信息</h3>
 			<div class="field">
 				<label>产品名称</label>
@@ -499,20 +554,34 @@
 				<label>产品链接</label>
 			  	<input type="text" name="view_url" value="{{ product.view_url }}" />
 			</div>
-			
-			<h3 class="ui dividing stage header">类别</h3>
+
+      <div class="field">
+        <label for="video">视频链接</label>
+				{% if product.video %}
+					{% for video in product.video %}
+				  	<input type="text" name="video[]" placeholder="支持优酷/腾讯视频分享" value="{{ video }}" />
+					{% endfor %}
+				{% else %}
+					<input type="text" name="video[]" placeholder="支持优酷/腾讯视频分享：http://player.youku.com/embed/********* 链接格式" />
+				{% endif %}
+      </div>
+    </div>
+
+		<div class="ui segment">
+			<h3 class="ui dividing header">分类/标签设置</h3>
 			<div class="grouped inline fields">
         <div class="field">
+          <label>分类:</label>
           <input type="hidden" name="category_id" value="{{ product.category_id }}" id="product-category" />
           {% category_list var:'category' only_open:1 domain:1 current:product.category_id %}
           {% for cat in category.rows %}
-          <a class="ui {{ cat.active }} magenta category button" data-value="{{ cat._id }}">{{ cat.title }}</a>
+            <a class="ui {{ cat.active }} magenta category button" style="margin-bottom:2px;" data-value="{{ cat._id }}">{{ cat.title }}</a>
           {% endfor %}
         </div>
       </div>
 
-			<h3 class="ui dividing stage header">场景</h3>
 			<div class="inline field">
+        <label>场景:</label>
 				{% style_tag_list var:'sences' fetch_current_target:1 domain:1 kind:1 state:1 current_tag_ids:product.scene_ids_to_s page:1 %}
 				{% for d in sences.rows %}
             <div class="ui checkbox">
@@ -522,8 +591,8 @@
         {% endfor %}
 			</div>
 
-			<h3 class="ui dividing stage header">风格</h3>
 			<div class="inline field">
+        <label>风格:</label>
 				{% style_tag_list var:'styles' fetch_current_target:1 current_tag_ids:product.style_ids_to_s domain:1 kind:2 state:1 page:1 %}
 				{% for d in styles.rows %}
             <div class="ui checkbox">
@@ -532,34 +601,31 @@
             </div>
 				{% endfor %}
 			</div>
+    </div>
 			
 			<h3 class="ui dividing stage header">产品当前阶段</h3>
 			<div class="grouped inline fields">
-				<div class="field">
+				<div class="inline field">
 					<div class="ui radio checkbox">
 						<input type="radio" name="stage" value="1" {% if product.stage == 1 %}checked="checked"{% endif %} /> 
 						<label>投票阶段</label>
 					</div>
-				</div>
-				<div class="field">
+
 					<div class="ui radio checkbox">
 						<input type="radio" name="stage" value="5" {% if product.stage == 5 %}checked="checked"{% endif %} /> 
 						<label>预售阶段</label>
 					</div>
-				</div>
-				<div class="field">
+
 					<div class="ui radio checkbox">
 						<input type="radio" name="stage" value="9" {% if product.stage == 9 %}checked="checked"{% endif %} /> 
 						<label>商店销售 <small>直接商店销售</small></label>
 					</div>
-				</div>
-				<div class="field">
+
 					<div class="ui radio checkbox">
 						<input type="radio" name="stage" value="12" {% if product.stage == 12 %}checked="checked"{% endif %} /> 
 						<label>积分兑换 <small>只可用于鸟币或鸟币+差价兑换</small></label>
 					</div>
-				</div>
-				<div class="field">
+
 					<div class="ui radio checkbox">
 						<input type="radio" name="stage" value="15" {% if product.stage == 15 %}checked="checked"{% endif %} /> 
 						<label>产品灵感 <small>非购买商品</small></label>
@@ -586,70 +652,8 @@
 		          	<label>灵感 <small class="ui magenta text">（非购买商品）</small></label>
 		        </div>
 			</div>
-		</div>
-		
-		<div class="ui segment">
-			<h3 class="ui dividing header">抢购设置</h3>
-			<div class="inline field">
-			  	<label>是否抢购：</label>
-				<div class="ui checkbox">
-		          	<input type="checkbox" name="snatched" {% if product.snatched %}checked="checked"{% endif %} />
-		          	<label>开启</label>
-		        </div>
-			</div>
-			<div class="four fields">
-				<div class="field">
-				  	<label>开始抢购日期：</label>
-					<div class="ui icon input">
-              <input type="text" name="snatched_time" value="{{ product.snatched_time|date 'Y-m-d H:i' }}" id="sel1" /><input type="button" value="..." onclick="return showCalendar('sel1', '%Y-%m-%d %H:%M', '24', true);" />
-					</div>
-				</div>
-				<div class="field">
-				  	<label>抢购价：</label>
-					<input type="text" name="snatched_price" value="{{ product.snatched_price|default 0 }}" />
-				</div>
-				<div class="field">
-				  	<label>抢购数量：</label>
-					<input type="text" name="snatched_count" value="{{ product.snatched_count|default 0 }}" />
-				</div>
-				<div class="field">
-				  	<label>预约人数：</label>
-					<input type="text" name="appoint_count" value="{{ product.appoint_count|default 0 }}" />
-				</div>
-			</div>
-		</div>
 
-		<div class="ui segment">
-			<h3 class="ui dividing header">积分设置</h3>
-			<div class="inline field">
-			  	<label>是否开启：</label>
-				<div class="ui checkbox">
-		          	<input type="checkbox" name="exchanged" {% if product.exchanged %}checked="checked"{% endif %} />
-		          	<label>开启</label>
-		        </div>
-			</div>
-			<div class="four fields">
-				<div class="field">
-				  	<label>最低可兑换鸟币数(1鸟币==1元)：</label>
-					<input type="text" name="min_bird_coin" value="{{ product.min_bird_coin|default 0 }}" />
-				</div>
-				<div class="field">
-				  	<label>最高可兑换鸟币数：</label>
-					<input type="text" name="max_bird_coin" value="{{ product.max_bird_coin|default 0 }}" />
-				</div>
-				<div class="field">
-				  	<label>兑换价格：</label>
-					<input type="text" name="exchange_price" value="{{ product.exchange_price|default 0 }}" />
-				</div>
-				<div class="field">
-				  	<label>兑换数量：</label>
-					<input type="text" name="exchange_count" value="{{ product.exchange_count|default 0 }}" />
-				</div>
-			</div>
-		</div>
-
-		<div class="ui segment">
-			<h3 class="ui dividing header">高级设置</h3>
+			<h3 class="ui stage header">高级设置</h3>
 			<div class="two fields">
 				<div class="inline field">
 				  	<label>是否试用：</label>
@@ -668,56 +672,7 @@
 				</div>
 			</div>
 		</div>
-		
-		<div class="ui segment">
-			<h3 class="ui dividing header">投票设置</h3>
-			<div class="two fields">
-				<div class="field">
-				  	<label>开始时间：</label>
-					<div class="ui icon input">
-					  	<input type="text" name="voted_start_time" value="{{ product.voted_start_time|date 'Y-m-d' }}" class="datepicker" />
-					  	<i class="calendar icon"></i>
-					</div>
-				</div>
-				<div class="field">
-				  	<label>结束时间：</label>
-					<div class="ui icon input">
-					  	<input type="text" name="voted_finish_time" value="{{ product.voted_finish_time|date 'Y-m-d' }}" class="datepicker" />
-					  	<i class="calendar icon"></i>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<div class="ui segment">
-			<h3 class="ui dividing header">预售设置</h3>
-			
-			<div class="four fields">
-				<div class="field">
-				  	<label>开始时间：</label>
-					<div class="ui icon input">
-					  	<input type="text" name="presale_start_time" value="{{ product.presale_start_time|date 'Y-m-d' }}" class="datepicker" />
-					  	<i class="calendar icon"></i>
-					</div>
-				</div>
-				<div class="field">
-				  	<label>结束时间：</label>
-					<div class="ui icon input">
-					  	<input type="text" name="presale_finish_time" value="{{ product.presale_finish_time|date 'Y-m-d' }}" class="datepicker" />
-					  	<i class="calendar icon"></i>
-					</div>
-				</div>
-				<div class="field">
-				  	<label>预售目标金额：</label>
-					<input type="text" name="presale_goals" value="{{ product.presale_goals }}" />
-				</div>
-				<div class="field">
-				  	<label>预售数量：</label>
-					<input type="text" name="presale_inventory" value="{{ product.presale_inventory }}" id="presale_inventory" />
-				</div>
-			</div>
-		</div>
-		
+
 		<div class="ui segment">
 			<h3 class="ui dividing header">销售设置</h3>
 			<div class="three fields">
@@ -734,7 +689,125 @@
 					<input type="text" name="inventory" value="{{ product.inventory }}" id="inventory" />
 				</div>
 			</div>
+    </div>
+		
+		<div class="ui segment">
+			<h3 class="ui dividing header">抢购设置 <span class="description set-box-button" box_id="snatched-box">展开</span></h3>
+      <div id="snatched-box" style="display:none;">
+        <div class="inline field">
+            <label>是否抢购：</label>
+          <div class="ui checkbox">
+                  <input type="checkbox" name="snatched" {% if product.snatched %}checked="checked"{% endif %} />
+                  <label>开启</label>
+              </div>
+        </div>
+        <div class="four fields">
+          <div class="field">
+              <label>开始抢购日期：</label>
+            <div class="ui icon input">
+                <input type="text" name="snatched_time" value="{{ product.snatched_time|date 'Y-m-d H:i' }}" id="sel1" /><input type="button" value="..." onclick="return showCalendar('sel1', '%Y-%m-%d %H:%M', '24', true);" />
+            </div>
+          </div>
+          <div class="field">
+              <label>抢购价：</label>
+            <input type="text" name="snatched_price" value="{{ product.snatched_price|default 0 }}" />
+          </div>
+          <div class="field">
+              <label>抢购数量：</label>
+            <input type="text" name="snatched_count" value="{{ product.snatched_count|default 0 }}" />
+          </div>
+          <div class="field">
+              <label>预约人数：</label>
+            <input type="text" name="appoint_count" value="{{ product.appoint_count|default 0 }}" />
+          </div>
+        </div>
+      </div>
+		</div>
+
+		<div class="ui segment">
+			<h3 class="ui dividing header">积分设置 <span class="description set-box-button" box_id="exchanged-box">展开</span></h3>
+      <div id="exchanged-box" style="display:none;">
+        <div class="inline field">
+            <label>是否开启：</label>
+          <div class="ui checkbox">
+                  <input type="checkbox" name="exchanged" {% if product.exchanged %}checked="checked"{% endif %} />
+                  <label>开启</label>
+              </div>
+        </div>
+        <div class="four fields">
+          <div class="field">
+              <label>最低可兑换鸟币数(1鸟币==1元)：</label>
+            <input type="text" name="min_bird_coin" value="{{ product.min_bird_coin|default 0 }}" />
+          </div>
+          <div class="field">
+              <label>最高可兑换鸟币数：</label>
+            <input type="text" name="max_bird_coin" value="{{ product.max_bird_coin|default 0 }}" />
+          </div>
+          <div class="field">
+              <label>兑换价格：</label>
+            <input type="text" name="exchange_price" value="{{ product.exchange_price|default 0 }}" />
+          </div>
+          <div class="field">
+              <label>兑换数量：</label>
+            <input type="text" name="exchange_count" value="{{ product.exchange_count|default 0 }}" />
+          </div>
+        </div>
+      </div>
+		</div>
+		
+		<div class="ui segment">
+			<h3 class="ui dividing header">投票设置 <span class="description set-box-button" box_id="voted-box">展开</span></h3>
+      <div id="voted-box" style="display:none;">
+        <div class="two fields">
+          <div class="field">
+              <label>开始时间：</label>
+            <div class="ui icon input">
+                <input type="text" name="voted_start_time" value="{{ product.voted_start_time|date 'Y-m-d' }}" class="datepicker" />
+                <i class="calendar icon"></i>
+            </div>
+          </div>
+          <div class="field">
+              <label>结束时间：</label>
+            <div class="ui icon input">
+                <input type="text" name="voted_finish_time" value="{{ product.voted_finish_time|date 'Y-m-d' }}" class="datepicker" />
+                <i class="calendar icon"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+		</div>
+		
+		<div class="ui segment">
+			<h3 class="ui dividing header">预售设置 <span class="description set-box-button" box_id="presale-box">展开</span></h3>
+      <div id="presale-box" style="display:none;">
+        <div class="four fields">
+          <div class="field">
+              <label>开始时间：</label>
+            <div class="ui icon input">
+                <input type="text" name="presale_start_time" value="{{ product.presale_start_time|date 'Y-m-d' }}" class="datepicker" />
+                <i class="calendar icon"></i>
+            </div>
+          </div>
+          <div class="field">
+              <label>结束时间：</label>
+            <div class="ui icon input">
+                <input type="text" name="presale_finish_time" value="{{ product.presale_finish_time|date 'Y-m-d' }}" class="datepicker" />
+                <i class="calendar icon"></i>
+            </div>
+          </div>
+          <div class="field">
+              <label>预售目标金额：</label>
+            <input type="text" name="presale_goals" value="{{ product.presale_goals }}" />
+          </div>
+          <div class="field">
+              <label>预售数量：</label>
+            <input type="text" name="presale_inventory" value="{{ product.presale_inventory }}" id="presale_inventory" />
+          </div>
+        </div>
+      </div>
+		</div>
 			
+		<div class="ui segment">
 			{% if mode == 'edit' %}
 			<div class="field">
 				<h3 class="ui dividing header">
@@ -815,21 +888,24 @@
 				</div>
 			</div>
 			<div class="field">
-				<label>产品详细说明</label>
+				<label>详情</label>
 				<textarea name="content" placeholder="详细内容" id="editor">
 					{{ product.content }}
 				</textarea>
 			</div>
-            <div class="field">
-                <label for="video">视频链接</label>
-				{% if product.video %}
-					{% for video in product.video %}
-				  	<input type="text" name="video[]" placeholder="支持优酷/腾讯视频分享" value="{{ video }}" />
-					{% endfor %}
-				{% else %}
-					<input type="text" name="video[]" placeholder="支持优酷/腾讯视频分享：http://player.youku.com/embed/********* 链接格式" />
-				{% endif %}
-            </div>
+
+		</div>
+
+		<div class="ui segment">
+      <h3 class="ui dividing header">手机设置 <span class="description set-box-button" box_id="mobile-box">展开</span></h3>
+      <div id="mobile-box" style="display:none;">
+        <div class="field">
+          <label>详情</label>
+          <textarea name="content_wap" placeholder="详细内容" id="editor_wap">
+            {{ product.content_wap }}
+          </textarea>
+        </div>
+     </div>
 		</div>
 		
 		<div class="ui right aligned grid">
