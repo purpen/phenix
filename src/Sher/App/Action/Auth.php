@@ -191,7 +191,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	 * 退出
 	 */
 	public function logout(){
-        $service = DoggyX_Session_Service::instance();
+        $service = Sher_Core_Session_Service::instance();
         $service->revoke_auth_cookie();
 		
         $service->stop_visitor_session();
