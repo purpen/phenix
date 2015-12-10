@@ -25,7 +25,7 @@
 	padding-top: 15px;
 }
 #slidework{
-	height:100px;
+	height:120px;
 }
 #slidework p{
     font-size: 14px;
@@ -468,13 +468,14 @@ p span.red {
   var size = 5;
   var day = "{{ day|default 0 }}";
   // ajax 加载中奖用户列表
-  function fetch_draw_user(page, size, type, day, evt){
+  function fetch_draw_user(page, size, type, day, sid){
     var url = "{{ app_url_domain }}/app/site/promo_func/ajax_fetch_draw_record";
-    $.get(url, {page:page, size:size, type:type, day:day}, function(result){
+    $.get(url, {page:page, size:size, type:type, day:day, next_id:sid, delayed:10}, function(result){
         var html = '';
         if(result.success){
           var list = result.data.results.rows;
           for(var i=0;i<list.length;i++){
+            var z_id = list[i]["id"];
             var z_event = list[i]["event"];
             var z_title = list[i]["title"];
             var z_count = list[i]["count"];
@@ -493,9 +494,17 @@ p span.red {
               z_desc = z_title;
               break;
             }
-            html += '<p>恭喜 '+ list[i]["user"]["nickname"] +' 获得 '+ z_desc +'!</p>';
+            html += '<p sid="'+ z_id +'">恭喜 '+ list[i]["user"]["nickname"] +' 获得 '+ z_desc +'!</p>';
           }
-          $('#slidework').html(html);
+          if(html==''){
+            return;
+          }
+          if(sid==''){
+            $('#slidework').html(html);         
+          }else{
+            $('#slidework').prepend(html);          
+          }
+
 
         }
     }, 'json');
@@ -510,7 +519,26 @@ p span.red {
 
   });
 
-  fetch_draw_user(1, size, 1, day, 1);
+  fetch_draw_user(1, size, 1, day, '');
+
+                // 定时提示,每次3秒钟,最多100次
+                var limit_notice_times = 0;
+                setInterval(function(){
+                    if(limit_notice_times >= 100){
+                        return
+                    }else{
+                      // 首次加载等待3+1秒
+                      if(limit_notice_times==0){
+                        setTimeout(function(){}, 1000);
+                      }
+                      var sid = '';
+                      if($('#slidework p:first').length>0){
+                        sid = $('#slidework p:first').attr('sid');
+                      }
+                      fetch_draw_user(1, size, 1, day, sid);
+                    }
+                    limit_notice_times++;
+                }, 1000*3);
 
   // 初始化省份
   var province_id = $('[name=province]').val();
