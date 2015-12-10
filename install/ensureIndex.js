@@ -52,6 +52,7 @@ db.session_random.ensureIndex({'session_id':1, 'kind':1}, {background: true});
 
 # 搜索
 db.text_index.ensureIndex({'full':1, 'type':1, 'created_on': -1}, {background: true});
+db.text_index.ensureIndex({'target_id':1, 'type':1}, {background: true});
 
 # 积分
 db.points.balance.ensureIndex({'balance.exp':1}, {background: true});
@@ -73,4 +74,26 @@ db.user_sign_stat.ensureIndex({user_id:1, day:1}, {unique: true}, {background: t
 db.user_point_stat.ensureIndex({'state':1, 'kind':1, 'total_point': -1}, {background: true});
 
 
+
+
+
+
+
+
+
+db.applitable.count()     23665
+db.attend.count()         34188
+db.comment.count()        29208
+db.remind.count()         43137
+db.user_sign.count()      19137
+
+db.auth_token.count()     152082
+db.points.balance.count() 311638
+db.points.daily.count()   79860
+db.points.quota.count()   311674
+db.points.records.count() 169156
+db.session.count()        16658331
+db.timeline.count()       57943
+db.user.ext_state.count() 313373
+db.user_event.count()     174270
 
