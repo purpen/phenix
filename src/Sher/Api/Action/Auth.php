@@ -217,7 +217,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base implements Sher_Core_Act
 		// 生成验证码
 		$verify = new Sher_Core_Model_Verify();
 		$code = Sher_Core_Helper_Auth::generate_code();
-		$ok = $verify->create(array('phone'=>$phone, 'code'=>$code));
+		$ok = $verify->create(array('phone'=>$phone, 'code'=>$code, 'expired_on'=>time()+600));
 		if($ok){
 			// 开始发送
 			Sher_Core_Helper_Util::send_register_mms($phone, $code);

@@ -22,9 +22,6 @@ class Sher_Core_Model_Verify extends Sher_Core_Model_Base {
 	 * 保存之前,处理标签中的逗号,空格等
 	 */
 	protected function before_save(&$data) {
-    if(!isset($data['expired_on'])){
-      $data['expired_on'] = time() + 600;
-    }
 	    parent::before_save($data);
 	}
 	
