@@ -210,7 +210,7 @@ EOF;
 
   /**
    * 块内容显示
-   * type=0,code内容原样输出，type=1 content内容过滤标签
+   * type=1,code内容原样输出，type=2 content内容输出
    */
   public static function load_block($mark, $type=1){
     if(empty($mark)){

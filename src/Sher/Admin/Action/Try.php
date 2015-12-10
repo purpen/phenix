@@ -130,10 +130,12 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     $data['end_time'] = $this->stash['end_time'];
     $data['publish_time'] = $this->stash['publish_time'];
     $data['try_count'] = (int)$this->stash['try_count'];
+    $data['report_count'] = (int)$this->stash['report_count'];
     $data['apply_term'] = (int)$this->stash['apply_term'];
     $data['term_count'] = (int)$this->stash['term_count'];
     $data['open_limit'] = isset($this->stash['open_limit']) ? (int)$this->stash['open_limit'] : 0;
     $data['buy_url'] = isset($this->stash['buy_url']) ? $this->stash['buy_url'] : '';
+    $data['price'] = isset($this->stash['price']) ? (float)$this->stash['price'] : 0;
     $data['imgs'] = $imgs;
 
 		$model = new Sher_Core_Model_Try();
@@ -286,7 +288,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 			return $this->ajax_notification('缺少请求参数！', true);
 		}
 
-    $bird_money_limit = false;
+		$bird_money_limit = false;
 		
 		try{
 			$apply = new Sher_Core_Model_Apply();
@@ -298,33 +300,32 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 			$apply_user_id = $row['user_id'];
 			$try_id = (int)$row['target_id'];
 
-      // 判断申请人是否符合要求
-      $try_model = new Sher_Core_Model_Try();
+			// 判断申请人是否符合要求
+			$try_model = new Sher_Core_Model_Try();
+	  
+			$try = $try_model->find_by_id($try_id);
+			if(empty($try)){
+					  return $this->ajax_notification('试用产品不存在！', true);     
+			}
 
-      $try = $try_model->find_by_id($try_id);
-      if(empty($try)){
- 				return $this->ajax_notification('试用产品不存在！', true);     
-      }
-
-      if($result==1 && !empty($try['apply_term'])){
-        $term_count = (int)$try['term_count'];
-        if($try['apply_term']==1){  // 等级限制
-          $user_ext_model = new Sher_Core_Model_UserExtState();
-          $ext = $user_ext_model->load((int)$apply_user_id);
-          if(empty($ext) || (!empty($ext) && $ext['rank_id']<$term_count)){
-  				  return $this->ajax_notification('用户等级不达标，无法通过！', true);            
-          }
-        }elseif($try['apply_term']==2){ // 鸟币限制
-          $bird_money_limit = true;
-          // 用户实时积分鸟币
-          $point_model = new Sher_Core_Model_UserPointBalance();
-          $point = $point_model->load($apply_user_id);
-          if(empty($point) || (!empty($point) && $point['balance']['money']<$term_count)){
-       			return $this->ajax_notification('用户鸟币不足，无法通过！', true);      
-          }
-        
-        }
-      }
+			if($result==1 && !empty($try['apply_term'])){
+				$term_count = (int)$try['term_count'];
+				if($try['apply_term']==1){  // 等级限制
+					$user_ext_model = new Sher_Core_Model_UserExtState();
+					$ext = $user_ext_model->load((int)$apply_user_id);
+					if(empty($ext) || (!empty($ext) && $ext['rank_id']<$term_count)){
+						return $this->ajax_notification('用户等级不达标，无法通过！', true);            
+					}
+				}elseif($try['apply_term']==2){ // 鸟币限制
+					$bird_money_limit = true;
+					// 用户实时积分鸟币
+					$point_model = new Sher_Core_Model_UserPointBalance();
+					$point = $point_model->load($apply_user_id);
+					if(empty($point) || (!empty($point) && $point['balance']['money']<$term_count)){
+						return $this->ajax_notification('用户鸟币不足，无法通过！', true);      
+					}
+				}
+			}
 
 			// 更新状态
 			$ok = $apply->mark_set_result($id, $result);
@@ -332,33 +333,39 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 			$is_add = ($result == Sher_Core_Model_Apply::RESULT_PASS) ? 1 : 0;
 			// 同步更新公测
 			if ($ok) {
-        // 如果有鸟币限制，扣取相应鸟币
-        if($bird_money_limit && (int)$result==1){
-          $service = Sher_Core_Service_Point::instance();
-          // 购买商品扣除相应鸟币
-          $service->make_money_out($apply_user_id, (int)$term_count, '试用扣除鸟币');
-          $money_reason = sprintf("恭喜，您申请的试用产品[%s]已通过试用，%d鸟币已扣除", $try['title'], $term_count);
-
-          // 添加提醒
-          $remind = new Sher_Core_Model_Remind();
-          $user_model = new Sher_Core_Model_User();
-          $arr = array(
-            'user_id'=> $apply_user_id,
-            's_user_id'=> (int)$this->visitor->id,
-            'evt'=> Sher_Core_Model_Remind::EVT_RE_BIRD_MONRY,
-            'kind'=> Sher_Core_Model_Remind::KIND_BIRD_ADMIN,
-            'content'=>$money_reason,
-          );
-          $remind->apply_and_save($arr);
-
-        }
+				// 如果有鸟币限制，扣取相应鸟币
+				if($bird_money_limit && (int)$result==1){
+					$service = Sher_Core_Service_Point::instance();
+					// 购买商品扣除相应鸟币
+					$service->make_money_out($apply_user_id, (int)$term_count, '试用扣除鸟币');
+					$money_reason = sprintf("恭喜，您申请的试用产品[%s]已通过试用，%d鸟币已扣除", $try['title'], $term_count);
+		  
+					// 添加提醒
+					$remind = new Sher_Core_Model_Remind();
+					$user_model = new Sher_Core_Model_User();
+					$arr = array(
+						'user_id'=> $apply_user_id,
+						's_user_id'=> (int)$this->visitor->id,
+						'evt'=> Sher_Core_Model_Remind::EVT_RE_BIRD_MONRY,
+						'kind'=> Sher_Core_Model_Remind::KIND_BIRD_ADMIN,
+						'content'=>$money_reason,
+					);
+					$remind->apply_and_save($arr);
+				}
 
 				$try_model->update_pass_users($try_id, $apply_user_id, $is_add);
+				
+				// 删除快递单号
+				$date = array(
+					'_id' => $id,
+					'tracking_number' => ''
+				);
+				$apply->apply_and_update($date);
 			}
 		} catch (Sher_Core_Model_Exception $e){
 			return $this->ajax_notification('申请审核操作失败，请检查后重试！', true);
 		}
-		
+		$this->stash['apply_rows'] = $row;
 		return $this->to_taconite_page('admin/verify_ok.html');
 	}
 
@@ -609,5 +616,61 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     return $this->ajax_json("发送成功 count: $total!", false);
   
   }
+	
+	/**
+	* 增加快递单号
+	*/
+	public function ajax_tracking_number(){
+		
+		$id = $this->stash["id"];
+		$number = $this->stash["number"];
+		
+		if(!$id){
+            return $this->ajax_notification("此试用申请不存在！",true);
+        }
+		if(!$number){
+            return $this->ajax_notification("没有填写快递单号",true);
+        }
+		
+		try {
+			
+			$date = array(
+				'_id' => $id,
+				'tracking_number' => $number
+			);
+			
+			$apply = new Sher_Core_Model_Apply();
+			$ok = $apply->apply_and_update($date);
+			
+			if(!$ok){
+				return $this->ajax_json('修改快递单号失败', true);
+			}
+
+        } catch (Doggy_Model_ValidateException $e) {
+            return $this->ajax_json('修改快递单号失败:',true);
+        }
+		
+		$this->stash['mode'] = 'message';
+		
+		return $this->ajax_json('修改快递单号成功!', false);
+	}
+
+  /**
+   * 查询用户申请记录
+   */
+  public function query_apply_record(){
+    $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+    if(empty($user_id)){
+      return $this->ajax_json('缺少请求参数!', true);
+    }
+
+    $result = array();
+    $apply_model = new Sher_Core_Model_Apply();
+    $result['apply_count'] = $apply_model->count(array('type'=>1, 'user_id'=>$user_id));
+    $result['pass_count'] = $apply_model->count(array('type'=>1, 'user_id'=>$user_id, 'result'=>1));
+
+    return $this->ajax_json('ＯＫ!', false, 0, $result);
+  }
+
 }
 

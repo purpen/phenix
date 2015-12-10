@@ -205,7 +205,7 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
     $this->stash['stat'] = 0;
     $this->stash['msg'] = null;
 		if (!isset($this->stash['target_id'])){
-      $this->stash['msg'] = '缺少请求参数';
+		$this->stash['msg'] = '缺少请求参数';
 			return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
 		}
 		
@@ -227,6 +227,12 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
         $this->stash['msg'] = '抱歉，活动已结束，等待下次再来！';
 			  return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
 			}
+
+      // 验证是否加入黑名单(未提交报告用户)
+      if(Sher_Core_Helper_Try::check_try_apply_blacklist($user_id)){
+        $this->stash['msg'] = '您的账户已被列入试用黑名单，请联系太火鸟社区组！';
+			  return $this->to_taconite_page('ajax/wap_apply_try_show_error.html');
+      }
 
       // 是否符合申请条件
       /**
@@ -264,6 +270,10 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 				}
 				$this->stash['user_id'] = $user_id;
 				
+				$nickname = $this->visitor->nickname;
+				$this->stash['nickname'] = $nickname;
+				
+        $this->stash['ip'] = Sher_Core_Helper_Auth::get_ip();
 				$ok = $model->apply_and_save($this->stash);
         if(!$ok){
           $this->stash['msg'] = '提交失败，请重试！';
@@ -271,6 +281,12 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
         }
 
         $user_data = array();
+        if(empty($this->visitor->profile->realname)){
+          $user_data['profile.realname'] = isset($this->stash['name']) ? $this->stash['name'] : null;
+        }
+        if(empty($this->visitor->profile->phone)){
+          $user_data['profile.phone'] = isset($this->stash['phone']) ? $this->stash['phone'] : null;
+        }
         if(empty($this->visitor->profile->address)){
           $user_data['profile.address'] = isset($this->stash['address']) ? $this->stash['address'] : null;
         }
@@ -282,6 +298,12 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
         }
         if(empty($this->visitor->profile->im_qq)){
           $user_data['profile.im_qq'] = isset($this->stash['qq']) ? $this->stash['qq'] : null;
+        }
+        if(empty($this->visitor->profile->province_id)){
+          $user_data['profile.province_id'] = isset($this->stash['province']) ? (int)$this->stash['province'] : 0;
+        }
+        if(empty($this->visitor->profile->district_id)){
+          $user_data['profile.district_id'] = isset($this->stash['district']) ? (int)$this->stash['district'] : 0;
         }
 
         //更新基本信息
@@ -374,10 +396,12 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
       for ($i=0; $i < $max; $i++) {
         $total++;
         if($list[$i]['user_id']==$apply['user_id']){
+          $is_end = true;
           break;
         }
       }
       if($max < $size){
+        $is_end = true;
         break;
       }
       $page++;
@@ -460,6 +484,12 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
             case 5://结束
               $result['rows'][$i]['step_over'] = true;
               break;
+          }
+
+          if(isset($result['rows'][$i]['price']) && !empty($result['rows'][$i]['price'])){
+            $result['rows'][$i]['has_price'] = true;
+          }else{
+            $result['rows'][$i]['has_price'] = false;
           }
 
           // 是否有试用报告

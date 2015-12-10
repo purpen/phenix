@@ -1,7 +1,7 @@
 <div class="ui applytry small modal transition">
-  	<i class="close icon"></i>
 	<div class="header">
 	    申请产品试用
+	    <i class="close icon"></i>
 	</div>
 	<div class="container">
 		<form action="{{ app_url_action_base }}/try/ajax_apply" class="ui form" method="post" id="apply-form">
@@ -12,8 +12,8 @@
 
 					<div class="field">
 						<label>申请理由</label>
-						<textarea name="content" class="small" placeholder="有试用朋友圈或微博分享截图，才有资格中签"></textarea>
-						<div class="description">来说说你要申请产品试用的理由，真实诚恳将有助我们通过审核。</div>
+						<textarea name="content" class="small" placeholder="来说说你要申请产品试用的理由，真实诚恳将有助我们通过审核。"></textarea>
+						<div class="description">欢迎将试用分享到微信朋友圈和微博</div>
 					</div>
 
 					<div class="two fields">
@@ -30,7 +30,7 @@
 					<div class="field">
 						<label>所在地区</label>
 						<div class="ui selection province dropdown" style="width:49% !important;">
-							<input type="hidden" name="province" value="{{ addbook.province }}" />
+							<input type="hidden" name="province" value="{{ visitor.profile.province_id }}" />
 			
 						    <div class="default text">省份/自治区</div>
 						    <i class="flat arrowbottom icon"></i>
@@ -42,7 +42,7 @@
 						</div>
 		
 						<div class="ui selection district dropdown" id="district-menu" style="width:49% !important;float:right;">
-							<input type="hidden" name="district" value="{{ district.city }}" />
+							<input type="hidden" name="district" value="{{ visitor.profile.district_id }}" />
 						    <div class="default text">地区区域</div>
 						    <i class="flat arrowbottom icon"></i>
 						    <div class="menu">

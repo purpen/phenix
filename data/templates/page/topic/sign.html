@@ -127,6 +127,7 @@
                     <i class="calendar icon"></i> 今日已签到
                 </a>
                 <p>今日签到排行: <span class="no">{{ user_sign.last_date_no }}</span> </p>
+				
             </div>
             {%else%}
             <div class="pai">
@@ -134,6 +135,7 @@
                   <i class="calendar icon"></i> <span name="sign-text">签到</span>
                 </a>
                 <p class="sign-number-text" style="display:none;">今日签到排行: <span class="no"></span> </p>
+				
             </div>
             {%endif%}
             <div class="mine">
@@ -162,6 +164,7 @@
                     </tr>
                 </table>
             </div>
+			
         </div>
     </div>
     <div class="mainleftwrap">
@@ -303,7 +306,8 @@
               {% for sign in draw_list.rows %}
                 <div class="item">
                     <img class="ui avatar image" src="{{ sign.user.small_avatar_url }}">
-                    <a class="ui link" href="{{ sign.user.home_url }}" target="_blank">{{ sign.user.nickname }}</a>
+                    <a class="ui link" href="{{ sign.user.home_url }}" target="_blank">{{ sign.user.nickname }}</a> 
+                    {% if sign.is_latest_day%}<img src="{{ app_url_packaged }}/images/new.gif" alt="NEW">{%endif%}
                     <div class="content">
                         <div class="description">{{ sign.draw_txt }}</div>
                     </div>

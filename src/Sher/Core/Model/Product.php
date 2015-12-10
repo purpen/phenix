@@ -49,6 +49,11 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		# 类别支持多选
 		'category_id' => 0,
+
+    # 场景
+    'scene_ids' => array(),
+    # 风格
+    'style_ids' => array(),
 		
 		# 上传者
 		'user_id' => null,
@@ -290,6 +295,17 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     $row['comment_view_url'] = sprintf(Doggy_Config::$vars['app.url.shop'].'/view/%d/%d', $row['_id'], 1);
 		
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
+
+    // 场景转换字符串
+    if(isset($row['scene_ids']) && !empty($row['scene_ids'])){
+ 		  $row['scene_ids_to_s'] = implode(',', $row['scene_ids']);   
+    }
+    // 风格转换字符串
+    if(isset($row['style_ids']) && !empty($row['style_ids'])){
+ 		  $row['style_ids_to_s'] = implode(',', $row['style_ids']);   
+    }
+
+
 		$row['vote_count'] = $row['vote_favor_count'] + $row['vote_oppose_count'];
 		
         if($row['stage']){

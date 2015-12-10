@@ -39,7 +39,7 @@
 		</thead>
 		<tbody>
 
-			{% subject_record_list var:'list' target_id:target_id type:1 event:event page:page size:50 %}
+			{% subject_record_list var:'list' target_id:target_id type:1 event:event page:page size:100 %}
 
 			{% for f in list.rows %}
         
@@ -67,11 +67,15 @@
                 {%endif%}
             </td>
             <td>
-              {% if target_id==5 %}
-                <p class="attribute">姓名：{{ f.info.realname }}</p>
-                <p class="attribute">手机：{{ f.info.phone }}</p>
-                <p class="attribute">公司：{{ f.info.company }}</p>
-                <p class="attribute">职位：{{ f.info.job }}</p>
+              <p class="attribute">姓名：{{ f.info.realname|default '--' }}</p>
+              <p class="attribute">手机：{{ f.info.phone|default '--' }}</p>
+              <p class="attribute">公司：{{ f.info.company|default '--' }}</p>
+              <p class="attribute">职位：{{ f.info.job|default '--' }}</p>
+              {% if f.info.option_01 %}
+              <p class="attribute">option_01：{{ f.info.option_01|default '--' }}</p>
+              {%endif%}
+              {% if f.info.option_02 %}
+              <p class="attribute">option_02：{{ f.info.option_02|default '--' }}</p>
               {%endif%}
 
             </td>
@@ -107,6 +111,7 @@
 	<div class="ui pagination">
 		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
 		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
 	</div>
 	{% endif %}
 {% endblock %}

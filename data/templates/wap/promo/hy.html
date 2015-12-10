@@ -127,7 +127,7 @@
   
   
   .page-1{
-		background:url({{ app_url_packaged }}/images/promo/hy/bj1.jpg) center center;
+		background:url({{ app_url_packaged }}/images/promo/hy/bg0001.jpg) center top;
 		/*-webkit-animation: 'p1BgAnimation' 4s linear infinite;
 		animation: 'p1BgAnimation' 4s linear infinite;*/
     background-repeat: no-repeat;
@@ -263,6 +263,57 @@
 	        opacity: 1;
 	    }
 	}
+	
+	@-webkit-keyframes scale-to-zero-with-move{
+	  0% {
+        -webkit-transform: translate3d(0%, 0, 0) scale(20);
+        opacity: 0;
+        width:30%;
+        left: 35%;
+        top: 42%;
+        z-index: 3;
+    }
+    35%{
+      -webkit-transform: translate3d(0%, 0, 0) scale(1);
+      opacity: 0.6;
+      width:30%;
+      left: 35%;
+      top: 42%;
+      z-index: 3;
+    }
+    70%{
+      -webkit-transform: translate3d(0%, 0, 0) scale(1);
+      opacity: 1;
+      width:30%;
+      left: 35%;
+      top: 42%;
+      z-index: 3;
+    }
+    100%{
+      -webkit-transform: translate3d(0%, 0, 0) scale(1);
+      opacity: 1;
+      width:18%;
+      left: 5%;
+      top: 2%;
+      z-index: 3;
+    }
+	  
+	  
+	}
+	.page-6 .joint{
+	  animation-delay: 6s;
+    -webkit-animation-delay: 6s;
+    opacity:0;
+	}
+	.pagem-logo {
+      -webkit-animation: 4s scale-to-zero-with-move cubic-bezier(.17, .67, .11, .93) forwards;
+      animation: 4s scale-to-zero-with-move cubic-bezier(.17, .67, .11, .93) forwards;
+      animation-delay: 2s;
+      -webkit-animation-delay: 2s;
+      opacity:0;
+  }
+	
+	
 	.pt-9{
 	  width:25%;
 	  top:18%;
@@ -274,13 +325,13 @@
 	.pt-10{
 	  width:30%;
 	  left:35%;
-	  top:48%;
+	  top:46%;
 	  animation-delay:1.5s;
 		-webkit-animation-delay:1.5s;
 	}
 	.pt-end{
-	  width:62%;
-	  left:19%;
+	  width:78%;
+	  left:11%;
 	  top:62%;
 	  animation-delay:1.6s;
 		-webkit-animation-delay:1.6s;
@@ -290,16 +341,16 @@
 	.pt-11{
 	  width:62%;
 	  left:19%;
-	  top:80%;
+	  top:85%;
 	  animation-delay:1.6s;
 		-webkit-animation-delay:1.6s;
 		-webkit-animation-duration: 2s;
     animation-duration: 2s;
 	}
 	.pt-12{
-	  width:78%;
-	  left:11%;
-	  top:88%;
+	  width:62%;
+	  left:19%;
+	  top:90%;
 	  animation-delay:1.6s;
 		-webkit-animation-delay:1.6s;
 		-webkit-animation-duration: 2s;
@@ -307,7 +358,7 @@
 	}
 	
 	.page-2{
-	  background:url({{ app_url_packaged }}/images/promo/hy/bg2.jpg) no-repeat center center /cover;
+	  background:url(http://frstatic.qiniudn.com/images/promo/hy/bg02.jpg) no-repeat center center /cover;
 	}
 	.pt2-1,.pt3-1{
 	  width:100%;
@@ -353,7 +404,7 @@
 	  z-index:2;
 	}
 	.page-3,.page-4,.page-5,.page-6,.page-7,.page-8,.page-9,.page-10,.page-11,.page-12,.page-13,.page-14{
-	  background:url({{ app_url_packaged }}/images/promo/hy/bg3.jpg) no-repeat center center /cover;
+	  background:url(http://frstatic.qiniudn.com/images/promo/hy/bg03.jpg) no-repeat center center /cover;
 	}
 	.pt3-2{
 	  width:88%;
@@ -394,7 +445,7 @@
 	  width:88%;
 	  left:6%;
 	  top:76%;
-	  opacity:0;
+	  opacity:1;
 	  animation-delay:3.6s;
   	-webkit-animation-delay:3.6s;
   	-webkit-animation-duration: 0.6s !important;
@@ -611,14 +662,14 @@
 	.ptl6-1{
 	  width:31.25%;
 	  left:8.5%;
-	  top:30%;
+	  top:32%;
 	  animation-delay:0.6s;
   	-webkit-animation-delay:0.6s;
 	}
 	.pt6-1{
 	  width:20%;
 	  left:8.5%;
-	  top:33%;
+	  top:35%;
 	  opacity:0;
 	  animation-delay:0.8s;
   	-webkit-animation-delay:0.8s;
@@ -626,7 +677,7 @@
 	.pt6-2{
 	  width:20%;
 	  left:29.5%;
-	  top:33%;
+	  top:35%;
 	  opacity:0;
 	  animation-delay:0.9s;
   	-webkit-animation-delay:0.9s;
@@ -634,7 +685,7 @@
 	.pt6-3{
 	  width:20%;
 	  left:50.5%;
-	  top:33%;
+	  top:35%;
 	  opacity:0;
 	  animation-delay:1s;
   	-webkit-animation-delay:1s;
@@ -642,7 +693,7 @@
 	.pt6-4{
 	  width:20%;
 	  left:71.5%;
-	  top:33%;
+	  top:35%;
 	  opacity:0;
 	  animation-delay:1.1s;
   	-webkit-animation-delay:1.1s;
@@ -650,7 +701,7 @@
 	.pt6-5{
 	  width:20%;
 	  left:8.5%;
-	  top:38%;
+	  top:40%;
 	  opacity:0;
 	  animation-delay:1.2s;
   	-webkit-animation-delay:1.2s;
@@ -658,7 +709,7 @@
 	.pt6-6{
 	  width:20%;
 	  left:29.5%;
-	  top:38%;
+	  top:40%;
 	  opacity:0;
 	  animation-delay:1.3s;
   	-webkit-animation-delay:1.3s;
@@ -668,14 +719,14 @@
 	.ptl6-2{
 	  width:31.25%;
 	  left:8.5%;
-	  top:44%;
+	  top:46%;
 	  animation-delay:1.3s;
   	-webkit-animation-delay:1.3s;
 	}
 	.pt6-7{
 	  width:20%;
 	  left:8.5%;
-	  top:47%;
+	  top:49%;
 	  opacity:0;
 	  animation-delay:1.4s;
   	-webkit-animation-delay:1.4s;
@@ -683,7 +734,7 @@
 	.pt6-8{
 	  width:20%;
 	  left:29.5%;
-	  top:47%;
+	  top:49%;
 	  opacity:0;
 	  animation-delay:1.5s;
   	-webkit-animation-delay:1.5s;
@@ -691,7 +742,7 @@
 	.pt6-9{
 	  width:20%;
 	  left:50.5%;
-	  top:47%;
+	  top:49%;
 	  opacity:0;
 	  animation-delay:1.6s;
   	-webkit-animation-delay:1.6s;
@@ -699,7 +750,7 @@
 	.pt6-10{
 	  width:20%;
 	  left:71.5%;
-	  top:47%;
+	  top:49%;
 	  opacity:0;
 	  animation-delay:1.7s;
   	-webkit-animation-delay:1.7s;
@@ -707,7 +758,7 @@
 	.pt6-11{
 	  width:20%;
 	  left:8.5%;
-	  top:52%;
+	  top:54%;
 	  opacity:0;
 	  animation-delay:1.8s;
   	-webkit-animation-delay:1.8s;
@@ -715,7 +766,7 @@
 	.pt6-12{
 	  width:20%;
 	  left:29.5%;
-	  top:52%;
+	  top:54%;
 	  opacity:0;
 	  animation-delay:1.9s;
   	-webkit-animation-delay:1.9s;
@@ -723,7 +774,7 @@
 	.pt6-13{
 	  width:20%;
 	  left:50.5%;
-	  top:52%;
+	  top:54%;
 	  opacity:0;
 	  animation-delay:2s;
   	-webkit-animation-delay:2s;
@@ -731,7 +782,7 @@
 	.pt6-14{
 	  width:20%;
 	  left:71.5%;
-	  top:52%;
+	  top:54%;
 	  opacity:0;
 	  animation-delay:2.1s;
   	-webkit-animation-delay:2.1s;
@@ -772,112 +823,108 @@
 	.ptl6-3{
 	  width:31.25%;
 	  left:8.5%;
-	  top:63%;
-	  animation-delay:2.5s;
-  	-webkit-animation-delay:2.5s;
+	  top:60%;
+	  animation-delay:2.3s;
+  	-webkit-animation-delay:2.3s;
 	}
 	.pt6-19{
 	  width:20%;
 	  left:8.5%;
-	  top:66%;
+	  top:63%;
 	  opacity:0;
-	  animation-delay:2.6s;
-  	-webkit-animation-delay:2.6s;
+	  animation-delay:2.4s;
+  	-webkit-animation-delay:2.4s;
 	}
 	.pt6-20{
 	  width:20%;
 	  left:29.5%;
-	  top:66%;
+	  top:63%;
 	  opacity:0;
-	  animation-delay:2.7s;
-  	-webkit-animation-delay:2.7s;
+	  animation-delay:2.5s;
+  	-webkit-animation-delay:2.5s;
 	}
 	.pt6-21{
 	  width:20%;
 	  left:50.5%;
-	  top:66%;
+	  top:63%;
 	  opacity:0;
-	  animation-delay:2.8s;
-  	-webkit-animation-delay:2.8s;
+	  animation-delay:2.6s;
+  	-webkit-animation-delay:2.6s;
 	}
 	.pt6-22{
 	  width:20%;
 	  left:71.5%;
-	  top:66%;
+	  top:63%;
+	  opacity:0;
+	  animation-delay:2.7s;
+  	-webkit-animation-delay:2.7s;
+	}
+	.pt6-23{
+	  width:20%;
+	  left:8.5%;
+	  top:68%;
+	  opacity:0;
+	  animation-delay:2.8s;
+  	-webkit-animation-delay:2.8s;
+	}
+	.pt6-24{
+	  width:20%;
+	  left:29.5%;
+	  top:68%;
 	  opacity:0;
 	  animation-delay:2.9s;
   	-webkit-animation-delay:2.9s;
+	}
+	.pt6-25{
+	  width:20%;
+	  left:50.5%;
+	  top:68%;
+	  opacity:0;
+	  animation-delay:3s;
+  	-webkit-animation-delay:3s;
+	}
+	.pt6-26{
+	  width:20%;
+	  left:71.5%;
+	  top:68%;
+	  opacity:0;
+	  animation-delay:3.1s;
+  	-webkit-animation-delay:3.1s;
 	}
 	
 	.ptl6-4{
 	  width:31.25%;
 	  left:8.5%;
-	  top:72%;
-	  animation-delay:2.9s;
-  	-webkit-animation-delay:2.9s;
-	}
-	.pt6-23{
-	  width:20%;
-	  left:8.5%;
-	  top:75%;
-	  opacity:0;
-	  z-index:9;
-	  animation-delay:3s;
-  	-webkit-animation-delay:3s;
-	}
-	.pt6-24{
-	  width:20%;
-	  left:29.5%;
-	  top:75%;
-	  opacity:0;
-	  z-index:9;
+	  top:74%;
 	  animation-delay:3.1s;
   	-webkit-animation-delay:3.1s;
 	}
-	.pt6-25{
+	.pt6-27{
 	  width:20%;
-	  left:50.5%;
-	  top:75%;
+	  left:8.5%;
+	  top:77%;
 	  opacity:0;
 	  z-index:9;
 	  animation-delay:3.2s;
   	-webkit-animation-delay:3.2s;
 	}
-	.pt6-26{
+	.pt6-28{
 	  width:20%;
-	  left:71.5%;
-	  top:75%;
+	  left:29.5%;
+	  top:77%;
 	  opacity:0;
 	  z-index:9;
 	  animation-delay:3.3s;
   	-webkit-animation-delay:3.3s;
 	}
-	.pt6-27{
+	.pt6-29{
 	  width:20%;
-	  left:8.5%;
-	  top:80%;
+	  left:50.5%;
+	  top:77%;
 	  opacity:0;
 	  z-index:9;
 	  animation-delay:3.4s;
   	-webkit-animation-delay:3.4s;
-	}
-	.pt6-28{
-	  width:20%;
-	  left:29.5%;
-	  top:80%;
-	  opacity:0;
-	  z-index:9;
-	  animation-delay:3.5s;
-  	-webkit-animation-delay:3.5s;
-	}
-	.pt6-29{
-	  width:20%;
-	  left:50.5%;
-	  top:80%;
-	  opacity:0;
-	  z-index:9;
-	  animation-delay:3.6s;
-  	-webkit-animation-delay:3.6s;
 	}
 	.pt6-30{
 	  width:20%;
@@ -1530,7 +1577,9 @@
   	-webkit-animation-delay:0.6s;
 	}
 	.pt15-4{
-	  top:70%;
+	  top:69%;
+	  width:62%;
+	  left:19%;
 	  animation-delay:1.6s;
   	-webkit-animation-delay:1.6s;
 	}
@@ -1564,7 +1613,7 @@
 		0% { -webkit-transform: scale(0.5); }
 		25% { -webkit-transform: scale(0.8); }
 		75% { -webkit-transform: scale(1.1); }
-		100% { -webkit-transform: scale(0.5); }
+		100% { -webkit-transform: scale(0.5);opacity:1; }
 	}
 	.fadeInflsh{
 		-webkit-animation-name: fadeInflsh;
@@ -1688,8 +1737,8 @@
     position: absolute;
     top: 56%;
     left: 18%;
-    animation-delay:3.5s !important;
-  	-webkit-animation-delay:3.5s !important;
+    animation-delay:1.5s !important;
+  	-webkit-animation-delay:1.5s !important;
   	opacity:0;
   	z-index:5;
   }
@@ -1828,7 +1877,46 @@
 		 left: 0%;
 		}
 	}
-	
+	.zpt5-1{
+	  width:100%;
+	  top:35%;
+	  left:0;
+	  opacity:0;
+	  animation-delay:0.6s !important;
+  	-webkit-animation-delay:0.6s !important;
+  	-webkit-animation-duration: 0.8s !important;
+    animation-duration: 0.8s !important;
+	}
+	.zpt5-2{
+	  width:100%;
+	  top:39%;
+	  left:0;
+	  opacity:0;
+	  animation-delay:0.8s !important;
+  	-webkit-animation-delay:0.8s !important;
+  	-webkit-animation-duration: 0.8s !important;
+    animation-duration: 0.8s !important;
+	}
+	.zpt5-3{
+	  width:100%;
+	  top:43%;
+	  left:0;
+	  opacity:0;
+	  animation-delay:1s !important;
+  	-webkit-animation-delay:1s !important;
+  	-webkit-animation-duration: 0.8s !important;
+    animation-duration: 0.8s !important;
+	}
+	.zpt5-4{
+	  width:100%;
+	  top:47%;
+	  left:0;
+	  opacity:0;
+	  animation-delay:1.2s !important;
+  	-webkit-animation-delay:1.2s !important;
+  	-webkit-animation-duration: 0.8s !important;
+   animation-duration: 0.8s !important;
+	}
 </style>
 {% endblock %}
 
@@ -1840,7 +1928,7 @@
     var m_name = '绝密行动 代号“火眼”';
     var img_url = '{{ app_url_packaged }}/images/promo/hy/share.jpg';
     var link = '{{ app_url_wap_promo }}/hy';
-    var desc_str = 'm.taihuoniao.com';
+    var desc_str = '加入火眼行动，一齐披荆斩棘，共同铸就智能硬件未来';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -1928,33 +2016,6 @@
  						if(index == 6){
  							$('.page-6 img').css('display','block');
  						}
- 			      if(index == 7){
- 							$('.page-7 img').css('display','block');
- 						}
- 						if(index == 8){
- 							$('.page-8 img').css('display','block');
- 						}
- 						if(index == 9){
- 							$('.page-9 img').css('display','block');
- 						}
- 						if(index == 10){
- 							$('.page-10 img').css('display','block');
- 						}
- 						if(index == 11){
- 							$('.page-11 img').css('display','block');
- 						}
- 			      if(index == 12){
- 							$('.page-12 img').css('display','block');
- 						}
- 						if(index == 13){
- 							$('.page-13 img').css('display','block');
- 						}
- 						if(index == 14){
- 							$('.page-14 img').css('display','block');
- 						}
- 						if(index == 15){
- 							$('.page-15 img').css('display','block');
- 						}
  			},
  			onLeave: function(index, direction){
  						if(index == 1){
@@ -1975,33 +2036,6 @@
  						if(index == 6){
  							$('.page-6 img').css('display','none');
  						}
- 						if(index == 7){
- 							$('.page-7 img').css('display','none');
- 						}
- 						if(index == 8){
- 							$('.page-8 img').css('display','none');
- 						}
- 						if(index == 9){
- 							$('.page-9 img').css('display','none');
- 						}
- 						if(index == 10){
- 							$('.page-10 img').css('display','none');
- 						}
- 						if(index == 11){
- 							$('.page-11 img').css('display','none');
- 						}
- 						if(index == 12){
- 							$('.page-12 img').css('display','none');
- 						}
- 						if(index == 13){
- 							$('.page-13 img').css('display','none');
- 						}
- 						if(index == 14){
- 							$('.page-14 img').css('display','none');
- 						}
- 						if(index == 15){
- 							$('.page-15 img').css('display','none');
- 						}
  			}
  	  });
  	  setInterval(function(){
@@ -2014,8 +2048,10 @@
              if (window.orientation == 90 || window.orientation == -90) {
                 $('.shuping').css('display','none');
                 $('.hengping').css('display','block');
-             } else {
+             } 
+             else {
                 $('.shuping').css('display','block');
+                $('.page-1 img').css('display','block');
                 $('.hengping').css('display','none');
              }
          }
@@ -2023,7 +2059,7 @@
  	        bgm = new Audio5js({
        	      swf_path: 'http://frstatic.qiniudn.com/wechat/js/audio5js/swf/audio5js.swf',
        	      ready: function () {
-       	          this.load("http://frstatic.qiniudn.com/wechat/js/Won't Go Home Without You.mp3");
+       	          this.load("http://frstatic.qiniudn.com/wechat/js/He's%20a%20Pirate-Klaus%20Badelt—700.mp3");
        	          this.play();
 
        	          this.on('canplay', function(){
@@ -2046,103 +2082,20 @@
        				}
        		});
 
-       		$('#user-info-form').livequery(function(){
-         		$(this).form({
-         			people: {
-         				identifier  : 'people',
-         				rules: [
-         					{
-         						type   : 'empty',
-         						prompt : '姓名不能为空'
-         					}
-         				]
-         			},
-         			mobile: {
-         				identifier  : 'mobile',
-         				rules: [
-         					{
-         						type   : 'empty',
-         						prompt : '电话不能为空'
-         					}
-         				]
-         			},
-         			address: {
-         				identifier  : 'address',
-         				rules: [
-         					{
-         						type   : 'empty',
-         						prompt : '地址不能为空'
-         					}
-         				]
-         			},
-         			position: {
-         				identifier  : 'position',
-         				rules: [
-         					{
-         						type   : 'empty',
-         						prompt : '职位不能为空'
-         					}
-         				]
-         			},
-         			name: {
-         				identifier  : 'name',
-         				rules: [
-         					{
-         						type   : 'empty',
-         						prompt : '公司不能为空'
-         					}
-         				]
-         			},
-         			wechat: {
-         				identifier  : 'wechat',
-         				rules: [
-         					{
-         						type   : 'empty',
-         						prompt : '微信号不能为空'
-         					}
-         				]
-         			}
-         		}, {
-         			inline : true,
-         			onSuccess: function(event){
-         				event.preventDefault();
-                $(this).ajaxSubmit({
-                  dataType: 'json',
-                  beforeSubmit: function(){
-                    phenix.before_submit();
-                  },
-                  success: function(data){
-                    phenix.after_submit();
-                    
-                    if(data.is_error){
-                      $(event.target).addClass('error');
-                      phenix.show_error_note(data.message);
-                    }else{
-                      $('.ui.user-info-box.modal').modal('hide');
-                      phenix.show_ok_note(data.message, 5000);
-                    }
-                  }
-                });
-         			}
-         		});
-         	});
-
            //报名按钮
-         	$('.join').click(function(){
+         	$('.join,.pagem-logo').click(function(){
          		// 所有ajax请求，验证是否登录
          		if (!phenix.visitor.is_login){
-         		  phenix.redirect("{{ app_url_wap }}/auth/login");
-         			return false;
+         		  //phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+         			//return false;
          		}
-             $('.ui.user-info-box.modal')
-             .modal('setting', 'closable', false)
-             .modal('setting', 'transition', 'vertical  flip')
-             .modal('show');
-             return false; 
+         		phenix.redirect("{{ app_url_wap }}/promo/hy_sign");
+         		return false;
          	});
-         	$('.ui.deny.button,i.close').click(function(){
+         	$('.cancel.btn').click(function(){
          		$('.ui.user-info-box.modal').modal('hide');
          	});
+
  	  
       </script>
       
@@ -2172,10 +2125,10 @@
   	  <img src="{{ app_url_packaged }}/images/promo/hy/huo.png" class="st pt-7 bounceInLeft animated">
   	  <img src="{{ app_url_packaged }}/images/promo/hy/yan.png" class="st pt-8 bounceInRight animated">
   	  <img src="{{ app_url_packaged }}/images/promo/hy/logo.png" class="st pt-9 page-logo">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/time2.png" class="st pt-10 zoomIn animated">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/zoomin.png" class="st pt-end zoomIn animated">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/word01.png" class="st pt-11 zoomInLeft animated">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/word2.png" class="st pt-12 zoomInRight animated">
+  	  <img src="{{ app_url_packaged }}/images/promo/hy/time3.png" class="st pt-10 zoomIn animated">
+  	  <img src="{{ app_url_packaged }}/images/promo/hy/zoomin1.png" class="st pt-end zoomIn animated">
+  	  <img src="{{ app_url_packaged }}/images/promo/hy/zword1.png" class="st pt-11 zoomInLeft animated">
+  	  <img src="{{ app_url_packaged }}/images/promo/hy/zword2.png" class="st pt-12 zoomInRight animated">
   	  <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
   	</div>
 		
@@ -2185,14 +2138,14 @@
       <!--<img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
   	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
   	  <img src="{{ app_url_packaged }}/images/promo/hy/xing1.png" class="st xing pt-5">-->
-		  <img src="{{ app_url_packaged }}/images/promo/hy/t2-1.png" class="st pt2-1 lightSpeedIn animated" style="display:none">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t2-2.png" class="st pt2-1 lightSpeedIn animated" style="display:none">
 		  <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 
       <img src="{{ app_url_packaged }}/images/promo/hy/t2w1.png" class="st pt2 pt2-2 flipInX animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t2w2.png" class="st pt2 pt2-3 flipInX animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t2w3.png" class="st pt2 pt2-4 bounceInRight animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t2w4.png" class="st pt2 pt2-5 bounceInLeft animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t2w5.png" class="st pt2 pt2-6 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t2w05.png" class="st pt2 pt2-6 page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
       <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 	  
@@ -2204,12 +2157,12 @@
       <!--<img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
   	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
   	  <img src="{{ app_url_packaged }}/images/promo/hy/xing1.png" class="st xing pt-5">-->
-		  <img src="{{ app_url_packaged }}/images/promo/hy/t3-1.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t3-2.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
 		  <img src="{{ app_url_packaged }}/images/promo/hy/t3w01.png" class="st pt3-2 fadeInflsh animated" style="display:none">
-		  <img src="{{ app_url_packaged }}/images/promo/hy/t3w02.png" class="st pt3-3 fadeInflsh animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t3w003.png" class="st pt3-4 page-logo" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t3w04.png" class="st pt3-5 page-logo" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t3w05.png" class="st pt3-6 page-logo" style="display:none">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/zt3w02.png" class="st pt3-3 fadeInflsh animated" style="display:none">
+      <!--<img src="{{ app_url_packaged }}/images/promo/hy/t3w003.png" class="st pt3-4 page-logo" style="display:none">-->
+      <img src="{{ app_url_packaged }}/images/promo/hy/zt3w03.png" class="st pt3-5 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/zt3w04.png" class="st pt3-6 zoomIn animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
       <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 		</div>
@@ -2220,22 +2173,63 @@
       <!--<img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
   	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
   	  <img src="{{ app_url_packaged }}/images/promo/hy/xing1.png" class="st xing pt-5">-->
-		  <img src="{{ app_url_packaged }}/images/promo/hy/t4-1.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t4w1.png" class="st pt4-1 page-logo" style="display:none">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t4-2.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
+		  
+		  
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t6l1.png" class="st ptl6-1 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t6w01.png" class="st pt6-1 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t6w02.png" class="st pt6-2 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t6w03.png" class="st pt6-3 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t6w04.png" class="st pt6-4 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t6w05.png" class="st pt6-5 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t6w06.png" class="st pt6-6 page-logo" style="display:none">
+		  
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t6l2.png" class="st ptl6-2 fadeInUp animated" style="display:none">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t6w07.png" class="st pt6-7 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t6w08.png" class="st pt6-8 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t6w12.png" class="st pt6-9 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t6w13.png" class="st pt6-10 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t6w11.png" class="st pt6-11 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t6w15.png" class="st pt6-12 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t6w14.png" class="st pt6-13 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t6w09.png" class="st pt6-14 page-logo" style="display:none">
+      
+      
+      <img src="{{ app_url_packaged }}/images/promo/hy/zt6l3.png" class="st ptl6-3 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/zt6w1.png" class="st pt6-19 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/zt6w2.png" class="st pt6-20 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/zt6w3.png" class="st pt6-21 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/zt6w4.png" class="st pt6-22 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/zt6w5.png" class="st pt6-23 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/zt6w6.png" class="st pt6-24 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/zt6w7.png" class="st pt6-25 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/zt6w8.png" class="st pt6-26 page-logo" style="display:none">
+		  
+		  <img src="{{ app_url_packaged }}/images/promo/hy/zt6l4.png" class="st ptl6-4 fadeInUp animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/zt6w9.png" class="st pt6-27 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/zt6w10.png" class="st pt6-28 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/zt6w11.png" class="st pt6-29 page-logo" style="display:none">
+		  
+		  
+      <!--<img src="{{ app_url_packaged }}/images/promo/hy/t4w1.png" class="st pt4-1 page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t4w2.png" class="st pt4-2 page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t4w3.png" class="st pt4-3 page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t4w4.png" class="st pt4-4 page-logo" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t4w5.png" class="st pt4-5 page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t4w5.png" class="st pt4-5 page-logo" style="display:none">-->
       <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
       <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 		</div>
-	
-		<div class="section page-5">
+		
+		<!--<div class="section page-5">
 		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint" style="display:none">
-      <!--<img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing1.png" class="st xing pt-5">-->
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t5-2.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
+		  
+		</div>-->
+	
+		<!--<div class="section page-5">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join page-logo" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint" style="display:none">
 		  <img src="{{ app_url_packaged }}/images/t5-1.png " class="st pt3-1 lightSpeedIn animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t5w01.png" class="st pt5-1 page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t5w02.png" class="st pt5-2 page-logo" style="display:none">
@@ -2260,9 +2254,6 @@
 		<div class="section page-6">
 		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint" style="display:none">
-      <!--<img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing1.png" class="st xing pt-5">-->
 		  <img src="{{ app_url_packaged }}/images/promo/hy/t6-1.png " class="st pt3-1 lightSpeedIn animated" style="display:none">
 		  
 		  <img src="{{ app_url_packaged }}/images/promo/hy/t6l1.png" class="st ptl6-1 fadeInUp animated" style="display:none">
@@ -2314,9 +2305,6 @@
 	  <div class="section page-7">
 		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint" style="display:none">
-      <!--<img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing1.png" class="st xing pt-5">-->
 		  <img src="{{ app_url_packaged }}/images/promo/hy/t9-1.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
 		  <img src="{{ app_url_packaged }}/images/promo/hy/t9w01.png" class="st pt9-1 pt9 flipInY animated" style="display:none">
 		  <img src="{{ app_url_packaged }}/images/promo/hy/t9w020.png" class="st pt9-2 pt9 zoomIn animated" style="display:none">
@@ -2338,9 +2326,6 @@
 		<div class="section page-8">
 		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint" style="display:none">
-      <!--<img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing1.png" class="st xing pt-5">-->
 		  <img src="{{ app_url_packaged }}/images/promo/hy/t7-1.png " class="st pt3-1 lightSpeedIn animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t7l1.png" class="st pt7l1 fadeInUp animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t7w01.png" class="st pt7-1 page-logo" style="display:none">
@@ -2368,9 +2353,6 @@
   	<div class="section page-9">
 		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint" style="display:none">
-      <!--<img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing1.png" class="st xing pt-5">-->
 		  <img src="{{ app_url_packaged }}/images/promo/hy/t8-1.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t8w1.png" class="st pt8-1 pt8 page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t8w2.png" class="st pt8-2 pt8 page-logo" style="display:none">
@@ -2388,9 +2370,6 @@
 	  <div class="section page-10">
 		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint" style="display:none">
-      <!--<img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing1.png" class="st xing pt-5">-->
 		  <img src="{{ app_url_packaged }}/images/promo/hy/t13-01.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t13w01.png" class="st pt13-1 fadeInUp animated" style="display:none">
       
@@ -2415,12 +2394,7 @@
 		<div class="section page-11">
 		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint" style="display:none">
-      <!--<img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing1.png" class="st xing pt-5">-->
 		  <img src="{{ app_url_packaged }}/images/promo/hy/t11-1.png" class="st pt3-1 lightSpeedIn animated"  style="display:none">
-      <!--<img src="{{ app_url_packaged }}/images/promo/hy/t11w1.png" class="st pt11-1 fadeInUp animated" style="display:none">-->
-      
       <img src="{{ app_url_packaged }}/images/promo/hy/t11w01.png" class="st pt11-1 page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t11w02.png" class="st pt11-2 page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t11w03.png" class="st pt11-3 page-logo" style="display:none">
@@ -2443,9 +2417,6 @@
 		<div class="section page-12">
 		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint" style="display:none">
-      <!--<img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing1.png" class="st xing pt-5">-->
 		  <img src="{{ app_url_packaged }}/images/promo/hy/t12-001.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t12w01.png" class="st pt12-1 pt12 page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t12w02.png" class="st pt12-2 pt12 page-logo" style="display:none">
@@ -2453,22 +2424,21 @@
       <img src="{{ app_url_packaged }}/images/promo/hy/t12w04.png" class="st pt12-4 pt12 fadeInUp animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none">
       <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
-		</div>
+		</div>-->
 	
-	  <div class="section page-13">
+	  <div class="section page-5">
 		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint" style="display:none">
-      <!--<img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing1.png" class="st xing pt-5">-->
-		  <img src="{{ app_url_packaged }}/images/promo/hy/t10-1.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t10w1.png" class="st pt10-1 pt10 clicr1 animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t10w2.png" class="st pt10-2 pt10 clicr2 animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t10w3.png" class="st pt10-3 pt10 clicr3 animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t10w4.png" class="st pt10-4 pt10 clicr4 animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t10w5.png" class="st pt10-5 pt10 clicr5 animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t10w06.png" class="st pt10-6 zoomIn animated" style="display:none">
-      
+		  <img src="{{ app_url_packaged }}/images/promo/hy/t5-2.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
+		  
+		  <img src="{{ app_url_packaged }}/images/promo/hy/zt5w1.png" class="st zpt5-1 page-logo" style="display:none">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/zt5w2.png" class="st zpt5-2 page-logo" style="display:none">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/zt5w3.png" class="st zpt5-3 page-logo" style="display:none">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/zt5w4.png" class="st zpt5-4 page-logo" style="display:none">
+		  
+      <div class="slide">
+          <img src="{{ app_url_packaged }}/images/promo/hy/t10w010.png" class="p3 fadeInUp animated" style="display:none"/>
+      </div>
       <div class="slide">
           <img src="{{ app_url_packaged }}/images/promo/hy/t10w07.png" class="p3 fadeInUp animated" style="display:none"/>
       </div>
@@ -2482,13 +2452,10 @@
       <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 		</div>
 		
-	
+	<!--
 		<div class="section page-14">
 		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join page-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint" style="display:none">
-      <!--<img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing1.png" class="st xing pt-5">-->
 		  <img src="{{ app_url_packaged }}/images/promo/hy/t14-1.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t14w1.png" class="st pt14-1 flipInY animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t14w2.png" class="st pt14-2 pt9 page-logo" style="display:none">
@@ -2499,18 +2466,15 @@
       <img src="{{ app_url_packaged }}/images/promo/hy/clearb.png" class="st clearb fadeInUpBig animated" style="display:none;bottom:-10%;">
       <div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16" /></div>
 		</div>
-	
-		<div class="section page-15">
-		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st join page-logo" style="display:none">
+	-->
+		<div class="section page-6">
+		  <img src="{{ app_url_packaged }}/images/promo/hy/join.png" class="st pagem-logo" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/joint.png" class="st joint" style="display:none">
-      <!--<img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-3">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing.png" class="st xing pt-4">
-  	  <img src="{{ app_url_packaged }}/images/promo/hy/xing1.png" class="st xing pt-5">-->
       <img src="{{ app_url_packaged }}/images/promo/hy/t15-1.png" class="st pt3-1 lightSpeedIn animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t15w1.png" class="st pt15-1 pt15 bounceInLeft animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t15w2.png" class="st pt15-2 pt15 page-logo" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t15w3.png" class="st pt15-3 pt15 bounceInRight animated" style="display:none">
-      <img src="{{ app_url_packaged }}/images/promo/hy/t15w004.png" class="st pt15-4 pt15 flipInX animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/t15w03.png" class="st pt15-3 pt15 bounceInRight animated" style="display:none">
+      <img src="{{ app_url_packaged }}/images/promo/hy/zt15w004.png" class="st pt15-4 pt15 flipInX animated" style="display:none">
       <img src="{{ app_url_packaged }}/images/promo/hy/t15w5.png" class="st pt15-5 page-logo" style="display:none">
 		</div>
   </div>
@@ -2524,49 +2488,51 @@
 	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;"></i>
 	</div>
 	<div class="container">
-		<form action="{{ app_url_wap }}/incubator/ajax_attend" class="ui form" method="post" id="user-info-form">
-		  	<div class="content">
-				<div class="ajax result"></div>
+					<form action="{{ app_url_wap }}/app/wap/promo_func/save_common_sign" class="ui form" method="post" id="sign-form">
+						<div class="ui segment">
+              <input type="hidden" name="target_id" value="4" />
+              <input type="hidden" name="event" value="5" />
+              <input type="hidden" name="from_to" value="2" />
 
-				<div class="ui signup-box">
-					<div class="two fields">
-						<div class="field">
-              <input type="text" name="people" value="{{ visitor.profile.realname }}" placeholder="姓名" />
-						</div>
-					</div>
-					<div class="two fields">
-						<div class="field">
-							<input type="text" name="mobile" value="{{ visitor.profile.phone }}" placeholder="填写手机号，方便信息核实" />
-						</div>
-					</div>
-					<div class="two fields">
-						<div class="field">
-							<input type="text" name="email" value="{{ visitor.email }}" placeholder="Email" />
-						</div>
-					</div>
-					<div class="two fields">
-						<div class="field">
-							<input type="text" name="wechat" value="" placeholder="微信号" />
-						</div>
-					</div>
-					<div class="field">
-            <input type="text" name="name" value="" placeholder="公司名称" />
-					</div>
-					<div class="field">
-            <input type="text" name="position" value="{{ visitor.profile.job }}" placeholder="职位" />
-					</div>
-				</div>
-		  	</div>
+							<div class="field">
+							  	<input type="text" id="account" name="phone" value="{{ visitor.profile.phone }}" placeholder="手机号" />
+								<div class="description"></div>
+							</div>
+             {% if !visitor.is_login %} 
+              <div class="inline field">
+                <input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" style="width:48%;" />
+                <a href="javascript:void(0);" class="ui small inverted magenta button" id="fetch-verify-code">获取验证码</a>
+              </div>
+              {%endif%}
+							<div class="field">
+							  	<input type="text" name="realname" value="{{ visitor.profile.realname }}" placeholder="姓名" />
+								<div class="description"></div>
+							</div>
 
-			<div class="right aligned action">
-			    <div class="ui gray deny button">
-					取消
-			    </div>
-			    <div class="ui magenta submit button">
-					确认报名
-			    </div>
-			</div>
-		</form>
+							<div class="field">
+							  	<input type="text" name="company" value="{{ visitor.profile.company }}" placeholder="公司名称" />
+								<div class="description"></div>
+							</div>
+
+							<div class="field">
+							  	<input type="text" name="job" value="{{ visitor.profile.job }}" placeholder="职位" />
+								<div class="description"></div>
+							</div>
+
+						</div>
+						
+						<div class="ui grid">
+							<div class="right aligned column">
+								<div class="ui gray cancel large active button">
+									取消
+								</div>
+								<div class="ui magenta submit large active inverted button">
+									提交
+								</div>
+							</div>
+						</div>
+						
+					</form>
 	</div>
 </div>
 

@@ -90,7 +90,7 @@
         <th>关注|粉丝|文章|产品</th>
         <th>优质用户</th>
         <th>类型</th>
-				<th>注册时间</th>
+				<th>注册时间|IP|状态</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
@@ -139,6 +139,7 @@
         <td>{{ user.kind }}</td>
 				<td>
 					{{ user.created_on|date 'Y-m-d H:i'}}
+          <p>{{ user.last_ip|default '--' }}</p>
 					<p>
 						{% if user.state == 2 %}
 						<label class="ui magenta label">已激活</label>

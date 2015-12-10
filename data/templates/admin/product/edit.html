@@ -459,6 +459,9 @@
 	<form action="{{ app_url_admin_base }}/product/save?page={{ page }}" class="ui form" method="post" id="product-form">
 		<input type="hidden" name="_id" value="{{ product._id }}" id="product_id" />
 		<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
+
+    <input type="hidden" name="old_scene_ids_to_s" value="{{ product.scene_ids_to_s }}" />
+    <input type="hidden" name="old_style_ids_to_s" value="{{ product.style_ids_to_s }}" />
 		
 		<div class="ui segment">
 			<h3 class="ui dividing header">基本信息</h3>
@@ -497,12 +500,36 @@
 			  	<input type="text" name="view_url" value="{{ product.view_url }}" />
 			</div>
 			
-			<div class="field">
-				<label>类别</label>
-				<input type="hidden" name="category_id" value="{{ product.category_id }}" id="product-category" />
-				{% category_list var:'category' only_open:1 domain:1 current:product.category_id %}
-				{% for cat in category.rows %}
-				<a class="ui {{ cat.active }} magenta category button" data-value="{{ cat._id }}">{{ cat.title }}</a>
+			<h3 class="ui dividing stage header">类别</h3>
+			<div class="grouped inline fields">
+        <div class="field">
+          <input type="hidden" name="category_id" value="{{ product.category_id }}" id="product-category" />
+          {% category_list var:'category' only_open:1 domain:1 current:product.category_id %}
+          {% for cat in category.rows %}
+          <a class="ui {{ cat.active }} magenta category button" data-value="{{ cat._id }}">{{ cat.title }}</a>
+          {% endfor %}
+        </div>
+      </div>
+
+			<h3 class="ui dividing stage header">场景</h3>
+			<div class="inline field">
+				{% style_tag_list var:'sences' fetch_current_target:1 domain:1 kind:1 state:1 current_tag_ids:product.scene_ids_to_s page:1 %}
+				{% for d in sences.rows %}
+            <div class="ui checkbox">
+              <input type="checkbox" name="sences[]" value="{{ d._id }}" {% if d.active %}checked="checked"{% endif %} /> 
+              <label>{{ d.title }}</label>
+            </div>
+        {% endfor %}
+			</div>
+
+			<h3 class="ui dividing stage header">风格</h3>
+			<div class="inline field">
+				{% style_tag_list var:'styles' fetch_current_target:1 current_tag_ids:product.style_ids_to_s domain:1 kind:2 state:1 page:1 %}
+				{% for d in styles.rows %}
+            <div class="ui checkbox">
+              <input type="checkbox" name="styles[]" value="{{ d._id }}" {% if d.active %}checked="checked"{% endif %} /> 
+              <label>{{ d.title }}</label>
+            </div>
 				{% endfor %}
 			</div>
 			

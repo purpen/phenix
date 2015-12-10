@@ -1,0 +1,34 @@
+<taconite>
+{% if success %}
+  <replaceContent select="#stat-{{ id }}">
+              {% if state == 1 %}
+              <label class="ui green label">是</label>
+              {% endif %}
+              
+              {% if state == 0 %}
+              <label class="ui red label">否</label>
+              {% endif %}
+
+  </replaceContent>
+
+  <replace select="#stat-btn-{{ id }}"><![CDATA[
+              {% if state == 1 %}
+			          <!--<a href="{{ app_url_admin }}/sign_draw_record/ajax_state?id={{ id }}&state=0" id="stat-btn-{{id}}" class="ui ajax link item">
+                  取消
+                </a>-->
+              {% endif %}
+              
+              {% if state == 0 %}
+                <a href="{{ app_url_admin }}/sign_draw_record/ajax_state?id={{ id }}&state=1" id="stat-btn-{{id}}" class="ui ajax link item">
+                  发货
+                </a>
+              {% endif %}
+
+  ]]></replace>
+
+{% else %}
+	<eval>
+		phenix.show_error_note('操作失败', 3000);
+	</eval>
+{% endif %}
+</taconite>

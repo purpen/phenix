@@ -89,7 +89,41 @@
                 </div>
                 {%endif%}
 
-			  	{% try_list var:'list' ignore_id:try_latest.rows.0._id page:page state:1 size:12 %}
+          <div class="sorts cubes">
+            <div class="ui responsive grid">
+              <div class="row">
+                      <div class="column">
+                            <div class="container">
+                                <label><i class="cubes icon"></i>选项：</label>
+                                <div class="ui horizontal list">
+                                  <a class="{% if step == 0 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=0">
+                                        全部
+                                    </a>
+                                    <a class="{% if step == '-1' %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=-1">
+                                       预热中
+                                    </a>
+                                    <a class="{% if step == 1 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=1">
+                                        申请中
+                                    </a>
+                                    <a class="{% if step == 2 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=2">
+                                        审核中
+                                    </a>
+                                    <a class="{% if step == 3 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=3">
+                                        回收报告中
+                                    </a>
+                                    <a class="{% if step == 5 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=5">
+                                        结束
+                                    </a>
+                                </div>
+                            </div>
+                      </div>      
+                  </div>
+
+              </div>
+          </div>
+
+
+			  	{% try_list var:'list' ignore_id:try_latest.rows.0._id step_stat:step page:page state:1 size:12 %}
   				{% for t in list.rows %}
   					<div class="card">
                           <div class="problock">
@@ -132,12 +166,15 @@
                       		    </a>
                               </h2>
                               <div class="excerpt">
-                                {% if t.step_stat==0 %}
-                                  <p>想要人数：<span>{{ t.want_count }}</span></p>
+                               {% if t.step_stat==0 %}
+                                  <p>想要人数：<span class="count">{{ t.want_count|default 0 }}</span>
                                 {%else%}
-                                  <p>产品数量：<span class="count">{{ t.try_count }}</span>  申请人数：<span>{{ t.apply_count }}</span></p>
+                                  <p>产品数量：<span class="count">{{ t.try_count }}</span>  申请人数：<span class="count">{{ t.apply_count }}</span>
                                 {%endif%}
-
+                                  {% if t.price %}
+                                    产品价格：<span>{{ t.price }}</span>
+                                  {%endif%}
+                                </p>
                               </div>
                               <div class="cats">
                                   {% if t.step_stat == 0 %}

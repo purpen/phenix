@@ -13,6 +13,12 @@
       <span class="love-count"></span>
         <i class="icon empty heart"></i>
       </a> 
+
+      {{#is_comment_share}}
+        <a class="ui link vote btn comment_share_btn" href="/promo/comment_vote_share?comment_id={{ _id }}" data-content="分享" data-variation="inverted">
+          <i class="icon share"></i>	
+        </a>
+      {{/is_comment_share}}
     </div>
       {{#is_reply}}
       <div>回复 #{{ reply_comment.floor }} @<a href="javascript:void(0);" class="ui link">{{ reply_comment.user.nickname }}</a></div>

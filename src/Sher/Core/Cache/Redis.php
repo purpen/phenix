@@ -23,10 +23,22 @@ class Sher_Core_Cache_Redis extends Doggy_Object {
 		
 		$redis = new Redis();
 		
-		$redis->connect($options['host'], $options['port']);
-		
-		$this->redis = $redis;
+		$ret = $redis->connect($options['host'], $options['port']);
+
+    if ($ret === false) {
+      die($redis->getLastError());
     }
+
+    $verified = (int)Doggy_Config::$vars['app.redis.default']['verified'];
+    if(!empty($verified)){
+      $ret = $redis->auth(Doggy_Config::$vars['app.redis.default']['requirepass']);
+      if ($ret === false) {
+        die($redis->getLastError());
+      }   
+    }
+
+		$this->redis = $redis;
+  }
 	
 	/**
 	 * 普通字符串

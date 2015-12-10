@@ -47,6 +47,9 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
     # 合作联系图片,1.产品合作
     const TYPE_CONTACT = 60;
 
+    # 分类标签封面图
+    const TYPE_STYLE_TAG = 61;
+
     # 后台区块编辑器图片
     const TYPE_EDITOR_BLOCK = 63;
 

@@ -8,7 +8,7 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = array('execute');
+	protected $exclude_method_list = array('execute','ajax_load_list');
 
 	/**
 	 * 默认入口
@@ -142,6 +142,10 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 				$model = new Sher_Core_Model_Albums();
 				$result = $model->load((int)$id);
 				break;
+			case Sher_Core_Model_Favorite::TYPE_COMMENT:
+				$model = new Sher_Core_Model_Comment();
+				$result = $model->load((string)$id);
+				break;
 		}
 		if(!empty($result)){
  		  $count = $result[$filed];     
@@ -220,6 +224,85 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 		
 		return $this->ajax_json('操作成功', false, '', array('love_count' => $love_count,'user_id' => $this->visitor->id));
 	}
+
+  /**
+   * 自动加载获取
+   */
+    public function ajax_load_list(){
+      $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 2;
+      $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+      $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+      $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
+      $event = isset($this->stash['event']) ? (int)$this->stash['event'] : 0;
+      $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+      $target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : null;
+      
+      $service = Sher_Core_Service_Favorite::instance();
+        
+      $query = array();
+        
+		  if($target_id){
+        if((int)$type == 3){
+          $query['target_id'] = (string)$target_id;     
+        }else{
+  			  $query['target_id'] = (int)$target_id;    
+        }
+		  }
+
+      if($type){
+        $query['type'] = $type;
+      }
+      if($event){
+        $query['event'] = $event;
+      }
+      if($user_id){
+        $query['user_id'] = $user_id;
+      }
+        
+      $options['page'] = $page;
+      $options['size'] = $size;
+
+      $options['sort_field'] = 'time';
+        
+      // 排序
+      switch ((int)$sort) {
+        case 0:
+          $options['sort_field'] = 'time';
+          break;
+      }
+
+      // 限制输出字段
+      $some_fields = array();
+      $options['some_fields'] = $some_fields;
+      
+      $resultlist = $service->get_like_list($query,$options);
+      $next_page = 'no';
+      if(isset($resultlist['next_page'])){
+          if((int)$resultlist['next_page'] > $page){
+              $next_page = (int)$resultlist['next_page'];
+          }
+      }
+        
+        $max = count($resultlist['rows']);
+        for($i=0;$i<$max;$i++){
+            $symbol = isset($resultlist['rows'][$i]['user']['symbol']) ? $resultlist['rows'][$i]['user']['symbol'] : 0;
+            if(!empty($symbol)){
+              $s_key = sprintf("symbol_%d", $symbol);
+              $resultlist['rows'][$i]['user'][$s_key] = true;
+            }
+
+            // 过滤用户表
+            if(isset($resultlist['rows'][$i]['user'])){
+              $resultlist['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['user'], array('symbol_1', 'symbol_2'));
+            }
+
+        } //end for
+
+        $data = array();
+        $data['nex_page'] = $next_page;
+        $data['results'] = $resultlist;
+        
+        return $this->ajax_json('', false, '', $data);
+    }
 	
 }
-?>

@@ -52,16 +52,6 @@
 			{% for d in list.rows %}
 
             <div id="apply-{{ d._id }}" class="order-item">
-              <div class="ui top attached header">
-                <div class="ui horizontal divided list">
-                    <div class="item">
-                        试用产品：{{ d.try.title }}
-                    </div>
-                    <div class="item">
-                        申请时间：{{ d.created_on|date }}
-                    </div>
-                </div>
-              </div>
               <div class="middle aligned ui celled white grid">
                 <div class="row">
                   <div class="center three wide column">
@@ -72,7 +62,8 @@
 
                   </div>
                   <div class=" aligned seven wide column">
-                    <p>{{ d.content }}</p>
+                    <p>试用产品: <a href="{{ d.try.view_url }}" class="ui link" target="_blank">{{ d.try.title }}</a></p>
+                    <p>申请时间: {{ d.created_on|date 'Y-m-d' }}</p>
 
                   </div>
                   <div class="center aligned three wide column">
@@ -80,6 +71,12 @@
                       <p>
                       产品状态: {{ d.try.step_label }}
                       </p>
+					  <p>
+						快递单号:
+						{% if !d.tracking_number %}无<br />
+						  {% else %}{{ d.tracking_number }}<br />
+						{% endif %}
+					  </p>
                     </div>
 
                   </div>

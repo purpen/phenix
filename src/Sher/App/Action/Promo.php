@@ -10,13 +10,110 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
     'floor'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi','rank');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi','rank','rank2','sign');
 	
 	/**
 	 * 网站入口
 	 */
 	public function execute(){
 		return $this->coupon();
+	}
+	
+	/**
+	 * 签到 抽奖
+	 */
+	public function sign(){
+		$this->set_target_css_state('page_social');
+    $this->stash['day'] = date('Ymd');
+
+    // 判断用户是否连签
+    $user_sign_model = new Sher_Core_Model_UserSign();
+    $user_sign = $user_sign_model->extend_load((int)$this->visitor->id);
+    $this->stash['has_sign'] = false;
+    if(!empty($user_sign)){
+      $today = (int)date('Ymd');
+      $yesterday = (int)date('Ymd', strtotime('-1 day'));
+      if($user_sign['last_date'] == $yesterday){
+        $continuity_times = $user_sign['sign_times'];
+      }elseif($user_sign['last_date'] == $today){
+        $continuity_times = $user_sign['sign_times'];
+        $this->stash['has_sign'] = true;
+        $this->stash['last_date_no'] = $user_sign['last_date_no'];
+      }
+    }
+
+		// 获取省市列表
+		$areas = new Sher_Core_Model_Areas();
+		$provinces = $areas->fetch_provinces();
+		$this->stash['provinces'] = $provinces;
+
+		return $this->to_html_page('page/promo/sign.html');
+	}
+	
+	/**
+	 * 2015 辣妈奶爸神嘴pk
+	 */
+	public function rank2(){
+		$this->set_target_css_state('page_social');
+    $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 30;
+
+    $dig_model = new Sher_Core_Model_DigList();
+    $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_03;
+
+    $this->stash['id'] = 1;
+    $this->stash['count_01'] = $count_01 = 0;
+    $this->stash['count_02'] = $count_02 = 0;
+    $this->stash['total_count'] = 0;
+    $this->stash['view_count'] = 0;
+    $this->stash['comment_count'] = 0;
+
+    $dig = $dig_model->load($dig_key);
+    if(empty($dig)){
+      $dig_model->update_set($dig_key, array('items.id'=>1, 'items.count_01'=>0, 'items.count_02'=>0, 'items.total_count'=>0, 'items.view_count'=>0, 'items.comment_count'=>0), true);     
+    }else{
+      $this->stash['count_01'] = $count_01 = $dig['items']['count_01'];
+      $this->stash['count_02'] = $count_02 = $dig['items']['count_02'];
+      $this->stash['total_count'] = $dig['items']['total_count'];
+      $this->stash['view_count'] = $dig['items']['view_count'];
+      $this->stash['comment_count'] = $dig['items']['comment_count'];
+    }
+
+    //  判断用户是否已投票
+    $this->stash['has_support'] = 0;
+    $this->stash['support_cid'] = 0;
+    if($this->visitor->id){
+      $mode_attend = new Sher_Core_Model_Attend();
+      $attend = $mode_attend->first(array('user_id'=>$this->visitor->id, 'target_id'=>5, 'event'=>5));
+      if(!empty($attend)){
+        $this->stash['has_support'] = 1;
+        $this->stash['support_cid'] = $attend['cid'];     
+      }   
+    }
+
+    // 增加浏览量
+    $dig_model->inc($dig_key, "items.view_count", 1);
+
+		// 评论参数
+		$comment_options = array(
+		  'comment_target_id' =>  5,
+		  'comment_target_user_id' => 0,
+		  'comment_type'  =>  10,
+		  'comment_pager' =>  '',
+		  //是否显示上传图片/链接
+		  'comment_show_rich' => 1,
+		);
+		$this->_comment_param($comment_options);
+
+    // 跳转楼层
+    $floor = (int)$this->stash['floor'];
+    if($floor){
+        $new_page = ceil($floor/$size);
+        $this->stash['page'] = $new_page;
+    }
+
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.promo'].'/rank2?page=#p##comment_top');
+		$this->stash['pager_url'] = $pager_url;
+		return $this->to_html_page('page/promo/rank2.html');
 	}
 	
 	/**

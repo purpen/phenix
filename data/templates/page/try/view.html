@@ -16,6 +16,38 @@
 	    background: no-repeat scroll center center / cover rgba(45, 53, 56, 1);
 		{% endif %}
 	}
+		.modals.dimmer > .ui.applytry.modal{
+			position:absolute !important;
+			margin: 3.5rem -24%!important;
+			overflow:visible !important;
+			top:auto !important;
+		}
+		.modals.dimmer > .ui.magenta.applytry.modal{
+			position:fixed !important;
+		}
+		.modals.dimmer  .ui.share.basic.modal{
+			top:0 !important;
+			margin-top:150px !important;
+		}
+		.scrolling.dimmable>.dimmer {
+		    position: absolute;
+		}
+		.modals.dimmer > .ui.lapiao.modal{
+			position:absolute !important;
+			margin: 3.5rem -15%!important;
+			top:150px !important;
+		}
+		.modals.dimmer > .ui.wechat.modal{
+			position:fixed !important;
+			margin: 3.5rem -24%!important;
+			top:100px !important;
+		}
+		.modals.dimmer > .ui.qrcode.modal{
+			position:absolute !important;
+			margin: 3.5rem -24%!important;
+			top:100px !important;
+		}
+		
 </style>
 {% endblock %}
 
@@ -48,7 +80,14 @@
 {% block jquery %}
     // ajax加载评论
     phenix.fetch_comment(comment_param);
-	
+
+  // 初始化省份
+  var province_id = $('[name=province]').val();
+  var district_id = $('[name=district]').val();
+  if(province_id){
+    $.get('{{ app_url_address }}/ajax_fetch_districts', {id: province_id, district_id: district_id});
+  }
+  
 	$('.ui.applytry.button').click(function(){
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
@@ -57,8 +96,10 @@
 		}
 		
 		$('.ui.applytry.modal')
+		.modal('setting', 'closable', false)
 		.modal('setting', 'transition', 'vertical  flip')
 		.modal('show');
+		$('.ui.dimmer.modals.page').css('height',$(document).innerHeight());
 		return false;
 	});
 	
@@ -80,10 +121,7 @@
 			}
 		});
 	});
-	
-	$('.ui.district.dropdown').livequery(function(){
-		$(this).dropdown();
-	});
+
 	
 	$('#apply-form').livequery(function(){
 		$(this).form({
@@ -167,8 +205,10 @@
 	// 分享
 	$('.ui.share.button').bind('click', function(){
 		$('.ui.share.modal')
+		.modal('setting', 'closable', false)
 		.modal('setting', 'transition', 'vertical  flip')
 		.modal('show');
+		$('.ui.dimmer.modals.page').css('height',$(document).innerHeight());
 	});
 	phenix.bind_share_list("{{ try.banner.fileurl }}");
 	// 生成二维码
@@ -183,6 +223,7 @@
         $('.ui.lapiao.modal')
         .modal('setting', 'transition', 'vertical  flip')
         .modal('show');
+		$('.ui.dimmer.modals.page').css('height',$(document).innerHeight());
         return false;
       });
 
@@ -190,7 +231,11 @@
   {%endif%}
 	// 分享
 	$('.ui.share.button').bind('click', function(){
-		$('.ui.share.modal').modal('show');
+		$('.ui.share.modal')
+		.modal('show')
+		.modal('setting', 'closable', false)
+		.modal('setting', 'transition', 'vertical  fade')
+		$('.ui.dimmer.modals.page').css('height',$(document).innerHeight());
 	});
 	
 	$('[data-countdown]').each(function() {
@@ -273,28 +318,32 @@
                         <div class="ui white inverted pop share icon inverted button">
                             <i class="share alternate icon"></i> 分享
                         </div>
-                        {% if try.buy_url %}
-                          <a href="{{ try.buy_url }}" class="ui white inverted button" target="_blank">
-                            <i class="cart icon"></i> 去购买 
-                          </a>
-                        {%endif%}
+
                     {% if !try.step_stat==0 %}
-                        <div class="apply">{% if !try.is_end %} 剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %} 结束时间：{{ try.end_time }}{% endif %}<br/>产品数量：<b class="big">{{ try.try_count }}</b>个,&nbsp;<b class="big">{{ try.apply_count }}</b> 人已预约</div>
+                        <div class="apply">
+                          {% if !try.is_end %}
+                            剩余时间：<div class="ui divided horizontal timer list" data-countdown="{{ try.end_time|date 'Y/m/d H:i:s' }}"></div>{% else %} 结束时间：{{ try.end_time }}
+                          {% endif %}
+                            <br/>产品数量：<b class="big">{{ try.try_count }}</b>个,&nbsp;<b class="big">{{ try.apply_count }}</b> 人已预约
+                          
+                        </div>
                         {% if try.apply_term==1 %}
                           <br />
-                          申请条件：试用结束前会员等级达到 <b class="big">{{ try.term_count }}</b> 级
+                          中签条件：试用结束前会员等级达到 <b class="big">{{ try.term_count }}</b> 级
                           (满足条件才有机会通过审核哦~)
                         {%endif%}
                         {% if try.apply_term==2 %}
                           <br />
-                          申请条件：试用结束前鸟币数量达到 <b class="big">{{ try.term_count }}</b> 个
+                          中签条件：试用结束前鸟币数量达到 <b class="big">{{ try.term_count }}</b> 个
                           (满足条件才有机会通过审核哦~)
                         {%endif%}
                     </div>
                     {%else%}
                       <div class="want_alert" style="margin-top:20px;">
-                      <h4>预热中...敬请期待!</h4>
-                      {% if try.want_count %}<div class="">已有 <b>{{ try.want_count }}</b> 人想要</div>{%endif%}
+                        <h4>预热中...敬请期待!</h4>
+                        <div class="">
+                          {% if try.want_count %}<span style="margin-right:20px;">已有 <b>{{ try.want_count }}</b> 人想要</span>{%endif%}
+                        </div>
                       </div>
                     {%endif%}
 				</div>
@@ -439,6 +488,26 @@
         </div>
     </div>
     <div class="mainright">
+
+    {% if has_product_parameter %}
+    <div class="ui sticky">
+        <div class="sellwrap">
+          <div class="block title">
+    				产品参数
+          </div>
+          {% if try.price %}
+            <p class="user action">市场参考价： <b class="big">{{ try.price }}</b> 元
+          {%endif%}
+          {% if try.buy_url %}
+            <p class="user action">
+                <a href="{{ try.buy_url }}" class="ui magenta inverted button" target="_blank" style="width:100%;">
+                  <i class="cart icon"></i> 购买链接
+                </a>
+            </p>
+          {%endif%}
+        </div>
+    </div>
+    {%endif%}
         
         {% if img_asset.qr_ios %}
         <div class="sellwrap">

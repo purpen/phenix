@@ -21,13 +21,13 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
 		$state = 0;
 		$target_id = 0;
 		$user_id = 0;
-    $is_invented = 0;
-    $type = 0;
-    // 加载关联表
-    $load_target = 0;
-    $q = 0;
-    $result = 0;
-    $sort = 0;
+		$is_invented = 0;
+		$type = 0;
+		// 加载关联表
+		$load_target = 0;
+		$q = 0;
+		$result = 0;
+		$sort = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -76,9 +76,11 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
 
     if($q){
       if((int)$q==0){
-        $query['name'] = $q;
+        $query['nickname'] = $q;
       }elseif(strlen($q)==11){
         $query['phone'] = $q;
+      }elseif(substr_count($q, '.')==3){
+        $query['ip'] = $q;
       }else{
         $query['user_id'] = (int)$q;
       }

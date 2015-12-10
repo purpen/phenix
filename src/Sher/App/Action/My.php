@@ -412,7 +412,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	 */
 	public function cooperate(){
 		$this->set_target_css_state('user_cooperate');
-
+		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/cooperate?page=#p#';
 		return $this->to_html_page("page/my/cooperate.html");
 	}
 
@@ -449,9 +449,9 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 			return $this->show_message_page('你没有权限查看！');
 		}
 
-    $try_model = new Sher_Core_Model_Try();
-    $try = $try_model->extend_load((int)$apply['target_id']);
-    $apply['try'] = $try;
+		$try_model = new Sher_Core_Model_Try();
+		$try = $try_model->extend_load((int)$apply['target_id']);
+		$apply['try'] = $try;
 
 		// 获取省市列表
 		$areas = new Sher_Core_Model_Areas();
@@ -943,9 +943,8 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     if($this->visitor->counter['message_count']>0){
       $this->visitor->update_counter($this->visitor->id, 'message_count');   
     }
-		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/message?page=#p#';
+	$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/message?page=#p#';
     return $this->to_html_page('page/my/message.html');
-  
   }
 
   /**

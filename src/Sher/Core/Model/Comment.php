@@ -18,7 +18,8 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
   	const TYPE_ACTIVE = 5;
 	const TYPE_STUFF  = 6;
   const TYPE_ALBUM = 7;
-  // 专题评论
+  const TYPE_SPECIAL_SUBJECT = 8;
+  // 专题评论 target_id 1:云马C1争霸; 5.奶爸奶妈PK; 2.--; 3.--; 4.--
   const TYPE_SUBJECT = 10;
 	
     protected $schema = array(
@@ -103,8 +104,8 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
           case 1:
             $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_YMC1_01;
             break;
-          case 2:
-            $dig_key = '';
+          case 5:
+            $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_03;
             break;
         }
         if(!empty($dig_key)){
@@ -222,8 +223,8 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                       case 1:
                         $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_YMC1_01;
                         break;
-                      case 2:
-                        $dig_key = '';
+                      case 5:
+                        $dig_key = Sher_Core_Util_Constant::DIG_SUBJECT_03;
                         break;
                     }
                     // 增加评论数

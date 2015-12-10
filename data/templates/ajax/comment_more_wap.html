@@ -18,16 +18,29 @@
 {% if !comment.deleted %}
           <div class="laud">
 
-            {% if comment.is_loved %}
-            <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消喜欢" data-variation="inverted" >
-            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
-              <i class="icon heart"></i>
-            </a>
+            {% if visitor.is_login %}
+              {% if comment.is_loved %}
+              <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消喜欢" data-variation="inverted" >
+              <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+                <i class="icon heart"></i>
+              </a>
+              {%else%}
+                <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
+              <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+                <i class="icon empty heart"></i>
+              </a>          
+              {%endif%}
             {%else%}
-              <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
-            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
-              <i class="icon empty heart"></i>
-            </a>          
+                <a class="ui link icon pop" href="javascript:phenix.redirect('{{ app_url_wap }}/auth/login_signup', 0);" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
+              <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+                <i class="icon empty heart"></i>
+              </a> 
+            {%endif%}
+			
+            {% if is_comment_share %}
+              <a class="ui link vote btn" href="{{ app_url_wap }}/promo/comment_vote_share?comment_id={{ comment._id }}" data-content="分享" data-variation="inverted">
+                <i class="icon share"></i>	
+              </a>
             {%endif%}
           </div>
           {%endif%}
@@ -125,17 +138,29 @@
           </div>
 {% if !comment.deleted %}
           <div class="laud">
-
-            {% if comment.is_loved %}
-            <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消喜欢" data-variation="inverted" >
-            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
-              <i class="icon heart"></i>
-            </a>
+            {% if visitor.is_login %}
+              {% if comment.is_loved %}
+              <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_cancel_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="取消喜欢" data-variation="inverted" >
+              <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+                <i class="icon heart"></i>
+              </a>
+              {%else%}
+                <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
+              <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+                <i class="icon empty heart"></i>
+              </a>          
+              {%endif%}
             {%else%}
-              <a class="ui link icon pop ajax" href="{{ app_url_wap }}/app/site/comment/ajax_laud?id={{ comment._id }}" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
-            <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
-              <i class="icon empty heart"></i>
-            </a>          
+                <a class="ui link icon pop" href="javascript:phenix.redirect('{{ app_url_wap }}/auth/login_signup', 0);" id="laud_{{ comment._id}}" data-content="添加喜欢" data-variation="inverted" >
+              <span class="love-count">{%if comment.love_count%}{{ comment.love_count }}{%endif%}</span>
+                <i class="icon empty heart"></i>
+              </a> 
+            {%endif%}
+			
+            {% if is_comment_share %}
+            <a class="ui link vote btn" href="{{ app_url_wap }}/promo/comment_vote_share?comment_id={{ comment._id }}" data-content="分享" data-variation="inverted">
+                <i class="icon share"></i>	
+              </a>
             {%endif%}
           </div>
           {%endif%}

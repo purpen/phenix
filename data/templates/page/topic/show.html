@@ -66,6 +66,18 @@
 {% endblock %}
 
 {% block jquery %}
+	//评论分享
+  $('.ui.vote.btn').livequery(function(){
+    $(this).bind('click',function(){
+      var comment_id = $(this).attr('comment_id');
+      // 生成二维码
+      $('#comment_vote').html('');
+      $('#comment_vote').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/comment_vote_share?comment_id='+comment_id});
+      $('.ui.vote.modal').modal('show');
+    });
+	});
+
+	
 	phenix.hook_comment_page();
     
     // ajax加载评论
@@ -418,7 +430,7 @@
 {% block content %}
 <div class="mainwrap social" id="postpage">
     <div class="mainleftwrap">
-        <div class="mainleft" {% if editable %} style="min-height:2300px !important;" {% endif %}>
+        <div class="mainleft" {% if editable %} style="min-height:2350px !important;" {% endif %}>
 
     		{% if product %}
 			<div class="ui segment">
@@ -750,7 +762,7 @@
                 <div class="user avatars">
               	  	<div class="ui images" id="target_{{ topic._id }}_support">
                         {% if topic.love_count %}
-                            {% favorite_list var:'userlist' target_id:topic._id event:2 type:2 size:50 %}
+                            {% favorite_list var:'userlist' target_id:topic._id event:2 type:2 size:100 %}
                             {% for target in userlist.rows %}
                             <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
                   	  	        <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />
@@ -864,6 +876,20 @@
 		{% endif %}
     </div>
 </div>
+<div class="ui small vote modal">
+  	<i class="close icon"></i>
+  	<div class="content">
+		<div class="ui center aligned grid">
+			<div class="row">
+				<div class="column">
+					<p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+					<div id="comment_vote"></div>
+				</div>
+			</div>
+		</div>
+  	</div>
+</div>
+
 {% include "block/sharebox.html" %}
 {% include "block/qrcode.html" %}
 {% endblock %}

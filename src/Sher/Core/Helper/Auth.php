@@ -127,7 +127,7 @@ class Sher_Core_Helper_Auth {
         $service->session->is_login = true;
         $service->session->user_id = $user_id;
         $service->load_visitor();
-        //update user last login
+        //update user last login ip
         $service->login_user->touch_last_login();
         $service->create_auth_cookie($user_id);
         // bind session
@@ -193,5 +193,33 @@ class Sher_Core_Helper_Auth {
     return preg_match($match,$v);
   }
 
+
+  /**
+   * 获取IP
+   */
+  public static function get_ip(){
+    if (getenv("HTTP_CLIENT_IP"))
+      $ip = getenv("HTTP_CLIENT_IP");
+    else if(getenv("HTTP_X_FORWARDED_FOR"))
+      $ip = getenv("HTTP_X_FORWARDED_FOR");
+    else if(getenv("REMOTE_ADDR"))
+      $ip = getenv("REMOTE_ADDR");
+    else $ip = null;
+    return $ip;
+  }
+
+  /**
+   * 更新用户IP
+   */
+  public static function update_user_ip($user_id){
+    $user_model = new Sher_Core_Model_User();
+    $ip = self::get_ip();
+    if(!empty($ip)){
+      $ok = $user_model->update_set((int)$user_id, array('last_ip'=>$ip));
+    }
+    unset($user_model);
+    return $ip;
+  }
+
 }
-?>
+

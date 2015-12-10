@@ -274,11 +274,15 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
       'age'  => array(),
       // 所在公司
       'company' => null,
-        ),
+      // 省份
+      'province_id' => 0,
+      // 城市
+      'district_id' => 0,
+    ),
 
 		// 所在城市
 		'city' => null,
-        // 所在区域ID
+        // 所在区域ID(暂时不用,在profile里)
         'district' => 0,
 		// 性别
 		'sex' => self::SEX_HIDE,
@@ -325,16 +329,18 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         # 是否为优质用户(可跳过作品审核)
         'quality' => 0,
 
-        # 标记: 1.内部员工 V 6.短信营销 7.ajax快捷注册 8.快捷注册; 9为小号 20.第三方直接登录用户,没有绑定手机号或现有账户;
+        # 标记: 1.内部员工 V 6.短信营销 7.ajax快捷注册 8.快捷注册; 9为小号 20.第三方直接登录用户,没有绑定手机号或现有账户, 21.报名注册用户(随机密码);
         'kind' => 0,
         # symbol认证
         'symbol' => 0,
 
         # 是否绑定手机(未兼容老数据)
         'is_bind' => 0,
+        # 最后一次登录IP统计
+        'last_ip' => null,
     );
 	
-	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'tags'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count'=>1,'product_count'=>1,'counter'=>1,'quality'=>1,'follow_count'=>1,'love_count'=>1,'favorite_count'=>1,'kind'=>1,'identify'=>1,'identify_info'=>1,'sina_uid'=>1,'qq_uid'=>1,'wx_open_id'=>1,'wx_union_id'=>1,'symbol'=>1);
+	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'tags'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count'=>1,'product_count'=>1,'counter'=>1,'quality'=>1,'follow_count'=>1,'love_count'=>1,'favorite_count'=>1,'kind'=>1,'identify'=>1,'identify_info'=>1,'sina_uid'=>1,'qq_uid'=>1,'wx_open_id'=>1,'wx_union_id'=>1,'symbol'=>1,'last_ip'=>1);
 	
     protected $required_fields = array('account', 'password');
 
@@ -488,6 +494,10 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			'age'  => array(),
       // 所在公司
       'company' => null,
+      // 省份
+      'province_id' => 0,
+      // 城市
+      'district_id' => 0,
         );
 		return $default_profile;
 	}
@@ -498,12 +508,15 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         $row['true_nickname'] = $row['nickname'];
         if(!empty($row['nickname']) && strlen((int)$row['nickname'])==11){
             $row['nickname'] = substr((int)$row['nickname'],0,3)."****".substr((int)$row['nickname'],7,4);
+        }else{
+          // 如果是第三方注册，昵称过长，自动截取前10
+          $n_count = Sher_Core_Helper_Util::strlen_mb($row['nickname']);
+          if($n_count>11){
+              $row['nickname'] = Sher_Core_Helper_Util::substr_mb($row['nickname'], 0, 11);
+          }       
         }
 
-        // 如果是第三方注册，昵称过长，自动截取前10
-        if(!empty($row['nickname']) && strlen((int)$row['nickname'])>11){
-            $row['nickname'] = substr((int)$row['nickname'],0,8)."...";
-        }
+
 		// 显示名称
 		$row['screen_name'] = !empty($row['nickname']) ? $row['nickname'] : '火鸟人';
 		
@@ -762,7 +775,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         if (is_null($time)) {
             $time = time();
         }
-		// 同时更新上次登录时间
+		// 同时更新上次登录时间及IP
 		$row = $this->find_by_id($user_id);
 		if(!empty($row)){
 			$last_login = $row['current_login'];
@@ -772,7 +785,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			$visit = $row['visit'];
 			// 设置距离上次用户登录新增用户的标识
 			$visit['new_user_viewed'] = 1;
-			$this->update_set((int)$user_id, array('current_login'=>(int)$time, 'last_login'=> $last_login,'visit' => $visit));
+      $ip = Sher_Core_Helper_Auth::get_ip();
+			$this->update_set((int)$user_id, array('current_login'=>(int)$time, 'last_login'=> $last_login, 'visit' => $visit, 'last_ip'=>$ip));
 		}
     }
 	

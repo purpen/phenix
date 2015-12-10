@@ -12,7 +12,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		'invite_code' => null,
 	);
 	
-	protected $exclude_method_list = array('execute', 'ajax_login', 'login', 'signup', 'forget', 'find_passwd', 'logout', 'do_login', 'do_register', 'do_bind_phone', 'verify_code', 'verify_forget_code','reset_passwd', 'check_account', 'third_register');
+	protected $exclude_method_list = array('execute', 'ajax_login', 'login', 'dynamic_do_login', 'signup', 'forget', 'find_passwd', 'logout', 'do_login', 'do_register', 'do_bind_phone', 'verify_code', 'verify_forget_code','reset_passwd', 'check_account', 'third_register');
 	
 	/**
 	 * 入口
@@ -311,6 +311,109 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		
 		return $this->ajax_json($third_info. '欢迎,'.$nickname.' 回来.', false, $redirect_url);
 	}
+	
+	/**
+	 * 动态密码登录流程
+	 */
+	public function dynamic_do_login(){
+		
+		// 验证短信验证吗
+		$verify_code = isset($this->stash['verify_code']) ? $this->stash['verify_code'] : null;
+		if(empty($verify_code)){
+		  return $this->ajax_json('请输入验证码!', true);     
+		}
+		
+		// 验证手机号码是否为空
+		$account = isset($this->stash['account']) ? $this->stash['account'] : null;
+		if(empty($verify_code)){
+		  return $this->ajax_json('请输入手机号!', true);     
+		}
+		
+		// 验证手机号码是否合法
+		if(!preg_match("/1[3458]{1}\d{9}$/",trim($account))){  
+			return $this->ajax_json('请输入正确的手机号码格式!', true);     
+		}
+		
+		$user = new Sher_Core_Model_User();
+		$result = $user->first(array('account'=>trim($account)));
+		
+		// 验证验证码是否有效
+		$verify_model = new Sher_Core_Model_Verify();
+		$has_code = $verify_model->first(array('phone'=>trim($account),'code'=>$verify_code));
+		if(empty($has_code)){
+			return $this->ajax_json('验证码有误，请重新获取！', true);
+		}
+		
+        if (!empty($result)) {
+			
+			// 判断用户权限
+			if($result['role_id'] !== 1){
+				return $this->ajax_json('您没有短信方式登陆的权限，请用普通方式登陆!', true);    
+			}
+			
+			// now login
+			$user_id = (int) $result['_id'];
+			$nickname = $result['nickname'];
+			$user_state = $result['state'];
+			
+			if ($user_state == Sher_Core_Model_User::STATE_BLOCKED) {
+				return $this->ajax_json('此帐号涉嫌违规已经被禁用!', true, '/');
+			}
+			
+			Sher_Core_Helper_Auth::create_user_session($user_id);
+			
+			$redirect_url = $this->auth_return_url(Sher_Core_Helper_Url::user_home_url($user_id));
+			if (empty($redirect_url)) {
+				$redirect_url = '/';
+			}
+			$this->clear_auth_return_url();
+			
+			// 增加积分
+			$service = Sher_Core_Service_Point::instance();
+			// 登录
+			$service->send_event('evt_login', $user_id);
+			
+			// 删除验证码
+			$verify_model->remove((string)$has_code['_id']);
+			
+			return $this->ajax_json('欢迎,'.$nickname.' 回来.', false, $redirect_url);
+        } else {
+			// now signup
+			$user_model = new Sher_Core_Model_User();
+			$password = rand(100000, 999999);
+			$user_info = array(
+				'account' => $account,
+				'nickname' => $account,
+				'password' => sha1($password),
+				//报名注册标记(随机密码)
+				'kind'  => 21,
+				'state' => Sher_Core_Model_User::STATE_OK
+			);
+			$user_ok = $user_model->create($user_info);
+			if($user_ok){
+				$user_id = $user_model->id;
+				
+				// 删除验证码
+				$verify_model->remove((string)$has_code['_id']);
+				
+				Sher_Core_Helper_Auth::create_user_session($user_id);
+				
+				$redirect_url = $this->auth_return_url(Sher_Core_Helper_Url::user_home_url($user_id));
+				if (empty($redirect_url)) {
+					$redirect_url = '/';
+				}
+				$this->clear_auth_return_url();
+				
+				$msg = "恭喜您成为太火鸟的用户，您的用户名是：".$account.",密码是：".$password."，请您尽快登陆官网个人中心修改密码，以确保账户的安全！";
+				// 注册成功，发送短信
+				$message = Sher_Core_Helper_Util::send_defined_mms($account, $msg);
+			}else{
+				return $this->ajax_json('注册失败!', true);  
+			}
+			
+			return $this->ajax_json("注册成功，欢迎你加入太火鸟！", false, $redirect_url);
+		}	
+	}
     
 	/**
 	 * 创建帐号,完成提交注册信息
@@ -484,7 +587,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		$code = Sher_Core_Helper_Auth::generate_code();
 		
 		$verify = new Sher_Core_Model_Verify();
-		$ok = $verify->create(array('phone'=>$phone,'code'=>$code));
+		$ok = $verify->create(array('phone'=>$phone,'code'=>$code, 'expired_on'=>time()+600));
 		if($ok){
 			// 开始发送
 			Sher_Core_Helper_Util::send_register_mms($phone, $code);
@@ -508,7 +611,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         }
 		
 		$verify = new Sher_Core_Model_Verify();
-		$ok = $verify->create(array('phone'=>$phone,'code'=>$code));
+		$ok = $verify->create(array('phone'=>$phone,'code'=>$code, 'expired_on'=>time()+600));
 		if($ok){
 			// 开始发送
 			Sher_Core_Helper_Util::send_register_mms($phone, $code);
@@ -833,17 +936,6 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 				if(Doggy_Config::$vars['app.anniversary2015.switch']){
 				  $this->give_bonus($user_id, 'QX', array('count'=>1, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
 				}
-				
-        // 插入易购的用户数据
-        if(isset($_COOKIE['egou_uid']) && !empty($_COOKIE['egou_uid'])){
-          $egou_auth = Sher_Core_Helper_Util::egou_auth();
-          if(!empty($egou_auth)){
-            $arr_egou = json_decode($egou_auth,true);
-            if((int)$arr_egou['result']){
-              Sher_Core_Helper_Util::egou($user_id);
-            }
-          }
-        }
 
         // 如果来自第三方则统计
         if(isset($_COOKIE['from_origin']) && !empty($_COOKIE['from_origin'])){

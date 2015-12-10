@@ -91,9 +91,20 @@ class Sher_Core_ViewTag_SignStatList extends Doggy_Dt_Tag {
         $result = $service->get_sign_stat_list($query, $options); // 获取到的列表数据
 
         $number_id = ((int)$page - 1) * (int)$size;
-            for($i=0; $i<count($result['rows']); $i++){
-                $result['rows'][$i]['number_id'] = $number_id + $i + 1;
+
+        $is_latest_day = 0;
+        for($i=0; $i<count($result['rows']); $i++){
+          $result['rows'][$i]['number_id'] = $number_id + $i + 1;
+          // 取最近获奖时间(天)
+          if($page==1){
+            if(empty($i)){
+              $is_latest_day = $result['rows'][0]['day'];
             }
+            if($is_latest_day == $result['rows'][$i]['day']){
+              $result['rows'][$i]['is_latest_day'] = true;
+            }           
+          }
+        }
 		
         $context->set($var,$result);
         if ($include_pager) {

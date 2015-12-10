@@ -1,9 +1,29 @@
-{%extends 'layout/app.html'%}
+{%extends 'layout/mobile.html'%}
 {% block title%}关于太火鸟-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+  #mfrbird{
+    margin-top:0;
+  }
 	.aboutus {
-		margin: 2em auto;
+		margin: 0em auto;
+	}
+	.aboutus	h3.ui.header .sub.header{
+	  margin-top: 15px;
+	}
+	.about{
+	  background:url({{ app_url_packaged }}/images/incubator/about.jpg) center center no-repeat;
+	  background-size:cover;
+	  color:#fff;
+	}
+	.about h3.ui.header{
+	  color:#fff !important;
+	  padding:30px 0px 20px;
+	}
+	.about h3.ui.header .sub.header{
+	  color: #fff;
+    margin-top: 15px;
+    line-height: 24px;
 	}
 	.aboutus hr {
 	    background: none repeat scroll 0 0 #c3bbbe;
@@ -17,145 +37,230 @@
 	    font-size: 48px;
 	    margin: 0;
 	}
+	.ui.big.block{
+	  padding:25px 0;
+	}
+	.ui.white{
+	  background:#fff;
+	}
+	
+	.ui.principle i {
+      font-size: 40px;
+      color: #f36;
+      margin: 0;
+  }
+  .ui.principle h4{
+      margin-top:0 !important;
+  }
+  .ui.principle .ui.center.row{
+    padding:15px 0;
+  }
+  
+  .photo{
+	  background:url({{ app_url_packaged }}/images/incubator/about1.jpg) center center no-repeat;
+	  background-size:cover;
+	  color:#fff;
+	  padding:25px 0 20px;
+	}
+	.photo h2.ui.header,.photo h3.ui.header{
+	  color:#fff !important;
+	}
+	.photo h2.ui.header + p{
+	  margin-bottom:5px !important;
+	}
+	
+	.contact .card .content {
+      border-radius: .2875em !important;
+      box-shadow: 0 2px 0 #f36 inset !important;
+      font-size: 1rem !important;
+      line-height: 2em;
+      padding: 1em 8px !important;
+      background:#fff !important;
+      overflow:hidden;
+  }
+  .contact .row+.row{
+    padding:10px !important;
+  }
+  .ui.center.aligned.row{
+    text-align:center;
+  }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="aboutus">
-	<div class="ui center aligned responsive grid">
-		<div class="row">
-			<div class="column">
-				<h3 class="ui header">
-					<div class="content">
-						关于太火鸟
-						<div class="sub header">
-              太火鸟<!--<small>(北京太火红鸟科技有限公司)</small>-->致力建设基于消费者及设计师的大数据，网站整合创意产品社区与电子商务服务为一体，利用众筹到众包方式，让社区参与产品开发整个过程，包括提交创意、审核、估值、开发、预售、生产、销售等多个流程。太火鸟帮设计师成就梦想，太火鸟助消费者品味生活！人生是场大设计。
+  <div class="about">
+    <div class="ui center aligned responsive grid">
+      <div class="row">
+        <div class="column">
+          <h3 class="ui header">
+            <div class="content">
+              关于太火鸟
+  						<div class="sub header">
+  						  太火鸟是中国最火爆的智能硬件孵化平台。太火鸟致力于建设重构产品研发创新流程，
+                努力帮助设计师和创意者实现商业价值，从广泛的创意中寻找具有「创新价值」且可以
+                被称为「性感设计」的产品，开启一个全新的众包设计时代。太火鸟孵化的团队将从商
+                品定义、投资融资、硬件品控、软件体验、推广营销、渠道建设等每个环节全程全力支持，
+                真正做到一条龙服务式的智能硬件孵化平台；全力打造一个完美的智能硬件创意生态系统。
+  						</div>
+            </div>
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui white big block principle">
+    <div class="ui responsive center aligned grid">
+      <div class="row">
+        <div class="column">
+          <h3 class="ui header">
+            <div class="content">
+              我们的优势
+              <div class="sub header">
+                我们正在建立一个支持社会发明和创新创业的群落，精准、全面、有效。
+              </div>
+            </div>
+          </h3>
+        </div>
+      </div>
+      <div class="ui center aligned row" style="padding-top:30px;">
+        <div class="column">
+  				<i class="bullseye icon"></i>
+          <h4 class="ui header">精准</h4>
+  				<p>这里有完备的数据支持与信息服务系统，我们用数据在第一时间说话，用消费者的反馈帮助产品改进创新，使产品用户体验最优化。</p>
+  			</div>
+  		</div>
+  		<div class="ui center aligned row">
+  			<div class="column">
+  				<i class="send icon"></i>
+          <h4 class="ui header">有效</h4>
+  				<p>结合第一手数据与反馈信息，及时调整产品战略方向，帮助项目重新定位，提出有效营销解决方案。</p>
+  			</div>
+  		</div>
+  		<div class="ui center aligned row">
+  			<div class="column">
+  				<i class="world icon"></i>
+          <h4 class="ui header">全面</h4>
+  				<p>这里有国内外最顶尖的设计师专家评审团，15年的资源积累与创意消费大数据，借助社区力量，帮助项目打通线上线下渠道，全面覆盖，打造完整的创意生态产业链。</p>
+  			</div>
+        
+      
+      </div>
+      
+    </div>
+  </div>
+  
+  <div class="photo">
+    <div class="ui center aligned responsive grid">
+      <div class="row">
+        <div class="column">
+          <h3 class="ui header">太火鸟科技 ｜ 北京 · 深圳 · 香港</h3>
+          <h2 class="ui header">中国最火爆的智能硬件孵化平台</h2>
+          
+          <p>Http://www.taihuoniao.com</p>
+          <p>Hotline: 4008 - 798 - 751</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui big contact block">
+    <div class="ui center aligned responsive grid">
+      <div class="row">
+        <div class="column">
+          <p>地址：北京市 朝阳区 酒仙桥路4号 751北京时尚设计广场 极地创新中心218室 / P.c.100015</p>
+          <p>深圳市 福田区 保税区市花路 花样年福年广场 B栋629室 / P.c.518000</p>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="ui two products cards">
+          <div class="card">
+            <div class="content">
+            	<h4 class="ui header">商品合作</h4>
+							<p>+8610  8459 9327</p>
+							<p>products@taihuoniao.com</p>
 						</div>
-					</div>
-				</h3>
-			</div>
-		</div>
-		<div class="row">
-			<div class="column">
-				<h3 class="ui header">我们的优势</h3>
-				<p>建设一个店很容易，建立社区是很难的。我们正在建立一个支持社会发明和创新的群落。</p>
-				<hr>
-				
-				<div class="ui three principle items">
-					<div class="item">
-						<h3 class="ui header">精准</h3>
-						<i class="flat icon_about_01 icon"></i>
-						<p>这里有完备的数据支持与信息服务系统，我们用数据在第一时间说话，用消费者的反馈帮助产品改进创新，使产品用户体验最优化。</p>
-					</div>
-					<div class="item">
-						<h3 class="ui header">有效</h3>
-						<i class="flat icon_about_02 icon"></i>
-						<p>结合第一手数据与反馈信息，及时调整产品战略方向，帮助项目重新定位，提出有效营销解决方案。</p>
-					</div>
-					<div class="item">
-						<h3 class="ui header">全面</h3>
-						<i class="flat icon_about_03 icon"></i>
-						<p>这里有国内外最顶尖的设计师专家评审团，15年的资源积累与创意消费大数据，借助社区力量，帮助项目打通线上线下渠道，全面覆盖，打造完整的创意生态产业链。</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="column">
-				<h3 class="ui header">成功案例</h3>
-				<p>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇。</p>
-				<hr>
-				
-				<div class="ui three items">
-					<div class="item">
-						<div class="image">
-							<a href="{{ app_url_action_base }}/guide/lisa" title="LISA智能孕表—您的孕期贴身闺蜜">
-					      		<img src="{{ app_url_packaged }}/images/case-lisa.jpg" alt="LISA智能孕表—您的孕期贴身闺蜜" class="ui image" />
-							</a>
+          </div>
+          <div class="card">
+            <div class="content">
+            	<h4 class="ui header">市场合作</h4>
+							<p>+8610   8459 9374</p>
+							<p>support@taihuoniao.com</p>
 						</div>
-						<div class="content">
-							<h4 class="ui header">
-								<a href="{{ app_url_action_base }}/guide/lisa" title="LISA智能孕表—您的孕期贴身闺蜜" class="ui link">LISA智能孕表—您的孕期贴身闺蜜</a>
-							</h4>
-							<div class="name">
-								众筹金额：<span class="ui text">311,826</span> 元      支持人数：<span class="ui text">639</span> 个        达成率：<span class="ui text">3118％</span>    
-							</div>
+          </div>
+          <div class="card">
+            <div class="content">
+            	<h4 class="ui header">渠道合作</h4>
+							<p>+8610  8459 9374</p>
+							<p>sales@taihuoniao.com</p>
 						</div>
-					</div>
-				
-					<div class="item">
-						<div class="image">
-							<a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器">
-					      		<img src="{{ app_url_packaged }}/images/case-dm.jpg" alt="全球首款革命性智能空气净化器" class="ui image" />
-							</a>
+          </div>
+          <div class="card">
+            <div class="content">
+            	<h4 class="ui header">社区合作</h4>
+							<p>+8610  8459 9323</p>
+							<p>bbs@taihuoniao.com</p>
 						</div>
-						<div class="content">
-							<h4 class="ui header">
-								<a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器" class="ui link">全球首款革命性智能空气净化器</a>
-							</h4>
-							<div class="name">
-								众筹金额：<span class="ui text">1215,983</span> 元      支持人数：<span class="ui text">243</span> 人        达成率：<span class="ui text">4053％</span>    
-							</div>
+          </div>
+          <div class="card">
+            <div class="content">
+            	<h4 class="ui header">铟立方未来实验室</h4>
+							<p>+0755  2266 2313</p>
+							<p>d3in@taihuoniao.com</p>
 						</div>
-					</div>
-				
-					<div class="item">
-						<div class="image">
-							<a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球最小的智能可穿戴">
-					      		<img src="{{ app_url_packaged }}/images/case-goccia.jpg" alt="Goccia－全球最小的智能可穿戴" class="ui image" />
-							</a>
+          </div>
+          <div class="card">
+            <div class="content">
+            	<h4 class="ui header">售后服务</h4>
+							<p>+8610  8459 9327</p>
+							<p>service@taihuoniao.com</p>
 						</div>
-						<div class="content">
-							<h4 class="ui header">
-								<a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球最小的智能可穿戴" class="ui link">Goccia－全球最小的智能可穿戴</a>
-							</h4>
-							<div class="name">
-								众筹金额：<span class="ui text">300,000</span> 元      支持人数：<span class="ui text">610</span> 个      达成率：<span class="ui text">600％</span>
-							</div>
+          </div>
+          <div class="card">
+            <div class="content">
+            	<h4 class="ui header">加入我们</h4>
+							<p>+8610  8459 9328</p>
+							<p>hi@taihuoniao.com</p>
 						</div>
-					</div>
-				</div>
-				
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="column">
-				<h3 class="ui header">我们团队</h3>
-				<p>一群青春活泼，年轻向上的鸟人们，正在创造属于太火鸟的下一个传奇。</p>
-				<hr>
-				
-				<div class="ui medium images">
-					<img src="{{ app_url_packaged }}/images/a-byheart.png" alt="火雷鸟" class="circular ui image pop"  data-content="人生是场大设计 - <i>火雷鸟</i>" data-variation="inverted" />
-					<img src="{{ app_url_packaged }}/images/a-purpen.png" alt="明月鸟" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>明月鸟</i>" data-variation="inverted" />
-					<img src="{{ app_url_packaged }}/images/a-zhuhong.png" alt="布谷鸟" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>布谷鸟</i>" data-variation="inverted" />
-					<img src="{{ app_url_packaged }}/images/a-bobo.png" alt="始祖鸟" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>始祖鸟</i>" data-variation="inverted" />
-					<img src="{{ app_url_packaged }}/images/a-ting.jpg" alt="黑尾鸟" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>黑尾鸟</i>" data-variation="inverted" />
-					<img src="{{ app_url_packaged }}/images/a-dali.jpg" alt="绿米鸟" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>绿米鸟</i>" data-variation="inverted" />
-					<img src="{{ app_url_packaged }}/images/a-yonglin.png" alt="大林鸟" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>大林鸟</i>" data-variation="inverted" />
-					<img src="{{ app_url_packaged }}/images/a-xinyu.jpg" alt="飞鱼鸟" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>飞鱼鸟</i>" data-variation="inverted" />
-					<img src="{{ app_url_packaged }}/images/a-yanan.jpg" alt="几维鸟" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>几维鸟</i>" data-variation="inverted" />
-					<img src="{{ app_url_packaged }}/images/a-ruby.jpg" alt="妙声鸟" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>妙声鸟</i>" data-variation="inverted" />
-					<img src="{{ app_url_packaged }}/images/a-ping.jpg" alt="太平鸟" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>太平鸟</i>" data-variation="inverted" />
-					<img src="{{ app_url_packaged }}/images/a-dan.jpg" alt="百灵鸟" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>百灵鸟</i>" data-variation="inverted" />
-					<img src="{{ app_url_packaged }}/images/a-qmei.png" alt="画眉鸟" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>画眉鸟</i>" data-variation="inverted" />
-					<img src="{{ app_url_packaged }}/images/a-feng.png" alt="大峰鸟" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>大峰鸟</i>" data-variation="inverted" />
-					<img src="{{ app_url_packaged }}/images/a-liudi.jpg" alt="荆棘鸟" class="circular ui image pop" class="circular ui image pop"  data-content="人生是场大设计 - <i>荆棘鸟</i>" data-variation="inverted" />
-				</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="column">
-				<h3 class="ui header">联系我们</h3>
-				<hr>
-				
-				<p><i class="map marker icon"></i>地址：北京市朝阳区 酒仙桥路4号 北京时尚设计广场 极地A9栋218室</p>
-				<p><i class="phone icon"></i>电话: 010 - 84599327    84599328</p>
-				
-			</div>
-		</div>
-	</div>
+          </div>
+          <div class="card">
+            <div class="content">
+            	<h4 class="ui header">意见反馈</h4>
+							<p>feedback@taihuoniao.com</p>
+							<p>&nbsp;</p>
+						</div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="ui white big block">
+    <div class="ui responsive center aligned grid">
+      <div class="ui center aligned row">
+        <div class="center aligned eight wide column">
+        	<div class="image">
+  					<img src="{{ app_url_packaged }}/images/weixin-220.jpg" alt="太火鸟-中国最火爆的智能硬件孵化平台" width="100%">
+  				</div>
+  				<div class="content">
+  					微信号－<b>taihuoniao</b>
+  				</div>
+  			</div>
+  			<!--<div class="center aligned eight wide column">
+        	<div class="image">
+  					<img src="{{ app_url_packaged }}/images/weibo-220.jpg" alt="太火鸟-中国最火爆的智能硬件孵化平台" width="100%">
+  				</div>
+  				<div class="content">
+  					微博－<b>太火鸟</b>
+  				</div>
+  			</div>-->
+    
+      </div>
+    </div>
+  </div>
+    
 </div>
 {% endblock %}

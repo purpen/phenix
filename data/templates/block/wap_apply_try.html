@@ -1,7 +1,7 @@
-<div class="ui applytry small modal transition" style="margin: 0 0 0 -47.5% !important;position: absolute !important;top:0 !important;">
-  	<i class="close icon"></i>
+<div class="ui applytry small modal transition">
 	<div class="header">
 	    申请产品试用
+	    <i class="close icon"></i>
 	</div>
 	<div class="container">
 		<form action="{{ app_url_wap }}/try/ajax_apply" class="ui form" method="post" id="apply-form">
@@ -12,8 +12,8 @@
 
 					<div class="field">
 						<label>申请理由</label>
-						<textarea name="content" class="small" placeholder="有试用朋友圈或微博分享截图，才有资格中签"></textarea>
-						<div class="description">来说说你要申请产品试用的理由，真实诚恳将有助我们通过审核。</div>
+						<textarea name="content" class="small" placeholder="来说说你要申请产品试用的理由，真实诚恳将有助我们通过审核。"></textarea>
+						<p style="margin:5px;">欢迎将试用分享到微信朋友圈和微博</p>
 					</div>
 
 						<div class="field">
@@ -25,13 +25,13 @@
 					<div class="field">
 						<label>详细地址</label>
 						
-						  <select style="width:49%;" name="province" value="{{ addbook.province }}" class="choose province">
+						  <select style="width:49%;" name="province" value="{{ visitor.profile.province_id }}" class="choose province">
   						  {% for province in provinces %}
-  						    <option value="{{ province._id }}">{{ province.city }}</option>
+                <option{%if province._id==visitor.profile.province_id%} selected="selected"{%endif%} value="{{ province._id }}">{{ province.city }}</option>
   						  {% endfor %}
   						</select>
 						
-						  <select name="district" id="district-menu" value="{{ district.city }}" style="width:49%;">
+						  <select name="district" id="district-menu" value="{{ visitor.profile.district_id }}" style="width:49%;">
   						  {% for district in districts %}
   						    <option value="{{ district._id }}">{{ district.city }}</option>
   						  {% endfor %}
@@ -63,7 +63,7 @@
 					</div>
 					<div class="field">
 						<input type="text" name="address" value="{{ visitor.profile.address }}" placeholder="完整地址" />
-            <div class="description">地址包含省、市、区三级</div>
+            <p style="margin:5px;">地址包含省、市、区三级</p>
 					</div>
 
 					<div class="field">

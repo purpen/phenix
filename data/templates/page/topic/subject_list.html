@@ -1,5 +1,14 @@
 {%extends 'layout/column.html'%}
 {% block title %}{% endblock %}
+
+{% block layout_css %}
+	{% if css_use_bundle %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
+	{% else %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
+	{% endif %}
+{% endblock %}
+
 {% block page_css %}
 <style type="text/css">
     #subject {
@@ -43,17 +52,210 @@
 </style>
 {% endblock %}
 
+{% block layout_js %}
+	{% if js_use_bundle %}
+		<script src="{{ app_url_packaged }}/javascript/froala_editor.min.{{ js_jquery_bundle_version }}.js" type="text/javascript"></script>
+	{% else %}
+		<script src="{{ app_url_packaged }}/javascript/froala_editor.min.js" type="text/javascript"></script>
+	{% endif %}
+{% endblock %}
+
 {% block jquery %}
-	phenix.hook_product_topic();
-    // ajax加载签到数据
-    phenix.signin();
 	
-	$('[data-countdown]').each(function() {
-		var $this = $(this), finalDate = $(this).data('countdown');
-		$this.countdown(finalDate, function(event) {
-			$this.html(event.strftime('<div class="item"><div class="count">%D<span>天</span></div></div><div class="item"><div class="count">%H<span>时</span></div></div> <div class="item"><div class="count">%M<span>分</span></div></div><div class="magenta item"><div class="count">%S<span>秒</span></div></div>'));
+	var file_count = 1;
+	var asset_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+	var ford = function(){
+		return asset_count++;
+	};
+
+  // ajax加载签到数据
+  phenix.signin();
+	
+	$('#editor').editable({
+		inlineMode: false,
+		language: "zh_cn",
+		toolbarFixed: false,
+        theme: 'gray',
+		language: 'zh_cn',
+		borderColor: '#999',
+		editorClass: 'frbird',
+		minHeight: 450,
+		plainPaste: true,
+		alwaysBlank: true,
+		typingTimer: 5000,
+		imageMargin: '20px',
+		{% if mode == 'edit' %}
+		defaultImageTitle: '{{ topic.title }}',
+		{% else %}
+		defaultImageTitle: '太火鸟',
+		{% endif %}
+		buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "multiUpload", "insertVideo", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html", "fullscreen"],
+		imageUploadURL: "{{ app_url_upload_feditor }}",
+		imageUploadParams: {'token': '{{ token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
+		defaultImageWidth: '',
+		maxImageSize: 1024 * 1024 * 5, // 5M
+		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
+        
+        assetType: {{ editor_asset_type|default 55 }},
+        assetDomain: '{{ editor_domain|default 'topic' }}',
+        parent_id: {{ topic._id|default 0 }},
+        fetchUploadURL: '{{ app_url_action_base }}/uploader/fetch_upload_assets',
+	}).on('editable.imageInserted',  function (e, editor, imageURL) {
+		// 记录插入图片数
+		$('#file_count').val(file_count);
+		
+		file_count++;
+    }).on('editable.imageError', function (e, editor, error) {
+      if (error.code == 5){
+        error.message = '图片太大，请选择小于5M！';
+      }
+      phenix.show_error_note(error.message, 5000);
+    });
+	
+	$('#topic-form').form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				},
+				{
+					type   : 'maxLength[75]',
+					prompt : '标题最多75个字符'
+				}
+			]
+		},
+		description: {
+			identifier  : 'description',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '详细内容不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					if(data.is_error){
+					  phenix.after_submit();
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+	
+	// 上传图片
+	$('#phenix-uploader').fineUploader({
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ new_file_id }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ new_file_id }}' },
+        	endpoint: '{{ app_url_upload_topic }}'
+      	},
+		text: {
+            uploadButton: '<a class="ui active orange labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png', 'gif'],
+	        sizeLimit: 5245728 // 5M = 5 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#product-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut(3000);
+			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type|default 0 }}, 'asset_domain':'{{ domain }}'});
+		}
+	});
+
+	//上传附件
+	$('#phenix-file-uploader').fineUploader({
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ file_token }}','x:pid': '{{ file_pid }}', 'x:domain': '{{ file_domain }}', 'x:ord': ford, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ file_asset_type }},'x:parent_id': '{{ topic._id }}','file_id': '{{ file_pid }}' },
+        	endpoint: '{{ app_url_upload }}/topic_file'
+      	},
+		text: {
+            uploadButton: '<a class="ui active orange labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择附件</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        //allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 10485760 // 10M = 10 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#file-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#file-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			$.get('{{ app_url_action_base }}/uploader/check_upload_files', {'assets': result.data.ids, 'asset_type': {{ file_asset_type|default 0 }}, 'asset_domain':'{{ domain }}'});
+		}
+	});
+	
+	// 选择分类
+	$('.ui.options').on('click', '.option', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+			$('#topic-category').val('');
+		}else{
+			$(this)
+				.siblings('.ui.option').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#topic-category').val(id);
+		}
+	});
+	
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#topic_cover_id').val(id);
+			return false;
 		});
 	});
+	
+	// 触发保存草稿箱
+	$('.save.button').click(function(){
+		$('input[name=published]').val(0); // 设置topic里面published的值
+		$(this).submit(); // 调用此表单的提交方法
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -108,27 +310,29 @@
     				评测列表
                 </div>
     			{% topic_list var:'list' published:1 page:page target_id:id %}
-    			<div class="ui topics segment">
-    				<table class="ui basic topic table">
-    					<tbody class="ui topic list">
-    						{% for topic in list.rows %}
-    							<!-- 判断话题是否可以显示 -->
-    							{% if topic.published %}
-    								{% include "block/topic_item.html" %}
-    							{% endif %}
-    						{% endfor %}
-    					</tbody>
-    				</table>
-                
-        			<a name="newtopic"></a>
-			
-        			{% if list.total_rows %}
-        			<div class="ui pagination">
-        				{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-        				{%include 'block/pager.html'%}
-        			</div>
-        			{% endif %}
-    			</div>
+          {% if list.total_rows %}
+            <div class="ui topics segment">
+              <table class="ui basic topic table">
+                <tbody class="ui topic list">
+                  {% for topic in list.rows %}
+                    <!-- 判断话题是否可以显示 -->
+                    {% if topic.published %}
+                      {% include "block/topic_item.html" %}
+                    {% endif %}
+                  {% endfor %}
+                </tbody>
+              </table>
+                  
+                <a name="newtopic"></a>
+        
+                {% if list.total_page>1 %}
+                <div class="ui pagination">
+                  {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+                  {%include 'block/pager.html'%}
+                </div>
+                {% endif %}
+            </div>
+          {%endif%}
                 
     			<div class="ui big reply segment">
     				<div class="post comment">
@@ -136,35 +340,153 @@
                     		<a href="{{ visitor.home_url }}" class="ui magenta link">{{ visitor.nickname }}</a> 发表评测
                     	</p>
 			
-    					<form class="ui reply form" action="{{ app_url_topic }}/ajax_save" method="post" id="topic-form">
-    						<input type="hidden" name="_id" />
-    						<input type="hidden" name="target_id" value="{{ id }}" />
-    						<input type="hidden" name="type" value="1" />
-                            {% if evaluating %}
-    						<input type="hidden" name="evaluating" value="1" />
-                            {%endif%}
+					<form action="{{ app_url_action_base }}/topic/save" class="ui form" method="post" id="topic-form">
+						<input type="hidden" name="_id" value="{{ topic._id }}" id="topic_id" />
+						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
+						<input type="hidden" name="file_count" id="file_count" />
+						<input type="hidden" name="try_id" value="{{ try_id }}" />
+						<input type="hidden" name="published" value="1" />
+            <input type="hidden" name="newadd_asset_ids" id="newadd_asset_ids" />
+            <input type="hidden" name="old_published" value="{{ topic.published|default 0 }}" />
+
+            <input type="hidden" name="target_id" value="{{ id }}" />
+            <input type="hidden" name="type" value="1" />
+            <input type="hidden" name="category_id" value="{{ category_id }}" />
 						
-    						<div class="field">
-                                <label>标题</label>
-    							<input type="text" name="title" class="topic title" />
-    						</div>
-    						<div class="field">
-                                <label>内容</label>
-    							<textarea name="description" class="small topic content"></textarea>
-    						</div>
-                        
-    						<div class="ui grid">
-                                <div class="row">
-        							<div class="right aligned column">
-        								<div class="ui grey large cancel inverted button">取消</div>
-        								<div class="ui magenta large active inverted submit button">
-                                            <i class="edit icon"></i> 确认提交
-                                        </div>
-        							</div>
-                                </div>
-    						</div>
-                        					
-    					</form>
+						<div class="field">
+							<label for="title">标题</label>
+						  	<input type="text" name="title" value="{{ topic.title }}" />
+						</div>
+            
+						{% if visitor.can_admin %}
+						<div class="three fields">
+						  <div class="field">
+							<label for="title">{{ label_title }}短标题</label>
+							  <input type="text" name="short_title" value="{{ topic.short_title }}" />
+						  </div>
+			
+						  <div class="field">
+							  <label for="t_color">标题颜色</label>
+							<div class="ui fluid selection dropdown">
+							  <input type="hidden" name="t_color" value="{{ topic.t_color }}" />
+								<div class="default text">请选择</div>
+								<i class="angle down icon"></i>
+								<div class="menu" style="z-index:9999;">
+								  <div data-value="0" class="{% if topic.t_color == 0 %}active {% endif %}item">无</div>
+								  <div data-value="1" class="{% if topic.t_color == 1 %}active {% endif %}item">红色</div>
+								  <div data-value="2" class="{% if topic.t_color == 2 %}active {% endif %}item">蓝色</div>	
+								</div>
+							  </div>
+						  </div>
+			
+						</div>
+			
+						{%endif%}
+
+						<div class="three fields">
+						  <div class="field">
+							  <label for="t_color">属性</label>
+							<div class="ui fluid selection dropdown">
+							  <input type="hidden" name="attrbute" value="{{ topic.attrbute|default 0 }}" />
+								<div class="default text">请选择</div>
+								<i class="angle down icon"></i>
+								<div class="menu" style="z-index:9999;">
+								  <div data-value="0" class="{% if topic.attrbute == 0 %}active {% endif %}item">--请选择--</div>
+								  <div data-value="1" class="{% if topic.attrbute == 1 %}active {% endif %}item">原创</div>
+								  <div data-value="2" class="{% if topic.attrbute == 2 %}active {% endif %}item">转载</div>
+								</div>
+							  </div>
+						  </div>
+
+						  <div class="field">
+							<label for="title">来源</label>
+							  <input type="text" name="source" value="{{ topic.source|default '太火鸟官网' }}" />
+						  </div>
+						</div>
+			
+						<div class="field">
+							<label for="description">话题内容</label>
+						  	<textarea name="description" placeholder="评测内容不得少于500字，评测图片不得少5张" id="editor">{{ topic.description }}</textarea>
+						</div>
+						
+						<div class="field">
+							<label>关键词</label>
+						  	<input type="text" name="tags" value="{{ topic.tags_s }}" />
+							<div class="description">关键词之间使用，逗号隔开</div>
+						</div>
+						
+						<div class="field">
+							<label>上传封面图片 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个封面图)</small> <small class="ui magenta text"><i class="announcement icon"></i>好看的图片更容易加精兑换鸟币</small></label>
+							<input type="hidden" name="cover_id" id="topic_cover_id" value="{{ topic.cover_id }}" />
+							<div id="phenix-uploader"></div>
+						
+							<div id="asset-list" class="ui six blocks">
+								{% if mode == 'edit' %}
+									{% asset_list var:'assets' parent_id:topic._id asset_type:50 %}
+									{% for asset in assets.rows %}
+									<div class="thumb card block" id="{{ asset._id }}">
+										<div class="image">
+											<img src="{{ asset.thumbnails.mini.view_url }}" />
+											<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+										</div>
+										<div class="buttons">
+											<div class="ui large links">
+												<a href="{{ app_url_topic }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+													<i class="remove icon"></i>
+												</a>
+												<a href="javascript:void(0);" class="ui link ajax-cover {% if topic.cover_id == asset._id %}active{% endif %} pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+													<i class="checkered flag icon"></i>
+												</a>
+											</div>
+										</div>
+									</div>
+									{% endfor %}
+								{% endif %}
+							</div>
+						</div>
+
+                        {% if visitor.can_edit %}
+						<div class="field">
+							<label>上传附件 <small class="description">(小于10M)</small></label>
+							<input type="hidden" name="asset_file_id" id="topic_file_id" value="{{ topic.file_id }}" />
+							<div id="phenix-file-uploader"></div>
+						
+							<div id="file-list" class="ui six blocks">
+								{% if mode == 'edit' %}
+									{% asset_list var:'assets' parent_id:topic._id asset_type:56 %}
+									{% for asset in assets.rows %}
+											<input type="hidden" class="file_id_list" name="file_asset[]" value="{{ asset._id }}" />
+									<div class="thumb card block" id="{{ asset._id }}">
+										<div class="buttons">
+											<div class="ui large links">
+                        <span>{{ asset.filename|truncate 15, '' }}</span>
+												<a href="{{ app_url_topic }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除" data-variation="inverted">
+													<i class="remove icon"></i>
+												</a>
+											</div>
+										</div>
+									</div>
+									{% endfor %}
+								{% endif %}
+							</div>
+						</div>
+                        {%endif%}
+						<div class="ui grid">
+                            <div class="row">
+    							<div class="right aligned column">
+    								<div class="ui grey large cancel inverted button">取消</div>
+                                    {% if visitor.can_edit %}
+									<div class="ui green large inverted save button">
+                                        <i class="save icon"></i> 保存为草稿
+                                    </div>
+                                    {%endif%}
+    								<div class="ui magenta large active inverted submit button">
+                                        <i class="edit icon"></i> 确认提交
+                                    </div>
+    							</div>
+                            </div>
+						</div>
+					</form>
     				</div>
     			</div>
                 
@@ -175,4 +497,7 @@
         {% include "page/topic/rightbar.html" %}
     </div>
 </div>
+{% endblock %}
+{% block templates %}
+  {% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
 {% endblock %}

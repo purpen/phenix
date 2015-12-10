@@ -85,14 +85,17 @@
   border: 2px solid #f5f5f5;
   display: inline-block;
   background-size:100%;
-  margin:3px;
+  margin:3px 2px;
 }
 
-@media only screen and (max-width: 320px){
+@media only screen and (max-width: 374px){
+  .user-list{
+    margin:0 -4px !important;
+  }
   .user-list .userid{
-    margin:0px !important;
-    height: 40px !important;
-    width: 40px !important;
+    margin: 3px 0 !important;
+    height: 45px !important;
+    width: 45px !important;
   }
 }
 .barrer {
@@ -182,6 +185,72 @@
 }
 #scrollUp{
   display:none !important;
+}
+.apply-report{
+  font-size:0;
+}
+.apply-report .ui.attached.button{
+  text-align:center;
+  padding: 10px 0;
+  font-size:14px;
+  width:50%;
+}
+.apply-report .ui.magenta.button{
+  color: #5d6266;
+}
+.user-report {
+    padding: 15px 0;
+}
+.user-report .ui.feed>.event>.label{
+    margin-top:4px;
+    width: 50px;
+    height: 50px;
+}
+.user-report  .label .userid{
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: 2px solid #f5f5f5;
+  display: inline-block;
+  background-size:100%;
+  margin:0px;
+}
+.user-report .ui.feed>.event>.label img{
+  width: 48px;
+  height: 48px;
+  border: 2px solid #f5f5f5;
+}
+.user-report .ui.feed>.event>.content .summary {
+    font-size: 14px;
+    max-width: 120px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.user-report .ui.feed>.event .content{
+  position:relative;
+}
+.rankb{
+  position:absolute;
+  top:0;
+  right:5px;
+  line-height:44px;
+  font-size:14px;
+}
+.rankb span{
+  color:#f36;
+  font-weight:700;
+  font-size:18px;
+}
+.myrank{
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding: 8px 5px;
+}
+
+.frrank{
+  margin:8px 0;
+  background:#f1f1f1;
+  padding: 0 5px;
 }
 </style>
 {% endblock %}
@@ -288,7 +357,6 @@ $('.showdiv').click(function(){
 $('#mask').click(function(){
     $('#mask').css('display','none');
 });
-
 
 $('[data-countdown]').each(function() {
 	var $this = $(this), finalDate = $(this).data('countdown');

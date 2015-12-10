@@ -123,7 +123,7 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 		}
 		
 		$redirect_url = Doggy_Config::$vars['app.url.albums'];
-		return $this->ajax_json('保存成功.', false, $redirect_url);
+		return $this->ajax_json('保存成功', false, $redirect_url);
 	}
 	
 	/**

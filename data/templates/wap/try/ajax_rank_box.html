@@ -1,8 +1,11 @@
 <taconite>
-	<replaceContent select="#rank-box"><![CDATA[
+	<replace select="#rank-box"><![CDATA[
 	  
     {% if apply.vote_count > 0 %}
-	  <label class="ui fluid label" style="text-align:center;padding: 10px 0;font-size:1em;"><i class="users icon"></i>好友支持({{ apply.vote_count }})</label>
+    <div class="apply-report">
+    
+	  <div class="ui left magenta active inverted attached button"><i class="users icon"></i>好友支持({{ apply.vote_count }})</div>
+	  <div class="ui right magenta inverted attached button"><i class="signal icon"></i>总排名({{ rank_no }})</div>
       {% attend_list var:'list' target_id:apply._id event:2 page:1 size:50 %}
       <div class="user-list">
         {% for d in list.rows %}
@@ -10,8 +13,80 @@
         </div>
         {%endfor%}
       </div>
+      
+      <div class="user-report" style="display:none">
+        {% for d in apply_top %}
+        <div class="myrank">
+          <div class="ui large feed">
+            <div class="event">
+              <div class="label">
+                <div class="userid" style="background-image:url({{ d.user.big_avatar_url }});"></div>
+              </div>
+              <div class="content">
+                <div class="summary">
+                  <a class="ui link">{{ d.user.nickname }}</a>
+                </div>
+                <div class="meta">
+                  <a class="like active">
+                    <i class="like icon"></i>
+                    {{ d.vote_count }}票
+                  </a>
+                </div>
+                <div class="rankb">
+                  NO.<span>{{ loop.counter }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {%endfor%}
+        
+        <!--
+        <div class="frrank">
+          <div class="ui large feed">
+            <div class="event">
+              <div class="label"><img src="http://frbird.qiniudn.com/avatar/151009/561786363ffca2ad608b474c-avb.jpg" alt="太火鸟"></div>
+              <div class="content">
+                <div class="summary">
+                  <a class="ui link">太火鸟</a>
+                </div>
+                <div class="meta">
+                  <a class="like active">
+                    <i class="like icon"></i>
+                    1票
+                  </a>
+                </div>
+                <div class="rankb">
+                  NO.<span>123</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          -->
+          
+        </div>
+        
+      </div>
+      
+    </div>
     {%else%}
         <p style="text-algin:center;">赶快叫好友来支持你吧！</p>
     {%endif%}
-	]]></replaceContent>
+	]]></replace>
+	<eval>
+	  $('.ui.right.attached.button').click(function(){ 
+	    $(this).addClass('active'); 
+	    $('.ui.left.attached.button').removeClass('active');
+	    $('.user-list').hide();
+	    $('.user-report').show();
+	  });
+	  
+	  $('.ui.left.attached.button').click(function(){ 
+	    $(this).addClass('active'); 
+	    $('.ui.right.attached.button').removeClass('active');
+	    $('.user-report').hide();
+	    $('.user-list').show();
+	  });
+	  
+	</eval> 
 </taconite>

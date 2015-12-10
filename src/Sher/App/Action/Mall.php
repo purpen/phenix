@@ -18,6 +18,22 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
 	}
 	
 	/**
+	 * zxc 云马
+	 */
+	public function zxc(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/zxc.html');
+	}
+	
+	/**
+	 * zxc 云马
+	 */
+	public function tzxc(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/tzxc.html');
+	}
+	
+	/**
 	 * cocoon 吻吻鱼
 	 */
 	public function cocoon(){

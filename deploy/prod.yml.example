@@ -37,6 +37,8 @@ app.css.use_bundle: 1
 app.redis.default: 
     host: '10.9.29.163'
     port: 6379
+    verified: 1
+    requirepass: 'Fr%bird@201403$01'
 
 # redisdb-resque
 app.redis_host: '10.10.39.2:6379'
@@ -88,6 +90,9 @@ app.comeon.product_id: 1112616234
 
 # 发送通知用户组
 app.send_notice_users: '10|544066'
+
+# 参与评论投票的话题ID
+app.topic_comment_ids: '37|36'
 
 # 评测报告类别
 app.try.report_category_id: 18

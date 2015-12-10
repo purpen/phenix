@@ -99,7 +99,6 @@
 		<link rel="stylesheet" type="text/css" href="http://frstatic.qiniudn.com/wechat/js/animations.css" />
   	<link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/animate.min-1.css">
 		
-		<link rel="stylesheet" href="{{ app_url_qiniu_frstatic }}/css/semantic.2.0.min.css" type="text/css" />
 		{% if css_use_bundle %}
 			<link rel="stylesheet" href="{{ app_url_packaged }}/css/mobile.min.{{ css_bundle_version }}.css" type="text/css" />
 		{% else %}
@@ -127,21 +126,14 @@
 		<div class="hengping" style="background:#000;color:#fff;font-size:16px;height:100%;width:100%;display:none;text-align: center;padding-top: 140px;">
 		  为了更好的用户体验，请竖屏浏览
 		</div>
-    <script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.plugins.min.js"></script>
-		<script type="text/javascript" src="{{ app_url_qiniu_frstatic }}/javascript/semantic.2.0.min.js"></script>
 		{% if js_use_bundle %}
-		<!--<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>-->
 		{% else %}
 
 		{% endif %}
 		
 		{% block layout_js %}{% endblock %}
 		{% block page_js %}
-			{% if js_use_bundle %}
-				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.{{ js_jquery_bundle_version }}.js"></script>
-			{% else %}
-				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.js"></script>
-			{% endif %}
+
 		{% endblock %}
 
 		<script type="text/javascript">
@@ -156,24 +148,7 @@
                $('.hengping').css('display','none');
             }
         }
-		<!--
-		$(function(e){
-			phenix.url = {
-				domain: '{{ app_url_domain }}',
-        		css: '{{ app_url_css}}',
-        		js: '{{ app_url_js}}',
-        		images: '{{ app_url_images}}',
-				app_url_action_base: '{{ app_url_action_base }}'
-			};
-			
-			phenix.visitor = {{ visitor_json }};
-			
-    		phenix.initial();
-			
-    		{% block layout_jquery %}{% endblock %}
-    		{% block jquery %}{% endblock %}
-		});
-		//-->
+
 		</script>
 		
 		{% if css_use_bundle %}
@@ -193,7 +168,6 @@
 			  ga('send', 'pageview');
 
 			</script>
-			<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
 		</div>
 		{% endif %}
 		

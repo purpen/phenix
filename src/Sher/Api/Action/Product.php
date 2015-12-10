@@ -12,7 +12,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
   );
    */
 	
-	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'comments', 'ajax_favorite', 'ajax_love', 'ajax_comment', 'fetch_relation_product');
+	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'comments', 'ajax_favorite', 'ajax_love', 'ajax_comment', 'fetch_relation_product', 'ajax_cancel_love');
 	
 	/**
 	 * 入口
@@ -67,7 +67,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 			'presale_percent'=>1, 'cover_id'=>1, 'designer_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
 			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
 			'snatched_time'=>1, 'inventory'=>1, 'can_saled'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
-      'presale_goals'=>1, 'stick'=>1,
+      'presale_goals'=>1, 'stick'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1,
+      'comment_star'=>1,
 		);
 		
 		// 请求参数
@@ -173,7 +174,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 
     //转换描述格式
     $product['content'] = null;
-    $product['content_view_url'] = sprintf('%s/view/product_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $product['_id'], $this->current_user_id);
+    $product['content_view_url'] = sprintf('%s/app/api/view/product_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $product['_id'], $this->current_user_id);
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
@@ -310,6 +311,9 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 	public function ajax_cancel_love(){
     $id = $this->stash['id'];
     $user_id = $this->current_user_id;
+		if(empty($user_id)){
+			return $this->api_json('请先登录!', 3005);
+		}
 		if(empty($id)){
 			return $this->api_json('缺少请求参数！', 3000);
 		}
@@ -364,7 +368,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 			$query['target_id'] = (string)$target_id;
 		}
 		if($type){
-			$query['type'] = (int)$type;
+			$query['type'] = $type;
 		}
 		
 		// 分页参数
@@ -375,6 +379,15 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 		// 开启查询
         $service = Sher_Core_Service_Comment::instance();
         $result = $service->get_comment_list($query, $options);
+
+        for($i=0;$i<count($result['rows']);$i++){
+          if($result['rows'][$i]['user']){
+            $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
+          }
+          if($result['rows'][$i]['target_user']){
+            $result['rows'][$i]['target_user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['target_user']);
+          }
+        }
 		
 		return $this->api_json('请求成功', 0, $result);
 	}

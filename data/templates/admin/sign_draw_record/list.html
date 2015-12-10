@@ -1,0 +1,169 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">签到抽奖管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/sign_draw_record" class="active item">
+			全部
+		</a>
+
+	</div>
+
+	<div class="ui sub search">
+		<form action="{{ app_url_admin_base }}/sign_draw_record" method="get" class="ui form" id="search-form">
+			<div class="six fields">
+				<div class="field">
+					<input type="text" name="day" placeholder="日: 20150606" value="{{ day }}" />
+				</div>
+
+				<div class="field">
+					<input type="text" name="user_id" placeholder="用户ID" value="{{ user_id }}" />
+				</div>
+				<div class="field">
+					<input type="text" name="ip" placeholder="IP" value="{{ ip }}" />
+				</div>
+				<div class="field">
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="event" value="{{ event }}" />
+					    <div class="default text">类型</div>
+					    <div class="menu">
+							<div data-value="0" class="{% if event=='' %}active {% endif %}item">全部</div>
+							<div data-value="-1" class="{% if event=='-1' %}active {% endif %}item">未中</div>
+							<div data-value="1" class="{% if event == 1 %}active {% endif %}item">鸟币</div>
+							<div data-value="2" class="{% if event == 2 %}active {% endif %}item">红包</div>
+							<div data-value="3" class="{% if event == 3 %}active {% endif %}item">实物</div>
+							<div data-value="4" class="{% if event == 4 %}active {% endif %}item">虚拟币</div>
+					    </div>
+					</div>
+				</div>
+
+				<div class="field">
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="state" value="{{ state }}" />
+					    <div class="default text">是否处理</div>
+					    <div class="menu">
+							<div data-value="0" class="{% if state=='' %}active {% endif %}item">全部</div>
+							<div data-value="-1" class="{% if state=='-1' %}active {% endif %}item">否</div>
+							<div data-value="1" class="{% if state == 1 %}active {% endif %}item">是</div>
+					    </div>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
+
+			</div>
+
+		</form>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>用户</th>
+				<th>中奖信息</th>
+				<th>日期/IP</th>
+        <th>抽奖次数</th>
+        <th>是否处理</th>
+        <th>来源</th>
+        <th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% sign_draw_record_list var:'list' target_id:target_id kind:1 day:day event:event state:state user_id:user_id ip:ip page:page size:100 %}
+
+			{% for f in list.rows %}
+        
+          <tr id="{{ f._id }}">
+            <td>
+              <div class="ui checkbox">
+                  <input name="ids" type="checkbox" value="{{ f._id }}" class="checkbox" />
+                  <label></label>
+              </div>
+            </td>
+            <td>
+              <a class="ui image label link" href="{{ f.user.home_url }}" target="_blank">
+                  <img src="{{ f.user.mini_avatar_url }}">
+                  {{ f.user.nickname }}
+              </a>
+            </td>
+            <td>
+              <P>{{ f.number_id }}.{{ f.desc|default '--' }}</p>
+              <p>{{ f.event_str }}</p>
+              {% if f.receipt %}
+                <hr />
+              <P>姓名:{{ f.receipt.name }}</p>
+              <p>电话:{{ f.receipt.phone }}</p>
+              <P>城市:{{ f.receipt.province }}-{{ f.receipt.district }}</p>
+              <p>地址:{{ f.receipt.address }}</p>
+              <p>邮编:{{ f.receipt.zip }}</p>
+              {%endif%}
+            </td>
+            <td>
+              <p>{{ f.day }}</p>
+              <p>{{ f.ip }}</p>
+            </td>
+            <td>{{ f.draw_times }}</td>
+
+            <td id="stat-{{ f._id }}">
+              {% if f.state == 1 %}
+              <label class="ui green label">是</label>
+              {% endif %}
+              
+              {% if f.state == 0 %}
+              <label class="ui red label">否</label>
+              {% endif %}
+            </td>
+            <td>
+              {% if f.from_to==1 %}
+                电脑
+              {%endif%}
+              {% if f.from_to==2 %}
+                手机
+              {%endif%}
+            </td>
+            <td>
+              <div class="ui divided horizontal list">
+                {% if f.state == 0 %}
+                <a href="{{ app_url_admin }}/sign_draw_record/ajax_state?id={{ f._id }}&state=1" id="stat-btn-{{f._id}}" class="ui ajax link item">
+                  发货
+                </a>
+                {%else%}
+                <!--
+			          <a href="{{ app_url_admin }}/sign_draw_record/ajax_state?id={{ f._id }}&state=0" id="stat-btn-{{f._id}}" class="ui ajax link item">
+                  取消
+                </a>
+                -->
+                {%endif%}
+                <a href="{{ app_url_admin }}/sign_draw_record/deleted?id={{ f._id }}" class="ui confirm-request link item">删除</a>
+              </div>
+            </td>
+          </tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+{% endblock %}

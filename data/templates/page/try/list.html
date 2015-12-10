@@ -72,6 +72,11 @@
 
 {% block content %}
 <div class="mainwrap social" id="triespage">
+	<!--幸运大转盘-->
+	<a href="{{ app_url_domain }}/promo/sign" target="_blank">
+		<img src="{{ app_url_packaged }}/images/promo/draw-banner.png" style="position:fixed; bottom:120px;right:20px;z-index:999;">
+	</a>
+	<!-- end -->
     <div class="social topstick">
 			<div class="ui three products cards">
                 {% try_list var:'try_latest' page:1 state:1 sticked:1 sort_field:'sticked:latest_over' step_stat:1 size:1 %}
@@ -197,11 +202,14 @@
                             </h2>
                             <div class="excerpt">
                               {% if t.step_stat==0 %}
-                                <p>想要人数：<span>{{ t.want_count }}</span></p>
+                                <p>想要人数：<span class="count">{{ t.want_count|default 0 }}</span>
                               {%else%}
-                                <p>产品数量：<span class="count">{{ t.try_count }}</span>  申请人数：<span>{{ t.apply_count }}</span></p>
+                                <p>产品数量：<span class="count">{{ t.try_count }}</span>  申请人数：<span class="count">{{ t.apply_count }}</span>
                               {%endif%}
-
+                                {% if t.price %}
+                                  产品价格：<span>{{ t.price }}</span>
+                                {%endif%}
+                              </p>
                             </div>
                             <div class="cats">
                                 {% if t.step_stat == 0 %}

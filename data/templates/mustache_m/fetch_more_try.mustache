@@ -41,11 +41,15 @@
                                 </h2>
                                 <div class="excerpt">
                                   {{#step_ready}}
-                                    <p>想要人数：<span>{{ want_count }}</span></p>
+                                    <p>想要人数：<span class="count">{{ want_count }}</span>
                                   {{/step_ready}}
                                   {{^step_ready}}
-                                    <p>产品数量：<span class="count">{{ try_count }}</span>  申请人数：<span>{{ apply_count }}</span></p>
+                                    <p>产品数量：<span class="count">{{ try_count }}</span>  申请人数：<span class="count">{{ apply_count }}</span>
                                   {{/step_ready}}
+                                  {{#has_price}}
+                                    产品价格：<span class="count">{{ price }}</span>
+                                  {{/has_price}}
+                                  </p>
                                 </div>
                                 <div class="cats">
                                   {{#step_ready}}

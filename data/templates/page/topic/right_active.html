@@ -1,0 +1,30 @@
+<!--活动推荐-->
+<div class="sellwrap">
+	<div class="block title">
+		热门活动
+    </div>
+    {% cache cache_key:'topic_page_active_right' ttl:300 disable_cache:app_disable_cached %}
+      <div class="ui articles list">
+        {% ad_list var:'active_list' page:1 size:5 state:2 name:'topic_right_for_active' %}
+        {% for ad in active_list.rows %}
+            <div class="item topicbox">
+              <a href="{{ ad.view_url }}" title="{{ ad.title }}" class="ui cover" target="_blank">
+                <img class="ui image" src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}">
+              </a>
+              <h2>
+                <a href="{{ ad.view_url }}" title="{{ ad.title }}" class="ui link" target="_blank">
+                    {{ ad.title }}
+                </a>
+              </h2>
+              <p class="">
+
+		<a href="{{ ad.view_url }}" class="ui mini blue button" target="_blank">
+		  立即参加<i class="right arrow icon"></i>
+		</a>
+              </p>
+          
+            </div>
+        {% endfor %}
+      </div>
+    {% endcache %}
+</div>

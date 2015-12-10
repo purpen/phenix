@@ -1,0 +1,102 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}抽奖送红包 -{% endblock %}
+{% block page_css %}
+<style type="text/css">
+html, body {
+    overflow:hidden;
+    margin:0;
+    padding:0;
+}
+.ui.wap{
+	display:none;
+}
+#mfrbird{
+	margin:0;
+}
+* { -webkit-appearance: none; }
+
+html, body { height: 100%; width: 100%; margin: 0px; background: #000; }
+section { display: block; height: 100%; overflow: hidden;  }
+
+.mmfoot{
+display:none;
+}
+
+.invite{
+	background:url({{ app_url_packaged }}/images/promo/eginbg.jpg) no-repeat;
+	background-size:cover;
+}
+.column{
+  position:relative;
+}
+.sign{
+  width:90%;
+  margin-top:15%;
+  margin-bottom:20px;
+  z-index:3;
+}
+.timage{
+  width:25%;
+  border-radius: 500rem;
+  margin-top:12%;
+  margin-bottom:10px;
+}
+.eginlogo{
+  width:18%;
+  position:absolute;
+  left:41%;
+  bottom:3%;
+  z-index:2;
+}
+.xin{
+  background:#ffe2b3 !important;
+  color:#da3932 !important;
+  
+}
+.ui.grid>.column:not(.row), .ui.grid>.row>.column{
+  width:100% !important;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+  $('#fetch_bonus').click(function(){
+    // 所有ajax请求，验证是否登录
+    if (!phenix.visitor.is_login){
+      phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+      return false;
+    }
+
+    var url = "{{ app_url_wap }}/app/wap/promo_func/fetch_db_bonus";
+    $.post(url, {type: 1}, function(result){
+      if(result.success){
+        phenix.show_ok_note(result.message, 3000);
+        phenix.redirect(result.redirect_url, 3000);
+      }else{
+        phenix.show_error_note(result.message, 3000);
+      }
+    }, 'json');
+  });
+{% endblock %}
+
+{% block content %}
+<section class="invite">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+        <img class="ui timage" src="http://frbird.qiniudn.com/avatar/151009/56178560fc8b1226408b7b15-avb.jpg" alt="太火鸟">
+        <p style="font-size:16px;"><b>太火鸟</b></p>
+			  <img src="{{ app_url_packaged }}/images/promo/eginhb1.png" class="sign" style="margin-bottom:-23%;margin-top:8%;">
+			  <a href="javascript:void(0);" id="fetch_bonus" class="ui active xin button">点击领取红包</a>
+			</div>
+		</div>
+	</div>
+	<img src="{{ app_url_packaged }}/images/promo/eginlogo.png" class="eginlogo">
+</section>
+{% endblock %}
