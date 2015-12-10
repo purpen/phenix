@@ -256,6 +256,10 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
     $service = Sher_Core_Service_SignDrawRecord::instance();
         
     $query = array();
+
+    if($day){
+      $query['day'] = $day;
+    }
         
 		if($event){
       if($event==-1){ // 未中奖
@@ -277,10 +281,6 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
       }else{
         $query['state'] = 1;     
       }
-    }
-
-    if($day){
-      $query['day'] = $day;
     }
 
     if($user_id){
