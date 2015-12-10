@@ -3,7 +3,9 @@
 {% endblock %}
 
 {% block jquery %}
-	
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
 {% endblock %}
 	
 {% block content %}
@@ -14,6 +16,54 @@
 			全部
 		</a>
 
+	</div>
+
+	<div class="ui sub search">
+		<form action="{{ app_url_admin_base }}/sign_draw_record" method="get" class="ui form" id="search-form">
+			<div class="six fields">
+				<div class="field">
+					<input type="text" name="day" placeholder="日: 20150606" value="{{ day }}" />
+				</div>
+
+				<div class="field">
+					<input type="text" name="user_id" placeholder="用户ID" value="{{ user_id }}" />
+				</div>
+				<div class="field">
+					<input type="text" name="ip" placeholder="IP" value="{{ ip }}" />
+				</div>
+				<div class="field">
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="event" value="{{ event }}" />
+					    <div class="default text">类型</div>
+					    <div class="menu">
+							<div data-value="0" class="{% if event=='' %}active {% endif %}item">全部</div>
+							<div data-value="-1" class="{% if event=='-1' %}active {% endif %}item">未中</div>
+							<div data-value="1" class="{% if event == 1 %}active {% endif %}item">鸟币</div>
+							<div data-value="2" class="{% if event == 2 %}active {% endif %}item">红包</div>
+							<div data-value="3" class="{% if event == 3 %}active {% endif %}item">实物</div>
+							<div data-value="4" class="{% if event == 4 %}active {% endif %}item">虚拟币</div>
+					    </div>
+					</div>
+				</div>
+
+				<div class="field">
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="state" value="{{ state }}" />
+					    <div class="default text">是否处理</div>
+					    <div class="menu">
+							<div data-value="0" class="{% if state=='' %}active {% endif %}item">全部</div>
+							<div data-value="-1" class="{% if state=='-1' %}active {% endif %}item">否</div>
+							<div data-value="1" class="{% if state == 1 %}active {% endif %}item">是</div>
+					    </div>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
+
+			</div>
+
+		</form>
 	</div>
 	
 	<table class="ui small table segment">
@@ -36,7 +86,7 @@
 		</thead>
 		<tbody>
 
-			{% sign_draw_record_list var:'list' target_id:target_id kind:1 event:event page:page size:100 %}
+			{% sign_draw_record_list var:'list' target_id:target_id kind:1 day:day event:event state:state user_id:user_id ip:ip page:page size:100 %}
 
 			{% for f in list.rows %}
         

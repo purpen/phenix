@@ -24,6 +24,7 @@ class Sher_Core_ViewTag_SignDrawRecordList extends Doggy_Dt_Tag {
         $kind = 0;
         $state = 0;
         $day = 0;
+        $ip = null;
 		
 		    $sort = 0;
 		
@@ -46,17 +47,25 @@ class Sher_Core_ViewTag_SignDrawRecordList extends Doggy_Dt_Tag {
         if ($event) {
           if((int)$event==-1){
             $query['event'] = 0;         
+          }else{
+            $query['event'] = (int)$event;
           }
-          $query['event'] = (int)$event;
         }
         if ($kind) {
           $query['kind'] = (int)$kind;
         }
         if ($state) {
-          $query['state'] = (int)$state;
+          if((int)$state==-1){
+            $query['state'] = 0;
+          }else{
+            $query['state'] = (int)$state;
+          }
         }
         if ($day) {
           $query['day'] = (int)$day;
+        }
+        if($ip){
+          $query['ip'] = $ip;
         }
 		
         $service = Sher_Core_Service_SignDrawRecord::instance();

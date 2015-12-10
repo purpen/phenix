@@ -8,6 +8,11 @@ class Sher_Admin_Action_SignDrawRecord extends Sher_Admin_Action_Base implements
 	public $stash = array(
 		'page' => 1,
 		'size' => 100,
+    'day' => '',
+    'user_id' => '',
+    'event' => '',
+    'state' => '',
+    'ip' => '',
 	);
 	
 	public function _init() {
@@ -29,7 +34,9 @@ class Sher_Admin_Action_SignDrawRecord extends Sher_Admin_Action_Base implements
     $this->stash['target_id'] = isset($this->stash['target_id'])?$this->stash['target_id']:0;
     $this->stash['event'] = isset($this->stash['event'])?$this->stash['event']:0;
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/sign_draw_record/get_list?target_id=%s&event=%s&page=#p#', $this->stash['target_id'], $this->stash['event']);
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/sign_draw_record?day=%d&user_id=%d&state=%d&event=%d&ip=%s&page=#p#', $this->stash['day'], $this->stash['user_id'], $this->stash['state'], $this->stash['event'], $this->stash['ip']);
+		
+		$this->stash['pager_url'] = $pager_url;
 		
 		$this->stash['pager_url'] = $pager_url;
 		
