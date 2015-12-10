@@ -35,6 +35,7 @@
 				<th>缩略图</th>
 				<th>ID/number</th>
         <th>信息</th>
+        <th>时间</th>
         <th>状态</th>
         <th>操作</th>
 			</tr>
@@ -117,7 +118,7 @@
               {%endif%}
 
             </td>
-
+            <td>{{ f.created_on|date 'Y-m-d' }}</td>
             <td id="stat-{{ f._id }}">
               {% if f.state == 1 %}
               <label class="ui green label">未抽</label>
