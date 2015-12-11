@@ -349,7 +349,7 @@
       	request: {
 			inputName:'file',
 			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ special_subject._id }}','file_id': '{{ pid }}' },
-        	endpoint: '{{ app_url_upload_dotry }}'
+        	endpoint: '{{ app_url_upload }}/special_cover'
       	},
 		text: {
             uploadButton: '<a class="ui active orange labeled icon inverted button" href="javascript:void(0);"><i class="upload icon"></i>选择图片</a>'
@@ -3007,7 +3007,7 @@
 			  
 			  <!--活动封面图，头图，-->
 			  <div class="field">
-				<label>封面图：</label>
+				<label>上传封面图：</label>
 				<input type="hidden" name="cover_id" id="special_subject_cover_id" value="{{ special_subject.cover_id }}" />
 				<div style="clear: both"></div>
 				<div id="phenix-uploader-special"></div>

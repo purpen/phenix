@@ -483,7 +483,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 				if(isset($this->stash['x:parent_id'])){
 					$image_info['parent_id'] = $this->stash['x:parent_id'];
 				}
-			
+				
 				$ok = $asset->apply_and_save($image_info);
 				
 				Doggy_Log_Helper::debug("Create asset[$i] ok.");
