@@ -299,6 +299,15 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	}
 	
 	/**
+	 * 上传专题封面图片
+	 */
+	public function special_cover() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_SPECIAL_COVER;
+		$asset_type = Sher_Core_Model_Asset::TYPE_SPECIAL_COVER;
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+	
+	/**
 	 * 上传专辑图片
 	 */
 	public function albums() {
@@ -854,6 +863,5 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		
 		return $this->ajax_json('设置成功！');
 	}
-	
 }
 ?>

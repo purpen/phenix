@@ -85,6 +85,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 		$special_subject_html = $this->stash['special_subject_html'];
 		$special_subject_title = $this->stash['special_subject_title'];
 		$special_subject_tag = $this->stash['special_subject_tag'];
+		$cover_id = $this->stash['cover_id'];
 		
 		// 验证内容
 		if(!$special_subject_html){
@@ -111,6 +112,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 			'content' => $special_subject_html,
 			# 分类ID
 			'category_id' => 1,
+			'cover_id' => $cover_id,
 			'user_id' => (int)$this->visitor->id
 		);
 		//var_dump($date['content']);die;

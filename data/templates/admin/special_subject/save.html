@@ -98,6 +98,10 @@
 	float: left;
   }
   
+  .qq-upload-button .button{
+	min-height: 36px;
+  }
+  
 </style>
 {% endblock %}
 
@@ -150,46 +154,46 @@
 	  
 	  $('.gridster > ul > li').livequery(function(){
 		
-		$(this).on('click','.remove',function(){
-		  gridster.remove_widget($(this).parents('li'));
-		});
-		
-		$(this).on('click','.edit',function(){
-		  $(this).parents('li').append(select_type_html);
-		});
-		
-		$(this).mouseenter(function(){
-		  $(this).append(operating_html);
-		});
-		
-		$(this).mouseleave(function(){
-		  $(this).find('.header').remove();
-		  $(this).find('.select_type_content').remove();
-		});
-		
-		$(this).on('click','.add_text',function(){
-		  date_col = $(this).parents('li').attr('data-col');
-		  date_row = $(this).parents('li').attr('data-row');
-		  date_x = $(this).parents('li').attr('data-sizex');
-		  date_y = $(this).parents('li').attr('data-sizey');
-		  $('#block_text.fullscreen.modal').modal('show');
-		});
-		
-		$(this).on('click','.add_images',function(){
-		  date_col = $(this).parents('li').attr('data-col');
-		  date_row = $(this).parents('li').attr('data-row');
-		  date_x = $(this).parents('li').attr('data-sizex');
-		  date_y = $(this).parents('li').attr('data-sizey');
-		  $('#block_images.fullscreen.modal').modal('show');
-		});
-		
-		$(this).on('click','.add_video',function(){
-		  date_col = $(this).parents('li').attr('data-col');
-		  date_row = $(this).parents('li').attr('data-row');
-		  date_x = $(this).parents('li').attr('data-sizex');
-		  date_y = $(this).parents('li').attr('data-sizey');
-		  $('#block_video.fullscreen.modal').modal('show');
-		});
+		  $(this).on('click','.remove',function(){
+			gridster.remove_widget($(this).parents('li'));
+		  });
+		  
+		  $(this).on('click','.edit',function(){
+			$(this).parents('li').append(select_type_html);
+		  });
+		  
+		  $(this).mouseenter(function(){
+			$(this).append(operating_html);
+		  });
+		  
+		  $(this).mouseleave(function(){
+			$(this).find('.header').remove();
+			$(this).find('.select_type_content').remove();
+		  });
+		  
+		  $(this).on('click','.add_text',function(){
+			date_col = $(this).parents('li').attr('data-col');
+			date_row = $(this).parents('li').attr('data-row');
+			date_x = $(this).parents('li').attr('data-sizex');
+			date_y = $(this).parents('li').attr('data-sizey');
+			$('#block_text.fullscreen.modal').modal('show');
+		  });
+		  
+		  $(this).on('click','.add_images',function(){
+			date_col = $(this).parents('li').attr('data-col');
+			date_row = $(this).parents('li').attr('data-row');
+			date_x = $(this).parents('li').attr('data-sizex');
+			date_y = $(this).parents('li').attr('data-sizey');
+			$('#block_images.fullscreen.modal').modal('show');
+		  });
+		  
+		  $(this).on('click','.add_video',function(){
+			date_col = $(this).parents('li').attr('data-col');
+			date_row = $(this).parents('li').attr('data-row');
+			date_x = $(this).parents('li').attr('data-sizex');
+			date_y = $(this).parents('li').attr('data-sizey');
+			$('#block_video.fullscreen.modal').modal('show');
+		  });
 	  });
 	  
 	  $('.ui.no.button.text').on('click', function(){
@@ -204,6 +208,30 @@
 		$('#block_video').modal('hide');
 	  });
 	  
+	  function calculate(){
+		var height = 0;
+		var tmp = '';
+		$(".gridster_ul>li").each(function(i){
+		  var val = $(this).attr('data-sizey');
+		  var row = $(this).attr('data-row');
+		  if(row != tmp){
+			height += parseInt(val);
+			tmp = row;
+		  }
+		});
+		return height*cell;
+	  }
+	  
+	  function distance(distance){
+		$(".gridster_ul>li").each(function(i){
+		  var row = parseInt($(this).attr('data-row'));
+		  var col = parseInt($(this).attr('data-col'));
+		  if(row > date_row){
+			$('li[data-col='+col+'][data-row='+row+']').attr('data-row',row+distance);
+		  }
+		});
+	  }
+	  
 	  $('.ui.yes.text').on('click', function(){
 		var content = $('textarea[name=content]').val();
 		$('li[data-col='+date_col+'][data-row='+date_row+']').find('.this_content').html(content);
@@ -212,6 +240,7 @@
 		$('li[data-col='+date_col+'][data-row='+date_row+']').css('height',date_y*cell+'px');
 		$('li[data-col='+date_col+'][data-row='+date_row+']').css('overflow','auto');
 		$('#block_text').modal('hide');
+		$('.gridster_ul').css('height',calculate()+'px');
 	  });
 	  
 	  $('.ui.yes.img').on('click', function(){
@@ -226,6 +255,8 @@
 		$('li[data-col='+date_col+'][data-row='+date_row+']').css('width',date_x*cell+'px');
 		$('li[data-col='+date_col+'][data-row='+date_row+']').css('height',Math.ceil((date_x*height)/width)*cell+'px');
 		$('#block_images').modal('hide');
+		$('.gridster_ul').css('height',calculate()+'px');
+		distance(Math.ceil((date_x*height)/width)-date_y);
 	  });
 	  
 	  $('.ui.yes.video').livequery(function(){
@@ -239,6 +270,7 @@
 		  $('li[data-col='+date_col+'][data-row='+date_row+']').css('width',date_x*cell+'px');
 		  $('li[data-col='+date_col+'][data-row='+date_row+']').css('height',date_y*cell+'px');
 		  $('#block_video').modal('hide');
+		  $('.gridster_ul').css('height',calculate()+'px');
 		});
 	  });
 	  
@@ -256,16 +288,16 @@
 		  buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
 	  });
 	  
-	  var file_count = 1;
-	  var ord = function(){
-		  return file_count++;
-	  };
-	
-	  $('#phenix-uploader').fineUploader({
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+  
+	$('#phenix-uploader').fineUploader({
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ active._id }}','file_id': '{{ pid }}' },
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ special_subject._id }}','file_id': '{{ pid }}' },
         	endpoint: '{{ app_url_upload }}/special_subject'
       	},
 		text: {
@@ -299,23 +331,67 @@
 			back_y = Math.ceil(wps_height/cell);
 			
 			if(Math.floor(wps_width/wps_height) >= 1){
-				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"width: '+date_x*cell+'px\">';
+				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"max-width: 500px; width: '+date_x*cell+'px\">';
 			}else{
-				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"height: '+date_y*cell+'px\">';
+				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"max-height: 500px; height: '+date_y*cell+'px\">';
 			}
 			
 			$('#show_images').html(imghtml);
 		}
 	});
-  });
+	
+	// 封面图上传
+	$('#phenix-uploader-special').fineUploader({
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ special_subject._id }}','file_id': '{{ pid }}' },
+        	endpoint: '{{ app_url_upload_dotry }}'
+      	},
+		text: {
+            uploadButton: '<a class="ui active orange labeled icon inverted button" href="javascript:void(0);"><i class="upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_note(result.message);
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
+			//$.get('{{ app_url_action_base }}/uploader/check_upload_active_assets', {'id': '{{ special_subject._id }}', 'assets': result.data.ids, 'ref': 'onestep' });
+		}
+	});
+	
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#special_subject_cover_id').val(id);
+			return false;
+		});
+	});
   
-  $('#special_subject_form').on('click','.submit',function(){
-	if(!$('.gridster_ul').html()){
-	  phenix.show_error_note("内容不能为空！", 3000);
-	  return false;
-	}
-	$('input[name=special_subject_html]').val($('.gridster').html());
-  }).form({
+	$('#special_subject_form').on('click','.submit',function(){
+	  if(!$('.gridster_ul').html()){
+		phenix.show_error_note("内容不能为空！", 3000);
+		return false;
+	  }
+	  $('input[name=special_subject_html]').val($('.gridster').html());
+	}).form({
 		special_subject_title: {
 			identifier  : 'special_subject_title',
 			rules: [
@@ -334,7 +410,6 @@
 				}
 			]
 		}
-
 	}, {
 		inline : true,
 		onSuccess: function(event){
@@ -357,6 +432,8 @@
 			});
 		}
 	});
+  
+  });
 	
 {% endblock %}
 	
@@ -2897,6 +2974,7 @@
 	width: 35px;
 	color: #fff;
   }
+
 </style>
 <ul class="gridster_ul"></ul>
 {% else %}
@@ -2922,6 +3000,38 @@
 				  <label>专题标签:</label>
 				  <input type="text" name="special_subject_tag" value="{{ special_subject.tags_s }}" />
 			  </div>
+			  
+			  <!--活动封面图，头图，-->
+			  <div class="field">
+				<label>封面图：</label>
+				<input type="hidden" name="cover_id" id="special_subject_cover_id" value="{{ special_subject.cover_id }}" />
+				
+				<div id="phenix-uploader-special"></div>
+				<div id="asset-list" class="ui four blocks">
+					{% if mode == 'edit' %}
+						{% asset_list var:'assets' parent_id:special_subject._id size:20 asset_type:30 %}
+						{% for asset in assets.rows %}
+						<div class="thumb block" id="{{ asset._id }}">
+							<div class="image">
+								<img src="{{ asset.thumbnails.small.view_url }}" />
+								<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+							</div>
+							<div class="buttons">
+								<div class="ui large links">
+									<a href="{{ app_url_fever }}/delete_asset?id={{ special_subject._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+										<i class="remove icon"></i>
+									</a>
+									
+									<a href="javascript:void(0);" class="ui link {%if special_subject.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+										<i class="checkered flag icon"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
 			  <!--
 			  <div class="field" style="max-width:360px ">
 				<a class="ui label">智能硬件</a>

@@ -84,6 +84,9 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	# 专辑封面
 	const TYPE_ALBUMS = 95;
 	
+	# 专辑封面
+	const TYPE_SPECIAL_COVER = 98;
+	
 	# 图片
 	const TYPE_SPECIAL_SUBJECT = 96;
 
