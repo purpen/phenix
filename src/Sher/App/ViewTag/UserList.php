@@ -83,7 +83,11 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         }
 
         if($kind){
-          $query['kind'] = (int)$kind;
+          if((int)$kind==-1){
+            $query['kind'] = 0;  
+          }else{
+            $query['kind'] = (int)$kind;
+          }
         }
         
         if ($only_common_user) {
