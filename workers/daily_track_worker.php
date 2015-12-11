@@ -26,43 +26,59 @@ echo "-------------------------------------------------\n";
 
 echo "Start to clean...\n";
 
-$session = new Sher_Core_Model_Session();
-$page = 1;
-$size = 1000;
-$is_end = false;
-$total = 0;
+// 清除半小时内未活跃的session
+function clean_session() {
+    $session = new Sher_Core_Model_Session();
+    $page = 1;
+    $size = 1000;
+    $is_end = false;
+    $total = 0;
 
-$query = array();
-$options = array('field'=>array('_id','alive', 'created_on'), 'page'=>$page, 'size'=>$size);
-$list = $session->find($query, $options);
-if(empty($list)){
-	echo "session list is null,exit......\n";
-	break;
-}
-$max = count($list);
-// 半小时内未活跃的session
-$expired_time = time() - 1800;
-for ($i=0; $i<$max; $i++) {
-    $sid = $list[$i]['_id'];
-    if (isset($list[$i]['alive'])) {
-        if($list[$i]['alive'] < $expired_time){
-            $session->remove($sid);
-		    $total++;
-            echo "success remove session id [".$sid."]..........\n";
-        }
-        // todo: 统计在线人数及在线会员人数
-        
-    } else { 
-        // 如果没有过期时间，根据创建时间判断
-        if($list[$i]['created_on'] < $expired_time){
-            $session->remove($sid);
-		    $total++;
-            echo "success remove session id [".$sid."]..........\n";
-        }     
+    $query = array();
+    $options = array('field'=>array('_id','alive', 'created_on'), 'page'=>$page, 'size'=>$size);
+    $list = $session->find($query, $options);
+    if(empty($list)){
+    	echo "session list is null,exit......\n";
+    	break;
     }
+    $max = count($list);
+    // 半小时内未活跃的session
+    $expired_time = time() - 1800;
+    for ($i=0; $i<$max; $i++) {
+        $sid = $list[$i]['_id'];
+        if (isset($list[$i]['alive'])) {
+            if($list[$i]['alive'] < $expired_time){
+                $session->remove($sid);
+    		    $total++;
+                echo "success remove session id [".$sid."]..........\n";
+            }
+            // todo: 统计在线人数及在线会员人数
+        
+        } else { 
+            // 如果没有过期时间，根据创建时间判断
+            if($list[$i]['created_on'] < $expired_time){
+                $session->remove($sid);
+    		    $total++;
+                echo "success remove session id [".$sid."]..........\n";
+            }     
+        }
+    }
+
+    echo "clean expired session [$total],lt [".date('Y-m-d H:i:s', $expired_time)."] is OK! \n";
 }
 
-echo "clean expired session [$total] is OK! \n";
+// 清除过期token,默认30天
+function clean_token() {
+    $expired_time = time() - 30*24*60*60;
+    $model = new Sher_Core_Model_AuthToken();
+    $ok = $model->remove(array('ttl' => array('$lt' => $expired_time)));
+    
+    echo "clean expired token lt [".date('Y-m-d H:i:s', $expired_time)."] is OK! \n";
+}
+
+// 开始执行
+clean_session();
+clean_token();
 
 // sleep 60 seconds
 sleep(60);
