@@ -166,6 +166,12 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 			
 			$ok = $user->apply_and_update($user_info);
       if($ok){
+        // 把profile提出来
+        foreach($user_info['profile'] as $k=>$v){
+          $user_info[$k] = $v;
+        }
+        unset($user_info['profile']);
+
  		    return $this->api_json('更新用户信息成功！', 0, $user_info);    
       }else{
   		  return $this->api_json('更新失败！', 3002);    
@@ -329,6 +335,11 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 		foreach($some_fields as $key=>$value){
 			$data[$key] = $user_data[$key];
 		}
+    // 把profile提出来
+    foreach($data['profile'] as $k=>$v){
+      $data[$k] = $v;
+    }
+    unset($data['profile']);
 		
 		return $this->api_json('欢迎回来.', 0, $data);
 	}

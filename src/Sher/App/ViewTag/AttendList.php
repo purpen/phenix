@@ -35,12 +35,9 @@ class Sher_App_ViewTag_AttendList extends Doggy_Dt_Tag {
         $size = (int)$size;
 		
         $query = array();
-     	
+     	  $options = array();
         $options['sort_field'] = $sort;
 		
-        if ($user_id) {
-            $query['user_id'] = (int)$user_id;
-        }
         if ($target_id) {
           //如果是试用申请拉票
           if($event==2){
@@ -48,7 +45,9 @@ class Sher_App_ViewTag_AttendList extends Doggy_Dt_Tag {
           }else{
              $query['target_id'] = (int)$target_id;         
           }
-
+        }
+        if ($user_id) {
+            $query['user_id'] = (int)$user_id;
         }
         if ($event) {
           $query['event'] = (int)$event;
@@ -67,4 +66,4 @@ class Sher_App_ViewTag_AttendList extends Doggy_Dt_Tag {
         
     }
 }
-?>
+
