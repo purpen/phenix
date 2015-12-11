@@ -6,6 +6,53 @@
 	$('.ui.submit.button.search').click(function(){
 		$('#search-form').submit();
 	});
+
+	// 发货弹框
+	$('.message-alert-btn').bind('click', function(){
+    var sid = $(this).attr('sid');
+    var title = $(this).attr('draw_title');
+    $('#message-form [name=sid]').val(sid);
+    $('#message-form [name=title-show]').text(title);
+		$('.ui.message-box.modal').modal('show');
+	});
+
+	$('#message-form').form({
+		desc: {
+			identifier  : 'desc',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请记录发货信息'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '内容不超过140字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					//phenix.before_submit();
+				},
+				success: function(data){
+					if(data.is_error){
+					  //phenix.after_submit();
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message);
+					}else{
+            $("#stat-"+data.data).html('<label class="ui green label">是</label>');
+ 						phenix.show_ok_note(data.message);
+		        $('.ui.message-box.modal').modal('hide');
+					}
+				}
+			});
+		}
+	});
 {% endblock %}
 	
 {% block content %}
@@ -77,7 +124,7 @@
 				</th>
 				<th>用户</th>
 				<th>中奖信息</th>
-				<th>日期/IP</th>
+				<th>时间/IP</th>
         <th>抽奖次数</th>
         <th>是否处理</th>
         <th>来源</th>
@@ -103,11 +150,11 @@
                   {{ f.user.nickname }}
               </a>
             </td>
-            <td>
-              <P>{{ f.number_id }}.{{ f.desc|default '--' }}</p>
+            <td class="four wide">
+              <P>{{ f.number_id }}.{{ f.title|default '--' }}</p>
               <p>{{ f.event_str }}</p>
+              {% if f.desc %}<p>描述:{{ f.desc }}</p>{%endif%}
               {% if f.receipt %}
-                <hr />
               <P>姓名:{{ f.receipt.name }}</p>
               <p>电话:{{ f.receipt.phone }}</p>
               <P>城市:{{ f.receipt.province }}-{{ f.receipt.district }}</p>
@@ -116,7 +163,7 @@
               {%endif%}
             </td>
             <td>
-              <p>{{ f.day }}</p>
+              <p>{{ f.created_on|date 'y-m-d H:i:s' }}</p>
               <p>{{ f.ip }}</p>
             </td>
             <td>{{ f.draw_times }}</td>
@@ -140,17 +187,14 @@
             </td>
             <td>
               <div class="ui divided horizontal list">
-                {% if f.state == 0 %}
-                <a href="{{ app_url_admin }}/sign_draw_record/ajax_state?id={{ f._id }}&state=1" id="stat-btn-{{f._id}}" class="ui ajax link item">
-                  发货
+                <a href="javascript:void(0);" draw_title="{{ f.title }}" sid="{{ f._id }}" class="ui ajax link item message-alert-btn">
+                  处理
                 </a>
-                {%else%}
                 <!--
 			          <a href="{{ app_url_admin }}/sign_draw_record/ajax_state?id={{ f._id }}&state=0" id="stat-btn-{{f._id}}" class="ui ajax link item">
                   取消
                 </a>
                 -->
-                {%endif%}
                 <a href="{{ app_url_admin }}/sign_draw_record/deleted?id={{ f._id }}" class="ui confirm-request link item">删除</a>
               </div>
             </td>
@@ -166,4 +210,32 @@
 		<label class="page_count">{{ list.total_rows }}个</label>
 	</div>
 	{% endif %}
+
+<!-- 发货提醒弹出层 -->
+<div class="ui small message-box modal">
+    <i class="close icon"></i>
+  <div class="header">
+    发货记录:
+  </div>
+    <div class="content">
+    <form action="{{ app_url_admin }}/sign_draw_record/ajax_record_desc" class="ui form" method="post" id="message-form">
+      <div class="field">
+        <label>奖品: <span name="title-show"></span></label>
+        <input type="hidden" name="sid" value="" />
+        <input type="hidden" name="state" value="1" />
+      </div>
+      <div class="three fields">
+      </div>
+      <div class="field">
+        <label>内容：</label>
+        <input type="text" name="desc" value="" />
+        <div class="description">运单号或兑换码 eg:顺丰110 or 兑换码</div>
+      </div>
+      <div class="right aligned field ">
+        <div class="ui gray cancel button">取消</div>
+        <div class="ui active magenta submit button" >发送</div>
+      </div>
+    </form>
+    </div>
+</div>
 {% endblock %}

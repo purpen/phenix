@@ -99,4 +99,25 @@ class Sher_Admin_Action_SignDrawRecord extends Sher_Admin_Action_Base implements
 		return $this->to_taconite_page('ajax/delete.html');
 	}
 
+  /**
+   * 记录发货信息
+   */
+  public function ajax_record_desc(){
+    $sid = isset($this->stash['sid']) ? $this->stash['sid'] : null;
+    $desc = isset($this->stash['desc']) ? $this->stash['desc'] : null;
+    $state = isset($this->stash['state']) ? (int)$this->stash['state'] : 0;
+    if(empty($sid) || empty($desc)){
+      return $this->ajax_json('缺少请求参数!', true);
+    }
+
+		$model = new Sher_Core_Model_SignDrawRecord();
+    $ok = $model->update_set($sid, array('desc'=>$desc, 'state'=>$state));
+    if(!$ok){
+      return $this->ajax_json("发送失败!", true);
+    }
+
+    return $this->ajax_json("发送成功!", false, null, $sid);
+  
+  }
+
 }

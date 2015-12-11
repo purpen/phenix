@@ -504,8 +504,6 @@ p span.red {
           }else{
             $('#slidework').prepend(html);          
           }
-
-
         }
     }, 'json');
   }
@@ -521,24 +519,24 @@ p span.red {
 
   fetch_draw_user(1, size, 1, day, '');
 
-                // 定时提示,每次3秒钟,最多100次
-                var limit_notice_times = 0;
-                setInterval(function(){
-                    if(limit_notice_times >= 100){
-                        return
-                    }else{
-                      // 首次加载等待3+1秒
-                      if(limit_notice_times==0){
-                        setTimeout(function(){}, 1000);
-                      }
-                      var sid = '';
-                      if($('#slidework p:first').length>0){
-                        sid = $('#slidework p:first').attr('sid');
-                      }
-                      fetch_draw_user(1, size, 1, day, sid);
-                    }
-                    limit_notice_times++;
-                }, 1000*3);
+  // 定时提示,每次3秒钟,最多100次
+  var limit_notice_times = 0;
+  setInterval(function(){
+      if(limit_notice_times >= 100){
+          return
+      }else{
+        // 首次加载等待3+1秒
+        if(limit_notice_times==0){
+          setTimeout(function(){}, 1000);
+        }
+        var sid = '';
+        if($('#slidework p:first').length>0){
+          sid = $('#slidework p:first').attr('sid');
+        }
+        fetch_draw_user(1, size, 1, day, sid);
+      }
+      limit_notice_times++;
+  }, 1000*3);
 
   // 初始化省份
   var province_id = $('[name=province]').val();
