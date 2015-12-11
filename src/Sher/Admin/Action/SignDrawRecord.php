@@ -106,7 +106,7 @@ class Sher_Admin_Action_SignDrawRecord extends Sher_Admin_Action_Base implements
     $sid = isset($this->stash['sid']) ? $this->stash['sid'] : null;
     $desc = isset($this->stash['desc']) ? $this->stash['desc'] : null;
     $state = isset($this->stash['state']) ? (int)$this->stash['state'] : 0;
-    if(empty($sid || empty($desc)){
+    if(empty($sid) || empty($desc)){
       return $this->ajax_json('缺少请求参数!', true);
     }
 
@@ -116,7 +116,7 @@ class Sher_Admin_Action_SignDrawRecord extends Sher_Admin_Action_Base implements
       return $this->ajax_json("发送失败!", true);
     }
 
-    return $this->ajax_json("发送成功!", false);
+    return $this->ajax_json("发送成功!", false, null, $sid);
   
   }
 

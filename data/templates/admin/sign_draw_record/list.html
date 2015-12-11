@@ -17,12 +17,12 @@
 	});
 
 	$('#message-form').form({
-		content: {
-			identifier  : 'content',
+		desc: {
+			identifier  : 'desc',
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '私信内容不能为空'
+					prompt : '请记录发货信息'
 				},
 				{
 					type   : 'maxLength[140]',
@@ -37,14 +37,15 @@
 			$(this).ajaxSubmit({
 				dataType: 'json',
 				beforeSubmit: function(){
-					phenix.before_submit();
+					//phenix.before_submit();
 				},
 				success: function(data){
 					if(data.is_error){
-					  phenix.after_submit();
+					  //phenix.after_submit();
 						$(event.target).addClass('error');
 						phenix.show_error_note(data.message);
 					}else{
+            $("#stat-"+data.data).html('<label class="ui green label">是</label>');
  						phenix.show_ok_note(data.message);
 		        $('.ui.message-box.modal').modal('hide');
 					}
@@ -219,7 +220,7 @@
     <div class="content">
     <form action="{{ app_url_admin }}/sign_draw_record/ajax_record_desc" class="ui form" method="post" id="message-form">
       <div class="field">
-        <label>标题: <span name="title-show"></span></label>
+        <label>奖品: <span name="title-show"></span></label>
         <input type="hidden" name="sid" value="" />
         <input type="hidden" name="state" value="1" />
       </div>
@@ -228,7 +229,7 @@
       <div class="field">
         <label>内容：</label>
         <input type="text" name="desc" value="" />
-        <div class="description">运单号或兑换码</div>
+        <div class="description">运单号或兑换码 eg:顺丰110 or 兑换码</div>
       </div>
       <div class="right aligned field ">
         <div class="ui gray cancel button">取消</div>
