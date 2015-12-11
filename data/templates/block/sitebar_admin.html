@@ -59,7 +59,13 @@
 	    <i class="users icon"></i>用户
 	</div>
 	<a class="{{ css_page_user_point_stat }} item" href="{{ app_url_admin_base }}/user_stat">
-		用户积分统计
+		积分统计
+	</a>
+	<a class="{{ css_page_sign_in }} item" href="{{ app_url_admin_base }}/user_sign_in">
+		用户签到
+	</a>
+	<a class="{{ css_page_sign_draw_record }} item" href="{{ app_url_admin_base }}/sign_draw_record">
+		抽奖统计
 	</a>
     {% endif %}
 	
@@ -67,17 +73,6 @@
 	<a class="{{ css_page_user }} item" href="{{ app_url_admin_base }}/user">
 		用户管理
 	</a>
-    {% endif %}
-    
-	{% if visitor.is_admin %}
-	<a class="{{ css_page_sign_in }} item" href="{{ app_url_admin_base }}/user_sign_in">
-		用户签到
-	</a>
-  <!--
-	<a class="{{ css_page_egou }} item" href="{{ app_url_admin_base }}/egou">
-		易购管理
-	</a>
-  -->
     {% endif %}
     
     {% if visitor.is_chief %}
@@ -202,9 +197,11 @@
 	<a class="{{ css_page_friend_link }} item" href="{{ app_url_admin_base }}/friend_link">
 		友情链接
 	</a>
+  <!--
 	<a class="{{ css_page_third_site_stat }} item" href="{{ app_url_admin_base }}/third_site_stat">
 		广告投放统计
 	</a>
+  -->
     {% endif %}
     
 	<div class="header item"><b>系统</b></div>

@@ -1,0 +1,651 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}签到抽奖{% endblock %}
+{% block page_css %}
+<style type="text/css">
+  .draw{width:320px; height:320px; position:relative; margin:5px auto -20px;overflow:hidden;}
+  #disk{width:320px; height:320px; background:url({{ app_url_packaged }}/images/promo/zzhuan.png) no-repeat;background-size:100%;}
+  #start{width:30%; height:30%; position:absolute; top:34%; left:35%;}
+  #start img{cursor:pointer;width:100%}
+  .ui.red.button{
+    margin:5px;
+  }
+  .mmfoot{
+    display:none;
+  }
+  #mfrbird{
+    margin:0 auto;
+    min-height:100%;
+    height:auto;
+    /*overflow:hidden;*/
+    width:100%;
+    background:url({{ app_url_packaged }}/images/promo/w_sign_draw1.jpg) center top no-repeat;
+    background-size: cover;
+  }
+  .ui.top.grid{
+	  padding-top:12px;
+  }
+  .ui.bottom.grid h3.ui.header{
+  	margin-top: 15px;
+  }
+  .ui.bottom.grid p{
+    margin-bottom:5px !important;
+  }
+  @media only screen and (min-width: 350px){
+    .draw,#disk{
+      width:350px; height:350px;
+    }
+  }
+  @media only screen and (min-width: 400px){
+    .draw,#disk{
+      width:400px; height:400px;
+    }
+  }
+  #slidework{
+  	height:72px;
+  }
+  #slidework p{
+      font-size: 14px;
+  	margin-bottom:6px;
+  	color:#fff;
+  	overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+  }
+  .backg.column {
+      background: #ff5044;
+      color: #fff;
+      padding: 16px 10px 10px 20px !important;
+      margin: 0 6.25%;
+  	border-radius: 8px;
+  }
+  .question,.question:hover{
+      color: #fff;
+      text-decoration: underline;
+  }
+  .help.circle.icon{
+  	color:#fff;
+  	font-size: 1.4rem;
+  	vertical-align: middle;
+  }
+  .ui.bottom.grid{
+	  color:#000;
+  }
+  .drawmes.modal,.address.modal{
+  	background: rgba(0,0,0,0);
+  }
+  .drawmes.modal .header{
+  	background:rgba(0,0,0,0.5);
+  	border:none;
+  	color:#fff;
+  	padding:20px 10 !important;
+  	font-size:1.3rem;
+  }
+  p.nobtn{
+  	font-size: 1rem !important;
+      font-weight: 400;
+      color: rgba(255,255,255,0.9);
+      margin-top: 30px;
+      border: 1px solid rgba(255,255,255,0.6) !important;
+      display: inline-block;
+      padding: 5px 8px;
+  }
+  .address.modal .header{
+  	background:rgba(0,0,0,0.5);
+  	border:none;
+  	color:#fff;
+	font-size:1.3rem;
+  }
+  .address.modal .header > .container > .content .content .field{
+  	text-align:left;
+  }
+  .address.modal .ui.form .field>label{
+  	color:#fff;
+  }
+  .address.modal .two.fields{
+  	margin-bottom:0;
+  }
+  .address.modal .content > .field+.field+.field{
+  	margin-bottom:2em;
+  }
+
+  select {
+    height: 2.7142em !important;
+    background: #fff !important;
+    display: inline-block !important;
+  }
+
+  .ui.modal .header > .container {
+      padding-top: 20px;
+      padding-bottom: 20px;
+  }
+</style>
+{% endblock %}
+{% block layout_js %}
+  <script type="text/javascript" src="http://frstatic.qiniudn.com/wechat/jsjQueryRotate.2.2.js"></script>
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" >
+    var m_name = '太火鸟签到抽奖啦！天天拿奖到手软！！';
+    var img_url = 'http://frstatic.qiniudn.com/images/promo/weixin.jpg';
+    var link = '{{ app_url_wap_promo }}/sign';
+    var desc_str = '签到即可参加太火鸟抽奖，火爆大奖等你领。';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+
+  wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: 15, count_name:'count', type: 4, kind:4 });
+    $.get("{{ app_url_wap }}/app/site/promo_func/draw_share_add_chance", {});
+    $('#mask').css('display','none');
+  }
+
+  	var rotateTimeOut = function (){
+  		$('#disk').rotate({
+  			angle:0,
+  			animateTo:2160, //这里是设置请求超时后返回的角度，所以应该还是回到最原始的位置，2160是因为我要让它转6圈，就是360*6得来的
+  			duration:8000,
+  			callback:function (){
+  				alert('网络超时，请检查您的网络设置！');
+  			}
+  		});
+  	};
+  	var bRotate = false;
+
+  	var rotateFn = function (angles, data){
+  		bRotate = !bRotate;
+      // 转盘未停止，禁止点击
+      $('#start').unbind('click');
+  		$('#disk').stopRotate();
+  		$('#disk').rotate({
+  			angle:0,
+  			animateTo:angles+1800,
+  			duration:8000,
+  			callback:function (){ // 转盘停止后事件
+
+          $('.coupled.modal')
+          .modal({
+            allowMultiple: false
+          })
+          switch(data.type){
+            case 0:
+              $('.ui.type_00.drawmes.modal').modal('setting', 'closable', false).modal('show');
+            break;
+            case 1:
+              $('.ui.type_01.drawmes.modal').modal('setting', 'closable', false).modal('show');
+            break;
+            case 2:
+              $('.ui.type_02.drawmes.modal').modal('setting', 'closable', false).modal('show');
+            break;
+            case 3:
+              $('#sign_draw_id').val(data.sid);
+              $('span.draw_name').text(data.title);
+              $('.ui.type_03.drawmes.modal').modal('setting', 'closable', false).modal('show');
+            break;
+            case 4:
+              $('span.draw_name').text(data.title);
+              $('.ui.type_04.drawmes.modal').modal('setting', 'closable', false).modal('show');
+            break;
+          }
+
+          // 转盘停止，启动点击
+          $('#start').bind('click', function(){
+            start_draw();
+          });
+
+  				bRotate = !bRotate;
+  			}
+  		})
+  	};
+
+  function start_draw(){
+  	// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+      phenix.redirect('{{ app_url_wap }}/auth/login_signup');
+      phenix.show_login_box();
+      return;
+    }
+    var url = "{{ app_url_wap }}/app/site/promo_func/fetch_sign_draw";
+    $.post(url, {from_to: 2}, function(result){
+
+      if(result.success){
+        rotateFn(result.data.code, result.data);
+      }else{
+        phenix.show_error_note(result.message);
+      }
+    
+    }, 'json');
+  }
+
+  var page = 1;
+  var size = 5;
+  var day = "{{ day|default 0 }}";
+  // ajax 加载中奖用户列表
+  function fetch_draw_user(page, size, type, day, sid){
+    var url = "{{ app_url_wap }}/app/site/promo_func/ajax_fetch_draw_record";
+    $.get(url, {page:page, size:size, type:type, day:day, next_id:sid, delayed:10}, function(result){
+        var html = '';
+        if(result.success){
+          var list = result.data.results.rows;
+          for(var i=0;i<list.length;i++){
+            var z_id = list[i]["id"];
+            var z_event = list[i]["event"];
+            var z_title = list[i]["title"];
+            var z_count = list[i]["count"];
+            var z_desc = '';
+            switch(z_event){
+              case 1:
+              z_desc = "鸟币"+ z_count +"枚";
+              break;
+              case 2:
+              z_desc = "红包"+ z_count +"元";
+              break;
+              case 3:
+              z_desc = z_title + "1个";
+              break;
+              case 4:
+              z_desc = z_title;
+              break;
+            }
+            html += '<p sid="'+ z_id +'">恭喜 '+ list[i]["user"]["nickname"] +' 获得 '+ z_desc +'!</p>';
+          }
+          if(html==''){
+            return;
+          }
+          if(sid==''){
+            $('#slidework').html(html);         
+          }else{
+            $('#slidework').prepend(html);          
+          }
+        }
+    }, 'json');
+  }
+
+  // ajax 加载省份城市
+  function ajax_fetch_district(p_id, d_id){
+    $.get('{{ app_url_wap }}/app/site/address/ajax_fetch_districts', {id: p_id, district_id: d_id, from_to: 'wap'});
+  }
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+  // 抽奖点击事件
+  $('#start').click(function(){
+    start_draw();
+
+  });
+
+  fetch_draw_user(1, size, 1, day, '');
+
+  // 定时提示,每次3秒钟,最多100次
+  var limit_notice_times = 0;
+  setInterval(function(){
+      if(limit_notice_times >= 100){
+          return
+      }else{
+        // 首次加载等待3+1秒
+        if(limit_notice_times==0){
+          setTimeout(function(){}, 1000);
+        }
+        var sid = '';
+        if($('#slidework p:first').length>0){
+          sid = $('#slidework p:first').attr('sid');
+        }
+        fetch_draw_user(1, size, 1, day, sid);
+      }
+      limit_notice_times++;
+  }, 1000*3);
+
+	$('select[name=province]').livequery(function(){
+    $(this).change(function(){
+      var value = $(this).val();
+      if (value) {
+        ajax_fetch_district(value, 0);
+      }   
+    });
+	});
+
+  // 初始化省份
+  var province_id = $('select[name=province]').val();
+  var district_id = $('select[name=district]').val();
+  if(province_id>0){
+    ajax_fetch_district(province_id, district_id);
+  }
+
+	$('#apply-form').livequery(function(){
+		$(this).form({
+			name: {
+				identifier  : 'name',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'password',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '电话不能为空'
+					},
+					{
+						type   : 'length[11]',
+						prompt : '电话必须11位字符'
+					}
+				]
+			},
+			address: {
+				identifier  : 'address',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '地址区域不能为空'
+					}
+				]
+			},
+			zip: {
+				identifier  : 'zip',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '邮编不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+        event.preventDefault();
+        $(this).ajaxSubmit({
+          dataType: 'json',
+          beforeSubmit: function(){
+          },
+          success: function(data){
+            if(data.is_error){
+              $(event.target).addClass('error');
+              phenix.show_error_note(data.message, event.target);
+            }else{
+              $('.ui.type_03.drawmes.modal').modal('hide');
+              phenix.show_ok_note("已收到您的地址，工作人员会尽快给您发货。", 3000);
+            }
+          }
+        });
+			}
+		});
+	});
+  
+  //分享
+  $('.ui.share.button').click(function(){
+      $('.ui.drawmes.modal').modal('hide');
+      $('#mask').css('display','');
+  });
+  $('#mask').click(function(){
+      $('#mask').css('display','none');
+  });
+  
+  window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
+
+   function hengshuping() {
+           if (window.orientation == 90 || window.orientation == -90) {
+              $('#mfrbird').css({'overflow':'scroll','height':'auto'});
+           } else {
+              $('#mfrbird').css({'overflow':'scroll'});
+           }
+       }
+{% endblock %}
+
+{% block content %}
+<div class="ui responsive top grid">
+  <div class="row">
+	<div class="ui fourteen wide backg column">
+		<div id="slidework" style="overflow: hidden;">
+      <!--<p>恭喜 action001   获得太火鸟鸟币100枚</p>-->
+
+		</div>
+	</div>
+  </div>
+</div>
+<div class="draw">
+  <div id="disk"></div>
+  <div id="start"><img src="{{ app_url_packaged }}/images/promo/zzhuan1.png" id="startbtn"></div>
+</div>
+
+<div class="ui responsive bottom grid">
+	<div class="row">
+	    <div class="column">
+			<!--<p><i class="help circle icon"></i><a class="question" href="" target="_blank"> 我有疑问</a></p>-->
+	      	<h3 class="ui header">规则</h3>
+			<p>1.用户必须登录成功后才可参加抽奖活动；</p>
+			<p>2.太火鸟社区签到即有1次机会参与抽奖；</p>
+			<p>3.如果未抽中，微信分享此页面可增加一次抽奖机会（每天
+       限增加1次）；</p>
+			<p>4.活动中奖结果均以弹出页面中奖信息为
+		准；</p>
+			<p>5.禁止任何不正当手段及舞弊行为参与活
+		动，一经发现，太火鸟有权取消用户的
+		获奖资格；</p>
+			<p>6.本次活动最终解释权归太火鸟所有！</p>
+	    </div>
+	</div>
+	
+	<div class="row">
+	    <div class="center aligned column">
+	      <a href="{{ app_url_wap }}/topic"><img src="{{ app_url_packaged }}/images/promo/draw5.png" width="29%"></a>
+	      <a href="{{ app_url_wap }}/try"><img src="{{ app_url_packaged }}/images/promo/draw06.png" width="29%"></a>
+	      <a href="{{ app_url_wap }}/my/pmall"><img src="{{ app_url_packaged }}/images/promo/draw7.png" width="29%"></a>
+	    </div>
+		
+	</div>
+
+</div>
+
+<!-- 弹出层   -->
+<div class="ui dimmer modals page transition">
+	<div class="ui type_00 drawmes coupled small modal transition">
+	    <div class="header" style="position:relative;">
+	  	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;color:#fff;"></i>
+			
+		    <div class="container">
+				<div class="content" style="text-align:center;">
+					<p>很遗憾，您没有抽中!</p>
+					
+			        <p class="desc"></p>
+			        <a href="javascript:void(0);" class="ui red share button">
+			        					马上分享
+			        </a>
+			    </div>
+		    </div>
+			
+	  	</div>
+	</div>
+
+	<div class="ui type_01 drawmes coupled small modal transition">
+	    <div class="header" style="position:relative;">
+	  	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;color:#fff;"></i>
+			
+		    <div class="container">
+				<div class="content" style="text-align:center;">
+          <p>亲爱的用户 <br>恭喜您获得<span class="red">1枚鸟币</span>!</p>
+					
+			        <p class="desc"></p>
+			        
+			        <a href="javascript:void(0);" class="ui red share button">
+			        					马上分享
+			        </a>
+					<br>
+          <a href="{{ app_url_wap }}/my/pmall"><p class="nobtn">看看鸟币能兑换啥 Go></p></a>
+			    </div>
+		    </div>
+			
+	  	</div>
+	</div>
+
+	<div class="ui type_02 drawmes coupled small modal transition">
+	    <div class="header" style="position:relative;">
+	  	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;color:#fff;"></i>
+			
+		    <div class="container">
+				<div class="content" style="text-align:center;">
+          <p>亲爱的用户 <br>恭喜您获得<span class="red">太火鸟红包</span>一个!</p>
+					
+			        <p class="desc"></p>
+			        
+			        <a href="javascript:void(0);" class="ui red share button">
+			        					马上分享
+			        </a>
+					
+					<br>
+          <a href="{{ app_url_wap }}/shop"><p class="nobtn">看看红包能买啥 Go></p></a>
+					
+			    </div>
+		    </div>
+			
+	  	</div>
+	</div>	
+
+	<div class="ui type_03 drawmes address coupled small modal transition">
+	    <div class="header" style="position:relative;">
+	  	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;color:#fff;"></i>
+			
+		    <div class="container">
+				<div class="content" style="text-align:center;">
+          <p>亲爱的用户 <br />恭喜您获得<span class="red draw_name"></span>一个!</p>
+					
+					<form action="{{ app_url_wap }}/app/site/promo_func/save_draw_address" class="ui form" id="apply-form" method="post">
+					  	<div class="content">
+							<div class="ajax result"></div>
+							<input type="hidden" name="id" id="sign_draw_id" value="" />
+							
+		  					<div class="two fields">
+		  						<div class="field">
+		  							<label>姓名</label>
+		                <input type="text" name="name" value="{{ visitor.profile.realname }}" />
+		  						</div>
+		  						<div class="field">
+		  							<label>手机号</label>
+		                <input type="text" name="phone" value="{{ visitor.profile.phone }}" placeholder="填写手机号，方便信息核实" />
+		  						</div>
+		  					</div>
+							
+							<div class="field">
+								<label>所在地区</label>
+                <select style="width:49%;" name="province" value="{{ visitor.profile.province_id }}" class="choose province">
+                  {% for province in provinces %}
+                  <option{%if province._id==visitor.profile.province_id%} selected="selected"{%endif%} value="{{ province._id }}">{{ province.city }}</option>
+                  {% endfor %}
+                </select>
+              
+                <select name="district" id="district-menu" value="{{ visitor.profile.district_id }}" style="width:49%;float:right;">
+                  {% for district in districts %}
+                    <option value="{{ district._id }}">{{ district.city }}</option>
+                  {% endfor %}
+                </select>
+							</div>
+							
+							<div class="field">
+								<label>详细地址</label>
+                <input type="text" name="address" value="{{ visitor.profile.address }}">
+							</div>
+								<div class="field">
+                  <label>邮编</label>
+                  <input type="text" name="zip" value="{{ visitor.profile.zip }}" />
+                </div>
+						</div>
+              <div class="ui magenta inverted active submit button">
+              确认收货地址
+              </div>
+					</form>
+					
+			    </div>
+		    </div>
+			
+	  	</div>
+	</div>	
+
+	<div class="ui type_04 drawmes coupled small modal transition">
+	    <div class="header" style="position:relative;">
+	  	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;color:#fff;"></i>
+			
+		    <div class="container">
+				<div class="content" style="text-align:center;">
+          <p>亲爱的用户 <br>恭喜您获得<span class="red draw_name"></span></p>
+								        <a href="javascript:void(0);" class="ui red share button ">
+			        					马上分享
+			        </a>
+					
+					<br>
+					<p class="nobtn">我们会通过私信告知您兑换码，请登录太火鸟社区查收。</p>
+					
+			    </div>
+      
+		    </div>
+	  	</div>
+	</div>	
+	
+</div>	
+
+<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);">
+  <div class="frideshare">
+	<img src="http://frstatic.qiniudn.com/images/fenxiang.png" width="100%" >
+  </div>
+</div>
+{% endblock %}
+
+
+

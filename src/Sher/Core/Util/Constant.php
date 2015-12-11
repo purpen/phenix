@@ -150,6 +150,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 
     # 第三方站点访问量统计
     const DIG_THIRD_SITE_STAT = 'third_site_stat';
+    # 签到抽奖统计
+    const DIG_SIGN_DRAW_RECORD = 'sign_draw_record';
 
     /**
      * DigList stuff计数器
@@ -342,8 +344,10 @@ class Sher_Core_Util_Constant extends Doggy_Object {
    * 专题分享统计-ID转名称
    */
   public static function subject_share_name($id=0){
-    $array = array(1=>'支持原创设计', 2=>'2015京东众筹', 3=>'蛋年(深圳)', 4=>'太火鸟招聘', 5=>'实验室活动', 6=>'分享送红包', 7=>'火眼计划', 8=>'(云马C1)神嘴争霸赛', 9=>'金投赏', 10=>'试用抽奖－云马c1', 11=>'京东造逆', 12=>'京东bigger2', 13=>'(奶爸奶妈)神嘴争霸赛', 14=>'亿航活动(评论分享点赞)',15=>'--',
-    16=>'--',);
+    $array = array(1=>'支持原创设计', 2=>'2015京东众筹', 3=>'蛋年(深圳)', 4=>'太火鸟招聘', 5=>'实验室活动', 6=>'分享送红包', 7=>'火眼计划', 8=>'(云马C1)神嘴争霸赛', 9=>'金投赏', 10=>'试用抽奖－云马c1', 11=>'京东造逆', 12=>'京东bigger2', 13=>'(奶爸奶妈)神嘴争霸赛', 14=>'亿航活动(评论分享点赞)',15=>'签到抽奖',
+      16=>'--',
+      17=>'--',
+    );
     if(empty($id)){
       return $array;
     }else{

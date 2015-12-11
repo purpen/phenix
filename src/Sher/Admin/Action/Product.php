@@ -109,6 +109,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['advantage'] = $this->stash['advantage'];
 		$data['summary'] = $this->stash['summary'];
 		$data['content'] = $this->stash['content'];
+		$data['content_wap'] = isset($this->stash['content_wap']) ? $this->stash['content_wap'] : '';
 		$data['category_id'] = $this->stash['category_id'];
 		$data['tags'] = $this->stash['tags'];
 		$data['view_url'] = $this->stash['view_url'];

@@ -849,5 +849,126 @@ class Sher_Core_Helper_Util {
 		return $data;
 	}
 
+  /**
+   * 签到抽奖获取配置信息
+   */
+  public static function sign_draw_fetch_info(){
+    $result = array();
+    $result['success'] = false;
+    $result['message'] = '';
+    $result['data'] = array();
+    // 从块获取信息
+    $draw_conf = Sher_Core_Util_View::load_block('sign_draw_conf', 1);
+    if(empty($draw_conf)){
+      $result['message'] = '数据不存在！';
+      return $result; 
+    }
+
+    // 组合基本抽奖参数
+    $draw_conf = explode('@@', trim($draw_conf));
+    $conf_arr = explode('|', $draw_conf[0]);
+    if(count($conf_arr)<5){
+      $result['message'] = '缺少数组参数！';
+      return $result; 
+    }
+    $switch = (int)$conf_arr[2];
+    $result['id'] = (int)$conf_arr[0];
+    $result['title'] = $conf_arr[1];
+    $result['switch'] = empty($switch) ? false : true;
+    $result['dial_img'] = $conf_arr[3];
+    $draw_param = $conf_arr[4];
+
+    if(!$result['switch']){
+      $result['message'] = '抽奖活动未开启！';
+      return $result;  
+    }
+
+    // 奖项必须为8个
+    $draw_arr = explode(';', $draw_param);
+    if(count($draw_arr) < 8){
+      $result['message'] = '奖项数目设置不正确!';
+      return $result;
+    }
+
+    // 获取每个奖项的参数信息
+    $item_arr = array();
+    for($i=0;$i<count($draw_arr);$i++){
+      $item = explode('$', $draw_arr[$i]);
+      $item_id = (int)$item[0];
+      $item_type = (int)$item[1];
+      $item_title = $item[2];
+      $item_count = (int)$item[3];
+      $item_limit = (int)$item[4];
+      $item_chance = (int)$item[5];
+      $item_degree = $item[6];
+      $item_back = $item[7];
+      if(count($item) < 8){
+        $result['message'] = "奖项:[$item_id]数目设置不正确!";
+        return $result;   
+      }
+
+      $item_arr[$item_id] = array(
+        'id' => $item_id,
+        'type' => $item_type,
+        'title' => $item_title,
+        'count' => $item_count,
+        'limit' => $item_limit,
+        // 如果数量限制为0,则概率为0
+        'chance' => empty($item_limit) ? 0 : $item_chance,
+        'back' => $item_back,
+      );
+
+      $degree = explode('-', $item_degree);
+      if(count($degree) != 2){
+        $result['message'] = "奖项:[$item_id]degree设置不正确!";
+        return $result;      
+      }
+      $item_arr[$item_id]['degree'] = mt_rand($degree[0], $degree[1]);
+
+    } // endfor
+
+    $result['success'] = true;
+    $result['message'] = '请求成功!';
+    $result['data'] = $item_arr;
+    return $result;
+  }
+
+  /** 
+   * @brief strlen_mb 计算字符串长度，支持中文，自动检测编码，UTF-8与GBK测试通过 
+   * 
+   * @param $str 
+   * 
+   * @return 
+   */  
+  public static function strlen_mb($str){  
+    $mb_len = mb_detect_encoding($str) == 'UTF-8' ? 2 : 1;  
+    $patt = '/([\x00-\x7f]|[\x80-\xff].{' . $mb_len . '})/';  
+    $match = preg_match_all($patt, $str, $groups);  
+    if($groups){  
+        return count($groups[0]);  
+    }else{  
+        return false;  
+    }  
+  } 
+
+  /** 
+   * @brief substr_mb 截取字符串，中文防乱码，自动检测编码，UTF-8与GBK测试通过 
+   * 
+   * @param $str 
+   * @param $start 
+   * @param $len 
+   * 
+   * @return 
+   */  
+  public static function substr_mb($str, $start, $len){  
+      $mb_len = mb_detect_encoding($str) == 'UTF-8' ? 2 : 1;  
+      $patt = '/([\x00-\x7f]|[\x80-\xff].{' . $mb_len . '}){' . $len . '}/';  
+      preg_match($patt, $str, $groups);  
+      if($groups){  
+          return $groups[0];  
+      }else{  
+          return false;  
+      }  
+  }  
 
 }

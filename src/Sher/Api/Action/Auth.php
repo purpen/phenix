@@ -63,14 +63,19 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base implements Sher_Core_Act
 		//Sher_Core_Helper_Auth::create_user_session($user_id);
 		
         // export some attributes to browse client.
-		//$user_data = $user->extend_load($user_id);
+		$user_data = $user->extended_model_row($result);
+		$some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'true_nickname'=>1,'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'email'=>1,'medium_avatar_url'=>1);
 		
-		$visitor = array();
-		$visitor['is_login'] = true;
-		$visitor['id'] = $user_id;
-        foreach (array('account','nickname','last_login','current_login','visit','is_admin') as $k) {
-            $visitor[$k] = isset($result[$k]) ? $result[$k] : null;
-        }
+		// 重建数据结果
+		$data = array();
+		foreach($some_fields as $key=>$value){
+			$data[$key] = $user_data[$key];
+		}
+    // 把profile提出来
+    foreach($data['profile'] as $k=>$v){
+      $data[$k] = $v;
+    }
+    unset($data['profile']);
 		
 		// 绑定设备操作
 		$uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
@@ -79,7 +84,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base implements Sher_Core_Act
 			$ok = $pusher->binding($uuid, $user_id, $from_to);
 		}
 		
-		return $this->api_json('欢迎回来.', 0, $visitor);
+		return $this->api_json('欢迎回来.', 0, $data);
 	}
 	
 	/**
@@ -217,7 +222,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base implements Sher_Core_Act
 		// 生成验证码
 		$verify = new Sher_Core_Model_Verify();
 		$code = Sher_Core_Helper_Auth::generate_code();
-		$ok = $verify->create(array('phone'=>$phone, 'code'=>$code));
+		$ok = $verify->create(array('phone'=>$phone, 'code'=>$code, 'expired_on'=>time()+600));
 		if($ok){
 			// 开始发送
 			Sher_Core_Helper_Util::send_register_mms($phone, $code);
@@ -235,26 +240,26 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base implements Sher_Core_Act
 			return $this->api_json('访问的用户不存在！', 3000);
 		}
 		
-		$model = new Sher_Core_Model_User();
-		$result = $model->extend_load((int)$id);
-    if(empty($result)){
+		$user_model = new Sher_Core_Model_User();
+		$user = $user_model->extend_load((int)$id);
+    if(empty($user)){
  			return $this->api_json('用户未找到！', 3001);  
     }
 		
-		$some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'email'=>1);
+    $some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'true_nickname'=>1,'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'email'=>1,'medium_avatar_url'=>1);
+    
+    // 重建数据结果
+    $data = array();
+    foreach($some_fields as $key=>$value){
+      $data[$key] = $user[$key];
+    }
+    // 把profile提出来
+    foreach($data['profile'] as $k=>$v){
+      $data[$k] = $v;
+    }
+    unset($data['profile']);
 		
-		// 重建数据结果
-		$data = array();
-		foreach($some_fields as $key=>$value){
-			$data[$key] = $result[$key];
-		}
-		$data['phone'] = $result['profile']['phone'];
-		$data['job'] = $result['profile']['job'];
-		$data['avatar'] = $result['medium_avatar_url'];
-		
-		$result = $data;
-		
-		return $this->api_json('请求成功', 0, $result);
+		return $this->api_json('请求成功', 0, $data);
 	}
 
   /**
@@ -293,7 +298,21 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base implements Sher_Core_Act
       if($ok){
         // 删除验证码
         $verify->remove($code['_id']);
-		    return $this->api_json('请求成功', 0, array('user_id'=>$user['_id']));
+		    $user_data = $user->extended_model_row($user);
+        $some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'true_nickname'=>1,'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'email'=>1,'medium_avatar_url'=>1);
+        
+        // 重建数据结果
+        $data = array();
+        foreach($some_fields as $key=>$value){
+          $data[$key] = $user_data[$key];
+        }
+        // 把profile提出来
+        foreach($data['profile'] as $k=>$v){
+          $data[$k] = $v;
+        }
+        unset($data['profile']);
+
+		    return $this->api_json('请求成功', 0, $data);
       }else{
   		  return $this->api_json('修改失败！', 3005);      
       }
@@ -305,4 +324,3 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base implements Sher_Core_Act
   }
 	
 }
-?>

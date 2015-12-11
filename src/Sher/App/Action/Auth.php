@@ -191,7 +191,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	 * 退出
 	 */
 	public function logout(){
-        $service = DoggyX_Session_Service::instance();
+        $service = Sher_Core_Session_Service::instance();
         $service->revoke_auth_cookie();
 		
         $service->stop_visitor_session();
@@ -587,7 +587,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		$code = Sher_Core_Helper_Auth::generate_code();
 		
 		$verify = new Sher_Core_Model_Verify();
-		$ok = $verify->create(array('phone'=>$phone,'code'=>$code));
+		$ok = $verify->create(array('phone'=>$phone,'code'=>$code, 'expired_on'=>time()+600));
 		if($ok){
 			// 开始发送
 			Sher_Core_Helper_Util::send_register_mms($phone, $code);
@@ -611,7 +611,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         }
 		
 		$verify = new Sher_Core_Model_Verify();
-		$ok = $verify->create(array('phone'=>$phone,'code'=>$code));
+		$ok = $verify->create(array('phone'=>$phone,'code'=>$code, 'expired_on'=>time()+600));
 		if($ok){
 			// 开始发送
 			Sher_Core_Helper_Util::send_register_mms($phone, $code);

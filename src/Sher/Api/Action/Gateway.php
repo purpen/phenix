@@ -28,7 +28,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 	public function slide(){
 		$result = array();
 		$page = $this->stash['page'];
-		$size = 3;
+		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 6;
 		
 		// 请求参数
 		$space_id = isset($this->stash['space_id']) ? $this->stash['space_id'] : 0;

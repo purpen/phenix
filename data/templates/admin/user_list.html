@@ -69,6 +69,21 @@
 				</div>
 
 				<div class="field">
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="kind" value="{{ kind }}" />
+					    <div class="default text">类型</div>
+					    <div class="menu">
+							<div data-value="0" class="{% if event=='' %}active {% endif %}item">全部</div>
+							<div data-value="-1" class="{% if event=='-1' %}active {% endif %}item">手机号注册</div>
+							<div data-value="1" class="{% if event == 1 %}active {% endif %}item">鸟人</div>
+							<div data-value="9" class="{% if event == 9 %}active {% endif %}item">小号</div>
+							<div data-value="20" class="{% if event == 20 %}active {% endif %}item">快捷注册</div>
+							<div data-value="21" class="{% if event == 21 %}active {% endif %}item">动态密码(活动)</div>
+					    </div>
+					</div>
+				</div>
+
+				<div class="field">
 					<input placeholder="Search..." type="text" name="q" />
 				</div>
 

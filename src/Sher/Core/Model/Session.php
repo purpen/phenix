@@ -5,8 +5,10 @@
  */
 class Sher_Core_Model_Session extends Sher_Core_Model_Base {
     protected $collection = 'session';
+    protected $mongo_id_style = self::MONGO_ID_CUSTOM;
 	
     protected $schema = array(
+        '_id'     => null,
         'user_id' => null,
         'is_login' => 0,
 		'alive' => 0,

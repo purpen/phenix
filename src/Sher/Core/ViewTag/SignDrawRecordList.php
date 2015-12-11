@@ -1,9 +1,9 @@
 <?php
 /**
- * 活动报名列表标签
- * @author purpen
+ * 签到抽奖记录列表标签
+ * @author tianshuai
  */
-class Sher_App_ViewTag_AttendList extends Doggy_Dt_Tag {
+class Sher_Core_ViewTag_SignDrawRecordList extends Doggy_Dt_Tag {
     protected $argstring;
 	
     public function __construct($argstring, $parser, $pos = 0) {
@@ -21,8 +21,12 @@ class Sher_App_ViewTag_AttendList extends Doggy_Dt_Tag {
         $user_id = 0;
         $target_id = 0;
         $event = 0;
+        $kind = 0;
+        $state = 0;
+        $day = 0;
+        $ip = null;
 		
-		    $sort = 'latest';
+		    $sort = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -30,34 +34,45 @@ class Sher_App_ViewTag_AttendList extends Doggy_Dt_Tag {
 		
         extract($this->resolve_args($context,$this->argstring,EXTR_IF_EXISTS));
 		
-        $page = (int) $page;
-        $page || $page = 1;
-        $size = (int)$size;
-		
         $query = array();
-     	  $options = array();
-        $options['sort_field'] = $sort;
+     	
+        $options['sort_field'] = 'latest';
 		
-        if ($target_id) {
-          //如果是试用申请拉票
-          if($event==2){
-             $query['target_id'] = (string)$target_id;         
-          }else{
-             $query['target_id'] = (int)$target_id;         
-          }
-        }
         if ($user_id) {
             $query['user_id'] = (int)$user_id;
         }
+        if ($target_id) {
+             $query['target_id'] = (int)$target_id;         
+        }
         if ($event) {
-          $query['event'] = (int)$event;
+          if((int)$event==-1){
+            $query['event'] = 0;         
+          }else{
+            $query['event'] = (int)$event;
+          }
+        }
+        if ($kind) {
+          $query['kind'] = (int)$kind;
+        }
+        if ($state) {
+          if((int)$state==-1){
+            $query['state'] = 0;
+          }else{
+            $query['state'] = (int)$state;
+          }
+        }
+        if ($day) {
+          $query['day'] = (int)$day;
+        }
+        if($ip){
+          $query['ip'] = $ip;
         }
 		
-        $service = Sher_Core_Service_Attend::instance();
+        $service = Sher_Core_Service_SignDrawRecord::instance();
         $options['page'] = $page;
         $options['size'] = $size;
 		
-        $result = $service->get_attend_list($query,$options);
+        $result = $service->get_sign_draw_record_list($query,$options);
 		
         $context->set($var,$result);
         if ($include_pager) {

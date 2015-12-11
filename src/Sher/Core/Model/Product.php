@@ -30,7 +30,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 简述
 		'summary' => '',
 		# 详情内容
-		'content' => '',
+    'content' => '',
+    # 手机详情
+    'content_wap' => '',
 		# 产品标签
 		'tags'    => array(),
         'like_tags' => array(),
@@ -337,6 +339,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		if (isset($row['content'])){
 			$row['content'] = htmlspecialchars_decode($row['content']);
 		}
+		if (isset($row['content_wap'])){
+			$row['content_wap'] = htmlspecialchars_decode($row['content_wap']);
+		}
 		
 		// 去除 html/php标签
 		$row['strip_summary'] = strip_tags(htmlspecialchars_decode($row['summary']));
@@ -382,9 +387,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         $row['newest'] = ($row['stage'] == 5) ? 1 : 0;
         
         // 是否为热门
-        $row['hot'] = ($row['sale_count'] > 100) ? 1 : 0;
+        if(isset($row['sale_count']) && $row['sale_count'] > 100) {
+            $row['hot'] = 1;
+        }else{
+            $row['hot'] = 0;
+        }
         
-        if($row['stage'] == self::STAGE_SHOP && $row['comment_count'] > 0){
+        if($row['stage'] == self::STAGE_SHOP && isset($row['comment_count']) && $row['comment_count'] > 0){
             $stars = $row['comment_star']/$row['comment_count'];
             $row['stars'] = ceil($stars);
             // 10分值显示

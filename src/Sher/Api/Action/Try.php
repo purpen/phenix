@@ -33,7 +33,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base implements Sher_Core_Acti
     //显示的字段
     $options['some_fields'] = array(
       '_id'=> 1, 'title'=>1, 'description'=>1, 'content'=>1, 'cover_id'=>1, 'banner_id'=>1, 'step_stat'=>1, 'sticked'=>1,
-      'tags'=>1, 'comment_count'=>1, 'created_on'=>1, 'kind'=>1,
+      'tags'=>1, 'comment_count'=>1, 'created_on'=>1, 'kind'=>1, 'cover'=>1,
       'try_count'=>1, 'apply_count'=>1, 'report_count'=>1, 'want_count'=>1, 'view_count'=>1,
       'buy_url'=>1, 'open_limit'=>1, 'open_limit'=>1, 'apply_term'=>1, 'term_count'=>1,
       'start_time'=>1, 'end_time'=>1, 'publish_time'=>1, 'state'=>1, 'price'=>1, 'user_id'=>1, 'pass_users'=>1,

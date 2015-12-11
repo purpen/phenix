@@ -35,6 +35,7 @@
 				<th>缩略图</th>
 				<th>ID/number</th>
         <th>信息</th>
+        <th>时间</th>
         <th>状态</th>
         <th>操作</th>
 			</tr>
@@ -90,6 +91,9 @@
                   {% if target_id==4 %}
                   <span class="attribute">火眼-项目入驻</span>
                   {%endif%}
+                  {% if target_id==5 %}
+                  <span class="attribute">兑吧红包2</span>
+                  {%endif%}
                 </p>
                 {%endif%}
             </td>
@@ -108,10 +112,13 @@
                   <p class="attribute">公司：{{ f.info.company|default '--' }}</p>
                   <p class="attribute">职位：{{ f.info.job|default '--' }}</p>
                 {%endif%}
+                {% if target_id==5 %}
+                  <p class="attribute">红包金额：{{ f.info.bonus_money|default '--' }}</p>
+                {%endif%}
               {%endif%}
 
             </td>
-
+            <td>{{ f.created_on|date 'Y-m-d' }}</td>
             <td id="stat-{{ f._id }}">
               {% if f.state == 1 %}
               <label class="ui green label">未抽</label>
@@ -141,6 +148,7 @@
 	<div class="ui pagination">
 		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
 		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
 	</div>
 	{% endif %}
 {% endblock %}
