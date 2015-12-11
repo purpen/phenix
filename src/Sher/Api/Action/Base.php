@@ -28,15 +28,15 @@ class Sher_Api_Action_Base extends Sher_Core_Action_Base implements DoggyX_Actio
      */
     public $current_user_id;
 
-  /**
-   * 不验证用户ＩＤ的action
-   */
-  public $no_check_user_ids = array('login', 'register', 'verify_code', 'find_pwd');
+    /**
+     * 不验证用户ＩＤ的action
+     */
+    public $no_check_user_ids = array('login', 'register', 'verify_code', 'find_pwd');
 
-  /**
-   * 当前方法名
-   */
-  public $current_method_name = '';
+    /**
+     * 当前方法名
+     */
+    public $current_method_name = '';
 	
 	/**
 	 * 参与签名的key
@@ -52,7 +52,7 @@ class Sher_Api_Action_Base extends Sher_Core_Action_Base implements DoggyX_Actio
 	 * 初始化验证
 	 */
 	public function _init() {
-    $this->client_id = isset($this->stash['client_id'])?$this->stash['client_id']:0;
+        $this->client_id = isset($this->stash['client_id'])?$this->stash['client_id']:0;
 		$this->uuid = isset($this->stash['uuid'])?$this->stash['uuid']:0;
 		$this->channel = isset($this->stash['channel'])?$this->stash['channel']:'';
 		$this->sign = isset($this->stash['sign'])?$this->stash['sign']:'';

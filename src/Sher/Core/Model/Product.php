@@ -387,9 +387,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         $row['newest'] = ($row['stage'] == 5) ? 1 : 0;
         
         // 是否为热门
-        $row['hot'] = ($row['sale_count'] > 100) ? 1 : 0;
+        if(isset($row['sale_count']) && $row['sale_count'] > 100) {
+            $row['hot'] = 1;
+        }else{
+            $row['hot'] = 0;
+        }
         
-        if($row['stage'] == self::STAGE_SHOP && $row['comment_count'] > 0){
+        if($row['stage'] == self::STAGE_SHOP && isset($row['comment_count']) && $row['comment_count'] > 0){
             $stars = $row['comment_star']/$row['comment_count'];
             $row['stars'] = ceil($stars);
             // 10分值显示
