@@ -44,6 +44,12 @@ class Sher_Core_Interceptor_XSession extends DoggyX_Interceptor_XSession {
                     $service->touch_auth_cookie($auth_user_id,$auth_token);
                 }
             }
+        } else if ($service->session->is_login && empty($auth_token)) {
+            Doggy_Log_Helper::warn('get cookie auth_id is null,is_login:true,and clean.');
+                        
+            $service->session->is_login   = 0;
+            $service->session->user_id    = null;
+            $service->session->auth_token = null;
         }
     }
 }

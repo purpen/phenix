@@ -135,14 +135,16 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 		$data = array();
 		for($i=0;$i<count($result['rows']);$i++){
 			foreach($some_fields as $key=>$value){
-				$data[$i][$key] = $result['rows'][$i][$key];
+				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:0;
 			}
 			// 封面图url
 			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
 			// 用户信息
 			$data[$i]['username'] = $result['rows'][$i]['designer']['nickname'];
 			$data[$i]['small_avatar_url'] = $result['rows'][$i]['designer']['small_avatar_url'];
-      $data[$i]['content_view_url'] = sprintf('%s/app/api/view/product_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['_id'], $this->current_user_id);
+            $data[$i]['content_view_url'] = sprintf('%s/view/product_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['_id'], $this->current_user_id);
+            // 保留2位小数
+            $data[$i]['sale_price'] = sprintf('%.2f', $result['rows'][$i]['sale_price']);
 		}
 		$result['rows'] = $data;
 		

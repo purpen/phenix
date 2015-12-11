@@ -42,9 +42,7 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
         $size = (int)$size;
 
         $query = array();
-        if ($user_id) {
-            $query['user_id'] = (int) $user_id;
-        }
+
 		if ($target_id) {
 			$query['target_id'] = (string)$target_id;
 		}
@@ -54,23 +52,25 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
 		if ($target_user_id) {
 			$query['target_user_id'] = (int)$target_user_id;
 		}
-        
-        // 仅热门
-        if($only_hotest){
-            // 排序按降序
-            $sort = 2;
-            $query['love_count'] = array('$gte' => 10);
-        }
-        
-        if($sku_id){
-            $query['sku_id'] = (int)$sku_id;
-        }
-
-        // 大于N天的评论
-        if($nearly_day){
-            $n_time = time() - (int)$nearly_day*24*60*60;
-            $query['created_on'] = array('$gt' => $n_time);
-        }
+    if ($user_id) {
+        $query['user_id'] = (int) $user_id;
+    }
+    if($sku_id){
+        $query['sku_id'] = (int)$sku_id;
+    }
+    
+    // 仅热门
+    if($only_hotest){
+        // 排序按降序
+        $sort = 2;
+        $query['love_count'] = array('$gte' => 10);
+    }
+    
+    // 大于N天的评论
+    if($nearly_day){
+        $n_time = time() - (int)$nearly_day*24*60*60;
+        $query['created_on'] = array('$gt' => $n_time);
+    }
         
 		// 排序
 		switch ($sort) {

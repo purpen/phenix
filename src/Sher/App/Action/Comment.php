@@ -265,10 +265,10 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$model = new Sher_Core_Model_Comment();
 
 		$query = array();
-		$query['user_id'] = $row['user_id'];
 		$query['target_id'] = $row['target_id'];
-		$query['sku_id'] = $row['sku_id'];
 		$query['type'] = $row['type'];
+		$query['user_id'] = $row['user_id'];
+		$query['sku_id'] = $row['sku_id'];
 		$has_one = $model->first($query);
 	
 		if(!empty($has_one)){
