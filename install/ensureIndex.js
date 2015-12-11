@@ -75,8 +75,9 @@ db.user_point_stat.ensureIndex({'state':1, 'kind':1, 'total_point': -1}, {backgr
 
 
 
+db.auth_token.ensureIndex({'ttl':1}, {background: true});
 
-
+db.session.ensureIndex({'alive':1}, {background: true});
 
 
 
