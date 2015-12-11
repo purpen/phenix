@@ -102,6 +102,10 @@
 	min-height: 36px;
   }
   
+  .field>label,.field .block{
+	float: left !important;
+  }
+  
 </style>
 {% endblock %}
 
@@ -3005,7 +3009,7 @@
 			  <div class="field">
 				<label>封面图：</label>
 				<input type="hidden" name="cover_id" id="special_subject_cover_id" value="{{ special_subject.cover_id }}" />
-				
+				<div style="clear: both"></div>
 				<div id="phenix-uploader-special"></div>
 				<div id="asset-list" class="ui four blocks">
 					{% if mode == 'edit' %}
