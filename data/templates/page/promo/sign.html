@@ -519,10 +519,10 @@ p span.red {
 
   fetch_draw_user(1, size, 1, day, '');
 
-  // 定时提示,每次3秒钟,最多100次
+  // 定时提示,每次3秒钟,最多500次
   var limit_notice_times = 0;
   setInterval(function(){
-      if(limit_notice_times >= 100){
+      if(limit_notice_times >= 500){
           return
       }else{
         // 首次加载等待3+1秒
