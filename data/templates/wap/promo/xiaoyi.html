@@ -1,0 +1,391 @@
+{%extends 'layout/weixin.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+	<link href="http://frstatic.qiniudn.com/wechat/xy/style.css" type="text/css" rel="stylesheet" />
+	<link href="http://frstatic.qiniudn.com/wechat/xy/mobile_act_global.css" type="text/css" rel="stylesheet">
+{% endblock %}
+{% block layout_js %}
+	<script src="http://frstatic.qiniudn.com/wechat/xy/loader.js"></script>
+	<script src="http://frstatic.qiniudn.com/wechat/xy/jquery.js"></script>
+	<script>
+		seajs.use('qzact/common.m/imageLoader/index.js', function(loader){
+        //预加载图片按钮
+        var img_list = ['loading-imp.32','m-animate-1-imp.32','m-animate-2-imp.32','m-animate-3-imp.32'];
+        //匹配高清屏
+        if(window.devicePixelRatio && window.devicePixelRatio>1.5){
+            for(var i=0; i<img_list.length; i++){
+                img_list[i] = 'http://qzonestyle.gtimg.cn/qz-act/vip/20141119-qzonev5/sprite/'+img_list[i]+"@2x.png?max_age=19830212&d=20141211211351";
+            }
+        }else{
+            for(var j=0; j<img_list.length; j++){
+                img_list[j] = 'http://qzonestyle.gtimg.cn/qz-act/vip/20141119-qzonev5/sprite/'+img_list[j]+".png?max_age=19830212&d=20141211211351";
+            }
+        }
+        var btnGo = document.getElementById('J_btnGo');
+        loader(img_list, function(o){
+            document.getElementById('J_loadTest').innerHTML = (o*100)+'%';
+            document.getElementById('J_loadProgress').style.width = (o*100)+'%';
+            if(o === 1){
+                //支持classList
+                if(btnGo.classList&&btnGo.classList.remove){
+                    btnGo.classList.remove('hide');
+                }else{
+                    var btnGoClass = btnGo.getAttribute('class');
+                    btnGoClass = btnGoClass.replace(/hide/g, ' ');
+                    btnGo.setAttribute('class', btnGoClass);
+                }
+                if(document.getElementById('J_loadArea')){
+                    document.getElementById('J_loadArea').innerHTML = '';
+                }
+            }
+        });
+    });
+
+    seajs.use(['./index', 'jquery', 'qzact.v8.lib'], function(mod, $, lib) {
+        //loading完，进入主页
+        var page = lib.storage.get('curPage');
+        if(page && page!=1){    //登陆页面过来的 直接回到原先的页面
+            $('#loading').hide();
+            $('#fullPage').removeClass('hide');
+            mod.init();
+        }else{
+            mod.init();
+            $.fn.fullpage&&$.fn.fullpage.setAllowScrolling(false);
+            $('#J_btnGo').click(function(e){
+                e.preventDefault();
+                $.fn.fullpage&&$.fn.fullpage.setAllowScrolling(true);
+                $('.J_man').css({
+                    transition: 'all 0.3s ease-in',
+                    '-webkit-transition': 'all 0.3s ease-in',
+                    transform: 'translateY(-400px)',
+                    '-webkit-transform': 'translateY(-400px)'
+                });
+                $(this).remove();
+                $('.J_star').remove();
+
+                setTimeout(function(){
+                    $('#loading').hide();
+                    $('#fullPage').removeClass('hide');
+                }, 600);
+            });
+        }
+    });
+		$(".ele-eqsub").click(function(){
+			var val_input1 = $('.ele-eqlink input[name="eq1"]:checked ').val();
+			var val_input2 = $('.ele-eqlink input[name="eq2"]:checked ').val();
+			var val_input3 = $('.ele-eqlink input[name="eq3"]:checked ').val();
+			
+			if(val_input1==2&&val_input2==3&&val_input3==2){
+				$(".center-tk").removeClass("err");
+				$(".center-divp").html("全部回答正确，赶快申请试用！");
+				$(".center-linka").html("申请试用").attr("href","www.baidu.com").removeClass("close");
+				$(".center-tk").fadeIn();
+			}
+			/*else{
+				$(".center-tk").addClass("err");
+				$(".center-divp").html("回答错误，您没有得到通关钥匙！分享到朋友圈后可重新答题。");
+				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
+				$(".center-tk").fadeIn();
+			}*/
+			if(val_input1 !==2&&val_input2==3&&val_input3==2){
+				$(".center-tk").addClass("err");
+				$(".center-divp").html("第1题回答错误，您没有得到通关钥匙！/n分享到朋友圈后可重新答题。");
+				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
+				$(".center-tk").fadeIn();
+			}
+			if(val_input1 !==2&&val_input2 !==3&&val_input3==2){
+				$(".center-tk").addClass("err");
+				$(".center-divp").html("第1、2题回答错误，您没有得到通关钥匙！/n分享到朋友圈后可重新答题。");
+				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
+				$(".center-tk").fadeIn();
+			}
+			if(val_input1 !==2&&val_input2==3&&val_input3==2){
+				$(".center-tk").addClass("err");
+				$(".center-divp").html("第1、3题回答错误，您没有得到通关钥匙！/n分享到朋友圈后可重新答题。");
+				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
+				$(".center-tk").fadeIn();
+			}
+			if(val_input1 !==2&&val_input2 !==3&&val_input3 !==2){
+				$(".center-tk").addClass("err");
+				$(".center-divp").html("第1、2、3题回答错误，您没有得到通关钥匙！/n分享到朋友圈后可重新答题。");
+				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
+				$(".center-tk").fadeIn();
+			}
+			if(val_input1 ==2&&val_input2 !==3&&val_input3==2){
+				$(".center-tk").addClass("err");
+				$(".center-divp").html("第2题回答错误，您没有得到通关钥匙！/n分享到朋友圈后可重新答题。");
+				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
+				$(".center-tk").fadeIn();
+			}
+			if(val_input1 ==2&&val_input2 !==3&&val_input3 !==2){
+				$(".center-tk").addClass("err");
+				$(".center-divp").html("第2、3题回答错误，您没有得到通关钥匙！/n分享到朋友圈后可重新答题。");
+				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
+				$(".center-tk").fadeIn();
+			}
+			if(val_input1 ==2&&val_input2==3&&val_input3 !==2){
+				$(".center-tk").addClass("err");
+				$(".center-divp").html("第3题回答错误，您没有得到通关钥匙！/n分享到朋友圈后可重新答题。");
+				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
+				$(".center-tk").fadeIn();
+			}
+			return false;
+		});
+		$(".center-linka.close").click(function(){
+			$(".center-tk").fadeOut();
+			return false;
+		});
+	</script>
+{% endblock %}
+{% block content %}
+<h1 class="thumbnails" style="display:none">
+    <img src=""/><!--缩略图绝对路径-->
+</h1>
+
+	<div class="mask" style="display: none"></div>
+	<div id="loading" style="height: 100%;" class="">
+		<div class="inner">
+			<div class="frame">
+				<div class="center-obj">
+					<div class="J_man ele-man"></div>
+					<div id="J_loadArea" class="loading-area">
+						<div class="loading-out">
+							<div id="J_loadProgress" class="loading-inner" style="width:0%"></div>
+						</div>
+						<p id="J_loadTest" class="loading-num">0%</p>
+					</div>
+					<a id='J_btnGo' href="javascript:;" class="btn-action hide">
+						<div class="btn-action-inner">现在开始</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="landscape-wrap hide">
+		<div class="landscape">
+			<div class="tips-arrow"></div>
+			<div class="tips-phone"></div>
+		</div>
+	</div>
+
+	<div class="main hide" id="fullPage">
+		<section style="height: 100%" class="page page2">
+			<div class="page_container module2">
+				<div class="frame">
+					<div class="center-obj">
+						<div class="ele-land"></div>
+						<div class="ele-phone"></div>
+						<div class="ele-rocket"></div>
+						<div class="ele-txt"></div>
+					</div>
+					<a href="javascript:;" class="arrow-area J_downArrow">
+						<i class="arrow"></i>
+					</a>
+				</div>
+			</div>
+		</section>
+		<section style="height: 100%" class="page page3">
+			<div class="page_container module3">
+				<div class="frame">
+					<div class="center-obj">
+						<div class="ele-phone"></div>
+						<div class="ele-logo"></div>
+						<div class="ele-ball1"></div>
+						<div class="ele-ball2"></div>
+						<div class="ele-ball3"></div>
+						<div class="ele-ball4"></div>
+						<div class="ele-ball5"></div>
+						<div class="ele-ball6"></div>
+						<div class="ele-ball7"></div>
+						<div class="ele-ball8"></div>
+					</div>
+					<a href="javascript:;" class="arrow-area J_downArrow">
+						<i class="arrow"></i>
+					</a>
+				</div>
+			</div>
+		</section>
+		<section style="height: 100%" class="page page4">
+			<div class="page_container module4">
+				<div class="frame">
+					<div class="center-obj">
+						<div class="ele-phone"></div>
+						<div class="ele-logotitle"></div>
+						<div class="ele-txttitle"></div>
+						<div class="ele-logo"></div>
+						<div class="ele-txt"></div>
+						<div class="ele-cat"></div>
+						<div class="ele-monkey"></div>
+						<div class="ele-bee"></div>
+					</div>
+					<a href="javascript:;" class="arrow-area J_downArrow">
+						<i class="arrow"></i>
+					</a>
+				</div>
+			</div>
+		</section>
+		<section style="height: 100%" class="page page5">
+			<div class="page_container module5">
+				<div class="frame">
+					<div class="center-obj">
+						<div class="ele-phone"></div>
+						<div class="ele-logotitle"></div>
+						<div class="ele-txttitle"></div>
+						<div class="ele-logo"></div>
+						<div class="ele-txt"></div>
+					</div>
+					<a href="javascript:;" class="arrow-area J_downArrow">
+						<i class="arrow"></i>
+					</a>
+				</div>
+			</div>
+		</section>
+		<section style="height: 100%" class="page page6">
+			<div class="page_container module6">
+				<div class="frame">
+					<div class="center-obj">
+						<div class="ele-phone"></div>
+						<div class="ele-logotitle"></div>
+						<div class="ele-txttitle"></div>
+						<div class="ele-logo"></div>
+						<div class="ele-txt"></div>
+					</div>
+					<a href="javascript:;" class="arrow-area J_downArrow">
+						<i class="arrow"></i>
+					</a>
+				</div>
+			</div>
+		</section>
+		<!--<section style="height: 100%" class="page page7">
+			<div class="page_container module7">
+				<div class="frame">
+					<div class="center-obj">
+						<div class="ele-title"></div>
+						<a href="http://m.qzone.com/l?g=1372" title="马上下载" class="ele-btn-download"></a>
+						<a href="javascript:;" title="中奖记录" class="J_record link-record hide">中奖记录</a>
+					</div>
+					<div class="share-wrap">
+						<div class="inner">
+							<div class="share-area-left">
+								<a href="javascript:;" class="icon-qzone J_shareIcon" data-type="qzone"></a>
+								<a href="javascript:;" class="icon-wechat J_shareIcon hide" data-type="wechat"></a>
+								<a href="javascript:;" class="icon-weibo J_shareIcon" data-type="weibo"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>-->
+		<section style="height: 100%" class="page page7">
+			<div class="page_container module7">
+				<div class="frame">
+					<div class="center-obj">
+						<div class="ele-phone"></div>
+						<div class="ele-logotitle"></div>
+						<div class="ele-txttitle"></div>
+						<div class="ele-logo"></div>
+						<div class="ele-txt"></div>
+						<div class="ele-logo ele-cat"></div>
+						<div class="ele-txt ele-zhanghe"></div>
+						<div class="ele-logo ele-bee"></div>
+					</div>
+					<a href="javascript:;" class="arrow-area J_downArrow">
+						<i class="arrow"></i>
+					</a>
+				</div>
+			</div>
+		</section>
+		<section style="height: 100%" class="page page8">
+			<div class="page_container module8">
+				<div class="frame">
+					<div class="center-obj">
+						<div class="ele-phone"></div>
+						<div class="ele-logotitle"></div>
+						<div class="ele-txttitle"></div>
+						<a href="javascript:;" class="arrow-area J_downArrow">下个页面</a>
+						<div class="ele-bee"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section style="height: 100%" class="page page9">
+			<div class="page_container module9">
+				<div class="frame">
+					<div class="center-obj">
+						<div class="ele-eqtitle"></div>
+						<div class="ele-eq">
+							<div class="ele-eqh eq1"></div>
+							<p>小蚁智能行车记录仪是小蚁科技的第几款产品？</p>
+							<div class="ele-chink">
+								<div class="ele-eqlink">
+									<input type="radio" id="rd1" checked name="eq1" value="1">
+									<label for="rd1" class="label">第一款</label>
+								</div>
+								<div class="ele-eqlink">
+									<input type="radio" id="rd2" name="eq1" value="2">
+									<label for="rd2" class="label">第二款</label>
+								</div>
+								<div class="ele-eqlink">
+									<input type="radio" id="rd3" name="eq1" value="3">
+									<label for="rd3" class="label">第三款</label>
+								</div>
+							</div>
+						</div>
+						<div class="ele-eq">
+							<div class="ele-eqh eq2"></div>
+							<p>小蚁智能行车记录仪淘宝众筹最低价是多少？</p>
+							<div class="ele-chink">
+								<div class="ele-eqlink">
+									<input type="radio" id="rd4" checked name="eq2" value="1">
+									<label for="rd4" class="label">269元</label>
+								</div>
+								<div class="ele-eqlink">
+									<input type="radio" id="rd5" name="eq2" value="2">
+									<label for="rd5" class="label">289元</label>
+								</div>
+								<div class="ele-eqlink">
+									<input type="radio" id="rd6" name="eq2" value="3">
+									<label for="rd6" class="label">299元</label>
+								</div>
+							</div>
+						</div>
+						<div class="ele-eq">
+							<div class="ele-eqh eq3"></div>
+							<p>小蚁行车记录仪为了行车更安全特别配备了什么？</p>
+							<div class="ele-chink">
+								<div class="ele-eqlink">
+									<input type="radio" id="rd7" checked name="eq3" value="1">
+									<label for="rd7" class="label">F1.8大光圈</label>
+								</div>
+								<div class="ele-eqlink">
+									<input type="radio" id="rd8" name="eq3" value="2">
+									<label for="rd8" class="label">ADAS智能辅助驾驶系统 </label>
+								</div>
+								<div class="ele-eqlink">
+									<input type="radio" id="rd9" name="eq3" value="3">
+									<label for="rd9" class="label">165度超级广角</label>
+								</div>
+							</div>
+						</div>
+						<div class="ele-eqsub"></div>
+					</div>
+					<div class="center-tk">
+						<div class="center-hbg"></div>
+						<div class="center-share"></div>
+						<!--正确错误在一起-->
+						<div class="center-div">
+							<div class="center-divtitle"></div>
+							<div class="center-divp"></div>
+							<!--这里放注册跳转链接-->
+							<a href="" class="center-linka"></a>
+						</div>
+						<div class="center-look"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+{% endblock %}
+
+<!--[if !IE]>|xGv00|30c8e81410c111bd0e64aec69d38e7c1<![endif]-->

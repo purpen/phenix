@@ -18,7 +18,15 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->coupon();
 	}
-
+	
+	/**
+	  *小蚁
+	  */
+	public function xy(){
+		
+		return $this->to_html_page('wap/promo/xiaoyi.html');
+	}	
+	
   /**
    * 评论投票分享
    */
