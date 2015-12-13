@@ -132,8 +132,10 @@
 				$(".center-divp").html("第1题回答错误，您没有得到通关钥匙！<br/>分享到朋友圈后可重新答题。");
 				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
 				$(".center-tk").fadeIn();
+				$('.center-obj').fadeOut();
 				$('.center-linka').click(function(){
 					$(".center-tk").fadeOut();
+					$('.center-obj').fadeIn();
 				});
 			}
 			if(val_input1 !=2&&val_input2 !=3&&val_input3==2){
