@@ -106,7 +106,7 @@
 			var val_input2 = $('.ele-eqlink input[name="eq2"]:checked ').val();
 			var val_input3 = $('.ele-eqlink input[name="eq3"]:checked ').val();
 			
-			if(val_input1==2&&val_input2==3&&val_input3==2){
+			if(val_input1==3&&val_input2==2&&val_input3==2){
 				$(".center-tk").removeClass("err");
 				$(".center-divp").html("全部回答正确，赶快申请试用！");
 				$(".center-linka").html("申请试用").attr("href","www.baidu.com").removeClass("close");
@@ -122,7 +122,7 @@
 					$(".center-tk").fadeOut();
 				});
 			}*/
-			if(val_input1 !=2&&val_input2==3&&val_input3==2){
+			if(val_input1 !=3&&val_input2==2&&val_input3==2){
 				$(".center-tk").addClass("err");
 				$(".center-divp").html("第1题回答错误，您没有得到通关钥匙！<br/>分享到朋友圈后可重新答题。");
 				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
@@ -133,7 +133,7 @@
 					$('.page9 .center-obj').fadeIn();
 				});
 			}
-			if(val_input1 !=2&&val_input2 !=3&&val_input3==2){
+			if(val_input1 !=3&&val_input2 !=2&&val_input3==2){
 				$(".center-tk").addClass("err");
 				$(".center-divp").html("第1、2题回答错误，您没有得到通关钥匙！<br/>分享到朋友圈后可重新答题。");
 				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
@@ -144,7 +144,7 @@
 					$('.page9 .center-obj').fadeIn();
 				});
 			}
-			if(val_input1 !=2&&val_input2==3&&val_input3 !=2){
+			if(val_input1 !=3&&val_input2==2&&val_input3 !=2){
 				$(".center-tk").addClass("err");
 				$(".center-divp").html("第1、3题回答错误，您没有得到通关钥匙！<br/>分享到朋友圈后可重新答题。");
 				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
@@ -155,7 +155,7 @@
 					$('.page9 .center-obj').fadeIn();
 				});
 			}
-			if(val_input1 !=2&&val_input2 !=3&&val_input3 !=2){
+			if(val_input1 !=3&&val_input2 !=2&&val_input3 !=2){
 				$(".center-tk").addClass("err");
 				$(".center-divp").html("第1、2、3题回答错误，您没有得到通关钥匙！<br/>分享到朋友圈后可重新答题。");
 				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
@@ -166,7 +166,7 @@
 					$('.page9 .center-obj').fadeIn();
 				});
 			}
-			if(val_input1 ==2&&val_input2 !=3&&val_input3==2){
+			if(val_input1 ==3&&val_input2 !=2&&val_input3==2){
 				$(".center-tk").addClass("err");
 				$(".center-divp").html("第2题回答错误，您没有得到通关钥匙！<br/>分享到朋友圈后可重新答题。");
 				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
@@ -177,7 +177,7 @@
 					$('.page9 .center-obj').fadeIn();
 				});
 			}
-			if(val_input1 ==2&&val_input2 !=3&&val_input3 !=2){
+			if(val_input1 ==3&&val_input2 !=2&&val_input3 !=2){
 				$(".center-tk").addClass("err");
 				$(".center-divp").html("第2、3题回答错误，您没有得到通关钥匙！<br/>分享到朋友圈后可重新答题。");
 				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
@@ -188,7 +188,7 @@
 					$('.page9 .center-obj').fadeIn();
 				});
 			}
-			if(val_input1 ==2&&val_input2==3&&val_input3 !=2){
+			if(val_input1 ==3&&val_input2==2&&val_input3 !=2){
 				$(".center-tk").addClass("err");
 				$(".center-divp").html("第3题回答错误，您没有得到通关钥匙！<br/>分享到朋友圈后可重新答题。");
 				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
@@ -456,6 +456,7 @@
 			</div>
 		</section>
 	</div>
+	<audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/js/bigger1.mp3" loop="true" autoplay></audio>
 {% endblock %}
 
 <!--[if !IE]>|xGv00|30c8e81410c111bd0e64aec69d38e7c1<![endif]-->
