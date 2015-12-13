@@ -86,7 +86,10 @@
 				$(".center-tk").addClass("err");
 				$(".center-divp").html("回答错误，您没有得到通关钥匙！分享到朋友圈后可重新答题。");
 				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
-				$(".center-tk").fadeIn();
+				//$(".center-tk").fadeIn();
+				$('.center-linka').click(function(){
+					$(".center-tk").fadeOut();
+				});
 			}
 			/*if(val_input1 !==2&&val_input2==3&&val_input3==2){
 				$(".center-tk").addClass("err");
