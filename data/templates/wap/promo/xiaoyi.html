@@ -100,10 +100,12 @@
 
     seajs.use(['./index', 'jquery', 'qzact.v8.lib'], function(mod, $, lib) {
         //loading完，进入主页
+		$('#app_bgm').get(0).pause();
         var page = lib.storage.get('curPage');
         if(page && page!=1){    //登陆页面过来的 直接回到原先的页面
             $('#loading').hide();
             $('#fullPage').removeClass('hide');
+			$('#app_bgm').get(0).play();
             mod.init();
         }else{
             mod.init();
@@ -119,10 +121,11 @@
                 });
                 $(this).remove();
                 $('.J_star').remove();
-
+				
                 setTimeout(function(){
                     $('#loading').hide();
                     $('#fullPage').removeClass('hide');
+					$('#app_bgm').get(0).play();
                 }, 600);
             });
         }
