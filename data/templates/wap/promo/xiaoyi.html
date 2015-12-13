@@ -24,14 +24,14 @@
 		outline: none;
 		-webkit-appearance:none;
 	}
+	.center-obj{
+		z-index:1;
+	}
 	.center-hbg{
 		z-index: 9;
 	}
 	.center-share,.center-div,.center-look{
 		z-index: 10;
-	}
-	.center-hbg{
-		background:rgba(0,0,0,1);
 	}
 	</style>
 {% endblock %}
@@ -102,6 +102,9 @@
             });
         }
     });
+	
+	
+	
 		$(".ele-eqsub").click(function(){
 			var val_input1 = $('.ele-eqlink input[name="eq1"]:checked ').val();
 			var val_input2 = $('.ele-eqlink input[name="eq2"]:checked ').val();
