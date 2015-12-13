@@ -29,6 +29,9 @@
 		opacity:1;
 		background:rgba(0,0,0,1);
 	}
+	.center-div,.center-share,.center-look{
+		z-index: 11;
+	}
     .music.playing{
   		-webkit-animation: 2.3s spin linear infinite;
   		animation: 2.3s spin linear infinite;
@@ -45,7 +48,7 @@
     .music {
         position: fixed;
         background: url(http://frstatic.qiniudn.com/images/promo/music_bg.png) 0 0 no-repeat;
-        z-index: 999;
+        z-index: 9;
         width: 1.5rem;
         height: 1.5rem;
         right: 0.4rem;
@@ -136,6 +139,7 @@
 				$(".center-linka").html("申请试用").attr("href","www.baidu.com").removeClass("close");
 				$(".center-tk").fadeIn();
 				$('.page9 .center-obj').fadeOut();
+				$('.music').fadeOut();
 			}
 			/*else{
 				$(".center-tk").addClass("err");
@@ -152,9 +156,11 @@
 				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
 				$(".center-tk").fadeIn();
 				$('.page9 .center-obj').fadeOut();
+				$('.music').fadeOut();
 				$('.center-linka').click(function(){
 					$(".center-tk").fadeOut();
 					$('.page9 .center-obj').fadeIn();
+					$('.music').fadeIn();
 				});
 			}
 			if(val_input1 !=3&&val_input2 !=2&&val_input3==2){
@@ -163,9 +169,11 @@
 				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
 				$(".center-tk").fadeIn();
 				$('.page9 .center-obj').fadeOut();
+				$('.music').fadeOut();
 				$('.center-linka').click(function(){
 					$(".center-tk").fadeOut();
 					$('.page9 .center-obj').fadeIn();
+					$('.music').fadeIn();
 				});
 			}
 			if(val_input1 !=3&&val_input2==2&&val_input3 !=2){
@@ -174,9 +182,11 @@
 				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
 				$(".center-tk").fadeIn();
 				$('.page9 .center-obj').fadeOut();
+				$('.music').fadeOut();
 				$('.center-linka').click(function(){
 					$(".center-tk").fadeOut();
 					$('.page9 .center-obj').fadeIn();
+					$('.music').fadeIn();
 				});
 			}
 			if(val_input1 !=3&&val_input2 !=2&&val_input3 !=2){
@@ -185,9 +195,11 @@
 				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
 				$(".center-tk").fadeIn();
 				$('.page9 .center-obj').fadeOut();
+				$('.music').fadeOut();
 				$('.center-linka').click(function(){
 					$(".center-tk").fadeOut();
 					$('.page9 .center-obj').fadeIn();
+					$('.music').fadeIn();
 				});
 			}
 			if(val_input1 ==3&&val_input2 !=2&&val_input3==2){
@@ -196,9 +208,11 @@
 				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
 				$(".center-tk").fadeIn();
 				$('.page9 .center-obj').fadeOut();
+				$('.music').fadeOut();
 				$('.center-linka').click(function(){
 					$(".center-tk").fadeOut();
 					$('.page9 .center-obj').fadeIn();
+					$('.music').fadeIn();
 				});
 			}
 			if(val_input1 ==3&&val_input2 !=2&&val_input3 !=2){
@@ -207,9 +221,11 @@
 				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
 				$(".center-tk").fadeIn();
 				$('.page9 .center-obj').fadeOut();
+				$('.music').fadeOut();
 				$('.center-linka').click(function(){
 					$(".center-tk").fadeOut();
 					$('.page9 .center-obj').fadeIn();
+					$('.music').fadeIn();
 				});
 			}
 			if(val_input1 ==3&&val_input2==2&&val_input3 !=2){
@@ -218,9 +234,11 @@
 				$(".center-linka").html("再玩一次").addClass("close").removeAttr("href");;
 				$(".center-tk").fadeIn();
 				$('.page9 .center-obj').fadeOut();
+				$('.music').fadeOut();
 				$('.center-linka').click(function(){
 					$(".center-tk").fadeOut();
 					$('.page9 .center-obj').fadeIn();
+					$('.music').fadeIn();
 				});
 			}
 			return false;
