@@ -6,13 +6,65 @@
 {% endblock %}
 {% block js %}
 {% endblock %}
+{% block jquery %}
+	$('.datepicker').pickadate();
+	
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+
+{% endblock %}
 {% block content %}
 	<h3 class="ui header">明细记录</h3>
 	<div class="ui secondary pointing magenta menu">
 		<a class="{{ css_point }} item" href="{{ app_url_admin }}/point/point_record_list">积分记录</a>
 		<a class="{{ css_event }} item" href="{{ app_url_admin }}/point/event_record_list">事件记录</a>
 	</div>
-	{% point_record_list var:'list' user_id:user_id page:page size:50  %}
+
+	<div class="ui sub search">
+		<form action="{{ app_url_admin_base }}/point/point_record_list" method="get" class="ui form" id="search-form">
+			<div class="six fields">
+
+				<div class="field">
+					<input type="text" name="user_id" placeholder="用户ID" value="{{ user_id }}" />
+				</div>
+
+				<div class="field">
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="type" value="{{ type }}" />
+					    <div class="default text">类型</div>
+					    <div class="menu">
+							<div data-value="" class="{% if !type %}active {% endif %}item">不限</div>
+							<div data-value="exp" class="{% if type == 'exp' %}active {% endif %}item">积分</div>
+							<div data-value="money" class="{% if type == 'money' %}active {% endif %}item">鸟币</div>
+					    </div>
+					</div>
+				</div>
+
+				<div class="field">
+					<div class="ui icon input">
+					  	<input type="text" name="start_date" placeholder="开始时间" value="{{ start_date }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui icon input">
+					  	<input type="text" name="end_date" placeholder="截止时间" value="{{ end_date }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+
+				<div class="field">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
+
+			</div>
+
+		</form>
+	</div>
+
+
+	{% point_record_list var:'list' user_id:user_id type:type start_time:start_time end_time:end_time page:page size:100  %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>

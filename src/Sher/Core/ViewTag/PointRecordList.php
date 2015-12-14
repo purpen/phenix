@@ -14,7 +14,11 @@ class Sher_Core_ViewTag_PointRecordList extends Doggy_Dt_Tag {
         $size = 10;
 
         $user_id = 0;
+        $type = 0;
 
+		// 某时间段内
+		$start_time = 0;
+		$end_time = 0;
 
         $var = 'list';
         $include_pager = 0;
@@ -31,6 +35,20 @@ class Sher_Core_ViewTag_PointRecordList extends Doggy_Dt_Tag {
 
         if($user_id){
           $query['user_id'] = (int)$user_id;
+        }
+        if($type){
+          $query['type'] = $type;
+        }
+
+        // 获取某个时段内
+        if($start_time && $end_time){
+          $query['created_on'] = array('$gte' => $start_time, '$lte' => $end_time);
+        }
+        if($start_time && !$end_time){
+          $query['created_on'] = array('$gte' => $start_time);
+        }
+        if(!$start_time && $end_time){
+          $query['created_on'] = array('$lte' => $end_time);
         }
 
         $service = Sher_Core_Service_Point::instance();

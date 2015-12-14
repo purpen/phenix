@@ -9,8 +9,11 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
 		'page' => 1,
 		'size' => 20,
     's' => 'money',
-    'user_id' => 0,
+    'user_id' => '',
     'event_code' => '',
+    'type' => '',
+		'start_date' => '',
+    'end_date' => '',
 	);
 
 	/**
@@ -24,9 +27,17 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
 	 * 用户积分记录列表
 	 */
 	public function point_record_list() {
-        $this->set_target_css_state('point');
-        $this->set_target_css_state('page_point_list');
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/point/record_list?user_id=%d&page=#p#', $this->stash['user_id']);
+    $this->set_target_css_state('point');
+    $this->set_target_css_state('page_point_list');
+
+    $start_time = strtotime($this->stash['start_date']);
+    $end_time = strtotime($this->stash['end_date']);    
+
+		$this->stash['start_time'] = $start_time;
+		$this->stash['end_time'] = $end_time;
+
+
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/point/record_list?user_id=%d&type=%s&start_date=%s&end_date=%s&page=#p#', $this->stash['user_id'], $this->stash['type'], $this->stash['start_date'], $this->stash['end_date']);
 		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('admin/point/point_record_list.html');
 	}
