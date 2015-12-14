@@ -53,13 +53,12 @@ class Sher_App_ViewTag_AssetList extends Doggy_Dt_Tag {
         $options['size'] = $size;
 		
         $result = $service->get_asset_list($query, $options);
-		var_dump($result);
+		//var_dump($result);
         $context->set($var,$result);
 		
         if ($include_pager) {
             $context->set($pager_var,$result['pager']);
         }
-        
     }
 }
 ?>

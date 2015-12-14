@@ -6,6 +6,7 @@
 class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 	
 	protected $collection = "special_subject";
+	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
   
 	##常量
 	#类型:1.自定义内容；2.指定商品ID

@@ -70,7 +70,8 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 		}
 		
 		$model = new Sher_Core_Model_SpecialSubject();
-		$result = $model->extend_load($id);
+		$result = $model->extend_load((int)$id);
+		//var_dump($result);
 		$this->stash['special_subject'] = $result;
 		
 		return $this->to_html_page('admin/special_subject/save.html');
@@ -81,7 +82,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 	 */
 	public function save(){
 		
-		$id = $this->stash['_id'];
+		$id = (int)$this->stash['_id'];
 		$special_subject_html = $this->stash['special_subject_html'];
 		$special_subject_title = $this->stash['special_subject_title'];
 		$special_subject_tag = $this->stash['special_subject_tag'];
@@ -115,7 +116,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 			'cover_id' => $cover_id,
 			'user_id' => (int)$this->visitor->id
 		);
-		//var_dump($date['content']);die;
+		//var_dump($date);die;
 		
 		try{
 			$model = new Sher_Core_Model_SpecialSubject();
@@ -152,7 +153,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 	   
 		try{
 			 $model = new Sher_Core_Model_SpecialSubject();
-			 $ok = $model->remove($id);
+			 $ok = $model->remove((int)$id);
 			 
 			 if(!$ok){
 				 return $this->ajax_json('保存失败,请重新提交', true);

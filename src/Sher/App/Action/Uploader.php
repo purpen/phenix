@@ -302,6 +302,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	 * 上传专题封面图片
 	 */
 	public function special_cover() {
+		
 		$asset_domain = Sher_Core_Util_Constant::STROAGE_SPECIAL_COVER;
 		$asset_type = Sher_Core_Model_Asset::TYPE_SPECIAL_COVER;
 		return $this->handle_upload($asset_type, $asset_domain);
@@ -484,6 +485,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 					$image_info['parent_id'] = $this->stash['x:parent_id'];
 				}
 				
+				//var_dump($image_info);die;
 				$ok = $asset->apply_and_save($image_info);
 				
 				Doggy_Log_Helper::debug("Create asset[$i] ok.");
@@ -535,7 +537,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 				if(isset($this->stash['x:parent_id'])){
 					$image_info['parent_id'] = $this->stash['x:parent_id'];
 				}
-			
+				
 				$ok = $asset->apply_and_save($image_info);
 				
 				Doggy_Log_Helper::debug("Create asset[$i] ok.");
