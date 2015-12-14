@@ -69,5 +69,17 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 		return true;
 	}
 	
+	/**
+	 * 批量更新附件所属
+	 */
+	public function update_batch_assets($ids=array(), $parent_id){
+		if (!empty($ids)){
+			$model = new Sher_Core_Model_Asset();
+			foreach($ids as $id){
+				Doggy_Log_Helper::debug("Update asset[$id] parent_id: $parent_id");
+				$model->update_set($id, array('parent_id' => $parent_id));
+			}
+		}
+	}
 }
 

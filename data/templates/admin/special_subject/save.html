@@ -421,10 +421,10 @@
 			$(this).ajaxSubmit({
 				dataType: 'json',
 				beforeSubmit: function(){
-					phenix.before_submit();
+					//phenix.before_submit();
 				},
 				success: function(data){
-					phenix.after_submit();
+					//phenix.after_submit();
 					
 					if(data.is_error){
 						$(event.target).addClass('error');

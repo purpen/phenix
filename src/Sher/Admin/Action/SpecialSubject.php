@@ -116,13 +116,15 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 			'cover_id' => $cover_id,
 			'user_id' => (int)$this->visitor->id
 		);
-		//var_dump($date);die;
+		//var_dump($this->stash['asset']);die;
 		
 		try{
 			$model = new Sher_Core_Model_SpecialSubject();
 			if(empty($id)){
 				// add
 				$ok = $model->apply_and_save($date);
+				$data_id = $model->get_data();
+				$id = $data_id['_id'];
 			} else {
 				// edit
 				$date['_id'] = $id;
@@ -131,6 +133,11 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 			
 			if(!$ok){
 				return $this->ajax_json('保存失败,请重新提交', true);
+			}
+			
+			// 上传成功后，更新所属的附件
+			if(isset($this->stash['asset']) && !empty($this->stash['asset'])){
+				$model->update_batch_assets($this->stash['asset'], (int)$id);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
