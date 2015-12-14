@@ -236,7 +236,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base implements Sher_Core_Act
  			return $this->api_json('用户未找到！', 3001);  
     }
     // 过滤用户字段
-    $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
+    $data = Sher_Core_Helper_FilterFields::wap_user($user);
 		
 		return $this->api_json('请求成功', 0, $data);
 	}
