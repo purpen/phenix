@@ -44,6 +44,10 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
   
 	protected $counter_fields = array('view_count', 'comment_count', 'love_count', 'favorite_count');
 
+	protected $joins = array(
+		'category' => array('category_id' => 'Sher_Core_Model_Category'),
+	);
+
 	/**
 	 * 扩展数据
 	 */
@@ -58,6 +62,9 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 			  $row['strip_remark'] = strip_tags(htmlspecialchars_decode($row['remark']));
 		}
 
+		// 获取封面图
+		$row['cover'] = $this->cover($row['cover_id']);
+
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
 	}
 
@@ -67,6 +74,27 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 	public function mock_after_remove($id) {
 		
 		return true;
+	}
+
+	/**
+	 * 获取封面图
+	 */
+	protected function cover($cover_id){
+		// 已设置封面图
+		if(!empty($cover_id)){
+			$asset = new Sher_Core_Model_Asset();
+			return $asset->extend_load($cover_id);
+		}
+		// 未设置封面图，获取第一个
+		$asset = new Sher_Core_Model_Asset();
+		$query = array(
+			'parent_id'  => (int)$row['_id'],
+			'asset_type' => Sher_Core_Model_Asset::TYPE_SPECIAL_COVER
+		);
+		$data = $asset->first($query);
+		if(!empty($data)){
+			return $asset->extended_model_row($data);
+		}
 	}
 	
 	/**

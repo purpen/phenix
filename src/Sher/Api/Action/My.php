@@ -96,11 +96,16 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 	 */
 	public function update_profile(){
 		$user_id = $this->current_user_id;
-		$nickname = $this->stash['nickname'];
-		
-		if(empty($user_id) || empty($nickname)){
-			return $this->api_json('请求参数不能为空！', 3000);
-		}
+
+    if(empty($user_id)){
+ 			return $this->api_json('请先登录！', 3000);   
+    }
+
+    foreach($this->stash as $k=>$v){
+      if(empty($v)){
+  			return $this->api_json('请求参数不能为空！', 3001);        
+      }
+    }
 		
 		$user_info = array();
 		
@@ -158,13 +163,14 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 		try {
 			$user = new Sher_Core_Model_User();
 			
-			// 检测用户昵称是否唯一
-			if(!$user->_check_name($nickname, $user_id)){
-				return $this->api_json('用户昵称已被占用！', 3001);
-			}
-			
-			$user_info['nickname'] = $nickname;
-			
+      if(isset($this->stash['nickname'])){
+        // 检测用户昵称是否唯一
+        if(!$user->_check_name($this->stash['nickname'], $user_id)){
+          return $this->api_json('用户昵称已被占用！', 3002);
+        }
+			  $user_info['nickname'] = $this->stash['nickname'];
+      }
+
 	    //更新基本信息
 			$user_info['_id'] = $user_id;
 			
