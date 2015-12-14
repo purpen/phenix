@@ -574,6 +574,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 
         if(isset($row['age']) && !empty($row['age'])){
           $row['birthday'] = implode('-', $row['age']);
+        }else{
+          $row['birthday'] = '';       
         }
     }
 	
