@@ -135,6 +135,10 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
     if(isset($this->stash['weixin'])){
       $profile['weixin'] = $this->stash['weixin'];
     }
+    if(isset($this->stash['birthday'])){
+      $age_arr = explode('-', $this->stash['birthday']);
+      $profile['age'] = $age_arr;
+    }
 		
 		$user_info['profile'] = $profile;
 		
@@ -328,18 +332,8 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
     }
 
 		$user_data = $user_model->extended_model_row($user);
-		$some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'true_nickname'=>1,'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'email'=>1,'medium_avatar_url'=>1);
-		
-		// 重建数据结果
-		$data = array();
-		foreach($some_fields as $key=>$value){
-			$data[$key] = $user_data[$key];
-		}
-    // 把profile提出来
-    foreach($data['profile'] as $k=>$v){
-      $data[$k] = $v;
-    }
-    unset($data['profile']);
+    // 过滤用户字段
+    $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
 		
 		return $this->api_json('欢迎回来.', 0, $data);
 	}
