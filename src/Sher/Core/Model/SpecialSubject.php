@@ -96,6 +96,41 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 			return $asset->extended_model_row($data);
 		}
 	}
+
+	/**
+	 * 增加计数
+	 */
+	public function inc_counter($field_name, $inc=1, $id=null){
+		if(is_null($id)){
+			$id = $this->id;
+		}
+		if(empty($id) || !in_array($field_name, $this->counter_fields)){
+			return false;
+		}
+		
+		return $this->inc($id, $field_name, $inc);
+	}
+	
+	/**
+	 * 减少计数
+	 * 需验证，防止出现负数
+	 */
+	public function dec_counter($field_name,$id=null,$force=false,$count=1){
+	    if(is_null($id)){
+	        $id = $this->id;
+	    }
+	    if(empty($id)){
+	        return false;
+	    }
+		if(!$force){
+			$special_subject = $this->find_by_id((int)$id);
+			if(!isset($special_subject[$field_name]) || $special_subject[$field_name] <= 0){
+				return true;
+			}
+		}
+		
+		return $this->dec($id, $field_name, $count);
+	}
 	
 	/**
 	 * 批量更新附件所属
