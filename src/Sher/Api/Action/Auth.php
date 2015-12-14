@@ -64,18 +64,8 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base implements Sher_Core_Act
 		
         // export some attributes to browse client.
 		$user_data = $user->extended_model_row($result);
-		$some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'true_nickname'=>1,'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'email'=>1,'medium_avatar_url'=>1);
-		
-		// 重建数据结果
-		$data = array();
-		foreach($some_fields as $key=>$value){
-			$data[$key] = $user_data[$key];
-		}
-    // 把profile提出来
-    foreach($data['profile'] as $k=>$v){
-      $data[$k] = $v;
-    }
-    unset($data['profile']);
+    // 过滤用户字段
+    $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
 		
 		// 绑定设备操作
 		$uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
@@ -245,19 +235,8 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base implements Sher_Core_Act
     if(empty($user)){
  			return $this->api_json('用户未找到！', 3001);  
     }
-		
-    $some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'true_nickname'=>1,'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'email'=>1,'medium_avatar_url'=>1);
-    
-    // 重建数据结果
-    $data = array();
-    foreach($some_fields as $key=>$value){
-      $data[$key] = $user[$key];
-    }
-    // 把profile提出来
-    foreach($data['profile'] as $k=>$v){
-      $data[$k] = $v;
-    }
-    unset($data['profile']);
+    // 过滤用户字段
+    $data = Sher_Core_Helper_FilterFields::wap_user($user);
 		
 		return $this->api_json('请求成功', 0, $data);
 	}
@@ -299,18 +278,8 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base implements Sher_Core_Act
         // 删除验证码
         $verify->remove($code['_id']);
 		    $user_data = $user->extended_model_row($user);
-        $some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'true_nickname'=>1,'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'email'=>1,'medium_avatar_url'=>1);
-        
-        // 重建数据结果
-        $data = array();
-        foreach($some_fields as $key=>$value){
-          $data[$key] = $user_data[$key];
-        }
-        // 把profile提出来
-        foreach($data['profile'] as $k=>$v){
-          $data[$k] = $v;
-        }
-        unset($data['profile']);
+        // 过滤用户字段
+        $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
 
 		    return $this->api_json('请求成功', 0, $data);
       }else{

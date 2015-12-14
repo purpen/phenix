@@ -21,8 +21,8 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		# 分类标签，含：近义词、同类词、英文词
 		'tags' => array(),
 
-    # 移动端封面图片路径
-    'app_cover_url' => null,
+		# 移动端封面图片路径
+		'app_cover_url' => null,
 		# 排列顺序
 		'order_by' => 0,
 		# 分类域
