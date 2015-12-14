@@ -1,5 +1,5 @@
 {%extends 'layout/xy.html'%}
-{% block title %}{% endblock %}
+{% block title %}小蚁行车记录仪{% endblock %}
 {% block page_css %}
 	<link href="http://frstatic.qiniudn.com/wechat/xy/style.css" type="text/css" rel="stylesheet" />
 	<link href="http://frstatic.qiniudn.com/wechat/xy/mobile_act_global.css" type="text/css" rel="stylesheet">
@@ -140,7 +140,7 @@
 			if(val_input1==3&&val_input2==2&&val_input3==2){
 				$(".center-tk").removeClass("err");
 				$(".center-divp").html("全部回答正确，赶快申请试用！");
-				$(".center-linka").html("申请试用").attr("href","www.baidu.com").removeClass("close");
+				$(".center-linka").html("申请试用").attr("href","http://www.taihuoniao.com/try/view-52062.html").removeClass("close");
 				$(".center-tk").fadeIn();
 				$('.page9 .center-obj').fadeOut();
 				$('.music').fadeOut();
@@ -278,10 +278,10 @@
 			});
 
 
-    var m_name = '小蚁行车记录仪';
+    var m_name = '募百人首批样机体验团';
     var img_url = 'http://frstatic.qiniudn.com/wechat/xy/images/xy.jpg';
     var link = '{{ app_url_wap_promo }}/xy';
-    var desc_str = 'm.taihuoniao.com';
+    var desc_str = '小蚁智能行车记录仪，专为发烧设计的行车记录仪';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
