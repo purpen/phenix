@@ -96,11 +96,16 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 	 */
 	public function update_profile(){
 		$user_id = $this->current_user_id;
-		$nickname = $this->stash['nickname'];
-		
-		if(empty($user_id) || empty($nickname)){
-			return $this->api_json('请求参数不能为空！', 3000);
-		}
+
+    if(empty($user_id)){
+ 			return $this->api_json('请先登录！', 3000);   
+    }
+
+    foreach($this->stash as $k=>$v){
+      if(empty($v)){
+  			return $this->api_json('请求参数不能为空！', 3001);        
+      }
+    }
 		
 		$user_info = array();
 		
@@ -135,6 +140,10 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
     if(isset($this->stash['weixin'])){
       $profile['weixin'] = $this->stash['weixin'];
     }
+    if(isset($this->stash['birthday'])){
+      $age_arr = explode('-', $this->stash['birthday']);
+      $profile['age'] = $age_arr;
+    }
 		
 		$user_info['profile'] = $profile;
 		
@@ -154,27 +163,31 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 		try {
 			$user = new Sher_Core_Model_User();
 			
-			// 检测用户昵称是否唯一
-			if(!$user->_check_name($nickname, $user_id)){
-				return $this->api_json('用户昵称已被占用！', 3001);
-			}
-			
-			$user_info['nickname'] = $nickname;
-			
+      if(isset($this->stash['nickname'])){
+
+        if (strlen($this->stash['nickname'])<4 || strlen($this->stash['nickname'])>30) {
+          return $this->api_json('昵称长度大于等于4个字符，小于30个字符，每个汉字占3个字符！', 3002);
+        }
+
+        // 检测用户昵称是否唯一
+        if(!$user->_check_name($this->stash['nickname'], $user_id)){
+          return $this->api_json('用户昵称已被占用！', 3003);
+        }
+			  $user_info['nickname'] = $this->stash['nickname'];
+      }
+
 	    //更新基本信息
 			$user_info['_id'] = $user_id;
 			
 			$ok = $user->apply_and_update($user_info);
       if($ok){
-        // 把profile提出来
-        foreach($user_info['profile'] as $k=>$v){
-          $user_info[$k] = $v;
-        }
-        unset($user_info['profile']);
+        $user_data = $user->extend_load($user_id);
+        // 过滤用户字段
+        $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
 
- 		    return $this->api_json('更新用户信息成功！', 0, $user_info);    
+ 		    return $this->api_json('更新用户信息成功！', 0, $data);    
       }else{
-  		  return $this->api_json('更新失败！', 3002);    
+  		  return $this->api_json('更新失败！', 3004);    
       }
 			
 		} catch (Sher_Core_Model_Exception $e) {
@@ -328,18 +341,8 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
     }
 
 		$user_data = $user_model->extended_model_row($user);
-		$some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'true_nickname'=>1,'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'email'=>1,'medium_avatar_url'=>1);
-		
-		// 重建数据结果
-		$data = array();
-		foreach($some_fields as $key=>$value){
-			$data[$key] = $user_data[$key];
-		}
-    // 把profile提出来
-    foreach($data['profile'] as $k=>$v){
-      $data[$k] = $v;
-    }
-    unset($data['profile']);
+    // 过滤用户字段
+    $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
 		
 		return $this->api_json('欢迎回来.', 0, $data);
 	}
