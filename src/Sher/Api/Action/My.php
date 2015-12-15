@@ -309,7 +309,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 
     $user_id = $this->current_user_id;
     if (empty($this->stash['password']) || empty($this->stash['new_password'])) {
-        return $this->api_json('数据错误,请重新登录', 3001);
+        return $this->api_json('参数不完整!', 3001);
     }
 
     if (strlen($this->stash['password'])<6 || strlen($this->stash['new_password'])<6) {
@@ -344,7 +344,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
     // 过滤用户字段
     $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
 		
-		return $this->api_json('欢迎回来.', 0, $data);
+		return $this->api_json('修改成功!', 0, $data);
 	}
 
   /**

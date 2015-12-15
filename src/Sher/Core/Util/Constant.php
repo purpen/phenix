@@ -34,9 +34,10 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const TYPE_ACTIVE  = 3;
 	const TYPE_STUFF   = 4;
     const TYPE_USER    = 5;
-    const TYPE_COOPERATE = 6;
-    const TYPE_CASE = 7;
-    const TYPE_ALBUM = 8;
+    const TYPE_COOPERATE = 6; // 资源
+    const TYPE_CASE = 7;  // 案例
+    const TYPE_ALBUM = 8; // 专辑
+    const TYPE_SPECIAL_SUBJECT = 9; // 专题
 	
 	// 来源站点
 	const FROM_LOCAL = 1;
