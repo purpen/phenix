@@ -65,7 +65,7 @@
 			</div>
 			<div class=" wide column">
         <div class="ten ui sub nav">
-          <form action="{{ app_url_admin_base }}/topic/search" method="get" id="search-form">
+          <form action="{{ app_url_admin_base }}/topic/get_list" method="get" id="search-form">
             <label>搜索：</label>
             <input type="hidden" name="sort" value="{{ sort }}" />
             <div class="ui icon input">
@@ -122,11 +122,7 @@
 			</tr>
 		</thead>
 		<tbody>
-      {% if is_search %}
-			  {% topic_list var:'list' page:page s_type:s s_mark:q sort:sort start_time:start_time end_time:end_time page:page size:30 %}
-      {%else%}
-			  {% topic_list var:'list' is_top:is_top category_id:category_id sort:sort page:page size:30 %}
-      {%endif%}
+			{% topic_list var:'list' is_top:is_top category_id:category_id s_type:s s_mark:q sort:sort start_time:start_time end_time:end_time page:page size:100 %}
 
 			{% for topic in list.rows %}
 			<tr id="{{ topic._id }}">
