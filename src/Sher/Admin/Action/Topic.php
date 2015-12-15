@@ -11,6 +11,10 @@ class Sher_Admin_Action_Topic extends Sher_Admin_Action_Base implements DoggyX_A
     'sort' => 0,
     'start_date' => '',
     'end_date' => '',
+    'start_time' => 0,
+    'end_time' => 0,
+    's' => '',
+    'q' => '',
 	);
 	
 	public function _init() {
@@ -31,12 +35,27 @@ class Sher_Admin_Action_Topic extends Sher_Admin_Action_Base implements DoggyX_A
     $this->set_target_css_state('all_list');
 		$page = (int)$this->stash['page'];
 
+    $this->stash['start_time'] = isset($this->stash['start_time']) ? (int)$this->stash['start_time'] : 0;
+    $this->stash['end_time'] = isset($this->stash['end_time']) ? (int)$this->stash['end_time'] : 0;
+
 		$this->stash['category_id'] = 0;
 		$this->stash['is_top'] = true;
+
+    if($this->stash['start_date']){
+      $this->stash['start_time'] = strtotime($this->stash['start_date']);
+    }elseif(!empty($this->stash['start_time'])){
+      $this->stash['start_date'] = date('Y-m-d', (int)$this->stash['start_time']);
+    }
+
+    if($this->stash['end_date']){
+      $this->stash['end_time'] = strtotime($this->stash['end_date']);  
+    }elseif(!empty($this->stash['end_time'])){
+      $this->stash['end_date'] = date('Y-m-d', (int)$this->stash['end_time']);
+    }
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/topic?sort=%d&page=#p#', $this->stash['sort']);
-		
-		$this->stash['pager_url'] = $pager_url;
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/topic/get_list?s=%d&q=%s&sort=%d&start_time=%d&end_time=%d&page=#p#';
+
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['s'], $this->stash['q'], $this->stash['sort'], $this->stash['start_time'], $this->stash['end_time']);
 		
 		return $this->to_html_page('admin/topic/list.html');
 	}
