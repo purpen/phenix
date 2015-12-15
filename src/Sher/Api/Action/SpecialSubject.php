@@ -67,7 +67,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base implements She
 				break;
 		}
 		
-		$options['some_fields'] = $some_fields;
+		//$options['some_fields'] = $some_fields;
 		// 开启查询
     $service = Sher_Core_Service_SpecialSubject::instance();
     $result = $service->get_special_subject_list($query, $options);
@@ -77,12 +77,11 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base implements She
 		for($i=0;$i<count($result['rows']);$i++){
 
 			// 封面图url
-			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
+			//$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
 
 		}
-		$result['rows'] = $data;
 		
-		return $this->api_json('请求成功', 0, $result);
+		return $this->api_json('请求成功', 0, $data);
 	}
 	
 	/**

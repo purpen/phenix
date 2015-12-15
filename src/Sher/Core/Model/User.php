@@ -572,8 +572,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         $row['last_char'] = substr((string)$id, -1);
         $row['ext_state'] = DoggyX_Model_Mapper::load_model($row['_id'], 'Sher_Core_Model_UserExtState');
 
-        if(isset($row['age']) && !empty($row['age'])){
-          $row['birthday'] = implode('-', $row['age']);
+        if(isset($row['profile']['age']) && !empty($row['profile']['age'])){
+          $row['birthday'] = implode('-', $row['profile']['age']);
         }else{
           $row['birthday'] = '';       
         }

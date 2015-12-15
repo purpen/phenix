@@ -63,7 +63,9 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 		}
 
 		// 获取封面图
-		$row['cover'] = $this->cover($row['cover_id']);
+    if(isset($row['cover_id'])){
+		  $row['cover'] = $this->cover($row['cover_id']);
+    }
 
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
 	}
