@@ -71,8 +71,6 @@ app.contest.dream2_category_id: 18
 app.topic.idea_category_id: 22
 # 蛋年活动
 app.birdegg.category_id: 80
-# 专题类域
-app.specail_subject.category_id: 8
 
 # 大赛作品分类--反向定制
 app.stuff.contest_category_id: 55

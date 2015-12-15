@@ -2997,16 +2997,34 @@
 			  <input name="special_subject_html" type="hidden" value="" />
 			  
 			  <div class="inline field">
-				  <label>专题标题:</label>
+				  <label>专辑分类：</label>
+				  <div class="ui options">
+					  <input type="hidden" name="category_id" value="{{ topic.category_id }}" id="topic-category" />
+					  
+					  {% category_list var:'category' only_open:1 domain:9 %}
+					  
+					  {% for cat in category.rows %}
+						  {% if cat.pid %}
+						  <div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
+							  <i class="check circle outline icon"></i>
+							  {{ cat.title }}
+						  </div>
+						  {%endif%}
+					  {% endfor %}
+				   </div>
+			  </div>
+			  
+			  <div class="inline field">
+				  <label>专题标题：</label>
 				  <input type="text" name="special_subject_title" value="{{ special_subject.title }}" />
 			  </div>
 			  <div class="inline field">
-				  <label>专题标签:</label>
+				  <label>专题标签：</label>
 				  <input type="text" name="special_subject_tag" value="{{ special_subject.tags_s }}" />
 			  </div>
 			  
 			  <!--活动封面图，头图，-->
-			  <div class="field">
+			  <div class="inline field">
 				<label>上传封面图：</label>
 				<input type="hidden" name="cover_id" id="special_subject_cover_id" value="{{ special_subject.cover_id }}" />
 				<div style="clear: both"></div>

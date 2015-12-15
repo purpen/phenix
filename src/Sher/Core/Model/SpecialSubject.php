@@ -90,7 +90,7 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 		// 未设置封面图，获取第一个
 		$asset = new Sher_Core_Model_Asset();
 		$query = array(
-			'parent_id'  => (int)$row['_id'],
+			'parent_id'  => (int)$cover_id,
 			'asset_type' => Sher_Core_Model_Asset::TYPE_SPECIAL_COVER
 		);
 		$data = $asset->first($query);
