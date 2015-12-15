@@ -67,21 +67,18 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base implements She
 				break;
 		}
 		
-		//$options['some_fields'] = $some_fields;
+		$options['some_fields'] = $some_fields;
 		// 开启查询
     $service = Sher_Core_Service_SpecialSubject::instance();
     $result = $service->get_special_subject_list($query, $options);
 		
 		// 重建数据结果
-		$data = array();
 		for($i=0;$i<count($result['rows']);$i++){
-
 			// 封面图url
-			//$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
-
+			$result[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
 		}
 		
-		return $this->api_json('请求成功', 0, $data);
+		return $this->api_json('请求成功', 0, $result);
 	}
 	
 	/**
@@ -90,14 +87,14 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base implements She
 	public function view(){
 		$id = (int)$this->stash['id'];
 		if(empty($id)){
-			return $this->api_json('访问的产品不存在！', 3000);
+			return $this->api_json('访问的专题不存在！', 3000);
 		}
 		
 		$model = new Sher_Core_Model_SpecialSubject();
 		$special_subject = $model->load((int)$id);
 
     if(empty($special_subject)) {
-			return $this->api_json('访问的产品不存在！', 3000);
+			return $this->api_json('访问的专题不存在！', 3000);
     }
     $special_subject = $model->extended_model_row($special_subject);
 
