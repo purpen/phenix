@@ -701,13 +701,23 @@
                   <label>开启</label>
               </div>
         </div>
-        <div class="four fields">
+        <div class="three fields">
           <div class="field">
-              <label>开始抢购日期：</label>
+              <label>开始时间：</label>
             <div class="ui icon input">
-                <input type="text" name="snatched_time" value="{{ product.snatched_time|date 'Y-m-d H:i' }}" id="sel1" /><input type="button" value="..." onclick="return showCalendar('sel1', '%Y-%m-%d %H:%M', '24', true);" />
+                <input type="text" name="snatched_time" value="{{ product.snatched_time|date 'Y-m-d H:i' }}" id="sel1" />
+                <input type="button" value="..." onclick="return showCalendar('sel1', '%Y-%m-%d %H:%M', '24', true);" />
             </div>
           </div>
+          <div class="field">
+              <label>结束时间：</label>
+            <div class="ui icon input">
+                <input type="text" name="snatched_end_time" value="{{ product.snatched_end_time|date 'Y-m-d H:i' }}" id="sel2" />
+                <input type="button" value="..." onclick="return showCalendar('sel2', '%Y-%m-%d %H:%M', '24', true);" />
+            </div>
+          </div>
+        </div>
+        <div class="four fields">
           <div class="field">
               <label>抢购价：</label>
             <input type="text" name="snatched_price" value="{{ product.snatched_price|default 0 }}" />

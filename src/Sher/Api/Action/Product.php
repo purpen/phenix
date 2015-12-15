@@ -68,7 +68,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
 			'snatched_time'=>1, 'inventory'=>1, 'can_saled'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
       'presale_goals'=>1, 'stick'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1,
-      'comment_star'=>1,
+      'comment_star'=>1,'snatched_end_time'=>1, 'snatched_price'=>1, 'snatched_count'=>1,
 		);
 		
 		// 请求参数
@@ -159,6 +159,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 		if(empty($id)){
 			return $this->api_json('访问的产品不存在！', 3000);
 		}
+
+    $user_id = $this->current_user_id;
 		
 		$model = new Sher_Core_Model_Product();
 		$product = $model->load((int)$id);
@@ -174,7 +176,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_
 
     //转换描述格式
     $product['content'] = null;
-    $product['content_view_url'] = sprintf('%s/app/api/view/product_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $product['_id'], $this->current_user_id);
+    $product['content_view_url'] = sprintf('%s/app/api/view/product_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $product['_id'], $user_id);
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
