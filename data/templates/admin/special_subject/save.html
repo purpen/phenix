@@ -388,6 +388,22 @@
 			return false;
 		});
 	});
+	
+	// 选择分类
+	$('.ui.options').on('click', '.option', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+			$('#topic-category').val('');
+		}else{
+			$(this)
+				.siblings('.ui.option').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#special-category').val(id);
+		}
+	});
   
 	$('#special_subject_form').on('click','.submit',function(){
 	  if(!$('.gridster_ul').html()){
@@ -2999,17 +3015,15 @@
 			  <div class="inline field">
 				  <label>专辑分类：</label>
 				  <div class="ui options">
-					  <input type="hidden" name="category_id" value="{{ topic.category_id }}" id="topic-category" />
+					  <input type="hidden" name="category_id" value="{{ special_subject.category_id }}" id="special-category" />
 					  
 					  {% category_list var:'category' only_open:1 domain:9 %}
 					  
 					  {% for cat in category.rows %}
-						  {% if cat.pid %}
-						  <div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
+						  <div class="ui magenta alt option left {% if special_subject.category_id == cat._id %} active {%endif%}" data-value="{{ cat._id }}">
 							  <i class="check circle outline icon"></i>
 							  {{ cat.title }}
 						  </div>
-						  {%endif%}
 					  {% endfor %}
 				   </div>
 			  </div>
