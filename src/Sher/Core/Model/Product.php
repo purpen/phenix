@@ -157,7 +157,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		## 限时抢购
 		'snatched' => 0,
+    # 抢购开始结束时间
 		'snatched_time' => 0,
+    'snatched_end_time' => 0,
 		# 预约人数
 		'appoint_count' => 0,
 		# 抢购价
@@ -492,9 +494,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			$data['random'] = Sher_Core_Helper_Util::gen_random();
 		}
 		
-		// 转换为时间戳
+		// 抢购开始时间－转换为时间戳
 		if(isset($data['snatched_time'])){
 			$data['snatched_time'] = strtotime($data['snatched_time']);
+		}
+		// 抢购结束时间－转换为时间戳
+		if(isset($data['snatched_end_time'])){
+			$data['snatched_end_time'] = strtotime($data['snatched_end_time']);
 		}
 		// 预售开始时间，结束时间
 		if(isset($data['presale_start_time'])){

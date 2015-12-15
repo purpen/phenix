@@ -20,7 +20,7 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 	  # 分类ID
 	  'category_id' => null,
 	  # 商品ID数组
-	  'products' => array(),
+	  'product_ids' => array(),
 	  # 内容
 	  'content' => null,
 	  # 简述
@@ -63,7 +63,9 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 		}
 
 		// 获取封面图
-		$row['cover'] = $this->cover($row['cover_id']);
+    if(isset($row['cover_id'])){
+		  $row['cover'] = $this->cover($row['cover_id']);
+    }
 
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
 	}
