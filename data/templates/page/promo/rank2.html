@@ -404,7 +404,7 @@ p{
 
 	phenix.bind_share_list();
 	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/rank'});
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/rank2'});
 {% endblock %}
 {% block content %}
 <div id="srank">
@@ -517,7 +517,7 @@ p{
                   全部评论<small>（{{ comment_count }}）</small>
                   
                   <div class="quick goto">
-                      直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ comment_count }}" data-url="{{ app_url_promo }}/rank" title="跳转到指定楼层" />
+                      直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ comment_count }}" data-url="{{ app_url_promo }}/rank2" title="跳转到指定楼层" />
                   </div>
               </div>
 		  	    <div id="comment-list">
