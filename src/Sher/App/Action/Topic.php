@@ -482,14 +482,14 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	public function subject(){
 		$id = (int)$this->stash['id'];
 		
+		$category = new Sher_Core_Model_Category();
 		// 获取产品专区话题列表
 		$category_id = Doggy_Config::$vars['app.product.topic_category_id'];
-		
-		$category = new Sher_Core_Model_Category();
 		$subject_category = $category->extend_load($category_id);
 		// 获取父级分类
 		$parent_category = $category->extend_load((int)$subject_category['pid']);
-    $this->stash['category_id'] = $category_id;
+		
+		$this->stash['category_id'] = $category_id;
 		$this->stash['subject_category'] = $subject_category;
 		$this->stash['parent_category'] = $parent_category;
 		
