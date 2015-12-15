@@ -346,6 +346,54 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 		
 		return $this->api_json('欢迎回来.', 0, $data);
 	}
+
+  /**
+   * 我的红包列表
+   */
+  public function bonus(){
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录!', 3000);    
+    }
+ 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+    $size = isset($this->stash['size'])?(int)$this->stash['size']:10;
+		$sort = isset($this->stash['sort'])?(int)$this->stash['sort']:0; 
+
+		$some_fields = array(
+
+		);
+			
+		$query   = array();
+		$options = array();
+		
+		// 查询条件
+		$query['user_id'] = $user_id;
+		
+		// 分页参数
+    $options['page'] = $page;
+    $options['size'] = $size;
+
+		// 排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+		}
+		
+		$options['some_fields'] = $some_fields;
+		// 开启查询
+    $service = Sher_Core_Service_Bonus::instance();
+    $result = $service->get_all_list($query, $options);
+		
+		// 重建数据结果
+		for($i=0;$i<count($result['rows']);$i++){
+
+		}
+    print_r($result['rows'][0]);exit;
+		
+		return $this->api_json('请求成功', 0, $result);
+  
+  }
 	
 }
 
