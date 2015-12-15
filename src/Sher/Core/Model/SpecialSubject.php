@@ -20,7 +20,7 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 	  # 分类ID
 	  'category_id' => null,
 	  # 商品ID数组
-	  'products' => array(),
+	  'product_ids' => array(),
 	  # 内容
 	  'content' => null,
 	  # 简述

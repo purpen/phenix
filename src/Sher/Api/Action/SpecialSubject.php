@@ -93,13 +93,30 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base implements She
 		$model = new Sher_Core_Model_SpecialSubject();
 		$special_subject = $model->load((int)$id);
 
+		if($special_subject['state']==0){
+			return $this->api_json('访问的专题已禁用！', 3001);
+		}
+
     if(empty($special_subject)) {
-			return $this->api_json('访问的专题不存在！', 3000);
+			return $this->api_json('访问的专题不存在！', 3002);
     }
     $special_subject = $model->extended_model_row($special_subject);
 
-    //转换描述格式
-    $special_subject['content'] = null;
+    $product_arr = array();
+    if($special_subject['kind']==Sher_Core_Model_SpecialSubject::KIND_APPOINT){
+      $special_subject['content'] = null;
+      if(!empty($special_subject['product_ids'])){
+        $product_model = new Sher_Core_Service_Product();
+        foreach($special_subject['product_ids'] as $k=>$v){
+          $product = $product_model->extend_load((int)$v);
+          if(!empty($product)){
+            array_push($product_arr, $product);
+          }
+        } // endfor
+      } // endif empty
+
+    } // endif kind
+    $special_subject['products'] = $product_arr;
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, (int)$id);
