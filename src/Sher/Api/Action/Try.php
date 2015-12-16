@@ -3,12 +3,9 @@
  * 试用API接口
  * @author tianshuai
  */
-class Sher_Api_Action_Try extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel {
+class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 	
-	public $stash = array(
-
-	);
-	
+	protected $filter_user_method_list = array('execute', 'getlist', 'view');
 	
 	/**
 	 * 入口

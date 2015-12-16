@@ -3,10 +3,10 @@
  * API 接口
  * @author purpen
  */
-class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel {
-	public $stash = array(
+class Sher_Api_Action_My extends Sher_Api_Action_Base {
 
-	);
+
+	protected $filter_user_method_list = array();
 	
 	/**
 	 * 入口

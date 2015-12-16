@@ -3,16 +3,10 @@
  * API 接口
  * @author purpen
  */
-class Sher_Api_Action_Product extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel {
+class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 	
-  /**
-	public $stash = array(
-		'page' => 1,
-		'size' => 10,
-  );
-   */
-	
-	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'comments', 'ajax_favorite', 'ajax_love', 'ajax_comment', 'fetch_relation_product', 'ajax_cancel_love');
+	protected $filter_user_method_list = array('execute', 'category', 'getlist', 'view', 'comments', 'fetch_relation_product');
+
 	
 	/**
 	 * 入口

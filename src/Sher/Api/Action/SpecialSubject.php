@@ -4,9 +4,9 @@
  * 商品专题
  * @author tianshuai
  */
-class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel {
+class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 
-	protected $exclude_method_list = array('execute');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view');
 	
 	/**
 	 * 入口

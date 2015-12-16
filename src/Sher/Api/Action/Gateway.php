@@ -4,16 +4,8 @@
  * @author purpen
  */
 class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
-	public $stash = array(
-		'page' => 1,
-		'size' => 10,
-		'uid' => 0,
-		'c' => '',
-		's' => '',
-		'bonus' => '',
-	);
 
-	protected $exclude_method_list = array('execute', 'slide', 'bonus', 'up_bonus', 'game_result', 'feedback');
+	protected $filter_user_method_list = '*';
 	
 	/**
 	 * 入口
@@ -27,7 +19,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 	 */
 	public function slide(){
 		$result = array();
-		$page = $this->stash['page'];
+		$page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
 		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 6;
 		
 		// 请求参数
@@ -156,8 +148,8 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 	 * 更新红包
 	 */
 	public function up_bonus(){
-		$code = $this->stash['c'];
-		$state = $this->stash['s']; // <0:未中,1:击中>
+		$code = isset($this->stash['c']) ? $this->stash['c'] : null;
+		$state = isset($this->stash['s']) ? $this->stash['s'] : null; // <0:未中,1:击中>
 		if (empty($code) || !isset($state)) {
 			return $this->ajax_json('缺少更新参数', true);
 		}
@@ -192,8 +184,8 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 	 * 领取红包
 	 */
 	public function got_bonus(){
-		$bonus = $this->stash['bonus'];
-		$user_id = $this->stash['uid'];
+		$bonus = isset($this->stash['bonus']) ? $this->stash['bonus'] : null;
+		$user_id = isset($this->stash['uid']) ? $this->stash['uid'] : 0;
 		if (empty($bonus) || empty($user_id)){
 			return $this->ajax_json('领取失败：缺少请求参数！', true);
 		}
@@ -243,7 +235,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 	 * 更新游戏结果
 	 */
 	public function game_result(){
-		$uid = $this->stash['uid'];
+		$uid = isset($this->stash['uid']) ? $this->stash['uid'] : 0;
 		$result = $this->stash['bonus'];
 		if(empty($result)){
 			return $this->ajax_json('提交失败：缺少更新参数', true);

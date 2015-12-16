@@ -3,15 +3,9 @@
  * API 接口
  * @author purpen
  */
-class Sher_Api_Action_Auth extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel {
+class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 
-  /**
-	public $stash = array(
-		'page' => 1,
-		'uid' => 0,
-		'bonus' => '',
-  );
-   */
+	protected $filter_user_method_list = array('execute', 'login', 'register', 'verify_code', 'find_pwd');
 	
 	/**
 	 * 入口
