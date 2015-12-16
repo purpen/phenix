@@ -130,7 +130,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		// 是否抢购
 		$data['snatched'] = isset($this->stash['snatched']) ? 1 : 0;
 		$data['snatched_time'] = $this->stash['snatched_time'];
-		if($data['snatched'] && empty($data['snatched_time'])){
+		$data['snatched_end_time'] = $this->stash['snatched_end_time'];
+		if($data['snatched'] && (empty($data['snatched_time']) || empty($data['snatched_end_time']))){
 			return $this->ajax_json('抢购商品，必须设置抢购开始时间！', true);
 		}
 		$data['appoint_count'] = (int)$this->stash['appoint_count'];

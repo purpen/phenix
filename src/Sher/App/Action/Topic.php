@@ -10,7 +10,6 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		'id' => '',
 		'cover_id' => 0,
 		'category_id' => 0,
-		'sort' => 0,
 		'type' => 0,
 		'time' => 0,
 		'page' => 1,
@@ -63,7 +62,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$category_id = $this->stash['category_id'];
 		$type = $this->stash['type'];
         $time = $this->stash['time'];
-        $sort = $this->stash['sort'];
+		    $sort = $this->stash['sort'] = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 7;
         $page = $this->stash['page'];
         
 		// 获取置顶列表
@@ -100,7 +99,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         $category_id = (int)$this->stash['category_id'];
 		$type = (int)$this->stash['type'];
         $time = (int)$this->stash['time'];
-        $sort = (int)$this->stash['sort'];
+		    $sort = $this->stash['sort'] = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
         $page = (int)$this->stash['page'];
         
 		$page = $this->stash['page'];
@@ -319,7 +318,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$type = $this->stash['type'];
 		$time = $this->stash['time'];
-		$sort = $this->stash['sort'];
+		$sort = $this->stash['sort'] = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$page = $this->stash['page'];
         
         // 获取版块置顶列表
@@ -398,6 +397,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$links = array();
 		
 		// 类别
+    $links['all_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, 0, $time, $sort, $page);
 		$links['reply_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, 3, $time, 7, $page);
 		$links['stick_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, 1, $time, $sort, $page);
 		$links['fine_url']  = Sher_Core_Helper_Url::topic_advance_list_url($category_id, 2, $time, $sort, $page);
