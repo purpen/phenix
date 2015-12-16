@@ -106,6 +106,15 @@
 	float: left !important;
   }
   
+  .ui.inverted.orange.active.button,.ui.inverted.orange.buttons.active.button{
+	margin-top: 10px !important;
+  }
+  
+  .select_self{
+	height: 50px;
+	width: 194px;
+	margin-left: 20px;
+  }
 </style>
 {% endblock %}
 
@@ -429,6 +438,15 @@
 					prompt : '标签不能为空'
 				}
 			]
+		},
+		category_id: {
+			identifier  : 'category_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '分类不能为空'
+				}
+			]
 		}
 	}, {
 		inline : true,
@@ -437,10 +455,10 @@
 			$(this).ajaxSubmit({
 				dataType: 'json',
 				beforeSubmit: function(){
-					//phenix.before_submit();
+					phenix.before_submit();
 				},
 				success: function(data){
-					//phenix.after_submit();
+					phenix.after_submit();
 					
 					if(data.is_error){
 						$(event.target).addClass('error');
@@ -451,6 +469,18 @@
 				}
 			});
 		}
+	});
+	
+	$('#kind_left').click(function(){
+	  $('#product_ids').hide();
+	  $('#content_self').show();
+	  $('input[name=kind]').val(1);
+	});
+	
+	$('#kind_right').click(function(){
+	  $('#content_self').hide();
+	  $('#product_ids').show();
+	  $('input[name=kind]').val(2);
 	});
   
   });
@@ -557,7 +587,12 @@
     </div>
 	
 	<div class="ui alarm segment">
-		<div class="ui iphone">
+		<div class="ui select_self">
+		  <button class="ui left attached button" id="kind_left">自定义模式</button>
+		  <button class="ui right attached button" id="kind_right">默认模式</button>
+		</div>
+		
+		<div class="ui iphone" id="content_self" style="display: none">
 		  <div class="ui iphone_content">
 			
 			{%include 'block/table.html'%}
@@ -643,6 +678,7 @@
 		<div class="ui topic_form">
 		  <form action="{{ app_url_admin_base }}/special_subject/save" class="ui form" method="post" id="special_subject_form">
 			  <input name="_id" type="hidden" value="{{ special_subject._id }}" />
+			  <input name="kind" type="hidden" value="{{ special_subject.kind }}" />
 			  <input name="special_subject_html" type="hidden" value="" />
 			  
 			  <div class="inline field">
@@ -668,6 +704,10 @@
 			  <div class="inline field">
 				  <label>专题标签：</label>
 				  <input type="text" name="special_subject_tag" value="{{ special_subject.tags_s }}" />
+			  </div>
+			  <div class="inline field" id="product_ids">
+				  <label>专题商品：</label>
+				  <input type="text" name="product_ids" value="{{ special_subject.product_ids }}" />
 			  </div>
 			  
 			  <!--活动封面图，头图，-->
