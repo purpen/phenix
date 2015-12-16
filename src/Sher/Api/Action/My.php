@@ -146,7 +146,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
     if(isset($this->stash['nickname']) && !empty($this->stash['nickname'])){
       $user_info['nickname'] = (int)$this->stash['nickname'];
     }
-    if(isset($this->stash['sex']) && !empty($this->stash['sex'])){
+    if(isset($this->stash['sex'])){
       $user_info['sex'] = (int)$this->stash['sex'];
     }
     if(isset($this->stash['city']) && !empty($this->stash['city'])){
