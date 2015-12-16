@@ -95,69 +95,72 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 	 * 更新用户信息
 	 */
 	public function update_profile(){
-		$user_id = $this->current_user_id;
+		$user_id = 5;
 
     if(empty($user_id)){
  			return $this->api_json('请先登录！', 3000);   
-    }
-
-    foreach($this->stash as $k=>$v){
-      if(empty($v)){
-  			return $this->api_json('请求参数不能为空！', 3001);        
-      }
     }
 		
 		$user_info = array();
 		
     $profile = array();
-    if(isset($this->stash['job'])){
+    if(isset($this->stash['job']) && !empty($this->stash['job'])){
       $profile['job'] = $this->stash['job'];
     }
-    if(isset($this->stash['company'])){
+    if(isset($this->stash['company']) && !empty($this->stash['company'])){
       $profile['company'] = $this->stash['company'];
     }
-    if(isset($this->stash['phone'])){
+    if(isset($this->stash['phone']) && !empty($this->stash['phone'])){
       $profile['phone'] = $this->stash['phone'];
     }
-    if(isset($this->stash['address'])){
+    if(isset($this->stash['address']) && !empty($this->stash['address'])){
       $profile['address'] = $this->stash['address'];
     }
-    if(isset($this->stash['realname'])){
+    if(isset($this->stash['realname']) && !empty($this->stash['realname'])){
       $profile['realname'] = $this->stash['realname'];
     }
-    if(isset($this->stash['province_id'])){
+    if(isset($this->stash['province_id']) && !empty($this->stash['province_id'])){
       $profile['province_id'] = (int)$this->stash['province_id'];
     }
-    if(isset($this->stash['district_id'])){
+    if(isset($this->stash['district_id']) && !empty($this->stash['district_id'])){
       $profile['district_id'] = (int)$this->stash['district_id'];
     }
-    if(isset($this->stash['zip'])){
+    if(isset($this->stash['zip']) && !empty($this->stash['zip'])){
       $profile['zip'] = $this->stash['zip'];
     }
-    if(isset($this->stash['im_qq'])){
+    if(isset($this->stash['im_qq']) && !empty($this->stash['im_qq'])){
       $profile['im_qq'] = $this->stash['im_qq'];
     }
-    if(isset($this->stash['weixin'])){
+    if(isset($this->stash['weixin']) && !empty($this->stash['weixin'])){
       $profile['weixin'] = $this->stash['weixin'];
     }
-    if(isset($this->stash['birthday'])){
+    if(isset($this->stash['birthday']) && !empty($this->stash['birthday'])){
       $age_arr = explode('-', $this->stash['birthday']);
       $profile['age'] = $age_arr;
     }
 		
-		$user_info['profile'] = $profile;
+    if(!empty($profile)){
+		  $user_info['profile'] = $profile;
+    }
 		
-    if(isset($this->stash['sex'])){
+    if(isset($this->stash['nickname']) && !empty($this->stash['nickname'])){
+      $user_info['nickname'] = (int)$this->stash['nickname'];
+    }
+    if(isset($this->stash['sex']) && !empty($this->stash['sex'])){
       $user_info['sex'] = (int)$this->stash['sex'];
     }
-    if(isset($this->stash['city'])){
+    if(isset($this->stash['city']) && !empty($this->stash['city'])){
       $user_info['city'] = $this->stash['city'];
     }
-    if(isset($this->stash['email'])){
+    if(isset($this->stash['email']) && !empty($this->stash['email'])){
       $user_info['email'] = $this->stash['email'];
     }
-    if(isset($this->stash['summary'])){
+    if(isset($this->stash['summary']) && !empty($this->stash['summary'])){
       $user_info['summary'] = $this->stash['summary'];
+    }
+
+    if(empty($user_info)){
+   		return $this->api_json('请求参数不能为空！', 3001);    
     }
 		
 		try {
