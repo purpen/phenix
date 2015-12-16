@@ -95,7 +95,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 	 * 更新用户信息
 	 */
 	public function update_profile(){
-		$user_id = $this->current_user_id;;
+		$user_id = $this->current_user_id;
 
     if(empty($user_id)){
  			return $this->api_json('请先登录！', 3000);   
@@ -184,8 +184,9 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 			
 			$ok = $user->apply_and_update($user_info);
       if($ok){
-        $user_data = $user->extend_load($user_id);
+        $user_data = $user->load($user_id);
         // 过滤用户字段
+        $user_data = $user->extended_model_row($user_data);
         $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
 
  		    return $this->api_json('更新用户信息成功！', 0, $data);    
