@@ -115,6 +115,68 @@
 	width: 194px;
 	margin-left: 20px;
   }
+  
+  .gridster * {
+	margin:0;
+	padding:0;
+  }
+  
+  .gridster {
+	  margin: 0 auto;
+	  width: 700px;
+	  opacity: .8;
+	  -webkit-transition: opacity .6s;
+	  -moz-transition: opacity .6s;
+	  -o-transition: opacity .6s;
+	  -ms-transition: opacity .6s;
+	  transition: opacity .6s;
+  }
+  
+  .gridster_ul {
+	  background-color: #EFEFEF;
+	  list-style-type: none;
+  }
+  
+  .gridster_ul li {
+	  font-size: 1em;
+	  font-weight: bold;
+	  text-align: center;
+	  line-height: 100%;
+	  border: 1px;
+	  position: relative;
+	  float: left;
+  }
+  
+  .gridster_ul .gs-w {
+	  background: #DDD;
+	  cursor: pointer;
+  }
+  
+  .gridster_ul .player {
+	  background: #BBB;
+  }
+  
+  .gridster_ul .preview-holder {
+	  border: none!important;
+	  background: red!important;
+  }
+  
+  .gridster_ul li .header {
+	  background: #aaa;
+	  width: 100%;
+	  height: 30px;
+	  line-height: 30px;
+	  font-size: 14px;
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+  }
+  
+  .gridster_ul li .header header,.gridster_ul li .header span{
+	display: inline-block;
+	width: 35px;
+	color: #fff;
+  }
 </style>
 {% endblock %}
 
@@ -262,7 +324,12 @@
 		var keyword = $('input[name=img_keyword]').val();
 		var product_id = $('input[name=product_id]').val();
 		var is_show_price = $('input[name=is_show_price]').val();
-		var content = '<a class=\"\" href=\"'+link+'\"><img src=\"'+src+'\" style=\"width:'+date_x*cell+'px\" product_id=\"'+product_id+'\" is_show_price=\"'+is_show_price+'\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
+		
+		if(!link){
+		  link = '{{ app_url_shop }}/view?id='+product_id;
+		}
+		
+		var content = '<a class=\"\" href=\"'+link+'\" target="_blank"><img src=\"'+src+'\" style=\"width:'+date_x*cell+'px\" product_id=\"'+product_id+'\" is_show_price=\"'+is_show_price+'\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
 		$('li[data-col='+date_col+'][data-row='+date_row+']').find('.this_content').html(content);
 		$('li[data-col='+date_col+'][data-row='+date_row+']').attr('data-sizey',Math.ceil((date_x*height)/width));
 		$('li[data-col='+date_col+'][data-row='+date_row+']').css('width',date_x*cell+'px');
@@ -599,76 +666,11 @@
 			
 			<div class="iphone_gridster">
 			  <div class="gridster">
-{% if mode == 'create'%}
-<style>
-  .gridster * {
-	margin:0;
-	padding:0;
-  }
-  
-  .gridster {
-	  margin: 0 auto;
-	  width: 700px;
-	  opacity: .8;
-	  -webkit-transition: opacity .6s;
-	  -moz-transition: opacity .6s;
-	  -o-transition: opacity .6s;
-	  -ms-transition: opacity .6s;
-	  transition: opacity .6s;
-  }
-  
-  .gridster_ul {
-	  background-color: #EFEFEF;
-	  list-style-type: none;
-  }
-  
-  .gridster_ul li {
-	  font-size: 1em;
-	  font-weight: bold;
-	  text-align: center;
-	  line-height: 100%;
-	  border: 1px;
-	  position: relative;
-	  float: left;
-  }
-  
-  .gridster_ul .gs-w {
-	  background: #DDD;
-	  cursor: pointer;
-  }
-  
-  .gridster_ul .player {
-	  background: #BBB;
-  }
-  
-  .gridster_ul .preview-holder {
-	  border: none!important;
-	  background: red!important;
-  }
-  
-  .gridster_ul li .header {
-	  background: #aaa;
-	  width: 100%;
-	  height: 30px;
-	  line-height: 30px;
-	  font-size: 14px;
-	  position: absolute;
-	  top: 0;
-	  left: 0;
-  }
-  
-  .gridster_ul li .header header,.gridster_ul li .header span{
-	display: inline-block;
-	width: 35px;
-	color: #fff;
-  }
-
-</style>
-<ul class="gridster_ul"></ul>
-{% else %}
-  {{ special_subject.content }}
-{% endif %}
-				
+				{% if mode == 'create'%}
+				<ul class="gridster_ul"></ul>
+				{% else %}
+				  {{ special_subject.content }}
+				{% endif %}
 			  </div>
 				<div style="clear: both"></div>
 				<a href="javascript:void(0);" class="ui topic_button">添加</a>

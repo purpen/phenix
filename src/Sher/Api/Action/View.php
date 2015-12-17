@@ -9,7 +9,7 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 		'id' => 0,
 	);
 	
-	protected $exclude_method_list = array('topic_show', 'product_show', 'execute');
+	protected $exclude_method_list = array('topic_show', 'product_show', 'special_subject_show', 'execute');
 
 	
 	/**
@@ -37,8 +37,8 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 			return $this->api_json('访问的主题不存在或已被删除！', 3002);
 		}
 
-    //创建关联数据
-    $topic = $model->extended_model_row($topic);
+		//创建关联数据
+		$topic = $model->extended_model_row($topic);
 		
 		$this->stash['topic'] = &$topic;
 		
@@ -63,14 +63,34 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 			return $this->api_json('访问的产品不存在或已被删除！', 3001);
 		}
 
-    //加载model扩展数据
-    $product = $model->extended_model_row($product);
-    if(isset($product['content_wap']) && !empty($product['content_wap'])){
-      $product['content'] = $product['content_wap'];
-    }
+		//加载model扩展数据
+		$product = $model->extended_model_row($product);
+		if(isset($product['content_wap']) && !empty($product['content_wap'])){
+		  $product['content'] = $product['content_wap'];
+		}
 
 		$this->stash['product'] = &$product;
 		return $this->to_html_page('page/product/api_show.html');
+	}
+	
+	/**
+	 * 专题详情页面显示
+	 */
+	public function special_subject_show(){
+		$id = (int)$this->stash['id'];
+		if(empty($id)){
+			return $this->api_json('访问的产品不存在！', 3000);
+		}
+		
+		$model = new Sher_Core_Model_SpecialSubject();
+		$result = $model->extend_load((int)$id);
+
+		if($product['deleted']){
+			return $this->api_json('访问的产品不存在或已被删除！', 3001);
+		}
+
+		$this->stash['content'] = $result['content'];
+		return $this->to_html_page('page/special_subject/api_show.html');
 	}
 
 }

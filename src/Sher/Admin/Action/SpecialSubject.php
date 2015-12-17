@@ -125,7 +125,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 			'category_id' => $category_id,
 			'user_id' => (int)$this->visitor->id
 		);
-		var_dump($date);die;
+		//var_dump($date);die;
 		
 		try{
 			$model = new Sher_Core_Model_SpecialSubject();
