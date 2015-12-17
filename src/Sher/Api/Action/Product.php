@@ -57,8 +57,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		
 		$some_fields = array(
-			'_id'=>1, 'title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1, 'presale_people'=>1,
-			'presale_percent'=>1, 'cover_id'=>1, 'designer_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
+			'_id'=>1, 'title'=>1, 'short_title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1, 'presale_people'=>1,
+			'presale_percent'=>1, 'cover_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
 			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
 			'snatched_time'=>1, 'inventory'=>1, 'can_saled'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
       'presale_goals'=>1, 'stick'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1,
@@ -134,8 +134,11 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			// 封面图url
 			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
 			// 用户信息
-			$data[$i]['username'] = $result['rows'][$i]['designer']['nickname'];
-			$data[$i]['small_avatar_url'] = $result['rows'][$i]['designer']['small_avatar_url'];
+      if(isset($result['rows'][$i]['designer'])){
+        $data[$i]['username'] = $result['rows'][$i]['designer']['nickname'];
+        $data[$i]['small_avatar_url'] = $result['rows'][$i]['designer']['small_avatar_url'];     
+      }
+
             $data[$i]['content_view_url'] = sprintf('%s/view/product_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['_id'], $this->current_user_id);
             // 保留2位小数
             $data[$i]['sale_price'] = sprintf('%.2f', $result['rows'][$i]['sale_price']);
@@ -168,9 +171,16 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			return $this->api_json('访问的产品不存在或已被删除！', 3001);
 		}
 
+		$some_fields = array(
+			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
+			'cover_id', 'category_id', 'stage', 'summary',
+			'snatched_time', 'inventory', 'can_saled', 'snatched',
+      'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
+      'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',
+		);
+
     //转换描述格式
-    $product['content'] = null;
-    $product['content_view_url'] = sprintf('%s/app/api/view/product_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $product['_id'], $user_id);
+    $data['content_view_url'] = sprintf('%s/app/api/view/product_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $product['_id'], $user_id);
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
@@ -180,11 +190,18 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			return $this->api_json('访问的产品等待发布中！', 3001);
 		}
 
+		// 重建数据结果
+		$data = array();
+    for($i=0;$i<count($some_fields);$i++){
+      $key = $some_fields[$i];
+      $data[$key] = isset($product[$key]) ? $product[$key] : null;
+    }
+
     //验证是否收藏或喜欢
     $fav = new Sher_Core_Model_Favorite();
-    $product['is_favorite'] = $fav->check_favorite($this->current_user_id, $product['_id'], 1) ? 1 : 0;
-    $product['is_love'] = $fav->check_loved($this->current_user_id, $product['_id'], 1) ? 1 : 0;
-    $product['is_try'] = empty($product['is_try'])?0:1;
+    $data['is_favorite'] = $fav->check_favorite($this->current_user_id, $product['_id'], 1) ? 1 : 0;
+    $data['is_love'] = $fav->check_loved($this->current_user_id, $product['_id'], 1) ? 1 : 0;
+    $data['is_try'] = empty($product['is_try'])?0:1;
 
     //返回图片数据
     $assets = array();
@@ -202,11 +219,11 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       //封面图放第一
       array_unshift($assets, $cover_img_url);
     }
-    $product['asset'] = $assets;
-    $product['cover_url'] = $cover_img_url;
+    $data['asset'] = $assets;
+    $data['cover_url'] = $cover_img_url;
 		
 		// 验证是否还有库存
-		$product['can_saled'] = $model->can_saled($product);
+		$data['can_saled'] = $model->can_saled($product);
 		
 		// 获取skus及inventory
 		$inventory = new Sher_Core_Model_Inventory();
@@ -214,10 +231,10 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			'product_id' => $id,
 			'stage' => $product['stage'],
 		));
-		$product['skus'] = $skus;
-		$product['skus_count'] = count($skus);
+		$data['skus'] = $skus;
+		$data['skus_count'] = count($skus);
 
-		return $this->api_json('请求成功', 0, $product);
+		return $this->api_json('请求成功', 0, $data);
 	}
 	
 	/**
