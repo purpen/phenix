@@ -1878,18 +1878,16 @@
     });
 	
 	
-	/*$(document).ready(function(){
-		$('.music').click(function(){
-			if($(this).hasClass("playing")){
-			  $('#app_bgm').get(0).pause();
-				$(this).removeClass("playing").addClass('stop');
-			}
-			else{
-				$(this).addClass("playing").removeClass('stop');
-				$('#app_bgm').get(0).play();
-			}
-		});
-	});*/
+	$('.music').click(function(){
+		if($(this).hasClass("playing")){
+		  $('#app_bgm').get(0).pause();
+			$(this).removeClass("playing").addClass('stop');
+		}
+		else{
+			$(this).addClass("playing").removeClass('stop');
+			$('#app_bgm').get(0).play();
+		}
+	});
 	var PageSlider = new PageSlider({
 	    pages: $('.wrap .page'),
 		//dev: 9
@@ -1915,8 +1913,10 @@
 		else{
 			$('.question').addClass('hide');
 			setTimeout(function () {$('.wrap').show();}, 1500);
-			setTimeout(function () {$('.page').eq(0).addClass('current');}, 2000);
+			setTimeout(function () {$('.page').eq(0).addClass('current');}, 2000);	
 			
+			$('#app_bgm').get(0).play();
+			$('.music').show();
 		}
 	});	
 	
@@ -1928,11 +1928,6 @@
 		$(this).addClass('active').attr('name');
 		$(this).siblings().removeClass('active');
 		$('input[name=daan_'+tishu+']').val(daan).attr('no',question);
-	
-		
-	
-		//alert( $('input[name=daan_'+tishu+']').val() );
-		//alert($('input[name=daan_'+tishu+']').attr('no'));
 	})
     $('.nextbtn').on('tap', function(){
 		if( ! $('.current input').val()==""){
@@ -1946,6 +1941,8 @@
 	$('.nextbtn.last').on('tap',function(){
 		if( ! $('.current input').val()==""){
 			var leng = $('input[no="1"]').length;
+			$('#app_bgm').get(0).pause();
+			$('.music').css('dispay','none');
 		}
 		var shenfen = $('input[state="0"]').attr('name');
 		
@@ -2056,6 +2053,9 @@
 
 {% endblock %}
 {% block content %}
+<h1 style="display:none">
+    <img src="{{ app_url_packaged }}/images/promo/mf/fx.jpg"/>
+</h1>
 <div class="loading">
     <div class="loading__inner">
 		<div class="loadimg"></div>
@@ -2264,7 +2264,8 @@
     <div class="mod-orient-layer__desc">为了更好的体验，请使用竖屏浏览</div>
   </div>
 </div>
-
+<div class="music playing" style="display:block;"></div>
+<audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/xy/xy.mp3" loop="true" autoplay></audio>
 
 
 
