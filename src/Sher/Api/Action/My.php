@@ -219,10 +219,8 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		
 		if($type == 1){ // 产品
 			$some_fields = array(
-				'_id'=>1, 'title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1, 'presale_people'=>1,
-				'presale_percent'=>1, 'cover_id'=>1, 'designer_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
-				'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
-				'snatched_time'=>1, 'inventory'=>1, 'can_saled'=>1, 'topic_count'=>1,'presale_money'=>1,
+        '_id'=>1, 'title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1, 'cover_id'=>1, 'favorite_count'=>1,
+        'designer_id'=>1, 'category_id'=>1, 'stage'=>1, 'love_count'=>1,'view_count'=>1, 'summary'=>1, 'comment_count'=>1,
 			);
 		}elseif($type == 2){  // 话题
 			$some_fields = array(
@@ -258,20 +256,26 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		// 重建数据结果
 		$data = array();
 		for($i=0;$i<count($result['rows']);$i++){
+      $data[$i]['type'] = $result['rows'][$i]['type'];
+      $data[$i]['event'] = $result['rows'][$i]['event'];
+      $data[$i]['target_id'] = $result['rows'][$i]['target_id'];
 			if($type == 1){
-				foreach($some_fields as $key=>$value){
-					$data[$i][$key] = $result['rows'][$i]['product'][$key];
-				}
-				$product = new Sher_Core_Model_Product();
-				// 获取商品价格区间
-				$data[$i]['range_price'] = $product->range_price($result['rows'][$i]['product']['_id'], $result['rows'][$i]['product']['stage']);
-				
-				// 封面图url
-				$data[$i]['cover_url'] = $result['rows'][$i]['product']['cover']['thumbnails']['medium']['view_url'];
+        // 只能是商品
+        if($result['rows'][$i]['product'] && $result['rows'][$i]['product']['stage']==Sher_Core_Model_Product::STAGE_SHOP){
+          foreach($some_fields as $key=>$value){
+            $data[$i]['product'][$key] = $result['rows'][$i]['product'][$key];
+          }
+          //$product = new Sher_Core_Model_Product();
+          // 获取商品价格区间
+          //$data[$i]['product']['range_price'] = $product->range_price($result['rows'][$i]['product']['_id'], $result['rows'][$i]['product']['stage']);
+          
+          // 封面图url
+          $data[$i]['product']['cover_url'] = $result['rows'][$i]['product']['cover']['thumbnails']['medium']['view_url'];
+        }
 			}
 			if($type == 2){
 				foreach($some_fields as $key=>$value){
-					$data[$i][$key] = $result['rows'][$i]['topic'][$key];
+					$data[$i]['topic'][$key] = $result['rows'][$i]['topic'][$key];
           $data[$i]['topic']['content_view_url'] = sprintf('%s/app/site/topic/api_view?id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['topic']['_id']);
 				}
 			}

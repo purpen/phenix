@@ -192,7 +192,7 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
             'avatar'     => $avatar,
             'nickname'   => $this->visitor->nickname,
             'city'       => $this->visitor->city,
-            'job'        => $this->visitor->profile['job'],
+            'job'        => isset($this->visitor->profile['job']) ? $this->visitor->profile['job'] : '',
             'user_id'    => $this->visitor->id,
         );
         
