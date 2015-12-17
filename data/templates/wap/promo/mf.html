@@ -1903,7 +1903,7 @@
     });
 	
 	
-	$('.music').click(function(){
+	$('.music').on('tap',function(){
 		if($(this).hasClass("playing")){
 		  $('#app_bgm').get(0).pause();
 			$(this).removeClass("playing").addClass('stop');
@@ -2289,7 +2289,7 @@
     <div class="mod-orient-layer__desc">为了更好的体验，请使用竖屏浏览</div>
   </div>
 </div>
-<div class="music playing" style="display:block;"></div>
+<div class="music playing" style="display:none;"></div>
 <audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/xy/xy.mp3" loop="true" autoplay></audio>
 
 
