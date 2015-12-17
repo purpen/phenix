@@ -40,6 +40,13 @@ class Sher_Core_ViewTag_FavoriteList extends Doggy_Dt_Tag {
 		if($user_id){
 			$query['user_id'] = (int)$user_id;
 		}
+		if($target_id){
+            if((int)$type == 3){
+                $query['target_id'] = (string)$target_id;     
+            }else{
+  			    $query['target_id'] = (int)$target_id;    
+            }
+		}
 
         if($event){
             $query['event'] = (int)$event;
@@ -52,14 +59,6 @@ class Sher_Core_ViewTag_FavoriteList extends Doggy_Dt_Tag {
         if($no_comment){
             $query['type'] = array('$ne'=>3);
         }
-
-		if($target_id){
-            if((int)$type == 3){
-                $query['target_id'] = (string)$target_id;     
-            }else{
-  			    $query['target_id'] = (int)$target_id;    
-            }
-		}
 		
         $service = Sher_Core_Service_Favorite::instance();
         $options['page'] = $page;

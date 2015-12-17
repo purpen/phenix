@@ -90,22 +90,9 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 			foreach($options['some_fields'] as $key=>$value){
 				$data[$i][$key] = $result['rows'][$i][$key];
       }
-      $data[$i]['item_id'] = 0;
-      $data[$i]['item_stage'] = 0;
-      $data[$i]['item_type'] = 'Product';
-      //判断是预售还是商品
-      //eg: Product-0-1122877465
-      if($result['rows'][$i]['type']==2){
-        $web_url = $result['rows'][$i]['web_url'];
-        if(!empty($web_url)){
-          $arr = explode('-', $web_url);
-          $data[$i]['item_id'] = $arr[2];
-          $data[$i]['item_stage'] = $arr[1];
-          $data[$i]['item_type'] = $arr[0];
-        }
-      }
+
 			// 封面图url
-			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['fileurl'];
 		}
 
 		$result['rows'] = $data;

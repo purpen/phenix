@@ -205,47 +205,55 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 	 */
 	public function favorite(){
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$size = isset($this->stash['size'])?(int)$this->stash['size']:5;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		
 		$type = isset($this->stash['type'])?(int)$this->stash['type']:1;
+		$event = isset($this->stash['event'])?(int)$this->stash['event']:1;
 		$user_id = $this->current_user_id;
 		if(!in_array($type, array(1,2))){
 			return $this->api_json('请求参数不匹配！', 3000);
 		}
+		if(!in_array($type, array(1,2,3))){
+			return $this->api_json('请求参数不匹配！', 3001);
+		}
 		
-		if($type == 1){
+		if($type == 1){ // 产品
 			$some_fields = array(
 				'_id'=>1, 'title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1, 'presale_people'=>1,
 				'presale_percent'=>1, 'cover_id'=>1, 'designer_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
 				'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
 				'snatched_time'=>1, 'inventory'=>1, 'can_saled'=>1, 'topic_count'=>1,'presale_money'=>1,
 			);
-		}else{
+		}elseif($type == 2){  // 话题
 			$some_fields = array(
 				'_id'=>1, 'title'=>1, 'created_on'=>1, 'comment_count'=>1,'user_id'=>1,
 			);
-		}
+    }else{
+      $some_fields = array();
+    }
 		
 		$query = array();
 		$options = array();
 		
 		// 查询条件
 		if($user_id){
-			$query['user_id'] = (int)$user_id;
+			$query['user_id'] = $user_id;
 		}
 		if($type){
-			$query['type'] = (int)$type;
+			$query['type'] = $type;
 		}
-		$query['event'] = Sher_Core_Model_Favorite::EVENT_FAVORITE;
+    if($event){
+		  $query['event'] = $event;
+    }
 		
 		// 分页参数
-        $options['page'] = $page;
-        $options['size'] = $size;
+    $options['page'] = $page;
+    $options['size'] = $size;
 		$options['sort_field'] = 'time';
 		
 		// 开启查询
-        $service = Sher_Core_Service_Favorite::instance();
-        $result = $service->get_like_list($query, $options);
+    $service = Sher_Core_Service_Favorite::instance();
+    $result = $service->get_like_list($query, $options);
 		
 		// 重建数据结果
 		$data = array();
