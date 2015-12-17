@@ -256,15 +256,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		// 重建数据结果
 		$data = array();
 		for($i=0;$i<count($result['rows']);$i++){
-      if($type==1){
-        // 只能是商品
-        if(empty($result['rows'][$i]['product'])){
-          continue;
-        }
-        if($result['rows'][$i]['product']['stage'] != Sher_Core_Model_Product::STAGE_SHOP){
-          continue;
-        }
-      }
+      $data[$i]['_id'] = $result['rows'][$i]['_id'];
       $data[$i]['type'] = $result['rows'][$i]['type'];
       $data[$i]['event'] = $result['rows'][$i]['event'];
       $data[$i]['target_id'] = $result['rows'][$i]['target_id'];
