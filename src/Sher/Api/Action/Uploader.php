@@ -3,10 +3,9 @@
  * 接收图片上传Action
  */
 class Sher_Api_Action_Uploader extends Sher_Api_Action_Base implements Doggy_Dispatcher_Action_Interface_UploadSupport  {
-    public $stash = array(
-    	'parent_id' => 0,
-		'ref' => 0,
-    );
+
+
+    protected $filter_user_method_list = '*';
     
     private $asset = array();
     

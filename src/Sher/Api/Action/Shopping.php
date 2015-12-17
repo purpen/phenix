@@ -3,26 +3,9 @@
  * 购物流程 API 接口
  * @author purpen
  */
-class Sher_Api_Action_Shopping extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel {
+class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	
-  /**
-	public $stash = array(
-		'sku' => 0,
-		'id' => 0,
-		'rrid' => 0,
-		'n'=>1, // 数量
-		's' => 1, // 型号
-		'payaway' => '', // 支付机构
-		'page' => 1,
-		'size' => 10,
-  );
-   */
-	
-	
-  /**
-   * 忽略不传current_user_id
-   */
-  protected $ignore_check_method_list = array('*');
+	protected $filter_user_method_list = array();
 
 	/**
 	 * 入口

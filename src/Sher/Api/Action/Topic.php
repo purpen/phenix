@@ -3,13 +3,9 @@
  * 社区主题API接口
  * @author purpen
  */
-class Sher_Api_Action_Topic extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel {
+class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 	
-	public $stash = array(
-
-	);
-	
-	protected $exclude_method_list = array('execute', 'getlist', 'view', 'category', 'replis', 'submit');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'category', 'replis', 'submit');
 	
 	/**
 	 * 入口
@@ -442,4 +438,4 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base implements Sher_Core_Ac
 	}
 	
 }
-?>
+
