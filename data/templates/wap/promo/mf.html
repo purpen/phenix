@@ -48,7 +48,32 @@
 	    margin-top: 2px;
         text-align: center;
     } 
-	
+    .music.playing{
+  		-webkit-animation: 2.3s spin linear infinite;
+  		animation: 2.3s spin linear infinite;
+  	}
+  	@-webkit-keyframes spin {
+  	    0% {
+  	        -webkit-transform: rotateZ(0deg);
+  	    }
+
+  	    100% {
+  	        -webkit-transform: rotateZ(360deg);
+  	    }
+  	}
+    .music {
+        position: fixed;
+        background: url(http://frstatic.qiniudn.com/images/promo/music_bg.png) 0 0 no-repeat;
+        z-index: 9;
+        width: 1.5rem;
+        height: 1.5rem;
+        right: 0.4rem;
+        top: 0.4rem;
+        background-size: 100% auto;
+    }
+    .music.stop {
+        background-position: 0 -1.5rem;
+    }
 	  /**** 横屏 ****/
 	  @-webkit-keyframes rotation {
         10% {
@@ -1862,7 +1887,7 @@
 		 //$('.page').eq(0).addClass('current');
 		 
 		 //$('.wrap').show();
-         //$('#app_bgm').get(0).play();
+         $('#app_bgm').get(0).pause();
          //$('.music').show();
      });
 
