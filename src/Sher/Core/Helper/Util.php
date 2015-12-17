@@ -879,7 +879,7 @@ class Sher_Core_Helper_Util {
     $draw_param = $conf_arr[4];
 
     if(!$result['switch']){
-      $result['message'] = '抽奖活动未开启！';
+      $result['message'] = '抽奖活动未开启,请稍后再试！';
       return $result;  
     }
 

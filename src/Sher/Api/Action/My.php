@@ -372,6 +372,8 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
  		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
     $size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		$sort = isset($this->stash['sort'])?(int)$this->stash['sort']:0; 
+		$used = isset($this->stash['used'])?(int)$this->stash['used']:0; 
+		$is_expired = isset($this->stash['is_expired'])?(int)$this->stash['is_expired']:0; 
 
 		$some_fields = array(
 
@@ -382,6 +384,16 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		
 		// 查询条件
 		$query['user_id'] = $user_id;
+    if($used){
+      $query['used'] = $used;
+    }
+    if($is_expired){
+      if($is_expired==1){ // 未过期
+        $query['expired_at'] = array('$gt'=>time());
+      }elseif($is_expired==2){  // 已过期
+        $query['expired_at'] = array('$lt'=>time());     
+      }
+    }
 		
 		// 分页参数
     $options['page'] = $page;
@@ -398,12 +410,6 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		// 开启查询
     $service = Sher_Core_Service_Bonus::instance();
     $result = $service->get_all_list($query, $options);
-		
-		// 重建数据结果
-		for($i=0;$i<count($result['rows']);$i++){
-
-		}
-    print_r($result['rows'][0]);exit;
 		
 		return $this->api_json('请求成功', 0, $result);
   
