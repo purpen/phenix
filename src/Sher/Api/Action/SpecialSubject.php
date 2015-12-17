@@ -12,6 +12,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 	 * 入口
 	 */
 	public function execute(){
+		
 		return $this->getlist();
 	}
 	
@@ -19,6 +20,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 	 * 专题列表
 	 */
 	public function getlist(){
+		
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		
@@ -46,11 +48,11 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 		}
 		
 		if($stick){
-      if($stick==-1){
-			  $query['stick'] = 0;
-      }else{
-			  $query['stick'] = $stick;
-      }
+			if($stick==-1){
+					$query['stick'] = 0;
+			}else{
+					$query['stick'] = $stick;
+			}
 		}
 		
 		// 分页参数
@@ -69,14 +71,16 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 		
 		$options['some_fields'] = $some_fields;
 		// 开启查询
-    $service = Sher_Core_Service_SpecialSubject::instance();
-    $result = $service->get_special_subject_list($query, $options);
+		$service = Sher_Core_Service_SpecialSubject::instance();
+		$result = $service->get_special_subject_list($query, $options);
 		
 		// 重建数据结果
 		for($i=0;$i<count($result['rows']);$i++){
 			// 封面图url
-			$result[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
+			$result['rows'][$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
+			$result['rows'][$i]['content'] = '';
 		}
+		//var_dump($result);
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
@@ -97,37 +101,36 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 			return $this->api_json('访问的专题已禁用！', 3001);
 		}
 
-    if(empty($special_subject)) {
-			return $this->api_json('访问的专题不存在！', 3002);
-    }
-    $special_subject = $model->extended_model_row($special_subject);
-
-    $product_arr = array();
-    if($special_subject['kind']==Sher_Core_Model_SpecialSubject::KIND_APPOINT){
-      $special_subject['content'] = null;
-      if(!empty($special_subject['product_ids'])){
-        $product_model = new Sher_Core_Service_Product();
-        foreach($special_subject['product_ids'] as $k=>$v){
-          $product = $product_model->extend_load((int)$v);
-          if(!empty($product)){
-            array_push($product_arr, $product);
-          }
-        } // endfor
-      } // endif empty
-
-    } // endif kind
-    $special_subject['products'] = $product_arr;
+		if(empty($special_subject)) {
+				return $this->api_json('访问的专题不存在！', 3002);
+		}
+		$special_subject = $model->extended_model_row($special_subject);
+		$special_subject['content'] = null;
+		$product_arr = array();
+		
+		if($special_subject['kind']==Sher_Core_Model_SpecialSubject::KIND_APPOINT){
+			if(!empty($special_subject['product_ids'])){
+			  $product_model = new Sher_Core_Model_Product();
+			  foreach($special_subject['product_ids'] as $k=>$v){
+				$product = $product_model->extend_load((int)$v);
+				if(!empty($product)){
+				  array_push($product_arr, $product);
+				}
+			  } // endfor
+			} // endif empty
+			$special_subject['products'] = $product_arr;
+		} // endif kind
+		
+		if($special_subject['kind']==Sher_Core_Model_SpecialSubject::KIND_CUSTOM){
+			
+			$special_subject['content_view_url'] = sprintf('%s/app/api/view/special_subject_show?id=%d', Doggy_Config::$vars['app.domain.base'], $special_subject['_id']);
+		} // endif kind
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, (int)$id);
 
-
 		return $this->api_json('请求成功', 0, $special_subject);
 	}
-
-
-
-
 	
 }
 

@@ -26,7 +26,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		# 排列顺序
 		'order_by' => 0,
 		# 分类域
-		'domain' => Sher_Core_Util_Constant::TYPE_TOPIC,
+		'domain' => Sher_Core_Util_Constant::TYPE_PRODUCT,
 		# 是否公开
 		'is_open' => self::IS_OPENED,
 		# 主题或内容数量
