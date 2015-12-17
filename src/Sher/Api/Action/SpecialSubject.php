@@ -77,8 +77,10 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 		// 重建数据结果
 		for($i=0;$i<count($result['rows']);$i++){
 			// 封面图url
-			$result[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
+			$result['rows'][$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
+			$result['rows'][$i]['content'] = '';
 		}
+		//var_dump($result);
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
@@ -108,7 +110,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 		
 		if($special_subject['kind']==Sher_Core_Model_SpecialSubject::KIND_APPOINT){
 			if(!empty($special_subject['product_ids'])){
-			  $product_model = new Sher_Core_Service_Product();
+			  $product_model = new Sher_Core_Model_Product();
 			  foreach($special_subject['product_ids'] as $k=>$v){
 				$product = $product_model->extend_load((int)$v);
 				if(!empty($product)){
@@ -120,7 +122,8 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 		} // endif kind
 		
 		if($special_subject['kind']==Sher_Core_Model_SpecialSubject::KIND_CUSTOM){
-			$product['content_view_url'] = sprintf('%s/app/api/view/special_subject_show?id=%d', Doggy_Config::$vars['app.domain.base'], $special_subject['_id']);
+			
+			$special_subject['content_view_url'] = sprintf('%s/app/api/view/special_subject_show?id=%d', Doggy_Config::$vars['app.domain.base'], $special_subject['_id']);
 		} // endif kind
 		
 		// 增加pv++
@@ -128,10 +131,6 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 
 		return $this->api_json('请求成功', 0, $special_subject);
 	}
-
-
-
-
 	
 }
 

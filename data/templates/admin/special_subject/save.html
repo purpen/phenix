@@ -549,6 +549,13 @@
 	  $('#product_ids').show();
 	  $('input[name=kind]').val(2);
 	});
+	
+	var back_kind = '{{ special_subject.kind }}';
+	
+	if(back_kind == '1'){
+	  $('#product_ids').hide();
+	  $('#content_self').show();
+	}
   
   });
 	
@@ -709,7 +716,7 @@
 			  </div>
 			  <div class="inline field" id="product_ids">
 				  <label>专题商品：</label>
-				  <input type="text" name="product_ids" value="{{ special_subject.product_ids }}" />
+				  <input type="text" name="product_ids" value="{{ special_subject.product_id_str }}" />
 			  </div>
 			  
 			  <!--活动封面图，头图，-->

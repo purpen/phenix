@@ -84,10 +84,6 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 		$model = new Sher_Core_Model_SpecialSubject();
 		$result = $model->extend_load((int)$id);
 
-		if($product['deleted']){
-			return $this->api_json('访问的产品不存在或已被删除！', 3001);
-		}
-
 		$this->stash['content'] = $result['content'];
 		return $this->to_html_page('page/special_subject/api_show.html');
 	}
