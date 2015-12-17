@@ -410,6 +410,52 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		return $this->api_json('请求成功', 0, $result);
   
   }
+
+  /**
+   * 验证用户是否签到过
+   */
+  public function check_user_sign(){
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录!', 3000);    
+    }
+    $has_sign = $continuity_times = 0;
+    $user_sign_model = new Sher_Core_Model_UserSign();
+    $user_sign = $user_sign_model->load($user_id);
+
+    if($user_sign){
+      $today = (int)date('Ymd');
+      $yesterday = (int)date('Ymd', strtotime('-1 day'));
+      if($user_sign['last_date'] == $yesterday){
+        $continuity_times = $user_sign['sign_times'];
+      }elseif($user_sign['last_date'] == $today){
+        $has_sign = 1;
+        $continuity_times = $user_sign['sign_times'];
+      }
+    }
+    $result = array('has_sign'=>$has_sign, 'continuity_times'=>$continuity_times);
+ 		return $this->api_json('请求成功', 0, $result);
+  }
+
+  /**
+   * 执行签到操作
+   */
+  public function user_sign(){
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录!', 3000);    
+    }
+    $data = array();
+    $user_sign_model = new Sher_Core_Model_UserSign();
+    $result = $user_sign_model->sign_in($user_id, array());
+    if(empty($result['is_true'])){
+      return $this->api_json($result['msg'], 3001);    
+    }else{
+      $data['continuity_times'] = $result['continuity_times'];
+      $data['give_money'] = $result['give_money'];
+    }
+ 		return $this->api_json($result['msg'], 0, $data);
+  }
 	
 }
 
