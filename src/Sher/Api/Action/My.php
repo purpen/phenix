@@ -256,22 +256,28 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		// 重建数据结果
 		$data = array();
 		for($i=0;$i<count($result['rows']);$i++){
+      if($type==1){
+        // 只能是商品
+        if(empty($result['rows'][$i]['product'])){
+          continue;
+        }
+        if($result['rows'][$i]['product']['stage'] != Sher_Core_Model_Product::STAGE_SHOP){
+          continue;
+        }
+      }
       $data[$i]['type'] = $result['rows'][$i]['type'];
       $data[$i]['event'] = $result['rows'][$i]['event'];
       $data[$i]['target_id'] = $result['rows'][$i]['target_id'];
 			if($type == 1){
-        // 只能是商品
-        if($result['rows'][$i]['product'] && $result['rows'][$i]['product']['stage']==Sher_Core_Model_Product::STAGE_SHOP){
-          foreach($some_fields as $key=>$value){
-            $data[$i]['product'][$key] = $result['rows'][$i]['product'][$key];
-          }
-          //$product = new Sher_Core_Model_Product();
-          // 获取商品价格区间
-          //$data[$i]['product']['range_price'] = $product->range_price($result['rows'][$i]['product']['_id'], $result['rows'][$i]['product']['stage']);
-          
-          // 封面图url
-          $data[$i]['product']['cover_url'] = $result['rows'][$i]['product']['cover']['thumbnails']['medium']['view_url'];
+        foreach($some_fields as $key=>$value){
+          $data[$i]['product'][$key] = $result['rows'][$i]['product'][$key];
         }
+        //$product = new Sher_Core_Model_Product();
+        // 获取商品价格区间
+        //$data[$i]['product']['range_price'] = $product->range_price($result['rows'][$i]['product']['_id'], $result['rows'][$i]['product']['stage']);
+        
+        // 封面图url
+        $data[$i]['product']['cover_url'] = $result['rows'][$i]['product']['cover']['thumbnails']['medium']['view_url'];
 			}
 			if($type == 2){
 				foreach($some_fields as $key=>$value){
