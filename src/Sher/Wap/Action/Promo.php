@@ -10,13 +10,17 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     'target_id'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf');
 
 	/**
 	 * 网站入口
 	 */
 	public function execute(){
 		//return $this->coupon();
+	}
+	
+	public function mf(){
+		return $this->to_html_page('wap/promo/mf.html');
 	}
 	
 	/**
