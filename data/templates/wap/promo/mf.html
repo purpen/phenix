@@ -1833,6 +1833,73 @@
 {% endblock %}
 {% block layout_js %}
 <script type="text/javascript">
+	  var m_name = '你是几颗星的辣妈or奶爸？';
+	  var img_url = ' ';
+	  var link = '{{ app_url_wap_promo }}/mf';
+	  var desc_str = '家有宝贝，你是手足无措，还是得心应手？你是合格的辣妈or奶爸吗？';
+
+	  wx.config({
+	      debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	      appId: '{{ app_id }}', // 必填，公众号的唯一标识
+	      timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+	      nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+	      signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+	      jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	  });
+
+	wx.ready(function(){
+	  // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+	   wx.onMenuShareAppMessage({
+	    title: m_name,
+	    desc: desc_str,
+	    link: link,
+	    imgUrl: img_url,
+	    success: function (res) {
+	      record_share_num();
+	    }
+	  });      
+
+	  // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+	  wx.onMenuShareTimeline({
+	    title: m_name,
+	    desc: desc_str,
+	    link: link,
+	    imgUrl: img_url,
+	    success: function (res) {
+	      record_share_num();
+	    }
+	  });
+
+	  // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+	  wx.onMenuShareQQ({
+	    title: m_name,
+	    desc: desc_str,
+	    link: link,
+	    imgUrl: img_url,
+	    success: function (res) {
+	      record_share_num();
+	    }
+	  });
+
+	  // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+	  wx.onMenuShareWeibo({
+	    title: m_name,
+	    desc: desc_str,
+	    link: link,
+	    imgUrl: img_url,
+	    success: function (res) {
+	      record_share_num();
+	    }
+	  });
+	});
+
+	//记录分享数
+	function record_share_num(){
+	  var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+	  $.get(url, { target_id: 16, count_name:'count', type: 4, kind:4 });
+	}
+
+
       // 放大元素,按照640x1008定位,按比例scale
       function scaleEle(selector,position){
           var pageScale;
@@ -2039,34 +2106,34 @@
 		var wrong=0;
 		switch(parseInt(tishu)){
 			case 1:
-				if(daan == "a") {wrong = 1;}
+				if(daan == "b") {wrong = 1;}
 				break;
 			case 2:
-				if(daan == "a") wrong = 1;
+				if(daan == "b") wrong = 1;
 				break;
 			case 3:
-				if(daan == "a") wrong = 1;
+				if(daan == "b") wrong = 1;
 				break;
 			case 4:
-				if(daan == "a") wrong = 1;
+				if(daan == "c") wrong = 1;
 				break;
 			case 5:
-				if(daan == "a") wrong = 1;
+				if(daan == "c") wrong = 1;
 				break;
 			case 6:
-				if(daan == "a") wrong = 1;
+				if(daan == "b") wrong = 1;
 				break;
 			case 7:
-				if(daan == "a") wrong = 1;
+				if(daan == "b") wrong = 1;
 				break;
 			case 8:
-				if(daan == "a") wrong = 1;
+				if(daan == "b") wrong = 1;
 				break;
 			case 9:
 				if(daan == "a") wrong = 1;
 				break;
 			case 10:
-				if(daan == "a") wrong = 1;
+				if(daan == "b") wrong = 1;
 				break;
 		}
 		return wrong;
@@ -2267,11 +2334,8 @@
 			<div class="p10_1 st"></div>
 			<div class="p10_2 st"></div>
 			<div class="p10_3 st"></div>
-			
 			<div class="p8_4 p10_4 st"></div>
 			<div class="p8_5 p10_5 st"></div>
-			
-			
 			<div class="da10-1 st solution" name="a" date="10"></div>
 			<div class="da10-2 st solution" name="b" date="10"></div>
 			<div class="da10-3 st solution" name="c" date="10"></div>
@@ -2291,8 +2355,5 @@
 </div>
 <div class="music playing" style="display:none;"></div>
 <audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/xy/xy.mp3" loop="true" autoplay></audio>
-
-
-
 
 {% endblock %}
