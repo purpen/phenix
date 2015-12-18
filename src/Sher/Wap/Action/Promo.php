@@ -26,7 +26,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		$this->stash['page_title_suffix'] = '你是几颗星的辣妈or奶爸？';
 		// 记录浏览数
 	    $num_mode = new Sher_Core_Model_SumRecord();
-	    $num_mode->add_record('16', 'view_count', 4, 4); 
+	    $num_mode->add_record('17', 'view_count', 4, 4); 
 		
 		//微信分享
 	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];

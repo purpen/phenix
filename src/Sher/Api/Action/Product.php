@@ -57,7 +57,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:0;
 			}
       // 获取该分类下推荐的4款产品
-      $products = $product_model->find(array('approved'=>1, 'published'=>1), array('page'=>1, 'size'=>4, 'sort'=>array('update'=>-1)));
+      $products = $product_model->find(array('category_id'=>$cid, 'stick'=>1, 'approved'=>1, 'published'=>1), array('page'=>1, 'size'=>4, 'sort'=>array('update'=>-1)));
 
       $product_arr = array();
       for($j=0;$j<count($products);$j++){
