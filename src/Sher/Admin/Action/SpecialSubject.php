@@ -7,7 +7,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 	
 	public $stash = array(
 		'page' => 1,
-		'size' => 20,
+		'size' => 50,
 	);
 	
 	public function _init() {
@@ -86,7 +86,10 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 		$special_subject_html = $this->stash['special_subject_html'];
 		$special_subject_title = $this->stash['special_subject_title'];
 		$special_subject_tag = $this->stash['special_subject_tag'];
+		$product_ids = $this->stash['product_ids'];
 		$cover_id = $this->stash['cover_id'];
+		$category_id = $this->stash['category_id'];
+		$kind = !empty($this->stash['kind']) ? $this->stash['kind'] : 2;
 		
 		// 验证内容
 		if(!$special_subject_html){
@@ -106,17 +109,23 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 		$tags_arr = array();
 		$tags_arr = explode(',',$special_subject_tag);
 		
+		$product_ids_arr = array();
+		$product_ids_arr = explode(',',$product_ids);
+		
 		$date = array(
 			'title' => $special_subject_title,
 			'tags' => $tags_arr,
+			'product_ids' => $product_ids_arr,
 			//'content' => htmlspecialchars_decode(htmlspecialchars($special_subject_html)),
 			'content' => $special_subject_html,
 			# 分类ID
 			'category_id' => 1,
 			'cover_id' => $cover_id,
+			'kind' => (int)$kind,
+			'category_id' => $category_id,
 			'user_id' => (int)$this->visitor->id
 		);
-		//var_dump($this->stash['asset']);die;
+		//var_dump($date);die;
 		
 		try{
 			$model = new Sher_Core_Model_SpecialSubject();

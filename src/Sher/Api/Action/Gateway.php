@@ -4,16 +4,8 @@
  * @author purpen
  */
 class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
-	public $stash = array(
-		'page' => 1,
-		'size' => 10,
-		'uid' => 0,
-		'c' => '',
-		's' => '',
-		'bonus' => '',
-	);
 
-	protected $exclude_method_list = array('execute', 'slide', 'bonus', 'up_bonus', 'game_result', 'feedback');
+	protected $filter_user_method_list = '*';
 	
 	/**
 	 * 入口
@@ -27,7 +19,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 	 */
 	public function slide(){
 		$result = array();
-		$page = $this->stash['page'];
+		$page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
 		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 6;
 		
 		// 请求参数
@@ -98,22 +90,9 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 			foreach($options['some_fields'] as $key=>$value){
 				$data[$i][$key] = $result['rows'][$i][$key];
       }
-      $data[$i]['item_id'] = 0;
-      $data[$i]['item_stage'] = 0;
-      $data[$i]['item_type'] = 'Product';
-      //判断是预售还是商品
-      //eg: Product-0-1122877465
-      if($result['rows'][$i]['type']==2){
-        $web_url = $result['rows'][$i]['web_url'];
-        if(!empty($web_url)){
-          $arr = explode('-', $web_url);
-          $data[$i]['item_id'] = $arr[2];
-          $data[$i]['item_stage'] = $arr[1];
-          $data[$i]['item_type'] = $arr[0];
-        }
-      }
+
 			// 封面图url
-			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['fileurl'];
 		}
 
 		$result['rows'] = $data;
@@ -156,8 +135,8 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 	 * 更新红包
 	 */
 	public function up_bonus(){
-		$code = $this->stash['c'];
-		$state = $this->stash['s']; // <0:未中,1:击中>
+		$code = isset($this->stash['c']) ? $this->stash['c'] : null;
+		$state = isset($this->stash['s']) ? $this->stash['s'] : null; // <0:未中,1:击中>
 		if (empty($code) || !isset($state)) {
 			return $this->ajax_json('缺少更新参数', true);
 		}
@@ -192,8 +171,8 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 	 * 领取红包
 	 */
 	public function got_bonus(){
-		$bonus = $this->stash['bonus'];
-		$user_id = $this->stash['uid'];
+		$bonus = isset($this->stash['bonus']) ? $this->stash['bonus'] : null;
+		$user_id = isset($this->stash['uid']) ? $this->stash['uid'] : 0;
 		if (empty($bonus) || empty($user_id)){
 			return $this->ajax_json('领取失败：缺少请求参数！', true);
 		}
@@ -243,7 +222,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 	 * 更新游戏结果
 	 */
 	public function game_result(){
-		$uid = $this->stash['uid'];
+		$uid = isset($this->stash['uid']) ? $this->stash['uid'] : 0;
 		$result = $this->stash['bonus'];
 		if(empty($result)){
 			return $this->ajax_json('提交失败：缺少更新参数', true);

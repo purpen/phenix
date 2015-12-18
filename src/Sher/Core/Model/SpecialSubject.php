@@ -15,6 +15,7 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 	  
 	protected $schema = array(
 	  'title' => null,
+    'short_title' => null,
 	  'cover_id' => null,
 	  'banner_id' => null,
 	  # 分类ID
@@ -63,11 +64,12 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 		}
 
 		// 获取封面图
-    if(isset($row['cover_id'])){
-		  $row['cover'] = $this->cover($row['cover_id']);
-    }
+		if(isset($row['cover_id'])){
+			  $row['cover'] = $this->cover($row['cover_id']);
+		}
 
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
+		$row['product_id_str'] = !empty($row['product_ids']) ? implode(',',$row['product_ids']) : '';
 	}
 
 	/**
@@ -90,7 +92,7 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 		// 未设置封面图，获取第一个
 		$asset = new Sher_Core_Model_Asset();
 		$query = array(
-			'parent_id'  => (int)$row['_id'],
+			'parent_id'  => (int)$cover_id,
 			'asset_type' => Sher_Core_Model_Asset::TYPE_SPECIAL_COVER
 		);
 		$data = $asset->first($query);

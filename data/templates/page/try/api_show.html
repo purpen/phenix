@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>     </title>
+   <style type="text/css">
+	body{
+		margin:0;
+		padding:0;
+	}
+	.course {
+		margin: 0 10px;
+	}
+	.cont {
+		word-break: break-all;
+		word-wrap: break-word;
+		padding-bottom: 10px;
+	}
+	.cont p {
+		font-size: 1em;
+		line-height: 1.5;
+		margin-top: 0;
+		margin-bottom: 10px;
+	}
+	.cont img{
+		width:100%;
+	}
+	.cont a{
+		border-bottom: 1px solid rgba(0,0,0,.1);
+		color: #f36;
+		cursor: pointer;
+		text-decoration: none;
+	}
+	.ui.header{
+		margin:1em 10px;
+	}
+	.ui.small.avatar.image img {
+		border-radius: 50%;
+		font-size: .9rem;
+		width: 3em;
+		margin-top: 10px;
+	}
+	.ui.header .content {
+		font-size: 1.125em;
+		line-height: 1.5;
+		margin-left: .5em;
+		margin-top: .5em;
+		display: inline-block;
+		vertical-align: top;
+		font-weight: 700;
+	}
+	.ui.header .content .attribute {
+		margin: 0 0 .75em;
+		font-size: .925rem;
+		color: rgba(0,0,0,.4);
+	}
+	.ui.header .sub.header {
+		font-weight: 400;
+		padding: 0;
+		line-height: 1.2;
+	}
+	.sub.header.attribute a{
+		color:#f36;
+		text-decoration: none;
+	}
+	</style>
+</head>
+<body>
+	<div class="course">
+		<div class="cont">
+				{{ try.content }}
+		</div>					
+	</div>
+					
+</body>
+<html>

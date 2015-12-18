@@ -3,10 +3,10 @@
  * API 接口
  * @author purpen
  */
-class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Action_Funnel {
-	public $stash = array(
+class Sher_Api_Action_My extends Sher_Api_Action_Base {
 
-	);
+
+	protected $filter_user_method_list = array();
 	
 	/**
 	 * 入口
@@ -100,64 +100,67 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
     if(empty($user_id)){
  			return $this->api_json('请先登录！', 3000);   
     }
-
-    foreach($this->stash as $k=>$v){
-      if(empty($v)){
-  			return $this->api_json('请求参数不能为空！', 3001);        
-      }
-    }
 		
 		$user_info = array();
 		
     $profile = array();
-    if(isset($this->stash['job'])){
+    if(isset($this->stash['job']) && !empty($this->stash['job'])){
       $profile['job'] = $this->stash['job'];
     }
-    if(isset($this->stash['company'])){
+    if(isset($this->stash['company']) && !empty($this->stash['company'])){
       $profile['company'] = $this->stash['company'];
     }
-    if(isset($this->stash['phone'])){
+    if(isset($this->stash['phone']) && !empty($this->stash['phone'])){
       $profile['phone'] = $this->stash['phone'];
     }
-    if(isset($this->stash['address'])){
+    if(isset($this->stash['address']) && !empty($this->stash['address'])){
       $profile['address'] = $this->stash['address'];
     }
-    if(isset($this->stash['realname'])){
+    if(isset($this->stash['realname']) && !empty($this->stash['realname'])){
       $profile['realname'] = $this->stash['realname'];
     }
-    if(isset($this->stash['province_id'])){
+    if(isset($this->stash['province_id']) && !empty($this->stash['province_id'])){
       $profile['province_id'] = (int)$this->stash['province_id'];
     }
-    if(isset($this->stash['district_id'])){
+    if(isset($this->stash['district_id']) && !empty($this->stash['district_id'])){
       $profile['district_id'] = (int)$this->stash['district_id'];
     }
-    if(isset($this->stash['zip'])){
+    if(isset($this->stash['zip']) && !empty($this->stash['zip'])){
       $profile['zip'] = $this->stash['zip'];
     }
-    if(isset($this->stash['im_qq'])){
+    if(isset($this->stash['im_qq']) && !empty($this->stash['im_qq'])){
       $profile['im_qq'] = $this->stash['im_qq'];
     }
-    if(isset($this->stash['weixin'])){
+    if(isset($this->stash['weixin']) && !empty($this->stash['weixin'])){
       $profile['weixin'] = $this->stash['weixin'];
     }
-    if(isset($this->stash['birthday'])){
+    if(isset($this->stash['birthday']) && !empty($this->stash['birthday'])){
       $age_arr = explode('-', $this->stash['birthday']);
       $profile['age'] = $age_arr;
     }
 		
-		$user_info['profile'] = $profile;
+    if(!empty($profile)){
+		  $user_info['profile'] = $profile;
+    }
 		
+    if(isset($this->stash['nickname']) && !empty($this->stash['nickname'])){
+      $user_info['nickname'] = (int)$this->stash['nickname'];
+    }
     if(isset($this->stash['sex'])){
       $user_info['sex'] = (int)$this->stash['sex'];
     }
-    if(isset($this->stash['city'])){
+    if(isset($this->stash['city']) && !empty($this->stash['city'])){
       $user_info['city'] = $this->stash['city'];
     }
-    if(isset($this->stash['email'])){
+    if(isset($this->stash['email']) && !empty($this->stash['email'])){
       $user_info['email'] = $this->stash['email'];
     }
-    if(isset($this->stash['summary'])){
+    if(isset($this->stash['summary']) && !empty($this->stash['summary'])){
       $user_info['summary'] = $this->stash['summary'];
+    }
+
+    if(empty($user_info)){
+   		return $this->api_json('请求参数不能为空！', 3001);    
     }
 		
 		try {
@@ -181,8 +184,9 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 			
 			$ok = $user->apply_and_update($user_info);
       if($ok){
-        $user_data = $user->extend_load($user_id);
+        $user_data = $user->load($user_id);
         // 过滤用户字段
+        $user_data = $user->extended_model_row($user_data);
         $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
 
  		    return $this->api_json('更新用户信息成功！', 0, $data);    
@@ -201,65 +205,75 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 	 */
 	public function favorite(){
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$size = isset($this->stash['size'])?(int)$this->stash['size']:5;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		
 		$type = isset($this->stash['type'])?(int)$this->stash['type']:1;
+		$event = isset($this->stash['event'])?(int)$this->stash['event']:1;
 		$user_id = $this->current_user_id;
 		if(!in_array($type, array(1,2))){
 			return $this->api_json('请求参数不匹配！', 3000);
 		}
+		if(!in_array($type, array(1,2,3))){
+			return $this->api_json('请求参数不匹配！', 3001);
+		}
 		
-		if($type == 1){
+		if($type == 1){ // 产品
 			$some_fields = array(
-				'_id'=>1, 'title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1, 'presale_people'=>1,
-				'presale_percent'=>1, 'cover_id'=>1, 'designer_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
-				'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
-				'snatched_time'=>1, 'inventory'=>1, 'can_saled'=>1, 'topic_count'=>1,'presale_money'=>1,
+        '_id'=>1, 'title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1, 'cover_id'=>1, 'favorite_count'=>1,
+        'designer_id'=>1, 'category_id'=>1, 'stage'=>1, 'love_count'=>1,'view_count'=>1, 'summary'=>1, 'comment_count'=>1,
 			);
-		}else{
+		}elseif($type == 2){  // 话题
 			$some_fields = array(
 				'_id'=>1, 'title'=>1, 'created_on'=>1, 'comment_count'=>1,'user_id'=>1,
 			);
-		}
+    }else{
+      $some_fields = array();
+    }
 		
 		$query = array();
 		$options = array();
 		
 		// 查询条件
 		if($user_id){
-			$query['user_id'] = (int)$user_id;
+			$query['user_id'] = $user_id;
 		}
 		if($type){
-			$query['type'] = (int)$type;
+			$query['type'] = $type;
 		}
-		$query['event'] = Sher_Core_Model_Favorite::EVENT_FAVORITE;
+    if($event){
+		  $query['event'] = $event;
+    }
 		
 		// 分页参数
-        $options['page'] = $page;
-        $options['size'] = $size;
+    $options['page'] = $page;
+    $options['size'] = $size;
 		$options['sort_field'] = 'time';
 		
 		// 开启查询
-        $service = Sher_Core_Service_Favorite::instance();
-        $result = $service->get_like_list($query, $options);
+    $service = Sher_Core_Service_Favorite::instance();
+    $result = $service->get_like_list($query, $options);
 		
 		// 重建数据结果
 		$data = array();
 		for($i=0;$i<count($result['rows']);$i++){
+      $data[$i]['_id'] = $result['rows'][$i]['_id'];
+      $data[$i]['type'] = $result['rows'][$i]['type'];
+      $data[$i]['event'] = $result['rows'][$i]['event'];
+      $data[$i]['target_id'] = $result['rows'][$i]['target_id'];
 			if($type == 1){
-				foreach($some_fields as $key=>$value){
-					$data[$i][$key] = $result['rows'][$i]['product'][$key];
-				}
-				$product = new Sher_Core_Model_Product();
-				// 获取商品价格区间
-				$data[$i]['range_price'] = $product->range_price($result['rows'][$i]['product']['_id'], $result['rows'][$i]['product']['stage']);
-				
-				// 封面图url
-				$data[$i]['cover_url'] = $result['rows'][$i]['product']['cover']['thumbnails']['medium']['view_url'];
+        foreach($some_fields as $key=>$value){
+          $data[$i]['product'][$key] = $result['rows'][$i]['product'][$key];
+        }
+        //$product = new Sher_Core_Model_Product();
+        // 获取商品价格区间
+        //$data[$i]['product']['range_price'] = $product->range_price($result['rows'][$i]['product']['_id'], $result['rows'][$i]['product']['stage']);
+        
+        // 封面图url
+        $data[$i]['product']['cover_url'] = $result['rows'][$i]['product']['cover']['thumbnails']['medium']['view_url'];
 			}
 			if($type == 2){
 				foreach($some_fields as $key=>$value){
-					$data[$i][$key] = $result['rows'][$i]['topic'][$key];
+					$data[$i]['topic'][$key] = $result['rows'][$i]['topic'][$key];
           $data[$i]['topic']['content_view_url'] = sprintf('%s/app/site/topic/api_view?id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['topic']['_id']);
 				}
 			}
@@ -358,6 +372,8 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
  		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
     $size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		$sort = isset($this->stash['sort'])?(int)$this->stash['sort']:0; 
+		$used = isset($this->stash['used'])?(int)$this->stash['used']:0; 
+		$is_expired = isset($this->stash['is_expired'])?(int)$this->stash['is_expired']:0; 
 
 		$some_fields = array(
 
@@ -368,6 +384,16 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
 		
 		// 查询条件
 		$query['user_id'] = $user_id;
+    if($used){
+      $query['used'] = $used;
+    }
+    if($is_expired){
+      if($is_expired==1){ // 未过期
+        $query['expired_at'] = array('$gt'=>time());
+      }elseif($is_expired==2){  // 已过期
+        $query['expired_at'] = array('$lt'=>time());     
+      }
+    }
 		
 		// 分页参数
     $options['page'] = $page;
@@ -385,14 +411,54 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base implements Sher_Core_Actio
     $service = Sher_Core_Service_Bonus::instance();
     $result = $service->get_all_list($query, $options);
 		
-		// 重建数据结果
-		for($i=0;$i<count($result['rows']);$i++){
-
-		}
-    print_r($result['rows'][0]);exit;
-		
 		return $this->api_json('请求成功', 0, $result);
   
+  }
+
+  /**
+   * 验证用户是否签到过
+   */
+  public function check_user_sign(){
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录!', 3000);    
+    }
+    $has_sign = $continuity_times = 0;
+    $user_sign_model = new Sher_Core_Model_UserSign();
+    $user_sign = $user_sign_model->load($user_id);
+
+    if($user_sign){
+      $today = (int)date('Ymd');
+      $yesterday = (int)date('Ymd', strtotime('-1 day'));
+      if($user_sign['last_date'] == $yesterday){
+        $continuity_times = $user_sign['sign_times'];
+      }elseif($user_sign['last_date'] == $today){
+        $has_sign = 1;
+        $continuity_times = $user_sign['sign_times'];
+      }
+    }
+    $result = array('has_sign'=>$has_sign, 'continuity_times'=>$continuity_times);
+ 		return $this->api_json('请求成功', 0, $result);
+  }
+
+  /**
+   * 执行签到操作
+   */
+  public function user_sign(){
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录!', 3000);    
+    }
+    $data = array();
+    $user_sign_model = new Sher_Core_Model_UserSign();
+    $result = $user_sign_model->sign_in($user_id, array());
+    if(empty($result['is_true'])){
+      return $this->api_json($result['msg'], 3001);    
+    }else{
+      $data['continuity_times'] = $result['continuity_times'];
+      $data['give_money'] = $result['give_money'];
+    }
+ 		return $this->api_json($result['msg'], 0, $data);
   }
 	
 }

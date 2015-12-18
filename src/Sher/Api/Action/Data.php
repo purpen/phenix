@@ -4,11 +4,8 @@
  * @author purpen
  */
 class Sher_Api_Action_Data extends Sher_Api_Action_Base {
-  /**
-	public $stash = array(
-		'page'=>1,
-  );
-   */
+
+	protected $filter_user_method_list = '*';
 
 	/**
 	 * 入口
@@ -18,4 +15,4 @@ class Sher_Api_Action_Data extends Sher_Api_Action_Base {
 	}
 	
 }
-?>
+

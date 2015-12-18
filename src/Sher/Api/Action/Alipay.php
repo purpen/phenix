@@ -4,9 +4,8 @@
  * @author purpen
  */
 class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Action_Initialize {
-	public $stash = array(
-		'rid' => 0,
-	);
+
+	protected $filter_user_method_list = '*';
 
  	public $alipay_config = array(
 		// 合作身份者id，以2088开头的16位纯数字
@@ -58,7 +57,7 @@ class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Acti
 	 * 支付
 	 */
   public function payment(){
-    $rid = $this->stash['rid'];
+    $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
 		if (empty($rid)){
 			return $this->api_json('订单丢失！', 4001);
 		}

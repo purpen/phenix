@@ -123,6 +123,7 @@
 					</div>
 				</th>
 				<th>用户</th>
+        <th>期数</th>
 				<th>中奖信息</th>
 				<th>时间/IP</th>
         <th>抽奖次数</th>
@@ -150,6 +151,7 @@
                   {{ f.user.nickname }}
               </a>
             </td>
+            <td>{{ f.target_id }}</td>
             <td class="four wide">
               <P>{{ f.number_id }}.{{ f.title|default '--' }}</p>
               <p>{{ f.event_str }}</p>
