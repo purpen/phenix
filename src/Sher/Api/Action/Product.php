@@ -211,9 +211,6 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
       'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',
 		);
-
-    //转换描述格式
-    $data['content_view_url'] = sprintf('%s/app/api/view/product_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $product['_id'], $user_id);
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
@@ -224,6 +221,9 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       $key = $some_fields[$i];
       $data[$key] = isset($product[$key]) ? $product[$key] : null;
     }
+
+    //转换描述格式
+    $data['content_view_url'] = sprintf('%s/app/api/view/product_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $product['_id'], $user_id);
 
     //验证是否收藏或喜欢
     $fav = new Sher_Core_Model_Favorite();
