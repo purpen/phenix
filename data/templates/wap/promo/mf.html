@@ -1873,7 +1873,7 @@
     webpsupport(function (webpa) {
     var loader = new PxLoader(),
      fileList =[
-		'mf.png','mft.png','mff.png','onebg.jpg','steup.jpg','p1_1.png','p1_5.png','p2_4.png','p2_5.png','p4_1.png','p4_4.png','p5_6.png','p7_1.png','p9_3.png','twobg.jpg','threebg.jpg','tenbg.jpg','da7-1.png','da7-1ttt.png','da7-2.png','da7-2ttt.png'
+		'mf.png','mft.png','mff.png','onebg.jpg','steup.jpg','p1_1.png','p1_5.png','p2_4.png','p2_5.png','p4_1.png','p4_4.png','p5_6.png','p7_1.png','p9_3.png','twobg.jpg','threebg.jpg','tenbg.jpg','da7-1.png','da7-1ttt.png','da7-2.png','da7-2ttt.png','1lm.jpg','2lm.jpg','3lm.jpg','4lm.jpg','5lm.jpg','1nb.jpg','2nb.jpg','3nb.jpg','4nb.jpg','5nb.jpg','nbb.jpg'
 		 
 	];
 
@@ -2086,7 +2086,7 @@
 	
 	
 	var m_name = '你是几颗星的辣妈or奶爸？';
-	var img_url = ' ';
+	var img_url = '{{ app_url_packaged }}/images/promo/mf/nbb.jpg';
 	var link = '{{ app_url_wap_promo }}/mf';
 	var desc_str = '家有宝贝，你是手足无措，还是得心应手？你是合格的辣妈or奶爸吗？';
 
@@ -2156,7 +2156,7 @@
 {% endblock %}
 {% block content %}
 <h1 style="display:none">
-    <img src="{{ app_url_packaged }}/images/promo/mf/fx.jpg"/>
+    <img src="{{ app_url_packaged }}/images/promo/mf/nbb.jpg"/>
 </h1>
 <div class="loading">
     <div class="loading__inner">
@@ -2364,6 +2364,6 @@
   </div>
 </div>
 <div class="music playing" style="display:none;"></div>
-<audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/xy/xy.mp3" loop="true" autoplay></audio>
+<audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/mf/mf.mp3" loop="true" autoplay></audio>
 
 {% endblock %}
