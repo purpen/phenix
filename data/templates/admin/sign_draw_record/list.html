@@ -126,7 +126,7 @@
         <th>期数</th>
 				<th>中奖信息</th>
 				<th>时间/IP</th>
-        <th>抽奖次数</th>
+        <th>抽奖/分享次数</th>
         <th>是否处理</th>
         <th>来源</th>
         <th>操作</th>
@@ -168,7 +168,7 @@
               <p>{{ f.created_on|date 'y-m-d H:i:s' }}</p>
               <p>{{ f.ip }}</p>
             </td>
-            <td>{{ f.draw_times }}</td>
+            <td>{{ f.draw_times }}/{{ f.is_share }}</td>
 
             <td id="stat-{{ f._id }}">
               {% if f.state == 1 %}

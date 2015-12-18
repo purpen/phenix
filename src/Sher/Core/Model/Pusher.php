@@ -5,7 +5,6 @@
  */
 class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
 	protected $collection = "pusher";
-	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 
   const FROM_IOS = 1;
   const FROM_ANDROID = 2;
@@ -46,18 +45,18 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
     // 检测是否已绑定
     $pusher = $this->first(array('uuid'=>$uuid, 'from_to'=>$from_to));
     if($pusher){
-      $this->update_set($pusher['_id'], array('is_login'=>1, 'last_time'=>time()));
-			return true;
-		}
-		// 新增记录
-		$data = array(
-			'user_id' => (int)$user_id,
-      'uuid' => $uuid,
-      'from_to' => (int)$from_to,
-      'last_time' => time(),
-		);
-		
-		return $this->create($data);
+      $ok = $this->update_set((string)$pusher['_id'], array('is_login'=>1, 'user_id'=>(int)$user_id, 'last_time'=>time()));
+    }else{
+      // 新增记录
+      $data = array(
+        'user_id' => (int)$user_id,
+        'uuid' => $uuid,
+        'from_to' => (int)$from_to,
+        'last_time' => time(),
+      );
+      $ok = $this->create($data);
+    }
+		return $ok;
 	}
 	
 	/**
@@ -69,7 +68,7 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
 		}
     $pusher = $this->first(array('uuid'=>$uuid, 'from_to'=>$from_to));
     if($pusher){
-      $ok = $this->update_set($pusher['_id'], array('is_login'=>0));
+      $ok = $this->update_set((string)$pusher['_id'], array('is_login'=>0));
       return $ok;
     }else{
       return false;
