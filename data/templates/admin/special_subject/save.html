@@ -115,68 +115,7 @@
 	width: 194px;
 	margin-left: 20px;
   }
-  
-  .gridster * {
-	margin:0;
-	padding:0;
-  }
-  
-  .gridster {
-	  margin: 0 auto;
-	  width: 700px;
-	  opacity: .8;
-	  -webkit-transition: opacity .6s;
-	  -moz-transition: opacity .6s;
-	  -o-transition: opacity .6s;
-	  -ms-transition: opacity .6s;
-	  transition: opacity .6s;
-  }
-  
-  .gridster_ul {
-	  background-color: #EFEFEF;
-	  list-style-type: none;
-  }
-  
-  .gridster_ul li {
-	  font-size: 1em;
-	  font-weight: bold;
-	  text-align: center;
-	  line-height: 100%;
-	  border: 1px;
-	  position: relative;
-	  float: left;
-  }
-  
-  .gridster_ul .gs-w {
-	  background: #DDD;
-	  cursor: pointer;
-  }
-  
-  .gridster_ul .player {
-	  background: #BBB;
-  }
-  
-  .gridster_ul .preview-holder {
-	  border: none!important;
-	  background: red!important;
-  }
-  
-  .gridster_ul li .header {
-	  background: #aaa;
-	  width: 100%;
-	  height: 30px;
-	  line-height: 30px;
-	  font-size: 14px;
-	  position: absolute;
-	  top: 0;
-	  left: 0;
-  }
-  
-  .gridster_ul li .header header,.gridster_ul li .header span{
-	display: inline-block;
-	width: 35px;
-	color: #fff;
-  }
+
 </style>
 {% endblock %}
 
@@ -283,27 +222,35 @@
 		$('#block_video').modal('hide');
 	  });
 	  
+	  // 计算格子总高度
 	  function calculate(){
 		var height = 0;
-		var tmp = '';
+		var tmp = 0;
 		$(".gridster_ul>li").each(function(i){
 		  var val = $(this).attr('data-sizey');
 		  var row = $(this).attr('data-row');
 		  if(row != tmp){
 			height += parseInt(val);
-			tmp = row;
 		  }
+		  tmp = row;
 		});
 		return height*cell;
 	  }
 	  
+	  // 改变格子高度
 	  function distance(distance){
+		var tmp = 0;
 		$(".gridster_ul>li").each(function(i){
 		  var row = parseInt($(this).attr('data-row'));
 		  var col = parseInt($(this).attr('data-col'));
-		  if(row > date_row){
+		  if(row == tmp && row > date_row){
 			$('li[data-col='+col+'][data-row='+row+']').attr('data-row',row+distance);
+		  } else {
+			if(col == 1 && row > date_row){
+			  $('li[data-col='+col+'][data-row='+row+']').attr('data-row',row+distance);
+			}
 		  }
+		  tmp = row;
 		});
 	  }
 	  
@@ -333,10 +280,10 @@
 		$('li[data-col='+date_col+'][data-row='+date_row+']').find('.this_content').html(content);
 		$('li[data-col='+date_col+'][data-row='+date_row+']').attr('data-sizey',Math.ceil((date_x*height)/width));
 		$('li[data-col='+date_col+'][data-row='+date_row+']').css('width',date_x*cell+'px');
-		$('li[data-col='+date_col+'][data-row='+date_row+']').css('height',Math.ceil((date_x*height)/width)*cell+'px');
+		//$('li[data-col='+date_col+'][data-row='+date_row+']').css('height',Math.ceil((date_x*height)/width)*cell+'px');
 		$('#block_images').modal('hide');
-		$('.gridster_ul').css('height',calculate()+'px');
 		distance(Math.ceil((date_x*height)/width)-date_y);
+		$('.gridster_ul').css('height',calculate()+'px');
 	  });
 	  
 	  $('.ui.yes.video').livequery(function(){
@@ -672,6 +619,69 @@
 			{%include 'block/table.html'%}
 			
 			<div class="iphone_gridster">
+			  <style>
+				.gridster * {
+				  margin:0;
+				  padding:0;
+				}
+				
+				.gridster {
+					margin: 0 auto;
+					width: 700px;
+					opacity: .8;
+					-webkit-transition: opacity .6s;
+					-moz-transition: opacity .6s;
+					-o-transition: opacity .6s;
+					-ms-transition: opacity .6s;
+					transition: opacity .6s;
+				}
+				
+				.gridster_ul {
+					background-color: #EFEFEF;
+					list-style-type: none;
+				}
+				
+				.gridster_ul li {
+					font-size: 1em;
+					font-weight: bold;
+					text-align: center;
+					line-height: 100%;
+					border: 1px;
+					position: relative;
+					float: left;
+				}
+				
+				.gridster_ul .gs-w {
+					background: #DDD;
+					cursor: pointer;
+				}
+				
+				.gridster_ul .player {
+					background: #BBB;
+				}
+				
+				.gridster_ul .preview-holder {
+					border: none!important;
+					background: red!important;
+				}
+				
+				.gridster_ul li .header {
+					background: #aaa;
+					width: 100%;
+					height: 30px;
+					line-height: 30px;
+					font-size: 14px;
+					position: absolute;
+					top: 0;
+					left: 0;
+				}
+				
+				.gridster_ul li .header header,.gridster_ul li .header span{
+				  display: inline-block;
+				  width: 35px;
+				  color: #fff;
+				}
+			  </style>
 			  <div class="gridster">
 				{% if mode == 'create'%}
 				<ul class="gridster_ul"></ul>
@@ -708,15 +718,15 @@
 			  
 			  <div class="inline field">
 				  <label>专题标题：</label>
-				  <input type="text" name="special_subject_title" value="{{ special_subject.title }}" />
+				  <input type="text" name="special_subject_title" value="{{ special_subject.title }}" placeholder="专题标题" />
 			  </div>
 			  <div class="inline field">
 				  <label>专题标签：</label>
-				  <input type="text" name="special_subject_tag" value="{{ special_subject.tags_s }}" />
+				  <input type="text" name="special_subject_tag" value="{{ special_subject.tags_s }}" placeholder="专题标签，用英文逗号隔开" />
 			  </div>
 			  <div class="inline field" id="product_ids">
 				  <label>专题商品：</label>
-				  <input type="text" name="product_ids" value="{{ special_subject.product_id_str }}" />
+				  <input type="text" name="product_ids" value="{{ special_subject.product_id_str }}" placeholder="商品id，用英文逗号隔开" />
 			  </div>
 			  
 			  <!--活动封面图，头图，-->
