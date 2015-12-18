@@ -240,18 +240,20 @@
 	  // 改变格子高度
 	  function distance(distance){
 		var tmp = 0;
-		$(".gridster_ul>li").each(function(i){
-		  var row = parseInt($(this).attr('data-row'));
-		  var col = parseInt($(this).attr('data-col'));
-		  if(row == tmp && row > date_row){
-			$('li[data-col='+col+'][data-row='+row+']').attr('data-row',row+distance);
-		  } else {
-			if(col == 1 && row > date_row){
+		if(distance){
+		  $(".gridster_ul>li").each(function(i){
+			var row = parseInt($(this).attr('data-row'));
+			var col = parseInt($(this).attr('data-col'));
+			if(row == tmp && row > date_row){
 			  $('li[data-col='+col+'][data-row='+row+']').attr('data-row',row+distance);
+			} else {
+			  if(col == 1 && row > date_row){
+				$('li[data-col='+col+'][data-row='+row+']').attr('data-row',row+distance);
+			  }
 			}
-		  }
-		  tmp = row;
-		});
+			tmp = row;
+		  });
+		}  
 	  }
 	  
 	  $('.ui.yes.text').on('click', function(){
