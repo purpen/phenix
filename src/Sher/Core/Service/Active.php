@@ -34,4 +34,3 @@ class Sher_Core_Service_Active extends Sher_Core_Service_Base {
     }
 	
 }
-?>
