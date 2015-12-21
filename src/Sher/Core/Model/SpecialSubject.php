@@ -147,5 +147,25 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 			}
 		}
 	}
+	
+	/**
+	* 推荐操作
+	*/
+	public function mark_as_stick($id, $stick=1){
+		$data = $this->extend_load((int)$id);
+	
+		if(empty($data)){
+			return array('status'=>0, 'msg'=>'内容不存在');
+		}
+		if($data['stick']==(int)$stick){
+			return array('status'=>0, 'msg'=>'重复的操作');  
+		}
+		$ok = $this->update_set((int)$id, array('stick' => $stick));
+		if($ok){
+			return array('status'=>1, 'msg'=>'操作成功');  
+		}else{
+			return array('status'=>0, 'msg'=>'操作失败');   
+		}
+	}
 }
 
