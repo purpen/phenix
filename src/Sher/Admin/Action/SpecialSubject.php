@@ -199,9 +199,11 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 		$model = new Sher_Core_Model_SpecialSubject();
 		$result = $model->mark_as_stick((int)$id, $evt);
 		
-		$this->stash['note'] = $result['msg'];
+		if(!$result['status']){
+			return $this->ajax_notification($result['msg'], true);
+		}
 		
-		return $this->to_taconite_page('ajax/published_ok.html');
+		return $this->to_taconite_page('admin/special_subject/stick_ok.html');
 	}
 }
 

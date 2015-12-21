@@ -57,11 +57,11 @@
 				<td>
 					<p>
 						{% if !special_subject.stick %}
-			          	<a href="{{ app_url_admin }}/special_subject/ajax_stick?id={{ special_subject._id }}&evt=1" class="ui ajax link item">
+			          	<a href="{{ app_url_admin }}/special_subject/ajax_stick?id={{ special_subject._id }}&evt=1" class="ui ajax link item" id="stick-{{ special_subject._id }}-button">
 							推荐
 						</a>
 						{% else %}
-			          	<a href="{{ app_url_admin }}/special_subject/ajax_stick?id={{ special_subject._id }}&evt=0" class="ui ajax link item">
+			          	<a href="{{ app_url_admin }}/special_subject/ajax_stick?id={{ special_subject._id }}&evt=0" class="ui ajax link item" id="stick-{{ special_subject._id }}-button">
 							取消推荐
 						</a>
 						{% endif %}
