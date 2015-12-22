@@ -206,7 +206,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
 		$some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
-			'cover_id', 'category_id', 'stage', 'summary',
+			'cover_id', 'category_id', 'stage', 'summary', 'tags', 'tags_s',
 			'snatched_time', 'inventory', 'can_saled', 'snatched',
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
       'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',
