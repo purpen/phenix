@@ -19,34 +19,49 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 	 */
 	public function getlist(){
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$size = isset($this->stash['size'])?(int)$this->stash['size']:5;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		// 请求参数
-		$category_id = isset($this->stash['category_id']) ? $this->stash['category_id'] : 0;
-		$user_id   = isset($this->stash['user_id']) ? $this->stash['user_id'] : 0;
-		$target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : 0;
-		$try_id = isset($this->stash['try_id']) ? $this->stash['try_id'] : 0;
+		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
+		$user_id   = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+		$target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
+		$try_id = isset($this->stash['try_id']) ? (int)$this->stash['try_id'] : 0;
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
 		
 		$query   = array();
 		$options = array();
 
     //显示的字段
     $options['some_fields'] = array(
-      '_id'=> 1, 'title'=>1, 'category_id'=>1, 'target_id'=>1, 'cover_id'=>1, 'asset'=>1, 'parent_id'=>1, 'view_count'=>1, 'stick'=>1,
-      'deleted'=>1, 'published'=>1, 'user_id'=>1, 'comment_count'=>1, 'created_on'=>1,
+      '_id'=> 1, 'title'=>1, 'short_title'=>1, 'category_id'=>1, 'target_id'=>1, 'cover_id'=>1, 'parent_id'=>1,
+      'view_count'=>1, 'stick'=>1, 'asset_count'=>1,
+      'deleted'=>1, 'try_id'=>1, 'published'=>1, 'user_id'=>1, 'comment_count'=>1, 'created_on'=>1, 'fine'=>1,
+      'love_count'=>1, 'comment_count'=>1, 't_color'=>1, 'source'=>1,
     );
 		
 		// 查询条件
 		if($category_id){
-			$query['category_id'] = (int)$category_id;
+			$query['category_id'] = $category_id;
 		}
 		if($user_id){
-			$query['user_id'] = (int)$user_id;
+			$query['user_id'] = $user_id;
 		}
 		if($target_id){
-			$query['target_id'] = (int)$target_id;
+			$query['target_id'] = $target_id;
 		}
 		if($try_id){
-			$query['try_id'] = (int)$try_id;
+			$query['try_id'] = $try_id;
+		}
+
+		// 类别
+		if ($type == 1){
+			// 推荐
+			$query['stick'] = 1;
+		}elseif ($type == 2){
+			$query['fine']  = 1;
+    }elseif ($type == 5){
+      $query['try_id'] = array('$ne'=>0);
+		}else{
+			//为0
 		}
 		
 		// 分页参数
@@ -67,9 +82,9 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 			// 封面图url
 			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
 			// 用户信息
-			$data[$i]['username'] = $result['rows'][$i]['user']['nickname'];
-			$data[$i]['small_avatar_url'] = $result['rows'][$i]['user']['small_avatar_url'];
-      $data[$i]['content_view_url'] = sprintf('%s/view/topic_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['_id'], $this->current_user_id);
+			//$data[$i]['username'] = $result['rows'][$i]['user']['nickname'];
+			//$data[$i]['small_avatar_url'] = $result['rows'][$i]['user']['small_avatar_url'];
+      //$data[$i]['content_view_url'] = sprintf('%s/view/topic_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['_id'], $this->current_user_id);
 		}
 		$result['rows'] = $data;
 		
@@ -77,21 +92,13 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 	}
 	
 	/**
-	 * 主题详情
+	 * 详情
 	 */
 	public function view(){
 		$id = isset($this->stash['id'])?(int)$this->stash['id']:0;
     $user_id = $this->current_user_id;
 		if(empty($id)){
 			return $this->api_json('访问的主题不存在！', 3000);
-		}
-		
-		// 是否允许编辑
-		$editable = false;
-		$result = array();
-		
-		if(isset($this->stash['referer'])){
-			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
 		}
 		
 		$model = new Sher_Core_Model_Topic();
@@ -104,44 +111,40 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 		// 增加pv++
 		$inc_ran = rand(1, 6);
 		$model->increase_counter('view_count', $inc_ran, $id);
-		
-		// 当前用户是否有管理权限
-    if ($this->current_user_id == $topic['user_id']){
-      $editable = true;
+
+    //显示的字段
+    $some_fields = array(
+      '_id', 'title', 'short_title', 'category_id', 'target_id', 'cover_id', 'parent_id', 'view_count', 'stick',
+      'deleted', 'try_id', 'published', 'user_id', 'comment_count', 'created_on', 'fine', 'last_reply_time',
+      'love_count', 'comment_count', 't_color', 'source',
+    );
+
+		// 重建数据结果
+		$data = array();
+    for($i=0;$i<count($some_fields);$i++){
+      $key = $some_fields[$i];
+      $data[$key] = isset($topic[$key]) ? $topic[$key] : null;
     }
-		
-		// 是否出现后一页按钮
-	    if(isset($this->stash['referer'])){
-            $result['HTTP_REFERER'] = $this->current_page_ref();
-	    }
-		
-		$result['dream_category_id'] = Doggy_Config::$vars['app.topic.dream_category_id'];
 
     //验证是否收藏或喜欢
-    $fav = new Sher_Core_Model_Favorite();
-    $topic['is_favorite'] = $fav->check_favorite($this->current_user_id, $topic['_id'], 2) ? 1 : 0;
-    $topic['is_love'] = $fav->check_loved($this->current_user_id, $topic['_id'], 2) ? 1 : 0;
+    if(empty($user_id)){
+      $data['is_favorite'] = 0;
+      $data['is_love'] = 0;
+    }else{
+      $fav = new Sher_Core_Model_Favorite();
+      $data['is_favorite'] = $fav->check_favorite($user_id, $topic['_id'], 2) ? 1 : 0;
+      $data['is_love'] = $fav->check_loved($user_id, $topic['_id'], 2) ? 1 : 0;   
+    }
+
+    // 用户信息
+    if($topic['user']){
+      $data['username'] = $topic['user']['nickname'];
+      $data['small_avatar_url'] = $topic['small_avatar_url'];
+    }
 		
-		// 获取父级分类
-		$category = new Sher_Core_Model_Category();
-		$parent_category = $category->extend_load((int)$topic['fid']);
+    $data['content_view_url'] = sprintf('%s/app/api/view/topic_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $topic['_id'], $user_id);
 		
-    $topic['content_view_url'] = sprintf('%s/view/topic_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $topic['_id'], $user_id);
-    $topic['description'] = null;
-		$result['topic'] = &$topic;
-		$result['parent_category'] = $parent_category;
-		$result['editable'] = $editable;
-		
-		// 评论的链接URL
-		$result['pager_url'] = Sher_Core_Helper_Url::topic_view_url($id, '#p#');
-		
-		// 判定是否产品话题
-		if (isset($topic['target_id']) && !empty($topic['target_id'])){
-			$product = new Sher_Core_Model_Product();
-			$result['product'] = & $product->extend_load($topic['target_id']);
-		}
-		
-		return $this->api_json('请求成功', 0, $result);
+		return $this->api_json('请求成功', 0, $data);
 	}
 	
 	/**
