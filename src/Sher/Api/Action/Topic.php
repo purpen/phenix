@@ -82,8 +82,8 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 			// 封面图url
 			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
 			// 用户信息
-			//$data[$i]['username'] = $result['rows'][$i]['user']['nickname'];
-			//$data[$i]['small_avatar_url'] = $result['rows'][$i]['user']['small_avatar_url'];
+			$data[$i]['username'] = $result['rows'][$i]['user']['nickname'];
+			$data[$i]['small_avatar_url'] = $result['rows'][$i]['user']['small_avatar_url'];
       //$data[$i]['content_view_url'] = sprintf('%s/view/topic_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['_id'], $this->current_user_id);
 		}
 		$result['rows'] = $data;
