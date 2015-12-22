@@ -25,7 +25,7 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 	public function ajax_fetch_districts(){
 		$id = $this->stash['id'];
 		if (empty($id)){
-			return $this->ajax_notification('Id参数为空！', true);
+			return $this->ajax_json('id参数为空！', true);
 		}
 
     $type = $this->stash['type'] = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
@@ -48,7 +48,7 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
     $this->stash['college_id'] = (int)$this->stash['college_id'];
     $this->stash['evt'] = isset($this->stash['evt'])?(int)$this->stash['evt']:1;
 		if (empty($id)){
-			return $this->ajax_notification('Id参数为空！', true);
+			return $this->ajax_json('Id参数为空！', true);
 		}
 		
 		$college = new Sher_Core_Model_College();

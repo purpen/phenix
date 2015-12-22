@@ -206,7 +206,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
 		$some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
-			'cover_id', 'category_id', 'stage', 'summary',
+			'cover_id', 'category_id', 'stage', 'summary', 'tags', 'tags_s',
 			'snatched_time', 'inventory', 'can_saled', 'snatched',
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
       'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',
@@ -486,9 +486,16 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 	 * 获取推荐产品
 	 */
 	public function fetch_relation_product(){
-		$sword = $this->stash['sword'];
-    $current_id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$sword = isset($this->stash['sword']) ? $this->stash['sword'] : null;
+    $current_id = isset($this->stash['current_id']) ? (int)$this->stash['current_id'] : 0;
 		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 4;
+
+		$some_fields = array(
+			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
+			'cover_id', 'category_id', 'stage', 'summary',
+			'comment_star', 'inventory', 'can_saled', 'snatched',
+      'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
+		);
 		
 		$result = array();
 		$options = array(
@@ -510,14 +517,16 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         foreach($xun_arr['data'] as $k=>$v){
           $product = $product_mode->extend_load((int)$v['oid']);
           if(!empty($product)){
-            // 过滤用户表
-            if(isset($product['user'])){
-              $product['user'] = Sher_Core_Helper_FilterFields::user_list($product['user']);
-            }
-            if(isset($product['designer'])){
-              $product['designer'] = Sher_Core_Helper_FilterFields::user_list($product['designer']);
-            }
-            array_push($items, $product);
+
+              // 重建数据结果
+              $data = array();
+              for($i=0;$i<count($some_fields);$i++){
+                $key = $some_fields[$i];
+                $data[$key] = isset($product[$key]) ? $product[$key] : null;
+              }
+            // 封面图url
+            $data['cover_url'] = $product['cover']['thumbnails']['medium']['view_url'];
+            array_push($items, $data);
           }
         }
         $result = $items;
