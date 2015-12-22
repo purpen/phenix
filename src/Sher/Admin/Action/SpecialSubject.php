@@ -183,5 +183,27 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 		$this->stash['ids'] = $ids;
 		return $this->to_taconite_page('ajax/delete.html');
 	}
+	
+	/**
+	* 推荐／取消
+	*/
+	public function ajax_stick(){
+		
+		$id = $this->stash['id'];
+		$evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+		
+		if(empty($id)){
+			return $this->ajax_notification('缺少Id参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_SpecialSubject();
+		$result = $model->mark_as_stick((int)$id, $evt);
+		
+		if(!$result['status']){
+			return $this->ajax_notification($result['msg'], true);
+		}
+		
+		return $this->to_taconite_page('admin/special_subject/stick_ok.html');
+	}
 }
 
