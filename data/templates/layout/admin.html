@@ -62,6 +62,16 @@
 {% endblock %}
 {% block page_css %}{% endblock %}
 {% block layout_js %}{% endblock %}
+{% block admin_layout_js %}
+  <script type="text/javascript">
+    // 全选操作
+    $("#checkbox_all_btn").click(function(){
+        is_checked = $(this).find('input').prop('checked');
+        $(":input[name=ids]").prop('checked', !is_checked);
+    });
+
+  </script>
+{% endblock %}
 {% block jquery %}{% endblock %}
 
 {% block layout_header %}

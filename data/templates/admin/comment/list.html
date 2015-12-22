@@ -78,6 +78,10 @@
       $(this).attr('show-type', 1);
     }
   });
+
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
 	
 {% endblock %}
 	
@@ -98,7 +102,7 @@
 	</div>
 	
 	<div class="ui sub nav">
-		<form action="{{ app_url_admin_base }}/comment/search" method="get">
+		<form action="{{ app_url_admin_base }}/comment/get_list" id="search-form" method="get">
 			<label>搜索：</label>
       <div class="ui selection dropdown">
         <input type="hidden" name="t" value="{{ t }}" />
@@ -106,7 +110,7 @@
         <i class="dropdown icon"></i>
         <div class="menu">
           <div class="item" data-value="0">全部</div>
-          <div class="item" data-value="6">灵感</div>
+          <!--<div class="item" data-value="6">灵感</div>-->
           <div class="item" data-value="2">话题</div>
           <div class="item" data-value="3">试用</div>
           <div class="item" data-value="4">商品</div>
@@ -124,10 +128,15 @@
         </div>
       </div>
 
-			<div class="ui icon input">
-        <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
-				<i class="search link icon"></i>
+			<div class="ui input">
+        <input placeholder="关联产品/话题ID" type="text" name="q" value="{{ q }}" />
 			</div>
+			<div class="ui input">
+        <input placeholder="评论内容" type="text" name="c" value="{{ c }}" />
+			</div>
+				<div class="ui input">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
 		</form>
 	</div>
 	
@@ -135,8 +144,8 @@
 		<thead>
 			<tr>
 				<th>
-					<div class="ui checkbox">
-					  	<input name="ids" type="checkbox" />
+					<div class="ui checkbox" id="checkbox_all_btn">
+					  	<input name="" type="checkbox" />
 					  	<label></label>
 					</div>
 				</th>
@@ -149,11 +158,7 @@
 			</tr>
 		</thead>
 		<tbody>
-      {% if is_search %}
-			  {% comment_list var:'list' page:page type:t target_id:q sort:s size:50 %}
-      {%else%}
-			  {% comment_list var:'list' page:page sort:1 size:50 %}
-      {%endif%}
+			{% comment_list var:'list' page:page type:t target_id:q content:c sort:s size:100 %}
 
 			{% for comment in list.rows %}
 			<tr id="{{ comment._id }}">
