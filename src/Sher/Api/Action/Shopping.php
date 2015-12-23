@@ -576,7 +576,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$data['city']  = $this->stash['city'];
 		$data['address'] = $this->stash['address'];
 		$data['zip']  = $this->stash['zip'];
- 		$data['is_default']  = 1;       
+ 		$data['is_default']  = $is_default;       
 		
 		try{
 			$model = new Sher_Core_Model_AddBooks();
