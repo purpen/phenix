@@ -580,6 +580,20 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		
 		try{
 			$model = new Sher_Core_Model_AddBooks();
+
+      if($is_default){
+        //如果有默认地址，批量取消
+        $result = $model->find(array(
+          'user_id' => (int)$user_id,
+          'is_default' => 1,
+        ));
+        if(!empty($result)){
+          for($i=0;$i<count($result);$i++){
+            $model->update_set((string)$result[$i]['_id'], array('is_default'=>0));
+          }
+        }
+               
+      }
 			
 			if(empty($id)){
 				$data['user_id'] = (int)$user_id;
@@ -591,20 +605,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			}else{
 				$mode = 'edit';
 				$data['_id'] = $id;
-
-        if($is_default){
-          //如果有默认地址，批量取消
-          $result = $model->find(array(
-            'user_id' => (int)$user_id,
-            'is_default' => 1,
-          ));
-          if(!empty($result)){
-            for($i=0;$i<count($result);$i++){
-              $model->update_set((string)$result[$i]['_id'], array('is_default'=>0));
-            }
-          }
-                 
-        }
 
 				$ok = $model->apply_and_update($data);
 			}
