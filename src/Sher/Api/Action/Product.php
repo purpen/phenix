@@ -493,7 +493,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
 		$some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
-			'cover_id', 'category_id', 'stage', 'summary',
+			'cover_id', 'category_id', 'stage', 'summary', 'tags', 'tags_s',
 			'comment_star', 'inventory', 'can_saled', 'snatched',
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
 		);
@@ -539,8 +539,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     if(empty($result)){
       return $this->api_json('没有找到相关商品', 0, $result);
     }
-
-		return $this->api_json('操作成功', 0, $result);
+    
+		return $this->api_json('操作成功', 0, array('total_rows'=>$xun_arr['total_count'], 'rows'=>$result, 'total_page'=>$xun_arr['total_page']));
 	}
 	
 }
