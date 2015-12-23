@@ -38,7 +38,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
 		$product_some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
-			'cover_id', 'category_id', 'stage', 'summary', 'comment_star',
+			'cover_id', 'category_id', 'stage', 'summary', 'comment_star', 'tags', 'tags_s',
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
 		);
 		
@@ -90,7 +90,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		
 		$some_fields = array(
-			'_id'=>1, 'title'=>1, 'short_title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1, 'presale_people'=>1,
+      '_id'=>1, 'title'=>1, 'short_title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1,
+      'presale_people'=>1, 'tags'=>1, 'tags_s'=>1,
 			'presale_percent'=>1, 'cover_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
 			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
 			'snatched_time'=>1, 'inventory'=>1, 'can_saled'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
