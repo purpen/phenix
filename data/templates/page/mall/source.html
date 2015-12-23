@@ -1,0 +1,873 @@
+{%extends 'layout/column.html'%}
+{% block title %}微波闪充移动电源 -{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.ui.white .row{
+		padding:5px 8%;
+	}
+	.ui.white h3{
+		font-weight: normal;
+	  margin: 0;
+	  line-height: 41px;
+	}
+	.ui.white{
+		position:fixed;
+		top:0;
+		left:0;
+		width:100%;
+		z-index:999;
+		opacity:0;
+		padding-top:3px !important;
+		background:rgba(255,255,255,0.8) !important;
+		-webkit-transition: all .3s ease-out 0s;
+		transition: all .3s ease-out 0s;
+		border-bottom:1px solid rgba(0,0,0,0.3);
+	}
+	.ui.white .eight+.eight{
+		text-align:right;
+		line-height: 41px;
+	}
+	.ui.white .eight+.eight a.ui.item{
+		margin:0 10px;
+	}
+	.section{
+		position:relative;
+		-webkit-font-smoothing: antialiased;
+		background-color:#fff;
+	}
+	.section img{
+		text-align:center;
+	}
+	.contide{
+		width:1000px;
+		margin:0 auto;
+		padding-top:90px;
+		text-align: center;
+		position:relative;
+	}
+	.section1{
+		background:url({{ app_url_packaged }}/images/mall/source.jpg) no-repeat center bottom /cover;
+		height:680px;
+	}
+	.section1 .contide{
+		padding-top:110px;
+	}
+	.source_1{
+	    position: absolute;
+	    top: 108px;
+	    left: 50%;
+	    margin-left: -162px;
+	}
+	.section1{
+		color:#fff;
+	}
+	.section1 h1{
+		color:#1cd8fd;
+		font-size: 40px;
+	}
+	.mt-50{
+		margin-top:50px;
+	}
+	.bgf.background{
+	    background: -ms-linear-gradient(top, rgba(255,255,255,0.5), #e1e1e1);
+	    background: -moz-linear-gradient(top,rgba(255,255,255,0.5),#e1e1e1);
+	    background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(rgba(255,255,255,0.5)), to(#e1e1e1));
+	    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255,255,255,0.5)), to(#e1e1e1));
+	    background: -webkit-linear-gradient(top, rgba(255,255,255,0.5), #e1e1e1);
+	    background: -o-linear-gradient(top, rgba(255,255,255,0.5), #e1e1e1);
+	}
+	.bgff.background{
+	    background: -ms-linear-gradient(top, #e1e1e1, rgba(255,255,255,0.5));
+	    background: -moz-linear-gradient(top, #e1e1e1, rgba(255,255,255,0.5));
+	    background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(#e1e1e1), to(rgba(255,255,255,0.5)));
+	    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#e1e1e1), to(rgba(255,255,255,0.5)));
+	    background: -webkit-linear-gradient(top, #e1e1e1, rgba(255,255,255,0.5));
+	    background: -o-linear-gradient(top, #e1e1e1, rgba(255,255,255,0.5));
+	}
+	.section2 .contide{
+		height:500px;
+	}
+	.source_9 {
+	height: 740px;
+	width: 1100px;
+	overflow: hidden;
+	background: url(http://frstatic.qiniudn.com/images/mall/source-x.png) -0px -0px no-repeat;
+	}
+	.source_5 {
+		height: 680px;
+		width: 470px;
+		overflow: hidden;
+		background: url(http://frstatic.qiniudn.com/images/mall/source-x.png) -1180px -0px no-repeat;
+	    transform: scale(.75);
+		-webkit-transform:scale(.75);
+		-moz-transform:scale(.75);
+		position:absolute;
+		top: 0;
+	}
+	.source_11 {
+	height: 600px;
+	width: 650px;
+	overflow: hidden;
+	background: url(http://frstatic.qiniudn.com/images/mall/source-y.png) -0px -740px no-repeat;
+	}
+	.source_10 {
+	height: 570px;
+	width: 970px;
+	overflow: hidden;
+	background: url(http://frstatic.qiniudn.com/images/mall/source-y.png) -1570px -0px no-repeat;
+	}
+	.source_3 {
+		height: 440px;
+		width: 940px;
+		overflow: hidden;
+		background: url(http://frstatic.qiniudn.com/images/mall/source-x.png) -0px -800px no-repeat;
+	    transform: scale(.75);
+		-webkit-transform:scale(.75);
+		-moz-transform:scale(.75);
+		position:absolute;
+	    bottom: -100px;
+	    left: 240px;
+		z-index: 2;
+	}
+	.source_7 {
+		height: 300px;
+		width: 1100px;
+		overflow: hidden;
+		background: url(http://frstatic.qiniudn.com/images/mall/source-x.png) -0px -1240px no-repeat;
+	    transform: scale(.75);
+		-webkit-transform:scale(.75);
+		-moz-transform:scale(.75);
+		position: absolute;
+	    top: -38px;
+	    left: 0;
+	}
+	.source_1 {
+	height: 190px;
+	width: 325px;
+	overflow: hidden;
+	background: url({{ app_url_packaged }}/images/mall/source_1.png) no-repeat;
+	}
+	.source_8 {
+		height: 170px;
+		width: 380px;
+		overflow: hidden;
+		//background: url(http://frstatic.qiniudn.com/images/mall/source-y.png) -1895px -1010px no-repeat;
+	    transform: scale(.75);
+		-webkit-transform:scale(.75);
+		-moz-transform:scale(.75);
+		position: absolute;
+	    top: 80px;
+	    left: 0px;
+	}
+	.source_6 {
+		height: 150px;
+		width: 310px;
+		overflow: hidden;
+		//background: url(http://frstatic.qiniudn.com/images/mall/source-y.png) -1100px -1340px no-repeat;
+	    transform: scale(.75);
+		-webkit-transform:scale(.75);
+		-moz-transform:scale(.75);
+		position:absolute;
+	    position: absolute;
+	    left: 500px;
+	    top: 180px;
+	}
+	.source_2 {
+		height: 120px;
+		width: 600px;
+		overflow: hidden;
+		background: url({{ app_url_packaged }}/images/mall/source_2.png) no-repeat;
+	    position: absolute;
+	    top: 50px;
+	    left: -75px;
+	    transform: scale(.75);
+		-webkit-transform:scale(.75);
+		-moz-transform:scale(.75);
+	}
+	.source_4 {
+		height: 110px;
+		width: 320px;
+		overflow: hidden;
+	    transform: scale(.75);
+		-webkit-transform:scale(.75);
+		-moz-transform:scale(.75);
+		position:absolute;
+		left: -40px;
+	    bottom: 50px;
+	}
+	.seoword{
+		position:absolute;
+		height:100%;
+		width:100%;
+	}
+	.seoword p{
+		font-size: 40px;
+	    margin-bottom: 0;
+	    line-height: 40px;
+	    color: #6c6c6c;
+	}
+	.seoword h1{
+	    font-size: 64px;
+	    margin: 0;
+	    color: #6d6d6d;
+	}
+	
+	.section3 .contide{
+		height:650px;
+	}
+	.section3 .seoword p{
+		font-size: 62px;
+	    line-height: 62px;
+		color:#1cd8fd;
+	}
+	.section3 .seoword h1{
+		font-size:76px;
+		color:#1cd8fd;
+	}
+	.source6-content{
+		position: absolute;
+	    left: 545px;
+	    top: 350px;
+		width:350px;
+		text-align:left;
+	}
+	.source6-content h2+p{
+		font-size: 16px;
+	    margin-top: 30px;
+		letter-spacing: 2px;
+	}
+	.section4 .contide{
+		height:735px;
+		padding-top: 260px;
+	}
+	.section4{
+		background:url( {{ app_url_packaged }}/images/mall/source2.jpg);
+	}
+	.section4 .seoword{
+		position: relative;
+		height: auto;
+	}
+	.section4 .seoword h1{
+		color:#fff;
+	}
+	.section4 .seoword p{
+		color:#fff;
+		font-size: 28px;
+	}
+	
+	.shanc{
+		padding-top:25px;
+		width: 80%;
+	    margin: auto;
+	}
+	.shanc > p{
+		font-size:16px;
+		color:#fff;
+		letter-spacing: 3px;
+	}
+	.cishu {
+		font-size:0;
+		padding:40px 0 25px;
+		color: #1cd8fd;
+	}
+	.cishu .w200{
+		width:200px;
+		display:inline-block;
+		text-align:center;
+		padding:20px 0 0;
+	}
+	.cishu .w200 h1 span{
+		font-size: 60px;
+	    letter-spacing: 3px;
+	}
+	.cishu .w200 p{
+		font-size:16px;
+	}
+	.cishu .w200{
+		border-right:1px solid #1cd8fd;
+	}
+	.cishu .w200:last-child{
+		border:0;
+	}
+	.section5 .contide{
+		height:700px;
+		padding-top: 50px;
+	}
+	
+	
+	
+	.source_8 h1{
+		font-size: 88px;
+	    text-align: left;
+	    text-indent: 41px;
+	    line-height: 96px;
+		color:#1cd8fd;
+		position:relative;
+	}
+	.source_8 h1::before{
+		content: " ";
+		position:absolute;
+		left:0;
+		top:-3px;
+		height:40px;
+		width:40px;
+		background:url({{ app_url_packaged }}/images/mall/sourcel1.png);
+	
+	}
+	.source_8 h1::after{
+		content: " ";
+		position:absolute;
+		right: 122px;
+		bottom: 3px;
+		height:40px;
+		width:40px;
+		background:url({{ app_url_packaged }}/images/mall/sourcer1.png);
+	
+	}
+	.source_8 p{
+		text-align: left;
+	    font-size: 60px;
+	    line-height: 80px;
+	    text-indent: 13px;
+		color:#1cd8fd;
+	}
+	.seofade{
+		width:260px;
+		position:relative;
+		text-align:center;
+		margin:auto;
+	}
+	.seofade h1{
+		font-size: 60px;
+	    margin: 0;
+	    color: #1cd8fd;
+	}
+	.seofade h1 span{
+		position:relative;
+		margin: 0 25px;
+	}
+	.seofade h1 span::before{
+		content: " ";
+		position:absolute;
+		left:0;
+		top:0;
+		height:20px;
+		width:20px;
+		background:url({{ app_url_packaged }}/images/mall/sourcel.png);
+	}
+	.seofade h1 span::after{
+		content: " ";
+		position:absolute;
+		right:0;
+		bottom:0;
+		height:20px;
+		width:20px;
+		background:url({{ app_url_packaged }}/images/mall/sourcer.png);
+	}
+	.seofade p{
+		color: #1cd8fd;
+	    font-size: 42px;
+	}
+	.section5 .seofade h1 span::before{
+	    left: -20px;
+	    top: 5px;
+	}
+	.section5 .seofade h1 span::after{
+	    right: -20px;
+	    bottom: 5px;
+	}
+	.section5 .content{
+		width:75%;
+		text-align:center;
+		margin:40px auto;
+	}
+	.section5 .content h2+p{
+		font-size: 16px;
+	    margin-top: 20px;
+	    letter-spacing: 2px;
+	}
+	.section6 {
+		background:#000;
+	}
+	.section6 .contide{
+		height:500px;
+		background:url({{ app_url_packaged }}/images/mall/source4.jpg);
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+	}
+	.section6 .w400{
+	    width: 400px;
+	    margin: 150px 0 0 50px;
+	    color: #fff;
+	}
+	.section6 .w400 h2+p{
+	    width: 340px;
+	    margin-top: 30px;
+	    text-align: left;
+	    font-size: 16px;
+	}
+	.section7 .contide{
+		height:529px;
+		font-size:0;
+		padding-top:20px;
+	}
+	.source-img{
+	    text-align: left;
+	    display: inline-block;
+	    width: 460px;
+	    margin: 0;
+	    margin-top: 115px;
+	}
+	.section7  .w540{
+		display: inline-block;
+	    width: 540px;
+	    padding-left: 160px;
+	    padding-right: 30px;
+	    margin-top: 30px;
+		vertical-align: top;
+	}
+	.section7  .w540 h1{
+		font-size:58px;
+		color:#1cd8fd;
+		line-height:70px;
+	}
+	.section7  .w540 h2{
+		margin-top:0;
+	}
+	.section7  .w540 h2+p{
+	    width: 62%;
+	    text-align: right;
+	    font-size: 16px;
+	    margin-left: 38%;
+		margin-top:30px;
+	}
+	.section8 .contide{
+		width:1180px;
+		height:800px;
+		background:url({{ app_url_packaged }}/images/mall/source_9.png) no-repeat;
+		background-size:cover;
+	}
+	.section8 .content{
+		padding-left:80px;
+		padding-top:185px;
+		text-align:left;
+		color:#1cd8fd;
+	}
+	.section8 .content h1{
+		font-size: 40px;
+	    margin: 0;
+	    line-height: 50px;
+	}
+	.section8 .content h1 span{
+		font-size:60px;
+	}
+	.section8 .content h2{
+		margin-top:10px;
+	}
+	
+	.section9{
+		background:#1cd8fd;
+	}
+	.section9 .contide{
+		width:1180px;
+		background:url({{ app_url_packaged }}/images/mall/source6.jpg) no-repeat;
+		background-size:cover;
+		height:600px;
+	}
+	.section9 .content{
+	    width: 420px;
+	    margin-left: 540px;
+	    margin-top: 100px;
+	    text-align: right;
+	}
+	.section9 .content h1{
+		font-size: 40px;
+	    margin: 0;
+	}
+	.section9 .content h2{
+		margin-top:10px;
+	}
+	.section11 .contide{
+		height:540px;
+		background:url({{ app_url_packaged }}/images/mall/source8.jpg) no-repeat;
+		background-size:cover;
+	}
+	.bf8.background{
+		background:#f8f8f8;
+	}
+	.section12 .contide{
+		padding-top:50px;
+	}
+	.section12 .content h1{
+		font-size: 60px;
+		margin: 0;
+		color:#1cd8fd;
+	}
+	.section12 .content h2{
+		margin-top: 10px;
+		color:#1cd8fd;
+	}
+	.section12 .content h2 + p{
+	    width: 543px;
+	    margin: 30px auto 50px;
+		text-align:left;
+		font-size:16px;
+	}
+	.section12 .content img + p{
+		padding:20px 0 60px;
+		font-size:16px;
+	}
+	.section13 .contide{
+		height:500px;
+	}
+	.source9{
+		width:700px;
+		height:450px;
+		background:url({{ app_url_packaged }}/images/mall/source9.jpg) no-repeat;
+	    transform: scale(.75);
+		-webkit-transform:scale(.75);
+		-moz-transform:scale(.75);
+		position: absolute;
+		top: -56px;
+		left: -95px;
+	}
+	.section13 .content{
+		text-align:right;
+		padding-top:30px;
+		width:600px;
+		margin-left:400px;
+	}
+	.section13 .content h1{
+	    font-size: 60px;
+	    margin: 0;
+		color:#1cd8fd;
+	}
+	.section13 .content h2{
+		margin-top:10px;
+	}
+	.section13 .content p{
+		padding-top:30px;
+		font-size:16px;
+		text-align:left;
+	}
+	.section13 .content h1 span{
+		position: relative;
+	    margin: 0 25px;
+	}
+	.section13 .content h1 span::before {
+	    content: " ";
+	    position: absolute;
+	    left: 0;
+	    top: 0;
+	    height: 20px;
+	    width: 20px;
+	    background: url(http://static.taihuoniao.me/images/mall/sourcel.png);
+		left: -20px;
+	    top: 5px;
+	}
+	.section13 .content h1 span::after {
+	    content: " ";
+	    position: absolute;
+	    right: 0;
+	    bottom: 0;
+	    height: 20px;
+	    width: 20px;
+	    background: url(http://static.taihuoniao.me/images/mall/sourcer.png);
+		right: -20px;
+		bottom: 5px;
+	}
+	.section15 .contide,.section16 .contide{
+		padding:30px 0;
+	}
+	.section14{
+		padding:50px 0;
+	}
+	.section14 .contide{
+		width:1000px;
+		height:1150px;
+		background:url({{ app_url_packaged }}/images/mall/source10.jpg) no-repeat;
+	}
+	.section14 .content{
+		width: 70%;
+	    margin: auto;
+	    padding-top: 525px;
+	}
+	.section14 .content h1{
+	    font-size: 60px;
+	    margin: 0;
+		color:#1cd8fd;
+	}
+	.section14 .content h2{
+		margin-top:10px;
+	}
+	.section14 .content p{
+		padding-top:20px;
+		font-size:16px;
+		text-align:left;
+	}
+</style>
+{% endblock %}
+{% block jquery %}
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
+	
+	
+{% endblock %}
+{% block content %}
+<div class="ui white responsive grid" data-0="opacity:0;display:none;" data-100="opacity:1;display:block;" style="width: 100% !important;">
+	<div class="row">
+		<div class="eight wide column">
+			<h3>微波闪充移动电源</h3>
+		</div>
+		<div class="eight wide column">
+			<a href="javascript:void(0)" class="ui link item active">概述</a>|
+			<!--<a href="#.team" class="ui link item">我们的团队</a>|-->
+			<a href="{{ app_url_domain }}/mall/tgopro" class="ui link item">图集</a>|
+			<a href=" " title="微波闪充移动电源" class="ui item link" target="_blank">讨论区</a>
+			<a href="#.buy" class="ui inverted active black button" style="padding: 0.4em 1em;margin-bottom: 2px;font-weight: 400;" title="GoPro">立即购买</a>
+		</div>
+	</div>
+</div>
+
+<div class="fitbit">
+	<div class="section section1">
+		<div class="contide">
+			<div alt="微波闪充移动电源" class="source_1"></div>
+			<h3>微波闪充移动电源</h3>
+			<h1>极速体验，快人一步！</h1>
+			<h4>不怕极“速”对决！还有无限能“量”！</h4>
+			<div class="mt-50">
+				<br>
+				<br>
+				<p>“慢”是我们一直在克服的课题</p>
+				<p>我们带着比“快”跟“闪”的技术使命</p>
+				<p>用真“芯”实现电量转化</p>
+				<p>借助11重保护，登顶安全之王</p>
+			</div>
+			<div class="mt-50">
+				<p>一切科技资源优势，蓄意待发，只为消除你的烦恼</p>
+				<p>让产品像你一样“快”，充满无限“能量”！</p>
+			</div>
+		</div>
+	</div>
+	
+	<div class="section section2 bgf background">
+		<div class="contide">
+			<div class="source_2"></div>
+			<div class="source_3"></div>
+			<div class="source_4">
+				<div class="seoword">
+					<p>你需要一款更快的</p>
+					<h1>移动电源。</h1>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+	
+	<div class="section section3">
+		<div class="contide">
+			<div class="source_5"></div>
+			<div class="source_6">
+				<div class="seoword">
+					<p>比快充更快</p>
+					<h1>叫闪充。</h1>
+				</div>
+			</div>
+			
+			<div class="source6-content">
+				<h2>一款2小时能充99%的移动电源</h2>
+				<p>微波闪充移动电源配备了Tcharge快充技术支持双线充电，充满一个接近万量级别的移动电源，仅仅只需要3个小时，让你免受电源充电时间过长的痛苦。</p>
+			</div>
+		</div>
+	</div>
+	
+	<div class="section section4">
+		<div class="contide">
+			<div class="source_7"></div>
+			<div class="seoword">
+				<h1>手机充电  快人一步</h1>
+				<p>充电很快，电量输出同样出色</p>
+			</div>
+			
+			<div class="shanc">
+				<p>闪电移动电源，相对其他普通的移动电源，其电量输出更加出色，一般电源充满iPhone6系列手机要3个小时，而闪充基本2个多小时就可以充满了。</p>
+				
+				<div class="cishu">
+					<div class="w200">
+						<h1><span>2</span>次</h1>
+						<p>三星S6</p>
+					</div>
+					<div class="w200">
+						<h1><span>4</span>次</h1>
+						<p>iPhone 6S</p>
+					</div>
+					<div class="w200">
+						<h1><span>1</span>次</h1>
+						<p>iPad mini</p>
+					</div>
+				</div>
+				<p>*以上数据均为实验测定值，实际使用根据具体情况略有不同。</p>
+			</div>
+		</div>
+	</div>
+	
+	<div class="section section5">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/mall/source3.jpg" width="50%">
+			<div class="seofade">
+				<h1>真<span>芯</span>快</h1>
+				<p>只为用得放心</p>
+			</div>
+			<div class="content">
+				<h2>配备高能聚合物锂电池</h2>
+				<p>我们选择了行业中稳定性好，安全系数高的高能聚合物锂电池。这种电芯跟普通的18650电芯相对比，不仅更具抗爆、阻燃、同时还可以防止电源漏夜。我们在电芯上严格苛求，是为了电源在你手上用得放心，用得安全。</p>
+			</div>
+		
+		</div>
+	</div>
+	
+	<div class="section section6">
+		<div class="contide">
+			<div class="source_8">
+				<div class="seoword">
+					<h1>高效</h1>
+					<p>才是快的体现</p>
+				</div>
+			</div>
+			<div class="w400">
+				<h2>板端高达93%转化率，展现真芯实力</h2>
+				<p>高端德州仪器IC芯片，加以精准紧密的电路设计，让电源可以更高效率的释放。凭借着高新设计的优势，可以减少电源在充电过程中，会出现电流不稳定，电路板过热的情况发生。</p>
+			</div>	
+				
+		</div>
+	</div>
+	
+	<div class="section section7">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/mall/source5.jpg" class="source-img">
+			<div class="w540">
+				<h1>
+					恰到好处容量<br>
+					只为极速体验
+				</h1>
+				<h2>8000毫安是实用和极速的集合点</h2>
+				<p>
+					目前市面上出现了很多万量级别的移动电源，但是很多此类电源存在着虚标、或是用低劣的电芯。我们的电量设为8000毫安是为匹配整个电源的电路系统，同时让Tcharge快充能够发挥到极致。我们在做市场调查中发现，8000毫安是实用和极速的集合点。
+				</p>
+			</div>
+		</div>
+	</div>
+	
+	<div class="section section8 bgff background">
+		<div class="contide">
+			<div class="content">
+				<h1>
+					<span>快一点</span><br>
+					安全不能少一点
+				</h1>
+				<h2>11重安全保护，移动电源安全最重要</h2>
+			</div>
+		</div>
+	</div>
+	
+	<div class="section section9">
+		<div class="contide">
+			<div class="content">
+				<h1>
+					搭配TYPE-C接口
+				</h1>
+				<h2>告别等待，让你一整天不用为充电发愁</h2>
+			</div>
+		</div>
+	</div>
+	
+	<div class="section section10">
+		<img src="{{ app_url_packaged }}/images/mall/source7.jpg" width="100%">
+	</div>
+	
+	<div class="section section11">
+		<div class="contide">
+		</div>
+	</div>
+	
+	<div class="section section12 bf8 background">
+		<div class="contide">
+			<div class="content">
+				<h1>有容乃大  心有所属</h1>
+				<h2>适配市面不同手机型号，同时配备乐视手机专属接口</h2>
+				<p>我们在设备识别技术上做了更好的兼容性，除了可以和市面上所有不同型号的手机输电外，同时我们考虑目前越来越受手机厂商喜爱的TYPE-C数据线接口的设置，因目前只有乐视手机使用这种接口，所以我们此款电源也可以成为乐视手机的专属移动电源。</p>
+				<img src="{{ app_url_packaged }}/images/mall/source_10.png" width="75%">
+				<p>*快充功能兼容更多设备，想充就充，皆能良好支持。</p>
+			</div>
+		</div>
+	</div>
+	
+	<div class="section section13">
+		<div class="contide">
+			<div class="source9"></div>
+			<div class="content">
+				<h1>不是冰冷一块
+					<br>
+					更是<span>柔情</span>一面
+				</h1>
+				<h2>硬朗搭配柔情条纹创意外形设计</h2>
+				<p>市面上方形移动电源都是冰冷的一块，而微波移动电源的设计灵感来自于豪车上的流线感让整个电源外形不仅有硬朗气派，更有柔情细腻之处体现了匠品之至。</p>
+				
+			</div>
+		</div>
+	</div>
+	
+	<div class="section section14 bf8 background">
+		<div class="contide">
+			<div class="content">
+				<h1>用手去感受
+					<br>
+					它在运作的气息
+				</h1>
+				<h2>遥感应电量显示，智能实用</h2>
+				<p>
+				只要轻轻摇一下，就有电量剩余灯出现，蓝灯表示电量在70%以上，绿灯表示电量在30%以上，当电量只要30%以下的话，就会出现红灯。让我们用手去体验这电源在运作的气息吧！
+				</p>
+			</div>	
+		</div>
+	</div>
+	
+	<div class="section section15">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/mall/source11.jpg" width="100%">	
+		</div>
+	</div>
+	
+	<div class="section section16 bf8 background">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/mall/source12.jpg" width="100%">
+		</div>
+		
+		<div class="ui responsive grid" style="padding: 0 0 80px;">
+			<div class="row">
+				<div class="center aligned buy column">
+					<a href=" " target="_blank" class="ui big inverted active magenta button" title="微波闪充移动电源">立即购买</a>
+				</div>
+			</div>
+		</div>
+		
+		
+	</div>
+	
+	
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
