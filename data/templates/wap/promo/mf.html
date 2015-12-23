@@ -1841,6 +1841,16 @@
 	.da7-2.active{
 		background:url('http://frstatic.qiniudn.com/images/promo/mf/da7-2ttt.png');
 	}
+	p{
+		width: 74%;
+	    position: absolute;
+	    bottom: 12%;
+	    left: 13%;
+		font-size:18px;
+	    font-weight: inherit;
+	    font-style: inherit;
+	    font-family: Microsoft yahei,Helvetica,Arial
+	}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -1873,7 +1883,7 @@
     webpsupport(function (webpa) {
     var loader = new PxLoader(),
      fileList =[
-		'mf.png','mft.png','mff.png','onebg.jpg','steup.jpg','p1_1.png','p1_5.png','p2_4.png','p2_5.png','p4_1.png','p4_4.png','p5_6.png','p7_1.png','p9_3.png','twobg.jpg','threebg.jpg','tenbg.jpg','da7-1.png','da7-1ttt.png','da7-2.png','da7-2ttt.png','1lm.jpg','2lm.jpg','3lm.jpg','4lm.jpg','5lm.jpg','1nb.jpg','2nb.jpg','3nb.jpg','4nb.jpg','5nb.jpg','nbb.jpg'
+		'mf.png','mft.png','mff.png','onebg.jpg','steup.jpg','p1_1.png','p1_5.png','p2_4.png','p2_5.png','p4_1.png','p4_4.png','p5_6.png','p7_1.png','p9_3.png','twobg.jpg','threebg.jpg','tenbg.jpg','da7-1.png','da7-1ttt.png','da7-2.png','da7-2ttt.png','01lm.jpg','02lm.jpg','03lm.jpg','04lm.jpg','05lm.jpg','01nb.jpg','02nb.jpg','03nb.jpg','04nb.jpg','05nb.jpg','nbb.jpg'
 		 
 	];
 
@@ -1985,62 +1995,62 @@
 		
 		if ( leng >= 0 && leng <= 2 && shenfen == 1){
 			$('.page-10').addClass('question hide');
-			$('img.ping').css("display","block");
-			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/1lm.jpg');
+			$('img.ping,p').css("display","block");
+			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/01lm.jpg');
 			$('html,body,.wrap').css('background','rgba(0,0,0,0)');
 		}
 		if ( leng >= 3 && leng <= 4 && shenfen == 1){
 			$('.page-10').addClass('question hide');
-			$('img.ping').css("display","block");
-			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/2lm.jpg');
+			$('img.ping,p').css("display","block");
+			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/02lm.jpg');
 			$('html,body,.wrap').css('background','rgba(0,0,0,0)');
 		}
 		if ( leng >= 5 && leng <= 6 && shenfen == 1){
 			$('.page-10').addClass('question hide');
-			$('img.ping').css("display","block");
-			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/3lm.jpg');
+			$('img.ping,p').css("display","block");
+			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/03lm.jpg');
 			$('html,body,.wrap').css('background','rgba(0,0,0,0)');
 		}
 		if ( leng >= 7 && leng <= 8 && shenfen == 1){
 			$('.page-10').addClass('question hide');
-			$('img.ping').css("display","block");
-			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/4lm.jpg');
+			$('img.ping,p').css("display","block");
+			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/04lm.jpg');
 			$('html,body,.wrap').css('background','rgba(0,0,0,0)');
 		}
 		if ( leng >= 9 && leng <= 10 && shenfen == 1){
 			$('.page-10').addClass('question hide');
-			$('img.ping').css("display","block");
-			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/5lm.jpg');
+			$('img.ping,p').css("display","block");
+			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/05lm.jpg');
 			$('html,body,.wrap').css('background','rgba(0,0,0,0)');
 		}
 		if ( leng >= 0 && leng <= 2 && shenfen == 0){
 			$('.page-10').addClass('question hide');
-			$('img.ping').css("display","block");
-			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/1nb.jpg');
+			$('img.ping,p').css("display","block");
+			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/01nb.jpg');
 			$('html,body,.wrap').css('background','rgba(0,0,0,0)');
 		}
 		if ( leng >= 3 && leng <= 4 && shenfen == 0){
 			$('.page-10').addClass('question hide');
-			$('img.ping').css("display","block");
-			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/2nb.jpg');
+			$('img.ping,p').css("display","block");
+			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/02nb.jpg');
 			$('html,body,.wrap').css('background','rgba(0,0,0,0)');
 		}
 		if ( leng >= 5 && leng <= 6 && shenfen == 0){
 			$('.page-10').addClass('question hide');
-			$('img.ping').css("display","block");
-			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/3nb.jpg');
+			$('img.ping,p').css("display","block");
+			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/03nb.jpg');
 			$('html,body,.wrap').css('background','rgba(0,0,0,0)');
 		}
 		if ( leng >= 7 && leng <= 8 && shenfen == 0){
 			$('.page-10').addClass('question hide');
-			$('img.ping').css("display","block");
-			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/4nb.jpg');
+			$('img.ping,p').css("display","block");
+			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/04nb.jpg');
 			$('html,body,.wrap').css('background','rgba(0,0,0,0)');
 		}
 		if ( leng >= 9 && leng <= 10 && shenfen == 0){
 			$('.page-10').addClass('question hide');
-			$('img.ping').css("display","block");
-			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/5nb.jpg');
+			$('img.ping,p').css("display","block");
+			$('img.ping').attr('src','{{ app_url_packaged }}/images/promo/mf/05nb.jpg');
 			$('html,body,.wrap').css('background','rgba(0,0,0,0)');
 		}
 		
@@ -2357,6 +2367,7 @@
 </div>
 
 <img src=" " class="ping" style="display:none;">
+<p style="display: none;">复制这条信息 ￥AABzRigN￥🔑淘口令 🔑 在手机淘宝上打开</p>
 
 <div id="orientLayer" class="mod-orient-layer">
   <div class="mod-orient-layer__content"><i class="icon mod-orient-layer__icon-orient"></i>

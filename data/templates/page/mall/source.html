@@ -136,7 +136,6 @@
 		height: 170px;
 		width: 380px;
 		overflow: hidden;
-		//background: url(http://frstatic.qiniudn.com/images/mall/source-y.png) -1895px -1010px no-repeat;
 	    transform: scale(.75);
 		-webkit-transform:scale(.75);
 		-moz-transform:scale(.75);
@@ -148,7 +147,6 @@
 		height: 150px;
 		width: 310px;
 		overflow: hidden;
-		//background: url(http://frstatic.qiniudn.com/images/mall/source-y.png) -1100px -1340px no-repeat;
 	    transform: scale(.75);
 		-webkit-transform:scale(.75);
 		-moz-transform:scale(.75);
@@ -429,7 +427,7 @@
 	.section8 .contide{
 		width:1180px;
 		height:800px;
-		background:url({{ app_url_packaged }}/images/mall/source_09.png) no-repeat;
+		background:url(http://frstatic.qiniudn.com/images/mall/source_09.png) no-repeat;
 		background-size:cover;
 	}
 	.section8 .content{
@@ -590,6 +588,13 @@
 		font-size:16px;
 		text-align:left;
 	}
+	
+	.source_1{
+		opacity:0;
+	}
+	.loaded .source_1{
+		opacity:1;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -598,6 +603,10 @@
 		mobileCheck:function(){},
 		mobileDeceleration:0.004,
 	});
+	$(window).load(function(){
+	    $(document.body).addClass("loaded");
+	});
+	
 	
 	
 {% endblock %}
@@ -617,10 +626,10 @@
 	</div>
 </div>
 
-<div class="fitbit">
+<div class="source">
 	<div class="section section1">
 		<div class="contide">
-			<div alt="微波闪充移动电源" class="source_1"></div>
+			<div class="source_1"></div>
 			<h3>微波闪充移动电源</h3>
 			<h1>极速体验，快人一步！</h1>
 			<h4>不怕极“速”对决！还有无限能“量”！</h4>
@@ -840,19 +849,7 @@
 			</div>
 		</div>
 		
-		
 	</div>
-	
-	
 </div>
-
-
-
-
-
-
-
-
-
 
 {% endblock %}
