@@ -548,7 +548,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	 */
 	public function ajax_address(){
 		// 验证数据
-		$id = isset($this->stash['_id'])?$this->stash['_id']:0;
+		$id = isset($this->stash['id'])?$this->stash['id']:0;
     $user_id = $this->current_user_id;
 		if(empty($user_id)){
 			return $this->api_json('请先登录!', 3000);
