@@ -595,6 +595,117 @@
 	.loaded .source_1{
 		opacity:1;
 	}
+	@-webkit-keyframes fadeInUp {
+	    0% {
+	        opacity: 0; 
+			-webkit-transform: translate3d(0, 100% , 0);
+	        transform: translate3d(0, 100% , 0)
+	    }
+	    100% {
+	        opacity: 1; 
+			-webkit-transform: none;
+	        transform: none
+	    }
+	}
+	@keyframes fadeInUp {
+	    0% {
+	        opacity: 0; 
+			-webkit-transform: translate3d(0, 100% , 0); 
+			-ms-transform: translate3d(0, 100% , 0);
+	        transform: translate3d(0, 100% , 0)
+	    }
+	    100% {
+	        opacity: 1; 
+			-webkit-transform: none; 
+			-ms-transform: none;
+	        transform: none
+	    }
+	}
+	.section1 h3,.section1 h1,.section1 h4,.section1 .mt-50{
+		opacity:0;
+	}
+	.loaded .section1 h3{
+		animation: fadeInUp .5s cubic-bezier(0.4, 0, 1, 1) .5s forwards;
+		-webkit-animation: fadeInUp .5s cubic-bezier(0.4, 0, 1, 1) .5s forwards;
+	}
+	.loaded .section1 h1{
+		animation: fadeInUp .5s cubic-bezier(0.4, 0, 1, 1) 1s forwards;
+		-webkit-animation: fadeInUp .5s cubic-bezier(0.4, 0, 1, 1) 1s forwards;
+	}
+	.loaded .section1 h4{
+		animation: fadeInUp .5s cubic-bezier(0.4, 0, 1, 1) 1.5s forwards;
+		-webkit-animation: fadeInUp .5s cubic-bezier(0.4, 0, 1, 1) 1.5s forwards;
+	}
+	.loaded .mt-50{
+		animation: fadeInUp 1s cubic-bezier(0.4, 0, 1, 1) 1.7s forwards;
+		-webkit-animation: fadeInUp 1s cubic-bezier(0.4, 0, 1, 1) 1.7s forwards;
+	}
+	.loaded .mt-50 + .mt-50{
+		animation: fadeInUp .5s cubic-bezier(0.4, 0, 1, 1) 2.3s forwards;
+		-webkit-animation: fadeInUp .5s cubic-bezier(0.4, 0, 1, 1) 2.3s forwards;
+	}
+	.source_3,.source_5,.source_7{
+		opacity:0;
+	}
+	@-webkit-keyframes fadeInDown {
+		0% {
+			opacity: 0;
+			bottom:260px;
+		}
+
+		100% {
+			opacity: 1;
+			bottom:-100px;
+		}
+	}
+
+	@keyframes fadeInDown {
+		0% {
+			opacity: 0;
+			bottom:260px;
+		}
+
+		100% {
+			opacity: 1;
+			bottom:-100px;
+		}
+	}
+
+	.fadeInDown{
+		animation: fadeInDown 1s cubic-bezier(0.4, 0, 1, 1) 0s forwards;
+		-webkit-animation: fadeInDown 1s cubic-bezier(0.4, 0, 1, 1) 0s forwards;
+	}
+	@-webkit-keyframes fadeInLeft {
+		0% {
+			opacity: 0;
+			left:50%;
+		}
+
+		100% {
+			opacity: 1;
+			left:0;
+		}
+	}
+
+	@keyframes fadeInLeft {
+		0% {
+			opacity: 0;
+			left:50%;
+		}
+
+		100% {
+			opacity: 1;
+			left:0;
+		}
+	}
+
+	.fadeInLeft{
+		animation: fadeInLeft 1s cubic-bezier(0.4, 0, 1, 1) 0s forwards;
+		-webkit-animation: fadeInLeft 1s cubic-bezier(0.4, 0, 1, 1) 0s forwards;
+	}
+	.contide.transtrom{
+		background:none;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -607,6 +718,18 @@
 	    $(document.body).addClass("loaded");
 	});
 	
+	$(window).scroll(function(){
+		i = $(this).scrollTop();
+		var n = $('.source_3');
+		var m = $('.source_5');
+		var l = $('.source_7');
+		var f = $('.section6 .contide')
+		i > 450 ? n.addClass('fadeInDown'):'';
+		i < 100 ? n.removeClass('fadeInDown')&&m.removeClass('fadeInLeft')&&l.removeClass('fadeInDown'):'';
+		i > 850 ? m.addClass('fadeInLeft'):'';
+		i > 1310 ? l.addClass('fadeInDown'):'';
+		i > 3080 ? f.removeClass('transtrom'):'';
+	})
 	
 	
 {% endblock %}
@@ -725,7 +848,7 @@
 	</div>
 	
 	<div class="section section6">
-		<div class="contide">
+		<div class="contide transtrom">
 			<div class="source_8">
 				<div class="seoword">
 					<h1>高效</h1>
