@@ -120,7 +120,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
       $data[$key] = isset($try[$key]) ? $try[$key] : null;
     }
     //转换描述格式
-    $data['content_view_url'] = sprintf('%s/app/api/view/try_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $try['_id'], $user_id);
+    $data['content_view_url'] = sprintf('%s/app/api/view/try_show?id=%d', Doggy_Config::$vars['app.domain.base'], $try['_id']);
     // 封面图url
     $data['cover_url'] = $try['cover']['thumbnails']['medium']['view_url'];
     // banner图url

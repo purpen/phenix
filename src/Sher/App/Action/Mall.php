@@ -8,13 +8,29 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute','lunar','fitbit','gopro','tlunar','tfitbit','tgopro','milk','tmilk','cocoon','tcocoon');
+	protected $exclude_method_list = array('execute','lunar','fitbit','gopro','tlunar','tfitbit','tgopro','milk','tmilk','cocoon','tcocoon','zxc','tzxc','source','tsource');
 	
 	/**
 	 * 网站入口
 	 */
 	public function execute(){
 		return $this->lunar();
+	}
+	
+	/**
+	 * source 微波闪充移动电源
+	 */
+	public function source(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/source.html');
+	}
+	
+	/**
+	 * source 微波闪充移动电源
+	 */
+	public function tsource(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/tsource.html');
 	}
 	
 	/**
