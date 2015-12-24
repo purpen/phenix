@@ -14,9 +14,9 @@
 
 <div class="sellwrap">
 	<div class="block title">
-		社区版块
+		综合版块
     </div>
-                
+    <!--
     <div class="ui two item labeled icon menu">
         <a href="{{ app_url_try }}" class="{{ css_page_sub_try }} item">
             <i class="lab icon"></i> 新品试用
@@ -25,9 +25,30 @@
             <i class="gamepad icon"></i> 活动
         </a>
     </div>
+    -->
     
     <div class="fluid ui large vertical category menu">
-        {% category_list var:'category' only_open:1 domain:2 size:15 %}
+        {% category_list var:'category' only_open:1 domain:2 pid:topic_category_comprehensive size:15 %}
+        {% for cat in category.rows %}
+            {% if cat.pid %}
+            <a class="item" href="{{ cat.view_url }}">
+                {% if cat.total_count %}
+                <div class="ui label">{{ cat.total_count }}</div>
+                {% endif %}
+                {{ cat.title }}
+            </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<div class="sellwrap">
+	<div class="block title">
+		产品版块
+    </div>
+    
+    <div class="fluid ui large vertical category menu">
+        {% category_list var:'category' only_open:1 domain:2 pid:topic_category_product size:15 %}
         {% for cat in category.rows %}
             {% if cat.pid %}
             <a class="item" href="{{ cat.view_url }}">

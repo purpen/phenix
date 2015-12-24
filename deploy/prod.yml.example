@@ -97,6 +97,11 @@ app.topic_comment_ids: '37|36'
 # 评测报告类别
 app.try.report_category_id: 18
 
+# 话题综合版块ID
+app.topic_category_comprehensive: 16
+# 话题产品版块ID
+app.topic_category_product: 17
+
 app.url.action_base:    '{$app.domain.app}'
 
 app.url.upload_url: '{$app.domain.app}/uploader'
