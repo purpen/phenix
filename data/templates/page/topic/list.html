@@ -17,7 +17,7 @@
     <div class="mainleftwrap">
         <div class="mainleft">
             
-            <div class="topics catemenu masthead" style="background-image:url('{{ app_url_packaged }}/images/topicbg/tp-{%if is_top%}{{ current_category.name }}{%else%}{{ parent_category.name }}{%endif%}.jpg');">
+            <div class="topics catemenu masthead" style="background-image:url('{{ app_url_packaged }}/images/topicbg/tp-{{ current_category.name }}.jpg');">
             	<div class="ui grid">
             		<div class="row">
             			<div class="twelve wide column">
