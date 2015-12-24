@@ -116,7 +116,7 @@
 		</form>
 	</div>
 	
-	{% order_list var:'list' searched:1 status:s q:q name:name mobile:mobile start_time:start_time end_time:end_time product:product sku:sku page:page  %}
+	{% order_list var:'list' searched:1 status:s q:q name:name mobile:mobile start_time:start_time end_time:end_time product:product sku:sku page:page size:size  %}
 	
 	{% for item in list.rows %}
 		<div id="order-{{ item.order._id }}" class="order-item">

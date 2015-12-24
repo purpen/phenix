@@ -123,7 +123,7 @@
 		</form>
 	</div>
 	
-	{% order_list var:'list' user_id:user_id status:s size:15 page:page search_rid:search_rid search_name:search_name  %}
+	{% order_list var:'list' user_id:user_id status:s size:size page:page search_rid:search_rid search_name:search_name  %}
 	
 	{% for order in list.rows %}
 		{% include 'block/order-item.html' %}
