@@ -173,7 +173,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         $data[$i]['small_avatar_url'] = $result['rows'][$i]['designer']['small_avatar_url'];     
       }
 
-            $data[$i]['content_view_url'] = sprintf('%s/view/product_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['_id'], $this->current_user_id);
+            $data[$i]['content_view_url'] = sprintf('%s/view/product_show?id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['_id']);
             // 保留2位小数
             $data[$i]['sale_price'] = sprintf('%.2f', $result['rows'][$i]['sale_price']);
 		}
@@ -224,7 +224,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     }
 
     //转换描述格式
-    $data['content_view_url'] = sprintf('%s/app/api/view/product_show?id=%d&current_user_id=%d', Doggy_Config::$vars['app.domain.base'], $product['_id'], $user_id);
+    $data['content_view_url'] = sprintf('%s/app/api/view/product_show?id=%d', Doggy_Config::$vars['app.domain.base'], $product['_id']);
 
     //验证是否收藏或喜欢
     $fav = new Sher_Core_Model_Favorite();
