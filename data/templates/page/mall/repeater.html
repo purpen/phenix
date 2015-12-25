@@ -1,0 +1,664 @@
+{%extends 'layout/column.html'%}
+{% block title %}wifi扩大器 -{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.ui.white .row{
+		padding:5px 8%;
+	}
+	.ui.white h3{
+		font-weight: normal;
+	  margin: 0;
+	  line-height: 41px;
+	}
+	.ui.white{
+		position:fixed;
+		top:0;
+		left:0;
+		width:100%;
+		z-index:999;
+		opacity:0;
+		padding-top:3px !important;
+		background:rgba(255,255,255,0.8) !important;
+		-webkit-transition: all .3s ease-out 0s;
+		transition: all .3s ease-out 0s;
+		border-bottom:1px solid rgba(0,0,0,0.3);
+	}
+	.ui.white .eight+.eight{
+		text-align:right;
+		line-height: 41px;
+	}
+	.ui.white .eight+.eight a.ui.item{
+		margin:0 10px;
+	}
+	.section{
+		position:relative;
+		-webkit-font-smoothing: antialiased;
+		background-color:#fff;
+	}
+	.section img{
+		text-align:center;
+	}
+	.contide{
+		width:1000px;
+		margin:0 auto;
+		padding-top:90px;
+		text-align: center;
+		position:relative;
+	}
+	.section1{
+		height:650px;
+		background:url({{ app_url_packaged }}/images/mall/repeater.jpg) 50% 100% no-repeat;
+	}
+	.xinh{
+		height:340px;
+		width:340px;
+		position:absolute;
+		top:180px;
+		right:310px;
+	}
+	.xinh img{
+		position:absolute;
+		top:70px;
+		left:70px;
+		z-index:3;
+	}
+	.loaded .xinh .wh260{
+		width: 180px;
+	    height: 180px;
+	    position: absolute;
+	    top: 80px;
+	    left: 80px;
+	    background: rgba(255,255,255,0.4);
+		z-index:2;
+		border-radius:130px;
+	  	-webkit-animation: ripple 1.6s 0.2s 2 forwards;
+	  	-webkit-animation: ripple 1.6s 0.2s 2 forwards;
+	}
+	
+	.xinh2{
+		height:400px;
+		width:400px;
+		position:absolute;
+		right:-40px;
+		top:100px;
+	}
+	.xinh2 img{
+		position:absolute;
+		top:70px;
+		left:70px;
+		z-index:6;
+	}
+	.loaded .xinh2 .wh320{
+		width: 320px;
+	    height: 320px;
+	    position: absolute;
+	    top: 40px;
+	    left: 40px;
+	    background: rgba(255,255,255,0.45);
+		z-index:5;
+		border-radius:160px;
+	  	animation: ripplee 2s 0s 2 forwards;
+	  	-webkit-animation: ripplee 2s 0s 2 forwards;
+	}
+	/*.wh380{
+		width:380px;
+		height:380px;
+		position:absolute;
+		top:10px;
+		left:10px;
+		background:rgba(255,255,255,0.2);
+		border-radius:190px;
+		z-index:4;
+	}*/
+	.img-product{
+		z-index: 7;
+	    right: 165px;
+	    position: absolute;
+	    width: 300px;
+	    top: 160px;
+	}
+	@keyframes ripple {
+	  0% {
+	    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2),
+	                0 0 0 30px rgba(255, 255, 255, 0.2),
+	                0 0 0 60px rgba(255, 255, 255, 0.2);
+	  }
+	  100% {
+	    box-shadow: 0 0 0 40px rgba(255, 255, 255, 0.2),
+					0 0 0 80px rgba(255, 255, 255, 0.2);
+	  }
+	}
+	@-webkit-keyframes ripple {
+  	  0% {
+  	    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2),
+  	                0 0 0 20px rgba(255, 255, 255, 0.2),
+  	                0 0 0 40px rgba(255, 255, 255, 0.2),
+  					0 0 0 60px rgba(255, 255, 255, 0.2);
+  	  }
+  	  100% {
+  	    box-shadow: 0 0 0 20px rgba(255, 255, 255, 0.2),
+  	                0 0 0 40px rgba(255, 255, 255, 0.2),
+  	                0 0 0 60px rgba(255, 255, 255, 0.2),
+  					0 0 0 80px rgba(255, 255, 255, 0.2);
+  	  }
+	}
+	@keyframes ripplee {
+	  0% {
+	    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2),
+	                0 0 0 30px rgba(255, 255, 255, 0.2),
+					0 0 0 60px rgba(255, 255, 255, 0.2);
+	  }
+	  100% {
+	    box-shadow: 0 0 0 50px rgba(255, 255, 255, 0.2),
+					0 0 0 90px rgba(255, 255, 255, 0.2);
+	  }
+	}
+	@-webkit-keyframes ripplee {
+  	  0% {
+  	    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2),
+  	                0 0 0 30px rgba(255, 255, 255, 0.2),
+  					0 0 0 60px rgba(255, 255, 255, 0.2);
+  	  }
+  	  100% {
+  	    box-shadow: 0 0 0 50px rgba(255, 255, 255, 0.2),
+  					0 0 0 90px rgba(255, 255, 255, 0.2);
+  	  }
+	}
+	.section1 .content{
+	    text-align: left;
+	    color: #fff;
+	    padding-top: 120px;
+	}
+	.section1 .content h1{
+		margin-bottom:40px;
+	}
+	.section1 .content p{
+		font-size: 16px;
+		margin: 20px 0;
+	}
+	.section1 .content p img{
+	    width: 40px;
+	    vertical-align: middle;
+		margin-right: 20px;
+	}
+	.section2{
+		height:135px;
+		background:url({{ app_url_packaged }}/images/mall/repeater2.jpg) 100% 100% no-repeat;
+	}
+	.section2 h1{
+		text-align:center;
+		font-size:40px;
+		font-weight:700;
+		line-height:135px;
+		color:#fff;
+	}
+	.section3{
+		height:780px;
+		background:url({{ app_url_packaged }}/images/mall/repeater3.jpg) 100% 100% no-repeat;
+	}
+	.section3 .sat{
+		margin:0 60px;
+	}
+	.img-10{
+		margin:50px 0;
+	}
+	.section3 p{
+		font-size:16px;
+		color:#fff;
+		line-height: 26px;
+		padding: 10px 0 30px;
+	}
+	.section3 h1{
+		color:#fff;
+		letter-spacing: 3px;
+	}
+	
+	.section4{
+		height:800px;
+		background:url({{ app_url_packaged }}/images/mall/repeater4.jpg) 40% 0 no-repeat;
+	}
+	.section4 h1{
+		color:#010101;
+	}
+	.section4 p,.section5 p,.section6 p,.section8 p,.section9 p,.section14 p{
+		color:#424242;
+		font-size:16px;
+	}
+	.section5{
+		height:650px;
+		background:url({{ app_url_packaged }}/images/mall/repeater5.jpg) 0 80% no-repeat;
+		background-size:cover;
+	}
+	.section5 .contide{
+		text-align:left;
+		padding-left:600px;
+	}
+	.section8 .contide{
+		text-align:left;
+		padding-left: 200px;
+	    padding-top: 70px;
+	}
+	.section5 h1,.section6 h1,.section8 h1,.section14 h1,.section16 h1,.section17{
+		color:#868b3e;
+	}
+	.section6{
+		height:600px;
+		background:url({{ app_url_packaged }}/images/mall/repeater6.jpg) center center no-repeat;
+	}
+	.section6 .line{
+		position:absolute;
+		top:90px;
+		left:0;
+		width:80%;
+		height:100px;
+		background:url({{ app_url_packaged }}/images/mall/repeater-11.png) right center no-repeat;
+	}
+	.section6 .contide{
+		padding-top: 108px;
+	    text-align: left;
+	    padding-left: 80px;
+	}
+	.section6 h1{
+		margin-bottom:5px;
+	}
+	.section7{
+		height:600px;
+		background:url({{ app_url_packaged }}/images/mall/repeater7.jpg) center center no-repeat;
+		background-size:cover;
+	}
+	.section8{
+		height:650px;
+		background:url({{ app_url_packaged }}/images/mall/repeater8.jpg) center center no-repeat;
+	}
+	.section9{
+		height:700px;
+		background:url({{ app_url_packaged }}/images/mall/repeater9.jpg) center bottom no-repeat;
+	}
+	.section9 h1{
+		color:#fff;
+	}
+	.section10{
+		height:230px;
+		background:url({{ app_url_packaged }}/images/mall/repeater10.jpg) center bottom no-repeat;
+		background:cover;
+	}
+	.section11{
+		height:650px;
+		background:url({{ app_url_packaged }}/images/mall/repeater11.jpg) center bottom no-repeat;
+	}
+	.section11 .contide{
+		color:#fff;
+		text-align:left;
+		padding-left:100px;
+	}
+	.section11 p{
+		font-size:16px;
+		width:380px;
+	}
+	.section12{
+		height:650px;
+		background:url({{ app_url_packaged }}/images/mall/repeater12.jpg) center bottom no-repeat;
+	}
+	.section12 .contide{
+		text-align:left;
+		padding-left:100px;
+	}
+	.section12 h1{
+		color:#010101;
+	}
+	.section12 p{
+		font-size:16px;
+		width:400px;
+		color:#424242;
+	}
+	
+	.section13{
+		height:450px;
+		font-size:0;
+		
+	}
+	.section13 .w-5{
+		width:50%;
+		height:100%;
+		display:inline-block;
+		position:relative;
+	}
+	.section13 .bg-1{
+		background:url({{ app_url_packaged }}/images/mall/repeater13.jpg) center bottom no-repeat;
+	}
+	.section13 img.st {
+	    position: absolute;
+	    top: 60px;
+		margin-left:4%;
+	}
+	.section13 .st1{
+		left:60px;
+	}
+	.section13 .st2{
+		left:210px;
+	}
+	.section13 .st3{
+		left:360px;
+	}
+	.section13 .content{
+		position:absolute;
+		top: 260px;
+		left:60px;
+		//margin-left:4%;
+	    width: 580px;
+	    text-align: center;
+	}
+	.section13 .content p{
+		color:#424242;
+		font-size:16px;
+	}
+	.section14{
+		background:#e7e7e7;
+	}
+	.section14 .contide{
+		padding:60px 0;
+	}
+	.section14 .content{
+		text-align:left;
+		margin-bottom:30px;
+	}
+	.section15 .contide{
+		padding:0;
+		height:660px;
+		width:1180px;
+		background:url({{ app_url_packaged }}/images/mall/repeater16.jpg) no-repeat;
+	}
+	
+	.section16{
+		height:500px;
+	}
+	.ww-5l{
+		background:#f3f3f3;
+		width:50%;
+		height:500px;
+		position:absolute;
+		left:0;
+		top:0;
+	}
+	.ww-5r{
+		background:#e7e7e7;
+		width:50%;
+		height:500px;
+		position:absolute;
+		right:0;
+		top:0;
+	}
+	.section16 .contide{
+		padding:0;
+		height:500px;
+		background:url({{ app_url_packaged }}/images/mall/repeater15.jpg) center center no-repeat;
+	}
+	.section16 .content1 p{
+		font-size:16px;
+		color:#424242;
+	    text-indent: 25px;
+	    text-align: left;
+	}
+	.section16 .content1{
+		display:inline-block;
+		width:550px;
+		text-align: right;
+		padding-top: 100px;
+		padding-left: 28px;
+		position: absolute;
+		left: 0;
+	}
+	.section16 .content2{
+		display:inline-block;
+		width:450px;
+		text-align:left;
+		position: absolute;
+		left: 515px;
+	    top: 240px;
+	}
+	.section16 .content2 p{
+		font-size:16px;
+		color:#424242;
+	    text-indent: 25px;
+	    text-align: left;
+	    display: inline-block;
+	    line-height: 24px;
+		margin:0;
+	}
+	.section17{
+		height:200px;
+		background:url({{ app_url_packaged }}/images/mall/repeater17.jpg) center center no-repeat;
+	}
+	.section17 .contide{
+		padding:30px 0;
+	}
+	.section17 p{
+		color:#fff;
+		font-size:16px;
+	}
+	.section18{
+		background:#e7e7e7;
+		padding:60px;
+	}
+	
+	@media screen and (min-width:1920px){
+		.section1,.section2,.section3,.section4,.section6,.section8,.section9,.section11,.bg-1,.section17{
+			background-size:cover;
+		}
+		
+	}
+	
+</style>
+{% endblock %}
+{% block jquery %}
+	skrollr.init({
+		forceHeight: false,
+		mobileCheck:function(){},
+		mobileDeceleration:0.004,
+	});
+	$(window).load(function(){
+	    $(document.body).addClass("loaded");
+	});
+{% endblock %}
+{% block content %}
+<div class="ui white responsive grid" data-0="opacity:0;display:none;" data-100="opacity:1;display:block;" style="width: 100% !important;">
+	<div class="row">
+		<div class="eight wide column">
+			<h3>wifi扩大器</h3>
+		</div>
+		<div class="eight wide column">
+			<a href="javascript:void(0)" class="ui link item active">概述</a>|
+			<!--<a href="#.team" class="ui link item">我们的团队</a>|-->
+			<a href="{{ app_url_domain }}/mall/trepeater" class="ui link item">图集</a>
+			<!--<a href=" " title="wifi扩大器" class="ui item link" target="_blank">讨论区</a>-->
+			<a href="#.buy" class="ui inverted active black button" style="padding: 0.4em 1em;margin-bottom: 2px;font-weight: 400;" title="wifi扩大器">立即购买</a>
+		</div>
+	</div>
+</div>
+
+<div class="repeater">
+	<div class="section section1">
+		<div class="contide">
+			<div class="content">
+				<h1>信号增强神器</h1>
+				<p><img src="{{ app_url_packaged }}/images/mall/repeater-3.png"> 拒绝死角  沟通无限</p>
+				<p><img src="{{ app_url_packaged }}/images/mall/repeater-4.png"> 强力穿墙  信号全覆盖</p>
+				<p><img src="{{ app_url_packaged }}/images/mall/repeater-5.png"> 自动休眠  环保节能</p>
+			</div>
+			
+			<div class="xinh">
+				<img src="{{ app_url_packaged }}/images/mall/repeater-1.png" width="200">
+				<div class="wh260"></div>
+			</div>
+			<div class="xinh2">
+				<img src="{{ app_url_packaged }}/images/mall/repeater-2.png" width="260">
+				<div class="wh320"></div>
+			</div>
+			<img src="{{ app_url_packaged }}/images/mall/repeater-6.png" class="img-product">
+		</div>
+	</div>
+	
+	<div class="section section2">
+		<h1>你是否曾经遇到这样的场景？</h1>
+	</div>
+	
+	<div class="section section3">
+		<div class="contide">
+			<img src="{{ app_url_packaged }}/images/mall/repeater-7.png" class="sat img-1">
+			<img src="{{ app_url_packaged }}/images/mall/repeater-8.png" class="sat img-2">
+			<img src="{{ app_url_packaged }}/images/mall/repeater-9.png" class="sat img-3">
+			<img src="{{ app_url_packaged }}/images/mall/repeater-10.png" class="img-10">
+			<p>楼上楼下的复式住宅，网线入户在楼下，楼上没信号<br>
+			   室一厅的房子，路由器在主卧，书房信号时有时无<br>
+			   同在一个办公室，有的手机连得上WIFI，有的手机却连不上</p>
+			<h1>追着信号跑的日子什么时候能结束？</h1>
+		</div>
+	</div>
+	
+	<div class="section section4">
+		<div class="contide">
+			<h1>强力穿墙  信号全覆盖</h1>
+			<p>去除卧式、客厅、厨房、盥洗室因墙体产生的信号隔断，使Wi-Fi信号穿过墙体传达到室内的每个角落；<br>
+室内使用情况下，传输距离可达100M，户外使用情况下传输距离可达200M。</p>
+		</div>
+	</div>
+	
+	<div class="section section5">
+		<div class="contide">
+			<h1>使用两只PiFA内置天线</h1>
+			<p>用高品质内置天线替换传统丑陋的外置天线，在保证产品性能的同时，
+外观更具简洁整体。</p>
+		</div>
+	</div>
+	
+	<div class="section section6">
+		<div class="line">
+		</div>
+		<div class="contide">
+			<h1>拒绝死角  沟通无限</h1>
+			<p>扫除办公室信号死角，无论是办公还是会议，再无信号担忧，办公从此更轻松。</p>
+		</div>
+	</div>
+	
+	<div class="section section7">
+	</div>
+	
+	<div class="section section8">
+		<div class="contide">
+			<h1>自动休眠  环保节能</h1>
+			<p>指示灯自动休眠，拒绝灯光污染；信号扩大器在未接收到信号接入信息时，<br>
+机体整体进入休眠状态，有效控制Wi-Fi信号辐射；在选料上符合欧盟Rohs环保要求，<br>
+保证了产品的可持续使用和消费者的身心健康。</p>
+		</div>
+	</div>
+	
+	<div class="section section9">
+		<div class="contide">
+			<h1>以小博大  以少博多</h1>
+			<p>采用6层高精密PCB设计，在尺寸上做到最小，但却拥有更好的信号完整性和电磁兼容；<br>
+软硬件上可兼容各个主流品牌路由器，保证产品应用的广泛。</p>
+		</div>
+	</div>
+	
+	<div class="section section10">
+	</div>
+	
+	<div class="section section11">
+		<div class="contide">
+			<h1>无惧共享  分享信号</h1>
+			<p>采用高端AP配置方案MT7620A，以及512Mb高容量，让网络多人共
+享时流畅无停顿。300Mbps高传输速率，双倍延长Wi-Fi传输距离，让
+信号充满每一个角落。</p>
+		</div>
+	</div>
+	
+	<div class="section section12">
+		<div class="contide">
+			<h1>信号可视化   连接不迷茫</h1>
+			<p>如何选择Wi-Fi信号扩大器的最有效安装位置，我们的设计师与工程师创造性的将
+信号可视化，通过信号指示可轻松地找到合适的位置，让扩大器发挥最大的性能。</p>
+		</div>
+	</div>
+	
+	<div class="section section13">
+		<div class="w-5 bg-1">
+		</div>
+		<div class="w-5">
+			<img src="{{ app_url_packaged }}/images/mall/repeater01.jpg" class="st st1">
+			<img src="{{ app_url_packaged }}/images/mall/repeater02.jpg" class="st st2">
+			<img src="{{ app_url_packaged }}/images/mall/repeater03.jpg" class="st st3">
+			<div class="content">
+				<h1>精致小巧  即插即用</h1>
+				<p>
+					采用主体和电源一体设计，无需外接电源，极大的方便了产品的使用。<br>
+					在保证优良的产品功能前提下，我们把产品的体积做到最小，可以轻松携带外出。
+				</p>
+			</div>
+		</div>
+	</div>
+	
+	<div class="section section14">
+		<div class="contide">
+			<div class="content">
+				<h1>极简风格  极佳散热</h1>
+				<p>我们将经典圆点元素和散热孔完美的结合实现了功能与美观的统一，保持产品绝佳的散热特性，<br>
+	符合ESD IEC61000-4-2标准。</p>
+			</div>
+			<img src="{{ app_url_packaged }}/images/mall/repeater14.jpg" width="90%">
+		</div>
+	</div>
+	
+	<div class="section section15">
+		<div class="contide"></div>
+	</div>
+	
+	<div class="section section16">
+		<div class="ww-5l"></div>
+		<div class="ww-5r"></div>
+		<div class="contide">
+			<div class="content1">
+				<h1>我们为什么要众筹</h1>
+				<p>随着互联网的发展与普及，我们对于WIFI网络的要求也越来越高，可是无论多么强大的路由器都无法满足复杂的家庭、办公环境，WIFI信<br>号强度不足、覆盖范围不够广、信号
+不稳  定等问题越发明显。太火<br>鸟通过前期大量调研与考察，最终筛选出了不仅能够扩
+展WIFI覆<br>盖范围还能稳固增强WIFI信号的解决方案，我们要做的就是让您<br>付出最小
+的投资就能获得最便捷顺畅的网络体验，让您早日结<br>束“追着信号跑”的日子。
+谢谢您的支持。</p>
+			</div>
+			<div class="content2">
+				<h1>为什么需要您的支持</h1>
+				<p style="margin-left: -42px;">没有雷人吸睛的奇葩造型, 没有不痛不痒宛如鸡肋的特异功能,我</p>
+				<p style="margin-left: -63px;">们只是为了解决您的迫切需求为了能让您在任何环境下都能流畅WIFI</p>
+				<p style="margin-left: -81px;">信号满格,我们调动团队一切资源优势, 为您打造一个不被距离与障碍阻</p>
+				<p style="margin-left: -100px;">拦的完美WIFI环境,一款极致的产品,一颗随时为您的心。</p>
+			</div>
+		</div>
+	</div>
+	
+	<div class="section section17">
+		<div class="contide">
+			<h1>关于我们</h1>
+			<p>太火鸟科技 Taihuoniao.com 是中国最火爆的智能硬件孵化平台。<br>
+太火鸟将从商品定义、投资融资、硬件品控、软件体验、推广营销、渠道建设等每个环节全力支持孵化团队，帮设计师实现商业价值，让产品更性感
+力争打造一个完美的创意生态系统。<p>
+		</div>
+	</div>
+	
+	<div class="section section18">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned buy column">
+					<a href="https://item.taobao.com/item.htm?id=524211096181&tracelog=jubuyitnow" target="_blank" class="ui big inverted active magenta button" title="wifi扩大器">立即购买</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+</div>
+
+{% endblock %}
+
+
+
+
+
