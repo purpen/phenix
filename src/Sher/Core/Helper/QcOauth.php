@@ -31,6 +31,29 @@ class Sher_Core_Helper_QcOauth {
         $this->urlUtils = new Sher_Core_Helper_QcUrl();
         $this->error = new Sher_Core_Helper_QcErrorCase();
     }
+	
+	public function qq_bind($from_to='site'){
+
+        //-------生成唯一随机串防CSRF攻击
+        $state = md5(uniqid(rand(), TRUE));
+        $this->recorder->write('state', $state);
+
+        if($from_to=='wap'){
+          $this->app_callback = Doggy_Config::$vars['app.url.my'].'/bind_account/bind_qq_account';  
+        }		
+
+        //-------构造请求参数列表
+        $keysArr = array(
+            "response_type" => "code",
+            "client_id" => $this->app_id,
+            "redirect_uri" => $this->app_callback,
+            "state" => $state,
+            "scope" => $this->app_scope
+        );
+
+        $qq_url =  $this->urlUtils->combineURL(self::GET_AUTH_CODE_URL, $keysArr);
+		return $qq_url;
+    }
 
     public function qq_login($from_to='site'){
         //$appid = $this->recorder->readInc("appid");

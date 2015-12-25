@@ -112,7 +112,7 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
 
     $state = isset($this->stash['state'])?$this->stash['state']:null;
 
-		// 获取session id
+	// 获取session id
     $service = Sher_Core_Session_Service::instance();
     $sid = $service->session->id;
 
