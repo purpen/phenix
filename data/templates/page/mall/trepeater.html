@@ -1,0 +1,157 @@
+{%extends 'layout/column.html'%}
+{% block title %}wifi扩大器 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+.lightbox{
+	top:10px;
+}
+.lb-outerContainer{
+	position:relative;
+	background-color: rgba(0,0,0,0);
+}
+.lb-number{
+	display:none !important;
+}
+.lb-data .lb-close{
+	position:absolute;
+	top:-40px;
+	right:40px;
+	width:40px;
+	height:40px;
+}
+.lb-nav a.lb-next,.lb-nav a.lb-prev{
+	opacity:0.6;
+}
+.lightbox .lb-image {
+  display: block;
+  height: auto;
+  max-width: inherit;
+  border-radius: 3px;
+}
+.ui.photos .row{
+	padding:5px 0;
+}
+.ui.photos h3{
+	font-weight: normal;
+  margin: 0;
+  line-height: 41px;
+}
+.ui.photos{
+	top:0;
+	left:0;
+	width:100%;
+	z-index:999;
+	opacity:1;
+	padding-top:3px !important;
+	border-bottom:1px solid rgba(0,0,0,0.15);
+}
+.ui.photos .eight+.eight{
+	text-align:right;
+	line-height: 41px;
+}
+.ui.photos .eight+.eight a.ui.item{
+	margin:0 10px;
+}
+.card{
+	margin:0.5% !important;
+}
+.ui.grid{
+	margin:0;
+}
+.ui.four.cards {
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+}
+.lb-cancel{
+	background: url({{ app_url_packaged }}/images/mall/loading1.gif) no-repeat;
+}
+</style>
+{% endblock %}
+{% block jquery %}
+
+{% endblock %}
+{% block content %}
+<div class="ui photos responsive grid" style="  max-width: 100% !important;">
+	<div class="row">
+		<div class="eight wide column">
+			<h3>wifi扩大器 图集</h3>
+		</div>
+		<div class="eight wide column">
+			<a href="{{ app_url_domain }}/mall/repeater" class="ui link item">概述</a>|
+			<!--<a href="#.team" class="ui link item">我们的团队</a>|-->
+			<a href="javascript:void(0)" class="ui link item active">图集</a>
+			<!--<a href="http://www.taihuoniao.com/topic/view-103372-1.html" title="wifi扩大器" class="ui item link" target="_blank">讨论区</a>-->
+			<a href="{{ app_url_domain }}/mall/repeater#.buy" class="ui inverted active black button" style="padding: 0.4em 1em;margin-bottom: 2px;font-weight: 400;" title="wifi扩大器">立即购买</a>
+		</div>
+	</div>
+</div>
+<div class="ui big block">
+	<div class="ui center aligned grid">
+		<div class="row" style="padding:0 6%;">
+			<div class="ui four cards">
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/repe01.jpg" data-lightbox="images" class="ui image">
+		        <img src="{{ app_url_packaged }}/images/mall/repe1.jpg" alt="wifi扩大器" />
+		      </a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/repe02.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/repe2.jpg" alt="wifi扩大器" />
+	        </a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/repe03.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/repe3.jpg" alt="wifi扩大器" />
+	        </a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/repe04.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/repe4.jpg" alt="wifi扩大器" />
+	      	</a>
+				</div>
+			
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/repe05.jpg" data-lightbox="images" class="ui image">
+		        <img src="{{ app_url_packaged }}/images/mall/repe5.jpg" alt="wifi扩大器" />
+		      </a>
+				</div>
+			
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/repe06.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/repe6.jpg" alt="wifi扩大器" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/repe07.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/repe7.jpg" alt="wifi扩大器" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/repe08.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/repe8.jpg" alt="wifi扩大器" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/repe09.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/repe9.jpg" alt="wifi扩大器" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/repe010.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/repe10.jpg" alt="wifi扩大器" />
+	      	</a>
+				</div>
+				<div class="card">
+					<a href="{{ app_url_packaged }}/images/mall/repe011.jpg" data-lightbox="images" class="ui image">
+	          <img src="{{ app_url_packaged }}/images/mall/repe11.jpg" alt="wifi扩大器" />
+	      	</a>
+				</div>
+				
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
