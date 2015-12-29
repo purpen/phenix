@@ -426,9 +426,9 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	 */
 	public function invite(){
 		$this->set_target_css_state('user_invite');
-    //当前用户邀请码
-    $invite_code = Sher_Core_Util_View::fetch_invite_user_code($this->visitor->id);
-    $this->stash['user_invite_code'] = $invite_code;
+		//当前用户邀请码
+		$invite_code = Sher_Core_Util_View::fetch_invite_user_code($this->visitor->id);
+		$this->stash['user_invite_code'] = $invite_code;
 
 		return $this->to_html_page("page/my/invite.html");
 	}
