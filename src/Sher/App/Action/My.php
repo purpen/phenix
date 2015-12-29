@@ -110,7 +110,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	
 	$akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
 	$skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
-	$callback = Doggy_Config::$vars['app.url.domain'].'/bind_account/bind_sina_account';
+	$callback = Doggy_Config::$vars['app.url.domain'].'/app/site/bind_account/bind_sina_account';
 	
 	$oa = new Sher_Core_Helper_SaeTOAuthV2($akey, $skey);
 	$weibo_auth_url = $oa->getAuthorizeURL($callback);
@@ -125,7 +125,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	// 绑定微信账号
     $wx_params = array(
       'app_id' => Doggy_Config::$vars['app.wx.app_id'],
-      'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/bind_account/bind_wechat_account'),
+      'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/site//bind_account/bind_wechat_account'),
       'state' => md5($sid),
     );
     $this->stash['wx_params'] = $wx_params;
