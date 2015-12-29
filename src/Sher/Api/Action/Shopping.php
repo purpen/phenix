@@ -548,7 +548,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	 */
 	public function ajax_address(){
 		// 验证数据
-		$id = isset($this->stash['_id'])?$this->stash['_id']:0;
+		$id = isset($this->stash['id'])?$this->stash['id']:0;
     $user_id = $this->current_user_id;
 		if(empty($user_id)){
 			return $this->api_json('请先登录!', 3000);
@@ -576,10 +576,24 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$data['city']  = $this->stash['city'];
 		$data['address'] = $this->stash['address'];
 		$data['zip']  = $this->stash['zip'];
- 		$data['is_default']  = 1;       
+ 		$data['is_default']  = $is_default;       
 		
 		try{
 			$model = new Sher_Core_Model_AddBooks();
+
+      if($is_default){
+        //如果有默认地址，批量取消
+        $result = $model->find(array(
+          'user_id' => (int)$user_id,
+          'is_default' => 1,
+        ));
+        if(!empty($result)){
+          for($i=0;$i<count($result);$i++){
+            $model->update_set((string)$result[$i]['_id'], array('is_default'=>0));
+          }
+        }
+               
+      }
 			
 			if(empty($id)){
 				$data['user_id'] = (int)$user_id;
@@ -591,20 +605,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			}else{
 				$mode = 'edit';
 				$data['_id'] = $id;
-
-        if($is_default){
-          //如果有默认地址，批量取消
-          $result = $model->find(array(
-            'user_id' => (int)$user_id,
-            'is_default' => 1,
-          ));
-          if(!empty($result)){
-            for($i=0;$i<count($result);$i++){
-              $model->update_set((string)$result[$i]['_id'], array('is_default'=>0));
-            }
-          }
-                 
-        }
 
 				$ok = $model->apply_and_update($data);
 			}

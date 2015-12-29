@@ -63,6 +63,12 @@
 			全部
 		</a>
 
+	  <div class="right menu">
+      <a href="{{ app_url_admin_base }}/sign_draw_record/export?target_id=1&event=3" class="item">
+				导出
+			</a>
+	  </div>
+
 	</div>
 
 	<div class="ui sub search">
@@ -123,9 +129,10 @@
 					</div>
 				</th>
 				<th>用户</th>
+        <th>期数</th>
 				<th>中奖信息</th>
 				<th>时间/IP</th>
-        <th>抽奖次数</th>
+        <th>抽奖/分享次数</th>
         <th>是否处理</th>
         <th>来源</th>
         <th>操作</th>
@@ -150,6 +157,7 @@
                   {{ f.user.nickname }}
               </a>
             </td>
+            <td>{{ f.target_id }}</td>
             <td class="four wide">
               <P>{{ f.number_id }}.{{ f.title|default '--' }}</p>
               <p>{{ f.event_str }}</p>
@@ -166,7 +174,7 @@
               <p>{{ f.created_on|date 'y-m-d H:i:s' }}</p>
               <p>{{ f.ip }}</p>
             </td>
-            <td>{{ f.draw_times }}</td>
+            <td>{{ f.draw_times }}/{{ f.is_share }}</td>
 
             <td id="stat-{{ f._id }}">
               {% if f.state == 1 %}

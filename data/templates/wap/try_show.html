@@ -249,7 +249,7 @@
   // 初始化省份
   var province_id = $('select[name=province]').val();
   var district_id = $('select[name=district]').val();
-  if(province_id){
+  if(province_id != "" && province_id > 0){
     ajax_fetch_district(province_id, district_id);
   }
 	

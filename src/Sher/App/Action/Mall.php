@@ -8,13 +8,45 @@ class Sher_App_Action_Mall extends Sher_App_Action_Base {
 		'page'=>1,
 	);
 	
-	protected $exclude_method_list = array('execute','lunar','fitbit','gopro','tlunar','tfitbit','tgopro','milk','tmilk','cocoon','tcocoon');
+	protected $exclude_method_list = array('execute','lunar','fitbit','gopro','tlunar','tfitbit','tgopro','milk','tmilk','cocoon','tcocoon','zxc','tzxc','source','tsource','repeater','trepeater');
 	
 	/**
 	 * 网站入口
 	 */
 	public function execute(){
 		return $this->lunar();
+	}
+	
+	/**
+	 * repeater wifi扩大器
+	 */
+	public function repeater(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/repeater.html');
+	}
+	
+	/**
+	 * repeater wifi扩大器
+	 */
+	public function trepeater(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/trepeater.html');
+	}
+	
+	/**
+	 * source 微波闪充移动电源
+	 */
+	public function source(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/source.html');
+	}
+	
+	/**
+	 * source 微波闪充移动电源
+	 */
+	public function tsource(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/mall/tsource.html');
 	}
 	
 	/**

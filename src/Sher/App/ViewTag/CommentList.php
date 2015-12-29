@@ -21,6 +21,7 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
         $check_loved = 0;
         $current_user_id = 0;
         $target_user_id = 0;
+        $content = 0;
         
         // 热门评论, love_count > 10
         $only_hotest = 0;
@@ -57,6 +58,9 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
     }
     if($sku_id){
         $query['sku_id'] = (int)$sku_id;
+    }
+    if(!empty($content)){
+      $query['content'] = array('$regex'=>(string)$content);
     }
     
     // 仅热门

@@ -15,6 +15,7 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 	  
 	protected $schema = array(
 	  'title' => null,
+    'short_title' => null,
 	  'cover_id' => null,
 	  'banner_id' => null,
 	  # 分类ID

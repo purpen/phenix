@@ -84,7 +84,7 @@
   // 初始化省份
   var province_id = $('[name=province]').val();
   var district_id = $('[name=district]').val();
-  if(province_id){
+  if(province_id != "" && province_id > 0){
     $.get('{{ app_url_address }}/ajax_fetch_districts', {id: province_id, district_id: district_id});
   }
   

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<link href="frbird.qiniudn.com" rel="dns-prefetch">
+		{%block meta%}
+		<meta name="title" content="{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}" />
+		<meta name="keywords" content="{%if page_keywords_suffix%}{{page_keywords_suffix}}{%else%}太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广{%endif%}"/>
+		<meta name="description" content="{%if page_description_suffix%}{{page_description_suffix}}{%else%}太火鸟是中国最火爆的一条龙服务式智能硬件孵化平台。太火鸟致力于帮助设计师和创意者实现商业价值，开启一个全新的众包设计时代，全力打造一个完美的智能硬件创意生态系统。{%endif%}" />
+		<meta content="太火鸟" name="author" />
+		{%endblock%}
+	    <title>{% block title %}{% endblock %}{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国最火爆的智能硬件孵化平台{%endif%}</title>
+		<style type="text/css">
+	  
+
+		</style>
+	
+		{% block layout_css %}{% endblock %}
+		{% block page_css %}{% endblock %}
+		<!--把jquery放到body之前-->
+	</head>
+
+	<body>
+		{% block layout_promo %}{% endblock %}
+        {% block content %}{% endblock %}
+		<script type="text/javascript" src="http://frstatic.qiniudn.com/javascript/wechat.min.js"></script>
+		<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		
+		{% block layout_js %}{% endblock %}
+		{% block page_js %}
+		
+		{% endblock %}
+
+	</body>
+</html>

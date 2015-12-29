@@ -121,9 +121,9 @@ class Sher_Core_Model_SignDrawRecord extends Sher_Core_Model_Base  {
 
     // 验证是否还能抽奖
     $query = array(
+      'day' => $today,
       'user_id' => $user_id,
       'target_id' => $target_id,
-      'day' => $today,
     );
     $has_one = $this->first($query);
     $obj = null;

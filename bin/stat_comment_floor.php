@@ -22,10 +22,10 @@ set_time_limit(0);
 ini_set('memory_limit','512M');
 
 
-stat_comment_floor(2, null, true);
-stat_comment_floor(3, null, true);
-stat_comment_floor(4, null, true);
-stat_comment_floor(6, null, true);
+stat_comment_floor(2, 108750, true);
+//stat_comment_floor(3, null, true);
+//stat_comment_floor(4, null, true);
+//stat_comment_floor(6, null, true);
 
 
 // 可传入条件

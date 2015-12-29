@@ -256,22 +256,20 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		// 重建数据结果
 		$data = array();
 		for($i=0;$i<count($result['rows']);$i++){
+      $data[$i]['_id'] = $result['rows'][$i]['_id'];
       $data[$i]['type'] = $result['rows'][$i]['type'];
       $data[$i]['event'] = $result['rows'][$i]['event'];
       $data[$i]['target_id'] = $result['rows'][$i]['target_id'];
 			if($type == 1){
-        // 只能是商品
-        if($result['rows'][$i]['product'] && $result['rows'][$i]['product']['stage']==Sher_Core_Model_Product::STAGE_SHOP){
-          foreach($some_fields as $key=>$value){
-            $data[$i]['product'][$key] = $result['rows'][$i]['product'][$key];
-          }
-          //$product = new Sher_Core_Model_Product();
-          // 获取商品价格区间
-          //$data[$i]['product']['range_price'] = $product->range_price($result['rows'][$i]['product']['_id'], $result['rows'][$i]['product']['stage']);
-          
-          // 封面图url
-          $data[$i]['product']['cover_url'] = $result['rows'][$i]['product']['cover']['thumbnails']['medium']['view_url'];
+        foreach($some_fields as $key=>$value){
+          $data[$i]['product'][$key] = $result['rows'][$i]['product'][$key];
         }
+        //$product = new Sher_Core_Model_Product();
+        // 获取商品价格区间
+        //$data[$i]['product']['range_price'] = $product->range_price($result['rows'][$i]['product']['_id'], $result['rows'][$i]['product']['stage']);
+        
+        // 封面图url
+        $data[$i]['product']['cover_url'] = $result['rows'][$i]['product']['cover']['thumbnails']['medium']['view_url'];
 			}
 			if($type == 2){
 				foreach($some_fields as $key=>$value){
@@ -374,6 +372,8 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
  		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
     $size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		$sort = isset($this->stash['sort'])?(int)$this->stash['sort']:0; 
+		$used = isset($this->stash['used'])?(int)$this->stash['used']:0; 
+		$is_expired = isset($this->stash['is_expired'])?(int)$this->stash['is_expired']:0; 
 
 		$some_fields = array(
 
@@ -384,6 +384,16 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		
 		// 查询条件
 		$query['user_id'] = $user_id;
+    if($used){
+      $query['used'] = $used;
+    }
+    if($is_expired){
+      if($is_expired==1){ // 未过期
+        $query['expired_at'] = array('$gt'=>time());
+      }elseif($is_expired==2){  // 已过期
+        $query['expired_at'] = array('$lt'=>time());     
+      }
+    }
 		
 		// 分页参数
     $options['page'] = $page;
@@ -401,14 +411,54 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
     $service = Sher_Core_Service_Bonus::instance();
     $result = $service->get_all_list($query, $options);
 		
-		// 重建数据结果
-		for($i=0;$i<count($result['rows']);$i++){
-
-		}
-    print_r($result['rows'][0]);exit;
-		
 		return $this->api_json('请求成功', 0, $result);
   
+  }
+
+  /**
+   * 验证用户是否签到过
+   */
+  public function check_user_sign(){
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录!', 3000);    
+    }
+    $has_sign = $continuity_times = 0;
+    $user_sign_model = new Sher_Core_Model_UserSign();
+    $user_sign = $user_sign_model->load($user_id);
+
+    if($user_sign){
+      $today = (int)date('Ymd');
+      $yesterday = (int)date('Ymd', strtotime('-1 day'));
+      if($user_sign['last_date'] == $yesterday){
+        $continuity_times = $user_sign['sign_times'];
+      }elseif($user_sign['last_date'] == $today){
+        $has_sign = 1;
+        $continuity_times = $user_sign['sign_times'];
+      }
+    }
+    $result = array('has_sign'=>$has_sign, 'continuity_times'=>$continuity_times);
+ 		return $this->api_json('请求成功', 0, $result);
+  }
+
+  /**
+   * 执行签到操作
+   */
+  public function user_sign(){
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录!', 3000);    
+    }
+    $data = array();
+    $user_sign_model = new Sher_Core_Model_UserSign();
+    $result = $user_sign_model->sign_in($user_id, array());
+    if(empty($result['is_true'])){
+      return $this->api_json($result['msg'], 3001);    
+    }else{
+      $data['continuity_times'] = $result['continuity_times'];
+      $data['give_money'] = $result['give_money'];
+    }
+ 		return $this->api_json($result['msg'], 0, $data);
   }
 	
 }

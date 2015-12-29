@@ -53,6 +53,11 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 	 * 活动列表
 	 */
 	public function get_list(){
+
+		// 综合分类
+		$this->stash['topic_category_comprehensive'] = Doggy_Config::$vars['app.topic_category_comprehensive'];
+		// 产品分类
+		$this->stash['topic_category_product'] = Doggy_Config::$vars['app.topic_category_product'];
 		
 		$pager_url = Sher_Core_Helper_Url::active_list_url($this->stash['category_id']).'p#p#';
 		

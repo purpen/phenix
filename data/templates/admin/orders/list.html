@@ -123,7 +123,7 @@
 		</form>
 	</div>
 	
-	{% order_list var:'list' user_id:user_id status:s size:15 page:page search_rid:search_rid search_name:search_name  %}
+	{% order_list var:'list' user_id:user_id status:s size:size page:page search_rid:search_rid search_name:search_name  %}
 	
 	{% for order in list.rows %}
 		{% include 'block/order-item.html' %}
@@ -137,6 +137,7 @@
 	<div class="ui pagination">
 		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
 		{% include 'block/pager.html' %}
+		<label class="page_count">{{ list.total_rows }}个</label>
 	</div>
 	{% endif %}
 
