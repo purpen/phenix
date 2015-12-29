@@ -39,7 +39,7 @@ class Sher_Core_Helper_QcOauth {
         $this->recorder->write('state', $state);
 
         if($from_to=='wap'){
-          $this->app_callback = Doggy_Config::$vars['app.url.my'].'/bind_account/bind_qq_account';  
+          $this->app_callback = Doggy_Config::$vars['app.url.domain'].'/bind_account/bind_qq_account';  
         }		
 
         //-------构造请求参数列表
