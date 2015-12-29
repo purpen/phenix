@@ -426,10 +426,6 @@ server {
     	    rewrite ^/my/follow/p(\d+).*$ /app/site/my/follow?page=$1 last;
     	    rewrite ^/my(.*)$ /app/site/my$1 last;
     	}
-		
-		location /bind_account {
-			rewrite ^/bind_account(.*)$ /app/site/bind_account$1 last;
-		}
         
         location /user {
             rewrite ^/user/(\d+)[/]?$ /app/site/user?id=$1 last;
