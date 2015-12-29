@@ -35,7 +35,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         
         if ($token) {
             $cAuth = new Sher_Core_Helper_SaeTClientV2($akey, $skey, $token['access_token']);
-            $uid_get = $c->get_uid();
+            $uid_get = $cAuth->get_uid();
             $uid = $uid_get['uid'];
             Doggy_Log_Helper::warn('uid:'.$uid);
             
@@ -45,7 +45,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
             
             $user_id = (int)$this->visitor->id;
             
-            $user = Sher_Core_Model_User();
+            $user = new Sher_Core_Model_User();
             $result = $user->update_set((int)$user_id,$date);
             
             if($result){
@@ -67,7 +67,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         
         $user_id = (int)$this->visitor->id;
         
-        $user = Sher_Core_Model_User();
+        $user = new Sher_Core_Model_User();
         $result = $user->update_set((int)$user_id,$date);
         
         if($result){
@@ -127,7 +127,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
             
             $user_id = (int)$this->visitor->id;
             
-            $user = Sher_Core_Model_User();
+            $user = new Sher_Core_Model_User();
             $result = $user->update_set((int)$user_id,$date);
             
             if($result){
@@ -149,7 +149,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         
         $user_id = (int)$this->visitor->id;
         
-        $user = Sher_Core_Model_User();
+        $user = new Sher_Core_Model_User();
         $result = $user->update_set((int)$user_id,$date);
         
         if($result){
@@ -203,7 +203,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
             
             $user_id = (int)$this->visitor->id;
             
-            $user = Sher_Core_Model_User();
+            $user = new Sher_Core_Model_User();
             $result = $user->update_set((int)$user_id,$date);
             
             if($result){
@@ -225,7 +225,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         
         $user_id = (int)$this->visitor->id;
         
-        $user = Sher_Core_Model_User();
+        $user = new Sher_Core_Model_User();
         $result = $user->update_set((int)$user_id,$date);
         
         if($result){
