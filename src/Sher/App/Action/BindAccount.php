@@ -23,7 +23,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         
         $akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
 		$skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
-		$callback = Doggy_Config::$vars['app.url.domain'].'app/site//bind_account/bind_sina_account';
+		$callback = Doggy_Config::$vars['app.url.domain'].'/app/site/bind_account/bind_sina_account';
         
         $keys = array();
 		$keys['code'] = $code;
@@ -85,7 +85,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         $code = $this->stash['code'];
         $app_id = Doggy_Config::$vars['app.qq.app_id'];
 		$app_key = Doggy_Config::$vars['app.qq.app_key'];
-        $callback = Doggy_Config::$vars['app.url.domain'].'app/site//bind_account/bind_qq_account';
+        $callback = Doggy_Config::$vars['app.url.domain'].'/app/site/bind_account/bind_qq_account';
         $app_scope = Doggy_Config::$vars['app.qq.scope'];
         
         Doggy_Log_Helper::error('QQ Login get code:'.$code);
