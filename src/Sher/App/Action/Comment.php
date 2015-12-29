@@ -626,6 +626,11 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
             $resultlist['rows'][$i]['is_edit'] = false;          
           }
 
+          // 判断回复的内容是否已删除
+          if($is_reply && isset($resultlist['rows'][$i]['reply_comment'])){
+            $resultlist['rows'][$i]['reply_comment']['is_deleted'] = !empty($resultlist['rows'][$i]['reply_comment']['deleted']) ? true : false;
+          }
+
           $is_old_reply = !empty($result['rows'][$i]['reply']) ? true : false;
 
           $is_loved = $favorite->check_loved((int)$current_user_id, (string)$resultlist['rows'][$i]['_id'], Sher_Core_Model_Favorite::TYPE_COMMENT);
