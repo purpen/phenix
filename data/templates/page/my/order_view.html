@@ -101,7 +101,7 @@
 							{% endif %}
 							
 							{% if order_info.status == 15 %}
-							<a href="{{ app_url_my }}/ajax_finished?rid={{ order_info.rid }}" class="active ui small ajax magenta inverted button" id="order-action-finish">确认收货</a>
+							<a href="{{ app_url_my }}/ajax_take_delivery?rid={{ order_info.rid }}" class="active ui small ajax magenta inverted button" id="order-action-finish">确认收货</a>
 							{% endif %}
 						</div>
 					</div>

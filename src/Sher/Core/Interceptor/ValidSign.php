@@ -13,7 +13,7 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
         $request = $invocation->getInvocationContext()->getRequest();
         if ($action instanceof Sher_Core_Action_Funnel) {
 
-          $current_user_id = 0;
+          $current_user_id = 5;
           // 通过uuid获取当前用户ID
           $uuid = $request->get('uuid');
           if(!empty($uuid)){

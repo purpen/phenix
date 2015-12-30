@@ -213,7 +213,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const ORDER_PAY_FAIL = 6;
 	
     /**
-     * 正在配货状态
+     * 订单待发货状态
      * 
      * @var int
      */
@@ -234,7 +234,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const ORDER_REFUND_DONE = 13;
 	
     /**
-     * 订单已发货状态
+     * 订单待收货状态
      * 
      * @var int
      */
