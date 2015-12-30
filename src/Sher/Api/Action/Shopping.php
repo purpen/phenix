@@ -799,7 +799,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			case 4: // 待评价订单
 				$query['status'] = Sher_Core_Util_Constant::ORDER_EVALUATE;
 				break;
-			case 9: // 退换货
+			case 8: // 退换货
 				$query['status'] = array(
 					'$in' => array(Sher_Core_Util_Constant::ORDER_READY_REFUND, Sher_Core_Util_Constant::ORDER_REFUND_DONE),
 				);

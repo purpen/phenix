@@ -237,6 +237,12 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
             case 6:
                 $this->set_target_css_state('refunded');
                 break;
+            case 7:
+                $this->set_target_css_state('evaluate');
+                break;
+            case 8:
+                $this->set_target_css_state('return');
+                break;
             default:
                 $this->set_target_css_state('all');
                 break;

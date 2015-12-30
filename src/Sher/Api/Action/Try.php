@@ -136,7 +136,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 	 */
   public function apply(){
 
-    $user_id = 5;
+    $user_id = $this->current_user_id;
 
     if(empty($user_id)){
 		  return $this->api_json('请先登录！', 3000);
