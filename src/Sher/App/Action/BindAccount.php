@@ -51,7 +51,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
 			$redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
             
             if($result){
-                return $this->ajax_json('绑定账号成功!', false, redirect_url);
+                return $this->ajax_json('绑定账号成功!', false, $redirect_url);
             }
             
             return $this->ajax_json('绑定账号失败!', true, $redirect_url);
@@ -75,7 +75,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
             
 		if($result){
-			return $this->ajax_json('绑定账号成功!', false, redirect_url);
+			return $this->ajax_json('绑定账号成功!', false, $redirect_url);
 		}
 		
 		return $this->ajax_json('绑定账号失败!', true, $redirect_url);
@@ -138,7 +138,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
             $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
             
             if($result){
-                return $this->ajax_json('绑定账号成功!', false, redirect_url);
+                return $this->ajax_json('绑定账号成功!', false, $redirect_url);
             }
             
             return $this->ajax_json('绑定账号失败!', true, $redirect_url);
@@ -162,7 +162,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
             
 		if($result){
-			return $this->ajax_json('绑定账号成功!', false, redirect_url);
+			return $this->ajax_json('绑定账号成功!', false, $redirect_url);
 		}
 		
 		return $this->ajax_json('绑定账号失败!', true, $redirect_url);
@@ -218,7 +218,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
             $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
             
             if($result){
-                return $this->ajax_json('绑定账号成功!', false, redirect_url);
+                return $this->ajax_json('绑定账号成功!', false, $redirect_url);
             }
             
             return $this->ajax_json('绑定账号失败!', true, $redirect_url);
@@ -242,7 +242,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
             
 		if($result){
-			return $this->ajax_json('绑定账号成功!', false, redirect_url);
+			return $this->ajax_json('绑定账号成功!', false, $redirect_url);
 		}
 		
 		return $this->ajax_json('绑定账号失败!', true, $redirect_url);
