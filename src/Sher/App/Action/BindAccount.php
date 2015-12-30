@@ -68,7 +68,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         $user = new Sher_Core_Model_User();
         $result = $user->update_set((int)$user_id,$date);
         
-        $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
+        $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone?'.rand();
             
 		return $this->to_redirect($redirect_url);
     }
@@ -147,7 +147,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         $user = new Sher_Core_Model_User();
         $result = $user->update_set((int)$user_id,$date);
         
-        $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
+        $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone?'.rand();
             
 		return $this->to_redirect($redirect_url);
     }
@@ -219,7 +219,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         $user = new Sher_Core_Model_User();
         $result = $user->update_set((int)$user_id,$date);
         
-        $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
+        $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone?'.rand();
             
 		return $this->to_redirect($redirect_url);
     }
