@@ -1,5 +1,5 @@
 {%extends 'layout/h5app.html'%}
-{% block title %}{% endblock %}
+{% block title %}神卜鸟仙：你的2016运势大揭秘{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	.loading {
@@ -721,10 +721,10 @@
 	    background-position: -594px -494px;
 	}
 
-	.page-4 {
+	/*.page-4 {
 	    background: url({{ app_url_packaged }}/images/promo/source/page5bg.png) no-repeat center #3A1800;
 	    background-size: auto 100%;
-	}
+	}*/
 
 	.page-4 .page4-title {
 	    width: 70px;
@@ -1008,10 +1008,10 @@
 {% endblock %}
 {% block layout_js %}
     <script type="text/javascript">
-        var m_name = ' ';
+        var m_name = '神卜鸟仙：你的2016运势大揭秘';
 	      var img_url = ' ';
 	      var link = '{{ app_url_wap_promo }}/source';
-	      var desc_str = ' ';
+	      var desc_str = '你的爱情、健康、事业还有多少电量，2016年如何“快人一步”满血复活，赶紧让鸟仙卜算一下吧！';
 
 	  	wx.config({
 	  	  debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -1233,6 +1233,7 @@
         </div>
         <!--data-lock-next="true" data-lock-prev="true"-->
         <div class="page page-4" data-lock-next="true" data-lock-prev="true">
+			<img src="{{ app_url_packaged }}/images/promo/source/page5bg.png" width="100%" style="position:absolute;left:0;top:0;width:100%;height:100%">
             <div class="page4-title"></div>
             <div class="page4-shake">
                 <div class="page4-shakeq shakeq1"></div>
