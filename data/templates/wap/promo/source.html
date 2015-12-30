@@ -146,7 +146,7 @@
 	}
 
 	.mod-orient-layer__icon-orient {
-	    background-image: url(http://frstatic.qiniudn.com/images/promo/hengping.png);
+	    background-image: url({{ app_url_packaged }}/images/promo/hengping.png);
 	    display: inline-block;
 	    width: 67px;
 	    height: 109px;
@@ -180,7 +180,7 @@
 
 	.music {
 	    position: fixed;
-	    background: url(http://frstatic.qiniudn.com/images/promo/music_bg.png) 0 0 no-repeat;
+	    background: url({{ app_url_packaged }}/images/promo/music_bg.png) 0 0 no-repeat;
 	    z-index: 999;
 	    width: 1.5rem;
 	    height: 1.5rem;
@@ -511,6 +511,82 @@
 	    }
 	}
 
+	@keyframes grow {
+	    0% {
+	        -webkit-transform: scale(0);
+	        transform: scale(0);
+	    }
+	    60% {
+	        -webkit-transform: scale(1.15);
+	        transform: scale(1.15);
+	    }
+	    80% {
+	        -webkit-transform: scale(0.95);
+	        transform: scale(0.95);
+	    }
+	    100% {
+	        -webkit-transform: scale(1);
+	        transform: scale(1);
+	    }
+	}
+
+	@-webkit-keyframes grow {
+	    0% {
+	        -webkit-transform: scale(0);
+	        transform: scale(0);
+	    }
+	    60% {
+	        -webkit-transform: scale(1.15);
+	        transform: scale(1.15);
+	    }
+	    80% {
+	        -webkit-transform: scale(0.95);
+	        transform: scale(0.95);
+	    }
+	    100% {
+	        -webkit-transform: scale(1);
+	        transform: scale(1);
+	    }
+	}
+
+	@keyframes music-move {
+	    0% {
+	        -webkit-transform: rotate(0deg);
+	        transform: rotate(0deg);
+	    }
+	    33% {
+	        -webkit-transform: rotate(-5deg);
+	        transform: rotate(-5deg);
+	    }
+	    66% {
+	        -webkit-transform: rotate(5deg);
+	        transform: rotate(5deg);
+	    }
+	    100% {
+	        -webkit-transform: rotate(0deg);
+	        transform: rotate(0deg);
+	    }
+	}
+
+	@-webkit-keyframes music-move {
+	    0% {
+	        -webkit-transform: rotate(0deg);
+	        transform: rotate(0deg);
+	    }
+	    33% {
+	        -webkit-transform: rotate(-5deg);
+	        transform: rotate(-5deg);
+	    }
+	    66% {
+	        -webkit-transform: rotate(5deg);
+	        transform: rotate(5deg);
+	    }
+	    100% {
+	        -webkit-transform: rotate(0deg);
+	        transform: rotate(0deg);
+	    }
+	}
+
 	.wrap {
 	    width: 100%;
 	    height: 100%;
@@ -545,7 +621,85 @@
 	    background-size: 1000px 706px;
 	}
 
-	
+	.current .page1-curtainL {
+	    -webkit-animation: fadeInDown 1.5s cubic-bezier(0.11, 0.58, 0.31, 0.67) .3s forwards;
+	    animation: fadeInDown 1.5s cubic-bezier(0.11, 0.58, 0.31, 0.67) .3s forwards;
+	}
+
+	.current .page1-curtainR {
+	    -webkit-animation: fadeInDown 1.5s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1.1s forwards;
+	    animation: fadeInDown 1.5s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1.1s forwards;
+	}
+
+	.current .page2-text {
+	    -webkit-animation: fadeInDown 1.5s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1.3s forwards;
+	    animation: fadeInDown 1.5s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1.3s forwards;
+	}
+
+	.current .page2-hand {
+	    -webkit-animation: fadeInDown 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .4s forwards;
+	    animation: fadeInDown 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .4s forwards;
+	}
+
+	.current .page3-select {
+	    -webkit-animation: bounceIn 1s cubic-bezier(0.12, 0.73, 0.12, 0.74) .3s forwards;
+	    animation: bounceIn 1s cubic-bezier(0.12, 0.73, 0.12, 0.74) .3s forwards;
+	}
+
+	.current .page3-select>label.page3-se-1 {
+	    -webkit-animation: fadeInDown 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1s forwards;
+	    animation: fadeInDown 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1s forwards;
+	}
+
+	.current .page3-select>label.page3-se-2 {
+	    -webkit-animation: fadeInDown 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1.5s forwards;
+	    animation: fadeInDown 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1.5s forwards;
+	}
+
+	.current .page3-select>label.page3-se-3 {
+	    -webkit-animation: fadeInDown 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) 2s forwards;
+	    animation: fadeInDown 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) 2s forwards;
+	}
+
+	.current .page4-title {
+	    -webkit-animation: rubberBand 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .5s forwards;
+	    animation: rubberBand 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .5s forwards;
+	}
+
+	.current .page4-shake .page4-shakeq.shakeq1 {
+	    -webkit-animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .2s forwards;
+	    animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .2s forwards;
+	}
+
+	.current .page4-shake .page4-shakeq.shakeq2 {
+	    -webkit-animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .4s forwards;
+	    animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .4s forwards;
+	}
+
+	.current .page4-shake .page4-shakeq.shakeq3 {
+	    -webkit-animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .6s forwards;
+	    animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .6s forwards;
+	}
+
+	.current .page4-shake .page4-shakeq.shakeq4 {
+	    -webkit-animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .8s forwards;
+	    animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .8s forwards;
+	}
+
+	.current .page4-shake .page4-shakeq.shakeq5 {
+	    -webkit-animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1s forwards;
+	    animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1s forwards;
+	}
+
+	.current .page5-all {
+	    -webkit-animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .2s forwards;
+	    animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .2s forwards;
+	}
+
+	.current .page6-dool {
+	    -webkit-animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .2s forwards;
+	    animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .2s forwards;
+	}
 
 	.page-1 .page1-curtainL {
 	    margin-left: -140px;
@@ -569,7 +723,7 @@
 	}
 
 	.page-2 .page2-text {
-	    top: 20%;
+	    top: 24%;
 	    width: 150px;
 	    height: 25px;
 	    background-image: url({{ app_url_packaged }}/images/promo/source/tools.png);
@@ -672,6 +826,13 @@
 	    opacity: 1;
 	}
 
+	.page-4.active .page4-shake {
+	    animation: grow 0.7s 0.4s 1 ease, music-move 1s 3.3s infinite alternate ease-in-out;
+	    -webkit-animation: grow 0.7s 0.4s 1 ease, music-move 1s 3.3s infinite alternate ease-in-out;
+	    transform-origin: bottom;
+	    -webkit-transform-origin: bottom;
+	}
+
 	.page-4 .page4-shake .page4-shakeq {
 	    width: 46px;
 	    height: 355px;
@@ -741,63 +902,63 @@
 	}
 
 	.page5-all .page5-sf.sf-page01 {
-	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-sy10.png);
+	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-sy101.png);
 	}
 
 	.page5-all .page5-sf.sf-page02 {
-	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-sy20.png);
+	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-sy201.png);
 	}
 
 	.page5-all .page5-sf.sf-page03 {
-	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-sy30.png);
+	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-sy301.png);
 	}
 
 	.page5-all .page5-sf.sf-page04 {
-	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-sy40.png);
+	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-sy401.png);
 	}
 
 	.page5-all .page5-sf.sf-page05 {
-	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-sy50.png);
+	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-sy501.png);
 	}
 
 	.page5-all .page5-sf.sf-page06 {
-	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-hy10.png);
+	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-hy101.png);
 	}
 
 	.page5-all .page5-sf.sf-page07 {
-	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-hy20.png);
+	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-hy201.png);
 	}
 
 	.page5-all .page5-sf.sf-page08 {
-	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-hy30.png);
+	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-hy301.png);
 	}
 
 	.page5-all .page5-sf.sf-page09 {
-	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-hy40.png);
+	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-hy401.png);
 	}
 
 	.page5-all .page5-sf.sf-page10 {
-	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-hy50.png);
+	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-hy501.png);
 	}
 
 	.page5-all .page5-sf.sf-page11 {
-	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-jk10.png);
+	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-jk101.png);
 	}
 
 	.page5-all .page5-sf.sf-page12 {
-	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-jk20.png);
+	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-jk201.png);
 	}
 
 	.page5-all .page5-sf.sf-page13 {
-	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-jk30.png);
+	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-jk301.png);
 	}
 
 	.page5-all .page5-sf.sf-page14 {
-	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-jk40.png);
+	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-jk401.png);
 	}
 
 	.page5-all .page5-sf.sf-page15 {
-	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-jk50.png);
+	    background-image: url({{ app_url_packaged }}/images/promo/source/page6-jk501.png);
 	}
 
 	.page-6 {
@@ -811,12 +972,12 @@
 	    position: absolute;
 	    top: 2%;
 	    left: 50%;
-	    margin-left: -120px;
+	    margin-left: -100px;
 	    background-image: url({{ app_url_packaged }}/images/promo/source/tools.png);
 	    background-repeat: no-repeat;
 	    background-size: 1000px 706px;
 	    background-position: -700px -28px;
-	    opacity: 1
+	    opacity: 1;
 	}
 
 	.page-6 .page6-time {
@@ -825,8 +986,8 @@
 	    position: absolute;
 	    left: 50%;
 	    top: 2%;
-	    margin-left: 20px;
-	    opacity: 1
+	    margin-left: 0px;
+	    opacity: 1;
 	}
 
 	.page-6 .page6-time .time-mint {
@@ -867,9 +1028,9 @@
 	    width: 65px;
 	    height: 110px;
 	    position: absolute;
-	    top: 60%;
+	    top: 58%;
 	    left: 50%;
-	    margin-left: -120px;
+	    margin-left: -100px;
 	    background-image: url({{ app_url_packaged }}/images/promo/source/tools.png);
 	    background-repeat: no-repeat;
 	    background-size: 1000px 706px;
@@ -881,9 +1042,9 @@
 	    width: 155px;
 	    height: 240px;
 	    position: absolute;
-	    top: 50%;
+	    top: 41%;
 	    left: 50%;
-	    margin-left: -25px;
+	    margin-left: -15px;
 	    background-image: url({{ app_url_packaged }}/images/promo/source/tools.png);
 	    background-repeat: no-repeat;
 	    background-size: 1000px 706px;
@@ -920,85 +1081,6 @@
 	    background-size: 1000px 706px;
 	    background-position: 0px -500px;
 	    opacity: 0
-	}
-	.current .page1-curtainL {
-	    -webkit-animation: fadeInDown 1.5s cubic-bezier(0.11, 0.58, 0.31, 0.67) .3s forwards;
-	    animation: fadeInDown 1.5s cubic-bezier(0.11, 0.58, 0.31, 0.67) .3s forwards;
-	}
-
-	.current .page1-curtainR {
-	    -webkit-animation: fadeInDown 1.5s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1.1s forwards;
-	    animation: fadeInDown 1.5s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1.1s forwards;
-	}
-
-	.current .page2-text {
-	    -webkit-animation: fadeInDown 1.5s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1.3s forwards;
-	    animation: fadeInDown 1.5s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1.3s forwards;
-	}
-
-	.current .page2-hand {
-	    -webkit-animation: fadeInDown 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .4s forwards;
-	    animation: fadeInDown 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .4s forwards;
-	}
-
-	.current .page3-select {
-	    -webkit-animation: bounceIn 1s cubic-bezier(0.12, 0.73, 0.12, 0.74) .3s forwards;
-	    animation: bounceIn 1s cubic-bezier(0.12, 0.73, 0.12, 0.74) .3s forwards;
-	}
-
-	.current .page3-select>label.page3-se-1 {
-	    -webkit-animation: fadeInDown 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1s forwards;
-	    animation: fadeInDown 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1s forwards;
-	}
-
-	.current .page3-select>label.page3-se-2 {
-	    -webkit-animation: fadeInDown 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1.5s forwards;
-	    animation: fadeInDown 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1.5s forwards;
-	}
-
-	.current .page3-select>label.page3-se-3 {
-	    -webkit-animation: fadeInDown 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) 2s forwards;
-	    animation: fadeInDown 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) 2s forwards;
-	}
-
-	.current .page4-title {
-	    -webkit-animation: rubberBand 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .5s forwards;
-	    animation: rubberBand 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .5s forwards;
-	}
-
-	.current .page4-shake .page4-shakeq.shakeq1 {
-	    -webkit-animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .2s forwards;
-	    animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .2s forwards;
-	}
-
-	.current .page4-shake .page4-shakeq.shakeq2 {
-	    -webkit-animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .4s forwards;
-	    animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .4s forwards;
-	}
-
-	.current .page4-shake .page4-shakeq.shakeq3 {
-	    -webkit-animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .6s forwards;
-	    animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .6s forwards;
-	}
-
-	.current .page4-shake .page4-shakeq.shakeq4 {
-	    -webkit-animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .8s forwards;
-	    animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .8s forwards;
-	}
-
-	.current .page4-shake .page4-shakeq.shakeq5 {
-	    -webkit-animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1s forwards;
-	    animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) 1s forwards;
-	}
-
-	.current .page5-all {
-	    -webkit-animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .2s forwards;
-	    animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .2s forwards;
-	}
-
-	.current .page6-dool {
-	    -webkit-animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .2s forwards;
-	    animation: bounceIn 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .2s forwards;
 	}
 
 	.active.page-shark i {
@@ -1076,6 +1158,99 @@
 	  
 		  
 		  
+        var PageSlider  = new PageSlider({
+            pages: $('.wrap .page'),
+            oninit: function () {
+                $('.page3-select-one').click(function(){
+                    var retuNum = Math.floor(Math.random()*5);
+                    $('.page3-select-two,.page3-select-three').attr('state','');
+                    var pushNum = returNum(retuNum);
+                    $('.page5-all .page5-sf').eq(retuNum).addClass("show").siblings(".page5-sf").removeClass("show");
+                    $('.page6-time .time-mint').eq(pushNum).addClass("show").siblings(".time-mint").removeClass("show");
+                    PageSlider.next();
+                });
+                $('.page3-select-two').click(function(){
+                    var retuNum = Math.floor(Math.random()*5+5);
+                    $('.page3-select-one,.page3-select-three').attr('state','');
+                    var pushNum = returNum(retuNum);
+                    $('.page5-all .page5-sf').eq(retuNum).addClass("show").siblings(".page5-sf").removeClass("show");
+                    $('.page6-time .time-mint').eq(pushNum).addClass("show").siblings(".time-mint").removeClass("show");
+                    PageSlider.next();
+                });
+                $('.page3-select-three').click(function(){
+                    var retuNum = Math.floor(Math.random()*5+10);
+                    $('.page3-select-one,.page3-select-two').attr('state','');
+                    var pushNum = returNum(retuNum);
+                    $('.page5-all .page5-sf').eq(retuNum).addClass("show").siblings(".page5-sf").removeClass("show");
+                    $('.page6-time .time-mint').eq(pushNum).addClass("show").siblings(".time-mint").removeClass("show");
+                    PageSlider.next();
+                });
+                function returNum(a){
+                    var rNum = a;
+                    if(rNum > 10){
+                        var Rnum = rNum - 10;
+                        return Rnum;
+                    }else if(rNum > 5){
+                        var Rnum = rNum - 5;
+                        return Rnum;
+                    }else{
+                        return rNum;
+                    };
+                    console.log("执行了");
+                };
+                $('.link-shark').click(function(){
+                    $('.page-shark').show().addClass("active");
+                });
+                // 摇一摇--------------------为什么摇一摇不好使呢？？？？？？？？？
+                if($(".page-4").hasClass("current")){
+                    init();
+                    var SHAKE_THRESHOLD = 3000;
+                    var last_update = 0;
+                    var x = y = z = last_x = last_y = last_z = 0;
+                    function init() {
+                        if (window.DeviceMotionEvent) {
+                            window.addEventListener('devicemotion', deviceMotionHandler, false);
+                        } else {
+                            alert('not support mobile event');
+                        }
+                    }
+                    function deviceMotionHandler(eventData) {
+                        var acceleration = eventData.accelerationIncludingGravity;
+                        var curTime = new Date().getTime();
+                        if ((curTime - last_update) > 100) {
+                            var diffTime = curTime - last_update;
+                            last_update = curTime;
+                            x = acceleration.x;
+                            y = acceleration.y;
+                            z = acceleration.z;
+                            var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
+
+                            if (speed > SHAKE_THRESHOLD) {
+                                $('.page-4').addClass('active');
+                                $('#app_bgm').get(0).pause();
+                                $('#app_yyy').get(0).play();
+                                setTimeout(function () {PageSlider.next();}, 1000);
+                                setTimeout(function () {$('#app_bgm').get(0).play();}, 1000);
+                            }
+                            last_x = x;
+                            last_y = y;
+                            last_z = z;
+                        }
+                    }
+                }
+            }
+        });
+        $('.music').on('tap',function(){
+            if($(this).hasClass("playing")){
+                $('#app_bgm').get(0).pause();
+                $(this).removeClass("playing").addClass('stop');
+            }
+            else{
+                $(this).addClass("playing").removeClass('stop');
+                $('#app_bgm').get(0).play();
+            }
+        });
+		  
 	    var basePath = "http://frstatic.qiniudn.com/images/promo/source/";
 	    if (!(typeof webpsupport == 'function')) {
 	        var webpsupport = function (cb) {
@@ -1085,7 +1260,7 @@
 	    webpsupport(function (webpa) {
 	    var loader = new PxLoader(),
 	     fileList =[
-			'page1bg.png','page2bg.png','page3bg.png','page4bg.png','page5bg.png','page6-hy10.png','page6-hy20.png','page6-hy30.png','page6-hy40.png','page6-hy50.png','page6-jk10.png','page6-jk20.png','page6-jk30.png','page6-jk40.png','page6-jk50.png','page6-sy10.png','page6-sy20.png','page6-sy30.png','page6-sy40.png','page6-sy50.png','page6center.png','page7bg.png','tools.png'
+			'page1bg.png','page2bg.png','page3bg.png','page4bg.png','page5bg.png','page6-hy101.png','page6-hy201.png','page6-hy301.png','page6-hy401.png','page6-hy501.png','page6-jk101.png','page6-jk201.png','page6-jk301.png','page6-jk401.png','page6-jk501.png','page6-sy101.png','page6-sy201.png','page6-sy301.png','page6-sy401.png','page6-sy501.png','page6center.png','page7bg.png','tools.png'
 		];
      
 	     for (var i = 0; i < fileList.length; i++) {
@@ -1104,8 +1279,8 @@
 	         $('.loading').remove();
 	         $('.page').eq(0).addClass('current');
 	         $('.wrap').show();
-	        //  $('#app_bgm').get(0).play();
-	        //  $('.music').show();
+	         $('#app_bgm').get(0).play();
+	         $('.music').show();
 	     });
 
 	     //loading 进度监听
@@ -1118,85 +1293,6 @@
 	     //启动
 	     loader.start();
 	    });
-		var PageSlider = new PageSlider({
-		    pages: $('.wrap .page'),
-			//dev: 9
-		});
-		
-        $('.page3-select-one').click(function(){
-            var retuNum = Math.floor(Math.random()*5);
-            $('.page3-select-two,.page3-select-three').attr('state','');
-            var pushNum = returNum(retuNum);
-            $('.page5-all .page5-sf').eq(retuNum).addClass("show").siblings(".page5-sf").removeClass("show");
-            $('.page6-time .time-mint').eq(pushNum).addClass("show").siblings(".time-mint").removeClass("show");
-            PageSlider.next();
-        });
-        $('.page3-select-two').click(function(){
-            var retuNum = Math.floor(Math.random()*5+5);
-            $('.page3-select-one,.page3-select-three').attr('state','');
-            var pushNum = returNum(retuNum);
-            $('.page5-all .page5-sf').eq(retuNum).addClass("show").siblings(".page5-sf").removeClass("show");
-            $('.page6-time .time-mint').eq(pushNum).addClass("show").siblings(".time-mint").removeClass("show");
-            PageSlider.next();
-        });
-        $('.page3-select-three').click(function(){
-            var retuNum = Math.floor(Math.random()*5+10);
-            $('.page3-select-one,.page3-select-two').attr('state','');
-            var pushNum = returNum(retuNum);
-            $('.page5-all .page5-sf').eq(retuNum).addClass("show").siblings(".page5-sf").removeClass("show");
-            $('.page6-time .time-mint').eq(pushNum).addClass("show").siblings(".time-mint").removeClass("show");
-            PageSlider.next();
-        });
-        function returNum(a){
-            var rNum = a;
-            if(rNum > 10){
-                var Rnum = rNum - 10;
-                return Rnum;
-            }else if(rNum > 5){
-                var Rnum = rNum - 5;
-                return Rnum;
-            }else{
-                return rNum;
-            }
-        };
-        $('.link-shark').click(function(){
-            $('.page-shark').show().addClass("active");
-        });
-        // 摇一摇
-        init();
-        var SHAKE_THRESHOLD = 3000;
-        var last_update = 0;
-        var x = y = z = last_x = last_y = last_z = 0;
-        function init() {
-            if (window.DeviceMotionEvent) {
-                window.addEventListener('devicemotion', deviceMotionHandler, false);
-            } else {
-                alert('not support mobile event');
-            }
-        }
-        function deviceMotionHandler(eventData) {
-            var acceleration = eventData.accelerationIncludingGravity;
-            var curTime = new Date().getTime();
-            if ((curTime - last_update) > 100) {
-                var diffTime = curTime - last_update;
-                last_update = curTime;
-                x = acceleration.x;
-                y = acceleration.y;
-                z = acceleration.z;
-                var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
-
-                if (speed > SHAKE_THRESHOLD) {
-					PageSlider.next();
-                   // alert("摇动了");
-                    media.setAttribute("src", "http://211.148.5.228:8002/Pages/test/Kalimba.mp3");
-                    media.load();
-                    media.play();  
-                }
-                last_x = x;
-                last_y = y;
-                last_z = z;
-            }
-        }
     </script>
 {% endblock %}
 {% block content %}
@@ -1290,6 +1386,8 @@
             <div class="mod-orient-layer__desc">为了更好的体验，请使用竖屏浏览</div>
         </div>
     </div>
-
+    <div class="music playing" style="display:none;"></div>
+    <audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/js/bigger22.mp3" loop="true"></audio>
+    <audio id="app_yyy" src="http://frstatic.qiniudn.com/wechat/js/yyy.mp3"></audio>
     
 {% endblock %}
