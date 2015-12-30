@@ -47,12 +47,14 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
             
             $user = new Sher_Core_Model_User();
             $result = $user->update_set((int)$user_id,$date);
+			
+			$redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
             
             if($result){
-                return $this->ajax_json('绑定账号成功!', false);
+                return $this->ajax_json('绑定账号成功!', false, redirect_url);
             }
             
-            return $this->ajax_json('绑定账号失败!', true);
+            return $this->ajax_json('绑定账号失败!', true, $redirect_url);
         }
     }
     
@@ -70,11 +72,13 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         $user = new Sher_Core_Model_User();
         $result = $user->update_set((int)$user_id,$date);
         
-        if($result){
-            return $this->ajax_json('解绑账号成功!', false);
-        }
-        
-        return $this->ajax_json('解绑账号失败!', true);
+        $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
+            
+		if($result){
+			return $this->ajax_json('绑定账号成功!', false, redirect_url);
+		}
+		
+		return $this->ajax_json('绑定账号失败!', true, $redirect_url);
     }
     
     /**
@@ -131,11 +135,13 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
             $user = new Sher_Core_Model_User();
             $result = $user->update_set((int)$user_id,$date);
             
+            $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
+            
             if($result){
-                return $this->ajax_json('绑定账号成功!', false);
+                return $this->ajax_json('绑定账号成功!', false, redirect_url);
             }
             
-            return $this->ajax_json('绑定账号失败!', true);
+            return $this->ajax_json('绑定账号失败!', true, $redirect_url);
         }
     }
     
@@ -153,11 +159,13 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         $user = new Sher_Core_Model_User();
         $result = $user->update_set((int)$user_id,$date);
         
-        if($result){
-            return $this->ajax_json('解绑账号成功!', false);
-        }
-        
-        return $this->ajax_json('解绑账号失败!', true);
+        $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
+            
+		if($result){
+			return $this->ajax_json('绑定账号成功!', false, redirect_url);
+		}
+		
+		return $this->ajax_json('绑定账号失败!', true, $redirect_url);
     }
     
     /**
@@ -207,11 +215,13 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
             $user = new Sher_Core_Model_User();
             $result = $user->update_set((int)$user_id,$date);
             
+            $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
+            
             if($result){
-                return $this->ajax_json('绑定账号成功!', false);
+                return $this->ajax_json('绑定账号成功!', false, redirect_url);
             }
             
-            return $this->ajax_json('绑定账号失败!', true);
+            return $this->ajax_json('绑定账号失败!', true, $redirect_url);
         }
     }
     
@@ -229,10 +239,12 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         $user = new Sher_Core_Model_User();
         $result = $user->update_set((int)$user_id,$date);
         
-        if($result){
-            return $this->ajax_json('解绑账号成功!', false);
-        }
-        
-        return $this->ajax_json('解绑账号失败!', true);
+        $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
+            
+		if($result){
+			return $this->ajax_json('绑定账号成功!', false, redirect_url);
+		}
+		
+		return $this->ajax_json('绑定账号失败!', true, $redirect_url);
     }
 }
