@@ -1070,19 +1070,18 @@
 	    bottom: 0;
 	}
 
-	.page-6 .page-shark i {
-	    display: block;
-	    width: 225px;
-	    height: 45px;
-	    position: absolute;
-	    top: 20px;
-	    right: 30px;
-	    background-image: url({{ app_url_packaged }}/images/promo/source/tools.png);
-	    background-repeat: no-repeat;
-	    background-size: 1000px 706px;
-	    background-position: 0px -500px;
-	    opacity: 0
-	}
+    .page-6 .page6-dool {
+        width: 155px;
+        height: 240px;
+        position: absolute;
+        top: 41%;
+        left: 50%;
+        margin-left: -15px;
+        background-image: url(http://frstatic.qiniudn.com/images/promo/source/tools.png);
+        background-repeat: no-repeat;
+        background-size: 1000px 706px;
+        background-position: -100px 0px;
+    }
 
 	.active.page-shark i {
 	    -webkit-animation: fadeInDown 1s cubic-bezier(0.11, 0.58, 0.31, 0.67) .5s forwards;
@@ -1202,8 +1201,6 @@
                 $('.link-shark').click(function(){
                     $('.page-shark').show().addClass("active");
                 });
-                // 摇一摇--------------------为什么摇一摇不好使呢？？？？？？？？？
-                //if($(".page-4").hasClass("current")){
                  
 				
 				    init();
@@ -1241,11 +1238,6 @@
                         }
                     }
 					
-				
-				
-					
-					
-					//}
             }
         });
         $('.music').on('tap',function(){
@@ -1337,7 +1329,7 @@
             </div>
         </div>
         <!--data-lock-next="true" data-lock-prev="true"-->
-        <div class="page page-4" data-lock-next="true" data-lock-prev="true">
+        <div class="page page-4">
             <div class="page4-title"></div>
             <div class="page4-shake">
                 <div class="page4-shakeq shakeq1"></div>
@@ -1378,7 +1370,7 @@
                 <div class="time-mint time-mint4"></div>
                 <div class="time-mint time-mint5"></div>
             </div>
-           <!-- <div class="page6-dool"></div>-->
+            <div class="page6-dool"></div>
             <div class="page6-link">
                 <a class="link-shark"></a>
                 <a href="http://z.jd.com/project_details.action?projectId=34520" class="link-jd"></a>
