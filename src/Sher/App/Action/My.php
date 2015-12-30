@@ -299,6 +299,10 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		if($this->visitor->id != $order_info['user_id']){
 			return $this->show_message_page('你没有权限查看此订单！');
     }
+		// 必需是待评价的订单
+		if($order_info['status'] != Sher_Core_Util_Constant::ORDER_EVALUATE){
+			return $this->show_message_page('订单类型不对！');
+		}
 
     //验证是否评价过
     /**

@@ -249,7 +249,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	 */
 	public function ajax_evaluate(){
 
-		$order_id = isset($this->stash['order_id'])?(int)$this->stash['order_id']:null;
+		$order_id = isset($this->stash['order_id'])?$this->stash['order_id']:null;
 		
 		$row = array();
 		$row['user_id'] = $this->visitor->id;
@@ -271,8 +271,9 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$query['type'] = $row['type'];
 		$query['user_id'] = $row['user_id'];
 		$query['sku_id'] = $row['sku_id'];
-		$has_one = $model->first($query);
-	
+    // 不验证重复性
+    //$has_one = $model->first($query);
+    $has_one = false;
 		if(!empty($has_one)){
 		  return $this->ajax_note('该商品不能重复评价!', true);
 		}
@@ -285,7 +286,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
       // 更新订单状态为完成
       if(!empty($order_id)){
         $orders_model = new Sher_Core_Model_Orders();
-        $order = $orders_model->load($order_id);
+        $order = $orders_model->load((string)$order_id);
         if(!empty($order) && $order['user_id']==$this->visitor->id && $order['status']==Sher_Core_Util_Constant::ORDER_EVALUATE){
           $order_ok = $orders_model->finish_order($order_id);
         }
