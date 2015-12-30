@@ -1125,24 +1125,39 @@
         $('.page3-select-one').click(function(){
             var retuNum = Math.floor(Math.random()*5);
             $('.page3-select-two,.page3-select-three').attr('state','');
+            var pushNum = returNum(retuNum);
             $('.page5-all .page5-sf').eq(retuNum).addClass("show").siblings(".page5-sf").removeClass("show");
-            $('.page6-time .time-mint').eq(retuNum).addClass("show").siblings(".time-mint").removeClass("show");
+            $('.page6-time .time-mint').eq(pushNum).addClass("show").siblings(".time-mint").removeClass("show");
             PageSlider.next();
         });
         $('.page3-select-two').click(function(){
             var retuNum = Math.floor(Math.random()*5+5);
             $('.page3-select-one,.page3-select-three').attr('state','');
+            var pushNum = returNum(retuNum);
             $('.page5-all .page5-sf').eq(retuNum).addClass("show").siblings(".page5-sf").removeClass("show");
-            $('.page6-time .time-mint').eq(retuNum).addClass("show").siblings(".time-mint").removeClass("show");
+            $('.page6-time .time-mint').eq(pushNum).addClass("show").siblings(".time-mint").removeClass("show");
             PageSlider.next();
         });
         $('.page3-select-three').click(function(){
             var retuNum = Math.floor(Math.random()*5+10);
             $('.page3-select-one,.page3-select-two').attr('state','');
+            var pushNum = returNum(retuNum);
             $('.page5-all .page5-sf').eq(retuNum).addClass("show").siblings(".page5-sf").removeClass("show");
-            $('.page6-time .time-mint').eq(retuNum).addClass("show").siblings(".time-mint").removeClass("show");
+            $('.page6-time .time-mint').eq(pushNum).addClass("show").siblings(".time-mint").removeClass("show");
             PageSlider.next();
         });
+        function returNum(a){
+            var rNum = a;
+            if(rNum > 10){
+                var Rnum = rNum - 10;
+                return Rnum;
+            }else if(rNum > 5){
+                var Rnum = rNum - 5;
+                return Rnum;
+            }else{
+                return rNum;
+            }
+        };
         $('.link-shark').click(function(){
             $('.page-shark').show().addClass("active");
         });
