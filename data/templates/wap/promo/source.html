@@ -1092,7 +1092,7 @@
 {% block layout_js %}
     <script type="text/javascript">
         var m_name = '神卜鸟仙：你的2016运势大揭秘';
-	      var img_url = ' ';
+	      var img_url = '{{ app_url_packaged }}/images/promo/source/title.jpg';
 	      var link = '{{ app_url_wap_promo }}/source';
 	      var desc_str = '你的爱情、健康、事业还有多少电量，2016年如何“快人一步”满血复活，赶紧让鸟仙卜算一下吧！';
 
@@ -1296,8 +1296,7 @@
     </script>
 {% endblock %}
 {% block content %}
-
-
+<img src="{{ app_url_packaged }}/images/promo/source/title.jpg" style="display:none;">
     <div class="loading">
         <div class="loading__inner">
             <div class="loading__img"></div>
