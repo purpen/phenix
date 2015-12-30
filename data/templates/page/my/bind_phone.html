@@ -12,9 +12,25 @@
     }
 </style>
 {% endblock %}
-{% block js %}
+{% block layout_js %}
+  <script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
 {% endblock %}
 {% block jquery %}
+
+	var obj = new WxLogin({
+		id:"login_container", 
+		appid: "{{ wx_params.app_id }}", 
+		scope: "snsapi_login", 
+		redirect_uri: "{{ wx_params.redirect_uri }}",
+		state: "{{ wx_params.state }}",
+		style: "white",
+		href: ""
+    });
+	
+	$('.ui.grey.icon.button.wechat_bind').bind('click', function(){
+		$('.ui.share.basic.modal.bind').modal('show');
+	});
+	
     /* 个人资料表单验证 */
 	$('#bind-form').form({
 		account: {
@@ -256,31 +272,31 @@
                     <div class="thirdlogin">
                         第三方账户：
                     {% if user_info.sina_uid %}
-                      <a href="" class="ui red icon inverted button" title="解绑-微博账号">
+                      <a href="{{ app_url_domain }}/app/site/bind_account/remove_bind_sina_account" class="ui red icon inverted button" title="解绑-微博账号">
                         <i class="weibo icon"></i>
                       </a>
                     {%else%}
-                      <a href="" class="ui grey icon inverted button" title="绑定-微博账号">
+                      <a href="{{ weibo_auth_url }}" class="ui grey icon inverted button" title="绑定-微博账号">
                         <i class="weibo icon"></i>
                       </a>
                     {%endif%}
 
                     {% if user_info.qq_uid %}
-                      <a href="" class="ui blue icon inverted button" title="解绑-QQ账号">
+                      <a href="{{ app_url_domain }}/app/site/bind_account/remove_bind_qq_account" class="ui blue icon inverted button" title="解绑-QQ账号">
                         <i class="qq icon"></i>
                       </a>
                     {%else%}
-                      <a href="" class="ui grey icon inverted button" title="绑定-QQ账号">
+                      <a href="{{ qq_auth_url }}" class="ui grey icon inverted button" title="绑定-QQ账号">
                         <i class="qq icon"></i>
                       </a>
                     {%endif%}
 
                     {% if user_info.wx_open_id %}
-                      <a class="ui green icon inverted button" title="解绑-微信账号">
+                      <a href="{{ app_url_domain }}/app/site/bind_account/remove_bind_wechat_account" class="ui green icon inverted button" title="解绑-微信账号">
                         <i class="wechat icon"></i>
                       </a>
                     {%else%}
-                      <a class="ui grey icon inverted button" title="绑定-微信账号">
+                      <a class="ui grey icon inverted button wechat_bind" title="绑定-微信账号">
                         <i class="wechat icon"></i>
                       </a>
                     {%endif%}
@@ -293,5 +309,9 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class="ui share basic modal bind">
+  <div id="login_container"></div>
 </div>
 {% endblock %}
