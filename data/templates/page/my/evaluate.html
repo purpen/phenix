@@ -53,28 +53,22 @@
 					<div class="right aligned twelve wide column">
 						<div class="ui horizontal bulleted list">
 							<div class="item">
-								<a href="{{ app_url_my }}/orders" class="ui {{ css_all }} link">全部订单</a>
+								<a href="{{ app_url_my }}/orders" class="ui {{ css_all }} link">全部</a>
 							</div>
 							<div class="item">
-								<a href="{{ app_url_my }}/orders?s=1" class="ui {{ css_nopayed }} link">未支付</a>
+								<a href="{{ app_url_my }}/orders?s=1" class="ui {{ css_nopayed }} link">待付款</a>
 							</div>
 							<div class="item">
 								<a href="{{ app_url_my }}/orders?s=2" class="ui {{ css_ready_goods }} link">待发货</a>
 							</div>
 							<div class="item">
-								<a href="{{ app_url_my }}/orders?s=3" class="ui {{ css_sended_goods }} link">已发货</a>
+								<a href="{{ app_url_my }}/orders?s=3" class="ui {{ css_sended_goods }} link">待收货</a>
 							</div>
 							<div class="item">
-								<a href="{{ app_url_my }}/orders?s=5" class="ui {{ css_refunding }} link">退款中</a>
+								<a href="{{ app_url_my }}/orders?s=7" class="ui {{ css_evaluate }} link">待评价</a>
 							</div>
 							<div class="item">
-								<a href="{{ app_url_my }}/orders?s=6" class="ui {{ css_refunded }} link">已退款</a>
-							</div>
-							<div class="item">
-								<a href="{{ app_url_my }}/orders?s=4" class="ui {{ css_finished }} link">已完成</a>
-							</div>
-							<div class="item">
-								<a href="{{ app_url_my }}/orders?s=9" class="ui {{ css_closed }} link">已关闭</a>
+								<a href="{{ app_url_my }}/orders?s=8" class="ui {{ css_return }} link">退换货</a>
 							</div>
 						</div>
 					</div>
@@ -104,7 +98,7 @@
 			</div>
 			<div class="middle aligned ui celled white grid">
 				<div class="row">
-					<div class="seven wide column">
+					<div class="column">
 						<table class="ui basic table">
 							<tbody>
 								<tr>
@@ -195,6 +189,7 @@
                     {%else%}
                       <form class="ui evaluate form" action="{{ app_url_comment }}/ajax_evaluate" method="post" id="{{ item.sku }}">
                         <input type="hidden" name="target_id" value="{{ product._id }}" />
+                        <input type="hidden" name="order_id" value="{{ order_info._id }}" />
                         <input type="hidden" name="sku" value="{{ item.sku }}" />
                         <input type="hidden" name="type" value="4" />
                         <div class="field">

@@ -809,11 +809,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     //限制输出字段
 		$some_fields = array(
 			'_id'=>1, 'rid'=>1, 'items'=>1, 'items_count'=>1, 'total_money'=>1, 'pay_money'=>1,
-			'card_money'=>1, 'coin_money'=>1, 'freight'=>1, 'discount'=>1, 'user_id'=>1, 'addbook_id'=>1,
+			'card_money'=>1, 'coin_money'=>1, 'freight'=>1, 'discount'=>1, 'user_id'=>1,
 			'express_info'=>1, 'invoice_type'=>1, 'invoice_caty'=>1, 'invoice_title'=>1, 'invoice_content'=>1,
 			'payment_method'=>1, 'express_caty'=>1, 'express_no'=>1, 'sended_date'=>1,'card_code'=>1, 'is_presaled'=>1,
       'expired_time'=>1, 'from_site'=>1, 'status'=>1, 'gift_code'=>1, 'bird_coin_count'=>1, 'bird_coin_money'=>1,
-      'gift_money'=>1,
+      'gift_money'=>1, 'status_label'=>1, 'created_on'=>1, 'updated_on',
 		);
 		$options['some_fields'] = $some_fields;
 
@@ -837,16 +837,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			}
 			// ID转换为字符串
 			$data[$i]['_id'] = (string)$result['rows'][$i]['_id'];
+      // 创建时间格式化 
+      $data[$i]['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($result['rows'][$i]['created_on']);
       //收货地址
-      if(empty($result['rows'][$i]['express_info'])){
-        if(isset($result['rows'][$i]['addbook'])){
-          $data[$i]['express_info']['name'] = $result['rows'][$i]['addbook']['name'];
-          $data[$i]['express_info']['phone'] = $result['rows'][$i]['addbook']['phone'];
-          //列表页暂不需要
-          //$data[$i]['express_info']['zip'] = $result['rows'][$i]['addbook']['zip'];
-          //$data[$i]['express_info']['province'] = $result['rows'][$i]['addbook']['area_province']['city'];
-          //$data[$i]['express_info']['province'] = $result['rows'][$i]['addbook']['area_district']['city'];
-        }
+      if(empty($data[$i]['express_info'])){
+        $data[$i]['express_info'] = null;
       }
 
       //商品详情
@@ -892,11 +887,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     //限制输出字段
 		$some_fields = array(
 			'_id', 'rid', 'items', 'items_count', 'total_money', 'pay_money',
-			'card_money', 'coin_money', 'freight', 'discount', 'user_id', 'addbook_id',
+			'card_money', 'coin_money', 'freight', 'discount', 'user_id', 'addbook_id', 'addbook',
 			'express_info', 'invoice_type', 'invoice_caty', 'invoice_title', 'invoice_content',
 			'payment_method', 'express_caty', 'express_no', 'sended_date','card_code', 'is_presaled',
       'expired_time', 'from_site', 'status', 'gift_code', 'bird_coin_count', 'bird_coin_money',
-      'gift_money',
+      'gift_money', 'status_label', 'created_on', 'updated_on',
 		);
 		
 		$model = new Sher_Core_Model_Orders();
@@ -917,6 +912,18 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $data[$key] = isset($order_info[$key]) ? $order_info[$key] : null;
     }
     $data['_id'] = (string)$data['_id'];
+
+    // 收货信息
+    if(empty($data['express_info'])){
+      $data['express_info'] = null;
+      if(isset($order_info['addbook'])){
+        $data['express_info']['name'] = $order_info['addbook']['name'];
+        $data['express_info']['phone'] = $order_info['addbook']['phone'];
+        $data['express_info']['zip'] = $order_info['addbook']['zip'];
+        $data['express_info']['province'] = $order_info['addbook']['area_province']['city'];
+        $data['express_info']['province'] = $order_info['addbook']['area_district']['city'];
+      }   
+    }
 
     //商品详情
     if(!empty($data['items'])){

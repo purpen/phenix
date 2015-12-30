@@ -413,6 +413,20 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	public function sended_order($id, $options=Array()){
         return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_SENDED_GOODS, $options);
 	}
+
+	/**
+	 * 待评价订单
+	 */
+	public function evaluate_order($id, $options=Array()){
+        return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_EVALUATE, $options);
+	}
+
+	/**
+	 * 完成订单
+	 */
+	public function finish_order($id, $options=Array()){
+        return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_PUBLISHED, $options);
+	}
 	
 	/**
 	 * 处理订单，并释放库存
@@ -878,21 +892,6 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         return $this->_updateOrderStatus($status, $id);
     }
 
-    /**
-     * 设置订单的状态为待评价状态
-     */
-    public function setReadyEvaluate($id=null){
-    	$status = Sher_Core_Util_Constant::ORDER_EVALUATE;
-        return $this->_updateOrderStatus($status, $id);
-    }
-	
-    /**
-     * 设置订单的状态为已完成状态
-     */
-    public function setOrderPublished($id=null){
-    	$status = Sher_Core_Util_Constant::ORDER_PUBLISHED;
-		return $this->_updateOrderStatus($status, $id);
-    }
 	
     /**
      * 更新订单的处理状态
