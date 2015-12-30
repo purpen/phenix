@@ -248,6 +248,8 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	 * 用户发表评价
 	 */
 	public function ajax_evaluate(){
+
+		$order_id = isset($this->stash['order_id'])?(int)$this->stash['order_id']:null;
 		
 		$row = array();
 		$row['user_id'] = $this->visitor->id;
@@ -279,7 +281,16 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		if($ok){
 			$comment_id = $model->id;
 			$this->stash['comment'] = &$model->extend_load($comment_id);
-		}
+
+      // 更新订单状态为完成
+      if(!empty($order_id)){
+        $orders_model = new Sher_Core_Model_Orders();
+        $order = $orders_model->load($order_id);
+        if(!empty($order) && $order['user_id']==$this->visitor->id && $order['status']==Sher_Core_Util_Constant::ORDER_EVALUATE){
+          $order_ok = $orders_model->finish_order($order_id);
+        }
+      }
+		} // if ok
 		
 		return $this->to_taconite_page('ajax/evaluate_ok.html');
 	}

@@ -301,6 +301,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     }
 
     //验证是否评价过
+    /**
     $comment_model = new Sher_Core_Model_Comment();
     foreach($order_info['items'] as $k=>$v){
       $query = array();
@@ -315,6 +316,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         $order_info['items'][$k]['comment'] = $has_one;
       }
     }
+    **/
 
 		$this->stash['order_info'] = $order_info;
 
@@ -343,7 +345,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		}
 		try {
 			// 待评价订单
-			$ok = $model->setReadyEvaluate($order_info['_id']);
+			$ok = $model->evaluate_order($order_info['_id']);
         } catch (Sher_Core_Model_Exception $e) {
             return $this->ajax_notification('设置订单失败:'.$e->getMessage(),true);
         }

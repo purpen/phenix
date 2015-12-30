@@ -166,7 +166,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		}
 		try {
 			// 待评价订单
-			$ok = $model->setReadyEvaluate($order_info['_id']);
+			$ok = $model->evaluate_order($order_info['_id']);
         } catch (Sher_Core_Model_Exception $e) {
             return $this->ajax_notification('设置订单失败:'.$e->getMessage(),true);
         }

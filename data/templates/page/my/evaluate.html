@@ -98,7 +98,7 @@
 			</div>
 			<div class="middle aligned ui celled white grid">
 				<div class="row">
-					<div class="seven wide column">
+					<div class="column">
 						<table class="ui basic table">
 							<tbody>
 								<tr>
@@ -189,6 +189,7 @@
                     {%else%}
                       <form class="ui evaluate form" action="{{ app_url_comment }}/ajax_evaluate" method="post" id="{{ item.sku }}">
                         <input type="hidden" name="target_id" value="{{ product._id }}" />
+                        <input type="hidden" name="order_id" value="{{ order_info._id }}" />
                         <input type="hidden" name="sku" value="{{ item.sku }}" />
                         <input type="hidden" name="type" value="4" />
                         <div class="field">
