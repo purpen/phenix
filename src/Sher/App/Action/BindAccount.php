@@ -51,7 +51,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
 			$sina_id = $user->first(array('sina_uid' => $uid));
 			
 			if(!empty($sina_id)){
-				return $this->display_note_page("账号已绑定，请解绑后在操作！", $redirect_url);
+				return $this->display_note_page("账号已被绑定，请先用新浪微博账号登陆解绑后在操作！", $redirect_url);
 			}
 			
             $result = $user->update_set((int)$user_id,$date);
@@ -144,7 +144,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
 			$qq_uid = $user->first(array('qq_uid' => $uid));
 			
 			if(!empty($qq_uid)){
-				return $this->display_note_page("账号已绑定，请解绑后在操作！", $redirect_url);
+				return $this->display_note_page("账号已被绑定，请先用QQ账号登陆解绑后在操作！", $redirect_url);
 			}
 			
             $result = $user->update_set((int)$user_id,$date);
@@ -229,7 +229,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
 			$wechat_id = $user->first(array('wx_open_id' => $open_id));
 			
 			if(!empty($wechat_id)){
-				return $this->display_note_page("账号已绑定，请解绑后在操作！", $redirect_url);
+				return $this->display_note_page("账号已被绑定，请先用微信账号登陆解绑后在操作！", $redirect_url);
 			}
 			
             $result = $user->update_set((int)$user_id,$date);
