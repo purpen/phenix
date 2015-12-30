@@ -104,7 +104,7 @@
 				</div>
 			</div>
 			
-			{% order_list var:'list' user_id:user.id status:s size:10 page:page %}
+			{% order_list var:'list' user_id:user.id status:s deleted:'-1' size:10 page:page %}
 			
 			{% for order in list.rows %}
 				{% include 'block/order-item.html' %}

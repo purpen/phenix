@@ -131,15 +131,17 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		# 过期时间,(普通订单、预售订单)
 		'expired_time' => 0,
 
-        # 订单类型
-        'kind' => self::KIND_NORMAL,
+    # 订单类型
+    'kind' => self::KIND_NORMAL,
 		
+    # 是否删除
+    'deleted' => 0,
 		# 来源站点
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
     );
 
 	protected $required_fields = array('rid', 'user_id');
-	protected $int_fields = array('user_id','invoice_type');
+	protected $int_fields = array('user_id','invoice_type','deleted','kind','status');
 
 	protected $joins = array(
 	    'user' => array('user_id' => 'Sher_Core_Model_User'),

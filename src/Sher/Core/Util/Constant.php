@@ -239,6 +239,13 @@ class Sher_Core_Util_Constant extends Doggy_Object {
      * @var int
      */
     const ORDER_SENDED_GOODS = 15;
+
+    /**
+     * 订单待评价
+     * 
+     * @var int
+     */
+    const ORDER_EVALUATE = 16;
 	
     /**
      * 订单已完成状态
