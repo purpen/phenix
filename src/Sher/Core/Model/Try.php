@@ -34,6 +34,7 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		'description' => '',
 		# 内容，详细说明
 		'content' => '',
+		'content_wap' => '',
         # 第几期
         'season' => 0,
         # 状态: 0.预热, 1,申请中, 2,审核中, 3.提交反馈, 5.结束
@@ -143,9 +144,14 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		if(isset($row['content'])){
 			// 转码
 			$row['content'] = htmlspecialchars_decode($row['content']);
-		
 			// 去除 html/php标签
 			$row['strip_content'] = strip_tags($row['content']);
+		}
+		if(isset($row['content_wap'])){
+			// 转码
+			$row['content_wap'] = htmlspecialchars_decode($row['content_wap']);
+			// 去除 html/php标签
+			$row['strip_content_wap'] = strip_tags($row['content_wap']);
 		}
 		
 		# 验证是否结束

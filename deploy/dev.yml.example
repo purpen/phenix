@@ -72,6 +72,11 @@ app.topic.idea_category_id: 22
 # 蛋年活动
 app.birdegg.category_id: 80
 
+# 话题综合版块ID
+app.topic_category_comprehensive: 16
+# 话题产品版块ID
+app.topic_category_product: 17
+
 # 大赛作品分类--反向定制
 app.stuff.contest_category_id: 55
 

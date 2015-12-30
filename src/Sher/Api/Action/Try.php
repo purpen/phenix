@@ -29,11 +29,11 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 
     //显示的字段
     $options['some_fields'] = array(
-      '_id'=> 1, 'title'=>1, 'description'=>1, 'content'=>1, 'cover_id'=>1, 'banner_id'=>1, 'step_stat'=>1, 'sticked'=>1,
-      'tags'=>1, 'comment_count'=>1, 'created_on'=>1, 'kind'=>1, 'cover'=>1,
+      '_id'=> 1, 'title'=>1, 'short_title'=>1, 'description'=>1, 'cover_id'=>1, 'banner_id'=>1, 'step_stat'=>1, 'sticked'=>1,
+      'tags'=>1, 'comment_count'=>1, 'created_on'=>1, 'kind'=>1,
       'try_count'=>1, 'apply_count'=>1, 'report_count'=>1, 'want_count'=>1, 'view_count'=>1,
       'buy_url'=>1, 'open_limit'=>1, 'open_limit'=>1, 'apply_term'=>1, 'term_count'=>1,
-      'start_time'=>1, 'end_time'=>1, 'publish_time'=>1, 'state'=>1, 'price'=>1, 'user_id'=>1, 'pass_users'=>1,
+      'start_time'=>1, 'end_time'=>1, 'publish_time'=>1, 'state'=>1, 'price'=>1, 'pass_users'=>1,
     );
 		
 		// 查询条件
@@ -66,14 +66,12 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 		$data = array();
 		for($i=0;$i<count($result['rows']);$i++){
 			foreach($options['some_fields'] as $key=>$value){
-        $c = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : null;
-				if($c) $data[$i][$key] = $result['rows'][$i][$key];
+        $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
 			}
-
-      // 过滤用户表
-      if(isset($result['rows'][$i]['user'])){
-        $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user'], array('symbol_1', 'symbol_2'));
-      }
+			// 封面图url
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
+			// banner图url
+			$data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['medium']['view_url'];
 
 		}
 		$result['rows'] = $data;
@@ -105,19 +103,30 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 		// 增加pv++
 		$inc_ran = rand(1, 6);
 		$model->increase_counter('view_count', $inc_ran, $id);
-		
-		// 当前用户是否有管理权限
-    if ($this->current_user_id == $try['user_id']){
-      $editable = true;
-    }
 
-    // 过滤用户表
-    if(isset($try['user'])){
-      $try['user'] = Sher_Core_Helper_FilterFields::user_list($try['user'], array('symbol_1', 'symbol_2'));
-    }
+    //显示的字段
+    $some_fields = array(
+      '_id', 'title', 'short_title', 'description', 'cover_id', 'banner_id', 'step_stat', 'sticked',
+      'tags', 'comment_count', 'created_on', 'kind',
+      'try_count', 'apply_count', 'report_count', 'want_count', 'view_count',
+      'buy_url', 'open_limit', 'open_limit', 'apply_term', 'term_count',
+      'start_time', 'end_time', 'publish_time', 'state', 'price', 'pass_users',
+    );
 
-		$result['try'] = &$try;
-		$result['editable'] = $editable;
+    // 重建数据结果
+    $data = array();
+    for($i=0;$i<count($some_fields);$i++){
+      $key = $some_fields[$i];
+      $data[$key] = isset($try[$key]) ? $try[$key] : null;
+    }
+    //转换描述格式
+    $data['content_view_url'] = sprintf('%s/app/api/view/try_show?id=%d', Doggy_Config::$vars['app.domain.base'], $try['_id']);
+    // 封面图url
+    $data['cover_url'] = $try['cover']['thumbnails']['medium']['view_url'];
+    // banner图url
+    $data['banner_url'] = $try['banner']['thumbnails']['medium']['view_url'];
+
+		$result['rows'] = $data;
 		
 		return $this->api_json('请求成功', 0, $result);
 	}

@@ -63,7 +63,10 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 		
 		// 绑定设备操作
 		$uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
-		if(!empty($uuid) && !empty($user_id)){
+    if(empty($uuid)){
+      return $this->api_json('设备uuid不存在!', 3006);     
+    }
+		if(!empty($user_id)){
 			$pusher = new Sher_Core_Model_Pusher();
 			$ok = $pusher->binding($uuid, $user_id, $from_to);
 		}

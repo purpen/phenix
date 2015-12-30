@@ -33,8 +33,9 @@
 					  	<label></label>
 					</div>
 				</th>
+        <th>封面</th>
 				<th>标题</th>
-				<th>标签</th>
+        <th>模式</th>
 				<th>操作</th>
 			</tr>
 		</thead>
@@ -48,11 +49,21 @@
 					  	<label></label>
 					</div>
 				</td>
+        <td>
+					<div class="ui image">
+						<img src="{{ special_subject.cover.thumbnails.mini.view_url }}" width="80px" />
+					</div>
+        </td>
 				<td>
 						{{ special_subject.title }}
 				</td>
 				<td>
-						{{ special_subject.title }}
+          {% if special_subject.kind==1 %}
+            自定义
+          {%endif%}
+          {% if special_subject.kind==2 %}
+            默认
+          {%endif%}
 				</td>
 				<td>
 					<p>

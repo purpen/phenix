@@ -39,4 +39,4 @@ class Sher_Core_Model_AddBooks extends Sher_Core_Model_Base  {
     }
 	
 }
-?>
+
