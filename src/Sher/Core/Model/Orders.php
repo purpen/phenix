@@ -539,7 +539,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 				$status_label = '等待审核';
 				break;
 			case Sher_Core_Util_Constant::ORDER_READY_GOODS:
-				$status_label = '正在配货';
+				$status_label = '待发货';
 				break;
 			case Sher_Core_Util_Constant::ORDER_READY_REFUND:
 				$status_label = '退款中';
@@ -548,7 +548,10 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 				$status_label = '已退款';
 				break;
 			case Sher_Core_Util_Constant::ORDER_SENDED_GOODS:
-				$status_label = '已发货';
+				$status_label = '待收货';
+				break;
+			case Sher_Core_Util_Constant::ORDER_EVALUATE:
+				$status_label = '待评价';
 				break;
 			case Sher_Core_Util_Constant::ORDER_PUBLISHED:
 				$status_label = '已完成';
@@ -872,6 +875,14 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
      */
     public function setReadyGoods($id=null){
     	$status = Sher_Core_Util_Constant::ORDER_READY_GOODS;
+        return $this->_updateOrderStatus($status, $id);
+    }
+
+    /**
+     * 设置订单的状态为待评价状态
+     */
+    public function setReadyEvaluate($id=null){
+    	$status = Sher_Core_Util_Constant::ORDER_EVALUATE;
         return $this->_updateOrderStatus($status, $id);
     }
 	

@@ -251,7 +251,7 @@
           <div class="block title">
         		试用报告
           </div>
-          {% topic_list var:'topic_list' published:1 type:5 sort:1 page:1 size:8 %}
+          {% topic_list var:'topic_list' published:1 type:5 sort:6 page:1 size:8 %}
           <div id="homepage">
             {% for topic in topic_list.rows %}
               {% if !loop.counter>4 %}
@@ -342,25 +342,26 @@
       </div>
         
     </div>
-	<div class="ui grid" style="padding: 0 8px 30px;">
-	  <div class="row">
-	    <div class="center aligned column">
-	      <h3 class="ui header">合作厂商</h3>
-	    </div>
-	  </div>
-	  <div class="row">
-	    <div class="center aligned column">
-	      {% ad_list var:'adslide' page:1 size:15 state:2 name:'try_list_cooperate_logo' %}
-	        {% if adslide.rows %}
-				<div class="tryfirm">
-	                {% for ad in adslide.rows %}
-	                <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank"><img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}"></a>
-					{% endfor %}
-				</div>
-	        {%endif%}
-	    </div>
-	  </div>
-	</div>
 </div>
+<div class="ui grid" style="padding: 0 8px 30px;width:1280px;">
+  <div class="row">
+    <div class="center aligned column">
+      <h3 class="ui header">合作厂商</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="center aligned column">
+      {% ad_list var:'adslide' page:1 size:15 state:2 name:'try_list_cooperate_logo' %}
+        {% if adslide.rows %}
+			<div class="tryfirm">
+                {% for ad in adslide.rows %}
+                <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank"><img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}"></a>
+				{% endfor %}
+			</div>
+        {%endif%}
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 

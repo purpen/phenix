@@ -237,6 +237,12 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
             case 6:
                 $this->set_target_css_state('refunded');
                 break;
+            case 7:
+                $this->set_target_css_state('evaluate');
+                break;
+            case 8:
+                $this->set_target_css_state('return');
+                break;
             default:
                 $this->set_target_css_state('all');
                 break;
@@ -316,9 +322,9 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	}
 
 	/**
-	 * 确认订单完成
+	 * 确认收货
 	 */
-	public function ajax_finished(){
+	public function ajax_take_delivery(){
 		$rid = $this->stash['rid'];
 		if (empty($rid)) {
 			return $this->ajax_notification('操作不当，请查看购物帮助！', true);
@@ -336,8 +342,8 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 			return $this->ajax_notification('该订单出现异常，请联系客服！', true);
 		}
 		try {
-			// 完成订单
-			$ok = $model->setOrderPublished($order_info['_id']);
+			// 待评价订单
+			$ok = $model->setReadyEvaluate($order_info['_id']);
         } catch (Sher_Core_Model_Exception $e) {
             return $this->ajax_notification('设置订单失败:'.$e->getMessage(),true);
         }

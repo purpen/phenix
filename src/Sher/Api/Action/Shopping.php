@@ -787,27 +787,21 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         }
 		
 		switch($status){
-			case 1: // 未支付订单
+			case 1: // 待支付订单
 				$query['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
 				break;
 			case 2: // 待发货订单
 				$query['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
 				break;
-			case 3: // 已发货订单
+			case 3: // 待收货订单
 				$query['status'] = Sher_Core_Util_Constant::ORDER_SENDED_GOODS;
 				break;
-			case 4: // 已完成订单
-				$query['status'] = Sher_Core_Util_Constant::ORDER_PUBLISHED;
+			case 4: // 待评价订单
+				$query['status'] = Sher_Core_Util_Constant::ORDER_EVALUATE;
 				break;
-			case 5: // 申请退款订单
-        $query['status'] = Sher_Core_Util_Constant::ORDER_READY_REFUND;
-        break;
-			case 6: // 已退款订单
-        $query['status'] = Sher_Core_Util_Constant::ORDER_REFUND_DONE;
-        break;
-			case 9: // 已关闭订单：取消的订单、过期的订单
+			case 8: // 退换货
 				$query['status'] = array(
-					'$in' => array(Sher_Core_Util_Constant::ORDER_EXPIRED, Sher_Core_Util_Constant::ORDER_CANCELED),
+					'$in' => array(Sher_Core_Util_Constant::ORDER_READY_REFUND, Sher_Core_Util_Constant::ORDER_REFUND_DONE),
 				);
 				break;
 		}
@@ -861,6 +855,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         foreach($result['rows'][$i]['items'] as $k=>$v){
           $d = $product_model->extend_load((int)$v['product_id']);
           if(!empty($d)){
+            $sku_mode = null;
             if($v['sku']==$v['product_id']){
               $data[$i]['items'][$m]['name'] = $d['title'];   
             }else{
@@ -869,8 +864,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
               if(!empty($sku)){
                 $sku_mode = $sku['mode'];
               }
-              $data[$i]['items'][$m]['name'] = $d['title'].' '.$sku_mode; 
+              $data[$i]['items'][$m]['name'] = $d['title']; 
             }
+            $data[$i]['items'][$m]['sku_name'] = $sku_mode; 
             $data[$i]['items'][$m]['cover_url'] = $d['cover']['thumbnails']['mini']['view_url'];
           }
 
@@ -890,8 +886,18 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$rid = $this->stash['rid'];
 		$user_id = $this->current_user_id;
 		if(empty($rid)){
-			return $this->api_json('操作不当，请查看购物帮助！', 3000);
+			return $this->api_json('订单ID不存在！', 3000);
 		}
+
+    //限制输出字段
+		$some_fields = array(
+			'_id', 'rid', 'items', 'items_count', 'total_money', 'pay_money',
+			'card_money', 'coin_money', 'freight', 'discount', 'user_id', 'addbook_id',
+			'express_info', 'invoice_type', 'invoice_caty', 'invoice_title', 'invoice_content',
+			'payment_method', 'express_caty', 'express_no', 'sended_date','card_code', 'is_presaled',
+      'expired_time', 'from_site', 'status', 'gift_code', 'bird_coin_count', 'bird_coin_money',
+      'gift_money',
+		);
 		
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->find_by_rid($rid);
@@ -900,8 +906,44 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		if($user_id != $order_info['user_id']){
 			return $this->api_json('你没有权限查看此订单！', 5000);
 		}
+
+    $product_model = new Sher_Core_Model_Product();
+    $sku_model = new Sher_Core_Model_Inventory();
+
+    // 重建数据结果
+    $data = array();
+    for($i=0;$i<count($some_fields);$i++){
+      $key = $some_fields[$i];
+      $data[$key] = isset($order_info[$key]) ? $order_info[$key] : null;
+    }
+    $data['_id'] = (string)$data['_id'];
+
+    //商品详情
+    if(!empty($data['items'])){
+      $m = 0;
+      foreach($data['items'] as $k=>$v){
+        $d = $product_model->extend_load((int)$v['product_id']);
+        if(!empty($d)){
+          $sku_mode = null;
+          if($v['sku']==$v['product_id']){
+            $data['items'][$m]['name'] = $d['title'];   
+          }else{
+            $sku_mode = '';
+            $sku = $sku_model->find_by_id($v['sku']);
+            if(!empty($sku)){
+              $sku_mode = $sku['mode'];
+            }
+            $data['items'][$m]['name'] = $d['title']; 
+          }
+          $data['items'][$m]['sku_name'] = $sku_mode;
+          $data['items'][$m]['cover_url'] = $d['cover']['thumbnails']['mini']['view_url'];
+        }
+
+        $m++;
+      } // endforeach
+    }
 		
-		return $this->api_json('请求成功', 0, $order_info);
+		return $this->api_json('请求成功', 0, $data);
 	}
 	
 	/**
