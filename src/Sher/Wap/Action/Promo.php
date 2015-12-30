@@ -23,7 +23,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	/**
 	  * 微波移动电源
 	 **/
-	public function mf(){
+	public function source(){
 		$this->stash['page_title_suffix'] = '你是几颗星的辣妈or奶爸？';
 		// 记录浏览数
 	    $num_mode = new Sher_Core_Model_SumRecord();
