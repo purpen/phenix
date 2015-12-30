@@ -1185,7 +1185,7 @@
                 var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
 
                 if (speed > SHAKE_THRESHOLD) {
-                    alert("摇动了");
+                   // alert("摇动了");
                     media.setAttribute("src", "http://211.148.5.228:8002/Pages/test/Kalimba.mp3");
                     media.load();
                     media.play();  
