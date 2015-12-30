@@ -83,9 +83,10 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
 	public function bind_qq_account(){
         
         $code = $this->stash['code'];
-        $app_id = Doggy_Config::$vars['app.qq.app_id'];
+        
+		$app_id = Doggy_Config::$vars['app.qq.app_id'];
 		$app_key = Doggy_Config::$vars['app.qq.app_key'];
-        $callback = Doggy_Config::$vars['app.url.domain'].'/app/site/bind_account/bind_qq_account';
+        $app_callback = Doggy_Config::$vars['app.url.domain'].'/app/site/bind_account/bind_qq_account';
         $app_scope = Doggy_Config::$vars['app.qq.scope'];
         
         Doggy_Log_Helper::error('QQ Login get code:'.$code);
