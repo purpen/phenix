@@ -1002,6 +1002,7 @@
 
 	.page-6 .page6-time .time-mint.show {
 	    display: block!important;
+		opacity: 1;
 	}
 
 	.page-6 .page6-time .time-mint.time-mint5 {
@@ -1203,7 +1204,9 @@
                 });
                 // 摇一摇--------------------为什么摇一摇不好使呢？？？？？？？？？
                 //if($(".page-4").hasClass("current")){
-                    init();
+                 
+				
+				    init();
                     var SHAKE_THRESHOLD = 3000;
                     var last_update = 0;
                     var x = y = z = last_x = last_y = last_z = 0;
@@ -1225,7 +1228,7 @@
                             z = acceleration.z;
                             var speed = Math.abs(x + y + z - last_x - last_y - last_z) / diffTime * 10000;
 
-                            if (speed > SHAKE_THRESHOLD) {
+                            if (speed > SHAKE_THRESHOLD && $(".page-4").hasClass("current") ) {
                                 $('.page-4').addClass('active');
                                 $('#app_bgm').get(0).pause();
                                 $('#app_yyy').get(0).play();
@@ -1237,6 +1240,11 @@
                             last_z = z;
                         }
                     }
+					
+				
+				
+					
+					
 					//}
             }
         });
