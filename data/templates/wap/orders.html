@@ -31,7 +31,7 @@
 		<div class="column">
 			<h4 class="ui dividing header">订单查询</h4>
 			<div class="ui segment">
-				{% order_list var:'list' user_id:user.id status:s size:10 page:page %}
+				{% order_list var:'list' user_id:user.id status:s deleted:'-1' size:10 page:page %}
 				<div class="ui very relaxed divided address list">
 					{% for order in list.rows %}
 						{% include 'mm/order-item.html' %}

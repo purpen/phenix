@@ -460,6 +460,51 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
     }
  		return $this->api_json($result['msg'], 0, $data);
   }
+
+  /**
+   * 删除订单
+   */
+  public function delete_order(){
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录!', 3000);    
+    }
+
+    $rid = isset($this->stash['rid'])?$this->stash['rid']:null;
+    if(empty($rid)){
+      return $this->api_json('缺少请求参数!', 3001);   
+    }
+
+    $order_model = new Sher_Core_Model_Orders();
+    $order = $order_model->find_by_rid((string)$rid);
+    if(empty($order)){
+      return $this->api_json('订单不存在!', 3002);   
+    }
+
+    if($order['user_id'] != $user_id){
+      return $this->api_json('没有权限!', 3003);   
+    }
+
+    // 允许关闭订单状态数组
+    $allow_stat_arr = array(
+      Sher_Core_Util_Constant::ORDER_EXPIRED,
+      Sher_Core_Util_Constant::ORDER_CANCELED,
+      Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT,
+      Sher_Core_Util_Constant::ORDER_EVALUATE,
+      Sher_Core_Util_Constant::ORDER_PUBLISHED,
+    );
+    if(!in_array($order['status'], $allow_stat_arr)){
+      return $this->api_json('该订单状态不允许删除!', 3004);     
+    }
+
+    $ok = $order_model->update_set((string)$order['_id'], array('deleted'=>1));
+    if($ok){
+      return $this->api_json('操作成功!', 0, array('rid'=>$order['rid']));       
+    }else{
+      return $this->api_json('订单删除失败!', 3005);
+    }
+
+  }
 	
 }
 

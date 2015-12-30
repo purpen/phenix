@@ -39,6 +39,8 @@ class Sher_Core_ViewTag_OrderList extends Doggy_Dt_Tag {
 		$start_time = 0;
 		// 截止时间
 		$end_time = 0;
+    // 是否删除
+    $deleted = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -121,10 +123,17 @@ class Sher_Core_ViewTag_OrderList extends Doggy_Dt_Tag {
 		if(!$start_time && $end_time){
 			$query['created_on'] = array('$lte' => $end_time);
 		}
+    if($deleted){
+      if((int)$deleted==-1){
+        $query['deleted'] = 0;
+      }elseif((int)$deleted==1){
+        $query['deleted'] = 1;
+      }
+    }
 		
-        $service = Sher_Core_Service_Orders::instance();
-        $options['page'] = $page;
-        $options['size'] = $size;
+    $service = Sher_Core_Service_Orders::instance();
+    $options['page'] = $page;
+    $options['size'] = $size;
 		
 		$options['sort_field'] = $sort_field;
 		
@@ -141,4 +150,4 @@ class Sher_Core_ViewTag_OrderList extends Doggy_Dt_Tag {
         
     }
 }
-?>
+
