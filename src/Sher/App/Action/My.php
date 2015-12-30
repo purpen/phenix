@@ -121,6 +121,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	$qqAuth = new Sher_Core_Helper_QcOauth();
 	
 	$this->stash['qq_auth_url'] = $qqAuth->qq_bind();
+	echo $this->stash['qq_auth_url'];
 	
 	// 绑定微信账号
     $wx_params = array(
