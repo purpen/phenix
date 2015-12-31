@@ -19,7 +19,7 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 	 * QQ登录
 	 */
 	public function execute(){
-    $from_to = $this->stash['from_to'];
+		$from_to = $this->stash['from_to'];
 		$qc = new Sher_Core_Helper_Qc();
 		return $qc->qq_login($from_to);
 	}
@@ -41,11 +41,11 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 		
 		$app_id = Doggy_Config::$vars['app.qq.app_id'];
 		$app_key = Doggy_Config::$vars['app.qq.app_key'];
-    if($from_to=='wap'){
- 		  $app_callback = Doggy_Config::$vars['app.qq.wap_callback_url'];   
-    }else{
- 		  $app_callback = Doggy_Config::$vars['app.qq.callback_url'];   
-    }
+		if($from_to=='wap'){
+			  $app_callback = Doggy_Config::$vars['app.qq.wap_callback_url'];   
+		}else{
+			  $app_callback = Doggy_Config::$vars['app.qq.callback_url'];   
+		}
 
 		$app_scope = Doggy_Config::$vars['app.qq.scope'];
 		
