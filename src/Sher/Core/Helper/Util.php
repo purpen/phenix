@@ -604,10 +604,8 @@ class Sher_Core_Helper_Util {
     $inline_tag_model = new Sher_Core_Model_InlinkTag();
 
     // 默认随机取10个
-    $size = 10;
-    $tag_count = $inline_tag_model->count();
-    $max = ($tag_count/$size)<1 ? 1 : (int)($tag_count/$size);
-    $page = mt_rand(1, $max);
+    $size = 1000;
+    $page = 1;
     $tags = $inline_tag_model->find(array('kind'=>(int)$type, 'state'=>1), array('page'=>$page, 'size'=>$size));
     //打乱顺序
     shuffle($tags);
