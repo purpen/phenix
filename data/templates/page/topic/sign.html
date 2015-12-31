@@ -200,9 +200,9 @@
             		</thead>
             		<tbody>
                 {% if type==3 %}
-            		  {% sign_list var:'list' load_user:1 sort:3 page:page size:size %}
+            		  {% sign_list var:'list' load_user:1 sort:3 page:page size:50 %}
                 {%else%}
-            		  {% sign_stat_list var:'list' day:day week:week month:month sort:sort page:page size:size %}
+            		  {% sign_stat_list var:'list' day:day week:week month:month sort:sort page:page size:50 %}
                 {%endif%}
             		{% for sign in list.rows %}
                   {% if type==3 %}
