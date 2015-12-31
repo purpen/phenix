@@ -7,7 +7,7 @@ class Sher_Admin_Action_InlinkTag extends Sher_Admin_Action_Base implements Dogg
 	
 	public $stash = array(
 		'page' => 1,
-    'size' => 50,
+    'size' => 100,
     'kind' => 1,
     'tag'  => '',
 	);
