@@ -511,8 +511,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         }else{
           // 如果是第三方注册，昵称过长，自动截取前10
           $n_count = Sher_Core_Helper_Util::strlen_mb($row['nickname']);
-          if($n_count>11){
-              $row['nickname'] = Sher_Core_Helper_Util::substr_mb($row['nickname'], 0, 11);
+          if($n_count>=15){
+              $row['nickname'] = Sher_Core_Helper_Util::substr_mb($row['nickname'], 0, 15);
           }       
         }
 

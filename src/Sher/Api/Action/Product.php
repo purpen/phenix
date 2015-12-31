@@ -265,124 +265,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
 		return $this->api_json('请求成功', 0, $data);
 	}
-	
-	/**
-	 * 收藏
-	 */
-	public function ajax_favorite(){
-    $id = $this->stash['id'];
-		if(empty($id)){
-			return $this->api_json('缺少请求参数！', 3000);
-		}
-		
-		try{
-			$type = Sher_Core_Model_Favorite::TYPE_PRODUCT;
-			
-			$model = new Sher_Core_Model_Favorite();
-			if(!$model->check_favorite($this->current_user_id, $id, $type)){
-				$fav_info = array('type' => $type);
-				$ok = $model->add_favorite($this->current_user_id, $id, $fav_info);
-			}
-		}catch(Sher_Core_Model_Exception $e){
-			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
-		}
-		
-		// 获取新计数
-		$favorite_count = $this->remath_count($id, 'favorite_count');
-		
-		return $this->api_json('操作成功', 0, array('favorite_count'=>$favorite_count));
-	}
 
-	/**
-	 * 取消收藏
-	 */
-	public function ajax_cancel_favorite(){
-    $id = $this->stash['id'];
-    $user_id = $this->current_user_id;
-		if(empty($id)){
-			return $this->api_json('缺少请求参数！', 3000);
-		}
-		
-		try{
-			$type = Sher_Core_Model_Favorite::TYPE_PRODUCT;
-			
-			$model = new Sher_Core_Model_Favorite();
-			if($model->check_favorite($user_id, $id, $type)){
-				$ok = $model->remove_favorite($user_id, $id, $type);
-			}
-		}catch(Sher_Core_Model_Exception $e){
-			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
-		}
-		
-		// 获取新计数
-		$favorite_count = $this->remath_count($id, 'favorite_count');
-		
-		return $this->api_json('操作成功', 0, array('favorite_count'=>$favorite_count));
-	}
-	
-	/**
-	 * 点赞
-	 */
-	public function ajax_love(){
-		$id = $this->stash['id'];
-		if(empty($id)){
-			return $this->api_json('缺少请求参数！', 3000);
-		}
-		
-		try{
-			$type = Sher_Core_Model_Favorite::TYPE_PRODUCT;
-			
-			$model = new Sher_Core_Model_Favorite();
-			if (!$model->check_loved($this->current_user_id, $id, $type)) {
-				$love_info = array('type' => $type);
-				$ok = $model->add_love($this->current_user_id, $id, $love_info);
-			}
-		}catch(Sher_Core_Model_Exception $e){
-			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
-		}
-		
-		// 获取计数
-		$love_count = $this->remath_count($id, 'love_count');
-		
-		return $this->api_json('操作成功', 0, array('love_count'=>$love_count));
-	}
-
-	/**
-	 * 取消点赞
-	 */
-	public function ajax_cancel_love(){
-    $id = $this->stash['id'];
-    $user_id = $this->current_user_id;
-		if(empty($user_id)){
-			return $this->api_json('请先登录!', 3005);
-		}
-		if(empty($id)){
-			return $this->api_json('缺少请求参数！', 3000);
-		}
-		
-		try{
-			$type = Sher_Core_Model_Favorite::TYPE_PRODUCT;
-			
-			$model = new Sher_Core_Model_Favorite();
-			if ($model->check_loved($user_id, $id, $type)) {
-				$love_info = array('type' => $type);
-				$ok = $model->cancel_love($user_id, $id, $type);
-        if($ok){
-        	// 获取计数
-          $love_count = $this->remath_count($id, 'love_count');
-          return $this->api_json('操作成功', 0, array('love_count'=>$love_count));
-        }else{
-          return $this->api_json('操作失败', 3003);
-        }
-      }else{
-        return $this->api_json('已点赞', 3004);     
-      }
-		}catch(Sher_Core_Model_Exception $e){
-			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
-		}
-		
-
-	}
 	
 	/**
 	 * 用户评论列表
@@ -466,22 +349,6 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		
 		return $this->api_json('操作成功', 0, $result);
 	}
-	
-	/**
-	 * 计算总数
-	 */
-	protected function remath_count($id, $field='favorite_count'){
-		$count = 0;
-		
-		$model = new Sher_Core_Model_Product();
-		$result = $model->load((int)$id);
-		
-		if(!empty($result)){
-			$count = $result[$field];
-		}
-		
-		return $count;
-  }
 
 	/**
 	 * 获取推荐产品
