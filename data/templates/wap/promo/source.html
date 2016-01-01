@@ -1335,12 +1335,12 @@
                                 setTimeout(function () {
                                     $('#app_bgm').get(0).play();
                                     if($('.music').hasClass("playing")){
-                                        $('#app_bgm').get(0).pause();
+                                        $('#app_bgm').get(0).play();
                                         $(this).removeClass("playing").addClass('stop');
                                     }
                                     else{
                                         $('.music').addClass("playing").removeClass('stop');
-                                        $('#app_bgm').get(0).play();
+                                        $('#app_bgm').get(0).pause();
                                     }
                                     
                                     
