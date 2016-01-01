@@ -1321,7 +1321,14 @@
 
                             if (speed > SHAKE_THRESHOLD && $(".page-4").hasClass("current") ) {
                                 $('.page-4').addClass('active');
-                                $('#app_bgm').get(0).pause();
+                                if($(this).hasClass("playing")){
+                                    $('#app_bgm').get(0).pause();
+                                    $(this).removeClass("playing").addClass('stop');
+                                }
+                                else{
+                                    $(this).addClass("playing").removeClass('stop');
+                                    $('#app_bgm').get(0).play();
+                                }
                                 $('#app_yyy').get(0).play();
                                 setTimeout(function () {PageSlider.next();}, 1000);
                                 setTimeout(function () {$('#app_bgm').get(0).play();}, 1000);
