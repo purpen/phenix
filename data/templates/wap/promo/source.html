@@ -1246,7 +1246,8 @@
 	  	//记录分享数
 	  	function record_share_num(){
 	  	var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
-	  	$.get(url, { target_id: 18, count_name:'count', type: 4, kind:4 });
+	  	  $.get(url, { target_id: 18, count_name:'count', type: 4, kind:4 });
+        $('.page-shark').hide().removeClass("active");
 	  	}
 	  
 		  
