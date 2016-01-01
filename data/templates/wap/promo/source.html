@@ -1321,10 +1321,28 @@
 
                             if (speed > SHAKE_THRESHOLD && $(".page-4").hasClass("current") ) {
                                 $('.page-4').addClass('active');
+                                if($(this).hasClass("playing")){
+                                    
+                                    $(this).removeClass("playing").addClass('stop');
+                                }
+                                else{
+                                    $(this).addClass("playing").removeClass('stop');
+                                    $('#app_bgm').get(0).play();
+                                }
                                 $('#app_bgm').get(0).pause();
                                 $('#app_yyy').get(0).play();
                                 setTimeout(function () {PageSlider.next();}, 1000);
-                                setTimeout(function () {$('#app_bgm').get(0).play();}, 1000);
+                                setTimeout(function () {
+                                    $('#app_bgm').get(0).play();
+                                    if($('.music').hasClass("playing")){
+                                        $('#app_bgm').get(0).play();
+                                    }
+                                    else{
+                                        $('#app_bgm').get(0).pause();
+                                    }
+                                    
+                                    
+                                }, 1000);
                             }
                             last_x = x;
                             last_y = y;
