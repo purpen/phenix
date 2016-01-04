@@ -1,0 +1,92 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">来源统计管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/view_stat" class="{{ css_all }} item">
+			全部
+		</a>
+
+	</div>
+	
+  <!--
+	<div class="ui grid">
+		<div class="middle aligned row">
+
+			<div class="ten wide column">
+				<div class="ui sub nav">
+					<form action="{{ app_url_admin_base }}/inlink_tag" method="post">
+						<label>搜索：</label>
+						<div class="ui icon input">
+							<input placeholder="标题..." type="text" name="q">
+							<i class="flat search link icon"></i>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+  -->
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>ID</th>
+				<th>mark</th>
+				<th>类型</th>
+				<th>创建时间</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+			{% for d in obj %}
+			<tr id="{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ d._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+
+				<td>
+          {{d._id}}
+				</td>
+				<td>
+          {% if d.target_id==1 %}
+            触宝
+          {%endif%}
+          {% if d.target_id==2 %}
+            --
+          {%endif%}
+
+				</td>
+				<td>
+          {{ d.kind }}
+				</td>
+        <td>
+          {{ d.created_on|date 'y-m-d H:m:s' }}
+        </td>
+        <td>
+          <a href="{{ app_url_admin }}/view_stat/deleted?id={{ d._id }}" class="ui confirm-request link item">
+              删除
+          </a>
+        </td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if obj %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:total_count,total_page:total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ total_count }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}
