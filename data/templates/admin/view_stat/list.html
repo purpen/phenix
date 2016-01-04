@@ -35,8 +35,8 @@
 		<thead>
 			<tr>
 				<th></th>
-				<th>ID</th>
-				<th>mark</th>
+				<th>名称</th>
+				<th>IP</th>
 				<th>类型</th>
 				<th>创建时间</th>
 				<th>管理操作</th>
@@ -54,16 +54,15 @@
 				</td>
 
 				<td>
-          {{d._id}}
-				</td>
-				<td>
           {% if d.target_id==1 %}
             触宝
           {%endif%}
           {% if d.target_id==2 %}
             --
           {%endif%}
-
+				</td>
+				<td>
+          {{ d.ip }}
 				</td>
 				<td>
           {{ d.kind }}
