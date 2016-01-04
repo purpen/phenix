@@ -205,4 +205,3 @@ class Sher_Admin_Action_InlinkTag extends Sher_Admin_Action_Base implements Dogg
 	}
 
 }
-?>
