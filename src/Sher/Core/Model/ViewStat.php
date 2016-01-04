@@ -55,11 +55,11 @@ class Sher_Core_Model_ViewStat extends Sher_Core_Model_Base  {
       return false;
     }
     $ip = Sher_Core_Helper_Auth::get_ip();
-    $ok = $this->create(
+    $ok = $this->create(array(
       'target_id' => (int)$target_id,
       'ip' => $ip,
       'kind' => (int)$kind,
-    );
+    ));
     return $ok;
   }
 	
