@@ -28,6 +28,12 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		// 记录浏览数
 	    $num_mode = new Sher_Core_Model_SumRecord();
 	    $num_mode->add_record('18', 'view_count', 4, 4); 
+
+    // 统计来源－－触宝
+    if(isset($this->stash['from']) && $this->stash['from']=='cb'){
+ 	    $view_stat_mode = new Sher_Core_Model_ViewStat();
+      $ok = $view_stat_mode->add_record(1);
+    }
 		
 		//微信分享
 	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
