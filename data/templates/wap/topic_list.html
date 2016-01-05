@@ -122,9 +122,9 @@
 {% block layout_js %}
 	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
   <script type="text/javascript" >
-    function ajax_load_more(child_id, page, type){
+    function ajax_load_more(child_id, page, size, type, sort){
       var url = '{{ app_url_wap }}/topic/ajax_topic_list';
-      $.get(url, { category_id: child_id, page:page, type:type });
+      $.get(url, { category_id: child_id, page:page, type:type, size:size, sort:sort });
     }
   </script>
 
@@ -144,7 +144,7 @@
   //ajax选择分类
   $('.select-category-btn').click(function(){
     var child_id = $(this).attr('child-id');
-      ajax_load_more(child_id, 1, 1);
+      ajax_load_more(child_id, 1, 20, 1, 7);
     
   });
 
@@ -153,7 +153,7 @@
     $(this).click(function(){
       var page = parseInt($(this).attr('current_page')) + 1;
       var child_id = $(this).attr('child-id');
-      ajax_load_more(child_id, page, 2);
+      ajax_load_more(child_id, page, 20, 2, 7);
     });
   });
 
@@ -170,12 +170,12 @@
       if(stat==0){
         //防止频繁请求(在没加载完成时只允许请求一次)
         $('#topic-more').attr('status', 1);
-        ajax_load_more(child_id, page, 2);  
+        ajax_load_more(child_id, page, 20, 2, 7);  
       }
 　　}
   });
 
-  ajax_load_more('{{category_id}}', 1, 1);
+  ajax_load_more('{{category_id}}', 1, 20, 1, 7);
 {% endblock %}
 
 {% block content %}
