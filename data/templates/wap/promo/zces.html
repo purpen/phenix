@@ -11,8 +11,9 @@
 	#ceslide{
 		background: url({{ app_url_packaged }}/images/promo/ces/ceslide.jpg);
 	    background-size: cover;
-		padding: 0 2%;
+		padding: 0 2% 4%;
 		margin-top:-5px;
+		position: relative;
 	}
 	#ceslide h2.ui.header{
 	    text-align: center;
@@ -37,6 +38,54 @@
 	.slides li img{
 		width: 96%;
 	    margin: 0 auto;
+	}
+	#ceslide.flexslider .flex-direction-nav {
+	    margin: 0;
+	    padding: 0;
+	    list-style: none;
+	    text-align: center;
+	}
+	#ceslide.flexslider .flex-direction-nav a.flex-prev {
+	    -webkit-animation: arrowUp 1.5s linear infinite;
+	    -moz-animation: arrowUp 1.5s linear infinite;
+	    animation: arrowUp 1.5s linear infinite;
+	    left: 0;
+	}
+	#ceslide.flexslider .flex-direction-nav a {
+	    position: absolute;
+	    font-size: 40px;
+	    top: 50%;
+	    display: inline-block;
+	    opacity: 1;
+	    margin: -21px .25rem 0 0;
+	    width: 1.18em;
+	    padding: 11px 0;
+	    font-family: Icons;
+	    font-style: normal;
+	    vertical-align: middle;
+	    font-weight: 400;
+	    text-decoration: inherit;
+	    text-align: center;
+	    speak: none;
+	    font-smoothing: antialiased;
+	    -moz-osx-font-smoothing: grayscale;
+	    -webkit-font-smoothing: antialiased;
+	    -webkit-backface-visibility: hidden;
+	    backface-visibility: hidden;
+	}
+	#ceslide.flexslider .flex-direction-nav a.flex-prev:before {
+	    content: "\f104";
+	    color: #f36;
+	}
+	#ceslide.flexslider .flex-direction-nav a.flex-next {
+	    -webkit-animation: arrowRt 1.5s linear infinite;
+	    -moz-animation: arrowRt 1.5s linear infinite;
+	    animation: arrowRt 1.5s linear infinite;
+	    right: 0;
+	}
+	#ceslide.flexslider .flex-direction-nav a.flex-next:before {
+	    content: "\f105";
+	    color: #f36;
 	}
 	
 </style>
