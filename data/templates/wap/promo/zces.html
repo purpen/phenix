@@ -8,6 +8,17 @@
 	#mfrbird{
 		margin-top:0;
 	}
+	#ceslide{
+		background: url({{ app_url_packaged }}/images/promo/ces/ceslide.jpg);
+	    background-size: cover;
+		padding: 0 2%;
+		margin-top:-5px;
+	}
+	#ceslide h2.ui.header{
+	    text-align: center;
+	    color: #fff !important;
+	    padding: 20px 0;
+	}
 	.slides{
 		height: auto;
 	    zoom: 1;
@@ -20,8 +31,12 @@
 		margin: 0;
 	    padding: 0;
 	    list-style: none;
-	    text-align: left;
+	    text-align: center;
 	    position: relative;
+	}
+	.slides li img{
+		width: 96%;
+	    margin: 0 auto;
 	}
 	
 </style>
@@ -33,7 +48,7 @@
 		
 		animation: "slide",
         animationLoop: false,
-        itemWidth: s/2,
+        itemWidth: s/2-s/50,
         directionNav: true, 
         controlNav: false,
         animationDuration: 300,
@@ -54,27 +69,68 @@
 	<img src="{{ app_url_packaged }}/images/promo/ces/mobile_fifish.jpg" width="100%" style="margin-top:10px">
 	
 	<div id ="ceslide" class="flexslider flex-single">
+		<h2 class="ui header">太火鸟展区展品</h2>
+		
 		<ul class="slides">
 	    	<li style=" ">
 				<a href="http://www.taihuoniao.com/sale/1115699533.html" target="_blank">
-					<img src="{{ app_url_packaged }}/images/promo/ces/p1.jpg" width="96%">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p1.jpg">
 				</a>
 	      	</li>
 		 	<li>
 				<a href="http://www.taihuoniao.com/sale/1112772991.html" target="_blank">
-					<img src="{{ app_url_packaged }}/images/promo/ces/p2.jpg" width="96%">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p2.jpg">
 				</a>
 		  	</li>
 		 	<li>
 				<a href="http://www.taihuoniao.com/mall/milk" target="_blank">
-					<img src="{{ app_url_packaged }}/images/promo/ces/p4.jpg" width="96%">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p4.jpg">
 				</a>
 		  	</li>
 		 	<li>
 				<a href="">
-					<img src="{{ app_url_packaged }}/images/promo/ces/p5.jpg" width="96%">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p5.jpg">
 				</a>
 		  	</li>
+			<li>
+				<a href="">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p6.jpg">
+				</a>
+			</li>
+			<li>
+				<a href="http://www.taihuoniao.com/shop/view-1065690266-1.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p7.jpg">
+				</a>
+			</li>
+			<li>
+				<a href="http://www.taihuoniao.com/shop/view-1116152156-1.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p8.jpg">
+				</a>
+			</li>
+			<li>
+				<a href="http://www.taihuoniao.com/shop/view-1088067534-1.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p9.jpg">
+				</a>
+			</li>
+			<li>
+				<a href="http://www.taihuoniao.com/shop/view-1117318669-1.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p10.jpg">
+				</a>
+			</li>
+			<li>
+				<a href="http://www.taihuoniao.com/shop/view-1088697280-1.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p11.jpg">
+				</a>
+			</li>
+			<li>
+				<a href="">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p12.jpg">
+				</a>
+			</li>
+			
+			
+			
+			
 	  </ul>
 		
 	</div>
