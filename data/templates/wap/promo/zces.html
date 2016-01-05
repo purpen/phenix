@@ -57,7 +57,7 @@
 	    top: 50%;
 	    display: inline-block;
 	    opacity: 1;
-	    margin: 30px .25rem 0 0;
+	    margin: 20px .25rem 0 0;
 	    width: 1.18em;
 	    padding: 11px 0;
 	    font-family: Icons;
@@ -87,7 +87,32 @@
 	    content: "\f105";
 	    color: #f36;
 	}
-	
+	.w-32{
+		width:90%;
+		margin:20px 5%;
+	    height: 150px;
+	    background-size: cover;
+	    position: relative;
+	}
+	.w-32 p {
+	    position: absolute;
+	    bottom: 0;
+	    left: 0;
+	    width: 100%;
+	    color: #fff;
+	    background: rgba(0,0,0,0.7);
+	    margin: 0;
+	    padding: 10px 15px;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	    font-size: 16px;
+	}
+	.w-32 a {
+	    position: absolute;
+	    width: 100%;
+	    height: 100%;
+	}
 </style>
 {% endblock %}
 
@@ -176,12 +201,23 @@
 					<img src="{{ app_url_packaged }}/images/promo/ces/p12.jpg">
 				</a>
 			</li>
-			
-			
-			
-			
 	  </ul>
 		
+	</div>
+	
+	<img src="{{ app_url_packaged }}/images/promo/ces/mobile_24in.jpg" width="100%">
+	
+	<div class="w-32" style="background:url({{ app_url_packaged }}/images/promo/ces/b_01.jpg);">
+		<p>卧底观展CES 2016，接头暗号“金沙馆71570”</p>
+		<a href="http://www.taihuoniao.com/topic/view-109347-1.html" target="_blank"></a>
+	</div>
+	<div class="w-32" style="background:url({{ app_url_packaged }}/images/promo/ces/b_02.jpg);">
+		<p>【冷知识】CES凭什么成为消费电子展里的老大？</p>
+		<a href="http://www.taihuoniao.com/topic/view-109346-1.html" target="_blank"></a>
+	</div>
+	<div class="w-32" style="background:url({{ app_url_packaged }}/images/promo/ces/b_03.jpg);">
+		<p>【2016CES】这些公司终于憋不住爆发了</p>
+		<a href="http://www.taihuoniao.com/topic/view-109280-1.html" target="_blank"></a>
 	</div>
 	
 	
