@@ -782,9 +782,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$options = array();
 		
 		// 查询条件
-        if($user_id){
-            $query['user_id'] = (int)$user_id;
-        }
+    if($user_id){
+        $query['user_id'] = (int)$user_id;
+    }
 		
 		switch($status){
 			case 1: // 待支付订单
@@ -805,6 +805,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 				);
 				break;
 		}
+
+    $query['deleted'] = 0;
 
     //限制输出字段
 		$some_fields = array(
