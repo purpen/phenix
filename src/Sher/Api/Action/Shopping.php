@@ -1218,6 +1218,45 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       }
 
   }
+
+	/**
+	 * 确认收货
+	 */
+	public function take_delivery(){
+		$rid = $this->stash['rid'];
+		if (empty($rid)) {
+			return $this->api_json('操作不当，请查看购物帮助！', 3000);
+		}
+    $user_id = $this->current_user_id;
+    if (empty($user_id)) {
+        return $this->api_json('请先登录！', 3001);
+    }
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+
+		// 检查是否具有权限
+		if ($order_info['user_id'] != $user_id) {
+			return $this->api_json('没有权限！', 3002);
+		}
+
+		// 已发货订单才允许确认
+		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_SENDED_GOODS){
+			return $this->api_json('该订单状态不正确！', 3003);
+		}
+		try {
+			// 待评价订单
+			$ok = $model->evaluate_order($order_info['_id']);
+      if($ok){
+        return $this->api_json('操作成功!', 0, array('rid'=>$rid));
+      }else{
+        return $this->api_json('操作失败!', 3004);     
+      }
+    } catch (Sher_Core_Model_Exception $e) {
+      return $this->api_json('设置订单失败:'.$e->getMessage(), 3005);
+    }
+
+	}
+
 	
 }
 
