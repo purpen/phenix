@@ -76,7 +76,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	    #申请退款标识及时间
 	    'is_refunding' => 0,
 	    'refunding_date' => 0,
-	    'refund_reason'  =>  null,
+      'refund_reason'  =>  null,
+      # 退款选项：0,其它；1,不想要了；2.--
+      'refund_option' => 0,
 
 	    #退款成功标识及时间
 	    'is_refunded' => 0,
@@ -462,7 +464,12 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
             $updated['is_refunding'] = 1;
 			$updated['refunding_date'] = time();
             if(!empty($options) && !empty($options['refund_reason'])){
+              if(isset($options['refund_reason'])){
                 $updated['refund_reason'] = $options['refund_reason'];   
+              }
+              if(isset($options['refund_option'])){
+                $updated['refund_option'] = (int)$options['refund_option'];   
+              }
             }
         }
 

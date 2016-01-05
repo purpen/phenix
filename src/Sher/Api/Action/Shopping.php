@@ -764,7 +764,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	
 	/**
 	 * 订单列表（仅获取某个人员的）
-	 * 未支付、待发货、已完成
+	 * 待支付、待发货、已完成
 	 */
 	public function orders(){
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
@@ -1163,6 +1163,61 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		}
     return $this->to_redirect($pay_url); 
 	}
+
+  /**
+   * 申请退款
+   */
+  public function apply_refund(){
+      $rid = $this->stash['rid'];
+      $refund_option = isset($this->stash['option']) ? (int)$this->stash['option'] : 0;
+      $content = $this->stash['content'];
+      if (empty($rid)) {
+          return $this->api_json('缺少请求参数！', 3000);
+      }
+
+      if(empty($refund_option) && empty($content)){
+        return $this->api_json('请说明退款理由！', 3008);     
+      }
+
+      $user_id = $this->current_user_id;
+      if (empty($user_id)) {
+          return $this->api_json('请先登录！', 3001);
+      }
+      $model = new Sher_Core_Model_Orders();
+      $order_info = $model->find_by_rid($rid);
+
+      if(empty($order_info)){
+          return $this->api_json('订单不存在!', 3002);
+      }
+
+      // 检查是否具有权限
+      if ($order_info['user_id'] != $user_id) {
+          return $this->api_json('操作不当，你没有权限！', 3003);
+      }
+
+      //零元不能退款
+      if ((float)$order_info['pay_money']==0){
+          return $this->api_json('此订单不允许退款操作！', 3004);
+      }
+
+      // 正在配货订单才允许申请
+      if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
+          return $this->api_json('该订单出现异常，请联系客服！', 3005);
+      }
+      $options = array('refund_reason'=>$content, 'refund_option'=>$refund_option);
+      try {
+          // 申请退款
+          $ok = $model->refunding_order($order_info['_id'], $options);
+          if($ok){
+            return $this->api_json("操作成功", 0, array('rid'=>$rid));
+          }else{
+            return $this->api_json("操作失败", 3006);         
+          }
+      } catch (Sher_Core_Model_Exception $e) {
+      return $this->api_json('申请退款失败，请联系客服:'.$e->getMessage(), 3007);
+      }
+
+  }
 	
 }
 
