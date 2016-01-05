@@ -8,53 +8,41 @@
 	#mfrbird{
 		margin-top:0;
 	}
+	.slides{
+		height: auto;
+	    zoom: 1;
+	    margin: 0;
+	    padding: 0;
+	    list-style: none;
+	    text-align: center;
+	}
+	.slides li{
+		margin: 0;
+	    padding: 0;
+	    list-style: none;
+	    text-align: left;
+	    position: relative;
+	}
 	
 </style>
 {% endblock %}
 
 {% block jquery %}
-	var $lists = $(".example__list"),
-	          $next_btn = $(".example__next"),
-	          $prev_btn = $(".example__prev");
-	    $next_btn.on("click",function(){
-	        if($lists.css("right") =="auto"||$lists.css("right") =="0px"){
-	            $lists.animate({
-	                right:1074
-	            },500);
-	            $prev_btn.addClass("example__prev_active");
-	        }else if($lists.css("right") =="1074px"){
-	            $lists.animate({
-	                right:2148
-	            },500);
-				$prev_btn.addClass("example__prev_active");
-	        }
-			else if($lists.css("right") =="2148px"){
-	            $lists.animate({
-	                right:3222
-	            },500);
-	            $next_btn.removeClass("example__next_active");
-	        }
-	    });
-	    $prev_btn.on("click",function(){
-	        if($lists.css("right") =="1074px"){
-	            $lists.animate({
-	                right: 0
-	            },500);
-	            $prev_btn.removeClass("example__prev_active");
-	        }else if($lists.css("right") =="2148px"){
-	            $lists.animate({
-	                right:1074
-	            },500);
-				$prev_btn.addClass("example__prev_active");
-	        }
-			else if($lists.css("right") =="3222px"){
-	            $lists.animate({
-	                right:2148
-	            },500);
-	            $next_btn.addClass("example__next_active");
-	        }
-	    })
+    var s=$('#mfrbird').width();
+    $('#ceslide').flexslider({
 		
+		animation: "slide",
+        animationLoop: false,
+        itemWidth: s/2,
+        directionNav: true, 
+        controlNav: false,
+        animationDuration: 300,
+        prevText: " ",
+        nextText: " ",
+      });
+	  
+	
+	
 {% endblock %}
 
 {% block content %}
@@ -65,7 +53,31 @@
 	<!-- -->
 	<img src="{{ app_url_packaged }}/images/promo/ces/mobile_fifish.jpg" width="100%" style="margin-top:10px">
 	
-	
+	<div id ="ceslide" class="flexslider flex-single">
+		<ul class="slides">
+	    	<li style=" ">
+				<a href="http://www.taihuoniao.com/sale/1115699533.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p1.jpg" width="96%">
+				</a>
+	      	</li>
+		 	<li>
+				<a href="http://www.taihuoniao.com/sale/1112772991.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p2.jpg" width="96%">
+				</a>
+		  	</li>
+		 	<li>
+				<a href="http://www.taihuoniao.com/mall/milk" target="_blank">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p4.jpg" width="96%">
+				</a>
+		  	</li>
+		 	<li>
+				<a href="">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p5.jpg" width="96%">
+				</a>
+		  	</li>
+	  </ul>
+		
+	</div>
 	
 	
 		
