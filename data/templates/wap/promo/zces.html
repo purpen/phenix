@@ -4,468 +4,119 @@
 <style type="text/css">
 	.ces{
 		background:#fff;
+		padding-bottom: 30px;
 	}
-	.topbg {
-		font-size:0;
-	    height: 500px;
-	    text-indent: -9999em;
-	    background-image: url({{ app_url_packaged }}/images/promo/ces/mobile_bj.jpg);
-		  background-repeat:no-repeat;
-	    background-position: top center;
+	#mfrbird{
+		margin-top:0;
+		margin-bottom: 1em;
 	}
-	.ces .topbg2{
-		background:url({{ app_url_packaged }}/images/promo/ces/mobile_fifish.jpg) no-repeat center center;
-		background-size:cover;
-		font-size:0;
-		/*background-size: auto 500px;
-		background-position: top center;
-		background-repeat:no-repeat;*/
+	#ceslide{
+		background: url({{ app_url_packaged }}/images/promo/ces/ceslide.jpg);
+	    background-size: cover;
+		padding: 0 2% 4%;
+		margin-top:-5px;
+		position: relative;
 	}
-
-	.page-1{
-		position:relative;
-		/*-- day 1-4 --*/
-		background:url({{ app_url_packaged }}/images/promo/ces/mobile_day1.gif);
-		/*-- day --*/
-		background-repeat:no-repeat;
-		background-size:100%;
-		margin:10px auto;
-	}
-	.day4 {
-	    width: 110px;
-		height: 125px;
-	    position: absolute;
-	    top: 35px;
-	    left: 235px;
-		background:url({{ app_url_packaged }}/images/promo/ces/day4.gif);
-		background-size:100%;
-	}
-	.day1{
-	    width: 110px;
-		height: 125px;
-	    position: absolute;
-	    bottom: 42px;
-	    left: 265px;
-		background:url({{ app_url_packaged }}/images/promo/ces/day1.gif);
-		background-size:100%;
-	}
-	.day2{
-	    width: 110px;
-		height: 120px;
-	    position: absolute;
-		bottom: 50px;
-	    right: 370px;
-		background:url({{ app_url_packaged }}/images/promo/ces/day2.gif);
-		background-size:100%;
-	}
-	.day3{
-	    width: 110px;
-		height: 125px;
-	    position: absolute;
-		top: 40px;
-	    right: 395px;
-		background:url({{ app_url_packaged }}/images/promo/ces/day3.gif);
-		background-size:100%;
-	}
-	
-	
-	.example {
-	    position: relative;
-	}
-	.wrapper__inner {
-	    width: 100%;
-	    margin: 0 auto;
-	    padding: 6px 0;
-	}
-	.example__prev {
-	    background: url({{ app_url_packaged }}/images/promo/ces/jt_hui.png);
-	    left: -93px;
-		background-size:100%;
-	}
-	.example__next {
-	    background: url({{ app_url_packaged }}/images/promo/ces/jt_right_hui.png);
-	    right: -93px;
-		background-size:100%;
-	}
-	.example__next, .example__prev {
-	    position: absolute;
-	    width: 28px;
-	    height: 50px;
-	    top: 260px;
-	    cursor: pointer;
-	    -webkit-transition: .3s all ease;
-	    transition: .3s all ease;
-	}
-	.example__next.example__next_active {
-	    background: url({{ app_url_packaged }}/images/promo/ces/jt_right.png);
-	}
-	.example__prev.example__prev_active{
-		background: url({{ app_url_packaged }}/images/promo/ces/jt.png);
-	}
-	.example__list-wrapper {
-	    position: relative;
-	    overflow: hidden;
-	    padding-bottom: 10px;
-	}
-	.example__list {
-	    width: 425%;
-	    font-size: 0;
-	    position: relative;
-	}
-	ol, ul {
-	    padding-left: 0;
-	    list-style-type: none;
-	}
-	.example__item {
-	    display: inline-block;
-	    vertical-align: top;
-	    width: 310px;
-	    margin-right: 48px;
-	    padding: 0;
-	    background: #fff;
+	#ceslide h2.ui.header{
 	    text-align: center;
-	    -webkit-transition: .3s all ease;
-	    transition: .3s all ease;
-	    cursor: auto;
+	    color: #fff !important;
+	    padding: 20px 0;
 	}
-	.example__item img{
-		width:100%;
+	.slides{
+		height: auto;
+	    zoom: 1;
+	    margin: 0;
+	    padding: 0;
+	    list-style: none;
+	    text-align: center;
 	}
-	.example__item_9 {
-	    margin-right: 0;
+	.slides li{
+		margin: 0;
+	    padding: 0;
+	    list-style: none;
+	    text-align: center;
+	    position: relative;
 	}
-	.page-3{
-		background:url({{ app_url_packaged }}/images/promo/ces/bj2.jpg);
-		background-size:cover;
+	.slides li img{
+		width: 96%;
+	    margin: 0 auto;
 	}
-	.w-276 {
-		width:276px;
-		height:239px;
+	#ceslide.flexslider .flex-direction-nav {
+	    margin: 0;
+	    padding: 0;
+	    list-style: none;
+	    text-align: center;
 	}
-	.w-276 img{
-		width:100%;
-	}
-	.p1 {
-	    position: absolute;
-	    top: 130px;
+	#ceslide.flexslider .flex-direction-nav a.flex-prev {
 	    left: 0;
 	}
-	.p2{
-		position: absolute;
-	    top: 0;
-	    left: 225px;
-	}
-	.p3{
-		position: absolute;
-	    top: 130px;
-	    left: 450px;
-	}
-	.p4{
-		position: absolute;
-	    top: 0;
-	    right: 230px;
-	}
-	.p5{
-		position: absolute;
-	    top: 130px;
-	    right: 0px;
-	}
-	.p6 {
+	#ceslide.flexslider .flex-direction-nav a {
 	    position: absolute;
-	    top: 390px;
-	    left: 0;
+	    font-size: 30px;
+	    top: 50%;
+	    display: inline-block;
+	    opacity: 1;
+	    margin: 20px .25rem 0 0;
+	    width: 1.18em;
+	    padding: 11px 0;
+	    font-family: Icons;
+	    font-style: normal;
+	    vertical-align: middle;
+	    font-weight: 400;
+	    text-decoration: inherit;
+	    text-align: center;
+	    speak: none;
+	    font-smoothing: antialiased;
+	    -moz-osx-font-smoothing: grayscale;
+	    -webkit-font-smoothing: antialiased;
+	    -webkit-backface-visibility: hidden;
+	    backface-visibility: hidden;
 	}
-	.p7{
-		position: absolute;
-	    top: 260px;
-	    left: 225px;
+	#ceslide.flexslider .flex-direction-nav a.flex-prev:before {
+	    -webkit-animation: arrowUp 1.5s linear infinite;
+	    -moz-animation: arrowUp 1.5s linear infinite;
+	    animation: arrowUp 1.5s linear infinite;
+	    content: "\f104";
+	    color: #f36;
 	}
-	.p8{
-		position: absolute;
-	    top: 390px;
-	    left: 450px;
+	#ceslide.flexslider .flex-direction-nav a.flex-next {
+	    right: 0;
 	}
-	.p9{
-		position: absolute;
-	    top: 260px;
-	    right: 230px;
-	}
-	.p10{
-		position: absolute;
-	    top: 390px;
-	    right: 0px;
-	}
-	.p11 {
-	    position: absolute;
-	    top: 650px;
-	    left: -20px;
-	}
-	.p12{
-		position: absolute;
-	    top: 520px;
-	    left: 225px;
-	}
-	.p13{
-		position: absolute;
-	    top: 650px;
-	    left: 450px;
-	}
-	.p14{
-		position: absolute;
-	    top: 520px;
-	    right: 230px;
-	}
-	.p15{
-		position: absolute;
-	    top: 650px;
-	    right: -20px;
-	}
-	.p16 {
-	    position: absolute;
-	    top: 920px;
-	    left: 0;
-	}
-	.p17{
-		position: absolute;
-	    top: 790px;
-	    left: 225px;
-	}
-	.p18{
-		position: absolute;
-	    top: 920px;
-	    left: 450px;
-	}
-	.p19{
-		position: absolute;
-	    top: 790px;
-	    right: 230px;
-	}
-	.p20{
-		position: absolute;
-	    top: 920px;
-	    right: 0px;
-	}
-	.p21 {
-	    position: absolute;
-	    top: 1180px;
-	    left: 0;
-	}
-	.p22{
-		position: absolute;
-	    top: 1050px;
-	    left: 225px;
-	}
-	.p23{
-		position: absolute;
-	    top: 1180px;
-	    left: 450px;
-	}
-	.p24{
-		position: absolute;
-	    top: 1050px;
-	    right: 230px;
-	}
-	.p25{
-		position: absolute;
-	    top: 1180px;
-	    right: 0px;
-	}
-	.p26 {
-	    position: absolute;
-	    top: 1440px;
-	    left: -20px;
-	}
-	.p27{
-		position: absolute;
-	    top: 1310px;
-	    left: 225px;
-	}
-	.p28{
-		position: absolute;
-	    top: 1440px;
-	    left: 450px;
-	}
-	.p29{
-		position: absolute;
-	    top: 1310px;
-	    right: 230px;
-	}
-	.p30{
-		position: absolute;
-	    top: 1440px;
-	    right: -20px;
-	}
-	.p31 {
-	    position: absolute;
-	    top: 1710px;
-	    left: 0;
-	}
-	.p32{
-		position: absolute;
-	    top: 1580px;
-	    left: 225px;
-	}
-	.p33{
-		position: absolute;
-	    top: 1710px;
-	    left: 450px;
-	}
-	.p34{
-		position: absolute;
-	    top: 1580px;
-	    right: 230px;
-	}
-	.p35{
-		position: absolute;
-	    top: 1710px;
-	    right: 0px;
-	}
-	.p36 {
-	    position: absolute;
-	    top: 1970px;
-	    left: 0;
-	}
-	.p37{
-		position: absolute;
-	    top: 1840px;
-	    left: 225px;
-	}
-	.p38{
-		position: absolute;
-	    top: 1970px;
-	    left: 450px;
-	}
-	.p39{
-		position: absolute;
-	    top: 1840px;
-	    right: 230px;
-	}
-	.p40{
-		position: absolute;
-	    top: 1970px;
-	    right: 0px;
-	}
-	.p41 {
-	    position: absolute;
-	    top: 2230px;
-	    left: -20px;
-	}
-	.p42{
-		position: absolute;
-	    top: 2100px;
-	    left: 225px;
-	}
-	.p43{
-		position: absolute;
-	    top: 2230px;
-	    left: 450px;
-	}
-	.p44{
-		position: absolute;
-	    top: 2100px;
-	    right: 230px;
-	}
-	.p45{
-		position: absolute;
-	    top: 2230px;
-	    right: -20px;
-	}
-	.p46 {
-	    position: absolute;
-	    top: 2500px;
-	    left: 0;
-	}
-	.p47{
-		position: absolute;
-	    top: 2370px;
-	    left: 225px;
-	}
-	.p48{
-		position: absolute;
-	    top: 2500px;
-	    left: 450px;
-	}
-	.p49{
-		position: absolute;
-	    top: 2370px;
-	    right: 230px;
-	}
-	.p50{
-		position: absolute;
-	    top: 2500px;
-	    right: 0px;
-	}
-	.p51 {
-	    position: absolute;
-	    top: 2760px;
-	    left: 0;
-	}
-	.p52{
-		position: absolute;
-	    top: 2630px;
-	    left: 225px;
-	}
-	.p53{
-		position: absolute;
-	    top: 2760px;
-	    left: 450px;
-	}
-	.p54{
-		position: absolute;
-	    top: 2630px;
-	    right: 230px;
-	}
-	.p55{
-		position: absolute;
-	    top: 2760px;
-	    right: 0px;
-	}
-	.p57{
-		position: absolute;
-	    top: 2890px;
-	    left: 225px;
-	}
-	.p59{
-		position: absolute;
-	    top: 2890px;
-	    right: 230px;
-	}
-	
-	.page-5{
-		font-size:0;
+	#ceslide.flexslider .flex-direction-nav a.flex-next:before {
+	    content: "\f105";
+	    color: #f36;
+	    -webkit-animation: arrowRt 1.5s linear infinite;
+	    -moz-animation: arrowRt 1.5s linear infinite;
+	    animation: arrowRt 1.5s linear infinite;
 	}
 	.w-32{
-		width:32%;
-		display:inline-block;
-		margin-right:2%;
-		height:200px;
-		background-size:cover;
-		position:relative;
+		width:90%;
+		margin:20px 5%;
+	    height: 180px;
+	    background-size: cover;
+	    position: relative;
 	}
-	.w-32 a{
-		position:absolute;
-		width:100%;
-		height:100%;
-	}
-	.w-32 p{
-		position:absolute;
-		bottom:0;
-		left:0;
-		width:100%;
-		color:#fff;
-		background: rgba(0,0,0,0.7);
+	.w-32 p {
+	    position: absolute;
+	    bottom: 0;
+	    left: 0;
+	    width: 100%;
+	    color: #fff;
+	    background: rgba(0,0,0,0.7);
 	    margin: 0;
 	    padding: 10px 15px;
-		overflow: hidden;
+	    overflow: hidden;
 	    text-overflow: ellipsis;
 	    white-space: nowrap;
-		font-size:16px;
+	    font-size: 16px;
 	}
-	.w-32:last-child{
-		margin-right:0;
+	.w-32 a {
+	    position: absolute;
+	    width: 100%;
+	    height: 100%;
 	}
 	.ui.blue.active.inverted.attend.button{
-		font-size: 22px;
+		font-size: 20px;
 		color:#ff9f15;
 		background:#222222 !important;
 	}
@@ -473,386 +124,120 @@
 {% endblock %}
 
 {% block jquery %}
-/*	//var scroll_offsetTop = $(".wrap").eq(number).offset().top;
-    function tabActive(number){
-        $(".page").eq(number).addClass("active");
-    }
-    function tabPosition(){
-        var scrollTop = $(window).scrollTop();
-        if(scrollTop = $(".page").eq(1).offset().top - 300  ){
-            tabActive(1);
-        }else if( $(".page").eq(1).offset().top < scrollTop && scrollTop < $(".page").eq(2).offset().top){
-            tabActive(2);
-        }else if($(".page").eq(1).offset().top < scrollTop && scrollTop < $(".page").eq(2).offset().top){
-            tabActive(3);
-        }else if($(".page").eq(2).offset().top < scrollTop && scrollTop < $(".page").eq(3).offset().top){
-            tabActive(4);
-        }else if(scrollTop>$(".page").eq(3).offset().top){
-            tabActive(5);
-        }
-    }
-    $(window).on("scroll",tabPosition);*/
-	
-	var $lists = $(".example__list"),
-	          $next_btn = $(".example__next"),
-	          $prev_btn = $(".example__prev");
-	    $next_btn.on("click",function(){
-	        if($lists.css("right") =="auto"||$lists.css("right") =="0px"){
-	            $lists.animate({
-	                right:1074
-	            },500);
-	            $prev_btn.addClass("example__prev_active");
-	        }else if($lists.css("right") =="1074px"){
-	            $lists.animate({
-	                right:2148
-	            },500);
-				$prev_btn.addClass("example__prev_active");
-	        }
-			else if($lists.css("right") =="2148px"){
-	            $lists.animate({
-	                right:3222
-	            },500);
-	            $next_btn.removeClass("example__next_active");
-	        }
-	    });
-	    $prev_btn.on("click",function(){
-	        if($lists.css("right") =="1074px"){
-	            $lists.animate({
-	                right: 0
-	            },500);
-	            $prev_btn.removeClass("example__prev_active");
-	        }else if($lists.css("right") =="2148px"){
-	            $lists.animate({
-	                right:1074
-	            },500);
-				$prev_btn.addClass("example__prev_active");
-	        }
-			else if($lists.css("right") =="3222px"){
-	            $lists.animate({
-	                right:2148
-	            },500);
-	            $next_btn.addClass("example__next_active");
-	        }
-	    })
+    var s=$('#mfrbird').width();
+    $('#ceslide').flexslider({
 		
+		animation: "slide",
+        animationLoop: false,
+        itemWidth: s/2-s/50,
+        directionNav: true, 
+        controlNav: false,
+        animationDuration: 300,
+        prevText: " ",
+        nextText: " ",
+      });
+	  
+	
+	
 {% endblock %}
 
 {% block content %}
 <div class="ces">
-	<h2 class="topbg">鸟叔带你看CES</h2>
+	<img src="{{ app_url_packaged }}/images/promo/ces/mobile_bj.jpg" width="100%">
+	<!-- day -->
+	<img src="{{ app_url_packaged }}/images/promo/ces/mobile_day1.gif" width="100%">
+	<!-- -->
+	<img src="{{ app_url_packaged }}/images/promo/ces/mobile_fifish.jpg" width="100%" style="margin-top:10px">
 	
-		<div class="page page-1">
-      <img src="{{ app_url_packaged }}/images/promo/ces/mobile_day1.gif" width="100%" />
-			<!--  day1 -->
-			<a href="http://m.taihuoniao.com/topic/view-109341-1.html">
-				<div class="day1"></div>
-			</a>
-			<!-- end -->
+	<div id ="ceslide" class="flexslider flex-single">
+		<h2 class="ui header">太火鸟展区展品</h2>
+		
+		<ul class="slides">
+	    	<li style=" ">
+				<a href="http://www.taihuoniao.com/sale/1115699533.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p1.jpg">
+				</a>
+	      	</li>
+		 	<li>
+				<a href="http://www.taihuoniao.com/sale/1112772991.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p2.jpg">
+				</a>
+		  	</li>
+		 	<li>
+				<a href="http://www.taihuoniao.com/mall/milk" target="_blank">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p4.jpg">
+				</a>
+		  	</li>
+		 	<li>
+				<a href="">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p5.jpg">
+				</a>
+		  	</li>
+			<li>
+				<a href="">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p6.jpg">
+				</a>
+			</li>
+			<li>
+				<a href="http://www.taihuoniao.com/shop/view-1065690266-1.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p7.jpg">
+				</a>
+			</li>
+			<li>
+				<a href="http://www.taihuoniao.com/shop/view-1116152156-1.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p8.jpg">
+				</a>
+			</li>
+			<li>
+				<a href="http://www.taihuoniao.com/shop/view-1088067534-1.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p9.jpg">
+				</a>
+			</li>
+			<li>
+				<a href="http://www.taihuoniao.com/shop/view-1117318669-1.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p10.jpg">
+				</a>
+			</li>
+			<li>
+				<a href="http://www.taihuoniao.com/shop/view-1088697280-1.html" target="_blank">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p11.jpg">
+				</a>
+			</li>
+			<li>
+				<a href="">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p12.jpg">
+				</a>
+			</li>
+	  </ul>
+		
+	</div>
 	
-			<!--  day2 -->
-		<!--		
-			<a href="">
-				<div class="day2"></div>
-			</a>
-			 day3  
-			<a href="">
-				<div class="day3"></div>
-			</a>
-			
-			day4 
-			<a href="">
-				<div class="day4"></div>
-			</a>
-		-->
-		</div>
-		
-		<div class="page page-2">
-			<h2 class="topbg2"></h2>
-		</div>
-		<div class="page page-3">
-			<div class="example wrapper__inner">
-				<div class="example__prev"></div>
-				<div class="example__next example__next_active"></div>
-				
-				<div class="example__list-wrapper">
-					<ul class="example__list">
-						<li class="example__item">
-							<a href="http://m.taihuoniao.com/sale/1115699533.html">
-								<img src="{{ app_url_packaged }}/images/promo/ces/p1.jpg">
-							</a>
-						</li>
-						<li class="example__item">
-							<a href="http://m.taihuoniao.com/sale/1112772991.html">
-								<img src="{{ app_url_packaged }}/images/promo/ces/p2.jpg">
-							</a>
-						</li>
-            <!--
-						<li class="example__item">
-							<a href="">
-								<img src="{{ app_url_packaged }}/images/promo/ces/p3.jpg">
-							</a>
-						</li>
-            -->
-						<li class="example__item">
-							<a href="http://www.taihuoniao.com/mall/milk">
-								<img src="{{ app_url_packaged }}/images/promo/ces/p4.jpg">
-							</a>
-						</li>
-						<li class="example__item">
-							<a href="">
-								<img src="{{ app_url_packaged }}/images/promo/ces/p5.jpg">
-							</a>
-						</li>
-						<li class="example__item">
-							<a href="">
-								<img src="{{ app_url_packaged }}/images/promo/ces/p6.jpg">
-							</a>
-						</li>
-						<li class="example__item">
-							<a href="http://www.taihuoniao.com/shop/view-1065690266-1.html">
-								<img src="{{ app_url_packaged }}/images/promo/ces/p7.jpg">
-							</a>
-						</li>
-						<li class="example__item">
-							<a href="http://www.taihuoniao.com/shop/view-1116152156-1.html">
-								<img src="{{ app_url_packaged }}/images/promo/ces/p8.jpg">
-							</a>
-						</li>
-						<li class="example__item">
-							<a href="http://www.taihuoniao.com/shop/view-1088067534-1.html">
-								<img src="{{ app_url_packaged }}/images/promo/ces/p9.jpg">
-							</a>
-						</li>
-						<li class="example__item">
-							<a href="http://www.taihuoniao.com/shop/view-1117318669-1.html">
-								<img src="{{ app_url_packaged }}/images/promo/ces/p10.jpg">
-							</a>
-						</li>
-						<li class="example__item">
-							<a href="http://www.taihuoniao.com/shop/view-1088697280-1.html">
-								<img src="{{ app_url_packaged }}/images/promo/ces/p11.jpg">
-							</a>
-						</li>
-						<li class="example__item example__item_9">
-							<a href="">
-								<img src="{{ app_url_packaged }}/images/promo/ces/p12.jpg">
-							</a>
-						</li>
-					</ul>
-				</div>
-				
-				
-				
+	<img src="{{ app_url_packaged }}/images/promo/ces/mobile_24in.jpg" width="100%">
+	
+	<div class="w-32" style="background:url({{ app_url_packaged }}/images/promo/ces/b_01.jpg);">
+		<p>卧底观展CES 2016，接头暗号“金沙馆71570”</p>
+		<a href="http://www.taihuoniao.com/topic/view-109347-1.html" target="_blank"></a>
+	</div>
+	<div class="w-32" style="background:url({{ app_url_packaged }}/images/promo/ces/b_02.jpg);">
+		<p>【冷知识】CES凭什么成为消费电子展里的老大？</p>
+		<a href="http://www.taihuoniao.com/topic/view-109346-1.html" target="_blank"></a>
+	</div>
+	<div class="w-32" style="background:url({{ app_url_packaged }}/images/promo/ces/b_03.jpg);">
+		<p>【2016CES】这些公司终于憋不住爆发了</p>
+		<a href="http://www.taihuoniao.com/topic/view-109280-1.html" target="_blank"></a>
+	</div>
+	
+	<div class="ui responsive grid" style="margin-top:20px;">
+		<div class="row">
+			<div class="center aligned column">
+				<a class="ui blue active inverted attend button" href="http://m.taihuoniao.com/search?q=ces" target="_blank">
+					更多资讯请点击 &nbsp;>>
+       		 	</a>
 			</div>
-			
-		</div>
-		
-		<div class="page page-4 w-1180" style="height: 1000px;margin-top:50px">
-			<div class="w-276 p1">
-				<img src="{{ app_url_packaged }}/images/promo/ces/t1.png">
-			</div>
-			<div class="w-276 p2">
-				<img src="{{ app_url_packaged }}/images/promo/ces/24.png">
-			</div>
-			<div class="w-276 p3">
-				<img src="{{ app_url_packaged }}/images/promo/ces/t1.png">
-			</div>
-			<div class="w-276 p4">
-				<img src="{{ app_url_packaged }}/images/promo/ces/t1.png">
-			</div>
-			<div class="w-276 p5">
-				<img src="{{ app_url_packaged }}/images/promo/ces/t1.png">
-			</div>
-			<div class="w-276 p6">
-				<img src="{{ app_url_packaged }}/images/promo/ces/t1.png">
-			</div>
-			<div class="w-276 p7">
-				<img src="{{ app_url_packaged }}/images/promo/ces/t1.png">
-			</div>
-			<div class="w-276 p8">
-				<img src="{{ app_url_packaged }}/images/promo/ces/t1.png">
-			</div>
-			<div class="w-276 p9">
-				<img src="{{ app_url_packaged }}/images/promo/ces/t1.png">
-			</div>
-			<div class="w-276 p10">
-				<img src="{{ app_url_packaged }}/images/promo/ces/more1.png">
-			</div>
-			<div class="w-276 p11">
-				<img src="{{ app_url_packaged }}/images/promo/ces/k2.png">
-			</div>
-			<div class="w-276 p12">
-				<img src="{{ app_url_packaged }}/images/promo/ces/t1.png">
-			</div>
-			<div class="w-276 p13">
-				<img src="{{ app_url_packaged }}/images/promo/ces/k3.png" style="width:80%;margin: 10% 10%;">
-			</div>
-			<div class="w-276 p14">
-				<img src="{{ app_url_packaged }}/images/promo/ces/t1.png">
-			</div>
-			<div class="w-276 p15">
-				<img src="{{ app_url_packaged }}/images/promo/ces/k4.png">
-			</div>
-      <!--
-			<div class="w-276 p16">
-				<img src="{{ app_url_packaged }}/images/promo/ces/t1.png">
-			</div>
-			<div class="w-276 p17">
-				<img src="{{ app_url_packaged }}/images/promo/ces/t1.png">
-			</div>
-			<div class="w-276 p18">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p19">
-				<img src="{{ app_url_packaged }}/images/promo/ces/48.png">
-			</div>
-			<div class="w-276 p20">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p21">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p22">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p23">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p24">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p25">
-				<img src="{{ app_url_packaged }}/images/promo/ces/more2.png">
-			</div>
-			<div class="w-276 p26">
-				<img src="{{ app_url_packaged }}/images/promo/ces/k5.png">
-			</div>
-			<div class="w-276 p27">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p28">
-				<img src="{{ app_url_packaged }}/images/promo/ces/k6.png" style="width:80%;margin: 10% 10%;">
-			</div>
-			<div class="w-276 p29">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p30">
-				<img src="{{ app_url_packaged }}/images/promo/ces/k7.png">
-			</div>
-			<div class="w-276 p31">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p32">
-				<img src="{{ app_url_packaged }}/images/promo/ces/72.png">
-			</div>
-			<div class="w-276 p33">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p34">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p35">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p36">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p37">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p38">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p39">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p40">
-				<img src="{{ app_url_packaged }}/images/promo/ces/more3.png">
-			</div>
-			<div class="w-276 p41">
-				<img src="{{ app_url_packaged }}/images/promo/ces/k8.png">
-			</div>
-			<div class="w-276 p42">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p43">
-				<img src="{{ app_url_packaged }}/images/promo/ces/k5.png" style="width:80%;margin: 10% 10%;">
-			</div>
-			<div class="w-276 p44">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p45">
-				<img src="{{ app_url_packaged }}/images/promo/ces/k9.png">
-			</div>
-			<div class="w-276 p46">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p47">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p48">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p49">
-				<img src="{{ app_url_packaged }}/images/promo/ces/96.png">
-			</div>
-			<div class="w-276 p50">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p51">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p52">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p53">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p54">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p55">
-				<img src="{{ app_url_packaged }}/images/promo/ces/more4.png">
-			</div>
-			<div class="w-276 p57">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-			<div class="w-276 p59">
-				<img src="{{ app_url_packaged }}/images/promo/ces/r1.png">
-			</div>
-
-      -->
-				
-		</div>
-		
-		<div class="page page-5">
-			<div class="w-32" style="background:url({{ app_url_packaged }}/images/promo/ces/b_01_wap.jpg);">
-				<p>卧底观展CES 2016，接头暗号“金沙馆71570”</p>
-				<a href="http://m.taihuoniao.com/topic/view-109347-1.html"></a>
-			</div>
-			<div class="w-32" style="background:url({{ app_url_packaged }}/images/promo/ces/b_02_wap.jpg);">
-				<p>【冷知识】CES凭什么成为消费电子展里的老大？</p>
-				<a href="http://m.taihuoniao.com/topic/view-109346-1.html"></a>
-			</div>
-			<div class="w-32" style="background:url({{ app_url_packaged }}/images/promo/ces/b_03_wap.jpg);">
-				<p>【2016CES】这些公司终于憋不住爆发了</p>
-				<a href="http://m.taihuoniao.com/topic/view-109280-1.html"></a>
-			</div>
-		</div>
-		
-		<div class="" style="padding:10px 0;">
-			<div class="ui responsive grid">
-				<div class="row">
-					<div class="center aligned column">
-						<a class="ui blue active inverted attend button" href="http://www.taihuoniao.com/search">
-							更多资讯请点击 &nbsp;>>
-		       		 	</a>
-					</div>
-				</div>
-			</div>
-		
 		</div>
 	</div>
+	
+		
 
 </div>
 {% endblock %}
