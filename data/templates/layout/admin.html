@@ -58,9 +58,15 @@
 		.ui.fluid.dropdown .down.icon {
 			float: right;
 		}
+		
+		.menu-admin{
+			background: #ddd!important;
+			cursor: pointer;
+		}
 	</style>
 {% endblock %}
-{% block page_css %}{% endblock %}
+{% block page_css %}
+{% endblock %}
 {% block layout_js %}{% endblock %}
 {% block admin_layout_js %}
   <script type="text/javascript">
@@ -72,7 +78,26 @@
 
   </script>
 {% endblock %}
-{% block jquery %}{% endblock %}
+{% block jquery %}
+	$('.menu-admin').click(function(){
+		var show = $(this).next('div[date="menu-admin"]').css('display');
+		if(show){
+			if(show == 'none'){
+				$(this).next('div[date="menu-admin"]').css('display','block');
+				$(this).find('i').addClass('plus');
+				$(this).find('i').removeClass('minus');
+			}else{
+				$(this).next('div[date="menu-admin"]').css('display','none');
+				$(this).find('i').addClass('minus');
+				$(this).find('i').removeClass('plus');
+			}
+		} else {
+			$(this).next('div[date="menu-admin"]').css('display','none');
+			$(this).find('i').addClass('minus');
+			$(this).find('i').removeClass('plus');
+		}
+	});
+{% endblock %}
 
 {% block layout_header %}
 	{% include "block/mini_header.html" %}
