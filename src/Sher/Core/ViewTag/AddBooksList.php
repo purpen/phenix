@@ -52,4 +52,4 @@ class Sher_Core_ViewTag_AddBooksList extends Doggy_Dt_Tag {
         
     }
 }
-?>
+

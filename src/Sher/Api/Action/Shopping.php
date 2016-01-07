@@ -542,6 +542,50 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
+
+	/**
+	 * 获取默认收货地址
+	 */
+	public function default_address(){
+
+		$some_fields = array(
+			'_id'=>1, 'user_id'=>1,'name'=>1,'phone'=>1,'province'=>1,'city'=>1,'area'=>1,'address'=>1,'zip'=>1,'is_default'=>1,
+		);
+
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录！', 3001); 
+    }
+
+    $add_book_model = new Sher_Core_Model_AddBooks();
+    $address = $add_book_model->first(array('user_id'=>$user_id, 'is_default'=>1));
+    if(empty($address)){
+		  return $this->api_json('默认地址不存在!', 0, array());   
+    }
+
+    $address = $add_book_model->extended_model_row($address);
+		
+		// 重建数据结果
+		$data = array();
+    foreach($some_fields as $key=>$value){
+      if($key == '_id'){
+        $data[$key] = (string)$address[$key];
+      }else{
+        $data[$key] = $address[$key];
+      }
+    }
+
+    // 省市、城市
+    $areas_model = new Sher_Core_Model_Areas();
+    $province = $areas_model->load((int)$address['province']);
+    $city = $areas_model->load((int)$address['city']);
+
+    $data['province_name'] = empty($province) ? null : $province['city'];
+    $data['city_name'] = empty($city) ? null : $city['city'];
+		
+		return $this->api_json('请求成功', 0, $data);
+	}
+
 	
 	/**
 	 * 新增/编辑 收货地址
