@@ -155,6 +155,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
         'hm'   => 'hm.jpg',
         # 头像截图
         'ava'  => 'ava.jpg',
+    'mb'  => 'mb.jpg',  // 750x360
 	);
 
     protected $required_fields = array('filepath');

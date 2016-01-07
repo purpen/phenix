@@ -81,8 +81,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:null;
 			}
 			// 封面图url
-			$data[$i]['cover_url'] = Sher_Core_Helper_Url::asset_qiniu_view_url($result['rows'][$i]['cover']['filepath'], 'mb.jpg'); 
-      
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['mb']['view_url'];
 		}
 		$result['rows'] = $data;
 		
@@ -124,8 +123,8 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
       $data[$key] = isset($special_subject[$key]) ? $special_subject[$key] : null;
     }
     // 封面图url
-    $data['cover_url'] = Sher_Core_Helper_Url::asset_qiniu_view_url($special_subject['cover']['filepath'], 'mb.jpg'); 
-
+    $data['cover_url'] = $special_subject['cover']['thumbnails']['mb']['view_url'];
+		
 		if($special_subject['kind']==Sher_Core_Model_SpecialSubject::KIND_APPOINT){
 			if(!empty($special_subject['product_ids'])){
 			  $product_model = new Sher_Core_Model_Product();
