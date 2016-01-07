@@ -356,10 +356,12 @@ class Sher_Core_Util_Constant extends Doggy_Object {
       16=>'小蚁行车记录仪',
       17=>'奶爸配奶机',
       18=>'微波闪充移动电源',
-      19=>'--',
+      19=>'2016ces',
       20=>'--',
       21=>'--',
       22=>'--',
+      23=>'--',
+      24=>'--',
     );
     if(empty($id)){
       return $array;
