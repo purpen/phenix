@@ -68,6 +68,8 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	const TYPE_COOPERATE = 80;
 	const TYPE_COOPERATE_EDITOR = 81;
 
+  # 评价关联图片
+  const TYPE_COMMENT_EVALUATE = 84;
     # 评论图片
     const TYPE_COMMENT = 85;
 
@@ -155,11 +157,12 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
         'hm'   => 'hm.jpg',
         # 头像截图
         'ava'  => 'ava.jpg',
+    'mb'  => 'mb.jpg',  // 750x360
 	);
 
     protected $required_fields = array('filepath');
 	
-    protected $int_fields = array('user_id', 'parent_id','size','width','height','asset_type','state');
+    protected $int_fields = array('user_id','size','width','height','asset_type','state');
 	
     protected function extra_extend_model_row(&$row) {
         $row['id'] = (string)$row['_id'];
