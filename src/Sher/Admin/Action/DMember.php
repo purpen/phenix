@@ -18,6 +18,8 @@ class Sher_Admin_Action_DMember extends Sher_Admin_Action_Base implements DoggyX
 	 * 入口
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "laboratory";
 		return $this->get_list();
 	}
 	

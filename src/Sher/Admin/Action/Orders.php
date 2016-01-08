@@ -14,6 +14,10 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 	);
 	
 	public function execute(){
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "sales";
+		
 		return $this->get_list();
 	}
 	

@@ -16,6 +16,8 @@ class Sher_Admin_Action_Contest extends Sher_Admin_Action_Base implements DoggyX
     }
     
 	public function execute(){
+		// 判断左栏类型
+		$this->stash['show_type'] = "community";
 		return $this->get_list();
 	}
 	
@@ -34,6 +36,10 @@ class Sher_Admin_Action_Contest extends Sher_Admin_Action_Base implements DoggyX
 	 * 编辑信息
 	 */
 	public function edit(){
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "community";
+		
 		$model = new Sher_Core_Model_Contest();
 		$mode = 'create';
 		

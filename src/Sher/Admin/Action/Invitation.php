@@ -18,6 +18,8 @@ class Sher_Admin_Action_Invitation extends Sher_Admin_Action_Base implements Dog
 	 * 入口
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
 		return $this->get_list();
 	}
 	
@@ -42,6 +44,8 @@ class Sher_Admin_Action_Invitation extends Sher_Admin_Action_Base implements Dog
 	 * 邀请码 增发
 	 */
 	public function edit() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
 		return $this->to_html_page('admin/invitation/new.html');
 	}
 	

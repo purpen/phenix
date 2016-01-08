@@ -23,6 +23,8 @@ class Sher_Admin_Action_UserSignIn extends Sher_Admin_Action_Base implements Dog
 	 * 入口
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "user";
 		return $this->get_list();
 	}
 	
@@ -41,6 +43,9 @@ class Sher_Admin_Action_UserSignIn extends Sher_Admin_Action_Base implements Dog
 	 * 统计列表--全部
 	 */
 	public function sign_stat_list() {
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "user";
 		
 		$this->set_target_css_state('sign_stat_list');
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/user_sign_in/sign_stat_list?month=%s&day=%s&user_id=%s&page=#p#', $this->stash['month'], $this->stash['day'], $this->stash['user_id']);

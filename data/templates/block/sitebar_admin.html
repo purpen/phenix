@@ -1,54 +1,79 @@
+
 <div class="ui pointing vertical fluid menu">
 	
 	<div class="header item menu-admin">
-	    <i class="plus icon"></i><b>控制台</b>
+	    <i class="{% if show_type == 'console' %} plus {% else %} minus {% endif %} icon"></i><b>控制台</b>
 	</div>
-	<div date="menu-admin">
+	<div date="menu-admin" {% if show_type == 'console' %} style="display:block" {% else %} style="display:none" {% endif %}>
 		<a class="{{ css_page_dashboard }} item" href="{{ app_url_admin_base }}/console/dashboard">
 			概况统计
 		</a>
 	</div>
+	
+	{% if visitor.is_chief %}
+	<div class="header item menu-admin">
+	    <i class="{% if show_type == 'common' %} plus {% else %} minus {% endif %} icon"></i><b>常用模块</b>
+	</div>
+	<div date="menu-admin" {% if show_type == 'common' %} style="display:block" {% else %} style="display:none" {% endif %}>
+		<a class="{{ css_page_advertise }} item" href="{{ app_url_admin_base }}/advertise">
+			广告管理
+		</a>
+		<a class="{{ css_page_sum_record }} item" href="{{ app_url_admin_base }}/sum_record">
+			统计管理
+		</a>
+		<a class="{{ css_page_view_stat }} item" href="{{ app_url_admin_base }}/view_stat">
+			来源统计
+		</a>
+		<a class="{{ css_page_private_letter }} item" href="{{ app_url_admin_base }}/private_letter">
+			私信管理
+		</a>
+	</div>
+	{% endif %}
 		
     {% if visitor.is_customer %}
 	<div class="header item menu-admin">
-	    <i class="plus icon"></i><b>产品</b>
+	    <i class="{% if show_type == 'product' %} plus {% else %} minus {% endif %} icon"></i><b>产品模块</b>
 	</div>
-	<div date="menu-admin">
+	<div date="menu-admin" {% if show_type == 'product' %} style="display:block" {% else %} style="display:none" {% endif %}>
 		<a class="{{ css_page_product }} item" href="{{ app_url_admin_base }}/product">
 			产品管理
 		</a>
+		<!--
 		<a class="{{ css_page_taobao }} item" href="{{ app_url_admin_base }}/taobao">
 			淘宝店铺
 		</a>
 		<a class="{{ css_page_cooperate }} item" href="{{ app_url_admin_base }}/incubator/cooperate">
 			产品合作
 		</a>
+		-->
 	</div>
-		
-    {% else %}
+	{% else %}
+	
 		{% if visitor.is_chief %}
 		<div class="header item menu-admin">
-			<i class="plus icon"></i><b>产品</b>
+			<i class="{% if show_type == 'product' %} plus {% else %} minus {% endif %} icon"></i><b>产品模块</b>
 		</div>
-		<div date="menu-admin">
+		<div date="menu-admin" {% if show_type == 'product' %} style="display:block" {% else %} style="display:none" {% endif %}>
 			<a class="{{ css_page_product }} item" href="{{ app_url_admin_base }}/product">
 			  产品管理
 			</a>
+			<!--
 			<a class="{{ css_page_taobao }} item" href="{{ app_url_admin_base }}/taobao">
 			  淘宝店铺
 			</a>
 			<a class="{{ css_page_cooperate }} item" href="{{ app_url_admin_base }}/incubator/cooperate">
 			  产品合作
 			</a>
+			-->
 		</div>
 		{% endif %}
-    {% endif %}
+	{% endif %}
     
     {% if visitor.is_customer %}
 	<div class="header item menu-admin">
-	    <i class="plus icon"></i><b>销售</b>
+	    <i class="{% if show_type == 'sales' %} plus {% else %} minus {% endif %} icon"></i><b>销售模块</b>
 	</div>
-	<div date="menu-admin">
+	<div date="menu-admin" {% if show_type == 'sales' %} style="display:block" {% else %} style="display:none" {% endif %}>
 		<a class="{{ css_page_orders }} item" href="{{ app_url_admin_base }}/orders">
 			订单管理
 		</a>
@@ -63,36 +88,36 @@
     
     {% if visitor.is_chief %}
 	<div class="header item menu-admin">
-	    <i class="plus icon"></i><b>用户</b>
+	    <i class="{% if show_type == 'user' %} plus {% else %} minus {% endif %} icon"></i><b>用户模块</b>
 	</div>
-	<div date="menu-admin">
-		<a class="{{ css_page_user_point_stat }} item" href="{{ app_url_admin_base }}/user_stat">
-			积分统计
+	<div date="menu-admin" {% if show_type == 'user' %} style="display:block" {% else %} style="display:none" {% endif %}>
+		{% if visitor.is_admin %}
+		<a class="{{ css_page_user }} item" href="{{ app_url_admin_base }}/user">
+			用户管理
 		</a>
+		{% endif %}
 		<a class="{{ css_page_sign_in }} item" href="{{ app_url_admin_base }}/user_sign_in">
 			用户签到
 		</a>
 		<a class="{{ css_page_sign_draw_record }} item" href="{{ app_url_admin_base }}/sign_draw_record">
 			抽奖统计
 		</a>
-		{% if visitor.is_admin %}
-		<a class="{{ css_page_user }} item" href="{{ app_url_admin_base }}/user">
-			用户管理
-		</a>
-		{% endif %}
 	</div>
     {% endif %}	
     
     {% if visitor.is_chief %}
 	<div class="header item menu-admin">
-        <i class="plus icon"></i><b>积分</b>
+        <i class="{% if show_type == 'integration' %} plus {% else %} minus {% endif %} icon"></i><b>积分模块</b>
 	</div>
-	<div date="menu-admin">
-		<a class="{{ css_page_point_stat_list }} item" href="{{ app_url_admin_base }}/point/user_stat">
-			积分排行
+	<div date="menu-admin" {% if show_type == 'integration' %} style="display:block" {% else %} style="display:none" {% endif %}>
+		<a class="{{ css_page_user_point_stat }} item" href="{{ app_url_admin_base }}/user_stat">
+			积分统计
 		</a>
 		<a class="{{ css_page_point_list }} item" href="{{ app_url_admin_base }}/point">
 			积分记录
+		</a>
+		<a class="{{ css_page_point_stat_list }} item" href="{{ app_url_admin_base }}/point/user_stat">
+			积分排行
 		</a>
 		{% if visitor.is_system %}
 		<a class="{{ css_page_point_settings }} item" href="{{ app_url_admin_base }}/point/settings_type">
@@ -105,13 +130,11 @@
 	</div>
     {% endif %}
     
-		
-    
     {% if visitor.is_chief %}
 	<div class="header item menu-admin">
-		<i class="plus icon"></i><b>社区</b>
+		<i class="{% if show_type == 'community' %} plus {% else %} minus {% endif %} icon"></i><b>社区模块</b>
 	</div>
-	<div date="menu-admin">
+	<div date="menu-admin" {% if show_type == 'community' %} style="display:block" {% else %} style="display:none" {% endif %}>
 		<a class="{{ css_page_active }} item" href="{{ app_url_admin_base }}/active">
 			活动管理
 		</a>
@@ -130,20 +153,19 @@
 		<a class="{{ css_page_comment }} item" href="{{ app_url_admin_base }}/comment">
 			评论管理
 		</a>
+		<!--
 		<a class="{{ css_page_report_tip }} item" href="{{ app_url_admin_base }}/report_tip">
 			举报管理
-		</a>
-		<a class="{{ css_page_advertise }} item" href="{{ app_url_admin_base }}/advertise">
-			广告图推荐
-		</a>
-		<a class="{{ css_page_special }} item" href="{{ app_url_admin_base }}/special">
-			专题管理
 		</a>
 		<a class="{{ css_page_cake }} item" href="{{ app_url_admin_base }}/cake">
 			公告管理
 		</a>
-		<a class="{{ css_page_areas }} item" href="{{ app_url_admin_base }}/areas">
-			城市管理
+		-->
+		<a class="{{ css_page_special }} item" href="{{ app_url_admin_base }}/special">
+			专题管理
+		</a>
+		<a class="{{ css_page_special_subject }} item" href="{{ app_url_admin_base }}/special_subject">
+			app专题管理
 		</a>
 		<a class="{{ css_page_contest }} item" href="{{ app_url_admin_base }}/contest">
 			大赛管理
@@ -152,37 +174,25 @@
 			报道管理
 		</a>
 		<a class="{{ css_page_cooperation }} item" href="{{ app_url_admin_base }}/cooperation">
-			合作资源管理
+			资源管理
 		</a>
-		<a class="{{ css_page_private_letter }} item" href="{{ app_url_admin_base }}/private_letter">
-			私信管理
-		</a>
-		<a class="{{ css_page_special_subject }} item" href="{{ app_url_admin_base }}/special_subject">
-			app专题管理
-		</a>
-		{% if visitor.is_admin %}
-		<a class="{{ css_page_edm }} item" href="{{ app_url_admin_base }}/edm/edm">
-			Edm管理
-		</a>
-		<a class="{{ css_page_tags }} item" href="{{ app_url_admin_base }}/tags">
-			关键词管理
-		</a>
-		{% endif %}
 	</div>
     {% endif %}
 		
     {% if visitor.is_chief %}
 	<div class="header item menu-admin">
-		<i class="plus icon"></i><b>实验室</b>
+		<i class="{% if show_type == 'laboratory' %} plus {% else %} minus {% endif %} icon"></i><b>实验室</b>
 	</div>
-	<div date="menu-admin">
+	<div date="menu-admin" {% if show_type == 'laboratory' %} style="display:block" {% else %} style="display:none" {% endif %}>
 		<a class="{{ css_page_d_member }} item" href="{{ app_url_admin_base }}/d_member">
 			会员管理
 		</a>
+		<a class="{{ css_page_classify }} item" href="{{ app_url_admin_base }}/classify">
+			分类管理
+			</a>
 		<a class="{{ css_page_d_appoint }} item" href="{{ app_url_admin_base }}/d_appoint">
 			预约管理
 		</a>
-	
 		<a class="{{ css_page_volunteer_contact }} item" href="{{ app_url_admin_base }}/volunteer_contact">
 			志愿者管理
 		</a>
@@ -192,38 +202,29 @@
 		<a class="{{ css_page_device }} item" href="{{ app_url_admin_base }}/device">
 			设备管理
 		</a>
-		<a class="{{ css_page_classify }} item" href="{{ app_url_admin_base }}/classify">
-			分类管理
-		</a>
 	</div>
 		
     {% endif %}
 	
 	<div class="header item menu-admin">
-		<i class="plus icon"></i><b>辅助模块</b>
+		<i class="{% if show_type == 'assist' %} plus {% else %} minus {% endif %} icon"></i><b>辅助模块</b>
 	</div>
-	<div date="menu-admin">
+	<div date="menu-admin" {% if show_type == 'assist' %} style="display:block" {% else %} style="display:none" {% endif %}>
 		{% if visitor.is_admin %}
-		  <a class="{{ css_page_block }} item" href="{{ app_url_admin_base }}/block">
-			  块管理
-		  </a>
+			<a class="{{ css_page_block }} item" href="{{ app_url_admin_base }}/block">
+				块管理
+			</a>
 		{% endif %}
 		{% if visitor.is_chief %}
-		  <a class="{{ css_page_dig }} item" href="{{ app_url_admin_base }}/dig">
-			  推荐管理
-		  </a>
-		  <a class="{{ css_sum_record }} item" href="{{ app_url_admin_base }}/sum_record">
-			  统计管理
-		  </a>
-		  <a class="{{ css_page_inlink_tag }} item" href="{{ app_url_admin_base }}/inlink_tag">
-			  内链标签
-		  </a>
-		  <a class="{{ css_page_friend_link }} item" href="{{ app_url_admin_base }}/friend_link">
-			  友情链接
-		  </a>
-		  <a class="{{ css_page_view_stat }} item" href="{{ app_url_admin_base }}/view_stat">
-			  来源统计
-		  </a>
+		<a class="{{ css_page_dig }} item" href="{{ app_url_admin_base }}/dig">
+			推荐管理
+		</a>
+		<a class="{{ css_page_inlink_tag }} item" href="{{ app_url_admin_base }}/inlink_tag">
+			内链标签
+		</a>
+		<a class="{{ css_page_friend_link }} item" href="{{ app_url_admin_base }}/friend_link">
+			友情链接
+		</a>
 		<!--
 		  <a class="{{ css_page_third_site_stat }} item" href="{{ app_url_admin_base }}/third_site_stat">
 			  广告投放统计
@@ -231,17 +232,20 @@
 		-->
 		{%endif%}
 	</div>
-    
+	
+    {% if visitor.is_admin %}
 	<div class="header item menu-admin">
-		<i class="plus icon"></i><b>系统</b>
+		<i class="{% if show_type == 'system' %} plus {% else %} minus {% endif %} icon"></i><b>系统模块</b>
 	</div>
-	<div date="menu-admin">
+	<div date="menu-admin" {% if show_type == 'system' %} style="display:block" {% else %} style="display:none" {% endif %}>
 		<a class="{{ css_page_asset }} item" href="{{ app_url_admin_base }}/asset">
 			附件管理
 		</a>
-		{% if visitor.is_admin %}
 		<a class="{{ css_page_category }} item" href="{{ app_url_admin_base }}/category">
 			分类管理
+		</a>
+		<a class="{{ css_page_areas }} item" href="{{ app_url_admin_base }}/areas">
+			城市管理
 		</a>
 		<a class="{{ css_page_style_tag }} item" href="{{ app_url_admin_base }}/style_tag">
 			标签管理
@@ -252,17 +256,20 @@
 		<a class="{{ css_page_msg }} item" href="{{ app_url_admin_base }}/msg/send_msg">
 			短信管理
 		</a>
+		<a class="{{ css_page_edm }} item" href="{{ app_url_admin_base }}/edm/edm">
+			Edm管理
+		</a>
 		<a class="{{ css_page_invitation }} item" href="{{ app_url_admin_base }}/invitation">
 			邀请码管理
 		</a>
-	
-		{% endif %}
-		
+		<a class="{{ css_page_tags }} item" href="{{ app_url_admin_base }}/tags">
+			关键词管理
+		</a>
 		{% if visitor.is_system %}
 		<a class="{{ css_page_redis }} item" href="{{ app_url_admin_base }}/redis">
 			Redis缓存管理
 		</a>
 		{% endif %}
 	</div>
-		
+	{% endif %}
 </div>

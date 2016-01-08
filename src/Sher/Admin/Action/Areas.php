@@ -18,6 +18,8 @@ class Sher_Admin_Action_Areas extends Sher_Admin_Action_Base implements DoggyX_A
 	 * 入口
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
 		return $this->get_list();
 	}
 	
@@ -48,6 +50,10 @@ class Sher_Admin_Action_Areas extends Sher_Admin_Action_Base implements DoggyX_A
 	 * 创建/更新
 	 */
 	public function submit(){
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
+		
 		$id = isset($this->stash['id'])?(int)$this->stash['id']:0;
 		$mode = 'create';
 		

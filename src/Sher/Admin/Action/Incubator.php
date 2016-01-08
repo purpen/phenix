@@ -36,6 +36,9 @@ class Sher_Admin_Action_Incubator extends Sher_Admin_Action_Base {
 				break;
 		}
 		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['state']);
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "product";
     
     return $this->to_html_page('admin/incubator/cooperate_list.html');
   }

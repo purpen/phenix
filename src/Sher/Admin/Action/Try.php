@@ -23,6 +23,8 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 入口
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "community";
 		return $this->get_list();
 	}
 	
@@ -65,6 +67,9 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 新增评测
 	 */
 	public function edit() {
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "community";
 		
 		$this->stash['mode'] = 'create';
 		

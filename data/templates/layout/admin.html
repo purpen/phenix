@@ -75,28 +75,24 @@
         is_checked = $(this).find('input').prop('checked');
         $(":input[name=ids]").prop('checked', !is_checked);
     });
-
-  </script>
-{% endblock %}
-{% block jquery %}
+	
 	$('.menu-admin').click(function(){
 		var show = $(this).next('div[date="menu-admin"]').css('display');
-		if(show){
-			if(show == 'none'){
-				$(this).next('div[date="menu-admin"]').css('display','block');
-				$(this).find('i').addClass('plus');
-				$(this).find('i').removeClass('minus');
-			}else{
-				$(this).next('div[date="menu-admin"]').css('display','none');
-				$(this).find('i').addClass('minus');
-				$(this).find('i').removeClass('plus');
-			}
-		} else {
+		if(show == 'none'){
+			$(this).next('div[date="menu-admin"]').css('display','block');
+			$(this).find('i').addClass('plus');
+			$(this).find('i').removeClass('minus');
+		}else{
 			$(this).next('div[date="menu-admin"]').css('display','none');
 			$(this).find('i').addClass('minus');
 			$(this).find('i').removeClass('plus');
 		}
 	});
+
+  </script>
+{% endblock %}
+{% block jquery %}
+	
 {% endblock %}
 
 {% block layout_header %}

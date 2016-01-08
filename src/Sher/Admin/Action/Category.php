@@ -19,6 +19,8 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
 	 * 入口
 	 */
 	public function execute(){
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
 		return $this->get_list();
 	}
 	
@@ -43,6 +45,10 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
 	 * 新增分类
 	 */
 	public function edit() {
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
+
 		$category = new Sher_Core_Model_Category();
 		$mode = 'create';
 		if(!empty($this->stash['id'])) {

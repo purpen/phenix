@@ -8,18 +8,20 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
 	public $stash = array(
 		'page' => 1,
 		'size' => 20,
-    's' => 'money',
-    'user_id' => '',
-    'event_code' => '',
-    'type' => '',
+		's' => 'exp',
+		'user_id' => '',
+		'event_code' => '',
+		'type' => '',
 		'start_date' => '',
-    'end_date' => '',
+		'end_date' => '',
 	);
 
 	/**
 	 * 默认
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "integration";
 		return $this->point_record_list();
 	}
 	
@@ -27,11 +29,15 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
 	 * 用户积分记录列表
 	 */
 	public function point_record_list() {
-    $this->set_target_css_state('point');
-    $this->set_target_css_state('page_point_list');
-
-    $start_time = strtotime($this->stash['start_date']);
-    $end_time = strtotime($this->stash['end_date']);    
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "integration";
+		
+		$this->set_target_css_state('point');
+		$this->set_target_css_state('page_point_list');
+	
+		$start_time = strtotime($this->stash['start_date']);
+		$end_time = strtotime($this->stash['end_date']);    
 
 		$this->stash['start_time'] = $start_time;
 		$this->stash['end_time'] = $end_time;
@@ -46,6 +52,8 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
    * 积分排行统计
    */
   public function user_stat(){
+	// 判断左栏类型
+	$this->stash['show_type'] = "integration";
     $this->set_target_css_state('page_point_stat_list');
     $pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/point/user_stat?s=%s&page=#p#', $this->stash['s']);
     $this->stash['pager_url'] = $pager_url;
@@ -56,6 +64,10 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
    * 用户事件记录列表
    */
     public function event_record_list() {
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "integration";
+		
         $this->set_target_css_state('event');
         $this->set_target_css_state('page_point_list');
 
@@ -73,6 +85,8 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
      * @return string
      */
     public function settings_type(){
+		// 判断左栏类型
+		$this->stash['show_type'] = "integration";
         $this->set_target_css_state('setting_type');
         $this->set_target_css_state('page_point_settings');
         $model = new Sher_Core_Model_PointType();
@@ -192,6 +206,8 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
      * @return string
      */
     public function user_ranks(){
+		// 判断左栏类型
+		$this->stash['show_type'] = "integration";
         $this->set_target_css_state('page_point_ranks');
         $model = new Sher_Core_Model_UserRankDefine();
         $records = $model->find();

@@ -19,6 +19,8 @@ class Sher_Admin_Action_Advertise extends Sher_Admin_Action_Base implements Dogg
 	 * 入口
 	 */
 	public function execute(){
+		// 判断左栏类型
+		$this->stash['show_type'] = "common";
 		return $this->advertise();
 	}
 	
@@ -38,6 +40,10 @@ class Sher_Admin_Action_Advertise extends Sher_Admin_Action_Base implements Dogg
 	 * 新增位置
 	 */
 	public function edit() {
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "common";
+		
 		$model = new Sher_Core_Model_Advertise();
 		$mode = 'create';
 		
@@ -163,6 +169,10 @@ class Sher_Admin_Action_Advertise extends Sher_Admin_Action_Base implements Dogg
 	 * 位置列表
 	 */
 	public function space(){
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "common";
+		
 		$this->set_target_css_state('space');
 		
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/advertise/space?page=#p#', $this->stash['q']);
@@ -175,6 +185,10 @@ class Sher_Admin_Action_Advertise extends Sher_Admin_Action_Base implements Dogg
 	 * 新增位置
 	 */
 	public function space_edit() {
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "common";
+		
 		$model = new Sher_Core_Model_Space();
 		$mode = 'create';
 		if(!empty($this->stash['id'])) {

@@ -20,6 +20,8 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 入口
 	 */
 	public function execute(){
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
 		return $this->message();
 	}
 	
@@ -27,8 +29,10 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * emd列表
 	 */
 	public function edm() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
 		$this->set_target_css_state('edm');
-    $this->stash['kind'] = 1;
+		$this->stash['kind'] = 1;
 		
 		return $this->to_html_page('admin/edm/list.html');
 	}
@@ -37,6 +41,8 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * message通知列表
 	 */
 	public function message() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
 		$this->set_target_css_state('message');
     $this->stash['kind'] = 2;
 		
@@ -47,6 +53,8 @@ class Sher_Admin_Action_Edm extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 编辑内容
 	 */
 	public function edit(){
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
 		$id = (int)$this->stash['id'];
 		$row = array();
     if(!empty($id)){
