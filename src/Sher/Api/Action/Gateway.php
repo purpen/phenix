@@ -272,10 +272,10 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 	 */
 	public function feedback(){
 		$user_id = $this->current_user_id;
-		$content = $this->stash['content'];
-		$contact = $this->stash['contact'];
+		$content = isset($this->stash['content']) ? $this->stash['content'] : null;
+		$contact = isset($this->stash['contact']) ? $this->stash['contact'] : null;
 		
-		if(empty($user_id) || empty($content) || empty($contact)){
+		if(empty($content)){
 			return $this->api_json('请求参数不足', 3000);
 		}
 		
@@ -289,14 +289,15 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 			));
 			
 			if(!$ok){
-				return $this->api_json('提交失败，请重试！', 4002);
-			}
+				return $this->api_json('提交失败，请重试！', 3001);
+      }
+
+		  return $this->api_json('意见反馈成功！', 0, array('id'=>''));
 		}catch(Sher_Core_Model_Exception $e){
             Doggy_Log_Helper::error('Failed to update feedback:'.$e->getMessage());
-            return $this->api_json("更新失败:".$e->getMessage(), 4001);
+            return $this->api_json("更新失败:".$e->getMessage(), 3002);
 		}
 		
-		return $this->api_json('意见反馈成功！', 0);
 	}
 
 	
