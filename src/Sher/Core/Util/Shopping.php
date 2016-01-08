@@ -153,6 +153,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 		return $card_money;
 	}
 
+
 	/**
 	 * 验证鸟币--抛出异常
 	 */

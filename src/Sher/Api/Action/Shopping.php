@@ -1303,6 +1303,99 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
 	}
 
+	/**
+	 * 验证红包是否可用(支持购物车验证，接收数组)
+	 */
+	public function check_bonus(){
+		$user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录！', 3000); 
+    }
+    if(!isset($this->stash['array']) || empty($this->stash['array'])){
+      return $this->api_json('数据不能为空！', 3001); 
+    }
+    $cart_arr = json_decode($this->stash['array']);
+
+    $code = isset($this->stash['code']) ? $this->stash['code'] : null;
+    if(empty($code)){
+      return $this->api_json('红包码为空！', 3002); 
+    }
+
+    $bonus_model = new Sher_Core_Model_Bonus();
+    $bonus = $bonus_model->find_by_code($code);
+    if(empty($bonus)){
+      return $this->api_json('红包不存在！', 3003); 
+    }
+
+    if($bonus['user_id'] != $user_id){
+      return $this->api_json('没有权限！', 3004);    
+    }
+
+    if($bonus['used'] == Sher_Core_Model_Bonus::USED_OK){
+      return $this->api_json('红包已被使用！', 3005);    
+    }
+
+    if($bonus['expired_at'] < time()){
+      return $this->api_json('红包已过期！', 3006);    
+    }
+
+		// 验证商品是否可以红包购买
+    $result = array();
+    $pass = false;
+
+		$inventory_mode = new Sher_Core_Model_Inventory();
+		$product_mode = new Sher_Core_Model_Product();
+    foreach($cart_arr as $key=>$val){
+      $val = (array)$val;
+      $sku_id = (int)$val['sku_id'];
+      $product_id = (int)$val['product_id'];
+      //sku
+      if(!empty($sku_id)){
+
+        $sku = $inventory_mode->load((int)$sku_id);
+        if(empty($sku)){
+          return $this->api_json('sku不存在！', 3007);
+        }
+        $product = $product_mode->load((int)$sku['product_id']);
+      //product
+      }elseif(!empty($product_id)){
+        $product = $product_mode->load($product_id);
+      //null
+      }else{
+        $product = null;
+      }
+
+      if(empty($product)){
+        return $this->api_json('订单商品不存在！', 3008);     
+      }
+
+      if($product['stage'] != 9){
+        continue;
+      }
+
+      // 指定商品ID
+      if(isset($bonus['product_id']) && !empty($bonus['product_id'])){
+        if($bonus['product_id'] == (int)$product['_id']){
+          $pass = true;
+          break;
+        }
+      }
+
+      //是否满足限额条件
+      if(empty($bonus['min_amount'])){
+        $pass = true;
+        break;
+      }elseif((int)$bonus['min_amount'] < (int)$product['sale_price']){
+        $pass = true;
+        break;
+      }
+
+    }// endfor
+
+    $pass = $pass ? 1 : 0;
+		return $this->api_json('请求成功!', 0, array('code'=>$code, 'useful'=>$pass));
+	}
+
 	
 }
 
