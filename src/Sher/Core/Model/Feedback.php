@@ -25,7 +25,7 @@ class Sher_Core_Model_Feedback extends Sher_Core_Model_Base  {
         'user' => array('user_id' => 'Sher_Core_Model_User'),
 	);
 	
-    protected $required_fields = array('content', 'user_id');
+    protected $required_fields = array('content');
     protected $int_fields = array('user_id', 'reply_user_id', 'total');
 	
 	/**
@@ -53,4 +53,4 @@ class Sher_Core_Model_Feedback extends Sher_Core_Model_Base  {
     }
 	
 }
-?>
+

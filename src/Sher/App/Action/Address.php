@@ -107,11 +107,18 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 		
 		$data = array();
 		$mode = 'create';
+
+    $city = 0;
+    if(isset($this->stash['city'])){
+      $city = $this->stash['city'];
+    }elseif(isset($this->stash['district'])){
+      $city = $this->stash['district'];  
+    }
 		
 		$data['name'] = $this->stash['name'];
 		$data['phone'] = $this->stash['phone'];
 		$data['province'] = $this->stash['province'];
-		$data['city']  = $this->stash['city'];
+		$data['city'] = $city;
 		$data['address'] = $this->stash['address'];
 		$data['zip']  = $this->stash['zip'];
 		$data['is_default'] = $is_default;
