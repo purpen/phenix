@@ -3,7 +3,7 @@
      * 后台投票管理
      * @author caowei@taihuoniao.com
      */
-    class Sher_Admin_Action_Vote extends Sher_Admin_Action_Base {
+    class Sher_Admin_Action_Vote extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {
         
         public $stash = array(
             'id' => 0,
@@ -11,7 +11,13 @@
             'size' => 20,
         );
         
+        public function _init() {
+            $this->set_target_css_state('page_vote');
+        }
+        
         public function execute(){
+            // 判断左栏类型
+            $this->stash['show_type'] = "community";
             return $this->get_list();
         }
         
@@ -21,7 +27,7 @@
          */
         public function get_list() {
             $stage = isset($this->stash['stage']) ? $this->stash['stage'] : 0;
-            $this->set_target_css_state('page_vote');
+            
             $pager_url = Doggy_Config::$vars['app.url.admin'].'/vote?page=#p#';
             $this->stash['pager_url'] = sprintf($pager_url, $stage);
             return $this->to_html_page('admin/vote/list.html');
@@ -32,6 +38,8 @@
          * @return string
          */
         public function add(){
+            // 判断左栏类型
+            $this->stash['show_type'] = "community";
             return $this->to_html_page('admin/vote/submit.html');
         }
         
@@ -41,6 +49,9 @@
          */
         public function edit(){
             
+            // 判断左栏类型
+            $this->stash['show_type'] = "community";
+        
             $mode = 'edit';
             $rid = isset($this->stash['rid']) ? (int)$this->stash['rid'] : 0;
             $vid = isset($this->stash['vid']) ? (int)$this->stash['vid'] : 0;

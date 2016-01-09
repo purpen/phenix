@@ -18,6 +18,8 @@ class Sher_Admin_Action_Msg extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 入口
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
 		return $this->send_msg();
 	}
 	
@@ -25,6 +27,8 @@ class Sher_Admin_Action_Msg extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 创建/更新
 	 */
 	public function send_msg(){
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
 		$this->set_target_css_state('all');
 		return $this->to_html_page('admin/msg/submit.html');
 	}

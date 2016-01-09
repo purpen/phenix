@@ -19,6 +19,8 @@ class Sher_Admin_Action_Notice extends Sher_Admin_Action_Base implements DoggyX_
 	 * 入口
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
 		return $this->get_list();
 	}
 	
@@ -40,6 +42,10 @@ class Sher_Admin_Action_Notice extends Sher_Admin_Action_Base implements DoggyX_
 	 * 创建/更新
 	 */
 	public function submit(){
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
+
 		$id = isset($this->stash['id'])?(string)$this->stash['id']:'';
 		$mode = 'create';
 		

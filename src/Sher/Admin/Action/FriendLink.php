@@ -19,6 +19,8 @@ class Sher_Admin_Action_FriendLink extends Sher_Admin_Action_Base implements Dog
 	 * 入口
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "assist";
 		return $this->get_list();
 	}
 	
@@ -54,6 +56,10 @@ class Sher_Admin_Action_FriendLink extends Sher_Admin_Action_Base implements Dog
 	 * 创建/更新
 	 */
 	public function submit(){
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "assist";
+
 		$id = isset($this->stash['id'])?(string)$this->stash['id']:'';
 		$mode = 'create';
 		

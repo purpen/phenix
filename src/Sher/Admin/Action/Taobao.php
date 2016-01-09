@@ -13,6 +13,10 @@ class Sher_Admin_Action_Taobao extends Sher_Admin_Action_Base {
 	);
 	
 	public function execute(){
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "product";
+
 		$this->set_target_css_state('page_taobao');
 		
 		return $this->get_list();

@@ -19,6 +19,8 @@ class Sher_Admin_Action_Tags extends Sher_Admin_Action_Base implements DoggyX_Ac
 	 * 入口
 	 */
 	public function execute(){
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
 		return $this->get_list();
 	}
 	
@@ -38,6 +40,8 @@ class Sher_Admin_Action_Tags extends Sher_Admin_Action_Base implements DoggyX_Ac
 	 * 导出到文本文件
 	 */
 	public function export(){
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
 		return $this->to_html_page('admin/tags/export.html');
 	}
 	
@@ -45,6 +49,8 @@ class Sher_Admin_Action_Tags extends Sher_Admin_Action_Base implements DoggyX_Ac
 	 * 新增关键词
 	 */
 	public function edit() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
 		$model = new Sher_Core_Model_Tags();
 		$mode = 'create';
 		if(!empty($this->stash['id'])) {
