@@ -21,6 +21,8 @@ class Sher_Admin_Action_Gift extends Sher_Admin_Action_Base implements DoggyX_Ac
 	 * 入口
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "sales";
 		return $this->get_list();
 	}
 	
@@ -50,6 +52,8 @@ class Sher_Admin_Action_Gift extends Sher_Admin_Action_Base implements DoggyX_Ac
 	 * 生成礼品卡
 	 */
 	public function gen() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "sales";
 		return $this->to_html_page('admin/gift/edit.html');
 	}
 	

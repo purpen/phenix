@@ -22,6 +22,10 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 	 * 入口
 	 */
 	public function execute(){
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "user";
+		
 		return $this->user_list();
 	}
 	

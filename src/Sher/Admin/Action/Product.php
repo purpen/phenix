@@ -41,6 +41,9 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['stage']);
     	$this->stash['is_search'] = false;
 		
+		// 判断左栏类型
+		$this->stash['show_type'] = "product";
+		
         return $this->to_html_page('admin/product/list.html');
     }
 	
@@ -74,6 +77,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 	 * 更新产品进入商店状态
 	 */
 	public function update_shop(){
+		
 		$id = (int)$this->stash['id'];
 		$redirect_url = Doggy_Config::$vars['app.url.fever'];
 		if(empty($id)){
@@ -440,6 +444,10 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 	 * 发布或编辑产品信息
 	 */
 	public function edit(){
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "product";
+		
 		$id = (int)$this->stash['id'];
 		$mode = 'create';
 		

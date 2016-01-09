@@ -18,6 +18,8 @@ class Sher_Admin_Action_PrivateLetter extends Sher_Admin_Action_Base implements 
 	 * 入口
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "common";
 		return $this->get_list();
 	}
 	
@@ -25,7 +27,10 @@ class Sher_Admin_Action_PrivateLetter extends Sher_Admin_Action_Base implements 
 	 * 列表
 	 */
 	public function get_list() {
-
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "common";
+		
     if(isset($this->stash['reply_id'])){
       $this->set_target_css_state('no_reply');
     }else{

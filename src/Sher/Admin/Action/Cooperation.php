@@ -18,6 +18,8 @@ class Sher_Admin_Action_Cooperation extends Sher_Admin_Action_Base implements Do
 	 * 入口
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "community";
 		return $this->get_list();
 	}
 	
@@ -25,7 +27,7 @@ class Sher_Admin_Action_Cooperation extends Sher_Admin_Action_Base implements Do
 	 * 列表
 	 */
 	public function get_list() {
-    $this->set_target_css_state('page_all');
+		$this->set_target_css_state('page_all');
 		$page = (int)$this->stash['page'];
 		
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/cooperation?page=#p#');

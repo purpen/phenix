@@ -18,6 +18,8 @@ class Sher_Admin_Action_Dig extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 入口
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "assist";
 		return $this->get_list();
 	}
 	
@@ -50,6 +52,9 @@ class Sher_Admin_Action_Dig extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 创建/更新
 	 */
 	public function edit(){
+		// 判断左栏类型
+		$this->stash['show_type'] = "assist";
+		
 		$id = isset($this->stash['id'])?(string)$this->stash['id']:'';
 		$mode = 'create';
 		
@@ -57,13 +62,16 @@ class Sher_Admin_Action_Dig extends Sher_Admin_Action_Base implements DoggyX_Act
 		if(!empty($id)){
 			$mode = 'edit';
 			$dig = $model->find_by_id($id);
-      $dig = $model->extended_model_row($dig);
-      $dig['_id'] = (string)$dig['_id'];
+		$dig = $model->extended_model_row($dig);
+		$dig['_id'] = (string)$dig['_id'];
 			$this->stash['dig'] = $dig;
 
 		}
 		$this->stash['mode'] = $mode;
-    print_r($dig['items']);
+		print_r($dig['items']);
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "assist";
 		
 		return $this->to_html_page('admin/dig/edit.html');
 	}

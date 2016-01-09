@@ -33,6 +33,9 @@ class Sher_Admin_Action_Console extends Sher_Admin_Action_Base {
 		$this->stash['sitedata'] = $sitedata;
 		$this->stash['admin'] = true;
 		
+		// 判断左栏类型
+		$this->stash['show_type'] = "console";
+		
         return $this->to_html_page('admin/dashboard.html');
     }
 	

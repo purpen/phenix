@@ -19,6 +19,8 @@ class Sher_Admin_Action_Device extends Sher_Admin_Action_Base implements DoggyX_
 	 * 入口
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "laboratory";
 		return $this->get_list();
 	}
 	
@@ -49,6 +51,10 @@ class Sher_Admin_Action_Device extends Sher_Admin_Action_Base implements DoggyX_
 	 * 新增
 	 */
 	public function edit() {
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "laboratory";
+		
 		$this->stash['mode'] = 'create';
 		
 		$data = array();

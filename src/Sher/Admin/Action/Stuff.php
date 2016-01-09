@@ -21,6 +21,8 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 	 * 入口
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "community";
 		return $this->get_list();
 	}
 	
@@ -28,6 +30,10 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 	 * 列表--全部
 	 */
 	public function get_list() {
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "community";
+		
     $this->set_target_css_state('all_list');
 		$page = (int)$this->stash['page'];
 
@@ -45,6 +51,10 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 	 * 列表--蛋年
 	 */
 	public function egg_list() {
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "community";
+		
     $this->set_target_css_state('egg_list');
 		$page = (int)$this->stash['page'];
 		
@@ -62,6 +72,10 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 	 * 列表--十万火计2
 	 */
 	public function swhj2_list() {
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "community";
+		
     $this->set_target_css_state('swhj2_list');
 		$page = (int)$this->stash['page'];
 
@@ -81,6 +95,10 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 	 * 列表--反向定制
 	 */
 	public function redesign_list() {
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "community";
+		
     $this->set_target_css_state('redesign_list');
 		$page = (int)$this->stash['page'];
 

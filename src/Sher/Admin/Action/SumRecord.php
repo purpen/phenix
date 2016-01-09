@@ -20,6 +20,8 @@ class Sher_Admin_Action_SumRecord extends Sher_Admin_Action_Base implements Dogg
 	 * 入口
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "common";
 		return $this->get_list();
 	}
 	
@@ -27,7 +29,10 @@ class Sher_Admin_Action_SumRecord extends Sher_Admin_Action_Base implements Dogg
 	 * 列表--全部
 	 */
 	public function get_list() {
-    $this->set_target_css_state('all_list');
+		// 判断左栏类型
+		$this->stash['show_type'] = "common";
+		
+		$this->set_target_css_state('all_list');
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/sum_record?type=%s&page=#p#', $this->stash['type']);
 		$this->stash['pager_url'] = $pager_url;
 		
