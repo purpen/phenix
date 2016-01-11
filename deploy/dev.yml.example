@@ -80,6 +80,9 @@ app.topic_category_product: 17
 # 大赛作品分类--反向定制
 app.stuff.contest_category_id: 55
 
+# 中国最火爆智能硬件TOP100
+app.stuff.top100_category_id: 64
+
 #抢口罩-商品ID
 app.comeon.product_id: 1120800090
 
