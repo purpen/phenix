@@ -86,7 +86,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		'stick' => self::STICK_DEFAULT,
 		# 精选
 		'featured' => self::FEATURED_DEFAULT,
-        # 属于1.十万火计;2.蛋年;3.奇思甬动-大赛;4.反向定制;
+        # 属于1.十万火计;2.蛋年;3.奇思甬动-大赛;4.反向定制;5;最火爆智能硬件TOP100;
         'from_to' => 0,
 
         # 用于大赛
@@ -130,6 +130,8 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
             }elseif($row['from_to']==3){ //奇思甬动-大赛
               $row['view_url'] = sprintf(Doggy_Config::$vars['app.url.contest']."/qsyd_view/%s.html", $row['_id']);
             }elseif($row['from_to']==4){ //反向定制-大赛
+              $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']); 
+            }elseif($row['from_to']==5){ //最火爆智能硬件TOP100
               $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']); 
             }else{
               $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);   
