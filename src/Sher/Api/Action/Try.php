@@ -101,8 +101,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 		}
 		
 		// 增加pv++
-		$inc_ran = rand(1, 6);
-		$model->increase_counter('view_count', $inc_ran, $id);
+		$model->increase_counter('view_count', 1, $id);
 
     //显示的字段
     $some_fields = array(
@@ -119,12 +118,36 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
       $key = $some_fields[$i];
       $data[$key] = isset($try[$key]) ? $try[$key] : null;
     }
+
+		// 当前用户是否申请过
+		$applied = 0;
+		if($user_id){
+      // 是否已想要
+      if($try['step_stat']==0){
+        $attend_model = new Sher_Core_Model_Attend();
+        $is_want = $attend_model->check_signup($user_id, $try['_id'], Sher_Core_Model_Attend::EVENT_TRY_WANT);
+        if($is_want){
+          $applied = 1;
+        }
+      }else{  // 是否申请过
+        $apply_model = new Sher_Core_Model_Apply();
+        $has_one_apply = $apply_model->first(array('target_id'=>$try['_id'], 'user_id'=>$user_id));
+        if(!empty($has_one_apply)){
+          $applied = 1;
+        }
+      }
+    } // endif user
+
+
     //转换描述格式
     $data['content_view_url'] = sprintf('%s/app/api/view/try_show?id=%d', Doggy_Config::$vars['app.domain.base'], $try['_id']);
     // 封面图url
     $data['cover_url'] = $try['cover']['thumbnails']['mb']['view_url'];
     // banner图url
     $data['banner_url'] = $try['banner']['thumbnails']['mb']['view_url'];
+
+    // 当前用户是否已申请
+    $data['applied'] = $applied;
 
 		$result['rows'] = $data;
 		
