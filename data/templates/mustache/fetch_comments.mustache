@@ -35,10 +35,10 @@
                 <a href="{{ reply_comment.user.home_url }}" class="ui link" target="_blank">@{{ reply_comment.user.nickname }}</a> <span class="metadata"><span class="date">发表于 {{ reply_comment.created_on }}</span></span>
                 <div class="contrp text">
                     {{ &reply_comment.content }}
-            {{#is_deleted}}
+            {{#reply_comment.is_deleted}}
                 该内容已被屏蔽
             {{/reply_comment.is_deleted}}
-            {{^is_deleted}}
+            {{^reply_comment.is_deleted}}
             {{ &reply_comment.content }}
             {{/reply_comment.is_deleted}}
                 </div>
