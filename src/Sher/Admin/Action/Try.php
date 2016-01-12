@@ -31,9 +31,19 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 	/**
 	 * 列表
 	 */
-	public function get_list() {		
-		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try?page=#p#';
+	public function get_list() {
+    $q = isset($this->stash['q']) ? $this->stash['q'] : null;
+    $this->stash['s_type'] = 0;
+		if (!empty($q)) {
+			// 是否为数字
+			if (is_numeric($q)){
+				$this->stash['s_type'] = 1;
+			} else {
+				$this->stash['s_type'] = 2;
+			}
+      $this->stash['s_mark'] = $q;
+		}
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try/get_list?page=#p#';
 		$this->stash['pager_url'] = $pager_url;
 
 		// 发送人数组
