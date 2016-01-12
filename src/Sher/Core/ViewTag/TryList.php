@@ -24,6 +24,9 @@ class Sher_Core_ViewTag_TryList extends Doggy_Dt_Tag {
         $ignore_id = 0;
         $step_stat = 0;
         $sticked = 0;
+
+        // 是否搜索
+        $s_type = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -66,6 +69,21 @@ class Sher_Core_ViewTag_TryList extends Doggy_Dt_Tag {
             case 5: // 是评测
               $query['try_id'] = array('$ne'=>0);
           }
+        }
+
+        // 搜索
+        if($s_type){
+            switch ((int)$s_type){
+                case 1:
+                    $query['_id'] = (int)$s_mark;
+                    break;
+                case 2:
+                    $query['title'] = array('$regex'=>$s_mark);
+                    break;
+                case 3:
+                    $query['tags'] = array('$all'=>array($s_mark));
+                    break;
+            }
         }
 		
         $service = Sher_Core_Service_Try::instance();
