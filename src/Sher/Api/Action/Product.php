@@ -381,7 +381,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
           // 验证数据
           $comment_data = array(
-            'target_id' => $product_id,
+            'target_id' => (string)$product_id,
             'content' => $content,
             'star' => $star,
             'user_id' => $user_id,
