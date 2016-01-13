@@ -1,0 +1,321 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}2016 CES-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.ces{
+		background:#fff;
+		padding-bottom: 30px;
+	}
+	#mfrbird{
+		margin-top:0;
+		margin-bottom: 1em;
+	}
+	#ceslide{
+		background: url({{ app_url_packaged }}/images/promo/ces/ceslide.jpg);
+	    background-size: cover;
+		padding: 0 2% 4%;
+		margin-top:-5px;
+		position: relative;
+	}
+	#ceslide h2.ui.header{
+	    text-align: center;
+	    color: #fff !important;
+	    padding: 20px 0;
+	}
+	.slides{
+		height: auto;
+	    zoom: 1;
+	    margin: 0;
+	    padding: 0;
+	    list-style: none;
+	    text-align: center;
+	}
+	.slides li{
+		margin: 0;
+	    padding: 0;
+	    list-style: none;
+	    text-align: center;
+	    position: relative;
+	}
+	.slides li img{
+		width: 96%;
+	    margin: 0 auto;
+	}
+	#ceslide.flexslider .flex-direction-nav {
+	    margin: 0;
+	    padding: 0;
+	    list-style: none;
+	    text-align: center;
+	}
+	#ceslide.flexslider .flex-direction-nav a.flex-prev {
+	    left: 0;
+	}
+	#ceslide.flexslider .flex-direction-nav a {
+	    position: absolute;
+	    font-size: 30px;
+	    top: 50%;
+	    display: inline-block;
+	    opacity: 1;
+	    margin: 20px .25rem 0 0;
+	    width: 1.18em;
+	    padding: 11px 0;
+	    font-family: Icons;
+	    font-style: normal;
+	    vertical-align: middle;
+	    font-weight: 400;
+	    text-decoration: inherit;
+	    text-align: center;
+	    speak: none;
+	    font-smoothing: antialiased;
+	    -moz-osx-font-smoothing: grayscale;
+	    -webkit-font-smoothing: antialiased;
+	    -webkit-backface-visibility: hidden;
+	    backface-visibility: hidden;
+	}
+	#ceslide.flexslider .flex-direction-nav a.flex-prev:before {
+	    -webkit-animation: arrowUp 1.5s linear infinite;
+	    -moz-animation: arrowUp 1.5s linear infinite;
+	    animation: arrowUp 1.5s linear infinite;
+	    content: "\f104";
+	    color: #f36;
+	}
+	#ceslide.flexslider .flex-direction-nav a.flex-next {
+	    right: 0;
+	}
+	#ceslide.flexslider .flex-direction-nav a.flex-next:before {
+	    content: "\f105";
+	    color: #f36;
+	    -webkit-animation: arrowRt 1.5s linear infinite;
+	    -moz-animation: arrowRt 1.5s linear infinite;
+	    animation: arrowRt 1.5s linear infinite;
+	}
+	.w-32{
+		width:90%;
+		margin:20px 5%;
+	    height: 180px;
+	    background-size: cover;
+	    position: relative;
+	}
+	.w-32 p {
+	    position: absolute;
+	    bottom: 0;
+	    left: 0;
+	    width: 100%;
+	    color: #fff;
+	    background: rgba(0,0,0,0.7);
+	    margin: 0;
+	    padding: 10px 15px;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	    font-size: 16px;
+	}
+	.w-32 a {
+	    position: absolute;
+	    width: 100%;
+	    height: 100%;
+	}
+	.ui.blue.active.inverted.attend.button{
+		font-size: 20px;
+		color:#ff9f15;
+		background:#222222 !important;
+	}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript">
+    var m_name = '2016 CES- 太火鸟-中国最火爆的智能硬件孵化平台';
+    var img_url = '{{ app_url_packaged }}/images/promo/ces/400.jpg';
+    var link = '{{ app_url_wap_promo }}/zces';
+    var desc_str = 'http://m.taihuoniao.com';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+
+  wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: 19, count_name:'count', type: 4, kind:4 });
+  };
+
+      </script>
+{% endblock %}
+
+{% block jquery %}
+    var s=$('#mfrbird').width();
+    $('#ceslide').flexslider({
+		
+		animation: "slide",
+        animationLoop: false,
+        itemWidth: s/2-s/50,
+        directionNav: true, 
+        controlNav: false,
+        animationDuration: 300,
+        prevText: " ",
+        nextText: " ",
+      });
+	
+{% endblock %}
+
+{% block content %}
+<img src="{{ app_url_packaged }}/images/promo/ces/400.jpg" style="display:none;">
+<div class="ces">
+	<img src="{{ app_url_packaged }}/images/promo/ces/mobile_bj.jpg" width="100%">
+	<!-- day -->
+  <a href="http://m.taihuoniao.com/topic/view-109451-1.html"><img src="{{ app_url_packaged }}/images/promo/ces/mobile_day3.gif" width="100%"></a>
+	<!-- -->
+  <a href="http://m.taihuoniao.com/topic/view-109397-1.html"><img src="{{ app_url_packaged }}/images/promo/ces/fifish_750-FA.jpg" width="100%" style="margin-top:10px"></a>
+	
+	<div id ="ceslide" class="flexslider flex-single">
+		<h2 class="ui header">太火鸟展区展品</h2>
+		
+		<ul class="slides">
+	    	<li style=" ">
+				<a href="http://m.taihuoniao.com/sale/1115699533.html">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p1.jpg">
+				</a>
+	      	</li>
+		 	<li>
+				<a href="http://m.taihuoniao.com/sale/1112772991.html">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p2.jpg">
+				</a>
+		  	</li>
+		 	<li>
+				<a href="http://m.taihuoniao.com/mall/milk">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p4.jpg">
+				</a>
+		  	</li>
+		 	<li>
+				<a href="">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p5.jpg">
+				</a>
+		  	</li>
+			<li>
+				<a href="">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p6.jpg">
+				</a>
+			</li>
+			<li>
+				<a href="http://m.taihuoniao.com/shop/view-1065690266-1.html">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p7.jpg">
+				</a>
+			</li>
+			<li>
+				<a href="http://m.taihuoniao.com/shop/view-1116152156-1.html">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p8.jpg">
+				</a>
+			</li>
+			<li>
+				<a href="http://m.taihuoniao.com/shop/view-1088067534-1.html">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p9.jpg">
+				</a>
+			</li>
+			<li>
+				<a href="http://m.taihuoniao.com/shop/view-1117318669-1.html">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p10.jpg">
+				</a>
+			</li>
+			<li>
+				<a href="http://m.taihuoniao.com/shop/view-1088697280-1.html">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p11.jpg">
+				</a>
+			</li>
+			<li>
+				<a href="">
+					<img src="{{ app_url_packaged }}/images/promo/ces/p12.jpg">
+				</a>
+			</li>
+	  </ul>
+		
+	</div>
+	
+  <!--24-->
+  <a href="http://m.taihuoniao.com/topic/view-109433-1.html"><img src="{{ app_url_packaged }}/images/promo/ces/CES_m_allin_24_2.jpg" width="100%"></a>
+
+  <!--48-->
+  <a href="http://m.taihuoniao.com/topic/view-109421-1.html"><img src="{{ app_url_packaged }}/images/promo/ces/CES_m_allin_48_2.jpg" width="100%"></a>
+
+  <!--72-->
+  <a href="http://m.taihuoniao.com/topic/view-109379-1.html"><img src="{{ app_url_packaged }}/images/promo/ces/CES_m_allin_72_2.jpg" width="100%"></a>
+	
+	<div class="w-32" style="background:url({{ app_url_packaged }}/images/promo/ces/b_01.jpg) no-repeat center center;">
+		<p>卧底观展CES 2016，接头暗号“金沙馆71570”</p>
+		<a href="http://m.taihuoniao.com/topic/view-109347-1.html"></a>
+	</div>
+	<div class="w-32" style="background:url({{ app_url_packaged }}/images/promo/ces/b_02.jpg) no-repeat center center;">
+		<p>【冷知识】CES凭什么成为消费电子展里的老大？</p>
+		<a href="http://m.taihuoniao.com/topic/view-109346-1.html"></a>
+	</div>
+	<div class="w-32" style="background:url({{ app_url_packaged }}/images/promo/ces/b_03.jpg) no-repeat center center;">
+		<p>【2016CES】这些公司终于憋不住爆发了</p>
+		<a href="http://m.taihuoniao.com/topic/view-109280-1.html"></a>
+	</div>
+	
+	<div class="ui responsive grid" style="margin-top:20px;">
+		<div class="row">
+			<div class="center aligned column">
+				<a class="ui blue active inverted attend button" href="http://m.taihuoniao.com/search?q=ces">
+					更多资讯请点击 &nbsp;>>
+       		 	</a>
+			</div>
+		</div>
+	</div>
+	
+		
+
+</div>
+{% endblock %}

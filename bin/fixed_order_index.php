@@ -15,6 +15,7 @@ require $cfg_app_rc;
 set_time_limit(0);
 ini_set('memory_limit','512M');
 
+$indexer = Sher_Core_Service_OrdersIndexer::instance();
 
 echo "Prepare to build order fulltext index...\n";
 $order = new Sher_Core_Model_Orders();
@@ -24,7 +25,7 @@ $is_end = false;
 $total = 0;
 while(!$is_end){
 	$query = array();
-	$options = array('field' => array('_id', 'rid', 'deleted'), 'page'=>$page, 'size'=>$size);
+	$options = array('field' => array('rid'), 'page'=>$page, 'size'=>$size);
 	$list = $order->find($query, $options);
 	if(empty($list)){
 		echo "get order list is null,exit......\n";
@@ -32,12 +33,11 @@ while(!$is_end){
 	}
 	$max = count($list);
 	for ($i=0; $i<$max; $i++) {
-    if(!isset($list[$i]['deleted'])){
-      echo "update order index:".$list[$i]['_id']. '...';
-      $order->update_set((string)$list[$i]['_id'], array('deleted'=>0));
-      echo "ok.\n";
+        echo "update order index:".$list[$i]['_id']. '...';
+        $indexer->build_orders_index($list[$i]['rid']);
+        echo "ok.\n";
+		
 	    $total++;
-    }
 	}
 	if($max < $size){
 		echo "Order list is end!!!!!!!!!,exit.\n";

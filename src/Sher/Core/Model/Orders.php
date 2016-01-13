@@ -76,7 +76,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	    #申请退款标识及时间
 	    'is_refunding' => 0,
 	    'refunding_date' => 0,
-	    'refund_reason'  =>  null,
+      'refund_reason'  =>  null,
+      # 退款选项：0,其它；1,不想要了；2.--
+      'refund_option' => 0,
 
 	    #退款成功标识及时间
 	    'is_refunded' => 0,
@@ -131,15 +133,17 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		# 过期时间,(普通订单、预售订单)
 		'expired_time' => 0,
 
-        # 订单类型
-        'kind' => self::KIND_NORMAL,
+    # 订单类型
+    'kind' => self::KIND_NORMAL,
 		
+    # 是否删除
+    'deleted' => 0,
 		# 来源站点
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
     );
 
 	protected $required_fields = array('rid', 'user_id');
-	protected $int_fields = array('user_id','invoice_type');
+	protected $int_fields = array('user_id','invoice_type','deleted','kind','status');
 
 	protected $joins = array(
 	    'user' => array('user_id' => 'Sher_Core_Model_User'),
@@ -411,6 +415,20 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	public function sended_order($id, $options=Array()){
         return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_SENDED_GOODS, $options);
 	}
+
+	/**
+	 * 待评价订单
+	 */
+	public function evaluate_order($id, $options=Array()){
+        return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_EVALUATE, $options);
+	}
+
+	/**
+	 * 完成订单
+	 */
+	public function finish_order($id, $options=Array()){
+        return $this->_release_order($id, Sher_Core_Util_Constant::ORDER_PUBLISHED, $options);
+	}
 	
 	/**
 	 * 处理订单，并释放库存
@@ -446,7 +464,12 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
             $updated['is_refunding'] = 1;
 			$updated['refunding_date'] = time();
             if(!empty($options) && !empty($options['refund_reason'])){
+              if(isset($options['refund_reason'])){
                 $updated['refund_reason'] = $options['refund_reason'];   
+              }
+              if(isset($options['refund_option'])){
+                $updated['refund_option'] = (int)$options['refund_option'];   
+              }
             }
         }
 
@@ -537,7 +560,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 				$status_label = '等待审核';
 				break;
 			case Sher_Core_Util_Constant::ORDER_READY_GOODS:
-				$status_label = '正在配货';
+				$status_label = '待发货';
 				break;
 			case Sher_Core_Util_Constant::ORDER_READY_REFUND:
 				$status_label = '退款中';
@@ -546,7 +569,10 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 				$status_label = '已退款';
 				break;
 			case Sher_Core_Util_Constant::ORDER_SENDED_GOODS:
-				$status_label = '已发货';
+				$status_label = '待收货';
+				break;
+			case Sher_Core_Util_Constant::ORDER_EVALUATE:
+				$status_label = '待评价';
 				break;
 			case Sher_Core_Util_Constant::ORDER_PUBLISHED:
 				$status_label = '已完成';
@@ -872,14 +898,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     	$status = Sher_Core_Util_Constant::ORDER_READY_GOODS;
         return $this->_updateOrderStatus($status, $id);
     }
-	
-    /**
-     * 设置订单的状态为已完成状态
-     */
-    public function setOrderPublished($id=null){
-    	$status = Sher_Core_Util_Constant::ORDER_PUBLISHED;
-		return $this->_updateOrderStatus($status, $id);
-    }
+
 	
     /**
      * 更新订单的处理状态

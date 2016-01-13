@@ -69,9 +69,9 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
         $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
 			}
 			// 封面图url
-			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['mb']['view_url'];
 			// banner图url
-			$data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['medium']['view_url'];
+			$data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['mb']['view_url'];
 
 		}
 		$result['rows'] = $data;
@@ -122,9 +122,9 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
     //转换描述格式
     $data['content_view_url'] = sprintf('%s/app/api/view/try_show?id=%d', Doggy_Config::$vars['app.domain.base'], $try['_id']);
     // 封面图url
-    $data['cover_url'] = $try['cover']['thumbnails']['medium']['view_url'];
+    $data['cover_url'] = $try['cover']['thumbnails']['mb']['view_url'];
     // banner图url
-    $data['banner_url'] = $try['banner']['thumbnails']['medium']['view_url'];
+    $data['banner_url'] = $try['banner']['thumbnails']['mb']['view_url'];
 
 		$result['rows'] = $data;
 		
@@ -136,7 +136,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 	 */
   public function apply(){
 
-    $user_id = 5;
+    $user_id = $this->current_user_id;
 
     if(empty($user_id)){
 		  return $this->api_json('请先登录！', 3000);

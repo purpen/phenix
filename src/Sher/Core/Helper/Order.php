@@ -14,6 +14,7 @@ class Sher_Core_Helper_Order {
     $allow_refund_status = array(
       Sher_Core_Util_Constant::ORDER_READY_REFUND,
       //Sher_Core_Util_Constant::ORDER_SENDED_GOODS,
+      //Sher_Core_Util_Constant::ORDER_EVALUATE,
       //Sher_Core_Util_Constant::ORDER_PUBLISHED,
     );
     if(empty($status)){

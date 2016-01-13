@@ -15,6 +15,8 @@ class Sher_Admin_Action_StyleTag extends Sher_Admin_Action_Base implements Doggy
     }
     
 	public function execute(){
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
 		return $this->get_list();
 	}
 	
@@ -31,6 +33,10 @@ class Sher_Admin_Action_StyleTag extends Sher_Admin_Action_Base implements Doggy
 	 * 编辑信息
 	 */
 	public function edit(){
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "system";
+
 		$model = new Sher_Core_Model_StyleTag();
 		$mode = 'create';
 		

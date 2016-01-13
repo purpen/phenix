@@ -10,13 +10,20 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
     'floor'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi','rank','rank2','sign');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi','rank','rank2','sign','zces');
 	
 	/**
 	 * 网站入口
 	 */
 	public function execute(){
 		return $this->coupon();
+	}
+	
+	/**
+	  * 2016 CES  2015/12/31
+	 **/
+	public function zces(){
+		return $this->to_html_page('page/promo/zces.html');
 	}
 	
 	/**

@@ -39,6 +39,8 @@ class Sher_Core_ViewTag_OrderList extends Doggy_Dt_Tag {
 		$start_time = 0;
 		// 截止时间
 		$end_time = 0;
+    // 是否删除
+    $deleted = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -61,13 +63,13 @@ class Sher_Core_ViewTag_OrderList extends Doggy_Dt_Tag {
 		Doggy_Log_Helper::debug('Get order list status:'.$status);
 		
 		switch($status){
-			case 1: // 未支付订单
+			case 1: // 待付款订单
 				$query['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
 				break;
 			case 2: // 待发货订单
 				$query['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
 				break;
-			case 3: // 已发货订单
+			case 3: // 待收货订单
 				$query['status'] = Sher_Core_Util_Constant::ORDER_SENDED_GOODS;
 				break;
 			case 4: // 已完成订单
@@ -79,6 +81,14 @@ class Sher_Core_ViewTag_OrderList extends Doggy_Dt_Tag {
       case 6: // 已退款订单
         $query['status'] = Sher_Core_Util_Constant::ORDER_REFUND_DONE;
         break;
+      case 7: // 待评价订单
+        $query['status'] = Sher_Core_Util_Constant::ORDER_EVALUATE;
+        break;
+			case 8: // 退换货订单
+				$query['status'] = array(
+					'$in' => array(Sher_Core_Util_Constant::ORDER_READY_REFUND, Sher_Core_Util_Constant::ORDER_REFUND_DONE),
+				);
+				break;
 			case 9: // 已关闭订单：取消的订单、过期的订单
 				$query['status'] = array(
 					'$in' => array(Sher_Core_Util_Constant::ORDER_EXPIRED, Sher_Core_Util_Constant::ORDER_CANCELED),
@@ -121,10 +131,17 @@ class Sher_Core_ViewTag_OrderList extends Doggy_Dt_Tag {
 		if(!$start_time && $end_time){
 			$query['created_on'] = array('$lte' => $end_time);
 		}
+    if($deleted){
+      if((int)$deleted==-1){
+        $query['deleted'] = 0;
+      }elseif((int)$deleted==1){
+        $query['deleted'] = 1;
+      }
+    }
 		
-        $service = Sher_Core_Service_Orders::instance();
-        $options['page'] = $page;
-        $options['size'] = $size;
+    $service = Sher_Core_Service_Orders::instance();
+    $options['page'] = $page;
+    $options['size'] = $size;
 		
 		$options['sort_field'] = $sort_field;
 		
@@ -141,4 +158,4 @@ class Sher_Core_ViewTag_OrderList extends Doggy_Dt_Tag {
         
     }
 }
-?>
+

@@ -18,6 +18,8 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 	 * 入口
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "assist";
 		return $this->get_list();
 	}
 	
@@ -46,8 +48,8 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 		if(!empty($id)){
 			$mode = 'edit';
 			$block = $model->find_by_id($id);
-      $block = $model->extended_model_row($block);
-      $block['_id'] = (string)$block['_id'];
+		$block = $model->extended_model_row($block);
+		$block['_id'] = (string)$block['_id'];
 			$this->stash['chunk'] = $block;
 
 		}
@@ -60,6 +62,9 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 
 		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_ASSET;
 		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_EDITOR_BLOCK;
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "assist";
 		
 		return $this->to_html_page('admin/block/submit.html');
 	}

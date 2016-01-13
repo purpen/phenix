@@ -5,7 +5,7 @@
  */
 class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
 	
-	protected $exclude_method_list = array('execute','bind_sina_account');
+	protected $exclude_method_list = array('execute');
 	
 	/**
 	 * 入口
@@ -20,6 +20,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
 	public function bind_sina_account(){
         
         $code = $this->stash['code'];
+		$redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
         
         $akey = Doggy_Config::$vars['app.sinaweibo.app_key'];
 		$skey = Doggy_Config::$vars['app.sinaweibo.app_secret'];
@@ -46,13 +47,20 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
             $user_id = (int)$this->visitor->id;
             
             $user = new Sher_Core_Model_User();
+			
+			$sina_id = $user->first(array('sina_uid' => $uid));
+			
+			if(!empty($sina_id)){
+				return $this->display_note_page("账号已被绑定，请先用新浪微博账号登陆解绑后在操作！", $redirect_url);
+			}
+			
             $result = $user->update_set((int)$user_id,$date);
-            
-            if($result){
-                return $this->ajax_json('绑定账号成功!', false);
-            }
-            
-            return $this->ajax_json('绑定账号失败!', true);
+			
+			if($result){
+				return $this->display_note_page("绑定成功！", $redirect_url);
+			}
+			
+			return $this->display_note_page("绑定失败！", $redirect_url);
         }
     }
     
@@ -70,11 +78,13 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         $user = new Sher_Core_Model_User();
         $result = $user->update_set((int)$user_id,$date);
         
-        if($result){
-            return $this->ajax_json('解绑账号成功!', false);
-        }
-        
-        return $this->ajax_json('解绑账号失败!', true);
+        $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone?'.rand();
+            
+		if($result){
+			return $this->display_note_page("解绑成功！", $redirect_url);
+		}
+		
+		return $this->display_note_page("解绑失败！", $redirect_url);
     }
     
     /**
@@ -83,9 +93,11 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
 	public function bind_qq_account(){
         
         $code = $this->stash['code'];
-        $app_id = Doggy_Config::$vars['app.qq.app_id'];
+		$redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
+        
+		$app_id = Doggy_Config::$vars['app.qq.app_id'];
 		$app_key = Doggy_Config::$vars['app.qq.app_key'];
-        $callback = Doggy_Config::$vars['app.url.domain'].'/app/site/bind_account/bind_qq_account';
+        $app_callback = Doggy_Config::$vars['app.url.domain'].'/app/site/bind_account/bind_qq_account';
         $app_scope = Doggy_Config::$vars['app.qq.scope'];
         
         Doggy_Log_Helper::error('QQ Login get code:'.$code);
@@ -128,13 +140,20 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
             $user_id = (int)$this->visitor->id;
             
             $user = new Sher_Core_Model_User();
+			
+			$qq_uid = $user->first(array('qq_uid' => $uid));
+			
+			if(!empty($qq_uid)){
+				return $this->display_note_page("账号已被绑定，请先用QQ账号登陆解绑后在操作！", $redirect_url);
+			}
+			
             $result = $user->update_set((int)$user_id,$date);
             
-            if($result){
-                return $this->ajax_json('绑定账号成功!', false);
-            }
-            
-            return $this->ajax_json('绑定账号失败!', true);
+			if($result){
+				return $this->display_note_page("绑定成功！", $redirect_url);
+			}
+			
+			return $this->display_note_page("绑定失败！", $redirect_url);
         }
     }
     
@@ -152,11 +171,13 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         $user = new Sher_Core_Model_User();
         $result = $user->update_set((int)$user_id,$date);
         
-        if($result){
-            return $this->ajax_json('解绑账号成功!', false);
-        }
-        
-        return $this->ajax_json('解绑账号失败!', true);
+        $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone?'.rand();
+            
+		if($result){
+			return $this->display_note_page("解绑成功！", $redirect_url);
+		}
+		
+		return $this->display_note_page("解绑失败！", $redirect_url);
     }
     
     /**
@@ -164,16 +185,16 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
 	 */
 	public function bind_wechat_account(){
         
-        $error_redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
+		$redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone';
         
         $code = isset($this->stash['code'])?$this->stash['code']:null;
         if(empty($code)){
-          return $this->show_message_page('用户拒绝了授权！', $error_redirect_url);
+          return $this->show_message_page('用户拒绝了授权！', $redirect_url);
         }
         
         $state = isset($this->stash['state'])?$this->stash['state']:null;
         if(empty($state)){
-            return $this->show_message_page('拒绝访问,请重新尝试授权！', $error_redirect_url);   
+            return $this->show_message_page('拒绝访问,请重新尝试授权！', $redirect_url);   
         }
         
         $app_id = Doggy_Config::$vars['app.wx.app_id'];
@@ -194,7 +215,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
             $open_id = $result['data']['openid'];
             $access_token = $result['data']['access_token'];
             if(empty($open_id) || empty($access_token)){
-              return $this->show_message_page('open_id or access_token is null！', $error_redirect_url);
+              return $this->show_message_page('open_id or access_token is null！', $redirect_url);
             }
             
             $date = array();
@@ -204,13 +225,20 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
             $user_id = (int)$this->visitor->id;
             
             $user = new Sher_Core_Model_User();
+			
+			$wechat_id = $user->first(array('wx_open_id' => $open_id));
+			
+			if(!empty($wechat_id)){
+				return $this->display_note_page("账号已被绑定，请先用微信账号登陆解绑后在操作！", $redirect_url);
+			}
+			
             $result = $user->update_set((int)$user_id,$date);
             
-            if($result){
-                return $this->ajax_json('绑定账号成功!', false);
-            }
-            
-            return $this->ajax_json('绑定账号失败!', true);
+			if($result){
+				return $this->display_note_page("绑定成功！", $redirect_url);
+			}
+			
+			return $this->display_note_page("绑定失败！", $redirect_url);
         }
     }
     
@@ -228,10 +256,12 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         $user = new Sher_Core_Model_User();
         $result = $user->update_set((int)$user_id,$date);
         
-        if($result){
-            return $this->ajax_json('解绑账号成功!', false);
-        }
-        
-        return $this->ajax_json('解绑账号失败!', true);
+        $redirect_url = Doggy_Config::$vars['app.url.my'].'/bind_phone?'.rand();
+            
+		if($result){
+			return $this->display_note_page("解绑成功！", $redirect_url);
+		}
+		
+		return $this->display_note_page("解绑失败！", $redirect_url);
     }
 }

@@ -24,6 +24,8 @@ class Sher_Admin_Action_SignDrawRecord extends Sher_Admin_Action_Base implements
 	 * 入口
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "integration";
 		return $this->get_list();
 	}
 	

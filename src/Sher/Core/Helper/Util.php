@@ -581,6 +581,7 @@ class Sher_Core_Helper_Util {
 
   /**
    * 生成内链
+   * type: 1.all;2.topic;3.stuff;4.shop;5.vote;6.try;7.--
    */
   public static function gen_inlink_keyword($content, $type=1, $current_id=0, $times=2){
     if(empty($content)){
@@ -593,28 +594,32 @@ class Sher_Core_Helper_Util {
     $content_size = strlen(strip_tags($content));
     if($content_size<500){
       $times = 1;
-    }elseif($content_size>=500 && $content_size<1000){
+    }elseif($content_size>=500 && $content_size<2000){
       $times = 2;
-    }elseif($content_size>=1000 && $content_size<3000){
+    }elseif($content_size>=2000 && $content_size<5000){
       $times = 3;
-    }elseif($content_size>=3000){
+    }elseif($content_size>=5000){
       $times = 4;
     }
     $inline_tag_model = new Sher_Core_Model_InlinkTag();
-    $tags = $inline_tag_model->find(array('kind'=>(int)$type, 'state'=>1));
+
+    // 默认随机取10个
+    $size = 1000;
+    $page = 1;
+    $tags = $inline_tag_model->find(array('kind'=>(int)$type, 'state'=>1), array('page'=>$page, 'size'=>$size));
     //打乱顺序
     shuffle($tags);
+
+    //清除以前的内链 
+    $content = preg_replace('|(<a[^>]*?inlink\-tag[^>]*?>)([^<\/a>]*?)(<\/a>)|U', '$2', $content);
+
     foreach($tags as $key=>$val){
       $tag = $val['tag'];
       $regEx = '/(?!((<.*?)|(<a.*?)))('.$tag.')(?!(([^<>]*?)>)|([^>]*?<\/a>))/si';
 
       //排除图片中的关键词 
       $content = preg_replace('|(<img[^>]*?)('.$tag.')([^>]*?>)|U', '$1%&&&&&%$3', $content);
-      //清除之前生成的内链 
-      /**
-      $content = preg_replace('|(<a[^>]*?inlink\-tag[^>]*?>)('.$tag.')(<\/a>)|U', $tag, $content);
-      **/
-      //echo $content;exit;
+
       //过滤曾经生成的链接
       if(preg_match('|(<a[^>]*?inlink\-tag[^>]*?>)('.$tag.')(<\/a>)|U', $content)){
         $count++;

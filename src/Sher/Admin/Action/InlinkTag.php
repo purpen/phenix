@@ -7,7 +7,7 @@ class Sher_Admin_Action_InlinkTag extends Sher_Admin_Action_Base implements Dogg
 	
 	public $stash = array(
 		'page' => 1,
-    'size' => 50,
+    'size' => 100,
     'kind' => 1,
     'tag'  => '',
 	);
@@ -20,6 +20,8 @@ class Sher_Admin_Action_InlinkTag extends Sher_Admin_Action_Base implements Dogg
 	 * 入口
 	 */
 	public function execute() {
+		// 判断左栏类型
+		$this->stash['show_type'] = "assist";
 		return $this->get_list();
 	}
 	
@@ -76,6 +78,9 @@ class Sher_Admin_Action_InlinkTag extends Sher_Admin_Action_Base implements Dogg
 
 		}
 		$this->stash['mode'] = $mode;
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "assist";
 		
 		return $this->to_html_page('admin/inlink_tag/submit.html');
 	}
@@ -205,4 +210,3 @@ class Sher_Admin_Action_InlinkTag extends Sher_Admin_Action_Base implements Dogg
 	}
 
 }
-?>

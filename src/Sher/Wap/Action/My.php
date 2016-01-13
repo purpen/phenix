@@ -138,6 +138,10 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		if($this->visitor->id != $order_info['user_id']){
 			return $this->show_message_page('你没有权限查看此订单！');
 		}
+		// 必需是待评价的订单
+		if($order_info['status'] != Sher_Core_Util_Constant::ORDER_EVALUATE){
+			return $this->show_message_page('订单类型不对！');
+		}
 		
 		$this->stash['order_info'] = $order_info;
 		
@@ -145,9 +149,9 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	}
 	
 	/**
-	 * 确认订单完成
+	 * 确认收货
 	 */
-	public function ajax_finished(){
+	public function ajax_take_delivery(){
 		$rid = $this->stash['rid'];
 		if (empty($rid)) {
 			return $this->ajax_notification('操作不当，请查看购物帮助！', true);
@@ -165,8 +169,8 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 			return $this->ajax_notification('该订单出现异常，请联系客服！', true);
 		}
 		try {
-			// 完成订单
-			$ok = $model->setOrderPublished($order_info['_id']);
+			// 待评价订单
+			$ok = $model->evaluate_order($order_info['_id']);
         } catch (Sher_Core_Model_Exception $e) {
             return $this->ajax_notification('设置订单失败:'.$e->getMessage(),true);
         }
