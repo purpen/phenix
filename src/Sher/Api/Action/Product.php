@@ -336,7 +336,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       if(empty($arr)){
         return $this->api_json('缺少商品内容!', 3002);   
       }
-      $item_arr = json_decode($this->stash['array']);
+      $item_arr = json_decode($this->stash['array'], true);
       if(!is_array($item_arr)){
         return $this->api_json('参数类型错误!', 3003);    
       }
@@ -395,6 +395,11 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3008);
 		}
+
+    $order_ok = $orders_model->finish_order((string)$order['_id']);
+    if(!$order_ok){
+      return $this->api_json('操作失败！', 3009);   
+    }
 		
 		return $this->api_json('操作成功', 0, array('rid'=>$rid));
 	}
