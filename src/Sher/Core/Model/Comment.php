@@ -61,11 +61,14 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	 * 验证数据
 	 */
     protected function validate(){
-    	// 内容长度介于5到1000字符之间(1个中文算3个字符)
-      	if(strlen($this->data['content']) < 5 || strlen($this->data['content']) > 3000){
-      		$this->data['error'] = '内容长度介于5到1000字符之间';
-        	return false;
-      	}
+    	// 内容长度介于5到1000字符之间(1个中文算3个字符),商品评价不限制
+      if($this->data['type']!=self::TYPE_PRODUCT){
+        if(strlen($this->data['content']) < 5 || strlen($this->data['content']) > 3000){
+          $this->data['error'] = '内容长度介于5到1000字符之间';
+          return false;
+        }     
+      }
+
 		
 		return true;
     }

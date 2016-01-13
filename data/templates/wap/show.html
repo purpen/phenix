@@ -123,7 +123,6 @@
 	}
 	img.fr-fin.fr-dib{
 		padding:0;
-		margin-top:-10px;
 	}
 	.froala-element p a.inlink-tag{
 	  border-bottom: 2px solid rgba(0,0,0,.15);
@@ -164,10 +163,21 @@
   .sub.header.attribute{
     margin-top:10px !important;
   }
-  .froala-element .f-video-editor>*{
-    height:300px;
+  @media only screen and (max-width: 320px){
+	  .froala-element .f-video-editor>*{
+		  height:210px;
+	  }
   }
-  
+  @media only screen and (min-width: 321px) and (max-width: 375px){
+	  .froala-element .f-video-editor>*{
+		  height:240px;
+	  }
+  }
+  @media only screen and (min-width: 376px){
+	  .froala-element .f-video-editor>*{
+		  height:280px;
+	  }
+  }
   .froala-view td ul{
     list-style: none !important;
     margin-left:0 !important;

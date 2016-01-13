@@ -318,36 +318,90 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 	}
 	
 	/**
-	 * 用户评价
+	 * 商品评价
 	 */
 	public function ajax_comment(){
-		$data = array();
-		$result = array();
+
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录!', 3000);
+    }
+    $rid = isset($this->stash['rid']) ? $this->stash['rid'] : 0;
+    if(empty($rid)){
+      return $this->api_json('缺少请求参数!', 3001);
+    }
 		
 		try{
-			// 验证数据
-			$data['target_id'] = $this->stash['target_id'];
-			$data['content'] = $this->stash['content'];
-			$data['star'] = $this->stash['star'];
-			if(empty($data['target_id']) || empty($data['content'])){
-				return $this->api_json('获取数据错误,请重新提交', 3000);
-			}
-		
-			$data['user_id'] = $this->current_user_id;
-			$data['type'] = Sher_Core_Model_Comment::TYPE_PRODUCT;
-			
+      $arr = isset($this->stash['array']) ? $this->stash['array'] : array();
+      if(empty($arr)){
+        return $this->api_json('缺少商品内容!', 3002);   
+      }
+      $item_arr = json_decode($this->stash['array'], true);
+      if(!is_array($item_arr)){
+        return $this->api_json('参数类型错误!', 3003);    
+      }
+
+      $orders_model = new Sher_Core_Model_Orders();
+      $order = $orders_model->find_by_rid($rid);
+      if(empty($order)){
+        return $this->api_json('订单不存在!', 3004);     
+      }
+      // 是否是当前用户
+      if($order['user_id'] != $user_id){
+        return $this->api_json('没有权限!', 3005);      
+      }
+      // 是否是待评价订单
+      if ($order['status'] != Sher_Core_Util_Constant::ORDER_EVALUATE){
+        return $this->api_json('订单状态不正确！', 3006);
+      }
+
 			// 保存数据
-			$model = new Sher_Core_Model_Comment();
-			$ok = $model->apply_and_save($data);
-			if($ok){
-				$comment_id = $model->id;
-				$result['comment'] = &$model->extend_load($comment_id);
-			}
+      $comment_model = new Sher_Core_Model_Comment();
+
+      // 获取订单商品ID
+      $product_arr = array();
+      foreach($order['items'] as $k=>$v){
+        array_push($product_arr, (int)$v['product_id']);
+      }
+
+      // 循环要评价的商品
+      foreach($item_arr as $k=>$v){
+        $product_id = (int)$v['target_id'];
+        $sku_id = (int)$v['sku_id'];
+        $content = $v['content'];
+        $star = (int)$v['star'];
+        if(!in_array($star, array(1,2,3,4,5))){
+          $star = 0;
+        }
+
+        if(in_array($product_id, $product_arr)){
+          if(empty($star) || empty($content)){
+            continue;
+          }
+
+          // 验证数据
+          $comment_data = array(
+            'target_id' => (string)$product_id,
+            'content' => $content,
+            'star' => $star,
+            'user_id' => $user_id,
+            'type' => Sher_Core_Model_Comment::TYPE_PRODUCT,
+            'sku_id' => $sku_id,
+          );
+          $comment_ok = $comment_model->apply_and_save($comment_data);
+        }
+      } //endfor
+
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
+			return $this->api_json('操作失败:'.$e->getMessage(), 3008);
 		}
+
+    $order_ok = $orders_model->finish_order((string)$order['_id']);
+    if(!$order_ok){
+      return $this->api_json('操作失败！', 3009);   
+    }
 		
-		return $this->api_json('操作成功', 0, $result);
+		return $this->api_json('操作成功', 0, array('rid'=>$rid));
 	}
 
 	/**
