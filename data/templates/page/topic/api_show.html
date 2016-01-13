@@ -74,8 +74,23 @@
     margin-top:0 !important;
     margin-left:0 !important;
   }
-  .froala-element .f-video-editor>* {
-      height: 240px;
+  @media only screen and (max-width: 320px){
+	  .f-video-editor>*{
+		  height:210px;
+		  width: 100%;
+	  }
+  }
+  @media only screen and (min-width: 321px) and (max-width: 375px){
+	  .f-video-editor>*{
+		  height:240px;
+		  width: 100%;
+	  }
+  }
+  @media only screen and (min-width: 376px){
+	  .f-video-editor>*{
+		  height:280px;
+		  width: 100%;
+	  }
   }
 	</style>
 </head>
