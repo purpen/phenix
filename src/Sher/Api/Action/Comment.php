@@ -97,18 +97,23 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 	 * 回复
 	 */
 	public function ajax_comment(){
-		$data = array();
-		$result = array();
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+ 		  return $this->api_json('请先登录', 3000);   
+    }
+    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 2;
 		
 		// 验证数据
+		$data = array();
 		$data['target_id'] = $this->stash['target_id'];
 		$data['content'] = $this->stash['content'];
+    
 		if(empty($data['target_id']) || empty($data['content'])){
-			return $this->api_json('获取数据错误,请重新提交', 3000);
+			return $this->api_json('获取数据错误,请重新提交', 3001);
 		}
 		
-		$data['user_id'] = $this->current_user_id;
-		$data['type'] = Sher_Core_Model_Comment::TYPE_TOPIC;
+		$data['user_id'] = $user_id;
+		$data['type'] = $type;
 		
 		try{
 			// 保存数据
@@ -116,13 +121,13 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 			$ok = $model->apply_and_save($data);
 			if($ok){
 				$comment_id = $model->id;
-				$result['comment'] = &$model->extend_load($comment_id);
+				$comment = &$model->extend_load($comment_id);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
 		}
 		
-		return $this->api_json('操作成功', 0, $result);
+		return $this->api_json('操作成功', 0, $comment);
 	}
 
 	

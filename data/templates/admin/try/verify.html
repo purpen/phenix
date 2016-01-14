@@ -135,7 +135,7 @@
     var url = "{{ app_url_admin_base }}/try/query_apply_record";
     $.post(url, { user_id:user_id }, function(result){
       if(result.success){
-        var txt = "申请次数: "+ result.data.apply_count +"; 通过次数: "+ result.data.pass_count +"";
+        var txt = "申请次数: "+ result.data.apply_count +"; 通过次数: "+ result.data.pass_count +" 产品: " + result.data.pass_name + "";
         alert(txt);
       }else{
         alert(result.message);

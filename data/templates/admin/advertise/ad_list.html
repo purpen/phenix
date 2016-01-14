@@ -35,7 +35,8 @@
 				<th></th>
 				<th>图片</th>
 				<th>标题/链接</th>
-                <th>排序</th>
+        <th>类型</th>
+        <th>排序</th>
 				<th>点击数量</th>
 				<th>所属位置</th>
 				<th>状态</th>
@@ -65,6 +66,7 @@
               <p><a href="{{ ad.view_url }}" class="ui link" target="_blank">{{ ad.web_url|truncate 30 }}</a></p>
 		          	<p class="attribute">编号：{{ ad._id }}</p>
 				</td>
+        <td>{{ ad.type }}</td>
         <td>{{ ad.ordby }}</td>
 				<td>{{ ad.click_count }}</td>
 				<td>

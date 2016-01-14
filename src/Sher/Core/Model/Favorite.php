@@ -14,6 +14,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 	const TYPE_STUFF = 4;
     const TYPE_COOPERATE = 6;
 	const TYPE_ALBUMS = 8;
+  const TYPE_APP_SUBJECT = 9; // app专题
 	
 	// event
 	const EVENT_FAVORITE = 1;
@@ -179,8 +180,12 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                     $model->inc_counter($field, (int)$this->data['target_id']);
                     $model->update_rank($field, (int)$this->data['target_id']);
                     break;
-				case self::TYPE_ALBUMS:
+				        case self::TYPE_ALBUMS:
                     $model = new Sher_Core_Model_Albums();
+                    $model->inc_counter($field, 1, (int)$this->data['target_id']);
+                    break;
+				        case self::TYPE_APP_SUBJECT:
+                    $model = new Sher_Core_Model_SpecialSubject();
                     $model->inc_counter($field, 1, (int)$this->data['target_id']);
                     break;
                 default:

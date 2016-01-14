@@ -523,8 +523,8 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 				$asset = new Sher_Core_Model_Asset();
 				//create new one
 				$asset->set_file($file);
-
-                $ext = end(explode('.', basename($filename)));
+                $b = explode('.', basename($filename));
+                $ext = end($b);
 				
 				$image_info['size'] = $size;
 		        $image_info['mime'] = Doggy_Util_File::mime_content_type($filename);

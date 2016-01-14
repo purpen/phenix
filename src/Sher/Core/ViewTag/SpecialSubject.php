@@ -19,6 +19,8 @@ class Sher_Core_ViewTag_SpecialSubject extends Doggy_Dt_Tag {
 		$page = 1;
         $size = 10;
 		
+
+				$sort_field = 'latest';
         $var = 'list';
         $include_pager = 0;
         $pager_var = 'pager';
@@ -34,7 +36,7 @@ class Sher_Core_ViewTag_SpecialSubject extends Doggy_Dt_Tag {
         $service = Sher_Core_Service_SpecialSubject::instance();
         $options['page'] = $page;
         $options['size'] = $size;
-		
+		    $options['sort_field'] = $sort_field;
         $result = $service->get_special_subject_list($query,$options);
 		
 		// 补充缺失

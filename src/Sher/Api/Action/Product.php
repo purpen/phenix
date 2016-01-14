@@ -376,7 +376,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
         if(in_array($product_id, $product_arr)){
           if(empty($star) || empty($content)){
-            continue;
+            return $this->api_json('评论内容不能为空！', 3010); 
           }
 
           // 验证数据

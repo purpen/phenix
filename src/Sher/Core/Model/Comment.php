@@ -19,6 +19,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	const TYPE_STUFF  = 6;
   const TYPE_ALBUM = 7;
   const TYPE_SPECIAL_SUBJECT = 8;
+  const TYPE_APP_SUBJECT = 9; // app 专题评论
   // 专题评论 target_id 1:云马C1争霸; 5.奶爸奶妈PK; 2.--; 3.--; 4.--
   const TYPE_SUBJECT = 10;
 	
@@ -234,6 +235,11 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                     if($dig_key){
                       $model->inc($dig_key, 'items.comment_count', 1);
                     }
+                    break;
+                case self::TYPE_APP_SUBJECT:
+                    $model = new Sher_Core_Model_SpecialSubject();
+                    //获取目标用户ID
+                    $model->inc_counter('comment_count', 1, (int)$this->data['target_id']);
                     break;
                 default:
                     break;

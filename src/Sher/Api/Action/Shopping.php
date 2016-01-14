@@ -1396,6 +1396,233 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		return $this->api_json('请求成功!', 0, array('code'=>$code, 'useful'=>$pass));
 	}
 
+  /**
+   * 我的购物车
+   */
+  public function fetch_cart(){
+		$user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录！', 3000); 
+    }
+    $cart_model = new Sher_Core_Model_Cart();
+    $cart = $cart_model->load($user_id);
+    if(empty($cart) || empty($cart['items'])){
+      return $this->api_json('数据为空!', 0, array('_id'=>0, 'items'=>array(), 'item_count'=>0, 'total_price'=>0));
+    }
+
+		$inventory_model = new Sher_Core_Model_Inventory();
+		$product_model = new Sher_Core_Model_Product();
+
+    $total_price = 0.0;
+    $item_arr = array();
+    // 记录错误数据索引
+    $error_index_arr = array();
+    foreach($cart['items'] as $k=>$v){
+      // 初始参数
+      $product_id = (int)$v['product_id'];
+      $sku_id = (int)$v['sku_id'];
+      $count = (int)$v['count'];
+
+      $data = array();
+      $data['product_id'] = $product_id;
+      $data['sku_id'] = $sku_id;
+      $data['count'] = $count;
+      $data['sku_name'] = null;
+      $data['price'] = 0;
+
+      if(!empty($sku_id)){
+        $inventory = $inventory_model->load($sku_id);
+        if(empty($inventory)){
+          array_push($error_index_arr, $k);
+          continue;
+        }
+        $product_id = $inventory['product_id'];
+        $data['sku_mode'] = $inventory['mode'];
+        $data['price'] = $inventory['price'];
+        $data['total_price'] = $data['price']*$count;
+        
+      }else{
+        $product_id  = $v['product_id'];
+      }
+
+      $product = $product_model->extend_load($product_id);
+      if(empty($product)){
+        array_push($error_index_arr, $k);
+        continue;     
+      }
+
+      $data['title'] = $product['title'];
+      $data['cover'] = $product['cover']['thumbnails']['mini']['view_url'];
+
+      if(empty($data['price'])){
+        $data['price'] = $product['sale_price'];
+        $data['total_price'] = $product['sale_price']*$count;
+      }
+      $total_price += $data['total_price'];
+      array_push($item_arr, $data);
+
+    }//endfor
+
+    // 移除不存在的商品ID
+    if(!empty($error_index_arr)){
+      foreach($error_index_arr as $k=>$v){
+        unset($cart['items'][$v]);
+      }
+      $cart_model->update_set($cart['_id'], array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));
+    }
+
+    $cart['items'] = $item_arr;
+    $cart['total_price'] = $total_price;
+    return $this->api_json('请求成功！', 0, $cart);
+
+  }
+
+  /**
+   * 我的购物车数量
+   */
+  public function fetch_cart_count(){
+		$user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('success', 0, array('count'=>0)); 
+    }
+    $cart_model = new Sher_Core_Model_Cart();
+    $cart = $cart_model->load($user_id);
+    if(empty($cart)){
+      $count = 0;
+    }else{
+      $count = $cart['item_count'];
+    }
+    return $this->api_json('success', 0, array('count'=>$count));
+  }
+
+  /**
+   * 添加购物车
+   */
+  public function add_cart(){
+		$user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录！', 3000); 
+    }
+
+    $product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
+    $sku_id = isset($this->stash['sku_id']) ? (int)$this->stash['sku_id'] : 0;
+    $count = isset($this->stash['count']) ? (int)$this->stash['count'] : 1;
+
+    if(empty($product_id) && empty($sku_id)){
+      return $this->api_json('请选择商品！', 3001); 
+    }
+
+		$inventory_model = new Sher_Core_Model_Inventory();
+		$product_model = new Sher_Core_Model_Product();
+
+    if(!empty($sku_id)){
+      $enoughed = $inventory_model->verify_enough_quantity($sku_id, $count);
+      if(!$enoughed){
+        return $this->api_json('挑选的产品已售完', 3002);
+      }
+      $inventory = $inventory_model->load($sku_id);
+      $product_id = $inventory['product_id'];
+    }
+
+		// 获取产品信息
+		$product = $product_model->extend_load($product_id);
+		if(empty($product)){
+      return $this->api_json('挑选的产品不存在或被删除，请核对！', 3003);
+    }
+
+    //预售商品不能加入购物车
+    if($product['stage'] != 9){
+      return $this->api_json('类型不是商品，不可加入购物车！', 3004);     
+    }
+
+    //是否是抢购商品
+    if($product['snatched'] == 1){
+      return $this->api_json('抢购商品,不能加入购物车！', 3005);
+    }
+
+    //试用产品，不可购买
+    if($product['is_try']){
+      return $this->api_json('试用产品，不可购买！', 3006);
+    }
+
+    // 验证库存
+    if(empty($product['inventory']) || $product['inventory']<$count){
+      return $this->api_json('库存告及！', 3007);   
+    }
+
+    $cart_model = new Sher_Core_Model_Cart();
+    $cart = $cart_model->load($user_id);
+    $data = array();
+    if(empty($cart)){
+      $ok = $cart_model->create(array(
+        '_id' => (int)$user_id,
+        'kind' => 1,
+        'state' => 1,
+        'remark' => null,
+        'items' => array('product_id'=>$product_id, 'sku_id'=>$sku_id, 'count'=>$count),
+        'item_count' => 1,
+      ));     
+    }else{
+      $new_item = true;
+      foreach($cart['items'] as $k=>$v){
+        if(!empty($sku_id)){
+          if(!empty($v['sku_id']) && $sku_id==$v['sku_id']){
+            $new_item = false;
+            $cart['items'][$k]['count'] = $v['count']+$count;
+            break;
+          }
+        }else{
+          if(empty($v['sku_id']) && $v['product_id']==$product_id){
+            $new_item = false;
+            $cart['items'][$k]['count'] = $v['count']+$count;
+            break;      
+          } 
+        } // endif sku_id
+      }// endfor
+
+      if($new_item){
+        array_push($cart['items'], array('product_id'=>$product_id, 'sku_id'=>$sku_id, 'count'=>$count));
+      }
+      $ok = $cart_model->update_set($user_id, array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));
+
+    } // endif empty cart
+
+    if(!$ok){
+      return $this->api_json('添加失败！', 3008);    
+    }
+    
+    return $this->api_json('添加成功!', 0, array());
+
+  }
+
+  /**
+   * 移除购物车(批量)
+   */
+  public function remove_cart(){
+		$user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录！', 3000); 
+    }
+
+    $product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
+    $sku_id = isset($this->stash['sku_id']) ? (int)$this->stash['sku_id'] : 0;
+    $count = isset($this->stash['count']) ? (int)$this->stash['count'] : 1;
+
+    if(empty($product_id) && empty($sku_id)){
+      return $this->api_json('请选择商品！', 3001); 
+    }
+
+    $cart_model = new Sher_Core_Model_Cart();
+    $cart = $cart_model->load($user_id);
+    if(empty($cart) || empty($cart['items'])){
+      return $this->api_json('购物车为空！', 3002);    
+    }
+
+    
+    return $this->api_json('移除成功!', 0, array());
+
+  }
+
 	
 }
 
