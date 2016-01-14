@@ -686,8 +686,14 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 
     $result['pass_count'] = count($pass_list);
     $pass_name_arr = array();
-    foreach($pass_list as $k=>$v){
-      array_push($pass_name_arr, $v['title']);
+    if(!empty($pass_list)){
+      $try_model = new Sher_Core_Model_Try();
+      foreach($pass_list as $k=>$v){
+        $try = $try_model->find_by_id((int)$v['target_id']);
+        if($try){
+          array_push($pass_name_arr, $try['title']);
+        }
+      }   
     }
     $result['pass_name'] = !empty($pass_name_arr) ? implode('|', $pass_name_arr) : '';
 
