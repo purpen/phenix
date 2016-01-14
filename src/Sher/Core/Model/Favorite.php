@@ -180,8 +180,12 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                     $model->inc_counter($field, (int)$this->data['target_id']);
                     $model->update_rank($field, (int)$this->data['target_id']);
                     break;
-				case self::TYPE_ALBUMS:
+				        case self::TYPE_ALBUMS:
                     $model = new Sher_Core_Model_Albums();
+                    $model->inc_counter($field, 1, (int)$this->data['target_id']);
+                    break;
+				        case self::TYPE_APP_SUBJECT:
+                    $model = new Sher_Core_Model_SpecialSubject();
                     $model->inc_counter($field, 1, (int)$this->data['target_id']);
                     break;
                 default:

@@ -236,6 +236,11 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                       $model->inc($dig_key, 'items.comment_count', 1);
                     }
                     break;
+                case self::TYPE_APP_SUBJECT:
+                    $model = new Sher_Core_Model_SpecialSubject();
+                    //获取目标用户ID
+                    $model->inc_counter('comment_count', 1, (int)$this->data['target_id']);
+                    break;
                 default:
                     break;
             }
