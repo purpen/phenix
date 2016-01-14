@@ -25,7 +25,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		
 		$some_fields = array(
-			'_id'=>1, 'title'=>1, 'category_id'=>1, 'products'=>1, 'banner_id'=>1,
+			'_id'=>1, 'title'=>1, 'category_id'=>1, 'products'=>1, 'banner_id'=>1, 'share_count'=>1,
 			'cover_id'=>1, 'tags'=>1, 'summary'=>1, 'user_id'=>1, 'kind'=>1, 'stick'=>1, 'short_title'=>1,
 			'state'=>1, 'view_count'=>1, 'comment_count'=>1, 'love_count'=>1, 'favorite_count'=>1,
 		);
@@ -96,6 +96,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 		if(empty($id)){
 			return $this->api_json('访问的专题不存在！', 3000);
 		}
+    $user_id = $this->current_user_id;
 		
 		$model = new Sher_Core_Model_SpecialSubject();
 		$special_subject = $model->load((int)$id);
@@ -108,7 +109,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 				return $this->api_json('访问的专题不存在！', 3002);
 		}
     $some_fields = array(
-      '_id', 'title', 'short_title', 'tags', 'tags_s', 'remark',
+      '_id', 'title', 'short_title', 'tags', 'tags_s', 'remark', 'kind', 'share_count',
       'cover_id', 'category_id', 'summary', 'product_ids', 'products', 'state',
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
     );
@@ -124,6 +125,10 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
     }
     // 封面图url
     $data['cover_url'] = $special_subject['cover']['thumbnails']['mb']['view_url'];
+
+    //验证是否收藏或喜欢
+    $fav = new Sher_Core_Model_Favorite();
+    $data['is_love'] = $fav->check_loved($user_id, $special_subject['_id'], 9) ? 1 : 0;
 		
 		if($special_subject['kind']==Sher_Core_Model_SpecialSubject::KIND_APPOINT){
 			if(!empty($special_subject['product_ids'])){

@@ -722,6 +722,11 @@
 				  <label>专题标题：</label>
 				  <input type="text" name="special_subject_title" value="{{ special_subject.title }}" placeholder="专题标题" />
 			  </div>
+        <div class="inline field">
+          <label>专题简述:</label>
+            <textarea name="summary" class="small">{{ special_subject.summary }}</textarea>
+          <div class="description">请详细的描述</div>
+        </div>
 			  <div class="inline field">
 				  <label>专题标签：</label>
 				  <input type="text" name="special_subject_tag" value="{{ special_subject.tags_s }}" placeholder="专题标签，用英文逗号隔开" />

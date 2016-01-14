@@ -137,7 +137,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 			'cover_id' => $cover_id,
 			'kind' => (int)$kind,
 			'category_id' => $category_id,
-			'user_id' => (int)$this->visitor->id
+      'summary' => $this->stash['summary'],
 		);
 		//var_dump($date);die;
 		
@@ -145,6 +145,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 			$model = new Sher_Core_Model_SpecialSubject();
 			if(empty($id)){
 				// add
+        $date['user_id'] = $this->visitor->id;
 				$ok = $model->apply_and_save($date);
 				$data_id = $model->get_data();
 				$id = $data_id['_id'];

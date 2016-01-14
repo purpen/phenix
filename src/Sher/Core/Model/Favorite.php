@@ -14,6 +14,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 	const TYPE_STUFF = 4;
     const TYPE_COOPERATE = 6;
 	const TYPE_ALBUMS = 8;
+  const TYPE_APP_SUBJECT = 9; // app专题
 	
 	// event
 	const EVENT_FAVORITE = 1;
