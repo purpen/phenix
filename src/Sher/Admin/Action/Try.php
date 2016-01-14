@@ -682,7 +682,14 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     $result = array();
     $apply_model = new Sher_Core_Model_Apply();
     $result['apply_count'] = $apply_model->count(array('type'=>1, 'user_id'=>$user_id));
-    $result['pass_count'] = $apply_model->count(array('type'=>1, 'user_id'=>$user_id, 'result'=>1));
+    $pass_list = $apply_model->find(array('type'=>1, 'user_id'=>$user_id, 'result'=>1),array('page'=>1, 'size'=>100));
+
+    $result['pass_count'] = count($pass_list);
+    $pass_name_arr = array();
+    foreach($pass_list as $k=>$v){
+      array_push($pass_name_arr, $v['title']);
+    }
+    $result['pass_name'] = !empty($pass_name_arr) ? implode('|', $pass_name_arr) : '';
 
     return $this->ajax_json('ＯＫ!', false, 0, $result);
   }
