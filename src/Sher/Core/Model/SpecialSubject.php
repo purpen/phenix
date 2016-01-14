@@ -41,7 +41,7 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 
 	protected $required_fields = array('user_id', 'title', 'category_id');
   
-	protected $int_fields = array('state', 'user_id', 'kind', 'stick', 'view_count', 'comment_count', 'love_count', 'favorite_count');
+	protected $int_fields = array('state', 'category_id', 'user_id', 'kind', 'stick', 'view_count', 'comment_count', 'love_count', 'favorite_count');
   
 	protected $counter_fields = array('view_count', 'comment_count', 'love_count', 'favorite_count');
 
