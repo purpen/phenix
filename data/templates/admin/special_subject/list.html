@@ -40,7 +40,7 @@
 			</tr>
 		</thead>
 		<tbody>
-		{% special_subject_list var:'list' page:page type:2 user_id:user_id reply_id:reply_id %}
+		{% special_subject_list var:'list' page:page size:100 %}
 		{% for special_subject in list.rows %}
 			<tr id="{{ special_subject._id }}">
 				<td>
