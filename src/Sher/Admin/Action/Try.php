@@ -13,7 +13,6 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		'q' => '',
 		'sort' => 0,
 		'result' => 0,
-    'content_limit' => '',
 	);
 	
 	public function _init() {
@@ -244,11 +243,11 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		if(empty($this->stash['id'])){
 			return $this->ajax_notification('缺少请求参数！', true);
 		}
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try/verify?id=%d&is_invented=%d&user_id=%d&result=%d&content_limit=%d&sort=$d&page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try/verify?id=%d&is_invented=%d&user_id=%d&result=%d&sort=$d&page=#p#';
 		
 		$id = (int)$this->stash['id'];
 
-		$this->stash['pager_url'] = sprintf($pager_url, $id, $this->stash['is_invented'], $this->stash['user_id'], $this->stash['result'], $this->stash['content_limit'], $this->stash['sort']);
+		$this->stash['pager_url'] = sprintf($pager_url, $id, $this->stash['is_invented'], $this->stash['user_id'], $this->stash['result'], $this->stash['sort']);
 		
 		$model = new Sher_Core_Model_Try();
 		$try = &$model->extend_load($id);
