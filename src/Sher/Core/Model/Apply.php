@@ -44,6 +44,9 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 		# 是否虚拟申请账户
 		'is_invented' => 0,
 
+    # 数量：type=1:申请理由字数统计（用于查询）;
+    'content_count' => 0,
+
     # 来源 1. 电脑; 2.APP
     'from_to' => 1,
 		
@@ -58,9 +61,9 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 	
     protected $required_fields = array('user_id', 'target_id', 'content');
 	
-    protected $int_fields = array('user_id', 'target_id', 'province', 'district', 'state', 'result', 'vote_count');
+    protected $int_fields = array('user_id', 'target_id', 'province', 'district', 'state', 'result', 'vote_count', 'content_count');
 
-	protected $counter_fields = array('vote_count');
+	protected $counter_fields = array('vote_count', 'content_count');
 	
 	/**
 	 * 扩展关联数据
@@ -87,6 +90,10 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 	 * 保存之前
 	 */
 	protected function before_save(&$data) {
+    // 统计content长度 用于查询排序
+    if(isset($data['content'])){
+      $data['content_count'] = strlen($data['content']);
+    }
 	    parent::before_save($data);
 	}
 	

@@ -234,25 +234,12 @@
 
 				<div class="field">
 					<div class="ui fluid selection dropdown">
-						<input type="hidden" name="content_limit" value="{{ content_limit }}" />
-					    <div class="default text">理由字数</div>
-					    <div class="menu">
-							<div data-value="0" class="{% if content_limit==0 %}active {% endif %}item">全部</div>
-							<div data-value="1" class="{% if content_limit==1 %}active {% endif %}item">&gt;50</div>
-							<div data-value="2" class="{% if content_limit==2 %}active {% endif %}item">&gt;200</div>
-							<div data-value="3" class="{% if content_limit==3 %}active {% endif %}item">&gt;500</div>
-							<div data-value="4" class="{% if content_limit==4 %}active {% endif %}item">&gt;1000</div>
-					    </div>
-					</div>
-				</div>
-
-				<div class="field">
-					<div class="ui fluid selection dropdown">
 						<input type="hidden" name="sort" value="{{ sort }}" />
 					    <div class="default text">排序</div>
 					    <div class="menu">
 							<div data-value="0" class="{% if sort==0 %}active {% endif %}item">最新</div>
 							<div data-value="1" class="{% if sort==1 %}active {% endif %}item">投票数</div>
+							<div data-value="2" class="{% if sort==2 %}active {% endif %}item">理由数</div>
 					    </div>
 					</div>
 				</div>

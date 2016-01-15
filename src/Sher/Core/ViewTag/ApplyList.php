@@ -99,6 +99,9 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
 			case 1:
 				$options['sort_field'] = 'vote';
 				break;
+			case 2:
+				$options['sort_field'] = 'content_count';
+				break;
 		}
 
         $result = $service->get_list($query,$options);
