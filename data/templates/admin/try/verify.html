@@ -234,6 +234,20 @@
 
 				<div class="field">
 					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="content_limit" value="{{ content_limit }}" />
+					    <div class="default text">理由字数</div>
+					    <div class="menu">
+							<div data-value="0" class="{% if content_limit==0 %}active {% endif %}item">全部</div>
+							<div data-value="1" class="{% if content_limit==1 %}active {% endif %}item">&gt;50</div>
+							<div data-value="2" class="{% if content_limit==2 %}active {% endif %}item">&gt;200</div>
+							<div data-value="3" class="{% if content_limit==3 %}active {% endif %}item">&gt;500</div>
+							<div data-value="4" class="{% if content_limit==4 %}active {% endif %}item">&gt;1000</div>
+					    </div>
+					</div>
+				</div>
+
+				<div class="field">
+					<div class="ui fluid selection dropdown">
 						<input type="hidden" name="sort" value="{{ sort }}" />
 					    <div class="default text">排序</div>
 					    <div class="menu">
@@ -258,7 +272,7 @@
 	
   <h4>试用人数：{{ try.try_count }} 人, 申请总/虚拟人数：{{ try.pass_count }} / {{ try.apply_count }}/{{ try.invented_apply_count|default 0 }} 人</h4>
 	
-	{% apply_list var:'list' type:1 is_invented:is_invented result:result user_id:user_id q:q target_id:id sort:sort page:page size:30 %}
+	{% apply_list var:'list' type:1 is_invented:is_invented result:result user_id:user_id q:q target_id:id content_limit:content_limit sort:sort page:page size:30 %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>
