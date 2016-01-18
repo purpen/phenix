@@ -27,6 +27,22 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
     }
 	
 	/**
+	 * TOp-100 首页 2016/01/18
+	 */
+	public function hundred(){
+		return $this->to_html_page('page/stuff/index.html');
+	}
+	
+	/**
+	  *TOp-100 提交
+	**/
+	public function tsubmit(){
+		return $this->to_html_page('page/stuff/tsubmit.html');
+	}
+	
+	
+	
+	/**
 	 * 产品灵感入口
 	 */
 	public function execute(){
