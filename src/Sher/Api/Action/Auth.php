@@ -360,7 +360,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
         return $this->api_json('此帐号涉嫌违规已经被禁用!', 3005);
       }
 
-      $user_data = $user->extended_model_row($user);
+      $user_data = $user_model->extended_model_row($user);
       // 过滤用户字段
       $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
       $pusher = new Sher_Core_Model_Pusher();
