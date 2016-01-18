@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 
-	protected $filter_user_method_list = array('execute', 'login', 'register', 'verify_code', 'find_pwd');
+	protected $filter_user_method_list = array('execute', 'login', 'register', 'verify_code', 'find_pwd', 'third_sign');
 	
 	/**
 	 * 入口
@@ -24,6 +24,12 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 		if(Sher_Core_Helper_Util::get_signature($this->stash, $this->resparams, $this->client_id) != $this->sign){
 			//return $this->api_json('请求签名验证错误,请重试!', 3000);
 		}
+
+		// 绑定设备操作
+		$uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
+    if(empty($uuid)){
+      return $this->api_json('设备uuid不存在!', 3006);     
+    }
 
     $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
 		
@@ -60,12 +66,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 		$user_data = $user->extended_model_row($result);
     // 过滤用户字段
     $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
-		
-		// 绑定设备操作
-		$uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
-    if(empty($uuid)){
-      return $this->api_json('设备uuid不存在!', 3006);     
-    }
+
 		if(!empty($user_id)){
 			$pusher = new Sher_Core_Model_Pusher();
 			$ok = $pusher->binding($uuid, $user_id, $from_to);
@@ -310,6 +311,67 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
       Doggy_Log_Helper::error('Failed to find pwd:'.$e->getMessage());
       return $this->api_json($e->getMessage(), 4001);
     }
+  
+  }
+
+  /**
+   * 第三方登录 
+   * /
+   */
+  public function third_sign(){
+    if($this->current_user_id){
+   		return $this->api_json('您已经登录了！', 3001);   
+    }
+
+    $oid = isset($this->stash['oid']) ? $this->stash['oid'] : null;
+    $access_token = isset($this->stash['access_token']) ? $this->stash['access_token'] : null;
+    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+    $union_id = isset($this->stash['union_id']) ? $this->stash['union_id'] : null;
+    $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
+
+    if(empty($oid) || empty($access_token) || empty($type) || empty($from_to)){
+   		return $this->api_json('缺少请求参数！', 3002);   
+    }
+
+    $user_model = new Sher_Core_Model_User();
+    $query = array();
+    switch($type){
+      case 1: // 微信
+        $query['wx_open_id'] = $oid;
+        break;
+      case 2: // 微博
+        $query['sina_uid'] = $oid;
+        break;
+      case 3: // QQ
+        $query['qq_uid'] = $oid;
+        break;
+      default:
+    	  return $this->api_json('type类型错误！', 3003); 
+    } // end switch
+
+    $user = $user_model->first($query);
+    $user_id = $user['_id'];
+
+    if($user){
+      if ($user['state'] == Sher_Core_Model_User::STATE_BLOCKED) {
+        return $this->api_json('此帐号涉嫌违规已经被锁定!', 3004);
+      }
+      if ($user['state'] == Sher_Core_Model_User::STATE_DISABLED) {
+        return $this->api_json('此帐号涉嫌违规已经被禁用!', 3005);
+      }
+
+      $user_data = $user->extended_model_row($user);
+      // 过滤用户字段
+      $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
+      $pusher = new Sher_Core_Model_Pusher();
+      $ok = $pusher->binding($uuid, $user_id, $from_to);
+
+		  return $this->api_json('欢迎回来.', 0, array('has_user'=>1, 'user'=>$data));
+    
+    }else{
+ 		  return $this->api_json('用户绑定.', 0, array('has_user'=>0, 'user'=>null));   
+    } // endif user
+
   
   }
 	
