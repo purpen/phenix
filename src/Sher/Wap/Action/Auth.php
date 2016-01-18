@@ -996,7 +996,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
         return $this->ajax_note('第三方来源不明确.！', true);     
       }
 
-			$nickname = $nickname_prefix.$nickname;
+			$nickname = $nickname_prefix.(string)$nickname;
 			$exist_r = $user_model->_check_name($nickname);
 			if(!$exist_r){
 				$nickname = $nickname.(string)rand(1000,9999);

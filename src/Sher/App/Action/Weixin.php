@@ -173,7 +173,7 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
           //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
           $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
           if (!preg_match($e, $nickname)) {
-            $nickname = (string)$open_id;
+            $nickname = Sher_Core_Helper_Util::generate_mongo_id();
           }
 
           // 检查用户名是否唯一
