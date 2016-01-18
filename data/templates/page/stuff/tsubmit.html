@@ -114,8 +114,37 @@
       }
       phenix.show_error_note(error.message, 5000);
     });
+	*/
 	
 	$('#stuff-form').form({
+		link: {
+			identifier  : 'link',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '产品链接不能为空'
+				}
+			]
+		},
+		phone: {
+			identifier  : 'phone',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '联系方式不能为空'
+				}
+			]
+		},
+		corporate: {
+			identifier  : 'corporate',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '公司名称不能为空'
+				}
+			]
+		},
+		
 		title: {
 			identifier  : 'title',
 			rules: [
@@ -161,6 +190,7 @@
 		}
 	});
 	
+	/*
 	$('#phenix-uploader').fineUploader({
 		debug: true,
       	request: {
@@ -306,13 +336,13 @@
 						</div>
 					
 						<div class="field">
-							<label for="title">公司名称</label>
-						  	<input type="text" name="title" value="{{ stuff.title }}" />
+							<label for="corporate">公司名称</label>
+						  	<input type="text" name="corporate" value="{{ stuff.corporate }}" />
 						</div>
 						
 						<div class="field">
-							<label for="title">联系方式</label>
-						  	<input type="text" name="title" value="{{ stuff.title }}" />
+							<label for="phone">联系方式</label>
+						  	<input type="text" name="phone" value="{{ stuff.phone }}" />
 						</div>
 						
 						<div class="field">
@@ -321,8 +351,8 @@
 						</div>
 						
 						<div class="field">
-							<label for="title">产品链接</label>
-						  	<input type="text" name="title" value="{{ stuff.title }}" />
+							<label for="link">产品链接</label>
+						  	<input type="text" name="link" value="{{ stuff.link }}" />
 						</div>
 						
 						<div class="field">
