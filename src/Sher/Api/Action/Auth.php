@@ -86,7 +86,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 			//return $this->api_json('请求签名验证错误,请重试!', 3000);
 		}
 		
-	    if (empty($this->stash['mobile']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
+	    if (empty($this->stash['mobile']) || empty($this->stash['password']) || empty($this->stash['verify_code']) || empty($this->stash['uuid'])) {
             return $this->api_json('数据错误,请重试!', 3001);
         }
 		
@@ -338,7 +338,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     $query = array();
     switch($type){
       case 1: // 微信
-        $query['wx_open_id'] = $oid;
+        $query['wx_union_id'] = $oid;
         break;
       case 2: // 微博
         $query['sina_uid'] = $oid;

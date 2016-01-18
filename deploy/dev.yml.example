@@ -140,6 +140,10 @@ app.url.upload.pictures: '{$app.url.upload}/pictures'
 app.url.upload.avatar: '{$app.url.upload}/avatar'
 app.url.upload.dotry: '{$app.url.upload}/dotry'
 app.url.upload.advertise: '{$app.url.upload}/advertise'
+app.url.upload.stuff: '{$app.url.upload}/stuff'
+app.url.upload.feditor: '{$app.url.upload}/feditor'
+app.url.upload.albums: '{$app.url.upload}/albums'
+
 
 # 银联支付
 app.quickpay.key: '898111153990242'
