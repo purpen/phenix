@@ -16,14 +16,39 @@
 		background:#37004f !important;
 		color:#fff !important;
 	}
-
-  .ui.fluid.dropdown .down.icon {
-    float: right;
-  }
-  .ui.stuffs .ui.submit.segment {
-	  margin-bottom: 3rem;
-	  padding: 1.5rem;
-  }
+	.ui.option{
+		padding:10px 15px;
+		border-width: 1px;
+		font-size: 12px;
+	}
+	.ui.fluid.dropdown .down.icon {
+		float: right;
+	}
+  	.ui.stuffs .ui.submit.segment {
+		margin-bottom: 3rem;
+		padding: 1.5rem;
+  	}
+  	.ui.option.topbtn:hover{
+	  	border: 1px solid #37004f;
+	  	background:rgba(0,0,0,0) !important;
+	  	color:#37004f !important;
+  	}
+  	.ui.option.active.topbtn,.ui.option.active.topbtn:hover{
+		padding-left:15px;
+	  	border: 1px solid #37004f;
+	  	background:#37004f !important;
+	  	color:#fff !important;
+  	}
+	.ui.dividing.header {
+	    padding-bottom: 10px;
+	    margin-bottom: 15px;
+	}
+	.ui.stuffs.social h3.dividing.ui.header {
+	    font-size: 1.18rem;
+	}
+	.width.button{
+		width:120px;
+	}
 </style>
 {% endblock %}
 
@@ -49,7 +74,7 @@
 		return file_count++;
 	};
 	
-	$('#editor').editable({
+	/*$('#editor').editable({
 		inlineMode: false,
     language: "zh_cn",
 		toolbarFixed: false,
@@ -165,7 +190,7 @@
 			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}'});
 		}
 	});
-	
+	*/
 	// 选择分类
 	$('.ui.options').on('click', '.option', function(){
 		var id = $(this).attr('data-value');
@@ -197,29 +222,6 @@
 			return false;
 		});
 	});
-
-  //ajax省份选择联动
-	$('.ui.province.dropdown').livequery(function(){
-		$(this).dropdown({
-			onChange : function(value, text){
-				if (value) {
-					$.get('{{ app_url_address }}/ajax_fetch_colleges', {id: value, college_id:0, evt:1 });
-				}
-			}
-		});
-	});
-
-	$('.ui.college.dropdown').livequery(function(){
-		$(this).dropdown();
-	});
-
-
-  //初次加载大学
-  var province_id = {{ stuff.province_id|default 0 }};
-  var college_id = {{ stuff.college_id|default 0 }};
-  if(college_id !=0){
-    $.get('{{ app_url_address }}/ajax_fetch_colleges', {id: province_id, college_id:college_id, evt:1 });     
-  }
 
   //如果只有一个分类,默认选中
   var cate_length = $('.ui.options .option').length;
@@ -255,11 +257,11 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="column">
-				<div class="new topic">
+				<!--<div class="new topic">
 					<h2 class="ui header">
 						{{ label_title }}提交
 					</h2>
-				</div>
+				</div>-->
 				
 				<div class="ui submit segment">
 					<form action="{{ app_url_action_base }}/stuff/save" class="ui form" method="post" id="stuff-form">
@@ -271,9 +273,10 @@
             <input type="hidden" name="contest_id" value="{{ stuff.contest_id }}" />
 						
                         {% if !rid %}
-						<div class="ui field">
-							<label>所属类别</label>
+						<div class="ui field" style="padding-bottom: 10px;">
+							<h3 class="ui dividing header">产品分类</h3>
 						   	<div class="ui options">
+								
 								{% if mode == 'edit' %}
 						    		<input type="hidden" name="category_id" value="{{ stuff.category_id }}" id="stuff-category" />
 								{% else %}
@@ -282,10 +285,7 @@
 								
 								{% category_list var:'category' only_open:1 domain:4 pid:cid current:stuff.category_id %}
 								{% for cat in category.rows %}
-						   	 	<div class="ui {{ cat.active }} magenta alt option" data-value="{{ cat._id }}">
-						   	 		<div class="icon">
-						   				<i class="check circle outline icon"></i>
-						   			</div>
+						   	 	<div class="ui {{ cat.active }} topbtn alt option button" data-value="{{ cat._id }}">
 						   	 		{{ cat.title }}
 						   	 	</div>
 								{% endfor %}
@@ -302,57 +302,38 @@
                         {% endif %}
 					
 						<div class="field">
-							<label for="title">{{ label_title }}名称</label>
+							<h3 class="ui dividing header"for="title">产品信息</h3>
+						</div>
+					
+						<div class="field">
+							<label for="title">公司名称</label>
 						  	<input type="text" name="title" value="{{ stuff.title }}" />
 						</div>
-                        
-                        {% if visitor.can_admin %}
-                        <div class="four fields">
-                            <div class="field">
-                                <label for="title">{{ label_title }}短名称</label>
-                                <input type="text" name="short_title" value="{{ stuff.short_title }}" />
-                            </div>
-                        </div>
-                        {%endif%}
-                        
+						
 						<div class="field">
-							<label>{{ label_title }}标签</label>
-						  	<input type="text" name="tags" value="{{ stuff.tags_s }}" placeholder="{{ label_title }}特性/亮点/别名等优化搜索词" />
-							<div class="description">标签之间使用，逗号隔开</div>
+							<label for="title">联系方式</label>
+						  	<input type="text" name="title" value="{{ stuff.title }}" />
 						</div>
-
-          {% if mode=='edit' %}
-              {% if stuff.from_to==1 %}
-            <div class="three fields">
-              <div class="field">
-                <label for="province_id">省份</label>
-                {% province_list var:'list' size:100 %}
-                <div class="ui fluid selection province dropdown" style="position:relative;z-index:9999;">
-                  <input type="hidden" name="province_id" value="{{ stuff.province_id }}" />
-                    <div class="default text">--省份--</div>
-                    <i class="angle down icon" style="position:absolute;right:0;"></i>
-                    <div class="menu">
-                      {% for d in list.rows %}
-                      <div data-value="{{ d.pid }}" class="{% if d.pid == stuff.province_id %}active {% endif %}item">{{ d.name }}</div>
-                      {% endfor %}
-                    </div>
-                </div>
-                <div class="ui pointing top label">院校所在省份</div>
-              </div>
-
-              <div class="field">
-                <label for="college_id">院校</label>
-                <div class="ui fluid selection college dropdown" id="college-menu" style="position:relative;z-index:9999;">
-                  <input type="hidden" name="college_id" value="{{ stuff.college_id }}" />
-                    <div class="default text">--院校--</div>
-                    <i class="angle down icon" style="position:absolute;right:0;"></i>
-                </div>
-                <div class="ui pointing top label">请先选择省份</div>
-              </div>
-
-            </div>
-            {%endif%}
-          {%endif%}
+						
+						<div class="field">
+							<label for="title">产品名称</label>
+						  	<input type="text" name="title" value="{{ stuff.title }}" />
+						</div>
+						
+						<div class="field">
+							<label for="title">产品链接</label>
+						  	<input type="text" name="title" value="{{ stuff.title }}" />
+						</div>
+						
+						<div class="field">
+							<label for="description">产品描述</label>
+						  	<textarea name="description" placeholder="此处输入产品详细描述..." id="editor">{{ stuff.description }}</textarea>
+						</div>
+						
+						
+						
+                        
+                       
 						
 						<div class="upload field">
 							<label>{{ label_title }}图片 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个封面图)</small></label>
@@ -384,15 +365,10 @@
 							</div>
 						</div>
 						
-						<div class="field">
-							<label for="description">详细描述</label>
-						  	<textarea name="description" placeholder="此处输入产品详细描述..." id="editor">{{ stuff.description }}</textarea>
-						</div>
-						
 						<div class="ui grid">
 							<div class="right aligned column">
-								<div class="ui grey cancel large inverted button">取消</div>
-								<div class="ui magenta large submit inverted button">确认提交</div>
+								<div class="ui grey cancel active large inverted button width">取消</div>
+								<div class="ui magenta large active submit inverted button width">确认提交</div>
 							</div>
 						</div>
 					
