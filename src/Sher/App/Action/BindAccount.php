@@ -250,6 +250,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         $date = array();
         $date['wx_open_id'] = null;
         $date['wx_access_token'] = null;
+        $date['wx_union_id'] = null;
         
         $user_id = (int)$this->visitor->id;
         

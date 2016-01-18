@@ -118,13 +118,14 @@ class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
     $result = $wx_third_model->get_access_token($url);
     if($result['success']){
       $open_id = $result['data']['openid'];
+      $union_id = $result['data']['unionid'];
       $access_token = $result['data']['access_token'];
       if(empty($open_id) || empty($access_token)){
         return $this->show_message_page('open_id or access_token is null！', $error_redirect_url);
       }
 
       $user_model = new Sher_Core_Model_User();
-      $user = $user_model->first(array('wx_open_id' => (string)$open_id));
+      $user = $user_model->first(array('wx_union_id' => (string)$union_id));
       if(!empty($user)){
         $user_id = $user['_id'];
         // 重新更新access_token

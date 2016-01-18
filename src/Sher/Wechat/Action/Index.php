@@ -294,12 +294,13 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	 */
 	protected function handle_subscribe($rev_data=array()){
 		$open_id = $rev_data['FromUserName'];
+		$union_id = null;
 		$scene_id = str_replace('qrscene_', '', $rev_data['EventKey']);
 		
 		Doggy_Log_Helper::warn("Handle event subscribe [$scene_id]!");
 		
 		// 注册并实现登录
-		$user = Sher_Core_Helper_Auth::create_weixin_user($open_id, $scene_id);
+		$user = Sher_Core_Helper_Auth::create_weixin_user($open_id, $union_id, $scene_id);
 		if ($user){
 			$user_id = $user['_id'];
 			$nickname = $user['nickname'];
@@ -318,11 +319,12 @@ class Sher_Wechat_Action_Index extends Sher_Core_Action_Authorize implements Dog
 	protected function handle_scan($rev_data=array()){
 		$open_id = $rev_data['FromUserName'];
 		$scene_id = $rev_data['EventKey'];
+    $union_id = null;
 		
 		Doggy_Log_Helper::warn("Handle event scan [$scene_id]!");
 		
 		// 实现登录
-		$user = Sher_Core_Helper_Auth::create_weixin_user($open_id, $scene_id);
+		$user = Sher_Core_Helper_Auth::create_weixin_user($open_id, $union_id, $scene_id);
 		if ($user){
 			$user_id = $user['_id'];
 			$nickname = $user['nickname'];
