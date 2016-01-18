@@ -328,8 +328,9 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
     $union_id = isset($this->stash['union_id']) ? $this->stash['union_id'] : null;
     $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
+    $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : 0;
 
-    if(empty($oid) || empty($access_token) || empty($type) || empty($from_to)){
+    if(empty($oid) || empty($access_token) || empty($type) || empty($from_to) || empty($uuid)){
    		return $this->api_json('缺少请求参数！', 3002);   
     }
 
@@ -371,7 +372,6 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     }else{
  		  return $this->api_json('用户绑定.', 0, array('has_user'=>0, 'user'=>null));   
     } // endif user
-
   
   }
 	
