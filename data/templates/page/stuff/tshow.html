@@ -1,0 +1,292 @@
+{%extends 'layout/column.html'%}
+{% block title %}{{ label_title }}提交-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.topbg {
+	    background: url({{ app_url_packaged }}/images/top/bg.jpg) no-repeat center center;
+	    background-size: cover;
+		padding-top: 23%;
+		padding-bottom: 7%;
+	}
+	.topbg .ui.large.jointop{
+		padding-left:35px;
+		padding-right:35px;
+	}
+	.topbtn.active,.topbtn:hover{
+		background:#37004f !important;
+		color:#fff !important;
+	}
+	.ui.stuffs .eight.right.column i.large.circular.icon{
+		font-size:1.3em;
+	}
+	.ui.stuffs .eight.column h3.ui.header{
+		line-height: 40px;
+	}
+	.ui.descrite.segment{
+	    padding: 20px 20px 30px;
+	    margin-bottom: 30px;
+	}
+	.ui.descrite.segment p{
+		line-height: 26px;
+	}
+	.ui.descrite.segment p.link{
+		color:#f36;
+	}
+	.ui.descrite.segment p.link a{
+		color:#f36;
+		position:relative;
+	}
+	.ui.descrite.segment p.link a::before{
+		position: absolute;
+	    top: auto;
+	    bottom: 1px;
+	    left: 0;
+	    width: 100%;
+	    height: 1px;
+	    background-color: #f36;
+	    content: '';
+	    -webkit-transition: all 0.2s;
+	    -webkit-backface-visibility: hidden;
+	    transition: all 0.2s;
+	    backface-visibility: hidden;
+	    -webkit-transform: scaleX(0);
+	    transform: scaleX(0);
+	}
+	.ui.descrite.segment p.link a:hover:before{
+	    -webkit-transform: scaleX(1);
+	    transform: scaleX(1);
+	}
+	.cats .ui.inverted.magenta.button{
+		box-shadow: 0 0 0 1px #f36 inset!important;
+	}
+	.like.button{
+		position:relative;
+	}
+	.like.button .add{
+		position: absolute;
+	    top: 14px;
+	    text-align: center;
+	    left: 0;
+	    color: transparent;
+	    width: 100%;
+	    font-size: 22px;
+	    opacity: 1;
+	    z-index: 2;
+	    transition: all 1s;
+	}
+	.like.button .add.add-active {
+	    top: calc(50% - 70px);
+	    color: #f36;
+	    transition-delay: .3s;
+	    -webkit-animation: arrow 1.5s ease both;
+	    -moz-animation: arrow 1.5s ease both;
+	    animation: arrow 1.5s ease both;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	// 分享
+	$('.ui.share.button').bind('click', function(){
+		$('.ui.share.modal').modal('show');
+	});
+	phenix.bind_share_list("http://frstatic.qiniudn.com/images/");
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://m.taihuoniao.com'});
+	
+	$('#carousel').flexslider({
+        animation: "slide",
+        controlNav: false,
+        animationLoop: false,
+        slideshow: false,
+        itemWidth: 160,
+        itemMargin: 15,
+        asNavFor: '#slider'
+    });
+ 
+    $('#slider').flexslider({
+        animation: "slide",
+        controlNav: false,
+        animationLoop: false,
+        slideshow: false,
+        sync: "#carousel"
+    });
+	
+	$('.like.button').click(function(){
+	    var obj = $(this);
+	    var id = $(this).attr('item-id');
+	    var loved = $(this).attr('loved');
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		
+		if (loved == 0){
+			
+			obj.attr('loved', 1);
+			obj.addClass('active');
+			obj.children('.add').addClass('add-active');
+		}else{
+			obj.attr('loved', 0);
+			obj.removeClass('active');
+			obj.children('.add').removeClass('add-active');
+		}
+		
+		
+	});
+	
+
+{% endblock %}
+{% block content %}
+<div class="topbg">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<a class="ui topbtn inverted large jointop active button" >
+					报名提交
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="ui stuffs social">
+	<div class="ui responsive grid" style="padding:0 8%;">
+		<div class="row">
+			<div class="eight wide column">
+				<h3 class="ui header">小佩宠物摄像头</h3>
+			</div>
+		
+			<div class="ui eight wide column right aligned">
+                <div class="user share">
+                  <span style="line-height: 37px;"><i class="share alternate icon"></i>分享：</span>
+                  <a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+                    <i class="weibo icon large circular red inverted"></i>
+                  </a>
+                  <a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+                    <i class="weixin icon large circular green inverted"></i>
+                  </a>
+                  <a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+                    <i class="tencent weibo icon large circular blue inverted"></i>
+                  </a>
+                  <a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+                    <i class="icon renren large circular blue inverted"></i>
+                  </a>
+                </div>
+			</div>
+		</div>
+		
+		
+		<div class="row">
+			<div class="column">
+				<div class="slidebox">
+	                <div id="slider" class="flexslider flex-single">
+	                    <ul class="slides">
+	                        <li style="background-image: url('http://frbird.qiniudn.com/product/160111/569360fbfc8b1280268b8a34-3-hu.jpg');">
+	                            <a href="{{ product.cover.thumbnails.huge.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
+	                                <img src="http://frbird.qiniudn.com/product/160111/569360fbfc8b1280268b8a34-3-hu.jpg" alt="{{ product.title }}" style="display: none;" />
+	                            </a>
+	                        </li>
+	                        <li style="background-image: url('http://frbird.qiniudn.com/product/160111/569360fbfc8b1280268b8a34-3-hu.jpg');">
+	                            <a href="{{ product.cover.thumbnails.huge.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
+	                                <img src="http://frbird.qiniudn.com/product/160111/569360fbfc8b1280268b8a34-3-hu.jpg" alt="{{ product.title }}" style="display: none;" />
+	                            </a>
+	                        </li>
+	                        <li style="background-image: url('http://frbird.qiniudn.com/product/160111/569360fbfc8b1280268b8a34-3-hu.jpg');">
+	                            <a href="{{ product.cover.thumbnails.huge.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
+	                                <img src="http://frbird.qiniudn.com/product/160111/569360fbfc8b1280268b8a34-3-hu.jpg" alt="{{ product.title }}" style="display: none;" />
+	                            </a>
+	                        </li>
+							
+							
+							
+							
+						</ul>
+					</div>	
+	                <div id="carousel" class="flexslider flex-single-carousel">
+	                    <ul class="slides">
+	                        <li style="background-image: url('http://frbird.qiniudn.com/product/160111/569360fbfc8b1280268b8a34-3-sm.jpg');">
+	                            <a href="{{ product.cover.thumbnails.small.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
+	                                <img src="{{ product.cover.thumbnails.small.view_url }}" alt="{{ product.title }}" class="thumb" />
+	                            </a>
+	                        </li>
+	                        <li style="background-image: url('http://frbird.qiniudn.com/product/160111/569360fbfc8b1280268b8a34-3-sm.jpg');">
+	                            <a href="{{ product.cover.thumbnails.small.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
+	                                <img src="{{ product.cover.thumbnails.small.view_url }}" alt="{{ product.title }}" class="thumb" />
+	                            </a>
+	                        </li>
+	                        <li style="background-image: url('http://frbird.qiniudn.com/product/160111/569360fbfc8b1280268b8a34-3-sm.jpg');">
+	                            <a href="{{ product.cover.thumbnails.small.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
+	                                <img src="{{ product.cover.thumbnails.small.view_url }}" alt="{{ product.title }}" class="thumb" />
+	                            </a>
+	                        </li>
+	                        <li style="background-image: url('http://frbird.qiniudn.com/product/160111/569360fbfc8b1280268b8a34-3-sm.jpg');">
+	                            <a href="{{ product.cover.thumbnails.small.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
+	                                <img src="{{ product.cover.thumbnails.small.view_url }}" alt="{{ product.title }}" class="thumb" />
+	                            </a>
+	                        </li>
+	                        <li style="background-image: url('http://frbird.qiniudn.com/product/160111/569360fbfc8b1280268b8a34-3-sm.jpg');">
+	                            <a href="{{ product.cover.thumbnails.small.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
+	                                <img src="{{ product.cover.thumbnails.small.view_url }}" alt="{{ product.title }}" class="thumb" />
+	                            </a>
+	                        </li>
+	                        <li style="background-image: url('http://frbird.qiniudn.com/product/160111/569360fbfc8b1280268b8a34-3-sm.jpg');">
+	                            <a href="{{ product.cover.thumbnails.small.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
+	                                <img src="{{ product.cover.thumbnails.small.view_url }}" alt="{{ product.title }}" class="thumb" />
+	                            </a>
+	                        </li><li style="background-image: url('http://frbird.qiniudn.com/product/160111/569360fbfc8b1280268b8a34-3-sm.jpg');">
+	                            <a href="{{ product.cover.thumbnails.small.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
+	                                <img src="{{ product.cover.thumbnails.small.view_url }}" alt="{{ product.title }}" class="thumb" />
+	                            </a>
+	                        </li>
+	                        <li style="background-image: url('http://frbird.qiniudn.com/product/160111/569360fbfc8b1280268b8a34-3-sm.jpg');">
+	                            <a href="{{ product.cover.thumbnails.small.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
+	                                <img src="{{ product.cover.thumbnails.small.view_url }}" alt="{{ product.title }}" class="thumb" />
+	                            </a>
+	                        </li>
+	                        <li style="background-image: url('http://frbird.qiniudn.com/product/160111/569360fbfc8b1280268b8a34-3-sm.jpg');">
+	                            <a href="{{ product.cover.thumbnails.small.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
+	                                <img src="{{ product.cover.thumbnails.small.view_url }}" alt="{{ product.title }}" class="thumb" />
+	                            </a>
+	                        </li>
+							
+						</ul>
+					</div>
+					
+					
+				</div>
+			
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="ui descrite segment">
+					<p>  小蚁科技有限公司为小米生态链企业，获得北京小米科技有限公司和启明创投联合投资。小蚁是采用小米模式的智能硬件创业公司，也是小米智能家居生态的重要成员。公司坐标上海和北京，专注于智能、可穿戴、移动化的新型视频类智能电子产品开发, 为移动互联网时代提供最便捷使用、最智能化的视频产品和服务。智能化的时代正在不可避免地到来，万物的智能化需要可视化的智能硬件的支持和更优化的视频数据分析。视频的技术正在跨越、发展，小蚁紧跟时代步伐，重新审视视频技术，以定义和开发适应这一趋势的视频产品，我们在朝着更智能、更便捷、更快速、更节能、更环保的方向进步。小蚁科技有限公司为小米生态链企业，获得北京小米科技有限公司和启明创投联合投资。小蚁是采用小米模式的智能硬件创业公司，也是小米智能家居生态的重要成员。公司坐标上海和北京，专注于智能、可穿戴、移动化的新型视频类智能电子产品开发, 为移动互联网时代提供最便捷使用、最智能化的视频产品和服务。智能化的时代正在不可避免地到来，万物的智能化需要可视化的智能硬件的支持和更优化的视频数据分析。视频的技术正在跨越、发展，小蚁紧跟时代步伐， 重新审视视频技术，以定义和开发适应这一趋势的视频产品，我们在朝着更智能、更便捷、更快速、更节能、更环保的方向进步。		</p>
+					<p class="link">详情请点击：<a href="Http://www.taihuoniao.com" target="_blank">Http://www.taihuoniao.com</a></p>
+					
+					
+					<div class="ui center aligned cats">
+						<div class="ui magenta like inverted button" loved="0">
+							<i class=" heart icon"></i>
+							投他一票
+							<div class="add">
+		                        <i class="heart icon" style="font-size: 16px;vertical-align: middle;"></i>+1      
+		                    </div>
+						</div>
+					</div>
+					
+				</div>
+			
+			</div>
+		</div>
+		
+		
+	</div>
+</div>
+
+
+
+{% include "block/qrcode.html" %}
+{% endblock %}

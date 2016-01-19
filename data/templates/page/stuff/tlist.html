@@ -1,0 +1,264 @@
+{%extends 'layout/column.html'%}
+{% block title %}列表-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.topbg {
+	    background: url({{ app_url_packaged }}/images/top/bg.jpg) no-repeat center center;
+	    background-size: cover;
+		padding-top: 23%;
+		padding-bottom: 7%;
+	}
+	.topbg .ui.large.jointop{
+		padding-left:35px;
+		padding-right:35px;
+	}
+	.topbtn.active,.topbtn:hover{
+		background:#37004f !important;
+		color:#fff !important;
+	}
+	.ui.social {
+	    padding: 10px 0 20px;
+	}
+	@media only screen and (max-width: 1500px) and (min-width: 992px){
+		.opention.button{
+			width:109px;
+			margin-right:10px !important;
+		}
+		
+		
+	}
+	@media only screen and (min-width: 1500px){
+		.opention.button{
+			width:137px;
+			margin-right:10px !important;
+		}
+		
+		
+	}
+	.ui.opentions.column{
+		font-size:0 !important;
+	}
+	.opention.button{
+		border-radius:0 !important;
+	}
+	.opention:last-child{
+		margin-right:0 !important;
+	}
+	.opention.active.button,.opention.button:hover,.opention.active.button:hover{
+		background:#37004f;
+		color:#fff;
+	}
+	.ui.products.cards>.card>.problock>a.thumb,.ui.products.cards>.card>.problock,.ui.products.cards>.card>:only-child, .ui.products.cards>:only-child{
+		border-radius:0 !important;
+	}
+	.getmore.button{
+		padding-left:45px;
+		padding-right:45px;
+		margin-top: 10px;
+	}
+	.ui.products.cards>.card>.problock>h2{
+		text-align:center;
+		padding-bottom: 3px;
+	}
+	.ui.products.cards>.card>.problock>h2 a{
+		vertical-align: bottom;
+	}
+	.ui.products.cards>.card>.problock>.excerpt{
+		height: 58px;
+	}
+	.ui.products.cards>.card>.problock>.excerpt>p{
+		line-height:1.4;
+	}
+	.ui.products.cards>.card>.problock>.cats{
+		padding:0;
+		padding-top: 18px;
+		padding-bottom: 30px;
+		text-align:center;
+		height:85px;
+		overflow: visible;
+	}
+	.ui.products.cards>.card>.problock>.cats .ui.inverted.magenta.button{
+		box-shadow: 0 0 0 1px #f36 inset!important;
+	}
+	.like.button{
+		position:relative;
+	}
+	.like.button .add{
+		position: absolute;
+	    top: 14px;
+	    text-align: center;
+	    left: 0;
+	    color: transparent;
+	    width: 100%;
+	    font-size: 22px;
+	    opacity: 1;
+	    z-index: 2;
+	    transition: all 1s;
+	}
+	.like.button .add.add-active {
+	    top: calc(50% - 70px);
+	    color: #f36;
+	    transition-delay: .3s;
+	    -webkit-animation: arrow 1.5s ease both;
+	    -moz-animation: arrow 1.5s ease both;
+	    animation: arrow 1.5s ease both;
+	}
+	
+	
+</style>
+{% endblock %}
+
+{% block jquery %}
+	$('.opention').click(function(){
+		$(this).addClass('active');
+		$(this).siblings().removeClass('active');
+	});
+	$('.like.button').click(function(){
+	    var obj = $(this);
+	    var id = $(this).attr('item-id');
+	    var loved = $(this).attr('loved');
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		
+		if (loved == 0){
+			
+			obj.attr('loved', 1);
+			obj.addClass('active');
+			obj.children('.add').addClass('add-active');
+		}else{
+			obj.attr('loved', 0);
+			obj.removeClass('active');
+			obj.children('.add').removeClass('add-active');
+		}
+		
+		
+	});
+
+{% endblock %}
+{% block content %}
+<div class="topbg">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<a class="ui topbtn inverted large jointop active button" >
+					报名提交
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui stuffs social">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ui center aligned opentions column">
+				<div class="ui opention button">
+					宠物设备
+				</div>	
+				<div class="ui opention button">
+					宠物设备
+				</div>
+				<div class="ui opention button">
+					宠物设备
+				</div>	
+				<div class="ui opention button">
+					宠物设备
+				</div>
+				<div class="ui opention button">
+					宠物设备
+				</div>	
+				<div class="ui opention button">
+					宠物设备
+				</div>
+				<div class="ui opention button">
+					宠物设备
+				</div>	
+				<div class="ui opention button">
+					宠物设备
+				</div>
+				<div class="ui opention button">
+					宠物设备
+				</div>	
+				<div class="ui opention button">
+					宠物设备
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="row" style="padding-top: 15px;">
+			<div class="ui opentions column">
+				<div class="ui five products cards">
+					
+					<!-- list  -->
+					<div class="card">
+						<div class="problock">
+					        <a style="background-image: url(http://frbird.qiniudn.com/product/150204/54d2271d3ffca264238b46c8-1-hm.jpg);" class="thumb" target="_blank">
+					        </a>
+					        <h2>
+					            <a href="http://dev.taihuoniao.com/shop/1020885051.html" title="测试的商品哈哈哈哈FLYang" class="ui line" target="_blank">
+								    测试的商品哈哈哈哈FLYang
+							    </a>
+					        </h2>
+					        <div class="excerpt">
+					            <p>测试的商品哈哈哈哈测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang测试的商品哈哈哈哈测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang</p>
+					        </div>
+					       <div class="cats">
+						       <div class="ui magenta like inverted button" loved="0">
+									<i class=" heart icon"></i>
+									投他一票
+									<div class="add">
+				                        <i class="heart icon" style="font-size: 16px;vertical-align: middle;"></i>+1      
+				                    </div>
+								</div>
+							</div>
+						</div>
+					</div>
+					  
+					<!-- end  -->
+					
+					<div class="card">
+						<div class="problock">
+					        <a style="background-image: url(http://frbird.qiniudn.com/product/150204/54d2271d3ffca264238b46c8-1-hm.jpg);" class="thumb" target="_blank">
+					        </a>
+					        <h2>
+					            <a href="http://dev.taihuoniao.com/shop/1020885051.html" title="测试的商品哈哈哈哈FLYang" class="ui line" target="_blank">
+								    测试的商品哈哈哈哈FLYang
+							    </a>
+					        </h2>
+					        <div class="excerpt">
+					            <p>测试的商品哈哈哈哈测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang测试的商品哈哈哈哈测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang</p>
+					        </div>
+					       <div class="cats">
+						       <div class="ui magenta like inverted button" loved="0">
+									<i class=" heart icon"></i>
+									投他一票
+									<div class="add">
+				                        <i class="heart icon" style="font-size: 16px;vertical-align: middle;"></i>+1      
+				                    </div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="ui center aligned column">
+				<div class="ui magenta active inverted large active getmore button">
+					查看更多
+				</div>
+			</div>
+		</div>
+		
+		
+	</div>
+</div>
+
+{% endblock %}
