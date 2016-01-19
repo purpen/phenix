@@ -1,0 +1,97 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+.topbg {
+    background: url({{ app_url_packaged }}/images/top/wap_bg.jpg) no-repeat center center;
+    background-size: cover;
+	padding-top: 37%;
+	padding-bottom: 8%;
+}
+.topbg .ui.jointop{
+	padding-left:30px;
+	padding-right:30px;
+}
+.topbtn.active, .topbtn:hover {
+    background: #37004f !important;
+    color: #fff !important;
+}
+.ui.stuffs h3.dividing.ui.header {
+    font-size: 1.1rem;
+}
+.ui.dividing.header {
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+select.leibie{
+	width: 100%;
+    background: #fff;
+    border: 1px solid rgba(34,36,38,.15);
+    border-radius: .28571429rem;
+    box-shadow: 0 0 0 0 transparent inset;
+    padding: .62em 1em;
+    color: rgba(0,0,0,.87);
+    -webkit-transition: color .1s ease,border-color .1s ease;
+    transition: color .1s ease,border-color .1s ease;
+	height: 2.7142em !important;
+}
+.leibie.focus{
+	display:none;
+}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	var scrollTop = $('.stuffs').offset().top;
+	$('.jointop').click(function(){
+		$('body,html').animate({scrollTop:scrollTop},500); 
+		return false; 
+	});
+
+{% endblock %}
+
+{% block content %}
+<div class="top100">
+	<div class="topbg">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<a class="ui inverted topbtn jointop active button">
+						报名提交
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="ui stuffs social">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="ui segment">
+						
+						<div class="ui field">
+							<h3 class="ui dividing header">产品分类</h3>
+							<select class="leibie">
+								<option value="">智能影音</option>
+								<option value="">智能影音</option>
+								<option value="">智能影音</option>
+							</select>
+						</div>
+						
+						
+				
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+</div>
+{% endblock %}
