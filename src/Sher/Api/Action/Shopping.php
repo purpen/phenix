@@ -1419,19 +1419,19 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $error_index_arr = array();
     foreach($cart['items'] as $k=>$v){
       // 初始参数
-      $product_id = (int)$v['product_id'];
-      $sku_id = (int)$v['sku_id'];
-      $count = (int)$v['count'];
+      $target_id = (int)$v['target_id'];
+      $type = (int)$v['type'];
+      $n = (int)$v['n'];
 
       $data = array();
-      $data['product_id'] = $product_id;
-      $data['sku_id'] = $sku_id;
-      $data['count'] = $count;
+      $data['target_id'] = $target_id;
+      $data['type'] = $type;
+      $data['n'] = $n;
       $data['sku_name'] = null;
       $data['price'] = 0;
 
-      if(!empty($sku_id)){
-        $inventory = $inventory_model->load($sku_id);
+      if($type==2){
+        $inventory = $inventory_model->load($target_id);
         if(empty($inventory)){
           array_push($error_index_arr, $k);
           continue;
@@ -1439,10 +1439,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $product_id = $inventory['product_id'];
         $data['sku_mode'] = $inventory['mode'];
         $data['price'] = $inventory['price'];
-        $data['total_price'] = $data['price']*$count;
+        $data['total_price'] = $data['price']*$n;
         
       }else{
-        $product_id  = $v['product_id'];
+        $product_id = $target_id;
       }
 
       $product = $product_model->extend_load($product_id);
@@ -1456,7 +1456,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
       if(empty($data['price'])){
         $data['price'] = $product['sale_price'];
-        $data['total_price'] = $product['sale_price']*$count;
+        $data['total_price'] = $product['sale_price']*$n;
       }
       $total_price += $data['total_price'];
       array_push($item_arr, $data);
@@ -1504,24 +1504,28 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       return $this->api_json('请先登录！', 3000); 
     }
 
-    $product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
-    $sku_id = isset($this->stash['sku_id']) ? (int)$this->stash['sku_id'] : 0;
-    $count = isset($this->stash['count']) ? (int)$this->stash['count'] : 1;
+    $target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
+    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+    $n = isset($this->stash['n']) ? (int)$this->stash['n'] : 1;
 
-    if(empty($product_id) && empty($sku_id)){
-      return $this->api_json('请选择商品！', 3001); 
+    if(empty($target_id) && empty($type)){
+      return $this->api_json('请选择商品或类型！', 3001); 
     }
 
 		$inventory_model = new Sher_Core_Model_Inventory();
 		$product_model = new Sher_Core_Model_Product();
 
-    if(!empty($sku_id)){
-      $enoughed = $inventory_model->verify_enough_quantity($sku_id, $count);
+    if($type==2){
+      $enoughed = $inventory_model->verify_enough_quantity($target_id, $n);
       if(!$enoughed){
         return $this->api_json('挑选的产品已售完', 3002);
       }
-      $inventory = $inventory_model->load($sku_id);
+      $inventory = $inventory_model->load($target_id);
       $product_id = $inventory['product_id'];
+    }elseif($type==1){
+      $product_id = $target_id;
+    }else{
+      return $this->api_json('类型不正确!', 3009);
     }
 
 		// 获取产品信息
@@ -1546,7 +1550,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     }
 
     // 验证库存
-    if(empty($product['inventory']) || $product['inventory']<$count){
+    if(empty($product['inventory']) || $product['inventory']<$n){
       return $this->api_json('库存告及！', 3007);   
     }
 
@@ -1559,39 +1563,32 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         'kind' => 1,
         'state' => 1,
         'remark' => null,
-        'items' => array('product_id'=>$product_id, 'sku_id'=>$sku_id, 'count'=>$count),
+        'items' => array(array('target_id'=>$target_id, 'type'=>$type, 'n'=>$n)),
         'item_count' => 1,
       ));     
     }else{
       $new_item = true;
       foreach($cart['items'] as $k=>$v){
-        if(!empty($sku_id)){
-          if(!empty($v['sku_id']) && $sku_id==$v['sku_id']){
-            $new_item = false;
-            $cart['items'][$k]['count'] = $v['count']+$count;
-            break;
-          }
-        }else{
-          if(empty($v['sku_id']) && $v['product_id']==$product_id){
-            $new_item = false;
-            $cart['items'][$k]['count'] = $v['count']+$count;
-            break;      
-          } 
-        } // endif sku_id
+        if($v['target_id']==$target_id){
+          $new_item = false;
+          $cart['items'][$k]['n'] = $v['n']+$n;
+          break;         
+        }
       }// endfor
 
       if($new_item){
-        array_push($cart['items'], array('product_id'=>$product_id, 'sku_id'=>$sku_id, 'count'=>$count));
+        array_push($cart['items'], array('target_id'=>$target_id, 'type'=>$type, 'n'=>$n));
       }
       $ok = $cart_model->update_set($user_id, array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));
 
     } // endif empty cart
 
     if(!$ok){
-      return $this->api_json('添加失败！', 3008);    
+      return $this->api_json('添加失败！', 3008);
     }
     
-    return $this->api_json('添加成功!', 0, array());
+    $data = $cart_model->get_data();
+    return $this->api_json('添加成功!', 0, $data);
 
   }
 
@@ -1604,13 +1601,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       return $this->api_json('请先登录！', 3000); 
     }
 
-    $product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
-    $sku_id = isset($this->stash['sku_id']) ? (int)$this->stash['sku_id'] : 0;
-    $count = isset($this->stash['count']) ? (int)$this->stash['count'] : 1;
-
-    if(empty($product_id) && empty($sku_id)){
-      return $this->api_json('请选择商品！', 3001); 
+    if(!isset($this->stash['array']) || empty($this->stash['array'])){
+      return $this->api_json('请传入参数！', 3001); 
     }
+    $cart_arr = json_decode($this->stash['array']);
 
     $cart_model = new Sher_Core_Model_Cart();
     $cart = $cart_model->load($user_id);
@@ -1618,9 +1612,35 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       return $this->api_json('购物车为空！', 3002);    
     }
 
-    
-    return $this->api_json('移除成功!', 0, array());
+    $del_index_arr = array();
+    foreach($cart_arr as $key=>$val){
+      $val = (array)$val;
+      $type = (int)$val['type'];
+      $target_id = (int)$val['target_id'];
 
+      // 批量删除
+      foreach($cart['items'] as $k=>$v){
+        if($v['target_id']==$target_id){
+          array_push($del_index_arr, $k);
+        }
+      }
+    }// endfor
+
+    for($i=0;$i<count($del_index_arr);$i++){
+      unset($cart['items'][$i]);
+    }
+    $ok = $cart_model->update_set($user_id, array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));  
+    $data = $cart_model->get_data();
+    return $this->api_json('移除成功!', 0, $data);
+
+  }
+
+  /**
+   * 编辑购物车
+   */
+  public function edit_cart(){
+  
+  
   }
 
 	

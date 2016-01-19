@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 
-	protected $filter_user_method_list = array('execute', 'login', 'register', 'verify_code', 'find_pwd', 'third_sign');
+	protected $filter_user_method_list = array('execute', 'login', 'register', 'verify_code', 'find_pwd', 'third_sign', 'third_register_without_phone', 'third_register_with_phone');
 	
 	/**
 	 * 入口
@@ -67,10 +67,8 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     // 过滤用户字段
     $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
 
-		if(!empty($user_id)){
-			$pusher = new Sher_Core_Model_Pusher();
-			$ok = $pusher->binding($uuid, $user_id, $from_to);
-		}
+    $pusher = new Sher_Core_Model_Pusher();
+    $ok = $pusher->binding($uuid, $user_id, $from_to);
 		
 		return $this->api_json('欢迎回来.', 0, $data);
 	}
@@ -316,7 +314,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 
   /**
    * 第三方登录 
-   * /
+   * 一切请求第三方均在客户端完成，有安全隐患
    */
   public function third_sign(){
     if($this->current_user_id){
@@ -326,7 +324,6 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     $oid = isset($this->stash['oid']) ? $this->stash['oid'] : null;
     $access_token = isset($this->stash['access_token']) ? $this->stash['access_token'] : null;
     $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
-    $union_id = isset($this->stash['union_id']) ? $this->stash['union_id'] : null;
     $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
     $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : 0;
 
@@ -374,5 +371,247 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     } // endif user
   
   }
+
+  /**
+   * 第三方账户直接登录,生成默认用户,不绑定手机
+   */
+  public function third_register_without_phone(){
+
+    if($this->current_user_id){
+   		return $this->api_json('您已经登录了！', 3001);   
+    }
+
+    $third_source = isset($this->stash['third_source'])?(int)$this->stash['third_source']:0;
+    $oid = isset($this->stash['oid'])?$this->stash['oid']:null;
+		$access_token = isset($this->stash['access_token'])?$this->stash['access_token']:null;
+    $union_id = isset($this->stash['union_id'])?$this->stash['union_id']:null;
+    $nickname = isset($this->stash['nickname'])?$this->stash['nickname']:null;
+    $sex = isset($this->stash['sex'])?(int)$this->stash['sex']:0;
+    $summary = isset($this->stash['summary'])?$this->stash['summary']:null;
+		$city = isset($this->stash['city'])?$this->stash['city']:null;
+
+    // 来源哪种设备
+    $from_to = isset($this->stash['from_to'])?(int)$this->stash['from_to']:0;
+
+    if(empty($third_source) || empty($oid) || empty($access_token) || empty($nickname) || empty($from_to)){
+      return $this->api_json('缺少参数！', 3002);   
+    }
+
+    $user_model = new Sher_Core_Model_User();
+
+    //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
+    $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
+    if (!preg_match($e, $nickname)) {
+      $nickname = Sher_Core_Helper_Util::generate_mongo_id();
+    }
+
+    // 检查用户名是否唯一
+    $exist = $user_model->_check_name($nickname);
+    if (!$exist) {
+      // 判断来源
+      if($third_source==2){
+        $nickname_prefix = "微博用户";
+      }elseif($third_source==3){
+        $nickname_prefix = "QQ用户";
+      }elseif($third_source==1){
+        $nickname_prefix = "微信用户";
+      }else{
+        return $this->api_json('第三方来源不明确.！', 3003);     
+      }
+      $nickname = $nickname_prefix.$nickname;
+      $exist_r = $user_model->_check_name($nickname);
+      if(!$exist_r){
+        $nickname = $nickname.(string)rand(1000,9999);
+      }
+    }
+
+    $user_data = array(
+      'nickname' => $nickname,
+      'sex' => $sex,
+      'state' => Sher_Core_Model_User::STATE_OK,
+      'kind' => 20,
+    );
+
+    //根据第三方来源,更新对应open_id 
+    if($third_source==2){
+      $user_data['account'] = (string)$uid;
+      $user_data['password'] = sha1(Sher_Core_Util_Constant::WEIBO_AUTO_PASSWORD);
+      $user_data['from_site'] = Sher_Core_Util_Constant::FROM_WEIBO;
+      $user_data['sina_uid'] = (int)$oid;
+      $user_data['sina_access_token'] = $access_token;
+    }elseif($third_source==3){
+      $user_data['account'] = (string)$uid;
+      $user_data['password'] = sha1(Sher_Core_Util_Constant::QQ_AUTO_PASSWORD);
+      $user_data['from_site'] = Sher_Core_Util_Constant::FROM_QQ;
+      $user_data['qq_uid'] = $oid;
+      $user_data['qq_access_token'] = $access_token;
+    }elseif($third_source==1){
+      $user_data['account'] = (string)$union_id;
+      $user_data['password'] = sha1(Sher_Core_Util_Constant::WX_AUTO_PASSWORD);
+      $user_data['from_site'] = Sher_Core_Util_Constant::FROM_WEIXIN;
+      $user_data['wx_open_id'] = $oid;
+      $user_data['wx_access_token'] = $access_token;
+      $user_data['wx_union_id'] = $union_id; 
+    }else{
+      return $this->api_json('第三方来源不明确！', 3004);     
+    }
+
+    try{
+      $ok = $user_model->create($user_data);
+      if($ok){
+        $user = $user_model->get_data();
+        $user_id = $user['_id'];
+
+        // 如果存在头像,更新
+        if(isset($this->stash['avatar_url']) && !empty($this->stash['avatar_url'])){
+
+          $accessKey = Doggy_Config::$vars['app.qiniu.key'];
+          $secretKey = Doggy_Config::$vars['app.qiniu.secret'];
+          $bucket = Doggy_Config::$vars['app.qiniu.bucket'];
+          // 新截图文件Key
+          $qkey = Sher_Core_Util_Image::gen_path_cloud();
+
+          $client = \Qiniu\Qiniu::create(array(
+              'access_key' => $accessKey,
+              'secret_key' => $secretKey,
+              'bucket'     => $bucket
+          ));
+
+          // 存储新图片
+          $res = $client->upload(@file_get_contents($this->stash['avatar_url']), $qkey);
+          if (empty($res['error'])){
+            $avatar_up = $qkey;
+          }else{
+            $avatar_up = false;
+          }
+
+          if($avatar_up){
+             // 更新用户头像
+            $user_model->update_avatar(array(
+              'big' => $qkey,
+              'medium' => $qkey,
+              'small' => $qkey,
+              'mini' => $qkey
+            ));   
+          }
+
+        }// has avatar
+
+				//活动送100红包
+				if(Doggy_Config::$vars['app.anniversary2015.switch']){
+				  $this->give_bonus($user_id, 'QX', array('count'=>1, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
+				}
+
+        // 返回用户数据
+        $user_data = $user_model->extended_model_row($user);
+        // 过滤用户字段
+        $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
+        $pusher = new Sher_Core_Model_Pusher();
+        $ok = $pusher->binding($uuid, $user_id, $from_to);
+
+        return $this->api_json('创建成功!', 0, $data);
+
+      }else{
+        return $this->api_json('创建用户失败！', 3005);   
+      }         
+    } catch (Sher_Core_Model_Exception $e) {
+      Doggy_Log_Helper::error('Failed to create user:'.$e->getMessage());
+      return $this->api_json("注册失败:".$e->getMessage(), 3006);   
+    }
+
+  }
+
+  /**
+   * 第三方账户直接登录,绑定已有手机号
+   */
+  public function third_register_with_phone(){
+
+    if($this->current_user_id){
+   		return $this->api_json('您已经登录了！', 3001);   
+    }
+
+    $third_source = isset($this->stash['third_source'])?(int)$this->stash['third_source']:0;
+    $oid = isset($this->stash['oid'])?$this->stash['oid']:null;
+		$access_token = isset($this->stash['access_token'])?$this->stash['access_token']:null;
+    $union_id = isset($this->stash['union_id'])?$this->stash['union_id']:null;
+    $account = isset($this->stash['account'])?$this->stash['account']:null;
+    $password = isset($this->stash['password'])?(int)$this->stash['password']:0;
+
+    // 来源哪种设备
+    $from_to = isset($this->stash['from_to'])?(int)$this->stash['from_to']:0;
+
+    if(empty($third_source) || empty($oid) || empty($access_token) || empty($account) || empty($password) || empty($from_to)){
+      return $this->api_json('缺少参数！', 3002);   
+    }
+
+		// 绑定设备操作
+		$uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
+    if(empty($uuid)){
+      return $this->api_json('设备uuid不存在!', 3003);     
+    }
+		
+		$user_model = new Sher_Core_Model_User();
+		$user = $user_model->first(array('account'=>$account));
+    if (empty($user)) {
+      return $this->api_json('帐号不存在!', 3004);
+    }
+    if ($user['password'] != sha1($password)) {
+      return $this->api_json('登录账号和密码不匹配', 3005);
+    }
+
+    $user_id = $user['_id'];
+    $nickname = $user['nickname'];
+    $user_state = $user['state'];
+      
+    if ($user_state == Sher_Core_Model_User::STATE_BLOCKED) {
+        return $this->api_json('此帐号涉嫌违规已经被锁定!', 3006);
+    }
+    if ($user_state == Sher_Core_Model_User::STATE_DISABLED) {
+        return $this->api_json('此帐号涉嫌违规已经被禁用!', 3007);
+    }
+		
+    // export some attributes to browse client.
+		$user = $user_model->extended_model_row($user);
+    // 过滤用户字段
+    $data = Sher_Core_Helper_FilterFields::wap_user($user);
+
+    $pusher = new Sher_Core_Model_Pusher();
+    $ok = $pusher->binding($uuid, $user_id, $from_to);
+		
+		return $this->api_json('欢迎回来.', 0, $data);
+  }
+
+
+  //红包赠于
+  protected function give_bonus($user_id, $xname, $options=array()){
+    if(empty($options)){
+      return false;
+    }
+    // 获取红包
+    $bonus = new Sher_Core_Model_Bonus();
+    $result_code = $bonus->pop($xname);
+
+    // 专属商品ID
+    $product_id = 0;
+    if(isset($options['product_id'])){
+      $product_id = (int)$options['product_id'];
+    }
+    
+    // 获取为空，重新生产红包
+    while(empty($result_code)){
+      //指定生成红包
+      $bonus->create_specify_bonus($options['count'], $options['xname'], $options['bonus'], $options['min_amounts'], $product_id);
+      $result_code = $bonus->pop($xname);
+      // 跳出循环
+      if(!empty($result_code)){
+        break;
+      }
+    }
+    
+    // 赠与红包 使用默认时间30天 $end_time = strtotime('2015-06-30 23:59')
+    $end_time = 0;
+    $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
+  }
+
 	
 }
