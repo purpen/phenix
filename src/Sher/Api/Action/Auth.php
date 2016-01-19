@@ -569,6 +569,23 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     if ($user_state == Sher_Core_Model_User::STATE_DISABLED) {
         return $this->api_json('此帐号涉嫌违规已经被禁用!', 3007);
     }
+
+    //第三方绑定
+    if(!empty($third_source)){
+      if($third_source==2){
+        $third_info = array('sina_uid'=>(int)$oid, 'sina_access_token'=>$access_token);
+      }elseif($third_source==3){
+        $third_info = array('qq_uid'=>$this->stash['uid'], 'qq_access_token'=>$access_token);
+      }elseif($third_source==1){
+        $third_info = array('wx_open_id'=>$oid, 'wx_access_token'=>$access_token, 'wx_union_id'=>$union_id);
+      }else{
+        $third_info = array();
+      }
+      $third_result = $user_model->update_set($user_id, $third_info);
+      if(!$third_result){
+        return $this->api_json('绑定失败!', 3008);
+      }
+    }
 		
     // export some attributes to browse client.
 		$user = $user_model->extended_model_row($user);
