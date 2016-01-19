@@ -40,6 +40,20 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		return $this->to_html_page('page/stuff/tsubmit.html');
 	}
 	
+	/**
+	  *TOp-100 列表
+	**/
+	public function tlist(){
+		return $this->to_html_page('page/stuff/tlist.html');
+	}
+	
+	/**
+	  *TOp-100 详情页
+	**/
+	public function tshow(){
+		return $this->to_html_page('page/stuff/tshow.html');
+	}
+	
 	
 	
 	/**
