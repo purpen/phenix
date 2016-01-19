@@ -575,7 +575,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
       if($third_source==2){
         $third_info = array('sina_uid'=>(int)$oid, 'sina_access_token'=>$access_token);
       }elseif($third_source==3){
-        $third_info = array('qq_uid'=>$this->stash['uid'], 'qq_access_token'=>$access_token);
+        $third_info = array('qq_uid'=>$oid, 'qq_access_token'=>$access_token);
       }elseif($third_source==1){
         $third_info = array('wx_open_id'=>$oid, 'wx_access_token'=>$access_token, 'wx_union_id'=>$union_id);
       }else{
