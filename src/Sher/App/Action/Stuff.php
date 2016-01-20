@@ -37,6 +37,16 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 	  *TOp-100 提交
 	**/
 	public function tsubmit(){
+
+
+		// 图片上传参数
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_STUFF;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF;
+		$this->stash['new_file_id'] = Sher_Core_Helper_Util::generate_mongo_id();
+
+		$top_category_id = Doggy_Config::$vars['app.stuff.top100_category_id'];
+		$this->stash['pid'] = $top_category_id;
 		return $this->to_html_page('page/stuff/tsubmit.html');
 	}
 	
@@ -51,6 +61,62 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 	  *TOp-100 详情页
 	**/
 	public function tshow(){
+		$id = (int)$this->stash['id'];
+		
+		$redirect_url = Doggy_Config::$vars['app.url.stuff']."/hundred";
+		if(empty($id)){
+			return $this->show_message_page('访问的产品不存在！', $redirect_url);
+		}
+		if(isset($this->stash['referer'])){
+			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
+		}
+		
+		$model = new Sher_Core_Model_Stuff();
+		$stuff = $model->load($id);
+		
+		if(empty($stuff) || $stuff['deleted']){
+			return $this->show_message_page('访问的产品不存在或被删除！', $redirect_url);
+		}
+		
+		$stuff = $model->extended_model_row($stuff);
+
+    //添加网站meta标签
+    $this->stash['page_title_suffix'] = sprintf("【%s】-太火鸟智能硬件Top100", $stuff['title']);
+    if(!empty($stuff['tags_s'])){
+      $this->stash['page_keywords_suffix'] = $stuff['tags_s'];   
+    }
+    $this->stash['page_description_suffix'] = "智品库是太火鸟智能硬件孵化平台产品汇集区，产品包括智能手环、健康监测、智能家居、智能首饰、智能母婴、创意产品等等，发表你的创新产品，让我们用创意和梦想，去改变平凡无奇的世界。";
+		
+		// 增加pv++
+		$inc_ran = rand(1,6);
+		$model->inc_counter('view_count', $inc_ran, $id);
+		
+		// 当前用户是否有管理权限
+		$editable = false;
+		if ($this->visitor->id){
+			if ($this->visitor->id == $stuff['user_id'] || $this->visitor->can_edit){
+				$editable = true;
+			}
+		}
+		
+		// 是否出现后一页按钮
+	    if(isset($this->stash['referer'])){
+            $this->stash['HTTP_REFERER'] = $this->current_page_ref();
+	    }
+		
+		$this->stash['stuff'] = $stuff;
+		$this->stash['editable'] = $editable;
+		
+    // 评论参数
+    $comment_options = array(
+      'comment_target_id' => $stuff['_id'],
+      'comment_target_user_id' => $stuff['user_id'],
+      'comment_type'  =>  Sher_Core_Model_Comment::TYPE_STUFF,
+      'comment_pager' =>  Sher_Core_Helper_Url::stuff_comment_url($id, '#p#'),
+      //是否显示上传图片/链接
+      'comment_show_rich' => 1,
+    );
+    $this->_comment_param($comment_options);
 		return $this->to_html_page('page/stuff/tshow.html');
 	}
 	
@@ -359,7 +425,8 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$data['_id'] = $id;
 		$data['title'] = $this->stash['title'];
 		$data['description'] = $this->stash['description'];
-		$data['tags'] = $this->stash['tags'];
+		$data['fid'] = isset($this->stash['fid']) ? (int)$this->stash['fid'] : 0;
+		$data['tags'] = isset($this->stash['tags']) ? $this->stash['tags'] : null;
 		$data['category_id'] = (int)$this->stash['category_id'];
 		$data['cooperate_id'] = isset($this->stash['cooperate_id'])?(int)$this->stash['cooperate_id']:0;
         $data['cover_id'] = $this->stash['cover_id'];
@@ -367,61 +434,75 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		//反定制定
 		$data['contest_id'] = isset($this->stash['contest_id']) ? (int)$this->stash['contest_id'] : 0;
 
-        // 所属
-        if(isset($this->stash['from_to'])){
-            $data['from_to'] = (int)$this->stash['from_to'];
-        }else{
-            $data['from_to'] = 0;
-        }
-        
-        // 团队介绍-蛋年
-        if(isset($this->stash['team_introduce'])){
-            $data['team_introduce'] = $this->stash['team_introduce'];
-        }
+    // 所属
+    if(isset($this->stash['from_to'])){
+        $data['from_to'] = (int)$this->stash['from_to'];
+    }else{
+        $data['from_to'] = 0;
+    }
+    
+    // 团队介绍-蛋年
+    if(isset($this->stash['team_introduce'])){
+        $data['team_introduce'] = $this->stash['team_introduce'];
+    }
 
-        // 品牌
-        if(isset($this->stash['brand'])){
-            $data['brand'] = $this->stash['brand'];
-        }
-        // 设计师
-        if(isset($this->stash['designer'])){
-            $data['designer'] = $this->stash['designer'];
-        }
-        // 所属国家
-        if(isset($this->stash['country'])){
-            $data['country'] = $this->stash['country'];
-        }
-        // 上市时间
-        if(isset($this->stash['market_time'])){
-            $data['market_time'] = $this->stash['market_time'];
-        }
-        // 指导价格
-        if(isset($this->stash['official_price'])){
-            $data['official_price'] = $this->stash['official_price'];
-        }
-        // 产品阶段
-        if(isset($this->stash['processed'])){
-            $data['processed'] = (int)$this->stash['processed'];
-        }
-        // 购买地址
-        if(isset($this->stash['buy_url'])){
-            $data['buy_url'] = $this->stash['buy_url'];
-        }
+    // 品牌
+    if(isset($this->stash['brand'])){
+        $data['brand'] = $this->stash['brand'];
+    }
+    // 设计师
+    if(isset($this->stash['designer'])){
+        $data['designer'] = $this->stash['designer'];
+    }
+    // 所属国家
+    if(isset($this->stash['country'])){
+        $data['country'] = $this->stash['country'];
+    }
+    // 上市时间
+    if(isset($this->stash['market_time'])){
+        $data['market_time'] = $this->stash['market_time'];
+    }
+    // 指导价格
+    if(isset($this->stash['official_price'])){
+        $data['official_price'] = $this->stash['official_price'];
+    }
+    // 产品阶段
+    if(isset($this->stash['processed'])){
+        $data['processed'] = (int)$this->stash['processed'];
+    }
+    // 购买地址
+    if(isset($this->stash['buy_url'])){
+        $data['buy_url'] = $this->stash['buy_url'];
+    }
 
-        // 所在省份
-        if(isset($this->stash['province_id'])){
-            $data['province_id'] = (int)$this->stash['province_id'];
-        }
-        // 所在大学
-        if(isset($this->stash['college_id'])){
-            $data['college_id'] = (int)$this->stash['college_id'];
-        }
+    // 所在省份
+    if(isset($this->stash['province_id'])){
+        $data['province_id'] = (int)$this->stash['province_id'];
+    }
+    // 所在大学
+    if(isset($this->stash['college_id'])){
+        $data['college_id'] = (int)$this->stash['college_id'];
+    }
 
-        // 如果是关联投票产品
-        if(isset($this->stash['fever_id'])){
-            $data['fever_id'] = (int)$this->stash['fever_id'];
-        }
+    // 如果是关联投票产品
+    if(isset($this->stash['fever_id'])){
+        $data['fever_id'] = (int)$this->stash['fever_id'];
+    }
 
+    // 联系方式 
+    if(isset($this->stash['tel'])){
+        $data['tel'] = $this->stash['tel'];
+    }
+
+    // 公司名称 
+    if(isset($this->stash['company'])){
+        $data['company'] = $this->stash['company'];
+    }
+
+    // 作品链接
+    if(isset($this->stash['link'])){
+        $data['link'] = $this->stash['link'];
+    }
 		
 		// 检查是否有附件
 		if(isset($this->stash['asset'])){
@@ -479,9 +560,9 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
                 $num_mode->multi_add_record($data['college_id'], 'match2_love_count', $old_stuff['love_count'], 2);
               }
 
-            }
+            } // endif from_to
 
-          }
+          }// endif ok
           
         }
 			}
@@ -521,6 +602,8 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
             $redirect_url = Doggy_Config::$vars['app.url.contest'].'/qsyd_view/'.$id.'.html';
         }elseif($data['from_to'] == 4){ // 反向定制
             $redirect_url = Sher_Core_Helper_Url::stuff_view_url($id); 
+        }elseif($data['from_to'] == 5){ // top100专题
+            $redirect_url = sprintf("%s/tshow?id=%d", Doggy_Config::$vars['app.url.stuff'], $id);
         }else{
    		    $redirect_url = Sher_Core_Helper_Url::stuff_view_url($id);       
         }

@@ -144,13 +144,14 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
     $result = $wx_third_model->get_access_token($url);
     if($result['success']){
       $open_id = $result['data']['openid'];
+      $union_id = $result['data']['unionid'];
       $access_token = $result['data']['access_token'];
       if(empty($open_id) || empty($access_token)){
         return $this->show_message_page('open_id or access_token is null！', $error_redirect_url);
       }
 
       $user_model = new Sher_Core_Model_User();
-      $user = $user_model->first(array('wx_open_id' => (string)$open_id));
+      $user = $user_model->first(array('wx_union_id' => (string)$union_id));
       if(!empty($user)){
         $user_id = $user['_id'];
         // 重新更新access_token
@@ -172,7 +173,7 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
           //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
           $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
           if (!preg_match($e, $nickname)) {
-            $nickname = (string)$open_id;
+            $nickname = Sher_Core_Helper_Util::generate_mongo_id();
           }
 
           // 检查用户名是否唯一

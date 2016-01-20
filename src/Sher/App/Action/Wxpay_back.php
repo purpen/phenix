@@ -155,7 +155,8 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 			$user_token = $json['access_token'];
 			// 检查用户是否存在，不存在通过openid获取信息自动注册
 			$openid = $json['openid'];
-			$user = Sher_Core_Helper_Auth::create_weixin_user($openid);
+			$unionid = $json['unionid'];
+			$user = Sher_Core_Helper_Auth::create_weixin_user($openid, $unionid);
 		
 			Doggy_Log_Helper::warn("wx oauth snsapi_base user: ".json_encode($user));
 		
