@@ -1,0 +1,198 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+.topbg {
+    background: url({{ app_url_packaged }}/images/top/wap_bg.jpg) no-repeat center center;
+    background-size: cover;
+	padding-top: 37%;
+	padding-bottom: 8%;
+}
+.topbg .ui.jointop{
+	padding-left:30px;
+	padding-right:30px;
+}
+.ui.like.inverted.magenta.button{
+    box-shadow: 0 0 0 1px #f36 inset!important;
+    font-size: 12px;
+	position: relative;
+}
+.like.button .add {
+    position: absolute;
+    top: 14px;
+    text-align: center;
+    left: 0;
+    color: transparent;
+    width: 100%;
+    font-size: 20px;
+    opacity: 1;
+    z-index: 2;
+    transition: all 1s;
+}
+.like.button .add.add-active {
+    top: calc(50% - 70px);
+    color: #f36;
+    transition-delay: .3s;
+    -webkit-animation: arrow 1.5s ease both;
+    -moz-animation: arrow 1.5s ease both;
+    animation: arrow 1.5s ease both;
+}
+.eight.column{
+	width:50%;
+}
+.eight.title.column h3.ui.header{
+    line-height: 37px;
+    height: 35px;
+	font-size: 1.18rem;
+}
+.ui.descrite.segment{
+    padding: 20px 20px 30px;
+    margin-bottom: 30px;
+}
+.ui.descrite.segment p{
+	line-height: 26px;
+}
+.ui.descrite.segment p.link{
+	color:#f36;
+}
+.ui.descrite.segment p.link a{
+	color:#f36;
+	position:relative;
+}
+.ui.descrite.segment p.link a::before{
+	position: absolute;
+    top: auto;
+    bottom: 1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #f36;
+    content: '';
+    -webkit-transition: all 0.2s;
+    -webkit-backface-visibility: hidden;
+    transition: all 0.2s;
+    backface-visibility: hidden;
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+}
+.ui.descrite.segment p.link a:hover:before{
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	$('.like.button').click(function(){
+	    var obj = $(this);
+	    var id = $(this).attr('item-id');
+	    var loved = $(this).attr('loved');
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		
+		if (loved == 0){
+			
+			obj.attr('loved', 1);
+			obj.addClass('active');
+			obj.children('.add').addClass('add-active');
+		}else{
+			obj.attr('loved', 0);
+			obj.removeClass('active');
+			obj.children('.add').removeClass('add-active');
+		}
+	});
+
+  	$('#slider').flexslider({
+        animation: "slide",
+        directionNav: false, 
+        controlNav: true,
+        animationLoop: true,
+        slideshow: true,
+        slideshowSpeed: 5000,
+        animationDuration: 300,
+        animationSpeed: 300,
+    });
+
+{% endblock %}
+{% block content %}
+<div class="top100">
+	<div class="topbg">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<a class="ui magenta inverted jointop active button">
+						立即报名
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="ui stuffs social">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="eight title wide column">
+					<h3 class="ui header">小佩宠物摄像头</h3>
+				</div>
+				<div class="eight wide column" style="text-align:right;">
+					<div class="ui magenta like inverted button" loved="0">
+						<i class=" heart icon"></i>
+						投他一票
+						<div class="add">
+	                        <i class="heart icon" style="font-size: 14px;vertical-align: middle;"></i>+1      
+	                    </div>
+					</div>
+				</div>
+			</div>
+				
+			<div class="row" style="padding-top: 0;">
+				<div class="column">
+					<div id="slider" class="flexslider flex-single">
+						<ul class="slides">
+							<li style="background-image: url(&quot;http://frbird.qiniudn.com/product/151103/563894d8fc8b1262348b9fd5-1-bi.jpg&quot;);">
+							          <a href="javascript:void(0);" title="葡萄游戏厅 游戏手柄 安卓苹果电脑蓝牙2.4G双模游戏手柄" alt="葡萄游戏厅 游戏手柄 安卓苹果电脑蓝牙2.4G双模游戏手柄">
+							          </a>
+							</li>
+							<li style="background-image: url(&quot;http://frbird.qiniudn.com/product/151103/563894d8fc8b1262348b9fd5-1-bi.jpg&quot;);">
+							          <a href="javascript:void(0);" title="葡萄游戏厅 游戏手柄 安卓苹果电脑蓝牙2.4G双模游戏手柄" alt="葡萄游戏厅 游戏手柄 安卓苹果电脑蓝牙2.4G双模游戏手柄">
+							          </a>
+							</li>
+							<li style="background-image: url(&quot;http://frbird.qiniudn.com/product/151103/563894d8fc8b1262348b9fd5-1-bi.jpg&quot;);">
+							          <a href="javascript:void(0);" title="葡萄游戏厅 游戏手柄 安卓苹果电脑蓝牙2.4G双模游戏手柄" alt="葡萄游戏厅 游戏手柄 安卓苹果电脑蓝牙2.4G双模游戏手柄">
+							          </a>
+							</li>
+							
+							
+						</ul>
+					</div>
+				</div>
+				
+			</div>
+			
+			<div class="row">
+				<div class="column">
+					<div class="ui descrite segment">
+						<p>  小蚁科技有限公司为小米生态链企业，获得北京小米科技有限公司和启明创投联合投资。小蚁是采用小米模式的智能硬件创业公司，也是小米智能家居生态的重要成员。公司坐标上海和北京，专注于智能、可穿戴、移动化的新型视频类智能电子产品开发, 为移动互联网时代提供最便捷使用、最智能化的视频产品和服务。智能化的时代正在不可避免地到来，万物的智能化需要可视化的智能硬件的支持和更优化的视频数据分析。视频的技术正在跨越、发展，小蚁紧跟时代步伐，重新审视视频技术，以定义和开发适应这一趋势的视频产品，我们在朝着更智能、更便捷、更快速、更节能、更环保的方向进步。小蚁科技有限公司为小米生态链企业，获得北京小米科技有限公司和启明创投联合投资。小蚁是采用小米模式的智能硬件创业公司，也是小米智能家居生态的重要成员。公司坐标上海和北京，专注于智能、可穿戴、移动化的新型视频类智能电子产品开发, 为移动互联网时代提供最便捷使用、最智能化的视频产品和服务。智能化的时代正在不可避免地到来，万物的智能化需要可视化的智能硬件的支持和更优化的视频数据分析。视频的技术正在跨越、发展，小蚁紧跟时代步伐， 重新审视视频技术，以定义和开发适应这一趋势的视频产品，我们在朝着更智能、更便捷、更快速、更节能、更环保的方向进步。		</p>
+						
+						<p class="link">
+							详情请点击：
+							<a href="Http://www.taihuoniao.com" target="_blank">Http://www.taihuoniao.com</a>
+						</p>
+					</div>
+				</div>
+			</div>
+			
+			
+		</div>
+	</div>
+	
+	
+	
+</div>
+{% endblock %}
