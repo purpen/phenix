@@ -305,9 +305,9 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
       if($ok){
         // 删除验证码
         $verify->remove($code['_id']);
-		    $user_data = $user->extended_model_row($user);
+		    $user = $user_model->extended_model_row($user);
         // 过滤用户字段
-        $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
+        $data = Sher_Core_Helper_FilterFields::wap_user($user);
 
 		    return $this->api_json('请求成功', 0, $data);
       }else{

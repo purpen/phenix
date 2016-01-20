@@ -1192,6 +1192,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		if (empty($payaway)){
 			return $this->api_json('请至少选择一种支付方式！', 3001);
 		}
+		if (empty($user_id)){
+			return $this->api_json('请先登录！', 3002);
+		}
 		
 		// 挑选支付机构
 		Doggy_Log_Helper::warn('Api Pay away:'.$payaway);
@@ -1201,10 +1204,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $pay_url = Doggy_Config::$vars['app.url.domain'].'/app/api/alipay/payment?rid='.$rid;
 				break;
 			case 'weichat':
-        $pay_url = Doggy_Config::$vars['app.url.domain'].'/app/api/alipay/payment?rid='.$rid;
+        $pay_url = Doggy_Config::$vars['app.url.domain'].'/app/api/wxpay/payment?rid='.$rid;
 				break;
 			default:
-			  return $this->api_json('找不到支付类型！', 3002);
+			  return $this->api_json('找不到支付类型！', 3003);
 				break;
 		}
     return $this->to_redirect($pay_url); 
