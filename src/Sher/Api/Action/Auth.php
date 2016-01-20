@@ -77,16 +77,24 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 	 * 注册接口
 	 */
 	public function register(){
-		// 请求参数
-		$this->resparams = array_merge($this->resparams, array('mobile','password','verify_code'));
-		// 验证请求签名
-		if(Sher_Core_Helper_Util::get_signature($this->stash, $this->resparams, $this->client_id) != $this->sign){
-			//return $this->api_json('请求签名验证错误,请重试!', 3000);
-		}
+
+    $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
+		// 绑定设备操作
+		$uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
 		
-	    if (empty($this->stash['mobile']) || empty($this->stash['password']) || empty($this->stash['verify_code']) || empty($this->stash['uuid'])) {
-            return $this->api_json('数据错误,请重试!', 3001);
-        }
+    if (empty($this->stash['mobile']) || empty($this->stash['password']) || empty($this->stash['verify_code']) || empty($this->stash['uuid']) || empty($from_to) || empty($uuid)) {
+          return $this->api_json('数据错误,请重试!', 3001);
+      }
+
+    if($from_to==1){
+      $from_site = Sher_Core_Util_Constant::FROM_IAPP;
+    }elseif($from_to==2){
+      $from_site = Sher_Core_Util_Constant::FROM_APP_ANDROID;   
+    }elseif($from_to==3){
+      $from_site = Sher_Core_Util_Constant::FROM_APP_WIN;   
+    }else{
+      return $this->api_json('来源设备不明确!', 3007);   
+    }
 		
 		// 验证手机号码格式
 		if(!Sher_Core_Helper_Util::is_mobile($this->stash['mobile'])){
@@ -95,26 +103,45 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 
     //验证密码格式
     if(!Sher_Core_Helper_Auth::verify_pwd($this->stash['password'])){
- 			return $this->api_json('密码格式不正确 6-20位字符!', 3002);     
+ 			return $this->api_json('密码格式不正确 6-20位字符!', 3003);     
+    }
+
+		$user_model = new Sher_Core_Model_User();
+
+    // 验证账号是否存在
+    if(!$user_model->check_account($this->stash['mobile'])){
+      return $this->api_json("账户已存在!", 3004);
+    }
+
+    //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
+    $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
+    $nickname = $this->stash['mobile'];
+    if (!preg_match($e, $nickname)) {
+      return $this->api_json("不是一个有效的手机号码!", 3005);
+    }
+
+    // 检查用户名是否唯一
+    $exist = $user_model->_check_name($nickname);
+    if (!$exist) {
+      $nickname = sprintf("%s_%d", $nickname, rand(1000,9999));
     }
 		
 		// 验证验证码是否有效
 		$verify = new Sher_Core_Model_Verify();
 		$code = $verify->first(array('phone'=>$this->stash['mobile'],'code'=>$this->stash['verify_code']));
 		if(empty($code)){
-			return $this->api_json('验证码有误，请重新获取！', 3004);
+			return $this->api_json('验证码有误，请重新获取！', 3006);
 		}
 		
 		$user_info = array(
             'account'   => $this->stash['mobile'],
-			'nickname'  => $this->stash['mobile'],
+			'nickname'  => $nickname,
 			'password'  => sha1($this->stash['password']),
             'state'     => Sher_Core_Model_User::STATE_OK,
-			'from_site' => Sher_Core_Util_Constant::FROM_WEIXIN,
+			'from_site' => $from_site,
         );
 		
-		$user = new Sher_Core_Model_User();
-		$profile = $user->get_profile();
+		$profile = $user_model->get_profile();
 		$profile['phone'] = $this->stash['mobile'];
 		$user_info['profile'] = $profile;
 		
@@ -122,37 +149,24 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 			// 删除验证码
 			$verify->remove($code['_id']);
 			
-            $ok = $user->create($user_info);
+            $ok = $user_model->create($user_info);
 			if($ok){
-				$user_id = $user->id;
+				$user_id = $user_model->id;
+        $user = $user_model->extend_load($user_id);
 				
-				$visitor = array();
-				$visitor['is_login'] = true;
-				$visitor['id'] = $user_id;
-				
-		        // export some attributes to browse client.
-				$user_data = $user->extend_load($user_id);
-		        foreach (array('account','nickname','last_login','current_login','visit','is_admin') as $k) {
-		            $visitor[$k] = isset($user_data[$k]) ? $user_data[$k] : null;
-		        }
-				
-				// 实现自动登录
-				Sher_Core_Helper_Auth::create_user_session($user_id);
-				
-				// 绑定设备操作
-				$uuid = $this->stash['uuid'];
-				$user_id = (int)$this->stash['user_id'];
-				if(!empty($uuid) && !empty($user_id)){
-					$pusher = new Sher_Core_Model_Pusher();
-					$ok = $pusher->binding($uuid, $user_id);
-				}
+    // 过滤用户字段
+    $data = Sher_Core_Helper_FilterFields::wap_user($user);
+
+    $pusher = new Sher_Core_Model_Pusher();
+    $ok = $pusher->binding($uuid, $user_id, $from_to);
+
 			}
         }catch(Sher_Core_Model_Exception $e){
             Doggy_Log_Helper::error('Failed to register:'.$e->getMessage());
             return $this->api_json($e->getMessage(), 4001);
         }
 		
-		return $this->api_json("注册成功，欢迎加入太火鸟！", 0, $visitor);
+		return $this->api_json("注册成功，欢迎加入太火鸟！", 0, $data);
 	}
 	
 	/**
@@ -190,20 +204,14 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 	 * 发送手机验证码
 	 */
 	public function verify_code(){
-		// 请求参数
-		$this->resparams = array_merge($this->resparams, array('mobile'));
-		// 验证请求签名
-		if(Sher_Core_Helper_Util::get_signature($this->stash, $this->resparams, $this->client_id) != $this->sign){
-			//return $this->api_json('请求参数签名有误,请重试!', 300);
-		}
 		
 		$phone = $this->stash['mobile'];
 		if(empty($phone)){
-			return $this->api_json('发送失败：手机号码不能为空！', 300);
+			return $this->api_json('发送失败：手机号码不能为空！', 3001);
 		}
 		// 验证手机号码格式
 		if(!Sher_Core_Helper_Util::is_mobile($phone)){
-			return $this->api_json('发送失败：手机号码格式不正确！', 300);
+			return $this->api_json('发送失败：手机号码格式不正确！', 3002);
 		}
 		// 生成验证码
 		$verify = new Sher_Core_Model_Verify();
@@ -459,8 +467,8 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     try{
       $ok = $user_model->create($user_data);
       if($ok){
-        $user = $user_model->get_data();
-        $user_id = $user['_id'];
+				$user_id = $user_model->id;
+        $user = $user_model->extend_load($user_id);
 
         // 如果存在头像,更新
         if(isset($this->stash['avatar_url']) && !empty($this->stash['avatar_url'])){
@@ -502,10 +510,8 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 				  $this->give_bonus($user_id, 'QX', array('count'=>1, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
 				}
 
-        // 返回用户数据
-        $user_data = $user_model->extended_model_row($user);
         // 过滤用户字段
-        $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
+        $data = Sher_Core_Helper_FilterFields::wap_user($user);
         $pusher = new Sher_Core_Model_Pusher();
         $ok = $pusher->binding($uuid, $user_id, $from_to);
 

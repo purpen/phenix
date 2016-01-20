@@ -46,6 +46,11 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 
         # 团队介绍
         'team_introduce' => '',
+        # 联系方式
+        'tel' => '',
+        'company' => '',
+        # 产品链接
+        'link' => '',
 		
 		# 品牌ID
 		'cooperate_id' => '',
@@ -86,7 +91,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		'stick' => self::STICK_DEFAULT,
 		# 精选
 		'featured' => self::FEATURED_DEFAULT,
-        # 属于1.十万火计;2.蛋年;3.奇思甬动-大赛;4.反向定制;5;最火爆智能硬件TOP100;
+        # 属于1.十万火计;2.蛋年;3.奇思甬动-大赛;4.反向定制;5;最火爆智能硬件TOP100;6.--;7.--
         'from_to' => 0,
 
         # 用于大赛

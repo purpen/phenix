@@ -74,48 +74,6 @@
 		return file_count++;
 	};
 	
-	/*$('#editor').editable({
-		inlineMode: false,
-    language: "zh_cn",
-		toolbarFixed: false,
-    theme: 'gray',
-		language: 'zh_cn',
-		borderColor: '#999',
-		editorClass: 'frbird',
-		minHeight: 450,
-		plainPaste: true,
-		alwaysBlank: true,
-		typingTimer: 5000,
-		imageMargin: '20px',
-		{% if mode == 'edit' %}
-		defaultImageTitle: '{{ stuff.title }}',
-		{% else %}
-		defaultImageTitle: '太火鸟',
-		{% endif %}
-		buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "multiUpload", "insertVideo", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html", "fullscreen"],
-		imageUploadURL: "{{ app_url_upload_feditor }}",
-		imageUploadParams: {'token': '{{ token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
-		defaultImageWidth: '',
-		maxImageSize: 1024 * 1024 * 5, // 5M
-		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
-        
-        assetType: {{ editor_asset_type|default 55 }},
-        assetDomain: '{{ editor_domain|default 'stuff' }}',
-        parent_id: {{ stuff._id|default 0 }},
-        fetchUploadURL: '{{ app_url_action_base }}/uploader/fetch_upload_assets',
-	}).on('editable.imageInserted',  function (e, editor, imageURL) {
-		// 记录插入图片数
-		$('#file_count').val(file_count);
-		
-		file_count++;
-    }).on('editable.imageError', function (e, editor, error) {
-      if (error.code == 5){
-        error.message = '图片太大，请选择小于5M！';
-      }
-      phenix.show_error_note(error.message, 5000);
-    });
-	*/
-	
 	$('#stuff-form').form({
 		link: {
 			identifier  : 'link',
@@ -126,8 +84,8 @@
 				}
 			]
 		},
-		phone: {
-			identifier  : 'phone',
+		tel: {
+			identifier  : 'tel',
 			rules: [
 				{
 					type   : 'empty',
@@ -135,8 +93,8 @@
 				}
 			]
 		},
-		corporate: {
-			identifier  : 'corporate',
+		company: {
+			identifier  : 'company',
 			rules: [
 				{
 					type   : 'empty',
@@ -190,7 +148,6 @@
 		}
 	});
 	
-	/*
 	$('#phenix-uploader').fineUploader({
 		debug: true,
       	request: {
@@ -220,7 +177,8 @@
 			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}'});
 		}
 	});
-	*/
+
+
 	// 选择分类
 	$('.ui.options').on('click', '.option', function(){
 		var id = $(this).attr('data-value');
@@ -296,13 +254,9 @@
 				<div class="ui submit segment">
 					<form action="{{ app_url_action_base }}/stuff/save" class="ui form" method="post" id="stuff-form">
 						<input type="hidden" name="_id" value="{{ stuff._id }}" id="stuff_id" />
-						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
-						<input type="hidden" name="file_count" id="file_count" />
-            <input type="hidden" name="from_to" value="{{ stuff.from_to }}" />
-            <input type="hidden" name="verified" value="{{ stuff.verified }}" />
-            <input type="hidden" name="contest_id" value="{{ stuff.contest_id }}" />
+            <input type="hidden" name="fid" value="{{ pid }}" />
+            <input type="hidden" name="from_to" value="5" />
 						
-                        {% if !rid %}
 						<div class="ui field" style="padding-bottom: 10px;">
 							<h3 class="ui dividing header">产品分类</h3>
 						   	<div class="ui options">
@@ -313,7 +267,7 @@
 									<input type="hidden" name="category_id" id="stuff-category" />
 								{% endif %}
 								
-								{% category_list var:'category' only_open:1 domain:4 pid:cid current:stuff.category_id %}
+								{% category_list var:'category' only_open:1 domain:4 pid:pid current:stuff.category_id %}
 								{% for cat in category.rows %}
 						   	 	<div class="ui {{ cat.active }} topbtn alt option button" data-value="{{ cat._id }}">
 						   	 		{{ cat.title }}
@@ -321,29 +275,12 @@
 								{% endfor %}
 						   	 </div>
 						</div>
-                        {% else %}
-                            {% if mode == 'edit' %}
-                            <input type="hidden" name="category_id" value="{{ stuff.category_id }}" />
-                            <input type="hidden" name="cooperate_id" value="{{ stuff.cooperate_id }}" />
-                            {% else %}
-                            <input type="hidden" name="category_id" value="{{ selected_category_id }}" />
-                            <input type="hidden" name="cooperate_id" value="{{ rid }}" />
-                            {% endif %}
-                        {% endif %}
+
 					
 						<div class="field">
 							<h3 class="ui dividing header"for="title">产品信息</h3>
 						</div>
-					
-						<div class="field">
-							<label for="corporate">公司名称</label>
-						  	<input type="text" name="corporate" value="{{ stuff.corporate }}" />
-						</div>
-						
-						<div class="field">
-							<label for="phone">联系方式</label>
-						  	<input type="text" name="phone" value="{{ stuff.phone }}" />
-						</div>
+				
 						
 						<div class="field">
 							<label for="title">产品名称</label>
@@ -360,8 +297,17 @@
 						  	<textarea name="description" placeholder="此处输入产品详细描述..." id="editor">{{ stuff.description }}</textarea>
 						</div>
 						
+						<div class="two fields">
+						<div class="field">
+							<label for="corporate">公司名称</label>
+						  	<input type="text" name="company" value="{{ stuff.company }}" />
+						</div>
 						
-						
+						<div class="field">
+							<label for="phone">联系方式</label>
+						  	<input type="text" name="tel" value="{{ stuff.tel }}" />
+						</div>
+          </div>
                         
                        
 						
