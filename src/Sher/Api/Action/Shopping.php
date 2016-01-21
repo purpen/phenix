@@ -265,6 +265,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
 		// 销售价格
 		$price = !empty($item) ? $item['price'] : $product_data['sale_price'];
+		// sku属性
+		$sku_name = !empty($item) ? $item['mode'] : null;
 		
 		$items = array(
 			array(
@@ -294,6 +296,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$coin_money = 0.0;
 		
 		$pay_money = $total_money + $freight - $coin_money;
+    $order_info['dict']['items'][0]['sku_name'] = $sku_name;
 
 		// 立即订单标识
     $result['is_nowbuy'] = 1;
