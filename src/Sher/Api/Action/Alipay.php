@@ -3,9 +3,7 @@
  * API 接口
  * @author purpen
  */
-class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Action_Initialize {
-
-	protected $filter_user_method_list = '*';
+class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Action_Initialize {
 
  	public $alipay_config = array(
 		// 合作身份者id，以2088开头的16位纯数字
@@ -59,19 +57,29 @@ class Sher_Api_Action_Alipay extends Sher_Api_Action_Base implements DoggyX_Acti
   public function payment(){
     $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
 		if (empty($rid)){
-			return $this->api_json('订单丢失！', 4001);
+			return $this->api_json('订单丢失！', 3001);
 		}
+
+    $user_id = $this->stash['user_id'];
+    if (empty($user_id)){
+      return $this->api_json('用户不存在！', 3002);
+    }
+
+    $uuid = $this->stash['uuid'];
+    if (empty($uuid)){
+      return $this->api_json('设备号不存在！', 3003);
+    }
 		
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->find_by_rid($rid);
 		if(empty($order_info)){
-			return $this->api_json('抱歉，系统不存在该订单！', 4002);
+			return $this->api_json('抱歉，系统不存在该订单！', 3004);
 		}
 		$status = $order_info['status'];
 		
 		// 验证订单是否已经付款
 		if ($status != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
-			return $this->api_json("订单[$rid]已付款！", 4003);
+			return $this->api_json("订单[$rid]已付款！", 3005);
 		}
 		
         // 支付类型

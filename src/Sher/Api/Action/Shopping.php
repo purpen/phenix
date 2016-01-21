@@ -1185,6 +1185,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	public function payed(){
     $rid = $this->stash['rid'];
     $user_id = $this->current_user_id;
+    $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
 		$payaway = isset($this->stash['payaway'])?$this->stash['payaway']:'';
 		if (empty($rid)) {
 			return $this->api_json('操作不当，请查看购物帮助！', 3000);
@@ -1195,19 +1196,27 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		if (empty($user_id)){
 			return $this->api_json('请先登录！', 3002);
 		}
+		if (empty($uuid)){
+			return $this->api_json('设备号不存在！', 3003);
+		}
+
+    $ip = Sher_Core_Helper_Auth::get_ip();
+		if (empty($ip)){
+			return $this->api_json('IP地址不存在！', 3004);
+		}
 		
 		// 挑选支付机构
 		Doggy_Log_Helper::warn('Api Pay away:'.$payaway);
 		
 		switch($payaway){
 			case 'alipay':
-        $pay_url = Doggy_Config::$vars['app.url.domain'].'/app/api/alipay/payment?rid='.$rid;
+        $pay_url = sprintf("%s/app/api/alipay/payent?user_id=%d&rid=%d&uuid=%s&ip=%s", Doggy_Config::$vars['app.url.domain'], $user_id, $rid, $uuid, $ip);
 				break;
 			case 'weichat':
-        $pay_url = Doggy_Config::$vars['app.url.domain'].'/app/api/wxpay/payment?rid='.$rid;
+        $pay_url = sprintf("%s/app/api/wxpay/payent?user_id=%d&rid=%d&uuid=%s&ip=%s", Doggy_Config::$vars['app.url.domain'], $user_id, $rid, $uuid, $ip);
 				break;
 			default:
-			  return $this->api_json('找不到支付类型！', 3003);
+			  return $this->api_json('找不到支付类型！', 3005);
 				break;
 		}
     return $this->to_redirect($pay_url); 
