@@ -214,12 +214,13 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	 * 立即购买
 	 */
 	public function now_buy(){
-		$sku = isset($this->stash['sku'])?$this->stash['sku']:0;
+		$target_id = isset($this->stash['target_id'])?(int)$this->stash['target_id']:0;
+		$type = isset($this->stash['type'])?(int)$this->stash['type']:0;
 		$quantity = isset($this->stash['n'])?(int)$this->stash['n']:1;
     $result = array();
 		// 验证数据
-		if (empty($sku) || empty($quantity)){
-      return $this->api_json('操作异常，请重试！', 3001);
+		if (empty($target_id) || empty($type)){
+      return $this->api_json('操作异常，请重试！', 3000);
 		}
 
 		$user_id = $this->current_user_id;
@@ -229,23 +230,26 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		}
 		
 		// 验证是否预约过抢购商品
-		if(!$this->validate_appoint($sku)){
+		if(!$this->validate_appoint($target_id)){
       return $this->api_json('抱歉，您还没有预约，不能参加本次抢购！', 3002);
 		}
 		// 验证抢购商品是否重复
-		if(!$this->validate_snatch($sku)){
+		if(!$this->validate_snatch($target_id)){
       return $this->api_json('不要重复抢哦', 3003);
 		}
 		
 		// 验证库存数量
 		$inventory = new Sher_Core_Model_Inventory();
-		$enoughed = $inventory->verify_enough_quantity($sku, $quantity);
+		$enoughed = $inventory->verify_enough_quantity($target_id, $quantity);
 		if(!$enoughed){
       return $this->api_json('挑选的产品已售完', 3004);
 		}
-		$item = $inventory->load((int)$sku);
+    $item = null;
+    if($type==2){
+		  $item = $inventory->load((int)$target_id);
+    }
 		
-		$product_id = !empty($item) ? $item['product_id'] : $sku;
+		$product_id = !empty($item) ? $item['product_id'] : $target_id;
 		
 		// 获取产品信息
 		$product = new Sher_Core_Model_Product();
@@ -264,7 +268,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		
 		$items = array(
 			array(
-				'sku'  => $sku,
+				'sku'  => $target_id,
 				'product_id' => $product_id,
 				'quantity' => $quantity,
 				'price' => $price,
@@ -1419,7 +1423,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $cart_model = new Sher_Core_Model_Cart();
     $cart = $cart_model->load($user_id);
     if(empty($cart) || empty($cart['items'])){
-      return $this->api_json('数据为空!', 0, array('_id'=>0, 'items'=>array(), 'item_count'=>0, 'total_price'=>0));
+      return $this->api_json('数据为空!', 0, array('_id'=>0, 'items'=>array(), 'sku_name'=>null, 'item_count'=>0, 'total_price'=>0));
     }
 
 		$inventory_model = new Sher_Core_Model_Inventory();
