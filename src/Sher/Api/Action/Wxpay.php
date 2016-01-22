@@ -12,12 +12,7 @@
 		 * 初始化参数
 		 */
 		public function _init() {
-			$this->options = array(
-				'appid' => Doggy_Config::$vars['app.wechat_m.app_id'],
-				'secret' => Doggy_Config::$vars['app.wechat_m.app_secret'],
-				'mchid' => Doggy_Config::$vars['app.wechat_m.partner_id'],
-				'key' => Doggy_Config::$vars['app.wechat_m.key'],
-			);
+
 		}
 		
 		/**
@@ -66,7 +61,7 @@
 			}
 			
 			// 支付完成通知回调接口
-			$notify_url = sprintf("%s/wxpay/notify", Doggy_Config::$vars['app.domain.base']);
+			$notify_url = sprintf("%s/app/api/wxpay/notify", Doggy_Config::$vars['app.domain.base']);
 
 			
 			// 统一下单
@@ -85,11 +80,20 @@
 			
 			$order = Sher_Core_Util_WxPay_WxPayApi::unifiedOrder($input); // 统一下单处理类
 
-      print_r($order);exit;
+      if(!empty($order)){
+        if($order['return_code'] == 'SUCCESS'){
+          if($order['result_code'] == 'SUCCESS'){
+            return $this->api_json('请求成功!', 0, $order);         
+          }else{
+            return $this->api_json('请求失败!', 3010, $order['err_code']);          
+          }
+        }else{
+          return $this->api_json('请求失败!', 3011, $order['return_msg']);        
+        }
+      }else{
+        $this->api_json('请求异常!', 3012);
+      }
 
-			$this->stash['url_back'] = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/direct?rid='.$rid;
-			
-			return $this->to_html_page('wap/wxpay.html');
 		}
 		
 		/**

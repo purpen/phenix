@@ -326,6 +326,21 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		}
 
     $from_site = isset($this->stash['from_site']) ? (int)$this->stash['from_site'] : 7;
+    if(!in_array($from_site, array(7,8))){
+      return $this->api_json('来源设备不正确！', 3011);     
+    }
+
+    $payment_method = isset($this->stash['payment_method']) ? $this->stash['payment_method'] : 'a';
+    if(!in_array($payment_method, array('a', 'b'))){
+      return $this->api_json('付款方式不正确！', 3012);     
+    }
+
+    $transfer_time = isset($this->stash['transfer_time']) ? $this->stash['transfer_time'] : 'a';
+    if(!in_array($transfer_time, array('a', 'b'))){
+      return $this->api_json('配送时间设置不正确！', 3013);     
+    }
+
+    $transfer = isset($this->stash['transfer']) ? $this->stash['transfer'] : 'a';
 
     //验证地址
     $add_book_model = new Sher_Core_Model_AddBooks();
@@ -336,10 +351,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
 		Doggy_Log_Helper::debug("Submit Order [$rrid]！");
 		// 是否预售订单
-		$is_presaled = isset($this->stash['is_presaled']) ? (int)$this->stash['is_presaled'] : false;
+		//$is_presaled = isset($this->stash['is_presaled']) ? (int)$this->stash['is_presaled'] : 0;
 		
 		// 是否立即购买订单
-		$is_nowbuy = isset($this->stash['is_nowbuy']) ? (int)$this->stash['is_nowbuy'] : false;
+		//$is_nowbuy = isset($this->stash['is_nowbuy']) ? (int)$this->stash['is_nowbuy'] : 0;
 		
 		
 		// 预生成临时订单
@@ -360,9 +375,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
 		
 		// 获取提交数据, 覆盖默认数据
-		$order_info['payment_method'] = $this->stash['payment_method'];
-		$order_info['transfer'] = $this->stash['transfer'];
-		$order_info['transfer_time'] = $this->stash['transfer_time'];
+		$order_info['payment_method'] = $payment_method;
+		$order_info['transfer'] = $transfer;
+		$order_info['transfer_time'] = $transfer_time;
 		
 		// 需要开具发票，验证开票信息
 		if(isset($this->stash['invoice_type'])){
@@ -460,7 +475,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
 			if (!$ok) {
-				return 	$this->ajax_json('订单生成失败，请重试！', true);
+				return 	$this->api_json('订单生成失败，请重试！', 3020);
 			}
 			
 			$data = $orders->get_data();

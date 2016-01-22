@@ -225,7 +225,8 @@ app.wechat_m.app_secret: ''
 # 微信MCHID：商户号（必须配置，开户邮件中可查看）
 app.wechat_m.partner_id: '1305635501'
 # KEY：商户支付密钥，参考开户邮件设置（必须配置，登录商户平台自行设置）
-app.wechat_m.key: ''
+# **** 要与web端一致!!!!
+app.wechat_m.key: '{$app.wechat.key}'
 
 
 # 微信订阅号token

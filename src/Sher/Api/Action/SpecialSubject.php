@@ -151,7 +151,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
               $product_data[$key] = isset($product[$key]) ? $product[$key] : null;
             }
             // 封面图url
-            $product_data['cover_url'] = $product['cover']['thumbnails']['mb']['view_url'];
+            $product_data['cover_url'] = $product['cover']['thumbnails']['mt']['view_url'];
             array_push($product_arr, $product_data);
           }
 			  } // endfor
