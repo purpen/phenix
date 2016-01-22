@@ -1232,10 +1232,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		
 		switch($payaway){
 			case 'alipay':
-        $pay_url = sprintf("%s/app/api/alipay/payent?user_id=%d&rid=%d&uuid=%s&ip=%s", Doggy_Config::$vars['app.url.domain'], $user_id, $rid, $uuid, $ip);
+        $pay_url = sprintf("%s/app/api/alipay/payment?user_id=%d&rid=%d&uuid=%s&ip=%s", Doggy_Config::$vars['app.url.domain'], $user_id, $rid, $uuid, $ip);
 				break;
 			case 'weichat':
-        $pay_url = sprintf("%s/app/api/wxpay/payent?user_id=%d&rid=%d&uuid=%s&ip=%s", Doggy_Config::$vars['app.url.domain'], $user_id, $rid, $uuid, $ip);
+        $pay_url = sprintf("%s/app/api/wxpay/payment?user_id=%d&rid=%d&uuid=%s&ip=%s", Doggy_Config::$vars['app.url.domain'], $user_id, $rid, $uuid, $ip);
 				break;
 			default:
 			  return $this->api_json('找不到支付类型！', 3005);
