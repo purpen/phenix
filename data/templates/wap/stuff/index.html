@@ -83,43 +83,81 @@
 }
 </style>
 {% endblock %}
-{% block layout_js %}
 
+{% block layout_js %}
+<script type="text/javascript" >
+    var pid = {{ pid|default 0 }};
+    var type = 6;
+    function ajax_load_more(page, is_top, category_id, stick, from_to, sort, size){
+        var url = '{{ app_url_wap }}/app/site/stuff/ajax_fetch_more';
+        if(page != 'no'){
+            $.get(url, { page:page, type:type, is_top:is_top, category_id:category_id, stick:stick, from_to:from_to, sort:sort, size:size }, function(rs){
+                rs.data['phenix'] = phenix.url;
+                var rendered = phenix.ajax_render_result('#fetch_more_stuff_top100_tpl', rs.data);
+                $('#stuff_list_box').append(rendered);
+
+            }, 'json');
+        }else{
+            $('#stuff_list_box').html('没有更多了产品!');
+        }
+    }
+
+</script>
 {% endblock %}
+
 {% block jquery %}
-	$('.like.button').click(function(){
-	    var obj = $(this);
-	    var id = $(this).attr('item-id');
-	    var loved = $(this).attr('loved');
-		// 所有ajax请求，验证是否登录
-		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
-			return false;
-		}
-		
-		if (loved == 0){
-			
-			obj.attr('loved', 1);
-			obj.addClass('active');
-			obj.children('.add').addClass('add-active');
-		}else{
-			obj.attr('loved', 0);
-			obj.removeClass('active');
-			obj.children('.add').removeClass('add-active');
-		}
-		
-		
+  // 初次加载
+  ajax_load_more(1, 1, pid, 0, 5, 7, 10);
+
+  $('.like.button').livequery(function(){
+    $(this).click(function(){
+        var obj = $(this);
+        var id = $(this).attr('item_id');
+        var loved = $(this).attr('loved');
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.show_login_box();
+        return false;
+      }
+      
+      if (loved == 0){
+        $.post("{{ app_url_wap }}/app/site/favorite/ajax_laud", {id:id, type:4}, function(result){
+          if(result.success){
+            obj.attr('loved', 1);
+            obj.addClass('active');
+            obj.children('.add').addClass('add-active');        
+            obj.find('span').text("已投票");
+          }else{
+            phenix.show_error_note('操作失败!',3000);
+          }
+        }, 'json');
+      }else{
+      /**
+        $.post("{{ app_url_wap }}/app/site/favorite/ajax_cancel_laud", {id:id, type:4}, function(result){
+          if(result.success){
+            obj.attr('loved', 0);
+            obj.removeClass('active');
+            obj.children('.add').removeClass('add-active');
+            obj.find('span').text("投他一票");
+          }else{
+            phenix.show_error_note('操作失败!',3000);
+          }
+        }, 'json');
+        */
+      }
+      
+    });
 	});
 
-
 {% endblock %}
+
 {% block content %}
 <div class="top100">
 	<div class="topbg">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column">
-					<a class="ui magenta inverted jointop active button">
+					<a href="{{ app_url_wap }}/stuff/tsubmit" class="ui magenta inverted jointop active button">
 						立即报名
 					</a>
 				</div>
@@ -133,9 +171,10 @@
 	<div class="ui responsive grid" id="mpresale">
 		<div class="row">
 			<div class="column">
-				<div class="ui products two cards item-box">
+				<div class="ui products two cards item-box" id="stuff_list_box">
 					<!-- list -->
 					
+          <!--
 					<div class="card">
 						<div class="problock">
 					        <a style="background-image: url(http://frbird.qiniudn.com/product/150204/54d2271d3ffca264238b46c8-1-hm.jpg);" class="thumb" target="_blank">
@@ -159,77 +198,9 @@
 							</div>
 						</div>
 					</div>
+
+          -->
 					<!-- end -->
-					
-					<div class="card">
-						<div class="problock">
-					        <a style="background-image: url(http://frbird.qiniudn.com/product/150204/54d2271d3ffca264238b46c8-1-hm.jpg);" class="thumb" target="_blank">
-					        </a>
-					        <h2>
-					            <a href="http://dev.taihuoniao.com/shop/1020885051.html" title="测试的商品哈哈哈哈FLYang" class="ui line" target="_blank">
-								    测试的商品哈哈哈哈FLYang
-							    </a>
-					        </h2>
-					        <div class="excerpt">
-					            <p>测试的商品哈哈哈哈测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang测试的商品哈哈哈哈测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang</p>
-					        </div>
-					       <div class="cats">
-						       <div class="ui magenta like inverted button" loved="0">
-									<i class=" heart icon"></i>
-									投他一票
-									<div class="add">
-				                        <i class="heart icon" style="font-size: 14px;vertical-align: middle;"></i>+1      
-				                    </div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="card">
-						<div class="problock">
-					        <a style="background-image: url(http://frbird.qiniudn.com/product/150204/54d2271d3ffca264238b46c8-1-hm.jpg);" class="thumb" target="_blank">
-					        </a>
-					        <h2>
-					            <a href="http://dev.taihuoniao.com/shop/1020885051.html" title="测试的商品哈哈哈哈FLYang" class="ui line" target="_blank">
-								    测试的商品哈哈哈哈FLYang
-							    </a>
-					        </h2>
-					        <div class="excerpt">
-					            <p>测试的商品哈哈哈哈测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang测试的商品哈哈哈哈测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang</p>
-					        </div>
-					       <div class="cats">
-						       <div class="ui magenta like inverted button" loved="0">
-									<i class=" heart icon"></i>
-									投他一票
-									<div class="add">
-				                        <i class="heart icon" style="font-size: 14px;vertical-align: middle;"></i>+1      
-				                    </div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="card">
-						<div class="problock">
-					        <a style="background-image: url(http://frbird.qiniudn.com/product/150204/54d2271d3ffca264238b46c8-1-hm.jpg);" class="thumb" target="_blank">
-					        </a>
-					        <h2>
-					            <a href="http://dev.taihuoniao.com/shop/1020885051.html" title="测试的商品哈哈哈哈FLYang" class="ui line" target="_blank">
-								    测试的商品哈哈哈哈FLYang
-							    </a>
-					        </h2>
-					        <div class="excerpt">
-					            <p>测试的商品哈哈哈哈测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang测试的商品哈哈哈哈测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang</p>
-					        </div>
-					       <div class="cats">
-						       <div class="ui magenta like inverted button" loved="0">
-									<i class=" heart icon"></i>
-									投他一票
-									<div class="add">
-				                        <i class="heart icon" style="font-size: 14px;vertical-align: middle;"></i>+1      
-				                    </div>
-								</div>
-							</div>
-						</div>
-					</div>
 					
 					
 				</div>
@@ -237,7 +208,7 @@
 		</div>
 		<div class="row">
 			<div class="ui center aligned column">
-				<a href="" class="ui magenta inverted active getmore button">查看更多</a>
+				<a href="{{ app_url_wap }}/stuff/tlist" class="ui magenta inverted active getmore button">查看更多</a>
 			</div>
 		</div>
 	</div>
@@ -247,4 +218,8 @@
 	<img src="{{ app_url_packaged }}/images/top/wap_mid2.jpg" align="absmiddle" width="100%">
 
 </div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'fetch_more_stuff_top100_tpl' tpl:'mustache/fetch_more_stuff_top100.mustache' %}
 {% endblock %}

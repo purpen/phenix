@@ -41,7 +41,6 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 	**/
 	public function tsubmit(){
 
-
 		// 图片上传参数
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_STUFF;
