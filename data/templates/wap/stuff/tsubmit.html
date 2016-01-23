@@ -1,0 +1,179 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+.topbg {
+    background: url({{ app_url_packaged }}/images/top/wap_bg.jpg) no-repeat center center;
+    background-size: cover;
+	padding-top: 37%;
+	padding-bottom: 8%;
+}
+.topbg .ui.jointop{
+	padding-left:30px;
+	padding-right:30px;
+}
+.topbtn.active, .topbtn:hover {
+    background: #37004f !important;
+    color: #fff !important;
+}
+.ui.stuffs h3.dividing.ui.header {
+    font-size: 1.1rem;
+}
+.ui.dividing.header {
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+select.leibie{
+	width: 100%;
+    background: #fff !important;
+    border: 1px solid rgba(34,36,38,.15);
+    border-radius: .28571429rem;
+    box-shadow: 0 0 0 0 transparent inset;
+    padding: .62em 1em;
+    color: rgba(0,0,0,.87);
+    -webkit-transition: color .1s ease,border-color .1s ease;
+    transition: color .1s ease,border-color .1s ease;
+	height: 2.7142em !important;
+}
+.leibie.focus{
+	display:none;
+}
+.ui.form .field>label{
+	font-weight:400;
+}
+.field + hr{
+	height: 1px;
+    background: rgba(34,36,38,.15);
+    border: none;
+	margin-bottom: 15px;
+}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	var scrollTop = $('.stuffs').offset().top;
+	$('.jointop').click(function(){
+		$('body,html').animate({scrollTop:scrollTop},500); 
+		return false; 
+	});
+
+{% endblock %}
+
+{% block content %}
+<div class="top100">
+	<div class="topbg">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<a class="ui inverted topbtn jointop active button">
+						报名提交
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="ui stuffs social">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="ui segment">
+						<form action=" " class="ui form" method="post" id=" ">
+						
+							<div class="ui field" style="padding-bottom: 10px;">
+								<h3 class="ui dividing header">产品分类</h3>
+								<select class="leibie">
+									<option value="">智能影音</option>
+									<option value="">智能影音</option>
+									<option value="">智能影音</option>
+								</select>
+							</div>
+						
+							<div class="ui field">
+								<h3 class="ui dividing header">产品信息</h3>
+							</div>
+						
+							<div class="ui field">
+								<label for="title">标题</label>
+								<input type="text" name="title" value="">
+							</div>
+							
+							<div class="field">
+								<label for="phone">联系方式</label>
+							  	<input type="text" name="phone" value="{{ stuff.phone }}" />
+							</div>
+						
+							<div class="field">
+								<label for="title">产品名称</label>
+							  	<input type="text" name="title" value="{{ stuff.title }}" />
+							</div>
+						
+							<div class="field">
+								<label for="link">产品链接</label>
+							  	<input type="text" name="link" value="{{ stuff.link }}" />
+							</div>
+						
+							<div class="field">
+								<label for="description">产品描述</label>
+							  	<textarea name="description" placeholder="此处输入产品详细描述..." id="editor">{{ stuff.description }}</textarea>
+								<div class="description">更详细的内容可以登录电脑版更新！</div>
+							</div>
+							
+							<div class="field">
+								<label>上传封面图片 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
+								<input type="hidden" name="cover_id" id="stuff_cover_id" value="{{ stuff.cover_id }}" />
+								<div id="phenix-uploader"></div>
+					
+								<div id="asset-list" class="ui four items">
+									{% if mode == 'edit' %}
+										{% asset_list var:'assets' parent_id:stuff._id asset_type:70 %}
+										{% for asset in assets.rows %}
+										<div class="thumb item" id="{{ asset._id }}">
+											<div class="image">
+												<img src="{{ asset.thumbnails.mini.view_url }}" />
+												<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+											</div>
+											<div class="buttons">
+												<div class="ui large links">
+													<a href="{{ app_url_stuff }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+														<i class="remove icon"></i>
+													</a>
+													<a href="javascript:void(0);" class="ui link ajax-cover pop {%if stuff.cover_id == asset._id %}active{% endif %}" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+														<i class="checkered flag icon"></i>
+													</a>
+												</div>
+											</div>
+										</div>
+										{% endfor %}
+									{% endif %}
+								</div>
+							</div>
+							
+							<hr>
+							
+							<div class="ui grid" style="padding-bottom: 20px;">
+								<div class="column">
+									<div class="ui grey cancel active inverted button width">取消</div>
+									<div class="ui magenta active submit inverted button width">确认提交</div>
+								</div>
+							</div>
+							
+							
+						</form>
+						
+						
+				
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+</div>
+{% endblock %}

@@ -3,7 +3,7 @@
 {% block page_css %}
 <style type="text/css">
 	.topbg {
-	    background: url({{ app_url_packaged }}/images/top/bg.jpg) no-repeat center center;
+	    background: url({{ app_url_packaged }}/images/top/sbg.jpg) no-repeat center center;
 	    background-size: cover;
 		padding-top: 23%;
 		padding-bottom: 7%;
@@ -234,7 +234,7 @@
 				<div class="ui descrite segment">
           <p>{{ stuff.description }}</p>
           {% if stuff.link %}
-            <p class="link">详情请点击：<a href="Http://www.taihuoniao.com" target="_blank">{{ stuff.link }}</a></p>
+            <p class="link">详情请点击：<a href="{{ stuff.link }}" target="_blank">{{ stuff.link }}</a></p>
           {%endif%}
 					
 					<div class="ui center aligned cats">
