@@ -396,6 +396,7 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 		
 		$data['_id'] = $id;
 		$data['title'] = $this->stash['title'];
+		$data['fid'] = isset($this->stash['fid']) ? (int)$this->stash['fid'] : 0;
 		$data['description'] = $this->stash['description'];
 		$data['tags'] = $this->stash['tags'];
 		$data['category_id'] = $this->stash['category_id'];
@@ -422,6 +423,21 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
     // 所在大学
     if(isset($this->stash['college_id'])){
         $data['college_id'] = $this->stash['college_id'];
+    }
+
+    // 联系方式 
+    if(isset($this->stash['tel'])){
+        $data['tel'] = $this->stash['tel'];
+    }
+
+    // 公司名称 
+    if(isset($this->stash['company'])){
+        $data['company'] = $this->stash['company'];
+    }
+
+    // 作品链接
+    if(isset($this->stash['link'])){
+        $data['link'] = $this->stash['link'];
     }
 
     //蛋年审核 --如果是优质用户,普通灵感,大赛跳过审核
@@ -484,6 +500,8 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 
     if(isset($data['from_to']) && $data['from_to']==2){
       $redirect_url = Doggy_Config::$vars['app.url.wap'].'/birdegg/'.$id.'.html';
+    }elseif(isset($data['from_to']) && $data['from_to']==5){
+      $redirect_url = Doggy_Config::$vars['app.url.wap'].'/stuff/tshow?id='.$id;
     }else{
 		  $redirect_url = Sher_Core_Helper_Url::wap_stuff_view_url($id); 
     }

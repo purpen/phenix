@@ -60,6 +60,130 @@ select.leibie{
 		return false; 
 	});
 
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+	
+	$('#stuff-form').form({
+		link: {
+			identifier  : 'link',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '产品链接不能为空'
+				}
+			]
+		},
+		tel: {
+			identifier  : 'tel',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '联系方式不能为空'
+				}
+			]
+		},
+		company: {
+			identifier  : 'company',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '公司名称不能为空'
+				}
+			]
+		},
+		
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '名称不能为空'
+				},
+				{
+					type   : 'maxLength[75]',
+					prompt : '名称最多75个字符'
+				}
+			]
+		},
+		description: {
+			identifier  : 'description',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '详细描述不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+
+	$('#phenix-uploader').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ pid }}' },
+        	endpoint: '{{ app_url_upload_stuff }}'
+      	},
+		text: {
+            uploadButton: '<a class="ui fluid green labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#product-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_wap }}/social/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}'});
+		}
+	});
+
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#stuff_cover_id').val(id);
+			return false;
+		});
+	});
+
 {% endblock %}
 
 {% block content %}
@@ -68,7 +192,7 @@ select.leibie{
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column">
-					<a class="ui inverted topbtn jointop active button">
+					<a href="{{ app_url_wap }}/stuff/tsubmit" class="ui inverted topbtn jointop active button">
 						报名提交
 					</a>
 				</div>
@@ -81,29 +205,24 @@ select.leibie{
 			<div class="row">
 				<div class="column">
 					<div class="ui segment">
-						<form action=" " class="ui form" method="post" id=" ">
+            <form action="{{ app_url_wap }}/stuff/save" class="ui form" method="post" id="stuff-form">
+						<input type="hidden" name="_id" value="{{ stuff._id }}" id="stuff_id" />
+            <input type="hidden" name="fid" value="{{ pid }}" />
+            <input type="hidden" name="from_to" value="5" />
 						
+						{% category_list var:'category' only_open:1 domain:4 pid:pid current:stuff.category_id %}
 							<div class="ui field" style="padding-bottom: 10px;">
 								<h3 class="ui dividing header">产品分类</h3>
-								<select class="leibie">
-									<option value="">智能影音</option>
-									<option value="">智能影音</option>
-									<option value="">智能影音</option>
+								<select class="leibie" name="category_id">
+                  {% for cat in category.rows %}
+                  <option value="{{ cat._id }}" {%if cat._id==stuff.category_id%}selected="selected"{%endif%}>{{ cat.title }}</option>
+                    </div>
+                  {% endfor %}
 								</select>
 							</div>
 						
 							<div class="ui field">
 								<h3 class="ui dividing header">产品信息</h3>
-							</div>
-						
-							<div class="ui field">
-								<label for="title">标题</label>
-								<input type="text" name="title" value="">
-							</div>
-							
-							<div class="field">
-								<label for="phone">联系方式</label>
-							  	<input type="text" name="phone" value="{{ stuff.phone }}" />
 							</div>
 						
 							<div class="field">
@@ -118,12 +237,22 @@ select.leibie{
 						
 							<div class="field">
 								<label for="description">产品描述</label>
-							  	<textarea name="description" placeholder="此处输入产品详细描述..." id="editor">{{ stuff.description }}</textarea>
+							  	<textarea name="description" placeholder="此处输入产品详细描述...">{{ stuff.description }}</textarea>
 								<div class="description">更详细的内容可以登录电脑版更新！</div>
+							</div>
+
+							<div class="field">
+								<label for="phone">公司名称</label>
+							  	<input type="text" name="company" value="{{ stuff.company }}" />
+							</div>
+
+							<div class="field">
+								<label for="phone">联系方式</label>
+							  	<input type="text" name="tel" value="{{ stuff.tel }}" />
 							</div>
 							
 							<div class="field">
-								<label>上传封面图片 <small class="description">(小于3M,jpg、jpeg的格式,请指定一个封面图)</small></label>
+								<label>上传封面图片 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个封面图)</small></label>
 								<input type="hidden" name="cover_id" id="stuff_cover_id" value="{{ stuff.cover_id }}" />
 								<div id="phenix-uploader"></div>
 					
@@ -161,11 +290,8 @@ select.leibie{
 								</div>
 							</div>
 							
-							
 						</form>
 						
-						
-				
 					</div>
 				</div>
 			</div>

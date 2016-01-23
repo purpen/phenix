@@ -107,7 +107,7 @@
 
 {% block jquery %}
   // 初次加载
-  ajax_load_more(1, 1, pid, 0, 5, 7, 10);
+  ajax_load_more(1, 1, pid, 0, 5, 7, 6);
 
   $('.like.button').livequery(function(){
     $(this).click(function(){
@@ -116,7 +116,7 @@
         var loved = $(this).attr('loved');
       // 所有ajax请求，验证是否登录
       if (!phenix.visitor.is_login){
-        phenix.show_login_box();
+        phenix.redirect("{{ app_url_wap }}/auth/login_signup");
         return false;
       }
       
@@ -221,5 +221,5 @@
 {% endblock %}
 
 {% block templates %}
-{% mustache id:'fetch_more_stuff_top100_tpl' tpl:'mustache/fetch_more_stuff_top100.mustache' %}
+{% mustache id:'fetch_more_stuff_top100_tpl' tpl:'mustache_m/fetch_more_stuff_top100.mustache' %}
 {% endblock %}

@@ -96,27 +96,43 @@
 {% endblock %}
 
 {% block jquery %}
-	$('.like.button').click(function(){
-	    var obj = $(this);
-	    var id = $(this).attr('item-id');
-	    var loved = $(this).attr('loved');
-		// 所有ajax请求，验证是否登录
-		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
-			return false;
-		}
-		
-		if (loved == 0){
-			
-			obj.attr('loved', 1);
-			obj.addClass('active');
-			obj.children('.add').addClass('add-active');
-		}else{
-			obj.attr('loved', 0);
-			obj.removeClass('active');
-			obj.children('.add').removeClass('add-active');
-		}
-	});
+    $('.like.button').click(function(){
+        var obj = $(this);
+        var id = $(this).data('id');
+        var loved = $(this).data('mark');
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+        return false;
+      }
+      
+      if (loved == 'n'){
+        $.post("{{ app_url_wap }}/app/site/favorite/ajax_laud", {id:id, type:4}, function(result){
+          if(result.success){
+            obj.data('mark', 'y');
+            obj.addClass('active');
+            obj.children('.add').addClass('add-active');        
+            obj.find('span').text("已投票");
+          }else{
+            phenix.show_error_note('操作失败!',3000);
+          }
+        }, 'json');
+      }else{
+      /**
+        $.post("{{ app_url_wap }}/app/site/favorite/ajax_cancel_laud", {id:id, type:4}, function(result){
+          if(result.success){
+            obj.data('mark', 'n');
+            obj.removeClass('active');
+            obj.children('.add').removeClass('add-active');
+            obj.find('span').text("投他一票");
+          }else{
+            phenix.show_error_note('操作失败!',3000);
+          }
+        }, 'json');
+        */
+      }
+      
+    });
 
   	$('#slider').flexslider({
         animation: "slide",
@@ -136,7 +152,7 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column">
-					<a class="ui magenta inverted jointop active button">
+					<a href="{{ app_url_wap }}/stuff/tsubmit" class="ui magenta inverted jointop active button">
 						立即报名
 					</a>
 				</div>
@@ -148,36 +164,42 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="eight title wide column">
-					<h3 class="ui header">小佩宠物摄像头</h3>
+          <h3 class="ui header">{{ stuff.title }}</h3>
 				</div>
 				<div class="eight wide column" style="text-align:right;">
-					<div class="ui magenta like inverted button" loved="0">
-						<i class=" heart icon"></i>
-						投他一票
-						<div class="add">
-	                        <i class="heart icon" style="font-size: 14px;vertical-align: middle;"></i>+1      
-	                    </div>
-					</div>
+
+          {%if is_loved%}
+            <div class="ui magenta like inverted button active" data-mark="y" data-id="{{ stuff._id }}">
+              <i class=" heart icon"></i>
+              <span>已投票</span>
+              <div class="add">
+                <i class="heart icon" style="font-size: 14px;vertical-align: middle;"></i>+1      
+              </div>
+            </div>
+          {%else%}
+            <div class="ui magenta like inverted button" data-mark="n" data-id="{{ stuff._id }}">
+              <i class=" heart icon"></i>
+              <span>投他一票</span>
+              <div class="add">
+                <i class="heart icon" style="font-size: 14px;vertical-align: middle;"></i>+1      
+              </div>
+            </div>
+          {%endif%}
+
 				</div>
 			</div>
 				
 			<div class="row" style="padding-top: 0;">
 				<div class="column">
 					<div id="slider" class="flexslider flex-single">
+						{% asset_list var:'assets' parent_id:stuff._id size:10 asset_type:70 %}
 						<ul class="slides">
-							<li style="background-image: url(&quot;http://frbird.qiniudn.com/product/151103/563894d8fc8b1262348b9fd5-1-bi.jpg&quot;);">
-							          <a href="javascript:void(0);" title="葡萄游戏厅 游戏手柄 安卓苹果电脑蓝牙2.4G双模游戏手柄" alt="葡萄游戏厅 游戏手柄 安卓苹果电脑蓝牙2.4G双模游戏手柄">
-							          </a>
-							</li>
-							<li style="background-image: url(&quot;http://frbird.qiniudn.com/product/151103/563894d8fc8b1262348b9fd5-1-bi.jpg&quot;);">
-							          <a href="javascript:void(0);" title="葡萄游戏厅 游戏手柄 安卓苹果电脑蓝牙2.4G双模游戏手柄" alt="葡萄游戏厅 游戏手柄 安卓苹果电脑蓝牙2.4G双模游戏手柄">
-							          </a>
-							</li>
-							<li style="background-image: url(&quot;http://frbird.qiniudn.com/product/151103/563894d8fc8b1262348b9fd5-1-bi.jpg&quot;);">
-							          <a href="javascript:void(0);" title="葡萄游戏厅 游戏手柄 安卓苹果电脑蓝牙2.4G双模游戏手柄" alt="葡萄游戏厅 游戏手柄 安卓苹果电脑蓝牙2.4G双模游戏手柄">
-							          </a>
-							</li>
-							
+              {% for asset in assets.rows %}
+                <li style="background-image: url('{{ asset.thumbnails.huge.view_url }}');">
+                    <a href="{{ asset.thumbnails.huge.view_url }}" title="{{ stuff.title }}">
+                    </a>
+                </li>
+              {%endfor%}
 							
 						</ul>
 					</div>
@@ -188,12 +210,13 @@
 			<div class="row">
 				<div class="column">
 					<div class="ui descrite segment">
-						<p>  小蚁科技有限公司为小米生态链企业，获得北京小米科技有限公司和启明创投联合投资。小蚁是采用小米模式的智能硬件创业公司，也是小米智能家居生态的重要成员。公司坐标上海和北京，专注于智能、可穿戴、移动化的新型视频类智能电子产品开发, 为移动互联网时代提供最便捷使用、最智能化的视频产品和服务。智能化的时代正在不可避免地到来，万物的智能化需要可视化的智能硬件的支持和更优化的视频数据分析。视频的技术正在跨越、发展，小蚁紧跟时代步伐，重新审视视频技术，以定义和开发适应这一趋势的视频产品，我们在朝着更智能、更便捷、更快速、更节能、更环保的方向进步。小蚁科技有限公司为小米生态链企业，获得北京小米科技有限公司和启明创投联合投资。小蚁是采用小米模式的智能硬件创业公司，也是小米智能家居生态的重要成员。公司坐标上海和北京，专注于智能、可穿戴、移动化的新型视频类智能电子产品开发, 为移动互联网时代提供最便捷使用、最智能化的视频产品和服务。智能化的时代正在不可避免地到来，万物的智能化需要可视化的智能硬件的支持和更优化的视频数据分析。视频的技术正在跨越、发展，小蚁紧跟时代步伐， 重新审视视频技术，以定义和开发适应这一趋势的视频产品，我们在朝着更智能、更便捷、更快速、更节能、更环保的方向进步。		</p>
-						
+            <p>{{ stuff.description }}</p>
+						{% if stuff.link %}
 						<p class="link">
 							详情请点击：
-							<a href="Http://www.taihuoniao.com" target="_blank">Http://www.taihuoniao.com</a>
+              <a href="{{ stuff.link }}">{{ stuff.link }}</a>
 						</p>
+            {%endif%}
 					</div>
 				</div>
 			</div>
@@ -201,8 +224,6 @@
 			
 		</div>
 	</div>
-	
-	
 	
 </div>
 {% endblock %}
