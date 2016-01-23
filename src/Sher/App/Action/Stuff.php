@@ -8,6 +8,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 	public $stash = array(
 		'id'   => '',
 		'page' => 1,
+    'size' => 10,
 		'step' => 0,
 		'pid'  => 0,
 		'cid'  => 0,
@@ -17,7 +18,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
     'page_description_suffix' => '智品库是太火鸟智能硬件孵化平台产品汇集区，产品包括智能手环、健康监测、智能家居、智能首饰、智能母婴、创意产品等等，发表你的创新产品，让我们用创意和梦想，去改变平凡无奇的世界。',
 	);
 	
-	protected $exclude_method_list = array('execute','latest', 'featured', 'sticked', 'view','hundred');
+	protected $exclude_method_list = array('execute','latest', 'featured', 'sticked', 'view','hundred','ajax_fetch_more');
 	
 	protected $page_html = 'page/stuff/zlist.html';
 	
@@ -30,6 +31,8 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 	 * TOp-100 首页 2016/01/18
 	 */
 	public function hundred(){
+		$top_category_id = Doggy_Config::$vars['app.stuff.top100_category_id'];
+    $this->stash['pid'] = $top_category_id;
 		return $this->to_html_page('page/stuff/index.html');
 	}
 	
@@ -54,6 +57,8 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 	  *TOp-100 列表
 	**/
 	public function tlist(){
+		$top_category_id = Doggy_Config::$vars['app.stuff.top100_category_id'];
+    $this->stash['pid'] = $top_category_id;
 		return $this->to_html_page('page/stuff/tlist.html');
 	}
 	
@@ -98,6 +103,13 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 				$editable = true;
 			}
 		}
+
+    // 验证用户是否点赞过
+    $is_loved = false;
+    if ($this->visitor->id){
+      $favorite_model = new Sher_Core_Model_Favorite();
+      $is_loved = $favorite_model->check_loved((int)$this->visitor->id, (string)$stuff['_id'], Sher_Core_Model_Favorite::TYPE_STUFF);
+    }
 		
 		// 是否出现后一页按钮
 	    if(isset($this->stash['referer'])){
@@ -106,6 +118,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$this->stash['stuff'] = $stuff;
 		$this->stash['editable'] = $editable;
+    $this->stash['is_loved'] = $is_loved;
 		
     // 评论参数
     $comment_options = array(
@@ -840,6 +853,165 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
     }
   
   }
+
+  /**
+   * 自动加载获取
+   */
+  public function ajax_fetch_more(){
+    $category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
+    // type=6;验证用户是否已点赞
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+    $page = (int)$this->stash['page'];
+    $size = (int)$this->stash['size'];
+    $is_top = isset($this->stash['is_top']) ? (int)$this->stash['is_top'] : 0;
+    $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+    $stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
+    $featured = isset($this->stash['featured']) ? (int)$this->stash['featured'] : 0;
+    $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
+    $verified = isset($this->stash['verified']) ? (int)$this->stash['verified'] : 0;
+        
+    $query = array();
+    $options = array();
+        
+		// 限制分类
+		if($category_id){
+			if ($is_top) {
+				$query['fid'] = $category_id;
+			} else {
+				$query['category_id'] = $category_id;
+			}
+		}
+
+		// 限制用户
+    if ($user_id) {
+      if(is_array($user_id)){
+        $query['user_id'] = array('$in'=>$user_id);
+      }else{
+        $query['user_id'] = $user_id;
+      }
+    }
+
+		// 推荐
+		if($stick){
+      if($stick==-1){
+			  $query['stick'] = 0;
+      }else{
+			  $query['stick'] = 1;
+      }
+		}
+
+		// 精选
+		if($featured){
+      if($featured==-1){
+			  $query['featured'] = 0;
+      }else{
+			  $query['featured'] = 1;
+      }
+		}
+
+    // 来源
+    if($from_to){
+      $query['from_to'] = $from_to;
+    }
+        
+    // 已审核的
+    if($verified){
+      if($verified==-1){
+        $query['verified'] = 0;
+      }else{
+        $query['verified'] = 1;   
+      }
+    }
+        
+		// 类别
+    if($type){
+    
+    }
+        
+    $options['page'] = $page;
+    $options['size'] = $size;
+
+		// 设置排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'hotest';
+				break;
+			case 2:
+				$options['sort_field'] = 'comment';
+				break;
+			case 3:
+				$options['sort_field'] = 'favorite';
+				break;
+			case 4:
+				$options['sort_field'] = 'love';
+				break;
+			case 5:
+				$options['sort_field'] = 'update';
+				break;
+      case 6:
+        $options['sort_field'] = 'view';
+      case 7:
+        $options['sort_field'] = 'stick:update';
+		}
+        
+    // 限制输出字段
+    $some_fields = array(
+      '_id'=>1, 'title'=>1, 'short_title'=>1, 'user_id'=>1, 't_color'=>1, 'top'=>1,
+      'fine'=>1, 'stick'=>1, 'category_id'=>1, 'created_on'=>1, 'asset_count'=>1,
+      'last_user'=>1, 'last_reply_time'=>1, 'cover_id'=>1, 'comment_count'=>1, 'view_count'=>1,
+      'updated_on'=>1, 'favorite_count'=>1, 'love_count'=>1, 'deleted'=>1,'published'=>1, 'tags'=>1,
+      'description'=>1, 'attrbute'=>1,
+    );
+    //$options['some_fields'] = $some_fields;
+
+    $service = Sher_Core_Service_Stuff::instance();
+        
+    $resultlist = $service->get_stuff_list($query,$options);
+    $next_page = 'no';
+    if(isset($resultlist['next_page'])){
+        if((int)$resultlist['next_page'] > $page){
+            $next_page = (int)$resultlist['next_page'];
+        }
+    }
+
+    // 验证用户是否点赞过
+    if ($type==6 && $this->visitor->id){
+      $favorite_model = new Sher_Core_Model_Favorite();
+    }
+        
+    $max = count($resultlist['rows']);
+    for($i=0;$i<$max;$i++){
+        $symbol = isset($resultlist['rows'][$i]['user']['symbol']) ? $resultlist['rows'][$i]['user']['symbol'] : 0;
+        if(!empty($symbol)){
+          $s_key = sprintf("symbol_%d", $symbol);
+          $resultlist['rows'][$i]['user'][$s_key] = true;
+        }
+
+        $is_loved = false;
+        // 验证用户是否点赞过
+        if ($type==6 && $this->visitor->id){
+          $is_loved = $favorite_model->check_loved((int)$this->visitor->id, (string)$resultlist['rows'][$i]['_id'], Sher_Core_Model_Favorite::TYPE_STUFF);
+        }
+        $resultlist['rows'][$i]['is_loved'] = $is_loved;
+
+        // 过滤用户表
+        if(isset($resultlist['rows'][$i]['user'])){
+          $resultlist['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['user'], array('symbol_1', 'symbol_2'));
+        }
+
+    } //end for
+
+    $data = array();
+    $data['nex_page'] = $next_page;
+    $data['results'] = $resultlist;
+    
+    return $this->ajax_json('', false, '', $data);
+  }
+
 	
 	/**
 	 * 删除某个附件

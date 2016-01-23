@@ -108,33 +108,113 @@
 </style>
 {% endblock %}
 
+{% block layout_js %}
+<script type="text/javascript" >
+    var is_top = 1;
+    var category_id = {{ pid|default 0 }};
+    var type = 6;
+    var page = 1;
+    var size = 30;
+    function ajax_load_more(page, is_top, category_id, stick, from_to, sort, size){
+        var url = '{{ app_url_stuff }}/ajax_fetch_more';
+        if(page != 'no'){
+            $.get(url, { page:page, type:type, is_top:is_top, category_id:category_id, stick:stick, from_to:from_to, sort:sort, size:size }, function(rs){
+                rs.data['phenix'] = phenix.url;
+                var rendered = phenix.ajax_render_result('#fetch_more_stuff_top100_tpl', rs.data);
+                $('#stuff_list_box').append(rendered);
+                if (rs.data.nex_page != 'no'){
+                    $('#stuff-more').data('status', 0);
+                }
+                $('#stuff-more').data('page', page);
+                $('#stuff-more').hide();
+
+            }, 'json');
+        }else{
+            $('#stuff_list_box').html('没有更多了产品!');
+        }
+    }
+
+</script>
+{% endblock %}
+
 {% block jquery %}
 	$('.opention').click(function(){
+    var id = $(this).data('value');
+    if(id==0){
+      is_top = 1;
+      category_id = {{ pid|default 0 }};
+    }else{
+      is_top = 0;
+      category_id = id;
+    }
+    page = 1;
+    // 清空列表数据
+    $('#stuff_list_box').html('');
+    // 点击分类加载
+    ajax_load_more(page, is_top, category_id, 0, 5, 7, size);
 		$(this).addClass('active');
 		$(this).siblings().removeClass('active');
 	});
-	$('.like.button').click(function(){
-	    var obj = $(this);
-	    var id = $(this).attr('item-id');
-	    var loved = $(this).attr('loved');
-		// 所有ajax请求，验证是否登录
-		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
-			return false;
-		}
-		
-		if (loved == 0){
-			
-			obj.attr('loved', 1);
-			obj.addClass('active');
-			obj.children('.add').addClass('add-active');
-		}else{
-			obj.attr('loved', 0);
-			obj.removeClass('active');
-			obj.children('.add').removeClass('add-active');
-		}
-		
-		
+
+  // 初次加载
+  ajax_load_more(page, is_top, category_id, 0, 5, 7, size);
+
+  // ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+      var scrollTop = $(this).scrollTop();
+      var scrollHeight = $(document).height();
+      var windowHeight = $(this).height();
+      if(scrollTop + windowHeight > scrollHeight - 240){
+          var stat = $('#stuff-more').data('status');
+          page = parseInt($('#stuff-more').data('page')) + 1;
+          
+          // 防止频繁请求(在没加载完成时只允许请求一次)
+          if(stat == 0){
+              $('#stuff-more').data('status', 1);
+              $('#stuff-more').show();
+              ajax_load_more(page, is_top, category_id, 0, 5, 0, size);
+          }
+      }
+  });
+
+  $('.like.button').livequery(function(){
+    $(this).click(function(){
+        var obj = $(this);
+        var id = $(this).attr('item_id');
+        var loved = $(this).attr('loved');
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.show_login_box();
+        return false;
+      }
+      
+      if (loved == 0){
+        $.post("{{ app_url_favorite }}/ajax_laud", {id:id, type:4}, function(result){
+          if(result.success){
+            obj.attr('loved', 1);
+            obj.addClass('active');
+            obj.children('.add').addClass('add-active');        
+            obj.find('span').text("已投票");
+          }else{
+            phenix.show_error_note('操作失败!',3000);
+          }
+        }, 'json');
+      }else{
+      /**
+        $.post("{{ app_url_favorite }}/ajax_cancel_laud", {id:id, type:4}, function(result){
+          if(result.success){
+            obj.attr('loved', 0);
+            obj.removeClass('active');
+            obj.children('.add').removeClass('add-active');
+            obj.find('span').text("投他一票");
+          }else{
+            phenix.show_error_note('操作失败!',3000);
+          }
+        }, 'json');
+        */
+      }
+      
+    });
 	});
 
 {% endblock %}
@@ -143,7 +223,7 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="center aligned column">
-				<a class="ui topbtn inverted large jointop active button" >
+				<a href="{{ app_url_stuff }}/tsubmit" class="ui topbtn inverted large jointop active button" >
 					报名提交
 				</a>
 			</div>
@@ -154,96 +234,26 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="ui center aligned opentions column">
-				<div class="ui opention button">
-					宠物设备
-				</div>	
-				<div class="ui opention button">
-					宠物设备
-				</div>
-				<div class="ui opention button">
-					宠物设备
-				</div>	
-				<div class="ui opention button">
-					宠物设备
-				</div>
-				<div class="ui opention button">
-					宠物设备
-				</div>	
-				<div class="ui opention button">
-					宠物设备
-				</div>
-				<div class="ui opention button">
-					宠物设备
-				</div>	
-				<div class="ui opention button">
-					宠物设备
-				</div>
-				<div class="ui opention button">
-					宠物设备
-				</div>	
-				<div class="ui opention button">
-					宠物设备
-				</div>
+
+								{% category_list var:'category' only_open:1 domain:4 pid:pid current:stuff.category_id %}
+                  <div class="ui opention button active" data-value="0">
+                    全部
+                  </div>	
+								{% for cat in category.rows %}
+                    <div class="ui opention button" data-value="{{ cat._id }}">
+                      {{ cat.title }}
+                    </div>	
+								{% endfor %}
+
+
 				
 			</div>
 		</div>
 		
 		<div class="row" style="padding-top: 15px;">
 			<div class="ui opentions column">
-				<div class="ui five products cards">
-					
-					<!-- list  -->
-					<div class="card">
-						<div class="problock">
-					        <a style="background-image: url(http://frbird.qiniudn.com/product/150204/54d2271d3ffca264238b46c8-1-hm.jpg);" class="thumb" target="_blank">
-					        </a>
-					        <h2>
-					            <a href="http://dev.taihuoniao.com/shop/1020885051.html" title="测试的商品哈哈哈哈FLYang" class="ui line" target="_blank">
-								    测试的商品哈哈哈哈FLYang
-							    </a>
-					        </h2>
-					        <div class="excerpt">
-					            <p>测试的商品哈哈哈哈测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang测试的商品哈哈哈哈测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang</p>
-					        </div>
-					       <div class="cats">
-						       <div class="ui magenta like inverted button" loved="0">
-									<i class=" heart icon"></i>
-									投他一票
-									<div class="add">
-				                        <i class="heart icon" style="font-size: 16px;vertical-align: middle;"></i>+1      
-				                    </div>
-								</div>
-							</div>
-						</div>
-					</div>
-					  
-					<!-- end  -->
-					
-					<div class="card">
-						<div class="problock">
-					        <a style="background-image: url(http://frbird.qiniudn.com/product/150204/54d2271d3ffca264238b46c8-1-hm.jpg);" class="thumb" target="_blank">
-					        </a>
-					        <h2>
-					            <a href="http://dev.taihuoniao.com/shop/1020885051.html" title="测试的商品哈哈哈哈FLYang" class="ui line" target="_blank">
-								    测试的商品哈哈哈哈FLYang
-							    </a>
-					        </h2>
-					        <div class="excerpt">
-					            <p>测试的商品哈哈哈哈测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang测试的商品哈哈哈哈测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang</p>
-					        </div>
-					       <div class="cats">
-						       <div class="ui magenta like inverted button" loved="0">
-									<i class=" heart icon"></i>
-									投他一票
-									<div class="add">
-				                        <i class="heart icon" style="font-size: 16px;vertical-align: middle;"></i>+1      
-				                    </div>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					
+				<div class="ui five products cards" id="stuff_list_box">
+          <!--ajax load-->
 				</div>
 				
 			</div>
@@ -251,9 +261,10 @@
 		
 		<div class="row">
 			<div class="ui center aligned column">
-				<div class="ui magenta active inverted large active getmore button">
-					查看更多
-				</div>
+                    <div id="stuff-more" data-page="1" data-status="0" data-type="{{ type }}" data-time="{{ time }}" data-sort="{{ sort }}" style="text-align:center;margin:10px auto;display:none;">
+                        <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
+                        加载中...
+                    </div>
 			</div>
 		</div>
 		
@@ -261,4 +272,8 @@
 	</div>
 </div>
 
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'fetch_more_stuff_top100_tpl' tpl:'mustache/fetch_more_stuff_top100.mustache' %}
 {% endblock %}

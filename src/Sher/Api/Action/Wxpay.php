@@ -72,7 +72,7 @@
 			
 			$input->SetBody('太火鸟商城'.$order_info['rid'].'的订单'); // 商品描述
 			$input->SetOut_trade_no($order_info['rid']); // 商户订单号
-			$input->SetTotal_fee((float)$order_info['pay_money']*100); // 订单总金额,单位为分
+			$input->SetTotal_fee((int)$order_info['pay_money']*100); // 订单总金额,单位为分
 			$input->SetNotify_url($notify_url); // 通知地址
 			$input->SetTrade_type("APP"); // 交易类型
       $input->SetDevice_info($uuid); // 终端设备号
@@ -85,10 +85,10 @@
           if($order['result_code'] == 'SUCCESS'){
             return $this->api_json('请求成功!', 0, $order);         
           }else{
-            return $this->api_json('请求失败!', 3010, $order['err_code']);          
+            return $this->api_json('请求失败!', 3010, $order);          
           }
         }else{
-          return $this->api_json('请求失败!', 3011, $order['return_msg']);        
+          return $this->api_json('请求失败!', 3011, $order);        
         }
       }else{
         $this->api_json('请求异常!', 3012);
@@ -103,15 +103,16 @@
 			
 			// 返回微信支付结果通知信息
 			$notify = new Sher_Core_Util_WxPay_WxNotify();
-			$result = $notify->Handle(false);
+			$result = $notify->Handle();
 			if(!$result){
-				return $this->show_message_page('异步获取通知信息失败！');
+        Doggy_Log_Helper::warn("app微信获取异步获取通知失败!");
+				return false;
 			}
 			
 			// 获取通知信息
 			$notifyInfo = $notify->arr_notify; 
 			
-			Doggy_Log_Helper::warn("获取通知信息: ".json_encode($notifyInfo));
+			Doggy_Log_Helper::warn("app微信获取通知信息: ".json_encode($notifyInfo));
 
 			// 商户订单号
 			$out_trade_no = $notifyInfo['out_trade_no'];
@@ -123,57 +124,40 @@
 			if($trade_status == 'SUCCESS') {
 				if($this->update_order_process($out_trade_no, $trade_no)){
 					return '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
-				}
+        }else{
+    			Doggy_Log_Helper::warn("app微信:订单更新失败!");        
+        }
 			}else{
-				return $this->show_message_page('订单交易状态:'.$trade_status, true);
+ 			  Doggy_Log_Helper::warn("app微信:订单交易返回错误: ".json_encode($notifyInfo));       
+				return false; 
 			}
 		}
-		
-		/**
-		* 微信支付同步返回通知信息
-		*/
-	   public function direct(){
-			
-			$rid = $this->stash['rid'];
-			if (empty($rid)) {
-				return $this->show_message_page('操作不当，请查看购物帮助！', true);
-			}
 
-			$model = new Sher_Core_Model_Orders();
-			$order_info = $model->find_by_rid($rid);
-			
-			// 仅查看本人的订单
-			if($this->visitor->id != $order_info['user_id']){
-			  return $this->show_message_page('你没有权限查看此订单！');
-			}
-				  $this->stash['order_info'] = $order_info;
-				  
-				  return $this->to_html_page("wap/order_view.html");
-			 }
 	   
 		/**
 		 * 更新订单状态
 		 */
 		protected function update_order_process($out_trade_no, $trade_no){
 		   
-		   $model = new Sher_Core_Model_Orders();
-		   $order_info = $model->find_by_rid($out_trade_no);
-		   if (empty($order_info)){
-			   return $this->show_message_page('抱歉，系统不存在订单['.$out_trade_no.']！', true);
-		   }
-		   $status = $order_info['status'];
-		   $is_presaled = $order_info['is_presaled'];
-		   $order_id = (string)$order_info['_id'];
-		   
-		   Doggy_Log_Helper::warn("Weixin order[$out_trade_no] status[$status] updated!");
-		   
-		   // 验证订单是否已经付款
-		   if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
-				// 更新支付状态,付款成功并配货中
-				return $model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, Sher_Core_Util_Constant::TRADE_WEIXIN);
-		   }else{
-				return true;
-		   }
+       $model = new Sher_Core_Model_Orders();
+       $order_info = $model->find_by_rid($out_trade_no);
+       if (empty($order_info)){
+          Doggy_Log_Helper::warn("app微信:系统不存在订单!");
+         return false;
+       }
+       $status = $order_info['status'];
+       $is_presaled = $order_info['is_presaled'];
+       $order_id = (string)$order_info['_id'];
+       
+       Doggy_Log_Helper::warn("Weixin order[$out_trade_no] status[$status] updated!");
+       
+       // 验证订单是否已经付款
+       if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+        // 更新支付状态,付款成功并配货中
+        return $model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, Sher_Core_Util_Constant::TRADE_WEIXIN);
+       }else{
+        return true;
+       }
 		}
 		
 		/**

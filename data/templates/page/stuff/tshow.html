@@ -90,11 +90,11 @@
 	$('.ui.share.button').bind('click', function(){
 		$('.ui.share.modal').modal('show');
 	});
-	phenix.bind_share_list("http://frstatic.qiniudn.com/images/");
+  phenix.bind_share_list("{{ stuff.cover.thumbnails.hm.view_url  }}");
 	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://m.taihuoniao.com'});
+  $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/stuff/tshow?id={{ stuff._id }}'});
 	
-	$('#carousel').flexslider({
+	  $('#carousel').flexslider({
         animation: "slide",
         controlNav: false,
         animationLoop: false,
@@ -111,56 +111,53 @@
         slideshow: false,
         sync: "#carousel"
     });
-
-
-	/* 登录用户行为 */
-	{% if visitor.is_login %}
-		// 初始化互动，是否关注、点赞
-		$.get('{{ app_url_favorite }}/ajax_done', {id: {{stuff._id}},type:4,event:2}, function(result){
-			if (result.success) {
-				if (result.data.loved) {
-					$('.ui.like.button')
-						.data('mark', 'y')
-						.addClass('active')
-            .html('<i class="heart icon"></i> 已投票');
-				}
-			}
-		}, 'json');
-
-    {%endif%}
 	
-	$('.like.button').click(function(){
-	    var obj = $(this);
-	    var id = $(this).attr('item-id');
-	    var loved = $(this).attr('loved');
-		// 所有ajax请求，验证是否登录
-		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
-			return false;
-		}
+    $('.like.button').click(function(){
+        var obj = $(this);
+        var id = $(this).data('id');
+        var loved = $(this).data('mark');
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.show_login_box();
+        return false;
+      }
+      
+      if (loved == 'n'){
+        $.post("{{ app_url_favorite }}/ajax_laud", {id:id, type:4}, function(result){
+          if(result.success){
+            obj.data('mark', 'y');
+            obj.addClass('active');
+            obj.children('.add').addClass('add-active');        
+            obj.find('span').text("已投票");
+          }else{
+            phenix.show_error_note('操作失败!',3000);
+          }
+        }, 'json');
+      }else{
+      /**
+        $.post("{{ app_url_favorite }}/ajax_cancel_laud", {id:id, type:4}, function(result){
+          if(result.success){
+            obj.data('mark', 'n');
+            obj.removeClass('active');
+            obj.children('.add').removeClass('add-active');
+            obj.find('span').text("投他一票");
+          }else{
+            phenix.show_error_note('操作失败!',3000);
+          }
+        }, 'json');
+        */
+      }
+      
+    });
 		
-		if (loved == 0){
-			
-			obj.attr('loved', 1);
-			obj.addClass('active');
-			obj.children('.add').addClass('add-active');
-		}else{
-			obj.attr('loved', 0);
-			obj.removeClass('active');
-			obj.children('.add').removeClass('add-active');
-		}
 		
-		
-	});
-	
-
 {% endblock %}
 {% block content %}
 <div class="topbg">
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="center aligned column">
-				<a class="ui topbtn inverted large jointop active button" >
+				<a href="{{ app_url_stuff }}/tsubmit" class="ui topbtn inverted large jointop active button" >
 					报名提交
 				</a>
 			</div>
@@ -240,15 +237,24 @@
             <p class="link">详情请点击：<a href="Http://www.taihuoniao.com" target="_blank">{{ stuff.link }}</a></p>
           {%endif%}
 					
-					
 					<div class="ui center aligned cats">
-            <div class="ui magenta like inverted button" data-mark="n" data-id="{{ stuff._id }}">
-							<i class=" heart icon"></i>
-							投他一票
-							<div class="add">
-		                        <i class="heart icon" style="font-size: 16px;vertical-align: middle;"></i>+1      
-		                    </div>
-						</div>
+            {%if is_loved%}
+              <div class="ui magenta like inverted button active" data-mark="y" data-id="{{ stuff._id }}">
+                <i class=" heart icon"></i>
+                <span>已投票</span>
+                <div class="add">
+                  <i class="heart icon" style="font-size: 16px;vertical-align: middle;"></i>+1      
+                </div>
+              </div>
+            {%else%}
+              <div class="ui magenta like inverted button" data-mark="n" data-id="{{ stuff._id }}">
+                <i class=" heart icon"></i>
+                <span>投他一票</span>
+                <div class="add">
+                  <i class="heart icon" style="font-size: 16px;vertical-align: middle;"></i>+1      
+                </div>
+              </div>
+            {%endif%}
 					</div>
 					
 				</div>

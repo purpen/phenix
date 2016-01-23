@@ -7,7 +7,7 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 	
 	public $stash = array(
 		'page' => 1,
-		'size' => 20,
+		'size' => 100,
     'sort' => 0,
     'from_to' => 0,
     'load_college' => 0,
@@ -105,6 +105,26 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
     $this->stash['from_to'] = 4;
 		
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/stuff/redesign_list?page=#p#');
+		
+		$this->stash['pager_url'] = $pager_url;
+		
+		return $this->to_html_page('admin/stuff/list.html');
+	}
+
+	/**
+	 * 列表--Top100
+	 */
+	public function top100_list() {
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "community";
+		
+    $this->set_target_css_state('top100_list');
+		$page = (int)$this->stash['page'];
+
+    $this->stash['from_to'] = 5;
+		
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/stuff/top100_list?page=#p#');
 		
 		$this->stash['pager_url'] = $pager_url;
 		

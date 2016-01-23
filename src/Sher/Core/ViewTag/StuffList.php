@@ -81,7 +81,11 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
 		
 		// 推荐
 		if($sticked){
-			$query['stick'] = (int)$sticked;
+      if($sticked==-1){
+			  $query['stick'] = 0;
+      }else{
+			  $query['stick'] = 1;
+      }
 		}
 		// 精选
 		if($featured){

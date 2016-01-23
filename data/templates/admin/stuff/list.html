@@ -44,6 +44,9 @@
     <a href="{{ app_url_admin_base }}/stuff/redesign_list" class="{{ css_redesign_list }} item">
 			反向定制
 		</a>
+    <a href="{{ app_url_admin_base }}/stuff/top100_list" class="{{ css_top100_list }} item">
+			Top100
+		</a>
 
 	  	<div class="right menu">
 			<!--
@@ -187,6 +190,10 @@
             {% if stuff.from_to==4 %}
             反向定制 <br />
             {{ stuff.contest.short_title }}
+            {%endif%}
+            {% if stuff.from_to==5 %}
+            Top100 <br />
+            {{ stuff.category.title }}
             {%endif%}
           {%else%}
             作品

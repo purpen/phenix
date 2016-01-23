@@ -1,0 +1,38 @@
+
+{{#results.rows}}
+  <div class="card" id="stuff_{{ _id }}">
+    <div class="problock">
+          <a href="{{ view_url }}" style="background-image: url({{ cover.thumbnails.medium.view_url }});" class="thumb" target="_blank">
+          </a>
+          <h2>
+              <a href="{{ view_url }}" title="{{ title }}" class="ui line" target="_blank">
+            {{ title }}
+          </a>
+          </h2>
+          <div class="excerpt">
+              <p>{{ &description }}</p>
+          </div>
+         <div class="cats">
+          {{#is_loved}}
+           <div class="ui magenta like inverted active button" item_id="{{ _id }}" loved="1">
+            <i class=" heart icon"></i>
+            <span>已投票</span>
+            <div class="add">
+              <i class="heart icon" style="font-size: 16px;vertical-align: middle;"></i>+1      
+            </div>
+          </div>
+          {{/is_loved}}
+
+          {{^is_loved}}
+           <div class="ui magenta like inverted button" item_id="{{ _id }}" loved="0">
+            <i class=" heart icon"></i>
+            <span>投他一票</span>
+            <div class="add">
+              <i class="heart icon" style="font-size: 16px;vertical-align: middle;"></i>+1      
+            </div>
+          </div>
+          {{/is_loved}}
+      </div>
+    </div>
+  </div>
+{{/results.rows}}
