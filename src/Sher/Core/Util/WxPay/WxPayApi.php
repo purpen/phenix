@@ -45,8 +45,13 @@ class Sher_Core_Util_WxPay_WxPayApi
 			$inputObj->SetNotify_url(Doggy_Config::$vars['app.wechat.notify_url']);//异步通知url
 		}
 		
-		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.app_id']);//公众账号ID
-		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.partner_id']);//商户号
+    if(!$inputObj->IsAppidSet()){
+		  $inputObj->SetAppid(Doggy_Config::$vars['app.wechat.app_id']);//公众账号ID
+    }
+    if(!$inputObj->IsMch_idSet()){
+		  $inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.partner_id']);//商户号
+    }
+
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
 		
 		//签名
@@ -324,7 +329,9 @@ class Sher_Core_Util_WxPay_WxPayApi
 		}
 		$inputObj->SetAppid(Doggy_Config::$vars['app.wechat.app_id']);//公众账号ID
 		$inputObj->SetMch_id(Doggy_Config::$vars['app.wechat.partner_id']);//商户号
-		$inputObj->SetUser_ip($_SERVER['REMOTE_ADDR']);//终端ip
+    if(!$inputObj->IsSpbill_create_ipSet){
+		  $inputObj->SetUser_ip($_SERVER['REMOTE_ADDR']);//终端ip
+    }
 		$inputObj->SetTime(date("YmdHis"));//商户上报时间	 
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
 		

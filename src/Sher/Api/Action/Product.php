@@ -240,9 +240,9 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			foreach($imgs as $key=>$value){
         //echo $value['thumbnails']['medium']['view_url'];
         if($value['_id']==$product['cover_id']){
-          $cover_img_url = $value['thumbnails']['medium']['view_url'];
+          $cover_img_url = $value['thumbnails']['mt']['view_url'];
         }else{
-          array_push($assets, $value['thumbnails']['medium']['view_url']);
+          array_push($assets, $value['thumbnails']['mt']['view_url']);
         }
       }
       //封面图放第一

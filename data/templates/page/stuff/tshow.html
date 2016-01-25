@@ -1,0 +1,270 @@
+{%extends 'layout/column.html'%}
+{% block title %}{{ stuff.title }}-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.topbg {
+	    background: url({{ app_url_packaged }}/images/top/sbg.jpg) no-repeat center center;
+	    background-size: cover;
+		padding-top: 23%;
+		padding-bottom: 7%;
+	}
+	.topbg .ui.large.jointop{
+		padding-left:35px;
+		padding-right:35px;
+	}
+	.topbtn.active,.topbtn:hover{
+		background:#37004f !important;
+		color:#fff !important;
+	}
+	.ui.stuffs .eight.right.column i.large.circular.icon{
+		font-size:1.3em;
+	}
+	.ui.stuffs .eight.column h3.ui.header{
+		line-height: 40px;
+	}
+	.ui.descrite.segment{
+	    padding: 20px 20px 30px;
+	    margin-bottom: 30px;
+	}
+	.ui.descrite.segment p{
+		line-height: 26px;
+	}
+	.ui.descrite.segment p.link{
+		color:#f36;
+	}
+	.ui.descrite.segment p.link a{
+		color:#f36;
+		position:relative;
+	}
+	.ui.descrite.segment p.link a::before{
+		position: absolute;
+	    top: auto;
+	    bottom: 1px;
+	    left: 0;
+	    width: 100%;
+	    height: 1px;
+	    background-color: #f36;
+	    content: '';
+	    -webkit-transition: all 0.2s;
+	    -webkit-backface-visibility: hidden;
+	    transition: all 0.2s;
+	    backface-visibility: hidden;
+	    -webkit-transform: scaleX(0);
+	    transform: scaleX(0);
+	}
+	.ui.descrite.segment p.link a:hover:before{
+	    -webkit-transform: scaleX(1);
+	    transform: scaleX(1);
+	}
+	.cats .ui.inverted.magenta.button{
+		box-shadow: 0 0 0 1px #f36 inset!important;
+	}
+	.like.button{
+		position:relative;
+	}
+	.like.button .add{
+		position: absolute;
+	    top: 14px;
+	    text-align: center;
+	    left: 0;
+	    color: transparent;
+	    width: 100%;
+	    font-size: 22px;
+	    opacity: 1;
+	    z-index: 2;
+	    transition: all 1s;
+	}
+	.like.button .add.add-active {
+	    top: calc(50% - 70px);
+	    color: #f36;
+	    transition-delay: .3s;
+	    -webkit-animation: arrow 1.5s ease both;
+	    -moz-animation: arrow 1.5s ease both;
+	    animation: arrow 1.5s ease both;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	// 分享
+	$('.ui.share.button').bind('click', function(){
+		$('.ui.share.modal').modal('show');
+	});
+  phenix.bind_share_list("{{ stuff.cover.thumbnails.hm.view_url  }}");
+	// 生成二维码
+  $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/stuff/tshow?id={{ stuff._id }}'});
+	
+	  $('#carousel').flexslider({
+        animation: "slide",
+        controlNav: false,
+        animationLoop: false,
+        slideshow: false,
+        itemWidth: 160,
+        itemMargin: 15,
+        asNavFor: '#slider'
+    });
+ 
+    $('#slider').flexslider({
+        animation: "slide",
+        controlNav: false,
+        animationLoop: false,
+        slideshow: false,
+        sync: "#carousel"
+    });
+	
+    $('.like.button').click(function(){
+        var obj = $(this);
+        var id = $(this).data('id');
+        var loved = $(this).data('mark');
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.show_login_box();
+        return false;
+      }
+      
+      if (loved == 'n'){
+        $.post("{{ app_url_favorite }}/ajax_laud", {id:id, type:4}, function(result){
+          if(result.success){
+            obj.data('mark', 'y');
+            obj.addClass('active');
+            obj.children('.add').addClass('add-active');        
+            obj.find('span').text("已投票");
+          }else{
+            phenix.show_error_note('操作失败!',3000);
+          }
+        }, 'json');
+      }else{
+      /**
+        $.post("{{ app_url_favorite }}/ajax_cancel_laud", {id:id, type:4}, function(result){
+          if(result.success){
+            obj.data('mark', 'n');
+            obj.removeClass('active');
+            obj.children('.add').removeClass('add-active');
+            obj.find('span').text("投他一票");
+          }else{
+            phenix.show_error_note('操作失败!',3000);
+          }
+        }, 'json');
+        */
+      }
+      
+    });
+		
+		
+{% endblock %}
+{% block content %}
+<div class="topbg">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<a href="{{ app_url_stuff }}/tsubmit" class="ui topbtn inverted large jointop active button" >
+					报名提交
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="ui stuffs social">
+	<div class="ui responsive grid" style="padding:0 8%;">
+		<div class="row">
+			<div class="eight wide column">
+        <h3 class="ui header">{{ stuff.title }}</h3>
+			</div>
+		
+			<div class="ui eight wide column right aligned">
+                <div class="user share">
+                  <span style="line-height: 37px;"><i class="share alternate icon"></i>分享：</span>
+                  <a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+                    <i class="weibo icon large circular red inverted"></i>
+                  </a>
+                  <a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+                    <i class="weixin icon large circular green inverted"></i>
+                  </a>
+                  <a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+                    <i class="tencent weibo icon large circular blue inverted"></i>
+                  </a>
+                  <a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+                    <i class="icon renren large circular blue inverted"></i>
+                  </a>
+                </div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="slidebox">
+	                <div id="slider" class="flexslider flex-single">
+						          {% asset_list var:'assets' parent_id:stuff._id size:10 asset_type:70 %}
+	                    <ul class="slides">
+                        {% for asset in assets.rows %}
+	                        <li style="background-image: url('{{ asset.thumbnails.huge.view_url }}');">
+	                            <a href="{{ asset.thumbnails.huge.view_url }}" title="{{ stuff.title }}">
+                                <!--<img src="{{ asset.thumbnails.huge.view_url }}" alt="{{ stuff.title }}" style="display: none;" />-->
+	                            </a>
+	                        </li>
+							          {%endfor%}
+							
+							
+						</ul>
+					</div>	
+	                <div id="carousel" class="flexslider flex-single-carousel">
+	                    <ul class="slides">
+                        {% for asset in assets.rows %}
+	                        <li style="background-image: url('{{ asset.thumbnails.tiny.view_url }}');">
+	                            <a href="{{ asset.thumbnails.tiny.view_url }}" title="{{ stuff.title }}">
+                                <!--<img src="{{ asset.thumbnails.tiny.view_url }}" alt="{{ stuff.title }}" class="thumb" />-->
+	                            </a>
+	                        </li>
+                        {%endfor%}
+
+							
+						</ul>
+					</div>
+					
+				</div>
+			
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="ui descrite segment">
+          <p>{{ stuff.description }}</p>
+          {% if stuff.link %}
+            <p class="link">详情请点击：<a href="{{ stuff.link }}" target="_blank">{{ stuff.link }}</a></p>
+          {%endif%}
+					
+					<div class="ui center aligned cats">
+            {%if is_loved%}
+              <div class="ui magenta like inverted button active" data-mark="y" data-id="{{ stuff._id }}">
+                <i class=" heart icon"></i>
+                <span>已投票</span>
+                <div class="add">
+                  <i class="heart icon" style="font-size: 16px;vertical-align: middle;"></i>+1      
+                </div>
+              </div>
+            {%else%}
+              <div class="ui magenta like inverted button" data-mark="n" data-id="{{ stuff._id }}">
+                <i class=" heart icon"></i>
+                <span>投他一票</span>
+                <div class="add">
+                  <i class="heart icon" style="font-size: 16px;vertical-align: middle;"></i>+1      
+                </div>
+              </div>
+            {%endif%}
+					</div>
+					
+				</div>
+			
+			</div>
+		</div>
+		
+		
+	</div>
+</div>
+
+
+
+{% include "block/qrcode.html" %}
+{% endblock %}

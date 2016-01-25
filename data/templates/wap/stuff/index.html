@@ -1,0 +1,225 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+.topbg {
+    background: url({{ app_url_packaged }}/images/top/wap_bg.jpg) no-repeat center center;
+    background-size: cover;
+	padding-top: 37%;
+	padding-bottom: 8%;
+}
+.topbg .ui.jointop{
+	padding-left:30px;
+	padding-right:30px;
+}
+.ui.products.two.cards>.card{
+	margin-top:0;
+}
+.ui.products.two.cards>.card>.problock>h2{
+	text-align:center;
+	text-overflow: ellipsis;
+    white-space: nowrap;
+	height: 30px;
+	padding-top:8px;
+}
+.ui.products.two.cards>.card>.problock>h2 a{
+	vertical-align: middle;
+	font-size: 14px;
+}
+.ui.products.two.cards>.card>.problock>a.thumb,.ui.products.two.cards>.card>.problock,.ui.products.two.cards>.card>:only-child, .ui.products.two.cards>:only-child{
+	border-radius:0 !important;
+}
+.getmore.button{
+	padding-left:30px;
+	padding-right:30px;
+	margin-top: -5px;
+}
+.ui.products.two.cards>.card>.problock>.excerpt{
+	height: 58px;
+}
+.ui.products.two.cards>.card>.problock>.excerpt>p{
+	line-height:1.4;
+}
+.ui.products.two.cards>.card>.problock>.cats{
+	padding: 0;
+    padding-top: 18px;
+    padding-bottom: 25px;
+    text-align: center;
+    height: 75px;
+    overflow: visible;
+}
+.ui.products.two.cards>.card>.problock>.cats .ui.inverted.magenta.button{
+	box-shadow: 0 0 0 1px #f36 inset!important;
+	font-size: 12px;
+}
+.like.button{
+	position:relative;
+}
+.like.button .add{
+	position: absolute;
+    top: 14px;
+    text-align: center;
+    left: 0;
+    color: transparent;
+    width: 100%;
+    font-size: 20px;
+    opacity: 1;
+    z-index: 2;
+    transition: all 1s;
+}
+.like.button .add.add-active {
+    top: calc(50% - 70px);
+    color: #f36;
+    transition-delay: .3s;
+    -webkit-animation: arrow 1.5s ease both;
+    -moz-animation: arrow 1.5s ease both;
+    animation: arrow 1.5s ease both;
+}
+#mpresale{
+	padding:20px 0 10px;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript" >
+    var pid = {{ pid|default 0 }};
+    var type = 6;
+    function ajax_load_more(page, is_top, category_id, stick, from_to, sort, size){
+        var url = '{{ app_url_wap }}/app/site/stuff/ajax_fetch_more';
+        if(page != 'no'){
+            $.get(url, { page:page, type:type, is_top:is_top, category_id:category_id, stick:stick, from_to:from_to, sort:sort, size:size }, function(rs){
+                rs.data['phenix'] = phenix.url;
+                var rendered = phenix.ajax_render_result('#fetch_more_stuff_top100_tpl', rs.data);
+                $('#stuff_list_box').append(rendered);
+
+            }, 'json');
+        }else{
+            $('#stuff_list_box').html('没有更多了产品!');
+        }
+    }
+
+</script>
+{% endblock %}
+
+{% block jquery %}
+  // 初次加载
+  ajax_load_more(1, 1, pid, 0, 5, 7, 6);
+
+  $('.like.button').livequery(function(){
+    $(this).click(function(){
+        var obj = $(this);
+        var id = $(this).attr('item_id');
+        var loved = $(this).attr('loved');
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+        return false;
+      }
+      
+      if (loved == 0){
+        $.post("{{ app_url_wap }}/app/site/favorite/ajax_laud", {id:id, type:4}, function(result){
+          if(result.success){
+            obj.attr('loved', 1);
+            obj.addClass('active');
+            obj.children('.add').addClass('add-active');        
+            obj.find('span').text("已投票");
+          }else{
+            phenix.show_error_note('操作失败!',3000);
+          }
+        }, 'json');
+      }else{
+      /**
+        $.post("{{ app_url_wap }}/app/site/favorite/ajax_cancel_laud", {id:id, type:4}, function(result){
+          if(result.success){
+            obj.attr('loved', 0);
+            obj.removeClass('active');
+            obj.children('.add').removeClass('add-active');
+            obj.find('span').text("投他一票");
+          }else{
+            phenix.show_error_note('操作失败!',3000);
+          }
+        }, 'json');
+        */
+      }
+      
+    });
+	});
+
+{% endblock %}
+
+{% block content %}
+<div class="top100">
+	<div class="topbg">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<a href="{{ app_url_wap }}/stuff/tsubmit" class="ui magenta inverted jointop active button">
+						立即报名
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<img src="http://frbird.qiniudn.com/topic/160119/569dca0a3ffca26c098ba57a-7-hd.jpg" align="absmiddle" width="100%">
+	<img src="{{ app_url_packaged }}/images/top/wap_jia1.jpg" align="absmiddle" width="100%">
+	<img src="{{ app_url_packaged }}/images/top/wap_jia2.jpg" align="absmiddle" width="100%">
+	
+	<div class="ui responsive grid" id="mpresale">
+		<div class="row">
+			<div class="column">
+				<div class="ui products two cards item-box" id="stuff_list_box">
+					<!-- list -->
+					
+          <!--
+					<div class="card">
+						<div class="problock">
+					        <a style="background-image: url(http://frbird.qiniudn.com/product/150204/54d2271d3ffca264238b46c8-1-hm.jpg);" class="thumb" target="_blank">
+					        </a>
+					        <h2>
+					            <a href="http://dev.taihuoniao.com/shop/1020885051.html" title="测试的商品哈哈哈哈FLYang" class="ui line" target="_blank">
+								    测试的商品哈哈哈哈FLYang
+							    </a>
+					        </h2>
+					        <div class="excerpt">
+					            <p>测试的商品哈哈哈哈测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang测试的商品哈哈哈哈测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang</p>
+					        </div>
+					       <div class="cats">
+						       <div class="ui magenta like inverted button" loved="0">
+									<i class=" heart icon"></i>
+									投他一票
+									<div class="add">
+				                        <i class="heart icon" style="font-size: 14px;vertical-align: middle;"></i>+1      
+				                    </div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+          -->
+					<!-- end -->
+					
+					
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="ui center aligned column">
+				<a href="{{ app_url_wap }}/stuff/tlist" class="ui magenta inverted active getmore button">查看更多</a>
+			</div>
+		</div>
+	</div>
+	
+	
+	<img src="{{ app_url_packaged }}/images/top/wap_mid1.jpg" align="absmiddle" width="100%">
+	<img src="{{ app_url_packaged }}/images/top/wap_mid2.jpg" align="absmiddle" width="100%">
+
+</div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'fetch_more_stuff_top100_tpl' tpl:'mustache_m/fetch_more_stuff_top100.mustache' %}
+{% endblock %}

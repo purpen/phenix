@@ -1,0 +1,341 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.topbg {
+    background: url({{ app_url_packaged }}/images/top/bg.jpg) no-repeat center center;
+    background-size: cover;
+	padding-top: 23%;
+	padding-bottom: 7%;
+}
+.topbg .ui.large.jointop{
+	padding-left:35px;
+	padding-right:35px;
+}
+i.mu1{
+	background:url({{ app_url_packaged }}/images/top/mu1.png);
+	width:120px !important;
+	height:120px !important;
+	margin-bottom: 12px !important;
+}
+i.mu2{
+	background:url({{ app_url_packaged }}/images/top/mu2.png);
+	width:120px !important;
+	height:120px !important;
+	margin-bottom: 12px !important;
+}
+i.mu3{
+	background:url({{ app_url_packaged }}/images/top/mu3.png);
+	width:120px !important;
+	height:120px !important;
+	margin-bottom: 12px !important;
+}
+.ui.stuffs h3.ui.icon.header .content{
+	padding-left:0;
+	color:#37004f;
+}
+.ui.stuffs h3.ui.icon.header .content .sub.header{
+	color:#333333;
+}
+.ui.stuffs .row > .ui.five.column{
+	margin-left: -1.5%;
+    margin-right: -1.5%;
+    padding-top: 53px;
+	width: 32.75%!important;
+}
+.lineimg{
+	background:url({{ app_url_packaged }}/images/top/line.png);
+	width:100%;
+	height:14px;
+}
+.jian{
+	background:url({{ app_url_packaged }}/images/top/jian.png);
+	height:40px;
+	width:40px;
+	display: inline-block;
+	margin-top: -27px;
+}
+.vote.background{
+	background-color:#d8d8d8;
+	padding:20px 0;
+}
+.ui.vote.block h2.ui.header,.ui.products.block h2.ui.header{
+	color:#37004f;
+}
+.ui.block{
+	margin:0;
+}
+.ui.time.block{
+	padding:20px 0 10px;
+}
+.ui.products.block{
+	padding:20px 0;
+}
+.ui.products.cards>.card>.problock>h2{
+	text-align:center;
+	padding-bottom: 3px;
+}
+.ui.products.cards>.card>.problock>h2 a{
+	vertical-align: bottom;
+}
+.ui.products.cards>.card>.problock>a.thumb,.ui.products.cards>.card>.problock,.ui.products.cards>.card>:only-child, .ui.products.cards>:only-child{
+	border-radius:0 !important;
+}
+.getmore.button{
+	padding-left:45px;
+	padding-right:45px;
+	margin-top: 10px;
+}
+.ui.products.cards>.card>.problock>.excerpt{
+	height: 58px;
+}
+.ui.products.cards>.card>.problock>.excerpt>p{
+	line-height:1.4;
+}
+.ui.products.cards>.card>.problock>.cats{
+	padding:0;
+	padding-top: 18px;
+	padding-bottom: 30px;
+	text-align:center;
+	height:85px;
+	overflow: visible;
+}
+.ui.products.cards>.card>.problock>.cats .ui.inverted.magenta.button{
+	box-shadow: 0 0 0 1px #f36 inset!important;
+}
+.like.button{
+	position:relative;
+}
+.like.button .add{
+	position: absolute;
+    top: 14px;
+    text-align: center;
+    left: 0;
+    color: transparent;
+    width: 100%;
+    font-size: 22px;
+    opacity: 1;
+    z-index: 2;
+    transition: all 1s;
+}
+.like.button .add.add-active {
+    top: calc(50% - 70px);
+    color: #f36;
+    transition-delay: .3s;
+    -webkit-animation: arrow 1.5s ease both;
+    -moz-animation: arrow 1.5s ease both;
+    animation: arrow 1.5s ease both;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript" >
+    var pid = {{ pid|default 0 }};
+    var type = 6;
+    function ajax_load_more(page, is_top, category_id, stick, from_to, sort, size){
+        var url = '{{ app_url_stuff }}/ajax_fetch_more';
+        if(page != 'no'){
+            $.get(url, { page:page, type:type, is_top:is_top, category_id:category_id, stick:stick, from_to:from_to, sort:sort, size:size }, function(rs){
+                rs.data['phenix'] = phenix.url;
+                var rendered = phenix.ajax_render_result('#fetch_more_stuff_top100_tpl', rs.data);
+                $('#stuff_list_box').append(rendered);
+
+            }, 'json');
+        }else{
+            $('#stuff_list_box').html('没有更多了产品!');
+        }
+    }
+
+</script>
+{% endblock %}
+
+{% block jquery %}
+  // 初次加载
+  ajax_load_more(1, 1, pid, 0, 5, 7, 10);
+
+  $('.like.button').livequery(function(){
+    $(this).click(function(){
+        var obj = $(this);
+        var id = $(this).attr('item_id');
+        var loved = $(this).attr('loved');
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.show_login_box();
+        return false;
+      }
+      
+      if (loved == 0){
+        $.post("{{ app_url_favorite }}/ajax_laud", {id:id, type:4}, function(result){
+          if(result.success){
+            obj.attr('loved', 1);
+            obj.addClass('active');
+            obj.children('.add').addClass('add-active');        
+            obj.find('span').text("已投票");
+          }else{
+            phenix.show_error_note('操作失败!',3000);
+          }
+        }, 'json');
+      }else{
+      /**
+        $.post("{{ app_url_favorite }}/ajax_cancel_laud", {id:id, type:4}, function(result){
+          if(result.success){
+            obj.attr('loved', 0);
+            obj.removeClass('active');
+            obj.children('.add').removeClass('add-active');
+            obj.find('span').text("投他一票");
+          }else{
+            phenix.show_error_note('操作失败!',3000);
+          }
+        }, 'json');
+        */
+      }
+      
+    });
+	});
+
+{% endblock %}
+
+
+{% block content %}
+<div class="top100">
+	<div class="topbg">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+          <a href="{{ app_url_stuff }}/tsubmit" class="ui magenta inverted large jointop active button">
+						立即报名
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="ui stuffs">
+		<div class="ui time block">
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class="ui two wide center aligned column">
+						<h3 class="ui icon header">
+							<i class="mu1 icon"></i>
+							<div class="content">
+								2016.01.15
+								<div class="sub header">
+									开启报名
+								</div>
+							</div>
+						</h3>
+					</div>
+					<div class="ui five wide center aligned column">
+						<div class="lineimg"></div>
+						<div class="jian"></div>
+					</div>
+					<div class="ui two wide center aligned column">
+						<h3 class="ui icon header">
+							<i class="mu3 icon"></i>
+							<div class="content">
+								2016.02.20
+								<div class="sub header">
+									评选截止
+								</div>
+							</div>
+						</h3>
+					</div>
+					<div class="ui five wide center aligned column">
+						<div class="lineimg"></div>
+						<div class="jian"></div>
+					</div>
+					<div class="ui two wide center aligned column">
+						<h3 class="ui icon header">
+							<i class="mu3 icon"></i>
+							<div class="content">
+								2016.02.29
+								<div class="sub header">
+									奖项揭晓
+								</div>
+							</div>
+						</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ui vote background block">
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class="ui center aligned column">
+						<h2 class="ui header">网友投票 大咖评选</h2>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="column">
+						<img src="{{ app_url_packaged }}/images/top/jiabin.jpg" >
+					
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ui products block">
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class="ui center aligned column">
+						<h2 class="ui header">推荐作品</h2>
+					</div>
+				</div>
+				<div class="row" style="padding-top: 15px;">
+					<div class="ui opentions column">
+						<div class="ui five products cards" id="stuff_list_box">
+              <!--ajax load-->
+						</div>
+						
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="ui center aligned column">
+            <a href="{{ app_url_stuff }}/tlist" class="ui magenta active inverted large active getmore button">
+							查看更多
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ui vote background block">
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class="ui center aligned column">
+						<h2 class="ui header">
+							媒体合作
+						</h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="ui center aligned column">
+						<img src="{{ app_url_packaged }}/images/top/logo.jpg" align="absmiddle">
+					
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="ui products block">
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class="ui center aligned column">
+						<a href="{{ app_url_stuff }}/tsubmit" class="ui magenta active inverted large active getmore button">
+							立即报名
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+
+</div>
+{% endblock %} 
+
+{% block templates %}
+{% mustache id:'fetch_more_stuff_top100_tpl' tpl:'mustache/fetch_more_stuff_top100.mustache' %}
+{% endblock %}

@@ -59,7 +59,6 @@ class Sher_Core_Util_WxPay_WxPayData_WxPayUnifiedOrder extends Sher_Core_Util_Wx
 		return array_key_exists('mch_id', $this->values);
 	}
 
-
 	/**
 	* 设置微信支付分配的终端设备号，商户自定义
 	* @param string $value 

@@ -17,7 +17,7 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
     'page_description_suffix' => '智品库是太火鸟智能硬件孵化平台产品汇集区，产品包括智能手环、健康监测、智能家居、智能首饰、智能母婴、创意产品等等，发表你的创新产品，让我们用创意和梦想，去改变平凡无奇的世界。',
 	);
 	
-	protected $exclude_method_list = array('execute','latest', 'featured', 'sticked', 'view');
+	protected $exclude_method_list = array('execute','latest', 'featured', 'sticked', 'view','hundred');
 	
 	protected $page_html = 'page/stuff/zlist.html';
 	
@@ -25,6 +25,107 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 		$this->set_target_css_state('page_social');
 		$this->set_target_css_state('page_stuff');
     }
+	
+	/**
+	 * TOp-100 首页 2016/01/18
+	 */
+	public function hundred(){
+		$top_category_id = Doggy_Config::$vars['app.stuff.top100_category_id'];
+    $this->stash['pid'] = $top_category_id;
+		return $this->to_html_page('wap/stuff/index.html');
+	}
+	
+	/**
+	  *TOp-100 提交
+	**/
+	public function tsubmit(){
+		$top_category_id = Doggy_Config::$vars['app.stuff.top100_category_id'];
+    $this->stash['pid'] = $top_category_id;
+
+		// 图片上传参数
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_STUFF;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF;
+		$this->stash['new_file_id'] = Sher_Core_Helper_Util::generate_mongo_id();
+    
+		return $this->to_html_page('wap/stuff/tsubmit.html');
+	}
+	
+	/**
+	  *TOp-100 列表
+	**/
+	public function tlist(){
+		$top_category_id = Doggy_Config::$vars['app.stuff.top100_category_id'];
+    $this->stash['pid'] = $top_category_id;
+		return $this->to_html_page('wap/stuff/tlist.html');
+	}
+	
+	/**
+	  *TOp-100 详情页
+	**/
+	public function tshow(){
+
+		$id = (int)$this->stash['id'];
+		
+		$redirect_url = Doggy_Config::$vars['app.url.stuff']."/hundred";
+		if(empty($id)){
+			return $this->show_message_page('访问的产品不存在！', $redirect_url);
+		}
+		if(isset($this->stash['referer'])){
+			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
+		}
+
+		$top_category_id = Doggy_Config::$vars['app.stuff.top100_category_id'];
+    $this->stash['pid'] = $top_category_id;
+		
+		$model = new Sher_Core_Model_Stuff();
+		$stuff = $model->load($id);
+		
+		if(empty($stuff) || $stuff['deleted']){
+			return $this->show_message_page('访问的产品不存在或被删除！', $redirect_url);
+		}
+		
+		$stuff = $model->extended_model_row($stuff);
+
+    //添加网站meta标签
+    $this->stash['page_title_suffix'] = sprintf("【%s】-太火鸟智能硬件Top100", $stuff['title']);
+    if(!empty($stuff['tags_s'])){
+      $this->stash['page_keywords_suffix'] = $stuff['tags_s'];   
+    }
+    $this->stash['page_description_suffix'] = "智品库是太火鸟智能硬件孵化平台产品汇集区，产品包括智能手环、健康监测、智能家居、智能首饰、智能母婴、创意产品等等，发表你的创新产品，让我们用创意和梦想，去改变平凡无奇的世界。";
+		
+		// 增加pv++
+		$inc_ran = rand(1,6);
+		$model->inc_counter('view_count', $inc_ran, $id);
+
+    // 验证用户是否点赞过
+    $is_loved = false;
+    if ($this->visitor->id){
+      $favorite_model = new Sher_Core_Model_Favorite();
+      $is_loved = $favorite_model->check_loved((int)$this->visitor->id, (string)$stuff['_id'], Sher_Core_Model_Favorite::TYPE_STUFF);
+    }
+		
+		// 是否出现后一页按钮
+	    if(isset($this->stash['referer'])){
+            $this->stash['HTTP_REFERER'] = $this->current_page_ref();
+	    }
+		
+		$this->stash['stuff'] = $stuff;
+    $this->stash['is_loved'] = $is_loved;
+		
+    // 评论参数
+    $comment_options = array(
+      'comment_target_id' => $stuff['_id'],
+      'comment_target_user_id' => $stuff['user_id'],
+      'comment_type'  =>  Sher_Core_Model_Comment::TYPE_STUFF,
+      'comment_pager' =>  Sher_Core_Helper_Url::stuff_comment_url($id, '#p#'),
+      //是否显示上传图片/链接
+      'comment_show_rich' => 1,
+    );
+    $this->_comment_param($comment_options);
+
+		return $this->to_html_page('wap/stuff/tshow.html');
+	}
 	
 	/**
 	 * 产品灵感入口
@@ -295,6 +396,7 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 		
 		$data['_id'] = $id;
 		$data['title'] = $this->stash['title'];
+		$data['fid'] = isset($this->stash['fid']) ? (int)$this->stash['fid'] : 0;
 		$data['description'] = $this->stash['description'];
 		$data['tags'] = $this->stash['tags'];
 		$data['category_id'] = $this->stash['category_id'];
@@ -321,6 +423,21 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
     // 所在大学
     if(isset($this->stash['college_id'])){
         $data['college_id'] = $this->stash['college_id'];
+    }
+
+    // 联系方式 
+    if(isset($this->stash['tel'])){
+        $data['tel'] = $this->stash['tel'];
+    }
+
+    // 公司名称 
+    if(isset($this->stash['company'])){
+        $data['company'] = $this->stash['company'];
+    }
+
+    // 作品链接
+    if(isset($this->stash['link'])){
+        $data['link'] = $this->stash['link'];
     }
 
     //蛋年审核 --如果是优质用户,普通灵感,大赛跳过审核
@@ -383,6 +500,8 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 
     if(isset($data['from_to']) && $data['from_to']==2){
       $redirect_url = Doggy_Config::$vars['app.url.wap'].'/birdegg/'.$id.'.html';
+    }elseif(isset($data['from_to']) && $data['from_to']==5){
+      $redirect_url = Doggy_Config::$vars['app.url.wap'].'/stuff/tshow?id='.$id;
     }else{
 		  $redirect_url = Sher_Core_Helper_Url::wap_stuff_view_url($id); 
     }

@@ -8,6 +8,8 @@ class Sher_Core_Model_Cart extends Sher_Core_Model_Base  {
 	
 	protected $schema = array(
     '_id' => null,
+    // array('target_id'=>2343, type=>1, n=>2, price=>12.12, total_price=>24.24);
+    // type:1.商品ID;2.skuID; target_id:商品或skuID n：数量; 
     'items' => array(),
     'item_count' => 0,
     //备注

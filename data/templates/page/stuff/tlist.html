@@ -1,0 +1,279 @@
+{%extends 'layout/column.html'%}
+{% block title %}列表-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.topbg {
+	    background: url({{ app_url_packaged }}/images/top/bg.jpg) no-repeat center center;
+	    background-size: cover;
+		padding-top: 23%;
+		padding-bottom: 7%;
+	}
+	.topbg .ui.large.jointop{
+		padding-left:35px;
+		padding-right:35px;
+	}
+	.topbtn.active,.topbtn:hover{
+		background:#37004f !important;
+		color:#fff !important;
+	}
+	.ui.social {
+	    padding: 10px 0 20px;
+	}
+	@media only screen and (max-width: 1500px) and (min-width: 992px){
+		.opention.button{
+			width:109px;
+			margin-right:10px !important;
+		}
+		
+		
+	}
+	@media only screen and (min-width: 1500px){
+		.opention.button{
+			width:137px;
+			margin-right:10px !important;
+		}
+		
+		
+	}
+	.ui.opentions.column{
+		font-size:0 !important;
+	}
+	.opention.button{
+		border-radius:0 !important;
+	}
+	.opention:last-child{
+		margin-right:0 !important;
+	}
+	.opention.active.button,.opention.button:hover,.opention.active.button:hover{
+		background:#37004f;
+		color:#fff;
+	}
+	.ui.products.cards>.card>.problock>a.thumb,.ui.products.cards>.card>.problock,.ui.products.cards>.card>:only-child, .ui.products.cards>:only-child{
+		border-radius:0 !important;
+	}
+	.getmore.button{
+		padding-left:45px;
+		padding-right:45px;
+		margin-top: 10px;
+	}
+	.ui.products.cards>.card>.problock>h2{
+		text-align:center;
+		padding-bottom: 3px;
+	}
+	.ui.products.cards>.card>.problock>h2 a{
+		vertical-align: bottom;
+	}
+	.ui.products.cards>.card>.problock>.excerpt{
+		height: 58px;
+	}
+	.ui.products.cards>.card>.problock>.excerpt>p{
+		line-height:1.4;
+	}
+	.ui.products.cards>.card>.problock>.cats{
+		padding:0;
+		padding-top: 18px;
+		padding-bottom: 30px;
+		text-align:center;
+		height:85px;
+		overflow: visible;
+	}
+	.ui.products.cards>.card>.problock>.cats .ui.inverted.magenta.button{
+		box-shadow: 0 0 0 1px #f36 inset!important;
+	}
+	.like.button{
+		position:relative;
+	}
+	.like.button .add{
+		position: absolute;
+	    top: 14px;
+	    text-align: center;
+	    left: 0;
+	    color: transparent;
+	    width: 100%;
+	    font-size: 22px;
+	    opacity: 1;
+	    z-index: 2;
+	    transition: all 1s;
+	}
+	.like.button .add.add-active {
+	    top: calc(50% - 70px);
+	    color: #f36;
+	    transition-delay: .3s;
+	    -webkit-animation: arrow 1.5s ease both;
+	    -moz-animation: arrow 1.5s ease both;
+	    animation: arrow 1.5s ease both;
+	}
+	
+	
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript" >
+    var is_top = 1;
+    var category_id = {{ pid|default 0 }};
+    var type = 6;
+    var page = 1;
+    var size = 30;
+    function ajax_load_more(page, is_top, category_id, stick, from_to, sort, size){
+        var url = '{{ app_url_stuff }}/ajax_fetch_more';
+        if(page != 'no'){
+            $.get(url, { page:page, type:type, is_top:is_top, category_id:category_id, stick:stick, from_to:from_to, sort:sort, size:size }, function(rs){
+                rs.data['phenix'] = phenix.url;
+                var rendered = phenix.ajax_render_result('#fetch_more_stuff_top100_tpl', rs.data);
+                $('#stuff_list_box').append(rendered);
+                if (rs.data.nex_page != 'no'){
+                    $('#stuff-more').data('status', 0);
+                }
+                $('#stuff-more').data('page', page);
+                $('#stuff-more').hide();
+
+            }, 'json');
+        }else{
+            $('#stuff_list_box').html('没有更多了产品!');
+        }
+    }
+
+</script>
+{% endblock %}
+
+{% block jquery %}
+	$('.opention').click(function(){
+    var id = $(this).data('value');
+    if(id==0){
+      is_top = 1;
+      category_id = {{ pid|default 0 }};
+    }else{
+      is_top = 0;
+      category_id = id;
+    }
+    page = 1;
+    // 清空列表数据
+    $('#stuff_list_box').html('');
+    // 点击分类加载
+    ajax_load_more(page, is_top, category_id, 0, 5, 7, size);
+		$(this).addClass('active');
+		$(this).siblings().removeClass('active');
+	});
+
+  // 初次加载
+  ajax_load_more(page, is_top, category_id, 0, 5, 7, size);
+
+  // ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+      var scrollTop = $(this).scrollTop();
+      var scrollHeight = $(document).height();
+      var windowHeight = $(this).height();
+      if(scrollTop + windowHeight > scrollHeight - 240){
+          var stat = $('#stuff-more').data('status');
+          page = parseInt($('#stuff-more').data('page')) + 1;
+          
+          // 防止频繁请求(在没加载完成时只允许请求一次)
+          if(stat == 0){
+              $('#stuff-more').data('status', 1);
+              $('#stuff-more').show();
+              ajax_load_more(page, is_top, category_id, 0, 5, 0, size);
+          }
+      }
+  });
+
+  $('.like.button').livequery(function(){
+    $(this).click(function(){
+        var obj = $(this);
+        var id = $(this).attr('item_id');
+        var loved = $(this).attr('loved');
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.show_login_box();
+        return false;
+      }
+      
+      if (loved == 0){
+        $.post("{{ app_url_favorite }}/ajax_laud", {id:id, type:4}, function(result){
+          if(result.success){
+            obj.attr('loved', 1);
+            obj.addClass('active');
+            obj.children('.add').addClass('add-active');        
+            obj.find('span').text("已投票");
+          }else{
+            phenix.show_error_note('操作失败!',3000);
+          }
+        }, 'json');
+      }else{
+      /**
+        $.post("{{ app_url_favorite }}/ajax_cancel_laud", {id:id, type:4}, function(result){
+          if(result.success){
+            obj.attr('loved', 0);
+            obj.removeClass('active');
+            obj.children('.add').removeClass('add-active');
+            obj.find('span').text("投他一票");
+          }else{
+            phenix.show_error_note('操作失败!',3000);
+          }
+        }, 'json');
+        */
+      }
+      
+    });
+	});
+
+{% endblock %}
+{% block content %}
+<div class="topbg">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="center aligned column">
+				<a href="{{ app_url_stuff }}/tsubmit" class="ui topbtn inverted large jointop active button" >
+					报名提交
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui stuffs social">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ui center aligned opentions column">
+
+								{% category_list var:'category' only_open:1 domain:4 pid:pid current:stuff.category_id %}
+                  <div class="ui opention button active" data-value="0">
+                    全部
+                  </div>	
+								{% for cat in category.rows %}
+                    <div class="ui opention button" data-value="{{ cat._id }}">
+                      {{ cat.title }}
+                    </div>	
+								{% endfor %}
+
+
+				
+			</div>
+		</div>
+		
+		<div class="row" style="padding-top: 15px;">
+			<div class="ui opentions column">
+				<div class="ui five products cards" id="stuff_list_box">
+          <!--ajax load-->
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="ui center aligned column">
+                    <div id="stuff-more" data-page="1" data-status="0" style="text-align:center;margin:10px auto;display:none;">
+                        <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
+                        加载中...
+                    </div>
+			</div>
+		</div>
+		
+		
+	</div>
+</div>
+
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'fetch_more_stuff_top100_tpl' tpl:'mustache/fetch_more_stuff_top100.mustache' %}
+{% endblock %}

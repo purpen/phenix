@@ -46,6 +46,11 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 
         # 团队介绍
         'team_introduce' => '',
+        # 联系方式
+        'tel' => '',
+        'company' => '',
+        # 产品链接
+        'link' => '',
 		
 		# 品牌ID
 		'cooperate_id' => '',
@@ -86,7 +91,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		'stick' => self::STICK_DEFAULT,
 		# 精选
 		'featured' => self::FEATURED_DEFAULT,
-        # 属于1.十万火计;2.蛋年;3.奇思甬动-大赛;4.反向定制;5;最火爆智能硬件TOP100;
+        # 属于1.十万火计;2.蛋年;3.奇思甬动-大赛;4.反向定制;5;最火爆智能硬件TOP100;6.--;7.--
         'from_to' => 0,
 
         # 用于大赛
@@ -132,7 +137,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
             }elseif($row['from_to']==4){ //反向定制-大赛
               $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']); 
             }elseif($row['from_to']==5){ //最火爆智能硬件TOP100
-              $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']); 
+              $row['view_url'] = sprintf("%s/tshow?id=%d", Doggy_Config::$vars['app.url.stuff'], $row['_id']);
             }else{
               $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);   
             }
@@ -140,11 +145,20 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
             $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);  
         }
 
+        if(isset($row['from_to'])){
+          if($row['from_to'] == 5){ // top100
+            $row['wap_view_url'] = sprintf("%s/stuff/tshow?id=%d", Doggy_Config::$vars['app.url.wap'], $row['_id']);
+          }else{
+            $row['wap_view_url'] = Sher_Core_Helper_Url::wap_stuff_view_url($row['_id']);            
+          }
+        }else{
+          $row['wap_view_url'] = Sher_Core_Helper_Url::wap_stuff_view_url($row['_id']);  
+        }
+
 		if(!isset($row['short_title']) || empty($row['short_title'])){
 			$row['short_title'] = $row['title'];
 		}
         
-		$row['wap_view_url'] = Sher_Core_Helper_Url::wap_stuff_view_url($row['_id']);
 		$row['tags_s'] = !empty($row['tags']) ? implode(',', $row['tags']) : '';
 		$row['fav_tags'] = !empty($row['like_tags']) ? implode(',', $row['like_tags']) : '';
 
