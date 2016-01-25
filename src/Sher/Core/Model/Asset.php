@@ -31,6 +31,8 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	
 	# 产品图片
 	const TYPE_PRODUCT = 10;
+  # 产品banner图
+  const TYPE_PRODUCT_BANNER = 11;
 	const TYPE_EDITOR_PRODUCT = 15;
 	
 	# 评测图片/配图(小图)

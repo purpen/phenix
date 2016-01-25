@@ -280,11 +280,21 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	}
 	
 	/**
-	 * 上传产品图片
+	 * 上传产品封面图
 	 */
 	public function product() {
 		$asset_domain = Sher_Core_Util_Constant::STROAGE_PRODUCT;
 		$asset_type = Sher_Core_Model_Asset::TYPE_PRODUCT;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+
+	/**
+	 * 上传产品Banner图
+	 */
+	public function product_banner() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+		$asset_type = Sher_Core_Model_Asset::TYPE_PRODUCT_BANNER;
 		
 		return $this->handle_upload($asset_type, $asset_domain);
 	}
@@ -717,8 +727,14 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
      * @return void
      */
     public function check_upload_product_assets() {
-		$assets_ids = $this->stash['assets'];
-		$tpl = 'ajax/check_upload_product_assets.html';
+      $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+      $assets_ids = $this->stash['assets'];
+      if($type==2){
+		    $tpl = 'ajax/check_upload_product_banner_assets.html';
+      }else{
+		    $tpl = 'ajax/check_upload_product_assets.html';
+      }
+    
         if (empty($assets_ids)) {
             $result['error_message'] = '没有上传的图片';
             $result['code'] = 401;
@@ -729,7 +745,11 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		
 		// 先上传再保存信息的情况
 		if (isset($this->stash['ref'])){
-			$tpl = 'ajax/check_product_onestep.html';
+      if($type==2){
+			  $tpl = 'ajax/check_product_banner_onestep.html';
+      }else{
+			  $tpl = 'ajax/check_product_onestep.html';
+      }
 		}
 		
         return $this->to_taconite_page($tpl);
