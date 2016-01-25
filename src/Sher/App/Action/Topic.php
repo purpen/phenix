@@ -721,7 +721,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         }
 		
 		// 加｜
-		$stash = array( 'tline' => '');
+		$this->$stash['topic'] = array( 'tline' => '');
 		if ( !empty($topic['top']) || !empty($topic['fine']) || !empty($topic['stick']) ){
 			$this->stash['tline'] = true;
 		}
