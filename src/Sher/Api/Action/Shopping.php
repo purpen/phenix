@@ -1654,7 +1654,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       // 批量删除
       foreach($cart['items'] as $k=>$v){
         if($v['target_id']==$target_id){
-          unset($cart['items'][$i]);
+          unset($cart['items'][$k]);
         }
       }
     }// endfor
