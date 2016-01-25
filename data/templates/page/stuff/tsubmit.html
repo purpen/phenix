@@ -138,9 +138,8 @@
 					phenix.before_submit();
 				},
 				success: function(data){
-					phenix.after_submit();
-					
 					if(data.is_error){
+					  phenix.after_submit();
 						$(event.target).addClass('error');
 						phenix.show_error_note(data.message, event.target);
 					}else{
