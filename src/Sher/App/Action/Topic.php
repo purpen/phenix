@@ -595,7 +595,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         if (!empty($topic)) {
             $topic = $model->extended_model_row($topic);
         }
-
+		
 		// 综合分类
 		$this->stash['topic_category_comprehensive'] = Doggy_Config::$vars['app.topic_category_comprehensive'];
 		// 产品分类
@@ -721,7 +721,6 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         }
 		
 		// 加｜
-		$this->$stash['topic'] = array( 'tline' => '');
 		if ( !empty($topic['top']) || !empty($topic['fine']) || !empty($topic['stick']) ){
 			$this->stash['tline'] = true;
 		}
