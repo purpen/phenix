@@ -35,8 +35,21 @@
 	.froala-element td img {
       width: 100%;
   }
-	
-	
+	.sub.header.attribute .ui.green.small.label{
+		background-color: rgba(0,0,0,0) !important;
+	    color: #21ba45!important;
+	    padding: 0;
+	}
+	.sub.header.attribute .ui.orange.small.label{
+		background-color: rgba(0,0,0,0) !important;
+	    color: #f2711c !important;
+	    padding: 0;
+	}
+	.sub.header.attribute .ui.yellow.small.label{
+		background-color: rgba(0,0,0,0) !important;
+	    color: #fbbd08 !important;
+	    padding: 0;
+	}
 	/*.post.vote .description .field .ui.checkbox{
 		margin-right: 35px;
 		display: block;
@@ -539,6 +552,8 @@
 						  {% if topic.top %}<span class="ui green small label">置顶</span>{% endif %}
               {% if topic.fine %}<span class="ui orange small label">精华</span>{% endif %}
               {% if topic.stick %}<span class="ui yellow small label">编辑推荐</span>{% endif %}
+			  
+			  				{% if topic.top||if topic.fine||if topic.stick %} | {% endif %}
 							<span class="category"><a href="{{ app_url_topic }}/c{{ topic.category._id }}" class="ui link">{{ topic.category.title }}</a></span> | 
 							<span class="date"><a class="ui link" href="{{ topic.user.home_url }}">@{{ topic.user.nickname }}</a> 发表于 {{ topic.created_on|relative_datetime }}</span> | 
               {% if topic.source %}
