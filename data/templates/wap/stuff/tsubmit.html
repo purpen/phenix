@@ -271,7 +271,7 @@ select.leibie{
 										{% for asset in assets.rows %}
 										<div class="thumb item" id="{{ asset._id }}">
 											<div class="image">
-												<img src="{{ asset.thumbnails.mini.view_url }}" />
+												<img src="{{ asset.thumbnails.mini.view_url }}" align="absmiddle" />
 												<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
 											</div>
 											<div class="buttons">
