@@ -719,6 +719,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
             $new_page = ceil($floor/10);
             $this->stash['page'] = $new_page;
         }
+		
+		// 加｜
+		if ( isset($topic['top']) || isset($topic['fine']) || isset($topic['stick']) ){
+			$this->stash['tline'] = $tine;
+		}
         
 		return $this->to_html_page($tpl);
 	}

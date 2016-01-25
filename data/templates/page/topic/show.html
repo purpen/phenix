@@ -553,7 +553,8 @@
               {% if topic.fine %}<span class="ui orange small label">精华</span>{% endif %}
               {% if topic.stick %}<span class="ui yellow small label">编辑推荐</span>{% endif %}
 			  
-			  				{% if topic.top|if topic.fine|if topic.stick %} | {% endif %}
+			  				<!--{% if topic.top||if topic.fine||if topic.stick %} | {% endif %}-->
+							{% if topic.tline %} | {% endif %}
 							<span class="category"><a href="{{ app_url_topic }}/c{{ topic.category._id }}" class="ui link">{{ topic.category.title }}</a></span> | 
 							<span class="date"><a class="ui link" href="{{ topic.user.home_url }}">@{{ topic.user.nickname }}</a> 发表于 {{ topic.created_on|relative_datetime }}</span> | 
               {% if topic.source %}
