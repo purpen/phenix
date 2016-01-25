@@ -72,7 +72,7 @@
 			
 			$input->SetBody('太火鸟商城'.$order_info['rid'].'的订单'); // 商品描述
 			$input->SetOut_trade_no($order_info['rid']); // 商户订单号
-			$input->SetTotal_fee((int)$order_info['pay_money']*100); // 订单总金额,单位为分
+			$input->SetTotal_fee((float)$order_info['pay_money']*100); // 订单总金额,单位为分
 			$input->SetNotify_url($notify_url); // 通知地址
 			$input->SetTrade_type("APP"); // 交易类型
       $input->SetDevice_info($uuid); // 终端设备号
@@ -83,6 +83,8 @@
       if(!empty($order)){
         if($order['return_code'] == 'SUCCESS'){
           if($order['result_code'] == 'SUCCESS'){
+            $order['partner_id'] = Doggy_Config::$vars['app.wechat_m.partner_id'];
+            $order['time_stamp'] = time();
             return $this->api_json('请求成功!', 0, $order);         
           }else{
             return $this->api_json('请求失败!', 3010, $order);          

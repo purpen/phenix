@@ -1646,7 +1646,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       return $this->api_json('购物车为空！', 3002);    
     }
 
-    $del_index_arr = array();
     foreach($cart_arr as $key=>$val){
       $val = (array)$val;
       $type = (int)$val['type'];
@@ -1655,16 +1654,13 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       // 批量删除
       foreach($cart['items'] as $k=>$v){
         if($v['target_id']==$target_id){
-          array_push($del_index_arr, $k);
+          unset($cart['items'][$k]);
         }
       }
     }// endfor
 
-    for($i=0;$i<count($del_index_arr);$i++){
-      unset($cart['items'][$i]);
-    }
     $ok = $cart_model->update_set($user_id, array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));  
-    $data = $cart_model->get_data();
+    $data = $cart_model->find_by_id($user_id);
     return $this->api_json('移除成功!', 0, $data);
 
   }
