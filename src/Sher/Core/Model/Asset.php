@@ -160,7 +160,10 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
         # 头像截图
         'ava'  => 'ava.jpg',
     'mb'  => 'mb.jpg',  // 750x360
+    # app 商品Banner
     'mt'  => 'mt.jpg',  // 750x400
+    # app 商品封面
+    'apc' => 'p500x500.jpg', // 500x500
 	);
 
     protected $required_fields = array('filepath');
