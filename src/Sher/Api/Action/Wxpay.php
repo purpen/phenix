@@ -196,7 +196,7 @@
 			$trade_no = $order_info['trade_no'];
 			
 			if($trade_no != ""){
-				$input = new Sher_Core_Util_WxPay_WxPayData_WxPayRefund();
+				$input = new Sher_Core_Util_WxPayM_WxPayData_WxPayRefund();
 				$input->SetTransaction_id($trade_no);
 				$input->SetOut_trade_no($out_trade_no);
 				$input->SetTotal_fee((int)($pay_money*100));

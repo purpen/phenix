@@ -460,11 +460,11 @@ class Sher_Core_Util_WxPayM_WxPayApi
 	private static function reportCostTime($url, $startTimeStamp, $data)
 	{
 		//如果不需要上报数据
-		if((int)Doggy_Config::$vars['app.wechat.app_id'] == 0){
+		if((int)Doggy_Config::$vars['app.wechat_m.app_id'] == 0){
 			return;
 		} 
 		//如果仅失败上报
-		if((int)Doggy_Config::$vars['app.wechat.app_id'] == 1 &&
+		if((int)Doggy_Config::$vars['app.wechat_m.app_id'] == 1 &&
 			 array_key_exists("return_code", $data) &&
 			 $data["return_code"] == "SUCCESS" &&
 			 array_key_exists("result_code", $data) &&
