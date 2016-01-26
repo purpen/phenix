@@ -7,7 +7,7 @@
  * @author widyhu
  *
  */
-class Sher_Core_Util_WxPay_WxPayData_WxPayDataBase extends Doggy_Object
+class Sher_Core_Util_WxPayM_WxPayData_WxPayDataBase extends Doggy_Object
 {
   protected $values = array();
 	
