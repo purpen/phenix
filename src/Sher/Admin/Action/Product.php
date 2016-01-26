@@ -249,9 +249,14 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			}
 
       $asset = new Sher_Core_Model_Asset();
-			// 上传成功后，更新所属的附件
+			// 上传成功后，更新所属的附件(封面)
 			if(isset($data['asset']) && !empty($data['asset'])){
 				$asset->update_batch_assets($data['asset'], $id);
+			}
+
+			// 上传成功后，更新所属的附件(Banner)
+			if(isset($this->stash['banner_asset']) && !empty($this->stash['banner_asset'])){
+				$asset->update_batch_assets($this->stash['banner_asset'], $id);
 			}
 
 			// 保存成功后，更新编辑器图片
@@ -465,17 +470,19 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		// 编辑器上传附件
 		$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
 		$this->stash['editor_token'] = Sher_Core_Util_Image::qiniu_token($callback_url);
-		$this->stash['editor_pid'] = new MongoId();
+		$this->stash['editor_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 
 		$this->stash['editor_domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
 		$this->stash['editor_asset_type'] = Sher_Core_Model_Asset::TYPE_EDITOR_PRODUCT;
 		
 		// 产品图片上传
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
-		$this->stash['pid'] = new MongoId();
+		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+		$this->stash['banner_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
+		$this->stash['banner_asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT_BANNER;
 		
 		return $this->to_html_page('admin/product/edit.html');
 	}

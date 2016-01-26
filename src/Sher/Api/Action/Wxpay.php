@@ -84,6 +84,7 @@
         if($order['return_code'] == 'SUCCESS'){
           if($order['result_code'] == 'SUCCESS'){
             $order['partner_id'] = Doggy_Config::$vars['app.wechat_m.partner_id'];
+            $order['key'] = Doggy_Config::$vars['app.wechat_m.key'];
             $order['time_stamp'] = time();
             return $this->api_json('请求成功!', 0, $order);         
           }else{
