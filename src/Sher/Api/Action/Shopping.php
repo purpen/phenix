@@ -104,8 +104,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $type = (int)$val['type'];
       $n = (int)$val['n'];
 
-      $item['sku_mode'] = null;
-      $item['price'] = 0;
+      $sku_mode = null;
+      $price = 0;
 
       // 验证是商品还是sku
       if($type==2){
@@ -118,9 +118,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         }
 
         $product_id = $inventory['product_id'];
-        $item['sku_mode'] = $inventory['mode'];
-        $item['price'] = (float)$inventory['price'];
-        $item['total_price'] = (float)$data['price']*$n;
+        $sku_mode = $inventory['mode'];
+        $price = (float)$inventory['price'];
+        $total_price = $price*$n;
         
       }elseif($type==1){
         $product_id = $target_id;
@@ -139,9 +139,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         return $this->api_json(sprintf("商品:%s 库存不足！", $product['title']), 3008);
       }
 
-      if(empty($item['price'])){
-        $item['price'] = (float)$product['sale_price'];
-        $item['total_price'] = $item['price']*$n;
+      if(empty($price)){
+        $price = (float)$product['sale_price'];
+        $total_price = $price*$n;
       }else{
       }
 
@@ -149,13 +149,15 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         'sku' => $target_id,
         'product_id'  =>  $product_id,
         'quantity'  => $n,
-        'sale_price' => $item['price'],
+        'price' => $price,
+        'sku_mode' => $sku_mode,
+        'sale_price' => $price,
         'title' => $product['title'],
         'cover'  => $product['cover']['thumbnails']['mini']['view_url'],
         'view_url'  => $product['view_url'],
-        'subtotal'  => $item['total_price'],
+        'subtotal'  => $total_price,
       );
-      $total_money += $item['total_price'];
+      $total_money += $total_price;
       $total_count += 1;
 
       if(!empty($item)){
@@ -277,8 +279,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $item = null;
     if($type==2){
 		  $item = $inventory->load((int)$target_id);
+      if(empty($item)){
+        return $this->api_json('挑选的产品不存在或被删除，请核对！', 3005);    
+      }
     }
-		
+
 		$product_id = !empty($item) ? $item['product_id'] : $target_id;
 		
 		// 获取产品信息
@@ -303,15 +308,16 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 				'sku'  => $target_id,
 				'product_id' => $product_id,
 				'quantity' => $quantity,
-				'price' => $price,
+				'price' => (float)$price,
 				'sale_price' => $price,
 				'title' => $product_data['title'],
+        'sku_mode' => $sku_name,
 				'cover' => $product_data['cover']['thumbnails']['mini']['view_url'],
 				'view_url' => $product_data['view_url'],
-				'subtotal' => $price*$quantity,
+				'subtotal' => (float)$price*$quantity,
 			),
 		);
-		$total_money = $price*$quantity;
+		$total_money = (float)$price*$quantity;
 		$items_count = 1;
 
 		$order_info = $this->create_temp_order($items, $total_money, $items_count);

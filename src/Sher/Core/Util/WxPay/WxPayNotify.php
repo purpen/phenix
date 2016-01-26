@@ -78,7 +78,7 @@ class Sher_Core_Util_WxPay_WxPayNotify extends Sher_Core_Util_WxPay_WxPayData_Wx
 	{
 		//如果需要签名
 		if($needSign == true && 
-			$this->GetReturn_code($return_code) == "SUCCESS")
+			$this->GetReturn_code() == "SUCCESS")
 		{
 			$this->SetSign();
 		}
