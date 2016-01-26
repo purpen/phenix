@@ -15,7 +15,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	}
 	
 	/**
-	 * 购物车
+	 * 购物车(用于购物车存客户端调用，现在不用了)
 	 */
 	public function cart(){
 		$sku = isset($this->stash['sku'])?(int)$this->stash['sku']:0;
@@ -67,6 +67,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	 */
 	public function checkout(){
 		$user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录！', 3000); 
+    }
     if(!isset($this->stash['array']) || empty($this->stash['array'])){
       return $this->api_json('购物车为空！', 3001); 
     }
