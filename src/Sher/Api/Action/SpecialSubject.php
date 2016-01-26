@@ -124,7 +124,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
       $data[$key] = isset($special_subject[$key]) ? $special_subject[$key] : null;
     }
     // 封面图url
-    $data['cover_url'] = $special_subject['cover']['thumbnails']['mb']['view_url'];
+    $data['cover_url'] = $special_subject['cover']['thumbnails']['apc']['view_url'];
 
     //验证是否收藏或喜欢
     $fav = new Sher_Core_Model_Favorite();
