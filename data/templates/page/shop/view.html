@@ -70,6 +70,14 @@
 	text-align:center;
 	width:100%;
 	line-height:36px;
+	position:relative;
+}
+.messege-2016 i.close {
+    position: absolute;
+    right: 10px;
+    height: 36px;
+    width: 30px;
+    cursor: pointer;
 }
 .messege-2016 span{
 	-webkit-animation: scale-up 5s forwards;
@@ -314,6 +322,9 @@
 {% endblock %}
 
 {% block jquery %}
+	$('.messege-2016 i.close').click(function(){
+		$('.messege-2016').fadeOut();
+	});
 	$('#carousel').flexslider({
         animation: "slide",
         controlNav: false,
