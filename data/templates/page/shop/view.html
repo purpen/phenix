@@ -324,6 +324,7 @@
 {% block jquery %}
 	$('.messege-2016 i.close').click(function(){
 		$('.messege-2016').fadeOut();
+		$('.messege-2016').remove();
 	});
 	$('#carousel').flexslider({
         animation: "slide",
