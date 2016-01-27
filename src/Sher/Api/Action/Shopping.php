@@ -436,9 +436,27 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		
 		// 优惠活动金额
 		$coin_money = $order_info['coin_money'];
-		
 		// 红包金额
-		$card_money = $order_info['card_money'];
+		$card_money = 0;
+
+    // 是否使用红包/礼品券
+    $bonus_code = isset($this->stash['bonus_code']) ? $this->stash['bonus_code'] : null;
+    $gift_code = isset($this->stash['gift_code']) ? $this->stash['gift_code'] : null;
+    if($bonus_code && $gift_code){
+      return $this->api_json('红包和礼品券不能同时使用！', 3005);   
+    }
+    if(!empty($bonus_code)){  // 红包
+      //验证红包是否有效
+      $bonus_result = Sher_Core_Util_Shopping::check_bonus($rrid, $bonus_code, $user_id, $result);
+      if($bonus_result['code']){
+        return $this->api_json($bonus_result['msg'], $bonus_result['code']);     
+      }else{
+        $card_money = $order_info['card_money'] = $bonus_result['coin_money'];
+      }
+    }elseif(!empty($gift_code)){  // 礼品券
+    
+    }
+		
 		
 		try{
 			$orders = new Sher_Core_Model_Orders();
