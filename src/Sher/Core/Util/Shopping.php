@@ -153,6 +153,59 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 		return $card_money;
 	}
 
+	/**
+	 * 验证红包是否可用--用于app验证
+	 */
+	public static function check_bonus($rid, $code, $order_temp){
+		$model = new Sher_Core_Model_Bonus();
+		$bonus = $model->find_by_code($code);
+		$card_money = 0.0;
+		
+		if (empty($bonus)){
+			throw new Sher_Core_Model_Exception('红包不存在！');
+		}
+		// 是否使用过
+		if ($bonus['used'] == Sher_Core_Model_Bonus::USED_OK){
+			throw new Sher_Core_Model_Exception('红包已被使用！');
+		}
+		//是否冻结中
+		if ($bonus['status'] != Sher_Core_Model_Bonus::STATUS_OK && $bonus['status'] != Sher_Core_Model_Bonus::STATUS_GOT){
+			throw new Sher_Core_Model_Exception('红包不能使用！');
+		}
+		// 是否过期
+		if ($bonus['expired_at'] && $bonus['expired_at'] < time()){
+			throw new Sher_Core_Model_Exception('红包已过期！');
+    }
+    //是否满足限额条件
+    if(!empty($bonus['min_amount']) && (int)$bonus['min_amount'] > (int)$total_money){
+ 			throw new Sher_Core_Model_Exception('此红包满'.$bonus['min_amount'].'元才可使用！');   
+    }
+
+    // 指定商品ID
+    if(isset($bonus['product_id']) && !empty($bonus['product_id'])){
+      if($bonus['product_id'] != (int)$product_id){
+ 			  throw new Sher_Core_Model_Exception('该红包只能用于指定商品！'); 
+      }
+    }
+
+		$product_model = new Sher_Core_Model_Product();
+		$product = $product_model->find_by_id((int)$product_id);
+		
+    //验证产品
+		if (empty($product)){
+ 			throw new Sher_Core_Model_Exception('该红包只能用于指定商品！');
+		}
+
+    // 预售产品不可使用
+		if ($product['stage'] != 9){
+ 			throw new Sher_Core_Model_Exception('该产品不可使用红包！');
+		}
+
+		$card_money = $bonus['amount'];
+		
+		return $card_money;
+	}
+
 
 	/**
 	 * 验证鸟币--抛出异常
