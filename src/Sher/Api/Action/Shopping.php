@@ -942,7 +942,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			// ID转换为字符串
 			$data[$i]['_id'] = (string)$result['rows'][$i]['_id'];
       // 创建时间格式化 
-      $data[$i]['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($result['rows'][$i]['created_on']);
+      $data[$i]['created_at'] = date('Y-m-d H:i', $result['rows'][$i]['created_on']); 
       //收货地址
       if(empty($data[$i]['express_info'])){
         $data[$i]['express_info'] = null;
@@ -1015,7 +1015,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $key = $some_fields[$i];
       $data[$key] = isset($order_info[$key]) ? $order_info[$key] : null;
     }
+
     $data['_id'] = (string)$data['_id'];
+    // 创建时间格式化 
+    $data['created_at'] = date('Y-m-d H:i', $data['created_on']);
 
     // 收货信息
     if(empty($data['express_info'])){
