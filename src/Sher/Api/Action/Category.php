@@ -55,7 +55,7 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
           $data[$i]['app_cover_url'] = null;
           if(isset($result['rows'][$i]['app_cover_url']) && !empty($result['rows'][$i]['app_cover_url'])){
             $data[$i]['app_cover_url'] = sprintf("%s-p750x422.jpg", $result['rows'][$i]['app_cover_url']);
-            $data[$i]['app_cover_s_url'] = sprintf("%s-p750x422.jpg", $result['rows'][$i]['app_cover_url']);
+            $data[$i]['app_cover_s_url'] = sprintf("%s-p325x200.jpg", $result['rows'][$i]['app_cover_url']);
           }
 
         }
