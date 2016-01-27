@@ -156,14 +156,15 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 		'resp' => 'resp.jpg',
 		'hd'   => 'hd.jpg',
 		'md'   => 'm.jpg',
-        'hm'   => 'hm.jpg',
-        # 头像截图
-        'ava'  => 'ava.jpg',
-    'mb'  => 'mb.jpg',  // 750x360
-    # app 商品Banner
-    'mt'  => 'mt.jpg',  // 750x400
+    'hm'   => 'hm.jpg',
+    # 头像截图
+    'ava'  => 'ava.jpg',
+    # app Banner(通用)
+    'aub'  => 'p750x422.jpg',  // 750x422
     # app 商品封面
     'apc' => 'p500x500.jpg', // 500x500
+    # app 分类小图
+    'acs' => 'p325x100.jpg', // 325x100
 	);
 
     protected $required_fields = array('filepath');

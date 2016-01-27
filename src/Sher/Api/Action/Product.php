@@ -242,7 +242,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
     if(!empty($asset_result['rows'])){
       foreach($asset_result['rows'] as $key=>$value){
-        array_push($assets, $value['thumbnails']['mt']['view_url']);
+        array_push($assets, $value['thumbnails']['aub']['view_url']);
       }
     }
     $data['asset'] = $assets;
@@ -444,7 +444,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
                 $data[$key] = isset($product[$key]) ? $product[$key] : null;
               }
             // 封面图url
-            $data['cover_url'] = $product['cover']['thumbnails']['medium']['view_url'];
+            $data['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
             array_push($items, $data);
           }
         }

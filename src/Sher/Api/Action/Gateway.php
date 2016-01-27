@@ -92,7 +92,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
       }
 
 			// 封面图url
-			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['fileurl'];
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
 		}
 
 		$result['rows'] = $data;
