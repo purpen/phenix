@@ -193,7 +193,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 
     // 红包属性
     $items = $order_temp['dict']['items'];
-    $total_money = (float)$result['dict']['total_money'];
+    $total_money = (float)$order_temp['dict']['total_money'];
 
 		$inventory_mode = new Sher_Core_Model_Inventory();
 		$product_mode = new Sher_Core_Model_Product();
