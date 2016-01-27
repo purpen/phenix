@@ -106,7 +106,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $n = (int)$val['n'];
 
       $sku_mode = null;
-      $price = 0;
+      $price = 0.0;
 
       // 验证是商品还是sku
       if($type==2){
@@ -122,8 +122,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $sku_mode = $inventory['mode'];
         $price = (float)$inventory['price'];
         $total_price = $price*$n;
+        $sku_id = $target_id;
         
       }elseif($type==1){
+        $sku_id = $target_id;
         $product_id = $target_id;
       }else{
         return $this->api_json('购物车参数不正确！', 3005);
@@ -147,8 +149,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       }
 
       $item = array(
-        'sku' => $target_id,
-        'product_id'  =>  $product_id,
+        'target_id' => $target_id,
+        'type' => $type,
+        'sku' => $sku_id,
+        'product_id'  => $product_id,
         'quantity'  => $n,
         'price' => $price,
         'sku_mode' => $sku_mode,
@@ -394,7 +398,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		//$is_nowbuy = isset($this->stash['is_nowbuy']) ? (int)$this->stash['is_nowbuy'] : 0;
 		
 		
-		// 预生成临时订单
+		// 调用临时订单
 		$model = new Sher_Core_Model_OrderTemp();
 		$result = $model->load($rrid);
 		if(empty($result)){
@@ -1377,97 +1381,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
 	}
 
-	/**
-	 * 验证红包是否可用(支持购物车验证，接收数组)
-	 */
-	public function check_bonus(){
-		$user_id = $this->current_user_id;
-    if(empty($user_id)){
-      return $this->api_json('请先登录！', 3000); 
-    }
-    if(!isset($this->stash['array']) || empty($this->stash['array'])){
-      return $this->api_json('数据不能为空！', 3001); 
-    }
-    $cart_arr = json_decode($this->stash['array']);
-
-    $code = isset($this->stash['code']) ? $this->stash['code'] : null;
-    if(empty($code)){
-      return $this->api_json('红包码为空！', 3002); 
-    }
-
-    $bonus_model = new Sher_Core_Model_Bonus();
-    $bonus = $bonus_model->find_by_code($code);
-    if(empty($bonus)){
-      return $this->api_json('红包不存在！', 3003); 
-    }
-
-    if($bonus['user_id'] != $user_id){
-      return $this->api_json('没有权限！', 3004);    
-    }
-
-    if($bonus['used'] == Sher_Core_Model_Bonus::USED_OK){
-      return $this->api_json('红包已被使用！', 3005);    
-    }
-
-    if($bonus['expired_at'] < time()){
-      return $this->api_json('红包已过期！', 3006);    
-    }
-
-		// 验证商品是否可以红包购买
-    $result = array();
-    $pass = false;
-
-		$inventory_mode = new Sher_Core_Model_Inventory();
-		$product_mode = new Sher_Core_Model_Product();
-    foreach($cart_arr as $key=>$val){
-      $val = (array)$val;
-      $target_id = (int)$val['target_id'];
-      $type = (int)$val['type'];
-      //sku
-      if($type==2){
-        $sku = $inventory_mode->load((int)$target_id);
-        if(empty($sku)){
-          return $this->api_json('sku不存在！', 3007);
-        }
-        $product = $product_mode->load((int)$sku['product_id']);
-      //product
-      }elseif($type==1){
-        $product = $product_mode->load($target_id);
-      //null
-      }else{
-        $product = null;
-      }
-
-      if(empty($product)){
-        return $this->api_json('订单商品不存在！', 3008);     
-      }
-
-      if($product['stage'] != 9){
-        continue;
-      }
-
-      // 指定商品ID
-      if(isset($bonus['product_id']) && !empty($bonus['product_id'])){
-        if($bonus['product_id'] == (int)$product['_id']){
-          $pass = true;
-          break;
-        }
-      }
-
-      //是否满足限额条件
-      if(empty($bonus['min_amount'])){
-        $pass = true;
-        break;
-      }elseif((int)$bonus['min_amount'] < (int)$product['sale_price']){
-        $pass = true;
-        break;
-      }
-
-    }// endfor
-
-    $pass = $pass ? 1 : 0;
-		return $this->api_json('请求成功!', 0, array('code'=>$code, 'useful'=>$pass));
-	}
 
 	/**
 	 * 使用红包抵扣
@@ -1491,40 +1404,18 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         return $this->api_json('找不到临时订单表！', 3002);
       }
 
-      $items = $result['dict']['items'];
-			if(count($items) != 1){
-				return $this->ajax_json('该红包仅限单一产品！', true);
-			}
-      $product_id = $items[0]['product_id'];
-
       //验证红包是否有效
-      $total_money = $result['dict']['total_money'];
-      $card_money = Sher_Core_Util_Shopping::get_card_money($code, $total_money, $product_id);
-
-			// 更新临时订单
-			$ok = $model->use_bonus($rid, $code, $card_money);
-			if($ok){
-				
-				$result = $model->first(array('rid'=>$rid));
-				if (empty($result)){
-					return $this->ajax_json('订单操作失败，请重试！', true);
-				}
-				$dict = $result['dict'];
-				$pay_money = $dict['total_money'] + $dict['freight'] - $dict['coin_money'] - $dict['card_money'] - $dict['gift_money'] - $dict['bird_coin_money'];
-				
-				// 支付金额不能为负数
-				if($pay_money < 0){
-					$pay_money = 0.0;
-				}
-				$data['discount_money'] = ($dict['coin_money'] +  $dict['card_money'] + $dict['gift_money'] + $dict['bird_coin_money'])*-1;
-				$data['pay_money'] = $pay_money;
-			}
+      $bonus_result = Sher_Core_Util_Shopping::check_bonus($rid, $code, $user_id, $result);
+      if(empty($bonus_result['code'])){
+        return $this->api_json('success', 0, array('useful'=>1, 'code'=>$bonus_result['coin_code'], 'coin_money'=>$bonus_result['coin_money'])); 
+      }else{
+        return $this->api_json($bonus_result['msg'], $bonus_result['code']);     
+      }
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Bonus order failed: ".$e->getMessage());
-			return $this->ajax_json($e->getMessage(), true);
+			return $this->api_json($e->getMessage(), 3004);
 		}
 		
-		return $this->ajax_json('红包成功使用', false, null, $data);
 	}
 
   /**
