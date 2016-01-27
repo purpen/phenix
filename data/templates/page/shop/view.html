@@ -1,4 +1,4 @@
-{%extends 'layout/column.html'%}
+{%extends 'layout/base.html'%}
 {% block title %}{% endblock %}
 {% block layout_css %}
 	{% if css_use_bundle %}
@@ -9,7 +9,14 @@
 {% endblock %}
 {% block page_css %}
 <style type="text/css">
-    
+.messege-2016{
+	background:red;
+	color:#e3d27a;
+	font-size:16px;
+	text-align:center;
+	width:100%;
+	line-height:40px;
+}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -483,6 +490,16 @@
       
 {% endblock %}
 
+{% block content %}
+<div class="messege-2016">
+	春节放假通知：1月28号停止发货，期间只接单不发货，2月18号起陆续恢复发货，祝您新春愉快！
+</div>
+{% endblock %}
+{% block layout_header %}
+<div class="header main">
+    {% include "block/header.html" %}
+</div>
+{% endblock %}
 {% block content %}
 <div class="shop viewtop" style="background-image: url('{{ product.cover.thumbnails.big.view_url }}');">
 	<div class="masthead">
