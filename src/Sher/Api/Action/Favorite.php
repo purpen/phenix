@@ -183,6 +183,9 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
     case 8:
 		  $model = new Sher_Core_Model_Albums();
       break;
+    case 9:
+		  $model = new Sher_Core_Model_SpecialSubject();
+      break;
     default:
       return $count;
     }

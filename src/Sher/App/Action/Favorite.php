@@ -146,6 +146,10 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 				$model = new Sher_Core_Model_Comment();
 				$result = $model->load((string)$id);
 				break;
+			case Sher_Core_Model_Favorite::TYPE_APP_SUBJECT:
+				$model = new Sher_Core_Model_SpecialSubject();
+				$result = $model->load((int)$id);
+				break;
 		}
 		if(!empty($result)){
  		  $count = $result[$filed];     
