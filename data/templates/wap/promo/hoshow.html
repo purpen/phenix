@@ -148,7 +148,7 @@ h2 + p{
 }
 .bottom{
 	position:absolute;
-    top: 1030px;
+    top: 1025px;
     width: 610px;
     left: 15px;
     font-size: 24px;
@@ -157,6 +157,108 @@ h2 + p{
 	margin:5px 0;
 	line-height:24px;
 	color:#545454;
+}
+  /**** 横屏 ****/
+  @-webkit-keyframes rotation {
+    10% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+    50%, 60% {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg)
+    }
+    90% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+    100% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+}
+
+@keyframes rotation {
+    10% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+    50%, 60% {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg)
+    }
+    90% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+    100% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+}
+
+#orientLayer {
+    display: none;
+}
+
+@media screen and (min-aspect-ratio: 13/8) {
+    #orientLayer {
+        display: block;
+    }
+}
+
+.mod-orient-layer {
+    display: none;
+    position: absolute !important;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: #000;
+    z-index: 9997;
+overflow:hidden !important;
+}
+
+.mod-orient-layer__content {
+    position: absolute;
+    width: 100%;
+    top: 45%;
+    margin-top: -35px !important;
+    text-align: center
+}
+
+.mod-orient-layer__icon-orient {
+    background-image: url(http://frstatic.qiniudn.com/images/promo/hengping.png);
+    display: inline-block;
+    width: 34px !important;
+    height: 55px !important;
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -webkit-animation: rotation infinite 1.5s ease-in-out;
+    animation: rotation infinite 1.5s ease-in-out;
+    -webkit-background-size: 34px;
+    background-size: 34px !important;
+}
+
+.mod-orient-layer__desc {
+    margin-top: 10px !important;
+    font-size: 9px !important;
+    color: #fff
+}
+.mphoto.playing{
+	-webkit-animation: 7s spin linear infinite;
+	animation: 7s spin linear infinite;
+}
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotateZ(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotateZ(360deg);
+    }
 }
 
 </style>
@@ -183,6 +285,17 @@ h2 + p{
 
 	    scaleEle(".page_inner","center");
 		
+		$('.mphoto').on('click',function(){
+			if($(this).hasClass("playing")){
+			  $('#app_bgm').get(0).pause();
+				$(this).removeClass("playing").addClass('stop');
+			}
+			else{
+				$(this).addClass("playing").removeClass('stop');
+				$('#app_bgm').get(0).play();
+			}
+		});
+		
 	</script>
 {% endblock %}
 
@@ -197,7 +310,7 @@ h2 + p{
 		<h2>《恭喜恭喜》</h2>
 		<p>中国娃娃</p>
 		<div class="mpbg">
-			<div class=" mphoto ">
+			<div class="mphoto playing">
 			</div>
 		</div>
 		
@@ -211,7 +324,7 @@ h2 + p{
 		
 	
 		<div class="bottom">
-			<p>规则：</p>
+			<p style="margin-bottom: 12px;color: #000;">规则：</p>
 			<p>	1.点击“我要酸奶杯”登录太火鸟社区；</p>
 			<p>	2.登录后返回此页面，点击右上角分享至朋友圈；</p>
 			<p>	3.成功分享即有机会白抢康腾宝酸奶杯1个；</p>
@@ -221,8 +334,13 @@ h2 + p{
 	</div>
 	
 </div>
-<div class="music playing" style="display:block;"></div>
-<!--<audio id="app_bgm" src="{{ app_url_packaged }}/images/promo/holiday/index.mp3" loop="true" autoplay></audio>-->
+<div id="orientLayer" class="mod-orient-layer">
+    <div class="mod-orient-layer__content">
+		<i class="icon mod-orient-layer__icon-orient"></i>
+        <div class="mod-orient-layer__desc">为了更好的体验，请使用竖屏浏览</div>
+    </div>
+</div>
+<audio id="app_bgm" src="{{ app_url_packaged }}/images/promo/holiday/gxgx.mp3" loop="true" autoplay></audio>
 {% endblock %}
 
 
