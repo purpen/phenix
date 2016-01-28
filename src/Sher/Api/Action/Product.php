@@ -28,7 +28,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$query['is_open'] = Sher_Core_Model_Category::IS_OPENED;
 		
     $options['page'] = 1;
-    $options['size'] = 4;
+    $options['size'] = 12;
     $options['sort_field'] = 'orby';
 
     $some_fields = array(
@@ -57,7 +57,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:0;
 			}
       // 获取该分类下推荐的4款产品
-      $products = $product_model->find(array('category_id'=>$cid, 'approved'=>1, 'published'=>1), array('page'=>1, 'size'=>4, 'sort'=>array('update'=>-1, 'stick'=>-1)));
+      $products = $product_model->find(array('category_id'=>$cid, 'approved'=>1, 'published'=>1), array('page'=>1, 'size'=>4, 'sort'=>array('stick'=>-1,'update'=>-1)));
 
       $product_arr = array();
       for($j=0;$j<count($products);$j++){
@@ -166,7 +166,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:0;
 			}
 			// 封面图url
-			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['apc']['view_url'];
 			// 用户信息
       if(isset($result['rows'][$i]['designer'])){
         $data[$i]['username'] = $result['rows'][$i]['designer']['nickname'];
@@ -234,22 +234,19 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
     //返回图片数据
     $assets = array();
-    if(!empty($product['asset'])){
-      $asset_model = new Sher_Core_Model_Asset();
-      $imgs = $asset_model->extend_load_all($product['asset']);
-			foreach($imgs as $key=>$value){
-        //echo $value['thumbnails']['medium']['view_url'];
-        if($value['_id']==$product['cover_id']){
-          $cover_img_url = $value['thumbnails']['mt']['view_url'];
-        }else{
-          array_push($assets, $value['thumbnails']['mt']['view_url']);
-        }
+    $asset_query = array('parent_id'=>$product['_id'], 'asset_type'=>11);
+    $asset_options['page'] = 1;
+    $asset_options['size'] = 10;
+    $asset_service = Sher_Core_Service_Asset::instance();
+    $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
+
+    if(!empty($asset_result['rows'])){
+      foreach($asset_result['rows'] as $key=>$value){
+        array_push($assets, $value['thumbnails']['aub']['view_url']);
       }
-      //封面图放第一
-      array_unshift($assets, $cover_img_url);
     }
     $data['asset'] = $assets;
-    $data['cover_url'] = $cover_img_url;
+    $data['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
 		
 		// 验证是否还有库存
 		$data['can_saled'] = $model->can_saled($product);
@@ -447,7 +444,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
                 $data[$key] = isset($product[$key]) ? $product[$key] : null;
               }
             // 封面图url
-            $data['cover_url'] = $product['cover']['thumbnails']['medium']['view_url'];
+            $data['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
             array_push($items, $data);
           }
         }

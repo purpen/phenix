@@ -168,7 +168,7 @@
 					'</div>',
 		validation: {
 	        allowedExtensions: ['jpeg', 'jpg', 'png'],
-	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	        sizeLimit: 5242880 // 5M = 5 * 1024 * 1024 bytes
 	    }
     }).on('complete', function (event, id, name, result) {
 		if(result.is_error){

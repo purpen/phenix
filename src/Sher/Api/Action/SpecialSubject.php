@@ -81,7 +81,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:null;
 			}
 			// 封面图url
-			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['mb']['view_url'];
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
 		}
 		$result['rows'] = $data;
 		
@@ -124,7 +124,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
       $data[$key] = isset($special_subject[$key]) ? $special_subject[$key] : null;
     }
     // 封面图url
-    $data['cover_url'] = $special_subject['cover']['thumbnails']['mb']['view_url'];
+    $data['cover_url'] = $special_subject['cover']['thumbnails']['aub']['view_url'];
 
     //验证是否收藏或喜欢
     $fav = new Sher_Core_Model_Favorite();
@@ -151,7 +151,14 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
               $product_data[$key] = isset($product[$key]) ? $product[$key] : null;
             }
             // 封面图url
-            $product_data['cover_url'] = $product['cover']['thumbnails']['mt']['view_url'];
+            $assets = array();
+            $asset_query = array('parent_id'=>$product['_id'], 'asset_type'=>11);
+            $asset_options['page'] = 1;
+            $asset_options['size'] = 1;
+            $asset_service = Sher_Core_Service_Asset::instance();
+            $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
+            
+            $product_data['cover_url'] = !empty($asset_result['rows']) ? $asset_result['rows'][0]['thumbnails']['aub']['view_url'] : null;
             array_push($product_arr, $product_data);
           }
 			  } // endfor

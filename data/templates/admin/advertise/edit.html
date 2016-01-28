@@ -175,8 +175,8 @@
 				<input type="text" name="sub_title" value="{{ advertise.sub_title }}" />
 			</div>
 			
-			<p><label for="type">链接类型：</label></p>
-			<div class="five fields">
+			<p><label for="type">链接类型(用于app)：</label></p>
+			<div class="ten fields">
 				<div class="field">
 					<div class="ui radio checkbox">
 						<input type="radio" name="type" value="1" {% if advertise.type == 1 %}checked="checked"{% endif %} /> 
@@ -193,6 +193,24 @@
 					<div class="ui radio checkbox">
 						<input type="radio" name="type" value="3" {% if advertise.type == 3 %}checked="checked"{% endif %} /> 
 						<label>关键词</label>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="type" value="4" {% if advertise.type == 4 %}checked="checked"{% endif %} /> 
+						<label>app专题</label>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="type" value="5" {% if advertise.type == 5 %}checked="checked"{% endif %} /> 
+						<label>试用</label>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="type" value="6" {% if advertise.type == 6 %}checked="checked"{% endif %} /> 
+						<label>话题(评测)</label>
 					</div>
 				</div>
 			</div>

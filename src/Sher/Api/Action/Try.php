@@ -69,9 +69,9 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
         $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
 			}
 			// 封面图url
-			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['mb']['view_url'];
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
 			// banner图url
-			$data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['mb']['view_url'];
+			$data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['aub']['view_url'];
 
 		}
 		$result['rows'] = $data;
@@ -142,9 +142,9 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
     //转换描述格式
     $data['content_view_url'] = sprintf('%s/app/api/view/try_show?id=%d', Doggy_Config::$vars['app.domain.base'], $try['_id']);
     // 封面图url
-    $data['cover_url'] = $try['cover']['thumbnails']['mb']['view_url'];
+    $data['cover_url'] = $try['cover']['thumbnails']['aub']['view_url'];
     // banner图url
-    $data['banner_url'] = $try['banner']['thumbnails']['mb']['view_url'];
+    $data['banner_url'] = $try['banner']['thumbnails']['aub']['view_url'];
 
     // 当前用户是否已申请
     $data['applied'] = $applied;
@@ -231,6 +231,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
         'zip' => $this->stash['zip'],
         'wx' => $this->stash['wx'],
         'qq' => $this->stash['qq'],
+        'ip' => Sher_Core_Helper_Auth::get_ip(),
       );
 
       $user_model = new Sher_Core_Model_User();
@@ -269,7 +270,24 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 
       $ok = $apply_model->apply_and_save($data);
       if($ok){
-			  return $this->api_json('申请成功！', 0, array('apply_id'=>$apply_model->id) );
+
+        //试用显示的字段
+        $try_some_fields = array(
+          '_id', 'title', 'short_title', 'cover_id', 'banner_id', 'step_stat', 'sticked',
+          'tags', 'comment_count', 'created_on', 'kind',
+          'try_count', 'apply_count', 'report_count', 'want_count', 'view_count',
+          'buy_url', 'open_limit', 'open_limit', 'apply_term', 'term_count',
+          'start_time', 'end_time', 'publish_time', 'state', 'price', 'pass_users',
+        );
+
+        // 重建数据结果
+        $try_data = array();
+        for($i=0;$i<count($try_some_fields);$i++){
+          $key = $try_some_fields[$i];
+          $try_data[$key] = isset($try[$key]) ? $try[$key] : null;
+        }
+
+			  return $this->api_json('申请成功！', 0, array('apply_id'=>$apply_model->id, 'try'=>$try_data) );
       }else{
 				return $this->api_json('申请失败！', 3005);
       }

@@ -91,7 +91,7 @@
 			
 			// 返回微信支付结果通知信息
 			$notify = new Sher_Core_Util_WxPay_WxNotify();
-			$result = $notify->Handle(false);
+			$result = $notify->Handle();
 			if(!$result){
 				return $this->show_message_page('异步获取通知信息失败！');
 			}

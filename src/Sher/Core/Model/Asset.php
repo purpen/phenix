@@ -31,6 +31,8 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	
 	# 产品图片
 	const TYPE_PRODUCT = 10;
+  # 产品banner图
+  const TYPE_PRODUCT_BANNER = 11;
 	const TYPE_EDITOR_PRODUCT = 15;
 	
 	# 评测图片/配图(小图)
@@ -154,11 +156,15 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 		'resp' => 'resp.jpg',
 		'hd'   => 'hd.jpg',
 		'md'   => 'm.jpg',
-        'hm'   => 'hm.jpg',
-        # 头像截图
-        'ava'  => 'ava.jpg',
-    'mb'  => 'mb.jpg',  // 750x360
-    'mt'  => 'mt.jpg',  // 750x400
+    'hm'   => 'hm.jpg',
+    # 头像截图
+    'ava'  => 'ava.jpg',
+    # app Banner(通用)
+    'aub'  => 'p750x422.jpg',  // 750x422
+    # app 商品封面
+    'apc' => 'p500x500.jpg', // 500x500
+    # app 分类小图
+    'acs' => 'p325x200.jpg', // 325x200
 	);
 
     protected $required_fields = array('filepath');

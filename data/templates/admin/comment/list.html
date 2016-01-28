@@ -149,9 +149,11 @@
 					  	<label></label>
 					</div>
 				</th>
+        <th>用户</th>
 				<th class="five wide">内容</th>
 				<th>点赞名单</th>
                 <th>赞数量</th>
+                <th>楼层</th>
                 <th>所属</th>
 				<th>关联ID</th>
 				<th>管理操作</th>
@@ -169,6 +171,12 @@
 					</div>
 				</td>
         <td>
+ 					<a class="ui image label link" href="{{ comment.user.home_url }}" target="_blank">
+					  	<img src="{{ comment.user.mini_avatar_url }}">
+              {{ comment.user.nickname }}({{ comment.user_id }})
+					</a>     
+        </td>
+        <td>
           <div class="content-text">{{ comment.content }}</div>
         </td>
 
@@ -181,6 +189,9 @@
             <span class="ui small green label">{{ comment.love_count }}</span>
 					</p>
 				</td>
+        <td>
+          {{ comment.floor }}
+        </td>
         <td>
           {%if comment.type==1%}用户{%endif%}
           {%if comment.type==2%}话题{%endif%}

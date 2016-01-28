@@ -153,6 +153,91 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 		return $card_money;
 	}
 
+	/**
+	 * 验证红包是否可用--用于app验证
+	 */
+	public static function check_bonus($rid, $code, $user_id, $order_temp=null){
+
+    $bonus_model = new Sher_Core_Model_Bonus();
+    $bonus = $bonus_model->find_by_code($code);
+    if(empty($bonus)){
+      return array('code'=>4000, 'msg'=>"找不到此红包!");
+    }
+
+    if($bonus['user_id'] != $user_id){
+      return array('code'=>4001, 'msg'=>"没有权限使用!");   
+    }
+
+    if($bonus['used'] == Sher_Core_Model_Bonus::USED_OK){
+      return array('code'=>4002, 'msg'=>"红包已被使用!");
+    }
+
+    if($bonus['expired_at'] < time()){
+      return array('code'=>4003, 'msg'=>"红包已过期!");
+    }
+
+		// 验证商品是否可以红包购买
+    $pass = false;
+
+    if(empty($order_temp)){
+     	$order_temp_model = new Sher_Core_Model_OrderTemp();
+      $order_temp = $order_temp_model->first(array('rid'=>$rid));
+      if(empty($order_temp) || empty($order_temp['dict']['items'])){
+        return array('code'=>4005, 'msg'=>"找不到临时订单表");
+      }  
+    }
+
+    if($order_temp['user_id'] != $user_id){
+      return array('code'=>4009, 'msg'=>"没有权限使用!");   
+    }
+
+    // 红包属性
+    $items = $order_temp['dict']['items'];
+    $total_money = (float)$order_temp['dict']['total_money'];
+
+		$inventory_mode = new Sher_Core_Model_Inventory();
+		$product_mode = new Sher_Core_Model_Product();
+    foreach($items as $key=>$val){
+      // 参数初始化
+      $sku_id = (int)$val['sku'];
+      $product_id = (int)$val['product_id'];
+      //sku
+      if(!empty($sku_id)){
+        $sku = $inventory_mode->load($sku_id);
+        if($sku){
+          $product_id = (int)$sku['product_id'];
+        }
+      }
+      $product = $product_mode->load($product_id);
+      if(empty($product)){
+        return array('code'=>4006, 'msg'=>"订单商品不存在!");     
+      }
+
+      // 指定商品ID
+      if(isset($bonus['product_id']) && (int)$bonus['product_id'] == $product['_id']){
+        $pass = true;
+        break;
+      }
+
+      //是否满足限额条件
+      if(empty($bonus['min_amount'])){
+        $pass = true;
+        break;
+      }elseif((float)$bonus['min_amount'] < (float)$product['sale_price']){
+        $pass = true;
+        break;
+      }
+
+    }// endfor
+
+    if($pass){
+      return array('code'=>0, 'msg'=>"success!", 'coin_code'=>$bonus['code'], 'coin_money'=>$bonus['amount']);   
+    }else{
+      return array('code'=>4008, 'msg'=>"该红包不能用在此订单上使用!");   
+    }
+
+	}
+
 
 	/**
 	 * 验证鸟币--抛出异常
