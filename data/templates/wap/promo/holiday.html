@@ -411,12 +411,14 @@ overflow:hidden !important;
 	         } else {
 	             var path = fileList[i];
 	         }
+			 $('#app_bgm').get(0).pause();
 	         loader.addImage(basePath + path);
 	     }
 
 	     loader.addCompletionListener(function () {
 	         $('.loading').remove();
 			 $('.holiday').show();
+			 $('#app_bgm').get(0).play();
 	     });
 
 	     //loading 进度监听
@@ -429,9 +431,6 @@ overflow:hidden !important;
 	     //启动
 	     loader.start();
 	    });
-		
-		
-		
 		
 		$('.music').on('click',function(){
 			if($(this).hasClass("playing")){
