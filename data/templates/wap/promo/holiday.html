@@ -220,6 +220,32 @@ html, body {
     position: absolute;
     z-index: 2;
 }
+.music.playing{
+	-webkit-animation: 2.3s spin linear infinite;
+	animation: 2.3s spin linear infinite;
+}
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotateZ(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotateZ(360deg);
+    }
+}
+.music {
+    position: fixed;
+    background: url(http://frstatic.qiniudn.com/images/promo/music_bg.png) 0 0 no-repeat;
+    z-index: 9;
+    width: 1.5rem;
+    height: 1.5rem;
+    right: 0.4rem;
+    top: 0.4rem;
+    background-size: 100% auto;
+}
+.music.stop {
+    background-position: 0 -1.5rem;
+}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -243,6 +269,17 @@ html, body {
 	    var screenWidth = document.documentElement.clientWidth;
 
 	    scaleEle(".page_inner","center");
+		
+		$('.music').on('click',function(){
+			if($(this).hasClass("playing")){
+			  $('#app_bgm').get(0).pause();
+				$(this).removeClass("playing").addClass('stop');
+			}
+			else{
+				$(this).addClass("playing").removeClass('stop');
+				$('#app_bgm').get(0).play();
+			}
+		});
 	
 	
 	</script>
@@ -298,10 +335,9 @@ html, body {
 		</div>
 		
 		<a href="" class="red btn">给我看结果</a>
-		
-		
-		
 
 	</div>
 </div>
+<div class="music playing" style="display:block;"></div>
+<audio id="app_bgm" src="{{ app_url_packaged }}/images/promo/holiday/index.mp3" loop="true" autoplay></audio>
 {% endblock %}
