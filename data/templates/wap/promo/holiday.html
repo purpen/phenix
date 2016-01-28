@@ -19,6 +19,7 @@ html, body {
     overflow: hidden;
     -webkit-backface-visibility: hidden;
     -webkit-perspective: 1000;
+	display:none;
 }
 .page_inner {
     position: absolute;
@@ -246,10 +247,129 @@ html, body {
 .music.stop {
     background-position: 0 -1.5rem;
 }
+.loading{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #070709;
+}
+
+.loading__inner{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -26px;
+    margin-top: -16px;
+    width: 52px;
+    height: 32px;
+    text-align: center;
+    color: #666;
+    font-size: 12px;
+    background-color: #070709;
+}
+.loading-num{
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 100%;
+    text-align: center;
+}
+
+  /**** 横屏 ****/
+  @-webkit-keyframes rotation {
+    10% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+    50%, 60% {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg)
+    }
+    90% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+    100% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+}
+
+@keyframes rotation {
+    10% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+    50%, 60% {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg)
+    }
+    90% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+    100% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+}
+
+#orientLayer {
+    display: none;
+}
+
+@media screen and (min-aspect-ratio: 13/8) {
+    #orientLayer {
+        display: block;
+    }
+}
+
+.mod-orient-layer {
+    display: none;
+    position: absolute !important;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: #000;
+    z-index: 9997;
+overflow:hidden !important;
+}
+
+.mod-orient-layer__content {
+    position: absolute;
+    width: 100%;
+    top: 45%;
+    margin-top: -35px !important;
+    text-align: center
+}
+
+.mod-orient-layer__icon-orient {
+    background-image: url(http://frstatic.qiniudn.com/images/promo/hengping.png);
+    display: inline-block;
+    width: 34px !important;
+    height: 55px !important;
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -webkit-animation: rotation infinite 1.5s ease-in-out;
+    animation: rotation infinite 1.5s ease-in-out;
+    -webkit-background-size: 34px;
+    background-size: 34px !important;
+}
+
+.mod-orient-layer__desc {
+    margin-top: 10px !important;
+    font-size: 9px !important;
+    color: #fff
+}
 </style>
 {% endblock %}
 {% block layout_js %}
 	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
+	<script type="text/javascript" src="http://frstatic.qiniudn.com/images/promo/holiday/PxLoader.min.js"></script>
+	<script type="text/javascript" src="http://frstatic.qiniudn.com/images/promo/holiday/PxLoaderImage.min.js"></script>
 	<!--<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>-->
 	<script type="text/javascript">
 	    // 放大元素,按照640x1008定位,按比例scale
@@ -270,6 +390,49 @@ html, body {
 
 	    scaleEle(".page_inner","center");
 		
+	    var basePath = "{{ app_url_packaged }}/images/promo/holiday/";
+	    if (!(typeof webpsupport == 'function')) {
+	        var webpsupport = function (cb) {
+	            cb();
+	        }
+	    }
+	    webpsupport(function (webpa) {
+	    var loader = new PxLoader(),
+	     fileList =[
+			'1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg','8.jpg','9.jpg','line.jpg','bg.jpg','top.jpg','bottom.jpg','year.png'
+		 
+		];
+
+	     for (var i = 0; i < fileList.length; i++) {
+	         var basename = fileList[i].substring(fileList[i].lastIndexOf('/') + 1);
+
+	         if (webpa && img_map && (basename in img_map) && img_map[basename]) { //if webp
+	             var path = fileList[i].replace(/\.\w+/, '.webp');
+	         } else {
+	             var path = fileList[i];
+	         }
+	         loader.addImage(basePath + path);
+	     }
+
+	     loader.addCompletionListener(function () {
+	         $('.loading').remove();
+			 $('.holiday').show();
+	     });
+
+	     //loading 进度监听
+	     loader.addProgressListener(function (e) {
+	         var percentUp = Math.round((e.completedCount / e.totalCount) * 100), //正序, 1-100
+	             progressDown = 100 - percentUp;      
+	         $('.loading-num').text(percentUp + '%');
+	     });
+
+	     //启动
+	     loader.start();
+	    });
+		
+		
+		
+		
 		$('.music').on('click',function(){
 			if($(this).hasClass("playing")){
 			  $('#app_bgm').get(0).pause();
@@ -280,12 +443,25 @@ html, body {
 				$('#app_bgm').get(0).play();
 			}
 		});
+		
+		$('.card').on('click',function(){
+			$(this).html('<div class="p1img active"></div>');
+			$(this).siblings().html(' ');
+			$('body').animate({scrollTop:'100px'},500);
+			$('.red.btn').fadeIn();
+		})
 	
 	
 	</script>
 {% endblock %}
 
 {% block content %}
+<div class="loading">
+    <div class="loading__inner">
+        <div class="loading__img"></div>
+        <div class="loading-num">0%</div>
+    </div>
+</div>
 <div class="holiday">
 	<div class="tbanner"></div>
 	<div class="bottom"></div>
@@ -301,7 +477,7 @@ html, body {
 		
 		<div class="product">
 			<div class="card p1">
-				<!--<div class="p1img active"></div>-->
+				<!-- -->
 			</div>
 			<div class="card p2">
 				 
@@ -334,10 +510,10 @@ html, body {
 			
 		</div>
 		
-		<a href="" class="red btn">给我看结果</a>
+		<a href="" class="ui red btn hide">给我看结果</a>
 
 	</div>
 </div>
 <div class="music playing" style="display:block;"></div>
-<audio id="app_bgm" src="{{ app_url_packaged }}/images/promo/holiday/index.mp3" loop="true" autoplay></audio>
+<!--<audio id="app_bgm" src="{{ app_url_packaged }}/images/promo/holiday/index.mp3" loop="true" autoplay></audio>-->
 {% endblock %}
