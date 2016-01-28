@@ -19,6 +19,7 @@ html, body {
     overflow: hidden;
     -webkit-backface-visibility: hidden;
     -webkit-perspective: 1000;
+	display:none;
 }
 .page_inner {
     position: absolute;
@@ -158,6 +159,34 @@ h2 + p{
 	line-height:24px;
 	color:#545454;
 }
+.loading{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #070709;
+	z-index:999;
+}
+
+.loading__inner{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -26px;
+    margin-top: -16px;
+    width: 52px;
+    height: 32px;
+    text-align: center;
+    color: #666;
+    font-size: 12px;
+    background-color: #070709;
+}
+.loading-num{
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 100%;
+    text-align: center;
+}
   /**** 横屏 ****/
   @-webkit-keyframes rotation {
     10% {
@@ -260,7 +289,7 @@ overflow:hidden !important;
         -webkit-transform: rotateZ(360deg);
     }
 }
-a,img,button,input,textarea,*{
+*{
 	-webkit-appearance:none;
 	-webkit-tap-highlight-color:rgba(255,255,255,0);
 }
@@ -269,6 +298,8 @@ a,img,button,input,textarea,*{
 {% endblock %}
 {% block layout_js %}
 	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
+	<script type="text/javascript" src="http://frstatic.qiniudn.com/images/promo/holiday/PxLoader.min.js"></script>
+	<script type="text/javascript" src="http://frstatic.qiniudn.com/images/promo/holiday/PxLoaderImage.min.js"></script>
 	<!--<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>-->
 	<script type="text/javascript">
 	    // 放大元素,按照640x1008定位,按比例scale
@@ -289,6 +320,48 @@ a,img,button,input,textarea,*{
 
 	    scaleEle(".page_inner","center");
 		
+	    var basePath = "{{ app_url_packaged }}/images/promo/holiday/";
+	    if (!(typeof webpsupport == 'function')) {
+	        var webpsupport = function (cb) {
+	            cb();
+	        }
+	    }
+	    webpsupport(function (webpa) {
+	    var loader = new PxLoader(),
+	     fileList =[
+			'bg.jpg','top.jpg','cp.png','gxgx.jpg','right.png'
+		 
+		];
+
+	     for (var i = 0; i < fileList.length; i++) {
+	         var basename = fileList[i].substring(fileList[i].lastIndexOf('/') + 1);
+
+	         if (webpa && img_map && (basename in img_map) && img_map[basename]) { //if webp
+	             var path = fileList[i].replace(/\.\w+/, '.webp');
+	         } else {
+	             var path = fileList[i];
+	         }
+			 $('#app_bgm').get(0).pause();
+	         loader.addImage(basePath + path);
+	     }
+
+	     loader.addCompletionListener(function () {
+	         $('.loading').remove();
+			 $('.holiday').show();
+			 $('#app_bgm').get(0).play();
+	     });
+
+	     //loading 进度监听
+	     loader.addProgressListener(function (e) {
+	         var percentUp = Math.round((e.completedCount / e.totalCount) * 100), //正序, 1-100
+	             progressDown = 100 - percentUp;      
+	         $('.loading-num').text(percentUp + '%');
+	     });
+
+	     //启动
+	     loader.start();
+	    });
+		
 		$('.mphoto').on('click',function(){
 			if($(this).hasClass("playing")){
 			  $('#app_bgm').get(0).pause();
@@ -304,6 +377,12 @@ a,img,button,input,textarea,*{
 {% endblock %}
 
 {% block content %}
+<div class="loading">
+    <div class="loading__inner">
+        <div class="loading__img"></div>
+        <div class="loading-num">0%</div>
+    </div>
+</div>
 <div class="holiday">
 	<div class="tbanner"></div>
 	<div class="pg-bg"></div>

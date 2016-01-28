@@ -8,6 +8,8 @@
 *{
 	margin:0;
 	padding:0;
+	-webkit-appearance:none;
+	-webkit-tap-highlight-color:rgba(255,255,255,0);
 }
 html, body {
     width: 100%;
@@ -521,6 +523,6 @@ overflow:hidden !important;
         <div class="mod-orient-layer__desc">为了更好的体验，请使用竖屏浏览</div>
     </div>
 </div>
-<div class="music playing" style="display:block;"></div>
+<!--<div class="music playing" style="display:block;"></div>-->
 <audio id="app_bgm" src="{{ app_url_packaged }}/images/promo/holiday/index.mp3" loop="true" autoplay></audio>
 {% endblock %}
