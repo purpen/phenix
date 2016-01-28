@@ -231,6 +231,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
         'zip' => $this->stash['zip'],
         'wx' => $this->stash['wx'],
         'qq' => $this->stash['qq'],
+        'ip' => Sher_Core_Helper_Auth::get_ip(),
       );
 
       $user_model = new Sher_Core_Model_User();
@@ -269,7 +270,24 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 
       $ok = $apply_model->apply_and_save($data);
       if($ok){
-			  return $this->api_json('申请成功！', 0, array('apply_id'=>$apply_model->id) );
+
+        //试用显示的字段
+        $try_some_fields = array(
+          '_id', 'title', 'short_title', 'cover_id', 'banner_id', 'step_stat', 'sticked',
+          'tags', 'comment_count', 'created_on', 'kind',
+          'try_count', 'apply_count', 'report_count', 'want_count', 'view_count',
+          'buy_url', 'open_limit', 'open_limit', 'apply_term', 'term_count',
+          'start_time', 'end_time', 'publish_time', 'state', 'price', 'pass_users',
+        );
+
+        // 重建数据结果
+        $try_data = array();
+        for($i=0;$i<count($try_some_fields);$i++){
+          $key = $try_some_fields[$i];
+          $try_data[$key] = isset($try[$key]) ? $try[$key] : null;
+        }
+
+			  return $this->api_json('申请成功！', 0, array('apply_id'=>$apply_model->id, 'try'=>$try_data) );
       }else{
 				return $this->api_json('申请失败！', 3005);
       }
