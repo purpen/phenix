@@ -44,6 +44,23 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
 
         // 过滤多余属性
         $filter_fields = array('view_url', 'state', 'is_open', '__extend__');
+        $data = array();
+        for($i=0;$i<count($result['rows']);$i++){
+          foreach($options['some_fields'] as $key=>$value){
+            $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
+          }
+          // 封面图url
+          $data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
+          // banner图url
+          $data[$i]['app_cover_url'] = null;
+          if(isset($result['rows'][$i]['app_cover_url']) && !empty($result['rows'][$i]['app_cover_url'])){
+            $data[$i]['app_cover_url'] = sprintf("%s-p750x422.jpg", $result['rows'][$i]['app_cover_url']);
+            $data[$i]['app_cover_s_url'] = sprintf("%s-p325x200.jpg", $result['rows'][$i]['app_cover_url']);
+          }
+
+        }
+
+		    $result['rows'] = $data;
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 
 		return $this->api_json('请求成功', 0, $result);

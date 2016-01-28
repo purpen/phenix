@@ -65,7 +65,7 @@
 
 			
 			// 统一下单
-			$input = new Sher_Core_Util_WxPay_WxPayData_WxPayUnifiedOrder();
+			$input = new Sher_Core_Util_WxPayM_WxPayData_WxPayUnifiedOrder();
 
       $input->SetAppid(Doggy_Config::$vars['app.wechat_m.app_id']);
       $input->SetMch_id(Doggy_Config::$vars['app.wechat_m.partner_id']);
@@ -78,7 +78,7 @@
       $input->SetDevice_info($uuid); // 终端设备号
       $input->SetSpbill_create_ip($ip); // 终端IP
 			
-			$order = Sher_Core_Util_WxPay_WxPayApi::unifiedOrder($input); // 统一下单处理类
+			$order = Sher_Core_Util_WxPayM_WxPayApi::unifiedOrder($input); // 统一下单处理类
 
       if(!empty($order)){
         if($order['return_code'] == 'SUCCESS'){
@@ -105,7 +105,7 @@
 		public function notify(){
 			
 			// 返回微信支付结果通知信息
-			$notify = new Sher_Core_Util_WxPay_WxNotify();
+			$notify = new Sher_Core_Util_WxPayM_WxNotify();
 			$result = $notify->Handle();
 			if(!$result){
         Doggy_Log_Helper::warn("app微信获取异步获取通知失败!");
@@ -196,7 +196,7 @@
 			$trade_no = $order_info['trade_no'];
 			
 			if($trade_no != ""){
-				$input = new Sher_Core_Util_WxPay_WxPayData_WxPayRefund();
+				$input = new Sher_Core_Util_WxPayM_WxPayData_WxPayRefund();
 				$input->SetTransaction_id($trade_no);
 				$input->SetOut_trade_no($out_trade_no);
 				$input->SetTotal_fee((int)($pay_money*100));

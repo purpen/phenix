@@ -50,6 +50,26 @@ select.leibie{
     border: none;
 	margin-bottom: 15px;
 }
+.thumb.block{
+	display:inline-block;
+	border: 1px solid rgba(0,0,0,0.1);
+    width: 47%;
+    margin: 10px 1.5%;
+}
+.thumb.block .image img{
+	width:100%;
+}
+#asset-list .buttons {
+    background-color: rgba(0,0,0,.05);
+    padding: 0;
+}
+.ui.four.items{
+	margin-top:10px;
+}
+.clearfix{
+	margin-bottom:10px;
+}
+
 </style>
 {% endblock %}
 
@@ -261,7 +281,7 @@ select.leibie{
 										{% for asset in assets.rows %}
 										<div class="thumb item" id="{{ asset._id }}">
 											<div class="image">
-												<img src="{{ asset.thumbnails.mini.view_url }}" />
+												<img src="{{ asset.thumbnails.mini.view_url }}"/>
 												<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
 											</div>
 											<div class="buttons">
