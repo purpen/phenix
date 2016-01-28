@@ -220,6 +220,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         return $this->api_json('创建临时订单失败！', 4000);
       }
 
+      // 加载可用红包
+      $bonus_service = Sher_Core_Service_Bonus::instance();
+      $bonus_result = $bonus_service->get_all_list(array('used'=>1, 'expired_at'=>array('$gt'=>time())), array('page'=>1, 'size'=>20));
+      $usable_bonus = !empty($bonus_result['rows']) ? $bonus_result['rows'] : array();
+
       // 删除购物车
       foreach($buy_items as $key=>$val){
         $o_type = (int)$val['type'];
@@ -243,6 +248,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $result['order_info'] = $order_info;
     $result['is_nowbuy'] = 0;
     $result['pay_money'] = $pay_money;
+    $result['bonus'] = $usable_bonus;
 
 		return $this->api_json('请求成功!', 0, $result);
 	}
@@ -329,6 +335,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		if (empty($order_info)){
       return $this->api_json('系统出了小差，请稍后重试！', 3006);
 		}
+
+    // 加载可用红包
+    $bonus_service = Sher_Core_Service_Bonus::instance();
+    $bonus_result = $bonus_service->get_all_list(array('used'=>1, 'expired_at'=>array('$gt'=>time())), array('page'=>1, 'size'=>20));
+    $usable_bonus = !empty($bonus_result['rows']) ? $bonus_result['rows'] : array();
 		
 		// 获取快递费用
 		$freight = Sher_Core_Util_Shopping::getFees();
@@ -343,6 +354,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $result['is_nowbuy'] = 1;
     $result['pay_money'] = $pay_money;
     $result['order_info'] = $order_info;
+    $result['bonus'] = $usable_bonus;
 
     return $this->api_json('请求成功!', 0, $result);
 	}
@@ -451,6 +463,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       if($bonus_result['code']){
         return $this->api_json($bonus_result['msg'], $bonus_result['code']);     
       }else{
+        $card_money = $order_info['card_code'] = $bonus_code;
         $card_money = $order_info['card_money'] = $bonus_result['coin_money'];
       }
     }elseif(!empty($gift_code)){  // 礼品券
