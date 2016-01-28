@@ -237,7 +237,7 @@ html, body {
 .music {
     position: fixed;
     background: url(http://frstatic.qiniudn.com/images/promo/music_bg.png) 0 0 no-repeat;
-    z-index: 9;
+    z-index: 2;
     width: 1.5rem;
     height: 1.5rem;
     right: 0.4rem;
@@ -252,6 +252,7 @@ html, body {
     width: 100%;
     height: 100%;
     background-color: #070709;
+	z-index:999;
 }
 
 .loading__inner{
@@ -411,7 +412,6 @@ overflow:hidden !important;
 	         } else {
 	             var path = fileList[i];
 	         }
-			 $('#app_bgm').get(0).pause();
 	         loader.addImage(basePath + path);
 	     }
 
