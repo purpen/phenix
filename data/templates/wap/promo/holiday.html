@@ -1,0 +1,295 @@
+{%extends 'layout/xy.html'%}
+{% block title %} {% endblock %}
+{% block page_css %}
+<style type="text/css">
+*{
+	margin:0;
+	padding:0;
+}
+html,body{
+	width:100%;
+	height:100%;
+}
+.holiday{
+	height:120%;
+	width:100%;
+	position:relative;
+	background:url({{ app_url_packaged }}/images/promo/holiday/bg.jpg);
+}
+.tbanner{
+	background:url({{ app_url_packaged }}/images/promo/holiday/top.jpg);
+	width:100%;
+	height:30px;
+	background-size:cover;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:2;
+}
+.rl{
+	background:url({{ app_url_packaged }}/images/promo/holiday/right.png);
+	width:125px;
+	height:195px;
+	background-size:cover;
+	position:absolute;
+	top:5px;
+	right:0;
+}
+.c1{
+	background:url({{ app_url_packaged }}/images/promo/holiday/c1.png);
+	width:65px;
+	height:145px;
+	background-size:cover;
+	position:absolute;
+	top:5px;
+	left:10px;
+}
+.c2{
+	background:url({{ app_url_packaged }}/images/promo/holiday/c2.png);
+	width:55px;
+	height:110px;
+	background-size:cover;
+	position:absolute;
+	top:5px;
+	left:160px;
+}
+.year{
+	background:url({{ app_url_packaged }}/images/promo/holiday/year.png);
+	width:110px;
+	height:65px;
+	background-size:cover;
+	position:absolute;
+	top: 85px;
+	left: 75px;
+}
+.word{
+	background:url({{ app_url_packaged }}/images/promo/holiday/word.png);
+	width:145px;
+	height:49px;
+	background-size:cover;
+	position:absolute;
+	top:112px;
+	left:190px;
+}
+.word+p{
+	position:absolute;
+	width:90%;
+	left:5%;
+	top:170px;
+	font-family: Microsoft yahei,Helvetica,Arial;
+	font-weight: inherit;
+    font-style: inherit;
+    font-size: 14px;
+	color:#e60012;
+	max-height:60px;
+	overflow:hidden;
+}
+.product{
+	position:absolute;
+	width:90%;
+	left:5%;
+	top:245px;
+	font-size:0;
+	text-align:center;
+	height:410px;
+}
+
+.card{
+	display:inline-block;
+	width: 32%;
+    position: absolute;
+    height: 98px;
+    margin: 1%;
+}
+.card img{
+	width:100%;
+}
+.p1{
+	left:0;
+	top:0;
+}
+.p2{
+	left:50%;
+	top:0;
+	margin-left:-16%;
+}
+.p3{
+	right:0;
+	top:0;
+}
+.p4{
+	left:0;
+	top:102px;
+}
+.p5{
+	left:50%;
+	top:102px;
+	margin-left:-16%;
+}
+.p6{
+	right:0;
+	top:102px;
+}
+.p7{
+	left:0;
+	top:204px;
+}
+.p8{
+	right:0;
+	top:204px;
+}
+.p9{
+	left:0;
+	top:306px;
+}
+.p10{
+	right:0;
+	top:306px;
+}
+.p1{
+	background:url({{ app_url_packaged }}/images/promo/holiday/1.jpg);
+	background-size:cover;
+}
+.p2{
+	background:url({{ app_url_packaged }}/images/promo/holiday/2.jpg);
+	background-size:cover;
+}
+.p3{
+	background:url({{ app_url_packaged }}/images/promo/holiday/3.jpg);
+	background-size:cover;
+}
+.p4{
+	background:url({{ app_url_packaged }}/images/promo/holiday/4.jpg);
+	background-size:cover;
+}
+.p6{
+	background:url({{ app_url_packaged }}/images/promo/holiday/5.jpg);
+	background-size:cover;
+}
+.p7{
+	background:url({{ app_url_packaged }}/images/promo/holiday/6.jpg);
+	background-size:cover;
+}
+.p8{
+	background:url({{ app_url_packaged }}/images/promo/holiday/7.jpg);
+	background-size:cover;
+}
+.p9{
+	background:url({{ app_url_packaged }}/images/promo/holiday/8.jpg);
+	background-size:cover;
+}
+.p10{
+	background:url({{ app_url_packaged }}/images/promo/holiday/9.jpg);
+	background-size:cover;
+}
+.p1img{
+	width:100%;
+	height:100%;
+	background:url({{ app_url_packaged }}/images/promo/holiday/active.png);
+	background-size:cover;
+}
+.red.btn{
+	width:90%;
+	left:5%;
+	position:absolute;
+	top:665px;
+	background:#e60012;
+	color:#fff;
+	font-size:16px;
+    text-align: center;
+    line-height: 40px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.bottom{
+	bottom:0;
+	left:0;
+	width:100%;
+	background:url({{ app_url_packaged }}/images/promo/holiday/bottom.jpg);
+	background-size:cover;
+	height: 22px;
+	position: absolute;
+}
+</style>
+{% endblock %}
+{% block layout_js %}
+	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript">
+	    // 放大元素,按照640x1008定位,按比例scale
+	    function scaleEle(selector,position){
+	        var pageScale;
+	        var currentScale=screenWidth/screenHeight;
+	        var originScale=640/1008;
+	        if(currentScale>originScale){
+	            pageScale=screenHeight/1008;
+	        }else{
+	            pageScale=screenWidth/640;
+	        }
+	        $(selector).css({"-webkit-transform-origin":position,"transform-origin":position,"-webkit-transform":"scale("+pageScale+");","transform":"scale("+pageScale+");","transform":"CGAffineTransformMakeScale("+pageScale+");"});
+	    }
+
+	    var screenHeight = document.documentElement.clientHeight;
+	    var screenWidth = document.documentElement.clientWidth;
+
+	    scaleEle(".page_inner","center");
+	
+	
+	</script>
+{% endblock %}
+
+{% block content %}
+<div class="holiday">
+	<div class="page_inner">
+		<div class="tbanner"></div>
+		<div class="rl"></div>
+		<div class="c1"></div>
+		<div class="c2"></div>
+		<div class="year"></div>
+		<div class="word"></div>
+		<p>逃过凤凰传奇，躲过玖月奇迹，终究躲不过命中注定的超市神曲！来吧，凭喜好选一种过年必备食品，看看留在你灵魂深处的神曲和食物究竟潜藏着什么运势……</p>
+		
+		
+		<div class="product">
+			<div class="card p1">
+				<!--<div class="p1img active"></div>-->
+			</div>
+			<div class="card p2">
+				 
+			</div>
+			<div class="card p3">
+				 
+			</div>
+			
+			<div class="card p4">
+				 
+			</div>
+			<div class="card p5">
+				<img src="{{ app_url_packaged }}/images/promo/holiday/line.jpg">
+			</div>
+			<div class="card p6">
+				
+			</div>
+			<div class="card p7">
+				
+			</div>
+			<div class="card p8">
+				
+			</div>
+			<div class="card p9">
+				
+			</div>
+			<div class="card p10">
+				
+			</div>
+			
+		</div>
+		
+		<a href="" class="red btn">给我看结果</a>
+		
+		
+		<div class="bottom"></div>
+
+	</div>
+</div>
+{% endblock %}

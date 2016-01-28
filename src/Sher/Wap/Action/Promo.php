@@ -18,7 +18,15 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->coupon();
 	}
-
+	
+    /**
+     * 过年神曲活动
+     *  date: 2016/01/27
+     */
+    public function holiday(){
+		return $this->to_html_page('wap/promo/holiday.html');
+	}
+	
   /**
    * 2016 CES
    *  @author tianshuai
