@@ -412,12 +412,14 @@ overflow:hidden !important;
 	         } else {
 	             var path = fileList[i];
 	         }
+			 $('#app_bgm').get(0).pause();
 	         loader.addImage(basePath + path);
 	     }
 
 	     loader.addCompletionListener(function () {
 	         $('.loading').remove();
 			 $('.holiday').show();
+			 $('#app_bgm').get(0).play();
 	     });
 
 	     //loading 进度监听
@@ -519,5 +521,5 @@ overflow:hidden !important;
     </div>
 </div>
 <div class="music playing" style="display:block;"></div>
-<!--<audio id="app_bgm" src="{{ app_url_packaged }}/images/promo/holiday/index.mp3" loop="true" autoplay></audio>-->
+<audio id="app_bgm" src="{{ app_url_packaged }}/images/promo/holiday/index.mp3" loop="true" autoplay></audio>
 {% endblock %}
