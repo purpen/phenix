@@ -127,6 +127,31 @@ i.mu3{
     -moz-animation: arrow 1.5s ease both;
     animation: arrow 1.5s ease both;
 }
+a.mailto{
+	color:#f36;
+	position:relative;
+	margin-left:3px;
+}
+a.mailto::before{
+	position: absolute;
+    top: auto;
+    bottom: 1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #f36;
+    content: '';
+    -webkit-transition: all 0.2s;
+    -webkit-backface-visibility: hidden;
+    transition: all 0.2s;
+    backface-visibility: hidden;
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+}
+a.mailto:hover:before{
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+}
 </style>
 {% endblock %}
 
@@ -322,6 +347,12 @@ i.mu3{
 		
 		<div class="ui products block">
 			<div class="ui responsive grid">
+				<div class="ui center aligned row">
+					<div class="ui eight wide center aligned column">
+						<p>如有任何疑问请发送邮件到工作人员邮箱<a href="mailto:liangjin@taihuoniao.com" class="mailto" target="_blank">liangjin@taihuoniao.com</a>，并索要微信群号请加入”中国最火爆智能硬件厂商by太火鸟“微信群，随时关注评选动态。</p>
+						
+					</div>
+				</div>
 				<div class="row">
 					<div class="ui center aligned column">
 						<a href="{{ app_url_stuff }}/tsubmit" class="ui magenta active inverted large active getmore button">
