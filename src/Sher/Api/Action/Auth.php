@@ -469,7 +469,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     }
 
     // 检测账号是否存在
-    if($user_model->check_account($user_data['account'])){
+    if(!$user_model->check_account($user_data['account'])){
       return $this->api_json('该账户已存在！', 3011);   
     }
 
