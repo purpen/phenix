@@ -368,23 +368,34 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
         if($stuff['from_to']==1 || $stuff['from_to']==3){
             $this->stash['is_match'] = true;
         }
-		
-		// 是否为一级分类
-		$is_top = false;
-		$current_category = array();
-		
-		$category = new Sher_Core_Model_Category();
-		// 获取当前分类信息
-		$current_category = $category->load((int)$stuff['category_id']);
-		
-		// 获取父级分类
-		$parent_category = $category->extend_load((int)$stuff['fid']);
-		$parent_category['view_url'] = Doggy_Config::$vars['app.url.stuff'];
-		$this->stash['parent_category'] = $parent_category;
 
-		$this->stash['is_top'] = $is_top;
-		$this->stash['current_category'] = $current_category;
-		$this->stash['cid'] = (int)$current_category['pid'];
+    if($stuff['from_to']==5){ // 如果是top100
+
+      $top_category_id = Doggy_Config::$vars['app.stuff.top100_category_id'];
+      $this->stash['pid'] = $top_category_id;
+
+      $tpl = 'page/stuff/tsubmit.html';
+    }else{  // 不是 top100
+
+      // 是否为一级分类
+      $is_top = false;
+      $current_category = array();
+      
+      $category = new Sher_Core_Model_Category();
+      // 获取当前分类信息
+      $current_category = $category->load((int)$stuff['category_id']);
+      
+      // 获取父级分类
+      $parent_category = $category->extend_load((int)$stuff['fid']);
+      $parent_category['view_url'] = Doggy_Config::$vars['app.url.stuff'];
+      $this->stash['parent_category'] = $parent_category;
+
+      $this->stash['is_top'] = $is_top;
+      $this->stash['current_category'] = $current_category;
+      $this->stash['cid'] = (int)$current_category['pid'];
+
+      $tpl = 'page/stuff/submit.html';
+    }
 		
 		$this->stash['mode'] = 'edit';
 		$this->stash['stuff'] = $stuff;
@@ -392,12 +403,11 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_STUFF;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF;
-		$new_file_id = new MongoId();
-		$this->stash['new_file_id'] = (string)$new_file_id;
+		$this->stash['new_file_id'] = Sher_Core_Helper_Util::generate_mongo_id();
 		
 		$this->_editor_params();
 		
-		return $this->to_html_page('page/stuff/submit.html');
+		return $this->to_html_page($tpl);
 	}
 	
 	/**

@@ -624,13 +624,17 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			foreach($some_fields as $key=>$value){
 				if($key == '_id'){
 					$data[$i][$key] = (string)$result['rows'][$i][$key];
+        }elseif($key=='province' || $key=='city'){
+					$data[$i][$key] = (int)$result['rows'][$i][$key];
+        }elseif($key=='phone' || $key=='zip'){
+          $data[$i][$key] = (string)$result['rows'][$i][$key];
 				}else{
 					$data[$i][$key] = $result['rows'][$i][$key];
 				}
 			}
 			// 省市、城市
-			$data[$i]['province_name'] = $result['rows'][$i]['area_province']['city'];
-			$data[$i]['city_name'] = $result['rows'][$i]['area_district']['city'];
+			$data[$i]['province_name'] = !empty($result['rows'][$i]['area_province']) ? $result['rows'][$i]['area_province']['city'] : null;
+			$data[$i]['city_name'] = !empty($result['rows'][$i]['area_district']) ? $result['rows'][$i]['area_district']['city'] : null;
 		}
 		$result['rows'] = $data;
 		
@@ -664,6 +668,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     foreach($some_fields as $key=>$value){
       if($key == '_id'){
         $data[$key] = (string)$address[$key];
+      }elseif($key=='province' || $key=='city'){
+        $data[$i][$key] = (int)$result['rows'][$i][$key];
+      }elseif($key=='phone' || $key=='zip'){
+        $data[$i][$key] = (string)$result['rows'][$i][$key];
       }else{
         $data[$key] = $address[$key];
       }
