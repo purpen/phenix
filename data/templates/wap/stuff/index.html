@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}最火爆的智能硬件TOP100{% endblock %}
+{% block title %}最火爆的智能硬件TOP100评选{% endblock %}
 {% block page_css %}
 <style type="text/css">
 #mfrbird{
@@ -151,10 +151,10 @@
     });
 	});
 	
-    var m_name = '最火爆的智能硬件TOP100';
+    var m_name = '最火爆的智能硬件TOP100评选';
     var link = '{{ app_url_wap_stuff }}/hundred';
-	var img_url = '{{ app_url_packaged }}/images/top/wap_bg2.jpg';
-    var desc_str = ' 描述是什么';
+	var img_url = '{{ app_url_packaged }}/images/top/top100.jpg';
+    var desc_str = '与其旁观，不如动动手选出2015那些让你惊呼“猴赛雷”的智能产品吧！';
 	
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
