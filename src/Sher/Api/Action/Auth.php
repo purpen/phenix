@@ -389,6 +389,12 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
    		return $this->api_json('您已经登录了！', 3001);   
     }
 
+		// 绑定设备操作
+		$uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
+    if(empty($uuid)){
+      return $this->api_json('设备uuid不存在!', 3012);     
+    }
+
     $third_source = isset($this->stash['third_source'])?(int)$this->stash['third_source']:0;
     $oid = isset($this->stash['oid'])?$this->stash['oid']:null;
 		$access_token = isset($this->stash['access_token'])?$this->stash['access_token']:null;
