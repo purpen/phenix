@@ -452,7 +452,10 @@ overflow:hidden !important;
 			$(this).siblings().html(' ');
 			$('body').animate({scrollTop:'100px'},500);
 			$('.red.btn').fadeIn();
-		})
+			
+			var ahref = $(this).attr("id");
+			$('.red.btn').attr('href','{{ app_url_domain }}/app/wap/promo/hoshow?from='+ahref );
+		});
 	
 	
 	</script>
@@ -479,35 +482,35 @@ overflow:hidden !important;
 		
 		
 		<div class="product">
-			<div class="card p1">
+			<div class="card p1" id="xngqlc">
 				<!-- -->
 			</div>
-			<div class="card p2">
+			<div class="card p2" id="gxgx">
 				 
 			</div>
-			<div class="card p3">
+			<div class="card p3" id="nzh">
 				 
 			</div>
 			
-			<div class="card p4">
+			<div class="card p4" id="hlzgn">
 				 
 			</div>
 			<div class="p5">
 				
 			</div>
-			<div class="card p6">
+			<div class="card p6" id="xnh">
 				
 			</div>
-			<div class="card p7">
+			<div class="card p7" id="csl">
 				
 			</div>
-			<div class="card p8">
+			<div class="card p8" id="nwjx">
 				
 			</div>
-			<div class="card p9">
+			<div class="card p9" id="gxfc">
 				
 			</div>
-			<div class="card p10">
+			<div class="card p10" id="fcff">
 				
 			</div>
 			

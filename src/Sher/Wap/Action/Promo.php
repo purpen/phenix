@@ -10,7 +10,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     'target_id'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow');
 
 	/**
 	 * 网站入口
@@ -32,6 +32,42 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
      *  date: 2016/01/28
      */
     public function hoshow(){
+		$from = isset($this->stash['from']) ? $this->stash['from'] : 0;
+		
+		switch( $from ){
+			case 'xngqlc':
+				$this->stash['xngqlc'] = true;
+				break;
+			case 'gxgx':
+				$this->stash['gxgx'] = true;
+				break;
+			case 'nzh':
+				$this->stash['nzh'] = true;
+				break;
+			case 'hlzgn':
+				$this->stash['hlzgn'] = true;
+				break;
+			case 'xnh':
+				$this->stash['xnh'] = true;
+				break;
+			case 'csl':
+				$this->stash['csl'] = true;
+				break;
+			case 'nwjx':
+				$this->stash['nwjx'] = true;
+				break;
+			case 'gxfc':
+				$this->stash['gxfc'] = true;
+				break;
+			case 'fcff':
+				$this->stash['fcff'] = true;
+				break;
+			default:
+				false;
+			
+		}
+		
+		
 		return $this->to_html_page('wap/promo/hoshow.html');
 	}
 	
