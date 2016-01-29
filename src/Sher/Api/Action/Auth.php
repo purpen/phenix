@@ -389,6 +389,12 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
    		return $this->api_json('您已经登录了！', 3001);   
     }
 
+		// 绑定设备操作
+		$uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
+    if(empty($uuid)){
+      return $this->api_json('设备uuid不存在!', 3012);     
+    }
+
     $third_source = isset($this->stash['third_source'])?(int)$this->stash['third_source']:0;
     $oid = isset($this->stash['oid'])?$this->stash['oid']:null;
 		$access_token = isset($this->stash['access_token'])?$this->stash['access_token']:null;
@@ -403,6 +409,10 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 
     if(empty($third_source) || empty($oid) || empty($access_token) || empty($nickname) || empty($from_to)){
       return $this->api_json('缺少参数！', 3002);   
+    }
+
+    if($third_source==1 && empty($union_id)){
+      return $this->api_json('缺少请求参数.！', 3002);    
     }
 
     $user_model = new Sher_Core_Model_User();
@@ -424,7 +434,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
       }elseif($third_source==1){
         $nickname_prefix = "微信用户";
       }else{
-        return $this->api_json('第三方来源不明确.！', 3003);     
+        return $this->api_json('第三方来源不明确.！', 3003);
       }
       $nickname = $nickname_prefix.$nickname;
       $exist_r = $user_model->_check_name($nickname);
@@ -448,7 +458,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
       $user_data['sina_uid'] = (int)$oid;
       $user_data['sina_access_token'] = $access_token;
     }elseif($third_source==3){
-      $user_data['account'] = (string)$uid;
+      $user_data['account'] = (string)$oid;
       $user_data['password'] = sha1(Sher_Core_Util_Constant::QQ_AUTO_PASSWORD);
       $user_data['from_site'] = Sher_Core_Util_Constant::FROM_QQ;
       $user_data['qq_uid'] = $oid;
@@ -462,6 +472,11 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
       $user_data['wx_union_id'] = $union_id; 
     }else{
       return $this->api_json('第三方来源不明确！', 3004);     
+    }
+
+    // 检测账号是否存在
+    if(!$user_model->check_account($user_data['account'])){
+      return $this->api_json('该账户已存在！', 3011);   
     }
 
     try{

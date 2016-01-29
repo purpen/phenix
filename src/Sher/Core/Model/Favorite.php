@@ -276,8 +276,12 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
     }
 		$query['type'] = (int)$type;
 		$query['event'] = self::EVENT_FAVORITE;
-        return $this->remove($query);
+    $ok = $this->remove($query);
+    if($ok){
+      $this->mock_after_remove($user_id, $target_id, (int)$type, self::EVENT_FAVORITE);
     }
+    return $ok;
+  }
 	
     /**
      * 检测是否喜欢
@@ -332,7 +336,11 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 		$query['type'] = (int)$type;
 		$query['event']  = self::EVENT_LOVE;
 		
-        return $this->remove($query);
+    $ok = $this->remove($query);
+    if($ok){
+      $this->mock_after_remove($user_id, $target_id, (int)$type, self::EVENT_LOVE);
+    }
+    return $ok;
 	}
 	
 	/**

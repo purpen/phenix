@@ -265,7 +265,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	 */
 	protected function before_save(&$data) {
 	    if (isset($data['tags']) && !is_array($data['tags'])) {
-	        $data['tags'] = array_values(array_unique(preg_split('/[,，\s]+/u',$data['tags'])));
+	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
 	    }
 		
 		// 获取父级类及类组

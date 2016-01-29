@@ -132,7 +132,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 	 */
 	protected function before_save(&$data){
 	    if (isset($data['tags']) && !is_array($data['tags'])) {
-	        $data['tags'] = array_values(array_unique(preg_split('/[,，、\s]+/u', $data['tags'])));
+	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u', $data['tags'])));
 	    }
 	    $data['updated_on'] = time();
 	    parent::before_save($data);

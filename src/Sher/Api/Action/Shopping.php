@@ -222,7 +222,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
       // 加载可用红包
       $bonus_service = Sher_Core_Service_Bonus::instance();
-      $bonus_result = $bonus_service->get_all_list(array('used'=>1, 'expired_at'=>array('$gt'=>time())), array('page'=>1, 'size'=>20));
+      $bonus_result = $bonus_service->get_all_list(array('user_id'=>$user_id, 'used'=>1, 'expired_at'=>array('$gt'=>time())), array('page'=>1, 'size'=>20));
       $usable_bonus = !empty($bonus_result['rows']) ? $bonus_result['rows'] : array();
 
       // 删除购物车
@@ -338,7 +338,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
     // 加载可用红包
     $bonus_service = Sher_Core_Service_Bonus::instance();
-    $bonus_result = $bonus_service->get_all_list(array('used'=>1, 'expired_at'=>array('$gt'=>time())), array('page'=>1, 'size'=>20));
+    $bonus_result = $bonus_service->get_all_list(array('user_id'=>$user_id, 'used'=>1, 'expired_at'=>array('$gt'=>time())), array('page'=>1, 'size'=>20));
     $usable_bonus = !empty($bonus_result['rows']) ? $bonus_result['rows'] : array();
 		
 		// 获取快递费用
@@ -669,9 +669,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       if($key == '_id'){
         $data[$key] = (string)$address[$key];
       }elseif($key=='province' || $key=='city'){
-        $data[$i][$key] = (int)$result['rows'][$i][$key];
+        $data[$key] = (int)$address[$key];
       }elseif($key=='phone' || $key=='zip'){
-        $data[$i][$key] = (string)$result['rows'][$i][$key];
+        $data[$key] = (string)$address[$key];
       }else{
         $data[$key] = $address[$key];
       }
