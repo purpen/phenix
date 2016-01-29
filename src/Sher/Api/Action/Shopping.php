@@ -551,6 +551,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			}
 			
 			$data = $orders->get_data();
+      // 创建时间格式化 
+      $data['created_at'] = date('Y-m-d H:i', $data['created_on']);
 			
 			$rid = $data['rid'];
 			
