@@ -405,6 +405,10 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
       return $this->api_json('缺少参数！', 3002);   
     }
 
+    if($third_source==1 && empty($union_id)){
+      return $this->api_json('缺少请求参数.！', 3002);    
+    }
+
     $user_model = new Sher_Core_Model_User();
 
     //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
@@ -424,7 +428,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
       }elseif($third_source==1){
         $nickname_prefix = "微信用户";
       }else{
-        return $this->api_json('第三方来源不明确.！', 3003);     
+        return $this->api_json('第三方来源不明确.！', 3003);
       }
       $nickname = $nickname_prefix.$nickname;
       $exist_r = $user_model->_check_name($nickname);
@@ -448,7 +452,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
       $user_data['sina_uid'] = (int)$oid;
       $user_data['sina_access_token'] = $access_token;
     }elseif($third_source==3){
-      $user_data['account'] = (string)$uid;
+      $user_data['account'] = (string)$oid;
       $user_data['password'] = sha1(Sher_Core_Util_Constant::QQ_AUTO_PASSWORD);
       $user_data['from_site'] = Sher_Core_Util_Constant::FROM_QQ;
       $user_data['qq_uid'] = $oid;
