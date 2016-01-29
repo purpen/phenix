@@ -470,7 +470,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	 */
 	protected function before_save(&$data) {
 	    if (isset($data['tags']) && !is_array($data['tags'])) {
-	        $data['tags'] = array_values(array_unique(preg_split('/[,，\s]+/u',$data['tags'])));
+	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
 	    }
 
         // 库存数量不为能负数
