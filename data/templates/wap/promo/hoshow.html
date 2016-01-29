@@ -373,6 +373,14 @@ overflow:hidden !important;
 			}
 		});
 		
+		$('.fenxiang.red.btn').on('click',function(){
+     		$('#mask').css('display','block');
+		});
+		/*$('#mask').on('click',function(){
+			$(this).css('display','none');
+		})
+		*/
+		
 	</script>
 {% endblock %}
 
@@ -535,7 +543,7 @@ overflow:hidden !important;
 		{% if !visitor.is_login %}
 		<a href="{{ app_url_domain }}/app/wap/auth" class="red btn">点击抢酸奶杯</a>
 		{% else%}
-		<a href=" " class="red btn">点击抢酸奶杯</a>
+		<a href="javascript:void(0);" class="fenxiang red btn">点击分享</a>
 		{% endif %}
 		
 	
@@ -556,7 +564,11 @@ overflow:hidden !important;
         <div class="mod-orient-layer__desc">为了更好的体验，请使用竖屏浏览</div>
     </div>
 </div>
-
+<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);">
+  <div class="frideshare">
+	<img src="http://frstatic.qiniudn.com/images/fenxiang.png" width="100%" >
+  </div>
+</div>
 {% endblock %}
 
 
