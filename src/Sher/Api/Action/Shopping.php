@@ -669,9 +669,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       if($key == '_id'){
         $data[$key] = (string)$address[$key];
       }elseif($key=='province' || $key=='city'){
-        $data[$i][$key] = (int)$result['rows'][$i][$key];
+        $data[$i][$key] = (int)$address['rows'][$i][$key];
       }elseif($key=='phone' || $key=='zip'){
-        $data[$i][$key] = (string)$result['rows'][$i][$key];
+        $data[$i][$key] = (string)$address['rows'][$i][$key];
       }else{
         $data[$key] = $address[$key];
       }
