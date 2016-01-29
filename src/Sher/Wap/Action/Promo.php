@@ -24,9 +24,6 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
      *  date: 2016/01/27
      */
     public function holiday(){
-		// 记录浏览数
-	    $num_mode = new Sher_Core_Model_SumRecord();
-	    $num_mode->add_record('21', 'view_count', 4, 4); 
 
 			//微信分享
 	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
