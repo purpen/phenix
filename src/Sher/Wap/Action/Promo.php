@@ -63,7 +63,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 				$this->stash['fcff'] = true;
 				break;
 			default:
-				false;
+				return $this->to_html_page('wap/promo/holiday.html');
 			
 		}
 		
