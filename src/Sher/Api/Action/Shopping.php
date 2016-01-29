@@ -626,6 +626,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 					$data[$i][$key] = (string)$result['rows'][$i][$key];
         }elseif($key=='province' || $key=='city'){
 					$data[$i][$key] = (int)$result['rows'][$i][$key];
+        }elseif($key=='phone' || $key=='zip'){
+          $data[$i][$key] = (string)$result['rows'][$i][$key];
 				}else{
 					$data[$i][$key] = $result['rows'][$i][$key];
 				}
@@ -668,6 +670,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $data[$key] = (string)$address[$key];
       }elseif($key=='province' || $key=='city'){
         $data[$i][$key] = (int)$result['rows'][$i][$key];
+      }elseif($key=='phone' || $key=='zip'){
+        $data[$i][$key] = (string)$result['rows'][$i][$key];
       }else{
         $data[$key] = $address[$key];
       }

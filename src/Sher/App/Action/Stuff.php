@@ -375,7 +375,8 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
       $this->stash['pid'] = $top_category_id;
 
       $tpl = 'page/stuff/tsubmit.html';
-    }else{
+    }else{  // 不是 top100
+
       // 是否为一级分类
       $is_top = false;
       $current_category = array();
