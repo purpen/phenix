@@ -415,14 +415,12 @@ overflow:hidden !important;
 	         } else {
 	             var path = fileList[i];
 	         }
-			 $('#app_bgm').get(0).pause();
 	         loader.addImage(basePath + path);
 	     }
 
 	     loader.addCompletionListener(function () {
 	         $('.loading').remove();
 			 $('.holiday').show();
-			 $('#app_bgm').get(0).play();
 	     });
 
 	     //loading 进度监听
@@ -436,16 +434,6 @@ overflow:hidden !important;
 	     loader.start();
 	    });
 		
-		$('.music').on('click',function(){
-			if($(this).hasClass("playing")){
-			  $('#app_bgm').get(0).pause();
-				$(this).removeClass("playing").addClass('stop');
-			}
-			else{
-				$(this).addClass("playing").removeClass('stop');
-				$('#app_bgm').get(0).play();
-			}
-		});
 		
 		$('.card').on('click',function(){
 			$(this).html('<div class="p1img active"></div>');
@@ -526,6 +514,4 @@ overflow:hidden !important;
         <div class="mod-orient-layer__desc">为了更好的体验，请使用竖屏浏览</div>
     </div>
 </div>
-<!--<div class="music playing" style="display:block;"></div>-->
-<audio id="app_bgm" src="{{ app_url_packaged }}/images/promo/holiday/index.mp3" loop="true" autoplay></audio>
 {% endblock %}

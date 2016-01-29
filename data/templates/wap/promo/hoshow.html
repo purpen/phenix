@@ -1,5 +1,5 @@
 {%extends 'layout/xy.html'%}
-{% block title %} {% endblock %}
+{% block title %}过年你会被哪个新年神曲洗脑？{% endblock %}
 {% block page_css %}
 <style type="text/css">
 .ui.hide{
@@ -300,7 +300,7 @@ overflow:hidden !important;
 	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
 	<script type="text/javascript" src="http://frstatic.qiniudn.com/images/promo/holiday/PxLoader.min.js"></script>
 	<script type="text/javascript" src="http://frstatic.qiniudn.com/images/promo/holiday/PxLoaderImage.min.js"></script>
-	<!--<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>-->
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript">
 	    // 放大元素,按照640x1008定位,按比例scale
 	    function scaleEle(selector,position){
@@ -380,6 +380,98 @@ overflow:hidden !important;
 			$(this).css('display','none');
 		})
 		*/
+			
+	    var m_name = '过年你会被哪个新年神曲洗脑？';
+	    var img_url = '{{ app_url_packaged }}/images/promo/rankfxx.jpg';
+	    var link = '{{ app_url_wap_promo }}/holiday';
+		{% if gxgx %}
+	    var desc_str = '居然被《恭喜恭喜》洗脑，我只是选了旺旺而已，和人品有半毛钱关系';
+		{% endif %}
+		{% if csl %}
+	    var desc_str = '居然被《财神来到我家门》洗脑，我只是选了牛肉干而已，和人品有半毛钱关系';
+		{% endif %}
+		{% if gxfc %}
+		var desc_str = '居然被《恭喜发财》洗脑，我只是选了水果而已，和人品有半毛钱关系';
+		{% endif %}
+		{% if fcff %}
+		var desc_str = '居然被《发财发福中国年》洗脑，我只是选了熟食而已，和人品有半毛钱关系';
+		{% endif %}
+		{% if nzh %}
+		var desc_str = '居然被《你最红》洗脑，我只是选了糖果而已，和人品有半毛钱关系';
+		{% endif %}
+		{% if xngqlc %}
+		var desc_str = '居然被《新年歌曲联唱》洗脑，我只是选了干果而已，和人品有半毛钱关系';
+		{% endif %}
+		{% if xnh %}
+		var desc_str = '居然被《新年好》洗脑，我只是选了果脯而已，和人品有半毛钱关系';
+		{% endif %}
+		{% if hlzgn %}
+		var desc_str = '居然被《欢乐中国年》洗脑，我只是选了炸货而已，和人品有半毛钱关系';
+		{% endif %}
+		{% if nwjx %}
+		var desc_str = '居然被《难忘今宵》洗脑，我只是选了酸奶而已，和人品有半毛钱关系';
+		{% endif %}
+
+	    wx.config({
+	        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+	        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+	        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+	        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+	        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	    });
+
+	  wx.ready(function(){
+	    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+	     wx.onMenuShareAppMessage({
+	      title: m_name,
+	      desc: desc_str,
+	      link: link,
+	      imgUrl: img_url,
+	      success: function (res) {
+	        record_share_num();
+	      }
+	    });      
+
+	    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+	    wx.onMenuShareTimeline({
+	      title: m_name,
+	      desc: desc_str,
+	      link: link,
+	      imgUrl: img_url,
+	      success: function (res) {
+	        record_share_num();
+	      }
+	    });
+
+	    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+	    wx.onMenuShareQQ({
+	      title: m_name,
+	      desc: desc_str,
+	      link: link,
+	      imgUrl: img_url,
+	      success: function (res) {
+	        record_share_num();
+	      }
+	    });
+
+	    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+	    wx.onMenuShareWeibo({
+	      title: m_name,
+	      desc: desc_str,
+	      link: link,
+	      imgUrl: img_url,
+	      success: function (res) {
+	        record_share_num();
+	      }
+	    });
+	  });
+
+	  //记录分享数
+	  function record_share_num(){
+	    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+	    $.get(url, { target_id: 20, count_name:'count', type: 4, kind:4 });
+	  };
 		
 	</script>
 {% endblock %}
