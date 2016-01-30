@@ -3,10 +3,10 @@
 {% block page_css %}
 <style type="text/css">
 	.topbg {
-	    background: url({{ app_url_packaged }}/images/top/sbg.jpg) no-repeat center center;
+	    background: url({{ app_url_packaged }}/images/top/bg2.jpg) no-repeat center center;
 	    background-size: cover;
-		padding-top: 23%;
-		padding-bottom: 7%;
+		padding-top: 24%;
+		padding-bottom: 1%;
 	}
 	.topbg .ui.large.jointop{
 		padding-left:35px;
@@ -83,6 +83,16 @@
 	    -moz-animation: arrow 1.5s ease both;
 	    animation: arrow 1.5s ease both;
 	}
+	.ui.inverted.translate.button {
+	    color: #37004f;
+	    background: rgba(0,0,0,0);
+	    display: block;
+	    width: 135px;
+	    margin: 15px auto;
+	    border: none;
+	    box-shadow: none !important;
+		font-size: 1.14285714rem;
+	}
 </style>
 {% endblock %}
 
@@ -158,8 +168,11 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="center aligned column">
-				<a href="{{ app_url_stuff }}/tsubmit" class="ui magenta inverted large jointop active button" >
+				<a href="{{ app_url_stuff }}/tsubmit" class="ui topbtn inverted large jointop active button" >
 					报名提交
+				</a>
+				<a href="{{ app_url_stuff }}/hundred" class="ui inverted translate button">
+					<i class="home icon"></i>返回主页
 				</a>
 			</div>
 		</div>

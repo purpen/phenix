@@ -551,6 +551,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			}
 			
 			$data = $orders->get_data();
+      // 创建时间格式化 
+      $data['created_at'] = date('Y-m-d H:i', $data['created_on']);
 			
 			$rid = $data['rid'];
 			
@@ -572,17 +574,15 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       return $this->api_json('不能重复下订单！', 3012); 
     }
 
-    $result = array();
-    $result['rid'] = $rid;
-    $result['pay_money'] = $data['pay_money'];
-	    if($is_snatched){
-	    	//如果是抢购，无需支付，跳到我的订单页
-        $result['is_snatched'] = 1;
-        $msg = '抢购成功!';
-	    }else{
-        $result['is_snatched'] = 0;
-        $msg = '下单成功!';
-	    }
+    $result = $data;
+    if($is_snatched){
+      //如果是抢购，无需支付，跳到我的订单页
+      $result['is_snatched'] = 1;
+      $msg = '抢购成功!';
+    }else{
+      $result['is_snatched'] = 0;
+      $msg = '下单成功!';
+    }
 		
 		return $this->api_json($msg, 0, $result);
 		

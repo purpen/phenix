@@ -1,0 +1,682 @@
+{%extends 'layout/xy.html'%}
+{% block title %}过年你会被哪个新年神曲洗脑？{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.ui.hide{
+	display:none;
+}
+*{
+	margin:0;
+	padding:0;
+}
+html, body {
+    width: 100%;
+    height: 108%;
+}
+.holiday{
+	width: 100%;
+    height: 100%;
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000;
+	display:none;
+}
+.page_inner {
+    position: absolute;
+    width: 640px;
+    height: 1208px;
+    top: 50%;
+    left: 50%;
+    margin: -595px 0 0 -320px;
+    -webkit-perspective: 1000;
+    perspective: 1000;
+    overflow: hidden;
+}
+.pg-bg{
+	position:absolute;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	background:url({{ app_url_packaged }}/images/promo/holiday/bg.jpg);
+	background-size: cover;
+}
+.tbanner{
+	background:url({{ app_url_packaged }}/images/promo/holiday/top.jpg);
+	width:100%;
+	height:30px;
+	background-size:cover;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:2;
+}
+.rl{
+	background:url({{ app_url_packaged }}/images/promo/holiday/right.png);
+	width:170px;
+	height:250px;
+	background-size:cover;
+	position:absolute;
+	top:5px;
+	right:0;
+}
+.c1{
+	background:url({{ app_url_packaged }}/images/promo/holiday/c1.png);
+	width:75px;
+	height:165px;
+	background-size:cover;
+	position:absolute;
+	top:-15px;
+	left:20px;
+}
+.c2{
+	background:url({{ app_url_packaged }}/images/promo/holiday/c2.png);
+	width:55px;
+	height:110px;
+	background-size:cover;
+	position:absolute;
+	top:-15px;
+	left:120px;
+}
+h2{
+	position:absolute;
+	color:#e60012;
+	font-size:40px;
+	width:100%;
+	left:0;
+	top: 60px;
+    height: 40px;
+    text-align: center;
+}
+h2 + p{
+	color:#2e2e2e;
+	font-size: 24px;
+	height: 24px;
+	width:100%;
+	text-align:center;
+	left:0;
+	top:110px;
+	position:absolute;
+}
+.mpbg{
+	background:url({{ app_url_packaged }}/images/promo/holiday/cp.png);
+	background-size:cover;
+	width:640px;
+	height:520px;
+	position:absolute;
+	left:0;
+	top:150px;
+}
+.mphoto{
+	background-size:cover !important;
+	width:350px;
+	height:350px;
+	border-radius:50%;
+	position:absolute;
+	left:50%;
+	margin-left:-175px;
+	top: 50%;
+    margin-top: -175px;
+}
+.descript{
+	position: absolute;
+    width: 580px;
+    left: 15px;
+    top: 680px;
+    font-size: 24px;
+    color: #e81627;
+    max-height: 185px;
+	min-height: 185px;
+    padding: 15px;
+    border: 1px dashed #e81627;
+}
+.descript p{
+	margin:5px 0;
+	line-height: 28px;
+}
+.red.btn{
+    width: 610px;
+    left: 15px;
+	position:absolute;
+	top:925px;
+	background:#e60012;
+	color:#fff;
+	font-size:30px;
+    text-align: center;
+    line-height: 60px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.bottom{
+	position:absolute;
+    top: 1025px;
+    width: 610px;
+    left: 15px;
+    font-size: 24px;
+}
+.bottom p{
+	margin:5px 0;
+	line-height:24px;
+	color:#545454;
+}
+.loading{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #070709;
+	z-index:999;
+}
+
+.loading__inner{
+    position: absolute;
+    left: 50%;
+    top: 46%;
+    margin-left: -26px;
+    margin-top: -16px;
+    width: 52px;
+    height: 32px;
+    text-align: center;
+    color: #666;
+    font-size: 12px;
+    background-color: #070709;
+}
+.loading-num{
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 100%;
+    text-align: center;
+}
+  /**** 横屏 ****/
+  @-webkit-keyframes rotation {
+    10% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+    50%, 60% {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg)
+    }
+    90% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+    100% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+}
+
+@keyframes rotation {
+    10% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+    50%, 60% {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg)
+    }
+    90% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+    100% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+}
+
+#orientLayer {
+    display: none;
+}
+
+@media screen and (min-aspect-ratio: 13/8) {
+    #orientLayer {
+        display: block;
+    }
+}
+
+.mod-orient-layer {
+    display: none;
+    position: absolute !important;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: #000;
+    z-index: 9997;
+overflow:hidden !important;
+}
+
+.mod-orient-layer__content {
+    position: absolute;
+    width: 100%;
+    top: 45%;
+    margin-top: -35px !important;
+    text-align: center
+}
+
+.mod-orient-layer__icon-orient {
+    background-image: url(http://frstatic.qiniudn.com/images/promo/hengping.png);
+    display: inline-block;
+    width: 34px !important;
+    height: 55px !important;
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -webkit-animation: rotation infinite 1.5s ease-in-out;
+    animation: rotation infinite 1.5s ease-in-out;
+    -webkit-background-size: 34px;
+    background-size: 34px !important;
+}
+
+.mod-orient-layer__desc {
+    margin-top: 10px !important;
+    font-size: 9px !important;
+    color: #fff
+}
+.mphoto.playing{
+	-webkit-animation: 7s spin linear infinite;
+	animation: 7s spin linear infinite;
+}
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotateZ(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotateZ(360deg);
+    }
+}
+*{
+	-webkit-appearance:none;
+	-webkit-tap-highlight-color:rgba(255,255,255,0);
+}
+
+</style>
+{% endblock %}
+{% block layout_js %}
+	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
+	<script type="text/javascript" src="http://frstatic.qiniudn.com/images/promo/holiday/PxLoader.min.js"></script>
+	<script type="text/javascript" src="http://frstatic.qiniudn.com/images/promo/holiday/PxLoaderImage.min.js"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript">
+	    // 放大元素,按照640x1008定位,按比例scale
+	    function scaleEle(selector,position){
+	        var pageScale;
+	        var currentScale=screenWidth/screenHeight;
+	        var originScale=640/1040;
+	        if(currentScale>originScale){
+	            pageScale=screenHeight/1040;
+	        }else{
+	            pageScale=screenWidth/640;
+	        }
+	        $(selector).css({"-webkit-transform-origin":position,"transform-origin":position,"-webkit-transform":"scale("+pageScale+")","transform":"scale("+pageScale+")"});
+	    }
+
+	    var screenHeight = document.documentElement.clientHeight;
+	    var screenWidth = document.documentElement.clientWidth;
+
+	    scaleEle(".page_inner","center");
+		
+	    var basePath = "{{ app_url_packaged }}/images/promo/holiday/";
+	    if (!(typeof webpsupport == 'function')) {
+	        var webpsupport = function (cb) {
+	            cb();
+	        }
+	    }
+	    webpsupport(function (webpa) {
+	    var loader = new PxLoader(),
+	     fileList =[
+			'bg.jpg','top.jpg','cp.png','gxgx.jpg','right.png'
+		 
+		];
+
+	     for (var i = 0; i < fileList.length; i++) {
+	         var basename = fileList[i].substring(fileList[i].lastIndexOf('/') + 1);
+
+	         if (webpa && img_map && (basename in img_map) && img_map[basename]) { //if webp
+	             var path = fileList[i].replace(/\.\w+/, '.webp');
+	         } else {
+	             var path = fileList[i];
+	         }
+			 $('#app_bgm').get(0).pause();
+	         loader.addImage(basePath + path);
+	     }
+
+	     loader.addCompletionListener(function () {
+	         $('.loading').remove();
+			 $('.holiday').show();
+			 $('#app_bgm').get(0).play();
+	     });
+
+	     //loading 进度监听
+	     loader.addProgressListener(function (e) {
+	         var percentUp = Math.round((e.completedCount / e.totalCount) * 100), //正序, 1-100
+	             progressDown = 100 - percentUp;      
+	         $('.loading-num').text(percentUp + '%');
+	     });
+
+	     //启动
+	     loader.start();
+	    });
+		
+		$('.mphoto').on('click',function(){
+			if($(this).hasClass("playing")){
+			  $('#app_bgm').get(0).pause();
+				$(this).removeClass("playing").addClass('stop');
+			}
+			else{
+				$(this).addClass("playing").removeClass('stop');
+				$('#app_bgm').get(0).play();
+			}
+		});
+		
+		$('.fenxiang.red.btn').on('click',function(){
+     		$('#mask').css('display','block');
+		});
+		/*$('#mask').on('click',function(){
+			$(this).css('display','none');
+		})
+		*/
+			
+	    var m_name = '过年你会被哪个新年神曲洗脑？';
+	    var link = '{{ app_url_wap_promo }}/holiday';
+		{% if gxgx %}
+		var img_url = '{{ app_url_packaged }}/images/promo/holiday/gxgx.jpg';
+	    var desc_str = '居然被《恭喜恭喜》洗脑，我只是选了旺旺而已，和人品有半毛钱关系';
+		{% endif %}
+		{% if csl %}
+		var img_url = '{{ app_url_packaged }}/images/promo/holiday/csl.jpg';
+	    var desc_str = '居然被《财神来到我家门》洗脑，我只是选了牛肉干而已，和人品有半毛钱关系';
+		{% endif %}
+		{% if gxfc %}
+		var img_url = '{{ app_url_packaged }}/images/promo/holiday/gxfc.jpg';
+		var desc_str = '居然被《恭喜发财》洗脑，我只是选了水果而已，和人品有半毛钱关系';
+		{% endif %}
+		{% if fcff %}
+		var img_url = '{{ app_url_packaged }}/images/promo/holiday/fcff.jpg';
+		var desc_str = '居然被《发财发福中国年》洗脑，我只是选了熟食而已，和人品有半毛钱关系';
+		{% endif %}
+		{% if nzh %}
+		var img_url = '{{ app_url_packaged }}/images/promo/holiday/nzh.jpg';
+		var desc_str = '居然被《你最红》洗脑，我只是选了糖果而已，和人品有半毛钱关系';
+		{% endif %}
+		{% if xngqlc %}
+		var img_url = '{{ app_url_packaged }}/images/promo/holiday/xngqlc.jpg';
+		var desc_str = '居然被《新年歌曲联唱》洗脑，我只是选了干果而已，和人品有半毛钱关系';
+		{% endif %}
+		{% if xnh %}
+		var img_url = '{{ app_url_packaged }}/images/promo/holiday/xnh.jpg';
+		var desc_str = '居然被《新年好》洗脑，我只是选了果脯而已，和人品有半毛钱关系';
+		{% endif %}
+		{% if hlzgn %}
+		var img_url = '{{ app_url_packaged }}/images/promo/holiday/hlzgn.jpg';
+		var desc_str = '居然被《欢乐中国年》洗脑，我只是选了炸货而已，和人品有半毛钱关系';
+		{% endif %}
+		{% if nwjx %}
+		var img_url = '{{ app_url_packaged }}/images/promo/holiday/nwjx.jpg';
+		var desc_str = '居然被《难忘今宵》洗脑，我只是选了酸奶而已，和人品有半毛钱关系';
+		{% endif %}
+
+	    wx.config({
+	        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+	        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+	        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+	        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+	        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	    });
+
+	  wx.ready(function(){
+	    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+	     wx.onMenuShareAppMessage({
+	      title: m_name,
+	      desc: desc_str,
+	      link: link,
+	      imgUrl: img_url,
+	      success: function (res) {
+	        record_share_num();
+			$('#mask').css('display','none');
+	      }
+	    });      
+
+	    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+	    wx.onMenuShareTimeline({
+	      title: m_name,
+	      desc: desc_str,
+	      link: link,
+	      imgUrl: img_url,
+	      success: function (res) {
+	        record_share_num();
+			$('#mask').css('display','none');
+	      }
+	    });
+
+	    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+	    wx.onMenuShareQQ({
+	      title: m_name,
+	      desc: desc_str,
+	      link: link,
+	      imgUrl: img_url,
+	      success: function (res) {
+	        record_share_num();
+	      }
+	    });
+
+	    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+	    wx.onMenuShareWeibo({
+	      title: m_name,
+	      desc: desc_str,
+	      link: link,
+	      imgUrl: img_url,
+	      success: function (res) {
+	        record_share_num();
+			$('#mask').css('display','none');
+	      }
+	    });
+	  });
+
+	  //记录分享数
+	  function record_share_num(){
+	    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+	    $.get(url, { target_id: 20, count_name:'count', type: 4, kind:4 });
+	  };
+		
+	</script>
+{% endblock %}
+
+{% block content %}
+<div class="loading">
+    <div class="loading__inner">
+        <div class="loading__img"></div>
+        <div class="loading-num">0%</div>
+    </div>
+</div>
+<div class="holiday">
+	<div class="tbanner"></div>
+	<div class="pg-bg"></div>
+	<div class="page_inner">
+		<div class="rl"></div>
+		<div class="c1"></div>
+		<div class="c2"></div>
+		
+		{% if gxgx %}
+		<h2>《恭喜恭喜》</h2>
+		<p>中国娃娃</p>
+		<div class="mpbg">
+			<div class="mphoto playing" style="background:url({{ app_url_packaged }}/images/promo/holiday/gxgx.jpg);">
+			</div>
+		</div>
+		
+		<div class="descript">
+			<p>“旺旺大礼包，新年一定会旺哦~”</p>
+			<p>告诉我旺旺大礼包是不是你小时候的梦想？</p>
+			<p>旺仔牛奶、小馒头、仙贝……大礼包作为年度零食福利就像成年后一年一度的维密天使秀。吮指美味一字排开，那阵仗你懂得！从选择旺旺的这一刻起，你会一路旺到底！</p>
+		</div>
+		<audio id="app_bgm" src="{{ app_url_packaged }}/images/promo/holiday/gxgx.mp3" loop="true" autoplay></audio>
+		{% endif %}
+		
+		{% if csl %}
+		<h2>《财神来到我家门》</h2>
+		<p>卓依婷</p>
+		<div class="mpbg">
+			<div class="mphoto playing" style="background:url({{ app_url_packaged }}/images/promo/holiday/csl.jpg);">
+			</div>
+		</div>
+		
+		<div class="descript">
+			<p>Qing da sheng du chu lai：</p>
+			<p>cai shen lai dao wo jia men</p>
+			<p>一眼就看出来的宝宝，新年好运滚滚来哦</p>
+		</div>
+		<audio id="app_bgm" src="{{ app_url_packaged }}/images/promo/holiday/csl.mp3" loop="true" autoplay></audio>
+		{% endif %}
+		
+		{% if gxfc %}
+		<h2>《恭喜发财》</h2>
+		<p>刘德华</p>
+		<div class="mpbg">
+			<div class="mphoto playing" style="background:url({{ app_url_packaged }}/images/promo/holiday/gxfc.jpg);">
+			</div>
+		</div>
+		
+		<div class="descript">
+			<p>“再来！恭喜你发财，恭喜你精彩……”</p>
+			<p>为什么是刘德华唱的《恭喜发财》？必须承认人生赢家除了努力奋斗，还需天时地利配合~我们都知道刘天王是演艺界实力劳模，像他一样红遍长城内外30多年的人简直就是神一般的存在~</p>
+		</div>
+		<audio id="app_bgm" src="{{ app_url_packaged }}/images/promo/holiday/gxfc.mp3" loop="true" autoplay></audio>
+		{% endif %}
+		
+		{% if fcff %}
+		<h2>《发财发福中国年》</h2>
+		<p>中国娃娃</p>
+		<div class="mpbg">
+			<div class="mphoto playing" style="background:url({{ app_url_packaged }}/images/promo/holiday/fcff.jpg);">
+			</div>
+		</div>
+		
+		<div class="descript">
+			<p>好运来！接著来！恭喜恭喜发大财！</p>
+			<p>第一个发现肉可以烤着吃的人上辈子一定拯救了银河系，将幸福的火种带到人间！就像选择熟食的你是一个不折不扣的活力小公举，快将你的幸福能量传递给周围吧。小公举，猴赛雷，恭喜新年发大财！</p>
+		</div>
+		<audio id="app_bgm" src="{{ app_url_packaged }}/images/promo/holiday/fcff.mp3" loop="true" autoplay></audio>
+		{% endif %}
+		
+		{% if nzh %}
+		<h2>《你最红》</h2>
+		<p>twins</p>
+		<div class="mpbg">
+			<div class="mphoto playing" style="background:url({{ app_url_packaged }}/images/promo/holiday/nzh.jpg);">
+			</div>
+		</div>
+		
+		<div class="descript">
+			<p>康康，九头帮帮主，一只还未正式与观众见面的动物火的丧心病狂。作为猴年春晚吉祥物它一丑激起千层泪，它惹得中华大触们愤而执笔化腐朽为神奇！</p>
+			<p>可你们别忘了，大触笔下攻萌御守的“康康”可是有九头身的猴。选糖果、信帮主、新年一定会光吃不胖，光吃不胖，光吃不胖，拥有完美九头身</p>
+		</div>
+		<audio id="app_bgm" src="{{ app_url_packaged }}/images/promo/holiday/nzh.mp3" loop="true" autoplay></audio>
+		{% endif %}
+		
+		{% if xngqlc %}
+		<h2>《新年歌曲联唱》</h2>
+		<p>高胜美</p>
+		<div class="mpbg">
+			<div class="mphoto playing" style="background:url({{ app_url_packaged }}/images/promo/holiday/xngqlc.jpg);">
+			</div>
+		</div>
+		
+		<div class="descript">
+			<p>咚咚咚锵，咚咚咚锵，咚咚咚锵咚锵……</p>
+			<p>不知为什么，只要过年去超市乘扶梯都能听着这首歌走到干果区。魔音穿耳，三日不绝。所有不自觉直接唱出这句歌词的人都是妈妈的好宝宝！祝亲爱的妈妈们腰好腿好精神好~祝宝宝们人旺财旺运气旺~
+</p>
+		</div>
+		<audio id="app_bgm" src="{{ app_url_packaged }}/images/promo/holiday/xngqlc.mp3" loop="true" autoplay></audio>
+		{% endif %}
+		
+		{% if xnh %}
+		<h2>《新年好》</h2>
+		<p>中国娃娃</p>
+		<div class="mpbg">
+			<div class="mphoto playing" style="background:url({{ app_url_packaged }}/images/promo/holiday/xnh.jpg);">
+			</div>
+		</div>
+
+		<div class="descript">
+			<p>选择果脯的人心里都住着一个维特般的少年，总觉着这首歌带着一丝丝岁月远去的忧伤。</p>
+			<p>恭喜你，即使事随时移，还是那个保持着纯真的孩子。</p>
+		</div>
+		<audio id="app_bgm" src="{{ app_url_packaged }}/images/promo/holiday/xnh.mp3" loop="true" autoplay></audio>
+		{% endif %}
+		
+		{% if hlzgn %}
+		<h2>《欢乐中国年》</h2>
+		<p>卓依婷</p>
+		<div class="mpbg">
+			<div class="mphoto playing" style="background:url({{ app_url_packaged }}/images/promo/holiday/hlzgn.jpg);">
+			</div>
+		</div>
+
+		<div class="descript">
+			<p>“欢乐欢乐中国年，红红火火到永远……”</p>
+			<p>你的童年一定是以《欢乐中国年》为BGM度过的，炸年糕、炸春卷、红烧肉、妈妈在厨房忙碌、爸比在客厅摆盘，围炉夜话的欢乐场面……</p>
+			<p>这些小时候的味道，原来你也记得啊~</p>
+		</div>
+		<audio id="app_bgm" src="{{ app_url_packaged }}/images/promo/holiday/hlzgn.mp3" loop="true" autoplay></audio>
+		{% endif %}
+		
+		{% if nwjx %}
+		<h2>《难忘今宵》</h2>
+		<p>李谷一</p>
+		<div class="mpbg">
+			<div class="mphoto playing" style="background:url({{ app_url_packaged }}/images/promo/holiday/nwjx.jpg);">
+			</div>
+		</div>
+
+		<div class="descript">
+			<p>酸奶往往作为甜点最后上桌，一解饭后甜腻。</p>
+			<p>佳节必备良音《难忘今宵》就是这样的存在，看了一晚的锣鼓喧天，听了一夜的鞭炮齐鸣，打了一夜炸金花，胡了一夜麻将，终于停下来静静的听歌了，没错，你又长大了一岁。明年的你，身边热闹依旧~</p>
+		</div>
+		<audio id="app_bgm" src="{{ app_url_packaged }}/images/promo/holiday/nwjx.mp3" loop="true" autoplay></audio>
+		{% endif %}
+		
+		
+		
+		{% if !visitor.is_login %}
+		<a href="{{ app_url_domain }}/app/wap/auth" class="red btn">点击抢酸奶杯</a>
+		{% else%}
+		<a href="javascript:void(0);" class="fenxiang red btn">点击分享</a>
+		{% endif %}
+		
+	
+		<div class="bottom">
+			<p style="margin-bottom: 12px;color: #000;">规则：</p>
+			<p>	1.点击“我要酸奶杯”登录太火鸟社区；</p>
+			<p>	2.登录后返回此页面，点击右上角分享至朋友圈；</p>
+			<p>	3.成功分享即有机会白抢康腾宝酸奶杯1个；</p>
+			<p>	4.最终结果请登录太火鸟官网查询；</p>
+		
+		</div>
+	</div>
+	
+</div>
+<div id="orientLayer" class="mod-orient-layer">
+    <div class="mod-orient-layer__content">
+		<i class="icon mod-orient-layer__icon-orient"></i>
+        <div class="mod-orient-layer__desc">为了更好的体验，请使用竖屏浏览</div>
+    </div>
+</div>
+<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);">
+  <div class="frideshare">
+	<img src="http://frstatic.qiniudn.com/images/fenxiang.png" width="100%" >
+  </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+

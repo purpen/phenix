@@ -1,15 +1,15 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}{% endblock %}
+{% block title %}最火爆的智能硬件TOP100评选{% endblock %}
 {% block page_css %}
 <style type="text/css">
 #mfrbird{
 	margin-top:0;
 }
 .topbg {
-    background: url({{ app_url_packaged }}/images/top/wap_bg1.jpg) no-repeat center center;
+    background: url({{ app_url_packaged }}/images/top/wap_bg2.jpg) no-repeat center center;
     background-size: cover;
-	padding-top: 45%;
-	padding-bottom: 0%;
+	padding-top: 40%;
+	padding-bottom: 5%;
 }
 .topbg .ui.jointop{
 	padding-left:30px;
@@ -86,6 +86,7 @@
 {% endblock %}
 
 {% block layout_js %}
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript" >
     var pid = {{ pid|default 0 }};
     var type = 6;
@@ -149,10 +150,76 @@
       
     });
 	});
+	
+    var m_name = '最火爆的智能硬件TOP100评选';
+    var link = '{{ app_url_wap_stuff }}/hundred';
+	var img_url = '{{ app_url_packaged }}/images/top/top100.jpg';
+    var desc_str = '与其旁观，不如动动手选出2015那些让你惊呼“猴赛雷”的智能产品吧！';
+	
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+
+  wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+  //记录分享数
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: 21, count_name:'count', type: 4, kind:4 });
+  };
 
 {% endblock %}
 
 {% block content %}
+<img src="http://frstatic.qiniudn.com/images/top/wap_bg2.jpg" style="display:none;" align="absmiddle" width="100%">
 <div class="top100">
 	<div class="topbg">
 		<div class="ui responsive grid">
@@ -165,7 +232,7 @@
 			</div>
 		</div>
 	</div>
-	<img src="http://frbird.qiniudn.com/topic/160119/569dca0a3ffca26c098ba57a-7-hd.jpg" align="absmiddle" width="100%">
+	<img src="{{ app_url_packaged }}/images/top/time.jpg" align="absmiddle" width="100%">
 	<img src="{{ app_url_packaged }}/images/top/wap_jia01.jpg" align="absmiddle" width="100%">
 	<img src="{{ app_url_packaged }}/images/top/wap_jia2.jpg" align="absmiddle" width="100%">
 	
@@ -173,36 +240,6 @@
 		<div class="row">
 			<div class="column">
 				<div class="ui products two cards item-box" id="stuff_list_box">
-					<!-- list -->
-					
-          <!--
-					<div class="card">
-						<div class="problock">
-					        <a style="background-image: url(http://frbird.qiniudn.com/product/150204/54d2271d3ffca264238b46c8-1-hm.jpg);" class="thumb" target="_blank">
-					        </a>
-					        <h2>
-					            <a href="http://dev.taihuoniao.com/shop/1020885051.html" title="测试的商品哈哈哈哈FLYang" class="ui line" target="_blank">
-								    测试的商品哈哈哈哈FLYang
-							    </a>
-					        </h2>
-					        <div class="excerpt">
-					            <p>测试的商品哈哈哈哈测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang测试的商品哈哈哈哈测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang 测试的商品哈哈哈哈FLYang</p>
-					        </div>
-					       <div class="cats">
-						       <div class="ui magenta like inverted button" loved="0">
-									<i class=" heart icon"></i>
-									投他一票
-									<div class="add">
-				                        <i class="heart icon" style="font-size: 14px;vertical-align: middle;"></i>+1      
-				                    </div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-          -->
-					<!-- end -->
-					
 					
 				</div>
 			</div>
