@@ -1,0 +1,582 @@
+{%extends 'layout/xy.html'%}
+{% block title %} {% endblock %}
+{% block page_css %}
+<style type="text/css">
+.ui.hide{
+	display:none;
+}
+*{
+	margin:0;
+	padding:0;
+	-webkit-appearance:none;
+	-webkit-tap-highlight-color:rgba(255,255,255,0);
+}
+html, body {
+    width: 100%;
+    height: 104%;
+}
+.holiday{
+	width: 100%;
+    height: 100%;
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000;
+	display:none;
+}
+.page_inner {
+    position: absolute;
+    width: 640px;
+    height: 1060px;
+    top: 50%;
+    left: 50%;
+    margin: -537px 0 0 -320px;
+    -webkit-perspective: 1000;
+    perspective: 1000;
+    overflow: hidden;
+}
+.pg-bg{
+	position:absolute;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	background:url({{ app_url_packaged }}/images/promo/holiday/bg.jpg);
+	background-size: cover;
+}
+.tbanner{
+	background:url({{ app_url_packaged }}/images/promo/holiday/top.jpg);
+	width:100%;
+	height:30px;
+	background-size:cover;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:2;
+}
+.rl{
+	background:url({{ app_url_packaged }}/images/promo/holiday/right.png);
+	width:170px;
+	height:250px;
+	background-size:cover;
+	position:absolute;
+	top:5px;
+	right:0;
+}
+.c1{
+	background:url({{ app_url_packaged }}/images/promo/holiday/c1.png);
+	width:75px;
+	height:165px;
+	background-size:cover;
+	position:absolute;
+	top:-15px;
+	left:20px;
+}
+.c2{
+	background:url({{ app_url_packaged }}/images/promo/holiday/c2.png);
+	width:55px;
+	height:110px;
+	background-size:cover;
+	position:absolute;
+	top:-15px;
+	left:300px;
+}
+.year{
+	background:url({{ app_url_packaged }}/images/promo/holiday/year.png);
+	width:235px;
+	height:135px;
+	background-size:cover;
+	position:absolute;
+	top: 50px;
+	left: 95px;
+}
+.word{
+	background:url({{ app_url_packaged }}/images/promo/holiday/word.png);
+	width:240px;
+	height:80px;
+	background-size:cover;
+	position:absolute;
+	top:105px;
+	left:335px;
+}
+.word+p{
+	position:absolute;
+    width: 560px;
+    left: 40px;
+	top:200px;
+	font-family: Microsoft yahei,Helvetica,Arial;
+	font-weight: inherit;
+    font-style: inherit;
+    font-size: 20px;
+	color:#e60012;
+	max-height:85px;
+	overflow:hidden;
+}
+.product{
+	position:absolute;
+	width:560px;
+	left:40px;
+	top:302px;
+	font-size:0;
+	text-align:center;
+	height:410px;
+}
+
+.card{
+	display:inline-block;
+	width: 180px;
+    position: absolute;
+    height: 160px;
+}
+.card img{
+	width:100%;
+}
+.p1{
+	background:url({{ app_url_packaged }}/images/promo/holiday/1.jpg);
+	background-size:cover;
+	left:0;
+	top:0;
+}
+.p2{
+	background:url({{ app_url_packaged }}/images/promo/holiday/2.jpg);
+	background-size:cover;
+	left:50%;
+	top:0;
+	margin-left:-90px;
+}
+.p3{
+	background:url({{ app_url_packaged }}/images/promo/holiday/3.jpg);
+	background-size:cover;
+	right:0;
+	top:0;
+}
+.p4{
+	background:url({{ app_url_packaged }}/images/promo/holiday/4.jpg);
+	background-size:cover;
+	left:0;
+	top:170px;
+}
+.p5{
+	background:url({{ app_url_packaged }}/images/promo/holiday/line.jpg);
+	background-size:cover;
+	left:50%;
+	top:170px;
+	margin-left:-90px;
+	height:500px;
+	width:180px;
+	position:absolute;
+}
+.p6{
+	background:url({{ app_url_packaged }}/images/promo/holiday/5.jpg);
+	background-size:cover;
+	right:0;
+	top:170px;
+}
+.p7{
+	background:url({{ app_url_packaged }}/images/promo/holiday/6.jpg);
+	background-size:cover;
+	left:0;
+	top:340px;
+}
+.p8{
+	background:url({{ app_url_packaged }}/images/promo/holiday/7.jpg);
+	background-size:cover;
+	right:0;
+	top:340px;
+}
+.p9{
+	background:url({{ app_url_packaged }}/images/promo/holiday/8.jpg);
+	background-size:cover;
+	left:0;
+	top:510px;
+}
+.p10{
+	background:url({{ app_url_packaged }}/images/promo/holiday/9.jpg);
+	background-size:cover;
+	right:0;
+	top:510px;
+}
+.p1img{
+	width:100%;
+	height:100%;
+	background:url({{ app_url_packaged }}/images/promo/holiday/active.png);
+	background-size:cover;
+}
+.red.btn{
+	width:560px;
+	left:40px;
+	position:absolute;
+	bottom:0;
+	background:#e60012;
+	color:#fff;
+	font-size:30px;
+    text-align: center;
+    line-height: 60px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+.bottom{
+	bottom:0;
+	left:0;
+	width:100%;
+	background:url({{ app_url_packaged }}/images/promo/holiday/bottom.jpg);
+	background-size:cover;
+    height: 18px;
+    position: absolute;
+    z-index: 2;
+}
+.music.playing{
+	-webkit-animation: 2.3s spin linear infinite;
+	animation: 2.3s spin linear infinite;
+}
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotateZ(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotateZ(360deg);
+    }
+}
+.music {
+    position: fixed;
+    background: url(http://frstatic.qiniudn.com/images/promo/music_bg.png) 0 0 no-repeat;
+    z-index: 2;
+    width: 1.5rem;
+    height: 1.5rem;
+    right: 0.4rem;
+    top: 0.4rem;
+    background-size: 100% auto;
+}
+.music.stop {
+    background-position: 0 -1.5rem;
+}
+.loading{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #070709;
+	z-index:999;
+}
+
+.loading__inner{
+    position: absolute;
+    left: 50%;
+    top: 46%;
+    margin-left: -26px;
+    margin-top: -16px;
+    width: 52px;
+    height: 32px;
+    text-align: center;
+    color: #666;
+    font-size: 12px;
+    background-color: #070709;
+}
+.loading-num{
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 100%;
+    text-align: center;
+}
+
+  /**** 横屏 ****/
+  @-webkit-keyframes rotation {
+    10% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+    50%, 60% {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg)
+    }
+    90% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+    100% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+}
+
+@keyframes rotation {
+    10% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+    50%, 60% {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg)
+    }
+    90% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+    100% {
+        transform: rotate(90deg);
+        -webkit-transform: rotate(90deg)
+    }
+}
+
+#orientLayer {
+    display: none;
+}
+
+@media screen and (min-aspect-ratio: 13/8) {
+    #orientLayer {
+        display: block;
+    }
+}
+
+.mod-orient-layer {
+    display: none;
+    position: absolute !important;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: #000;
+    z-index: 9997;
+overflow:hidden !important;
+}
+
+.mod-orient-layer__content {
+    position: absolute;
+    width: 100%;
+    top: 45%;
+    margin-top: -35px !important;
+    text-align: center
+}
+
+.mod-orient-layer__icon-orient {
+    background-image: url(http://frstatic.qiniudn.com/images/promo/hengping.png);
+    display: inline-block;
+    width: 34px !important;
+    height: 55px !important;
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -webkit-animation: rotation infinite 1.5s ease-in-out;
+    animation: rotation infinite 1.5s ease-in-out;
+    -webkit-background-size: 34px;
+    background-size: 34px !important;
+}
+
+.mod-orient-layer__desc {
+    margin-top: 10px !important;
+    font-size: 9px !important;
+    color: #fff
+}
+</style>
+{% endblock %}
+{% block layout_js %}
+	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
+	<script type="text/javascript" src="http://frstatic.qiniudn.com/images/promo/holiday/PxLoader.min.js"></script>
+	<script type="text/javascript" src="http://frstatic.qiniudn.com/images/promo/holiday/PxLoaderImage.min.js"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript">
+	    // 放大元素,按照640x1008定位,按比例scale
+	    function scaleEle(selector,position){
+	        var pageScale;
+	        var currentScale=screenWidth/screenHeight;
+	        var originScale=640/1040;
+	        if(currentScale>originScale){
+	            pageScale=screenHeight/1040;
+	        }else{
+	            pageScale=screenWidth/640;
+	        }
+	        $(selector).css({"-webkit-transform-origin":position,"transform-origin":position,"-webkit-transform":"scale("+pageScale+")","transform":"scale("+pageScale+")"});
+	    }
+
+	    var screenHeight = document.documentElement.clientHeight;
+	    var screenWidth = document.documentElement.clientWidth;
+
+	    scaleEle(".page_inner","center");
+		
+	    var basePath = "{{ app_url_packaged }}/images/promo/holiday/";
+	    if (!(typeof webpsupport == 'function')) {
+	        var webpsupport = function (cb) {
+	            cb();
+	        }
+	    }
+	    webpsupport(function (webpa) {
+	    var loader = new PxLoader(),
+	     fileList =[
+			'1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg','8.jpg','9.jpg','line.jpg','bg.jpg','top.jpg','bottom.jpg','year.png'
+		 
+		];
+
+	     for (var i = 0; i < fileList.length; i++) {
+	         var basename = fileList[i].substring(fileList[i].lastIndexOf('/') + 1);
+
+	         if (webpa && img_map && (basename in img_map) && img_map[basename]) { //if webp
+	             var path = fileList[i].replace(/\.\w+/, '.webp');
+	         } else {
+	             var path = fileList[i];
+	         }
+	         loader.addImage(basePath + path);
+	     }
+
+	     loader.addCompletionListener(function () {
+	         $('.loading').remove();
+			 $('.holiday').show();
+	     });
+
+	     //loading 进度监听
+	     loader.addProgressListener(function (e) {
+	         var percentUp = Math.round((e.completedCount / e.totalCount) * 100), //正序, 1-100
+	             progressDown = 100 - percentUp;      
+	         $('.loading-num').text(percentUp + '%');
+	     });
+
+	     //启动
+	     loader.start();
+	    });
+		
+		
+		$('.card').on('click',function(){
+			$(this).html('<div class="p1img active"></div>');
+			$(this).siblings().html(' ');
+			$('body').animate({scrollTop:'100px'},500);
+			$('.red.btn').fadeIn();
+			
+			var ahref = $(this).attr("id");
+			$('.red.btn').attr('href','{{ app_url_domain }}/app/wap/promo/hoshow?from='+ahref );
+		});
+	
+	    var m_name = '过年你会被哪个新年神曲洗脑？';
+	    var link = '{{ app_url_wap_promo }}/holiday';
+		var img_url = '{{ app_url_packaged }}/images/promo/holiday/fenxiang.jpg';
+	    var desc_str = '逃过凤凰传奇，躲过玖月奇迹，终究躲不过命中注定的超市神曲！来吧，凭喜好选一种过年必备食品，看看留在你灵魂深处的神曲和食物究竟潜藏着什么运势……';
+		
+	    wx.config({
+	        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+	        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+	        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+	        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+	        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	    });
+
+	  wx.ready(function(){
+	    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+	     wx.onMenuShareAppMessage({
+	      title: m_name,
+	      desc: desc_str,
+	      link: link,
+	      imgUrl: img_url,
+	      success: function (res) {
+	        record_share_num();
+	      }
+	    });      
+
+	    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+	    wx.onMenuShareTimeline({
+	      title: m_name,
+	      desc: desc_str,
+	      link: link,
+	      imgUrl: img_url,
+	      success: function (res) {
+	        record_share_num();
+	      }
+	    });
+
+	    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+	    wx.onMenuShareQQ({
+	      title: m_name,
+	      desc: desc_str,
+	      link: link,
+	      imgUrl: img_url,
+	      success: function (res) {
+	        record_share_num();
+	      }
+	    });
+
+	    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+	    wx.onMenuShareWeibo({
+	      title: m_name,
+	      desc: desc_str,
+	      link: link,
+	      imgUrl: img_url,
+	      success: function (res) {
+	        record_share_num();
+	      }
+	    });
+	  });
+
+	  //记录分享数
+	  function record_share_num(){
+	    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+	    $.get(url, { target_id: 20, count_name:'count', type: 4, kind:4 });
+	  };
+	
+	</script>
+{% endblock %}
+
+{% block content %}
+<div class="loading">
+    <div class="loading__inner">
+        <div class="loading__img"></div>
+        <div class="loading-num">0%</div>
+    </div>
+</div>
+<div class="holiday">
+	<div class="tbanner"></div>
+	<div class="bottom"></div>
+	<div class="pg-bg"></div>
+	<div class="page_inner">
+		<div class="rl"></div>
+		<div class="c1"></div>
+		<div class="c2"></div>
+		<div class="year"></div>
+		<div class="word"></div>
+		<p>逃过凤凰传奇，躲过玖月奇迹，终究躲不过命中注定的超市神曲！来吧，凭喜好选一种过年必备食品，看看留在你灵魂深处的神曲和食物究竟潜藏着什么运势……</p>
+		
+		
+		<div class="product">
+			<div class="card p1" id="xngqlc">
+				<!-- -->
+			</div>
+			<div class="card p2" id="gxgx">
+				 
+			</div>
+			<div class="card p3" id="nzh">
+				 
+			</div>
+			
+			<div class="card p4" id="hlzgn">
+				 
+			</div>
+			<div class="p5">
+				
+			</div>
+			<div class="card p6" id="xnh">
+				
+			</div>
+			<div class="card p7" id="csl">
+				
+			</div>
+			<div class="card p8" id="nwjx">
+				
+			</div>
+			<div class="card p9" id="gxfc">
+				
+			</div>
+			<div class="card p10" id="fcff">
+				
+			</div>
+			
+		</div>
+		
+		<a href="" class="ui red btn hide">给我看结果</a>
+
+	</div>
+</div>
+<div id="orientLayer" class="mod-orient-layer">
+    <div class="mod-orient-layer__content">
+		<i class="icon mod-orient-layer__icon-orient"></i>
+        <div class="mod-orient-layer__desc">为了更好的体验，请使用竖屏浏览</div>
+    </div>
+</div>
+{% endblock %}

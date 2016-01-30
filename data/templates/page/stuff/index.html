@@ -3,10 +3,10 @@
 {% block page_css %}
 <style type="text/css">
 .topbg {
-    background: url({{ app_url_packaged }}/images/top/bg1.jpg) no-repeat center center;
+    background: url({{ app_url_packaged }}/images/top/bg2.jpg) no-repeat center center;
     background-size: cover;
-	padding-top: 27%;
-	padding-bottom: 3%;
+	padding-top: 25%;
+	padding-bottom: 5%;
 }
 .topbg .ui.large.jointop{
 	padding-left:35px;
@@ -127,6 +127,31 @@ i.mu3{
     -moz-animation: arrow 1.5s ease both;
     animation: arrow 1.5s ease both;
 }
+a.mailto{
+	color:#f36;
+	position:relative;
+	margin-left:3px;
+}
+a.mailto::before{
+	position: absolute;
+    top: auto;
+    bottom: 1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #f36;
+    content: '';
+    -webkit-transition: all 0.2s;
+    -webkit-backface-visibility: hidden;
+    transition: all 0.2s;
+    backface-visibility: hidden;
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+}
+a.mailto:hover:before{
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+}
 </style>
 {% endblock %}
 
@@ -194,6 +219,14 @@ i.mu3{
       
     });
 	});
+	
+	// 分享
+	$('.ui.share.button').bind('click', function(){
+		$('.ui.share.modal').modal('show');
+	});
+	phenix.bind_share_list("http://frstatic.qiniudn.com/images/top/wap_bg2.jpg");
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://m.taihuoniao.com/stuff/hundred'});
 
 {% endblock %}
 
@@ -220,7 +253,7 @@ i.mu3{
 						<h3 class="ui icon header">
 							<i class="mu1 icon"></i>
 							<div class="content">
-								2016.01.15
+								2016.01.29
 								<div class="sub header">
 									开启报名
 								</div>
@@ -322,6 +355,32 @@ i.mu3{
 		
 		<div class="ui products block">
 			<div class="ui responsive grid">
+				<div class="ui center aligned row">
+					<div class="ui eight wide center aligned column">
+						<p>如有任何疑问请发送邮件到工作人员邮箱<a href="mailto:liangjin@taihuoniao.com" class="mailto" target="_blank">liangjin@taihuoniao.com</a>，并索要微信群号请加入”中国最火爆智能硬件厂商by太火鸟“微信群，随时关注评选动态。</p>
+						
+					</div>
+				</div>
+                <div class="row">
+                  	<div class="ui center aligned column">
+                    	<div class="user share">
+                           
+                            <a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+                              <i class="weibo icon large circular red inverted"></i>
+                            </a>
+                            <a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+                              <i class="weixin icon large circular green inverted"></i>
+                            </a>
+                            <a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+                              <i class="tencent weibo icon large circular blue inverted"></i>
+                            </a>
+                            <a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+                              <i class="icon renren large circular blue inverted"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+				
 				<div class="row">
 					<div class="ui center aligned column">
 						<a href="{{ app_url_stuff }}/tsubmit" class="ui magenta active inverted large active getmore button">
@@ -329,12 +388,17 @@ i.mu3{
 						</a>
 					</div>
 				</div>
+				
+                
+				
+				
 			</div>
 		</div>
 		
 	</div>
 
 </div>
+{% include "block/qrcode.html" %}
 {% endblock %} 
 
 {% block templates %}
