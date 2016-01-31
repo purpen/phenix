@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}最火爆的智能硬件TOP100{% endblock %}
+{% block title %}{{ stuff.title }}{% endblock %}
 {% block page_css %}
 <style type="text/css">
 #mfrbird{
@@ -100,7 +100,7 @@
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript" >
 
-    var m_name = {{ stuff.title }}-太火鸟;
+    var m_name = '{{ stuff.title }}-太火鸟';
     var link = '{{ app_url_wap_stuff }}/tshow?id={{ stuff._id }}';
     var img_url = '{{ stuff.cover.thumbnails.big.view_url }}';
     var desc_str = '{{ stuff.description|truncate 60  }}';
@@ -161,8 +161,6 @@
   });
   //记录分享数
   function record_share_num(){
-    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
-    $.get(url, { target_id: 21, count_name:'count', type: 4, kind:4 });
   };
 
 </script>
