@@ -31,16 +31,16 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 	 */
 	public function hundred(){
 		// 记录浏览数
-	    $num_mode = new Sher_Core_Model_SumRecord();
-	    $num_mode->add_record('21', 'view_count', 4, 4); 
+    $num_mode = new Sher_Core_Model_SumRecord();
+    $num_mode->add_record('21', 'view_count', 4, 4); 
 		//微信分享
-	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
-	    $timestamp = $this->stash['timestamp'] = time();
-	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
-	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-	    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
-	    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
-	    $this->stash['wxSha1'] = sha1($wxOri);
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
 		$top_category_id = Doggy_Config::$vars['app.stuff.top100_category_id'];
     $this->stash['pid'] = $top_category_id;
 		return $this->to_html_page('wap/stuff/index.html');
@@ -123,6 +123,15 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 		
 		$this->stash['stuff'] = $stuff;
     $this->stash['is_loved'] = $is_loved;
+
+		//微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
 		
     // 评论参数
     $comment_options = array(
