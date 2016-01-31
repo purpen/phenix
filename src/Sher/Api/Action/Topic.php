@@ -118,7 +118,7 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
     $some_fields = array(
       '_id', 'title', 'short_title', 'category_id', 'target_id', 'cover_id', 'parent_id', 'view_count', 'stick',
       'deleted', 'try_id', 'published', 'user_id', 'comment_count', 'created_on', 'fine', 'last_reply_time',
-      'love_count', 'comment_count', 't_color', 'source',
+      'love_count', 'comment_count', 't_color', 'source', 'wap_view_url',
     );
 
 		// 重建数据结果

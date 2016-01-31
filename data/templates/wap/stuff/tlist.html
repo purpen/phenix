@@ -124,6 +124,7 @@
       var type = 6;
       var page = 1;
       var size = 8;
+      var sort = 0;
       function ajax_load_more(page, is_top, category_id, stick, from_to, sort, size){
           var url = '{{ app_url_wap }}/app/site/stuff/ajax_fetch_more';
           if(page != 'no'){
@@ -166,13 +167,13 @@
     // 清空列表数据
     $('#stuff_list_box').html('');
     // 点击分类加载
-    ajax_load_more(page, is_top, category_id, 0, 5, 7, size);
+    ajax_load_more(page, is_top, category_id, 0, 5, sort, size);
 		$(this).children('.category-btn').addClass('active');
 		$(this).siblings().children('.category-btn').removeClass('active');
 	});
 
   // 初次加载
-  ajax_load_more(page, is_top, category_id, 0, 5, 7, size);
+  ajax_load_more(page, is_top, category_id, 0, 5, sort, size);
 
   // ajax加载更多(滚动条接近底部加载)
   $(window).scroll(function(){
@@ -187,7 +188,7 @@
           if(stat == 0){
               $('#stuff-more').data('status', 1);
               $('#stuff-more').show();
-              ajax_load_more(page, is_top, category_id, 0, 5, 0, size);
+              ajax_load_more(page, is_top, category_id, 0, 5, sort, size);
           }
       }
   });

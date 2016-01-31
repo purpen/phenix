@@ -106,7 +106,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
     //显示的字段
     $some_fields = array(
       '_id', 'title', 'short_title', 'description', 'cover_id', 'banner_id', 'step_stat', 'sticked',
-      'tags', 'comment_count', 'created_on', 'kind',
+      'tags', 'comment_count', 'created_on', 'kind', 'wap_view_url',
       'try_count', 'apply_count', 'report_count', 'want_count', 'view_count',
       'buy_url', 'open_limit', 'open_limit', 'apply_term', 'term_count',
       'start_time', 'end_time', 'publish_time', 'state', 'price', 'pass_users',
@@ -287,7 +287,10 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
           $try_data[$key] = isset($try[$key]) ? $try[$key] : null;
         }
 
-			  return $this->api_json('申请成功！', 0, array('apply_id'=>$apply_model->id, 'try'=>$try_data) );
+        // 分享拉票
+        $wap_view_url = sprintf("%s/try/apply_success?apply_id=%s", Doggy_Config::$vars['app.url.wap'], $apply_model->id);
+
+			  return $this->api_json('申请成功！', 0, array('apply_id'=>$apply_model->id, 'try'=>$try_data, 'wap_view_url'=>$wap_view_url) );
       }else{
 				return $this->api_json('申请失败！', 3005);
       }
