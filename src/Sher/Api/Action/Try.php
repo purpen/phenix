@@ -108,7 +108,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
       '_id', 'title', 'short_title', 'description', 'cover_id', 'banner_id', 'step_stat', 'sticked',
       'tags', 'comment_count', 'created_on', 'kind', 'wap_view_url',
       'try_count', 'apply_count', 'report_count', 'want_count', 'view_count',
-      'buy_url', 'open_limit', 'open_limit', 'apply_term', 'term_count',
+      'buy_url', 'open_limit', 'open_limit', 'apply_term', 'term_count', 'strip_content',
       'start_time', 'end_time', 'publish_time', 'state', 'price', 'pass_users',
     );
 
@@ -142,16 +142,22 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 
 
     //转换描述格式
-    $data['content_view_url'] = 
+    $data['content_view_url'] = sprintf('%s/app/api/view/try_show?id=%d', Doggy_Config::$vars['app.domain.base'], $try['_id']);
     // 封面图url
     $data['cover_url'] = $try['cover']['thumbnails']['aub']['view_url'];
     // banner图url
     $data['banner_url'] = $try['banner']['thumbnails']['aub']['view_url'];
 
+    // 分享H5
+    $data['share_view_url'] = $data['wap_view_url'];
+    $data['share_desc'] = $data['strip_content'];
+
     // 当前用户是否已申请
     $data['applied'] = $applied;
-    $data['share_view_url'] = empty($applied) ? null : sprintf('%s/app/api/view/try_show?id=%d', Doggy_Config::$vars['app.domain.base'], $apply_id);
-    $data['share_desc'] = empty($applied) ? null : "跪求支持!";
+
+    // 拉票分享H5
+    $data['lp_share_view_url'] = empty($applied) ? null : sprintf('%s/app/api/view/try_show?id=%d', Doggy_Config::$vars['app.domain.base'], $apply_id);
+    $data['lp_share_desc'] = empty($applied) ? null : "跪求支持!";
 
 		$result['rows'] = $data;
 		
@@ -294,7 +300,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
         // 分享拉票
         $share_view_url = sprintf("%s/try/apply_success?apply_id=%s", Doggy_Config::$vars['app.url.wap'], $apply_model->id);
 
-			  return $this->api_json('申请成功！', 0, array('apply_id'=>$apply_model->id, 'try'=>$try_data, 'share_view_url'=>$share_view_url) );
+			  return $this->api_json('申请成功！', 0, array('apply_id'=>$apply_model->id, 'try'=>$try_data, 'share_view_url'=>$share_view_url, 'share_desc'=>'跪求支持!') );
       }else{
 				return $this->api_json('申请失败！', 3005);
       }
