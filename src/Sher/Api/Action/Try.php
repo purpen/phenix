@@ -156,7 +156,8 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
     $data['applied'] = $applied;
 
     // 拉票分享H5
-    $data['lp_share_view_url'] = empty($applied) ? null : sprintf('%s/app/api/view/try_show?id=%d', Doggy_Config::$vars['app.domain.base'], $apply_id);
+
+    $data['lp_share_view_url'] = empty($applied) ? null : sprintf("%s/try/apply_success?apply_id=%s", Doggy_Config::$vars['app.url.wap'], $apply_id);
     $data['lp_share_desc'] = empty($applied) ? null : "跪求支持!";
 
 		$result['rows'] = $data;
