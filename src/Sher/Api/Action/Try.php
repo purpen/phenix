@@ -150,7 +150,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 
     // 分享H5
     $data['share_view_url'] = $data['wap_view_url'];
-    $data['share_desc'] = $data['strip_content'];
+    $data['share_desc'] = isset($data['strip_content']) ? Doggy_Dt_Filters_String::truncate($data['strip_content'], 140) : null;
 
     // 当前用户是否已申请
     $data['applied'] = $applied;
