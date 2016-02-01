@@ -303,7 +303,7 @@
 						
 						<div class="field">
 							<label for="link">产品链接</label>
-						  	<input type="text" name="link" value="{{ stuff.link }}" />
+						  	<input type="text" name="link" value="{{ stuff.link }}" placeholder="http://" />
 						</div>
 						
 						<div class="field">
@@ -312,18 +312,34 @@
 						</div>
 						
 						<div class="two fields">
+              <div class="field">
+                <label for="corporate">公司名称</label>
+                  <input type="text" name="company" value="{{ stuff.company }}" />
+              </div>
+              
+              <div class="field">
+                <label for="phone">联系方式</label>
+                  <input type="text" name="tel" value="{{ stuff.tel }}" />
+              </div>
+            </div>
+
+						<div class="two fields">
+              <div class="field">
+                <label for="corporate">众筹金额</label>
+                  <input type="text" name="crowdfunding_money" value="{{ stuff.honor.crowdfunding_money }}" />
+              </div>
+              
+              <div class="field">
+                <label for="phone">销售金额</label>
+                  <input type="text" name="sale_money" value="{{ stuff.honor.sale_money }}" />
+              </div>
+            </div>
+
 						<div class="field">
-							<label for="corporate">公司名称</label>
-						  	<input type="text" name="company" value="{{ stuff.company }}" />
+							<label for="link">获得奖项</label>
+						  	<input type="text" name="prize" value="{{ stuff.honor.prize }}" />
 						</div>
-						
-						<div class="field">
-							<label for="phone">联系方式</label>
-						  	<input type="text" name="tel" value="{{ stuff.tel }}" />
-						</div>
-          </div>
                         
-						
 						<div class="upload field">
 							<label>{{ label_title }}图片 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个封面图)</small></label>
 							<input type="hidden" name="cover_id" id="stuff_cover_id" value="{{ stuff.cover_id }}" />
