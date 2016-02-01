@@ -7,10 +7,10 @@
 	margin-bottom: 0;
 }
 .topbg {
-    background: url({{ app_url_packaged }}/images/top/wap_bg.jpg) no-repeat center center;
+    background: url({{ app_url_packaged }}/images/top/wap_bg2.jpg) no-repeat center center;
     background-size: cover;
-	padding-top: 37%;
-	padding-bottom: 8%;
+	padding-top: 40%;
+	padding-bottom: 0%;
 }
 .topbg .ui.jointop{
 	padding-left:30px;
@@ -92,6 +92,20 @@
 .ui.descrite.segment p.link a:hover:before{
     -webkit-transform: scaleX(1);
     transform: scaleX(1);
+}
+.ui.inverted.translate.button {
+    color: #37004f;
+    background: rgba(0,0,0,0);
+    display: block;
+    width: 135px;
+    margin: 0px auto;
+    border: none;
+    box-shadow: none !important;
+    font-size: 1.14285714rem;
+}
+.topbtn.active, .topbtn:hover {
+    background: #37004f !important;
+    color: #fff !important;
 }
 </style>
 {% endblock %}
@@ -224,8 +238,11 @@
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column">
-					<a href="{{ app_url_wap }}/stuff/tsubmit" class="ui magenta inverted jointop active button">
+					<a href="{{ app_url_wap }}/stuff/tsubmit" class="ui inverted topbtn jointop active button">
 						立即报名
+					</a>
+					<a href="{{ app_url_wap }}/stuff/hundred" class="ui inverted translate button">
+						<i class="home icon"></i>返回主页
 					</a>
 				</div>
 			</div>
