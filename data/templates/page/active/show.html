@@ -319,26 +319,21 @@ h4.ui.header .map-advantage {
                 
                 <div class="bar"></div>
                 <div class="activity people">
-					{% if active._id == 5 %}
-	                	<div class="block title">
-	                		活动流程
-	                    </div>
-					{% else %}
-	                	<div class="block title">
-	                		活动嘉宾
-	                    </div>
-					{% endif%}
+                	<div class="block title">
+						{% if active._id == 5 %}
+                			活动流程
+						{% else %}
+							活动嘉宾
+						{% endif%}
+                    </div>
+					
                     {% if active.process %}
                         {% for p in active.process %}
                         <div class="rundown-timeline-container">
                             <div class="timeline-block">
                                 <div class="timeline-red-dot"></div>
                                 <div class="timeline-content right">
-									{% if active._id == 5 %}
-										<div class="time" style="left: 32%;">{{ p.time }}</div>
-									{% else %}
-										<div class="time">{{ p.time }}</div>
-									{% endif %}
+									<div class="time" {% if active._id == 5 %} style="left: 32%;" {% endif %}>{{ p.time }}</div>
                                     <p class="name">{{ p.title }}</p>
                                     <div class="title">
                                         {% if p.img %}
