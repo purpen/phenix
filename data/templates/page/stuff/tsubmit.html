@@ -62,6 +62,9 @@
 	    box-shadow: none !important;
 		font-size: 1.14285714rem;
 	}
+	#asset-list .buttons{
+		padding: 2px !important;
+	}
 </style>
 {% endblock %}
 
@@ -337,6 +340,7 @@
 										<div class="image">
 											<img src="{{ asset.thumbnails.mini.view_url }}" />
 											<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+											<p style="margin: 2px 3px;font-size: 12px;">图片尺寸：1180*530</p>
 										</div>
 										<div class="buttons">
 											<div class="ui large links">
