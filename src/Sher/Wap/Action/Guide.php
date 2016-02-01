@@ -28,6 +28,13 @@ class Sher_Wap_Action_Guide extends Sher_Core_Action_Authorize {
 	public function about(){
 		return $this->to_html_page('wap/about.html');
 	}
+
+	/**
+	 * 关于太火鸟-app
+	 */
+	public function app_about(){
+		return $this->to_html_page('wap/app_about.html');
+	}
 	
 	/**
 	 * 用户协议
@@ -36,4 +43,4 @@ class Sher_Wap_Action_Guide extends Sher_Core_Action_Authorize {
 		return $this->to_html_page('wap/law.html');
 	}
 }
-?>
+
