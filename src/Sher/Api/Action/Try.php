@@ -121,6 +121,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 
 		// 当前用户是否申请过
 		$applied = 0;
+    $apply_id = null;
 		if($user_id){
       // 是否已想要
       if($try['step_stat']==0){
@@ -134,13 +135,14 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
         $has_one_apply = $apply_model->first(array('target_id'=>$try['_id'], 'user_id'=>$user_id));
         if(!empty($has_one_apply)){
           $applied = 1;
+          $apply_id = (string)$has_one_apply['_id'];
         }
       }
     } // endif user
 
 
     //转换描述格式
-    $data['content_view_url'] = sprintf('%s/app/api/view/try_show?id=%d', Doggy_Config::$vars['app.domain.base'], $try['_id']);
+    $data['content_view_url'] = 
     // 封面图url
     $data['cover_url'] = $try['cover']['thumbnails']['aub']['view_url'];
     // banner图url
@@ -148,6 +150,8 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 
     // 当前用户是否已申请
     $data['applied'] = $applied;
+    $data['share_view_url'] = empty($applied) ? null : sprintf('%s/app/api/view/try_show?id=%d', Doggy_Config::$vars['app.domain.base'], $apply_id);
+    $data['share_desc'] = empty($applied) ? null : "跪求支持!";
 
 		$result['rows'] = $data;
 		
@@ -288,9 +292,9 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
         }
 
         // 分享拉票
-        $wap_view_url = sprintf("%s/try/apply_success?apply_id=%s", Doggy_Config::$vars['app.url.wap'], $apply_model->id);
+        $share_view_url = sprintf("%s/try/apply_success?apply_id=%s", Doggy_Config::$vars['app.url.wap'], $apply_model->id);
 
-			  return $this->api_json('申请成功！', 0, array('apply_id'=>$apply_model->id, 'try'=>$try_data, 'wap_view_url'=>$wap_view_url) );
+			  return $this->api_json('申请成功！', 0, array('apply_id'=>$apply_model->id, 'try'=>$try_data, 'share_view_url'=>$share_view_url) );
       }else{
 				return $this->api_json('申请失败！', 3005);
       }

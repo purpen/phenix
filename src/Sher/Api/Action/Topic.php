@@ -118,7 +118,7 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
     $some_fields = array(
       '_id', 'title', 'short_title', 'category_id', 'target_id', 'cover_id', 'parent_id', 'view_count', 'stick',
       'deleted', 'try_id', 'published', 'user_id', 'comment_count', 'created_on', 'fine', 'last_reply_time',
-      'love_count', 'comment_count', 't_color', 'source', 'wap_view_url',
+      'love_count', 'comment_count', 't_color', 'source', 'wap_view_url', 'strip_description',
     );
 
 		// 重建数据结果
@@ -145,6 +145,10 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
     }
 		
     $data['content_view_url'] = sprintf('%s/app/api/view/topic_show?id=%d', Doggy_Config::$vars['app.domain.base'], $topic['_id']);
+
+    // 分享内容
+    $data['share_view_url'] = $data['wap_view_url'];
+    $data['share_desc'] = $data['strip_description'];
 		
 		return $this->api_json('请求成功', 0, $data);
 	}
