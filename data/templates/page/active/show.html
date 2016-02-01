@@ -21,7 +21,7 @@
 #activitypage .activity.overview p img.fr-fin.fr-dib{
 	width:100%;
 }
-.froala-element p br, p.fr-tag br {
+#activitypage .activity.overview p br{
     content: '';
     display: block;
     padding: 5px;
@@ -328,9 +328,10 @@ h4.ui.header .map-advantage {
                             <div class="timeline-block">
                                 <div class="timeline-red-dot"></div>
                                 <div class="timeline-content right">
-									{% if active._id == 12031 %}
+									{% if active._id == 5 %}
 										<div class="time" style="left: 32%;">{{ p.time }}</div>
 									{% endif %}
+										<div class="time">{{ p.time }}</div>
                                     <p class="name">{{ p.title }}</p>
                                     <div class="title">
                                         {% if p.img %}
