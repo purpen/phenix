@@ -54,60 +54,67 @@
 		
 		<form action="{{ app_url_admin_base }}/category/save" class="ajax-form" method="post" id="category-form">
 			<input type="hidden" name="_id" value="{{ category._id }}" id="target_id" />
-			<div class="inline field">
-			  	<label for="name">标识：</label>
-				<input type="text" name="name" value="{{ category.name }}" />
-			</div>
-			<div class="inline field">
-			  	<label for="title">名称：</label>
-				<input type="text" name="title" value="{{ category.title }}" />
-			</div>
-			
-			<div class="inline field">
-				<label for="pid">所属父级：</label>
-				<div class="ui selection dropdown">
-					<input type="hidden" name="pid" value="{{ category.pid }}" />
-				    <div class="default text">请选择</div>
-				    <i class="angle down icon"></i>
-				    <div class="menu">
-						{% for cate in top_category %}
-						<div data-value="{{ cate._id }}" class="{% if cate._id == category.pid %}active {% endif %}item">{{ cate.title }}</div>
-						{% endfor %}
-				    </div>
-				</div>
-			</div>
-			
-			<div class="inline field">
-				<label for="domain">所属类组：</label>
-				<div class="ui selection dropdown">
-					<input type="hidden" name="gid" value="{{ category.gid }}" />
-				    <div class="default text">请选择</div>
-				    <i class="angle down icon"></i>
-				    <div class="menu">
-						{% for g in groups %}
-						<div data-value="{{ g.id }}" class="{% if g.id == cate.gid %}active {% endif %}item">{{ g.name }}</div>
-						{% endfor %}
-				    </div>
-				</div>
-			</div>
-			
-			<div class="inline field">
-				<label for="domain">所属区域：</label>
-				<div class="ui selection dropdown">
-					<input type="hidden" name="domain" value="{{ category.domain }}" />
-				    <div class="default text">请选择</div>
-				    <i class="angle down icon"></i>
-				    <div class="menu">
-				        <div data-value="1" class="{% if category.domain == 1%}active {% endif %}item">商品类域</div>
-				        <div data-value="2" class="{% if category.domain == 2%}active {% endif %}item">社区类域</div>
-				        <div data-value="3" class="{% if category.domain == 3%}active {% endif %}item">活动类域</div>
-						<div data-value="4" class="{% if category.domain == 4%}active {% endif %}item">产品类域</div>
-                        <div data-value="6" class="{% if category.domain == 6%}active {% endif %}item">资源类域</div>
-                        <div data-value="7" class="{% if category.domain == 7%}active {% endif %}item">案例类域</div>
-						<div data-value="9" class="{% if category.domain == 9%}active {% endif %}item">专题类域</div>
-				    </div>
-				</div>
-			</div>
+
+      <div class="two fields">
+        <div class="field">
+          <label for="name">标识:</label>
+            <input type="text" name="name" value="{{ category.name }}" />
+        </div>
+        
+        <div class="field">
+          <label for="title">名称:</label>
+            <input type="text" name="title" value="{{ category.title }}" />
+        </div>
+      </div>
+
+
+      <div class="three fields">
+        <div class="field">
+          <label for="pid">所属父级：</label>
+          <div class="ui selection dropdown">
+            <input type="hidden" name="pid" value="{{ category.pid }}" />
+              <div class="default text">请选择</div>
+              <i class="angle down icon"></i>
+              <div class="menu">
+              {% for cate in top_category %}
+              <div data-value="{{ cate._id }}" class="{% if cate._id == category.pid %}active {% endif %}item">{{ cate.title }}</div>
+              {% endfor %}
+              </div>
+          </div>
+        </div>
+        
+        <div class="field">
+          <label for="domain">所属类组：</label>
+          <div class="ui selection dropdown">
+            <input type="hidden" name="gid" value="{{ category.gid }}" />
+              <div class="default text">请选择</div>
+              <i class="angle down icon"></i>
+              <div class="menu">
+              {% for g in groups %}
+              <div data-value="{{ g.id }}" class="{% if g.id == cate.gid %}active {% endif %}item">{{ g.name }}</div>
+              {% endfor %}
+              </div>
+          </div>
+        </div>
+        
+        <div class="field">
+          <label for="domain">所属区域：</label>
+          <div class="ui selection dropdown">
+            <input type="hidden" name="domain" value="{{ category.domain }}" />
+              <div class="default text">请选择</div>
+              <i class="angle down icon"></i>
+              <div class="menu">
+                  <div data-value="1" class="{% if category.domain == 1%}active {% endif %}item">商品类域</div>
+                  <div data-value="2" class="{% if category.domain == 2%}active {% endif %}item">社区类域</div>
+                  <div data-value="3" class="{% if category.domain == 3%}active {% endif %}item">活动类域</div>
+              <div data-value="4" class="{% if category.domain == 4%}active {% endif %}item">产品类域</div>
+                          <div data-value="6" class="{% if category.domain == 6%}active {% endif %}item">资源类域</div>
+                          <div data-value="7" class="{% if category.domain == 7%}active {% endif %}item">案例类域</div>
+              <div data-value="9" class="{% if category.domain == 9%}active {% endif %}item">专题类域</div>
+              </div>
+          </div>
+        </div>
+      </div>
 			
 			<div class="inline fields">
 			    <div class="field">
@@ -127,42 +134,55 @@
 			      	
 			    </div>
 			</div>
-			<div class="inline field">
-			  	<label for="order_by">排序：</label>
-				<input type="text" class="form-control" name="order_by" value="{{ category.order_by }}" />
-				<div class="ui pointing left label">
-					数字越小，越靠前!
-				</div>
-			</div>
-			<div class="inline field">
-			  	<label for="total_count">主题数量：</label>
-				<input type="text" class="form-control" name="total_count" value="{{ category.total_count }}" />
-				<div class="ui pointing left label">
-					手动修改主题数量
-				</div>
-			</div>
-			<div class="inline field">
-			  	<label for="total_count">回复数量：</label>
-				<input type="text" class="form-control" name="reply_count" value="{{ category.reply_count }}" />
-				<div class="ui pointing left label">
-					手动修改主题数量
-				</div>
-			</div>
-			<div class="inline field">
-			  	<label for="app_cover_url">app封面图：</label>
-				<input type="text" class="form-control" name="app_cover_url" value="{{ category.app_cover_url }}" />
-				<div class="ui pointing left label">
-					图片路径16:9(750x422): 在后台附件管理上传...
-				</div>
-			</div>
-			<div class="inline field">
+
+      <div class="four fields">
+        <div class="field">
+            <label for="total_count">主题数量：</label>
+          <input type="text" class="form-control" name="total_count" value="{{ category.total_count }}" />
+          <div class="ui pointing top label">
+            手动修改主题数量
+          </div>
+        </div>
+        <div class="field">
+            <label for="total_count">主题子数量：</label>
+          <input type="text" class="form-control" name="sub_count" value="{{ category.sub_count|default 0 }}" />
+          <div class="ui pointing top label">
+            手动修改主题子数量
+          </div>
+        </div>
+        <div class="field">
+            <label for="total_count">回复数量：</label>
+          <input type="text" class="form-control" name="reply_count" value="{{ category.reply_count }}" />
+          <div class="ui pointing top label">
+            手动修改回复数量
+          </div>
+        </div>
+        <div class="field">
+            <label for="order_by">排序：</label>
+          <input type="text" class="form-control" name="order_by" value="{{ category.order_by }}" />
+          <div class="ui pointing top label">
+            数字越小，越靠前!
+          </div>
+        </div>
+      </div>
+
+      <div class="two fields">
+        <div class="field">
+            <label for="app_cover_url">app封面图：</label>
+          <input type="text" class="form-control" name="app_cover_url" value="{{ category.app_cover_url }}" placeholder="http://" />
+          <div class="ui pointing top label">
+            图片路径16:9(750x422): 在后台附件管理上传...
+          </div>
+        </div>
+      </div>
+			<div class="field">
 			  	<label for="tags">分类标签：</label>
 				<textarea rows="3" name="tags" class="small">{{ category.tags_s }}</textarea>
 				<div class="ui pointing top label">
 					分类标签，含：近义词、同类词、英文词! 同时用于网站meta_keys关键字优化
 				</div>
 			</div>
-			<div class="inline field">
+			<div class="field">
 			  	<label for="tags">分类描述：</label>
 				<textarea rows="3" name="summary" class="small">{{ category.summary }}</textarea>
 				<div class="ui pointing top label">

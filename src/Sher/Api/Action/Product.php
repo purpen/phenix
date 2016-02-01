@@ -26,13 +26,14 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		
 		$query['domain'] = 1;
 		$query['is_open'] = Sher_Core_Model_Category::IS_OPENED;
+    $query['sub_count'] = array('$ne'=>0);
 		
     $options['page'] = 1;
     $options['size'] = 12;
     $options['sort_field'] = 'orby';
 
     $some_fields = array(
-      '_id'=>1, 'title'=>1, 'name'=>1, 'gid'=>1, 'pid'=>1, 'order_by'=>1,
+      '_id'=>1, 'title'=>1, 'name'=>1, 'gid'=>1, 'pid'=>1, 'order_by'=>1, 'sub_count'=>1,
       'domain'=>1, 'is_open'=>1, 'total_count'=>1, 'reply_count'=>1, 'state'=>1, 'app_cover_url'=>1,
     );
 
