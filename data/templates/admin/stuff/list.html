@@ -145,6 +145,13 @@
             {% if load_college %}
               <p class="attribute">大学：{{ stuff.college.name }}</p>
             {%endif%}
+            {% if stuff.from_to == 5 %}
+              <p>{{ stuff.company|default '--' }}</p>
+              <p>{{ stuff.tel|default '--' }}</p>
+              <p>{{ stuff.honor.crowdfunding_money|default '--' }}</p>
+              <p>{{ stuff.honor.sale_money|default '--' }}<p>
+              <p>{{ stuff.honor.prize|default '--' }}</p>
+            {%endif%}
 				</td>
         <td>
 					<a class="ui image label link" href="{{ stuff.user.home_url }}" target="_blank">

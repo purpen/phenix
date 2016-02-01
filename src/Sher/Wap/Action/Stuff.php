@@ -460,6 +460,21 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
         $data['link'] = $this->stash['link'];
     }
 
+    // 如果是top100
+    $honor = array();
+    if(isset($this->stash['crowdfunding_money'])){
+      $honor['crowdfunding_money'] = $this->stash['crowdfunding_money'];
+    }
+    if(isset($this->stash['sale_money'])){
+      $honor['sale_money'] = $this->stash['sale_money'];
+    }
+    if(isset($this->stash['prize'])){
+      $honor['prize'] = $this->stash['prize'];
+    }
+    if($honor){
+      $data['honor'] = $honor;
+    }
+
     //蛋年审核 --如果是优质用户,普通灵感,大赛跳过审核
     if(isset($this->visitor->quality) && (int)$this->visitor->quality==1){
       $data['verified'] = 1; 

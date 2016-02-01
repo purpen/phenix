@@ -115,6 +115,16 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 
         # 删除标识
         'deleted' => 0,
+
+        # 作品荣誉: top100参数
+        'honor' => array(
+          # 众筹金额
+          'crowdfunding_money' => null,
+          # 销售金额
+          'sale_money' => null,
+          # 奖项
+          'prize' => null,
+        ),
     );
 	
 	protected $required_fields = array('user_id', 'title');

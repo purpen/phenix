@@ -525,6 +525,21 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
     if(isset($this->stash['link'])){
         $data['link'] = $this->stash['link'];
     }
+
+    // 如果是top100
+    $honor = array();
+    if(isset($this->stash['crowdfunding_money'])){
+      $honor['crowdfunding_money'] = $this->stash['crowdfunding_money'];
+    }
+    if(isset($this->stash['sale_money'])){
+      $honor['sale_money'] = $this->stash['sale_money'];
+    }
+    if(isset($this->stash['prize'])){
+      $honor['prize'] = $this->stash['prize'];
+    }
+    if($honor){
+      $data['honor'] = $honor;
+    }
 		
 		// 检查是否有附件
 		if(isset($this->stash['asset'])){
