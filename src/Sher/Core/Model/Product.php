@@ -530,6 +530,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             if(!empty($category_id)){
                 $category = new Sher_Core_Model_Category();
                 $category->inc_counter('total_count', 1, $category_id);
+                // 如果是商品，更新商品分类数量
+                if($this->data['stage']==9){
+                  $category->inc_counter('sub_count', 1, $category_id);              
+                }
                 unset($category);
             }
             

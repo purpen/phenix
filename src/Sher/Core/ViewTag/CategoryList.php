@@ -24,6 +24,7 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
 		$only_open = 0;
 		$domain = 0;
 		$stage = 9;
+    $is_vendable = 0;
 		
 		$show_all = 0;
 		$current = 0;
@@ -57,6 +58,11 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
 		// 获取子分类
         if(!empty($pid)){
             $query['pid'] = (int)$pid;
+        }
+
+        //子数量(可购买产品)
+        if($is_vendable){
+          $query['sub_count'] = array('$ne'=>0);
         }
 		
 		if ($only_open == Sher_Core_Model_Category::IS_OPENED) {
