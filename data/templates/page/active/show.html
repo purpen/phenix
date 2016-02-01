@@ -330,8 +330,9 @@ h4.ui.header .map-advantage {
                                 <div class="timeline-content right">
 									{% if active._id == 5 %}
 										<div class="time" style="left: 32%;">{{ p.time }}</div>
-									{% endif %}
+									{% else %}
 										<div class="time">{{ p.time }}</div>
+									{% endif %}
                                     <p class="name">{{ p.title }}</p>
                                     <div class="title">
                                         {% if p.img %}
