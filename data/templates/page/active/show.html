@@ -269,7 +269,7 @@ h4.ui.header .map-advantage {
 {% endblock %}
 
 {% block content %}
-<section class="start banner">
+<section class="start banner" {% if active._id == 5 %} style="padding:40px 0;" {% endif %}>
     <div class="ui responsive grid">
         {% if active.step_stat == 1 %}
         <div class="row">
