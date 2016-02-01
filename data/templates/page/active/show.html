@@ -18,6 +18,10 @@
     margin-bottom: 15px;
     line-height: 1.8;
 }
+#activitypage .activity.overview p img.fr-fin.fr-dib{
+	width:100%;
+}
+
 
 /*.position.row h4.ui.header{
 	font-size:1em;
@@ -319,6 +323,9 @@ h4.ui.header .map-advantage {
                                 <div class="timeline-red-dot"></div>
                                 <div class="timeline-content right">
                                     <div class="time">{{ p.time }}</div>
+									{% if active._id == 12031 %}
+										<p class="name" style="left: 32%;">{{ p.title }}</p>
+									{% endif %}
                                     <p class="name">{{ p.title }}</p>
                                     <div class="title">
                                         {% if p.img %}
