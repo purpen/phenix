@@ -222,12 +222,18 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
     }else{
       $price = !empty($item) ? $item['price'] : $product_data['sale_price'];
     }
+    // 是否含有sku
+		$type = !empty($item) ? 2 : 1;
+		// sku属性
+		$sku_name = !empty($item) ? $item['mode'] : null;
 
 		$items = array(
 			array(
 				'sku'  => $sku,
 				'product_id' => $product_id,
 				'quantity' => $quantity,
+        'type' => $type,
+        'sku_mode' => $sku_name,
 				'price' => $price,
 				'sale_price' => $price,
 				'title' => $product_data['title'],
@@ -658,6 +664,8 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			
 			$new_data['user_id'] = $user_id;
 			$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
+      // 是否来自购物车
+			$new_data['is_cart'] = 1;
 			
 			$ok = $model->apply_and_save($new_data);
 			if ($ok) {
