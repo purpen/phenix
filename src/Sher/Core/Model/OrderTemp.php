@@ -14,12 +14,14 @@ class Sher_Core_Model_OrderTemp extends Sher_Core_Model_Base  {
 		'user_id' => 0,
 		'dict' => array(),
 		'expired'  => 0,
+    # 是否来自购物车
+		'is_cart' => 0,
     );
 	
     protected $joins = array();
 	
     protected $required_fields = array('user_id', 'expired');
-    protected $int_fields = array('rid', 'user_id', 'expired');
+    protected $int_fields = array('rid', 'user_id', 'expired', 'is_cart');
 	
 	
 	/**

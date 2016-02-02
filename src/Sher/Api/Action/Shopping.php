@@ -89,8 +89,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $total_money = 0;
     $total_count = 0;
 
-    // 记录购买的商品或skuID
-    $buy_items = array();
     // 记录错误数据索引
     $error_index_arr = array();
 
@@ -167,7 +165,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
       if(!empty($item)){
         array_push($items, $item);
-        array_push($buy_items, array('target_id'=>$target_id, 'type'=>$type));  
       }
     } // endfor
 
@@ -212,6 +209,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			
 			$new_data['user_id'] = $user_id;
 			$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
+      // 是否来自购物车
+			$new_data['is_cart'] = 1;
 			
 			$ok = $model->apply_and_save($new_data);
 			if ($ok) {
@@ -224,21 +223,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $bonus_service = Sher_Core_Service_Bonus::instance();
       $bonus_result = $bonus_service->get_all_list(array('user_id'=>$user_id, 'used'=>1, 'expired_at'=>array('$gt'=>time())), array('page'=>1, 'size'=>20));
       $usable_bonus = !empty($bonus_result['rows']) ? $bonus_result['rows'] : array();
-
-      // 删除购物车
-      foreach($buy_items as $key=>$val){
-        $o_type = (int)$val['type'];
-        $o_target_id = (int)$val['target_id'];
-
-        // 批量删除
-        foreach($cart['items'] as $k=>$v){
-          if($v['target_id']==$o_target_id){
-            unset($cart['items'][$k]);
-          }
-        }
-      }// endfor
-
-      $cart_ok = $cart_model->update_set($user_id, array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));  
 			
 			$pay_money = $total_money + $freight - $coin_money - $card_money;
 			
@@ -318,6 +302,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			array(
 				'sku'  => $target_id,
 				'product_id' => $product_id,
+        'type' => $type,
 				'quantity' => $quantity,
 				'price' => (float)$price,
 				'sale_price' => $price,
@@ -470,7 +455,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     
     }
 		
-		
 		try{
 			$orders = new Sher_Core_Model_Orders();
 			
@@ -499,50 +483,50 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			// 设置订单状态
 			$order_info['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
 
-            $is_snatched = false;
-      	    //抢购产品状态，跳过付款状态
-      	    if( is_array($order_info['items']) && count($order_info['items'])==1 && isset($order_info['items'][0]['product_id'])){
+      $is_snatched = false;
+      //抢购产品状态，跳过付款状态
+      if( is_array($order_info['items']) && count($order_info['items'])==1 && isset($order_info['items'][0]['product_id'])){
 
-              if((float)$order_info['items'][0]['sale_price']==0){
-                //配置文件没有配置价格为0的产品，返回错误
-                if(Doggy_Config::$vars['app.comeon.product_id'] != $order_info['items'][0]['product_id']){
-                  return $this->api_json('不允许的操作！', 3005);
-                }
+        if((float)$order_info['items'][0]['sale_price']==0){
+          //配置文件没有配置价格为0的产品，返回错误
+          if(Doggy_Config::$vars['app.comeon.product_id'] != $order_info['items'][0]['product_id']){
+            return $this->api_json('不允许的操作！', 3005);
+          }
 
-                // 获取产品信息
-                $product = new Sher_Core_Model_Product();
-                $product_data = $product->load((int)$order_info['items'][0]['product_id']);
-                if(empty($product_data)){
-                  return $this->api_json('抢购产品不存在！', 3006);
-                }
+          // 获取产品信息
+          $product = new Sher_Core_Model_Product();
+          $product_data = $product->load((int)$order_info['items'][0]['product_id']);
+          if(empty($product_data)){
+            return $this->api_json('抢购产品不存在！', 3006);
+          }
 
-                //是否是抢购商品
-                if($product_data['snatched'] != 1){
-                  return $this->api_json('非抢抢购产品！', 3007);
-                }
+          //是否是抢购商品
+          if($product_data['snatched'] != 1){
+            return $this->api_json('非抢抢购产品！', 3007);
+          }
 
-                //在抢购时间内
-                if(empty($product_data['snatched_time']) || (int)$product_data['snatched_time'] > time()){
-                  return $this->api_json('抢购还没有开始！', 3008);
-                }
+          //在抢购时间内
+          if(empty($product_data['snatched_time']) || (int)$product_data['snatched_time'] > time()){
+            return $this->api_json('抢购还没有开始！', 3008);
+          }
 
-                // 验证是否预约过抢购商品
-                if(!$this->validate_appoint($product_data['_id'])){
-                  //return $this->api_json('抱歉，您还没有预约，不能参加本次抢购！', 3009);
-                }
-                // 验证抢购商品是否重复
-                if(!$this->validate_snatch($product_data['_id'])){
-                  return $this->api_json('抱歉，不要重复抢哦！', 3010);
-                }
+          // 验证是否预约过抢购商品
+          if(!$this->validate_appoint($product_data['_id'])){
+            //return $this->api_json('抱歉，您还没有预约，不能参加本次抢购！', 3009);
+          }
+          // 验证抢购商品是否重复
+          if(!$this->validate_snatch($product_data['_id'])){
+            return $this->api_json('抱歉，不要重复抢哦！', 3010);
+          }
 
-                $is_snatched = true;
-                // 设置订单状态为备货
-                $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
-                $order_info['is_payed'] = 1;
+          $is_snatched = true;
+          // 设置订单状态为备货
+          $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
+          $order_info['is_payed'] = 1;
 
-              }
-        		  
-     	      }
+        }
+        
+      }
 			
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
@@ -560,7 +544,32 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			
 			// 设置缓存限制
 			$this->check_have_snatch($order_info['items']);
-			
+
+      // 删除购物车
+      if(isset($result['is_cart']) && !empty($result['is_cart'])){
+        $cart_model = new Sher_Core_Model_Cart();
+        $cart = $cart_model->load($user_id);
+        if(!empty($cart) && !empty($cart['items'])){
+          foreach($order_info['items'] as $key=>$val){
+            $o_type = (int)$val['type'];
+            if($o_type==1){
+              $o_target_id = (int)$val['product_id'];
+            }elseif($o_type==2){
+              $o_target_id = (int)$val['sku'];
+            }
+
+            // 批量删除
+            foreach($cart['items'] as $k=>$v){
+              if($v['target_id']==$o_target_id){
+                unset($cart['items'][$k]);
+              }
+            }
+          }// endfor
+
+          $cart_ok = $cart_model->update_set($user_id, array('items'=>$cart['items'], 'item_count'=>count($cart['items']))); 
+        }
+      }
+
 			// 删除临时订单数据
 			$model->remove($rrid);
 			
