@@ -2,7 +2,8 @@
 {{#results.rows}}
   <div class="card" id="stuff_{{ _id }}">
     <div class="problock">
-          <a href="{{ view_url }}" style="background-image: url({{ cover.thumbnails.medium.view_url }});" class="thumb" target="_blank">
+          <a href="{{ view_url }}" style="background-image: url({{ cover.thumbnails.medium.view_url }});position:relative;" class="thumb" target="_blank">
+			  <p class="zhichi">支持：{{ love_count }}</p>
           </a>
           <h2>
               <a href="{{ view_url }}" title="{{ title }}" class="ui line" target="_blank">
