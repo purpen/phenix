@@ -894,6 +894,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
     $featured = isset($this->stash['featured']) ? (int)$this->stash['featured'] : 0;
     $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
     $verified = isset($this->stash['verified']) ? (int)$this->stash['verified'] : 0;
+    $show_top = isset($this->stash['show_top']) ? (int)$this->stash['show_top'] : 0;
         
     $query = array();
     $options = array();
@@ -1027,11 +1028,26 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
           $resultlist['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['user'], array('symbol_1', 'symbol_2'));
         }
 
+        // 加索引
+        $resultlist['rows'][$i]['index'] = $i+1;
+
+        $resultlist['rows'][$i]['top_index'] = '';
+        if(!empty($show_top) && $page==1){
+          if($i==0){
+            $resultlist['rows'][$i]['top_index'] = 'top1';
+          }elseif($i==1){
+            $resultlist['rows'][$i]['top_index'] = 'top2';         
+          }elseif($i==2){
+            $resultlist['rows'][$i]['top_index'] = 'top3';
+          }
+        }
+
     } //end for
 
     $data = array();
     $data['nex_page'] = $next_page;
     $data['results'] = $resultlist;
+    $data['show_top3'] = !empty($show_top) ? true : false;
     
     return $this->ajax_json('', false, '', $data);
   }

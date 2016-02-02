@@ -152,6 +152,45 @@ a.mailto:hover:before{
     -webkit-transform: scaleX(1);
     transform: scaleX(1);
 }
+p.zhichi{
+	position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: rgba(229,0,90,0.4);
+    font-size: 14px;
+    color: #fff;
+    line-height: 30px;
+    text-align: center;
+}
+.top1{
+	position:absolute;
+	width:60px;
+	height:32px;
+	background:url({{ app_url_packaged }}/images/top/top1.png) no-repeat;
+	background-size:cover;
+	top:5px;
+	left:5px;
+}
+.top2{
+	position:absolute;
+	width:60px;
+	height:32px;
+	background:url({{ app_url_packaged }}/images/top/top2.png) no-repeat;
+	background-size:cover;
+	top:5px;
+	left:5px;
+}
+.top3{
+	position:absolute;
+	width:60px;
+	height:32px;
+	background:url({{ app_url_packaged }}/images/top/top3.png) no-repeat;
+	background-size:cover;
+	top:5px;
+	left:5px;
+}
 </style>
 {% endblock %}
 
@@ -162,7 +201,7 @@ a.mailto:hover:before{
     function ajax_load_more(page, is_top, category_id, stick, from_to, sort, size){
         var url = '{{ app_url_stuff }}/ajax_fetch_more';
         if(page != 'no'){
-            $.get(url, { page:page, type:type, is_top:is_top, category_id:category_id, stick:stick, from_to:from_to, sort:sort, size:size }, function(rs){
+            $.get(url, { page:page, type:type, is_top:is_top, category_id:category_id, show_top:1, stick:stick, from_to:from_to, sort:sort, size:size }, function(rs){
                 rs.data['phenix'] = phenix.url;
                 var rendered = phenix.ajax_render_result('#fetch_more_stuff_top100_tpl', rs.data);
                 $('#stuff_list_box').append(rendered);
@@ -178,7 +217,7 @@ a.mailto:hover:before{
 
 {% block jquery %}
   // 初次加载
-  ajax_load_more(1, 1, pid, 0, 5, 7, 10);
+  ajax_load_more(1, 1, pid, 0, 5, 4, 10);
 
   $('.like.button').livequery(function(){
     $(this).click(function(){
