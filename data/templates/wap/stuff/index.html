@@ -132,7 +132,7 @@ p.zhichi{
     function ajax_load_more(page, is_top, category_id, stick, from_to, sort, size){
         var url = '{{ app_url_wap }}/app/site/stuff/ajax_fetch_more';
         if(page != 'no'){
-            $.get(url, { page:page, type:type, is_top:is_top, category_id:category_id, stick:stick, from_to:from_to, sort:sort, size:size }, function(rs){
+            $.get(url, { page:page, type:type, is_top:is_top, category_id:category_id, show_top:1, stick:stick, from_to:from_to, sort:sort, size:size }, function(rs){
                 rs.data['phenix'] = phenix.url;
                 var rendered = phenix.ajax_render_result('#fetch_more_stuff_top100_tpl', rs.data);
                 $('#stuff_list_box').append(rendered);
