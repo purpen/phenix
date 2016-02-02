@@ -11,7 +11,7 @@
         <div class="content">
           <a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
           <div class="metadata">
-            <div class="date"><small>{{ comment.created_on }}</small></div>
+            <div class="date"><small>{{ comment.created_at }}</small></div>
           </div>
 
 {% if !comment.deleted %}

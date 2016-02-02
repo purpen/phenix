@@ -634,6 +634,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['topic'] = &$topic;
 		$this->stash['parent_category'] = $parent_category;
 		$this->stash['editable'] = $editable;
+
+    if($topic['_id']==109581){
+      $this->stash['jimi'] = true;
+    }
 		
 		// 判定是否产品话题
 		if (isset($topic['target_id']) && !empty($topic['target_id'])){
