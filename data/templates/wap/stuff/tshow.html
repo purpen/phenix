@@ -38,7 +38,7 @@
     z-index: 9;
     transition: all 1s;
 }
-.like.button .add.add-active {
+.like.button .add.add-activet {
     top: 50%;
 	margin-top:-70px;
     color: #f36;
@@ -196,7 +196,7 @@
           if(result.success){
             obj.data('mark', 'y');
             obj.addClass('active');
-            obj.children('.add').addClass('add-active');        
+            obj.children('.add').addClass('add-activet');        
             obj.find('span').text("已投票");
           }else{
             phenix.show_error_note('操作失败!',3000);
@@ -208,7 +208,7 @@
           if(result.success){
             obj.data('mark', 'n');
             obj.removeClass('active');
-            obj.children('.add').removeClass('add-active');
+            obj.children('.add').removeClass('add-activet');
             obj.find('span').text("投他一票");
           }else{
             phenix.show_error_note('操作失败!',3000);

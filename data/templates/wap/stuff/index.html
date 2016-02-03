@@ -71,7 +71,7 @@
     z-index: 2;
     transition: all 1s;
 }
-.like.button .add.add-active {
+.like.button .add.add-activet {
     top: calc(50% - 70px);
     color: #f36;
     transition-delay: .3s;
@@ -166,7 +166,7 @@ p.zhichi{
           if(result.success){
             obj.attr('loved', 1);
             obj.addClass('active');
-            obj.children('.add').addClass('add-active');        
+            obj.children('.add').addClass('add-activet');        
             obj.find('span').text("已投票");
           }else{
             phenix.show_error_note('操作失败!',3000);
@@ -178,7 +178,7 @@ p.zhichi{
           if(result.success){
             obj.attr('loved', 0);
             obj.removeClass('active');
-            obj.children('.add').removeClass('add-active');
+            obj.children('.add').removeClass('add-activet');
             obj.find('span').text("投他一票");
           }else{
             phenix.show_error_note('操作失败!',3000);
