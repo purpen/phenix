@@ -233,7 +233,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
     if($pass){
       return array('code'=>0, 'msg'=>"success!", 'coin_code'=>$bonus['code'], 'coin_money'=>$bonus['amount']);   
     }else{
-      return array('code'=>4008, 'msg'=>"该红包不能用在此订单上使用!");   
+      return array('code'=>4008, 'msg'=>"商品不符合此红包要求!");   
     }
 
 	}
