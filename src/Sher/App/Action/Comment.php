@@ -751,12 +751,12 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	public function ajax_subject_save(){
 
 		$user_id = $this->visitor->id;
-		$target_id = (int)$this->stash['target_id'];
+		$target_id = $this->stash['target_id'];
 		$content = $this->stash['content'];
 		$type = (int)$this->stash['type'];
 		
 		// 验证数据
-		if(empty($row['target_id']) || empty($row['content']))){
+		if(empty($target_id) || empty($content)){
 			return $this->ajax_json('获取数据错误,请重新提交', true);
 		}
 
@@ -766,6 +766,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$row['target_id'] = $target_id;
 		$row['type'] = $type;
 		$row['user_id'] = $user_id;
+    $row['content'] = $content;
 
 		$ok = $model->apply_and_save($row);
 		if($ok){
