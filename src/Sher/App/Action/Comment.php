@@ -744,5 +744,37 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
     }
     return $is_comment_share;
   }
+
+	/**
+	 * 专题快捷评论
+	 */
+	public function ajax_subject_save(){
+
+		$user_id = $this->visitor->id;
+		$target_id = (int)$this->stash['target_id'];
+		$content = $this->stash['content'];
+		$type = (int)$this->stash['type'];
+		
+		// 验证数据
+		if(empty($row['target_id']) || empty($row['content']))){
+			return $this->ajax_json('获取数据错误,请重新提交', true);
+		}
+
+		$model = new Sher_Core_Model_Comment();
+
+		$row = array();
+		$row['target_id'] = $target_id;
+		$row['type'] = $type;
+		$row['user_id'] = $user_id;
+
+		$ok = $model->apply_and_save($row);
+		if($ok){
+			$comment_id = $model->id;
+      return $this->ajax_json('评论成功!', false);
+    }else{
+		  return $this->ajax_json("评论失败!", true);
+    } // if ok
+		
+	}
   	
 }

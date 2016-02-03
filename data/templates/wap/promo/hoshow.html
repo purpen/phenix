@@ -482,6 +482,9 @@ overflow:hidden !important;
 	  function record_share_num(){
 	    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
 	    $.get(url, { target_id: 20, count_name:'count', type: 4, kind:4 });
+      // 自动评论某个话题
+      $.get('{{ app_url_wap }}/app/site/comment/ajax_subject_save', { target_id: 109979, type:2, content:desc_str });
+
 	  };
 		
 	</script>
