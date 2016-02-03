@@ -223,7 +223,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
       if(empty($bonus['min_amount'])){
         $pass = true;
         break;
-      }elseif((float)$bonus['min_amount'] < (float)$product['sale_price']){
+      }elseif((float)$bonus['min_amount'] <= (float)$product['sale_price']){
         $pass = true;
         break;
       }
