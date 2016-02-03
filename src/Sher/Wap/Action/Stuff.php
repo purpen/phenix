@@ -25,6 +25,13 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 		$this->set_target_css_state('page_social');
 		$this->set_target_css_state('page_stuff');
     }
+
+	/**
+	 * 产品灵感入口
+	 */
+	public function execute(){
+		return $this->hundred();
+	}
 	
 	/**
 	 * TOp-100 首页 2016/01/18
@@ -145,13 +152,6 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
     $this->_comment_param($comment_options);
 
 		return $this->to_html_page('wap/stuff/tshow.html');
-	}
-	
-	/**
-	 * 产品灵感入口
-	 */
-	public function execute(){
-		return $this->latest();
 	}
 	
 	/**
