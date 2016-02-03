@@ -26,6 +26,13 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->set_target_css_state('page_social');
 		$this->set_target_css_state('page_stuff');
     }
+
+	/**
+	 * 产品灵感入口
+	 */
+	public function execute(){
+		return $this->hundred();
+	}
 	
 	/**
 	 * TOp-100 首页 2016/01/18
@@ -132,14 +139,6 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		return $this->to_html_page('page/stuff/tshow.html');
 	}
 	
-	
-	
-	/**
-	 * 产品灵感入口
-	 */
-	public function execute(){
-		return $this->latest();
-	}
 	
 	/**
 	 * 最新列表
