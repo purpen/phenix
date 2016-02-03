@@ -374,7 +374,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     }
 
     $transfer_time = isset($this->stash['transfer_time']) ? $this->stash['transfer_time'] : 'a';
-    if(!in_array($transfer_time, array('a', 'b'))){
+    if(!in_array($transfer_time, array('a', 'b', 'c'))){
       return $this->api_json('配送时间设置不正确！', 3013);     
     }
 
