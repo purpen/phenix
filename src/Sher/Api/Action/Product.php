@@ -264,6 +264,42 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$data['skus'] = $skus;
 		$data['skus_count'] = count($skus);
 
+    // 相关推荐产品
+		$sword = $data['tags_s'];
+    $r_items = array();
+		$r_options = array(
+			'page' => 1,
+			'size' => 3,
+			'sort_field' => 'latest',
+      // 最新
+      'sort' => 1,
+      'evt' => 'tag',
+      't' => 7,
+      'oid' => $data['_id'],
+      'type' => 1,
+		);        
+		if(!empty($sword)){
+      $xun_arr = Sher_Core_Util_XunSearch::search($sword, $r_options);
+      if($xun_arr['success'] && !empty($xun_arr['data'])){
+        foreach($xun_arr['data'] as $k=>$v){
+          $r_product = $model->extend_load((int)$v['oid']);
+          if(!empty($r_product)){
+              // 重建数据结果
+              $r_data = array();
+              for($i=0;$i<count($some_fields);$i++){
+                $key = $some_fields[$i];
+                $r_data[$key] = isset($r_product[$key]) ? $r_product[$key] : null;
+              }
+            // 封面图url
+            $r_data['cover_url'] = $r_product['cover']['thumbnails']['apc']['view_url'];
+            array_push($r_items, $r_data);
+          }
+        }
+      }
+
+		}
+
+		$data['relation_products'] = $r_items;
 		return $this->api_json('请求成功', 0, $data);
 	}
 
