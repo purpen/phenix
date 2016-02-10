@@ -215,6 +215,58 @@
 				$this->refund_back($result);
 			}
 		}
+
+		/**
+		 * app端微信退款请求方法
+		 */
+		public function app_refund(){
+			
+			$rid = $this->stash['rid'];
+			if (empty($rid)){
+				return $this->show_message_page('操作不当，订单号丢失！', true);
+			}
+			
+			$model = new Sher_Core_Model_Orders();
+			$order_info = $model->find_by_rid($rid);
+			if (empty($order_info)){
+				return $this->show_message_page('抱歉，系统不存在该订单！', true);
+			}
+			$status = $order_info['status'];
+			
+			// 验证订单是否已申请退款
+			if ($status != Sher_Core_Util_Constant::ORDER_READY_REFUND){
+				return $this->show_message_page('订单[$rid]未申请退款！', false);
+			}
+		
+			$pay_money = $order_info['pay_money'];
+			if((float)$pay_money==0){
+					return $this->show_message_page('订单[$rid]金额为零！', false);  
+			}
+	
+			// 商户订单号
+			$out_trade_no = $rid;
+			// 微信交易号
+			$trade_no = $order_info['trade_no'];
+			
+			if($trade_no != ""){
+				$input = new Sher_Core_Util_WxPayM_WxPayData_WxPayRefund();
+				$input->SetTransaction_id($trade_no);
+				$input->SetOut_trade_no($out_trade_no);
+				$input->SetTotal_fee((int)($pay_money*100));
+				$input->SetRefund_fee((int)($pay_money*100));
+				$input->SetOut_refund_no((string)date('Ymd').(string)$rid);
+				$input->SetOp_user_id((int)$this->visitor->id);
+				
+				Doggy_Log_Helper::warn("退款传入信息: ".$trade_no.'---->'.$out_trade_no.'---->'.(int)($pay_money*100).'---->'.(int)$this->visitor->id);
+				
+				$result = Sher_Core_Util_WxPayM_WxPayApi::refund($input);
+				//$result =  '{"appid":"wx75a9ffb78f202fb3","cash_fee":"1","cash_refund_fee":"1","coupon_refund_count":"0","coupon_refund_fee":"0","mch_id":"1219487201","nonce_str":"51ulFPCqdUuAzNaE","out_refund_no":"20150807115073002755","out_trade_no":"115073002755","refund_channel":[],"refund_fee":"1","refund_id":"2002800916201508070025263475","result_code":"SUCCESS","return_code":"SUCCESS","return_msg":"OK","sign":"078F044FF83CF545FAD3BEF7DE8DA43D","total_fee":"1","transaction_id":"1002800916201507300510901963"}';
+				//$result = json_decode($result,true);
+
+				Doggy_Log_Helper::warn("退款返回信息: ".json_encode($result));
+				$this->refund_back($result);
+			}
+		}
 		
 		/**
 		 * 微信退款处理方法
