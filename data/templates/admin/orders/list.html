@@ -45,13 +45,13 @@
 			全部
 		</a>
 		<a href="{{ app_url_admin_base }}/orders?s=1" class="{% if s == 1 %}active{%endif%} item">
-			未支付
+			待支付
 		</a>
 		<a href="{{ app_url_admin_base }}/orders?s=2" class="{% if s == 2 %}active{%endif%} item">
 			待发货
 		</a>
 		<a href="{{ app_url_admin_base }}/orders?s=5" class="{% if s == 5 %}active{%endif%} item">
-			申请退款
+			待退款
 		</a>
 		<a href="{{ app_url_admin_base }}/orders?s=6" class="{% if s == 6 %}active{%endif%} item">
 			已退款
@@ -107,9 +107,9 @@
 					    <div class="default text">订单状态</div>
 					    <div class="menu">
 							<div data-value="0" class="{% if !s %}active {% endif %}item">全部订单</div>
-							<div data-value="1" class="{% if s == 1 %}active {% endif %}item">未支付订单</div>
+							<div data-value="1" class="{% if s == 1 %}active {% endif %}item">待支付订单</div>
 							<div data-value="2" class="{% if s == 2 %}active {% endif %}item">待发货订单</div>
-							<div data-value="5" class="{% if s == 5 %}active {% endif %}item">申请退款订单</div>
+							<div data-value="5" class="{% if s == 5 %}active {% endif %}item">待退款订单</div>
 							<div data-value="6" class="{% if s == 6 %}active {% endif %}item">已退款订单</div>
 							<div data-value="3" class="{% if s == 3 %}active {% endif %}item">已发货订单</div>
 							<div data-value="4" class="{% if s == 4 %}active {% endif %}item">已完成订单</div>
