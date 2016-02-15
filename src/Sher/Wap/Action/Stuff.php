@@ -17,7 +17,7 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
     'page_description_suffix' => '智品库是太火鸟智能硬件孵化平台产品汇集区，产品包括智能手环、健康监测、智能家居、智能首饰、智能母婴、创意产品等等，发表你的创新产品，让我们用创意和梦想，去改变平凡无奇的世界。',
 	);
 	
-	protected $exclude_method_list = array('execute','latest', 'featured', 'sticked', 'view','hundred');
+	protected $exclude_method_list = array('execute','latest', 'featured', 'sticked', 'view','hundred', 'tlist', 'tshow');
 	
 	protected $page_html = 'page/stuff/zlist.html';
 	
