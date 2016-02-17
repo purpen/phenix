@@ -128,8 +128,13 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
 			
 			// 重写rows
 			$result['rows'] = $categories;
+			
 		}
-		//var_dump($result);
+		/*
+		foreach($result["rows"] as $k => $v){
+			echo $v['_id'].'-'.$v['domain'].';';
+		}
+		*/
         $context->set($var, $result);
         if ($include_pager) {
             $context->set($pager_var,$result['pager']);
