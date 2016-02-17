@@ -10,11 +10,12 @@
 		padding:0;
 	}
 	.course {
-		margin: 0px;
+		margin: 0 10px;
 	}
 	.cont {
 		word-break: break-all;
 		word-wrap: break-word;
+		padding-bottom: 10px;
 	}
 	.gridster {
 		margin: 0 auto;
@@ -34,6 +35,24 @@
 		position: relative;
 		float: left;
 	}
+    @media only screen and (max-width: 320px){
+  	  .f-video-editor>*{
+  		  height:210px;
+  		  width: 100%;
+  	  }
+    }
+    @media only screen and (min-width: 321px) and (max-width: 375px){
+  	  .f-video-editor>*{
+  		  height:240px;
+  		  width: 100%;
+  	  }
+    }
+    @media only screen and (min-width: 376px){
+  	  .f-video-editor>*{
+  		  height:280px;
+  		  width: 100%;
+  	  }
+    }
 	</style>
 </head>
 <body>
