@@ -12,7 +12,7 @@
 	}
     body .ui.header:first-child{
     	color:#f36;
-		font-size: 1.28em;
+		font-size: 1.18em;
 		font-weight: 700;
 		line-height: 1.2857em;
 		margin:10px;
@@ -25,7 +25,7 @@
 		word-wrap: break-word;
 		padding-bottom: 10px;
     	color: #5d6266;
-    	font-size: 1rem;
+    	font-size: 14px;
 	}
 	.cont p {
 	    line-height: 24px;
@@ -49,37 +49,14 @@
 		text-decoration: none;
 	}
 	.ui.header{
-		margin:1em 10px;
+		margin:10px 10px 15px;
 	}
-	.ui.authname{
-		margin:10px;
-	}
-	.ui.authname .ui.small.avatar.image {
-		border-radius: 50%;
-		font-size: .9rem;
-		width: 2.5em;
-		margin-top: 0px;
-	}
-	.ui.authname .content {
-		font-size: 1.125em;
-		line-height: 1.25;
-		margin-left: .5em;
-		margin-top: 0;
-		display: inline-block;
-		vertical-align: top;
-		font-weight: 700;
-	}
-	.ui.authname .content .attribute {
+	.ui.header .content .attribute {
 		margin: 0;
 		font-size: .925rem;
-		color: rgba(0,0,0,.4);
+		color: rgba(0,0,0,.5);
 	}
-	.ui.authname .sub.header {
-		font-weight: 400;
-		padding: 0;
-		line-height: 1.2;
-	}
-	.sub.header.attribute a{
+	.sub.header.attribute .magenta.link{
 		color:#f36;
 		text-decoration: none;
 	}
@@ -115,21 +92,21 @@
     </div>
   </div>
 
-<div class="ui authname">
+<!--<div class="ui authname">
   <img class="ui small avatar image" src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}">
 <div class="content">
-{{ topic.user.nickname }}<br/>
+{{ topic.user.nickname }}
 <div class="sub header attribute">
   <span>{{ topic.user.city }}</span>
   <span>{{ topic.user.profile.job }}</span>
 </div>
 </div>
-</div>
+</div>-->
 <div class="ui header">
 <div class="content pt-0">
 <div class="sub header attribute">
-<span class="category"><a href="javascript:void(0);" class="ui magenta link">{{ topic.category.title }}</a></span> |
-<span>发表于 {{ topic.created_on|relative_datetime }}</span>|
+<span class="category"><span class="ui magenta link">{{ topic.category.title }}</span></span> |
+<span> {{ topic.user.nickname }}发表于{{ topic.created_on|relative_datetime }}</span> |
 <span>浏览数: {{ topic.view_count }}</span>
 </div>
 </div>

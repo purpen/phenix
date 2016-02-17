@@ -76,6 +76,7 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 	 * 专题详情页面显示
 	 */
 	public function special_subject_show(){
+		
 		$id = (int)$this->stash['id'];
 		if(empty($id)){
 			return $this->api_json('访问的产品不存在！', 3000);
@@ -83,7 +84,7 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 		
 		$model = new Sher_Core_Model_SpecialSubject();
 		$result = $model->extend_load((int)$id);
-
+		
 		$this->stash['content'] = $result['content'];
 		return $this->to_html_page('page/special_subject/api_show.html');
 	}
