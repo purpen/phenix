@@ -24,8 +24,8 @@ echo "Prepare to merge product category...\n";
 $product_model = new Sher_Core_Model_Product();
 $category_model = new Sher_Core_Model_Category();
 
-$old_category_id = 34;
-$new_category_id = 49;
+$old_category_id = 0;
+$new_category_id = 0;
 
 $page = 1;
 $size = 200;
@@ -44,7 +44,7 @@ while(!$is_end){
 	for ($i=0; $i < $max; $i++) {
     $id = $list[$i]['_id'];
     if(1==1){
-      $ok = $product_model->update_set($id, array('category_id'=>$new_category_id));
+      //$ok = $product_model->update_set($id, array('category_id'=>$new_category_id));
       if($ok){
         $total++;
       }
@@ -66,7 +66,7 @@ $rows = $category_model->find(array('domain'=>Sher_Core_Util_Constant::TYPE_PROD
 for($i=0;$i<count($rows);$i++){
     $row = $rows[$i];
     $total_count = $product_model->count(array('category_id' => $row['_id']));
-    $category_model->update_set($row['_id'], array('total_count' => $total_count));
+    //$category_model->update_set($row['_id'], array('total_count' => $total_count));
     
 }
 
