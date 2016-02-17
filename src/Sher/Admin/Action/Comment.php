@@ -8,7 +8,7 @@ class Sher_Admin_Action_Comment extends Sher_Admin_Action_Base implements DoggyX
 	public $stash = array(
 		'page' => 1,
 		'size' => 20,
-    's' => 0,
+    's' => 1,
     't' => 0,
     'c' => '',
     'q' => '',
