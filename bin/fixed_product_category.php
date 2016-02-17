@@ -25,7 +25,7 @@ $product_model = new Sher_Core_Model_Product();
 $category_model = new Sher_Core_Model_Category();
 
 $old_category_id = 34;
-$new_category_id = 33;
+$new_category_id = 49;
 
 $page = 1;
 $size = 200;
