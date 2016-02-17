@@ -79,7 +79,7 @@
 		padding: 0;
 		line-height: 1.2;
 	}
-	.sub.header.attribute a{
+	.sub.header.attribute .magenta.link{
 		color:#f36;
 		text-decoration: none;
 	}
@@ -128,8 +128,8 @@
 <div class="ui header">
 <div class="content pt-0">
 <div class="sub header attribute">
-<span class="category"><a href="javascript:void(0);" class="ui magenta link">{{ topic.category.title }}</a></span> |
-<span> {{ topic.user.nickname }} 发表于 {{ topic.created_on|relative_datetime }}</span>|
+<span class="category"><span class="ui magenta link">{{ topic.category.title }}</span></span> |
+<span> {{ topic.user.nickname }}发表于{{ topic.created_on|relative_datetime }}</span> |
 <span>浏览数: {{ topic.view_count }}</span>
 </div>
 </div>
