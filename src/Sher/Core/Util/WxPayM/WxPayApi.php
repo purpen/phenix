@@ -530,10 +530,10 @@ class Sher_Core_Util_WxPayM_WxPayApi
 		curl_setopt($ch, CURLOPT_TIMEOUT, $second);
 		
 		//如果有配置代理这里就设置代理
-		if(Doggy_Config::$vars['app.wechat.proxy_host'] != "0.0.0.0" 
-			&& Doggy_Config::$vars['app.wechat.proxy_post'] != 0){
-			curl_setopt($ch,CURLOPT_PROXY, Doggy_Config::$vars['app.wechat.proxy_host']);
-			curl_setopt($ch,CURLOPT_PROXYPORT, Doggy_Config::$vars['app.wechat.proxy_post']);
+		if(Doggy_Config::$vars['app.wechat_m.proxy_host'] != "0.0.0.0" 
+			&& Doggy_Config::$vars['app.wechat_m.proxy_post'] != 0){
+			curl_setopt($ch,CURLOPT_PROXY, Doggy_Config::$vars['app.wechat_m.proxy_host']);
+			curl_setopt($ch,CURLOPT_PROXYPORT, Doggy_Config::$vars['app.wechat_m.proxy_post']);
 		}
 		curl_setopt($ch,CURLOPT_URL, $url);
 		curl_setopt($ch,CURLOPT_SSL_VERIFYPEER,TRUE);
@@ -546,9 +546,9 @@ class Sher_Core_Util_WxPayM_WxPayApi
 		if($useCert == true){
 			//使用证书：cert 与 key 分别属于两个.pem文件
 			curl_setopt($ch,CURLOPT_SSLCERTTYPE,'PEM');
-			curl_setopt($ch,CURLOPT_SSLCERT, Doggy_Config::$vars['app.wechat.sslcert_path']);
+			curl_setopt($ch,CURLOPT_SSLCERT, Doggy_Config::$vars['app.wechat_m.sslcert_path']);
 			curl_setopt($ch,CURLOPT_SSLKEYTYPE,'PEM');
-			curl_setopt($ch,CURLOPT_SSLKEY, Doggy_Config::$vars['app.wechat.sslkey_path']);
+			curl_setopt($ch,CURLOPT_SSLKEY, Doggy_Config::$vars['app.wechat_m.sslkey_path']);
 		}
 		//post提交方式
 		curl_setopt($ch, CURLOPT_POST, TRUE);
