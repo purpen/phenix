@@ -257,14 +257,14 @@
 	  $('.ui.yes.video').livequery(function(){
 		$(this).on('click', function(){
 		  var video_link = $('input[name=video_link]').val();
-		  //var content = '<iframe width='+date_x*cell+' height='+date_y*cell+' src=\"'+video_link+'\" frameborder=0 allowfullscreen></iframe>';
-		  var content = '<embed src=\"'+video_link+'\" allowFullScreen=\"true\" style=\"width:'+date_x*cell+'px; height:'+date_y*cell+'px\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>';
+		  //var content = '<iframe width='+date.size_x*cell+' height='+date.size_y*cell+' src=\"'+video_link+'\" frameborder=0 allowfullscreen></iframe>';
+		  var content = '<embed src=\"'+video_link+'\" allowFullScreen=\"true\" style=\"width:'+date.size_x*cell+'px; height:'+date.size_y*cell+'px\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>';
 		  date.widget.find('.this_content').html(content);
 		  
 		  date.widget.css('width',date.size_x*cell+'px');
 		  date.widget.css('height',date.size_y*cell+'px');
 		  
-		  gridster.resize_widget(date.widget,date.size_x,Math.ceil((date.size_x*height)/width));
+		  gridster.resize_widget(date.widget,date.size_x,date.size_y);
 		  
 		  $('#block_video').modal('hide');
 		});
