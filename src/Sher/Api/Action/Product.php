@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'comments', 'fetch_relation_product', 'product_category_stick');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'comments', 'fetch_relation_product', 'product_category_stick', 'search');
 
 	/**
 	 * 入口
@@ -71,7 +71,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
             $product_data[$product_key] = isset($product[$product_key]) ? $product[$product_key] : null;
           }
           // 封面图url
-          $product_data['cover_url'] = $product['cover']['thumbnails']['medium']['view_url'];
+          $product_data['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
         }
         // 添加到数组 
         array_push($product_arr, $product_data);       
@@ -501,5 +501,6 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		return $this->api_json('操作成功', 0, array('total_rows'=>$xun_arr['total_count'], 'rows'=>$result, 'total_page'=>$xun_arr['total_page']));
 	}
 	
+
 }
 

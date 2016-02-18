@@ -99,11 +99,8 @@ if(!empty($product_ids) && !empty($product_ids['items'])){
     if(empty($item)){
       continue;
     }
-    if($item['stage']==12){
-      $stage = 9;
-    }else{
-      $stage = $item['stage'];
-    }
+
+    $stage = $item['stage'];
     //获取封面图
     if($item['cover_id']){
       $cover_id = $item['cover_id'];
