@@ -25,6 +25,13 @@ class Sher_Core_Helper_FilterFields {
     }
     unset($data['profile']);
 
+    if(!isset($data['province_id'])){
+      $data['province_id'] = 0;
+    }
+    if(!isset($data['district_id'])){
+      $data['district_id'] = 0;
+    }
+
     return $data;
   }
 
