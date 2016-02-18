@@ -4,7 +4,7 @@
   .iphone{
 	float: left;
 	width: 750px;
-	height: 1334px;
+	height: 1315px;
 	border: solid 5px #ccc;
 	border-radius: 20px;
 	margin: 5px;
@@ -38,8 +38,8 @@
   }
   
   .iphone_content table td{
-	width: 20px;
-	height: 20px;
+	width: 70px;
+	height: 70px;
 	border: dashed 1px #ccc;
   }
   
@@ -48,7 +48,7 @@
 	top: 0;
 	left: 0;
 	width: 716px;
-	height: 1296px;
+	height: 1276px;
 	padding: 0;
 	overflow: scroll;
   }
@@ -123,7 +123,7 @@
   
   var gridster;
   var date;
-  var cell = 20;
+  var cell = 70;
   var back_x = 1;
   var back_y = 1;
   var width = 1;
@@ -158,11 +158,11 @@
 	  var html = "<li><div class=\"this_content\" style=\"word-wrap:break-word;\"></div></li>";
 	  
 	  {% if mode == 'create'%}
-		gridster.add_widget(html,10,10);
+		gridster.add_widget(html,5,3);
 	  {% endif %}
 	  
 	  $('.topic_button').click(function(){
-		gridster.add_widget(html,10,10);
+		gridster.add_widget(html,5,3);
 	  });
 	  
 	  $('.gridster > ul > li').livequery(function(){
@@ -223,8 +223,8 @@
 		var content = $('textarea[name=content]').val();
 		// return Object {col: 1, row: 1, size_x: 10, size_y: 10}
 		date.widget.find('.this_content').html(content);
-		date.widget.css('width',date.size_x*cell+'px');
-		date.widget.css('height',date.size_y*cell+'px');
+		date.widget.css('width',date.size_x*10+'%');
+		date.widget.css('min-height',date.size_y*cell+'px');
 		$('#block_text').modal('hide');
 	  });
 	  
@@ -246,7 +246,7 @@
 		
 		var content = '<a class=\"\" href=\"'+link+'\" target="_blank"><img src=\"'+src+'\" style=\"width:'+date.size_x*cell+'px\" product_id=\"'+product_id+'\" is_show_price=\"'+is_show_price+'\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
 		date.widget.find('.this_content').html(content);
-		date.widget.css('width',date.size_x*cell+'px');
+		date.widget.css('width',date.size_x*10+'%');
 		
 		gridster.resize_widget(date.widget,date.size_x,Math.ceil((date.size_x*height)/width));
 		
@@ -256,12 +256,12 @@
 	  $('.ui.yes.video').livequery(function(){
 		$(this).on('click', function(){
 		  var video_link = $('input[name=video_link]').val();
-		  //var content = '<iframe width='+date.size_x*cell+' height='+date.size_y*cell+' src=\"'+video_link+'\" frameborder=0 allowfullscreen></iframe>';
-		  var content = '<embed src=\"'+video_link+'\" allowFullScreen=\"true\" style=\"width:'+date.size_x*cell+'px; height:'+date.size_y*cell+'px\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>';
+		  //var content = '<iframe width='+date.size_x*10+' height='+date.size_y*10+' src=\"'+video_link+'\" frameborder=0 allowfullscreen></iframe>';
+		  var content = '<embed src=\"'+video_link+'\" allowFullScreen=\"true\" style=\"width:100%;height:'+date.size_y*cell+'px\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>';
 		  date.widget.find('.this_content').html(content);
 		  
-		  date.widget.css('width',date.size_x*cell+'px');
-		  date.widget.css('height',date.size_y*cell+'px');
+		  date.widget.css('width',date.size_x*10+'%');
+		  //date.widget.css('height',date.size_y*cell+'px');
 		  
 		  gridster.resize_widget(date.widget,date.size_x,date.size_y);
 		  
@@ -479,7 +479,7 @@
 	{% endif %}
 	<link rel="stylesheet" type="text/css" href="{{ app_url_packaged }}/css/gridste.min.css">
 	<script src="{{ app_url_packaged }}/javascript/gridste.min.js" type="text/javascript" charset="utf-8"></script>
-	<h3 class="ui header">app专题管理</h3>
+	<h3 class="ui header">专题管理</h3>
 	<div class="ui secondary pointing magenta menu">
 		<a href="{{ app_url_admin_base }}/special_subject" class="active item">
 			全部
