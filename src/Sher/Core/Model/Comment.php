@@ -48,6 +48,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         // 楼层
         'floor' => 0,
         'deleted' => 0,
+        'ip' => null,
     );
 
     protected $joins = array(
@@ -78,6 +79,10 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	 * 保存之前
 	 */
 	protected function before_save(&$data) {
+    // 记录IP
+    $ip = Sher_Core_Helper_Auth::get_ip();
+    if($ip) $data['ip'] = $ip;
+
     if(empty($data['floor'])){
       $target_model = null;
       $type = $data['type'];
