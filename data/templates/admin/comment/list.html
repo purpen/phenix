@@ -132,6 +132,9 @@
         <input placeholder="关联产品/话题ID" type="text" name="q" value="{{ q }}" />
 			</div>
 			<div class="ui input">
+        <input placeholder="用户ID" type="text" name="user_id" value="{{ user_id }}" />
+			</div>
+			<div class="ui input">
         <input placeholder="评论内容" type="text" name="c" value="{{ c }}" />
 			</div>
 				<div class="ui input">
@@ -161,7 +164,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% comment_list var:'list' page:page load_view_url:1 type:t target_id:q content:c sort:s size:100 %}
+			{% comment_list var:'list' page:page load_view_url:1 type:t target_id:q content:c user_id:user_id sort:s size:100 %}
 
 			{% for comment in list.rows %}
 			<tr id="{{ comment._id }}">
