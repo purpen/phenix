@@ -667,7 +667,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $add_book_model = new Sher_Core_Model_AddBooks();
     $address = $add_book_model->first(array('user_id'=>$user_id, 'is_default'=>1));
     if(empty($address)){
-		  return $this->api_json('默认地址不存在!', 0, array());   
+		  return $this->api_json('默认地址不存在!', 0, array('has_default'=>0));   
     }
 
     $address = $add_book_model->extended_model_row($address);
@@ -693,6 +693,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
     $data['province_name'] = empty($province) ? null : $province['city'];
     $data['city_name'] = empty($city) ? null : $city['city'];
+    $data['has_default'] = 1;
 		
 		return $this->api_json('请求成功', 0, $data);
 	}
