@@ -65,6 +65,8 @@
 	
 	.gridster_ul {
 		list-style-type: none;
+		padding: 0;
+		margin:10px 0;
 	}
 	
 	.gridster_ul li {
@@ -102,6 +104,9 @@
 				{{ content }}
 		</div>					
 	</div>
-					
+	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.js"></script>
+	<script>
+	 $('ul[class=gridster_ul]').css('width','100%');
+	</script>				
 </body>
 <html>
