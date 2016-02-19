@@ -225,6 +225,11 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 		if(empty($stuff) || $stuff['deleted']){
 			return $this->show_message_page('访问的产品不存在或被删除！', $redirect_url);
 		}
+
+    // 如果是top100,跳到相应页面 
+    if($stuff['from_to']==5){
+      return $this->to_redirect(sprintf("%s/stuff/tshow?id=%d", Doggy_Config::$vars['app.url.wap'], $stuff['_id']));
+    }
 		
 		$stuff = $model->extended_model_row($stuff);
 
