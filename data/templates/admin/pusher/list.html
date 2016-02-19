@@ -1,0 +1,186 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+  <style type="text/css">
+    .content-text img{
+      max-width: 150px;
+      max-height: 800px;
+      overflow: hidden;
+      padding: 10px 10px 0 0;
+    }
+    .content-text p{
+      margin:0;
+    }
+
+    .content-text a{
+      text-decoration:none;
+      color:#f36;
+    }
+
+    .content-text a:hover{
+      text-decoration:underline;
+      color:#f36;
+    }
+
+    .ui.reply.form .left {
+    display:inline-block;
+    }
+    .ui.reply.form .left a{
+    text-decoration: none;
+    color: #5d6266;
+    }
+    .ui.reply.form .right.aligned.column{
+    display:inline-block;
+    float:right;
+    }
+
+    .img-tab{
+      margin:5px;
+    }
+    .img-tab a{
+      margin:5px;
+      text-decoration:none;
+    }
+  </style>
+{% endblock %}
+
+{% block jquery %}
+
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">推送管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/pusher" class="active item">
+			全部
+		</a>
+
+	  	<div class="right menu">
+			
+			<a href="javascript:void(0);" class="item ajax-delete">
+				<i class="remove icon"></i>批量删除
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub ">
+		<form action="{{ app_url_admin_base }}/pusher/get_list" id="search-form" method="get">
+			<label>搜索：</label>
+      <div class="ui selection dropdown">
+        <input type="hidden" name="from_to" value="{{ from_to }}" />
+        <div class="default text">选择来源</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item" data-value="0">全部</div>
+          <div class="item" data-value="1">IOS</div>
+          <div class="item" data-value="2">Android</div>
+          <div class="item" data-value="3">Win</div>
+          <div class="item" data-value="4">IPad</div>
+        </div>
+      </div>
+
+      <div class="ui selection dropdown">
+        <input type="hidden" name="is_login" value="{{ is_login }}" />
+        <div class="default text">是否登录</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item" data-value="0">全部</div>
+          <div class="item" data-value="-1">否</div>
+          <div class="item" data-value="1">是</div>
+        </div>
+      </div>
+
+			<div class="ui input">
+        <input placeholder="用户ID" type="text" name="user_id" value="{{ user_id }}" />
+			</div>
+			<div class="ui input">
+        <input placeholder="UUID" type="text" name="uuid" value="{{ uuid }}" />
+			</div>
+
+				<div class="ui input">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
+		</form>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox" id="checkbox_all_btn">
+					  	<input name="" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+        <th>用户</th>
+				<th>设备ID</th>
+        <th>来源</th>
+        <th>推送次数</th>
+				<th>是否登录</th>
+        <th>最后登录时间</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% pusher_list var:'list' page:page user_id:user_id uuid:uuid from_to:from_to is_login:is_login state:state size:100 %}
+
+			{% for d in list.rows %}
+			<tr id="{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ d._id }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+        <td>
+ 					<a class="ui image label link" href="{{ d.user.home_url }}" target="_blank">
+					  	<img src="{{ d.user.mini_avatar_url }}">
+              {{ d.user.nickname }}
+					</a>     
+        </td>
+        <td>
+          {{ d.uuid }}
+        </td>
+
+				<td>
+          {{ d.from }}
+				</td>
+        <td>
+          {{ d.push_count }}
+        </td>
+        <td>
+					<p>
+						{% if d.is_login %}
+							<span class="ui small green label">是</span>
+						{% else %}
+							<span class="ui small orange label">否</span>
+						{% endif %}
+					</p>
+        </td>
+        <td>
+          {{ d.last_time|date 'y-m-d H:m' }}
+        </td>
+				<td>
+					<p>
+		        <a class="ui confirm-request link item">
+						    删除
+					  </a>
+					</P>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+    <label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+{% endblock %}
