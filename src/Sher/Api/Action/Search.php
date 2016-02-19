@@ -109,6 +109,8 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
     }else{
       return $this->api_json('请求失败!', 3002);
     }
+    $result['rows'] = $result['data'];
+    unset($result['data']);
 		return $this->api_json('请求成功', 0, $result);
 	}
 
