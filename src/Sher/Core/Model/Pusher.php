@@ -29,8 +29,28 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
 	
   	protected $int_fields = array('user_id', 'push_count', 'state', 'from_to', 'is_login');
 	
+
+    protected $joins = array(
+        'user'  => array('user_id'  => 'Sher_Core_Model_User'),
+    );
 	
     protected function extra_extend_model_row(&$row) {
+      switch($row['from_to']){
+        case 1:
+          $row['from'] = 'IOS';
+          break;
+        case 2:
+          $row['from'] = 'Android';
+          break;
+        case 3:
+          $row['from'] = 'Win';
+          break;
+        case 4:
+          $row['from'] = 'IPad';
+          break;
+        default:
+          $row['from'] = '--';
+      }
     	
     }
 	
