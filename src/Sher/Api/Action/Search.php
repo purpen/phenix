@@ -5,20 +5,20 @@
  */
 class Sher_Api_Action_Search extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'search');
+	protected $filter_user_method_list = array('execute', 'getlist');
 
 	/**
 	 * 入口
 	 */
 	public function execute(){
-		return $this->search();
+		return $this->getlist();
 	}
 
 
 	/**
 	 * 商品搜索
 	 */
-	public function search(){
+	public function getlist(){
 		$q = isset($this->stash['q']) ? $this->stash['q'] : null;
     $evt = isset($this->stash['evt']) ? $this->stash['evt'] : 'content';
     $t = isset($this->stash['t']) ? (int)$this->stash['t'] : 7;
@@ -61,6 +61,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
         if($kind=='Product'){
           if($cid==9){
             $obj = $product_model->find_by_id($oid);
+            unset($result['data'][$k]['content']);
             if($obj){
               $result['data'][$k]['market_price'] = $obj['market_price'];
               $result['data'][$k]['sale_price'] = $obj['sale_price'];
