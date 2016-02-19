@@ -159,7 +159,7 @@
                 <th>楼层</th>
                 <th>所属</th>
 				<th>关联ID</th>
-        <th>评论时间/IP</th>
+        <th>评论时间/IP/来源</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
@@ -209,6 +209,9 @@
         <td>
           <p>{{ comment.created_on|date 'y-m-d H:m:s' }}</p>
           <p>{{ comment.ip|default '--' }}</p>
+          <p>
+            {{ comment.from|default '--' }}
+          </p>
         </td>
 				<td>
 					<p>

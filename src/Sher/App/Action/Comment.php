@@ -61,6 +61,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$row['target_user_id'] = (int)$this->stash['target_user_id'];
 		$row['type'] = (int)$this->stash['type'];
 		$row['sku_id'] = isset($this->stash['sku_id']) ? (int)$this->stash['sku_id'] : 0;
+		$row['from_site'] = isset($this->stash['from_site']) ? (int)$this->stash['from_site'] : 1;
 		
 		// 处理评论内容
 		$content = $this->stash['content'];
@@ -258,6 +259,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$row['content'] = $this->stash['content'];
 		$row['type'] = (int)$this->stash['type'];
 		$row['sku_id'] = isset($this->stash['sku'])?(int)$this->stash['sku']:0;
+		$row['from_site'] = isset($this->stash['from_site'])?(int)$this->stash['from_site']:1;
 		
 		// 验证数据
 		if(empty($row['target_id']) || empty($row['content']) || empty($row['star'])){

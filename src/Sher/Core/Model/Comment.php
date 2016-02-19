@@ -49,6 +49,8 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         'floor' => 0,
         'deleted' => 0,
         'ip' => null,
+        // 来源: 0.无记录; 1.web;2.wap;3.ios;4.android;5.win;6.ipad;6.--
+        'from_site' => 0,
     );
 
     protected $joins = array(
@@ -342,23 +344,52 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             $row['ori_content'] = htmlspecialchars($row['content']);
             $row['content'] = '因该用户已经被屏蔽,评论被屏蔽';
             return;
-        }
+    }
 
-        $row['content_original'] = Sher_Core_Util_View::safe($row['content']);
-        $row['content'] = $this->trans_content(Sher_Core_Util_View::safe($row['content']));
-        $row['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($row['created_on']);
-        if (!empty($row['reply'])) {
-            for ($i=0; $i < count($row['reply']); $i++) {
-                $this->_extend_comment_reply($row['reply'][$i]);
-            }
-        }
-        
-        // 加载回复对象
-        if(isset($row['is_reply']) && !empty($row['is_reply'])){
-          $reply_comment_obj = $this->extend_load($row['reply_id']);
-          $row['reply_comment'] = $reply_comment_obj;
+    $row['content_original'] = Sher_Core_Util_View::safe($row['content']);
+    $row['content'] = $this->trans_content(Sher_Core_Util_View::safe($row['content']));
+    $row['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($row['created_on']);
+    if (!empty($row['reply'])) {
+        for ($i=0; $i < count($row['reply']); $i++) {
+            $this->_extend_comment_reply($row['reply'][$i]);
         }
     }
+        
+    // 加载回复对象
+    if(isset($row['is_reply']) && !empty($row['is_reply'])){
+      $reply_comment_obj = $this->extend_load($row['reply_id']);
+      $row['reply_comment'] = $reply_comment_obj;
+    }
+
+    // 来源
+    if(isset($row['from_site'])){
+      switch($row['from_site']){
+        case 1:
+          $row['from'] = 'Web';
+          break;
+        case 2:
+          $row['from'] = 'Wap';
+          break;
+        case 3:
+          $row['from'] = 'IOS';
+          break;
+        case 4:
+          $row['from'] = 'Android';
+          break;
+        case 5:
+          $row['from'] = 'WinPhone';
+          break;
+        case 6:
+          $row['from'] = 'IPad';
+          break;
+        default:
+          $row['from'] = '--';
+      }
+    }else{
+      $row['from'] = '--';
+    }
+
+  }
 	
 	/**
 	 * 扩展回复数据

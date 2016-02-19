@@ -103,6 +103,8 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
  		  return $this->api_json('请先登录', 3000);   
     }
     $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 2;
+    // 默认ios
+    $from_site = isset($this->stash['from_site']) ? (int)$this->stash['from_site'] : 3;
 		
 		// 验证数据
 		$data = array();
@@ -115,6 +117,7 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		
 		$data['user_id'] = $user_id;
 		$data['type'] = $type;
+    $data['from_site'] = $from_site;
 		
 		try{
 			// 保存数据

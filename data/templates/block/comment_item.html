@@ -5,12 +5,7 @@
     <div class="content">
         <a class="author ui link" href="{{ comment.user.home_url }}" target="_blank">{{ comment.user.nickname }}</a>
         <div class="metadata">
-          <!--极米话题时间显示到秒-->
-          {% if jimi %}
-            <div class="date"><small>{{ comment.created_on|date 'Y-m-d H:m:s' }}</small></div>
-          {%else%}
             <div class="date"><small>{{ comment.created_at }}</small></div>
-          {%endif%}
             <span class="floor">{{ comment.floor }}楼</span>
         </div>
 
