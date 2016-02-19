@@ -187,6 +187,22 @@
 {% endblock %}
 
 {% block jquery %}
+
+	phenix.hook_comment_page('wap');
+
+  //ajax加载评论
+  fetch_comment(1, per_page, 0);
+
+  // 评论排序
+  $('.fitsort .ui.list .item').bind('click', function(){
+      sort = parseInt($(this).data('sort'));
+      $(this)
+          .siblings().removeClass('active')
+          .end()
+          .addClass('active');
+      fetch_comment(1, per_page, sort);
+  });
+
     $('.like.button').click(function(){
         var obj = $(this);
         var id = $(this).data('id');
@@ -235,21 +251,6 @@
         animationDuration: 300,
         animationSpeed: 300,
     });
-
-	phenix.hook_comment_page('wap');
-
-  //ajax加载评论
-  fetch_comment(1, per_page, 0);
-
-  // 评论排序
-  $('.fitsort .ui.list .item').bind('click', function(){
-      sort = parseInt($(this).data('sort'));
-      $(this)
-          .siblings().removeClass('active')
-          .end()
-          .addClass('active');
-      fetch_comment(1, per_page, sort);
-  });
 
 {% endblock %}
 {% block content %}
@@ -334,7 +335,7 @@
             <!--评论-->
 				    <div class="block title">
                   全部评论
-                  <small>（{{ topic.comment_count|default 0 }}）</small>
+                  <small>（{{ stuff.comment_count|default 0 }}）</small>
              </div>
             <div class="ui big reply segment">
               <div class="fitsort">
