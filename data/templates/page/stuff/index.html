@@ -191,6 +191,43 @@ p.zhichi{
 	top:5px;
 	left:5px;
 }
+.mainleftwrap{
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+.mainwrap .opentions.mainleft{
+	margin-right: 250px;
+	margin-left: 10px;
+	min-height: 785px;
+	margin-bottom:0;
+}
+.mainwrap .mainright{
+	margin-left: -230px;
+	width: 250px;
+}
+#comment-list{
+	padding:0;
+}
+.metadata .floor{
+	position: absolute;
+    right: 0;
+    top: 1px;
+}
+.ui.comments .comment{
+	padding-bottom:0;
+	padding-top:17px;
+}
+.ui.comments .comment:last-child{
+	border:none;
+}
+.ui.comments .comment>.content{
+	position:relative;
+}
+.ui.comments .comment .text{
+    height: 30px;
+    font-size: 12px;
+    overflow: hidden;
+}
 </style>
 {% endblock %}
 
@@ -217,7 +254,7 @@ p.zhichi{
 
 {% block jquery %}
   // 初次加载
-  ajax_load_more(1, 1, pid, 0, 5, 4, 10);
+  ajax_load_more(1, 1, pid, 0, 5, 4, 8);
 
   $('.like.button').livequery(function(){
     $(this).click(function(){
@@ -349,19 +386,195 @@ p.zhichi{
 			</div>
 		</div>
 		<div class="ui products block">
-			<div class="ui responsive grid">
+			<div class="ui responsive grid mainwrap">
 				<div class="row">
 					<div class="ui center aligned column">
 						<h2 class="ui header">推荐作品</h2>
 					</div>
 				</div>
-				<div class="row" style="padding-top: 15px;">
-					<div class="ui opentions column">
-						<div class="ui five products cards" id="stuff_list_box">
-              <!--ajax load-->
-						</div>
+				<div class="row" style="height:785px;padding-top:0;">
+					<div class="mainleftwrap">
+						<div class="ui opentions column mainleft">
+							<div class="ui four products cards" id="stuff_list_box">
+	              <!--ajax load-->
+							</div>
 						
 						</div>
+					</div>
+				
+					<div class="mainright">
+						<div class="sellwrap" style="margin-bottom:0;">
+							<div class="block title">
+								评论
+							</div>
+							
+							<div class="ui articles list">
+								
+								<div id="comment-list">
+									<div class="ui threaded comments is-comment">
+										<div class="comment">
+											<a class="avatar" href="http://www.taihuoniao.com/user/953556/" target="_blank">
+											   <img src="http://frstatic.qiniudn.com/images/deavatar/006-s.jpg" alt="rgpu">
+											 </a>
+											 
+											 <div class="content">
+												 <a class="author ui link" href="http://www.taihuoniao.com/user/953556/" target="_blank">rgpu</a>
+												 
+												 <div class="metadata">
+												    <a target="_blank" href="" class="ui link floor">回复</a>
+												 </div>
+												 
+												 <div class="text">
+												                         每天为了避开早高峰按时打卡必须早起，所以中午休息时都要打个小盹儿，下午工作才能有充沛精力去完成。趴在办公桌上
+												  </div>
+												 
+											 </div>
+										</div>
+										
+										
+										<div class="comment">
+											<a class="avatar" href="http://www.taihuoniao.com/user/953556/" target="_blank">
+											   <img src="http://frstatic.qiniudn.com/images/deavatar/006-s.jpg" alt="rgpu">
+											 </a>
+											 
+											 <div class="content">
+												 <a class="author ui link" href="http://www.taihuoniao.com/user/953556/" target="_blank">rgpu</a>
+												 
+												 <div class="metadata">
+												    <a target="_blank" href="" class="ui link floor">回复</a>
+												 </div>
+												 
+												 <div class="text">
+												                         每天为了避开早高峰按时打卡必须早起，所以中午休息时都要打个小盹儿，下午工作才能有充沛精力去完成。趴在办公桌上
+												  </div>
+												 
+											 </div>
+										</div>
+										
+										<div class="comment">
+											<a class="avatar" href="http://www.taihuoniao.com/user/953556/" target="_blank">
+											   <img src="http://frstatic.qiniudn.com/images/deavatar/006-s.jpg" alt="rgpu">
+											 </a>
+											 
+											 <div class="content">
+												 <a class="author ui link" href="http://www.taihuoniao.com/user/953556/" target="_blank">rgpu</a>
+												 
+												 <div class="metadata">
+												    <a target="_blank" href="" class="ui link floor">回复</a>
+												 </div>
+												 
+												 <div class="text">
+												                         每天为了避开早高峰按时打卡必须早起，所以中午休息时都要打个小盹儿，下午工作才能有充沛精力去完成。趴在办公桌上
+												  </div>
+												 
+											 </div>
+										</div>
+										
+										<div class="comment">
+											<a class="avatar" href="http://www.taihuoniao.com/user/953556/" target="_blank">
+											   <img src="http://frstatic.qiniudn.com/images/deavatar/006-s.jpg" alt="rgpu">
+											 </a>
+											 
+											 <div class="content">
+												 <a class="author ui link" href="http://www.taihuoniao.com/user/953556/" target="_blank">rgpu</a>
+												 
+												 <div class="metadata">
+												    <a target="_blank" href="" class="ui link floor">回复</a>
+												 </div>
+												 
+												 <div class="text">
+												                         每天为了避开早高峰按时打卡必须早起，所以中午休息时都要打个小盹儿，下午工作才能有充沛精力去完成。趴在办公桌上
+												  </div>
+												 
+											 </div>
+										</div>
+										
+										<div class="comment">
+											<a class="avatar" href="http://www.taihuoniao.com/user/953556/" target="_blank">
+											   <img src="http://frstatic.qiniudn.com/images/deavatar/006-s.jpg" alt="rgpu">
+											 </a>
+											 
+											 <div class="content">
+												 <a class="author ui link" href="http://www.taihuoniao.com/user/953556/" target="_blank">rgpu</a>
+												 
+												 <div class="metadata">
+												    <a target="_blank" href="" class="ui link floor">回复</a>
+												 </div>
+												 
+												 <div class="text">
+												                         每天为了避开早高峰按时打卡必须早起，所以中午休息时都要打个小盹儿，下午工作才能有充沛精力去完成。趴在办公桌上
+												  </div>
+												 
+											 </div>
+										</div>
+										
+										<div class="comment">
+											<a class="avatar" href="http://www.taihuoniao.com/user/953556/" target="_blank">
+											   <img src="http://frstatic.qiniudn.com/images/deavatar/006-s.jpg" alt="rgpu">
+											 </a>
+											 
+											 <div class="content">
+												 <a class="author ui link" href="http://www.taihuoniao.com/user/953556/" target="_blank">rgpu</a>
+												 
+												 <div class="metadata">
+												    <a target="_blank" href="" class="ui link floor">回复</a>
+												 </div>
+												 
+												 <div class="text">
+												                         每天为了避开早高峰按时打卡必须早起，所以中午休息时都要打个小盹儿，下午工作才能有充沛精力去完成。趴在办公桌上
+												  </div>
+												 
+											 </div>
+										</div>
+										
+										<div class="comment">
+											<a class="avatar" href="http://www.taihuoniao.com/user/953556/" target="_blank">
+											   <img src="http://frstatic.qiniudn.com/images/deavatar/006-s.jpg" alt="rgpu">
+											 </a>
+											 
+											 <div class="content">
+												 <a class="author ui link" href="http://www.taihuoniao.com/user/953556/" target="_blank">rgpu</a>
+												 
+												 <div class="metadata">
+												    <a target="_blank" href="" class="ui link floor">回复</a>
+												 </div>
+												 
+												 <div class="text">
+												                         每天为了避开早高峰按时打卡必须早起，所以中午休息时都要打个小盹儿，下午工作才能有充沛精力去完成。趴在办公桌上
+												  </div>
+												 
+											 </div>
+										</div>
+										
+										<div class="comment">
+											<a class="avatar" href="http://www.taihuoniao.com/user/953556/" target="_blank">
+											   <img src="http://frstatic.qiniudn.com/images/deavatar/006-s.jpg" alt="rgpu">
+											 </a>
+											 
+											 <div class="content">
+												 <a class="author ui link" href="http://www.taihuoniao.com/user/953556/" target="_blank">rgpu</a>
+												 
+												 <div class="metadata">
+												    <a target="_blank" href="" class="ui link floor">回复</a>
+												 </div>
+												 
+												 <div class="text">
+												                         每天为了避开早高峰按时打卡必须早起，所以中午休息时都要打个小盹儿，下午工作才能有充沛精力去完成。趴在办公桌上
+												  </div>
+												 
+											 </div>
+										</div>
+										
+										
+										
+									</div>
+								</div>
+							
+							</div>
+							
+						</div>
+						
+					
 					</div>
 				</div>
 				
