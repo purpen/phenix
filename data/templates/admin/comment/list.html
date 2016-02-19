@@ -200,8 +200,8 @@
           {%if comment.type==1%}用户{%endif%}
           {%if comment.type==2%}话题{%endif%}
           {%if comment.type==3%}试用{%endif%}
-          {%if comment.type==4%}产品{%endif%}
-          {%if comment.type==6%}灵感{%endif%}
+          {%if comment.type==4%}产品[{{ comment.sub_type }}]{%endif%}
+          {%if comment.type==6%}灵感[{{ comment.sub_type }}]{%endif%}
           {%if comment.type==7%}专辑{%endif%}
           {%if comment.type==10%}专题{%endif%}
         </td>

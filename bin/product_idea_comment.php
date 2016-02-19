@@ -50,7 +50,7 @@ while(!$is_end){
         unset($v['_id']);
         $v['type'] = Sher_Core_Model_Comment::TYPE_PRODUCT;
         $v['target_id'] = (string)$id;
-        $v['sub_type'] = 1;
+        $v['sub_type'] = 15;
         $v['product_idea'] = 1;
         $ok = $comment_model->create($v);
         if($ok){
