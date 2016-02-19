@@ -33,8 +33,10 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         'content' => '',
         'reply' => array(),
         'type' => self::TYPE_TOPIC,
-        // 子类型,1.商品下的灵感; 2.
-        'sub_type' => 1,
+        // 子类型:
+        // Product: 15.灵感; 2.
+        // Stuff: 5.top100;
+        'sub_type' => 0,
 		'love_count' => 0,
         // 虚拟点赞人数
         'invented_love_count' => 0,
@@ -85,9 +87,10 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
     $ip = Sher_Core_Helper_Auth::get_ip();
     if($ip) $data['ip'] = $ip;
 
+    $type = $data['type'];
+
     if(empty($data['floor'])){
       $target_model = null;
-      $type = $data['type'];
       switch($type){
         case 2:
           $target_model = new Sher_Core_Model_Topic();
@@ -108,6 +111,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
           $target_model = null;
       }
 
+      // 专题评论
       if($data['type']==self::TYPE_SUBJECT){
         $dig_model = new Sher_Core_Model_DigList();
         $dig_key = null;
@@ -132,9 +136,18 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
           $target = $target_model->load((int)$data['target_id']);
           if($target){
             $data['floor'] = $target['comment_count'] + 1;
-          }     
-        }   
-      }
+            // 更新子类型
+            switch($type){
+              case 4:
+                $data['sub_type'] = $target['stage'];
+                break;
+              case 6:
+                $data['sub_type'] = $target['from_to'];
+                break;
+            }// end switch
+          } // endif target
+        } // endif target_model
+      }// endif subject
 
     }
 	  parent::before_save($data);
