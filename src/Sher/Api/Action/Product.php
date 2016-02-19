@@ -392,6 +392,9 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         return $this->api_json('订单状态不正确！', 3006);
       }
 
+      // 默认ios
+      $from_site = isset($this->stash['from_site']) ? (int)$this->stash['from_site'] : 3;
+
 			// 保存数据
       $comment_model = new Sher_Core_Model_Comment();
 
@@ -424,6 +427,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
             'user_id' => $user_id,
             'type' => Sher_Core_Model_Comment::TYPE_PRODUCT,
             'sku_id' => $sku_id,
+            'from_site' => $from_site,
           );
           $comment_ok = $comment_model->apply_and_save($comment_data);
         }
