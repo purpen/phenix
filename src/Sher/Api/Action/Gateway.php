@@ -300,6 +300,18 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 		
 	}
 
+
+  /**
+   * 商品搜索热门关键词
+   */
+  public function get_hot_search_tags(){
+    $tag_arr = array();
+    // 从块获取信息
+    $tags = Sher_Core_Util_View::load_block('app_search_hot_tags', 1);
+    $tag_arr = array_values(array_unique(preg_split('/[,，;；\s]+/u',$tags)));
+    return $this->api_json("获取成功!", 0, array('tags'=>$tag_arr));
+  }
+
 	
 }
 

@@ -38,6 +38,9 @@
 		<a class="{{ css_page_product }} item" href="{{ app_url_admin_base }}/product">
 			产品管理
 		</a>
+		<a class="{{ css_page_special_subject }} item" href="{{ app_url_admin_base }}/special_subject">
+			app专题管理
+		</a>
 		<!--
 		<a class="{{ css_page_taobao }} item" href="{{ app_url_admin_base }}/taobao">
 			淘宝店铺
@@ -57,6 +60,9 @@
 			<a class="{{ css_page_product }} item" href="{{ app_url_admin_base }}/product">
 			  产品管理
 			</a>
+      <a class="{{ css_page_special_subject }} item" href="{{ app_url_admin_base }}/special_subject">
+        app专题管理
+      </a>
 			<!--
 			<a class="{{ css_page_taobao }} item" href="{{ app_url_admin_base }}/taobao">
 			  淘宝店铺
@@ -164,9 +170,6 @@
 		<a class="{{ css_page_special }} item" href="{{ app_url_admin_base }}/special">
 			专题管理
 		</a>
-		<a class="{{ css_page_special_subject }} item" href="{{ app_url_admin_base }}/special_subject">
-			app专题管理
-		</a>
 		<a class="{{ css_page_contest }} item" href="{{ app_url_admin_base }}/contest">
 			大赛管理
 		</a>
@@ -232,6 +235,18 @@
 		-->
 		{%endif%}
 	</div>
+
+	<div class="header item menu-admin">
+		<i class="{% if show_type == 'app' %} plus {% else %} minus {% endif %} icon"></i><b>APP模块</b>
+	</div>
+	<div date="menu-admin" {% if show_type == 'app' %} style="display:block" {% else %} style="display:none" {% endif %}>
+		{% if visitor.is_chief %}
+		<a class="{{ css_page_app_pusher }} item" href="{{ app_url_admin_base }}/pusher">
+			设备管理
+		</a>
+
+		{%endif%}
+	</div>
 	
     {% if visitor.is_admin %}
 	<div class="header item menu-admin">
@@ -272,4 +287,6 @@
 		{% endif %}
 	</div>
 	{% endif %}
+
+
 </div>

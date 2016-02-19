@@ -155,6 +155,11 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 	 * 保存
 	 */
 	public function save() {
+
+    // 要求只能某个账户操作
+    if($this->visitor->id != 10){
+ 			return $this->ajax_notification('权限不够！', true);   
+    }
 		
 		$model = new Sher_Core_Model_Stuff();
 		try{
@@ -162,10 +167,11 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 			if(empty($this->stash['_id'])){
 				$mode = 'create';
 				//$ok = $model->apply_and_save($this->stash);
-			}else{
+      }else{
+        $add_love_count = (int)$this->stash['add_love_count'];
 				$mode = 'edit';
         $data['_id'] = (int)$this->stash['_id'];
-        $data['love_count'] = (int)$this->stash['love_count'] + (int)$this->stash['add_love_count'];
+        $data['love_count'] = (int)$this->stash['love_count'] + abs($add_love_count);
         $data['view_count'] = (int)$this->stash['view_count'];
 				$ok = $model->apply_and_update($data);
 			}
@@ -190,6 +196,11 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 		if(empty($id)){
 			return $this->ajax_notification('灵感不存在！', true);
 		}
+
+    // 要求只能某个账户操作
+    if($this->visitor->id != 10){
+ 			return $this->ajax_notification('权限不够！', true);   
+    }
 		
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		

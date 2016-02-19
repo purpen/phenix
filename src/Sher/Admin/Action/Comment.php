@@ -12,6 +12,7 @@ class Sher_Admin_Action_Comment extends Sher_Admin_Action_Base implements DoggyX
     't' => 0,
     'c' => '',
     'q' => '',
+    'user_id' => '',
 	);
 	
 	public function _init() {
@@ -34,9 +35,9 @@ class Sher_Admin_Action_Comment extends Sher_Admin_Action_Base implements DoggyX
     $this->set_target_css_state('page_all');
 		$page = (int)$this->stash['page'];
 		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/comment/search?s=%d&q=%s&c=%s&page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/comment/search?s=%d&q=%s&c=%s&user_id=%d&page=#p#';
 
-		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['s'], $this->stash['q'], $this->stash['c']);
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['s'], $this->stash['q'], $this->stash['c'], $this->stash['user_id']);
 		
 		return $this->to_html_page('admin/comment/list.html');
 	}

@@ -135,11 +135,7 @@ while(!$is_end){
 	for ($i=0; $i<$max; $i++) {
     $item = $list[$i];
     if ($item) {
-      if($item['stage']==12){
-        $stage = 9;
-      }else{
-        $stage = $item['stage'];
-      }
+      $stage = $item['stage'];
       //获取封面图
       if($item['cover_id']){
         $cover_id = $item['cover_id'];
