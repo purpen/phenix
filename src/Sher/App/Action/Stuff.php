@@ -221,7 +221,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 
     // 如果是top100,跳到相应页面 
     if($stuff['from_to']==5){
-      $this->to_redirect(sprintf("%s/tshow?id=%d", Doggy_Config::$vars['app.url.stuff'], $stuff['_id']));
+      return $this->to_redirect(sprintf("%s/tshow?id=%d", Doggy_Config::$vars['app.url.stuff'], $stuff['_id']));
     }
 		
 		$stuff = $model->extended_model_row($stuff);
