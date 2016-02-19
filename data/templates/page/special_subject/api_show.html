@@ -9,10 +9,6 @@
 		margin:0;
 		padding:0;
 	}
-	body{
-		margin:0;
-		padding:0;
-	}
 	.course {
 		margin: 0 10px;
 	}
@@ -64,11 +60,13 @@
     }
 	.gridster {
 		margin: 0 auto;
-		width: 700px;
+		width: 100%;
 	}
 	
 	.gridster_ul {
 		list-style-type: none;
+		padding: 0;
+		margin:10px 0;
 	}
 	
 	.gridster_ul li {
@@ -106,6 +104,9 @@
 				{{ content }}
 		</div>					
 	</div>
-					
+	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.js"></script>
+	<script>
+	 $('ul[class=gridster_ul]').css('width','100%');
+	</script>				
 </body>
 <html>
