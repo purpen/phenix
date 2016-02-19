@@ -191,6 +191,10 @@ p.zhichi{
 	top:5px;
 	left:5px;
 }
+.mainwrap .opentions.mainleft{
+	margin-right: 240px;
+	margin-left: 20px;
+}
 </style>
 {% endblock %}
 
@@ -217,7 +221,7 @@ p.zhichi{
 
 {% block jquery %}
   // 初次加载
-  ajax_load_more(1, 1, pid, 0, 5, 4, 10);
+  ajax_load_more(1, 1, pid, 0, 5, 4, 8);
 
   $('.like.button').livequery(function(){
     $(this).click(function(){
@@ -349,15 +353,15 @@ p.zhichi{
 			</div>
 		</div>
 		<div class="ui products block">
-			<div class="ui responsive grid">
+			<div class="ui responsive grid mainwrap">
 				<div class="row">
 					<div class="ui center aligned column">
 						<h2 class="ui header">推荐作品</h2>
 					</div>
 				</div>
-				<div class="row" style="padding-top: 15px;">
-					<div class="ui opentions column">
-						<div class="ui five products cards" id="stuff_list_box">
+				<div class="mainleftwrap" style="padding-top: 15px;">
+					<div class="ui opentions column mainleft">
+						<div class="ui four products cards" id="stuff_list_box">
               <!--ajax load-->
 						</div>
 						
