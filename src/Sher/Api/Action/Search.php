@@ -61,7 +61,8 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
         if($kind=='Product'){
           if($cid==9){
             $obj = $product_model->find_by_id($oid);
-            unset($result['data'][$k]['content']);
+            // 商品不需要显示详情
+            $result['data'][$k]['content'] = null;
             if($obj){
               $result['data'][$k]['market_price'] = $obj['market_price'];
               $result['data'][$k]['sale_price'] = $obj['sale_price'];
