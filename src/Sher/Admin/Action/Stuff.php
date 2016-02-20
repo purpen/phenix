@@ -288,6 +288,8 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
    */
   public function get_love_list(){
     
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/stuff/get_love_list?target_id=%d&page=#p#', $this->stash['target_id']);
+		$this->stash['pager_url'] = $pager_url;
     return $this->to_html_page('admin/stuff/love_list.html');
   }
 
