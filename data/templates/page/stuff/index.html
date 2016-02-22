@@ -208,10 +208,12 @@ p.zhichi{
 #comment-list{
 	padding:0;
 }
-.metadata .floor{
+.repeat.floor{
 	position: absolute;
     right: 0;
     top: 1px;
+	color: rgba(0,0,0,.4);
+    font-size: .875em;
 }
 .ui.comments .comment{
 	padding-bottom:0;
@@ -274,9 +276,7 @@ p.zhichi{
               html += '</a>';
               html += '<div class="content">';
               html += '<a href="'+ domain_url +'/user/'+ z_user_id +'" class="ui link floor" target="_blank">'+ z_user_nickname +'</a>';
-              html += '<div class="metadata">';
-              html += '<a href="'+ domain_url +'/stuff/tshow?id='+ z_target_id +'&floor='+ z_floor +'#f'+ z_floor +'" class="ui link floor" target="_blank">回复</a>';
-              html += '</div>';
+              html += '<a href="'+ domain_url +'/stuff/tshow?id='+ z_target_id +'&floor='+ z_floor +'#f'+ z_floor +'" class="ui link repeat floor" target="_blank">回复</a>';
               html += '<div class="text">'+ z_content +'</div>';
               html += '</div>';
               html += '</div>';
@@ -486,29 +486,6 @@ p.zhichi{
 								
 								<div>
 									<div class="ui threaded comments is-comment" id="latest-comment-list">
-
-                    <!--
-										<div class="comment">
-											<a class="avatar" href="http://www.taihuoniao.com/user/953556/" target="_blank">
-											   <img src="http://frstatic.qiniudn.com/images/deavatar/006-s.jpg" alt="rgpu">
-											 </a>
-											 
-											 <div class="content">
-												 <a class="author ui link" href="http://www.taihuoniao.com/user/953556/" target="_blank">rgpu</a>
-												 
-												 <div class="metadata">
-												    <a target="_blank" href="" class="ui link floor">回复</a>
-												 </div>
-												 
-												 <div class="text">
-												                         每天为了避开早高峰按时打卡必须早起，所以中午休息时都要打个小盹儿，下午工作才能有充沛精力去完成。趴在办公桌上
-												  </div>
-												 
-											 </div>
-										</div>
-                    -->
-										
-										
 										
 									</div>
 								</div>
