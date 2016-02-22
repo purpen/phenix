@@ -189,6 +189,21 @@
       }
       
     });
+
+    // 绑定跳楼
+    $('.gotofloor').bind('keydown', function(e){
+        var floor = $(this).val(), max = parseInt($(this).data('max')), url = $(this).data('url');
+        if(e.keyCode == 13){
+            if (isNaN(floor)){
+                alert('必须输入一个数字！');
+                return false;
+            }
+            if (floor > max){
+                floor = max;
+            }
+            window.location.href = url + '&floor=' + floor + '#f' + floor;
+        }
+    });
 		
 		
 {% endblock %}
@@ -316,7 +331,7 @@
 		                        全部评论<small>（{{ stuff.comment_count }}）</small>
                         
 		                        <div class="quick goto">
-		                            直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ stuff.comment_count }}" data-url="{{ app_url_stuff }}/view/{{ stuff._id }}/{{ page }}" title="跳转到指定楼层" />
+		                            直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ stuff.comment_count }}" data-url="{{ app_url_stuff }}/tshow?id={{ stuff._id }}&page={{ page }}" title="跳转到指定楼层" />
 		                        </div>
 		                    </div>
 		      		  	    <div id="comment-list">

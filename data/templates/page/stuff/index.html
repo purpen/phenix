@@ -249,6 +249,57 @@ p.zhichi{
         }
     }
 
+    var domain_url = "{{ app_url_domain }}";
+
+    // ajax 加载最新评论
+    function fetch_latest_comment(size, sort, sid){
+      var url = "{{ app_url_domain }}/app/site/comment/ajax_fetch_comment";
+
+      $.get(url, {page:1, per_page:size, type:6, sub_type:5, sort:sort, next_id:sid}, function(result){
+          var html = '';
+          if(result.success){
+            var list = result.data.result.rows;
+            for(var i=0;i<list.length;i++){
+              var z_id = list[i]["_id"];
+              var z_target_id = list[i]['target_id'];
+              var z_user_id = list[i]['user_id'];
+              var z_user_nickname = list[i]["user"]['nickname'];
+              var z_user_avatar = list[i]["user"]['small_avatar_url'];
+              var z_content = list[i]["content"];
+              var z_floor = list[i]["floor"];
+              html += '';
+              html += '<div class="comment comment-item" sid="'+ z_id +'">';
+              html += '<a href="'+ domain_url +'/user/'+ z_user_id +'" class="avatar" target="_blank">';
+              html += '<img src="'+ z_user_avatar +'" alt="'+ z_user_nickname +'">';
+              html += '</a>';
+              html += '<div class="content">';
+              html += '<a href="'+ domain_url +'/user/'+ z_user_id +'" class="ui link floor" target="_blank">'+ z_user_nickname +'</a>';
+              html += '<div class="metadata">';
+              html += '<a href="'+ domain_url +'/stuff/tshow?id='+ z_target_id +'&floor='+ z_floor +'#f'+ z_floor +'" class="ui link floor" target="_blank">回复</a>';
+              html += '</div>';
+              html += '<div class="text">'+ z_content +'</div>';
+              html += '</div>';
+              html += '</div>';
+              html += '</div>';
+
+
+            }
+            if(html==''){
+              return;
+            }
+            if(sid==''){
+              $('#latest-comment-list').html(html);
+            }else{
+              $('#latest-comment-list').prepend(html);
+            }
+
+            if($('#latest-comment-list .comment-item').length>8){
+              $('#latest-comment-list .comment-item:last').remove();
+            }
+          }
+      }, 'json');
+    }
+
 </script>
 {% endblock %}
 
@@ -303,6 +354,29 @@ p.zhichi{
 	phenix.bind_share_list("http://frstatic.qiniudn.com/images/top/wap_bg2.jpg");
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://m.taihuoniao.com/stuff/hundred'});
+
+
+  // 定时获取最新评论
+  fetch_latest_comment(8, 1, '');
+
+  // 定时提示,每次6秒钟,最多500次
+  var limit_notice_times = 0;
+  setInterval(function(){
+      if(limit_notice_times >= 500){
+          return
+      }else{
+        // 首次加载等待6+1秒
+        if(limit_notice_times==0){
+          setTimeout(function(){}, 6000);
+        }
+        var sid = '';
+        if($('#latest-comment-list .comment-item:first').length>0){
+          sid = $('#latest-comment-list .comment-item:first').attr('sid');
+        }
+        fetch_latest_comment(1, 0, sid);
+      }
+      limit_notice_times++;
+  }, 1000*6);
 
 {% endblock %}
 
@@ -405,13 +479,15 @@ p.zhichi{
 					<div class="mainright">
 						<div class="sellwrap" style="margin-bottom:0;">
 							<div class="block title">
-								评论
+								最新评论
 							</div>
 							
 							<div class="ui articles list">
 								
-								<div id="comment-list">
-									<div class="ui threaded comments is-comment">
+								<div>
+									<div class="ui threaded comments is-comment" id="latest-comment-list">
+
+                    <!--
 										<div class="comment">
 											<a class="avatar" href="http://www.taihuoniao.com/user/953556/" target="_blank">
 											   <img src="http://frstatic.qiniudn.com/images/deavatar/006-s.jpg" alt="rgpu">
@@ -430,140 +506,7 @@ p.zhichi{
 												 
 											 </div>
 										</div>
-										
-										
-										<div class="comment">
-											<a class="avatar" href="http://www.taihuoniao.com/user/953556/" target="_blank">
-											   <img src="http://frstatic.qiniudn.com/images/deavatar/006-s.jpg" alt="rgpu">
-											 </a>
-											 
-											 <div class="content">
-												 <a class="author ui link" href="http://www.taihuoniao.com/user/953556/" target="_blank">rgpu</a>
-												 
-												 <div class="metadata">
-												    <a target="_blank" href="" class="ui link floor">回复</a>
-												 </div>
-												 
-												 <div class="text">
-												                         每天为了避开早高峰按时打卡必须早起，所以中午休息时都要打个小盹儿，下午工作才能有充沛精力去完成。趴在办公桌上
-												  </div>
-												 
-											 </div>
-										</div>
-										
-										<div class="comment">
-											<a class="avatar" href="http://www.taihuoniao.com/user/953556/" target="_blank">
-											   <img src="http://frstatic.qiniudn.com/images/deavatar/006-s.jpg" alt="rgpu">
-											 </a>
-											 
-											 <div class="content">
-												 <a class="author ui link" href="http://www.taihuoniao.com/user/953556/" target="_blank">rgpu</a>
-												 
-												 <div class="metadata">
-												    <a target="_blank" href="" class="ui link floor">回复</a>
-												 </div>
-												 
-												 <div class="text">
-												                         每天为了避开早高峰按时打卡必须早起，所以中午休息时都要打个小盹儿，下午工作才能有充沛精力去完成。趴在办公桌上
-												  </div>
-												 
-											 </div>
-										</div>
-										
-										<div class="comment">
-											<a class="avatar" href="http://www.taihuoniao.com/user/953556/" target="_blank">
-											   <img src="http://frstatic.qiniudn.com/images/deavatar/006-s.jpg" alt="rgpu">
-											 </a>
-											 
-											 <div class="content">
-												 <a class="author ui link" href="http://www.taihuoniao.com/user/953556/" target="_blank">rgpu</a>
-												 
-												 <div class="metadata">
-												    <a target="_blank" href="" class="ui link floor">回复</a>
-												 </div>
-												 
-												 <div class="text">
-												                         每天为了避开早高峰按时打卡必须早起，所以中午休息时都要打个小盹儿，下午工作才能有充沛精力去完成。趴在办公桌上
-												  </div>
-												 
-											 </div>
-										</div>
-										
-										<div class="comment">
-											<a class="avatar" href="http://www.taihuoniao.com/user/953556/" target="_blank">
-											   <img src="http://frstatic.qiniudn.com/images/deavatar/006-s.jpg" alt="rgpu">
-											 </a>
-											 
-											 <div class="content">
-												 <a class="author ui link" href="http://www.taihuoniao.com/user/953556/" target="_blank">rgpu</a>
-												 
-												 <div class="metadata">
-												    <a target="_blank" href="" class="ui link floor">回复</a>
-												 </div>
-												 
-												 <div class="text">
-												                         每天为了避开早高峰按时打卡必须早起，所以中午休息时都要打个小盹儿，下午工作才能有充沛精力去完成。趴在办公桌上
-												  </div>
-												 
-											 </div>
-										</div>
-										
-										<div class="comment">
-											<a class="avatar" href="http://www.taihuoniao.com/user/953556/" target="_blank">
-											   <img src="http://frstatic.qiniudn.com/images/deavatar/006-s.jpg" alt="rgpu">
-											 </a>
-											 
-											 <div class="content">
-												 <a class="author ui link" href="http://www.taihuoniao.com/user/953556/" target="_blank">rgpu</a>
-												 
-												 <div class="metadata">
-												    <a target="_blank" href="" class="ui link floor">回复</a>
-												 </div>
-												 
-												 <div class="text">
-												                         每天为了避开早高峰按时打卡必须早起，所以中午休息时都要打个小盹儿，下午工作才能有充沛精力去完成。趴在办公桌上
-												  </div>
-												 
-											 </div>
-										</div>
-										
-										<div class="comment">
-											<a class="avatar" href="http://www.taihuoniao.com/user/953556/" target="_blank">
-											   <img src="http://frstatic.qiniudn.com/images/deavatar/006-s.jpg" alt="rgpu">
-											 </a>
-											 
-											 <div class="content">
-												 <a class="author ui link" href="http://www.taihuoniao.com/user/953556/" target="_blank">rgpu</a>
-												 
-												 <div class="metadata">
-												    <a target="_blank" href="" class="ui link floor">回复</a>
-												 </div>
-												 
-												 <div class="text">
-												                         每天为了避开早高峰按时打卡必须早起，所以中午休息时都要打个小盹儿，下午工作才能有充沛精力去完成。趴在办公桌上
-												  </div>
-												 
-											 </div>
-										</div>
-										
-										<div class="comment">
-											<a class="avatar" href="http://www.taihuoniao.com/user/953556/" target="_blank">
-											   <img src="http://frstatic.qiniudn.com/images/deavatar/006-s.jpg" alt="rgpu">
-											 </a>
-											 
-											 <div class="content">
-												 <a class="author ui link" href="http://www.taihuoniao.com/user/953556/" target="_blank">rgpu</a>
-												 
-												 <div class="metadata">
-												    <a target="_blank" href="" class="ui link floor">回复</a>
-												 </div>
-												 
-												 <div class="text">
-												                         每天为了避开早高峰按时打卡必须早起，所以中午休息时都要打个小盹儿，下午工作才能有充沛精力去完成。趴在办公桌上
-												  </div>
-												 
-											 </div>
-										</div>
+                    -->
 										
 										
 										
