@@ -5,6 +5,10 @@
  */
 class Sher_Core_Service_Pusher extends Sher_Core_Service_Base {
 
+    protected $sort_fields = array(
+        'latest' => array('created_on' => -1),
+    );
+
     protected static $instance;
 	
     /**
@@ -17,6 +21,14 @@ class Sher_Core_Service_Pusher extends Sher_Core_Service_Base {
             return self::$instance = new Sher_Core_Service_Pusher();
         }
         return self::$instance;
+    }
+
+    /**
+     * 获取列表
+     */
+    public function get_pusher_list($query=array(), $options=array()) {
+	    $model = new Sher_Core_Model_Pusher();
+		  return $this->query_list($model, $query, $options);
     }
 
 	

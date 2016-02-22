@@ -125,13 +125,21 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['stuff'] = $stuff;
 		$this->stash['editable'] = $editable;
     $this->stash['is_loved'] = $is_loved;
+
+    // 跳转楼层
+    $floor = isset($this->stash['floor']) ? (int)$this->stash['floor'] : 0;
+    if($floor){
+        $new_page = ceil($floor/10);
+        $this->stash['page'] = $new_page;
+    }
 		
     // 评论参数
     $comment_options = array(
       'comment_target_id' => $stuff['_id'],
       'comment_target_user_id' => $stuff['user_id'],
       'comment_type'  =>  Sher_Core_Model_Comment::TYPE_STUFF,
-      'comment_pager' =>  Sher_Core_Helper_Url::stuff_comment_url($id, '#p#'),
+
+      'comment_pager' =>  sprintf("%s/tshow?id=%d&page=#p##comment_top", Doggy_Config::$vars['app.url.stuff'], $stuff['_id']),
       //是否显示上传图片/链接
       'comment_show_rich' => 1,
     );
@@ -218,6 +226,11 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		if(empty($stuff) || $stuff['deleted']){
 			return $this->show_message_page('访问的产品不存在或被删除！', $redirect_url);
 		}
+
+    // 如果是top100,跳到相应页面 
+    if($stuff['from_to']==5){
+      return $this->to_redirect(sprintf("%s/tshow?id=%d", Doggy_Config::$vars['app.url.stuff'], $stuff['_id']));
+    }
 		
 		$stuff = $model->extended_model_row($stuff);
 

@@ -61,6 +61,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$row['target_user_id'] = (int)$this->stash['target_user_id'];
 		$row['type'] = (int)$this->stash['type'];
 		$row['sku_id'] = isset($this->stash['sku_id']) ? (int)$this->stash['sku_id'] : 0;
+		$row['from_site'] = isset($this->stash['from_site']) ? (int)$this->stash['from_site'] : 1;
 		
 		// 处理评论内容
 		$content = $this->stash['content'];
@@ -258,6 +259,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$row['content'] = $this->stash['content'];
 		$row['type'] = (int)$this->stash['type'];
 		$row['sku_id'] = isset($this->stash['sku'])?(int)$this->stash['sku']:0;
+		$row['from_site'] = isset($this->stash['from_site'])?(int)$this->stash['from_site']:1;
 		
 		// 验证数据
 		if(empty($row['target_id']) || empty($row['content']) || empty($row['star'])){
@@ -553,7 +555,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
      */
     public function ajax_fetch_comment() {
         $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
-        $target_id = !empty($this->stash['target_id'])?$this->stash['target_id']:-1;
+        $target_id = !empty($this->stash['target_id'])?$this->stash['target_id']:0;
         $page = isset($this->stash['page'])?(int)$this->stash['page']:1;
         $per_page = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
         $type = isset($this->stash['type'])?(int)$this->stash['type']:0;
@@ -562,20 +564,34 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         $sort = isset($this->stash['sort'])?(int)$this->stash['sort']:0;
         // wap 或 site
         $from_site = isset($this->stash['from_site']) ? $this->stash['from_site'] : 'site';
-        $target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : null;
         // 是否加载评分
         $is_star = isset($this->stash['is_star']) ? (int)$this->stash['is_star'] : 0;
+        // 子分类
+        $sub_type = isset($this->stash['sub_type']) ? (int)$this->stash['sub_type'] : 0;
 
-        if(empty($target_id)){
-          return false;
-        }
+        $next_id = isset($this->stash['next_id']) ? DoggyX_Mongo_Db::id($this->stash['next_id']) : null;
         
         $service = Sher_Core_Service_Comment::instance();
         
         $query = array();
         $options = array();
-        $query['target_id'] = $target_id;
-        $query['type'] = $type;
+
+        if($next_id){
+          $query['_id'] = array('$gt'=>$next_id);
+        }
+
+        if($target_id){
+          $query['target_id'] = $target_id;
+        }
+
+        if($type){
+          $query['type'] = $type;
+        }
+
+        if($sub_type){
+          $query['sub_type'] = $sub_type;
+        }
+
         $options['page'] = $page;
         $options['size'] = $per_page;
 

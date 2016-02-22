@@ -56,11 +56,7 @@
 		font-size: .925rem;
 		color: rgba(0,0,0,.5);
 	}
-	.sub.header.attribute .magenta.link{
-		color:#f36;
-		text-decoration: none;
-	}
-
+	
   .content.pt-0{
     margin-top:0 !important;
     margin-left:0 !important;
@@ -105,7 +101,7 @@
 <div class="ui header">
 <div class="content pt-0">
 <div class="sub header attribute">
-<span class="category"><span class="ui magenta link">{{ topic.category.title }}</span></span> |
+<span class="category">{{ topic.category.title }}</span> |
 <span> {{ topic.user.nickname }}发表于{{ topic.created_on|relative_datetime }}</span> |
 <span>浏览数: {{ topic.view_count }}</span>
 </div>

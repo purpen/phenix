@@ -103,9 +103,7 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 		try{
 			$model = new Sher_Core_Model_Favorite();
 			$ok = $model->remove_favorite($this->visitor->id, $id, $type);
-			if($ok){
-				$model->mock_after_remove($this->visitor->id, $id, $type, Sher_Core_Model_Favorite::EVENT_FAVORITE);
-			}
+
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('操作失败,请重新再试', true);
 		}
@@ -216,9 +214,7 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
 		try{
 			$model = new Sher_Core_Model_Favorite();
 			$ok = $model->cancel_love($this->visitor->id, $id, $type);
-			if($ok){
-				$model->mock_after_remove($this->visitor->id, $id, $type, Sher_Core_Model_Favorite::EVENT_LOVE);
-			}
+
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('操作失败,请重新再试', true);
 		}

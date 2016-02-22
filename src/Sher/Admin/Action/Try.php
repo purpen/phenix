@@ -466,7 +466,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     	fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
 		
 		// 输出Excel列名信息
-		$head = array('ID', '姓名', '电话', '地址', '邮编', '微信', 'QQ', '支持数', '申请内容');
+		$head = array('ID', '昵称', '姓名', '电话', '地址', '邮编', '微信', 'QQ', '支持数', '申请内容');
 		foreach($head as $i => $v){
 			// CSV的Excel支持GBK编码，一定要转换，否则乱码
 			// $head[$i] = iconv('utf-8', 'gbk', $v);
@@ -500,7 +500,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 				
         $apply = $result['rows'][$i];
         $address = sprintf("%s-%s-%s", $apply['area_province']['city'], $apply['area_district']['city'], $apply['address']);
-				$row = array($apply['user_id'], $apply['name'], $apply['phone'], $address, $apply['zip'], $apply['wx'], $apply['qq'], $apply['vote_count'], $apply['content']);
+				$row = array($apply['user_id'], $apply['user']['nickname'], $apply['name'], $apply['phone'], $address, $apply['zip'], $apply['wx'], $apply['qq'], $apply['vote_count'], $apply['content']);
 				
 				/*
 				foreach($row as $k => $v){

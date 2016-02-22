@@ -24,7 +24,6 @@
 	}
 	.ui.descrite.segment{
 	    padding: 20px 20px 30px;
-	    margin-bottom: 30px;
 	}
 	.ui.descrite.segment p{
 		line-height: 26px;
@@ -93,10 +92,40 @@
 	    box-shadow: none !important;
 		font-size: 1.14285714rem;
 	}
+	.ui.repeat.segment{
+		margin-bottom:30px;
+		padding-top: 0;
+	    padding-left: 0;
+	    padding-right: 0;
+	}
+	.ui.repeat.segment .block.title{
+		background-color: #f8f8f8;
+	    border-bottom: 1px solid rgba(224,224,224,.46);
+	    padding: 18px 30px 9pt;
+	    text-align: left;
+	    font-size: 18px;
+	    position: relative;
+	}
+	.ui.repeat.segment .block.title .quick.goto {
+	    position: absolute;
+	    font-size: 14px;
+	    line-height: 20px;
+	    right: 30px;
+	    top: 9pt;
+	}
+	.ui.repeat.segment .block.title .quick.goto input {
+	    border: 1px solid #ccc;
+	    border-radius: 4px;
+	    font-size: 14px;
+	    padding: 3px 10px;
+	    width: 3pc;
+	}
 </style>
 {% endblock %}
 
 {% block jquery %}
+
+	phenix.hook_comment_page();
 	// 分享
 	$('.ui.share.button').bind('click', function(){
 		$('.ui.share.modal').modal('show');
@@ -159,6 +188,21 @@
         */
       }
       
+    });
+
+    // 绑定跳楼
+    $('.gotofloor').bind('keydown', function(e){
+        var floor = $(this).val(), max = parseInt($(this).data('max')), url = $(this).data('url');
+        if(e.keyCode == 13){
+            if (isNaN(floor)){
+                alert('必须输入一个数字！');
+                return false;
+            }
+            if (floor > max){
+                floor = max;
+            }
+            window.location.href = url + '&floor=' + floor + '#f' + floor;
+        }
     });
 		
 		
@@ -273,6 +317,58 @@
 			
 			</div>
 		</div>
+
+
+		<div class="row">
+			<div class="column">
+				<div class="ui repeat segment">
+			
+	            	<div class="container">
+		    			<div class="reply box">
+		                    <a name="comment_top"></a>
+		      			    <!--ajax comment-->
+		    	  	        <div class="block title">
+		                        全部评论<small>（{{ stuff.comment_count }}）</small>
+                        
+		                        <div class="quick goto">
+		                            直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ stuff.comment_count }}" data-url="{{ app_url_stuff }}/tshow?id={{ stuff._id }}&page={{ page }}" title="跳转到指定楼层" />
+		                        </div>
+		                    </div>
+		      		  	    <div id="comment-list">
+		                    {% if page==1 %}
+		                        {% comment_list var:'hot_comments' page:1 target_id:stuff._id type:6 check_loved:1 only_hotest:1 current_user_id:visitor.id %}
+		                        {% if hot_comments.rows %}
+		                        <div class="ui threaded hotest comments">
+		                            <a class="ui red ribbon label">热门回复</a>
+		                    		{% for comment in hot_comments.rows %}
+		                    			{%include 'block/comment_item.html'%}
+		                    		{% endfor %}
+		                            <hr>
+		                        </div>
+		                        {% endif %}
+		                      {%endif%}
+		                        {% comment_list var:'comments' page:page target_id:stuff._id type:6 sort:sort check_loved:1 current_user_id:visitor.id %}
+		                        <div class="ui threaded comments is-comment">
+		                        {% for comment in comments.rows %}
+		                    			{%include 'block/comment_item.html'%}
+		                    		{% endfor %}
+                        
+		                        </div>
+		                        {% if comments.total_page > 1 %}
+		                        <div class="ui pagination pagerbox">
+		                          {% pager url:pager_url,total_rows:comments.total_rows,total_page:comments.total_page,current_page:page,var:'pager',pager_size:9 %}
+		                          {% include 'block/pager.html' %}
+		                        </div>
+		                        {%endif%}
+		      		  	    </div>
+		      		  	    {% include "block/comment_box_site.html" %}
+		                </div>
+		            </div>
+				</div>
+			</div>
+		</div>
+			
+
 		
 		
 	</div>
