@@ -27,8 +27,8 @@ $user_id = 965565;
 
 $topics = $topic_model->find(array('user_id'=>$user_id));
 $count = count($topics);
-echo "topic count: ";
-for($topics as $k=>$v){
+echo "topic count: $count";
+foreach($topics as $k=>$v){
   $id = $v['_id'];
   //$topic_model->remove($id);
 }
