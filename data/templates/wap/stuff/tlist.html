@@ -27,7 +27,7 @@
     padding: 0;
     width: auto;
     line-height: 43px;
-    background: #f36;
+    background: #c6c6c6;
     margin-left: 5px;
 }
 #tmenu .swiper-slide:first-child{
@@ -46,7 +46,7 @@
     padding:12px 20px;
     background: #c6c6c6;
 }
-#tmenu .swiper-slide a.activet{
+#tmenu .swiper-slide a.active{
 	background:#f36;
 	color:#fff;
 }
@@ -194,8 +194,8 @@ p.zhichi{
     $('#stuff_list_box').html('');
     // 点击分类加载
     ajax_load_more(page, is_top, category_id, 0, 5, sort, size);
-		$(this).children('.category-btn').addClass('activet');
-		$(this).siblings().children('.category-btn').removeClass('activet');
+		$(this).children('.category-btn').addClass('active');
+		$(this).siblings().children('.category-btn').removeClass('active');
 	});
 
   // 初次加载
