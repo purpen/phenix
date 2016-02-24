@@ -95,6 +95,8 @@ $comment_list = array(
   ),
 );
 
+/**
+ * 测试环境
 $comment_list = array(
   '21' => array( // 休闲娱乐
     '下一个娱乐的领域一定是虚拟现实',
@@ -117,6 +119,7 @@ $comment_list = array(
     '出行都艺术得不要不要的',
   ),
 );
+ */
 
 $common_comment_list = array(
   '设计不错哦',
@@ -294,8 +297,8 @@ while(!$is_end){
 		$row['from_site'] = 1;
 
     if(isset($comment_list[$category_id]) && isset($comment_list[$category_id][$$c_var])){
+      echo "is category comment...\n";
       $row['content'] = $comment_list[$category_id][$$c_var];
-
 
       $$c_var += 1;
     }else{
