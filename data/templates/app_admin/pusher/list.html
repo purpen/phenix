@@ -1,4 +1,4 @@
-{%extends 'layout/admin.html'%}
+{%extends 'layout/app_admin.html'%}
 {% block page_css %}
   <style type="text/css">
     .content-text img{
@@ -55,7 +55,7 @@
 	<h3 class="ui header">推送管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/pusher" class="active item">
+		<a href="{{ app_url_app_admin_base }}/pusher" class="active item">
 			全部
 		</a>
 
@@ -68,7 +68,7 @@
 	</div>
 	
 	<div class="ui sub ">
-		<form action="{{ app_url_admin_base }}/pusher/get_list" id="search-form" method="get">
+		<form action="{{ app_url_app_admin_base }}/pusher/get_list" id="search-form" method="get">
 			<label>搜索：</label>
       <div class="ui selection dropdown">
         <input type="hidden" name="from_to" value="{{ from_to }}" />

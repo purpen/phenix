@@ -10,10 +10,10 @@
     font-size:16px !important;
 }
 .topbg {
-    background: url({{ app_url_packaged }}/images/top/wap_bg2.jpg) no-repeat center center;
+    background: url({{ app_url_packaged }}/images/top/wbg.jpg) no-repeat center center;
     background-size: cover;
-	padding-top: 40%;
-	padding-bottom: 0%;
+	padding-top: 38%;
+	padding-bottom: 2%;
 }
 .topbg .ui.jointop{
 	padding-left:30px;
@@ -97,7 +97,7 @@
     transform: scaleX(1);
 }
 .ui.inverted.translate.button {
-    color: #37004f;
+    color: #fff;
     background: rgba(0,0,0,0);
     display: block;
     width: 135px;
@@ -107,12 +107,15 @@
     font-size: 1.14285714rem;
 }
 .topbtn.active, .topbtn:hover {
-    background: #37004f !important;
+    background: #f36 !important;
     color: #fff !important;
 }
 .ui.big.reply.segment{
 	padding-bottom: 15px;
     margin-bottom: 20px !important;
+}
+.ui.votem.responsive.grid .row:nth-child(2) p{
+	line-height: 22px;
 }
 </style>
 {% endblock %}
@@ -288,18 +291,18 @@
 
           {%if is_loved%}
             <div class="ui magenta like inverted button active" data-mark="y" data-id="{{ stuff._id }}">
-              <i class=" heart icon"></i>
+              <i class=" thumbs up icon"></i>
               <span>已投票</span>
               <div class="add">
-                <i class="heart icon" style="font-size: 14px;vertical-align: middle;"></i>+1      
+                <i class="thumbs up icon" style="font-size: 14px;vertical-align: middle;"></i>+1      
               </div>
             </div>
           {%else%}
             <div class="ui magenta like inverted button" data-mark="n" data-id="{{ stuff._id }}">
-              <i class=" heart icon"></i>
+              <i class="thumbs up icon"></i>
               <span>投他一票</span>
               <div class="add">
-                <i class="heart icon" style="font-size: 14px;vertical-align: middle;"></i>+1      
+                <i class="thumbs up icon" style="font-size: 14px;vertical-align: middle;"></i>+1      
               </div>
             </div>
           {%endif%}
@@ -338,6 +341,29 @@
 					</div>
 				</div>
 			</div>
+			
+			<div class="ui votem responsive grid">
+				<div class="row">
+					<div class="column">
+						<img src="{{ app_url_packaged }}/images/top/wyy.jpg" align="absmiddle" width="100%">
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="column">
+						<p>太火鸟在2016年1月新年伊始之际邀请多方投资机构、孵化平台、行业专家以及数十家知名媒体共同发起中国最火爆智能硬件TOP100榜单评选，作为2015智能硬件蛋年大会的延伸及总结。产品征集范围分为10大类目，重点围绕创新设计、人气热度、众筹金额、销售数量、前沿技术等维度进行评选。 综合行业专家、社会意见及投资人严格审核，最终甄选出前100款优秀产品及各维度年度特别奖。<br \>
+入榜品牌将于3月28日在太火鸟官网（taihuoniao.com）线上揭晓，4月大型线下活动现场公布百强名单并为特别奖项颁奖。创业者可据此寻得行业内准确的发展方向、用户最直接的反馈，获得更丰富的行业资源及活动期间持续海量的媒体曝光机会。</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="column">
+						<img src="{{ app_url_packaged }}/images/top/wwy.jpg" align="absmiddle" width="100%">
+					</div>
+				</div>
+				
+				
+			</div>
+			<img src="{{ app_url_packaged }}/images/top/wjb.jpg" align="absmiddle" width="100%">
 
             <!--评论-->
 				    <div class="block title">

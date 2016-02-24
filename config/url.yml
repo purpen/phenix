@@ -6,6 +6,7 @@ app.domain.app: '{$app.domain.base}'
 app.url.domain:         '{$app.domain.base}'
 app.url.action_base:    '{$app.domain.app}/app/site'
 app.url.admin_base:    '{$app.domain.app}/app/admin'
+app.url.app_admin_base:    '{$app.domain.app}/app/app_admin'
 
 app.domain.mobile: 'http://wap.taihuoniao.me'
 app.url.mobile: '{$app.domain.mobile}'
@@ -204,6 +205,7 @@ app.url.weixin.login: '{$app.url.action_base}/weixin'
 
 #管理面板
 app.url.admin:		'{$app.url.admin_base}'
+app.url.app_admin:		'{$app.url.app_admin_base}'
 app.url.admin.report: '{$app.url.admin_base}/report'
 app.url.admin.reply: '{$app.url.admin_base}/reply'
 
