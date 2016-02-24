@@ -12,8 +12,8 @@
 .topbg {
     background: url({{ app_url_packaged }}/images/top/wbg.jpg) no-repeat center center;
     background-size: cover;
-	padding-top: 40%;
-	padding-bottom: 0%;
+	padding-top: 38%;
+	padding-bottom: 2%;
 }
 .topbg .ui.jointop{
 	padding-left:30px;
@@ -116,6 +116,9 @@
 }
 .ui.votem.responsive.grid .row:nth-child(2) p{
 	line-height: 22px;
+}
+.ui.votem.responsive.grid  .row{
+	padding:0 !important;
 }
 </style>
 {% endblock %}
@@ -291,18 +294,18 @@
 
           {%if is_loved%}
             <div class="ui magenta like inverted button active" data-mark="y" data-id="{{ stuff._id }}">
-              <i class=" heart icon"></i>
+              <i class=" thumbs up icon"></i>
               <span>已投票</span>
               <div class="add">
-                <i class="heart icon" style="font-size: 14px;vertical-align: middle;"></i>+1      
+                <i class="thumbs up icon" style="font-size: 14px;vertical-align: middle;"></i>+1      
               </div>
             </div>
           {%else%}
             <div class="ui magenta like inverted button" data-mark="n" data-id="{{ stuff._id }}">
-              <i class=" heart icon"></i>
+              <i class="thumbs up icon"></i>
               <span>投他一票</span>
               <div class="add">
-                <i class="heart icon" style="font-size: 14px;vertical-align: middle;"></i>+1      
+                <i class="thumbs up icon" style="font-size: 14px;vertical-align: middle;"></i>+1      
               </div>
             </div>
           {%endif%}
