@@ -991,8 +991,8 @@ class Sher_Core_Helper_Util {
         $topic_model = new Sher_Core_Model_Topic();
 
         $last_minute_count = $topic_model->count(array('user_id'=>(int)$user_id, 'created_on'=>array('$gt'=>(time()-60))));
-        // 一分钟内不能大于3条
-        if($last_minute_count>2){
+        // 一分钟内不能大于2条
+        if($last_minute_count>1){
           return array('success'=>true, 'msg'=>'发表的话题频率太高，稍后再试吧!');       
         }
 

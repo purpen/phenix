@@ -1136,10 +1136,12 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 
     // 用户发表频率、次数限制
     if(empty($id)){
-      $pub_is_limit = Sher_Core_Helper_Util::report_filter_limit($this->visitor->id, 1);
-      if($pub_is_limit['success']){
-        return $this->ajax_json($pub_is_limit['msg'], true);   
-      }   
+      if(empty($this->visitor->quality)){
+        $pub_is_limit = Sher_Core_Helper_Util::report_filter_limit($this->visitor->id, 1);
+        if($pub_is_limit['success']){
+          return $this->ajax_json($pub_is_limit['msg'], true);   
+        }     
+      }
     }
 		
 		$mode = 'create';
