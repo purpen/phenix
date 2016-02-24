@@ -284,7 +284,7 @@ p.zhichi{
 
 								{% category_list var:'category' only_open:1 domain:4 pid:pid current:stuff.category_id %}
                   <div class="swiper-slide" data-value="0">
-                        <a class="ui item category-btn" href="javascript:void(0);">全部</a>
+                        <a class="ui item category-btn active" href="javascript:void(0);">全部</a>
                   </div>
 								{% for cat in category.rows %}
                   <div class="swiper-slide" data-value="{{ cat._id }}">
