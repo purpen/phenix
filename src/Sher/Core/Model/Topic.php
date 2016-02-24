@@ -423,12 +423,12 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	public function mock_after_remove($id) {
 		// 删除Asset
 		$asset = new Sher_Core_Model_Asset();
-		$asset->remove_and_file(array('parent_id' => $id));
+		$asset->remove_and_file(array('parent_id' => $id, 'asset_type'=>array('$in'=>array(50,55,56))));
 		unset($asset);
 		
 		// 删除Comment
 		$comment = new Sher_Core_Model_Comment();
-		$comment->remove(array('target_id' => $id));
+		$comment->remove(array('target_id' => $id, 'type'=>Sher_Core_Model_Comment::TYPE_TOPIC));
 		unset($asset);
 		
 		// 删除TextIndex

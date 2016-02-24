@@ -1,0 +1,59 @@
+
+<div class="ui pointing vertical fluid menu">
+	
+	<div class="header item menu-admin">
+	    <i class="{% if show_type == 'console' %} plus {% else %} minus {% endif %} icon"></i><b>控制台</b>
+	</div>
+	<div date="menu-admin" {% if show_type == 'console' %} style="display:block" {% else %} style="display:none" {% endif %}>
+		<a class="{{ css_page_dashboard }} item" href="{{ app_url_app_admin_base }}/console/dashboard">
+			概况统计
+		</a>
+	</div>
+	
+	{% if visitor.is_chief %}
+	<div class="header item menu-admin">
+	    <i class="{% if show_type == 'common' %} plus {% else %} minus {% endif %} icon"></i><b>常用模块</b>
+	</div>
+	<div date="menu-admin" {% if show_type == 'common' %} style="display:block" {% else %} style="display:none" {% endif %}>
+
+	</div>
+	{% endif %}
+		
+    {% if visitor.is_customer %}
+	<div class="header item menu-admin">
+	    <i class="{% if show_type == 'product' %} plus {% else %} minus {% endif %} icon"></i><b>产品模块</b>
+	</div>
+	<div date="menu-admin" {% if show_type == 'product' %} style="display:block" {% else %} style="display:none" {% endif %}>
+		<a class="{{ css_page_product }} item" href="{{ app_url_app_admin_base }}/product">
+			产品管理
+		</a>
+
+	</div>
+	{% else %}
+	
+		{% if visitor.is_chief %}
+		<div class="header item menu-admin">
+			<i class="{% if show_type == 'product' %} plus {% else %} minus {% endif %} icon"></i><b>产品模块</b>
+		</div>
+		<div date="menu-admin" {% if show_type == 'product' %} style="display:block" {% else %} style="display:none" {% endif %}>
+			<a class="{{ css_page_product }} item" href="{{ app_url_app_admin_base }}/product">
+			  产品管理
+			</a>
+
+		</div>
+		{% endif %}
+	{% endif %}
+
+	<div class="header item menu-admin">
+		<i class="{% if show_type == 'app' %} plus {% else %} minus {% endif %} icon"></i><b>设备模块</b>
+	</div>
+	<div date="menu-admin" {% if show_type == 'app' %} style="display:block" {% else %} style="display:none" {% endif %}>
+		{% if visitor.is_chief %}
+		<a class="{{ css_page_app_pusher }} item" href="{{ app_url_app_admin_base }}/pusher">
+			设备管理
+		</a>
+
+		{%endif%}
+	</div>
+
+</div>

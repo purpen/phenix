@@ -12,6 +12,11 @@ app.modules.admin:
   state: 'on'
   namespace: 'Sher_Admin'
   index_action: 'Console'
+
+app.modules.app_admin: 
+  state: 'on'
+  namespace: 'Sher_AppAdmin'
+  index_action: 'Console'
   
 app.modules.wap: 
   state: 'on'
