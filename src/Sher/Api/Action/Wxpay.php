@@ -61,7 +61,7 @@
 			}
 			
 			// 支付完成通知回调接口
-			$notify_url = sprintf("%s/wxpay/notify", Doggy_Config::$vars['app.domain.base']);
+			$notify_url = sprintf("%s/wxpay/notify", Doggy_Config::$vars['app.url.api']);
 
 			
 			// 统一下单

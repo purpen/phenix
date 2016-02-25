@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 
-	protected $filter_user_method_list = array('execute', 'login', 'register', 'verify_code', 'find_pwd', 'third_sign', 'third_register_without_phone', 'third_register_with_phone');
+	protected $filter_user_method_list = array('execute', 'login', 'register', 'verify_code', 'find_pwd', 'third_sign', 'third_register_without_phone', 'third_register_with_phone', 'check_login');
 	
 	/**
 	 * 入口
@@ -649,6 +649,18 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     // 赠与红包 使用默认时间30天 $end_time = strtotime('2015-06-30 23:59')
     $end_time = 0;
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
+  }
+
+  /**
+   * 验证用户登录状态
+   */
+	public function check_login(){
+		$id = (int)$this->current_user_id;
+		if(empty($id)){
+			return $this->api_json('没有登录', 0, array('is_login'=>0, 'user_id'=>0));
+    }else{
+ 			return $this->api_json('已登录！', 0, array('is_login'=>1, 'user_id'=>$this->current_user_id));  
+    }
   }
 
 	

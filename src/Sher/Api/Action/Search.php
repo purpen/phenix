@@ -56,6 +56,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
         $kind = $result['data'][$k]['kind'];
         $cid = (int)$result['data'][$k]['cid'];
         $oid = (int)$result['data'][$k]['oid'];
+        $result['data'][$k]['_id'] = $oid;
 
         // 产品
         if($kind=='Product'){
