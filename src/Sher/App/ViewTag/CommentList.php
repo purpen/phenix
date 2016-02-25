@@ -51,12 +51,12 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
 		if ($type) {
 			$query['type'] = (int)$type;
 		}
-		if ($target_user_id) {
-			$query['target_user_id'] = (int)$target_user_id;
-		}
     if ($user_id) {
         $query['user_id'] = (int) $user_id;
     }
+		if ($target_user_id) {
+			$query['target_user_id'] = (int)$target_user_id;
+		}
     if($sku_id){
         $query['sku_id'] = (int)$sku_id;
     }
