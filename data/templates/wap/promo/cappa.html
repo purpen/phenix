@@ -19,6 +19,32 @@
 		bottom:60px;
 		left:48px;
 	}
+	@-webkit-keyframes swipe {
+		0%{-webkit-transform:translateY(40px);opacity:0}
+		60%{-webkit-transform:translateY(12px);opacity:1}
+		100%{-webkit-transform:translateY(0px);opacity:0}
+	}
+	@-moz-keyframes swipe {
+		0%{-webkit-transform:translateY(40px);opacity:0}
+		60%{-webkit-transform:translateY(12px);opacity:1}
+		100%{-webkit-transform:translateY(0px);opacity:0}
+	}
+	@keyframes swipe {
+		0%{-webkit-transform:translateY(40px);opacity:0}
+		60%{-webkit-transform:translateY(12px);opacity:1}
+		100%{-webkit-transform:translateY(0px);opacity:0}
+	}
+	.swipe { 
+		position: absolute; 
+		width: 28px; 
+		height: 16px; 
+		bottom: 15px; 
+		left: 50%; 
+		margin-left: -14px;
+		z-index:4;
+		animation: swipe 1.5s linear infinite;
+	  -webkit-animation: swipe 1.5s linear infinite; 
+	}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -86,39 +112,51 @@
 <div class="wrap"  style="display: none">
     <section class="screen screen1">
 		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/1.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
 	</section>
     <section class="screen screen2">
 		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/2.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
 	</section>
     <section class="screen screen3">
 		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/3.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
 	</section>
     <section class="screen screen4">
 		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/4_1.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
 	</section>
     <section class="screen screen5" >
 		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/4_2.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
 	</section>
     <section class="screen screen6">
 		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/5.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
 	</section>
     <section class="screen screen7">
 		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/6.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
 	</section>
     <section class="screen screen8">
 		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/7.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
 	</section>
     <section class="screen screen9">
 		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/8.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
 	</section>
     <section class="screen screen10">
 		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/9_1.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
 	</section>
     <section class="screen screen11">
 		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/9_2.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
 	</section>
     <section class="screen screen12">
 		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/10.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
 	</section>
 	
     <section class="screen screen13">
