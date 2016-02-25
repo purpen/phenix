@@ -52,14 +52,28 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		if(!$this->stash["visitor"]['state']){
 			return $this->ajax_json('您不能参与评论 !', true);
 		}
+
+    $target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : null;
+    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+		if(empty($target_id)){
+			return $this->ajax_json('缺少请求参数 !', true);
+		}
+
+    // 用户发表频率、次数限制
+    if(empty($this->visitor->quality)){
+      $pub_is_limit = Sher_Core_Helper_Util::report_filter_limit($this->visitor->id, 5, array('target_id'=>$target_id, 'type'=>$type));
+      if($pub_is_limit['success']){
+        return $this->ajax_json($pub_is_limit['msg'], true);   
+      }     
+    }
         
 		$from_to = isset($this->stash['from_to'])?$this->stash['from_to']:'web';
 		$row = array();
 		$row['user_id'] = $this->visitor->id;
 		$row['star'] = isset($this->stash['star']) ? (int)$this->stash['star'] : 0;
-		$row['target_id'] = $this->stash['target_id'];
+		$row['target_id'] = $target_id;
 		$row['target_user_id'] = (int)$this->stash['target_user_id'];
-		$row['type'] = (int)$this->stash['type'];
+		$row['type'] = $type;
 		$row['sku_id'] = isset($this->stash['sku_id']) ? (int)$this->stash['sku_id'] : 0;
 		$row['from_site'] = isset($this->stash['from_site']) ? (int)$this->stash['from_site'] : 1;
 		
