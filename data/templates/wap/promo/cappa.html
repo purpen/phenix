@@ -1,0 +1,134 @@
+{%extends 'layout/weixin.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.loading__img{
+		/*background: url(http://wximg.gtimg.com/tmt/_events/20150514-promo-vivo/dist/img/loading.png) no-repeat;*/
+	   width: 52px;
+	   height: 32px;
+	   background-size: 52px auto;
+	}
+	.screen{
+	  background-color:#efefef;
+	}
+
+</style>
+{% endblock %}
+{% block layout_js %}
+<script type="text/javascript">
+    /* 加载 */
+    var basePath = "{{ app_url_packaged }}/images/promo/cappa/";
+    if (!(typeof webpsupport == 'function')) {
+        var webpsupport = function (cb) {
+            cb();
+        }
+    }
+    webpsupport(function (webpa) {
+    var loader = new WxMoment.Loader(),
+     fileList =[
+		'1.jpg','2.jpg','3.jpg','4_1.jpg','4_2.jpg','5.jpg','6.jpg','7.jpg','8.jpg','9_1.jpg','9_2.jpg','10.jpg'
+	];
+     
+     for (var i = 0; i < fileList.length; i++) {
+         var basename = fileList[i].substring(fileList[i].lastIndexOf('/') + 1);
+
+         if (webpa && img_map && (basename in img_map) && img_map[basename]) { //if webp
+             var path = fileList[i].replace(/\.\w+/, '.webp');
+         } else {
+             var path = fileList[i];
+         }
+
+         loader.addImage(basePath + path);
+         //$('#app_bgm').get(0).pause();
+     }
+
+     loader.addCompletionListener(function () {
+         $('.loading').remove();
+         $('.screen').eq(0).addClass('current');
+         $('.wrap').show();
+         //$('#app_bgm').get(0).play();
+         //$('.music').show();
+     });
+
+     //loading 进度监听
+     loader.addProgressListener(function (e) {
+         var percentUp = Math.round((e.completedCount / e.totalCount) * 100), //正序, 1-100
+             progressDown = 100 - percentUp;                                   //倒序, 100-1
+
+
+         $('.loading-num').text(percentUp + '%');
+     });
+
+     //启动
+     loader.start();
+    });
+	
+</script>
+
+{% endblock %}
+{% block content %}
+<img src="{{ app_url_packaged }}/images/promo/coin/2.pic2.jpg" style="display:none;">
+<div class="wrap"  style="display: none">
+    <section class="screen screen1">
+		<div class="screen__bg"></div>
+		<img src="{{ app_url_packaged }}/images/promo/cappa/1.jpg" width="100%">
+	</section>
+    <section class="screen screen2">
+		<div class="screen__bg"></div>
+		<img src="{{ app_url_packaged }}/images/promo/cappa/2.jpg" width="100%">
+	</section>
+    <section class="screen screen3">
+		<div class="screen__bg"></div>
+		<img src="{{ app_url_packaged }}/images/promo/cappa/3.jpg" width="100%">
+	</section>
+    <section class="screen screen4">
+		<div class="screen__bg"></div>
+		<img src="{{ app_url_packaged }}/images/promo/cappa/4_1.jpg" width="100%">
+	</section>
+    <section class="screen screen5">
+		<div class="screen__bg"></div>
+		<img src="{{ app_url_packaged }}/images/promo/cappa/4_2.jpg" width="100%">
+	</section>
+    <section class="screen screen6">
+		<div class="screen__bg"></div>
+		<img src="{{ app_url_packaged }}/images/promo/cappa/5.jpg" width="100%">
+	</section>
+    <section class="screen screen7">
+		<div class="screen__bg"></div>
+		<img src="{{ app_url_packaged }}/images/promo/cappa/6.jpg" width="100%">
+	</section>
+    <section class="screen screen8">
+		<div class="screen__bg"></div>
+		<img src="{{ app_url_packaged }}/images/promo/cappa/7.jpg" width="100%">
+	</section>
+    <section class="screen screen9">
+		<div class="screen__bg"></div>
+		<img src="{{ app_url_packaged }}/images/promo/cappa/8.jpg" width="100%">
+	</section>
+    <section class="screen screen10">
+		<div class="screen__bg"></div>
+		<img src="{{ app_url_packaged }}/images/promo/cappa/9_1.jpg" width="100%">
+	</section>
+    <section class="screen screen11">
+		<div class="screen__bg"></div>
+		<img src="{{ app_url_packaged }}/images/promo/cappa/9_2.jpg" width="100%">
+	</section>
+    <section class="screen screen12">
+		<div class="screen__bg"></div>
+		<img src="{{ app_url_packaged }}/images/promo/cappa/10.jpg" width="100%">
+	</section>
+	
+	
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
