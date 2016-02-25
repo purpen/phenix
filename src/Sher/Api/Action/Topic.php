@@ -80,8 +80,8 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 				$data[$i][$key] = $result['rows'][$i][$key];
 			}
 			// 封面图url
-			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
-			// 封面图url(用于评测页16:9显示750x4220)
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
+			// 封面图url(用于评测页16:9显示750x422)
 			$data[$i]['cover_b_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
 			// 用户信息
 			$data[$i]['username'] = $result['rows'][$i]['user']['nickname'];
@@ -144,7 +144,7 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
       $data['small_avatar_url'] = $topic['small_avatar_url'];
     }
 		
-    $data['content_view_url'] = sprintf('%s/view/topic_show?id=%d', Doggy_Config::$vars['app.domain.base'], $topic['_id']);
+    $data['content_view_url'] = sprintf('%s/view/topic_show?id=%d', Doggy_Config::$vars['app.url.api'], $topic['_id']);
 
     // 分享内容
     $data['share_view_url'] = $data['wap_view_url'];
