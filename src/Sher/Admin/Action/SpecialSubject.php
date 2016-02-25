@@ -48,9 +48,6 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 		// 判断左栏类型
 		$this->stash['show_type'] = "product";
 		
-		// 判断左栏类型
-		$this->stash['show_type'] = "product";
-		
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = new MongoId();
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SPECIAL_SUBJECT;
@@ -64,9 +61,6 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 	 * 添加页面
 	 */
 	public function edit(){
-		
-		// 判断左栏类型
-		$this->stash['show_type'] = "product";
 		
 		// 判断左栏类型
 		$this->stash['show_type'] = "product";

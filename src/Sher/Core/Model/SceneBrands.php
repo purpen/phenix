@@ -12,15 +12,15 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 		'title' => '',
         # 描述
         'des' => '',
-		# logo
-		'logo' => '',
+		# 封面
+		'cover_id' => '',
         # 点击次数
         'used_count' => 0,
         # 是否启用
 		'status' => 1,
     );
 	
-	protected $required_fields = array('title','des','logo');
+	protected $required_fields = array('title','des','cover_id');
 	protected $int_fields = array('status', 'used_count');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count');

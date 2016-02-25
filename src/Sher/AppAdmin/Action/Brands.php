@@ -32,7 +32,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_Admin_Action_Base implements Dogg
         $this->set_target_css_state('page_all');
 		$page = (int)$this->stash['page'];
 		
-		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/pusher/get_list?page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/brands/get_list?page=#p#';
 		
 		return $this->to_html_page('app_admin/brands/list.html');
 	}
@@ -63,7 +63,55 @@ class Sher_AppAdmin_Action_Brands extends Sher_Admin_Action_Base implements Dogg
 	 * 保存信息
 	 */
 	public function save(){		
-
+		
+		$id = $this->stash['id'];
+		$title = $this->stash['title'];
+		$des = $this->stash['des'];
+		$cover_id = $this->stash['cover_id'];
+		
+		// 验证内容
+		if(!$title){
+			return $this->ajax_json('品牌名称不能为空！', true);
+		}
+		
+		// 验证标题
+		if(!$cover_id){
+			return $this->ajax_json('封面不能为空！', true);
+		}
+		
+		$date = array(
+			'title' => $title,
+			'des' => $des,
+			'cover_id' => $cover_id,
+		);
+		
+		try{
+			$model = new Sher_Core_Model_SceneBrands();
+			if(empty($id)){
+				// add
+				$ok = $model->apply_and_save($date);
+				$data_id = $model->get_data();
+				$id = $data_id['_id'];
+			} else {
+				// edit
+				$date['_id'] = $id;
+				$ok = $model->apply_and_update($date);
+			}
+			
+			if(!$ok){
+				return $this->ajax_json('保存失败,请重新提交', true);
+			}
+			
+			// 上传成功后，更新所属的附件
+			if(isset($this->stash['asset']) && !empty($this->stash['asset'])){
+				$model->update_batch_assets($this->stash['asset'], $id);
+			}
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
+		}
+		
+		$redirect_url = Doggy_Config::$vars['app.url.app_admin'].'/brands';
+		return $this->ajax_json('保存成功', false, $redirect_url);
 	}
 
 	/**

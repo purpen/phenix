@@ -38,15 +38,20 @@
 		}
 	});
     
-    $('#phenix-uploader').fineUploader({
-		debug: true,
+    var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+    
+    // 封面图上传
+	$('#phenix-uploader').fineUploader({
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ active._id }}','file_id': '{{ pid }}' },
-        	endpoint: '{{ app_url_upload_active }}'
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ special_subject._id }}','file_id': '{{ pid }}' },
+        	endpoint: '{{ app_url_upload }}/scene_brands'
       	},
 		text: {
-            uploadButton: '<a class="ui active magenta labeled icon upload button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+            uploadButton: '<a class="ui active orange labeled icon inverted button" href="javascript:void(0);"><i class="upload icon"></i>选择图片</a>'
 		},
 		template: '<div class="qq-uploader">' +
 					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
@@ -60,12 +65,11 @@
 	    }
     }).on('complete', function (event, id, name, result) {
 		if(result.is_error){
-			$('#active-upload-form').addClass('error');
-			phenix.show_error_message(result.message, $('#active-upload-form'));
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_note(result.message);
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
-			
-			$.get('{{ app_url_action_base }}/uploader/check_upload_active_assets', {'id': '{{ active._id }}', 'assets': result.data.ids, 'ref': 'onestep' });
+			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
 		}
 	});
     
@@ -77,7 +81,8 @@
 			
 			$('#asset-list .ajax-cover.active').removeClass('active');
 			$(this).addClass('active');
-			$('#active_cover_id').val(id);
+			
+			$('#cover_id').val(id);
 			return false;
 		});
 	});
@@ -125,37 +130,28 @@
                     <div id="phenix-uploader"></div>
                 
                     <div id="asset-list" class="ui four blocks">
-                        {% if mode == 'edit' %}
-                            {% asset_list var:'assets' parent_id:active._id asset_type:65 size:20 %}
-                            {% for asset in assets.rows %}
-                            <div class="thumb block" id="{{ asset._id }}">
-                                <div class="image">
-                                    <img src="{{ asset.thumbnails.small.view_url }}" />
-                                    <input type="hidden" class="asset_id_list" name="asset_tmp[]" value="{{ asset._id }}" />
-                                </div>
-                              <div>原图尺寸: {{ asset.width }}x{{ asset.height }}</div>
-                              <div>
-                                <input type="text" name="big-asset-url" value="{{ asset.thumbnails.big.view_url }}" />
-                              </div>
-                                <div class="buttons">
-                                    <div class="ui large links">
-                                        <a href="{{ app_url_admin }}/asset/delete_asset?id={{ active._id }}&asset_id={{ asset._id }}&model=Active" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
-                                            <i class="remove icon"></i>
-                                        </a>
-                                        <a href="javascript:void(0);" class="ui link ajax-cover {%if asset._id == active.cover_id %}active{%endif%} pop" data-content="活动列表页缩略图" data-variation="inverted" data-value="{{ asset._id }}">
-                                            <i class="checkered flag icon"></i>
-                                        </a>
-                                        <a href="javascript:void(0);" class="ui link ajax-banner {%if asset._id == active.banner_id %}active{%endif%} pop" data-content="活动详情页大图" data-variation="inverted" data-value="{{ asset._id }}">
-                                            <i class=" icon-photo-banner icon"></i>
-                                        </a>
-                                        <a href="javascript:void(0);" class="ui link ajax-wap-banner {%if asset._id == active.wap_banner_id %}active{%endif%} pop" data-content="手机详情大图(960x640)" data-variation="inverted" data-value="{{ asset._id }}">
-                                            <i class="mobile icon-photo-banner icon"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        {% endif %}
+					{% if mode == 'edit' %}
+						{% asset_list var:'assets' parent_id:special_subject._id size:20 asset_type:100 %}
+						{% for asset in assets.rows %}
+						<div class="thumb block" id="{{ asset._id }}">
+							<div class="image">
+								<img src="{{ asset.thumbnails.small.view_url }}" />
+								<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+							</div>
+							<div class="buttons">
+								<div class="ui large links">
+									<a href="{{ app_url_fever }}/delete_asset?id={{ special_subject._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+										<i class="remove icon"></i>
+									</a>
+									
+									<a href="javascript:void(0);" class="ui link {%if special_subject.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+										<i class="checkered flag icon"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					{% endif %}
                     </div>
                 </div>
             </div>
