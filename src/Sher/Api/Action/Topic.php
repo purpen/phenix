@@ -144,7 +144,7 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
       $data['small_avatar_url'] = $topic['small_avatar_url'];
     }
 		
-    $data['content_view_url'] = sprintf('%s/view/topic_show?id=%d', Doggy_Config::$vars['app.domain.base'], $topic['_id']);
+    $data['content_view_url'] = sprintf('%s/view/topic_show?id=%d', Doggy_Config::$vars['app.url.api'], $topic['_id']);
 
     // 分享内容
     $data['share_view_url'] = $data['wap_view_url'];

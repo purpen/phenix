@@ -142,7 +142,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 
 
     //转换描述格式
-    $data['content_view_url'] = sprintf('%s/view/try_show?id=%d', Doggy_Config::$vars['app.domain.base'], $try['_id']);
+    $data['content_view_url'] = sprintf('%s/view/try_show?id=%d', Doggy_Config::$vars['app.domain.api'], $try['_id']);
     // 封面图url
     $data['cover_url'] = $try['cover']['thumbnails']['aub']['view_url'];
     // banner图url
