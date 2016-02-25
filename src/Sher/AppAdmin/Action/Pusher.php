@@ -8,11 +8,11 @@ class Sher_AppAdmin_Action_Pusher extends Sher_Admin_Action_Base implements Dogg
 	public $stash = array(
 		'page' => 1,
 		'size' => 100,
-    'uuid' => '',
-    'from_to' => '',
-    'is_login' => '',
-    'user_id' => '',
-    'state' => '',
+		'uuid' => '',
+		'from_to' => '',
+		'is_login' => '',
+		'user_id' => '',
+		'state' => '',
 	);
 	
 	public function _init() {

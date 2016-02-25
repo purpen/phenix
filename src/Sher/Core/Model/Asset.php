@@ -98,6 +98,8 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
   const TYPE_GPRODUCT = 97;
   const TYPE_GPRODUCT_BANNER = 98;
   const TYPE_GPRODUCT_EDITOR = 99;
+  
+  const TYPE_SCENE_BRANDS = 100;
 
     protected $schema = array(
 		'user_id' => '',
