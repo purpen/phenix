@@ -1131,8 +1131,19 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		if(empty($this->stash['title'])){
 			return $this->ajax_json('标题不能为空！', true);
 		}
+
+		$id = isset($this->stash['_id']) ? (int)$this->stash['_id'] : 0;
+
+    // 用户发表频率、次数限制
+    if(empty($id)){
+      if(empty($this->visitor->quality)){
+        $pub_is_limit = Sher_Core_Helper_Util::report_filter_limit($this->visitor->id, 1);
+        if($pub_is_limit['success']){
+          return $this->ajax_json($pub_is_limit['msg'], true);   
+        }     
+      }
+    }
 		
-		$id = (int)$this->stash['_id'];
 		$mode = 'create';
 		$data = array();
 		$data['_id'] = $id;

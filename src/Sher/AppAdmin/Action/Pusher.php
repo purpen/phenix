@@ -3,7 +3,7 @@
  * app推送管理
  * @author tianshuai
  */
-class Sher_Admin_Action_Pusher extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {
+class Sher_AppAdmin_Action_Pusher extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
 		'page' => 1,
@@ -35,11 +35,11 @@ class Sher_Admin_Action_Pusher extends Sher_Admin_Action_Base implements DoggyX_
     $this->set_target_css_state('page_all');
 		$page = (int)$this->stash['page'];
 		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/pusher/get_list?is_login=%d&from_to=%d&user_id=%d&uuid=%s&state=%d&page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/pusher/get_list?is_login=%d&from_to=%d&user_id=%d&uuid=%s&state=%d&page=#p#';
 
 		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['is_login'], $this->stash['from_to'], $this->stash['user_id'], $this->stash['uuid'], $this->stash['state']);
 		
-		return $this->to_html_page('admin/pusher/list.html');
+		return $this->to_html_page('app_admin/pusher/list.html');
 	}
 	
 	/**

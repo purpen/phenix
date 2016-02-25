@@ -168,7 +168,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 		
 		if($special_subject['kind']==Sher_Core_Model_SpecialSubject::KIND_CUSTOM){
 			
-			$data['content_view_url'] = sprintf('%s/app/api/view/special_subject_show?id=%d', Doggy_Config::$vars['app.domain.base'], $special_subject['_id']);
+			$data['content_view_url'] = sprintf('%s/view/special_subject_show?id=%d', Doggy_Config::$vars['app.domain.base'], $special_subject['_id']);
 		} // endif kind
 
     // 分享内容

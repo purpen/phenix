@@ -1,0 +1,121 @@
+{% extends 'layout/base.html' %}
+{% block title %}App管理控制台-{% endblock %}
+{% block layout_css %}
+	<style type="text/css">
+		body {
+		    background-color: #f5f5f5;
+		}
+        #bd .ui.responsive.grid,
+        .admin .ui.responsive.grid {
+		    padding: 0 35px;
+			max-width: 100%;
+            width: 100%;
+		}
+        .ui.vertical.menu {
+            box-shadow: none;
+        }
+        .upload.field {
+            padding-bottom: 2rem;
+        }
+        p.attribute {
+            margin-top: 0.85rem;
+        }
+		
+		header.admin {
+			background-color: #fff;
+			border-bottom: 1px solid #e4e5e7;
+		    border-top: 4px solid #ff3366;
+		}
+		header.admin .space {
+			margin-left: 5px;
+			margin-right: 5px;
+		}
+		#bd {
+			margin-bottom: 1em;
+		    margin-top: 1em;
+		    min-height: 26em;
+		}
+        .ui.celled.grid {
+            margin: 0 0 1em;
+        }
+        .ui.basic.table {
+            border: none;
+        }
+		h3.ui.header {
+			font-size: 1.1rem;
+			margin: 0.5em 0 1rem;
+		}
+		.ui.sub.nav {
+			text-align: right;
+		}
+		.ui.nopad.grid .column {
+		    margin-bottom: 0rem;
+		    margin-top: 0rem;
+		}
+		.ui.nopad.grid .ui.form .field {
+		    margin-bottom: 0.25rem;
+		}
+		.ui.fluid.dropdown .down.icon {
+			float: right;
+		}
+		
+		.menu-admin{
+			background: #ddd!important;
+			cursor: pointer;
+		}
+	</style>
+{% endblock %}
+{% block page_css %}
+{% endblock %}
+{% block layout_js %}{% endblock %}
+{% block admin_layout_js %}
+  <script type="text/javascript">
+    // 全选操作
+    $("#checkbox_all_btn").click(function(){
+        is_checked = $(this).find('input').prop('checked');
+        $(":input[name=ids]").prop('checked', !is_checked);
+    });
+	
+	$('.menu-admin').click(function(){
+		var show = $(this).next('div[date="menu-admin"]').css('display');
+		if(show == 'none'){
+			$(this).next('div[date="menu-admin"]').css('display','block');
+			$(this).find('i').addClass('plus');
+			$(this).find('i').removeClass('minus');
+		}else{
+			$(this).next('div[date="menu-admin"]').css('display','none');
+			$(this).find('i').addClass('minus');
+			$(this).find('i').removeClass('plus');
+		}
+	});
+
+  </script>
+{% endblock %}
+{% block jquery %}
+	
+{% endblock %}
+
+{% block layout_header %}
+	{% include "block/mini_header.html" %}
+{% endblock %}
+
+{% block layout_content %}
+<div id="bd">
+	<div id="ajax-note"></div>
+	<div class="ui responsive  grid">
+	  	<div class="three wide column">
+	    	{% include "block/sitebar_app_admin.html" %}
+	  	</div>
+	  	<div class="thirteen wide column">
+			{% block content %}{% endblock %}
+	  	</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block layout_footer %}
+	{% include "block/mini_footer.html" %}
+{% endblock %}
+
+{% block templates %}
+{% endblock %}
