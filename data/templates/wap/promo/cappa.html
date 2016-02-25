@@ -9,9 +9,16 @@
 	   background-size: 52px auto;
 	}
 	.screen{
-	  background-color:#efefef;
+	  background-color:#fff;
 	}
-
+	.sign-btn{
+		background:url({{ app_url_packaged }}/images/promo/cappa/button.jpg) center center /cover;
+		position:absolute;
+		width:224px;
+		height:40px;
+		bottom:60px;
+		left:48px;
+	}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -63,9 +70,17 @@
      loader.start();
     });
 	
+	$('.fenxiang.red.btn').on('click',function(){
+ 		$('#mask').css('display','block');
+	});
+	$('#mask').on('click',function(){
+		$('#mask').css('display','none');
+	})
+	
 </script>
 
 {% endblock %}
+
 {% block content %}
 <img src="{{ app_url_packaged }}/images/promo/coin/2.pic2.jpg" style="display:none;">
 <div class="wrap"  style="display: none">
@@ -106,7 +121,22 @@
 		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/10.jpg) center center /cover;"></div>
 	</section>
 	
+    <section class="screen screen13">
+		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/11.jpg) center center /cover;"></div>
+		<div class="screen__inner">
+			{% if !visitor.is_login %}
+			<a href="{{ app_url_domain }}/app/wap/auth" class="sign-btn"></a>
+			{% else%}
+			<a href="javascript:void(0);" class="sign-btn fenxiang red btn"></a>
+			{% endif %}
+		</div>
+	</section>
 	
+</div>
+<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);">
+  <div class="frideshare">
+	<img src="http://frstatic.qiniudn.com/images/fenxiang.png" width="100%" >
+  </div>
 </div>
 {% endblock %}
 
