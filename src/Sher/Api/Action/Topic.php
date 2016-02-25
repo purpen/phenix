@@ -81,7 +81,7 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 			}
 			// 封面图url
 			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
-			// 封面图url(用于评测页16:9显示750x4220)
+			// 封面图url(用于评测页16:9显示750x422)
 			$data[$i]['cover_b_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
 			// 用户信息
 			$data[$i]['username'] = $result['rows'][$i]['user']['nickname'];
