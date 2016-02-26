@@ -86,20 +86,20 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
     const TYPE_REPORT = 92;
 	
 	# 专辑封面
-	const TYPE_ALBUMS = 95;
+    const TYPE_ALBUMS = 95;
+	# 图片
+  const TYPE_SPECIAL_SUBJECT = 96;
 	
 	# 专辑封面
 	const TYPE_SPECIAL_COVER = 98;
-	
-	# 图片
-  const TYPE_SPECIAL_SUBJECT = 96;
 
   #情景图片
   const TYPE_GPRODUCT = 97;
-  const TYPE_GPRODUCT_BANNER = 98;
   const TYPE_GPRODUCT_EDITOR = 99;
   
   const TYPE_SCENE_BRANDS = 100;
+  const TYPE_GPRODUCT_BANNER = 120;
+  const TYPE_GPRODUCT_PNG = 121;
 
     protected $schema = array(
 		'user_id' => '',

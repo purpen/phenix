@@ -1,0 +1,471 @@
+{%extends 'layout/app_admin.html'%}
+
+{% block page_css %}
+	{% if css_use_bundle %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
+        <link rel="stylesheet" type="text/css" media="all" href="{{ app_url_packaged }}/css/calendar.min.{{ css_bundle_version }}.css" />
+	{% else %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
+        <link rel="stylesheet" type="text/css" media="all" href="{{ app_url_packaged }}/css/calendar.min.css" />
+	{% endif %}
+
+<style type="text/css">
+  #asset-banner-list > .block > .image > img {
+      width: 100%;
+  }
+  #asset-banner-list .buttons {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0;
+  }
+  #asset-banner-list .buttons .ui.link:hover {
+      text-decoration: none;
+  }
+
+  #asset-png-list > .block > .image > img {
+      width: 100%;
+  }
+  #asset-png-list .buttons {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0;
+  }
+  #asset-png-list .buttons .ui.link:hover {
+      text-decoration: none;
+  }
+
+</style>
+
+{% endblock %}
+
+{% block layout_js %}
+	{% if js_use_bundle %}
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/froala_editor.min.{{ js_jquery_bundle_version }}.js"></script>
+	{% else %}
+		<script src="{{ app_url_packaged }}/javascript/froala_editor.min.js" type="text/javascript"></script>
+	{% endif %}
+
+  <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+	$('#product-form').form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				}
+			]
+		},
+
+		tags: {
+			identifier  : 'tags',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标签不能为空'
+				}
+			]
+		}
+	}, {
+		inline: true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+	
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+	
+	$('#editor').editable({
+		inlineMode: false,
+		toolbarFixed: false,
+        theme: 'gray',
+		language: 'zh_cn',
+		borderColor: '#999',
+		editorClass: 'bird',
+		minHeight: 300,
+		plainPaste: true,
+		alwaysBlank: true,
+		typingTimer: 2000,
+		imageMargin: '20px',
+		{% if mode == 'edit' %}
+		defaultImageTitle: '{{ scene_product.title }}',
+		{% else %}
+		defaultImageTitle: '太火鸟',
+		{% endif %}
+		buttons: ["bold", "italic", "underline","strikeThrough", "fontSize", "color", "formatBlock", "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "createLink", "multiUpload", "insertVideo", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html", "fullscreen"],
+		imageUploadURL: "{{ app_url_upload_feditor }}",
+		imageUploadParams: {'token': '{{ token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ editor_domain }}', 'x:ord': file_count, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ scene_product._id }}','file_id': '{{ editor_pid }}', 'editor_domain': '{{ editor_domain }}', 'editor_asset_type': '{{ editor_asset_type }}'},
+		defaultImageWidth: '',
+		maxImageSize: 1024 * 1024 * 5, // 5M
+		imageDeleteURL: '{{ app_url_action_base }}/asset/delete_from_editor',
+        
+        assetType: {{ editor_asset_type }},
+        assetDomain: '{{ editor_domain|default 'product' }}',
+        parent_id: {{ scene_product._id|default 0 }},
+        fetchUploadURL: '{{ app_url_action_base }}/uploader/fetch_upload_assets',
+	}).on('editable.imageInserted',  function (e, editor, imageURL) {
+		// 记录插入图片数
+		$('#file_count').val(file_count);
+		
+		file_count++;
+    }).on('editable.imageError', function (e, editor, error) {
+      if (error.code == 5){
+        error.message = '图片太大，请选择小于5M！';
+      }
+      phenix.show_error_note(error.message, 5000);
+    });
+	
+
+    // 封面图上传
+	var up = $('#phenix-uploader').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ user_id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ scene_product._id }}','file_id': '{{ editor_pid }}'},
+        	endpoint: '{{ app_url_upload }}/scene_product'
+      	},
+		text: {
+            uploadButton: '<a class="ui active orange labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 5245728 // 5M = 5 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			phenix.show_error_note(result.message);
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
+		}
+	});
+
+  // 上传Banner图
+	$('#phenix-banner-uploader').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ banner_pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ banner_asset_type }},'x:parent_id': '{{ scene_product._id }}','file_id': '{{ banner_pid }}' },
+        	endpoint: '{{ app_url_upload }}/scene_product_banner'
+      	},
+		text: {
+            uploadButton: '<a class="ui active magenta labeled icon upload button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 5245728 // 5M = 5 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#product-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_action_base }}/uploader/check_upload_product_assets?type=2', {'id': '{{ scene_product._id }}', 'assets': result.data.ids, 'ref': 'onestep' });
+		}
+	});
+
+  // 上传去底图
+	$('#phenix-png-uploader').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ png_pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ banner_asset_type }},'x:parent_id': '{{ scene_product._id }}','file_id': '{{ png_pid }}' },
+        	endpoint: '{{ app_url_upload }}/scene_product_png'
+      	},
+		text: {
+            uploadButton: '<a class="ui active magenta labeled icon upload button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 5245728 // 5M = 5 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#product-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_action_base }}/uploader/check_upload_product_assets?type=3', {'id': '{{ scene_product._id }}', 'assets': result.data.ids, 'ref': 'onestep' });
+		}
+	});
+	
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#ad_cover_id').val(id);
+			return false;
+		});
+	});
+	
+	// 选择分类
+	$('body').on('click', '.category.button', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+				
+			$('#product-category').val('');
+		}else{
+			$(this)
+				.siblings('.category.button').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#product-category').val(id);
+		}
+		
+        return false;
+	});
+    
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">产品管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_app_admin_base }}/scene_product" class="{{ css_all }} item">产品列表</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_app_admin_base }}/scene_product/edit" class="active item">
+				<i class="add icon"></i>新增产品
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_app_admin_base }}/scene_product" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="Search..." type="text" name="q">
+				<i class="search link icon"></i>
+			</div>
+		</form>
+	</div>
+	
+	<div class="ui form segment">
+		{% if mode == 'create' %}
+		<h4>新增产品</h4>
+		{% else %}
+		<h4>编辑产品</h4>
+		{% endif %}
+		
+		<form action="{{ app_url_app_admin_base }}/scene_product/save" method="post" id="product-form">
+			<input type="hidden" name="_id" value="{{ scene_product._id }}" />
+			<input type="hidden" name="editor_id" value="{{ editor_pid }}" id="file_id" />
+
+			<h3 class="ui dividing header">分类</h3>
+			<div class="grouped inline fields">
+        <div class="field">
+          <input type="hidden" name="category_id" value="{{ scene_product.category_id }}" id="product-category" />
+          {% category_list var:'category' only_open:1 domain:1 current:product.category_id %}
+          {% for cat in category.rows %}
+            <a class="ui {{ cat.active }} magenta category button" style="margin-bottom:2px;" data-value="{{ cat._id }}">{{ cat.title }}</a>
+          {% endfor %}
+        </div>
+      </div>
+			
+			<div class="field">
+			  	<label for="title">标题：</label>
+				<input type="text" name="title" value="{{ scene_product.title }}" />
+			</div>
+            
+			<div class="two fields">
+				<div class="field">
+				  	<label for="short_title">短标题：</label>
+					<input type="text" name="short_title" value="{{ scene_product.short_title }}" />
+				</div>
+        <div class="field">
+            <label for="title">链接：</label>
+          <input type="text" name="link" value="{{ scene_product.link }}" placeholder="http://" />
+        </div>
+			</div>
+
+			<div class="five fields">
+				<div class="field">
+				  	<label for="oid">原文ID：</label>
+					<input type="text" name="oid" value="{{ scene_product.oid }}" placeholder="淘宝、天猫、京东" />
+				</div>
+        <div class="field">
+            <label for="product_id">产品ID：</label>
+          <input type="text" name="product_id" value="{{ scene_product.product_id }}" placeholder="官网产品所属ID" />
+        </div>
+			</div>
+
+
+			<div class="field">
+			  	<label for="title">标签：</label>
+				<input type="text" name="tags" value="{{ scene_product.tags_s }}" />
+				<div class="description">关键词之间使用“ ”、“,”或“;”隔开</div>
+			</div>
+
+			<h4 class="ui stage header">来源</h4>
+			<div class="grouped inline fields">
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="attrbute" value="1" {% if scene_product.attrbute == 1 %}checked="checked"{% endif %} /> 
+						<label>淘宝</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="attrbute" value="2" {% if scene_product.attrbute == 2 %}checked="checked"{% endif %} /> 
+						<label>天猫</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="attrbute" value="3" {% if scene_product.attrbute == 3 %}checked="checked"{% endif %} /> 
+						<label>京东</label>
+					</div>
+				</div>
+			</div>
+
+			<h4 class="ui stage header">状态</h4>
+			<div class="grouped inline fields">
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="state" value="0" {% if scene_product.state == 0 %}checked="checked"{% endif %} /> 
+						<label>正常</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="state" value="1" {% if scene_product.state == 1 %}checked="checked"{% endif %} /> 
+						<label>关闭</label>
+					</div>
+				</div>
+			</div>
+            
+			<div class="field">
+			  	<label for="summary">简述：</label>
+				<textarea class="small" name="summary">{{ scene_product.summary }}</textarea>
+			</div>
+			
+			<div class="upload field">
+				<p>上传封面:</p>
+				<input type="hidden" name="cover_id" id="ad_cover_id" value="{{ scene_product.cover_id }}" />
+				<div id="phenix-uploader"></div>
+				<div id="asset-list" class="ui four blocks">
+					{% if mode == 'edit' %}
+						{% asset_list var:'assets' parent_id:scene_product._id size:10 asset_type:97 %}
+						{% for asset in assets.rows %}
+						<div class="thumb block" id="{{ asset._id }}">
+							<div class="image">
+								<img src="{{ asset.thumbnails.small.view_url }}" />
+								<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+							</div>
+							<div class="buttons">
+								<div class="ui large links">
+									<a href="{{ app_url_fever }}/delete_asset?id={{ scene_product._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+										<i class="remove icon"></i>
+									</a>
+								
+									<a href="javascript:void(0);" class="ui link {%if scene_product.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+										<i class="checkered flag icon"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+
+			<div class="field">
+        <label>上传Banner图 <span style="color:red;"></span></label>
+			  	<div id="phenix-banner-uploader"></div>
+			
+				<div id="asset-banner-list" class="ui four blocks">
+					{% if mode == 'edit' %}
+						{% asset_list var:'banner_assets' parent_id:scene_product._id asset_type:120 size:10 %}
+						{% for asset in banner_assets.rows %}
+						<div class="thumb block" id="{{ asset._id }}">
+							<div class="image">
+								<img src="{{ asset.thumbnails.small.view_url }}" />
+								<input type="hidden" class="asset_id_list" name="banner_asset[]" value="{{ asset._id }}" />
+							</div>
+							<div class="buttons">
+								<div class="ui large links">
+									<a href="{{ app_url_asset }}/deleted?asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+										<i class="remove icon"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+
+			<div class="field">
+        <label>上传去底图 <span style="color:red;"></span></label>
+			  	<div id="phenix-png-uploader"></div>
+			
+				<div id="asset-png-list" class="ui four blocks">
+					{% if mode == 'edit' %}
+						{% asset_list var:'banner_assets' parent_id:scene_product._id asset_type:121 size:10 %}
+						{% for asset in banner_assets.rows %}
+						<div class="thumb block" id="{{ asset._id }}">
+							<div class="image">
+								<img src="{{ asset.thumbnails.small.view_url }}" />
+								<input type="hidden" class="asset_id_list" name="png_asset[]" value="{{ asset._id }}" />
+							</div>
+							<div class="buttons">
+								<div class="ui large links">
+									<a href="{{ app_url_asset }}/deleted?asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+										<i class="remove icon"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+            
+			<div class="field">
+				<label for="content">详细介绍</label>
+				<textarea name="description" placeholder="详细介绍" id="editor">
+					{{ scene_product.description }}
+				</textarea>
+			</div>
+            
+    		<div class="ui right aligned grid">
+    			<div class="column">
+    				<div class="ui large grey cancel inverted button">
+    					取消
+    				</div>
+    				<div class="ui large magenta submit inverted button">
+    					确认提交
+    				</div>
+    			</div>
+    		</div>
+		</form>
+	</div>
+{% endblock %}

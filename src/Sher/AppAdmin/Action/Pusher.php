@@ -3,7 +3,7 @@
  * app推送管理
  * @author tianshuai
  */
-class Sher_AppAdmin_Action_Pusher extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {
+class Sher_AppAdmin_Action_Pusher extends Sher_AppAdmin_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
 		'page' => 1,

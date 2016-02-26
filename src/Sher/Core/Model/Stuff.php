@@ -154,6 +154,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
         }else{
             $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);  
         }
+        $row['comment_view_url'] = $row['view_url'];
 
         if(isset($row['from_to'])){
           if($row['from_to'] == 5){ // top100

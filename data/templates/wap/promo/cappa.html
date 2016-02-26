@@ -1,0 +1,288 @@
+{%extends 'layout/weixin.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.loading__img{
+		/*background: url(http://wximg.gtimg.com/tmt/_events/20150514-promo-vivo/dist/img/loading.png) no-repeat;*/
+	   width: 52px;
+	   height: 32px;
+	   background-size: 52px auto;
+	}
+	.screen{
+	  background-color:#fff;
+	}
+	.sign-btn{
+		background:url({{ app_url_packaged }}/images/promo/cappa/button.jpg) center center /cover;
+		position:absolute;
+		width:224px;
+		height:40px;
+		bottom:60px;
+		left:48px;
+	}
+	@-webkit-keyframes swipe {
+		0%{-webkit-transform:translateY(40px);opacity:0}
+		60%{-webkit-transform:translateY(12px);opacity:1}
+		100%{-webkit-transform:translateY(0px);opacity:0}
+	}
+	@-moz-keyframes swipe {
+		0%{-webkit-transform:translateY(40px);opacity:0}
+		60%{-webkit-transform:translateY(12px);opacity:1}
+		100%{-webkit-transform:translateY(0px);opacity:0}
+	}
+	@keyframes swipe {
+		0%{-webkit-transform:translateY(40px);opacity:0}
+		60%{-webkit-transform:translateY(12px);opacity:1}
+		100%{-webkit-transform:translateY(0px);opacity:0}
+	}
+	.swipe { 
+		position: absolute; 
+		width: 28px; 
+		height: 16px; 
+		bottom: 15px; 
+		left: 50%; 
+		margin-left: -14px;
+		z-index:4;
+		animation: swipe 1.5s linear infinite;
+	  -webkit-animation: swipe 1.5s linear infinite; 
+	}
+</style>
+{% endblock %}
+{% block layout_js %}
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+    /* 加载 */
+    var basePath = "{{ app_url_packaged }}/images/promo/cappa/";
+    if (!(typeof webpsupport == 'function')) {
+        var webpsupport = function (cb) {
+            cb();
+        }
+    }
+    webpsupport(function (webpa) {
+    var loader = new WxMoment.Loader(),
+     fileList =[
+		'1.jpg','2.jpg','3.jpg','4_1.jpg','4_2.jpg','5.jpg','6.jpg','7.jpg','8.jpg','9_1.jpg','9_2.jpg','10.jpg'
+	];
+     
+     for (var i = 0; i < fileList.length; i++) {
+         var basename = fileList[i].substring(fileList[i].lastIndexOf('/') + 1);
+
+         if (webpa && img_map && (basename in img_map) && img_map[basename]) { //if webp
+             var path = fileList[i].replace(/\.\w+/, '.webp');
+         } else {
+             var path = fileList[i];
+         }
+
+         loader.addImage(basePath + path);
+         //$('#app_bgm').get(0).pause();
+     }
+
+     loader.addCompletionListener(function () {
+         $('.loading').remove();
+         $('.screen').eq(0).addClass('current');
+         $('.wrap').show();
+         //$('#app_bgm').get(0).play();
+         //$('.music').show();
+     });
+
+     //loading 进度监听
+     loader.addProgressListener(function (e) {
+         var percentUp = Math.round((e.completedCount / e.totalCount) * 100), //正序, 1-100
+             progressDown = 100 - percentUp;                                   //倒序, 100-1
+
+
+         $('.loading-num').text(percentUp + '%');
+     });
+
+     //启动
+     loader.start();
+    });
+	
+	$('.fenxiang.red.btn').on('click',function(){
+ 		$('#mask').css('display','block');
+	});
+	$('#mask').on('click',function(){
+		$('#mask').css('display','none');
+	});
+	
+    var statename = Math.floor(Math.random()*5+1);
+    $('html').attr('state',statename);
+	
+	var getstate = $('html').attr('state');
+	
+	if (getstate == 1){
+		var descrite = '描述1'
+	}
+	if (getstate == 2){
+		var descrite = '描述2'
+	}
+	if (getstate == 3){
+		var descrite = '描述3'
+	}
+	if (getstate == 4){
+		var descrite = '描述4'
+	}
+	if (getstate == 5){
+		var descrite = '描述5'
+	}
+	
+	
+    var m_name = '标题';
+    var link = '{{ app_url_wap_promo }}/cappa';
+	var img_url = '{{ app_url_packaged }}/images/promo/cappa/fenxiang.jpg';
+    var desc_str = descrite;
+	
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+
+  wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+		$('#mask').css('display','none');
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+		$('#mask').css('display','none');
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+		$('#mask').css('display','none');
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+		$('#mask').css('display','none');
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: 22, count_name:'count', type: 4, kind:4 });
+	// 自动评论某个话题
+	$.get('{{ app_url_wap }}/app/site/comment/ajax_subject_save', { target_id: 101698, type:2, content:desc_str });
+  };
+	
+	
+  
+</script>
+
+{% endblock %}
+
+{% block content %}
+<img src="{{ app_url_packaged }}/images/promo/coin/2.pic2.jpg" style="display:none;">
+<div class="wrap"  style="display: none">
+    <section class="screen screen1">
+		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/1.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
+	</section>
+    <section class="screen screen2">
+		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/2.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
+	</section>
+    <section class="screen screen3">
+		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/3.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
+	</section>
+    <section class="screen screen4">
+		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/4_1.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
+	</section>
+    <section class="screen screen5" >
+		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/4_2.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
+	</section>
+    <section class="screen screen6">
+		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/5.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
+	</section>
+    <section class="screen screen7">
+		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/6.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
+	</section>
+    <section class="screen screen8">
+		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/7.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
+	</section>
+    <section class="screen screen9">
+		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/8.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
+	</section>
+    <section class="screen screen10">
+		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/9_1.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
+	</section>
+    <section class="screen screen11">
+		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/9_2.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
+	</section>
+    <section class="screen screen12">
+		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/10.jpg) center center /cover;"></div>
+		<div class="swipe"><img src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"></div>
+	</section>
+	
+    <section class="screen screen13">
+		<div class="screen__bg"></div>
+		<div class="screen__inner">
+			<img src="{{ app_url_packaged }}/images/promo/cappa/11.jpg" width="100%" style="margin-top:-15px;">
+			{% if !visitor.is_login %}
+			<a href="{{ app_url_domain }}/app/wap/auth" class="sign-btn"></a>
+			{% else%}
+			<a href="javascript:void(0);" class="sign-btn fenxiang red btn"></a>
+			{% endif %}
+		</div>
+	</section>
+	
+</div>
+<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);">
+  <div class="frideshare">
+	<img src="http://frstatic.qiniudn.com/images/fenxiang.png" width="100%" >
+  </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+

@@ -85,8 +85,9 @@ class Sher_App_Action_Asset extends Sher_App_Action_Base {
 	 * 删除某个附件
 	 */
 	public function deleted(){
-		$id = $this->stash['id'];
-		$asset_id = $this->stash['asset_id'];
+		$id = isset($this->stash['id']) ? $this->stash['id'] : null;
+		$asset_id = isset($this->stash['asset_id']) ? $this->stash['asset_id'] : null;
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
 		if (empty($asset_id)){
 			return $this->ajax_note('附件不存在！', true);
 		}

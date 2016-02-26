@@ -24,6 +24,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const STROAGE_SPECIAL_SUBJECT = 'special_subject';
 	const STROAGE_SPECIAL_COVER = 'special_cover';
 	const STROAGE_STYLE_TAG = 'style_tag';
+	const STROAGE_SCENE_PRODUCT = 'scene_product';
 	
 	const STROAGE_SCENE_BRANDS = 'scene_brands';
 	
@@ -40,6 +41,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const TYPE_CASE = 7;  // 案例
     const TYPE_ALBUM = 8; // 专辑
     const TYPE_SPECIAL_SUBJECT = 9; // 专题
+    const TYPE_SCENE_PRODUCT = 10; // 情景产品分类
 	
 	// 来源站点
 	const FROM_LOCAL = 1;
