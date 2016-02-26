@@ -3,57 +3,44 @@
  * 情景商品
  * @author tianshuai
  */
-class Sher_Core_Model_GProduct extends Sher_Core_Model_Base {
+class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 
-    protected $collection = "guide_product";
-	
+  protected $collection = "scene_product";
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
-	
-	# 置顶
-	const TOP_SITE = 1;
-	const TOP_CATEGORY = 2;
-    
-	# 推荐
-	const STICK_EDITOR = 1;
-	const STICK_HOME = 2;
 
-	#标题颜色
-	const T_COLOR_NULL = 0;
-	const T_COLOR_RED = 1;
-	const T_COLOR_BLUE = 2;
-	const T_COLOR_GREEN = 3;
-	const T_COLOR_YELLOW = 4;
-
-  ## 文章属性
-  # 转载
-  const ATTR_DEF = 0;
-  const ATTR_ORIG = 1;
-  const ATTR_RESHIP = 2;
+  ## 属性
+  const ATTR_TB = 1;  // 淘宝
+  const ATTR_TM = 2;  // 天猫
+  const ATTR_JD = 3;  // 京东
 	
     protected $schema = array(
+      # 原文ID(淘宝、天猫、京东产品ID)
+      'oid' => null,
 	    'user_id' => null,
 		# 类别支持多选
 		'category_id' => 0,
 		# 分类父级
 		'fid' => 0,
+    # 类型
+    'kind' => 1,
 		
-		# 所属产品
+		# 所属产品(对应官网产品ID)
 		'product_id' => 0,
 		
 	    'title' => '',
 		'short_title' => '',
         'description' => '',
+        'summary' => '',
     	'tags' => array(),
 		
  		'cover_id' => '',
 		'asset' => array(),
 		'asset_count' => 0,
-		
-		# 视频链接
-		'video_url' => array(),
+
+    # 价格
+    'sale_price'  => 0,
 		
 		## 计数器
-		
 		# 浏览数
     	'view_count' => 0,
 		# 收藏数
@@ -71,18 +58,19 @@ class Sher_Core_Model_GProduct extends Sher_Core_Model_Base {
 		'fine'  => 0,
 		
     	'deleted' => 0,
-		# 是否审核，默认已审核
+		# 是否发布，默认已发布
     	'published' => 1,
 
     # 属性
-    'attrbute' => self::ATTR_DEF,
-    # 来源
-    'source' => null,
+      'attrbute' => self::ATTR_TB,
+      'link' => null,
+      'state' => 1,
 
   );
 	
-	protected $required_fields = array('user_id');
-	protected $int_fields = array('user_id','category_id','try_id','fid','gid','deleted','published','t_color','vote_id');
+	protected $required_fields = array('user_id', 'title');
+	protected $int_fields = array('user_id','category_id','try_id','fid','deleted','published','product_id');
+	protected $float_fields = array('sale_price');
 	
 	protected $counter_fields = array('view_count', 'favorite_count', 'love_count', 'comment_count', 'buy_count');
 	
@@ -155,6 +143,21 @@ class Sher_Core_Model_GProduct extends Sher_Core_Model_Base {
         
     $row['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($row['created_on']);
 
+    // 来自
+    switch($row['attrbute']){
+      case 1:
+        $row['attrbute_str'] = '淘宝';
+        break;
+      case 2:
+        $row['attrbute_str'] = '天猫';
+        break;
+      case 3:
+        $row['attrbute_str'] = '京东';
+        break;
+      default:
+        $row['attrbute_str'] = '--';
+    }
+
 	}
 	
 	/**
@@ -170,7 +173,7 @@ class Sher_Core_Model_GProduct extends Sher_Core_Model_Base {
 		$asset = new Sher_Core_Model_Asset();
 		$query = array(
 			'parent_id'  => (int)$row['_id'],
-			'asset_type' => Sher_Core_Model_Asset::TYPE_GPRODUCT_COVER,
+			'asset_type' => Sher_Core_Model_Asset::TYPE_GPRODUCT,
 		);
 		$data = $asset->first($query);
 		if(!empty($data)){
@@ -181,7 +184,7 @@ class Sher_Core_Model_GProduct extends Sher_Core_Model_Base {
     /**
      * 标记主题为编辑推荐
      */
-    public function mark_as_stick($id, $value=self::STICK_EDITOR) {
+    public function mark_as_stick($id, $value=1) {
         $ok = $this->update_set($id, array('stick' => $value));
         if($ok){
             $data = $this->load($id);
@@ -276,7 +279,7 @@ class Sher_Core_Model_GProduct extends Sher_Core_Model_Base {
 	public function mock_after_remove($id) {
 		// 删除Asset
 		$asset = new Sher_Core_Model_Asset();
-		$asset->remove_and_file(array('parent_id' => $id, 'asset_type'=>array('$in'=>array(97,98,99))));
+		$asset->remove_and_file(array('parent_id' => $id, 'asset_type'=>array('$in'=>array(97,99,120,121))));
 		unset($asset);
 		
 		// 删除Comment

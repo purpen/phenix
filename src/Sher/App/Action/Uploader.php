@@ -376,6 +376,36 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	}
 
 	/**
+	 * 上传情景产品图片
+	 */
+	public function scene_product() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_SCENE_PRODUCT;
+		$asset_type = Sher_Core_Model_Asset::TYPE_GPRODUCT;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+
+	/**
+	 * 上传情景产品Banner图
+	 */
+	public function scene_product_banner() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_SCENE_PRODUCT;
+		$asset_type = Sher_Core_Model_Asset::TYPE_GPRODUCT_BANNER;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+
+	/**
+	 * 上传情景产品去底图
+	 */
+	public function scene_product_png() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_SCENE_PRODUCT;
+		$asset_type = Sher_Core_Model_Asset::TYPE_GPRODUCT_PNG;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+
+	/**
 	 * 上传标签分类封面图
 	 */
 	public function style_tag() {

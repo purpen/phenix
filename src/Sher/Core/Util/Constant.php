@@ -24,6 +24,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const STROAGE_SPECIAL_SUBJECT = 'special_subject';
 	const STROAGE_SPECIAL_COVER = 'special_cover';
 	const STROAGE_STYLE_TAG = 'style_tag';
+	const STROAGE_SCENE_PRODUCT = 'scene_product';
 	
 	/**
 	 * 类型的常量
