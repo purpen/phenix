@@ -23,7 +23,6 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	  *披肩
 	  */
 	public function cappa(){
-		$this->stash['page_title_suffix'] = '如何在妇女节这天，完美搞定三个女人';
     // 记录浏览数
 	    $num_mode = new Sher_Core_Model_SumRecord();
 	    $num_mode->add_record('22', 'view_count', 4, 4); 
