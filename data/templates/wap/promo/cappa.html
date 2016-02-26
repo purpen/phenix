@@ -104,12 +104,32 @@
 		$('#mask').css('display','none');
 	});
 	
+    var statename = Math.floor(Math.random()*5+1);
+    $('html').attr('state',statename);
+	
+	var getstate = $('html').attr('state');
+	
+	if (getstate == 1){
+		var descrite = '描述1'
+	}
+	if (getstate == 2){
+		var descrite = '描述2'
+	}
+	if (getstate == 3){
+		var descrite = '描述3'
+	}
+	if (getstate == 4){
+		var descrite = '描述4'
+	}
+	if (getstate == 5){
+		var descrite = '描述5'
+	}
 	
 	
     var m_name = '标题';
     var link = '{{ app_url_wap_promo }}/cappa';
 	var img_url = '{{ app_url_packaged }}/images/promo/cappa/fenxiang.jpg';
-    var desc_str = '描述';
+    var desc_str = descrite;
 	
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -176,6 +196,8 @@
     $.get(url, { target_id: 22, count_name:'count', type: 4, kind:4 });
   };
 	
+	
+  
 </script>
 
 {% endblock %}
