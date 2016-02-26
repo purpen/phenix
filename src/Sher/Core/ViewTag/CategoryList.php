@@ -25,6 +25,8 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
 		$domain = 0;
 		$stage = 9;
         $is_vendable = 0;
+        $s_type = 0;
+        $q = 0;
 		
 		$show_all = 0;
 		$current = 0;
@@ -70,6 +72,15 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
 		}elseif ($only_open == Sher_Core_Model_Category::IS_HIDED) {
 			$query['is_open'] = Sher_Core_Model_Category::IS_HIDED;
 		}
+
+        // 模糊搜索
+        if($s_type && $q){
+          if((int)$s_type==1){
+            $query['title'] = array('$regex'=>(string)$q);
+          }elseif((int)$s_type==2){
+            $query['name'] = array('$regex'=>(string)$q);
+          }
+        }
 		
         $service = Sher_Core_Service_Category::instance();
         $options['page'] = $page;

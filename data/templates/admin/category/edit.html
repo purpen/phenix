@@ -84,7 +84,7 @@
         </div>
         
         <div class="field">
-          <label for="domain">所属类组：</label>
+          <label for="gid">所属类组：</label>
           <div class="ui selection dropdown">
             <input type="hidden" name="gid" value="{{ category.gid }}" />
               <div class="default text">请选择</div>
@@ -111,6 +111,7 @@
                           <div data-value="6" class="{% if category.domain == 6%}active {% endif %}item">资源类域</div>
                           <div data-value="7" class="{% if category.domain == 7%}active {% endif %}item">案例类域</div>
               <div data-value="9" class="{% if category.domain == 9%}active {% endif %}item">专题类域</div>
+              <div data-value="10" class="{% if category.domain == 10%}active {% endif %}item">情景商品类域</div>
               </div>
           </div>
         </div>
