@@ -5,12 +5,21 @@
 	
 	// 表单验证
 	$('#active-form').form({
-		sub_title: {
-			identifier  : 'sub_title',
+		title: {
+			identifier  : 'title',
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '标题不能为空'
+					prompt : '名称不能为空'
+				}
+			]
+		},
+		cover_id: {
+			identifier  : 'cover_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请选择封面图'
 				}
 			]
 		}
@@ -22,11 +31,11 @@
 				dataType: 'json',
 				beforeSubmit: function(){
 					// 点击前触发的事件
-					phenix.before_submit();
+					//phenix.before_submit();
 				},
 				success: function(data){
 					// 点击后触发的事件
-					phenix.after_submit();
+					//phenix.after_submit();
 					if(data.is_error){
 						$(event.target).addClass('error');
 						phenix.show_error_note(data.message, 3000);
@@ -47,7 +56,7 @@
 	$('#phenix-uploader').fineUploader({
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ special_subject._id }}','file_id': '{{ pid }}' },
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ date._id }}','file_id': '{{ pid }}' },
         	endpoint: '{{ app_url_upload }}/scene_brands'
       	},
 		text: {
@@ -101,37 +110,39 @@
 			<a href="{{ app_url_app_admin_base }}/brands/add" class="item">
 				<i class="add icon"></i>新增品牌
 			</a>
+			<!--
             <a href="javascript:void(0);" class="item ajax-delete">
 				<i class="remove icon"></i>批量删除
 			</a>
+			-->
 	    </div>
 	</div>	
 	
-	<form action="{{ app_url_admin_base }}/vote/save" class="ui form" method="post" id="active-form">
+	<form action="{{ app_url_app_admin_base }}/brands/save" class="ui form" method="post" id="active-form">
 		<!-- 隐藏表单 -->
-		<input type="hidden" name="id" value="{{ vote._id }}" />
+		<input type="hidden" name="id" value="{{ date._id }}" />
 		
 		<div class="ui segment from">
 			<h3 class="ui dividing header">填写品牌信息</h3>
             <div class="field">
                 <label>品牌名称</label>
-                <input type="text" name="title" placeholder="品牌名称" value="{{ vote.title }}" />
+                <input type="text" name="title" placeholder="品牌名称" value="{{ date.title }}" />
             </div>
             <div class="field">
                 <label>品牌介绍</label>
-                <textarea name="des" placeholder="品牌介绍"></textarea>
+                <textarea name="des" placeholder="品牌介绍">{{ date.des }}</textarea>
             </div>
             
             <!--封面图-->
             <div class="ui segment">
                 <div class="field">
                     <label>上传封面图</label>
-                    <input type="hidden" name="cover_id" id="cover_id" value="{{ active.cover_id }}" />
+                    <input type="hidden" name="cover_id" id="cover_id" value="{{ date.cover_id }}" />
                     <div id="phenix-uploader"></div>
                 
                     <div id="asset-list" class="ui four blocks">
 					{% if mode == 'edit' %}
-						{% asset_list var:'assets' parent_id:special_subject._id size:20 asset_type:100 %}
+						{% asset_list var:'assets' parent_id:date._id size:20 asset_type:100 %}
 						{% for asset in assets.rows %}
 						<div class="thumb block" id="{{ asset._id }}">
 							<div class="image">
@@ -140,11 +151,11 @@
 							</div>
 							<div class="buttons">
 								<div class="ui large links">
-									<a href="{{ app_url_fever }}/delete_asset?id={{ special_subject._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+									<a href="{{ app_url_fever }}/delete_asset?id={{ date._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
 										<i class="remove icon"></i>
 									</a>
 									
-									<a href="javascript:void(0);" class="ui link {%if special_subject.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+									<a href="javascript:void(0);" class="ui link {%if date.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
 										<i class="checkered flag icon"></i>
 									</a>
 								</div>
@@ -161,7 +172,7 @@
                     <div class="ui inverted grey button cancel">
 						点击取消
 					</div>
-					<div class="ui magenta inverted button save">
+					<div class="ui magenta inverted button submit save">
 						确认提交
 					</div>
 				</div>

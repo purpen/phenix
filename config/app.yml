@@ -150,6 +150,7 @@ app.dt.extension_lib.sher_app:
     'friend_link_list':'Sher_Core_ViewTag_FriendLinkList'
     'special_subject_list':'Sher_Core_ViewTag_SpecialSubject'
     'pusher_list':'Sher_Core_ViewTag_PusherList'
+    'scene_brands_list':'Sher_Core_ViewTag_SceneBrandsList'
   filters: []
 
 app.js.use_bundle: false

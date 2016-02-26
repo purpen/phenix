@@ -32,7 +32,10 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
-        
+        // 获取封面图
+		if(isset($row['cover_id'])){
+			$row['cover'] = $this->cover($row['cover_id']);
+		}
 	}
 	
 	/**
@@ -87,5 +90,39 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 		}
 		
 		return $this->dec($id, $field_name, $count);
+	}
+	
+	/**
+	 * 批量更新附件所属
+	 */
+	public function update_batch_assets($ids=array(), $parent_id){
+		if (!empty($ids)){
+			$model = new Sher_Core_Model_Asset();
+			foreach($ids as $id){
+				Doggy_Log_Helper::debug("Update asset[$id] parent_id: $parent_id");
+				$model->update_set($id, array('parent_id' => $parent_id));
+			}
+		}
+	}
+	
+	/**
+	 * 获取封面图
+	 */
+	protected function cover($cover_id){
+		// 已设置封面图
+		if(!empty($cover_id)){
+			$asset = new Sher_Core_Model_Asset();
+			return $asset->extend_load($cover_id);
+		}
+		// 未设置封面图，获取第一个
+		$asset = new Sher_Core_Model_Asset();
+		$query = array(
+			'parent_id'  => (int)$cover_id,
+			'asset_type' => Sher_Core_Model_Asset::TYPE_SPECIAL_COVER
+		);
+		$data = $asset->first($query);
+		if(!empty($data)){
+			return $asset->extended_model_row($data);
+		}
 	}
 }

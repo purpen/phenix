@@ -63,14 +63,16 @@
 			<a href="{{ app_url_app_admin_base }}/brands/add" class="item">
 				<i class="add icon"></i>新增品牌
 			</a>
+			<!--
 			<a href="javascript:void(0);" class="item ajax-delete">
 				<i class="remove icon"></i>批量删除
 			</a>
+			-->
 	    </div>
 	</div>
 	
 	<div class="ui sub ">
-		<form action="{{ app_url_app_admin_base }}/pusher/get_list" id="search-form" method="get">
+		<form action="{{ app_url_app_admin_base }}/brands/get_list" id="search-form" method="get">
 			<label>搜索：</label>
 			<div class="ui input">
                 <input placeholder="品牌名" type="text" name="title" value="{{ title }}" />
@@ -98,7 +100,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% pusher_list var:'list' page:page user_id:user_id uuid:uuid from_to:from_to is_login:is_login state:state size:100 %}
+			{% scene_brands_list var:'list' page:page title:title size:20 %}
 
 			{% for d in list.rows %}
 			<tr id="{{ d._id }}">
@@ -108,40 +110,25 @@
 					  	<label></label>
 					</div>
 				</td>
-                <td>
-                    <a class="ui image label link" href="{{ d.user.home_url }}" target="_blank">
-                        <img src="{{ d.user.mini_avatar_url }}">
-                        {{ d.user.nickname }}
-                    </a>     
+				 <td>
+                  {{ d.title }}
                 </td>
                 <td>
-                  {{ d.uuid }}
+                  <img width=50 src="{{ d.cover.thumbnails.mini.view_url }}">
                 </td>
-
+                <td>
+                  {{ d.used_count }}
+                </td>
 				<td>
-                    {{ d.from }}
+					{% if d.status %}
+					可用
+					{% else %}
+                    不可用
+					{% endif %}
                  </td>
-                <td>
-                    {{ d.push_count }}
-                </td>
-        <td>
-					<p>
-						{% if d.is_login %}
-							<span class="ui small green label">是</span>
-						{% else %}
-							<span class="ui small orange label">否</span>
-						{% endif %}
-					</p>
-        </td>
-        <td>
-          {{ d.last_time|date 'y-m-d H:m' }}
-        </td>
 				<td>
-					<p>
-		        <a class="ui confirm-request link item">
-						    删除
-					  </a>
-					</P>
+					<a href="{{ app_url_app_admin_base }}/brands/edit?id={{ d._id }}&page={{ page }}" class="ui link item">编辑</a>
+		          	<a href="{{ app_url_app_admin_base }}/brands/delete?id={{ d._id }}&page={{ page }}" class="ui confirm-request link item">删除</a>
 				</td>
 			</tr>
 			{% endfor %}

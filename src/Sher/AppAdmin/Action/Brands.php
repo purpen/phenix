@@ -42,13 +42,17 @@ class Sher_AppAdmin_Action_Brands extends Sher_Admin_Action_Base implements Dogg
 	 */
 	public function add(){
         
-        // 活动头图，封面图上传
+		$mode = 'create';
+		
+        // 封面图上传
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = new MongoId();
 
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_BRANDS;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_BRANDS;
         
+		$this->stash['mode'] = $mode;
+		
 		return $this->to_html_page('app_admin/brands/submit.html');
 	}
     
@@ -56,6 +60,30 @@ class Sher_AppAdmin_Action_Brands extends Sher_Admin_Action_Base implements Dogg
 	 * 更新
 	 */
 	public function edit(){
+		
+		$id = isset($this->stash['id']) ? $this->stash['id'] : '';
+		
+		if(!$id){
+			return $this->ajax_json('内容不能为空！', true);
+		}
+		$mode = 'edit';
+		
+		// 封面图上传
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['pid'] = new MongoId();
+
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_BRANDS;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_BRANDS;
+		
+		$model = new Sher_Core_Model_SceneBrands();
+		$result = $model->find_by_id($id);
+		$result = $model->extended_model_row($result);
+		//var_dump($result);
+		
+		$this->stash['date'] = $result;
+		$this->stash['mode'] = $mode;
+		
+		return $this->to_html_page('app_admin/brands/submit.html');
 		
 	}
 
@@ -84,7 +112,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_Admin_Action_Base implements Dogg
 			'des' => $des,
 			'cover_id' => $cover_id,
 		);
-		
+		//var_dump($date);die;
 		try{
 			$model = new Sher_Core_Model_SceneBrands();
 			if(empty($id)){
@@ -104,7 +132,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_Admin_Action_Base implements Dogg
 			
 			// 上传成功后，更新所属的附件
 			if(isset($this->stash['asset']) && !empty($this->stash['asset'])){
-				$model->update_batch_assets($this->stash['asset'], $id);
+				$model->update_batch_assets($this->stash['asset'], (string)$id);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
@@ -119,5 +147,30 @@ class Sher_AppAdmin_Action_Brands extends Sher_Admin_Action_Base implements Dogg
 	 */
 	public function delete(){
 		
+		$id = isset($this->stash['id'])?$this->stash['id']:0;
+		if(empty($id)){
+			return $this->ajax_notification('内容不存在！', true);
+		}
+		
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
+		
+		try{
+			$model = new Sher_Core_Model_SceneBrands();
+			
+			foreach($ids as $id){
+				$result = $model->load($id);
+				
+				if (!empty($result)){
+					$model->remove($id);
+				}
+			}
+			
+			$this->stash['ids'] = $ids;
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		return $this->to_taconite_page('ajax/delete.html');
 	}
 }
