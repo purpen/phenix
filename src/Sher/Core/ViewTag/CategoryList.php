@@ -24,7 +24,7 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
 		$only_open = 0;
 		$domain = 0;
 		$stage = 9;
-    $is_vendable = 0;
+        $is_vendable = 0;
 		
 		$show_all = 0;
 		$current = 0;

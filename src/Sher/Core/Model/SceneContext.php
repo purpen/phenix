@@ -12,6 +12,8 @@ class Sher_Core_Model_SceneContext extends Sher_Core_Model_Base {
 		'title' => '',
         # 描述
         'des' => '',
+		# 分类
+		'category_id' => 0,
 		# 标签id
 		'tags' => array(),
         # 使用次数
