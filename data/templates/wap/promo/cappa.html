@@ -104,7 +104,7 @@
 		$('#mask').css('display','none');
 	});
 	
-    var statename = Math.floor(Math.random()*5+1);
+    /*var statename = Math.floor(Math.random()*5+1);
     $('html').attr('state',statename);
 	
 	var getstate = $('html').attr('state');
@@ -123,13 +123,14 @@
 	}
 	if (getstate == 5){
 		var descrite = '描述5'
-	}
+	}*/
 	
-	
-    var m_name = '标题';
+	var descrite = '12312';
+    var m_name = '如何在妇女节这天，完美搞定三个女人';
     var link = '{{ app_url_wap_promo }}/cappa';
 	var img_url = '{{ app_url_packaged }}/images/promo/cappa/fenxiang.jpg';
-    var desc_str = descrite;
+    var desc_str = '眼见着三月八日就要来了，又到了一年好几度送送送，买买买的时候,
+小编今天教你见招拆招，分分钟搞定你人生中的三个女人！还有奖品可以得呦。';
 	
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -195,7 +196,7 @@
     var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
     $.get(url, { target_id: 22, count_name:'count', type: 4, kind:4 });
 	// 自动评论某个话题
-	$.get('{{ app_url_wap }}/app/site/comment/ajax_subject_save', { target_id: 101698, type:2, content:desc_str });
+	$.get('{{ app_url_wap }}/app/site/comment/ajax_subject_save', { target_id: 101608, type:2, content:descrite });
   };
 	
 	
