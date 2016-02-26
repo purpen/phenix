@@ -3,7 +3,7 @@
  * App后台管理功能
  * @author tianshuai
  */
-class Sher_AppAdmin_Action_Console extends Sher_Admin_Action_Base {
+class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
 	
 	public $stash = array(
 		'category_id' => 0,

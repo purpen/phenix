@@ -1009,7 +1009,7 @@ class Sher_Core_Helper_Util {
         $c_type = isset($options['type']) ? (int)$options['type'] : 0;
         $comment_model = new Sher_Core_Model_Comment();
         if($target_id && $c_type){
-          // 5秒钟内不能大于2条
+          // 5秒钟内不能大于1条
           $last_second_count = $comment_model->count(array('target_id'=>$target_id, 'type'=>$c_type, 'user_id'=>(int)$user_id, 'created_on'=>array('$gt'=>(time()-5))));
           if($last_second_count>=1){
             return array('success'=>true, 'msg'=>'稍后再试吧!');       
@@ -1020,7 +1020,7 @@ class Sher_Core_Helper_Util {
             return array('success'=>true, 'msg'=>'稍后再试吧!');       
           }
           // 总量不能大于50条
-          $today_count = $comment_model->count(array('target_id'=>$target_id, 'type'=>$c_type, 'user_id'=>(int)$user_id));
+          $today_count = $comment_model->count(array('target_id'=>$target_id, 'type'=>$c_type, 'user_id'=>(int)$user_id, 'created_on'=>array('$gt'=>$today)));
           if($today_count>=50){
             return array('success'=>true, 'msg'=>'稍后再试吧.!');       
           }  

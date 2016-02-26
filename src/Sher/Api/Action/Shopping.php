@@ -931,7 +931,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		// 订单状态
 		$status  = isset($this->stash['status']) ? $this->stash['status'] : 0;
 		if(empty($user_id)){
-			return $this->api_json('请求参数错误', 3000);
+			return $this->api_json('请先登录!', 3000);
 		}
 		
 		$query   = array();
@@ -991,7 +991,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$data = array();
 		for($i=0;$i<count($result['rows']);$i++){
 			foreach($some_fields as $key=>$value){
-				$data[$i][$key] = $result['rows'][$i][$key];
+				$data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : null;
 			}
 			// ID转换为字符串
 			$data[$i]['_id'] = (string)$result['rows'][$i]['_id'];
