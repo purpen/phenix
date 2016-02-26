@@ -195,7 +195,7 @@
     var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
     $.get(url, { target_id: 22, count_name:'count', type: 4, kind:4 });
 	// 自动评论某个话题
-	$.get('{{ app_url_wap }}/app/site/comment/ajax_subject_save', { target_id: 101608, type:2, content:descrite });
+	$.get('{{ app_url_wap }}/app/site/comment/ajax_subject_save', { target_id: 110599, type:2, content:descrite });
   };
 	
 	
@@ -257,9 +257,8 @@
 	</section>
 	
     <section class="screen screen13">
-		<div class="screen__bg"></div>
+		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/011.jpg) center center /cover;"></div>
 		<div class="screen__inner">
-			<img src="{{ app_url_packaged }}/images/promo/cappa/11.jpg" width="100%" style="margin-top:-15px;">
 			{% if !visitor.is_login %}
 			<a href="{{ app_url_domain }}/app/wap/auth" class="sign-btn"></a>
 			{% else%}
