@@ -98,6 +98,8 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
         $data['category_id']  = $this->stash['category_id'];
         $data['product_id']  = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
         $data['asset'] = isset($this->stash['asset']) ? (array)$this->stash['asset'] : array();
+        $data['banner_asset'] = isset($this->stash['banner_asset']) ? (array)$this->stash['banner_asset'] : array();
+        $data['png_asset'] = isset($this->stash['png_asset']) ? (array)$this->stash['png_asset'] : array();
         
         $data['cover_id'] = $this->stash['cover_id'];
         
@@ -131,6 +133,11 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 			// 上传成功后，更新所属的附件(Banner)
 			if(isset($this->stash['banner_asset']) && !empty($this->stash['banner_asset'])){
 				$asset_model->update_batch_assets($this->stash['banner_asset'], $id);
+			}
+
+			// 上传成功后，更新所属的附件(Banner)
+			if(isset($this->stash['png_asset']) && !empty($this->stash['png_asset'])){
+				$asset_model->update_batch_assets($this->stash['png_asset'], $id);
 			}
 
 			// 保存成功后，更新编辑器图片
