@@ -3,7 +3,7 @@
  * 语境管理
  * @author caowei@taihuoniao.com
  */
-class Sher_AppAdmin_Action_SceneContext extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {
+class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
 		'page' => 1,

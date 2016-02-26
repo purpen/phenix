@@ -99,7 +99,7 @@
 				<label>语境分类</label>
 				<div class="ui options">
 						<input type="hidden" name="category_id" value="{{ date.category_id }}" id="scene_context_category" />
-						{% category_list var:'category' only_open:1 domain:9 %}
+						{% category_list var:'category' only_open:1 domain:11 %}
 						{% for cat in category.rows %}
 							<div class="ui magenta alt option left {% if date.category_id == cat._id %} active {%endif%}" data-value="{{ cat._id }}">
 								<i class="check circle outline icon"></i>

@@ -3,7 +3,7 @@
  * 品牌管理
  * @author caowei@taihuoniao.com
  */
-class Sher_AppAdmin_Action_Brands extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {
+class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
 		'page' => 1,
