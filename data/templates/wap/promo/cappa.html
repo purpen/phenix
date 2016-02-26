@@ -1,5 +1,5 @@
 {%extends 'layout/weixin.html'%}
-{% block title %}{% endblock %}
+{% block title %}如何在妇女节这天，完美搞定三个女人{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	.loading__img{
@@ -104,7 +104,7 @@
 		$('#mask').css('display','none');
 	});
 	
-    var statename = Math.floor(Math.random()*5+1);
+    /*var statename = Math.floor(Math.random()*5+1);
     $('html').attr('state',statename);
 	
 	var getstate = $('html').attr('state');
@@ -123,13 +123,13 @@
 	}
 	if (getstate == 5){
 		var descrite = '描述5'
-	}
+	}*/
 	
-	
-    var m_name = '标题';
+	var descrite = '竟然就这样轻松的搞定了三个女人，感觉要走上人生巅峰啦！';
+    var m_name = '如何在妇女节这天，完美搞定三个女人';
     var link = '{{ app_url_wap_promo }}/cappa';
 	var img_url = '{{ app_url_packaged }}/images/promo/cappa/fenxiang.jpg';
-    var desc_str = descrite;
+    var desc_str = '眼见三月八日又来了，雷锋小编不光教学，还要送大礼啦！';
 	
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -195,7 +195,7 @@
     var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
     $.get(url, { target_id: 22, count_name:'count', type: 4, kind:4 });
 	// 自动评论某个话题
-	$.get('{{ app_url_wap }}/app/site/comment/ajax_subject_save', { target_id: 101698, type:2, content:desc_str });
+	$.get('{{ app_url_wap }}/app/site/comment/ajax_subject_save', { target_id: 110599, type:2, content:descrite });
   };
 	
 	
@@ -257,9 +257,8 @@
 	</section>
 	
     <section class="screen screen13">
-		<div class="screen__bg"></div>
+		<div class="screen__bg" style="background:url({{ app_url_packaged }}/images/promo/cappa/011.jpg) center center /cover;"></div>
 		<div class="screen__inner">
-			<img src="{{ app_url_packaged }}/images/promo/cappa/11.jpg" width="100%" style="margin-top:-15px;">
 			{% if !visitor.is_login %}
 			<a href="{{ app_url_domain }}/app/wap/auth" class="sign-btn"></a>
 			{% else%}
