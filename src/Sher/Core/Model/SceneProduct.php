@@ -35,7 +35,9 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 		
  		'cover_id' => '',
 		'asset' => array(),
-		'asset_count' => 0,
+    'asset_count' => 0,
+    'banner_asset' => array(),
+    'png_asset' => array(),
 
     # 价格
     'sale_price'  => 0,

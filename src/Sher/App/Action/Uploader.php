@@ -761,6 +761,8 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
       $assets_ids = $this->stash['assets'];
       if($type==2){
 		    $tpl = 'ajax/check_upload_product_banner_assets.html';
+      }elseif($type==3){
+		    $tpl = 'ajax/check_upload_product_png_assets.html';
       }else{
 		    $tpl = 'ajax/check_upload_product_assets.html';
       }
@@ -777,6 +779,8 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		if (isset($this->stash['ref'])){
       if($type==2){
 			  $tpl = 'ajax/check_product_banner_onestep.html';
+      }elseif($type==3){
+			  $tpl = 'ajax/check_product_png_onestep.html';
       }else{
 			  $tpl = 'ajax/check_product_onestep.html';
       }

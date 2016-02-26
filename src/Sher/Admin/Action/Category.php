@@ -7,13 +7,16 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
 	
 	public $stash = array(
 		'page' => 1,
-		'size' => 20,
+		'size' => 50,
 		'only_open' => 0,
+    'domain' => 0,
+    's_type' => 1,
+    'q' => '',
 	);
 	
 	public function _init() {
 		$this->set_target_css_state('page_category');
-    }
+  }
 	
 	/**
 	 * 入口
@@ -37,6 +40,8 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
 			$this->set_target_css_state('all_category');
 		}
 		
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/category?domain=%d&only_open=%d&s_type=%d&q=%s&page=#p#', $this->stash['domain'], $this->stash['only_open'], $this->stash['s_type'], $this->stash['q']);
+		$this->stash['pager_url'] = $pager_url;
 		
 		return $this->to_html_page('admin/category/list.html');
 	}
