@@ -95,7 +95,7 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
         $data['state']  = (int)$this->stash['state'];
         $data['attrbute']  = (int)$this->stash['attrbute'];
         $data['tags']  = $this->stash['tags'];
-        $data['category_id']  = $this->stash['category_id'];
+        $data['category_id']  = (int)$this->stash['category_id'];
         $data['product_id']  = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
         $data['asset'] = isset($this->stash['asset']) ? (array)$this->stash['asset'] : array();
         $data['banner_asset'] = isset($this->stash['banner_asset']) ? (array)$this->stash['banner_asset'] : array();
