@@ -89,7 +89,6 @@ class Sher_Admin_Action_Active extends Sher_Admin_Action_Base implements DoggyX_
 
 		// 活动列表图上传
 		$this->stash['list_pid'] = new MongoId();
-
 		$this->stash['asset_type_active'] = Sher_Core_Model_Asset::TYPE_USER_ACTIVE;
 		
 		return $this->to_html_page('admin/active/submit.html');

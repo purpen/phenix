@@ -283,7 +283,7 @@
 		  plainPaste: true,
 		  alwaysBlank: true,
 		  typingTimer: 2000,
-		  buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
+		  buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "sep", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
 	  });
 	  
 	var file_count = 1;
@@ -641,6 +641,10 @@
 				  display: inline-block;
 				  width: 35px;
 				  color: #fff;
+				}
+				
+				.this_content li{
+				  float: none;
 				}
 			  </style>
 			  <div class="gridster">
