@@ -19,7 +19,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 	 */
 	public function execute() {
 		// 判断左栏类型
-		$this->stash['show_type'] = "community";
+		$this->stash['show_type'] = "product";
 		return $this->get_list();
 	}
 	
@@ -46,10 +46,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 	public function add(){
 		
 		// 判断左栏类型
-		$this->stash['show_type'] = "community";
-		
-		// 判断左栏类型
-		$this->stash['show_type'] = "community";
+		$this->stash['show_type'] = "product";
 		
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = new MongoId();
@@ -66,10 +63,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 	public function edit(){
 		
 		// 判断左栏类型
-		$this->stash['show_type'] = "community";
-		
-		// 判断左栏类型
-		$this->stash['show_type'] = "community";
+		$this->stash['show_type'] = "product";
 		
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = new MongoId();
@@ -137,7 +131,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 			'cover_id' => $cover_id,
 			'kind' => (int)$kind,
 			'category_id' => $category_id,
-			'user_id' => (int)$this->visitor->id
+      'summary' => $this->stash['summary'],
 		);
 		//var_dump($date);die;
 		
@@ -145,6 +139,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 			$model = new Sher_Core_Model_SpecialSubject();
 			if(empty($id)){
 				// add
+        $date['user_id'] = $this->visitor->id;
 				$ok = $model->apply_and_save($date);
 				$data_id = $model->get_data();
 				$id = $data_id['_id'];

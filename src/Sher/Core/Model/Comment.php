@@ -19,8 +19,10 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	const TYPE_STUFF  = 6;
   const TYPE_ALBUM = 7;
   const TYPE_SPECIAL_SUBJECT = 8;
+  const TYPE_APP_SUBJECT = 9; // app 专题评论
   // 专题评论 target_id 1:云马C1争霸; 5.奶爸奶妈PK; 2.--; 3.--; 4.--
   const TYPE_SUBJECT = 10;
+  const TYPE_GPRODUCT = 11; // 情景商品分类
 	
     protected $schema = array(
         'user_id' => 0,
@@ -32,8 +34,10 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         'content' => '',
         'reply' => array(),
         'type' => self::TYPE_TOPIC,
-        // 子类型,1.商品下的灵感; 2.
-        'sub_type' => 1,
+        // 子类型:
+        // Product: 15.灵感; 2.
+        // Stuff: 5.top100;
+        'sub_type' => 0,
 		'love_count' => 0,
         // 虚拟点赞人数
         'invented_love_count' => 0,
@@ -47,6 +51,9 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         // 楼层
         'floor' => 0,
         'deleted' => 0,
+        'ip' => null,
+        // 来源: 0.无记录; 1.web;2.wap;3.ios;4.android;5.win;6.ipad;6.--
+        'from_site' => 0,
     );
 
     protected $joins = array(
@@ -61,11 +68,14 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	 * 验证数据
 	 */
     protected function validate(){
-    	// 内容长度介于5到1000字符之间(1个中文算3个字符)
-      	if(strlen($this->data['content']) < 5 || strlen($this->data['content']) > 3000){
-      		$this->data['error'] = '内容长度介于5到1000字符之间';
-        	return false;
-      	}
+    	// 内容长度介于5到1000字符之间(1个中文算3个字符),商品评价不限制
+      if($this->data['type']!=self::TYPE_PRODUCT){
+        if(strlen($this->data['content']) < 5 || strlen($this->data['content']) > 3000){
+          $this->data['error'] = '内容长度介于5到1000字符之间';
+          return false;
+        }     
+      }
+
 		
 		return true;
     }
@@ -74,9 +84,14 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	 * 保存之前
 	 */
 	protected function before_save(&$data) {
+    // 记录IP
+    $ip = Sher_Core_Helper_Auth::get_ip();
+    if($ip) $data['ip'] = $ip;
+
+    $type = $data['type'];
+
     if(empty($data['floor'])){
       $target_model = null;
-      $type = $data['type'];
       switch($type){
         case 2:
           $target_model = new Sher_Core_Model_Topic();
@@ -97,6 +112,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
           $target_model = null;
       }
 
+      // 专题评论
       if($data['type']==self::TYPE_SUBJECT){
         $dig_model = new Sher_Core_Model_DigList();
         $dig_key = null;
@@ -121,9 +137,18 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
           $target = $target_model->load((int)$data['target_id']);
           if($target){
             $data['floor'] = $target['comment_count'] + 1;
-          }     
-        }   
-      }
+            // 更新子类型
+            switch($type){
+              case 4:
+                $data['sub_type'] = $target['stage'];
+                break;
+              case 6:
+                $data['sub_type'] = $target['from_to'];
+                break;
+            }// end switch
+          } // endif target
+        } // endif target_model
+      }// endif subject
 
     }
 	  parent::before_save($data);
@@ -232,6 +257,11 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                       $model->inc($dig_key, 'items.comment_count', 1);
                     }
                     break;
+                case self::TYPE_APP_SUBJECT:
+                    $model = new Sher_Core_Model_SpecialSubject();
+                    //获取目标用户ID
+                    $model->inc_counter('comment_count', 1, (int)$this->data['target_id']);
+                    break;
                 default:
                     break;
             }
@@ -328,23 +358,52 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             $row['ori_content'] = htmlspecialchars($row['content']);
             $row['content'] = '因该用户已经被屏蔽,评论被屏蔽';
             return;
-        }
+    }
 
-        $row['content_original'] = Sher_Core_Util_View::safe($row['content']);
-        $row['content'] = $this->trans_content(Sher_Core_Util_View::safe($row['content']));
-        $row['created_on'] = Doggy_Dt_Filters_DateTime::relative_datetime($row['created_on']);
-        if (!empty($row['reply'])) {
-            for ($i=0; $i < count($row['reply']); $i++) {
-                $this->_extend_comment_reply($row['reply'][$i]);
-            }
-        }
-        
-        // 加载回复对象
-        if(isset($row['is_reply']) && !empty($row['is_reply'])){
-          $reply_comment_obj = $this->extend_load($row['reply_id']);
-          $row['reply_comment'] = $reply_comment_obj;
+    $row['content_original'] = Sher_Core_Util_View::safe($row['content']);
+    $row['content'] = $this->trans_content(Sher_Core_Util_View::safe($row['content']));
+    $row['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($row['created_on']);
+    if (!empty($row['reply'])) {
+        for ($i=0; $i < count($row['reply']); $i++) {
+            $this->_extend_comment_reply($row['reply'][$i]);
         }
     }
+        
+    // 加载回复对象
+    if(isset($row['is_reply']) && !empty($row['is_reply'])){
+      $reply_comment_obj = $this->extend_load($row['reply_id']);
+      $row['reply_comment'] = $reply_comment_obj;
+    }
+
+    // 来源
+    if(isset($row['from_site'])){
+      switch($row['from_site']){
+        case 1:
+          $row['from'] = 'Web';
+          break;
+        case 2:
+          $row['from'] = 'Wap';
+          break;
+        case 3:
+          $row['from'] = 'IOS';
+          break;
+        case 4:
+          $row['from'] = 'Android';
+          break;
+        case 5:
+          $row['from'] = 'WinPhone';
+          break;
+        case 6:
+          $row['from'] = 'IPad';
+          break;
+        default:
+          $row['from'] = '--';
+      }
+    }else{
+      $row['from'] = '--';
+    }
+
+  }
 	
 	/**
 	 * 扩展回复数据

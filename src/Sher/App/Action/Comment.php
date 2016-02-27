@@ -52,15 +52,30 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		if(!$this->stash["visitor"]['state']){
 			return $this->ajax_json('您不能参与评论 !', true);
 		}
+
+    $target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : null;
+    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+		if(empty($target_id)){
+			return $this->ajax_json('缺少请求参数 !', true);
+		}
+
+    // 用户发表频率、次数限制
+    if(empty($this->visitor->quality)){
+      $pub_is_limit = Sher_Core_Helper_Util::report_filter_limit($this->visitor->id, 5, array('target_id'=>$target_id, 'type'=>$type));
+      if($pub_is_limit['success']){
+        return $this->ajax_json($pub_is_limit['msg'], true);   
+      }     
+    }
         
 		$from_to = isset($this->stash['from_to'])?$this->stash['from_to']:'web';
 		$row = array();
 		$row['user_id'] = $this->visitor->id;
 		$row['star'] = isset($this->stash['star']) ? (int)$this->stash['star'] : 0;
-		$row['target_id'] = $this->stash['target_id'];
+		$row['target_id'] = $target_id;
 		$row['target_user_id'] = (int)$this->stash['target_user_id'];
-		$row['type'] = (int)$this->stash['type'];
+		$row['type'] = $type;
 		$row['sku_id'] = isset($this->stash['sku_id']) ? (int)$this->stash['sku_id'] : 0;
+		$row['from_site'] = isset($this->stash['from_site']) ? (int)$this->stash['from_site'] : 1;
 		
 		// 处理评论内容
 		$content = $this->stash['content'];
@@ -258,6 +273,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 		$row['content'] = $this->stash['content'];
 		$row['type'] = (int)$this->stash['type'];
 		$row['sku_id'] = isset($this->stash['sku'])?(int)$this->stash['sku']:0;
+		$row['from_site'] = isset($this->stash['from_site'])?(int)$this->stash['from_site']:1;
 		
 		// 验证数据
 		if(empty($row['target_id']) || empty($row['content']) || empty($row['star'])){
@@ -553,7 +569,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
      */
     public function ajax_fetch_comment() {
         $current_user_id = $this->visitor->id?(int)$this->visitor->id:0;
-        $target_id = !empty($this->stash['target_id'])?$this->stash['target_id']:-1;
+        $target_id = !empty($this->stash['target_id'])?$this->stash['target_id']:0;
         $page = isset($this->stash['page'])?(int)$this->stash['page']:1;
         $per_page = isset($this->stash['per_page'])?(int)$this->stash['per_page']:8;
         $type = isset($this->stash['type'])?(int)$this->stash['type']:0;
@@ -562,20 +578,34 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         $sort = isset($this->stash['sort'])?(int)$this->stash['sort']:0;
         // wap 或 site
         $from_site = isset($this->stash['from_site']) ? $this->stash['from_site'] : 'site';
-        $target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : null;
         // 是否加载评分
         $is_star = isset($this->stash['is_star']) ? (int)$this->stash['is_star'] : 0;
+        // 子分类
+        $sub_type = isset($this->stash['sub_type']) ? (int)$this->stash['sub_type'] : 0;
 
-        if(empty($target_id)){
-          return false;
-        }
+        $next_id = isset($this->stash['next_id']) ? DoggyX_Mongo_Db::id($this->stash['next_id']) : null;
         
         $service = Sher_Core_Service_Comment::instance();
         
         $query = array();
         $options = array();
-        $query['target_id'] = $target_id;
-        $query['type'] = $type;
+
+        if($next_id){
+          $query['_id'] = array('$gt'=>$next_id);
+        }
+
+        if($target_id){
+          $query['target_id'] = $target_id;
+        }
+
+        if($type){
+          $query['type'] = $type;
+        }
+
+        if($sub_type){
+          $query['sub_type'] = $sub_type;
+        }
+
         $options['page'] = $page;
         $options['size'] = $per_page;
 
@@ -744,5 +774,38 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
     }
     return $is_comment_share;
   }
+
+	/**
+	 * 专题快捷评论
+	 */
+	public function ajax_subject_save(){
+
+		$user_id = $this->visitor->id;
+		$target_id = $this->stash['target_id'];
+		$content = $this->stash['content'];
+		$type = (int)$this->stash['type'];
+		
+		// 验证数据
+		if(empty($target_id) || empty($content)){
+			return $this->ajax_json('获取数据错误,请重新提交', true);
+		}
+
+		$model = new Sher_Core_Model_Comment();
+
+		$row = array();
+		$row['target_id'] = $target_id;
+		$row['type'] = $type;
+		$row['user_id'] = $user_id;
+    $row['content'] = $content;
+
+		$ok = $model->apply_and_save($row);
+		if($ok){
+			$comment_id = $model->id;
+      return $this->ajax_json('评论成功!', false);
+    }else{
+		  return $this->ajax_json("评论失败!", true);
+    } // if ok
+		
+	}
   	
 }

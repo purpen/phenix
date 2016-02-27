@@ -123,7 +123,10 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 
           // 检测用户名是否重复
           if(!$user->_check_name($default_nickname)){
-            $default_nickname = $qq_info['nickname'].rand(0, 1000);
+            $default_nickname = "QQ用户-".$default_nickname;
+            if(!$user->_check_name($default_nickname)){
+              $default_nickname = $default_nickname.rand(1000, 9999);
+            }
           }
 
           // 获取session id

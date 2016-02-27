@@ -24,6 +24,9 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
 		$only_open = 0;
 		$domain = 0;
 		$stage = 9;
+        $is_vendable = 0;
+        $s_type = 0;
+        $q = 0;
 		
 		$show_all = 0;
 		$current = 0;
@@ -58,12 +61,26 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
         if(!empty($pid)){
             $query['pid'] = (int)$pid;
         }
+
+        //子数量(可购买产品)
+        if($is_vendable){
+          $query['sub_count'] = array('$ne'=>0);
+        }
 		
 		if ($only_open == Sher_Core_Model_Category::IS_OPENED) {
 			$query['is_open'] = Sher_Core_Model_Category::IS_OPENED;
 		}elseif ($only_open == Sher_Core_Model_Category::IS_HIDED) {
 			$query['is_open'] = Sher_Core_Model_Category::IS_HIDED;
 		}
+
+        // 模糊搜索
+        if($s_type && $q){
+          if((int)$s_type==1){
+            $query['title'] = array('$regex'=>(string)$q);
+          }elseif((int)$s_type==2){
+            $query['name'] = array('$regex'=>(string)$q);
+          }
+        }
 		
         $service = Sher_Core_Service_Category::instance();
         $options['page'] = $page;
@@ -122,8 +139,13 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
 			
 			// 重写rows
 			$result['rows'] = $categories;
+			
 		}
-		//var_dump($result);
+		/*
+		foreach($result["rows"] as $k => $v){
+			echo $v['_id'].'-'.$v['domain'].';';
+		}
+		*/
         $context->set($var, $result);
         if ($include_pager) {
             $context->set($pager_var,$result['pager']);

@@ -8,10 +8,11 @@ class Sher_Admin_Action_Comment extends Sher_Admin_Action_Base implements DoggyX
 	public $stash = array(
 		'page' => 1,
 		'size' => 20,
-    's' => 0,
+    's' => 1,
     't' => 0,
     'c' => '',
     'q' => '',
+    'user_id' => '',
 	);
 	
 	public function _init() {
@@ -34,9 +35,9 @@ class Sher_Admin_Action_Comment extends Sher_Admin_Action_Base implements DoggyX
     $this->set_target_css_state('page_all');
 		$page = (int)$this->stash['page'];
 		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/comment/search?s=%d&q=%s&c=%s&page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/comment/search?s=%d&q=%s&c=%s&user_id=%d&page=#p#';
 
-		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['s'], $this->stash['q'], $this->stash['c']);
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['s'], $this->stash['q'], $this->stash['c'], $this->stash['user_id']);
 		
 		return $this->to_html_page('admin/comment/list.html');
 	}
@@ -69,6 +70,7 @@ class Sher_Admin_Action_Comment extends Sher_Admin_Action_Base implements DoggyX
 		$data['content'] = $this->stash['content'];
 		$data['love_count'] = (int)$this->stash['love_count'];
 		$data['floor'] = (int)$this->stash['floor'];
+		$data['user_id'] = (int)$this->stash['user_id'];
 
 		try{
 			$model = new Sher_Core_Model_Comment();

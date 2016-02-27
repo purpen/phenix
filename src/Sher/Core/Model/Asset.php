@@ -31,6 +31,8 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	
 	# 产品图片
 	const TYPE_PRODUCT = 10;
+  # 产品banner图
+  const TYPE_PRODUCT_BANNER = 11;
 	const TYPE_EDITOR_PRODUCT = 15;
 	
 	# 评测图片/配图(小图)
@@ -84,13 +86,20 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
     const TYPE_REPORT = 92;
 	
 	# 专辑封面
-	const TYPE_ALBUMS = 95;
+    const TYPE_ALBUMS = 95;
+	# 图片
+  const TYPE_SPECIAL_SUBJECT = 96;
 	
 	# 专辑封面
 	const TYPE_SPECIAL_COVER = 98;
-	
-	# 图片
-	const TYPE_SPECIAL_SUBJECT = 96;
+
+  #情景图片
+  const TYPE_GPRODUCT = 97;
+  const TYPE_GPRODUCT_EDITOR = 99;
+  
+  const TYPE_SCENE_BRANDS = 100;
+  const TYPE_GPRODUCT_BANNER = 120;
+  const TYPE_GPRODUCT_PNG = 121;
 
     protected $schema = array(
 		'user_id' => '',
@@ -154,10 +163,15 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 		'resp' => 'resp.jpg',
 		'hd'   => 'hd.jpg',
 		'md'   => 'm.jpg',
-        'hm'   => 'hm.jpg',
-        # 头像截图
-        'ava'  => 'ava.jpg',
-    'mb'  => 'mb.jpg',  // 750x360
+    'hm'   => 'hm.jpg',
+    # 头像截图
+    'ava'  => 'ava.jpg',
+    # app Banner(通用)
+    'aub'  => 'p750x422.jpg',  // 750x422
+    # app 商品封面
+    'apc' => 'p500x500.jpg', // 500x500
+    # app 分类小图
+    'acs' => 'p325x200.jpg', // 325x200
 	);
 
     protected $required_fields = array('filepath');

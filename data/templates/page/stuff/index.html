@@ -1,0 +1,627 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.topbg {
+    background: url({{ app_url_packaged }}/images/top/bg3.jpg) no-repeat center center;
+    background-size: cover;
+	padding-top: 25%;
+	padding-bottom: 5%;
+}
+.topbg .ui.large.jointop{
+	padding-left:35px;
+	padding-right:35px;
+}
+i.mu1{
+	background:url({{ app_url_packaged }}/images/top/mu01.png);
+	width:120px !important;
+	height:120px !important;
+	margin-bottom: 12px !important;
+}
+i.mu2{
+	background:url({{ app_url_packaged }}/images/top/mu02.png);
+	width:120px !important;
+	height:120px !important;
+	margin-bottom: 12px !important;
+}
+i.mu3{
+	background:url({{ app_url_packaged }}/images/top/mu03.png);
+	width:120px !important;
+	height:120px !important;
+	margin-bottom: 12px !important;
+}
+.ui.stuffs h3.ui.icon.header .content{
+	padding-left:0;
+	color:#141957;
+}
+.ui.stuffs h3.ui.icon.header .content .sub.header{
+	color:#333333;
+}
+.ui.stuffs .row > .ui.five.column{
+	margin-left: -1.5%;
+    margin-right: -1.5%;
+    padding-top: 53px;
+	width: 32.75%!important;
+}
+.lineimg{
+	background:url({{ app_url_packaged }}/images/top/line1.png);
+	width:100%;
+	height:14px;
+}
+.jian{
+	background:url({{ app_url_packaged }}/images/top/jian1.png);
+	height:40px;
+	width:40px;
+	display: inline-block;
+	margin-top: -27px;
+}
+.vote.background{
+	background:url({{ app_url_packaged }}/images/top/vote.jpg);
+	padding: 30px 0 40px;
+    background-size: cover;
+}
+.ui.vote.block h2.ui.header,.ui.vote-p.block h2.ui.header{
+	color:#fff;
+}
+.ui.vote-p.block{
+	background:url({{ app_url_packaged }}/images/top/logobg.jpg);
+	padding: 20px 0 30px;
+    background-size: cover;
+}
+.ui.products.block h2.ui.header,.ui.time.block h3.ui.header{
+	color:#141957;
+}
+.ui.time.block .row:first-child{
+	padding:10px 25px;
+}
+.ui.time.block .row:first-child p{
+    line-height: 24px;
+    font-size: 14px;
+	position:relative;
+	padding-top:5px;
+}
+.ui.time.block .row:first-child p::before{
+	content:'';
+	width:18px;
+	height:18px;
+	background:url({{ app_url_packaged }}/images/top/fh1.png);
+	position:absolute;
+	left:-25px;
+	top:2px;
+}
+.ui.time.block .row:first-child p::after{
+	content:'';
+	width:18px;
+	height:18px;
+	background:url({{ app_url_packaged }}/images/top/fh2.png);
+	position:absolute;
+	right:-13px;
+	bottom:-3px;
+}
+.ui.block{
+	margin:0;
+}
+.ui.time.block{
+	padding:20px 0 10px;
+}
+.ui.products.block{
+	padding:20px 0;
+}
+.ui.products.cards>.card>.problock>h2{
+	text-align:center;
+	padding-bottom: 3px;
+}
+.ui.products.cards>.card>.problock>h2 a{
+	vertical-align: bottom;
+}
+.ui.products.cards>.card>.problock>a.thumb,.ui.products.cards>.card>.problock,.ui.products.cards>.card>:only-child, .ui.products.cards>:only-child{
+	border-radius:0 !important;
+}
+.getmore.button{
+	padding-left:45px;
+	padding-right:45px;
+	margin-top: 10px;
+}
+.ui.products.cards>.card>.problock>.excerpt{
+	height: 58px;
+}
+.ui.products.cards>.card>.problock>.excerpt>p{
+	line-height:1.4;
+}
+.ui.products.cards>.card>.problock>.cats{
+	padding:0;
+	padding-top: 18px;
+	padding-bottom: 30px;
+	text-align:center;
+	height:85px;
+	overflow: visible;
+}
+.ui.products.cards>.card>.problock>.cats .ui.inverted.magenta.button{
+	box-shadow: 0 0 0 1px #f36 inset!important;
+	width: 125px;
+}
+.like.button{
+	position:relative;
+}
+.like.button .add{
+	position: absolute;
+    top: 14px;
+    text-align: center;
+    left: 0;
+    color: transparent;
+    width: 100%;
+    font-size: 22px;
+    opacity: 1;
+    z-index: 2;
+    transition: all 1s;
+}
+.like.button .add.add-active {
+    top: calc(50% - 70px);
+    color: #f36;
+    transition-delay: .3s;
+    -webkit-animation: arrow 1.5s ease both;
+    -moz-animation: arrow 1.5s ease both;
+    animation: arrow 1.5s ease both;
+}
+a.mailto{
+	color:#f36;
+	position:relative;
+	margin-left:3px;
+}
+a.mailto::before{
+	position: absolute;
+    top: auto;
+    bottom: 1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #f36;
+    content: '';
+    -webkit-transition: all 0.2s;
+    -webkit-backface-visibility: hidden;
+    transition: all 0.2s;
+    backface-visibility: hidden;
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+}
+a.mailto:hover:before{
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+}
+p.zhichi{
+	position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: rgba(229,0,90,0.4);
+    font-size: 14px;
+    color: #fff;
+    line-height: 30px;
+    text-align: center;
+}
+.top1{
+	position:absolute;
+	width:60px;
+	height:32px;
+	background:url({{ app_url_packaged }}/images/top/top1.png) no-repeat;
+	background-size:cover;
+	top:5px;
+	left:5px;
+}
+.top2{
+	position:absolute;
+	width:60px;
+	height:32px;
+	background:url({{ app_url_packaged }}/images/top/top2.png) no-repeat;
+	background-size:cover;
+	top:5px;
+	left:5px;
+}
+.top3{
+	position:absolute;
+	width:60px;
+	height:32px;
+	background:url({{ app_url_packaged }}/images/top/top3.png) no-repeat;
+	background-size:cover;
+	top:5px;
+	left:5px;
+}
+.mainleftwrap{
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+.mainwrap .opentions.mainleft{
+	margin-right: 250px;
+	margin-left: 10px;
+	min-height: 785px;
+	margin-bottom:0;
+}
+.mainwrap .mainright{
+	margin-left: -230px;
+	width: 250px;
+}
+#comment-list{
+	padding:0;
+}
+.repeat.floor{
+	position: absolute;
+    right: 0;
+    top: 1px;
+	color: rgba(0,0,0,.4);
+    font-size: .875em;
+}
+.ui.comments .comment{
+	padding-bottom:0;
+	padding-top:17px;
+}
+.ui.comments .comment:last-child{
+	border:none;
+}
+.ui.comments .comment>.content{
+	position:relative;
+}
+.ui.comments .comment .text{
+    height: 30px;
+    font-size: 12px;
+    overflow: hidden;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript" >
+    var pid = {{ pid|default 0 }};
+    var type = 6;
+    function ajax_load_more(page, is_top, category_id, stick, from_to, sort, size){
+        var url = '{{ app_url_stuff }}/ajax_fetch_more';
+        if(page != 'no'){
+            $.get(url, { page:page, type:type, is_top:is_top, category_id:category_id, show_top:1, stick:stick, from_to:from_to, sort:sort, size:size }, function(rs){
+                rs.data['phenix'] = phenix.url;
+                var rendered = phenix.ajax_render_result('#fetch_more_stuff_top100_tpl', rs.data);
+                $('#stuff_list_box').append(rendered);
+
+            }, 'json');
+        }else{
+            $('#stuff_list_box').html('没有更多了产品!');
+        }
+    }
+
+    var domain_url = "{{ app_url_domain }}";
+
+    // ajax 加载最新评论
+    function fetch_latest_comment(size, sort, sid){
+      var url = "{{ app_url_domain }}/app/site/comment/ajax_fetch_comment";
+
+      $.get(url, {page:1, per_page:size, type:6, sub_type:5, sort:sort, next_id:sid}, function(result){
+          var html = '';
+          if(result.success){
+            var list = result.data.result.rows;
+            for(var i=0;i<list.length;i++){
+              var z_id = list[i]["_id"];
+              var z_target_id = list[i]['target_id'];
+              var z_user_id = list[i]['user_id'];
+              var z_user_nickname = list[i]["user"]['nickname'];
+              var z_user_avatar = list[i]["user"]['small_avatar_url'];
+              var z_content = list[i]["content"];
+              var z_floor = list[i]["floor"];
+              html += '';
+              html += '<div class="comment comment-item fade up in transition" sid="'+ z_id +'">';
+              html += '<a href="'+ domain_url +'/user/'+ z_user_id +'" class="avatar" target="_blank">';
+              html += '<img src="'+ z_user_avatar +'" alt="'+ z_user_nickname +'">';
+              html += '</a>';
+              html += '<div class="content">';
+              html += '<a href="'+ domain_url +'/user/'+ z_user_id +'" class="ui link floor" target="_blank">'+ z_user_nickname +'</a>';
+              html += '<a href="'+ domain_url +'/stuff/tshow?id='+ z_target_id +'&floor='+ z_floor +'#f'+ z_floor +'" class="ui link repeat floor" target="_blank">回复</a>';
+              html += '<div class="text">'+ z_content +'</div>';
+              html += '</div>';
+              html += '</div>';
+              html += '</div>';
+
+
+            }
+            if(html==''){
+              return;
+            }
+            if(sid==''){
+              $('#latest-comment-list').html(html);
+            }else{
+              $('#latest-comment-list').prepend(html);
+            }
+
+            if($('#latest-comment-list .comment-item').length>8){
+              $('#latest-comment-list .comment-item:last').remove();
+            }
+          }
+      }, 'json');
+    }
+
+</script>
+{% endblock %}
+
+{% block jquery %}
+  // 初次加载
+  ajax_load_more(1, 1, pid, 0, 5, 4, 8);
+
+  $('.like.button').livequery(function(){
+    $(this).click(function(){
+        var obj = $(this);
+        var id = $(this).attr('item_id');
+        var loved = $(this).attr('loved');
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.show_login_box();
+        return false;
+      }
+      
+      if (loved == 0){
+        $.post("{{ app_url_favorite }}/ajax_laud", {id:id, type:4}, function(result){
+          if(result.success){
+            obj.attr('loved', 1);
+            obj.addClass('active');
+            obj.children('.add').addClass('add-active');        
+            obj.find('span').text("已投票");
+          }else{
+            phenix.show_error_note('操作失败!',3000);
+          }
+        }, 'json');
+      }else{
+      /**
+        $.post("{{ app_url_favorite }}/ajax_cancel_laud", {id:id, type:4}, function(result){
+          if(result.success){
+            obj.attr('loved', 0);
+            obj.removeClass('active');
+            obj.children('.add').removeClass('add-active');
+            obj.find('span').text("投他一票");
+          }else{
+            phenix.show_error_note('操作失败!',3000);
+          }
+        }, 'json');
+        */
+      }
+      
+    });
+	});
+	
+	// 分享
+	$('.ui.share.button').bind('click', function(){
+		$('.ui.share.modal').modal('show');
+	});
+	phenix.bind_share_list("http://frstatic.qiniudn.com/images/top/wap_bg2.jpg");
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://m.taihuoniao.com/stuff/hundred'});
+
+
+  // 定时获取最新评论
+  fetch_latest_comment(8, 1, '');
+
+  // 定时提示,每次6秒钟,最多500次
+  var limit_notice_times = 0;
+  setInterval(function(){
+      if(limit_notice_times >= 500){
+          return
+      }else{
+        // 首次加载等待6+1秒
+        if(limit_notice_times==0){
+          setTimeout(function(){}, 6000);
+        }
+        var sid = '';
+        if($('#latest-comment-list .comment-item:first').length>0){
+          sid = $('#latest-comment-list .comment-item:first').attr('sid');
+        }
+        fetch_latest_comment(1, 0, sid);
+      }
+      limit_notice_times++;
+  }, 1000*6);
+
+{% endblock %}
+
+
+{% block content %}
+<div class="top100">
+	<div class="topbg">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+          <a href="{{ app_url_stuff }}/tsubmit" class="ui magenta inverted large jointop active button">
+						立即报名
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="ui stuffs">
+		<div class="ui time block">
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class=column>
+						<h3 class="ui header">引言</h3>
+						<p>太火鸟在2016年1月新年伊始之际邀请多方投资机构、孵化平台、行业专家以及数十家知名媒体共同发起中国最火爆智能硬件TOP100榜单评选，作为2015智能硬件蛋年大会的延伸及总结。产品征集范围分为10大类目，重点围绕创新设计、人气热度、众筹金额、销售数量、前沿技术等维度进行评选。 综合行业专家、社会意见及投资人严格审核，最终甄选出前100款优秀产品及各维度年度特别奖。<br \>
+						入榜品牌将于3月28日在太火鸟官网（taihuoniao.com）线上揭晓，4月大型线下活动现场公布百强名单并为特别奖项颁奖。创业者可据此寻得行业内准确的发展方向、用户最直接的反馈，获得更丰富的行业资源及活动期间持续海量的媒体曝光机会。</p>
+						
+						
+						
+					</div>
+				</div>
+				
+				
+				
+				<div class="ui center aligned row">
+					<div class="ui two wide center aligned column">
+						<h3 class="ui icon header">
+							<i class="mu1 icon"></i>
+							<div class="content">
+								2016.01.29
+								<div class="sub header">
+									开启报名
+								</div>
+							</div>
+						</h3>
+					</div>
+					<div class="ui five wide center aligned column">
+						<div class="lineimg"></div>
+						<div class="jian"></div>
+					</div>
+					<div class="ui two wide center aligned column">
+						<h3 class="ui icon header">
+							<i class="mu3 icon"></i>
+							<div class="content">
+								2016.03.20
+								<div class="sub header">
+									评选截止
+								</div>
+							</div>
+						</h3>
+					</div>
+					<div class="ui five wide center aligned column">
+						<div class="lineimg"></div>
+						<div class="jian"></div>
+					</div>
+					<div class="ui two wide center aligned column">
+						<h3 class="ui icon header">
+							<i class="mu3 icon"></i>
+							<div class="content">
+								2016.03.28
+								<div class="sub header">
+									奖项揭晓
+								</div>
+							</div>
+						</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ui vote background block">
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class="ui center aligned column">
+						<h2 class="ui header">网友投票 大咖评选</h2>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="column">
+						<img src="{{ app_url_packaged }}/images/top/jiabin1.jpg" >
+					
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ui products block">
+			<div class="ui responsive grid mainwrap">
+				<div class="row">
+					<div class="ui center aligned column">
+						<h2 class="ui header">推荐作品</h2>
+					</div>
+				</div>
+				<div class="row" style="height:785px;padding-top:0;">
+					<div class="mainleftwrap">
+						<div class="ui opentions column mainleft">
+							<div class="ui four products cards" id="stuff_list_box">
+	              <!--ajax load-->
+							</div>
+						
+						</div>
+					</div>
+				
+					<div class="mainright">
+						<div class="sellwrap" style="margin-bottom:0;">
+							<div class="block title">
+								最新评论
+							</div>
+							
+							<div class="ui articles list">
+								
+								<div>
+									<div class="ui threaded comments is-comment" id="latest-comment-list">
+										
+									</div>
+								</div>
+							
+							</div>
+							
+						</div>
+						
+					
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="ui center aligned column">
+            <a href="{{ app_url_stuff }}/tlist" class="ui magenta active inverted large active getmore button">
+							查看更多
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ui vote-p background block">
+			<div class="ui responsive grid">
+				<div class="row">
+					<div class="ui center aligned column">
+						<h2 class="ui header">
+							媒体合作
+						</h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="ui center aligned column">
+						<img src="{{ app_url_packaged }}/images/top/logo.png" align="absmiddle">
+					
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="ui products block">
+			<div class="ui responsive grid">
+				<div class="ui center aligned row">
+					<div class="ui eight wide center aligned column">
+						<p>如有任何疑问请发送邮件到工作人员邮箱<a href="mailto:liangjin@taihuoniao.com" class="mailto" target="_blank">liangjin@taihuoniao.com <br></a>请关注太火鸟微信公众账号或社区，随时关注评选动态。</p>
+						
+					</div>
+				</div>
+                <div class="row">
+                  	<div class="ui center aligned column">
+                    	<div class="user share">
+                           
+                            <a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+                              <i class="weibo icon large circular red inverted"></i>
+                            </a>
+                            <a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+                              <i class="weixin icon large circular green inverted"></i>
+                            </a>
+                            <a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+                              <i class="tencent weibo icon large circular blue inverted"></i>
+                            </a>
+                            <a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+                              <i class="icon renren large circular blue inverted"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="row">
+					<div class="ui center aligned column">
+						<a href="{{ app_url_stuff }}/tsubmit" class="ui magenta active inverted large active getmore button">
+							立即报名
+						</a>
+					</div>
+				</div>
+				
+                
+				
+				
+			</div>
+		</div>
+		
+	</div>
+
+</div>
+{% include "block/qrcode.html" %}
+{% endblock %} 
+
+{% block templates %}
+{% mustache id:'fetch_more_stuff_top100_tpl' tpl:'mustache/fetch_more_stuff_top100.mustache' %}
+{% endblock %}

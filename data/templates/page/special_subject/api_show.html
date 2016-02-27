@@ -16,14 +16,57 @@
 		word-break: break-all;
 		word-wrap: break-word;
 		padding-bottom: 10px;
+    	color: #5d6266;
+    	font-size: 14px;
 	}
+	.cont p {
+	    line-height: 24px;
+	    margin-bottom: 20px;
+		margin-top: 0;
+	}
+	.cont p br {
+	    content: '';
+	    display: block;
+	    padding: 1px;
+	    margin-top: -20px;
+	}
+	.cont img{
+		padding: 0;
+		width:100%;
+	}
+	.cont a{
+		border-bottom: 1px solid rgba(0,0,0,.1);
+		color: #f36;
+		cursor: pointer;
+		text-decoration: none;
+	}
+    @media only screen and (max-width: 320px){
+  	  .f-video-editor>*{
+  		  height:210px;
+  		  width: 100%;
+  	  }
+    }
+    @media only screen and (min-width: 321px) and (max-width: 375px){
+  	  .f-video-editor>*{
+  		  height:240px;
+  		  width: 100%;
+  	  }
+    }
+    @media only screen and (min-width: 376px){
+  	  .f-video-editor>*{
+  		  height:280px;
+  		  width: 100%;
+  	  }
+    }
 	.gridster {
 		margin: 0 auto;
-		width: 700px;
+		width: 100%;
 	}
 	
 	.gridster_ul {
 		list-style-type: none;
+		padding: 0;
+		margin:10px 0;
 	}
 	
 	.gridster_ul li {
@@ -35,6 +78,24 @@
 		position: relative;
 		float: left;
 	}
+    @media only screen and (max-width: 320px){
+  	  .f-video-editor>*{
+  		  height:210px;
+  		  width: 100%;
+  	  }
+    }
+    @media only screen and (min-width: 321px) and (max-width: 375px){
+  	  .f-video-editor>*{
+  		  height:240px;
+  		  width: 100%;
+  	  }
+    }
+    @media only screen and (min-width: 376px){
+  	  .f-video-editor>*{
+  		  height:280px;
+  		  width: 100%;
+  	  }
+    }
 	</style>
 </head>
 <body>
@@ -43,6 +104,9 @@
 				{{ content }}
 		</div>					
 	</div>
-					
+	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.js"></script>
+	<script>
+	 $('ul[class=gridster_ul]').css('width','100%');
+	</script>				
 </body>
 <html>

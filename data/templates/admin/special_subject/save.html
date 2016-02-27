@@ -4,7 +4,7 @@
   .iphone{
 	float: left;
 	width: 750px;
-	height: 1334px;
+	height: 1315px;
 	border: solid 5px #ccc;
 	border-radius: 20px;
 	margin: 5px;
@@ -38,8 +38,8 @@
   }
   
   .iphone_content table td{
-	width: 20px;
-	height: 20px;
+	width: 70px;
+	height: 70px;
 	border: dashed 1px #ccc;
   }
   
@@ -48,7 +48,7 @@
 	top: 0;
 	left: 0;
 	width: 716px;
-	height: 1296px;
+	height: 1276px;
 	padding: 0;
 	overflow: scroll;
   }
@@ -122,13 +122,10 @@
 {% block jquery %}
   
   var gridster;
-  var date_col = 1;
-  var date_row = 1;
-  var date_x = 1;
-  var date_y = 1;
+  var date;
+  var cell = 70;
   var back_x = 1;
   var back_y = 1;
-  var cell = 20;
   var width = 1;
   var height = 1;
   
@@ -138,7 +135,12 @@
 		  widget_margins: [0, 0],
 		  widget_base_dimensions: [cell, cell],
 		  avoid_overlapped_widgets: true,
-		  resize:{enabled: true}
+		  resize:{
+			enabled: true
+		  },
+		  draggable: {
+            handle: '.header'    //模块内定义拖动的元素
+          },
 	  }).data('gridster');
 	  
 	  var select_type_html = "\
@@ -159,11 +161,11 @@
 	  var html = "<li><div class=\"this_content\" style=\"word-wrap:break-word;\"></div></li>";
 	  
 	  {% if mode == 'create'%}
-		gridster.add_widget(html,10,10);
+		gridster.add_widget(html,5,3);
 	  {% endif %}
 	  
 	  $('.topic_button').click(function(){
-		gridster.add_widget(html,10,10);
+		gridster.add_widget(html,5,3);
 	  });
 	  
 	  $('.gridster > ul > li').livequery(function(){
@@ -186,26 +188,24 @@
 		  });
 		  
 		  $(this).on('click','.add_text',function(){
-			date_col = $(this).parents('li').attr('data-col');
-			date_row = $(this).parents('li').attr('data-row');
-			date_x = $(this).parents('li').attr('data-sizex');
-			date_y = $(this).parents('li').attr('data-sizey');
+			// return Object {col: 1, row: 1, size_x: 10, size_y: 10}
+			date = gridster.serialize($(this).parents('li'))[0];
+			date.widget = $(this).parents('li');
+			console.log(date);
 			$('#block_text.fullscreen.modal').modal('show');
 		  });
 		  
 		  $(this).on('click','.add_images',function(){
-			date_col = $(this).parents('li').attr('data-col');
-			date_row = $(this).parents('li').attr('data-row');
-			date_x = $(this).parents('li').attr('data-sizex');
-			date_y = $(this).parents('li').attr('data-sizey');
+			date = gridster.serialize($(this).parents('li'))[0];
+			date.widget = $(this).parents('li');
+			console.log(date);
 			$('#block_images.fullscreen.modal').modal('show');
 		  });
 		  
 		  $(this).on('click','.add_video',function(){
-			date_col = $(this).parents('li').attr('data-col');
-			date_row = $(this).parents('li').attr('data-row');
-			date_x = $(this).parents('li').attr('data-sizex');
-			date_y = $(this).parents('li').attr('data-sizey');
+			date = gridster.serialize($(this).parents('li'))[0];
+			date.widget = $(this).parents('li');
+			console.log(date);
 			$('#block_video.fullscreen.modal').modal('show');
 		  });
 	  });
@@ -222,84 +222,53 @@
 		$('#block_video').modal('hide');
 	  });
 	  
-	  // 计算格子总高度
-	  function calculate(){
-		var height = 0;
-		var tmp = 0;
-		$(".gridster_ul>li").each(function(i){
-		  var val = $(this).attr('data-sizey');
-		  var row = $(this).attr('data-row');
-		  if(row != tmp){
-			height += parseInt(val);
-		  }
-		  tmp = row;
-		});
-		return height*cell;
-	  }
-	  
-	  // 改变格子高度
-	  function distance(distance){
-		var tmp = 0;
-		if(distance){
-		  $(".gridster_ul>li").each(function(i){
-			var row = parseInt($(this).attr('data-row'));
-			var col = parseInt($(this).attr('data-col'));
-			if(row == tmp && row > date_row){
-			  $('li[data-col='+col+'][data-row='+row+']').attr('data-row',row+distance);
-			} else {
-			  if(col == 1 && row > date_row){
-				$('li[data-col='+col+'][data-row='+row+']').attr('data-row',row+distance);
-			  }
-			}
-			tmp = row;
-		  });
-		}  
-	  }
-	  
 	  $('.ui.yes.text').on('click', function(){
 		var content = $('textarea[name=content]').val();
-		$('li[data-col='+date_col+'][data-row='+date_row+']').find('.this_content').html(content);
-		$('li[data-col='+date_col+'][data-row='+date_row+']').attr('data-sizey',date_x);
-		$('li[data-col='+date_col+'][data-row='+date_row+']').css('width',date_x*cell+'px');
-		$('li[data-col='+date_col+'][data-row='+date_row+']').css('height',date_y*cell+'px');
-		$('li[data-col='+date_col+'][data-row='+date_row+']').css('overflow','auto');
+		// return Object {col: 1, row: 1, size_x: 10, size_y: 10}
+		date.widget.find('.this_content').html(content);
+		date.widget.css('width',date.size_x*10+'%');
+		date.widget.css('min-height',date.size_y*cell+'px');
 		$('#block_text').modal('hide');
-		$('.gridster_ul').css('height',calculate()+'px');
 	  });
 	  
 	  $('.ui.yes.img').on('click', function(){
+		
 		var src = $('#avatar-photo').attr('src');
 		var link = $('input[name=img_link]').val();
 		var keyword = $('input[name=img_keyword]').val();
 		var product_id = $('input[name=product_id]').val();
 		var is_show_price = $('input[name=is_show_price]').val();
 		
-		if(!link){
+		if(!link && product_id){
 		  link = '{{ app_url_shop }}/view?id='+product_id;
+		}else{
+		  link = '';
 		}
 		
-		var content = '<a class=\"\" href=\"'+link+'\" target="_blank"><img src=\"'+src+'\" style=\"width:'+date_x*cell+'px\" product_id=\"'+product_id+'\" is_show_price=\"'+is_show_price+'\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
-		$('li[data-col='+date_col+'][data-row='+date_row+']').find('.this_content').html(content);
-		$('li[data-col='+date_col+'][data-row='+date_row+']').attr('data-sizey',Math.ceil((date_x*height)/width));
-		$('li[data-col='+date_col+'][data-row='+date_row+']').css('width',date_x*cell+'px');
-		//$('li[data-col='+date_col+'][data-row='+date_row+']').css('height',Math.ceil((date_x*height)/width)*cell+'px');
+		console.log(date);
+		
+		var content = '<a class=\"\" href=\"'+link+'\" target="_blank"><img src=\"'+src+'\" style=\"width:100%\" product_id=\"'+product_id+'\" is_show_price=\"'+is_show_price+'\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
+		date.widget.find('.this_content').html(content);
+		date.widget.css('width',date.size_x*10+'%');
+		
+		gridster.resize_widget(date.widget,date.size_x,Math.ceil((date.size_x*height)/width));
+		
 		$('#block_images').modal('hide');
-		distance(Math.ceil((date_x*height)/width)-date_y);
-		$('.gridster_ul').css('height',calculate()+'px');
 	  });
 	  
 	  $('.ui.yes.video').livequery(function(){
 		$(this).on('click', function(){
 		  var video_link = $('input[name=video_link]').val();
-		  //var content = '<iframe width='+date_x*cell+' height='+date_y*cell+' src=\"'+video_link+'\" frameborder=0 allowfullscreen></iframe>';
-		  var content = '<embed src=\"'+video_link+'\" allowFullScreen=\"true\" style=\"width:'+date_x*cell+'px; height:'+date_y*cell+'px\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>';
-		  $('li[data-col='+date_col+'][data-row='+date_row+']').find('.this_content').html(content);
-		  $('li[data-col='+date_col+'][data-row='+date_row+']').attr('data-sizey',Math.ceil((date_x*height)/width));
-		  $('li[data-col='+date_col+'][data-row='+date_row+']').attr('data-sizey',Math.ceil((date_x*height)/width));
-		  $('li[data-col='+date_col+'][data-row='+date_row+']').css('width',date_x*cell+'px');
-		  $('li[data-col='+date_col+'][data-row='+date_row+']').css('height',date_y*cell+'px');
+		  //var content = '<iframe width='+date.size_x*10+' height='+date.size_y*10+' src=\"'+video_link+'\" frameborder=0 allowfullscreen></iframe>';
+		  var content = '<embed src=\"'+video_link+'\" allowFullScreen=\"true\" style=\"width:100%;height:'+date.size_y*cell+'px\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>';
+		  date.widget.find('.this_content').html(content);
+		  
+		  date.widget.css('width',date.size_x*10+'%');
+		  //date.widget.css('height',date.size_y*cell+'px');
+		  
+		  gridster.resize_widget(date.widget,date.size_x,date.size_y);
+		  
 		  $('#block_video').modal('hide');
-		  $('.gridster_ul').css('height',calculate()+'px');
 		});
 	  });
 	  
@@ -314,7 +283,7 @@
 		  plainPaste: true,
 		  alwaysBlank: true,
 		  typingTimer: 2000,
-		  buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "align", "insertOrderedList", "insertUnorderedList", "outdent", "indent", "sep", "table", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
+		  buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "sep", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
 	  });
 	  
 	var file_count = 1;
@@ -350,19 +319,13 @@
 		
 			$('.qq-upload-list').children().eq(id).fadeOut();
 	
-			wps_width  = result.data.asset.width;
-			wps_height = result.data.asset.height;
+			width  = result.data.asset.width;
+			height = result.data.asset.height;
 			
-			width  = wps_width;
-			height = wps_height;
-			
-			back_x = Math.ceil(wps_width/cell);
-			back_y = Math.ceil(wps_height/cell);
-			
-			if(Math.floor(wps_width/wps_height) >= 1){
-				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"max-width: 500px; width: '+date_x*cell+'px\">';
+			if(Math.floor(width/height) >= 1){
+				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"max-width: 500px; width: '+date.size_x*cell+'px\">';
 			}else{
-				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"max-height: 500px; height: '+date_y*cell+'px\">';
+				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"max-height: 500px; height: '+date.size_y*cell+'px\">';
 			}
 			
 			$('#show_images').html(imghtml);
@@ -431,10 +394,6 @@
 	});
   
 	$('#special_subject_form').on('click','.submit',function(){
-	  if(!$('.gridster_ul').html()){
-		phenix.show_error_note("内容不能为空！", 3000);
-		return false;
-	  }
 	  $('input[name=special_subject_html]').val($('.gridster').html());
 	}).form({
 		special_subject_title: {
@@ -523,7 +482,7 @@
 	{% endif %}
 	<link rel="stylesheet" type="text/css" href="{{ app_url_packaged }}/css/gridste.min.css">
 	<script src="{{ app_url_packaged }}/javascript/gridste.min.js" type="text/javascript" charset="utf-8"></script>
-	<h3 class="ui header">app专题管理</h3>
+	<h3 class="ui header">专题管理</h3>
 	<div class="ui secondary pointing magenta menu">
 		<a href="{{ app_url_admin_base }}/special_subject" class="active item">
 			全部
@@ -683,6 +642,10 @@
 				  width: 35px;
 				  color: #fff;
 				}
+				
+				.this_content li{
+				  float: none;
+				}
 			  </style>
 			  <div class="gridster">
 				{% if mode == 'create'%}
@@ -722,6 +685,10 @@
 				  <label>专题标题：</label>
 				  <input type="text" name="special_subject_title" value="{{ special_subject.title }}" placeholder="专题标题" />
 			  </div>
+        <div class="inline field">
+          <label>专题简述:</label>
+          <textarea name="summary" class="small">{{ special_subject.summary }}</textarea>
+        </div>
 			  <div class="inline field">
 				  <label>专题标签：</label>
 				  <input type="text" name="special_subject_tag" value="{{ special_subject.tags_s }}" placeholder="专题标签，用英文逗号隔开" />

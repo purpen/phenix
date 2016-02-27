@@ -1,11 +1,11 @@
 <?php
 /**
- * 后台app专题管理
+ * 情景品牌
  * @author caowei@taihuoniao.com
  */
-class Sher_Core_ViewTag_SpecialSubject extends Doggy_Dt_Tag {
-    
-	protected $argstring;
+class Sher_Core_ViewTag_SceneBrandsList extends Doggy_Dt_Tag {
+    protected $argstring;
+	
     public function __construct($argstring, $parser, $pos = 0) {
         $this->argstring = $argstring;
     }
@@ -18,34 +18,38 @@ class Sher_Core_ViewTag_SpecialSubject extends Doggy_Dt_Tag {
         
 		$page = 1;
         $size = 10;
-		
+		$title = '';
+
         $var = 'list';
         $include_pager = 0;
         $pager_var = 'pager';
-
+		
+		$sort_field = 'latest';
+		
         extract($this->resolve_args($context,$this->argstring,EXTR_IF_EXISTS));
 
         $page = (int) $page;
         $page || $page = 1;
         $size = (int)$size;
 		
-        $query = array();
+		$query = array();
 		
-        $service = Sher_Core_Service_SpecialSubject::instance();
-        $options['page'] = $page;
-        $options['size'] = $size;
-		
-        $result = $service->get_special_subject_list($query,$options);
-		
-		// 补充缺失
-		if ($result['total_rows'] < $size){
-			$result['lack'] = range(0, $size - $result['total_rows'] - 1);
+		if($title){
+			$query['title'] = $title;
 		}
 		
+        $service = Sher_Core_Service_SceneBrands::instance();
+        $options['page'] = $page;
+        $options['size'] = $size;
+		$options['sort_field'] = $sort_field;
+        $result = $service->get_scene_brands_list($query,$options);
+		//var_dump($result);
         $context->set($var, $result);
+		
         if ($include_pager) {
             $context->set($pager_var,$result['pager']);
         }
+		
     }
 }
-?>
+

@@ -27,7 +27,7 @@ $is_end = false;
 $total = 0;
 while(!$is_end){
 	$query = array();
-	$options = array('field' => array('_id','province'),'page'=>$page,'size'=>$size);
+	$options = array('field' => array('_id','content','content_count'),'page'=>$page,'size'=>$size);
 	$list = $apply->find($query, $options);
 	if(empty($list)){
 		echo "get apply list is null,exit......\n";
@@ -36,10 +36,12 @@ while(!$is_end){
 	$max = count($list);
 	for ($i=0; $i < $max; $i++) {
 		$model = new Sher_Core_Model_Apply();
-		$model->update_set($list[$i]['_id'], array('province'=>(int)$list[$i]['province']));
-		echo "fix apply[".$list[$i]['_id']."]..........\n";
-		unset($model);
-		$total++;
+    if(!isset($list[$i]['content_count'])){
+		  $model->update_set($list[$i]['_id'], array('content_count'=>strlen($list[$i]['content'])));
+      echo "fix apply[".$list[$i]['_id']."]..........\n";
+      unset($model);
+      $total++;
+    }
 	}
 	if($max < $size){
 		echo "apply list is end!!!!!!!!!,exit.\n";
@@ -51,4 +53,4 @@ while(!$is_end){
 echo "total $total apply rows updated.\n";
 
 echo "All apply fix done.\n";
-?>
+

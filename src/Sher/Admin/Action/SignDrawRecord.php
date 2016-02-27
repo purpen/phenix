@@ -25,7 +25,7 @@ class Sher_Admin_Action_SignDrawRecord extends Sher_Admin_Action_Base implements
 	 */
 	public function execute() {
 		// 判断左栏类型
-		$this->stash['show_type'] = "integration";
+		$this->stash['show_type'] = "user";
 		return $this->get_list();
 	}
 	
@@ -38,8 +38,6 @@ class Sher_Admin_Action_SignDrawRecord extends Sher_Admin_Action_Base implements
     $this->stash['event'] = isset($this->stash['event'])?$this->stash['event']:0;
 		
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/sign_draw_record?day=%d&user_id=%d&state=%d&event=%d&target_id=%d&ip=%s&page=#p#', $this->stash['day'], $this->stash['user_id'], $this->stash['state'], $this->stash['event'], $this->stash['target_id'], $this->stash['ip']);
-		
-		$this->stash['pager_url'] = $pager_url;
 		
 		$this->stash['pager_url'] = $pager_url;
 		

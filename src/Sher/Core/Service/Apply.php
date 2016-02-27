@@ -8,6 +8,7 @@ class Sher_Core_Service_Apply extends Sher_Core_Service_Base {
     protected $sort_fields = array(
         'latest' => array('created_on' => -1),
         'vote' => array('vote_count' => -1),
+        'content_count' => array('content_count' => -1),
 	);
 
     protected static $instance;

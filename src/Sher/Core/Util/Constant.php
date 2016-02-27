@@ -24,6 +24,9 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const STROAGE_SPECIAL_SUBJECT = 'special_subject';
 	const STROAGE_SPECIAL_COVER = 'special_cover';
 	const STROAGE_STYLE_TAG = 'style_tag';
+	const STROAGE_SCENE_PRODUCT = 'scene_product';
+	
+	const STROAGE_SCENE_BRANDS = 'scene_brands';
 	
 	/**
 	 * 类型的常量
@@ -38,6 +41,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const TYPE_CASE = 7;  // 案例
     const TYPE_ALBUM = 8; // 专辑
     const TYPE_SPECIAL_SUBJECT = 9; // 专题
+    const TYPE_SCENE_PRODUCT = 10; // 情景产品分类
+	const TYPE_SCENE_CONTEXT = 11; // 情景语境分类
 	
 	// 来源站点
 	const FROM_LOCAL = 1;
@@ -48,6 +53,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const FROM_WAP = 6;
 	const FROM_IAPP = 7;  // iphone,ipad
 	const FROM_APP_ANDROID = 8; // android
+	const FROM_APP_WIN = 9; // android
     
     /**
      * 事件类型
@@ -357,9 +363,9 @@ class Sher_Core_Util_Constant extends Doggy_Object {
       17=>'奶爸配奶机',
       18=>'微波闪充移动电源',
       19=>'2016ces',
-      20=>'--',
-      21=>'--',
-      22=>'--',
+      20=>'过年你会被哪个新年神曲洗脑？',
+      21=>'最火爆的智能硬件TOP100',
+      22=>'如何在妇女节这天，完美搞定三个女人',
       23=>'--',
       24=>'--',
     );
@@ -369,6 +375,4 @@ class Sher_Core_Util_Constant extends Doggy_Object {
       return $array[(int)$id];
     }
   }
-
-
 }

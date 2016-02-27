@@ -4,13 +4,17 @@
 {% block js %}
 {% endblock %}
 
+{% block jquery %}
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+{% endblock %}
+
 {% block content %}
 	<h3 class="ui header">分类管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
 		<a href="{{ app_url_admin_base }}/category" class="{{css_all_category}} item">全部列表</a>
-		<a href="{{ app_url_admin_base }}/category?only_open=1" class="{{css_open_category}} item">公开列表</a>
-		<a href="{{ app_url_admin_base }}/category?only_open=-1" class="{{css_hide_category}} item">隐藏列表</a>
 	  	<div class="right menu">
 			<a href="{{ app_url_admin_base }}/category/edit" class="magenta item">
 				<i class="add icon"></i> 新增分类
@@ -19,16 +23,57 @@
 	</div>
 	
 	<div class="ui sub nav">
-		<form action="{{ app_url_admin_base }}/category" method="post">
+		<form action="{{ app_url_admin_base }}/category/get_list" id="search-form" method="get">
 			<label>搜索：</label>
-			<div class="ui icon input">
-				<input placeholder="Search..." type="text" name="q">
-				<i class="search link icon"></i>
+      <div class="ui selection dropdown">
+        <input type="hidden" name="domain" value="{{ domain }}" />
+        <div class="default text">选择条件</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item" data-value="0">全部</div>
+          <div class="item" data-value="1">商品</div>
+          <div class="item" data-value="2">社区</div>
+          <div class="item" data-value="3">活动</div>
+          <div class="item" data-value="4">灵感</div>
+          <div class="item" data-value="6">资源</div>
+          <div class="item" data-value="7">案例</div>
+          <div class="item" data-value="8">专辑</div>
+          <div class="item" data-value="9">app专题</div>
+          <div class="item" data-value="10">情景产品</div>
+        </div>
+      </div>
+
+      <div class="ui selection dropdown">
+        <input type="hidden" name="only_open" value="{{ only_open }}" />
+        <div class="default text">选择条件</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item" data-value="0">全部</div>
+          <div class="item" data-value="-1">隐藏</div>
+          <div class="item" data-value="1">显示</div>
+        </div>
+      </div>
+
+      <div class="ui selection dropdown">
+        <input type="hidden" name="s_type" value="{{ s_type }}" />
+        <div class="default text">选择条件</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item" data-value="1">名称</div>
+          <div class="item" data-value="2">标识</div>
+        </div>
+      </div>
+
+			<div class="ui input">
+        <input placeholder="标识/名称" type="text" name="q" value="{{ q }}" />
 			</div>
+				<div class="ui input">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
 		</form>
 	</div>
 	
-	{% category_list var:'list' page:page only_open:only_open istop:1 %}
+	{% category_list var:'list' page:page domain:domain only_open:only_open istop:1 s_type:s_type q:q page:page size:size %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>
@@ -50,7 +95,7 @@
 					  	<label></label>
 					</div>
 				</td>
-				<td>{{ cat.title }} / {{ cat.name }}</td>
+        <td><b>{{ cat.title }}</b> / {{ cat.name }}</td>
 				<td>{% if cat.is_open == 1 %}<span class="ui label">公开</span>{% else %}<span class="ui label">隐藏</span>{% endif %}</td>
 				<td>{{ cat.group.name }}</td>
 				<td>
@@ -58,12 +103,13 @@
 					{% if cat.domain == 2 %}社区类{% endif %}
 					{% if cat.domain == 3 %}活动类{% endif %}
 					{% if cat.domain == 4 %}产品类{% endif %}
-                    {% if cat.domain == 6 %}资源类{% endif %}
-                    {% if cat.domain == 7 %}案例类{% endif %}
+          {% if cat.domain == 6 %}资源类{% endif %}
+          {% if cat.domain == 7 %}案例类{% endif %}
 					{% if cat.domain == 8 %}专辑类{% endif %}
 					{% if cat.domain == 9 %}专题类{% endif %}
+					{% if cat.domain == 10 %}情景商品类{% endif %}
 				</td>
-        <td>{{ cat.total_count }}</td>
+				<td>{{ cat.total_count }}</td>
 				<td>
 					<div class="ui divided horizontal list">
 						<a href="{{ app_url_admin_base }}/category/edit?id={{ cat._id }}" class="ui link item">编辑</a> 

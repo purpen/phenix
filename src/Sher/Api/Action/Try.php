@@ -69,9 +69,9 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
         $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
 			}
 			// 封面图url
-			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['mb']['view_url'];
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
 			// banner图url
-			$data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['mb']['view_url'];
+			$data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['aub']['view_url'];
 
 		}
 		$result['rows'] = $data;
@@ -101,15 +101,14 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 		}
 		
 		// 增加pv++
-		$inc_ran = rand(1, 6);
-		$model->increase_counter('view_count', $inc_ran, $id);
+		$model->increase_counter('view_count', 1, $id);
 
     //显示的字段
     $some_fields = array(
       '_id', 'title', 'short_title', 'description', 'cover_id', 'banner_id', 'step_stat', 'sticked',
-      'tags', 'comment_count', 'created_on', 'kind',
+      'tags', 'comment_count', 'created_on', 'kind', 'wap_view_url',
       'try_count', 'apply_count', 'report_count', 'want_count', 'view_count',
-      'buy_url', 'open_limit', 'open_limit', 'apply_term', 'term_count',
+      'buy_url', 'open_limit', 'open_limit', 'apply_term', 'term_count', 'strip_content',
       'start_time', 'end_time', 'publish_time', 'state', 'price', 'pass_users',
     );
 
@@ -119,12 +118,47 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
       $key = $some_fields[$i];
       $data[$key] = isset($try[$key]) ? $try[$key] : null;
     }
+
+		// 当前用户是否申请过
+		$applied = 0;
+    $apply_id = null;
+		if($user_id){
+      // 是否已想要
+      if($try['step_stat']==0){
+        $attend_model = new Sher_Core_Model_Attend();
+        $is_want = $attend_model->check_signup($user_id, $try['_id'], Sher_Core_Model_Attend::EVENT_TRY_WANT);
+        if($is_want){
+          $applied = 1;
+        }
+      }else{  // 是否申请过
+        $apply_model = new Sher_Core_Model_Apply();
+        $has_one_apply = $apply_model->first(array('target_id'=>$try['_id'], 'user_id'=>$user_id));
+        if(!empty($has_one_apply)){
+          $applied = 1;
+          $apply_id = (string)$has_one_apply['_id'];
+        }
+      }
+    } // endif user
+
+
     //转换描述格式
-    $data['content_view_url'] = sprintf('%s/app/api/view/try_show?id=%d', Doggy_Config::$vars['app.domain.base'], $try['_id']);
+    $data['content_view_url'] = sprintf('%s/view/try_show?id=%d', Doggy_Config::$vars['app.url.api'], $try['_id']);
     // 封面图url
-    $data['cover_url'] = $try['cover']['thumbnails']['mb']['view_url'];
+    $data['cover_url'] = $try['cover']['thumbnails']['aub']['view_url'];
     // banner图url
-    $data['banner_url'] = $try['banner']['thumbnails']['mb']['view_url'];
+    $data['banner_url'] = $try['banner']['thumbnails']['aub']['view_url'];
+
+    // 分享H5
+    $data['share_view_url'] = $data['wap_view_url'];
+    $data['share_desc'] = isset($data['strip_content']) ? Doggy_Dt_Filters_String::truncate($data['strip_content'], 140) : null;
+
+    // 当前用户是否已申请
+    $data['applied'] = $applied;
+
+    // 拉票分享H5
+
+    $data['lp_share_view_url'] = empty($applied) ? null : sprintf("%s/try/apply_success?apply_id=%s", Doggy_Config::$vars['app.url.wap'], $apply_id);
+    $data['lp_share_desc'] = empty($applied) ? null : "跪求支持!";
 
 		$result['rows'] = $data;
 		
@@ -208,6 +242,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
         'zip' => $this->stash['zip'],
         'wx' => $this->stash['wx'],
         'qq' => $this->stash['qq'],
+        'ip' => Sher_Core_Helper_Auth::get_ip(),
       );
 
       $user_model = new Sher_Core_Model_User();
@@ -246,7 +281,27 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 
       $ok = $apply_model->apply_and_save($data);
       if($ok){
-			  return $this->api_json('申请成功！', 0, array('apply_id'=>$apply_model->id) );
+
+        //试用显示的字段
+        $try_some_fields = array(
+          '_id', 'title', 'short_title', 'cover_id', 'banner_id', 'step_stat', 'sticked',
+          'tags', 'comment_count', 'created_on', 'kind',
+          'try_count', 'apply_count', 'report_count', 'want_count', 'view_count',
+          'buy_url', 'open_limit', 'open_limit', 'apply_term', 'term_count',
+          'start_time', 'end_time', 'publish_time', 'state', 'price', 'pass_users',
+        );
+
+        // 重建数据结果
+        $try_data = array();
+        for($i=0;$i<count($try_some_fields);$i++){
+          $key = $try_some_fields[$i];
+          $try_data[$key] = isset($try[$key]) ? $try[$key] : null;
+        }
+
+        // 分享拉票
+        $share_view_url = sprintf("%s/try/apply_success?apply_id=%s", Doggy_Config::$vars['app.url.wap'], $apply_model->id);
+
+			  return $this->api_json('申请成功！', 0, array('apply_id'=>$apply_model->id, 'try'=>$try_data, 'share_view_url'=>$share_view_url, 'share_desc'=>'跪求支持!') );
       }else{
 				return $this->api_json('申请失败！', 3005);
       }

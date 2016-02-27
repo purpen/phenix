@@ -8,6 +8,7 @@ deploy.root: '/www/phenix'
   # cache_dir: '/tmp/lgk'
 
 app.domain.base: 'http://taihuoniao.me'
+app.url.api:  '{$app.domain.base}/app/api'
 #if in production mode,uncomment and change it to 'prod'
 app.mode: 'dev'
 app.url.upload_url: '{$app.domain.app}/uploader'
@@ -80,6 +81,9 @@ app.topic_category_product: 17
 # 大赛作品分类--反向定制
 app.stuff.contest_category_id: 55
 
+# 中国最火爆智能硬件TOP100
+app.stuff.top100_category_id: 64
+
 #抢口罩-商品ID
 app.comeon.product_id: 1120800090
 
@@ -137,6 +141,10 @@ app.url.upload.pictures: '{$app.url.upload}/pictures'
 app.url.upload.avatar: '{$app.url.upload}/avatar'
 app.url.upload.dotry: '{$app.url.upload}/dotry'
 app.url.upload.advertise: '{$app.url.upload}/advertise'
+app.url.upload.stuff: '{$app.url.upload}/stuff'
+app.url.upload.feditor: '{$app.url.upload}/feditor'
+app.url.upload.albums: '{$app.url.upload}/albums'
+
 
 # 银联支付
 app.quickpay.key: '898111153990242'

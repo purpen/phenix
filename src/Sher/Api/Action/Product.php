@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'comments', 'fetch_relation_product', 'product_category_stick');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'comments', 'fetch_relation_product', 'product_category_stick', 'search');
 
 	/**
 	 * 入口
@@ -26,13 +26,14 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		
 		$query['domain'] = 1;
 		$query['is_open'] = Sher_Core_Model_Category::IS_OPENED;
+    $query['sub_count'] = array('$ne'=>0);
 		
     $options['page'] = 1;
-    $options['size'] = 4;
+    $options['size'] = 12;
     $options['sort_field'] = 'orby';
 
     $some_fields = array(
-      '_id'=>1, 'title'=>1, 'name'=>1, 'gid'=>1, 'pid'=>1, 'order_by'=>1,
+      '_id'=>1, 'title'=>1, 'name'=>1, 'gid'=>1, 'pid'=>1, 'order_by'=>1, 'sub_count'=>1,
       'domain'=>1, 'is_open'=>1, 'total_count'=>1, 'reply_count'=>1, 'state'=>1, 'app_cover_url'=>1,
     );
 
@@ -57,7 +58,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:0;
 			}
       // 获取该分类下推荐的4款产品
-      $products = $product_model->find(array('category_id'=>$cid, 'approved'=>1, 'published'=>1), array('page'=>1, 'size'=>4, 'sort'=>array('update'=>-1, 'stick'=>-1)));
+      $products = $product_model->find(array('category_id'=>$cid, 'stage'=>9, 'approved'=>1, 'published'=>1), array('page'=>1, 'size'=>4, 'sort'=>array('stick'=>-1,'update'=>-1)));
 
       $product_arr = array();
       for($j=0;$j<count($products);$j++){
@@ -70,7 +71,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
             $product_data[$product_key] = isset($product[$product_key]) ? $product[$product_key] : null;
           }
           // 封面图url
-          $product_data['cover_url'] = $product['cover']['thumbnails']['medium']['view_url'];
+          $product_data['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
         }
         // 添加到数组 
         array_push($product_arr, $product_data);       
@@ -166,14 +167,14 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:0;
 			}
 			// 封面图url
-			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['apc']['view_url'];
 			// 用户信息
       if(isset($result['rows'][$i]['designer'])){
         $data[$i]['username'] = $result['rows'][$i]['designer']['nickname'];
         $data[$i]['small_avatar_url'] = $result['rows'][$i]['designer']['small_avatar_url'];     
       }
 
-            $data[$i]['content_view_url'] = sprintf('%s/view/product_show?id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['_id']);
+            $data[$i]['content_view_url'] = sprintf('%s/view/product_show?id=%d', Doggy_Config::$vars['app.url.api'], $result['rows'][$i]['_id']);
             // 保留2位小数
             $data[$i]['sale_price'] = sprintf('%.2f', $result['rows'][$i]['sale_price']);
 		}
@@ -208,7 +209,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
 			'cover_id', 'category_id', 'stage', 'summary', 'tags', 'tags_s',
-			'snatched_time', 'inventory', 'can_saled', 'snatched',
+			'snatched_time', 'inventory', 'can_saled', 'snatched', 'wap_view_url',
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
       'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',
 		);
@@ -224,32 +225,32 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     }
 
     //转换描述格式
-    $data['content_view_url'] = sprintf('%s/app/api/view/product_show?id=%d', Doggy_Config::$vars['app.domain.base'], $product['_id']);
+    $data['content_view_url'] = sprintf('%s/view/product_show?id=%d', Doggy_Config::$vars['app.domain.base'], $product['_id']);
 
     //验证是否收藏或喜欢
     $fav = new Sher_Core_Model_Favorite();
     $data['is_favorite'] = $fav->check_favorite($this->current_user_id, $product['_id'], 1) ? 1 : 0;
     $data['is_love'] = $fav->check_loved($this->current_user_id, $product['_id'], 1) ? 1 : 0;
     $data['is_try'] = empty($product['is_try'])?0:1;
+    // 分享内容
+    $data['share_view_url'] = $data['wap_view_url'];
+    $data['share_desc'] = $data['advantage'];
 
     //返回图片数据
     $assets = array();
-    if(!empty($product['asset'])){
-      $asset_model = new Sher_Core_Model_Asset();
-      $imgs = $asset_model->extend_load_all($product['asset']);
-			foreach($imgs as $key=>$value){
-        //echo $value['thumbnails']['medium']['view_url'];
-        if($value['_id']==$product['cover_id']){
-          $cover_img_url = $value['thumbnails']['medium']['view_url'];
-        }else{
-          array_push($assets, $value['thumbnails']['medium']['view_url']);
-        }
+    $asset_query = array('parent_id'=>$product['_id'], 'asset_type'=>11);
+    $asset_options['page'] = 1;
+    $asset_options['size'] = 10;
+    $asset_service = Sher_Core_Service_Asset::instance();
+    $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
+
+    if(!empty($asset_result['rows'])){
+      foreach($asset_result['rows'] as $key=>$value){
+        array_push($assets, $value['thumbnails']['aub']['view_url']);
       }
-      //封面图放第一
-      array_unshift($assets, $cover_img_url);
     }
     $data['asset'] = $assets;
-    $data['cover_url'] = $cover_img_url;
+    $data['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
 		
 		// 验证是否还有库存
 		$data['can_saled'] = $model->can_saled($product);
@@ -263,6 +264,42 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$data['skus'] = $skus;
 		$data['skus_count'] = count($skus);
 
+    // 相关推荐产品
+		$sword = $data['tags_s'];
+    $r_items = array();
+		$r_options = array(
+			'page' => 1,
+			'size' => 3,
+			'sort_field' => 'latest',
+      // 最新
+      'sort' => 1,
+      'evt' => 'tag',
+      't' => 7,
+      'oid' => $data['_id'],
+      'type' => 1,
+		);        
+		if(!empty($sword)){
+      $xun_arr = Sher_Core_Util_XunSearch::search($sword, $r_options);
+      if($xun_arr['success'] && !empty($xun_arr['data'])){
+        foreach($xun_arr['data'] as $k=>$v){
+          $r_product = $model->extend_load((int)$v['oid']);
+          if(!empty($r_product)){
+              // 重建数据结果
+              $r_data = array();
+              for($i=0;$i<count($some_fields);$i++){
+                $key = $some_fields[$i];
+                $r_data[$key] = isset($r_product[$key]) ? $r_product[$key] : null;
+              }
+            // 封面图url
+            $r_data['cover_url'] = $r_product['cover']['thumbnails']['apc']['view_url'];
+            array_push($r_items, $r_data);
+          }
+        }
+      }
+
+		}
+
+		$data['relation_products'] = $r_items;
 		return $this->api_json('请求成功', 0, $data);
 	}
 
@@ -318,36 +355,94 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 	}
 	
 	/**
-	 * 用户评价
+	 * 商品评价
 	 */
 	public function ajax_comment(){
-		$data = array();
-		$result = array();
+
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录!', 3000);
+    }
+    $rid = isset($this->stash['rid']) ? $this->stash['rid'] : 0;
+    if(empty($rid)){
+      return $this->api_json('缺少请求参数!', 3001);
+    }
 		
 		try{
-			// 验证数据
-			$data['target_id'] = $this->stash['target_id'];
-			$data['content'] = $this->stash['content'];
-			$data['star'] = $this->stash['star'];
-			if(empty($data['target_id']) || empty($data['content'])){
-				return $this->api_json('获取数据错误,请重新提交', 3000);
-			}
-		
-			$data['user_id'] = $this->current_user_id;
-			$data['type'] = Sher_Core_Model_Comment::TYPE_PRODUCT;
-			
+      $arr = isset($this->stash['array']) ? $this->stash['array'] : array();
+      if(empty($arr)){
+        return $this->api_json('缺少商品内容!', 3002);   
+      }
+      $item_arr = json_decode($this->stash['array'], true);
+      if(!is_array($item_arr)){
+        return $this->api_json('参数类型错误!', 3003);    
+      }
+
+      $orders_model = new Sher_Core_Model_Orders();
+      $order = $orders_model->find_by_rid($rid);
+      if(empty($order)){
+        return $this->api_json('订单不存在!', 3004);     
+      }
+      // 是否是当前用户
+      if($order['user_id'] != $user_id){
+        return $this->api_json('没有权限!', 3005);      
+      }
+      // 是否是待评价订单
+      if ($order['status'] != Sher_Core_Util_Constant::ORDER_EVALUATE){
+        return $this->api_json('订单状态不正确！', 3006);
+      }
+
+      // 默认ios
+      $from_site = isset($this->stash['from_site']) ? (int)$this->stash['from_site'] : 3;
+
 			// 保存数据
-			$model = new Sher_Core_Model_Comment();
-			$ok = $model->apply_and_save($data);
-			if($ok){
-				$comment_id = $model->id;
-				$result['comment'] = &$model->extend_load($comment_id);
-			}
+      $comment_model = new Sher_Core_Model_Comment();
+
+      // 获取订单商品ID
+      $product_arr = array();
+      foreach($order['items'] as $k=>$v){
+        array_push($product_arr, (int)$v['product_id']);
+      }
+
+      // 循环要评价的商品
+      foreach($item_arr as $k=>$v){
+        $product_id = (int)$v['target_id'];
+        $sku_id = (int)$v['sku_id'];
+        $content = $v['content'];
+        $star = (int)$v['star'];
+        if(!in_array($star, array(1,2,3,4,5))){
+          $star = 0;
+        }
+
+        if(in_array($product_id, $product_arr)){
+          if(empty($star) || empty($content)){
+            return $this->api_json('评论内容不能为空！', 3010); 
+          }
+
+          // 验证数据
+          $comment_data = array(
+            'target_id' => (string)$product_id,
+            'content' => $content,
+            'star' => $star,
+            'user_id' => $user_id,
+            'type' => Sher_Core_Model_Comment::TYPE_PRODUCT,
+            'sku_id' => $sku_id,
+            'from_site' => $from_site,
+          );
+          $comment_ok = $comment_model->apply_and_save($comment_data);
+        }
+      } //endfor
+
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
+			return $this->api_json('操作失败:'.$e->getMessage(), 3008);
 		}
+
+    $order_ok = $orders_model->finish_order((string)$order['_id']);
+    if(!$order_ok){
+      return $this->api_json('操作失败！', 3009);   
+    }
 		
-		return $this->api_json('操作成功', 0, $result);
+		return $this->api_json('操作成功', 0, array('rid'=>$rid));
 	}
 
 	/**
@@ -393,7 +488,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
                 $data[$key] = isset($product[$key]) ? $product[$key] : null;
               }
             // 封面图url
-            $data['cover_url'] = $product['cover']['thumbnails']['medium']['view_url'];
+            $data['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
             array_push($items, $data);
           }
         }
@@ -410,5 +505,6 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		return $this->api_json('操作成功', 0, array('total_rows'=>$xun_arr['total_count'], 'rows'=>$result, 'total_page'=>$xun_arr['total_page']));
 	}
 	
+
 }
 

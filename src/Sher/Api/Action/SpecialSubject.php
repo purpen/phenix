@@ -25,7 +25,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		
 		$some_fields = array(
-			'_id'=>1, 'title'=>1, 'category_id'=>1, 'products'=>1, 'banner_id'=>1,
+			'_id'=>1, 'title'=>1, 'category_id'=>1, 'products'=>1, 'banner_id'=>1, 'share_count'=>1,
 			'cover_id'=>1, 'tags'=>1, 'summary'=>1, 'user_id'=>1, 'kind'=>1, 'stick'=>1, 'short_title'=>1,
 			'state'=>1, 'view_count'=>1, 'comment_count'=>1, 'love_count'=>1, 'favorite_count'=>1,
 		);
@@ -81,7 +81,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:null;
 			}
 			// 封面图url
-			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['mb']['view_url'];
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
 		}
 		$result['rows'] = $data;
 		
@@ -96,6 +96,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 		if(empty($id)){
 			return $this->api_json('访问的专题不存在！', 3000);
 		}
+    $user_id = $this->current_user_id;
 		
 		$model = new Sher_Core_Model_SpecialSubject();
 		$special_subject = $model->load((int)$id);
@@ -108,7 +109,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 				return $this->api_json('访问的专题不存在！', 3002);
 		}
     $some_fields = array(
-      '_id', 'title', 'short_title', 'tags', 'tags_s', 'remark',
+      '_id', 'title', 'short_title', 'tags', 'tags_s', 'remark', 'kind', 'share_count',
       'cover_id', 'category_id', 'summary', 'product_ids', 'products', 'state',
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
     );
@@ -123,7 +124,11 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
       $data[$key] = isset($special_subject[$key]) ? $special_subject[$key] : null;
     }
     // 封面图url
-    $data['cover_url'] = $special_subject['cover']['thumbnails']['mb']['view_url'];
+    $data['cover_url'] = $special_subject['cover']['thumbnails']['aub']['view_url'];
+
+    //验证是否收藏或喜欢
+    $fav = new Sher_Core_Model_Favorite();
+    $data['is_love'] = $fav->check_loved($user_id, $special_subject['_id'], 9) ? 1 : 0;
 		
 		if($special_subject['kind']==Sher_Core_Model_SpecialSubject::KIND_APPOINT){
 			if(!empty($special_subject['product_ids'])){
@@ -146,7 +151,14 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
               $product_data[$key] = isset($product[$key]) ? $product[$key] : null;
             }
             // 封面图url
-            $product_data['cover_url'] = $product['cover']['thumbnails']['medium']['view_url'];
+            $assets = array();
+            $asset_query = array('parent_id'=>$product['_id'], 'asset_type'=>11);
+            $asset_options['page'] = 1;
+            $asset_options['size'] = 1;
+            $asset_service = Sher_Core_Service_Asset::instance();
+            $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
+            
+            $product_data['cover_url'] = !empty($asset_result['rows']) ? $asset_result['rows'][0]['thumbnails']['aub']['view_url'] : null;
             array_push($product_arr, $product_data);
           }
 			  } // endfor
@@ -156,8 +168,12 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 		
 		if($special_subject['kind']==Sher_Core_Model_SpecialSubject::KIND_CUSTOM){
 			
-			$data['content_view_url'] = sprintf('%s/app/api/view/special_subject_show?id=%d', Doggy_Config::$vars['app.domain.base'], $special_subject['_id']);
+			$data['content_view_url'] = sprintf('%s/view/special_subject_show?id=%d', Doggy_Config::$vars['app.url.api'], $special_subject['_id']);
 		} // endif kind
+
+    // 分享内容
+    $data['share_view_url'] = 'http://m.taihuoniao.com';
+    $data['share_desc'] = Doggy_Dt_Filters_String::truncate(strip_tags($data['summary']), 140);
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, (int)$id);

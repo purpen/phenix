@@ -29,7 +29,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		}
 
     $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
-		if(!in_array($type, array(1,2,3,4,6,8))){
+		if(!in_array($type, array(1,2,3,4,6,8,9))){
 			return $this->api_json('请选择类型！', 3002);
 		}
 		
@@ -64,7 +64,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		}
 
     $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
-		if(!in_array($type, array(1,2,3,4,6,8))){
+		if(!in_array($type, array(1,2,3,4,6,8,9))){
 			return $this->api_json('请选择类型！', 3002);
 		}
 		
@@ -98,7 +98,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		}
 
     $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
-		if(!in_array($type, array(1,2,3,4,6,8))){
+		if(!in_array($type, array(1,2,3,4,6,8,9))){
 			return $this->api_json('请选择类型！', 3002);
 		}
 		
@@ -132,7 +132,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		}
 
     $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
-		if(!in_array($type, array(1,2,3,4,6,8))){
+		if(!in_array($type, array(1,2,3,4,6,8,9))){
 			return $this->api_json('请选择类型！', 3002);
 		}
 		
@@ -182,6 +182,9 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
       break;
     case 8:
 		  $model = new Sher_Core_Model_Albums();
+      break;
+    case 9:
+		  $model = new Sher_Core_Model_SpecialSubject();
       break;
     default:
       return $count;

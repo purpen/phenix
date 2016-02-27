@@ -38,6 +38,7 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
       '_id'=>1, 'user_id'=>1, 'content'=>1, 'star'=>1, 'target_id'=>1, 'target_user_id'=>1, 'sku_id'=>1,
       'deleted'=>1, 'reply_user_id'=>1, 'floor'=>1, 'type'=>1, 'sub_type'=>1, 'user'=>1, 'target_user'=>1,
       'love_count'=>1, 'invented_love_count'=>1, 'is_reply'=>1, 'reply_id'=>1, 'created_on'=>1, 'updated_on'=>1,
+      'created_at'=>1,
     );
 		
 		// 查询条件
@@ -97,18 +98,26 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 	 * 回复
 	 */
 	public function ajax_comment(){
-		$data = array();
-		$result = array();
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+ 		  return $this->api_json('请先登录', 3000);   
+    }
+    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 2;
+    // 默认ios
+    $from_site = isset($this->stash['from_site']) ? (int)$this->stash['from_site'] : 3;
 		
 		// 验证数据
+		$data = array();
 		$data['target_id'] = $this->stash['target_id'];
 		$data['content'] = $this->stash['content'];
+    
 		if(empty($data['target_id']) || empty($data['content'])){
-			return $this->api_json('获取数据错误,请重新提交', 3000);
+			return $this->api_json('获取数据错误,请重新提交', 3001);
 		}
 		
-		$data['user_id'] = $this->current_user_id;
-		$data['type'] = Sher_Core_Model_Comment::TYPE_TOPIC;
+		$data['user_id'] = $user_id;
+		$data['type'] = $type;
+    $data['from_site'] = $from_site;
 		
 		try{
 			// 保存数据
@@ -116,13 +125,13 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 			$ok = $model->apply_and_save($data);
 			if($ok){
 				$comment_id = $model->id;
-				$result['comment'] = &$model->extend_load($comment_id);
+				$comment = &$model->extend_load($comment_id);
 			}
-		}catch(Sher_Core_Model_Exception $e){
+		}catch(Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
 		}
 		
-		return $this->api_json('操作成功', 0, $result);
+		return $this->api_json('操作成功', 0, $comment);
 	}
 
 	

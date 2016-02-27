@@ -19,7 +19,7 @@ class Sher_Core_Helper_Auth {
 	 *	   "subscribe_time": 1382694957
 	 *	}
 	 */
-	public static function create_weixin_user($open_id, $scene_id=''){
+	public static function create_weixin_user($open_id, $union_id, $scene_id=''){
 		$options = array(
 			'token' => Doggy_Config::$vars['app.wechat.token'],
 			'appid' => Doggy_Config::$vars['app.wechat.app_id'],
@@ -32,7 +32,7 @@ class Sher_Core_Helper_Auth {
 		// 检测是否存在用户
 		$user = new Sher_Core_Model_User();
 		$query = array(
-			'wx_open_id' => $open_id,
+			'wx_union_id' => $union_id,
 		);
 		$result = $user->first($query);
 		// 已存在用户
@@ -47,7 +47,7 @@ class Sher_Core_Helper_Auth {
 		Doggy_Log_Helper::warn('Weixin load user msg: '.$wx->errMsg.'|'.$wx->errCode);
 		
 		if (!$wx_user) {
-			Doggy_Log_Helper::warn('Weixin load user info is null: ['.$open_id.']!');
+			Doggy_Log_Helper::warn('Weixin load user info is null: ['.$union_id.']!');
 			return false;
 		}
 		
@@ -58,14 +58,15 @@ class Sher_Core_Helper_Auth {
 			$default_nickname = '微信用户['.$wx_user['nickname'].']';
 			// 检测用户名是否重复
 			if(!$user->_check_name($default_nickname)){
-				$default_nickname = $wx_user['openid'];
+				$default_nickname = $wx_user['unionid'];
 			}
 			// 用户注册数据
 			$user_info = array(
-	            'account' => $wx_user['openid'],
+	            'account' => $wx_user['unionid'],
 				'nickname' => $default_nickname,
 				'password' => sha1(Sher_Core_Util_Constant::WX_AUTO_PASSWORD),
 				'wx_open_id' => $wx_user['openid'],
+				'wx_union_id' => $wx_user['unionid'],
 				'sex' => $wx_user['sex'],
 	            'state' => Sher_Core_Model_User::STATE_OK,
 				'from_site' => Sher_Core_Util_Constant::FROM_WEIXIN,

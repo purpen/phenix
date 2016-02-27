@@ -33,11 +33,13 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		'total_count' => 0,
 		# 回复总数
 		'reply_count' => 0,
+		# 子数量：(商品.可购买总量;)
+		'sub_count' => 0,
 		# 分类状态
 		'state' => 0,
     );
 	
-	protected $retrieve_fields = array('name'=>1,'title'=>1,'summary'=>1,'gid'=>1,'pid'=>1,'order_by'=>1,'domain'=>1,'total_count'=>1,'reply_count'=>1,'state'=>1,'is_open'=>1,'tags'=>1,'app_cover_url'=>1);
+	protected $retrieve_fields = array('name'=>1,'title'=>1,'summary'=>1,'gid'=>1,'pid'=>1,'order_by'=>1,'domain'=>1,'total_count'=>1,'reply_count'=>1,'state'=>1,'is_open'=>1,'tags'=>1,'app_cover_url'=>1,'sub_count'=>1);
 	
 	// 类组
 	protected $groups = array(
@@ -63,7 +65,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		),
 	);
 	
-    protected $int_fields = array('gid','pid','order_by','domain','is_open','total_count','state','reply_count');
+    protected $int_fields = array('gid','pid','order_by','domain','is_open','total_count','state','reply_count','sub_count');
 
 	protected $required_fields = array('name','title');
 	
@@ -132,7 +134,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 	 */
 	protected function before_save(&$data){
 	    if (isset($data['tags']) && !is_array($data['tags'])) {
-	        $data['tags'] = array_values(array_unique(preg_split('/[,，、\s]+/u', $data['tags'])));
+	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u', $data['tags'])));
 	    }
 	    $data['updated_on'] = time();
 	    parent::before_save($data);

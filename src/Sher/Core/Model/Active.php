@@ -148,7 +148,7 @@ class Sher_Core_Model_Active extends Sher_Core_Model_Base {
 	protected function before_save(&$data) {
     //标签处理
     if (isset($data['tags']) && !is_array($data['tags'])) {
-        $data['tags'] = array_values(array_unique(preg_split('/[,，\s]+/u',$data['tags'])));
+        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
     }
 		
 		// 转换为时间戳--开始时间

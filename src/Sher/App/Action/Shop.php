@@ -323,11 +323,6 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
     	        return $this->show_message_page('产品积分异常错误！', $redirect_url);        
             }
         }
-		
-		// 未发布上线的产品，仅允许本人及管理员查看
-		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
-			return $this->show_message_page('访问的产品等待发布中！', $redirect_url);
-		}
 
         // 判断是否为秒杀产品 
         $snatch_time = 0;

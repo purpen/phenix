@@ -9,7 +9,7 @@
  */
 class Sher_Core_Util_WxPay_WxPayData_WxPayDataBase extends Doggy_Object
 {
-	protected $values = array();
+  protected $values = array();
 	
 	/**
 	* 设置签名，详见签名生成算法
@@ -109,7 +109,8 @@ class Sher_Core_Util_WxPay_WxPayData_WxPayDataBase extends Doggy_Object
 		ksort($this->values);
 		$string = $this->ToUrlParams();
 		//签名步骤二：在string后加入KEY
-		$string = $string . "&key=".Doggy_Config::$vars['app.wechat.key'];
+ 		$string = $string . "&key=".Doggy_Config::$vars['app.wechat.key'];   
+
 		//签名步骤三：MD5加密
 		$string = md5($string);
 		//签名步骤四：所有字符转为大写
@@ -124,4 +125,6 @@ class Sher_Core_Util_WxPay_WxPayData_WxPayDataBase extends Doggy_Object
 	{
 		return $this->values;
 	}
+
+
 }

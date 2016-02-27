@@ -336,7 +336,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
         return $this->api_json('帐号不存在!', 3003);
     }
     if ($user['password'] != sha1($this->stash['password'])) {
-        return $this->api_json('登录账号和密码不匹配', 3004);
+        return $this->api_json('原密码不正确!', 3004);
     }
     $nickname = $user['nickname'];
     $user_state = $user['state'];

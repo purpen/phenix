@@ -89,7 +89,7 @@ class Sher_Core_Model_Cooperation extends Sher_Core_Model_Base {
 	 */
 	protected function before_save(&$data) {
 	    if (isset($data['keywords']) && !is_array($data['keywords'])) {
-	        $data['keywords'] = array_filter(array_values(array_unique(preg_split('/[,，\s]+/u', $data['keywords']))));
+	        $data['keywords'] = array_filter(array_values(array_unique(preg_split('/[,，;；\s]+/u', $data['keywords']))));
 	    }
 	    
         // 类别整型

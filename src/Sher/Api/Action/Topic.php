@@ -80,9 +80,9 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 				$data[$i][$key] = $result['rows'][$i][$key];
 			}
 			// 封面图url
-			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['medium']['view_url'];
-			// 封面图url(用于评测页显示750x360)
-			$data[$i]['cover_b_url'] = $result['rows'][$i]['cover']['thumbnails']['mb']['view_url'];
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
+			// 封面图url(用于评测页16:9显示750x422)
+			$data[$i]['cover_b_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
 			// 用户信息
 			$data[$i]['username'] = $result['rows'][$i]['user']['nickname'];
 			$data[$i]['small_avatar_url'] = $result['rows'][$i]['user']['small_avatar_url'];
@@ -118,7 +118,7 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
     $some_fields = array(
       '_id', 'title', 'short_title', 'category_id', 'target_id', 'cover_id', 'parent_id', 'view_count', 'stick',
       'deleted', 'try_id', 'published', 'user_id', 'comment_count', 'created_on', 'fine', 'last_reply_time',
-      'love_count', 'comment_count', 't_color', 'source',
+      'love_count', 'comment_count', 't_color', 'source', 'wap_view_url', 'strip_description',
     );
 
 		// 重建数据结果
@@ -144,7 +144,11 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
       $data['small_avatar_url'] = $topic['small_avatar_url'];
     }
 		
-    $data['content_view_url'] = sprintf('%s/app/api/view/topic_show?id=%d', Doggy_Config::$vars['app.domain.base'], $topic['_id']);
+    $data['content_view_url'] = sprintf('%s/view/topic_show?id=%d', Doggy_Config::$vars['app.url.api'], $topic['_id']);
+
+    // 分享内容
+    $data['share_view_url'] = $data['wap_view_url'];
+    $data['share_desc'] = $data['strip_description'];
 		
 		return $this->api_json('请求成功', 0, $data);
 	}

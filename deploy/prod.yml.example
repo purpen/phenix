@@ -2,6 +2,7 @@
 app.domain.base: 'http://www.taihuoniao.com'
 app.db.default: 'mysql://root:@localhost/test?charset=utf8'
 app.domain.mobile: 'http://m.taihuoniao.com'
+app.url.api:  '{$app.domain.base}/app/api'
 #if in production mode,uncomment and change it to 'prod'
 app.mode: 'prod'
 deploy.root: '/www/phenix'
@@ -82,6 +83,9 @@ app.birdegg.category_id: 80
 # 大赛作品分类--反向定制
 app.stuff.contest_category_id: 83
 
+# 中国最火爆智能硬件TOP100
+app.stuff.top100_category_id: 123
+
 # JBL商品ID
 app.product_jbl_id: 1088027398
 
@@ -92,7 +96,7 @@ app.comeon.product_id: 1112616234
 app.send_notice_users: '10|544066'
 
 # 参与评论投票的话题ID
-app.topic_comment_ids: '37|36'
+app.topic_comment_ids: '108054|108896|109581'
 
 # 评测报告类别
 app.try.report_category_id: 18

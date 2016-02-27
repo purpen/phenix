@@ -516,7 +516,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     $attend_model = new Sher_Core_Model_Attend();
     $data = array(
       'user_id' => $this->visitor->id,
-      'target_id' => 5,
+      'target_id' => 6,
       'event' => 5,
     );
     $attend = $attend_model->first($data);

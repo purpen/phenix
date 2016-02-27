@@ -470,7 +470,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	 */
 	protected function before_save(&$data) {
 	    if (isset($data['tags']) && !is_array($data['tags'])) {
-	        $data['tags'] = array_values(array_unique(preg_split('/[,，\s]+/u',$data['tags'])));
+	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
 	    }
 
         // 库存数量不为能负数
@@ -530,6 +530,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             if(!empty($category_id)){
                 $category = new Sher_Core_Model_Category();
                 $category->inc_counter('total_count', 1, $category_id);
+                // 如果是商品，更新商品分类数量
+                if($this->data['stage']==9){
+                  $category->inc_counter('sub_count', 1, $category_id);              
+                }
                 unset($category);
             }
             
@@ -1008,13 +1012,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	public function mock_after_remove($id) {
 		// 删除Asset
 		$asset = new Sher_Core_Model_Asset();
-		$asset->remove_and_file(array('parent_id' => $id));
+		$asset->remove_and_file(array('parent_id' => $id, 'asset_type'=>array('$in'=>array(10,11,15))));
 		unset($asset);
 		
 		// 删除Comment
 		$comment = new Sher_Core_Model_Comment();
-		$comment->remove(array('target_id' => $id));
-		unset($asset);
+		$comment->remove(array('target_id' => $id, 'type'=>Sher_Core_Model_Comment::TYPE_PRODUCT));
+		unset($comment);
 		
 		// 删除TextIndex
 		$textindex = new Sher_Core_Model_TextIndex();

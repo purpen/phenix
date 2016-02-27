@@ -7,7 +7,7 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 	
 	public $stash = array(
 		'page' => 1,
-		'size' => 20,
+		'size' => 100,
     'sort' => 0,
     'from_to' => 0,
     'load_college' => 0,
@@ -112,6 +112,26 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 	}
 
 	/**
+	 * 列表--Top100
+	 */
+	public function top100_list() {
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "community";
+		
+    $this->set_target_css_state('top100_list');
+		$page = (int)$this->stash['page'];
+
+    $this->stash['from_to'] = 5;
+		
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/stuff/top100_list?page=#p#');
+		
+		$this->stash['pager_url'] = $pager_url;
+		
+		return $this->to_html_page('admin/stuff/list.html');
+	}
+
+	/**
 	 * 创建/更新
 	 */
 	public function submit(){
@@ -135,6 +155,11 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 	 * 保存
 	 */
 	public function save() {
+
+    // 要求只能某个账户操作
+    if($this->visitor->id != 10){
+ 			return $this->ajax_notification('权限不够！', true);   
+    }
 		
 		$model = new Sher_Core_Model_Stuff();
 		try{
@@ -142,10 +167,11 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 			if(empty($this->stash['_id'])){
 				$mode = 'create';
 				//$ok = $model->apply_and_save($this->stash);
-			}else{
+      }else{
+        $add_love_count = (int)$this->stash['add_love_count'];
 				$mode = 'edit';
         $data['_id'] = (int)$this->stash['_id'];
-        $data['love_count'] = (int)$this->stash['love_count'] + (int)$this->stash['add_love_count'];
+        $data['love_count'] = (int)$this->stash['love_count'] + abs($add_love_count);
         $data['view_count'] = (int)$this->stash['view_count'];
 				$ok = $model->apply_and_update($data);
 			}
@@ -170,6 +196,11 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 		if(empty($id)){
 			return $this->ajax_notification('灵感不存在！', true);
 		}
+
+    // 要求只能某个账户操作
+    if($this->visitor->id != 10){
+ 			return $this->ajax_notification('权限不够！', true);   
+    }
 		
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		
@@ -257,6 +288,8 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
    */
   public function get_love_list(){
     
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/stuff/get_love_list?target_id=%d&page=#p#', $this->stash['target_id']);
+		$this->stash['pager_url'] = $pager_url;
     return $this->to_html_page('admin/stuff/love_list.html');
   }
 

@@ -1,4 +1,4 @@
-{%extends 'layout/column.html'%}
+{%extends 'layout/base.html'%}
 {% block title %}{% endblock %}
 {% block layout_css %}
 	{% if css_use_bundle %}
@@ -8,9 +8,7 @@
 	{% endif %}
 {% endblock %}
 {% block page_css %}
-<style type="text/css">
-    
-</style>
+
 {% endblock %}
 {% block layout_js %}
 <script type="text/javascript">
@@ -51,6 +49,10 @@
 {% endblock %}
 
 {% block jquery %}
+	$('.messege-2016 i.close').click(function(){
+		$('.messege-2016').fadeOut();
+		setTimeout(function(){ $('.messege-2016').remove(); },2000);
+	});
 	$('#carousel').flexslider({
         animation: "slide",
         controlNav: false,
@@ -483,6 +485,11 @@
       
 {% endblock %}
 
+{% block layout_header %}
+<div class="header main">
+    {% include "block/header.html" %}
+</div>
+{% endblock %}
 {% block content %}
 <div class="shop viewtop" style="background-image: url('{{ product.cover.thumbnails.big.view_url }}');">
 	<div class="masthead">

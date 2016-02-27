@@ -132,6 +132,9 @@
         <input placeholder="关联产品/话题ID" type="text" name="q" value="{{ q }}" />
 			</div>
 			<div class="ui input">
+        <input placeholder="用户ID" type="text" name="user_id" value="{{ user_id }}" />
+			</div>
+			<div class="ui input">
         <input placeholder="评论内容" type="text" name="c" value="{{ c }}" />
 			</div>
 				<div class="ui input">
@@ -149,16 +152,19 @@
 					  	<label></label>
 					</div>
 				</th>
+        <th>用户</th>
 				<th class="five wide">内容</th>
 				<th>点赞名单</th>
                 <th>赞数量</th>
+                <th>楼层</th>
                 <th>所属</th>
 				<th>关联ID</th>
+        <th>评论时间/IP/来源</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
-			{% comment_list var:'list' page:page type:t target_id:q content:c sort:s size:100 %}
+			{% comment_list var:'list' page:page load_view_url:1 type:t target_id:q content:c user_id:user_id sort:s size:100 %}
 
 			{% for comment in list.rows %}
 			<tr id="{{ comment._id }}">
@@ -169,7 +175,13 @@
 					</div>
 				</td>
         <td>
-          <div class="content-text">{{ comment.content }}</div>
+ 					<a class="ui image label link" href="{{ comment.user.home_url }}" target="_blank">
+					  	<img src="{{ comment.user.mini_avatar_url }}">
+              {{ comment.user.nickname }}({{ comment.user_id }})
+					</a>     
+        </td>
+        <td>
+          <div class="content-text">{{ comment.content }}<span><a href="{{ comment.view_url }}" target="_blank">&gt;&gt;</a></span></div>
         </td>
 
         <td>
@@ -182,14 +194,25 @@
 					</p>
 				</td>
         <td>
+          {{ comment.floor }}
+        </td>
+        <td>
           {%if comment.type==1%}用户{%endif%}
           {%if comment.type==2%}话题{%endif%}
           {%if comment.type==3%}试用{%endif%}
-          {%if comment.type==4%}产品{%endif%}
-          {%if comment.type==6%}灵感{%endif%}
+          {%if comment.type==4%}产品[{{ comment.sub_type }}]{%endif%}
+          {%if comment.type==6%}灵感[{{ comment.sub_type }}]{%endif%}
+          {%if comment.type==7%}专辑{%endif%}
           {%if comment.type==10%}专题{%endif%}
         </td>
         <td>{{ comment.target_id }}</td>
+        <td>
+          <p>{{ comment.created_on|date 'y-m-d H:m:s' }}</p>
+          <p>{{ comment.ip|default '--' }}</p>
+          <p>
+            {{ comment.from|default '--' }}
+          </p>
+        </td>
 				<td>
 					<p>
 						<a href="{{ app_url_admin }}/comment/submit?id={{ comment._id }}" class="ui link item">编辑</a>
@@ -207,6 +230,7 @@
 	<div class="ui pagination">
 		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
 		{%include 'block/pager.html'%}
+    <label class="page_count">{{ list.total_rows }}个</label>
 	</div>
 	{% endif %}
 {% endblock %}

@@ -595,7 +595,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         if (!empty($topic)) {
             $topic = $model->extended_model_row($topic);
         }
-
+		
 		// 综合分类
 		$this->stash['topic_category_comprehensive'] = Doggy_Config::$vars['app.topic_category_comprehensive'];
 		// 产品分类
@@ -634,6 +634,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['topic'] = &$topic;
 		$this->stash['parent_category'] = $parent_category;
 		$this->stash['editable'] = $editable;
+
+    if($topic['_id']==109581){
+      $this->stash['jimi'] = true;
+    }
 		
 		// 判定是否产品话题
 		if (isset($topic['target_id']) && !empty($topic['target_id'])){
@@ -719,6 +723,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
             $new_page = ceil($floor/10);
             $this->stash['page'] = $new_page;
         }
+		
+		// 加｜
+		if ( !empty($topic['top']) || !empty($topic['fine']) || !empty($topic['stick']) ){
+			$this->stash['tline'] = true;
+		}
         
 		return $this->to_html_page($tpl);
 	}
@@ -1122,8 +1131,19 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		if(empty($this->stash['title'])){
 			return $this->ajax_json('标题不能为空！', true);
 		}
+
+		$id = isset($this->stash['_id']) ? (int)$this->stash['_id'] : 0;
+
+    // 用户发表频率、次数限制
+    if(empty($id)){
+      if(empty($this->visitor->quality)){
+        $pub_is_limit = Sher_Core_Helper_Util::report_filter_limit($this->visitor->id, 1);
+        if($pub_is_limit['success']){
+          return $this->ajax_json($pub_is_limit['msg'], true);   
+        }     
+      }
+    }
 		
-		$id = (int)$this->stash['_id'];
 		$mode = 'create';
 		$data = array();
 		$data['_id'] = $id;

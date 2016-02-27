@@ -31,9 +31,19 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 	/**
 	 * 列表
 	 */
-	public function get_list() {		
-		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try?page=#p#';
+	public function get_list() {
+    $q = isset($this->stash['q']) ? $this->stash['q'] : null;
+    $this->stash['s_type'] = 0;
+		if (!empty($q)) {
+			// 是否为数字
+			if (is_numeric($q)){
+				$this->stash['s_type'] = 1;
+			} else {
+				$this->stash['s_type'] = 2;
+			}
+      $this->stash['s_mark'] = $q;
+		}
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try/get_list?page=#p#';
 		$this->stash['pager_url'] = $pager_url;
 
 		// 发送人数组
@@ -233,7 +243,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		if(empty($this->stash['id'])){
 			return $this->ajax_notification('缺少请求参数！', true);
 		}
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try/verify?id=%d&is_invented=%d&user_id=%d&result=%d&sort=$d&page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try/verify?id=%d&is_invented=%d&user_id=%d&result=%d&sort=%d&page=#p#';
 		
 		$id = (int)$this->stash['id'];
 
@@ -456,7 +466,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     	fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
 		
 		// 输出Excel列名信息
-		$head = array('ID', '姓名', '电话', '地址', '邮编', '微信', 'QQ', '支持数', '申请内容');
+		$head = array('ID', '昵称', '姓名', '电话', '地址', '邮编', '微信', 'QQ', '支持数', '申请内容');
 		foreach($head as $i => $v){
 			// CSV的Excel支持GBK编码，一定要转换，否则乱码
 			// $head[$i] = iconv('utf-8', 'gbk', $v);
@@ -490,7 +500,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 				
         $apply = $result['rows'][$i];
         $address = sprintf("%s-%s-%s", $apply['area_province']['city'], $apply['area_district']['city'], $apply['address']);
-				$row = array($apply['user_id'], $apply['name'], $apply['phone'], $address, $apply['zip'], $apply['wx'], $apply['qq'], $apply['vote_count'], $apply['content']);
+				$row = array($apply['user_id'], $apply['user']['nickname'], $apply['name'], $apply['phone'], $address, $apply['zip'], $apply['wx'], $apply['qq'], $apply['vote_count'], $apply['content']);
 				
 				/*
 				foreach($row as $k => $v){
@@ -672,7 +682,20 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
     $result = array();
     $apply_model = new Sher_Core_Model_Apply();
     $result['apply_count'] = $apply_model->count(array('type'=>1, 'user_id'=>$user_id));
-    $result['pass_count'] = $apply_model->count(array('type'=>1, 'user_id'=>$user_id, 'result'=>1));
+    $pass_list = $apply_model->find(array('type'=>1, 'user_id'=>$user_id, 'result'=>1),array('page'=>1, 'size'=>100));
+
+    $result['pass_count'] = count($pass_list);
+    $pass_name_arr = array();
+    if(!empty($pass_list)){
+      $try_model = new Sher_Core_Model_Try();
+      foreach($pass_list as $k=>$v){
+        $try = $try_model->find_by_id((int)$v['target_id']);
+        if($try){
+          array_push($pass_name_arr, $try['title']);
+        }
+      }   
+    }
+    $result['pass_name'] = !empty($pass_name_arr) ? implode('|', $pass_name_arr) : '';
 
     return $this->ajax_json('ＯＫ!', false, 0, $result);
   }

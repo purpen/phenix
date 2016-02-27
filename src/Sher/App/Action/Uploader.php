@@ -280,11 +280,31 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	}
 	
 	/**
-	 * 上传产品图片
+	 * 上传情景品牌封面
+	 */
+	public function scene_brands() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_SCENE_BRANDS;
+		$asset_type = Sher_Core_Model_Asset::TYPE_SCENE_BRANDS;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+	
+	/**
+	 * 上传产品封面图
 	 */
 	public function product() {
 		$asset_domain = Sher_Core_Util_Constant::STROAGE_PRODUCT;
 		$asset_type = Sher_Core_Model_Asset::TYPE_PRODUCT;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+
+	/**
+	 * 上传产品Banner图
+	 */
+	public function product_banner() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+		$asset_type = Sher_Core_Model_Asset::TYPE_PRODUCT_BANNER;
 		
 		return $this->handle_upload($asset_type, $asset_domain);
 	}
@@ -361,6 +381,36 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	public function contest() {
 		$asset_domain = Sher_Core_Util_Constant::STROAGE_ASSET;
 		$asset_type = Sher_Core_Model_Asset::TYPE_CONTEST;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+
+	/**
+	 * 上传情景产品图片
+	 */
+	public function scene_product() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_SCENE_PRODUCT;
+		$asset_type = Sher_Core_Model_Asset::TYPE_GPRODUCT;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+
+	/**
+	 * 上传情景产品Banner图
+	 */
+	public function scene_product_banner() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_SCENE_PRODUCT;
+		$asset_type = Sher_Core_Model_Asset::TYPE_GPRODUCT_BANNER;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+
+	/**
+	 * 上传情景产品去底图
+	 */
+	public function scene_product_png() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_SCENE_PRODUCT;
+		$asset_type = Sher_Core_Model_Asset::TYPE_GPRODUCT_PNG;
 		
 		return $this->handle_upload($asset_type, $asset_domain);
 	}
@@ -523,8 +573,8 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 				$asset = new Sher_Core_Model_Asset();
 				//create new one
 				$asset->set_file($file);
-
-                $ext = end(explode('.', basename($filename)));
+                $b = explode('.', basename($filename));
+                $ext = end($b);
 				
 				$image_info['size'] = $size;
 		        $image_info['mime'] = Doggy_Util_File::mime_content_type($filename);
@@ -717,8 +767,16 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
      * @return void
      */
     public function check_upload_product_assets() {
-		$assets_ids = $this->stash['assets'];
-		$tpl = 'ajax/check_upload_product_assets.html';
+      $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+      $assets_ids = $this->stash['assets'];
+      if($type==2){
+		    $tpl = 'ajax/check_upload_product_banner_assets.html';
+      }elseif($type==3){
+		    $tpl = 'ajax/check_upload_product_png_assets.html';
+      }else{
+		    $tpl = 'ajax/check_upload_product_assets.html';
+      }
+    
         if (empty($assets_ids)) {
             $result['error_message'] = '没有上传的图片';
             $result['code'] = 401;
@@ -729,7 +787,13 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		
 		// 先上传再保存信息的情况
 		if (isset($this->stash['ref'])){
-			$tpl = 'ajax/check_product_onestep.html';
+      if($type==2){
+			  $tpl = 'ajax/check_product_banner_onestep.html';
+      }elseif($type==3){
+			  $tpl = 'ajax/check_product_png_onestep.html';
+      }else{
+			  $tpl = 'ajax/check_product_onestep.html';
+      }
 		}
 		
         return $this->to_taconite_page($tpl);

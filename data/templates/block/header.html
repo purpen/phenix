@@ -1,22 +1,298 @@
-<div class="ui responsive grid">
+{% block page_css %}
+<style type="text/css">
+.csbg{
+	position:absolute;
+	left:200px;
+	top:0;
+	width:232px;
+	height:67px;
+	background:url({{ app_url_packaged }}/images/csbg.png) no-repeat;
+	background-size:cover;
+}
+.body{
+	position:absolute;
+	left:173px;
+	bottom:0;
+	width:90px;
+	height:60px;
+	background:url({{ app_url_packaged }}/images/body.png) no-repeat;
+}
+@keyframes music-move
+{
+	0% { 
+	  -webkit-transform: rotate(0deg);
+	  transform: rotate(0deg);
+	} 
+	33% {  
+	  -webkit-transform: rotate(-5deg);
+	  transform: rotate(-5deg);
+	}
+	66% {  
+	  -webkit-transform: rotate(5deg);
+	  transform: rotate(5deg);
+	}
+	100% {  
+	  -webkit-transform: rotate(0deg);
+	  transform: rotate(0deg);
+	}
+}
+
+@-webkit-keyframes music-move /* Safari and Chrome */
+{
+	0% { 
+	  -webkit-transform: rotate(0deg);
+	  transform: rotate(0deg);
+	}
+	33% {  
+	  -webkit-transform: rotate(-5deg);
+	  transform: rotate(-5deg);
+	}
+	66% {  
+	  -webkit-transform: rotate(5deg);
+	  transform: rotate(5deg);
+	}
+	100% {  
+	  -webkit-transform: rotate(0deg);
+	  transform: rotate(0deg);
+	}
+}
+.Head{
+	position:absolute;
+	left:194px;
+	bottom:23px;
+	width:54px;
+	height:38px;
+	background:url({{ app_url_packaged }}/images/Head.png) no-repeat;
+	animation:music-move 1.2s 0s infinite alternate ease-in-out;
+	-webkit-animation:music-move 1.2s 0s infinite alternate ease-in-out;
+}
+.hou{
+	position:absolute;
+	left: 262px;
+	bottom: 6px;
+	width:36px;
+	height:36px;
+	background:url({{ app_url_packaged }}/images/hou.png) no-repeat;
+}
+.sai{
+	position:absolute;
+	left: 302px;
+    bottom: 15px;
+	width:30px;
+	height:30px;
+	background:url({{ app_url_packaged }}/images/sai.png) no-repeat;
+}
+.lei{
+	position:absolute;
+	left: 338px;
+	bottom: 6px;
+	width:34px;
+	height:34px;
+	background:url({{ app_url_packaged }}/images/lei.png) no-repeat;
+}
+.caishen{
+	position:absolute;
+	left: 370px;
+	bottom: 0px;
+	width:60px;
+	height:60px;
+	background:url({{ app_url_packaged }}/images/caishen.png) no-repeat;
+	animation:top-bottom 0.8s 0s infinite alternate ease-in-out;
+	-webkit-animation:top-bottom 0.8s 0s infinite alternate ease-in-out;
+}
+@keyframes top-bottom
+{
+	0% { 
+	  -webkit-transform: translateY(0);
+	  transform: translateY(0);
+	} 
+	50% {  
+	  -webkit-transform: translateY(-2px);
+	  transform: translateY(-2px);
+	}
+	100% {  
+	  -webkit-transform: translateY(0);
+	  transform: translateY(0);
+	}
+}
+
+@-webkit-keyframes top-bottom /* Safari and Chrome */
+{
+	0% { 
+	  -webkit-transform: translateY(0);
+	  transform: translateY(0);
+	}
+	50% {  
+	  -webkit-transform: translateY(-2px);
+	  transform: translateY(-2px);
+	}
+	100% {  
+	  -webkit-transform: translateY(0);
+	  transform: translateY(0);
+	}
+}
+
+@-webkit-keyframes Hscale-up {
+    0% {
+	    -webkit-transform: scale(0);
+	    -moz-transform: scale(0);
+	    -ms-transform: scale(0);
+	    -o-transform: scale(0);
+	    transform: scale(0);
+        opacity: 0;
+    }
+    10% {
+	    -webkit-transform: scale(1);
+	    -moz-transform: scale(1);
+	    -ms-transform: scale(1);
+	    -o-transform: scale(1);
+	    transform: scale(1);
+	    opacity: 1;
+    }
+    30% {
+        opacity: 1;
+    }
+    40% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 0;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@-moz-keyframes Hscale-up {
+    0% {
+	    -webkit-transform: scale(0);
+	    -moz-transform: scale(0);
+		transform: scale(0);
+        opacity: 0;
+    }
+    10% {
+	    -webkit-transform: scale(1);
+	    -moz-transform: scale(1);
+	    transform: scale(1);
+	    opacity: 1;
+    }
+    30% {
+        opacity: 1;
+    }
+    40% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 0;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes Hscale-up {
+    0% {
+	    -webkit-transform: scale(0);
+	    -moz-transform: scale(0);
+	    -ms-transform: scale(0);
+	    -o-transform: scale(0);
+	    transform: scale(0);
+        opacity: 0;
+    }
+    10% {
+	    -webkit-transform: scale(1);
+	    -moz-transform: scale(1);
+	    -ms-transform: scale(1);
+	    -o-transform: scale(1);
+	    transform: scale(1);
+	    opacity: 1;
+    }
+    30% {
+        opacity: 1;
+    }
+    40% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    60% {
+        opacity: 0;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.hou{
+	-webkit-animation: Hscale-up 6s linear infinite;
+    -moz-animation: Hscale-up 6s linear infinite;
+    animation: Hscale-up 6s linear infinite;
+	opacity:0;
+}
+.sai{
+	-webkit-animation: Hscale-up 6s 0.2s linear infinite;
+    -moz-animation: Hscale-up 6s 0.2s linear infinite;
+    animation: Hscale-up 6s 0.2s linear infinite;
+	opacity:0;
+}
+.lei{
+	-webkit-animation: Hscale-up 6s 0.4s linear infinite;
+    -moz-animation: Hscale-up 6s 0.4s linear infinite;
+    animation: Hscale-up 6s 0.4s linear infinite;
+	opacity:0;
+}
+
+</style>
+{% endblock %}
+<div class="ui responsive grid" style="position:relative">
+	<!-- caishen -->
+	<div class="csbg"></div>
+	<div class="body"></div>
+	<div class="Head"></div>
+	<div class="hou"></div>
+	<div class="sai"></div>
+	<div class="lei"></div>
+	<div class="caishen"></div>
+	<!-- -->
     <div class="two column row">
         <div class="column">
         	<a href="{{ app_url_domain }}" title="首页" class="logo">
         		<img src="{{ app_url_packaged }}/images/frbird-logo.png" class="ui hide" alt="太火鸟" />太火鸟
         	</a>
           
-          <form class="search item" method="post" action="{{ app_url_domain }}/search" id="searchbar">
+         <!--
+		  <form class="search item" method="post" action="{{ app_url_domain }}/search" id="searchbar">
            	<div class="ui icon input">
           		<input name="q" type="text" value="{{ q }}" />
           		<i class="search icon"></i>
           		<a href="javascript:void(0);" id="search-button" style="width: 2.67142857em;height: 100%;position: absolute;right: 0;top: 0;"></a>
           	</div>
           </form>
-            
+          -->  
         </div>
 
         <div class="column">
         	{% include "block/header_rightside.html" %}
+  		  <form class="search item" method="post" action="{{ app_url_domain }}/search" id="searchbar" style="float:none;">
+             	<div class="ui icon input">
+            		<input name="q" type="text" value="{{ q }}" />
+            		<i class="search icon"></i>
+            		<a href="javascript:void(0);" id="search-button" style="width: 2.67142857em;height: 100%;position: absolute;right: 0;top: 0;"></a>
+            	</div>
+            </form>
         </div>
     </div>
 </div>
@@ -49,9 +325,11 @@
       <a href="{{ app_url_d3in }}" class="{{ css_page_d3in }} item">
         <span style="letter-spacing: 1px;">D<span style="font-size: 10px;vertical-align: top;line-height: 4px;">3</span>IN</span>实验室
       </a>
+      <!--
       <a href="{{ app_url_contest }}" class="{{ css_page_custom }} item">
         反向定制
       </a>
+      -->
     </div>
   </div>
 </div>

@@ -985,7 +985,18 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		// 检查用户名是否唯一
 		$exist = $user_model->_check_name($nickname);
 		if (!$exist) {
-			$nickname = '微信用户-'.$nickname;
+      // 判断来源
+      if($third_source=='weibo'){
+        $nickname_prefix = "微博用户";
+      }elseif($third_source=='qq'){
+        $nickname_prefix = "QQ用户";
+      }elseif($third_source=='weixin'){
+        $nickname_prefix = "微信用户";
+      }else{
+        return $this->ajax_note('第三方来源不明确.！', true);     
+      }
+
+			$nickname = $nickname_prefix.(string)$nickname;
 			$exist_r = $user_model->_check_name($nickname);
 			if(!$exist_r){
 				$nickname = $nickname.(string)rand(1000,9999);
@@ -993,29 +1004,29 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		}
   
 		$user_data = array(
-			'account' => (string)$uid,
 			'nickname' => $nickname,
-			'sex' => $sex,
-	  
-			'wx_open_id' => (string)$open_id,
-			'wx_access_token' => $access_token,
-			'wx_union_id' => $union_id,
 			'state' => Sher_Core_Model_User::STATE_OK,
-			'from_site' => Sher_Core_Util_Constant::FROM_WEIXIN,
+      'sex' => $sex,
 			'kind' => 20,
 		);
   
 		//根据第三方来源,更新对应open_id 
 		if($third_source=='weibo'){
+      $user_data['account'] = (string)$uid;
 			$user_data['password'] = sha1(Sher_Core_Util_Constant::WEIBO_AUTO_PASSWORD);
+      $user_data['from_site'] = Sher_Core_Util_Constant::FROM_WEIBO;
 			$user_data['sina_uid'] = (int)$uid;
 			$user_data['sina_access_token'] = $access_token;
 		}elseif($third_source=='qq'){
+      $user_data['account'] = (string)$uid;
 			$user_data['password'] = sha1(Sher_Core_Util_Constant::QQ_AUTO_PASSWORD);
+      $user_data['from_site'] = Sher_Core_Util_Constant::FROM_QQ;
 			$user_data['qq_uid'] = $uid;
 			$user_data['qq_access_token'] = $access_token;
 		}elseif($third_source=='weixin'){
+      $user_data['account'] = (string)$union_id;
 			$user_data['password'] = sha1(Sher_Core_Util_Constant::WX_AUTO_PASSWORD);
+      $user_data['from_site'] = Sher_Core_Util_Constant::FROM_WEIXIN;
 			$user_data['wx_open_id'] = $uid;
 			$user_data['wx_access_token'] = $access_token;
 			$user_data['wx_union_id'] = $union_id; 

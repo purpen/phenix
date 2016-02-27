@@ -135,7 +135,7 @@
     var url = "{{ app_url_admin_base }}/try/query_apply_record";
     $.post(url, { user_id:user_id }, function(result){
       if(result.success){
-        var txt = "申请次数: "+ result.data.apply_count +"; 通过次数: "+ result.data.pass_count +"";
+        var txt = "申请次数: "+ result.data.apply_count +"\n通过次数: "+ result.data.pass_count +"\n产品: " + result.data.pass_name + "";
         alert(txt);
       }else{
         alert(result.message);
@@ -239,6 +239,7 @@
 					    <div class="menu">
 							<div data-value="0" class="{% if sort==0 %}active {% endif %}item">最新</div>
 							<div data-value="1" class="{% if sort==1 %}active {% endif %}item">投票数</div>
+							<div data-value="2" class="{% if sort==2 %}active {% endif %}item">理由数</div>
 					    </div>
 					</div>
 				</div>
@@ -258,7 +259,7 @@
 	
   <h4>试用人数：{{ try.try_count }} 人, 申请总/虚拟人数：{{ try.pass_count }} / {{ try.apply_count }}/{{ try.invented_apply_count|default 0 }} 人</h4>
 	
-	{% apply_list var:'list' type:1 is_invented:is_invented result:result user_id:user_id q:q target_id:id sort:sort page:page size:30 %}
+	{% apply_list var:'list' type:1 is_invented:is_invented result:result user_id:user_id q:q target_id:id content_limit:content_limit sort:sort page:page size:30 %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>

@@ -31,6 +31,7 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
         $sku_id = 0;
         //显示最近N天的评论
         $nearly_day = 0;
+        $load_view_url = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -50,12 +51,12 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
 		if ($type) {
 			$query['type'] = (int)$type;
 		}
-		if ($target_user_id) {
-			$query['target_user_id'] = (int)$target_user_id;
-		}
     if ($user_id) {
         $query['user_id'] = (int) $user_id;
     }
+		if ($target_user_id) {
+			$query['target_user_id'] = (int)$target_user_id;
+		}
     if($sku_id){
         $query['sku_id'] = (int)$sku_id;
     }
@@ -126,7 +127,7 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
             }
           }       
         
-        }
+        } // endif
 
         // 验证当前用户是否点赞了
         if(!empty($check_loved) && !empty($current_user_id)){
@@ -139,6 +140,46 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
                 unset($favorite);
             }
         }
+
+        //获取当前评论所在地址
+        if($load_view_url){
+          for($i=0;$i<count($result['rows']);$i++){
+            $floor = $result['rows'][$i]['floor'];
+            $target_id = $result['rows'][$i]['target_id'];
+            $type = $result['rows'][$i]['type'];
+            $view_url = null;
+            if($floor){
+              $comment_page = ceil($floor/10);
+            }else{
+              $comment_page = 1;
+            }
+            switch ($type) {
+              case 2:
+                $view_url = sprintf("%s/view/%d/%d/%d#f%d", Doggy_Config::$vars['app.url.topic'], $target_id, $comment_page, $floor, $floor);
+                break;
+              case 3:
+                $view_url = sprintf("%s/view/%d/%d/%d#f%d", Doggy_Config::$vars['app.url.try'], $target_id, $comment_page, $floor, $floor);
+                break;
+              case 4:
+                $obj = &DoggyX_Model_Mapper::load_model((int)$target_id, 'Sher_Core_Model_Product');
+                if($obj){
+                  $view_url = $obj['view_url'];
+                }
+                break;
+              case 6:
+                $obj = &DoggyX_Model_Mapper::load_model((int)$target_id, 'Sher_Core_Model_Stuff');
+                if($obj){
+                  $view_url = $obj['view_url'];
+                }
+                break;
+              case 7:
+                $view_url = sprintf("%s?did=%d", Doggy_Config::$vars['app.url.album.shop'], $target_id);
+                break;
+            }
+            $result['rows'][$i]['view_url'] = $view_url;
+          }
+        
+        } // endif
 		
     	$context->set($var,$result);
         if ($include_pager) {
@@ -147,4 +188,4 @@ class Sher_App_ViewTag_CommentList extends Doggy_Dt_Tag {
 		
     }
 }
-?>
+

@@ -976,4 +976,58 @@ class Sher_Core_Helper_Util {
       }  
   }  
 
+  /** 
+   * @brief substr_mb 截取字符串，中文防乱码，自动检测编码，UTF-8与GBK测试通过 
+   * 
+   * @param $user_id
+   * @param $type: 1.topic; 2.sutff; 3.product; 4.--; 5.comment
+   * 
+   * @return 
+   */  
+  public static function report_filter_limit($user_id, $type=1, $options=array()){
+    $today = strtotime("today");
+    switch((int)$type){
+      case 1: // topic
+        $topic_model = new Sher_Core_Model_Topic();
+
+        $last_minute_count = $topic_model->count(array('user_id'=>(int)$user_id, 'created_on'=>array('$gt'=>(time()-60))));
+        // 一分钟内不能大于1条
+        if($last_minute_count>=1){
+          return array('success'=>true, 'msg'=>'发表的话题频率太高，稍后再试吧!');       
+        }
+
+        // 一天之内不能大于15条
+        $today_count = $topic_model->count(array('user_id'=>(int)$user_id, 'created_on'=>array('$gt'=>$today)));
+        if($today_count>=15){
+          return array('success'=>true, 'msg'=>'今天发表的话题超限，明天再来吧!');
+        }
+        break;
+      case 2:
+        break;
+      case 5: // comment
+        $target_id = isset($options['target_id']) ? $options['target_id'] : null;
+        $c_type = isset($options['type']) ? (int)$options['type'] : 0;
+        $comment_model = new Sher_Core_Model_Comment();
+        if($target_id && $c_type){
+          // 5秒钟内不能大于1条
+          $last_second_count = $comment_model->count(array('target_id'=>$target_id, 'type'=>$c_type, 'user_id'=>(int)$user_id, 'created_on'=>array('$gt'=>(time()-5))));
+          if($last_second_count>=1){
+            return array('success'=>true, 'msg'=>'稍后再试吧!');       
+          }
+          // 1分钟内不能大于8条
+          $last_minute_count = $comment_model->count(array('target_id'=>$target_id, 'type'=>$c_type, 'user_id'=>(int)$user_id, 'created_on'=>array('$gt'=>(time()-60))));
+          if($last_minute_count>=8){
+            return array('success'=>true, 'msg'=>'稍后再试吧!');       
+          }
+          // 总量不能大于50条
+          $today_count = $comment_model->count(array('target_id'=>$target_id, 'type'=>$c_type, 'user_id'=>(int)$user_id, 'created_on'=>array('$gt'=>$today)));
+          if($today_count>=50){
+            return array('success'=>true, 'msg'=>'稍后再试吧.!');       
+          }  
+        }
+        break;
+    }
+    return array('success'=>false, 'msg'=>'success!');
+  }  
+
 }

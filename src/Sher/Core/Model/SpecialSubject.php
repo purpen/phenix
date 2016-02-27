@@ -37,13 +37,14 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 	  'comment_count' => 0,
 	  'love_count' => 0,
 	  'favorite_count' => 0,
+    'share_count' => 0,
 	);
 
 	protected $required_fields = array('user_id', 'title', 'category_id');
   
-	protected $int_fields = array('state', 'user_id', 'kind', 'stick', 'view_count', 'comment_count', 'love_count', 'favorite_count');
+	protected $int_fields = array('state', 'category_id', 'user_id', 'kind', 'stick', 'view_count', 'comment_count', 'love_count', 'favorite_count');
   
-	protected $counter_fields = array('view_count', 'comment_count', 'love_count', 'favorite_count');
+	protected $counter_fields = array('view_count', 'comment_count', 'love_count', 'favorite_count', 'share_count');
 
 	protected $joins = array(
 		'category' => array('category_id' => 'Sher_Core_Model_Category'),
