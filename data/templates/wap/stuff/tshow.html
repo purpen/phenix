@@ -117,6 +117,22 @@
 .ui.votem.responsive.grid .row:nth-child(2) p{
 	line-height: 22px;
 }
+p.zhichi {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: rgba(229,0,90,0.4);
+    font-size: 14px;
+    color: #fff;
+    line-height: 30px;
+	margin:0;
+	z-index:9;
+}
+#slider .flex-control-nav{
+	display:none;
+}
 </style>
 {% endblock %}
 
@@ -306,6 +322,7 @@
               </div>
             </div>
           {%endif%}
+		  		
 
 				</div>
 			</div>
@@ -317,12 +334,14 @@
 						<ul class="slides">
               {% for asset in assets.rows %}
                 <li style="background-image: url('{{ asset.thumbnails.huge.view_url }}');">
-                    <a href="{{ asset.thumbnails.huge.view_url }}" title="{{ stuff.title }}">
+                    <a href="javascript:void(0);" title="{{ stuff.title }}">
                     </a>
                 </li>
               {%endfor%}
 							
 						</ul>
+						
+						<p class="zhichi" style="text-align:right;padding:0 10px;"><span style="float: left;"><i class="like icon"></i>{{ stuff.view_count}}</span><i class="thumbs up icon"></i>{{ stuff.love_count }}</p>
 					</div>
 				</div>
 				
