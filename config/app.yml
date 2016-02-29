@@ -150,6 +150,7 @@ app.dt.extension_lib.sher_app:
     'friend_link_list':'Sher_Core_ViewTag_FriendLinkList'
     'special_subject_list':'Sher_Core_ViewTag_SpecialSubject'
     'pusher_list':'Sher_Core_ViewTag_PusherList'
+    'scene_brands_list':'Sher_Core_ViewTag_SceneBrandsList'
     'scene_product_list':'Sher_Core_ViewTag_SceneProductList'
   filters: []
 
@@ -268,6 +269,11 @@ app.storage.sher:
         root:"/Users/xiaoyi/data/uploads"
         root_url:'http://img.taihuoniao.me'
         hash_dir:false
+
+# 淘宝客api
+app.tbk_api:
+  app_key: 23317927
+  app_secret: 'ca4e3cb5c58be55af2c5ca84d7688a92'
 
 # 图片缩络图
 app.asset.thumbnails:

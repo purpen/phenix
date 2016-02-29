@@ -96,6 +96,8 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
   #情景图片
   const TYPE_GPRODUCT = 97;
   const TYPE_GPRODUCT_EDITOR = 99;
+  
+  const TYPE_SCENE_BRANDS = 100;
   const TYPE_GPRODUCT_BANNER = 120;
   const TYPE_GPRODUCT_PNG = 121;
 
