@@ -130,6 +130,9 @@ p.zhichi {
 	margin:0;
 	z-index:9;
 }
+#slider .flex-control-nav{
+	display:none;
+}
 </style>
 {% endblock %}
 
@@ -331,7 +334,7 @@ p.zhichi {
 						<ul class="slides">
               {% for asset in assets.rows %}
                 <li style="background-image: url('{{ asset.thumbnails.huge.view_url }}');">
-                    <a href="{{ asset.thumbnails.huge.view_url }}" title="{{ stuff.title }}">
+                    <a href="javascript:void(0);" title="{{ stuff.title }}">
                     </a>
                 </li>
               {%endfor%}
