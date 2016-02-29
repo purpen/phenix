@@ -24,12 +24,14 @@
 	</div>
 	<div date="menu-admin" {% if show_type == 'sight' %} style="display:block" {% else %} style="display:none" {% endif %}>
 		{% if visitor.is_chief %}
+    <!--
 		<a class="{{ css_page_app_pusher }} item" href="{{ app_url_app_admin_base }}/pusher">
 			情景管理
 		</a>
 		<a class="{{ css_page_app_pusher }} item" href="{{ app_url_app_admin_base }}/pusher">
 			场景管理
 		</a>
+    -->
 		{%endif%}
 	</div>
 		
@@ -81,12 +83,14 @@
 		<a class="{{ css_page_app_brands }} item" href="{{ app_url_app_admin_base }}/brands">
 			品牌管理
 		</a>
+    <!--
 		<a class="{{ css_page_app_pusher }} item" href="{{ app_url_app_admin_base }}/pusher">
 			贴纸管理
 		</a>
 		<a class="{{ css_page_app_pusher }} item" href="{{ app_url_app_admin_base }}/pusher">
 			标签管理
 		</a>
+    -->
 		{%endif%}
 	</div>
 
