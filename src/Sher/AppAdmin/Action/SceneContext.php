@@ -1,9 +1,9 @@
 <?php
 /**
- * 品牌管理
+ * 语境管理
  * @author caowei@taihuoniao.com
  */
-class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements DoggyX_Action_Initialize {
+class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
 		'page' => 1,
@@ -12,7 +12,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 	);
 	
 	public function _init() {
-		$this->set_target_css_state('page_app_brands');
+		$this->set_target_css_state('page_app_scene_context');
 		$this->stash['show_type'] = "public";
     }
 	
@@ -32,9 +32,9 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
         $this->set_target_css_state('page_all');
 		$page = (int)$this->stash['page'];
 		
-		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/brands/get_list?page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_context/get_list?page=#p#';
 		
-		return $this->to_html_page('app_admin/brands/list.html');
+		return $this->to_html_page('app_admin/scene_context/list.html');
 	}
 	
 	/**
@@ -43,17 +43,9 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 	public function add(){
         
 		$mode = 'create';
-		
-        // 封面图上传
-		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
-		$this->stash['pid'] = new MongoId();
-
-		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_BRANDS;
-		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_BRANDS;
-        
 		$this->stash['mode'] = $mode;
 		
-		return $this->to_html_page('app_admin/brands/submit.html');
+		return $this->to_html_page('app_admin/scene_context/submit.html');
 	}
     
     /**
@@ -68,14 +60,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		}
 		$mode = 'edit';
 		
-		// 封面图上传
-		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
-		$this->stash['pid'] = new MongoId();
-
-		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_BRANDS;
-		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_BRANDS;
-		
-		$model = new Sher_Core_Model_SceneBrands();
+		$model = new Sher_Core_Model_SceneContext();
 		$result = $model->find_by_id($id);
 		$result = $model->extended_model_row($result);
 		//var_dump($result);
@@ -83,7 +68,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		$this->stash['date'] = $result;
 		$this->stash['mode'] = $mode;
 		
-		return $this->to_html_page('app_admin/brands/submit.html');
+		return $this->to_html_page('app_admin/scene_context/submit.html');
 		
 	}
 
@@ -95,26 +80,26 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		$id = $this->stash['id'];
 		$title = $this->stash['title'];
 		$des = $this->stash['des'];
-		$cover_id = $this->stash['cover_id'];
+		$category_id = $this->stash['category_id'];
 		
 		// 验证内容
 		if(!$title){
-			return $this->ajax_json('品牌名称不能为空！', true);
+			return $this->ajax_json('语境名称不能为空！', true);
 		}
 		
 		// 验证标题
-		if(!$cover_id){
-			return $this->ajax_json('封面不能为空！', true);
+		if(!$des){
+			return $this->ajax_json('语境详情不能为空！', true);
 		}
 		
 		$date = array(
 			'title' => $title,
 			'des' => $des,
-			'cover_id' => $cover_id,
+			'category_id' => (int)$category_id,
 		);
 		//var_dump($date);die;
 		try{
-			$model = new Sher_Core_Model_SceneBrands();
+			$model = new Sher_Core_Model_SceneContext();
 			if(empty($id)){
 				// add
 				$ok = $model->apply_and_save($date);
@@ -130,15 +115,11 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
 			
-			// 上传成功后，更新所属的附件
-			if(isset($this->stash['asset']) && !empty($this->stash['asset'])){
-				$model->update_batch_assets($this->stash['asset'], (string)$id);
-			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
 		}
 		
-		$redirect_url = Doggy_Config::$vars['app.url.app_admin'].'/brands';
+		$redirect_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_context';
 		return $this->ajax_json('保存成功', false, $redirect_url);
 	}
 
@@ -155,7 +136,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		
 		try{
-			$model = new Sher_Core_Model_SceneBrands();
+			$model = new Sher_Core_Model_SceneContext();
 			
 			foreach($ids as $id){
 				$result = $model->load($id);
