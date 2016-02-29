@@ -270,6 +270,11 @@ app.storage.sher:
         root_url:'http://img.taihuoniao.me'
         hash_dir:false
 
+# 淘宝客api
+app.tbk_api:
+  app_key: 23317927
+  app_secret: 'ca4e3cb5c58be55af2c5ca84d7688a92'
+
 # 图片缩络图
 app.asset.thumbnails:
 	mini: 120x120
