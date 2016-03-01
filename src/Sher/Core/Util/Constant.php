@@ -26,6 +26,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const STROAGE_STYLE_TAG = 'style_tag';
 	const STROAGE_SCENE_PRODUCT = 'scene_product';
 	
+	const STROAGE_SCENE_BRANDS = 'scene_brands';
+	
 	/**
 	 * 类型的常量
 	 */
@@ -40,6 +42,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const TYPE_ALBUM = 8; // 专辑
     const TYPE_SPECIAL_SUBJECT = 9; // 专题
     const TYPE_SCENE_PRODUCT = 10; // 情景产品分类
+	const TYPE_SCENE_CONTEXT = 11; // 情景语境分类
 	
 	// 来源站点
 	const FROM_LOCAL = 1;
@@ -372,6 +375,4 @@ class Sher_Core_Util_Constant extends Doggy_Object {
       return $array[(int)$id];
     }
   }
-
-
 }

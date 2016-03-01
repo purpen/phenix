@@ -33,8 +33,8 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		'total_count' => 0,
 		# 回复总数
 		'reply_count' => 0,
-    # 子数量：(商品.可购买总量;)
-    'sub_count' => 0,
+		# 子数量：(商品.可购买总量;)
+		'sub_count' => 0,
 		# 分类状态
 		'state' => 0,
     );

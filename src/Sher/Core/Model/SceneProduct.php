@@ -9,9 +9,10 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 
   ## 属性
-  const ATTR_TB = 1;  // 淘宝
-  const ATTR_TM = 2;  // 天猫
-  const ATTR_JD = 3;  // 京东
+  const ATTR_THN = 1; // 官网
+  const ATTR_TB = 2;  // 淘宝
+  const ATTR_TM = 3;  // 天猫
+  const ATTR_JD = 4;  // 京东
 	
     protected $schema = array(
       # 原文ID(淘宝、天猫、京东产品ID)
@@ -24,7 +25,7 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
     # 类型
     'kind' => 1,
 		
-		# 所属产品(对应官网产品ID)
+		# 所属产品(对应官网产品ID)暂时不用
 		'product_id' => 0,
 		
 	    'title' => '',
@@ -64,7 +65,7 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
     	'published' => 1,
 
     # 属性
-      'attrbute' => self::ATTR_TB,
+      'attrbute' => self::ATTR_THN,
       'link' => null,
       'state' => 1,
 
@@ -148,12 +149,15 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
     // 来自
     switch($row['attrbute']){
       case 1:
-        $row['attrbute_str'] = '淘宝';
+        $row['attrbute_str'] = '官网';
         break;
       case 2:
-        $row['attrbute_str'] = '天猫';
+        $row['attrbute_str'] = '淘宝';
         break;
       case 3:
+        $row['attrbute_str'] = '天猫';
+        break;
+      case 4:
         $row['attrbute_str'] = '京东';
         break;
       default:
