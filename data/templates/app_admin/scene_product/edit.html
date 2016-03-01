@@ -312,17 +312,6 @@
         </div>
 			</div>
 
-			<div class="five fields">
-				<div class="field">
-				  	<label for="oid">原文ID：</label>
-					<input type="text" name="oid" value="{{ scene_product.oid }}" placeholder="淘宝、天猫、京东" />
-				</div>
-        <div class="field">
-            <label for="product_id">产品ID：</label>
-          <input type="text" name="product_id" value="{{ scene_product.product_id }}" placeholder="官网产品所属ID" />
-        </div>
-			</div>
-
 
 			<div class="field">
 			  	<label for="title">标签：</label>
@@ -335,16 +324,27 @@
 				<div class="field">
 					<div class="ui radio checkbox">
 						<input type="radio" name="attrbute" value="1" {% if scene_product.attrbute == 1 %}checked="checked"{% endif %} /> 
-						<label>淘宝</label>
+						<label>官网</label>
 					</div>
 					<div class="ui radio checkbox">
 						<input type="radio" name="attrbute" value="2" {% if scene_product.attrbute == 2 %}checked="checked"{% endif %} /> 
-						<label>天猫</label>
+						<label>淘宝</label>
 					</div>
 					<div class="ui radio checkbox">
 						<input type="radio" name="attrbute" value="3" {% if scene_product.attrbute == 3 %}checked="checked"{% endif %} /> 
+						<label>天猫</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="attrbute" value="4" {% if scene_product.attrbute == 4 %}checked="checked"{% endif %} /> 
 						<label>京东</label>
 					</div>
+				</div>
+			</div>
+
+			<div class="five fields">
+				<div class="field">
+				  	<label for="oid">原文ID：</label>
+					<input type="text" name="oid" value="{{ scene_product.oid }}" placeholder="官司网、淘宝、天猫、京东" />
 				</div>
 			</div>
 
