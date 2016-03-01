@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Search extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist');
+	protected $filter_user_method_list = array('execute', 'getlist', 'outside_search');
 
 	/**
 	 * 入口
@@ -114,6 +114,78 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
     unset($result['data']);
 		return $this->api_json('请求成功', 0, $result);
 	}
+
+
+  /**
+   * 站外搜索，包括淘宝、天猫
+   * @author tianshuai
+   * @param q:搜索内容；evt: 1.淘宝天猫、2.京东; sort: 排序;
+   */
+
+  public function outside_search(){
+    $result = array();
+ 		$q = isset($this->stash['q']) ? $this->stash['q'] : null;
+    $evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 1;
+    $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+    $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+    $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
+
+    if(empty($q)){
+      return $this->api_json('缺少请求参数!', 3001);
+    }
+
+    if($evt==1){
+    
+    }elseif($evt==2){
+    
+    }else{
+      return $this->api_json('搜索类型不正确!', 3002);    
+    }
+
+
+  }
+
+  /**
+   * 请求淘宝、天猫搜索
+   * @author tianshuai
+   * @param q:搜索内容；
+   */
+
+  private function tb_search($q, $options=array()){
+    $result = array();
+    $result['success'] = false;
+    $sort = isset($options['sort']) ? (int)$options['sort'] : 0;
+    $page = isset($options['page']) ? (int)$options['page'] : 1;
+    $size = isset($options['size']) ? (int)$options['size'] : 8; 
+
+    if(empty($q)){
+      $result['msg'] = '搜索关键字不能为空!';
+      return $result;     
+    }
+
+
+  }
+
+  /**
+   * 请求淘宝、天猫搜索
+   * @author tianshuai
+   * @param q:搜索内容；
+   */
+
+  private function jd_search($q, $options=array()){
+    $result = array();
+    $result['success'] = false;
+    $sort = isset($options['sort']) ? (int)$options['sort'] : 0;
+    $page = isset($options['page']) ? (int)$options['page'] : 1;
+    $size = isset($options['size']) ? (int)$options['size'] : 8; 
+
+    if(empty($q)){
+      $result['msg'] = '搜索关键字不能为空!';
+      return $result;     
+    }
+
+
+  }
 
 	
 }
