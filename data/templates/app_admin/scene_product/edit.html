@@ -128,7 +128,7 @@
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ user_id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ scene_product._id }}','file_id': '{{ editor_pid }}'},
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ user_id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ scene_product._id }}','file_id': '{{ pid }}'},
         	endpoint: '{{ app_url_upload }}/scene_product'
       	},
 		text: {
