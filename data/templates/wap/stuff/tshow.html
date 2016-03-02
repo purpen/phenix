@@ -348,7 +348,7 @@ p.zhichi {
 						{% asset_list var:'assets' parent_id:stuff._id size:10 asset_type:70 %}
 						<ul class="slides">
               {% for asset in assets.rows %}
-                <li style="background-image: url('{{ asset.thumbnails.huge.view_url }}');">
+                <li style="background-image: url('{{ asset.thumbnails.aub.view_url }}');">
                     <a href="javascript:void(0);" title="{{ stuff.title }}">
                     </a>
                 </li>
