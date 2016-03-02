@@ -1030,4 +1030,16 @@ class Sher_Core_Helper_Util {
     return array('success'=>false, 'msg'=>'success!');
   }  
 
+  //PHP stdClass Object转array
+  public static function object_to_array($array) {  
+    if(is_object($array)) {
+        $array = (array)$array;  
+     } if(is_array($array)) {  
+        foreach($array as $key=>$value) {  
+          $array[$key] = self::object_to_array($value);  
+        }  
+     }  
+     return $array;  
+  }
+
 }

@@ -126,66 +126,42 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
     $result = array();
  		$q = isset($this->stash['q']) ? $this->stash['q'] : null;
     $evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 1;
+    // 链接方式：1.PC; 2.无线
+    $platform = isset($options['platform']) ? (int)$options['platform'] : 1;
+    // 所在城市
+    $city = isset($options['city']) ? $options['city'] : null;
     $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
     $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
     $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
+
+    $options = array(
+      'page' => $page,
+      'size' => $size,
+      'platform' => $platform,
+      'city' => $city,
+    );
 
     if(empty($q)){
       return $this->api_json('缺少请求参数!', 3001);
     }
 
     if($evt==1){
-    
+      $result = Sher_Core_Util_TopSdk::search($q, $options);
     }elseif($evt==2){
-    
+      $result = Sher_Core_Util_JdSdk::search($q, $options);  
     }else{
       return $this->api_json('搜索类型不正确!', 3002);    
     }
 
-
-  }
-
-  /**
-   * 请求淘宝、天猫搜索
-   * @author tianshuai
-   * @param q:搜索内容；
-   */
-
-  private function tb_search($q, $options=array()){
-    $result = array();
-    $result['success'] = false;
-    $sort = isset($options['sort']) ? (int)$options['sort'] : 0;
-    $page = isset($options['page']) ? (int)$options['page'] : 1;
-    $size = isset($options['size']) ? (int)$options['size'] : 8; 
-
-    if(empty($q)){
-      $result['msg'] = '搜索关键字不能为空!';
-      return $result;     
+    if($result['success']){
+      return $this->api_json('success', 0, $result['data']);   
+    }else{
+      return $this->api_json($result['msg'], 3005);
     }
 
 
   }
 
-  /**
-   * 请求淘宝、天猫搜索
-   * @author tianshuai
-   * @param q:搜索内容；
-   */
-
-  private function jd_search($q, $options=array()){
-    $result = array();
-    $result['success'] = false;
-    $sort = isset($options['sort']) ? (int)$options['sort'] : 0;
-    $page = isset($options['page']) ? (int)$options['page'] : 1;
-    $size = isset($options['size']) ? (int)$options['size'] : 8; 
-
-    if(empty($q)){
-      $result['msg'] = '搜索关键字不能为空!';
-      return $result;     
-    }
-
-
-  }
 
 	
 }
