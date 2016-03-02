@@ -9,8 +9,20 @@
 #comment-list{
     font-size:16px !important;
 }
-#slider.flexslider .slides li,#slider{
-	height: 170px !important;
+@media screen and (max-width:568px){
+	#slider.flexslider .slides li,#slider{
+		height: 140px;
+	}
+}
+@media screen and (max-width:627px){
+	#slider.flexslider .slides li,#slider{
+		height: 170px;
+	}
+}
+@media screen and (max-width:736px){
+	#slider.flexslider .slides li,#slider{
+		height: 190px;
+	}
 }
 .topbg {
     background: url({{ app_url_packaged }}/images/top/wbg.jpg) no-repeat center center;
