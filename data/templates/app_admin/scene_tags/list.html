@@ -75,7 +75,10 @@
 		<form action="{{ app_url_app_admin_base }}/scene_tags/get_list" id="search-form" method="get">
 			<label>搜索：</label>
 			<div class="ui input">
-                <input placeholder="标签名称" type="text" name="title" value="{{ title }}" />
+                <input placeholder="中文名称" type="text" name="title_cn" value="" />
+			</div>
+            <div class="ui input">
+                <input placeholder="英文名称" type="text" name="title_en" value="" />
 			</div>
             <div class="ui input">
                 <div class="ui active small green submit button search">搜索</div>
@@ -92,39 +95,43 @@
 					  	<label></label>
 					</div>
 				</th>
-                <th>标签名称</th>
-                <th>使用次数</th>
+                <th>中文名称</th>
+                <th>英文名称</th>
+                <th>所属分类</th>
 				<th>状态</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
-			{% scene_context_list var:'list' page:page title:title size:20 %}
+			{% scene_tags_list var:'list' page:page title_cn:title_cn title_en:title_en size:20 %}
 
-			{% for d in list.rows %}
-			<tr id="{{ d._id }}">
+			{% for date in list.rows %}
+			<tr id="{{ date._id }}">
 				<td>
 					<div class="ui checkbox">
-					  	<input name="ids" type="checkbox" value="{{ d._id }}" class="checkbox" />
+					  	<input name="ids" type="checkbox" value="{{ date._id }}" class="checkbox" />
 					  	<label></label>
 					</div>
 				</td>
-				 <td>
-                  {{ d.title }}
+				<td>
+                  {{ date.title_cn }}
                 </td>
                 <td>
-                  {{ d.used_count }}
+                  {{ date.title_en }}
+                </td>
+                <td>
+                  {{ date.parent_id }}
                 </td>
 				<td>
-					{% if d.status %}
+					{% if date.status %}
 					可用
 					{% else %}
                     不可用
 					{% endif %}
                  </td>
 				<td>
-					<a href="{{ app_url_app_admin_base }}/scene_tags/edit?id={{ d._id }}&page={{ page }}" class="ui link item">编辑</a>
-		          	<a href="{{ app_url_app_admin_base }}/scene_tags/delete?id={{ d._id }}&page={{ page }}" class="ui confirm-request link item">删除</a>
+					<a href="{{ app_url_app_admin_base }}/scene_tags/edit?id={{ date._id }}&page={{ page }}" class="ui link item">编辑</a>
+		          	<a href="{{ app_url_app_admin_base }}/scene_tags/delete?id={{ date._id }}&page={{ page }}" class="ui confirm-request link item">删除</a>
 				</td>
 			</tr>
 			{% endfor %}

@@ -32,9 +32,29 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
         $this->set_target_css_state('page_all');
 		$page = (int)$this->stash['page'];
 		
-		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_tags/get_list?page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_tags/get_list?page=#p#&title_cn=%d&title_en=%d';
 		
 		return $this->to_html_page('app_admin/scene_tags/list.html');
+	}
+	
+	/**
+	 * ajax请求列表
+	 */
+	public function ajax_list(){
+		
+		$parent_id = isset($this->stash['parent_id']) ? $this->stash['parent_id'] : 0;
+		$date = array();
+		
+		if($parent_id){
+			$date['parent_id'] = (int)$parent_id;
+		} else {
+			$date['parent_id'] = 0;
+		}
+		
+		$model = new Sher_Core_Model_SceneTags();
+		$result = $model->find($date);
+		
+		return $this->ajax_json('', false, '', $result);
 	}
 	
 	/**
@@ -60,9 +80,8 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		}
 		$mode = 'edit';
 		
-		$model = new Sher_Core_Model_SceneContext();
-		$result = $model->find_by_id($id);
-		$result = $model->extended_model_row($result);
+		$model = new Sher_Core_Model_SceneTags();
+		$result = $model->find_by_id((int)$id);
 		//var_dump($result);
 		
 		$this->stash['date'] = $result;
@@ -76,6 +95,64 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 	 * 保存信息
 	 */
 	public function save(){		
+		
+		$id = $this->stash['id'];
+		$title_cn = $this->stash['title_cn'];
+		$title_en = $this->stash['title_en'];
+		$parent_id = $this->stash['parent_id'];
+		
+		// 验证内容
+		if(!$title_cn){
+			return $this->ajax_json('中文名称不能为空！', true);
+		}
+		
+		// 验证标题
+		if(!$title_en){
+			return $this->ajax_json('英文名称不能为空！', true);
+		}
+		
+		$date = array(
+			'title_cn' => $title_cn,
+			'title_en' => $title_en,
+		);
+		
+		if($parent_id){
+			$date['parent_id'] = (int)$parent_id;
+		} else {
+			$date['parent_id'] = 0;
+		}
+		
+		try{
+			
+			$model = new Sher_Core_Model_SceneTags();
+			
+			if(empty($id)){
+				// add
+				$ok = $model->apply_and_save($date);
+				$data_id = $model->get_data();
+				$id = $data_id['_id'];
+			} else {
+				// edit
+				$date['_id'] = $id;
+				$ok = $model->apply_and_update($date);
+			}
+			
+			if(!$ok){
+				return $this->ajax_json('保存失败,请重新提交', true);
+			}
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
+		}
+		
+		$redirect_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_tags';
+		return $this->ajax_json('保存成功', false, $redirect_url);
+	}
+	
+	/**
+	 * 保存信息——左右值
+	 */
+	public function save_lr(){		
 		
 		$id = $this->stash['id'];
 		$title_cn = $this->stash['title_cn'];
@@ -208,13 +285,12 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		
 		try{
-			$model = new Sher_Core_Model_SceneContext();
+			$model = new Sher_Core_Model_SceneTags();
 			
 			foreach($ids as $id){
-				$result = $model->load($id);
-				
+				$result = $model->load((int)$id);
 				if (!empty($result)){
-					$model->remove($id);
+					$model->remove((int)$id);
 				}
 			}
 			

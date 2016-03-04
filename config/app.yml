@@ -153,6 +153,7 @@ app.dt.extension_lib.sher_app:
     'scene_brands_list':'Sher_Core_ViewTag_SceneBrandsList'
     'scene_product_list':'Sher_Core_ViewTag_SceneProductList'
     'scene_context_list':'Sher_Core_ViewTag_SceneContextList'
+    'scene_tags_list':'Sher_Core_ViewTag_SceneTagsList'
   filters: []
 
 app.js.use_bundle: false

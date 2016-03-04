@@ -62,6 +62,19 @@
 			$('#scene_context_category').val(id);
 		}
 	});
+	
+	// 加载标签列表
+	function ajax_list(parent_id){
+		$.post('{{ app_url_app_admin_base }}/scene_tags/ajax_list',{
+			parent_id:parent_id
+		},function(date){
+			var result = JSON.parse(date); 
+			console.log(result.data);
+		});
+	}
+	
+	// 加载顶级标签
+	ajax_list();
 
 {% endblock %}
 
@@ -103,15 +116,14 @@
 			<div class="field">
 				<label>所属标签</label>
 				<div class="ui options">
-						<input type="hidden" name="category_id" value="{{ date.category_id }}" id="scene_context_category" />
-						{% category_list var:'category' only_open:1 domain:11 %}
-						{% for cat in category.rows %}
-							<div class="ui magenta alt option left {% if date.category_id == cat._id %} active {%endif%}" data-value="{{ cat._id }}">
-								<i class="check circle outline icon"></i>
-								{{ cat.title }}
-							</div>
-						{% endfor %}			
-					 </div>			
+					{% scene_tags_list var:'list' only_open:1 domain:11 %}
+					{% for cat in category.rows %}
+						<div class="ui magenta alt option left {% if date.category_id == cat._id %} active {%endif%}" data-value="{{ cat._id }}">
+							<i class="check circle outline icon"></i>
+							{{ cat.title }}
+						</div>
+					{% endfor %}		
+				</div>		
 			</div>
 			
 			<div class="ui right aligned grid">
