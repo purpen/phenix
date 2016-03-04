@@ -1,0 +1,130 @@
+{%extends 'layout/app_admin.html'%}
+{% block title %}新增/编辑语境-{% endblock %}
+
+{% block jquery %}
+	
+	// 表单验证
+	$('#active-form').form({
+		title_cn: {
+			identifier  : 'title_cn',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '中文名称不能为空'
+				}
+			]
+		},
+		title_en: {
+			identifier  : 'title_en',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '英文名称不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					// 点击前触发的事件
+					//phenix.before_submit();
+				},
+				success: function(data){
+					// 点击后触发的事件
+					//phenix.after_submit();
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, 3000);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+	
+	// 选择分类
+	$('.ui.options').on('click', '.option', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+			$('#topic-category').val('');
+		}else{
+			$(this)
+				.siblings('.ui.option').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#scene_context_category').val(id);
+		}
+	});
+
+{% endblock %}
+
+{% block content %}
+<div class="admin">
+	
+	<h3 class="ui header">标签管理</h3>
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_app_admin_base }}/scene_tags" class="item">
+			全部
+		</a>
+	  	<div class="right menu">	
+			<a href="{{ app_url_app_admin_base }}/scene_tags/add" class="item">
+				<i class="add icon"></i>新增标签
+			</a>
+			<!--
+            <a href="javascript:void(0);" class="item ajax-delete">
+				<i class="remove icon"></i>批量删除
+			</a>
+			-->
+	    </div>
+	</div>	
+	
+	<form action="{{ app_url_app_admin_base }}/scene_tags/save" class="ui form" method="post" id="active-form">
+		<!-- 隐藏表单 -->
+		<input type="hidden" name="id" value="{{ date._id }}" />
+		<input type="hidden" name="parent_id" value="{{ date.parent_id }}" />
+		
+		<div class="ui segment from">
+			<h3 class="ui dividing header">填写标签信息</h3>
+            <div class="field">
+                <label>中文名称</label>
+				<input type="text" name="title_cn" placeholder="中文名称" value="{{ date.title_cn }}" />
+			</div>
+			<div class="field">
+                <label>英文名称</label>
+				<input type="text" name="title_en" placeholder="英文名称" value="{{ date.title_en }}" />
+			</div>
+			<div class="field">
+				<label>所属标签</label>
+				<div class="ui options">
+						<input type="hidden" name="category_id" value="{{ date.category_id }}" id="scene_context_category" />
+						{% category_list var:'category' only_open:1 domain:11 %}
+						{% for cat in category.rows %}
+							<div class="ui magenta alt option left {% if date.category_id == cat._id %} active {%endif%}" data-value="{{ cat._id }}">
+								<i class="check circle outline icon"></i>
+								{{ cat.title }}
+							</div>
+						{% endfor %}			
+					 </div>			
+			</div>
+			
+			<div class="ui right aligned grid">
+				<div class="column">
+                    <div class="ui inverted grey button cancel">
+						点击取消
+					</div>
+					<div class="ui magenta inverted button submit save">
+						确认提交
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+{% endblock %}

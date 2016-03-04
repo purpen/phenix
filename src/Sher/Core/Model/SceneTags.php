@@ -6,6 +6,7 @@
 class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 
     protected $collection = "scene_tags";
+	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
     protected $schema = array(
 		# 中文标题
@@ -16,16 +17,20 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 		'parent_id' => 0,
         # 左值
         'left_value' => 0,
-		# 有值
+		# 右值
         'right_value' => 0,
 		# 类型
         'type' => 0,
+		# 所属树标记_id
+		'mark_id' => 0,
+		# 使用数量
+		'used_count' => 0,
         # 是否启用
 		'status' => 1,
     );
 	
-	protected $required_fields = array('title','des');
-	protected $int_fields = array('status', 'used_count');
+	protected $required_fields = array('title_cn','title_en');
+	protected $int_fields = array('status', 'parent_id', 'left_value', 'right_value', 'type', 'used_count');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count');
 	protected $retrieve_fields = array();
@@ -91,5 +96,16 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 		}
 		
 		return $this->dec($id, $field_name, $count);
+	}
+	
+	/**
+	 * 对有父级id的表结构重新进行左右值编号
+	 */
+	public function rebuild_tree($parent_id = 0, $left = 1) {
+		
+		// 右值 = 左值 + 1
+		$right = $left + 1;
+		
+		// ......
 	}
 }
