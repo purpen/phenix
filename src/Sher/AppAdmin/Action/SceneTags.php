@@ -81,7 +81,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		$title_cn = $this->stash['title_cn'];
 		$title_en = $this->stash['title_en'];
 		$parent_id = $this->stash['parent_id'];
-		$parent_id = 52;
+		$parent_id = 53;
 		
 		// 验证内容
 		if(!$title_cn){
