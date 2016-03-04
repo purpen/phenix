@@ -430,14 +430,14 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		$comment = new Sher_Core_Model_Comment();
 		$comment->remove(array('target_id' => $id, 'type'=>Sher_Core_Model_Comment::TYPE_TOPIC));
 		unset($asset);
+
+    // 删除索引
+    Sher_Core_Util_XunSearch::del_ids('topic_'.(string)$id);
 		
 		// 删除TextIndex
 		$textindex = new Sher_Core_Model_TextIndex();
 		$textindex->remove(array('target_id' => $id));
 		unset($textindex);
-
-        // 删除索引
-        Sher_Core_Util_XunSearch::del_ids('topic_'.(string)$id);
 		
 		return true;
 	}

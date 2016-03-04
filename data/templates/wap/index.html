@@ -161,6 +161,9 @@
       prevText: " ",
       nextText: " ",
     });
+	
+	var flexheight = $('#mfrbird').width()*9/16+'px';
+	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
 
   ajax_load_product_more(0, 2, 4, 1, 10);
   ajax_load_try_more(0, 1, 1, 1);

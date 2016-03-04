@@ -133,11 +133,11 @@ p.zhichi{
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 30px;
+    height: 26px;
     background: rgba(229,0,90,0.4);
-    font-size: 14px;
+    font-size: 12px;
     color: #fff;
-    line-height: 30px;
+    line-height: 26px;
     text-align: center;
 }
 </style>
@@ -150,7 +150,7 @@ p.zhichi{
       var type = 6;
       var page = 1;
       var size = 8;
-      var sort = 0;
+      var sort = 4;
       function ajax_load_more(page, is_top, category_id, stick, from_to, sort, size){
           var url = '{{ app_url_wap }}/app/site/stuff/ajax_fetch_more';
           if(page != 'no'){

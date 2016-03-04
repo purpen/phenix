@@ -377,7 +377,7 @@ sub _generate_bootstrap {
 //deployed on: $stamp
 define('DOGGY_VERSION','$VERSION');
 define('DOGGY_APP_ROOT','$deploy_root');
-define('DOGGY_APP_CLASS_PATH','$project_path{vendor}:$project_path{src}');
+define('DOGGY_APP_CLASS_PATH','$project_path{vendor}:$project_path{root}/lib:$project_path{src}');
 require '$doggy_path{src}/Doggy.php';
 // ---------------BEGIN INCLUDE deploy/app.include.php
 EOF
