@@ -101,7 +101,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $val = (array)$val;
       $target_id = (int)$val['target_id'];
       $type = (int)$val['type'];
-      $n = (int)$val['n'];
+      $n = isset($val['n']) ? (int)$val['n'] : 1;
 
       $sku_mode = null;
       $price = 0.0;
