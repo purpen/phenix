@@ -40,6 +40,20 @@
     display: block;
     width: 100%;
 }
+.froala-view blockquote, blockquote.fr-tag {
+    margin-left: 20px;
+    margin-right: 0;
+    margin-top: 0;
+    padding-left: 20px;
+    position: relative;
+    border-left: solid 5px #ccc;
+}
+.froala-view blockquote, blockquote.fr-tag {
+    color: #f36;
+}
+.ui-12032.hide{
+	display:none;
+}
 
 /*.position.row h4.ui.header{
 	font-size:1em;
@@ -329,8 +343,8 @@ h4.ui.header .map-advantage {
                     </p>
                 </div>
                 
-                <div class="bar"></div>
-                <div class="activity people">
+                <div class="bar {% if active._id == 12032 %} ui-12032 hide {% endif%}"></div>
+                <div class="activity people {% if active._id == 12032 %} ui-12032 hide {% endif%}">
                 	<div class="block title">
 						{% if active._id == 12031 %}
                 			活动流程
@@ -372,8 +386,8 @@ h4.ui.header .map-advantage {
                 </div>
                 
                 {% if active.step_stat == 2 %}
-                <div class="bar"></div>
-                <div class="activity pictures">
+                <div class="bar {% if active._id == 12032 %} ui-12032 hide {% endif%}"></div>
+                <div class="activity pictures {% if active._id == 12032 %} ui-12032 hide {% endif%}">
                 	<div class="block title">
                 		现场照片
                     </div>
