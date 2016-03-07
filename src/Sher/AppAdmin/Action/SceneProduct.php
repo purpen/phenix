@@ -84,7 +84,6 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 		$id = isset($this->stash['_id']) ? (int)$this->stash['_id'] : 0;
         
 		$model = new Sher_Core_Model_SceneProduct();
-        
         $data = array();
         $data['oid'] = isset($this->stash['oid']) ? $this->stash['oid'] : null;       
         $data['title'] = $this->stash['title'];
@@ -97,12 +96,14 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
         $data['tags']  = $this->stash['tags'];
         $data['category_id']  = (int)$this->stash['category_id'];
         $data['product_id']  = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
-        $data['asset'] = isset($this->stash['asset']) ? (array)$this->stash['asset'] : array();
-        $data['banner_asset'] = isset($this->stash['banner_asset']) ? (array)$this->stash['banner_asset'] : array();
-        $data['png_asset'] = isset($this->stash['png_asset']) ? (array)$this->stash['png_asset'] : array();
+        $data['asset_ids'] = isset($this->stash['asset']) ? (array)$this->stash['asset'] : array();
+        $data['banner_asset_ids'] = isset($this->stash['banner_asset']) ? (array)$this->stash['banner_asset'] : array();
+        $data['png_asset_ids'] = isset($this->stash['png_asset']) ? (array)$this->stash['png_asset'] : array();
         
         $data['cover_id'] = $this->stash['cover_id'];
-        
+        $data['sale_price'] = (float)$this->stash['sale_price'];
+        $data['market_price'] = (float)$this->stash['market_price'];
+        $data['brand_id'] = $this->stash['brand_id'];
 		try{
 			if(empty($id)){
 				$mode = 'create';

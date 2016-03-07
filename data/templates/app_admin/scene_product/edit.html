@@ -348,6 +348,17 @@
 				</div>
 			</div>
 
+			<div class="five fields">
+				<div class="field">
+				  	<label for="market_price">市场价：</label>
+					<input type="text" name="market_price" value="{{ scene_product.market_price }}" />
+				</div>
+				<div class="field">
+				  	<label for="sale_price">销售价：</label>
+					<input type="text" name="sale_price" value="{{ scene_product.sale_price }}" />
+				</div>
+			</div>
+
 			<h4 class="ui stage header">状态</h4>
 			<div class="grouped inline fields">
 				<div class="field">
@@ -366,6 +377,24 @@
 			  	<label for="summary">简述：</label>
 				<textarea class="small" name="summary">{{ scene_product.summary }}</textarea>
 			</div>
+
+      <div class="three fields">
+        <div class="field">
+          <label for="brand_id">所属品牌：</label>
+
+          {% scene_brands_list var:'brand_list' page:1 size:50 %}
+          <div class="ui selection dropdown">
+            <input type="hidden" name="brand_id" value="{{ scene_product.brand_id }}" />
+              <div class="default text">请选择</div>
+              <i class="angle down icon"></i>
+              <div class="menu">
+              {% for d in brand_list.rows %}
+              <div data-value="{{ d._id }}" class="{% if d._id == scene_product.brand_id %}active {% endif %}item">{{ d.title }}</div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
 			
 			<div class="upload field">
 				<p>上传封面: <small>图片尺寸: 500x500px</small></p>

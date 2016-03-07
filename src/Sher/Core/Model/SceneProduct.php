@@ -27,6 +27,8 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 		
 		# 所属产品(对应官网产品ID)暂时不用
 		'product_id' => 0,
+    # 品牌ID
+    'brand_id' => null,
 		
 	    'title' => '',
 		'short_title' => '',
@@ -35,13 +37,15 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
     	'tags' => array(),
 		
  		'cover_id' => '',
-		'asset' => array(),
+		'asset_ids' => array(),
     'asset_count' => 0,
-    'banner_asset' => array(),
-    'png_asset' => array(),
+    'banner_asset_ids' => array(),
+    'png_asset_ids' => array(),
 
-    # 价格
+    # 销售价格
     'sale_price'  => 0,
+    # 市场价格
+    'market_price' => 0,
 		
 		## 计数器
 		# 浏览数
@@ -73,13 +77,14 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 	
 	protected $required_fields = array('user_id', 'title');
 	protected $int_fields = array('user_id','category_id','try_id','fid','deleted','published','product_id');
-	protected $float_fields = array('sale_price');
+	protected $float_fields = array('sale_price','market_price');
 	
 	protected $counter_fields = array('view_count', 'favorite_count', 'love_count', 'comment_count', 'buy_count');
 	
 	protected $joins = array(
 	  'user'      =>  array('user_id'     => 'Sher_Core_Model_User'),
 		'category'  =>  array('category_id' => 'Sher_Core_Model_Category'),
+		//'brand'  =>  array('brand_id' => 'Sher_Core_Model_SceneBrands'),
 	);
 	
 	/**
@@ -244,11 +249,11 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 		}
 	}
 
-	
+
 	/**
 	 * 增加计数
 	 */
-	public function increase_counter($field_name, $inc=1, $id=null){
+	public function inc_counter($field_name, $inc=1, $id=null){
 		if(is_null($id)){
 			$id = $this->id;
 		}
@@ -263,7 +268,7 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 	 * 减少计数
 	 * 需验证，防止出现负数
 	 */
-	public function dec_counter($count_name,$id=null,$force=false){
+	public function dec_counter($field_name,$id=null,$force=false,$count=1){
 	    if(is_null($id)){
 	        $id = $this->id;
 	    }
@@ -271,12 +276,13 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 	        return false;
 	    }
 		if(!$force){
-			$g_product = $this->find_by_id($id);
-			if(!isset($g_product[$count_name]) || $g_product[$count_name] <= 0){
+			$product = $this->find_by_id((int)$id);
+			if(!isset($product[$field_name]) || $product[$field_name] <= 0){
 				return true;
 			}
 		}
-		return $this->dec($id, $count_name);
+		
+		return $this->dec($id, $field_name, $count);
 	}
 	
 	/**

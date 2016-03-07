@@ -15,6 +15,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
     const TYPE_COOPERATE = 6;
 	const TYPE_ALBUMS = 8;
   const TYPE_APP_SUBJECT = 9; // app专题
+  const TYPE_APP_SCENE_PRODUCT = 10; // 情景产品
 	
 	// event
 	const EVENT_FAVORITE = 1;
@@ -250,17 +251,20 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
      * 检测是否收藏
      */
     public function check_favorite($user_id, $target_id, $type){
-		
-		$query['user_id'] = (int)$user_id;
-    if($type==self::TYPE_COMMENT){
-      $query['target_id'] = (string)$target_id;   
-    }else{
-      $query['target_id'] = (int)$target_id;
-    }
-		$query['type'] = (int)$type;
-		$query['event'] = self::EVENT_FAVORITE;
-        $result = $this->count($query);
-        return $result>0 ? true : false;
+
+      if(empty($user_id)){
+        return false;
+      }
+      $query['user_id'] = (int)$user_id;
+      if($type==self::TYPE_COMMENT){
+        $query['target_id'] = (string)$target_id;   
+      }else{
+        $query['target_id'] = (int)$target_id;
+      }
+      $query['type'] = (int)$type;
+      $query['event'] = self::EVENT_FAVORITE;
+      $result = $this->count($query);
+      return $result>0 ? true : false;
     }
 
     /**
@@ -287,7 +291,9 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
      * 检测是否喜欢
      */
 	public function check_loved($user_id, $target_id,$type){
-		
+		  if(empty($user_id)){
+        return false;
+      }
 		$query['user_id'] = (int) $user_id;
         if((int)$type == self::TYPE_COMMENT){
             $target_id = (string)$target_id;

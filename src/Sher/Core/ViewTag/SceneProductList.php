@@ -97,6 +97,9 @@ class Sher_Core_ViewTag_SceneProductList extends Doggy_Dt_Tag {
 				$options['sort_field'] = 'stick:updated';
 				break;
 			case 2:
+				$options['sort_field'] = 'fine:updated';
+				break;
+			case 3:
 				$options['sort_field'] = 'updated';
 				break;
 		}
