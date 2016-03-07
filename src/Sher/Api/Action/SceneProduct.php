@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'outside_search', 'outside_view');
 
 	/**
 	 * 入口
@@ -203,11 +203,83 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 	}
 
 
+
+
+  /**
+   * 站外搜索，包括淘宝、天猫
+   * @author tianshuai
+   * @param q:搜索内容；evt: 1.淘宝天猫、2.京东; sort: 排序;
+   */
+  public function outside_search(){
+    $result = array();
+ 		$q = isset($this->stash['q']) ? $this->stash['q'] : null;
+    $evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 1;
+    // 链接方式：1.PC; 2.无线
+    $platform = isset($options['platform']) ? (int)$options['platform'] : 1;
+    // 所在城市
+    $city = isset($options['city']) ? $options['city'] : null;
+    $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+    $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+    $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
+
+    $options = array(
+      'page' => $page,
+      'size' => $size,
+      'platform' => $platform,
+      'city' => $city,
+    );
+
+    if(empty($q)){
+      return $this->api_json('缺少请求参数!', 3001);
+    }
+
+    if($evt==1){
+      $result = Sher_Core_Util_TopSdk::search($q, $options);
+    }elseif($evt==2){
+      $result = Sher_Core_Util_JdSdk::search($q, $options);  
+    }else{
+      return $this->api_json('搜索类型不正确!', 3002);    
+    }
+
+    if($result['success']){
+      return $this->api_json('success', 0, $result['data']);   
+    }else{
+      return $this->api_json($result['msg'], 3005);
+    }
+
+
+  }
+
+
   /*
    * 站外商品查询
    */
   public function outside_view(){
-  
+    $result = $options = array();
+    $evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 1;
+    $ids = isset($this->stash['ids']) ? $this->stash['ids'] : null;
+    // 链接方式：1.PC; 2.无线
+    $platform = isset($options['platform']) ? (int)$options['platform'] : 1;
+    if(empty($ids)){
+      return $this->api_json('缺少请求参数!', 3001);    
+    }
+
+    $options['platform'] = $platform;
+
+    if($evt==1){
+      $result = Sher_Core_Util_TopSdk::search_by_item($ids, $options);
+    }elseif($evt==2){
+      $result = Sher_Core_Util_JdSdk::search($ids, $options);  
+    }else{
+      return $this->api_json('搜索类型不正确!', 3002);    
+    }
+
+    if($result['success']){
+      return $this->api_json('success', 0, $result['data']);     
+    }else{
+      return $this->api_json($result['msg'], 3005);
+    }
+
   
   }
 
