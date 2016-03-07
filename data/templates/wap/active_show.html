@@ -1,4 +1,11 @@
 {%extends 'layout/mobile.html'%}
+{% block layout_css %}
+	{% if css_use_bundle %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
+	{% else %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
+	{% endif %}
+{% endblock %}
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -192,6 +199,9 @@
 	.ui.center.aligned{
 	  text-align:center;
 	}
+	.ui-12032.hide{
+		display:none;
+	}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -382,7 +392,7 @@
 		{%endif%}
 
 	</div>
-	<div class="ui big abstract block">
+	<div class="ui big froala-view abstract block">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column">
@@ -403,7 +413,7 @@
 	</div>
 
 {% if active.process %}
-	<div class="ui big process block">
+	<div class="ui big process block {% if active._id == 12032 %} ui-12032 hide {% endif%}">
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column">
