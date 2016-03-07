@@ -1481,7 +1481,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $cart_model = new Sher_Core_Model_Cart();
     $cart = $cart_model->load($user_id);
     if(empty($cart) || empty($cart['items'])){
-      return $this->api_json('数据为空!', 0, array('_id'=>0, 'items'=>array(), 'sku_name'=>null, 'item_count'=>0, 'total_price'=>0));
+      return $this->api_json('数据为空!', 0, array('_id'=>0, 'items'=>array(), 'sku_mode'=>null, 'item_count'=>0, 'total_price'=>0));
     }
 
 		$inventory_model = new Sher_Core_Model_Inventory();
@@ -1501,6 +1501,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $data['target_id'] = $target_id;
       $data['type'] = $type;
       $data['n'] = $n;
+      $data['sku_mode'] = null;
       $data['sku_name'] = null;
       $data['price'] = 0;
 
@@ -1512,12 +1513,15 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         }
         $product_id = $inventory['product_id'];
         $data['sku_mode'] = $inventory['mode'];
+        $data['sku_name'] = $inventory['sku_name'];
         $data['price'] = $inventory['price'];
         $data['total_price'] = $data['price']*$n;
         
       }else{
         $product_id = $target_id;
       }
+
+      $data['product_id'] = $product_id;
 
       $product = $product_model->extend_load($product_id);
       if(empty($product)){
