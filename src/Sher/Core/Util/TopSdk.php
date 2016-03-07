@@ -108,10 +108,8 @@ class Sher_Core_Util_TopSdk {
     $result['msg'] = null;
     // 链接方式：1.PC; 2.无线
     $platform = isset($options['platform']) ? (int)$options['platform'] : 1;
-    // 城市
-    $ids = isset($options['ids']) ? $options['ids'] : null; 
 
-
+    // id ** 最大40个(淘宝)
     if(empty($ids)){
       $result['msg'] = 'id不能为空!';
       return $result;     
@@ -140,13 +138,12 @@ class Sher_Core_Util_TopSdk {
         $result['msg'] = 'taobao search item unknown error!';       
       }
 
-      return $result;
-
     }catch(Exception $e){
       Doggy_Log_Helper::warn('taobao search item error:'.$e->getMessage());
       $result['msg'] = $e->getMessage();
-      return $result;   
     }
+
+    return $result;   
 
   
   }
