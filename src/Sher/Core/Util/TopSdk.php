@@ -107,7 +107,7 @@ class Sher_Core_Util_TopSdk {
     $result['code'] = 0;
     $result['msg'] = null;
     // 链接方式：1.PC; 2.无线
-    $platform = isset($options['platform']) ? (int)$options['platform'] : 1;
+    $platform = isset($options['platform']) ? (int)$options['platform'] : 2;
 
     // id ** 最大40个(淘宝)
     if(empty($ids)){
@@ -142,10 +142,64 @@ class Sher_Core_Util_TopSdk {
       Doggy_Log_Helper::warn('taobao search item error:'.$e->getMessage());
       $result['msg'] = $e->getMessage();
     }
-
     return $result;   
+  }
 
-  
+  /*
+   * 商品链接转换推广链接
+   */
+  public static function item_url_convert($ids, $options=array()){
+    include "taobao-sdk/TopSdk.php";
+
+    $result = array();
+    $result['success'] = false;
+    $result['code'] = 0;
+    $result['msg'] = null;
+    // 链接方式：1.PC; 2.无线
+    $platform = isset($options['platform']) ? (int)$options['platform'] : 1;
+    // 广告位ID
+    $adzone_id = isset($options['adzone_id']) ? $options['adzone_id'] : 'default';
+    // 渠道
+    $unid = isset($options['unid']) ? $options['unid'] : 'default';
+
+    // id ** 最大40个(淘宝)
+    if(empty($ids)){
+      $result['msg'] = 'id不能为空!';
+      return $result;     
+    }
+
+    try{
+      $c = new TopClient;
+      $c->appkey = Doggy_Config::$vars['app.tbk_api']['app_key'];
+      $c->secretKey = Doggy_Config::$vars['app.tbk_api']['app_secret'];
+      $c->format = 'json';
+      $req = new TbkItemConvertRequest;
+      $req->setFields("num_iid,click_url");
+      $req->setNumIids($ids);
+      $req->setAdzoneId("123");
+      $req->setPlatform($platform);
+      $req->setUnid($unid);
+      $resp = $c->execute($req);
+      $resp = Sher_Core_Helper_Util::object_to_array($resp);
+
+      print_r($resp);exit;
+
+      if(isset($resp['results'])){
+        $result['success'] = true;
+        $result['msg'] = 'success';
+        $result['data'] = $resp;  
+      }elseif(isset($resp['code'])){
+        Doggy_Log_Helper::warn('taobao search item error:'.$resp['code'].': '.$resp['msg']);
+        $result['msg'] = 'taobao item url convert error:'.$resp['code'].': '.$resp['msg'];     
+      }else{
+        $result['msg'] = 'taobao item url convert error!';       
+      }
+
+    }catch(Exception $e){
+      Doggy_Log_Helper::warn('taobao item url convert error:'.$e->getMessage());
+      $result['msg'] = $e->getMessage();
+    }
+    return $result;   
   }
 
 	
