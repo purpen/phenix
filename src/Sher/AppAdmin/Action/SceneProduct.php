@@ -94,6 +94,7 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
         $data['state']  = (int)$this->stash['state'];
         $data['attrbute']  = (int)$this->stash['attrbute'];
         $data['tags']  = $this->stash['tags'];
+        $data['category_tags']  = isset($this->stash['category_tags']) ? $this->stash['category_tags'] : null;
         $data['category_id']  = (int)$this->stash['category_id'];
         $data['product_id']  = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
         $data['asset_ids'] = isset($this->stash['asset']) ? (array)$this->stash['asset'] : array();
@@ -214,6 +215,54 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 		
 		return $this->to_taconite_page('app_admin/scene_product/stick_ok.html');
 	}
+
+  /**
+   * ajax 获取商品基本信息
+   */
+  public function ajax_fetch_item_info(){
+    $attrbute = isset($this->stash['attrbute']) ? (int)$this->stash['attrbute'] : 0;
+    $oid = isset($this->stash['oid']) ? $this->stash['oid'] : null;
+    if(!$attrbute || !$oid){
+      return $this->ajax_json('缺少请求参数!', true);
+    }
+    $result = array();
+    $result['success'] = false;
+    $result['msg'] = '--';
+    $item_info = array();
+    switch($attrbute){
+      case 1:
+        break;
+      case 2:
+        $result = Sher_Core_Util_TopSdk::search_by_item($oid);
+        break;
+      case 3:
+        $result = Sher_Core_Util_TopSdk::search_by_item($oid);
+        break;
+      case 4:
+        break;
+    }
+#print_r($result);exit;
+    if($result['success']){
+      if($attrbute==1){
+      
+      }elseif($attrbute==2 || $attrbute==3){
+        $tb = isset($result['data']['results']['n_tbk_item']) ? $result['data']['results']['n_tbk_item'] : array();
+        if(!empty($tb)){
+          $item_info['title'] = $tb[0]['title'];
+          $item_info['market_price'] = $tb[0]['reserve_price'];
+          $item_info['sale_price'] = $tb[0]['zk_final_price'];
+          $item_info['link'] = $tb[0]['item_url'];
+        }
+      
+      }elseif($attrbute==4){
+      
+      }
+      return $this->ajax_json('success', false, '', $item_info);     
+    }else{
+      return $this->ajax_json($result['msg'], true);
+    }
+
+  }
 
 }
 

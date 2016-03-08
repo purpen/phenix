@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'outside_search', 'outside_view');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'outside_search', 'outside_view', 'item_url_convert');
 
 	/**
 	 * 入口
@@ -250,7 +250,6 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 
   }
 
-
   /*
    * 站外商品查询
    */
@@ -259,7 +258,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     $evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 1;
     $ids = isset($this->stash['ids']) ? $this->stash['ids'] : null;
     // 链接方式：1.PC; 2.无线
-    $platform = isset($options['platform']) ? (int)$options['platform'] : 1;
+    $platform = isset($options['platform']) ? (int)$options['platform'] : 2;
     if(empty($ids)){
       return $this->api_json('缺少请求参数!', 3001);    
     }
@@ -271,7 +270,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     }elseif($evt==2){
       $result = Sher_Core_Util_JdSdk::search($ids, $options);  
     }else{
-      return $this->api_json('搜索类型不正确!', 3002);    
+      return $this->api_json('搜索类型不正确!', 3002);
     }
 
     if($result['success']){
@@ -280,6 +279,18 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
       return $this->api_json($result['msg'], 3005);
     }
 
+  
+  }
+
+
+  /**
+   * 淘宝商品链接转换
+   */
+  public function item_url_convert(){
+    $result = $options = array();
+    $ids = '525850484428,526606940091';
+
+    $result = Sher_Core_Util_TopSdk::item_url_convert($ids, $options); 
   
   }
 

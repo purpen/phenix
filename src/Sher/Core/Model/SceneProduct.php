@@ -14,10 +14,10 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
   const ATTR_TM = 3;  // 天猫
   const ATTR_JD = 4;  // 京东
 	
-    protected $schema = array(
-      # 原文ID(淘宝、天猫、京东产品ID)
-      'oid' => null,
-	    'user_id' => null,
+  protected $schema = array(
+    # 原文ID(淘宝、天猫、京东产品ID)
+    'oid' => null,
+    'user_id' => null,
 		# 类别支持多选
 		'category_id' => 0,
 		# 分类父级
@@ -35,6 +35,8 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
         'description' => '',
         'summary' => '',
     	'tags' => array(),
+      # 分类标签
+      'category_tags' => array(),
 		
  		'cover_id' => '',
 		'asset_ids' => array(),
@@ -65,8 +67,8 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 		'fine'  => 0,
 		
     	'deleted' => 0,
-		# 是否发布，默认已发布
-    	'published' => 1,
+		# 是否发布
+    	'published' => 0,
 
     # 属性
       'attrbute' => self::ATTR_THN,
@@ -91,9 +93,12 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 	 * 保存之前,处理标签中的逗号,空格等
 	 */
 	protected function before_save(&$data) {
-	    if (isset($data['tags']) && !is_array($data['tags'])) {
-	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
-	    }
+    if (isset($data['tags']) && !is_array($data['tags'])) {
+        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
+    }
+    if (isset($data['category_tags']) && !is_array($data['category_tags'])) {
+        $data['category_tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['category_tags'])));
+    }
 		// 获取父级类及类组
 		if (isset($data['category_id'])){
 			$category = new Sher_Core_Model_Category();
@@ -134,6 +139,10 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 	 */
 	protected function extra_extend_model_row(&$row) {
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
+
+    if(isset($row['category_tags']) && !empty($row['category_tags'])){
+ 		  $row['category_tags_s'] = implode(',',$row['category_tags']);   
+    }
 
 		if(!isset($row['short_title']) || empty($row['short_title'])){
 			$row['short_title'] = $row['title'];
