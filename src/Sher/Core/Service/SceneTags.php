@@ -5,11 +5,11 @@
  */
 class Sher_Core_Service_SceneTags extends Sher_Core_Service_Base {
 
-    protected $sort_fields = array(
-        'latest' => array('created_on' => -1),
-    );
-
     protected static $instance;
+	
+    protected $sort_fields = array(
+        'ref' => array('left_ref' => 1),
+    );
 	
     /**
      * current service instance
@@ -22,14 +22,13 @@ class Sher_Core_Service_SceneTags extends Sher_Core_Service_Base {
         }
         return self::$instance;
     }
-
+	
     /**
      * 获取列表
      */
-    public function get_scene_tags_list($query=array(), $options=array()) {
-	    $model = new Sher_Core_Model_SceneTags();
-		  return $this->query_list($model, $query, $options);
+    public function get_scene_tags_list($query = array(), $option = array()){
+        $model = new Sher_Core_Model_SceneTags();
+        return $this->query_list($model, $query, $option);
     }
-
 }
 

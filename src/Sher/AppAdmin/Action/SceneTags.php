@@ -25,36 +25,43 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 	}
 	
 	/**
+     * 初始化根节点
+     * 请勿随便操作
+     */
+    public function initial() {
+        
+		$keydict = new Sher_Core_Model_SceneTags();
+		$result = $keydict->first(array('parent_id'=>0,'type'=>0));
+		if(!$result){
+			$keydict->init_base_key();
+		}
+        
+        $next_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_tags';
+		return $this->ajax_json('键词初始化成功.', false, $next_url);
+    }
+	
+	/**
 	 * 列表
 	 */
 	public function get_list() {
         
         $this->set_target_css_state('page_all');
+		
+		// 输入顶级标签
+		$keydict = new Sher_Core_Model_SceneTags();
+		$result = $keydict->first(array('parent_id'=>0,'type'=>0));
+		if($result){
+			$this->stash['root'] = $result;
+		} else {
+			$this->stash['parent_id'] = 0;
+			$keydict->init_base_key();
+		}
+		
 		$page = (int)$this->stash['page'];
 		
 		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_tags/get_list?page=#p#&title_cn=%d&title_en=%d';
-		
+		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('app_admin/scene_tags/list.html');
-	}
-	
-	/**
-	 * ajax请求列表
-	 */
-	public function ajax_list(){
-		
-		$parent_id = isset($this->stash['parent_id']) ? $this->stash['parent_id'] : 0;
-		$date = array();
-		
-		if($parent_id){
-			$date['parent_id'] = (int)$parent_id;
-		} else {
-			$date['parent_id'] = 0;
-		}
-		
-		$model = new Sher_Core_Model_SceneTags();
-		$result = $model->find($date);
-		
-		return $this->ajax_json('', false, '', $result);
 	}
 	
 	/**
@@ -63,7 +70,16 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 	public function add(){
         
 		$mode = 'create';
-		$this->stash['mode'] = $mode;
+		
+		// 输入顶级标签
+		$keydict = new Sher_Core_Model_SceneTags();
+		$result = $keydict->first(array('parent_id'=>0,'type'=>0));
+		if($result){
+			$this->stash['root'] = $result;
+		} else {
+			$this->stash['parent_id'] = 0;
+			$keydict->init_base_key();
+		}
 		
 		return $this->to_html_page('app_admin/scene_tags/submit.html');
 	}
@@ -78,14 +94,23 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		if(!$id){
 			return $this->ajax_json('内容不能为空！', true);
 		}
+		
 		$mode = 'edit';
 		
-		$model = new Sher_Core_Model_SceneTags();
-		$result = $model->find_by_id((int)$id);
-		//var_dump($result);
-		
-		$this->stash['date'] = $result;
-		$this->stash['mode'] = $mode;
+		// 输入顶级标签
+		$keydict = new Sher_Core_Model_SceneTags();
+		$result = $keydict->first(array('parent_id'=>0,'type'=>0));
+		if($result){
+			$this->stash['root'] = $result;
+		} else {
+			$this->stash['parent_id'] = 0;
+			$keydict->init_base_key();
+		}
+	
+		$keydict = new Sher_Core_Model_SceneTags();
+		$res = $keydict->find_by_id((int)$this->stash['id']);
+		$res['likename'] = implode(',',$res['likename']);
+		$this->stash['date'] = $res;
 		
 		return $this->to_html_page('app_admin/scene_tags/submit.html');
 		
@@ -94,182 +119,67 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 	/**
 	 * 保存信息
 	 */
-	public function save(){		
+	public function save() {
 		
-		$id = $this->stash['id'];
-		$title_cn = $this->stash['title_cn'];
-		$title_en = $this->stash['title_en'];
-		$parent_id = $this->stash['parent_id'];
-		
-		// 验证内容
-		if(!$title_cn){
-			return $this->ajax_json('中文名称不能为空！', true);
+		$data = $this->stash;
+        
+		// 验证数据
+		if(empty($data['title_cn'])){
+			return $this->ajax_note('获取数据错误,请重新提交', true);
 		}
 		
-		// 验证标题
-		if(!$title_en){
-			return $this->ajax_json('英文名称不能为空！', true);
+		// 验证数据
+		if(empty($data['title_en'])){
+			return $this->ajax_note('获取数据错误,请重新提交', true);
 		}
 		
-		$date = array(
-			'title_cn' => $title_cn,
-			'title_en' => $title_en,
-		);
-		
-		if($parent_id){
-			$date['parent_id'] = (int)$parent_id;
-		} else {
-			$date['parent_id'] = 0;
+		// 验证数据
+		if(strlen($data['title_cn']) > 15){
+			return $this->ajax_note('获取数据错误,请重新提交', true);
 		}
 		
-		try{
-			
-			$model = new Sher_Core_Model_SceneTags();
-			
-			if(empty($id)){
-				// add
-				$ok = $model->apply_and_save($date);
-				$data_id = $model->get_data();
-				$id = $data_id['_id'];
-			} else {
-				// edit
-				$date['_id'] = $id;
-				$ok = $model->apply_and_update($date);
-			}
-			
-			if(!$ok){
-				return $this->ajax_json('保存失败,请重新提交', true);
-			}
-			
-		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
+		// 验证数据
+		if(strlen($data['title_en']) > 7){
+			return $this->ajax_note('获取数据错误,请重新提交', true);
 		}
 		
-		$redirect_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_tags';
-		return $this->ajax_json('保存成功', false, $redirect_url);
-	}
-	
-	/**
-	 * 保存信息——左右值
-	 */
-	public function save_lr(){		
-		
-		$id = $this->stash['id'];
-		$title_cn = $this->stash['title_cn'];
-		$title_en = $this->stash['title_en'];
-		$parent_id = $this->stash['parent_id'];
-		$parent_id = 53;
-		
-		// 验证内容
-		if(!$title_cn){
-			return $this->ajax_json('中文名称不能为空！', true);
+		// 验证数据
+		if(empty($data['left_ref'])){
+			$data['left_ref'] = 0;
 		}
 		
-		// 验证标题
-		if(!$title_en){
-			return $this->ajax_json('英文名称不能为空！', true);
+		// 验证数据
+		if(empty($data['right_ref'])){
+			$data['right_ref'] = 0;
 		}
 		
-		$date = array(
-			'title_cn' => $title_cn,
-			'title_en' => $title_en,
-		);
-		
-		try{
-			
-			$model = new Sher_Core_Model_SceneTags();
-		
-			// 验证父级id
-			if(!$parent_id){
-				$date['parent_id'] = 0;
-				$date['left_value'] = 1;
-				$date['right_value'] = 2;
-			}else{
-				
-				$res = $model->first(array('_id'=>(int)$parent_id));
-				if(!$res){
-					return $this->ajax_json('父级内容不存在！', true);
+		try {
+    		$keydict = new Sher_Core_Model_SceneTags();
+    		if(empty($data['_id'])){
+                $data['user_id'] = (int)$this->visitor->id;
+    			$ok = $keydict->apply_and_save($data);
+    		}else{
+				if($data['_id'] == $data['parent_id']){
+					return $this->ajax_note('数据保存失败,请重新提交', true);
 				}
-				
-				if($model->find(array('_id'=>(int)$parent_id,'parent_id'=>0,'mark_id'=>0))){
-					$model->update_set((int)$parent_id,array('mark_id'=>(int)$parent_id));
+    			$ok = $keydict->apply_and_update($data);
+				if($ok){
+					// 建节点rebuild_tree函数
+					$keydict->rebuild_tree();
 				}
-				
-				$date['parent_id'] = (int)$parent_id;
-				
-				$result = $model->find(array('parent_id'=>(int)$parent_id),array('sort_field'=>'left_value'));
-				
-				if($result){
-					$last_index = count($result) - 1;
-					$query_right = $result[$last_index]['right_value'];
-					$mark_id = (int)$result[$last_index]['mark_id'];
-					
-					$date['left_value'] = $query_right + 1;
-					$date['right_value'] = $query_right + 2;
-					$date['mark_id'] = $mark_id;
-					
-					$left_val = $model->find(array('left_value'=>array('$gt'=>$query_right),'mark_id'=>$mark_id));
-					if($left_val){
-						foreach($left_val as $k => $v){
-							$model->update_set($v['_id'],array('left_value'=>$v['left_value']+2));
-						}
-					}
-					
-					$right_val = $model->find(array('right_value'=>array('$gt'=>$query_right),'mark_id'=>$mark_id));
-					if($right_val){
-						foreach($right_val as $k => $v){
-							$model->update_set($v['_id'],array('right_value'=>$v['right_value']+2));
-						}
-					}
-				}else{
-					$date['left_value'] = (int)$res['right_value'];
-					$date['right_value'] = (int)$res['right_value'] + 1;
-					$date['mark_id'] = (int)$parent_id;
-					
-					$mark_id = (int)$res['mark_id'];
-					if($mark_id){
-						$date['mark_id'] = (int)$mark_id;
-					}
-					
-					$left_val = $model->find(array('left_value'=>array('$gt'=>(int)$res['right_value']),'mark_id'=>$mark_id));
-					if($left_val){
-						foreach($left_val as $k => $v){
-							$model->update_set($v['_id'],array('left_value'=>$v['left_value']+2));
-						}
-					}
-					
-					$right_val = $model->find(array('right_value'=>array('$gt'=>(int)$res['right_value']),'mark_id'=>$mark_id));
-					if($right_val){
-						foreach($right_val as $k => $v){
-							$model->update_set($v['_id'],array('right_value'=>$v['right_value']+2));
-						}
-					}
-					
-					$model->update_set($res['_id'],array('right_value'=>$res['right_value']+2));
-				}
-			}
-			
-			if(empty($id)){
-				// add
-				$ok = $model->apply_and_save($date);
-				$data_id = $model->get_data();
-				$id = $data_id['_id'];
-			} else {
-				// edit
-				$date['_id'] = $id;
-				$ok = $model->apply_and_update($date);
-			}
-			
-			if(!$ok){
-				return $this->ajax_json('保存失败,请重新提交', true);
-			}
-			
-		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
+    		}
+		    
+    		if(!$ok){
+    			return $this->ajax_note('数据保存失败,请重新提交', true);
+    		} 
+		} catch(Doggy_Model_ValidateException $e) {
+			return $this->ajax_notification('验证数据不能为空：'.$e->getMessage(), true);
+		} catch(Sher_Core_Model_Exception $e) {
+			return $this->ajax_notification('操作失败,请重新再试', true);
 		}
 		
-		$redirect_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_tags';
-		return $this->ajax_json('保存成功', false, $redirect_url);
+        $next_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_tags';
+		return $this->ajax_json('保存成功', false, $next_url);
 	}
 
 	/**
@@ -289,23 +199,27 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 			
 			foreach($ids as $id){
 				$result = $model->load((int)$id);
-				if (!empty($result)){
+				
+				if (!empty($result) && $model->validate_before_destory($result)){
+					//var_dump($result);die;
 					$model->remove((int)$id);
+					$model->after_destory($result['right_ref']);
 				}
 			}
 			
 			$this->stash['ids'] = $ids;
 			
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->ajax_notification('操作失败,请重新再试', true);
+			return $this->ajax_notification($e->getMessage(), true);
 		}
 		
 		return $this->to_taconite_page('ajax/delete.html');
 	}
 	
-	// 测试rebuild_tree函数
-	public function test(){
+	// 重建节点rebuild_tree函数
+	public function rebuild_tree(){
 		$model = new Sher_Core_Model_SceneTags();
 		$res = $model->rebuild_tree();
+		echo $res ? '重建节点成功！' : '重建节点失败！';
 	}
 }

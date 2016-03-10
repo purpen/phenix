@@ -97,13 +97,16 @@
 				</th>
                 <th>中文名称</th>
                 <th>英文名称</th>
-                <th>所属分类</th>
+                <th>ID</th>
+                <th>父级ID</th>
+                <th>左分值</th>
+                <th>右分值</th>
 				<th>状态</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
-			{% scene_tags_list var:'list' page:page title_cn:title_cn title_en:title_en size:20 %}
+			{% scene_tags_list var:'list' page:page title_cn:title_cn title_en:title_en parent_id:parent_id left_ref:root.left_ref right_ref:root.right_ref is_root:1 type:0 size:50 %}
 
 			{% for date in list.rows %}
 			<tr id="{{ date._id }}">
@@ -120,7 +123,16 @@
                   {{ date.title_en }}
                 </td>
                 <td>
+                  {{ date._id }}
+                </td>
+                <td>
                   {{ date.parent_id }}
+                </td>
+                <td>
+                  {{ date.left_ref }}
+                </td>
+                <td>
+                  {{ date.right_ref }}
                 </td>
 				<td>
 					{% if date.status %}
@@ -130,8 +142,12 @@
 					{% endif %}
                  </td>
 				<td>
-					<a href="{{ app_url_app_admin_base }}/scene_tags/edit?id={{ date._id }}&page={{ page }}" class="ui link item">编辑</a>
+                    {% if date.parent_id == 0%}
+					不可操作
+                    {% else%}
+                    <a href="{{ app_url_app_admin_base }}/scene_tags/edit?id={{ date._id }}&page={{ page }}" class="ui link item">编辑</a>
 		          	<a href="{{ app_url_app_admin_base }}/scene_tags/delete?id={{ date._id }}&page={{ page }}" class="ui confirm-request link item">删除</a>
+                    {% endif %}
 				</td>
 			</tr>
 			{% endfor %}
