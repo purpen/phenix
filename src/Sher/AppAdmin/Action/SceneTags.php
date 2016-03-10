@@ -163,11 +163,12 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 					return $this->ajax_note('数据保存失败,请重新提交', true);
 				}
     			$ok = $keydict->apply_and_update($data);
-				if($ok){
-					// 建节点rebuild_tree函数
-					$keydict->rebuild_tree();
-				}
     		}
+			
+			if($ok){
+				// 建节点rebuild_tree函数
+				$keydict->rebuild_tree();
+			}
 		    
     		if(!$ok){
     			return $this->ajax_note('数据保存失败,请重新提交', true);
