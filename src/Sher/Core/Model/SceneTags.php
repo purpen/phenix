@@ -215,6 +215,7 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
     public function after_destory($right_ref,$type) {
         
 		$ref = $right_ref - 1;
+		
         $this->free_sort_ref($ref,1,$type);
         
         return true;
@@ -226,11 +227,12 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
     protected function free_sort_ref($ref, $amount=1, $type=0) {
         
 		$amount = $amount*2;
-        // 更新右分值
-        self::$_db->inc($this->collection,array('right_ref' => array('$gt'=>$ref),'type' => (int)$type),'right_ref',$amount*-1, false, true);
+		
+		// 更新右分值
+        $this->dec(array('type' => $type, 'right_ref' => array('$gt'=>$ref)), 'right_ref', $amount, false, true);
         
         // 更新左分值
-        self::$_db->inc($this->collection,array('left_ref' => array('$gt'=>$ref),'type' => (int)$type),'left_ref',$amount*-1, false, true);
+        $this->dec(array('type' => $type, 'left_ref' => array('$gt'=>$ref)),'left_ref', $amount, false, true);
     }
     
     /**
