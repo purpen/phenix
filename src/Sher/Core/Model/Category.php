@@ -20,6 +20,8 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		'pid' => 0,
 		# 分类标签，含：近义词、同类词、英文词
 		'tags' => array(),
+    # 标签库标签，可用产品下标签搜索
+    'item_tags' => array(),
 
 		# 移动端封面图片路径
 		'app_cover_url' => null,
@@ -39,7 +41,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		'state' => 0,
     );
 	
-	protected $retrieve_fields = array('name'=>1,'title'=>1,'summary'=>1,'gid'=>1,'pid'=>1,'order_by'=>1,'domain'=>1,'total_count'=>1,'reply_count'=>1,'state'=>1,'is_open'=>1,'tags'=>1,'app_cover_url'=>1,'sub_count'=>1);
+	protected $retrieve_fields = array('name'=>1,'title'=>1,'summary'=>1,'gid'=>1,'pid'=>1,'order_by'=>1,'domain'=>1,'total_count'=>1,'reply_count'=>1,'state'=>1,'is_open'=>1,'tags'=>1,'item_tags'=>1,'app_cover_url'=>1,'sub_count'=>1);
 	
 	// 类组
 	protected $groups = array(
@@ -64,6 +66,54 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 			'name' => '硬件专区',
 		),
 	);
+
+	// 类域
+	protected $domains = array(
+		array(
+			'id' => Sher_Core_Util_Constant::TYPE_PRODUCT,
+			'name' => '商品',
+		),
+		array(
+			'id' => Sher_Core_Util_Constant::TYPE_TOPIC,
+			'name' => '话题',
+		),
+		array(
+			'id' => Sher_Core_Util_Constant::TYPE_ACTIVE,
+			'name' => '活动',
+		),
+		array(
+			'id' => Sher_Core_Util_Constant::TYPE_STUFF,
+			'name' => '灵感',
+		),
+		array(
+			'id' => Sher_Core_Util_Constant::TYPE_USER,
+			'name' => '用户',
+		),
+		array(
+			'id' => Sher_Core_Util_Constant::TYPE_COOPERATE,
+			'name' => '资源',
+		),
+		array(
+			'id' => Sher_Core_Util_Constant::TYPE_CASE,
+			'name' => '案例',
+		),
+		array(
+			'id' => Sher_Core_Util_Constant::TYPE_ALBUM,
+			'name' => '专辑',
+		),
+		array(
+			'id' => Sher_Core_Util_Constant::TYPE_SPECIAL_SUBJECT,
+			'name' => '产品专题(app)',
+		),
+		array(
+			'id' => Sher_Core_Util_Constant::TYPE_SCENE_PRODUCT,
+			'name' => '情景商品',
+		),
+		array(
+			'id' => Sher_Core_Util_Constant::TYPE_SCENE_CONTEXT,
+			'name' => '情景语境',
+		),
+	);
 	
     protected $int_fields = array('gid','pid','order_by','domain','is_open','total_count','state','reply_count','sub_count');
 
@@ -78,16 +128,22 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
     if(isset($row['tags']) && !empty($row['tags'])){
 		  $row['tags_s'] = implode(',', $row['tags']);
     }
+    if(isset($row['item_tags']) && !empty($row['item_tags'])){
+		  $row['item_tags_s'] = implode(',', $row['item_tags']);
+    }
 		if (isset($row['gid']) && !empty($row['gid'])) {
 			$row['group']  = $this->find_groups($row['gid']);
 		}
-		
-		if (isset($row['domain'])) {
+
+    $row['domain_name'] = null;
+		if (isset($row['domain']) && !empty($row['domain'])) {
 			if ($row['domain'] == Sher_Core_Util_Constant::TYPE_TOPIC){
 				$row['view_url'] = Sher_Core_Helper_Url::topic_list_url($row['_id']);
 			} else if ($row['domain'] == Sher_Core_Util_Constant::TYPE_PRODUCT){
 				$row['view_url'] = Sher_Core_Helper_Url::vote_list_url($row['_id']);
 			}
+      $domain_arr = $this->find_domains($row['domain']);
+ 		  $row['domain_name']  = $domain_arr['name'];
 		}
 	}
 	
@@ -104,6 +160,25 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		}
 		return $this->groups;
 	}
+
+	/**
+	 * 获取全部类型或某个
+	 */
+	public function find_domains($id=0){
+		if($id){
+      $has_one = false;
+			for($i=0;$i<count($this->domains);$i++){
+				if ($this->domains[$i]['id'] == $id){
+          $has_one = true;
+					return $this->domains[$i];
+				}
+			}
+      if(!$has_one){
+        return array('id'=>0, 'name'=>'');
+      }
+		}
+		return $this->domains;
+	}
 	
 	
 	/**
@@ -115,7 +190,9 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 			$query['domain'] = (int)$domain;
 		}
 		
-		return $this->find($query);
+		$slice = $this->find($query);
+    $categories = $this->extend_load_all($slice);
+    return $categories;
 	}
 	
 	/**
@@ -135,6 +212,9 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 	protected function before_save(&$data){
 	    if (isset($data['tags']) && !is_array($data['tags'])) {
 	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u', $data['tags'])));
+	    }
+	    if (isset($data['item_tags']) && !is_array($data['item_tags'])) {
+	        $data['item_tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u', $data['item_tags'])));
 	    }
 	    $data['updated_on'] = time();
 	    parent::before_save($data);

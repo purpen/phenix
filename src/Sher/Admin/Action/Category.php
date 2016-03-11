@@ -62,6 +62,9 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
 		}
 		// 获取类组
 		$this->stash['groups'] = $category->find_groups();
+
+		// 获取类型
+		$this->stash['domains'] = $category->find_domains();
 		
 		// 获取顶级分类
 		$this->stash['top_category'] = $category->find_top_category();

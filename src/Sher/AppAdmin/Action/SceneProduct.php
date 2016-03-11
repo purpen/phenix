@@ -84,7 +84,6 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 		$id = isset($this->stash['_id']) ? (int)$this->stash['_id'] : 0;
         
 		$model = new Sher_Core_Model_SceneProduct();
-        
         $data = array();
         $data['oid'] = isset($this->stash['oid']) ? $this->stash['oid'] : null;       
         $data['title'] = $this->stash['title'];
@@ -95,14 +94,17 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
         $data['state']  = (int)$this->stash['state'];
         $data['attrbute']  = (int)$this->stash['attrbute'];
         $data['tags']  = $this->stash['tags'];
+        $data['category_tags']  = isset($this->stash['category_tags']) ? $this->stash['category_tags'] : null;
         $data['category_id']  = (int)$this->stash['category_id'];
         $data['product_id']  = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
-        $data['asset'] = isset($this->stash['asset']) ? (array)$this->stash['asset'] : array();
-        $data['banner_asset'] = isset($this->stash['banner_asset']) ? (array)$this->stash['banner_asset'] : array();
-        $data['png_asset'] = isset($this->stash['png_asset']) ? (array)$this->stash['png_asset'] : array();
+        $data['asset_ids'] = isset($this->stash['asset']) ? (array)$this->stash['asset'] : array();
+        $data['banner_asset_ids'] = isset($this->stash['banner_asset']) ? (array)$this->stash['banner_asset'] : array();
+        $data['png_asset_ids'] = isset($this->stash['png_asset']) ? (array)$this->stash['png_asset'] : array();
         
         $data['cover_id'] = $this->stash['cover_id'];
-        
+        $data['sale_price'] = (float)$this->stash['sale_price'];
+        $data['market_price'] = (float)$this->stash['market_price'];
+        $data['brand_id'] = $this->stash['brand_id'];
 		try{
 			if(empty($id)){
 				$mode = 'create';
@@ -213,6 +215,54 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 		
 		return $this->to_taconite_page('app_admin/scene_product/stick_ok.html');
 	}
+
+  /**
+   * ajax 获取商品基本信息
+   */
+  public function ajax_fetch_item_info(){
+    $attrbute = isset($this->stash['attrbute']) ? (int)$this->stash['attrbute'] : 0;
+    $oid = isset($this->stash['oid']) ? $this->stash['oid'] : null;
+    if(!$attrbute || !$oid){
+      return $this->ajax_json('缺少请求参数!', true);
+    }
+    $result = array();
+    $result['success'] = false;
+    $result['msg'] = '--';
+    $item_info = array();
+    switch($attrbute){
+      case 1:
+        break;
+      case 2:
+        $result = Sher_Core_Util_TopSdk::search_by_item($oid);
+        break;
+      case 3:
+        $result = Sher_Core_Util_TopSdk::search_by_item($oid);
+        break;
+      case 4:
+        break;
+    }
+#print_r($result);exit;
+    if($result['success']){
+      if($attrbute==1){
+      
+      }elseif($attrbute==2 || $attrbute==3){
+        $tb = isset($result['data']['results']['n_tbk_item']) ? $result['data']['results']['n_tbk_item'] : array();
+        if(!empty($tb)){
+          $item_info['title'] = $tb[0]['title'];
+          $item_info['market_price'] = $tb[0]['reserve_price'];
+          $item_info['sale_price'] = $tb[0]['zk_final_price'];
+          $item_info['link'] = $tb[0]['item_url'];
+        }
+      
+      }elseif($attrbute==4){
+      
+      }
+      return $this->ajax_json('success', false, '', $item_info);     
+    }else{
+      return $this->ajax_json($result['msg'], true);
+    }
+
+  }
 
 }
 
