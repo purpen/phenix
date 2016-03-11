@@ -91,6 +91,9 @@ class Sher_Admin_Action_Topic extends Sher_Admin_Action_Base implements DoggyX_A
 		$model = new Sher_Core_Model_Topic();
 		try{
       $data = array();
+      if(!empty($view_count)){
+        $data['view_count'] = $view_count;
+      }
 			if(empty($this->stash['_id'])){
 				$mode = 'create';
 				//$ok = $model->apply_and_save($this->stash);
@@ -98,9 +101,7 @@ class Sher_Admin_Action_Topic extends Sher_Admin_Action_Base implements DoggyX_A
 				$mode = 'edit';
         $data['_id'] = (int)$this->stash['_id'];
         $data['try_id'] = isset($this->stash['try_id']) ? (int)$this->stash['try_id'] : 0;
-        if(!empty($view_count)){
-          $data['view_count'] = $view_count;
-        }
+
 				$ok = $model->apply_and_update($data);
 			}
 			if(!$ok){
