@@ -27,9 +27,11 @@
 		<a class="{{ css_page_app_pusher }} item" href="{{ app_url_app_admin_base }}/pusher">
 			情景管理
 		</a>
+	<!--
 		<a class="{{ css_page_app_pusher }} item" href="{{ app_url_app_admin_base }}/pusher">
 			场景管理
 		</a>
+    -->
 		{%endif%}
 	</div>
 		
@@ -74,17 +76,19 @@
 		<i class="{% if show_type == 'public' %} plus {% else %} minus {% endif %} icon"></i><b>公共模块</b>
 	</div>
 	<div date="menu-admin" {% if show_type == 'public' %} style="display:block" {% else %} style="display:none" {% endif %}>
-		{% if visitor.is_chief %}
+		{% if visitor.is_customer %}
 		<a class="{{ css_page_app_scene_context }} item" href="{{ app_url_app_admin_base }}/scene_context">
 			语境管理
 		</a>
 		<a class="{{ css_page_app_brands }} item" href="{{ app_url_app_admin_base }}/brands">
 			品牌管理
 		</a>
-		<a class="{{ css_page_app_pusher }} item" href="{{ app_url_app_admin_base }}/pusher">
+		<!--
+		<a class="{{ css_page_app_pusher }} item" href="{{ app_url_app_admin_base }}/scene_sticker">
 			贴纸管理
 		</a>
-		<a class="{{ css_page_app_pusher }} item" href="{{ app_url_app_admin_base }}/pusher">
+		-->
+		<a class="{{ css_page_app_scene_tags }} item" href="{{ app_url_app_admin_base }}/scene_tags">
 			标签管理
 		</a>
 		{%endif%}

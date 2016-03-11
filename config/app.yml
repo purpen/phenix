@@ -153,6 +153,7 @@ app.dt.extension_lib.sher_app:
     'scene_brands_list':'Sher_Core_ViewTag_SceneBrandsList'
     'scene_product_list':'Sher_Core_ViewTag_SceneProductList'
     'scene_context_list':'Sher_Core_ViewTag_SceneContextList'
+    'scene_tags_list':'Sher_Core_ViewTag_SceneTagsList'
   filters: []
 
 app.js.use_bundle: false
@@ -270,6 +271,16 @@ app.storage.sher:
         root:"/Users/xiaoyi/data/uploads"
         root_url:'http://img.taihuoniao.me'
         hash_dir:false
+
+# 淘宝客api
+app.tbk_api:
+  app_key: 23317927
+  app_secret: 'ca4e3cb5c58be55af2c5ca84d7688a92'
+
+# 京东jos
+app.jos_api:
+  app_key: '1382DFE66C01C7FF9FB26552E569C1CD'
+  app_secret: 'a91a58b267924048969e688895319905'
 
 # 图片缩络图
 app.asset.thumbnails:

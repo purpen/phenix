@@ -6,51 +6,402 @@
 class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 
     protected $collection = "scene_tags";
+	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
+	
+	# 根节点
+    const ROOT_ID = 0;
+	
+	# 默认类型
+	const TYPE = 0; // 0标签库类型,1是产品分类
+	
+	# 状态
+    const STATE_HIDE = 0;
+    const STATE_OK = 1;
 	
     protected $schema = array(
+		
+		# 用户id
+        'user_id'   => 0,
 		# 中文标题
 		'title_cn' => '',
         # 英文标题
         'title_en' => '',
+		# 近义词、同义词
+        'likename'  => array(),
 		# 父级id
-		'parent_id' => 0,
-        # 左值
-        'left_value' => 0,
-		# 有值
-        'right_value' => 0,
+		'parent_id' => self::ROOT_ID,
+        # 左分值
+        'left_ref'  => 0,
+        # 右分值
+        'right_ref' => 0,
 		# 类型
-        'type' => 0,
-        # 是否启用
-		'status' => 1,
+        'type' => self::TYPE,
+		# 使用数量
+		'used_count' => 0,
+		# 封面图
+        'cover' => '',
+		# 状态
+		'status' => self::STATE_OK,
     );
 	
-	protected $required_fields = array('title','des');
-	protected $int_fields = array('status', 'used_count');
+	protected $required_fields = array('title_cn','title_en');
+	protected $int_fields = array('status', 'parent_id', 'left_ref', 'right_ref', 'type', 'used_count');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count');
 	protected $retrieve_fields = array();
     
 	protected $joins = array();
 	
+	private $_old_parent_id;
+    private $_new_parent_id;
+    private $_old_right_ref;
+    private $_amount;
+	
 	/**
-	 * 扩展数据
+	 * 组装数据
 	 */
 	protected function extra_extend_model_row(&$row) {
+		$row['children_count'] = $this->get_children_count($row);
+	}
+    
+    /**
+     * 初始化安装根节点
+     */
+    public function init_base_key($type = 0){
+        $data = array(
+          'title_cn' => '词根',
+          'title_en' => 'base',
+          'parent_id' => 0,
+		  'type' => $type,
+        );
+        return $this->create($data);
+    }
+    
+    /**
+     * 验证数据
+     */
+    protected function validate() {
+        $title_cn = $this->data['title_cn'];
+        return true;
+    }
+    
+    /**
+     * 更新前回调事件
+     */
+    protected function before_update(&$data) {
         
+		$parent_id = $data['parent_id'];
+        
+        $id = $this->id;
+        $row = $this->find_by_id($id);
+        
+        $this->_old_parent_id = $row['parent_id'];
+        $this->_old_right_ref = $row['right_ref'];
+        $this->_new_parent_id = is_null($parent_id) ? $this->_old_parent_id : $parent_id;
+        
+        $this->_amount = $this->get_children_count($data) + 1;
+    }
+	
+    /**
+     * 更新后回调事件
+     */
+    public function after_update() {
+        
+		$parent_id = $this->data['parent_id'];
+        if (is_null($parent_id)) {
+            return;
+        }
+		
+        $id = $this->id;
+        if ($this->_old_parent_id == $this->_new_parent_id){
+            // 未修改，忽略更新
+            return false;
+        }
+		
+		/*
+        // 释放旧空间
+        $this->free_sort_ref($this->_old_right_ref, $this->_amount);
+        
+        // 扩展新空间
+        $row = $this->find_by_id($parent_id);
+        $start_ref = $row['right_ref'];
+        
+        $this->extend_sort_ref($parent_id, $this->_amount);
+        
+        // 重建子节点
+        $this->build_sort_ref($id, $start_ref);
+        */
+    }
+    
+    /**
+     * 保存前回调事件（新增、修改均回调）
+     */
+    protected function before_save(&$data) {
+		if(isset($data['likename'])){
+			$data['likename'] = explode(',',(string)$data['likename']);
+		}
+	}
+    
+    /**
+     * 新增回调事件，相当于after_create
+     */
+    protected function after_save() {
+        $parent_id = $this->data['parent_id'];
+        $id = $this->id;
+        
+        if (!empty($parent_id)) {
+            $left_ref = $this->extend_sort_ref($parent_id);
+        } else {
+            $left_ref = 1;
+        }
+		
+        $updated = array(
+          'left_ref'  => $left_ref,
+          'right_ref' => $left_ref + 1, 
+        );
+        
+        return $this->update_set(array('_id'=>$id), $updated);
+    }
+	
+	/**
+     * 删除前进行验证
+     * 1、根节点不能删除
+     * 2、有子节点的不能删除
+     */
+    public function validate_before_destory($data) {
+		
+		if ($this->is_root_key($data)){
+            throw new Sher_Core_Model_Exception('根节点不能删除！');
+            return false;
+        }
+		
+        if ($this->check_has_children($data)) {
+            throw new Sher_Core_Model_Exception('存在子节点不能删除！');
+            return false;
+        }
+        
+        return true;
+    }
+	
+	/**
+     * 验证是否为根节点
+     */
+    public function is_root_key($data=array()) {
+		
+		return $data['parent_id'] == 0 ? true : false;
+    }
+    
+    /**
+     * 验证是否有子节点
+     */
+    public function check_has_children($data) {
+		
+        return $this->get_children_count($data) > 0 ? true : false;
+    }
+	
+	/**
+     * 获取子节点数量
+     */
+    protected function get_children_count($data=array()) {
+		
+        $right_ref = $data['right_ref'];
+        $left_ref  = $data['left_ref'];
+        return ($right_ref - $left_ref - 1)/2;
+    }
+	
+	/**
+     * 删除某节点时，更新左右数值
+     */
+    public function after_destory($right_ref,$type) {
+        
+		$ref = $right_ref - 1;
+        $this->free_sort_ref($ref,1,$type);
+        
+        return true;
+    }
+    
+    /**
+     * 释放分值空间
+     */
+    protected function free_sort_ref($ref, $amount=1, $type=0) {
+        
+		$amount = $amount*2;
+        // 更新右分值
+        self::$_db->inc($this->collection,array('right_ref' => array('$gt'=>$ref),'type' => (int)$type),'right_ref',$amount*-1, false, true);
+        
+        // 更新左分值
+        self::$_db->inc($this->collection,array('left_ref' => array('$gt'=>$ref),'type' => (int)$type),'left_ref',$amount*-1, false, true);
+    }
+    
+    /**
+     * 扩展分值空间
+     */
+    protected function extend_sort_ref($parent_id,$amount=1) {
+        
+		$row = $this->find_by_id($parent_id);
+        $ref = $row['right_ref'] - 1;
+        $amount = $amount*2;
+        
+        // 更新右分值
+        self::$_db->inc($this->collection,array('right_ref' => array('$gt' => $ref)),'right_ref',$amount, false, true);
+        // 更新左分值
+        self::$_db->inc($this->collection,array('left_ref' => array('$gt' => $ref)),'left_ref',$amount, false, true);
+        
+        return $row['right_ref'];
+    }
+    
+    /**
+     * 更新节点左右分值（递归更新）
+     */
+    protected function build_sort_ref($id, $left_ref = 1) {
+        
+		$right_ref = $left_ref + 1;
+        
+        $rows = $this->find(array('parent_id'=>$id));
+        if (empty($rows)) {
+            return;
+        }
+		
+		foreach($rows as $kw) {
+			$right_ref = $this->build_sort_ref((int)$kw['_id'], $right_ref);
+		}
+		
+        $this->update_set(array('_id'=>$id), array('left_ref'=>$left_ref,'right_ref'=>$right_ref));
+        
+        return $right_ref + 1;
+    }
+    
+    /**
+     *  验证是否有效的父级
+     */
+    public function check_valid_parent($parent_id=0) {
+        if (empty($parent_id) || $parent_id < 0) {
+            return;
+        }
+        if (!$this->find_by_id($parent_id) || $this->check_is_child($parent_id)){
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * 验证是否为子节点
+     */
+    public function check_is_child($child_id, $id){
+        $row = $this->find_by_id($id);
+        if ($row) {
+            $left_ref  = $row['left_ref'];
+            $right_ref = $row['right_ref'];
+            
+            $cnt = $this->count(array(
+               'left_ref'  => array('$gt' => $left_ref),
+               'right_ref' => array('$lt' => $right_ref),
+               'id' => $child_id,
+            ));
+            
+            return $cnt > 0;
+        }
+        return false;
+    }
+    
+    /**
+     * 检查关键词是否存在
+     */
+    public function check_is_exist($title_cn=null) {
+        if (is_null($title_cn)){
+            $title_cn = $this->data['title_cn'];
+        }
+        $cnt = $this->count(array('title_cn'=>$title_cn));
+        return $cnt > 0 ? true : false;
+    }
+	
+    /**
+     * 查找所有的子孙节点
+     */
+    public function find_all_children($parent_id, $recursive = true) {
+        
+		if (empty($parent_id)) {
+            return;
+        }
+		
+        $options = array('left_ref'=>1);
+		
+        // 递归查找
+        if ($recursive){
+            $query = array('parent_id' => (int)$parent_id);
+        } else {
+            $row = $this->load((int)$parent_id);
+            if (empty($row)){
+                return;
+            }
+            $left_ref  = $row['left_ref'];
+            $right_ref = $row['right_ref'];
+            $query = array('left_ref'=>array('$gte'=>$left_ref,'$lte'=>$right_ref));
+        }
+        
+        return $this->find($query, $options);
+    }
+    
+    /**
+     * 查找所有父级关键词
+     */
+    public function find_parent_key($title_cn = null) {
+        
+		if (empty($title_cn)){
+            return;
+        }
+		
+        $row = $this->first(array('title_cn' => $title_cn));
+        if (empty($row)) {
+            return;
+        }
+        
+        $left_ref  = $row['left_ref'];
+        $right_ref = $row['right_ref'];
+        
+        $query = array(
+            'left_ref'  => array('$gt' => 0, '$lt' => $left_ref),
+            'right_ref' => array('$gt' => $right_ref),
+        );
+		
+        $options = array('left_ref'=>1);
+        
+        return $this->find($query, $options);
+    }
+    
+    /**
+     * 获取根节点
+     */
+    public function find_root_key($type = 0) {
+        return $this->first(array('parent_id' => self::ROOT_ID,'type' => (int)$type));
+    }
+	
+	/**
+	 * 对有父级id的表结构重新进行左右值编号
+	 */
+	public function rebuild_tree($type) {
+		
+		$root = $this->find_root_key($type);
+		return $this->build_sort_lrv((int)$root['_id']);
 	}
 	
 	/**
-	 * 保存之前,处理标签中的逗号,空格等
-	 */
-	protected function before_save(&$data) {
-	    parent::before_save($data);
-	}
-	
-    /**
-	 * 保存之后事件
-	 */
-    protected function after_save(){
-        parent::after_save();
+     * 重新构建节点左右分值（递归更新）
+     */
+    protected function build_sort_lrv($id, $left_ref = 1) {
+        
+		$right_ref = $left_ref + 1;
+
+        $rows = $this->find(array('parent_id'=>$id));
+		
+		foreach($rows as $kw) {
+			$right_ref = $this->build_sort_lrv((int)$kw['_id'], $right_ref);
+		}
+		
+        $this->update_set(array('_id'=>$id), array('left_ref'=>$left_ref,'right_ref'=>$right_ref));
+        //echo $id.'.'.$left_ref.'.'.$right_ref.'<br>';
+		
+        return $right_ref + 1;
     }
 	
 	/**

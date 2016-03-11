@@ -18,9 +18,6 @@
     margin-bottom: 15px;
     line-height: 1.8;
 }
-#activitypage .activity.overview p img.fr-fin.fr-dib{
-	width:100%;
-}
 #activitypage .activity.overview p br{
     content: '';
     display: block;
@@ -40,64 +37,12 @@
     display: block;
     width: 100%;
 }
-
-/*.position.row h4.ui.header{
-	font-size:1em;
-	font-weight:400;
-	padding-bottom:1rem;
-	height: 21px;
+#activitypage .activity.overview p img.fr-fin.fr-dib {
+    max-width: 100%;
 }
-h4.ui.header .map-advantage {
-	font-size: 1em;
-	font-weight: 400;
-	color:#666;
-	display: inline-block;
-	float: right;
+.ui-12032.hide{
+	display:none;
 }
-.position.row{
-	position:absolute;
-	top:40px;
-	width:360px;
-	text-align: left;
-	right:3%;
-}
-.position.row .item{
-	-webkit-box-shadow: 0 3px 5px rgba(0,0,0,0.4) !important;
-	box-shadow: 0 3px 5px rgba(0,0,0,0.4) !important;
-}
-.position.row .image img{
-	width:100%;
-}
-.position.row .one.items{
-	background:#fff;
-}
-.position.row .content{
-	padding:1.2em 1em 1.8em;
-}
-.icon-place:before {
-  content: "\f124";
-	color:#f36;
-	font-size: 1.5em;
-}
-.icon-place.icon{
-	opacity:1;
-}*/
-
-/*@media only screen and (max-width: 1350px){
-    .position.row{
-		left:60%;
-	}
-  }
-@media only screen and (max-width: 1250px){
-    .position.row{
-		left:58%;
-	}
-  }
-@media only screen and (max-width: 1100px){
-    .position.row{
-		left:54%;
-	}
-  }*/
 </style>
 {% endblock %}
 
@@ -323,14 +268,14 @@ h4.ui.header .map-advantage {
     <div class="mainleftwrap">
         <div class="mainleft">
             <div class="container">
-                <div class="product activity overview">
+                <div class="product froala-view activity overview">
                     <p>
                         {{ active.content }}
                     </p>
                 </div>
                 
-                <div class="bar"></div>
-                <div class="activity people">
+                <div class="bar {% if active._id == 12032 %} ui-12032 hide {% endif%}"></div>
+                <div class="activity people {% if active._id == 12032 %} ui-12032 hide {% endif%}">
                 	<div class="block title">
 						{% if active._id == 12031 %}
                 			活动流程
@@ -372,8 +317,8 @@ h4.ui.header .map-advantage {
                 </div>
                 
                 {% if active.step_stat == 2 %}
-                <div class="bar"></div>
-                <div class="activity pictures">
+                <div class="bar {% if active._id == 12032 %} ui-12032 hide {% endif%}"></div>
+                <div class="activity pictures {% if active._id == 12032 %} ui-12032 hide {% endif%}">
                 	<div class="block title">
                 		现场照片
                     </div>

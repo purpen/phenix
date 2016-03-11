@@ -1,4 +1,4 @@
-{%extends 'layout/base.html'%}
+{%extends 'layout/column.html'%}
 {% block title %}{% endblock %}
 {% block layout_css %}
 	{% if css_use_bundle %}
@@ -541,22 +541,19 @@
     <div class="mainleftwrap">
         <div class="mainleft">
             <div class="slidebox">
+              {% if product.stage==15 %}
                 {% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
+              {%else%}
+                {% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
+              {%endif%}
                 <div id="slider" class="flexslider flex-single">
                     <ul class="slides">
-                        <li style="background-image: url('{{ product.cover.thumbnails.huge.view_url }}');">
-                            <a href="{{ product.cover.thumbnails.huge.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
-                                <img src="{{ product.cover.thumbnails.huge.view_url }}" alt="{{ product.title }}" style="display: none;" />
-                            </a>
-                        </li>
 		                {% for asset in assets.rows %}
-                            {% if asset._id != product.cover_id %}
-                                <li style="background-image: url('{{ asset.thumbnails.huge.view_url }}');">
-                                    <a href="{{ asset.thumbnails.huge.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
-                                        <img src="{{ asset.thumbnails.huge.view_url }}" alt="{{ product.title }}" style="display: none;" />
+                                <li style="background-image: url('{{ asset.thumbnails.aub.view_url }}');">
+                                    <a href="{{ asset.thumbnails.aub.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
+                                        <img src="{{ asset.thumbnails.aub.view_url }}" alt="{{ product.title }}" style="display: none;" />
                                     </a>
                                 </li>
-							{% endif %}
 						{% endfor %}
                         {% for v in product.video %}
                         <li>
@@ -568,19 +565,12 @@
                 
                 <div id="carousel" class="flexslider flex-single-carousel">
                     <ul class="slides">
-                        <li style="background-image: url('{{ product.cover.thumbnails.small.view_url }}');">
-                            <a href="{{ product.cover.thumbnails.small.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
-                                <img src="{{ product.cover.thumbnails.small.view_url }}" alt="{{ product.title }}" class="thumb" />
-                            </a>
-                        </li>
 						{% for asset in assets.rows %}
-                            {% if asset._id != product.cover_id %}
                             <li style="background-image: url('{{ asset.thumbnails.small.view_url }}');">
                                 <a href="{{ asset.thumbnails.small.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
                                     <img src="{{ asset.thumbnails.small.view_url }}" alt="{{ product.title }}" class="thumb" />
                                 </a>
                             </li>
-							{% endif %}
 						{% endfor %}
                         {% for v in product.video %}
                         <li class="viem thumbviem" style="width: 160px; float: left; display: block;"></li>

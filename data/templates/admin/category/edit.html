@@ -55,7 +55,7 @@
 		<form action="{{ app_url_admin_base }}/category/save" class="ajax-form" method="post" id="category-form">
 			<input type="hidden" name="_id" value="{{ category._id }}" id="target_id" />
 
-      <div class="two fields">
+      <div class="five fields">
         <div class="field">
           <label for="name">标识:</label>
             <input type="text" name="name" value="{{ category.name }}" />
@@ -77,7 +77,7 @@
               <i class="angle down icon"></i>
               <div class="menu">
               {% for cate in top_category %}
-              <div data-value="{{ cate._id }}" class="{% if cate._id == category.pid %}active {% endif %}item">{{ cate.title }}</div>
+              <div data-value="{{ cate._id }}" class="{% if cate._id == category.pid %}active {% endif %}item">{{ cate.title }}--{{ cate.domain_name }}</div>
               {% endfor %}
               </div>
           </div>
@@ -104,14 +104,9 @@
               <div class="default text">请选择</div>
               <i class="angle down icon"></i>
               <div class="menu">
-                  <div data-value="1" class="{% if category.domain == 1%}active {% endif %}item">商品类域</div>
-                  <div data-value="2" class="{% if category.domain == 2%}active {% endif %}item">社区类域</div>
-                  <div data-value="3" class="{% if category.domain == 3%}active {% endif %}item">活动类域</div>
-              <div data-value="4" class="{% if category.domain == 4%}active {% endif %}item">产品类域</div>
-                          <div data-value="6" class="{% if category.domain == 6%}active {% endif %}item">资源类域</div>
-                          <div data-value="7" class="{% if category.domain == 7%}active {% endif %}item">案例类域</div>
-              <div data-value="9" class="{% if category.domain == 9%}active {% endif %}item">专题类域</div>
-              <div data-value="10" class="{% if category.domain == 10%}active {% endif %}item">情景商品类域</div>
+                {% for d in domains %}
+                  <div data-value="{{ d.id }}" class="{% if category.domain == d.id%}active {% endif %}item">{{ d.name }}</div>
+                {% endfor %}
               </div>
           </div>
         </div>
@@ -177,17 +172,24 @@
         </div>
       </div>
 			<div class="field">
-			  	<label for="tags">分类标签：</label>
+			  	<label for="tags">标签：</label>
 				<textarea rows="3" name="tags" class="small">{{ category.tags_s }}</textarea>
 				<div class="ui pointing top label">
 					分类标签，含：近义词、同类词、英文词! 同时用于网站meta_keys关键字优化
 				</div>
 			</div>
 			<div class="field">
-			  	<label for="tags">分类描述：</label>
+			  	<label for="summary">描述：</label>
 				<textarea rows="3" name="summary" class="small">{{ category.summary }}</textarea>
 				<div class="ui pointing top label">
 					用于网站meta_description搜索优化
+				</div>
+			</div>
+			<div class="field">
+			  	<label for="item_tags">商品标签：</label>
+				<textarea rows="3" name="item_tags" class="small">{{ category.item_tags_s }}</textarea>
+				<div class="ui pointing top label">
+					需要查询标签库，可用于情景产品下标签搜索
 				</div>
 			</div>
 			

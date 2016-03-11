@@ -388,19 +388,15 @@
 			<div class="center aligned row">
 				<div class="column">
 					<div class="slidebox">
-						{% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
+						{% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
 					
 						<div id="procover" class="frame">
 							<ul class="clearfix">
-								<li class="active">
-									<img src="{{ product.cover.thumbnails.big.view_url }}" alt="{{ product.title }}" />
-								</li>
+								
 								{% for asset in assets.rows %}
-									{% if asset._id != product.cover_id %}
 									<li>
-										<img src="{{ asset.thumbnails.big.view_url }}" alt="{{ product.title }}" />
+										<img src="{{ asset.thumbnails.aub.view_url }}" alt="{{ product.title }}" />
 									</li>
-									{% endif %}
 								{% endfor %}
 							</ul>
 						</div>
@@ -414,15 +410,10 @@
 						<div class="thumb wrap">
 							<!--展示图片-->
 							<div class="ui mini pages images">
-								<div class="active image">
-									<img src="{{ product.cover.thumbnails.tiny.view_url }}" alt="{{ product.title }}" />
-								</div>
 								{% for asset in assets.rows %}
-									{% if asset._id != product.cover_id %}
 									<div class="image">
 								  		<img src="{{ asset.thumbnails.tiny.view_url }}" alt="{{ product.title }}" />
 									</div>
-									{% endif %}
 								{% endfor %}
 							</div>
 						</div>

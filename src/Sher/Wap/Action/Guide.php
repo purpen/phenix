@@ -13,7 +13,7 @@ class Sher_Wap_Action_Guide extends Sher_Core_Action_Authorize {
 		'bonus' => '',
 	);
 
-	protected $exclude_method_list = array('execute', 'about');
+	protected $exclude_method_list = array('execute', 'about', 'app_about');
 	
 	/**
 	 * 入口

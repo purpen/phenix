@@ -128,7 +128,7 @@
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ editor_token }}','x:pid': '{{ editor_pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ user_id }},'x:asset_type': {{ editor_asset_type }},'x:parent_id': '{{ scene_product._id }}','file_id': '{{ editor_pid }}'},
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ user_id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ scene_product._id }}','file_id': '{{ pid }}'},
         	endpoint: '{{ app_url_upload }}/scene_product'
       	},
 		text: {
@@ -191,7 +191,7 @@
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ png_pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ banner_asset_type }},'x:parent_id': '{{ scene_product._id }}','file_id': '{{ png_pid }}' },
+			params: {'token': '{{ token }}','x:pid': '{{ png_pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ png_asset_type }},'x:parent_id': '{{ scene_product._id }}','file_id': '{{ png_pid }}' },
         	endpoint: '{{ app_url_upload }}/scene_product_png'
       	},
 		text: {
@@ -250,6 +250,42 @@
 		
         return false;
 	});
+
+  // 自动获取站外商品信息
+  $('#auto_item_info_btn').click(function(){
+    var attrbute = $('#product-form input[name="attrbute"]:checked').val();
+    var oid = $('#product-form input[name="oid"]').val();
+    if(!attrbute){
+      alert('请选择商品来源');
+      return false;
+    }
+    if(!oid){
+      alert('请选择原商品ID');
+      return false;
+    }
+    var url = '{{ app_url_app_admin_base }}/scene_product/ajax_fetch_item_info';
+    $.get(url, {attrbute:attrbute, oid:oid}, function(result){
+      if(result.success){
+        if(result.data.title){
+          $('#product-form input[name="title"]').val(result.data.title);
+        }
+        if(result.data.link){
+          $('#product-form input[name="link"]').val(result.data.link);
+        }
+        if(result.data.market_price){
+          $('#product-form input[name="market_price"]').val(result.data.market_price);
+        }
+        if(result.data.sale_price){
+          $('#product-form input[name="sale_price"]').val(result.data.sale_price);
+        }
+        
+      }else{
+        alert('获取商品信息失败！');
+        return false;
+      }
+    }, 'json');
+
+  });
     
 {% endblock %}
 {% block content %}
@@ -285,6 +321,41 @@
 			<input type="hidden" name="_id" value="{{ scene_product._id }}" />
 			<input type="hidden" name="editor_id" value="{{ editor_pid }}" id="file_id" />
 
+			<h4 class="ui stage header">来源</h4>
+			<div class="grouped inline fields">
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="attrbute" value="1" {% if scene_product.attrbute == 1 %}checked="checked"{% endif %} /> 
+						<label>官网</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="attrbute" value="2" {% if scene_product.attrbute == 2 %}checked="checked"{% endif %} /> 
+						<label>淘宝</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="attrbute" value="3" {% if scene_product.attrbute == 3 %}checked="checked"{% endif %} /> 
+						<label>天猫</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="attrbute" value="4" {% if scene_product.attrbute == 4 %}checked="checked"{% endif %} /> 
+						<label>京东</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="five fields">
+				<div class="field">
+				  	<label for="oid">原文ID：</label>
+					<input type="text" name="oid" value="{{ scene_product.oid }}" placeholder="官司网、淘宝、天猫、京东" />
+				</div>
+				<div class="field">
+				  	<label for="oid">:</label>
+    				<div class="field ui button" id="auto_item_info_btn">获取基本信息</div>
+            <div class="description" style="margin-top:-10px;">自动获取淘宝或京东的商品信息并添加相应位置</div>
+				</div>
+
+			</div>
+
 			<h3 class="ui dividing header">分类</h3>
 			<div class="grouped inline fields">
         <div class="field">
@@ -312,17 +383,6 @@
         </div>
 			</div>
 
-			<div class="five fields">
-				<div class="field">
-				  	<label for="oid">原文ID：</label>
-					<input type="text" name="oid" value="{{ scene_product.oid }}" placeholder="淘宝、天猫、京东" />
-				</div>
-        <div class="field">
-            <label for="product_id">产品ID：</label>
-          <input type="text" name="product_id" value="{{ scene_product.product_id }}" placeholder="官网产品所属ID" />
-        </div>
-			</div>
-
 
 			<div class="field">
 			  	<label for="title">标签：</label>
@@ -330,21 +390,14 @@
 				<div class="description">关键词之间使用“ ”、“,”或“;”隔开</div>
 			</div>
 
-			<h4 class="ui stage header">来源</h4>
-			<div class="grouped inline fields">
+			<div class="five fields">
 				<div class="field">
-					<div class="ui radio checkbox">
-						<input type="radio" name="attrbute" value="1" {% if scene_product.attrbute == 1 %}checked="checked"{% endif %} /> 
-						<label>淘宝</label>
-					</div>
-					<div class="ui radio checkbox">
-						<input type="radio" name="attrbute" value="2" {% if scene_product.attrbute == 2 %}checked="checked"{% endif %} /> 
-						<label>天猫</label>
-					</div>
-					<div class="ui radio checkbox">
-						<input type="radio" name="attrbute" value="3" {% if scene_product.attrbute == 3 %}checked="checked"{% endif %} /> 
-						<label>京东</label>
-					</div>
+				  	<label for="market_price">市场价：</label>
+					<input type="text" name="market_price" value="{{ scene_product.market_price }}" />
+				</div>
+				<div class="field">
+				  	<label for="sale_price">销售价：</label>
+					<input type="text" name="sale_price" value="{{ scene_product.sale_price }}" />
 				</div>
 			</div>
 
@@ -366,9 +419,27 @@
 			  	<label for="summary">简述：</label>
 				<textarea class="small" name="summary">{{ scene_product.summary }}</textarea>
 			</div>
+
+      <div class="three fields">
+        <div class="field">
+          <label for="brand_id">所属品牌：</label>
+
+          {% scene_brands_list var:'brand_list' page:1 size:50 %}
+          <div class="ui selection dropdown">
+            <input type="hidden" name="brand_id" value="{{ scene_product.brand_id }}" />
+              <div class="default text">请选择</div>
+              <i class="angle down icon"></i>
+              <div class="menu">
+              {% for d in brand_list.rows %}
+              <div data-value="{{ d._id }}" class="{% if d._id == scene_product.brand_id %}active {% endif %}item">{{ d.title }}</div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
 			
 			<div class="upload field">
-				<p>上传封面:</p>
+				<p>上传封面: <small>图片尺寸: 500x500px</small></p>
 				<input type="hidden" name="cover_id" id="ad_cover_id" value="{{ scene_product.cover_id }}" />
 				<div id="phenix-uploader"></div>
 				<div id="asset-list" class="ui four blocks">
@@ -398,7 +469,7 @@
 			</div>
 
 			<div class="field">
-        <label>上传Banner图 <span style="color:red;"></span></label>
+        <label>上传Banner图: <small>图片尺寸: 840x473px</small></label>
 			  	<div id="phenix-banner-uploader"></div>
 			
 				<div id="asset-banner-list" class="ui four blocks">
@@ -424,7 +495,7 @@
 			</div>
 
 			<div class="field">
-        <label>上传去底图 <span style="color:red;"></span></label>
+        <label>上传去底图: <small>图片尺寸: </small></label>
 			  	<div id="phenix-png-uploader"></div>
 			
 				<div id="asset-png-list" class="ui four blocks">

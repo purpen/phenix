@@ -175,7 +175,7 @@ i.cart.icon,i.exchange.icon{
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript">
 
-    var m_name = '{{ page_title_suffix }}';
+    var m_name = '{{ product.title }}';
     {% if product.cover %}
       var img_url = '{{ product.cover.thumbnails.big.view_url }}';
     {%else%}
@@ -265,6 +265,8 @@ i.cart.icon,i.exchange.icon{
         animationSpeed: 300,
     });
 	
+	var flexheight = $('body').width()*9/16+'px';
+	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
 	
 	
 	phenix.bind_share_list();
@@ -370,24 +372,16 @@ i.cart.icon,i.exchange.icon{
 
 {% block content %}
 <!--产品图片-->
-{% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
+{% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
 <div id="slider" class="flexslider flex-single">
 	<ul class="slides">
-        <li style="background-image: url('{{ product.cover.thumbnails.big.view_url }}');">
-          <a href="javascript:void(0);" title="{{ product.title }}" alt="{{ product.title }}">
-              <img src="{{ product.cover.thumbnails.big.view_url }}" alt="{{ product.title }}" style="display: none;" />
-          </a>
-        </li>
 		
 		{% for asset in assets.rows %}
-			{% if asset._id != product.cover_id %}
-		        <li style="background-image: url('{{ asset.thumbnails.big.view_url }}');">
+		        <li style="background-image: url('{{ asset.thumbnails.aub.view_url }}');">
 		          <a href="javascript:void(0);" title="{{ product.title }}" alt="{{ product.title }}">
-		              <img src="{{ asset.thumbnails.big.view_url }}" alt="{{ product.title }}" style="display: none;" />
+		              <img src="{{ asset.thumbnails.aub.view_url }}" alt="{{ product.title }}" style="display: none;" />
 		          </a>
 		        </li>
-		
-			{% endif %}
 		{% endfor %}
 	  
 	</ul>  
@@ -679,38 +673,6 @@ i.cart.icon,i.exchange.icon{
 		</div>
 	</div>
 </div>
-
-<!--<div class="product inventor ui segment" style="background:#f36;color:#fff;">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="sixteen wide center aligned column">
-				<div class="inventor info">
-					<h3 class="ui header">
-						设计者
-					</h3>
-					<div class="inventor avatar">
-						<a href="javascript:void(0);" class="ui big avatar image" >
-							<img src="{{ product.user.big_avatar_url }}" alt="{{ product.user.nickname }}" />
-						</a>
-					</div>
-					<h4 class="ui header">
-						<div class="content">
-							{{ product.designer.nickname }}
-							<div class="sub header">
-								{{ product.designer.city }} {{ product.designer.profile.job }}
-							</div>
-						</div>
-					</h4>
-					<div class="summary">
-						{{ product.designer.summary }}
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>-->
-
-<!--商品介绍-->
 
 
 </div>
