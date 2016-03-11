@@ -1,0 +1,170 @@
+{%extends 'layout/app_admin.html'%}
+{% block title %}新增/编辑语境-{% endblock %}
+
+{% block page_css %}
+	<style type="text/css">
+		.list-me{
+			margin: 10px 0 10px 0 !important;
+			padding: 0;
+			list-style: none;
+			clear: both;
+		}
+		
+		.list-me li{
+			margin-right: 5px;
+			float: left;
+		}
+	</style>
+{% endblock %}
+
+{% block jquery %}
+	
+	// 表单验证
+	$('#active-form').form({
+		parent_id: {
+			identifier  : 'parent_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '所属分类不能为空'
+				}
+			]
+		},
+		title_cn: {
+			identifier  : 'title_cn',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '中文名称不能为空'
+				},
+				{
+					type   : 'maxLength[15]',
+					prompt : '中文名称不能超过15个字！'
+				}
+			]
+		},
+		title_en: {
+			identifier  : 'title_en',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '英文名称不能为空'
+				},
+				{
+					type   : 'maxLength[7]',
+					prompt : '英文名称不能超过7个字！'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					// 点击前触发的事件
+					//phenix.before_submit();
+				},
+				success: function(data){
+					// 点击后触发的事件
+					//phenix.after_submit();
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, 3000);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+	
+	// 选择分类
+	$('.list-me').on('click','.tags', function(){
+		var pid = $(this).attr('data-value');
+		var id = $('input[name=_id]').val();
+		if(pid == id){
+			phenix.show_error_note('id和父级id不能相同！', 3000);
+			return false;
+		}
+		$('.list-me').find('.tags').removeClass('blue');
+		if ($(this).hasClass('blue')){
+			$(this).removeClass('blue');
+			$('input[name=parent_id]').val('');
+		}else{
+			$(this).addClass('blue');
+			$('input[name=parent_id]').val(pid);
+		}
+	});
+
+{% endblock %}
+
+{% block content %}
+<div class="admin">
+	
+	<h3 class="ui header">标签管理</h3>
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_app_admin_base }}/scene_tags" class="item">
+			全部
+		</a>
+	  	<div class="right menu">	
+			<a href="{{ app_url_app_admin_base }}/scene_tags/add" class="item">
+				<i class="add icon"></i>新增标签
+			</a>
+			<!--
+            <a href="javascript:void(0);" class="item ajax-delete">
+				<i class="remove icon"></i>批量删除
+			</a>
+			-->
+	    </div>
+	</div>	
+	
+	<form action="{{ app_url_app_admin_base }}/scene_tags/save" class="ui form" method="post" id="active-form">
+		<!-- 隐藏表单 -->
+		
+		<input type="hidden" name="_id" value="{{ date._id }}" />
+		<input type="hidden" name="left_ref" value="{{ date.left_ref }}" />
+		<input type="hidden" name="right_ref" value="{{ date.right_ref }}" />
+		
+		<div class="ui segment from">
+			<h3 class="ui dividing header">填写标签信息</h3>
+            <div class="field">
+                <label>中文名称</label>
+				<input type="text" name="title_cn" placeholder="中文名称，不能超过五个汉子！" value="{{ date.title_cn }}" />
+			</div>
+			<div class="field">
+                <label>英文名称</label>
+				<input type="text" name="title_en" placeholder="英文名称，不能超过7个字母！" value="{{ date.title_en }}" />
+			</div>
+			<div class="field">
+                <label>近义词</label>
+                <textarea name="likename" placeholder="近义词，用英文逗号隔开！">{{ date.likename }}</textarea>
+            </div>
+			<div class="field">
+				<label>所属标签</label>
+				<input type="hidden" name="parent_id" value="{{ date.parent_id }}" />
+				<div class="ui options">
+					<ul class="ui list-me">
+						{% scene_tags_list var:'list' page:page parent_id:parent_id left_ref:root.left_ref right_ref:root.right_ref is_root:1 type:0 size:50 %}
+						{% for d in list.rows %}
+						<li><a class="ui green label tags {% if d._id == date.parent_id %} blue {% endif %}" data-value="{{ d._id }}">{{ d.title_cn }}</a></li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+			
+			<div class="ui right aligned grid">
+				<div class="column">
+                    <div class="ui inverted grey button cancel" style="color: #666">
+						点击取消
+					</div>
+					<div class="ui magenta inverted button submit save">
+						确认提交
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+{% endblock %}

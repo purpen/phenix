@@ -195,7 +195,7 @@
     $.get(url, {target_id: '{{ topic._id }}', type: 2, page: current_page, per_page: per_page, sort:sort});
   }
 
-    var m_name = '{{ page_title_suffix }}';
+    var m_name = '{{ topic.title }}';
     {% if topic.cover %}
       var img_url = '{{ topic.cover.thumbnails.big.view_url }}';
     {%else%}

@@ -1,5 +1,5 @@
 {%extends 'layout/admin.html'%}
-{% block title %}编辑灵感-{% endblock %}
+{% block title %}编辑话题-{% endblock %}
 {% block page_css %}
   <link rel="stylesheet" type="text/css" media="all" href="{{ app_url_packaged }}/css/calendar-theme.css" title="Aqua" />
 <style type="text/css">
@@ -210,6 +210,10 @@ h3.ui.header{
 		<div class="inline field">
 			<label>评测ID:</label>
       <input type="text" name="try_id" value="{{ topic.try_id }}" />
+		</div>
+		<div class="inline field">
+			<label>阅读量:</label>
+      <input type="text" name="view_count" value="{{ topic.view_count }}" />
 		</div>
 		
 		<div class="inline field">
