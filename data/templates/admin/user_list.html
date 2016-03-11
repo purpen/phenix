@@ -189,6 +189,7 @@
 						{% endif %}
                         
 						<a href="{{ app_url_admin }}/user/edit?id={{ user._id }}" class="ui link">更新</a>
+						<a href="{{ app_url_admin }}/user/status?id={{ user._id }}" class="ui link">统计</a>
 						
 						{% if user.state != 2 %}
 						<a href="{{ app_url_admin }}/user/activtion?id={{ user._id }}" class="ui link ajax">激活</a>
