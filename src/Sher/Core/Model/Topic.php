@@ -278,13 +278,26 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
     /**
      * 标记主题为编辑推荐
      */
-    public function mark_as_stick($id, $value=self::STICK_EDITOR) {
+    public function mark_as_stick($id, $value=self::STICK_EDITOR, $options=array()) {
         $ok = $this->update_set($id, array('stick' => $value));
         if($ok){
             $data = $this->load($id);
             // 增加消费积分（鸟币）
             $service = Sher_Core_Service_Point::instance();
             $service->make_money_in($data['user_id'], 2, '话题被推荐');
+
+            // 记录被谁操作
+            if(isset($options['current_user_id'])){
+              $editor_behavior_stat_model = new Sher_Core_Model_EditorBehaviorStat();
+              $editor_arr = array(
+                'target_id' => $data['_id'],
+                'pub_user_id' => $data['user_id'],
+                'do_user_id' => (int)$options['current_user_id'],
+                'type' => Sher_Core_Model_EditorBehaviorStat::TYPE_TOPIC,
+                'evt' => Sher_Core_Model_EditorBehaviorStat::EVT_STICK,
+              );
+              $editor_behavior_stat_model->create($editor_arr);           
+            }
         }
         return $ok;
     }
@@ -319,13 +332,26 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
     /**
      * 标记主题 精华
      */
-	public function mark_as_fine($id){
+	public function mark_as_fine($id, $options=array()){
 		$ok = $this->update_set($id, array('fine' => 1));
         if($ok){
             $data = $this->load($id);
             // 增加消费积分（鸟币）
             $service = Sher_Core_Service_Point::instance();
             $service->make_money_in($data['user_id'], 5, '精华内容');
+
+            // 记录被谁操作
+            if(isset($options['current_user_id'])){
+              $editor_behavior_stat_model = new Sher_Core_Model_EditorBehaviorStat();
+              $editor_arr = array(
+                'target_id' => $data['_id'],
+                'pub_user_id' => $data['user_id'],
+                'do_user_id' => (int)$options['current_user_id'],
+                'type' => Sher_Core_Model_EditorBehaviorStat::TYPE_TOPIC,
+                'evt' => Sher_Core_Model_EditorBehaviorStat::EVT_FINE,
+              );
+              $editor_behavior_stat_model->create($editor_arr);           
+            }
         }
         return $ok;
 	}
