@@ -341,5 +341,42 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		
 		return $this->ajax_json('更新成功！', false);
 	}
+
+	/**
+	 * 用户统计
+	 */
+	public function status(){
+		if(empty($this->stash['id'])){
+			return $this->ajax_notification('缺少请求参数！', true);
+		}
+
+    $user_model = new Sher_Core_Model_User(); 
+    $user = $user_model->extend_load((int)$this->stash['id']);
+    if(empty($user)){
+ 			return $this->ajax_notification('用户不存在！', true);
+    }
+
+    // 用户实时积分
+    $point_model = new Sher_Core_Model_UserPointBalance();
+    $current_point = $point_model->load((int)$user['_id']);
+    $this->stash['current_point'] = $current_point;
+
+    $comment_model = new Sher_Core_Model_Comment();
+    $comment_count = $comment_model->count(array('user_id'=>$user['_id']));
+
+    $apply_model = new Sher_Core_Model_Apply();
+    $try_apply_count = $apply_model->count(array('user_id'=>$user['_id'], 'type'=>Sher_Core_Model_Apply::TYPE_TRY));
+
+    $favorite_model = new Sher_Core_Model_Favorite();
+    $love_count = $favorite_model->count(array('user_id'=>$user['_id'], 'event'=>Sher_Core_Model_Favorite::EVENT_LOVE));
+    
+    $this->stash['user'] = $user;
+    $this->stash['comment_count'] = $comment_count;
+    $this->stash['love_count'] = $love_count;
+    $this->stash['try_apply_count'] = $try_apply_count;
+		return $this->to_html_page('admin/user/stat.html');
+	}
+
+
 }
-?>
+
