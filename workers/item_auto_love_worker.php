@@ -1,6 +1,6 @@
 <?php
 /**
- * 评论自动点赞(用小号)
+ * 话题、产品、灵感自动点赞(用小号)
  */
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {
@@ -20,51 +20,70 @@ ini_set('memory_limit','512M');
 date_default_timezone_set('Asia/shanghai');
 
 echo "-------------------------------------------------\n";
-echo "===============COMMENT AUTO LOVE WORKER WAKE UP===============\n";
+echo "===============ITEM AUTO LOVE WORKER WAKE UP===============\n";
 echo "-------------------------------------------------\n";
 
-echo "begin comment auto add love ...\n";
+echo "begin item auto add love ...\n";
 
-$comment_model = new Sher_Core_Model_Comment();
+$topic_model = new Sher_Core_Model_Topic();
+$product_model = new Sher_Core_Model_Product();
+$stuff_model = new Sher_Core_Model_Stuff();
 
-// 获取试用名单---取块内容
-$comment_items = Sher_Core_Util_View::load_block('auto_comment_love_gen', 1);
+// 获取点赞名单---取块内容
+$items = Sher_Core_Util_View::load_block('auto_gen_love_count', 1);
 
-if(empty($comment_items)){
-  echo "block comment_ids is empty! \n";
+if(empty($items)){
+  echo "block item_ids is empty! \n";
   exit(0);
 }
-$comment_arr = explode(';',$comment_items);
+$item_arr = explode(';',$items);
 
-foreach($comment_arr as $k=>$v){
+foreach($item_arr as $k=>$v){
   if(empty($v)){
     continue;
   }
   $v_arr = explode('|', $v);
-  if(empty($v_arr) || count($v_arr)<4){
+  if(empty($v_arr) || count($v_arr)<6){
     echo "block format is wrong!! \n";
     continue;
   }
-  $comment_id = (string)$v_arr[0];
-  $switch = (int)$v_arr[1];
-  $page = (int)$v_arr[2];
-  $max_count = (int)$v_arr[3];
+  $item_id = (int)$v_arr[0];
+  $type = (int)$v_arr[1];
+  $switch = (int)$v_arr[2];
+  $page = (int)$v_arr[3];
+  $max_count = (int)$v_arr[4];
+  $interval_time = (int)$v_arr[5];
   $mark = sprintf("user_list_0%d", $page);
 
   if($switch==0){
-    echo "comment_id: $comment_id is close! next.... \n";
+    echo "item_id: $item_id is close! next.... \n";
     continue; 
   }
 
   try{
-    $comment = $comment_model->load($comment_id);
-    if(empty($comment)){
-      echo "comment: $comment_id not exist model!\n";
+    if($type==1){ // 话题
+      $fav_type = 2;
+      $obj = $topic_model->load($item_id);
+    }elseif($type==2){  // 灵感
+      $fav_type = 4;
+      $obj = $stuff_model->load($item_id);   
+    }elseif($type==3){  // 产品
+      $fav_type = 1;
+      $obj = $product_model->load($item_id);   
+    }
+
+    if(empty($obj)){
+      echo "item: $item_id not exist model!\n";
       continue;
     }
 
-    if($max_count < $comment['love_count']){
-      echo "comment: $comment_id is max love count!\n";
+    if(!isset($obj['love_count'])){
+      echo "item: $item_id is not field love_count!\n";
+      continue;
+    }
+
+    if($max_count < (int)$obj['love_count']){
+      echo "item: $item_id is max love count!\n";
       continue;
     }
 
@@ -78,14 +97,13 @@ foreach($comment_arr as $k=>$v){
     $user_id = (int)$user_list_arr[$user_index];
     if(empty($user_id)){
       echo "user is null! \n";
-      continue;
+      exit(0);
     }
 
     // 开始点赞
     // 检测是否已提交过申请
     $fav_model = new Sher_Core_Model_Favorite();
-
-    if ($fav_model->check_loved($user_id, $comment_id, Sher_Core_Model_Favorite::TYPE_COMMENT)) {
+    if ($fav_model->check_loved($user_id, $item_id, $fav_type)) {
       echo "user id: $user_id has loved! \n";
       // 删除块用户
       //Sher_Core_Util_View::remove_part_content($mark, $user_id, ',');
@@ -93,29 +111,30 @@ foreach($comment_arr as $k=>$v){
     }
 
     $fav_info = array(
-      'type' => Sher_Core_Model_Favorite::TYPE_COMMENT,
+      'type' => $fav_type,
     );
-    $ok = $fav_model->add_love($user_id, $comment_id, $fav_info);
+    $ok = $fav_model->add_love($user_id, $item_id, $fav_info);
     if($ok){
-      echo "comment love is success!!\n";
+      echo "item: $item_id, type: $fav_type love is success!!\n";
       // 删除块用户
       //Sher_Core_Util_View::remove_part_content($mark, $user_id, ',');
+      sleep($interval_time);
     }else{
-      echo "comment love is faile! \n";
+      echo "item love is faile! \n";
     }
       
   }catch(Sher_Core_Model_Exception $e){
-    echo "find comment_model failed: ".$e->getMessage();
+    echo "find item_model failed: ".$e->getMessage();
     continue;
   }
 
 } // for end
 
-echo "===========================COMMENT LOVE WORKER DONE==================\n";
+echo "===========================ITEM LOVE WORKER DONE==================\n";
 echo "SLEEP TO NEXT LAUNCH .....\n";
 
 $hr = date('G');
-if($hr >= 9 && $hr <= 23){
+if($hr >= 10 && $hr <= 23){
     $time = rand(60, 300);
 }else{
     $time = rand(600, 900);
