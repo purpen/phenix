@@ -55,17 +55,19 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		
 		$type = 0;
 		if(isset($this->stash['type']) && !empty($this->stash['type'])){
-			$type = $this->stash['type'];
+			$type = (int)$this->stash['type'];
 		}
+		$this->stash['type'] = $type;
 		
 		// 输入顶级标签
 		$keydict = new Sher_Core_Model_SceneTags();
-		$result = $keydict->first(array('parent_id'=>0,'type'=>0));
+		$result = $keydict->first(array('parent_id'=>0,'type'=>$type));
+
 		if($result){
 			$this->stash['root'] = $result;
 		} else {
 			$this->stash['parent_id'] = 0;
-			$keydict->init_base_key();
+			$keydict->init_base_key($type);
 		}
 		
 		$page = (int)$this->stash['page'];
@@ -82,14 +84,20 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
         
 		$mode = 'create';
 		
+		$type = 0;
+		if(isset($this->stash['type']) && !empty($this->stash['type'])){
+			$type = (int)$this->stash['type'];
+		}
+		$this->stash['type'] = $type;
+		
 		// 输入顶级标签
 		$keydict = new Sher_Core_Model_SceneTags();
-		$result = $keydict->first(array('parent_id'=>0,'type'=>0));
+		$result = $keydict->first(array('parent_id'=>0,'type'=>$type));
 		if($result){
 			$this->stash['root'] = $result;
 		} else {
 			$this->stash['parent_id'] = 0;
-			$keydict->init_base_key();
+			$keydict->init_base_key($type);
 		}
 		
 		return $this->to_html_page('app_admin/scene_tags/submit.html');
@@ -107,21 +115,23 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		}
 		
 		$mode = 'edit';
-		
-		// 输入顶级标签
-		$keydict = new Sher_Core_Model_SceneTags();
-		$result = $keydict->first(array('parent_id'=>0,'type'=>0));
-		if($result){
-			$this->stash['root'] = $result;
-		} else {
-			$this->stash['parent_id'] = 0;
-			$keydict->init_base_key();
-		}
 	
 		$keydict = new Sher_Core_Model_SceneTags();
 		$res = $keydict->find_by_id((int)$this->stash['id']);
 		$res['likename'] = implode(',',$res['likename']);
+		$type = $res['type'];
+		
+		// 输入顶级标签
+		$keydict = new Sher_Core_Model_SceneTags();
+		$result = $keydict->first(array('parent_id'=>0,'type'=>$type));
+		if($result){
+			$this->stash['root'] = $result;
+		} else {
+			$this->stash['parent_id'] = 0;
+		}
+		
 		$this->stash['date'] = $res;
+		$this->stash['type'] = $type;
 		
 		return $this->to_html_page('app_admin/scene_tags/submit.html');
 		
@@ -133,7 +143,8 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 	public function save() {
 		
 		$data = $this->stash;
-        
+		$arr = array(0,1); // 判断标签类型是否合法
+		
 		// 验证数据
 		if(empty($data['title_cn'])){
 			return $this->ajax_note('获取数据错误,请重新提交', true);
@@ -164,6 +175,12 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 			$data['right_ref'] = 0;
 		}
 		
+		$data['type'] = (int)$data['type'];
+		
+		if(!in_array($data['type'],$arr)){
+			return $this->ajax_note('获取数据错误,请重新提交', true);
+		}
+		
 		try {
     		$keydict = new Sher_Core_Model_SceneTags();
     		if(empty($data['_id'])){
@@ -178,7 +195,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 			
 			if($ok){
 				// 建节点rebuild_tree函数
-				$keydict->rebuild_tree();
+				$keydict->rebuild_tree($data['type']);
 			}
 		    
     		if(!$ok){
@@ -190,7 +207,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 			return $this->ajax_notification('操作失败,请重新再试', true);
 		}
 		
-        $next_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_tags';
+        $next_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_tags/get_list?type='.$data['type'];
 		return $this->ajax_json('保存成功', false, $next_url);
 	}
 
@@ -213,9 +230,9 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 				$result = $model->load((int)$id);
 				
 				if (!empty($result) && $model->validate_before_destory($result)){
-					//var_dump($result);die;
+					//var_dump($result['type']);die;
 					$model->remove((int)$id);
-					$model->after_destory($result['right_ref']);
+					$model->after_destory($result['right_ref'],$result['type']);
 				}
 			}
 			
@@ -230,8 +247,14 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 	
 	// 重建节点rebuild_tree函数
 	public function rebuild_tree(){
+		
+		$type = 0;
+		if(isset($this->stash['type']) && !empty($this->stash['type'])){
+			$type = $this->stash['type'];
+		}
+		
 		$model = new Sher_Core_Model_SceneTags();
-		$res = $model->rebuild_tree();
+		$res = $model->rebuild_tree($type);
 		echo $res ? '重建节点成功！' : '重建节点失败！';
 	}
 }

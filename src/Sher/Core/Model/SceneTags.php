@@ -137,7 +137,9 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
      * 保存前回调事件（新增、修改均回调）
      */
     protected function before_save(&$data) {
-		$data['likename'] = explode(',',$data['likename']);
+		if(isset($data['likename'])){
+			$data['likename'] = explode(',',(string)$data['likename']);
+		}
 	}
     
     /**
@@ -210,10 +212,10 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 	/**
      * 删除某节点时，更新左右数值
      */
-    public function after_destory($right_ref) {
+    public function after_destory($right_ref,$type) {
         
 		$ref = $right_ref - 1;
-        $this->free_sort_ref($ref);
+        $this->free_sort_ref($ref,1,$type);
         
         return true;
     }
@@ -221,15 +223,14 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
     /**
      * 释放分值空间
      */
-    protected function free_sort_ref($ref, $amount=1) {
+    protected function free_sort_ref($ref, $amount=1, $type=0) {
         
 		$amount = $amount*2;
-        
         // 更新右分值
-        self::$_db->inc($this->collection,array('right_ref' => array('$gt'=>$ref)),'right_ref',$amount*-1, false, true);
+        self::$_db->inc($this->collection,array('right_ref' => array('$gt'=>$ref),'type' => (int)$type),'right_ref',$amount*-1, false, true);
         
         // 更新左分值
-        self::$_db->inc($this->collection,array('left_ref' => array('$gt'=>$ref)),'left_ref',$amount*-1, false, true);
+        self::$_db->inc($this->collection,array('left_ref' => array('$gt'=>$ref),'type' => (int)$type),'left_ref',$amount*-1, false, true);
     }
     
     /**
@@ -371,16 +372,16 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
     /**
      * 获取根节点
      */
-    public function find_root_key() {
-        return $this->first(array('parent_id' => self::ROOT_ID,'type' => self::TYPE));
+    public function find_root_key($type = 0) {
+        return $this->first(array('parent_id' => self::ROOT_ID,'type' => (int)$type));
     }
 	
 	/**
 	 * 对有父级id的表结构重新进行左右值编号
 	 */
-	public function rebuild_tree() {
+	public function rebuild_tree($type) {
 		
-		$root = $this->find_root_key();
+		$root = $this->find_root_key($type);
 		return $this->build_sort_lrv((int)$root['_id']);
 	}
 	
