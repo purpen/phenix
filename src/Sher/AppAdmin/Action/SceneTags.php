@@ -30,10 +30,16 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
      */
     public function initial() {
         
+		$type = 0;
+		if(isset($this->stash['type']) && !empty($this->stash['type'])){
+			$type = $this->stash['type'];
+		}
+		
 		$keydict = new Sher_Core_Model_SceneTags();
 		$result = $keydict->first(array('parent_id'=>0,'type'=>0));
+		
 		if(!$result){
-			$keydict->init_base_key();
+			$keydict->init_base_key($type);
 		}
         
         $next_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_tags';
@@ -47,6 +53,11 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
         
         $this->set_target_css_state('page_all');
 		
+		$type = 0;
+		if(isset($this->stash['type']) && !empty($this->stash['type'])){
+			$type = $this->stash['type'];
+		}
+		
 		// 输入顶级标签
 		$keydict = new Sher_Core_Model_SceneTags();
 		$result = $keydict->first(array('parent_id'=>0,'type'=>0));
@@ -59,7 +70,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		
 		$page = (int)$this->stash['page'];
 		
-		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_tags/get_list?page=#p#&title_cn=%d&title_en=%d';
+		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_tags/get_list?page=#p#&title_cn=%s&title_en=%s&type=%d';
 		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('app_admin/scene_tags/list.html');
 	}

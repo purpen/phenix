@@ -12,7 +12,7 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
     const ROOT_ID = 0;
 	
 	# 默认类型
-	const TYPE = 0; // 标签库类型
+	const TYPE = 0; // 0标签库类型,1是产品分类
 	
 	# 状态
     const STATE_HIDE = 0;
