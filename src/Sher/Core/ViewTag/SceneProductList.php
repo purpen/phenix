@@ -18,6 +18,7 @@ class Sher_Core_ViewTag_SceneProductList extends Doggy_Dt_Tag {
         $page = 1;
         $size = 15;
 
+        $kind = 0;
         $category_id = 0;
         $published = 0;
         $state = 0;
@@ -39,6 +40,10 @@ class Sher_Core_ViewTag_SceneProductList extends Doggy_Dt_Tag {
         $size = (int)$size;
 		
         $query = array();
+
+        if($kind){
+          $query['kind'] = (int)$kind;         
+        }
 
         if($category_id){
           $query['category_id'] = (int)$category_id;         
