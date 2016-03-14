@@ -246,6 +246,16 @@
 				.end()
 				.addClass('active');
 			$('#product-category').val(id);
+
+      // 加载该类别下的标签库
+      $.get("{{ app_url_admin_base }}/category/ajax_fetch_tags", {id:id, type:1}, function(result){
+        if(result.success){
+          //alert(1);
+        }else{
+          alert(result.message);
+        }
+        
+      }, 'json');
 		}
 		
         return false;
@@ -360,7 +370,7 @@
 			<div class="grouped inline fields">
         <div class="field">
           <input type="hidden" name="category_id" value="{{ scene_product.category_id }}" id="product-category" />
-          {% category_list var:'category' only_open:1 domain:10 current:scene_product.category_id %}
+          {% category_list var:'category' only_open:1 domain:10 istop:1 current:scene_product.category_id %}
           {% for cat in category.rows %}
             <a class="ui {{ cat.active }} magenta category button" style="margin-bottom:2px;" data-value="{{ cat._id }}">{{ cat.title }}</a>
           {% endfor %}

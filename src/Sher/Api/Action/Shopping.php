@@ -1085,7 +1085,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $data['express_info']['phone'] = $order_info['addbook']['phone'];
         $data['express_info']['zip'] = $order_info['addbook']['zip'];
         $data['express_info']['province'] = $order_info['addbook']['area_province']['city'];
-        $data['express_info']['province'] = $order_info['addbook']['area_district']['city'];
+        $data['express_info']['city'] = $order_info['addbook']['area_district']['city'];
       }   
     }
 

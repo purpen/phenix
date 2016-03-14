@@ -39,7 +39,7 @@
 				},
 				{
 					type   : 'maxLength[15]',
-					prompt : '中文名称不能超过15个字！'
+					prompt : '中文名称不能超过15个汉字！'
 				}
 			]
 		},
@@ -126,12 +126,13 @@
 		<input type="hidden" name="_id" value="{{ date._id }}" />
 		<input type="hidden" name="left_ref" value="{{ date.left_ref }}" />
 		<input type="hidden" name="right_ref" value="{{ date.right_ref }}" />
+		<input type="hidden" name="type" value="{{ type }}" />
 		
 		<div class="ui segment from">
 			<h3 class="ui dividing header">填写标签信息</h3>
             <div class="field">
                 <label>中文名称</label>
-				<input type="text" name="title_cn" placeholder="中文名称，不能超过五个汉子！" value="{{ date.title_cn }}" />
+				<input type="text" name="title_cn" placeholder="中文名称，不能超过五个汉字！" value="{{ date.title_cn }}" />
 			</div>
 			<div class="field">
                 <label>英文名称</label>
@@ -146,7 +147,7 @@
 				<input type="hidden" name="parent_id" value="{{ date.parent_id }}" />
 				<div class="ui options">
 					<ul class="ui list-me">
-						{% scene_tags_list var:'list' page:page parent_id:parent_id left_ref:root.left_ref right_ref:root.right_ref is_root:1 type:0 size:50 %}
+						{% scene_tags_list var:'list' page:page parent_id:parent_id left_ref:root.left_ref right_ref:root.right_ref is_root:1 type:type size:50 %}
 						{% for d in list.rows %}
 						<li><a class="ui green label tags {% if d._id == date.parent_id %} blue {% endif %}" data-value="{{ d._id }}">{{ d.title_cn }}</a></li>
 						{% endfor %}

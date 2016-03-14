@@ -20,8 +20,10 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		'pid' => 0,
 		# 分类标签，含：近义词、同类词、英文词
 		'tags' => array(),
-    # 标签库标签，可用产品下标签搜索
+    # 标签库标签，可用产品下标签搜索--现不用，取父标签ID
     'item_tags' => array(),
+    # 父标签ID
+    'tag_id' => 0,
 
 		# 移动端封面图片路径
 		'app_cover_url' => null,
@@ -41,7 +43,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		'state' => 0,
     );
 	
-	protected $retrieve_fields = array('name'=>1,'title'=>1,'summary'=>1,'gid'=>1,'pid'=>1,'order_by'=>1,'domain'=>1,'total_count'=>1,'reply_count'=>1,'state'=>1,'is_open'=>1,'tags'=>1,'item_tags'=>1,'app_cover_url'=>1,'sub_count'=>1);
+	protected $retrieve_fields = array('name'=>1,'title'=>1,'summary'=>1,'gid'=>1,'pid'=>1,'order_by'=>1,'domain'=>1,'total_count'=>1,'reply_count'=>1,'state'=>1,'is_open'=>1,'tags'=>1,'item_tags'=>1,'app_cover_url'=>1,'sub_count'=>1,'tag_id'=>1);
 	
 	// 类组
 	protected $groups = array(
@@ -115,7 +117,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		),
 	);
 	
-    protected $int_fields = array('gid','pid','order_by','domain','is_open','total_count','state','reply_count','sub_count');
+    protected $int_fields = array('gid','pid','order_by','domain','is_open','total_count','state','reply_count','sub_count','tag_id');
 
 	protected $required_fields = array('name','title');
 	

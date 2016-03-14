@@ -48,7 +48,7 @@ class Sher_Core_ViewTag_SceneTagsList extends Doggy_Dt_Tag {
         if(!$type){
             $query['type'] = 0;  
         } else {
-            $query['type'] = $type;
+            $query['type'] = (int)$type;
         }
         
         if (!empty($left_ref) && !empty($right_ref)) {

@@ -26,10 +26,11 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
-		$fine = isset($this->stash['find']) ? (int)$this->stash['find'] : 0;
+		$fine = isset($this->stash['fine']) ? (int)$this->stash['fine'] : 0;
 		$attrbute = isset($this->stash['attrbute']) ? (int)$this->stash['attrbute'] : 0;
 		$published = isset($this->stash['published']) ? (int)$this->stash['published'] : 1;
 		$state = isset($this->stash['state']) ? (int)$this->stash['state'] : 0;
+		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 0;
 
 		$some_fields = array(
       '_id'=>1, 'title'=>1, 'short_title'=>1, 'oid'=>1, 'sale_price'=>1, 'market_price'=>1,
@@ -41,6 +42,10 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		
 		$query   = array();
 		$options = array();
+
+    if($kind){
+      $query['kind'] = (int)$kind;
+    }
 		
     // 查询条件
     if($category_id){
