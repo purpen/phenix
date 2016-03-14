@@ -185,13 +185,15 @@
 					用于网站meta_description搜索优化
 				</div>
 			</div>
-			<div class="field">
-			  	<label for="item_tags">商品标签：</label>
-				<textarea rows="3" name="item_tags" class="small">{{ category.item_tags_s }}</textarea>
-				<div class="ui pointing top label">
-					需要查询标签库，可用于情景产品下标签搜索
-				</div>
-			</div>
+      <div class="five fields">
+        <div class="field">
+            <label for="tag_id">商品标签父ID：</label>
+          <input type="text" class="form-control" name="tag_id" value="{{ category.tag_id }}" />
+          <div class="ui pointing top label">
+            需要查询标签库，可用于情景产品下标签搜索
+          </div>
+        </div>
+      </div>
 			
 			<input type="submit" class="ui magenta inverted button" value="确认保存">
 			<input type="button" class="ui gray inverted button" value="取消">
