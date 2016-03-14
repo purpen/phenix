@@ -135,7 +135,7 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
       return $this->ajax_json('分类不存在!', true);
     }
 		if(!isset($category['tag_id']) || empty($category['tag_id'])){
-      return $this->ajax_json('分类标签不存在!', true);
+      return $this->ajax_json('empty', false, '', array());
     }
 
     $scene_tags_model = new Sher_Core_Model_SceneTags();
@@ -145,10 +145,9 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
       'status' => Sher_Core_Model_SceneTags::STATE_OK,
     );
     $options = array(
-    
+      //'field' = array('_id'=>1);
     );
     $scene_tags = $scene_tags_model->find($query, $options);
-
 
 
     $data = $scene_tags;
