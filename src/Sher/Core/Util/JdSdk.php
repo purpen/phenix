@@ -49,8 +49,8 @@ class Sher_Core_Util_JdSdk {
       $c->appSecret = Doggy_Config::$vars['app.jos_api']['app_secret'];
       //$c->accessToken = accessToken;
       //$c->serverUrl = SERVER_URL;
-      $req = new WareSearchRequest();
-      $req->setKey($q);
+      $req = new WaresSearchRequest();
+      $req->setTitle($q);
 
       if($sort_name){
         $req->setSortType($sort_name);

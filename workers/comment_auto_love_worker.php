@@ -32,8 +32,6 @@ $comment_items = Sher_Core_Util_View::load_block('auto_comment_love_gen', 1);
 
 if(empty($comment_items)){
   echo "block comment_ids is empty! \n";
-  // sleep 10 minute
-  sleep(600);
   exit(0);
 }
 $comment_arr = explode(';',$comment_items);
@@ -90,7 +88,7 @@ foreach($comment_arr as $k=>$v){
     if ($fav_model->check_loved($user_id, $comment_id, Sher_Core_Model_Favorite::TYPE_COMMENT)) {
       echo "user id: $user_id has loved! \n";
       // 删除块用户
-      Sher_Core_Util_View::remove_part_content($mark, $user_id, ',');
+      //Sher_Core_Util_View::remove_part_content($mark, $user_id, ',');
       continue;
     }
 
@@ -99,18 +97,9 @@ foreach($comment_arr as $k=>$v){
     );
     $ok = $fav_model->add_love($user_id, $comment_id, $fav_info);
     if($ok){
-      // 获取计数
-      $comment = $comment_model->find_by_id($comment_id);
-      if($comment){
-        if(isset($comment['invented_love_count'])){
-          $comment_model->inc_counter('invented_love_count', 1, $comment_id);
-        }else{
-          $comment_model->update_set($comment_id, array('invented_love_count'=>1));
-        }
-      }
       echo "comment love is success!!\n";
       // 删除块用户
-      Sher_Core_Util_View::remove_part_content($mark, $user_id, ',');
+      //Sher_Core_Util_View::remove_part_content($mark, $user_id, ',');
     }else{
       echo "comment love is faile! \n";
     }

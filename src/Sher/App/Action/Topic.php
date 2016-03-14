@@ -800,7 +800,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
                 return $this->ajax_json('抱歉，你没有权限操作此项！', true);
             }
 			$model = new Sher_Core_Model_Topic();
-			$model->mark_as_stick((int)$id);
+			$model->mark_as_stick((int)$id, Sher_Core_Model_Topic::STICK_EDITOR, array('current_user_id'=>$this->visitor->id));
 			
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('操作失败,请重新再试', true);
@@ -849,7 +849,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
                 return $this->ajax_json('抱歉，你没有权限操作此项！', true);
             }
 			$model = new Sher_Core_Model_Topic();
-			$ok = $model->mark_as_fine((int)$id);
+			$ok = $model->mark_as_fine((int)$id, array('current_user_id'=>$this->visitor->id));
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('操作失败,请重新再试', true);
 		}

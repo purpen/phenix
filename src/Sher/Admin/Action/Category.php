@@ -119,6 +119,41 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
 		$this->stash['id'] = $id;
 		return $this->to_taconite_page('admin/del_ok.html');
 	}
+
+	/**
+	 * 获取该分类下标签内容
+	 */
+	public function ajax_fetch_tags() {
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		if(empty($id)){
+      return $this->ajax_json('缺少请参数!', true);
+		}
+
+    $category_model = new Sher_Core_Model_Category();
+    $category = $category_model->load($id);
+		if(empty($category)){
+      return $this->ajax_json('分类不存在!', true);
+    }
+		if(!isset($category['tag_id']) || empty($category['tag_id'])){
+      return $this->ajax_json('分类标签不存在!', true);
+    }
+
+    $scene_tags_model = new Sher_Core_Model_SceneTags();
+    $query = array(
+      'type' => 1,
+      'parent_id' => $category['tag_id'],
+      'status' => Sher_Core_Model_SceneTags::STATE_OK,
+    );
+    $options = array(
+    
+    );
+    $scene_tags = $scene_tags_model->find($query, $options);
+
+
+
+    $data = $scene_tags;
+		return $this->ajax_json('success', false, '', $data);
+	}
 	
 	
 }

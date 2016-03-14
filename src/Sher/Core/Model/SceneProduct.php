@@ -22,7 +22,7 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 		'category_id' => 0,
 		# 分类父级
 		'fid' => 0,
-    # 类型
+    # 来源; 1.官网；2.用户创建
     'kind' => 1,
 		
 		# 所属产品(对应官网产品ID)暂时不用
@@ -69,7 +69,6 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
     	'deleted' => 0,
 		# 是否发布
     	'published' => 0,
-
     # 属性
       'attrbute' => self::ATTR_THN,
       'link' => null,

@@ -1,0 +1,187 @@
+{%extends 'layout/app_admin.html'%}
+{% block page_css %}
+  <style type="text/css">
+    .content-text img{
+      max-width: 150px;
+      max-height: 800px;
+      overflow: hidden;
+      padding: 10px 10px 0 0;
+    }
+    .content-text p{
+      margin:0;
+    }
+
+    .content-text a{
+      text-decoration:none;
+      color:#f36;
+    }
+
+    .content-text a:hover{
+      text-decoration:underline;
+      color:#f36;
+    }
+
+    .ui.reply.form .left {
+    display:inline-block;
+    }
+    .ui.reply.form .left a{
+    text-decoration: none;
+    color: #5d6266;
+    }
+    .ui.reply.form .right.aligned.column{
+    display:inline-block;
+    float:right;
+    }
+
+    .img-tab{
+      margin:5px;
+    }
+    .img-tab a{
+      margin:5px;
+      text-decoration:none;
+    }
+  </style>
+{% endblock %}
+
+{% block jquery %}
+
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+    
+    $('.tags').click(function(){
+        var id = $(this).attr('data-value') - 1;
+        phenix.redirect('{{ app_url_app_admin_base }}/scene_tags/get_list?type='+id);
+    });
+    
+    $('#tags_add').click(function(){
+        $('.ui.modal').modal('show');
+    });
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">标签管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_app_admin_base }}/scene_tags" class="active item">
+			全部
+		</a>
+
+	  	<div class="right menu">
+			<a href="javascript:void(0)" class="item" id="tags_add">
+				<i class="add icon"></i>新增标签
+			</a>
+            <div class="ui modal" style="display: none">
+                <div class="header">选择标签分类</div>
+                <div class="content">
+                    <a href="{{ app_url_app_admin_base }}/scene_tags/add?type=0" class="ui inverted green button">标签分类</a>
+                    <a href="{{ app_url_app_admin_base }}/scene_tags/add?type=1" class="ui inverted green button">产品分类</a>
+                </div>
+            </div>
+			<!--
+			<a href="javascript:void(0);" class="item ajax-delete">
+				<i class="remove icon"></i>批量删除
+			</a>
+			-->
+	    </div>
+	</div>
+	
+	<div class="ui sub ">
+		<form action="{{ app_url_app_admin_base }}/scene_tags/get_list" id="search-form" method="get">
+			<div class="ui selection dropdown">
+                <div class="default text">{%if type == 0%}标签分类{%else%}{%if type == 1%}产品分类{%else%}选择顶级分类{%endif%}{%endif%}</div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                  <div class="item tags" data-value="1">标签分类</div>
+                  <div class="item tags" data-value="2">产品分类</div>
+                </div>
+            </div>
+			<div class="ui input">
+                <input placeholder="中文名称" type="text" name="title_cn" value="" />
+			</div>
+            <div class="ui input">
+                <input placeholder="英文名称" type="text" name="title_en" value="" />
+			</div>
+            <div class="ui input">
+                <div class="ui active small green submit button search">搜索</div>
+            </div>
+		</form>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox" id="checkbox_all_btn">
+					  	<input name="" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+                <th>中文名称</th>
+                <th>英文名称</th>
+                <th>ID</th>
+                <th>父级ID</th>
+                <th>左分值</th>
+                <th>右分值</th>
+				<th>状态</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% scene_tags_list var:'list' page:page title_cn:title_cn title_en:title_en parent_id:parent_id left_ref:root.left_ref right_ref:root.right_ref is_root:1 type:type size:50 %}
+
+			{% for date in list.rows %}
+			<tr id="{{ date._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ date._id }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>
+                  {{ date.title_cn }}
+                </td>
+                <td>
+                  {{ date.title_en }}
+                </td>
+                <td>
+                  {{ date._id }}
+                </td>
+                <td>
+                  {{ date.parent_id }}
+                </td>
+                <td>
+                  {{ date.left_ref }}
+                </td>
+                <td>
+                  {{ date.right_ref }}
+                </td>
+				<td>
+					{% if date.status %}
+					可用
+					{% else %}
+                    不可用
+					{% endif %}
+                 </td>
+				<td>
+                    {% if date.parent_id == 0%}
+					不可操作
+                    {% else%}
+                    <a href="{{ app_url_app_admin_base }}/scene_tags/edit?id={{ date._id }}&page={{ page }}" class="ui link item">编辑</a>
+		          	<a href="{{ app_url_app_admin_base }}/scene_tags/delete?id={{ date._id }}&page={{ page }}" class="ui confirm-request link item">删除</a>
+                    {% endif %}
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+    <label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+{% endblock %}

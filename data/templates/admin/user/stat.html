@@ -1,0 +1,214 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+
+	$('.datepicker').pickadate();
+
+
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">用户管理</h3>
+	<div class="ui secondary pointing magenta menu">
+		<a class="{{ css_all }} item" href="{{ app_url_admin }}/user">全部</a>
+		<a href="{{ app_url_admin }}/user?state=2&time={{ time }}" class="{{ css_ok }} item">已激活</a>
+		<a href="{{ app_url_admin }}/user?state=1&time={{ time }}" class="{{ css_pending }} item">未激活</a>
+		<a href="{{ app_url_admin }}/user?state=3&time={{ time }}" class="{{ css_pending }} item">已禁用</a>
+		<a class="{{ css_admin }} item" href="{{ app_url_admin }}/user?role=admin">管理员</a>
+		<a class="{{ css_editor }} item" href="{{ app_url_admin }}/user?role=editor">编辑人员</a>
+	  	<div class="right menu">
+	    	<div class="ui dropdown item">
+	      	  	筛选时间
+	      	  	<div class="menu">
+					<a href="{{ app_url_admin }}/user?time=" class="item">全部</a>
+					<a href="{{ app_url_admin }}/user?time=yesterday" class="{{ css_yesterday }} item">昨天</a>
+					<a href="{{ app_url_admin }}/user?time=week" class="{{ css_week }} item">最近一周</a>
+					<a href="{{ app_url_admin }}/user?time=mouth" class="{{ css_mouth }} item">最近一月</a>
+	      	  	</div>
+	    	</div>
+	    </div>
+	</div>
+	<div class="ui sub search">
+		<form action="{{ app_url_admin_base }}/user" method="post" class="ui form" id="search-form">
+			<div class="five fields">
+				<div class="field">
+					<div class="ui icon input">
+					  	<input type="text" name="start_date" placeholder="开始时间" value="{{ start_date }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui icon input">
+					  	<input type="text" name="end_date" placeholder="截止时间" value="{{ end_date }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+
+				<div class="field">
+					<input placeholder="Search..." type="text" name="q" />
+				</div>
+
+				<div class="field">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+  <div class="ui grid">
+  	<div class="ten column row">
+			<div class="column">
+				<div class="ui red segment">
+					<h3 class="ui purple header">
+					  {{ user.follow_count|default 0 }}
+					  <div class="sub header">关注</div>
+					</h3>
+				</div>
+			</div>
+			<div class="column">
+				<div class="ui teal segment">
+					<h3 class="ui teal header">
+					  {{ user.fans_count|default 0 }}
+					  <div class="sub header">粉丝</div>
+					</h3>
+				</div>
+			</div>
+			<div class="column">
+				<div class="ui red segment">
+					<h3 class="ui purple header">
+					  {{ user.topic_count|default 0 }}
+					  <div class="sub header">话题</div>
+					</h3>
+				</div>
+			</div>
+			<div class="column">
+				<div class="ui teal segment">
+					<h3 class="ui teal header">
+					  {{ user.stuff_count|default 0 }}
+					  <div class="sub header">灵感</div>
+					</h3>
+				</div>
+			</div>
+			<div class="column">
+				<div class="ui green segment">
+					<h3 class="ui green header">
+					  {{ user.product_count|default 0 }}
+					  <div class="sub header">产品</div>
+					</h3>
+				</div>
+			</div>
+			<div class="column">
+				<div class="ui orange segment">
+					<h3 class="ui orange header">
+					  {{ comment_count|default 0 }}
+					  <div class="sub header">评论</div>
+					</h3>
+				</div>
+			</div>
+			<div class="column">
+				<div class="ui orange segment">
+					<h3 class="ui orange header">
+					  {{ love_count|default 0 }}
+					  <div class="sub header">点赞</div>
+					</h3>
+				</div>
+			</div>
+			<div class="column">
+				<div class="ui orange segment">
+					<h3 class="ui orange header">
+					  {{ try_apply_count|default 0 }}
+					  <div class="sub header">试用</div>
+					</h3>
+				</div>
+			</div>
+		</div>
+  
+  </div>
+	
+	<div class="ui form segment">
+		<h4>用户信息</h4>
+    <div>
+      <p>
+        <span><b>账户:</b></span>
+        <p>
+        <a class="ui image label link" href="{{ user.home_url }}" target="_blank">
+            <img src="{{ user.mini_avatar_url }}">
+            {{ user.nickname }}
+        </a>
+        </p>
+
+        <p>等级：{{ user.ext_state.user_rank.title|default '鸟列兵' }}<p>
+        <p>经验值：{{ user.ext_state.rank_point|default 0 }}<p>
+        <p>鸟币： {{ current_point.balance.money|default 0 }}</p>
+      </p>
+      <p>
+        <span><b>第三方账户:</b></span>
+					<p>
+						{% if user.sina_uid %}
+						<i class="weibo icon"></i>
+						{% endif %}
+						{% if user.qq_uid %}
+						<i class="qq icon"></i>
+						{% endif %}
+						{% if user.wx_open_id %}
+						<i class="wechat icon"></i>
+						{% endif %}
+
+					</p>
+      </p>
+
+      <p>
+        <span><b>基本信息:</b></span>
+        <p>账户: {{ user.account }}</p>
+        {% if user.profile.realname %}
+        <p>姓名: {{ user.profile.realname }}</p>
+        {%endif%}
+        {% if user.profile.phone %}
+         <p> 电话: {{ user.profile.phone }}</p>
+        {%endif%}
+        {% if user.profile.address %}
+         <p> 地址: {{ user.profile.address }}</p>
+        {%endif%}
+        {% if user.profile.zip %}
+         <p> 邮编: {{ user.profile.zip }}</p>
+        {%endif%}
+        {% if user.profile.im_qq %}
+         <p> QQ: {{ user.profile.im_qq }}</p>
+        {%endif%}
+        {% if user.profile.weixin %}
+         <p> 微信: {{ user.profile.weixin }}</p>
+        {%endif%}
+      </p>
+
+    </div>
+
+	</div>
+
+	<div class="ui form segment">
+		<h4>总数量统计</h4>
+    <div>
+      <p></p>
+    </div>
+
+	</div>
+	
+	<div class="ui form segment">
+		<h4>关联查询</h4>
+    <div>
+      
+    </div>
+
+	</div>
+{% endblock %}
