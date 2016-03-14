@@ -129,6 +129,7 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
       return $this->ajax_json('缺少请参数!', true);
 		}
 
+    $data = array();
     $category_model = new Sher_Core_Model_Category();
     $category = $category_model->load($id);
 		if(empty($category)){
@@ -148,9 +149,12 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
       //'field' = array('_id'=>1);
     );
     $scene_tags = $scene_tags_model->find($query, $options);
+    if($scene_tags){
+      foreach($scene_tags as $k=>$v){
+        array_push($data, array('_id'=>$v['_id'], 'title_cn'=>$v['title_cn']));
+      }
+    }
 
-
-    $data = $scene_tags;
 		return $this->ajax_json('success', false, '', $data);
 	}
 	

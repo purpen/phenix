@@ -32,6 +32,18 @@
       text-decoration: none;
   }
 
+  .list-me{
+    margin: 10px 0 10px 0 !important;
+    padding: 0;
+    list-style: none;
+    clear: both;
+  }
+  
+  .list-me li{
+    margin-right: 5px;
+    float: left;
+  }
+
 </style>
 
 {% endblock %}
@@ -44,6 +56,32 @@
 	{% endif %}
 
   <script type="text/javascript">
+
+
+  // 加载标签库
+  function load_category_tag(category_id, tags=''){
+    // 先清空
+    $('#category_tags_box span').html('');
+    $.get("{{ app_url_admin_base }}/category/ajax_fetch_tags", {id:category_id, type:1}, function(result){
+      if(result.success){
+        var tag_arr = [];
+        if(tags){
+          tag_arr = tags.split(',');
+        }
+        var html = '';
+        for(var i=0;i<result.data.length;i++){
+          var has_one = phenix.in_array(tag_arr, String(result.data[i]._id));
+          var is_active = has_one==-1 ? '' : 'active';
+          html += '<a class="ui mini category-tags button '+ is_active +'" style="margin-bottom:2px;" data-value="'+ result.data[i]._id +'">'+ result.data[i].title_cn +'</a>';
+        }
+        $('#category_tags_box span').append(html);
+      }else{
+        alert(result.message);
+      }
+      
+    }, 'json');
+    
+  }
 
   </script>
 {% endblock %}
@@ -240,6 +278,9 @@
 				.removeClass('active');
 				
 			$('#product-category').val('');
+
+      // 清空标签
+      $('#category_tags_box span').html('');
 		}else{
 			$(this)
 				.siblings('.category.button').removeClass('active')
@@ -248,18 +289,39 @@
 			$('#product-category').val(id);
 
       // 加载该类别下的标签库
-      $.get("{{ app_url_admin_base }}/category/ajax_fetch_tags", {id:id, type:1}, function(result){
-        if(result.success){
-          //alert(1);
-        }else{
-          alert(result.message);
-        }
-        
-      }, 'json');
+      load_category_tag(id);
+
 		}
 		
         return false;
 	});
+
+	// 选择分类标签
+	$('body').on('click', '.category-tags.button', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+				
+			$('#product-category-tags').val('');
+		}else{
+			$(this)
+				.siblings('.category-tags.button').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#product-category-tags').val(id);
+
+		}
+    return false;
+	});
+
+  // 初始化标签
+  var current_category_id = $('#product-category').val();
+  var current_category_tags = $('#product-category-tags').val();
+  if(current_category_id){
+    // 加载该类别下的标签库
+    load_category_tag(current_category_id, current_category_tags); 
+  }
 
   // 自动获取站外商品信息
   $('#auto_item_info_btn').click(function(){
@@ -375,6 +437,14 @@
             <a class="ui {{ cat.active }} magenta category button" style="margin-bottom:2px;" data-value="{{ cat._id }}">{{ cat.title }}</a>
           {% endfor %}
         </div>
+
+        <div class="field" id="category_tags_box">
+          <input type="hidden" name="category_tags" value="{{ scene_product.category_tags_s }}" id="product-category-tags" />
+				  	<label for="category_tags">分类标签：</label>
+            <span></span>
+        </div>
+
+
       </div>
 			
 			<div class="field">
