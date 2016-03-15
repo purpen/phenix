@@ -6,6 +6,7 @@
 class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 
     protected $collection = "scene_scene";
+	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
     protected $schema = array(
 		# 标题
@@ -25,10 +26,7 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 		 'location'  => array(
             'type' => 'Point',
             # 经度,纬度
-            'coordinates' => array(
-				'longitude' => 0,
-				'latitude' => 0
-			),
+            'coordinates' => array(),
         ),
 		# 地址
         'address' => '',
@@ -53,7 +51,7 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 		'status' => 1,
     );
 	
-	protected $required_fields = array('title','type','images');
+	protected $required_fields = array('title');
 	protected $int_fields = array('status', 'used_count');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count');

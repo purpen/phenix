@@ -26,7 +26,7 @@ class Sher_Api_Action_Base extends Sher_Core_Action_ApiCheck{
   	/**
    	 * 用户ID
      */
-  public $current_user_id;
+	public $current_user_id;
 	
 	/**
 	 * 参与签名的key
