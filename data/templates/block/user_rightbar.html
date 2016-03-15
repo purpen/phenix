@@ -55,47 +55,25 @@
         {% endif %}
     </div>
 	
-	<!--<div class="ui segment divided info list">
+  {% recent_visitor_list var:'recent_visitor' user_id:id size:15 %}
+	<div class="ui segment divided info list">
 		<div class="item">
 			最近访问的人
 		</div>
 		
 		<div class="ui center aligned item">
-			<a href="http://www.taihuoniao.com/user/895264/" target="_blank" title="魂小鑫">
-			                <img src="http://frbird.qiniudn.com/avatar/160303/56d7a7af20de8dca6b8b4c59-avm.jpg" alt="魂小鑫" class="ui tiny avatar image" style="margin-bottom:5px;">
+      {% if recent_visitor.rows %}
+        {% for d in recent_visitor.rows %}
+        <a href="{{ d.visitor_user.home_url }}" target="_blank" title="{{ d.visitor_user.nickname }}">
+            <img src="{{ d.visitor_user.small_avatar_url }}" alt="{{ d.visitor_user.nickname }}" class="ui tiny avatar image" style="margin-bottom:5px;">
 			            </a>
-						
-						
-						
-						<a href="http://www.taihuoniao.com/user/895264/" target="_blank" title="魂小鑫">
-						                <img src="http://frbird.qiniudn.com/avatar/160303/56d7a7af20de8dca6b8b4c59-avm.jpg" alt="魂小鑫" class="ui tiny avatar image" style="margin-bottom:5px;">
-						            </a>
-									
-									<a href="http://www.taihuoniao.com/user/895264/" target="_blank" title="魂小鑫">
-									                <img src="http://frbird.qiniudn.com/avatar/160303/56d7a7af20de8dca6b8b4c59-avm.jpg" alt="魂小鑫" class="ui tiny avatar image" style="margin-bottom:5px;">
-									            </a>
-												
-												<a href="http://www.taihuoniao.com/user/895264/" target="_blank" title="魂小鑫">
-												                <img src="http://frbird.qiniudn.com/avatar/160303/56d7a7af20de8dca6b8b4c59-avm.jpg" alt="魂小鑫" class="ui tiny avatar image" style="margin-bottom:5px;">
-												            </a>
-															<a href="http://www.taihuoniao.com/user/895264/" target="_blank" title="魂小鑫">
-															                <img src="http://frbird.qiniudn.com/avatar/160303/56d7a7af20de8dca6b8b4c59-avm.jpg" alt="魂小鑫" class="ui tiny avatar image" style="margin-bottom:5px;">
-															            </a>
-																		
-																		<a href="http://www.taihuoniao.com/user/895264/" target="_blank" title="魂小鑫">
-																		                <img src="http://frbird.qiniudn.com/avatar/160303/56d7a7af20de8dca6b8b4c59-avm.jpg" alt="魂小鑫" class="ui tiny avatar image" style="margin-bottom:5px;">
-																		            </a>
-																					
-																					<a href="http://www.taihuoniao.com/user/895264/" target="_blank" title="魂小鑫">
-																					                <img src="http://frbird.qiniudn.com/avatar/160303/56d7a7af20de8dca6b8b4c59-avm.jpg" alt="魂小鑫" class="ui tiny avatar image" style="margin-bottom:5px;">
-																					            </a>
-																								
-																								<a href="http://www.taihuoniao.com/user/895264/" target="_blank" title="魂小鑫">
-																								                <img src="http://frbird.qiniudn.com/avatar/160303/56d7a7af20de8dca6b8b4c59-avm.jpg" alt="魂小鑫" class="ui tiny avatar image" style="margin-bottom:5px;">
-																								            </a>
+        {%endfor%}
+      {%else%}
+        没有过客~
+      {%endif%}
 		
 		
-	</div>-->
+	</div>
 	
 
 </div>

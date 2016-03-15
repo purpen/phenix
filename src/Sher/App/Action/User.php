@@ -64,6 +64,12 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 		
 		// 验证关注关系
         $this->validate_ship();
+
+    // 记录访客
+    if($this->visitor->id && $this->visitor->id != (int)$this->stash['id']){
+      $recent_visitor_model = new Sher_Core_Model_RecentVisitor();
+      $recent_visitor_model->record_visitor((int)$this->stash['id'], $this->visitor->id);
+    }
 		
 		return $this->display_tab_page('tab_all');
 	}
