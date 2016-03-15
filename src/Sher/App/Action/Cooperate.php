@@ -189,9 +189,28 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
 		if(empty($this->stash['name'])){
 			return $this->ajax_json('名称不能为空！', true);
 		}
-        $mode = 'create';
-        $data = $this->stash;
-        
+    $mode = 'create';
+    $data = array();
+    $data['file_id'] = $this->stash['file_id'];
+    $data['type'] = (int)$this->stash['type'];
+    $data['category_ids'] = isset($this->stash['category_ids']) ? (array)$this->stash['category_ids'] : array();
+    $data['name'] = Sher_Core_Helper_FilterFields::remove_xss($this->stash['name']);
+    $data['fullname'] = Sher_Core_Helper_FilterFields::remove_xss($this->stash['fullname']);
+    $data['site_url'] = $this->stash['site_url'];
+    $data['weibo_url'] = $this->stash['weibo_url'];
+    $data['wechat'] = $this->stash['wechat'];
+
+    $data['city'] = Sher_Core_Helper_FilterFields::remove_xss($this->stash['city']);
+    $data['phone'] = Sher_Core_Helper_FilterFields::remove_xss($this->stash['phone']);
+    $data['email'] = Sher_Core_Helper_FilterFields::remove_xss($this->stash['email']);
+
+    $data['address'] = Sher_Core_Helper_FilterFields::remove_xss($this->stash['address']);
+    $data['logo_id'] = $this->stash['logo_id'];
+    $data['summary'] = Sher_Core_Helper_FilterFields::remove_xss($this->stash['summary']);
+
+    $data['people'] = Sher_Core_Helper_FilterFields::remove_xss($this->stash['people']);
+    $data['mobile'] = Sher_Core_Helper_FilterFields::remove_xss($this->stash['mobile']);
+
 		$id = (int)$this->stash['_id'];
         
 		// 检测编辑器图片数
