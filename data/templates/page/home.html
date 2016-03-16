@@ -5,7 +5,7 @@
     .fixed.button{
       display:none !important;
     }
-	{% if ad.mode == 2 %}
+	{% if advertise.b_color == 1 %}
 		#fixedslide .pages>a.active,#fixedslide .pages>a:hover{
 			background:#000;
 		}
@@ -14,6 +14,8 @@
 		}
 	
 	{% endif %}
+	
+	
 </style>
 {% endblock %}
 {% block jquery %}
@@ -173,7 +175,7 @@
 						<p class="snippet">
 							{{ ad.sub_title }}
 						</p>
-						<a class="ui big inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
+						<a class="ui big {% if ad.b_color == 1 %}black{% endif %} inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
 					</div>
 					{% else %}
 					<a class="imglink" href="{{ ad.view_url }}" target="_blank"></a>	
