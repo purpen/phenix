@@ -132,11 +132,10 @@
 {% endblock %}
 
 {% block layout_js %}
-	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
   <script type="text/javascript" >
 	$(window).scroll(function(){
 		if( $(window).scrollTop() == $('.nav-menu').offset().top){
-	      ajax_load_product_more(0, 2, 4, 1, 10);
+	      
 		}
 		
 	})
@@ -231,7 +230,7 @@
 	var flexheight = Math.floor($('#mfrbird').width()*9/16)+'px';
 	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
 
-  
+  ajax_load_product_more(0, 2, 4, 1, 10);
   ajax_load_try_more(0, 1, 1, 1);
   ajax_load_topic_eval_more(5, 6, 1, 6);
 {% endblock %}
