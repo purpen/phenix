@@ -135,7 +135,7 @@
 	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
   <script type="text/javascript" >
 	$(window).scroll(function(){
-		if( $(window).scrollTop() > $('.nav-menu').offset().top){
+		if( $(window).scrollTop() == $('.nav-menu').offset().top){
 	      ajax_load_product_more(0, 2, 4, 1, 10);
 		}
 		
@@ -343,6 +343,9 @@
   </div>
 </div>
 -->
+
+
+
 
 <!--商品-->
 <div class="ui responsive grid" id="mpresale">
