@@ -91,11 +91,11 @@
             if($order['prepay_id']){
               //签名步骤一：按字典序排序参数
               $val = array(
-                'appId' => Doggy_Config::$vars['app.wechat_m.app_id'],
-                'partnerId' => Doggy_Config::$vars['app.wechat_m.partner_id'],
-                'prepayId' => $order['prepay_id'],
-                'nonceStr' => $order['nonce_str'],
-                'timeStamp' => $order['time_stamp'],
+                'appid' => Doggy_Config::$vars['app.wechat_m.app_id'],
+                'partnerid' => Doggy_Config::$vars['app.wechat_m.partner_id'],
+                'prepayid' => $order['prepay_id'],
+                'noncestr' => $order['nonce_str'],
+                'timestamp' => (string)$order['time_stamp'],
                 'package' => 'Sign=WXPay',
               );
               ksort($val);
