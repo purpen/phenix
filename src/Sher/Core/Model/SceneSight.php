@@ -23,6 +23,11 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		'tags' => array(),
 		# 产品
 		'product' => array(),
+		# 产品位置坐标
+		'product_site' => array(
+			'x' => 0,
+			'y' => 0
+		),
 		# 地理位置
 		 'location'  => array(
             'type' => 'Point',
