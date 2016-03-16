@@ -67,6 +67,82 @@
 	color: rgba(0,0,0,0.65);
   padding: 8px 0 5px;
 }
+.nav-menu{
+	background: #fff;
+	margin-top: 8px;
+}
+.navfelx{
+	padding:0;
+	margin:0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.childcell{
+	-webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    width: 0;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    max-width: 100%;
+    display: block;
+    padding: 0!important;
+    position: relative;
+	border-right: 1px solid rgba(0,0,0,0.2);
+}
+.navfelx:last-child{
+	border-top:1px solid rgba(0,0,0,0.2);
+}
+.navfelx .childcell:nth-child(3){
+	border-right:none;
+}
+.menuicon{
+	-webkit-tap-highlight-color: transparent;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+	display: block;
+    color: rgba(112,123,135,.92);
+    font-size: 12px;
+    line-height: normal;
+    height: auto;
+    text-align: center;
+    margin: 4px;
+}
+.menuicon:hover{
+	color: rgba(112,123,135,.92);
+}
+.menuicon img{
+	width:40px;
+	height:40px;
+	display: block;
+    margin: 0 auto 8px;
+	vertical-align: middle;
+}
+@media only screen and (max-width: 320px){
+	#slider{
+		height:180px;
+	}
+}
+@media only screen and (min-width:321px )and (max-width: 375px){
+	#slider{
+		height:210px;
+	}
+}
+@media only screen and (min-width: 376px) and (max-width: 414px){
+	#slider{
+		height:232px;
+	}
+}
 </style>
 {% endblock %}
 
@@ -162,7 +238,7 @@
       nextText: " ",
     });
 	
-	var flexheight = $('#mfrbird').width()*9/16+'px';
+	var flexheight = Math.floor($('#mfrbird').width()*9/16)+'px';
 	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
 
   ajax_load_product_more(0, 2, 4, 1, 10);
@@ -184,6 +260,52 @@
   </ul>
 </div>
 
+
+<div class="nav-menu">
+	<ul class="navfelx">
+		<li class="childcell">
+			<a class="menuicon" href=" " style="padding:4px">
+				<img class="" src="//img.alicdn.com/tps/i2/TB1i1oXLVXXXXcPXXXXtz80OVXX-160-160.png_q30.jpg_.webp">
+			    积分乐园
+			</a>
+		</li>
+		<li class="childcell">
+			<a class="menuicon" href=" " style="padding:4px">
+				<img class="" src="//img.alicdn.com/tps/i2/TB1i1oXLVXXXXcPXXXXtz80OVXX-160-160.png_q30.jpg_.webp">
+			    积分乐园
+			</a>
+		</li>
+		<li class="childcell">
+			<a class="menuicon" href=" " style="padding:4px">
+				<img class="" src="//img.alicdn.com/tps/i2/TB1i1oXLVXXXXcPXXXXtz80OVXX-160-160.png_q30.jpg_.webp">
+			    积分乐园
+			</a>
+		</li>
+	</ul>
+	<ul class="navfelx">
+		<li class="childcell">
+			<a class="menuicon" href=" " style="padding:4px">
+				<img class="" src="//img.alicdn.com/tps/i2/TB1i1oXLVXXXXcPXXXXtz80OVXX-160-160.png_q30.jpg_.webp">
+			    积分乐园
+			</a>
+		</li>
+		<li class="childcell">
+			<a class="menuicon" href=" " style="padding:4px">
+				<img class="" src="//img.alicdn.com/tps/i2/TB1i1oXLVXXXXcPXXXXtz80OVXX-160-160.png_q30.jpg_.webp">
+			    积分乐园
+			</a>
+		</li>
+		<li class="childcell">
+			<a class="menuicon" href=" " style="padding:4px">
+				<img class="" src="//img.alicdn.com/tps/i2/TB1i1oXLVXXXXcPXXXXtz80OVXX-160-160.png_q30.jpg_.webp">
+			    积分乐园
+			</a>
+		</li>
+	</ul>
+	
+</div>
+
+<!--
 <div id="mchildmenu" class="flexslider flex-single">
   <ul class="slides">
     <li class="none" style="display:inline-block;">
@@ -230,6 +352,7 @@
   
   </div>
 </div>
+-->
 
 <!--商品-->
 <div class="ui responsive grid" id="mpresale">
