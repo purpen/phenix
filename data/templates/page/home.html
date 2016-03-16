@@ -5,6 +5,15 @@
     .fixed.button{
       display:none !important;
     }
+	{% if advertise.b_color == 1 %}
+		#fixedslide .pages>a.active,#fixedslide .pages>a:hover{
+			background:#000;
+		}
+		#fixedslide .pages>a{
+			background-color: rgba(0,0,0,.6);
+		}
+	
+	{% endif %}
 </style>
 {% endblock %}
 {% block jquery %}
