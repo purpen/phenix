@@ -128,6 +128,37 @@
 		height:232px;
 	}
 }
+
+.recommend-topic{
+	width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-size: 0;
+	position:relative;
+	padding-top: 10px;
+}
+.recom-item{
+	width: 100%;
+    font-size: 0;
+    overflow: hidden;
+	padding: 0 10px;
+}
+.recom-cell{
+	width:50%;
+	height: 100%;
+	display:inline-block;
+	padding: 0 5px;
+}
+.recom-cell a{
+	text-decoration: none;
+}
+.recom-cell a img{
+	width:100%;
+	height: auto;
+	overflow: hidden;
+	vertical-align: baseline;
+}
+
 </style>
 {% endblock %}
 
@@ -176,10 +207,10 @@
     {%endif%}
   {%endif%}
 
-  var mySwiper1 = new Swiper('.tslide',{
+  /*var mySwiper1 = new Swiper('.tslide',{
     freeMode : true,
     slidesPerView : 'auto',
-  });
+  });*/
 	
 	$('#pc-site').click(function(){
 		phenix.create_cookie('mode', 'pc', 1, 'taihuoniao.com');
@@ -214,7 +245,7 @@
       animationDuration: 300,
       animationSpeed: 300,
   });
-  var s=$('#mfrbird').width();
+  /*var s=$('#mfrbird').width();
   $('#mchildmenu').flexslider({
       animation: "slide",
       animationLoop: false,
@@ -225,7 +256,7 @@
       directionNav: true,
       prevText: " ",
       nextText: " ",
-    });
+    });*/
 	
 	var flexheight = Math.floor($('#mfrbird').width()*9/16)+'px';
 	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
@@ -248,7 +279,6 @@
     {% endfor %}
   </ul>
 </div>
-
 
 <div class="nav-menu">
 	<ul class="navfelx">
@@ -291,8 +321,30 @@
 			</a>
 		</li>
 	</ul>
-	
 </div>
+
+<!-- 社区推荐位 -->
+<div class="recommend-topic">
+	<div class="recom-item">
+		<div class="recom-cell">
+			<a href="">
+				<img src="http://m.360buyimg.com/mobilecms/jfs/t2458/113/2621266645/15111/ddc79462/56e26019N37dff8f3.jpg!q70.jpg">
+			</a>
+		</div>
+		<div class="recom-cell">
+			<a href="">
+				<img src="http://m.360buyimg.com/mobilecms/jfs/t2458/113/2621266645/15111/ddc79462/56e26019N37dff8f3.jpg!q70.jpg">
+			</a>
+		</div>
+		
+		
+		
+	</div>
+	
+	
+
+</div>
+
 
 <!--
 <div id="mchildmenu" class="flexslider flex-single">
@@ -343,8 +395,17 @@
 </div>
 -->
 
+<!--<img class="lazy" data-original="http://www.w3cways.com/demo/LazyLoad/img/bmw_m1_hood.jpg" width="100%" alt="BMW M1 Hood" src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png" style="display: block;">
 
+<img class="lazy" data-original="http://www.w3cways.com/demo/LazyLoad/img/bmw_m1_hood.jpg" width="100%" alt="BMW M1 Hood" src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png" style="display: block;">
 
+<img class="lazy" data-original="http://www.w3cways.com/demo/LazyLoad/img/bmw_m1_hood.jpg" width="100%" alt="BMW M1 Hood" src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png" style="display: block;">
+
+<img class="lazy" data-original="http://www.w3cways.com/demo/LazyLoad/img/bmw_m1_hood.jpg" width="100%" alt="BMW M1 Hood" src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png" style="display: block;">
+
+<img class="lazy" data-original="http://www.w3cways.com/demo/LazyLoad/img/bmw_m1_hood.jpg" width="100%" alt="BMW M1 Hood" src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png" style="display: block;">
+
+<img class="lazy" data-original="http://www.w3cways.com/demo/LazyLoad/img/bmw_m1_hood.jpg" width="100%" alt="BMW M1 Hood" src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png" style="display: block;">-->
 
 <!--商品-->
 <div class="ui responsive grid" id="mpresale">
