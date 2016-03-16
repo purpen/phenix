@@ -1325,13 +1325,13 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		
 		// 挑选支付机构
 		Doggy_Log_Helper::warn('Api Pay away:'.$payaway);
-		
+		$random = Sher_Core_Helper_Util::generate_mongo_id();
 		switch($payaway){
 			case 'alipay':
-        $pay_url = sprintf("%s/app/api/alipay/payment?user_id=%d&rid=%d&uuid=%s&ip=%s", Doggy_Config::$vars['app.url.domain'], $user_id, $rid, $uuid, $ip);
+        $pay_url = sprintf("%s/alipay/payment?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $user_id, $rid, $uuid, $ip, $random);
 				break;
 			case 'weichat':
-        $pay_url = sprintf("%s/app/api/wxpay/payment?user_id=%d&rid=%d&uuid=%s&ip=%s", Doggy_Config::$vars['app.url.domain'], $user_id, $rid, $uuid, $ip);
+        $pay_url = sprintf("%s/wxpay/payment?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $user_id, $rid, $uuid, $ip, $random);
 				break;
 			default:
 			  return $this->api_json('找不到支付类型！', 3005);
