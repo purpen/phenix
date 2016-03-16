@@ -932,7 +932,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		// 请求参数
         $user_id = $this->current_user_id;
 		// 订单状态
-		$status  = isset($this->stash['status']) ? $this->stash['status'] : 0;
+		$status  = isset($this->stash['status']) ? (int)$this->stash['status'] : 0;
 		if(empty($user_id)){
 			return $this->api_json('请先登录!', 3000);
 		}
