@@ -404,8 +404,8 @@ h4 a.seemore{
 				<!--<div class="ui one products tries cards item-box">
 					
 				</div>-->
-        {% for d in tries.rows %}
           <div class="recom-item">
+          {% for d in tries.rows %}
             <div class="recom-cell">
               <a href="">
                 <img class="lazy" data-original="{{ d.cover.thumbnails.resp.view_url }}" alt="{{ d.short_title }}" src="{{ app_url_packaged }}/images/icon/loading.png">
