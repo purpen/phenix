@@ -301,32 +301,32 @@
 <div class="nav-menu">
 	<ul class="navfelx">
 		<li class="childcell">
-			<a class="menuicon" href=" " >
-				<img src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png">
+			<a class="menuicon" href="{{ app_url_wap }}/topic" >
+				<img src="{{ app_url_packaged }}/images/icon/topic.png">
 			    社区
 			</a>
 		</li>
 		<li class="childcell">
-			<a class="menuicon" href=" ">
-				<img src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png">
+			<a class="menuicon" href="{{ app_url_wap }}/shop">
+				<img src="{{ app_url_packaged }}/images/icon/topic.png">
 			    商品
 			</a>
 		</li>
 		<li class="childcell">
-			<a class="menuicon" href=" ">
-				<img src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png">
+			<a class="menuicon" href="{{ app_url_wap }}/try">
+				<img src="{{ app_url_packaged }}/images/icon/try.png">
 			    免费试用
 			</a>
 		</li>
 		<li class="childcell">
-			<a class="menuicon" href=" ">
-				<img src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png">
+			<a class="menuicon" href="{{ app_url_wap }}/incubator/resource">
+				<img src="{{ app_url_packaged }}/images/icon/cooa.png">
 			    孵化
 			</a>
 		</li>
 		<li class="childcell">
-			<a class="menuicon" href=" ">
-				<img src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png">
+			<a class="menuicon" href="{{ app_url_wap }}/active">
+				<img src="{{ app_url_packaged }}/images/icon/active.png">
 			    活动
 			</a>
 		</li>
@@ -344,7 +344,7 @@
 		{% for ad in adslide2.rows %}
 		<div class="recom-cell">
 			<a href="{{ ad.view_url }}" title="{{ ad.title }}">
-				<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ ad.cover.fileurl }}">
+				<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png">
 				<div class="desc">
 					{{ ad.title }}
 				</div>
@@ -361,7 +361,7 @@
 		 {% for topic in topics.rows %}
 		<div class="recom-cell">
 			<a href="{{ topic.view_url }}">
-				<img class="lazy" data-original="{{ topic.cover.thumbnails.hm.view_url }}" src="{{ topic.cover.thumbnails.hm.view_url }}">
+				<img class="lazy" data-original="{{ topic.cover.thumbnails.hm.view_url }}" src="{{ app_url_packaged }}/images/icon/loading.png">
 				<div class="desc">
                         {{ topic.short_title }}
                 </div>
