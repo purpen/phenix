@@ -286,9 +286,9 @@
 	var flexheight = Math.floor($('#mfrbird').width()*9/16)+'px';
 	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
 
-  ajax_load_product_more(0, 2, 4, 1, 10);
-  ajax_load_try_more(0, 1, 1, 4);
-  ajax_load_topic_eval_more(5, 6, 1, 6);
+  ajax_load_product_more(0, 2, 4, 1, 12);
+  ajax_load_try_more(0, 1, 1, 2);
+  <!--ajax_load_topic_eval_more(5, 6, 1, 6);-->
 {% endblock %}
 
 {% block content %}
@@ -351,23 +351,40 @@
 <!-- 社区推荐位 500x330 -->
 <div class="recommend-topic">
 	<div class="recom-item">
+        {% cache cache_key:'web_index_product_stick_slide' ttl:600 disable_cache:app_disable_cached %}
+        
+		{% ad_list var:'adslide2' page:1 size:4 state:2 name:'web_index_product_stick_slide' %}
+        {% if adslide2.rows %}
+		
+		{% for ad in adslide2.rows %}
 		<div class="recom-cell">
-			<a href="">
-				<img class="lazy" data-original="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg" src="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg">
+			<a href="{{ ad.view_url }}" title="{{ ad.title }}">
+				<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ ad.cover.fileurl }}">
 				<div class="desc">
-					掌中的百寸精彩---papa手机投影
+					{{ ad.title }}
 				</div>
 			</a>
 		</div>
+		 {%endfor%}
+         {%endif%}
+         
+         {% endcache %}
+		 
+         {% cache cache_key:'web_index_fine_topics' ttl:300 disable_cache:app_disable_cached %}
+         
+         {% topic_list var:'topics' published:1 type:2 page:1 size:4 %}
+		 {% for topic in topics.rows %}
 		<div class="recom-cell">
-			<a href="">
-				<img class="lazy" data-original="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg" src="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg">
+			<a href="{{ topic.view_url }}">
+				<img class="lazy" data-original="{{ topic.cover.thumbnails.hm.view_url }}" src="{{ topic.cover.thumbnails.hm.view_url }}">
 				<div class="desc">
-                        【我爱DIY】一枚爱diy外设的奇葩女玩家 
+                        {{ topic.short_title }}
                 </div>
 			</a>
 		</div>
-		<div class="recom-cell">
+		{% endfor %}
+		{% endcache %}
+		<!--<div class="recom-cell">
 			<a href="">
 				<img class="lazy" data-original="http://t-1.tuzhan.com/261a068c404b/p-2/l/2013/05/21/09/2fd27d825b7947618367fe66c192eee0.jpg" src="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg">
 				<div class="desc">
@@ -414,7 +431,7 @@
                         【DIY达人周】你家有什么东西需要修理么？
                 </div>
 			</a>
-		</div>
+		</div>-->
 		
 		
 	</div>
@@ -429,11 +446,16 @@
 		<div class="row" id="triespage">
 			<div class="column">
 			<h4 class="ui header">免费试用</h4>
-				<div class="ui two products tries cards item-box">
+				<div class="ui one products tries cards item-box">
         <!--ajax load-->
 				</div>
 			</div>
 		</div>
+  	  	<div class="row">
+        	<div class="ui center aligned column">
+          	  <a href="{{ app_url_wap }}/try" class="ui fluid black button">更多试用产品</a>
+        	</div>
+  	  	</div>
 	</div>
 </div>		
 
@@ -487,18 +509,6 @@
 </div>
 -->
 
-<!--<img class="lazy" data-original="http://www.w3cways.com/demo/LazyLoad/img/bmw_m1_hood.jpg" width="100%" alt="BMW M1 Hood" src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png" style="display: block;">
-
-<img class="lazy" data-original="http://www.w3cways.com/demo/LazyLoad/img/bmw_m1_hood.jpg" width="100%" alt="BMW M1 Hood" src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png" style="display: block;">
-
-<img class="lazy" data-original="http://www.w3cways.com/demo/LazyLoad/img/bmw_m1_hood.jpg" width="100%" alt="BMW M1 Hood" src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png" style="display: block;">
-
-<img class="lazy" data-original="http://www.w3cways.com/demo/LazyLoad/img/bmw_m1_hood.jpg" width="100%" alt="BMW M1 Hood" src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png" style="display: block;">
-
-<img class="lazy" data-original="http://www.w3cways.com/demo/LazyLoad/img/bmw_m1_hood.jpg" width="100%" alt="BMW M1 Hood" src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png" style="display: block;">
-
-<img class="lazy" data-original="http://www.w3cways.com/demo/LazyLoad/img/bmw_m1_hood.jpg" width="100%" alt="BMW M1 Hood" src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png" style="display: block;">-->
-
 <!--商品-->
 <div class="ui responsive grid" id="mpresale">
 	<div class="row">
@@ -517,23 +527,23 @@
 </div>
 
 <!--试用-->
-<div class='games page try'>
+<!--<div class='games page try'>
 	<div class="ui responsive grid">
 		<div class="row" id="triespage">
 			<div class="column">
 			<h4 class="ui header">免费试用</h4>
 				<div class="ui one products tries cards item-box">
-        <!--ajax load-->
+        ajax load
 				</div>
 			</div>
-		</div>
+		</div>-->
 
     <!--评测-->
-		<div class="row" id="topicspage">
+		<!--<div class="row" id="topicspage">
 			<div class="column topic-box-list">
 			<h4 class="ui header">评测报告</h4>
 				<div class="ui topic relaxed divided list item-box" id="topic-box">
-        <!--ajax load-->
+        
 				</div>
 			</div>
 		</div>
@@ -544,13 +554,13 @@
       </div>
 	  </div>
 	</div>
+</div>-->
 
-</div>
 
 {% endblock %}
 
 {% block templates %}
 {% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/fetch_more_products.mustache' %}
 {% mustache id:'fetch_more_try_tpl' tpl:'mustache_m/fetch_more_try.mustache' %}
-{% mustache id:'fetch_more_topic_tpl' tpl:'mustache_m/fetch_more_topic.mustache' %}
+<!--{% mustache id:'fetch_more_topic_tpl' tpl:'mustache_m/fetch_more_topic.mustache' %}-->
 {% endblock %}
