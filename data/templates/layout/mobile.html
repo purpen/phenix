@@ -74,7 +74,6 @@
             .invitelog {
                 margin: 2rem auto;
             }
-
 		</style>
 		
 		{% block layout_css %}{% endblock %}
@@ -99,8 +98,8 @@
     	
 		<script type="text/javascript" src="{{ app_url_qiniu_frstatic }}/javascript/semantic.2.0.min.js"></script>
 		{% if js_use_bundle %}
-    	<!--<script type="text/javascript" src="{{ app_url_packaged }}/javascript/mobile.min.{{ js_jquery_bundle_version }}.js"></script>-->
-		<script type="text/javascript" src="http://frstatic.qiniudn.com/wechat/js/jmobile.min.js"></script>
+    	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/mobile.min.{{ js_jquery_bundle_version }}.js"></script>
+		<!--<script type="text/javascript" src="http://frstatic.qiniudn.com/wechat/js/jmobile.min.js"></script>-->
 		{% else %}
 		<script type="text/javascript" src="{{ app_url_qiniu_frstatic }}/javascript/semantic.2.0.min.js"></script>
         <script type="text/javascript" src="{{ app_url_packaged }}/javascript/mobile.min.js"></script>
@@ -129,6 +128,17 @@
 			phenix.visitor = {{ visitor_json }};
 			
     		phenix.initial();
+			
+			$('.ui.wap a.launch').on('click',function(){
+				$('#cover').css('display','block');
+				$('body').addClass('menu-open');
+				$('html').css('overflow','hidden');
+			});
+			$('.ui.wap #cover').click(function(){
+				$('#cover').css('display','none');
+				$('body').removeClass('menu-open');
+				$('html').css('overflow','');
+			});
 			
 				//ajax加载签到数据
 	      if (phenix.visitor.is_login){

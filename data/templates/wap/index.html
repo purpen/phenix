@@ -53,7 +53,6 @@
 }
 .nav-menu{
 	background: #fff;
-	margin-top: 8px;
 }
 .navfelx{
 	padding:0;
@@ -128,7 +127,7 @@
     overflow: hidden;
     font-size: 0;
 	position:relative;
-	padding-top: 8px;
+	padding-top: 4px;
 }
 .recom-item{
 	width: 100%;
@@ -159,14 +158,14 @@
     overflow: hidden;
     vertical-align: bottom;
 }
-.recom-cell a .desc{
-    background: -moz-linear-gradient(top,rgba(0,0,0,0.2),rgba(0,0,0,0.6));
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(rgba(0,0,0,0.2)), to(rgba(0,0,0,0.6)));
-    background: -webkit-linear-gradient(top, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
-    background: -o-linear-gradient(top, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
+.recom-cell a .desc,a.trycell .desc{
+    background: -moz-linear-gradient(top,rgba(0,0,0,0.0),rgba(0,0,0,0.7));
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(rgba(0,0,0,0.0)), to(rgba(0,0,0,0.7)));
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0.0), rgba(0,0,0,0.7));
+    background: -o-linear-gradient(top, rgba(0,0,0,0.0), rgba(0,0,0,0.7));
     width: 100%;
-    height: 30px;
-    line-height: 30px;
+    height: 60px;
+    line-height: 95px;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -175,7 +174,34 @@
     text-align: center;
     padding: 0 5px;
 }
-
+h4 a.seemore{
+    font-size: 12px;
+    display: inline-block;
+    float: right;
+}
+#triespage h4.ui.header,#mpresale h4.ui.header{
+	margin-bottom:5px;
+}
+#mpresale .row:first-child{
+	padding-top:0 !important;
+}
+#mpresale .ui.products.cards.two>.card {
+    background: 0 0;
+    box-shadow: none;
+    width: 47%;
+    margin-left: 1.5%;
+    margin-right: 1.5%;
+    margin: 3px 1.5%;
+}
+.ui.products.cards.two>.card>.problock>.counter{
+	bottom: 5px;
+}
+.ui.products.cards.two>.card>.problock>.cats{
+	padding: 5px 10px 25px;
+}
+#slider{
+	margin-bottom:0 !important;
+}
 </style>
 {% endblock %}
 
@@ -301,32 +327,32 @@
 <div class="nav-menu">
 	<ul class="navfelx">
 		<li class="childcell">
-			<a class="menuicon" href=" " >
-				<img src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png">
+			<a class="menuicon" href="{{ app_url_wap }}/topic" >
+				<img src="{{ app_url_packaged }}/images/icon/topic.png">
 			    社区
 			</a>
 		</li>
 		<li class="childcell">
-			<a class="menuicon" href=" ">
-				<img src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png">
+			<a class="menuicon" href="{{ app_url_wap }}/shop">
+				<img src="{{ app_url_packaged }}/images/icon/product.png">
 			    商品
 			</a>
 		</li>
 		<li class="childcell">
-			<a class="menuicon" href=" ">
-				<img src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png">
+			<a class="menuicon" href="{{ app_url_wap }}/try">
+				<img src="{{ app_url_packaged }}/images/icon/try.png">
 			    免费试用
 			</a>
 		</li>
 		<li class="childcell">
-			<a class="menuicon" href=" ">
-				<img src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png">
+			<a class="menuicon" href="{{ app_url_wap }}/incubator/resource">
+				<img src="{{ app_url_packaged }}/images/icon/cooa.png">
 			    孵化
 			</a>
 		</li>
 		<li class="childcell">
-			<a class="menuicon" href=" ">
-				<img src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png">
+			<a class="menuicon" href="{{ app_url_wap }}/active">
+				<img src="{{ app_url_packaged }}/images/icon/active.png">
 			    活动
 			</a>
 		</li>
@@ -344,7 +370,7 @@
 		{% for ad in adslide2.rows %}
 		<div class="recom-cell">
 			<a href="{{ ad.view_url }}" title="{{ ad.title }}">
-				<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ ad.cover.fileurl }}">
+				<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png">
 				<div class="desc">
 					{{ ad.title }}
 				</div>
@@ -355,69 +381,20 @@
          
          {% endcache %}
 		 
-         {% cache cache_key:'web_index_fine_topics' ttl:300 disable_cache:app_disable_cached %}
+         {% cache cache_key:'web_index_topic_stick_slide' ttl:0 disable_cache:app_disable_cached %}
          
-         {% topic_list var:'topics' published:1 type:2 page:1 size:4 %}
-		 {% for topic in topics.rows %}
+         {% ad_list var:'adslide3' page:1 size:4 state:2 name:'web_index_topic_stick_slide' %}
+		 {% for ad in adslide3.rows %}
 		<div class="recom-cell">
-			<a href="{{ topic.view_url }}">
-				<img class="lazy" data-original="{{ topic.cover.thumbnails.hm.view_url }}" src="{{ topic.cover.thumbnails.hm.view_url }}">
+			<a href="{{ ad.view_url }}">
+				<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png">
 				<div class="desc">
-                        {{ topic.short_title }}
+                        {{ ad.title }}
                 </div>
 			</a>
 		</div>
 		{% endfor %}
 		{% endcache %}
-		<!--<div class="recom-cell">
-			<a href="">
-				<img class="lazy" data-original="http://t-1.tuzhan.com/261a068c404b/p-2/l/2013/05/21/09/2fd27d825b7947618367fe66c192eee0.jpg" src="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg">
-				<div class="desc">
-						免费试用丨Himama智能备孕仪（10个）
-                </div>
-			</a>
-		</div>
-		<div class="recom-cell">
-			<a href="">
-				<img class="lazy" data-original="http://t-1.tuzhan.com/b356d935ff61/p-2/l/2013/08/24/04/f4cc633587a7418c9435ae8c350de65d.jpg" src="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg">
-				<div class="desc">
-                        【DIY达人周】你家有什么东西需要修理么？
-                </div>
-			</a>
-		</div>
-		<div class="recom-cell">
-			<a href="">
-				<img class="lazy" data-original="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg" src="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg">
-				<div class="desc">
-					掌中的百寸精彩---papa手机投影
-				</div>
-			</a>
-		</div>
-		<div class="recom-cell">
-			<a href="">
-				<img class="lazy" data-original="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg" src="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg">
-				<div class="desc">
-                        【我爱DIY】一枚爱diy外设的奇葩女玩家 
-                </div>
-			</a>
-		</div>
-		<div class="recom-cell">
-			<a href="">
-				<img class="lazy" data-original="http://t-1.tuzhan.com/261a068c404b/p-2/l/2013/05/21/09/2fd27d825b7947618367fe66c192eee0.jpg" src="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg">
-				<div class="desc">
-						免费试用丨Himama智能备孕仪（10个）
-                </div>
-			</a>
-		</div>
-		<div class="recom-cell">
-			<a href="">
-				<img class="lazy" data-original="http://t-1.tuzhan.com/b356d935ff61/p-2/l/2013/08/24/04/f4cc633587a7418c9435ae8c350de65d.jpg" src="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg">
-				<div class="desc">
-                        【DIY达人周】你家有什么东西需要修理么？
-                </div>
-			</a>
-		</div>-->
-		
 		
 	</div>
 	
@@ -430,116 +407,74 @@
 	<div class="ui responsive grid">
 		<div class="row" id="triespage">
 			<div class="column">
-			<h4 class="ui header">免费试用</h4>
-				<div class="ui one products tries cards item-box">
-        <!--ajax load-->
+			<h4 class="ui header">免费试用
+			<a href="{{ app_url_wap }}/try" class="ui seemore line link" >查看更多</a>
+			</h4>
+				<!--<div class="ui one products tries cards item-box">
+					
+				</div>-->
+				
+				<div class="recom-item">
+					<div class="recom-cell">
+						<a href="">
+							<img class="lazy" data-original="http://frbird.qiniudn.com/try/160316/56e93be6fc8b12240d8b5188-1-resp.jpg" src="{{ app_url_packaged }}/images/icon/loading.png">
+							<div class="desc">
+								幻响小贝 Hifi 2.1蓝牙音响
+							</div>
+						</a>
+					</div>
+					
+					<div class="recom-cell">
+						<a href="">
+							<img class="lazy" data-original="http://frbird.qiniudn.com/try/160316/56e957f1fc8b12a90c8b5346-1-resp.jpg" src="{{ app_url_packaged }}/images/icon/loading.png">
+							<div class="desc">
+								幻响小贝 Hifi 2.1蓝牙音响
+							</div>
+						</a>
+					</div>
+					
+					<div class="recom-cell">
+						<a href="">
+							<img class="lazy" data-original="http://frbird.qiniudn.com/try/160316/56e93be6fc8b12240d8b5188-1-resp.jpg" src="{{ app_url_packaged }}/images/icon/loading.png">
+							<div class="desc">
+								幻响小贝 Hifi 2.1蓝牙音响
+							</div>
+						</a>
+					</div>
+					
+					<div class="recom-cell">
+						<a href="">
+							<img class="lazy" data-original="http://frbird.qiniudn.com/try/160316/56e957f1fc8b12a90c8b5346-1-resp.jpg" src="{{ app_url_packaged }}/images/icon/loading.png">
+							<div class="desc">
+								幻响小贝 Hifi 2.1蓝牙音响
+							</div>
+						</a>
+					</div>
+					
+					
+					
 				</div>
+					
+				
 			</div>
 		</div>
-  	  	<div class="row">
-        	<div class="ui center aligned column">
-          	  <a href="{{ app_url_wap }}/try" class="ui fluid black button">更多试用产品</a>
-        	</div>
-  	  	</div>
 	</div>
 </div>		
-
-
-<!--
-<div id="mchildmenu" class="flexslider flex-single">
-  <ul class="slides">
-    <li class="none" style="display:inline-block;">
-      <a class="item" href="{{ app_url_wap }}/shop">
-	    	商品
-	  	</a>
-    </li>
-    <li style="display:inline-block;">
-      <a class="item" href="{{ app_url_wap }}/topic">
-	    	社区
-	  	</a>
-    </li>
-    <li style="display:inline-block;">
-      <a class="item" href="{{ app_url_wap }}/try">
-	    	免费试用
-	  	</a>
-    </li>
-    <li style="display:inline-block;">
-      <a class="item" href="{{ app_url_wap }}/active">
-	    	活动
-	  	</a>
-    </li>
-    <li style="display:inline-block;">
-      <a class="item" href="{{ app_url_wap }}/incubator">
-	    	孵化服务
-	  	</a>
-    </li>
-    <li style="display:inline-block;">
-      <a class="item" href="{{ app_url_wap }}/incubator/resource">
-	    	孵化资源
-	  	</a>
-    </li>
-    <li style="display:inline-block;">
-      <a class="item" href="{{ app_url_wap }}/stuff/hundred">
-	    	Top100
-	  	</a>
-    </li>
-    <li style="display:inline-block;">
-      <a class="item" href="{{ app_url_wap }}/clients">
-	    	客户端
-	  	</a>
-    </li>
-    
-  
-  </div>
-</div>
--->
 
 <!--商品-->
 <div class="ui responsive grid" id="mpresale">
 	<div class="row">
 		<div class="column">
-			<h4 class="ui header">热门商品</h4>
-			<div class="ui products two cards item-box">
+			<h4 class="ui header">热门商品
+			<a href="{{ app_url_wap }}/shop" class="ui seemore line link" >查看更多</a>
+			</h4>
+			<div class="ui products two cards item-box" style="margin-top:0;">
       <!--ajax load-->
 			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="ui center aligned column">
-			<a href="{{ app_url_wap }}/shop" class="ui fluid black button">更多精选商品</a>
-		</div>
-	</div>
 </div>
 
-<!--试用-->
-<!--<div class='games page try'>
-	<div class="ui responsive grid">
-		<div class="row" id="triespage">
-			<div class="column">
-			<h4 class="ui header">免费试用</h4>
-				<div class="ui one products tries cards item-box">
-        ajax load
-				</div>
-			</div>
-		</div>-->
-
-    <!--评测-->
-		<!--<div class="row" id="topicspage">
-			<div class="column topic-box-list">
-			<h4 class="ui header">评测报告</h4>
-				<div class="ui topic relaxed divided list item-box" id="topic-box">
-        
-				</div>
-			</div>
-		</div>
-
-	  <div class="row">
-      <div class="ui center aligned column">
-        <a href="{{ app_url_wap }}/try" class="ui fluid black button">更多试用产品</a>
-      </div>
-	  </div>
-	</div>
-</div>-->
 
 
 {% endblock %}
