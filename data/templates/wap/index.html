@@ -24,22 +24,6 @@
 	margin-right:0;
 	padding-right:0;
 }
-#tmenu{
-	width: 100%;
-	height: 42px;
-	overflow: hidden;
-}
-#tmenu .swiper-slide {
-	padding: 0 20px;
-	width:auto;
-	line-height: 43px;
-}
-#tmenu .swiper-slide a{
-	color: #5d6266;
-	text-decoration: none;
-  font-weight: 700;
-	padding: 10px 0;
-}
 .ui.topic.relaxed.list > .item:first-child{
 	padding-top: 0.5em !important;
 }
@@ -67,21 +51,150 @@
 	color: rgba(0,0,0,0.65);
   padding: 8px 0 5px;
 }
+.nav-menu{
+	background: #fff;
+	margin-top: 8px;
+}
+.navfelx{
+	padding:0;
+	margin:0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.childcell{
+	-webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    width: 0;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    max-width: 100%;
+    display: block;
+    padding: 0!important;
+    position: relative;
+}
+.menuicon{
+	-webkit-tap-highlight-color: transparent;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+	display: block;
+    color: rgba(112,123,135,.92);
+    font-size: 12px;
+    line-height: normal;
+    height: auto;
+    text-align: center;
+    margin: 4px;
+	padding:6px 4px;
+}
+.menuicon:hover{
+	color: rgba(112,123,135,.92);
+}
+.menuicon img{
+	width:40px;
+	height:40px;
+	display: block;
+    margin: 0 auto 8px;
+	vertical-align: middle;
+}
+@media only screen and (max-width: 320px){
+	#slider{
+		height:180px;
+	}
+}
+@media only screen and (min-width:321px )and (max-width: 375px){
+	#slider{
+		height:210px;
+	}
+}
+@media only screen and (min-width: 376px) and (max-width: 414px){
+	#slider{
+		height:232px;
+	}
+}
+
+.recommend-topic{
+	width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-size: 0;
+	position:relative;
+	padding-top: 8px;
+}
+.recom-item{
+	width: 100%;
+    font-size: 0;
+    overflow: hidden;
+	padding: 0;
+	margin:0;
+}
+.recom-cell{
+	width:50%;
+	height: 100%;
+	display:inline-block;
+	padding-right: 4px;
+	margin: 4px 0;
+}
+.recom-cell:nth-child(2n){
+	padding-left:4px;
+	padding-right:0;
+}
+.recom-cell a{
+	text-decoration: none;
+	position:relative;
+	display: block;
+}
+.recom-cell a img{
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    vertical-align: bottom;
+}
+.recom-cell a .desc{
+    background: -moz-linear-gradient(top,rgba(0,0,0,0.2),rgba(0,0,0,0.6));
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(rgba(0,0,0,0.2)), to(rgba(0,0,0,0.6)));
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
+    background: -o-linear-gradient(top, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: 12px;
+    color: #fff;
+    text-align: center;
+    padding: 0 5px;
+}
+
 </style>
 {% endblock %}
 
 {% block layout_js %}
-	<script src="http://frstatic.qiniudn.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
   <script type="text/javascript" >
-      // 产品
-      function ajax_load_product_more(category_id, type, sort, page, size){
-          var url = '{{ app_url_wap }}/shop/ajax_load_list';
-          $.get(url, { category_id:category_id, sort:sort, page:page, type:type, size:size }, function(rs){
-              var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
-              $('#mpresale .item-box').append(rendered);
-          }, 'json');
+	$(window).scroll(function(){
+		if( $(window).scrollTop() == $('.nav-menu').offset().top){
+	      
+		}
+		
+	})
+     // 产品
+     function ajax_load_product_more(category_id, type, sort, page, size){
+        var url = '{{ app_url_wap }}/shop/ajax_load_list';
+        $.get(url, { category_id:category_id, sort:sort, page:page, type:type, size:size }, function(rs){
+             var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
+             $('#mpresale .item-box').append(rendered);
+         }, 'json');
       }
-
       // 试用
       function ajax_load_try_more(type, sort, page, size){
           var url = '{{ app_url_wap }}/try/ajax_load_list';
@@ -103,6 +216,7 @@
 {% endblock %}
 
 {% block jquery %}
+	$.ajaxSettings.async = false; 
 
   // 判断是否来自易购
   {% if uid %}
@@ -111,10 +225,10 @@
     {%endif%}
   {%endif%}
 
-  var mySwiper1 = new Swiper('.tslide',{
+  /*var mySwiper1 = new Swiper('.tslide',{
     freeMode : true,
     slidesPerView : 'auto',
-  });
+  });*/
 	
 	$('#pc-site').click(function(){
 		phenix.create_cookie('mode', 'pc', 1, 'taihuoniao.com');
@@ -149,7 +263,7 @@
       animationDuration: 300,
       animationSpeed: 300,
   });
-  var s=$('#mfrbird').width();
+  /*var s=$('#mfrbird').width();
   $('#mchildmenu').flexslider({
       animation: "slide",
       animationLoop: false,
@@ -160,14 +274,14 @@
       directionNav: true,
       prevText: " ",
       nextText: " ",
-    });
+    });*/
 	
-	var flexheight = $('#mfrbird').width()*9/16+'px';
+	var flexheight = Math.floor($('#mfrbird').width()*9/16)+'px';
 	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
 
-  ajax_load_product_more(0, 2, 4, 1, 10);
-  ajax_load_try_more(0, 1, 1, 1);
-  ajax_load_topic_eval_more(5, 6, 1, 6);
+  ajax_load_product_more(0, 2, 4, 1, 12);
+  ajax_load_try_more(0, 1, 1, 2);
+  <!--ajax_load_topic_eval_more(5, 6, 1, 6);-->
 {% endblock %}
 
 {% block content %}
@@ -184,6 +298,154 @@
   </ul>
 </div>
 
+<div class="nav-menu">
+	<ul class="navfelx">
+		<li class="childcell">
+			<a class="menuicon" href=" " >
+				<img src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png">
+			    社区
+			</a>
+		</li>
+		<li class="childcell">
+			<a class="menuicon" href=" ">
+				<img src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png">
+			    商品
+			</a>
+		</li>
+		<li class="childcell">
+			<a class="menuicon" href=" ">
+				<img src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png">
+			    免费试用
+			</a>
+		</li>
+		<li class="childcell">
+			<a class="menuicon" href=" ">
+				<img src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png">
+			    孵化
+			</a>
+		</li>
+		<li class="childcell">
+			<a class="menuicon" href=" ">
+				<img src="http://demo.sc.chinaz.com/Files/pic/icons/6087/ie11.png">
+			    活动
+			</a>
+		</li>
+	</ul>
+</div>
+
+<!-- 社区推荐位 500x330 -->
+<div class="recommend-topic">
+	<div class="recom-item">
+        {% cache cache_key:'web_index_product_stick_slide' ttl:600 disable_cache:app_disable_cached %}
+        
+		{% ad_list var:'adslide2' page:1 size:4 state:2 name:'web_index_product_stick_slide' %}
+        {% if adslide2.rows %}
+		
+		{% for ad in adslide2.rows %}
+		<div class="recom-cell">
+			<a href="{{ ad.view_url }}" title="{{ ad.title }}">
+				<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ ad.cover.fileurl }}">
+				<div class="desc">
+					{{ ad.title }}
+				</div>
+			</a>
+		</div>
+		 {%endfor%}
+         {%endif%}
+         
+         {% endcache %}
+		 
+         {% cache cache_key:'web_index_fine_topics' ttl:300 disable_cache:app_disable_cached %}
+         
+         {% topic_list var:'topics' published:1 type:2 page:1 size:4 %}
+		 {% for topic in topics.rows %}
+		<div class="recom-cell">
+			<a href="{{ topic.view_url }}">
+				<img class="lazy" data-original="{{ topic.cover.thumbnails.hm.view_url }}" src="{{ topic.cover.thumbnails.hm.view_url }}">
+				<div class="desc">
+                        {{ topic.short_title }}
+                </div>
+			</a>
+		</div>
+		{% endfor %}
+		{% endcache %}
+		<!--<div class="recom-cell">
+			<a href="">
+				<img class="lazy" data-original="http://t-1.tuzhan.com/261a068c404b/p-2/l/2013/05/21/09/2fd27d825b7947618367fe66c192eee0.jpg" src="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg">
+				<div class="desc">
+						免费试用丨Himama智能备孕仪（10个）
+                </div>
+			</a>
+		</div>
+		<div class="recom-cell">
+			<a href="">
+				<img class="lazy" data-original="http://t-1.tuzhan.com/b356d935ff61/p-2/l/2013/08/24/04/f4cc633587a7418c9435ae8c350de65d.jpg" src="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg">
+				<div class="desc">
+                        【DIY达人周】你家有什么东西需要修理么？
+                </div>
+			</a>
+		</div>
+		<div class="recom-cell">
+			<a href="">
+				<img class="lazy" data-original="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg" src="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg">
+				<div class="desc">
+					掌中的百寸精彩---papa手机投影
+				</div>
+			</a>
+		</div>
+		<div class="recom-cell">
+			<a href="">
+				<img class="lazy" data-original="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg" src="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg">
+				<div class="desc">
+                        【我爱DIY】一枚爱diy外设的奇葩女玩家 
+                </div>
+			</a>
+		</div>
+		<div class="recom-cell">
+			<a href="">
+				<img class="lazy" data-original="http://t-1.tuzhan.com/261a068c404b/p-2/l/2013/05/21/09/2fd27d825b7947618367fe66c192eee0.jpg" src="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg">
+				<div class="desc">
+						免费试用丨Himama智能备孕仪（10个）
+                </div>
+			</a>
+		</div>
+		<div class="recom-cell">
+			<a href="">
+				<img class="lazy" data-original="http://t-1.tuzhan.com/b356d935ff61/p-2/l/2013/08/24/04/f4cc633587a7418c9435ae8c350de65d.jpg" src="http://image.tianjimedia.com/uploadImages/2013/198/4A2D2H5L56K0.jpg">
+				<div class="desc">
+                        【DIY达人周】你家有什么东西需要修理么？
+                </div>
+			</a>
+		</div>-->
+		
+		
+	</div>
+	
+	
+
+</div>
+
+<!-- 试用推荐 -->
+<div class='games page try'>
+	<div class="ui responsive grid">
+		<div class="row" id="triespage">
+			<div class="column">
+			<h4 class="ui header">免费试用</h4>
+				<div class="ui one products tries cards item-box">
+        <!--ajax load-->
+				</div>
+			</div>
+		</div>
+  	  	<div class="row">
+        	<div class="ui center aligned column">
+          	  <a href="{{ app_url_wap }}/try" class="ui fluid black button">更多试用产品</a>
+        	</div>
+  	  	</div>
+	</div>
+</div>		
+
+
+<!--
 <div id="mchildmenu" class="flexslider flex-single">
   <ul class="slides">
     <li class="none" style="display:inline-block;">
@@ -230,6 +492,7 @@
   
   </div>
 </div>
+-->
 
 <!--商品-->
 <div class="ui responsive grid" id="mpresale">
@@ -249,23 +512,23 @@
 </div>
 
 <!--试用-->
-<div class='games page try'>
+<!--<div class='games page try'>
 	<div class="ui responsive grid">
 		<div class="row" id="triespage">
 			<div class="column">
 			<h4 class="ui header">免费试用</h4>
 				<div class="ui one products tries cards item-box">
-        <!--ajax load-->
+        ajax load
 				</div>
 			</div>
-		</div>
+		</div>-->
 
     <!--评测-->
-		<div class="row" id="topicspage">
+		<!--<div class="row" id="topicspage">
 			<div class="column topic-box-list">
 			<h4 class="ui header">评测报告</h4>
 				<div class="ui topic relaxed divided list item-box" id="topic-box">
-        <!--ajax load-->
+        
 				</div>
 			</div>
 		</div>
@@ -276,13 +539,13 @@
       </div>
 	  </div>
 	</div>
+</div>-->
 
-</div>
 
 {% endblock %}
 
 {% block templates %}
 {% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/fetch_more_products.mustache' %}
 {% mustache id:'fetch_more_try_tpl' tpl:'mustache_m/fetch_more_try.mustache' %}
-{% mustache id:'fetch_more_topic_tpl' tpl:'mustache_m/fetch_more_topic.mustache' %}
+<!--{% mustache id:'fetch_more_topic_tpl' tpl:'mustache_m/fetch_more_topic.mustache' %}-->
 {% endblock %}

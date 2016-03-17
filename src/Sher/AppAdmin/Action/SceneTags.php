@@ -183,6 +183,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		
 		try {
     		$keydict = new Sher_Core_Model_SceneTags();
+			
     		if(empty($data['_id'])){
                 $data['user_id'] = (int)$this->visitor->id;
     			$ok = $keydict->apply_and_save($data);
@@ -197,7 +198,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 				// 建节点rebuild_tree函数
 				$keydict->rebuild_tree($data['type']);
 			}
-		    
+			
     		if(!$ok){
     			return $this->ajax_note('数据保存失败,请重新提交', true);
     		} 
@@ -230,7 +231,6 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 				$result = $model->load((int)$id);
 				
 				if (!empty($result) && $model->validate_before_destory($result)){
-					//var_dump($result['type']);die;
 					$model->remove((int)$id);
 					$model->after_destory($result['right_ref'],$result['type']);
 				}

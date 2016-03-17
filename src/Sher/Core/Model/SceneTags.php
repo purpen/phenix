@@ -137,7 +137,7 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
      * 保存前回调事件（新增、修改均回调）
      */
     protected function before_save(&$data) {
-		if(isset($data['likename'])){
+		if(isset($data['likename']) && !empty($data['likename'])){
 			$data['likename'] = explode(',',(string)$data['likename']);
 		}
 	}
@@ -146,19 +146,22 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
      * 新增回调事件，相当于after_create
      */
     protected function after_save() {
-        $parent_id = $this->data['parent_id'];
-        $id = $this->id;
+	
+		$parent_id = $this->data['parent_id'];
+        $type = $this->data['type'];
+        $id = (int)$this->data['_id'];
         
         if (!empty($parent_id)) {
-            $left_ref = $this->extend_sort_ref($parent_id);
+            $left_ref = $this->extend_sort_ref($parent_id, $type);
         } else {
             $left_ref = 1;
         }
-		
         $updated = array(
           'left_ref'  => $left_ref,
           'right_ref' => $left_ref + 1, 
         );
+        
+        Doggy_Log_Helper::debug('Update key id: '.$id);
         
         return $this->update_set(array('_id'=>$id), $updated);
     }
@@ -255,22 +258,22 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
     /**
      * 更新节点左右分值（递归更新）
      */
-    protected function build_sort_ref($id, $left_ref = 1) {
-        
+    protected function build_sort_ref($id, $type, $left_ref = 1) {
+		
 		$right_ref = $left_ref + 1;
         
-        $rows = $this->find(array('parent_id'=>$id));
-        if (empty($rows)) {
-            return;
+        $rows = $this->find(array('parent_id'=>(int)$id));
+        if (!empty($rows)) {
+            // 首先更新所有子节点
+            foreach($rows as $kw) {
+                $right_ref = $this->build_sort_ref($kw['_id'], $type, $right_ref);
+            }
         }
-		
-		foreach($rows as $kw) {
-			$right_ref = $this->build_sort_ref((int)$kw['_id'], $right_ref);
-		}
-		
-        $this->update_set(array('_id'=>$id), array('left_ref'=>$left_ref,'right_ref'=>$right_ref));
+        
+        $this->update_set((int)$id, array('type'=>$type,'left_ref'=>$left_ref,'right_ref'=>$right_ref));
         
         return $right_ref + 1;
+	
     }
     
     /**
@@ -374,7 +377,7 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
     /**
      * 获取根节点
      */
-    public function find_root_key($type = 0) {
+    public function find_root_key($type) {
         return $this->first(array('parent_id' => self::ROOT_ID,'type' => (int)$type));
     }
 	
@@ -383,25 +386,29 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 	 */
 	public function rebuild_tree($type) {
 		
-		$root = $this->find_root_key($type);
-		return $this->build_sort_lrv((int)$root['_id']);
+		$root = $this->find_root_key((int)$type);
+		return $this->build_sort_lrv((int)$root['_id'], (int)$type);
 	}
 	
 	/**
-     * 重新构建节点左右分值（递归更新）
+     * 更新节点左右分值（递归更新）
      */
-    protected function build_sort_lrv($id, $left_ref = 1) {
-        
+    protected function build_sort_lrv($id, $type, $left_ref = 1) {
+	
 		$right_ref = $left_ref + 1;
-
-        $rows = $this->find(array('parent_id'=>$id));
 		
-		foreach($rows as $kw) {
-			$right_ref = $this->build_sort_lrv((int)$kw['_id'], $right_ref);
+		// 查询子集
+        $rows = $this->find(array('parent_id'=>$id, 'type'=>(int)$type));
+		
+		// 如果有子集，继续递归，如果没有，执行更新
+		if(!empty($rows)){
+			foreach($rows as $kw) {
+				$right_ref = $this->build_sort_lrv((int)$kw['_id'], $type, $right_ref);
+			}
 		}
-		
-        $this->update_set(array('_id'=>$id), array('left_ref'=>$left_ref,'right_ref'=>$right_ref));
-        //echo $id.'.'.$left_ref.'.'.$right_ref.'<br>';
+		//echo '<br>'.$id.'-'.$type.'-'.$left_ref.'-'.$right_ref;
+		// 更新数据
+		$this->update_set(array('_id'=>$id), array('left_ref'=>$left_ref,'right_ref'=>$right_ref));
 		
         return $right_ref + 1;
     }

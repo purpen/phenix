@@ -34,7 +34,8 @@
 		  /*#scrollUp{
 		    right: 10px;
         bottom: 20px;
-  		}*/
+  		}*/		
+			  
 		  body {
 			    background: #f5f5f5;
 			    color: #5d6266;
@@ -95,13 +96,14 @@
 		</section>
 		{% include "mm/footer.html" %}
 
-    <script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.plugins.min.js"></script>
+    	
 		<script type="text/javascript" src="{{ app_url_qiniu_frstatic }}/javascript/semantic.2.0.min.js"></script>
 		{% if js_use_bundle %}
-    <!--<script type="text/javascript" src="{{ app_url_packaged }}/javascript/base.min.{{ js_jquery_bundle_version }}.js"></script>-->
+    	<!--<script type="text/javascript" src="{{ app_url_packaged }}/javascript/mobile.min.{{ js_jquery_bundle_version }}.js"></script>-->
+		<script type="text/javascript" src="http://frstatic.qiniudn.com/wechat/js/jmobile.min.js"></script>
 		{% else %}
 		<script type="text/javascript" src="{{ app_url_qiniu_frstatic }}/javascript/semantic.2.0.min.js"></script>
-        <script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery.plugins.min.js"></script>
+        <script type="text/javascript" src="{{ app_url_packaged }}/javascript/mobile.min.js"></script>
 		{% endif %}
 		
 		{% block layout_js %}{% endblock %}
@@ -127,19 +129,7 @@
 			phenix.visitor = {{ visitor_json }};
 			
     		phenix.initial();
-
-				
-				//sidebar menu
-				$('a.launch').on('click',function(e){
-					e.preventDefault();
-					$('.ui.sidebar.menu').addClass('overlay visible');
-					$('#cover').css('display','');
-				});
-				$('#cover').click(function(){
-					$('.ui.sidebar.menu').removeClass('overlay visible');
-			    $('#cover').css('display','none');
-				});
-				
+			
 				//ajax加载签到数据
 	      if (phenix.visitor.is_login){
 			  	$.get('{{ app_url_wap }}/my/ajax_wap_fetch_user_sign', {type:1});

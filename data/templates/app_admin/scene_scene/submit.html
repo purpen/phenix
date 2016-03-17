@@ -1,0 +1,252 @@
+{%extends 'layout/app_admin.html'%}
+{% block title %}新增/编辑情景-{% endblock %}
+
+{% block page_css %}
+	<style type="text/css">
+		.list-me{
+			margin: 10px 0 10px 0 !important;
+			padding: 0;
+			list-style: none;
+			clear: both;
+		}
+		
+		.list-me li{
+			margin-right: 5px;
+			float: left;
+		}
+		
+		.map-box-btn{
+			width:34px;
+			height:34px;
+			background:url({{ app_url_packaged }}/images/active_map.png) no-repeat;
+			cursor: pointer;
+			position: relative;
+			float: right;
+			top: -34px;
+			right: 2px;
+		}
+	</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak={{ app_baidu_map_ak }}"></script>
+{% endblock %}
+
+{% block jquery %}
+	
+	// 表单验证
+	$('#active-form').form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '名称不能为空'
+				}
+			]
+		},
+		address: {
+			identifier  : 'address',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '地址不能为空'
+				}
+			]
+		},
+		lat: {
+			identifier  : 'lat',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请选择地址'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					// 点击前触发的事件
+					//phenix.before_submit();
+				},
+				success: function(data){
+					// 点击后触发的事件
+					//phenix.after_submit();
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, 3000);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+	
+	// 选择分类
+	$('.ui.options').on('click', '.option', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+			$('#topic-category').val('');
+		}else{
+			$(this)
+				.siblings('.ui.option').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#scene_context_category').val(id);
+		}
+	});
+	
+	
+	// 百度地图API功能
+    var map = new BMap.Map("allmap");
+    var point = new BMap.Point(116.404, 39.915);
+    map.centerAndZoom(point, 11);
+    map.enableInertialDragging();
+    
+    var size = new BMap.Size(10, 20);
+    map.addControl(new BMap.CityListControl({
+        anchor: BMAP_ANCHOR_TOP_LEFT,
+        offset: size,
+        // 切换城市之间事件
+        // onChangeBefore: function(){
+        //    alert('before');
+        // },
+        // 切换城市之后事件
+        // onChangeAfter:function(){
+        //   alert('after');
+        // }
+    }));
+	
+	var offset = new BMap.Size(30, -40);
+    
+    {% if mode == 'edit' %}
+		
+		setTimeout(function(){
+			// 创建标注
+			var choose_point = new BMap.Point({{ date.location.coordinates.lng }},{{ date.location.coordinates.lat }});
+			map.centerAndZoom(choose_point, 16);
+			
+			var marker = new BMap.Marker(choose_point);
+			map.addOverlay(marker);
+			
+			var label = new BMap.Label('{{ date.address }}<br />经度：{{ date.location.coordinates.lng }}, 纬度：{{ date.location.coordinates.lat }}', {offset: offset});
+			label.setStyle({
+				color: "#ff3366",
+				fontSize: "12px",
+				padding: "5px",
+				lineHeight: "20px",
+				'border-radius': "4px",
+				fontFamily:"微软雅黑"
+			});
+			marker.setLabel(label);
+		}, 1000);
+		
+    {% endif %}
+		
+	$('.map-box-btn').bind('click', function(){
+		
+		var address = $('#address').val();
+		if (!address || address == undefined || address == '') {
+			alert('请先输入所在地址!');
+			return;
+		}
+	
+		// 创建地址解析器实例
+		var myGeo = new BMap.Geocoder();
+		// 将地址解析结果显示在地图上，并调整地图视野
+		myGeo.getPoint(address, function(point){
+			if (point) {
+				map.centerAndZoom(point, 16);
+				
+				// 填充地标
+				$('input[name=lat]').val(point.lat);
+				$('input[name=lng]').val(point.lng);
+				
+				// 创建标注
+				var marker = new BMap.Marker(point);
+				var label = new BMap.Label(address+'<br />经度：'+ point.lng +', 纬度：'+ point.lat, {offset: offset});
+				label.setStyle({
+					color: "#ff3366",
+					fontSize: "12px",
+					padding: "5px",
+					lineHeight: "20px",
+					'border-radius': "4px",
+					fontFamily:"微软雅黑"
+				});
+				marker.setLabel(label);
+				
+				map.addOverlay(marker);
+			} else {
+				alert('您选择地址没有解析到结果!');
+			}
+		});
+	
+		return;
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="admin">
+	
+	<h3 class="ui header">情景管理</h3>
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_app_admin_base }}/scene_scene" class="item">
+			全部
+		</a>
+	  	<div class="right menu">	
+			<a href="{{ app_url_app_admin_base }}/scene_scene/add" class="item">
+				<i class="add icon"></i>情景语境
+			</a>
+			<!--
+            <a href="javascript:void(0);" class="item ajax-delete">
+				<i class="remove icon"></i>批量删除
+			</a>
+			-->
+	    </div>
+	</div>	
+	
+	<form action="{{ app_url_api }}/scene_scene/save" class="ui form" method="post" id="active-form">
+		<!-- 隐藏表单 -->
+		<input type="hidden" name="id" value="{{ date._id }}" />
+		
+		<div class="ui segment from">
+			<h3 class="ui dividing header">填写情景信息</h3>
+            <div class="field">
+                <label>情景标题</label>
+				<input type="text" name="title" placeholder="情景名称" value="{{ date.title }}" />
+			</div>
+            <div class="field">
+                <label>情景详情</label>
+                <textarea name="des" placeholder="语境详情">{{ date.des }}</textarea>
+            </div>
+			<div class="field">
+                <label>情景地址</label>
+				<input type="text" id="address" name="address" placeholder="情景地址" value="{{ date.address }}" />
+				<input type="hidden" name="lat" value="{{ date.location.coordinates.lat }}" />
+				<input type="hidden" name="lng" value="{{ date.location.coordinates.lng }}" />
+				<div type="button" value="按钮" class="map-box-btn" /></div>
+            </div>
+			<div id="allmap" style="height:400px;width:100%; margin-bottom: 20px"></div>
+			
+			<div class="ui right aligned grid">
+				<div class="column">
+                    <div class="ui inverted grey button cancel">
+						点击取消
+					</div>
+					<div class="ui magenta inverted button submit save">
+						确认提交
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+{% endblock %}
