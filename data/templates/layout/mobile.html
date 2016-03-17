@@ -129,17 +129,6 @@
 			
     		phenix.initial();
 			
-			$('.ui.wap a.launch').on('click',function(){
-				$('#cover').css('display','block');
-				$('body').addClass('menu-open');
-				$('html').css('overflow','hidden');
-			});
-			$('.ui.wap #cover').click(function(){
-				$('#cover').css('display','none');
-				$('body').removeClass('menu-open');
-				$('html').css('overflow','');
-			});
-			
 				//ajax加载签到数据
 	      if (phenix.visitor.is_login){
 			  	$.get('{{ app_url_wap }}/my/ajax_wap_fetch_user_sign', {type:1});

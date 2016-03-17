@@ -289,25 +289,15 @@ h4 a.seemore{
       animationDuration: 300,
       animationSpeed: 300,
   });
-  /*var s=$('#mfrbird').width();
-  $('#mchildmenu').flexslider({
-      animation: "slide",
-      animationLoop: false,
-      itemWidth: s/4,
-      directionNav: false, 
-      controlNav: false,
-      animationDuration: 300,
-      directionNav: true,
-      prevText: " ",
-      nextText: " ",
-    });*/
 	
 	var flexheight = Math.floor($('#mfrbird').width()*9/16)+'px';
 	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
 
   ajax_load_product_more(0, 2, 4, 1, 12);
-  ajax_load_try_more(0, 1, 1, 2);
-  <!--ajax_load_topic_eval_more(5, 6, 1, 6);-->
+
+  // 先注掉，php已加载
+  //ajax_load_try_more(0, 1, 1, 2);
+  //ajax_load_topic_eval_more(5, 6, 1, 6);
 {% endblock %}
 
 {% block content %}
@@ -362,7 +352,7 @@ h4 a.seemore{
 <!-- 社区推荐位 500x330 -->
 <div class="recommend-topic">
 	<div class="recom-item">
-        {% cache cache_key:'web_index_product_stick_slide' ttl:600 disable_cache:app_disable_cached %}
+    {% cache cache_key:'wap_index_product_stick_slide' ttl:600 disable_cache:app_disable_cached %}
         
 		{% ad_list var:'adslide2' page:1 size:4 state:2 name:'web_index_product_stick_slide' %}
         {% if adslide2.rows %}
@@ -381,7 +371,7 @@ h4 a.seemore{
          
          {% endcache %}
 		 
-         {% cache cache_key:'web_index_topic_stick_slide' ttl:0 disable_cache:app_disable_cached %}
+         {% cache cache_key:'wap_index_topic_stick_slide' ttl:500 disable_cache:app_disable_cached %}
          
          {% ad_list var:'adslide3' page:1 size:4 state:2 name:'web_index_topic_stick_slide' %}
 		 {% for ad in adslide3.rows %}
@@ -398,10 +388,11 @@ h4 a.seemore{
 		
 	</div>
 	
-	
-
 </div>
 
+{% cache cache_key:'wap_index_try_stick_slide' ttl:500 disable_cache:app_disable_cached %}
+{% try_list var:'tries' sort:1 state:1 page:1 size:4 %}
+{% if tries.rows %}
 <!-- 试用推荐 -->
 <div class='games page try'>
 	<div class="ui responsive grid">
@@ -413,53 +404,26 @@ h4 a.seemore{
 				<!--<div class="ui one products tries cards item-box">
 					
 				</div>-->
-				
-				<div class="recom-item">
-					<div class="recom-cell">
-						<a href="">
-							<img class="lazy" data-original="http://frbird.qiniudn.com/try/160316/56e93be6fc8b12240d8b5188-1-resp.jpg" src="{{ app_url_packaged }}/images/icon/loading.png">
-							<div class="desc">
-								幻响小贝 Hifi 2.1蓝牙音响
-							</div>
-						</a>
-					</div>
-					
-					<div class="recom-cell">
-						<a href="">
-							<img class="lazy" data-original="http://frbird.qiniudn.com/try/160316/56e957f1fc8b12a90c8b5346-1-resp.jpg" src="{{ app_url_packaged }}/images/icon/loading.png">
-							<div class="desc">
-								幻响小贝 Hifi 2.1蓝牙音响
-							</div>
-						</a>
-					</div>
-					
-					<div class="recom-cell">
-						<a href="">
-							<img class="lazy" data-original="http://frbird.qiniudn.com/try/160316/56e93be6fc8b12240d8b5188-1-resp.jpg" src="{{ app_url_packaged }}/images/icon/loading.png">
-							<div class="desc">
-								幻响小贝 Hifi 2.1蓝牙音响
-							</div>
-						</a>
-					</div>
-					
-					<div class="recom-cell">
-						<a href="">
-							<img class="lazy" data-original="http://frbird.qiniudn.com/try/160316/56e957f1fc8b12a90c8b5346-1-resp.jpg" src="{{ app_url_packaged }}/images/icon/loading.png">
-							<div class="desc">
-								幻响小贝 Hifi 2.1蓝牙音响
-							</div>
-						</a>
-					</div>
-					
-					
-					
+        {% for d in tries.rows %}
+          <div class="recom-item">
+            <div class="recom-cell">
+              <a href="">
+                <img class="lazy" data-original="{{ d.cover.thumbnails.resp.view_url }}" alt="{{ d.short_title }}" src="{{ app_url_packaged }}/images/icon/loading.png">
+                <div class="desc">
+                  {{ d.short_title }}
+                </div>
+              </a>
+            </div>
+          {%endfor%}
+
 				</div>
-					
 				
 			</div>
 		</div>
 	</div>
-</div>		
+</div>
+{%endif%}
+{% endcache %}
 
 <!--商品-->
 <div class="ui responsive grid" id="mpresale">
@@ -475,12 +439,8 @@ h4 a.seemore{
 	</div>
 </div>
 
-
-
 {% endblock %}
 
 {% block templates %}
 {% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/fetch_more_products.mustache' %}
-{% mustache id:'fetch_more_try_tpl' tpl:'mustache_m/fetch_more_try.mustache' %}
-<!--{% mustache id:'fetch_more_topic_tpl' tpl:'mustache_m/fetch_more_topic.mustache' %}-->
 {% endblock %}
