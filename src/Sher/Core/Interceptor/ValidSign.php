@@ -49,9 +49,9 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 			$client_id = isset($stash['client_id']) ? $stash['client_id'] : null;
 			$sign = isset($stash['sign']) ? $stash['sign'] : null;
 
-      if(empty($client_id)){
-        return $this->mismatch_sign($action);
-      }
+            if(empty($client_id)){
+              return $this->mismatch_sign($action);
+            }
 
 			// 验证签名
 			$valid_sign = $this->get_signature($stash, $client_id);

@@ -105,7 +105,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		$page = "?page=#p#";
 		$pager_url = Sher_Core_Helper_Url::build_url_path('app.url.wap.social', 'c'.$cid).$page;
 		$this->stash['pager_url'] = $pager_url;
-		return $this->to_html_page('wap/topic.html');
+		return $this->to_html_page('wap/topic/index.html');
 	}
 	
 	/**

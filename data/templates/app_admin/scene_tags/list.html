@@ -124,6 +124,7 @@
                 <th>父级ID</th>
                 <th>左分值</th>
                 <th>右分值</th>
+                <th>类型</th>
 				<th>状态</th>
 				<th>管理操作</th>
 			</tr>
@@ -156,6 +157,9 @@
                 </td>
                 <td>
                   {{ date.right_ref }}
+                </td>
+                <td>
+                  {{ date.type }}
                 </td>
 				<td>
 					{% if date.status %}

@@ -171,6 +171,8 @@ app.qiniu.key: 'ERh7qjVSy0v42bQ0fftrFeKYZG39XbzRlaJO4NFy'
 app.qiniu.secret: 'r-NUrKsnRBEwTQxbLONVrK9tPuncXyHmcq4BkSc7'
 app.qiniu.bucket: 'frbird'
 
+# 百度地图api
+app.baidu.map_ak: '2YaeXuaHSfo23rkH6i5p3mGc'
 
 app.keychains.private: 'xxxxOOOOxxxx'
 app.email.from:
