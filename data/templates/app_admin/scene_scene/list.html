@@ -75,7 +75,7 @@
 		<form action="{{ app_url_app_admin_base }}/scene_scene/get_list" id="search-form" method="get">
 			<label>搜索：</label>
 			<div class="ui input">
-                <input placeholder="品牌名" type="text" name="title" value="{{ title }}" />
+                <input placeholder="标题名" type="text" name="title" value="{{ title }}" />
 			</div>
             <div class="ui input">
                 <div class="ui active small green submit button search">搜索</div>
@@ -92,14 +92,14 @@
 					  	<label></label>
 					</div>
 				</th>
-                <th>语境名称</th>
-                <th>使用次数</th>
+                <th>标题</th>
+                <th>地址</th>
 				<th>状态</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
-			{% scene_context_list var:'list' page:page title:title size:20 %}
+			{% scene_scene_list var:'list' page:page title:title size:20 %}
 
 			{% for d in list.rows %}
 			<tr id="{{ d._id }}">
@@ -113,7 +113,7 @@
                   {{ d.title }}
                 </td>
                 <td>
-                  {{ d.used_count }}
+                  {{ d.address }}
                 </td>
 				<td>
 					{% if d.status %}

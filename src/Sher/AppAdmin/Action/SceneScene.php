@@ -12,9 +12,16 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 	);
 	
 	public function _init() {
+		
 		$this->set_target_css_state('page_app_scene_scene');
 		$this->stash['show_type'] = "sight";
 		$this->stash['app_baidu_map_ak'] = Doggy_Config::$vars['app.baidu.map_ak'];
+		
+		// 查询标签信息
+		$model = new Sher_Core_Model_SceneTags();
+		$root = $model->find_root_key(0);
+		$result = $model->find(array('parent_id'=>(int)$root['_id']));
+		$this->stash['scene_tags'] = $result;
     }
 	
 	/**
@@ -26,6 +33,29 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 	}
 	
 	/**
+	 * 查询标签
+	 */
+	public function find_tags(){
+		
+		$id = isset($this->stash['id']) ? $this->stash['id'] : '';
+		
+		if(!$id){
+			return $this->ajax_json('内容不能为空！', true);
+		}
+		
+		$model = new Sher_Core_Model_SceneTags();
+		$res_one = $model->first((int)$id);
+		$query = array(
+			'type'=>0,
+			'left_ref'=>array('$gt' => $res_one['left_ref']),
+			'right_ref'=>array('$lt' => $res_one['right_ref'])
+		);
+		$result = $model->find($query);
+		
+		return $this->ajax_json('提交成功', false, '', $result);
+	}
+	
+	/**
 	 * 列表
 	 */
 	public function get_list() {
@@ -34,7 +64,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$page = (int)$this->stash['page'];
 		
 		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_scene/get_list?page=#p#';
-		
+		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('app_admin/scene_scene/list.html');
 	}
 	
@@ -61,9 +91,10 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		}
 		$mode = 'edit';
 		
-		$model = new Sher_Core_Model_SceneContext();
-		$result = $model->find_by_id($id);
+		$model = new Sher_Core_Model_SceneScene();
+		$result = $model->first((int)$id);
 		$result = $model->extended_model_row($result);
+		$result['tags'] = implode(',',$result['tags']);
 		//var_dump($result);
 		
 		$this->stash['date'] = $result;
