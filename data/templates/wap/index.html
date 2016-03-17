@@ -158,7 +158,7 @@
     overflow: hidden;
     vertical-align: bottom;
 }
-.recom-cell a .desc{
+.recom-cell a .desc,a.trycell .desc{
     background: -moz-linear-gradient(top,rgba(0,0,0,0.0),rgba(0,0,0,0.7));
     background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(rgba(0,0,0,0.0)), to(rgba(0,0,0,0.7)));
     background: -webkit-linear-gradient(top, rgba(0,0,0,0.0), rgba(0,0,0,0.7));
@@ -173,6 +173,17 @@
     color: #fff;
     text-align: center;
     padding: 0 5px;
+}
+h4 a.seemore{
+    font-size: 12px;
+    display: inline-block;
+    float: right;
+}
+#triespage h4.ui.header{
+	margin-bottom:5px;
+}
+#mpresale .row:first-child{
+	padding-top:0 !important;
 }
 #slider{
 	margin-bottom:0 !important;
@@ -431,17 +442,57 @@
 	<div class="ui responsive grid">
 		<div class="row" id="triespage">
 			<div class="column">
-			<h4 class="ui header">免费试用</h4>
-				<div class="ui one products tries cards item-box">
-        <!--ajax load-->
+			<h4 class="ui header">免费试用
+			<a href="{{ app_url_wap }}/try" class="ui seemore line link" >查看更多</a>
+			</h4>
+				<!--<div class="ui one products tries cards item-box">
+					
+				</div>-->
+				
+				<div class="recom-item">
+					<div class="recom-cell">
+						<a href="">
+							<img class="lazy" data-original="http://frbird.qiniudn.com/try/160316/56e93be6fc8b12240d8b5188-1-resp.jpg" src="{{ app_url_packaged }}/images/icon/loading.png">
+							<div class="desc">
+								幻响小贝 Hifi 2.1蓝牙音响
+							</div>
+						</a>
+					</div>
+					
+					<div class="recom-cell">
+						<a href="">
+							<img class="lazy" data-original="http://frbird.qiniudn.com/try/160316/56e957f1fc8b12a90c8b5346-1-resp.jpg" src="{{ app_url_packaged }}/images/icon/loading.png">
+							<div class="desc">
+								幻响小贝 Hifi 2.1蓝牙音响
+							</div>
+						</a>
+					</div>
+					
+					<div class="recom-cell">
+						<a href="">
+							<img class="lazy" data-original="http://frbird.qiniudn.com/try/160316/56e93be6fc8b12240d8b5188-1-resp.jpg" src="{{ app_url_packaged }}/images/icon/loading.png">
+							<div class="desc">
+								幻响小贝 Hifi 2.1蓝牙音响
+							</div>
+						</a>
+					</div>
+					
+					<div class="recom-cell">
+						<a href="">
+							<img class="lazy" data-original="http://frbird.qiniudn.com/try/160316/56e957f1fc8b12a90c8b5346-1-resp.jpg" src="{{ app_url_packaged }}/images/icon/loading.png">
+							<div class="desc">
+								幻响小贝 Hifi 2.1蓝牙音响
+							</div>
+						</a>
+					</div>
+					
+					
+					
 				</div>
+					
+				
 			</div>
 		</div>
-  	  	<div class="row">
-        	<div class="ui center aligned column">
-          	  <a href="{{ app_url_wap }}/try" class="ui fluid black button">更多试用产品</a>
-        	</div>
-  	  	</div>
 	</div>
 </div>		
 
