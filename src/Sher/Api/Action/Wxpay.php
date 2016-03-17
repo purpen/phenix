@@ -86,6 +86,39 @@
             $order['partner_id'] = Doggy_Config::$vars['app.wechat_m.partner_id'];
             $order['key'] = Doggy_Config::$vars['app.wechat_m.key'];
             $order['time_stamp'] = time();
+
+            // 根据prepay_id再次签名
+            if($order['prepay_id']){
+              //签名步骤一：按字典序排序参数
+              $val = array(
+                'appid' => Doggy_Config::$vars['app.wechat_m.app_id'],
+                'partnerid' => Doggy_Config::$vars['app.wechat_m.partner_id'],
+                'prepayid' => $order['prepay_id'],
+                'noncestr' => $order['nonce_str'],
+                'timestamp' => (string)$order['time_stamp'],
+                'package' => 'Sign=WXPay',
+              );
+              ksort($val);
+
+              $buff = "";
+              foreach ($val as $k => $v)
+              {
+                if($k != "sign" && $v != "" && !is_array($v)){
+                  $buff .= $k . "=" . $v . "&";
+                }
+              }
+              $string = trim($buff, "&");
+              //签名步骤二：在string后加入KEY
+              $string = $string . "&key=".Doggy_Config::$vars['app.wechat_m.key'];   
+
+              //签名步骤三：MD5加密
+              $string = md5($string);
+              //签名步骤四：所有字符转为大写
+              $new_sign = strtoupper($string);
+              $order['new_sign'] = $new_sign;
+              
+            }
+            
             return $this->api_json('请求成功!', 0, $order);         
           }else{
             return $this->api_json('请求失败!', 3010, $order);          
