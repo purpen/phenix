@@ -287,7 +287,7 @@
 	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
 
   ajax_load_product_more(0, 2, 4, 1, 10);
-  ajax_load_try_more(0, 1, 1, 1);
+  ajax_load_try_more(0, 1, 1, 4);
   ajax_load_topic_eval_more(5, 6, 1, 6);
 {% endblock %}
 
@@ -422,6 +422,20 @@
 	
 
 </div>
+
+<!-- 试用推荐 -->
+<div class='games page try'>
+	<div class="ui responsive grid">
+		<div class="row" id="triespage">
+			<div class="column">
+			<h4 class="ui header">免费试用</h4>
+				<div class="ui two products tries cards item-box">
+        <!--ajax load-->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>		
 
 
 <!--
