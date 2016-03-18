@@ -603,6 +603,10 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
         if($type==5){
           $query['try_id'] = array('$ne'=>0);
         }
+        // 活动
+        if($type==3){
+          $query['attrbute'] = Sher_Core_Model_Topic::ATTR_ACTIVE;
+        }
         $options['page'] = $page;
         $options['size'] = $size;
 

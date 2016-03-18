@@ -27,7 +27,7 @@ body{
                     .hide()
                     .attr({'status': 0, 'page': rs.data.page});
             }else{
-                $('#topic-more').html('没有更多').show();
+            $('#topic-more').html('<div style="text-align:center;">没有更多</div>').show();
             }
             var rendered = phenix.ajax_render_result('#fetch_more_topic_tpl', rs.data);
             if(rs.data.page==1){
@@ -70,6 +70,7 @@ body{
 　　var scrollHeight = $(document).height();
 　　var windowHeight = $(this).height();
 　　if(scrollTop + windowHeight > scrollHeight-100){
+      $('#topic-more').show();
       var stat = $('#topic-more').attr('status');
       page = parseInt($('#topic-more').attr('page')) + 1;
 
