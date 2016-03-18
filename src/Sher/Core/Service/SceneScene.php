@@ -30,6 +30,5 @@ class Sher_Core_Service_SceneScene extends Sher_Core_Service_Base {
 	    $model = new Sher_Core_Model_SceneScene();
 		  return $this->query_list($model, $query, $options);
     }
-
 }
 
