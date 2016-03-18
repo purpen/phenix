@@ -89,7 +89,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			return $this->api_json('情景保存失败:'.$e->getMessage(), 4001);
 		}
 		
-		return $this->api_json('提交成功', 0);
+		return $this->api_json('提交成功', 0, null);
 	}
 	
 	/**
