@@ -407,7 +407,7 @@ h4 a.seemore{
           <div class="recom-item">
           {% for d in tries.rows %}
             <div class="recom-cell">
-              <a href="">
+              <a href="{{ d.wap_view_url }}">
                 <img class="lazy" data-original="{{ d.cover.thumbnails.resp.view_url }}" alt="{{ d.short_title }}" src="{{ app_url_packaged }}/images/icon/loading.png">
                 <div class="desc">
                   {{ d.short_title }}

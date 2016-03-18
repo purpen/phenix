@@ -8,7 +8,7 @@ class Sher_Core_Service_SceneTags extends Sher_Core_Service_Base {
     protected static $instance;
 	
     protected $sort_fields = array(
-        'ref' => array('left_ref' => 1),
+        'latest' => array('left_ref' => 1),
     );
 	
     /**

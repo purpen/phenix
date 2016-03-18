@@ -123,11 +123,10 @@
 					  	<label></label>
 					</div>
 				</th>
-        <th></th>
                 <th>ID</th>
+                <th>父级ID</th>
                 <th>中文名称</th>
                 <th>英文名称</th>
-                <th>父级ID</th>
                 <th>左分值</th>
                 <th>右分值</th>
                 <th>类型</th>
@@ -146,18 +145,17 @@
 					  	<label></label>
 					</div>
 				</td>
-				<td>
-                <td>
+				        <td>
                   {{ date._id }}
                 </td>
                 <td>
-                  {{ date.title_cn }}
+                  {{ date.parent_id }}
+                </td>
+                <td>
+                  {{ date.prefix_title_cn }}
                 </td>
                 <td>
                   {{ date.title_en }}
-                </td>
-                <td>
-                  {{ date.parent_id }}
                 </td>
                 <td>
                   {{ date.left_ref }}
