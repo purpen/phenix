@@ -22,8 +22,39 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 	 * 社区入口
 	 */
 	public function execute(){
-		return $this->get_list();
+		return $this->index();
 	}
+
+  /**
+   * 社区首页
+   */
+  public function index(){
+    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+    $this->stash['type'] = $type;
+
+    switch($type){
+      case 1:
+        $this->stash['type_stick_css'] = 'active';
+        break;
+      case 2:
+        $this->stash['type_fine_css'] = 'active';
+        break;
+      case 3:
+        $this->stash['type_active_css'] = 'active';
+        break;
+      case 4:
+        $this->stash['type_last_css'] = 'active';
+        break;
+      case 5:
+        $this->stash['type_ce_css'] = 'active';
+        break;
+      default:
+        $this->stash['type'] = 1;
+        $this->stash['type_stick_css'] = 'active';
+    }
+ 		
+		return $this->to_html_page('wap/topic/index.html'); 
+  }
 	
 	/**
 	 * 十万火计
@@ -663,6 +694,12 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 
         $data = array();
         $data['nex_page'] = $next_page;
+        $data['results'] = $resultlist;
+
+        $data['type'] = $type;
+        $data['page'] = $page;
+        $data['sort'] = $sort;
+        $data['size'] = $size;
         $data['results'] = $resultlist;
         
         return $this->ajax_json('', false, '', $data);
