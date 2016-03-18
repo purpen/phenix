@@ -1,0 +1,122 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+body{
+	background:#fff;
+}
+#mfrbird{
+	margin-top:0;
+	margin-bottom:2em;
+}
+
+</style>
+{% endblock %}
+
+{% block jquery %}
+$('.childcell').click(function(){
+	$(this).addClass('active');
+	$(this).siblings().removeClass('active');
+})
+var mySwiper = new Swiper('.tslide',{
+  freeMode : true,
+  slidesPerView : 'auto',
+});
+
+
+
+
+{% endblock %}
+
+{% block content %}
+<div id="topicpage">
+	<div class="nav-menu">
+		<ul class="navfelx">
+			<li class="childcell active">
+				<a class="menuicon" href="javascript:void(0);">
+					<img src="{{ app_url_packaged }}/images/icon/tuijian.png">
+					推荐
+				</a>
+			</li>
+			<li class="childcell">
+				<a class="menuicon" href="javascript:void(0);">
+					<img src="{{ app_url_packaged }}/images/icon/jinghua.png">
+					精华
+				</a>
+			</li>
+			<li class="childcell">
+				<a class="menuicon" href="javascript:void(0);">
+					<img src="{{ app_url_packaged }}/images/icon/hot.png">
+					热门活动
+				</a>
+			</li>
+			<li class="childcell">
+				<a class="menuicon" href="javascript:void(0);">
+					<img src="{{ app_url_packaged }}/images/icon/pingce.png">
+					评测
+				</a>
+			</li>
+			<li class="childcell">
+				<a class="menuicon" href="javascript:void(0);">
+					<img src="{{ app_url_packaged }}/images/icon/new.png">
+					最新
+				</a>
+			</li>
+		</ul>
+	</div>
+	
+	
+	{% topic_list var:'list' published:1 sort:7 page:1 size:20 %}
+	<div class="ui responsive grid" style="padding:0;margin:0">
+		<div class="row" style="padding-top:0!important;">
+			<div class="column" style="padding:0;">
+				<div class="ui topiclist segment">
+						
+						<div class="ui topic relaxed divided list">
+							{% for topic in list.rows %}
+							<div class="item">
+								<div class="content">
+                  <div class="header {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}"><a href="{{ topic.wap_view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.attr_str }}{{ topic.title|truncate 60 }}</a></div>
+									{% if !topic.asset_count %}
+										<div class="description">
+											{{ topic.strip_description|truncate 70 }}
+										</div>
+										{% else %}
+							
+										<div class="tslide">
+												<div class="swiper-wrapper">
+												{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 sort:'positive' %}
+												{% for asset in assets.rows %}
+													{% if topic.cover._id != asset._id %}
+													<div class="swiper-slide" >
+												  	<img src="{{ asset.thumbnails.tiny.view_url }}" />
+													</div>
+													{% endif %}
+												{% endfor %}
+												</div>
+											</div>
+										{% endif %}
+							
+							        <small><a class="ui small link" href="javascript:void(0);">{{ topic.user.nickname }}</a> {% if topic.last_user %}- 回复于 {{ topic.last_reply_time|relative_datetime}} {% endif %}<span class="like" style="float: right;margin-top: 1px;">
+									<i class="unhide icon"></i> 
+									<span class="count">{{ topic.view_count }}</span>&nbsp;
+									<i class="thumbs outline up icon"></i>
+									<span class="count love-count">
+										{{ topic.love_count|default 0 }}
+									</span>
+						</span></small>		
+							    </div>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+</div>
+{% endblock %}

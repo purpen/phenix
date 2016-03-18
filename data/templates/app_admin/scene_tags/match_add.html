@@ -1,0 +1,152 @@
+{%extends 'layout/app_admin.html'%}
+{% block title %}批量添加标签-{% endblock %}
+
+{% block page_css %}
+	<style type="text/css">
+		.list-me{
+			margin: 10px 0 10px 0 !important;
+			padding: 0;
+			list-style: none;
+			clear: both;
+		}
+		
+		.list-me li{
+			margin: 0 5px 5px 0;
+			float: left;
+		}
+	</style>
+{% endblock %}
+
+{% block jquery %}
+	
+	// 表单验证
+	$('#active-form').form({
+		parent_id: {
+			identifier  : 'parent_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '所属分类不能为空'
+				}
+			]
+		},
+		tags: {
+			identifier  : 'tags',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标签不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					// 点击前触发的事件
+					//phenix.before_submit();
+				},
+				success: function(result){
+					// 点击后触发的事件
+					//phenix.after_submit();
+					if(result.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(result.message, 3000);
+					}else{
+            phenix.show_ok_note("success: "+result.data.success_count+" fail: "+result.data.fail_count+"", 5000);
+						//phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+
+{% endblock %}
+
+{% block content %}
+<div class="admin">
+	
+	<h3 class="ui header">标签管理</h3>
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_app_admin_base }}/scene_tags" class="item">
+			全部
+		</a>
+	  	<div class="right menu">	
+			<a href="{{ app_url_app_admin_base }}/scene_tags/add" class="item">
+				<i class="add icon"></i>新增标签
+			</a>
+      <a href="{{ app_url_app_admin_base }}/scene_tags/match_add" class="item" id="batch_tags_add">
+				<i class="add icon"></i>批量导入
+			</a>
+			<!--
+            <a href="javascript:void(0);" class="item ajax-delete">
+				<i class="remove icon"></i>批量删除
+			</a>
+			-->
+	    </div>
+	</div>	
+	
+	<form action="{{ app_url_app_admin_base }}/scene_tags/match_add_save" class="ui form" method="post" id="active-form">
+		
+		<div class="ui segment from">
+			<h3 class="ui dividing header">批量添加标签</h3>
+
+			<div class="field">
+				<label>所属父标签ID</label>
+				<input type="text" name="parent_id" value="" />
+			</div>
+			<div class="field">
+        <label>标签</label>
+        <textarea name="tags" placeholder="请输入中文标签集合"></textarea>
+        <div class="description">每个标签用“,|;”隔开, *只支持中文名称录入</div>
+      </div>
+
+			<h4 class="ui stage header">类型</h4>
+			<div class="grouped inline fields">
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="type" value="0" checked="checked" /> 
+						<label>情景标签</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="type" value="1" /> 
+						<label>产品标签</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="type" value="2" /> 
+						<label>待用</label>
+					</div>
+				</div>
+			</div>
+
+			<h4 class="ui stage header">推荐</h4>
+			<div class="grouped inline fields">
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="stick" value="0" checked="checked" /> 
+						<label>否</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="stick" value="1" /> 
+						<label>是</label>
+					</div>
+				</div>
+			</div>
+			
+			</div>
+			<div class="ui right aligned grid">
+				<div class="column">
+                    <div class="ui inverted grey button cancel" style="color: #666">
+						点击取消
+					</div>
+					<div class="ui magenta inverted button submit save">
+						确认提交
+					</div>
+				</div>
+		</div>
+	</form>
+</div>
+{% endblock %}

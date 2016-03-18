@@ -6,105 +6,6 @@
 	#mfrbird {
 	    margin: 0em auto 3em !important;
 	}
-
-.tslide{
-	width: 100%;
-	height: auto;
-	overflow: hidden;
-}
-.tslide .swiper-slide {
-	padding:8px 10px 5px 0;
-	width:32%;
-}
-.tslide .swiper-slide img{
-	width: 100%;
-	max-height: 87px;
-}
-.tslide .swiper-slide:last-child{
-	margin-right:0;
-	padding-right:0;
-}
-.ui.topic.relaxed.list > .item:first-child{
-	padding-top: 0.5em !important;
-}
-.ui.topiclist.segment{
-	-webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1);
-  box-shadow: 0 0 0 0px rgba(0,0,0,.1);
-	border-radius: 0;
-	padding:1em 3%;
-}
-.like i.icon{
-	margin-right:0;
-}
-.ui.relaxed.list:not(.horizontal) .item {
-  padding-top: 1.2em !important;
-  padding-bottom: .8em !important;
-  min-height:64px !important;
-}
-.item .content .header{
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-}
-.description{
-	font-size: 0.85rem;
-	color: rgba(0,0,0,0.65);
-  padding: 8px 0 5px;
-}
-.nav-menu{
-	background: #fff;
-}
-.navfelx{
-	padding:0;
-	margin:0;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-}
-.childcell{
-	-webkit-box-flex: 1;
-    -webkit-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    width: 0;
-    -webkit-flex-basis: 0;
-    -ms-flex-preferred-size: 0;
-    flex-basis: 0;
-    max-width: 100%;
-    display: block;
-    padding: 0!important;
-    position: relative;
-}
-.menuicon{
-	-webkit-tap-highlight-color: transparent;
-    -moz-user-select: -moz-none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-	display: block;
-    color: rgba(112,123,135,.92);
-    font-size: 12px;
-    line-height: normal;
-    height: auto;
-    text-align: center;
-    margin: 4px;
-	padding:6px 4px;
-}
-.menuicon:hover{
-	color: rgba(112,123,135,.92);
-}
-.menuicon img{
-	width:40px;
-	height:40px;
-	display: block;
-    margin: 0 auto 8px;
-	vertical-align: middle;
-}
 @media only screen and (max-width: 320px){
 	#slider{
 		height:180px;
@@ -135,6 +36,8 @@
     overflow: hidden;
 	padding: 0;
 	margin:0;
+	clear: both;
+	height: 100%;
 }
 .recom-cell{
 	width:50%;
@@ -142,6 +45,7 @@
 	display:inline-block;
 	padding-right: 4px;
 	margin: 4px 0;
+	clear: both;
 }
 .recom-cell:nth-child(2n){
 	padding-left:4px;
@@ -151,6 +55,8 @@
 	text-decoration: none;
 	position:relative;
 	display: block;
+	clear: both;
+	height: 100%;
 }
 .recom-cell a img{
     width: 100%;
@@ -173,6 +79,9 @@
     color: #fff;
     text-align: center;
     padding: 0 5px;
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 h4 a.seemore{
     font-size: 12px;
@@ -180,7 +89,7 @@ h4 a.seemore{
     float: right;
 }
 #triespage h4.ui.header,#mpresale h4.ui.header{
-	margin-bottom:5px;
+	margin-bottom:8px;
 }
 #mpresale .row:first-child{
 	padding-top:0 !important;
@@ -191,16 +100,13 @@ h4 a.seemore{
     width: 47%;
     margin-left: 1.5%;
     margin-right: 1.5%;
-    margin: 3px 1.5%;
+    margin: 4px 1.5%;
 }
 .ui.products.cards.two>.card>.problock>.counter{
 	bottom: 5px;
 }
 .ui.products.cards.two>.card>.problock>.cats{
 	padding: 5px 10px 25px;
-}
-#slider{
-	margin-bottom:0 !important;
 }
 </style>
 {% endblock %}
@@ -325,7 +231,7 @@ h4 a.seemore{
 		<li class="childcell">
 			<a class="menuicon" href="{{ app_url_wap }}/shop">
 				<img src="{{ app_url_packaged }}/images/icon/product.png">
-			    商品
+			    商城
 			</a>
 		</li>
 		<li class="childcell">
@@ -407,7 +313,7 @@ h4 a.seemore{
           <div class="recom-item">
           {% for d in tries.rows %}
             <div class="recom-cell">
-              <a href="">
+              <a href="{{ d.wap_view_url }}">
                 <img class="lazy" data-original="{{ d.cover.thumbnails.resp.view_url }}" alt="{{ d.short_title }}" src="{{ app_url_packaged }}/images/icon/loading.png">
                 <div class="desc">
                   {{ d.short_title }}
