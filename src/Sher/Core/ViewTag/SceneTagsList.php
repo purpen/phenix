@@ -83,7 +83,7 @@ class Sher_Core_ViewTag_SceneTagsList extends Doggy_Dt_Tag {
                         }
                     }
                 }
-                $rows[$i]['prefix_title_cn'] = str_repeat('__', count($right)).$rows[$i]['title_cn'];
+                $rows[$i]['prefix_title_cn'] = str_repeat('->', count($right)).$rows[$i]['title_cn'];
                 // 将节点加入到堆栈
                 $right[] = $rows[$i]['right_ref'] ? $rows[$i]['right_ref'] : '';
             }

@@ -37,6 +37,10 @@
 		.tags_content{
 			margin: 5px 0;
 		}
+		
+		.scene_tags{
+			margin: 0 5px 5px 0 !important;
+		}
 	</style>
 {% endblock %}
 
@@ -92,7 +96,7 @@
 						$(event.target).addClass('error');
 						phenix.show_error_note(data.message, 3000);
 					}else{
-						phenix.redirect(data.redirect_url);
+						phenix.redirect('{{ app_url_app_admin_base }}/scene_scene/get_list');
 					}
 				}
 			});

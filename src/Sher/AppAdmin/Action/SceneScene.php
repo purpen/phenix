@@ -50,7 +50,10 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 			'left_ref'=>array('$gt' => $res_one['left_ref']),
 			'right_ref'=>array('$lt' => $res_one['right_ref'])
 		);
-		$result = $model->find($query);
+		$options = array(
+			'sort' => array('left_ref' => 1)
+		);
+		$result = $model->find($query, $options);
 		
 		return $this->ajax_json('提交成功', false, '', $result);
 	}
