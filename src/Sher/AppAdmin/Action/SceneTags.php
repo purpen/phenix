@@ -152,7 +152,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		
 		// 验证数据
 		if(empty($data['title_en'])){
-			return $this->ajax_note('获取数据错误,请重新提交', true);
+			//return $this->ajax_note('获取数据错误,请重新提交', true);
 		}
 		
 		// 验证数据
@@ -162,7 +162,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		
 		// 验证数据
 		if(strlen($data['title_en']) > 7){
-			return $this->ajax_note('获取数据错误,请重新提交', true);
+			//return $this->ajax_note('获取数据错误,请重新提交', true);
 		}
 		
 		// 验证数据
