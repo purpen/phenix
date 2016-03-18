@@ -267,7 +267,6 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
             $is_end_time = false;
             $end_time_format = null;         
           }
-          $is_end_time
           $result['rows'][$i]['is_end_time'] = $is_end_time;
           $result['rows'][$i]['end_time_format'] = $end_time_format;
           $step_stat = $result['rows'][$i]['step_stat'];
