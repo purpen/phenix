@@ -174,7 +174,6 @@
 					<label class="ui orange label" id="stick-{{ date._id }}-label">否</label>
 					{% endif %}
 				</td>
-				<td>
         <td>
 					{% if date.status %}
 					<label class="ui green label" id="stick-{{ date._id }}-label">是</label>
@@ -182,6 +181,7 @@
 					<label class="ui orange label" id="stick-{{ date._id }}-label">否</label>
 					{% endif %}
 				</td>
+        <td>
 
                     {% if date.parent_id == 0%}
 					不可操作
