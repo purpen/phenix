@@ -81,7 +81,10 @@
 		<!--把jquery放到body之前-->
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
 	</head>
-	
+	<script type="text/javascript">
+		var phonewidth= (window.screen.width-4)/2*330/500+'px';
+		$('.recom-cell').css('height',phonewidth);
+	</script>
 	<body>
 		{% include "mm/header.html" %}
 		<section id="mfrbird">
