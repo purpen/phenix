@@ -86,6 +86,28 @@ class Sher_Core_Util_JdSdk {
     }
 
   }
+
+  /*
+   * 单个商品查询
+   */
+  public static function search_by_item($ids, $options=array()){
+    include "jos-sdk/JdSdk.php";
+
+    $result = array();
+    $result['success'] = false;
+    $result['code'] = 0;
+    $result['msg'] = null;
+    // 链接方式：1.PC; 2.无线
+    $platform = isset($options['platform']) ? (int)$options['platform'] : 2;
+
+    // id ** 最大40个(淘宝)
+    if(empty($ids)){
+      $result['msg'] = 'id不能为空!';
+      return $result;     
+    }
+
+    return $result;   
+  }
 	
 }
 
