@@ -72,11 +72,15 @@
 			<a href="javascript:void(0)" class="item" id="tags_add">
 				<i class="add icon"></i>新增标签
 			</a>
+      <a href="{{ app_url_app_admin_base }}/scene_tags/match_add" class="item" id="batch_tags_add">
+				<i class="add icon"></i>批量导入
+			</a>
             <div class="ui modal" style="display: none">
                 <div class="header">选择标签分类</div>
                 <div class="content">
                     <a href="{{ app_url_app_admin_base }}/scene_tags/add?type=0" class="ui inverted green button">标签分类</a>
                     <a href="{{ app_url_app_admin_base }}/scene_tags/add?type=1" class="ui inverted green button">产品分类</a>
+                    <a href="{{ app_url_app_admin_base }}/scene_tags/add?type=2" class="ui inverted green button">测试</a>
                 </div>
             </div>
 			<!--
@@ -95,6 +99,7 @@
                 <div class="menu">
                   <div class="item tags" data-value="1">标签分类</div>
                   <div class="item tags" data-value="2">产品分类</div>
+                  <div class="item tags" data-value="3">测试分类</div>
                 </div>
             </div>
 			<div class="ui input">
@@ -118,9 +123,10 @@
 					  	<label></label>
 					</div>
 				</th>
+        <th></th>
+                <th>ID</th>
                 <th>中文名称</th>
                 <th>英文名称</th>
-                <th>ID</th>
                 <th>父级ID</th>
                 <th>左分值</th>
                 <th>右分值</th>
@@ -141,13 +147,14 @@
 					</div>
 				</td>
 				<td>
+                <td>
+                  {{ date._id }}
+                </td>
+                <td>
                   {{ date.title_cn }}
                 </td>
                 <td>
                   {{ date.title_en }}
-                </td>
-                <td>
-                  {{ date._id }}
                 </td>
                 <td>
                   {{ date.parent_id }}

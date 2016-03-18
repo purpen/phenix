@@ -128,7 +128,21 @@
 			<div class="field">
                 <label>近义词</label>
                 <textarea name="likename" placeholder="近义词，用英文逗号隔开！">{{ date.likename }}</textarea>
+                <div class="description">用英文逗号隔开！</div>
             </div>
+			<h4 class="ui stage header">推荐</h4>
+			<div class="grouped inline fields">
+				<div class="field">
+					<div class="ui radio checkbox">
+            <input type="radio" name="stick" value="0" {%if date.stick==0%}checked="checked"{%endif%} /> 
+						<label>否</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="stick" value="1" {%if date.stick==1%}checked="checked"{%endif%} /> 
+						<label>是</label>
+					</div>
+				</div>
+			</div>
 			<div class="field">
 				<label>所属标签</label>
 				<input type="hidden" name="parent_id" value="{{ date.parent_id }}" />
