@@ -260,7 +260,15 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
         //组织数据
 
         for($i=0;$i<count($result['rows']);$i++){
-          $end_time_format = date('Y-m-d', $result['rows'][$i]['end_time']);
+          if($result['rows'][$i]['end_time']){
+            $is_end_time = true;
+            $end_time_format = date('Y-m-d', $result['rows'][$i]['end_time']);
+          }else{
+            $is_end_time = false;
+            $end_time_format = null;         
+          }
+          $is_end_time
+          $result['rows'][$i]['is_end_time'] = $is_end_time;
           $result['rows'][$i]['end_time_format'] = $end_time_format;
           $step_stat = $result['rows'][$i]['step_stat'];
           if($step_stat==1){
