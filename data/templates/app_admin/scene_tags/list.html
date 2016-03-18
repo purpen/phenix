@@ -57,6 +57,13 @@
     $('#tags_add').click(function(){
         $('.ui.modal').modal('show');
     });
+
+    // 重建索引
+    $('#rebuild_index_btn').click(function(){
+      $.get("{{ app_url_app_admin_base }}/scene_tags/rebuild_tree", {}, function(){
+        window.location.reload();
+      });
+    });
 	
 {% endblock %}
 	
@@ -74,6 +81,9 @@
 			</a>
       <a href="{{ app_url_app_admin_base }}/scene_tags/match_add" class="item" id="batch_tags_add">
 				<i class="add icon"></i>批量导入
+			</a>
+      <a href="javascript:void(0);" class="item" id="rebuild_index_btn">
+				更新索引
 			</a>
             <div class="ui modal" style="display: none">
                 <div class="header">选择标签分类</div>
