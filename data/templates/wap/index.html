@@ -36,8 +36,8 @@
     overflow: hidden;
 	padding: 0;
 	margin:0;
-	clear: both;
 	height: 100%;
+	position: relative;
 }
 .recom-cell{
 	width:50%;
@@ -46,6 +46,9 @@
 	padding-right: 4px;
 	margin: 4px 0;
 	clear: both;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box; 
 }
 .recom-cell:nth-child(2n){
 	padding-left:4px;
@@ -148,6 +151,7 @@ h4 a.seemore{
 {% endblock %}
 
 {% block jquery %}
+		
 	$.ajaxSettings.async = false; 
 
   // 判断是否来自易购

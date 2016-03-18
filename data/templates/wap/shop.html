@@ -102,7 +102,7 @@
 	
 <div id="tmenu">
 	<div class="swiper-wrapper">
-		{% category_list var:'category' only_open:only_open domain:1 show_all:0 current:cid sort_field:'total_desc' %}
+		{% category_list var:'category' only_open:1 domain:1 show_all:0 current:cid sort_field:'total_desc' %}
 		{% for cat in category.rows %}
       {% if cat.sub_count>0 %}
         <div class="swiper-slide">
