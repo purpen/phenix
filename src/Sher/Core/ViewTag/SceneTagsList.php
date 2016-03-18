@@ -30,7 +30,7 @@ class Sher_Core_ViewTag_SceneTagsList extends Doggy_Dt_Tag {
         $include_pager = 0;
         $pager_var = 'pager';
 		
-		$sort_field = 'time';
+		$sort_field = 'latest';
 		
         extract($this->resolve_args($context,$this->argstring,EXTR_IF_EXISTS));
 
@@ -83,7 +83,7 @@ class Sher_Core_ViewTag_SceneTagsList extends Doggy_Dt_Tag {
                         }
                     }
                 }
-                $rows[$i]['title_cn'] = str_repeat('>', count($right)).$rows[$i]['title_cn'];
+                $rows[$i]['prefix_title_cn'] = str_repeat('->', count($right)).$rows[$i]['title_cn'];
                 // 将节点加入到堆栈
                 $right[] = $rows[$i]['right_ref'] ? $rows[$i]['right_ref'] : '';
             }

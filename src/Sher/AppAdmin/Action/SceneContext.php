@@ -33,7 +33,7 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 		$page = (int)$this->stash['page'];
 		
 		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_context/get_list?page=#p#';
-		
+		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('app_admin/scene_context/list.html');
 	}
 	

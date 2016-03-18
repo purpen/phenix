@@ -39,12 +39,14 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 		# 使用数量
 		'used_count' => 0,
 		# 封面图
-        'cover' => '',
+        'cover_id' => '',
+		# 推荐
+		'stick' => 0,
 		# 状态
 		'status' => self::STATE_OK,
     );
 	
-	protected $required_fields = array('title_cn','title_en');
+	protected $required_fields = array('title_cn');
 	protected $int_fields = array('status', 'parent_id', 'left_ref', 'right_ref', 'type', 'used_count');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count');

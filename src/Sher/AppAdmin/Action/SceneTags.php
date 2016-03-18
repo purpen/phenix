@@ -143,7 +143,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 	public function save() {
 		
 		$data = $this->stash;
-		$arr = array(0,1); // 判断标签类型是否合法
+		$arr = array(0,1,2,3); // 判断标签类型是否合法
 		
 		// 验证数据
 		if(empty($data['title_cn'])){
@@ -152,7 +152,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		
 		// 验证数据
 		if(empty($data['title_en'])){
-			return $this->ajax_note('获取数据错误,请重新提交', true);
+			//return $this->ajax_note('获取数据错误,请重新提交', true);
 		}
 		
 		// 验证数据
@@ -162,7 +162,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		
 		// 验证数据
 		if(strlen($data['title_en']) > 7){
-			return $this->ajax_note('获取数据错误,请重新提交', true);
+			//return $this->ajax_note('获取数据错误,请重新提交', true);
 		}
 		
 		// 验证数据
@@ -176,6 +176,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		}
 		
 		$data['type'] = (int)$data['type'];
+    $data['stick'] = isset($this->stash['stick']) ? $this->stash['stick'] : 0;
 		
 		if(!in_array($data['type'],$arr)){
 			return $this->ajax_note('获取数据错误,请重新提交', true);
@@ -257,4 +258,52 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		$res = $model->rebuild_tree($type);
 		echo $res ? '重建节点成功！' : '重建节点失败！';
 	}
+
+  /**
+   * 批量导入标签
+   */
+  public function match_add(){
+		return $this->to_html_page('app_admin/scene_tags/match_add.html');
+  }
+
+  /**
+   * 批量导入标签保存
+   */
+  public function match_add_save(){
+    $stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
+    $parent_id = isset($this->stash['parent_id']) ? (int)$this->stash['parent_id'] : 0;
+    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+    $tags = isset($this->stash['tags']) ? $this->stash['tags'] : null;
+
+    if(empty($tags) || empty($parent_id)){
+      return $this->ajax_note('缺少请求参数!');
+    }
+    $tag_arr = array_values(array_unique(preg_split('/[,，;；\s]+/u',$tags)));
+    $success_count = 0;
+    $fail_count = 0;
+
+    $scene_tags_model = new Sher_Core_Model_SceneTags();
+    foreach($tag_arr as $k=>$v){
+      if(!empty($v) && strlen($v)<15){
+        // 如果标签重复，跳过
+        $has_one = $scene_tags_model->first(array('type'=>$type, 'title_cn'=>$v));
+        if($has_one){
+          $fail_count +=1;
+          continue;
+        }
+        $rows['title_cn'] = $v;
+        $rows['parent_id'] = $parent_id;
+        $rows['type'] = $type;
+        $rows['stick'] = $stick;
+        $ok = $scene_tags_model->create($rows);
+        if($ok){
+          $success_count +=1;
+        }else{
+          $fail_count +=1;
+        }
+      }
+    }
+		return $this->ajax_json("操作成功!", false, 0, array('fail_count'=>$fail_count, 'success_count'=>$success_count));
+  }
+
 }

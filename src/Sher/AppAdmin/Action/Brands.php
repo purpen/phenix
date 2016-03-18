@@ -33,7 +33,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		$page = (int)$this->stash['page'];
 		
 		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/brands/get_list?page=#p#';
-		
+		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('app_admin/brands/list.html');
 	}
 	
