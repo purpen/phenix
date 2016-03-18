@@ -151,6 +151,8 @@ h4 a.seemore{
 {% endblock %}
 
 {% block jquery %}
+		var phonewidth= (window.screen.width-4)/2*330/500+'px';
+		$('.recom-cell').css('height',phonewidth);
 	$.ajaxSettings.async = false; 
 
   // 判断是否来自易购
