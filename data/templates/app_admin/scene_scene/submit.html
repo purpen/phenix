@@ -25,6 +25,18 @@
 			top: -34px;
 			right: 2px;
 		}
+		
+		.tags{
+			margin: 10px 0;
+		}
+		
+		.tags_title{
+			margin: 10px 0;
+		}
+		
+		.tags_content{
+			margin: 5px 0;
+		}
 	</style>
 {% endblock %}
 
@@ -87,23 +99,6 @@
 		}
 	});
 	
-	// 选择分类
-	$('.ui.options').on('click', '.option', function(){
-		var id = $(this).attr('data-value');
-		if ($(this).hasClass('active')){
-			$(this)
-				.removeClass('active');
-			$('#topic-category').val('');
-		}else{
-			$(this)
-				.siblings('.ui.option').removeClass('active')
-				.end()
-				.addClass('active');
-			$('#scene_context_category').val(id);
-		}
-	});
-	
-	
 	// 百度地图API功能
     var map = new BMap.Map("allmap");
     var point = new BMap.Point(116.404, 39.915);
@@ -136,7 +131,7 @@
 			var marker = new BMap.Marker(choose_point);
 			map.addOverlay(marker);
 			
-			var label = new BMap.Label('{{ date.address }}<br />经度：{{ date.location.coordinates.lng }}, 纬度：{{ date.location.coordinates.lat }}', {offset: offset});
+			var label = new BMap.Label('{{ date.address }}', {offset: offset});
 			label.setStyle({
 				color: "#ff3366",
 				fontSize: "12px",
@@ -171,7 +166,7 @@
 				
 				// 创建标注
 				var marker = new BMap.Marker(point);
-				var label = new BMap.Label(address+'<br />经度：'+ point.lng +', 纬度：'+ point.lat, {offset: offset});
+				var label = new BMap.Label(address, {offset: offset});
 				label.setStyle({
 					color: "#ff3366",
 					fontSize: "12px",
@@ -189,6 +184,79 @@
 		});
 	
 		return;
+	});
+	
+	$('.ui.orange.label.scene').on('click',function(){
+		var id = $(this).attr('date-val');
+		$.post('{{ app_url_app_admin_base }}/scene_scene/find_tags',{id:id},function(date){
+			var data = eval('('+date+')');
+			//console.log(data);
+			var html = '';
+			for(i=0; i< data.data.length; i++){
+				html += '<a class="ui green label scene_tags" date-val="'+data.data[i]['_id']+'">'+data.data[i]['title_cn']+'</a>';
+			}
+			$('#'+id).html(html);
+		});
+	});
+	
+	$('.tags_content').each(function(){
+		var id = $(this).attr('id');
+		$.post('{{ app_url_app_admin_base }}/scene_scene/find_tags',{id:id},function(date){
+			var data = eval('('+date+')');
+			console.log(data);
+			var html = '';
+			for(i=0; i< data.data.length; i++){
+				html += '<a class="ui green label scene_tags" date-val="'+data.data[i]['_id']+'">'+data.data[i]['title_cn']+'</a>';
+			}
+			$('#'+id).html(html);
+		});
+	});
+	
+	//查看字符串是否在数组中存在
+	in_array = function(arr, val) {
+		var i;
+		for (i = 1; i <= arr.length; i++) {
+			if (val == arr[i-1]) {
+				return i;
+			}
+		}
+		return 0;
+	}; // 返回0表示没找到，返回其他值表示找到的索引
+	
+	// 判断标签是否被选中
+	var tags = $('input[name=tags]').val();
+	tags = tags.split(',');
+	for (i = 0; i < tags.length; i++) {
+		tags[i] = parseInt(tags[i]);
+	}
+	$('.scene_tags').livequery(function(){
+		$(this).each(function(){
+			var tag = $(this).attr('date-val');
+			tag = parseInt(tag);
+			if(in_array(tags,tag)){
+				$('a[date-val='+tag+']').addClass('purple');
+			}
+		});
+	});
+	
+	// 选择分类
+	$('.scene_tags').livequery(function(){
+		$(this).click(function(){
+			var id = $(this).attr('date-val');
+			if ($(this).hasClass('purple')){
+				$(this).removeClass('purple');
+			}else{
+				$(this).addClass('purple');
+			}
+			
+			var tags = '';
+			$(".purple").each(function(i){
+				var value = $(this).attr('date-val');
+				tags += value + ',';
+			});
+			tags = tags.substring(0,tags.length-1);
+			$('input[name=tags]').val(tags);
+		});
 	});
 	
 {% endblock %}
@@ -216,6 +284,7 @@
 	<form action="{{ app_url_api }}/scene_scene/save" class="ui form" method="post" id="active-form">
 		<!-- 隐藏表单 -->
 		<input type="hidden" name="id" value="{{ date._id }}" />
+		<input type="hidden" name="tags" value="{{ date.tags }}" />
 		
 		<div class="ui segment from">
 			<h3 class="ui dividing header">填写情景信息</h3>
@@ -226,6 +295,18 @@
             <div class="field">
                 <label>情景详情</label>
                 <textarea name="des" placeholder="语境详情">{{ date.des }}</textarea>
+            </div>
+			<div class="field">
+                <label>所属标签</label>
+				{% for tags in scene_tags %}
+                <div class="ui tags">
+					<div class="tags_title">
+						<a class="ui teal tag label scene_tags" date-val="{{ tags._id }}">{{ tags.title_cn }}</a>
+						<!--<a class="ui orange label scene" date-val="{{ tags._id }}">加载标签</a>-->
+					</div>
+					<div class="tags_content" id="{{ tags._id }}"></div>
+				</div>
+				{% endfor %}
             </div>
 			<div class="field">
                 <label>情景地址</label>

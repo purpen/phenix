@@ -11,7 +11,7 @@
 		}
 		
 		.list-me li{
-			margin-right: 5px;
+			margin: 0 5px 5px 0;
 			float: left;
 		}
 	</style>
@@ -40,19 +40,6 @@
 				{
 					type   : 'maxLength[15]',
 					prompt : '中文名称不能超过15个汉字！'
-				}
-			]
-		},
-		title_en: {
-			identifier  : 'title_en',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '英文名称不能为空'
-				},
-				{
-					type   : 'maxLength[7]',
-					prompt : '英文名称不能超过7个字！'
 				}
 			]
 		}
@@ -136,7 +123,7 @@
 			</div>
 			<div class="field">
                 <label>英文名称</label>
-				<input type="text" name="title_en" placeholder="英文名称，不能超过7个字母！" value="{{ date.title_en }}" />
+				<input type="text" name="title_en" placeholder="英文名称" value="{{ date.title_en }}" />
 			</div>
 			<div class="field">
                 <label>近义词</label>
