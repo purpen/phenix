@@ -20,7 +20,7 @@ body{
 
     // 话题加载
     function ajax_load_topic(type, sort, page, size){
-        var url = '{{ app_url_wap }}/social/ajax_fetch_more';
+        var url = '{{ app_url_wap }}/topic/ajax_fetch_more';
         $.get(url, { type:type, sort:sort, page:page, size:size }, function(rs){
             if(rs.data.results.total_page >= rs.data.results.current_page){
                 $('#topic-more')
@@ -35,6 +35,10 @@ body{
             }else{
               $('#topic-box').append(rendered);
             }
+            new Swiper('.tslide',{
+              freeMode : true,
+              slidesPerView : 'auto',
+            });
         }, 'json');
     }
   </script>
@@ -59,10 +63,6 @@ body{
     $('#topic-more').attr({'status': 0, 'page': 1});
     ajax_load_topic(type, sort, 1, 8);
   })
-  var mySwiper = new Swiper('.tslide',{
-    freeMode : true,
-    slidesPerView : 'auto',
-  });
 
   //ajax加载更多(滚动条接近底部加载)
   $(window).scroll(function(){
