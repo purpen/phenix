@@ -89,11 +89,6 @@
       text-overflow: ellipsis;
       overflow: hidden;
   }
-  h4 a.seemore{
-      font-size: 12px;
-      display: inline-block;
-      float: right;
-  }
   #triespage h4.ui.header,#mpresale h4.ui.header{
   	margin-bottom:10px;
   }
@@ -148,7 +143,7 @@
       font-size: 13px;
   }
   #mpresale .recom-cell a .desc .cats{
-  	font-size:12px;
+  	  font-size:12px;
       font-weight: 400;
       overflow: hidden;
       padding: 0;
@@ -184,7 +179,7 @@
                   $('#product-more').html('没有更多');
               }
               var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
-              $('.item-box').append(rendered);
+              $('.recom-item').append(rendered);
           }, 'json');
       }
   </script>

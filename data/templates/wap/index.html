@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="http://frstatic.qiniudn.com/wechat/js/swiper.min.css">
 <style type="text/css">
 	#mfrbird {
-	    margin: 0em auto 3em !important;
+	    margin: 0em auto 1.5em !important;
 	}
 @media only screen and (max-width: 320px){
 	#slider{
@@ -20,6 +20,11 @@
 	#slider{
 		height:232px;
 	}
+}
+h4 a.seemore{
+    font-size: 12px;
+    display: inline-block;
+    float: right;
 }
 
 .recommend-topic{
@@ -172,7 +177,7 @@ h4 a.seemore{
         var url = '{{ app_url_wap }}/shop/ajax_load_list';
         $.get(url, { category_id:category_id, sort:sort, page:page, type:type, size:size }, function(rs){
              var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
-             $('#mpresale .item-box').append(rendered);
+             $('#mpresale .recom-item').append(rendered);
          }, 'json');
       }
       // 试用
