@@ -46,7 +46,11 @@ class Sher_Core_ViewTag_SceneTagsList extends Doggy_Dt_Tag {
 		$options['sort_field'] = $sort_field;
         
         if($type){
-            $query['type'] = (int)$type;
+            if($type==-1){
+              $query['type'] = 0;
+            }else{
+              $query['type'] = (int)$type;
+            }
         }
         
         if (!empty($left_ref) && !empty($right_ref)) {
