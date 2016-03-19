@@ -92,7 +92,7 @@ h4 a.seemore{
     float: right;
 }
 #triespage h4.ui.header,#mpresale h4.ui.header{
-	margin-bottom:8px;
+	margin-bottom:10px;
 }
 #mpresale .ui.products.cards.two>.card {
     background: 0 0;
@@ -104,10 +104,7 @@ h4 a.seemore{
 }
 #triespage .recom-cell a .desc{
 	position:relative;
-	background: -moz-linear-gradient(top,rgba(255,255,255,0.6),rgba(255,255,255,1));
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(rgba(50,50,50,.1)), to(rgba(255,255,255 ,1)));
-    background: -webkit-linear-gradient(top, rgba(255,255,255,0.6), rgba(255,255,255,1));
-    background: -o-linear-gradient(top, rgba(255,255,255,0.6), rgba(255,255,255,1));
+    background: #fff;
     padding: 6px 5px 0;
 	height:auto;
 }
@@ -253,35 +250,34 @@ h4 a.seemore{
     {% endfor %}
   </ul>
 </div>
-
 <div class="nav-menu">
 	<ul class="navfelx">
 		<li class="childcell">
-			<a class="menuicon" href="{{ app_url_wap }}/topic" >
+			<a class="menuicon" href="{{ app_url_wap }}/topic" title="社区">
 				<img src="{{ app_url_packaged }}/images/icon/topic.png">
 			    社区
 			</a>
 		</li>
 		<li class="childcell">
-			<a class="menuicon" href="{{ app_url_wap }}/shop">
+			<a class="menuicon" href="{{ app_url_wap }}/shop" title="商城">
 				<img src="{{ app_url_packaged }}/images/icon/product.png">
 			    商城
 			</a>
 		</li>
 		<li class="childcell">
-			<a class="menuicon" href="{{ app_url_wap }}/try">
+			<a class="menuicon" href="{{ app_url_wap }}/try" title="免费试用">
 				<img src="{{ app_url_packaged }}/images/icon/try.png">
 			    免费试用
 			</a>
 		</li>
 		<li class="childcell">
-			<a class="menuicon" href="{{ app_url_wap }}/incubator/resource">
+			<a class="menuicon" href="{{ app_url_wap }}/incubator/resource" title="孵化">
 				<img src="{{ app_url_packaged }}/images/icon/cooa.png">
 			    孵化
 			</a>
 		</li>
 		<li class="childcell">
-			<a class="menuicon" href="{{ app_url_wap }}/active">
+			<a class="menuicon" href="{{ app_url_wap }}/active" title="活动">
 				<img src="{{ app_url_packaged }}/images/icon/active.png">
 			    活动
 			</a>
@@ -300,7 +296,7 @@ h4 a.seemore{
 		{% for ad in adslide2.rows %}
 		<div class="recom-cell">
 			<a href="{{ ad.view_url }}" title="{{ ad.title }}">
-				<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png">
+				<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png" title="{{ ad.title }}">
 				<div class="desc">
 					{{ ad.title }}
 				</div>
@@ -316,8 +312,8 @@ h4 a.seemore{
          {% ad_list var:'adslide3' page:1 size:4 state:2 name:'web_index_topic_stick_slide' %}
 		 {% for ad in adslide3.rows %}
 		<div class="recom-cell">
-			<a href="{{ ad.view_url }}">
-				<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png">
+			<a href="{{ ad.view_url }}" title="{{ ad.title }}">
+				<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png" title="{{ ad.title }}">
 				<div class="desc">
                         {{ ad.title }}
                 </div>
@@ -339,7 +335,7 @@ h4 a.seemore{
 		<div class="row pb-0">
 			<div class="column">
 				<h4 class="ui header">免费试用
-				<a href="{{ app_url_wap }}/try" class="ui seemore line link" >查看更多</a>
+				<a href="{{ app_url_wap }}/try" title="查看更多" class="ui seemore line link" >查看更多</a>
 				</h4>
 			</div>
 		</div>
@@ -347,7 +343,7 @@ h4 a.seemore{
      <div class="recom-item">
       {% for d in tries.rows %}
         <div class="recom-cell">
-          <a href="{{ d.wap_view_url }}">
+          <a href="{{ d.wap_view_url }}" title="{{ d.short_title }}">
             <img class="lazy" data-original="{{ d.cover.thumbnails.resp.view_url }}" alt="{{ d.short_title }}" src="{{ app_url_packaged }}/images/icon/loading.png">
             <div class="desc">
 			  <h2>
@@ -368,17 +364,35 @@ h4 a.seemore{
 {% endcache %}
 
 <!--商品-->
-<div class="ui responsive grid" id="mpresale">
-	<div class="row">
-		<div class="column">
-			<h4 class="ui header">热门商品
-			<a href="{{ app_url_wap }}/shop" class="ui seemore line link" >查看更多</a>
-			</h4>
-			<div class="ui products two cards item-box" style="margin-top:0;">
-      <!--ajax load-->
+<div id="mpresale">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<h4 class="ui header">热门商品
+				<a href="{{ app_url_wap }}/shop" class="ui seemore line link" >查看更多</a>
+				</h4>
+			</div>
+		</div>
+		<div class="row pt-0">
+			
+			<div class="recom-item">
+				<div class="recom-cell">
+					
+				</div>
+				<div class="recom-cell">
+					
+				</div>
+				
+				
+				
 			</div>
 		</div>
 	</div>
+	
+			
+			<div class="ui products two cards item-box" style="margin-top:0;">
+      <!--ajax load-->
+			</div>
 </div>
 
 {% endblock %}
