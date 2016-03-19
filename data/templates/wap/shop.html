@@ -191,7 +191,7 @@
     $(this).addClass('active');
     var category_id = $(this).attr('category_id');
     $('#product-more').attr('category_id', category_id);
-    $('#mproducts .item-box').html('');
+    $('#mpresale .recom-item').html('');
     ajax_load_more(category_id, 0, 4, 1, 12);
   });
   
