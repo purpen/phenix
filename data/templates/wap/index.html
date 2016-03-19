@@ -132,6 +132,48 @@ h4 a.seemore{
 .pb-0{
 	padding-bottom:0 !important;
 }
+#mpresale .recom-cell a .desc{
+    font-size: 13px;
+    font-weight: 500;
+}
+#mpresale .recom-cell a .desc h2{
+    font-weight: 500;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+    margin: 0 0 3px;
+    line-height: 15px;
+    height: 22px;
+	font-size:13px;
+}
+#mpresale .recom-cell a .shop-money{
+	position:absolute;
+	top:8px;
+	right:8px;
+	color:#f36;
+	font-size:16px;
+}
+
+/*#mpresale .recom-cell a .desc .cats{
+	font-size:12px;
+    font-weight: 400;
+    height: 15px;
+    overflow: hidden;
+    padding: 5px 0 25px;
+    text-align: left;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: #f36;
+}
+#mpresale .recom-cell a .desc.counter {
+    bottom: 5px;
+    font-size: 9pt;
+    position: absolute;
+    right: 10px;
+}*/
 .ui.products.cards.two>.card>.problock>.counter{
 	bottom: 5px;
 }
@@ -143,12 +185,6 @@ h4 a.seemore{
 
 {% block layout_js %}
   <script type="text/javascript" >
-	$(window).scroll(function(){
-		if( $(window).scrollTop() == $('.nav-menu').offset().top){
-	      
-		}
-		
-	})
      // 产品
      function ajax_load_product_more(category_id, type, sort, page, size){
         var url = '{{ app_url_wap }}/shop/ajax_load_list';
@@ -366,7 +402,7 @@ h4 a.seemore{
 <!--商品-->
 <div id="mpresale">
 	<div class="ui responsive grid">
-		<div class="row">
+		<div class="row pb-0">
 			<div class="column">
 				<h4 class="ui header">热门商品
 				<a href="{{ app_url_wap }}/shop" class="ui seemore line link" >查看更多</a>
@@ -374,25 +410,41 @@ h4 a.seemore{
 			</div>
 		</div>
 		<div class="row pt-0">
-			
-			<div class="recom-item">
-				<div class="recom-cell">
+			<div class="column">
+				<div class="recom-item">
+					<div class="recom-cell">
+						<a title="魅路由 智能路由器无线WIFI穿墙王" href=" ">
+							<img src="http://frbird.qiniudn.com/product/160224/56cd424ffc8b12d0478c17a0-4-p500x500.jpg">
+							<div class="desc">
+									魅路由智能路由器
+								<!--<div class="cats">
+						            <span class="unit">￥</span>199
+						        </div>
+								<span class="counter">
+						            <i class="heart icon"></i> 6
+						        </span>-->
+							</div>
+							<div class="shop-money">
+								¥ 20
+							</div>
+						</a>
 					
-				</div>
-				<div class="recom-cell">
+					</div>
+					<div class="recom-cell">
 					
+					</div>
+				
+				
+				
 				</div>
-				
-				
-				
 			</div>
 		</div>
 	</div>
 	
 			
-			<div class="ui products two cards item-box" style="margin-top:0;">
-      <!--ajax load-->
-			</div>
+			<!--<div class="ui products two cards item-box" style="margin-top:0;">
+      		  
+			</div>-->
 </div>
 
 {% endblock %}
