@@ -42,10 +42,9 @@
 .recom-cell{
 	width:50%;
 	height: 100%;
-	display:block;
+	display: inline-block;
 	padding-right: 4px;
 	margin: 4px 0;
-	float:left;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box; 
@@ -133,20 +132,24 @@ h4 a.seemore{
 	padding-bottom:0 !important;
 }
 #mpresale .recom-cell a .desc{
-    font-size: 13px;
-    font-weight: 500;
+    padding: 15px 5px 0;
+	line-height: inherit;
+	background: -moz-linear-gradient(top,rgba(255,255,255,0.1),rgba(255,255,255,0.8));
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(rgba(255,255,255,0.1)), to(rgba(255,255,255,0.8)));
+    background: -webkit-linear-gradient(top, rgba(255,255,255,0.1), rgba(255,255,255,0.8));
+    background: -o-linear-gradient(top, rgba(255,255,255,0.1), rgba(255,255,255,0.8));
 }
 #mpresale .recom-cell a .desc h2{
-    font-weight: 500;
+	line-height: 22px;
+    height: 22px;
+    font-weight: 700;
     overflow: hidden;
     text-align: left;
+    margin: 0;
     text-overflow: ellipsis;
     white-space: nowrap;
+    color: rgba(0,0,0,0.6);
     font-size: 13px;
-    margin: 0 0 3px;
-    line-height: 15px;
-    height: 22px;
-	font-size:13px;
 }
 #mpresale .recom-cell a .shop-money{
 	position:absolute;
@@ -158,24 +161,24 @@ h4 a.seemore{
 	background: rgba(0,0,0,0.1);
 }
 
-/*#mpresale .recom-cell a .desc .cats{
+#mpresale .recom-cell a .desc .cats{
 	font-size:12px;
     font-weight: 400;
-    height: 15px;
     overflow: hidden;
-    padding: 5px 0 25px;
+    padding: 0;
     text-align: left;
     text-overflow: ellipsis;
     text-transform: uppercase;
     white-space: nowrap;
     color: #f36;
 }
-#mpresale .recom-cell a .desc.counter {
-    bottom: 5px;
-    font-size: 9pt;
+#mpresale .recom-cell a .desc .counter {
+    font-size: 12px;
     position: absolute;
     right: 10px;
-}*/
+    bottom: 3px;
+    color: #5d6266;
+}
 .ui.products.cards.two>.card>.problock>.counter{
 	bottom: 5px;
 }
@@ -418,16 +421,13 @@ h4 a.seemore{
 						<a title="魅路由 智能路由器无线WIFI穿墙王" href=" ">
 							<img src="http://frbird.qiniudn.com/product/160224/56cd424ffc8b12d0478c17a0-4-p500x500.jpg">
 							<div class="desc">
-									魅路由智能路由器
-								<!--<div class="cats">
+								<h2>魅路由智能路由器</h2>
+								<div class="cats">
 						            <span class="unit">￥</span>199
 						        </div>
 								<span class="counter">
 						            <i class="heart icon"></i> 6
-						        </span>-->
-							</div>
-							<div class="shop-money">
-								¥ 199
+						        </span>
 							</div>
 						</a>
 					
@@ -436,27 +436,27 @@ h4 a.seemore{
 						<a title="小K MiniK Pro智能微插智能家居插座">
 							<img src="http://frbird.qiniudn.com/product/160225/56ceb462fc8b12314d8b50b6-1-p500x500.jpg">
 							<div class="desc">
-								小K MiniK Pro智能微插智能家居插座
-							</div>
-							<div class="shop-money">
-								128
+								<h2>小K MiniK Pro智能微插智能家居插座</h2>
+								<div class="cats">
+						            <span class="unit">￥</span>199
+						        </div>
+								<span class="counter">
+						            <i class="heart icon"></i> 6
+						        </span>
 							</div>
 						</a>
 					</div>
 					<div class="recom-cell">
 						<a title="魅路由 智能路由器无线WIFI穿墙王" href=" ">
-							<img src="http://frbird.qiniudn.com/product/160224/56cd424ffc8b12d0478c17a0-4-p500x500.jpg">
+							<img src="http://img.zcool.cn/community/013bd355338653000000c5004b5163.jpg">
 							<div class="desc">
-									魅路由智能路由器
-								<!--<div class="cats">
+								<h2>魅路由智能路由器</h2>
+								<div class="cats">
 						            <span class="unit">￥</span>199
 						        </div>
 								<span class="counter">
 						            <i class="heart icon"></i> 6
-						        </span>-->
-							</div>
-							<div class="shop-money">
-								¥ 199
+						        </span>
 							</div>
 						</a>
 					
@@ -465,10 +465,13 @@ h4 a.seemore{
 						<a title="小K MiniK Pro智能微插智能家居插座">
 							<img src="http://frbird.qiniudn.com/product/160225/56ceb462fc8b12314d8b50b6-1-p500x500.jpg">
 							<div class="desc">
-								小K MiniK Pro智能微插智能家居插座
-							</div>
-							<div class="shop-money">
-								128
+								<h2>小K MiniK Pro智能微插智能家居插座</h2>
+								<div class="cats">
+						            <span class="unit">￥</span>199
+						        </div>
+								<span class="counter">
+						            <i class="heart icon"></i> 6
+						        </span>
 							</div>
 						</a>
 					</div>
