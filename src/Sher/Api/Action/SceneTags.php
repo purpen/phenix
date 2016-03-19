@@ -25,7 +25,7 @@ class Sher_Api_Action_SceneTags extends Sher_Api_Action_Base {
 		// 请求参数
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
-		$status = isset($this->stash['status']) ? (int)$this->stash['status'] : 1;
+		$status = isset($this->stash['status']) ? (int)$this->stash['status'] : -1;
 		$parent_id = isset($this->stash['parent_id']) ? (int)$this->stash['parent_id'] : 0;
 		$title_cn = isset($this->stash['title_cn']) ? (int)$this->stash['title_cn'] : null;
 		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
