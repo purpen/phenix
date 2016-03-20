@@ -143,7 +143,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 	public function save() {
 		
 		$data = $this->stash;
-		$arr = array(0,1,2,3); // 判断标签类型是否合法
+		$arr = array(0,1,2,3,4,5); // 判断标签类型是否合法
 		
 		// 验证数据
 		if(empty($data['title_cn'])){
