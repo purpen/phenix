@@ -13,50 +13,107 @@ body{
 </style>
 {% endblock %}
 
+{% block layout_js %}
+  <script type="text/javascript" >
+    var type = 1;
+    var sort = 0;
+
+    // 话题加载
+    function ajax_load_topic(type, sort, page, size){
+        var url = '{{ app_url_wap }}/topic/ajax_fetch_more';
+        $.get(url, { type:type, sort:sort, page:page, size:size }, function(rs){
+            if(rs.data.results.total_page >= rs.data.results.current_page){
+                $('#topic-more')
+                    .hide()
+                    .attr({'status': 0, 'page': rs.data.page});
+            }else{
+            $('#topic-more').html('<div style="text-align:center;">没有更多</div>').show();
+            }
+            var rendered = phenix.ajax_render_result('#fetch_more_topic_tpl', rs.data);
+            if(rs.data.page==1){
+              $('#topic-box').html(rendered);          
+            }else{
+              $('#topic-box').append(rendered);
+            }
+            new Swiper('.tslide',{
+              freeMode : true,
+              slidesPerView : 'auto',
+            });
+        }, 'json');
+    }
+  </script>
+
+{% endblock %}
+
 {% block jquery %}
-$('.childcell').click(function(){
-	$(this).addClass('active');
-	$(this).siblings().removeClass('active');
-})
-var mySwiper = new Swiper('.tslide',{
-  freeMode : true,
-  slidesPerView : 'auto',
-});
 
+  // 标签切换
+  $('.childcell').click(function(){
+    $(this).addClass('active');
+    $(this).siblings().removeClass('active');
+    type = parseInt($(this).attr('show_type'));
+    sort = parseInt($(this).attr('show_sort'));
+    $('#topic-box').html(''); 
+    var html = '';
+    html += '<div style="text-align:center;margin:10px auto;">';
+    html += '<img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">';
+    html += '</div>';
+                
+    $('#topic-more').html(html).show();
+    $('#topic-more').attr({'status': 0, 'page': 1});
+    ajax_load_topic(type, sort, 1, 8);
+  })
 
+  //ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      $('#topic-more').show();
+      var stat = $('#topic-more').attr('status');
+      page = parseInt($('#topic-more').attr('page')) + 1;
 
+      if(stat==0){
+        ajax_load_topic(type, sort, page, 8);
+      }
+　　}
+  });
+
+  // 初次加载
+  ajax_load_topic(type, sort, 1, 8);
 
 {% endblock %}
 
 {% block content %}
 <div id="topicpage">
 	<div class="nav-menu">
-		<ul class="navfelx">
-			<li class="childcell active">
+		<ul class="navfelx" id="table_change">
+      <li class="childcell {{type_stick_css}}" show_type="1" show_sort="6">
 				<a class="menuicon" href="javascript:void(0);">
 					<img src="{{ app_url_packaged }}/images/icon/tuijian.png">
 					推荐
 				</a>
 			</li>
-			<li class="childcell">
+			<li class="childcell {{type_fine_css}}" show_type="2" show_sort="8">
 				<a class="menuicon" href="javascript:void(0);">
 					<img src="{{ app_url_packaged }}/images/icon/jinghua.png">
 					精华
 				</a>
 			</li>
-			<li class="childcell">
+			<li class="childcell {{type_active_css}}" show_type="3" show_sort="0">
 				<a class="menuicon" href="javascript:void(0);">
 					<img src="{{ app_url_packaged }}/images/icon/hot.png">
 					热门活动
 				</a>
 			</li>
-			<li class="childcell">
+			<li class="childcell {{type_ce_css}}" show_type="5" show_sort="0">
 				<a class="menuicon" href="javascript:void(0);">
 					<img src="{{ app_url_packaged }}/images/icon/pingce.png">
 					评测
 				</a>
 			</li>
-			<li class="childcell">
+			<li class="childcell {{type_last_css}}" show_type="4" show_sort="0">
 				<a class="menuicon" href="javascript:void(0);">
 					<img src="{{ app_url_packaged }}/images/icon/new.png">
 					最新
@@ -65,50 +122,24 @@ var mySwiper = new Swiper('.tslide',{
 		</ul>
 	</div>
 	
-	
-	{% topic_list var:'list' published:1 sort:7 page:1 size:20 %}
 	<div class="ui responsive grid" style="padding:0;margin:0">
 		<div class="row" style="padding-top:0!important;">
 			<div class="column" style="padding:0;">
 				<div class="ui topiclist segment">
 						
-						<div class="ui topic relaxed divided list">
-							{% for topic in list.rows %}
-							<div class="item">
-								<div class="content">
-                  <div class="header {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}"><a href="{{ topic.wap_view_url }}" title="{{ topic.title }}" class="ui line link">{{ topic.attr_str }}{{ topic.title|truncate 60 }}</a></div>
-									{% if !topic.asset_count %}
-										<div class="description">
-											{{ topic.strip_description|truncate 70 }}
-										</div>
-										{% else %}
-							
-										<div class="tslide">
-												<div class="swiper-wrapper">
-												{% asset_list var:'assets' parent_id:topic._id size:6 asset_type:55 sort:'positive' %}
-												{% for asset in assets.rows %}
-													{% if topic.cover._id != asset._id %}
-													<div class="swiper-slide" >
-												  	<img src="{{ asset.thumbnails.tiny.view_url }}" />
-													</div>
-													{% endif %}
-												{% endfor %}
-												</div>
-											</div>
-										{% endif %}
-							
-							        <small><a class="ui small link" href="javascript:void(0);">{{ topic.user.nickname }}</a> {% if topic.last_user %}- 回复于 {{ topic.last_reply_time|relative_datetime}} {% endif %}<span class="like" style="float: right;margin-top: 1px;">
-									<i class="unhide icon"></i> 
-									<span class="count">{{ topic.view_count }}</span>&nbsp;
-									<i class="thumbs outline up icon"></i>
-									<span class="count love-count">
-										{{ topic.love_count|default 0 }}
-									</span>
-						</span></small>		
-							    </div>
-							</div>
-							{% endfor %}
+						<div class="ui topic relaxed divided list topic-box-list" id="topic-box">
+              <!--ajax load-->
 						</div>
+
+            <div class="row">
+              <!--ajax load-->
+              <div id="topic-more" style="display:none;" page="1" status="0">
+                <div style="text-align:center;margin:10px auto;">
+                  <img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">
+                </div>
+              </div>
+            </div>
+
 					</div>
 				
 				</div>
@@ -116,7 +147,9 @@ var mySwiper = new Swiper('.tslide',{
 		</div>
 	</div>
 
-
-
 </div>
+{% endblock %}
+
+{% block templates %}
+  {% mustache id:'fetch_more_topic_tpl' tpl:'mustache_m/fetch_more_topic.mustache' %}
 {% endblock %}

@@ -23,6 +23,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
     $sort = isset($this->stash['sort'])?(int)$this->stash['sort']:0;
     $stick = isset($this->stash['stick'])?(int)$this->stash['stick']:0;
     $user_id = isset($this->stash['user_id'])?(int)$this->stash['user_id']:0;
+    $state = isset($this->stash['state'])?(int)$this->stash['state']:1;
 		
 		$query   = array();
 		$options = array();
@@ -43,6 +44,8 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 		if($stick){
 			$query['sticked'] = 1;
     }
+    // 已发布的
+    $query['state'] = $state;
 
 		// 排序
 		switch ((int)$sort) {

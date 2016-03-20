@@ -104,10 +104,16 @@
 	<div class="ui sub ">
 		<form action="{{ app_url_app_admin_base }}/scene_tags/get_list" id="search-form" method="get">
 			<div class="ui selection dropdown">
-                <div class="default text">{%if type == 0%}标签分类{%else%}{%if type == 1%}产品分类{%else%}选择顶级分类{%endif%}{%endif%}</div>
+                <div class="default text">
+                  {%if type == '-1'%}标签分类{%endif%}
+                  {%if type == 1%}产品分类{%endif%}
+                  {%if type == 2%}未定义分类{%endif%}
+                  {%if type == 0%}全部{%endif%}
+                
+                </div>
                 <i class="dropdown icon"></i>
                 <div class="menu">
-                  <div class="item tags" data-value="1">标签分类</div>
+                  <div class="item tags" data-value="0">标签分类</div>
                   <div class="item tags" data-value="2">产品分类</div>
                   <div class="item tags" data-value="3">测试分类</div>
                 </div>
