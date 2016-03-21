@@ -31,18 +31,29 @@ h4 a.seemore{
 
 {% block layout_js %}
   <script type="text/javascript" >
-window.onload=function(){
-	var images = new Array();
-	function preload() {
-        for (i = 0; i < preload.arguments.length; i++) {
-            images[i] = new Image()
-            images[i].src = preload.arguments[i]
-        }
-    }
-    preload(
-        "http://frstatic.qiniudn.com/images/icon/loading.png"
-    )
-}
+	function preloadImg(list) {
+	    var imgs = arguments[1] || [],  //用于存储预加载好的图片资源
+	        fn = arguments.callee;
+	    if(list.length == 0) {
+	        return imgs;
+	    }
+	    var img = new Image();
+	    img.src = list[0];
+	    if(img.complete) {
+	        imgs.push(img);
+	        list.shift();
+	        fn(list, imgs);
+	    }
+	    else {
+	        img.onload = function() {
+	            imgs.push(img);
+	            list.shift();
+	            fn(list, imgs);
+	        };
+	    }
+	}
+	var list = ['http://frstatic.qiniudn.com/images/icon/loading.png'],    //此处省略一万个字符
+    imgs = preloadImg();
 
 
      // 产品
