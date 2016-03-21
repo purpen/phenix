@@ -178,8 +178,8 @@ h4 a.seemore{
 		
 		{% for ad in adslide2.rows %}
 		<div class="recom-cell">
-			<a href="{{ ad.view_url }}" title="{{ ad.title }}" style="background:(url{{ ad.cover.fileurl}})" src="{{ app_url_packaged }}/images/icon/loading.png" >
-				<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png" title="{{ ad.title }}" style="opacity:0">
+			<a href="{{ ad.view_url }}" title="{{ ad.title }}">
+				<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png" title="{{ ad.title }}">
 				<div class="desc">
 					{{ ad.title }}
 				</div>
