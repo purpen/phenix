@@ -200,6 +200,9 @@
       }
       
       if (loved == 'n'){
+        // 活动结束
+        phenix.show_error_note('活动已结束!');
+        return false;
         $.post("{{ app_url_favorite }}/ajax_laud", {id:id, type:4}, function(result){
           if(result.success){
             obj.data('mark', 'y');
@@ -249,7 +252,12 @@
 	<div class="ui responsive grid">
 		<div class="row">
 			<div class="center aligned column">
+        <!--
 				<a href="{{ app_url_stuff }}/tsubmit" class="ui topbtn inverted large jointop active button" >
+					报名提交
+				</a>
+        -->
+				<a href="javascript:phenix.show_error_note('活动已结束!')" class="ui topbtn inverted large jointop active button" >
 					报名提交
 				</a>
 				<a href="{{ app_url_stuff }}/hundred" class="ui inverted translate button">

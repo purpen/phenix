@@ -234,12 +234,12 @@
 	  $('.ui.yes.img').on('click', function(){
 		
 		var src = $('#avatar-photo').attr('src');
-		var link = $('input[name=img_link]').val();
+		//var link = $('input[name=img_link]').val();
 		var keyword = $('input[name=img_keyword]').val();
 		var product_id = $('input[name=product_id]').val();
 		var is_show_price = $('input[name=is_show_price]').val();
 		
-		if(!link && product_id){
+		if(product_id){
 		  link = '{{ app_url_shop }}/view?id='+product_id;
 		}else{
 		  link = '';
@@ -518,10 +518,12 @@
 			  <div id="show_images"></div>
 			</div>
 			<div class="left" style="width:50%">
+			<!--
 			  <div class="field">
 				  <label>链接地址</label>
 				  <input type="text" name="img_link" value="" />
 			  </div>
+			-->
 			  <div class="field">
 				  <label>关键字</label>
 				  <input type="text" name="img_keyword" value="" />
