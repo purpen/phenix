@@ -32,9 +32,10 @@ h4 a.seemore{
 {% block layout_js %}
   <script type="text/javascript" >
 $("img.lazy").lazyload({
-  	placeholder : "http://frstatic.qiniudn.com/images/icon/loading.png", 
-	effect: "fadeIn",
-)};
+	placeholder : "http://frstatic.qiniudn.com/images/icon/loading.png", 
+    effect : "fadeIn",
+  	threshold : -20
+});
 
      // 产品
      function ajax_load_product_more(category_id, type, sort, page, size){
