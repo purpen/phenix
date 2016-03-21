@@ -47,6 +47,8 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 		
 		# 审核
 		'is_check' => 1,
+		# 精选
+		'stick' => 0,
 		# 是否启用
 		'status' => 1,
     );
@@ -57,7 +59,9 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 	protected $counter_fields = array('used_count');
 	protected $retrieve_fields = array();
     
-	protected $joins = array();
+	protected $joins = array(
+		'user' =>  array('user_id' => 'Sher_Core_Model_User'), 
+	);
 	
 	/**
 	 * 扩展数据

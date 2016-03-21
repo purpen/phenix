@@ -19,7 +19,65 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 	 */
 	public function getlist(){
 		
-		return $this->api_json('请求成功', 0, $data);
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
+		
+		$some_fields = array(
+			'_id'=>1, 'title'=>1, 'user_id'=>1, 'des'=>1, 'sight'=>1, 'tags'=>1,
+			'location'=>1, 'address'=>1, 'cover_id'=>1,'used_count'=>1,
+			'view_count'=>1, 'subscription_count'=>1, 'love_count'=>1,
+			'comment_count'=>1, 'is_check'=>1, 'status'=>1,
+		);
+		
+		// 请求参数
+		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+			
+		$query   = array();
+		$options = array();
+		
+		// 查询条件
+		if($user_id){
+			$query['user_id'] = (int)$user_id;
+		}
+		
+		// 状态
+		$query['status'] = 1;
+		// 已审核
+		$query['is_check']  = 1;
+		
+		if($stick){
+			$query['stick'] = $stick;
+		}
+		
+		// 分页参数
+        $options['page'] = $page;
+        $options['size'] = $size;
+
+		// 排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+		}
+		
+		$options['some_fields'] = $some_fields;
+		
+		// 开启查询
+        $service = Sher_Core_Service_SceneScene::instance();
+        $result = $service->get_scene_scene_list($query, $options);
+		//var_dump($result);
+		// 重建数据结果
+		/*
+		$data = array();
+		for($i=0;$i<count($result['rows']);$i++){
+			// 封面图url
+			//$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['apc']['view_url'];
+		}
+		$result['rows'] = $data;
+		*/
+		return $this->api_json('请求成功', 0, $result);
 	}
 	
 	/**
@@ -58,6 +116,29 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$data['tags'] = explode(',',$data['tags']);
 		foreach($data['tags'] as $k => $v){
 			$data['tags'][$k] = (int)$v;
+		}
+		
+		// 上传图片
+		if(empty($this->stash['tmp'])){
+			return $this->api_json('请选择图片！', 3001);  
+		}
+		$file = base64_decode(str_replace(' ', '+', $this->stash['tmp']));
+		$image_info = Sher_Core_Util_Image::image_info_binary($file);
+		if($image_info['stat']==0){
+			return $this->api_json($image_info['msg'], 3002);
+		}
+		if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
+			return $this->api_json('图片格式不正确！', 3003);
+		}
+		$params = array();
+		$new_file_id = new MongoId();
+		$params['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
+		$params['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
+		
+		if($result['stat']){
+			return $this->api_json('上传成功!', 0, $result['asset']);
+		}else{
+			  return $this->api_json('上传失败!', 3005); 
 		}
 		//var_dump($data);die;
 		try{
