@@ -47,6 +47,8 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 	  *TOp-100 提交
 	**/
 	public function tsubmit(){
+    // 活动结束
+    return $this->to_redirect(sprintf("%s", Doggy_Config::$vars['app.url.stuff']));
 
 		// 图片上传参数
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();

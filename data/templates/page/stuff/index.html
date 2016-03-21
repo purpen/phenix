@@ -355,6 +355,10 @@ p.zhichi{
       }
       
       if (loved == 0){
+        
+        // 活动结束
+        phenix.show_error_note('活动已结束!');
+        return false;
         $.post("{{ app_url_favorite }}/ajax_laud", {id:id, type:4}, function(result){
           if(result.success){
             obj.attr('loved', 1);
@@ -423,7 +427,12 @@ p.zhichi{
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="center aligned column">
+          <!--
           <a href="{{ app_url_stuff }}/tsubmit" class="ui magenta inverted large jointop active button">
+						立即报名
+					</a>
+          -->
+          <a href="javascript:phenix.show_error_note('活动已结束!')" class="ui magenta inverted large jointop active button">
 						立即报名
 					</a>
 				</div>
@@ -604,7 +613,12 @@ p.zhichi{
 				
 				<div class="row">
 					<div class="ui center aligned column">
+            <!--
 						<a href="{{ app_url_stuff }}/tsubmit" class="ui magenta active inverted large active getmore button">
+							立即报名
+						</a>
+            -->
+						<a href="javascript:phenix.show_error_note('活动已结束!')" class="ui magenta active inverted large active getmore button">
 							立即报名
 						</a>
 					</div>
