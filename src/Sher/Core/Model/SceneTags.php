@@ -13,8 +13,8 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 	
 	# 默认类型
 	const TYPE_SCENE = 1; // 标签库类型
-  const TYPE_PRODUCT = 2; //是产品分类
-  const TYPE_UNDEFINE = 3;  // 未定义
+	const TYPE_PRODUCT = 2; //是产品分类
+	const TYPE_UNDEFINE = 3;  // 未定义
 	
 	# 状态
     const STATE_HIDE = 0;
@@ -70,7 +70,7 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
     if($row['type']){
       switch($row['type']){
         case  1:
-          $row['type_str'] = '维度';
+          $row['type_str'] = '情景';
           break;
         case  2:
           $row['type_str'] = '产品';
@@ -93,7 +93,7 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
           $str = 'ALL';
           break;
         case 1: 
-          $str = '维度';
+          $str = '情景';
           break;
         case 2: 
           $str = '产品';

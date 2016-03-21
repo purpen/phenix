@@ -88,7 +88,7 @@
             <div class="ui modal" style="display: none">
                 <div class="header">选择标签分类</div>
                 <div class="content">
-                    <a href="{{ app_url_app_admin_base }}/scene_tags/add?type=1" class="ui inverted green button">维度</a>
+                    <a href="{{ app_url_app_admin_base }}/scene_tags/add?type=1" class="ui inverted green button">情景</a>
                     <a href="{{ app_url_app_admin_base }}/scene_tags/add?type=2" class="ui inverted green button">产品</a>
                     <a href="{{ app_url_app_admin_base }}/scene_tags/add?type=3" class="ui inverted green button">预留</a>
                 </div>
@@ -105,7 +105,7 @@
 		<form action="{{ app_url_app_admin_base }}/scene_tags/get_list" id="search-form" method="get">
 			<div class="ui selection dropdown">
                 <div class="default text">
-                  {%if type == 1%}维度{%endif%}
+                  {%if type == 1%}情景{%endif%}
                   {%if type == 2%}产品{%endif%}
                   {%if type == 3%}预留{%endif%}
                   {%if type == 0%}全部{%endif%}
@@ -113,7 +113,7 @@
                 </div>
                 <i class="dropdown icon"></i>
                 <div class="menu">
-                  <div class="item tags" data-value="1">维度</div>
+                  <div class="item tags" data-value="1">情景</div>
                   <div class="item tags" data-value="2">产品</div>
                   <div class="item tags" data-value="3">预留</div>
                 </div>

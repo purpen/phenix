@@ -53,7 +53,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
         
         $this->set_target_css_state('page_all');
 		
-		$type = 0;
+		$type = 1;
 		if(isset($this->stash['type']) && !empty($this->stash['type'])){
 			$type = (int)$this->stash['type'];
 		}
