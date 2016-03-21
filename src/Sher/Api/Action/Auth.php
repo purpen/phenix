@@ -346,7 +346,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
         $query['wx_union_id'] = $oid;
         break;
       case 2: // 微博
-        $query['sina_uid'] = $oid;
+        $query['sina_uid'] = (int)$oid;
         break;
       case 3: // QQ
         $query['qq_uid'] = $oid;

@@ -17,9 +17,14 @@
                   <div class="excerpt">
                       <p>活动地址：{{ conduct_city }}{{ address }}，限额人数：{{ max_number_count }}人</p>
                   </div>
+                  {{#is_end_time}}
                   <div class="cats">
                       <i class="time icon"></i> {{ end_time_format }}
                   </div>
+                  {{/is_end_time}}
+                  {{^is_end_time}}
+                  <div class="cats"></div>
+                  {{/is_end_time}}
                   <span class="counter">
                       <i class="heart icon"></i> 
                        {{ ^is_running }}

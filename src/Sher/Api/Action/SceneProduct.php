@@ -30,7 +30,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		$attrbute = isset($this->stash['attrbute']) ? (int)$this->stash['attrbute'] : 0;
 		$published = isset($this->stash['published']) ? (int)$this->stash['published'] : 1;
 		$state = isset($this->stash['state']) ? (int)$this->stash['state'] : 0;
-		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 0;
+		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
 
 		$some_fields = array(
       '_id'=>1, 'title'=>1, 'short_title'=>1, 'oid'=>1, 'sale_price'=>1, 'market_price'=>1,

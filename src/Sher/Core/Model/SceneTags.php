@@ -12,7 +12,9 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
     const ROOT_ID = 0;
 	
 	# 默认类型
-	const TYPE = 0; // 0标签库类型,1是产品分类
+	const TYPE_SCENE = 1; // 标签库类型
+  const TYPE_PRODUCT = 2; //是产品分类
+  const TYPE_UNDEFINE = 3;  // 未定义
 	
 	# 状态
     const STATE_HIDE = 0;
@@ -35,7 +37,7 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
         # 右分值
         'right_ref' => 0,
 		# 类型
-        'type' => self::TYPE,
+        'type' => self::TYPE_SCENE,
 		# 使用数量
 		'used_count' => 0,
 		# 封面图
@@ -64,14 +66,46 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 	 */
 	protected function extra_extend_model_row(&$row) {
 		$row['children_count'] = $this->get_children_count($row);
+
+    if($row['type']){
+      switch($row['type']){
+        case  1:
+          $row['type_str'] = '维度';
+          break;
+        case  2:
+          $row['type_str'] = '产品';
+          break;
+        case  3:
+          $row['type_str'] = '预留';
+          break;
+        default:
+          $row['type_str'] = '--';
+      }
+    }
 	}
     
     /**
      * 初始化安装根节点
      */
-    public function init_base_key($type = 0){
+    public function init_base_key($type = 1){
+        switch((int)$type){
+        case 0:
+          $str = 'ALL';
+          break;
+        case 1: 
+          $str = '维度';
+          break;
+        case 2: 
+          $str = '产品';
+          break;
+        case 3: 
+          $str = '预留';
+          break;
+        default:
+          $str = '--';
+        }
         $data = array(
-          'title_cn' => '词根',
+          'title_cn' => '词根_'.$str,
           'title_en' => 'base',
           'parent_id' => 0,
 		  'type' => $type,
@@ -229,7 +263,7 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
     /**
      * 释放分值空间
      */
-    protected function free_sort_ref($ref, $amount=1, $type=0) {
+    protected function free_sort_ref($ref, $amount=1, $type=1) {
         
 		$amount = $amount*2;
 		

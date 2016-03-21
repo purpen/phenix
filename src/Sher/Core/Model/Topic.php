@@ -29,6 +29,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
   const ATTR_DEF = 0;
   const ATTR_ORIG = 1;
   const ATTR_RESHIP = 2;
+  const ATTR_ACTIVE = 3;
 	
     protected $schema = array(
 	    'user_id' => null,
@@ -249,6 +250,9 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
           break;
         case 2:
           $row['attr_str'] = "【转载】";
+          break;
+        case 3:
+          $row['attr_str'] = "【活动】";
           break;
       }
     }
