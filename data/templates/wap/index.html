@@ -31,31 +31,6 @@ h4 a.seemore{
 
 {% block layout_js %}
   <script type="text/javascript" >
-	function preloadImg(list) {
-	    var imgs = arguments[1] || [],  //用于存储预加载好的图片资源
-	        fn = arguments.callee;
-	    if(list.length == 0) {
-	        return imgs;
-	    }
-	    var img = new Image();
-	    img.src = list[0];
-	    if(img.complete) {
-	        imgs.push(img);
-	        list.shift();
-	        fn(list, imgs);
-	    }
-	    else {
-	        img.onload = function() {
-	            imgs.push(img);
-	            list.shift();
-	            fn(list, imgs);
-	        };
-	    }
-	}
-	var list = ['http://frstatic.qiniudn.com/images/icon/loading.png'],    //此处省略一万个字符
-    imgs = preloadImg();
-
-
      // 产品
      function ajax_load_product_more(category_id, type, sort, page, size){
         var url = '{{ app_url_wap }}/shop/ajax_load_list';
@@ -203,8 +178,8 @@ h4 a.seemore{
 		
 		{% for ad in adslide2.rows %}
 		<div class="recom-cell">
-			<a href="{{ ad.view_url }}" title="{{ ad.title }}">
-				<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png" title="{{ ad.title }}">
+			<a href="{{ ad.view_url }}" title="{{ ad.title }}" style="background:(url{{ ad.cover.fileurl}})" src="{{ app_url_packaged }}/images/icon/loading.png" >
+				<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png" title="{{ ad.title }}" style="opacity:0">
 				<div class="desc">
 					{{ ad.title }}
 				</div>
