@@ -274,6 +274,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
       'age'  => array(),
       // 所在公司
       'company' => null,
+      // 所属行业
+      'industry' => null,
       // 省份
       'province_id' => 0,
       // 城市
@@ -494,6 +496,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			'age'  => array(),
       // 所在公司
       'company' => null,
+      // 所属行业
+      'industry' => null,
       // 省份
       'province_id' => 0,
       // 城市
