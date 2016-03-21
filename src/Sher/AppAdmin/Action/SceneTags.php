@@ -30,13 +30,13 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
      */
     public function initial() {
         
-		$type = 0;
+		$type = 1;
 		if(isset($this->stash['type']) && !empty($this->stash['type'])){
 			$type = $this->stash['type'];
 		}
 		
 		$keydict = new Sher_Core_Model_SceneTags();
-		$result = $keydict->first(array('parent_id'=>0,'type'=>0));
+		$result = $keydict->first(array('parent_id'=>0,'type'=>$type));
 		
 		if(!$result){
 			$keydict->init_base_key($type);
@@ -71,8 +71,9 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		}
 		
 		$page = (int)$this->stash['page'];
+		$title_cn = isset($this->stash['title_cn']) ? $this->stash['title_cn'] : '';
 		
-		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_tags/get_list?page=#p#&title_cn=%s&title_en=%s&type=%d';
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_tags/get_list?page=#p#&title_cn=%s&type=%d',$page,$title_cn,$type);
 		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('app_admin/scene_tags/list.html');
 	}
@@ -84,7 +85,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
         
 		$mode = 'create';
 		
-		$type = 0;
+		$type = 1;
 		if(isset($this->stash['type']) && !empty($this->stash['type'])){
 			$type = (int)$this->stash['type'];
 		}
@@ -176,7 +177,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		}
 		
 		$data['type'] = (int)$data['type'];
-    $data['stick'] = isset($this->stash['stick']) ? $this->stash['stick'] : 0;
+		$data['stick'] = isset($this->stash['stick']) ? $this->stash['stick'] : 0;
 		
 		if(!in_array($data['type'],$arr)){
 			return $this->ajax_note('获取数据错误,请重新提交', true);
@@ -249,7 +250,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 	// 重建节点rebuild_tree函数
 	public function rebuild_tree(){
 		
-		$type = 0;
+		$type = 1;
 		if(isset($this->stash['type']) && !empty($this->stash['type'])){
 			$type = $this->stash['type'];
 		}
