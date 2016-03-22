@@ -126,6 +126,8 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 			if($ok){
 				$comment_id = $model->id;
 				$comment = &$model->extend_load($comment_id);
+        $comment['_id'] = (string)$comment['_id'];
+        unset($comment['user']);
 			}
 		}catch(Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
