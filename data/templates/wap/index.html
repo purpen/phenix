@@ -63,6 +63,9 @@ h4 a.seemore{
 {% endblock %}
 
 {% block jquery %}
+	$('.appstore .appclose').on('click',function(){
+		$('.appstore').remove();
+	})
 		
 	$.ajaxSettings.async = false; 
 

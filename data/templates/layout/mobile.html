@@ -86,6 +86,57 @@
 			    height: 46px;
 			    margin: 7px 10px;
 			}
+			.appstore .content{
+			    margin: 11px 0 11px 70px;
+			    position: absolute;
+			    top: 0;
+			    left: 0;
+			    height: 38px;
+			    padding-top: 2px;
+			}
+			.appstore .content h4.ui.header{
+				color:#fff !important;
+				font-weight: 400;
+			}
+			.appstore .content h4.ui.header .sub.header{
+				color: #fff;
+			    margin-top: 4px;
+			    font-size: 12px;
+			}
+			.appstore  .white.inverted.button{
+			    position: absolute;
+			    right: 6%;
+			    top: 50%;
+				-webkit-transform: translate3d(0,-50%,0);
+			    -moz-transform: translate3d(0,-50%,0);
+			    -ms-transform: translate3d(0,-50%,0);
+			    transform: translate3d(0,-50%,0);
+				box-shadow: 0 0 0 1px #fff inset!important;
+				font-weight: 400;
+			}
+			.appstore .appclose{
+			    position: absolute;
+			    top: 0;
+			    right: 0;
+			    padding: 10px 5px;
+			}
+			@media only screen and (max-width: 340px){
+				.appstore .logo {
+				    width: 40px;
+				    height: 40px;
+				    margin: 10px 5px;
+				}
+				.appstore .content{
+					margin-left:50px;
+				}
+				.appstore .white.inverted.button{
+					-webkit-transform: translate3d(0,-50%,0) scale(0.8);
+				    -moz-transform: translate3d(0,-50%,0) scale(0.8);
+				    -ms-transform: translate3d(0,-50%,0) scale(0.8);
+				    transform: translate3d(0,-50%,0) scale(0.8);
+				}
+				
+			}
 		</style>
 		
 		{% block layout_css %}{% endblock %}
