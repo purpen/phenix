@@ -46,6 +46,9 @@
               }
               var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
               $('.recom-item').append(rendered);
+ 			  $("img.lazy").lazyload({
+ 			     effect : "fadeIn"
+ 			  });
           }, 'json');
       }
   </script>

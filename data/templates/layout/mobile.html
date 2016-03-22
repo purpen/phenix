@@ -74,6 +74,23 @@
             .invitelog {
                 margin: 2rem auto;
             }
+			#triespage .recom-item .recom-cell a {
+			    padding-top: 80%;
+			}
+			#mpresale .recom-item .recom-cell a {
+			    padding-top: 100%;
+			}
+			.recommend-topic .recom-item .recom-cell a {
+			    padding-top: 66%;
+			}
+			.recom-item .recom-cell a {
+			    text-decoration: none;
+			    position: relative;
+			    display: block;
+			    clear: both;
+			    height: 100%;
+			    background: #fff;
+			}
 		</style>
 		
 		{% block layout_css %}{% endblock %}
@@ -98,7 +115,6 @@
 		<script type="text/javascript" src="{{ app_url_qiniu_frstatic }}/javascript/semantic.2.0.min.js"></script>
 		{% if js_use_bundle %}
     	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/mobile.min.{{ js_jquery_bundle_version }}.js"></script>
-		<!--<script type="text/javascript" src="http://frstatic.qiniudn.com/wechat/js/jmobile.min.js"></script>-->
 		{% else %}
 		<script type="text/javascript" src="{{ app_url_qiniu_frstatic }}/javascript/semantic.2.0.min.js"></script>
         <script type="text/javascript" src="{{ app_url_packaged }}/javascript/mobile.min.js"></script>
