@@ -121,359 +121,356 @@
 
 {% block jquery %}
   
-  var gridster;
-  var date;
-  var cell = 70;
-  var back_x = 1;
-  var back_y = 1;
-  var width = 1;
-  var height = 1;
+	var gridster;
+	var date;
+	var cell = 70;
+	var back_x = 1;
+	var back_y = 1;
+	var width = 1;
+	var height = 1;
   
-  $(function(){
-  
-	  gridster = $(".gridster > ul").gridster({
-		  widget_margins: [0, 0],
-		  widget_base_dimensions: [cell, cell],
-		  avoid_overlapped_widgets: true,
-		  resize:{
-			enabled: true
-		  },
-		  draggable: {
-            handle: '.header'    //模块内定义拖动的元素
-          },
-	  }).data('gridster');
+	gridster = $(".gridster > ul").gridster({
+		widget_margins: [0, 0],
+		widget_base_dimensions: [cell, cell],
+		avoid_overlapped_widgets: true,
+		resize:{
+		  enabled: true
+		},
+		draggable: {
+		  handle: '.header'    //模块内定义拖动的元素
+		},
+	}).data('gridster');
+	
+	var select_type_html = "\
+	  <ul class=\"select_type_content\">\
+		<li class=\"add_text\">文字</li>\
+		<li class=\"add_images\">图片</li>\
+		<li class=\"add_video\">视频</li>\
+	  </ul>\
+	";
+	
+	var operating_html = "\
+	  <div class=\"header\">\
+		<span class=\"edit\">编辑</span>\
+		<span class=\"remove\">删除</span>\
+	  </div>\
+	";
+	
+	var html = "<li><div class=\"this_content\" style=\"word-wrap:break-word;\"></div></li>";
+	
+	{% if mode == 'create'%}
+	  gridster.add_widget(html,5,3);
+	{% endif %}
+	
+	$('.topic_button').click(function(){
+	  gridster.add_widget(html,5,3);
+	});
+	
+	$('.gridster > ul > li').livequery(function(){
 	  
-	  var select_type_html = "\
-		<ul class=\"select_type_content\">\
-		  <li class=\"add_text\">文字</li>\
-		  <li class=\"add_images\">图片</li>\
-		  <li class=\"add_video\">视频</li>\
-		</ul>\
-	  ";
-	  
-	  var operating_html = "\
-		<div class=\"header\">\
-		  <span class=\"edit\">编辑</span>\
-		  <span class=\"remove\">删除</span>\
-		</div>\
-	  ";
-	  
-	  var html = "<li><div class=\"this_content\" style=\"word-wrap:break-word;\"></div></li>";
-	  
-	  {% if mode == 'create'%}
-		gridster.add_widget(html,5,3);
-	  {% endif %}
-	  
-	  $('.topic_button').click(function(){
-		gridster.add_widget(html,5,3);
-	  });
-	  
-	  $('.gridster > ul > li').livequery(function(){
+		$(this).on('click','.remove',function(){
+		  gridster.remove_widget($(this).parents('li'));
+		});
 		
-		  $(this).on('click','.remove',function(){
-			gridster.remove_widget($(this).parents('li'));
-		  });
-		  
-		  $(this).on('click','.edit',function(){
-			$(this).parents('li').append(select_type_html);
-		  });
-		  
-		  $(this).mouseenter(function(){
-			$(this).append(operating_html);
-		  });
-		  
-		  $(this).mouseleave(function(){
-			$(this).find('.header').remove();
-			$(this).find('.select_type_content').remove();
-		  });
-		  
-		  $(this).on('click','.add_text',function(){
-			// return Object {col: 1, row: 1, size_x: 10, size_y: 10}
-			date = gridster.serialize($(this).parents('li'))[0];
-			date.widget = $(this).parents('li');
-			console.log(date);
-			$('#block_text.fullscreen.modal').modal('show');
-		  });
-		  
-		  $(this).on('click','.add_images',function(){
-			date = gridster.serialize($(this).parents('li'))[0];
-			date.widget = $(this).parents('li');
-			console.log(date);
-			$('#block_images.fullscreen.modal').modal('show');
-		  });
-		  
-		  $(this).on('click','.add_video',function(){
-			date = gridster.serialize($(this).parents('li'))[0];
-			date.widget = $(this).parents('li');
-			console.log(date);
-			$('#block_video.fullscreen.modal').modal('show');
-		  });
-	  });
+		$(this).on('click','.edit',function(){
+		  $(this).parents('li').append(select_type_html);
+		});
+		
+		$(this).mouseenter(function(){
+		  $(this).append(operating_html);
+		});
+		
+		$(this).mouseleave(function(){
+		  $(this).find('.header').remove();
+		  $(this).find('.select_type_content').remove();
+		});
+		
+		$(this).on('click','.add_text',function(){
+		  // return Object {col: 1, row: 1, size_x: 10, size_y: 10}
+		  date = gridster.serialize($(this).parents('li'))[0];
+		  date.widget = $(this).parents('li');
+		  console.log(date);
+		  $('#block_text.fullscreen.modal').modal('show');
+		});
+		
+		$(this).on('click','.add_images',function(){
+		  date = gridster.serialize($(this).parents('li'))[0];
+		  date.widget = $(this).parents('li');
+		  console.log(date);
+		  $('#block_images.fullscreen.modal').modal('show');
+		});
+		
+		$(this).on('click','.add_video',function(){
+		  date = gridster.serialize($(this).parents('li'))[0];
+		  date.widget = $(this).parents('li');
+		  console.log(date);
+		  $('#block_video.fullscreen.modal').modal('show');
+		});
+	});
+	
+	$('.ui.no.button.text').on('click', function(){
+	  $('#block_text').modal('hide');
+	});
+	
+	$('.ui.no.button.img').on('click', function(){
+	  $('#block_images').modal('hide');
+	});
+	
+	$('.ui.no.button.video').on('click', function(){
+	  $('#block_video').modal('hide');
+	});
+	
+	$('.ui.yes.text').on('click', function(){
+	  var content = $('textarea[name=content]').val();
+	  // return Object {col: 1, row: 1, size_x: 10, size_y: 10}
+	  date.widget.find('.this_content').html(content);
+	  date.widget.css('width',date.size_x*10+'%');
+	  date.widget.css('min-height',date.size_y*cell+'px');
+	  $('#block_text').modal('hide');
+	});
+	
+	$('.ui.yes.img').on('click', function(){
 	  
-	  $('.ui.no.button.text').on('click', function(){
-		$('#block_text').modal('hide');
-	  });
+	  var src = $('#avatar-photo').attr('src');
+	  //var link = $('input[name=img_link]').val();
+	  var keyword = $('input[name=img_keyword]').val();
+	  var product_id = $('input[name=product_id]').val();
+	  var is_show_price = $('input[name=is_show_price]').val();
 	  
-	  $('.ui.no.button.img').on('click', function(){
-		$('#block_images').modal('hide');
-	  });
+	  if(product_id){
+		link = '{{ app_url_shop }}/view?id='+product_id;
+	  }else{
+		link = '';
+	  }
 	  
-	  $('.ui.no.button.video').on('click', function(){
+	  console.log(date);
+	  
+	  var content = '<a class=\"img_url\" href=\"javascript:void(0);\" product_id=\"'+product_id+'\" is_show_price=\"'+is_show_price+'\" onclick="JavascriptHandler('+product_id+')"><img src=\"'+src+'\" style=\"width:100%\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
+	  date.widget.find('.this_content').html(content);
+	  date.widget.css('width',date.size_x*10+'%');
+	  
+	  gridster.resize_widget(date.widget,date.size_x,Math.ceil((date.size_x*height)/width));
+	  
+	  $('ul[class=gridster_ul]').css('width','700px');
+	  
+	  $('#block_images').modal('hide');
+	});
+	
+	$('.ui.yes.video').livequery(function(){
+	  $(this).on('click', function(){
+		var video_link = $('input[name=video_link]').val();
+		//var content = '<iframe width='+date.size_x*10+' height='+date.size_y*10+' src=\"'+video_link+'\" frameborder=0 allowfullscreen></iframe>';
+		var content = '<embed src=\"'+video_link+'\" allowFullScreen=\"true\" style=\"width:100%;height:'+date.size_y*cell+'px\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>';
+		date.widget.find('.this_content').html(content);
+		
+		date.widget.css('width',date.size_x*10+'%');
+		//date.widget.css('height',date.size_y*cell+'px');
+		
+		gridster.resize_widget(date.widget,date.size_x,date.size_y);
+		
 		$('#block_video').modal('hide');
 	  });
-	  
-	  $('.ui.yes.text').on('click', function(){
-		var content = $('textarea[name=content]').val();
-		// return Object {col: 1, row: 1, size_x: 10, size_y: 10}
-		date.widget.find('.this_content').html(content);
-		date.widget.css('width',date.size_x*10+'%');
-		date.widget.css('min-height',date.size_y*cell+'px');
-		$('#block_text').modal('hide');
-	  });
-	  
-	  $('.ui.yes.img').on('click', function(){
-		
-		var src = $('#avatar-photo').attr('src');
-		//var link = $('input[name=img_link]').val();
-		var keyword = $('input[name=img_keyword]').val();
-		var product_id = $('input[name=product_id]').val();
-		var is_show_price = $('input[name=is_show_price]').val();
-		
-		if(product_id){
-		  link = '{{ app_url_shop }}/view?id='+product_id;
-		}else{
-		  link = '';
-		}
-		
-		console.log(date);
-		
-		var content = '<a class=\"img_url\" href=\"javascript:void(0);\" product_id=\"'+product_id+'\" is_show_price=\"'+is_show_price+'\" onclick="JavascriptHandler('+product_id+')"><img src=\"'+src+'\" style=\"width:100%\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
-		date.widget.find('.this_content').html(content);
-		date.widget.css('width',date.size_x*10+'%');
-		
-		gridster.resize_widget(date.widget,date.size_x,Math.ceil((date.size_x*height)/width));
-		
-		$('ul[class=gridster_ul]').css('width','700px');
-		
-		$('#block_images').modal('hide');
-	  });
-	  
-	  $('.ui.yes.video').livequery(function(){
-		$(this).on('click', function(){
-		  var video_link = $('input[name=video_link]').val();
-		  //var content = '<iframe width='+date.size_x*10+' height='+date.size_y*10+' src=\"'+video_link+'\" frameborder=0 allowfullscreen></iframe>';
-		  var content = '<embed src=\"'+video_link+'\" allowFullScreen=\"true\" style=\"width:100%;height:'+date.size_y*cell+'px\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>';
-		  date.widget.find('.this_content').html(content);
-		  
-		  date.widget.css('width',date.size_x*10+'%');
-		  //date.widget.css('height',date.size_y*cell+'px');
-		  
-		  gridster.resize_widget(date.widget,date.size_x,date.size_y);
-		  
-		  $('#block_video').modal('hide');
-		});
-	  });
-	  
-	  $('#editor').editable({
-		  inlineMode: false,
-		  toolbarFixed: false,
-		  theme: 'gray',
-		  language: 'zh_cn',
-		  borderColor: '#999',
-		  editorClass: 'bird',
-		  minHeight: 300,
-		  plainPaste: true,
-		  alwaysBlank: true,
-		  typingTimer: 2000,
-		  buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "sep", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
-	  });
-	  
-		var file_count = 1;
-		var ord = function(){
-			return file_count++;
-		};
-  
-		$('#phenix-uploader').fineUploader({
-			debug: true,
-			request: {
-				inputName:'file',
-				params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ special_subject._id }}','file_id': '{{ pid }}' },
-				endpoint: '{{ app_url_upload }}/special_subject'
-			},
-			text: {
-				uploadButton: '<a class="ui active magenta labeled icon upload button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
-			},
-			template: '<div class="qq-uploader">' +
-						'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
-						'<div class="qq-upload-button">{uploadButtonText}</div>' +
-						'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
-						'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
-						'</div>',
-			validation: {
-				allowedExtensions: ['jpeg', 'jpg', 'png'],
-				sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
-			}
-		}).on('complete', function (event, id, name, result) {
-			if(result.is_error){
-				$('#phenix-uploader').addClass('error');
-				phenix.show_error_message(result.message, $('#phenix-uploader'));
-			}else{
-			
-				$('.qq-upload-list').children().eq(id).fadeOut();
-		
-				width  = result.data.asset.width;
-				height = result.data.asset.height;
-				
-				if(Math.floor(width/height) >= 1){
-					var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"max-width: 500px; width: '+date.size_x*cell+'px\">';
-				}else{
-					var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"max-height: 500px; height: '+date.size_y*cell+'px\">';
-				}
-				
-				$('#show_images').html(imghtml);
-			}
-		});
-		
-		// 封面图上传
-		$('#phenix-uploader-special').fineUploader({
-			request: {
-				inputName:'file',
-				params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ special_subject._id }}','file_id': '{{ pid }}' },
-				endpoint: '{{ app_url_upload }}/special_cover'
-			},
-			text: {
-				uploadButton: '<a class="ui active orange labeled icon inverted button" href="javascript:void(0);"><i class="upload icon"></i>选择图片</a>'
-			},
-			template: '<div class="qq-uploader">' +
-						'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
-						'<div class="qq-upload-button">{uploadButtonText}</div>' +
-						'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
-						'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
-						'</div>',
-			validation: {
-				allowedExtensions: ['jpeg', 'jpg', 'png'],
-				sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
-			}
-		}).on('complete', function (event, id, name, result) {
-			if(result.is_error){
-				$('#product-upload-form').addClass('error');
-				phenix.show_error_note(result.message);
-			}else{
-				$('.qq-upload-list').children().eq(id).fadeOut();
-				$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
-				//$.get('{{ app_url_action_base }}/uploader/check_upload_active_assets', {'id': '{{ special_subject._id }}', 'assets': result.data.ids, 'ref': 'onestep' });
-			}
-		});
+	});
 	
-		// 设置封面图
-		$('#asset-list .ajax-cover').livequery(function(){
-			$(this).click(function(){
-				$this = $(this);
-				var id = $(this).attr('data-value');
-				
-				$('#asset-list .ajax-cover.active').removeClass('active');
-				$(this).addClass('active');
-				
-				$('#special_subject_cover_id').val(id);
-				return false;
-			});
-		});
+	$('#editor').editable({
+		inlineMode: false,
+		toolbarFixed: false,
+		theme: 'gray',
+		language: 'zh_cn',
+		borderColor: '#999',
+		editorClass: 'bird',
+		minHeight: 300,
+		plainPaste: true,
+		alwaysBlank: true,
+		typingTimer: 2000,
+		buttons: ["bold", "italic", "underline","strikeThrough",{% if visitor.can_edit %} "fontSize", "color", "formatBlock",{% endif %} "sep", "sep", "insertHorizontalRule", "undo", "redo", "selectAll", "html"],
+	});
+	
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+
+	$('#phenix-uploader').fineUploader({
+		debug: true,
+		request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ special_subject._id }}','file_id': '{{ pid }}' },
+			endpoint: '{{ app_url_upload }}/special_subject'
+		},
+		text: {
+			uploadButton: '<a class="ui active magenta labeled icon upload button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+			allowedExtensions: ['jpeg', 'jpg', 'png'],
+			sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+		}
+	}).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#phenix-uploader').addClass('error');
+			phenix.show_error_message(result.message, $('#phenix-uploader'));
+		}else{
 		
-		// 选择分类
-		$('.ui.options').on('click', '.option', function(){
-			var id = $(this).attr('data-value');
-			if ($(this).hasClass('active')){
-				$(this)
-					.removeClass('active');
-				$('#topic-category').val('');
+			$('.qq-upload-list').children().eq(id).fadeOut();
+	
+			width  = result.data.asset.width;
+			height = result.data.asset.height;
+			
+			if(Math.floor(width/height) >= 1){
+				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" align="absmiddle" style=\"max-width: 500px; width: '+date.size_x*cell+'px\">';
 			}else{
-				$(this)
-					.siblings('.ui.option').removeClass('active')
-					.end()
-					.addClass('active');
-				$('#special-category').val(id);
+				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" align="absmiddle" style=\"max-height: 500px; height: '+date.size_y*cell+'px\">';
 			}
-		});
-  
-		$('#special_subject_form').on('click','.submit',function(){
-		  $('input[name=special_subject_html]').val($('.gridster').html());
-		}).form({
-			special_subject_title: {
-				identifier  : 'special_subject_title',
-				rules: [
-					{
-						type   : 'empty',
-						prompt : '标题不能为空'
-					}
-				]
-			},
-			special_subject_tag: {
-				identifier  : 'special_subject_tag',
-				rules: [
-					{
-						type   : 'empty',
-						prompt : '标签不能为空'
-					}
-				]
-			},
-			category_id: {
-				identifier  : 'category_id',
-				rules: [
-					{
-						type   : 'empty',
-						prompt : '分类不能为空'
-					}
-				]
-			}
-		}, {
-			inline : true,
-			onSuccess: function(event){
-				event.preventDefault();
-				$(this).ajaxSubmit({
-					dataType: 'json',
-					beforeSubmit: function(){
-						phenix.before_submit();
-					},
-					success: function(data){
-						phenix.after_submit();
-						
-						if(data.is_error){
-							$(event.target).addClass('error');
-							phenix.show_error_note(data.message, 3000);
-						}else{
-							phenix.redirect(data.redirect_url);
-						}
-					}
-				});
-			}
-		});
-		
-		$('#kind_left').click(function(){
-		  $('#product_ids').hide();
-		  $('#content_self').show();
-		  $('input[name=kind]').val(1);
-		});
-		
-		$('#kind_right').click(function(){
-		  $('#content_self').hide();
-		  $('#product_ids').show();
-		  $('input[name=kind]').val(2);
-		});
-		
-		var back_kind = '{{ special_subject.kind }}';
-		
-		if(back_kind == '1'){
-		  $('#product_ids').hide();
-		  $('#content_self').show();
+			
+			$('#show_images').html(imghtml);
 		}
-		
-		$('ul[class=gridster_ul]').css('width','700px');
-		
-		function JavascriptHandler(data) {
-			console.log(data);
-			//return window.location.href = 'taihuoniao://'+data;
+	});
+	
+	// 封面图上传
+	$('#phenix-uploader-special').fineUploader({
+		request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ special_subject._id }}','file_id': '{{ pid }}' },
+			endpoint: '{{ app_url_upload }}/special_cover'
+		},
+		text: {
+			uploadButton: '<a class="ui active orange labeled icon inverted button" href="javascript:void(0);"><i class="upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+			allowedExtensions: ['jpeg', 'jpg', 'png'],
+			sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
 		}
-  });
+	}).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_note(result.message);
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
+			//$.get('{{ app_url_action_base }}/uploader/check_upload_active_assets', {'id': '{{ special_subject._id }}', 'assets': result.data.ids, 'ref': 'onestep' });
+		}
+	});
+
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#special_subject_cover_id').val(id);
+			return false;
+		});
+	});
+	
+	// 选择分类
+	$('.ui.options').on('click', '.option', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+			$('#topic-category').val('');
+		}else{
+			$(this)
+				.siblings('.ui.option').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#special-category').val(id);
+		}
+	});
+
+	$('#special_subject_form').on('click','.submit',function(){
+	  $('input[name=special_subject_html]').val($('.gridster').html());
+	}).form({
+		special_subject_title: {
+			identifier  : 'special_subject_title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				}
+			]
+		},
+		special_subject_tag: {
+			identifier  : 'special_subject_tag',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标签不能为空'
+				}
+			]
+		},
+		category_id: {
+			identifier  : 'category_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '分类不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, 3000);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+	
+	$('#kind_left').click(function(){
+	  $('#product_ids').hide();
+	  $('#content_self').show();
+	  $('input[name=kind]').val(1);
+	});
+	
+	$('#kind_right').click(function(){
+	  $('#content_self').hide();
+	  $('#product_ids').show();
+	  $('input[name=kind]').val(2);
+	});
+	
+	var back_kind = '{{ special_subject.kind }}';
+	
+	if(back_kind == '1'){
+	  $('#product_ids').hide();
+	  $('#content_self').show();
+	}
+	
+	$('ul[class=gridster_ul]').css('width','700px');
+	
+	function JavascriptHandler(data) {
+		console.log(data);
+		//return window.location.href = 'taihuoniao://'+data;
+	}
 	
 {% endblock %}
 	
