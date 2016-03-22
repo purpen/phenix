@@ -245,7 +245,7 @@
 	  
 	  console.log(date);
 	  
-	  var content = '<a class=\"img_url\" href=\"javascript:void(0);\" product_id=\"'+product_id+'\" is_show_price=\"'+is_show_price+'\" onclick="JavascriptHandler('+product_id+')"><img src=\"'+src+'\" style=\"width:100%\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
+	  var content = '<a class=\"img_url\" href=\"javascript:void(0);\" align="absmiddle" product_id=\"'+product_id+'\" is_show_price=\"'+is_show_price+'\" onclick="JavascriptHandler('+product_id+')"><img src=\"'+src+'\" style=\"width:100%\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
 	  date.widget.find('.this_content').html(content);
 	  date.widget.css('width',date.size_x*10+'%');
 	  
@@ -323,9 +323,9 @@
 			height = result.data.asset.height;
 			
 			if(Math.floor(width/height) >= 1){
-				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" align="absmiddle" style=\"max-width: 500px; width: '+date.size_x*cell+'px\">';
+				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"max-width: 500px; width: '+date.size_x*cell+'px\">';
 			}else{
-				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" align="absmiddle" style=\"max-height: 500px; height: '+date.size_y*cell+'px\">';
+				var imghtml =  '<img id=\"avatar-photo\" src=\"'+result.data.asset.file_url+'\" style=\"max-height: 500px; height: '+date.size_y*cell+'px\">';
 			}
 			
 			$('#show_images').html(imghtml);
