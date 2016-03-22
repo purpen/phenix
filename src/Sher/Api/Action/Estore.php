@@ -18,7 +18,7 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
 	);
 	
 	protected $exclude_method_list = array('execute','get_store_list','find_stores','get_single_store');
-    protected $filter_user_method_list = array('execute','get_store_list','find_stores','get_single_store');
+    //protected $filter_user_method_list = array('execute','get_store_list','find_stores','get_single_store');
 
 	/**
 	 * 默认方法
