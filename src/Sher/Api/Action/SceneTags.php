@@ -105,7 +105,7 @@ class Sher_Api_Action_SceneTags extends Sher_Api_Action_Base {
 	 */
 	public function scene_tags(){
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$size = isset($this->stash['size'])?(int)$this->stash['size']:100;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:200;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		
 		// 请求参数
@@ -113,8 +113,6 @@ class Sher_Api_Action_SceneTags extends Sher_Api_Action_Base {
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
 		$status = isset($this->stash['status']) ? (int)$this->stash['status'] : 1;
 		$parent_id = isset($this->stash['parent_id']) ? (int)$this->stash['parent_id'] : 0;
-		$title_cn = isset($this->stash['title_cn']) ? (int)$this->stash['title_cn'] : null;
-		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 
 		$some_fields = array(
       '_id'=>1, 'title_cn'=>1, 'title_en'=>1, 'likename'=>1, 'parent_id'=>1, 'left_ref'=>1,
@@ -164,10 +162,6 @@ class Sher_Api_Action_SceneTags extends Sher_Api_Action_Base {
 			foreach($some_fields as $key=>$value){
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:0;
 			}
-      $id = $data[$i]['_id'];
-      $type = $data[$i]['type'];
-      $sub_tags = $scene_tags_model->find(array('parent_id'=>$id, 'type'=>$type, 'stick'=>1, 'status'=>1));
-      $data[$i]['sub_tags'] = $sub_tags;
 		}
 		$result['rows'] = $data;
 		
