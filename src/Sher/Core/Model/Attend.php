@@ -30,6 +30,7 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
     # 子ID, 用于专题PK论战 1.正方;2.反方；所属试用ＩＤ
     'cid' => 0,
     'state' => 1,
+    # 活动报名信息
     'info' => array(),
   );
 

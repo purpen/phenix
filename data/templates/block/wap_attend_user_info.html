@@ -21,18 +21,38 @@
 							<label>姓名</label>
               <input type="text" name="realname" value="{{ user_info.profile.realname }}" />
 						</div>
-					</div>
-					<div class="two fields">
 						<div class="field">
 							<label>手机号</label>
 							<input type="text" name="phone" value="{{ user_info.profile.phone }}" placeholder="填写手机号，方便信息核实" />
 						</div>
 					</div>
-
-					<div class="field">
-						<label>职位</label>
-            <input type="text" name="job" value="{{ user_info.profile.job }}" />
+					<div class="two fields">
+						<div class="field">
+							<label>所在城市</label>
+							<input type="text" name="city" value="{{ user_info.city }}" />
+						</div>
+						<div class="field">
+							<label>邮箱</label>
+							<input type="text" name="email" value="{{ user_info.email }}" />
+						</div>
 					</div>
+
+          <div class="field">
+            <label>公司名称</label>
+            <input type="text" name="company" value="{{ user_info.profile.company }}" />
+          </div>
+
+					<div class="two fields">
+            <div class="field">
+              <label>所属行业</label>
+              <input type="text" name="industry" value="{{ user_info.profile.industry }}" placeholder="" />
+            </div>
+            <div class="field">
+              <label>职位</label>
+              <input type="text" name="job" value="{{ user_info.profile.job }}" placeholder="" />
+            </div>
+          </div>
+
 					<div class="field">
 						<label>地址</label>
             <input type="text" name="address" value="{{ user_info.profile.address }}" />

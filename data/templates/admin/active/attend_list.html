@@ -31,9 +31,7 @@
 				</th>
 				<th>缩略图</th>
 				<th>ID</th>
-        <th>姓名/电话</th>
-				<th>职业</th>
-        <th>地址</th>
+        <th>姓名/电话/邮箱</th>
 				<th>状态</th>
 			</tr>
 		</thead>
@@ -62,15 +60,16 @@
                     <p class="attribute">ID：{{ attend.user._id }}</p>
             </td>
             <td>
-              <p>{{ attend.user.profile.realname }}</p>
-              <p>{{ attend.user.profile.phone }}</p>
+              <p>姓名: {{ attend.user.profile.realname }}</p>
+              <p>电话: {{ attend.user.profile.phone }}</p>
+              <p>城市: {{ attend.user.city|default '--' }}</p>
+              <p>邮箱: {{ attend.user.email|default '--' }}</p>
+              <p>行业: {{ attend.user.profile.industry|default '--' }}</p>
+              <p>公司: {{ attend.user.profile.company|default '--' }}</p>
+              <p>职位: {{ attend.user.profile.job|default '--' }}</p>
+              <p>地址: {{ attend.user.profile.address|default '--' }}</p>
             </td>
-            <td>
-              <p>{{ attend.user.profile.job }}</p>
-            </td>
-            <td>
-              <p>{{ attend.user.profile.address }}</p>
-            </td>
+
             <td>
 					  {{ attend.user.created_on|date 'Y-m-d H:i'}}
             <p>

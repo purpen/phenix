@@ -178,15 +178,32 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
     }
 
     if(isset($this->stash['is_user_info']) && (int)$this->stash['is_user_info']==1){
-      if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['address']) || empty($this->stash['job'])){
+      if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['city'])){
  			  return $this->ajax_note('请求失败,缺少用户必要参数', true); 
       }
 
       $user_data = array();
       $user_data['profile']['realname'] = $this->stash['realname'];
       $user_data['profile']['phone'] = $this->stash['phone'];
-      $user_data['profile']['address'] = $this->stash['address'];
-      $user_data['profile']['job'] = $this->stash['job'];
+      if(!empty($this->stash['address'])){
+        $user_data['profile']['address'] = $this->stash['address'];
+      }
+      if(!empty($this->stash['job'])){
+        $user_data['profile']['job'] = $this->stash['job'];
+      }
+      if(!empty($this->stash['company'])){
+        $user_data['profile']['company'] = $this->stash['company'];
+      }
+      if(!empty($this->stash['industry'])){
+        $user_data['profile']['industry'] = $this->stash['industry'];
+      }
+
+      if(!empty($this->stash['city'])){
+        $user_data['city'] = $this->stash['city'];
+      }
+      if(!empty($this->stash['email'])){
+        $user_data['email'] = $this->stash['email'];
+      }
 
       try {
         //更新基本信息

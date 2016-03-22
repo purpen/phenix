@@ -30,17 +30,11 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		);
 		
 		// 请求参数
-		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 			
 		$query   = array();
 		$options = array();
-		
-		// 查询条件
-		if($user_id){
-			$query['user_id'] = (int)$user_id;
-		}
 		
 		// 状态
 		$query['status'] = 1;
@@ -67,16 +61,13 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		// 开启查询
         $service = Sher_Core_Service_SceneScene::instance();
         $result = $service->get_scene_scene_list($query, $options);
-		//var_dump($result);
+		
 		// 重建数据结果
-		/*
-		$data = array();
-		for($i=0;$i<count($result['rows']);$i++){
-			// 封面图url
-			//$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['apc']['view_url'];
+		foreach($result['rows'] as $k => $v){
+			// 备用
 		}
-		$result['rows'] = $data;
-		*/
+		//var_dump($result['rows']);
+		
 		return $this->api_json('请求成功', 0, $result);
 	}
 	

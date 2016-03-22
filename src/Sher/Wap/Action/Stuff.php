@@ -57,6 +57,9 @@ class Sher_Wap_Action_Stuff extends Sher_Wap_Action_Base {
 	  *TOp-100 提交
 	**/
 	public function tsubmit(){
+    // 活动结束
+    return $this->to_redirect(sprintf("%s/stuff", Doggy_Config::$vars['app.url.wap']));
+
 		$top_category_id = Doggy_Config::$vars['app.stuff.top100_category_id'];
     $this->stash['pid'] = $top_category_id;
 
