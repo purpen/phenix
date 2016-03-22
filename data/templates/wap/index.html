@@ -66,17 +66,17 @@ h4 a.seemore{
 	$('.appstore .appclose').on('click',function(){
 		$('.appstore').remove();
 	});
-    var ua = navigator.userAgent.toLowerCase();  
-    if(ua.match(/MicroMessenger/i)=="micromessenger"){   
-	   	$('.appstore .white.inverted.button').click(function(){
-	   		 $('#appload').css('display','block');
-	   	});
-       $('.appstore #appload').click(function(){
-           $('.appstore #appload').removeAttr('style');
-       });
-    }  
-    else{ 		window.location='https://itunes.apple.com/cn/app/tai-huo-niao-huo-bao-zhi-neng/id946737402?mt=8';
-    };
+   	$('.appstore .white.inverted.button').click(function(){
+	    var ua = navigator.userAgent.toLowerCase();  
+	    if(ua.match(/MicroMessenger/i)=="micromessenger"){
+			$('#appload').css('display','block');
+		}else{
+			window.location='https://itunes.apple.com/cn/app/tai-huo-niao-huo-bao-zhi-neng/id946737402?mt=8';
+		}
+   	});
+   $('.appstore #appload').click(function(){
+       $('.appstore #appload').removeAttr('style');
+   });
 	
 		
 	$.ajaxSettings.async = false; 
