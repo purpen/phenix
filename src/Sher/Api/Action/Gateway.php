@@ -312,6 +312,17 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
     return $this->api_json("获取成功!", 0, array('tags'=>$tag_arr));
   }
 
+
+  /**
+   * 返回二维码数据(test)
+   */
+  public function fetch_qr_code(){
+    $pid = isset($this->stash['pid']) ? $this->stash['pid'] : 1;
+    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+    $str = isset($this->stash['str']) ? $this->stash['str'] : 'http://m.taihuoniao.com';
+    return $this->api_json('success!', 0, array('pid'=>$pid, 'type'=>$type, 'str'=>$str));
+  }
+
 	
 }
 
