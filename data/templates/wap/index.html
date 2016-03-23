@@ -158,7 +158,7 @@ h4 a.seemore{
 	    $('#appload,#apploadand').removeAttr('style');
 	});
 	
-	function testApp(url) { 
+	/*function testApp(url) { 
 	  var timeout, t = 1000, hasApp = true; 
 	  setTimeout(function () { 
 	    if (hasApp) { 
@@ -181,10 +181,10 @@ h4 a.seemore{
 	     } 
 	  }, t); 
 	}
-	testApp("tiahuoniao://");
+	testApp("tiahuoniao://");*/
 
 
-	/*if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+	if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
 		var loadDateTime = new Date();
 	  	window.setTimeout(function() {
 		  	var timeOutDateTime = new Date();
@@ -206,6 +206,8 @@ h4 a.seemore{
 				});
 			} 
 	  	},25);
+		window.location="taihuoniao://";
+		
 	 }
 	 else if (navigator.userAgent.match(/android/i)) {	 
 	 	var state = null;
@@ -226,7 +228,7 @@ h4 a.seemore{
 				}
 			});
 	  	}
- 	};*/
+ 	};
 
 
 	$.ajaxSettings.async = false; 
