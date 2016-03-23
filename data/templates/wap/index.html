@@ -165,12 +165,6 @@ h4 a.seemore{
         document.body.appendChild(ifr);
         window.setTimeout(function(){
           document.body.removeChild(ifr);
-			$('.appiosload').css('display','block');
-			$('.appiosload .magenta.button').on('click',function(){
-				window.location="taihuoniao://";
-			});
-        },2000)
-		if( ifr == false ){
 			$('.appstore').fadeIn().slow;
 			$('.appstore .white.inverted.button').click(function(){
 			    var ua = navigator.userAgent.toLowerCase();  
@@ -179,6 +173,12 @@ h4 a.seemore{
 				}else{
 					window.location='https://itunes.apple.com/cn/app/tai-huo-niao-huo-bao-zhi-neng/id946737402?mt=8';
 				}
+			});
+        },2000)
+		if( ifr == false ){
+			$('.appiosload').css('display','block');
+			$('.appiosload .magenta.button').on('click',function(){
+				window.location="taihuoniao://";
 			});
 		}
      }
