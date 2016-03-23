@@ -162,7 +162,7 @@ h4 a.seemore{
 		var loadDateTime = new Date();
 	  	window.setTimeout(function() {
 		  	var timeOutDateTime = new Date();
-		   	if (timeOutDateTime - loadDateTime < 5000) {
+		   	if (timeOutDateTime - loadDateTime > 50) {
 				alert(123);
 				/*$('.appstore').fadeIn().slow;
 				$('.appstore .white.inverted.button').click(function(){
