@@ -175,13 +175,17 @@ h4 a.seemore{
 		   	} 
 	  	},25);
 		$('.appiosload').css('display','block');
+		$('.appiosload .magenta.button').on('click'function(){
+			window.location="";
+		});
 	 }
-	 else if (navigator.userAgent.match(/android/i)) {
-		 
+	 else if (navigator.userAgent.match(/android/i)) {	 
 	 	/*var state = null;
 	  	try {
-	   		
-	    	//$('.appstore').fadeIn().slow;
+			$('.appiosload').css('display','block');
+			$('.appiosload .magenta.button').on('click'function(){
+				window.location="";
+			});
 	  	} catch(e) {}
 	  	if (!state) {
 	   		$('.appstore').fadeIn().slow;
