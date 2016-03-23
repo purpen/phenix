@@ -85,6 +85,31 @@ h4 a.seemore{
     width: 80%;
     margin: 10% 5% 10% 15%;
 }
+@media only screen and (max-width: 340px){
+	.appiosload .logo {
+	    width: 40px;
+	    height: 40px;
+	    margin: 15px 25px;
+	}
+	.appiosload .content{
+		margin: 10px 0 10px 70px;
+		padding-top: 4px;
+	}
+	h4.ui.header{
+		font-size:14px !important;
+	}
+	.appiosload .content .sub.header{
+		font-size: 13px;
+	}
+	.appiosload .ui.magenta.button{
+		margin-left: 95px;
+	    -webkit-transform: translate3d(0,-50%,0) scale(0.8);
+	    -moz-transform: translate3d(0,-50%,0) scale(0.8);
+	    -ms-transform: translate3d(0,-50%,0) scale(0.8);
+	    transform: translate3d(0,-50%,0) scale(0.8);
+	}
+	
+}
 </style>
 {% endblock %}
 
@@ -124,7 +149,7 @@ h4 a.seemore{
 
 {% block jquery %}
 	$('.apploadclose').on('click',function(){
-		$('.appiosload'),remove();
+		$('.appiosload').remove();
 	});
 	$('.appstore .appclose').on('click',function(){
 		$('.appstore').remove();
