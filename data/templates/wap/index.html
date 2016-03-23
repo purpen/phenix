@@ -28,10 +28,14 @@ h4 a.seemore{
 .appstore{
 	display:none;
 }
-.transition.fade.up{
-	-webkit-animation-name: fadeInUp;
-	    animation-name: fadeInUp;
-		display:block;
+.transition.dropIn{
+	-webkit-animation-name: dropIn;
+    animation-name: dropIn;
+	-webkit-transition-delay: 600ms;
+	transition-delay: 600ms;
+	-webkit-animation-duration: 600ms;
+    animation-duration: 600ms;
+	display:block;
 }
 </style>
 {% endblock %}
@@ -77,7 +81,7 @@ h4 a.seemore{
 		  	var timeOutDateTime = new Date();
 		   	if (timeOutDateTime - loadDateTime < 5000) {
 				
-				$('.appstore').addClass('transition fade up');
+				$('.appstore').addClass('transition dropIn');
 				//alert(123);
 		    	//$('.appiosload').style('display','block');
 		   	} 
