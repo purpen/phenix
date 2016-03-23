@@ -35,7 +35,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		$some_fields = array(
       '_id'=>1, 'title'=>1, 'short_title'=>1, 'oid'=>1, 'sale_price'=>1, 'market_price'=>1,
 			'kind'=>1, 'cover_id'=>1, 'category_id'=>1, 'fid'=>1, 'summary'=>1, 'link'=>1, 
-			'stick'=>1, 'summary'=>1, 'fine'=>1, 'brand_id'=>1,
+			'stick'=>1, 'summary'=>1, 'fine'=>1, 'brand_id'=>1, 'cover_url'=>1,
 			'view_count'=>1, 'favorite_count'=>1, 'love_count'=>1, 'comment_count'=>1,'buy_count'=>1, 'deleted'=>1,
       'published'=>1, 'attrbute'=>1, 'state'=>1, 'tags'=>1, 'tags_s'=>1, 'created_on'=>1, 'updated_on'=>1, 'created_at'=>1,
 		);
@@ -169,7 +169,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 			'kind', 'cover_id', 'category_id', 'fid', 'summary', 'link', 'description',
 			'stick', 'summary', 'fine', 'banner_asset_ids', 'png_asset_ids', 'asset_ids',
 			'view_count', 'favorite_count', 'love_count', 'comment_count','buy_count', 'deleted',
-      'published', 'attrbute', 'state', 'tags', 'tags_s', 'created_on', 'updated_on', 'created_at',
+      'published', 'attrbute', 'state', 'tags', 'tags_s', 'created_on', 'updated_on', 'created_at', 'cover_url',
 		);
 		
 		// 增加pv++
@@ -187,7 +187,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     $data['is_favorite'] = $fav->check_favorite($this->current_user_id, $scene_product['_id'], 10) ? 1 : 0;
     $data['is_love'] = $fav->check_loved($this->current_user_id, $scene_product['_id'], 10) ? 1 : 0;
 
-    //返回图片数据
+    //返回Banner图片数据
     $assets = array();
     $asset_query = array('parent_id'=>$scene_product['_id'], 'asset_type'=>120);
     $asset_options['page'] = 1;
@@ -201,13 +201,79 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
       }
     }
     $data['banner_asset'] = $assets;
+
+    //返回褪底图片数据
+    $assets = array();
+    $asset_query = array('parent_id'=>$scene_product['_id'], 'asset_type'=>121);
+    $asset_options['page'] = 1;
+    $asset_options['size'] = 10;
+    $asset_service = Sher_Core_Service_Asset::instance();
+    $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
+
+    if(!empty($asset_result['rows'])){
+      foreach($asset_result['rows'] as $key=>$value){
+        array_push($assets, $value['thumbnails']['apc']['view_url']);
+      }
+    }
+    $data['png_asset'] = $assets;
+
     $data['cover_url'] = $scene_product['cover']['thumbnails']['apc']['view_url'];
-      
+
+    unset($data['banner_asset_ids']);
+    unset($data['png_asset_ids']);
+    unset($data['asset_ids']);
 
 		return $this->api_json('请求成功', 0, $data);
 	}
 
 
+  /**
+   * 添加产品
+   */
+  public function add(){
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+ 		  return $this->api_json('请先登录', 3000);   
+    }
+
+    $title = isset($this->stash['title']) ? $this->stash['title'] : null;
+    // 原文ID
+    $oid = isset($this->stash['oid']) ? $this->stash['oid'] : null;
+    // 来源
+    $attrbute = isset($this->stash['attrbute']) ? (int)$this->stash['attrbute'] : 2;
+    // 默认用户创建
+    $kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 2;
+    $market_price = isset($this->stash['market_price']) ? (float)$this->stash['market_price'] : 0;
+    $sale_price = isset($this->stash['sale_price']) ? (float)$this->stash['sale_price'] : 0;
+    // 原文链接
+    $link = isset($this->stash['link']) ? $this->stash['link'] : null;
+    $published = isset($this->stash['published']) ? (int)$this->stash['published'] : 1;
+
+    if(empty($title) || empty($oid) || empty($market_price) || empty($market_price) || empty($sale_price) || empty($link)){
+  		return $this->api_json('缺少请求参数', 3001);      
+    }
+
+    $rows = array(
+      'user_id' => $user_id,
+      'title' => $title,
+      'oid' => $oid,
+      'attrbute' => $attrbute,
+      'kind' => $kind,
+      'market_price' => $market_price,
+      'sale_price' => $sale_price,
+      'link' => $link,
+      'published' => $published,
+    );
+
+    $scene_product_model = new Sher_Core_Model_SceneProduct();
+    $ok = $scene_product_model->apply_and_save($rows);
+    if($ok){
+    	return $this->api_json('创建失败!', 0, array('id'=>$scene_product_model->id));    
+    }else{
+   	  return $this->api_json('创建失败!', 3003);    
+    }
+
+  }
 
 
   /**
