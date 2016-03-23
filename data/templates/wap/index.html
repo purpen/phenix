@@ -165,6 +165,7 @@ h4 a.seemore{
         document.body.appendChild(ifr);
         window.setTimeout(function(){
           document.body.removeChild(ifr);
+		  	window.location="taihuoniao://";
 			$('.appstore').fadeIn().slow;
 			$('.appstore .white.inverted.button').click(function(){
 			    var ua = navigator.userAgent.toLowerCase();  
@@ -175,12 +176,6 @@ h4 a.seemore{
 				}
 			});
         },2000)
-		if( ifr.src == false ){
-			$('.appiosload').css('display','block');
-			$('.appiosload .magenta.button').on('click',function(){
-				window.location="taihuoniao://";
-			});
-		}
      }
 		
 		
