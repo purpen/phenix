@@ -158,7 +158,7 @@ h4 a.seemore{
 	    $('#appload,#apploadand').removeAttr('style');
 	});
 	
-	function testApp(url) { 
+	/*function testApp(url) { 
 	  var timeout, t = 1000, hasApp = true; 
 	  setTimeout(function () { 
 	    if (hasApp) { 
@@ -181,20 +181,15 @@ h4 a.seemore{
 	     } 
 	  }, t); 
 	}
-	testApp("tiahuoniao://");
+	testApp("tiahuoniao://");*/
 
 
-	/*if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+	if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
 		var loadDateTime = new Date();
 	  	window.setTimeout(function() {
 		  	var timeOutDateTime = new Date();
 		   	if (timeOutDateTime - loadDateTime < 5000) {
-				$('.appiosload').css('display','block');
-				$('.appiosload .magenta.button').on('click',function(){
-					window.location="taihuoniao://";
-				});
-				
-		   	}else {
+				window.location ="{{ app_url_wap }}";
 				$('.appstore').fadeIn().slow;
 				$('.appstore .white.inverted.button').click(function(){
 				    var ua = navigator.userAgent.toLowerCase();  
@@ -204,6 +199,25 @@ h4 a.seemore{
 						window.location='https://itunes.apple.com/cn/app/tai-huo-niao-huo-bao-zhi-neng/id946737402?mt=8';
 					}
 				});
+				/*$('.appiosload').css('display','block');
+				$('.appiosload .magenta.button').on('click',function(){
+					window.location="taihuoniao://";
+				});*/
+				
+		   	}else {
+				$('.appiosload').css('display','block');
+				$('.appiosload .magenta.button').on('click',function(){
+					window.location="taihuoniao://";
+				});
+				/*$('.appstore').fadeIn().slow;
+				$('.appstore .white.inverted.button').click(function(){
+				    var ua = navigator.userAgent.toLowerCase();  
+				    if(ua.match(/MicroMessenger/i)=="micromessenger"){
+						$('#appload').css('display','block');
+					}else{
+						window.location='https://itunes.apple.com/cn/app/tai-huo-niao-huo-bao-zhi-neng/id946737402?mt=8';
+					}
+				});*/
 			} 
 	  	},25);
 	 }
