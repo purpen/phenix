@@ -159,7 +159,18 @@ h4 a.seemore{
 	});
 
 	if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
-		var loadDateTime = new Date();
+		var ifr = document.createElement("iframe");
+        ifr.src = "taihuoniao://"; /***打开app的协议，有ios同事提供***/
+        ifr.style.display = "none"; 
+        document.body.appendChild(ifr);
+        window.setTimeout(function(){
+          document.body.removeChild(ifr);
+           window.location.href = "https://itunes.apple.com/cn/app/tai-huo-niao-huo-bao-zhi-neng/id946737402?mt=8";
+        },2000)
+      };
+		
+		
+		/*var loadDateTime = new Date();
 	  	window.setTimeout(function() {
 		  	var timeOutDateTime = new Date();
 		   	if (timeOutDateTime - loadDateTime < 5000) {
@@ -179,7 +190,7 @@ h4 a.seemore{
 					}
 				});
 			} 
-	  	},25);
+	  	},25);*/
 		//window.location ="taihuoniao://";
 	 }
 	 else if (navigator.userAgent.match(/android/i)) {	 
