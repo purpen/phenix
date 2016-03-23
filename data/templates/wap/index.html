@@ -28,15 +28,6 @@ h4 a.seemore{
 .appstore{
 	display:none;
 }
-.appstore.fadeup{
-	-webkit-animation-name: horizontalFlipIn;
-	animation-name: horizontalFlipIn;
-	-webkit-animation-duration: 1s;
-    animation-duration: 1s;
-	-webkit-transition-delay:1s;
-	transition-delay:1s;
-	display:block;
-}
 .appiosload{
 	display:none;
 }
@@ -92,7 +83,7 @@ h4 a.seemore{
 
 {% block jquery %}
 	$('.appstore .appclose').on('click',function(){
-		$('.appial').remove();
+		$('.appstore').remove();
 	});
 	$('#appload,#apploadand').click(function(){
 	    $('#appload,#apploadand').removeAttr('style');
@@ -103,7 +94,7 @@ h4 a.seemore{
 	  	window.setTimeout(function() {
 		  	var timeOutDateTime = new Date();
 		   	if (timeOutDateTime - loadDateTime < 5000) {
-				$('.appstore').addClass('transition fadeup');
+				$('.appstore').fadeIn().slow;
 				$('.appstore .white.inverted.button').click(function(){
 				    var ua = navigator.userAgent.toLowerCase();  
 				    if(ua.match(/MicroMessenger/i)=="micromessenger"){
@@ -122,10 +113,10 @@ h4 a.seemore{
 	 	var state = null;
 	  	try {
 	   		
-	    	//$('.appstore').addClass('transition fadeup');
+	    	//$('.appstore').fadeIn().slow;
 	  	} catch(e) {}
 	  	if (!state) {
-	   		$('.appstore').addClass('transition fadeup');
+	   		$('.appstore').fadeIn().slow;
 			$('.appstore .white.inverted.button').click(function(){
 			    var ua = navigator.userAgent.toLowerCase();  
 			    if(ua.match(/MicroMessenger/i)=="micromessenger"){
