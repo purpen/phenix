@@ -25,16 +25,12 @@ h4 a.seemore{
     display: inline-block;
     float: right;
 }
-.appial{
-	position:fixed;
-	bottom:0;
-}
 .appstore{
 	display:none;
 }
 .appstore.fadeup{
-	-webkit-animation-name: fadeInUp;
-	animation-name: fadeInUp;
+	-webkit-animation-name: horizontalFlipIn;
+	animation-name: horizontalFlipIn;
 	-webkit-animation-duration: 1s;
     animation-duration: 1s;
 	-webkit-transition-delay:1s;
@@ -51,7 +47,7 @@ h4 a.seemore{
     z-index: 100;
     top: 0;
     display: none;
-    background: rgba(0,0,0,.8);
+    background: rgba(0,0,0,.9);
 }
 #appload img,#apploadand img{
     width: 80%;
