@@ -43,18 +43,18 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
         $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
 		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 10;
         
-        $approved = $this->stash['approved'];
+        $approved = $this->stash['approved']; // 是否审核
         // 基于地理位置的查询，从城市内查询
-        $distance = $this->stash['dis'];
-        $lng = $this->stash['lng'];
-        $lat = $this->stash['lat'];
+        $distance = $this->stash['dis']; // 距离、半径
+        $lng = $this->stash['lng']; // 经度
+        $lat = $this->stash['lat']; // 纬度
         
         // 判断查询条件
 		$query   = array();
 		$options = array();
         
 		if ($approved) {
-			$query['approved'] = (int)$approved;
+            $query['approved'] = (int)$approved;
 		}
         
         # 按照半径搜索: 搜索半径内的所有的点,按照由近到远排序
@@ -97,7 +97,7 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
         $filter_fields  = array('view_url', 'summary', 'cover_id', '__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
         
-        //print_r($result);
+        //print_r($result);exit;
 		return $this->api_json('请求成功', 0, $result);
     }
     
@@ -105,6 +105,7 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
      * 获取店铺详情
      */
     public function get_single_store() {
+        
         $id = $this->stash['id'];
         if (empty($id)) {
             return $this->api_json('请求失败，缺少必要参数!', true);
@@ -114,9 +115,32 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
         $estore  = $service->get_store_by_id($id);
         
         // 过滤多余属性
-        $filter_fields  = array('view_url', 'summary', 'cover_id', '__extend__');
+        $filter_fields  = array('view_url', 'summary', 'cover_id', 'cover', '__extend__');
         $result = Sher_Core_Helper_FilterFields::filter_fields($estore, $filter_fields, 2);
         
+        $cover = array(
+            'mini' => $result['cover']['thumbnails']['mini'],
+            'tiny' => $result['cover']['thumbnails']['tiny'],
+            'small' => $result['cover']['thumbnails']['small'],
+            'medium' => $result['cover']['thumbnails']['medium'],
+            'large' => $result['cover']['thumbnails']['large'],
+            'big' => $result['cover']['thumbnails']['big'],
+            'huge' => $result['cover']['thumbnails']['huge'],
+            'massive' => $result['cover']['thumbnails']['massive'],
+            'resp' => $result['cover']['thumbnails']['resp'],
+            'hd' => $result['cover']['thumbnails']['hd'],
+            'md' => $result['cover']['thumbnails']['md'],
+            'hm' => $result['cover']['thumbnails']['hm'],
+            'ava' => $result['cover']['thumbnails']['ava'], 
+        );
+        for($i=0;$i<count($filter_fields);$i++){
+            $key = $filter_fields[$i];
+            unset($result[$key]);
+        }
+        
+        $result['cover'] = $cover;
+        
+        //print_r($result);exit;
         return $this->api_json('请求成功', false, $result);
     }
     

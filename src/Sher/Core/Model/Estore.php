@@ -82,7 +82,7 @@ class Sher_Core_Model_Estore extends Sher_Core_Model_Base {
     public function rebuild_cover($cover) {
         $images = array();
         if (!empty($cover) && !empty($cover['thumbnails'])) {
-            $images['mini']   = $cover['thumbnails']['medium']['view_url'];
+            $images['mini']   = $cover['thumbnails']['mini']['view_url'];
             $images['medium'] = $cover['thumbnails']['medium']['view_url'];
             $images['large']  = $cover['thumbnails']['large']['view_url'];
         }
