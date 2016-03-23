@@ -163,7 +163,8 @@ h4 a.seemore{
 	  	window.setTimeout(function() {
 		  	var timeOutDateTime = new Date();
 		   	if (timeOutDateTime - loadDateTime < 5000) {
-				$('.appstore').fadeIn().slow;
+				alert(123);
+				/*$('.appstore').fadeIn().slow;
 				$('.appstore .white.inverted.button').click(function(){
 				    var ua = navigator.userAgent.toLowerCase();  
 				    if(ua.match(/MicroMessenger/i)=="micromessenger"){
@@ -171,15 +172,15 @@ h4 a.seemore{
 					}else{
 						window.location='https://itunes.apple.com/cn/app/tai-huo-niao-huo-bao-zhi-neng/id946737402?mt=8';
 					}
-				});
+				});*/
 		   	}else {
-				$('.appiosload').css('display','block');
+				alert(456);
+				/*$('.appiosload').css('display','block');
 				$('.appiosload .magenta.button').on('click',function(){
 					window.location="";
-				});
+				});*/
 			} 
-	  	},25);
-		
+	  	},500);
 	 }
 	 else if (navigator.userAgent.match(/android/i)) {	 
 	 	var state = null;
