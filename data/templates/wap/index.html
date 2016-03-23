@@ -28,15 +28,6 @@ h4 a.seemore{
 .appstore{
 	display:none;
 }
-.appstore.fadeup{
-	-webkit-animation-name: fadeInUp;
-	animation-name: fadeInUp;
-	-webkit-animation-duration: 1s;
-    animation-duration: 1s;
-	-webkit-transition-delay:1s;
-	transition-delay:1s;
-	display:block;
-}
 .appiosload{
 	display:none;
 }
@@ -90,7 +81,7 @@ h4 a.seemore{
 	  	window.setTimeout(function() {
 		  	var timeOutDateTime = new Date();
 		   	if (timeOutDateTime - loadDateTime < 5000) {
-				$('.appstore').addClass('transition fadeup');
+				$('.appstore').fadeIn().slow;
 				$('.appstore .white.inverted.button').click(function(){
 				    var ua = navigator.userAgent.toLowerCase();  
 				    if(ua.match(/MicroMessenger/i)=="micromessenger"){
@@ -108,7 +99,7 @@ h4 a.seemore{
 	 else if (navigator.userAgent.match(/android/i)) {
 	 	var state = null;
 	  	try {
-	    	$('.appstore').addClass('transition fadeup');
+	    	$('.appstore').fadeIn().slow;
 	  	} catch(e) {}
 	  	if (!state) {
 	   		$('.appiosload').css('display','block');
