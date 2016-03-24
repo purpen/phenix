@@ -920,6 +920,43 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
+
+	/**
+	 * 获取省、市列表
+	 */
+	public function fetch_areas(){
+
+		$query   = array();
+		$options = array();
+		
+		$query['parent_id'] = 0;
+		
+    $options['page'] = 1;
+    $options['size'] = 500;
+    $options['sort_field'] = 'sort';
+
+    $some_fields = array();
+
+    $options['some_fields'] = $some_fields;
+
+    $model = new Sher_Core_Model_Areas();
+    $service = Sher_Core_Service_Areas::instance();
+    $result = $service->get_area_list($query, $options);
+
+    for($i=0;$i<count($result['rows']);$i++){
+      $id = $result['rows'][$i]['_id'];
+      $cities = $model->find(array('parent_id'=>$id));
+      if($cities){
+        $result['rows'][$i]['cities'] = $cities;
+      }else{
+        $result['rows'][$i]['cities'] = array();
+      }
+
+    }
+
+		return $this->api_json('请求成功', 0, $result);
+		
+	}
 	
 	/**
 	 * 订单列表（仅获取某个人员的）

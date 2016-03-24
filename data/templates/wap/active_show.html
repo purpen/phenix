@@ -266,24 +266,16 @@
 					}
 				]
 			},
-			address: {
-				identifier  : 'address',
+			city: {
+				identifier  : 'city',
 				rules: [
 					{
 						type   : 'empty',
-						prompt : '地址不能为空'
-					}
-				]
-			},
-			job: {
-				identifier  : 'job',
-				rules: [
-					{
-						type   : 'empty',
-						prompt : '职位不能为空'
+						prompt : '城市不能为空'
 					}
 				]
 			}
+
 		}, {
 			inline : true,
 			onSuccess: function(event){

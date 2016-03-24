@@ -26,12 +26,16 @@ $page = 1;
 $size = 500;
 $is_end = false;
 $total = 0;
-$fp = fopen('/home/tianxiaoyi/albums_code.csv', 'a');
+
+$fp = fopen('/home/tianxiaoyi/albums.csv', 'a');
+
 // Windows下使用BOM来标记文本文件的编码方式 
 fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
 
 // 输出Excel列名信息
-$head = array('专辑名称', '所属描述', '封面图', 'banner图');
+
+$head = array('ID', '专辑名称', '所属描述', '封面图', 'banner图');
+
 // 将数据通过fputcsv写到文件句柄
 fputcsv($fp, $head);
 
@@ -50,7 +54,9 @@ while(!$is_end){
 	for ($i=0; $i < $max; $i++) {
 		$albums = $list[$i];
 		if($albums){
-		  $row = array($albums['title'], $albums['des'], $albums['cover_id'], $albums['banner_id']);
+
+		  $row = array($albums['_id'], $albums['title'], $albums['des'], $albums['cover_id'], $albums['banner_id']);
+
 		  echo "albums[title],albums['des'],albums['cover_id'],albums['banner_id'] ...\n";
 		  fputcsv($fp, $row);
 			  $total++;
@@ -67,4 +73,3 @@ fclose($fp);
 
 echo "total $total albums rows export over.\n";
 echo "All albums expore done.\n";
-

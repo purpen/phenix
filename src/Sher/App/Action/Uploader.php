@@ -46,9 +46,9 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
             return $this->to_raw_json($result);
         }
 
-        if($image_info['width']<400 || $image_info['height']<400){
+        if($image_info['width']<300 || $image_info['height']<300){
             $result['code'] = 400;
-            $result['message'] = '图片尺寸必须大于400px * 400px';
+            $result['message'] = '图片尺寸必须大于300px * 300px';
             return $this->to_raw_json($result);       
         }
 		
