@@ -68,6 +68,7 @@ class Sher_Admin_Action_Estore extends Sher_Admin_Action_Base implements DoggyX_
 		
 		// 产品图片上传
 		$this->stash['pid'] = new MongoId();
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_STORE;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_STORE;
         
