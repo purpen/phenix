@@ -78,6 +78,7 @@ class Sher_Core_Helper_FilterFields {
         }
       }
     }
+    
     if($type==1){
       return $data;
     }elseif($type==2){

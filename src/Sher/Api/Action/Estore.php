@@ -6,7 +6,7 @@
 class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
     
 	public $stash = array(
-		'id'   => '',
+		'id'   => 0,
         'page' => 1,
         'size' => 10,
         // 默认通过审核的
@@ -112,11 +112,10 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
         }
         
         $service = Sher_Core_Service_Estore::instance();
-        $estore  = $service->get_store_by_id($id);
+        $result  = $service->get_store_by_id($id);
         
         // 过滤多余属性
         $filter_fields  = array('view_url', 'summary', 'cover_id', 'cover', '__extend__');
-        $result = Sher_Core_Helper_FilterFields::filter_fields($estore, $filter_fields, 2);
         
         $cover = array(
             'mini' => $result['cover']['thumbnails']['mini'],
@@ -133,6 +132,7 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
             'hm' => $result['cover']['thumbnails']['hm'],
             'ava' => $result['cover']['thumbnails']['ava'], 
         );
+        
         for($i=0;$i<count($filter_fields);$i++){
             $key = $filter_fields[$i];
             unset($result[$key]);

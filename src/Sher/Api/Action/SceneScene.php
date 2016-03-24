@@ -5,6 +5,12 @@
  */
 class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 	
+	public $stash = array(
+		'id'   => '',
+        'page' => 1,
+        'size' => 10,
+	);
+	
 	protected $filter_user_method_list = array('execute', 'getlist','save','delete');
 
 	/**
@@ -36,14 +42,19 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$query   = array();
 		$options = array();
 		
+		if($stick){
+			if($stick == 1){
+				$query['stick'] = 1;
+			}
+			if($stick == 2){
+				$query['stick'] = 0;
+			}
+		}
+		
 		// 状态
 		$query['status'] = 1;
 		// 已审核
 		$query['is_check']  = 1;
-		
-		if($stick){
-			$query['stick'] = $stick;
-		}
 		
 		// 分页参数
         $options['page'] = $page;
@@ -66,8 +77,12 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		foreach($result['rows'] as $k => $v){
 			// 备用
 		}
-		//var_dump($result['rows']);
 		
+		// 过滤多余属性
+        $filter_fields  = array('view_url', 'sight', 'user', 'summary', '__extend__');
+        $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+		
+		//var_dump($result['rows']);die;
 		return $this->api_json('请求成功', 0, $result);
 	}
 	
