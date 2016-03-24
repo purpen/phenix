@@ -18,7 +18,7 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
 	);
 	
 	protected $exclude_method_list = array('execute','get_store_list','find_stores','get_single_store');
-    //protected $filter_user_method_list = array('execute','get_store_list','find_stores','get_single_store');
+    protected $filter_user_method_list = array('execute','get_store_list','find_stores','get_single_store');
 
 	/**
 	 * 默认方法
@@ -40,26 +40,26 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
      */
     public function get_store_list() {
 		
+        // approved=2&channel=appstore&client_id=1415289600&dis=1000&lat=39.982965&lng=116.492537&page=0&sign=0f165a24ac11eea127adc2ae39ec7829&size=10&time=1458813768.644313&uuid=13B0EB10-A564-4B1E-AC79-B3E987DFADBC
+        
         $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
 		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 10;
         
         $approved = $this->stash['approved']; // 是否审核
         // 基于地理位置的查询，从城市内查询
-        $distance = $this->stash['dis']; // 距离、半径
-        $lng = $this->stash['lng']; // 经度
-        $lat = $this->stash['lat']; // 纬度
+        $distance = isset($this->stash['dis']) ? (int)$this->stash['dis'] : 0; // 距离、半径
+        $lng = isset($this->stash['lng']) ? $this->stash['lng'] : 0; // 经度
+        $lat = isset($this->stash['lat']) ? $this->stash['lat'] : 0; // 纬度
         
         // 判断查询条件
 		$query   = array();
 		$options = array();
         
-		if ($approved) {
-            $query['approved'] = (int)$approved;
-		}
+        // 必须添加索引 db.estore.ensureIndex({location: "2dsphere"})
         
         # 按照半径搜索: 搜索半径内的所有的点,按照由近到远排序
         if (!empty($lat) && !empty($lng)) {
-            $point = array($lng, $lat);
+            $point = array(doubleval($lng), doubleval($lat));
             $distance = $distance/1000;
             
             if ($distance) {
@@ -74,8 +74,10 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
                 );
             }
         }
-		
-        $service = Sher_Core_Service_Estore::instance();
+        
+        if ($approved) {
+            $query['approved'] = (int)$approved;
+		}
         
         $options['page'] = $page;
         $options['size'] = $size;
@@ -86,9 +88,12 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
         );
 		
         $options['some_fields'] = $some_fields;
+        
+        $service = Sher_Core_Service_Estore::instance();
+        $model = new Sher_Core_Model_Estore();
+        
         $result = $service->get_store_list($query, $options);
         
-        $model = new Sher_Core_Model_Estore();
         foreach($result['rows'] as $k => $v){
             $result['rows'][$k]['cover'] = $model->rebuild_cover($v['cover']);
         }
@@ -97,7 +102,7 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
         $filter_fields  = array('view_url', 'summary', 'cover_id', '__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
         
-        //print_r($result);exit;
+        print_r($result);exit;
 		return $this->api_json('请求成功', 0, $result);
     }
     

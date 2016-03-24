@@ -4,8 +4,8 @@
  * @author purpen
  */
 class Sher_Core_Model_Estore extends Sher_Core_Model_Base {
-    protected $collection = "estore";
     
+    protected $collection = "estore";
     protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_CUSTOM;
     
     // 审核状态
@@ -28,6 +28,8 @@ class Sher_Core_Model_Estore extends Sher_Core_Model_Base {
         'user_id'        => 0,
         
         'cover_id'       => 0,
+        # 图片数组
+		'asset' => array(),
         
         # 地址位置
         'location'       => array(
@@ -71,9 +73,6 @@ class Sher_Core_Model_Estore extends Sher_Core_Model_Base {
         if ($row['location']['coordinates']) {
             $row['location']['point'] = array('lng' => $row['location']['coordinates'][0], 'lat' => $row['location']['coordinates'][1]);
         }
-        
-        // 过滤封面图
-        //$row['cover'] = $this->rebuild_cover($row['cover']);
 	}
     
     /**

@@ -24,6 +24,22 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		return $this->get_list();
 	}
 	
+	public function test(){
+		
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		if(!$id){
+			return $this->ajax_json('内容不存在！', true);
+		}
+		
+		$model = new Sher_Core_Model_SceneTags();
+		$result = $model->first($id);
+		
+		$query = array();
+		$query['left_ref']  = array('$gte' => $left_ref);
+        $query['right_ref'] = array('$lte' => $right_ref);
+		var_dump($result);
+	}
+	
 	/**
      * 初始化根节点
      * 请勿随便操作
@@ -109,7 +125,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 	 */
 	public function edit(){
 		
-		$id = isset($this->stash['id']) ? $this->stash['id'] : '';
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		
 		if(!$id){
 			return $this->ajax_json('内容不能为空！', true);

@@ -93,7 +93,7 @@ class Sher_Admin_Action_Estore extends Sher_Admin_Action_Base implements DoggyX_
             'type' => 'Point',
             'coordinates' => array(doubleval($this->stash['lng']), doubleval($this->stash['lat'])),
         );
-		//$data['asset'] = isset($this->stash['asset']) ? $this->stash['asset'] : array();
+		$data['asset'] = isset($this->stash['asset']) ? $this->stash['asset'] : array();
         
 		// 封面图
 		$data['cover_id'] = $this->stash['cover_id'];
