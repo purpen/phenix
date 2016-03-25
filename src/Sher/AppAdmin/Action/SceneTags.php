@@ -16,29 +16,22 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		$this->stash['show_type'] = "public";
     }
 	
-	/**
-	 * 入口
-	 */
-	public function execute() {
-		// 判断左栏类型
-		return $this->get_list();
-	}
-	
 	public function test(){
 		
-		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
-		if(!$id){
-			return $this->ajax_json('内容不存在！', true);
-		}
+		$query = array(
+			'parent_id' => 0,
+			'type' => 1
+		);
 		
-		$model = new Sher_Core_Model_SceneTags();
-		$result = $model->first($id);
-		
+		$keydict = new Sher_Core_Model_SceneTags();
+		$result = $keydict->first($query);
+		//var_dump($result);
 		$query = array();
 		$query['type'] = 1;
 		$query['left_ref']  = array('$gte' => $result['left_ref']);
         $query['right_ref'] = array('$lte' => $result['right_ref']);
 		
+		$options = array();
 		$options['page'] = 1;
         $options['size'] = 500;
 		$options['sort_field'] = 'left_ref';
@@ -46,30 +39,18 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		$service = Sher_Core_Service_SceneTags::instance();
 		$result = $service->get_scene_tags_list($query,$options);
 		
-		if (!empty($result) && !empty($result['rows'])) {
-            $rows = $result['rows'];
-            // 准备一个空的右值堆栈
-            $right = array();
-            
-            for($i=0;$i<count($rows);$i++){
-                if (count($right) > 0) {
-                    while($right[count($right)-1] < $rows[$i]['right_ref']){
-                        array_pop($right);
-                        if (count($right) == 0) {
-                            break;
-                        }
-                    }
-                }
-                $rows[$i]['prefix_title_cn'] = str_repeat('->', count($right)).$rows[$i]['title_cn'];
-                // 将节点加入到堆栈
-                $right[] = $rows[$i]['right_ref'] ? $rows[$i]['right_ref'] : '';
-            }
-            $result['rows'] = $rows;
-        }
+		$res = Sher_Core_Helper_Util::arrayToTree($result['rows'],'_id','parent_id','children');
 		
-		foreach($result['rows'] as $k => $v){
-			var_dump($v['prefix_title_cn']);
-		}
+		var_dump($res);
+		
+	}
+	
+	/**
+	 * 入口
+	 */
+	public function execute() {
+		// 判断左栏类型
+		return $this->get_list();
 	}
 	
 	/**

@@ -46,7 +46,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$model = new Sher_Core_Model_SceneTags();
 		$res_one = $model->first((int)$id);
 		$query = array(
-			'type'=>0,
+			'type'=>1,
 			'left_ref'=>array('$gt' => $res_one['left_ref']),
 			'right_ref'=>array('$lt' => $res_one['right_ref'])
 		);
@@ -54,8 +54,8 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 			'sort' => array('left_ref' => 1)
 		);
 		$result = $model->find($query, $options);
-		
-		return $this->ajax_json('提交成功', false, '', $result);
+		var_dump($result);
+		return $this->ajax_json('请求成功！', false, '', $result);
 	}
 	
 	/**
@@ -97,7 +97,10 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$model = new Sher_Core_Model_SceneScene();
 		$result = $model->first((int)$id);
 		$result = $model->extended_model_row($result);
-		$result['tags'] = implode(',',$result['tags']);
+		if($result){
+			$result['tags'] = implode(',',$result['tags']);
+		}
+		
 		//var_dump($result);
 		
 		$this->stash['date'] = $result;

@@ -4,6 +4,83 @@
  * @author purpen
  */
 class Sher_Core_Helper_Util {
+	
+	/** 
+	* 将数组转换成树结构
+	* 例子：将
+		array( 
+			array('id'=>1,'parentId' => 0,'name'=> 'name1') 
+			,array('id'=>2,'parentId' => 0,'name'=> 'name2') 
+			,array('id'=>4,'parentId' => 1,'name'=> 'name1_4') 
+			,array('id'=>15,'parentId' => 1,'name'=> 'name1_5') 
+		);
+		转换成
+	 	Array(
+		[1] => Array([id] => 1 
+				[parentId] => 0 
+				[name] => name1 
+				[children] => Array( 
+						[0] => Array([id] => 15,[parentId] => 1,[name] => name1_5) 
+						[1] => Array([id] => 4,[parentId] => 1,[name] => name1_4) 
+					) 
+			) 
+		[2] => Array([id] => 2,[parentId] => 0,[name] => name2) 
+	) 
+	* @param array $sourceArr 要转换的数组 
+	* @param string $key 数组中确认父子的key，例子中为“id” 
+	* @param string $parentKey 数组中父key，例子中为“parentId” 
+	* @param type $childrenKey 要在树节点上索引子节点的key，例子中为“children” 
+	* @return array 返回生成的树 
+	*/  
+	public static function arrayToTree($sourceArr, $key, $parentKey, $childrenKey)  
+	{  
+		$tempSrcArr = array();  
+		 
+		$allRoot = TRUE;  
+		foreach ($sourceArr as  $v)  
+		{  
+			$isLeaf = TRUE;  
+			foreach ($sourceArr as $cv )  
+			{  
+				if (($v[$key]) != $cv[$key])  
+				{  
+					if ($v[$key] == $cv[$parentKey])  
+					{  
+						$isLeaf = FALSE;  
+					}  
+					if ($v[$parentKey] == $cv[$key])  
+					{  
+						$allRoot = FALSE;  
+					}  
+				}  
+			}  
+			if ($isLeaf)  
+			{  
+				$leafArr[$v[$key]] = $v;  
+			}  
+			$tempSrcArr[$v[$key]] = $v;  
+		}  
+		if ($allRoot)  
+		{  
+			return $tempSrcArr;  
+		}  
+		else  
+		{  
+			unset($v, $cv, $sourceArr, $isLeaf);  
+			foreach ($leafArr as  $v)  
+			{  
+				if (isset($tempSrcArr[$v[$parentKey]]))  
+				{  
+					$tempSrcArr[$v[$parentKey]][$childrenKey] = (isset($tempSrcArr[$v[$parentKey]][$childrenKey]) && is_array($tempSrcArr[$v[$parentKey]][$childrenKey])) ? $tempSrcArr[$v[$parentKey]][$childrenKey] : array();  
+					array_push ($tempSrcArr[$v[$parentKey]][$childrenKey], $v);  
+					unset($tempSrcArr[$v[$key]]);  
+				}  
+			}  
+			unset($v);  
+			return self::arrayToTree($tempSrcArr, $key, $parentKey, $childrenKey);  
+		}  
+	}
+	
 	/**
 	 * 发送注册验证码
 	 */

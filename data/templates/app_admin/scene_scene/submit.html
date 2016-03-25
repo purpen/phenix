@@ -190,34 +190,23 @@
 		return;
 	});
 	
-	$('.ui.orange.label.scene').on('click',function(){
-		var id = $(this).attr('date-val');
-		$.post('{{ app_url_app_admin_base }}/scene_scene/find_tags',{id:id},function(date){
-			var data = eval('('+date+')');
-			//console.log(data);
-			var html = '';
-			for(i=0; i< data.data.length; i++){
-				html += '<a class="ui green label scene_tags" date-val="'+data.data[i]['_id']+'">'+data.data[i]['title_cn']+'</a>';
-			}
-			$('#'+id).html(html);
-		});
-	});
-	
 	$('.tags_content').each(function(){
 		var id = $(this).attr('id');
 		$.post('{{ app_url_app_admin_base }}/scene_scene/find_tags',{id:id},function(date){
 			var data = eval('('+date+')');
-			console.log(data);
+			console.log(data.data);
 			var html = '';
-			for(i=0; i< data.data.length; i++){
-				html += '<a class="ui green label scene_tags" date-val="'+data.data[i]['_id']+'">'+data.data[i]['title_cn']+'</a>';
+			if(data.data){
+				for(i=0; i< data.data.length; i++){
+					html += '<a class="ui green label scene_tags" date-val="'+data.data[i]['_id']+'">'+data.data[i]['title_cn']+'</a>';
+				}
 			}
 			$('#'+id).html(html);
 		});
 	});
 	
 	//查看字符串是否在数组中存在
-	in_array = function(arr, val) {
+	var in_array = function(arr, val) {
 		var i;
 		for (i = 1; i <= arr.length; i++) {
 			if (val == arr[i-1]) {
@@ -243,7 +232,7 @@
 		});
 	});
 	
-	// 选择分类
+	// 选择标签
 	$('.scene_tags').livequery(function(){
 		$(this).click(function(){
 			var id = $(this).attr('date-val');

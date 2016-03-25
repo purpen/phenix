@@ -123,7 +123,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		foreach($data['tags'] as $k => $v){
 			$data['tags'][$k] = (int)$v;
 		}
-		
+		/*
 		// 上传图片
 		if(empty($this->stash['tmp'])){
 			return $this->api_json('请选择图片！', 3001);  
@@ -146,6 +146,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		}else{
 			  return $this->api_json('上传失败!', 3005); 
 		}
+		*/
 		//var_dump($data);die;
 		try{
 			$model = new Sher_Core_Model_SceneScene();
