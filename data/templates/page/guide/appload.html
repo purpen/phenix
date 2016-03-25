@@ -1,0 +1,309 @@
+{%extends 'layout/column.html'%}
+{% block title %}App下载{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.topdes{
+	background:url({{ app_url_packaged }}/images/download/bg.jpg);
+	background-size:2360px 510px;
+	height:510px;
+}
+@media only screen and (max-width: 1500px) and (min-width: 992px){
+	.w-1000{
+		width:1000px !important;
+	}
+	.w-1080{
+		width: 1080px !important;
+	}
+}
+.pt-20{
+	padding-top:20px !important;
+}
+.pt-30{
+	padding-top:30px !important;
+}
+.pt-40{
+	padding-top:40px !important;
+}
+.pt-80{
+	padding-top:80px !important;
+}
+.pt-100{
+	padding-top:100px !important;
+}
+.pt-150{
+	padding-top:150px !important;
+}
+.lh-28{
+	line-height: 28px !important;
+}
+.lh-40{
+	line-height: 40px !important;
+}
+.lh-50{
+	line-height: 50px !important;
+}
+.header.white-color{
+	color:#fff !important;
+}
+.header.magenta-color{
+	color:#f36 !important;
+}
+.apptitle{
+	height:60px;
+	width:100%;
+	background:rgba(255,255,255,0.8);
+	position:relative;
+}
+.apptitle .eight.wide.column{
+	height:60px;
+	line-height:40px;
+}
+.apptitle .applogo{
+	width:40px;
+	height:40px;
+	background:url({{ app_url_packaged }}/images/icon/thn_icon.png);
+	background-size:40px 40px;
+	display:inline-block;
+}
+.apptitle .logotitle{
+	display: inline-block;
+    margin: 0;
+    font-size: 16px;
+    line-height: 40px;
+    vertical-align: top;
+    color: #ff3654;
+    margin-left: 10px;
+}
+.nine.wide.column .ui.grid .six.column .ui.inverted.button{
+    width: 170px;
+    margin: 18px 0;
+}
+.secdes{
+	background:#fff;
+	height:500px;
+}
+.thirdes{
+	background:#ff355a;
+	height:500px;
+	position:relative;
+}
+.bg-left{
+	position: absolute;
+    left: 0;
+    bottom: -100px;
+    background: url({{ app_url_packaged }}/images/download/bg2.png);
+    background-size: 100%;
+    width: 440px;
+    height: 440px;
+	z-index: 9;
+}
+.fourdes{
+	background:#fff;
+	height:500px;
+	position:relative;
+}
+.bg-right{
+	position: absolute;
+    right: 4%;
+    bottom: 0;
+    background: url({{ app_url_packaged }}/images/download/bg3.jpg);
+    background-size: 100%;
+    width: 460px;
+    height: 480px;
+}
+.fivdes{
+	background:#ff355a;
+	height:500px;
+	position:relative;
+}
+.sixdes{
+	position:relative;
+	height:400px;
+	background:#fff;
+}
+.bg4{
+    background: url({{ app_url_packaged }}/images/download/bg4.png);
+    background-size: 100%;
+    width: 270px;
+    height: 530px;
+    z-index: 9;
+    position: absolute;
+    top: 30px;
+    left: 0;
+}
+.sixdes .magenta.active{
+	width: 220px;
+    margin: 12px 0;
+}
+</style>
+{% endblock %}
+{% block jquery %}
+
+{% endblock %}
+{% block content %}
+<div id="appdownload">
+	<div class="topdes">
+		<div class="apptitle">
+			<div class="ui responsive w-1080 grid">
+				<div class="eight wide column">
+					<div class="applogo"></div>
+					<h2 class="logotitle">太火鸟商城</h2>
+				</div>
+				<div class="eight wide column center aligned">
+					<a href="https://itunes.apple.com/cn/app/tai-huo-niao-huo-bao-zhi-neng/id946737402?mt=8" class="ui magenta active tiny inverted button">
+						<i class="apple icon"></i>
+						App Store 下载
+					</a>
+					<a href="javascript:void(0);" class="ui magenta active tiny inverted button">
+						<i class="android icon"></i>
+						Android 下载
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="ui responsive w-1000 grid">
+			<div class="row">
+				<div class="seven wide column">
+					<img src="{{ app_url_packaged }}/images/download/phone.png">
+				</div>
+				<div class="nine wide column">
+					<h2 class="ui header pt-40 white-color">
+						太火鸟商城App
+						<div class="sub header white-color pt-20 lh-28">
+						中国火爆的智能硬件孵化平台<br>
+						潮爆年轻人的智玩in（硬）件体验式购物平台
+						</div>
+					</h2>
+					<div class="ui grid pt-40">
+						<div class="six wide column">
+							<div class="ui white inverted button">
+								<i class="apple icon"></i>
+								App Store 下载
+							</div>
+							<div class="ui white inverted button">
+								<i class="android icon"></i>
+								Android 下载
+							</div>
+						</div>
+						<div class="ten wide column">
+							<img src="{{ app_url_packaged }}/images/download/appewm.png">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="secdes">
+		<div class="ui responsive w-1000 grid">
+			<div class="row">
+				<div class="eight wide column">
+					<h2 class="ui header pt-150 magenta-color lh-40">
+						潮酷智玩 <br>
+						新鲜放肆的智创世界
+						<div class="sub header pt-20 lh-28">
+						品类丰富，广而精致，不潮不爆，替你挡掉！<br>
+						汇聚海内外潮创新品，给你 强in 的多维智感体验
+						</div>
+					</h2>
+				</div>
+				<div class="eight wide column center aligned">
+					<img src="{{ app_url_packaged }}/images/download/photo2.jpg" align="absmiddle" class="pt-30">
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	<div class="thirdes">
+		<div class="bg-left"></div>
+		<div class="ui responsive w-1000 grid">
+			<div class="row">
+				<div class="six wide column">
+				</div>
+				<div class="ten wide column">
+					<h2 class="ui header pt-150 white-color lh-50">
+						科技与生活实时连线 <br>
+						存在与美感一一对应
+						<div class="sub header white-color pt-20 lh-28">
+						无设计不生活，在这里用设计师的审美思维看穿质感的细枝末节，<br>
+						用更加直白的语言读懂高科时尚范儿
+						</div>
+					</h2>
+					
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	<div class="fourdes">
+		<div class="bg-right"></div>
+		<div class="ui responsive w-1000 grid">
+			<div class="row">
+				<div class="ten wide column">
+					<h2 class="ui header pt-150 magenta-color lh-50">
+						试用freestyle  <br>
+						只有在这里才是真正的免费
+						<div class="sub header pt-20 lh-28">
+						<span class="header magenta-color">试用real免费  这才是正宗的freestyle</span><br>
+						新鲜闪速，品牌联动，我们找了1000+新创品牌，<br>
+						给你第一手鲜物试用机会；0押金，无退还，左手键入申请理由，<br>
+						右手坐拆试用包裹，潮人、酷品陆续接入中……
+						</div>
+					</h2>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="fivdes">
+		<div class="ui responsive w-1000 grid">
+			<div class="row">
+				<div class="six wide column">
+					<div class="bg4"></div>
+				</div>
+				<div class="ten wide column">
+					<h2 class="ui header pt-150 white-color lh-50">
+						O2O 线上+实体   <br>
+						从未知到默认的畅快体验
+						<div class="sub header pt-20 white-color lh-28">
+						从线上到线下，每一处细节都经过全盘推敲，<br>
+						未来你将在更多线下体验店感受一键下单的认知式爽购体验
+						</div>
+					</h2>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+		
+	<div class="sixdes">
+		<div class="ui responsive w-1000 grid">
+			<div class="ui center aligned row">
+				<div class="ten wide column pt-100">
+					<h2 class="ui header">扫描二维码下载太火鸟商城app</h2>
+					<div class="ui grid pt-20">
+						<div class="eight wide column center aligned">
+							<img src="{{ app_url_packaged }}/images/download/appewm.jpg">
+						</div>
+						<div class="eight wide column">
+							<a href="https://itunes.apple.com/cn/app/tai-huo-niao-huo-bao-zhi-neng/id946737402?mt=8" class="ui magenta active big inverted button">
+								<i class="apple icon"></i>
+								App Store 下载
+							</a>
+							<a href="javascript:void(0);" class="ui magenta active big inverted button">
+								<i class="android icon"></i>
+								Android 下载
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+
+</div>
+{% endblock %}
