@@ -87,6 +87,8 @@ class Sher_Admin_Action_Estore extends Sher_Admin_Action_Base implements DoggyX_
 		$data['name'] = $this->stash['name'];
 		$data['summary'] = $this->stash['summary'];
         $data['advantage'] = $this->stash['advantage'];
+		$data['phone'] = $this->stash['phone'];
+		$data['worktime'] = $this->stash['worktime'];
         
         $data['address'] = $this->stash['address'];
         $data['location'] = array(
