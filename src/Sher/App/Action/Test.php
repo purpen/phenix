@@ -306,12 +306,13 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
   public function add_user_tags(){
     echo 'begin add..';
     $tag_id = isset($this->stash['tag_id']) ? (int)$this->stash['tag_id'] : 0;
+    $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 20448;
     if(empty($tag_id)){
       echo 'tag is null';
       return;
     }
     $model = new Sher_Core_Model_UserTags();
-    $model->add_item_custom(36, 'scene_tags', $tag_id);
+    $model->add_item_custom($user_id, 'scene_tags', $tag_id);
     echo 'success';
   }
 
