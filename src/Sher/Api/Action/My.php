@@ -505,6 +505,52 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
     }
 
   }
+
+  /**
+   * 我最近使用的标签
+   */
+  public function my_recent_tags(){
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录!', 3000);    
+    } 
+    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+    $model = new Sher_Core_Model_UserTags();
+    $tags = $model->load($user_id);
+    if(empty($tags)){
+      return $this->api_json('标签不存在!', 0, array('has_tag'=>0));
+    }
+    $tag_arr = array();
+    switch($type){
+      case 1:
+        $field = 'scene_tags';
+        $tag_arr = $tags[$field];
+        break;
+      default:
+        $tag_arr = array();
+    }
+    if(empty($tag_arr)){
+      return $this->api_json('标签不存在', 0, array('has_tag'=>0));   
+    }
+
+    $items = array();
+    $scene_tags_model = new Sher_Core_Model_SceneTags();
+    foreach($tag_arr as $v){
+      $obj = $scene_tags_model->load((int)$v);
+      if($obj){
+        array_push($items, $obj);
+      }else{  // 清除不存在的标签
+        $model->remove_item_custom($user_id, $field, $v);
+      }
+    }
+
+    if(empty($items)){
+      return $this->api_json('标签不存在', 0, array('has_tag'=>0));   
+    }
+
+    return $this->api_json('success', 0, array('has_tag'=>1, 'tags'=>$items)); 
+  
+  }
 	
 }
 
