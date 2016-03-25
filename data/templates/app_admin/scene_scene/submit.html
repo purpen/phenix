@@ -192,7 +192,7 @@
 	
 	$('.tags_content').each(function(){
 		var id = $(this).attr('id');
-		$.post('{{ app_url_app_admin_base }}/scene_scene/find_tags',{id:id},function(date){
+		$.post('{{ app_url_app_admin_base }}/scene_tags/find_tags',{id:id},function(date){
 			var data = eval('('+date+')');
 			console.log(data.data);
 			var html = '';

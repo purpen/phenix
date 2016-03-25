@@ -33,32 +33,6 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 	}
 	
 	/**
-	 * 查询标签
-	 */
-	public function find_tags(){
-		
-		$id = isset($this->stash['id']) ? $this->stash['id'] : '';
-		
-		if(!$id){
-			return $this->ajax_json('内容不能为空！', true);
-		}
-		
-		$model = new Sher_Core_Model_SceneTags();
-		$res_one = $model->first((int)$id);
-		$query = array(
-			'type'=>1,
-			'left_ref'=>array('$gt' => $res_one['left_ref']),
-			'right_ref'=>array('$lt' => $res_one['right_ref'])
-		);
-		$options = array(
-			'sort' => array('left_ref' => 1)
-		);
-		$result = $model->find($query, $options);
-		var_dump($result);
-		return $this->ajax_json('请求成功！', false, '', $result);
-	}
-	
-	/**
 	 * 列表
 	 */
 	public function get_list() {
