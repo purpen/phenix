@@ -33,8 +33,10 @@ class Sher_App_Action_Albumshop extends Sher_App_Action_Base implements DoggyX_A
 	 */
 	public function get_list() {
 		
-		if(!empty($this->stash['did'])){
-			$id =  (int)$this->stash['did'];
+		$id =  isset($this->stash['did']) ? (int)$this->stash['did'] : 0;
+		if(empty($id)){
+			$redirect_url = Doggy_Config::$vars['app.url.albums'];
+			return $this->to_redirect($redirect_url);
 		}
 		
 		$model = new Sher_Core_Model_Albums();

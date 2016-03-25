@@ -79,6 +79,11 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 			return $this->ajax_json('标题不能为空！', true);
 		}
 		
+		// 验证数据
+		if(empty($this->stash['cover_id'])){
+			return $this->ajax_json('标题不能为空！', true);
+		}
+		
 		$data = array();
 		$data['title'] = $this->stash['title'];
 		$data['des'] = $this->stash['des'];

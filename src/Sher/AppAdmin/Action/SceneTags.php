@@ -24,6 +24,54 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		return $this->get_list();
 	}
 	
+	public function test(){
+		
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		if(!$id){
+			return $this->ajax_json('内容不存在！', true);
+		}
+		
+		$model = new Sher_Core_Model_SceneTags();
+		$result = $model->first($id);
+		
+		$query = array();
+		$query['type'] = 1;
+		$query['left_ref']  = array('$gte' => $result['left_ref']);
+        $query['right_ref'] = array('$lte' => $result['right_ref']);
+		
+		$options['page'] = 1;
+        $options['size'] = 500;
+		$options['sort_field'] = 'left_ref';
+		
+		$service = Sher_Core_Service_SceneTags::instance();
+		$result = $service->get_scene_tags_list($query,$options);
+		
+		if (!empty($result) && !empty($result['rows'])) {
+            $rows = $result['rows'];
+            // 准备一个空的右值堆栈
+            $right = array();
+            
+            for($i=0;$i<count($rows);$i++){
+                if (count($right) > 0) {
+                    while($right[count($right)-1] < $rows[$i]['right_ref']){
+                        array_pop($right);
+                        if (count($right) == 0) {
+                            break;
+                        }
+                    }
+                }
+                $rows[$i]['prefix_title_cn'] = str_repeat('->', count($right)).$rows[$i]['title_cn'];
+                // 将节点加入到堆栈
+                $right[] = $rows[$i]['right_ref'] ? $rows[$i]['right_ref'] : '';
+            }
+            $result['rows'] = $rows;
+        }
+		
+		foreach($result['rows'] as $k => $v){
+			var_dump($v['prefix_title_cn']);
+		}
+	}
+	
 	/**
      * 初始化根节点
      * 请勿随便操作
@@ -109,7 +157,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 	 */
 	public function edit(){
 		
-		$id = isset($this->stash['id']) ? $this->stash['id'] : '';
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		
 		if(!$id){
 			return $this->ajax_json('内容不能为空！', true);
@@ -279,13 +327,14 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
     if(empty($tags) || empty($parent_id)){
       return $this->ajax_note('缺少请求参数!');
     }
-    $tag_arr = array_values(array_unique(preg_split('/[,，;；\s]+/u',$tags)));
+    $tag_arr = array_values(array_unique(preg_split('/[,，;；]+/u',$tags)));
     $success_count = 0;
     $fail_count = 0;
 
     $scene_tags_model = new Sher_Core_Model_SceneTags();
     foreach($tag_arr as $k=>$v){
-      if(!empty($v) && strlen($v)<15){
+      $v = trim($v);
+      if(!empty($v) && strlen($v)<40){
         // 如果标签重复，跳过
         $has_one = $scene_tags_model->first(array('type'=>$type, 'title_cn'=>$v));
         if($has_one){
