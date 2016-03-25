@@ -1,0 +1,145 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+<style type="text/css">
+    .attribute {
+        font-size: 12px;
+        color: #666;
+    }
+</style>
+
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">店铺管理</h3>
+	
+	<div class="ui secondary pointing orange menu">
+		<a href="{{ app_url_admin_base }}/estore" class="{% if !approved %}active{%endif%} item">
+			<i class="list icon"></i> 全部店铺
+		</a>
+		<a href="{{ app_url_admin_base }}/estore?approved=1" class="{% if approved == 1 %}active{%endif%} item">
+			待审核列表
+		</a>
+		<a href="{{ app_url_admin_base }}/estore?approved=2" class="{% if approved == 2 %}active{%endif%} item">
+			已审核列表
+		</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/estore/edit" class="item">
+				<i class="edit icon"></i> 新增店铺
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/estore/search" method="get">
+            <input type="hidden" name="stage" value="{{ stage }}" />
+			<label>搜索：</label>
+            <div class="ui selection dropdown">
+                <input type="hidden" name="s" value="{{ s }}" />
+                <div class="default text">选择条件</div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item" data-value="1">编号</div>
+                    <div class="item" data-value="2">标题</div>
+                </div>
+            </div>
+			<div class="ui icon input">
+                <input placeholder="关键词..." type="text" name="q" value="{{ q }}" />
+				<i class="flat search link icon"></i>
+			</div>
+        </form>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>缩略图</th>
+				<th class="five wide">店铺名称</th>
+                <th>发布时间</th>
+				<th>状态</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+	      {% if is_search %}
+		      {% store_list var:'list' page:page approved:approved %}
+	      {%else%}
+		      {% store_list var:'list' page:page approved:approved %}
+	      {%endif%}
+
+			{% for store in list.rows %}
+			<tr id="{{ store._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ store._id }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>
+					<div class="ui image">
+						<img src="{{ store.cover.thumbnails.mini.view_url }}" width="120px" class="cover" />
+					</div>
+				</td>
+				<td>
+		          	<div class="header">
+						<a href="{{ store.view_url }}" class="ui link" target="_blank" title="{{ store.name }}">
+							{{ store.name|truncate, 32 }}
+						</a>
+                        <div class="sub header">
+                            <label class="attribute">编号：{{ store._id }}</label>
+                        </div>
+					</div>
+					<p class="attribute"><i class="marker icon"></i>{{ store.address }}</p>
+				</td>
+				<td>
+					{{ store.created_on|date 'Y-m-d H:i'}}
+				</td>
+				<td>
+					<p>
+						{% if store.approved == 2 %}
+							<span class="ui small orange label">已审核</span>
+						{% else %}
+							<span class="ui small grey label">待审核</span>
+						{% endif %}
+					</p>
+				</td>
+				<td>
+					<p>
+						{% if store.approved == 2 %}
+			          	<a href="{{ app_url_admin }}/estore/approved?id={{ store._id }}&approved=1" class="ui ajax link item">
+							撤销审核
+						</a>
+						{% else %}
+			          	<a href="{{ app_url_admin }}/estore/approved?id={{ store._id }}&approved=2" class="ui ajax link item">
+							通过审核
+						</a>
+						{% endif %}
+					</p>
+					<p>
+						<a href="{{ app_url_admin_base }}/estore/edit?id={{ store._id }}&page={{ page }}" class="ui link item">编辑</a>
+		          		<a href="{{ app_url_admin }}/estore/deleted?id={{ store._id }}" class="ui confirm-request link item">
+						    删除
+					    </a>
+					</P>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+{% endblock %}

@@ -40,6 +40,13 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
         'type' => self::TYPE_SCENE,
 		# 使用数量
 		'used_count' => 0,
+		# 分类计数
+		'used_more_count' => array(
+			'scene' => 0,
+			'sight' => 0,
+			'content' => 0,
+			'product' => 0,
+		),
 		# 封面图
         'cover_id' => '',
 		# 推荐

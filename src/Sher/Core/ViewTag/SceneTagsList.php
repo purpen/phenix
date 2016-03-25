@@ -30,7 +30,7 @@ class Sher_Core_ViewTag_SceneTagsList extends Doggy_Dt_Tag {
         $include_pager = 0;
         $pager_var = 'pager';
 		
-		$sort_field = 'latest';
+		$sort_field = 'left_ref';
 		
         extract($this->resolve_args($context,$this->argstring,EXTR_IF_EXISTS));
 
