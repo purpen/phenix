@@ -51,8 +51,15 @@
 .apptitle{
 	height:60px;
 	width:100%;
-	background:rgba(255,255,255,0.8);
-	position:relative;
+	background:rgba(255,255,255,0.9);
+	position:fixed;
+	z-index:12;
+	top:0;
+	margin-top:-100%;
+	transition: all 1s 0s ease;
+    -moz-transition: all 1s 0s ease;
+    -webkit-transition: all 1s 0s ease;
+    -o-transition: all 1s 0s ease;
 }
 .apptitle .eight.wide.column{
 	height:60px;
@@ -75,8 +82,15 @@
     margin-left: 10px;
 }
 .nine.wide.column .ui.grid .six.column .ui.inverted.button{
-    width: 170px;
-    margin: 18px 0;
+    width: 180px;
+    margin: 5px 0;
+    height: 50px;
+    line-height: 25px;
+	text-align: left;
+    padding-left: 25px;
+}
+.nine.wide.column .ui.grid .six.column .ui.inverted.button i.icon{
+	font-size: 1.2em;
 }
 .secdes{
 	background:#fff;
@@ -118,7 +132,7 @@
 }
 .sixdes{
 	position:relative;
-	height:400px;
+	height:490px;
 	background:#fff;
 }
 .bg4{
@@ -138,29 +152,39 @@
 </style>
 {% endblock %}
 {% block jquery %}
+$(window).scroll(function(){
+	var scrollTop = $(this).scrollTop();
+	if( scrollTop > 100 ){
+		$('.apptitle').css('margin-top','0');
+	}else{
+		$('.apptitle').css('margin-top','-100%');
+	}
+	
+})
 
 {% endblock %}
 {% block content %}
 <div id="appdownload">
-	<div class="topdes">
-		<div class="apptitle">
-			<div class="ui responsive w-1080 grid">
-				<div class="eight wide column">
-					<div class="applogo"></div>
-					<h2 class="logotitle">太火鸟商城</h2>
-				</div>
-				<div class="eight wide column center aligned">
-					<a href="https://itunes.apple.com/cn/app/tai-huo-niao-huo-bao-zhi-neng/id946737402?mt=8" class="ui magenta active tiny inverted button">
-						<i class="apple icon"></i>
-						App Store 下载
-					</a>
-					<a href="javascript:void(0);" class="ui magenta active tiny inverted button">
-						<i class="android icon"></i>
-						Android 下载
-					</a>
-				</div>
+	<div class="apptitle">
+		<div class="ui responsive grid">
+			<div class="eight wide column">
+				<div class="applogo"></div>
+				<h2 class="logotitle">太火鸟商城</h2>
+			</div>
+			<div class="eight wide column right aligned">
+				<a href="https://itunes.apple.com/cn/app/tai-huo-niao-huo-bao-zhi-neng/id946737402?mt=8" class="ui magenta active tiny inverted button">
+					<i class="apple icon"></i>
+					App Store 下载
+				</a>
+				<a href="javascript:void(0);" class="ui magenta active tiny inverted button">
+					<i class="android icon"></i>
+					Android 下载
+				</a>
 			</div>
 		</div>
+	</div>
+	<div class="topdes">
+		
 		<div class="ui responsive w-1000 grid">
 			<div class="row">
 				<div class="seven wide column">
@@ -174,19 +198,19 @@
 						潮爆年轻人的智玩in（硬）件体验式购物平台
 						</div>
 					</h2>
-					<div class="ui grid pt-40">
-						<div class="six wide column">
+					<div class="ui grid pt-20">
+						<div class="six wide center aligned column">
 							<div class="ui white inverted button">
 								<i class="apple icon"></i>
 								App Store 下载
 							</div>
+							<img class="pt-30" src="{{ app_url_packaged }}/images/download/appewmios.png" width="150">
+						</div>
+						<div class="six wide column">
 							<div class="ui white inverted button">
 								<i class="android icon"></i>
 								Android 下载
 							</div>
-						</div>
-						<div class="ten wide column">
-							<img src="{{ app_url_packaged }}/images/download/appewm.png">
 						</div>
 					</div>
 				</div>
@@ -283,15 +307,16 @@
 			<div class="ui center aligned row">
 				<div class="ten wide column pt-100">
 					<h2 class="ui header">扫描二维码下载太火鸟商城app</h2>
-					<div class="ui grid pt-20">
-						<div class="eight wide column center aligned">
-							<img src="{{ app_url_packaged }}/images/download/appewm.jpg">
-						</div>
-						<div class="eight wide column">
+					<div class="ui grid center aligned pt-20">
+						<div class="six wide column center aligned">
 							<a href="https://itunes.apple.com/cn/app/tai-huo-niao-huo-bao-zhi-neng/id946737402?mt=8" class="ui magenta active big inverted button">
 								<i class="apple icon"></i>
 								App Store 下载
 							</a>
+							<img class="pt-20" src="{{ app_url_packaged }}/images/download/appewmios.png" width="180">
+						</div>
+						<div class="six wide column">
+							
 							<a href="javascript:void(0);" class="ui magenta active big inverted button">
 								<i class="android icon"></i>
 								Android 下载
