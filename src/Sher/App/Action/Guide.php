@@ -26,6 +26,14 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 	}
 	
 	/**
+	  * App下载 2016/3/24
+	  */
+	public function appload() {
+		$this->set_target_css_state('page_appload');
+		return $this->to_html_page('page/guide/appload.html');
+	}
+	
+	/**
 	 * 媒体报道
 	 */
 	public function media() {
