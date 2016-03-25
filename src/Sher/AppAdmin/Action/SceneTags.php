@@ -327,13 +327,14 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
     if(empty($tags) || empty($parent_id)){
       return $this->ajax_note('缺少请求参数!');
     }
-    $tag_arr = array_values(array_unique(preg_split('/[,，;；\s]+/u',$tags)));
+    $tag_arr = array_values(array_unique(preg_split('/[,，;；]+/u',$tags)));
     $success_count = 0;
     $fail_count = 0;
 
     $scene_tags_model = new Sher_Core_Model_SceneTags();
     foreach($tag_arr as $k=>$v){
-      if(!empty($v) && strlen($v)<15){
+      $v = trim($v);
+      if(!empty($v) && strlen($v)<40){
         // 如果标签重复，跳过
         $has_one = $scene_tags_model->first(array('type'=>$type, 'title_cn'=>$v));
         if($has_one){

@@ -20,10 +20,12 @@ class Sher_Core_Model_SceneContext extends Sher_Core_Model_Base {
         'used_count' => 0,
         # 是否启用
 		'status' => 1,
+    'stick' => 0,
+    'user_id' => 0,
     );
 	
 	protected $required_fields = array('title','des');
-	protected $int_fields = array('status', 'used_count');
+	protected $int_fields = array('status', 'used_count', 'stick', 'user_id');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count');
 	protected $retrieve_fields = array();
