@@ -16,35 +16,6 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		$this->stash['show_type'] = "public";
     }
 	
-	public function test(){
-		
-		$query = array(
-			'parent_id' => 0,
-			'type' => 1
-		);
-		
-		$keydict = new Sher_Core_Model_SceneTags();
-		$result = $keydict->first($query);
-		//var_dump($result);
-		$query = array();
-		$query['type'] = 1;
-		$query['left_ref']  = array('$gte' => $result['left_ref']);
-        $query['right_ref'] = array('$lte' => $result['right_ref']);
-		
-		$options = array();
-		$options['page'] = 1;
-        $options['size'] = 500;
-		$options['sort_field'] = 'left_ref';
-		
-		$service = Sher_Core_Service_SceneTags::instance();
-		$result = $service->get_scene_tags_list($query,$options);
-		
-		$res = Sher_Core_Helper_Util::arrayToTree($result['rows'],'_id','parent_id','children');
-		
-		var_dump($res);
-		
-	}
-	
 	/**
 	 * 入口
 	 */

@@ -459,7 +459,7 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 	/**
 	 * 处理输出数据
 	 */
-	public function handle($result){
+	public static function handle($result){
 		if (!empty($result) && !empty($result['rows'])) {
             $rows = $result['rows'];
             // 准备一个空的右值堆栈
@@ -480,7 +480,9 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
                 $right[] = $rows[$i]['right_ref'] ? $rows[$i]['right_ref'] : '';
             }
             $result['rows'] = $rows;
+			return $result;
         }
+		return false;
 	}
 	
 	/**
