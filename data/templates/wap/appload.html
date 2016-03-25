@@ -1,0 +1,152 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}太火鸟客户端{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+.download #appload,.download #apploadand {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    top: 0;
+    display: none;
+    background: rgba(0,0,0,.9);
+}
+.download #appload img,.download #apploadand img{
+    width: 80%;
+    margin: 10% 5% 10% 15%;
+}
+.topdes{
+	background:url({{ app_url_packaged }}/images/download/wbg.jpg);
+	width:100%;
+	height:350px;
+	background-size:cover;
+	position:relative;
+}
+.pt-20{
+	padding-top:20px !important;
+}
+.pt-30{
+	padding-top:30px !important;
+}
+.pt-40{
+	padding-top:40px !important;
+}
+.pt-60{
+	padding-top:60px !important;
+}
+.pt-80{
+	padding-top:80px !important;
+}
+.pt-100{
+	padding-top:100px !important;
+}
+.lh-25{
+	line-height:25px !important;
+}
+.lh-50{
+	line-height:50px !important;
+}
+.header.white-color{
+	color:#fff !important;
+}
+.header.magenta-color{
+	color:#f36 !important;
+}
+.t1{
+	background:url({{ app_url_packaged }}/images/download/wbg2.png);
+	background-size:cover;
+	width:180px;
+	height:234px;
+	position:absolute;
+	left:50%;
+	margin-left:-90px;
+	bottom:-50px;
+	z-index:9;
+}
+.secdes{
+	position:relative;
+	background:#fff;
+	height:500px;
+}
+</style>
+{% endblock %}
+{% block jquery %}
+	$('.download .magenta.inverted.ios.button').click(function(){
+	    var ua = navigator.userAgent.toLowerCase();  
+	    if(ua.match(/MicroMessenger/i)=="micromessenger"){
+			$('.download #appload').css('display','block');
+		}else{
+			if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)){
+				window.location.href='https://itunes.apple.com/cn/app/tai-huo-niao-huo-bao-zhi-neng/id946737402?mt=8';
+			}else if(navigator.userAgent.match(/android/i)){
+				alert('您的系统为Android');
+			}
+		}
+	});
+	$('.download .magenta.inverted.android.button').click(function(){
+	    var ua = navigator.userAgent.toLowerCase();  
+	    if(ua.match(/MicroMessenger/i)=="micromessenger"){
+			$('.download #appload').css('display','block');
+		}else{
+			if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)){
+				alert('您的系统为ios');;
+			}else if(navigator.userAgent.match(/android/i)){
+				alert('正在建设中……');
+			}
+		}
+	})
+
+{% endblock %}
+{% block content %}
+<div class="download">
+	<div class="topdes">
+		<div class="t1"></div>
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h2 class="ui header white-color pt-20 lh-50">
+						太火鸟商城App
+						<div class="sub header white-color lh-25">
+							中国火爆的智能硬件孵化平台<br>
+							潮爆年轻人的智玩in（硬） 件体验式购物平台
+						</div>
+					</h2>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	<div class="secdes">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column pt-60">
+					<div class="ui magenta active tiny inverted ios button">
+						<i class="apple icon"></i>
+						App Store 下载
+					</div>
+					<div class="ui magenta active tiny inverted android button">
+						<i class="android icon"></i>
+						Android 下载
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+	
+	
+
+	<div id="appload">
+		<img src="{{ app_url_packaged }}/images/icon/appshare.png" width="80%" >
+	</div>
+	<div id="apploadand">
+		<img src="{{ app_url_packaged }}/images/icon/appshareand.png" width="80%" >
+	</div>
+</div>
+{% endblock %}
+
