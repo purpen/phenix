@@ -102,7 +102,7 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
         $filter_fields  = array('view_url', 'summary', 'cover_id', '__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
         
-        print_r($result);exit;
+        //print_r($result);exit;
 		return $this->api_json('请求成功', 0, $result);
     }
     
