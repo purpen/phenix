@@ -463,7 +463,7 @@
 	  	 $.get('{{ app_url_wap }}/my/ajax_wap_fetch_user_sign', {type:1});
 	   }
 	  //每日签到点击
-	  $('#wap-user-sign-box .button').livequery(function(){
+	  $('#wap-user-sign-box .noqian.button').livequery(function(){
 	    $(this).click(function(){
 	      //ajax加载签到事件
 	      $.post('{{ app_url_wap }}/my/ajax_wap_sign_in', {type:1});
