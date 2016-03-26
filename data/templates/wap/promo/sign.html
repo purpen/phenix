@@ -458,6 +458,18 @@
               $('#mfrbird').css({'overflow':'scroll'});
            }
        }
+	   
+	   if (phenix.visitor.is_login){
+	  	 $.get('{{ app_url_wap }}/my/ajax_wap_fetch_user_sign', {type:1});
+	   }
+	  //每日签到点击
+	  $('#sign-in-btn').livequery(function(){
+	    $(this).click(function(){
+	      //ajax加载签到事件
+	      $.post('{{ app_url_wap }}/my/ajax_wap_sign_in', {type:1});
+
+	    });
+	  })
 {% endblock %}
 
 {% block content %}
@@ -471,10 +483,8 @@
 	</div>
 	
 	<div class="ui four wide signbut center aligned column">
-		<div id="sign-in-btn">
-			<div class="ui green circular active inverted button">
-				签到
-			</div>
+		<div class="ui green circular active inverted button" id="sign-in-btn">
+			签到
 		</div>
 	</div>
 	
