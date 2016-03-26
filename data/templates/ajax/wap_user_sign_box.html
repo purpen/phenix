@@ -1,6 +1,24 @@
 <taconite>
-	<replace select="#wap-user-sign-box"><![CDATA[
-      <div id="wap-user-sign-box" style="display: inline-block;position:relative;">
+	<replace select="#sign-in-btn"><![CDATA[
+		<div id="sign-in-btn">
+			{% if result.has_sign %}
+			<div class="ui green circular active inverted button">
+				已签到
+			</div>
+			{%else%}
+	  			{% if is_doing %}
+	            {% if result.is_true %}
+					<div class="ui green circular active inverted button">
+						签到
+					</div>
+		          {%endif%}
+		        {%endif%}
+				{%endif%}
+			
+			 
+		</div>
+		
+     <!-- <div id="wap-user-sign-box" style="display: inline-block;position:relative;">
         {% if result.has_sign %}
         <!--  已签到 -->
         <a class="ui small icon avatar button" href="{{ app_url_wap }}/my" title="{{ visitor.nickname }}" style="width:33px !important;">
@@ -20,7 +38,7 @@
 
 
         
-      </div>
+      </div>-->
 	]]></replace>
 	
 	<eval>
