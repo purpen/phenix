@@ -113,6 +113,12 @@
 		{% endblock %}
 
 		<script type="text/javascript">
+		$('#qzone-share').click(function() {
+			var url = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + link + '&title=' + title;
+			var params = getParamsOfShareWindow(600, 560);
+			window.open(url, windowName, params);
+			return false;
+		});
 		<!--
 		$(function(e){
 			phenix.url = {
