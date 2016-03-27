@@ -123,19 +123,19 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
         $filter_fields  = array('view_url', 'summary', 'cover_id', 'cover', '__extend__');
         
         $cover = array(
-            'mini' => $result['cover']['thumbnails']['mini'],
-            'tiny' => $result['cover']['thumbnails']['tiny'],
-            'small' => $result['cover']['thumbnails']['small'],
-            'medium' => $result['cover']['thumbnails']['medium'],
-            'large' => $result['cover']['thumbnails']['large'],
-            'big' => $result['cover']['thumbnails']['big'],
-            'huge' => $result['cover']['thumbnails']['huge'],
-            'massive' => $result['cover']['thumbnails']['massive'],
-            'resp' => $result['cover']['thumbnails']['resp'],
-            'hd' => $result['cover']['thumbnails']['hd'],
-            'md' => $result['cover']['thumbnails']['md'],
-            'hm' => $result['cover']['thumbnails']['hm'],
-            'ava' => $result['cover']['thumbnails']['ava'], 
+            'mini_view_url' => $result['cover']['thumbnails']['mini']['view_url'],
+            'tiny_view_url' => $result['cover']['thumbnails']['tiny']['view_url'],
+            'small_view_url' => $result['cover']['thumbnails']['small']['view_url'],
+            'medium_view_url' => $result['cover']['thumbnails']['medium']['view_url'],
+            'large_view_url' => $result['cover']['thumbnails']['large']['view_url'],
+            'big_view_url' => $result['cover']['thumbnails']['big']['view_url'],
+            'huge_view_url' => $result['cover']['thumbnails']['huge']['view_url'],
+            'massive_view_url' => $result['cover']['thumbnails']['massive']['view_url'],
+            'resp_view_url' => $result['cover']['thumbnails']['resp']['view_url'],
+            'hd_view_url' => $result['cover']['thumbnails']['hd']['view_url'],
+            'md_view_url' => $result['cover']['thumbnails']['md']['view_url'],
+            'hm_view_url' => $result['cover']['thumbnails']['hm']['view_url'],
+            'ava_view_url' => $result['cover']['thumbnails']['ava']['view_url'], 
         );
         
         for($i=0;$i<count($filter_fields);$i++){

@@ -457,6 +457,35 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
     }
 	
 	/**
+	 * 处理输出数据
+	 */
+	public static function handle($result){
+		if (!empty($result) && !empty($result['rows'])) {
+            $rows = $result['rows'];
+            // 准备一个空的右值堆栈
+            $right = array();
+            
+            for($i=0;$i<count($rows);$i++){
+                if (count($right) > 0) {
+                    // 循环判断每个比自己的右值大的其他右值的个数
+                    while($right[count($right)-1] < $rows[$i]['right_ref']){
+                        array_pop($right);
+                        if (count($right) == 0) {
+                            break;
+                        }
+                    }
+                }
+                $rows[$i]['level'] = count($right);
+                // 将节点加入到堆栈
+                $right[] = $rows[$i]['right_ref'] ? $rows[$i]['right_ref'] : '';
+            }
+            $result['rows'] = $rows;
+			return $result;
+        }
+		return false;
+	}
+	
+	/**
 	 * 增加计数
 	 */
 	public function inc_counter($field_name, $inc=1, $id=null){

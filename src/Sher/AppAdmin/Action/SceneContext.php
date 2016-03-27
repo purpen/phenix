@@ -14,6 +14,12 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 	public function _init() {
 		$this->set_target_css_state('page_app_scene_context');
 		$this->stash['show_type'] = "public";
+		
+		// 查询标签信息
+		$model = new Sher_Core_Model_SceneTags();
+		$root = $model->find_root_key(1);
+		$result = $model->find(array('parent_id'=>(int)$root['_id']));
+		$this->stash['scene_tags'] = $result;
     }
 	
 	/**
@@ -63,6 +69,9 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 		$model = new Sher_Core_Model_SceneContext();
 		$result = $model->find_by_id($id);
 		$result = $model->extended_model_row($result);
+		if($result){
+			$result['tags'] = implode(',',$result['tags']);
+		}
 		//var_dump($result);
 		
 		$this->stash['date'] = $result;
@@ -80,7 +89,8 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 		$id = $this->stash['id'];
 		$title = $this->stash['title'];
 		$des = $this->stash['des'];
-		$category_id = $this->stash['category_id'];
+		$tags = $this->stash['tags'];
+		//$category_id = $this->stash['category_id'];
 		
 		// 验证内容
 		if(!$title){
@@ -92,23 +102,32 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 			return $this->ajax_json('语境详情不能为空！', true);
 		}
 		
-		$date = array(
+		$data = array(
 			'title' => $title,
 			'des' => $des,
-			'category_id' => (int)$category_id,
+			//'category_id' => (int)$category_id,
 		);
-		//var_dump($date);die;
+		
+		if(empty($tags)){
+			return $this->api_json('请求参数不能为空', 3000);
+		}
+		
+		$data['tags'] = explode(',',$tags);
+		foreach($data['tags'] as $k => $v){
+			$data['tags'][$k] = (int)$v;
+		}
+		//var_dump($data);die;
 		try{
 			$model = new Sher_Core_Model_SceneContext();
 			if(empty($id)){
 				// add
-				$ok = $model->apply_and_save($date);
+				$ok = $model->apply_and_save($data);
 				$data_id = $model->get_data();
 				$id = $data_id['_id'];
 			} else {
 				// edit
-				$date['_id'] = $id;
-				$ok = $model->apply_and_update($date);
+				$data['_id'] = $id;
+				$ok = $model->apply_and_update($data);
 			}
 			
 			if(!$ok){
