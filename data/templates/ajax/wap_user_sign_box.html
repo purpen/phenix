@@ -1,20 +1,14 @@
 <taconite>
 	<replace select="#wap-user-sign-box"><![CDATA[
 		<div id="wap-user-sign-box">
-			{% if visitor %}
-				{% if result.has_sign %}
-				<div class="ui green circular active inverted button">
-					已签到
-				</div>
-				{%else%}
-				<div class="ui green circular active inverted button noqian">
-					签到
-				</div>
-				{%endif%}
-			{% else %}
-				<div class="ui green circular active inverted button qiandao">
-					签到
-				</div>
+			{% if result.has_sign %}
+			<div class="ui green circular active inverted button">
+				已签到
+			</div>
+			{%else%}
+			<div class="ui green circular active inverted button noqian">
+				签到
+			</div>
 			{%endif%}
 			
 			 
