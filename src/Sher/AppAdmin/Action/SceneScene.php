@@ -19,7 +19,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		
 		// 查询标签信息
 		$model = new Sher_Core_Model_SceneTags();
-		$root = $model->find_root_key(0);
+		$root = $model->find_root_key(1);
 		$result = $model->find(array('parent_id'=>(int)$root['_id']));
 		$this->stash['scene_tags'] = $result;
     }
@@ -30,32 +30,6 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 	public function execute() {
 		// 判断左栏类型
 		return $this->get_list();
-	}
-	
-	/**
-	 * 查询标签
-	 */
-	public function find_tags(){
-		
-		$id = isset($this->stash['id']) ? $this->stash['id'] : '';
-		
-		if(!$id){
-			return $this->ajax_json('内容不能为空！', true);
-		}
-		
-		$model = new Sher_Core_Model_SceneTags();
-		$res_one = $model->first((int)$id);
-		$query = array(
-			'type'=>0,
-			'left_ref'=>array('$gt' => $res_one['left_ref']),
-			'right_ref'=>array('$lt' => $res_one['right_ref'])
-		);
-		$options = array(
-			'sort' => array('left_ref' => 1)
-		);
-		$result = $model->find($query, $options);
-		
-		return $this->ajax_json('提交成功', false, '', $result);
 	}
 	
 	/**
@@ -97,7 +71,10 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$model = new Sher_Core_Model_SceneScene();
 		$result = $model->first((int)$id);
 		$result = $model->extended_model_row($result);
-		$result['tags'] = implode(',',$result['tags']);
+		if($result){
+			$result['tags'] = implode(',',$result['tags']);
+		}
+		
 		//var_dump($result);
 		
 		$this->stash['date'] = $result;

@@ -12,7 +12,9 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
     const ROOT_ID = 0;
 	
 	# 默认类型
-	const TYPE = 0; // 0标签库类型,1是产品分类
+	const TYPE_SCENE = 1; // 标签库类型
+	const TYPE_PRODUCT = 2; //是产品分类
+	const TYPE_UNDEFINE = 3;  // 未定义
 	
 	# 状态
     const STATE_HIDE = 0;
@@ -35,9 +37,16 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
         # 右分值
         'right_ref' => 0,
 		# 类型
-        'type' => self::TYPE,
+        'type' => self::TYPE_SCENE,
 		# 使用数量
 		'used_count' => 0,
+		# 分类计数
+		'used_more_count' => array(
+			'scene' => 0,
+			'sight' => 0,
+			'content' => 0,
+			'product' => 0,
+		),
 		# 封面图
         'cover_id' => '',
 		# 推荐
@@ -64,14 +73,46 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 	 */
 	protected function extra_extend_model_row(&$row) {
 		$row['children_count'] = $this->get_children_count($row);
+
+    if($row['type']){
+      switch($row['type']){
+        case  1:
+          $row['type_str'] = '情景';
+          break;
+        case  2:
+          $row['type_str'] = '产品';
+          break;
+        case  3:
+          $row['type_str'] = '预留';
+          break;
+        default:
+          $row['type_str'] = '--';
+      }
+    }
 	}
     
     /**
      * 初始化安装根节点
      */
-    public function init_base_key($type = 0){
+    public function init_base_key($type = 1){
+        switch((int)$type){
+        case 0:
+          $str = 'ALL';
+          break;
+        case 1: 
+          $str = '情景';
+          break;
+        case 2: 
+          $str = '产品';
+          break;
+        case 3: 
+          $str = '预留';
+          break;
+        default:
+          $str = '--';
+        }
         $data = array(
-          'title_cn' => '词根',
+          'title_cn' => '词根_'.$str,
           'title_en' => 'base',
           'parent_id' => 0,
 		  'type' => $type,
@@ -229,7 +270,7 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
     /**
      * 释放分值空间
      */
-    protected function free_sort_ref($ref, $amount=1, $type=0) {
+    protected function free_sort_ref($ref, $amount=1, $type=1) {
         
 		$amount = $amount*2;
 		
@@ -414,6 +455,35 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 		
         return $right_ref + 1;
     }
+	
+	/**
+	 * 处理输出数据
+	 */
+	public static function handle($result){
+		if (!empty($result) && !empty($result['rows'])) {
+            $rows = $result['rows'];
+            // 准备一个空的右值堆栈
+            $right = array();
+            
+            for($i=0;$i<count($rows);$i++){
+                if (count($right) > 0) {
+                    // 循环判断每个比自己的右值大的其他右值的个数
+                    while($right[count($right)-1] < $rows[$i]['right_ref']){
+                        array_pop($right);
+                        if (count($right) == 0) {
+                            break;
+                        }
+                    }
+                }
+                $rows[$i]['level'] = count($right);
+                // 将节点加入到堆栈
+                $right[] = $rows[$i]['right_ref'] ? $rows[$i]['right_ref'] : '';
+            }
+            $result['rows'] = $rows;
+			return $result;
+        }
+		return false;
+	}
 	
 	/**
 	 * 增加计数

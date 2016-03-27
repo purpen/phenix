@@ -207,7 +207,7 @@
         </td>
         <td>{{ comment.target_id }}</td>
         <td>
-          <p>{{ comment.created_on|date 'y-m-d H:m:s' }}</p>
+          <p>{{ comment.created_on|date 'y-m-d H:i:s' }}</p>
           <p>{{ comment.ip|default '--' }}</p>
           <p>
             {{ comment.from|default '--' }}

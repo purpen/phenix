@@ -30,7 +30,7 @@ class Sher_Core_ViewTag_SceneTagsList extends Doggy_Dt_Tag {
         $include_pager = 0;
         $pager_var = 'pager';
 		
-		$sort_field = 'latest';
+		$sort_field = 'left_ref';
 		
         extract($this->resolve_args($context,$this->argstring,EXTR_IF_EXISTS));
 
@@ -46,11 +46,7 @@ class Sher_Core_ViewTag_SceneTagsList extends Doggy_Dt_Tag {
 		$options['sort_field'] = $sort_field;
         
         if($type){
-            if($type==-1){
-              $query['type'] = 0;
-            }else{
-              $query['type'] = (int)$type;
-            }
+          $query['type'] = (int)$type;
         }
         
         if (!empty($left_ref) && !empty($right_ref)) {
@@ -78,6 +74,7 @@ class Sher_Core_ViewTag_SceneTagsList extends Doggy_Dt_Tag {
             
             for($i=0;$i<count($rows);$i++){
                 if (count($right) > 0) {
+                    // 循环判断每个比自己的右值大的其他右值的个数
                     while($right[count($right)-1] < $rows[$i]['right_ref']){
                         array_pop($right);
                         if (count($right) == 0) {
@@ -86,6 +83,7 @@ class Sher_Core_ViewTag_SceneTagsList extends Doggy_Dt_Tag {
                     }
                 }
                 $rows[$i]['prefix_title_cn'] = str_repeat('->', count($right)).$rows[$i]['title_cn'];
+                $rows[$i]['level'] = count($right);
                 // 将节点加入到堆栈
                 $right[] = $rows[$i]['right_ref'] ? $rows[$i]['right_ref'] : '';
             }

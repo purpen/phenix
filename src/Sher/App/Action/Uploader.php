@@ -46,9 +46,9 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
             return $this->to_raw_json($result);
         }
 
-        if($image_info['width']<400 || $image_info['height']<400){
+        if($image_info['width']<300 || $image_info['height']<300){
             $result['code'] = 400;
-            $result['message'] = '图片尺寸必须大于400px * 400px';
+            $result['message'] = '图片尺寸必须大于300px * 300px';
             return $this->to_raw_json($result);       
         }
 		
@@ -285,6 +285,17 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	public function scene_brands() {
 		$asset_domain = Sher_Core_Util_Constant::STROAGE_SCENE_BRANDS;
 		$asset_type = Sher_Core_Model_Asset::TYPE_SCENE_BRANDS;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+    
+    /**
+	 * 上传店铺图片
+	 */
+	public function estore() {
+		
+        $asset_domain = Sher_Core_Util_Constant::STROAGE_STORE;
+		$asset_type = Sher_Core_Model_Asset::TYPE_STORE;
 		
 		return $this->handle_upload($asset_type, $asset_domain);
 	}

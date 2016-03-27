@@ -43,6 +43,8 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
     'asset_count' => 0,
     'banner_asset_ids' => array(),
     'png_asset_ids' => array(),
+    # 封面图，从淘宝或京东抓取
+    'cover_url' => null,
 
     # 销售价格
     'sale_price'  => 0,
@@ -99,7 +101,7 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
         $data['category_tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['category_tags'])));
     }
 		// 获取父级类及类组
-		if (isset($data['category_id'])){
+		if (isset($data['category_id']) && !empty($data['category_id'])){
 			$category = new Sher_Core_Model_Category();
 			$result = $category->find_by_id((int)$data['category_id']);
 			if (empty($result)){

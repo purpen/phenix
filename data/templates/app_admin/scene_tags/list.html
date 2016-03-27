@@ -50,7 +50,7 @@
 	});
     
     $('.tags').click(function(){
-        var id = $(this).attr('data-value') - 1;
+        var id = $(this).attr('data-value');
         phenix.redirect('{{ app_url_app_admin_base }}/scene_tags/get_list?type='+id);
     });
     
@@ -88,9 +88,9 @@
             <div class="ui modal" style="display: none">
                 <div class="header">选择标签分类</div>
                 <div class="content">
-                    <a href="{{ app_url_app_admin_base }}/scene_tags/add?type=0" class="ui inverted green button">标签分类</a>
-                    <a href="{{ app_url_app_admin_base }}/scene_tags/add?type=1" class="ui inverted green button">产品分类</a>
-                    <a href="{{ app_url_app_admin_base }}/scene_tags/add?type=2" class="ui inverted green button">测试</a>
+                    <a href="{{ app_url_app_admin_base }}/scene_tags/add?type=1" class="ui inverted green button">情景</a>
+                    <a href="{{ app_url_app_admin_base }}/scene_tags/add?type=2" class="ui inverted green button">产品</a>
+                    <a href="{{ app_url_app_admin_base }}/scene_tags/add?type=3" class="ui inverted green button">预留</a>
                 </div>
             </div>
 			<!--
@@ -105,17 +105,17 @@
 		<form action="{{ app_url_app_admin_base }}/scene_tags/get_list" id="search-form" method="get">
 			<div class="ui selection dropdown">
                 <div class="default text">
-                  {%if type == '-1'%}标签分类{%endif%}
-                  {%if type == 1%}产品分类{%endif%}
-                  {%if type == 2%}未定义分类{%endif%}
+                  {%if type == 1%}情景{%endif%}
+                  {%if type == 2%}产品{%endif%}
+                  {%if type == 3%}预留{%endif%}
                   {%if type == 0%}全部{%endif%}
                 
                 </div>
                 <i class="dropdown icon"></i>
                 <div class="menu">
-                  <div class="item tags" data-value="0">标签分类</div>
-                  <div class="item tags" data-value="2">产品分类</div>
-                  <div class="item tags" data-value="3">测试分类</div>
+                  <div class="item tags" data-value="1">情景</div>
+                  <div class="item tags" data-value="2">产品</div>
+                  <div class="item tags" data-value="3">预留</div>
                 </div>
             </div>
 			<div class="ui input">
@@ -152,7 +152,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% scene_tags_list var:'list' page:page title_cn:title_cn title_en:title_en parent_id:parent_id left_ref:root.left_ref right_ref:root.right_ref is_root:1 type:type size:50 %}
+			{% scene_tags_list var:'list' page:page title_cn:title_cn title_en:title_en parent_id:parent_id left_ref:root.left_ref right_ref:root.right_ref is_root:1 type:type size:100 %}
 
 			{% for date in list.rows %}
 			<tr id="{{ date._id }}">
@@ -181,7 +181,7 @@
                   {{ date.right_ref }}
                 </td>
                 <td>
-                  {{ date.type }}
+                  {{ date.type_str }}
                 </td>
         <td>
 					{% if date.stick == 1 %}

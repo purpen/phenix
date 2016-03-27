@@ -5,6 +5,12 @@
  */
 class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 	
+	public $stash = array(
+		'id'   => '',
+        'page' => 1,
+        'size' => 10,
+	);
+	
 	protected $filter_user_method_list = array('execute', 'getlist','save','delete');
 
 	/**
@@ -30,26 +36,25 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		);
 		
 		// 请求参数
-		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 			
 		$query   = array();
 		$options = array();
 		
-		// 查询条件
-		if($user_id){
-			$query['user_id'] = (int)$user_id;
+		if($stick){
+			if($stick == 1){
+				$query['stick'] = 1;
+			}
+			if($stick == 2){
+				$query['stick'] = 0;
+			}
 		}
 		
 		// 状态
 		$query['status'] = 1;
 		// 已审核
 		$query['is_check']  = 1;
-		
-		if($stick){
-			$query['stick'] = $stick;
-		}
 		
 		// 分页参数
         $options['page'] = $page;
@@ -67,16 +72,17 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		// 开启查询
         $service = Sher_Core_Service_SceneScene::instance();
         $result = $service->get_scene_scene_list($query, $options);
-		//var_dump($result);
+		
 		// 重建数据结果
-		/*
-		$data = array();
-		for($i=0;$i<count($result['rows']);$i++){
-			// 封面图url
-			//$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['apc']['view_url'];
+		foreach($result['rows'] as $k => $v){
+			// 备用
 		}
-		$result['rows'] = $data;
-		*/
+		
+		// 过滤多余属性
+        $filter_fields  = array('view_url', 'sight', 'user', 'summary', '__extend__');
+        $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+		
+		//var_dump($result['rows']);die;
 		return $this->api_json('请求成功', 0, $result);
 	}
 	
@@ -117,7 +123,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		foreach($data['tags'] as $k => $v){
 			$data['tags'][$k] = (int)$v;
 		}
-		
+		/*
 		// 上传图片
 		if(empty($this->stash['tmp'])){
 			return $this->api_json('请选择图片！', 3001);  
@@ -140,6 +146,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		}else{
 			  return $this->api_json('上传失败!', 3005); 
 		}
+		*/
 		//var_dump($data);die;
 		try{
 			$model = new Sher_Core_Model_SceneScene();

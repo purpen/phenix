@@ -1,6 +1,49 @@
 {%extends 'layout/app_admin.html'%}
 {% block title %}新增/编辑语境-{% endblock %}
 
+{% block page_css %}
+	<style type="text/css">
+		.list-me{
+			margin: 10px 0 10px 0 !important;
+			padding: 0;
+			list-style: none;
+			clear: both;
+		}
+		
+		.list-me li{
+			margin-right: 5px;
+			float: left;
+		}
+		
+		.map-box-btn{
+			width:34px;
+			height:34px;
+			background:url({{ app_url_packaged }}/images/active_map.png) no-repeat;
+			cursor: pointer;
+			position: relative;
+			float: right;
+			top: -34px;
+			right: 2px;
+		}
+		
+		.tags{
+			margin: 10px 0;
+		}
+		
+		.tags_title{
+			margin: 10px 0;
+		}
+		
+		.tags_content{
+			margin: 5px 0;
+		}
+		
+		.scene_tags{
+			margin: 0 5px 5px 0 !important;
+		}
+	</style>
+{% endblock %}
+
 {% block jquery %}
 	
 	// 表单验证
@@ -62,6 +105,66 @@
 			$('#scene_context_category').val(id);
 		}
 	});
+	
+	$('.tags_content').each(function(){
+		var id = $(this).attr('id');
+		$.post('{{ app_url_app_admin_base }}/scene_tags/find_tags',{id:id},function(date){
+			var data = eval('('+date+')');
+			console.log(data);
+			var html = '';
+			for(i=0; i< data.data.length; i++){
+				html += '<a class="ui green label scene_tags" date-val="'+data.data[i]['_id']+'">'+data.data[i]['title_cn']+'</a>';
+			}
+			$('#'+id).html(html);
+		});
+	});
+	
+	//查看字符串是否在数组中存在
+	var in_array = function(arr, val) {
+		var i;
+		for (i = 1; i <= arr.length; i++) {
+			if (val == arr[i-1]) {
+				return i;
+			}
+		}
+		return 0;
+	}; // 返回0表示没找到，返回其他值表示找到的索引
+	
+	// 判断标签是否被选中
+	var tags = $('input[name=tags]').val();
+	tags = tags.split(',');
+	for (i = 0; i < tags.length; i++) {
+		tags[i] = parseInt(tags[i]);
+	}
+	$('.scene_tags').livequery(function(){
+		$(this).each(function(){
+			var tag = $(this).attr('date-val');
+			tag = parseInt(tag);
+			if(in_array(tags,tag)){
+				$('a[date-val='+tag+']').addClass('purple');
+			}
+		});
+	});
+	
+	// 选择标签
+	$('.scene_tags').livequery(function(){
+		$(this).click(function(){
+			var id = $(this).attr('date-val');
+			if ($(this).hasClass('purple')){
+				$(this).removeClass('purple');
+			}else{
+				$(this).addClass('purple');
+			}
+			
+			var tags = '';
+			$(".purple").each(function(i){
+				var value = $(this).attr('date-val');
+				tags += value + ',';
+			});
+			tags = tags.substring(0,tags.length-1);
+			$('input[name=tags]').val(tags);
+		});
+	});
 
 {% endblock %}
 
@@ -88,6 +191,7 @@
 	<form action="{{ app_url_app_admin_base }}/scene_context/save" class="ui form" method="post" id="active-form">
 		<!-- 隐藏表单 -->
 		<input type="hidden" name="id" value="{{ date._id }}" />
+		<input type="hidden" name="tags" value="{{ date.tags }}" />
 		
 		<div class="ui segment from">
 			<h3 class="ui dividing header">填写语境信息</h3>
@@ -108,6 +212,18 @@
 						{% endfor %}			
 					 </div>			
 			</div>
+			<div class="field">
+                <label>所属标签</label>
+				{% for tags in scene_tags %}
+                <div class="ui tags">
+					<div class="tags_title">
+						<a class="ui teal tag label scene_tags" date-val="{{ tags._id }}">{{ tags.title_cn }}</a>
+						<!--<a class="ui orange label scene" date-val="{{ tags._id }}">加载标签</a>-->
+					</div>
+					<div class="tags_content" id="{{ tags._id }}"></div>
+				</div>
+				{% endfor %}
+            </div>
             <div class="field">
                 <label>语境详情</label>
                 <textarea name="des" placeholder="语境详情">{{ date.des }}</textarea>
