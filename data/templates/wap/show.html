@@ -182,6 +182,9 @@
     list-style: none !important;
     margin-left:0 !important;
   }
+  .topicshare{
+	  display:none;
+  }
   .topicshare .phenix-share a{
 	  margin:0 10px;
   }
@@ -436,6 +439,16 @@
 		}, "json");
 	});
 	
+	//微信 qq 打开隐藏
+    var ua = navigator.userAgent.toLowerCase();
+	if (ua.match(/MicroMessenger/i)=="micromessenger" || ua.match(/QQ/i) == "qq"){
+		$('.topicshare').removeAttr('style');
+	}else{
+		$('.topicshare').css('display','block');
+	}
+	
+	
+	
 {% endblock %}
 {% block content %}
 <div id="postpage">
@@ -600,7 +613,6 @@
 									</a>
 								</div>
 						  	</div>
-
 
 						</div>
 						
