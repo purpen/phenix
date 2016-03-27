@@ -25,7 +25,7 @@ $model = new Sher_Core_Model_SceneContext();
 $total = 0;
 
 //获取文件的编码方式
-$contents = file_get_contents('/Users/tian/a.txt');
+$contents = file_get_contents('/Users/tian/c.txt');
 //$encoding = mb_detect_encoding($contents, array('GB2312','GBK','UTF-16','UCS-2','UTF-8','BIG5','ASCII'));
 
 if(!$contents){
@@ -37,7 +37,8 @@ $array = explode("\n", $contents);
 //print_r($array);
 
 foreach($array as $v){
-  if(empty(trim($v))){
+  $v = trim($v);
+  if(empty($v)){
     continue;
   }
   $arr = explode("@@", $v);
