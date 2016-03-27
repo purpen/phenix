@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'outside_search', 'outside_view', 'item_url_convert');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'outside_search', 'tb_view', 'jd_view', 'item_url_convert');
 
 	/**
 	 * 入口
@@ -239,6 +239,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     $title = isset($this->stash['title']) ? $this->stash['title'] : null;
     // 原文ID
     $oid = isset($this->stash['oid']) ? $this->stash['oid'] : null;
+    $sku_id = isset($this->stash['sku_id']) ? $this->stash['sku_id'] : null;
     // 来源
     $attrbute = isset($this->stash['attrbute']) ? (int)$this->stash['attrbute'] : 2;
     // 默认用户创建
@@ -257,6 +258,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
       'user_id' => $user_id,
       'title' => $title,
       'oid' => $oid,
+      'sku_id' => $sku_id,
       'attrbute' => $attrbute,
       'kind' => $kind,
       'market_price' => $market_price,
@@ -322,9 +324,9 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
   }
 
   /*
-   * 站外商品查询
+   * 站外商品查询--淘宝
    */
-  public function outside_view(){
+  public function tb_view(){
     $result = $options = array();
     $evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 1;
     $ids = isset($this->stash['ids']) ? $this->stash['ids'] : null;
@@ -339,10 +341,34 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     if($evt==1){
       $result = Sher_Core_Util_TopSdk::search_by_item($ids, $options);
     }elseif($evt==2){
-      $result = Sher_Core_Util_JdSdk::search($ids, $options);  
+      $result = Sher_Core_Util_JdSdk::search_by_item($ids, $options);  
     }else{
       return $this->api_json('搜索类型不正确!', 3002);
     }
+
+    if($result['success']){
+      return $this->api_json('success', 0, $result['data']);     
+    }else{
+      return $this->api_json($result['msg'], 3005);
+    }
+
+  
+  }
+
+  /*
+   * 站外商品查询--京东
+   */
+  public function jd_view(){
+    $result = $options = array();
+    $ids = isset($this->stash['ids']) ? $this->stash['ids'] : null;
+
+    if(empty($ids)){
+      return $this->api_json('缺少请求参数!', 3001);    
+    }
+
+    $options = array();
+
+    $result = Sher_Core_Util_JdSdk::search_by_item($ids, $options);  
 
     if($result['success']){
       return $this->api_json('success', 0, $result['data']);     
