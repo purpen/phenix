@@ -183,7 +183,7 @@
     margin-left:0 !important;
   }
   .topicshare{
-	  display:none !important;
+	  display:none;
   }
   .topicshare .phenix-share a{
 	  margin:0 10px;
@@ -442,7 +442,7 @@
 	//微信 qq 打开隐藏
     var ua = navigator.userAgent.toLowerCase();
 	if (ua.match(/MicroMessenger/i)=="micromessenger" || ua.match(/QQ/i) == "qq"){
-		$('.topicshare').removeAttr('style');
+		$('.topicshare').css('display','none');
 	}else{
 		$('.topicshare').css('display','block');
 	}
