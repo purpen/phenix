@@ -41,10 +41,10 @@
     }
   }
   #slidework{
-  	height:72px;
+  	height:70px;
   }
   #slidework p{
-      font-size: 14px;
+      font-size: 13px;
   	margin-bottom:6px;
   	color:#fff;
   	overflow: hidden;
@@ -54,9 +54,9 @@
   .backg.column {
       background: #ff5044;
       color: #fff;
-      padding: 16px 10px 10px 20px !important;
-      margin: 0 6.25%;
-  	border-radius: 8px;
+      padding: 16px 10px 10px 10px !important;
+	  margin-left:15px;
+  	  border-radius: 8px;
   }
   .question,.question:hover{
       color: #fff;
@@ -117,6 +117,16 @@
   .ui.modal .header > .container {
       padding-top: 20px;
       padding-bottom: 20px;
+  }
+  .signbut{
+	  margin-left:5%;
+  }
+  .signbut .green.active.button{
+      width: 60px;
+      height: 60px;
+      padding: 0;
+      line-height: 60px;
+      margin-top: 18px;
   }
 </style>
 {% endblock %}
@@ -448,17 +458,47 @@
               $('#mfrbird').css({'overflow':'scroll'});
            }
        }
+	   
+	   if (phenix.visitor.is_login){
+	  	 $.get('{{ app_url_wap }}/my/ajax_wap_fetch_user_sign', {type:1});
+	   }
+	  //每日签到点击
+	  $('#wap-user-sign-box .noqian.button').livequery(function(){
+	    $(this).click(function(){
+	      //ajax加载签到事件
+	      $.post('{{ app_url_wap }}/my/ajax_wap_sign_in', {type:1});
+
+	    });
+	  });
+	  $('#wap-user-sign-box .qiandao.button').click(function(){
+	  	phenix.redirect('{{ app_url_wap }}/auth/login')
+	  })
 {% endblock %}
 
 {% block content %}
 <div class="ui responsive top grid">
   <div class="row">
-	<div class="ui fourteen wide backg column">
+	<div class="ui ten wide backg column">
 		<div id="slidework" style="overflow: hidden;">
       <!--<p>恭喜 action001   获得太火鸟鸟币100枚</p>-->
 
 		</div>
 	</div>
+	
+	<div class="ui four wide signbut center aligned column">
+		{% if visitor %}
+		<div id="wap-user-sign-box">
+			
+		</div>
+		{% else %}
+		<div id="wap-user-sign-box">
+			<div class="ui green circular active inverted button qiandao">
+                    签到
+            </div>
+		</div>
+		{% endif %}
+	</div>
+	
   </div>
 </div>
 <div class="draw">

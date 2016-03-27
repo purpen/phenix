@@ -244,6 +244,13 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 #print_r($result);exit;
     if($result['success']){
       if($attrbute==1){
+        $jd = isset($result['data']['listproductbase_result']) ? $result['data']['listproductbase_result'] : array();
+        if(!empty($jd)){
+          $item_info['title'] = $jd[0]['pname'];
+          $item_info['market_price'] = $jd[0]['reserve_price'];
+          $item_info['sale_price'] = $jd[0]['zk_final_price'];
+          $item_info['link'] = $jd[0]['item_url'];       
+        }
       
       }elseif($attrbute==2 || $attrbute==3){
         $tb = isset($result['data']['results']['n_tbk_item']) ? $result['data']['results']['n_tbk_item'] : array();

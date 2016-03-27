@@ -17,6 +17,7 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
   protected $schema = array(
     # 原文ID(淘宝、天猫、京东产品ID)
     'oid' => null,
+    'sku_id' => null,
     'user_id' => null,
 		# 类别支持多选
 		'category_id' => 0,

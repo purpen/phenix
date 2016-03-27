@@ -97,16 +97,43 @@ class Sher_Core_Util_JdSdk {
     $result['success'] = false;
     $result['code'] = 0;
     $result['msg'] = null;
-    // 链接方式：1.PC; 2.无线
-    $platform = isset($options['platform']) ? (int)$options['platform'] : 2;
 
-    // id ** 最大40个(淘宝)
-    if(empty($ids)){
-      $result['msg'] = 'id不能为空!';
-      return $result;     
+    try{
+      $c = new JdClient();
+      $c->appKey = Doggy_Config::$vars['app.jos_api']['app_key'];
+      $c->appSecret = Doggy_Config::$vars['app.jos_api']['app_secret'];
+      //$c->version = '2.0';
+      //$c->serverUrl = https://api.jd.com/routerjson;  // sdk已指定
+      $req = new NewWareBaseproductGetRequest();
+      $return_fields = array("valuePayFirst","saleUnit","model","phone","weight","issn","wserve","imagePath","skuMark","state",
+                              "shopCategorys","brandId","isDelete","allnum","height","name","valueWeight","skuId","length","barCode",
+                              "saleDate","safeDays","erpPid","cbrand","site","sizeSequence","productArea","packSpecification","width",
+                              "cid2","maxPurchQty","ebrand","upc","url","size","category","venderType","color","shopName","pname",
+                              "colorSequence","price",
+      );
+
+      $return_fields = implode(',', $return_fields);
+      $req->setIds( $ids );
+      $req->setBasefields( $return_fields );
+      $resp = $c->execute($req, $c->accessToken);
+      $resp = Sher_Core_Helper_Util::object_to_array($resp);
+      if(empty($resp)){
+        $result['msg'] = '请求无响应';
+      }
+      if($resp['code']==0){
+        $result['success'] = true;
+        $result['data'] = $resp;
+      }
+      //print_r($resp);exit;
+      return $result;
+
+    }catch(Exception $e){
+      Doggy_Log_Helper::warn('jd search by item error:'.$e->getMessage());
+      $result['msg'] = $e->getMessage();
+      return $result;
     }
 
-    return $result;   
+  
   }
 	
 }

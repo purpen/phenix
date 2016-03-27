@@ -1,7 +1,7 @@
 <?php
 class JdClient
 {
-	public $serverUrl = "http://gw.api.360buy.net/routerjson";
+	public $serverUrl = "https://api.jd.com/routerjson";
 
 	public $accessToken;
 
@@ -161,6 +161,7 @@ class JdClient
 		//返回的HTTP文本不是标准JSON或者XML，记下错误日志
 		if (false === $respWellFormed)
 		{
+      $result = new stdClass();
 			$this->logCommunicationError($sysParams["method"],$requestUrl,"HTTP_RESPONSE_NOT_WELL_FORMED",$resp);
 			$result->code = 0;
 			$result->msg = "HTTP_RESPONSE_NOT_WELL_FORMED";
@@ -209,5 +210,30 @@ class JdClient
 			}
 		}
 		return $this->execute($req, $session);
+	}
+
+  /**
+   * add 
+   * @author tianshuai
+   * 20160327
+   */
+	protected function logCommunicationError($apiName, $requestUrl, $errorCode, $responseTxt)
+	{
+		$localIp = isset($_SERVER["SERVER_ADDR"]) ? $_SERVER["SERVER_ADDR"] : "CLI";
+		$logger = new LtLogger;
+		$logger->conf["log_file"] = rtrim(JD_SDK_WORK_DIR, '\\/') . '/' . "logs/top_comm_err_" . $this->appKey . "_" . date("Y-m-d") . ".log";
+		$logger->conf["separator"] = "^_^";
+		$logData = array(
+		date("Y-m-d H:i:s"),
+		$apiName,
+		$this->appKey,
+		$localIp,
+		PHP_OS,
+		$this->version,
+		$requestUrl,
+		$errorCode,
+		str_replace("\n","",$responseTxt)
+		);
+		$logger->log($logData);
 	}
 }
