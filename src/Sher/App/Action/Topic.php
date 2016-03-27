@@ -126,7 +126,6 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			$query['fine']  = 1;
     }elseif($type == 4){  // 活动 
       $query['attrbute'] = Sher_Core_Model_Topic::ATTR_ACTIVE;   
-    }
 		}else{
 			//为0
 		}
