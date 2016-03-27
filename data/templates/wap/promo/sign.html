@@ -469,6 +469,9 @@
 	      $.post('{{ app_url_wap }}/my/ajax_wap_sign_in', {type:1});
 
 	    });
+	  });
+	  $('#wap-user-sign-box .qiandao.button').click(function(){
+	  	phenix.redirect('{{ app_url_wap }}/auth/login')
 	  })
 {% endblock %}
 
