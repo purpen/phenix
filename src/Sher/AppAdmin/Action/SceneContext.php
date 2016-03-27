@@ -89,7 +89,8 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 		$id = $this->stash['id'];
 		$title = $this->stash['title'];
 		$des = $this->stash['des'];
-		$category_id = $this->stash['category_id'];
+		$tags = $this->stash['tags'];
+		//$category_id = $this->stash['category_id'];
 		
 		// 验证内容
 		if(!$title){
@@ -101,32 +102,32 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 			return $this->ajax_json('语境详情不能为空！', true);
 		}
 		
-		if(empty($data['tags']) || empty($data['tags'])){
+		$data = array(
+			'title' => $title,
+			'des' => $des,
+			//'category_id' => (int)$category_id,
+		);
+		
+		if(empty($tags)){
 			return $this->api_json('请求参数不能为空', 3000);
 		}
 		
-		$data['tags'] = explode(',',$data['tags']);
+		$data['tags'] = explode(',',$tags);
 		foreach($data['tags'] as $k => $v){
 			$data['tags'][$k] = (int)$v;
 		}
-		
-		$date = array(
-			'title' => $title,
-			'des' => $des,
-			'category_id' => (int)$category_id,
-		);
-		//var_dump($date);die;
+		//var_dump($data);die;
 		try{
 			$model = new Sher_Core_Model_SceneContext();
 			if(empty($id)){
 				// add
-				$ok = $model->apply_and_save($date);
+				$ok = $model->apply_and_save($data);
 				$data_id = $model->get_data();
 				$id = $data_id['_id'];
 			} else {
 				// edit
-				$date['_id'] = $id;
-				$ok = $model->apply_and_update($date);
+				$data['_id'] = $id;
+				$ok = $model->apply_and_update($data);
 			}
 			
 			if(!$ok){

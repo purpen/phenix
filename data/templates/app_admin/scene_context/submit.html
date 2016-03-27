@@ -110,10 +110,17 @@
 		var id = $(this).attr('id');
 		$.post('{{ app_url_app_admin_base }}/scene_tags/find_tags',{id:id},function(date){
 			var data = eval('('+date+')');
-			console.log(data);
 			var html = '';
-			for(i=0; i< data.data.length; i++){
-				html += '<a class="ui green label scene_tags" date-val="'+data.data[i]['_id']+'">'+data.data[i]['title_cn']+'</a>';
+			if(data.data){
+				for(var item in data.data){
+					html += '<a class="ui green label" date-val="'+data.data[item]['_id']+'">【'+data.data[item]['title_cn']+'】</a>';
+					if(data.data[item]['children']){
+						for(var items in data.data[item]['children']){
+							//console.log(data.data[item]['children'][items]);
+							html += '<a class="ui green label scene_tags" date-val="'+data.data[item]['children'][items]['_id']+'">'+data.data[item]['children'][items]['title_cn']+'</a>';
+						}
+					}
+				}
 			}
 			$('#'+id).html(html);
 		});
@@ -200,6 +207,11 @@
 				<input type="text" name="title" placeholder="语境名称" value="{{ date.title }}" />
 			</div>
 			<div class="field">
+                <label>语境详情</label>
+                <textarea name="des" placeholder="语境详情">{{ date.des }}</textarea>
+            </div>
+			<!--
+			<div class="field">
 				<label>语境分类</label>
 				<div class="ui options">
 						<input type="hidden" name="category_id" value="{{ date.category_id }}" id="scene_context_category" />
@@ -212,21 +224,18 @@
 						{% endfor %}			
 					 </div>			
 			</div>
+			-->
 			<div class="field">
                 <label>所属标签</label>
 				{% for tags in scene_tags %}
                 <div class="ui tags">
 					<div class="tags_title">
-						<a class="ui teal tag label scene_tags" date-val="{{ tags._id }}">{{ tags.title_cn }}</a>
+						<a class="ui teal tag label" date-val="{{ tags._id }}">{{ tags.title_cn }}</a>
 						<!--<a class="ui orange label scene" date-val="{{ tags._id }}">加载标签</a>-->
 					</div>
 					<div class="tags_content" id="{{ tags._id }}"></div>
 				</div>
 				{% endfor %}
-            </div>
-            <div class="field">
-                <label>语境详情</label>
-                <textarea name="des" placeholder="语境详情">{{ date.des }}</textarea>
             </div>
 			
 			<div class="ui right aligned grid">

@@ -72,6 +72,14 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		$service = Sher_Core_Service_SceneTags::instance();
 		$result = $service->get_scene_tags_list($query, $options);
 		
+		// 过滤多余属性
+        $filter_fields  = array('likename', '__extend__');
+        $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+		
+		// 重建数据结果
+		$result = Sher_Core_Model_SceneTags::handle($result);
+		$result = Sher_Core_Helper_Util::arrayToTree($result['rows'],'_id','parent_id','children');
+		
 		//var_dump($result);die;
 		return $this->ajax_json('请求成功！', false, '', $result);
 	}
