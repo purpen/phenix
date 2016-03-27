@@ -13,7 +13,7 @@ class Sher_Wap_Action_Guide extends Sher_Core_Action_Authorize {
 		'bonus' => '',
 	);
 
-	protected $exclude_method_list = array('execute', 'about', 'app_about');
+	protected $exclude_method_list = array('execute', 'about', 'app_about','appload');
 	
 	/**
 	 * 入口
@@ -41,6 +41,13 @@ class Sher_Wap_Action_Guide extends Sher_Core_Action_Authorize {
 	 */
 	public function law(){
 		return $this->to_html_page('wap/law.html');
+	}
+	
+	/**
+	 * App下载
+	 */
+	public function appload(){
+		return $this->to_html_page('wap/appload.html');
 	}
 }
 

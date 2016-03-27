@@ -1,0 +1,273 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}太火鸟客户端{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+.download #appload,.download #apploadand {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    top: 0;
+    display: none;
+    background: rgba(0,0,0,.9);
+}
+.download #appload img,.download #apploadand img{
+    width: 80%;
+    margin: 10% 5% 10% 15%;
+}
+.topdes{
+	background:url({{ app_url_packaged }}/images/download/wbg.jpg);
+	width:100%;
+	height:350px;
+	background-size:cover;
+	position:relative;
+}
+.pt-15{
+	padding-top:15px !important;
+}
+.pt-20{
+	padding-top:20px !important;
+}
+.pt-30{
+	padding-top:30px !important;
+}
+.pt-40{
+	padding-top:40px !important;
+}
+.pt-60{
+	padding-top:60px !important;
+}
+.pt-80{
+	padding-top:80px !important;
+}
+.pt-100{
+	padding-top:100px !important;
+}
+.lh-25{
+	line-height:25px !important;
+}
+.lh-50{
+	line-height:50px !important;
+}
+.lh-35{
+	line-height: 35px !important;
+}
+.fw-4{
+	font-weight: 400 !important;
+}
+.header.white-color{
+	color:#fff !important;
+}
+.header.magenta-color{
+	color:#f36 !important;
+}
+.t1{
+	background:url({{ app_url_packaged }}/images/download/wbg2.png);
+	background-size:cover;
+	width:180px;
+	height:234px;
+	position:absolute;
+	left:50%;
+	margin-left:-90px;
+	bottom:-50px;
+	z-index:9;
+}
+.secdes{
+	position:relative;
+	background:#fff;
+	height:570px;
+}
+.secbg{
+	background:url({{ app_url_packaged }}/images/download/wbg3.jpg);
+	background-size:cover;
+	width:180px;
+	height:280px;
+	position:absolute;
+	bottom:0;
+	left:50%;
+	margin-left:-90px;
+}
+.thirdes{
+	background:rgb(253,54,90);
+	height:360px;
+	position:relative;
+}
+.fourdes{
+	background:#fff;
+	position:relative;
+	height:480px;
+}
+.t3{
+	position:absolute;
+	background:url({{ app_url_packaged }}/images/download/wbg4.png);
+	background-size:cover;
+	width:320px;
+	height:218px;
+	bottom:-60px;
+	left:0;
+	z-index: 9;
+}
+.t4{
+	position:absolute;
+	background:url({{ app_url_packaged }}/images/download/wbg5.jpg);
+	background-size:cover;
+	width:300px;
+	height:192px;
+	bottom:0;
+	right:0;
+}
+.fivedes{
+	background:#ff355a;
+	height:220px;
+}
+.sixdes{
+	background:#fff;
+	height:320px;
+}
+</style>
+{% endblock %}
+{% block jquery %}
+	$('.download .magenta.inverted.ios.button').click(function(){
+	    var ua = navigator.userAgent.toLowerCase();  
+	    if(ua.match(/MicroMessenger/i)=="micromessenger"){
+			$('.download #appload').css('display','block');
+		}else{
+			if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)){
+				window.location.href='https://itunes.apple.com/cn/app/tai-huo-niao-huo-bao-zhi-neng/id946737402?mt=8';
+			}else if(navigator.userAgent.match(/android/i)){
+				alert('您的系统为Android');
+			}
+		}
+	});
+	$('.download .magenta.inverted.android.button').click(function(){
+	    var ua = navigator.userAgent.toLowerCase();  
+	    if(ua.match(/MicroMessenger/i)=="micromessenger"){
+			$('.download #appload').css('display','block');
+		}else{
+			if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)){
+				alert('您的系统为ios');;
+			}else if(navigator.userAgent.match(/android/i)){
+				alert('正在建设中……');
+			}
+		}
+	})
+
+{% endblock %}
+{% block content %}
+<div class="download">
+	<div class="topdes">
+		<div class="t1"></div>
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column">
+					<h2 class="ui header white-color pt-20 lh-50">
+						太火鸟商城App
+						<div class="sub header white-color lh-25">
+							中国火爆的智能硬件孵化平台<br>
+							潮爆年轻人的智玩in（硬） 件体验式购物平台
+						</div>
+					</h2>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	<div class="secdes">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="center aligned column pt-60">
+					<div class="ui magenta active tiny inverted ios button">
+						<i class="apple icon"></i>
+						App Store 下载
+					</div>
+					<div class="ui magenta active tiny inverted android button">
+						<i class="android icon"></i>
+						Android 下载
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column pt-20">
+					<h2 class="ui header magenta-color lh-35 fw-4">
+						潮酷智玩 <br>
+						新鲜放肆的智创世界
+						<div class="sub header pt-15 lh-25">
+							品类丰富，广而精致，不潮不爆，替你挡掉！<br>
+							汇聚海内外潮创新品，给你 强in 的多维智感体
+						</div>
+					</h2>
+				</div>
+				
+			</div>
+		</div>
+		<div class="secbg"></div>
+	</div>
+	
+	<div class="thirdes">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<h2 class="ui header white-color lh-35 pt-30 fw-4">
+						科技与生活实时连线 <br>
+						存在与美感一一对应
+						<div class="sub header white-color lh-25 pt-15">
+							无设计不生活，在这里用设计师的审美思维看穿质感的细枝末节，用更加直白的语言读懂高科时尚范儿
+						</div>
+					</h2>
+					
+				</div>
+			</div>
+		</div>
+		<div class="t3"></div>
+	</div>
+	
+	<div class="fourdes">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<h2 class="ui header magenta-color lh-35 fw-4 pt-60">
+						试用freestyle <br>
+						只有在这里才是真正的免费
+						<div class="sub header lh-25 pt-15">
+							<span class="header magenta-color">试用real免费  这才是正宗的freestyle</span><br>
+							新鲜闪速，品牌联动，我们找了1000+新创品牌，给你第一手鲜物试用机会；0押金，无退还，左手键入申请理由，右手坐拆试用包裹，潮人、酷品陆续接入中……
+						</div>
+						
+					</h2>
+				</div>
+			</div>
+		</div>
+		<div class="t4"></div>
+	</div>
+	
+	<div class="fivedes">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<h2 class="ui header white-color lh-35 pt-40 fw-4">
+						O2O 线上+实体 <br>
+						从未知到默认的畅快体验
+						<div class="sub header white-color lh-25 pt-15">
+							从线上到线下，每一处细节都经过全盘推敲，
+							未来你将在更多线下体验店感受一键下单的认知式爽购体验
+						</div>
+					</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+	<img src="{{ app_url_packaged }}/images/download/wbg6.jpg" width="100%" align="absmiddle">
+
+	<div id="appload">
+		<img src="{{ app_url_packaged }}/images/icon/appshare.png" width="80%" >
+	</div>
+	<div id="apploadand">
+		<img src="{{ app_url_packaged }}/images/icon/appshareand.png" width="80%" >
+	</div>
+</div>
+{% endblock %}
+

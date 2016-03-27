@@ -182,6 +182,12 @@
     list-style: none !important;
     margin-left:0 !important;
   }
+  .ui.grid>.topicshare.row{
+	  display:none;
+  }
+  .topicshare .phenix-share a{
+	  margin:0 10px;
+  }
 </style>
 {% endblock %}
 
@@ -288,7 +294,8 @@
           .addClass('active');
       fetch_comment(1, per_page, sort);
   });
-
+	//分享
+	phenix.bind_share_list();
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
 		// 初始化互动，是否收藏、点赞
@@ -431,6 +438,16 @@
 			}
 		}, "json");
 	});
+	
+	//微信 qq 打开隐藏
+    var ua = navigator.userAgent.toLowerCase();
+	if (ua.match(/MicroMessenger/i)=="micromessenger" || ua.match(/QQ/i) == "qq"){
+		$('.topicshare').css('display','none');
+	}else{
+		$('.topicshare').css('display','block');
+	}
+	
+	
 	
 {% endblock %}
 {% block content %}
@@ -582,6 +599,24 @@
 								</div>
 							</div>
 						</div>
+						<!-- 分享 -->
+						<div class="topicshare row">
+							<div class="ui center aligned column">
+						  	  <p>分享</p>
+							<div class="phenix-share">
+									<a href="javascript:void(0);" id="sina-share" class="ui weibo circular share icon btn" title="新浪微博">
+										<i class="large weibo icon circular red inverted"></i>
+									</a>
+									
+									<a href="javascript:void(0);" id="qzone-share" class="ui qzone circular share icon btn" title="QQ空间">
+										<i class="large qq icon circular blue inverted"></i>
+									</a>
+								</div>
+						  	</div>
+
+						</div>
+						
+						
           </div>
 
 					<div id="topic_guess_wap_list" style="padding: 0 3% !important;">
