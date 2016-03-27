@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'outside_search', 'tb_view', 'jd_view', 'item_url_convert');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'outside_search', 'tb_view', 'jd_view', 'jd_item_price', 'item_url_convert');
 
 	/**
 	 * 入口
@@ -376,7 +376,29 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
       return $this->api_json($result['msg'], 3005);
     }
 
-  
+  }
+
+  /*
+   * 站外商品价格查询--京东
+   */
+  public function jd_item_price(){
+    $result = $options = array();
+    $sku_id = isset($this->stash['sku_id']) ? $this->stash['sku_id'] : null;
+
+    if(empty($sku_id)){
+      return $this->api_json('缺少请求参数!', 3001);    
+    }
+
+    $options = array();
+
+    $result = Sher_Core_Util_JdSdk::search_by_item_price($sku_id, $options);  
+
+    if($result['success']){
+      return $this->api_json('success', 0, $result['data']);     
+    }else{
+      return $this->api_json($result['msg'], 3005);
+    }
+
   }
 
 
