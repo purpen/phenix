@@ -239,18 +239,13 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
         $result = Sher_Core_Util_TopSdk::search_by_item($oid);
         break;
       case 4:
+        $result = Sher_Core_Util_JdSdk::search_by_item($oid);
         break;
     }
 #print_r($result);exit;
     if($result['success']){
       if($attrbute==1){
-        $jd = isset($result['data']['listproductbase_result']) ? $result['data']['listproductbase_result'] : array();
-        if(!empty($jd)){
-          $item_info['title'] = $jd[0]['pname'];
-          $item_info['market_price'] = $jd[0]['reserve_price'];
-          $item_info['sale_price'] = $jd[0]['zk_final_price'];
-          $item_info['link'] = $jd[0]['item_url'];       
-        }
+
       
       }elseif($attrbute==2 || $attrbute==3){
         $tb = isset($result['data']['results']['n_tbk_item']) ? $result['data']['results']['n_tbk_item'] : array();
@@ -262,6 +257,13 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
         }
       
       }elseif($attrbute==4){
+        $jd = isset($result['data']['listproductbase_result']) ? $result['data']['listproductbase_result'] : array();
+        if(!empty($jd)){
+          $item_info['title'] = $jd[0]['pname'];
+          $item_info['market_price'] = $jd[0]['market_price'];
+          $item_info['sale_price'] = $jd[0]['sale_price'];
+          $item_info['link'] = $jd[0]['url'];       
+        }
       
       }
       return $this->ajax_json('success', false, '', $item_info);     

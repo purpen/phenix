@@ -98,6 +98,11 @@ class Sher_Core_Util_JdSdk {
     $result['code'] = 0;
     $result['msg'] = null;
 
+    if(empty($ids)){
+      $result['msg'] = '缺少请求参数';
+      return $result;    
+    }
+
     try{
       $c = new JdClient();
       $c->appKey = Doggy_Config::$vars['app.jos_api']['app_key'];
@@ -119,10 +124,29 @@ class Sher_Core_Util_JdSdk {
       $resp = Sher_Core_Helper_Util::object_to_array($resp);
       if(empty($resp)){
         $result['msg'] = '请求无响应';
+        return $result;
       }
-      if($resp['code']==0){
+      if($resp['code']==0 && isset($resp['listproductbase_result'])){
+
+        $req1 = new WarePriceGetRequest();
+        foreach($resp['listproductbase_result'] as $k=>$v){
+          $sku_id = sprintf("J_%s", $v['skuId']);
+          $req1->setSkuId( $sku_id );
+          $resp1 = $c->execute($req1, $c->accessToken);
+          $resp1 = Sher_Core_Helper_Util::object_to_array($resp1);
+          if($resp1['code']==0 && isset($resp1['price_changes'])){
+            $resp['listproductbase_result'][$k]['sale_price'] = $resp1['price_changes'][0]['price'];
+            $resp['listproductbase_result'][$k]['market_price'] = $resp1['price_changes'][0]['market_price'];
+          }else{
+            $resp['listproductbase_result'][$k]['sale_price'] = null;
+            $resp['listproductbase_result'][$k]['market_price'] = null;         
+          }
+          
+        } // end foreach
         $result['success'] = true;
         $result['data'] = $resp;
+      }else{
+        $result['code'] = $resp['code'];
       }
       //print_r($resp);exit;
       return $result;
@@ -133,7 +157,53 @@ class Sher_Core_Util_JdSdk {
       return $result;
     }
 
-  
+  }
+
+  /*
+   * 单个商品价格查询
+   */
+  public static function search_by_item_price($sku_id, $options=array()){
+    include "jos-sdk/JdSdk.php";
+
+    $result = array();
+    $result['success'] = false;
+    $result['code'] = 0;
+    $result['msg'] = null;
+
+    if(empty($sku_id)){
+      $result['msg'] = '缺少请求参数';
+      return $result;    
+    }
+
+    try{
+      $c = new JdClient();
+      $c->appKey = Doggy_Config::$vars['app.jos_api']['app_key'];
+      $c->appSecret = Doggy_Config::$vars['app.jos_api']['app_secret'];
+
+      $req = new WarePriceGetRequest();
+      $sku_id = sprintf("J_%s", $sku_id);
+      $req->setSkuId( $sku_id );
+      $resp = $c->execute($req, $c->accessToken);
+      $resp = Sher_Core_Helper_Util::object_to_array($resp);
+      if(empty($resp)){
+        $result['msg'] = '请求无响应';
+        return $result;
+      }
+      if($resp['code']==0 && isset($resp['price_changes'])){
+        $result['success'] = true;
+        $result['data'] = $resp;
+      }else{
+        $result['code'] = $resp['code'];
+      }
+      //print_r($resp);exit;
+      return $result;
+
+    }catch(Exception $e){
+      Doggy_Log_Helper::warn('jd fetch item price error:'.$e->getMessage());
+      $result['msg'] = $e->getMessage();
+      return $result;
+    }
+
   }
 	
 }
