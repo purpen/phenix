@@ -24,54 +24,6 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		return $this->get_list();
 	}
 	
-	public function test(){
-		
-		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
-		if(!$id){
-			return $this->ajax_json('内容不存在！', true);
-		}
-		
-		$model = new Sher_Core_Model_SceneTags();
-		$result = $model->first($id);
-		
-		$query = array();
-		$query['type'] = 1;
-		$query['left_ref']  = array('$gte' => $result['left_ref']);
-        $query['right_ref'] = array('$lte' => $result['right_ref']);
-		
-		$options['page'] = 1;
-        $options['size'] = 500;
-		$options['sort_field'] = 'left_ref';
-		
-		$service = Sher_Core_Service_SceneTags::instance();
-		$result = $service->get_scene_tags_list($query,$options);
-		
-		if (!empty($result) && !empty($result['rows'])) {
-            $rows = $result['rows'];
-            // 准备一个空的右值堆栈
-            $right = array();
-            
-            for($i=0;$i<count($rows);$i++){
-                if (count($right) > 0) {
-                    while($right[count($right)-1] < $rows[$i]['right_ref']){
-                        array_pop($right);
-                        if (count($right) == 0) {
-                            break;
-                        }
-                    }
-                }
-                $rows[$i]['prefix_title_cn'] = str_repeat('->', count($right)).$rows[$i]['title_cn'];
-                // 将节点加入到堆栈
-                $right[] = $rows[$i]['right_ref'] ? $rows[$i]['right_ref'] : '';
-            }
-            $result['rows'] = $rows;
-        }
-		
-		foreach($result['rows'] as $k => $v){
-			var_dump($v['prefix_title_cn']);
-		}
-	}
-	
 	/**
      * 初始化根节点
      * 请勿随便操作
@@ -93,6 +45,44 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
         $next_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_tags';
 		return $this->ajax_json('键词初始化成功.', false, $next_url);
     }
+	
+	/**
+	 * 查询标签
+	 */
+	public function find_tags(){
+		
+		$id = isset($this->stash['id']) ? $this->stash['id'] : '';
+		
+		if(!$id){
+			return $this->ajax_json('内容不能为空！', true);
+		}
+		
+		$model = new Sher_Core_Model_SceneTags();
+		$res_one = $model->first((int)$id);
+		$query = array(
+			'type'=>1,
+			'left_ref'=>array('$gt' => $res_one['left_ref']),
+			'right_ref'=>array('$lt' => $res_one['right_ref'])
+		);
+		$options = array(
+			'sort' => array('left_ref' => 1)
+		);
+		
+		// 开启查询
+		$service = Sher_Core_Service_SceneTags::instance();
+		$result = $service->get_scene_tags_list($query, $options);
+		
+		// 过滤多余属性
+        $filter_fields  = array('likename', '__extend__');
+        $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+		
+		// 重建数据结果
+		$result = Sher_Core_Model_SceneTags::handle($result);
+		$result = Sher_Core_Helper_Util::arrayToTree($result['rows'],'_id','parent_id','children');
+		
+		//var_dump($result);die;
+		return $this->ajax_json('请求成功！', false, '', $result);
+	}
 	
 	/**
 	 * 列表
