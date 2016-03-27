@@ -106,9 +106,9 @@
 		{% block layout_js %}{% endblock %}
 		{% block page_js %}
 			{% if js_use_bundle %}
-				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.{{ js_jquery_bundle_version }}.js"></script>
+				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.wap.min.{{ js_jquery_bundle_version }}.js"></script>
 			{% else %}
-				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.min.js"></script>
+				<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.wap.min.js"></script>
 			{% endif %}
 		{% endblock %}
 
