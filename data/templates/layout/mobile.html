@@ -113,12 +113,22 @@
 		{% endblock %}
 
 		<script type="text/javascript">
-		$('#qzone-share').click(function() {
-			var url = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + link + '&title=' + '&pic=' + pic_url;
-			var params = getParamsOfShareWindow(600, 560);
-			window.open(url, windowName, params);
-			return false;
-		});
+		phenix.bind_share_list = function(pic_url) {
+			// 链接，标题，网站名称，子窗口别称，网站链接
+			var link = encodeURIComponent(document.location),title = encodeURIComponent(document.title.substring(0,100));
+			var source = encodeURIComponent('太火鸟'), windowName = 'tShare', site = 'http://www.taihuoniao.com/';
+	
+			var getParamsOfShareWindow = function(width, height) {
+				return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+			}
+		
+			$('#qzone-share').click(function() {
+				var url = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + link + '&title=' + title + '&pic=' + pic_url;
+				var params = getParamsOfShareWindow(600, 560);
+				window.open(url, windowName, params);
+				return false;
+			});
+		}
 		<!--
 		$(function(e){
 			phenix.url = {
