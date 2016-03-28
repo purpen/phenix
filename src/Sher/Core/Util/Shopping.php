@@ -371,6 +371,37 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
     $bird_money = (int)$bird_coin*1;
     return $bird_money;
   }
+
+  /**
+   * 红包赠于
+   */
+  public static function give_bonus($user_id, $options=array()){
+    if(empty($options)){
+      return false;
+    }
+    // 获取红包
+    $bonus = new Sher_Core_Model_Bonus();
+    $result_code = $bonus->pop($options['xname']);
+    
+    // 获取为空，重新生产红包
+    while(empty($result_code)){
+      //指定生成红包
+      $bonus->create_specify_bonus($options['count'], $options['xname'], $options['bonus'], $options['min_amounts']);
+      $result_code = $bonus->pop($options['xname']);
+      // 跳出循环
+      if(!empty($result_code)){
+        break;
+      }
+    }
+    
+    // 赠与红包 使用默认时间1月 $end_time = strtotime('2015-06-30 23:59')
+    $end_time = 0;
+    if(isset($options['expired_time'])){
+      $end_time = (int)$options['expired_time'];
+    }
+    $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
+    return $code_ok;
+  }
 	
 }
 
