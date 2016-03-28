@@ -1012,11 +1012,13 @@
 		
 		{% ad_list var:'adslide3' page:1 size:1 state:2 name:'product_promo_stick' sort_field:'latest' %}
         {% if adslide3.rows %}
-		<div class="product-promo">
-            <a href="{{ adslide3.view_url }}" title="{{ adslide3.title }}" target="_blank">
-                <img src="{{ adslide3.cover.fileurl }}"/>
-            </a>
-		</div>
+		<div class="sellwrap">
+			<div class="product-promo">
+	            <a href="{{ adslide3.view_url }}" title="{{ adslide3.title }}" target="_blank">
+	                <img src="{{ adslide3.cover.fileurl }}" width="100%"/>
+	            </a>
+			</div>
+		<div class="sellwrap">
 		{%endif%}
 		
     </div>
