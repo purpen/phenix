@@ -271,6 +271,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
       'B' =>  199,
       'C' =>  0,
       'D' => 299,
+      'E' => 399,
     );
 		
     for($i=0; $i<$count; $i++){
