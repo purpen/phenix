@@ -188,6 +188,15 @@
   .topicshare .phenix-share a{
 	  margin:0 10px;
   }
+  .adblock.fixed{
+	  margin:10px;
+	  max-width: 100%;
+      overflow: hidden;
+  }
+  .adblock.fixed>a img {
+      border-radius: .285714rem;
+      width: 100%;
+  }
 </style>
 {% endblock %}
 
@@ -574,6 +583,16 @@
 					{% endif %}
 				</div>
 				<!-- 这里是投票部分代码 结束 -->
+				
+                <!--预留广告位-->
+            	{% ad_list var:'adone' page:1 size:1 name:'topic_view_wap_t1' sort_field:'latest' state:2 %}
+            	{% if adone %}
+                <div class="adblock fixed">
+                    <a href="{{ adone.view_url }}" title="{{ adone.title }}" target="_blank">
+                        <img src="{{ adone.cover.fileurl }}"/>
+                    </a>
+                </div>
+            	{% endif %}
 				
 							{% if topic.tags %}
 							<div class="tags">

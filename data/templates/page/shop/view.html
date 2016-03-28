@@ -8,7 +8,14 @@
 	{% endif %}
 {% endblock %}
 {% block page_css %}
-
+<style>
+.product-promo{
+	position: static;
+    -webkit-transition: none;
+    transition: none;
+    z-index: 6;
+}
+</style>
 {% endblock %}
 {% block layout_js %}
 <script type="text/javascript">
@@ -478,10 +485,32 @@
         });
     });
     
-    $('.ui.sticky')
+   $('.ui.sticky')
       .sticky({
           context: '.mainleft',
       });
+	  
+		
+	$(window).scroll(function(){
+		var scrollTop = $(this).scrollTop();
+		var Hsticky = $('.ui.sticky').height();
+		var productpromo = $('.product-promo').offset().top;
+		var Hmainleft = $('.mainleft').height();
+		if (scrollTop > (productpromo - Hsticky) ){
+			$('.product-promo').css({'position':'fixed','top':Hsticky+20,'width':'300px' });
+		}
+		if (scrollTop < 400 || scrollTop > Hmainleft - 400 ){
+			$('.product-promo').removeAttr('style');
+		}
+		
+	});
+				
+				
+			
+		
+	  
+	  
+	  
       
 {% endblock %}
 
@@ -944,11 +973,11 @@
         <div class="sellwrap" id="shop-albums-list" style="display:none;">
 			<div class="block title">
                产品所在专辑 
-      </div>
+      	 	</div>
             <div class="ui articles shop-albums list">
 
             </div>
-    </div>
+    	</div>
         
 		{% ad_list var:'adslide2' page:1 size:2 state:2 name:'product_rightbar_stick' %}
         {% if adslide2.rows %}
@@ -1009,6 +1038,16 @@
     		</div>
         </div>
         {%endif%}
+		
+		{% ad_list var:'propromo' page:1 size:1 state:2 name:'product_promo_stick' sort_field:'latest' %}
+        {% if propromo %}
+		<div class="product-promo">
+            <a href="{{ propromo.view_url }}" title="{{ adslide3.title }}" target="_blank">
+                <img src="http://marry.qiniudn.com/o_197bbahb2sh718i7161k4k21b7fv.jpg?imageView/2/w/600" {{ propromo.cover.fileurl }} width="100%"/>
+            </a>
+		</div>
+		{%endif%}
+		
     </div>
 </div>
 <div id="product_guess_list" class="product white guess"></div>
