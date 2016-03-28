@@ -75,6 +75,10 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
         'last_time' => time(),
       );
       $ok = $this->create($data);
+      // 首次绑定送红包
+      if($ok){
+        Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA', 'bonus'=>'B', 'min_amounts'=>'E'));
+      }
     }
 		return $ok;
 	}
