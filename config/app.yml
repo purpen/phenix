@@ -150,6 +150,7 @@ app.dt.extension_lib.sher_app:
     'friend_link_list':'Sher_Core_ViewTag_FriendLinkList'
     'special_subject_list':'Sher_Core_ViewTag_SpecialSubjectList'
     'pusher_list':'Sher_Core_ViewTag_PusherList'
+    'store_list':'Sher_Core_ViewTag_EstoreList'
     'recent_visitor_list':'Sher_Core_ViewTag_RecentVisitorList'
     'scene_brands_list':'Sher_Core_ViewTag_SceneBrandsList'
     'scene_product_list':'Sher_Core_ViewTag_SceneProductList'

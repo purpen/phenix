@@ -87,6 +87,8 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 			$query['stick'] = 1;
 		}elseif ($type == 2){
 			$query['fine']  = 1;
+    }elseif($type == 4){  // 社区活动
+      $query['attrbute'] = Sher_Core_Model_Topic::ATTR_ACTIVE;
     }elseif ($type == 5){
       $query['try_id'] = array('$ne'=>0);
 		}else{

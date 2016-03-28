@@ -15,20 +15,18 @@ Class Sher_Core_Action_ApiCheck extends Sher_Core_Action_Base implements Sher_Co
 	 */
 	public function check_current_user($invoke_method, $current_user_id) {
 
-    $result = array();
-    $result['success'] = true;
-    $result['message'] = null;
-    //匿名用户可执行方法
-    if (!($this->filter_user_method_list === '*' || in_array($invoke_method, $this->filter_user_method_list))) {
-      if(empty($current_user_id)){
-        $result['success'] = false;
-        $result['message'] = "请先登录!";
-      }
-    }
-    return $result;
+        $result = array();
+        $result['success'] = true;
+        $result['message'] = null;
+        //匿名用户可执行方法
+        if (!($this->filter_user_method_list === '*' || in_array($invoke_method, $this->filter_user_method_list))) {
+          if(empty($current_user_id)){
+            $result['success'] = false;
+            $result['message'] = "请先登录!";
+          }
+        }
+        return $result;
 	}
-	
-
 	
 }
 

@@ -1,0 +1,330 @@
+{%extends 'layout/admin.html'%}
+{% block title %}编辑店铺-{% endblock %}
+{% block page_css %}
+    <style type="text/css">
+        .active.category {
+            background-color: rgb(255, 51, 0) !important;
+            color: rgb(255, 255, 255) !important;
+        }
+        #product-skus {
+            margin-bottom: 0.5em;
+        }
+        .ui.link.active {
+            color: rgb(255, 51, 102);
+        }
+        #allmap {
+            width: 100%;
+            height: 550px;
+            overflow: hidden;
+            margin: 0 0 10px;
+            font-family: "微软雅黑";
+        }
+        .ui.location.button {
+            margin-top: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak={{ app_baidu_map_ak }}"></script>
+{% endblock %}
+
+{% block jquery %}
+    // 百度地图API功能
+    var map = new BMap.Map("allmap");
+    var point = new BMap.Point(116.404, 39.915);
+    map.centerAndZoom(point, 11);
+    map.enableInertialDragging();
+    
+    var size = new BMap.Size(10, 20);
+    map.addControl(new BMap.CityListControl({
+        anchor: BMAP_ANCHOR_TOP_LEFT,
+        offset: size,
+        // 切换城市之间事件
+        // onChangeBefore: function(){
+        //    alert('before');
+        // },
+        // 切换城市之后事件
+        // onChangeAfter:function(){
+        //   alert('after');
+        // }
+    }));
+    
+    var offset = new BMap.Size(30, -40);
+    
+    {% if mode == 'edit' %}
+    setTimeout(function(){
+        // 创建标注
+        var choose_point = new BMap.Point({{ estore.location.point.lng }},{{ estore.location.point.lat }});
+        map.centerAndZoom(choose_point, 16);
+        
+        var marker = new BMap.Marker(choose_point);
+        map.addOverlay(marker);
+        
+        var label = new BMap.Label('{{ estore.address }}<br />经度：{{ estore.location.point.lng }}, 纬度：{{ estore.location.point.lat }}', {offset: offset});
+        label.setStyle({
+            color: "#ff3366",
+            fontSize: "12px",
+            padding: "5px",
+            lineHeight: "20px",
+            'border-radius': "4px",
+            fontFamily:"微软雅黑"
+    	});
+        marker.setLabel(label);
+    }, 1000);
+    {% endif %}
+    
+    $('.ui.location.button').bind('click', function(){
+        var address = $('#address').val();
+        
+        if (!address || address == undefined || address == '') {
+            alert('请先输入所在地址!');
+            return;
+        }
+        
+        // 创建地址解析器实例
+        var myGeo = new BMap.Geocoder();
+        // 将地址解析结果显示在地图上，并调整地图视野
+        myGeo.getPoint(address, function(point){
+            if (point) {
+                map.centerAndZoom(point, 16);
+                
+                // 填充地标
+                $('#lat').val(point.lat);
+                $('#lng').val(point.lng);
+                
+                // 创建标注
+                var marker = new BMap.Marker(point);
+                var label = new BMap.Label(address+'<br />经度：'+ point.lng +', 纬度：'+ point.lat, {offset: offset});
+                label.setStyle({
+                    color: "#ff3366",
+                    fontSize: "12px",
+                    padding: "5px",
+                    lineHeight: "20px",
+                    'border-radius': "4px",
+                    fontFamily:"微软雅黑"
+        		});
+                marker.setLabel(label);
+                
+                map.addOverlay(marker);
+            } else {
+                alert('您选择地址没有解析到结果!');
+            }
+        });
+        
+        return;
+    });
+    
+	$('#estore-form').form({
+		name: {
+			identifier  : 'name',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '店铺名称不能为空'
+				}
+			]
+		},
+		summary: {
+			identifier  : 'summary',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '店铺介绍不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, 3000);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+    
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+    
+	$('#phenix-uploader').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ estore._id }}','file_id': '{{ pid }}' },
+            endpoint: '{{ app_url_upload }}/estore'
+      	},
+		text: {
+            uploadButton: '<a class="ui active red labeled inverted icon upload button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#estore-form').addClass('error');
+			phenix.show_error_message(result.message, $('#estore-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+            $.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
+		}
+	});
+	
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#estore_cover_id').val(id);
+			return false;
+		});
+	});
+
+{% endblock %}
+
+{% block content %}
+<div class="admin">
+	<h3 class="ui header">店铺管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/estore" class="item">
+			<i class="list icon"></i> 全部店铺
+		</a>
+	  	<div class="right menu">
+			{% if mode == 'edit' %}
+			<div class="active item">
+				<i class="edit icon"></i> 编辑店铺
+			</div>
+			{% endif %}		
+			<a href="{{ app_url_admin_base }}/estore/edit" class="item">
+				<i class="add icon"></i> 新增店铺
+			</a>
+	    </div>
+	</div>
+	
+	<form action="{{ app_url_admin_base }}/estore/save?page={{ page }}" class="ui form" method="post" id="estore-form">
+		<input type="hidden" name="_id" value="{{ estore._id }}" />
+		<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
+		
+		<div class="ui segment">
+			<h4 class="ui dividing header">基本信息</h4>
+			<div class="field">
+				<label for="name">店铺名称</label>
+			  	<input type="text" name="name" value="{{ estore.name }}" />
+			</div>
+			<div class="field">
+				<label for="advantage">店铺特色推荐</label>
+                <input type="text" name="advantage" value="{{ estore.advantage }}" />
+				<div class="ui pointing top label">
+					特色商品、亮点推荐或潮流时尚元素
+				</div>
+			</div>
+			<div class="field">
+				<label for="summary">店铺介绍</label>
+			  	<textarea name="summary" class="small">{{ estore.summary }}</textarea>
+				<div class="ui pointing top label">
+					请详细的介绍
+				</div>
+			</div>
+            <div class="two fields">
+    			<div class="field">
+    				<label for="worktime">营业时间</label>
+    			  	<input type="text" name="worktime" value="{{ estore.worktime }}" />
+    			</div>
+    			<div class="field">
+    				<label for="phone">联系电话</label>
+    			  	<input type="text" name="phone" value="{{ estore.phone }}" />
+    			</div>
+            </div>
+            
+			<h4 class="ui dividing header">
+				上传图片
+			</h4>
+			<div class="field">
+				<input type="hidden" name="cover_id" id="estore_cover_id" value="{{ estore.cover_id }}" />
+			  	<div id="phenix-uploader"></div>
+			
+				<div id="asset-list" class="ui four blocks">
+					{% if mode == 'edit' %}
+						{% asset_list var:'assets' parent_id:estore._id asset_type:asset_type size:20 %}
+						{% for asset in assets.rows %}
+						<div class="thumb block" id="{{ asset._id }}">
+							<div class="image">
+								<img src="{{ asset.thumbnails.mini.view_url }}" />
+								<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+							</div>
+							<div class="buttons">
+								<div class="ui large links">
+									<a href="{{ app_url_asset }}/deleted?asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+										<i class="remove icon"></i>
+									</a>
+									<a href="javascript:void(0);" class="ui link ajax-cover {%if asset._id == estore.cover_id %}active{%endif%} pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+										<i class="checkered flag icon"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+            </div>
+            
+			<div class="field">
+				<label>所在地址</label>
+                <input type="text" name="address" id="address" value="{{ estore.address }}" />
+                <div class="ui location labeled icon green button">
+                    <i class="crosshairs icon"></i> 获取定位
+                </div>
+                {% for loc in estore.location.coordinates %}
+                    {% if loop.last %}
+                    <input type="hidden" name="lat" id="lat" value="{{ loc }}" />
+                    {% endif %}
+                    {% if loop.first %}
+                    <input type="hidden" name="lng" id="lng" value="{{ loc }}" />
+                    {% endif %}
+                {% endfor %}
+			</div>
+            <div id="allmap"></div>
+            
+        </div>
+	    
+		<div class="ui grid">
+			<div class="column">
+				<div class="ui large red submit inverted button">
+					确认提交
+				</div>
+				<div class="ui large grey cancel inverted button">
+					取消
+				</div>
+			</div>
+		</div>
+		
+	</form>
+</div>
+{% endblock %}

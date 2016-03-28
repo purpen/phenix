@@ -47,6 +47,44 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
     }
 	
 	/**
+	 * 查询标签
+	 */
+	public function find_tags(){
+		
+		$id = isset($this->stash['id']) ? $this->stash['id'] : '';
+		
+		if(!$id){
+			return $this->ajax_json('内容不能为空！', true);
+		}
+		
+		$model = new Sher_Core_Model_SceneTags();
+		$res_one = $model->first((int)$id);
+		$query = array(
+			'type'=>1,
+			'left_ref'=>array('$gt' => $res_one['left_ref']),
+			'right_ref'=>array('$lt' => $res_one['right_ref'])
+		);
+		$options = array(
+			'sort' => array('left_ref' => 1)
+		);
+		
+		// 开启查询
+		$service = Sher_Core_Service_SceneTags::instance();
+		$result = $service->get_scene_tags_list($query, $options);
+		
+		// 过滤多余属性
+        $filter_fields  = array('likename', '__extend__');
+        $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+		
+		// 重建数据结果
+		$result = Sher_Core_Model_SceneTags::handle($result);
+		$result = Sher_Core_Helper_Util::arrayToTree($result['rows'],'_id','parent_id','children');
+		
+		//var_dump($result);die;
+		return $this->ajax_json('请求成功！', false, '', $result);
+	}
+	
+	/**
 	 * 列表
 	 */
 	public function get_list() {
@@ -109,7 +147,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 	 */
 	public function edit(){
 		
-		$id = isset($this->stash['id']) ? $this->stash['id'] : '';
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		
 		if(!$id){
 			return $this->ajax_json('内容不能为空！', true);
@@ -279,13 +317,14 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
     if(empty($tags) || empty($parent_id)){
       return $this->ajax_note('缺少请求参数!');
     }
-    $tag_arr = array_values(array_unique(preg_split('/[,，;；\s]+/u',$tags)));
+    $tag_arr = array_values(array_unique(preg_split('/[,，;；]+/u',$tags)));
     $success_count = 0;
     $fail_count = 0;
 
     $scene_tags_model = new Sher_Core_Model_SceneTags();
     foreach($tag_arr as $k=>$v){
-      if(!empty($v) && strlen($v)<15){
+      $v = trim($v);
+      if(!empty($v) && strlen($v)<40){
         // 如果标签重复，跳过
         $has_one = $scene_tags_model->first(array('type'=>$type, 'title_cn'=>$v));
         if($has_one){

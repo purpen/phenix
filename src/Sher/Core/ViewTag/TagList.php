@@ -4,6 +4,7 @@
  * @author purpen
  */
 class Sher_Core_ViewTag_TagList extends Doggy_Dt_Tag {
+    
     protected $argstring;
 	
     public function __construct($argstring, $parser, $pos = 0) {

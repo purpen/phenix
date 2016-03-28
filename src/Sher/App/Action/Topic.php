@@ -124,6 +124,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			$query['stick'] = 1;
 		}elseif ($type == 2){
 			$query['fine']  = 1;
+    }elseif($type == 4){  // 活动 
+      $query['attrbute'] = Sher_Core_Model_Topic::ATTR_ACTIVE;   
 		}else{
 			//为0
 		}
@@ -411,6 +413,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$links['reply_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, 3, $time, 7, $page);
 		$links['stick_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, 1, $time, $sort, $page);
 		$links['fine_url']  = Sher_Core_Helper_Url::topic_advance_list_url($category_id, 2, $time, $sort, $page);
+		$links['active_url']  = Sher_Core_Helper_Url::topic_advance_list_url($category_id, 4, $time, $sort, $page);
 		switch($type){
 			case 1:
 				$this->set_target_css_state('type_stick');
@@ -420,6 +423,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				break;
             case 3:
                 $this->set_target_css_state('type_reply');
+                break;
+            case 4:
+                $this->set_target_css_state('type_active');
                 break;
 			default:
                 $this->set_target_css_state('type_all');
