@@ -8,7 +8,14 @@
 	{% endif %}
 {% endblock %}
 {% block page_css %}
-
+<style>
+.pricefix,.product-promo.sticky{
+	position: static;
+    -webkit-transition: none;
+    transition: none;
+    z-index: 6;
+}
+</style>
 {% endblock %}
 {% block layout_js %}
 <script type="text/javascript">
@@ -478,14 +485,64 @@
         });
     });
     
-    $('.ui.sticky')
+   $('.ui.sticky')
       .sticky({
           context: '.mainleft',
       });
+	  
+		
+	$(window).scroll(function(){
+		var scrollTop = $(this).scrollTop();
+		var Hsticky = $('.ui.sticky').height();
+		var productpromo = $('.product-promo').offset().top;
+		var Hmainleft = $('.mainleft').height();
+		if (scrollTop > (productpromo - Hsticky) ){
+			$('.product-promo').css({'position':'fixed','top':Hsticky+20,'width':'300px' });
+		}
+		if (scrollTop < 400 || scrollTop > Hmainleft - 400 ){
+			$('.product-promo').removeAttr('style');
+		}
+		
+	});
+				
+				
+			
+		
+	  
+	  
+	  
       
 {% endblock %}
 
 {% block layout_header %}
+	<!--
+		$(window).scroll(function(){
+		  		var scrollTop = $(this).scrollTop();
+				var pricefix = $('.pricefix').offset().top;
+				var Hpricefix = $('.pricefix').height();
+				var productpromo = $('.product-promo').offset().top;
+				var Hmainleft = $('.mainleft').height();
+				var Height = pricefix + Hmainleft - Hpricefix - $('.product-promo').height() -20 ;
+		
+				if ( scrollTop > pricefix ){
+							$('.pricefix').css({'position':'fixed','top':'0','width':'300px'});
+				} 
+				if(scrollTop < 397 ){
+					$('.pricefix,.product-promo').removeAttr('style');
+				}
+		
+				if(scrollTop > (productpromo - Hpricefix) ){
+					$('.product-promo').css({'position':'fixed','top':Hpricefix,'width':'300px'});
+				}
+		
+	-->
+
+		<!--if ( scrollTop > pricefix ){
+			$('.pricefix').css({'position':'fixed','top':'0','width':'300px','left':offleft});
+		} 
+		if(scrollTop < 397 ){
+			$('.pricefix').removeAttr('style');
+		}-->
 <div class="header main">
     {% include "block/header.html" %}
 </div>
@@ -1014,7 +1071,7 @@
         {% if propromo %}
 		<div class="product-promo">
             <a href="{{ propromo.view_url }}" title="{{ adslide3.title }}" target="_blank">
-                <img src="{{ propromo.cover.fileurl }}" width="100%"/>
+                <img src="http://marry.qiniudn.com/o_197bbahb2sh718i7161k4k21b7fv.jpg?imageView/2/w/600" {{ propromo.cover.fileurl }} width="100%"/>
             </a>
 		</div>
 		{%endif%}
