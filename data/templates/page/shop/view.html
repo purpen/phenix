@@ -9,7 +9,7 @@
 {% endblock %}
 {% block page_css %}
 <style>
-.pricefix,.product-promo.sticky{
+.product-promo{
 	position: static;
     -webkit-transition: none;
     transition: none;
@@ -515,34 +515,6 @@
 {% endblock %}
 
 {% block layout_header %}
-	<!--
-		$(window).scroll(function(){
-		  		var scrollTop = $(this).scrollTop();
-				var pricefix = $('.pricefix').offset().top;
-				var Hpricefix = $('.pricefix').height();
-				var productpromo = $('.product-promo').offset().top;
-				var Hmainleft = $('.mainleft').height();
-				var Height = pricefix + Hmainleft - Hpricefix - $('.product-promo').height() -20 ;
-		
-				if ( scrollTop > pricefix ){
-							$('.pricefix').css({'position':'fixed','top':'0','width':'300px'});
-				} 
-				if(scrollTop < 397 ){
-					$('.pricefix,.product-promo').removeAttr('style');
-				}
-		
-				if(scrollTop > (productpromo - Hpricefix) ){
-					$('.product-promo').css({'position':'fixed','top':Hpricefix,'width':'300px'});
-				}
-		
-	-->
-
-		<!--if ( scrollTop > pricefix ){
-			$('.pricefix').css({'position':'fixed','top':'0','width':'300px','left':offleft});
-		} 
-		if(scrollTop < 397 ){
-			$('.pricefix').removeAttr('style');
-		}-->
 <div class="header main">
     {% include "block/header.html" %}
 </div>
