@@ -34,6 +34,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
     'SQR', # 扫码送30元红包
     'DB', # 兑吧送红包
     'SD', # 签到抽奖红包
+    'DA', # 首次下载APP
 	);
 	
     protected $schema = array(
@@ -271,6 +272,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
       'B' =>  199,
       'C' =>  0,
       'D' => 299,
+      'E' => 399,
     );
 		
     for($i=0; $i<$count; $i++){
