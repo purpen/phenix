@@ -369,7 +369,6 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 			$model = new Sher_Core_Model_Favorite();
 			$ok = $model->cancel_love($this->visitor->id, $id, $type);
 			if($ok){
-				$model->mock_after_remove($this->visitor->id, $id, $type, Sher_Core_Model_Favorite::EVENT_LOVE);
         // 获取计数
         $model = new Sher_Core_Model_Comment();
         $comment = $model->find_by_id($id);
