@@ -140,10 +140,10 @@
 
 {% endblock %}
 {% block content %}
-{% ad_list var:'adshop' state:2 size:5 name:'wap_index_shop_slide' %}
+{% ad_list var:'adshop' state:2 size:1 name:'wap_index_shop_slide' %}
 <div id="slider" class="flexslider flex-single">
   <ul class="slides">
-    {% for adshop in adshop.rows %}
+    {% if adshop %}
       <li style="background-image: url('{{ adshop.cover.fileurl }}');">
         <a href="{{ adshop.mm_view_url }}" title="{{ adshop.title }}" alt="{{ adshop.title }}">
             <img src="{{ adshop.cover.fileurl }}" alt="{{ adshop.title }}" style="display: none;" />
