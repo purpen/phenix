@@ -978,10 +978,11 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
     $data = array(
       'user_id' => $user_id,
       'kind' => (int)$from_origin,
+      'ip' => Sher_Core_Helper_Auth::get_ip(),
     );
     $ok = $third_site_stat_model->create($data);
 		// 清除cookie值
-		setcookie('from_origin', '', time() - 3600, '/');
+		setcookie('from_origin', '', time() - 99999999, '/');
   }
 	
 }

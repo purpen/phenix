@@ -545,8 +545,8 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 				$verify = new Sher_Core_Model_Verify();
 				$verify->remove((string)$code['_id']);
 
-        // 如果来自第三方则统计(兑吧)
-        if(isset($_COOKIE['from_origin']) && $_COOKIE['from_origin']=='2'){
+        // 如果来自第三方则统计
+        if(isset($_COOKIE['from_origin']) && !empty($_COOKIE['from_origin'])){
           $this->from_origin_stat($user_id);
         }
 				
@@ -1093,7 +1093,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 				$this->is_user_invite($user_id);
 
         // 如果来自第三方则统计(兑吧)
-        if(isset($_COOKIE['from_origin']) && $_COOKIE['from_origin']=='2'){
+        if(isset($_COOKIE['from_origin']) && !empty($_COOKIE['from_origin'])){
           $this->from_origin_stat($user_id);
         }
 		
@@ -1177,10 +1177,11 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     $data = array(
       'user_id' => $user_id,
       'kind' => (int)$from_origin,
+      'ip' => Sher_Core_Helper_Auth::get_ip(),
     );
     $ok = $third_site_stat_model->create($data);
 		// 清除cookie值
-		setcookie('from_origin', '', time() - 3600, '/');
+		setcookie('from_origin', '', time()-99999999, '/');
   }
 
 }
