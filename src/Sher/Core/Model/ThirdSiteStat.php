@@ -14,6 +14,7 @@ class Sher_Core_Model_ThirdSiteStat extends Sher_Core_Model_Base  {
     'user_id' => 0,
     'kind' => self::KIND_360,
     'state' => 1,
+    'ip' => null,
   	);
 
   protected $required_fields = array('user_id', 'kind');
