@@ -70,28 +70,23 @@
     padding-bottom: 5px;
     border-bottom: 2px solid #5d6266;
 }
+.shop-fotter .nav-menu .navfelx .childcell:nth-child(2),.shop-fotter .nav-menu .navfelx .childcell:nth-child(3){
+	margin-left:-5px;
+}
 .shop-fotter .nav-menu .navfelx .childcell .menuicon{
 	text-align:left;
 	position:relative;
 	overflow: hidden;
+	padding-left:0;
+	padding-right:0;
 }
 .shop-fotter .nav-menu .navfelx .childcell .menuicon img{
 	margin:0;
 	width:30px;
 	height:30px;
 }
-.shop-fotter .nav-menu{
-	height:50px;
-}
-.shop-fotter .nav-menu .navfelx .childcell .menuicon .content{
-	width:70px;
-	height:30px;
-	position:absolute;
-	top:6px;
-	left:40px;
-}
 .shop-fotter .nav-menu .navfelx .childcell .menuicon::after{
-    content: ".";
+    content: " ";
     display: block;
     height: 30px;
     clear: both;
@@ -100,10 +95,17 @@
 	background:rgba(0,0,0,0.1);
 	top:50%;
 	margin-top:-15px;
-	right:0;
+	right:5px;
 }
 .shop-fotter .nav-menu .navfelx .childcell:last-child .menuicon::after{
 	content:none;
+}
+.shop-fotter .nav-menu .navfelx .childcell .menuicon .content{
+	width:90px;
+	height:30px;
+	position:absolute;
+	top:6px;
+	left:35px;
 }
 .content.huan{
 	line-height: 15px;
@@ -117,6 +119,29 @@
 	line-height: 15px;
 	color:#3E98BE;
 }
+@media only screen and (max-width: 320px){
+	.shop-fotter .nav-menu .navfelx .childcell .menuicon img {
+	    width: 28px;
+	    height: 28px;
+	}
+	.shop-fotter .nav-menu .navfelx .childcell .menuicon .content{
+		height: 28px;
+	    left: 30px;
+	}
+	.shop-fotter .nav-menu .navfelx .childcell .menuicon::after{
+		right: 23px;
+	}
+	.shop-fotter .nav-menu .navfelx .childcell:nth-child(2), .shop-fotter .nav-menu .navfelx .childcell:nth-child(3) {
+	    margin-left: -27px;
+	}
+	.content.baoypu {
+	    line-height: 28px;
+	}
+	
+	
+}
+
+
 </style>
 {% endblock %}
 {% block jquery %}
@@ -429,7 +454,7 @@
 								<img src="{{ app_url_packaged }}/images/icon/shouhoufuwu.png">
 								<div class="content fuwu">
 									售后服务<br>
-									84599327
+									010-84599327
 								</div>
 							</div>
 						</li>
