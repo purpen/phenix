@@ -114,7 +114,10 @@
 	$('ul[class=gridster_ul]').css('height','');
 	
 	function JavascriptHandler(data) {
-	   return window.location.href = 'thn://'+data;
+		if (!data) {
+            return '';
+        }
+		return window.location.href = 'thn://'+parseInt(data);
 	}
 	</script>				
 </body>
