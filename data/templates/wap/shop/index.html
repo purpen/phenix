@@ -5,7 +5,7 @@
 	#mfrbird {
 	    margin: 0em auto 1.5em !important;
 	}
-#slider.flexslider .slides li a{
+#slider.flexslider .slides ul{
 	padding-top:56%;
 }
 #shop-special .recommend-topic{
@@ -43,9 +43,9 @@
 <div id="slider" class="flexslider flex-single">
   <ul class="slides">
     {% for adshop in adshop.rows %}
-      <li style="background-image: url('{{ adshop.cover.fileurl }}');">
+      <li>
         <a href="{{ adshop.mm_view_url }}" title="{{ adshop.title }}" alt="{{ adshop.title }}">
-            <img src="{{ adshop.cover.fileurl }}" alt="{{ adshop.title }}" style="display: none;" />
+            <img src="{{ adshop.cover.fileurl }}" alt="{{ adshop.title }}" />
         </a>
       </li>
     {% endfor %}
