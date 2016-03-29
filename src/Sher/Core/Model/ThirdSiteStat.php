@@ -8,7 +8,7 @@ class Sher_Core_Model_ThirdSiteStat extends Sher_Core_Model_Base  {
 
   ##类型
   const KIND_360 = 1;
-  const KIND_OTHER = 2;
+  const KIND_DB = 2;  // 兑吧
 
 	protected $schema = array(
     'user_id' => 0,
@@ -24,6 +24,16 @@ class Sher_Core_Model_ThirdSiteStat extends Sher_Core_Model_Base  {
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
+    switch($row['kind']){
+      case 1:
+        $row['kind_str'] = '360';
+        break;
+      case 2:
+        $row['kind_str'] = '兑吧';
+        break;
+      default:
+        $row['kind_str'] = '--';
+    }
 		
 	}
 
