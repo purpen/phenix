@@ -5,7 +5,6 @@
 {% block content %}
 	<h3 class="ui header">投放广告统计管理</h3>
   <div>
-    点击率: {{ site_360 }}
   </div>
 	<table class="ui small table segment">
 		<thead>
@@ -18,15 +17,16 @@
 				</th>
 				<th>用户ID</th>
 				<th>来源</th>
+        <th>IP</th>
 				<th>注册时间</th>
 			</tr>
 		</thead>
 		<tbody>
 			
-    {% third_site_stat_list var:'list' page:page size:50 %}
+    {% third_site_stat_list var:'list' kind:kind page:page size:size %}
 
 			{% for d in list.rows %}
-			<tr id="{{ egou._id }}">
+      <tr id="item-{{ d._id }}">
 				<td>
 					<div class="ui checkbox">
 					  	<input name="ids" type="checkbox" value="{{ d._id }}" class="checkbox" />
@@ -37,9 +37,10 @@
           <a href="{{ app_url_user }}/{{ d.user_id }}" target="_blank">{{ d.user_id }}</a>
 				</td>
 				<td>
-          {% if d.kind==1 %}
-            360
-          {%endif%}
+          {{ d.kind_str }}
+				</td>
+				<td>
+          {{ d.ip|default '--' }}
 				</td>
 				<td>
 					{{ d.created_on|date 'Y-m-d H:i' }}
@@ -53,6 +54,7 @@
 	<div class="ui pagination">
 		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
 		{%include 'block/pager.html'%}
+		<label class="page_count">{{ total_count }}个</label>
 	</div>
 	{% endif %}
 {% endblock %}

@@ -423,6 +423,11 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 				
 				// 删除验证码
 				$verify_model->remove((string)$has_code['_id']);
+
+        // 如果来自第三方则统计(兑吧)
+        if(isset($_COOKIE['from_origin']) && $_COOKIE['from_origin']=='2'){
+          $this->from_origin_stat($user_id);
+        }
 				
 				Sher_Core_Helper_Auth::create_user_session($user_id);
 				
@@ -539,6 +544,11 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 				// 删除验证码
 				$verify = new Sher_Core_Model_Verify();
 				$verify->remove((string)$code['_id']);
+
+        // 如果来自第三方则统计
+        if(isset($_COOKIE['from_origin']) && !empty($_COOKIE['from_origin'])){
+          $this->from_origin_stat($user_id);
+        }
 				
 				Sher_Core_Helper_Auth::create_user_session($user_id);
 			}
@@ -1081,6 +1091,11 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	  
 				//统计好友邀请
 				$this->is_user_invite($user_id);
+
+        // 如果来自第三方则统计(兑吧)
+        if(isset($_COOKIE['from_origin']) && !empty($_COOKIE['from_origin'])){
+          $this->from_origin_stat($user_id);
+        }
 		
 				// 实现自动登录
 				Sher_Core_Helper_Auth::create_user_session($user_id);
@@ -1152,5 +1167,22 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			setcookie('user_invite_code', '', time() - 3600, '/');
 		}
 	}
+
+  /**
+   * 统计来源网站注册量
+   */
+  protected function from_origin_stat($user_id){
+    $from_origin = $_COOKIE['from_origin'];
+    $third_site_stat_model = new Sher_Core_Model_ThirdSiteStat();
+    $data = array(
+      'user_id' => $user_id,
+      'kind' => (int)$from_origin,
+      'ip' => Sher_Core_Helper_Auth::get_ip(),
+    );
+    $ok = $third_site_stat_model->create($data);
+		// 清除cookie值
+		setcookie('from_origin', '', time()-99999999, '/');
+  }
+
 }
 

@@ -8,7 +8,8 @@
         public $stash = array(
             'id' => 0,
             'page' => 1,
-            'size' => 20,
+            'size' => 100,
+            'kind' => 0,
         );
 
         public function _init() {
@@ -24,17 +25,9 @@
          * @return string
          */
         public function get_list() {
-            $pager_url = Doggy_Config::$vars['app.url.admin'].'/third_site_stat?page=#p#';
-            // 统计点击数量
-            $dig_model = new Sher_Core_Model_DigList();
-            $dig_key = Sher_Core_Util_Constant::DIG_THIRD_SITE_STAT;
+          $kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 0;
+            $pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/third_site_stat/get_list?kind=%d&page=#p#', $kind);
 
-            $dig = $dig_model->load($dig_key);
-            if(!empty($dig) || isset($dig['items']["stat_1"])){
-              $this->stash['site_360'] = $dig['items']['stat_1'];
-            }else{
-              $this->stash['site_360'] = 0;
-            }
             $this->stash['pager_url'] = $pager_url;
             return $this->to_html_page('admin/third_site_stat/list.html');
         }

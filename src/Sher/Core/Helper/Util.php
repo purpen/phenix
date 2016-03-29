@@ -34,8 +34,13 @@ class Sher_Core_Helper_Util {
 	*/  
 	public static function arrayToTree($sourceArr, $key, $parentKey, $childrenKey)  
 	{  
-		$tempSrcArr = array();  
-		 
+		$tempSrcArr = array();
+		
+		if(!$sourceArr)
+		{
+			return false;
+		}
+		
 		$allRoot = TRUE;  
 		foreach ($sourceArr as  $v)  
 		{  
