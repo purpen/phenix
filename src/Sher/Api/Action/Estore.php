@@ -17,8 +17,8 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
         'lat'  => 0,
 	);
 	
-	protected $exclude_method_list = array('execute','get_store_list','find_stores','get_single_store');
-    protected $filter_user_method_list = array('execute','get_store_list','find_stores','get_single_store');
+	protected $exclude_method_list = array('execute','get_store_list','find_stores','get_single_store','get_city_list');
+    protected $filter_user_method_list = array('execute','get_store_list','find_stores','get_single_store','get_city_list');
 
 	/**
 	 * 默认方法
@@ -149,4 +149,12 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
         return $this->api_json('请求成功', false, $result);
     }
     
+    /**
+     * 获取城市列表
+     */
+    public function get_city_list(){
+        $result = Sher_Core_Model_Estore::$city;
+        //var_dump($result);die;
+        return $this->api_json('请求成功', false, $result);
+    }
 }

@@ -22,6 +22,13 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$root = $model->find_root_key(1);
 		$result = $model->find(array('parent_id'=>(int)$root['_id']));
 		$this->stash['scene_tags'] = $result;
+		
+		// 封面图上传
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['pid'] = new MongoId();
+
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
     }
 	
 	/**
@@ -81,5 +88,79 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$this->stash['mode'] = $mode;
 		
 		return $this->to_html_page('app_admin/scene_scene/submit.html');
+	}
+	
+	/**
+	 * 提交情景
+	 */
+	public function save(){
+		
+		$user_id = $this->visitor->id;
+		
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$cover_id = $this->stash['cover_id'];
+		
+		$data = array();
+		$data['title'] = $this->stash['title'];
+		$data['des'] = $this->stash['des'];
+		$data['tags'] = $this->stash['tags'];
+		$data['address'] = $this->stash['address'];
+		$data['location']['coordinates']['lat'] = $this->stash['lat'];
+		$data['location']['coordinates']['lng'] = $this->stash['lng'];
+		$data['cover_id'] = $this->stash['cover_id'];
+		$data['asset'] = isset($this->stash['asset'])?$this->stash['asset']:array();
+		
+		if(empty($data['title']) || empty($data['des'])){
+			return $this->api_json('请求参数不能为空', 3000);
+		}
+		
+		if(empty($data['address']) || empty($data['address'])){
+			return $this->api_json('请求参数不能为空', 3000);
+		}
+		
+		if(empty($data['tags']) || empty($data['tags'])){
+			return $this->api_json('请求参数不能为空', 3000);
+		}
+		
+		if(empty($data['location']['coordinates']['lat']) || empty($data['location']['coordinates']['lat'])){
+			return $this->api_json('请求参数不能为空', 3000);
+		}
+		
+		$data['tags'] = explode(',',$data['tags']);
+		foreach($data['tags'] as $k => $v){
+			$data['tags'][$k] = (int)$v;
+		}
+		
+		//var_dump($data);die;
+		try{
+			$model = new Sher_Core_Model_SceneScene();
+			// 新建记录
+			if(empty($id)){
+				$data['user_id'] = $user_id;
+				
+				$ok = $model->apply_and_save($data);
+				$scene = $model->get_data();
+				
+				$id = $scene['_id'];
+			}else{
+				$data['_id'] = $id;
+				$ok = $model->apply_and_update($data);
+			}
+			
+			if(!$ok){
+				return $this->api_json('保存失败,请重新提交', 4002);
+			}
+			
+			// 上传成功后，更新所属的附件
+			
+			if(isset($data['asset']) && !empty($data['asset'])){
+				$model->update_batch_assets($data['asset'], $id);
+			}		
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("api情景保存失败：".$e->getMessage());
+			return $this->api_json('情景保存失败:'.$e->getMessage(), 4001);
+		}
+		
+		return $this->api_json('提交成功', 0, null);
 	}
 }
