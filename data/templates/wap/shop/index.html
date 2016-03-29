@@ -20,7 +20,16 @@
 		height:232px;
 	}
 }
-
+#shop-special .recommend-topic{
+	padding:0;
+}
+.recom-cell.one{
+	width:100%;
+	padding:0;
+}
+.recom-cell.one.mt-0{
+	margin-top:0;
+}
 
 
 </style>
@@ -55,6 +64,53 @@
     {% endfor %}
   </ul>
 </div>
+<div class="nav-menu">
+	<ul class="navfelx">
+		<li class="childcell">
+			<a class="menuicon" href="{{ app_url_wap }}/topic" title="社区">
+				<img src="{{ app_url_packaged }}/images/icon/topic.png">
+			    分类
+			</a>
+		</li>
+		<li class="childcell">
+			<a class="menuicon" href="{{ app_url_wap }}/shop" title="商城">
+				<img src="{{ app_url_packaged }}/images/icon/product.png">
+			    专题
+			</a>
+		</li>
+		<li class="childcell">
+			<a class="menuicon" href="{{ app_url_wap }}/try" title="免费试用">
+				<img src="{{ app_url_packaged }}/images/icon/try.png">
+			    积分商城
+			</a>
+		</li>
+		<li class="childcell">
+			<a class="menuicon" href="{{ app_url_wap }}/promo/sign" title="签到">
+				<img src="{{ app_url_packaged }}/images/icon/qiandao.png">
+			    服务
+			</a>
+		</li>
+	</ul>
+</div>
+<!-- 专题 -->
+<div class=" " id="shop-special">
+	<div class="recommend-topic">
+		<div class="recom-item">
+			<div class="recom-cell one mt-0">
+				<a href="http://www.taihuoniao.com/tracker?kid=127585104">
+					<img class="lazy" data-original="http://frbird.qiniudn.com/asset/160328/56f89ad9fc8b12fa5c8b8bfb-1" src="http://frbird.qiniudn.com/asset/160328/56f89ad9fc8b12fa5c8b8bfb-1" title="免费试用丨土曼T-Ripple智能手表" style="display: block;">
+					<div class="desc">
+						免费试用丨土曼T-Ripple智能手表
+					</div>
+				</a>
+				
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+
 
 
 
