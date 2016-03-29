@@ -140,7 +140,7 @@
 
 {% endblock %}
 {% block content %}
-{% ad_list var:'adshop' state:2 size:1 name:'wap_index_shop_slide' %}
+{% ad_list var:'adshop' state:2 size:1 name:'wap_index_shop_slide' sort_field:'latest' %}
 <div id="slider" class="flexslider flex-single">
   <ul class="slides">
     {% if adshop %}
@@ -149,7 +149,7 @@
             <img src="{{ adshop.cover.fileurl }}" alt="{{ adshop.title }}" style="display: none;" />
         </a>
       </li>
-    {% endfor %}
+    {% endif %}
   </ul>
 </div>
 <div class="nav-menu">
