@@ -5,6 +5,7 @@
 	#mfrbird {
 	    margin: 0em auto 1.5em !important;
 	}
+	/*** 已放入ui ***/
 	.shopbanner{
 	    padding-top: 56%;
 	    position: relative;
@@ -131,7 +132,7 @@
 	line-height: 15px;
 	color:#55C4B1;
 }
-.content.baoypu{
+.content.baoyou{
 	line-height: 30px;
 	color:#FC6B68;
 }
@@ -154,7 +155,7 @@
 	.shop-fotter .nav-menu .navfelx .childcell:nth-child(2), .shop-fotter .nav-menu .navfelx .childcell:nth-child(3) {
 	    margin-left: -27px;
 	}
-	.content.baoypu {
+	.content.baoyou {
 	    line-height: 28px;
 	}
 	
@@ -256,7 +257,7 @@
 	</div>
 </div>
 <!-- 商品 -->
-<div id="mpresale">
+<div class="shopindex" id="mpresale">
 	<div class="ui responsive grid">
 		<div class="row pb-0 pt-15">
 			<div class="ui center aligned column">
@@ -454,7 +455,7 @@
 		</div>
 		
 		<!-- 底部 -->
-		<div class="row">
+		<div class="row pt-0">
 			<div class="shop-fotter">
 				<div class="nav-menu">
 					<ul class="navfelx">
@@ -470,7 +471,7 @@
 						<li class="childcell">
 							<div class="menuicon">
 								<img src="{{ app_url_packaged }}/images/icon/baoyou.png">
-								<div class="content baoypu">
+								<div class="content baoyou">
 									全国包邮
 								</div>
 							</div>
@@ -490,13 +491,5 @@
 		</div>
 	</div>
 </div>
-
-
-
-
-
-
-
-
 
 {% endblock %}
