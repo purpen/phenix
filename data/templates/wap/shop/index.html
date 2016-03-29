@@ -5,21 +5,18 @@
 	#mfrbird {
 	    margin: 0em auto 1.5em !important;
 	}
-@media only screen and (max-width: 320px){
-	#slider{
-		height:180px;
+	.shopbanner{
+	    padding-top: 56%;
+	    position: relative;
 	}
-}
-@media only screen and (min-width:321px )and (max-width: 375px){
-	#slider{
-		height:210px;
+	.shopbanner a img{
+	    width: 100%;
+	    height: auto;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
 	}
-}
-@media only screen and (min-width: 376px) and (max-width: 414px){
-	#slider{
-		height:232px;
-	}
-}
+
 #shop-special .recommend-topic{
 	padding:0;
 }
@@ -123,34 +120,18 @@
 </style>
 {% endblock %}
 {% block jquery %}
-	$('#slider').flexslider({
-      animation: "slide",
-      directionNav: false, 
-      controlNav: true,
-      animationLoop: true,
-      slideshow: true,
-      slideshowSpeed: 5000,
-      animationDuration: 300,
-      animationSpeed: 300,
-  });
 	
-	var flexheight = Math.floor($('#mfrbird').width()*9/16)+'px';
-	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
 
 
 {% endblock %}
 {% block content %}
-{% ad_list var:'adshop' state:2 size:1 name:'wap_index_shop_slide' sort_field:'latest' %}
-<div id="slider" class="flexslider flex-single">
-  <ul class="slides">
+<div class="shopbanner">
+	{% ad_list var:'adshop' state:2 size:1 name:'wap_index_shop_slide' sort_field:'latest' %}
     {% if adshop %}
-      <li style="background-image: url('{{ adshop.cover.fileurl }}');">
         <a href="{{ adshop.mm_view_url }}" title="{{ adshop.title }}" alt="{{ adshop.title }}">
-            <img src="{{ adshop.cover.fileurl }}" alt="{{ adshop.title }}" style="display: none;" />
+            <img src="{{ adshop.cover.fileurl }}" alt="{{ adshop.title }}" />
         </a>
-      </li>
     {% endif %}
-  </ul>
 </div>
 <div class="nav-menu">
 	<ul class="navfelx">
