@@ -73,6 +73,53 @@
     padding-bottom: 5px;
     border-bottom: 2px solid #5d6266;
 }
+.shop-fotter .nav-menu .navfelx .childcell .menuicon{
+	text-align:left;
+	position:relative;
+	overflow: hidden;
+}
+.shop-fotter .nav-menu .navfelx .childcell .menuicon img{
+	margin:0;
+	width:30px;
+	height:30px;
+}
+.shop-fotter .nav-menu{
+	height:50px;
+}
+.shop-fotter .nav-menu .navfelx .childcell .menuicon .content{
+	width:70px;
+	height:30px;
+	position:absolute;
+	top:6px;
+	left:40px;
+}
+.shop-fotter .nav-menu .navfelx .childcell .menuicon::after{
+    content: ".";
+    display: block;
+    height: 30px;
+    clear: both;
+	position:absolute;
+	width:1px;
+	background:rgba(0,0,0,0.1);
+	top:50%;
+	margin-top:-15px;
+	right:0;
+}
+.shop-fotter .nav-menu .navfelx .childcell:last-child .menuicon::after{
+	content:none;
+}
+.content.huan{
+	line-height: 15px;
+	color:#55C4B1;
+}
+.content.baoypu{
+	line-height: 30px;
+	color:#FC6B68;
+}
+.content.fuwu{
+	line-height: 15px;
+	color:#3E98BE;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -373,9 +420,45 @@
 				</div>
 			</div>
 		</div>
-	
-	
-	
+		
+		<!-- 底部 -->
+		<div class="row">
+			<div class="shop-fotter">
+				<div class="nav-menu">
+					<ul class="navfelx">
+						<li class="childcell">
+							<div class="menuicon">
+								<img src="{{ app_url_packaged }}/images/icon/topic.png">
+								<div class="content huan">
+									7天<br>
+									无理由退货
+								</div>
+							</div>
+						</li>
+						<li class="childcell">
+							<div class="menuicon">
+								<img src="{{ app_url_packaged }}/images/icon/topic.png">
+								<div class="content baoypu">
+									全国包邮
+								</div>
+							</div>
+						</li>
+						<li class="childcell">
+							<div class="menuicon">
+								<img src="{{ app_url_packaged }}/images/icon/topic.png">
+								<div class="content fuwu">
+									售后服务<br>
+									84599327
+								</div>
+							</div>
+						</li>
+						
+						
+						
+					</ul>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
