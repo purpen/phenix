@@ -8,7 +8,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = array('execute','flat','add_user','test_func','tweleve', 'add_user_tags');
+	protected $exclude_method_list = array('execute','flat','add_user','test_func','tweleve', 'add_user_tags','show');
 
 	/**
 	 * 默认入口

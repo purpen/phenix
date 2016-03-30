@@ -52,11 +52,31 @@
     transform: translate3d(0,100%,0);
     -webkit-transition: all 0.3s ease 0.05s;
     transition: all 0.3s ease 0.05s;
+	padding:10px;
 }
 #shopview.show-details .ui.top.details{
 	visibility: visible;
     -webkit-transform: translate3d(0,0,0);
     transform: translate3d(0,0,0);
+}
+#shopview .ui.top.details .ui.middle.aligned.image{
+	width:65px;
+	height:65px;
+}
+#shopview .ui.top.details h4.ui.header.inline{
+    display: inline-block;
+    margin-top: 0;
+    vertical-align: middle;
+	font-weight:400;
+	margin-left: 5px;
+	font-size: 14px;
+}
+#shopview .ui.top.details h4.ui.header.inline .sub.header{
+	margin-top: 3px;
+    font-size: 13px;
+}
+#shopview .ui.top.details .ui.divider{
+	margin:5px 10px 0;
 }
 </style>
 {% endblock %}
@@ -82,12 +102,14 @@
 	
 	//点击颜色分类
 	$('#shopview .nologin').click(function(){
-		phenix.redirect('{{ app_url_wap }}/auth/login')
-	});
-	$('#shopview .colour').click(function(){
-		$('#cover').css('display','block');
-		$('html').css('overflow','hidden');
-		$('#shopview').addClass('show-details');
+		if( !phenix.visitor.is_login ){
+			phenix.redirect('{{ app_url_wap }}/auth/login')
+		}
+		else{
+			$('#cover').css('display','block');
+			$('html').css('overflow','hidden');
+			$('#shopview').addClass('show-details');
+		}
 	});
 	$('#cover').click(function(){
 		$('#shopview').removeClass('show-details');
@@ -134,21 +156,38 @@
 		</h4>
 	</div>
 	
-	{% if !visitor %}
-	<div class="nologin colour">
-		颜色分类
-		<i class="angle float right icon"></i>
-	</div>
-	{% else %}
+	
 	<div class="colour">
 		颜色分类
 		<i class="angle float right icon"></i>
 	</div>
-	{% endif %}
-	<div class="ui datahidden">
-		<div class="ui top details">
-		
+	<div class="ui top details">
+		<div class="ui respontion grid">
+			<div class="row pb-0">
+				<div class="column">
+					<img class="ui middle aligned image" src="http://frbird.qiniudn.com/product/160325/56f52c05fc8b12606f8b8d26-1-sm.jpg">
+					<h4 class="ui header inline">
+						智能灯泡LED球泡灯 无线调
+						<div class="sub header">
+							剩余库存100
+						</div>
+					</h4>
+				</div>
+				<div class="ui divider"></div>
+			</div>
+			
+			<div class="row">
+				<div class="column">
+					<h4 class="ui header">
+						颜色分类
+					</h4>
+				</div>
+			</div>
+			
+			
+			
 		</div>
+	
 	</div>
 	
 	
