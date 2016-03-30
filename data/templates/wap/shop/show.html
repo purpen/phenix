@@ -39,15 +39,9 @@
 #shopview i.float.icon{
 	float:right;
 }
-.htmlhidden{
-	position:relative;
-	height:100%;
-	width:100%;
-	background:rgba(0,0,0,0.6);
-}
-.ui.top.details{
+#shopview .ui.top.details{
 	background:#fff;
-	position:absolute;
+	position:fixed;
 	width:100%;
 	height:70%;
 	left:0;
@@ -96,7 +90,7 @@
 		$('#shopview').addClass('show-details');
 	});
 	$('#cover').click(function(){
-		$('#shopview').removeClass('show-details')
+		$('#shopview').removeClass('show-details');
 	});
 
 {% endblock %}
@@ -151,9 +145,10 @@
 		<i class="angle float right icon"></i>
 	</div>
 	{% endif %}
-	
-	<div class="ui top details">
+	<div class="ui datahidden">
+		<div class="ui top details">
 		
+		</div>
 	</div>
 	
 	
