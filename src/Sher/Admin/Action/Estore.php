@@ -192,7 +192,7 @@ class Sher_Admin_Action_Estore extends Sher_Admin_Action_Base implements DoggyX_
 					$model->remove((int)$id);
 				
 					// 删除关联对象
-					$model->mock_after_remove($id);
+					$model->mock_after_remove($id, Sher_Core_Model_Asset::TYPE_STORE);
 				}
 			}
 			

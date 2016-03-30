@@ -72,6 +72,7 @@ class Sher_Core_Model_Estore extends Sher_Core_Model_Base {
         'user_id'        => 0,
         
         'cover_id'       => 0,
+        'city_id'       => 0,
         # 图片数组
 		'asset' => array(),
         
@@ -184,10 +185,10 @@ class Sher_Core_Model_Estore extends Sher_Core_Model_Base {
     /**
 	 * 删除后事件
 	 */
-	public function mock_after_remove($id) {
+	public function mock_after_remove($id, $asset_type) {
 		// 删除Asset
 		$asset = new Sher_Core_Model_Asset();
-		$asset->remove_and_file(array('parent_id' => $id));
+		$asset->remove_and_file(array('parent_id' => $id, 'asset_type'=>$asset_type));
 		unset($asset);
 		return true;
 	}
