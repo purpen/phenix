@@ -134,8 +134,8 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 	public function flat() {		
 		return $this->to_html_page('page/flat.html');
 	}
-	public function noodles() {		
-		return $this->to_html_page('wap/noodles.html');
+	public function show() {		
+		return $this->to_html_page('wap/shop/show.html');
 	}
 	public function tweleve() {
 		return $this->to_html_page('wap/shop/index.html');
