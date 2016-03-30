@@ -290,6 +290,16 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	}
     
     /**
+	 * 上传情景封面
+	 */
+	public function scene_scene() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
+		$asset_type = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+    
+    /**
 	 * 上传店铺图片
 	 */
 	public function estore() {
