@@ -78,6 +78,16 @@
 #shopview .ui.top.details .ui.divider{
 	margin:5px 10px 0;
 }
+#shopview .ui.top.details .product.attrs{
+	font-size:0;
+}
+#shopview .ui.top.details .product.attrs .ui.magenta.att.button{
+	padding: 8px 17px;
+	margin:5px 3px;
+}
+.mb-5{
+	margin-bottom:5px;
+}
 </style>
 {% endblock %}
 
@@ -113,6 +123,25 @@
 	});
 	$('#cover').click(function(){
 		$('#shopview').removeClass('show-details');
+	});
+	
+	// 如果仅一个sku,则设置默认值
+	<!--{% if skus_count %}
+		var choosed_sku = 0;
+	{% else %}
+		var choosed_sku = {{ product._id }};
+	{% endif %}-->
+	
+	// 选择sku
+	$('.attrs .ui.att.button').click(function(){
+		choosed_sku = $(this).data('id');
+		$('.attrs .ui.att.active.button').removeClass('active');
+		$(this).addClass('active');
+		{% if !product.snatched %}
+		  $('#current-price').html('<small>￥</small>'+$(this).data('price'));
+		{%endif%}		
+
+		return false;
 	});
 
 {% endblock %}
@@ -178,9 +207,22 @@
 			
 			<div class="row">
 				<div class="column">
-					<h4 class="ui header">
+					<h4 class="ui header mb-5">
 						颜色分类
 					</h4>
+					
+					<div class="product attrs">
+						<span class="ui small magenta inverted att button active" data-id="1031789046" data-price="0.01">白色</span>
+						<span class="ui small magenta inverted att button" data-id="1031789053" data-price="0.02">黑色</span>
+						<span class="ui small magenta inverted att button" data-id="1031789101" data-price="0.03">绿色</span>
+						<span class="ui small magenta inverted att button" data-id="1031789046" data-price="0.01">白色</span>
+						<span class="ui small magenta inverted att button" data-id="1031789053" data-price="0.02">黑色</span>
+						<span class="ui small magenta inverted att button" data-id="1031789101" data-price="0.03">绿色</span>
+						<span class="ui small magenta inverted att button" data-id="1031789046" data-price="0.01">白色</span>
+						<span class="ui small magenta inverted att button" data-id="1031789053" data-price="0.02">黑色</span>
+						<span class="ui small magenta inverted att button" data-id="1031789101" data-price="0.03">绿色</span>
+						
+					</div>
 				</div>
 			</div>
 			
