@@ -647,6 +647,23 @@
 				{% endfor %}
 			</div>
     </div>
+
+		<div class="ui segment">
+			<h3 class="ui dividing header">线下体验店:</h3>
+
+			<div class="inline field">
+        <label>所在店铺:</label>
+				{% store_list var:'estores' approved:2 current_pid:product._id page:1 size:100 %}
+				{% for d in estores.rows %}
+            <div class="ui checkbox">
+              <input type="checkbox" name="estores[]" value="{{ d._id }}" {% if d.has_product %}checked="checked"{% endif %} /> 
+              <label>{{ d.name }}</label>
+            </div>
+        {% endfor %}
+			</div>
+
+    </div>
+
 			
 			<h3 class="ui dividing stage header">产品当前阶段</h3>
 			<div class="grouped inline fields">

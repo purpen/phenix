@@ -257,6 +257,55 @@
 		});
 	});
 	
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+    
+    // 封面图上传
+	$('#phenix-uploader').fineUploader({
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ date._id }}','file_id': '{{ pid }}' },
+        	endpoint: '{{ app_url_upload }}/scene_scene'
+      	},
+		text: {
+            uploadButton: '<a class="ui active orange labeled icon inverted button" href="javascript:void(0);"><i class="upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_note(result.message);
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
+		}
+	});
+    
+    // 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#cover_id').val(id);
+			return false;
+		});
+	});
+	
 {% endblock %}
 
 {% block content %}
@@ -279,7 +328,7 @@
 	    </div>
 	</div>	
 	
-	<form action="{{ app_url_api }}/scene_scene/save" class="ui form" method="post" id="active-form">
+	<form action="{{ app_url_app_admin_base }}/scene_scene/save" class="ui form" method="post" id="active-form">
 		<!-- 隐藏表单 -->
 		<input type="hidden" name="id" value="{{ date._id }}" />
 		<input type="hidden" name="tags" value="{{ date.tags }}" />
@@ -293,6 +342,39 @@
             <div class="field">
                 <label>情景详情</label>
                 <textarea name="des" placeholder="语境详情">{{ date.des }}</textarea>
+            </div>
+			<!--封面图-->
+            <div class="ui segment">
+                <div class="field">
+                    <label>上传封面图</label>
+                    <input type="hidden" name="cover_id" id="cover_id" value="{{ date.cover_id }}" />
+                    <div id="phenix-uploader"></div>
+                
+                    <div id="asset-list" class="ui four blocks">
+					{% if mode == 'edit' %}
+						{% asset_list var:'assets' parent_id:date._id asset_type:asset_type size:20 %}
+						{% for asset in assets.rows %}
+						<div class="thumb block" id="{{ asset._id }}">
+							<div class="image">
+								<img src="{{ asset.thumbnails.small.view_url }}" />
+								<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+							</div>
+							<div class="buttons">
+								<div class="ui large links">
+									<a href="{{ app_url_fever }}/delete_asset?id={{ date._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+										<i class="remove icon"></i>
+									</a>
+									
+									<a href="javascript:void(0);" class="ui link {%if date.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+										<i class="checkered flag icon"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					{% endif %}
+                    </div>
+                </div>
             </div>
 			<div class="field">
                 <label>所属标签</label>

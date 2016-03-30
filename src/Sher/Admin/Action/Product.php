@@ -269,6 +269,38 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
       $this->update_style_tag_record($id, $old_scene_ids, $new_scene_ids, 1, 1);
       $this->update_style_tag_record($id, $old_style_ids, $new_style_ids, 2, 1);
 
+      // 更新商品所在店铺
+      if(isset($this->stash['estores']) && !empty($this->stash['estores'])){
+        foreach($this->stash['estores'] as $v){
+          $pid = (int)$id;
+          $eid = (int)$v;
+          $p_stage_id = $data['stage'];
+
+          // 先查询，如果存在，跳过
+          $r_e_p_model = new Sher_Core_Model_REstoreProduct();
+          $r_has_one = $r_e_p_model->first(array('eid'=>$eid, 'pid'=>$pid));
+          if($r_has_one){
+            continue;
+          }
+          $estore_model = new Sher_Core_Model_Estore();
+          // 店铺不存在，跳过
+          $estore = $estore_model->load($eid);
+          if(!$estore){
+            continue;
+          }
+          $e_city_id = isset($estore['city_id']) ? $estore['city_id'] : '';
+
+          $r_estore_product_rows = array(
+            'eid' => $eid,
+            'pid' => $pid,
+            'p_stage_id' => $p_stage_id,
+            'e_city_id' => $e_city_id,
+          );
+          $r_e_p_model->create($r_estore_product_rows);
+          
+        }
+      }
+
 		//如果是发布状态,更新索引
 		$product = $model->load((int)$id);
 		if($product['published']==1){
