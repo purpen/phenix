@@ -1060,7 +1060,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
               $data[$i]['items'][$m]['name'] = $d['title']; 
             }
             $data[$i]['items'][$m]['sku_name'] = $sku_mode; 
-            $data[$i]['items'][$m]['cover_url'] = $d['cover']['thumbnails']['mini']['view_url'];
+            $data[$i]['items'][$m]['cover_url'] = $d['cover']['thumbnails']['apc']['view_url'];
           }
 
           $m++;
@@ -1144,7 +1144,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
             $data['items'][$m]['name'] = $d['title']; 
           }
           $data['items'][$m]['sku_name'] = $sku_mode;
-          $data['items'][$m]['cover_url'] = $d['cover']['thumbnails']['mini']['view_url'];
+          $data['items'][$m]['cover_url'] = $d['cover']['thumbnails']['apc']['view_url'];
         }
 
         $m++;
