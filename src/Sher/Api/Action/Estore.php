@@ -155,6 +155,6 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
     public function get_city_list(){
         $result = Sher_Core_Model_Estore::$city;
         //var_dump($result);die;
-        return $this->api_json('请求成功', false, $result);
+        return $this->ajax_json('请求成功', false, null, $result);
     }
 }
