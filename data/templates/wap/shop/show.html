@@ -109,6 +109,7 @@
     border: 1px solid rgba(0,0,0,0.1);
     border-radius: 0;
     margin: 0;
+	height:32px;
 }
 .ui.mini.gray.icon.button:first-child{
 	border-right: 0;
@@ -117,17 +118,18 @@
 	border-left: 0;
 }
 .quantity input{
-	width: 35px;
-	    text-align: center;
-	    margin: 0;
-	    padding: .5rem;
-	    font-size: 12px;
-	    background-color: #FFF;
-	    border-radius: 0 !important;
-	    border-left: 0;
-	    border: 1px solid rgba(0,0,0,.1);
-	    outline: 0;
-	    color: rgba(0,0,0,.7);
+	width: 40px;
+	height:32px;
+    text-align: center;
+    margin: 0;
+    padding: .5rem;
+    font-size: 12px;
+    background-color: #FFF;
+    border-radius: 0 !important;
+    border-left: 0;
+    border: 1px solid rgba(0,0,0,.1);
+    outline: 0;
+    color: rgba(0,0,0,.7);
 }
 </style>
 {% endblock %}
@@ -281,7 +283,7 @@
 						<button class="ui mini gray dec-qty icon button" data-sku="1011513749">
 							<i class="minus icon"></i>
 						</button>
-						<input type="text" name="product-1011513749-qty" id="product-1011513749-qty" value="1" autocomplete="off">
+						<input type="text" name="product-1011513749-qty" id="product-1011513749-qty" value="1" autocomplete="off" disabled="disabled">
 						<button class="ui mini gray inc-qty icon button" data-sku="1011513749">
 							<i class="add icon"></i>
 						</button>
