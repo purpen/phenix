@@ -312,12 +312,12 @@
     <div class="mainleftwrap">
         <div class="mainleft">
             <div class="slidebox">
-                {% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
+                {% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
                 <div id="slider" class="flexslider flex-single">
                     <ul class="slides">
-                        <li style="background-image: url('{{ product.cover.thumbnails.huge.view_url }}');">
-                            <a href="{{ product.cover.thumbnails.huge.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
-                                <img src="{{ product.cover.thumbnails.huge.view_url }}" alt="{{ product.title }}" style="display: none;" />
+                        <li style="background-image: url('{{ product.cover.thumbnails.aub.view_url }}');">
+                            <a href="{{ product.cover.thumbnails.aub.view_url }}" title="{{ product.title }}" alt="{{ product.title }}">
+                                <img src="{{ product.cover.thumbnails.aub.view_url }}" alt="{{ product.title }}" style="display: none;" />
                             </a>
                         </li>
 		                {% for asset in assets.rows %}
