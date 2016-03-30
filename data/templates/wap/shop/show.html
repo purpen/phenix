@@ -97,6 +97,38 @@
 .mb-5{
 	margin-bottom:5px !important;
 }
+.quantity{
+	font-size:0;
+	padding-top: 5px;
+}
+.ui.mini.gray.icon.button{
+    background-color: rgba(255,255,255,.85);
+    color: rgba(0,0,0,.35);
+    padding: 0.65rem;
+    margin-top: 9pt;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 0;
+    margin: 0;
+}
+.ui.mini.gray.icon.button:first-child{
+	border-right: 0;
+}
+.ui.mini.gray.icon.button:last-child{
+	border-left: 0;
+}
+.quantity input{
+	width: 35px;
+	    text-align: center;
+	    margin: 0;
+	    padding: .5rem;
+	    font-size: 12px;
+	    background-color: #FFF;
+	    border-radius: 0 !important;
+	    border-left: 0;
+	    border: 1px solid rgba(0,0,0,.1);
+	    outline: 0;
+	    color: rgba(0,0,0,.7);
+}
 </style>
 {% endblock %}
 
@@ -245,6 +277,15 @@
 						数量
 					</h4>
 					
+					<div class="quantity">
+						<button class="ui mini gray dec-qty icon button" data-sku="1011513749">
+							<i class="minus icon"></i>
+						</button>
+						<input type="text" name="product-1011513749-qty" id="product-1011513749-qty" value="1" autocomplete="off">
+						<button class="ui mini gray inc-qty icon button" data-sku="1011513749">
+							<i class="add icon"></i>
+						</button>
+					</div>
 					
 				</div>
 				
