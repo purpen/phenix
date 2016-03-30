@@ -349,49 +349,21 @@
   								{{ product.content }}
   							</textarea>
   						</div>
-					
-  						<div class="field">
-  							<label>上传图片</label>
-  							<input type="hidden" name="cover_id" id="product_cover_id" value="{{ product.cover_id }}" />
-  						  	<div id="phenix-uploader"></div>
-					
-  							<div id="asset-list" class="ui four items">
-  								{% asset_list var:'assets' parent_id:product._id size:20 asset_type:10 %}
-  								{% for asset in assets.rows %}
-  								<div class="thumb item" id="{{ asset._id }}">
-  									<div class="image">
-  										<img src="{{ asset.thumbnails.small.view_url }}" />
-  										<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
-  									</div>
-  									<div class="buttons">
-  										<div class="ui large links">
-  											<a href="{{ app_url_fever }}/delete_asset?id={{ product._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
-  												<i class="remove icon"></i>
-  											</a>
-										
-  											<a href="javascript:void(0);" class="ui link {%if product.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
-  												<i class="checkered flag icon"></i>
-  											</a>
-  										</div>
-  									</div>
-  								</div>
-  								{% endfor %}
-  							</div>
-  						</div>
-					
-  					</div>
+
   					<div class="ui right aligned grid">
   						<div class="row">
   							<div class="column">
-  								<div class="ui gray btn-4 btn-4c icon-arrow-right btn">
+  								<div class="ui blue inverted button">
   									确认提交
   								</div>
-  								<div class="ui magenta btn-4 btn-4c icon-arrow-right submit btn">
+  								<div class="ui magenta submit inverted button">
   									发布上线
   								</div>
   							</div>
   						</div>
   					</div>
+  					</div>
+
   				</form>
 			
   			</div>
