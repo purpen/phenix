@@ -17,8 +17,7 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
         'lat'  => 0,
 	);
 	
-	protected $exclude_method_list = array('execute','get_store_list','find_stores','get_single_store','get_city_list');
-    protected $filter_user_method_list = array('execute','get_store_list','find_stores','get_single_store','get_city_list');
+  protected $filter_user_method_list = array('execute','get_store_list','find_stores','get_single_store','get_city_list','get_estore_product_list');
 
 	/**
 	 * 默认方法
@@ -157,4 +156,85 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
         //var_dump($result);die;
         return $this->api_json('请求成功', false, $result);
     }
+
+  /**
+   * 店铺商品关联查询
+   */
+  public function get_estore_product_list(){
+
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
+    $sort = isset($this->stash['sort'])?(int)$this->stash['sort']:0;
+    $eid = isset($this->stash['eid'])?(int)$this->stash['eid']:0;
+    $pid = isset($this->stash['pid'])?(int)$this->stash['pid']:0;
+    $e_city_id = isset($this->stash['e_city_id'])?$this->stash['e_city_id']:'';
+    $p_stage_id = isset($this->stash['p_stage_id'])?(int)$this->stash['p_stage_id']:0;
+		
+		$query   = array();
+		$options = array();
+
+    //显示的字段
+    $options['some_fields'] = array(
+      'eid'=>1, 'pid'=>1, '_id'=>1, 'e_city_id'=>1, 'p_stage_id'=>1,
+      'created_on'=>1, 'updated_on'=>1, 'product'=>1,
+    );
+
+		$product_some_fields = array(
+			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
+			'cover_id', 'category_id', 'stage', 'summary', 'comment_star', 'tags', 'tags_s',
+      'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
+		);
+		
+		// 查询条件
+		if($eid){
+			$query['eid'] = (int)$eid;
+		}
+		if($pid){
+			$query['pid'] = $pid;
+    }
+		if($e_city_id){
+			$query['e_city_id'] = $e_city_id;
+		}
+		if($p_stage_id){
+			$query['p_stage_id'] = $p_stage_id;
+    }
+
+		// 排序
+		switch ((int)$sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+		}
+		
+		// 分页参数
+    $options['page'] = $page;
+    $options['size'] = $size;
+
+		// 开启查询
+    $service = Sher_Core_Service_REstoreProduct::instance();
+    $result = $service->get_store_product_list($query, $options);
+
+		// 重建数据结果
+		$data = array();
+		for($i=0;$i<count($result['rows']);$i++){
+			foreach($options['some_fields'] as $key=>$value){
+        $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
+			}
+      $data[$i]['_id'] = (string)$data[$i]['_id'];
+
+      if($data[$i]['product']){
+        $product = array();
+        for($k=0;$k<count($product_some_fields);$k++){
+          $product_key = $product_some_fields[$k];
+          $product[$product_key] = isset($data[$i]['product'][$product_key]) ? $data[$i]['product'][$product_key] : null;
+        }
+        $data[$i]['product'] = $product;
+      }
+
+		}
+		$result['rows'] = $data;
+		
+		return $this->api_json('请求成功', 0, $result);
+  }
+
 }

@@ -24,6 +24,7 @@ class Sher_Core_ViewTag_EstoreList extends Doggy_Dt_Tag {
         $distance = 0;
         // 依据中心点
         $point = array();
+        $current_pid = 0;
         
 		$sort = 'latest';
         
@@ -65,6 +66,23 @@ class Sher_Core_ViewTag_EstoreList extends Doggy_Dt_Tag {
 		$options['sort_field'] = $sort;
         
         $result = $service->get_store_list($query, $options);
+
+        //加载大赛
+        if($current_pid){
+            $r_e_p_model = new Sher_Core_Model_REstoreProduct();
+            for($i=0;$i<count($result['rows']);$i++){
+                $eid = $result['rows'][$i]['_id'];
+ 
+                $has_product = $r_e_p_model->first(array('eid'=>$eid, 'pid'=>(int)$current_pid));
+                if($has_product){
+                    $result['rows'][$i]['has_product'] = true;              
+                }else{
+                    $result['rows'][$i]['has_product'] = false;                
+                }
+            }
+            unset($r_e_p_model);
+        }
+        
         $context->set($var,$result);
         
         if ($include_pager) {
