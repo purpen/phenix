@@ -100,10 +100,24 @@
 
                 {% if admin %}
                   {% if order.status == 12 %}
-                    <div>理由: {{ order.refund_reason }}</div>
+                    <div>
+                      理由: 
+                      {% if order.refund_option==1 %}
+                        不想要了
+                      {%else%}
+                        {{ order.refund_reason }}
+                      {%endif%}
+                    </div>
                   {% endif %}
                   {% if order.status == 13 %}
-                    <div>理由: {{ order.refund_reason }}</div>
+                    <div>
+                      理由: 
+                      {% if order.refund_option==1 %}
+                        不想要了
+                      {%else%}
+                        {{ order.refund_reason }}
+                      {%endif%}
+                    </div>
                   {% endif %}
                 {% endif %}
 			</div>
