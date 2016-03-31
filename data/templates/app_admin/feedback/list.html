@@ -79,7 +79,7 @@
 					{% endif %}
 				</td>
         <td>{{ d.from_str }}</td>
-        <td class="two wide">{{ d.created_on|date 'y-m-d H:i' }}</td>
+        <td class="two wide">{{ d.created_on|date 'y-m-d H:i:s' }}</td>
         <td>
 						{% if d.solved == 1 %}
 						<a href="{{ app_url_app_admin_base }}/feedback/ajax_solve?id={{ d._id }}&evt=0" class="ui link ajax item" id="solve-{{ d._id }}-button">撤销</a>
