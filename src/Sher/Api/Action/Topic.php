@@ -77,15 +77,27 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 		$data = array();
 		for($i=0;$i<count($result['rows']);$i++){
 			foreach($options['some_fields'] as $key=>$value){
-				$data[$i][$key] = $result['rows'][$i][$key];
+				$data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : null;
 			}
 			// 封面图url
-			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
-			// 封面图url(用于评测页16:9显示750x422)
-			$data[$i]['cover_b_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
+      if($result['rows'][$i]['cover']){
+			  $data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
+			  // 封面图url(用于评测页16:9显示750x422)
+			  $data[$i]['cover_b_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
+      }else{
+        $data[$i]['cover_url'] = null;
+ 			  $data[$i]['cover_b_url'] = null; 
+      }
+
 			// 用户信息
-			$data[$i]['username'] = $result['rows'][$i]['user']['nickname'];
-			$data[$i]['small_avatar_url'] = $result['rows'][$i]['user']['small_avatar_url'];
+      if($result['rows'][$i]['user']){
+        $data[$i]['username'] = $result['rows'][$i]['user']['nickname'];
+        $data[$i]['small_avatar_url'] = $result['rows'][$i]['user']['small_avatar_url'];     
+      }else{
+        $data[$i]['username'] = null;
+        $data[$i]['small_avatar_url'] = null;     
+      }
+
       //$data[$i]['content_view_url'] = sprintf('%s/view/topic_show?id=%d', Doggy_Config::$vars['app.domain.base'], $result['rows'][$i]['_id']);
 		}
 		$result['rows'] = $data;

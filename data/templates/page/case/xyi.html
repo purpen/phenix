@@ -1,0 +1,135 @@
+{%extends 'layout/column.html'%}
+{% block title%}小蚁智能行车记录仪-成功案例-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.success.case .banner {
+		background:url({{ app_url_packaged }}/images/case/xyi.jpg) scroll no-repeat center top;
+		background-size:cover;
+	}
+	.success.case section .pad {
+	    background: rgba(0,0,0,0.3);
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}	
+	phenix.doit('goccia-money', 16191730,60000);
+	phenix.doit('goccia-people', 54230,130);
+	phenix.doit('goccia-precent', 16191,40);
+	
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/case/xyi.jpg';
+	phenix.bind_share_list(pic_url);
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com'});
+	
+	$('#wechat-share').click(function() {
+		$('.ui.qrcode.modal').modal('show');
+		return false;
+	});
+	
+{% endblock %}
+
+{% block content %}
+
+<div class="success case">
+	<section class="banner">
+		<div class="pad">
+			<h3><i class="trophy icon"></i>成功案例</h3>
+			<h1 class="ui header">
+				<div class="content">
+					小蚁智能行车记录仪——专为发烧友设计的行车记录仪 <br />淘宝众筹同品类产品众筹总金额最高
+					<div class="sub header">
+						2015年11月23日，小米旗下生态链企业小蚁科技联合中国最火爆的智能硬件孵化平台太火鸟共同在淘宝众筹推出首款智能行车记录仪，特价289元。截止到众筹结束，小蚁智能行车记录仪共取得54230粉丝支持，筹得资金¥16191730，16191%完成众筹目标，打破淘宝众筹同品类最高纪录。
+					</div>
+				</div>
+			</h1>
+			<div class="category">
+				<p>类别</p>
+				<p>智能车载</p>
+			</div>
+			<p>滚动阅读更多<i class="angle down icon"></i></p>
+			<a class="ui white inverted button btn" href="https://detail.tmall.com/item.htm?id=527346361688&ali_refid=a3_430583_1006&sku_properties=5919063:6536025">
+					<span>立即购买</span><i class="icon-arrow-right-sharp"></i>
+				</a>
+		</div>
+	</section>
+	
+	<div class="ui responsive onepage grid">
+		<div class="center aligned three column count row">
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-money">16191730</span></h1>
+						<p>众筹金额</p>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-people">54230</span></h1>
+						<p>支持人数</p>
+					</div>
+					
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-precent">16191</span>%</h1>
+						<p>达成率</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="wz">
+					<p>小蚁智能行车记录仪是小蚁科技推出的首款智能行车记录仪产品，除了行车记录仪记录风景、行车状况等基础功能外，小蚁还首次引入了ADAS智能辅助驾驶技术，它具有智能安全提醒系统，通过分析行驶速度、车距等数据，在偏移车道或车距过近的情况下，启动语音警示，保障您的行车安全。小蚁智能行车记录仪还支持 1920×1080P 60帧全高清分辨率，最高可达2304×1296P 30帧超高清分辨率，能够完美还原高速动态下所有转瞬即逝的关键瞬间，目前市场上大多数行车记录仪普遍只支持到1080P 30帧。除此之外小蚁智能行车记录仪拥有165度超广角、F1.8大光圈，星光级夜视图像效果，还有2.7吋16:9宽屏幕；设置，预览和回放方便又快速，一键抓拍、分享查看便利。确认合作后，太火鸟与小蚁团队齐心协力共同进行众筹页面制作、修改、产品资源无聊图设计，三天之内确保小蚁智能行车记录仪准时上线。产品已经上线，太火鸟就为产品争取众多平台资源，为众筹成功引流。</p>
+					<div class="ui two blocks">
+  					<div class="block">
+  						<img src="{{ app_url_packaged }}/images/case/xyi1.jpg" class="ui image" width="100%" />
+  					</div>
+      			<div class="block">
+  						<img src="{{ app_url_packaged }}/images/case/xy2.jpg" class="ui image" width="100%" style="margin: 0 auto;"/>
+  					</div>
+  				</div>
+					
+					
+					<p>众筹期间，太火鸟结合小蚁智能行车记录仪定位极客发烧人群的特性，以太火鸟社区为依托平台，并以徐小平、胡海泉等业界大咖为首批试用嘉宾代表，联合小蚁社区发起感恩蚁粉“募百人小蚁样机首批体验团”试用活动。此活动已经上线就在也没引起极大地轰动，太火鸟社区收获2300+人提交试用申请，招募APP浏览量也突破了10000大关，试用结束后100%收回试用报告，A、B级试用报告达80%以上。太火鸟结合社会热点新闻，联合动点科技、极客公园、自媒体大号、太火鸟社区、微博、微信等200多家媒体资源对产品进行多轮报道。众筹结束后，太火鸟联合小蚁科技共同策划媒体答谢会并特邀媒体参加。</p>
+					
+					<p>目前，小蚁科技与太火鸟联合推出的小蚁智能家庭摄像机也正在进行众筹，成绩喜人。</p>
+				</div>
+				
+				<h2 class="ui header">传播推广</h2>
+				
+				<div class="ui two blocks">
+					<div class="block">
+						<img src="{{ app_url_packaged }}/images/case/xy3.jpg" class="ui image" />
+					</div>
+					<div class="block">
+						<img src="{{ app_url_packaged }}/images/case/xy4.jpg" class="ui image" />
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<a class="ui btn-4 btn-4c magenta active inverted button" href="https://detail.tmall.com/item.htm?id=527346361688&ali_refid=a3_430583_1006&sku_properties=5919063:6536025">
+						<span>立即购买</span><i class="icon-arrow-right-sharp"></i>
+					</a>
+				<h5 class="ui header">分享案例故事</h5>
+				{% include "block/big-circel-share.html" %}
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% include "block/qrcode.html" %}
+{% endblock %}
