@@ -466,7 +466,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         if($status == Sher_Core_Util_Constant::ORDER_READY_REFUND){
             $updated['is_refunding'] = 1;
 			$updated['refunding_date'] = time();
-            if(!empty($options) && !empty($options['refund_reason'])){
+            if(!empty($options)){
               if(isset($options['refund_reason'])){
                 $updated['refund_reason'] = $options['refund_reason'];   
               }
