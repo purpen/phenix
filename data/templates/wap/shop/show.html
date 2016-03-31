@@ -355,8 +355,8 @@
 							{% for m in skus %}
 							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}" data-inventory="{{ m.inventory }}">{{ m.mode }}</span>		
 							{% endfor %}
-						{%else%}	
-							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}">默认</span>
+						{%else%}
+							<span class="ui small magenta inverted att button" data-id="{{ skus._id }}" data-price="{{ skus.price }}" data-inventory="{{ skus.inventory }}">默认</span>
 
 		                {% endif %}
 					</div>
