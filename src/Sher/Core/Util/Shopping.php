@@ -195,6 +195,10 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
     $items = $order_temp['dict']['items'];
     $total_money = (float)$order_temp['dict']['total_money'];
 
+    if(!empty($bonus['min_amount']) && (float)$total_money<$bonus['min_amout']){
+      return array('code'=>4008, 'msg'=>"没达到最低使用限额");   
+    }
+
 		$inventory_mode = new Sher_Core_Model_Inventory();
 		$product_mode = new Sher_Core_Model_Product();
     foreach($items as $key=>$val){
@@ -224,7 +228,8 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
         $pass = true;
         break;
       }elseif((float)$bonus['min_amount'] <= (float)$product['sale_price']){
-        $pass = true;
+        // 只要订单商品总价超过红包最低限额，可以使用
+        //$pass = true;
         break;
       }
 
