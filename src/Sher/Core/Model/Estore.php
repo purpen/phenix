@@ -8,6 +8,50 @@ class Sher_Core_Model_Estore extends Sher_Core_Model_Base {
     protected $collection = "estore";
     protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_CUSTOM;
     
+    // 店铺城市列表
+    public static $city = array(
+        '0001' => array(
+            'name' => '北京', // 39.8707070000,116.3666050000
+            'lng' => 116.3666050000, // 经度
+            'lat' => 39.8707070000, // 纬度
+        ),
+        '0002' => array(
+            'name' => '上海', // 31.2363050000,121.4802370000
+            'lng' => 121.4802370000, // 经度
+            'lat' => 31.2363050000, // 纬度
+        ),
+        '0003' => array(
+            'name' => '广州', // 23.1353080000,113.2707930000
+            'lng' => 113.2707930000, // 经度
+            'lat' => 23.1353080000, // 纬度
+        ),
+        '0004' => array(
+            'name' => '深圳', // 22.5485150000,114.0661120000
+            'lng' => 114.0661120000, // 经度
+            'lat' => 22.5485150000, // 纬度
+        ),
+        '0005' => array(
+            'name' => '杭州', // 30.2800590000,120.1616930000
+            'lng' => 120.1616930000, // 经度
+            'lat' => 30.2800590000, // 纬度
+        ),
+        '0006' => array(
+            'name' => '成都', // 30.5762790000,104.0712160000
+            'lng' => 104.0712160000, // 经度
+            'lat' => 30.5762790000, // 纬度
+        ),
+        '0007' => array(
+            'name' => '西安', // 34.3474360000,108.9463060000
+            'lng' => 108.9463060000, // 经度
+            'lat' => 34.3474360000, // 纬度
+        ),
+        '0008' => array(
+            'name' => '武汉', // 30.5984280000,114.3118310000
+            'lng' => 114.3118310000, // 经度
+            'lat' => 30.5984280000, // 纬度
+        ),
+    );
+    
     // 审核状态
     const APPROVED_NO   = 1;
     const APPROVED_OK   = 2;
@@ -28,6 +72,7 @@ class Sher_Core_Model_Estore extends Sher_Core_Model_Base {
         'user_id'        => 0,
         
         'cover_id'       => 0,
+        'city_id'       => null,
         # 图片数组
 		'asset' => array(),
         
@@ -140,10 +185,10 @@ class Sher_Core_Model_Estore extends Sher_Core_Model_Base {
     /**
 	 * 删除后事件
 	 */
-	public function mock_after_remove($id) {
+	public function mock_after_remove($id, $asset_type) {
 		// 删除Asset
 		$asset = new Sher_Core_Model_Asset();
-		$asset->remove_and_file(array('parent_id' => $id));
+		$asset->remove_and_file(array('parent_id' => $id, 'asset_type'=>$asset_type));
 		unset($asset);
 		return true;
 	}
