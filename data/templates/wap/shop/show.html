@@ -227,11 +227,85 @@
 		choosed_sku = $(this).data('id');
 		$('.attrs .ui.att.active.button').removeClass('active');
 		$(this).addClass('active');
-		{% if !product.snatched %}
+		<!--{% if !product.snatched %}
 		  $('#current-price').html('<small>￥</small>'+$(this).data('price'));
-		{%endif%}		
+		{%endif%}-->		
 
 		return false;
+	});
+	
+	// 更新购物车数据
+	var update_cart = function(pid, data){
+		// 购物车清空后，刷新页面
+		if (data.items_count == 0){
+			//phenix.redirect('{{ app_url_cart }}', 0);
+		}
+		// 导航购物标识角标
+		$('.basketnumber.label').text(data.items_count);
+		
+		$('.cart-items-count').text(data.items_count);
+		$('.cart-total-money').text(data.total_money);
+	};
+
+	$('.inc-qty.button').bind('click', function(){
+        if ( ! choosed_sku){
+          phenix.show_error_note('请选择一个型号或颜色', 2000);
+        }
+		
+		var sku = $(this).data('sku'),
+			qty_value = parseInt($('#product-'+sku+'-qty').val());
+			
+		// 添加1个数量
+		qty_value += 1;
+		
+		$.post('{{ app_url_shopping }}/inc_qty', {sku: sku, n: qty_value}, function(result){
+			if (result.success){
+				$('#product-'+sku+'-qty').val(qty_value);
+				$('#product-'+sku+'-subttotal').find('.money').text(result.data.product.subtotal);
+				
+				update_cart(sku, result.data);
+			}else{
+				phenix.show_error_note(result.message, 5000);
+			}
+		}, 'json');
+	});
+	
+	$('.dec-qty.button').bind('click', function(){
+        if ( ! choosed_sku){
+          phenix.show_error_note('请选择一个型号或颜色', 2000);
+        }
+		
+		var sku = $(this).data('sku'),
+			qty_value = parseInt($('#product-'+sku+'-qty').val());
+			
+		// 减少1个数量,验证是否为0
+		qty_value  -= 1;
+		
+		$.post('{{ app_url_shopping }}/dec_qty', {sku: sku, n: qty_value}, function(result){
+			if (result.success){
+				if (qty_value <= 0){
+					$('#product-'+sku).remove();
+				}else{
+					$('#product-'+sku+'-qty').val(qty_value);
+					$('#product-'+sku+'-subttotal').find('.money').text(result.data.product.subtotal);
+				}
+				update_cart(sku, result.data);
+			}else{
+				phenix.show_error_note(result.message, 5000);
+			}
+		}, 'json');
+	});
+	
+	// 从购物车删除
+	$('.cart.page .ui.close.button').bind('click', function(){
+		var sku = $(this).data('sku');
+		$.get('{{ app_url_shopping }}/remove', {sku: sku});
+	});
+	
+	// 去结算
+	$('.checkout.button').bind('click', function(){
+		var checkout = '{{ app_url_shopping }}/checkout';
+		phenix.redirect(checkout, 0);
 	});
 
 {% endblock %}
@@ -301,8 +375,19 @@
 						颜色分类
 					</h4>
 					
+		            {% if product.stage == 9 %}
+		                {% if skus %}
+						<div class="product attrs">
+							{% for m in skus %}
+							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}">{{ m.mode }}</span>		
+							{% endfor %}
+						</div>
+		                {% endif %}
+					{% endif %}
+					
+					
 					<div class="product attrs">
-						<span class="ui small magenta inverted att button active" data-id="1031789046" data-price="0.01">白色</span>
+						<span class="ui small magenta inverted att button" data-id="1031789046" data-price="0.01">白色</span>
 						<span class="ui small magenta inverted att button" data-id="1031789053" data-price="0.02">黑色</span>
 						<span class="ui small magenta inverted att button" data-id="1031789101" data-price="0.03">绿色</span>
 						<span class="ui small magenta inverted att button" data-id="1031789046" data-price="0.01">白色</span>
