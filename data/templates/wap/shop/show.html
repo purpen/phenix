@@ -334,9 +334,9 @@
 				<div class="column">
 					<img class="ui middle aligned image" src="{{ cover_id.thumbnails.sm.view_url }}">
 					<h4 class="ui header inline">
-						价格：<span>{{ m.price }}</span>
+						价格：<span>¥{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}</span>
 						<div class="sub header">
-							剩余库存：<span>{{ m.inventory }}</span>
+							剩余库存：<span>{{ product.inventory }}</span>
 						</div>
 					</h4>
 				</div>
