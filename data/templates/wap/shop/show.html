@@ -298,6 +298,7 @@
 {% endblock %}
 
 {% block content %}
+{% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
 <div id="slider" class="flexslider flex-single">
 	<ul class="slides">
 		{% for asset in assets.rows %}
@@ -315,7 +316,7 @@
 		<h4 class="ui header">
 			{{ product.title }}
 			<div class="sub header">
-				{{ product.sale_price }}
+				{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
 			</div>
 		</h4>
 	</div>
@@ -347,13 +348,16 @@
 					</h4>
 					
 		           <!--{% if product.stage == 9 %}-->
-		                {% if skus %}
-						<div class="product attrs">
+					<div class="product attrs">
+						 {% if skus %}
 							{% for m in skus %}
 							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}">{{ m.mode }}</span>		
 							{% endfor %}
-						</div>
+						{%else%}	
+							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}">默认</span>
+
 		                {% endif %}
+					</div>
 					<!--{% endif %}-->
 					
 					<!--
@@ -386,7 +390,7 @@
 						<button class="ui mini gray dec-qty icon button" data-sku="{{ product.sku }}">
 							<i class="minus icon"></i>
 						</button>
-						<input type="text" name="product-{{ product.sku }}-qty" id="product-{{ product.sku }}-qty" value="{{ product.quantity }}" autocomplete="off" disabled="disabled">
+						<input type="text" name="product-{{ product.sku }}-qty" id="product-{{ product.sku }}-qty" value=1 autocomplete="off" disabled="disabled">
 						<button class="ui mini gray inc-qty icon button" data-sku="{{ product.sku }}">
 							<i class="add icon"></i>
 						</button>
