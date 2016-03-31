@@ -21,14 +21,16 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 	}
 	
 	/**
-     * 列表
-     * @return string
-     */
-    public function get_list(){
+    * 列表
+    * @return string
+  */
+  public function get_list(){
         $this->set_target_css_state('product');
 
-        return $this->to_html_page('app_admin/scene_product/list.html');
-    }
+		$pager_url = sprintf("%s/scene_product/get_list?page=#p#", Doggy_Config::$vars['app.url.app_admin']);
+		$this->stash['pager_url'] = $pager_url;
+    return $this->to_html_page('app_admin/scene_product/list.html');
+  }
 	
 	/**
 	 * 编辑信息

@@ -274,6 +274,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 		$user_id = $this->current_user_id;
 		$content = isset($this->stash['content']) ? $this->stash['content'] : null;
 		$contact = isset($this->stash['contact']) ? $this->stash['contact'] : null;
+		$from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 1;
 		
 		if(empty($content)){
 			return $this->api_json('请求参数不足', 3000);
@@ -286,6 +287,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 				'user_id' => $user_id,
 				'content' => $content,
 				'contact' => $contact,
+        'from_to' => $from_to,
 			));
 			
 			if(!$ok){
