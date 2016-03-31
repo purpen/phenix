@@ -6,6 +6,7 @@
 class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 
     protected $collection = "scene_sight";
+	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
     protected $schema = array(
 		# 标题
