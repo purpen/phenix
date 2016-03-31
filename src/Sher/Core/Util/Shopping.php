@@ -177,7 +177,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
     }
 
 		// 验证商品是否可以红包购买
-    $pass = false;
+    $pass = true;
 
     if(empty($order_temp)){
      	$order_temp_model = new Sher_Core_Model_OrderTemp();
@@ -219,17 +219,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 
       // 指定商品ID
       if(isset($bonus['product_id']) && (int)$bonus['product_id'] == $product['_id']){
-        $pass = true;
-        break;
-      }
-
-      //是否满足限额条件
-      if(empty($bonus['min_amount'])){
-        $pass = true;
-        break;
-      }elseif((float)$bonus['min_amount'] <= (float)$product['sale_price']){
-        // 只要订单商品总价超过红包最低限额，可以使用
-        //$pass = true;
+        $pass = false;
         break;
       }
 
