@@ -218,11 +218,11 @@
 	});
 	
 	// 如果仅一个sku,则设置默认值
-	<!--{% if skus_count %}
+	{% if skus_count %}
 		var choosed_sku = 0;
 	{% else %}
 		var choosed_sku = {{ product._id }};
-	{% endif %}-->
+	{% endif %}
 	var choosed_sku = 0;
 	// 选择sku
 	$('.attrs .ui.att.button').click(function(){
@@ -298,7 +298,6 @@
 {% endblock %}
 
 {% block content %}
-<!-- 
 <div id="slider" class="flexslider flex-single">
 	<ul class="slides">
 		{% for asset in assets.rows %}
@@ -310,28 +309,13 @@
 		{% endfor %}
 	</ul>  
 </div>
--->
-<div id="slider" class="flexslider flex-single">
-	<ul class="slides">
-		<li>
-			<a>
-				<img src="http://frbird.qiniudn.com/product/160225/56ceaca6fc8b12364d8b509c-3-p750x422.jpg">
-			</a>
-		</li>
-		<li>
-			<a>
-				<img src="http://frbird.qiniudn.com/product/160225/56ceaca6fc8b12364d8b509c-3-p750x422.jpg">
-			</a>
-		</li>
-	</ul>
-</div>
 
 <div id="shopview">
 	<div class="presale">
 		<h4 class="ui header">
-			智能灯泡LED球泡灯 无线调光调色
+			{{ product.title }}
 			<div class="sub header">
-				¥199
+				{{ product.sale_price }}
 			</div>
 		</h4>
 	</div>
@@ -345,7 +329,7 @@
 		<div class="ui respontion grid">
 			<div class="row pb-0">
 				<div class="column">
-					<img class="ui middle aligned image" src="http://frbird.qiniudn.com/product/160325/56f52c05fc8b12606f8b8d26-1-sm.jpg">
+					<img class="ui middle aligned image" src="{{ asset.thumbnails.sm.view_url }}">
 					<h4 class="ui header inline">
 						价格：¥199
 						<div class="sub header">
@@ -362,7 +346,7 @@
 						颜色分类
 					</h4>
 					
-		          <!--  {% if product.stage == 9 %}
+		           {% if product.stage == 9 %}
 		                {% if skus %}
 						<div class="product attrs">
 							{% for m in skus %}
@@ -370,9 +354,9 @@
 							{% endfor %}
 						</div>
 		                {% endif %}
-					{% endif %}-->
+					{% endif %}
 					
-					
+					<!--
 					<div class="product attrs">
 						<span class="ui small magenta inverted att button" data-id="1031789046" data-price="0.01">白色</span>
 						<span class="ui small magenta inverted att button" data-id="1031789053" data-price="0.02">黑色</span>
@@ -384,7 +368,7 @@
 						<span class="ui small magenta inverted att button" data-id="1031789053" data-price="0.02">黑色</span>
 						<span class="ui small magenta inverted att button" data-id="1031789101" data-price="0.03">绿色</span>
 						
-					</div>
+					</div>-->
 				</div>
 			</div>
 			
@@ -399,11 +383,11 @@
 					</h4>
 					
 					<div class="quantity">
-						<button class="ui mini gray dec-qty icon button" data-sku="1011513749">
+						<button class="ui mini gray dec-qty icon button" data-sku="{{ product.sku }}">
 							<i class="minus icon"></i>
 						</button>
-						<input type="text" name="product-1011513749-qty" id="product-1011513749-qty" value="1" autocomplete="off" disabled="disabled">
-						<button class="ui mini gray inc-qty icon button" data-sku="1011513749">
+						<input type="text" name="product-{{ product.sku }}-qty" id="product-{{ product.sku }}-qty" value="{{ product.quantity }}" autocomplete="off" disabled="disabled">
+						<button class="ui mini gray inc-qty icon button" data-sku="{{ product.sku }}">
 							<i class="add icon"></i>
 						</button>
 					</div>
