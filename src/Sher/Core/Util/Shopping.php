@@ -177,7 +177,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
     }
 
 		// 验证商品是否可以红包购买
-    $pass = false;
+    $pass = true;
 
     if(empty($order_temp)){
      	$order_temp_model = new Sher_Core_Model_OrderTemp();
@@ -194,6 +194,11 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
     // 红包属性
     $items = $order_temp['dict']['items'];
     $total_money = (float)$order_temp['dict']['total_money'];
+    $min_amount = isset($bonus['min_amount']) ? (float)$bonus['min_amount'] : 0;
+
+    if(!empty($min_amount) && $total_money<$min_amount){
+      return array('code'=>4008, 'msg'=>"没达到最低使用限额");   
+    }
 
 		$inventory_mode = new Sher_Core_Model_Inventory();
 		$product_mode = new Sher_Core_Model_Product();
@@ -215,16 +220,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 
       // 指定商品ID
       if(isset($bonus['product_id']) && (int)$bonus['product_id'] == $product['_id']){
-        $pass = true;
-        break;
-      }
-
-      //是否满足限额条件
-      if(empty($bonus['min_amount'])){
-        $pass = true;
-        break;
-      }elseif((float)$bonus['min_amount'] <= (float)$product['sale_price']){
-        $pass = true;
+        $pass = false;
         break;
       }
 
