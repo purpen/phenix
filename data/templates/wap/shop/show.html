@@ -201,6 +201,8 @@
         animationDuration: 300,
         animationSpeed: 300,
     });
+	var flexheight = $('body').width()*9/16+'px';
+	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
 	
 	//点击颜色分类
 	$('#shopview .colour').click(function(){
@@ -223,7 +225,6 @@
 	{% else %}
 		var choosed_sku = {{ product._id }};
 	{% endif %}
-	var choosed_sku = 0;
 	// 选择sku
 	$('.attrs .ui.att.button').click(function(){
 		choosed_sku = $(this).data('id');
@@ -298,16 +299,22 @@
 {% endblock %}
 
 {% block content %}
+{% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
 <div id="slider" class="flexslider flex-single">
 	<ul class="slides">
+		
 		{% for asset in assets.rows %}
-        <li style="background-image: url('{{ asset.thumbnails.aub.view_url }}');">
-          <a href="javascript:void(0);" title="{{ product.title }}" alt="{{ product.title }}">
-              <img src="{{ asset.thumbnails.aub.view_url }}" alt="{{ product.title }}" style="display: none;" />
-          </a>
-        </li>
+		        <li style="background-image: url('{{ asset.thumbnails.aub.view_url }}');">
+		          <a href="javascript:void(0);" title="{{ product.title }}" alt="{{ product.title }}">
+		              <img src="{{ asset.thumbnails.aub.view_url }}" alt="{{ product.title }}" style="display: none;" />
+		          </a>
+		        </li>
 		{% endfor %}
+	  
 	</ul>  
+	<div class="ui active icon circular share btn">
+		<i class="circular inverted large share alternate icon"></i>
+	</div>
 </div>
 
 <div id="shopview">
@@ -315,7 +322,7 @@
 		<h4 class="ui header">
 			{{ product.title }}
 			<div class="sub header">
-				{{ product.sale_price }}
+				¥{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
 			</div>
 		</h4>
 	</div>
@@ -346,15 +353,18 @@
 						颜色分类
 					</h4>
 					
-		           {% if product.stage == 9 %}
-		                {% if skus %}
-						<div class="product attrs">
+		           <!--{% if product.stage == 9 %}-->
+					<div class="product attrs">
+						 {% if skus %}
 							{% for m in skus %}
 							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}">{{ m.mode }}</span>		
 							{% endfor %}
-						</div>
+						{%else%}	
+							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}">默认</span>
+
 		                {% endif %}
-					{% endif %}
+					</div>
+					<!--{% endif %}-->
 					
 					<!--
 					<div class="product attrs">
@@ -386,7 +396,7 @@
 						<button class="ui mini gray dec-qty icon button" data-sku="{{ product.sku }}">
 							<i class="minus icon"></i>
 						</button>
-						<input type="text" name="product-{{ product.sku }}-qty" id="product-{{ product.sku }}-qty" value="{{ product.quantity }}" autocomplete="off" disabled="disabled">
+						<input type="text" name="product-{{ product.sku }}-qty" id="product-{{ product.sku }}-qty" value=1 autocomplete="off" disabled="disabled">
 						<button class="ui mini gray inc-qty icon button" data-sku="{{ product.sku }}">
 							<i class="add icon"></i>
 						</button>
