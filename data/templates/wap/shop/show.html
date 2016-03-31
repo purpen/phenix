@@ -232,7 +232,7 @@
 		$(this).addClass('active');
 		{% if !product.snatched %}
 		  $('h4.ui.header.inline span').html($(this).data('price'));
-		  $('h4.ui.header.inline .sub.header span').html($(this).data('count'));
+		  $('h4.ui.header.inline .sub.header span').html($(this).data('inventory'));
 		{%endif%}		
 		return false;
 	});
@@ -332,11 +332,11 @@
 		<div class="ui respontion grid">
 			<div class="row pb-0">
 				<div class="column">
-					<img class="ui middle aligned image" src="{{ asset.thumbnails.sm.view_url }}">
+					<img class="ui middle aligned image" src="{{ cover_id.thumbnails.sm.view_url }}">
 					<h4 class="ui header inline">
-						价格：<span></span>
+						价格：<span>{{ m.price }}</span>
 						<div class="sub header">
-							剩余库存：<span></span>
+							剩余库存：<span>{{ m.inventory }}</span>
 						</div>
 					</h4>
 				</div>
@@ -353,7 +353,7 @@
 					<div class="product attrs">
 						 {% if skus %}
 							{% for m in skus %}
-							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}" data-count="{{ m.count }}">{{ m.mode }}</span>		
+							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}" data-inventory="{{ m.inventory }}">{{ m.mode }}</span>		
 							{% endfor %}
 						{%else%}	
 							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}">默认</span>
