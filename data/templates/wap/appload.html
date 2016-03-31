@@ -144,10 +144,14 @@
 	});
 	$('.download .magenta.inverted.android.button').click(function(){
 	    var ua = navigator.userAgent.toLowerCase();  
-		if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)){
-			alert('您的系统为ios');;
-		}else if(navigator.userAgent.match(/android/i)){
-			window.location.href='http://m.taihuoniao.com/promo/android_download';
+	    if(ua.match(/MicroMessenger/i)=="micromessenger"){
+			$('.download #appload').css('display','block');
+		}else{
+			if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)){
+				alert('您的系统为ios');;
+			}else if(navigator.userAgent.match(/android/i)){
+				window.location.href='http://m.taihuoniao.com/promo/android_download';
+			}
 		}
 	})
 
