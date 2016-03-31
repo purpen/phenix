@@ -179,5 +179,21 @@ class Sher_App_Action_Guide extends Sher_App_Action_Base {
 		$this->set_target_css_state('page_succase');
 		return $this->to_html_page('page/case/milk.html');
 	}
+	
+	/**
+	 * 成功案例-xyi 小蚁
+	 */
+	public function xyi() {
+		$this->set_target_css_state('page_succase');
+		return $this->to_html_page('page/case/xyi.html');
+	}
+	
+	/**
+	 * 成功案例-yunma 云马
+	 */
+	public function yunma() {
+		$this->set_target_css_state('page_succase');
+		return $this->to_html_page('page/case/yunma.html');
+	}
 }
 ?>

@@ -1,0 +1,135 @@
+{%extends 'layout/column.html'%}
+{% block title%}云马智行车C1-成功案例-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.success.case .banner {
+		background:url({{ app_url_packaged }}/images/case/yunma.jpg) scroll no-repeat center top;
+		background-size:cover;
+	}
+	.success.case section .pad {
+	    background: rgba(0,0,0,0.3);
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}	
+	phenix.doit('goccia-money', 11597621,40000);
+	phenix.doit('goccia-people', 5879,20);
+	phenix.doit('goccia-precent', 1159,6);
+	
+	// 分享按钮
+	var pic_url = '{{ app_url_packaged }}/images/case/yunma.jpg';
+	phenix.bind_share_list(pic_url);
+	
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: 'http://www.taihuoniao.com'});
+	
+	$('#wechat-share').click(function() {
+		$('.ui.qrcode.modal').modal('show');
+		return false;
+	});
+	
+{% endblock %}
+
+{% block content %}
+
+<div class="success case">
+	<section class="banner">
+		<div class="pad">
+			<h3><i class="trophy icon"></i>成功案例</h3>
+			<h1 class="ui header">
+				<div class="content">
+					云马智行车C1——最懂年轻人的电单车 <br />淘宝众筹同品类产品众筹总金额最高
+					<div class="sub header">
+						2015年10月15日，太火鸟联合截止到众筹结束，国内电单车品牌云造科技正式发布了” 云马 C1″ 电单车并在淘宝正式开启众筹。截止到众筹结束，云马智行车C1共取得5879粉丝支持，筹得资金¥11597621，1159%完成众筹目标。
+					</div>
+				</div>
+			</h1>
+			<div class="category">
+				<p>类别</p>
+				<p>智能出行</p>
+			</div>
+			<p>滚动阅读更多<i class="angle down icon"></i></p>
+			<a class="ui white inverted button btn" href="http://www.taihuoniao.com/shop/view-1117318669-1.html">
+					<span>立即购买</span><i class="icon-arrow-right-sharp"></i>
+				</a>
+		</div>
+	</section>
+	
+	<div class="ui responsive onepage grid">
+		<div class="center aligned three column count row">
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-money">11597621</span></h1>
+						<p>众筹金额</p>
+					</div>
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-people">5879</span></h1>
+						<p>支持人数</p>
+					</div>
+					
+				</div>
+			</div>
+			<div class="column">
+				<div class="number">
+					<div class="hw-50">
+						<h1><span id="goccia-precent">1159</span>%</h1>
+						<p>达成率</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<div class="wz">
+					<p>云马 C1 是一款定位于年轻人快乐出行的城市电单车，其名字从城市（city）、经典（classical）、多彩（colours）、云端（cloud）等关键词提炼而来。该车采用自主研发的五力混合的动力系统，用户可切换 5 种骑行模式，同时高效能自主电机可使得骑行传动效率高达 86%，无电骑行时相比市面大多数电机磁阻减少了 80%。 车内置 3 轴陀螺仪和加速传感器，当遇到斜坡或逆风时，该车可主动感知用户骑行过程中所受的阻力，为骑行者实时输出相应的动力，协助用户骑行。</p>
+					<div class="ui two blocks">
+  					<div class="block">
+  						<img src="{{ app_url_packaged }}/images/case/yunma1.jpg" class="ui image" width="100%" />
+  					</div>
+      			<div class="block">
+  						<img src="{{ app_url_packaged }}/images/case/yunma2.jpg" class="ui image" width="100%" style="margin: 0 auto;"/>
+  					</div>
+  				</div>
+					
+					
+					<p>上线淘宝众筹之前，太火鸟针对云马C1目标受众为城市年轻人，特别定制了互动游戏在微信、微博、官网进行预热活动，吸引一大批围观粉丝，预热文章阅读量10000+。太火连联合云造科技共同为云马C1举办发布会，并上线淘宝众筹。众筹期间，云马X!遭遇危机事件，太火鸟第一时间出面，与云马一起并肩作战，共同对抗危机事件，发布的公关文章阅读量超50000。太火鸟结合社会热点新闻，联合动点科技、极客公园、自媒体大号、太火鸟社区、微博、微信等多家媒体资源对产品进行多轮报道并在2016年初携云马C1等多款产品登陆美国拉斯维加斯的CES，收到了国内外数十件媒体的关注与报道，真格基金联合创始人王强在亲临太火鸟站台时试骑了云马C1，并给出了高度评价。</p>
+					
+					
+				</div>
+				
+				<h2 class="ui header">传播推广</h2>
+				
+				<div class="ui two blocks">
+					<div class="block">
+						<img src="{{ app_url_packaged }}/images/case/yunma4.jpg" class="ui image" />
+					</div>
+					<div class="block">
+						<img src="{{ app_url_packaged }}/images/case/yunma3.png" class="ui image" />
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+				<a class="ui btn-4 btn-4c magenta active inverted button" href="http://www.taihuoniao.com/shop/view-1117318669-1.html">
+						<span>立即购买</span><i class="icon-arrow-right-sharp"></i>
+					</a>
+				<h5 class="ui header">分享案例故事</h5>
+				{% include "block/big-circel-share.html" %}
+			</div>
+		</div>
+		
+	</div>
+</div>
+{% include "block/qrcode.html" %}
+{% endblock %}
