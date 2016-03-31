@@ -332,7 +332,7 @@
 		<div class="ui respontion grid">
 			<div class="row pb-0">
 				<div class="column">
-					<img class="ui middle aligned image" src="{{ cover_id.thumbnails.sm.view_url }}">
+					<img class="ui middle aligned image" src="{{ product.cover.thumbnails.small.view_url }}">
 					<h4 class="ui header inline">
 						价格：¥<span>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}</span>
 						<div class="sub header">
@@ -353,7 +353,7 @@
 					<div class="product attrs">
 						 {% if skus %}
 							{% for m in skus %}
-							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}" data-inventory="{{ prouduct.inventory }}">{{ m.mode }}</span>		
+							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}" data-inventory="{{ m.inventory }}">{{ m.mode }}</span>		
 							{% endfor %}
 						{%else%}	
 							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}">默认</span>
