@@ -230,10 +230,10 @@
 		choosed_sku = $(this).data('id');
 		$('.attrs .ui.att.active.button').removeClass('active');
 		$(this).addClass('active');
-		<!--{% if !product.snatched %}
-		  $('#current-price').html('<small>￥</small>'+$(this).data('price'));
-		{%endif%}-->		
-
+		{% if !product.snatched %}
+		  $('h4.ui.header.inline span').html($(this).data('price'));
+		  $('h4.ui.header.inline .sub.header span').html($(this).data('inventory'));
+		{%endif%}		
 		return false;
 	});
 	
@@ -302,19 +302,15 @@
 {% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
 <div id="slider" class="flexslider flex-single">
 	<ul class="slides">
-		
-		{% for asset in assets.rows %}
-		        <li style="background-image: url('{{ asset.thumbnails.aub.view_url }}');">
-		          <a href="javascript:void(0);" title="{{ product.title }}" alt="{{ product.title }}">
-		              <img src="{{ asset.thumbnails.aub.view_url }}" alt="{{ product.title }}" style="display: none;" />
-		          </a>
-		        </li>
-		{% endfor %}
+	{% for asset in assets.rows %}
+	    <li style="background-image: url('{{ asset.thumbnails.aub.view_url }}');">
+	      <a href="javascript:void(0);" title="{{ product.title }}" alt="{{ product.title }}">
+	          <img src="{{ asset.thumbnails.aub.view_url }}" alt="{{ product.title }}" style="display: none;" />
+	      </a>
+	    </li>
+	{% endfor %}
 	  
 	</ul>  
-	<div class="ui active icon circular share btn">
-		<i class="circular inverted large share alternate icon"></i>
-	</div>
 </div>
 
 <div id="shopview">
@@ -336,11 +332,11 @@
 		<div class="ui respontion grid">
 			<div class="row pb-0">
 				<div class="column">
-					<img class="ui middle aligned image" src="{{ asset.thumbnails.sm.view_url }}">
+					<img class="ui middle aligned image" src="{{ product.cover.thumbnails.small.view_url }}">
 					<h4 class="ui header inline">
-						价格：¥199
+						价格：¥<span>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}</span>
 						<div class="sub header">
-							剩余库存：100
+							剩余库存：<span>{{ product.inventory }}</span>
 						</div>
 					</h4>
 				</div>
@@ -357,10 +353,10 @@
 					<div class="product attrs">
 						 {% if skus %}
 							{% for m in skus %}
-							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}">{{ m.mode }}</span>		
+							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}" data-inventory="{{ m.inventory }}">{{ m.mode }}</span>		
 							{% endfor %}
-						{%else%}	
-							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}">默认</span>
+						{%else%}
+							<span class="ui small magenta inverted att button" data-id="{{ product._id }}" data-price="{{ product.sale_price }}" data-inventory="{{ product.inventory }}">默认</span>
 
 		                {% endif %}
 					</div>
