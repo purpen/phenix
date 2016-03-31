@@ -67,9 +67,9 @@
           <br />
           联系方式:{{ d.contact|default '--' }}
         </td>
-				<td>
-          {{ d.content }}
-				</td>
+				<td class="four wide">
+          <textarea rows="5" cols="50" disabled="disabled">{{ d.content }}</textarea>
+        </td>
         <td>
 					{% if d.solved == 1 %}
 					<label class="ui green label" id="solve-{{ d._id }}-label">是</label>
