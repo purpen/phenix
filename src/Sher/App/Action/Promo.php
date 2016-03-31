@@ -10,7 +10,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
     'floor'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi','rank','rank2','sign','zces');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi','rank','rank2','sign','zces', 'android_download');
 	
 	/**
 	 * 网站入口
@@ -18,6 +18,15 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	public function execute(){
 		return $this->coupon();
 	}
+
+  /**
+   * andorid下载地址
+   */
+  public function android_download(){
+    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+    $url = 'http://frstatic.qiniudn.com/downloadapp-release.apk';
+		return $this->to_redirect($url);
+  }
 	
 	/**
 	  * 2016 CES  2015/12/31
