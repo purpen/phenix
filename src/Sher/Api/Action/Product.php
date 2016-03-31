@@ -206,6 +206,10 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			return $this->api_json('访问的产品不存在或已被删除！', 3001);
 		}
 
+		if(!$product['published']){
+			return $this->api_json('访问的产品未发布！', 3002);
+		}
+
 		$some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
 			'cover_id', 'category_id', 'stage', 'summary', 'tags', 'tags_s',

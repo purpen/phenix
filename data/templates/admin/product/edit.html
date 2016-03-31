@@ -647,6 +647,23 @@
 				{% endfor %}
 			</div>
     </div>
+
+		<div class="ui segment">
+			<h3 class="ui dividing header">线下体验店:</h3>
+
+			<div class="inline field">
+        <label>所在店铺:</label>
+				{% store_list var:'estores' approved:2 current_pid:product._id page:1 size:100 %}
+				{% for d in estores.rows %}
+            <div class="ui checkbox">
+              <input type="checkbox" name="estores[]" value="{{ d._id }}" {% if d.has_product %}checked="checked"{% endif %} /> 
+              <label>{{ d.name }}</label>
+            </div>
+        {% endfor %}
+			</div>
+
+    </div>
+
 			
 			<h3 class="ui dividing stage header">产品当前阶段</h3>
 			<div class="grouped inline fields">
@@ -944,7 +961,7 @@
 			</div>
 
 			<div class="field">
-        <label>上传Banner图(多张) <span style="color:red;">为兼容老版本，编辑先请不要上传此处</span></label>
+        <label>上传Banner图(多张)</label>
 				<input type="hidden" name="banner_id" id="product_banner_id" value="{{ product.banner_id }}" />
 			  	<div id="phenix-banner-uploader"></div>
 			

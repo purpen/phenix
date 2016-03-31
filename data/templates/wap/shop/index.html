@@ -1,0 +1,496 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	#mfrbird {
+	    margin: 0em auto 1.5em !important;
+	}
+	/*** 已放入ui ***/
+	.shopbanner{
+	    padding-top: 56%;
+	    position: relative;
+	}
+	.shopbanner a img{
+	    width: 100%;
+	    height: 100%;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	}
+
+#shop-special .recommend-topic{
+	padding:0;
+}
+.recom-cell.one{
+	width:100%;
+	padding:0 !important;
+}
+#shop-special .recom-item .recom-cell.one:first-child{
+	margin-top:0;
+}
+#shop-special .recommend-topic .recom-item .recom-cell a {
+    padding-top: 56%;
+}
+#shop-special .recommend-topic .recom-item .recom-cell a img{
+	top: 0;
+	bottom:auto;
+	height: auto;
+}
+#shop-special .recommend-topic .recom-item .recom-cell .fuhua.icon{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 20px;
+    height: 21px;
+    background: rgba(255,51,102,0.5);
+    border-radius: 3px;
+}
+#shop-special .recommend-topic .recom-item .recom-cell .fuhua.icon img{
+    width: 11px;
+    height: 12px;
+    margin: 4px;
+}
+#shop-special .recom-item .recom-cell a .desc{
+	position:relative;
+	background:#fff;
+	padding: 5px 8px 0;
+}
+#shop-special .recom-item .recom-cell a .desc h2 {
+	height: 25px;
+    line-height: 25px;
+    font-weight: 400;
+    overflow: hidden;
+    text-align: left;
+    margin: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: rgba(112,123,135,.91);
+    font-size: 14px;
+}
+#shop-special .recom-item .recom-cell a .desc .cats{
+    font-size: 14px;
+    height: 30px;
+    line-height: 25px;
+    font-weight: 400;
+    overflow: hidden;
+    padding: 0;
+    text-align: left;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: #f36;
+}
+#mpresale{
+	margin-top:6px;
+}
+#mpresale h4.ui.title.header{
+    display: inline-block;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #5d6266;
+}
+#mpresale .recom-item .recom-cell a .desc{
+	padding: 5px 10px 0;
+	font-weight: 400;
+}
+.shop-fotter .nav-menu .navfelx .childcell:nth-child(2),.shop-fotter .nav-menu .navfelx .childcell:nth-child(3){
+	margin-left:-5px;
+}
+.shop-fotter .nav-menu .navfelx .childcell .menuicon{
+	text-align:left;
+	position:relative;
+	overflow: hidden;
+	padding-left:0;
+	padding-right:0;
+}
+.shop-fotter .nav-menu .navfelx .childcell .menuicon img{
+	margin:0;
+	width:30px;
+	height:30px;
+}
+.shop-fotter .nav-menu .navfelx .childcell .menuicon::after{
+    content: " ";
+    display: block;
+    height: 30px;
+    clear: both;
+	position:absolute;
+	width:1px;
+	background:rgba(0,0,0,0.1);
+	top:50%;
+	margin-top:-15px;
+	right:5px;
+}
+.shop-fotter .nav-menu .navfelx .childcell:last-child .menuicon::after{
+	content:none;
+}
+.shop-fotter .nav-menu .navfelx .childcell .menuicon .content{
+	width:90px;
+	height:30px;
+	position:absolute;
+	top:6px;
+	left:35px;
+}
+.content.huan{
+	line-height: 15px;
+	color:#55C4B1;
+}
+.content.baoyou{
+	line-height: 30px;
+	color:#FC6B68;
+}
+.content.fuwu{
+	line-height: 15px;
+	color:#3E98BE;
+}
+@media only screen and (max-width: 320px){
+	.shop-fotter .nav-menu .navfelx .childcell .menuicon img {
+	    width: 28px;
+	    height: 28px;
+	}
+	.shop-fotter .nav-menu .navfelx .childcell .menuicon .content{
+		height: 28px;
+	    left: 30px;
+	}
+	.shop-fotter .nav-menu .navfelx .childcell .menuicon::after{
+		right: 23px;
+	}
+	.shop-fotter .nav-menu .navfelx .childcell:nth-child(2), .shop-fotter .nav-menu .navfelx .childcell:nth-child(3) {
+	    margin-left: -27px;
+	}
+	.content.baoyou {
+	    line-height: 28px;
+	}
+	
+	
+}
+.row.pt-15{
+	padding-top:15px !important;
+}
+
+</style>
+{% endblock %}
+{% block jquery %}
+	
+
+
+{% endblock %}
+{% block content %}
+<div class="shopbanner">
+	{% ad_list var:'adshop' page:1 state:2 size:1 name:'wap_index_shop_slide' sort_field:'latest' %}
+    {% if adshop %}
+        <a href="{{ adshop.mm_view_url }}" title="{{ adshop.title }}" alt="{{ adshop.title }}">
+            <img src="{{ adshop.cover.fileurl }}" alt="{{ adshop.title }}" />
+        </a>
+    {% endif %}
+</div>
+<div class="nav-menu">
+	<ul class="navfelx">
+		<li class="childcell">
+			<a class="menuicon" href="{{ app_url_wap }}/ " title="分类">
+				<img src="{{ app_url_packaged }}/images/icon/fenlei.png">
+			    分类
+			</a>
+		</li>
+		<li class="childcell">
+			<a class="menuicon" href="{{ app_url_wap }}/ " title="专题">
+				<img src="{{ app_url_packaged }}/images/icon/zhuanti.png">
+			    专题
+			</a>
+		</li>
+		<li class="childcell">
+			<a class="menuicon" href="{{ app_url_wap }}/ " title="积分商城">
+				<img src="{{ app_url_packaged }}/images/icon/jifen.png">
+			    积分商城
+			</a>
+		</li>
+		<li class="childcell">
+			<a class="menuicon" href="{{ app_url_wap }}/ " title="服务">
+				<img src="{{ app_url_packaged }}/images/icon/fuwu.png">
+			    服务
+			</a>
+		</li>
+	</ul>
+</div>
+<!-- 专题 -->
+<div class=" " id="shop-special">
+	<div class="recommend-topic">
+		<div class="recom-item">
+			<div class="recom-cell one">
+				<a href="http://www.taihuoniao.com/tracker?kid=127585104">
+					<img class="lazy" data-original="http://frbird.qiniudn.com/asset/160329/56f9ee203ffca27b4b8bdb26-1" src="http://frbird.qiniudn.com/asset/160329/56f9ee203ffca27b4b8bdb26-1" title="免费试用丨土曼T-Ripple智能手表" style="display: block;">
+					
+					<div class="fuhua icon">
+						<img src="{{ app_url_packaged }}/images/icon/fuhuaicon.png" width="100%">
+					</div>
+					<div class="desc">
+						<h2>免费试用丨土曼T-Ripple智能手表</h2>
+						<div class="cats">
+				            <span class="unit">￥</span>299
+				        </div>
+					</div>
+				</a>
+			</div>
+			
+			<div class="recom-cell one">
+				<a href="http://www.taihuoniao.com/tracker?kid=127585104">
+					<img class="lazy" data-original="http://frbird.qiniudn.com/asset/160329/56f9ee203ffca27b4b8bdb26-1" src="http://frbird.qiniudn.com/asset/160329/56f9ee203ffca27b4b8bdb26-1" title="免费试用丨土曼T-Ripple智能手表" style="display: block;">
+					<div class="desc">
+						<h2>免费试用丨土曼T-Ripple智能手表</h2>
+						<div class="cats">
+				            <span class="unit">￥</span>299
+				        </div>
+					</div>
+				</a>
+			</div>
+			
+			<div class="recom-cell one">
+				<a href="http://www.taihuoniao.com/tracker?kid=127585104">
+					<img class="lazy" data-original="http://frbird.qiniudn.com/asset/160329/56f9ee203ffca27b4b8bdb26-1" src="http://frbird.qiniudn.com/asset/160329/56f9ee203ffca27b4b8bdb26-1" title="免费试用丨土曼T-Ripple智能手表" style="display: block;">
+					<div class="desc">
+						<h2>免费试用丨土曼T-Ripple智能手表</h2>
+						<div class="cats">
+				            <span class="unit">￥</span>299
+				        </div>
+					</div>
+				</a>
+			</div>
+			
+		</div>
+	</div>
+</div>
+<!-- 商品 -->
+<div class="shopindex" id="mpresale">
+	<div class="ui responsive grid">
+		<div class="row pb-0 pt-15">
+			<div class="ui center aligned column">
+				<h4 class="ui title header">
+					热门商品
+				</h4>
+			</div>
+		</div>
+		<div class="row">
+			<div class="recom-item">
+				<div class="recom-cell" id="product-1117434511">
+					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
+						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
+						<div class="desc">
+							<h2>华米智能手环华米智能手环</h2>
+							<div class="cats">
+					            <span class="unit">￥</span>299
+					        </div>
+						</div>
+					</a>
+				</div>
+				<div class="recom-cell" id="product-1117434511">
+					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
+						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
+						<div class="desc">
+							<h2>AMAZFIT华米智能手环</h2>
+							<div class="cats">
+					            <span class="unit">￥</span>299
+					        </div>
+							<!--<span class="counter">
+					            <i class="heart icon"></i>  2
+					        </span>-->
+						</div>
+					</a>
+				</div>
+				<div class="recom-cell" id="product-1117434511">
+					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
+						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
+						<div class="desc">
+							<h2>AMAZFIT华米智能手环</h2>
+							<div class="cats">
+					            <span class="unit">￥</span>299
+					        </div>
+							<!--<span class="counter">
+					            <i class="heart icon"></i>  2
+					        </span>-->
+						</div>
+					</a>
+				</div>
+				<div class="recom-cell" id="product-1117434511">
+					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
+						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
+						<div class="desc">
+							<h2>华米智能手环华米智能手环</h2>
+							<div class="cats">
+					            <span class="unit">￥</span>299
+					        </div>
+							<!--<span class="counter">
+					            <i class="heart icon"></i>  2
+					        </span>-->
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row pb-0 pt-15">
+			<div class="ui center aligned column">
+				<h4 class="ui title header">
+					智能家居
+				</h4>
+			</div>
+		</div>
+		<div class="row">
+			<div class="recom-item">
+				<div class="recom-cell" id="product-1117434511">
+					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
+						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
+						<div class="desc">
+							<h2>华米智能手环华米智能手环</h2>
+							<div class="cats">
+					            <span class="unit">￥</span>299
+					        </div>
+						</div>
+					</a>
+				</div>
+				<div class="recom-cell" id="product-1117434511">
+					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
+						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
+						<div class="desc">
+							<h2>AMAZFIT华米智能手环</h2>
+							<div class="cats">
+					            <span class="unit">￥</span>299
+					        </div>
+							<!--<span class="counter">
+					            <i class="heart icon"></i>  2
+					        </span>-->
+						</div>
+					</a>
+				</div>
+				<div class="recom-cell" id="product-1117434511">
+					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
+						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
+						<div class="desc">
+							<h2>华米智能手环华米智能手环</h2>
+							<div class="cats">
+					            <span class="unit">￥</span>299
+					        </div>
+							<!--<span class="counter">
+					            <i class="heart icon"></i>  2
+					        </span>-->
+						</div>
+					</a>
+				</div>
+				<div class="recom-cell" id="product-1117434511">
+					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
+						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
+						<div class="desc">
+							<h2>AMAZFIT华米智能手环</h2>
+							<div class="cats">
+					            <span class="unit">￥</span>299
+					        </div>
+							<!--<span class="counter">
+					            <i class="heart icon"></i>  2
+					        </span>-->
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row pb-0 pt-15">
+			<div class="ui center aligned column">
+				<h4 class="ui title header">
+					可穿戴
+				</h4>
+			</div>
+		</div>
+		<div class="row">
+			<div class="recom-item">
+				<div class="recom-cell" id="product-1117434511">
+					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
+						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
+						<div class="desc">
+							<h2>AMAZFIT华米智能手环</h2>
+							<div class="cats">
+					            <span class="unit">￥</span>299
+					        </div>
+						</div>
+					</a>
+				</div>
+				<div class="recom-cell" id="product-1117434511">
+					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
+						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
+						<div class="desc">
+							<h2>华米智能手环华米智能手环</h2>
+							<div class="cats">
+					            <span class="unit">￥</span>299
+					        </div>
+							<!--<span class="counter">
+					            <i class="heart icon"></i>  2
+					        </span>-->
+						</div>
+					</a>
+				</div>
+				<div class="recom-cell" id="product-1117434511">
+					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
+						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
+						<div class="desc">
+							<h2>华米智能手环华米智能手环</h2>
+							<div class="cats">
+					            <span class="unit">￥</span>299
+					        </div>
+							<!--<span class="counter">
+					            <i class="heart icon"></i>  2
+					        </span>-->
+						</div>
+					</a>
+				</div>
+				<div class="recom-cell" id="product-1117434511">
+					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
+						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
+						<div class="desc">
+							<h2>AMAZFIT华米智能手环</h2>
+							<div class="cats">
+					            <span class="unit">￥</span>299
+					        </div>
+							<!--<span class="counter">
+					            <i class="heart icon"></i>  2
+					        </span>-->
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 底部 -->
+		<div class="row pt-0">
+			<div class="shop-fotter">
+				<div class="nav-menu">
+					<ul class="navfelx">
+						<li class="childcell">
+							<div class="menuicon">
+								<img src="{{ app_url_packaged }}/images/icon/tuihuo.png">
+								<div class="content huan">
+									7天<br>
+									无理由退货
+								</div>
+							</div>
+						</li>
+						<li class="childcell">
+							<div class="menuicon">
+								<img src="{{ app_url_packaged }}/images/icon/baoyou.png">
+								<div class="content baoyou">
+									全国包邮
+								</div>
+							</div>
+						</li>
+						<li class="childcell">
+							<div class="menuicon">
+								<img src="{{ app_url_packaged }}/images/icon/shouhoufuwu.png">
+								<div class="content fuwu">
+									售后服务<br>
+									010-84599327
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

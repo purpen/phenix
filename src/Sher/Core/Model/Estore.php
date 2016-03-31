@@ -80,7 +80,7 @@ class Sher_Core_Model_Estore extends Sher_Core_Model_Base {
         'user_id'        => 0,
         
         'cover_id'       => 0,
-        'city_id'       => 0,
+        'city_id'       => null,
         # 图片数组
 		'asset' => array(),
         

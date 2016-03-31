@@ -185,6 +185,13 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 	 * 显示主题详情帖
 	 */
 	public function show(){
+
+    // 记录兑吧来的用户，统计注册量用
+    if(isset($this->stash['from']) && $this->stash['from']=='db'){
+      // 存cookie
+      @setcookie('from_origin', '2', time()+3600*24, '/');
+      $_COOKIE['from_origin'] = '2';
+    }
 		
 		$id = (int)$this->stash['id'];
 		$redirect_url = Doggy_Config::$vars['app.url.wap.social.list'];
