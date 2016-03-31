@@ -201,6 +201,8 @@
         animationDuration: 300,
         animationSpeed: 300,
     });
+	var flexheight = $('body').width()*9/16+'px';
+	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
 	
 	//点击颜色分类
 	$('#shopview .colour').click(function(){
@@ -223,7 +225,6 @@
 	{% else %}
 		var choosed_sku = {{ product._id }};
 	{% endif %}
-	var choosed_sku = 0;
 	// 选择sku
 	$('.attrs .ui.att.button').click(function(){
 		choosed_sku = $(this).data('id');
@@ -298,21 +299,22 @@
 {% endblock %}
 
 {% block content %}
-{% if product.stage==15 %}
-	{% asset_list var:'assets' parent_id:product._id size:10 asset_type:10 %}
-{%else%}
-	{% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
-{%endif%}
+{% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
 <div id="slider" class="flexslider flex-single">
 	<ul class="slides">
+		
 		{% for asset in assets.rows %}
-        <li style="background-image: url('{{ asset.thumbnails.aub.view_url }}');">
-          <a href="javascript:void(0);" title="{{ product.title }}" alt="{{ product.title }}">
-              <img src="{{ asset.thumbnails.aub.view_url }}" alt="{{ product.title }}" style="display: none;" />
-          </a>
-        </li>
+		        <li style="background-image: url('{{ asset.thumbnails.aub.view_url }}');">
+		          <a href="javascript:void(0);" title="{{ product.title }}" alt="{{ product.title }}">
+		              <img src="{{ asset.thumbnails.aub.view_url }}" alt="{{ product.title }}" style="display: none;" />
+		          </a>
+		        </li>
 		{% endfor %}
+	  
 	</ul>  
+	<div class="ui active icon circular share btn">
+		<i class="circular inverted large share alternate icon"></i>
+	</div>
 </div>
 
 <div id="shopview">
