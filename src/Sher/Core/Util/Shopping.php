@@ -194,9 +194,9 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
     // 红包属性
     $items = $order_temp['dict']['items'];
     $total_money = (float)$order_temp['dict']['total_money'];
-    $min_amout = isset($bonus['min_amout']) ? (float)$bonus['min_amout'] : 0;
+    $min_amount = isset($bonus['min_amount']) ? (float)$bonus['min_amount'] : 0;
 
-    if(!empty($min_amout) && $total_money<$min_amout){
+    if(!empty($min_amount) && $total_money<$min_amount){
       return array('code'=>4008, 'msg'=>"没达到最低使用限额");   
     }
 
