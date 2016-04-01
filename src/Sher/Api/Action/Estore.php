@@ -227,6 +227,8 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
         for($k=0;$k<count($product_some_fields);$k++){
           $product_key = $product_some_fields[$k];
           $product[$product_key] = isset($data[$i]['product'][$product_key]) ? $data[$i]['product'][$product_key] : null;
+          // 封面图url
+          $product['cover_url'] = isset($data[$i]['product']['cover']) ? $data[$i]['product']['cover']['thumbnails']['apc']['view_url'] : null;
         }
         $data[$i]['product'] = $product;
       }
