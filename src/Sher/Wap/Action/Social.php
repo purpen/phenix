@@ -191,6 +191,19 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
       // 存cookie
       @setcookie('from_origin', '2', time()+3600*24, '/');
       $_COOKIE['from_origin'] = '2';
+
+      // 统计点击数量
+      $dig_model = new Sher_Core_Model_DigList();
+      $dig_key = Sher_Core_Util_Constant::DIG_THIRD_DB_STAT;
+
+      $dig = $dig_model->load($dig_key);
+      if(empty($dig) || !isset($dig['items']["view_01"])){
+        $dig_model->update_set($dig_key, array("items.view_01"=>1), true);     
+      }else{
+        // 增加浏览量
+        $dig_model->inc($dig_key, "items.view_01", 1);
+      }
+      
     }
 		
 		$id = (int)$this->stash['id'];
