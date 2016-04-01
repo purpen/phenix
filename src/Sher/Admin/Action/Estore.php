@@ -62,6 +62,14 @@ class Sher_Admin_Action_Estore extends Sher_Admin_Action_Base implements DoggyX_
 	        if (!empty($estore)) {
 	            $estore = $model->extended_model_row($estore);
 	        }
+			if(isset($estore['city_id']) && !empty($estore['city_id'])){
+				$citys = Sher_Core_Model_Estore::$city;
+				foreach($citys as $v){
+					if($estore['city_id'] == $v['id']){
+						$estore['city'] = $v['name'];
+					}
+				}
+			}
 			$this->stash['estore'] = $estore;
 		}
 		$this->stash['mode'] = $mode;
@@ -99,6 +107,16 @@ class Sher_Admin_Action_Estore extends Sher_Admin_Action_Base implements DoggyX_
         
 		// 封面图
 		$data['cover_id'] = $this->stash['cover_id'];
+		$city = $this->stash['city'];
+		
+		$citys = Sher_Core_Model_Estore::$city;
+		foreach($citys as $v){
+			if($city == $v['name']){
+				$data['city_id'] = $v['id'];
+			}
+		}
+		
+		//var_dump($data);die;
         
 		try {
 			$model = new Sher_Core_Model_Estore();

@@ -118,6 +118,9 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
         $service = Sher_Core_Service_Estore::instance();
         $result  = $service->get_store_by_id($id);
         
+        $model = new Sher_Core_Model_Estore();
+        $count = $model->count(array('city_id'=>$result['city_id']));
+        
         // 过滤多余属性
         $filter_fields  = array('view_url', 'summary', 'cover_id', 'cover', '__extend__');
         
@@ -143,6 +146,7 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
         }
         
         $result['cover'] = $cover;
+        $result['count_city'] = $count;
         
         //print_r($result);exit;
         return $this->api_json('请求成功', false, $result);
@@ -164,20 +168,20 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
 
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
-    $sort = isset($this->stash['sort'])?(int)$this->stash['sort']:0;
-    $eid = isset($this->stash['eid'])?(int)$this->stash['eid']:0;
-    $pid = isset($this->stash['pid'])?(int)$this->stash['pid']:0;
-    $e_city_id = isset($this->stash['e_city_id'])?$this->stash['e_city_id']:'';
-    $p_stage_id = isset($this->stash['p_stage_id'])?(int)$this->stash['p_stage_id']:0;
+        $sort = isset($this->stash['sort'])?(int)$this->stash['sort']:0;
+        $eid = isset($this->stash['eid'])?(int)$this->stash['eid']:0;
+        $pid = isset($this->stash['pid'])?(int)$this->stash['pid']:0;
+        $e_city_id = isset($this->stash['e_city_id'])?$this->stash['e_city_id']:'';
+        $p_stage_id = isset($this->stash['p_stage_id'])?(int)$this->stash['p_stage_id']:0;
 		
 		$query   = array();
 		$options = array();
 
-    //显示的字段
-    $options['some_fields'] = array(
-      'eid'=>1, 'pid'=>1, '_id'=>1, 'e_city_id'=>1, 'p_stage_id'=>1,
-      'created_on'=>1, 'updated_on'=>1, 'product'=>1,
-    );
+        //显示的字段
+        $options['some_fields'] = array(
+          'eid'=>1, 'pid'=>1, '_id'=>1, 'e_city_id'=>1, 'p_stage_id'=>1,
+          'created_on'=>1, 'updated_on'=>1, 'product'=>1,
+        );
 
 		$product_some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
@@ -191,13 +195,13 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
 		}
 		if($pid){
 			$query['pid'] = $pid;
-    }
+        }
 		if($e_city_id){
 			$query['e_city_id'] = $e_city_id;
 		}
 		if($p_stage_id){
 			$query['p_stage_id'] = $p_stage_id;
-    }
+        }
 
 		// 排序
 		switch ((int)$sort) {
@@ -207,12 +211,12 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
 		}
 		
 		// 分页参数
-    $options['page'] = $page;
-    $options['size'] = $size;
+        $options['page'] = $page;
+        $options['size'] = $size;
 
 		// 开启查询
-    $service = Sher_Core_Service_REstoreProduct::instance();
-    $result = $service->get_store_product_list($query, $options);
+        $service = Sher_Core_Service_REstoreProduct::instance();
+        $result = $service->get_store_product_list($query, $options);
 
 		// 重建数据结果
 		$data = array();
