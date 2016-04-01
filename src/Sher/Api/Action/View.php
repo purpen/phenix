@@ -64,8 +64,11 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 
 		//加载model扩展数据
 		$product = $model->extended_model_row($product);
-		if(isset($product['content_wap']) && !empty($product['content_wap'])){
-		  $product['content'] = $product['content_wap'];
+    if(isset($product['content_wap']) && !empty($product['content_wap'])){
+      $content = trim($product['content_wap']);
+      if(!empty($content)){
+		    $product['content'] = $product['content_wap'];
+      }
 		}
 
 		$this->stash['product'] = &$product;
@@ -106,7 +109,10 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 		//加载model扩展数据
 		$try = $model->extended_model_row($try);
 		if(isset($try['content_wap']) && !empty($try['content_wap'])){
-		  $try['content'] = $try['content_wap'];
+      $content = trim($try['content_wap']);
+      if(!empty($content)){
+		    $try['content'] = $try['content_wap'];
+      }
 		}
 
 		$this->stash['try'] = &$try;
