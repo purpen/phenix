@@ -237,6 +237,13 @@
 		return false;
 	});
 	
+	$('input').focus(function(){
+		$('.ui.top.details').css({'top':'0','bottom','auto'});
+	});
+	$('input').blur(function(){
+		$('.ui.top.details').removeAttr('style');
+	});
+	
 	// 更新购物车数据
 	var update_cart = function(pid, data){
 		// 购物车清空后，刷新页面
