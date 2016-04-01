@@ -185,9 +185,15 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 	 * 显示主题详情帖
 	 */
 	public function show(){
+		
+		$id = (int)$this->stash['id'];
+		$redirect_url = Doggy_Config::$vars['app.url.wap.social.list'];
+		if(empty($id)){
+			return $this->show_message_page('访问的主题不存在！', $redirect_url);
+		}
 
     // 记录兑吧来的用户，统计注册量用
-    if(isset($this->stash['from']) && $this->stash['from']=='db'){
+    if(isset($this->stash['from']) && $this->stash['from']=='db' && $id=111172){
       // 存cookie
       @setcookie('from_origin', '2', time()+3600*24, '/');
       $_COOKIE['from_origin'] = '2';
@@ -205,12 +211,6 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
       }
       
     }
-		
-		$id = (int)$this->stash['id'];
-		$redirect_url = Doggy_Config::$vars['app.url.wap.social.list'];
-		if(empty($id)){
-			return $this->show_message_page('访问的主题不存在！', $redirect_url);
-		}
 		
 		// 是否允许编辑
 		$editable = false;
