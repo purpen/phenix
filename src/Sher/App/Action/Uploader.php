@@ -736,6 +736,15 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
             $service = Sher_Core_Service_Asset::instance();
             $result = $service->get_asset_list($query, $options);
             $asset_list = $result['rows'];
+
+        }
+
+        foreach($asset_list as $k=>$v){
+          if((int)$asset_type==Sher_Core_Model_Asset::TYPE_EDITOR_PRODUCT){
+            $asset_list[$k]['img_url'] = $asset_list[$k]['thumbnails']['hd']['view_url'];
+          }else{
+            $asset_list[$k]['img_url'] = $asset_list[$k]['thumbnails']['hdw']['view_url'];         
+          }
         }
         
         return $this->ajax_json('', false, '', $asset_list);
