@@ -448,20 +448,20 @@
 	$('.product.childcell').bind('click',function(){
 		$(this).addClass('active');
 		$(this).siblings().removeClass('active');
-		$('.product.ui.segment').addClass('active');
+		$('.products.ui.segment').addClass('active');
 		$('.reply.ui.segment,.service.ui.segment').removeClass('active');
 	});
 	$('.reply.childcell').bind('click',function(){
 		$(this).addClass('active');
 		$(this).siblings().removeClass('active');
 		$('.reply.ui.segment').addClass('active');
-		$('.product.ui.segment,.service.ui.segment').removeClass('active');
+		$('.products.ui.segment,.service.ui.segment').removeClass('active');
 	});
 	$('.service.childcell').bind('click',function(){
 		$(this).addClass('active');
 		$(this).siblings().removeClass('active');
 		$('.service.ui.segment').addClass('active');
-		$('.product.ui.segment,.reply.ui.segment').removeClass('active');
+		$('.products.ui.segment,.reply.ui.segment').removeClass('active');
 	});
 	
 
@@ -712,12 +712,13 @@
 	            	</div>
 	            	{% endfor %}
 	         	</div>
+ 	    		{% endif %}<!--if product.comment_count-->
+ 	 		   {% endif %}
   		   </div>
   	   	 	<!--if product.comment_count-->
   	  	  	<!--if stage==9-->
   		</div>
-	    		{% endif %}<!--if product.comment_count-->
-	 		   {% endif %}
+	    		
 		  
 		<div class="ui service segment">
 			<div class="ui selection list">
