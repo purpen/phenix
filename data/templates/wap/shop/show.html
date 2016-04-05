@@ -486,7 +486,7 @@
 	
     // 加载推荐商品 
     (function (category_id, type, sort, page, size){
-       var url = '{{ app_url_wap }}/shop/ajax_guess_product';
+       var url = '{{ app_url_wap }}/shop/ajax_load_list';
        $.get(url, { category_id:category_id, sort:sort, page:page, type:type, size:size }, function(rs){
             var rendered = phenix.ajax_render_result('#fetch_more_guess_tpl', rs.data);
             $('#shop_guess_wap_list').html(rendered);
