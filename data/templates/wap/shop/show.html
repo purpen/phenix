@@ -489,13 +489,14 @@
        var url = '{{ app_url_wap }}/shop/ajax_load_list';
        $.get(url, { category_id:category_id, sort:sort, page:page, type:type, size:size }, function(rs){
             var rendered = phenix.ajax_render_result('#fetch_more_guess_tpl', rs.data);
-            $('.recom-item').append(rendered);
+            $('.recom-item.three').append(rendered);
 		 $("img.lazy").lazyload({
 		     effect : "show"
 		 });
         }, 'json');
      })(0, 2, 4, 1, 3);
 	 
+	//产品详情、评论、售后服务
 	$('.product.childcell').bind('click',function(){
 		$(this).addClass('active');
 		$(this).siblings().removeClass('active');
@@ -582,20 +583,6 @@
 		                {% endif %}
 					</div>
 					<!--{% endif %}-->
-					
-					<!--
-					<div class="product attrs">
-						<span class="ui small magenta inverted att button" data-id="1031789046" data-price="0.01">白色</span>
-						<span class="ui small magenta inverted att button" data-id="1031789053" data-price="0.02">黑色</span>
-						<span class="ui small magenta inverted att button" data-id="1031789101" data-price="0.03">绿色</span>
-						<span class="ui small magenta inverted att button" data-id="1031789046" data-price="0.01">白色</span>
-						<span class="ui small magenta inverted att button" data-id="1031789053" data-price="0.02">黑色</span>
-						<span class="ui small magenta inverted att button" data-id="1031789101" data-price="0.03">绿色</span>
-						<span class="ui small magenta inverted att button" data-id="1031789046" data-price="0.01">白色</span>
-						<span class="ui small magenta inverted att button" data-id="1031789053" data-price="0.02">黑色</span>
-						<span class="ui small magenta inverted att button" data-id="1031789101" data-price="0.03">绿色</span>
-						
-					</div>-->
 				</div>
 			</div>
 			
@@ -805,4 +792,8 @@
 
 
 
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'fetch_more_guess_tpl' tpl:'mustache_m/fetch_more_guess.mustache' %}
 {% endblock %}
