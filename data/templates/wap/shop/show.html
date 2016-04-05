@@ -195,6 +195,74 @@
     height: 12px;
     margin: 7px;
 }
+
+#shop_guess_wap_list{
+	margin-top: 10px;
+    position: relative;
+    background: #fff;
+	padding-bottom: 10px;
+}
+#shop_guess_wap_list .guess.title{
+	padding:15px 10px 10px;
+    font-weight: 400;
+    font-size: 14px;
+}
+#shop_guess_wap_list .recom-item.three{
+	padding:0 3px;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three {
+    width: 33.333%;
+    height: 100%;
+    display: block;
+    float: left;
+    padding: 0 3px;
+    margin: 4px 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-right: 0px;
+}
+/*#shop_guess_wap_list .recom-item.three .recom-cell.three:nth-child(3n+1){
+	padding-left:0;
+	padding-right:4px;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three:nth-child(3n+3){
+	padding-left:4px;
+	padding-right:0;
+}*/
+#shop_guess_wap_list .recom-item.three .recom-cell.three a{
+	padding-top:100%;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three a img{
+	border: 1px solid rgba(0,0,0,0.1);
+	top: 0;
+	bottom: auto;
+	height:auto;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three .desc{
+	position:relative;
+	background:#fff;
+    padding: 8px 0;
+    text-align: left;
+	height: auto;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three .desc h2{
+	height:32px;
+	color: rgba(112,123,135,.91);
+	font-size: 13px;
+	overflow:hidden;
+	font-weight:400;
+	white-space: normal;
+	margin-bottom: 5px;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three .desc .cats{
+	font-size: 12px;
+    height: 30px;
+    padding: 0;
+    text-transform: uppercase;
+    color: #f36;
+	line-height:20px;
+}
 </style>
 {% endblock %}
 
@@ -236,11 +304,11 @@
 	});
 	
 	// 如果仅一个sku,则设置默认值
-	{% if skus_count %}
+	/*{% if skus_count %}
 		var choosed_sku = 0;
 	{% else %}
 		var choosed_sku = {{ product._id }};
-	{% endif %}
+	{% endif %}*/
 	// 选择sku
 	$('.attrs .ui.att.button').click(function(){
 		choosed_sku = $(this).data('id');
@@ -319,6 +387,21 @@
 		var checkout = '{{ app_url_shopping }}/checkout';
 		phenix.redirect(checkout, 0);
 	});
+	
+	
+    // 加载推荐商品 
+    (function (category_id, type, sort, page, size){
+       var url = '{{ app_url_wap }}/shop/ajax_load_list';
+       $.get(url, { category_id:category_id, sort:sort, page:page, type:type, size:size }, function(rs){
+            var rendered = phenix.ajax_render_result('#fetch_more_guess_tpl', rs.data);
+            $('.recom-item').append(rendered);
+		 $("img.lazy").lazyload({
+		     effect : "show"
+		 });
+        }, 'json');
+     })(0, 2, 4, 1, 3);
+	 
+	
 
 {% endblock %}
 
@@ -346,8 +429,6 @@
 			</div>
 		</h4>
 	</div>
-	
-	
 	<div class="colour">
 		颜色分类
 		<i class="angle float right icon"></i>
@@ -439,9 +520,53 @@
 				</li>
 			</ul>
 		</div>
-		
 	
 	</div>
+	<!-- 相关推荐 -->
+	<div id="shop_guess_wap_list">
+		<div class="guess title">
+			相关推荐
+		</div>
+		<div class="recom-item three">
+			<div class="recom-cell three" id="product-1021648835">
+				<a title="卡蛙SmartFrog·便携式干衣机" alt="卡蛙SmartFrog·便携式干衣机-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1021648835-1.html">
+					<img class="lazy" data-original="http://frbird.qiniudn.com/product/160324/56f3d2c1fc8b12fb5c8b56d4-1-p500x500.jpg" src="http://frbird.qiniudn.com/product/160324/56f3d2c1fc8b12fb5c8b56d4-1-p500x500.jpg" style="display: block;">
+					<div class="desc">
+						<h2>卡蛙SmartFrog·便携式干衣架</h2>
+						<div class="cats">
+				            <span class="unit">￥</span>128
+				        </div>
+					</div>
+				</a>
+			</div>
+			
+			<div class="recom-cell three" id="product-1021648835">
+				<a title="卡蛙SmartFrog·便携式干衣机" alt="卡蛙SmartFrog·便携式干衣机-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1021648835-1.html">
+					<img class="lazy" data-original="http://frbird.qiniudn.com/product/160324/56f3d2c1fc8b12fb5c8b56d4-1-p500x500.jpg" src="http://frbird.qiniudn.com/product/160324/56f3d2c1fc8b12fb5c8b56d4-1-p500x500.jpg" style="display: block;">
+					<div class="desc">
+						<h2>卡蛙SmartFrog·便携式干衣架</h2>
+						<div class="cats">
+				            <span class="unit">￥</span>128
+				        </div>
+					</div>
+				</a>
+			</div>
+			
+			<div class="recom-cell three" id="product-1021648835">
+				<a title="卡蛙SmartFrog·便携式干衣机" alt="卡蛙SmartFrog·便携式干衣机-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1021648835-1.html">
+					<img class="lazy" data-original="http://frbird.qiniudn.com/product/160324/56f3d2c1fc8b12fb5c8b56d4-1-p500x500.jpg" src="http://frbird.qiniudn.com/product/160324/56f3d2c1fc8b12fb5c8b56d4-1-p500x500.jpg" style="display: block;">
+					<div class="desc">
+						<h2>卡蛙SmartFrog·便携式干衣架</h2>
+						<div class="cats">
+				            <span class="unit">￥</span>128
+				        </div>
+					</div>
+				</a>
+			</div>
+		
+		</div>
+	</div>
+		
 	
 	
 	
