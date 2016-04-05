@@ -72,6 +72,14 @@ class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
    * 回调 
    */
   public function call_back(){
+
+    $host = $_SERVER['HTTP_HOST'];
+    $uri = $_SERVER['REQUEST_URI'];
+    // 如果是ipad设备访问，跳到m.taihuoniao.com
+    if($host=='www.taihuoniao.com'){
+      return $this->to_redirect(sprintf("%s%s", Doggy_Config::$vars['app.url.wap'], $uri));
+    }
+
 		$error_redirect_url = Doggy_Config::$vars['app.url.wap'];
 
     //如果已经登录
