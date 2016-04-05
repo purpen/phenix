@@ -304,6 +304,9 @@
     border: none;
     padding-top: 18px;
 }
+.product.froala-element p img {
+    width: 100%;
+}
 </style>
 {% endblock %}
 
@@ -445,20 +448,20 @@
 	$('.product.childcell').bind('click',function(){
 		$(this).addClass('active');
 		$(this).siblings().removeClass('active');
-		$('.tabshow .product.ui.segment').addClass('active');
-		$('.tabshow .reply.ui.segment,.tabshow .service.ui.segment').removeClass('active');
+		$('.product.ui.segment').addClass('active');
+		$('.reply.ui.segment,.service.ui.segment').removeClass('active');
 	});
 	$('.reply.childcell').bind('click',function(){
 		$(this).addClass('active');
 		$(this).siblings().removeClass('active');
-		$('.tabshow .reply.ui.segment').addClass('active');
-		$('.tabshow .product.ui.segment,.tabshow .service.ui.segment').removeClass('active');
+		$('.reply.ui.segment').addClass('active');
+		$('.product.ui.segment,.service.ui.segment').removeClass('active');
 	});
 	$('.service.childcell').bind('click',function(){
 		$(this).addClass('active');
 		$(this).siblings().removeClass('active');
-		$('.tabshow .service.ui.segment').addClass('active');
-		$('.tabshow .product.ui.segment,.tabshow .reply.ui.segment').removeClass('active');
+		$('.service.ui.segment').addClass('active');
+		$('.product.ui.segment,.reply.ui.segment').removeClass('active');
 	});
 	
 
