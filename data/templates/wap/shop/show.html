@@ -238,15 +238,15 @@
 	});
 	
 	//点击input弹出框距顶部为0
-	<!--$('input').focus(function(){
+	<!-- /*$('input').focus(function(){
 		$('.ui.top.details').css({'top':'0','bottom':'auto'});
 	});
 	$('input').blur(function(){
 		$('.ui.top.details').removeAttr('style');
-	});-->
+	}); */ -->
 	
 	// 更新购物车数据
-	<!--var update_cart = function(pid, data){
+	<!-- /* var update_cart = function(pid, data){
 		// 购物车清空后，刷新页面
 		if (data.items_count == 0){
 			//phenix.redirect('{{ app_url_cart }}', 0);
@@ -256,7 +256,7 @@
 		
 		$('.cart-items-count').text(data.items_count);
 		$('.cart-total-money').text(data.total_money);
-	};-->
+	}; */ -->
 	$('.inc-qty.button').bind('click', function(){
         if ( !choosed_sku){
           phenix.show_error_note('请选择一个型号或颜色', 2000);
