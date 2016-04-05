@@ -1,21 +1,16 @@
-<div class="guess title">
-	相关推荐
+{{#results.rows}}
+<div class="recom-cell" id="product-{{ _id }}">
+	<a title="{{ title }}" alt="{{#product_alt_tag}}{{ tags.0 }}-太火鸟智能硬件商店{{/product_alt_tag}}{{^product_alt_tag}}{{ title }}-太火鸟智能硬件商店{{/product_alt_tag}}" href="{{ view_url }}">
+		<img class="lazy" data-original="{{ cover.thumbnails.apc.view_url }}" src="http://frstatic.qiniudn.com/images/icon/load380-380.png">
+		<div class="desc">
+			<h2>{{ short_title }}</h2>
+			<div class="cats">
+	            <span class="unit">￥</span>{{ sale_price }}
+	        </div>
+			<!--<span class="counter">
+	            <i class="heart icon"></i>  {{ love_count }}
+	        </span>-->
+		</div>
+	</a>
 </div>
-<div class="recom-item three">
-	{{#results.rows}}
-	<div class="recom-cell" id="product-{{ _id }}">
-		<a title="{{ title }}" alt="{{#product_alt_tag}}{{ tags.0 }}-太火鸟智能硬件商店{{/product_alt_tag}}{{^product_alt_tag}}{{ title }}-太火鸟智能硬件商店{{/product_alt_tag}}" href="{{ view_url }}">
-			<img class="lazy" data-original="{{ cover.thumbnails.apc.view_url }}" src="http://frstatic.qiniudn.com/images/icon/load380-380.png">
-			<div class="desc">
-				<h2>{{ short_title }}</h2>
-				<div class="cats">
-		            <span class="unit">￥</span>{{ sale_price }}
-		        </div>
-				<!--<span class="counter">
-		            <i class="heart icon"></i>  {{ love_count }}
-		        </span>-->
-			</div>
-		</a>
-	</div>
-	{{/results.rows}}
-</div>
+{{/results.rows}}
