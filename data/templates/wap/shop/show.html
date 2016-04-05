@@ -188,6 +188,7 @@
     top: 10px;
     background: rgb(200,200,200);
     border-radius: 15px;
+	z-index:2;
 }
 .close-details img{
     width: 12px;
@@ -231,6 +232,7 @@
 	});
 	$('#cover,.close-details').click(function(){
 		$('#shopview').removeClass('show-details');
+		$('#cover,html').removeAttr('style');
 	});
 	
 	// 如果仅一个sku,则设置默认值
