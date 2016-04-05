@@ -221,14 +221,6 @@
     box-sizing: border-box;
     margin-right: 0px;
 }
-/*#shop_guess_wap_list .recom-item.three .recom-cell.three:nth-child(3n+1){
-	padding-left:0;
-	padding-right:4px;
-}
-#shop_guess_wap_list .recom-item.three .recom-cell.three:nth-child(3n+3){
-	padding-left:4px;
-	padding-right:0;
-}*/
 #shop_guess_wap_list .recom-item.three .recom-cell.three a{
 	padding-top:100%;
 }
@@ -261,6 +253,56 @@
     text-transform: uppercase;
     color: #f36;
 	line-height:20px;
+}
+
+#shopview .tabshow{
+	margin-top:10px;
+}
+#shopview .tabshow .nav-menu .navfelx .childcell{
+	padding: 10px 0px !important;
+	text-align:center;
+}
+#shopview .tabshow .nav-menu .navfelx .childcell::after{
+	content:'';
+	height:1px;
+	width:100%;
+	background:#f36;
+	position:absolute;
+	left:0;
+	bottom:0;
+    transform: scaleX(0);
+    -webkit-transform: scaleX(0);
+    -webkit-transition: all 0.3s ease 0.05s;
+    transition: all 0.3s ease 0.05s;
+}
+#shopview .tabshow .nav-menu .navfelx .childcell.active{
+	color:#f36;
+}
+#shopview .tabshow .nav-menu .navfelx .childcell.active::after{
+    transform: scaleX(1);
+    -webkit-transform: scaleX(1);
+}
+#shopview .tabshow .ui.segment{
+	display:none;
+}
+#shopview .tabshow .ui.segment.active{
+	display:block;
+}
+#shopview .tabshow .ui.products.segment{
+    -webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+    box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+    border-radius: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+	border: none !important;
+}
+#shopview .tabshow .ui.reply.segment,#shopview .tabshow .service.segment {
+    margin-top: 0;
+    -webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+    box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+    border-radius: 0;
+    border: none;
+    padding-top: 18px;
 }
 </style>
 {% endblock %}
@@ -400,7 +442,12 @@
         }, 'json');
      })(0, 2, 4, 1, 3);
 	 
-	
+	$('.childcell').bind('click',function(){
+		$(this).addClass('active');
+		$(this).siblings().removeClass('active');
+		$('.tabshow .ui.segment').addClass('active');
+		$('.tabshow .ui.segment').siblings().removeClass('active');
+	});
 
 {% endblock %}
 
@@ -564,6 +611,120 @@
 			</div>
 		
 		</div>
+	</div>
+	
+	<!-- 详情 评价 -->
+	<div class="tabshow">
+		<div class="nav-menu">
+			<ul class="navfelx">
+				<li class="childcell active">
+					产品详情
+				</li>
+				<li class="childcell">
+					用户评价
+				</li>
+				<li class="childcell">
+					售后服务
+				</li>
+			</ul>
+		</div>
+		
+		<div class="ui products segment active">
+			<div class="product content froala-element">
+				{{ product.content }}
+			</div>
+		</div>
+
+		{% if product.stage == 9 %}
+	    {% if product.comment_count %}
+
+	    <!--商品评价-->
+	    <div class="ui reply segment">
+	    	<div class="ui threaded minimal is-comment comments">
+	            {% comment_list var:'comments' page:page target_id:product._id %}
+	            {% for comment in comments.rows %}
+	        	<div class="comment" id="{{ comment._id }}">
+	              	<a class="avatar" href="{{ comment.user.home_url }}">
+	                <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
+	             	</a>
+	              	<div class="content">
+	                	<a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
+	                	<div class="metadata">
+	                  		<div class="date">{{ comment.created_on }}</div>
+	                  	  	{% include "block/star.html" %}
+	                		</div>
+            
+	                		<div class="text">
+	                  		  {{ comment.content }}
+	                	  	</div>
+	                		{% if visitor.is_login %}
+			                <form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
+			                  <input type="hidden" name="type" value="2" />
+			                  <input type="hidden" name="comment_id" value="{{ comment._id }}" />
+			                  <input type="hidden" name="target_id" value="{{ topic._id }}" />
+			                  <div class="field">
+			                    <textarea name="content" class="reply-content"></textarea>
+			                  </div>
+			                  <div class="ui active button magenta submit labeled icon">
+			                    <i class="icon location"></i> 回复
+			                  </div>
+			                </form>
+			                {% endif %}
+	              	  	</div>
+      
+	              	  	{% if comment.reply %}
+	              	  	<div class="comments">
+	                		{% for reply in comment.reply %}
+	                 		<div class="comment">
+	                    		<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
+	                      		 	<img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
+	                    		</a>
+	                    		<div class="content">
+	                      			<a class="author">{{ reply.user.nickname }}</a>
+	                      		  	<div class="metadata">
+	                        			<div class="date">{{ reply.replied_on }}</div>
+	                      		  	</div>
+			                      	<div class="text">
+			                        	{{ reply.content }}
+			                     	</div>
+	                    		</div>
+	                  	  	</div>
+	                	{% endfor %}
+	              		</div>
+	              	  	{% endif %}
+      
+	            	</div>
+	            		{% endfor %}
+	         	</div>
+      
+	    		{% endif %}<!--if product.comment_count-->
+	 		   {% endif %}
+		   </div>
+	   	 	<!--if product.comment_count-->
+	  	  	<!--if stage==9-->
+		</div>
+
+
+
+		<div class="ui service segment">
+			<h4 class="ui dividing header">
+			      售后服务
+			    </h4>
+			<div class="ui selection list">
+			<div class="item">
+				客服热线：010- 8459&nbsp;9327&nbsp;/&nbsp;8459&nbsp;9323
+			</div>
+			<div class="item">
+				QQ客服：211470932
+			</div>
+			<div class="item">
+				客服邮箱：service#taihuoniao.com(#换成@)
+			</div>
+			</div>
+		</div>
+		
+		
+		
 	</div>
 		
 	
