@@ -446,19 +446,19 @@
 		$(this).addClass('active');
 		$(this).siblings().removeClass('active');
 		$('.tabshow .product.ui.segment').addClass('active');
-		$('.tabshow .product.ui.segment').siblings().removeClass('active');
+		$('.tabshow .reply.ui.segment,.tabshow .service.ui.segment').removeClass('active');
 	});
 	$('.reply.childcell').bind('click',function(){
 		$(this).addClass('active');
 		$(this).siblings().removeClass('active');
 		$('.tabshow .reply.ui.segment').addClass('active');
-		$('.tabshow .reply.ui.segment').siblings().removeClass('active');
+		$('.tabshow .product.ui.segment,.tabshow .service.ui.segment').removeClass('active');
 	});
 	$('.service.childcell').bind('click',function(){
 		$(this).addClass('active');
 		$(this).siblings().removeClass('active');
 		$('.tabshow .service.ui.segment').addClass('active');
-		$('.tabshow .service.ui.segment').siblings().removeClass('active');
+		$('.tabshow .product.ui.segment,.tabshow .reply.ui.segment').removeClass('active');
 	});
 	
 
