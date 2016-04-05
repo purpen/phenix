@@ -180,6 +180,20 @@
 .gobuybtn .childbtn .buynow{
 	background:#f36;
 }
+.close-details{
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    right: 10px;
+    top: 10px;
+    background: rgb(200,200,200);
+    border-radius: 15px;
+}
+.close-details img{
+    width: 12px;
+    height: 12px;
+    margin: 7px;
+}
 </style>
 {% endblock %}
 
@@ -215,7 +229,7 @@
 			$('#shopview').addClass('show-details');
 		}
 	});
-	$('#cover').click(function(){
+	$('#cover,.close-details').click(function(){
 		$('#shopview').removeClass('show-details');
 	});
 	
@@ -337,6 +351,9 @@
 		<i class="angle float right icon"></i>
 	</div>
 	<div class="ui top details">
+		<div class="close-details">
+			<img src="{{ app_url_packaged }}/images/icon/close.png">
+		</div>
 		<div class="ui respontion grid">
 			<div class="row pb-0">
 				<div class="column">
@@ -410,7 +427,6 @@
 			</div>
 			
 		</div>
-		
 		<div class="gobuybtn">
 			<ul class="two btn">
 				<li class="childbtn">
