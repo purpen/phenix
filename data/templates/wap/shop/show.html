@@ -196,20 +196,20 @@
     margin: 7px;
 }
 
-#shop_guess_wap_list{
+#product_guess_wap_list{
 	margin-top: 10px;
     position: relative;
     background: #fff;
 }
-#shop_guess_wap_list .guess.title{
+#product_guess_wap_list .guess.title{
 	padding:15px 10px 10px;
     font-weight: 400;
     font-size: 14px;
 }
-#shop_guess_wap_list .recom-item.three{
+#product_guess_wap_list .recom-item.three{
 	padding:0 3px;
 }
-#shop_guess_wap_list .recom-item.three .recom-cell.three {
+#product_guess_wap_list .recom-item.three .recom-cell.three {
     width: 33.333%;
     height: 100%;
     display: block;
@@ -221,23 +221,23 @@
     box-sizing: border-box;
     margin-right: 0px;
 }
-#shop_guess_wap_list .recom-item.three .recom-cell.three a{
+#product_guess_wap_list .recom-item.three .recom-cell.three a{
 	padding-top:100%;
 }
-#shop_guess_wap_list .recom-item.three .recom-cell.three a img{
+#product_guess_wap_list .recom-item.three .recom-cell.three a img{
 	border: 1px solid rgba(0,0,0,0.1);
 	top: 0;
 	bottom: auto;
 	height:auto;
 }
-#shop_guess_wap_list .recom-item.three .recom-cell.three .desc{
+#product_guess_wap_list .recom-item.three .recom-cell.three .desc{
 	position:relative;
 	background:#fff;
     padding: 8px 0 0;
     text-align: left;
 	height: auto;
 }
-#shop_guess_wap_list .recom-item.three .recom-cell.three .desc h2{
+#product_guess_wap_list .recom-item.three .recom-cell.three .desc h2{
 	height:32px;
 	color: rgba(112,123,135,.91);
 	font-size: 13px;
@@ -246,7 +246,7 @@
 	white-space: normal;
 	margin-bottom: 5px;
 }
-#shop_guess_wap_list .recom-item.three .recom-cell.three .desc .cats{
+#product_guess_wap_list .recom-item.three .recom-cell.three .desc .cats{
 	font-size: 12px;
     height: 30px;
     padding: 0;
@@ -485,10 +485,7 @@
 	
 	
     // 加载推荐商品 
-	$.get('{{ app_url_wap }}/shop/ajax_guess_product?rand='+Math.random(), {sword: '{{ product.tags_s }}', size: 3, id: {{ product._id }} }, function(rs){
-        var rendered = phenix.ajax_render_result('#fetch_more_guess_tpl', rs.data);
-        $('#shop_guess_wap_list').html(rendered);
-    }, 'json');
+	$.get('{{ app_url_wap }}/shop/ajax_guess_product?rand='+Math.random(), {sword: '{{ product.tags_s }}', size: 3, id: {{ product._id }} }, function(rs){});
 	 
 	//产品详情、评论、售后服务
 	$('.product.childcell').bind('click',function(){
@@ -617,7 +614,7 @@
 	
 	</div>
 	<!-- 相关推荐 -->
-	<div id="shop_guess_wap_list">
+	<div id="product_guess_wap_list">
 		<!-- 加载相关推荐 -->
 	</div>
 	
@@ -746,8 +743,4 @@
 
 
 
-{% endblock %}
-
-{% block templates %}
-{% mustache id:'fetch_more_guess_tpl' tpl:'mustache_m/fetch_more_guess.mustache' %}
 {% endblock %}
