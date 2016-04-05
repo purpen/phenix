@@ -185,19 +185,32 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 	 * 显示主题详情帖
 	 */
 	public function show(){
-
-    // 记录兑吧来的用户，统计注册量用
-    if(isset($this->stash['from']) && $this->stash['from']=='db'){
-      // 存cookie
-      @setcookie('from_origin', '2', time()+3600*24, '/');
-      $_COOKIE['from_origin'] = '2';
-    }
 		
 		$id = (int)$this->stash['id'];
 		$redirect_url = Doggy_Config::$vars['app.url.wap.social.list'];
 		if(empty($id)){
 			return $this->show_message_page('访问的主题不存在！', $redirect_url);
 		}
+
+    // 记录兑吧来的用户，统计注册量用
+    if(isset($this->stash['from']) && $this->stash['from']=='db' && $id=111172){
+      // 存cookie
+      @setcookie('from_origin', '2', time()+3600*24, '/');
+      $_COOKIE['from_origin'] = '2';
+
+      // 统计点击数量
+      $dig_model = new Sher_Core_Model_DigList();
+      $dig_key = Sher_Core_Util_Constant::DIG_THIRD_DB_STAT;
+
+      $dig = $dig_model->load($dig_key);
+      if(empty($dig) || !isset($dig['items']["view_01"])){
+        $dig_model->update_set($dig_key, array("items.view_01"=>1), true);     
+      }else{
+        // 增加浏览量
+        $dig_model->inc($dig_key, "items.view_01", 1);
+      }
+      
+    }
 		
 		// 是否允许编辑
 		$editable = false;

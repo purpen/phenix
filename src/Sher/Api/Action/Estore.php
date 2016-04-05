@@ -180,7 +180,7 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
         //显示的字段
         $options['some_fields'] = array(
           'eid'=>1, 'pid'=>1, '_id'=>1, 'e_city_id'=>1, 'p_stage_id'=>1,
-          'created_on'=>1, 'updated_on'=>1, 'product'=>1,
+          'created_on'=>1, 'updated_on'=>1, 'product'=>1, 'estore'=>1,
         );
 
 		$product_some_fields = array(
@@ -231,6 +231,8 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
         for($k=0;$k<count($product_some_fields);$k++){
           $product_key = $product_some_fields[$k];
           $product[$product_key] = isset($data[$i]['product'][$product_key]) ? $data[$i]['product'][$product_key] : null;
+          // 封面图url
+          $product['cover_url'] = isset($data[$i]['product']['cover']) ? $data[$i]['product']['cover']['thumbnails']['apc']['view_url'] : null;
         }
         $data[$i]['product'] = $product;
       }

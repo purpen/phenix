@@ -1,0 +1,426 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+@media only screen and (max-width: 320px){
+	#slider{
+		height:180px;
+	}
+}
+@media only screen and (min-width:321px )and (max-width: 375px){
+	#slider{
+		height:210px;
+	}
+}
+@media only screen and (min-width: 376px) and (max-width: 414px){
+	#slider{
+		height:232px;
+	}
+}
+#shopview .presale{
+	padding:10px;
+	background:#fff;
+}
+#shopview .presale h4.ui.header .sub.header{
+	color:#f36;
+	margin-top:5px;
+}
+#shopview .colour{
+	margin-top:10px;
+	padding:15px 10px;
+	position:relative;
+	background:#fff;
+	font-weight: 400;
+    font-size: 14px;
+}
+#shopview i.float.icon{
+	float:right;
+}
+#shopview .ui.top.details{
+	background:#fff;
+	position:fixed;
+	width:100%;
+	height:70%;
+	left:0;
+	bottom:0;
+	z-index:100;
+    visibility: hidden;
+    -webkit-transform: translate3d(0,100%,0);
+    transform: translate3d(0,100%,0);
+    -webkit-transition: all 0.3s ease 0.05s;
+    transition: all 0.3s ease 0.05s;
+	padding:10px;
+}
+#shopview.show-details .ui.top.details{
+	visibility: visible;
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+}
+#shopview .ui.top.details .ui.middle.aligned.image{
+	width:65px;
+	height:65px;
+}
+#shopview .ui.top.details h4.ui.header.inline{
+    display: inline-block;
+    margin-top: 0;
+    vertical-align: middle;
+	font-weight:400;
+	margin-left: 5px;
+	font-size: 16px;
+	color:#f36 !important;
+}
+#shopview .ui.top.details h4.ui.header.inline .sub.header{
+	margin-top: 5px;
+    font-size: 13px;
+}
+#shopview .ui.top.details .ui.divider{
+	margin:5px 10px 2px;
+}
+#shopview .ui.top.details .product.attrs{
+	font-size:0;
+}
+#shopview .ui.top.details .product.attrs .ui.magenta.att.button{
+	padding: 8px 17px;
+	margin: 5px;
+    background: rgba(0,0,0,0);
+    color: rgba(0,0,0,0.6);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.15) inset!important;
+}
+#shopview .ui.top.details .product.attrs .ui.magenta.att.button.active{
+	background: #f36;
+	color: #fff;
+	box-shadow:none !important;
+}
+.mb-5{
+	margin-bottom:5px !important;
+}
+.quantity{
+	font-size:0;
+	margin-top: 5px;
+	border:1px solid rgba(0,0,0,0.1);
+	display:inline-block;
+}
+.ui.mini.gray.icon.button{
+    background-color: rgba(255,255,255,.85);
+    color: rgba(0,0,0,.35);
+    padding: 0.65rem 1rem;
+    margin-top: 9pt;
+    border-radius: 0;
+    margin: 0;
+	height:32px;
+}
+.ui.mini.gray.icon.button:first-child{
+	border-right: 1px solid rgba(0,0,0,0.1) !important;
+}
+.ui.mini.gray.icon.button:last-child{
+	border-left: 1px solid rgba(0,0,0,0.1) !important;
+}
+.quantity input{
+	width: 70px;
+    text-align: center;
+    margin: 0;
+	height: 32px;
+    vertical-align: top;
+    line-height: 32px;
+    font-size: 16px;
+    background-color: #FFF;
+    border-radius: 0 !important;
+    border: none !important;
+    outline: 0;
+    color: rgba(0,0,0,1);
+}
+.gobuybtn{
+	position:absolute;
+	bottom:0;
+	left:0;
+	width:100%;
+	height:50px;
+}
+.gobuybtn .two.btn{
+	padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.gobuybtn .childbtn{
+	-webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    width: 0;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    max-width: 100%;
+    display: block;
+    padding: 0;
+    position: relative;
+}
+.gobuybtn .childbtn a{
+	text-align: center;
+    line-height: 50px;
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    top: 0;
+    left: 0;
+	color:#fff;
+}
+.gobuybtn .childbtn .joincart{
+	background:#ff6666;
+}
+.gobuybtn .childbtn .buynow{
+	background:#f36;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript">
+
+
+</script>
+{% endblock %}
+
+{% block jquery %}
+  	$('#slider').flexslider({
+        animation: "slide",
+        directionNav: false, 
+        controlNav: true,
+        animationLoop: true,
+        slideshow: true,
+        slideshowSpeed: 5000,
+        animationDuration: 300,
+        animationSpeed: 300,
+    });
+	var flexheight = $('body').width()*9/16+'px';
+	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
+	
+	//点击颜色分类
+	$('#shopview .colour').click(function(){
+		if( !phenix.visitor.is_login ){
+			phenix.redirect('{{ app_url_wap }}/auth/login')
+		}
+		else{
+			$('#cover').css('display','block');
+			$('html').css('overflow','hidden');
+			$('#shopview').addClass('show-details');
+		}
+	});
+	$('#cover').click(function(){
+		$('#shopview').removeClass('show-details');
+	});
+	
+	// 如果仅一个sku,则设置默认值
+	{% if skus_count %}
+		var choosed_sku = 0;
+	{% else %}
+		var choosed_sku = {{ product._id }};
+	{% endif %}
+	// 选择sku
+	$('.attrs .ui.att.button').click(function(){
+		choosed_sku = $(this).data('id');
+		$('.attrs .ui.att.active.button').removeClass('active');
+		$(this).addClass('active');
+		{% if !product.snatched %}
+		  $('h4.ui.header.inline span').html($(this).data('price'));
+		  $('h4.ui.header.inline .sub.header span').html($(this).data('inventory'));
+		{%endif%}		
+		return false;
+	});
+	
+	// 更新购物车数据
+	var update_cart = function(pid, data){
+		// 购物车清空后，刷新页面
+		if (data.items_count == 0){
+			//phenix.redirect('{{ app_url_cart }}', 0);
+		}
+		// 导航购物标识角标
+		$('.basketnumber.label').text(data.items_count);
+		
+		$('.cart-items-count').text(data.items_count);
+		$('.cart-total-money').text(data.total_money);
+	};
+	$('.inc-qty.button').bind('click', function(){
+        if ( !choosed_sku){
+          phenix.show_error_note('请选择一个型号或颜色', 2000);
+        }
+		else{
+			var sku = $(this).data('sku'),
+				qty_value = parseInt($('#product-1011513749-qty').val());
+			
+			// 添加1个数量
+			qty_value += 1;
+		
+	
+			$('#product-1011513749-qty').val(qty_value);
+			
+			
+			
+		}
+		
+	});
+	
+	$('.dec-qty.button').bind('click', function(){
+        if ( ! choosed_sku){
+          phenix.show_error_note('请选择一个型号或颜色', 2000);
+        }
+		else{
+			var sku = $(this).data('sku'),
+				qty_value = parseInt($('#product-1011513749-qty').val());
+			// 减少1个数量,验证是否为0
+			qty_value  -= 1;
+			$('#product-1011513749-qty').val(qty_value);
+			
+			
+		}
+	});
+	
+	// 从购物车删除
+	$('.cart.page .ui.close.button').bind('click', function(){
+		var sku = $(this).data('sku');
+		$.get('{{ app_url_shopping }}/remove', {sku: sku});
+	});
+	
+	// 去结算
+	$('.checkout.button').bind('click', function(){
+		var checkout = '{{ app_url_shopping }}/checkout';
+		phenix.redirect(checkout, 0);
+	});
+
+{% endblock %}
+
+{% block content %}
+{% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
+<div id="slider" class="flexslider flex-single">
+	<ul class="slides">
+	{% for asset in assets.rows %}
+	    <li style="background-image: url('{{ asset.thumbnails.aub.view_url }}');">
+	      <a href="javascript:void(0);" title="{{ product.title }}" alt="{{ product.title }}">
+	          <img src="{{ asset.thumbnails.aub.view_url }}" alt="{{ product.title }}" style="display: none;" />
+	      </a>
+	    </li>
+	{% endfor %}
+	  
+	</ul>  
+</div>
+
+<div id="shopview">
+	<div class="presale">
+		<h4 class="ui header">
+			{{ product.title }}
+			<div class="sub header">
+				¥{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
+			</div>
+		</h4>
+	</div>
+	
+	
+	<div class="colour">
+		颜色分类
+		<i class="angle float right icon"></i>
+	</div>
+	<div class="ui top details">
+		<div class="ui respontion grid">
+			<div class="row pb-0">
+				<div class="column">
+					<img class="ui middle aligned image" src="{{ product.cover.thumbnails.small.view_url }}">
+					<h4 class="ui header inline">
+						价格：¥<span>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}</span>
+						<div class="sub header">
+							剩余库存：<span>{{ product.inventory }}</span>
+						</div>
+					</h4>
+				</div>
+				<div class="ui divider"></div>
+			</div>
+			
+			<div class="row pb-0">
+				<div class="column">
+					<h4 class="ui header mb-5">
+						颜色分类
+					</h4>
+					
+		           <!--{% if product.stage == 9 %}-->
+					<div class="product attrs">
+						 {% if skus %}
+							{% for m in skus %}
+							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}" data-inventory="{{ m.inventory }}">{{ m.mode }}</span>		
+							{% endfor %}
+						{%else%}
+							<span class="ui small magenta inverted att button" data-id="{{ product._id }}" data-price="{{ product.sale_price }}" data-inventory="{{ product.inventory }}">默认</span>
+
+		                {% endif %}
+					</div>
+					<!--{% endif %}-->
+					
+					<!--
+					<div class="product attrs">
+						<span class="ui small magenta inverted att button" data-id="1031789046" data-price="0.01">白色</span>
+						<span class="ui small magenta inverted att button" data-id="1031789053" data-price="0.02">黑色</span>
+						<span class="ui small magenta inverted att button" data-id="1031789101" data-price="0.03">绿色</span>
+						<span class="ui small magenta inverted att button" data-id="1031789046" data-price="0.01">白色</span>
+						<span class="ui small magenta inverted att button" data-id="1031789053" data-price="0.02">黑色</span>
+						<span class="ui small magenta inverted att button" data-id="1031789101" data-price="0.03">绿色</span>
+						<span class="ui small magenta inverted att button" data-id="1031789046" data-price="0.01">白色</span>
+						<span class="ui small magenta inverted att button" data-id="1031789053" data-price="0.02">黑色</span>
+						<span class="ui small magenta inverted att button" data-id="1031789101" data-price="0.03">绿色</span>
+						
+					</div>-->
+				</div>
+			</div>
+			
+			<div class="row pb-0">
+				<div class="ui divider"></div>
+			</div>
+			
+			<div class="row">
+				<div class="column">
+					<h4 class="ui header mb-5">
+						数量
+					</h4>
+					
+					<div class="quantity">
+						<button class="ui mini gray dec-qty icon button" data-sku="{{ product.sku }}">
+							<i class="minus icon"></i>
+						</button>
+						<input type="text" name="product-{{ product.sku }}-qty" id="product-{{ product.sku }}-qty" value=1 autocomplete="off" disabled="disabled">
+						<button class="ui mini gray inc-qty icon button" data-sku="{{ product.sku }}">
+							<i class="add icon"></i>
+						</button>
+					</div>
+				</div>
+				
+			</div>
+			
+		</div>
+		
+		<div class="gobuybtn">
+			<ul class="two btn">
+				<li class="childbtn">
+					<a class="joincart" href="javascript:void(0);">加入购物车</a>
+				</li>
+				<li class="childbtn">
+					<a hre="" class="buynow">立即购买</a>
+				</li>
+			</ul>
+		</div>
+	
+	</div>
+	
+	
+	
+	
+</div>
+
+
+
+{% endblock %}

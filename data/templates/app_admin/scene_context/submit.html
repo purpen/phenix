@@ -41,6 +41,23 @@
 		.scene_tags{
 			margin: 0 5px 5px 0 !important;
 		}
+		h3.ui.dashed.header{
+		    border-bottom: 2px dashed rgba(0,0,0,0.4);
+		    padding-bottom: 10px;
+		    margin-bottom: 10px;
+		}
+		.tags_content .ui.green.label{
+			background-color:rgba(200,200,200,0.1) !important;
+		    border: 1px solid #c1c1c1 !important;
+		    color: #666!important;
+		    font-size: 14px;
+		    margin: 8px 12px 8px 0 !important;
+		}
+		.tags_content .ui.green.label.purple,.tags_content .ui.green.label:hover,.tags_content .ui.green.label.purple:hover{
+			background-color: #fff !important;
+		    border: 1px solid #f36 !important;
+		    color: #f36 !important;
+		}
 	</style>
 {% endblock %}
 
@@ -113,7 +130,7 @@
 			var html = '';
 			if(data.data){
 				for(var item in data.data){
-					html += '<a class="ui green label" date-val="'+data.data[item]['_id']+'">【'+data.data[item]['title_cn']+'】</a>';
+					html += '<h3 class="ui dashed header" date-val="'+data.data[item]['_id']+'">【'+data.data[item]['title_cn']+'】</h3>';
 					if(data.data[item]['children']){
 						for(var items in data.data[item]['children']){
 							//console.log(data.data[item]['children'][items]);
