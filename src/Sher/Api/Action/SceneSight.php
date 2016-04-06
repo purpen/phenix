@@ -91,7 +91,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 	 */
 	public function save(){
 		
-		// http://www.taihuoniao.me/app/api/scene_sight/save?title=a&des=b&scene_id=15&tags=1,2,3&product=123456&site_x=20&site_y=30&lat=116&lng=39&address=123
+		// http://www.taihuoniao.me/app/api/scene_sight/save?title=a&des=b&scene_id=15&tags=1,2,3&product_id=1,2,3&product_title=a,b,c&product_price=12,20,30&product_x=20,30,40&product_y=30,40,50&lat=116&lng=39&address=123
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$user_id = $this->current_user_id;
@@ -101,9 +101,11 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$data['des'] = isset($this->stash['des']) ? $this->stash['des'] : '';
 		$data['scene_id'] = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
 		$data['tags'] = isset($this->stash['tags']) ? $this->stash['tags'] : '';
-		$data['product'] = isset($this->stash['product']) ? $this->stash['product'] : '';
-		$data['product_site']['x'] = isset($this->stash['site_x']) ? (int)$this->stash['site_x'] : 0;
-		$data['product_site']['y'] = isset($this->stash['site_y']) ? (int)$this->stash['site_y'] : 0;
+		$data['product_id'] = isset($this->stash['product_id']) ? $this->stash['product_id'] : '';
+		$data['product_title'] = isset($this->stash['product_title']) ? $this->stash['product_title'] : '';
+		$data['product_price'] = isset($this->stash['product_price']) ? $this->stash['product_price'] : '';
+		$data['product_x'] = isset($this->stash['product_x']) ? $this->stash['product_x'] : '';
+		$data['product_y'] = isset($this->stash['product_y']) ? $this->stash['product_y'] : '';
 		$data['address'] = isset($this->stash['address']) ? $this->stash['address'] : '';
 		$data['location']['coordinates']['lat'] = isset($this->stash['lat']) ? (float)$this->stash['lat'] : 0;
 		$data['location']['coordinates']['lng'] = isset($this->stash['lng']) ? (float)$this->stash['lng'] : 0;
@@ -120,10 +122,6 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			return $this->api_json('地址不能为空', 3000);
 		}
 		
-		if(empty($data['product']) || empty($data['product'])){
-			return $this->api_json('产品不能为空', 3000);
-		}
-		
 		if(empty($data['location']['coordinates']['lat']) || empty($data['location']['coordinates']['lat'])){
 			return $this->api_json('经纬度不能为空', 3000);
 		}
@@ -133,13 +131,26 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			$data['tags'][$k] = (int)$v;
 		}
 		
-		$data['product'] = explode(',',$data['product']);
-		foreach($data['product'] as $k => $v){
-			$data['product'][$k] = $v;
+		$data['product_id'] = explode(',',$data['product_id']);
+		$data['product_title'] = explode(',',$data['product_title']);
+		$data['product_price'] = explode(',',$data['product_price']);
+		$data['product_x'] = explode(',',$data['product_x']);
+		$data['product_y'] = explode(',',$data['product_y']);
+		for($i = 0;$i < count($data['product_id']); $i++){
+			$data['product'][$i]['id'] = (int)$data['product_id'][$i];
+			$data['product'][$i]['title'] = $data['product_title'][$i];
+			$data['product'][$i]['price'] = (float)$data['product_price'][$i];
+			$data['product'][$i]['x'] = (int)$data['product_x'][$i];
+			$data['product'][$i]['y'] = (int)$data['product_y'][$i];
 		}
+		unset($data['product_id']);
+		unset($data['product_title']);
+		unset($data['product_price']);
+		unset($data['product_x']);
+		unset($data['product_y']);
 		
 		// 上传图片
-		//$this->stash['tmp'] = Doggy_Config::$vars['app.imges'];
+		$this->stash['tmp'] = Doggy_Config::$vars['app.imges'];
 		
 		if(!isset($this->stash['tmp']) && empty($this->stash['tmp'])){
 			return $this->api_json('请选择图片！', 3001);  
@@ -166,7 +177,6 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		}else{
 			return $this->api_json('上传失败!', 3005); 
 		}
-		
 		//var_dump($data);die;
 		try{
 			$model = new Sher_Core_Model_SceneSight();
