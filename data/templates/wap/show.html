@@ -518,7 +518,7 @@
 							<h4 class="ui header authsub">
 								<img class="ui mini circular image" src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
 								<div class="content">
-									<a class="ui magenta link" href="javascript:void(0);">@{{ topic.user.nickname }}</a> &nbsp; |  {{ topic.created_on|relative_datetime }} {% if topic.source %}&nbsp;| &nbsp; {{ topic.source }}{%endif%}
+									<a class="ui magenta link" href="javascript:void(0);">@{{ topic.user.nickname }}</a> &nbsp; | &nbsp; {{ topic.created_on|relative_datetime }} {% if topic.source %}&nbsp;| &nbsp; {{ topic.source }}{%endif%}
 									<div class="sub header">
 										浏览数: {{ topic.view_count }} &nbsp; | &nbsp; 回复数: {{ topic.comment_count }}
 									</div>
