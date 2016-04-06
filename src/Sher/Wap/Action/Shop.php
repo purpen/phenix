@@ -87,9 +87,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	}
 	
 	/**
-	 * 商品详情
+	 * 太火鸟商城购物攻略
 	 */
 	public function serve(){
+		$this->stash['page_title_suffix'] = '太火鸟商城购物攻略';
 		return $this->to_html_page('wap/shop/serve.html');
 	}
 	
