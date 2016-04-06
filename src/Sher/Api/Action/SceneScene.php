@@ -25,8 +25,10 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 	 */
 	public function getlist(){
 		
+		// http://www.taihuoniao.me/app/api/scene_scene/getlist?dis=1000&lat=39.9151190000&lng=116.4039630000
+		
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:1000;
 		
 		$some_fields = array(
 			'_id'=>1, 'title'=>1, 'user_id'=>1, 'des'=>1, 'sight'=>1, 'tags'=>1,
@@ -35,12 +37,37 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			'comment_count'=>1, 'is_check'=>1, 'status'=>1,
 		);
 		
+		$query   = array();
+		$options = array();
+		
 		// 请求参数
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
-			
-		$query   = array();
-		$options = array();
+		
+		// 基于地理位置的查询，从城市内查询
+        $distance = isset($this->stash['dis']) ? (int)$this->stash['dis'] : 0; // 距离、半径
+        $lng = isset($this->stash['lng']) ? $this->stash['lng'] : 0; // 经度
+        $lat = isset($this->stash['lat']) ? $this->stash['lat'] : 0; // 纬度
+		
+		// 必须添加索引 db.scene_scene.ensureIndex({location: "2dsphere"})
+		
+		# 按照半径搜索: 搜索半径内的所有的点,按照由近到远排序
+        if (!empty($lat) && !empty($lng)) {
+            $point = array(doubleval($lng), doubleval($lat));
+            $distance = $distance/1000;
+            
+            if ($distance) {
+                $query['location'] = array(
+                  '$geoWithin' => array(
+                      '$centerSphere' => array($point, $distance/6371)
+                  )  
+                );
+            } else {
+                $query['location'] = array(
+                  '$nearSphere' => $point
+                );
+            }
+        }
 		
 		if($stick){
 			if($stick == 1){
@@ -100,8 +127,10 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$data['des'] = $this->stash['des'];
 		$data['tags'] = $this->stash['tags'];
 		$data['address'] = $this->stash['address'];
-		$data['location']['coordinates']['lat'] = $this->stash['lat'];
-		$data['location']['coordinates']['lng'] = $this->stash['lng'];
+		$data['location'] = array(
+            'type' => 'Point',
+            'coordinates' => array(doubleval($this->stash['lng']), doubleval($this->stash['lat'])),
+        );
 		//$data['asset'] = isset($this->stash['asset'])?$this->stash['asset']:array();
 		
 		if(empty($data['title']) || empty($data['des'])){

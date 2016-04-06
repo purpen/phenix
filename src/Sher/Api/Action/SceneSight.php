@@ -25,29 +25,56 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 	 */
 	public function getlist(){
 		
+		// http://www.taihuoniao.me/app/api/scene_sight/getlist?dis=1000&lat=39.9151190000&lng=116.4039630000
+		
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:1000;
 		
 		$some_fields = array(
-			'_id'=>1, 'title'=>1, 'user_id'=>1, 'des'=>1, 'sight'=>1, 'tags'=>1,
-			'location'=>1, 'address'=>1, 'cover_id'=>1,'used_count'=>1,
-			'view_count'=>1, 'subscription_count'=>1, 'love_count'=>1,
-			'comment_count'=>1, 'is_check'=>1, 'status'=>1,
+			'_id'=>1, 'user_id'=>1, 'title'=>1, 'des'=>1, 'scene_id'=>1, 'tags'=>1,
+			'product' => 1, 'location'=>1, 'address'=>1, 'cover_id'=>1,
+			'used_count'=>1, 'view_count'=>1, 'love_count'=>1, 'comment_count'=>1,
+			'fine' => 1, 'is_check'=>1, 'status'=>1,
 		);
+		
+		$query   = array();
+		$options = array();
 		
 		// 请求参数
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
-			
-		$query   = array();
-		$options = array();
+		
+		// 基于地理位置的查询，从城市内查询
+        $distance = isset($this->stash['dis']) ? (int)$this->stash['dis'] : 0; // 距离、半径
+        $lng = isset($this->stash['lng']) ? $this->stash['lng'] : 0; // 经度
+        $lat = isset($this->stash['lat']) ? $this->stash['lat'] : 0; // 纬度
+		
+		// 必须添加索引 db.scene_scene.ensureIndex({location: "2dsphere"})
+		
+		# 按照半径搜索: 搜索半径内的所有的点,按照由近到远排序
+        if (!empty($lat) && !empty($lng)) {
+            $point = array(doubleval($lng), doubleval($lat));
+            $distance = $distance/1000;
+            
+            if ($distance) {
+                $query['location'] = array(
+                  '$geoWithin' => array(
+                      '$centerSphere' => array($point, $distance/6371)
+                  )  
+                );
+            } else {
+                $query['location'] = array(
+                  '$nearSphere' => $point
+                );
+            }
+        }
 		
 		if($stick){
 			if($stick == 1){
-				$query['stick'] = 1;
+				$query['fine'] = 1;
 			}
 			if($stick == 2){
-				$query['stick'] = 0;
+				$query['fine'] = 0;
 			}
 		}
 		
@@ -70,8 +97,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$options['some_fields'] = $some_fields;
 		
 		// 开启查询
-        $service = Sher_Core_Service_SceneScene::instance();
-        $result = $service->get_scene_scene_list($query, $options);
+        $service = Sher_Core_Service_SceneSight::instance();
+        $result = $service->get_scene_sight_list($query, $options);
 		
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
@@ -79,10 +106,10 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		}
 		
 		// 过滤多余属性
-        $filter_fields  = array('view_url', 'sight', 'user', 'summary', '__extend__');
+        $filter_fields  = array('__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
-		//var_dump($result['rows']);die;
+		//var_dump($query);die;
 		return $this->api_json('请求成功', 0, $result);
 	}
 	
@@ -91,7 +118,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 	 */
 	public function save(){
 		
-		// http://www.taihuoniao.me/app/api/scene_sight/save?title=a&des=b&scene_id=15&tags=1,2,3&product_id=1,2,3&product_title=a,b,c&product_price=12,20,30&product_x=20,30,40&product_y=30,40,50&lat=116&lng=39&address=123
+		// http://www.taihuoniao.me/app/api/scene_sight/save?title=a&des=b&scene_id=15&tags=1,2,3&product_id=1,2,3&product_title=a,b,c&product_price=12,20,30&product_x=20,30,40&product_y=30,40,50&lat=39.9151190000&lng=116.4039630000&address=北京市
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$user_id = $this->current_user_id;
@@ -107,8 +134,10 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$data['product_x'] = isset($this->stash['product_x']) ? $this->stash['product_x'] : '';
 		$data['product_y'] = isset($this->stash['product_y']) ? $this->stash['product_y'] : '';
 		$data['address'] = isset($this->stash['address']) ? $this->stash['address'] : '';
-		$data['location']['coordinates']['lat'] = isset($this->stash['lat']) ? (float)$this->stash['lat'] : 0;
-		$data['location']['coordinates']['lng'] = isset($this->stash['lng']) ? (float)$this->stash['lng'] : 0;
+		$data['location'] = array(
+            'type' => 'Point',
+            'coordinates' => array(doubleval($this->stash['lng']), doubleval($this->stash['lat'])),
+        );
 		
 		if(empty($data['title']) || empty($data['des'])){
 			return $this->api_json('标题不能为空', 3000);
@@ -120,10 +149,6 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		if(empty($data['address']) || empty($data['address'])){
 			return $this->api_json('地址不能为空', 3000);
-		}
-		
-		if(empty($data['location']['coordinates']['lat']) || empty($data['location']['coordinates']['lat'])){
-			return $this->api_json('经纬度不能为空', 3000);
 		}
 		
 		$data['tags'] = explode(',',$data['tags']);
@@ -150,7 +175,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		unset($data['product_y']);
 		
 		// 上传图片
-		//$this->stash['tmp'] = Doggy_Config::$vars['app.imges'];
+		$this->stash['tmp'] = Doggy_Config::$vars['app.imges'];
 		
 		if(!isset($this->stash['tmp']) && empty($this->stash['tmp'])){
 			return $this->api_json('请选择图片！', 3001);  

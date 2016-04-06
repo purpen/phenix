@@ -105,8 +105,10 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$data['des'] = $this->stash['des'];
 		$data['tags'] = $this->stash['tags'];
 		$data['address'] = $this->stash['address'];
-		$data['location']['coordinates']['lat'] = $this->stash['lat'];
-		$data['location']['coordinates']['lng'] = $this->stash['lng'];
+		$data['location'] = array(
+            'type' => 'Point',
+            'coordinates' => array(doubleval($this->stash['lng']), doubleval($this->stash['lat'])),
+        );
 		$data['cover_id'] = $this->stash['cover_id'];
 		$data['asset'] = isset($this->stash['asset'])?$this->stash['asset']:array();
 		
@@ -122,7 +124,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 			return $this->api_json('请求参数不能为空', 3000);
 		}
 		
-		if(empty($data['location']['coordinates']['lat']) || empty($data['location']['coordinates']['lat'])){
+		if(empty($data['location']['coordinates'])){
 			return $this->api_json('请求参数不能为空', 3000);
 		}
 		
