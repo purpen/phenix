@@ -101,6 +101,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	
 	const TYPE_SCENE_BRANDS = 100;
 	const TYPE_SCENE_SCENE = 101;
+	const TYPE_SCENE_SIGHT = 102;
 	const TYPE_GPRODUCT_BANNER = 120;
 	const TYPE_GPRODUCT_PNG = 121;
 

@@ -1,9 +1,9 @@
 <?php
 /**
- * 情景管理
+ * 场景管理
  * @author caowei＠taihuoniao.com
  */
-class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
+class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 	
 	public $stash = array(
 		'id'   => '',
@@ -21,7 +21,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 	}
 	
 	/**
-	 * 情景列表
+	 * 场景列表
 	 */
 	public function getlist(){
 		
@@ -87,37 +87,45 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 	}
 	
 	/**
-	 * 提交情景
+	 * 场景情景
 	 */
 	public function save(){
 		
-		$user_id = $this->current_user_id;
+		// http://www.taihuoniao.me/app/api/scene_sight/save?title=a&des=b&scene_id=15&tags=1,2,3&product=123456&site_x=20&site_y=30&lat=116&lng=39&address=123
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$user_id = $this->current_user_id;
 		
 		$data = array();
-		$data['title'] = $this->stash['title'];
-		$data['des'] = $this->stash['des'];
-		$data['tags'] = $this->stash['tags'];
-		$data['address'] = $this->stash['address'];
-		$data['location']['coordinates']['lat'] = $this->stash['lat'];
-		$data['location']['coordinates']['lng'] = $this->stash['lng'];
-		//$data['asset'] = isset($this->stash['asset'])?$this->stash['asset']:array();
+		$data['title'] = isset($this->stash['title']) ? $this->stash['title'] : '';
+		$data['des'] = isset($this->stash['des']) ? $this->stash['des'] : '';
+		$data['scene_id'] = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
+		$data['tags'] = isset($this->stash['tags']) ? $this->stash['tags'] : '';
+		$data['product'] = isset($this->stash['product']) ? $this->stash['product'] : '';
+		$data['product_site']['x'] = isset($this->stash['site_x']) ? (int)$this->stash['site_x'] : 0;
+		$data['product_site']['y'] = isset($this->stash['site_y']) ? (int)$this->stash['site_y'] : 0;
+		$data['address'] = isset($this->stash['address']) ? $this->stash['address'] : '';
+		$data['location']['coordinates']['lat'] = isset($this->stash['lat']) ? (float)$this->stash['lat'] : 0;
+		$data['location']['coordinates']['lng'] = isset($this->stash['lng']) ? (float)$this->stash['lng'] : 0;
 		
 		if(empty($data['title']) || empty($data['des'])){
-			return $this->api_json('请求参数不能为空', 3000);
-		}
-		
-		if(empty($data['address']) || empty($data['address'])){
-			return $this->api_json('请求参数不能为空', 3000);
+			return $this->api_json('标题不能为空', 3000);
 		}
 		
 		if(empty($data['tags']) || empty($data['tags'])){
-			return $this->api_json('请求参数不能为空', 3000);
+			return $this->api_json('标签不能为空', 3000);
+		}
+		
+		if(empty($data['address']) || empty($data['address'])){
+			return $this->api_json('地址不能为空', 3000);
+		}
+		
+		if(empty($data['product']) || empty($data['product'])){
+			return $this->api_json('产品不能为空', 3000);
 		}
 		
 		if(empty($data['location']['coordinates']['lat']) || empty($data['location']['coordinates']['lat'])){
-			return $this->api_json('请求参数不能为空', 3000);
+			return $this->api_json('经纬度不能为空', 3000);
 		}
 		
 		$data['tags'] = explode(',',$data['tags']);
@@ -125,9 +133,15 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			$data['tags'][$k] = (int)$v;
 		}
 		
-		// 上传图片
+		$data['product'] = explode(',',$data['product']);
+		foreach($data['product'] as $k => $v){
+			$data['product'][$k] = $v;
+		}
 		
-		if(empty($this->stash['tmp'])){
+		// 上传图片
+		//$this->stash['tmp'] = Doggy_Config::$vars['app.imges'];
+		
+		if(!isset($this->stash['tmp']) && empty($this->stash['tmp'])){
 			return $this->api_json('请选择图片！', 3001);  
 		}
 		$file = base64_decode(str_replace(' ', '+', $this->stash['tmp']));
@@ -140,8 +154,8 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		}
 		$params = array();
 		$new_file_id = new MongoId();
-		$params['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
-		$params['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
+		$params['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SIGHT;
+		$params['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SIGHT;
 		$params['filename'] = $new_file_id.'.jpg';
 		$params['parent_id'] = $id;
 		$params['image_info'] = $image_info;
@@ -155,7 +169,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		
 		//var_dump($data);die;
 		try{
-			$model = new Sher_Core_Model_SceneScene();
+			$model = new Sher_Core_Model_SceneSight();
 			// 新建记录
 			if(empty($id)){
 				$data['user_id'] = $user_id;
@@ -174,16 +188,16 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			}
 			
 			// 上传成功后，更新所属的附件
-			
+			//var_dump($id);die;
 			if(isset($data['cover_id']) && !empty($data['cover_id'])){
-				$this->update_batch_assets($data['cover_id'], $id);
+				$model->update_batch_assets($data['cover_id'], $id);
 			}		
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("api情景保存失败：".$e->getMessage());
 			return $this->api_json('情景保存失败:'.$e->getMessage(), 4001);
 		}
 		
-		return $this->api_json('提交成功', 0, array('current_user_id'=>$user_id));
+		return $this->api_json('提交成功', 0, null);
 	}
 	
 	/**
@@ -199,7 +213,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		
 		try{
-			$model = new Sher_Core_Model_SceneScene();
+			$model = new Sher_Core_Model_SceneSight();
 			
 			foreach($ids as $id){
 				$result = $model->load((int)$id);

@@ -61,7 +61,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		'status' => 1,
     );
 	
-	protected $required_fields = array('title','type','images');
+	protected $required_fields = array('title');
 	protected $int_fields = array('status', 'used_count');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count');
@@ -89,4 +89,15 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
     protected function after_save(){
         parent::after_save();
     }
+	
+	/**
+	 * 批量更新附件所属
+	 */
+	public function update_batch_assets($id, $parent_id){
+		if (!empty($id)){
+			$model = new Sher_Core_Model_Asset();
+			Doggy_Log_Helper::debug("Update asset[$id] parent_id: $parent_id");
+			$model->update_set($id, array('parent_id' => (int)$parent_id));
+		}
+	}
 }
