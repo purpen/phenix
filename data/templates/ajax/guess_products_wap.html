@@ -1,6 +1,8 @@
 <taconite>
-	<replace select="#shop_guess_wap_list"><![CDATA[
-		{% if result.total_rows %}
+	<replace select="#product_guess_wap_list"><![CDATA[
+		
+		<!-- #shop_guess_wap_list 换id new 相关推荐 -->
+		<!--{% if result.total_rows %}
 			<div id="shop_guess_wap_list">
 				<div class="guess title">
 					相关推荐
@@ -21,8 +23,9 @@
 					{% endfor %}
 				</div>
 			</div>
-		{% endif %}
-		<!--
+		{% endif %}-->
+		<!-- end -->
+		
 		{% if result.total_rows %}
 		  <div id="product_guess_wap_list">
       	<div class="ui responsive grid">
@@ -76,7 +79,7 @@
 		      </div>
 		    </div>
 		  </div>
-		{% endif %}-->
+		{% endif %}
 	]]></replace>
 
   <eval>
