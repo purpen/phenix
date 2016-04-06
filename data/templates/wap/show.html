@@ -210,9 +210,9 @@
   	  margin-bottom: 0;
   }
   #postpage .ui.topic.segment .ui.title.header .content {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 400;
-      line-height: 26px;
+      line-height: 22px;
   }
   #postpage .ui.topic.segment h4.ui.header.authsub{
       margin-top: 8px;
@@ -517,9 +517,9 @@
 							<h4 class="ui header authsub">
 								<img class="ui mini circular image" src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
 								<div class="content">
-									<a class="ui magenta link" href="javascript:void(0);">@{{ topic.user.nickname }}</a> &nbsp;发表于 {{ topic.created_on|relative_datetime }} {% if topic.source %}&nbsp; | &nbsp;来源: {{ topic.source }}{%endif%}
+									<a class="ui magenta link" href="javascript:void(0);">@{{ topic.user.nickname }}</a> &nbsp;发表于 {{ topic.created_on|relative_datetime }} {% if topic.source %}&nbsp;| &nbsp;来源: {{ topic.source }}{%endif%}
 									<div class="sub header">
-										浏览数: {{ topic.view_count }} | 回复数: {{ topic.comment_count }}
+										浏览数: {{ topic.view_count }} &nbsp; | &nbsp; 回复数: {{ topic.comment_count }}
 									</div>
 								</div>
 							</h4>
