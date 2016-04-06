@@ -269,46 +269,63 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
       $this->update_style_tag_record($id, $old_scene_ids, $new_scene_ids, 1, 1);
       $this->update_style_tag_record($id, $old_style_ids, $new_style_ids, 2, 1);
 
+      // 老的商品所在店铺
+      $r_e_p_model = new Sher_Core_Model_REstoreProduct();
+      $old_estore_arr = array();
+      $new_estore_arr = array();
+      if($mode == 'edit'){
+        $old_estore = $r_e_p_model->find(array('pid'=>(int)$id));
+        foreach($old_estore as $k=>$v){
+          array_push($old_estore_arr, $v['eid']);
+        }
+      }
+
       // 更新商品所在店铺
       if(isset($this->stash['estores']) && !empty($this->stash['estores'])){
+        $new_estore_arr = $this->stash['estores'];
         foreach($this->stash['estores'] as $v){
           $pid = (int)$id;
           $eid = (int)$v;
           $p_stage_id = $data['stage'];
 
-          // 先查询，如果存在，跳过
-          $r_e_p_model = new Sher_Core_Model_REstoreProduct();
-          $r_has_one = $r_e_p_model->first(array('eid'=>$eid, 'pid'=>$pid));
-          if($r_has_one){
-            continue;
-          }
-          $estore_model = new Sher_Core_Model_Estore();
-          // 店铺不存在，跳过
-          $estore = $estore_model->load($eid);
-          if(!$estore){
-            continue;
-          }
-          $e_city_id = isset($estore['city_id']) ? $estore['city_id'] : '';
-
-          $r_estore_product_rows = array(
-            'eid' => $eid,
-            'pid' => $pid,
-            'p_stage_id' => $p_stage_id,
-            'e_city_id' => $e_city_id,
-          );
-          $r_e_p_model->create($r_estore_product_rows);
+          // 添加新的
+          if(!in_array($eid, $old_estore_arr)){
+            $estore_model = new Sher_Core_Model_Estore();
+            // 店铺不存在，跳过
+            $estore = $estore_model->load($eid);
+            if(!$estore){
+              continue;
+            }
+            $e_city_id = isset($estore['city_id']) ? $estore['city_id'] : '';
+            $r_estore_product_rows = array(
+              'eid' => $eid,
+              'pid' => $pid,
+              'p_stage_id' => $p_stage_id,
+              'e_city_id' => $e_city_id,
+            );
+            $r_e_p_model->create($r_estore_product_rows);
           
+          } // endif
+        } // endfor
+      } // endif
+
+      // 删除去掉的店铺
+      foreach($old_estore_arr as $k=>$v){
+        $eid = (int)$v;
+        $pid = (int)$id;
+        if(!in_array($eid, $new_estore_arr)){
+          $r_e_p_model->remove(array('eid'=>$eid, 'pid'=>$pid));
         }
       }
 
-		//如果是发布状态,更新索引
-		$product = $model->load((int)$id);
-		if($product['published']==1){
-		  // 更新全文索引
-		  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3); 
-		  //更新百度推送
-		  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 12);
-		}
+      //如果是发布状态,更新索引
+      $product = $model->load((int)$id);
+      if($product['published']==1){
+        // 更新全文索引
+        Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3); 
+        //更新百度推送
+        Sher_Core_Helper_Search::record_update_to_dig((int)$id, 12);
+      }
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Save product failed: ".$e->getMessage());

@@ -176,7 +176,7 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
     //显示的字段
     $options['some_fields'] = array(
       'eid'=>1, 'pid'=>1, '_id'=>1, 'e_city_id'=>1, 'p_stage_id'=>1,
-      'created_on'=>1, 'updated_on'=>1, 'product'=>1,
+      'created_on'=>1, 'updated_on'=>1, 'product'=>1, 'estore'=>1,
     );
 
 		$product_some_fields = array(
