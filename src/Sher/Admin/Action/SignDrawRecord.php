@@ -14,6 +14,7 @@ class Sher_Admin_Action_SignDrawRecord extends Sher_Admin_Action_Base implements
     'event' => '',
     'state' => '',
     'ip' => '',
+    'kind' => 0,
 	);
 	
 	public function _init() {
@@ -33,11 +34,23 @@ class Sher_Admin_Action_SignDrawRecord extends Sher_Admin_Action_Base implements
 	 * 列表
 	 */
 	public function get_list() {
+    $kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 0;
+    switch($kind){
+      case 0:
+        $this->set_target_css_state('all');
+        break;
+      case 1:
+        $this->set_target_css_state('page');
+        break;
+      case 2:
+        $this->set_target_css_state('app');
+        break;
+    }
     $this->set_target_css_state('page_all');
     $this->stash['target_id'] = isset($this->stash['target_id'])?$this->stash['target_id']:0;
     $this->stash['event'] = isset($this->stash['event'])?$this->stash['event']:0;
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/sign_draw_record?day=%d&user_id=%d&state=%d&event=%d&target_id=%d&ip=%s&page=#p#', $this->stash['day'], $this->stash['user_id'], $this->stash['state'], $this->stash['event'], $this->stash['target_id'], $this->stash['ip']);
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/sign_draw_record?day=%d&user_id=%d&state=%d&event=%d&target_id=%d&ip=%s&kind=%d&page=#p#', $this->stash['day'], $this->stash['user_id'], $this->stash['state'], $this->stash['event'], $this->stash['target_id'], $this->stash['ip'], $kind);
 		
 		$this->stash['pager_url'] = $pager_url;
 		
