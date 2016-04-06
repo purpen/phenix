@@ -59,12 +59,18 @@
 	<h3 class="ui header">签到抽奖管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/sign_draw_record" class="active item">
+    <a href="{{ app_url_admin_base }}/sign_draw_record" class="{{ css_all }} item">
 			全部
+		</a>
+    <a href="{{ app_url_admin_base }}/sign_draw_record/get_list?kind=1" class="{{ css_page }} item">
+			Page
+		</a>
+    <a href="{{ app_url_admin_base }}/sign_draw_record/get_list?kind=2" class="{{ css_app }} item">
+		  App
 		</a>
 
 	  <div class="right menu">
-      <a href="{{ app_url_admin_base }}/sign_draw_record/export?target_id=1&event=3" class="item">
+      <a href="{{ app_url_admin_base }}/sign_draw_record/export?target_id={{target_id}}&event={{event}}" class="item">
 				导出
 			</a>
 	  </div>
@@ -73,6 +79,7 @@
 
 	<div class="ui sub search">
 		<form action="{{ app_url_admin_base }}/sign_draw_record" method="get" class="ui form" id="search-form">
+      <input type="hidden" name="kind" value="{{ kind }}" />
 			<div class="six fields">
 				<div class="field">
 					<input type="text" name="day" placeholder="日: 20150606" value="{{ day }}" />
@@ -140,7 +147,7 @@
 		</thead>
 		<tbody>
 
-			{% sign_draw_record_list var:'list' target_id:target_id kind:1 day:day event:event state:state user_id:user_id ip:ip page:page size:100 %}
+			{% sign_draw_record_list var:'list' target_id:target_id kind:1 day:day event:event state:state user_id:user_id ip:ip kind:kind page:page size:100 %}
 
 			{% for f in list.rows %}
         

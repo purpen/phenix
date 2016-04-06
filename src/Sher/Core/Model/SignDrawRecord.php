@@ -8,7 +8,8 @@ class Sher_Core_Model_SignDrawRecord extends Sher_Core_Model_Base  {
   protected $collection = "sign_draw_record";
 
   # 类型
-  const KIND_ONE = 1;
+  const KIND_PAGE = 1;
+  const KIND_APP = 2;
 
   # 允许每天抽奖次数
   const ALLOW_MAX_TIMES = 2;
@@ -32,7 +33,7 @@ class Sher_Core_Model_SignDrawRecord extends Sher_Core_Model_Base  {
     'desc' => null,
     # 奖品数量
     'count' => 0,
-    'kind' => self::KIND_ONE,
+    'kind' => self::KIND_PAGE,
     # 状态：是否奖品已发放(鸟币红包及未中奖自动发放)
     'state' => 0,
     # 记录IP
@@ -40,7 +41,7 @@ class Sher_Core_Model_SignDrawRecord extends Sher_Core_Model_Base  {
     # 用户收货地址信息
     'receipt' => array(),
     'info' => array(),
-    # 来源1,web;2,wap
+    # 来源1,web;2,wap;3.ios;4.android;5.win;6.ipad;
     'from_to' => 1,
   );
 
@@ -106,7 +107,7 @@ class Sher_Core_Model_SignDrawRecord extends Sher_Core_Model_Base  {
   /**
    * 验证用户是否有权限抽奖
    */
-  public function check_can_draw($user_id, $target_id){
+  public function check_can_draw($user_id, $target_id, $kind=1){
 
 		//当前日期
 		$today = (int)date('Ymd');
@@ -124,6 +125,7 @@ class Sher_Core_Model_SignDrawRecord extends Sher_Core_Model_Base  {
       'day' => $today,
       'user_id' => $user_id,
       'target_id' => $target_id,
+      'kind' => (int)$kind,
     );
     $has_one = $this->first($query);
     $obj = null;
