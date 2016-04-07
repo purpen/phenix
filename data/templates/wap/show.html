@@ -546,7 +546,12 @@
 		$('.topicshare').css('display','block');
 	}
 	
-	
+	//点击评论icon 滚动到评论
+	var commentscroll = $('.ui.big.reply.segment').offset().top-50;
+	$('.ui.commenting').bind('click',function(){
+		$('body,html').animate({scrollTop:commentscroll},500); 
+		return false;
+	});
 	
 {% endblock %}
 {% block content %}
