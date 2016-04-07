@@ -30,5 +30,13 @@ class Sher_Core_Service_SceneSight extends Sher_Core_Service_Base {
 	    $model = new Sher_Core_Model_SceneSight();
 		  return $this->query_list($model, $query, $options);
     }
+    
+    /**
+     * 获取场景详情
+     */
+    public function get_sight_by_id($id) {
+        $model = new Sher_Core_Model_SceneSight();
+        return $model->extend_load((int)$id);
+    }
 }
 

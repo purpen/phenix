@@ -30,5 +30,13 @@ class Sher_Core_Service_SceneScene extends Sher_Core_Service_Base {
 	    $model = new Sher_Core_Model_SceneScene();
 		  return $this->query_list($model, $query, $options);
     }
+    
+    /**
+     * 获取情景详情
+     */
+    public function get_scene_by_id($id) {
+        $model = new Sher_Core_Model_SceneScene();
+        return $model->extend_load((int)$id);
+    }
 }
 

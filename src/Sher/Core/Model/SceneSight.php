@@ -63,7 +63,9 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 	protected $counter_fields = array('used_count');
 	protected $retrieve_fields = array();
     
-	protected $joins = array();
+	protected $joins = array(
+		'cover' =>  array('cover_id' => 'Sher_Core_Model_Asset'),  
+	);
 	
 	/**
 	 * 扩展数据
