@@ -548,8 +548,8 @@
 	
 	//点击评论icon 滚动到评论
 	var commentscroll = document.body.scrollHeight;
-	$('.ui.commenting').bind('click',function(){
-		$('body,html').animate({scrollTop:commentscroll},500); 
+	$('.ui.commenting').click(function(){
+		$('.topic.segment').animate({scrollTop:commentscroll},500); 
 		return false;
 	});
 	
