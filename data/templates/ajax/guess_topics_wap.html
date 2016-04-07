@@ -1,6 +1,7 @@
 <taconite>
 	<replace select="#topic_guess_wap_list"><![CDATA[
 		{% if result.total_rows %}
+				<div id="topic_guess_wap_list">
 					<div class="block title">相关话题</div>
 					<div class="ui topic_guess list">
 						{% for ft in result.rows %}
@@ -18,6 +19,7 @@
 						{% endfor %}
 						
 					</div>
+				</div>
 					
 					
 					
