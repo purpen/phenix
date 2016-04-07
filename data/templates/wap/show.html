@@ -205,6 +205,8 @@
       border-radius: 0;
       padding: 1em 3%;
 	  border:none;
+      width: 100%;
+      box-sizing: border-box;
   }
   #postpage .ui.topic.segment .ui.title.header{
   	  margin-bottom: 0;
@@ -549,7 +551,7 @@
 	//点击评论icon 滚动到评论
 	var commentscroll = document.body.scrollHeight;
 	$('.ui.commenting').click(function(){
-		$('body,html').animate({scrollTop:commentscroll},500);
+		$(window).animate({scrollTop:commentscroll},500);
 		return false;
 	});
 	
