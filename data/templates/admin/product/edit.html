@@ -604,6 +604,7 @@
 			<h3 class="ui dividing stage header">产品当前阶段</h3>
 			<div class="grouped inline fields">
 				<div class="inline field">
+          <!--
 					<div class="ui radio checkbox">
 						<input type="radio" name="stage" value="1" {% if product.stage == 1 %}checked="checked"{% endif %} /> 
 						<label>投票阶段</label>
@@ -613,6 +614,7 @@
 						<input type="radio" name="stage" value="5" {% if product.stage == 5 %}checked="checked"{% endif %} /> 
 						<label>预售阶段</label>
 					</div>
+          -->
 
 					<div class="ui radio checkbox">
 						<input type="radio" name="stage" value="9" {% if product.stage == 9 %}checked="checked"{% endif %} /> 
@@ -633,6 +635,7 @@
 			
 			<h3 class="ui dividing stage header">产品历属设置</h3>
 			<div class="inline field">
+        <!--
 				<div class="ui checkbox">
 		          	<input type="checkbox" name="process_voted" {% if product.process_voted %}checked="checked"{% endif %} />
 		          	<label>投票</label>
@@ -641,6 +644,7 @@
 		          	<input type="checkbox" name="process_presaled" {% if product.process_presaled %}checked="checked"{% endif %} />
 		          	<label>预售</label>
 		        </div>
+            -->
 				<div class="ui checkbox">
 		          	<input type="checkbox" name="process_saled" {% if product.process_saled %}checked="checked"{% endif %} />
 		          	<label>商店 <small class="ui magenta text">（预售产品，结束后才能选择）</small></label>
