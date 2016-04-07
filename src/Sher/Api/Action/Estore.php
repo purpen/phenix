@@ -156,7 +156,23 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
      * 获取城市列表
      */
     public function get_city_list(){
-        $result = Sher_Core_Model_Estore::$city;
+        
+        $type = isset($this->stash['type']) ? $this->stash['type'] : 'scene';
+        $result = Sher_Core_Helper_View::$city;
+        
+        if($type == 'scene'){
+            foreach($result as $k => $v){
+                if(!$v['is_scene']){
+                    unset($result[$k]);
+                } 
+            }
+        } else if($type == 'estore'){
+            foreach($result as $k => $v){
+                if(!$v['is_estore']){
+                    unset($result[$k]);
+                } 
+            }
+        }
         //var_dump($result);die;
         return $this->ajax_json('请求成功', false, null, $result);
     }
