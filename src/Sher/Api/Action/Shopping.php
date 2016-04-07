@@ -259,15 +259,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       return $this->api_json('请先登录！', 3001);
 		}
 		
-		// 验证是否预约过抢购商品
-		if(!$this->validate_appoint($target_id)){
-      return $this->api_json('抱歉，您还没有预约，不能参加本次抢购！', 3002);
-		}
-		// 验证抢购商品是否重复
-		if(!$this->validate_snatch($target_id)){
-      return $this->api_json('不要重复抢哦', 3003);
-		}
-		
 		// 验证库存数量
 		$inventory = new Sher_Core_Model_Inventory();
 		$enoughed = $inventory->verify_enough_quantity($target_id, $quantity);
@@ -291,10 +282,17 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       return $this->api_json('挑选的产品不存在或被删除，请核对！', 3005);
     }
 
+    if(!$product_data['published']){
+      return $this->api_json('该产品还未发布！', 3011);   
+    }
+
     //试用产品，不可购买
     if($product_data['is_try']){
       return $this->api_json('试用产品，不可购买！', 3010);
     }
+
+    // 是否是抢购产品且正在抢购中
+    $data['app_snatched_stat'] = $product->app_snatched_stat($product_data);
 
 		// 销售价格
 		$price = !empty($item) ? $item['price'] : $product_data['sale_price'];

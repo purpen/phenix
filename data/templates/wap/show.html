@@ -18,7 +18,7 @@
     font-size:16px !important;
   }
 
-	#topic_guess_wap_list .image{
+	/*#topic_guess_wap_list .image{
 		height: 140px;
 	  background-image: -webkit-gradient(linear,left bottom,left top,from(rgba(255,94,58,.8)),to(#f36));
 	  background-image: -webkit-linear-gradient(bottom,rgba(255,94,58,.8) 0,#f36 100%);
@@ -30,7 +30,7 @@
 	  -webkit-background-size: cover;
 	  background-size: cover;
 	  position: relative;
-	}
+	}*/
 	.ui.socialstick.cards{
 		margin-bottom:1rem !important;
 	}
@@ -109,7 +109,7 @@
 		-webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1);
 	  box-shadow: 0 0 0 0px rgba(0,0,0,.1);
 		border-radius: 0;
-		padding:1em 3%;
+		padding:1rem 3%;
 	}
 	.froala-element p{
 		line-height:24px;
@@ -136,7 +136,7 @@
 	  border-bottom: 2px solid #f36;
 	}
 	
-	.ui.support.button{
+	/*.ui.support.button{
     padding: 18px 0;
     width: 80px;
     height: 80px;
@@ -155,7 +155,7 @@
     box-shadow: 0 0 0 2px #f36 inset!important;
     background-color: #f36;
     color: #fff;
-  }
+  }*/
   .froala-element {
     overflow-x: visible;
     overflow-y: visible;
@@ -189,7 +189,7 @@
 	  margin:0 10px;
   }
   .adblock.fixed{
-	  margin:10px;
+	  margin:10px 0;
 	  max-width: 100%;
       overflow: hidden;
   }
@@ -238,6 +238,156 @@
   #postpage .ui.topic.segment h4.ui.header.authsub .content .sub.header{
       font-size: 12px;
       font-weight: 400;
+  }
+  #postpage .ui.topic.segment .tags a.gray.button.icon{
+  	  margin:5px 5px 5px 0;
+	  font-weight:400;
+	  background: rgba(200,200,200,0.3);
+  }
+  #postpage .ui.topic.segment .ui.grid>.row.iswidth{
+	  margin-left:-10px;
+	  margin-right:-10px;
+	  width: auto !important;
+  }
+  #postpage .ui.topic.segment .ui.grid>.row.iswidth:before{
+	  content: '';
+      width: 94%;
+      height: 1px;
+      background: rgba(0,0,0,0.3);
+      position: absolute;
+      top: 60px;
+      left: 3%;
+  }
+  #postpage .ui.topic.segment .ui.grid>.row.iswidth .right.aligned{
+	  float:right;
+  }
+  #postpage .ui.topic.segment h4.ui.header.authsum{
+      position: relative;
+      margin-top: 15px;
+      margin-bottom: 20px;
+  }
+  #postpage .ui.topic.segment h4.ui.header.authsum .ui.tiny.image{
+	  width: 60px;
+	  height: 60px;
+  }
+  #postpage .ui.topic.segment h4.ui.header.authsum .content {
+	  font-size: 14px;
+      font-weight: 400;
+      width: 100%;
+      padding-left: 70px;
+      display: block;
+      position: absolute;
+      top: 50%;
+      transform: translate3d(0,-50%,0);
+	  -webkit-transform: translate3d(0,-50%,0);
+      max-height: 72px;
+      overflow: hidden;
+	  color: #f36;
+  }
+  #postpage .ui.topic.segment h4.ui.header.authsum .content .sub.header{
+      margin-top: 5px;
+      font-size: 12px !important;
+      line-height: 16px;
+  }
+  .ui.support.button,.ui.support.button:hover,.ui.support.button.active{
+	  padding: 0 !important;
+      background: rgba(0,0,0,0);
+	  font-weight:400;
+  }
+  .ui.support.button{
+	  display:inline-block;
+	  margin-right: 8px;
+	  height:44px;
+	  line-height:44px;
+  }
+  .ui.support.button .heart.icon{
+      font-size: 1.5em;
+      color: #f36;
+      height: 44px;
+      vertical-align: middle;
+      line-height: 44px;
+  }
+  .ui.support.button.active .empty.heart.icon:before{
+  	  content: "\f004";
+  }
+  .ui.support.button .love.count,.ui.commenting .love.count{
+      display: inline-block;
+      vertical-align: middle;
+	  margin-left: 3px;
+  }
+  .ui.commenting{
+	  display: inline-block;
+      height: 44px;
+      line-height: 44px;
+  }
+  .ui.commenting .comment.icon{
+      font-size: 1.5em;
+      height: 44px;
+      vertical-align: middle;
+      line-height: 42px !important;
+      margin-right: 0;
+      color: rgba(0,0,0,0.5);
+  }
+  #postpage .ui.topic.segment .ui.grid>.row.iswidth .topicshare a.share.btn i.icon.inverted {
+      background-color: rgba(0,0,0,0) !important;
+      color: rgba(0,0,0,0.4) !important;
+      text-align: center;
+      padding: 0 !important;
+      height: 44px !important;
+      line-height: 44px !important;
+      vertical-align: middle;
+      margin: 0;
+      width: 1.8em !important;
+  }
+  .block.title .fitsort{
+	  float:right;
+	  font-weight:400;
+  }
+  #topic_guess_wap_list{
+	  background: #fff;
+      padding: 1rem 3% 2rem;
+  }
+  #topic_guess_wap_list .ui.topic_guess.list .item{
+	  font-size: 14px;
+      position: relative;
+	  padding:20px 0;
+	  border-bottom: 1px solid rgba(0,0,0,0.2);
+  }
+  #topic_guess_wap_list .ui.topic_guess.list .item:last-child{
+  	  border-bottom:none;
+  }
+  #topic_guess_wap_list .ui.topic_guess.list .item a{
+	  position:absolute;
+	  width:100%;
+	  height:100%;
+	  left:0;
+	  top:0;
+	  z-index:2;
+  }
+  #topic_guess_wap_list .ui.topic_guess.list .item img{
+  	  vertical-align: middle;
+  }
+  #topic_guess_wap_list .ui.topic_guess.list .item img.image+.content{
+  	  display:block;
+	  position:absolute;
+	  padding-left:95px;
+	  width:100%;
+	  top:50%;
+      transform: translate3d(0,-50%,0);
+	  -webkit-transform: translate3d(0,-50%,0);
+	  left:0;
+	  line-height: 20px;
+  }
+  #topic_guess_wap_list .ui.topic_guess.list .item img.image+.content .sub.header{
+  	  color: rgba(0,0,0,.4);
+	  font-weight: 400;
+	  margin-top:8px;
+  }
+  #topic_guess_wap_list .ui.topic_guess.list .item img.image+.content .sub.header span{
+	  margin-right:8px;
+  }
+  .block.title{
+  	  padding: 20px 10px 18px;
   }
   
 </style>
@@ -395,7 +545,7 @@
 						.data('content', '取消赞')
 						.data('mark', 'y')
 						.addClass('active')									
-						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+						.html('<i class="empty heart icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -407,7 +557,7 @@
 						.data('content', '点赞')
 						.data('mark', 'n')
 						.removeClass('active')
-						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+						.html('<i class="empty heart icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -499,204 +649,253 @@
 		$('.topicshare').css('display','block');
 	}
 	
-	
+	//点击评论icon 滚动到评论
+	var commentscroll = $('.ui.reply.segment').offset().top+'px';
+	$('.ui.commenting').click(function(){
+		$('body,html').animate({scrollTop:commentscroll},500);
+		return false;
+	});
 	
 {% endblock %}
 {% block content %}
 <div id="postpage">
-	<section class="ui big block">
-		<div class="ui responsive grid">
-			<div class="row pt-0">
-				<div class="column" style="padding:0;">
-						<div class="ui big topic segment">
-							<div class="ui title header">
-								<div class="content">
-                  {{ topic.attr_str }}{{ topic.title }}
-									
+    <section class="ui big block">
+        <div class="ui responsive grid">
+            <div class="row pt-0 pb-0">
+                <div class="column" style="padding:0;">
+                    <div class="ui big topic segment">
+                        <div class="ui title header">
+                            <div class="content">
+                                {{ topic.attr_str }}{{ topic.title }}
+                            </div>
+                        </div>
+                        <h4 class="ui header authsub">
+                            <img class="ui mini circular image" src="{{ topic.user.small_avatar_url }}"
+                            alt="{{ topic.user.nickname }}" />
+                            <div class="content">
+                                <a class="ui magenta link" href="javascript:void(0);">
+                                    @{{ topic.user.nickname }}
+                                </a>
+                                &nbsp; | &nbsp; {{ topic.created_on|relative_datetime }} {% if topic.source
+                                %}&nbsp;| &nbsp; {{ topic.source }}{%endif%}
+                                <div class="sub header">
+                                    浏览数: {{ topic.view_count }} &nbsp; | &nbsp; 回复数: {{ topic.comment_count
+                                    }}
+                                </div>
+                            </div>
+                        </h4>
+                        {% if is_match_idea %}
+                        <div class="post">
+                            <div class="ui contest">
+                                <a href="{{ app_url_wap }}/dream" class="ui magenta link">
+                                    太火鸟-十万火计产品创意与创新想法征集活动
+                                </a>
+                                参赛作品
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="post froala-view froala-element clearfix">
+                            {{ topic.description }}
+                        </div>
+                        <!-- 这里是投票部分代码 开始 -->
+                        <div id="block_vote">
+                            {% if is_vote %}
+                            <div class="post vote" style="margin: 20px 0 20px;">
+                                <h3 class="ui header" style="color: #E40039 !important;">
+                                    [话题投票] {{ vote.title }}
+                                </h3>
+                                <div class="ui divider">
+                                </div>
+                                <input type="hidden" name="topic_id" value="{{ id }}" />
+                                {% for problem in vote.problem %}
+                                <input type="hidden" name="problem" value="{{ problem._id }}" />
+                                <input type="hidden" name="select_type" value="{{ problem.select_type }}"
+                                />
+                                <div class="ui relaxed divided list">
+                                    <div class="votep">
+                                        <div class="ui from">
+                                            <h4 class="ui header">
+                                                <i class="large question middle aligned icon">
+                                                </i>
+                                                {{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{%
+                                                endif %}
+                                            </h4>
+                                            <div class="pro_block" style="margin: 30px 0 20px;padding: 25px 0 0;border: 1px solid rgba(0,0,0,0.1);"
+                                            id="{{ problem._id }}">
+                                                {% if problem.select_type == 1 %} {% for answer in problem.answer %}
+                                                <div class="field" style="padding-left:10px;">
+                                                    <div class="ui radio checkbox">
+                                                        <input type="radio" name="{{ problem._id }}" values="{{ answer._id }}"
+                                                        />
+                                                        <label>
+                                                            {{ answer.title }}
+                                                        </label>
+                                                    </div>
+                                                    <div style="display:block;margin:20px 0;">
+                                                    </div>
+                                                    {% if can_vote %}
+                                                    <div style="display:block;margin:10px 0;">
+                                                        <div class="ui magenta tiny progress" style="display:inline-block;width:58%;font-size: 1.5rem;margin-bottom: 1em;">
+                                                            <div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;background:#f36;">
+                                                            </div>
+                                                        </div>
+                                                        <div class="vote_num {{ answer._id }}" style="display:inline-block;width:36%;margin-left:4%;float: right;">
+                                                            {{ answer.nums }}票 （{{ answer.nums_rate }}%）
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                                {% endfor %} {% else %} {% for answer in problem.answer %}
+                                                <div class="field" style="padding-left:10px;">
+                                                    <div class="ui checkbox">
+                                                        <input type="checkbox" name="{{ answer._id }}" values="{{ answer._id }}"
+                                                        />
+                                                        <label>
+                                                            {{ answer.title }}
+                                                        </label>
+                                                    </div>
+                                                    <div style="display:block;margin:20px 0;">
+                                                    </div>
+                                                    {% if can_vote %}
+                                                    <div style="display:block;margin:10px 0;">
+                                                        <div class="ui magenta tiny progress" style="display:inline-block;width:58%;font-size: 1.5rem;margin-bottom: 1em;">
+                                                            <div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;background:#f36;">
+                                                            </div>
+                                                        </div>
+                                                        <div class="vote_num {{ answer._id }}" style="display:inline-block;width:36%;margin-left:4%;float:right;">
+                                                            {{ answer.nums }}票 （{{ answer.nums_rate }}%）
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                                {% endfor %} {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="ui right floated aligned grid" style="margin: 20px 0 20px;">
+                                <div class="row">
+                                    <div class="column">
+                                        {% if can_vote %}
+                                        <div class="ui big inverted active white button">
+                                            <span>
+                                                <i class="smile icon">
+                                                </i>
+                                                已投票，感谢参与！
+                                            </span>
+                                        </div>
+                                        {%else%}
+                                        <div id="vote-save" class="ui magenta active inverted submit button">
+                                            确认投票
+                                        </div>
+                                        {%endif%}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <!-- 这里是投票部分代码 结束 -->
+                        <!--预留广告位-->
+                        {% ad_list var:'adone' page:1 size:1 name:'topic_view_wap_t1' sort_field:'latest'
+                        state:2 %} {% if adone %}
+                        <div class="adblock fixed">
+                            <a href="{{ adone.view_url }}" title="{{ adone.title }}" target="_blank">
+                                <img src="{{ adone.cover.fileurl }}" / align="absmiddle">
+                            </a>
+                        </div>
+                        {% endif %} {% if topic.tags %}
+                        <div class="tags">
+                            {% for tag in topic.tags %} {% if tag %}
+                            <a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui gray button icon link">
+                                <i class="tag icon">
+                                </i>
+                                {{ tag }}
+                            </a>
+                            {% endif %} {% endfor %}
+                        </div>
+                        {% endif %}
+                        <div class="ui grid" style="margin:0 0 10px;">
+                            <div class="row iswidth">
+                                <div class="eight wide column">
+                                    <div class="ui icon support button" data-variation="inverted" data-id="{{ topic._id }}"
+                                    data-mark="n">
+                                        <i class="empty heart icon">
+                                        </i>
+                                        <div class="love count">
+                                            {{ topic.love_count|default 0 }}
+                                        </div>
+                                    </div>
+                                    <div class="ui commenting">
+                                        <i class="comment outline icon">
+                                        </i>
+                                        <div class="love count">
+                                            {{ topic.comment_count|default 0 }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="eight right aligned wide column">
+                                    <div class="phenix-share topicshare">
+                                        <a href="javascript:void(0);" id="sina-share" class="ui weibo circular share icon btn"
+                                        title="新浪微博">
+                                            <i class="large weibo icon circular red inverted">
+                                            </i>
+                                        </a>
+                                        <a href="javascript:void(0);" id="qzone-share" class="ui qzone circular share icon btn"
+                                        title="QQ空间">
+                                            <i class="large qq icon circular blue inverted">
+                                            </i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						<h4 class="ui header authsum">
+							<img class="ui tiny circular image" src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}">
+							<div class="content">
+								{{ topic.user.nickname }}
+								<div class="sub header">
+									{{ topic.user.summary }}
 								</div>
 							</div>
-							<h4 class="ui header authsub">
-								<img class="ui mini circular image" src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
-								<div class="content">
-									<a class="ui magenta link" href="javascript:void(0);">@{{ topic.user.nickname }}</a> &nbsp; | &nbsp; {{ topic.created_on|relative_datetime }} {% if topic.source %}&nbsp;| &nbsp; {{ topic.source }}{%endif%}
-									<div class="sub header">
-										浏览数: {{ topic.view_count }} &nbsp; | &nbsp; 回复数: {{ topic.comment_count }}
-									</div>
-								</div>
-							</h4>
-							
-					
-							{% if is_match_idea %}
-							<div class="post">
-								<div class="ui contest">
-									<a href="{{ app_url_wap }}/dream" class="ui magenta link">太火鸟-十万火计产品创意与创新想法征集活动</a> 参赛作品
-								</div>
-							</div>
-							{% endif %}
-					
-							<div class="post froala-view froala-element clearfix">
-								{{ topic.description }}
-							</div>
-
-                <!-- 这里是投票部分代码 开始 -->
-				<div id="block_vote">
-					{% if is_vote %}
-					<div class="post vote" style="margin: 20px 0 20px;">
-						<h3 class="ui header" style="color: #E40039 !important;">[话题投票] {{ vote.title }}</h3>
-						<div class="ui divider"></div>
-						<input type="hidden" name="topic_id" value="{{ id }}" />
-						{% for problem in vote.problem %}
-						<input type="hidden" name="problem" value="{{ problem._id }}" />
-						<input type="hidden" name="select_type" value="{{ problem.select_type }}" />
-		
-						<div class="ui relaxed divided list">
-							<div class="votep">
-								<div class="ui from">
-									<h4 class="ui header"><i class="large question middle aligned icon"></i>{{ problem.title }}{% if problem.select_type == 1 %}（单选）{% else %}（多选）{% endif %}</h4>
-									<div class="pro_block" style="margin: 30px 0 20px;padding: 25px 0 0;border: 1px solid rgba(0,0,0,0.1);" id="{{ problem._id }}" >
-										{% if problem.select_type == 1 %}
-											{% for answer in problem.answer %}
-											<div class="field" style="padding-left:10px;">
-												<div class="ui radio checkbox">
-													<input type="radio" name="{{ problem._id }}" values="{{ answer._id }}" />
-													<label>{{ answer.title }}</label>
-												</div>
-												<div style="display:block;margin:20px 0;"></div>
-													{% if can_vote %}
-													<div style="display:block;margin:10px 0;">
-													<div class="ui magenta tiny progress" style="display:inline-block;width:58%;font-size: 1.5rem;margin-bottom: 1em;">
-														<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;background:#f36;"></div>
-													</div>
-													<div class="vote_num {{ answer._id }}" style="display:inline-block;width:36%;margin-left:4%;float: right;">
-														{{ answer.nums }}票	（{{ answer.nums_rate }}%）
-													</div>
-													</div>
-													{% endif %}
-											</div>
-											{% endfor %}
-										{% else %}
-											{% for answer in problem.answer %}
-												<div class="field" style="padding-left:10px;">
-													<div class="ui checkbox">
-														<input type="checkbox" name="{{ answer._id }}" values="{{ answer._id }}" />
-														<label>{{ answer.title }}</label>
-													</div>
-													<div style="display:block;margin:20px 0;"></div>
-														{% if can_vote %}
-														<div style="display:block;margin:10px 0;">
-														<div class="ui magenta tiny progress" style="display:inline-block;width:58%;font-size: 1.5rem;margin-bottom: 1em;">
-															<div class="bar {{ answer._id }}" style="min-width: 0;width:{{ answer.nums_rate }}%;background:#f36;"></div>
-														</div>			
-														<div class="vote_num {{ answer._id }}" style="display:inline-block;width:36%;margin-left:4%;float:right;">
-															{{ answer.nums }}票	（{{ answer.nums_rate }}%）
-														</div>
-														</div>
-														{% endif %}
-												</div>
-											{% endfor %}
-										{% endif %}
-									</div>
-								</div>
-							</div>
-						</div>
-						{% endfor %}
-					</div>
-					<div class="ui right floated aligned grid" style="margin: 20px 0 20px;">
-						<div class="row">
-							<div class="column">
-                {% if can_vote %}
-                <div class="ui big inverted active white button">
-                    <span><i class="smile icon"></i> 已投票，感谢参与！</span>
+						</h4>
+                    </div>
                 </div>
-                {%else%}
-								<div  id="vote-save" class="ui magenta active inverted submit button">确认投票</div>
-                {%endif%}
-							</div>
-						</div>
-					</div>
-					{% endif %}
-				</div>
-				<!-- 这里是投票部分代码 结束 -->
-				
-                <!--预留广告位-->
-            	{% ad_list var:'adone' page:1 size:1 name:'topic_view_wap_t1' sort_field:'latest' state:2 %}
-            	{% if adone %}
-                <div class="adblock fixed">
-                    <a href="{{ adone.view_url }}" title="{{ adone.title }}" target="_blank">
-                        <img src="{{ adone.cover.fileurl }}"/>
-                    </a>
-                </div>
-            	{% endif %}
-				
-							{% if topic.tags %}
-							<div class="tags">
-								{% for tag in topic.tags %}
-									{% if tag %}
-									<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui icon link">
-										<i class="tag icon"></i>{{ tag }}
-									</a>
-									{% endif %}
-								{% endfor %}
-							</div>
-							{% endif %}
-						</div>
-
-          <div class="ui grid" style="margin:0 0 10px;">
-						<div class="row">
-							<div class="center aligned column">
-								<div class="ui pop icon support circular inverted magenta button" data-content="点赞" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
-								  	<i class="thumbs outline up icon"></i>
-									<div class="love count">
-										{{ topic.love_count|default 0 }}
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- 分享 -->
-						<div class="topicshare row">
-							<div class="ui center aligned column">
-						  	  <p>分享</p>
-							<div class="phenix-share">
-									<a href="javascript:void(0);" id="sina-share" class="ui weibo circular share icon btn" title="新浪微博">
-										<i class="large weibo icon circular red inverted"></i>
-									</a>
-									
-									<a href="javascript:void(0);" id="qzone-share" class="ui qzone circular share icon btn" title="QQ空间">
-										<i class="large qq icon circular blue inverted"></i>
-									</a>
-								</div>
-						  	</div>
-
-						</div>
-						
-						
-          </div>
-
-					<div id="topic_guess_wap_list" style="padding: 0 3% !important;">
-
-					</div>
-				    
-				    <div class="block title">
-                  全部评论
-                  <small>（{{ topic.comment_count|default 0 }}）</small>
-             </div>
-            <div class="ui big reply segment">
-              <div class="fitsort">
-                  <div class="ui horizontal bulleted list">
-                      <a class="active item" href="javascript:void(0);" data-sort="0">默认</a>
-                      <a class="item" href="javascript:void(0);" data-sort="1">最新</a>
-                  </div>
-              </div>
-              <!--ajax comment-->
-              <div id="comment-list" style="padding-bottom:20px;"></div>
-              {% include "block/comment_box_wap.html" %}
             </div>
-
-					</div>
-				</div>
-		</div>
+            <div class="row pt-0 pb-0">
+                <div class="block title">
+                    全部评论
+                    <small>
+                        （{{ topic.comment_count|default 0 }}）
+                    </small>
+                    <div class="fitsort">
+                        <div class="ui horizontal bulleted list">
+                            <a class="active item" href="javascript:void(0);" data-sort="0">
+                                默认
+                            </a>
+                            <a class="item" href="javascript:void(0);" data-sort="1">
+                                最新
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui big reply segment">
+                    
+                    <!--ajax comment-->
+                    <div id="comment-list" style="padding-bottom:20px;">
+                    </div>
+                    {% include "block/comment_box_wap.html" %}
+                </div>
+            </div>
+			<div class="row pt-0">
+				<!-- 相关话题 -->
+				
+                <div id="topic_guess_wap_list">
+                </div>
+			</div>
+        </div>
 	</section>
-
 </div>
 
 {% endblock %}

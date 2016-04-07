@@ -142,6 +142,18 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['snatched_price'] = $this->stash['snatched_price'];
 		$data['snatched_count'] = (int)$this->stash['snatched_count'];
 
+		// 是否app抢购
+		$data['app_snatched'] = isset($this->stash['app_snatched']) ? 1 : 0;
+		$data['app_snatched_time'] = $this->stash['app_snatched_time'];
+		$data['app_snatched_end_time'] = $this->stash['app_snatched_end_time'];
+		if($data['app_snatched'] && (empty($data['app_snatched_time']) || empty($data['app_snatched_end_time']))){
+			return $this->ajax_json('app抢购，必须设置抢购开始时间！', true);
+		}
+		$data['app_appoint_count'] = (int)$this->stash['app_appoint_count'];
+		$data['app_snatched_price'] = $this->stash['app_snatched_price'];
+		$data['app_snatched_count'] = (int)$this->stash['app_snatched_count'];
+    $data['app_snatched_img'] = $this->stash['app_snatched_img'];
+
 		// 积分兑换
 		$data['exchanged'] = isset($this->stash['exchanged']) ? 1 : 0;
 		$data['max_bird_coin'] = (int)$this->stash['max_bird_coin'];
