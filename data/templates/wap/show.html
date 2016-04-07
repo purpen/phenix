@@ -254,11 +254,15 @@
       height: 1px;
       background: rgba(0,0,0,0.3);
       position: absolute;
-      bottom: 0;
+      top: 55px;
       left: 3%;
   }
   #postpage .ui.topic.segment .ui.grid>.row.iswidth .right.aligned{
 	  float:right;
+  }
+  #postpage .ui.topic.segment .ui.grid>.row.iswidth h4.ui.header{
+  	  
+	
   }
   .ui.support.button,.ui.support.button:hover,.ui.support.button.active{
 	  padding: 0 !important;
@@ -769,15 +773,22 @@
                                         </a>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
+								<h4 class="ui header">
+									<img class="ui tiny circular image" src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}">
+									<div class="content">
+										{{ topic.user.nickname }}
+										<div class="sub header">
+											{{ topic.user.summary }}
+										</div>
+									</div>
+								</h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <!-->
+                <!--
                 <div id="topic_guess_wap_list" style="padding: 0 3% !important;">
                 </div>
                 -->
