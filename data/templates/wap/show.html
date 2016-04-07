@@ -189,7 +189,7 @@
 	  margin:0 10px;
   }
   .adblock.fixed{
-	  margin:10px;
+	  margin:10px 0;
 	  max-width: 100%;
       overflow: hidden;
   }
@@ -239,7 +239,10 @@
       font-size: 12px;
       font-weight: 400;
   }
-  
+  #postpage .ui.topic.segment .tags a.gray.button.icon{
+  	  margin:5px 5px 5px 0;
+	  font-weight:400;
+  }
 </style>
 {% endblock %}
 
@@ -623,7 +626,7 @@
             	{% if adone %}
                 <div class="adblock fixed">
                     <a href="{{ adone.view_url }}" title="{{ adone.title }}" target="_blank">
-                        <img src="{{ adone.cover.fileurl }}"/>
+                        <img src="{{ adone.cover.fileurl }}"/ align="absmiddle">
                     </a>
                 </div>
             	{% endif %}
@@ -632,7 +635,7 @@
 							<div class="tags">
 								{% for tag in topic.tags %}
 									{% if tag %}
-									<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui icon link">
+									<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui gray button icon link">
 										<i class="tag icon"></i>{{ tag }}
 									</a>
 									{% endif %}
