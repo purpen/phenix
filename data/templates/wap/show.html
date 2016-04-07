@@ -252,7 +252,18 @@
 	  display:inline-block;
 	  margin-right: 8px;
 	  height:44px;
-	  line-height:43px;
+	  line-height:44px;
+  }
+  .ui.support .empty.heart.icon{
+      font-size: 1.5em;
+      color: #f36;
+      height: 44px;
+      vertical-align: middle;
+      line-height: 44px;
+  }
+  .ui.support .love.count{
+      display: inline-block;
+      vertical-align: middle;
   }
 </style>
 {% endblock %}
@@ -393,7 +404,7 @@
 	{% endif %}
 
 	// 喜欢
-	$('.ui.support.button').bind('click', function(){
+	$('.ui.support').bind('click', function(){
 		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
@@ -409,7 +420,7 @@
 						.data('content', '取消赞')
 						.data('mark', 'y')
 						.addClass('active')									
-						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+						.html('<i class="heart icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -421,7 +432,7 @@
 						.data('content', '点赞')
 						.data('mark', 'n')
 						.removeClass('active')
-						.html('<i class="thumbs outline up icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+						.html('<i class="empty heart icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
 				} else {
 					phenix.show_error_note(result.message);
 				}
