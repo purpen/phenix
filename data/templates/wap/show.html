@@ -631,49 +631,67 @@
                 </div>
             	{% endif %}
 				
-							{% if topic.tags %}
-							<div class="tags">
-								{% for tag in topic.tags %}
-									{% if tag %}
-									<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui gray button icon link">
-										<i class="tag icon"></i>{{ tag }}
-									</a>
-									{% endif %}
-								{% endfor %}
-							</div>
-							{% endif %}
+						{% if topic.tags %}
+						<div class="tags">
+							{% for tag in topic.tags %}
+								{% if tag %}
+								<a href="{{ app_url_domain }}/tag/{{ tag }}" class="ui gray button icon link">
+									<i class="tag icon"></i>{{ tag }}
+								</a>
+								{% endif %}
+							{% endfor %}
 						</div>
-
-          <div class="ui grid" style="margin:0 0 10px;">
-						<div class="row">
-							<div class="center aligned column">
-								<div class="ui pop icon support circular inverted magenta button" data-content="点赞" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
-								  	<i class="thumbs outline up icon"></i>
-									<div class="love count">
-										{{ topic.love_count|default 0 }}
+						{% endif %}
+							
+	          			<div class="ui grid" style="margin:0 0 10px;">
+							<div class="row">
+								<div class="eight wide column">
+									<div class="ui pop icon support circular inverted magenta button" data-content="点赞" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
+									  	<i class="like icon"></i>
+										<div class="love count">
+											{{ topic.love_count|default 0 }}
+										</div>
 									</div>
 								</div>
-							</div>
-						</div>
-						<!-- 分享 -->
-						<div class="topicshare row">
-							<div class="ui center aligned column">
-						  	  <p>分享</p>
-							<div class="phenix-share">
-									<a href="javascript:void(0);" id="sina-share" class="ui weibo circular share icon btn" title="新浪微博">
-										<i class="large weibo icon circular red inverted"></i>
-									</a>
+								<div class="eight right aligned wide column">
 									
-									<a href="javascript:void(0);" id="qzone-share" class="ui qzone circular share icon btn" title="QQ空间">
-										<i class="large qq icon circular blue inverted"></i>
-									</a>
 								</div>
-						  	</div>
+							</div>
+							
+							
+							<!--<div class="row">
+								<div class="center aligned column">
+									<div class="ui pop icon support circular inverted magenta button" data-content="点赞" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
+									  	<i class="thumbs outline up icon"></i>
+										<div class="love count">
+											{{ topic.love_count|default 0 }}
+										</div>
+									</div>
+								</div>
+							</div>-->
+							<!-- 分享 -->
+							<div class="topicshare row">
+								<div class="ui center aligned column">
+							  	  <p>分享</p>
+								<div class="phenix-share">
+										<a href="javascript:void(0);" id="sina-share" class="ui weibo circular share icon btn" title="新浪微博">
+											<i class="large weibo icon circular red inverted"></i>
+										</a>
+									
+										<a href="javascript:void(0);" id="qzone-share" class="ui qzone circular share icon btn" title="QQ空间">
+											<i class="large qq icon circular blue inverted"></i>
+										</a>
+									</div>
+							  	</div>
 
-						</div>
-						
-						
-          </div>
+							</div>
+	         		   	</div>
+							
+							
+					</div>
+
+          			
+					
 
 					<div id="topic_guess_wap_list" style="padding: 0 3% !important;">
 
