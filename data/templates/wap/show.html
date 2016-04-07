@@ -136,7 +136,7 @@
 	  border-bottom: 2px solid #f36;
 	}
 	
-	.ui.support.button{
+	/*.ui.support.button{
     padding: 18px 0;
     width: 80px;
     height: 80px;
@@ -155,7 +155,7 @@
     box-shadow: 0 0 0 2px #f36 inset!important;
     background-color: #f36;
     color: #fff;
-  }
+  }*/
   .froala-element {
     overflow-x: visible;
     overflow-y: visible;
@@ -247,6 +247,10 @@
 	  margin-left:-10px;
 	  margin-right:-10px;
 	  width: auto !important;
+  }
+  .ui.support.button,.ui.support.button:hover,.ui.support.button.active{
+	  padding: 0 !important;
+      background: rgba(0,0,0,0);
   }
   .ui.support{
 	  display:inline-block;
@@ -404,7 +408,7 @@
 	{% endif %}
 
 	// 喜欢
-	$('.ui.support').bind('click', function(){
+	$('.ui.support.button').bind('click', function(){
 		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
@@ -420,7 +424,7 @@
 						.data('content', '取消赞')
 						.data('mark', 'y')
 						.addClass('active')									
-						.html('<i class="heart icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+						.html('<i class="empty heart icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
 				} else {
 					phenix.show_error_note(result.message);
 				}
@@ -668,7 +672,7 @@
 	          			<div class="ui grid" style="margin:0 0 10px;">
 							<div class="row iswidth">
 								<div class="eight wide column">
-									<div class="ui icon support" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
+									<div class="ui icon support button" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
 									  	<i class="empty heart icon"></i>
 										<div class="love count">
 											{{ topic.love_count|default 0 }}
@@ -683,7 +687,7 @@
 								
 								
 								
-								<div class="eight wide column">
+								<!--<div class="eight wide column">
 									<div class="ui pop icon support circular inverted magenta button" data-content="点赞" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
 									  	<i class="empty heart icon"></i>
 										<div class="love count">
@@ -693,7 +697,7 @@
 								</div>
 								<div class="eight right aligned wide column">
 									
-								</div>
+								</div>-->
 							</div>
 							
 							
