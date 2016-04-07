@@ -272,7 +272,18 @@
   .ui.support.button .love.count{
       display: inline-block;
       vertical-align: middle;
-	  margin-left: 5px;
+	  margin-left: 3px;
+  }
+  .ui.commenting{
+	  display: inline-block;
+      height: 44px;
+      line-height: 44px;
+  }
+  .ui.commenting .comment.icon{
+	  font-size: 1.5em;
+      height: 44px;
+      vertical-align: middle;
+      line-height: 44px;
   }
 </style>
 {% endblock %}
@@ -681,6 +692,13 @@
 									  	<i class="empty heart icon"></i>
 										<div class="love count">
 											{{ topic.love_count|default 0 }}
+										</div>
+									</div>
+									
+									<div class="ui commenting">
+										<i class="comment outline icon"></i>
+										<div class="love count">
+											{{ topic.comment_count|default 0 }}
 										</div>
 									</div>
 								</div>
