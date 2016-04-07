@@ -243,6 +243,17 @@
   	  margin:5px 5px 5px 0;
 	  font-weight:400;
   }
+  .row.iswidth{
+	  margin-left:-10px;
+	  margin-right:-10px;
+	  width: auto !important;
+  }
+  .ui.support{
+	  display:inline-block;
+	  margin-right: 8px;
+	  height:44px;
+	  line-height:43px;
+  }
 </style>
 {% endblock %}
 
@@ -644,10 +655,26 @@
 						{% endif %}
 							
 	          			<div class="ui grid" style="margin:0 0 10px;">
-							<div class="row">
+							<div class="row iswidth">
+								<div class="eight wide column">
+									<div class="ui pop icon support" data-content="点赞" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
+									  	<i class="empty heart icon"></i>
+										<div class="love count">
+											{{ topic.love_count|default 0 }}
+										</div>
+									</div>
+								</div>
+								<div class="eight right aligned wide column">
+								
+								</div>
+							</div>
+								
+								
+								
+								
 								<div class="eight wide column">
 									<div class="ui pop icon support circular inverted magenta button" data-content="点赞" data-variation="inverted" data-id="{{ topic._id }}" data-mark="n">
-									  	<i class="like icon"></i>
+									  	<i class="empty heart icon"></i>
 										<div class="love count">
 											{{ topic.love_count|default 0 }}
 										</div>
