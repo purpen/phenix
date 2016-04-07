@@ -269,7 +269,7 @@
   .ui.support.button.active .empty.heart.icon:before{
   	  content: "\f004";
   }
-  .ui.support.button .love.count{
+  .ui.support.button .love.count,.ui.commenting .love.count{
       display: inline-block;
       vertical-align: middle;
 	  margin-left: 3px;
@@ -280,10 +280,12 @@
       line-height: 44px;
   }
   .ui.commenting .comment.icon{
-	  font-size: 1.5em;
+      font-size: 1.5em;
       height: 44px;
       vertical-align: middle;
-      line-height: 44px;
+      line-height: 42px !important;
+      margin-right: 0;
+      color: rgba(0,0,0,0.5);
   }
 </style>
 {% endblock %}
