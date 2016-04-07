@@ -761,32 +761,32 @@
 							
 							
 					</div>
-
-          			
-					
+				</div>
+				
+				<div class="row">
 
 					<div id="topic_guess_wap_list" style="padding: 0 3% !important;">
 
 					</div>
 				    
 				    <div class="block title">
-                  全部评论
-                  <small>（{{ topic.comment_count|default 0 }}）</small>
-             </div>
-            <div class="ui big reply segment">
-              <div class="fitsort">
-                  <div class="ui horizontal bulleted list">
-                      <a class="active item" href="javascript:void(0);" data-sort="0">默认</a>
-                      <a class="item" href="javascript:void(0);" data-sort="1">最新</a>
-                  </div>
-              </div>
+	                  全部评论
+	                  <small>（{{ topic.comment_count|default 0 }}）</small>
+             		</div>
+		            <div class="ui big reply segment">
+		              <div class="fitsort">
+		                  <div class="ui horizontal bulleted list">
+		                      <a class="active item" href="javascript:void(0);" data-sort="0">默认</a>
+		                      <a class="item" href="javascript:void(0);" data-sort="1">最新</a>
+		                  </div>
+		              </div>
               <!--ajax comment-->
-              <div id="comment-list" style="padding-bottom:20px;"></div>
-              {% include "block/comment_box_wap.html" %}
-            </div>
+		              <div id="comment-list" style="padding-bottom:20px;"></div>
+		              {% include "block/comment_box_wap.html" %}
+		            </div>
 
-					</div>
 				</div>
+			</div>
 		</div>
 	</section>
 
