@@ -254,24 +254,37 @@
       height: 1px;
       background: rgba(0,0,0,0.3);
       position: absolute;
-      top: 55px;
+      top: 60px;
       left: 3%;
   }
   #postpage .ui.topic.segment .ui.grid>.row.iswidth .right.aligned{
 	  float:right;
+  }
+  #postpage .ui.topic.segment h4.ui.header.authsum{
+      position: relative;
+      margin-top: 15px;
+      margin-bottom: 20px;
   }
   #postpage .ui.topic.segment h4.ui.header.authsum .ui.tiny.image{
 	  width: 60px;
 	  height: 60px;
   }
   #postpage .ui.topic.segment h4.ui.header.authsum .content {
-      font-size: 14px;
+	  font-size: 14px;
       font-weight: 400;
       width: 100%;
       padding-left: 70px;
       display: block;
       position: absolute;
-      top: 0;
+      top: 50%;
+      transform: translate3d(0,-50%,0);
+	  -webkit-transform: translate3d(0,-50%,0);
+      max-height: 64px;
+      overflow: hidden;
+  }
+  #postpage .ui.topic.segment h4.ui.header.authsum .content .sub.header{
+      margin-top: 3px;
+      font-size: 12px !important;
   }
   .ui.support.button,.ui.support.button:hover,.ui.support.button.active{
 	  padding: 0 !important;
