@@ -253,13 +253,13 @@
       background: rgba(0,0,0,0);
 	  font-weight:400;
   }
-  .ui.support{
+  .ui.support.button{
 	  display:inline-block;
 	  margin-right: 8px;
 	  height:44px;
 	  line-height:44px;
   }
-  .ui.support .heart.icon{
+  .ui.support.button .heart.icon{
       font-size: 1.5em;
       color: #f36;
       height: 44px;
@@ -269,9 +269,10 @@
   .ui.support.button.active .empty.heart.icon:before{
   	  content: "\f004";
   }
-  .ui.support .love.count{
+  .ui.support.button .love.count{
       display: inline-block;
       vertical-align: middle;
+	  margin-left: 5px;
   }
 </style>
 {% endblock %}
