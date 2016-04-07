@@ -1,22 +1,25 @@
 <taconite>
-	<replace select="#topic_guess_wap_list1"><![CDATA[
+	<replace select="#topic_guess_wap_list"><![CDATA[
 		{% if result.total_rows %}
 					<div class="block title">相关话题</div>
-					<div class="topic_guess_wap_list">
-						<div class="ui topic_guess list">
-							<div class="item">
-								<img class="ui tiny image" src="http://frbird.qiniudn.com/topic/141128/54782b33621e194f648b4f76-1-me.jpg">
-								<div class="content">
-									云造车——让代步工具智能化
-									<div class="sub header">
-										
-									</div>
+					<div class="ui topic_guess list">
+						{% for ft in result.rows %}
+						
+						<div class="item">
+							<a href="{{ ft.topic.wap_view_url }}"></a>
+							<img class="ui tiny image" src="{{ ft.topic.cover.thumbnails.medium.view_url }}">
+							<div class="content">
+								{{ ft.topic.title }}
+								<div class="sub header">
+									<i class="unhide icon"></i><span>{{ ft.topic.view_count }}</span><i class="comment outline icon"></i>{{ ft.topic.comment_count }}
 								</div>
 							</div>
-							
 						</div>
+						{% endfor %}
 						
 					</div>
+					
+					
 					
 					<!--<div id="topic_guess_wap_list">
 						<div class="ui socialstick stickcount products two cards">

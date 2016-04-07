@@ -348,14 +348,23 @@
   #topic_guess_wap_list .ui.topic_guess.list .item{
 	  font-size: 14px;
       position: relative;
+	  padding:6px 0 10px;
+	  border-bottom: 1px solid rgba(0,0,0,0.2);
   }
-  #topic_guess_wap_list .ui.topic_guess.list .item{
+  #topic_guess_wap_list .ui.topic_guess.list .item a{
+	  position:absolute;
+	  width:100%;
+	  height:100%;
+	  left:0;
+	  top:0;
+  }
+  #topic_guess_wap_list .ui.topic_guess.list .item img{
   	  vertical-align: middle;
   }
   #topic_guess_wap_list .ui.topic_guess.list .item img.image+.content{
   	  display:block;
 	  position:absolute;
-	  padding-left:90px;
+	  padding-left:95px;
 	  width:100%;
 	  top:50%;
       transform: translate3d(0,-50%,0);
@@ -367,7 +376,7 @@
 	  font-weight: 400;
   }
   #topic_guess_wap_list .ui.topic_guess.list .item img.image+.content .sub.header span{
-	  margin-right:5px;
+	  margin-right:8px;
   }
   
 </style>
@@ -870,25 +879,9 @@
             </div>
 			<div class="row pt-0">
 				<!-- 相关话题 -->
-				<div class="block title">相关话题</div>
-				<div id="topic_guess_wap_list">
-					<div class="ui topic_guess list">
-						<div class="item">
-							<img class="ui tiny image" src="http://frbird.qiniudn.com/topic/141128/54782b33621e194f648b4f76-1-me.jpg">
-							<div class="content">
-								云造车——让代步工具智能化
-								<div class="sub header">
-									<i class="unhide icon"></i><span>351</span><i class="comment outline icon"></i>0
-								</div>
-							</div>
-						</div>
-						
-					</div>
-					
-				</div>
 				
-                <!--<div id="topic_guess_wap_list">
-                </div>-->
+                <div id="topic_guess_wap_list">
+                </div>
 			</div>
         </div>
 	</section>
