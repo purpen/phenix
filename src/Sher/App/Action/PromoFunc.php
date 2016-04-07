@@ -129,7 +129,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
     }
 
     // 签到抽奖参数---取块内容
-    $draw_info = Sher_Core_Helper_Util::sign_draw_fetch_info();
+    $draw_info = Sher_Core_Helper_Util::sign_draw_fetch_info($kind);
 
     if(!$draw_info['success']){
       return $this->ajax_json($draw_info['message'], true);
