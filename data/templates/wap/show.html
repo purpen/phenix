@@ -243,7 +243,7 @@
   	  margin:5px 5px 5px 0;
 	  font-weight:400;
   }
-  .row.iswidth{
+  #postpage .ui.topic.segment .ui.grid>.row.iswidth{
 	  margin-left:-10px;
 	  margin-right:-10px;
 	  width: auto !important;
@@ -549,7 +549,7 @@
 	//点击评论icon 滚动到评论
 	var commentscroll = document.body.scrollHeight;
 	$('.ui.commenting').click(function(){
-		$('body').animate({scrollTo:commentscroll},500); 
+		$('body,html').animate({scrollTop:commentscroll},500);
 		return false;
 	});
 	
