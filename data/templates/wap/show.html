@@ -260,11 +260,11 @@
   #postpage .ui.topic.segment .ui.grid>.row.iswidth .right.aligned{
 	  float:right;
   }
-  #postpage .ui.topic.segment .ui.grid>.row.iswidth h4.ui.header.authsum .ui.tiny.image{
+  #postpage .ui.topic.segment h4.ui.header.authsum .ui.tiny.image{
 	  width: 60px;
 	  height: 60px;
   }
-  #postpage .ui.topic.segment .ui.grid>.row.iswidth h4.ui.header.authsum .content {
+  #postpage .ui.topic.segment h4.ui.header.authsum .content {
       font-size: 14px;
       font-weight: 400;
       width: 100%;
@@ -782,19 +782,17 @@
                                         </a>
                                     </div>
                                 </div>
-								<div class="column">
-									<h4 class="ui header authsum">
-										<img class="ui tiny circular image" src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}">
-										<div class="content">
-											{{ topic.user.nickname }}
-											<div class="sub header">
-												{{ topic.user.summary }}
-											</div>
-										</div>
-									</h4>
-								</div>
                             </div>
                         </div>
+						<h4 class="ui header authsum">
+							<img class="ui tiny circular image" src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}">
+							<div class="content">
+								{{ topic.user.nickname }}
+								<div class="sub header">
+									{{ topic.user.summary }}
+								</div>
+							</div>
+						</h4>
                     </div>
                 </div>
             </div>
