@@ -20,7 +20,9 @@
 	</div>
 </div>
 <header class="ui wap">
-	<div class="ui responsive two column grid">
+	
+	
+	<!--<div class="ui responsive two column grid">
 		<div class="middle aligned row">
 			<div class="six wide column">
 				<a class="launch item active ui small icon"><i class="sidebar icon"></i></a>
@@ -38,7 +40,6 @@
 				</a>
 				{% if visitor %}
 				
-				<!--  ajax签到  id="wap-user-sign-box"  -->
 				<div class="userauth">
 			        <a class="ui small icon avatar button" href="{{ app_url_wap }}/my" title="{{ visitor.nickname }}">
 				  		<img src="{{ visitor.mini_avatar_url }}" class="ui image" alt="{{ visitor.screen_name }}" />
@@ -53,8 +54,32 @@
 			</div>
       
 		</div>
+	</div>-->
+		<!--<div class="caputuser"></div>-->
+	<div class="caput">
+		<div class="left headitem">
+			<a class="launch item active ui small icon"><div class="bgnav"></div></a>
+			
+		</div>
+		<div class="center headitem">
+			<a href="{{ app_url_wap }}" class="ui link"></a>
+		</div>
+		<div class="right headitem">
+			<a href="{{ app_url_wap }}/cart" class="acacart">
+				<div class="caputcart"></div>
+			</a>
+			{% if visitor %}
+			<a class="acauser" href="{{ app_url_wap }}/my" title="{{ visitor.nickname }}">
+				<img src="{{ visitor.mini_avatar_url }}" alt="{{ visitor.screen_name }}" />
+			</a>
+			{% else %}
+			<a href="{{ app_url_wap }}/cart" class="acauser">
+				<div class="caputuser"></div>
+			</a>
+			{% endif %}
+		</div>
+		
 	</div>
-	
 	
 	<div class="ui large left vertical inverted sidebar menu">
 		<a class="item" href="{{ app_url_wap }}/search"><i class="search icon"></i>搜索</a>
