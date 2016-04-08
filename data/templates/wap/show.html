@@ -289,10 +289,8 @@
 	}
 	
 	//点击评论icon 滚动到评论
-	var commentscroll = $('.ui.reply.segment').offset().top+'px';
 	$('.ui.commenting').click(function(){
-		$('body,html').animate({scrollTop:commentscroll},500);
-		return false;
+		$('html,body').animate({scrollTop:$('#comment-box').offset().top - 100},500);
 	});
 	
 {% endblock %}
@@ -502,7 +500,13 @@
                     </div>
                 </div>
             </div>
-            <div class="row pt-0 pb-0">
+			<div class="row pt-0 pb-0">
+				<!-- 相关话题 -->
+				
+                <div id="topic_guess_wap_list">
+                </div>
+			</div>
+            <div class="row pt-0">
                 <div class="block title">
                     全部评论
                     <small>
@@ -527,12 +531,6 @@
                     {% include "block/comment_box_wap.html" %}
                 </div>
             </div>
-			<div class="row pt-0">
-				<!-- 相关话题 -->
-				
-                <div id="topic_guess_wap_list">
-                </div>
-			</div>
         </div>
 	</section>
 </div>

@@ -20,42 +20,32 @@
 	</div>
 </div>
 <header class="ui wap">
-	<div class="ui responsive two column grid">
-		<div class="middle aligned row">
-			<div class="six wide column">
-				<a class="launch item active ui small icon"><i class="sidebar icon"></i></a>
-			</div>
-			<div class="four wide column">
-				<h4 class="ui header">
-					<a href="{{ app_url_wap }}" class="ui link">
-						<img src="{{ app_url_packaged }}/images/logo-home.png" alt="logo" class="ui tiny image" />
-					</a>
-				</h4>
-			</div>
-			<div class="six wide right aligned column">
-				<a class="ui small icon" href="{{ app_url_wap }}/shop/cart">
-					<i class="cart icon"></i>
-				</a>
-				{% if visitor %}
-				
-				<!--  ajax签到  id="wap-user-sign-box"  -->
-				<div class="userauth">
-			        <a class="ui small icon avatar button" href="{{ app_url_wap }}/my" title="{{ visitor.nickname }}">
-				  		<img src="{{ visitor.mini_avatar_url }}" class="ui image" alt="{{ visitor.screen_name }}" />
-					</a>
-				</div>
-				{% else %}
-				<a href="{{ app_url_wap }}/auth" class="ui small icon">
-					<i class="user icon"></i>
-				</a>
-				{% endif %}
-				
-			</div>
-      
+	<div class="caput">
+		<div class="left headitem">
+			<a class="launch item active ui small icon"><div class="bgnav"></div></a>
+			
+		</div>
+		<div class="center headitem">
+			<a href="{{ app_url_wap }}" class="ui link"></a>
+		</div>
+		<div class="right headitem">
+			{% if visitor %}
+			<a href="{{ app_url_wap }}/shop/cart" class="acacartlogin">
+				<div class="caputcart"></div>
+			</a>
+			<a class="acauserlogin" href="{{ app_url_wap }}/my" title="{{ visitor.nickname }}">
+				<img src="{{ visitor.mini_avatar_url }}" alt="{{ visitor.screen_name }}" />
+			</a>
+			{% else %}
+			<a href="{{ app_url_wap }}/shop/cart" class="acacart">
+				<div class="caputcart"></div>
+			</a>
+			<a href="{{ app_url_wap }}/auth" class="acauser">
+				<div class="caputuser"></div>
+			</a>
+			{% endif %}
 		</div>
 	</div>
-	
-	
 	<div class="ui large left vertical inverted sidebar menu">
 		<a class="item" href="{{ app_url_wap }}/search"><i class="search icon"></i>搜索</a>
 		<a class="item" href="{{ app_url_wap }}">首页</a>
