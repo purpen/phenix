@@ -153,6 +153,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['app_snatched_price'] = $this->stash['app_snatched_price'];
 		$data['app_snatched_count'] = (int)$this->stash['app_snatched_count'];
     $data['app_snatched_img'] = $this->stash['app_snatched_img'];
+    $data['app_snatched_limit_count'] = (int)$this->stash['app_snatched_limit_count'];
 
 		// 积分兑换
 		$data['exchanged'] = isset($this->stash['exchanged']) ? 1 : 0;

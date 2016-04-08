@@ -100,6 +100,9 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	
 	# 临时订单过期时间， 10小时
 	const EXPIRE_TIME = 36000;
+
+  # app闪购过期时间，15分钟
+  const APP_SNATCHED_EXPIRE_TIME = 900;
 	
 	# 预售订单过期时间，15分钟
 	const PRESALE_EXPIRE_TIME = 900;

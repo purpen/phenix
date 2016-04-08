@@ -38,6 +38,8 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
     	'tags' => array(),
       # 分类标签
       'category_tags' => array(),
+      # 情景标签(4个维度添加)
+      'scene_tags' => array(),
 		
  		'cover_id' => '',
 		'asset_ids' => array(),
@@ -99,7 +101,16 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
         $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
     }
     if (isset($data['category_tags']) && !is_array($data['category_tags'])) {
-        $data['category_tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['category_tags'])));
+      $data['category_tags'] = array_values(array_unique(preg_split('/[,，;；]+/u',$data['category_tags'])));
+      for($i=0;$i<count($data['category_tags']);$i++){
+        $data['category_tags'][$i] = intval($data['category_tags'][$i]);
+      }
+    }
+    if (isset($data['scene_tags']) && !is_array($data['scene_tags'])) {
+      $data['scene_tags'] = array_values(array_unique(preg_split('/[,，;；]+/u',$data['scene_tags'])));
+      for($i=0;$i<count($data['scene_tags']);$i++){
+        $data['scene_tags'][$i] = intval($data['scene_tags'][$i]);
+      }
     }
 		// 获取父级类及类组
 		if (isset($data['category_id']) && !empty($data['category_id'])){
@@ -144,6 +155,9 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 
     if(isset($row['category_tags']) && !empty($row['category_tags'])){
  		  $row['category_tags_s'] = implode(',',$row['category_tags']);   
+    }
+    if(isset($row['scene_tags']) && !empty($row['scene_tags'])){
+ 		  $row['scene_tags_s'] = implode(',',$row['scene_tags']);   
     }
 
 		if(!isset($row['short_title']) || empty($row['short_title'])){
