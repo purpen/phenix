@@ -65,7 +65,7 @@
 			<a href="{{ app_url_wap }}" class="ui link"></a>
 		</div>
 		<div class="right headitem">
-			<a href="{{ app_url_wap }}/cart" class="acacart">
+			<a href="{{ app_url_wap }}/shop/cart" class="acacart">
 				<div class="caputcart"></div>
 			</a>
 			{% if visitor %}
@@ -73,7 +73,7 @@
 				<img src="{{ visitor.mini_avatar_url }}" alt="{{ visitor.screen_name }}" />
 			</a>
 			{% else %}
-			<a href="{{ app_url_wap }}/cart" class="acauser">
+			<a href="{{ app_url_wap }}/auth" class="acauser">
 				<div class="caputuser"></div>
 			</a>
 			{% endif %}
