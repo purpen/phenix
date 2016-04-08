@@ -167,6 +167,20 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 抢购数量
 		'snatched_count' => 0,
 
+		## APP限时抢购
+		'app_snatched' => 0,
+    # 抢购开始结束时间
+		'app_snatched_time' => 0,
+    'app_snatched_end_time' => 0,
+		# 提醒人数
+		'app_appoint_count' => 0,
+		# 抢购价
+		'app_snatched_price' => 0,
+		# 抢购数量
+		'app_snatched_count' => 0,
+    # 展示图
+    'app_snatched_img' => null,
+
 		## 试用
 		'trial' =>  0,
 
@@ -269,8 +283,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('user_id','title');
-	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','stuff_count','last_editor_id','max_bird_coin','min_bird_coin','exchange_count');
-	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money', 'presale_goals', 'snatched_price', 'exchange_price');
+	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','app_snatched_count','stuff_count','last_editor_id','max_bird_coin','min_bird_coin','exchange_count');
+	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money', 'presale_goals', 'snatched_price', 'app_snatched_price', 'exchange_price');
 	protected $counter_fields = array('inventory','sale_count','presale_count', 'mode_count','asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count','appoint_count','stuff_count','exchange_count');
 	protected $retrieve_fields = array('content'=>0);
 	protected $joins = array(
@@ -429,6 +443,56 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		return false;
 	}
 
+	/**
+	 * 验证app端是否能够销售
+	 */
+	public function app_can_saled($data){
+    if(!$this->can_saled($data)){
+      return false;
+    }
+    // 如果是闪购进行中,验证库存
+    if($this->app_snatched_stat($data)==2){
+      return $data['app_snatched_count'] > 0;
+    }
+
+  }
+
+  /**
+   * 是否是app闪购
+   */
+  public function is_app_snatched($data){
+    if(isset($data['app_snatched']) && !empty($data['app_snatched'])){
+      return 1;
+    }
+    return 0;
+  }
+
+  /**
+   * 返回app闪购状态
+   * 0.非app闪购；1.未开始；2.进行中；3.已结束
+   */
+  public function app_snatched_stat($data){
+    if($this->is_app_snatched($data)){
+      if(!isset($data['app_snatched_time']) || $data['app_snatched_time']<=0){
+        return 3;
+      }
+      if(!isset($data['app_snatched_end_time']) || $data['app_snatched_end_time']<=0){
+        return 3;
+      }
+      $now_time = time();
+      if($data['app_snatched_time']>$now_time){
+        return 1;
+      }elseif($data['app_snatched_time']<=$now_time && $data['app_snatched_end_time']>=$now_time){
+        return 2;
+      }else{
+        return 3;
+      }
+
+    }else{
+      return 0;
+    }
+  }
+
   /**
    * 是否是试用
    */
@@ -483,6 +547,11 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             $data['snatched_count'] = 0;
         }
 
+        // app抢购库存数量不为能负数
+        if(isset($data['app_snatched_count']) && (int)$data['app_snatched_count'] < 0){
+            $data['app_snatched_count'] = 0;
+        }
+
         // 积分兑换库存数量不为能负数
         if(isset($data['exchange_count']) && (int)$data['exchange_count'] < 0){
             $data['exchange_count'] = 0;
@@ -501,6 +570,14 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		// 抢购结束时间－转换为时间戳
 		if(isset($data['snatched_end_time'])){
 			$data['snatched_end_time'] = strtotime($data['snatched_end_time']);
+		}
+		// app抢购开始时间－转换为时间戳
+		if(isset($data['app_snatched_time'])){
+			$data['app_snatched_time'] = strtotime($data['app_snatched_time']);
+		}
+		// app抢购结束时间－转换为时间戳
+		if(isset($data['app_snatched_end_time'])){
+			$data['app_snatched_end_time'] = strtotime($data['app_snatched_end_time']);
 		}
 		// 预售开始时间，结束时间
 		if(isset($data['presale_start_time'])){

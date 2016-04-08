@@ -939,13 +939,21 @@ class Sher_Core_Helper_Util {
   /**
    * 签到抽奖获取配置信息
    */
-  public static function sign_draw_fetch_info(){
+  public static function sign_draw_fetch_info($kind=1){
     $result = array();
     $result['success'] = false;
     $result['message'] = '';
     $result['data'] = array();
     // 从块获取信息
-    $draw_conf = Sher_Core_Util_View::load_block('sign_draw_conf', 1);
+    if($kind==1){
+      $block_key = 'sign_draw_conf';
+    }elseif($kind==2){
+      $block_key = 'sign_draw_app_conf';   
+    }else{
+      $result['message'] = '参数类型不正确！';
+      return $result;    
+    }
+    $draw_conf = Sher_Core_Util_View::load_block($block_key, 1);
     if(empty($draw_conf)){
       $result['message'] = '数据不存在！';
       return $result; 

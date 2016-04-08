@@ -62,7 +62,7 @@
   function load_category_tag(category_id, tags=''){
     // 先清空
     $('#category_tags_box span').html('');
-    $.get("{{ app_url_admin_base }}/category/ajax_fetch_tags", {id:category_id, type:1}, function(result){
+    $.get("{{ app_url_admin_base }}/category/ajax_fetch_tags", {id:category_id, type:2}, function(result){
       if(result.success){
         var tag_arr = [];
         if(tags){

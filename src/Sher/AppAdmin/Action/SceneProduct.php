@@ -233,6 +233,13 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
     $item_info = array();
     switch($attrbute){
       case 1:
+        $product_model = new Sher_Core_Model_Product();
+		    $product = $product_model->load((int)$oid);
+        if (!empty($product)) {
+          $product = $product_model->extended_model_row($product);
+          $result['success'] = true;
+          $result['data'] = $product;
+        }
         break;
       case 2:
         $result = Sher_Core_Util_TopSdk::search_by_item($oid);
@@ -247,7 +254,10 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 #print_r($result);exit;
     if($result['success']){
       if($attrbute==1){
-
+        $item_info['title'] = $result['data']['title'];
+        $item_info['market_price'] = $result['data']['market_price'];
+        $item_info['sale_price'] = $result['data']['sale_price'];
+        $item_info['link'] = $result['data']['view_url'];
       
       }elseif($attrbute==2 || $attrbute==3){
         $tb = isset($result['data']['results']['n_tbk_item']) ? $result['data']['results']['n_tbk_item'] : array();
