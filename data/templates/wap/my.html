@@ -2,7 +2,37 @@
 {% block title%}个人中心-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-
+#mfrbird{
+	margin-top:0;
+}
+.mytop{
+	padding:15px 0;
+	width:100%;
+    display: flex;
+	display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+	align-items:center;
+    -webkit-box-align: center;
+}
+.myphoto{
+	width:60px;
+	height:50px;
+	padding-left:10px;
+	position:relative;
+}
+.myphoto img{
+	width:50px;
+	height:50px;
+	border-radius:50%;
+	vertical-align: middle;
+}
+.mymessg{
+	-webkit-box-flex: 1;
+	box-flex: 1;
+    position: relative;
+	margin-right:10px;
+}
 </style>
 {% endblock %}
 
@@ -11,7 +41,25 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui responsive grid">
+<div id="personal">
+	<div class="mytop">
+		<div class="myphoto">
+			<img src="http://static.taihuoniao.me/images/deavatar/007-s.jpg" alt="Technician">
+		</div>
+		<div class="mymessg">
+			<h3 class="ui header">boc747</h3>
+			<p>
+				城市：北京<br>
+				等级：鸟下士<br>
+				鸟币：10<br>
+			</p>
+		</div>
+	</div>
+	
+	
+</div>
+
+<!--<div class="ui responsive grid">
 	<div class="row">
 		<div class="column">
 			<div class="ui pointing vertical fluid navigation menu">
@@ -51,5 +99,5 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div>-->
 {% endblock %}
