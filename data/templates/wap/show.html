@@ -289,10 +289,8 @@
 	}
 	
 	//点击评论icon 滚动到评论
-	var commentscroll = $('.ui.reply.segment').offset().top+'px';
 	$('.ui.commenting').click(function(){
-		$('body,html').animate({scrollTop:commentscroll},500);
-		return false;
+		$('html,body').animate({scrollTop:$('#comment-box').offset().top - 100},500);
 	});
 	
 {% endblock %}
