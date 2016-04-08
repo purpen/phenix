@@ -717,7 +717,7 @@
             </div>
           </div>
         </div>
-        <div class="four fields">
+        <div class="five fields">
           <div class="field">
               <label>抢购价：</label>
             <input type="text" name="app_snatched_price" value="{{ product.app_snatched_price|default 0 }}" />
@@ -729,6 +729,10 @@
           <div class="field">
               <label>提醒人数：</label>
             <input type="text" name="app_appoint_count" value="{{ product.app_appoint_count|default 0 }}" />
+          </div>
+          <div class="field">
+              <label>限购数量：</label>
+            <input type="text" name="app_snatched_limit_count" value="{{ product.app_snatched_limit_count|default 0 }}" />
           </div>
         </div>
         <div class="two fields">

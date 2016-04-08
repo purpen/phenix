@@ -16,6 +16,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     const KIND_NORMAL = 1;
     # 抢购订单
     const KIND_SNATCH = 2;
+    # app闪购订单
+    const KIND_APP_SNATCH = 3;
 	
     protected $schema = array(
 		# 订单编号
@@ -132,6 +134,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'is_presaled' => 0,
 		# 过期时间,(普通订单、预售订单)
 		'expired_time' => 0,
+    # 是否活动订单:1.app闪购
+    'active_type' => 0,
 
     # 订单类型
     'kind' => self::KIND_NORMAL,
@@ -283,9 +287,11 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		$this->validate_order_items($data);
 		
 		// 设置过期时间，过期后自动关闭
-		if ($data['is_presaled']){
+		if ($data['is_presaled']){  // 预售
 			$data['expired_time'] = time() + Sher_Core_Util_Constant::PRESALE_EXPIRE_TIME;
-		} else {
+    } elseif($data['kind']==3){ // app闪购
+			$data['expired_time'] = time() + Sher_Core_Util_Constant::APP_SNATCHED_EXPIRE_TIME;
+		} else {  // 普通
 			$data['expired_time'] = time() + Sher_Core_Util_Constant::COMMON_EXPIRE_TIME;
 		}
 		
@@ -301,11 +307,12 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
 		for($i=0;$i<count($items);$i++){
 			$sku = $items[$i]['sku'];
-			$quantity = $items[$i]['quantity'];
+      $quantity = $items[$i]['quantity'];
+      $kind = isset($items[$i]['kind']) ? (int)$items[$i]['kind'] : 1;
 			
 			// 生成订单后，减少库存数量
 			$inventory = new Sher_Core_Model_Inventory();
-			$inventory->decrease_invertory_quantity($sku, $quantity);
+			$inventory->decrease_invertory_quantity($sku, $quantity, $kind);
 			
 			unset($inventory);
 		}
@@ -507,8 +514,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         if(in_array($status, $arr)){
             $row = $this->find_by_id($id);
             for($i=0;$i<count($row['items']);$i++){
+                $kind = isset($row['items'][$i]['kind']) ? (int)$row['items'][$i]['kind'] : 1;
                 $inventory = new Sher_Core_Model_Inventory();
-                $inventory->recover_invertory_quantity($row['items'][$i]['sku'], $row['items'][$i]['quantity']);
+                $inventory->recover_invertory_quantity($row['items'][$i]['sku'], $row['items'][$i]['quantity'], $kind);
                 unset($inventory);
             }
         }

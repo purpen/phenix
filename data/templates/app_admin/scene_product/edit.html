@@ -57,9 +57,8 @@
 
   <script type="text/javascript">
 
-
   // 加载标签库
-  function load_category_tag(category_id, tags=''){
+  function load_category_tag(category_id, tags){
     // 先清空
     $('#category_tags_box span').html('');
     $.get("{{ app_url_admin_base }}/category/ajax_fetch_tags", {id:category_id, type:2}, function(result){
@@ -289,7 +288,7 @@
 			$('#product-category').val(id);
 
       // 加载该类别下的标签库
-      load_category_tag(id);
+      load_category_tag(id, '');
 
 		}
 		
@@ -297,23 +296,24 @@
 	});
 
 	// 选择分类标签
-	$('body').on('click', '.category-tags.button', function(){
-		var id = $(this).attr('data-value');
-		if ($(this).hasClass('active')){
-			$(this)
-				.removeClass('active');
-				
-			$('#product-category-tags').val('');
-		}else{
-			$(this)
-				.siblings('.category-tags.button').removeClass('active')
-				.end()
-				.addClass('active');
-			$('#product-category-tags').val(id);
-
-		}
-    return false;
-	});
+  $('.category-tags.button').livequery(function(){
+    $(this).click(function(){
+      var id = $(this).attr('data-value');
+      if ($(this).hasClass('active')){
+        $(this)
+          .removeClass('active');
+          
+        $('#product-category-tags').val('');
+      }else{
+        $(this)
+          .siblings('.category-tags.button').removeClass('active')
+          .end()
+          .addClass('active');
+        $('#product-category-tags').val(id);
+      }
+      return false;
+    }); 
+  });
 
   // 初始化标签
   var current_category_id = $('#product-category').val();
@@ -398,7 +398,7 @@
 				<div class="field">
 					<div class="ui radio checkbox">
 						<input type="radio" name="attrbute" value="1" {% if scene_product.attrbute == 1 %}checked="checked"{% endif %} /> 
-						<label>官网</label>
+						<label>自营</label>
 					</div>
 					<div class="ui radio checkbox">
 						<input type="radio" name="attrbute" value="2" {% if scene_product.attrbute == 2 %}checked="checked"{% endif %} /> 
