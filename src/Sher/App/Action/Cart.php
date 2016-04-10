@@ -167,9 +167,15 @@ class Sher_App_Action_Cart extends Sher_App_Action_Base {
     $cart_model = new Sher_Core_Model_Cart();
     $cart = $cart_model->load($user_id);
     if(empty($cart)){
+      $count = 0;
       return $this->ajax_json('faile', true);
     }else{
-      return $this->ajax_json('success', 0, 0, array('count'=>$cart['item_count']));
+      $count = $cart['item_count'];
+    }
+    if(empty($count)){
+      return $this->ajax_json('fail', true);   
+    }else{
+      return $this->ajax_json('success', 0, 0, array('count'=>$count));
     }
   
   }
