@@ -315,7 +315,7 @@
     height: 50px;
 	z-index: 3;
 	max-width:767px;
-    -webkit-transform: translateX(=50%);
+    -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
 }
 .three-mesg{
@@ -536,8 +536,7 @@
       if (choosed_sku){
         phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku, 0);
       } else {
-		  alert(231);
-        phenix.show_error_note('请选择一个型号或颜色', 200000);
+        phenix.show_error_note('请选择一个型号或颜色', 2000);
       }
     });
   });
