@@ -245,200 +245,46 @@
 <!-- 商品 -->
 <div class="shopindex" id="mpresale">
 	<div class="ui responsive grid">
-		<div class="row pb-0 pt-15">
-			<div class="ui center aligned column">
-				<h4 class="ui title header">
-					热门商品
-				</h4>
-			</div>
-		</div>
-		<div class="row">
-			<div class="recom-item">
-				<div class="recom-cell" id="product-1117434511">
-					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
-						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
-						<div class="desc">
-							<h2>华米智能手环华米智能手环</h2>
-							<div class="cats">
-					            <span class="unit">￥</span>299
-					        </div>
-						</div>
-					</a>
-				</div>
-				<div class="recom-cell" id="product-1117434511">
-					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
-						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
-						<div class="desc">
-							<h2>AMAZFIT华米智能手环</h2>
-							<div class="cats">
-					            <span class="unit">￥</span>299
-					        </div>
-							<!--<span class="counter">
-					            <i class="heart icon"></i>  2
-					        </span>-->
-						</div>
-					</a>
-				</div>
-				<div class="recom-cell" id="product-1117434511">
-					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
-						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
-						<div class="desc">
-							<h2>AMAZFIT华米智能手环</h2>
-							<div class="cats">
-					            <span class="unit">￥</span>299
-					        </div>
-							<!--<span class="counter">
-					            <i class="heart icon"></i>  2
-					        </span>-->
-						</div>
-					</a>
-				</div>
-				<div class="recom-cell" id="product-1117434511">
-					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
-						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
-						<div class="desc">
-							<h2>华米智能手环华米智能手环</h2>
-							<div class="cats">
-					            <span class="unit">￥</span>299
-					        </div>
-							<!--<span class="counter">
-					            <i class="heart icon"></i>  2
-					        </span>-->
-						</div>
-					</a>
-				</div>
-			</div>
-		</div>
+
+
+		{% category_list var:'category' only_open:1 domain:1 show_all:0 current:cid sort_field:'total_desc' %}
+    {% for c in category.rows %}
+      {% if c.sub_count>0 %}
+        <div class="row pb-0 pt-15">
+          <div class="ui center aligned column">
+            <h4 class="ui title header">
+              {{ c.title }}
+            </h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="recom-item">
+            {% product_list var:'list' page:1 category_id:c._id stage:9 only_onsale:1 sort:4 size:4 %}
+
+            {% for d in list.rows %}
+              <div class="recom-cell" id="product-{{ d._id }}">
+                <a title="{{ d.short_title }}" alt="{{ d.short_title }}" href="{{ d.wap_view_url }}">
+                  <img class="lazy" data-original="{{ d.cover.thumbnails.apc.view_url }}" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
+                  <div class="desc">
+                    <h2>{{ d.short_title }}</h2>
+                    <div class="cats">
+                            <span class="unit">￥</span>{{ d.sale_price }}
+                        </div>
+                    <!--<span class="counter">
+                            <i class="heart icon"></i>  2
+                        </span>-->
+                  </div>
+                </a>
+              </div>
+            {%endfor%}
+
+          </div>
+        </div>
+		  {%endif%}
+		{% endfor %}
+
 		
-		<div class="row pb-0 pt-15">
-			<div class="ui center aligned column">
-				<h4 class="ui title header">
-					智能家居
-				</h4>
-			</div>
-		</div>
-		<div class="row">
-			<div class="recom-item">
-				<div class="recom-cell" id="product-1117434511">
-					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
-						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
-						<div class="desc">
-							<h2>华米智能手环华米智能手环</h2>
-							<div class="cats">
-					            <span class="unit">￥</span>299
-					        </div>
-						</div>
-					</a>
-				</div>
-				<div class="recom-cell" id="product-1117434511">
-					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
-						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
-						<div class="desc">
-							<h2>AMAZFIT华米智能手环</h2>
-							<div class="cats">
-					            <span class="unit">￥</span>299
-					        </div>
-							<!--<span class="counter">
-					            <i class="heart icon"></i>  2
-					        </span>-->
-						</div>
-					</a>
-				</div>
-				<div class="recom-cell" id="product-1117434511">
-					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
-						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
-						<div class="desc">
-							<h2>华米智能手环华米智能手环</h2>
-							<div class="cats">
-					            <span class="unit">￥</span>299
-					        </div>
-							<!--<span class="counter">
-					            <i class="heart icon"></i>  2
-					        </span>-->
-						</div>
-					</a>
-				</div>
-				<div class="recom-cell" id="product-1117434511">
-					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
-						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
-						<div class="desc">
-							<h2>AMAZFIT华米智能手环</h2>
-							<div class="cats">
-					            <span class="unit">￥</span>299
-					        </div>
-							<!--<span class="counter">
-					            <i class="heart icon"></i>  2
-					        </span>-->
-						</div>
-					</a>
-				</div>
-			</div>
-		</div>
-		
-		<div class="row pb-0 pt-15">
-			<div class="ui center aligned column">
-				<h4 class="ui title header">
-					可穿戴
-				</h4>
-			</div>
-		</div>
-		<div class="row">
-			<div class="recom-item">
-				<div class="recom-cell" id="product-1117434511">
-					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
-						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
-						<div class="desc">
-							<h2>AMAZFIT华米智能手环</h2>
-							<div class="cats">
-					            <span class="unit">￥</span>299
-					        </div>
-						</div>
-					</a>
-				</div>
-				<div class="recom-cell" id="product-1117434511">
-					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
-						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
-						<div class="desc">
-							<h2>华米智能手环华米智能手环</h2>
-							<div class="cats">
-					            <span class="unit">￥</span>299
-					        </div>
-							<!--<span class="counter">
-					            <i class="heart icon"></i>  2
-					        </span>-->
-						</div>
-					</a>
-				</div>
-				<div class="recom-cell" id="product-1117434511">
-					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
-						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
-						<div class="desc">
-							<h2>华米智能手环华米智能手环</h2>
-							<div class="cats">
-					            <span class="unit">￥</span>299
-					        </div>
-							<!--<span class="counter">
-					            <i class="heart icon"></i>  2
-					        </span>-->
-						</div>
-					</a>
-				</div>
-				<div class="recom-cell" id="product-1117434511">
-					<a title="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发" alt="AMAZFIT华米赤道时尚智能手环 太火鸟商城同步首发-太火鸟智能硬件商店" href="http://www.taihuoniao.com/shop/view-1117434511-1.html">
-						<img class="lazy" data-original="http://frbird.qiniudn.com/product/160224/56cd7168fc8b121c4d8b4727-1-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
-						<div class="desc">
-							<h2>AMAZFIT华米智能手环</h2>
-							<div class="cats">
-					            <span class="unit">￥</span>299
-					        </div>
-							<!--<span class="counter">
-					            <i class="heart icon"></i>  2
-					        </span>-->
-						</div>
-					</a>
-				</div>
-			</div>
-		</div>
+
 		
 		<!-- 底部 -->
 		<div class="row pt-0">
