@@ -124,7 +124,7 @@
     text-align: center;
     line-height: 50px;
     background: rgba(0,0,0,0.4);
-    color: #fff;
+    color: #fff !important;
 }
 </style>
 {% endblock %}
@@ -169,7 +169,7 @@
 			<div class="cardsum">
 				合计: <span>¥  {{ total_money }}</span>
 			</div>
-			<a href="{{ app_url_wap }}/shop/checkout" class="cardcheck">
+			<a href="{{ app_url_wap }}/shop/checkout" class="cardcheck ui link">
 				去结算
 			</a>
 		</div>
