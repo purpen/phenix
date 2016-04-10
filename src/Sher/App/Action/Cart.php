@@ -169,7 +169,7 @@ class Sher_App_Action_Cart extends Sher_App_Action_Base {
     if(empty($cart)){
       return $this->ajax_json('faile', true);
     }else{
-      return $this->ajax_json('success', 0, 0, array('count'=>$count));
+      return $this->ajax_json('success', 0, 0, array('count'=>$cart['item_count']));
     }
   
   }
