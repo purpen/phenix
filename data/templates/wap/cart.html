@@ -32,16 +32,16 @@
 							{% for product in products %}
 							<tr id="cart-product-{{ product.sku }}">
 								<td class="two wide">
-									<a href="{{ product.view_url }}" class="ui cover image">
+									<a href="{{ product.wap_view_url }}" class="ui cover image">
 							      		<img src="{{ product.cover }}" alt="{{ product.title }}" />
 									</a>
 								</td>
 								<td class="six wide">
 						          	<div class="ui small header">
 								      	<div class="content">
-											<a href="{{ product.view_url }}" class="ui line link">{{ product.title }}</a>
+											<a href="{{ product.wap_view_url }}" class="ui line link">{{ product.title }}</a>
 											<div class="sub header">
-												<p class="attribute">编号：{{ product.sku }}</p>
+												<p class="attribute">编号：{{ product.target_id }}</p>
 											</div>
 								      	</div>
 									</div>
@@ -54,19 +54,19 @@
 										<button class="ui mini gray dec-qty icon button" data-sku="{{ product.sku }}">
 											<i class="flat reduce icon"></i>
 										</button>
-										<input type="text" name="product-{{ product.sku }}-qty" id="product-{{ product.sku }}-qty" value="{{ product.quantity }}" autocomplete="off" />
-										<button class="ui mini gray inc-qty icon button" data-sku="{{ product.sku }}">
+										<input type="text" name="product-{{ product.target_id }}-qty" id="product-{{ product.target_id }}-qty" value="{{ product.n }}" autocomplete="off" />
+										<button class="ui mini gray inc-qty icon button" data-sku="{{ product.target_id }}">
 											<i class="flat add icon"></i>
 										</button>
 									</div>
 								</td>
 								<td class="center aligned">
-									<div id="product-{{ product.sku }}-subttotal" data-money="{{ product.subtotal }}">
-										<span class="money">{{ product.subtotal }}</span> 元
+									<div id="product-{{ product.target_id }}-subttotal" data-money="{{ product.total_price }}">
+										<span class="money">{{ product.total_price }}</span> 元
 									</div>
 								</td>
 								<td class="center aligned">
-									<button class="magenta ui close button" data-sku="{{ product.sku }}">
+									<button class="magenta ui close button" data-sku="{{ product.target_id }}">
 										<i class="close icon"></i>
 									</button>
 								</td>

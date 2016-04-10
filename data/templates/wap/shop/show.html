@@ -526,6 +526,23 @@
       }
     });
   });
+
+	// 加入购物车
+  $('#addcart-btn').livequery(function(){
+    $(this).click(function(){
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.redirect('{{ app_url_wap }}/auth/login_signup');
+        return false;
+      }
+      if (choosed_sku){
+
+        phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku, 0);
+      } else {
+        phenix.show_error_note('请选择一个型号或颜色', 2000);
+      }
+    });
+  });
 	
 
 {% endblock %}
@@ -624,7 +641,7 @@
 		<div class="gobuybtn">
 			<ul class="two btn">
 				<li class="childbtn">
-					<a class="joincart" href="javascript:void(0);">加入购物车</a>
+					<a class="joincart" href="javascript:void(0);" id="addcart-btn">加入购物车</a>
 				</li>
 				<li class="childbtn">
 					<a href="javascript:void(0);" class="buynow" id="nowbuy-btn">立即购买</a>
