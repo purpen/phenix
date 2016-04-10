@@ -310,10 +310,13 @@
 .flexbuy{
 	position: fixed;
     bottom: 0;
-    left: 0;
+    left: 50%;
     width: 100%;
     height: 50px;
 	z-index: 3;
+	max-width:767px;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
 }
 .three-mesg{
     padding: 0;
@@ -385,7 +388,7 @@
 	//点击颜色分类
 	$('#shopview .colour,#shopview .shopcart,#shopview .shopbuy').click(function(){
 		if( !phenix.visitor.is_login ){
-			phenix.redirect('{{ app_url_wap }}/auth/login')
+			phenix.redirect('{{ app_url_wap }}/auth/login_signup')
 		}
 		else{
 			$('#cover').css('display','block');
@@ -401,8 +404,13 @@
 	// 如果仅一个sku,则设置默认值
 	{% if skus_count %}
 		var choosed_sku = 0;
+    var evt_type = 2;
 	{% else %}
 		var choosed_sku = {{ product._id }};
+    var evt_type = 1;
+    $('.inc-qty.button').data('count', "{{ product.inventory|default 0 }}");
+    $('.dec-qty.button').data('count', "{{ product.inventory|default 0 }}");
+      
 	{% endif %}
 	// 选择sku
 	$('.attrs .ui.att.button').click(function(){
@@ -410,8 +418,13 @@
 		$('.attrs .ui.att.active.button').removeClass('active');
 		$(this).addClass('active');
 		{% if !product.snatched %}
+      var current_count = $(this).data('inventory');
+      var sku_type = $(this).data('type');
 		  $('h4.ui.header.inline span').html($(this).data('price'));
-		  $('h4.ui.header.inline .sub.header span').html($(this).data('inventory'));
+		  $('h4.ui.header.inline .sub.header span').html(current_count);
+      $('.inc-qty.button').data('count', current_count);
+      $('#product-qty').val(1);
+      
 		{%endif%}		
 		return false;
 	});
@@ -441,16 +454,15 @@
           phenix.show_error_note('请选择一个型号或颜色', 2000);
         }
 		else{
-			var sku = $(this).data('sku'),
-				qty_value = parseInt($('#product-1011513749-qty').val());
+			var sku_count = parseInt($(this).data('count')),
+			qty_value = parseInt($('#product-qty').val());
 			
 			// 添加1个数量
 			qty_value += 1;
-		
-	
-			$('#product-1011513749-qty').val(qty_value);
-			
-			
+      if(qty_value>sku_count){
+        qty_value=sku_count;
+      }
+			$('#product-qty').val(qty_value);
 			
 		}
 		
@@ -461,12 +473,14 @@
           phenix.show_error_note('请选择一个型号或颜色', 2000);
         }
 		else{
-			var sku = $(this).data('sku'),
-				qty_value = parseInt($('#product-1011513749-qty').val());
+			var sku_count = parseInt($(this).data('count')),
+				qty_value = parseInt($('#product-qty').val());
 			// 减少1个数量,验证是否为0
 			qty_value  -= 1;
-			$('#product-1011513749-qty').val(qty_value);
-			
+      if(qty_value<=0){
+        qty_value=1;
+      }
+			$('#product-qty').val(qty_value);
 			
 		}
 	});
@@ -510,6 +524,53 @@
 		$('.service.ui.segment').addClass('active');
 		$('.products.ui.segment,.reply.ui.segment').removeClass('active');
 	});
+
+	// 立即购买
+  $('#nowbuy-btn').livequery(function(){
+    $(this).click(function(){
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.redirect('{{ app_url_wap }}/auth/login_signup');
+        return false;
+      }
+      if (choosed_sku){
+        phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku, 0);
+      } else {
+        phenix.show_error_note('请选择一个型号或颜色', 2000);
+      }
+    });
+  });
+
+	// 加入购物车
+  $('#addcart-btn').livequery(function(){
+    $(this).click(function(){
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.redirect('{{ app_url_wap }}/auth/login_signup');
+        return false;
+      }
+      if (choosed_sku){
+        var qty_value = parseInt($('#product-qty').val());
+        $.post("{{ app_url_wap }}/app/site/cart/ajax_add_cart", {target_id:choosed_sku, type:evt_type, n:qty_value}, function(result){
+          if(result.success){
+            phenix.show_ok_note('添加成功!', 2000);
+            $('#cover,.close-details').click();
+            // ajax加载购物车数量
+            $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {}, function(result){
+                if(result.success){
+                  $('#wap_cart_num').show().text(result.data.count);
+                }
+            }, 'json');
+          }else{
+            phenix.show_error_note(result.message, 3000);           
+          }
+        }, 'json');
+
+      } else {
+        phenix.show_error_note('请选择一个型号或颜色', 2000);
+      }
+    });
+  });
 	
 
 {% endblock %}
@@ -566,18 +627,18 @@
 						颜色分类
 					</h4>
 					
-		           <!--{% if product.stage == 9 %}-->
+		           {% if product.stage == 9 %}
 					<div class="product attrs">
 						 {% if skus %}
 							{% for m in skus %}
 							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}" data-inventory="{{ m.quantity }}">{{ m.mode }}</span>		
 							{% endfor %}
 						{%else%}
-							<span class="ui small magenta inverted att button" data-id="{{ product._id }}" data-price="{{ product.sale_price }}" data-inventory="{{ product.inventory }}">默认</span>
+							<span class="ui small magenta active inverted att button" data-id="{{ product._id }}" data-price="{{ product.sale_price }}" data-inventory="{{ product.inventory }}">默认</span>
 
 		                {% endif %}
 					</div>
-					<!--{% endif %}-->
+					{% endif %}
 				</div>
 			</div>
 			
@@ -592,11 +653,11 @@
 					</h4>
 					
 					<div class="quantity">
-						<button class="ui mini gray dec-qty icon button" data-sku="{{ sku._id }}">
+						<button class="ui mini gray dec-qty icon button" data-count="1">
 							<i class="minus icon"></i>
 						</button>
-						<input type="text" name="product-{{ sku._id }}-qty" id="product-{{ sku._id }}-qty" value=1 autocomplete="off">
-						<button class="ui mini gray inc-qty icon button" data-sku="{{ sku._id }}">
+						<input type="text" name="product-qty" id="product-qty" value=1 autocomplete="off">
+						<button class="ui mini gray inc-qty icon button" data-count="">
 							<i class="add icon"></i>
 						</button>
 					</div>
@@ -608,10 +669,10 @@
 		<div class="gobuybtn">
 			<ul class="two btn">
 				<li class="childbtn">
-					<a class="joincart" href="javascript:void(0);">加入购物车</a>
+					<a class="joincart" href="javascript:void(0);" id="addcart-btn">加入购物车</a>
 				</li>
 				<li class="childbtn">
-					<a hre="" class="buynow">立即购买</a>
+					<a href="javascript:void(0);" class="buynow" id="nowbuy-btn">立即购买</a>
 				</li>
 			</ul>
 		</div>

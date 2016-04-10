@@ -7,6 +7,20 @@
 {% endblock %}
 
 {% block jquery %}
+
+  // 移除购物车商品 
+  $('.remove_cart').click(function(){
+    var target_id = $(this).data('target_id');
+    var type = $(this).data('type');
+    var array = target_id+"|"+type;
+    $.post("{{ app_url_wap }}/app/site/cart/ajax_remove_cart", {array: array}, function(result){
+      if(result.success){
+        $('#cart-product-'+target_id).remove();
+      }else{
+        phenix_show_error_note(result.message, 3000);
+      }
+    }, 'json')
+  });
 	
 {% endblock %}
 
@@ -30,18 +44,18 @@
 						</thead>
 						<tbody>
 							{% for product in products %}
-							<tr id="cart-product-{{ product.sku }}">
+							<tr id="cart-product-{{ product.target_id }}">
 								<td class="two wide">
-									<a href="{{ product.view_url }}" class="ui cover image">
+									<a href="{{ product.wap_view_url }}" class="ui cover image">
 							      		<img src="{{ product.cover }}" alt="{{ product.title }}" />
 									</a>
 								</td>
 								<td class="six wide">
 						          	<div class="ui small header">
 								      	<div class="content">
-											<a href="{{ product.view_url }}" class="ui line link">{{ product.title }}</a>
+                          <a href="{{ product.wap_view_url }}" class="ui line link">{% if product.sku_mode %}{{ product.title }}({{ product.sku_mode }}){%else%}{{ product.title }}{%endif%}</a>
 											<div class="sub header">
-												<p class="attribute">编号：{{ product.sku }}</p>
+												<p class="attribute">编号：{{ product.target_id }}</p>
 											</div>
 								      	</div>
 									</div>
@@ -51,22 +65,22 @@
 								</td>
 								<td class="center aligned">
 									<div class="quantity">
-										<button class="ui mini gray dec-qty icon button" data-sku="{{ product.sku }}">
+										<button class="ui mini gray dec-qty icon button" data-sku="{{ product.target_id }}">
 											<i class="flat reduce icon"></i>
 										</button>
-										<input type="text" name="product-{{ product.sku }}-qty" id="product-{{ product.sku }}-qty" value="{{ product.quantity }}" autocomplete="off" />
-										<button class="ui mini gray inc-qty icon button" data-sku="{{ product.sku }}">
+										<input type="text" name="product-{{ product.target_id }}-qty" id="product-{{ product.target_id }}-qty" value="{{ product.n }}" autocomplete="off" />
+										<button class="ui mini gray inc-qty icon button" data-sku="{{ product.target_id }}">
 											<i class="flat add icon"></i>
 										</button>
 									</div>
 								</td>
 								<td class="center aligned">
-									<div id="product-{{ product.sku }}-subttotal" data-money="{{ product.subtotal }}">
-										<span class="money">{{ product.subtotal }}</span> 元
+									<div id="product-{{ product.target_id }}-subttotal" data-money="{{ product.total_price }}">
+										<span class="money">{{ product.total_price }}</span> 元
 									</div>
 								</td>
 								<td class="center aligned">
-									<button class="magenta ui close button" data-sku="{{ product.sku }}">
+                  <button class="magenta ui remove_cart button" data-target_id="{{ product.target_id }}" data-type="{{ product.type }}">
 										<i class="close icon"></i>
 									</button>
 								</td>
@@ -88,7 +102,7 @@
 										<b class="cart-items-count money">{{ items_count }}</b>件产品，总计：<b class="cart-total-money money">{{ total_money }}</b><span class="unit">元</span>
 									</p>
 								</div>
-								<a class="ui magenta btn-4 btn-4c icon-arrow-right inverted button checkout btn">去结算</a>
+                <a href="{{ app_url_wap }}/shop/checkout" class="ui magenta btn-4 btn-4c icon-arrow-right inverted button checkout btn">去结算</a>
 							</div>
 						</div>
 					</div>

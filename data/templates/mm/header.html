@@ -32,6 +32,8 @@
 			{% if visitor %}
 			<a href="{{ app_url_wap }}/shop/cart" class="acacartlogin">
 				<div class="caputcart"></div>
+				<!-- 购物车提醒 -->
+				<div class="cartnumber" id="wap_cart_num" style="display:none;"></div>
 			</a>
 			<a class="acauserlogin" href="{{ app_url_wap }}/my" title="{{ visitor.nickname }}">
 				<img src="{{ visitor.mini_avatar_url }}" alt="{{ visitor.screen_name }}" />
