@@ -141,12 +141,13 @@
     $.post("{{ app_url_wap }}/app/site/cart/ajax_remove_cart", {array: array}, function(result){
       if(result.success){
         $('#cart-product-'+target_id).remove();
-        var 
-        $('#total_price_text').text(total_price-price);
+        $('#total_price_text').text((total_price-price).toFixed(2));
         // ajax加载购物车数量
         $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {}, function(result){
             if(result.success){
               $('#wap_cart_num').show().text(result.data.count);
+            }else{
+              $('#wap_cart_num').hide().text('');
             }
         }, 'json');
       }else{
