@@ -321,7 +321,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			$this->set_target_css_state('basket');
 		}
 		
-		return $this->to_html_page('wap/cart.html');
+		return $this->to_html_page('wap/shop/cart.html');
 	}
 
 	/**
