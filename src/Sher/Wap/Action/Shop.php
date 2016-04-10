@@ -1011,7 +1011,6 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         
       }
 
-
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
 			if (!$ok) {
@@ -1027,7 +1026,27 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			// 购物车购物方式
 			if ($is_cart) {
 				// 清空购物车
-				//$cart->clearCookie();
+        $cart_model = new Sher_Core_Model_Cart();
+        $cart = $cart_model->load($user_id);
+        if(!empty($cart) && !empty($cart['items'])){
+          foreach($order_info['items'] as $key=>$val){
+            $o_type = (int)$val['type'];
+            if($o_type==1){
+              $o_target_id = (int)$val['product_id'];
+            }elseif($o_type==2){
+              $o_target_id = (int)$val['sku'];
+            }
+
+            // 批量删除
+            foreach($cart['items'] as $k=>$v){
+              if($v['target_id']==$o_target_id){
+                unset($cart['items'][$k]);
+              }
+            }
+          }// endfor
+          $cart_ok = $cart_model->update_set($user_id, array('items'=>$cart['items'], 'item_count'=>count($cart['items']))); 
+        }
+
 			}
 			
 			// 删除临时订单数据
