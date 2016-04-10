@@ -589,7 +589,7 @@
 							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}" data-inventory="{{ m.quantity }}">{{ m.mode }}</span>		
 							{% endfor %}
 						{%else%}
-							<span class="ui small magenta inverted att button" data-id="{{ product._id }}" data-price="{{ product.sale_price }}" data-inventory="{{ product.inventory }}">默认</span>
+							<span class="ui small magenta active inverted att button" data-id="{{ product._id }}" data-price="{{ product.sale_price }}" data-inventory="{{ product.inventory }}">默认</span>
 
 		                {% endif %}
 					</div>
@@ -627,7 +627,7 @@
 					<a class="joincart" href="javascript:void(0);">加入购物车</a>
 				</li>
 				<li class="childbtn">
-					<a hre="" class="buynow">立即购买</a>
+					<a href="javascript:void(0);" class="buynow" id="nowbuy-btn">立即购买</a>
 				</li>
 			</ul>
 		</div>
@@ -754,7 +754,7 @@
 			<li class="shopcart">
 				加入购物车
 			</li>
-			<li class="shopbuy" id="nowbuy-btn">
+			<li class="shopbuy">
 				立即购买
 			</li>
 		</ul>
