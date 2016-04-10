@@ -28,14 +28,21 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','shop','presale','view','cart','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list','serve');
+	protected $exclude_method_list = array('execute','index','shop','presale','view','cart','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list','serve');
 	
 	/**
 	 * 商城入口
 	 */
 	public function execute(){
-		return $this->shop();
+		return $this->index();
 	}
+
+  /**
+   * 商店首页
+   */
+  public function index(){
+    return $this->to_html_page('wap/shop/index.html');
+  }
 	
 	/**
 	 * 预售列表
@@ -179,8 +186,14 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];  
     $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
     $this->stash['wxSha1'] = sha1($wxOri);
+
+    if($product['stage']==9){
+      $tpl = 'wap/shop/show.html';
+    }else{
+      $tpl = 'wap/view.html';
+    }
 		
-		return $this->to_html_page('wap/shop/show.html');
+		return $this->to_html_page($tpl);
 	}
 	
 	/**
