@@ -509,7 +509,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$total_money = $price*$quantity;
 		$items_count = 1;
 		
-		$order_info = $this->create_temp_order($items, $total_money, $items_count, 1);
+		$order_info = $this->create_temp_order($items, $total_money, $items_count, array());
 		if (empty($order_info)){
 			return $this->show_message_page('系统出了小差，请稍后重试！', true);
 		}
@@ -738,68 +738,16 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		try{
 			// 预生成临时订单
 			$model = new Sher_Core_Model_OrderTemp();
-		
-			$data = array();
-			$data['items'] = $items;
-			$data['total_money'] = $total_money;
-			$data['items_count'] = $items_count;
-		
-			// 检测是否已设置默认地址
-			$addbook = $this->get_default_addbook($user_id);
-			if (!empty($addbook)){
-				$data['addbook_id'] = (string)$addbook['_id'];
-			}
-			
-			// 获取快递费用
-			$freight = Sher_Core_Util_Shopping::getFees();
-			
-			// 优惠活动费用
-			$coin_money = 0.0;
-			
-			// 红包金额
-			$card_money = 0.0;
 
-      //礼品券金额
-      $gift_money = 0.0;
+      $order_info = $this->create_temp_order($items, $total_money, $items_count, array('is_cart'=>1));
+      if (empty($order_info)){
+        return $this->show_message_page('系统出了小差，请稍后重试！', true);
+      }
 
-    //鸟币数量
-    $bird_coin_count = 0;
-    //鸟币抵金额
-    $bird_coin_money = 0.0;
-			
-			// 设置订单默认值
-			$default_data = array(
-		        'payment_method' => 'a',
-		        'transfer' => 'a',
-		        'transfer_time' => 'a',
-		        'summary' => '',
-		        'invoice_type' => 0,
-				'freight' => $freight,
-				'card_money' => $card_money,
-        'coin_money' => $coin_money,
-        'gift_money' => $gift_money,
-        'bird_coin_count' => $bird_coin_count,
-        'bird_coin_money' => $bird_coin_money,
-		        'invoice_caty' => 1,
-            'invoice_content' => 'd',
-		    );
-			$new_data = array();
-			$new_data['dict'] = array_merge($default_data, $data);
-			
-			$new_data['user_id'] = $user_id;
-			$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
-      // 是否来自购物车
-			$new_data['is_cart'] = 1;
-			
-			$ok = $model->apply_and_save($new_data);
-			if ($ok) {
-				$order_info = $model->get_data();
-				$this->stash['order_info'] = $order_info;
-				$this->stash['data'] = $order_info['dict'];
-			}
+      $this->stash['order_info'] = $order_info;
+      $this->stash['data'] = $order_info['dict'];
 			
 			$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money - $bird_coin_money;
-			
 			$this->stash['pay_money'] = $pay_money;
 			
 		}catch(Sher_Core_Model_Exception $e){
@@ -842,9 +790,6 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		Doggy_Log_Helper::debug("Submit Mobile Order [$rrid]！");
 		
-		// 是否立即购买订单/预售订单/购物车订单
-		$event_type = isset($this->stash['event_type']) ? (int)$this->stash['event_type'] : 0;
-		
 		// 订单用户
 		$user_id = $this->visitor->id;
 		
@@ -856,6 +801,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		}
 
     $is_cart = isset($result['is_cart']) ? $result['is_cart'] : 0;
+    $is_presaled = isset($result['is_presaled']) ? $result['is_presaled'] : 0;
 		
 		// 订单临时信息
 		$order_info = $result['dict'];
@@ -882,9 +828,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     }
 		
 		// 预售订单
-		if($event_type == 2){
-			$order_info['is_presaled'] = 1;
-		}
+		$order_info['is_presaled'] = $is_presaled;
 		
 		// 获取快递费用
 		$freight = Sher_Core_Util_Shopping::getFees();
@@ -1011,7 +955,6 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         
       }
 
-
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
 			if (!$ok) {
@@ -1027,7 +970,27 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			// 购物车购物方式
 			if ($is_cart) {
 				// 清空购物车
-				//$cart->clearCookie();
+        $cart_model = new Sher_Core_Model_Cart();
+        $cart = $cart_model->load($user_id);
+        if(!empty($cart) && !empty($cart['items'])){
+          foreach($order_info['items'] as $key=>$val){
+            $o_type = (int)$val['type'];
+            if($o_type==1){
+              $o_target_id = (int)$val['product_id'];
+            }elseif($o_type==2){
+              $o_target_id = (int)$val['sku'];
+            }
+
+            // 批量删除
+            foreach($cart['items'] as $k=>$v){
+              if($v['target_id']==$o_target_id){
+                unset($cart['items'][$k]);
+              }
+            }
+          }// endfor
+          $cart_ok = $cart_model->update_set($user_id, array('items'=>$cart['items'], 'item_count'=>count($cart['items']))); 
+        }
+
 			}
 			
 			// 删除临时订单数据
@@ -1237,7 +1200,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	/**
 	 * 生产临时订单
 	 */
-	protected function create_temp_order($items=array(),$total_money,$items_count,$event_type=1){
+	protected function create_temp_order($items=array(),$total_money,$items_count,$options=array()){
 		$data = array();
 		$data['items'] = $items;
 		$data['total_money'] = $total_money;
@@ -1283,11 +1246,20 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       'bird_coin_count' => $bird_coin_count,
 	        'invoice_caty' => 'p',
 	        'invoice_content' => 'd',
-			'event_type' => $event_type,
 	    );
 		
 		$new_data = array();
 		$new_data['dict'] = array_merge($default_data, $data);
+
+    if(isset($options['is_cart'])){
+      $new_data['is_cart'] = $options['is_cart'];
+    }
+    if(isset($options['is_presaled'])){
+      $new_data['is_presaled'] = $options['is_presaled'];
+    }
+    if(isset($options['kind'])){
+      $new_data['kind'] = $options['kind'];
+    }
 		
 		$new_data['user_id'] = $this->visitor->id;
 		$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
