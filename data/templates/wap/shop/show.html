@@ -555,6 +555,12 @@
           if(result.success){
             phenix.show_ok_note('添加成功!', 2000);
             $('#cover,.close-details').click();
+            // ajax加载购物车数量
+            $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {}, function(result){
+                if(result.success){
+                  $('#wap_cart_num').show().text(result.data.count);
+                }
+            }, 'json');
           }else{
             phenix.show_error_note(result.message, 3000);           
           }
