@@ -1,0 +1,127 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}购物车-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+.cartmain{
+	display:block;
+	margin-top:15px;
+	padding:0;
+}
+.cartitem{
+	display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+    align-items: center;
+    -webkit-box-align: center;
+	background:#fff;
+	margin-bottom:10px;
+	padding: 10px;
+}
+.cartitem .cartinfo{
+	-webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    position: relative;
+	margin-right:10px;
+	margin-left:10px;
+}
+.cartitem .cartinfo h3.title{
+    font-size: 15px;
+    margin-bottom: 10px;
+    max-height: 38px;
+    overflow: hidden;
+    font-weight: 400;
+}
+.cartitem .cartinfo p.checkt{
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+.cartitem .cartinfo p.price{
+	color:#f36;
+}
+.cartitem .remove_cart{
+	width:30px;
+	height:30px;
+	position:relative;
+	background:rgba(0,0,0,0.3);
+	border-radius:50%;
+}
+.cartitem .remove_cart img{
+    width: 14px;
+    height: 14px;
+    margin: 8px;
+}
+.cartitem .img img{
+	width:80px;
+	height:60px;
+	position:relative;
+}
+
+</style>
+{% endblock %}
+
+{% block jquery %}
+
+  // 移除购物车商品 
+  $('.remove_cart').click(function(){
+    var target_id = $(this).data('target_id');
+    var type = $(this).data('type');
+    var array = target_id+"|"+type;
+    $.post("{{ app_url_wap }}/app/site/cart/ajax_remove_cart", {array: array}, function(result){
+      if(result.success){
+        $('#cart-product-'+target_id).remove();
+      }else{
+        phenix_show_error_note(result.message, 3000);
+      }
+    }, 'json')
+  });
+	
+{% endblock %}
+
+{% block content %}
+<div id="cartpage">
+	{% if products %}
+	<div class="cartmain">
+		{% for product in products %}
+		<div class="cartitem">
+			<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover }}" alt="{{ product.title }}"></a>
+			<div class="cartinfo">
+				<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{% if product.sku_mode %}{{ product.title }}({{ product.sku_mode }}){%else%}{{ product.title }}{%endif%}</h3></a>
+				<p class="checkt">颜色／分类：黑色  数量＊2</p>
+				<p class="price">¥  {{ product.sale_price }}</p>
+			
+			</div>
+			<div class="remove_cart">
+				<img src="{{ app_url_packaged }}/images/icon/close.png">
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	{%else%}
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column" id="cart-body-content">
+				<div class="ui empty message">
+					<h1 class="ui big header">
+						<i class="cart icon" style="font-size:1em !important;vertical-align: top;padding-top:0;"></i>
+						<div class="content" style="display:inline-block;">
+							<div class="sub header">还没选中产品？<a href="{{ app_url_wap }}/shop" class="ui magenta link">赶快去选购吧</a></div>
+						</div>
+					</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+	{%endif%}
+</div>
+
+{% endblock %}
