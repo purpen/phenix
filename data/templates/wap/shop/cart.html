@@ -135,11 +135,14 @@
   $('.remove_cart').click(function(){
     var target_id = $(this).data('target_id');
     var type = $(this).data('type');
+    var price = parseFloat($(this).data('price'));
+    var total_price = parseFloat($('#total_price_text').text());
     var array = target_id+"|"+type;
     $.post("{{ app_url_wap }}/app/site/cart/ajax_remove_cart", {array: array}, function(result){
       if(result.success){
         $('#cart-product-'+target_id).remove();
-        $('#total_price_text').text(result.data.total_price);
+        var 
+        $('#total_price_text').text(total_price-price);
         // ajax加载购物车数量
         $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {}, function(result){
             if(result.success){
@@ -167,7 +170,7 @@
 				<p class="price">¥  {{ product.total_price }}</p>
 			
 			</div>
-			<div class="remove_cart"  data-target_id="{{ product.target_id }}" data-type="{{ product.type }}">
+			<div class="remove_cart"  data-target_id="{{ product.target_id }}" data-type="{{ product.type }}" data-price="{{ product.total_price }}">
 				<img src="{{ app_url_packaged }}/images/icon/close.png">
 			</div>
 		</div>
