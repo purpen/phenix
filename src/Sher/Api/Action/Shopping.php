@@ -116,7 +116,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
           return $this->api_json(sprintf("编号为%d的商品不存在！", $target_id), 3003); 
         }
         if($inventory['quantity']<$n){
-          return $this->api_json(sprintf("%s 库存不足，请重新下单！", $inventory['name']), 3004);        
+          return $this->api_json(sprintf("%s 库存不足，请重新下单！", $inventory['mode']), 3004);        
         }
 
         $product_id = $inventory['product_id'];

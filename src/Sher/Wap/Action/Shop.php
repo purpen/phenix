@@ -534,7 +534,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	/**
 	 * 结算信息
 	 */
-	public function checkout(){
+	public function checkout_back(){
 		$rrid = $this->stash['rrid'];
 		$addrid = $this->stash['addrid'];
 		
@@ -624,6 +624,194 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		return $this->to_html_page('wap/checkout.html');
 	}
+
+	/**
+	 * 购物车下单
+	 */
+	public function checkout(){
+		$user_id = $this->visitor->id;
+		
+		//验证购物车，无购物不可以去结算
+    $cart_model = new Sher_Core_Model_Cart();
+    $cart = $cart_model->load($user_id);
+    if(empty($cart)){
+			return $this->show_message_page('操作不当，请查看购物帮助！', true);
+    }
+
+		//验证购物车，无购物不可以去结算
+    $result = array();
+    $items = array();
+    $total_money = 0;
+    $total_count = 0;
+
+    // 记录错误数据索引
+    $error_index_arr = array();
+
+		$inventory_model = new Sher_Core_Model_Inventory();
+		$product_model = new Sher_Core_Model_Product();
+    foreach($cart['items'] as $key=>$val){
+      $item = array();
+
+      // 初始参数
+      $val = (array)$val;
+      $target_id = (int)$val['target_id'];
+      $type = (int)$val['type'];
+      $n = isset($val['n']) ? (int)$val['n'] : 1;
+      if(empty($n)){
+        $n = 1;
+      }
+
+      $sku_mode = null;
+      $price = 0.0;
+
+      // 验证是商品还是sku
+      if($type==2){
+        $inventory = $inventory_model->load($target_id);
+        if(empty($inventory)){
+          return $this->show_message_page(sprintf("编号为%d的商品不存在！", $target_id), true);
+        }
+        if($inventory['quantity']<$n){
+          return $this->show_message_page(sprintf("%s 库存不足，请重新下单！", $inventory['mode']), true);
+        }
+
+        $product_id = $inventory['product_id'];
+        $sku_mode = $inventory['mode'];
+        $price = (float)$inventory['price'];
+        $total_price = $price*$n;
+        $sku_id = $target_id;
+        
+      }elseif($type==1){
+        $sku_id = $target_id;
+        $product_id = $target_id;
+      }else{
+        return $this->show_message_page('购物车参数不正确！', true);
+      }
+
+      $product = $product_model->extend_load($product_id);
+      if(empty($product)){
+        return $this->show_message_page(sprintf("编号为%d的商品不存在！", $target_id), true);
+      }
+      if($product['stage'] != 9){
+        return $this->show_message_page(sprintf("商品:%s 不可销售！", $product['title']), true);
+      }
+      if($product['inventory'] < $n){
+        return $this->show_message_page(sprintf("商品:%s 库存不足！", $product['title']), true);
+      }
+
+      if(empty($price)){
+        $price = (float)$product['sale_price'];
+        $total_price = $price*$n;
+      }
+
+      $item = array(
+        'target_id' => $target_id,
+        'type' => $type,
+        'sku' => $sku_id,
+        'product_id'  => $product_id,
+        'quantity'  => $n,
+        'price' => $price,
+        'sku_mode' => $sku_mode,
+        'sale_price' => $price,
+        'title' => $product['title'],
+        'cover'  => $product['cover']['thumbnails']['mini']['view_url'],
+        'view_url'  => $product['view_url'],
+        'subtotal'  => $total_price,
+      );
+      $total_money += $total_price;
+      $total_count += 1;
+
+      if(!empty($item)){
+        array_push($items, $item);
+      }
+    } // endfor
+
+    //如果购物车为空，返回
+    if(empty($total_money) || empty($items)){
+      return $this->show_message_page('购物车异常！', true);
+    }
+
+		
+		// 获取省市列表
+		$areas = new Sher_Core_Model_Areas();
+		$provinces = $areas->fetch_provinces();
+		
+		try{
+			// 预生成临时订单
+			$model = new Sher_Core_Model_OrderTemp();
+		
+			$data = array();
+			$data['items'] = $items;
+			$data['total_money'] = $total_money;
+			$data['items_count'] = $items_count;
+		
+			// 检测是否已设置默认地址
+			$addbook = $this->get_default_addbook($user_id);
+			if (!empty($addbook)){
+				$data['addbook_id'] = (string)$addbook['_id'];
+			}
+			
+			// 获取快递费用
+			$freight = Sher_Core_Util_Shopping::getFees();
+			
+			// 优惠活动费用
+			$coin_money = 0.0;
+			
+			// 红包金额
+			$card_money = 0.0;
+
+      //礼品券金额
+      $gift_money = 0.0;
+
+    //鸟币数量
+    $bird_coin_count = 0;
+    //鸟币抵金额
+    $bird_coin_money = 0.0;
+			
+			// 设置订单默认值
+			$default_data = array(
+		        'payment_method' => 'a',
+		        'transfer' => 'a',
+		        'transfer_time' => 'a',
+		        'summary' => '',
+		        'invoice_type' => 0,
+				'freight' => $freight,
+				'card_money' => $card_money,
+        'coin_money' => $coin_money,
+        'gift_money' => $gift_money,
+        'bird_coin_count' => $bird_coin_count,
+        'bird_coin_money' => $bird_coin_money,
+		        'invoice_caty' => 1,
+            'invoice_content' => 'd',
+		    );
+			$new_data = array();
+			$new_data['dict'] = array_merge($default_data, $data);
+			
+			$new_data['user_id'] = $user_id;
+			$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
+      // 是否来自购物车
+			$new_data['is_cart'] = 1;
+			
+			$ok = $model->apply_and_save($new_data);
+			if ($ok) {
+				$order_info = $model->get_data();
+				$this->stash['order_info'] = $order_info;
+				$this->stash['data'] = $order_info['dict'];
+			}
+			
+			$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money - $bird_coin_money;
+			
+			$this->stash['pay_money'] = $pay_money;
+			
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Create temp order failed: ".$e->getMessage());
+		}
+		
+		$this->stash['provinces'] = $provinces;
+		
+		$this->set_extra_params();
+		
+		return $this->to_html_page('wap/checkout.html');
+	}
 	
 	/**
 	 * 确认订单并提交
@@ -657,21 +845,17 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		// 是否立即购买订单/预售订单/购物车订单
 		$event_type = isset($this->stash['event_type']) ? (int)$this->stash['event_type'] : 0;
 		
-		// 验证购物车，无购物不可以去结算
-		$cart = new Sher_Core_Util_Cart();
-		if (!$event_type && empty($cart->com_list)){
-			return $this->ajax_json('订单产品缺失，请重试！', true);
-		}
-		
 		// 订单用户
 		$user_id = $this->visitor->id;
 		
-		// 预生成临时订单
+		// 加载临时订单
 		$model = new Sher_Core_Model_OrderTemp();
 		$result = $model->first(array('rid'=>$rrid));
 		if(empty($result)){
 			return 	$this->ajax_json('订单预处理失败，请重试！', true);
 		}
+
+    $is_cart = isset($result['is_cart']) ? $result['is_cart'] : 0;
 		
 		// 订单临时信息
 		$order_info = $result['dict'];
@@ -680,11 +864,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$order_info['rid'] = $result['rid'];
 		
 		// 获取购物金额
-		if ($event_type){
-			$total_money = $order_info['total_money'];
-		}else{
-			$total_money = $cart->getTotalAmount();
-		}
+		$total_money = $order_info['total_money'];
+
 		
 		// 需要开具发票，验证开票信息
 		if(isset($this->stash['invoice_type'])){
@@ -844,9 +1025,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			Doggy_Log_Helper::debug("Save Mobile Order [ $rid ] is OK!");
 			
 			// 购物车购物方式
-			if (!$event_type) {
+			if ($is_cart) {
 				// 清空购物车
-				$cart->clearCookie();
+				//$cart->clearCookie();
 			}
 			
 			// 删除临时订单数据
