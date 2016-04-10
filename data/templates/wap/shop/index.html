@@ -176,11 +176,11 @@
 {% block content %}
 <div class="shopbanner">
 	{% ad_list var:'adshop' page:1 state:2 size:1 name:'wap_index_shop_slide' sort_field:'latest' %}
-  {% for d in adshop.rows %}
-      <a href="{{ d.view_url }}" title="{{ d.title }}" alt="{{ d.title }}">
-          <img src="{{ d.cover.fileurl }}" alt="{{ d.title }}" />
+  {% if adshop %}
+      <a href="{{ adshop.view_url }}" title="{{ adshop.title }}" alt="{{ adshop.title }}">
+          <img src="{{ adshop.cover.fileurl }}" alt="{{ adshop.title }}" />
       </a>
-  {%endfor%}
+  {%endif%}
 </div>
 <div class="nav-menu">
 	<ul class="navfelx">
