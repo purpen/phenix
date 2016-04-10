@@ -10,7 +10,7 @@ class Sher_App_Action_Cart extends Sher_App_Action_Base {
 	);
 
 	
-	protected $exclude_method_list = array('execute');
+	protected $exclude_method_list = array('execute', 'ajax_fetch_count');
 	
 	/**
 	 * 活动
@@ -153,6 +153,24 @@ class Sher_App_Action_Cart extends Sher_App_Action_Base {
     $ok = $cart_model->update_set($user_id, array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));  
     $data = $cart_model->find_by_id($user_id);
     return $this->ajax_json('移除成功!', false, 0, $data);
+  
+  }
+
+  /**
+   * 加载购物车数量
+   */
+  public function ajax_fetch_count(){
+		$user_id = $this->visitor->id;
+    if(empty($user_id)){
+      return $this->ajax_json('faile', true); 
+    }
+    $cart_model = new Sher_Core_Model_Cart();
+    $cart = $cart_model->load($user_id);
+    if(empty($cart)){
+      return $this->ajax_json('faile', true);
+    }else{
+      return $this->ajax_json('success', 0, 0, array('count'=>$count));
+    }
   
   }
 
