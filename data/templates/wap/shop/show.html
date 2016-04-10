@@ -385,7 +385,7 @@
 	//点击颜色分类
 	$('#shopview .colour,#shopview .shopcart,#shopview .shopbuy').click(function(){
 		if( !phenix.visitor.is_login ){
-			phenix.redirect('{{ app_url_wap }}/auth/login')
+			phenix.redirect('{{ app_url_wap }}/auth/login_signup')
 		}
 		else{
 			$('#cover').css('display','block');
@@ -510,6 +510,22 @@
 		$('.service.ui.segment').addClass('active');
 		$('.products.ui.segment,.reply.ui.segment').removeClass('active');
 	});
+
+	// 立即购买
+  $('#nowbuy-btn').livequery(function(){
+    $(this).click(function(){
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.redirect('{{ app_url_wap }}/auth/login_signup');
+        return false;
+      }
+      if (choosed_sku){
+        phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku, 0);
+      } else {
+        phenix.show_error_note('请选择一个型号或颜色', 2000);
+      }
+    });
+  });
 	
 
 {% endblock %}
@@ -738,7 +754,7 @@
 			<li class="shopcart">
 				加入购物车
 			</li>
-			<li class="shopbuy">
+			<li class="shopbuy" id="nowbuy-btn">
 				立即购买
 			</li>
 		</ul>

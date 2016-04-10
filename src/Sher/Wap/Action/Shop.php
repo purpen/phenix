@@ -180,7 +180,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
     $this->stash['wxSha1'] = sha1($wxOri);
 		
-		return $this->to_html_page('wap/view.html');
+		return $this->to_html_page('wap/shop/show.html');
 	}
 	
 	/**
