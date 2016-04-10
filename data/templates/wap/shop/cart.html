@@ -160,7 +160,7 @@
 				<p class="price">¥  {{ product.sale_price }}</p>
 			
 			</div>
-			<div class="remove_cart">
+			<div class="remove_cart"  data-target_id="{{ product.target_id }}" data-type="{{ product.type }}">
 				<img src="{{ app_url_packaged }}/images/icon/close.png">
 			</div>
 		</div>
