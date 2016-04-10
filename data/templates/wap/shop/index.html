@@ -222,7 +222,7 @@
       {% for d in adstick.rows %}
         <div class="recom-cell one">
           <a href="{{ d.view_url }}">
-            <img class="lazy" data-original="{{ d.cover.fileurl }}" src=" " title="{{ d.title }}" style="display: block;">
+            <img class="lazy" data-original="{{ d.cover.fileurl }}" src="{{ d.cover.fileurl }}" title="{{ d.title }}" style="display: block;">
             
             <div class="fuhua icon">
               <img src="{{ app_url_packaged }}/images/icon/fuhuaicon.png" width="100%">
