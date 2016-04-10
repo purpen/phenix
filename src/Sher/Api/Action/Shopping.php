@@ -1590,7 +1590,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         }
         $product_id = $inventory['product_id'];
         $data['sku_mode'] = $inventory['mode'];
-        $data['sku_name'] = $inventory['sku_name'];
+        $data['sku_name'] = $inventory['mode'];
         $data['price'] = $inventory['price'];
         $data['total_price'] = $data['price']*$n;
         

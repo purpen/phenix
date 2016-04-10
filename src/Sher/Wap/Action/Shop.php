@@ -275,7 +275,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         }
         $product_id = $inventory['product_id'];
         $data['sku_mode'] = $inventory['mode'];
-        $data['sku_name'] = $inventory['sku_name'];
+        $data['sku_name'] = $inventory['mode'];
         $data['price'] = $inventory['price'];
         $data['total_price'] = $data['price']*$n;
         

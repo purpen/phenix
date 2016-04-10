@@ -7,6 +7,20 @@
 {% endblock %}
 
 {% block jquery %}
+
+  // 移除购物车商品 
+  $('.remove_cart').click(function(){
+    var target_id = $(this).data('target_id');
+    var type = $(this).data('type');
+    var array = target_id+"|"+type;
+    $.post("{{ app_url_wap }}/app/site/cart/ajax_remove_cart", {array: array}, function(result){
+      if(result.success){
+        $('#cart-product-'+target_id).remove();
+      }else{
+        phenix_show_error_note(result.message, 3000);
+      }
+    }, 'json')
+  });
 	
 {% endblock %}
 
@@ -30,7 +44,7 @@
 						</thead>
 						<tbody>
 							{% for product in products %}
-							<tr id="cart-product-{{ product.sku }}">
+							<tr id="cart-product-{{ product.target_id }}">
 								<td class="two wide">
 									<a href="{{ product.wap_view_url }}" class="ui cover image">
 							      		<img src="{{ product.cover }}" alt="{{ product.title }}" />
@@ -39,7 +53,7 @@
 								<td class="six wide">
 						          	<div class="ui small header">
 								      	<div class="content">
-											<a href="{{ product.wap_view_url }}" class="ui line link">{{ product.title }}</a>
+                          <a href="{{ product.wap_view_url }}" class="ui line link">{% if product.sku_mode %}{{ product.title }}({{ product.sku_mode }}){%else%}{{ product.title }}{%endif%}</a>
 											<div class="sub header">
 												<p class="attribute">编号：{{ product.target_id }}</p>
 											</div>
@@ -51,7 +65,7 @@
 								</td>
 								<td class="center aligned">
 									<div class="quantity">
-										<button class="ui mini gray dec-qty icon button" data-sku="{{ product.sku }}">
+										<button class="ui mini gray dec-qty icon button" data-sku="{{ product.target_id }}">
 											<i class="flat reduce icon"></i>
 										</button>
 										<input type="text" name="product-{{ product.target_id }}-qty" id="product-{{ product.target_id }}-qty" value="{{ product.n }}" autocomplete="off" />
@@ -66,7 +80,7 @@
 									</div>
 								</td>
 								<td class="center aligned">
-									<button class="magenta ui close button" data-sku="{{ product.target_id }}">
+                  <button class="magenta ui remove_cart button" data-target_id="{{ product.target_id }}" data-type="{{ product.type }}">
 										<i class="close icon"></i>
 									</button>
 								</td>

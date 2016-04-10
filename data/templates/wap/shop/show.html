@@ -401,8 +401,13 @@
 	// 如果仅一个sku,则设置默认值
 	{% if skus_count %}
 		var choosed_sku = 0;
+    var evt_type = 2;
 	{% else %}
 		var choosed_sku = {{ product._id }};
+    var evt_type = 1;
+    $('.inc-qty.button').data('count', "{{ product.inventory|default 0 }}");
+    $('.dec-qty.button').data('count', "{{ product.inventory|default 0 }}");
+      
 	{% endif %}
 	// 选择sku
 	$('.attrs .ui.att.button').click(function(){
@@ -410,8 +415,13 @@
 		$('.attrs .ui.att.active.button').removeClass('active');
 		$(this).addClass('active');
 		{% if !product.snatched %}
+      var current_count = $(this).data('inventory');
+      var sku_type = $(this).data('type');
 		  $('h4.ui.header.inline span').html($(this).data('price'));
-		  $('h4.ui.header.inline .sub.header span').html($(this).data('inventory'));
+		  $('h4.ui.header.inline .sub.header span').html(current_count);
+      $('.inc-qty.button').data('count', current_count);
+      $('#product-qty').val(1);
+      
 		{%endif%}		
 		return false;
 	});
@@ -441,16 +451,15 @@
           phenix.show_error_note('请选择一个型号或颜色', 2000);
         }
 		else{
-			var sku = $(this).data('sku'),
-				qty_value = parseInt($('#product-1011513749-qty').val());
+			var sku_count = parseInt($(this).data('count')),
+			qty_value = parseInt($('#product-qty').val());
 			
 			// 添加1个数量
 			qty_value += 1;
-		
-	
-			$('#product-1011513749-qty').val(qty_value);
-			
-			
+      if(qty_value>sku_count){
+        qty_value=sku_count;
+      }
+			$('#product-qty').val(qty_value);
 			
 		}
 		
@@ -461,12 +470,14 @@
           phenix.show_error_note('请选择一个型号或颜色', 2000);
         }
 		else{
-			var sku = $(this).data('sku'),
-				qty_value = parseInt($('#product-1011513749-qty').val());
+			var sku_count = parseInt($(this).data('count')),
+				qty_value = parseInt($('#product-qty').val());
 			// 减少1个数量,验证是否为0
 			qty_value  -= 1;
-			$('#product-1011513749-qty').val(qty_value);
-			
+      if(qty_value<=0){
+        qty_value=1;
+      }
+			$('#product-qty').val(qty_value);
 			
 		}
 	});
@@ -536,8 +547,16 @@
         return false;
       }
       if (choosed_sku){
+        var qty_value = parseInt($('#product-qty').val());
+        $.post("{{ app_url_wap }}/app/site/cart/ajax_add_cart", {target_id:choosed_sku, type:evt_type, n:qty_value}, function(result){
+          if(result.success){
+            phenix.show_ok_note('添加成功!', 2000);
+            $('#cover,.close-details').click();
+          }else{
+            phenix.show_error_note(result.message, 3000);           
+          }
+        }, 'json');
 
-        phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku, 0);
       } else {
         phenix.show_error_note('请选择一个型号或颜色', 2000);
       }
@@ -599,7 +618,7 @@
 						颜色分类
 					</h4>
 					
-		           <!--{% if product.stage == 9 %}-->
+		           {% if product.stage == 9 %}
 					<div class="product attrs">
 						 {% if skus %}
 							{% for m in skus %}
@@ -610,7 +629,7 @@
 
 		                {% endif %}
 					</div>
-					<!--{% endif %}-->
+					{% endif %}
 				</div>
 			</div>
 			
@@ -625,11 +644,11 @@
 					</h4>
 					
 					<div class="quantity">
-						<button class="ui mini gray dec-qty icon button" data-sku="{{ sku._id }}">
+						<button class="ui mini gray dec-qty icon button" data-count="1">
 							<i class="minus icon"></i>
 						</button>
-						<input type="text" name="product-{{ sku._id }}-qty" id="product-{{ sku._id }}-qty" value=1 autocomplete="off">
-						<button class="ui mini gray inc-qty icon button" data-sku="{{ sku._id }}">
+						<input type="text" name="product-qty" id="product-qty" value=1 autocomplete="off">
+						<button class="ui mini gray inc-qty icon button" data-count="">
 							<i class="add icon"></i>
 						</button>
 					</div>
