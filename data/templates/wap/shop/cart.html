@@ -156,7 +156,7 @@
 			<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover }}" alt="{{ product.title }}"></a>
 			<div class="cartinfo">
 				<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.title }}</h3></a>
-        <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  数量＊{{ product.n }}</p>
+        <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.n }}</p>
 				<p class="price">¥  {{ product.total_price }}</p>
 			
 			</div>

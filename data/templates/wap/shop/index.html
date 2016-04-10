@@ -54,6 +54,7 @@
 	position:relative;
 	background:#fff;
 	padding: 5px 8px 0;
+	height: 35px;
 }
 #shop-special .recom-item .recom-cell a .desc h2 {
 	height: 25px;
@@ -221,7 +222,7 @@
       {% for d in adstick.rows %}
         <div class="recom-cell one">
           <a href="{{ d.view_url }}">
-            <img class="lazy" data-original="{{ d.cover.fileurl }}" src="http://frbird.qiniudn.com/asset/160329/56f9ee203ffca27b4b8bdb26-1" title="{{ d.title }}" style="display: block;">
+            <img class="lazy" data-original="{{ d.cover.fileurl }}" src="{{ d.cover.fileurl }}" title="{{ d.title }}" style="display: block;">
             
             <div class="fuhua icon">
               <img src="{{ app_url_packaged }}/images/icon/fuhuaicon.png" width="100%">
