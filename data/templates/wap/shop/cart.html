@@ -155,9 +155,9 @@
 		<div class="cartitem" id="cart-product-{{ product.target_id }}">
 			<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover }}" alt="{{ product.title }}"></a>
 			<div class="cartinfo">
-				<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{% if product.sku_mode %}{{ product.title }}({{ product.sku_mode }}){%else%}{{ product.title }}{%endif%}</h3></a>
-				<p class="checkt">颜色／分类：{ product.mode }}  数量＊{{ product.n }}</p>
-				<p class="price">¥  {{ product.sale_price }}</p>
+				<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.title }}</h3></a>
+        <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  数量＊{{ product.n }}</p>
+				<p class="price">¥  {{ product.total_price }}</p>
 			
 			</div>
 			<div class="remove_cart"  data-target_id="{{ product.target_id }}" data-type="{{ product.type }}">
