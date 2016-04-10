@@ -536,6 +536,7 @@
       if (choosed_sku){
         phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku, 0);
       } else {
+		  alert(231);
         phenix.show_error_note('请选择一个型号或颜色', 200000);
       }
     });
