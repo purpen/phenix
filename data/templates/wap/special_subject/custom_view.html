@@ -198,6 +198,10 @@ function JavascriptHandler(data) {
 	}
 	return window.location.href = '{{ app_url_wap }}/shop/'+ parseInt(data)+'.html';
 }
+
+</script>
+{% endblock %}
+{% block jquery %}
 //ajax加载评论
 fetch_comment(1, per_page, 0);
 
@@ -259,10 +263,7 @@ if (ua.match(/MicroMessenger/i)=="micromessenger" || ua.match(/QQ/i) == "qq"){
 $('.ui.commenting').click(function(){
 	$('html,body').animate({scrollTop:$('#comment-box').offset().top - 100},500);
 });
-
-</script>
 {% endblock %}
-
 {% block content %}
 	<div class="course">
 		<div class="cont">
