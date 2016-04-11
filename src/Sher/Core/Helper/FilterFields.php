@@ -11,7 +11,7 @@ class Sher_Core_Helper_FilterFields {
    * 手机版字段过滤
    */
   public static function wap_user($user){
-    $some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'true_nickname'=>1,'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'email'=>1,'birthday'=>1,'medium_avatar_url'=>1);
+    $some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'true_nickname'=>1,'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'email'=>1,'birthday'=>1,'medium_avatar_url'=>1, 'identify'=>1,);
 		// 重建数据结果
 		$data = array();
 		foreach($some_fields as $key=>$value){

@@ -28,7 +28,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','index','shop','presale','view','cart','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list','serve','s_view');
+	protected $exclude_method_list = array('execute','index','shop','presale','view','cart','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list','serve');
 	
 	/**
 	 * 商城入口
@@ -1705,91 +1705,6 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         return $this->ajax_json('', false, '', $data);
   }
 	
-	
-  /**
-    *专题详情
-    */
-  public function s_view(){
-	$id = (int)$this->stash['id'];
-	if(empty($id)){
-		return $this->ajax_json('访问的专题不存在！', true);
-	}
-  $user_id = $this->current_user_id;
-	
-	$model = new Sher_Core_Model_SpecialSubject();
-	$special_subject = $model->load((int)$id);
 
-	if($special_subject['state']==0){
-		return $this->ajax_json('访问的专题已禁用！', true);
-	}
-
-	if(empty($special_subject)) {
-			return $this->ajax_json('访问的专题不存在！', true);
-	}
-    $some_fields = array(
-      '_id', 'title', 'short_title', 'tags', 'tags_s', 'remark', 'kind', 'share_count',
-      'cover_id', 'category_id', 'summary', 'product_ids', 'products', 'state',
-      'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
-    );
-		$special_subject = $model->extended_model_row($special_subject);
-		$special_subject['content'] = null;
-		$product_arr = array();
-
-    // 重建数据结果
-    $data = array();
-    for($i=0;$i<count($some_fields);$i++){
-      $key = $some_fields[$i];
-      $data[$key] = isset($special_subject[$key]) ? $special_subject[$key] : null;
-    }
-    // 封面图url
-    $data['cover_url'] = $special_subject['cover']['thumbnails']['aub']['view_url'];
-	
-    //验证是否收藏或喜欢
-    $fav = new Sher_Core_Model_Favorite();
-    $data['is_love'] = $fav->check_loved($user_id, $special_subject['_id'], 9) ? 1 : 0;
-		
-		if($special_subject['kind']==Sher_Core_Model_SpecialSubject::KIND_APPOINT){
-			if(!empty($special_subject['product_ids'])){
-			  $product_model = new Sher_Core_Model_Product();
-			  foreach($special_subject['product_ids'] as $k=>$v){
-          $product = $product_model->extend_load((int)$v);
-          if(!empty($product)){
-            $product_some_fields = array(
-              '_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
-              'cover_id', 'category_id', 'stage', 'summary',
-              'snatched_time', 'inventory', 'can_saled', 'snatched',
-              'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
-              'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',
-            );
-
-            // 重建数据结果
-            $product_data = array();
-            for($i=0;$i<count($product_some_fields);$i++){
-              $key = $product_some_fields[$i];
-              $product_data[$key] = isset($product[$key]) ? $product[$key] : null;
-            }
-            // 封面图url
-            $assets = array();
-            $asset_query = array('parent_id'=>$product['_id'], 'asset_type'=>11);
-            $asset_options['page'] = 1;
-            $asset_options['size'] = 1;
-            $asset_service = Sher_Core_Service_Asset::instance();
-            $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
-            
-            $product_data['cover_url'] = !empty($asset_result['rows']) ? $asset_result['rows'][0]['thumbnails']['aub']['view_url'] : null;
-            array_push($product_arr, $product_data);
-          }
-			  } // endfor
-			} // endif empty
-			$data['products'] = $product_arr;
-		} // endif kind
-		
-		if($special_subject['kind']==Sher_Core_Model_SpecialSubject::KIND_CUSTOM){
-			
-			$data['content_view_url'] = sprintf('s_view?id=%d', Doggy_Config::$vars['app.url.wap'], $special_subject['_id']);
-		} // endif kind
-	
-  	return $this->to_html_page('wap/shop/special.html');
-  }
 }
 
