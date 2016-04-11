@@ -107,6 +107,13 @@
 .cardsum span{
 	color:#f36;
 }
+.cardsum span .rmb.icon,.cartitem .cartinfo p.price .rmb.icon{
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    width: auto;
+}
 .cardcheck{
     -webkit-box-flex: 1;
     -webkit-flex: 1;
@@ -168,7 +175,7 @@
 			<div class="cartinfo">
 				<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.title }}</h3></a>
         <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.n }}</p>
-				<p class="price">¥  {{ product.total_price }}</p>
+				<p class="price"><i class="rmb icon"></i>  {{ product.total_price }}</p>
 			
 			</div>
 			<div class="remove_cart"  data-target_id="{{ product.target_id }}" data-type="{{ product.type }}" data-price="{{ product.total_price }}">
@@ -178,7 +185,7 @@
 		{% endfor %}
 		<div class="cartadd">
 			<div class="cardsum">
-        合计: <span>¥  <span id="total_price_text">{{ total_money }}</span></span>
+        合计: <span><i class="rmb icon"></i><span id="total_price_text">  {{ total_money }}</span></span>
 			</div>
 			<a href="{{ app_url_wap }}/shop/checkout" class="cardcheck ui link">
 				去结算
