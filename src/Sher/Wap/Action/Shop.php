@@ -1705,5 +1705,6 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         return $this->ajax_json('', false, '', $data);
   }
 	
+
 }
 
