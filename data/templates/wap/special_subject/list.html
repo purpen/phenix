@@ -5,94 +5,129 @@
 #spelist{
 	
 }
+#mfrbird{
+	margin-top:0;
+	margin-bottom:2em;
+}
 .spemenu{
     width: 100%;
     height: 110px;
     background: #eee;
     overflow: hidden;
-    position: relative;
-	padding:10px 0;
 }
-.menulist{
-    width: 100%;
-    overflow: hidden;
-    height: 110px;
-    position: relative;
-	overflow-x: auto;
-	font-size:0;
+.spemenu .swiper-wrapper{
+	margin:0 10px;
 }
-.menuout{
-	width:1720px;
+.spemenu .swiper-wrapper .swiper-slide {
+	margin: 0 5px;
+	width:160px;
 	height:90px;
-	overflow: hidden;
-    position: absolute;
-    top: 0;
+}
+.swiper-slide a{
+	width:160px;
+	height:90px;
+	position:absolute;
+	top:10px;
 	left:0;
 }
-.menuout a{
+.swiper-slide a p{
+	background:rgba(0,0,0,0.15);
+	width:100%;
+	height:100%;
+	position:absolute;
+	left:0;
+	top:0;
+	text-align:center;
+	line-height:90px;
+	color:#fff;
+}
+.swiper-slide a img{
 	width:160px;
 	height:90px;
-	margin:0 5px;
-}
-.menuout a:first-child{
-	margin-left:15px;
-}
-.menuout a:last-child{
-	margin-right:15px;
-}
-.menuout a img{
-	width:160px;
-	height:90px;
-}
-::-webkit-scrollbar-corner {
-background-color: rgba(0,0,0,0) !important;
-width:0 !important;
 }
 </style>
 
 {% endblock %}
+{% block jquery %}
+	window.onload = function() {
+		var mySwiper = new Swiper('.spemenu',{
+		  freeMode : true,
+		  slidesPerView : 'auto',
+	  });
+	}
+{% endblock %}
 {% block content %}
 <div id="spelist">
 	<div class="spemenu">
-		<div class="menulist">
-			<div class="menuout">
+		<div class="swiper-wrapper">
+			<div class="swiper-slide">
 				<a class="" href="">
 					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
+					<p>小清新</p>
 				</a>
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-				</a>
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-				</a>
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-				</a>
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-				</a>
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-				</a>
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-				</a>
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-				</a>
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-				</a>
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-				</a>
-			
 			</div>
+			<div class="swiper-slide">
+				<a class="" href="">
+					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
+					<p>小清新</p>
+				</a>
+			</div>
+			<div class="swiper-slide">
+				<a class="" href="">
+					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
+					<p>小清新</p>
+				</a>
+			</div>
+			<div class="swiper-slide">
+				<a class="" href="">
+					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
+					<p>小清新</p>
+				</a>
+			</div>
+			<div class="swiper-slide">
+				<a class="" href="">
+					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
+					<p>小清新</p>
+				</a>
+			</div>
+			<div class="swiper-slide">
+				<a class="" href="">
+					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
+					<p>小清新</p>
+				</a>
+			</div>
+			<div class="swiper-slide">
+				<a class="" href="">
+					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
+					<p>小清新</p>
+				</a>
+			</div>
+			<div class="swiper-slide">
+				<a class="" href="">
+					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
+					<p>小清新</p>
+				</a>
+			</div>
+			<div class="swiper-slide">
+				<a class="" href="">
+					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
+					<p>小清新</p>
+				</a>
+			</div>
+			<div class="swiper-slide">
+				<a class="" href="">
+					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
+					<p>小清新</p>
+				</a>
+			</div>
+			
+			
+			
+			
+			
 		</div>
-		
-		
 	</div>
-
-
 </div>
+			
+
 {% endblock %}
