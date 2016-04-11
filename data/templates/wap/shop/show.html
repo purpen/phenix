@@ -25,9 +25,10 @@
 	background:#fff;
 }
 #shopview .presale h4.ui.header .sub.header{
-	color:#f36;
 	margin-top:5px;
-	font-size: 14px;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #f36;
 }
 #shopview .colour{
 	margin-top:10px;
@@ -617,7 +618,7 @@
 				<div class="column">
 					<img class="ui middle aligned image" src="{{ product.cover.thumbnails.small.view_url }}">
 					<h4 class="ui header inline">
-						价格：¥<span>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}</span>
+						价格：<span>¥</span><span>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}</span>
 						<div class="sub header">
 							剩余库存：<span>{{ product.inventory }}</span>
 						</div>
