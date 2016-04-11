@@ -183,7 +183,16 @@
 	    margin: 0;
 	    width: 1.8em!important;
 	}
-	
+	.specont{
+		position:fixed;
+		bottom:0;
+		left:0;
+		width:100%;
+		background:#fff;
+	}
+	.specont i.icon{
+		color:#f36 !important;
+	}
 </style>
 {% endblock %}
 
@@ -269,7 +278,7 @@ $('.ui.commenting').click(function(){
 		</div>					
 	</div>
 	
-    <div class="ui grid" style="margin:0 0 10px;">
+    <div class="ui speshare grid" style="margin:0 0 10px;">
         <div class="row iswidth">
             <div class="eight wide column">
                 <div class="ui icon support button" data-variation="inverted" data-id="{{ topic._id }}"
@@ -334,6 +343,20 @@ $('.ui.commenting').click(function(){
 		
 	</div>
 
-
-
+	<!-- fixed -->
+	<div class="specont">
+		<div class="ui responsive grid">
+			<div class="ui center aligned row">
+				<div class="ui center aligned five wide column">
+					<i class="empty heart icon"></i> 12
+				</div>
+				<div class="ui center aligned five wide column">
+					<i class="external share icon"></i>
+				</div>
+				<div class="ui center aligned five wide column">
+					<i class="comment outline icon"></i>9
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
