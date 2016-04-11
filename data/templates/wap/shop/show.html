@@ -574,7 +574,8 @@
 
 $('.ui.message .close').livequery(function(){
 	$(this).on('click', function() {
-		$(this).closest('.ui.message').fadeOut('slow').css('z-index','-1');
+		$(this).closest('.ui.message').fadeOut('slow');
+		 window.setTimeout(function(){$('#gritter-notice-wrapper').css('zindex','-1'),2000};
 	});
 });
 	
