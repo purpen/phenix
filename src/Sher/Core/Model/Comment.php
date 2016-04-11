@@ -17,12 +17,12 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	const TYPE_PRODUCT = 4;
   	const TYPE_ACTIVE = 5;
 	const TYPE_STUFF  = 6;
-  const TYPE_ALBUM = 7;
-  const TYPE_SPECIAL_SUBJECT = 8;
-  const TYPE_APP_SUBJECT = 9; // app 专题评论
-  // 专题评论 target_id 1:云马C1争霸; 5.奶爸奶妈PK; 2.--; 3.--; 4.--
-  const TYPE_SUBJECT = 10;
-  const TYPE_GPRODUCT = 11; // 情景商品分类
+    const TYPE_ALBUM = 7;
+    const TYPE_SPECIAL_SUBJECT = 8;
+    const TYPE_APP_SUBJECT = 9; // app 专题评论
+    // 专题评论 target_id 1:云马C1争霸; 5.奶爸奶妈PK; 2.--; 3.--; 4.--
+    const TYPE_SUBJECT = 10;
+    const TYPE_GPRODUCT = 11; // 情景商品分类
 	
     protected $schema = array(
         'user_id' => 0,

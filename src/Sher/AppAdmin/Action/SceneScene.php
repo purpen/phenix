@@ -82,8 +82,6 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 			$result['tags'] = implode(',',$result['tags']);
 		}
 		
-		//var_dump($result);
-		
 		$this->stash['date'] = $result;
 		$this->stash['mode'] = $mode;
 		

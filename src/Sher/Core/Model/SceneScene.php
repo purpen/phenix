@@ -56,7 +56,7 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 	protected $required_fields = array('title');
 	protected $int_fields = array('status', 'used_count');
 	protected $float_fields = array();
-	protected $counter_fields = array('used_count');
+	protected $counter_fields = array('used_count','view_count','subscription_count','love_count','comment_count');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
@@ -83,6 +83,43 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
     protected function after_save(){
         parent::after_save();
     }
+	
+	/**
+	 * 增加计数
+	 */
+	public function inc_counter($field_name, $inc=1, $id=null){
+		
+		if(is_null($id)){
+			$id = $this->id;
+		}
+		
+		if(empty($id) || !in_array($field_name, $this->counter_fields)){
+			return false;
+		}
+		
+		return $this->inc($id, $field_name, $inc);
+	}
+	
+	/**
+	 * 减少计数
+	 * 需验证，防止出现负数
+	 */
+	public function dec_counter($field_name,$id=null,$force=false,$count=1){
+	    if(is_null($id)){
+	        $id = $this->id;
+	    }
+	    if(empty($id)){
+	        return false;
+	    }
+		if(!$force){
+			$result = $this->find_by_id((int)$id);
+			if(!isset($result[$field_name]) || $result[$field_name] <= 0){
+				return true;
+			}
+		}
+		
+		return $this->dec($id, $field_name, $count);
+	}
 	
 	/**
 	 * 批量更新附件所属
