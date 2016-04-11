@@ -110,9 +110,9 @@
 .cardsum span .rmb.icon,.cartitem .cartinfo p.price .rmb.icon{
     font-size: 14px;
     font-weight: 400;
-    vertical-align: top;
     margin: 0;
     padding: 0;
+    width: auto;
 }
 .cardcheck{
     -webkit-box-flex: 1;
@@ -185,7 +185,7 @@
 		{% endfor %}
 		<div class="cartadd">
 			<div class="cardsum">
-        合计: <span><i class="rmb icon"></i>  <span id="total_price_text">{{ total_money }}</span></span>
+        合计: <span><i class="rmb icon"></i><span id="total_price_text">{{ total_money }}</span></span>
 			</div>
 			<a href="{{ app_url_wap }}/shop/checkout" class="cardcheck ui link">
 				去结算
