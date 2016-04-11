@@ -361,6 +361,10 @@
     line-height: 50px;
 	color:#fff;
 }
+#gritter-notice-wrapper{
+	padding-top: 0;
+    top: 61px;
+}
 </style>
 {% endblock %}
 
@@ -571,13 +575,6 @@
       }
     });
   });
-
-$('.ui.message .close').livequery(function(){
-	$(this).on('click', function() {
-		$(this).closest('.ui.message').fadeOut('slow');
-		 window.setTimeout(function(){$('#gritter-notice-wrapper').css('z-index','-1'),2000});
-	});
-});
 	
 
 {% endblock %}
