@@ -1,0 +1,32 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}{% endblock %}
+{% block page_css %}
+
+
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript">
+$('ul[class=gridster_ul]').css('width','100%');
+$('ul[class=gridster_ul]').css('height','');
+
+function JavascriptHandler(data) {
+	if (!data) {
+        return '';
+    }
+	return window.location.href = 'thn://'+parseInt(data);
+}
+
+</script>
+{% endblock %}
+
+{% block content %}
+	<div class="course">
+		<div class="cont">
+				{{ content }}
+		</div>					
+	</div>
+
+
+
+{% endblock %}
