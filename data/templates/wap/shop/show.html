@@ -567,10 +567,16 @@
         }, 'json');
 
       } else {
-        phenix.show_error_note('请选择一个型号或颜色', 2000);
+        phenix.show_error_note('请选择一个型号或颜色', 200000);
       }
     });
   });
+
+$('.ui.message .close').livequery(function(){
+	$(this).on('click', function() {
+		$(this).closest('.ui.message').fadeOut('slow').css('z-index','-1');
+	});
+});
 	
 
 {% endblock %}

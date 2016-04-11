@@ -151,15 +151,10 @@
             }
         }, 'json');
       }else{
-        phenix_show_error_note(result.message, 300000);
+        phenix_show_error_note(result.message, 3000);
       }
     }, 'json')
   });
-	$('.ui.message .close').livequery(function(){
-		$(this).on('click', function() {
-			$(this).closest('.ui.message').fadeOut('slow').css('z-index','-1');
-		});
-	});
 	
 {% endblock %}
 
