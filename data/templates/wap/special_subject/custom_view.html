@@ -98,12 +98,12 @@
   	  }
     }
 	
-	.ui.grid>.row.iswidth{
+	.ui.speshare.grid>.row.iswidth{
 	    margin-left: 10px;
 	    margin-right: 10px;
 	    width: auto!important;
 	}
-	.ui.grid>.row.iswidth:before {
+	.ui.speshare.grid>.row.iswidth:before {
 	    content: '';
 	    width: 94%;
 	    height: 1px;
@@ -112,7 +112,7 @@
 	    top: 60px;
 	    left: 3%;
 	}
-	.ui.grid>.row.iswidth .ui.support.button {
+	.ui.speshare.grid>.row.iswidth .ui.support.button {
 	    display: inline-block;
 	    margin-right: 8px;
 	    height: 44px;
@@ -122,27 +122,27 @@
 	    font-weight: 400;
 	}
 	
-	.ui.grid>.row.iswidth .ui.support.button .heart.icon {
+	.ui.speshare.grid>.row.iswidth .ui.support.button .heart.icon {
 	    font-size: 1.5em;
 	    color: #f36;
 	    height: 44px;
 	    vertical-align: middle;
 	    line-height: 44px;
 	}
-	.ui.grid>.row.iswidth .ui.support.button.active .empty.heart.icon:before {
+	.ui.speshare.grid>.row.iswidth .ui.support.button.active .empty.heart.icon:before {
 	    content: "\f004";
 	}
-	.ui.grid>.row.iswidth .ui.support.button .love.count {
+	.ui.speshare.grid>.row.iswidth .ui.support.button .love.count {
 	    display: inline-block;
 	    margin-left: 3px;
 	    vertical-align: middle;
 	}
-	.ui.grid>.row.iswidth .ui.commenting {
+	.ui.speshare.grid>.row.iswidth .ui.commenting {
 	    display: inline-block;
 	    height: 44px;
 	    line-height: 44px;
 	}
-	.ui.grid>.row.iswidth .ui.commenting .comment.icon {
+	.ui.speshare.grid>.row.iswidth .ui.commenting .comment.icon {
 	    font-size: 1.5em;
 	    height: 44px;
 	    vertical-align: middle;
@@ -150,18 +150,18 @@
 	    margin-right: 0;
 	    color: rgba(0,0,0,.5);
 	}
-	.ui.grid>.row.iswidth .ui.commenting .love.count{
+	.ui.speshare.grid>.row.iswidth .ui.commenting .love.count{
 	    display: inline-block;
 	    margin-left: 3px;
 	    vertical-align: middle;
 	}
-	.ui.grid>.row.iswidth .right.aligned {
+	.ui.speshare.grid>.row.iswidth .right.aligned {
 	    float: right;
 	}
-	.ui.grid>.row.iswidth .right.aligned .topicshare {
+	.ui.speshare.grid>.row.iswidth .right.aligned .topicshare {
 	    display: none;
 	}
-	.ui.grid>.row.iswidth .right.aligned .topicshare a.share.btn i.icon.inverted {
+	.ui.speshare.grid>.row.iswidth .right.aligned .topicshare a.share.btn i.icon.inverted {
 	    background-color: transparent!important;
 	    color: rgba(0,0,0,.4)!important;
 	    text-align: center;
@@ -172,7 +172,7 @@
 	    margin: 0;
 	    width: 1.8em!important;
 	}
-	.ui.grid>.row.iswidth .right.aligned .topicshare a.share.btn i.icon.inverted {
+	.ui.speshare.grid>.row.iswidth .right.aligned .topicshare a.share.btn i.icon.inverted {
 	    background-color: transparent!important;
 	    color: rgba(0,0,0,.4)!important;
 	    text-align: center;
@@ -272,12 +272,12 @@ $('.specialshare').click(function(){
 
 {% endblock %}
 {% block content %}
-	<div class="course">
-		<div class="cont">
-				{{ content }}
-		</div>					
-	</div>
-	
+<div class="course">
+	<div class="cont">
+			{{ content }}
+	</div>					
+</div>
+<div id="special-view">
     <div class="ui speshare grid" style="margin:0 0 10px;">
         <div class="row iswidth">
             <div class="eight wide column">
@@ -369,4 +369,5 @@ $('.specialshare').click(function(){
 	<div class="specialshare">
 		<img src="{{ app_url_packaged }}/images/fenxiang.png" width="100%">
 	</div>
+</div>
 {% endblock %}
