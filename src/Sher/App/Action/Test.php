@@ -132,7 +132,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 	 * Icon List
 	 */
 	public function flat() {		
-		return $this->to_html_page('page/flat.html');
+		return $this->to_html_page('wap/special_subject/list.html');
 	}
 	public function show() {		
 		return $this->to_html_page('wap/shop/show.html');
