@@ -189,9 +189,25 @@
 		left:0;
 		width:100%;
 		background:#fff;
+		z-index: 3;
+	    padding: 2px 0;
 	}
 	.specont i.icon{
 		color:#f36 !important;
+	}
+	.specont .loveicon,.specont .shareicon,.specont .commenticon{
+	    width: 60%;
+	    padding: 10px 0;
+	    margin: auto;
+	}
+	.specialshare{
+		position: fixed;
+	    width: 100%;
+	    height: 100%;
+	    z-index: 100;
+	    top: 0;
+	    display: none;
+	    background: rgba(0,0,0,.9);
 	}
 </style>
 {% endblock %}
@@ -267,8 +283,25 @@ if (ua.match(/MicroMessenger/i)=="micromessenger" || ua.match(/QQ/i) == "qq"){
 }
 
 //点击评论icon 滚动到评论
-$('.ui.commenting').click(function(){
+$('.commenticon').click(function(){
 	$('html,body').animate({scrollTop:$('#comment-box').offset().top - 100},500);
+});
+$('.loveicon').click(function(){
+	$('html,body').animate({scrollTop:$('.ui.speshare.grid').offset().top },500);
+});
+$('.shareicon').click(function(){
+	var ua = navigator.userAgent.toLowerCase();
+	if (ua.match(/MicroMessenger/i)=="micromessenger" || ua.match(/QQ/i) == "qq"){
+		$('.specialshare').css('display','block');
+	}else{
+		$('html,body').animate({scrollTop:$('.ui.speshare.grid').offset().top },500);
+	}
+});
+$('.specialshare').click(function(){
+	$(this).removeAttr();
+});
+
+
 });
 {% endblock %}
 {% block content %}
@@ -346,17 +379,27 @@ $('.ui.commenting').click(function(){
 	<!-- fixed -->
 	<div class="specont">
 		<div class="ui responsive grid">
-			<div class="ui center aligned row">
+			<div class="row pt-0 pb-0">
 				<div class="ui center aligned five wide column">
-					<i class="empty heart icon"></i> 12
+					<div class="loveicon">
+						<i class="empty heart icon"></i> 12
+					</div>
+				</div>
+				<div class="ui center aligned six wide column">
+					<div class="shareicon">
+						<i class="external share icon"></i>
+					</div>
 				</div>
 				<div class="ui center aligned five wide column">
-					<i class="external share icon"></i>
-				</div>
-				<div class="ui center aligned five wide column">
-					<i class="comment outline icon"></i>9
+					<div class="commenticon">
+						<i class="comment outline icon"></i>9
+					</div>
 				</div>
 			</div>
 		</div>
+	</div>
+	
+	<div class="specialshare">
+		<img src="{{ app_url_packaged }}/images/icon/appshareand.png" width="80%">
 	</div>
 {% endblock %}
