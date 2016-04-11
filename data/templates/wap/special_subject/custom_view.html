@@ -99,8 +99,8 @@
     }
 	
 	.ui.grid>.row.iswidth{
-	    margin-left: -10px;
-	    margin-right: -10px;
+	    margin-left: 10px;
+	    margin-right: 10px;
 	    width: auto!important;
 	}
 	.ui.grid>.row.iswidth:before {
@@ -198,6 +198,18 @@ function JavascriptHandler(data) {
 	}
 	return window.location.href = '{{ app_url_wap }}/shop/'+ parseInt(data)+'.html';
 }
+//ajax加载评论
+fetch_comment(1, per_page, 0);
+
+// 评论排序
+$('.fitsort .ui.list .item').bind('click', function(){
+    sort = parseInt($(this).data('sort'));
+    $(this)
+        .siblings().removeClass('active')
+        .end()
+        .addClass('active');
+    fetch_comment(1, per_page, sort);
+});
 // 喜欢
 $('.ui.support.button').bind('click', function(){
 	var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
