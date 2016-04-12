@@ -414,7 +414,7 @@ $('.specialshare').click(function(){
 			<div class="row pt-0 pb-0">
 				<div class="ui center aligned five wide column">
 					<div class="loveicon">
-						<i class="empty heart icon"></i> 12
+						<i class="empty heart icon"></i>{{ special_subject.love_count|default 0 }}
 					</div>
 				</div>
 				<div class="ui center aligned six wide column">
@@ -424,7 +424,7 @@ $('.specialshare').click(function(){
 				</div>
 				<div class="ui center aligned five wide column">
 					<div class="commenticon">
-						<i class="comment outline icon"></i>9
+						<i class="comment outline icon"></i>{{ special_subject.comment_count|default 0 }}
 					</div>
 				</div>
 			</div>
