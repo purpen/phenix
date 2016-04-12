@@ -107,6 +107,9 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
                 case 3:
                     $query['tags'] = array('$all'=>array($s_mark));
                     break;
+                case 4:
+                    $query['user_id'] = (int)$s_mark;
+                    break;
             }
         }
 		
