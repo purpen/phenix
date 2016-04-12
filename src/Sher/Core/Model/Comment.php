@@ -108,6 +108,9 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
         case 7:
           $target_model = new Sher_Core_Model_Albums();
           break;
+        case 9:
+          $target_model = new Sher_Core_Model_SpecialSubject();
+          break;
         default:
           $target_model = null;
       }

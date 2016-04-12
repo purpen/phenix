@@ -52,8 +52,22 @@ class Sher_Wap_Action_SpecialSubject extends Sher_Wap_Action_Base {
       return $this->show_message_page('访问的专题已禁用！', $redirect_url);
     }
 
+		// 增加pv++
+		$special_subject_model->inc_counter('view_count', 1, $id);
+
 		$special_subject = $special_subject_model->extended_model_row($special_subject);
 		$product_arr = array();
+
+		//评论参数
+		$comment_options = array(
+		  'comment_target_id' =>  $special_subject['_id'],
+		  'comment_target_user_id' => $special_subject['user_id'],
+		  'comment_type'  =>  9,
+		  //'comment_pager' =>  Sher_Core_Helper_Url::topic_view_url($id, '#p#'),
+		  //是否显示上传图片/链接
+		  'comment_show_rich' => 1,
+		);
+		$this->_comment_param($comment_options);
 		
 		if($special_subject['kind']==Sher_Core_Model_SpecialSubject::KIND_APPOINT){
 			if(!empty($special_subject['product_ids'])){
@@ -162,6 +176,26 @@ class Sher_Wap_Action_SpecialSubject extends Sher_Wap_Action_Base {
     $data['size'] = $size;
     
     return $this->ajax_json('success', false, '', $data);
+  }
+
+
+  /**
+   * 评论参数
+   */
+  protected function _comment_param($options){
+        $this->stash['comment_target_id'] = $options['comment_target_id'];
+        $this->stash['comment_target_user_id'] = $options['comment_target_user_id'];
+        $this->stash['comment_type'] = $options['comment_type'];
+		// 评论的链接URL
+		$this->stash['pager_url'] = isset($options['comment_pager'])?$options['comment_pager']:0;
+
+        // 是否显示图文并茂
+        $this->stash['comment_show_rich'] = isset($options['comment_show_rich'])?$options['comment_show_rich']:0;
+		// 评论图片上传参数
+		$this->stash['comment_token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
+		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
+		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
   }
 	
 }
