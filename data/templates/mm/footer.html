@@ -1,5 +1,38 @@
-<footer class="mmfoot">
-	<div class="ui responsive grid">
+<footer id="mmfoot">
+	<div class="ui responsive rg pt grid">
+		<div class="row">
+			<div class="ui center aligned column">
+				<div class="ui link list">
+                    <div class="cte item">
+                        <a class="circular ui big icon red button" href="http://weibo.com/taihuoniao" title="新浪微博" target="_blank" rel="nofollow">
+                            <i class="icon weibo"></i>
+                        </a>
+                
+                        <a class="circular ui big icon blue button" href="http://e.t.qq.com/taihuoniao" title="腾讯微博" target="_blank" rel="nofollow">
+                            <i class="icon qq"></i>
+                        </a>
+                
+                        <a class="circular ui big icon green wechat button" href="http://www.taihuoniao.com" title="微信" target="_blank" rel="nofollow">
+                            <i class="icon wechat"></i>
+                        </a>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="ui responsive rg grid">
+		<div class="row">
+			<div class="ui center aligned column">
+				<p class="copyright"> © 2014 - 2016 Taihuoniao.com  <br>
+					太火鸟 <a href="http://www.miitbeian.gov.cn" class="ui gray link" target="_blank" rel="nofollow">【京ICP备14025430号】</a><br>
+					经营许可证:【京ICP证150139号】</p>
+		
+			</div>
+		</div>
+	</div>
+	
+	<!--<div class="ui responsive grid">
 		<div class="two column bot row">
 			<div class="column" style="width:49% !important;height: 21px;">
 				<div class="ui horizontal divided list">
@@ -37,7 +70,6 @@
 						<i class="mobile icon"></i>切换到手机版
 					</a>
 					{% endif %}
-					<!--<div class="ui item gray link">客户端</div>-->
 				</div>
 			</div>
 		</div>
@@ -46,5 +78,21 @@
 				<span class="ui gray text">©m.taihuoniao.com</span>
 			</div>
 		</div>
-	</div>
+	</div>-->
 </footer>
+<div class="ui small wechat modal mmfootewm">
+  	<i class="close icon"></i>
+	<div class="actions">
+		<h3 class="ui center aligned header">太火鸟官方微信二维码</h3>
+	</div>
+  	<div class="content">
+		<div class="ui center aligned grid">
+			<div class="row">
+				<div class="column">
+					<p></p>
+					<img src="{{ app_url_packaged }}/images/wx-frbird.jpg" alt="太火鸟-中国最火爆的智能硬件孵化平台"/>
+				</div>
+			</div>
+		</div>
+  	</div>
+</div>
