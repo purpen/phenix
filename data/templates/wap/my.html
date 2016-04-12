@@ -127,9 +127,10 @@
 		<div class="mymessg">
 			<h3 class="ui header">{{ visitor.nickname }}</h3>
 			<p>
-				城市：北京<br>
-				等级：鸟下士<br>
-				鸟币：10<br>
+				城市：{{ user.city }} {{ user.profile.job }}<br>
+				等级：{{ user.ext_state.user_rank.title|default '鸟列兵' }} Lv {{ user.ext_state.rank_id|default 1 }} &nbsp;&nbsp;
+				经验值：{{ user.ext_state.rank_point|default 0 }} <br>
+				鸟币：{{ current_point.balance.money|default 0 }}<br>
 			</p>
 		</div>
 		<div href="" class="editzl">
@@ -142,25 +143,25 @@
 			<li class="childcell">
 				<a class="menuicon" href="">
 					我的话题<br />
-					2000
+					{{ user.topic_count|default 0 }}
 				</a>
 			</li>
 			<li class="childcell">
 				<a class="menuicon" href="">
 					产品<br />
-					2000
+					{{ user.product_count|default 0 }}
 				</a>
 			</li>
 			<li class="childcell">
 				<a class="menuicon" href="">
 					我关注的<br />
-					2000
+					{{ user.follow_count|default 0 }}
 				</a>
 			</li>
 			<li class="childcell">
 				<a class="menuicon" href="">
 					我的粉丝<br />
-					2000
+					{{ user.fans_count|default 0 }}
 				</a>
 			</li>
 		

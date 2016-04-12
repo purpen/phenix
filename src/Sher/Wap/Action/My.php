@@ -45,6 +45,21 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		return $this->to_html_page("wap/my/account.html");
 	}
 	
+	public function photo(){
+		$this->stash['profile'] = $this->visitor->profile;
+
+		return $this->to_html_page("page/photo.html");
+	}
+	
+	/**
+	 * 编辑个人资料
+	 */
+    public function profile() {
+
+		
+        return $this->to_html_page('wap/my/profile.html');
+    }
+	
 	/**
 	 * 收货地址管理
 	 */
@@ -59,7 +74,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		
 		$this->stash['plat'] = 'mobile';
 		
-		return $this->to_html_page("wap/shipping.html");
+		return $this->to_html_page("wap/my/shipping.html");
 	}
 	
 	/**
@@ -90,7 +105,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		
 		$this->stash['my'] = true;
 		
-		return $this->to_html_page("wap/orders.html");
+		return $this->to_html_page("wap/my/orders.html");
 	}
 	
 	/**
@@ -111,7 +126,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		
 		$this->stash['order_info'] = $order_info;
 		
-		return $this->to_html_page("wap/order_view.html");
+		return $this->to_html_page("wap/my/order_view.html");
 	}
 	
 	/**
@@ -119,7 +134,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	 */
 	public function favorite(){
 		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.wap'].'/my/favorite?page=#p#';
-		return $this->to_html_page("wap/favorite.html");
+		return $this->to_html_page("wap/my/favorite.html");
 	}
 	
 	/**
@@ -214,7 +229,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	public function bonus(){
 		$this->set_target_css_state('user_bonus');
 		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/bonus?page=#p#';
-		return $this->to_html_page("wap/bonus.html");
+		return $this->to_html_page("wap/my/bonus.html");
 	}
 	
 	/**
@@ -323,7 +338,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	 */
 	public function service(){
 		$this->set_target_css_state('user_service');
-		return $this->to_html_page('wap/service.html');
+		return $this->to_html_page('wap/my/service.html');
 	}
 	
 	/**
