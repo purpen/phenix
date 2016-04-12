@@ -28,7 +28,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','index','shop','presale','view','cart','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list','serve');
+	protected $exclude_method_list = array('execute','index','shop','presale','view','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list','serve');
 	
 	/**
 	 * 商城入口
@@ -247,9 +247,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	public function cart() {
 
 		$user_id = $this->visitor->id;
-    if(empty($user_id)){
-      return $this->api_json('请先登录！', 3000); 
-    }
+
     $cart_model = new Sher_Core_Model_Cart();
     $cart = $cart_model->load($user_id);
     if(empty($cart) || empty($cart['items'])){
