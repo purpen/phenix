@@ -34,7 +34,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			'_id'=>1, 'title'=>1, 'user_id'=>1, 'des'=>1, 'sight'=>1, 'tags'=>1,
 			'location'=>1, 'address'=>1, 'cover_id'=>1,'used_count'=>1,
 			'view_count'=>1, 'subscription_count'=>1, 'love_count'=>1,
-			'comment_count'=>1, 'is_check'=>1, 'status'=>1,
+			'comment_count'=>1, 'is_check'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
 		);
 		
 		$query   = array();
@@ -102,11 +102,12 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
-			// 备用
+			$result['rows'][$k]['covers'] = Sher_Core_Helper_Util::rebuild_cover($result['rows'][$k]['cover']);
+			unset($result['rows'][$k]['cover']);
 		}
 		
 		// 过滤多余属性
-        $filter_fields  = array('view_url', 'sight', 'user', 'summary', '__extend__');
+        $filter_fields  = array('cover_id','view_url', 'user', 'summary', '__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
 		//var_dump($result['rows']);die;

@@ -34,7 +34,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			'_id'=>1, 'user_id'=>1, 'title'=>1, 'des'=>1, 'scene_id'=>1, 'tags'=>1,
 			'product' => 1, 'location'=>1, 'address'=>1, 'cover_id'=>1,
 			'used_count'=>1, 'view_count'=>1, 'love_count'=>1, 'comment_count'=>1,
-			'fine' => 1, 'is_check'=>1, 'status'=>1,
+			'fine' => 1, 'is_check'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
 		);
 		
 		$query   = array();
@@ -49,7 +49,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         $lng = isset($this->stash['lng']) ? $this->stash['lng'] : 0; // 经度
         $lat = isset($this->stash['lat']) ? $this->stash['lat'] : 0; // 纬度
 		
-		// 必须添加索引 db.scene_scene.ensureIndex({location: "2dsphere"})
+		// 必须添加索引 db.scene_sight.ensureIndex({location: "2dsphere"})
 		
 		# 按照半径搜索: 搜索半径内的所有的点,按照由近到远排序
         if (!empty($lat) && !empty($lng)) {
@@ -102,14 +102,15 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
-			// 备用
+			$result['rows'][$k]['covers'] = Sher_Core_Helper_Util::rebuild_cover($result['rows'][$k]['cover']);
+			unset($result['rows'][$k]['cover']);
 		}
 		
 		// 过滤多余属性
-        $filter_fields  = array('__extend__');
+        $filter_fields  = array('cover_id','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
-		//var_dump($query);die;
+		//var_dump($result['rows']);die;
 		return $this->api_json('请求成功', 0, $result);
 	}
 	
@@ -122,6 +123,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$user_id = $this->current_user_id;
+		$user_id = 10;
 		
 		$data = array();
 		$data['title'] = isset($this->stash['title']) ? $this->stash['title'] : '';
@@ -226,7 +228,18 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			//var_dump($id);die;
 			if(isset($data['cover_id']) && !empty($data['cover_id'])){
 				$model->update_batch_assets($data['cover_id'], $id);
-			}		
+			}
+			
+			// 将场景保存到所属情景里面
+			$model = new Sher_Core_Model_SceneScene();
+			$result = $model->first($data['scene_id']);
+			if($result){
+				$option = array();
+				$option['_id'] = $data['scene_id'];
+				$option['sight'] = $result['sight'];
+				array_push($option['sight'],$id);
+				$result = $model->apply_and_update($option);
+			}
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("api情景保存失败：".$e->getMessage());
 			return $this->api_json('情景保存失败:'.$e->getMessage(), 4001);
