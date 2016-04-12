@@ -239,17 +239,22 @@ $('.specialshare').click(function(){
 	$(this).removeAttr('style');
 });
 
+$('.buy_now').click(function(){
+  var url = $(this).attr('wap_view_url');
+  return window.location.href=url;
+});
+
 {% endblock %}
 {% block content %}
 <div id="special-view">
-	<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1" width="100%" align="absmiddle">
+  <img src="{{ special_subject.cover.thumbnails.aub.view_url }}" width="100%" align="absmiddle">
 	<div class="ui responsive speview grid">
 		<div class="row">
 			<div class="column">
 				<h4 class="ui title header">
-					航拍解放双手无人机开启上帝视角
+          {{ special_subject.title }}
 					<div class="sub header">
-						我们保证按照48小时内按时发货的原则。周六日和节假日顺延到下个工作日发货，默认申通快递。
+            {{ special_subject.summary }}
 					</div>
 				</h4>
 			</div>
@@ -259,38 +264,16 @@ $('.specialshare').click(function(){
 			<div class="column">
 				<div class="recommend-topic">
 					<div class="recom-item">
+
+            {% for d in products %}
 						<div class="recom-cell one">
-							<a href="">
-								<h3 class="ui header">航拍解放双手无人机开启上帝视角</h3>
-								<img class="lazy" data-original="http://frbird.qiniudn.com/asset/160411/570b09b3fc8b12b55f8b4bcd-1" src="{{ app_url_packaged }}/images/icon/load750-422.png" title="qweqw">
+              <a href="{{ d.wap_view_url }}">
+                <h3 class="ui header">{{ d.title }}</h3>
+                <img class="lazy" data-original="{{ d.cover_url }}" src="{{ app_url_packaged }}/images/icon/load750-422.png" title="qweqw">
 								<div class="desc">
-									<span class="price"> ¥ 1200</span><br/>
-									<span class="like">1人喜欢</span>
-									<div class="ui magenta inverted active button">立即购买</div>
-								</div>
-							</a>
-						</div>
-						
-						<div class="recom-cell one">
-							<a href="">
-								<h3 class="ui header">航拍解放双手无人机开启上帝视角</h3>
-								<img class="lazy" data-original="http://frbird.qiniudn.com/asset/160411/570b06bdfc8b122e608b4b98-1" src="{{ app_url_packaged }}/images/icon/load750-422.png" title="qweqw">
-								<div class="desc">
-									<span class="price"> ¥ 1200</span><br/>
-									<span class="like">1人喜欢</span>
-									<div class="ui magenta inverted active button">立即购买</div>
-								</div>
-							</a>
-						</div>
-						
-						<div class="recom-cell one">
-							<a href="">
-								<h3 class="ui header">航拍解放双手无人机开启上帝视角</h3>
-								<img class="lazy" data-original="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1" src="{{ app_url_packaged }}/images/icon/load750-422.png" title="qweqw">
-								<div class="desc">
-									<span class="price"> ¥ 1200</span><br/>
-									<span class="like">1人喜欢</span>
-									<div class="ui magenta inverted active button">立即购买</div>
+                  <span class="price"> ¥ {{ d.sale_price }}</span><br/>
+                  <span class="like">{{ d.love_count }}人喜欢</span>
+									<div class="ui magenta inverted active button buy_now" wap_view_url="{{ d.wap_view_url }}">立即购买</div>
 								</div>
 							</a>
 						</div>

@@ -85,7 +85,7 @@
 
     // 专题加载
     function ajax_load_more(category_id, sort, page, size){
-        var url = '{{ app_url_domain }}/app/wap/special_subject/ajax_load_list';
+        var url = '{{ app_url_wap }}/special_subject/ajax_load_list';
         $.get(url, { category_id:category_id, sort:sort, page:page, size:size }, function(rs){
             if(rs.data.results.total_page >= rs.data.results.current_page){
                 $('#subject-more')
@@ -100,10 +100,9 @@
             }else{
               $('#subject-box').append(rendered);
             }
-            new Swiper('.tslide',{
-              freeMode : true,
-              slidesPerView : 'auto',
-            });
+          $("img.lazy").lazyload({
+             effect : "show"
+          });
         }, 'json');
     }
   </script>
