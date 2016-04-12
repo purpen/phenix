@@ -39,6 +39,58 @@
 		    background: rgba(120,120,120,0.4);
 		    display: inline-block;
 		}
+		.mmfoot .ui.list .cte.item .ui.button {
+		    margin: 0 .5em;
+		    border: 1px solid rgba(112,123,135,.5);
+		    background: 0 0;
+		    color: rgba(112,123,135,.5);
+			font-size: 1.1rem;
+		}
+		.mmfoot .ui.list .cte.item .ui.button.red:hover {
+		    background-color: #d01919;
+		    color: #fff;
+		    border: 1px solid #d01919
+		}
+
+		.mmfoot .ui.list .cte.item .ui.button.blue:hover {
+		    background-color: #2185d0;
+		    color: #fff;
+		    border: 1px solid #2185d0
+		}
+
+		.mmfoot .ui.list .cte.item .ui.button.green:hover {
+		    background-color: #21ba45;
+		    color: #fff;
+		    border: 1px solid #21ba45
+		}
+
+		.mmfoot .ui.list .cte.item .ui.button>i.icon {
+		    line-height: 1em;
+		    font-size: 1em
+		}
+		 .ui.small.wechat.mmfootewm.modal{
+			width:100% !important;
+			height:100% !important;
+			top:0;
+			left:0;
+			border-radius:0;
+			margin:0 !important;
+			padding-top:20%;
+		}
+		.ui.small.wechat.mmfootewm.modal .actions{
+		    border-top: none;
+		    background: rgba(0,0,0,0);
+		}
+		.mmfoot .ui.rg.grid {
+		    border-top: 1px solid #e4e5e7;
+		    margin: 0.8rem 10px;
+		}
+		.mmfoot .copyright {
+		    font-size: 12px;
+		    line-height: 1.6;
+		    padding-top: .5rem;
+		    color: rgba(146,147,163,.9);
+		}
 		  /*#scrollUp{
 		    right: 10px;
         bottom: 20px;
@@ -133,6 +185,14 @@
 			phenix.visitor = {{ visitor_json }};
 			
     		phenix.initial();
+			
+			
+		    var ua = navigator.userAgent.toLowerCase();  
+		    if(ua.match(/MicroMessenger/i)=="micromessenger"){
+				$('.ui.small.wechat.mmfootewm.modal p').html('保存图片，打开微信扫描二维码，关注太火鸟公众号');
+			}else{
+				$('.ui.small.wechat.mmfootewm.modal p').html('保存图片，打开微信扫描二维码，关注太火鸟公众号');
+			}
 			
 				//ajax加载签到数据
 	     /* if (phenix.visitor.is_login){
