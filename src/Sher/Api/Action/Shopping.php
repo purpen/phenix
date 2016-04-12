@@ -116,7 +116,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
           return $this->api_json(sprintf("编号为%d的商品不存在！", $target_id), 3003); 
         }
         if($inventory['quantity']<$n){
-          return $this->api_json(sprintf("%s 库存不足，请重新下单！", $inventory['name']), 3004);        
+          return $this->api_json(sprintf("%s 库存不足，请重新下单！", $inventory['mode']), 3004);        
         }
 
         $product_id = $inventory['product_id'];
@@ -248,6 +248,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$type = isset($this->stash['type'])?(int)$this->stash['type']:0;
 		$quantity = isset($this->stash['n'])?(int)$this->stash['n']:1;
     $result = array();
+    $is_app_snatched = false;
+    $usable_bonus = array();
+    // 促销类型: 3.app闪购
+    $kind = 0;
 		// 验证数据
 		if (empty($target_id) || empty($type)){
       return $this->api_json('操作异常，请重试！', 3000);
@@ -257,15 +261,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		// 验证用户
 		if (empty($user_id)){
       return $this->api_json('请先登录！', 3001);
-		}
-		
-		// 验证是否预约过抢购商品
-		if(!$this->validate_appoint($target_id)){
-      return $this->api_json('抱歉，您还没有预约，不能参加本次抢购！', 3002);
-		}
-		// 验证抢购商品是否重复
-		if(!$this->validate_snatch($target_id)){
-      return $this->api_json('不要重复抢哦', 3003);
 		}
 		
 		// 验证库存数量
@@ -291,6 +286,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       return $this->api_json('挑选的产品不存在或被删除，请核对！', 3005);
     }
 
+    if(!$product_data['published']){
+      return $this->api_json('该产品还未发布！', 3011);   
+    }
+
     //试用产品，不可购买
     if($product_data['is_try']){
       return $this->api_json('试用产品，不可购买！', 3010);
@@ -300,9 +299,34 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$price = !empty($item) ? $item['price'] : $product_data['sale_price'];
 		// sku属性
 		$sku_name = !empty($item) ? $item['mode'] : null;
-		
+
+    // 是否是抢购产品且正在抢购中
+    $app_snatched_stat = $product->app_snatched_stat($product_data);
+    if($app_snatched_stat==2){
+
+      if(!$this->validate_snatch($product_id)){
+        return $this->api_json('不能重复抢购！', 3013);     
+      }
+
+      $app_snatched_limit_count = $data['app_snatched_limit_count'];
+      if($quantity>$app_snatched_limit_count){
+        return $this->api_json("闪购产品，只能购买 $app_snatched_limit_count 件！", 3012);       
+      }
+      if($product_data['app_snatched_count']<=0){
+        return $this->api_json("已抢完！", 3013);      
+      } 
+
+      // 闪购价
+      $price = $product_data['app_snatched_price'];
+      // 正在闪购状态
+      $is_app_snatched = true;
+      $kind = 3;
+
+    }
+
 		$items = array(
 			array(
+        'target_id' => $target_id,
 				'sku'  => $target_id,
 				'product_id' => $product_id,
         'type' => $type,
@@ -314,20 +338,23 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 				'cover' => $product_data['cover']['thumbnails']['mini']['view_url'],
 				'view_url' => $product_data['view_url'],
 				'subtotal' => (float)$price*$quantity,
+        'kind' => $kind,
 			),
 		);
 		$total_money = (float)$price*$quantity;
 		$items_count = 1;
 
-		$order_info = $this->create_temp_order($items, $total_money, $items_count);
+		$order_info = $this->create_temp_order($items, $total_money, $items_count, $kind);
 		if (empty($order_info)){
       return $this->api_json('系统出了小差，请稍后重试！', 3006);
 		}
 
-    // 加载可用红包
-    $bonus_service = Sher_Core_Service_Bonus::instance();
-    $bonus_result = $bonus_service->get_all_list(array('user_id'=>$user_id, 'used'=>1, 'expired_at'=>array('$gt'=>time())), array('page'=>1, 'size'=>20));
-    $usable_bonus = !empty($bonus_result['rows']) ? $bonus_result['rows'] : array();
+    if(!$is_app_snatched){
+      // 加载可用红包
+      $bonus_service = Sher_Core_Service_Bonus::instance();
+      $bonus_result = $bonus_service->get_all_list(array('user_id'=>$user_id, 'used'=>1, 'expired_at'=>array('$gt'=>time())), array('page'=>1, 'size'=>20));
+      $usable_bonus = !empty($bonus_result['rows']) ? $bonus_result['rows'] : array();   
+    }
 		
 		// 获取快递费用
 		$freight = Sher_Core_Util_Shopping::getFees();
@@ -358,7 +385,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		}
 		if(empty($this->stash['addbook_id'])){
       return $this->api_json('请选择收货地址！', 3001);
-		}
+    }
+
+    // 抢购商品ID
+    $app_snatched_product_id = 0;
 
 		// 订单用户
 		$user_id = $this->current_user_id;
@@ -390,13 +420,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       return $this->api_json('地址不存在！', 3002);
     }
 
-		Doggy_Log_Helper::debug("Submit Order [$rrid]！");
-		// 是否预售订单
-		//$is_presaled = isset($this->stash['is_presaled']) ? (int)$this->stash['is_presaled'] : 0;
-		
-		// 是否立即购买订单
-		//$is_nowbuy = isset($this->stash['is_nowbuy']) ? (int)$this->stash['is_nowbuy'] : 0;
-		
+		Doggy_Log_Helper::debug("Submit app Order [$rrid]！");
 		
 		// 调用临时订单
 		$model = new Sher_Core_Model_OrderTemp();
@@ -414,7 +438,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		// 获取购物金额
 		$total_money = $order_info['total_money'];
 
-		
+    // 是否是活动商品
+    $order_info['kind'] = $result['kind'];
+
 		// 获取提交数据, 覆盖默认数据
 		$order_info['payment_method'] = $payment_method;
 		$order_info['transfer'] = $transfer;
@@ -429,7 +455,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			}
 		}
 		
-		$order_info['is_presaled'] = $is_presaled;
+		$order_info['is_presaled'] = 0;
 		
 		// 获取快递费用
 		$freight = Sher_Core_Util_Shopping::getFees();
@@ -442,22 +468,26 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     // 是否使用红包/礼品券
     $bonus_code = isset($this->stash['bonus_code']) ? $this->stash['bonus_code'] : null;
     $gift_code = isset($this->stash['gift_code']) ? $this->stash['gift_code'] : null;
-    if($bonus_code && $gift_code){
-      return $this->api_json('红包和礼品券不能同时使用！', 3005);   
-    }
-    if(!empty($bonus_code)){  // 红包
-      //验证红包是否有效
-      $bonus_result = Sher_Core_Util_Shopping::check_bonus($rrid, $bonus_code, $user_id, $result);
-      if($bonus_result['code']){
-        return $this->api_json($bonus_result['msg'], $bonus_result['code']);     
-      }else{
-        $card_money = $order_info['card_code'] = $bonus_code;
-        $card_money = $order_info['card_money'] = $bonus_result['coin_money'];
+
+    // 活动商品不允许使用红包或礼品券
+    if($kind==3){
+      if($bonus_code && $gift_code){
+        return $this->api_json('红包和礼品券不能同时使用！', 3005);   
       }
-    }elseif(!empty($gift_code)){  // 礼品券
-    
-    }
-		
+      if(!empty($bonus_code)){  // 红包
+        //验证红包是否有效
+        $bonus_result = Sher_Core_Util_Shopping::check_bonus($rrid, $bonus_code, $user_id, $result);
+        if($bonus_result['code']){
+          return $this->api_json($bonus_result['msg'], $bonus_result['code']);     
+        }else{
+          $card_money = $order_info['card_code'] = $bonus_code;
+          $card_money = $order_info['card_money'] = $bonus_result['coin_money'];
+        }
+      }elseif(!empty($gift_code)){  // 礼品券
+      
+      }   
+    } // endif kind
+
 		try{
 			$orders = new Sher_Core_Model_Orders();
 			
@@ -478,59 +508,73 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			// 应付金额
 			$pay_money = $total_money + $freight - $coin_money - $card_money;
 			// 支付金额不能为负数
-			if($pay_money < 0){
-				$pay_money = 0.0;
+			if($pay_money <= 0){
+        return $this->api_json('订单价格不能为0！', 3020); 
 			}
 			$order_info['pay_money'] = $pay_money;
 			
 			// 设置订单状态
 			$order_info['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
 
-      $is_snatched = false;
-      //抢购产品状态，跳过付款状态
-      if( is_array($order_info['items']) && count($order_info['items'])==1 && isset($order_info['items'][0]['product_id'])){
+      $is_app_snatched = false;
 
-        if((float)$order_info['items'][0]['sale_price']==0){
-          //配置文件没有配置价格为0的产品，返回错误
-          if(Doggy_Config::$vars['app.comeon.product_id'] != $order_info['items'][0]['product_id']){
-            return $this->api_json('不允许的操作！', 3005);
-          }
+      $inventory_model = new Sher_Core_Model_Inventory();
+      $product_model = new Sher_Core_Model_Product();
 
-          // 获取产品信息
-          $product = new Sher_Core_Model_Product();
-          $product_data = $product->load((int)$order_info['items'][0]['product_id']);
-          if(empty($product_data)){
-            return $this->api_json('抢购产品不存在！', 3006);
-          }
-
-          //是否是抢购商品
-          if($product_data['snatched'] != 1){
-            return $this->api_json('非抢抢购产品！', 3007);
-          }
-
-          //在抢购时间内
-          if(empty($product_data['snatched_time']) || (int)$product_data['snatched_time'] > time()){
-            return $this->api_json('抢购还没有开始！', 3008);
-          }
-
-          // 验证是否预约过抢购商品
-          if(!$this->validate_appoint($product_data['_id'])){
-            //return $this->api_json('抱歉，您还没有预约，不能参加本次抢购！', 3009);
-          }
-          // 验证抢购商品是否重复
-          if(!$this->validate_snatch($product_data['_id'])){
-            return $this->api_json('抱歉，不要重复抢哦！', 3010);
-          }
-
-          $is_snatched = true;
-          // 设置订单状态为备货
-          $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
-          $order_info['is_payed'] = 1;
-
+      // 再次验证产品
+      foreach($order_info['items'] as $k=>$v){
+        $target_id = isset($v['target_id']) ? $v['target_id'] : 0;
+        $type = isset($v['type']) ? $v['type'] : 0;
+        $n = $v['quantity'];
+        if(empty($target_id) || empty($type)){
+          continue;
         }
-        
-      }
-			
+        // 验证是商品还是sku
+        if($type==2){
+          $inventory = $inventory_model->load($target_id);
+          if(empty($inventory)){
+            return $this->api_json(sprintf("编号为%d的商品不存在！", $target_id), 3021); 
+          }
+          if($inventory['quantity']<$n){
+            return $this->api_json(sprintf("%s 库存不足，请重新下单！", $inventory['name']), 3022);        
+          }
+          $product_id = $inventory['product_id'];
+          $sku_mode = $inventory['mode'];
+          $price = (float)$inventory['price'];
+          $total_price = $price*$n;
+          $sku_id = $target_id;
+          
+        }elseif($type==1){
+          $sku_id = $target_id;
+          $product_id = $target_id;
+        }else{
+          continue;
+        }
+
+        $product = $product_model->load($product_id);
+        if(empty($product)){
+          return $this->api_json(sprintf("编号为%d的商品不存在！", $target_id), 3023);
+        }
+        if($product['stage'] != 9){
+          return $this->api_json(sprintf("商品:%s 不可销售！", $product['title']), 3024);
+        }
+        if($product['inventory'] < $n){
+          return $this->api_json(sprintf("商品:%s 库存不足！", $product['title']), 3025);
+        }
+
+        //是否是抢购商品
+        if($kind==3){
+          //在抢购时间内
+          $app_snatched_stat = $product_model->app_snatched_stat($product);
+          if($app_snatched_stat != 2){
+            return $this->api_json('活动已结束！', 3008);
+          }
+          $is_app_snatched = true;
+          $app_snatched_product_id = $product['_id'];
+        }
+
+      } //endfor
+
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
 			if (!$ok) {
@@ -543,10 +587,12 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			
 			$rid = $data['rid'];
 			
-			Doggy_Log_Helper::debug("Save Order [ $rid ] is OK!");
+			Doggy_Log_Helper::debug("Save app Order [ $rid ] is OK!");
 			
-			// 设置缓存限制
-			$this->check_have_snatch($order_info['items']);
+			// 如果是闪购，设置当天缓存，防止重复抢购
+      if($kind==3){
+			  $this->check_have_app_snatch($app_snatched_product_id);
+      }
 
       // 删除购物车
       if(isset($result['is_cart']) && !empty($result['is_cart'])){
@@ -579,25 +625,24 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			// 发送下订单成功通知
 			
 		}catch(Sher_Core_Model_Exception $e){
-			Doggy_Log_Helper::warn("confirm order failed: ".$e->getMessage());
+			Doggy_Log_Helper::warn("confirm app order failed: ".$e->getMessage());
         return $this->api_json('订单处理异常，请重试！', 3011);
     }catch(Exception $e){
- 			Doggy_Log_Helper::warn("confirm again order failed: ".$e->getMessage());
+ 			Doggy_Log_Helper::warn("confirm app again order failed: ".$e->getMessage());
       return $this->api_json('不能重复下订单！', 3012); 
     }
 
     $result = $data;
-    if($is_snatched){
+    if($is_app_snatched){
       //如果是抢购，无需支付，跳到我的订单页
       $result['is_snatched'] = 1;
-      $msg = '抢购成功!';
+      $msg = '抢购成功,请在15分钟下单!';
     }else{
       $result['is_snatched'] = 0;
       $msg = '下单成功!';
     }
 		
 		return $this->api_json($msg, 0, $result);
-		
 	}
 	
 	/**
@@ -1157,14 +1202,14 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	/**
 	 * 生产临时订单
 	 */
-	protected function create_temp_order($items=array(),$total_money,$items_count){
+	protected function create_temp_order($items=array(),$total_money,$items_count,$kind=0){
 		$data = array();
 		$data['items'] = $items;
 		$data['total_money'] = $total_money;
 		$data['items_count'] = $items_count;
 	
 		// 检测是否已设置默认地址
-		$addbook = $this->get_default_addbook($this->visitor->id);
+		$addbook = $this->get_default_addbook($this->current_user_id);
 		if (!empty($addbook)){
 			$data['addbook_id'] = (string)$addbook['_id'];
 		}
@@ -1207,7 +1252,13 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$new_data['dict'] = array_merge($default_data, $data);
 		
 		$new_data['user_id'] = $this->current_user_id;
-		$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
+    // 如果是闪购，过期时间仅为15分钟
+    if($kind==3){
+		  $new_data['expired'] = time() + Sher_Core_Util_Constant::APP_SNATCHED_EXPIRE_TIME;
+    }else{
+		  $new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
+    }
+    $new_data['kind'] = $kind;
 		
 		try{
 			$order_info = array();
@@ -1258,15 +1309,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	/**
 	 * 验证限量抢购
 	 */
-	protected function validate_snatch($sku){
-		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
-		if($sku != $product_id){
-			return true;
-		}
-		
+	protected function validate_snatch($product_id){
 		// 设置已抢购标识
-		$cache_key = sprintf('snatch_%d_%d_%d', $product_id, $this->visitor->id, date('Ymd'));
-		Doggy_Log_Helper::warn('Validate snatch log key: '.$cache_key);
+		$cache_key = sprintf('app_snatch_%d_%d_%d', $product_id, $this->current_user_id, date('Ymd'));
+		Doggy_Log_Helper::warn('Validate app_snatch log key: '.$cache_key);
 		
 		$redis = new Sher_Core_Cache_Redis();
 		$buyed = $redis->get($cache_key);
@@ -1320,18 +1366,12 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	/**
 	 * 检查订单里是否存在抢购商品
 	 */
-	protected function check_have_snatch($items){
-		$product_id = Doggy_Config::$vars['app.comeon.product_id'];
-		
-		for($i=0;$i<count($items);$i++){
-			if($items[$i]['product_id'] == $product_id){
-				$cache_key = sprintf('snatch_%d_%d_%d', $product_id, $this->current_user_id, date('Ymd'));
-				Doggy_Log_Helper::warn('Validate snatch log key: '.$cache_key);
-				// 设置缓存
-				$redis = new Sher_Core_Cache_Redis();
-        $redis->set($cache_key, 1, 3600);
-      }
-    }
+	protected function check_have_app_snatch($product_id){
+    $cache_key = sprintf('app_snatch_%d_%d_%d', $product_id, $this->current_user_id, date('Ymd'));
+    Doggy_Log_Helper::warn('Validate app_snatch log key: '.$cache_key);
+    // 设置缓存
+    $redis = new Sher_Core_Cache_Redis();
+    $redis->set($cache_key, 1, 3600*24);
   }
 
 	/**
@@ -1550,7 +1590,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         }
         $product_id = $inventory['product_id'];
         $data['sku_mode'] = $inventory['mode'];
-        $data['sku_name'] = $inventory['sku_name'];
+        $data['sku_name'] = $inventory['mode'];
         $data['price'] = $inventory['price'];
         $data['total_price'] = $data['price']*$n;
         

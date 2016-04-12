@@ -125,6 +125,7 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
 	 */
 	public function ajax_fetch_tags() {
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 2;
 		if(empty($id)){
       return $this->ajax_json('缺少请参数!', true);
 		}
@@ -141,7 +142,7 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
 
     $scene_tags_model = new Sher_Core_Model_SceneTags();
     $query = array(
-      'type' => 1,
+      'type' => $type,
       'parent_id' => $category['tag_id'],
       'status' => Sher_Core_Model_SceneTags::STATE_OK,
     );

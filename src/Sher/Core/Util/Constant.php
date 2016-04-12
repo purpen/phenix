@@ -101,6 +101,9 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	
 	# 临时订单过期时间， 10小时
 	const EXPIRE_TIME = 36000;
+
+  # app闪购过期时间，15分钟
+  const APP_SNATCHED_EXPIRE_TIME = 900;
 	
 	# 预售订单过期时间，15分钟
 	const PRESALE_EXPIRE_TIME = 900;
@@ -162,6 +165,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const DIG_THIRD_SITE_STAT = 'third_site_stat';
     # 签到抽奖统计
     const DIG_SIGN_DRAW_RECORD = 'sign_draw_record';
+    # 签到抽奖统计 APP
+    const DIG_SIGN_DRAW_APP_RECORD = 'sign_draw_app_record';
     # 兑吧统计浏览数
     const DIG_THIRD_DB_STAT = 'db_stat_view';
 

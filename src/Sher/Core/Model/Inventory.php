@@ -152,7 +152,7 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 	/**
 	 * 更新同步数量
 	 */
-	public function update_sync_count($sku, $sync_count=0, $sync_people=0){
+	public function update_sync_count($sku, $sync_count=0, $sync_people=0, $kind=1){
 		$add_money = 0;
 		$only = false;
 		$sku = (int)$sku;
@@ -183,7 +183,7 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 		
 		// 更新总库存数
 		$product = new Sher_Core_Model_Product();
-		$product->decrease_invertory($product_id, $sync_count, $only, $add_money, $sync_people);
+		$product->decrease_invertory($product_id, $sync_count, $only, $add_money, $sync_people, $kind);
 		
 		unset($product);
 	}
@@ -191,7 +191,7 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 	/**
 	 * 减少库存数量
 	 */
-	public function decrease_invertory_quantity($sku, $need_quantity=1){
+	public function decrease_invertory_quantity($sku, $need_quantity=1, $kind=1){
 		$add_money = 0;
 		$only = false;
 		$item = $this->find_by_id((int)$sku);
@@ -213,7 +213,7 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 		
 		// 更新总库存数
 		$product = new Sher_Core_Model_Product();
-		$product->decrease_invertory($product_id, $need_quantity, $only, $add_money);
+		$product->decrease_invertory($product_id, $need_quantity, $only, $add_money, $kind);
 		
 		unset($product);
 	}
@@ -221,7 +221,7 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 	/**
 	 * 恢复库存数量
 	 */
-	public function recover_invertory_quantity($sku, $sale_quantity=1){
+	public function recover_invertory_quantity($sku, $sale_quantity=1, $kind=1){
 		$dec_money = 0;
 		$only = false;
 		$item = $this->find_by_id((int)$sku);
@@ -243,7 +243,7 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 		
 		// 更新总库存数
 		$product = new Sher_Core_Model_Product();
-		$product->recover_invertory($product_id, $sale_quantity, $only, $dec_money);
+		$product->recover_invertory($product_id, $sale_quantity, $only, $dec_money, $kind);
 		
 		unset($product);
 	}

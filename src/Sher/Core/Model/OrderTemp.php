@@ -16,6 +16,10 @@ class Sher_Core_Model_OrderTemp extends Sher_Core_Model_Base  {
 		'expired'  => 0,
     # 是否来自购物车
 		'is_cart' => 0,
+    # 是否是预售订单
+    'is_presaled' => 0,
+    # 是否是活动订单: 1.普通订单; 2.page抢购； 3.app闪购
+    'kind' => 1,
     );
 	
     protected $joins = array();

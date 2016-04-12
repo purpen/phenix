@@ -31,10 +31,6 @@
 		{% endif %}
 
 		<style type="text/css">
-		  /*#scrollUp{
-		    right: 10px;
-        bottom: 20px;
-  		}*/	
 		  body {
 			    background: #f5f5f5;
 			    color: #5d6266;
@@ -81,18 +77,13 @@
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
 	</head>
 	<body>
-		{% include "mm/header.html" %}
-		<section id="mfrbird">
-			{% block layout_promo %}{% endblock %}
-		    {% block layout_header %}{% endblock %}
-		    {% block layout_content %}
-		        {% block content %}{% endblock %}
-		    {% endblock %}
-			{% block layout_footer %}
-			{% endblock %}
-		</section>
-		{% include "mm/footer.html" %}
-
+		{% block layout_promo %}{% endblock %}
+	    {% block layout_header %}{% endblock %}
+	    {% block layout_content %}
+	        {% block content %}{% endblock %}
+	    {% endblock %}
+		{% block layout_footer %}
+		{% endblock %}
     	
 		<script type="text/javascript" src="{{ app_url_qiniu_frstatic }}/javascript/semantic.2.0.min.js"></script>
 		{% if js_use_bundle %}
@@ -125,28 +116,6 @@
 			phenix.visitor = {{ visitor_json }};
 			
     		phenix.initial();
-			
-				//ajax加载签到数据
-	     /* if (phenix.visitor.is_login){
-			  	$.get('{{ app_url_wap }}/my/ajax_wap_fetch_user_sign', {type:1});
-				}
-			  //每日签到点击
-			  $('#sign-in-btn').livequery(function(){
-			    $(this).click(function(){
-			      //ajax加载签到事件
-			      $.post('{{ app_url_wap }}/my/ajax_wap_sign_in', {type:1});
-
-			    });
-			  });*/
-
-        // ajax加载购物车数量
-        $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {type:1}, function(result){
-            if(result.success){
-              $('#wap_cart_num').show().text(result.data.count);
-            }else{
-               $('#wap_cart_num').hide().text('');             
-            }
-        }, 'json');
 			
     		{% block layout_jquery %}{% endblock %}
     		{% block jquery %}{% endblock %}

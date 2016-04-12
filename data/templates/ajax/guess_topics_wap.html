@@ -1,9 +1,29 @@
 <taconite>
 	<replace select="#topic_guess_wap_list"><![CDATA[
 		{% if result.total_rows %}
-
-					<div id="topic_guess_wap_list" style="padding:0 3%;">
-						<h3 class="ui header">相关话题</h3>
+				<div class="block title">相关话题</div>
+				<div id="topic_guess_wap_list">
+					<div class="ui topic_guess list">
+						{% for ft in result.rows %}
+						
+						<div class="item">
+							<a href="{{ ft.topic.wap_view_url }}"></a>
+							<img class="ui tiny image" {% if ft.topic.cover %} src="{{ ft.topic.cover.thumbnails.medium.view_url }}" {% else %} src="{{ app_url_packaged }}/images/icon/load373-298.png" {% endif %}>
+							<div class="content">
+								{{ ft.topic.title }}
+								<div class="sub header">
+									<i class="unhide icon"></i><span>{{ ft.topic.view_count }}</span><i class="comment outline icon"></i>{{ ft.topic.comment_count }}
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+						
+					</div>
+				</div>
+					
+					
+					
+					<!--<div id="topic_guess_wap_list">
 						<div class="ui socialstick stickcount products two cards">
 							                {% for ft in result.rows %}
 							<div class="card" style="margin-bottom:20px;">
@@ -21,7 +41,7 @@
 						{% endfor %}													
 															
 						</div>
-					</div>
+					</div>-->
 
 		{% endif %}
 	]]></replace>

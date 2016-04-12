@@ -175,7 +175,9 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 		# app 商品封面
 		'apc' => 'p500x500.jpg', // 500x500
 		# app 分类小图
-		'acs' => 'p325x200.jpg', // 325x200
+    'acs' => 'p325x200.jpg', // 325x200
+    # 除商品编辑器图片，带水印
+    'hdw' => 'hdw.jpg', // 1180x*
 	);
 
     protected $required_fields = array('filepath');

@@ -92,12 +92,15 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		
 		$some_fields = array(
       '_id'=>1, 'title'=>1, 'short_title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1,
-      'presale_people'=>1, 'tags'=>1, 'tags_s'=>1,
+      'presale_people'=>1, 'tags'=>1, 'tags_s'=>1, 'created_on'=>1, 'updated_on'=>1,
 			'presale_percent'=>1, 'cover_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
 			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
-			'snatched_time'=>1, 'inventory'=>1, 'can_saled'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
+			'snatched_time'=>1, 'inventory'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
       'presale_goals'=>1, 'stick'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1,
       'comment_star'=>1,'snatched_end_time'=>1, 'snatched_price'=>1, 'snatched_count'=>1,
+      // app抢购
+      'app_snatched'=>1, 'app_snatched_time'=>1, 'app_snatched_end_time'=>1, 'app_snatched_price'=>1,
+      'app_snatched_count'=>1, 'app_appoint_count'=>1,
 		);
 		
 		// 请求参数
@@ -157,8 +160,9 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		
 		$options['some_fields'] = $some_fields;
 		// 开启查询
-        $service = Sher_Core_Service_Product::instance();
-        $result = $service->get_product_list($query, $options);
+    $product_model = new Sher_Core_Model_Product();
+    $service = Sher_Core_Service_Product::instance();
+    $result = $service->get_product_list($query, $options);
 		
 		// 重建数据结果
 		$data = array();
@@ -174,10 +178,20 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         $data[$i]['small_avatar_url'] = $result['rows'][$i]['designer']['small_avatar_url'];     
       }
 
-            $data[$i]['content_view_url'] = sprintf('%s/view/product_show?id=%d', Doggy_Config::$vars['app.url.api'], $result['rows'][$i]['_id']);
-            // 保留2位小数
-            $data[$i]['sale_price'] = sprintf('%.2f', $result['rows'][$i]['sale_price']);
-		}
+      $data[$i]['content_view_url'] = sprintf('%s/view/product_show?id=%d', Doggy_Config::$vars['app.url.api'], $result['rows'][$i]['_id']);
+      // 保留2位小数
+      $data[$i]['sale_price'] = sprintf('%.2f', $result['rows'][$i]['sale_price']);
+      // 闪购标识
+      $data[$i]['is_app_snatched'] = $product_model->is_app_snatched($result['rows'][$i]);
+      if(isset($data[$i]['app_snatched_price']) && !empty($data[$i]['app_snatched_price'])){
+        // 保留2位小数
+        $data[$i]['app_snatched_price'] = sprintf('%.2f', $result['rows'][$i]['app_snatched_price']);     
+      }
+      // 新品标识--非闪购产品且一个月内上的产品
+      if(empty($data[$i]['is_app_snatched'])){
+        $data[$i]['is_news'] = $data[$i]['created_on']>(time()-2592000) ? 1 : 0;
+      }
+		} // endfor
 		$result['rows'] = $data;
 		
 		return $this->api_json('请求成功', 0, $result);
@@ -213,9 +227,11 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
 			'cover_id', 'category_id', 'stage', 'summary', 'tags', 'tags_s',
-			'snatched_time', 'inventory', 'can_saled', 'snatched', 'wap_view_url',
+			'snatched_time', 'inventory', 'snatched', 'wap_view_url',
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
       'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',
+      // app抢购
+      'app_snatched', 'app_snatched_time', 'app_snatched_end_time', 'app_snatched_price', 'app_snatched_count', 'app_appoint_count',
 		);
 		
 		// 增加pv++
@@ -257,7 +273,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     $data['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
 		
 		// 验证是否还有库存
-		$data['can_saled'] = $model->can_saled($product);
+		$data['can_saled'] = $model->app_can_saled($product);
 		
 		// 获取skus及inventory
 		$inventory = new Sher_Core_Model_Inventory();
@@ -267,6 +283,19 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		));
 		$data['skus'] = $skus;
 		$data['skus_count'] = count($skus);
+
+    // 闪购标识
+    $data['is_app_snatched'] = $model->is_app_snatched($product);
+    // 闪购进度
+    $data['app_snatched_stat'] = $model->app_snatched_stat($product);
+    // 返回闪购时间戳差，如果非闪购或已结束，返回0
+    if($data['app_snatched_stat']==1){
+      $data['app_snatched_time_lag'] = $product['app_snatched_time'] - time();
+    }elseif($data['app_snatched_stat']==2){
+      $data['app_snatched_time_lag'] = $product['app_snatched_end_time'] - time();
+    }else{
+      $data['app_snatched_time_lag'] = 0;
+    }
 
     // 相关推荐产品
 		$sword = $data['tags_s'];
@@ -460,7 +489,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
 			'cover_id', 'category_id', 'stage', 'summary', 'tags', 'tags_s',
-			'comment_star', 'inventory', 'can_saled', 'snatched',
+			'comment_star', 'inventory', 'snatched',
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
 		);
 		

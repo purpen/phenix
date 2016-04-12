@@ -10,7 +10,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
     'sort'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'ajax_fetch_draw_record');
+	protected $exclude_method_list = array('execute', 'ajax_fetch_draw_record', 'fetch_sign_draw');
 	
 	/**
 	 * 网站入口
@@ -102,12 +102,34 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
    * 签到抽奖获取值页面
    */
   public function fetch_sign_draw(){
+    $user_id = 0;
     $evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 1;
     $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 1;
-    $user_id = $this->visitor->id;
+    $kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
+    $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
+    //$token = isset($this->stash['token']) ? $this->stash['token'] : null;
+    if($kind==1){
+      $user_id = $this->visitor->id;
+    }elseif($kind==2){
+      // uuid
+      if(empty($uuid)){
+        return $this->ajax_json('缺少请求参数!', true);     
+      }
+      $pusher_model = new Sher_Core_Model_Pusher();
+      $pusher = $pusher_model->first(array('uuid'=> $uuid, 'is_login'=>1));
+      if($pusher){
+        $user_id = $pusher['user_id'];
+      }
+    }else{
+      return $this->ajax_json('类型参数错误!', true);
+    }
+
+    if(empty($user_id)){
+      return $this->ajax_json('请先登录!', true);
+    }
 
     // 签到抽奖参数---取块内容
-    $draw_info = Sher_Core_Helper_Util::sign_draw_fetch_info();
+    $draw_info = Sher_Core_Helper_Util::sign_draw_fetch_info($kind);
 
     if(!$draw_info['success']){
       return $this->ajax_json($draw_info['message'], true);
@@ -116,7 +138,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
     $sign_draw_record_model = new Sher_Core_Model_SignDrawRecord();
 
     // 验证是否有权限抽奖
-    $can_draw = $sign_draw_record_model->check_can_draw($user_id, $draw_info['id']);
+    $can_draw = $sign_draw_record_model->check_can_draw($user_id, $draw_info['id'], $kind);
     if(!$can_draw['success']){
       return $this->ajax_json($can_draw['message'], true);  
     }
@@ -124,7 +146,11 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
 
     // 查看库存，如果为空了，则机率设置为空
     $dig_model = new Sher_Core_Model_DigList();
-    $dig_key = Sher_Core_Util_Constant::DIG_SIGN_DRAW_RECORD;
+    if($kind==1){ // page
+      $dig_key = Sher_Core_Util_Constant::DIG_SIGN_DRAW_RECORD;
+    }elseif($kind==2){  // app
+      $dig_key = Sher_Core_Util_Constant::DIG_SIGN_DRAW_APP_RECORD;   
+    }
 
     $dig = $dig_model->load($dig_key);
     $draw_dig_key = "season_".$draw_info['id'];
@@ -179,6 +205,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
         'count' => $is_prize_arr['count'],
         'state' => in_array($is_prize_arr['type'], $sign_draw_record_model->need_contact_user_event()) ? 0 : 1,
         'from_to' => $from_to,
+        'kind' => $kind,
       );
       $ok = $sign_draw_record_model->apply_and_save($data);
       if($ok){

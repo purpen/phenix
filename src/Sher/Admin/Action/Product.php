@@ -142,6 +142,19 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['snatched_price'] = $this->stash['snatched_price'];
 		$data['snatched_count'] = (int)$this->stash['snatched_count'];
 
+		// 是否app抢购
+		$data['app_snatched'] = isset($this->stash['app_snatched']) ? 1 : 0;
+		$data['app_snatched_time'] = $this->stash['app_snatched_time'];
+		$data['app_snatched_end_time'] = $this->stash['app_snatched_end_time'];
+		if($data['app_snatched'] && (empty($data['app_snatched_time']) || empty($data['app_snatched_end_time']))){
+			return $this->ajax_json('app抢购，必须设置抢购开始时间！', true);
+		}
+		$data['app_appoint_count'] = (int)$this->stash['app_appoint_count'];
+		$data['app_snatched_price'] = $this->stash['app_snatched_price'];
+		$data['app_snatched_count'] = (int)$this->stash['app_snatched_count'];
+    $data['app_snatched_img'] = $this->stash['app_snatched_img'];
+    $data['app_snatched_limit_count'] = (int)$this->stash['app_snatched_limit_count'];
+
 		// 积分兑换
 		$data['exchanged'] = isset($this->stash['exchanged']) ? 1 : 0;
 		$data['max_bird_coin'] = (int)$this->stash['max_bird_coin'];
@@ -269,46 +282,63 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
       $this->update_style_tag_record($id, $old_scene_ids, $new_scene_ids, 1, 1);
       $this->update_style_tag_record($id, $old_style_ids, $new_style_ids, 2, 1);
 
+      // 老的商品所在店铺
+      $r_e_p_model = new Sher_Core_Model_REstoreProduct();
+      $old_estore_arr = array();
+      $new_estore_arr = array();
+      if($mode == 'edit'){
+        $old_estore = $r_e_p_model->find(array('pid'=>(int)$id));
+        foreach($old_estore as $k=>$v){
+          array_push($old_estore_arr, $v['eid']);
+        }
+      }
+
       // 更新商品所在店铺
       if(isset($this->stash['estores']) && !empty($this->stash['estores'])){
+        $new_estore_arr = $this->stash['estores'];
         foreach($this->stash['estores'] as $v){
           $pid = (int)$id;
           $eid = (int)$v;
           $p_stage_id = $data['stage'];
 
-          // 先查询，如果存在，跳过
-          $r_e_p_model = new Sher_Core_Model_REstoreProduct();
-          $r_has_one = $r_e_p_model->first(array('eid'=>$eid, 'pid'=>$pid));
-          if($r_has_one){
-            continue;
-          }
-          $estore_model = new Sher_Core_Model_Estore();
-          // 店铺不存在，跳过
-          $estore = $estore_model->load($eid);
-          if(!$estore){
-            continue;
-          }
-          $e_city_id = isset($estore['city_id']) ? $estore['city_id'] : '';
-
-          $r_estore_product_rows = array(
-            'eid' => $eid,
-            'pid' => $pid,
-            'p_stage_id' => $p_stage_id,
-            'e_city_id' => $e_city_id,
-          );
-          $r_e_p_model->create($r_estore_product_rows);
+          // 添加新的
+          if(!in_array($eid, $old_estore_arr)){
+            $estore_model = new Sher_Core_Model_Estore();
+            // 店铺不存在，跳过
+            $estore = $estore_model->load($eid);
+            if(!$estore){
+              continue;
+            }
+            $e_city_id = isset($estore['city_id']) ? $estore['city_id'] : '';
+            $r_estore_product_rows = array(
+              'eid' => $eid,
+              'pid' => $pid,
+              'p_stage_id' => $p_stage_id,
+              'e_city_id' => $e_city_id,
+            );
+            $r_e_p_model->create($r_estore_product_rows);
           
+          } // endif
+        } // endfor
+      } // endif
+
+      // 删除去掉的店铺
+      foreach($old_estore_arr as $k=>$v){
+        $eid = (int)$v;
+        $pid = (int)$id;
+        if(!in_array($eid, $new_estore_arr)){
+          $r_e_p_model->remove(array('eid'=>$eid, 'pid'=>$pid));
         }
       }
 
-		//如果是发布状态,更新索引
-		$product = $model->load((int)$id);
-		if($product['published']==1){
-		  // 更新全文索引
-		  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3); 
-		  //更新百度推送
-		  Sher_Core_Helper_Search::record_update_to_dig((int)$id, 12);
-		}
+      //如果是发布状态,更新索引
+      $product = $model->load((int)$id);
+      if($product['published']==1){
+        // 更新全文索引
+        Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3); 
+        //更新百度推送
+        Sher_Core_Helper_Search::record_update_to_dig((int)$id, 12);
+      }
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Save product failed: ".$e->getMessage());

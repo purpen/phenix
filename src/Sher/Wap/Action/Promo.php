@@ -10,7 +10,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     'target_id'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app');
 
 	/**
 	 * 网站入口
@@ -24,7 +24,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
      */
     public function android_download(){
       $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
-      $url = 'http://frstatic.qiniudn.com/download%2Fapp-release_003.apk';
+      $url = 'http://frstatic.qiniudn.com/download%2Fapp-release_004.apk';
   		return $this->to_redirect($url);
     }
 	
@@ -357,6 +357,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	    $this->stash['wxSha1'] = sha1($wxOri);
 			return $this->to_html_page('wap/promo/jdzn.html');
 	}
+
 	/**
 	 * 签到 抽奖
 	 */
@@ -378,6 +379,29 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
     $this->stash['wxSha1'] = sha1($wxOri);
 		return $this->to_html_page('wap/promo/sign.html');
+	}
+
+	/**
+	 * 签到 抽奖 for APP
+	 */
+	public function sign_app(){
+
+		// 获取省市列表
+		$areas = new Sher_Core_Model_Areas();
+		$provinces = $areas->fetch_provinces();
+    $this->stash['provinces'] = $provinces;
+    $this->stash['day'] = date('Ymd');
+    $this->stash['from_to'] = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 3;
+
+    //微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
+		return $this->to_html_page('wap/promo/sign_app.html');
 	}
 	
 	

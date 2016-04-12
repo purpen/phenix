@@ -25,8 +25,15 @@
 	background:#fff;
 }
 #shopview .presale h4.ui.header .sub.header{
-	color:#f36;
 	margin-top:5px;
+    font-size: 14px;
+    color: #f36;
+}
+#shopview .presale h4.ui.header .sub.header .rmb.icon{
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
 }
 #shopview .colour{
 	margin-top:10px;
@@ -72,6 +79,12 @@
 	font-size: 16px;
 	color:#f36 !important;
 }
+#shopview .ui.top.details h4.ui.header.inline .rmb.icon{
+	font-weight: 400;
+    margin: 0;
+    padding: 0;
+	font-size:14px;
+}
 #shopview .ui.top.details h4.ui.header.inline .sub.header{
 	margin-top: 5px;
     font-size: 13px;
@@ -104,8 +117,8 @@
 	display:inline-block;
 }
 .ui.mini.gray.icon.button{
-    background-color: rgba(255,255,255,.85);
-    color: rgba(0,0,0,.35);
+    background-color: rgba(200,200,200,0.1);
+    color: rgba(0,0,0,0.5);
     padding: 0.65rem 1rem;
     margin-top: 9pt;
     border-radius: 0;
@@ -180,6 +193,191 @@
 .gobuybtn .childbtn .buynow{
 	background:#f36;
 }
+.close-details{
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    right: 10px;
+    top: 10px;
+    background: rgb(200,200,200);
+    border-radius: 15px;
+	z-index:2;
+}
+.close-details img{
+    width: 12px;
+    height: 12px;
+    margin: 7px;
+}
+
+#shop_guess_wap_list{
+	margin-top: 10px;
+    position: relative;
+    background: #fff;
+}
+#shop_guess_wap_list .guess.title{
+	padding:15px 10px 5px;
+    font-weight: 400;
+    font-size: 14px;
+}
+#shop_guess_wap_list .recom-item.three{
+	padding:0 3px;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three {
+    width: 33.333%;
+    height: 100%;
+    display: block;
+    float: left;
+    padding: 0 3px;
+    margin: 4px 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-right: 0px;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three a{
+	padding-top:100%;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three a img{
+	border: 1px solid rgba(0,0,0,0.1);
+	top: 0;
+	bottom: auto;
+	height:auto;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three .desc{
+	position:relative;
+	background:#fff;
+    padding: 8px 0 0;
+    text-align: left;
+	height: auto;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three .desc h2{
+	height:32px;
+	color: rgba(112,123,135,.91);
+	font-size: 13px;
+	overflow:hidden;
+	font-weight:400;
+	white-space: normal;
+	margin-bottom: 5px;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three .desc .cats{
+	font-size: 12px;
+    height: 30px;
+    padding: 0;
+    text-transform: uppercase;
+    color: #f36;
+	line-height:20px;
+}
+
+#shopview .tabshow{
+	margin-top:10px;
+}
+#shopview .tabshow .nav-menu .navfelx .childcell{
+	padding: 10px 0px !important;
+	text-align:center;
+}
+#shopview .tabshow .nav-menu .navfelx .childcell::after{
+	content:'';
+	height:1px;
+	width:100%;
+	background:#f36;
+	position:absolute;
+	left:0;
+	bottom:0;
+    transform: scaleX(0);
+    -webkit-transform: scaleX(0);
+    -webkit-transition: all 0.3s ease 0.05s;
+    transition: all 0.3s ease 0.05s;
+}
+#shopview .tabshow .nav-menu .navfelx .childcell.active{
+	color:#f36;
+}
+#shopview .tabshow .nav-menu .navfelx .childcell.active::after{
+    transform: scaleX(1);
+    -webkit-transform: scaleX(1);
+}
+#shopview .tabshow .ui.segment{
+	display:none;
+}
+#shopview .tabshow .ui.segment.active{
+	display:block;
+}
+#shopview .tabshow .ui.products.segment{
+    -webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+    box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+    border-radius: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+	border: none !important;
+}
+#shopview .tabshow .ui.reply.segment,#shopview .tabshow .service.segment {
+    margin-top: 0;
+    -webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+    box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+    border-radius: 0;
+    border: none;
+    padding-top: 18px;
+}
+.product.froala-element p img {
+    width: 100%;
+}
+.flexbuy{
+	position: fixed;
+    bottom: 0;
+    left: 50%;
+    width: 100%;
+    height: 50px;
+	z-index: 3;
+	max-width:767px;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+.three-mesg{
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.three-mesg li{
+	-webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    width: 0;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    max-width: 100%;
+    display: block;
+    padding: 0;
+    position: relative;
+}
+.three-mesg .price{
+	background:#fff;
+	color:#f36;
+	text-align: center;
+    line-height: 50px;
+}
+.three-mesg .shopcart{
+    text-align: center;
+    line-height: 50px;
+	background: #ff6666;
+	color:#fff;
+}
+.three-mesg .shopbuy{
+	background: #f36;
+    text-align: center;
+    line-height: 50px;
+	color:#fff;
+}
+#gritter-notice-wrapper{
+	padding-top: 0;
+    top: 61px;
+}
 </style>
 {% endblock %}
 
@@ -205,9 +403,9 @@
 	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
 	
 	//点击颜色分类
-	$('#shopview .colour').click(function(){
+	$('#shopview .colour,#shopview .shopcart,#shopview .shopbuy').click(function(){
 		if( !phenix.visitor.is_login ){
-			phenix.redirect('{{ app_url_wap }}/auth/login')
+			phenix.redirect('{{ app_url_wap }}/auth/login_signup')
 		}
 		else{
 			$('#cover').css('display','block');
@@ -215,15 +413,21 @@
 			$('#shopview').addClass('show-details');
 		}
 	});
-	$('#cover').click(function(){
+	$('#cover,.close-details').click(function(){
 		$('#shopview').removeClass('show-details');
+		$('#cover,html').removeAttr('style');
 	});
 	
 	// 如果仅一个sku,则设置默认值
 	{% if skus_count %}
 		var choosed_sku = 0;
+    var evt_type = 2;
 	{% else %}
 		var choosed_sku = {{ product._id }};
+    var evt_type = 1;
+    $('.inc-qty.button').data('count', "{{ product.inventory|default 0 }}");
+    $('.dec-qty.button').data('count', "{{ product.inventory|default 0 }}");
+      
 	{% endif %}
 	// 选择sku
 	$('.attrs .ui.att.button').click(function(){
@@ -231,14 +435,27 @@
 		$('.attrs .ui.att.active.button').removeClass('active');
 		$(this).addClass('active');
 		{% if !product.snatched %}
+      var current_count = $(this).data('inventory');
+      var sku_type = $(this).data('type');
 		  $('h4.ui.header.inline span').html($(this).data('price'));
-		  $('h4.ui.header.inline .sub.header span').html($(this).data('inventory'));
+		  $('h4.ui.header.inline .sub.header span').html(current_count);
+      $('.inc-qty.button').data('count', current_count);
+      $('#product-qty').val(1);
+      
 		{%endif%}		
 		return false;
 	});
 	
+	//点击input弹出框距顶部为0
+	 /*$('input').focus(function(){
+		$('.ui.top.details').css({'top':'0','bottom':'auto'});
+	});
+	$('input').blur(function(){
+		$('.ui.top.details').removeAttr('style');
+	}); */ 
+	
 	// 更新购物车数据
-	var update_cart = function(pid, data){
+	 /* var update_cart = function(pid, data){
 		// 购物车清空后，刷新页面
 		if (data.items_count == 0){
 			//phenix.redirect('{{ app_url_cart }}', 0);
@@ -248,22 +465,21 @@
 		
 		$('.cart-items-count').text(data.items_count);
 		$('.cart-total-money').text(data.total_money);
-	};
+	}; */ 
 	$('.inc-qty.button').bind('click', function(){
         if ( !choosed_sku){
           phenix.show_error_note('请选择一个型号或颜色', 2000);
         }
 		else{
-			var sku = $(this).data('sku'),
-				qty_value = parseInt($('#product-1011513749-qty').val());
+			var sku_count = parseInt($(this).data('count')),
+			qty_value = parseInt($('#product-qty').val());
 			
 			// 添加1个数量
 			qty_value += 1;
-		
-	
-			$('#product-1011513749-qty').val(qty_value);
-			
-			
+      if(qty_value>sku_count){
+        qty_value=sku_count;
+      }
+			$('#product-qty').val(qty_value);
 			
 		}
 		
@@ -274,12 +490,14 @@
           phenix.show_error_note('请选择一个型号或颜色', 2000);
         }
 		else{
-			var sku = $(this).data('sku'),
-				qty_value = parseInt($('#product-1011513749-qty').val());
+			var sku_count = parseInt($(this).data('count')),
+				qty_value = parseInt($('#product-qty').val());
 			// 减少1个数量,验证是否为0
 			qty_value  -= 1;
-			$('#product-1011513749-qty').val(qty_value);
-			
+      if(qty_value<=0){
+        qty_value=1;
+      }
+			$('#product-qty').val(qty_value);
 			
 		}
 	});
@@ -295,6 +513,82 @@
 		var checkout = '{{ app_url_shopping }}/checkout';
 		phenix.redirect(checkout, 0);
 	});
+	
+	
+	// 加载推荐商品 
+	$.get('{{ app_url_wap }}/shop/ajax_guess_product?rand='+Math.random(), {sword: '{{ product.tags_s }}', size: 3, id: {{ product._id }} }, function(rs){
+	 $("img.lazy").lazyload({
+	     effect : "show"
+	 });
+	});
+	 
+	//产品详情、评论、售后服务
+	$('.product.childcell').bind('click',function(){
+		$(this).addClass('active');
+		$(this).siblings().removeClass('active');
+		$('.products.ui.segment').addClass('active');
+		$('.reply.ui.segment,.service.ui.segment').removeClass('active');
+	});
+	$('.reply.childcell').bind('click',function(){
+		$(this).addClass('active');
+		$(this).siblings().removeClass('active');
+		$('.reply.ui.segment').addClass('active');
+		$('.products.ui.segment,.service.ui.segment').removeClass('active');
+	});
+	$('.service.childcell').bind('click',function(){
+		$(this).addClass('active');
+		$(this).siblings().removeClass('active');
+		$('.service.ui.segment').addClass('active');
+		$('.products.ui.segment,.reply.ui.segment').removeClass('active');
+	});
+
+	// 立即购买
+  $('#nowbuy-btn').livequery(function(){
+    $(this).click(function(){
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.redirect('{{ app_url_wap }}/auth/login_signup');
+        return false;
+      }
+      if (choosed_sku){
+        phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku, 0);
+      } else {
+        phenix.show_error_note('请选择一个型号或颜色', 2000);
+      }
+    });
+  });
+
+	// 加入购物车
+  $('#addcart-btn').livequery(function(){
+    $(this).click(function(){
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.redirect('{{ app_url_wap }}/auth/login_signup');
+        return false;
+      }
+      if (choosed_sku){
+        var qty_value = parseInt($('#product-qty').val());
+        $.post("{{ app_url_wap }}/app/site/cart/ajax_add_cart", {target_id:choosed_sku, type:evt_type, n:qty_value}, function(result){
+          if(result.success){
+            phenix.show_ok_note('添加成功!', 2000);
+            $('#cover,.close-details').click();
+            // ajax加载购物车数量
+            $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {}, function(result){
+                if(result.success){
+                  $('#wap_cart_num').show().text(result.data.count);
+                }
+            }, 'json');
+          }else{
+            phenix.show_error_note(result.message, 3000);           
+          }
+        }, 'json');
+
+      } else {
+        phenix.show_error_note('请选择一个型号或颜色', 2000);
+      }
+    });
+  });
+	
 
 {% endblock %}
 
@@ -318,23 +612,24 @@
 		<h4 class="ui header">
 			{{ product.title }}
 			<div class="sub header">
-				¥{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
+				<i class="rmb icon"></i>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
 			</div>
 		</h4>
 	</div>
-	
-	
 	<div class="colour">
 		颜色分类
 		<i class="angle float right icon"></i>
 	</div>
 	<div class="ui top details">
+		<div class="close-details">
+			<img src="{{ app_url_packaged }}/images/icon/close.png">
+		</div>
 		<div class="ui respontion grid">
 			<div class="row pb-0">
 				<div class="column">
 					<img class="ui middle aligned image" src="{{ product.cover.thumbnails.small.view_url }}">
 					<h4 class="ui header inline">
-						价格：¥<span>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}</span>
+						价格：<i class="rmb icon"></i><span>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}</span>
 						<div class="sub header">
 							剩余库存：<span>{{ product.inventory }}</span>
 						</div>
@@ -349,32 +644,18 @@
 						颜色分类
 					</h4>
 					
-		           <!--{% if product.stage == 9 %}-->
+		           {% if product.stage == 9 %}
 					<div class="product attrs">
 						 {% if skus %}
 							{% for m in skus %}
-							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}" data-inventory="{{ m.inventory }}">{{ m.mode }}</span>		
+							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}" data-inventory="{{ m.quantity }}">{{ m.mode }}</span>		
 							{% endfor %}
 						{%else%}
-							<span class="ui small magenta inverted att button" data-id="{{ product._id }}" data-price="{{ product.sale_price }}" data-inventory="{{ product.inventory }}">默认</span>
+							<span class="ui small magenta active inverted att button" data-id="{{ product._id }}" data-price="{{ product.sale_price }}" data-inventory="{{ product.inventory }}">默认</span>
 
 		                {% endif %}
 					</div>
-					<!--{% endif %}-->
-					
-					<!--
-					<div class="product attrs">
-						<span class="ui small magenta inverted att button" data-id="1031789046" data-price="0.01">白色</span>
-						<span class="ui small magenta inverted att button" data-id="1031789053" data-price="0.02">黑色</span>
-						<span class="ui small magenta inverted att button" data-id="1031789101" data-price="0.03">绿色</span>
-						<span class="ui small magenta inverted att button" data-id="1031789046" data-price="0.01">白色</span>
-						<span class="ui small magenta inverted att button" data-id="1031789053" data-price="0.02">黑色</span>
-						<span class="ui small magenta inverted att button" data-id="1031789101" data-price="0.03">绿色</span>
-						<span class="ui small magenta inverted att button" data-id="1031789046" data-price="0.01">白色</span>
-						<span class="ui small magenta inverted att button" data-id="1031789053" data-price="0.02">黑色</span>
-						<span class="ui small magenta inverted att button" data-id="1031789101" data-price="0.03">绿色</span>
-						
-					</div>-->
+					{% endif %}
 				</div>
 			</div>
 			
@@ -389,11 +670,11 @@
 					</h4>
 					
 					<div class="quantity">
-						<button class="ui mini gray dec-qty icon button" data-sku="{{ product.sku }}">
+						<button class="ui mini gray dec-qty icon button" data-count="1">
 							<i class="minus icon"></i>
 						</button>
-						<input type="text" name="product-{{ product.sku }}-qty" id="product-{{ product.sku }}-qty" value=1 autocomplete="off" disabled="disabled">
-						<button class="ui mini gray inc-qty icon button" data-sku="{{ product.sku }}">
+						<input type="text" name="product-qty" id="product-qty" value=1 autocomplete="off">
+						<button class="ui mini gray inc-qty icon button" data-count="">
 							<i class="add icon"></i>
 						</button>
 					</div>
@@ -402,23 +683,144 @@
 			</div>
 			
 		</div>
-		
 		<div class="gobuybtn">
 			<ul class="two btn">
 				<li class="childbtn">
-					<a class="joincart" href="javascript:void(0);">加入购物车</a>
+					<a class="joincart" href="javascript:void(0);" id="addcart-btn">加入购物车</a>
 				</li>
 				<li class="childbtn">
-					<a hre="" class="buynow">立即购买</a>
+					<a href="javascript:void(0);" class="buynow" id="nowbuy-btn">立即购买</a>
 				</li>
 			</ul>
 		</div>
 	
 	</div>
+	<!-- 相关推荐 -->
+	<div id="shop_guess_wap_list">
+			<!-- 加载相关推荐 -->
+	</div>
 	
+	<!-- 详情 评价 -->
+	<div class="tabshow">
+		<div class="nav-menu">
+			<ul class="navfelx">
+				<li class="product childcell active">
+					产品详情
+				</li>
+				<li class="reply childcell">
+					用户评价
+				</li>
+				<li class="service childcell">
+					售后服务
+				</li>
+			</ul>
+		</div>
+		
+		<div class="ui products segment active">
+			<div class="product content froala-element">
+				{{ product.content }}
+			</div>
+		</div>
+
+		{% if product.stage == 9 %}
+	    {% if product.comment_count %}
+
+	    <!--商品评价-->
+	    <div class="ui reply segment">
+	    	<div class="ui threaded minimal is-comment comments">
+	            {% comment_list var:'comments' page:page target_id:product._id %}
+	            {% for comment in comments.rows %}
+	        	<div class="comment" id="{{ comment._id }}">
+	              	<a class="avatar" href="{{ comment.user.home_url }}">
+	                <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
+	             	</a>
+	              	<div class="content">
+	                	<a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
+	                	<div class="metadata">
+	                  		<!--<div class="date">{{ comment.created_on }}</div>-->
+	                  	  	{% include "block/star.html" %}
+	                		</div>
+            
+	                		<div class="text">
+	                  		  {{ comment.content }}
+	                	  	</div>
+	                		{% if visitor.is_login %}
+			                <form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
+			                  <input type="hidden" name="type" value="2" />
+			                  <input type="hidden" name="comment_id" value="{{ comment._id }}" />
+			                  <input type="hidden" name="target_id" value="{{ topic._id }}" />
+			                  <div class="field">
+			                    <textarea name="content" class="reply-content"></textarea>
+			                  </div>
+			                  <div class="ui active button magenta submit labeled icon">
+			                    <i class="icon location"></i> 回复
+			                  </div>
+			                </form>
+			                {% endif %}
+	              	  	</div>
+      
+	              	  	{% if comment.reply %}
+	              	  	<div class="comments">
+	                		{% for reply in comment.reply %}
+	                 		<div class="comment">
+	                    		<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
+	                      		 	<img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
+	                    		</a>
+	                    		<div class="content">
+	                      			<a class="author">{{ reply.user.nickname }}</a>
+	                      		  	<div class="metadata">
+	                        			<div class="date">{{ reply.replied_on }}</div>
+	                      		  	</div>
+			                      	<div class="text">
+			                        	{{ reply.content }}
+			                     	</div>
+	                    		</div>
+	                  	  	</div>
+	                		{% endfor %}
+	              		</div>
+	              	  	{% endif %}
+      
+	            	</div>
+	            	{% endfor %}
+	         	</div>
+			</div>
+    		{% endif %}<!--if product.comment_count-->
+ 		   {% endif %}
+  		   
+  	   	 	<!--if product.comment_count-->
+  	  	  	<!--if stage==9-->
+	    		
+		  
+		<div class="ui service segment">
+			<div class="ui selection list">
+				<div class="item">
+					客服热线：010- 8459&nbsp;9327&nbsp;/&nbsp;8459&nbsp;9323
+				</div>
+				<div class="item">
+					QQ客服：211470932
+				</div>
+				<div class="item">
+					客服邮箱：service#taihuoniao.com(#换成@)
+				</div>
+			</div>
+		</div>
+		
+		
+	</div>
 	
-	
-	
+	<div class="flexbuy">
+		<ul div class="three-mesg">
+			<li class="price">
+				¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
+			</li>
+			<li class="shopcart">
+				加入购物车
+			</li>
+			<li class="shopbuy">
+				立即购买
+			</li>
+		</ul>
+	</div>
 </div>
 
 
