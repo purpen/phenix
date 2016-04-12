@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title%}{% endblock %}
+{% block title%}{{ special_subject.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	#mfrbird{
@@ -197,7 +197,25 @@
 	}
 </style>
 {% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript">
+
+  var per_page = 10, sort = 0;
+  function fetch_comment(current_page, per_page, sort){
+    var url = '{{ app_url_wap }}/app/site/comment/ajax_fetch_comment_wap';
+    $.get(url, {target_id: '{{ special_subject._id }}', type: 9, page: current_page, per_page: per_page, sort:sort});
+  }
+
+</script>
+{% endblock %}
+
 {% block jquery %}
+
+	phenix.hook_comment_page('wap');
+
+  //ajax加载评论
+  fetch_comment(1, per_page, 0);
 
 // 评论排序
 $('.fitsort .ui.list .item').bind('click', function(){
@@ -210,6 +228,60 @@ $('.fitsort .ui.list .item').bind('click', function(){
 });
 //分享
 phenix.bind_share_list();
+
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		
+		// 验证点赞
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: {{special_subject._id}},type:9,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.support.button')
+						.data('content', '取消支持')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+
+		/* 登录用户行为 */
+	{% endif %}
+
+	// 喜欢
+	$('.ui.support.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+      phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_laud', {id: id, type:9}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消赞')
+						.data('mark', 'y')
+						.addClass('active')									
+						.html('<i class="empty heart icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_laud', {id: id, type:9}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '点赞')
+						.data('mark', 'n')
+						.removeClass('active')
+						.html('<i class="empty heart icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
 
 
 //微信 qq 打开隐藏
@@ -239,17 +311,22 @@ $('.specialshare').click(function(){
 	$(this).removeAttr('style');
 });
 
+$('.buy_now').click(function(){
+  var url = $(this).attr('wap_view_url');
+  return window.location.href=url;
+});
+
 {% endblock %}
 {% block content %}
 <div id="special-view">
-	<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1" width="100%" align="absmiddle">
+  <img src="{{ special_subject.cover.thumbnails.aub.view_url }}" width="100%" align="absmiddle">
 	<div class="ui responsive speview grid">
 		<div class="row">
 			<div class="column">
 				<h4 class="ui title header">
-					航拍解放双手无人机开启上帝视角
+          {{ special_subject.title }}
 					<div class="sub header">
-						我们保证按照48小时内按时发货的原则。周六日和节假日顺延到下个工作日发货，默认申通快递。
+            {{ special_subject.summary }}
 					</div>
 				</h4>
 			</div>
@@ -259,41 +336,20 @@ $('.specialshare').click(function(){
 			<div class="column">
 				<div class="recommend-topic">
 					<div class="recom-item">
+
+            {% for d in products %}
 						<div class="recom-cell one">
-							<a href="">
-								<h3 class="ui header">航拍解放双手无人机开启上帝视角</h3>
-								<img class="lazy" data-original="http://frbird.qiniudn.com/asset/160411/570b09b3fc8b12b55f8b4bcd-1" src="{{ app_url_packaged }}/images/icon/load750-422.png" title="qweqw">
+              <a href="{{ d.wap_view_url }}">
+                <h3 class="ui header">{{ d.title }}</h3>
+                <img class="lazy" data-original="{{ d.cover_url }}" src="{{ app_url_packaged }}/images/icon/load750-422.png" title="qweqw">
 								<div class="desc">
-									<span class="price"> ¥ 1200</span><br/>
-									<span class="like">1人喜欢</span>
-									<div class="ui magenta inverted active button">立即购买</div>
+                  <span class="price"> ¥ {{ d.sale_price }}</span><br/>
+                  <span class="like">{{ d.love_count }}人喜欢</span>
+									<div class="ui magenta inverted active button buy_now" wap_view_url="{{ d.wap_view_url }}">立即购买</div>
 								</div>
 							</a>
 						</div>
-						
-						<div class="recom-cell one">
-							<a href="">
-								<h3 class="ui header">航拍解放双手无人机开启上帝视角</h3>
-								<img class="lazy" data-original="http://frbird.qiniudn.com/asset/160411/570b06bdfc8b122e608b4b98-1" src="{{ app_url_packaged }}/images/icon/load750-422.png" title="qweqw">
-								<div class="desc">
-									<span class="price"> ¥ 1200</span><br/>
-									<span class="like">1人喜欢</span>
-									<div class="ui magenta inverted active button">立即购买</div>
-								</div>
-							</a>
-						</div>
-						
-						<div class="recom-cell one">
-							<a href="">
-								<h3 class="ui header">航拍解放双手无人机开启上帝视角</h3>
-								<img class="lazy" data-original="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1" src="{{ app_url_packaged }}/images/icon/load750-422.png" title="qweqw">
-								<div class="desc">
-									<span class="price"> ¥ 1200</span><br/>
-									<span class="like">1人喜欢</span>
-									<div class="ui magenta inverted active button">立即购买</div>
-								</div>
-							</a>
-						</div>
+            {%endfor%}
 						
 					</div>
 				</div>
@@ -310,19 +366,19 @@ $('.specialshare').click(function(){
 	<div class="ui speshare grid" style="margin:0 0 10px;">
 	    <div class="row iswidth">
 	        <div class="eight wide column">
-	            <div class="ui icon support button" data-variation="inverted" data-id="{{ topic._id }}"
+	            <div class="ui icon support button" data-variation="inverted" data-id="{{ special_subject._id }}"
 	            data-mark="n">
 	                <i class="empty heart icon">
 	                </i>
 	                <div class="love count">
-	                    {{ topic.love_count|default 0 }}
+	                    {{ special_subject.love_count|default 0 }}
 	                </div>
 	            </div>
 	            <div class="ui commenting">
 	                <i class="comment outline icon">
 	                </i>
 	                <div class="love count">
-	                    {{ topic.comment_count|default 0 }}
+	                    {{ special_subject.comment_count|default 0 }}
 	                </div>
 	            </div>
 	        </div>
@@ -348,7 +404,7 @@ $('.specialshare').click(function(){
 	        <div class="block title">
 	            全部评论
 	            <small>
-	                （{{ topic.comment_count|default 0 }}）
+	                （{{ special_subject.comment_count|default 0 }}）
 	            </small>
 	            <div class="fitsort">
 	                <div class="ui horizontal bulleted list">
@@ -378,7 +434,7 @@ $('.specialshare').click(function(){
 			<div class="row pt-0 pb-0">
 				<div class="ui center aligned five wide column">
 					<div class="loveicon">
-						<i class="empty heart icon"></i> 12
+						<i class="empty heart icon"></i> {{ special_subject.love_count|default 0 }}
 					</div>
 				</div>
 				<div class="ui center aligned six wide column">
@@ -388,7 +444,7 @@ $('.specialshare').click(function(){
 				</div>
 				<div class="ui center aligned five wide column">
 					<div class="commenticon">
-						<i class="comment outline icon"></i>9
+						<i class="comment outline icon"></i>{{ special_subject.comment_count|default 0 }}
 					</div>
 				</div>
 			</div>

@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title%}{% endblock %}
+{% block title%}{{ special_subject.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	#mfrbird{
@@ -216,19 +216,30 @@
 
 {% block layout_js %}
 <script type="text/javascript">
-$('ul[class=gridster_ul]').css('width','100%');
-$('ul[class=gridster_ul]').css('height','');
+  $('ul[class=gridster_ul]').css('width','100%');
+  $('ul[class=gridster_ul]').css('height','');
 
-function JavascriptHandler(data) {
-	if (!data) {
-        return '';
-	}
-	return window.location.href = '{{ app_url_wap }}/shop/'+ parseInt(data)+'.html';
-}
+  function JavascriptHandler(data) {
+    if (!data) {
+          return '';
+    }
+    return window.location.href = '{{ app_url_wap }}/shop/'+ parseInt(data)+'.html';
+  }
+
+  var per_page = 10, sort = 0;
+  function fetch_comment(current_page, per_page, sort){
+    var url = '{{ app_url_wap }}/app/site/comment/ajax_fetch_comment_wap';
+    $.get(url, {target_id: '{{ special_subject._id }}', type: 9, page: current_page, per_page: per_page, sort:sort});
+  }
 
 </script>
 {% endblock %}
 {% block jquery %}
+
+	phenix.hook_comment_page('wap');
+
+  //ajax加载评论
+  fetch_comment(1, per_page, 0);
 
 // 评论排序
 $('.fitsort .ui.list .item').bind('click', function(){
@@ -241,6 +252,60 @@ $('.fitsort .ui.list .item').bind('click', function(){
 });
 //分享
 phenix.bind_share_list();
+
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		
+		// 验证点赞
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: {{special_subject._id}},type:9,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.support.button')
+						.data('content', '取消支持')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+
+		/* 登录用户行为 */
+	{% endif %}
+
+	// 喜欢
+	$('.ui.support.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+      phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_laud', {id: id, type:9}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消赞')
+						.data('mark', 'y')
+						.addClass('active')									
+						.html('<i class="empty heart icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_laud', {id: id, type:9}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '点赞')
+						.data('mark', 'n')
+						.removeClass('active')
+						.html('<i class="empty heart icon"></i> <div class="love count">'+ result.data.love_count +'</div>');
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
 
 
 //微信 qq 打开隐藏
@@ -281,19 +346,19 @@ $('.specialshare').click(function(){
     <div class="ui speshare grid" style="margin:0 0 10px;">
         <div class="row iswidth">
             <div class="eight wide column">
-                <div class="ui icon support button" data-variation="inverted" data-id="{{ topic._id }}"
+                <div class="ui icon support button" data-variation="inverted" data-id="{{ special_subject._id }}"
                 data-mark="n">
                     <i class="empty heart icon">
                     </i>
                     <div class="love count">
-                        {{ topic.love_count|default 0 }}
+                        {{ special_subject.love_count|default 0 }}
                     </div>
                 </div>
                 <div class="ui commenting">
                     <i class="comment outline icon">
                     </i>
                     <div class="love count">
-                        {{ topic.comment_count|default 0 }}
+                        {{ special_subject.comment_count|default 0 }}
                     </div>
                 </div>
             </div>
@@ -319,7 +384,7 @@ $('.specialshare').click(function(){
             <div class="block title">
                 全部评论
                 <small>
-                    （{{ topic.comment_count|default 0 }}）
+                    （{{ special_subject.comment_count|default 0 }}）
                 </small>
                 <div class="fitsort">
                     <div class="ui horizontal bulleted list">
@@ -349,7 +414,7 @@ $('.specialshare').click(function(){
 			<div class="row pt-0 pb-0">
 				<div class="ui center aligned five wide column">
 					<div class="loveicon">
-						<i class="empty heart icon"></i> 12
+						<i class="empty heart icon"></i>{{ special_subject.love_count|default 0 }}
 					</div>
 				</div>
 				<div class="ui center aligned six wide column">
@@ -359,7 +424,7 @@ $('.specialshare').click(function(){
 				</div>
 				<div class="ui center aligned five wide column">
 					<div class="commenticon">
-						<i class="comment outline icon"></i>9
+						<i class="comment outline icon"></i>{{ special_subject.comment_count|default 0 }}
 					</div>
 				</div>
 			</div>
