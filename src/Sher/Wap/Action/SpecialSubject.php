@@ -119,11 +119,21 @@ class Sher_Wap_Action_SpecialSubject extends Sher_Wap_Action_Base {
 				$options['sort_field'] = 'stick:latest';
 				break;
 		}
+
+    //限制输出字段
+    $some_fields = array(
+      '_id'=>1, 'title'=>1, 'short_title'=>1, 'user_id'=>1, 'cover_id'=>1, 'cover'=>1,
+      'product_ids'=>1, 'stick'=>1, 'category_id'=>1, 'created_on'=>1, 'content'=>1,
+      'summary'=>1, 'last_reply_time'=>1, 'kind'=>1, 'comment_count'=>1, 'view_count'=>1,
+      'updated_on'=>1, 'favorite_count'=>1, 'love_count'=>1, 'tags'=>1, 'wap_view_url'=>1,
+      'view_count'=>1, 'state'=>1,
+    );
+    $options['some_fields'] = $some_fields;
         
 		// 开启查询
 		$service = Sher_Core_Service_SpecialSubject::instance();
 		$result = $service->get_special_subject_list($query, $options);
-		
+		$next_page = 'no';
 		// 重建数据结果
     $data = array();
 		for($i=0;$i<count($result['rows']);$i++){
@@ -132,16 +142,14 @@ class Sher_Wap_Action_SpecialSubject extends Sher_Wap_Action_Base {
         $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
       }
 		}
-		$result['rows'] = $data;
 
     $data = array();
     $data['nex_page'] = $next_page;
-    $data['results'] = $resultlist;
+    $data['results'] = $result;
 
     $data['page'] = $page;
     $data['sort'] = $sort;
     $data['size'] = $size;
-    $data['results'] = $result;
     
     return $this->ajax_json('success', false, '', $data);
   }

@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title%}{% endblock %}
+{% block title%}商品专题-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 #spelist{
@@ -74,6 +74,43 @@
 </style>
 
 {% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+    var page = 1;
+    var size = 6;
+    var type = 1;
+    var sort = 0;
+    var category_id = 0;
+
+    // 专题加载
+    function ajax_load_more(category_id, sort, page, size){
+        var url = '{{ app_url_domain }}/app/wap/special_subject/ajax_load_list';
+        $.get(url, { category_id:category_id, sort:sort, page:page, size:size }, function(rs){
+            if(rs.data.results.total_page >= rs.data.results.current_page){
+                $('#subject-more')
+                    .hide()
+                    .attr({'status': 0, 'page': rs.data.page});
+            }else{
+              $('#subject-more').html('<div style="text-align:center;">没有更多</div>').show();
+            }
+            var rendered = phenix.ajax_render_result('#fetch_more_special_subject_tpl', rs.data);
+            if(rs.data.page==1){
+              $('#subject-box').html(rendered);          
+            }else{
+              $('#subject-box').append(rendered);
+            }
+            new Swiper('.tslide',{
+              freeMode : true,
+              slidesPerView : 'auto',
+            });
+        }, 'json');
+    }
+  </script>
+
+{% endblock %}
+
+
 {% block jquery %}
 	window.onload = function() {
 		var mySwiper = new Swiper('.spemenu',{
@@ -81,82 +118,66 @@
 		  slidesPerView : 'auto',
 	  });
 	}
+
+  // 分类切换
+  $('.change_cat').click(function(){
+    $(this).addClass('active');
+    $(this).siblings().removeClass('active');
+    category_id = parseInt($(this).attr('category_id'));
+    page = 1;
+    $('#subject-box').html(''); 
+    var html = '';
+    html += '<div style="text-align:center;margin:10px auto;">';
+    html += '<img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">';
+    html += '</div>';
+                
+    $('#subject-more').html(html).show();
+    $('#subject-more').attr({'status': 0, 'page': 1});
+    ajax_load_more(category_id, sort, page, size);
+  })
+
+  //ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      $('#subject-more').show();
+      var stat = $('#subject-more').attr('status');
+      page = parseInt($('#subject-more').attr('page')) + 1;
+
+      if(stat==0){
+        ajax_load_more(category_id, sort, page, size);
+      }
+　　}
+  });
+
+  // 初次加载
+  ajax_load_more(category_id, sort, page, size);
 {% endblock %}
 {% block content %}
 <div id="spelist">
 	<div class="spemenu">
 		<div class="swiper-wrapper">
+
+		{% category_list var:'category' is_top:1 only_open:1 domain:9 current:cid %}
+    {% for d in category.rows %}
 			<div class="swiper-slide">
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-					<p>小清新</p>
+        <a class="change_cat" href="javascript:void(0);" category_id="{{ d._id }}">
+          <img src="{{ d.app_cover_url }}">
+          <p>{{ d.title }}</p>
 				</a>
 			</div>
-			<div class="swiper-slide">
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-					<p>小清新</p>
-				</a>
-			</div>
-			<div class="swiper-slide">
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-					<p>小清新</p>
-				</a>
-			</div>
-			<div class="swiper-slide">
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-					<p>小清新</p>
-				</a>
-			</div>
-			<div class="swiper-slide">
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-					<p>小清新</p>
-				</a>
-			</div>
-			<div class="swiper-slide">
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-					<p>小清新</p>
-				</a>
-			</div>
-			<div class="swiper-slide">
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-					<p>小清新</p>
-				</a>
-			</div>
-			<div class="swiper-slide">
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-					<p>小清新</p>
-				</a>
-			</div>
-			<div class="swiper-slide">
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-					<p>小清新</p>
-				</a>
-			</div>
-			<div class="swiper-slide">
-				<a class="" href="">
-					<img src="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1">
-					<p>小清新</p>
-				</a>
-			</div>
-			
-			
-			
-			
+    {%endfor%}
 			
 		</div>
 	</div>
 	
 	<div id="special-list">
 		<div class="recommend-topic">
-			<div class="recom-item">
+			<div class="recom-item" id="subject-box">
+        <!--ajax load list-->
+        <!--
 				<div class="recom-cell one">
 					<a href="">
 						<img class="lazy" data-original="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1" src="{{ app_url_packaged }}/images/icon/load750-422.png" title="qweqw">
@@ -169,39 +190,16 @@
 						</div>
 					</a>
 				</div>
-				
-				<div class="recom-cell one">
-					<a href="">
-						<img class="lazy" data-original="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1" src="{{ app_url_packaged }}/images/icon/load750-422.png" title="qweqw">
-						
-						<div class="xihuanicon">
-							<i class="empty heart icon"></i>3
-						</div>
-						<div class="desc">
-							航拍解放双手无人机开启上帝视角
-						</div>
-					</a>
-				</div>
-				
-				<div class="recom-cell one">
-					<a href="">
-						<img class="lazy" data-original="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1" src="{{ app_url_packaged }}/images/icon/load750-422.png" title="qweqw">
-						
-						<div class="xihuanicon">
-							<i class="empty heart icon"></i>23
-						</div>
-						<div class="desc">
-							航拍解放双手无人机开启上帝视角
-						</div>
-					</a>
-					
-				</div>
+        -->
 				
 			</div>
 		</div>
 	</div>
 	
 </div>
-			
 
+{% endblock %}
+
+{% block templates %}
+  {% mustache id:'fetch_more_special_subject_tpl' tpl:'mustache_m/fetch_more_special_subject.mustache' %}
 {% endblock %}
