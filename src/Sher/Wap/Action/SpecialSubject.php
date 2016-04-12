@@ -58,7 +58,6 @@ class Sher_Wap_Action_SpecialSubject extends Sher_Wap_Action_Base {
 		if($special_subject['kind']==Sher_Core_Model_SpecialSubject::KIND_APPOINT){
 			if(!empty($special_subject['product_ids'])){
 
-
 			  $product_model = new Sher_Core_Model_Product();
 			  foreach($special_subject['product_ids'] as $k=>$v){
           $product = $product_model->extend_load((int)$v);
