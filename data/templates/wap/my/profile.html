@@ -47,6 +47,92 @@ h3.ui.header{
     position: relative;
     margin-left: 10px;
 }
+.mymessg p{
+	margin-bottom:8px;
+	font-size: 13px;
+}
+.mymessg #phenix-uploader{
+	margin-left:5px;
+}
+.field .description{
+    font-size: 12px;
+    padding: 3px 0 0;
+}
+.mt-0{
+	margin-top:0 !important;
+}
+.mt-r{
+	margin-top:0.359rem !important; //5px
+}
+.mt-2r{
+	margin-top: 0.71428571rem !important; //10px
+}
+.mt-3r{
+	margin-top:1.071rem !important; //15px
+}
+.mt-4r{
+	margin-top: 1.42rem !important; //20px
+}
+.mb-0{
+	margin-top:0 !important;
+}
+.mb-r{
+	margin-bottom:0.359rem !important;
+}
+.mb-2r{
+	margin-bottom: 0.71428571rem !important;
+}
+.mb-3r{
+	margin-bottom:1.071rem !important;
+}
+.mb-4r{
+	margin-bottom: 1.42rem !important;
+}
+.mt-0{
+	margin-top:0 !important;
+}
+.mt-r{
+	margin-top:0.359rem !important;
+}
+.mt-2r{
+	margin-top: 0.71428571rem !important;
+}
+.mt-3r{
+	margin-top:1.071rem !important;
+}
+.mt-4r{
+	margin-top: 1.42rem !important;
+}
+.ml-0{
+	margin-left:0 !important;
+}
+.ml-r{
+	margin-left:0.359rem !important;
+}
+.ml-2r{
+	margin-left: 0.71428571rem !important;
+}
+.ml-3r{
+	margin-left:1.071rem !important;
+}
+.ml-4r{
+	margin-left: 1.42rem !important;
+}
+.mr-0{
+	margin-right:0 !important;
+}
+.mr-r{
+	margin-right:0.359rem !important;
+}
+.mr-2r{
+	margin-right: 0.71428571rem !important;
+}
+.mr-3r{
+	margin-right:1.071rem !important;
+}
+.mr-4r{
+	margin-right: 1.42rem !important;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -62,25 +148,85 @@ h3.ui.header{
 			</div>
 		</div>
 		
-		<div class="row pt-0">
+		<div class="row">
 			<div class="column">
-				<h4 class="ui dividing header">设置头像</h4>
-				<div class="mytop">
-					<div class="myphoto">
-						<img src="{{ visitor.big_avatar_url }}" class="ui big avatar image" />
+				<form action="{{app_url_action_base}}/my/save_profile" method="post" class="ui fluid form" id="profile-form">
+					<h4 class="ui dividing header">设置头像</h4>
+					<div class="mytop">
+						<div class="myphoto">
+							<img src="{{ visitor.big_avatar_url }}" class="ui big avatar image" />
 					
-					</div>
-					<div class="mymessg">
-						<p>设置一个尺寸大于400px*400px、小于3M的JPG头像，让小伙伴们迅速认识你.</p>
-						<div id="phenix-uploader">
-							<a class="ui black active button"> 选择照片</a>
+						</div>
+						<div class="mymessg">
+							<p>设置一个尺寸大于400px*400px、小于3M的JPG头像，让小伙伴们迅速认识你.</p>
+							<div id="phenix-uploader">
+								<a class="ui mini black active button"> 选择照片</a>
 							
+							</div>
 						</div>
 					</div>
-				</div>
-				
+					
+					<h4 class="ui dividing mt-3r mb-3r header">详细资料</h4>
+					<div class="field mb-2r">
+						<h5 class="ui mt-0 mb-r header">用户名（昵称）：</h5>
+						<input type="text" name="realname" value="{{ profile.realname }}" />
+					</div>
+					
+					<div class="field mb-2r">
+						<h5 class="ui mt-0 mb-r header">性别：</h5>
+						<div class="fluid ui selection dropdown">
+            <input type="hidden" name="sex" value="{{ user.sex }}" />
+						    <div class="default text">请选择</div>
+						    <i class="angle down icon" style="float:right;"></i>
+						    <div class="menu">
+						        <div data-value="1" class="{%if user.sex == 1%}active{%endif%} item">男</div>
+						        <div data-value="2" class="{%if user.sex == 2%}active{%endif%} item">女</div>
+						    </div>
+						</div>
+					</div>
+					
+					<div class="field mb-2r">
+						<h5 class="ui mt-0 mb-r header">职业：</h5>
+						<input type="text" name="job" value="{{ profile.job }}" />
+					</div>
+					
+					<div class="field mb-2r">
+						<h5 class="ui mt-0 mb-r header">城市：</h5>
+						<input type="text" name="city" value="{{ user.city }}" />
+					</div>
+					
+					<div class="field mb-2r">
+						<h5 class="ui mt-0 mb-r header">Email：</h5>
+						<input type="text" name="email" value="{{ user.email }}" />
+					</div>
+					
+					<div class="field mb-2r">
+						<h5 class="ui mt-0 mb-r header">电话：</h5>
+						<input type="text" name="phone" value="{{ user.profile.phone }}" />
+					</div>
+					
+					<div class="field mb-2r">
+						<h5 class="ui mt-0 mb-r header">地址：</h5>
+						<input type="text" name="address" value="{{ profile.address }}" />
+					</div>
+					
+					<div class="field mb-2r">
+						<h5 class="ui mt-0 mb-r header">个人关键词：</h5>
+						<textarea class="small" rows="2" name="tags">{% for t in user.tags %}{{ t }},{% endfor %}</textarea>
+						<div class="description">每个词之间使用,隔开!</div>
+					</div>
+					
+					<div class="field mb-2r">
+						<h5 class="ui mt-0 mb-r header">个人评价：</h5>
+						<textarea name="summary">{{ user.summary }}</textarea>
+					</div>
+					
+					<input type="submit" class="ui inverted magenta button" value="确认修改" />
+					
+				</form>
 			</div>
 		</div>
+		
 
 
 	</div>
