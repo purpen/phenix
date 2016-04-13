@@ -44,7 +44,7 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		
 		// 查询条件
 		if ($target_id) {
-			$query['target_id'] = (int)$target_id;
+			$query['target_id'] = (string)$target_id;
 		}
 		if ($type) {
 			$query['type'] = (int)$type;
@@ -121,7 +121,7 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		
 		// 验证数据
 		$data = array();
-		$data['target_id'] = (int)$this->stash['target_id'];
+		$data['target_id'] = (string)$this->stash['target_id'];
 		$data['content'] = $this->stash['content'];
 		$data['user_id'] = (int)$user_id;
 		$data['type'] = (int)$type;
