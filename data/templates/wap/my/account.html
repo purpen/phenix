@@ -2,7 +2,12 @@
 {% block title%}账户信息-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-
+#mfrbird{
+	margin-top:0;
+}
+.ui.header{
+	font-weight:400;
+}
 </style>
 {% endblock %}
 {% block js %}
@@ -33,59 +38,40 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui responsive grid">
+<div class="ui responsive grid plr-r mt-2r">
 	<div class="row">
 		<div class="column">
-    		<div class="ui breadcrumb">
-    		  	<a class="section" href="{{ app_url_wap }}">
-    				<i class="icon home"></i>首页
-    			</a>
-    		  	<div class="divider"> / </div>
-    		  	<a class="section" href="{{ app_url_wap }}/my">
-    				个人中心
-    			</a>
-    		  	<div class="divider"> / </div>
-    		  	<div class="active section">账户信息</div>
-    		</div>
-        </div>
-    </div>
+			<h3 class="ui header">账户信息</h3>
+		</div>
+	</div>
 	<div class="row">
 		<div class="column">
-			<h4 class="ui dividing header">账户信息</h4>
-			<div class="ui segment">
-				<form action="{{app_url_wap}}/my/save_account" method="post" class="ui fluid form" id="profile-form">
-					<input name="_id" type="hidden" value="{{ user_id }}" />
-					
-					<h3 class="ui dividing header">用户名(昵称)</h3>
-					<div class="three fields">
-						<div class="field">
-							<input type="text" name="nickname" value="{{ user.true_nickname }}" />
-						</div>
-					</div>
-					
-					<h3 class="ui dividing header">修改密码</h3>
-					<div class="two fields">
-						<div class="field">
-							<label>当前密码</label>
-							<input type="password" name="current_password" />
-						</div>
-						<div class="field"></div>
-					</div>
-					<div class="two fields">
-						<div class="field">
-							<label>修改密码</label>
-							<input type="password" name="password" />
-						</div>
-						<div class="field">
-							<label>确认密码</label>
-							<input type="password" name="repeat_password" />
-						</div>
-					</div>
-					
-					<input type="submit" class="ui magenta inverted active button" value="确认修改" />
-					
-				</form>
-			</div>
+			<form action="{{app_url_wap}}/my/save_account" method="post" class="ui fluid form" id="profile-form">
+				<input name="_id" type="hidden" value="{{ user_id }}" />
+				
+				<h4 class="ui dividing header mt-0">用户名(昵称)</h3>
+				<div class="field mb-2r">
+					<input type="text" name="nickname" value="{{ user.true_nickname }}" />
+				</div>
+				
+				<h4 class="ui dividing header">修改密码</h4>
+				<div class="field mb-2r">
+					<h5 class="ui mt-0 mb-r header">当前密码</h5>
+					<input type="password" name="current_password" />
+				</div>
+				
+				<div class="field mb-2r">
+					<h5 class="ui mt-0 mb-r header">修改密码</h5>
+					<input type="password" name="password" />
+				</div>
+				<div class="field mb-2r">
+					<h5 class="ui mt-0 mb-r header">确认密码</h5>
+					<input type="password" name="repeat_password" />
+				</div>
+				
+				<input type="submit" class="ui small flt-r magenta inverted active button" value="确认修改" />
+				
+			</form>
 
 		</div>
 	</div>
