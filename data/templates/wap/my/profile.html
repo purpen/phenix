@@ -58,6 +58,9 @@ h3.ui.header{
     font-size: 12px;
     padding: 3px 0 0;
 }
+.flt-r{
+	float:right;
+}
 .mt-0{
 	margin-top:0 !important;
 }
@@ -133,6 +136,81 @@ h3.ui.header{
 .mr-4r{
 	margin-right: 1.42rem !important;
 }
+.pt-0{
+	padding-top:0 !important;
+}
+.pt-r{
+	padding-top:0.359rem !important; //5px
+}
+.pt-2r{
+	padding-top: 0.71428571rem !important; //10px
+}
+.pt-3r{
+	padding-top:1.071rem !important; //15px
+}
+.pt-4r{
+	padding-top: 1.42rem !important; //20px
+}
+.pb-0{
+	padding-top:0 !important;
+}
+.pb-r{
+	padding-bottom:0.359rem !important;
+}
+.pb-2r{
+	padding-bottom: 0.71428571rem !important;
+}
+.pb-3r{
+	padding-bottom:1.071rem !important;
+}
+.pb-4r{
+	padding-bottom: 1.42rem !important;
+}
+.pt-0{
+	padding-top:0 !important;
+}
+.pt-r{
+	padding-top:0.359rem !important;
+}
+.pt-2r{
+	padding-top: 0.71428571rem !important;
+}
+.pt-3r{
+	padding-top:1.071rem !important;
+}
+.pt-4r{
+	padding-top: 1.42rem !important;
+}
+.pl-0{
+	padding-left:0 !important;
+}
+.pl-r{
+	padding-left:0.359rem !important;
+}
+.pl-2r{
+	padding-left: 0.71428571rem !important;
+}
+.pl-3r{
+	padding-left:1.071rem !important;
+}
+.pl-4r{
+	padding-left: 1.42rem !important;
+}
+.pr-0{
+	padding-right:0 !important;
+}
+.pr-r{
+	padding-right:0.359rem !important;
+}
+.pr-2r{
+	padding-right: 0.71428571rem !important;
+}
+.pr-3r{
+	padding-right:1.071rem !important;
+}
+.pr-4r{
+	padding-right: 1.42rem !important;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -141,7 +219,7 @@ h3.ui.header{
 
 {% block content %}
 <div id="profile">
-	<div class="ui responsive grid">
+	<div class="ui responsive pl-r pr-r grid">
 		<div class="row">
 			<div class="column">
 				<h3 class="ui header">个人资料</h3>
@@ -174,10 +252,10 @@ h3.ui.header{
 					
 					<div class="field mb-2r">
 						<h5 class="ui mt-0 mb-r header">性别：</h5>
-						<div class="fluid ui selection dropdown">
+						<div class="fluid ui selection dropdown pr-r">
             <input type="hidden" name="sex" value="{{ user.sex }}" />
 						    <div class="default text">请选择</div>
-						    <i class="angle down icon" style="float:right;"></i>
+						    <i class="angle down icon flt-r"></i>
 						    <div class="menu">
 						        <div data-value="1" class="{%if user.sex == 1%}active{%endif%} item">男</div>
 						        <div data-value="2" class="{%if user.sex == 2%}active{%endif%} item">女</div>
@@ -221,7 +299,7 @@ h3.ui.header{
 						<textarea name="summary">{{ user.summary }}</textarea>
 					</div>
 					
-					<input type="submit" class="ui inverted magenta button" value="确认修改" />
+					<input type="submit" class="ui small mt-r inverted magenta active button flt-r" value="确认修改" />
 					
 				</form>
 			</div>
