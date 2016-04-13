@@ -59,6 +59,19 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		
         return $this->to_html_page('wap/my/profile.html');
     }
+    /**
+     * 我的话题
+     */
+    public function topic(){
+        $this->set_target_css_state('user_topic');
+    
+        $this->stash['type'] = isset($this->stash['type'])?$this->stash['type']:'submited';
+        $this->set_target_css_state('user_topic_'.$this->stash['type']);
+    
+        $this->stash['pager_url'] = sprintf(Doggy_Config::$vars['app.url.my'].'/topic?type=%s&page=#p#', $this->stash['type']);
+      
+        return $this->to_html_page('wap/my/topic.html'); 
+    }
 	
 	/**
 	 * 收货地址管理
