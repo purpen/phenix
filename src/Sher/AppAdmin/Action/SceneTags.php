@@ -157,7 +157,15 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 	
 		$keydict = new Sher_Core_Model_SceneTags();
 		$res = $keydict->find_by_id((int)$this->stash['id']);
-		$res['likename'] = implode(',',$res['likename']);
+		
+		if(!$res){
+			return $this->ajax_json('内容不能为空！', true);
+		}
+		
+		if(!empty($res['likename'])){
+			$res['likename'] = implode(',',$res['likename']);
+		}
+		
 		$type = $res['type'];
 		
 		// 输入顶级标签

@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist');
+	protected $filter_user_method_list = array('execute', 'getlist', 'ajax_comment');
 	
 	/**
 	 * 入口
@@ -18,6 +18,7 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 	 * 主题列表
 	 */
 	public function getlist(){
+		
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		// 请求参数
@@ -33,29 +34,29 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		$query   = array();
 		$options = array();
 
-    //显示的字段
-    $options['some_fields'] = array(
-      '_id'=>1, 'user_id'=>1, 'content'=>1, 'star'=>1, 'target_id'=>1, 'target_user_id'=>1, 'sku_id'=>1,
-      'deleted'=>1, 'reply_user_id'=>1, 'floor'=>1, 'type'=>1, 'sub_type'=>1, 'user'=>1, 'target_user'=>1,
-      'love_count'=>1, 'invented_love_count'=>1, 'is_reply'=>1, 'reply_id'=>1, 'created_on'=>1, 'updated_on'=>1,
-      'created_at'=>1,
-    );
+		//显示的字段
+		$options['some_fields'] = array(
+		  '_id'=>1, 'user_id'=>1, 'content'=>1, 'star'=>1, 'target_id'=>1, 'target_user_id'=>1, 'sku_id'=>1,
+		  'deleted'=>1, 'reply_user_id'=>1, 'floor'=>1, 'type'=>1, 'sub_type'=>1, 'user'=>1, 'target_user'=>1,
+		  'love_count'=>1, 'invented_love_count'=>1, 'is_reply'=>1, 'reply_id'=>1, 'created_on'=>1, 'updated_on'=>1,
+		  'created_at'=>1,
+		);
 		
 		// 查询条件
 		if ($target_id) {
-			$query['target_id'] = (string)$target_id;
+			$query['target_id'] = (int)$target_id;
 		}
 		if ($type) {
-			$query['type'] = $type;
+			$query['type'] = (int)$type;
 		}
-    if ($user_id) {
-        $query['user_id'] = (int) $user_id;
-    }
+		if ($user_id) {
+			$query['user_id'] = (int)$user_id;
+		}
 
 		
 		// 分页参数
-    $options['page'] = $page;
-    $options['size'] = $size;
+		$options['page'] = $page;
+		$options['size'] = $size;
 
 		// 排序
 		switch ($sort) {
@@ -71,25 +72,25 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		}
 
 		// 开启查询
-    $service = Sher_Core_Service_Comment::instance();
-    $result = $service->get_comment_list($query,$options);
+		$service = Sher_Core_Service_Comment::instance();
+		$result = $service->get_comment_list($query,$options);
 
 		// 重建数据结果
 		$data = array();
 		for($i=0;$i<count($result['rows']);$i++){
-      foreach($options['some_fields'] as $key=>$val){
-				$data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : null;
+			foreach($options['some_fields'] as $key=>$val){
+					  $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : null;
+				  }
+			$data[$i]['_id'] = (string)$data[$i]['_id'];
+			if($data[$i]['user']){
+			  $data[$i]['user'] = Sher_Core_Helper_FilterFields::user_list($data[$i]['user']);
 			}
-      $data[$i]['_id'] = (string)$data[$i]['_id'];
-      if($data[$i]['user']){
-        $data[$i]['user'] = Sher_Core_Helper_FilterFields::user_list($data[$i]['user']);
-      }
-      if($data[$i]['target_user']){
-        $data[$i]['target_user'] = Sher_Core_Helper_FilterFields::user_list($data[$i]['target_user']);
-      }
+			if($data[$i]['target_user']){
+			  $data[$i]['target_user'] = Sher_Core_Helper_FilterFields::user_list($data[$i]['target_user']);
+			}
 		}
 		$result['rows'] = $data;
-		
+		//var_dump($result['rows']);die;
 		return $this->api_json('请求成功', 0, $result);
 	}
 	
@@ -98,36 +99,49 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 	 * 回复
 	 */
 	public function ajax_comment(){
-    $user_id = $this->current_user_id;
-    if(empty($user_id)){
- 		  return $this->api_json('请先登录', 3000);   
-    }
-    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 2;
-    // 默认ios
-    $from_site = isset($this->stash['from_site']) ? (int)$this->stash['from_site'] : 3;
 		
-		// 验证数据
-		$data = array();
-		$data['target_id'] = $this->stash['target_id'];
-		$data['content'] = $this->stash['content'];
-    
-		if(empty($data['target_id']) || empty($data['content'])){
+		// target_id=70&type=12&content=test&from_site=4
+		
+		$user_id = $this->current_user_id;
+		
+		if(empty($user_id)){
+			  return $this->api_json('请先登录', 3000);   
+		}
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 2;
+		// 默认ios
+		$from_site = isset($this->stash['from_site']) ? (int)$this->stash['from_site'] : 3;
+		
+		if(!isset($this->stash['target_id']) || empty($this->stash['target_id'])){
 			return $this->api_json('获取数据错误,请重新提交', 3001);
 		}
 		
-		$data['user_id'] = $user_id;
-		$data['type'] = $type;
-    $data['from_site'] = $from_site;
+		if(!isset($this->stash['content']) || empty($this->stash['content'])){
+			return $this->api_json('获取数据错误,请重新提交', 3001);
+		}
 		
+		// 验证数据
+		$data = array();
+		$data['target_id'] = (int)$this->stash['target_id'];
+		$data['content'] = $this->stash['content'];
+		$data['user_id'] = (int)$user_id;
+		$data['type'] = (int)$type;
+		$data['from_site'] = (int)$from_site;
+		
+		if(strlen($data['content']) < 5 || strlen($data['content']) > 3000){
+			return $this->api_json('内容长度介于5到1000字符之间', 3002);
+		} 
+		
+		//var_dump($data);die;
 		try{
 			// 保存数据
 			$model = new Sher_Core_Model_Comment();
 			$ok = $model->apply_and_save($data);
+			
 			if($ok){
 				$comment_id = $model->id;
 				$comment = &$model->extend_load($comment_id);
-        $comment['_id'] = (string)$comment['_id'];
-        unset($comment['user']);
+				$comment['_id'] = (string)$comment['_id'];
+				unset($comment['user']);
 			}
 		}catch(Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
@@ -136,6 +150,5 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		return $this->api_json('操作成功', 0, $comment);
 	}
 
-	
 }
 
