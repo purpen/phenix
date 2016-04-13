@@ -7,7 +7,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 	
 	public $stash = array(
 		'page' => 1,
-		'size' => 20,
+		'size' => 100,
 		'state' => '',
 	);
 	
