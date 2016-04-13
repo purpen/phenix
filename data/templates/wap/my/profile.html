@@ -2,8 +2,51 @@
 {% block title%}设置个人资料-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+#profile{
+	margin-top:10px;
+}
+.ui.header{
+	font-weight:400;
+}
+h3.ui.header{
+	font-size:1.14rem !important;
+}
 
-
+.mytop{
+	width:100%;
+    display: flex;
+	display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+	align-items:center;
+    -webkit-box-align: center;
+}
+.myphoto{
+	width:50px;
+	height:50px;
+	position:relative;
+}
+.myphoto img{
+	width:50px;
+	height:50px;
+	border-radius:50%;
+	vertical-align: middle;
+}
+.mymessg{
+	-webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    position: relative;
+    margin-left: 10px;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -11,10 +54,35 @@
 {% endblock %}
 
 {% block content %}
+<div id="profile">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<h3 class="ui header">个人资料</h3>
+			</div>
+		</div>
+		
+		<div class="row pt-0">
+			<div class="column">
+				<h4 class="ui dividing header">设置头像</h4>
+				<div class="mytop">
+					<div class="myphoto">
+						<img src="{{ visitor.big_avatar_url }}" class="ui big avatar image" />
+					
+					</div>
+					<div class="mymessg">
+						<p>设置一个尺寸大于400px*400px、小于3M的JPG头像，让小伙伴们迅速认识你.</p>
+						<div id="phenix-uploader">
+							<a class="ui black active button"> 选择照片</a>
+							
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
 
 
-
-
-
-
+	</div>
+</div>
 {% endblock %}
