@@ -41,7 +41,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
   public function my(){
     $user_id = $this->visitor->id;
     $user_model = new Sher_Core_Model_User();
-    $user = $user_model->load((int)$user_id);
+    $user = $user_model->load($user_id);
     if(!empty($user)){
       $this->stash['user'] = $user_model->extended_model_row($user);
     }
