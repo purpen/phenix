@@ -820,7 +820,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		if(!in_array($field,array('d3in_volunteer', 'd3in_vip', 'd3in_tag', 'is_scene_subscribe'))){
 			return;
 		}
-		$this->update_set((int)$user_id, array('identify.'.$field => $value));
+		return $this->update_set((int)$user_id, array('identify.'.$field => $value));
 	}
 
     /**

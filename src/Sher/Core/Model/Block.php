@@ -14,6 +14,7 @@ class Sher_Core_Model_Block extends Sher_Core_Model_Base  {
     //备注
     'remark'  => null,
     'user_id' => 0,
+    # 类型: 1.通用；2.web/wap；3.APP;
     'kind' => 1,
     'pack' => null,
 		'state' => 1,
@@ -35,6 +36,20 @@ class Sher_Core_Model_Block extends Sher_Core_Model_Base  {
 		// 去除 html/php标签
     if(isset($row['remark'])){
 		  $row['strip_remark'] = strip_tags(htmlspecialchars_decode($row['remark']));
+    }
+
+    switch($row['kind']){
+      case 1:
+        $row['kind_label'] = '通用';
+        break;
+      case 2:
+        $row['kind_label'] = 'Web/Wap';
+        break;
+      case 3:
+        $row['kind_label'] = 'APP';
+        break;
+      default:
+        $row['kind_label'] = '--';
     }
 		
 	}

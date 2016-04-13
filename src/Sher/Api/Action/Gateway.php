@@ -104,6 +104,47 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
+
+  /**
+   * app首页秒杀展示
+   */
+  public function snatched_index_show(){
+    $conf = Sher_Core_Util_View::load_block('app_snatched_index_conf', 1);
+    if(empty($conf)){
+		  return $this->api_json('数据不存在!', 3001); 
+    }
+    $arr = explode('|', $conf);
+    if(!empty($arr) && count($arr)==3){
+      $product_id = (int)$arr[0];
+      $cover_url = $arr[1];
+      $type = (int)$arr[2];
+		  $product_model = new Sher_Core_Model_Product();
+		  $product = $product_model->load($product_id);
+      if(empty($product)){
+  		  return $this->api_json('产品不存在!', 3003);     
+      }
+      if(!isset($product['app_snatched']) || empty($product['app_snatched'])){
+   		  return $this->api_json('非抢购产品!', 3004);     
+      }
+      $type = 0;
+      $begin_time = $product['app_snatched_time'];
+      $end_time = $product['app_snatched_end_time'];
+      $now_time = time();
+      if($begin_time>$now_time){  // 未开始
+        $type = 1;
+        $time_lag = $begin_time - $now_time;
+      }elseif($end_time>$now_time){ // 结束时间
+        $type = 2;
+        $time_lag = $end_time - $now_time;
+      }else{
+        $time_lag = 0;
+      }
+
+ 		  return $this->api_json('请求成功', 0, array('cover_url'=>$cover_url, 'title'=>$product['title'], 'type'=>$type, 'time_lag'=>$time_lag));     
+    }else{
+ 		  return $this->api_json('数据结构不正确!', 3002);   
+    } 
+  }
 	
 	/**
 	 * 获取红包

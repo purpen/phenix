@@ -82,6 +82,7 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 		$data['remark'] = $this->stash['remark'];
     $data['code'] = $this->stash['code'];
     $data['pack'] = $this->stash['pack'];
+    $data['kind'] = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
 		$data['state'] = 1;
 
 		try{

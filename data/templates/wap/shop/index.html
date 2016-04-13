@@ -1,14 +1,10 @@
 {%extends 'layout/mobile.html'%}
-{% block title%}{% endblock %}
+{% block title%}商城-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	#mfrbird {
-	    margin: 0em auto 1.5em !important;
+	    margin-top: 0;
 	}
-	
-#shop-special .recom-item .recom-cell a .desc{
-	height: 35px;
-}
 
 </style>
 {% endblock %}
@@ -34,14 +30,12 @@
 			    分类
 			</a>
 		</li>
-    <!--
 		<li class="childcell">
-			<a class="menuicon" href="{{ app_url_wap }}/ " title="专题">
+			<a class="menuicon" href="{{ app_url_wap }}/special_subject/getlist " title="专题">
 				<img src="{{ app_url_packaged }}/images/icon/zhuanti.png">
 			    专题
 			</a>
 		</li>
-    -->
 		<li class="childcell">
 			<a class="menuicon" href="{{ app_url_wap }}/my/pmall " title="积分商城">
 				<img src="{{ app_url_packaged }}/images/icon/jifen.png">

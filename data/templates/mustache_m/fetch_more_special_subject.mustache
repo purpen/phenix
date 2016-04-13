@@ -1,0 +1,14 @@
+{{#results.rows}}
+  <div class="recom-cell one" id="special-subject-{{ _id }}">
+    <a href="{{ wap_view_url }}">
+      <img class="lazy" data-original="{{ cover.thumbnails.aub.view_url }}" src="{{ app_url_packaged }}/images/icon/load750-422.png" title="{{ title }}">
+      
+      <div class="xihuanicon">
+        <i class="empty heart icon"></i>{{ love_count }}
+      </div>
+      <div class="desc">
+        {{ &title }}
+      </div>
+    </a>
+  </div>
+{{/results.rows}}

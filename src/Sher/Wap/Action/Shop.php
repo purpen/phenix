@@ -17,9 +17,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     'sort' => 0,
     'type' => 0,
     'category_id' => 0,
-		'page_title_suffix' => '太火鸟智品库-智能硬件产品购买、评测、资讯信息库',
-		'page_keywords_suffix' => '太火鸟,太火鸟智品库,智能硬件,产品评测,产品资讯',
-		'page_description_suffix' => '太火鸟智品库有海量智能硬件评测和资讯信息，并提供智能出行设备、智能手表、智能手环、智能家居、运动健康、智能情趣、智能母婴等上百种智能硬件产品的在线销售',
+
 	);
 	
 	// 一个月时间
@@ -28,7 +26,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','index','shop','presale','view','cart','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list','serve');
+	protected $exclude_method_list = array('execute','index','shop','presale','view','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list','serve');
 	
 	/**
 	 * 商城入口
@@ -247,16 +245,14 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	public function cart() {
 
 		$user_id = $this->visitor->id;
-    if(empty($user_id)){
-      return $this->api_json('请先登录！', 3000); 
-    }
+
     $cart_model = new Sher_Core_Model_Cart();
     $cart = $cart_model->load($user_id);
     if(empty($cart) || empty($cart['items'])){
       $this->stash['products'] = array();
       $this->stash['total_money'] = 0;
       $this->stash['items_count'] = 0;
-      return $this->to_html_page('wap/cart.html');
+      return $this->to_html_page('wap/shop/cart.html');
     }
 
 		$inventory_model = new Sher_Core_Model_Inventory();

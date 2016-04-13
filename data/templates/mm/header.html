@@ -56,6 +56,12 @@
 		<a class="item" href="{{ app_url_wap }}/try">免费试用</a>
 		<a class="item" href="{{ app_url_wap }}/incubator/resource">孵化</a>
 		<a class="item" href="{{ app_url_wap }}/active">活动</a>
+		
+		{% if visitor %}
+		<div class="logout">
+			<a href="{{ app_url_wap }}/auth/logout">安全退出</a>
+		</div>
+		{% endif %}
 	</div>
 	<div id="cover"></div>
 </header>

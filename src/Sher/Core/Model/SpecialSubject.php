@@ -54,7 +54,8 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
-		
+    $row['wap_view_url'] = sprintf("%s/special_subject/view?id=%d", Doggy_Config::$vars['app.url.wap'], $row['_id']);
+
 		// HTML 实体转换为字符
 		if (isset($row['content'])){
 			$row['content'] = htmlspecialchars_decode($row['content']);
@@ -71,6 +72,7 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
 		$row['product_id_str'] = !empty($row['product_ids']) ? implode(',',$row['product_ids']) : '';
+
 	}
 
 	/**

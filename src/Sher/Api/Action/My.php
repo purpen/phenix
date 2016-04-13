@@ -552,6 +552,31 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
     return $this->api_json('success', 0, array('has_tag'=>1, 'tags'=>$items)); 
   
   }
+
+  public function update_user_identify(){
+    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录!', 3000);    
+    }
+    if(empty($type)){
+      return $this->api_json('请选择要更新的类型!', 3001);    
+    }
+    $field = null;
+    if($type==1){
+      $field = 'is_scene_subscribe';
+    }else{
+      return $this->api_json('更新的类型错误!', 3002);    
+    }
+    $user_model = new Sher_Core_Model_User();
+    $ok = $user_model->update_user_identify($user_id, $field, 1);
+    if($ok){
+      return $this->api_json('更新的类型错误!', 0, array());    
+    }else{
+      return $this->api_json('更新失败!', 3003);    
+    }
+
+  }
 	
 }
 
