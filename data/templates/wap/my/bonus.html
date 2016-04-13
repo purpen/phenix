@@ -2,6 +2,12 @@
 {% block title%}我的红包-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+h3.ui.header{
+	font-weight:400;
+}
 .ui.bonus.segment {
 	padding-bottom: 2em;
 }
@@ -20,25 +26,14 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui responsive grid">
+<div class="ui responsive grid mt-2r plr-r">
 	<div class="row">
 		<div class="column">
-    		<div class="ui breadcrumb">
-    		  	<a class="section" href="{{ app_url_wap }}">
-    				<i class="icon home"></i>首页
-    			</a>
-    		  	<div class="divider"> / </div>
-    		  	<a class="section" href="{{ app_url_wap }}/my">
-    				个人中心
-    			</a>
-    		  	<div class="divider"> / </div>
-    		  	<div class="active section">我的红包</div>
-    		</div>
-        </div>
-    </div>
+			<h3 class="ui dividing header">我的红包</h3>
+		</div>
+	</div>
 	<div class="row">
 		<div class="column">
-			<h4 class="ui dividing header">我的红包</h4>
 			{% bonus_list var:'bonus' page:page user_id:user._id size:10 %}
 			{% for b in bonus.rows %}
 		  	<div class="ui center aligned bonus segment" id="{{ b._id }}" data-id="{{ b._id }}">
