@@ -209,54 +209,54 @@
     			{% favorite_list var:'list' page:page user_id:user_id type:2 event:1 %}
     			{% for item in list.rows %}
                     {% if item.topic %}
-				<div class="mytlist" id="{{ topic._id }}">
+				<div class="mytlist" id="topic-{{ item.topic._id }}">
 					<div class="mytop">
 						<div class="myphoto">
-							<a class="ui small avatar idcard image" data-uid="{{ topic.user._id }}" href="{{ topic.user.home_url }}">
-					      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
+							<a class="ui small avatar idcard image" data-uid="{{ item.topic.user._id }}" href="javascript:void(0);">
+					      		<img src="{{ item.topic.user.small_avatar_url }}" alt="{{ item.topic.user.nickname }}" />
 							</a>
 						</div>
 						<div class="content">
-							<h5 class="ui header mb-r"><a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line link">
+							<h5 class="ui header mb-r"><a href="{{ item.topic.view_url }}" title="{{ item.topic.title }}" class="ui line link">
         {{ topic.title|truncate 60 }}</a></h5>
 							<div class="attribute">
 				                <span class="category">
-				                   {{ topic.category.title }}
+				                   {{ item.topic.category.title }}
 				                </span> &nbsp;&nbsp;|&nbsp;&nbsp; 
 								<span class="author">
-									<a href="javascrit:void(0);" class="ui link">@{{ topic.user.nickname }}</a>&nbsp;&nbsp;{{ topic.created_on|relative_datetime }}
+									<a href="javascrit:void(0);" class="ui link">@{{ item.topic.user.nickname }}</a>&nbsp;&nbsp;{{ item.topic.created_on|relative_datetime }}
 								</span>
 							</div>
 						</div>
 					</div>
-					{% if !topic.asset_count %}
+					{% if !item.topic.asset_count %}
 					<div class="description">
-						{{ topic.strip_description|truncate 70 }}
+						{{ item.topic.strip_description|truncate 70 }}
 					</div>
 					<div class="botmsg">
-						浏览：{{ topic.view_count }} &nbsp;&nbsp; 评论：{{ topic.comment_count }}
+						浏览：{{ item.topic.view_count }} &nbsp;&nbsp; 评论：{{ item.topic.comment_count }}
 					</div>
 					{% else %}
-							{% if topic.cover %}
-							  {% asset_list var:'assets' parent_id:topic._id size:4 asset_type:55 sort:'positive' %}
+							{% if item.topic.cover %}
+							  {% asset_list var:'assets' parent_id:item.topic._id size:4 asset_type:55 sort:'positive' %}
 		                    {%else%}
-							  {% asset_list var:'assets' parent_id:topic._id size:5 asset_type:55 sort:'positive' %}
+							  {% asset_list var:'assets' parent_id:item.topic._id size:5 asset_type:55 sort:'positive' %}
 		                    {%endif%}
 					<!--展示图片-->
 					<div class="topicphotos">
 						<div class="ui mini images">
-							{% if topic.cover %}
-							<img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" />
+							{% if item.topic.cover %}
+							<img class="ui image" src="{{ item.topic.cover.thumbnails.tiny.view_url }}" />
 							{% endif %}
 							{% for asset in assets.rows %}
-								{% if topic.cover._id != asset._id %}
+								{% if item.topic.cover._id != asset._id %}
 							  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
 								{% endif %}
 							{% endfor %}
 						</div>
 					</div>      
 					<div class="botmsg">
-					{{ topic.asset_count }} 张图片	浏览：{{ topic.view_count }} &nbsp;&nbsp; 评论：{{ topic.comment_count }}
+					{{ item.topic.asset_count }} 张图片	浏览：{{ item.topic.view_count }} &nbsp;&nbsp; 评论：{{ item.topic.comment_count }}
 					</div>  
 						{% endif %}
 				</div>
@@ -269,54 +269,54 @@
     			{% like_list var:'list' page:page user_id:user_id type:2 event:2 %}
     			{% for item in list.rows %}
                     {% if item.topic %}
-				<div class="mytlist" id="{{ topic._id }}">
+				<div class="mytlist" id="topic-{{ item.topic._id }}">
 					<div class="mytop">
 						<div class="myphoto">
-							<a class="ui small avatar idcard image" data-uid="{{ topic.user._id }}" href="{{ topic.user.home_url }}">
-					      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
+							<a class="ui small avatar idcard image" data-uid="{{ item.topic.user._id }}" href="javascript:void(0);">
+					      		<img src="{{ item.topic.user.small_avatar_url }}" alt="{{ item.topic.user.nickname }}" />
 							</a>
 						</div>
 						<div class="content">
-							<h5 class="ui header mb-r"><a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line link">
+							<h5 class="ui header mb-r"><a href="{{ item.topic.view_url }}" title="{{ item.topic.title }}" class="ui line link">
         {{ topic.title|truncate 60 }}</a></h5>
 							<div class="attribute">
 				                <span class="category">
-				                   {{ topic.category.title }}
+				                   {{ item.topic.category.title }}
 				                </span> &nbsp;&nbsp;|&nbsp;&nbsp; 
 								<span class="author">
-									<a href="javascrit:void(0);" class="ui link">@{{ topic.user.nickname }}</a>&nbsp;&nbsp;{{ topic.created_on|relative_datetime }}
+									<a href="javascrit:void(0);" class="ui link">@{{ item.topic.user.nickname }}</a>&nbsp;&nbsp;{{ item.topic.created_on|relative_datetime }}
 								</span>
 							</div>
 						</div>
 					</div>
-					{% if !topic.asset_count %}
+					{% if !item.topic.asset_count %}
 					<div class="description">
-						{{ topic.strip_description|truncate 70 }}
+						{{ item.topic.strip_description|truncate 70 }}
 					</div>
 					<div class="botmsg">
-						浏览：{{ topic.view_count }} &nbsp;&nbsp; 评论：{{ topic.comment_count }}
+						浏览：{{ item.topic.view_count }} &nbsp;&nbsp; 评论：{{ item.topic.comment_count }}
 					</div>
 					{% else %}
-							{% if topic.cover %}
-							  {% asset_list var:'assets' parent_id:topic._id size:4 asset_type:55 sort:'positive' %}
+							{% if item.topic.cover %}
+							  {% asset_list var:'assets' parent_id:item.topic._id size:4 asset_type:55 sort:'positive' %}
 		                    {%else%}
-							  {% asset_list var:'assets' parent_id:topic._id size:5 asset_type:55 sort:'positive' %}
+							  {% asset_list var:'assets' parent_id:item.topic._id size:5 asset_type:55 sort:'positive' %}
 		                    {%endif%}
 					<!--展示图片-->
 					<div class="topicphotos">
 						<div class="ui mini images">
-							{% if topic.cover %}
-							<img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" />
+							{% if item.topic.cover %}
+							<img class="ui image" src="{{ item.topic.cover.thumbnails.tiny.view_url }}" />
 							{% endif %}
 							{% for asset in assets.rows %}
-								{% if topic.cover._id != asset._id %}
+								{% if item.topic.cover._id != asset._id %}
 							  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
 								{% endif %}
 							{% endfor %}
 						</div>
 					</div>      
 					<div class="botmsg">
-					{{ topic.asset_count }} 张图片	浏览：{{ topic.view_count }} &nbsp;&nbsp; 评论：{{ topic.comment_count }}
+					{{ item.topic.asset_count }} 张图片	浏览：{{ item.topic.view_count }} &nbsp;&nbsp; 评论：{{ item.topic.comment_count }}
 					</div>  
 						{% endif %}
 				</div>

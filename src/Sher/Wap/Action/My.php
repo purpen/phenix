@@ -146,15 +146,6 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	 * 我的收藏(商品)
 	 */
 	public function favorite(){
-        $this->set_target_css_state('user_interest');
-        $this->set_target_css_state('user_favorite');
-        $this->stash['box_type'] = 'fav';
-        $this->stash['type'] = isset($this->stash['type']) ? $this->stash['type'] : 1;
-        if($this->stash['type'] == 1){
-            $this->set_target_css_state('favorite_product');
-        }else{
-            $this->set_target_css_state('favorite_topic');
-        }
 		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.wap'].'/my/favorite?page=#p#';
 		return $this->to_html_page("wap/my/favorite.html");
 	}
