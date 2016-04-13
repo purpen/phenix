@@ -58,6 +58,10 @@
     height: 2.499999985rem;
     position: relative;
 }
+.mytlist .mytop .myphoto .ui.avatar.image img{
+	width:100%;
+	height:100%;
+}
 .mytlist .mytop .content{
 	-webkit-box-flex: 1;
     -webkit-flex: 1;
@@ -153,7 +157,7 @@
 							</a>
 						</div>
 						<div class="content">
-							<h5 class="ui header mb-r"><a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line">
+							<h5 class="ui header mb-r"><a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line link">
 	    {{ topic.title|truncate 60 }}</a></h5>
 							<div class="attribute">
 				                <span class="category">
@@ -213,7 +217,7 @@
 							</a>
 						</div>
 						<div class="content">
-							<h5 class="ui header mb-r"><a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line">
+							<h5 class="ui header mb-r"><a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line link">
         {{ topic.title|truncate 60 }}</a></h5>
 							<div class="attribute">
 				                <span class="category">
@@ -273,7 +277,7 @@
 							</a>
 						</div>
 						<div class="content">
-							<h5 class="ui header mb-r"><a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line">
+							<h5 class="ui header mb-r"><a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line link">
         {{ topic.title|truncate 60 }}</a></h5>
 							<div class="attribute">
 				                <span class="category">
