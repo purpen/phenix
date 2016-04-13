@@ -46,7 +46,8 @@
 						$(event.target).addClass('error');
 						phenix.show_error_message(data.message, event.target);
 					}else{
-						phenix.redirect(data.redirect_url);
+            phenix.show_ok_note('感谢您的反馈!',2000);
+						phenix.redirect(data.redirect_url, 2000);
 					}
 				}
 			});
@@ -72,7 +73,7 @@
 				</div>
 				<div class="field mb-2r">
 					<h5 class="ui mt-0 mb-r header">联系方式</h5>
-					<input type="text" name="contact" value="{{ visitor.profile.phone }}" placeholder="手机号／QQ／邮箱（选填）" />
+					<input type="text" name="contact" value="" placeholder="手机号／QQ／邮箱（选填）" />
 					<p class="mt-r"><small>加入太火鸟交流群：226541167</small></p>
 				</div>
 				
