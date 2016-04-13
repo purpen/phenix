@@ -1,0 +1,88 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}问题反馈-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+.ui.header{
+	font-weight:400;
+}
+
+
+</style>
+{% endblock %}
+
+{% block jquery %}
+	
+	$('#feedback-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '内容不能为空'
+				},
+				{
+					type   : 'maxLength[120]',
+					prompt : '内容最多120个字符'
+				}
+			]
+		}
+
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_message(data.message, event.target);
+					}else{
+            phenix.show_ok_note('感谢您的反馈!',2000);
+						phenix.redirect(data.redirect_url, 2000);
+					}
+				}
+			});
+		}
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="ui responsive grid report mt-2r">
+	<div class="row">
+		<div class="column">
+			<h3 class="ui header">问题反馈</h3>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="column">
+			<form action="{{app_url_wap}}/my/save_report" method="post" class="ui fluid form" id="feedback-form">
+				<div class="field mb-2r">
+					<h5 class="ui mt-0 mb-r header">您的意见或建议</h5>
+					<textarea name="content" placeholder="您的意见或建议，我们都会认真倾听。"> </textarea>
+				</div>
+				<div class="field mb-2r">
+					<h5 class="ui mt-0 mb-r header">联系方式</h5>
+					<input type="text" name="contact" value="" placeholder="手机号／QQ／邮箱（选填）" />
+					<p class="mt-r"><small>加入太火鸟交流群：226541167</small></p>
+				</div>
+				
+				<input type="submit" class="ui small mt-r inverted magenta active button flt-r" value="提交" />
+				
+				
+			</form>
+		</div>
+	</div>
+
+</div>
+{% endblock %}

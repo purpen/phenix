@@ -2,6 +2,9 @@
 {% block title%}个人中心-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
 .mytop{
 	padding:15px 0;
 	width:100%;
@@ -115,7 +118,7 @@
 {% endblock %}
 
 {% block content %}
-<!--
+
 <div id="personal">
 	<div class="mytop">
 		<div class="myphoto">
@@ -124,56 +127,70 @@
 		<div class="mymessg">
 			<h3 class="ui header">{{ visitor.nickname }}</h3>
 			<p>
-				城市：北京<br>
-				等级：鸟下士<br>
-				鸟币：10<br>
+				城市：{{ user.city }} {{ user.profile.job }}<br>
+				等级：{{ user.ext_state.user_rank.title|default '鸟列兵' }} Lv {{ user.ext_state.rank_id|default 1 }} &nbsp;&nbsp;
+				经验值：{{ user.ext_state.rank_point|default 0 }} <br>
+				鸟币：{{ current_point.balance.money|default 0 }}<br>
 			</p>
 		</div>
-		<div href="" class="editzl">
+		<!--<div href="" class="editzl">
 			<a href="" class="ui link">	> </a>
-		</div>
+		</div>-->
 	</div>
 	
 	<div class="nav-menu">
-		<ul class="navfelx">
+		<!--<ul class="navfelx">
 			<li class="childcell">
-				<a class="menuicon" href="">
+				<a class="menuicon" href="{{ app_url_wap }}/my/topic">
 					我的话题<br />
-					2000
+					{{ user.topic_count|default 0 }}
 				</a>
 			</li>
 			<li class="childcell">
 				<a class="menuicon" href="">
 					产品<br />
-					2000
+					{{ user.product_count|default 0 }}
 				</a>
 			</li>
 			<li class="childcell">
 				<a class="menuicon" href="">
 					我关注的<br />
-					2000
+					{{ user.follow_count|default 0 }}
 				</a>
 			</li>
 			<li class="childcell">
 				<a class="menuicon" href="">
 					我的粉丝<br />
-					2000
+					{{ user.fans_count|default 0 }}
 				</a>
 			</li>
 		
-		</ul>
-		
+		</ul>-->
 		<ul class="navfelx item">
 			<li class="childcell">
-				<a class="menuicon" href="">
-					消息提醒 (10)
+				<a class="menuicon" href="{{ app_url_wap }}/my/account">
+					账户信息
 				</a>
 			</li>
 		</ul>
+		<!--<ul class="navfelx item">
+			<li class="childcell">
+				<a class="menuicon" href="">
+					消息提醒
+				</a>
+			</li>
+		</ul>-->
 		<ul class="navfelx item">
 			<li class="childcell">
 				<a class="menuicon" href="{{ app_url_wap }}/my/orders">
 					我的订单
+				</a>
+			</li>
+		</ul>
+		<ul class="navfelx item">
+			<li class="childcell">
+				<a class="menuicon" href="{{ app_url_wap }}/my/orders?s=1">
+					待付款订单
 				</a>
 			</li>
 		</ul>
@@ -193,21 +210,21 @@
 		</ul>
 		<ul class="navfelx item">
 			<li class="childcell">
-				<a class="menuicon" href="{{ app_url_wap }}/my/account">
-					账户信息
+				<a class="menuicon" href="{{ app_url_wap }}/my/topic">
+					我的话题
 				</a>
 			</li>
 		</ul>
-		<ul class="navfelx item">
+		<!--<ul class="navfelx item">
 			<li class="childcell">
 				<a class="menuicon" href="">
 					邀请好友
 				</a>
 			</li>
-		</ul>
+		</ul>-->
 		<ul class="navfelx item">
 			<li class="childcell">
-				<a class="menuicon" href="">
+				<a class="menuicon" href="{{ app_url_wap }}/my/report">
 					问题反馈
 				</a>
 			</li>
@@ -231,9 +248,9 @@
 	</div>
 	
 	
-</div>-->
+</div>
   
-<div class="ui responsive grid">
+<!--<div class="ui responsive grid">
 	<div class="row">
 		<div class="column">
 			<div class="ui pointing vertical fluid navigation menu">
@@ -273,5 +290,5 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div>-->
 {% endblock %}

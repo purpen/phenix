@@ -127,7 +127,7 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 2;
 		if(empty($id)){
-      return $this->ajax_json('缺少请参数!', true);
+      return $this->ajax_json('缺少请求参数!', true);
 		}
 
     $data = array();
