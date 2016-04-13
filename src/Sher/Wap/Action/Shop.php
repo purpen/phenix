@@ -252,7 +252,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       $this->stash['products'] = array();
       $this->stash['total_money'] = 0;
       $this->stash['items_count'] = 0;
-      return $this->to_html_page('wap/cart.html');
+      return $this->to_html_page('wap/shop/cart.html');
     }
 
 		$inventory_model = new Sher_Core_Model_Inventory();
