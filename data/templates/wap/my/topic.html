@@ -1,0 +1,127 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}我的话题-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+.ui.header{
+	font-weight:400;
+}
+.nav-menu .navfelx {
+    border-top: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.nav-menu .navfelx .childcell:first-child::before{
+	content:none;
+}
+.nav-menu .navfelx .childcell .menuicon{
+	margin:0;
+	padding:6px;
+}
+.nav-menu .navfelx .childcell::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: rgba(0,0,0,0.1);
+}
+.menuicon.active{
+	background:#f36;
+}
+.menuicon.active h5.ui.header{
+	color:#fff !important;
+}
+
+
+.mytop{
+	padding: 0.71428571rem 0;
+    width: 100%;
+    display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+}
+.mytop .myphoto{
+	width: 2.499999985rem;
+    height: 2.499999985rem;
+    position: relative;
+}
+.mytop .content{
+	-webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    position: relative;
+    margin-left: 0.71428571rem;
+	margin-top: 0.357142855rem;
+}
+</style>
+{% endblock %}
+{% block jquery %}
+	
+{% endblock %}
+
+{% block content %}
+<div id="mytopic" class="mt-2r">
+	<div class="ui responsive grid mb-r">
+		<div class="row">
+			<div class="column">
+				<h3 class="ui header">我的话题</h3>
+			</div>
+		</div>
+	</div>
+	<div class="nav-menu">
+		<ul class="navfelx">
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/topic?type=submited" class="{{ css_user_topic_submited }} menuicon m-0 ptb-2r">
+					<h5 class="ui header">我发表的</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/topic?type=favorited" class="{{ css_user_topic_favorited }} menuicon m-0 ptb-2r">
+					<h5 class="ui header">我收藏的</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/topic?type=loved" class="{{ css_user_topic_loved }} menuicon m-0 ptb-2r">
+					<h5 class="ui header">我赞了的</h5>
+				</a>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="ui responsive pt-r grid">
+		<div class="row">
+			<div class="column">
+				<div class="mytop">
+					<div class="myphoto">
+						<a href="">
+							<img src="{{ visitor.big_avatar_url }}" class="ui big avatar image" />
+						</a>
+					</div>
+					<div class="content">
+						<h5 class="ui header">GoPro推出16组相机阵列</h5>
+					</div>
+					
+					
+					
+				</div>
+				
+				
+				
+				
+			</div>
+		</div>
+		
+		
+	</div>
+		
+</div>
+{% endblock %}
