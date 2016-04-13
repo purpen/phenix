@@ -353,7 +353,9 @@
   var current_category_tags = $('#product-category-tags').val();
   if(current_category_id){
     // 加载该类别下的标签库
-    load_category_tag(current_category_id, current_category_tags); 
+    if(current_category_id){
+      load_category_tag(current_category_id, current_category_tags); 
+    }
   }
 
   // 自动获取站外商品信息

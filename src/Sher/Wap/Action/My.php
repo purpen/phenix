@@ -68,6 +68,32 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		
         return $this->to_html_page('wap/my/report.html');
     }
+
+  /**
+   * 保存反馈
+   */
+    public function save_report(){
+      $user_id = $this->visitor->id;
+      $contact = $this->stash['contact'];
+      $content = $this->stash['content'];
+      $row = array(
+        'user_id' => $user_id,
+        'contact' => $contact,
+        'content' => $content,
+        'from_to' => 6,
+      );
+
+      $feedback_model = new Sher_Core_Model_Feedback();
+      $ok = $feedback_model->apply_and_save($row);
+      $redirect_url = sprintf("%s/my", Doggy_Config::$vars['app.url.wap']);
+      if($ok){
+        return $this->ajax_json('保存成功！', false, $redirect_url);     
+      }else{
+        return $this->ajax_json('保存失败,请重新提交', true);     
+      }
+      
+    }
+
     /**
      * 我的话题
      */
