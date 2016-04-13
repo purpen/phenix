@@ -59,6 +59,15 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		
         return $this->to_html_page('wap/my/profile.html');
     }
+	
+	/**
+	 * 问题反馈
+	 */
+    public function report() {
+
+		
+        return $this->to_html_page('wap/my/report.html');
+    }
     /**
      * 我的话题
      */
