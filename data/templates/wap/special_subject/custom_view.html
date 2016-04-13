@@ -317,7 +317,7 @@ if (ua.match(/MicroMessenger/i)=="micromessenger" || ua.match(/QQ/i) == "qq"){
 }
 
 //点击评论icon 滚动到评论
-$('.commenticon').click(function(){
+$('.commenticon,.ui.commenting').click(function(){
 	$('html,body').animate({scrollTop:$('#comment-box').offset().top - 100},500);
 });
 $('.loveicon').click(function(){
