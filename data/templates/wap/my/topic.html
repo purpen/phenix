@@ -98,6 +98,10 @@
 	color: rgba(0,0,0,0.5);
 	font-size: 0.71428571rem;
 }
+.mytlist .description{
+	padding: 0 0 0.357142855rem;
+	font-size: 13px;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -136,78 +140,185 @@
 	<div class="ui responsive pt-r grid">
 		<div class="row">
 			<div class="column">
-				
-				<div class="mytlist">
+			
+            <!--我发表的-->
+            {% if type == 'submited' %}
+                {% topic_list var:'list' page:page user_id:user_id size:15 %}
+				{% for topic in list.rows %}
+				<div class="mytlist" id="{{ topic._id }}">
 					<div class="mytop">
 						<div class="myphoto">
-							<a href="">
-								<img src="{{ visitor.big_avatar_url }}" class="ui big avatar image" />
+							<a class="ui small avatar idcard image" data-uid="{{ topic.user._id }}" href="{{ topic.user.home_url }}">
+					      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
 							</a>
 						</div>
 						<div class="content">
-							<h5 class="ui header mb-r">GoPro推出16组相机阵列</h5>
+							<h5 class="ui header mb-r"><a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line">
+	    {{ topic.title|truncate 60 }}</a></h5>
 							<div class="attribute">
 				                <span class="category">
-				                    产品评测
+				                   {{ topic.category.title }}
 				                </span> &nbsp;&nbsp;|&nbsp;&nbsp; 
 								<span class="author">
-									<a href="http://www.taihuoniao.com/user/11731/" class="ui link">@成美</a>&nbsp;&nbsp;2015-05-31
+									<a href="javascrit:void(0);" class="ui link">@{{ topic.user.nickname }}</a>&nbsp;&nbsp;{{ topic.created_on|relative_datetime }}
 								</span>
 							</div>
 						</div>
 					</div>
-					<div class="topicphotos">
-						<div class="ui mini images">
-							<img class="ui image" src="http://frbird.qiniudn.com/topic/150531/556a962420de8d9c708bb2ea-1-ti.jpg">
-							<img class="ui image" src="http://frbird.qiniudn.com/topic/150531/556a962420de8d9c708bb2ea-2-ti.jpg">
-							<img class="ui image" src="http://frbird.qiniudn.com/topic/150531/556a962420de8d9c708bb2ea-1-ti.jpg">
-							<img class="ui image" src="http://frbird.qiniudn.com/topic/150531/556a962420de8d9c708bb2ea-2-ti.jpg">
-							<img class="ui image" src="http://frbird.qiniudn.com/topic/150531/556a962420de8d9c708bb2ea-2-ti.jpg">
-							<img class="ui image" src="http://frbird.qiniudn.com/topic/150531/556a962420de8d9c708bb2ea-2-ti.jpg">
-						
-						</div>
-					
+					{% if !topic.asset_count %}
+					<div class="description">
+						{{ topic.strip_description|truncate 70 }}
 					</div>
 					<div class="botmsg">
-						37 张图片  浏览：200 &nbsp;&nbsp; 评论：19
+						浏览：{{ topic.view_count }} &nbsp;&nbsp; 评论：{{ topic.comment_count }}
 					</div>
+					{% else %}
+							{% if topic.cover %}
+							  {% asset_list var:'assets' parent_id:topic._id size:4 asset_type:55 sort:'positive' %}
+		                    {%else%}
+							  {% asset_list var:'assets' parent_id:topic._id size:5 asset_type:55 sort:'positive' %}
+		                    {%endif%}
+					<!--展示图片-->
+					<div class="topicphotos">
+						<div class="ui mini images">
+							{% if topic.cover %}
+							<img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" />
+							{% endif %}
+							{% for asset in assets.rows %}
+								{% if topic.cover._id != asset._id %}
+							  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
+								{% endif %}
+							{% endfor %}
+						</div>
+					</div>      
+					<div class="botmsg">
+					{{ topic.asset_count }} 张图片	浏览：{{ topic.view_count }} &nbsp;&nbsp; 评论：{{ topic.comment_count }}
+					</div>  
+						{% endif %}
 				</div>
+                {%endfor%}
+            {% endif %}
 				
-				<div class="mytlist">
+				
+            <!--我收藏的-->
+            {% if type == 'favorited' %}
+    			{% favorite_list var:'list' page:page user_id:user_id type:2 event:1 %}
+    			{% for item in list.rows %}
+                    {% if item.topic %}
+				<div class="mytlist" id="{{ topic._id }}">
 					<div class="mytop">
 						<div class="myphoto">
-							<a href="">
-								<img src="{{ visitor.big_avatar_url }}" class="ui big avatar image" />
+							<a class="ui small avatar idcard image" data-uid="{{ topic.user._id }}" href="{{ topic.user.home_url }}">
+					      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
 							</a>
 						</div>
 						<div class="content">
-							<h5 class="ui header mb-r">GoPro推出16组相机阵列</h5>
+							<h5 class="ui header mb-r"><a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line">
+        {{ topic.title|truncate 60 }}</a></h5>
 							<div class="attribute">
 				                <span class="category">
-				                    产品评测
+				                   {{ topic.category.title }}
 				                </span> &nbsp;&nbsp;|&nbsp;&nbsp; 
 								<span class="author">
-									<a href="http://www.taihuoniao.com/user/11731/" class="ui link">@成美</a>&nbsp;&nbsp;2015-05-31
+									<a href="javascrit:void(0);" class="ui link">@{{ topic.user.nickname }}</a>&nbsp;&nbsp;{{ topic.created_on|relative_datetime }}
 								</span>
 							</div>
 						</div>
 					</div>
-					<div class="topicphotos">
-						<div class="ui mini images">
-							<img class="ui image" src="http://frbird.qiniudn.com/topic/150531/556a962420de8d9c708bb2ea-1-ti.jpg">
-							<img class="ui image" src="http://frbird.qiniudn.com/topic/150531/556a962420de8d9c708bb2ea-2-ti.jpg">
-							<img class="ui image" src="http://frbird.qiniudn.com/topic/150531/556a962420de8d9c708bb2ea-1-ti.jpg">
-							<img class="ui image" src="http://frbird.qiniudn.com/topic/150531/556a962420de8d9c708bb2ea-2-ti.jpg">
-							<img class="ui image" src="http://frbird.qiniudn.com/topic/150531/556a962420de8d9c708bb2ea-2-ti.jpg">
-							<img class="ui image" src="http://frbird.qiniudn.com/topic/150531/556a962420de8d9c708bb2ea-2-ti.jpg">
-						
-						</div>
-					
+					{% if !topic.asset_count %}
+					<div class="description">
+						{{ topic.strip_description|truncate 70 }}
 					</div>
 					<div class="botmsg">
-						37 张图片  浏览：200 &nbsp;&nbsp; 评论：19
+						浏览：{{ topic.view_count }} &nbsp;&nbsp; 评论：{{ topic.comment_count }}
 					</div>
+					{% else %}
+							{% if topic.cover %}
+							  {% asset_list var:'assets' parent_id:topic._id size:4 asset_type:55 sort:'positive' %}
+		                    {%else%}
+							  {% asset_list var:'assets' parent_id:topic._id size:5 asset_type:55 sort:'positive' %}
+		                    {%endif%}
+					<!--展示图片-->
+					<div class="topicphotos">
+						<div class="ui mini images">
+							{% if topic.cover %}
+							<img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" />
+							{% endif %}
+							{% for asset in assets.rows %}
+								{% if topic.cover._id != asset._id %}
+							  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
+								{% endif %}
+							{% endfor %}
+						</div>
+					</div>      
+					<div class="botmsg">
+					{{ topic.asset_count }} 张图片	浏览：{{ topic.view_count }} &nbsp;&nbsp; 评论：{{ topic.comment_count }}
+					</div>  
+						{% endif %}
 				</div>
+                    {% endif %}
+    			{% endfor %}
+            {% endif %}
+        
+            <!--我喜欢的-->
+            {% if type == 'loved' %}
+    			{% like_list var:'list' page:page user_id:user_id type:2 event:2 %}
+    			{% for item in list.rows %}
+                    {% if item.topic %}
+				<div class="mytlist" id="{{ topic._id }}">
+					<div class="mytop">
+						<div class="myphoto">
+							<a class="ui small avatar idcard image" data-uid="{{ topic.user._id }}" href="{{ topic.user.home_url }}">
+					      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
+							</a>
+						</div>
+						<div class="content">
+							<h5 class="ui header mb-r"><a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line">
+        {{ topic.title|truncate 60 }}</a></h5>
+							<div class="attribute">
+				                <span class="category">
+				                   {{ topic.category.title }}
+				                </span> &nbsp;&nbsp;|&nbsp;&nbsp; 
+								<span class="author">
+									<a href="javascrit:void(0);" class="ui link">@{{ topic.user.nickname }}</a>&nbsp;&nbsp;{{ topic.created_on|relative_datetime }}
+								</span>
+							</div>
+						</div>
+					</div>
+					{% if !topic.asset_count %}
+					<div class="description">
+						{{ topic.strip_description|truncate 70 }}
+					</div>
+					<div class="botmsg">
+						浏览：{{ topic.view_count }} &nbsp;&nbsp; 评论：{{ topic.comment_count }}
+					</div>
+					{% else %}
+							{% if topic.cover %}
+							  {% asset_list var:'assets' parent_id:topic._id size:4 asset_type:55 sort:'positive' %}
+		                    {%else%}
+							  {% asset_list var:'assets' parent_id:topic._id size:5 asset_type:55 sort:'positive' %}
+		                    {%endif%}
+					<!--展示图片-->
+					<div class="topicphotos">
+						<div class="ui mini images">
+							{% if topic.cover %}
+							<img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" />
+							{% endif %}
+							{% for asset in assets.rows %}
+								{% if topic.cover._id != asset._id %}
+							  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
+								{% endif %}
+							{% endfor %}
+						</div>
+					</div>      
+					<div class="botmsg">
+					{{ topic.asset_count }} 张图片	浏览：{{ topic.view_count }} &nbsp;&nbsp; 评论：{{ topic.comment_count }}
+					</div>  
+						{% endif %}
+				</div>
+                    {% endif %}
+    			{% endfor %}
+            {% endif %}
 				
 				
 				
