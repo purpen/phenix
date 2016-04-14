@@ -280,6 +280,7 @@
 		
 		{% order_list var:'list' user_id:user.id status:s deleted:'-1' size:10 page:page %}
 		{% for order in list.rows %}
+			{% for item in order.items %}
 		<div class="item" id="order-{{ order._id }}">
 			
 			<div class="ordertop">
@@ -289,17 +290,15 @@
 			
 			<div class="content">
 				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="img"> 
-					{% for item in order.items %}
+					
 						{% if loop.first %}
 						{% product_list var:'product' product_id:item.product_id %}
 						<img src="{{ product.cover.thumbnails.mini.view_url }}">
 						{% endif %}
-					{%endfor%}
 					
 					
 					
 				</a>
-				{% for item in order.items %}
 				{% product_list var:'product' product_id:item.product_id %}
 				{% if item.sku == item.product_id %}
 				<div class="orderinfo">
@@ -323,7 +322,6 @@
 						</span>
 					</div>
 				</div>
-				{%endfor%}
 			</div>
 			
 			<div class="product">
@@ -340,9 +338,10 @@
 				
 			</div>
 			
+			
 		</div>
 		
-		
+			{% endfor %}
 		{% endfor %}
 		
 		
