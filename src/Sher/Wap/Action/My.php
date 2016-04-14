@@ -303,8 +303,8 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
         } catch (Sher_Core_Model_Exception $e) {
             return $this->ajax_notification('取消订单失败:'.$e->getMessage(),true);
         }
-		return $this->to_html_page("wap/my/orders.html");
-		//return $this->to_taconite_page('ajax/reload.html');
+		$stash
+		return $this->to_taconite_page('ajax/reload.html');
 	}
 	
 	/**

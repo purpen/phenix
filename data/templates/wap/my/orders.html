@@ -240,6 +240,12 @@
 				<a href="{{ app_url_wap }}/my/ajax_cancel_order?rid={{ order.rid }}" class="ui small magenta inverted button">取消订单</a>
 				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="ui small magenta inverted button">立即支付</a>
 					{% endif %}
+		  			{% if order.status == 2 %}
+		            <a href="javascript:void(0);" class="ui small magenta inverted button" name="apply-refund" rid="{{ order.rid }}">申请退款</a>
+		  			{% endif %}
+		  			{% if order.status == 3 %}
+		            <a href="{{ app_url_wap }}/my/ajax_take_delivery?rid={{ order.rid }}" class="ui small magenta inverted button" rid="{{ order.rid }}">确认收货</a>
+		  			{% endif %}
 				{% endif %}
 				
 				
