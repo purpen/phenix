@@ -285,14 +285,16 @@
 				<span class="ui line fz-12">{{ order.created_on|date 'Y/m/d' }}</span>
 				<span class="ui magenta link fz-12 flt-r">{{ order.status_label }}</span>
 			</div>
-			{% for item in order.items %}
+			
 			<div class="content">
 				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="img"> 
-					
+					{% for item in order.items %}
 						{% if loop.first %}
 						{% product_list var:'product' product_id:item.product_id %}
 						<img src="{{ product.cover.thumbnails.mini.view_url }}">
 						{% endif %}
+					{% endfor %}
+					
 					
 				</a>	
 				{% if item.sku == item.product_id %}
@@ -319,7 +321,6 @@
 					</div>
 				</div>
 			</div>
-			{% endfor %}
 			
 			<div class="product">
 				<p>共{{ order.item.quantity }}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
