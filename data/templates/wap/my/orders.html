@@ -311,6 +311,7 @@
 							{% else %}
 							{% sku_list var:'sku' sku:item.sku %}
 							{{ sku.mode }}
+						{% endif %}
 						</span>
 						<span class="count flt-r">
 							x {{ order.rid }}{%if order.items_count > 1 %}{{ order.items_count }}{%else%}1{% endif %}
