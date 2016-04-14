@@ -9,8 +9,8 @@
 	font-weight:400;
 }
 .nav-menu .navfelx {
-    border-top: 1px solid rgba(0,0,0,0.1);
-    border-bottom: 1px solid rgba(0,0,0,0.1);
+    border-top: 0px solid rgba(0,0,0,0.1);
+    border-bottom: 0px solid rgba(0,0,0,0.1);
 }
 .nav-menu .navfelx .childcell:first-child::before{
 	content:none;
@@ -20,7 +20,7 @@
 	padding:6px;
 }
 .nav-menu .navfelx .childcell::before {
-    content: '';
+    content: none;
     position: absolute;
     left: 0;
     top: 0;
@@ -29,10 +29,10 @@
     background: rgba(0,0,0,0.1);
 }
 .menuicon.active{
-	background:#f36;
+	border-bottom:2px solid #f36;
 }
 .menuicon.active h5.ui.header{
-	color:#fff !important;
+	color:#f36 !important;
 }
 
 .mytlist{
