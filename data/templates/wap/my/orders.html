@@ -190,9 +190,8 @@
 	
 	<div id="orderitem">
 		
-		
-		{% for order in list.rows %}
 		{% order_list var:'list' user_id:user.id status:s deleted:'-1' size:10 page:page %}	
+		{% for order in list.rows %}
 		<div class="item" id="order-{{ order._id }}">
 			
 			<div class="ordertop">
@@ -206,8 +205,6 @@
 				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="img"> 
 						<img src="{{ product.cover.thumbnails.mini.view_url }}">
 				</a>
-				
-				{% if item.sku == item.product_id %}
 				<div class="orderinfo">
 					<a class="ui link" href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}">
 						<h4 class="title">
@@ -218,6 +215,7 @@
 					</a>
 					<div class="orderdes">
 						<span class="sku">
+							{% if item.sku == item.product_id %}
 							默认
 							{% else %}
 							{% sku_list var:'sku' sku:item.sku %}
