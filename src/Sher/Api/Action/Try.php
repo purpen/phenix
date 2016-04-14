@@ -285,6 +285,10 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
       $ok = $apply_model->apply_and_save($data);
       if($ok){
 
+        // 增加消费积分（鸟币）
+        $service = Sher_Core_Service_Point::instance();
+        $service->make_money_in($user_id, 1, 'app端申请试用');
+
         //试用显示的字段
         $try_some_fields = array(
           '_id', 'title', 'short_title', 'cover_id', 'banner_id', 'step_stat', 'sticked',

@@ -1718,7 +1718,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         'kind' => 1,
         'state' => 1,
         'remark' => null,
-        'items' => array(array('target_id'=>$target_id, 'type'=>$type, 'n'=>$n)),
+        'items' => array(array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n)),
         'item_count' => 1,
       ));     
     }else{
@@ -1732,7 +1732,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       }// endfor
 
       if($new_item){
-        array_push($cart['items'], array('target_id'=>$target_id, 'type'=>$type, 'n'=>$n));
+        array_push($cart['items'], array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n));
       }
       $ok = $cart_model->update_set($user_id, array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));
 
