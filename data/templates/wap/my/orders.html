@@ -235,12 +235,15 @@
 			</div>
 			
 			<div class="orderbottom">
-				<a class="ui small magenta inverted button">
-					删除订单
-				</a>
-				<a class="ui small magenta inverted button">
-					删除订单
-				</a>
+				{% if my %}
+					{% if order.status == 1 %}
+				<a href="{{ app_url_my }}/ajax_cancel_order?rid={{ order.rid }}" class="ui small magenta inverted button">取消订单</a>
+				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="ui small magenta inverted butto">立即支付</a>
+					{% endif %}
+				{% endif %}
+				
+				
+				
 				
 			</div>
 		</div>
