@@ -280,6 +280,7 @@
 		
 		{% order_list var:'list' user_id:user.id status:s deleted:'-1' size:10 page:page %}
 		{% for order in list.rows %}
+			{% for item in order.items %}
 		<div class="item" id="order-{{ order._id }}">
 			<div class="ordertop">
 				<span class="ui line fz-12">{{ order.created_on|date 'Y/m/d' }}</span>
@@ -287,7 +288,6 @@
 			</div>
 			
 			<div class="content">
-				{% for item in order.items %}
 				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="img"> 
 					
 						{% if loop.first %}
@@ -325,7 +325,7 @@
 			<div class="product">
 				<p>共{{ item.quantity }}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
 			</div>
-			{% endfor %}
+			
 			<div class="orderbottom">
 				<a class="ui small magenta inverted button">
 					删除订单
@@ -337,6 +337,7 @@
 			</div>
 			
 		</div>
+		{% endfor %}
 		{% else %}
 		<div class="item">您还没有相关订单</div>
 		{% endfor %}
