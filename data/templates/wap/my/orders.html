@@ -19,10 +19,43 @@ h3.ui.header{
 <div class="ui responsive grid mt-2r">
 	<div class="row">
 		<div class="column">
-			<h3 class="ui header">订单查询</h3>
+			<h3 class="ui header">我的订单</h3>
 		</div>
 	</div>
-	<div class="row">	
+	
+	<div class="nav-menu">
+		<ul class="navfelx">
+			<li class="childcell">
+				<a href=" " class="{{ css_user_topic_submited }} menuicon">
+					<h5 class="ui header">全部</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/topic?type=favorited" class="{{ css_user_topic_favorited }} menuicon">
+					<h5 class="ui header">待付款</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/topic?type=loved" class="{{ css_user_topic_loved }} menuicon">
+					<h5 class="ui header">待发货</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/topic?type=favorited" class="{{ css_user_topic_favorited }} menuicon">
+					<h5 class="ui header">待收货</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/topic?type=loved" class="{{ css_user_topic_loved }} menuicon">
+					<h5 class="ui header">待评价</h5>
+				</a>
+			</li>
+		</ul>
+	</div>
+	
+	
+	
+	<!--<div class="row">	
 		<div class="column">
 			<div class="ui segment">
 				{% order_list var:'list' user_id:user.id status:s deleted:'-1' size:10 page:page %}
@@ -42,6 +75,6 @@ h3.ui.header{
 			</div>
 			{% endif %}
 		</div>
-	</div>
+	</div>-->
 </div>
 {% endblock %}
