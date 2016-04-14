@@ -5,8 +5,33 @@
 #mfrbird{
 	margin-top:0;
 }
-h3.ui.header{
+.ui.header{
 	font-weight:400;
+}
+.ui.grid .nav-menu{
+	padding:0;
+}
+.nav-menu .navfelx .childcell:first-child::before{
+	content:none;
+}
+.nav-menu .navfelx .childcell .menuicon{
+	margin:0;
+	padding:0.857142852rem 0;
+}
+.nav-menu .navfelx .childcell::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: rgba(0,0,0,0.1);
+}
+.menuicon.active{
+	border-bottom:2px solid #f36;
+}
+.menuicon.active h5.ui.header{
+	color:#f36 !important;
 }
 </style>
 {% endblock %}
@@ -22,36 +47,47 @@ h3.ui.header{
 			<h3 class="ui header">我的订单</h3>
 		</div>
 	</div>
-	
 	<div class="nav-menu">
 		<ul class="navfelx">
 			<li class="childcell">
-				<a href=" " class="{{ css_user_topic_submited }} menuicon">
+				<a href="{{ app_url_wap }}/my/orders" class="{{ css_all }} menuicon">
 					<h5 class="ui header">全部</h5>
 				</a>
 			</li>
 			<li class="childcell">
-				<a href="{{ app_url_wap }}/my/topic?type=favorited" class="{{ css_user_topic_favorited }} menuicon">
+				<a href="{{ app_url_wap }}/my/orders?s=1" class="{{ css_nopayed }} menuicon">
 					<h5 class="ui header">待付款</h5>
 				</a>
 			</li>
 			<li class="childcell">
-				<a href="{{ app_url_wap }}/my/topic?type=loved" class="{{ css_user_topic_loved }} menuicon">
+				<a href="{{ app_url_wap }}/my/orders?s=2" class="{{ css_ready_goods }} menuicon">
 					<h5 class="ui header">待发货</h5>
 				</a>
 			</li>
 			<li class="childcell">
-				<a href="{{ app_url_wap }}/my/topic?type=favorited" class="{{ css_user_topic_favorited }} menuicon">
+				<a href="{{ app_url_wap }}/my/orders?s=3" class="{{ css_sended_goods }} menuicon">
 					<h5 class="ui header">待收货</h5>
 				</a>
 			</li>
 			<li class="childcell">
-				<a href="{{ app_url_wap }}/my/topic?type=loved" class="{{ css_user_topic_loved }} menuicon">
+				<a href="{{ app_url_wap }}/my/orders?s=7" class="{{ css_evaluate }} menuicon">
 					<h5 class="ui header">待评价</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/orders?s=8" class="{{ css_return }} menuicon">
+					<h5 class="ui header">退换货</h5>
 				</a>
 			</li>
 		</ul>
 	</div>
+	
+	
+	
+	
+</div>
+	
+
 	
 	
 	
