@@ -188,9 +188,9 @@
 		</ul>
 	</div>
 	
-	{% order_list var:'list' user_id:user.id status:s deleted:'-1' size:10 page:page %}
 	<div id="orderitem">
 		
+		{% order_list var:'list' user_id:user.id status:s deleted:'-1' size:10 page:page %}
 		{% for order in list.rows %}
 			
 		<div class="item" id="order-{{ order._id }}">
@@ -199,9 +199,8 @@
 				<span class="ui line fz-12">{{ order.created_on|date 'Y/m/d' }}</span>
 				<span class="ui magenta link fz-12 flt-r">{{ order.status_label }}</span>
 			</div>
-			
-			{% for item in order.items %}
 			{% product_list var:'product' product_id:item.product_id %}
+			{% for item in order.items %}
 			<div class="content">
 				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="img"> 
 						<img src="{{ product.cover.thumbnails.mini.view_url }}">
