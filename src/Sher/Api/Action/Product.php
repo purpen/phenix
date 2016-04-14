@@ -261,6 +261,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     $asset_query = array('parent_id'=>$product['_id'], 'asset_type'=>11);
     $asset_options['page'] = 1;
     $asset_options['size'] = 10;
+    $asset_options['sort_field'] = 'latest';
     $asset_service = Sher_Core_Service_Asset::instance();
     $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
 

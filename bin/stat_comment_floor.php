@@ -22,10 +22,11 @@ set_time_limit(0);
 ini_set('memory_limit','512M');
 
 
-stat_comment_floor(2, 108750, true);
+//stat_comment_floor(2, 108750, true);
 //stat_comment_floor(3, null, true);
 //stat_comment_floor(4, null, true);
 //stat_comment_floor(6, null, true);
+//stat_comment_floor(9, null, true);
 
 
 // 可传入条件
@@ -42,6 +43,9 @@ function stat_comment_floor($type=1, $target_id=null, $stat_floor=false){
       break;
     case 6:
       $target_model = new Sher_Core_Model_Stuff();
+      break;
+    case 9:
+      $target_model = new Sher_Core_Model_SpecialSubject();
       break;
     default:
       return;
