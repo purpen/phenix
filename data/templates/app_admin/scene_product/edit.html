@@ -353,7 +353,9 @@
   var current_category_tags = $('#product-category-tags').val();
   if(current_category_id){
     // 加载该类别下的标签库
-    load_category_tag(current_category_id, current_category_tags); 
+    if(current_category_id){
+      load_category_tag(current_category_id, current_category_tags); 
+    }
   }
 
   // 自动获取站外商品信息
@@ -605,7 +607,7 @@
         <div class="field">
           <label for="brand_id">所属品牌：</label>
 
-          {% scene_brands_list var:'brand_list' page:1 size:50 %}
+          {% scene_brands_list var:'brand_list' page:1 size:200 %}
           <div class="ui selection dropdown">
             <input type="hidden" name="brand_id" value="{{ scene_product.brand_id }}" />
               <div class="default text">请选择</div>

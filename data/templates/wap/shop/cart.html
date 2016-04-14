@@ -106,6 +106,13 @@
 }
 .cardsum span{
 	color:#f36;
+	position:relative;
+}
+.cardsum span span{
+	margin-left:12px;
+}
+.cardsum span .rmb.icon{
+	position:absolute;
 }
 .cardsum span .rmb.icon,.cartitem .cartinfo p.price .rmb.icon{
     font-size: 14px;
@@ -132,6 +139,7 @@
     line-height: 50px;
     background: #c1c1c1;
     color: #fff !important;
+	background:#f36;
 }
 </style>
 {% endblock %}
@@ -162,7 +170,7 @@
       }
     }, 'json')
   });
-	
+  $('#cartpage').css('min-height',document.documentElement.clientHeight-260);	
 {% endblock %}
 
 {% block content %}
@@ -193,7 +201,7 @@
 		</div>
 	</div>
 	{%else%}
-	<div class="ui responsive grid">
+	<div class="ui responsive grid" style="padding-top:10px;">
 		<div class="row">
 			<div class="column" id="cart-body-content">
 				<div class="ui empty message">

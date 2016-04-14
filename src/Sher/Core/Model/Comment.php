@@ -83,6 +83,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	 * 保存之前
 	 */
 	protected function before_save(&$data) {
+
 		
 		// 记录IP
 		$ip = Sher_Core_Helper_Auth::get_ip();
@@ -106,6 +107,9 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 				case 7:
 					$target_model = new Sher_Core_Model_Albums();
 					break;
+                case 9:
+                    $target_model = new Sher_Core_Model_SpecialSubject();
+                    break;
 				case 12:
 					$target_model = new Sher_Core_Model_SceneSight();
 					break;

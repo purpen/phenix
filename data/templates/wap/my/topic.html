@@ -1,0 +1,336 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}我的话题-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+.ui.header{
+	font-weight:400;
+}
+.nav-menu .navfelx {
+    border-top: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.nav-menu .navfelx .childcell:first-child::before{
+	content:none;
+}
+.nav-menu .navfelx .childcell .menuicon{
+	margin:0;
+	padding:6px;
+}
+.nav-menu .navfelx .childcell::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: rgba(0,0,0,0.1);
+}
+.menuicon.active{
+	background:#f36;
+}
+.menuicon.active h5.ui.header{
+	color:#fff !important;
+}
+
+.mytlist{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	padding-bottom: .71428571rem!important;
+	padding-top: .71428571rem!important;
+}
+.mytlist:first-child{
+	padding-top:0;
+}
+.mytlist .mytop{
+	padding: 0.71428571rem 0 0.357142855rem;
+    width: 100%;
+    display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+	align-items: center;
+    -webkit-box-align: center;
+}
+.mytlist .mytop .myphoto{
+	width: 2.499999985rem;
+    height: 2.499999985rem;
+    position: relative;
+}
+.mytlist .mytop .myphoto .ui.avatar.image img{
+	width:100%;
+	height:100%;
+}
+.mytlist .mytop .content{
+	-webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    position: relative;
+    margin-left: 0.71428571rem;
+}
+.mytlist .mytop .attribute{
+	font-size:0.857142852rem;
+}
+.mytlist .topicphotos{
+    height: 62px;
+    position: relative;
+    overflow: hidden;
+    margin: 0.357142855rem 0;
+}
+.mytlist .topicphotos .ui.mini.images{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 75px;
+    white-space: nowrap;
+    overflow-x: hidden;
+    overflow: auto;
+}
+.mytlist .topicphotos .ui.mini.images img{
+    width: 80px;
+    height: auto;
+    font-size: 0.71428571rem;
+    overflow: hidden;
+	vertical-align: top;
+}
+.mytlist .botmsg{
+	color: rgba(0,0,0,0.5);
+	font-size: 0.71428571rem;
+}
+.mytlist .description{
+	padding: 0 0 0.357142855rem;
+	font-size: 13px;
+}
+</style>
+{% endblock %}
+{% block jquery %}
+	$('#mytopic').css('min-height',document.documentElement.clientHeight-230);
+{% endblock %}
+
+{% block content %}
+<div id="mytopic" class="mt-2r">
+	<div class="ui responsive grid mb-r">
+		<div class="row">
+			<div class="column">
+				<h3 class="ui header">我的话题</h3>
+			</div>
+		</div>
+	</div>
+	<div class="nav-menu">
+		<ul class="navfelx">
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/topic?type=submited" class="{{ css_user_topic_submited }} menuicon m-0 ptb-2r">
+					<h5 class="ui header">我发表的</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/topic?type=favorited" class="{{ css_user_topic_favorited }} menuicon m-0 ptb-2r">
+					<h5 class="ui header">我收藏的</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/topic?type=loved" class="{{ css_user_topic_loved }} menuicon m-0 ptb-2r">
+					<h5 class="ui header">我赞了的</h5>
+				</a>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="ui responsive pt-r grid">
+		<div class="row">
+			<div class="column">
+			
+            <!--我发表的-->
+            {% if type == 'submited' %}
+                {% topic_list var:'list' page:page user_id:user_id size:15 %}
+				{% for topic in list.rows %}
+				<div class="mytlist" id="{{ topic._id }}">
+					<div class="mytop">
+						<div class="myphoto">
+							<a class="ui small avatar idcard image" data-uid="{{ topic.user._id }}" href="javascript:void(0);">
+					      		<img src="{{ topic.user.small_avatar_url }}" alt="{{ topic.user.nickname }}" />
+							</a>
+						</div>
+						<div class="content">
+							<h5 class="ui header mb-r"><a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line link">
+	    {{ topic.title|truncate 60 }}</a></h5>
+							<div class="attribute">
+				                <span class="category">
+				                   {{ topic.category.title }}
+				                </span> &nbsp;&nbsp;|&nbsp;&nbsp; 
+								<span class="author">
+									<a href="javascrit:void(0);" class="ui link">@{{ topic.user.nickname }}</a>&nbsp;&nbsp;{{ topic.created_on|relative_datetime }}
+								</span>
+							</div>
+						</div>
+					</div>
+					{% if !topic.asset_count %}
+					<div class="description">
+						{{ topic.strip_description|truncate 70 }}
+					</div>
+					<div class="botmsg">
+						浏览：{{ topic.view_count }} &nbsp;&nbsp; 评论：{{ topic.comment_count }}
+					</div>
+					{% else %}
+							{% if topic.cover %}
+							  {% asset_list var:'assets' parent_id:topic._id size:4 asset_type:55 sort:'positive' %}
+		                    {%else%}
+							  {% asset_list var:'assets' parent_id:topic._id size:5 asset_type:55 sort:'positive' %}
+		                    {%endif%}
+					<!--展示图片-->
+					<div class="topicphotos">
+						<div class="ui mini images">
+							{% if topic.cover %}
+							<img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" />
+							{% endif %}
+							{% for asset in assets.rows %}
+								{% if topic.cover._id != asset._id %}
+							  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
+								{% endif %}
+							{% endfor %}
+						</div>
+					</div>      
+					<div class="botmsg">
+					{{ topic.asset_count }} 张图片	浏览：{{ topic.view_count }} &nbsp;&nbsp; 评论：{{ topic.comment_count }}
+					</div>  
+						{% endif %}
+				</div>
+                {%endfor%}
+            {% endif %}
+				
+				
+            <!--我收藏的-->
+            {% if type == 'favorited' %}
+    			{% favorite_list var:'list' page:page user_id:user_id type:2 event:1 %}
+    			{% for item in list.rows %}
+                    {% if item.topic %}
+				<div class="mytlist" id="topic-{{ item.topic._id }}">
+					<div class="mytop">
+						<div class="myphoto">
+							<a class="ui small avatar idcard image" data-uid="{{ item.topic.user._id }}" href="javascript:void(0);">
+					      		<img src="{{ item.topic.user.small_avatar_url }}" alt="{{ item.topic.user.nickname }}" />
+							</a>
+						</div>
+						<div class="content">
+							<h5 class="ui header mb-r"><a href="{{ item.topic.view_url }}" title="{{ item.topic.title }}" class="ui line link">
+        {{ item.topic.title|truncate 60 }}</a></h5>
+							<div class="attribute">
+				                <span class="category">
+				                   {{ item.topic.category.title }}
+				                </span> &nbsp;&nbsp;|&nbsp;&nbsp; 
+								<span class="author">
+									<a href="javascrit:void(0);" class="ui link">@{{ item.topic.user.nickname }}</a>&nbsp;&nbsp;{{ item.topic.created_on|relative_datetime }}
+								</span>
+							</div>
+						</div>
+					</div>
+					{% if !item.topic.asset_count %}
+					<div class="description">
+						{{ item.topic.strip_description|truncate 70 }}
+					</div>
+					<div class="botmsg">
+						浏览：{{ item.topic.view_count }} &nbsp;&nbsp; 评论：{{ item.topic.comment_count }}
+					</div>
+					{% else %}
+							{% if item.topic.cover %}
+							  {% asset_list var:'assets' parent_id:item.topic._id size:4 asset_type:55 sort:'positive' %}
+		                    {%else%}
+							  {% asset_list var:'assets' parent_id:item.topic._id size:5 asset_type:55 sort:'positive' %}
+		                    {%endif%}
+					<!--展示图片-->
+					<div class="topicphotos">
+						<div class="ui mini images">
+							{% if item.topic.cover %}
+							<img class="ui image" src="{{ item.topic.cover.thumbnails.tiny.view_url }}" />
+							{% endif %}
+							{% for asset in assets.rows %}
+								{% if item.topic.cover._id != asset._id %}
+							  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
+								{% endif %}
+							{% endfor %}
+						</div>
+					</div>      
+					<div class="botmsg">
+					{{ item.topic.asset_count }} 张图片	浏览：{{ item.topic.view_count }} &nbsp;&nbsp; 评论：{{ item.topic.comment_count }}
+					</div>  
+						{% endif %}
+				</div>
+                    {% endif %}
+    			{% endfor %}
+            {% endif %}
+        
+            <!--我喜欢的-->
+            {% if type == 'loved' %}
+    			{% like_list var:'list' page:page user_id:user_id type:2 event:2 %}
+    			{% for item in list.rows %}
+                    {% if item.topic %}
+				<div class="mytlist" id="topic-{{ item.topic._id }}">
+					<div class="mytop">
+						<div class="myphoto">
+							<a class="ui small avatar idcard image" data-uid="{{ item.topic.user._id }}" href="javascript:void(0);">
+					      		<img src="{{ item.topic.user.small_avatar_url }}" alt="{{ item.topic.user.nickname }}" />
+							</a>
+						</div>
+						<div class="content">
+							<h5 class="ui header mb-r"><a href="{{ item.topic.view_url }}" title="{{ item.topic.title }}" class="ui line link">
+        {{ item.topic.title|truncate 60 }}</a></h5>
+							<div class="attribute">
+				                <span class="category">
+				                   {{ item.topic.category.title }}
+				                </span> &nbsp;&nbsp;|&nbsp;&nbsp; 
+								<span class="author">
+									<a href="javascrit:void(0);" class="ui link">@{{ item.topic.user.nickname }}</a>&nbsp;&nbsp;{{ item.topic.created_on|relative_datetime }}
+								</span>
+							</div>
+						</div>
+					</div>
+					{% if !item.topic.asset_count %}
+					<div class="description">
+						{{ item.topic.strip_description|truncate 70 }}
+					</div>
+					<div class="botmsg">
+						浏览：{{ item.topic.view_count }} &nbsp;&nbsp; 评论：{{ item.topic.comment_count }}
+					</div>
+					{% else %}
+							{% if item.topic.cover %}
+							  {% asset_list var:'assets' parent_id:item.topic._id size:4 asset_type:55 sort:'positive' %}
+		                    {%else%}
+							  {% asset_list var:'assets' parent_id:item.topic._id size:5 asset_type:55 sort:'positive' %}
+		                    {%endif%}
+					<!--展示图片-->
+					<div class="topicphotos">
+						<div class="ui mini images">
+							{% if item.topic.cover %}
+							<img class="ui image" src="{{ item.topic.cover.thumbnails.tiny.view_url }}" />
+							{% endif %}
+							{% for asset in assets.rows %}
+								{% if item.topic.cover._id != asset._id %}
+							  	<img class="ui image" src="{{ asset.thumbnails.tiny.view_url }}" />
+								{% endif %}
+							{% endfor %}
+						</div>
+					</div>      
+					<div class="botmsg">
+					{{ item.topic.asset_count }} 张图片	浏览：{{ item.topic.view_count }} &nbsp;&nbsp; 评论：{{ item.topic.comment_count }}
+					</div>  
+						{% endif %}
+				</div>
+                    {% endif %}
+    			{% endfor %}
+            {% endif %}
+				
+				
+			</div>
+		</div>
+		
+		
+	</div>
+		
+</div>
+{% endblock %}

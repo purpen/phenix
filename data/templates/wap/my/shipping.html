@@ -2,6 +2,12 @@
 {% block title%}收货地址管理-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+h3.ui.header{
+	font-weight:400;
+}
   @media only screen and (max-width: 767px){
     .ui.small.modal {
       width: 92%;
@@ -27,6 +33,7 @@
 {% endblock %}
 
 {% block jquery %}
+	$('.ui.responsive.grid.mt-2r').css('min-height',document.documentElement.clientHeight-230);
 	// 编辑
 	$('.ui.addbook.edit.button').click(function(){
 	  $('.ui.addbook.edit.modal').modal('show');
@@ -146,25 +153,14 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui responsive grid">
+<div class="ui responsive grid mt-2r">
 	<div class="row">
 		<div class="column">
-    		<div class="ui breadcrumb">
-    		  	<a class="section" href="{{ app_url_wap }}">
-    				<i class="icon home"></i>首页
-    			</a>
-    		  	<div class="divider"> / </div>
-    		  	<a class="section" href="{{ app_url_wap }}/my">
-    				个人中心
-    			</a>
-    		  	<div class="divider"> / </div>
-    		  	<div class="active section">管理收货地址</div>
-    		</div>
-        </div>
-    </div>
+			<h3 class="ui header">管理收货地址</h3>
+		</div>
+	</div>
 	<div class="row">
 		<div class="column">
-			<h4 class="ui dividing header">管理收货地址</h4>
 			{% addbooks_list var:'addresses' user_id:user.id size:8 %}
 			{% for address in addresses.rows %}
 		  	<div class="ui {% if address.is_default %}active {% endif %}segment" id="{{ address._id }}" data-id="{{ address._id }}">

@@ -195,6 +195,11 @@ server {
         rewrite ^/d3in[/]?$ /app/wap/d3in last;
         rewrite ^/d3in/(.*)$ /app/wap/d3in/$1 last;
     }
+
+    location /special_subject {
+        rewrite ^/special_subject[/]?$ /app/wap/special_subject last;
+        rewrite ^/special_subject/(.*)$ /app/wap/special_subject/$1 last;
+    }
 		
 		location /search {
 		     rewrite ^/search[/]?$ /app/wap/search last;

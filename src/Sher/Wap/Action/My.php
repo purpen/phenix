@@ -32,8 +32,25 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
     }
 	
 	public function execute(){
-		return $this->to_html_page("wap/my.html");
+		return $this->my(); 
 	}
+
+  /**
+   * 个人中心
+   */
+  public function my(){
+    $user_id = $this->visitor->id;
+    $user_model = new Sher_Core_Model_User();
+    $user = $user_model->load($user_id);
+    if(!empty($user)){
+      $this->stash['user'] = $user_model->extended_model_row($user);
+    }
+    // 用户实时积分
+    $point_model = new Sher_Core_Model_UserPointBalance();
+    $current_point = $point_model->load($user_id);
+    $this->stash['current_point'] = $current_point;
+		return $this->to_html_page("wap/my.html");
+  }
 	
 	/**
 	 * 账户设置
@@ -44,6 +61,69 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		$this->set_target_css_state('user_account');
 		return $this->to_html_page("wap/my/account.html");
 	}
+	
+	public function photo(){
+		$this->stash['profile'] = $this->visitor->profile;
+
+		return $this->to_html_page("page/photo.html");
+	}
+	
+	/**
+	 * 编辑个人资料
+	 */
+    public function profile() {
+
+		
+        return $this->to_html_page('wap/my/profile.html');
+    }
+	
+	/**
+	 * 问题反馈
+	 */
+    public function report() {
+
+		
+        return $this->to_html_page('wap/my/report.html');
+    }
+
+  /**
+   * 保存反馈
+   */
+    public function save_report(){
+      $user_id = $this->visitor->id;
+      $contact = $this->stash['contact'];
+      $content = $this->stash['content'];
+      $row = array(
+        'user_id' => $user_id,
+        'contact' => $contact,
+        'content' => $content,
+        'from_to' => 6,
+      );
+
+      $feedback_model = new Sher_Core_Model_Feedback();
+      $ok = $feedback_model->apply_and_save($row);
+      $redirect_url = sprintf("%s/my", Doggy_Config::$vars['app.url.wap']);
+      if($ok){
+        return $this->ajax_json('保存成功！', false, $redirect_url);     
+      }else{
+        return $this->ajax_json('保存失败,请重新提交', true);     
+      }
+      
+    }
+
+    /**
+     * 我的话题
+     */
+    public function topic(){
+        $this->set_target_css_state('user_topic');
+    
+        $this->stash['type'] = isset($this->stash['type'])?$this->stash['type']:'submited';
+        $this->set_target_css_state('user_topic_'.$this->stash['type']);
+    
+        $this->stash['pager_url'] = sprintf(Doggy_Config::$vars['app.url.my'].'/topic?type=%s&page=#p#', $this->stash['type']);
+      
+        return $this->to_html_page('wap/my/topic.html'); 
+    }
 	
 	/**
 	 * 收货地址管理
@@ -59,7 +139,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		
 		$this->stash['plat'] = 'mobile';
 		
-		return $this->to_html_page("wap/shipping.html");
+		return $this->to_html_page("wap/my/shipping.html");
 	}
 	
 	/**
@@ -90,7 +170,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		
 		$this->stash['my'] = true;
 		
-		return $this->to_html_page("wap/orders.html");
+		return $this->to_html_page("wap/my/orders.html");
 	}
 	
 	/**
@@ -111,7 +191,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		
 		$this->stash['order_info'] = $order_info;
 		
-		return $this->to_html_page("wap/order_view.html");
+		return $this->to_html_page("wap/my/order_view.html");
 	}
 	
 	/**
@@ -119,7 +199,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	 */
 	public function favorite(){
 		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.wap'].'/my/favorite?page=#p#';
-		return $this->to_html_page("wap/favorite.html");
+		return $this->to_html_page("wap/my/favorite.html");
 	}
 	
 	/**
@@ -214,7 +294,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	public function bonus(){
 		$this->set_target_css_state('user_bonus');
 		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/bonus?page=#p#';
-		return $this->to_html_page("wap/bonus.html");
+		return $this->to_html_page("wap/my/bonus.html");
 	}
 	
 	/**
@@ -323,7 +403,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	 */
 	public function service(){
 		$this->set_target_css_state('user_service');
-		return $this->to_html_page('wap/service.html');
+		return $this->to_html_page('wap/my/service.html');
 	}
 	
 	/**

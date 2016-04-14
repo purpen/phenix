@@ -1,171 +1,10 @@
 {%extends 'layout/mobile.html'%}
-{% block title%}{% endblock %}
+{% block title%}商城-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 	#mfrbird {
-	    margin: 0em auto 1.5em !important;
+	    margin-top: 0;
 	}
-	/*** 已放入ui ***/
-	.shopbanner{
-	    padding-top: 56%;
-	    position: relative;
-	}
-	.shopbanner a img{
-	    width: 100%;
-	    height: 100%;
-	    position: absolute;
-	    top: 0;
-	    left: 0;
-	}
-
-#shop-special .recommend-topic{
-	padding:0;
-}
-.recom-cell.one{
-	width:100%;
-	padding:0 !important;
-}
-#shop-special .recom-item .recom-cell.one:first-child{
-	margin-top:0;
-}
-#shop-special .recommend-topic .recom-item .recom-cell a {
-    padding-top: 56%;
-}
-#shop-special .recommend-topic .recom-item .recom-cell a img{
-	top: 0;
-	bottom:auto;
-	height: auto;
-}
-#shop-special .recommend-topic .recom-item .recom-cell .fuhua.icon{
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 20px;
-    height: 21px;
-    background: rgba(255,51,102,0.5);
-    border-radius: 3px;
-}
-#shop-special .recommend-topic .recom-item .recom-cell .fuhua.icon img{
-    width: 11px;
-    height: 12px;
-    margin: 4px;
-}
-#shop-special .recom-item .recom-cell a .desc{
-	position:relative;
-	background:#fff;
-	padding: 5px 8px 0;
-	height: 35px;
-}
-#shop-special .recom-item .recom-cell a .desc h2 {
-	height: 25px;
-    line-height: 25px;
-    font-weight: 400;
-    overflow: hidden;
-    text-align: left;
-    margin: 0;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: rgba(112,123,135,.91);
-    font-size: 14px;
-}
-#shop-special .recom-item .recom-cell a .desc .cats{
-    font-size: 14px;
-    height: 30px;
-    line-height: 25px;
-    font-weight: 400;
-    overflow: hidden;
-    padding: 0;
-    text-align: left;
-    text-overflow: ellipsis;
-    text-transform: uppercase;
-    white-space: nowrap;
-    color: #f36;
-}
-#mpresale{
-	margin-top:6px;
-}
-#mpresale h4.ui.title.header{
-    display: inline-block;
-    padding-bottom: 5px;
-    border-bottom: 2px solid #5d6266;
-}
-#mpresale .recom-item .recom-cell a .desc{
-	padding: 5px 10px 0;
-	font-weight: 400;
-}
-.shop-fotter .nav-menu .navfelx .childcell:nth-child(2),.shop-fotter .nav-menu .navfelx .childcell:nth-child(3){
-	margin-left:-5px;
-}
-.shop-fotter .nav-menu .navfelx .childcell .menuicon{
-	text-align:left;
-	position:relative;
-	overflow: hidden;
-	padding-left:0;
-	padding-right:0;
-}
-.shop-fotter .nav-menu .navfelx .childcell .menuicon img{
-	margin:0;
-	width:30px;
-	height:30px;
-}
-.shop-fotter .nav-menu .navfelx .childcell .menuicon::after{
-    content: " ";
-    display: block;
-    height: 30px;
-    clear: both;
-	position:absolute;
-	width:1px;
-	background:rgba(0,0,0,0.1);
-	top:50%;
-	margin-top:-15px;
-	right:5px;
-}
-.shop-fotter .nav-menu .navfelx .childcell:last-child .menuicon::after{
-	content:none;
-}
-.shop-fotter .nav-menu .navfelx .childcell .menuicon .content{
-	width:90px;
-	height:30px;
-	position:absolute;
-	top:6px;
-	left:35px;
-}
-.content.huan{
-	line-height: 15px;
-	color:#55C4B1;
-}
-.content.baoyou{
-	line-height: 30px;
-	color:#FC6B68;
-}
-.content.fuwu{
-	line-height: 15px;
-	color:#3E98BE;
-}
-@media only screen and (max-width: 320px){
-	.shop-fotter .nav-menu .navfelx .childcell .menuicon img {
-	    width: 28px;
-	    height: 28px;
-	}
-	.shop-fotter .nav-menu .navfelx .childcell .menuicon .content{
-		height: 28px;
-	    left: 30px;
-	}
-	.shop-fotter .nav-menu .navfelx .childcell .menuicon::after{
-		right: 23px;
-	}
-	.shop-fotter .nav-menu .navfelx .childcell:nth-child(2), .shop-fotter .nav-menu .navfelx .childcell:nth-child(3) {
-	    margin-left: -27px;
-	}
-	.content.baoyou {
-	    line-height: 28px;
-	}
-	
-	
-}
-.row.pt-15{
-	padding-top:15px !important;
-}
 
 </style>
 {% endblock %}
@@ -191,14 +30,12 @@
 			    分类
 			</a>
 		</li>
-    <!--
 		<li class="childcell">
-			<a class="menuicon" href="{{ app_url_wap }}/ " title="专题">
+			<a class="menuicon" href="{{ app_url_wap }}/special_subject/getlist " title="专题">
 				<img src="{{ app_url_packaged }}/images/icon/zhuanti.png">
 			    专题
 			</a>
 		</li>
-    -->
 		<li class="childcell">
 			<a class="menuicon" href="{{ app_url_wap }}/my/pmall " title="积分商城">
 				<img src="{{ app_url_packaged }}/images/icon/jifen.png">
@@ -222,7 +59,7 @@
       {% for d in adstick.rows %}
         <div class="recom-cell one">
           <a href="{{ d.view_url }}">
-            <img class="lazy" data-original="{{ d.cover.fileurl }}" src="{{ d.cover.fileurl }}" title="{{ d.title }}" style="display: block;">
+            <img class="lazy" data-original="{{ d.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/load750-422.png" title="{{ d.title }}" style="display: block;">
             
             <div class="fuhua icon">
               <img src="{{ app_url_packaged }}/images/icon/fuhuaicon.png" width="100%">

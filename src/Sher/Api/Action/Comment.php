@@ -96,7 +96,7 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 	
 
 	/**
-	 * 回复
+	 * 评论
 	 */
 	public function ajax_comment(){
 		

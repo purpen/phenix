@@ -2,6 +2,9 @@
 {% block title%}个人中心-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
 .mytop{
 	padding:15px 0;
 	width:100%;
@@ -34,8 +37,78 @@
     flex-basis: 0;
     flex-grow: 1;
     position: relative;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin-left: 15px;
+}
+.mymessg h3.ui.header{
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 400;
+}
+.mymessg h3.ui.header + p{
+    font-size: 12px;
+    line-height: 18px;
+}
+.editzl{
+    width: 60px;
+    height: 50px;
+    padding: 0 10px;
+    position: relative;
+    font-size: 26px;
+    line-height: 50px;
+    text-align: center;
+}
+.editzl a{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.nav-menu .navfelx{
+    border-top: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.nav-menu .navfelx .childcell::before{
+	content:'';
+	position:absolute;
+	left:0;
+	top:0;
+	width:1px;
+	height:100%;
+	background:rgba(0,0,0,0.1);
+}
+.nav-menu .navfelx .childcell:first-child::before{
+	content:none;
+}
+.nav-menu .navfelx .childcell .menuicon{
+	line-height:18px;
+}
+.nav-menu .navfelx.item{
+	border-top:none;
+}
+.nav-menu .navfelx.item.two li::before{
+	content: '';
+    position: absolute;
+    top: -21px;
+    left: 0px;
+    width: 100%;
+    height: 20px;
+    background: #f5f5f5;
+}
+.nav-menu .navfelx.item.two{
+	border-top:1px solid rgba(0,0,0,0.1);
+	margin-top:20px;
+}
+.nav-menu .navfelx.item .childcell .menuicon{
+    text-align: left;
+    font-size: 14px;
+    padding: 15px;
+    color: rgba(0,0,0,0.87);
+    margin: 0;
+}
+.nav-menu .navfelx.item .childcell .menuicon:hover{
+    background: rgba(0,0,0,.03);
+    color: rgba(0,0,0,.95);
 }
 </style>
 {% endblock %}
@@ -45,63 +118,136 @@
 {% endblock %}
 
 {% block content %}
-<!--<div id="personal">
+
+<div id="personal">
 	<div class="mytop">
 		<div class="myphoto">
-			<img src="http://static.taihuoniao.me/images/deavatar/007-s.jpg" alt="Technician">
+      <img src="{{ visitor.small_avatar_url }}" alt="{{ visitor.nickname }}">
 		</div>
 		<div class="mymessg">
-			<h3 class="ui header">boc747</h3>
+			<h3 class="ui header">{{ visitor.nickname }}</h3>
 			<p>
-				城市：北京<br>
-				等级：鸟下士<br>
-				鸟币：10<br>
+				城市：{{ user.city }}<br>
+				等级：{{ user.ext_state.user_rank.title|default '鸟列兵' }} Lv {{ user.ext_state.rank_id|default 1 }} &nbsp;&nbsp;
+				经验值：{{ user.ext_state.rank_point|default 0 }} <br>
+				鸟币：{{ current_point.balance.money|default 0 }}<br>
 			</p>
 		</div>
+		<!--<div href="" class="editzl">
+			<a href="" class="ui link">	> </a>
+		</div>-->
+	</div>
+	
+	<div class="nav-menu">
+		<!--<ul class="navfelx">
+			<li class="childcell">
+				<a class="menuicon" href="{{ app_url_wap }}/my/topic">
+					我的话题<br />
+					{{ user.topic_count|default 0 }}
+				</a>
+			</li>
+			<li class="childcell">
+				<a class="menuicon" href="">
+					产品<br />
+					{{ user.product_count|default 0 }}
+				</a>
+			</li>
+			<li class="childcell">
+				<a class="menuicon" href="">
+					我关注的<br />
+					{{ user.follow_count|default 0 }}
+				</a>
+			</li>
+			<li class="childcell">
+				<a class="menuicon" href="">
+					我的粉丝<br />
+					{{ user.fans_count|default 0 }}
+				</a>
+			</li>
+		
+		</ul>-->
+		<ul class="navfelx item">
+			<li class="childcell">
+				<a class="menuicon" href="{{ app_url_wap }}/my/account">
+					账户信息
+				</a>
+			</li>
+		</ul>
+		<!--<ul class="navfelx item">
+			<li class="childcell">
+				<a class="menuicon" href="">
+					消息提醒
+				</a>
+			</li>
+		</ul>-->
+		<ul class="navfelx item">
+			<li class="childcell">
+				<a class="menuicon" href="{{ app_url_wap }}/my/orders">
+					我的订单
+				</a>
+			</li>
+		</ul>
+		<ul class="navfelx item">
+			<li class="childcell">
+				<a class="menuicon" href="{{ app_url_wap }}/my/orders?s=1">
+					待付款订单
+				</a>
+			</li>
+		</ul>
+		<ul class="navfelx item">
+			<li class="childcell">
+				<a class="menuicon" href="{{ app_url_wap }}/my/shipping">
+					收货地址
+				</a>
+			</li>
+		</ul>
+		<ul class="navfelx item">
+			<li class="childcell">
+				<a class="menuicon" href="{{ app_url_wap }}/my/bonus">
+					我的红包
+				</a>
+			</li>
+		</ul>
+		<ul class="navfelx item">
+			<li class="childcell">
+				<a class="menuicon" href="{{ app_url_wap }}/my/topic">
+					我的话题
+				</a>
+			</li>
+		</ul>
+		<!--<ul class="navfelx item">
+			<li class="childcell">
+				<a class="menuicon" href="">
+					邀请好友
+				</a>
+			</li>
+		</ul>-->
+		<ul class="navfelx item">
+			<li class="childcell">
+				<a class="menuicon" href="{{ app_url_wap }}/my/report">
+					问题反馈
+				</a>
+			</li>
+		</ul>
+		
+		<ul class="navfelx item two">
+			<li class="childcell">
+				<a class="menuicon" href="{{ app_url_wap }}/my/pmall">
+					积分商城
+				</a>
+			</li>
+		</ul>
+		<ul class="navfelx item">
+			<li class="childcell">
+				<a class="menuicon" href="{{ app_url_wap }}/my/service">
+					退换货
+				</a>
+			</li>
+		</ul>
+		
 	</div>
 	
 	
-</div>-->
-
-<div class="ui responsive grid">
-	<div class="row">
-		<div class="column">
-			<div class="ui pointing vertical fluid navigation menu">
-				<div class="header item">
-				    <i class="user icon"></i>个人中心
-				</div>
-				<a href="{{ app_url_wap }}/my/account" class="{{ css_user_account }} item">
-					<i class="flat account_settings icon"></i> 账户信息
-				</a>
-				<a href="{{ app_url_wap }}/my/pmall" class="{{ css_user_pmall }} item">
-					<i class="flat Quality icon"></i> 积分商城
-				</a>
-				<a href="{{ app_url_wap }}/my/orders" class="{{ css_user_orders }} item">
-					<i class="flat order icon"></i> 订单查询
-				</a>
-				<a href="{{ app_url_wap }}/my/orders?s=1" class="{{ css_nopayed }} item">
-					<i class="flat order icon"></i> 待付款订单
-				</a>
-				<a href="{{ app_url_wap }}/my/shipping" class="{{ css_user_shipping }} item">
-					<i class="flat position icon"></i> 收货地址管理
-				</a>
-				<a href="{{ app_url_wap }}/my/bonus" class="{{ css_user_bonus }} item">
-					<i class="flat dollar78 icon"></i> 我的红包
-				</a>
-				<a href="{{ app_url_wap }}/my/favorite" class="{{ css_user_favorite }} item">
-					<i class="flat profile icon"></i> 我的收藏
-				</a>
-			</div>
-			
-			<div class="ui pointing vertical fluid navigation menu">
-				<div class="header item">
-				    <i class="smile icon"></i>售后服务
-				</div>
-				<a href="{{ app_url_wap }}/my/service" class="{{ css_user_service }} item">
-					<i class="flat delivery6 icon"></i> 退换货
-				</a>
-			</div>
-		</div>
-	</div>
 </div>
+
 {% endblock %}

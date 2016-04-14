@@ -1,0 +1,213 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}商品专题-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#spelist{
+	
+}
+#mfrbird{
+	margin-top:0;
+	margin-bottom:2em;
+}
+.spemenu{
+    width: 100%;
+    height: 110px;
+    background: #eee;
+    overflow: hidden;
+}
+.spemenu .swiper-wrapper .swiper-slide {
+	margin: 0 4px;
+	width:160px;
+	height:110px;
+}
+.spemenu .swiper-wrapper .swiper-slide:first-child{
+	margin-left:12px;
+}
+.spemenu .swiper-wrapper .swiper-slide:last-child{
+	margin-right:12px;
+}
+.swiper-slide a{
+	width:160px;
+	height:90px;
+	position:absolute;
+	top:10px;
+	left:0;
+}
+.swiper-slide a p{
+	background:rgba(0,0,0,0.15);
+	width:100%;
+	height:100%;
+	position:absolute;
+	left:0;
+	top:0;
+	text-align:center;
+	line-height:90px;
+	color:#fff;
+}
+.swiper-slide a img{
+	width:160px;
+	height:90px;
+}
+
+#special-list .recommend-topic{
+	padding-top: 0;
+}
+#special-list .recommend-topic .recom-item .recom-cell.one:first-child{
+	margin-top:0;
+}
+#special-list .recommend-topic .recom-item .recom-cell.one a{
+	padding-top:56%;
+}
+#special-list .recommend-topic .recom-item .recom-cell.one a .desc{
+	line-height: 90px;
+}
+#special-list .recommend-topic .recom-item .recom-cell.one a .xihuanicon{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+	padding: 5px 8px;
+    background: rgba(255,51,102,.5);
+    border-radius: 5px;
+	color:#fff;
+	font-size:12px;
+}
+</style>
+
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+    var page = 1;
+    var size = 6;
+    var type = 1;
+    var sort = 0;
+    var category_id = 0;
+
+    // 专题加载
+    function ajax_load_more(category_id, sort, page, size){
+        var url = '{{ app_url_wap }}/special_subject/ajax_load_list';
+        $.get(url, { category_id:category_id, sort:sort, page:page, size:size }, function(rs){
+            if(rs.data.results.total_page >= rs.data.results.current_page){
+                $('#subject-more')
+                    .hide()
+                    .attr({'status': 0, 'page': rs.data.page});
+            }else{
+              $('#subject-more').html('<div style="text-align:center;">没有更多</div>').show();
+            }
+            var rendered = phenix.ajax_render_result('#fetch_more_special_subject_tpl', rs.data);
+            if(rs.data.page==1){
+              $('#subject-box').html(rendered);          
+            }else{
+              $('#subject-box').append(rendered);
+            }
+          $("img.lazy").lazyload({
+             effect : "show"
+          });
+        }, 'json');
+    }
+  </script>
+
+{% endblock %}
+
+
+{% block jquery %}
+	window.onload = function() {
+		var mySwiper = new Swiper('.spemenu',{
+		  freeMode : true,
+		  slidesPerView : 'auto',
+	  });
+	}
+
+  // 分类切换
+  $('.change_cat').click(function(){
+    $(this).addClass('active');
+    $(this).siblings().removeClass('active');
+    category_id = parseInt($(this).attr('category_id'));
+    page = 1;
+    $('#subject-box').html(''); 
+    var html = '';
+    html += '<div style="text-align:center;margin:10px auto;">';
+    html += '<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">';
+    html += '</div>';
+                
+    $('#subject-more').html(html).show();
+    $('#subject-more').attr({'status': 0, 'page': 1});
+    ajax_load_more(category_id, sort, page, size);
+  })
+
+  //ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      $('#subject-more').show();
+      var stat = $('#subject-more').attr('status');
+      page = parseInt($('#subject-more').attr('page')) + 1;
+
+      if(stat==0){
+        ajax_load_more(category_id, sort, page, size);
+      }
+　　}
+  });
+
+  // 初次加载
+  ajax_load_more(category_id, sort, page, size);
+{% endblock %}
+{% block content %}
+<div id="spelist">
+	<div class="spemenu">
+		<div class="swiper-wrapper">
+
+		{% category_list var:'category' is_top:1 only_open:1 domain:9 current:cid %}
+    {% for d in category.rows %}
+			<div class="swiper-slide">
+        <a class="change_cat" href="javascript:void(0);" category_id="{{ d._id }}">
+          <img src="{{ d.app_cover_url }}">
+          <p>{{ d.title }}</p>
+				</a>
+			</div>
+    {%endfor%}
+			
+		</div>
+	</div>
+	
+	<div id="special-list">
+		<div class="recommend-topic">
+			<div class="recom-item" id="subject-box">
+        <!--ajax load list-->
+        <!--
+				<div class="recom-cell one">
+					<a href="">
+						<img class="lazy" data-original="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1" src="{{ app_url_packaged }}/images/icon/load750-422.png" title="qweqw">
+						
+						<div class="xihuanicon">
+							<i class="empty heart icon"></i>23
+						</div>
+						<div class="desc">
+							航拍解放双手无人机开启上帝视角
+						</div>
+					</a>
+				</div>
+        -->
+				
+			</div>
+
+      <div class="row">
+        <div id="subject-more" style="display:none;" page="1" status="0">
+          <div style="text-align:center;margin:10px auto;">
+            <img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">
+          </div>
+        </div>
+      </div>
+
+		</div>
+	</div>
+	
+</div>
+
+{% endblock %}
+
+{% block templates %}
+  {% mustache id:'fetch_more_special_subject_tpl' tpl:'mustache_m/fetch_more_special_subject.mustache' %}
+{% endblock %}

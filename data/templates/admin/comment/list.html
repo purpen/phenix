@@ -114,6 +114,7 @@
           <div class="item" data-value="2">话题</div>
           <div class="item" data-value="3">试用</div>
           <div class="item" data-value="4">商品</div>
+          <div class="item" data-value="9">产品专题</div>
         </div>
       </div>
 
@@ -203,6 +204,7 @@
           {%if comment.type==4%}产品[{{ comment.sub_type }}]{%endif%}
           {%if comment.type==6%}灵感[{{ comment.sub_type }}]{%endif%}
           {%if comment.type==7%}专辑{%endif%}
+          {%if comment.type==9%}产品专题{%endif%}
           {%if comment.type==10%}专题{%endif%}
         </td>
         <td>{{ comment.target_id }}</td>

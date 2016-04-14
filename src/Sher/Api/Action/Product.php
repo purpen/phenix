@@ -261,6 +261,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     $asset_query = array('parent_id'=>$product['_id'], 'asset_type'=>11);
     $asset_options['page'] = 1;
     $asset_options['size'] = 10;
+    $asset_options['sort_field'] = 'latest';
     $asset_service = Sher_Core_Service_Asset::instance();
     $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
 
@@ -295,6 +296,16 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       $data['app_snatched_time_lag'] = $product['app_snatched_end_time'] - time();
     }else{
       $data['app_snatched_time_lag'] = 0;
+    }
+
+    // 用户是否设置闪购提醒
+    $data['is_app_snatched_alert'] = 0;
+    if($data['is_app_snatched'] && $user_id){
+      $support_model = new Sher_Core_Model_Support();
+      $has_one = $support_model->check_voted($user_id, $data['_id'], Sher_Core_Model_Support::EVENT_APP_ALERT);
+      if($has_one){
+        $data['is_app_snatched_alert'] = 1; 
+      }
     }
 
     // 相关推荐产品
@@ -537,6 +548,38 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     
 		return $this->api_json('操作成功', 0, array('total_rows'=>$xun_arr['total_count'], 'rows'=>$result, 'total_page'=>$xun_arr['total_page']));
 	}
+
+  /**
+   * 闪购添加提醒操作
+   */
+  public function app_snatched_add_alert(){
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录!', 3000);
+    }
+    $target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
+    $event = isset($this->stash['event']) ? (int)$this->stash['event'] : 3;
+    if(empty($target_id)){
+      return $this->api_json('缺少请求参数!', 3001);
+    }
+    $support_model = new Sher_Core_Model_Support();
+    $has_one = $support_model->check_voted($user_id, $target_id, Sher_Core_Model_Support::EVENT_APP_ALERT);
+    if($has_one){
+      return $this->api_json('不能重复添加!', 3002);    
+    }
+    $row = array(
+      'user_id' => $user_id,
+      'target_id' => $target_id,
+      'event' => $event,
+    );
+    $ok = $support_model->apply_and_save($row);
+    if($ok){
+      $id = (string)$support_model->id;
+      return $this->api_json('缺少请求参数!', 0, array('id'=>$id));   
+    }else{
+      return $this->api_json('添加提醒失败!', 3003);   
+    }
+  }
 	
 
 }
