@@ -280,8 +280,8 @@
 		
 		{% order_list var:'list' user_id:user.id status:s deleted:'-1' size:10 page:page %}
 		{% for order in list.rows %}
-			{% for item in order.items %}
 		<div class="item" id="order-{{ order._id }}">
+			
 			<div class="ordertop">
 				<span class="ui line fz-12">{{ order.created_on|date 'Y/m/d' }}</span>
 				<span class="ui magenta link fz-12 flt-r">{{ order.status_label }}</span>
@@ -289,41 +289,42 @@
 			
 			<div class="content">
 				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="img"> 
-					
+					{% for item in order.items %}
 						{% if loop.first %}
 						{% product_list var:'product' product_id:item.product_id %}
 						<img src="{{ product.cover.thumbnails.mini.view_url }}">
 						{% endif %}
+					{%endfor%}
 					
 					
 					
 				</a>
-				{% if item.sku == item.product_id %}
+				{% if order.items.sku == order.items.product_id %}
 				<div class="orderinfo">
 					<a class="ui link" href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}">
 						<h4 class="title">
-							{{ product.title }}
+							{{ order.product.title }}
 						</h4>
 					
-						<p class="price"><i class="rmb icon"></i>  {{ product.sale_price }}</p>
+						<p class="price"><i class="rmb icon"></i>  {{ order.product.sale_price }}</p>
 					</a>
 					<div class="orderdes">
 						<span class="sku">
 							默认
 							{% else %}
-							{% sku_list var:'sku' sku:item.sku %}
+							{% sku_list var:'sku' sku:order.items.sku %}
 							{{ sku.mode }}
 						{% endif %}
 						</span>
 						<span class="count flt-r">
-							x {{ item.quantity }}
+							x {{ order.items.quantity }}
 						</span>
 					</div>
 				</div>
 			</div>
 			
 			<div class="product">
-				<p>共{{ item.quantity }}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
+				<p>共{{ order.items.quantity }}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
 			</div>
 			
 			<div class="orderbottom">
@@ -337,7 +338,6 @@
 			</div>
 			
 		</div>
-		{% endfor %}
 		{% else %}
 		<div class="item">您还没有相关订单</div>
 		{% endfor %}
