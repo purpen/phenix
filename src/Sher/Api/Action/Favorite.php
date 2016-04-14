@@ -73,7 +73,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 			return $this->api_json('参数不能为空', 3003);
 		}
 		
-		if(!$user_id && !$target_id){
+		if(!$user_id || !$target_id){
 			return $this->api_json('参数不能为空', 3003);
 		}
 		

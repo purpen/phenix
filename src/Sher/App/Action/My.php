@@ -97,6 +97,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    * 绑定账户
    */
   public function bind_phone() {
+	
 	$this->set_target_css_state('user_bind');
 
     $user_model = new Sher_Core_Model_User();
@@ -135,6 +136,16 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     $this->stash['wx_params'] = $wx_params;
 		
     return $this->to_html_page("page/my/bind_phone.html");
+  }
+  
+  /**
+   * 绑定账户
+   */
+  public function unbind_phone() {
+	
+	$this->set_target_css_state('user_bind');
+	
+    return $this->to_html_page("page/my/unbind_phone.html");
   }
 
   /**

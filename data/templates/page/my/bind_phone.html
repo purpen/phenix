@@ -261,13 +261,10 @@
 					</div>
 					<input type="submit" class="ui inverted magenta button" value="确认绑定" />
                     {%else%}
-                    <div class="two fields">
-                        <div class="field">
-                            <label>已绑定的手机号</label>
-                            <input type="text" disabled="disabled" name="account" value="{{ visitor.account }}" />
-                        </div>
-                        <div class="field"></div>
-                    </div>
+					<div class="field">
+						<label>已绑定的手机号<a href="{{app_url_my}}/unbind_phone" style="cursor: pointer;color: red">【修改手机号码】</a></label>
+						<input type="text" disabled="disabled" name="account" value="{{ visitor.account }}" />
+					</div>
 
                     <div class="thirdlogin">
                         第三方账户：
