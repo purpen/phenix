@@ -297,7 +297,8 @@
 					
 					
 				</a>	
-				{% if order.items.sku == order.items.product_id %}
+				{% product_list var:'product' product_id:item.product_id %}
+				{% if item.sku == item.product_id %}
 				
 				<div class="orderinfo">
 					<a class="ui link" href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}">
@@ -310,13 +311,13 @@
 					<div class="orderdes">
 						<span class="sku">
 							默认
-					{% else %}
-					{% sku_list var:'sku' sku:item.sku %}
-					{{ sku.mode }}
-				{% endif %}
+							{% else %}
+							{% sku_list var:'sku' sku:item.sku %}
+							{{ sku.mode }}
+						{% endif %}
 						</span>
 						<span class="count flt-r">
-							x {{ order.item.quantity }}
+							x {{ item.quantity }}
 						</span>
 					</div>
 				</div>
