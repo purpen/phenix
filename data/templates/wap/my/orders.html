@@ -298,12 +298,12 @@
 					
 				</a>	
 				{% product_list var:'product' product_id:item.product_id %}
-				{% if order.item.sku == order.item.product_id %}
+				{% if order.items.sku == order.items.product_id %}
 				
 				<div class="orderinfo">
 					<a class="ui link" href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}">
 						<h4 class="title">
-							{{ product.title }}
+							{{ order.items.product.title }}
 						</h4>
 					
 						<p class="price"><i class="rmb icon"></i>  {{ product.sale_price }}</p>
@@ -317,7 +317,7 @@
 						{% endif %}
 						</span>
 						<span class="count flt-r">
-							x {{ order.item.quantity }}
+							x {{ order.items.quantity }}
 						</span>
 					</div>
 				</div>
