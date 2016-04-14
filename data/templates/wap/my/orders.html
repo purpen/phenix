@@ -298,7 +298,7 @@
 					
 				</a>	
 				{% product_list var:'product' product_id:item.product_id %}
-				{% if item.sku == item.product_id %}
+				{% if order.item.sku == order.item.product_id %}
 				
 				<div class="orderinfo">
 					<a class="ui link" href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}">
@@ -317,7 +317,7 @@
 						{% endif %}
 						</span>
 						<span class="count flt-r">
-							x {{ item.quantity }}
+							x {{ order.item.quantity }}
 						</span>
 					</div>
 				</div>
