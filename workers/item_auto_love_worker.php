@@ -71,9 +71,9 @@ foreach($item_arr as $k=>$v){
     }elseif($type==3){  // 产品
       $fav_type = 1;
       $obj = $product_model->load($item_id);   
-    }elseif($type==4){  // 
+    }elseif($type==4){  // 产品专题
       $fav_type = 9;
-      $obj = $product_model->load($item_id);    
+      $obj = $special_subject_model->load($item_id);    
     }
 
     if(empty($obj)){
