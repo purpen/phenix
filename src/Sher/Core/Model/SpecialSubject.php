@@ -65,6 +65,11 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 			  $row['strip_remark'] = strip_tags(htmlspecialchars_decode($row['remark']));
 		}
 
+    if(isset($row['summary'])){
+			$row['strip_summary'] = strip_tags(htmlspecialchars_decode($row['summary']));
+      $row['summary'] = Sher_Core_Util_View::safe($row['summary']);
+    }
+
 		// 获取封面图
 		if(isset($row['cover_id'])){
 			  $row['cover'] = $this->cover($row['cover_id']);
