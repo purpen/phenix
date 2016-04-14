@@ -17,10 +17,10 @@
 }
 .nav-menu .navfelx .childcell .menuicon{
 	margin:0;
-	padding:6px;
+	padding:0.857142852rem 0;
 }
 .nav-menu .navfelx .childcell::before {
-    content: none;
+    content: '';
     position: absolute;
     left: 0;
     top: 0;
@@ -29,7 +29,7 @@
     background: rgba(0,0,0,0.1);
 }
 .menuicon.active{
-	border-bottom:1px solid #f36;
+	border-bottom:2px solid #f36;
 }
 .menuicon.active h5.ui.header{
 	color:#f36 !important;
@@ -125,17 +125,17 @@
 	<div class="nav-menu">
 		<ul class="navfelx">
 			<li class="childcell">
-				<a href="{{ app_url_wap }}/my/topic?type=submited" class="{{ css_user_topic_submited }} menuicon m-0 ptb-2r">
+				<a href="{{ app_url_wap }}/my/topic?type=submited" class="{{ css_user_topic_submited }} menuicon">
 					<h5 class="ui header">我发表的</h5>
 				</a>
 			</li>
 			<li class="childcell">
-				<a href="{{ app_url_wap }}/my/topic?type=favorited" class="{{ css_user_topic_favorited }} menuicon m-0 ptb-2r">
+				<a href="{{ app_url_wap }}/my/topic?type=favorited" class="{{ css_user_topic_favorited }} menuicon">
 					<h5 class="ui header">我收藏的</h5>
 				</a>
 			</li>
 			<li class="childcell">
-				<a href="{{ app_url_wap }}/my/topic?type=loved" class="{{ css_user_topic_loved }} menuicon m-0 ptb-2r">
+				<a href="{{ app_url_wap }}/my/topic?type=loved" class="{{ css_user_topic_loved }} menuicon">
 					<h5 class="ui header">我赞了的</h5>
 				</a>
 			</li>
