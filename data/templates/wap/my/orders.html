@@ -190,6 +190,50 @@
 	
 	<div id="orderitem">
 		
+		<!--<div class="item" id="order-{{ order._id }}">
+			<div class="ordertop">
+				<span class="ui line fz-12">2016-04-04&nbsp;10:19</span>
+				<span class="ui magenta link fz-12 flt-r">等待付款</span>
+			</div>
+			<div class="content">
+				<a href=" " class="img"> <img src="http://frbird.qiniudn.com/product/160126/56a718ec3ffca2e3108b4978-1-s.jpg" alt="云马C1"></a>
+				<div class="orderinfo">
+					<a class="ui link" href="">
+						<h4 class="title">
+							TORO儿童云手机 GPS定位低辐射女生男生手机
+						</h4>
+					
+						<p class="price"><i class="rmb icon"></i>  468</p>
+					</a>
+					<div class="orderdes">
+						<span class="sku">
+							红色
+						</span>
+						<span class="count flt-r">
+							x 1
+						</span>
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			<div class="product">
+				<p>共1件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> 468</p>
+			</div>
+			
+			<div class="orderbottom">
+				<a class="ui small magenta inverted button">
+					删除订单
+				</a>
+				<a class="ui small magenta inverted button">
+					删除订单
+				</a>
+				
+			</div>
+			
+		</div>-->
+		
 		<div class="item" id="order-{{ order._id }}">
 			<div class="ordertop">
 				<span class="ui line fz-12">2016-04-04&nbsp;10:19</span>
@@ -234,36 +278,52 @@
 			
 		</div>
 		
+		{% order_list var:'list' user_id:user.id status:s deleted:'-1' size:10 page:page %}
+		{% for order in list.rows %}
 		<div class="item" id="order-{{ order._id }}">
 			<div class="ordertop">
-				<span class="ui line fz-12">2016-04-04&nbsp;10:19</span>
-				<span class="ui magenta link fz-12 flt-r">等待付款</span>
+				<span class="ui line fz-12">{{ order.created_on|date 'Y/m/d' }}</span>
+				<span class="ui magenta link fz-12 flt-r">{{ order.status_label }}</span>
 			</div>
 			<div class="content">
-				<a href=" " class="img"> <img src="http://frbird.qiniudn.com/product/160126/56a718ec3ffca2e3108b4978-1-s.jpg" alt="云马C1"></a>
+				{% for item in order.items %}
+				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="img"> 
+					
+						{% if loop.first %}
+						{% product_list var:'product' product_id:item.product_id %}
+						<img src="{{ product.cover.thumbnails.mini.view_url }}">
+						{% endif %}
+					
+				</a>	
+				{% if item.sku == item.product_id %}
+				
 				<div class="orderinfo">
-					<a class="ui link" href="">
+					<a class="ui link" href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}">
 						<h4 class="title">
-							TORO儿童云手机 GPS定位低辐射女生男生手机
+							{{ product.title }}
 						</h4>
 					
-						<p class="price"><i class="rmb icon"></i>  468</p>
+						<p class="price"><i class="rmb icon"></i>  {{ product.sale_price }}</p>
 					</a>
 					<div class="orderdes">
 						<span class="sku">
-							红色
+							默认
+							{% else %}
+							{% sku_list var:'sku' sku:item.sku %}
+							{{ sku.mode }}
 						</span>
 						<span class="count flt-r">
-							x 1
+							x {{ order.rid }}{%if order.items_count > 1 %}{{ order.items_count }}{%else%}1{% endif %}
 						</span>
 					</div>
 					
 				</div>
+				{% endfor %}
 				
 			</div>
 			
 			<div class="product">
-				<p>共1件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> 468</p>
+				<p>共{{ order.rid }}{%if order.items_count > 1 %}{{ order.items_count }}{%else%}1{% endif %}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
 			</div>
 			
 			<div class="orderbottom">
@@ -277,52 +337,9 @@
 			</div>
 			
 		</div>
-		
-		<div class="item" id="order-{{ order._id }}">
-			<div class="ordertop">
-				<span class="ui line fz-12">2016-04-04&nbsp;10:19</span>
-				<span class="ui magenta link fz-12 flt-r">等待付款</span>
-			</div>
-			<div class="content">
-				<a href=" " class="img"> <img src="http://frbird.qiniudn.com/product/160126/56a718ec3ffca2e3108b4978-1-s.jpg" alt="云马C1"></a>
-				<div class="orderinfo">
-					<a class="ui link" href="">
-						<h4 class="title">
-							TORO儿童云手机 GPS定位低辐射女生男生手机
-						</h4>
-					
-						<p class="price"><i class="rmb icon"></i>  468</p>
-					</a>
-					<div class="orderdes">
-						<span class="sku">
-							红色
-						</span>
-						<span class="count flt-r">
-							x 1
-						</span>
-					</div>
-					
-				</div>
-				
-			</div>
-			
-			<div class="product">
-				<p>共1件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> 468</p>
-			</div>
-			
-			<div class="orderbottom">
-				<a class="ui small magenta inverted button">
-					删除订单
-				</a>
-				<a class="ui small magenta inverted button">
-					删除订单
-				</a>
-				
-			</div>
-			
-		</div>
-		
-		
+		{% else %}
+		<div class="item">您还没有相关订单</div>
+		{% endfor %}
 		
 		
 	
