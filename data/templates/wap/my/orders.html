@@ -280,7 +280,7 @@
 		
 		{% order_list var:'list' user_id:user.id status:s deleted:'-1' size:10 page:page %}
 		{% for order in list.rows %}
-			{% for item in order.items %}
+			
 		<div class="item" id="order-{{ order._id }}">
 			
 			<div class="ordertop">
@@ -288,18 +288,19 @@
 				<span class="ui magenta link fz-12 flt-r">{{ order.status_label }}</span>
 			</div>
 			
+			{% for item in order.items %}
+			{% product_list var:'product' product_id:item.product_id %}
 			<div class="content">
 				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="img"> 
 					
 						{% if loop.first %}
-						{% product_list var:'product' product_id:item.product_id %}
 						<img src="{{ product.cover.thumbnails.mini.view_url }}">
 						{% endif %}
 					
 					
 					
 				</a>
-				{% product_list var:'product' product_id:item.product_id %}
+				
 				{% if item.sku == item.product_id %}
 				<div class="orderinfo">
 					<a class="ui link" href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}">
@@ -323,6 +324,7 @@
 					</div>
 				</div>
 			</div>
+			{% endfor %}
 			
 			<div class="product">
 				<p>共{{ item.quantity }}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
@@ -341,7 +343,7 @@
 			
 		</div>
 		
-			{% endfor %}
+			
 		{% endfor %}
 		
 		
