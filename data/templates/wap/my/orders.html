@@ -287,18 +287,17 @@
 			</div>
 			
 			<div class="content">
-				{% product_list var:'product' product_id:item.product_id %}
 				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="img"> 
 					{% for item in order.items %}
 						{% if loop.first %}
-						
+						{% product_list var:'product' product_id:item.product_id %}
 						<img src="{{ product.cover.thumbnails.mini.view_url }}">
 						{% endif %}
 					{% endfor %}
 					
 					
 				</a>	
-				{% if item.sku == item.product_id %}
+				{% if order.items.sku == order.items.product_id %}
 				
 				<div class="orderinfo">
 					<a class="ui link" href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}">
@@ -311,13 +310,13 @@
 					<div class="orderdes">
 						<span class="sku">
 							默认
-							{% else %}
-							{% sku_list var:'sku' sku:item.sku %}
-							{{ sku.mode }}
-						{% endif %}
+					{% else %}
+					{% sku_list var:'sku' sku:item.sku %}
+					{{ sku.mode }}
+				{% endif %}
 						</span>
 						<span class="count flt-r">
-							x {{ item.quantity }}
+							x {{ order.item.quantity }}
 						</span>
 					</div>
 				</div>
