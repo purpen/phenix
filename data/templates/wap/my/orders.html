@@ -292,13 +292,7 @@
 			{% product_list var:'product' product_id:item.product_id %}
 			<div class="content">
 				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="img"> 
-					
-						{% if loop.first %}
 						<img src="{{ product.cover.thumbnails.mini.view_url }}">
-						{% endif %}
-					
-					
-					
 				</a>
 				
 				{% if item.sku == item.product_id %}
@@ -327,7 +321,7 @@
 			{% endfor %}
 			
 			<div class="product">
-				<p>共{{ item.quantity }}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
+				<p>共{%if order.items_count > 1 %}{{ order.items_count }}{%else%}1{% endif %}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
 			</div>
 			
 			<div class="orderbottom">
