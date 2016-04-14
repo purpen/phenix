@@ -105,7 +105,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
 			$result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
-			unset($result['rows'][$k]['user']);
+			//unset($result['rows'][$k]['user']);
 			unset($result['rows'][$k][$type]);
 		}
 		
@@ -114,7 +114,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
 		//var_dump($result['rows']);die;
-		return $this->api_json('请求成功', 0, $result['rows']);
+		return $this->api_json('请求成功', 0, $result);
 	}
 	
 	/**
