@@ -139,7 +139,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
             $product_some_fields = array(
               '_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
               'cover_id', 'category_id', 'stage', 'summary',
-              'snatched_time', 'inventory', 'can_saled', 'snatched', 'strip_summary',
+              'snatched_time', 'inventory', 'can_saled', 'snatched',
               'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
               'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',
             );
@@ -173,7 +173,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 
     // 分享内容
     $data['share_view_url'] = sprintf("%s/special_subject/view?id=%d", Doggy_Config::$vars['app.url.wap'], $data['_id']);
-    $data['share_desc'] = Doggy_Dt_Filters_String::truncate(strip_tags($data['strip_summary']), 80);
+    $data['share_desc'] = Doggy_Dt_Filters_String::truncate(strip_tags($data['summary']), 80);
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, (int)$id);
