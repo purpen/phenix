@@ -1,6 +1,6 @@
 <?php
 /**
- * 支持的产品列表标签
+ * 支持或提醒的产品列表标签
  * @author purpen
  */
 class Sher_App_ViewTag_SupportList extends Doggy_Dt_Tag {
@@ -19,8 +19,10 @@ class Sher_App_ViewTag_SupportList extends Doggy_Dt_Tag {
         $size = 12;
 		
         $user_id = 0;
+        $target_id = 0;
+        $event = 0;
 		
-		$sort = 'latest';
+		    $sort = 'latest';
 		
         $var = 'list';
         $include_pager = 0;
@@ -39,6 +41,12 @@ class Sher_App_ViewTag_SupportList extends Doggy_Dt_Tag {
         if ($user_id) {
             $query['user_id'] = (int)$user_id;
         }
+        if ($target_id) {
+            $query['target_id'] = (int)$target_id;
+        }
+        if ($event) {
+            $query['event'] = (int)$event;
+        }
 		
         $service = Sher_Core_Service_Product::instance();
         $options['page'] = $page;
@@ -53,4 +61,4 @@ class Sher_App_ViewTag_SupportList extends Doggy_Dt_Tag {
         
     }
 }
-?>
+
