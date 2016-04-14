@@ -299,8 +299,9 @@
 					
 					
 				</a>
-				{% product_list var:'product' product_id:order.items.product_id %}
-				{% if order.items.sku == order.items.product_id %}
+				{% for item in order.items %}
+				{% product_list var:'product' product_id:item.product_id %}
+				{% if item.sku == item.product_id %}
 				<div class="orderinfo">
 					<a class="ui link" href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}">
 						<h4 class="title">
@@ -313,19 +314,20 @@
 						<span class="sku">
 							默认
 							{% else %}
-							{% sku_list var:'sku' sku:order.items.sku %}
+							{% sku_list var:'sku' sku:item.sku %}
 							{{ sku.mode }}
 						{% endif %}
 						</span>
 						<span class="count flt-r">
-							x {{ order.items.quantity }}
+							x {{ item.quantity }}
 						</span>
 					</div>
 				</div>
+				{%endfor%}
 			</div>
 			
 			<div class="product">
-				<p>共{{ order.items.quantity }}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
+				<p>共{{ item.quantity }}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
 			</div>
 			
 			<div class="orderbottom">
