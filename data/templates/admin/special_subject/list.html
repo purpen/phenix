@@ -36,6 +36,7 @@
         <th>ID</th>
         <th>封面</th>
 				<th>标题</th>
+        <th>点赞数</th>
         <th>模式</th>
 				<th>操作</th>
 			</tr>
@@ -59,6 +60,9 @@
 				<td>
 						{{ special_subject.title }}
 				</td>
+        <td>
+          {{ special_subject.love_count }}
+        </td>
 				<td>
           {% if special_subject.kind==1 %}
             自定义
