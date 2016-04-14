@@ -319,11 +319,11 @@
 					</div>
 				</div>
 			</div>
+			{% endfor %}
 			
 			<div class="product">
-				<p>共{{ item.quantity }}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
+				<p>共{{ order.item.quantity }}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
 			</div>
-			{% endfor %}
 			<div class="orderbottom">
 				<a class="ui small magenta inverted button">
 					删除订单
