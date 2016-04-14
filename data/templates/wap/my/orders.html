@@ -287,10 +287,11 @@
 			</div>
 			
 			<div class="content">
+				{% product_list var:'product' product_id:item.product_id %}
 				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="img"> 
 					{% for item in order.items %}
 						{% if loop.first %}
-						{% product_list var:'product' product_id:item.product_id %}
+						
 						<img src="{{ product.cover.thumbnails.mini.view_url }}">
 						{% endif %}
 					{% endfor %}
