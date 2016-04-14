@@ -287,23 +287,22 @@
 			</div>
 			
 			<div class="content">
+				{% for item in order.items %}
 				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="img"> 
-					{% for item in order.items %}
+					
 						{% if loop.first %}
 						{% product_list var:'product' product_id:item.product_id %}
 						<img src="{{ product.cover.thumbnails.mini.view_url }}">
 						{% endif %}
-					{% endfor %}
 					
 					
-				</a>	
-				{% product_list var:'product' product_id:item.product_id %}
-				{% if order.items.sku == order.items.product_id %}
-				
+					
+				</a>
+				{% if item.sku == item.product_id %}
 				<div class="orderinfo">
 					<a class="ui link" href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}">
 						<h4 class="title">
-							{{ order.items.product.title }}
+							{{ product.title }}
 						</h4>
 					
 						<p class="price"><i class="rmb icon"></i>  {{ product.sale_price }}</p>
@@ -317,15 +316,16 @@
 						{% endif %}
 						</span>
 						<span class="count flt-r">
-							x {{ order.items.quantity }}
+							x {{ item.quantity }}
 						</span>
 					</div>
 				</div>
 			</div>
 			
 			<div class="product">
-				<p>共{{ order.item.quantity }}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
+				<p>共{{ item.quantity }}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
 			</div>
+			{% endfor %}
 			<div class="orderbottom">
 				<a class="ui small magenta inverted button">
 					删除订单
