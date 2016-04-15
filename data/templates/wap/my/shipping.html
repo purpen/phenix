@@ -209,7 +209,7 @@ h3.ui.header{
 			onSuccess: function(event){
 				event.preventDefault();
 				$(this).ajaxSubmit();
-				$('#shipping').removeClass('addshow');
+				
 			}
 		});
 	});
@@ -298,7 +298,7 @@ h3.ui.header{
 		</div>
 	</div>
 	
-	<div class="addflex">
+	<div class="addflex" id="create-new-address" data-id="0">
 		<div class="addadress">
 			+ 添加地址
 		</div>
@@ -314,7 +314,7 @@ h3.ui.header{
 			
 			<div class="row pt-0">
 				<div class="column">
-					<form action="{{ app_url_wap }}/app/site/address/ajax_address" class="ui form" method="post" id="addbook-form">
+					<form action="{{ app_url_wap }}/app/wap/address/ajax_address" class="ui form" method="post" id="addbook-form">
 						<input type="hidden" name="_id" />
 						<input type="hidden" name="plat" value="{{ plat }}" />
 						<div class="field mb-2r">
