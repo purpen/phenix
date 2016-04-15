@@ -137,6 +137,41 @@ h3.ui.header{
 	  padding: 0.7145rem;
   }
   
+  .addressitem{
+      display: block;
+      padding: 0 !important;
+  }
+  .addressitem .item{
+      display: flex;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: -webkit-box;
+      align-items: center;
+      -webkit-box-align: center;
+      padding: 0.7145rem;
+	  background: #fff;
+	  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+      border: 1px solid rgba(0,0,0,0.1);
+	  margin-bottom: 0.71428571rem!important;
+  }
+  .item .content{
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      -webkit-flex-basis: 0;
+      -ms-flex-preferred-size: 0;
+      flex-basis: 0;
+      flex-grow: 1;
+      position: relative;
+      padding-right: 1.429rem;
+      margin-left: 0.7145rem;
+  }
+  .addr span{
+	  font-size:0.92885rem;
+	  padding:0.07145rem 0;
+	  display:block;
+  }
 </style>
 {% endblock %}
 
@@ -278,6 +313,53 @@ h3.ui.header{
 	
 	<div class="row">
 		<div class="column">
+			<div class="addressitem">
+				{% addbooks_list var:'addresses' user_id:user.id size:8 %}
+				{% for address in addresses.rows %}
+				<div class="item {% if address.is_default %}active {% endif %}" id="{{ address._id }}" data-id="{{ address._id }}">
+					{% if addbook.is_default == 1 %}
+						123
+					
+					{% endif %}
+					<div class="content">
+						<h5 class="ui header pt-r mb-2r">{{ address.name }}</h5>
+						<div class="addr">
+							<span>{{ address.area_province.city}} {{ address.area_district.city }}</span>
+							<span> {{ address.address }} </span>
+							<span>{{ address.phone }}</span>
+						</div>
+						
+					</div>
+					<div class="actions">
+						<a class="ui small gray icon edit button" data-id="{{ address._id }}">
+							<i class="edit icon"></i>
+						</a>
+						<a class="ui small gray icon remove button" data-id="{{ address._id }}">
+							<i class="remove icon"></i>
+						</a>
+					</div>
+					
+				</div>
+				
+				
+				
+				
+				
+				<div class="addflex" id="create-new-address" data-id="0">
+					<div class="addadress">
+						+ 添加地址
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			<!--
 			{% addbooks_list var:'addresses' user_id:user.id size:8 %}
 			{% for address in addresses.rows %}
 		  	<div class="ui {% if address.is_default %}active {% endif %}segment" id="{{ address._id }}" data-id="{{ address._id }}">
@@ -296,13 +378,9 @@ h3.ui.header{
 					</a>
 				</div>
 		  	</div>
-			{% endfor %}
+			{% endfor %}-->
 			
-			<div class="addflex" id="create-new-address" data-id="0">
-				<div class="addadress">
-					+ 添加地址
-				</div>
-			</div>
+			
 			
 		</div>
 	</div>
