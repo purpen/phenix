@@ -177,7 +177,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		unset($data['product_y']);
 		
 		// 上传图片
-		$this->stash['tmp'] = Doggy_Config::$vars['app.imges'];
+		//$this->stash['tmp'] = Doggy_Config::$vars['app.imges'];
 		
 		if(!isset($this->stash['tmp']) && empty($this->stash['tmp'])){
 			return $this->api_json('请选择图片！', 3001);  

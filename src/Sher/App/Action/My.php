@@ -175,20 +175,24 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    */
   public function do_unbind_phone() {
 		
-		if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
-			return $this->ajax_json('缺少请求参数!', true);
+		if (!isset($this->stash['old_account']) && empty($this->stash['old_account'])) {
+			return $this->ajax_json('请填写旧手机号码!', true);
 		}
 		
-		if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
-			return $this->ajax_json('缺少请求参数!', true);
+		if (!isset($this->stash['old_verify_code']) && empty($this->stash['old_verify_code'])) {
+			return $this->ajax_json('请填写旧手机验证码!', true);
 		}
 		
-		if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
-			return $this->ajax_json('缺少请求参数!', true);
+		if (!isset($this->stash['new_account']) && empty($this->stash['new_account'])) {
+			return $this->ajax_json('请填写新手机号码!', true);
 		}
 		
-		if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
-			return $this->ajax_json('缺少请求参数!', true);
+		if (!isset($this->stash['new_verify_code']) && empty($this->stash['new_verify_code'])) {
+			return $this->ajax_json('请填写新手机验证码!', true);
+		}
+		
+		if (!isset($this->stash['password']) && empty($this->stash['password'])) {
+			return $this->ajax_json('请填写账号密码!', true);
 		}
 
 		//验证密码长度
@@ -198,41 +202,45 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		
 		// 验证验证码是否有效
 		$verify = new Sher_Core_Model_Verify();
-		$code = $verify->first(array('phone'=>$this->stash['account'],'code'=>$this->stash['verify_code']));
-		if(empty($code)){
-			return $this->ajax_json('短信验证码有误，请重新获取！', true);
+		
+		$code_old = $verify->first(array('phone'=>$this->stash['old_account'],'code'=>$this->stash['old_verify_code']));
+		if(empty($code_old)){
+			return $this->ajax_json('旧短信验证码有误，请重新获取！', true);
+		}
+		
+		$code_new = $verify->first(array('phone'=>$this->stash['new_account'],'code'=>$this->stash['new_verify_code']));
+		if(empty($code_new)){
+			return $this->ajax_json('新短信验证码有误，请重新获取！', true);
 		}
 		
 		try {
 			
 			$user_model = new Sher_Core_Model_User();
-			$user_id = (int)$this->visitor->id;
 	  
 			// 验证账户是否存在
-			$exist_account = $user_model->check_account($this->stash['account']);
-			if(!$exist_account){
-				return $this->ajax_json('账户已存在,请更换!', true);
+			$user = $user_model->first((int)$this->visitor->id);
+			
+			if($user['account'] !== $this->stash['old_account']){
+				return $this->ajax_json('请输入自己的手机号码,请更换!', true);
 			}
-				  
-			$user_info = array(
-				'account' => $this->stash['account'],
-				'password' => sha1($this->stash['password']),
-				'is_bind' => 1,
-			);
-				  
-			// 如果个人资料手机号为空,则补充
-			if(empty($this->visitor->profile['phone'])){
-				$user_info['profile']['phone'] = $user_info['account'];     
+			
+			if($user['password'] !== sha1($this->stash['password'])){
+				return $this->ajax_json('请输入正确的密码,请更换!', true);
 			}
-				  
-			$ok = $user_model->update_set($user_id, $user_info);
+			
+			$user_info = array();
+			$user_info['account'] = $this->stash['new_account']; 
+			$user_info['profile']['phone'] = $this->stash['new_account']; 
+			
+			$ok = $user_model->update_set((int)$this->visitor->id, $user_info);
 			if($ok){
 					
 				// 删除验证码
 				$verify = new Sher_Core_Model_Verify();
-				$verify->remove((string)$code['_id']);
+				$verify->remove((string)$code_old['_id']);
+				$verify->remove((string)$code_new['_id']);
 	
-				$redirect_to = Sher_Core_Helper_Url::user_home_url($user_id);
+				$redirect_to = Doggy_Config::$vars['app.url.my'].'/bind_phone';
 				return $this->ajax_json("绑定成功！", false, $redirect_to);
 			}else{
 			  return $this->ajax_json('绑定失败!', true);
