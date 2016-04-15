@@ -134,8 +134,8 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 				return $this->ajax_note('保存失败,请重新提交', true);
 			}
 			
-      // 更新附件
-      $asset_model = new Sher_Core_Model_Asset();
+			// 更新附件
+			$asset_model = new Sher_Core_Model_Asset();
 			// 上传成功后，更新所属的附件(封面)
 			if(isset($this->stash['asset']) && !empty($this->stash['asset'])){
 				$asset_model->update_batch_assets($this->stash['asset'], $id);

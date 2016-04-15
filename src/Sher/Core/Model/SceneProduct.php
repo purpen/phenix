@@ -144,7 +144,17 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
         }
 
       }
-
+        
+        //　同步标签使用数目
+        $tags = $this->data['tags'];
+        if($tags){
+            $model = new Sher_Core_Model_SceneTags();
+            foreach($tags as $v){
+                $tag = (int)$v;
+                $model->inc_counter('used_count.total_count', 1, $tag);
+                $model->inc_counter('used_count.product', 1, $tag);
+            }
+        }
     }
 	
 	/**

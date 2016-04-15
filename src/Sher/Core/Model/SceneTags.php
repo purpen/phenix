@@ -39,9 +39,8 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 		# 类型
         'type' => self::TYPE_SCENE,
 		# 使用数量
-		'used_count' => 0,
-		# 分类计数
-		'used_more_count' => array(
+		'used_count' => array(
+			'total_count' => 0,
 			'scene' => 0,
 			'sight' => 0,
 			'content' => 0,
@@ -58,7 +57,7 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 	protected $required_fields = array('title_cn');
 	protected $int_fields = array('status', 'parent_id', 'left_ref', 'right_ref', 'type', 'used_count');
 	protected $float_fields = array();
-	protected $counter_fields = array('used_count');
+	protected $counter_fields = array('used_count.total_count','used_count.scene','used_count.sight','used_count.content','used_count.product');
 	protected $retrieve_fields = array();
     
 	protected $joins = array();
@@ -487,6 +486,13 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 	
 	/**
 	 * 增加计数
+	 * 'used_count' => array(
+			'total_count' => 0,
+			'scene' => 0,
+			'sight' => 0,
+			'content' => 0,
+			'product' => 0,
+		),
 	 */
 	public function inc_counter($field_name, $inc=1, $id=null){
 		
@@ -516,8 +522,8 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 	    }
 		
 		if(!$force){
-			$albums = $this->find_by_id((int)$id);
-			if(!isset($albums[$field_name]) || $albums[$field_name] <= 0){
+			$result = $this->find_by_id((int)$id);
+			if(!isset($result[$field_name]) || $result[$field_name] <= 0){
 				return true;
 			}
 		}
