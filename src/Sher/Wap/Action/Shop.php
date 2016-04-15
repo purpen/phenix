@@ -1393,7 +1393,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			return $this->ajax_json('新地址保存失败:'.$e->getMessage(), true);
 		}
 		
-		return $this->to_taconite_page('wap/address/ajax_address.html');
+		return $this->to_taconite_page('wap/ajax_address.html');
 	}
 	
 	/**
