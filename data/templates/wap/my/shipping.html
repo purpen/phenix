@@ -276,7 +276,7 @@ h3.ui.header{
 	</div>
 	
 	<div class="row">
-		<div class="column">
+		<div class="column" id="create-new-address" data-id="0">
 			{% addbooks_list var:'addresses' user_id:user.id size:8 %}
 			{% for address in addresses.rows %}
 		  	<div class="ui {% if address.is_default %}active {% endif %}segment" id="{{ address._id }}" data-id="{{ address._id }}">
@@ -301,7 +301,7 @@ h3.ui.header{
 		</div>
 	</div>
 	
-	<div class="addflex" id="create-new-address" data-id="0">
+	<div class="addflex">
 		<div class="addadress">
 			+ 添加地址
 		</div>
