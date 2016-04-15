@@ -47,7 +47,7 @@ class Sher_Core_Helper_Util {
 			$isLeaf = TRUE;  
 			foreach ($sourceArr as $cv )  
 			{  
-				if (($v[$key]) != $cv[$key])  
+				if (($v[$key]) != $cv[$key])  // 过滤同一个值之间的对比
 				{  
 					if ($v[$key] == $cv[$parentKey])  
 					{  
@@ -72,19 +72,49 @@ class Sher_Core_Helper_Util {
 		else  
 		{  
 			unset($v, $cv, $sourceArr, $isLeaf);  
-			foreach ($leafArr as  $v)  
+			foreach ($leafArr as $k => $v)  
 			{  
 				if (isset($tempSrcArr[$v[$parentKey]]))  
-				{  
+				{
+					if(!isset($v['children'])){
+						$v['children'] = 0; // 没有子集的时候，设置子集为空
+					}
 					$tempSrcArr[$v[$parentKey]][$childrenKey] = (isset($tempSrcArr[$v[$parentKey]][$childrenKey]) && is_array($tempSrcArr[$v[$parentKey]][$childrenKey])) ? $tempSrcArr[$v[$parentKey]][$childrenKey] : array();  
 					array_push ($tempSrcArr[$v[$parentKey]][$childrenKey], $v);  
 					unset($tempSrcArr[$v[$key]]);  
-				}  
+				}
 			}  
 			unset($v);  
 			return self::arrayToTree($tempSrcArr, $key, $parentKey, $childrenKey);  
 		}  
 	}
+	
+	/**
+     * 重建封面图
+     */
+    public static function rebuild_cover($cover) {
+        $images = array();
+        if (!empty($cover) && !empty($cover['thumbnails'])) {
+			$images['mini'] = $cover["thumbnails"]['mini']['view_url'];
+			$images['tiny'] = $cover["thumbnails"]['tiny']['view_url'];
+			$images['small'] = $cover["thumbnails"]['small']['view_url'];
+			$images['medium'] = $cover["thumbnails"]['medium']['view_url'];
+			$images['large'] = $cover["thumbnails"]['large']['view_url'];
+			$images['big'] = $cover["thumbnails"]['big']['view_url'];
+			$images['huge'] = $cover["thumbnails"]['huge']['view_url'];
+			$images['massive'] = $cover["thumbnails"]['massive']['view_url'];
+			$images['resp'] = $cover["thumbnails"]['resp']['view_url'];
+			$images['hd'] = $cover["thumbnails"]['hd']['view_url'];
+			$images['md'] = $cover["thumbnails"]['md']['view_url'];
+			$images['hm'] = $cover["thumbnails"]['hm']['view_url'];
+			$images['ava'] = $cover["thumbnails"]['ava']['view_url'];
+			$images['aub'] = $cover["thumbnails"]['aub']['view_url'];
+			$images['apc'] = $cover["thumbnails"]['apc']['view_url'];
+			$images['acs'] = $cover["thumbnails"]['acs']['view_url'];
+			$images['hdw'] = $cover["thumbnails"]['hdw']['view_url'];
+        }
+        return $images;
+    }
 	
 	/**
 	 * 发送注册验证码

@@ -223,7 +223,7 @@ EOF;
     }
     $block = $model->extended_model_row($block);
     if($type==1){
-      $content = $block['code'];
+      $content = isset($block['code']) ? $block['code'] : '';
     }else{
       $content = $block['content'];
     }

@@ -14,13 +14,16 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 	const TYPE_STUFF = 4;
     const TYPE_COOPERATE = 6;
 	const TYPE_ALBUMS = 8;
-  const TYPE_APP_SUBJECT = 9; // app专题
-  const TYPE_APP_SCENE_PRODUCT = 10; // 情景产品
+	const TYPE_APP_SUBJECT = 9; // app专题
+	const TYPE_APP_SCENE_PRODUCT = 10; // 情景产品
+	const TYPE_APP_SCENE_SCENE = 11; // 情景
+	const TYPE_APP_SCENE_SIGHT = 12; // 场景
 	
 	// event
 	const EVENT_FAVORITE = 1;
 	const EVENT_LOVE = 2;
 	const EVENT_FOLLOW = 3; // 关注孵化资源
+	const EVENT_SUBSCRIPTION = 4; // 情景订阅
 	
     protected $schema = array(
     	'user_id' => null,
@@ -29,8 +32,8 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
         'private'=> 0,
         'type'   => self::TYPE_TOPIC,
 		'event'  => self::EVENT_FAVORITE,
-    # IP记录(防做弊)
-    'ip' => null,
+		# IP记录(防做弊)
+		'ip' => null,
     );
 	
     protected $joins = array(
@@ -42,9 +45,9 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 	
 	
     protected function before_save(&$data) {
-      // 记录IP
-      $ip = Sher_Core_Helper_Auth::get_ip();
-      if($ip) $data['ip'] = $ip;
+		// 记录IP
+		$ip = Sher_Core_Helper_Auth::get_ip();
+		if($ip) $data['ip'] = $ip;
         if (isset($data['tags']) && !is_array($data['tags'])) {
             $data['tags'] = array_values(array_unique(preg_split('/[,，\s]+/u',strip_tags($data['tags']))));
         }
@@ -73,6 +76,12 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 				break;
 			case self::TYPE_ALBUMS:
 				$row['albums'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_Albums');
+				break;
+			case self::TYPE_APP_SCENE_SCENE:
+				$row['scene'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_SceneScene');
+				break;
+			case self::TYPE_APP_SCENE_SIGHT:
+				$row['sight'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_SceneSight');
 				break;
         }
 		
@@ -104,6 +113,8 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                 $evt = Sher_Core_Model_Remind::EVT_LOVE;
                 $point_event = 'evt_like';
                 $timeline_event = Sher_Core_Util_Constant::EVT_LOVE;
+            }elseif($event == self::EVENT_SUBSCRIPTION){
+                $field = 'subscription_count';
             }elseif($event == self::EVENT_FOLLOW){
                 $field = 'follow_count';
             }
@@ -189,6 +200,18 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                     $model = new Sher_Core_Model_SpecialSubject();
                     $model->inc_counter($field, 1, (int)$this->data['target_id']);
                     break;
+				case self::TYPE_APP_SCENE_SCENE:
+                    
+                    $model = new Sher_Core_Model_SceneScene();
+                    $model->inc_counter($field, 1, (int)$this->data['target_id']);
+                    
+                    break;
+				case self::TYPE_APP_SCENE_SIGHT:
+                    
+                    $model = new Sher_Core_Model_SceneSight();
+                    $model->inc_counter($field, 1, (int)$this->data['target_id']);
+                    
+                    break;
                 default:
                     return;
             }
@@ -220,8 +243,69 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
             }
         }
     }
-    
-    /**
+	
+	/**
+     * 检测是否收藏\点赞\订阅等等[通用]
+     */
+    public function check_favorites($user_id, $target_id, $type, $event, $id_type = 'int'){
+
+		if(empty($user_id) || empty($target_id) || empty($type) || empty($event)){
+			return false;
+		}
+		
+		$query = array();
+		$query['user_id'] = (int)$user_id;
+		if($id_type == 'string'){
+			$query['target_id'] = (string)$target_id;
+		}else{
+			$query['target_id'] = (int)$target_id;
+		}
+		$query['type'] = (int)$type;
+		$query['event'] = (int)$event;
+		$result = $this->count($query);
+		return $result>0 ? true : false;
+    }
+	
+	/**
+     * 添加到收藏\点赞\订阅等等[通用]
+     */
+    public function add_favorites($info=array(), $id_type = 'int') {
+		
+		if($id_type == 'string'){
+			$info['target_id'] = (string)$info['target_id'];
+		}else{
+			$info['target_id'] = (int)$info['target_id'];
+		}
+		
+        return $this->apply_and_save($info);
+    }
+	
+	/**
+     * 删除收藏\点赞\订阅等等[通用](只允许移除本人的)
+     */
+    public function remove_favorites($user_id, $target_id, $type, $event, $id_type = 'int'){
+		
+		if(empty($user_id) || empty($target_id) || empty($type) || empty($event)){
+			return false;
+		}
+
+		$query = array();
+		$query['user_id'] = (int)$user_id;
+		if($id_type == 'string'){
+			$query['target_id'] = (string)$target_id;
+		}else{
+			$query['target_id'] = (int)$target_id;
+		}
+		$query['type'] = (int)$type;
+		$query['event'] = (int)$event;
+		$ok = $this->remove($query);
+		if($ok){
+		  $this->mock_after_remove($user_id, $target_id, (int)$type, (int)$event);
+		}
+		return $ok;
+	}
+	
+	/**
      * 检查是否关注收藏
      */
     public function has_exist_follow($user_id, $target_id, $type=self::TYPE_COOPERATE){
@@ -235,6 +319,26 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
         return $result>0?true:false;
     }
 	
+	/**
+     * 检测是否收藏
+     */
+    public function check_favorite($user_id, $target_id, $type){
+
+		if(empty($user_id)){
+			return false;
+		}
+		$query['user_id'] = (int)$user_id;
+		if($type==self::TYPE_COMMENT){
+			$query['target_id'] = (string)$target_id;
+		}else{
+			$query['target_id'] = (int)$target_id;
+		}
+		$query['type'] = (int)$type;
+		$query['event'] = self::EVENT_FAVORITE;
+		$result = $this->count($query);
+		return $result>0 ? true : false;
+    }
+	
     /**
      * 添加到收藏
      */
@@ -246,26 +350,6 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 		$info['event'] = self::EVENT_FAVORITE;
         return $this->apply_and_save($info);
     }
-	
-    /**
-     * 检测是否收藏
-     */
-    public function check_favorite($user_id, $target_id, $type){
-
-      if(empty($user_id)){
-        return false;
-      }
-      $query['user_id'] = (int)$user_id;
-      if($type==self::TYPE_COMMENT){
-        $query['target_id'] = (string)$target_id;   
-      }else{
-        $query['target_id'] = (int)$target_id;
-      }
-      $query['type'] = (int)$type;
-      $query['event'] = self::EVENT_FAVORITE;
-      $result = $this->count($query);
-      return $result>0 ? true : false;
-    }
 
     /**
      * 删除收藏(只允许移除本人的收藏)
@@ -273,27 +357,27 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
     public function remove_favorite($user_id, $target_id, $type){
 		
 		$query['user_id'] = (int)$user_id;
-    if($type==self::TYPE_COMMENT){
-      $query['target_id'] = (string)$target_id;   
-    }else{
-      $query['target_id'] = (int)$target_id;
-    }
+		if($type==self::TYPE_COMMENT){
+		  $query['target_id'] = (string)$target_id;   
+		}else{
+		  $query['target_id'] = (int)$target_id;
+		}
 		$query['type'] = (int)$type;
 		$query['event'] = self::EVENT_FAVORITE;
-    $ok = $this->remove($query);
-    if($ok){
-      $this->mock_after_remove($user_id, $target_id, (int)$type, self::EVENT_FAVORITE);
-    }
-    return $ok;
-  }
+		$ok = $this->remove($query);
+		if($ok){
+		  $this->mock_after_remove($user_id, $target_id, (int)$type, self::EVENT_FAVORITE);
+		}
+		return $ok;
+	}
 	
     /**
      * 检测是否喜欢
      */
 	public function check_loved($user_id, $target_id,$type){
-		  if(empty($user_id)){
-        return false;
-      }
+		if(empty($user_id)){
+			return false;
+		}
 		$query['user_id'] = (int) $user_id;
         if((int)$type == self::TYPE_COMMENT){
             $target_id = (string)$target_id;
@@ -342,11 +426,11 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 		$query['type'] = (int)$type;
 		$query['event']  = self::EVENT_LOVE;
 		
-    $ok = $this->remove($query);
-    if($ok){
-      $this->mock_after_remove($user_id, $target_id, (int)$type, self::EVENT_LOVE);
-    }
-    return $ok;
+		$ok = $this->remove($query);
+		if($ok){
+		  $this->mock_after_remove($user_id, $target_id, (int)$type, self::EVENT_LOVE);
+		}
+		return $ok;
 	}
 	
 	/**
@@ -364,6 +448,8 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 			$field = 'love_count';
 		}elseif($event == self::EVENT_FOLLOW){
             $field = 'follow_count';
+        }elseif($event == self::EVENT_SUBSCRIPTION){
+            $field = 'subscription_count';
         }
 		
 		switch($type){
@@ -410,10 +496,18 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                 $model = new Sher_Core_Model_Albums();
                 $model->dec_counter($field, (int)$target_id);
 				break;
-      case self::TYPE_APP_SUBJECT:
-          $model = new Sher_Core_Model_SpecialSubject();
-          $model->dec_counter($field, (int)$target_id);
-          break;
+			case self::TYPE_APP_SUBJECT:
+				$model = new Sher_Core_Model_SpecialSubject();
+				$model->dec_counter($field, (int)$target_id);
+				break;
+			case self::TYPE_APP_SCENE_SCENE:
+				$model = new Sher_Core_Model_SceneScene();
+				$model->dec_counter($field, (int)$target_id);
+				break;
+			case self::TYPE_APP_SCENE_SIGHT:
+				$model = new Sher_Core_Model_SceneSight();
+				$model->dec_counter($field, (int)$target_id);
+				break;
         }
 	}
 	

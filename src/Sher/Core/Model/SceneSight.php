@@ -6,6 +6,7 @@
 class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 
     protected $collection = "scene_sight";
+	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
     protected $schema = array(
 		# 标题
@@ -23,11 +24,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		'tags' => array(),
 		# 产品
 		'product' => array(),
-		# 产品位置坐标
-		'product_site' => array(
-			'x' => 0,
-			'y' => 0
-		),
+		
 		# 地理位置
 		 'location'  => array(
             'type' => 'Point',
@@ -60,13 +57,15 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		'status' => 1,
     );
 	
-	protected $required_fields = array('title','type','images');
-	protected $int_fields = array('status', 'used_count');
+	protected $required_fields = array('title');
+	protected $int_fields = array('status', 'used_count','love_count','comment_count');
 	protected $float_fields = array();
-	protected $counter_fields = array('used_count');
+	protected $counter_fields = array('used_count','view_count','love_count','comment_count');
 	protected $retrieve_fields = array();
     
-	protected $joins = array();
+	protected $joins = array(
+		'cover' =>  array('cover_id' => 'Sher_Core_Model_Asset'),  
+	);
 	
 	/**
 	 * 扩展数据
@@ -88,4 +87,50 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
     protected function after_save(){
         parent::after_save();
     }
+	
+	/**
+	 * 增加计数
+	 */
+	public function inc_counter($field_name, $inc=1, $id=null){
+		if(is_null($id)){
+			$id = $this->id;
+		}
+		if(empty($id) || !in_array($field_name, $this->counter_fields)){
+			return false;
+		}
+		
+		return $this->inc($id, $field_name, $inc);
+	}
+	
+	/**
+	 * 减少计数
+	 * 需验证，防止出现负数
+	 */
+	public function dec_counter($field_name,$id=null,$force=false,$count=1){
+	    if(is_null($id)){
+	        $id = $this->id;
+	    }
+	    if(empty($id)){
+	        return false;
+	    }
+		if(!$force){
+			$result = $this->find_by_id((int)$id);
+			if(!isset($result[$field_name]) || $result[$field_name] <= 0){
+				return true;
+			}
+		}
+		
+		return $this->dec($id, $field_name, $count);
+	}
+	
+	/**
+	 * 批量更新附件所属
+	 */
+	public function update_batch_assets($id, $parent_id){
+		if (!empty($id)){
+			$model = new Sher_Core_Model_Asset();
+			Doggy_Log_Helper::debug("Update asset[$id] parent_id: $parent_id");
+			$model->update_set($id, array('parent_id' => (int)$parent_id));
+		}
+	}
 }

@@ -34,24 +34,25 @@ class Sher_Core_Model_Block extends Sher_Core_Model_Base  {
 			$row['content'] = htmlspecialchars_decode($row['content']);
 		}
 		// 去除 html/php标签
-    if(isset($row['remark'])){
-		  $row['strip_remark'] = strip_tags(htmlspecialchars_decode($row['remark']));
-    }
-
-    switch($row['kind']){
-      case 1:
-        $row['kind_label'] = '通用';
-        break;
-      case 2:
-        $row['kind_label'] = 'Web/Wap';
-        break;
-      case 3:
-        $row['kind_label'] = 'APP';
-        break;
-      default:
-        $row['kind_label'] = '--';
-    }
-		
+        if(isset($row['remark'])){
+              $row['strip_remark'] = strip_tags(htmlspecialchars_decode($row['remark']));
+        }
+        
+        if(isset($row['kind'])){
+            switch($row['kind']){
+              case 1:
+                $row['kind_label'] = '通用';
+                break;
+              case 2:
+                $row['kind_label'] = 'Web/Wap';
+                break;
+              case 3:
+                $row['kind_label'] = 'APP';
+                break;
+              default:
+                $row['kind_label'] = '--';
+            }
+        }
 	}
 
 	/**

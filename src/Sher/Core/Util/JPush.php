@@ -35,11 +35,10 @@ class Sher_Core_Util_JPush {
     // common
     $extras = isset($options['extras']) ? (array)$options['extras'] : array();
     $sendno = isset($options['sendno']) ? (int)$options['sendno'] : null;
-    $time_to_live = isset($options['time_to_live']) ? (int)$options['time_to_live'] : 0;  // 默认0天
+    $time_to_live = isset($options['time_to_live']) ? (int)$options['time_to_live'] : 86400;  // 默认1天
     $override_msg_id = isset($options['override_msg_id']) ? (int)$options['override_msg_id'] : null;
     $apns_production = isset($options['apns_production']) ? $options['apns_production'] : false;
     $big_push_duration = isset($options['big_push_duration']) ? (int)$options['big_push_duration'] : null;
-
 
     try{
       $client = new JPush($app_key, $app_secret, $log_path, $max_retry_times);
