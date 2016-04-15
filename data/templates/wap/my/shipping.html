@@ -367,7 +367,7 @@ h3.ui.header{
 						
 		        		<div class="inline field">
 							<div class="ui toggle checkbox {% if addbook.is_default == 1 %} checked {%endif%}">
-								<input name="is_default" type="checkbox" checked="checked" value="1">
+								<input name="is_default" type="checkbox" {%if addbook.is_default==1%}checked="checked"{%endif%} value="1">
 								<label>设为默认地址</label>
 						    </div>
 						</div>
