@@ -114,8 +114,7 @@ h3.ui.header{
       flex-basis: 0;
       flex-grow: 1;
 	  font-size:1rem;
-	  background: rgba(0,0,0,0.4);
-	  color:#fff;
+	  background: #fff;
 	  text-align:center;
 	  line-height:2.1435rem;
       padding: 0.7145rem;
@@ -154,9 +153,7 @@ h3.ui.header{
       -webkit-box-align: center;
       padding: 0.7145rem;
 	  background: #fff;
-	  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
-      border: 1px solid rgba(0,0,0,0.1);
-	  padding-bottom: 0.71428571rem!important;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
   }
   .actions{
 	  display: flex;
@@ -312,6 +309,7 @@ h3.ui.header{
       if(confirm('确认执行这个删除操作吗?')){
         $.post('{{ app_url_wap }}/app/site/address/remove_address', {id: id}, function(result){
           if (result.success){
+			$('#shipping').removeClass('addshow');
             if ($('#'+result.data.id).hasClass('active')) {
               // 清空默认值
               $('#addbook_default_id').val('');
@@ -352,16 +350,15 @@ h3.ui.header{
 						
 					</div>
 					<div class="actions">
-						<img src="{{ app_url_packaged }}/images/icon/is_default.png" width="71">
 						{% if addbook.is_default == 1 %}
-					
+						<img src="{{ app_url_packaged }}/images/icon/is_default.png" width="71">
 						{% endif %}
 						<div class="revise">
 							<a class="ui small gray icon edit button" data-id="{{ address._id }}">
-								<i class="edit icon"></i>
+								<i class="edit icon"></i>&nbsp;&nbsp;编辑
 							</a>
 							<a class="ui small gray icon remove button" data-id="{{ address._id }}">
-								<i class="remove icon"></i>
+								<i class="remove icon"></i>&nbsp;&nbsp;删除
 							</a>
 						</div>
 					</div>
