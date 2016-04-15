@@ -142,7 +142,8 @@ h3.ui.header{
       padding: 0 !important;
   }
   .addressitem .item{
-      
+	  border-bottom: 1px solid rgba(0,0,0,0.1);
+      margin-bottom: 0.71428571rem!important;
   }
   .item .content{
       display: flex;
@@ -155,7 +156,19 @@ h3.ui.header{
 	  background: #fff;
 	  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
       border: 1px solid rgba(0,0,0,0.1);
-	  margin-bottom: 0.71428571rem!important;
+	  padding-bottom: 0.71428571rem!important;
+  }
+  .actions{
+	  display: flex;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: -webkit-box;
+      align-items: center;
+      -webkit-box-align: center;
+      padding: 0.7145rem;
+      background: #fff;
+      text-align: right;
+      background: #fff;
   }
   .addr{
       -webkit-box-flex: 1;
@@ -167,8 +180,7 @@ h3.ui.header{
       flex-basis: 0;
       flex-grow: 1;
       position: relative;
-      padding-right: 1.429rem;
-      margin-left: 0.7145rem;
+      margin-left: 0.35725rem;
   }
   .addr span{
 	  font-size:0.92885rem;
@@ -320,13 +332,9 @@ h3.ui.header{
 				{% addbooks_list var:'addresses' user_id:user.id size:8 %}
 				{% for address in addresses.rows %}
 				<div class="item {% if address.is_default %}active {% endif %}" id="{{ address._id }}" data-id="{{ address._id }}">
-					{% if addbook.is_default == 1 %}
-						123
-					
-					{% endif %}
 					<div class="content">
-						<h5 class="ui header pt-r mb-2r">{{ address.name }}</h5>
 						<div class="addr">
+							<h5 class="ui header pt-r mb-2r">{{ address.name }}</h5>
 							<span>{{ address.area_province.city}} {{ address.area_district.city }}</span>
 							<span> {{ address.address }} </span>
 							<span>{{ address.phone }}</span>
@@ -334,6 +342,10 @@ h3.ui.header{
 						
 					</div>
 					<div class="actions">
+						<img src="{{ app_url_packaged }}/images/icon/is_default.png" width="71">
+						{% if addbook.is_default == 1 %}
+					
+						{% endif %}
 						<a class="ui small gray icon edit button" data-id="{{ address._id }}">
 							<i class="edit icon"></i>
 						</a>

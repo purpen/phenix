@@ -117,8 +117,8 @@
 			<div class="address active block" id="{{ address._id }}" data-id="{{ address._id }}">
 			{% endif %}
 				<div class="content">
-					<h5 class="ui header pt-r mb-2r">{{ address.name }}</h5>
 					<div class="addr">
+						<h5 class="ui header pt-r mb-2r">{{ address.name }}</h5>
 						<span>{{ address.area_province.city}} {{ address.area_district.city }}</span>
 						<span> {{ address.address }} </span>
 						<span>{{ address.phone }}</span>
@@ -127,6 +127,9 @@
 				</div>
 				
 				<div class="actions">
+					{% if addbook.is_default == 1 %}
+						<img src="{{ app_url_packaged }}/images/icon/is_default.png" width="71">
+					{% endif %}
 					<a class="ui small gray icon button edit" data-id="{{ address._id }}">
 						<i class="edit icon"></i>
 					</a>
