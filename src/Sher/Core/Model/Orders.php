@@ -132,7 +132,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
 		# 是否预售订单
 		'is_presaled' => 0,
-		# 过期时间,(普通订单、预售订单)
+		# 过期时间,(普通订单、预售订单、抢购订单)
 		'expired_time' => 0,
     # 是否活动订单:1.app闪购
     'active_type' => 0,
