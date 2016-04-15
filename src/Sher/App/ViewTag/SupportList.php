@@ -48,11 +48,11 @@ class Sher_App_ViewTag_SupportList extends Doggy_Dt_Tag {
             $query['event'] = (int)$event;
         }
 		
-        $service = Sher_Core_Service_Product::instance();
+        $service = Sher_Core_Service_Support::instance();
         $options['page'] = $page;
         $options['size'] = $size;
 		
-        $result = $service->get_support_list($query,$options);
+        $result = $service->get_vote_list($query,$options);
 		
         $context->set($var,$result);
         if ($include_pager) {

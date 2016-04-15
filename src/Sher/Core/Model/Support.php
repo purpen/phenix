@@ -93,16 +93,8 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
 	/**
 	 * 删除后事件
 	 */
-	public function mock_after_remove($id,$ticket) {
-		$product = new Sher_Core_Model_Product();
-		
-		if ($ticket == Sher_Core_Model_Support::TICKET_OPPOSE){
-			$product->dec_counter('vote_oppose_count', (int)$id);
-		} else {
-			$product->dec_counter('vote_favor_count', (int)$id);
-		}
-		
-		unset($product);
+	public function mock_after_remove($id,$options=array()) {
+
 	}
 	
 	/**

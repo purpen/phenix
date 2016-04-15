@@ -1,13 +1,13 @@
 <?php
 /**
- * 产品投票列表
+ * 产品投票,预约，提醒列表
  * @author purpen
  */
 class Sher_Core_Service_Support extends Sher_Core_Service_Base {
     protected static $instance;
 	
     protected $sort_fields = array(
-        'time' => array('created_on' => -1),
+        'latest' => array('created_on' => -1),
     );
 	
     /**
@@ -31,4 +31,4 @@ class Sher_Core_Service_Support extends Sher_Core_Service_Base {
     }
 	
 }
-?>
+
