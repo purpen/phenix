@@ -255,7 +255,8 @@
 						<div class="two fields">
 							<div class="field">
 								<label>旧手机号码</label>
-                <input type="text" name="old_account" disabled="disabled" id="old_account" value="{{ visitor.account }}" placeholder="请填写旧手机号码！" />
+                <input type="hidden" name="old_account" value="{{ visitor.account }}" />
+                <input type="text" name="old_account_txt" disabled="disabled" id="old_account" value="{{ visitor.account }}" placeholder="请填写旧手机号码！" />
 							</div>
 							<div class="field"></div>
 						</div>
