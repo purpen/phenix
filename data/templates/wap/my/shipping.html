@@ -44,7 +44,7 @@ h3.ui.header{
 	  width: 100%;
 	  z-index: 3;
 	  max-width:767px;
-	  margin:0 -10px;
+	  margin:0 auto;
   }
   .addflex .addadress{
       -webkit-box-flex: 1;
@@ -335,7 +335,7 @@ h3.ui.header{
 	</div>
 	
 	<div class="row">
-		<div class="column">
+		<div class="column p-0">
 			<div class="addressitem">
 				{% addbooks_list var:'addresses' user_id:user.id size:8 %}
 				{% for address in addresses.rows %}
