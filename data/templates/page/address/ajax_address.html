@@ -201,6 +201,7 @@
 		<before select="#create-new-address">
 		{% endif %}
 			{% if plat == 'mobile' %}
+			<append select="#address-list"><![CDATA[
 			<div class="item {% if address.is_default %}active {% endif %}" id="{{ address._id }}" data-id="{{ address._id }}">
 				<div class="content">
 					<div class="addr">
@@ -225,6 +226,7 @@
 					</div>
 				</div>
 			</div>
+			]]></append>
 			{% else %}
 			<div class="address active block" id="{{ address._id }}" data-id="{{ address._id }}">
 			
