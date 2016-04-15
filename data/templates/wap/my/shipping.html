@@ -273,8 +273,28 @@ h3.ui.header{
 		</div>
 	</div>
 	
-	<div class="">
-		
+	<div class="row">
+		<div class="column">
+			{% addbooks_list var:'addresses' user_id:user.id size:8 %}
+			{% for address in addresses.rows %}
+		  	<div class="ui {% if address.is_default %}active {% endif %}segment" id="{{ address._id }}" data-id="{{ address._id }}">
+				<h4 class="ui dividing header">
+					<i class="map marker icon"></i> <span class="name">{{ address.name }}</span>
+				</h4>
+				<p>{{ address.phone }}</p>
+				<p>{{ address.area_province.city}} {{ address.area_district.city }}<br /> {{ address.address }} <span>({{ address.zip }})</span></p>
+			
+				<div class="actions">
+					<a class="ui small gray icon edit button" data-id="{{ address._id }}">
+						<i class="edit icon"></i>
+					</a>
+					<a class="ui small gray icon remove button" data-id="{{ address._id }}">
+						<i class="remove icon"></i>
+					</a>
+				</div>
+		  	</div>
+			{% endfor %}
+		</div>
 	</div>
 	
 	<div class="addflex">
@@ -396,6 +416,7 @@ h3.ui.header{
 </div>
 
 <!--弹出地址框-->
+<!--
 <div class="ui small addbook add modal" id="addbook-form-box">
   	<i class="close icon"></i>
 	<div class="ui header">
@@ -473,6 +494,6 @@ h3.ui.header{
 			</div>				
 		</form>
 	</div>
-</div>
+</div>-->
 
 {% endblock %}
