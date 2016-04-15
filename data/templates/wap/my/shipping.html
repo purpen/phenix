@@ -210,6 +210,7 @@ h3.ui.header{
 				event.preventDefault();
 				$(this).ajaxSubmit();
 				$('#shipping').removeClass('addshow');
+				$('.ui.toggle.checkbox').removeClass('checked');
 			}
 		});
 	});
@@ -365,7 +366,7 @@ h3.ui.header{
 						</div>
 						
 		        		<div class="inline field">
-							<div class="ui toggle checkbox">
+							<div class="ui toggle checkbox {% if addbook.address.is_default == 1 %}checked {%endif%}">
 								<input name="is_default" type="checkbox" checked="checked" value="1">
 								<label>设为默认地址</label>
 						    </div>
