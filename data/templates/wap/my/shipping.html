@@ -44,7 +44,7 @@ h3.ui.header{
 	  width: 100%;
 	  z-index: 3;
 	  max-width:767px;
-	  margin:0 auto;
+	  margin:0 -10px;
   }
   .addflex .addadress{
       -webkit-box-flex: 1;
@@ -276,7 +276,7 @@ h3.ui.header{
 	</div>
 	
 	<div class="row">
-		<div class="column" id="create-new-address" data-id="0">
+		<div class="column">
 			{% addbooks_list var:'addresses' user_id:user.id size:8 %}
 			{% for address in addresses.rows %}
 		  	<div class="ui {% if address.is_default %}active {% endif %}segment" id="{{ address._id }}" data-id="{{ address._id }}">
@@ -297,15 +297,16 @@ h3.ui.header{
 		  	</div>
 			{% endfor %}
 			
+			<div class="addflex" id="create-new-address" data-id="0">
+				<div class="addadress">
+					+ 添加地址
+				</div>
+			</div>
 			
 		</div>
 	</div>
 	
-	<div class="addflex">
-		<div class="addadress">
-			+ 添加地址
-		</div>
-	</div>
+	
 	
 	<div class="leftadd" id="addbook-form-box">
 		<div class="ui grid m-0">
