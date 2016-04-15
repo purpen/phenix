@@ -61,7 +61,10 @@
 									<label>设为默认地址</label>
 							    </div>
 							</div>
-			
+							
+							<div class="ui fluid ui remove button field">
+								删除
+							</div>
 							<div class="nextbtn">
 								<div class="close-btn">
 									取消
@@ -94,19 +97,28 @@
 	{% if mode == 'create' %}
 	<append select="#address-list"><![CDATA[
 	{% endif %}
-		<div class="{% if address.is_default %}active {% endif %}item" id="{{ address._id }}">
-			<div class="right floated">
-				<a href="{{ app_url_wap }}/shop/submit_address?rrid={{ rrid }}&id={{ address._id }}" class="ui magenta icon link">
-					{% if address.is_default %}
-					<i class="circle arrow right icon"></i>
-					{% else %}
-					<i class="circle arrow right icon"></i>
-					{% endif %}
-				</a>
-			</div>
+		<div class="item {% if address.is_default %}active {% endif %}" id="{{ address._id }}" data-id="{{ address._id }}">
 			<div class="content">
-				<div class="header">{{ address.name }} {{ address.phone }}</div>
-				{{ address.area_province.city}} {{ address.area_district.city }} {{ address.address }} ({{ address.zip }})
+				<div class="addr">
+					<h5 class="ui header pt-r mb-2r">{{ address.name }}</h5>
+					<span>{{ address.area_province.city}} {{ address.area_district.city }}</span>
+					<span> {{ address.address }} </span>
+					<span>{{ address.phone }}</span>
+				</div>
+				
+			</div>
+			<div class="actions">
+				{% if addbook.is_default == 1 %}
+				<img src="{{ app_url_packaged }}/images/icon/is_default.png" width="71">
+				{% endif %}
+				<div class="revise">
+					<a class="ui small gray icon edit button" data-id="{{ address._id }}">
+						<i class="edit icon"></i>&nbsp;&nbsp;编辑
+					</a>
+					<a class="ui small gray icon remove button" data-id="{{ address._id }}">
+						<i class="remove icon"></i>&nbsp;&nbsp;删除
+					</a>
+				</div>
 			</div>
 		</div>
 	{% if mode == 'edit' %}

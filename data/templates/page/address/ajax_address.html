@@ -69,12 +69,6 @@
 								<label>设为默认地址</label>
 						    </div>
 						</div>
-						
-						<div class="inline fluid ui remove button field">
-								删除
-						</div>
-						
-						
 		
 						<div class="field">
 							<div class="ui active magenta submit button">
@@ -118,33 +112,26 @@
 		<before select="#create-new-address">
 		{% endif %}
 			{% if plat == 'mobile' %}
-		  	<div class="item {% if address.is_default %}active {% endif %}" id="{{ address._id }}" data-id="{{ address._id }}">
+		  	<div class="ui {% if address.is_default %}active {% endif %}segment" id="{{ address._id }}" data-id="{{ address._id }}">
 			{% else %}
 			<div class="address active block" id="{{ address._id }}" data-id="{{ address._id }}">
 			{% endif %}
-				<div class="content">
-					<div class="addr">
-						<h5 class="ui header pt-r mb-2r">{{ address.name }}</h5>
-						<span>{{ address.area_province.city}} {{ address.area_district.city }}</span>
-						<span> {{ address.address }} </span>
-						<span>{{ address.phone }}</span>
-					</div>
-					
-				</div>
+                <div class="content">
+    				<h4 class="ui dividing header">
+    					<i class="map marker icon"></i> <span class="name">{{ address.name }}</span>
+    				</h4>
+    				<p>{{ address.phone }}</p>
+    				<p>{{ address.area_province.city}} {{ address.area_district.city }}<br /> {{ address.address }} <span>({{ address.zip }})</span></p>
 				
-				<div class="actions">
-					{% if addbook.is_default == 1 %}
-						<img src="{{ app_url_packaged }}/images/icon/is_default.png" width="71">
-					{% endif %}
-					<div class="revise">
-						<a class="ui small gray icon button edit" data-id="{{ address._id }}">
-							<i class="edit icon"></i>&nbsp;&nbsp;编辑
-						</a>
-						<a class="ui small gray icon button remove" data-id="{{ address._id }}">
-							<i class="remove icon"></i>&nbsp;&nbsp;删除
-						</a>
-					</div>
-				</div>
+    				<div class="actions">
+    					<a class="ui small gray icon button edit" data-id="{{ address._id }}">
+    						<i class="edit icon"></i>
+    					</a>
+    					<a class="ui small gray icon button remove" data-id="{{ address._id }}">
+    						<i class="remove icon"></i>
+    					</a>
+    				</div>
+                </div>
 		  	</div>	
 		{% if mode == 'edit' %}
 		</replace>
