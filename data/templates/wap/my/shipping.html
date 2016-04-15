@@ -29,6 +29,37 @@ h3.ui.header{
     width:49%;
     min-width:3em !important;
   }
+  
+  #mmfoot{
+	  display:none;
+  }
+  .addflex{
+	  display: flex;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: -webkit-box;
+      align-items: center;
+      -webkit-box-align: center;
+      padding: 0.7145rem;
+	  position:fixed;
+	  bottom:0;
+	  left:0;
+	  background:#fff;
+	 width: 100%;
+  }
+  .addflex .addadress{
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      -webkit-flex-basis: 0;
+      -ms-flex-preferred-size: 0;
+      flex-basis: 0;
+      flex-grow: 1;
+	  font-size:1rem;
+	  color:#f36;
+	  text-align:center;
+  }
 </style>
 {% endblock %}
 
@@ -159,7 +190,18 @@ h3.ui.header{
 			<h3 class="ui header">管理收货地址</h3>
 		</div>
 	</div>
-	<div class="row">
+	
+	<div class="">
+		
+	</div>
+	
+	<div class="addflex">
+		<div class="addadress">
+			+ 添加地址
+		</div>
+	</div>
+	
+	<!--<div class="row">
 		<div class="column">
 			{% addbooks_list var:'addresses' user_id:user.id size:8 %}
 			{% for address in addresses.rows %}
@@ -186,7 +228,7 @@ h3.ui.header{
 				</a>
 			</div>
 		</div>
-	</div>
+	</div>-->
 </div>
 
 <!--弹出地址框-->
