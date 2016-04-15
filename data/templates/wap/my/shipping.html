@@ -365,12 +365,8 @@ h3.ui.header{
 							<textarea name="address" class="small">{{ addbook.address }}</textarea>
 						</div>
 						
-						{% if addbook.address.is_default == 1 %}
-						<div>123</div>
-						 {%endif%}
-						
 		        		<div class="inline field">
-							<div class="ui toggle checkbox">
+							<div class="ui toggle checkbox {% if addbook.is_default == 1 %} checked {%endif%}">
 								<input name="is_default" type="checkbox" checked="checked" value="1">
 								<label>设为默认地址</label>
 						    </div>
