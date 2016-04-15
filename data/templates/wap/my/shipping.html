@@ -149,9 +149,9 @@ h3.ui.header{
 	});
 	// 编辑
 	$('.ui.addbook.edit.button').click(function(){
-	  $('.ui.addbook.edit.modal').modal('show');
+	  $('#shipping').addClass('addshow');
 	});
-	// 显示地址框
+	<!--// 显示地址框
 	$('.ui.addbook.add.button').click(function(){
     $('#addbook-form').clearForm();
 		$('.ui.addbook.add.modal').modal('show');
@@ -160,7 +160,7 @@ h3.ui.header{
 	// 关闭地址框
 	$('.ui.close-btn.button').click(function(){
 		$('.ui.addbook.modal').modal('hide');
-	});
+	});-->
 	
 	$('#addbook-form').livequery(function(){
 		$(this).form({
