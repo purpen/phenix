@@ -150,26 +150,26 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	protected $thumbnails = array('mini','tiny','small','medium','large','big','huge','massive');
 	
 	protected $thumbnails_styles = array(
-		'mini' => 's.jpg', 
-		'tiny' => 'ti.jpg', 
-		'small' => 'sm.jpg', 
-		'medium' => 'me.jpg',
-		'large' => 'la.jpg', 
-		'big' => 'bi.jpg', 
-		'huge' => 'hu.jpg', 
-		'massive' => 'ma.jpg',
+		'mini' => 's.jpg', # 160x120
+		'tiny' => 'ti.jpg', # 160x120
+		'small' => 'sm.jpg', # 280x210
+		'medium' => 'me.jpg', # 320x240
+		'large' => 'la.jpg',  # 580x435
+		'big' => 'bi.jpg',  # 700x525 有水印
+		'huge' => 'hu.jpg', # 900x*
+		'massive' => 'ma.jpg', #
 	);
 	
 	protected $retrieve_fields = array('filepath'=>1,'thumbnails'=>1,'asset_type'=>1,'parent_id'=>1, 'size'=>1, 'desc'=>1, 'width'=>1, 'height'=>1, 'filename'=>1, 'kind'=>1);
 	
 	# 响应式设计所需图
 	protected $thumbnails_resp = array(
-		'resp' => 'resp.jpg',
-		'hd'   => 'hd.jpg',
-		'md'   => 'm.jpg',
-		'hm'   => 'hm.jpg',
+		'resp' => 'resp.jpg', # 480x360
+		'hd'   => 'hd.jpg', # 1180x*
+		'md'   => 'm.jpg',  # 180x180
+		'hm'   => 'hm.jpg', # 420x250
 		# 头像截图
-		'ava'  => 'ava.jpg',
+		'ava'  => 'ava.jpg',  # 180x180
 		# app Banner(通用)
 		'aub'  => 'p750x422.jpg',  // 750x422
 		# app 商品封面

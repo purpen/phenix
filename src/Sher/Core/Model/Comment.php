@@ -356,6 +356,10 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 				$model = new Sher_Core_Model_Product();
 				$model->dec_counter('comment_count', (int)$target_id);
 				break;
+			case self::TYPE_APP_SUBJECT:
+				$model = new Sher_Core_Model_SpecialSubject();
+				$model->dec_counter('comment_count', (int)$target_id);
+				break;
 			case self::TYPE_SCENE_SIGHT:
 				$model = new Sher_Core_Model_SceneSight();
 				$model->dec_counter('comment_count', (int)$target_id);
