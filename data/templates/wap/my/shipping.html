@@ -209,6 +209,7 @@ h3.ui.header{
 			onSuccess: function(event){
 				event.preventDefault();
 				$(this).ajaxSubmit();
+				$('#shipping').removeClass('addshow');
 			}
 		});
 	});
