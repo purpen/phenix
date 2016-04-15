@@ -1,9 +1,9 @@
 <?php
 /**
- * 情景
+ * 场景
  * @author caowei@taihuoniao.com
  */
-class Sher_Core_Service_SceneScene extends Sher_Core_Service_Base {
+class Sher_Core_Service_SceneSight extends Sher_Core_Service_Base {
 
     protected $sort_fields = array(
         'latest' => array('created_on' => -1),
@@ -14,11 +14,11 @@ class Sher_Core_Service_SceneScene extends Sher_Core_Service_Base {
     /**
      * current service instance
      *
-     * @return Sher_Core_Service_SceneScene
+     * @return Sher_Core_Service_SceneSight
      */
     public static function instance() {
         if (is_null(self::$instance)) {
-            return self::$instance = new Sher_Core_Service_SceneScene();
+            return self::$instance = new Sher_Core_Service_SceneSight();
         }
         return self::$instance;
     }
@@ -26,16 +26,16 @@ class Sher_Core_Service_SceneScene extends Sher_Core_Service_Base {
     /**
      * 获取列表
      */
-    public function get_scene_scene_list($query=array(), $options=array()) {
-	    $model = new Sher_Core_Model_SceneScene();
+    public function get_scene_sight_list($query=array(), $options=array()) {
+	    $model = new Sher_Core_Model_SceneSight();
 		  return $this->query_list($model, $query, $options);
     }
     
     /**
-     * 获取情景详情
+     * 获取场景详情
      */
-    public function get_scene_by_id($id) {
-        $model = new Sher_Core_Model_SceneScene();
+    public function get_sight_by_id($id) {
+        $model = new Sher_Core_Model_SceneSight();
         return $model->extend_load((int)$id);
     }
 }

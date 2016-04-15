@@ -29,6 +29,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	
 	const STROAGE_SCENE_BRANDS = 'scene_brands';
 	const STROAGE_SCENE_SCENE = 'scene_scene';
+	const STROAGE_SCENE_SIGHT = 'scene_sight';
 	
 	/**
 	 * 类型的常量

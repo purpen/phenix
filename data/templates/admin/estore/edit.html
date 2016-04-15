@@ -84,9 +84,17 @@
         
         // 创建地址解析器实例
         var myGeo = new BMap.Geocoder();
+        
         // 将地址解析结果显示在地图上，并调整地图视野
         myGeo.getPoint(address, function(point){
             if (point) {
+                
+                myGeo.getLocation(point, function(rs){
+                    var addComp = rs.addressComponents;
+                    $('#city').val(addComp.city);
+                    //alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+                });
+                
                 map.centerAndZoom(point, 16);
                 
                 // 填充地标
@@ -141,10 +149,10 @@
 			$(this).ajaxSubmit({
 				dataType: 'json',
 				beforeSubmit: function(){
-					phenix.before_submit();
+					//phenix.before_submit();
 				},
 				success: function(data){
-					phenix.after_submit();
+					//phenix.after_submit();
 					
 					if(data.is_error){
 						$(event.target).addClass('error');
@@ -231,6 +239,7 @@
 	<form action="{{ app_url_admin_base }}/estore/save?page={{ page }}" class="ui form" method="post" id="estore-form">
 		<input type="hidden" name="_id" value="{{ estore._id }}" />
 		<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
+        <input type="hidden" name="city" value="{{ estore.city }}" id="city" />
 		
 		<div class="ui segment">
 			<h4 class="ui dividing header">基本信息</h4>

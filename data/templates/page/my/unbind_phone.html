@@ -1,0 +1,319 @@
+{%extends 'layout/column.html'%}
+{% block title %}修改手机号码-{% endblock %}
+{% block page_css %}
+<style class="text/css">
+    .account .avatar {
+    	min-height: 25em;
+    }
+    #captcha-img,
+    #fetch-verify-code {
+        display: inline-block;
+        margin-top: 28px;
+    }
+</style>
+{% endblock %}
+{% block layout_js %}
+  
+{% endblock %}
+{% block jquery %}
+
+	/* 个人资料表单验证 */
+	$('#bind-form').form({
+		old_account: {
+			identifier  : 'old_account',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请填写有效的手机号码'
+				},
+				{
+					type   : 'length[11]',
+					prompt : '无效手机号码!'
+				}
+			]
+		},
+		old_verify_code: {
+			identifier  : 'old_verify_code',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请填写有效的手机验证码'
+				}
+			]
+		},
+		captcha: {
+			identifier  : 'captcha',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请填写有效的验证码'
+				}
+			]
+		},
+		password: {
+			identifier  : 'password',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请输入密码'
+				},
+				{
+					type   : 'length[6]',
+					prompt : '密码长度应大于6位,小于30位!'
+				},
+				{
+					type   : 'maxLength[30]',
+					prompt : '密码长度应大于6位,小于30位!'
+				}
+			]
+		},
+		new_account: {
+			identifier  : 'new_account',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请填写有效的手机号码'
+				},
+				{
+					type   : 'length[11]',
+					prompt : '无效手机号码!'
+				}
+			]
+		},
+		new_verify_code: {
+			identifier  : 'new_verify_code',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请填写有效的手机验证码'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					//phenix.before_submit();
+				},
+				success: function(data){
+					//phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.show_ok_note(data.message);
+						
+						phenix.redirect(data.redirect_url, 2000);
+					}
+				}
+			});
+		}
+	});
+
+	// 手机验证码
+	var wait = 60,can_send=true;
+	var public_code_obj = new Object();
+	var limitime = function(){
+		if(wait == 0){
+			can_send = true;
+			wait = 60;
+			public_code_obj.removeClass('active').text('获取验证码');
+		}else{
+			can_send = false;
+			wait--;
+			public_code_obj.addClass('active').text('重新发送('+wait+')');
+			setTimeout(function(){
+				limitime();
+			}, 1000);
+		}
+	}
+		
+	$('#fetch-verify-code-old').click(function(){
+		var old_phone = $('#old_account').val();
+		wait = 60,can_send=true;
+		public_code_obj = $(this);
+		
+		if(!can_send){
+		    return false;
+		}
+		if(old_phone){
+	        // 先输入验证码再发送
+	        var captcha = $('#captcha').val();
+	        if(captcha == ''){
+			    phenix.show_error_note('请先输入验证码！');
+	    	    return false;
+	        }
+	        // 验证验证码
+	        var url = '/app/site/captcha/check';
+	        $.get(url, {code: captcha, type: 0}, function(result){
+				if(result == '0'){
+					phenix.show_error_note('验证码不正确！');
+					// 刷新验证码
+					$('#captcha-img img').click();
+					return false;
+				}else{
+					//验证手机是否正确
+					var check_phone_url = '{{app_url_my}}/ajax_check_phone';
+					$.get(check_phone_url, {old_phone: old_phone}, function(r){
+						var obj = eval('('+r+')');
+						var res = obj.data.res;
+						if(res == 1){
+							// 添加发送频率
+							limitime();
+							$this = $('#fetch-verify-code-old');
+							$.getJSON('/app/site/auth/verify_code', {'phone': old_phone}, function(result){
+								if(result.errorCode == 200){
+								  $this.removeClass('disabled').text('获取验证码');
+								}
+							});
+							$('#fetch-verify-code-new').removeClass('active');
+							$('#fetch-verify-code-new').removeClass('grey');
+							$('#fetch-verify-code-new').addClass('red');
+						}else{
+							phenix.show_error_note('请输入旧手机号码！');
+							return false;
+						}
+					});
+				};
+	        });
+		}else{
+			phenix.show_error_note('请正确填写手机号码！');
+		}
+	});
+	
+	$('#fetch-verify-code-new').click(function(){
+		var phone = $('#new_account').val();
+		wait = 60,can_send=true;
+		public_code_obj = $(this);
+		
+		if(!can_send){
+		    return false;
+		}
+		
+		if(phone){
+	        //验证手机是否注册过
+            var check_phone_url = '/app/site/auth/check_account';
+			$.get(check_phone_url, {phone: phone}, function(r){
+				if(r == 1){
+         			phenix.show_error_note('手机号已存在！');
+	    	        return false;     
+				}else{
+					// 添加发送频率
+					limitime();
+					$this = $('#fetch-verify-code-new');
+					$.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
+						if(result.errorCode == 200){
+							$this.removeClass('disabled').text('获取验证码');
+						}
+					});
+				}
+			})
+		}else{
+			phenix.show_error_note('请输入新手机号码！');
+		}
+	});
+	
+{% endblock %}
+{% block content %}
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}">
+						个人中心
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">修改手机号码</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="account profile">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu_center.html" %}
+		</div>
+		<div class="twelve wide column">
+			<h2 class="ui header">修改手机号码</h2>
+			<div class="ui segment">
+				<form action="{{app_url_my}}/do_unbind_phone" method="post" class="ui fluid form" id="bind-form">
+					<input name="_id" type="hidden" value="{{ user_id }}" />
+					<div id="result-box">
+
+						<div class="two fields">
+							<div class="field">
+								<label>旧手机号码</label>
+								<input type="text" name="old_account" id="old_account" placeholder="请填写旧手机号码！" />
+							</div>
+							<div class="field"></div>
+						</div>
+
+						<div class="two fields">
+							<div class="field">
+								<label>验证码</label>
+								<input type="text" name="captcha" placeholder="请填写验证码" id="captcha" />
+							</div>
+							<div class="field">
+								<a href="javascript:void(0);" class="ui gray" id="captcha-img">
+									<img src="/app/site/captcha/view" onclick="this.src='/app/site/captcha/view?'+Math.random();" />
+								</a>
+							</div>
+						</div>
+
+						<div class="two fields">
+							<div class="field">
+								<label>短信验证码</label>
+								<input name="old_verify_code"　id="old_verify_code" type="text" placeholder="短信验证码" />
+							</div>
+							<div class="field">
+								<a href="javascript:void(0);" class="ui red inverted button" id="fetch-verify-code-old">获取验证码</a>
+							</div>
+						</div>
+
+						<div class="two fields">
+							<div class="field">
+								<label>密码</label>
+								<input type="password" name="password" />
+							</div>
+							<div class="field"></div>
+						</div>
+						
+						<div class="two fields">
+							<div class="field">
+								<label>新手机号码</label>
+								<input type="text" name="new_account" id="new_account" />
+							</div>
+							<div class="field"></div>
+						</div>
+	
+						<div class="two fields">
+							<div class="field">
+								<label>短信验证码</label>
+								<input name="new_verify_code" id="new_verify_code" type="text" placeholder="短信验证码" />
+							</div>
+							<div class="field">
+								<a href="javascript:void(0);" class="ui grey inverted button active" id="fetch-verify-code-new">获取验证码</a>
+							</div>
+						</div>
+					
+						<input type="submit" class="ui inverted magenta button" value="确认修改" />
+					
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
