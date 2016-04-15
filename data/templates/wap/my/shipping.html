@@ -15,10 +15,7 @@ h3.ui.header{
       position:fixed !important;
     }
   }
-  #addbook-form-box{
-    margin: 0 0 0 -47.5% !important;
-    position:relative !important;
-  }
+  
   .ui.modal>.container{
     background-color: #F4F4F4;
   }
@@ -62,11 +59,91 @@ h3.ui.header{
 	  text-align:center;
 	  line-height:2.1435rem;
   }
+  .leftadd{
+	  background: #f5f5f5;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      bottom: 0;
+      z-index: 100;
+      visibility: hidden;
+      -webkit-transform: translate3d(100%,0,0);
+      transform: translate3d(100%,0,0);
+      -webkit-transition: all 0.3s ease 0.05s;
+      transition: all 0.3s ease 0.05s;
+      padding: 0.35725rem 0;
+  }
+  .addshow .leftadd{
+	  visibility: visible;
+      -webkit-transform: translate3d(0,0,0);
+      transform: translate3d(0,0,0);
+  }
+  .leftadd .ui.header{
+	  font-weight:400;
+  }
+  .ui.form textarea.small{
+      height: 4rem;
+      min-height: 4rem;
+  }
+  .ui.toggle.checkbox input:checked~label:before{
+	  background-color:#21BA45;	
+  }
+  .nextbtn{
+	  display: flex;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: -webkit-box;
+      align-items: center;
+      -webkit-box-align: center;
+	  position:absolute;
+	  bottom:0;
+	  left:0;
+	  width: 100%;
+	  z-index: 3;
+  }
+  .nextbtn .close-btn{
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      -webkit-flex-basis: 0;
+      -ms-flex-preferred-size: 0;
+      flex-basis: 0;
+      flex-grow: 1;
+	  font-size:1rem;
+	  background:#eee;
+	  text-align:center;
+	  line-height:2.1435rem;
+      padding: 0.35725rem;
+  }
+  .nextbtn .submit{
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      -webkit-flex-basis: 0;
+      -ms-flex-preferred-size: 0;
+      flex-basis: 0;
+      flex-grow: 1;
+	  font-size:1rem;
+	  background:#f36;
+	  color:#fff;
+	  text-align:center;
+	  line-height:2.1435rem;
+	  padding: 0.35725rem;
+  }
+  
 </style>
 {% endblock %}
 
 {% block jquery %}
-	$('.ui.responsive.grid.mt-2r').css('min-height',document.documentElement.clientHeight-230);
+	$('.addflex').bind('click',function(){
+		$('#shipping').addClass('addshow');
+	});
+	$('.leftadd .close-btn').bind('click',function(){
+		$('#shipping').removeClass('addshow');
+	});
 	// 编辑
 	$('.ui.addbook.edit.button').click(function(){
 	  $('.ui.addbook.edit.modal').modal('show');
@@ -186,7 +263,7 @@ h3.ui.header{
 {% endblock %}
 
 {% block content %}
-<div class="ui responsive grid mt-2r">
+<div class="ui responsive grid mt-2r" id="shipping">
 	<div class="row">
 		<div class="column">
 			<h3 class="ui header">管理收货地址</h3>
@@ -200,6 +277,86 @@ h3.ui.header{
 	<div class="addflex">
 		<div class="addadress">
 			+ 添加地址
+		</div>
+	</div>
+	
+	<div class="leftadd" id="addbook-form-box">
+		<div class="ui grid m-0">
+			<div class="row">
+				<div class="column">
+					<h4 class="ui header dividing pb-r mt-r">使用新地址</h4>
+				</div>
+			</div>
+			
+			<div class="row pt-0">
+				<div class="column">
+					<form action="{{ app_url_wap }}/app/site/address/ajax_address" class="ui form" method="post" id="addbook-form">
+						<input type="hidden" name="_id" />
+						<input type="hidden" name="plat" value="{{ plat }}" />
+						<div class="field mb-2r">
+							<h5 class="ui header mtb-r">收货人姓名</h5>
+					  		<input type="text" name="name" />
+						</div>
+						<div class="field mb-2r">
+							<h5 class="ui header mtb-r">联系电话</h5>
+						  	<input type="text" name="phone" placeholder="11位手机号码" />
+						</div>
+						<div class="field mb-2r">
+							<h5 class="ui header mtb-r">邮政编码</h5>
+						  	<input type="text" name="zip" />
+						</div>
+						
+						<div class="field mb-2r">
+							<h5 class="ui header mtb-r">地址</h5>
+							<div class="ui selection province dropdown">
+								<input type="hidden" name="province" value="{{ addbook.province }}" />
+		
+							    <div class="default text">省份/自治区</div>
+							    <i class="angle dropdown icon"></i>
+							    <div class="menu">
+									{% for province in provinces %}
+							        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
+									{% endfor %}
+							    </div>
+							</div>
+	
+							<div class="ui selection district dropdown" id="district-menu" style="float:right;">
+								<input type="hidden" name="city" value="{{ addbook.city }}" />
+							    <div class="default text">地区区域</div>
+							    <i class="angle dropdown icon"></i>
+							    <div class="menu">
+									{% for district in districts %}
+							        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
+									{% endfor %}
+							    </div>
+							</div>
+						</div>
+						
+						<div class="field mb-3r">
+							<textarea name="address" class="small">{{ addbook.address }}</textarea>
+						</div>
+						
+		        		<div class="inline field">
+							<div class="ui toggle checkbox">
+								<input name="is_default" type="checkbox" value="1">
+								<label>设为默认地址</label>
+						    </div>
+						</div>
+			
+					</form>
+			
+				</div>
+			</div>
+			
+			
+		</div>
+		<div class="nextbtn">
+			<div class="close-btn">
+				取消
+			</div>	
+			<div class="submit">
+				提交
+			</div>
 		</div>
 	</div>
 	
