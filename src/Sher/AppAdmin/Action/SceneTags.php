@@ -176,7 +176,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		} else {
 			$this->stash['parent_id'] = 0;
 		}
-		
+		var_dump($res);
 		$this->stash['date'] = $res;
 		$this->stash['type'] = $type;
 		

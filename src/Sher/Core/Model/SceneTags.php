@@ -55,7 +55,7 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('title_cn');
-	protected $int_fields = array('status', 'parent_id', 'left_ref', 'right_ref', 'type', 'used_count');
+	protected $int_fields = array('status', 'parent_id', 'left_ref', 'right_ref', 'type');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count.total_count','used_count.scene','used_count.sight','used_count.content','used_count.product');
 	protected $retrieve_fields = array();
@@ -486,13 +486,6 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 	
 	/**
 	 * 增加计数
-	 * 'used_count' => array(
-			'total_count' => 0,
-			'scene' => 0,
-			'sight' => 0,
-			'content' => 0,
-			'product' => 0,
-		),
 	 */
 	public function inc_counter($field_name, $inc=1, $id=null){
 		
