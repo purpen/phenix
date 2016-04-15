@@ -167,8 +167,18 @@ h3.ui.header{
       -webkit-box-align: center;
       padding: 0.7145rem;
       background: #fff;
-      text-align: right;
       background: #fff;
+  }
+  .actions .revise{
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      -webkit-flex-basis: 0;
+      -ms-flex-preferred-size: 0;
+      flex-basis: 0;
+      flex-grow: 1;
+      text-align: right;
   }
   .addr{
       -webkit-box-flex: 1;
@@ -346,12 +356,14 @@ h3.ui.header{
 						{% if addbook.is_default == 1 %}
 					
 						{% endif %}
-						<a class="ui small gray icon edit button" data-id="{{ address._id }}">
-							<i class="edit icon"></i>
-						</a>
-						<a class="ui small gray icon remove button" data-id="{{ address._id }}">
-							<i class="remove icon"></i>
-						</a>
+						<div class="revise">
+							<a class="ui small gray icon edit button" data-id="{{ address._id }}">
+								<i class="edit icon"></i>
+							</a>
+							<a class="ui small gray icon remove button" data-id="{{ address._id }}">
+								<i class="remove icon"></i>
+							</a>
+						</div>
 					</div>
 					
 				</div>
