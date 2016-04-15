@@ -172,8 +172,8 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 		} // endif kind
 
     // 分享内容
-    $data['share_view_url'] = 'http://m.taihuoniao.com';
-    $data['share_desc'] = Doggy_Dt_Filters_String::truncate(strip_tags($data['summary']), 140);
+    $data['share_view_url'] = sprintf("%s/special_subject/view?id=%d", Doggy_Config::$vars['app.url.wap'], $data['_id']);
+    $data['share_desc'] = Doggy_Dt_Filters_String::truncate(strip_tags($data['summary']), 80);
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, (int)$id);

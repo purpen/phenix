@@ -1,0 +1,93 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">支持管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+    <a href="{{ app_url_admin_base }}/support" class="{{ css_all_list }} item">
+			全部
+		</a>
+		<a href="{{ app_url_admin_base }}/support?event=1" class="{{ css_vote_list }} item">
+			投票
+		</a>
+		<a href="{{ app_url_admin_base }}/support?event=2" class="{{ css_per_list }} item">
+			预约
+		</a>
+		<a href="{{ app_url_admin_base }}/support?event=3" class="{{ css_app_alert_list }} item">
+			app提醒
+		</a>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>缩略图</th>
+        <th>关联ID</th>
+        <th>时间</th>
+        <th>状态</th>
+        <th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% support_list var:'list' target_id:target_id user_id:user_id event:event page:page size:size %}
+
+			{% for d in list.rows %}
+        
+          <tr id="item-{{ d._id }}">
+            <td>
+              <div class="ui checkbox">
+                  <input name="ids" type="checkbox" value="{{ d._id }}" class="checkbox" />
+                  <label></label>
+              </div>
+            </td>
+            <td>
+              <a class="ui image label link" href="{{ d.user.home_url }}" target="_blank">
+                  <img src="{{ d.user.mini_avatar_url }}">
+                  {{ d.user.nickname }}
+              </a>
+            </td>
+
+            <td>{{ d.target_id }}</td>
+            <td>{{ d.created_on|date 'Y-m-d' }}</td>
+            <td>
+                {% if d.event==1 %}
+                <p class="attribute">投票</p>
+                {%endif%}
+                {% if d.event==2 %}
+                <p class="attribute">预约</p>
+                {%endif%}
+                {% if d.event==3 %}
+                <p class="attribute">app提醒</p>
+                {%endif%}
+            </td>
+
+            <td>
+
+						<a href="{{ app_url_admin }}/support/deleted?id={{ d._id }}" class="ui confirm-request link">删除</a>
+            </td>
+          </tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+{% endblock %}

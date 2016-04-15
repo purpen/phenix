@@ -33,8 +33,10 @@
 					  	<label></label>
 					</div>
 				</th>
+        <th>ID</th>
         <th>封面</th>
 				<th>标题</th>
+        <th>点赞数</th>
         <th>模式</th>
 				<th>操作</th>
 			</tr>
@@ -45,10 +47,11 @@
 			<tr id="{{ special_subject._id }}">
 				<td>
 					<div class="ui checkbox">
-					  	<input name="ids" type="checkbox" value="{{ sign._id }}" class="checkbox" />
+					  	<input name="ids" type="checkbox" value="{{ special_subject._id }}" class="checkbox" />
 					  	<label></label>
 					</div>
 				</td>
+        <td>{{ special_subject._id }}</td>
         <td>
 					<div class="ui image">
 						<img src="{{ special_subject.cover.thumbnails.mini.view_url }}" width="80px" />
@@ -57,6 +60,9 @@
 				<td>
 						{{ special_subject.title }}
 				</td>
+        <td>
+          {{ special_subject.love_count }}
+        </td>
 				<td>
           {% if special_subject.kind==1 %}
             自定义

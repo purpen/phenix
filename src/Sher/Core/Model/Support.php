@@ -1,6 +1,6 @@
 <?php
 /**
- * 投票记录
+ * 投票记录、app秒杀产品推送提醒记录
  * @author purpen
  */
 class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
@@ -11,9 +11,10 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
 	const TICKET_FAVOR = 1;
 	const TICKET_OPPOSE = 2;
 	
-	# Event: 投票、预定
-	const EVENT_VOTE = 1;
-	const EVENT_PREORDER = 2;
+	# Event:
+	const EVENT_VOTE = 1; # 投票
+	const EVENT_PREORDER = 2; # 预定
+  const EVENT_APP_ALERT = 3;  # app闪购推送提醒
 	
     protected $schema = array(
         'user_id' => null,
@@ -25,7 +26,7 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
 	
     protected $joins = array(
     	'user'  => array('user_id'  => 'Sher_Core_Model_User'),
-		'product'  => array('target_id'  => 'Sher_Core_Model_Product'),
+		  'product'  => array('target_id'  => 'Sher_Core_Model_Product'),
     );
 	
     protected $required_fields = array('user_id', 'target_id', 'ticket');
@@ -44,7 +45,10 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
 	protected function after_save() {
         // 如果是新的记录
         if($this->insert_mode) {
-            $product = new Sher_Core_Model_Product();
+          $product = new Sher_Core_Model_Product();
+
+          if($this->data['event']==self::EVENT_VOTE){ // 投票
+          
             if($this->data['ticket'] == self::TICKET_FAVOR){
                 $product->inc_counter('vote_favor_count', 1, $this->data['target_id']);
             }else{
@@ -61,57 +65,36 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
             $timeline->broad_target_vote($this->data['user_id'], (int)$this->data['target_id'], Sher_Core_Util_Constant::TYPE_PRODUCT);
             
             // 如果是投票,添加提醒
-            if($this->data['event'] == self::EVENT_VOTE){
-                if($this->data['ticket'] == self::TICKET_FAVOR){
-                    $evt = Sher_Core_Model_Remind::EVT_VOTE_FAVOR;
-                    $reason = null;     
-                }else{
-                    $evt = Sher_Core_Model_Remind::EVT_VOTE_OPPOSE;
-                    $reason_hash = $this->oppose_reason($this->data['reason']);
-                    $reason = $reason_hash['reason'];
-                }
-                // 获取目标用户ID
-                $data = $product->extend_load($this->data['target_id']);
-                $user_id = $data['user_id'];
-                
-                // 创意被他人投票
-                $service->send_event('evt_by_vote_idea', $user_id);
 
-                // 添加提醒
-                /*
-                $remind = new Sher_Core_Model_Remind();
-                $arr = array(
-                    'user_id'=> $user_id,
-                    's_user_id'=> $this->data['user_id'],
-                    'evt'=> $evt,
-                    'content'=> $reason,
-                    'kind'=> Sher_Core_Model_Remind::KIND_PRODUCT,
-                    'related_id'=> (int)$this->data['target_id'],
-                    'parent_related_id'=> (string)$this->data['_id'],
-                );
-                $ok = $remind->apply_and_save($arr);
-                if($ok){
-                    $user = new Sher_Core_Model_User();
-                    $user->update_counter_byinc($user_id, 'alert_count', 1);     
-                }*/
+            if($this->data['ticket'] == self::TICKET_FAVOR){
+                $evt = Sher_Core_Model_Remind::EVT_VOTE_FAVOR;
+                $reason = null;     
+            }else{
+                $evt = Sher_Core_Model_Remind::EVT_VOTE_OPPOSE;
+                $reason_hash = $this->oppose_reason($this->data['reason']);
+                $reason = $reason_hash['reason'];
             }
+            // 获取目标用户ID
+            $data = $product->extend_load($this->data['target_id']);
+            $user_id = $data['user_id'];
+            
+            // 创意被他人投票
+            $service->send_event('evt_by_vote_idea', $user_id);
+
             unset($product);
-        }
+
+          }elseif($this->data['event']==self::EVENT_APP_ALERT){ // app闪购提醒
+            $product->inc_counter('app_appoint_count', 1, $this->data['target_id']);         
+          }
+
+        } // endif 新记录
 	}
 	
 	/**
 	 * 删除后事件
 	 */
-	public function mock_after_remove($id,$ticket) {
-		$product = new Sher_Core_Model_Product();
-		
-		if ($ticket == Sher_Core_Model_Support::TICKET_OPPOSE){
-			$product->dec_counter('vote_oppose_count', (int)$id);
-		} else {
-			$product->dec_counter('vote_favor_count', (int)$id);
-		}
-		
-		unset($product);
+	public function mock_after_remove($id,$options=array()) {
+
 	}
 	
 	/**
@@ -136,9 +119,9 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
 	}
 	
     /**
-     * 检测是否投票
+     * 检测是否投票或提醒
      */
-    public function check_voted($user_id, $target_id){
+    public function check_voted($user_id, $target_id, $event=self::EVENT_VOTE){
         $query['target_id'] = (int) $target_id;
 		$query['user_id'] = (int) $user_id;
 		
@@ -148,4 +131,4 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
     }
 	
 }
-?>
+

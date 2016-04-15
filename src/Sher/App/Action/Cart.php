@@ -20,7 +20,7 @@ class Sher_App_Action_Cart extends Sher_App_Action_Base {
 	}
 	
 	/**
-	 * 社区活动列表
+	 * 添加购物车
 	 */
 	public function ajax_add_cart(){
 		$user_id = $this->visitor->id;
@@ -87,7 +87,7 @@ class Sher_App_Action_Cart extends Sher_App_Action_Base {
         'kind' => 1,
         'state' => 1,
         'remark' => null,
-        'items' => array(array('target_id'=>$target_id, 'type'=>$type, 'n'=>$n)),
+        'items' => array(array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n)),
         'item_count' => 1,
       ));     
     }else{
@@ -101,7 +101,7 @@ class Sher_App_Action_Cart extends Sher_App_Action_Base {
       }// endfor
 
       if($new_item){
-        array_push($cart['items'], array('target_id'=>$target_id, 'type'=>$type, 'n'=>$n));
+        array_push($cart['items'], array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n));
       }
       $ok = $cart_model->update_set($user_id, array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));
 

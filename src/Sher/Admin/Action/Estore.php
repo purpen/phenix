@@ -16,6 +16,8 @@ class Sher_Admin_Action_Estore extends Sher_Admin_Action_Base implements DoggyX_
     
 	public function _init() {
 		$this->set_target_css_state('page_estore');
+		// 判断左栏类型
+		$this->stash['show_type'] = "product";
         $this->stash['app_baidu_map_ak'] = Doggy_Config::$vars['app.baidu.map_ak'];
     }
 	
