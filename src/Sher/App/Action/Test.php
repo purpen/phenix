@@ -8,7 +8,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = array('execute','flat','add_user','test_func','tweleve', 'add_user_tags','show');
+	protected $exclude_method_list = array('execute','flat','add_user','test_func','tweleve', 'add_user_tags','show', 'jpush');
 
 	/**
 	 * 默认入口
@@ -314,6 +314,20 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     $model = new Sher_Core_Model_UserTags();
     $model->add_item_custom($user_id, 'scene_tags', $tag_id);
     echo 'success';
+  }
+
+  public function jpush(){
+    $alert = '嗨，大家晚上好!';
+    $options = array(
+      'time_to_live' => 0,
+      // "android", "ios", "winphone"
+      'plat_form' => array('ios'),
+      'alias' => array('20448'),
+      'extras' => array('infoType'=>1, 'infoId'=>1011497059),
+      'apns_production' => false,
+    );
+    $ok = Sher_Core_Util_JPush::push($alert, $options);
+    print_r($ok);
   }
 
 }

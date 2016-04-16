@@ -69,6 +69,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 
     $pusher = new Sher_Core_Model_Pusher();
     $ok = $pusher->binding($uuid, $user_id, $from_to);
+    $this->current_user_id = $user_id;
 		
 		return $this->api_json('欢迎回来.', 0, $data);
 	}
@@ -159,6 +160,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 
     $pusher = new Sher_Core_Model_Pusher();
     $ok = $pusher->binding($uuid, $user_id, $from_to);
+    $this->current_user_id = $user_id;
 
 			}
         }catch(Sher_Core_Model_Exception $e){
@@ -191,6 +193,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 			if(!empty($uuid) && !empty($from_to)){
 				$pusher = new Sher_Core_Model_Pusher();
 				$ok = $pusher->unbinding($uuid, $from_to);
+        $this->current_user_id = 0;
 			}
 		}catch(Sher_Core_Model_Exception $e){
             Doggy_Log_Helper::error('Failed to logout:'.$e->getMessage());
@@ -371,6 +374,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
       $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
       $pusher = new Sher_Core_Model_Pusher();
       $ok = $pusher->binding($uuid, $user_id, $from_to);
+      $this->current_user_id = $user_id;
 
 		  return $this->api_json('欢迎回来.', 0, array('has_user'=>1, 'user'=>$data));
     
@@ -529,6 +533,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
         $data = Sher_Core_Helper_FilterFields::wap_user($user);
         $pusher = new Sher_Core_Model_Pusher();
         $ok = $pusher->binding($uuid, $user_id, $from_to);
+        $this->current_user_id = $user_id;
 
         return $this->api_json('创建成功!', 0, $data);
 
@@ -615,6 +620,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 
     $pusher = new Sher_Core_Model_Pusher();
     $ok = $pusher->binding($uuid, $user_id, $from_to);
+    $this->current_user_id = $user_id;
 		
 		return $this->api_json('欢迎回来.', 0, $data);
   }

@@ -24,7 +24,7 @@ echo "===============ITEM AUTO LOVE WORKER WAKE UP===============\n";
 echo "-------------------------------------------------\n";
 
 echo "begin item auto add love ...\n";
-
+$sleep_time = 900;
 $topic_model = new Sher_Core_Model_Topic();
 $product_model = new Sher_Core_Model_Product();
 $stuff_model = new Sher_Core_Model_Stuff();
@@ -35,6 +35,7 @@ $items = Sher_Core_Util_View::load_block('auto_gen_love_count', 1);
 
 if(empty($items)){
   echo "block item_ids is empty! \n";
+  sleep($sleep_time);
   exit(0);
 }
 $item_arr = explode(';',$items);
@@ -101,6 +102,7 @@ foreach($item_arr as $k=>$v){
     $user_id = (int)$user_list_arr[$user_index];
     if(empty($user_id)){
       echo "user is null! \n";
+      sleep($sleep_time);
       exit(0);
     }
 

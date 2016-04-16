@@ -25,6 +25,7 @@ echo "-------------------------------------------------\n";
 
 echo "begin comment auto add love ...\n";
 
+$sleep_time = 900;
 $comment_model = new Sher_Core_Model_Comment();
 
 // 获取试用名单---取块内容
@@ -32,6 +33,7 @@ $comment_items = Sher_Core_Util_View::load_block('auto_comment_love_gen', 1);
 
 if(empty($comment_items)){
   echo "block comment_ids is empty! \n";
+  sleep($sleep_time);
   exit(0);
 }
 $comment_arr = explode(';',$comment_items);

@@ -291,9 +291,9 @@ app.jos_api:
 
 #JPush 极光推送
 app.jpush_api:
-  app_key: '9623bcb134a26fa31e5c7002'
-  app_secret: '17f233d936b1bbb08085c0fa'
-  log_path: '/var/log/jpush.log'
+  app_key: '416f81f42690d8fdbe176189'
+  app_secret: '99fd953b274a544baf45fcd7'
+  log_path: ''
   max_retry_times: 3
 
 # 图片缩络图
