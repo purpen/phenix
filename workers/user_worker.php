@@ -75,7 +75,7 @@ try{
         echo "Create the user[$account] is fail!...\n";
     }
     
-}catch(Sher_Core_Model_Exception $e){
+}catch(Exception $e){
     echo "Create the user[$account] failed: ".$e->getMessage();
 }
 

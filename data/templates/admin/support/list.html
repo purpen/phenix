@@ -36,7 +36,8 @@
 				<th>缩略图</th>
         <th>关联ID</th>
         <th>时间</th>
-        <th>状态</th>
+        <th>是否已推送</th>
+        <th>类型</th>
         <th>操作</th>
 			</tr>
 		</thead>
@@ -62,6 +63,15 @@
 
             <td>{{ d.target_id }}</td>
             <td>{{ d.created_on|date 'Y-m-d' }}</td>
+            <td>
+              <p>
+                {% if d.pushed %}
+                  <span class="ui small green label">是</span>
+                {% else %}
+                  <span class="ui small orange label">否</span>
+                {% endif %}
+              </p>           
+            </td>
             <td>
                 {% if d.event==1 %}
                 <p class="attribute">投票</p>
