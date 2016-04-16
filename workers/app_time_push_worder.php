@@ -56,9 +56,8 @@ try{
     $begin_time = $product['app_snatched_time'];
     $end_time = $product['app_snatched_end_time'];
     $now_time = time();
+
     // 开始前10分钟开始执行提醒推送
-    echo $now_time."\n";
-    echo ($begin_time-600)."\n";
     if($now_time>($begin_time-600) && $now_time<($begin_time-480)){
       echo "时间吻合，开始执行提醒推送操作.\n";
       $support_model = new Sher_Core_Model_Support();

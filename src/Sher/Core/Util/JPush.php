@@ -13,6 +13,7 @@ class Sher_Core_Util_JPush {
    * 推送
    */
   public static function push($alert, $options=array()) {
+    defined('CURL_SSLVERSION_TLSv1') || define('CURL_SSLVERSION_TLSv1', 1);
     include "jpush-sdk/JPush.php";
     $app_key = Doggy_Config::$vars['app.jpush_api']['app_key'];
     $app_secret = Doggy_Config::$vars['app.jpush_api']['app_secret'];
