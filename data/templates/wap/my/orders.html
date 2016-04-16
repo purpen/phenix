@@ -153,6 +153,23 @@
       $.post(url, {rid: rid, type:1}, function(result){
         if(result.success){
           $('#order-'+rid).remove();
+        }else{
+          phenix.show_error_note(result.message, 3000);          
+        }
+      }, 'json');
+    });
+  });
+
+  // 删除订单
+	$('.remove_order_btn').livequery(function(){
+    $(this).click(function(){
+      var rid = $(this).attr('rid');
+      url = "{{ app_url_wap }}/app/site/my/ajax_remove_order";
+      $.post(url, {rid: rid, type:1}, function(result){
+        if(result.success){
+          $('#order-'+rid).remove();
+        }else{
+          phenix.show_error_note(result.message, 3000);  
         }
       }, 'json');
     });
@@ -250,6 +267,18 @@
 			
 			<div class="orderbottom">
 				{% if my %}
+          {% if order.status == '-1' %}
+            <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
+          {%endif%}
+          {% if order.status == 0 %}
+            <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
+          {%endif%}
+          {% if order.status == 16 %}
+            <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
+          {%endif%}
+          {% if order.status == 20 %}
+            <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
+          {%endif%}
 					{% if order.status == 1 %}
           <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small magenta inverted button cancel_order_btn">取消订单</a>
 				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="ui small magenta inverted button">立即支付</a>

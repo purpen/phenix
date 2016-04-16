@@ -539,7 +539,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	 * ajax取消订单-new
 	 */
 	public function ajax_disabled_order(){
-		$rid = $this->stash['rid'];
+		$rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
 		if (empty($rid)) {
 			return $this->ajax_json('操作不当，请查看购物帮助！', true);
 		}
@@ -563,6 +563,43 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         }
 
 
+		return $this->ajax_json('success', false, 0, array('rid'=>$rid));
+	}
+
+	/**
+	 * ajax删除订单-new
+	 */
+	public function ajax_remove_order(){
+		$rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+		if (empty($rid)) {
+			return $this->ajax_json('操作不当，请查看购物帮助！', true);
+		}
+    $order_model = new Sher_Core_Model_Orders();
+    $order = $order_model->find_by_rid((string)$rid);
+    if(empty($order)){
+      return $this->ajax_json('订单不存在!', true);   
+    }
+
+    if($order['user_id'] != $user_id){
+      return $this->ajax_json('没有权限!', true);   
+    }
+
+    // 允许关闭订单状态数组
+    $allow_stat_arr = array(
+      Sher_Core_Util_Constant::ORDER_EXPIRED,
+      Sher_Core_Util_Constant::ORDER_CANCELED,
+      Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT,
+      Sher_Core_Util_Constant::ORDER_EVALUATE,
+      Sher_Core_Util_Constant::ORDER_PUBLISHED,
+    );
+    if(!in_array($order['status'], $allow_stat_arr)){
+      return $this->ajax_json('该订单状态不允许删除!', true);     
+    }
+
+    $ok = $order_model->update_set((string)$order['_id'], array('deleted'=>1));
+    if(!$ok){
+      return $this->ajax_json('订单删除失败!', true);
+    }
 		return $this->ajax_json('success', false, 0, array('rid'=>$rid));
 	}
 
