@@ -24,7 +24,7 @@ echo "===============User WORKER WAKE UP===============\n";
 echo "-------------------------------------------------\n";
 
 echo "Create new user ...\n";
-
+$sleep_time = 900;
 $user = new Sher_Core_Model_User();
 
 $data = array();
@@ -40,6 +40,7 @@ if(empty($last_row)){
 }
 if(empty($last_row)){
     echo "Get user counter failed and exit!!! \n";
+    sleep($sleep_time);
     exit(0);
 }
 
