@@ -580,7 +580,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
       return $this->ajax_json('订单不存在!', true);   
     }
 
-    if($order['user_id'] != $user_id){
+    if($order['user_id'] != $this->visitor->id){
       return $this->ajax_json('没有权限!', true);   
     }
 
