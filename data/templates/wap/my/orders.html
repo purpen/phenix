@@ -144,6 +144,20 @@
 
 {% block jquery %}
 	$('.ui.responsive.grid.mt-2r').css('min-height',document.documentElement.clientHeight-230);
+
+  // 取消订单
+	$('.cancel_order_btn').livequery(function(){
+    $(this).click(function(){
+      var rid = $(this).attr('rid');
+      url = "{{ app_url_wap }}/app/site/my/ajax_disabled_order";
+      $.post(url, {rid: rid, type:1}, function(result){
+        if(result.success){
+          $('#order-'+rid).remove();
+        }
+      }, 'json');
+    });
+  });
+
 {% endblock %}
 
 {% block content %}
@@ -192,7 +206,7 @@
 		
 		{% order_list var:'list' user_id:user.id status:s deleted:'-1' size:10 page:page %}	
 		{% for order in list.rows %}
-		<div class="item" id="order-{{ order._id }}">
+		<div class="item" id="order-{{ order.rid }}">
 			
 			<div class="ordertop">
 				<span class="ui line fz-12">{{ order.created_on|date 'Y/m/d' }}</span>
@@ -237,7 +251,7 @@
 			<div class="orderbottom">
 				{% if my %}
 					{% if order.status == 1 %}
-				<a href="{{ app_url_wap }}/my/ajax_cancel_order?rid={{ order.rid }}" class="ui small magenta inverted button">取消订单</a>
+          <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small magenta inverted button cancel_order_btn">取消订单</a>
 				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="ui small magenta inverted button">立即支付</a>
 					{% endif %}
 		  			{% if order.status == 10 %}

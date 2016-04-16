@@ -536,6 +536,37 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	}
 
 	/**
+	 * ajax取消订单-new
+	 */
+	public function ajax_disabled_order(){
+		$rid = $this->stash['rid'];
+		if (empty($rid)) {
+			return $this->ajax_json('操作不当，请查看购物帮助！', true);
+		}
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+
+		// 检查是否具有权限
+		if ($order_info['user_id'] != $this->visitor->id) {
+			return $this->ajax_json('操作不当，你没有权限关闭！', true);
+		}
+
+		// 未支付订单才允许关闭
+		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+			return $this->ajax_json('该订单出现异常，请联系客服！', true);
+		}
+		try {
+			// 关闭订单
+			$model->canceled_order($order_info['_id']);
+        } catch (Sher_Core_Model_Exception $e) {
+            return $this->ajax_json('取消订单失败:'.$e->getMessage(),true);
+        }
+
+
+		return $this->ajax_json('success', false, 0, array('rid'=>$rid));
+	}
+
+	/**
 	 * 账户余额，赠送优惠券等
 	 */
 	public function balance(){
