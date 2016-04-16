@@ -5,8 +5,139 @@
 #mfrbird{
 	margin-top:0;
 }
-h3.ui.header{
+.ui.header{
 	font-weight:400;
+}
+.ui.grid .nav-menu{
+	padding:0;
+}
+.nav-menu .navfelx .childcell:first-child::before{
+	content:none;
+}
+.nav-menu .navfelx .childcell .menuicon{
+	margin:0;
+	padding:0.7145rem 0;
+}
+.nav-menu .navfelx .childcell::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: rgba(0,0,0,0.1);
+}
+.menuicon.active{
+	border-bottom:2px solid #f36;
+}
+.menuicon.active h5.ui.header{
+	color:#f36 !important;
+}
+
+#orderitem{
+    display: block;
+    margin-top: 1.07175rem;
+	padding: 0 !important;
+}
+#orderitem .item{
+    margin-bottom: 0.7145rem;
+    padding: 0.7145rem 0;
+    background: #fff;
+}
+#orderitem .item .product p{
+	margin:0;
+	text-align:right;
+	font-size: 0.8574rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+	padding:0.71428571rem;
+}
+#orderitem .item .product p .rmb.icon{
+	font-size: 0.8574rem;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    width: auto;
+}
+#orderitem .item .ordertop{
+	padding: 0 0.7145rem 0.35725rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+	height:1.78625rem;
+}
+#orderitem .item .content{
+	display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+    align-items: center;
+    -webkit-box-align: center;
+	padding: 0.7145rem;
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+#orderitem .item .content .img img{
+    width: 5.716rem;
+    height: 4.287rem;
+    position: relative;
+}
+#orderitem .item .content .orderinfo {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    position: relative;
+    padding-right: 1.429rem;
+    margin-left: 0.7145rem;
+}
+.orderdes{
+	font-size:0.8574rem;
+	color:rgba(0,0,0,0.5);
+	position:absolute;
+	width:100%;
+	height:1.429rem;
+	line-height:1.429rem;
+	left:0;
+	bottom:1.78625rem;
+	
+}
+#orderitem .item .content .orderinfo h4.title{
+    margin-bottom: 2.1435rem;
+    max-height: 2.7151rem;
+    overflow: hidden;
+    font-weight: 400;
+}
+#orderitem .item .content .orderinfo p.price{
+	color:#f36;
+	font-size:1rem;
+}
+#orderitem .item .content .orderinfo p.price .rmb.icon {
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    width: auto;
+}
+#orderitem .item .orderbottom{
+	text-align:right;
+	padding:0.7145rem;
+	padding-bottom:0;
+}
+#orderitem .item .orderbottom .ui.button{
+	box-shadow: 0 0 0 1px #f36 inset!important;
+    color: #f36;
+    font-weight: 400;
+	padding:0.5716rem 0.7145rem;
+	margin:0;
+	margin-left: 0.5716rem;
+	font-size: 0.92885rem;
+}
+.fz-12{
+	font-size:0.8574rem !important;
+}
+.ta-r{
+	text-align:right;
 }
 </style>
 {% endblock %}
@@ -19,10 +150,134 @@ h3.ui.header{
 <div class="ui responsive grid mt-2r">
 	<div class="row">
 		<div class="column">
-			<h3 class="ui header">订单查询</h3>
+			<h3 class="ui header">我的订单</h3>
 		</div>
 	</div>
-	<div class="row">	
+	<div class="nav-menu">
+		<ul class="navfelx">
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/orders" class="{{ css_all }} menuicon">
+					<h5 class="ui header">全部</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/orders?s=1" class="{{ css_nopayed }} menuicon">
+					<h5 class="ui header">待付款</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/orders?s=2" class="{{ css_ready_goods }} menuicon">
+					<h5 class="ui header">待发货</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/orders?s=3" class="{{ css_sended_goods }} menuicon">
+					<h5 class="ui header">待收货</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/orders?s=7" class="{{ css_evaluate }} menuicon">
+					<h5 class="ui header">待评价</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/orders?s=8" class="{{ css_return }} menuicon">
+					<h5 class="ui header">退换货</h5>
+				</a>
+			</li>
+		</ul>
+	</div>
+	
+	<div id="orderitem">
+		
+		{% order_list var:'list' user_id:user.id status:s deleted:'-1' size:10 page:page %}	
+		{% for order in list.rows %}
+		<div class="item" id="order-{{ order._id }}">
+			
+			<div class="ordertop">
+				<span class="ui line fz-12">{{ order.created_on|date 'Y/m/d' }}</span>
+				<span class="ui magenta link fz-12 flt-r">{{ order.status_label }}</span>
+			</div>
+			
+			{% for item in order.items %}
+			{% product_list var:'product' product_id:item.product_id %}
+			<div class="content">
+				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="img"> 
+						<img src="{{ product.cover.thumbnails.mini.view_url }}">
+				</a>
+				<div class="orderinfo">
+					<a class="ui link" href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}">
+						<h4 class="title">
+							{{ product.title }}
+						</h4>
+					
+						<p class="price"><i class="rmb icon"></i>  {{ product.sale_price }}</p>
+					</a>
+					<div class="orderdes">
+						<span class="sku">
+							{% if item.sku == item.product_id %}
+							默认
+							{% else %}
+							{% sku_list var:'sku' sku:item.sku %}
+							{{ sku.mode }}
+						{% endif %}
+						</span>
+						<span class="count flt-r">
+							x {{ item.quantity }}
+						</span>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+			
+			<div class="product">
+				<p>共{%if order.items_count > 1 %}{{ order.items_count }}{%else%}1{% endif %}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
+			</div>
+			
+			<div class="orderbottom">
+				{% if my %}
+					{% if order.status == 1 %}
+				<a href="{{ app_url_wap }}/my/ajax_cancel_order?rid={{ order.rid }}" class="ui small magenta inverted button">取消订单</a>
+				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="ui small magenta inverted button">立即支付</a>
+					{% endif %}
+		  			{% if order.status == 2 %}
+		            <a href="javascript:void(0);" class="ui small magenta inverted button" name="apply-refund" rid="{{ order.rid }}">申请退款</a>
+		  			{% endif %}
+		  			{% if order.status == 3 %}
+		            <a href="{{ app_url_wap }}/my/ajax_take_delivery?rid={{ order.rid }}" class="ui small magenta inverted button" rid="{{ order.rid }}">确认收货</a>
+		  			{% endif %}
+				{% endif %}
+				
+				
+				
+				
+			</div>
+		</div>
+		{% else %}
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="ui segment">
+						<div class="item">您还没有相关订单</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		
+		
+	
+	
+	</div>
+
+	
+	
+	
+
+	
+	
+	
+	<!--<div class="row">	
 		<div class="column">
 			<div class="ui segment">
 				{% order_list var:'list' user_id:user.id status:s deleted:'-1' size:10 page:page %}
@@ -42,6 +297,6 @@ h3.ui.header{
 			</div>
 			{% endif %}
 		</div>
-	</div>
+	</div>-->
 </div>
 {% endblock %}
