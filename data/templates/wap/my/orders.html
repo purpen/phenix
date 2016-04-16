@@ -231,7 +231,7 @@
 			{% endfor %}
 			
 			<div class="product">
-				<p>共{%if order.items_count > 1 %}{{ order.items_count }}{%else%}1{% endif %}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
+				<p>共{{ order.items_count }}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
 			</div>
 			
 			<div class="orderbottom">

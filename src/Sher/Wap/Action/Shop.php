@@ -738,7 +738,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     if(empty($total_money) || empty($items)){
       return $this->show_message_page('购物车异常！', true);
     }
-
+    $items_count = count($items);
 		
 		// 获取省市列表
 		$areas = new Sher_Core_Model_Areas();
