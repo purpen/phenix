@@ -31,7 +31,6 @@ $sleep_time = 60;
 try{
   $conf = Sher_Core_Util_View::load_block('app_snatched_index_conf', 1);
   if(empty($conf)){
-    return $this->api_json('数据不存在!', 3001); 
     echo "数据不存在!\n";
     sleep($sleep_time);
     exit(0);
