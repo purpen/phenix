@@ -247,35 +247,6 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		return $this->to_html_page("wap/evaluate.html");
 	}
 	
-	/**
-	 * 确认收货
-	 */
-	public function ajax_take_delivery(){
-		$rid = $this->stash['rid'];
-		if (empty($rid)) {
-			return $this->ajax_notification('操作不当，请查看购物帮助！', true);
-		}
-		$model = new Sher_Core_Model_Orders();
-		$order_info = $model->find_by_rid($rid);
-		
-		// 检查是否具有权限
-		if ($order_info['user_id'] != $this->visitor->id && !$this->visitor->can_admin()) {
-			return $this->ajax_notification('操作不当，你没有权限关闭！', true);
-		}
-		
-		// 已发货订单才允许确认
-		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_SENDED_GOODS){
-			return $this->ajax_notification('该订单出现异常，请联系客服！', true);
-		}
-		try {
-			// 待评价订单
-			$ok = $model->evaluate_order($order_info['_id']);
-        } catch (Sher_Core_Model_Exception $e) {
-            return $this->ajax_notification('设置订单失败:'.$e->getMessage(),true);
-        }
-		
-		return $this->to_taconite_page('ajax/finished_ok.html');
-	}
 	
 	/**
 	 * 取消订单

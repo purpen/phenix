@@ -473,7 +473,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	}
 
 	/**
-	 * 确认收货
+	 * 确认收货 --以后去掉此方法，用下边统一公共方法
 	 */
 	public function ajax_take_delivery(){
 		$rid = $this->stash['rid'];
@@ -495,11 +495,55 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		try {
 			// 待评价订单
 			$ok = $model->evaluate_order($order_info['_id']);
-        } catch (Sher_Core_Model_Exception $e) {
-            return $this->ajax_notification('设置订单失败:'.$e->getMessage(),true);
-        }
+    } catch (Sher_Core_Model_Exception $e) {
+      return $this->ajax_notification('设置订单失败:'.$e->getMessage(),true);
+    }
 
 		return $this->to_taconite_page('ajax/finished_ok.html');
+	}
+
+	/**
+	 * 确认收货--wap端通用
+	 */
+	public function ajax_take_over(){
+		$rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+		$from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 1;
+		if (empty($rid)) {
+			return $this->ajax_json('操作不当，请查看购物帮助！', true);
+		}
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		
+		// 检查是否具有权限
+		if ($order_info['user_id'] != $this->visitor->id) {
+			return $this->ajax_json('操作不当，你没有权限关闭！', true);
+		}
+		
+		// 已发货订单才允许确认
+		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_SENDED_GOODS){
+			return $this->ajax_json('该订单出现异常，请联系客服！', true);
+		}
+		try {
+			// 待评价订单
+			$ok = $model->evaluate_order($order_info['_id']);
+      if(!$ok){
+        return $this->ajax_json('操作失败!', true);     
+      }
+    } catch (Sher_Core_Model_Exception $e) {
+        return $this->ajax_json('设置订单失败:'.$e->getMessage(), true);
+    } catch(Exception $e){
+        return $this->ajax_json('设置订单失败.:'.$e->getMessage(), true);   
+    }
+
+    if($from_to==1){
+      $redirect_url = Sher_Core_Helper_Url::order_view_url($rid);
+    }elseif($from_to==2){
+      $redirect_url = Sher_Core_Helper_Url::order_mm_view_url($rid);  
+    }else{
+      $redirect_url = Sher_Core_Helper_Url::order_view_url($rid);
+    }
+		
+		return $this->ajax_json('success', false, $redirect_url, array('rid'=>$rid));
 	}
 
 	/**

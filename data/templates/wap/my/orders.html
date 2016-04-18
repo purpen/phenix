@@ -175,6 +175,22 @@
     });
   });
 
+  // 确认收货
+	$('.take_delivery_btn').livequery(function(){
+    $(this).click(function(){
+      var rid = $(this).attr('rid');
+      url = "{{ app_url_wap }}/app/site/my/ajax_take_over";
+      $.post(url, {rid: rid, from_to: 2}, function(result){
+        if(result.success){
+          $('#order-'+rid).remove();
+          phenix.redirect(redirect_url);
+        }else{
+          phenix.show_error_note(result.message, 3000);  
+        }
+      }, 'json');
+    });
+  });
+
 {% endblock %}
 
 {% block content %}
@@ -287,10 +303,9 @@
 		            <a href="javascript:void(0);" class="ui small magenta inverted button" name="apply-refund" rid="{{ order.rid }}">申请退款</a>
 		  			{% endif %}
 		  			{% if order.status == 15 %}
-		            <a href="{{ app_url_wap }}/my/ajax_take_delivery?rid={{ order.rid }}" class="ui small magenta inverted button" rid="{{ order.rid }}">确认收货</a>
+		            <a href="javascript:void(0);" class="ui small magenta inverted button take_delivery_btn" rid="{{ order.rid }}">确认收货</a>
 		  			{% endif %}
 				{% endif %}
-				
 				
 			</div>
 		</div>
