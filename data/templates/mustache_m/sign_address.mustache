@@ -26,13 +26,13 @@
           <div class="field mb-2r">
             <h5 class="ui header mtb-r">地址</h5>
             
-              <select name="province" value="" id="province-menu" class="choose province">
+              <select name="province" value="{{ province }}" id="province-menu" class="choose province">
               {{ #provinces }}      
                 <option value="{{ _id }}" {{#active}}selected="selected"{{/active}}>{{ city }}</option>
               {{ /provinces }}
               </select>
     
-              <select name="district" id="district-menu" value="" class="choose city">
+              <select name="district" id="district-menu" value="{{ city }}" class="choose city">
                   <option value=""></option>
              </select>
             
