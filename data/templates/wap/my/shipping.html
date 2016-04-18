@@ -413,14 +413,14 @@ h3.ui.header{
 							<h5 class="ui header mtb-r">地址</h5>
 							
 							
-							  <select style="width:49%;" name="province" value="{{ addbook.province }}" class="choose province ui selection province dropdown">
+							  <select style="width:49%;" name="province" value="{{ addbook.province }}" class="choose province">
 								 
 	  						  {% for province in provinces %}
 	                <option{%if province._id==visitor.profile.province_id%} selected="selected"{%endif%} value="{{ province._id }}">{{ province.city }}</option>
 	  						  {% endfor %}
 	  						</select>
 			
-							  <select name="district" id="district-menu" value="{{ addbook.city }}" style="width:49%;" class="ui selection province dropdown">
+							  <select name="district" id="district-menu" value="{{ addbook.city }}" style="width:49%;">
 	  						  {% for district in districts %}
 	  						    <option value="{{ district._id }}">{{ district.city }}</option>
 	  						  {% endfor %}
