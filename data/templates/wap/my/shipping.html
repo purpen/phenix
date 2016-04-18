@@ -450,7 +450,7 @@ h3.ui.header{
 			
 							  <select name="district" id="district-menu" value="{{ addbook.city }}" class="choose city">
 	  						  {% for district in districts %}
-	  						    <option value="{{ district._id }}">{{ district.city }}</option>
+	  						    <option {%if province._id==visitor.profile.district_id%} selected="selected"{%endif%} value="{{ district._id }}">{{ district.city }}</option>
 	  						  {% endfor %}
 							 </select>
 							
