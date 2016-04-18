@@ -195,6 +195,33 @@ h3.ui.header{
 	  padding:0.07145rem 0;
 	  display:block;
   }
+  .choose.province,.choose.city{
+	  cursor: pointer;
+      word-wrap: break-word;
+      line-height: 1em;
+      white-space: normal;
+      outline: 0;
+      -webkit-transform: rotateZ(0);
+      transform: rotateZ(0);
+      min-width: 14em;
+      min-height: 2.7142em;
+      background: #fff;
+      display: inline-block;
+      padding: .78571429em 2.6em .78571429em 1em;
+      color: rgba(0,0,0,.87);
+      box-shadow: none;
+      border: 1px solid rgba(34,36,38,.15);
+      border-radius: .28571429rem;
+      -webkit-transition: box-shadow .1s ease,width .1s ease;
+      transition: box-shadow .1s ease,width .1s ease;
+      background: #fff !important;
+      display: inline-block !important;
+	  width:49%;
+  }
+  .choose:hover,.choose:focus {
+      border-color: rgba(34,36,38,.35);
+      box-shadow: none;
+  }
 </style>
 {% endblock %}
 
@@ -420,7 +447,7 @@ h3.ui.header{
 	  						  {% endfor %}
 	  						</select>
 			
-							  <select name="district" id="district-menu" value="{{ addbook.city }}" style="width:49%;">
+							  <select name="district" id="district-menu" value="{{ addbook.city }}" class="choose city">
 	  						  {% for district in districts %}
 	  						    <option value="{{ district._id }}">{{ district.city }}</option>
 	  						  {% endfor %}
