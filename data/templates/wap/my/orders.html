@@ -267,7 +267,7 @@
 	$('.apply-refund').livequery(function(){
     $(this).bind('click',function(){
       var rid = $(this).attr('rid');
-      $('[name=refund_rid]').val(rid);
+      $('#refund_rid').val(rid);
       $('#orderitem').addClass('showbt');
     });
   });
@@ -473,8 +473,8 @@ $('#refund-form').form({
 				
 				<div class="row pt-0">
 					<div class="column">
-					    <form action="{{ app_url_wap }}/app/site/my/ajax_refund" class="ui form" method="post" id="refund-form">
-                <input type="hidden" name="refund_rid" value="" />
+					    <form action="{{ app_url_wap }}/app/site/my/ajax_apply_refund" class="ui form" method="post" id="refund-form">
+                <input type="hidden" name="rid" id="refund_rid" value="" />
 					      <div class="field">
 
 							<select name="refund_reason" value="0" id="refund_reason_select" class="refundwhy">
