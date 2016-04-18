@@ -41,6 +41,31 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 	}
 
 	/**
+	 * 获取某个省市的地区-new wap端通用
+	 */
+	public function ajax_fetch_cities(){
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		if (empty($id)){
+			return $this->ajax_json('id参数为空！', true);
+		}
+
+    $type = $this->stash['type'] = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+
+    $district_id = isset($this->stash['district_id']) ? (int)$this->stash['district_id'] : 0;
+		
+		$areas_model = new Sher_Core_Model_Areas();
+		$districts = $areas_model->fetch_districts($id);
+    for($i=0;$i<count($districts);$i++){
+      if($districts[$i]['_id']==$district_id){
+        $districts[$i]['active'] = true;
+      }else{
+        $districts[$i]['active'] = false;     
+      }     
+    }
+		return $this->ajax_json('success', false, 0, $districts);
+	}
+
+	/**
 	 * 获取某个省市的地区
 	 */
 	public function ajax_fetch_colleges(){
@@ -182,10 +207,144 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 		
 		return $this->to_taconite_page('page/address/ajax_address.html');
 	}
+
+  /**
+   * 新增或编辑收货地址，可用于wap端
+   */
+	public function ajax_save_address(){
+		$model = new Sher_Core_Model_AddBooks();
+		
+		$id = isset($this->stash['id']) ? $this->stash['id'] : null;
+    if(isset($this->stash['is_default']) && (int)$this->stash['is_default']==1){
+      $is_default = 1;
+    }else{
+      $is_default = 0;
+    }
+		
+		$data = array();
+    if(empty($id)){
+		  $mode = 'create';
+    }else{
+			$mode = 'edit';
+    }
+
+    // 收货地址不能大于10个
+    $address_count = $model->count(array(
+      'user_id' => (int)$this->visitor->id,
+    ));
+    if($address_count>10){
+ 			return $this->ajax_json('您的收货地址数量太多了!', true);     
+    }
+
+    $city = 0;
+    if(isset($this->stash['city'])){
+      $city = $this->stash['city'];
+    }elseif(isset($this->stash['district'])){
+      $city = $this->stash['district'];  
+    }
+		
+		$data['name'] = $this->stash['name'];
+		$data['phone'] = $this->stash['phone'];
+		$data['province'] = $this->stash['province'];
+		$data['city'] = $city;
+		$data['address'] = $this->stash['address'];
+		$data['zip']  = $this->stash['zip'];
+		$data['is_default'] = $is_default;
+		
+		try{
+			// 检测是否有默认地址
+			$ids = array();
+			if ($data['is_default'] == 1) {
+				$result = $model->find(array(
+					'user_id' => (int)$this->visitor->id,
+					'is_default' => 1,
+				));
+				for($i=0;$i<count($result);$i++){
+					$ids[] = (string)$result[$i]['_id'];
+				}
+			}
+			
+			if(empty($id)){
+				$data['user_id'] = $this->visitor->id;
+				
+				$ok = $model->apply_and_save($data);
+				 
+				$data = $model->get_data();
+				$id = (string)$data['_id'];
+			}else{
+				
+				$data['_id'] = $id;
+				
+				$ok = $model->apply_and_update($data);
+			}
+			
+			if(!$ok){
+				return $this->ajax_json('新地址保存失败,请重新提交', true);
+			}
+			
+			// 更新默认地址
+			if (!empty($ids)){
+				$updated_default_ids = array();
+				for($i=0;$i<count($ids);$i++){
+					if ($ids[$i] != $id){
+						$model->update_set($ids[$i], array('is_default' => 0));
+						$updated_default_ids[] = $ids[$i];
+					}
+				}
+				$this->stash['updated_default_ids'] = $updated_default_ids;
+			}
+			
+		} catch (Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn('新地址保存失败:'.$e->getMessage());
+			return $this->ajax_json('新地址保存失败:'.$e->getMessage(), true);
+    } catch (Exception $e){
+ 			return $this->ajax_json('新地址保存失败.:'.$e->getMessage(), true);   
+    }
+		
+	 	return $this->ajax_json('保存成功!', false, 0, array('id'=>$id));	
+	}
+
+  /**
+   * ajax编辑收货地址
+   */
+  public function ajax_edit_address(){
+    $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+    $from = isset($this->stash['from']) ? (int)$this->stash['from'] : 1;
+
+		// 获取省市列表
+		$areas_model = new Sher_Core_Model_Areas();
+		$provinces = $areas_model->fetch_provinces();
+		
+    if(empty($id)){
+      return $this->ajax_json('success', false, 0, array('new_mode'=>true, 'provinces'=>$provinces, 'city'=>0)); 
+    }
+    $model = new Sher_Core_Model_AddBooks();
+    $address = $model->load($id);
+    if(empty($address)){
+   	  return $this->ajax_json('地址不存在!', true);   
+    }
+    $user_id = $this->visitor->id;
+    if($address['user_id'] != $user_id){
+   	  return $this->ajax_json('没有权限!', true);     
+    }
+    $address['_id'] = (string)$address['_id'];
+    $address['new_mode'] = false;
+    $address['is_default_label'] = !empty($address['is_default']) ? true : false;
+    for($i=0;$i<count($provinces);$i++){
+      if($provinces[$i]['_id']==$address['province']){
+        $provinces[$i]['active'] = true;
+      }else{
+        $provinces[$i]['active'] = false;     
+      }
+    }
+    $address['provinces'] = $provinces;
+    return $this->ajax_json('success!', false, 0, $address); 
+  }
+
 	
-    /**
-     * 修改配送地址
-     */
+  /**
+   * 修改配送地址
+   */
 	public function remove_address(){
 		$id = $this->stash['id'];
 		if(empty($id)){
@@ -201,9 +360,11 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
       }
 			
 			// 仅管理员或本人具有删除权限
-			if ($this->visitor->can_admin() || $addbook['user_id'] == $this->visitor->id){
-				$model->remove($id);
+			if ($addbook['user_id'] != $this->visitor->id){
+			  return $this->ajax_json('没有权限!', true);
 			}
+
+			$ok = $model->remove($id);
 			
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('操作失败,请重新再试', true);
