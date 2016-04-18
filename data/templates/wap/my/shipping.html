@@ -234,7 +234,7 @@ h3.ui.header{
 
     $.post("{{ app_url_wap }}/app/site/address/ajax_edit_address", {id: id}, function(result){
       if(result.success){
-        result.data.app_wap_url = "{{ app_wap_url }}";
+        result.data.app_wap_url = "{{ app_url_wap }}";
         var rendered = phenix.ajax_render_result('#sign_address_tpl', result.data);
 
         $('#addbook-form-box').html(rendered); 
@@ -243,7 +243,6 @@ h3.ui.header{
         if(p_id){
           ajax_fetch_district(p_id, result.data.city);
         }
-
       }else{
         phenix.show_error_note(result.message, 3000);
       }
