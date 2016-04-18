@@ -561,7 +561,8 @@
         return false;
       }
       if (choosed_sku){
-        phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku, 0);
+        var qty_value = parseInt($('#product-qty').val());
+        phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku+'&n='+qty_value, 0);
       } else {
         phenix.show_error_note('请选择一个型号或颜色', 2000);
       }

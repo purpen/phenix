@@ -381,7 +381,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 */
 	public function nowbuy(){
 		$sku = $this->stash['sku'];
-		$quantity = $this->stash['n'];
+		$quantity = (int)$this->stash['n'];
+    $options = array();
 
     //初始变量
     //是否是抢购商品
@@ -518,7 +519,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$total_money = $price*$quantity;
 		$items_count = 1;
 		
-		$order_info = $this->create_temp_order($items, $total_money, $items_count, array());
+		$order_info = $this->create_temp_order($items, $total_money, $items_count, $options);
 		if (empty($order_info)){
 			return $this->show_message_page('系统出了小差，请稍后重试！', true);
 		}
@@ -541,9 +542,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	}
 	
 	/**
-	 * 结算信息
+	 * 重新选择收货地址后结算信息
 	 */
-	public function checkout_back(){
+	public function address_checkout(){
 		$rrid = $this->stash['rrid'];
 		$addrid = $this->stash['addrid'];
 		
@@ -639,6 +640,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 */
 	public function checkout(){
 		$user_id = $this->visitor->id;
+
+    $options = array();
+    $options['is_cart'] = 1;
 		
 		//验证购物车，无购物不可以去结算
     $cart_model = new Sher_Core_Model_Cart();
@@ -748,7 +752,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			// 预生成临时订单
 			$model = new Sher_Core_Model_OrderTemp();
 
-      $order_info = $this->create_temp_order($items, $total_money, $items_count, array('is_cart'=>1));
+      $order_info = $this->create_temp_order($items, $total_money, $items_count, $options);
       if (empty($order_info)){
         return $this->show_message_page('系统出了小差，请稍后重试！', true);
       }
@@ -1410,6 +1414,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			'sort' => array('created_on' => -1),
 		);
 		$result = $addbooks->first($query);
+    $result = $addbooks->extended_model_row($result);
 		
 		return $result;
 	}

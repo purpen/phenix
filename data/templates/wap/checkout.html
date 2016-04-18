@@ -368,7 +368,7 @@
 							{% if default_addbook %}
 							<div class="addressitem">
 								<div class="item">
-									<a class="content" href="">
+                  <a class="content" href="{{ app_url_wap }}/my/shipping?rid={{ order_info.rid }}">
 										<div class="addr">
 											<h5 class="ui header pt-r mb-2r">{{ default_addbook.name }}</h5>
 											<span>{{ default_addbook.area_province.city}} {{ default_addbook.area_district.city }} </span>
@@ -395,13 +395,13 @@
 						</div>
 					</div>
 					
-					{% for product in products %}
+					{% for product in data.items %}
 					<div class="cartitem" id="cart-product-{{ product.target_id }}">
 						<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover }}" alt="{{ product.title }}"></a>
 						<div class="cartinfo">
 							<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.title }}</h3></a>
-			        <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.n }}</p>
-							<p class="price"><i class="rmb icon"></i>  {{ product.total_price }}</p>
+			        <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.quantity }}</p>
+							<p class="price"><i class="rmb icon"></i>  {{ product.subtotal }}</p>
 			
 						</div>
 					</div>
