@@ -264,7 +264,7 @@ h3.ui.header{
 
   // ajax 加载省份城市
   function ajax_fetch_district(p_id, d_id){
-    $.get('{{ app_url_wap }}/app/site/address/ajax_fetch_cities', {id: p_id, d_id: d_id}, function(result){
+    $.get('{{ app_url_wap }}/app/site/address/ajax_fetch_cities', {id: p_id, district_id: d_id}, function(result){
       if(result.success){
         var districts = result.data;
         var html = '';
