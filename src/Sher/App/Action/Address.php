@@ -41,6 +41,31 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 	}
 
 	/**
+	 * 获取某个省市的地区-new wap端通用
+	 */
+	public function ajax_fetch_cities(){
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		if (empty($id)){
+			return $this->ajax_json('id参数为空！', true);
+		}
+
+    $type = $this->stash['type'] = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+
+    $district_id = isset($this->stash['district_id']) ? (int)$this->stash['district_id'] : 0;
+		
+		$areas_model = new Sher_Core_Model_Areas();
+		$districts = $areas_model->fetch_districts($id);
+    for($i=0;$i<count($districts);$i++){
+      if($districts[$i]['_id']==$district_id){
+        $districts[$i]['active'] = true;
+      }else{
+        $districts[$i]['active'] = false;     
+      }     
+    }
+		return $this->ajax_json('success', false, 0, $districts);
+	}
+
+	/**
 	 * 获取某个省市的地区
 	 */
 	public function ajax_fetch_colleges(){
@@ -285,8 +310,13 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
   public function ajax_edit_address(){
     $id = isset($this->stash['id']) ? $this->stash['id'] : null;
     $from = isset($this->stash['from']) ? (int)$this->stash['from'] : 1;
+
+		// 获取省市列表
+		$areas_model = new Sher_Core_Model_Areas();
+		$provinces = $areas_model->fetch_provinces();
+		
     if(empty($id)){
-      return $this->ajax_json('success!', false, 0, array('new_mode'=>true)); 
+      return $this->ajax_json('success', false, 0, array('new_mode'=>true, 'provinces'=>$provinces, 'city'=>0)); 
     }
     $model = new Sher_Core_Model_AddBooks();
     $address = $model->load($id);
@@ -297,7 +327,16 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
     if($address['user_id'] != $user_id){
    	  return $this->ajax_json('没有权限!', true);     
     }
+    $address['_id'] = (string)$address['_id'];
     $address['new_mode'] = false;
+    for($i=0;$i<count($provinces);$i++){
+      if($provinces[$i]['_id']==$address['province']){
+        $provinces[$i]['active'] = true;
+      }else{
+        $provinces[$i]['active'] = false;     
+      }
+    }
+    $address['provinces'] = $provinces;
     return $this->ajax_json('success!', false, 0, $address); 
   }
 
