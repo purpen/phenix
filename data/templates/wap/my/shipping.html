@@ -249,6 +249,19 @@ h3.ui.header{
     }, 'json');
   }
 
+  // ajax 加载地址列表
+  function load_address_list(){
+    $.post("{{ app_url_wap }}/app/site/address/ajax_fetch_list", {}, function(result){
+      if(result.success){
+        var rendered = phenix.ajax_render_result('#fetch_address_list_tpl', result.data);
+        result.data['app_url_packaged'] = "{{ app_url_packaged }}";
+        $('#address-list-box').html(rendered); 
+      }else{
+        phenix.show_error_note(result.message, 3000);
+      }
+    }, 'json');
+  }
+
   // ajax 加载省份城市
   function ajax_fetch_district(p_id, d_id){
     $.get('{{ app_url_wap }}/app/site/address/ajax_fetch_cities', {id: p_id, d_id: d_id}, function(result){
@@ -365,6 +378,7 @@ h3.ui.header{
               $(event.target).addClass('error');
               phenix.show_error_note(data.message, event.target);
             }else{
+              load_address_list();
               $('#shipping').removeClass('addshow');
             }
           }
@@ -395,6 +409,9 @@ h3.ui.header{
       return false;
     });
 	});
+
+  // 初始化列表
+  load_address_list();
 	
 {% endblock %}
 
@@ -408,37 +425,38 @@ h3.ui.header{
 	
 	<div class="row">
 		<div class="column p-0">
-			<div class="addressitem">
+			<div class="addressitem" id="address-list-box">
+        <!--
 				{% addbooks_list var:'addresses' user_id:user.id size:8 %}
 				{% for address in addresses.rows %}
-				<div class="item {% if address.is_default %}active {% endif %}" id="{{ address._id }}" data-id="{{ address._id }}">
-					<div class="content">
-						<div class="addr">
-							<h5 class="ui header pt-r mb-2r">{{ address.name }}</h5>
-							<span>{{ address.area_province.city}} {{ address.area_district.city }}</span>
-							<span> {{ address.address }} </span>
-							<span>{{ address.phone }}</span>
-						</div>
-						
-					</div>
-					<div class="actions">
-						{% if address.is_default == 1 %}
-						<img src="{{ app_url_packaged }}/images/icon/is_default.png" width="71">
-						{% endif %}
-						<div class="revise">
-							<a class="ui small gray icon edit button" data-id="{{ address._id }}">
-								<i class="edit icon"></i>&nbsp;&nbsp;编辑
-							</a>
-							<a class="ui small gray icon remove button" data-id="{{ address._id }}">
-								<i class="remove icon"></i>&nbsp;&nbsp;删除
-							</a>
-						</div>
-					</div>
-					
-				</div>
+          <div class="item {% if address.is_default %}active {% endif %}" id="{{ address._id }}" data-id="{{ address._id }}">
+            <div class="content">
+              <div class="addr">
+                <h5 class="ui header pt-r mb-2r">{{ address.name }}</h5>
+                <span>{{ address.area_province.city}} {{ address.area_district.city }}</span>
+                <span> {{ address.address }} </span>
+                <span>{{ address.phone }}</span>
+              </div>
+              
+            </div>
+            <div class="actions">
+              {% if address.is_default == 1 %}
+              <img src="{{ app_url_packaged }}/images/icon/is_default.png" width="71">
+              {% endif %}
+              <div class="revise">
+                <a class="ui small gray icon edit button" data-id="{{ address._id }}">
+                  <i class="edit icon"></i>&nbsp;&nbsp;编辑
+                </a>
+                <a class="ui small gray icon remove button" data-id="{{ address._id }}">
+                  <i class="remove icon"></i>&nbsp;&nbsp;删除
+                </a>
+              </div>
+            </div>
+            
+          </div>
 				
 				{% endfor %}
-				
+        -->
 				
 				
 				<div class="addflex" id="create-new-address" data-id="0">
@@ -534,4 +552,5 @@ h3.ui.header{
 
 {% block templates %}
 {% mustache id:'sign_address_tpl' tpl:'mustache_m/sign_address.mustache' %}
+{% mustache id:'fetch_address_list_tpl' tpl:'mustache_m/fetch_address_list.mustache' %}
 {% endblock %}
