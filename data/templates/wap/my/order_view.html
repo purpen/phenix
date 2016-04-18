@@ -134,7 +134,7 @@ h3.ui.header{
 	<div class="row pt-0">
 		<div class="column p-0">
 			
-			<div class="addressitem">
+			<div class="addressitem mb-2r">
 				<div class="item">
 					<div class="content">
 						<i class="map marker icon"></i>
@@ -148,7 +148,7 @@ h3.ui.header{
 						</div>
 					{% else %}
 						<div class="addr ml-2r">
-							<h5 class="ui header pt-r mb-2r">收货人：{ order_info.addbook.name }}</h5>
+							<h5 class="ui header pt-r mb-2r">收货人：{{ order_info.addbook.name }}</h5>
 							<span>{{ order_info.addbook.area_province.city }} {{ order_info.addbook.area_district.city }}</span>
 							<span> {{ order_info.addbook.address }}</span>
 							<span>{{ order_info.addbook.phone }}</span>
@@ -166,7 +166,7 @@ h3.ui.header{
 					<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.title }}</h3></a>
 					
 	        <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.n }}</p>
-					<p class="price"><i class="rmb icon"></i>  {{ product.total_price }}</p>
+					<p class="price"><i class="rmb icon"></i>  {{ product.sale_price }}</p>
 	
 				</div>
 			</div>
