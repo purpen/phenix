@@ -256,7 +256,11 @@ h3.ui.header{
         var districts = result.data;
         var html = '';
         for(var i=0;i<districts.length;i++){
-          html += '<option value="'+ districts[i]['_id'] +'">'+ districts[i]['city'] +'</option>';
+          if(districts[i]['active']){
+            html += '<option value="'+ districts[i]['_id'] +'" selected="selected">'+ districts[i]['city'] +'</option>';
+          }else{
+            html += '<option value="'+ districts[i]['_id'] +'">'+ districts[i]['city'] +'</option>';
+          }
         }
         $('#district-menu').html(html);
       }else{
