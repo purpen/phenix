@@ -165,8 +165,8 @@ h3.ui.header{
 				<div class="cartinfo">
 					<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.title }}</h3></a>
 					
-	        <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.n }}</p>
-					<p class="price"><i class="rmb icon"></i>  {{ product.sale_price }}</p>
+	        <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.quantity }}</p>
+					<p class="price"><i class="rmb icon"></i>  {{ product.subtotal }}</p>
 	
 				</div>
 			</div>
@@ -174,7 +174,7 @@ h3.ui.header{
 			
 			
 			<div class="desitem">
-				订单号：<span>{{ order_info.rid }} {% if order_info.status >= 15 %}{{ order_info.express_no }} {% endif %}</span>
+				订单号：<span>{{ order_info.rid }}</span>
 			</div>
 			
 			<div class="desitem">
