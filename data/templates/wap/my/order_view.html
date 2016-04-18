@@ -124,6 +124,51 @@ h3.ui.header{
 {% endblock %}
 
 {% block jquery %}
+
+  // 确认收货
+	$('.take_delivery_btn').livequery(function(){
+    $(this).click(function(){
+      var rid = $(this).attr('rid');
+      url = "{{ app_url_wap }}/app/site/my/ajax_take_over";
+      $.post(url, {rid: rid, from_to: 2}, function(result){
+        if(result.success){
+          phenix.redirect(result.redirect_url);
+        }else{
+          phenix.show_error_note(result.message, 3000);  
+        }
+      }, 'json');
+    });
+  });
+
+  // 取消订单
+	$('.cancel_order_btn').livequery(function(){
+    $(this).click(function(){
+      var rid = $(this).attr('rid');
+      var url = "{{ app_url_wap }}/app/site/my/ajax_disabled_order";
+      $.post(url, {rid: rid, type:1}, function(result){
+        if(result.success){
+          window.location.reload();
+        }else{
+          phenix.show_error_note(result.message, 3000);          
+        }
+      }, 'json');
+    });
+  });
+
+  // 删除订单
+	$('.remove_order_btn').livequery(function(){
+    $(this).click(function(){
+      var rid = $(this).attr('rid');
+      url = "{{ app_url_wap }}/app/site/my/ajax_remove_order";
+      $.post(url, {rid: rid, type:1}, function(result){
+        if(result.success){
+        window.location.href="{{ app_url_wap }}/shop";
+        }else{
+          phenix.show_error_note(result.message, 3000);  
+        }
+      }, 'json');
+    });
+  });
 	
 {% endblock %}
 
@@ -142,7 +187,7 @@ h3.ui.header{
 					<div class="content">
 						<i class="map marker icon"></i>
 						
-						{% if order.from_site == 5 %}
+						{% if order_info.express_info %}
 						<div class="addr ml-2r">
 							<h5 class="ui header pt-r mb-2r">收货人：{{ order_info.express_info.name }}</h5>
 							<span>{{ order_info.express_info.province }} {{ order_info.express_info.city }}{{ order_info.express_info.area }}</span>
@@ -162,12 +207,12 @@ h3.ui.header{
 			</div>
 			
 			{% for product in order_info.items %}
-			<div class="cartitem" id="order-{{ order._id }}">
-				<a href="{{ app_url_wap }}/shop/{{ product._id }}.html" class="img"> <img class="lazy" src="{{ product.cover.thumbnails.mini.view_url }}"></a>
+			<div class="cartitem">
+				<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover_url }}"></a>
 				<div class="cartinfo">
-					<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.title }}</h3></a>
+					<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.name }}</h3></a>
 					
-	        <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.quantity }}</p>
+	        <p class="checkt">颜色／分类：{% if product.sku_name %}{{ product.sku_name }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.quantity }}</p>
 					<p class="price"><i class="rmb icon"></i>  {{ product.subtotal }}</p>
 	
 				</div>
@@ -197,12 +242,24 @@ h3.ui.header{
 			
 			
 			<div class="ordertbtn">
+        {% if order_info.status == '-1' %}
+          <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
+        {%endif%}
+        {% if order_info.status == 0 %}
+          <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
+        {%endif%}
+        {% if order_info.status == 16 %}
+          <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
+        {%endif%}
+        {% if order_info.status == 20 %}
+          <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
+        {%endif%}
 				{% if order_info.status==1 %}
 				<a href="{{ app_url_wap }}/shop/success?rid={{ order_info.rid }}" class="ui small inverted button">现在支付</a>
-				<a href="{{ app_url_wap }}/my/ajax_cancel_order?rid={{ order_info.rid }}" class="ui ajax small gray inverted button">取消订单</a>
+        <a href="javascript:void(0);" class="ui small gray inverted button cancel_order_btn" rid="{{ order_info.rid }}">取消订单</a>
 				{% endif %}
 				{% if order_info.status == 15 %}
-					<a href="{{ app_url_wap }}/my/ajax_take_delivery?rid={{ order_info.rid }}" class="ui small ajax inverted button" id="order-action-finish">确认收货</a>
+        <a href="javascript:void(0);" class="ui small ajax inverted button take_delivery_btn" rid="{{ order_info.rid }}">确认收货</a>
 				{% endif %}
 			</div>
 			

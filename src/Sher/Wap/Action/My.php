@@ -208,6 +208,26 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 			return $this->show_message_page('你没有权限查看此订单！');
 		}
 		
+    $product_model = new Sher_Core_Model_Product();
+    $sku_model = new Sher_Core_Model_Inventory();
+    for($i=0;$i<count($order_info['items']);$i++){
+      $d = $product_model->extend_load((int)$order_info['items'][$i]['product_id']);
+      if(!empty($d)){
+        $sku_mode = null;
+        if($order_info['items'][$i]['sku']!=$order_info['items'][$i]['product_id']){
+          $sku = $sku_model->find_by_id($order_info['items'][$i]['sku']);
+          if(!empty($sku)){
+            $sku_mode = $sku['mode'];
+          }
+        }
+        $order_info['items'][$i]['name'] = $d['title']; 
+        $order_info['items'][$i]['wap_view_url'] = $d['wap_view_url']; 
+        $order_info['items'][$i]['sku_name'] = $sku_mode; 
+        $order_info['items'][$i]['subtotal'] = (float)$order_info['items'][$i]['sale_price']*$order_info['items'][$i]['quantity']; 
+        $order_info['items'][$i]['cover_url'] = $d['cover']['thumbnails']['mini']['view_url'];
+      }
+    }
+
 		$this->stash['order_info'] = $order_info;
 		
 		return $this->to_html_page("wap/my/order_view.html");
