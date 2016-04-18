@@ -237,7 +237,7 @@
 	$('.cancel_order_btn').livequery(function(){
     $(this).click(function(){
       var rid = $(this).attr('rid');
-      url = "{{ app_url_wap }}/app/site/my/ajax_disabled_order";
+      var url = "{{ app_url_wap }}/app/site/my/ajax_disabled_order";
       $.post(url, {rid: rid, type:1}, function(result){
         if(result.success){
           $('#order-'+rid).remove();
