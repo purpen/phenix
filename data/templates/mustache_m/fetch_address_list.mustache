@@ -8,8 +8,9 @@
             <span>{{ phone }}</span>
           </div>
 		  
-		  <img class="mr-r" src="http://frstatic.qiniudn.com/images/icon/shipnext.png" width="11px"> 
-          
+          {{ #is_from_order }}
+                <img class="mr-r" src="http://frstatic.qiniudn.com/images/icon/shipnext.png" width="11px"> 
+          {{ /is_from_order }}
         </a>
         <div class="actions">
           {{ #is_default_label }}
