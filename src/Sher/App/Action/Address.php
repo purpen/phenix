@@ -279,6 +279,28 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
 	 	return $this->ajax_json('保存成功!', false, 0, array('id'=>$id));	
 	}
 
+  /**
+   * ajax编辑收货地址
+   */
+  public function ajax_edit_address(){
+    $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+    $from = isset($this->stash['from']) ? (int)$this->stash['from'] : 1;
+    if(empty($id)){
+      return $this->ajax_json('success!', false, 0, array('new_mode'=>true)); 
+    }
+    $model = new Sher_Core_Model_AddBooks();
+    $address = $model->load($id);
+    if(empty($address)){
+   	  return $this->ajax_json('地址不存在!', true);   
+    }
+    $user_id = $this->visitor->id;
+    if($address['user_id'] != $user_id){
+   	  return $this->ajax_json('没有权限!', true);     
+    }
+    $address['new_mode'] = false;
+    return $this->ajax_json('success!', false, 0, $address); 
+  }
+
 	
   /**
    * 修改配送地址

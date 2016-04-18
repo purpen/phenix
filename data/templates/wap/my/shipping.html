@@ -206,7 +206,18 @@ h3.ui.header{
 	});
 	// 编辑
 	$('.ui.edit.button').click(function(){
-	  $('#shipping').addClass('addshow');
+    var address_id = $(this).data('id');
+    $.post("{{ app_url_wap }}/app/site/address/ajax_edit_address", {id: address_id, from:2}, function(result){
+      if(result.success){
+        var rendered = phenix.ajax_render_result('#sign_address', result.data);
+        $('#addbook-form-box').html(rendered); 
+        $('#shipping').addClass('addshow');
+      }else{
+        phenix.show_error_note(result.message, 3000);
+      }
+ 
+    });
+	  
 	});
 	// 显示地址框
 	$('.ui.addbook.add.button').click(function(){
@@ -393,8 +404,6 @@ h3.ui.header{
 		</div>
 	</div>
 	
-	
-	
 	<div class="leftadd" id="addbook-form-box">
 		<div class="ui grid m-0">
 			<div class="row">
@@ -479,4 +488,8 @@ h3.ui.header{
 	
 </div>
 
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'sign_address_tpl' tpl:'mustache_m/sign_address.mustache' %}
 {% endblock %}
