@@ -411,14 +411,9 @@ h3.ui.header{
       if(confirm('确认执行这个删除操作吗?')){
         $.post('{{ app_url_wap }}/app/site/address/remove_address', {id: id}, function(result){
           if (result.success){
-			$('#shipping').removeClass('addshow');
-            if ($('#'+result.data.id).hasClass('active')) {
-              // 清空默认值
-              $('#addbook_default_id').val('');
-            }
             $('#'+result.data.id).remove();
           } else {
-            phenix.show_error_note(result.message, 5000);
+            phenix.show_error_note(result.message, 3000);
           }
         }, 'json');
           }

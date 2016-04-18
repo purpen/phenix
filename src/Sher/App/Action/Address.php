@@ -359,9 +359,11 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
       }
 			
 			// 仅管理员或本人具有删除权限
-			if ($this->visitor->can_admin() || $addbook['user_id'] == $this->visitor->id){
-				$model->remove($id);
+			if ($addbook['user_id'] != $this->visitor->id){
+			  return $this->ajax_json('没有权限!', true);
 			}
+
+			$ok = $model->remove($id);
 			
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('操作失败,请重新再试', true);
