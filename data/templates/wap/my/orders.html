@@ -158,7 +158,7 @@
     background: #f5f5f5;
     position: fixed;
     width: 100%;
-    height: 100%;
+    height: 50%;
     bottom: 0;
     z-index: 100;
     visibility: hidden;
@@ -250,9 +250,12 @@
   
   //申请退款
   $('.apply-refund').bind('click',function(){
+	$('#cover').css('display','block');
+	$('html').css('overflow','hidden');
   	$('#orderitem').addClass('showbt');
   });
   $('.nextbtn .close-btn').bind('click',function(){
+	$('#cover,html').removeAttr('style');
   	$('#orderitem').removeClass('showbt');
   });
 $('#refund-form').form({
@@ -416,16 +419,11 @@ $('#refund-form').form({
 			      </div>
 			    </div>
 				
-				<div class="row">
+				<div class="row pt-0">
 					<div class="column">
 					    <form action="{{ app_url_my }}/ajax_refund" class="ui form" method="post" id="refund-form">
 					      <div class="field">
-					        <h5 class="ui header">订单号: <span name="rid-show"></span></h5>
-					        <!--<input type="text" name="nickname" value="" disabled="disabled" />-->
-					        <input type="hidden" name="rid" value="" />
-					      </div>
-					      <div class="field">
-					        <label>退款理由：</label>
+					        <h5 class="ui header mb-2r">退款理由：</label>
 					        <textarea name="content" rows="3"></textarea>
 					      </div>
 						  
