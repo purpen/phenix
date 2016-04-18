@@ -219,8 +219,9 @@
     transform: rotateZ(0);
     background: #fff !important;
     display: inline-block !important;
-    height: 2.7142em !important;
+    height: 2rem !important;
     margin-bottom: 8px;
+	font-size:12px !important;
 }
 </style>
 {% endblock %}
@@ -431,7 +432,7 @@ $('#refund-form').form({
 					    <form action="{{ app_url_my }}/ajax_refund" class="ui form" method="post" id="refund-form">
 					      <div class="field">
 					        <h5 class="ui header mb-2r">退款理由：</h5>
-							<select name=" " value="3" id=" " class="refundwhy mb-2r">
+							<select name=" " value="3" id=" " class="refundwhy">
 				                <option value="1">我不想要了</option>
 				                <option value="2">其他</option>
 											
