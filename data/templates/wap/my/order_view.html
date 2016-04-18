@@ -158,8 +158,7 @@ h3.ui.header{
 				</div>
 			</div>
 			
-			{% for item in order_info.items %}
-			{% product_list var:'product' product_id:item.product_id %}
+			{% for product in order_info.items %}
 			<div class="cartitem" id="order-{{ order._id }}">
 				<a href="{{ app_url_wap }}/shop/{{ product._id }}.html" class="img"> <img class="lazy" src="{{ product.cover.thumbnails.mini.view_url }}"></a>
 				<div class="cartinfo">
