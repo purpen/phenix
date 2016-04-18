@@ -368,7 +368,7 @@
 							{% if default_addbook %}
 							<div class="addressitem">
 								<div class="item">
-									<a class="content" href="">
+                  <a class="content" href="{{ app_url_wap }}/my/shipping?rid={{ order_info.rid }}">
 										<div class="addr">
 											<h5 class="ui header pt-r mb-2r">{{ default_addbook.name }}</h5>
 											<span>{{ default_addbook.area_province.city}} {{ default_addbook.area_district.city }} </span>

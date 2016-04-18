@@ -230,12 +230,15 @@ h3.ui.header{
 {% block layout_js %}
 <script type="text/javascript">
 
+  // 判断来源
+  var order_rid = "{{ rid|default '' }}";
+
   // ajax 加载地址模板
   function load_address_mode(id){
 
     $.post("{{ app_url_wap }}/app/site/address/ajax_edit_address", {id: id}, function(result){
       if(result.success){
-        result.data.app_wap_url = "{{ app_url_wap }}";
+        result.data.app_url_wap = "{{ app_url_wap }}";
         var rendered = phenix.ajax_render_result('#sign_address_tpl', result.data);
 
         $('#addbook-form-box').html(rendered); 
@@ -251,10 +254,18 @@ h3.ui.header{
   }
 
   // ajax 加载地址列表
-  function load_address_list(){
-    $.post("{{ app_url_wap }}/app/site/address/ajax_fetch_list", {}, function(result){
+  function load_address_list(order_rid){
+    $.post("{{ app_url_wap }}/app/site/address/ajax_fetch_list", {order_rid: order_rid}, function(result){
       if(result.success){
+        result.data.app_url_wap = "{{ app_url_wap }}";
         result.data.results.app_url_packaged = "{{ app_url_packaged }}";
+        if(rid != ''){
+          result.data.results.is_from_order = true;
+          result.data.results.rrid = rid;
+        }else{
+          result.data.results.is_from_order = false;
+          result.data.results.rid = '';       
+        }
         var rendered = phenix.ajax_render_result('#fetch_address_list_tpl', result.data);
         $('#address-list-box').html(rendered); 
       }else{
@@ -287,6 +298,7 @@ h3.ui.header{
 {% endblock %}
 
 {% block jquery %}
+
 	$('.addflex').bind('click',function(){
     load_address_mode('');
 	});
@@ -379,7 +391,7 @@ h3.ui.header{
               $(event.target).addClass('error');
               phenix.show_error_note(data.message, event.target);
             }else{
-              load_address_list();
+              load_address_list(order_rid);
               $('#shipping').removeClass('addshow');
             }
           }
@@ -412,7 +424,7 @@ h3.ui.header{
 	});
 
   // 初始化列表
-  load_address_list();
+  load_address_list(order_rid);
 	
 {% endblock %}
 
