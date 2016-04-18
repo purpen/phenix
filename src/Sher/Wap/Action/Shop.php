@@ -381,11 +381,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 */
 	public function nowbuy(){
 		$sku = $this->stash['sku'];
-		$quantity = $this->stash['n'];
-
-    $addbook_id = isset($this->stash['addbook_id']) ? $this->stash['addbook_id'] : null;
+		$quantity = (int)$this->stash['n'];
     $options = array();
-    $options['addbook_id'] = $addbook_id;
 
     //初始变量
     //是否是抢购商品
@@ -644,9 +641,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	public function checkout(){
 		$user_id = $this->visitor->id;
 
-    $addbook_id = isset($this->stash['addbook_id']) ? $this->stash['addbook_id'] : null;
     $options = array();
-    $options['addbook_id'] = $addbook_id;
     $options['is_cart'] = 1;
 		
 		//验证购物车，无购物不可以去结算

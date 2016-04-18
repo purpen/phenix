@@ -259,7 +259,7 @@ h3.ui.header{
       if(result.success){
         result.data.app_url_wap = "{{ app_url_wap }}";
         result.data.results.app_url_packaged = "{{ app_url_packaged }}";
-        if(rid != ''){
+        if(order_rid != ''){
           result.data.is_from_order = true;
           result.data.rrid = order_rid;
         }else{
