@@ -275,8 +275,8 @@
   	$('#orderitem').removeClass('showbt');
   });
 $('#refund-form').form({
-	content: {
-		identifier  : 'content',
+	refund_content: {
+		identifier  : 'refund_content',
 		rules: [
 			{
 				type   : 'maxLength[140]',
@@ -293,13 +293,13 @@ $('#refund-form').form({
       beforeSubmit: function(){
       },
       success: function(result){
-        if(data.is_error){
+        if(result.is_error){
           $(event.target).addClass('error');
           phenix.show_error_note(result.message, event.target);
         }else{
           $('#order-'+result.data.rid).find('.order_label_txt').text('退款中');
           $('#order-'+result.data.rid).find('.status_btn_box').hide();
-          $('#shipping').removeClass('addshow');
+          $('#orderitem').removeClass('addshow');
           phenix.show_ok_note('操作成功,请等待客服处理!', 3000);
         }
       }
@@ -326,7 +326,7 @@ $('#refund-form').form({
   // 退款选项
   $('#refund_reason_select').change(function(){
     var refund_type = $(this).val();
-    if(refund_type==2){
+    if(refund_type==0){
       $('.refund_content').show();
     }else{
       $('.refund_content').hide();
