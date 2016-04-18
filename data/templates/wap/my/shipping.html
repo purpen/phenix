@@ -4,6 +4,7 @@
 <style type="text/css">
 #mfrbird{
 	margin-top:0;
+	margin-bottom:3rem;
 }
 h3.ui.header{
 	font-weight:400;
@@ -193,6 +194,34 @@ h3.ui.header{
 	  font-size:0.92885rem;
 	  padding:0.07145rem 0;
 	  display:block;
+  }
+  .choose.province,.choose.city{
+	  cursor: pointer;
+      word-wrap: break-word;
+      line-height: 1em;
+      white-space: normal;
+      outline: 0;
+      -webkit-transform: rotateZ(0);
+      transform: rotateZ(0);
+      height: 2.7142rem;
+      color: rgba(0,0,0,.87);
+      box-shadow: none;
+      border: 1px solid rgba(34,36,38,.15);
+      border-radius: .28571429rem;
+      -webkit-transition: box-shadow .1s ease,width .1s ease;
+      transition: box-shadow .1s ease,width .1s ease;
+      background: #fff !important;
+      display: inline-block !important;
+	  width:49% !important;
+	  height: 2.7142em !important;
+	  margin-bottom:8px;
+  }
+  .choose:hover,.choose:focus {
+      border-color: rgba(34,36,38,.35);
+      box-shadow: none;
+  }
+  .choose.city{
+	  float:right;
   }
 </style>
 {% endblock %}
@@ -432,7 +461,22 @@ h3.ui.header{
 						
 						<div class="field mb-2r">
 							<h5 class="ui header mtb-r">地址</h5>
-							<div class="ui selection province dropdown">
+							
+							
+							  <select name="province" value="{{ addbook.province }}" class="choose province">
+								 
+	  						  {% for province in provinces %}
+	                <option{%if province._id==visitor.profile.province_id%} selected="selected"{%endif%} value="{{ province._id }}">{{ province.city }}</option>
+	  						  {% endfor %}
+	  						</select>
+			
+							  <select name="district" id="district-menu" value="{{ addbook.city }}" class="choose city">
+	  						  {% for district in districts %}
+	  						    <option {%if province._id==visitor.profile.district_id%} selected="selected"{%endif%} value="{{ district._id }}">{{ district.city }}</option>
+	  						  {% endfor %}
+							 </select>
+							
+							<!--<div class="ui selection province dropdown">
 								<input type="hidden" name="province" value="{{ addbook.province }}" />
 		
 							    <div class="default text">省份/自治区</div>
@@ -443,7 +487,7 @@ h3.ui.header{
 									{% endfor %}
 							    </div>
 							</div>
-	
+							
 							<div class="ui selection district dropdown" id="district-menu" style="float:right;">
 								<input type="hidden" name="city" value="{{ addbook.city }}" />
 							    <div class="default text">地区区域</div>
@@ -453,7 +497,7 @@ h3.ui.header{
 							        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
 									{% endfor %}
 							    </div>
-							</div>
+							</div>-->
 						</div>
 						
 						<div class="field mb-3r">
