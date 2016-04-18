@@ -329,6 +329,7 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
     }
     $address['_id'] = (string)$address['_id'];
     $address['new_mode'] = false;
+    $address['is_default_label'] = !empty($address['is_default']) ? true : false;
     for($i=0;$i<count($provinces);$i++){
       if($provinces[$i]['_id']==$address['province']){
         $provinces[$i]['active'] = true;
