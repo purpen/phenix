@@ -39,12 +39,12 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 		# 类型
         'type' => self::TYPE_SCENE,
 		# 使用数量
-		'used_count' => array(
+		'used_counts' => array(
 			'total_count' => 0,
-			'scene' => 0,
-			'sight' => 0,
-			'content' => 0,
-			'product' => 0,
+			'scene_count' => 0,
+			'sight_count' => 0,
+			'context_count' => 0,
+			'product_count' => 0,
 		),
 		# 封面图
         'cover_id' => '',
@@ -57,7 +57,7 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 	protected $required_fields = array('title_cn');
 	protected $int_fields = array('status', 'parent_id', 'left_ref', 'right_ref', 'type');
 	protected $float_fields = array();
-	protected $counter_fields = array('used_count.total_count','used_count.scene','used_count.sight','used_count.content','used_count.product');
+	protected $counter_fields = array('total_count','scene_count','sight_count','context_count','product_count');
 	protected $retrieve_fields = array();
     
 	protected $joins = array();
@@ -493,11 +493,14 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 			$id = $this->id;
 		}
 		
+		//protected $counter_fields = array('total_count','scene_count','sight_count','context_count','product_count');
 		if(empty($id) || !in_array($field_name, $this->counter_fields)){
 			return false;
 		}
 		
-		return $this->inc($id, $field_name, $inc);
+		$field_name = 'used_counts.'.$field_name;
+		
+		return $this->inc(array('_id'=>(int)$id), $field_name, $inc, true);
 	}
 	
 	/**
