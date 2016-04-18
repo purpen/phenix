@@ -193,7 +193,7 @@ h3.ui.header{
 			
 			
 			<div class="ordertbtn">
-				% if order_info.status==1 %}
+				{% if order_info.status==1 %}
 				<a href="{{ app_url_wap }}/shop/success?rid={{ order_info.rid }}" class="ui small inverted button">现在支付</a>
 				<a href="{{ app_url_wap }}/my/ajax_cancel_order?rid={{ order_info.rid }}" class="ui ajax small gray inverted button">取消订单</a>
 				{% endif %}
