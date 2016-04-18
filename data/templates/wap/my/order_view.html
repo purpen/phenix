@@ -162,12 +162,12 @@ h3.ui.header{
 			</div>
 			
 			{% for product in order_info.items %}
-			<div class="cartitem" id="order-{{ order._id }}">
-				<a href="{{ app_url_wap }}/shop/{{ product._id }}.html" class="img"> <img class="lazy" src="{{ product.cover.thumbnails.mini.view_url }}"></a>
+			<div class="cartitem">
+				<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover_url }}"></a>
 				<div class="cartinfo">
-					<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.title }}</h3></a>
+					<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.name }}</h3></a>
 					
-	        <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.quantity }}</p>
+	        <p class="checkt">颜色／分类：{% if product.sku_name %}{{ product.sku_name }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.quantity }}</p>
 					<p class="price"><i class="rmb icon"></i>  {{ product.subtotal }}</p>
 	
 				</div>
