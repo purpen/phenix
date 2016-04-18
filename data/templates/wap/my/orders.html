@@ -144,9 +144,6 @@
 	text-align:right;
 }
 
-.apply-refund{
-	
-}
 .showbt .refund-box {
     visibility: visible;
     -webkit-transform: translate3d(0,0,0);
@@ -158,7 +155,7 @@
     background: #f5f5f5;
     position: fixed;
     width: 100%;
-    height: 50%;
+    height: 100%;
     bottom: 0;
     z-index: 100;
     visibility: hidden;
@@ -212,6 +209,19 @@
     line-height: 2.1435rem;
     padding: 0.7145rem;
 }
+.refundwhy{
+	cursor: pointer;
+    word-wrap: break-word;
+    line-height: 1em;
+    white-space: normal;
+    outline: 0;
+    -webkit-transform: rotateZ(0);
+    transform: rotateZ(0);
+    background: #fff !important;
+    display: inline-block !important;
+    height: 2.7142em !important;
+    margin-bottom: 8px;
+}
 </style>
 {% endblock %}
 
@@ -250,12 +260,9 @@
   
   //申请退款
   $('.apply-refund').bind('click',function(){
-	$('#cover').css('display','block');
-	$('html').css('overflow','hidden');
   	$('#orderitem').addClass('showbt');
   });
-  $('#cover,.nextbtn .close-btn').bind('click',function(){
-	$('#cover,html').removeAttr('style');
+  $('.close-btn').bind('click',function(){
   	$('#orderitem').removeClass('showbt');
   });
 $('#refund-form').form({
@@ -424,8 +431,17 @@ $('#refund-form').form({
 					    <form action="{{ app_url_my }}/ajax_refund" class="ui form" method="post" id="refund-form">
 					      <div class="field">
 					        <h5 class="ui header mb-2r">退款理由：</h5>
+							<select name=" " value="3" id=" " class="refundwhy mb-2r">
+				                <option value="1">我不想要了</option>
+				                <option value="2">其他</option>
+											
+											
+							</select>
+							
 					        <textarea name="content" rows="3"></textarea>
 					      </div>
+						  
+						  
 						  
 						  <div class="nextbtn">
 				              <div class="close-btn">
