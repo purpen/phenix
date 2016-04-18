@@ -67,6 +67,7 @@
     flex-grow: 1;
     position: relative;
     margin-left: 0.35725rem;
+	color: #5d6266;
 }
 .addr span {
     font-size: 0.92885rem;
@@ -367,18 +368,16 @@
 							{% if default_addbook %}
 							<div class="addressitem">
 								<div class="item">
-									<div class="content">
+									<a class="content" href="">
 										<div class="addr">
 											<h5 class="ui header pt-r mb-2r">{{ default_addbook.name }}</h5>
 											<span>{{ default_addbook.area_province.city}} {{ default_addbook.area_district.city }} </span>
 											<span> {{ default_addbook.address }}</span>
 											<span>{{ default_addbook.phone }}</span>
 										</div>
-										<a class="ui magenta ptb-4r pl-4r pr-r link" href="">
-											<img src="{{ app_url_packaged }}/images/icon/shipnext.png" width="11px">
-										</a>
 										
-									</div>
+										<img src="{{ app_url_packaged }}/images/icon/shipnext.png" width="11px">						</a>
+										
 								</div>
 							</div>
 							

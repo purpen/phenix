@@ -1,6 +1,6 @@
 {{#results.rows}}
       <div class="item {{ #is_default_label }}active {{/is_default_label}}" id="{{ _id }}" data-id="{{ _id }}">
-        <div class="content">
+        <a class="content"  href=" ">
           <div class="addr">
             <h5 class="ui header pt-r mb-2r">{{ name }}</h5>
             <span>{{ area_province.city}} {{ area_district.city }}</span>
@@ -8,11 +8,9 @@
             <span>{{ phone }}</span>
           </div>
 		  
-		  <a href=" " class="ptb-4r pl-4r pr-r">
-			 <img src="http://frstatic.qiniudn.com/images/icon/shipnext.png" width="20px"> 
-		  </a>
+		  <img src="http://frstatic.qiniudn.com/images/icon/shipnext.png" width="12px"> 
           
-        </div>
+        </a>
         <div class="actions">
           {{ #is_default_label }}
           <img src="{{ results.app_url_packaged }}/images/icon/is_default.png" width="71">
