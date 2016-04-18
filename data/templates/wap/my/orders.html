@@ -5,6 +5,10 @@
 #mfrbird{
 	margin-top:0;
 }
+.orderbottom .ui.inverted.magenta.button:hover {
+    background: transparent;
+    color: #f36;
+}
 .ui.header{
 	font-weight:400;
 }
@@ -139,6 +143,75 @@
 .ta-r{
 	text-align:right;
 }
+
+.apply-refund{
+	
+}
+.showbt .refund-box {
+    visibility: visible;
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+}
+.refund-box{
+	max-width: 767px;
+    margin: 0 auto;
+    background: #f5f5f5;
+    position: fixed;
+    width: 100%;
+    height: 50%;
+    bottom: 0;
+    z-index: 100;
+    visibility: hidden;
+    -webkit-transform: translate3d(0,100%,0);
+    transform: translate3d(0,100%,0);
+    -webkit-transition: all 0.3s ease 0.05s;
+    transition: all 0.3s ease 0.05s;
+    padding: 0.35725rem 0;
+}
+.nextbtn {
+    display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+    align-items: center;
+    -webkit-box-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 3;
+}
+.nextbtn .close-btn {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    font-size: 1rem;
+    background: #fff;
+    text-align: center;
+    line-height: 2.1435rem;
+    padding: 0.7145rem;
+}
+.nextbtn .submit {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    font-size: 1rem;
+    background: #f36;
+    color: #fff;
+    text-align: center;
+    line-height: 2.1435rem;
+    padding: 0.7145rem;
+}
 </style>
 {% endblock %}
 
@@ -174,6 +247,38 @@
       }, 'json');
     });
   });
+  
+  //申请退款
+  $('.apply-refund').bind('click',function(){
+	$('#cover').css('display','block');
+	$('html').css('overflow','hidden');
+  	$('#orderitem').addClass('showbt');
+  });
+  $('#cover,.nextbtn .close-btn').bind('click',function(){
+	$('#cover,html').removeAttr('style');
+  	$('#orderitem').removeClass('showbt');
+  });
+$('#refund-form').form({
+	content: {
+		identifier  : 'content',
+		rules: [
+			{
+				type   : 'empty',
+				prompt : '退款理由不能为空'
+			},
+			{
+				type   : 'maxLength[140]',
+				prompt : '内容不超过140字符'
+			}
+		]
+	}
+}, {
+	inline : true,
+	onSuccess: function(event){
+		event.preventDefault();
+		$(event.target).ajaxSubmit();
+	}
+});
 
   // 确认收货
 	$('.take_delivery_btn').livequery(function(){
@@ -300,7 +405,7 @@
 				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="ui small magenta inverted button">立即支付</a>
 					{% endif %}
 		  			{% if order.status == 10 %}
-		            <a href="javascript:void(0);" class="ui small magenta inverted button" name="apply-refund" rid="{{ order.rid }}">申请退款</a>
+		            <a href="javascript:void(0);" class="ui small magenta inverted button apply-refund" name="apply-refund" rid="{{ order.rid }}">申请退款</a>
 		  			{% endif %}
 		  			{% if order.status == 15 %}
 		            <a href="javascript:void(0);" class="ui small magenta inverted button take_delivery_btn" rid="{{ order.rid }}">确认收货</a>
@@ -320,7 +425,46 @@
 			</div>
 		</div>
 		{% endfor %}
-	
+		
+		<div class="refund-box">
+			<div class="ui grid m-0 plr-r">
+				<div class="row">
+			      <div class="column">
+			        <h4 class="ui header dividing pb-r mt-r">请添写退款理由:</h4>
+			      </div>
+			    </div>
+				
+				<div class="row pt-0">
+					<div class="column">
+					    <form action="{{ app_url_my }}/ajax_refund" class="ui form" method="post" id="refund-form">
+					      <div class="field">
+					        <h5 class="ui header mb-2r">退款理由：</h5>
+					        <textarea name="content" rows="3"></textarea>
+					      </div>
+						  
+						  <div class="nextbtn">
+				              <div class="close-btn">
+				                取消
+				              </div>	
+				              <div class="submit">
+				                提交
+				              </div>
+				          </div>
+						  <!--
+					      <div class="right aligned field ">
+					        <div class="ui gray cancel button">取消</div>
+					        <div class="ui active magenta submit button" >确认退款</div>
+					      </div>-->
+					    </form>
+					</div>
+				</div>
+				
+				
+			</div>
+			
+			
+		</div>
+		
 	</div>
 
   {% if list.rows %}
@@ -329,29 +473,5 @@
     {% include 'block/pager.html' %}
   </div>
   {% endif %}
-
-
-	
-	<!--<div class="row">	
-		<div class="column">
-			<div class="ui segment">
-				{% order_list var:'list' user_id:user.id status:s deleted:'-1' size:10 page:page %}
-				<div class="ui very relaxed divided address list">
-					{% for order in list.rows %}
-						{% include 'mm/order-item.html' %}
-					{% else %}
-					<div class="item">您还没有相关订单</div>
-					{% endfor %}
-				</div>
-			</div>
-			
-			{% if list.rows %}
-			<div class="ui pagination" style="text-align:center;">
-				{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:3 %}
-				{% include 'block/pager.html' %}
-			</div>
-			{% endif %}
-		</div>
-	</div>-->
 </div>
 {% endblock %}

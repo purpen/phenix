@@ -4,7 +4,6 @@
 <style type="text/css">
 #mfrbird{
 	margin-top:0;
-	margin-bottom:3rem;
 }
 h3.ui.header{
 	font-weight:400;
@@ -89,8 +88,8 @@ h3.ui.header{
       height: 4rem;
       min-height: 4rem;
   }
-  .ui.toggle.checkbox.checked input:checked~label:before{
-	  background-color:#21BA45;	
+  .ui.toggle.checkbox input:checked~.box:before, .ui.toggle.checkbox input:checked~label:before{
+  	  background-color:#21BA45;
   }
   .nextbtn{
 	  display: flex;
@@ -140,6 +139,7 @@ h3.ui.header{
   .addressitem{
       display: block;
       padding: 0 !important;
+	  margin-bottom:4rem;
   }
   .addressitem .item{
 	  border-bottom: 1px solid rgba(0,0,0,0.1);
@@ -189,6 +189,7 @@ h3.ui.header{
       flex-grow: 1;
       position: relative;
       margin-left: 0.35725rem;
+	  color: #5d6266;
   }
   .addr span{
 	  font-size:0.92885rem;
@@ -438,78 +439,6 @@ h3.ui.header{
 	</div>
 	
 	<div class="leftadd" id="addbook-form-box">
-    <!--
-		<div class="ui grid m-0">
-			<div class="row">
-				<div class="column">
-					<h4 class="ui header dividing pb-r mt-r">使用新地址</h4>
-				</div>
-			</div>
-			
-			<div class="row pt-0">
-				<div class="column">
-					<form action="{{ app_url_wap }}/app/site/address/ajax_save_address" class="ui form" method="post" id="addbook-form">
-						<input type="hidden" name="_id" />
-						<input type="hidden" name="plat" value="{{ plat }}" />
-						<div class="field mb-2r">
-							<h5 class="ui header mtb-r">收货人姓名</h5>
-					  		<input type="text" name="name" />
-						</div>
-						<div class="field mb-2r">
-							<h5 class="ui header mtb-r">联系电话</h5>
-						  	<input type="text" name="phone" placeholder="11位手机号码" />
-						</div>
-						<div class="field mb-2r">
-							<h5 class="ui header mtb-r">邮政编码</h5>
-						  	<input type="text" name="zip" />
-						</div>
-						
-						<div class="field mb-2r">
-							<h5 class="ui header mtb-r">地址</h5>
-							
-							
-							  <select name="province" value="{{ addbook.province }}" class="choose province">
-								 
-	  						  {% for province in provinces %}
-	                <option{%if province._id==visitor.profile.province_id%} selected="selected"{%endif%} value="{{ province._id }}">{{ province.city }}</option>
-	  						  {% endfor %}
-	  						</select>
-			
-							  <select name="district" id="district-menu" value="{{ addbook.city }}" class="choose city">
-	  						  {% for district in districts %}
-	  						    <option {%if province._id==visitor.profile.district_id%} selected="selected"{%endif%} value="{{ district._id }}">{{ district.city }}</option>
-	  						  {% endfor %}
-							 </select>
-							
-						</div>
-						
-						<div class="field mb-3r">
-							<textarea name="address" class="small">{{ addbook.address }}</textarea>
-						</div>
-						
-		        		<div class="inline field">
-							<div class="ui toggle checkbox {% if addbook.is_default == 1 %} checked {%endif%}">
-								<input name="is_default" type="checkbox" {%if addbook.is_default==1%}checked="checked"{%endif%} value="1">
-								<label>设为默认地址</label>
-						    </div>
-						</div>
-			
-						<div class="nextbtn">
-							<div class="close-btn">
-								取消
-							</div>	
-							<div class="submit">
-								提交
-							</div>
-						</div>
-			
-					</form>
-			
-				</div>
-			</div>
-			
-		</div>
-    -->
 		
 	</div>
 	

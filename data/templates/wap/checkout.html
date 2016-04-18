@@ -2,6 +2,15 @@
 {% block title%}填写订单信息-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+#mmfoot{
+	display:none;
+}
+.ui.header{
+	font-weight:400;
+}
 .celled.goods.list .item{
 	font-size:0;
 	padding:7px 3px !important;
@@ -20,6 +29,197 @@
     text-overflow: ellipsis;
 	line-height: 20px;
 }
+.ui.address.segment{
+	padding:0;
+	text-align:center;
+	border:none;
+	box-shadow: 0 0 0 0 rgba(34,36,38,.15);
+}
+.ui.segment,.ui.styled.accordion{
+	border:none;
+	box-shadow: 0 0 0 0 rgba(34,36,38,.15);
+	border-radius:0;
+	margin:0.7145rem 0;
+}
+.addressitem {
+    display: block;
+    padding: 0 !important;
+	text-align:left;
+}
+.addressitem .item .content {
+    display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+    align-items: center;
+    -webkit-box-align: center;
+    padding: 0.7145rem;
+    background: #fff;
+}
+.addr {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    position: relative;
+    margin-left: 0.35725rem;
+	color: #5d6266;
+}
+.addr span {
+    font-size: 0.92885rem;
+    padding: 0.07145rem 0;
+    display: block;
+}
+.cartitem {
+    display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+    align-items: center;
+    -webkit-box-align: center;
+    background: #fff;
+    padding: 10px;
+}
+.column .cartitem+.cartitem{
+	border-top:1px solid rgba(0,0,0,0.1);
+}
+.cartitem .img img {
+    width: 80px;
+    height: 60px;
+    position: relative;
+}
+.cartitem .cartinfo {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    position: relative;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.cartitem .cartinfo h3.title {
+    font-size: 15px;
+    margin-bottom: 10px;
+    max-height: 38px;
+    overflow: hidden;
+    font-weight: 400;
+}
+.cartitem .cartinfo p.checkt {
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+.cartitem .cartinfo p.price {
+    color: #f36;
+}
+.cartitem .cartinfo p.price .rmb.icon {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    width: auto;
+}
+.ui.form textarea:not([rows]){
+	min-height:6rem;
+	height:6rem;
+}
+.ui.text.bird{
+    margin-top: 8px;
+    font-size: 12px;
+}
+.ui.text.bird span{
+	line-height: 11px;
+    vertical-align: bottom;
+    font-size: 16px;
+	color:#f36;
+}
+.checkdes{
+	padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    width: 100%;
+    height: 50px;
+    z-index: 3;
+    max-width: 767px;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+.checksum{
+	-webkit-box-flex: 2;
+    -webkit-flex: 2;
+    -ms-flex: 2;
+    flex: 2;
+    width: 0;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    max-width: 100%;
+    display: block;
+    padding: 0;
+    position: relative;
+    height: 50px;
+    text-align: left;
+    font-size: 14px;
+    background: #fff;
+    line-height: 50px;
+	padding-left:1.07175rem;
+}
+.checksum span{
+	color: #f36;
+    position: relative;
+}
+.checksum span span {
+    margin-left: 12px;
+}
+.checksum span .rmb.icon{
+    font-size: 14px;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    width: auto;
+	position:absolute;
+}
+.checkbtn{
+	-webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    width: 0;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    max-width: 100%;
+    display: block;
+    padding: 0;
+    position: relative;
+    height: 50px;
+    text-align: center;
+    font-size: 14px;
+    background: #f36;
+    line-height: 50px !important;
+	color:#fff;
+	box-shadow: 0 0 0 0px #f36 inset!important;
+	border-radius:0 !important;
+	padding: 0 !important;
+    margin: 0 !important;
+} 
+
 </style>
 {% endblock %}
 
@@ -153,40 +353,67 @@
 		<input type="hidden" name="rrid" value="{{ order_info.rid }}" />
 		<input type="hidden" name="addbook_id" value="{{ default_addbook._id }}" />
 		
-		<div class="ui responsive grid">
+		<div class="ui responsive grid mt-2r">
 			<div class="row">
 				<div class="column">
-					<h4 class="ui dividing header">确认订单信息</h4>
-					<div class="ui segment">
-						<div class="ui very relaxed divided address list">
-							<div class="item">
-								<div class="right floated">
-									<a href="{{ app_url_wap }}/shop/address?rrid={{ order_info.rid }}&addrid={{ default_addbook._id }}" class="ui magenta icon link">
-										<i class="circle arrow right icon"></i>
-									</a>
-								</div>
-								<div class="content" style="max-width: 196px;">
-									{% if default_addbook %}
-									<div class="header">{{ default_addbook.name }} ({{ default_addbook.phone }})</div>
-									{{ default_addbook.area_province.city}} {{ default_addbook.area_district.city }} {{ default_addbook.address }} ({{ default_addbook.zip }})
-									{% else %}
-									<div class="header">请选择送货地址</div>
-									{% endif %}
+					<h3 class="ui header">确认订单信息</h3>
+				</div>
+			</div>
+			
+			<div class="row pt-0">
+				<div class="column p-0">
+					<div class="ui address mtb-2r segment">
+						<div class="ui vrey relaxed divided address list">
+						
+							{% if default_addbook %}
+							<div class="addressitem">
+								<div class="item">
+									<a class="content" href="">
+										<div class="addr">
+											<h5 class="ui header pt-r mb-2r">{{ default_addbook.name }}</h5>
+											<span>{{ default_addbook.area_province.city}} {{ default_addbook.area_district.city }} </span>
+											<span> {{ default_addbook.address }}</span>
+											<span>{{ default_addbook.phone }}</span>
+										</div>
+										
+										<img src="{{ app_url_packaged }}/images/icon/shipnext.png" width="11px">						</a>
+										
 								</div>
 							</div>
+							
+							{% else %}
+							<a class="ptb-4r plr-3r item" href=" ">
+								<div class="content">
+									<div class="header">
+										<i class="plus icon"></i>请选择送货地址
+									</div>
+								</div>
+							</a>
+							{% endif %}
+								
+								
 						</div>
 					</div>
+					
+					{% for product in products %}
+					<div class="cartitem" id="cart-product-{{ product.target_id }}">
+						<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover }}" alt="{{ product.title }}"></a>
+						<div class="cartinfo">
+							<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.title }}</h3></a>
+			        <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.n }}</p>
+							<p class="price"><i class="rmb icon"></i>  {{ product.total_price }}</p>
+			
+						</div>
+					</div>
+					{% endfor %}
 				
-					<div class="ui segment">
+					<div class="ui mtb-2r segment">
 						<div class="ui very relaxed divided list">
-							<div class="item">
-								<label>支付方式：</label> <span class="ui magenta text">在线支付</span>
-							</div>
 							<div class="item">
 								配送方式： <span class="ui magenta text">免费配送</span>
 							</div>
 							<div class="item">
-								送货时间：
+								配送时间：
 							</div>
 							<div class="item">
 								<div class="ui radio checkbox">
@@ -208,87 +435,72 @@
 							</div>
 						</div>
 					</div>
+					
+  					<div class="ui styled fluid accordion">
+  						<div class="title">
+  							<i class="dropdown icon"></i>
+  							使用红包
+  						</div>
+  						<div class="content">
+  							{% bonus_list var:'bonus' page:1 size:10 user_id:visitor.id used:1 not_expired:1 %}
+  							{% for b in bonus.rows %}
+  							<div class="bonus item" style="margin-bottom:1em;">
+  								<div class="field">
+  									<div class="ui radio checkbox">
+                      <input name="bonus" type="radio" value="{{ b.code }}" class="inbonus" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;"/>
+                      <label style="display:inline-block;">
+                        <span class="ui magenta link text">{{ b.amount }}元</span> <small>{{ b.expired_label }} </small>
+                        <a href="javascript:void(0);" class="ui magenta link code-select" code="{{ b.code }}"> 插入</a>
+                      </label>
+  									</div>
+  								</div>
+  							</div>
+  							{% endfor %}
+						
+  							<div class="ui fluid action input" style="display:inline-block;font-size:0;">
+  							  <input placeholder="输入红包码..." name="bonus_code" type="text" id="bonus-code" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;" />
+  							  <div class="ui active magenta inverted button" id="submit-bonus" style="display:inline-block;">确定</div>
+  							</div>
+  					  </div>
+					
+  						<div class="title">
+  							<i class="dropdown icon"></i>
+  							使用礼品码
+  						</div>
+  						<div class="content">
+  							<div class="ui fluid action input" style="display:inline-block;font-size:0;">
+  							  <input placeholder="输入礼品码..." name="gift_code" type="text" id="gift-code" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;" />
+  							  <div class="ui active magenta inverted button" id="submit-gift" style="display:inline-block;">确定</div>
+  							</div>
+  					  </div>
 
-					<div class="ui segment">
-						<label>备注信息:</label>
+                  {% if item_stage=='exchange' %}
+  						<div class="title">
+  							<i class="dropdown icon"></i>
+  							使用鸟币兑换
+  						</div>
+  						<div class="content">
+                <h5 class="ui header mb-2r">{%if max_bird_coin==min_bird_coin %}可使用鸟币 <span>{{ max_bird_coin }}</span>, {%else%}可使用鸟币范围 <span>[{{ min_bird_coin }},{{ max_bird_coin }}]</span> {%endif%} 当前可用鸟币 <span id="current-bird-coin">{{ current_bird_coin }}</span> 枚</h5>
+  							<div class="ui fluid action input" style="display:inline-block;font-size:0;">
+  							  <input placeholder="输入鸟币..." name="bird_coin" type="text" id="bird-coin" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;" />
+  							  <div class="ui active magenta inverted button" id="submit-bird-coin" style="display:inline-block;">确定</div>
+  							</div>
+  							<p class="ui magenta text bird mt-2r"><span style="font-size: 14px;vertical-align: middle;">*</span>    下单成功后鸟币将不能退还</p>
+  					    </div>
+                {%endif%}
+  					</div>
+					
+					<div class="ui segment" style="margin-bottom:4rem;">
+						<h5 class="ui header mb-2r">备注信息:</h5>
 						<div class="field">
 							<textarea name="summary" class="mini" maxlength="140"></textarea>
 						</div>
 					</div>
-				
-					<div class="ui segment">
-						<label>商品清单：<small>共<b id="cart-items-count" class="money">{{ data.items_count }}</b>件商品</small></label>
-						<div class="ui celled goods list">
-							{% for product in data.items %}
-							<div class="item" id="product_{{ product.sku }}">
-						    	<img class="ui mini image" src="{{ product.cover }}" />
-						    	<div class="content">
-						      		<div class="header">
-										<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
-									</div>
-						      	  	<small class="ui gray text">价格：￥{{ product.sale_price }} </small> <small class="ui gray text">数量：{{ product.quantity }}个</small>
-						    	</div>
-						  	</div>
-							{% endfor %}
-						</div>
-					</div>
 					
-					<div class="ui styled fluid accordion">
-						<div class="active title">
-							<i class="dropdown icon"></i>
-							使用红包
-						</div>
-						<div class="active content">
-							{% bonus_list var:'bonus' page:1 size:10 user_id:visitor.id used:1 not_expired:1 %}
-							{% for b in bonus.rows %}
-							<div class="bonus item" style="margin-bottom:1em;">
-								<div class="field">
-									<div class="ui radio checkbox">
-                    <input name="bonus" type="radio" value="{{ b.code }}" class="inbonus" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;"/>
-                    <label style="display:inline-block;">
-                      <span class="ui magenta text">{{ b.amount }}元</span> <small>{{ b.expired_label }} </small>
-                      <a href="javascript:void(0);" class="code-select" code="{{ b.code }}"> 插入</a>
-                    </label>
-									</div>
-								</div>
-							</div>
-							{% endfor %}
-							
-							<div class="ui fluid action input" style="display:inline-block;font-size:0;">
-							  <input placeholder="输入红包码..." name="bonus_code" type="text" id="bonus-code" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;" />
-							  <div class="ui active magenta inverted button" id="submit-bonus" style="display:inline-block;">确定</div>
-							</div>
-					  </div>
-						
-						<div class="title">
-							<i class="dropdown icon"></i>
-							使用礼品码
-						</div>
-						<div class="content">
-							<div class="ui fluid action input" style="display:inline-block;font-size:0;">
-							  <input placeholder="输入礼品码..." name="gift_code" type="text" id="gift-code" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;" />
-							  <div class="ui active magenta inverted button" id="submit-gift" style="display:inline-block;">确定</div>
-							</div>
-					  </div>
-
-                {% if item_stage=='exchange' %}
-						<div class="title">
-							<i class="dropdown icon"></i>
-							使用鸟币兑换
-						</div>
-						<div class="content">
-              <h4>{%if max_bird_coin==min_bird_coin %}可使用鸟币 <span>{{ max_bird_coin }}</span>, {%else%}可使用鸟币范围 <span>[{{ min_bird_coin }},{{ max_bird_coin }}]</span> {%endif%} 当前可用鸟币 <span id="current-bird-coin">{{ current_bird_coin }}</span> 枚</h4>
-							<div class="ui fluid action input" style="display:inline-block;font-size:0;">
-							  <input placeholder="输入鸟币..." name="bird_coin" type="text" id="bird-coin" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;" />
-							  <div class="ui active magenta inverted button" id="submit-bird-coin" style="display:inline-block;">确定</div>
-							</div>
-							<p class="ui magenta text"><b style="font-size: 20px;vertical-align: middle;">*</b>    下单成功后鸟币将不能退还</p>
-					    </div>
-              {%endif%}
-					</div>
+					
 			
 				
-					<div class="ui segment">
+					<!--<div class="ui segment">
 						<div class="ui very relaxed divided money list">
 							<div class="item">
 								<div class="right floated">
@@ -323,11 +535,18 @@
 								</div>
 							</div>
 						</div>
+					</div>-->
+					
+					<div class="checkdes">
+						<div class="checksum">
+							节省：<span><i class="rmb icon"></i><span id="order-discount-money">{{ data.discount|default 0 }}</span></span>&nbsp;&nbsp;
+							合计：<span><i class="rmb icon"></i><span id="order-pay-money">{{ pay_money }}</span></span>
+						</div>
+						<div class="checkbtn ui active fluid magenta submit inverted button">
+							去结算
+						</div>
 					</div>
-				
-					<div class="ui active fluid magenta submit inverted button">
-						去结算
-					</div>
+					
 				</div>
 			</div>
 		</div>
