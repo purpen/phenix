@@ -280,29 +280,13 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         
         // 过滤多余属性
         $filter_fields  = array('type', 'cover_id', 'cover', '__extend__');
-        
-        $cover = array(
-            'mini_view_url' => $result['cover']['thumbnails']['mini']['view_url'],
-            'tiny_view_url' => $result['cover']['thumbnails']['tiny']['view_url'],
-            'small_view_url' => $result['cover']['thumbnails']['small']['view_url'],
-            'medium_view_url' => $result['cover']['thumbnails']['medium']['view_url'],
-            'large_view_url' => $result['cover']['thumbnails']['large']['view_url'],
-            'big_view_url' => $result['cover']['thumbnails']['big']['view_url'],
-            'huge_view_url' => $result['cover']['thumbnails']['huge']['view_url'],
-            'massive_view_url' => $result['cover']['thumbnails']['massive']['view_url'],
-            'resp_view_url' => $result['cover']['thumbnails']['resp']['view_url'],
-            'hd_view_url' => $result['cover']['thumbnails']['hd']['view_url'],
-            'md_view_url' => $result['cover']['thumbnails']['md']['view_url'],
-            'hm_view_url' => $result['cover']['thumbnails']['hm']['view_url'],
-            'ava_view_url' => $result['cover']['thumbnails']['ava']['view_url'], 
-        );
+		
+		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
         
         for($i=0;$i<count($filter_fields);$i++){
             $key = $filter_fields[$i];
             unset($result[$key]);
         }
-        
-        $result['cover'] = $cover;
         
         //print_r($result);exit;
         return $this->api_json('请求成功', false, $result);
