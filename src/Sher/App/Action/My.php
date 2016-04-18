@@ -1136,7 +1136,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     if ($order['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
         return $this->ajax_json('该订单出现异常，请联系客服！', true);
     }
-    $options = array('refund_reason'=>$content);
+    $options = array('refund_reason'=>$refund_content, 'refund_option'=>$refund_reason);
     try {
         // 申请退款
         $ok = $orders_model->refunding_order($order['_id'], $options);
