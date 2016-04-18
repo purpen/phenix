@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title%}订单查询-{% endblock %}
+{% block title%}我的订单-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 #mfrbird{
@@ -183,7 +183,7 @@
       $.post(url, {rid: rid, from_to: 2}, function(result){
         if(result.success){
           $('#order-'+rid).remove();
-          phenix.redirect(redirect_url);
+          phenix.redirect(result.redirect_url);
         }else{
           phenix.show_error_note(result.message, 3000);  
         }
