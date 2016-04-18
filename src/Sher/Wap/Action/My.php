@@ -16,6 +16,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		'id' => null,
 		'view_page' => null,
 		's' => 0,
+    'rid' => null,
 	);
 	
 	protected $page_tab = 'page_my';
@@ -150,18 +151,36 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		$status = $this->stash['s'];
 		
 		switch($status){
-			case 1:
-				$this->set_target_css_state('nopayed');
-				break;
-			case 9: // 已关闭订单：取消的订单、过期的订单
-				$this->set_target_css_state('closed');
-				break;
-			case 4:
-				$this->set_target_css_state('finished');
-				break;
-			default:
-				$this->set_target_css_state('all');
-				break;
+            case 1:
+                $this->set_target_css_state('nopayed');
+                break;
+            case 2:
+                $this->set_target_css_state('ready_goods');
+                break;
+            case 3:
+                $this->set_target_css_state('sended_goods');
+                break;
+            case 9: // 已关闭订单：取消的订单、过期的订单
+                $this->set_target_css_state('closed');
+                break;
+            case 4:
+                $this->set_target_css_state('finished');
+                break;
+            case 5:
+                $this->set_target_css_state('refunding');
+                break;
+            case 6:
+                $this->set_target_css_state('refunded');
+                break;
+            case 7:
+                $this->set_target_css_state('evaluate');
+                break;
+            case 8:
+                $this->set_target_css_state('return');
+                break;
+            default:
+                $this->set_target_css_state('all');
+                break;
 		}
 		
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.wap'].'/my/orders?s=%s&page=#p#', $status);
@@ -189,6 +208,26 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 			return $this->show_message_page('你没有权限查看此订单！');
 		}
 		
+    $product_model = new Sher_Core_Model_Product();
+    $sku_model = new Sher_Core_Model_Inventory();
+    for($i=0;$i<count($order_info['items']);$i++){
+      $d = $product_model->extend_load((int)$order_info['items'][$i]['product_id']);
+      if(!empty($d)){
+        $sku_mode = null;
+        if($order_info['items'][$i]['sku']!=$order_info['items'][$i]['product_id']){
+          $sku = $sku_model->find_by_id($order_info['items'][$i]['sku']);
+          if(!empty($sku)){
+            $sku_mode = $sku['mode'];
+          }
+        }
+        $order_info['items'][$i]['name'] = $d['title']; 
+        $order_info['items'][$i]['wap_view_url'] = $d['wap_view_url']; 
+        $order_info['items'][$i]['sku_name'] = $sku_mode; 
+        $order_info['items'][$i]['subtotal'] = (float)$order_info['items'][$i]['sale_price']*$order_info['items'][$i]['quantity']; 
+        $order_info['items'][$i]['cover_url'] = $d['cover']['thumbnails']['mini']['view_url'];
+      }
+    }
+
 		$this->stash['order_info'] = $order_info;
 		
 		return $this->to_html_page("wap/my/order_view.html");
@@ -206,6 +245,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	 * 订单评价
 	 */
 	public function evaluate(){
+		$this->set_target_css_state('user_evaluate');
 		$rid = $this->stash['rid'];
 		if (empty($rid)) {
 			return $this->show_message_page('操作不当，请查看购物帮助！');
@@ -228,35 +268,6 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		return $this->to_html_page("wap/evaluate.html");
 	}
 	
-	/**
-	 * 确认收货
-	 */
-	public function ajax_take_delivery(){
-		$rid = $this->stash['rid'];
-		if (empty($rid)) {
-			return $this->ajax_notification('操作不当，请查看购物帮助！', true);
-		}
-		$model = new Sher_Core_Model_Orders();
-		$order_info = $model->find_by_rid($rid);
-		
-		// 检查是否具有权限
-		if ($order_info['user_id'] != $this->visitor->id && !$this->visitor->can_admin()) {
-			return $this->ajax_notification('操作不当，你没有权限关闭！', true);
-		}
-		
-		// 已发货订单才允许确认
-		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_SENDED_GOODS){
-			return $this->ajax_notification('该订单出现异常，请联系客服！', true);
-		}
-		try {
-			// 待评价订单
-			$ok = $model->evaluate_order($order_info['_id']);
-        } catch (Sher_Core_Model_Exception $e) {
-            return $this->ajax_notification('设置订单失败:'.$e->getMessage(),true);
-        }
-		
-		return $this->to_taconite_page('ajax/finished_ok.html');
-	}
 	
 	/**
 	 * 取消订单
@@ -284,7 +295,6 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
         } catch (Sher_Core_Model_Exception $e) {
             return $this->ajax_notification('取消订单失败:'.$e->getMessage(),true);
         }
-		
 		return $this->to_taconite_page('ajax/reload.html');
 	}
 	

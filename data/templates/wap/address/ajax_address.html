@@ -1,0 +1,133 @@
+<taconite>
+	{% if action == 'edit_address' %}
+	<replace select="#addbook-form-box">
+		<div class="leftadd" id="addbook-form-box">
+			<div class="ui grid m-0">
+				<div class="row">
+					<div class="column">
+						<h4 class="ui header dividing pb-r mt-r">编辑地址</h4>
+					</div>
+				</div>
+				<div class="row pt-0">
+					<div class="column">
+						<form action="{{ action_url }}" class="ui form" method="post" id="addbook-form">
+							<input type="hidden" name="_id" value="{{ addbook._id }}" />
+							<input type="hidden" name="plat" value="{{ plat }}" />
+							<div class="field mb-2r">
+								<h5 class="ui header mtb-r">收货人姓名</h5>
+						  		<input type="text" name="name" value="{{ addbook.name }}" />
+							</div>
+							<div class="field mb-2r">
+								<h5 class="ui header mtb-r">联系电话</h5>
+							  	<input type="text" name="phone" placeholder="11位手机号码" value="{{ addbook.phone }}" />
+							</div>
+							<div class="field mb-2r">
+								<h5 class="ui header mtb-r">邮政编码</h5>
+							  	<input type="text" name="zip" value="{{ addbook.zip }}" />
+							</div>
+						
+							<div class="field mb-2r">
+								<h5 class="ui header mtb-r">地址</h5>
+								<div class="ui selection province dropdown">
+									<input type="hidden" name="province" value="{{ addbook.province }}" />
+		
+								    <div class="default text">省份/自治区</div>
+								    <i class="angle dropdown icon"></i>
+								    <div class="menu">
+										{% for province in provinces %}
+								        <div data-value="{{ province._id }}" class="{% if province._id == addbook.province %}active{%endif%} item">{{ province.city }}</div>
+										{% endfor %}
+								    </div>
+								</div>
+								<div class="ui selection district dropdown" id="district-menu">
+									<input type="hidden" name="city" value="{{ addbook.city }}" />
+								    <div class="default text">地区区域</div>
+								    <i class="angle dropdown icon"></i>
+								    <div class="menu">
+										{% for district in districts %}
+								        <div data-value="{{ district._id }}" class="{% if district._id == addbook.city %}active{%endif%} item">{{ district.city }}</div>
+										{% endfor %}
+								    </div>
+								</div>
+							</div>
+						
+							<div class="field mb-3r">
+								<textarea name="address" class="small">{{ addbook.address }}</textarea>
+							</div>
+						
+			        		<div class="inline field">
+								<div class="ui toggle checkbox {% if addbook.is_default == 1 %} checked {%endif%}">
+									<input name="is_default" type="checkbox" {%if addbook.is_default==1%}checked="checked"{%endif%} value="1" />
+									<label>设为默认地址</label>
+							    </div>
+							</div>
+			
+							<div class="nextbtn">
+								<div class="close-btn">
+									取消
+								</div>	
+								<div class="submit">
+									提交
+								</div>
+							</div>
+							
+							
+						</from>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	
+	</replace>
+	{% endif %}
+	{% if mode == 'edit' %}
+	<replace select="#{{ id }}">
+	{% endif %}
+	
+	{% if updated_default_ids %}
+		{% for updated_id in updated_default_ids %}
+			<removeClass select="#{{ updated_id }}" value="active" />
+		{% endfor %}
+	{% endif %}
+	
+	{% if mode == 'create' %}
+	<append select="#address-list"><![CDATA[
+	{% endif %}
+		<div class="item {% if address.is_default %}active {% endif %}" id="{{ address._id }}" data-id="{{ address._id }}">
+			<div class="content">
+				<div class="addr">
+					<h5 class="ui header pt-r mb-2r">{{ address.name }}</h5>
+					<span>{{ address.area_province.city}} {{ address.area_district.city }}</span>
+					<span> {{ address.address }} </span>
+					<span>{{ address.phone }}</span>
+				</div>
+		
+			</div>
+			<div class="actions">
+				{% if addbook.is_default == 1 %}
+				<img src="{{ app_url_packaged }}/images/icon/is_default.png" width="71">
+				{% endif %}
+				<div class="revise">
+					<a class="ui small gray icon edit button" data-id="{{ address._id }}">
+						<i class="edit icon"></i>&nbsp;&nbsp;编辑
+					</a>
+					<a class="ui small gray icon remove button" data-id="{{ address._id }}">
+						<i class="remove icon"></i>&nbsp;&nbsp;删除
+					</a>
+				</div>
+			</div>
+		</div>
+	{% if mode == 'edit' %}
+	</replace>
+	{% endif %}
+
+	{%  %}
+	]]></append>
+	{% endif %}
+
+	<eval>
+		$('#shipping').removeClass('addshow');
+		$('#addbook-form').clearForm();
+	</eval>
+</taconite>
