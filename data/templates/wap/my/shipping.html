@@ -261,6 +261,7 @@ h3.ui.header{
         $('#district-menu').html(html);
       }else{
         phenix.show_error_note(result.message, 3000);
+      }
     }, 'json');
   }
 
@@ -271,8 +272,11 @@ h3.ui.header{
 	$('.addflex').bind('click',function(){
     load_address_mode('');
 	});
-	$('.leftadd .close-btn').bind('click',function(){
-		$('#shipping').removeClass('addshow');
+
+	$('.leftadd .close-btn').livequery(function(){
+    $(this).bind('click',function(){
+      $('#shipping').removeClass('addshow');
+    });
 	});
 	// 编辑
 	$('.ui.edit.button').livequery(function(){
