@@ -223,6 +223,10 @@
     margin-bottom: 8px;
 	font-size:12px !important;
 }
+.refund_content{
+  display: none;
+}
+
 </style>
 {% endblock %}
 
@@ -260,8 +264,12 @@
   });
   
   //申请退款
-  $('.apply-refund').bind('click',function(){
-  	$('#orderitem').addClass('showbt');
+	$('.apply-refund').livequery(function(){
+    $(this).bind('click',function(){
+      var rid = $(this).attr('rid');
+      $('[name=refund_rid]').val(rid);
+      $('#orderitem').addClass('showbt');
+    });
   });
   $('.close-btn').bind('click',function(){
   	$('#orderitem').removeClass('showbt');
@@ -271,10 +279,6 @@ $('#refund-form').form({
 		identifier  : 'content',
 		rules: [
 			{
-				type   : 'empty',
-				prompt : '退款理由不能为空'
-			},
-			{
 				type   : 'maxLength[140]',
 				prompt : '内容不超过140字符'
 			}
@@ -283,8 +287,23 @@ $('#refund-form').form({
 }, {
 	inline : true,
 	onSuccess: function(event){
-		event.preventDefault();
-		$(event.target).ajaxSubmit();
+    event.preventDefault();
+    $(this).ajaxSubmit({
+      dataType: 'json',
+      beforeSubmit: function(){
+      },
+      success: function(result){
+        if(data.is_error){
+          $(event.target).addClass('error');
+          phenix.show_error_note(result.message, event.target);
+        }else{
+          $('#order-'+result.data.rid).find('.order_label_txt').text('退款中');
+          $('#order-'+result.data.rid).find('.status_btn_box').hide();
+          $('#shipping').removeClass('addshow');
+          phenix.show_ok_note('操作成功,请等待客服处理!', 3000);
+        }
+      }
+    });
 	}
 });
 
@@ -302,6 +321,16 @@ $('#refund-form').form({
         }
       }, 'json');
     });
+  });
+
+  // 退款选项
+  $('#refund_reason_select').change(function(){
+    var refund_type = $(this).val();
+    if(refund_type==2){
+      $('.refund_content').show();
+    }else{
+      $('.refund_content').hide();
+    }
   });
 
 {% endblock %}
@@ -356,7 +385,7 @@ $('#refund-form').form({
 			
 			<div class="ordertop">
 				<span class="ui line fz-12">{{ order.created_on|date 'Y/m/d' }}</span>
-				<span class="ui magenta link fz-12 flt-r">{{ order.status_label }}</span>
+				<span class="ui magenta link fz-12 flt-r order_label_txt">{{ order.status_label }}</span>
 			</div>
 			
 			{% for item in order.items %}
@@ -394,7 +423,7 @@ $('#refund-form').form({
 				<p>共{{ order.items_count }}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
 			</div>
 			
-			<div class="orderbottom">
+			<div class="orderbottom status_btn_box">
 				{% if my %}
           {% if order.status == '-1' %}
             <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
@@ -444,17 +473,18 @@ $('#refund-form').form({
 				
 				<div class="row pt-0">
 					<div class="column">
-					    <form action="{{ app_url_my }}/ajax_refund" class="ui form" method="post" id="refund-form">
+					    <form action="{{ app_url_wap }}/app/site/my/ajax_refund" class="ui form" method="post" id="refund-form">
+                <input type="hidden" name="refund_rid" value="" />
 					      <div class="field">
 					        <h5 class="ui header mb-2r">退款理由：</h5>
-							<select name=" " value="3" id=" " class="refundwhy">
+							<select name="refund_reason" value="0" id="refund_reason_select" class="refundwhy">
 				                <option value="1">我不想要了</option>
-				                <option value="2">其他</option>
+				                <option value="0">其他</option>
 											
 											
 							</select>
 							
-					        <textarea name="content" rows="3"></textarea>
+					        <textarea class="refund_content" name="refund_content" rows="3"></textarea>
 					      </div>
 						  
 						  
