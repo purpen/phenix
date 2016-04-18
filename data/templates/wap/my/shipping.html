@@ -4,6 +4,7 @@
 <style type="text/css">
 #mfrbird{
 	margin-top:0;
+	margin-bottom:3rem;
 }
 h3.ui.header{
 	font-weight:400;
@@ -410,7 +411,21 @@ h3.ui.header{
 						
 						<div class="field mb-2r">
 							<h5 class="ui header mtb-r">地址</h5>
-							<div class="ui selection province dropdown">
+							
+							
+							  <select style="width:49%;" name="province" value="{{ addbook.province }}" class="choose province ui selection province dropdown">
+								 
+	  						  {% for province in provinces %}
+	                <option{%if province._id==visitor.profile.province_id%} selected="selected"{%endif%} value="{{ province._id }}">{{ province.city }}</option>
+	  						  {% endfor %}
+	  						</select>
+			
+							  <select name="district" id="district-menu" value="{{ addbook.city }}" style="width:49%;" class="ui selection province dropdown">
+	  						  {% for district in districts %}
+	  						    <option value="{{ district._id }}">{{ district.city }}</option>
+	  						  {% endfor %}
+							
+							<!--<div class="ui selection province dropdown">
 								<input type="hidden" name="province" value="{{ addbook.province }}" />
 		
 							    <div class="default text">省份/自治区</div>
@@ -421,7 +436,7 @@ h3.ui.header{
 									{% endfor %}
 							    </div>
 							</div>
-	
+							
 							<div class="ui selection district dropdown" id="district-menu" style="float:right;">
 								<input type="hidden" name="city" value="{{ addbook.city }}" />
 							    <div class="default text">地区区域</div>
@@ -431,7 +446,7 @@ h3.ui.header{
 							        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
 									{% endfor %}
 							    </div>
-							</div>
+							</div>-->
 						</div>
 						
 						<div class="field mb-3r">
