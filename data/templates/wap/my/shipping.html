@@ -260,11 +260,11 @@ h3.ui.header{
         result.data.app_url_wap = "{{ app_url_wap }}";
         result.data.results.app_url_packaged = "{{ app_url_packaged }}";
         if(rid != ''){
-          result.data.results.is_from_order = true;
-          result.data.results.rrid = rid;
+          result.data.is_from_order = true;
+          result.data.rrid = order_rid;
         }else{
-          result.data.results.is_from_order = false;
-          result.data.results.rid = '';       
+          result.data.is_from_order = false;
+          result.data.rrid = '';       
         }
         var rendered = phenix.ajax_render_result('#fetch_address_list_tpl', result.data);
         $('#address-list-box').html(rendered); 
