@@ -274,38 +274,39 @@
   $('.close-btn').bind('click',function(){
   	$('#orderitem').removeClass('showbt');
   });
-$('#refund-form').form({
-	refund_content: {
-		identifier  : 'refund_content',
-		rules: [
-			{
-				type   : 'maxLength[140]',
-				prompt : '内容不超过140字符'
-			}
-		]
-	}
-}, {
-	inline : true,
-	onSuccess: function(event){
-    event.preventDefault();
-    $(this).ajaxSubmit({
-      dataType: 'json',
-      beforeSubmit: function(){
-      },
-      success: function(result){
-        if(result.is_error){
-          $(event.target).addClass('error');
-          phenix.show_error_note(result.message, event.target);
-        }else{
-          $('#order-'+result.data.rid).find('.order_label_txt').text('退款中');
-          $('#order-'+result.data.rid).find('.status_btn_box').hide();
-          $('#orderitem').removeClass('addshow');
-          phenix.show_ok_note('操作成功,请等待客服处理!', 3000);
+
+  $('#refund-form').form({
+    refund_content: {
+      identifier  : 'refund_content',
+      rules: [
+        {
+          type   : 'maxLength[140]',
+          prompt : '内容不超过140字符'
         }
-      }
-    });
-	}
-});
+      ]
+    }
+  }, {
+    inline : true,
+    onSuccess: function(event){
+      event.preventDefault();
+      $(this).ajaxSubmit({
+        dataType: 'json',
+        beforeSubmit: function(){
+        },
+        success: function(result){
+          if(result.is_error){
+            $(event.target).addClass('error');
+            phenix.show_error_note(result.message, event.target);
+          }else{
+            $('#order-'+result.data.rid).find('.order_label_txt').text('退款中');
+            $('#order-'+result.data.rid).find('.status_btn_box').hide();
+  	        $('#orderitem').removeClass('showbt');
+            phenix.show_ok_note('操作成功,请等待客服处理!', 3000);
+          }
+        }
+      });
+    }
+  });
 
   // 确认收货
 	$('.take_delivery_btn').livequery(function(){
