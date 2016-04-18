@@ -264,10 +264,23 @@ h3.ui.header{
 		}, {
 			inline : true,
 			onSuccess: function(event){
-				event.preventDefault();
-				$(this).ajaxSubmit();
-				$('#shipping').removeClass('addshow');
-				$('.ui.toggle.checkbox').removeClass('checked');
+			event.preventDefault();
+        $(this).ajaxSubmit({
+          dataType: 'json',
+          beforeSubmit: function(){
+            //phenix.before_submit();
+          },
+          success: function(data){
+            if(data.is_error){
+              //phenix.after_submit();
+              $(event.target).addClass('error');
+              phenix.show_error_note(data.message, event.target);
+            }else{
+              $('#shipping').removeClass('addshow');
+              $('.ui.toggle.checkbox').removeClass('checked');
+            }
+          }
+        });
 			}
 		});
 	});
@@ -392,7 +405,7 @@ h3.ui.header{
 			
 			<div class="row pt-0">
 				<div class="column">
-					<form action="{{ app_url_wap }}/app/site/address/ajax_address" class="ui form" method="post" id="addbook-form">
+					<form action="{{ app_url_wap }}/app/site/address/ajax_save_address" class="ui form" method="post" id="addbook-form">
 						<input type="hidden" name="_id" />
 						<input type="hidden" name="plat" value="{{ plat }}" />
 						<div class="field mb-2r">

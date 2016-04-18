@@ -102,7 +102,7 @@
 		<div class="row">
 			<div class="column">
 				<h5 class="ui dividing header">选择收货地址</h5>
-				{% addbooks_list var:'addresses' user_id:visitor.id size:10 %}
+				{% addbooks_list var:'addresses' user_id:visitor.id size:6 %}
 				<div class="ui segment">
 					<div class="ui very relaxed divided address selection list" id="address-list">
 						{% for address in addresses.rows %}
