@@ -212,7 +212,7 @@ h3.ui.header{
       transition: box-shadow .1s ease,width .1s ease;
       background: #fff !important;
       display: inline-block !important;
-	  width:49%;
+	  width:49% !important;
 	  height: 2.7142em !important;
 	  margin-bottom:8px;
   }
@@ -441,7 +441,7 @@ h3.ui.header{
 							<h5 class="ui header mtb-r">地址</h5>
 							
 							
-							  <select style="width:49%;" name="province" value="{{ addbook.province }}" class="choose province">
+							  <select name="province" value="{{ addbook.province }}" class="choose province">
 								 
 	  						  {% for province in provinces %}
 	                <option{%if province._id==visitor.profile.province_id%} selected="selected"{%endif%} value="{{ province._id }}">{{ province.city }}</option>
