@@ -31,4 +31,4 @@ class Sher_Core_Service_AddBooks extends Sher_Core_Service_Base {
     }
 
 }
-?>
+

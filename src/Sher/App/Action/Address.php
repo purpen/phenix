@@ -341,7 +341,51 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
     return $this->ajax_json('success!', false, 0, $address); 
   }
 
-	
+  /**
+   * ajax加载地址列表
+   */
+  public function ajax_fetch_list(){
+    $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+    $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 10;
+    $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+    $service = Sher_Core_Service_AddBooks::instance();
+    $query = array();
+    $options = array();
+
+    $query['user_id'] = $this->visitor->id;
+
+    // 排序
+    switch ($sort) {
+      case 0:
+        $options['sort_field'] = 'latest';
+        break;
+    }
+    
+    $options['page'] = $page;
+    $options['size'] = $size;
+    
+    $result = $service->get_address_list($query, $options);
+    //组织数据
+
+    for($i=0;$i<count($result['rows']);$i++){
+      $result['rows'][$i]['_id'] = (string)$result['rows'][$i]['_id'];
+      $result['rows'][$i]['is_default_label'] = !empty($result['rows'][$i]['is_default']) ? true : false;
+
+      // 过滤用户表
+      if(isset($result['rows'][$i]['user'])){
+        $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
+      }
+
+    } // end for
+    
+    $data['page'] = $page;
+    $data['sort'] = $sort;
+    $data['size'] = $size;
+    $data['results'] = $result;
+    
+    return $this->ajax_json('', false, '', $data);
+  }
+
   /**
    * 修改配送地址
    */
