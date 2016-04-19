@@ -24,6 +24,13 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
         if (!empty($user_id)) {
             $user = new Sher_Core_Model_User();
             $row = $user->load((int)$user_id);
+
+            // 判断用户状态
+            if($row['state'] == Sher_Core_Model_User::STATE_DISABLED){
+              $index_url = Doggy_Config::$vars['app.url.domain'];
+              return $this->to_redirect($index_url);
+            }
+
             if(!empty($row)){
                 $this->stash['user'] = $user->extended_model_row($row);
             }

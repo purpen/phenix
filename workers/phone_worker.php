@@ -76,6 +76,8 @@ try{
     
 }catch(Sher_Core_Model_Exception $e){
     echo "Create the phone[$account] failed: ".$e->getMessage();
+}catch(Exception $e){
+    echo "Create the phone[$account] failed.: ".$e->getMessage();
 }
 
 echo "===========================PHONE WORKER DONE==================\n";
