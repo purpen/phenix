@@ -607,6 +607,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 	public function snatched_list(){
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
+
+    $user_id = $this->current_user_id;
 		
 		$some_fields = array(
       '_id'=>1, 'title'=>1, 'short_title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1,
@@ -653,6 +655,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$options['some_fields'] = $some_fields;
 		// 开启查询
     $product_model = new Sher_Core_Model_Product();
+    $support_model = new Sher_Core_Model_Support();
     $service = Sher_Core_Service_Product::instance();
     $result = $service->get_product_list($query, $options);
 		
@@ -691,10 +694,15 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         $data[$i]['app_snatched_time_lag'] = 0;
       }
 
-      // 新品标识--非闪购产品且一个月内上的产品
-      if(empty($data[$i]['is_app_snatched'])){
-        $data[$i]['is_news'] = $data[$i]['created_on']>(time()-2592000) ? 1 : 0;
+      // 用户是否设置闪购提醒
+      $data[$i]['is_app_snatched_alert'] = 0;
+      if($data[$i]['is_app_snatched'] && $user_id){
+        $has_one = $support_model->check_voted($user_id, $data[$i]['_id'], Sher_Core_Model_Support::EVENT_APP_ALERT);
+        if($has_one){
+          $data[$i]['is_app_snatched_alert'] = 1; 
+        }
       }
+
 		} // endfor
 		$result['rows'] = $data;
 		
