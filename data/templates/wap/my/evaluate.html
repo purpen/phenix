@@ -1,0 +1,139 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}发表评价-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+    margin: 0 auto;
+    position: relative;
+}
+#mmfoot{
+	display:none;
+	visibility: hidden;
+}
+#ratedpage{
+	position:relative;
+	height:100%;
+}
+.ui.header{
+	font-weight:400;
+}
+.cartmain {
+    display: block;
+    margin-top: 1.07175rem;
+    padding: 0;
+}
+.cartitem {
+    display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+    align-items: center;
+    -webkit-box-align: center;
+    background: #fff;
+    margin-bottom: 0.7145rem;
+    padding: 0.7145rem;
+}
+.cartitem .img img {
+    width: 80px;
+    height: 60px;
+    position: relative;
+	vertical-align: bottom;
+}
+.cartitem .cartinfo {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    position: relative;
+    margin-right: 0.7145rem;
+    margin-left: 1.07175rem;
+}
+.cartitem .cartinfo h5.title{
+    margin-bottom: 0.7145rem;
+    max-height: 38px;
+    overflow: hidden;
+    font-weight: 400;
+	padding: 3px 0;
+	margin-top:0;
+}
+.white.background{
+	background:#fff;
+}
+
+.retade.magenta.button{
+	border-radius:0;
+	position:fixed;
+	bottom:0;
+	max-width:767px;
+	height:3.5725rem;
+}
+
+
+</style>
+{% endblock %}
+{% block jquery %}
+	$('.ui.write.rating').rating({
+		onRate: function(value){
+			$(this).parents('.cartinfo').find('.comment-star').val(value);
+		}
+	});
+
+
+{% endblock %}
+{% block content %}
+<div id="ratedpage">
+	<div class="cartmain">
+		<form class="ui evaluate form" action="{{ app_url_shop }}/edit_ajax_evaluate" method="post" id="{{ product._id }}">
+			<input type="hidden" name="target_id" value="{{ product._id }}" />
+			<input type="hidden" name="type" value="4" />
+			<div class="cartitem">
+				<div class="img"> 
+					<img src="{{ product.cover.thumbnails.mini.view_url }}">
+				</div>
+				<div class="cartinfo">
+				
+					<h5 class="title">评分</h5>
+					<input type="hidden" name="star" class="comment-star" />
+					<div class="rate">
+					  	<div class="ui star large write rating">
+					    	<i class="icon"></i>
+					   		<i class="icon"></i>
+					    	<i class="icon"></i>
+					    	<i class="icon"></i>
+					    	<i class="icon"></i>
+					  	</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="ui responsive grid pb-2r white background">
+				<div class="row">
+					<div class="column">
+						<h5 class="ui header mt-r mb-2r">写下你对商品的感受，对他人帮助很大。</h5>
+						<textarea name="content" class="comment-textarea" ></textarea>
+					</div>
+					
+					
+				</div>
+				<div class="row pt-0">
+					<div class="column">
+						<small class="ui magenta link"> 插入图片</small>
+					</div>
+				</div>
+				
+				<input type="submit" class="ui retade fluid magenta inverted active button" value="提交评价" />
+				
+			</div>
+			
+			
+		</form>
+	</div>
+
+
+
+</div>
+{% endblock %}

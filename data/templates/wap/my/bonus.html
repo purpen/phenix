@@ -57,7 +57,7 @@ h3.ui.header{
 			{% endfor %}
 			
 			{% if bonus.total_rows > 10 %}
-			<div class="ui pagination">
+			<div class="ui pagination mt-3r" style="text-align:center;">
 				{% pager url:pager_url,total_rows:bonus.total_rows,total_page:bonus.total_page,current_page:page, var:'pager',pager_size:9 %}
 				{%include 'block/pager.html'%}
 			</div>
