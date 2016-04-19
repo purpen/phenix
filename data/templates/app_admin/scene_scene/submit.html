@@ -104,11 +104,11 @@
 				dataType: 'json',
 				beforeSubmit: function(){
 					// 点击前触发的事件
-					//phenix.before_submit();
+					phenix.before_submit();
 				},
 				success: function(data){
 					// 点击后触发的事件
-					//phenix.after_submit();
+					phenix.after_submit();
 					if(data.is_error){
 						$(event.target).addClass('error');
 						phenix.show_error_note(data.message, 3000);
@@ -146,7 +146,7 @@
 		
 		setTimeout(function(){
 			// 创建标注
-			var choose_point = new BMap.Point({{ date.location.coordinates.lng }},{{ date.location.coordinates.lat }});
+			var choose_point = new BMap.Point({{ date.location.coordinates.1 }},{{ date.location.coordinates.0 }});
 			map.centerAndZoom(choose_point, 16);
 			
 			var marker = new BMap.Marker(choose_point);
@@ -335,7 +335,7 @@
 		</a>
 	  	<div class="right menu">	
 			<a href="{{ app_url_app_admin_base }}/scene_scene/add" class="item">
-				<i class="add icon"></i>情景语境
+				<i class="add icon"></i>添加情景
 			</a>
 			<!--
             <a href="javascript:void(0);" class="item ajax-delete">
@@ -408,8 +408,8 @@
 			<div class="field">
                 <label>情景地址</label>
 				<input type="text" id="address" name="address" placeholder="情景地址" value="{{ date.address }}" />
-				<input type="hidden" name="lat" value="{{ date.location.coordinates.lat }}" />
-				<input type="hidden" name="lng" value="{{ date.location.coordinates.lng }}" />
+				<input type="hidden" name="lng" value="{{ date.location.coordinates.0 }}" />
+				<input type="hidden" name="lat" value="{{ date.location.coordinates.1 }}" />
 				<div type="button" value="按钮" class="map-box-btn" /></div>
             </div>
 			<div id="allmap" style="height:400px;width:100%; margin-bottom: 20px"></div>

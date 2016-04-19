@@ -102,11 +102,25 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
         $service = Sher_Core_Service_Favorite::instance();
         $result = $service->get_like_list($query, $options);
 		
+		
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
 			$result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
-			//unset($result['rows'][$k]['user']);
+			$user = array();
+			$user['user_id'] = $result['rows'][$k]['user']['_id'];
+			$user['account'] = $result['rows'][$k]['user']['account'];
+			$user['nickname'] = $result['rows'][$k]['user']['nickname'];
+			$user['avatar_url'] = $result['rows'][$k]['user']['big_avatar_url'];
+			$user['summary'] = $result['rows'][$k]['user']['summary'];
+			$user['counter'] = $result['rows'][$k]['user']['counter'];
+			$user['follow_count'] = $result['rows'][$k]['user']['follow_count'];
+			$user['fans_count'] = $result['rows'][$k]['user']['fans_count'];
+			$user['love_count'] = $result['rows'][$k]['user']['love_count'];
+			$user['user_rank'] = $result['rows'][$k]['user_ext']['user_rank']['title'];
 			unset($result['rows'][$k][$type]);
+			unset($result['rows'][$k]['user_ext']);
+			
+			$result['rows'][$k]['user'] = $user;
 		}
 		
 		// 过滤多余属性
