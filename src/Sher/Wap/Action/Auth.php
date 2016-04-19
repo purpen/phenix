@@ -1177,11 +1177,12 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     $data = array(
       'user_id' => $user_id,
       'kind' => (int)$from_origin,
+      'target_id' => 2,
       'ip' => Sher_Core_Helper_Auth::get_ip(),
     );
     $ok = $third_site_stat_model->create($data);
 		// 清除cookie值
-		setcookie('from_origin', '', time()-99999999, '/');
+		setcookie('from_origin', '', time()-99999, '/');
   }
 
 }

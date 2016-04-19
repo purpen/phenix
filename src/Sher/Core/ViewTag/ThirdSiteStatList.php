@@ -20,6 +20,7 @@ class Sher_Core_ViewTag_ThirdSiteStatList extends Doggy_Dt_Tag {
         $size = 50;
 
         $kind = 0;
+        $target_id = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -35,6 +36,9 @@ class Sher_Core_ViewTag_ThirdSiteStatList extends Doggy_Dt_Tag {
 
         if($kind){
           $query['kind'] = (int)$kind;
+        }
+        if($target_id){
+          $query['target_id'] = (int)$target_id;
         }
 		
         $service = Sher_Core_Service_ThirdSiteStat::instance();

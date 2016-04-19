@@ -19,6 +19,7 @@ class Sher_Core_Service_Product extends Sher_Core_Service_Base {
 	  'vote' => array('vote_favor_count' => -1),
 	  'comment' => array('comment_count' => -1),
 	  'love' => array('love_count' => -1),
+    'app_snatched' => array('app_snatched_time'=> 1),
 	);
 
     protected static $instance;
@@ -61,4 +62,4 @@ class Sher_Core_Service_Product extends Sher_Core_Service_Base {
 	}
 	
 }
-?>
+

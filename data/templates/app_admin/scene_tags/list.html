@@ -146,6 +146,7 @@
                 <th>左分值</th>
                 <th>右分值</th>
                 <th>类型</th>
+                <th>数量统计</th>
                 <th>推荐</th>
 				<th>状态</th>
 				<th>管理操作</th>
@@ -182,6 +183,13 @@
                 </td>
                 <td>
                   {{ date.type_str }}
+                </td>
+                <td>
+                  使用总数：{% if date.used_counts.total_count %}{{ date.used_counts.total_count }}{% else %}0{% endif %}<br>
+                  情景数量：{% if date.used_counts.scene_count %}{{ date.used_counts.scene_count }}{% else %}0{% endif %}<br>
+                  场景数量：{% if date.used_counts.sight_count %}{{ date.used_counts.sight_count }}{% else %}0{% endif %}<br>
+                  语境数量：{% if date.used_counts.context_count %}{{ date.used_counts.context_count }}{% else %}0{% endif %}<br>
+                  产品数量：{% if date.used_counts.product_count %}{{ date.used_counts.product_count }}{% else %}0{% endif %}<br>
                 </td>
         <td>
 					{% if date.stick == 1 %}
