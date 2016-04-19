@@ -237,6 +237,9 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
 
+		$model->inc_counter('true_view_count', 1, $id);
+		$model->inc_counter('app_view_count', 1, $id);
+
 		// 重建数据结果
 		$data = array();
     for($i=0;$i<count($some_fields);$i++){

@@ -126,6 +126,9 @@ class Sher_Api_Action_Topic extends Sher_Api_Action_Base {
 		$inc_ran = rand(1, 6);
 		$model->increase_counter('view_count', $inc_ran, $id);
 
+		$model->increase_counter('true_view_count', 1, $id);
+		$model->increase_counter('app_view_count', 1, $id);
+
     //显示的字段
     $some_fields = array(
       '_id', 'title', 'short_title', 'category_id', 'target_id', 'cover_id', 'parent_id', 'view_count', 'stick',

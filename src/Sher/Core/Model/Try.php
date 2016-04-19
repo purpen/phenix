@@ -52,6 +52,15 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		'view_count' => 0,
 		'love_count' => 0,
 		'comment_count' => 0,
+
+    # 真实浏览数
+    'true_view_count' => 0,
+    # web 浏览数
+    'web_view_count' => 0,
+    # wap 浏览数 
+    'wap_view_count' => 0,
+    # app 浏览数
+    'app_view_count' => 0,
 		
 		# 活动发起人
 		'user_id' => 0,
@@ -125,7 +134,7 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
     protected $int_fields = array('user_id', 'product_id', 'sticked', 'join_away', 'try_count', 'apply_count', 'pass_count', 'season', 'step_stat', 'invented_apply_count', 'apply_term', 'want_count', 'report_count', 'kind', 'open_limit');
 	  protected $float_fields = array('price');
 	
-	protected $counter_fields = array('view_count', 'love_count', 'comment_count', 'apply_count', 'invented_apply_count', 'want_count', 'report_count');
+	protected $counter_fields = array('view_count', 'love_count', 'comment_count', 'apply_count', 'invented_apply_count', 'want_count', 'report_count', 'true_view_count', 'web_view_count', 'wap_view_count', 'app_view_count');
 	/**
 	 * 扩展关联数据
 	 */
