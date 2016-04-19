@@ -140,6 +140,9 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		
 		// 增加pv++
 		$model->increase_counter('view_count', 1, $id);
+
+		$model->increase_counter('true_view_count', 1, $id);
+		$model->increase_counter('web_view_count', 1, $id);
 		
 		// 是否出现后一页按钮
 	    if(isset($this->stash['referer'])){

@@ -272,7 +272,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         $id = $this->stash['id'];
 		//$id = 25;
         if (empty($id)) {
-            return $this->api_json('请求失败，缺少必要参数!', true);
+            return $this->api_json('请求失败，缺少必要参数!', 3001);
         }
         
         $service = Sher_Core_Service_SceneSight::instance();
