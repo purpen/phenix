@@ -29,9 +29,9 @@ echo "Start to auto add view_count...\n";
 // sleep N minute
 $hr = date('G');
 if($hr >= 9 && $hr <= 23){
-    $sleep_time = rand(60, 600);
+    $sleep_time = rand(600, 1800);
 }else{
-    $sleep_time = rand(600, 900);
+    $sleep_time = rand(3600, 7200);
 }
 
 function auto_do($type, $size=1000){
@@ -72,7 +72,7 @@ function auto_do($type, $size=1000){
     $max = count($list);
     for ($i=0; $i<$max; $i++) {
       $id = (int)$list[$i]['_id'];
-      $inc = rand(20, 50);
+      $inc = rand(10, 50);
 
       switch($type){
         case 1:
@@ -103,7 +103,7 @@ function auto_do($type, $size=1000){
 }
 
 // 开始执行
-auto_do(1);
+//auto_do(1);
 
 sleep($sleep_time);
 exit(0);
