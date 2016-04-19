@@ -65,6 +65,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
     
 	protected $joins = array(
 		'cover' =>  array('cover_id' => 'Sher_Core_Model_Asset'),
+		'scene' =>  array('scene_id' => 'Sher_Core_Model_SceneScene'),
 		'user' =>   array('user_id' => 'Sher_Core_Model_User'),
 		'user_ext' =>   array('user_id' => 'Sher_Core_Model_UserExtState'),
 	);

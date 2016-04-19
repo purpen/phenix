@@ -227,8 +227,16 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
             return $this->api_json('请求失败，缺少必要参数!', true);
         }
         
-        $service = Sher_Core_Service_SceneScene::instance();
-        $result  = $service->get_scene_by_id($id);
+		$model = new Sher_Core_Model_SceneScene();
+        $result  = $model->extend_load((int)$id);
+		
+		if (!$result) {
+            return $this->api_json('请求内容为空!', true);
+        }
+		
+		// 增加浏览量
+		$model->inc((int)$id, 'view_count', 1);
+		
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
         
         // 过滤多余属性

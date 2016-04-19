@@ -275,13 +275,21 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
             return $this->api_json('请求失败，缺少必要参数!', true);
         }
         
-        $service = Sher_Core_Service_SceneSight::instance();
-        $result  = $service->get_sight_by_id($id);
+		$model = new Sher_Core_Model_SceneSight();
+        $result  = $model->extend_load((int)$id);
+		
+		if (!$result) {
+            return $this->api_json('请求内容为空!', true);
+        }
+		
+		// 增加浏览量
+		$model->inc((int)$id, 'view_count', 1);
         
         // 过滤多余属性
-        $filter_fields  = array('type', 'cover_id', 'cover', '__extend__');
+        $filter_fields  = array('type', 'cover_id', 'cover', 'scene', '__extend__');
 		
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
+		$result['scene_title'] = $result['scene']['title'];
         
         for($i=0;$i<count($filter_fields);$i++){
             $key = $filter_fields[$i];
