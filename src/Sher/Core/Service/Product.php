@@ -62,4 +62,4 @@ class Sher_Core_Service_Product extends Sher_Core_Service_Base {
 	}
 	
 }
-?>
+

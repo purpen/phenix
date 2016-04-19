@@ -32,10 +32,10 @@ class Sher_Core_Helper_FilterFields {
       $data['district_id'] = 0;
     }
 
-    if(!isset($data['identify']) || !isset($data['identify']['is_scene_subscribe'])){
-      $data['identify'] = array(
-        'is_scene_subscribe' => 0,
-      );   
+    if(!isset($data['identify'])){
+      if(!isset($data['identify']['is_scene_subscribe'])){
+        $data['identify']['is_scene_subscribe'] = 0;
+      }
     }
 
     return $data;

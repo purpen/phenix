@@ -375,7 +375,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	}
 	
 	/**
-	 * 确认订单
+	 * 确认订单,生成真正订单
 	 */
 	public function confirm(){
 		$rrid = isset($this->stash['rrid'])?(int)$this->stash['rrid']:0;
@@ -480,7 +480,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         if($bonus_result['code']){
           return $this->api_json($bonus_result['msg'], $bonus_result['code']);     
         }else{
-          $card_money = $order_info['card_code'] = $bonus_code;
+          $card_code = $order_info['card_code'] = $bonus_code;
           $card_money = $order_info['card_money'] = $bonus_result['coin_money'];
         }
       }elseif(!empty($gift_code)){  // 礼品券
