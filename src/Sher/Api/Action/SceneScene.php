@@ -258,16 +258,23 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		
 		$id = isset($this->stash['id'])?$this->stash['id']:0;
 		if(empty($id)){
-			$this->api_json('内容不存在', 3000);
+			return $this->api_json('内容不存在', 3000);
 		}
 		
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		
 		try{
 			$model = new Sher_Core_Model_SceneScene();
+			$sight_model = new Sher_Core_Model_SceneSight();
 			
 			foreach($ids as $id){
 				$result = $model->load((int)$id);
+				
+				$sight = $sight_model->find(array('scene_id'=>(int)$id));
+				
+				if($sight){
+					return $this->api_json('该情景下面有所属场景！', 3000);
+				}
 				
 				if (!empty($result)){
 					$model->remove((int)$id);
@@ -280,7 +287,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			$this->stash['ids'] = $ids;
 			
 		}catch(Sher_Core_Model_Exception $e){
-			$this->api_json('操作失败,请重新再试', 3001);
+			return $this->api_json('操作失败,请重新再试', 3001);
 		}
 		return $this->api_json('删除成功！', 0, array('id'=>$id));
 	}
