@@ -13,13 +13,14 @@ class Sher_Core_Model_ThirdSiteStat extends Sher_Core_Model_Base  {
 	protected $schema = array(
     'user_id' => 0,
     'kind' => self::KIND_360,
+    'target_id' => 1,
     'state' => 1,
     'ip' => null,
   	);
 
   protected $required_fields = array('user_id', 'kind');
 
-  protected $int_fields = array('state', 'user_id', 'kind');
+  protected $int_fields = array('state', 'user_id', 'kind', 'target_id');
 
 	/**
 	 * 扩展数据
