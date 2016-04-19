@@ -491,6 +491,7 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 	 * $type 是类型　１表示增长　２表示减少
 	 */
 	public function scene_count($tags = array(),$feilds = array(),$type = 1){
+		
 		if(is_array($tags) && count($tags) && is_array($feilds) && count($feilds)){
             foreach($tags as $v){
                 $tag_id = (int)$v;
@@ -539,7 +540,7 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 		
 		if(!$force){
 			$result = $this->find_by_id((int)$id);
-			if(!isset($result[$field_name]) || $result['used_counts'][$field_name] <= 0){
+			if(!isset($result['used_counts'][$field_name]) || $result['used_counts'][$field_name] <= 0){
 				return true;
 			}
 		}

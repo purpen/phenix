@@ -8,8 +8,8 @@ class Sher_AppAdmin_Action_Feedback extends Sher_AppAdmin_Action_Base implements
 	public $stash = array(
 		'page' => 1,
 		'size' => 100,
-    'from_to' => 0,
-    'solved' => 0,
+		'from_to' => 0,
+		'solved' => 0,
 	);
 	
 	public function _init() {
