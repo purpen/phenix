@@ -265,7 +265,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		
 		$this->stash['order_info'] = $order_info;
 		
-		return $this->to_html_page("wap/evaluate.html");
+		return $this->to_html_page("wap/my/evaluate.html");
 	}
 	
 	
@@ -473,5 +473,5 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	    $this->stash['result'] = $result;
 	    return $this->to_taconite_page('ajax/wap_user_sign_box.html');
 	  }
-
+	  
 }
