@@ -106,6 +106,9 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 		// 增加pv++
 		$model->increase_counter('view_count', 1, $id);
 
+		$model->increase_counter('true_view_count', 1, $id);
+		$model->increase_counter('app_view_count', 1, $id);
+
     //显示的字段
     $some_fields = array(
       '_id', 'title', 'short_title', 'description', 'cover_id', 'banner_id', 'step_stat', 'sticked',

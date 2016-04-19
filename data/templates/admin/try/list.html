@@ -89,6 +89,7 @@
 				<th>申请人数</th>
 				<th>活动时间</th>
         <th>申请条件</th>
+        <th>浏览(V|T|W|P|A)</th>
         <th>推荐</th>
         <th>状态</th>
 				<th>管理操作</th>
@@ -142,6 +143,9 @@
           {% if t.apply_term==2 %}
             {{ t.term_count }} 鸟币
           {%endif%}
+        </td>
+        <td>
+          <p>{{ t.view_count }}|{{ t.true_view_count|default 0 }}|{{ t.web_view_count|default 0 }}|{{ t.wap_view_count|default 0 }}|{{ t.app_view_count|default 0 }}</p>
         </td>
 				<td>
 					<p>

@@ -48,6 +48,9 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
         'love_count' => 0,
 		# 评论数 
     	'comment_count' => 0,
+
+    # 真实浏览数
+      'true_view_count' => 0,
 		
 		# 精选
 		'fine'  => 0,
@@ -60,11 +63,13 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 	protected $required_fields = array('title');
 	protected $int_fields = array('status', 'used_count','love_count','comment_count');
 	protected $float_fields = array();
-	protected $counter_fields = array('used_count','view_count','love_count','comment_count');
+	protected $counter_fields = array('used_count','view_count','love_count','comment_count','true_view_count');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
-		'cover' =>  array('cover_id' => 'Sher_Core_Model_Asset'),  
+		'cover' =>  array('cover_id' => 'Sher_Core_Model_Asset'),
+		'user' =>   array('user_id' => 'Sher_Core_Model_User'),
+		'user_ext' =>   array('user_id' => 'Sher_Core_Model_UserExtState'),
 	);
 	
 	/**
@@ -85,8 +90,23 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 	 * 保存之后事件
 	 */
     protected function after_save(){
+		$this->scene_count($this->data['tags']);
         parent::after_save();
     }
+	
+	/**
+	 * 标签使用数量统计方法
+	 */
+	public function scene_count($tags = array()){
+		if(is_array($tags) && count($tags)){
+			$model = new Sher_Core_Model_SceneTags();
+            foreach($tags as $v){
+                $tag_id = (int)$v;
+                $model->inc_counter('total_count', 1, $tag_id);
+                $model->inc_counter('sight_count', 1, $tag_id);
+            }
+        }
+	}
 	
 	/**
 	 * 增加计数

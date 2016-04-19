@@ -126,6 +126,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
+
+		$model->inc_counter('true_view_count', 1, $id);
+		$model->inc_counter('wap_view_count', 1, $id);
 		
 		// 未发布上线的产品，仅允许本人及管理员查看
 		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){

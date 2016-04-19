@@ -76,6 +76,16 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
         'love_count' => 0,
 		# 回应数 
     	'comment_count' => 0,
+
+    # 真实浏览数
+      'true_view_count' => 0,
+
+    # web 浏览数
+      'web_view_count' => 0,
+    # wap 浏览数 
+      'wap_view_count' => 0,
+    # app 浏览数
+      'app_view_count' => 0,
 		
 		# 置顶标识(站内、版块)
 		'top'   => 0,
@@ -105,7 +115,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	protected $required_fields = array('user_id');
 	protected $int_fields = array('user_id','category_id','try_id','fid','gid','deleted','published','t_color','vote_id');
 	
-	protected $counter_fields = array('asset_count', 'file_count', 'view_count', 'favorite_count', 'love_count', 'comment_count');
+	protected $counter_fields = array('asset_count', 'file_count', 'view_count', 'favorite_count', 'love_count', 'comment_count', 'true_view_count', 'web_view_count', 'wap_view_count', 'app_view_count');
 	
 	protected $joins = array(
 	    'user'      =>  array('user_id'     => 'Sher_Core_Model_User'),

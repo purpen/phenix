@@ -284,6 +284,9 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
+
+		$model->inc_counter('true_view_count', 1, $id);
+		$model->inc_counter('web_view_count', 1, $id);
 		
 		// 非销售状态的产品，跳转至对应的链接
 		if(!in_array($product['stage'], array(Sher_Core_Model_Product::STAGE_SHOP, Sher_Core_Model_Product::STAGE_EXCHANGE, Sher_Core_Model_Product::STAGE_IDEA))){

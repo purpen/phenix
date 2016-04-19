@@ -193,9 +193,9 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		}
 
     // 记录兑吧来的用户，统计注册量用
-    if(isset($this->stash['from']) && $this->stash['from']=='db' && $id=111172){
+    if(isset($this->stash['from']) && $this->stash['from']=='db' && $id=111512){
       // 存cookie
-      @setcookie('from_origin', '2', time()+3600*24, '/');
+      @setcookie('from_origin', '2', time()+3600, '/');
       $_COOKIE['from_origin'] = '2';
 
       // 统计点击数量
@@ -203,11 +203,11 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
       $dig_key = Sher_Core_Util_Constant::DIG_THIRD_DB_STAT;
 
       $dig = $dig_model->load($dig_key);
-      if(empty($dig) || !isset($dig['items']["view_01"])){
-        $dig_model->update_set($dig_key, array("items.view_01"=>1), true);     
+      if(empty($dig) || !isset($dig['items']["view_02"])){
+        $dig_model->update_set($dig_key, array("items.view_02"=>1), true);     
       }else{
         // 增加浏览量
-        $dig_model->inc($dig_key, "items.view_01", 1);
+        $dig_model->inc($dig_key, "items.view_02", 1);
       }
       
     }
@@ -239,6 +239,9 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		// 增加pv++
 		$inc_ran = rand(1,6);
 		$model->increase_counter('view_count', $inc_ran, $id);
+
+		$model->increase_counter('true_view_count', 1, $id);
+		$model->increase_counter('wap_view_count', 1, $id);
 		
 		// 当前用户是否有管理权限
 		if ($this->visitor->id){
