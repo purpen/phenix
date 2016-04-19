@@ -1012,7 +1012,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("confirm order failed: ".$e->getMessage());
 			return $this->ajax_json('订单处理异常，请重试！', true);
-		}
+    }catch(Exception $e){
+			Doggy_Log_Helper::warn("confirm order failed.: ".$e->getMessage());
+			return $this->ajax_json('订单处理异常，请重新下单！', true);
+    }
 		
 		// 限量抢购活动设置缓存
     if($is_snatched){
