@@ -286,10 +286,24 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$model->inc((int)$id, 'view_count', 1);
         
         // 过滤多余属性
-        $filter_fields  = array('type', 'cover_id', 'cover', 'scene', '__extend__');
+        $filter_fields  = array('type', 'cover_id', 'user', 'user_ext', 'cover', 'scene', '__extend__');
+		
+		$user = array();
+		$user['user_id'] = $result['user']['_id'];
+		$user['account'] = $result['user']['account'];
+		$user['nickname'] = $result['user']['nickname'];
+		$user['avatar_url'] = $result['user']['big_avatar_url'];
+		$user['summary'] = $result['user']['summary'];
+		$user['counter'] = $result['user']['counter'];
+		$user['follow_count'] = $result['user']['follow_count'];
+		$user['fans_count'] = $result['user']['fans_count'];
+		$user['love_count'] = $result['user']['love_count'];
+		$user['user_rank'] = $result['user_ext']['user_rank']['title'];
+		
 		
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
 		$result['scene_title'] = $result['scene']['title'];
+		$result['user_info'] = $user;
         
         for($i=0;$i<count($filter_fields);$i++){
             $key = $filter_fields[$i];
