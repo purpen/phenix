@@ -145,24 +145,11 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
             }
         }
         
-        $this->scene_count($this->data['scene_tags']);
+        $model = new Sher_Core_Model_SceneTags();
+		$model->scene_count($this->data['scene_tags'],array('total_count','product_count'),1);
         
         parent::after_save();
     }
-    
-    /**
-	 * 标签使用数量统计方法
-	 */
-	public function scene_count($tags = array()){
-		if(is_array($tags) && count($tags)){
-			$model = new Sher_Core_Model_SceneTags();
-            foreach($tags as $v){
-                $tag_id = (int)$v;
-                $model->inc_counter('total_count', 1, $tag_id);
-                $model->inc_counter('product_count', 1, $tag_id);
-            }
-        }
-	}
 	
 	/**
 	 * 扩展Model数据

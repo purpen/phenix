@@ -185,11 +185,11 @@
                   {{ date.type_str }}
                 </td>
                 <td>
-                  使用总数：{% if date.used_counts.total_count %}{{ date.used_counts.total_count }}{% else %}0{% endif %}<br>
-                  情景数量：{% if date.used_counts.scene_count %}{{ date.used_counts.scene_count }}{% else %}0{% endif %}<br>
-                  场景数量：{% if date.used_counts.sight_count %}{{ date.used_counts.sight_count }}{% else %}0{% endif %}<br>
-                  语境数量：{% if date.used_counts.context_count %}{{ date.used_counts.context_count }}{% else %}0{% endif %}<br>
-                  产品数量：{% if date.used_counts.product_count %}{{ date.used_counts.product_count }}{% else %}0{% endif %}<br>
+                  使用总数:{% if date.used_counts.total_count %}{{ date.used_counts.total_count }}{% else %}0{% endif %}<br>
+                  情景:{% if date.used_counts.scene_count %}{{ date.used_counts.scene_count }}{% else %}0{% endif %};
+                  场景:{% if date.used_counts.sight_count %}{{ date.used_counts.sight_count }}{% else %}0{% endif %}<br>
+                  语境:{% if date.used_counts.context_count %}{{ date.used_counts.context_count }}{% else %}0{% endif %};
+                  产品:{% if date.used_counts.product_count %}{{ date.used_counts.product_count }}{% else %}0{% endif %}<br>
                 </td>
         <td>
 					{% if date.stick == 1 %}

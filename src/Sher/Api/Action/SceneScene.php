@@ -263,6 +263,9 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 				
 				if (!empty($result)){
 					$model->remove((int)$id);
+					
+					$model = new Sher_Core_Model_SceneTags();
+					$model->scene_count($result['tags'],array('total_count','context_count'),2);
 				}
 			}
 			

@@ -81,23 +81,12 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 	 * 保存之后事件
 	 */
     protected function after_save(){
-		$this->scene_count($this->data['tags']);
+		
+		$model = new Sher_Core_Model_SceneTags();
+		$model->scene_count($this->data['tags'],array('total_count','scene_count'),1);
+		
         parent::after_save();
     }
-	
-	/**
-	 * 标签使用数量统计方法
-	 */
-	public function scene_count($tags = array()){
-		if(is_array($tags) && count($tags)){
-			$model = new Sher_Core_Model_SceneTags();
-            foreach($tags as $v){
-                $tag_id = (int)$v;
-                $model->inc_counter('total_count', 1, $tag_id);
-                $model->inc_counter('scene_count', 1, $tag_id);
-            }
-        }
-	}
 	
 	/**
 	 * 增加计数

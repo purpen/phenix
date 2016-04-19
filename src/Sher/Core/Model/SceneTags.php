@@ -485,6 +485,27 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 	}
 	
 	/**
+	 * 标签使用数量统计方法
+	 * $tags 是标签id数组
+	 * $feilds 是字段数组
+	 * $type 是类型　１表示增长　２表示减少
+	 */
+	public function scene_count($tags = array(),$feilds = array(),$type = 1){
+		if(is_array($tags) && count($tags) && is_array($feilds) && count($feilds)){
+            foreach($tags as $v){
+                $tag_id = (int)$v;
+				foreach($feilds as $val){
+					if($type == 1){
+						$this->inc_counter($val, 1, $tag_id);
+					}else if($type == 2){
+						$this->dec_counter($val, 1, $tag_id);
+					}
+				}
+            }
+        }
+	}
+	
+	/**
 	 * 增加计数
 	 */
 	public function inc_counter($field_name, $inc=1, $id=null){
@@ -493,7 +514,6 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 			$id = $this->id;
 		}
 		
-		//protected $counter_fields = array('total_count','scene_count','sight_count','context_count','product_count');
 		if(empty($id) || !in_array($field_name, $this->counter_fields)){
 			return false;
 		}
@@ -507,7 +527,7 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 	 * 减少计数
 	 * 需验证，防止出现负数
 	 */
-	public function dec_counter($field_name,$id=null,$force=false,$count=1){
+	public function dec_counter($field_name,$dec=1,$id=null,$force=false){
 	    
 		if(is_null($id)){
 	        $id = $this->id;
@@ -519,11 +539,13 @@ class Sher_Core_Model_SceneTags extends Sher_Core_Model_Base {
 		
 		if(!$force){
 			$result = $this->find_by_id((int)$id);
-			if(!isset($result[$field_name]) || $result[$field_name] <= 0){
+			if(!isset($result[$field_name]) || $result['used_counts'][$field_name] <= 0){
 				return true;
 			}
 		}
 		
-		return $this->dec($id, $field_name, $count);
+		$field_name = 'used_counts.'.$field_name;
+
+		return $this->dec(array('_id'=>(int)$id), $field_name, $dec, true);
 	}
 }

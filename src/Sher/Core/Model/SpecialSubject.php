@@ -14,30 +14,31 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 	const KIND_APPOINT = 2;
 	  
 	protected $schema = array(
-	  'title' => null,
-    'short_title' => null,
-	  'cover_id' => null,
-	  'banner_id' => null,
-	  # 分类ID
-	  'category_id' => null,
-	  # 商品ID数组
-	  'product_ids' => array(),
-	  # 内容
-	  'content' => null,
-	  # 简述
-	  'summary' => null,
-	  'tags' => array(),
-	  //备注
-	  'remark'  => null,
-	  'user_id' => 0,
-	  'kind' => self::KIND_CUSTOM,
-	  'stick' => 0,
-	  'state' => 1,
-	  'view_count' => 0,
-	  'comment_count' => 0,
-	  'love_count' => 0,
-	  'favorite_count' => 0,
-    'share_count' => 0,
+		'title' => null,
+		'short_title' => null,
+		'cover_id' => null,
+		'banner_id' => null,
+		# 分类ID
+		'category_id' => null,
+		# 商品ID数组
+		'product_ids' => array(),
+		# 内容
+		'content' => null,
+		# 简述
+		'summary' => null,
+		'tags' => array(),
+		//备注
+		'remark'  => null,
+		'user_id' => 0,
+		'kind' => self::KIND_CUSTOM,
+		'stick' => 0,
+		'publish' => 0,
+		'state' => 1,
+		'view_count' => 0,
+		'comment_count' => 0,
+		'love_count' => 0,
+		'favorite_count' => 0,
+		'share_count' => 0,
 	);
 
 	protected $required_fields = array('user_id', 'title', 'category_id');
@@ -101,7 +102,7 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 		$asset = new Sher_Core_Model_Asset();
 		$query = array(
 			'parent_id'  => (int)$cover_id,
-			'asset_type' => Sher_Core_Model_Asset::TYPE_SPECIAL_COVER
+			'asset_type' => Sher_Core_Model_Asset::TYPE_SPECIAL_SUBJECT
 		);
 		$data = $asset->first($query);
 		if(!empty($data)){
@@ -154,6 +155,26 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 				Doggy_Log_Helper::debug("Update asset[$id] parent_id: $parent_id");
 				$model->update_set($id, array('parent_id' => $parent_id));
 			}
+		}
+	}
+	
+	/**
+	* 发布操作
+	*/
+	public function mark_as_publish($id, $publish = 1){
+		$data = $this->extend_load((int)$id);
+	
+		if(empty($data)){
+			return array('status'=>0, 'msg'=>'内容不存在');
+		}
+		if($data['publish']==(int)$publish){
+			return array('status'=>0, 'msg'=>'重复的操作');  
+		}
+		$ok = $this->update_set((int)$id, array('publish' => $publish));
+		if($ok){
+			return array('status'=>1, 'msg'=>'操作成功');  
+		}else{
+			return array('status'=>0, 'msg'=>'操作失败');   
 		}
 	}
 	
