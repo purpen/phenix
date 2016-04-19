@@ -439,7 +439,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$total_money = $order_info['total_money'];
 
     // 是否是活动商品
-    $order_info['kind'] = $result['kind'];
+    $kind = $order_info['kind'] = $result['kind'];
 
 		// 获取提交数据, 覆盖默认数据
 		$order_info['payment_method'] = $payment_method;
@@ -470,7 +470,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $gift_code = isset($this->stash['gift_code']) ? $this->stash['gift_code'] : null;
 
     // 活动商品不允许使用红包或礼品券
-    if($kind==3){
+    if($kind != 3){
       if($bonus_code && $gift_code){
         return $this->api_json('红包和礼品券不能同时使用！', 3005);   
       }
