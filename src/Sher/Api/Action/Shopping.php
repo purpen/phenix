@@ -312,7 +312,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       if($quantity>$app_snatched_limit_count){
         return $this->api_json("闪购产品，只能购买 $app_snatched_limit_count 件！", 3012);       
       }
-      if($product_data['app_snatched_count']<=0){
+      if($product_data['app_snatched_count']>=$product_data['app_snatched_total_count']){
         return $this->api_json("已抢完！", 3013);      
       } 
 
