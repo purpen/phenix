@@ -1923,7 +1923,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
     $row = array(
       'title' => $product['title'],
-      'cover_url' => $product['cover']['thumbnails']['mini']['view_url'],
+      'cover_url' => $product['cover']['thumbnails']['apc']['view_url'],
       'desc' => $product['advantage'],
       'wap_view_url' => $product['wap_view_url'],
     );
