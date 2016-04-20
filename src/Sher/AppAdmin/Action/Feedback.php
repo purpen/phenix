@@ -27,7 +27,7 @@ class Sher_AppAdmin_Action_Feedback extends Sher_AppAdmin_Action_Base implements
      * @return string
      */
   public function get_list(){
-    $this->set_target_css_state('common');
+		$this->set_target_css_state('common');
 
 		$pager_url = sprintf("%s/feedback/get_list?from_to=%d&solved=%d&page=#p#", Doggy_Config::$vars['app.url.app_admin'], $this->stash['from_to'], $this->stash['solved']);
 		$this->stash['pager_url'] = $pager_url;
@@ -44,7 +44,6 @@ class Sher_AppAdmin_Action_Feedback extends Sher_AppAdmin_Action_Base implements
 			return $this->ajax_note('请求参数为空', true);
 		}
 		$model = new Sher_Core_Model_Feedback();
-        // todo: 检查是否存在作品
         
 		$model->remove($id);
 		
@@ -56,8 +55,8 @@ class Sher_AppAdmin_Action_Feedback extends Sher_AppAdmin_Action_Base implements
 	 * 解决处理
 	 */
 	public function ajax_solve() {
-    $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
-    $evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 0;
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 0;
 		if(empty($id)){
 			return $this->ajax_json('缺少请求参数！', true);
 		}

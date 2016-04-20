@@ -117,13 +117,12 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			$user['love_count'] = $result['rows'][$k]['user']['love_count'];
 			$user['user_rank'] = $result['rows'][$k]['user_ext']['user_rank']['title'];
 			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
+			$result['scene_title'] = $result['rows'][$k]['scene']['title'];
 			$result['rows'][$k]['user'] = $user;
-			unset($result['rows'][$k]['cover']);
-			unset($result['rows'][$k]['user_ext']);
 		}
 		
 		// 过滤多余属性
-        $filter_fields  = array('cover_id','__extend__');
+        $filter_fields  = array('scene','cover','user_ext','cover_id','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
 		//var_dump($result['rows']);die;
