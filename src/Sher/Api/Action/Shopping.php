@@ -1651,6 +1651,72 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
   }
 
   /**
+   * 我的购物车产品库存数量
+   */
+  public function fetch_cart_product_count(){
+		$user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录！', 3000); 
+    }
+    $cart_model = new Sher_Core_Model_Cart();
+    $cart = $cart_model->load($user_id);
+    if(empty($cart)){
+      return $this->api_json('购物车为空！', 3001); 
+    }else{
+      $item_arr = array();
+      // 记录错误数据索引
+      $error_index_arr = array();
+      foreach($cart['items'] as $k=>$v){
+        // 初始参数
+        $target_id = (int)$v['target_id'];
+        $type = (int)$v['type'];
+        $n = (int)$v['n'];
+
+        $data = array();
+        $data['target_id'] = $target_id;
+        $data['type'] = $type;
+        $data['n'] = $n;
+        $data['quantity'] = 0;
+
+        if($type==2){
+          $inventory = $inventory_model->load($target_id);
+          if(empty($inventory)){
+            array_push($error_index_arr, $k);
+            continue;
+          }
+          $product_id = $inventory['product_id'];
+          $data['quantity'] = $inventory['quantity'];
+          
+        }else{
+          $product_id = $target_id;
+          $product = $product_model->load($product_id);
+          if(empty($product)){
+            array_push($error_index_arr, $k);
+            continue;     
+          }
+          $data['quantity'] = $product['inventory'];
+        }
+
+        $data['product_id'] = $product_id;
+
+        array_push($item_arr, $data);
+
+      }//endfor
+
+      // 移除不存在的商品ID
+      if(!empty($error_index_arr)){
+        foreach($error_index_arr as $k=>$v){
+          unset($cart['items'][$v]);
+        }
+        $cart_model->update_set($cart['_id'], array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));
+      }
+
+    }
+
+    return $this->api_json('success', 0, array('items'=>$item_arr, 'count'=>count($item_arr));
+  }
+
+  /**
    * 添加购物车
    */
   public function add_cart(){
