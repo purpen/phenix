@@ -695,7 +695,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       // 闪购进度条(百分比)
       $data[$i]['app_snatched_percent'] = 0;
       if($data[$i]['is_app_snatched']){
-        $data[$i]['app_snatched_percent'] = (float)($data[$i]['app_snatched_total_count'] - $data[$i]['app_snatched_count']/$data[$i]['app_snatched_total_count']);       
+        $data[$i]['app_snatched_percent'] = sprintf('%.2f', $data[$i]['app_snatched_count']/(float)$data[$i]['app_snatched_total_count']);       
       }
 
       // 闪购进度

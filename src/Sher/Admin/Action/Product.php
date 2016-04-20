@@ -150,7 +150,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			return $this->ajax_json('app抢购，必须设置抢购开始时间！', true);
 		}
 		$data['app_appoint_count'] = (int)$this->stash['app_appoint_count'];
-		$data['app_snatched_price'] = $this->stash['app_snatched_price'];
+		$data['app_snatched_price'] = (float)$this->stash['app_snatched_price'];
+		$data['app_snatched_count'] = (int)$this->stash['app_snatched_count'];
 		$data['app_snatched_total_count'] = (int)$this->stash['app_snatched_total_count'];
     $data['app_snatched_img'] = $this->stash['app_snatched_img'];
     $data['app_snatched_limit_count'] = (int)$this->stash['app_snatched_limit_count'];
