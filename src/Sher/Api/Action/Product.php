@@ -300,6 +300,9 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     $data['app_snatched_rest_count'] = 0;
     if($data['is_app_snatched']){
       $data['app_snatched_rest_count'] = $data['app_snatched_total_count'] - $data['app_snatched_count'];
+      if($data['app_snatched_rest_count'] < 0){
+        $data['app_snatched_rest_count'] = 0;
+      }
     }
     // 闪购进度
     $data['app_snatched_stat'] = $model->app_snatched_stat($product);
@@ -701,6 +704,9 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         $data[$i]['app_snatched_percent'] = sprintf('%.2f', $data[$i]['app_snatched_count']/(float)$data[$i]['app_snatched_total_count']);   
         // 剩余秒杀产品数量
         $data[$i]['app_snatched_rest_count'] = $data[$i]['app_snatched_total_count'] - $data[$i]['app_snatched_count'];
+        if($data[$i]['app_snatched_rest_count'] < 0){
+          $data[$i]['app_snatched_rest_count'] = 0;
+        }
       }
 
       // 闪购进度
