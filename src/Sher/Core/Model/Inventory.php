@@ -213,7 +213,7 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 		
 		// 更新总库存数
 		$product = new Sher_Core_Model_Product();
-		$product->decrease_invertory($product_id, $need_quantity, $only, $add_money, $kind);
+		$product->decrease_invertory($product_id, $need_quantity, $only, $add_money, 1, $kind);
 		
 		unset($product);
 	}
