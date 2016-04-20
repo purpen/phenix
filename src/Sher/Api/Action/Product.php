@@ -96,7 +96,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			'presale_percent'=>1, 'cover_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
 			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
 			'snatched_time'=>1, 'inventory'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
-      'presale_goals'=>1, 'stick'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1,
+      'presale_goals'=>1, 'stick'=>1, 'featured'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1,
       'comment_star'=>1,'snatched_end_time'=>1, 'snatched_price'=>1, 'snatched_count'=>1,
       // app抢购
       'app_snatched'=>1, 'app_snatched_time'=>1, 'app_snatched_end_time'=>1, 'app_snatched_price'=>1,
@@ -177,7 +177,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         $data[$i]['username'] = $result['rows'][$i]['designer']['nickname'];
         $data[$i]['small_avatar_url'] = $result['rows'][$i]['designer']['small_avatar_url'];     
       }
-
+      $data[$i]['tips_label'] = 0;
       $data[$i]['content_view_url'] = sprintf('%s/view/product_show?id=%d', Doggy_Config::$vars['app.url.api'], $result['rows'][$i]['_id']);
       // 保留2位小数
       $data[$i]['sale_price'] = sprintf('%.2f', $result['rows'][$i]['sale_price']);
@@ -189,7 +189,13 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       }
       // 新品标识--非闪购产品且一个月内上的产品
       if(empty($data[$i]['is_app_snatched'])){
-        $data[$i]['is_news'] = $data[$i]['created_on']>(time()-2592000) ? 1 : 0;
+        if(empty($data[$i]['featured'])){
+          $data[$i]['tips_label'] = 2;
+        }else{
+          $data[$i]['tips_label'] = $data[$i]['created_on']>(time()-2592000) ? 1 : 0;
+        }
+      }else{
+        $data[$i]['tips_label'] = 3;       
       }
 		} // endfor
 		$result['rows'] = $data;
