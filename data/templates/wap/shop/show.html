@@ -405,6 +405,7 @@
 }
 .commentitem:first-child{
 	border:none;
+	padding-top: 0;
 }
 .commentitem .comment{
 	display: flex;
@@ -441,7 +442,7 @@
 	font-weight:400;
 }
 .commentitem .text{
-	margin:8px 0;
+	margin:8px 0 5px 0;
 	font-size:0.92885rem;
 }
 .commentitem .date{
@@ -814,7 +815,7 @@
 					<div class="metadata mtb-r">
 						{% include "block/star.html" %}
 					</div>-->
-            		<div class="text mtb-r">
+            		<div class="text">
               		  {{ comment.content }}
             	  	</div>
 					
