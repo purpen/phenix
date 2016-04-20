@@ -398,6 +398,39 @@
 	display:none;
 	visibility: hidden;
 }
+
+.commentitem{
+	display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+    align-items: center;
+    -webkit-box-align: center;
+	margin-bottom:0.7145rem;
+	padding:0.7145rem 0;
+	border-top:1px solid rgba(0,0,0,0.1);
+}
+.commentitem:first-child{
+	border:none;
+}
+.commentitem .comment img{
+	width: 30px;
+	height: 30px;
+	border-radius:50%;
+}
+.commentitem .comment .content{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    position: relative;
+    margin-right: 10px;
+    margin-left: 10px;
+}
 </style>
 {% endblock %}
 
@@ -747,6 +780,37 @@
 	    {% if product.comment_count %}
 
 	    <!--商品评价-->
+		
+	    <div class="ui reply segment">
+	    	<div class="ui threaded minimal is-comment comments">
+	            {% comment_list var:'comments' page:page target_id:product._id %}
+	            {% for comment in comments.rows %}
+				<div class="commentitem"  id="{{ comment._id }}">
+					<div class="comment">
+						<img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
+						<div class="content">
+							<h5 class="ui header ml-2r mtb-0">
+								{{ comment.user.nickname }}
+							</h5>
+						</div>
+					</div>
+					<div class="metadata mtb-r">
+						{% include "block/star.html" %}
+					</div>
+            		<div class="text mtb-r">
+              		  {{ comment.content }}
+            	  	</div>
+					
+					<div class="date">{{ comment.created_on }}</div>
+						
+				</div>
+				{%endfor%}
+				
+			</div>
+		</div>
+		
+		
+		<!--
 	    <div class="ui reply segment">
 	    	<div class="ui threaded minimal is-comment comments">
 	            {% comment_list var:'comments' page:page target_id:product._id %}
@@ -758,7 +822,7 @@
 	              	<div class="content">
 	                	<a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
 	                	<div class="metadata">
-	                  		<!--<div class="date">{{ comment.created_on }}</div>-->
+	                  		<div class="date">{{ comment.created_on }}</div>
 	                  	  	{% include "block/star.html" %}
 	                		</div>
             
@@ -805,6 +869,9 @@
 	            	{% endfor %}
 	         	</div>
 			</div>
+		-->
+			
+			
     		{% endif %}<!--if product.comment_count-->
  		   {% endif %}
   		   
