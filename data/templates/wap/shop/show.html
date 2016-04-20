@@ -448,6 +448,30 @@
 .commentitem .date{
 	font-size:0.8574rem;
 }
+.commentitem .image{
+	display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+    align-items: center;
+    -webkit-box-align: center;
+	margin:0.35725rem 0;
+}
+.commentitem .image a{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    position: relative;
+    margin-right: 1.07175rem;
+}
+.commentitem .image a:first-child{
+	margin-right:0;
+}
 </style>
 {% endblock %}
 
@@ -811,13 +835,24 @@
 								{% include "block/star.html" %}
 							</h5>
 						</div>
-					</div><!--
-					<div class="metadata mtb-r">
-						{% include "block/star.html" %}
-					</div>-->
+					</div>
+					
             		<div class="text">
               		  {{ comment.content }}
             	  	</div>
+					
+					<div class="image">
+						
+						<a href="{{ app_url_packaged }}/images/mall/mikt04.jpg" data-lightbox="images" class="ui image">
+				          <img src="{{ app_url_packaged }}/images/mall/mikt4.jpg" alt="婴萌配奶机" />
+				      	</a>
+						<a href="{{ app_url_packaged }}/images/mall/mikt03.jpg" data-lightbox="images" class="ui image">
+				          <img src="{{ app_url_packaged }}/images/mall/mikt3.jpg" alt="婴萌配奶机" />
+				      	</a>
+						<a href="{{ app_url_packaged }}/images/mall/mikt05.jpg" data-lightbox="images" class="ui image">
+				          <img src="{{ app_url_packaged }}/images/mall/mikt5.jpg" alt="婴萌配奶机" />
+				      	</a>
+					</div>
 					
 					<div class="date">{{ comment.created_at }}</div>
 						
@@ -828,66 +863,7 @@
 		</div>
 		
 		
-		<!--
-	    <div class="ui reply segment">
-	    	<div class="ui threaded minimal is-comment comments">
-	            {% comment_list var:'comments' page:page target_id:product._id %}
-	            {% for comment in comments.rows %}
-	        	<div class="comment" id="{{ comment._id }}">
-	              	<a class="avatar" href="{{ comment.user.home_url }}">
-	                <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
-	             	</a>
-	              	<div class="content">
-	                	<a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
-	                	<div class="metadata">
-	                  		<div class="date">{{ comment.created_on }}</div>
-	                  	  	{% include "block/star.html" %}
-	                		</div>
-            
-	                		<div class="text">
-	                  		  {{ comment.content }}
-	                	  	</div>
-	                		{% if visitor.is_login %}
-			                <form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
-			                  <input type="hidden" name="type" value="2" />
-			                  <input type="hidden" name="comment_id" value="{{ comment._id }}" />
-			                  <input type="hidden" name="target_id" value="{{ topic._id }}" />
-			                  <div class="field">
-			                    <textarea name="content" class="reply-content"></textarea>
-			                  </div>
-			                  <div class="ui active button magenta submit labeled icon">
-			                    <i class="icon location"></i> 回复
-			                  </div>
-			                </form>
-			                {% endif %}
-	              	  	</div>
-      
-	              	  	{% if comment.reply %}
-	              	  	<div class="comments">
-	                		{% for reply in comment.reply %}
-	                 		<div class="comment">
-	                    		<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
-	                      		 	<img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
-	                    		</a>
-	                    		<div class="content">
-	                      			<a class="author">{{ reply.user.nickname }}</a>
-	                      		  	<div class="metadata">
-	                        			<div class="date">{{ reply.replied_on }}</div>
-	                      		  	</div>
-			                      	<div class="text">
-			                        	{{ reply.content }}
-			                     	</div>
-	                    		</div>
-	                  	  	</div>
-	                		{% endfor %}
-	              		</div>
-	              	  	{% endif %}
-      
-	            	</div>
-	            	{% endfor %}
-	         	</div>
-			</div>
-		-->
+		
 			
 			
     		{% endif %}<!--if product.comment_count-->
