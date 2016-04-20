@@ -182,7 +182,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'app_snatched_total_count' => 0,
     # 展示图
     'app_snatched_img' => null,
-    # 限购数量
+    # 限购购买数量
     'app_snatched_limit_count' => 0,
 
 		## 试用
