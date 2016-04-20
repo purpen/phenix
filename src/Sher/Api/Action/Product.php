@@ -310,6 +310,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     if($data['app_snatched_stat']==1){
       $data['app_snatched_time_lag'] = $product['app_snatched_time'] - time();
     }elseif($data['app_snatched_stat']==2){
+      // 替换闪购价格
+      $data['sale_price'] = $data['app_snatched_price'];
       $data['app_snatched_time_lag'] = $product['app_snatched_end_time'] - time();
     }else{
       $data['app_snatched_time_lag'] = 0;
