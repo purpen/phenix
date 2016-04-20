@@ -189,10 +189,10 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       }
       // 新品标识--非闪购产品且一个月内上的产品
       if(empty($data[$i]['is_app_snatched'])){
-        if(!empty($data[$i]['featured'])){
+        if($data[$i]['featured']==1){
           $data[$i]['tips_label'] = 2;
         }else{
-          $data[$i]['tips_label'] = $data[$i]['created_on']>(time()-2592000) ? 1 : 0;
+          $data[$i]['tips_label'] = $data[$i]['created_on']>(time()-2592000) ? 1 : $data[$i]['tips_label'];
         }
       }else{
         $data[$i]['tips_label'] = 3;       
