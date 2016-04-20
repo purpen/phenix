@@ -21,8 +21,7 @@
 													{% for asset in assets.rows %}
 														{% if topic.cover._id != asset._id %}
 														<div class="swiper-slide" >
-															<a href="{{ topic.wap_view_url }}" title="{{ topic.title }}">
-													  	<img src="{{ asset.thumbnails.tiny.view_url }}" /></a>
+													  	<img src="{{ asset.thumbnails.tiny.view_url }}" />
 														</div>
 														{% endif %}
 													{% endfor %}
