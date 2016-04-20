@@ -92,7 +92,7 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
 		}else{
 			//判断是否已签到
 			if($user_sign['last_date']==$today){
-			  return array('is_true'=>0, 'is_sign'=>1, 'msg'=>'今天已经签到过了!', 'continuity_times'=>$user_sign['sign_times']);
+			  return array('is_true'=>0, 'code'=>3005, 'is_sign'=>1, 'msg'=>'今天已经签到过了!', 'continuity_times'=>$user_sign['sign_times']);
 			}
   
 			$max_sign_times = $user_sign['max_sign_times']; 
@@ -234,9 +234,9 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
       } // endif is_exist
 
 
-			return array('is_true'=>1, 'msg'=>'签到成功!', 'has_sign'=>1, 'continuity_times'=>$sign_times, 'give_money'=>$give_money, 'data'=>$user_sign);
+			return array('is_true'=>1, 'msg'=>'签到成功!', 'code'=>0, 'has_sign'=>1, 'continuity_times'=>$sign_times, 'give_money'=>$give_money, 'data'=>$user_sign);
 		}else{
-			return array('is_true'=>0, 'msg'=>'签到失败!', 'has_sign'=>0, 'continuity_times'=>0, 'give_money'=>0);
+			return array('is_true'=>0, 'msg'=>'签到失败!', 'code'=>3003, 'has_sign'=>0, 'continuity_times'=>0, 'give_money'=>0);
 		}
 	}
 }

@@ -453,7 +453,8 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
     $user_sign_model = new Sher_Core_Model_UserSign();
     $result = $user_sign_model->sign_in($user_id, array());
     if(empty($result['is_true'])){
-      return $this->api_json($result['msg'], 3001);    
+      // code 3005 是已经签到过了
+      return $this->api_json($result['msg'], $result['code']);    
     }else{
       $data['continuity_times'] = $result['continuity_times'];
       $data['give_money'] = $result['give_money'];
