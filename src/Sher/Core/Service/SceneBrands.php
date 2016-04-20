@@ -7,6 +7,7 @@ class Sher_Core_Service_SceneBrands extends Sher_Core_Service_Base {
 
     protected $sort_fields = array(
         'latest' => array('created_on' => -1),
+        'stick' => array('stick' => -1),
     );
 
     protected static $instance;
