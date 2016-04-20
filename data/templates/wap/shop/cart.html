@@ -5,10 +5,14 @@
 #mfrbird{
 	margin-top:0;
 }
+#mmfoot{
+  display:none;
+}
 .cartmain{
 	display:block;
 	margin-top:15px;
 	padding:0;
+	padding-bottom: 55px;
 }
 .cartitem{
 	display: flex;
@@ -170,7 +174,6 @@
       }
     }, 'json')
   });
-  $('#cartpage').css('min-height',document.documentElement.clientHeight-260);	
 {% endblock %}
 
 {% block content %}

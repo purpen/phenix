@@ -193,12 +193,7 @@
               {% endif %}
             </td>
             <td>
-              {% if f.from_to==1 %}
-                电脑
-              {%endif%}
-              {% if f.from_to==2 %}
-                手机
-              {%endif%}
+              {{ f.from_label }}
             </td>
             <td>
               <div class="ui divided horizontal list">

@@ -385,22 +385,25 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 * 签到 抽奖 for APP
 	 */
 	public function sign_app(){
+    $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
+    $from_to = isset($this->stash['from_to']) ? $this->stash['from_to'] : 0;
+    $app_key = isset($this->stash['app_key']) ? $this->stash['app_key'] : null;
+    $sign = isset($this->stash['sign']) ? $this->stash['sign'] : null;
+
+    // 检查用户是否存在或登录
+    $sign_options = array(
+      'uuid' => $uuid,
+      'from_to' => $from_to,
+      'app_key' => $app_key,
+      'sign' => $sign,
+    );
 
 		// 获取省市列表
 		$areas = new Sher_Core_Model_Areas();
 		$provinces = $areas->fetch_provinces();
     $this->stash['provinces'] = $provinces;
     $this->stash['day'] = date('Ymd');
-    $this->stash['from_to'] = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 3;
 
-    //微信分享
-    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
-    $timestamp = $this->stash['timestamp'] = time();
-    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
-    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
-    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
-    $this->stash['wxSha1'] = sha1($wxOri);
 		return $this->to_html_page('wap/promo/sign_app.html');
 	}
 	

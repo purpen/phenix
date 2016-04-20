@@ -717,13 +717,17 @@
             </div>
           </div>
         </div>
-        <div class="five fields">
+        <div class="six fields">
           <div class="field">
               <label>抢购价：</label>
             <input type="text" name="app_snatched_price" value="{{ product.app_snatched_price|default 0 }}" />
           </div>
           <div class="field">
-              <label>抢购数量：</label>
+              <label>抢购库存：</label>
+            <input type="text" name="app_snatched_total_count" value="{{ product.app_snatched_total_count|default 0 }}" />
+          </div>
+          <div class="field">
+              <label>抢购数量：<small class="ui magenta text">（无需更改）</small></label>
             <input type="text" name="app_snatched_count" value="{{ product.app_snatched_count|default 0 }}" />
           </div>
           <div class="field">

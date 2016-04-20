@@ -1787,11 +1787,33 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
   }
 
   /**
-   * 编辑购物车
+   * 编辑购物车--只增减数量
    */
   public function edit_cart(){
-  
-  
+ 		$user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录！', 3000); 
+    } 
+
+    $target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
+    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+    $n = isset($this->stash['n']) ? (int)$this->stash['n'] : 1;
+
+    if(empty($target_id) && empty($type)){
+      return $this->api_json('请选择商品或类型！', 3001); 
+    }
+
+    $cart_model = new Sher_Core_Model_Cart();
+    $cart = $cart_model->load($user_id);
+    if(empty($cart) || empty($cart['items'])){
+      return $this->api_json('购物车为空!', 3002);
+    }
+
+		$inventory_model = new Sher_Core_Model_Inventory();
+		$product_model = new Sher_Core_Model_Product();
+
+
+    return $this->api_json('购物车为空!', 3003); 
   }
 
 	
