@@ -182,7 +182,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'app_snatched_total_count' => 0,
     # 展示图
     'app_snatched_img' => null,
-    # 限购数量
+    # 限购购买数量
     'app_snatched_limit_count' => 0,
 
 		## 试用
@@ -890,10 +890,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
                         '$inc' => array('sale_count'=>$quantity, 'inventory'=>$quantity*-1, 'exchange_count'=>-1),
                     );
                 }
-                // 如果是app闪购，减少数量
+                // 如果是app闪购，增加抢购数量
                 if($kind==3){
                     $updated = array(
-                        '$inc' => array('sale_count'=>$quantity, 'inventory'=>$quantity*-1, 'app_snatched_count'=>1),
+                        '$inc' => array('sale_count'=>$quantity, 'inventory'=>$quantity*-1, 'app_snatched_count'=>$quantity),
                     );               
                 }
 			}

@@ -304,6 +304,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     protected function after_save() {
 		$rid = $this->data['rid'];
 		$items = $this->data['items'];
+    $kind = $this->data['kind'];
 		
 		for($i=0;$i<count($items);$i++){
 			$sku = $items[$i]['sku'];
@@ -352,8 +353,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	 * 过滤items
 	 */
 	protected function validate_order_items(&$data){
-		$item_fields = array('sku', 'product_id', 'quantity', 'price', 'sale_price');
-		$int_fields = array('sku', 'product_id', 'quantity');
+		$item_fields = array('sku', 'product_id', 'quantity', 'price', 'sale_price', 'kind');
+		$int_fields = array('sku', 'product_id', 'quantity', 'kind');
 		$float_fields = array('price', 'sale_price');
 		
 		$new_items = array();

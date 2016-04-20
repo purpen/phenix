@@ -237,7 +237,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
       'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',
       // app抢购
-      'app_snatched', 'app_snatched_time', 'app_snatched_end_time', 'app_snatched_price', 'app_snatched_count', 'app_snatched_total_count', 'app_appoint_count',
+      'app_snatched', 'app_snatched_time', 'app_snatched_end_time', 'app_snatched_price', 'app_snatched_count', 'app_snatched_total_count', 'app_appoint_count', 'app_snatched_limit_count',
 		);
 		
 		// 增加pv++
@@ -296,9 +296,13 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
     // 闪购标识
     $data['is_app_snatched'] = $model->is_app_snatched($product);
+    // 剩余秒杀产品数量
     $data['app_snatched_rest_count'] = 0;
     if($data['is_app_snatched']){
       $data['app_snatched_rest_count'] = $data['app_snatched_total_count'] - $data['app_snatched_count'];
+      if($data['app_snatched_rest_count'] < 0){
+        $data['app_snatched_rest_count'] = 0;
+      }
     }
     // 闪购进度
     $data['app_snatched_stat'] = $model->app_snatched_stat($product);
@@ -306,6 +310,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     if($data['app_snatched_stat']==1){
       $data['app_snatched_time_lag'] = $product['app_snatched_time'] - time();
     }elseif($data['app_snatched_stat']==2){
+      // 替换闪购价格
+      $data['sale_price'] = $data['app_snatched_price'];
       $data['app_snatched_time_lag'] = $product['app_snatched_end_time'] - time();
     }else{
       $data['app_snatched_time_lag'] = 0;
@@ -692,10 +698,17 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         $data[$i]['app_snatched_price'] = sprintf('%.2f', $result['rows'][$i]['app_snatched_price']);     
       }
 
-      // 闪购进度条(百分比)
+      
       $data[$i]['app_snatched_percent'] = 0;
+      $data[$i]['app_snatched_rest_count'] = 0;
       if($data[$i]['is_app_snatched']){
-        $data[$i]['app_snatched_percent'] = sprintf('%.2f', $data[$i]['app_snatched_count']/(float)$data[$i]['app_snatched_total_count']);       
+        // 闪购进度条(百分比)
+        $data[$i]['app_snatched_percent'] = sprintf('%.2f', $data[$i]['app_snatched_count']/(float)$data[$i]['app_snatched_total_count']);   
+        // 剩余秒杀产品数量
+        $data[$i]['app_snatched_rest_count'] = $data[$i]['app_snatched_total_count'] - $data[$i]['app_snatched_count'];
+        if($data[$i]['app_snatched_rest_count'] < 0){
+          $data[$i]['app_snatched_rest_count'] = 0;
+        }
       }
 
       // 闪购进度
