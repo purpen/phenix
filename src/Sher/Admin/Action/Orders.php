@@ -429,7 +429,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
       if($ok){
         $order_message = sprintf("致亲爱的人：我们已将您编号为[%s]的宝贝托付到有颜靠谱的快递小哥手中，日夜兼程只为让您感受潮酷智能生活的便利。", $order_info['rid']);
         $order_phone = $order_info['express_info']['phone'];
-        if(empty($order_phone)){
+        if(!empty($order_phone)){
           Sher_Core_Helper_Util::send_defined_mms($order_phone, $order_message);
         }
       }
