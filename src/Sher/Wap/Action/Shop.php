@@ -26,7 +26,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','index','shop','presale','view','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list','serve');
+	protected $exclude_method_list = array('execute','index','shop','presale','view','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list','serve','promo');
 	
 	/**
 	 * 商城入口
@@ -97,6 +97,14 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	public function serve(){
 		$this->stash['page_title_suffix'] = '太火鸟商城购物攻略';
 		return $this->to_html_page('wap/shop/serve.html');
+	}
+	
+	/**
+	 * 太火鸟商城购物攻略
+	 */
+	public function promo(){
+		//$this->stash['page_title_suffix'] = '太火鸟商城购物攻略';
+		return $this->to_html_page('wap/shop/promo.html');
 	}
 	
 	/**
