@@ -1707,12 +1707,12 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         foreach($error_index_arr as $k=>$v){
           unset($cart['items'][$v]);
         }
-        $cart_model->update_set($cart['_id'], array('items'=>$cart['items'], 'item_count'=>count($cart['items']));
+        $cart_model->update_set($cart['_id'], array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));
       }
 
     }
 
-    return $this->api_json('success', 0, array('items'=>$item_arr, 'count'=>count($item_arr));
+    return $this->api_json('success', 0, array('items'=>$item_arr, 'count'=>count($item_arr)));
   }
 
   /**
