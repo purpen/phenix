@@ -1861,13 +1861,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       return $this->api_json('请先登录！', 3000); 
     } 
 
-    $target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
-    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
-    $n = isset($this->stash['n']) ? (int)$this->stash['n'] : 1;
-
-    if(empty($target_id) && empty($type)){
-      return $this->api_json('请选择商品或类型！', 3001); 
+    if(!isset($this->stash['array']) || empty($this->stash['array'])){
+      return $this->api_json('请传入参数！', 3002); 
     }
+    $cart_arr = json_decode($this->stash['array']);
+
 
     $cart_model = new Sher_Core_Model_Cart();
     $cart = $cart_model->load($user_id);
@@ -1878,8 +1876,24 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$inventory_model = new Sher_Core_Model_Inventory();
 		$product_model = new Sher_Core_Model_Product();
 
+    foreach($cart_arr as $key=>$val){
+      $val = (array)$val;
+      $type = (int)$val['type'];
+      $target_id = (int)$val['target_id'];
+      $n = (int)$val['n'];
 
-    return $this->api_json('购物车为空!', 3003); 
+      // 批量更新数量
+      foreach($cart['items'] as $k=>$v){
+        if($v['target_id']==$target_id){
+          $cart['items'][$k]['n'] = $n;
+        }
+      }
+    }// endfor
+    $ok = $cart_model->update_set($user_id, array('items'=>$cart['items'], 'item_count'=>count($cart['items']))); 
+    if(!$ok){
+      return $this->api_json('更新失败!', 3003);    
+    }
+    return $this->api_json('success!', 0, array()); 
   }
 
 	
