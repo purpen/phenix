@@ -400,23 +400,25 @@
 }
 
 .commentitem{
+	padding:1.07175rem 0 0.7145rem 0;
+	border-top:1px solid rgba(0,0,0,0.1);
+}
+.commentitem:first-child{
+	border:none;
+}
+.commentitem .comment{
 	display: flex;
     display: -ms-flexbox;
     display: -webkit-flex;
     display: -webkit-box;
     align-items: center;
     -webkit-box-align: center;
-	margin-bottom:0.7145rem;
-	padding:0.7145rem 0;
-	border-top:1px solid rgba(0,0,0,0.1);
-}
-.commentitem:first-child{
-	border:none;
 }
 .commentitem .comment img{
 	width: 30px;
 	height: 30px;
 	border-radius:50%;
+	vertical-align: bottom;
 }
 .commentitem .comment .content{
     -webkit-box-flex: 1;
@@ -430,6 +432,9 @@
     position: relative;
     margin-right: 10px;
     margin-left: 10px;
+}
+.commentitem .comment .content .ui.rating{
+	font-size:0.8574rem;
 }
 </style>
 {% endblock %}
@@ -791,12 +796,13 @@
 						<div class="content">
 							<h5 class="ui header ml-2r mtb-0">
 								{{ comment.user.nickname }}
+								{% include "block/star.html" %}
 							</h5>
 						</div>
-					</div>
+					</div><!--
 					<div class="metadata mtb-r">
 						{% include "block/star.html" %}
-					</div>
+					</div>-->
             		<div class="text mtb-r">
               		  {{ comment.content }}
             	  	</div>
