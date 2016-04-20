@@ -354,6 +354,17 @@ h4 a.seemore{
 			</div>
 		</div>
 		
+		{% ad_list var:'adbanner' page:1 state:2 size:2 name:'wap_footer_banner' sort_field:'latest' %}
+		{% for d in adbanner.rows %}
+		<div class="row ptb-r">
+			<div class="column p-0">
+				<a href="{{ d.view_url }}">
+					<img src="{{ d.cover.fileurl }}" title="{{ d.title }}" align="absmiddle">
+				</a>
+			</div>
+		</div>
+		{%endfor%}
+		
 		<div class="row pt-r">
 			<div class="column p-0">
 				<a href="{{ app_url_wap }}/shop/shop" class="qbfl" title="全部分类">

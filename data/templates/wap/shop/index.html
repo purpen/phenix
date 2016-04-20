@@ -76,7 +76,7 @@
 		</li>
 	</ul>
 </div>
-<!-- 专题 -->
+<!-- 孵化 -->
 
 {% ad_list var:'adstick' page:1 state:2 size:3 name:'wap_shop_index_stick_slide' sort_field:'latest' %}
 <div class=" " id="shop-special">
@@ -187,21 +187,16 @@
 			</div>
 		</div>
 		-->
+		{% ad_list var:'adbanner' page:1 state:2 size:2 name:'wap_footer_banner' sort_field:'latest' %}
+		{% for d in adbanner.rows %}
 		<div class="row ptb-r">
 			<div class="column p-0">
-				<a href="">
-					<img src="http://img2.imgtn.bdimg.com/it/u=1934615379,2830366023&fm=21&gp=0.jpg" width="100%" align="absmiddle">
+				<a href="{{ d.view_url }}">
+					<img src="{{ d.cover.fileurl }}" title="{{ d.title }}" align="absmiddle">
 				</a>
 			</div>
 		</div>
-		
-		<div class="row ptb-r">
-			<div class="column p-0">
-				<a href="">
-					<img src="http://img006.hc360.cn/g1/M07/3A/6D/wKhQMVMdoDiEF61mAAAAADblOlA964.jpg" width="100%" align="absmiddle">
-				</a>
-			</div>
-		</div>
+		{%endfor%}
 			
 		<div class="row pt-r">
 			<div class="column p-0">
