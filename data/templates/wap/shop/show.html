@@ -284,10 +284,11 @@
 #shopview .tabshow .nav-menu .navfelx .childcell::after{
 	content:'';
 	height:1px;
-	width:100%;
+	width:66px;
 	background:#f36;
 	position:absolute;
-	left:0;
+	left:50%;
+	margin-left:-33px;
 	bottom:0;
     transform: scaleX(0);
     -webkit-transform: scaleX(0);
@@ -398,16 +399,256 @@
 	display:none;
 	visibility: hidden;
 }
+
+.commentitem{
+	padding:1.07175rem 0 0.7145rem 0;
+	border-top:1px solid rgba(0,0,0,0.1);
+}
+.commentitem:first-child{
+	border:none;
+	padding-top: 0;
+}
+.commentitem .comment{
+	display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+    align-items: center;
+    -webkit-box-align: center;
+}
+.commentitem .comment img{
+	width: 30px;
+	height: 30px;
+	border-radius:50%;
+	vertical-align: bottom;
+}
+.commentitem .comment .content{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    position: relative;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.commentitem .comment .content .ui.rating{
+	font-size:0.8574rem;
+	margin-left:0.7145rem;
+}
+.commentitem .comment .content h5.ui.header{
+	font-weight:400;
+}
+.commentitem .text{
+	margin:8px 0 5px 0;
+	font-size:0.92885rem;
+}
+.commentitem .date{
+	font-size:0.8574rem;
+}
+.commentitem .image{
+	margin-top: 0.35725rem;
+}
+.commentitem .image .ui.three.cards {
+    margin: 0 -1.5%;
+}
+.commentitem .image .ui.three.cards>.card {
+    width: 30.33333%;
+    margin:0 1.5% 0.7145rem;
+    border-radius: 0;
+    box-shadow: none;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.commentitem .image .ui.three.cards>.card a.image{
+    background: rgba(0,0,0,0);
+    width: 100%;
+	margin: 0;
+    border-radius: 0 !important;
+}
+.lightboxOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background-color: black;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.92;
+  display: none;
+}
+
+.lightbox {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: 10000;
+  text-align: center;
+  line-height: 0;
+  font-weight: normal;
+}
+
+.lightbox .lb-image {
+  display: block;
+  height: auto;
+  max-width: inherit;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.lightbox a img {
+  border: none;
+}
+
+.lb-outerContainer {
+  position: relative;
+  zoom: 1;
+  margin: 0 auto;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  background: rgba(0,0,0,0);
+}
+
+.lb-outerContainer:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.lb-container {
+  padding: 4px;
+  position: relative;
+  background-color: rgba(0,0,0,0);
+}
+
+.lb-loader {
+  position: absolute;
+  top: 43%;
+  left: 0;
+  height: auto;
+  width: 100%;
+  text-align: center;
+  line-height: 0;
+}
+.lb-cancel {
+  display: block;
+  width: 32px;
+  height: 32px;
+  margin: 0 auto;
+  background: url({{ app_url_packaged }}/images/mall/loading1.gif) no-repeat;
+}
+
+.lb-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+}
+
+.lb-container > .nav {
+  left: 0;
+}
+
+.lb-nav a {
+  outline: none;
+  background-image: url('data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');
+}
+
+.lb-prev, .lb-next {
+  height: 100%;
+  cursor: pointer;
+  display: block;
+}
+
+.lb-nav a.lb-prev {
+  width: 34%;
+  left: 0;
+  float: left;
+  background: url("{{ app_url_packaged }}/images/lightbox/prev.png") left 48% no-repeat;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 1;
+  -webkit-transition: opacity 0.6s;
+  -moz-transition: opacity 0.6s;
+  -o-transition: opacity 0.6s;
+  transition: opacity 0.6s;
+  background-size: 26%;
+}
+
+.lb-nav a.lb-prev:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+
+.lb-nav a.lb-next {
+  width: 64%;
+  right: 0;
+  float: right;
+  background: url("{{ app_url_packaged }}/images/lightbox/next.png") right 48% no-repeat;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 1;
+  -webkit-transition: opacity 0.6s;
+  -moz-transition: opacity 0.6s;
+  -o-transition: opacity 0.6s;
+  transition: opacity 0.6s;
+  background-size: 13%;
+}
+
+.lb-nav a.lb-next:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+.lb-dataContainer {
+  margin: 0 auto;
+  padding-top: 5px;
+  *zoom: 1;
+  width: 100%;
+  -moz-border-radius-bottomleft: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  background-color: rgba(0,0,0,0);
+}
+.lb-data .lb-details{
+	display:none;
+}
+.lb-data .lb-close {
+  display: block;
+  float: right;
+  width: 30px;
+  height: 30px;
+  background: url("{{ app_url_packaged }}/images/lightbox/close.png") top right no-repeat;
+  text-align: right;
+  outline: none;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
+  opacity: 0.7;
+  -webkit-transition: opacity 0.2s;
+  -moz-transition: opacity 0.2s;
+  -o-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+  position: absolute;
+  top: -30px;
+  right: 15px;
+  width: 20px;
+  height: 20px;
+  background-size: cover;
+}
 </style>
 {% endblock %}
 
 {% block layout_js %}
-<script type="text/javascript">
-
-
-</script>
+<script src="{{ app_url_packaged }}/javascript/lightbox.min.js" type="text/javascript"></script>
 {% endblock %}
-
 {% block jquery %}
   	$('#slider').flexslider({
         animation: "slide",
@@ -747,64 +988,63 @@
 	    {% if product.comment_count %}
 
 	    <!--商品评价-->
+		
 	    <div class="ui reply segment">
 	    	<div class="ui threaded minimal is-comment comments">
 	            {% comment_list var:'comments' page:page target_id:product._id %}
 	            {% for comment in comments.rows %}
-	        	<div class="comment" id="{{ comment._id }}">
-	              	<a class="avatar" href="{{ comment.user.home_url }}">
-	                <img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
-	             	</a>
-	              	<div class="content">
-	                	<a class="author ui magenta link" href="{{ comment.user.home_url }}">{{ comment.user.nickname }}</a>
-	                	<div class="metadata">
-	                  		<!--<div class="date">{{ comment.created_on }}</div>-->
-	                  	  	{% include "block/star.html" %}
-	                		</div>
-            
-	                		<div class="text">
-	                  		  {{ comment.content }}
-	                	  	</div>
-	                		{% if visitor.is_login %}
-			                <form class="ui reply hide form" action="{{ app_url_comment }}/ajax_reply" method="post" id="reply_{{ comment._id }}">
-			                  <input type="hidden" name="type" value="2" />
-			                  <input type="hidden" name="comment_id" value="{{ comment._id }}" />
-			                  <input type="hidden" name="target_id" value="{{ topic._id }}" />
-			                  <div class="field">
-			                    <textarea name="content" class="reply-content"></textarea>
-			                  </div>
-			                  <div class="ui active button magenta submit labeled icon">
-			                    <i class="icon location"></i> 回复
-			                  </div>
-			                </form>
-			                {% endif %}
-	              	  	</div>
-      
-	              	  	{% if comment.reply %}
-	              	  	<div class="comments">
-	                		{% for reply in comment.reply %}
-	                 		<div class="comment">
-	                    		<a class="avatar" href="{{ reply.user.home_url }}" title="{{ reply.user.nickname }}">
-	                      		 	<img src="{{ reply.user.small_avatar_url }}" alt="{{ reply.user.nickname }}" />
-	                    		</a>
-	                    		<div class="content">
-	                      			<a class="author">{{ reply.user.nickname }}</a>
-	                      		  	<div class="metadata">
-	                        			<div class="date">{{ reply.replied_on }}</div>
-	                      		  	</div>
-			                      	<div class="text">
-			                        	{{ reply.content }}
-			                     	</div>
-	                    		</div>
-	                  	  	</div>
-	                		{% endfor %}
-	              		</div>
-	              	  	{% endif %}
-      
-	            	</div>
-	            	{% endfor %}
-	         	</div>
+				<div class="commentitem"  id="{{ comment._id }}">
+					<div class="comment">
+						<img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
+						<div class="content">
+							<h5 class="ui header ml-2r mtb-0">
+								{{ comment.user.nickname }}
+								{% include "block/star.html" %}
+							</h5>
+						</div>
+					</div>
+					
+            		<div class="text">
+              		  {{ comment.content }}
+            	  	</div>
+					
+					<!-- 图片 -->
+					<!--
+					<div class="image">
+						<div class="ui three cards">
+							
+							<div class="card">
+								<a href="http://frbird.qiniudn.com/comment/160420/57173bf63ffca269098c35f5-1-hu.jpg" data-lightbox="images" class="ui image">
+						          <img src="http://frbird.qiniudn.com/comment/160420/57173bf63ffca269098c35f5-1-hu.jpg" alt="婴萌配奶机" />
+						      	</a>
+							</div>
+							<div class="card">
+								<a href="{{ app_url_packaged }}/images/mall/mikt013.jpg" data-lightbox="images" class="ui image">
+						          <img src="{{ app_url_packaged }}/images/mall/mikt13.jpg" alt="婴萌配奶机" />
+						      	</a>
+							</div>
+							<div class="card">
+								<a href="{{ app_url_packaged }}/images/mall/mikt015.jpg" data-lightbox="images" class="ui image">
+						          <img src="{{ app_url_packaged }}/images/mall/mikt15.jpg" alt="婴萌配奶机" />
+						      	</a>
+							</div>
+							
+						</div>
+					</div>
+					-->
+					
+					<div class="date">{{ comment.created_at }}</div>
+						
+				</div>
+				{%endfor%}
+				
 			</div>
+		</div>
+		
+		
+		
+			
+			
     		{% endif %}<!--if product.comment_count-->
  		   {% endif %}
   		   

@@ -61,6 +61,10 @@
 		<div class="logout">
 			<a href="{{ app_url_wap }}/auth/logout">安全退出</a>
 		</div>
+		{% else %}
+		<div class="logout">
+			<a href="{{ app_url_wap }}/auth">登录／注册</a>
+		</div>
 		{% endif %}
 	</div>
 	<div id="cover"></div>
