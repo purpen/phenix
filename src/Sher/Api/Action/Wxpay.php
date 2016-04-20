@@ -57,7 +57,7 @@
 			
 			// 验证订单是否已经付款
 			if ($status != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
-				return $this->api_json('订单[$rid]已付款！', 3006);
+				return $this->api_json(sprintf("订单[%s]已付款！", $rid), 3006);
 			}
 			
 			// 支付完成通知回调接口
