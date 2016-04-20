@@ -1686,7 +1686,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
           }
           $product_id = $inventory['product_id'];
           $data['quantity'] = $inventory['quantity'];
-          
         }else{
           $product_id = $target_id;
           $product = $product_model->load($product_id);
@@ -1708,7 +1707,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         foreach($error_index_arr as $k=>$v){
           unset($cart['items'][$v]);
         }
-        $cart_model->update_set($cart['_id'], array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));
+        $cart_model->update_set($cart['_id'], array('items'=>$cart['items'], 'item_count'=>count($cart['items']));
       }
 
     }
