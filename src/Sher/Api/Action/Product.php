@@ -100,7 +100,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       'comment_star'=>1,'snatched_end_time'=>1, 'snatched_price'=>1, 'snatched_count'=>1,
       // app抢购
       'app_snatched'=>1, 'app_snatched_time'=>1, 'app_snatched_end_time'=>1, 'app_snatched_price'=>1,
-      'app_snatched_count'=>1, 'app_appoint_count'=>1,
+      'app_snatched_count'=>1, 'app_appoint_count'=>1, 'app_snatched_total_count'=>1,
 		);
 		
 		// 请求参数
@@ -237,7 +237,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
       'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',
       // app抢购
-      'app_snatched', 'app_snatched_time', 'app_snatched_end_time', 'app_snatched_price', 'app_snatched_count', 'app_appoint_count',
+      'app_snatched', 'app_snatched_time', 'app_snatched_end_time', 'app_snatched_price', 'app_snatched_count', 'app_snatched_total_count', 'app_appoint_count',
 		);
 		
 		// 增加pv++
@@ -296,6 +296,10 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
     // 闪购标识
     $data['is_app_snatched'] = $model->is_app_snatched($product);
+    $data['app_snatched_rest_count'] = 0;
+    if($data['is_app_snatched']){
+      $data['app_snatched_rest_count'] = $data['app_snatched_total_count'] - $data['app_snatched_count'];
+    }
     // 闪购进度
     $data['app_snatched_stat'] = $model->app_snatched_stat($product);
     // 返回闪购时间戳差，如果非闪购或已结束，返回0
@@ -626,13 +630,12 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       'comment_star'=>1,'snatched_end_time'=>1, 'snatched_price'=>1, 'snatched_count'=>1,
       // app抢购
       'app_snatched'=>1, 'app_snatched_time'=>1, 'app_snatched_end_time'=>1, 'app_snatched_price'=>1,
-      'app_snatched_count'=>1, 'app_appoint_count'=>1,
+      'app_snatched_count'=>1, 'app_appoint_count'=>1, 'app_snatched_total_count'=>1,
 		);
 		
 		// 请求参数
 
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
-		
 		$stage = isset($this->stash['stage']) ? (int)$this->stash['stage'] : Sher_Core_Model_Product::STAGE_SHOP;
 			
 		$query   = array();
@@ -687,6 +690,12 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       if(isset($data[$i]['app_snatched_price']) && !empty($data[$i]['app_snatched_price'])){
         // 保留2位小数
         $data[$i]['app_snatched_price'] = sprintf('%.2f', $result['rows'][$i]['app_snatched_price']);     
+      }
+
+      // 闪购进度条(百分比)
+      $data[$i]['app_snatched_percent'] = 0;
+      if($data[$i]['is_app_snatched']){
+        $data[$i]['app_snatched_percent'] = (float)($data[$i]['app_snatched_total_count'] - $data[$i]['app_snatched_count']/$data[$i]['app_snatched_total_count']);       
       }
 
       // 闪购进度

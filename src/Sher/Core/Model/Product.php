@@ -178,6 +178,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'app_snatched_price' => 0,
 		# 抢购数量
 		'app_snatched_count' => 0,
+    # 抢购总数量
+		'app_snatched_total_count' => 0,
     # 展示图
     'app_snatched_img' => null,
     # 限购数量
@@ -295,7 +297,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('user_id','title');
-	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','app_snatched_count','stuff_count','last_editor_id','max_bird_coin','min_bird_coin','exchange_count','app_snatched_limit_count');
+	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','app_snatched_count','app_snatched_total_count','stuff_count','last_editor_id','max_bird_coin','min_bird_coin','exchange_count','app_snatched_limit_count');
 	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money', 'presale_goals', 'snatched_price', 'app_snatched_price', 'exchange_price');
 	protected $counter_fields = array('inventory','sale_count','presale_count', 'mode_count','asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count','appoint_count','stuff_count','exchange_count', 'app_appoint_count', 'true_view_count', 'web_view_count', 'wap_view_count', 'app_view_count');
 	protected $retrieve_fields = array('content'=>0);
@@ -465,7 +467,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     // 如果是闪购进行中,验证库存
     $app_snatched_stat = $this->app_snatched_stat($data);
     if($app_snatched_stat==2){
-      return $data['app_snatched_count'] > 0;
+      return $data['app_snatched_count'] >= $data['app_snatched_total_count'];
     }
 
   }
@@ -560,9 +562,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             $data['snatched_count'] = 0;
         }
 
-        // app抢购库存数量不为能负数
-        if(isset($data['app_snatched_count']) && (int)$data['app_snatched_count'] < 0){
-            $data['app_snatched_count'] = 0;
+        // app抢购数量不能大于抢购总数量
+        if(isset($data['app_snatched_count']) && (int)$data['app_snatched_count'] > $data['app_snatched_total_count']){
+            $data['app_snatched_count'] = $data['app_snatched_total_count'];
         }
 
         // 积分兑换库存数量不为能负数
@@ -891,7 +893,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
                 // 如果是app闪购，减少数量
                 if($kind==3){
                     $updated = array(
-                        '$inc' => array('sale_count'=>$quantity, 'inventory'=>$quantity*-1, 'app_snatched_count'=>-1),
+                        '$inc' => array('sale_count'=>$quantity, 'inventory'=>$quantity*-1, 'app_snatched_count'=>1),
                     );               
                 }
 			}
@@ -945,7 +947,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             // 恢复app闪购产品数量
             if($kind==3){
                 $updated = array(
-				  '$inc' => array('sale_count'=>$quantity*-1, 'inventory'=>$quantity,  'app_snatched_count'=>1),
+				  '$inc' => array('sale_count'=>$quantity*-1, 'inventory'=>$quantity,  'app_snatched_count'=>-1),
                 );           
             }
 		}
