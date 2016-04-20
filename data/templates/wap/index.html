@@ -25,23 +25,87 @@ h4 a.seemore{
     display: inline-block;
     float: right;
 }
-/*#mfrbird{
-	margin-bottom:0 !important;
+.qbfl{
+    padding-top: 33.3333%;
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
 }
-#mmfoot .recom-item{
-	margin-bottom: 1rem;
+.qbfl img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
 }
-#mmfoot .recom-item .recom-cell.one{
-	margin-bottom: 11px;
+.qbfl h3.ui.header{
+    text-align: center;
+    color: #fff !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%,-50%,0);
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    border-bottom: 2px solid #fff;
+    padding-bottom: 10px;
 }
-#mmfoot .recom-item .recom-cell.one a{
-	padding-top: 33.333%;
-}*/
 </style>
 {% endblock %}
 
 {% block layout_js %}
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
   <script type="text/javascript" >
+	
+	var m_name = '太火鸟';
+	var img_url = '{{ app_url_packaged }}/images/fxlogo2.jpg';
+	var link = '{{ app_url_wap_ }}';
+	var desc_str = '火爆的智能硬件孵化平台';
+
+	wx.config({
+	  debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	  appId: '{{ app_id }}', // 必填，公众号的唯一标识
+	  timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+	  nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+	  signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+	  jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	});
+	wx.ready(function(){
+	// 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+	 wx.onMenuShareAppMessage({
+	  title: m_name,
+	  desc: desc_str,
+	  link: link,
+	  imgUrl: img_url,
+	});      
+
+	// 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+	wx.onMenuShareTimeline({
+	  title: m_name,
+	  desc: desc_str,
+	  link: link,
+	  imgUrl: img_url,
+	});
+
+	// 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+	wx.onMenuShareQQ({
+	  title: m_name,
+	  desc: desc_str,
+	  link: link,
+	  imgUrl: img_url,
+	});
+
+	// 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+	wx.onMenuShareWeibo({
+	  title: m_name,
+	  desc: desc_str,
+	  link: link,
+	  imgUrl: img_url,
+	});
+	});
+
      // 产品
      function ajax_load_product_more(category_id, type, sort, page, size){
         var url = '{{ app_url_wap }}/shop/ajax_load_list';
@@ -289,6 +353,33 @@ h4 a.seemore{
 			
 			</div>
 		</div>
+		
+		{% ad_list var:'adbanner' page:1 state:2 size:2 name:'wap_footer_banner' sort_field:'latest' %}
+		{% for d in adbanner.rows %}
+		<div class="row ptb-r">
+			<div class="column p-0">
+				<a href="{{ d.view_url }}">
+					<img src="{{ d.cover.fileurl }}" title="{{ d.title }}" width="100%" align="absmiddle">
+				</a>
+			</div>
+		</div>
+		{%endfor%}
+		
+		<div class="row pt-r">
+			<div class="column p-0">
+				<a href="{{ app_url_wap }}/shop/shop" class="qbfl" title="全部分类">
+				<img src="{{ app_url_packaged }}/images/shopflbg.png" align="absmiddle">
+					<h3 class="ui header">全部分类</h3>
+				</a>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="column">
+				<img src="{{ app_url_packaged }}/images/shopfw.png" width="100%" align="absmiddle">
+			</div>
+		</div>
+		
 	</div>
 	
 			
