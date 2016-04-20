@@ -453,7 +453,8 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
     $user_sign_model = new Sher_Core_Model_UserSign();
     $result = $user_sign_model->sign_in($user_id, array());
     if(empty($result['is_true'])){
-      return $this->api_json($result['msg'], 3001);    
+      // code 3005 是已经签到过了
+      return $this->api_json($result['msg'], $result['code']);    
     }else{
       $data['continuity_times'] = $result['continuity_times'];
       $data['give_money'] = $result['give_money'];
@@ -596,11 +597,11 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
       $order = $orders_model->find_by_rid($rid);
       
       //订单不存在
-      if(empty($order_info)){
+      if(empty($order)){
         return $this->api_json('订单不存在！', 3005);   
       }
-      // 未支付订单才允许关闭
-      if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
+      // 是否待发货订单
+      if ($order['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
         return $this->api_json('订单状态不正确！', 3006);   
       }
 

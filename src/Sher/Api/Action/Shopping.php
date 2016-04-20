@@ -1895,6 +1895,42 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     return $this->api_json('success!', 0, array()); 
   }
 
+  /**
+   * 下单成功后分享返回商品信息
+   */
+  public function place_order_share(){
+  	$user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录！', 3000); 
+    }
+    $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+    if(empty($rid)){
+      return $this->api_json('缺少请求参数!', 3001);      
+    }
+    $orders_model = new Sher_Core_Model_Orders();
+    $order = $orders_model->find_by_rid($rid);
+    
+    //订单不存在
+    if(empty($order)){
+      return $this->api_json('订单不存在！', 3002);   
+    }
+    $product_id = $order['items'][0]['product_id'];
+    $product_model = new Sher_Core_Model_Product();
+    $product = $product_model->extend_load((int)$product_id);
+    if(empty($product)){
+      return $this->api_json('商品不存在！', 3003);    
+    }
+
+    $row = array(
+      'title' => $product['title'],
+      'cover_url' => $product['cover']['thumbnails']['mini']['view_url'],
+      'desc' => $product['advantage'],
+      'wap_view_url' => $product['wap_view_url'],
+    );
+
+    return $this->api_json('success', 0, $row);
+  }
+
 	
 }
 
