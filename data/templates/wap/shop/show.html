@@ -643,6 +643,9 @@
   height: 20px;
   background-size: cover;
 }
+#shopview .tabshow > .nav-menu .navfelx{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+}
 #shopview .tabshow .ui.reply.segment{
 	padding-top: 0;
 	background: rgba(0,0,0,0);
@@ -1019,7 +1022,16 @@
 	    <!--商品评价-->
 		
 	    <div class="ui reply segment">
-			
+			<div class="nav-menu mb-2r">
+				<ul class="navfelx">
+					<li class="allreply childcell active">
+						全部评价
+					</li>
+					<li class="shaidan childcell active">
+						晒单
+					</li>
+				</ul>
+			</div>
 	    	<div class="ui threaded minimal is-comment comments">
 	            {% comment_list var:'comments' page:page target_id:product._id %}
 	            {% for comment in comments.rows %}
