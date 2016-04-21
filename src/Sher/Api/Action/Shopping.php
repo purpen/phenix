@@ -83,6 +83,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       return $this->api_json('当前购物车为空！', 3002); 
     }
 
+    // 初始化类型
+    $kind = 0;
+
 		//验证购物车，无购物不可以去结算
     $result = array();
     $items = array();
@@ -190,6 +193,21 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			
 			// 优惠活动费用
 			$coin_money = 0.0;
+
+      // 用户是否首次下单立减 秒杀不参与
+      $user_model = new Sher_Core_Model_User();
+      $user = $user_model->load($this->current_user_id);
+      if(empty($user)){
+        return false;
+      }
+      if(isset($user['identify']['is_app_first_shop']) && $user['identify']['is_app_first_shop']==1){
+        //首次下单立减非首次下单用户过滤
+      }else{
+        if(empty($kind)){ // 其它活动不参与
+          $kind = 4;
+          $coin_money = Sher_Core_Util_Constant::APP_FIRST_COIN_MONEY;
+        }    
+      }
 			
 			// 红包金额
 			$card_money = 0.0;
@@ -209,7 +227,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		    );
 			$new_data = array();
 			$new_data['dict'] = array_merge($default_data, $data);
-			
+			$new_data['kind'] = $kind;
 			$new_data['user_id'] = $user_id;
 			$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
       // 是否来自购物车
