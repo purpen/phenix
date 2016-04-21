@@ -18,6 +18,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     const KIND_SNATCH = 2;
     # app闪购订单
     const KIND_APP_SNATCH = 3;
+    # app首次下单立减
+    const KIND_APP_FIRST_MINUS = 4;
 	
     protected $schema = array(
 		# 订单编号

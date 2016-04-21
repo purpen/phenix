@@ -344,10 +344,12 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$total_money = (float)$price*$quantity;
 		$items_count = 1;
 
-		$order_info = $this->create_temp_order($items, $total_money, $items_count, $kind);
-		if (empty($order_info)){
+		$order_info_result = $this->create_temp_order($items, $total_money, $items_count, $kind);
+		if (empty($order_info_result)){
       return $this->api_json('系统出了小差，请稍后重试！', 3006);
-		}
+    }else{
+      $order_info = $order_info_result['data'];
+    }
 
     if(!$is_app_snatched){
       // 加载可用红包
@@ -1223,12 +1225,19 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$coin_money = 0.0;
 
     // 用户是否首次下单立减 秒杀不参与
-    if($kind==3){
-      
-    }else{
-    
+    $user_model = new Sher_Core_Model_User();
+    $user = $user_model->load($this->current_user_id);
+    if(empty($user)){
+      return false;
     }
-
+    if(isset($user['identify']['is_app_first_shop']) && $user['identify']['is_app_first_shop']==1){
+      // 非首次下单用户过滤
+    }else{
+      if(empty($kind)){ // 秒杀不参与
+        $kind = 4;
+        $coin_money = Sher_Core_Util_Constant::APP_FIRST_COIN_MONEY;
+      }    
+    }
 		
 		// 红包金额
 		$card_money = 0.0;
@@ -1281,9 +1290,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Create temp order failed: ".$e->getMessage());
 			return false;
-		}
+    }catch(Exception $e){
+      return false;
+    }
 		
-		return $order_info;
+		return array('data'=>$order_info);
 	}
 	
   /**

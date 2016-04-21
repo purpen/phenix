@@ -331,6 +331,9 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const USER_AUTO_GEN_COUNT = 'user_auto_gen';
     
     const PHONE_AUTO_GET_COUNT = 'phone_auto_gen';
+
+    ## app首次下单优惠金额
+    APP_FIRST_COIN_MONEY = 10.00;
     
     
     /**
