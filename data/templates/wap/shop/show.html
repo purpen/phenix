@@ -681,10 +681,13 @@
 	background:#fff;
 }
 #product_eval .eval.title{
-	padding: 15px 10px 15px;
+	padding: 1.07175rem 0.7145rem 1.07175rem;
     font-weight: 400;
     font-size: 1rem;
 	border-bottom:1px solid rgba(0,0,0,0.1);
+}
+#product_eval #topicpage .ui.topiclist.segment{
+	padding:0 0.7145rem 1rem;
 }
 </style>
 {% endblock %}
@@ -893,7 +896,11 @@
       }
     });
   });
-	
+ //产品评测
+ new Swiper('.tslide',{
+   freeMode : true,
+   slidesPerView : 'auto',
+ });
 
 {% endblock %}
 
