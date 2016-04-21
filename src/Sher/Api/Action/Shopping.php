@@ -597,6 +597,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
           if($app_snatched_stat != 2){
             return $this->api_json('活动已结束！', 3008);
           }
+
+          if($product['app_snatched_count']>=$product['app_snatched_total_count']){
+            return $this->api_json("已抢完！", 3021);      
+          }
+
           $is_app_snatched = true;
           $app_snatched_product_id = $product['_id'];
         }
