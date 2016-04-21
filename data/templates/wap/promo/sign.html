@@ -2,7 +2,7 @@
 {% block title%}签到抽奖-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-  .draw{width:320px; height:320px; position:relative; margin:0 auto;overflow:hidden;z-index:2;}
+  .draw{width:320px; height:320px; position:relative; margin:0 auto;overflow:hidden;z-index:4;}
   #disk{width:320px; height:320px; background:url({{ app_url_packaged }}/images/promo/draw_season4.png) no-repeat;background-size:100%;}
   #start{width:30%; height:30%; position:absolute; top:34%; left:35%;}
   #start img{cursor:pointer;width:100%}
@@ -48,7 +48,7 @@
 	  position: absolute;
       top: 0;
       width: 100%;
-	  z-index:1;
+	  z-index:3;
   }
   .backg.column {
       background: #ff5044;
@@ -172,19 +172,18 @@
   p.padd{
 	  position: absolute;
       top: 180px;
-      z-index: 9;
       color: #000;
       left: 10px;
 	  color:#000;
-      -webkit-animation: all 3s ease both;
-      animation: all 3s ease both;
+      -webkit-animation: all 6s ease both;
+      animation: all 6s ease both;
 	  font-size: 13px;
   }
   p.padd.active{
 	  top: -30px;
       color: #000;
       transition: top 6s ease;
-      -webkit-transition: top 4s ease;
+      -webkit-transition: top 6s ease;
   }
 </style>
 {% endblock %}
