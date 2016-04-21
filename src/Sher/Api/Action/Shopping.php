@@ -1231,7 +1231,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       return false;
     }
     if(isset($user['identify']['is_app_first_shop']) && $user['identify']['is_app_first_shop']==1){
-      // 非首次下单用户过滤
+      //首次下单立减非首次下单用户过滤
     }else{
       if(empty($kind)){ // 秒杀不参与
         $kind = 4;
