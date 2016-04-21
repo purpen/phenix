@@ -246,6 +246,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $usable_bonus = !empty($bonus_result['rows']) ? $bonus_result['rows'] : array();
 			
 			$pay_money = $total_money + $freight - $coin_money - $card_money;
+
+      if($pay_money < 0){
+        $pay_money = 0;
+      }
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Create temp order failed: ".$e->getMessage());
@@ -382,6 +386,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		
 		$pay_money = $total_money + $freight - $coin_money;
     $order_info['dict']['items'][0]['sku_name'] = $sku_name;
+
+    if($pay_money < 0){
+      $pay_money = 0;     
+    }
 
 		// 立即订单标识
     $result['is_nowbuy'] = 1;
@@ -529,7 +537,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money;
 			// 支付金额不能为负数
 			if($pay_money <= 0){
-        return $this->api_json('订单价格不能为0！', 3020); 
+        return $this->api_json('订单价格不能为0元！', 3020); 
 			}
 			$order_info['pay_money'] = $pay_money;
 			
