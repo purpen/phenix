@@ -21,6 +21,7 @@
     background:url({{ app_url_packaged }}/images/promo/w_sign_draw1.jpg) center top no-repeat;
     background-size: cover;
 	padding-top:20px;
+	position:relative;
   }
   .ui.top.grid{
 	  padding-top:12px;
@@ -170,6 +171,23 @@
   }
   #wap-user-sign-box .adreg b{
 	  color:#f36;
+  }
+  p.padd{
+	  position: absolute;
+      top: 205px;
+      z-index: 9;
+      color: #000;
+      left: 10px;
+      -webkit-animation: all 3s ease both;
+      animation: all 3s ease both;
+  }
+  p.padd.active{
+	  top: 15px;
+      color: #000;
+      -webkit-animation: arrow 3s ease both;
+      animation: arrow 3s ease both;
+      transition: color 1s ease,top 4s ease;
+      -webkit-transition: top 4s ease;
   }
 </style>
 {% endblock %}
@@ -352,7 +370,7 @@
               z_desc = z_title;
               break;
             }
-            html += '<p sid="'+ z_id +'">恭喜 '+ list[i]["user"]["nickname"] +' 获得 '+ z_desc +'!</p>';
+            html += '<p class="padd active" sid="'+ z_id +'">恭喜 '+ list[i]["user"]["nickname"] +' 获得 '+ z_desc +'!</p>';
           }
           if(html==''){
             return;
@@ -544,6 +562,9 @@
 	
   </div>
 </div>-->
+<div id="slidework" style="overflow: hidden;">
+
+</div>
 <div class="draw">
   <div id="disk"></div>
   <div id="start"><img src="{{ app_url_packaged }}/images/promo/zzhuan1.png" id="startbtn"></div>
