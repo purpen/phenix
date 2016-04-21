@@ -643,6 +643,52 @@
   height: 20px;
   background-size: cover;
 }
+#shopview .tabshow > .nav-menu .navfelx{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+#shopview .tabshow .ui.reply.segment{
+	padding-top: 0;
+	background: rgba(0,0,0,0);
+}
+#shopview .tabshow .ui.reply.segment .nav-menu{
+	padding: 0;
+	margin: -10px -1rem 0;
+	font-size:0.92885rem;
+}
+#shopview .tabshow .ui.reply.segment .ui.comments{
+    padding: 1rem;
+    background: #fff;
+    margin: 0 -1rem;
+	padding-top: 18px;
+}
+#shopview .tabshow .ui.reply.segment .nav-menu .navfelx .childcell::after{
+	content:none;
+}
+#shopview .tabshow .ui.reply.segment .nav-menu .navfelx .childcell:first-child::before{
+	content:'';
+	height:19px;
+	width:1px;
+	position:absolute;
+	top:50%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	right:0;
+	background:rgba(0,0,0,0.1);
+}
+
+#product_eval{
+	margin-top:0.7145rem;
+	background:#fff;
+}
+#product_eval .eval.title{
+	padding: 1.07175rem 0.7145rem 1.07175rem;
+    font-weight: 400;
+    font-size: 1rem;
+	border-bottom:1px solid rgba(0,0,0,0.1);
+}
+#product_eval #topicpage .ui.topiclist.segment{
+	padding:0 0.7145rem 1rem;
+}
 </style>
 {% endblock %}
 
@@ -850,7 +896,11 @@
       }
     });
   });
-	
+ //产品评测
+ new Swiper('.tslide',{
+   freeMode : true,
+   slidesPerView : 'auto',
+ });
 
 {% endblock %}
 
@@ -961,7 +1011,71 @@
 	<div id="shop_guess_wap_list">
 			<!-- 加载相关推荐 -->
 	</div>
-	
+	<!-- 产品评测 -->
+	<!--<div id="product_eval">
+		<div class="eval title">
+			产品评测
+		</div>
+		<div id="topicpage">
+			<div class="ui topiclist segment">
+				<div class="ui topic relaxed divided list topic-box-list" id="topic-box">
+					
+					<div class="item">
+						<div class="content" style="display:block;">
+					    	<div class="header">
+								<a href="http://t.taihuoniao.com/topic/view-101631-0.html" title="test" class="ui line link">test</a>
+							</div>
+									<div class="tslide swiper-container-horizontal swiper-container-free-mode">
+											<div class="swiper-wrapper">
+
+	                <div class="swiper-slide swiper-slide-active">
+					<a href="http://t.taihuoniao.com/topic/view-101631-0.html" title="test">
+	                  <img src="http://frbird.qiniudn.com/topic/150825/55dc4eb73ffca2245f8b657e-1-ti.jpg">
+					 </a>
+	                </div>
+
+	                <div class="swiper-slide swiper-slide-next">
+					<a href="http://t.taihuoniao.com/topic/view-101631-0.html" title="test">
+	                  <img src="http://frbird.qiniudn.com/topic/141211/54897a48867094ef498b6936-1-ti.jpg">
+					</a>
+	                </div>
+	                <div class="swiper-slide">
+					<a href="http://t.taihuoniao.com/topic/view-101631-0.html" title="test">
+	                  <img src="http://frbird.qiniudn.com/topic/150825/55dc4eb73ffca2245f8b6581-2-ti.jpg">
+					</a>
+	                </div>
+	                <div class="swiper-slide">
+					<a href="http://t.taihuoniao.com/topic/view-101631-0.html" title="test">
+	                  <img src="http://frbird.qiniudn.com/topic/150825/55dc4eb73ffca2245f8b6581-4-ti.jpg">
+					</a>
+	                </div>
+	                <div class="swiper-slide">
+					<a href="http://t.taihuoniao.com/topic/view-101631-0.html" title="test">
+	                  <img src="http://frbird.qiniudn.com/topic/150825/55dc4eb73ffca2245f8b6581-1-ti.jpg">
+					</a>
+	                </div>
+
+											</div>
+										</div>
+			
+					        <small><a class="ui small link" href="javascript:void(0);">@150****0501</a> 
+
+	          <span class="like" style="float: right;margin-top: 1px;">
+					<i class="unhide icon"></i> 
+					<span class="count">384</span>&nbsp;
+					<i class="comment outline up icon"></i>
+					<span class="count comment-count">
+						3
+					</span>
+			</span></small>
+					    </div>
+					</div>
+				
+				
+				</div>
+			</div>
+		</div>
+	</div> -->
 	<!-- 详情 评价 -->
 	<div class="tabshow">
 		<div class="nav-menu mb-2r">
@@ -990,6 +1104,17 @@
 	    <!--商品评价-->
 		
 	    <div class="ui reply segment">
+			<!--  晒单
+			<div class="nav-menu mb-2r">
+				<ul class="navfelx">
+					<li class="allreply childcell active">
+						全部评价
+					</li>
+					<li class="shaidan childcell">
+						晒单
+					</li>
+				</ul>
+			</div>-->
 	    	<div class="ui threaded minimal is-comment comments">
 	            {% comment_list var:'comments' page:page target_id:product._id %}
 	            {% for comment in comments.rows %}

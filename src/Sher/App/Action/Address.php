@@ -10,7 +10,7 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
     'from_to' => 'site',
 	);
 	
-	protected $exclude_method_list = array('execute');
+	protected $exclude_method_list = array('execute', 'ajax_fetch_districts');
 
 	/**
 	 * 默认入口

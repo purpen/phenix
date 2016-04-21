@@ -25,6 +25,13 @@ class Sher_Core_Helper_FilterFields {
     }
     unset($data['profile']);
 
+    if(!isset($data['weixin'])){
+      $data['weixin'] = null;   
+    }
+    if(!isset($data['im_qq'])){
+      $data['im_qq'] = null;   
+    }
+
     if(!isset($data['province_id'])){
       $data['province_id'] = 0;
     }

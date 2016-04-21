@@ -18,6 +18,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     const KIND_SNATCH = 2;
     # app闪购订单
     const KIND_APP_SNATCH = 3;
+    # app首次下单立减
+    const KIND_APP_FIRST_MINUS = 4;
 	
     protected $schema = array(
 		# 订单编号
@@ -305,15 +307,16 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		$rid = $this->data['rid'];
 		$items = $this->data['items'];
     $kind = $this->data['kind'];
+    $user_id = $this->data['user_id'];
 		
 		for($i=0;$i<count($items);$i++){
 			$sku = $items[$i]['sku'];
       $quantity = $items[$i]['quantity'];
-      $kind = isset($items[$i]['kind']) ? (int)$items[$i]['kind'] : 1;
+      $sub_kind = isset($items[$i]['kind']) ? (int)$items[$i]['kind'] : 1;
 			
 			// 生成订单后，减少库存数量
 			$inventory = new Sher_Core_Model_Inventory();
-			$inventory->decrease_invertory_quantity($sku, $quantity, $kind);
+			$inventory->decrease_invertory_quantity($sku, $quantity, $sub_kind);
 			
 			unset($inventory);
 		}
@@ -322,7 +325,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		$card_code = $this->data['card_code'];
 		if(!empty($card_code)){
 			$bonus = new Sher_Core_Model_Bonus();
-			$bonus->mark_used($card_code, $this->data['user_id'], $rid);
+			$bonus->mark_used($card_code, $user_id, $rid);
 		}
 
 		// 更新礼品卡状态
@@ -331,6 +334,12 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			$gift = new Sher_Core_Model_Gift();
 			$gift->mark_used($gift_code, $this->data['user_id'], $rid);
 		}
+
+    // 更新app首次购买状态 
+    if($kind==4){
+      $user_model = new Sher_Core_Model_User();
+      $user_model->update_user_identify($user_id, 'is_app_first_shop', 1);
+    }
 
     // 用户鸟币扣除
     $bird_coin = $this->data['bird_coin_count'];

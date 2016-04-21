@@ -2,7 +2,7 @@
 {% block title%}签到抽奖-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-  .draw{width:320px; height:320px; position:relative; margin:5px auto -20px;overflow:hidden;}
+  .draw{width:320px; height:320px; position:relative; margin:0 auto;overflow:hidden;}
   #disk{width:320px; height:320px; background:url({{ app_url_packaged }}/images/promo/draw_season4.png) no-repeat;background-size:100%;}
   #start{width:30%; height:30%; position:absolute; top:34%; left:35%;}
   #start img{cursor:pointer;width:100%}
@@ -16,10 +16,11 @@
     margin:0 auto;
     min-height:100%;
     height:auto;
-    /*overflow:hidden;*/
     width:100%;
     background:url({{ app_url_packaged }}/images/promo/w_sign_draw1.jpg) center top no-repeat;
     background-size: cover;
+	padding-top:20px;
+	position:relative;
   }
   .ui.top.grid{
 	  padding-top:12px;
@@ -41,15 +42,11 @@
     }
   }
   #slidework{
-  	height:70px;
-  }
-  #slidework p{
-      font-size: 13px;
-  	margin-bottom:6px;
-  	color:#fff;
-  	overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      height: 20px;
+      position: absolute;
+      top: 10px;
+      width: 100%;
+      z-index: 3;
   }
   .backg.column {
       background: #ff5044;
@@ -127,8 +124,70 @@
       padding: 0;
       line-height: 60px;
       margin-top: 18px;
+	  }
+  #wap-user-sign-box{
+      width: 100%;
+      margin: 0 auto;
+      position: relative;
+      z-index: 3;
   }
-  
+  #wap-user-sign-box .ui.active.button{
+      width: 120px;
+      border-radius: 5px;
+      z-index: 3;
+      height: 36px;
+      position: relative;
+  }
+  #wap-user-sign-box .add {
+      position: absolute;
+      text-align: center;
+      font-size: 13px;
+      opacity: 1;
+      left: 50%;
+      top: 5px;
+      z-index: 1;
+	  width:100%;
+      transform: translateX(-50%);
+	  -webkit-transform: translateX(-50%);
+      -webkit-transition: all 3s ease 0s;
+      transition: all 3s ease 0s;
+  }
+  #wap-user-sign-box .add.add-active{
+      z-index: 3;
+      color: #000;
+	  width:100%;
+      -webkit-animation: arrow 3s ease both;
+      animation: arrow 3s ease both;
+      top:-35px;
+  }
+  #wap-user-sign-box .adreg{
+	  font-size:13px;
+	  padding:10px 0;
+  }
+  #wap-user-sign-box .adreg b{
+	  color:#f36;
+  }
+  p.padd{
+	  left: 100%;
+      position: absolute;
+      top: 0;
+      -webkit-animation: left 8s cubic-bezier(0.39, 0.58, 0.57, 1);
+      animation: left 8s cubic-bezier(0.39, 0.58, 0.57, 1);
+      font-size: 13px;
+      overflow: hidden;
+      word-wrap: initial;
+      white-space: nowrap;
+      z-index: 700;
+  }
+  p.padd.active{
+      left: -100%;
+      color: #3f3f3d;
+      transition: left 8s cubic-bezier(0.39, 0.58, 0.57, 1);
+      -webkit-transition: left 8s cubic-bezier(0.39, 0.58, 0.57, 1);
+  }
+  p.padd+p.padd{
+	  padding-top:30px;
+  }
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -281,7 +340,7 @@
   }
 
   var page = 1;
-  var size = 5;
+  var size = 1;
   var day = "{{ day|default 0 }}";
   // ajax 加载中奖用户列表
   function fetch_draw_user(page, size, type, day, sid){
@@ -310,16 +369,14 @@
               z_desc = z_title;
               break;
             }
-            html += '<p sid="'+ z_id +'">恭喜 '+ list[i]["user"]["nickname"] +' 获得 '+ z_desc +'!</p>';
+            html += '<p class="padd" sid="'+ z_id +'">恭喜 '+ list[i]["user"]["nickname"] +' 获得 '+ z_desc +'!</p>';
           }
           if(html==''){
             return;
           }
-          if(sid==''){
-            $('#slidework').html(html);         
-          }else{
-            $('#slidework').prepend(html);          
-          }
+
+          $('#slidework').prepend(html); 
+          setTimeout("$('p.padd').addClass('active');",1000);       
         }
     }, 'json');
   }
@@ -340,7 +397,7 @@
 
   });
 
-  fetch_draw_user(1, size, 1, day, '');
+  //fetch_draw_user(1, size, 1, day, '');
 
   // 定时提示,每次3秒钟,最多100次
   var limit_notice_times = 0;
@@ -477,11 +534,11 @@
 {% endblock %}
 
 {% block content %}
+<!--
 <div class="ui responsive top grid">
   <div class="row">
 	<div class="ui ten wide backg column">
 		<div id="slidework" style="overflow: hidden;">
-      <!--<p>恭喜 action001   获得太火鸟鸟币100枚</p>-->
 
 		</div>
 	</div>
@@ -501,6 +558,9 @@
 	</div>
 	
   </div>
+</div>-->
+<div id="slidework" style="overflow: hidden;">
+
 </div>
 <div class="draw">
   <div id="disk"></div>
@@ -508,10 +568,26 @@
 </div>
 
 <div class="ui responsive bottom grid">
-	<div class="row">
+	<div class="row pt-4r">
+		<div class="ui center aligned column">
+			{% if visitor %}
+			<div id="wap-user-sign-box">
+			
+			</div>
+			{% else %}
+			<div id="wap-user-sign-box">
+				<div class="ui green circular active inverted button qiandao">
+	                    签到
+	            </div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	
+	<div class="row pt-0">
 	    <div class="column">
 			<!--<p><i class="help circle icon"></i><a class="question" href="" target="_blank"> 我有疑问</a></p>-->
-	      	<h3 class="ui header">规则</h3>
+	      	<h3 class="ui header mt-0">规则</h3>
 			<p>1.用户必须登录成功后才可参加抽奖活动；</p>
 			<p>2.太火鸟社区签到即有1次机会参与抽奖；</p>
 			<p>3.如果未抽中，微信分享此页面可增加一次抽奖机会（每天

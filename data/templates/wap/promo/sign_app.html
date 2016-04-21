@@ -16,10 +16,11 @@
     margin:0 auto;
     min-height:100%;
     height:auto;
-    /*overflow:hidden;*/
     width:100%;
     background:url({{ app_url_packaged }}/images/promo/w_sign_draw1.jpg) center top no-repeat;
     background-size: cover;
+	padding-top:20px;
+	position:relative;
   }
   .ui.top.grid{
 	  padding-top:12px;
@@ -118,15 +119,26 @@
       padding-top: 20px;
       padding-bottom: 20px;
   }
-  .signbut{
-	  margin-left:5%;
+  p.padd{
+	  left: 100%;
+      position: absolute;
+      top: 0;
+      -webkit-animation: left 8s cubic-bezier(0.39, 0.58, 0.57, 1);
+      animation: left 8s cubic-bezier(0.39, 0.58, 0.57, 1);
+      font-size: 13px;
+      overflow: hidden;
+      word-wrap: initial;
+      white-space: nowrap;
+      z-index: 700;
   }
-  .signbut .green.active.button{
-      width: 60px;
-      height: 60px;
-      padding: 0;
-      line-height: 60px;
-      margin-top: 18px;
+  p.padd.active{
+      left: -100%;
+      color: #3f3f3d;
+      transition: left 8s cubic-bezier(0.39, 0.58, 0.57, 1);
+      -webkit-transition: left 8s cubic-bezier(0.39, 0.58, 0.57, 1);
+  }
+  p.padd+p.padd{
+	  padding-top:30px;
   }
 </style>
 {% endblock %}
@@ -235,7 +247,7 @@
               z_desc = z_title;
               break;
             }
-            html += '<p sid="'+ z_id +'">恭喜 '+ list[i]["user"]["nickname"] +' 获得 '+ z_desc +'!</p>';
+            html += '<p class="padd" sid="'+ z_id +'">恭喜 '+ list[i]["user"]["nickname"] +' 获得 '+ z_desc +'!</p>';
           }
           if(html==''){
             return;
@@ -375,68 +387,32 @@
       $('#mask').css('display','none');
   });
   
-  window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
-
-   function hengshuping() {
-           if (window.orientation == 90 || window.orientation == -90) {
-              $('#mfrbird').css({'overflow':'scroll','height':'auto'});
-           } else {
-              $('#mfrbird').css({'overflow':'scroll'});
-           }
-       }
-	   
-	   if (phenix.visitor.is_login){
-	  	 $.get('{{ app_url_wap }}/my/ajax_wap_fetch_user_sign', {type:1});
-	   }
-	  //每日签到点击
-	  $('#wap-user-sign-box .noqian.button').livequery(function(){
-	    $(this).click(function(){
-	      //ajax加载签到事件
-	      $.post('{{ app_url_wap }}/my/ajax_wap_sign_in', {type:1});
-
-	    });
-	  });
-	  $('#wap-user-sign-box .qiandao.button').click(function(){
-	  	phenix.redirect('{{ app_url_wap }}/auth/login')
-	  })
 {% endblock %}
 
 {% block content %}
-<div class="ui responsive top grid">
-  <div class="row">
-	<div class="ui ten wide backg column">
-		<div id="slidework" style="overflow: hidden;">
-      <!--<p>恭喜 action001   获得太火鸟鸟币100枚</p>-->
+<div id="mfrbird">
+	<div id="slidework" style="overflow: hidden;">
 
-		</div>
 	</div>
 	
-  </div>
-</div>
-<div class="draw">
-  <div id="disk"></div>
-  <div id="start"><img src="{{ app_url_packaged }}/images/promo/zzhuan1.png" id="startbtn"></div>
-</div>
-
-<div class="ui responsive bottom grid">
-	<div class="row">
-	    <div class="column">
-			<!--<p><i class="help circle icon"></i><a class="question" href="" target="_blank"> 我有疑问</a></p>-->
-	      	<h3 class="ui header">规则</h3>
-			<p>1.用户必须登录成功后才可参加抽奖活动；</p>
-			<p>2.太火鸟社区签到即有1次机会参与抽奖；</p>
-			<p>3.如果未抽中，微信分享此页面可增加一次抽奖机会（每天
-       限增加1次）；</p>
-			<p>4.活动中奖结果均以弹出页面中奖信息为
-		准；</p>
-			<p>5.禁止任何不正当手段及舞弊行为参与活
-		动，一经发现，太火鸟有权取消用户的
-		获奖资格；</p>
-			<p>6.本次活动最终解释权归太火鸟所有！</p>
-	    </div>
+	<div class="draw">
+	  <div id="disk"></div>
+	  <div id="start"><img src="{{ app_url_packaged }}/images/promo/zzhuan1.png" id="startbtn"></div>
 	</div>
 
+	<div class="ui responsive bottom grid">
+		<div class="row">
+		    <div class="column">
+				<!--<p><i class="help circle icon"></i><a class="question" href="" target="_blank"> 我有疑问</a></p>-->
+		      	
+				<p>1、抽奖：签到后可参加幸运抽奖活动；</p>
+				<p>2、经验值：每次签到都会获得2个经验值；</p>
+				<p>3、鸟币：连续7天签到，送1枚鸟币；</p>
+		    </div>
+		</div>
 
+
+	</div>
 </div>
 
 <!-- 弹出层   -->
