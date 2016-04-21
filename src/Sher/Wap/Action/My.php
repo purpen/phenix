@@ -451,6 +451,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	    }else{
 	      $result = array('is_true'=>0, 'msg'=>'未注册', 'has_sign'=>$has_sign, 'continuity_times'=>$continuity_times);   
 	    }
+		$result['data']=$user_sign;
 	    $this->stash['result'] = $result;
 	    //加载签到操作
 	    $this->stash['is_doing'] = false;
