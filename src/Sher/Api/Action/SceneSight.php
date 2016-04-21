@@ -269,7 +269,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
     public function view() {
         
         $id = $this->stash['id'];
-		//$id = 25;
+		$id = 25;
         if (empty($id)) {
             return $this->api_json('请求失败，缺少必要参数!', true);
         }
@@ -307,8 +307,15 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
             $key = $filter_fields[$i];
             unset($result[$key]);
         }
+		
+		$tags_model = new Sher_Core_Model_SceneTags();
+		//$result['tags'] = array(164,165,166);
+		foreach($result['tags'] as $k => $v){
+			$res = $tags_model->first((int)$v);
+			$result['tag_titles'][$k] = $res['title_cn'];
+		}
         
-        //print_r($result);exit;
+        //print_r($result['tag_titles']);exit;
         return $this->api_json('请求成功', false, $result);
     }
 	
