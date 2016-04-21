@@ -1666,6 +1666,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $item_arr = array();
       // 记录错误数据索引
       $error_index_arr = array();
+
+      $inventory_model = new Sher_Core_Model_Inventory();
+      $product_model = new Sher_Core_Model_Product();
       foreach($cart['items'] as $k=>$v){
         // 初始参数
         $target_id = (int)$v['target_id'];
