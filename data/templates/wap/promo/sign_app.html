@@ -2,7 +2,7 @@
 {% block title%}签到抽奖{% endblock %}
 {% block page_css %}
 <style type="text/css">
-  .draw{width:320px; height:320px; position:relative; margin:5px auto -20px;overflow:hidden;}
+  .draw{width:320px; height:320px; position:relative; margin:0 auto;overflow:hidden;}
   #disk{width:320px; height:320px; background:url(http://frstatic.qiniudn.com/images/promo/draw_season4.png) no-repeat;background-size:100%;}
   #start{width:30%; height:30%; position:absolute; top:34%; left:35%;}
   #start img{cursor:pointer;width:100%}
@@ -42,15 +42,11 @@
     }
   }
   #slidework{
-  	height:70px;
-  }
-  #slidework p{
-      font-size: 13px;
-  	margin-bottom:6px;
-  	color:#fff;
-  	overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      height: 20px;
+      position: absolute;
+      top: 10px;
+      width: 100%;
+      z-index: 3;
   }
   .backg.column {
       background: #ff5044;
