@@ -374,8 +374,9 @@
           if(html==''){
             return;
           }
-          $('#slidework').html(html); 
-          $('p.padd').addClass('active');
+
+          $('#slidework').prepend(html); 
+          setTimeout("$('p.padd').addClass('active');",1000);       
         }
     }, 'json');
   }
