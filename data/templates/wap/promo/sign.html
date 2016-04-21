@@ -128,8 +128,48 @@
       padding: 0;
       line-height: 60px;
       margin-top: 18px;
+	  }
+  #wap-user-sign-box{
+      width: 100%;
+      margin: 0 auto;
+      position: relative;
+      z-index: 3;
   }
-  
+  .noqian{
+      width: 120px;
+      border-radius: 5px;
+      z-index: 3;
+      height: 36px;
+      position: relative;
+  }
+  #wap-user-sign-box .add {
+      position: absolute;
+      text-align: center;
+      font-size: 13px;
+      opacity: 1;
+      left: 50%;
+      top: 10px;
+      z-index: 1;
+      transform: translateX(-50%);
+	  -webkit-transform: translateX(-50%);
+      -webkit-transition: all 4s ease 0s;
+      transition: all 4s ease 0s;
+  }
+  #wap-user-sign-box .add.active{
+      z-index: 3;
+      color: #f36;
+      transition-delay: .3s;
+      -webkit-animation: arrow 4s ease both;
+      animation: arrow 4s ease both;
+      transform: translateX(150%);
+  }
+  #wap-user-sign-box .adreg{
+	  font-size:13px;
+	  padding:10px 0;
+  }
+  #wap-user-sign-box .adreg b{
+	  color:#f36;
+  }
 </style>
 {% endblock %}
 {% block layout_js %}
