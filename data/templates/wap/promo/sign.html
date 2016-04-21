@@ -43,7 +43,8 @@
     }
   }
   #slidework{
-  	height:70px;
+	  height: 20px;
+      position: absolute;
   }
   #slidework p{
       font-size: 13px;
@@ -370,15 +371,17 @@
               z_desc = z_title;
               break;
             }
-            html += '<p class="padd active" sid="'+ z_id +'">恭喜 '+ list[i]["user"]["nickname"] +' 获得 '+ z_desc +'!</p>';
+            html += '<p class="padd" sid="'+ z_id +'">恭喜 '+ list[i]["user"]["nickname"] +' 获得 '+ z_desc +'!</p>';
           }
           if(html==''){
             return;
           }
           if(sid==''){
-            $('#slidework').html(html);         
+            $('#slidework').html(html); 
+			$('p.padd').addClass('active');        
           }else{
-            $('#slidework').prepend(html);          
+            $('#slidework').prepend(html); 
+			$('p.padd').addClass('active');          
           }
         }
     }, 'json');
