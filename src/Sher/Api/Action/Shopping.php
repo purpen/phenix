@@ -465,6 +465,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		// 红包金额
 		$card_money = 0;
 
+    $gift_money = 0;
+
     // 是否使用红包/礼品券
     $bonus_code = isset($this->stash['bonus_code']) ? $this->stash['bonus_code'] : null;
     $gift_code = isset($this->stash['gift_code']) ? $this->stash['gift_code'] : null;
@@ -506,7 +508,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			// 商品金额
 			$order_info['total_money'] = $total_money;
 			// 应付金额
-			$pay_money = $total_money + $freight - $coin_money - $card_money;
+			$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money;
 			// 支付金额不能为负数
 			if($pay_money <= 0){
         return $this->api_json('订单价格不能为0！', 3020); 
@@ -1219,6 +1221,14 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		
 		// 优惠活动费用
 		$coin_money = 0.0;
+
+    // 用户是否首次下单立减 秒杀不参与
+    if($kind==3){
+      
+    }else{
+    
+    }
+
 		
 		// 红包金额
 		$card_money = 0.0;
