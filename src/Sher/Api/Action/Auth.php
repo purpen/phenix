@@ -456,7 +456,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 
     //根据第三方来源,更新对应open_id 
     if($third_source==2){
-      $user_data['account'] = (string)$uid;
+      $user_data['account'] = (string)$oid;
       $user_data['password'] = sha1(Sher_Core_Util_Constant::WEIBO_AUTO_PASSWORD);
       $user_data['from_site'] = Sher_Core_Util_Constant::FROM_WEIBO;
       $user_data['sina_uid'] = (int)$oid;

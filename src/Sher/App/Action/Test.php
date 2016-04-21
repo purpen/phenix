@@ -317,12 +317,13 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
   }
 
   public function jpush(){
+    $user_id = isset($this->stash['user_id']) ? $this->stash['user_id'] : 0;
     $alert = '嗨，大家晚上好!';
     $options = array(
       'time_to_live' => 0,
       // "android", "ios", "winphone"
       'plat_form' => array('ios'),
-      'alias' => array('20448'),
+      'alias' => array($user_id),
       'extras' => array('infoType'=>1, 'infoId'=>1011497059),
       'apns_production' => false,
     );
