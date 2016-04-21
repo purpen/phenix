@@ -629,14 +629,14 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$some_fields = array(
       '_id'=>1, 'title'=>1, 'short_title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1,
       'presale_people'=>1, 'tags'=>1, 'tags_s'=>1, 'created_on'=>1, 'updated_on'=>1,
-			'presale_percent'=>1, 'cover_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
+			'presale_percent'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
 			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
 			'snatched_time'=>1, 'inventory'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
       'presale_goals'=>1, 'stick'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1,
       'comment_star'=>1,'snatched_end_time'=>1, 'snatched_price'=>1, 'snatched_count'=>1,
       // app抢购
       'app_snatched'=>1, 'app_snatched_time'=>1, 'app_snatched_end_time'=>1, 'app_snatched_price'=>1,
-      'app_snatched_count'=>1, 'app_appoint_count'=>1, 'app_snatched_total_count'=>1,
+      'app_snatched_count'=>1, 'app_appoint_count'=>1, 'app_snatched_total_count'=>1, 'app_snatched_img'=>1,
 		);
 		
 		// 请求参数
@@ -680,13 +680,6 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			foreach($some_fields as $key=>$value){
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:0;
 			}
-			// 封面图url
-			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['apc']['view_url'];
-			// 用户信息
-      if(isset($result['rows'][$i]['designer'])){
-        $data[$i]['username'] = $result['rows'][$i]['designer']['nickname'];
-        $data[$i]['small_avatar_url'] = $result['rows'][$i]['designer']['small_avatar_url'];     
-      }
 
       $data[$i]['content_view_url'] = sprintf('%s/view/product_show?id=%d', Doggy_Config::$vars['app.url.api'], $result['rows'][$i]['_id']);
       // 保留2位小数
