@@ -2,7 +2,7 @@
 {% block title%}签到抽奖-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-  .draw{width:320px; height:320px; position:relative; margin:5px auto -20px;overflow:hidden;}
+  .draw{width:320px; height:320px; position:relative; margin:0 auto -20px;overflow:hidden;}
   #disk{width:320px; height:320px; background:url({{ app_url_packaged }}/images/promo/draw_season4.png) no-repeat;background-size:100%;}
   #start{width:30%; height:30%; position:absolute; top:34%; left:35%;}
   #start img{cursor:pointer;width:100%}
@@ -20,6 +20,7 @@
     width:100%;
     background:url({{ app_url_packaged }}/images/promo/w_sign_draw1.jpg) center top no-repeat;
     background-size: cover;
+	padding-top:20px;
   }
   .ui.top.grid{
 	  padding-top:12px;
@@ -477,11 +478,11 @@
 {% endblock %}
 
 {% block content %}
+<!--
 <div class="ui responsive top grid">
   <div class="row">
 	<div class="ui ten wide backg column">
 		<div id="slidework" style="overflow: hidden;">
-      <!--<p>恭喜 action001   获得太火鸟鸟币100枚</p>-->
 
 		</div>
 	</div>
@@ -501,13 +502,29 @@
 	</div>
 	
   </div>
-</div>
+</div>-->
 <div class="draw">
   <div id="disk"></div>
   <div id="start"><img src="{{ app_url_packaged }}/images/promo/zzhuan1.png" id="startbtn"></div>
 </div>
 
 <div class="ui responsive bottom grid">
+	<div class="row">
+		<div class="ui center aligned column">
+			{% if visitor %}
+			<div id="wap-user-sign-box">
+			
+			</div>
+			{% else %}
+			<div id="wap-user-sign-box">
+				<div class="ui green circular active inverted button qiandao">
+	                    签到
+	            </div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	
 	<div class="row">
 	    <div class="column">
 			<!--<p><i class="help circle icon"></i><a class="question" href="" target="_blank"> 我有疑问</a></p>-->
