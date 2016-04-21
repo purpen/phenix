@@ -375,9 +375,11 @@
             return;
           }
           if(sid==''){
-            $('#slidework').html(html);        
+            $('#slidework').html(html); 
+			setTimeout("$('p.padd').addClass('active');",3000);        
           }else{
-            $('#slidework').prepend(html);          
+            $('#slidework').prepend(html); 
+			setTimeout("$('p.padd').addClass('active');",3000);       
           }
         }
     }, 'json');
