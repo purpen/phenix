@@ -191,6 +191,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       if(empty($data[$i]['is_app_snatched'])){
         if($data[$i]['featured']==1){
           $data[$i]['tips_label'] = 2;
+          // 显示秒杀价格
+          $data[$i]['sale_price'] = $data[$i]['app_snatched_price'];
         }else{
           $data[$i]['tips_label'] = $data[$i]['created_on']>(time()-2592000) ? 1 : $data[$i]['tips_label'];
         }
