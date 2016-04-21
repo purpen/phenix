@@ -643,6 +643,35 @@
   height: 20px;
   background-size: cover;
 }
+#shopview .tabshow .ui.reply.segment{
+	padding-top: 0;
+	background: rgba(0,0,0,0);
+}
+#shopview .tabshow .ui.reply.segment .nav-menu{
+	padding: 0;
+	margin: -10px -1rem 0;
+	font-size:0.92885rem;
+}
+#shopview .tabshow .ui.reply.segment .ui.comments{
+    padding: 1rem;
+    background: #fff;
+    margin: 0 -1rem;
+	padding-top: 18px;
+}
+#shopview .tabshow .ui.reply.segment .nav-menu .navfelx .childcell::after{
+	content:none;
+}
+#shopview .tabshow .ui.reply.segment .nav-menu .navfelx .childcell:first-child::before{
+	content:'';
+	height:19px;
+	width:1px;
+	position:absolute;
+	top:50%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	right:0;
+	background:rgba(0,0,0,0.1);
+}
 </style>
 {% endblock %}
 
@@ -990,6 +1019,7 @@
 	    <!--商品评价-->
 		
 	    <div class="ui reply segment">
+			
 	    	<div class="ui threaded minimal is-comment comments">
 	            {% comment_list var:'comments' page:page target_id:product._id %}
 	            {% for comment in comments.rows %}
