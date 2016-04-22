@@ -96,7 +96,7 @@ try{
           'plat_form' => array('ios'),
           'alias' => $user_arr,
           'extras' => array('infoType'=>1, 'infoId'=>$product_id),
-          'apns_production' => false,
+          'apns_production' => true,
         );
         $push_ok = Sher_Core_Util_JPush::push($alert, $options);
 
