@@ -2,8 +2,8 @@
 {% block title%}签到抽奖{% endblock %}
 {% block page_css %}
 <style type="text/css">
-  .draw{width:320px; height:320px; position:relative; margin:5px auto -20px;overflow:hidden;}
-  #disk{width:320px; height:320px; background:url({{ app_url_packaged }}/images/promo/draw_season4.png) no-repeat;background-size:100%;}
+  .draw{width:320px; height:320px; position:relative; margin:0 auto;overflow:hidden;}
+  #disk{width:320px; height:320px; background:url(http://frstatic.qiniudn.com/images/promo/sign_app.png) no-repeat;background-size:100%;}
   #start{width:30%; height:30%; position:absolute; top:34%; left:35%;}
   #start img{cursor:pointer;width:100%}
   .ui.red.button{
@@ -17,10 +17,11 @@
     min-height:100%;
     height:auto;
     width:100%;
-    background:url({{ app_url_packaged }}/images/promo/w_sign_draw1.jpg) center top no-repeat;
+    background:url(http://frstatic.qiniudn.com/images/promo/w_sign_draw1.jpg) center top no-repeat;
     background-size: cover;
 	padding-top:20px;
 	position:relative;
+	overflow: hidden;
   }
   .ui.top.grid{
 	  padding-top:12px;
@@ -42,15 +43,11 @@
     }
   }
   #slidework{
-  	height:70px;
-  }
-  #slidework p{
-      font-size: 13px;
-  	margin-bottom:6px;
-  	color:#fff;
-  	overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      height: 20px;
+      position: absolute;
+      top: 10px;
+      width: 100%;
+      z-index: 3;
   }
   .backg.column {
       background: #ff5044;
@@ -139,6 +136,9 @@
   }
   p.padd+p.padd{
 	  padding-top:30px;
+  }
+  .ui.bottom.grid{
+	  padding-top:20px;
   }
 </style>
 {% endblock %}
@@ -397,7 +397,7 @@
 	
 	<div class="draw">
 	  <div id="disk"></div>
-	  <div id="start"><img src="{{ app_url_packaged }}/images/promo/zzhuan1.png" id="startbtn"></div>
+	  <div id="start"><img src="http://frstatic.qiniudn.com/images/promo/zzhuan1.png" id="startbtn"></div>
 	</div>
 
 	<div class="ui responsive bottom grid">
@@ -423,12 +423,9 @@
 			
 		    <div class="container">
 				<div class="content" style="text-align:center;">
-          <p>别灰心，更多奖品点击<a href="http://m.taihuoniao.com/topic/view-109581-1.html">这里</a>!</p>
+          <p>别灰心，更多奖品点击!</p>
 					
 			        <p class="desc"></p>
-			        <a href="javascript:void(0);" class="ui red share button">
-			        					马上分享
-			        </a>
 			    </div>
 		    </div>
 			
@@ -444,12 +441,6 @@
           <p>亲爱的用户 <br>恭喜您获得<span class="red">1枚鸟币</span>!</p>
 					
 			        <p class="desc"></p>
-			        
-			        <a href="javascript:void(0);" class="ui red share button">
-			        					马上分享
-			        </a>
-					<br>
-          <a href="{{ app_url_wap }}/my/pmall"><p class="nobtn">看看鸟币能兑换啥 Go></p></a>
 			    </div>
 		    </div>
 			
@@ -466,13 +457,6 @@
 					
 			        <p class="desc"></p>
 			        
-			        <a href="javascript:void(0);" class="ui red share button">
-			        					马上分享
-			        </a>
-					
-					<br>
-          <a href="{{ app_url_wap }}/shop"><p class="nobtn">看看红包能买啥 Go></p></a>
-					
 			    </div>
 		    </div>
 			
@@ -547,11 +531,6 @@
 		    <div class="container">
 				<div class="content" style="text-align:center;">
           <p>亲爱的用户 <br>恭喜您获得<span class="red draw_name"></span></p>
-								        <a href="javascript:void(0);" class="ui red share button ">
-			        					马上分享
-			        </a>
-					
-					<br>
 					<p class="nobtn">我们会通过私信告知您兑换码，请登录太火鸟社区查收。</p>
 					
 			    </div>
