@@ -104,6 +104,9 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	const TYPE_SCENE_SIGHT = 102;
 	const TYPE_GPRODUCT_BANNER = 120;
 	const TYPE_GPRODUCT_PNG = 121;
+	
+	const TYPE_ID_CARD = 125;
+	const TYPE_BUSINESS_CARD = 126;
 
     protected $schema = array(
 		'user_id' => '',

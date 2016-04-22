@@ -35,7 +35,7 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 		// 请求参数
 		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 10;
         $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
-		$follow_type = isset($this->stash['follow_type']) ? (int)$this->stash['follow_type'] : 1;
+		$follow_type = isset($this->stash['follow_type']) ? (int)$this->stash['follow_type'] : 0;
         $find_type = isset($this->stash['find_type']) ? (int)$this->stash['find_type'] : 1;
 		
 		if($find_type){
@@ -43,8 +43,6 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
                 $query['user_id'] = $user_id; // 自己关注的人
             }else if($find_type == 2){
                 $query['follow_id'] = $user_id; // 自己的粉丝
-            }else{
-                return $this->api_json('缺少请求参数！', 3001);
             }
 		}
         
@@ -177,6 +175,7 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 	public function ajax_cancel_follow(){
 		
 		$user_id = $this->current_user_id;
+		$user_id = 10;
 		
 		if(empty($user_id)){
 			return $this->api_json('请先登录！', 3000);
@@ -190,7 +189,7 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 		
 		try{
 			
-			$model = new Sher_Core_Model_Favorite();
+			$model = new Sher_Core_Model_Follow();
 			if($model->has_exist_ship($user_id,$follow_id)){
                 $query['user_id'] = (int)$user_id;
                 $query['follow_id'] = (int)$follow_id;
@@ -207,7 +206,7 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
                 $update['user_id'] = (int)$follow_id;
                 $update['follow_id'] = (int)$user_id;
                 
-                $ship->update_set($update,$some_data);
+                $model->update_set($update,$some_data);
             }
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3003);

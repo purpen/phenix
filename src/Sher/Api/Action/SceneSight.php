@@ -182,8 +182,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			$data['product'][$i]['id'] = (int)$data['product_id'][$i];
 			$data['product'][$i]['title'] = $data['product_title'][$i];
 			$data['product'][$i]['price'] = (float)$data['product_price'][$i];
-			$data['product'][$i]['x'] = (int)$data['product_x'][$i];
-			$data['product'][$i]['y'] = (int)$data['product_y'][$i];
+			$data['product'][$i]['x'] = (float)$data['product_x'][$i];
+			$data['product'][$i]['y'] = (float)$data['product_y'][$i];
 		}
 		unset($data['product_id']);
 		unset($data['product_title']);

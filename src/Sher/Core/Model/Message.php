@@ -76,8 +76,8 @@ class Sher_Core_Model_Message extends Sher_Core_Model_Base {
 		
 		if(isset($group_id) && !empty($group_id)){
 			$item['group_id'] = $group_id;
-			$some_data['type'] = $type;
 		}
+		$some_data['type'] = $type;
 		
 		$row = $this->find_by_id((string)$_id);
 		if(empty($row)){
