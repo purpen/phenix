@@ -74,7 +74,7 @@
 			{% include "block/center/head_notice_nav.html" %}
 			
 			<div class="ui alarm segment">
-                {% notice_list var:'list' published:1 page:page size:10 %}
+                {% notice_list var:'list' published:1 page:page size:20 %}
                     {% if list.rows %}
                         {% for d in list.rows %}
                             {% if d.s_user %}

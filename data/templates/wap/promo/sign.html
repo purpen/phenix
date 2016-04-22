@@ -340,7 +340,7 @@
   }
 
   var page = 1;
-  var size = 5;
+  var size = 1;
   var day = "{{ day|default 0 }}";
   // ajax 加载中奖用户列表
   function fetch_draw_user(page, size, type, day, sid){
@@ -374,13 +374,9 @@
           if(html==''){
             return;
           }
-          if(sid==''){
-            $('#slidework').html(html); 
-			setTimeout("$('p.padd').addClass('active');",3000);        
-          }else{
-            $('#slidework').prepend(html); 
-			setTimeout("$('p.padd').addClass('active');",3000);       
-          }
+
+          $('#slidework').prepend(html); 
+          setTimeout("$('p.padd').addClass('active');",1000);       
         }
     }, 'json');
   }
@@ -401,7 +397,7 @@
 
   });
 
-  fetch_draw_user(1, size, 1, day, '');
+  //fetch_draw_user(1, size, 1, day, '');
 
   // 定时提示,每次3秒钟,最多100次
   var limit_notice_times = 0;
