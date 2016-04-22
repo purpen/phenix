@@ -327,7 +327,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     if($app_snatched_stat==2){
 
       if(!$this->validate_snatch($product_id)){
-        return $this->api_json('不能重复抢购！', 3013);     
+        //return $this->api_json('不能重复抢购！', 3013);     
       }
 
       $app_snatched_limit_count = $product_data['app_snatched_limit_count'];
