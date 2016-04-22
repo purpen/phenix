@@ -83,7 +83,7 @@ app.birdegg.category_id: 80
 # 大赛作品分类--反向定制
 app.stuff.contest_category_id: 83
 
-# 中国最火爆智能硬件TOP100
+# 中国火爆智能硬件TOP100
 app.stuff.top100_category_id: 123
 
 # JBL商品ID
