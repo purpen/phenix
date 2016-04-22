@@ -628,6 +628,12 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
     $user_id = $this->current_user_id;
 		
+		// 请求参数
+		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
+		$stage = isset($this->stash['stage']) ? (int)$this->stash['stage'] : Sher_Core_Model_Product::STAGE_SHOP;
+    // 0.所有；1.进行中；2.未开始
+    $stat = isset($this->stash['stat'])?(int)$this->stash['stat']:0;
+
 		$some_fields = array(
       '_id'=>1, 'title'=>1, 'short_title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1,
       'presale_people'=>1, 'tags'=>1, 'tags_s'=>1, 'created_on'=>1, 'updated_on'=>1,
@@ -640,17 +646,20 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       'app_snatched'=>1, 'app_snatched_time'=>1, 'app_snatched_end_time'=>1, 'app_snatched_price'=>1,
       'app_snatched_count'=>1, 'app_appoint_count'=>1, 'app_snatched_total_count'=>1, 'app_snatched_img'=>1,
 		);
-		
-		// 请求参数
-
-		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
-		$stage = isset($this->stash['stage']) ? (int)$this->stash['stage'] : Sher_Core_Model_Product::STAGE_SHOP;
 			
 		$query   = array();
 		$options = array();
 		
 		// 查询条件
     $query['app_snatched'] = 1;
+    // 判断抢购状态
+    if($stat){
+      if($stat==1){  // 进行中或已结束
+        $query['app_snatched_time'] = array('$lt'=>time());
+      }elseif($stat==2){  // 未开始
+        $query['app_snatched_time'] = array('$gt'=>time());     
+      }
+    }
 		// 状态
 		$query['stage'] = $stage;
 		// 已审核
