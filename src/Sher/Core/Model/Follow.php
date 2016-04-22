@@ -29,6 +29,8 @@ class Sher_Core_Model_Follow extends Sher_Core_Model_Base{
     protected $joins = array(
         'fans'   => array('user_id' => 'Sher_Core_Model_User'),
         'follow' => array('follow_id' => 'Sher_Core_Model_User'),
+        'fans_ext' => array('user_id' => 'Sher_Core_Model_UserExtState'),
+        'follow_ext' => array('follow_id' => 'Sher_Core_Model_UserExtState'),
     );
 
     /**
