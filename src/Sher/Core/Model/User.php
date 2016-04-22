@@ -340,6 +340,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 
         # 是否绑定手机(未兼容老数据)
         'is_bind' => 0,
+        # 已认证的
+        'verified' => 0,
         # 最后一次登录IP统计
         'last_ip' => null,
     );
