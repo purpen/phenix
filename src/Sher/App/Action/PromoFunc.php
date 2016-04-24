@@ -256,7 +256,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
       $service = Sher_Core_Service_Point::instance();
       $service->make_money_in($user_id, $prize_count, sprintf("签到抽奖中%d鸟币", $prize_count));     
       break;
-    case 2: // 红包100,满199可用;有效期1月
+    case 2: // 
       if($prize_count==5){
         $prize_bonus = 'E';
         $prize_min_amounts = 'C';
@@ -270,7 +270,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
         $prize_bonus = 'B';
         $prize_min_amounts = 'E';     
       }
-      $this->give_bonus($user_id, 'SD', array('count'=>5, 'xname'=>'SD', 'bonus'=>$prize_bonus, 'min_amounts'=>$prize_min_amounts));
+      $this->give_bonus($user_id, 'SD', array('count'=>1, 'xname'=>'SD', 'bonus'=>$prize_bonus, 'min_amounts'=>$prize_min_amounts));
       break;
     case 3: // 实物
 
