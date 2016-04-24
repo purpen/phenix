@@ -244,15 +244,31 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
       $dig_model->create(array('_id'=>$dig_key, 'name'=>'签到抽奖统计', 'items'=>array($draw_dig_key=>array($prize_arr_id=>1))));
     }
 
+    // 得到的数量
+    $prize_count = (int)$is_prize_arr['count'];
+
     switch($is_prize_arr['type']){
     case 0: // 未中奖
       break;
     case 1: // 鸟币
       $service = Sher_Core_Service_Point::instance();
-      $service->make_money_in($user_id, 1, "签到抽奖中1鸟币");     
+      $service->make_money_in($user_id, $prize_count, sprintf("签到抽奖中%d鸟币", $prize_count));     
       break;
     case 2: // 红包100,满199可用;有效期1月
-      $this->give_bonus($user_id, 'SD', array('count'=>5, 'xname'=>'SD', 'bonus'=>'B', 'min_amounts'=>'B'));
+      if($prize_count==5){
+        $prize_bonus = 'E';
+        $prize_min_amounts = 'C';
+      }elseif($prize_count==50){
+        $prize_bonus = 'A';
+        $prize_min_amounts = 'B';     
+      }elseif($prize_count==100){
+        $prize_bonus = 'B';
+        $prize_min_amounts = 'E';     
+      }else{
+        $prize_bonus = 'B';
+        $prize_min_amounts = 'E';     
+      }
+      $this->give_bonus($user_id, 'SD', array('count'=>5, 'xname'=>'SD', 'bonus'=>$prize_bonus, 'min_amounts'=>$prize_min_amounts));
       break;
     case 3: // 实物
 
