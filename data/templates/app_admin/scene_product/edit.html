@@ -611,24 +611,11 @@
           <label for="brand_id">所属品牌：</label>
 
           {% scene_brands_list var:'brand_list' page:1 size:500 %}
-
           <select name="brand_id" class="js-example-basic-single">
             {% for d in brand_list.rows %}
               <option value="{{ d._id }}" {% if d._id == scene_product.brand_id %}selected="selected"{% endif %}>{{ d.title }}</option>
             {% endfor %}
           </select>
-        <!--
-          <div class="ui selection dropdown">
-            <input type="hidden" name="brand_id" value="{{ scene_product.brand_id }}" />
-              <div class="default text">请选择</div>
-              <i class="angle down icon"></i>
-              <div class="menu">
-              {% for d in brand_list.rows %}
-              <div data-value="{{ d._id }}" class="{% if d._id == scene_product.brand_id %}active {% endif %}item">{{ d.title }}</div>
-              {% endfor %}
-            </div>
-          </div>
-          -->
         </div>
       </div>
 
