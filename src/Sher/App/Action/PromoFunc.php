@@ -126,15 +126,17 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
       return $this->ajax_json('类型参数错误!', true);
     }
 
-    switch($from_to){
-      case 1:
-        $from_to = 3;
-        break;
-      case 2:
-        $from_to = 4;
-        break;
-      default:
-        $from_to = 0;
+    if($kind==2){
+      switch($from_to){
+        case 1:
+          $from_to = 3;
+          break;
+        case 2:
+          $from_to = 4;
+          break;
+        default:
+          $from_to = 0;
+      }   
     }
 
     if(empty($user_id)){
