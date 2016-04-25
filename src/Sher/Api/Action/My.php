@@ -6,7 +6,7 @@
 class Sher_Api_Action_My extends Sher_Api_Action_Base {
 
 
-	protected $filter_user_method_list = array('talent_save');
+	protected $filter_user_method_list = array('talent_save','set_my_qr_code');
 	
 	/**
 	 * 入口
@@ -678,6 +678,35 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		}
 		
 		return $this->api_json('提交成功', 0, null);
+	}
+	
+	/**
+	* 获取用户二维码
+	*/
+	public function set_my_qr_code(){
+		
+		header("content-type: image/png");
+		$user_id = $this->current_user_id;
+		//$user_id = 10;
+		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 100;
+		
+		$home_url = Doggy_Config::$vars['app.url.user'].'/'.$user_id;
+
+		$qrCode = new Endroid\QrCode\QrCode();
+		$qrCode
+			->setText($home_url)
+			->setSize($size)
+			//->setExtension('jpg')
+			//->setLogo('http://frbird.qiniudn.com/avatar/160328/56f90f9916c149af077f5909-avb.jpg')
+            //->setLogoSize(48)
+			->setPadding(10)
+			->setErrorCorrection('high')
+			->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
+			->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
+			//->setLabel('My label')
+			//->setLabelFontSize(16)
+			->render()
+		;
 	}
 }
 
