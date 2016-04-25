@@ -117,13 +117,12 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			$user['love_count'] = $result['rows'][$k]['user']['love_count'];
 			$user['user_rank'] = $result['rows'][$k]['user_ext']['user_rank']['title'];
 			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
+			$result['rows'][$k]['scene_title'] = $result['rows'][$k]['scene']['title'];
 			$result['rows'][$k]['user'] = $user;
-			unset($result['rows'][$k]['cover']);
-			unset($result['rows'][$k]['user_ext']);
 		}
 		
 		// 过滤多余属性
-        $filter_fields  = array('cover_id','__extend__');
+        $filter_fields  = array('scene','cover','user_ext','cover_id','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
 		//var_dump($result['rows']);die;
@@ -139,7 +138,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$user_id = $this->current_user_id;
-		$user_id = 10;
+		//$user_id = 10;
 		
 		$data = array();
 		$data['title'] = isset($this->stash['title']) ? $this->stash['title'] : '';
@@ -157,16 +156,24 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
             'coordinates' => array(doubleval($this->stash['lng']), doubleval($this->stash['lat'])),
         );
 		
-		if(empty($data['title']) || empty($data['des'])){
-			return $this->api_json('标题不能为空', 3000);
+		if(!$data['title']){
+			return $this->api_json('请求标题不能为空', 3000);
 		}
 		
-		if(empty($data['tags']) || empty($data['tags'])){
-			return $this->api_json('标签不能为空', 3000);
+		if(!$data['des']){
+			return $this->api_json('请求描述不能为空', 3000);
 		}
 		
-		if(empty($data['address']) || empty($data['address'])){
-			return $this->api_json('地址不能为空', 3000);
+		if(!$data['scene_id']){
+			return $this->api_json('请求情景id不能为空', 3000);
+		}
+		
+		if(!$data['address']){
+			return $this->api_json('请求地址不能为空', 3000);
+		}
+		
+		if(!$data['tags']){
+			return $this->api_json('请求标签不能为空', 3000);
 		}
 		
 		$data['tags'] = explode(',',$data['tags']);
@@ -183,8 +190,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			$data['product'][$i]['id'] = (int)$data['product_id'][$i];
 			$data['product'][$i]['title'] = $data['product_title'][$i];
 			$data['product'][$i]['price'] = (float)$data['product_price'][$i];
-			$data['product'][$i]['x'] = (int)$data['product_x'][$i];
-			$data['product'][$i]['y'] = (int)$data['product_y'][$i];
+			$data['product'][$i]['x'] = (float)$data['product_x'][$i];
+			$data['product'][$i]['y'] = (float)$data['product_y'][$i];
 		}
 		unset($data['product_id']);
 		unset($data['product_title']);
@@ -270,23 +277,55 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
     public function view() {
         
         $id = $this->stash['id'];
-		//$id = 25;
+		
         if (empty($id)) {
             return $this->api_json('请求失败，缺少必要参数!', 3001);
         }
         
-        $service = Sher_Core_Service_SceneSight::instance();
-        $result  = $service->get_sight_by_id($id);
+		$model = new Sher_Core_Model_SceneSight();
+        $result  = $model->extend_load((int)$id);
+		$result['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($result['created_on']);
+		
+		if (!$result) {
+            return $this->api_json('请求内容为空!', true);
+        }
+		
+		// 增加浏览量
+		$model->inc((int)$id, 'view_count', 1);
         
         // 过滤多余属性
-        $filter_fields  = array('type', 'cover_id', 'cover', '__extend__');
+        $filter_fields  = array('type', 'cover_id', 'user', 'user_ext', 'cover', 'scene', '__extend__');
+		
+		$user = array();
+		$user['user_id'] = $result['user']['_id'];
+		$user['account'] = $result['user']['account'];
+		$user['nickname'] = $result['user']['nickname'];
+		$user['avatar_url'] = $result['user']['big_avatar_url'];
+		$user['summary'] = $result['user']['summary'];
+		$user['counter'] = $result['user']['counter'];
+		$user['follow_count'] = $result['user']['follow_count'];
+		$user['fans_count'] = $result['user']['fans_count'];
+		$user['love_count'] = $result['user']['love_count'];
+		$user['user_rank'] = $result['user_ext']['user_rank']['title'];
 		
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
+		$result['scene_title'] = $result['scene']['title'];
+		$result['user_info'] = $user;
         
         for($i=0;$i<count($filter_fields);$i++){
             $key = $filter_fields[$i];
             unset($result[$key]);
         }
+		
+		$tags_model = new Sher_Core_Model_SceneTags();
+		//$result['tags'] = array(164,165,166);
+		foreach($result['tags'] as $k => $v){
+			$res = $tags_model->find_by_id((int)$v);
+			$result['tag_titles'][$k] = '';
+			if(isset($res['title_cn'])){
+				$result['tag_titles'][$k] = $res['title_cn'];
+			}
+		}
         
         //print_r($result);exit;
         return $this->api_json('请求成功', false, $result);
@@ -312,6 +351,9 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 				
 				if (!empty($result)){
 					$model->remove((int)$id);
+					
+					$model = new Sher_Core_Model_SceneTags();
+					$model->scene_count($result['tags'],array('total_count','context_count'),2);
 				}
 			}
 			

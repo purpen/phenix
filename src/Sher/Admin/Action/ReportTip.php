@@ -75,7 +75,7 @@ class Sher_Admin_Action_ReportTip extends Sher_Admin_Action_Base implements Dogg
    */
   public function ajax_stat(){
  		$ids = $this->stash['id'];
-    $stat = isset($this->stash['stat'])?(int)$this->stash['stat']:0;
+		$stat = isset($this->stash['stat'])?(int)$this->stash['stat']:0;
 		if(empty($ids)){
 			return $this->ajax_notification('缺少Id参数！', true);
 		}

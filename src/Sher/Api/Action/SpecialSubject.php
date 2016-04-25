@@ -55,6 +55,8 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 			}
 		}
 		
+		$query['publish'] = 1;
+		
 		// 分页参数
         $options['page'] = $page;
         $options['size'] = $size;

@@ -1,0 +1,11 @@
+<taconite>
+	{% if evt == 1 %}
+	<replace select="#approved-{{ id }}-label"><![CDATA[
+		<label class="ui green label" id="stick-{{ id }}-label">是</label>
+    ]]></replace>
+	<replace select="#approved-{{ id }}-button"><![CDATA[
+		<a href="{{ app_url_admin_base }}/user_talent/ajax_approved?id={{ id }}&evt=0" class="ui link ajax item" id="approved-{{ id }}-button">已审核</a>
+    ]]></replace>
+	{% endif %}
+
+</taconite>

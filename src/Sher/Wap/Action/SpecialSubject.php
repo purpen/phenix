@@ -130,9 +130,11 @@ class Sher_Wap_Action_SpecialSubject extends Sher_Wap_Action_Base {
 					$query['stick'] = 1;
 			}
 		}
-
-    $options['page'] = $page;
-    $options['size'] = $size;
+		
+		$query['publish'] = 1;
+		
+		$options['page'] = $page;
+		$options['size'] = $size;
 
 		// 排序
 		switch ($sort) {

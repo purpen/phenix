@@ -162,6 +162,9 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 				
 				if (!empty($result)){
 					$model->remove($id);
+					
+					$model = new Sher_Core_Model_SceneTags();
+					$model->scene_count($result['tags'],array('total_count','context_count'),2);
 				}
 			}
 			
