@@ -186,15 +186,19 @@
 			<div class="column">
 				<div class="ui two products cards">
 					{% for d in adstick.rows %}
+					<div class="card">
 						<div class="problock">
-							<a title="{{ d.title }}" href="{{ d.view_url }}" style="background-image:url({{ d.cover.fileurl }});padding-top:56.2%;">
+							<a title="{{ d.title }}" href="{{ d.view_url }}" style="background-image:url({{ d.cover.fileurl }});padding-top:56.2%;" class="thumb">
 								
 							</a>
-							<h2>{{ d.title }}</h2>
+							<h2>
+								<a href="{{ d.view_url }}" title="{{ d.title }}" class="ui line" target="_blank">{{ d.title }}</a>
+							</h2>
 							<div class="cats">
                                 <i class="yen icon"></i>0.15
                             </div>
 						</div>
+					</div>
 					{% endfor %}
 				</div>
 			</div>
