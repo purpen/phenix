@@ -45,6 +45,7 @@
 	</div>
 </div>
 
+<!--
 <div class="sorts cubes">
 	<div class="ui responsive grid">
 		<div class="row">
@@ -85,13 +86,14 @@
         </div>
     </div>
 </div>
+-->
 	
 <div id="votelist">
 	<div class="ui responsive grid">
         <!--反向定制-->
 		<div class="row">
 			<div class="column">
-                {% contest_list var:"list" page:page state:2 %}
+                {% contest_list var:"list" page:1 state:2 %}
                 <div class="ui two contest cards">
                 {% if list.rows %}
                     {% for contest in list.rows %}
