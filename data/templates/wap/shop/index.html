@@ -186,10 +186,10 @@
                 <a title="{{ d.short_title }}" alt="{{ d.short_title }}" href="{{ d.wap_view_url }}">
                   <img class="lazy" data-original="{{ d.cover.thumbnails.apc.view_url }}" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
 				  <div class="shopbiao">
-					  {% if new_tips %}
+					  {% if tips_label == 1 %}
 					  <img src="{{ app_url_packaged }}/images/icon/xinpin.png" width="100%">
 					  {% endif %}
-					  {% if hot_tips %}
+					  {% tips_label == 2 %}
 					  <img src="{{ app_url_packaged }}/images/icon/remai.png" width="100%">
 					  {% endif %}
 				  </div>
