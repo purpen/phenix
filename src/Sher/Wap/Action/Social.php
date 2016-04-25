@@ -619,6 +619,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 15;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+		$target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
         
         $query = array();
         $query['published'] = 1;
@@ -630,6 +631,12 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
         if($type==3){
           $query['attrbute'] = Sher_Core_Model_Topic::ATTR_ACTIVE;
         }
+
+        // 产品评测
+        if(!empty($target_id)){
+          $query['target_id'] = $target_id;
+        }
+        
         $options['page'] = $page;
         $options['size'] = $size;
 
