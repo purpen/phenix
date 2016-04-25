@@ -427,7 +427,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             $stars = $row['comment_star']/$row['comment_count'];
             $row['stars'] = ceil($stars);
             // 10分值显示
-            $row['stars_value'] = $stars*2;
+            $row['stars_value'] = sprintf("%.1f", $stars*2);
         }
 	}
 	
