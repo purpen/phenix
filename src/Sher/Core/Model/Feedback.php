@@ -13,6 +13,8 @@ class Sher_Core_Model_Feedback extends Sher_Core_Model_Base  {
         'content' => '',
 		# 联系方式
 		'contact' => '',
+    # 应用来源  1.网页版; 2.商城app; 3.Fiu; 
+    'kind' => 1,
     # 设备来源 1.ios;2.android;3.ipad;4.win;5.web;6.wap
     'from_to' => 1,
     # 是否解决
@@ -30,7 +32,7 @@ class Sher_Core_Model_Feedback extends Sher_Core_Model_Base  {
 	);
 	
     protected $required_fields = array('content');
-    protected $int_fields = array('user_id', 'reply_user_id', 'total', 'from_to', 'solved');
+    protected $int_fields = array('user_id', 'reply_user_id', 'total', 'from_to', 'solved', 'kind');
 	
 
 	/**
@@ -64,6 +66,26 @@ class Sher_Core_Model_Feedback extends Sher_Core_Model_Base  {
     }else{
       $row['from_str'] = '--';
     }
+
+    // 应用来源说明
+    if(isset($row['kind'])){
+      switch($row['kind']){
+        case 1:
+          $row['kind_str'] = '网页';
+          break;
+        case 2:
+          $row['kind_str'] = '商城App';
+          break;
+        case 3:
+          $row['kind_str'] = 'Fiu';
+          break;
+        default:
+          $row['kind_str'] = '--';
+      }
+    }else{
+      $row['kind_str'] = '--';
+    }
+
 	}
 
 	/**
