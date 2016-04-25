@@ -38,7 +38,8 @@
 				<th>用户</th>
 				<th>反馈意见</th>
         <th>是否处理</th>
-        <th>来源</th>
+        <th>应用来源</th>
+        <th>设备来源</th>
         <th>创建时间</th>
 				<th>管理操作</th>
 			</tr>
@@ -73,6 +74,7 @@
 					<label class="ui orange label" id="solve-{{ d._id }}-label">否</label>
 					{% endif %}
 				</td>
+        <td>{{ d.kind_str }}</td>
         <td>{{ d.from_str }}</td>
         <td class="two wide">{{ d.created_on|date 'y-m-d H:i:s' }}</td>
         <td>

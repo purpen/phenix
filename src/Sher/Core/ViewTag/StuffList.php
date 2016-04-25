@@ -26,6 +26,7 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
         // 孵化资源
         $cooperate_id = 0;
         $from_to = 0;
+        $type = 0;
 		
 		// 是否为一级分类
 		$is_top = false;
@@ -96,27 +97,34 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
     if($from_to){
       $query['from_to'] = (int)$from_to;
     }
+
+    // 类型
+    if($type){
+      if((int)$type==8){  // 十万火计、反向定制
+        $query['from_to'] = array('$in'=>array(1, 4));
+      }
+    }
         
-        // 已审核的
-        if($verified){
-            $query['verified'] = 1;
-        }
-        // 关联投票产品
-        if($fever_id){
-            $query['fever_id'] = (int)$fever_id;
-        }
-        
-        if($college_id){
-            $query['college_id'] = (int)$college_id;
-        }
-        
-        if($province_id){
-            $query['province_id'] = (int)$province_id;
-        }
-        
-        if($cooperate_id){
-            $query['cooperate_id'] = (int)$cooperate_id;
-        }
+    // 已审核的
+    if($verified){
+        $query['verified'] = 1;
+    }
+    // 关联投票产品
+    if($fever_id){
+        $query['fever_id'] = (int)$fever_id;
+    }
+    
+    if($college_id){
+        $query['college_id'] = (int)$college_id;
+    }
+    
+    if($province_id){
+        $query['province_id'] = (int)$province_id;
+    }
+    
+    if($cooperate_id){
+        $query['cooperate_id'] = (int)$cooperate_id;
+    }
 		
 		// 限制时间
 		$day = 24 * 60 * 60;
@@ -179,8 +187,12 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
 			case 5:
 				$options['sort_field'] = 'update';
 				break;
-            case 6:
-                $options['sort_field'] = 'view';
+      case 6:
+        $options['sort_field'] = 'view';
+        break;
+      case 7:
+        $options['sort_field'] = 'oldest';
+        break;
 		}
         
         $result = $service->get_stuff_list($query, $options);

@@ -29,6 +29,8 @@ class Sher_Core_Model_Follow extends Sher_Core_Model_Base{
     protected $joins = array(
         'fans'   => array('user_id' => 'Sher_Core_Model_User'),
         'follow' => array('follow_id' => 'Sher_Core_Model_User'),
+        'fans_ext' => array('user_id' => 'Sher_Core_Model_UserExtState'),
+        'follow_ext' => array('follow_id' => 'Sher_Core_Model_UserExtState'),
     );
 
     /**
@@ -45,10 +47,8 @@ class Sher_Core_Model_Follow extends Sher_Core_Model_Base{
             $service->broad_user_follower((int)$this->data['follow_id'], $this->data['user_id']);
             
             // 给用户添加提醒
-            if($ok){
-                $user = new Sher_Core_Model_User();
-                $user->update_counter_byinc($arr['target_user_id'], 'fans_count', 1);     
-            }
+            $user = new Sher_Core_Model_User();
+            $user->update_counter_byinc($arr['target_user_id'], 'fans_count', 1); 
             
             // 增加积分
             $service = Sher_Core_Service_Point::instance();

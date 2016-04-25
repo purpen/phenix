@@ -1,9 +1,9 @@
 <?php
 /**
- * 后台app专题管理
+ * 达人认证
  * @author caowei@taihuoniao.com
  */
-class Sher_Core_ViewTag_SpecialSubjectList extends Doggy_Dt_Tag {
+class Sher_Core_ViewTag_UserTalentList extends Doggy_Dt_Tag {
     
 	protected $argstring;
     public function __construct($argstring, $parser, $pos = 0) {
@@ -18,11 +18,10 @@ class Sher_Core_ViewTag_SpecialSubjectList extends Doggy_Dt_Tag {
         
 		$page = 1;
         $size = 10;
-		$sort_field = 'latest';
+		
         $var = 'list';
         $include_pager = 0;
         $pager_var = 'pager';
-        $publish = 0;
 
         extract($this->resolve_args($context,$this->argstring,EXTR_IF_EXISTS));
 
@@ -31,26 +30,14 @@ class Sher_Core_ViewTag_SpecialSubjectList extends Doggy_Dt_Tag {
         $size = (int)$size;
 		
         $query = array();
-        
-        if($publish){
-			if($publish==-1){
-					$query['publish'] = 0;
-			}else{
-					$query['publish'] = $publish;
-			}
-		}
+        $options = array();
 		
-        $service = Sher_Core_Service_SpecialSubject::instance();
         $options['page'] = $page;
         $options['size'] = $size;
-		$options['sort_field'] = $sort_field;
-        $result = $service->get_special_subject_list($query,$options);
 		
-		// 补充缺失
-		if ($result['total_rows'] < $size){
-			$result['lack'] = range(0, $size - $result['total_rows'] - 1);
-		}
-		//var_dump($result);
+        $service = Sher_Core_Service_UserTalent::instance();
+        $result = $service->get_talent_list($query,$options);
+		//var_dump($result['rows'][0]);
         $context->set($var, $result);
         if ($include_pager) {
             $context->set($pager_var,$result['pager']);

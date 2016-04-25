@@ -16,6 +16,8 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 		'cover_id' => '',
         # 点击次数
         'used_count' => 0,
+		# 推荐（编辑推荐、推荐至首页）
+		'stick' => 0,
         # 是否启用
 		'status' => 1,
     );
@@ -26,7 +28,9 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 	protected $counter_fields = array('used_count');
 	protected $retrieve_fields = array();
     
-	protected $joins = array();
+	protected $joins = array(
+		'cover' =>  array('cover_id' => 'Sher_Core_Model_Asset'),
+	);
 	
 	/**
 	 * 扩展数据

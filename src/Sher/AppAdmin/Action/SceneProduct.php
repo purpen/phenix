@@ -177,9 +177,12 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 			return $this->ajax_note('请求参数为空', true);
 		}
 		$model = new Sher_Core_Model_SceneProduct();
-        // todo: 检查是否存在作品
-        
-		$model->remove($id);
+		$result = $model->first((int)$id);
+		
+		if($result && $model->remove($id)){
+			$model = new Sher_Core_Model_SceneTags();
+			$model->scene_count($result['scene_tags'],array('total_count','context_count'),2);
+		}
 		
 		$this->stash['id'] = $id;
 		return $this->to_taconite_page('app_admin/del_ok.html');
