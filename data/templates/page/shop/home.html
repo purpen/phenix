@@ -228,12 +228,12 @@
 	<div class="ui newest responsive grid">
 		<div class="row">
 			<div class="column">
-				{% category_list var:'category' only_open:1 domain:1 show_all:0 current:cid sort_field:'total_desc' %}
+				{% category_list var:'category' only_open:1 domain:1 show_all:0 sort_field:'total_desc' %}
 				<div class="ui four products cards">
 
         {% for d in category.rows %}
           {% if d.sub_count>0 %}
-            {% if d.odd %}
+            {% if d.odd_label %}
 
               {% product_list var:'list' page:1 category_id:d._id stage:9 only_onsale:1 sort:4 size:6 %}
               <div class="card special">
@@ -250,14 +250,14 @@
                   
                 </div>
               </div>
-              {% for product in hotest.rows %}
+              {% for product in list.rows %}
                   {% include "block/product_card.html" %}
               {% endfor %}
 
             {%else%}
 
               {% product_list var:'list' page:1 category_id:d._id stage:9 only_onsale:1 sort:4 size:6 %}
-              {% for product in hotest.rows %}
+              {% for product in list.rows %}
                   {% include "block/product_card.html" %}
                   {% if loop.counter==2 %}
 

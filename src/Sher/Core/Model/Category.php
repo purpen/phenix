@@ -27,6 +27,8 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 
 		# 移动端封面图片路径
 		'app_cover_url' => null,
+		# 网页端封面图片路径
+		'web_cover_url' => null,
 		# 排列顺序
 		'order_by' => 0,
 		# 分类域

@@ -98,14 +98,20 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
 		        $all_category['name']   = 'all';
 				$all_category['domain'] = $domain;
 				
-				if (!$current){
-					$all_category['active'] = 'active';
-				}
+          if (!$current){
+            $all_category['active'] = 'active';
+          }
 				
 		        array_unshift($categories, $all_category);
 		    }
 			
 	        for ($i=0; $i<count($categories); $i++) {
+
+            if($i%2==0){
+              $categories[$i]['odd_label'] = false;
+            }else{
+              $categories[$i]['odd_label'] = true;           
+            }
 			
             if ($categories[$i]['domain'] == Sher_Core_Util_Constant::TYPE_TOPIC){
               $categories[$i]['view_url'] = Sher_Core_Helper_Url::topic_list_url($categories[$i]['_id']);
@@ -136,11 +142,6 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
                 }
             }
 
-            if($i%2==0){
-              $categories[$i]['odd'] = false;
-            }else{
-              $categories[$i]['odd'] = true;           
-            }
 	        } //end for
 			
 			// 重写rows
