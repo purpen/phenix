@@ -60,6 +60,9 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 
 		// 投票状态显示
 		$vote_type = 0;
+
+    // 孵化产品标识
+    $hatched = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -164,6 +167,10 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		if($only_okcase){
 			$query['okcase'] = 1;
 		}
+    // 是否是孵化产品
+    if($hatched){
+      $query['hatched'] = 1;
+    }
 
 		// 投票状态显示
 		if($vote_type){
