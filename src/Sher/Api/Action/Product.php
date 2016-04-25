@@ -177,7 +177,6 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         $data[$i]['username'] = $result['rows'][$i]['designer']['nickname'];
         $data[$i]['small_avatar_url'] = $result['rows'][$i]['designer']['small_avatar_url'];     
       }
-      $data[$i]['tips_label'] = 0;
       $data[$i]['content_view_url'] = sprintf('%s/view/product_show?id=%d', Doggy_Config::$vars['app.url.api'], $result['rows'][$i]['_id']);
       // 保留2位小数
       $data[$i]['sale_price'] = sprintf('%.2f', $result['rows'][$i]['sale_price']);
