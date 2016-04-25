@@ -5,64 +5,45 @@
 	#mfrbird {
 	    margin-top: 0;
 	}
-	.qbfl{
-	    padding-top: 33.3333%;
-	    position: relative;
-	    display: block;
-	    width: 100%;
-	    height: 100%;
-	}
-	.qbfl img{
-	    position: absolute;
-	    top: 0;
-	    left: 0;
-	    width: 100%;
-	    height: auto;
-	}
-	.qbfl h3.ui.header{
-	    text-align: center;
-	    color: #fff !important;
-	    position: absolute;
-	    top: 50%;
-	    left: 50%;
-	    transform: translate3d(-50%,-50%,0);
-	    margin: 0;
-	    padding: 0;
-	    font-weight: 400;
-	    border-bottom: 2px solid #fff;
-	    padding-bottom: 10px;
-	}
-	.nav-menu .navfelx .childcell .menuicon img{
-		width:40px;
-		height:40px;
-	}
-	.nav-menu .navfelx .childcell .menuicon{
-		padding:0 4px 4px;
-	}
-	#shop-special .recommend-topic .recom-item .recom-cell.one .fuhua.icon{
-	    width: 22px;
-	    height: 23px;
-	    background: rgba(255,51,102,.9);
-	}
-	#shop-special .recommend-topic .recom-item .recom-cell.one .fuhua.icon img {
-	    width: 12px;
-	    height: 13px;
-	    margin: 5px;
-	}
-	
-	.shopbiao{
-		position:absolute;
-		width:32px;
-		height:32px;
-		top:15px;
-		left:10px;
+	#special-list .recommend-topic .recom-item .recom-cell.one a .xihuanicon{
+		display:none;
 	}
 </style>
 {% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+    var page = 1;
+    var size =1;
+    var sort = 1;
+    var category_id = 0;
+
+    // 专题加载
+    function ajax_special_load_more(category_id, sort, page, size){
+        var url = '{{ app_url_wap }}/special_subject/ajax_load_list';
+        $.get(url, { category_id:category_id, sort:sort, page:page, size:size }, function(rs){
+            var rendered = phenix.ajax_render_result('#fetch_more_special_subject_tpl', rs.data);
+            if(rs.data.page==1){
+              $('#subject-box').html(rendered);          
+            }else{
+              $('#subject-box').append(rendered);
+            }
+          $("img.lazy").lazyload({
+             effect : "show"
+          });
+        }, 'json');
+    }
+  </script>
+{% endblock %}
 {% block jquery %}
-	
-
-
+    category_id = parseInt($(this).attr('category_id'));
+    page = 1;
+    $('#subject-box').html(''); 
+    var html = '';
+    html += '<div style="text-align:center;margin:10px auto;">';
+    html += '<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">';
+    html += '</div>';
+    ajax_special_load_more(category_id, sort, page, size);
 {% endblock %}
 {% block content %}
 <div class="shopbanner">
@@ -138,28 +119,13 @@
 </div>
 
 <!-- 专题 -->
-<!--
-{% ad_list var:'adspecial' page:1 state:2 size:1 name:'wap_shop_special_slide' sort_field:'latest' %}
-
 <div id="special-list">
 	<div class="recommend-topic">
-		<div class="recom-item">
-			<div class="recom-cell one">
-				<a href="">
-					<img class="lazy" data-original="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1" src="{{ app_url_packaged }}/images/icon/load750-422.png" title="qweqw">
-					
-					<div class="xihuanicon">
-						<i class="empty heart icon"></i>23
-					</div>
-					<div class="desc">
-						航拍解放双手无人机开启上帝视角
-					</div>
-				</a>
-			</div>
+		<div class="recom-item" id="subject-box">
 			
 		</div>
 	</div>
-</div>-->
+</div>
 
 
 <!-- 商品 -->
@@ -258,4 +224,7 @@
 	</div>
 </div>
 
+{% endblock %}
+{% block templates %}
+  {% mustache id:'fetch_more_special_subject_tpl' tpl:'mustache_m/fetch_more_special_subject.mustache' %}
 {% endblock %}
