@@ -124,30 +124,29 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		
 		$data = array();
-		$data['title'] = $this->stash['title'];
-		$data['des'] = $this->stash['des'];
-		$data['tags'] = $this->stash['tags'];
-		$data['address'] = $this->stash['address'];
+		$data['title'] = isset($this->stash['title']) ? $this->stash['title'] : '';
+		$data['des'] = isset($this->stash['des']) ? $this->stash['des'] : '';
+		$data['tags'] = isset($this->stash['tags']) ? $this->stash['tags'] : '';
+		$data['address'] = isset($this->stash['address']) ? $this->stash['address'] : '';
 		$data['location'] = array(
             'type' => 'Point',
             'coordinates' => array(doubleval($this->stash['lng']), doubleval($this->stash['lat'])),
         );
-		//$data['asset'] = isset($this->stash['asset'])?$this->stash['asset']:array();
 		
-		if(empty($data['title']) || empty($data['des'])){
-			return $this->api_json('请求参数不能为空', 3000);
+		if(!$data['title']){
+			return $this->api_json('请求标题不能为空', 3000);
 		}
 		
-		if(empty($data['address']) || empty($data['address'])){
-			return $this->api_json('请求参数不能为空', 3000);
+		if(!$data['des']){
+			return $this->api_json('请求描述不能为空', 3000);
 		}
 		
-		if(empty($data['tags']) || empty($data['tags'])){
-			return $this->api_json('请求参数不能为空', 3000);
+		if(!$data['address']){
+			return $this->api_json('请求地址不能为空', 3000);
 		}
 		
-		if(empty($data['location']['coordinates']['lat']) || empty($data['location']['coordinates']['lat'])){
-			return $this->api_json('请求参数不能为空', 3000);
+		if(!$data['tags']){
+			return $this->api_json('请求标签不能为空', 3000);
 		}
 		
 		$data['tags'] = explode(',',$data['tags']);

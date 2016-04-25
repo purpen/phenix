@@ -138,7 +138,6 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$user_id = $this->current_user_id;
-		$user_id = 10;
 		
 		$data = array();
 		$data['title'] = isset($this->stash['title']) ? $this->stash['title'] : '';
@@ -156,16 +155,24 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
             'coordinates' => array(doubleval($this->stash['lng']), doubleval($this->stash['lat'])),
         );
 		
-		if(empty($data['title']) || empty($data['des'])){
-			return $this->api_json('标题不能为空', 3000);
+		if(!$data['title']){
+			return $this->api_json('请求标题不能为空', 3000);
 		}
 		
-		if(empty($data['tags']) || empty($data['tags'])){
-			return $this->api_json('标签不能为空', 3000);
+		if(!$data['des']){
+			return $this->api_json('请求描述不能为空', 3000);
 		}
 		
-		if(empty($data['address']) || empty($data['address'])){
-			return $this->api_json('地址不能为空', 3000);
+		if(!$data['scene_id']){
+			return $this->api_json('请求情景id不能为空', 3000);
+		}
+		
+		if(!$data['address']){
+			return $this->api_json('请求地址不能为空', 3000);
+		}
+		
+		if(!$data['tags']){
+			return $this->api_json('请求标签不能为空', 3000);
 		}
 		
 		$data['tags'] = explode(',',$data['tags']);
@@ -315,7 +322,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			$result['tag_titles'][$k] = $res['title_cn'];
 		}
         
-        //print_r($result['tag_titles']);exit;
+        //print_r($result);exit;
         return $this->api_json('请求成功', false, $result);
     }
 	
