@@ -82,7 +82,7 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
         $rand = rand(1, 15);
         if($rand==10){
           $third_site_stat_model = new Sher_Core_Model_ThirdSiteStat();
-          $visitor_count = $third_site_stat_model->count('kind'=>3);
+          $visitor_count = $third_site_stat_model->count(array('kind'=>3));
           if($visitor_count<=60){
             Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'APS', 'bonus'=>'F', 'min_amounts'=>'C'));
             $data = array(
