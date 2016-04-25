@@ -308,7 +308,8 @@
           if(sid==''){
             $('#slidework').html(html);         
           }else{
-            $('#slidework').prepend(html);          
+            $('#slidework').prepend(html);  
+            setTimeout("$('p.padd').addClass('active');",1000);           
           }
         }
     }, 'json');
