@@ -147,19 +147,23 @@
 	  background:rgba(0,0,0,0);
   }
   .type_00.drawmes{
-	  width: 60%;
+	  width: 70% !important;
       position: absolute;
       background: #000;
       top: 32%;
-      margin-top: -10%;
+      margin-top: -10% !important;
       left: 50%;
-      margin-left: -30%;
+      margin-left: -35% !important;
       box-shadow: none;
   }
   .type_00.drawmes .header{
 	  padding: 20px 0 20px !important;
-      font-size: 16px;
-      font-weight: 400;
+      font-size: 16px !important;
+      font-weight: 400 !important;
+  }
+  .type_00.drawmes .header .container{
+  	  padding-top:5px;
+	  padding-bottom:5px;
   }
 </style>
 {% endblock %}
@@ -197,26 +201,26 @@
           switch(data.type){
             case 0:
               $('.ui.type_00.drawmes.modal').modal('setting', 'closable', false).modal('show');
-			  setTimeout("$('.ui.type_00.drawmes.modal').modal('hide');",3000);
+			 // setTimeout("$('.ui.type_00.drawmes.modal').modal('hide');",5000);
             break;
             case 1:
               $('.ui.type_01.drawmes.modal').modal('setting', 'closable', false).modal('show');
-			  setTimeout("$('.ui.type_01.drawmes.modal').modal('hide');",3000);
+			  setTimeout("$('.ui.type_01.drawmes.modal').modal('hide');",5000);
             break;
             case 2:
               $('.ui.type_02.drawmes.modal').modal('setting', 'closable', false).modal('show');
-			  setTimeout("$('.ui.type_02.drawmes.modal').modal('hide');",3000);
+			  setTimeout("$('.ui.type_02.drawmes.modal').modal('hide');",5000);
             break;
             case 3:
               $('#sign_draw_id').val(data.sid);
               $('span.draw_name').text(data.title);
               $('.ui.type_03.drawmes.modal').modal('setting', 'closable', false).modal('show');
-			  setTimeout("$('.ui.type_03.drawmes.modal').modal('hide');",3000);
+			  setTimeout("$('.ui.type_03.drawmes.modal').modal('hide');",5000);
             break;
             case 4:
               $('span.draw_name').text(data.title);
               $('.ui.type_04.drawmes.modal').modal('setting', 'closable', false).modal('show');
-			  setTimeout("$('.ui.type_04.drawmes.modal').modal('hide');",3000);
+			  setTimeout("$('.ui.type_04.drawmes.modal').modal('hide');",5000);
             break;
           }
 
