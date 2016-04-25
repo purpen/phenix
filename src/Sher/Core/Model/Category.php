@@ -43,7 +43,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		'state' => 0,
     );
 	
-	protected $retrieve_fields = array('name'=>1,'title'=>1,'summary'=>1,'gid'=>1,'pid'=>1,'order_by'=>1,'domain'=>1,'total_count'=>1,'reply_count'=>1,'state'=>1,'is_open'=>1,'tags'=>1,'item_tags'=>1,'app_cover_url'=>1,'sub_count'=>1,'tag_id'=>1);
+	protected $retrieve_fields = array('name'=>1,'title'=>1,'summary'=>1,'gid'=>1,'pid'=>1,'order_by'=>1,'domain'=>1,'total_count'=>1,'reply_count'=>1,'state'=>1,'is_open'=>1,'tags'=>1,'item_tags'=>1,'app_cover_url'=>1,'web_cover_url'=>1,'sub_count'=>1,'tag_id'=>1);
 	
 	// 类组
 	protected $groups = array(
