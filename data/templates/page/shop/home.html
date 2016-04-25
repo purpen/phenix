@@ -233,28 +233,7 @@
 
         {% for d in category.rows %}
           {% if d.sub_count>0 %}
-            {% if !d.odd_label %}
-
-              {% product_list var:'list' page:1 category_id:d._id stage:9 only_onsale:1 sort:4 size:6 %}
-              <div class="card special">
-                <div class="speblock" style="background-image:url({{ d.web_cover_url }});">
-                  <a href="{{ d.view_url }}" class="thumb">
-                    <div class="content">
-                      <h2 class="ui header">{{ d.title }}
-                        <div class="sub header">
-                          查看全部
-                        </div>
-                      </h2>
-                    </div>
-                  </a>
-                  
-                </div>
-              </div>
-              {% for product in list.rows %}
-                  {% include "block/product_card.html" %}
-              {% endfor %}
-
-            {%else%}
+            {% if d.odd_label %}
 
               {% product_list var:'list' page:1 category_id:d._id stage:9 only_onsale:1 sort:4 size:6 %}
               {% for product in list.rows %}
@@ -279,9 +258,28 @@
                   {%endif%}
               {% endfor %}
 
+            {%else%}
+
+              {% product_list var:'list' page:1 category_id:d._id stage:9 only_onsale:1 sort:4 size:6 %}
+              <div class="card special">
+                <div class="speblock" style="background-image:url({{ d.web_cover_url }});">
+                  <a href="{{ d.view_url }}" class="thumb">
+                    <div class="content">
+                      <h2 class="ui header">{{ d.title }}
+                        <div class="sub header">
+                          查看全部
+                        </div>
+                      </h2>
+                    </div>
+                  </a>
+                  
+                </div>
+              </div>
+              {% for product in list.rows %}
+                  {% include "block/product_card.html" %}
+              {% endfor %}
 
             {%endif%}
-
 
           {%endif%}
         {% endfor %}
