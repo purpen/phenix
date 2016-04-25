@@ -64,7 +64,7 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
 
         //子数量(可购买产品)
         if($is_vendable){
-          $query['sub_count'] = array('$ne'=>0);
+          $query['sub_count'] = array('$gt'=>0);
         }
 		
 		if ($only_open == Sher_Core_Model_Category::IS_OPENED) {
