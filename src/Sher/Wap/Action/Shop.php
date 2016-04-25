@@ -1708,7 +1708,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
           // tips
           if($result['rows'][$i]['tips_label']==1){
             $result['rows'][$i]['new_tips'] = true;
-          }elseif($result['rows'][$i]['tips_label']==1){
+          }elseif($result['rows'][$i]['tips_label']==2){
             $result['rows'][$i]['hot_tips'] = true;         
           }
 

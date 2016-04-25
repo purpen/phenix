@@ -730,7 +730,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
           // tips
           if($result['rows'][$i]['tips_label']==1){
             $result['rows'][$i]['new_tips'] = true;
-          }elseif($result['rows'][$i]['tips_label']==1){
+          }elseif($result['rows'][$i]['tips_label']==2){
             $result['rows'][$i]['hot_tips'] = true;         
           }
         } // endfor
