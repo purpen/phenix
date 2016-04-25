@@ -305,12 +305,8 @@
           if(html==''){
             return;
           }
-          if(sid==''){
-            $('#slidework').html(html);         
-          }else{
-            $('#slidework').prepend(html);  
-            setTimeout("$('p.padd').addClass('active');",1000);           
-          }
+          $('#slidework').prepend(html); 
+          setTimeout("$('p.padd').addClass('active');",1000);  
         }
     }, 'json');
   }
