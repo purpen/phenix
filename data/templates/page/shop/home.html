@@ -228,7 +228,7 @@
 	<div class="ui newest responsive grid">
 		<div class="row">
 			<div class="column">
-				{% category_list var:'category' only_open:1 domain:1 show_all:0 sort_field:'total_desc' is_vendable:1 %}
+				{% category_list var:'category' only_open:1 domain:1 show_all:0 is_vendable:1 %}
 				<div class="ui four products cards">
 
         {% for d in category.rows %}
