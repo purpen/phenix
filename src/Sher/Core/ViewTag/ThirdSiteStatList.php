@@ -20,10 +20,12 @@ class Sher_Core_ViewTag_ThirdSiteStatList extends Doggy_Dt_Tag {
         $size = 50;
 
         $kind = 0;
+        $target_id = 0;
 		
         $var = 'list';
         $include_pager = 0;
         $pager_var = 'pager';
+        $sort_field = 'latest';
 
         extract($this->resolve_args($context,$this->argstring,EXTR_IF_EXISTS));
 
@@ -36,10 +38,14 @@ class Sher_Core_ViewTag_ThirdSiteStatList extends Doggy_Dt_Tag {
         if($kind){
           $query['kind'] = (int)$kind;
         }
+        if($target_id){
+          $query['target_id'] = (int)$target_id;
+        }
 		
         $service = Sher_Core_Service_ThirdSiteStat::instance();
         $options['page'] = $page;
         $options['size'] = $size;
+        $options['sort_field'] = $sort_field;
 		
         $result = $service->get_site_list($query,$options);
 		

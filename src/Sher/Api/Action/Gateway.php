@@ -140,7 +140,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
         $time_lag = 0;
       }
 
- 		  return $this->api_json('请求成功', 0, array('cover_url'=>$cover_url, 'title'=>$product['title'], 'type'=>$type, 'time_lag'=>$time_lag));     
+ 		  return $this->api_json('请求成功', 0, array('cover_url'=>$cover_url, 'title'=>$product['title'], 'target_id'=>$product['_id'], 'type'=>$type, 'time_lag'=>$time_lag));     
     }else{
  		  return $this->api_json('数据结构不正确!', 3002);   
     } 
@@ -315,6 +315,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 		$user_id = $this->current_user_id;
 		$content = isset($this->stash['content']) ? $this->stash['content'] : null;
 		$contact = isset($this->stash['contact']) ? $this->stash['contact'] : null;
+		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 2;
 		$from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 1;
 		
 		if(empty($content)){
@@ -329,6 +330,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 				'content' => $content,
 				'contact' => $contact,
         'from_to' => $from_to,
+        'kind' => $kind,
 			));
 			
 			if(!$ok){

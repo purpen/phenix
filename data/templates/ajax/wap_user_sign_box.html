@@ -2,15 +2,28 @@
 	<replace select="#wap-user-sign-box"><![CDATA[
 		<div id="wap-user-sign-box">
 			{% if result.has_sign %}
-			<div class="ui green circular active inverted button">
+			<div class="ui magenta active inverted button">
 				已签到
 			</div>
 			{%else%}
-			<div class="ui green circular active inverted button noqian">
+			<div class="ui magenta active inverted button noqian">
 				签到
 			</div>
 			{%endif%}
 			
+			{% if is_doing %}
+	          {% if result.is_true %}
+	            <div class="add">
+	               经验 +2{% if result.give_money %}</br>鸟币 +1{%endif%}
+	            </div>
+	          {%endif%}
+	        {%endif%}
+            <div class="adreg">	
+                连签 <b>{{ result.continuity_times }}</b> 天 
+				{% if result.has_sign %}
+				，今日签到排行：<b>{{ result.data.last_date_no }}</b>
+				{% endif %}
+            </div>
 			 
 		</div>
 		

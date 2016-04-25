@@ -69,6 +69,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 
     $pusher = new Sher_Core_Model_Pusher();
     $ok = $pusher->binding($uuid, $user_id, $from_to);
+    $this->current_user_id = $user_id;
 		
 		return $this->api_json('欢迎回来.', 0, $data);
 	}
@@ -159,6 +160,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 
     $pusher = new Sher_Core_Model_Pusher();
     $ok = $pusher->binding($uuid, $user_id, $from_to);
+    $this->current_user_id = $user_id;
 
 			}
         }catch(Sher_Core_Model_Exception $e){
@@ -191,6 +193,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 			if(!empty($uuid) && !empty($from_to)){
 				$pusher = new Sher_Core_Model_Pusher();
 				$ok = $pusher->unbinding($uuid, $from_to);
+        $this->current_user_id = 0;
 			}
 		}catch(Sher_Core_Model_Exception $e){
             Doggy_Log_Helper::error('Failed to logout:'.$e->getMessage());
@@ -371,6 +374,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
       $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
       $pusher = new Sher_Core_Model_Pusher();
       $ok = $pusher->binding($uuid, $user_id, $from_to);
+      $this->current_user_id = $user_id;
 
 		  return $this->api_json('欢迎回来.', 0, array('has_user'=>1, 'user'=>$data));
     
@@ -452,7 +456,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 
     //根据第三方来源,更新对应open_id 
     if($third_source==2){
-      $user_data['account'] = (string)$uid;
+      $user_data['account'] = (string)$oid;
       $user_data['password'] = sha1(Sher_Core_Util_Constant::WEIBO_AUTO_PASSWORD);
       $user_data['from_site'] = Sher_Core_Util_Constant::FROM_WEIBO;
       $user_data['sina_uid'] = (int)$oid;
@@ -529,6 +533,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
         $data = Sher_Core_Helper_FilterFields::wap_user($user);
         $pusher = new Sher_Core_Model_Pusher();
         $ok = $pusher->binding($uuid, $user_id, $from_to);
+        $this->current_user_id = $user_id;
 
         return $this->api_json('创建成功!', 0, $data);
 
@@ -556,7 +561,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 		$access_token = isset($this->stash['access_token'])?$this->stash['access_token']:null;
     $union_id = isset($this->stash['union_id'])?$this->stash['union_id']:null;
     $account = isset($this->stash['account'])?$this->stash['account']:null;
-    $password = isset($this->stash['password'])?(int)$this->stash['password']:0;
+    $password = isset($this->stash['password'])?$this->stash['password']:null;
 
     // 来源哪种设备
     $from_to = isset($this->stash['from_to'])?(int)$this->stash['from_to']:0;
@@ -615,6 +620,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 
     $pusher = new Sher_Core_Model_Pusher();
     $ok = $pusher->binding($uuid, $user_id, $from_to);
+    $this->current_user_id = $user_id;
 		
 		return $this->api_json('欢迎回来.', 0, $data);
   }

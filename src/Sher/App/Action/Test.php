@@ -8,7 +8,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = array('execute','flat','add_user','test_func','tweleve', 'add_user_tags','show');
+	protected $exclude_method_list = array('execute','flat','add_user','test_func','tweleve', 'add_user_tags','show', 'jpush');
 
 	/**
 	 * 默认入口
@@ -132,7 +132,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 	 * Icon List
 	 */
 	public function flat() {		
-		return $this->to_html_page('wap/special_subject/view.html');
+		return $this->to_html_page('wap/my/order_view.html');
 	}
 	public function show() {		
 		return $this->to_html_page('wap/special_subject/list.html');
@@ -314,6 +314,49 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     $model = new Sher_Core_Model_UserTags();
     $model->add_item_custom($user_id, 'scene_tags', $tag_id);
     echo 'success';
+  }
+
+  public function jpush(){
+    $user_id = isset($this->stash['user_id']) ? $this->stash['user_id'] : 0;
+    $alert = '嗨，大家晚上好!';
+    $options = array(
+      'time_to_live' => 0,
+      // "android", "ios", "winphone"
+      'plat_form' => array('ios'),
+      'alias' => array($user_id),
+      'extras' => array('infoType'=>1, 'infoId'=>1011497059),
+      'apns_production' => false,
+    );
+    $ok = Sher_Core_Util_JPush::push($alert, $options);
+    print_r($ok);
+  }
+
+  public function update_user_identify(){
+    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+    $val = isset($this->stash['val']) ? 1 : 0;
+    $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+    if(empty($user_id)){
+      echo "缺少请求参数";
+      return false;
+    }
+
+    $field = null;
+    if($type==1){
+      $field = 'is_scene_subscribe';
+    }elseif($type==2){
+      $field = 'is_app_first_shop';
+    }else{
+      echo "类型错误!";
+      return false;
+    }
+    $user_model = new Sher_Core_Model_User();
+    $ok = $user_model->update_user_identify($user_id, $field, $val);
+    if($ok){
+      return $this->api_json('更新的类型错误!', 0, array());    
+    }else{
+      return $this->api_json('更新失败!', 3003);    
+    }
+
   }
 
 }

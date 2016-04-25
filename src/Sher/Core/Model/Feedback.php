@@ -13,10 +13,12 @@ class Sher_Core_Model_Feedback extends Sher_Core_Model_Base  {
         'content' => '',
 		# 联系方式
 		'contact' => '',
-        # 设备来源 1.ios;2.android;3.ipad;4.win;5.web;6.wap
-        'from_to' => 1,
-        # 是否解决
-        'solved' => 0,
+    # 应用来源  1.网页版; 2.商城app; 3.Fiu; 
+    'kind' => 1,
+    # 设备来源 1.ios;2.android;3.ipad;4.win;5.web;6.wap
+    'from_to' => 1,
+    # 是否解决
+    'solved' => 0,
         
         'reply_user_id' => 0,
         'replied' => 0,
@@ -30,40 +32,60 @@ class Sher_Core_Model_Feedback extends Sher_Core_Model_Base  {
 	);
 	
     protected $required_fields = array('content');
-    protected $int_fields = array('user_id', 'reply_user_id', 'total', 'from_to', 'solved');
+    protected $int_fields = array('user_id', 'reply_user_id', 'total', 'from_to', 'solved', 'kind');
 	
 
 	/**
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
-        // 来源说明
-        if(isset($row['from_to'])){
-          switch($row['from_to']){
-            case 1:
-              $row['from_str'] = 'IOS';
-              break;
-            case 2:
-              $row['from_str'] = 'Android';
-              break;
-            case 3:
-              $row['from_str'] = 'iPad';
-              break;
-            case 4:
-              $row['from_str'] = 'Win';
-              break;
-            case 5:
-              $row['from_str'] = 'Web';
-              break;
-            case 6:
-              $row['from_str'] = 'Wap';
-              break;
-            default:
-              $row['from_str'] = 'error';
-          }
-        }else{
-          $row['from_str'] = '--';
-        }
+    // 来源说明
+    if(isset($row['from_to'])){
+      switch($row['from_to']){
+        case 1:
+          $row['from_str'] = 'IOS';
+          break;
+        case 2:
+          $row['from_str'] = 'Android';
+          break;
+        case 3:
+          $row['from_str'] = 'iPad';
+          break;
+        case 4:
+          $row['from_str'] = 'Win';
+          break;
+        case 5:
+          $row['from_str'] = 'Web';
+          break;
+        case 6:
+          $row['from_str'] = 'Wap';
+          break;
+        default:
+          $row['from_str'] = 'error';
+      }
+    }else{
+      $row['from_str'] = '--';
+    }
+
+    // 应用来源说明
+    if(isset($row['kind'])){
+      switch($row['kind']){
+        case 1:
+          $row['kind_str'] = '网页';
+          break;
+        case 2:
+          $row['kind_str'] = '商城App';
+          break;
+        case 3:
+          $row['kind_str'] = 'Fiu';
+          break;
+        default:
+          $row['kind_str'] = '--';
+      }
+    }else{
+      $row['kind_str'] = '--';
+    }
+
 	}
 
 	/**

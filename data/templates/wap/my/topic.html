@@ -9,15 +9,15 @@
 	font-weight:400;
 }
 .nav-menu .navfelx {
-    border-top: 1px solid rgba(0,0,0,0.1);
-    border-bottom: 1px solid rgba(0,0,0,0.1);
+    border-top: 0px solid rgba(0,0,0,0.1);
+    border-bottom: 0px solid rgba(0,0,0,0.1);
 }
 .nav-menu .navfelx .childcell:first-child::before{
 	content:none;
 }
 .nav-menu .navfelx .childcell .menuicon{
 	margin:0;
-	padding:6px;
+	padding:0.7145rem 0;
 }
 .nav-menu .navfelx .childcell::before {
     content: '';
@@ -29,22 +29,25 @@
     background: rgba(0,0,0,0.1);
 }
 .menuicon.active{
-	background:#f36;
+	border-bottom:2px solid #f36;
 }
 .menuicon.active h5.ui.header{
-	color:#fff !important;
+	color:#f36 !important;
 }
 
 .mytlist{
 	border-bottom: 1px solid rgba(0,0,0,0.1);
-	padding-bottom: .71428571rem!important;
-	padding-top: .71428571rem!important;
+	padding-bottom: 0.7145rem!important;
+	padding-top: 0.7145rem!important;
 }
 .mytlist:first-child{
 	padding-top:0;
 }
+.mytlist:last-child{
+	border-bottom:none;
+}
 .mytlist .mytop{
-	padding: 0.71428571rem 0 0.357142855rem;
+	padding: 0.7145rem 0 0.35725rem;
     width: 100%;
     display: flex;
     display: -ms-flexbox;
@@ -78,34 +81,34 @@
 	font-size:0.857142852rem;
 }
 .mytlist .topicphotos{
-    height: 62px;
+    height: 4.4299rem;
     position: relative;
     overflow: hidden;
-    margin: 0.357142855rem 0;
+    margin: 0.35725rem 0;
 }
 .mytlist .topicphotos .ui.mini.images{
     position: absolute;
     left: 0;
     top: 0;
-    height: 75px;
+    height: 5.35875rem;
     white-space: nowrap;
     overflow-x: hidden;
     overflow: auto;
 }
 .mytlist .topicphotos .ui.mini.images img{
-    width: 80px;
+    width: 5.716rem;
     height: auto;
-    font-size: 0.71428571rem;
+    font-size: 0.7145rem;
     overflow: hidden;
 	vertical-align: top;
 }
 .mytlist .botmsg{
 	color: rgba(0,0,0,0.5);
-	font-size: 0.71428571rem;
+	font-size: 0.7145rem;
 }
 .mytlist .description{
-	padding: 0 0 0.357142855rem;
-	font-size: 13px;
+	padding: 0 0 0.35725rem;
+	font-size: 0.92885rem;
 }
 </style>
 {% endblock %}
@@ -125,17 +128,17 @@
 	<div class="nav-menu">
 		<ul class="navfelx">
 			<li class="childcell">
-				<a href="{{ app_url_wap }}/my/topic?type=submited" class="{{ css_user_topic_submited }} menuicon m-0 ptb-2r">
+				<a href="{{ app_url_wap }}/my/topic?type=submited" class="{{ css_user_topic_submited }} menuicon">
 					<h5 class="ui header">我发表的</h5>
 				</a>
 			</li>
 			<li class="childcell">
-				<a href="{{ app_url_wap }}/my/topic?type=favorited" class="{{ css_user_topic_favorited }} menuicon m-0 ptb-2r">
+				<a href="{{ app_url_wap }}/my/topic?type=favorited" class="{{ css_user_topic_favorited }} menuicon">
 					<h5 class="ui header">我收藏的</h5>
 				</a>
 			</li>
 			<li class="childcell">
-				<a href="{{ app_url_wap }}/my/topic?type=loved" class="{{ css_user_topic_loved }} menuicon m-0 ptb-2r">
+				<a href="{{ app_url_wap }}/my/topic?type=loved" class="{{ css_user_topic_loved }} menuicon">
 					<h5 class="ui header">我赞了的</h5>
 				</a>
 			</li>

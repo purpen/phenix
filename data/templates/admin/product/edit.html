@@ -546,6 +546,16 @@
 					<input type="text" name="video[]" placeholder="支持优酷/腾讯视频分享：http://player.youku.com/embed/********* 链接格式" />
 				{% endif %}
       </div>
+
+			<div class="six fields">
+				<div class="field">
+				  	<label>使用手册</label>
+					<input type="text" name="guide_id" value="{{ product.guide_id|default 0 }}" />
+				  <div class="description">关联贴子ID</div>
+				</div>
+
+			</div>
+
     </div>
 
 		<div class="ui segment">
@@ -647,7 +657,7 @@
             -->
 				<div class="ui checkbox">
 		          	<input type="checkbox" name="process_saled" {% if product.process_saled %}checked="checked"{% endif %} />
-		          	<label>商店 <small class="ui magenta text">（预售产品，结束后才能选择）</small></label>
+		          	<label>商店 <small class="ui magenta text">（可销售产品）</small></label>
 		        </div>
 				<div class="ui checkbox">
 		          	<input type="checkbox" name="process_idea" {% if product.process_idea %}checked="checked"{% endif %} />
@@ -717,13 +727,17 @@
             </div>
           </div>
         </div>
-        <div class="five fields">
+        <div class="six fields">
           <div class="field">
               <label>抢购价：</label>
             <input type="text" name="app_snatched_price" value="{{ product.app_snatched_price|default 0 }}" />
           </div>
           <div class="field">
-              <label>抢购数量：</label>
+              <label>抢购库存：</label>
+            <input type="text" name="app_snatched_total_count" value="{{ product.app_snatched_total_count|default 0 }}" />
+          </div>
+          <div class="field">
+              <label>抢购数量：<small class="ui magenta text">（无需更改）</small></label>
             <input type="text" name="app_snatched_count" value="{{ product.app_snatched_count|default 0 }}" />
           </div>
           <div class="field">
@@ -820,6 +834,7 @@
       </div>
 		</div>
 		
+    <!--
 		<div class="ui segment">
 			<h3 class="ui dividing header">投票设置 <span class="description set-box-button" box_id="voted-box">展开</span></h3>
       <div id="voted-box" style="display:none;">
@@ -841,7 +856,8 @@
         </div>
       </div>
 		</div>
-		
+    -->
+    <!--
 		<div class="ui segment">
 			<h3 class="ui dividing header">预售设置 <span class="description set-box-button" box_id="presale-box">展开</span></h3>
       <div id="presale-box" style="display:none;">
@@ -871,6 +887,7 @@
         </div>
       </div>
 		</div>
+    -->
 			
 		<div class="ui segment">
 			{% if mode == 'edit' %}

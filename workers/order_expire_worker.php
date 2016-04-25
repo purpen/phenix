@@ -32,10 +32,10 @@ $page = 1;
 $size = 1000;
 $is_end = false;
 $total = 0;
-$time = time() - 60*60*24*3;
+$time = time();
 while(!$is_end){
-	$query = array('status'=>Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT, 'created_on'=>array('$lt'=>$time));
-	$options = array('field' => array('_id', 'status', 'created_on'), 'page'=>$page, 'size'=>$size);
+	$query = array('status'=>Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT, 'expired_time'=>array('$lt'=>$time));
+	$options = array('field' => array('_id', 'status', 'expired_time', 'created_on'), 'page'=>$page, 'size'=>$size);
 	$list = $order_model->find($query, $options);
 	if(empty($list)){
 		echo "Get order list is null,exit......\n";
@@ -77,6 +77,6 @@ echo "All order close  works done.\n";
 echo "===========================ORDER EXPIRE WORKER DONE==================\n";
 echo "SLEEP TO NEXT LAUNCH .....\n";
 
-// sleep 1 hours
-sleep(3600);
+// sleep 1 minute
+sleep(60);
 exit(0);

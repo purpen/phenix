@@ -12,7 +12,7 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 	
 	public function _init() {
 		$this->set_target_css_state('page_block');
-    }
+  }
 	
 	/**
 	 * 入口

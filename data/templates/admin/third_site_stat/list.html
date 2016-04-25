@@ -3,7 +3,7 @@
 {% endblock %}
 
 {% block content %}
-	<h3 class="ui header">投放广告统计管理</h3>
+	<h3 class="ui header">引流统计管理</h3>
   <div>
   </div>
 	<table class="ui small table segment">
@@ -17,13 +17,14 @@
 				</th>
 				<th>用户ID</th>
 				<th>来源</th>
+        <th>期数</th>
         <th>IP</th>
 				<th>注册时间</th>
 			</tr>
 		</thead>
 		<tbody>
 			
-    {% third_site_stat_list var:'list' kind:kind page:page size:size %}
+    {% third_site_stat_list var:'list' kind:kind target_id:target_id page:page size:size %}
 
 			{% for d in list.rows %}
       <tr id="item-{{ d._id }}">
@@ -38,6 +39,9 @@
 				</td>
 				<td>
           {{ d.kind_str }}
+				</td>
+				<td>
+          {{ d.target_id }}
 				</td>
 				<td>
           {{ d.ip|default '--' }}

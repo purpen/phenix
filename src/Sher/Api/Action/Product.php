@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'comments', 'fetch_relation_product', 'product_category_stick', 'search');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'comments', 'fetch_relation_product', 'product_category_stick', 'search', 'snatched_list');
 
 	/**
 	 * 入口
@@ -96,11 +96,11 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			'presale_percent'=>1, 'cover_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
 			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
 			'snatched_time'=>1, 'inventory'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
-      'presale_goals'=>1, 'stick'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1,
+      'presale_goals'=>1, 'stick'=>1, 'featured'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1,
       'comment_star'=>1,'snatched_end_time'=>1, 'snatched_price'=>1, 'snatched_count'=>1,
       // app抢购
       'app_snatched'=>1, 'app_snatched_time'=>1, 'app_snatched_end_time'=>1, 'app_snatched_price'=>1,
-      'app_snatched_count'=>1, 'app_appoint_count'=>1,
+      'app_snatched_count'=>1, 'app_appoint_count'=>1, 'app_snatched_total_count'=>1,
 		);
 		
 		// 请求参数
@@ -177,7 +177,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         $data[$i]['username'] = $result['rows'][$i]['designer']['nickname'];
         $data[$i]['small_avatar_url'] = $result['rows'][$i]['designer']['small_avatar_url'];     
       }
-
+      $data[$i]['tips_label'] = 0;
       $data[$i]['content_view_url'] = sprintf('%s/view/product_show?id=%d', Doggy_Config::$vars['app.url.api'], $result['rows'][$i]['_id']);
       // 保留2位小数
       $data[$i]['sale_price'] = sprintf('%.2f', $result['rows'][$i]['sale_price']);
@@ -189,7 +189,15 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       }
       // 新品标识--非闪购产品且一个月内上的产品
       if(empty($data[$i]['is_app_snatched'])){
-        $data[$i]['is_news'] = $data[$i]['created_on']>(time()-2592000) ? 1 : 0;
+        if($data[$i]['featured']==1){
+          $data[$i]['tips_label'] = 2;
+        }else{
+          $data[$i]['tips_label'] = $data[$i]['created_on']>(time()-1209600) ? 1 : $data[$i]['tips_label'];
+        }
+      }else{
+        $data[$i]['tips_label'] = 3;
+        // 显示秒杀价格
+        $data[$i]['sale_price'] = $data[$i]['app_snatched_price'];
       }
 		} // endfor
 		$result['rows'] = $data;
@@ -231,11 +239,14 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
       'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',
       // app抢购
-      'app_snatched', 'app_snatched_time', 'app_snatched_end_time', 'app_snatched_price', 'app_snatched_count', 'app_appoint_count',
+      'app_snatched', 'app_snatched_time', 'app_snatched_end_time', 'app_snatched_price', 'app_snatched_count', 'app_snatched_total_count', 'app_appoint_count', 'app_snatched_limit_count',
 		);
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
+
+		$model->inc_counter('true_view_count', 1, $id);
+		$model->inc_counter('app_view_count', 1, $id);
 
 		// 重建数据结果
 		$data = array();
@@ -287,12 +298,22 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
     // 闪购标识
     $data['is_app_snatched'] = $model->is_app_snatched($product);
+    // 剩余秒杀产品数量
+    $data['app_snatched_rest_count'] = 0;
+    if($data['is_app_snatched']){
+      $data['app_snatched_rest_count'] = $data['app_snatched_total_count'] - $data['app_snatched_count'];
+      if($data['app_snatched_rest_count'] < 0){
+        $data['app_snatched_rest_count'] = 0;
+      }
+    }
     // 闪购进度
     $data['app_snatched_stat'] = $model->app_snatched_stat($product);
     // 返回闪购时间戳差，如果非闪购或已结束，返回0
     if($data['app_snatched_stat']==1){
       $data['app_snatched_time_lag'] = $product['app_snatched_time'] - time();
     }elseif($data['app_snatched_stat']==2){
+      // 替换闪购价格
+      $data['sale_price'] = $data['app_snatched_price'];
       $data['app_snatched_time_lag'] = $product['app_snatched_end_time'] - time();
     }else{
       $data['app_snatched_time_lag'] = 0;
@@ -562,6 +583,23 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     if(empty($target_id)){
       return $this->api_json('缺少请求参数!', 3001);
     }
+
+    $product_model = new Sher_Core_Model_Product();
+    $product = $product_model->load($target_id);
+    if(empty($product)){
+      return $this->api_json('商品不存在!', 3004);    
+    }
+    $snatched_stat = $product_model->app_snatched_stat($product);
+    if($snatched_stat==1){
+      // 提前10分钟不能提醒
+      $begin_time = $product['app_snatched_time'];
+      if(time()>($begin_time-600)){
+        return $this->api_json('等待开抢!', 3005);     
+      }
+    }else{
+      return $this->api_json('提醒活动已结束!', 3006);    
+    }
+
     $support_model = new Sher_Core_Model_Support();
     $has_one = $support_model->check_voted($user_id, $target_id, Sher_Core_Model_Support::EVENT_APP_ALERT);
     if($has_one){
@@ -575,11 +613,133 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     $ok = $support_model->apply_and_save($row);
     if($ok){
       $id = (string)$support_model->id;
-      return $this->api_json('缺少请求参数!', 0, array('id'=>$id));   
+      return $this->api_json('success!', 0, array('id'=>$id));   
     }else{
       return $this->api_json('添加提醒失败!', 3003);   
     }
   }
+
+	/**
+	 * 商品秒杀列表
+	 */
+	public function snatched_list(){
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
+
+    $user_id = $this->current_user_id;
+		
+		// 请求参数
+		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
+		$stage = isset($this->stash['stage']) ? (int)$this->stash['stage'] : Sher_Core_Model_Product::STAGE_SHOP;
+    // 0.所有；1.进行中；2.未开始
+    $stat = isset($this->stash['stat'])?(int)$this->stash['stat']:0;
+
+		$some_fields = array(
+      '_id'=>1, 'title'=>1, 'short_title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1,
+      'presale_people'=>1, 'tags'=>1, 'tags_s'=>1, 'created_on'=>1, 'updated_on'=>1,
+			'presale_percent'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
+			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
+			'snatched_time'=>1, 'inventory'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
+      'presale_goals'=>1, 'stick'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1,
+      'comment_star'=>1,'snatched_end_time'=>1, 'snatched_price'=>1, 'snatched_count'=>1,
+      // app抢购
+      'app_snatched'=>1, 'app_snatched_time'=>1, 'app_snatched_end_time'=>1, 'app_snatched_price'=>1,
+      'app_snatched_count'=>1, 'app_appoint_count'=>1, 'app_snatched_total_count'=>1, 'app_snatched_img'=>1,
+		);
+			
+		$query   = array();
+		$options = array();
+		
+		// 查询条件
+    $query['app_snatched'] = 1;
+    // 判断抢购状态
+    if($stat){
+      if($stat==1){  // 进行中或已结束
+        $query['app_snatched_time'] = array('$lt'=>time());
+      }elseif($stat==2){  // 未开始
+        $query['app_snatched_time'] = array('$gt'=>time());     
+      }
+    }
+		// 状态
+		$query['stage'] = $stage;
+		// 已审核
+		$query['approved']  = 1;
+		// 已发布上线
+		$query['published'] = 1;
+		
+		if($stick){
+			$query['stick'] = $stick;
+		}
+		
+		// 分页参数
+    $options['page'] = $page;
+    $options['size'] = $size;
+
+		// 排序
+		$options['sort_field'] = 'app_snatched';
+		
+		$options['some_fields'] = $some_fields;
+		// 开启查询
+    $product_model = new Sher_Core_Model_Product();
+    $support_model = new Sher_Core_Model_Support();
+    $service = Sher_Core_Service_Product::instance();
+    $result = $service->get_product_list($query, $options);
+		
+		// 重建数据结果
+		$data = array();
+		for($i=0;$i<count($result['rows']);$i++){
+			foreach($some_fields as $key=>$value){
+				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:0;
+			}
+
+      $data[$i]['content_view_url'] = sprintf('%s/view/product_show?id=%d', Doggy_Config::$vars['app.url.api'], $result['rows'][$i]['_id']);
+      // 保留2位小数
+      $data[$i]['sale_price'] = sprintf('%.2f', $result['rows'][$i]['sale_price']);
+      // 闪购标识
+      $data[$i]['is_app_snatched'] = $product_model->is_app_snatched($result['rows'][$i]);
+      if(isset($data[$i]['app_snatched_price']) && !empty($data[$i]['app_snatched_price'])){
+        // 保留2位小数
+        $data[$i]['app_snatched_price'] = sprintf('%.2f', $result['rows'][$i]['app_snatched_price']);     
+      }
+
+      
+      $data[$i]['app_snatched_percent'] = 0;
+      $data[$i]['app_snatched_rest_count'] = 0;
+      if($data[$i]['is_app_snatched']){
+        // 闪购进度条(百分比)
+        $data[$i]['app_snatched_percent'] = sprintf('%.2f', $data[$i]['app_snatched_count']/(float)$data[$i]['app_snatched_total_count']);   
+        // 剩余秒杀产品数量
+        $data[$i]['app_snatched_rest_count'] = $data[$i]['app_snatched_total_count'] - $data[$i]['app_snatched_count'];
+        if($data[$i]['app_snatched_rest_count'] < 0){
+          $data[$i]['app_snatched_rest_count'] = 0;
+        }
+      }
+
+      // 闪购进度
+      $data[$i]['app_snatched_stat'] = $product_model->app_snatched_stat($result['rows'][$i]);
+      // 返回闪购时间戳差，如果非闪购或已结束，返回0
+      if($data[$i]['app_snatched_stat']==1){
+        $data[$i]['app_snatched_time_lag'] = $result['rows'][$i]['app_snatched_time'] - time();
+      }elseif($data[$i]['app_snatched_stat']==2){
+        $data[$i]['app_snatched_time_lag'] = $result['rows'][$i]['app_snatched_end_time'] - time();
+      }else{
+        $data[$i]['app_snatched_time_lag'] = 0;
+      }
+
+      // 用户是否设置闪购提醒
+      $data[$i]['is_app_snatched_alert'] = 0;
+      if($data[$i]['is_app_snatched'] && $user_id){
+        $has_one = $support_model->check_voted($user_id, $data[$i]['_id'], Sher_Core_Model_Support::EVENT_APP_ALERT);
+        if($has_one){
+          $data[$i]['is_app_snatched_alert'] = 1; 
+        }
+      }
+
+		} // endfor
+		$result['rows'] = $data;
+		
+		return $this->api_json('请求成功', 0, $result);
+	}
 	
 
 }

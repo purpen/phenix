@@ -18,6 +18,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     const KIND_SNATCH = 2;
     # app闪购订单
     const KIND_APP_SNATCH = 3;
+    # app首次下单立减
+    const KIND_APP_FIRST_MINUS = 4;
 	
     protected $schema = array(
 		# 订单编号
@@ -132,7 +134,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
 		# 是否预售订单
 		'is_presaled' => 0,
-		# 过期时间,(普通订单、预售订单)
+		# 过期时间,(普通订单、预售订单、抢购订单)
 		'expired_time' => 0,
     # 是否活动订单:1.app闪购
     'active_type' => 0,
@@ -304,15 +306,17 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     protected function after_save() {
 		$rid = $this->data['rid'];
 		$items = $this->data['items'];
+    $kind = $this->data['kind'];
+    $user_id = $this->data['user_id'];
 		
 		for($i=0;$i<count($items);$i++){
 			$sku = $items[$i]['sku'];
       $quantity = $items[$i]['quantity'];
-      $kind = isset($items[$i]['kind']) ? (int)$items[$i]['kind'] : 1;
+      $sub_kind = isset($items[$i]['kind']) ? (int)$items[$i]['kind'] : 1;
 			
 			// 生成订单后，减少库存数量
 			$inventory = new Sher_Core_Model_Inventory();
-			$inventory->decrease_invertory_quantity($sku, $quantity, $kind);
+			$inventory->decrease_invertory_quantity($sku, $quantity, $sub_kind);
 			
 			unset($inventory);
 		}
@@ -321,7 +325,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		$card_code = $this->data['card_code'];
 		if(!empty($card_code)){
 			$bonus = new Sher_Core_Model_Bonus();
-			$bonus->mark_used($card_code, $this->data['user_id'], $rid);
+			$bonus->mark_used($card_code, $user_id, $rid);
 		}
 
 		// 更新礼品卡状态
@@ -330,6 +334,12 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			$gift = new Sher_Core_Model_Gift();
 			$gift->mark_used($gift_code, $this->data['user_id'], $rid);
 		}
+
+    // 更新app首次购买状态 
+    if($kind==4){
+      $user_model = new Sher_Core_Model_User();
+      $user_model->update_user_identify($user_id, 'is_app_first_shop', 1);
+    }
 
     // 用户鸟币扣除
     $bird_coin = $this->data['bird_coin_count'];
@@ -352,8 +362,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	 * 过滤items
 	 */
 	protected function validate_order_items(&$data){
-		$item_fields = array('sku', 'product_id', 'quantity', 'price', 'sale_price');
-		$int_fields = array('sku', 'product_id', 'quantity');
+		$item_fields = array('sku', 'product_id', 'quantity', 'price', 'sale_price', 'kind');
+		$int_fields = array('sku', 'product_id', 'quantity', 'kind');
 		$float_fields = array('price', 'sale_price');
 		
 		$new_items = array();
@@ -609,12 +619,14 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			'active' => 'active',
             'summary' => '支付宝作为诚信中立的第三方机构，充分保障货款安全及买卖双方利益,支持各大银行网上支付。'
           ),
+          /*
       array(
 			'id' => 'b',
             'name' => '货到付款',
-			'active' => 'active',
+			'active' => '',
             'summary' => ''
           ),
+          **/
       
     );
 	

@@ -13,13 +13,17 @@
 
 						            {{#cover}}
                             <div class="swiper-slide" >
+							<a href="{{ wap_view_url }}" title="{{ title }}">
                               <img src="{{ cover.thumbnails.tiny.view_url }}" />
+							 </a>
                             </div>
 						            {{/cover}}
 
                         {{#asset_list}}
                             <div class="swiper-slide" >
+							<a href="{{ wap_view_url }}" title="{{ title }}">
                               <img src="{{ thumbnails.tiny.view_url }}" />
+							</a>
                             </div>
                         {{/asset_list}}
 
@@ -27,7 +31,7 @@
 												</div>
 											{{/has_asset}}
 										
-							        <small><a class="ui small link" href="javascript:void(0);">{{ user.nickname }}</a> 
+							        <small><a class="ui small link" href="javascript:void(0);">@{{ user.nickname }}</a> 
                       {{#last_user}} - 回复于{{ r_last_reply_time }} {{/last_user}}
                       <span class="like" style="float: right;margin-top: 1px;">
 							<i class="unhide icon"></i> 

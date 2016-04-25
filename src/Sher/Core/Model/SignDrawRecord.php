@@ -78,6 +78,28 @@ class Sher_Core_Model_SignDrawRecord extends Sher_Core_Model_Base  {
           $row['event_str'] = '未定义';
       }
 
+      if(isset($row['from_to'])){
+        switch($row['from_to']){
+          case 1:
+            $row['from_label'] = 'Web';
+            break;
+          case 2:
+            $row['from_label'] = 'Wap';
+            break;
+          case 3:
+            $row['from_label'] = 'IOS';
+            break;
+          case 4:
+            $row['from_label'] = 'Android';
+            break;
+          case 5:
+            $row['from_label'] = 'Win';
+            break;
+          default:
+            $row['from_label'] = '--';
+        }
+      }
+
     }
 	
 	/**

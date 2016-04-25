@@ -617,6 +617,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		// 增加pv++
 		$inc_ran = rand(1,6);
 		$model->increase_counter('view_count', $inc_ran, $id);
+
+		$model->increase_counter('true_view_count', 1, $id);
+		$model->increase_counter('web_view_count', 1, $id);
 		
 		// 当前用户是否有管理权限
 		if ($this->visitor->id){
@@ -739,10 +742,12 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	}
 	
     
-    /**
-     * 签到
-     */
-    public function sign(){
+  /**
+   * 签到
+   */
+  public function sign(){
+    // 转到社区首页
+      return $this->index();
       $this->stash['has_sign'] = false;
       $user_model = new Sher_Core_Model_User();
       $user = $user_model->load((int)$this->visitor->id);

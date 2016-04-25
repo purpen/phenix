@@ -24,7 +24,7 @@ echo "===============PHONE WORKER WAKE UP===============\n";
 echo "-------------------------------------------------\n";
 
 echo "Create new user ...\n";
-
+$sleep_time = 900;
 $user = new Sher_Core_Model_User();
 $phone = new Sher_Core_Model_Phone();
 
@@ -39,6 +39,7 @@ if(empty($last_row)){
 }
 if(empty($last_row)){
     echo "Get phone counter failed and exit!!! \n";
+    sleep($sleep_time);
     exit(0);
 }
 
@@ -75,6 +76,8 @@ try{
     
 }catch(Sher_Core_Model_Exception $e){
     echo "Create the phone[$account] failed: ".$e->getMessage();
+}catch(Exception $e){
+    echo "Create the phone[$account] failed.: ".$e->getMessage();
 }
 
 echo "===========================PHONE WORKER DONE==================\n";

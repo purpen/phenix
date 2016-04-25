@@ -227,7 +227,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
         $id = $this->stash['id'];
 		//$id = 18;
         if (empty($id)) {
-            return $this->api_json('请求失败，缺少必要参数!', true);
+            return $this->api_json('请求失败，缺少必要参数!', 3001);
         }
         
 		$model = new Sher_Core_Model_SceneScene();

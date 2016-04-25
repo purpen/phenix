@@ -116,6 +116,8 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		// 开启查询
     $service = Sher_Core_Service_SceneProduct::instance();
     $result = $service->get_scene_product_list($query, $options);
+
+    $asset_service = Sher_Core_Service_Asset::instance();
 		
 		// 重建数据结果
 		$data = array();
@@ -130,6 +132,20 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
         $data[$i]['username'] = $result['rows'][$i]['user']['nickname'];
         $data[$i]['small_avatar_url'] = $result['rows'][$i]['user']['small_avatar_url'];     
       }
+
+      //返回Banner图片数据
+      $assets = array();
+      $asset_query = array('parent_id'=>$data[$i]['_id'], 'asset_type'=>120);
+      $asset_options['page'] = 1;
+      $asset_options['size'] = 8;
+      $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
+
+      if(!empty($asset_result['rows'])){
+        foreach($asset_result['rows'] as $key=>$value){
+          array_push($assets, $value['thumbnails']['aub']['view_url']);
+        }
+      }
+      $data[$i]['banner_asset'] = $assets;
 
       // 保留2位小数
       $data[$i]['sale_price'] = sprintf('%.2f', $result['rows'][$i]['sale_price']);
@@ -187,12 +203,14 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     $data['is_favorite'] = $fav->check_favorite($this->current_user_id, $scene_product['_id'], 10) ? 1 : 0;
     $data['is_love'] = $fav->check_loved($this->current_user_id, $scene_product['_id'], 10) ? 1 : 0;
 
+
+    $asset_service = Sher_Core_Service_Asset::instance();
+
     //返回Banner图片数据
     $assets = array();
     $asset_query = array('parent_id'=>$scene_product['_id'], 'asset_type'=>120);
     $asset_options['page'] = 1;
     $asset_options['size'] = 10;
-    $asset_service = Sher_Core_Service_Asset::instance();
     $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
 
     if(!empty($asset_result['rows'])){
@@ -207,7 +225,6 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     $asset_query = array('parent_id'=>$scene_product['_id'], 'asset_type'=>121);
     $asset_options['page'] = 1;
     $asset_options['size'] = 10;
-    $asset_service = Sher_Core_Service_Asset::instance();
     $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
 
     if(!empty($asset_result['rows'])){

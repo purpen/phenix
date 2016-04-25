@@ -122,8 +122,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
 		
 		// 投票时间
-		$data['voted_start_time'] = $this->stash['voted_start_time'];
-		$data['voted_finish_time'] = $this->stash['voted_finish_time'];
+		$data['voted_start_time'] = isset($this->stash['voted_start_time']) ? $this->stash['voted_start_time'] : null;
+		$data['voted_finish_time'] = isset($this->stash['voted_finish_time']) ? $this->stash['voted_finish_time'] : null;
 		
 		// 产品阶段
 		$data['stage'] = (int)$this->stash['stage'];
@@ -150,8 +150,9 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			return $this->ajax_json('app抢购，必须设置抢购开始时间！', true);
 		}
 		$data['app_appoint_count'] = (int)$this->stash['app_appoint_count'];
-		$data['app_snatched_price'] = $this->stash['app_snatched_price'];
+		$data['app_snatched_price'] = (float)$this->stash['app_snatched_price'];
 		$data['app_snatched_count'] = (int)$this->stash['app_snatched_count'];
+		$data['app_snatched_total_count'] = (int)$this->stash['app_snatched_total_count'];
     $data['app_snatched_img'] = $this->stash['app_snatched_img'];
     $data['app_snatched_limit_count'] = (int)$this->stash['app_snatched_limit_count'];
 
@@ -167,6 +168,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		
 		// 是否案例产品
 		$data['okcase'] = isset($this->stash['okcase']) ? 1 : 0;
+    // 使用手册
+		$data['guide_id'] = isset($this->stash['guide_id']) ? (int)$this->stash['guide_id'] : 0;
 		
 		// 商品价格
 		$data['market_price'] = $this->stash['market_price'];
@@ -174,10 +177,10 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['inventory'] = $this->stash['inventory'];
 		
 		// 预售时间
-		$data['presale_start_time'] = $this->stash['presale_start_time'];
-		$data['presale_finish_time'] = $this->stash['presale_finish_time'];
-		$data['presale_goals'] = $this->stash['presale_goals'];
-		$data['presale_inventory'] = $this->stash['presale_inventory'];
+		$data['presale_start_time'] = isset($this->stash['presale_start_time']) ? $this->stash['presale_start_time'] : null;
+		$data['presale_finish_time'] = isset($this->stash['presale_finish_time']) ? $this->stash['presale_finish_time'] : null;
+		$data['presale_goals'] = isset($this->stash['presale_goals']) ? $this->stash['presale_goals'] : 0;
+		$data['presale_inventory'] = isset($this->stash['presale_inventory']) ? (int)$this->stash['presale_inventory'] : 0;
         
         // 添加视频
         $data['video'] = array();

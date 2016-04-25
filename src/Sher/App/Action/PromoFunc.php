@@ -10,7 +10,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
     'sort'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'ajax_fetch_draw_record', 'fetch_sign_draw');
+	protected $exclude_method_list = array('execute', 'ajax_fetch_draw_record', 'fetch_sign_draw', 'save_draw_address');
 	
 	/**
 	 * 网站入口
@@ -116,12 +116,27 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
         return $this->ajax_json('缺少请求参数!', true);     
       }
       $pusher_model = new Sher_Core_Model_Pusher();
-      $pusher = $pusher_model->first(array('uuid'=> $uuid, 'is_login'=>1));
+      $pusher = $pusher_model->first(array('uuid'=> $uuid, 'from_to'=>$from_to, 'is_login'=>1));
       if($pusher){
         $user_id = $pusher['user_id'];
+      }else{
+        return $this->ajax_json('请先登录!', true);     
       }
     }else{
       return $this->ajax_json('类型参数错误!', true);
+    }
+
+    if($kind==2){
+      switch($from_to){
+        case 1:
+          $from_to = 3;
+          break;
+        case 2:
+          $from_to = 4;
+          break;
+        default:
+          $from_to = 0;
+      }   
     }
 
     if(empty($user_id)){
@@ -231,15 +246,31 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
       $dig_model->create(array('_id'=>$dig_key, 'name'=>'签到抽奖统计', 'items'=>array($draw_dig_key=>array($prize_arr_id=>1))));
     }
 
+    // 得到的数量
+    $prize_count = (int)$is_prize_arr['count'];
+
     switch($is_prize_arr['type']){
     case 0: // 未中奖
       break;
     case 1: // 鸟币
       $service = Sher_Core_Service_Point::instance();
-      $service->make_money_in($user_id, 1, "签到抽奖中1鸟币");     
+      $service->make_money_in($user_id, $prize_count, sprintf("签到抽奖中%d鸟币", $prize_count));     
       break;
-    case 2: // 红包100,满199可用;有效期1月
-      $this->give_bonus($user_id, 'SD', array('count'=>5, 'xname'=>'SD', 'bonus'=>'B', 'min_amounts'=>'B'));
+    case 2: // 
+      if($prize_count==5){
+        $prize_bonus = 'E';
+        $prize_min_amounts = 'C';
+      }elseif($prize_count==50){
+        $prize_bonus = 'A';
+        $prize_min_amounts = 'B';     
+      }elseif($prize_count==100){
+        $prize_bonus = 'B';
+        $prize_min_amounts = 'E';     
+      }else{
+        $prize_bonus = 'B';
+        $prize_min_amounts = 'E';     
+      }
+      $this->give_bonus($user_id, 'SD', array('count'=>1, 'xname'=>'SD', 'bonus'=>$prize_bonus, 'min_amounts'=>$prize_min_amounts));
       break;
     case 3: // 实物
 
@@ -375,8 +406,25 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
 			return $this->ajax_json('缺少请求参数！', true);
 		}
 
-		$user_id = $this->visitor->id;
-		
+    $kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
+    $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
+    $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
+    if($kind==1){
+      $user_id = $this->visitor->id;
+    }elseif($kind==2){
+      // uuid
+      if(empty($uuid)){
+        return $this->ajax_json('缺少请求参数!', true);     
+      }
+      $pusher_model = new Sher_Core_Model_Pusher();
+      $pusher = $pusher_model->first(array('uuid'=> $uuid, 'from_to'=>$from_to, 'is_login'=>1));
+      if($pusher){
+        $user_id = $pusher['user_id'];
+      }
+    }else{
+      return $this->ajax_json('类型参数错误!', true);
+    }
+
 		try{
 			// 验证是否存在该对象
 			$sign_draw_record_model = new Sher_Core_Model_SignDrawRecord();
@@ -412,31 +460,32 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
       );
       $ok = $sign_draw_record_model->update_set($id, $data);
       if($ok){
+        if($kind==1){
+          $user_data = array();
+          if(empty($this->visitor->profile->realname)){
+            $user_data['profile.realname'] = isset($this->stash['name']) ? $this->stash['name'] : null;
+          }
+          if(empty($this->visitor->profile->phone)){
+            $user_data['profile.phone'] = isset($this->stash['phone']) ? $this->stash['phone'] : null;
+          }
+          if(empty($this->visitor->profile->address)){
+            $user_data['profile.address'] = isset($this->stash['address']) ? $this->stash['address'] : null;
+          }
+          if(empty($this->visitor->profile->zip)){
+            $user_data['profile.zip'] = isset($this->stash['zip']) ? $this->stash['zip'] : null;
+          }
 
-        $user_data = array();
-        if(empty($this->visitor->profile->realname)){
-          $user_data['profile.realname'] = isset($this->stash['name']) ? $this->stash['name'] : null;
-        }
-        if(empty($this->visitor->profile->phone)){
-          $user_data['profile.phone'] = isset($this->stash['phone']) ? $this->stash['phone'] : null;
-        }
-        if(empty($this->visitor->profile->address)){
-          $user_data['profile.address'] = isset($this->stash['address']) ? $this->stash['address'] : null;
-        }
-        if(empty($this->visitor->profile->zip)){
-          $user_data['profile.zip'] = isset($this->stash['zip']) ? $this->stash['zip'] : null;
+          if(empty($this->visitor->profile->province_id)){
+            $user_data['profile.province_id'] = isset($this->stash['province']) ? (int)$this->stash['province'] : 0;
+          }
+          if(empty($this->visitor->profile->district_id)){
+            $user_data['profile.district_id'] = isset($this->stash['district']) ? (int)$this->stash['district'] : 0;
+          }
+
+          //更新基本信息
+          $this->visitor->update_set($this->visitor->id, $user_data);       
         }
 
-        if(empty($this->visitor->profile->province_id)){
-          $user_data['profile.province_id'] = isset($this->stash['province']) ? (int)$this->stash['province'] : 0;
-        }
-        if(empty($this->visitor->profile->district_id)){
-          $user_data['profile.district_id'] = isset($this->stash['district']) ? (int)$this->stash['district'] : 0;
-        }
-
-        //更新基本信息
-        $this->visitor->update_set($this->visitor->id, $user_data);
-      
       }else{
 			  return $this->ajax_json('保存失败，请联系管理员！', true);  
       }

@@ -453,7 +453,8 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
     $user_sign_model = new Sher_Core_Model_UserSign();
     $result = $user_sign_model->sign_in($user_id, array());
     if(empty($result['is_true'])){
-      return $this->api_json($result['msg'], 3001);    
+      // code 3005 是已经签到过了
+      return $this->api_json($result['msg'], $result['code']);    
     }else{
       $data['continuity_times'] = $result['continuity_times'];
       $data['give_money'] = $result['give_money'];
@@ -576,6 +577,74 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
       return $this->api_json('更新失败!', 3003);    
     }
 
+  }
+
+  /**
+   * 送红包
+   */
+  public function send_bonus(){
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录!', 3000);
+    }
+    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+    $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+    if($type==1){
+      if(empty($rid)){
+        return $this->api_json('缺少请求参数!', 3004);      
+      }
+      $orders_model = new Sher_Core_Model_Orders();
+      $order = $orders_model->find_by_rid($rid);
+      
+      //订单不存在
+      if(empty($order)){
+        return $this->api_json('订单不存在！', 3005);   
+      }
+      // 是否待发货订单
+      if ($order['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
+        return $this->api_json('订单状态不正确！', 3006);   
+      }
+
+      $row = array(
+        'count' => 5,
+        'xname' => 'AS',
+        'bonus' => 'E',
+        'min_amounts' => 'C',
+      );
+    
+    }else{
+      return $this->api_json('类型参数不正确!', 3001);     
+    }
+
+    switch($row['bonus']){
+    case 'A':
+      $bonus_money = 50;
+      break;
+    case 'B':
+      $bonus_money = 100;
+      break;
+    case 'C':
+      $bonus_money = 30;
+      break;
+    case 'D':
+      $bonus_money = 52;
+      break;
+    case 'E':
+      $bonus_money = 5;
+      break;
+    default:
+      $bonus_money = 0;
+    }
+
+    if($bonus_money==0){
+      return $this->api_json('系统内部错误!', 3002);   
+    }
+
+    $ok = Sher_Core_Util_Shopping::give_bonus((int)$user_id, $row);
+    if(!$ok){
+      return $this->api_json('发送红包失败!', 3003);     
+    }
+    return $this->api_json('success!', 0, array('xname'=>$row['xname'], 'bonus_money'=>$bonus_money));
   }
 	
 	/**

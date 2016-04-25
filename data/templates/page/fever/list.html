@@ -34,9 +34,11 @@
                 			<p>2015年太火鸟“反向定制”创意活动正式开启——我们给出命题，你来产出创意，非公开只求精，真正打造可孵化的项目！这一次，我们我们有目的、有计划、有预谋，面向所有创新产品从业者、创意设计师、相关专业师生。 “有形设计，无限创意”，形式已定，创意由你。</p>
                             
                             
+                      <!--
 							<a href="{{ app_url_fever }}/submit?step=1" class="ui white inverted button">
 								<i class="edit icon"></i> 提交新创意
 							</a>
+              -->
 						</div>
 					</div>
 				</div>
@@ -45,6 +47,7 @@
 	</div>
 </div>
 
+<!--
 <div class="sorts cubes">
 	<div class="ui responsive grid">
 		<div class="row">
@@ -85,21 +88,85 @@
         </div>
     </div>
 </div>
+-->
 	
 <div id="votelist">
 	<div class="ui responsive grid">
         <!--反向定制-->
 		<div class="row">
 			<div class="column">
-                {% contest_list var:"list" page:page state:2 %}
+                {% contest_list var:"list" page:1 state:2 %}
                 <div class="ui two contest cards">
+
+                  <!--十万火计1-->
+                  <div class="card">
+                      <div class="speblock">
+                        <!--
+                          <div class="ribbons">
+                              <span class="ribbon going">进行中</span>
+                          </div>
+                          -->
+                          <a title="十万火计－第一季"  href="{{ app_url_domain }}/contest/dream" style="background-image: url(http://frbird.qiniudn.com/asset/160425/571de4b6fc8b122f5b8b6963-1-hu.jpg);" class="thumb spethumb" target="_blank">
+                              <div class="shadow"></div>
+                          </a>
+                          <h2>
+                              <a href="{{ app_url_domain }}/contest/dream" title="十万火计－第一季" class="ui line" target="_blank">
+                            十万火计－第一季
+                          </a>
+                          </h2>
+                          <div class="excerpt">
+                              <p>征集时间：2014-10-28 -- 2014-12-20</p>
+                          </div>
+                          <div class="cats">
+                            <i class="user icon"></i> 已有 1500 人参与 
+                          </div>
+                          <span class="counter">
+                              <a href="{{ app_url_domain }}/contest/dream" class="ui link" target="_blank">
+                                <!--<i class="edit icon"></i> 我要提交-->
+                              </a>
+                          </span>
+                      </div>
+                  </div>
+
+                  <!--十万火计2-->
+                  <div class="card">
+                      <div class="speblock">
+                        <!--
+                          <div class="ribbons">
+                              <span class="ribbon going">进行中</span>
+                          </div>
+                          -->
+                          <a title="十万火计2-校园季"  href="{{ app_url_domain }}/contest/allist2" style="background-image: url(http://frbird.qiniudn.com/asset/160425/571de4b6fc8b122f5b8b6963-2-hu.jpg);" class="thumb spethumb" target="_blank">
+                              <div class="shadow"></div>
+                          </a>
+                          <h2>
+                              <a href="{{ app_url_domain }}/contest/allist2" title="十万火计－第二季" class="ui line" target="_blank">
+                            十万火计－第二季
+                          </a>
+                          </h2>
+                          <div class="excerpt">
+                              <p>征集时间：2015-02-01 -- 2015-06-20</p>
+                          </div>
+                          <div class="cats">
+                            <i class="user icon"></i> 已有 310 人参与 
+                          </div>
+                          <span class="counter">
+                              <a href="{{ app_url_domain }}/contest/allist2" class="ui link" target="_blank">
+                                <!--<i class="edit icon"></i> 我要提交-->
+                              </a>
+                          </span>
+                      </div>
+                  </div>
+
                 {% if list.rows %}
                     {% for contest in list.rows %}
                     <div class="card">
                         <div class="speblock">
+                          <!--
                             <div class="ribbons">
                                 <span class="ribbon going">进行中</span>
                             </div>
+                            -->
                             <a title="{{ contest.title }}"  href="{{ contest.view_url }}" style="background-image: url({{ contest.cover.fileurl }});" class="thumb spethumb" target="_blank">
                                 <div class="shadow"></div>
                             </a>
@@ -112,7 +179,7 @@
                                 <p>征集时间：{{ contest.start_date }} -- {{ contest.finish_date }}</p>
                             </div>
                             <div class="cats">
-                                <i class="user icon"></i> 已有 400 人参与 
+                              <i class="user icon"></i> 已有 {{ contest.view_count }} 人参与 
                             </div>
                             <span class="counter">
                                 <a href="{{ contest.view_url }}" class="ui link" target="_blank">
@@ -121,7 +188,9 @@
                             </span>
                         </div>
                     </div>
+                    
                     {% endfor %}
+
                 {% endif %}
                 </div>
             </div>
@@ -129,10 +198,17 @@
 		<div class="row">
 			<div class="column">
 				<div class="ui four voteist products cards">
+          <!--
 					{% product_list var:'list' page:page category_id:category_id process_voted:1 only_approved:1 only_onsale:1 vote_type:type sort:sort size:12 %}
 					{% for product in list.rows %}
 						{% include "block/product_vote_card.html" %}
 					{% endfor %}
+          -->
+          {% stuff_list var:'list' type:8 size:16 page:page sort:7 %}
+					{% for stuff in list.rows %}
+                        {% include "block/stuff_item.html" %}
+					{% endfor %}
+          
 				</div>
 				
 				{% if list.total_page %}

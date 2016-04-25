@@ -22,6 +22,10 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
         'ticket' => self::TICKET_FAVOR,
         'reason' => 0,
         'event'  => self::EVENT_VOTE,
+        # event. 3: 是否已推送 0.否；1.是
+        'pushed' => 0,
+        # event 3:推送信息记录
+        'info' => array(),
     );
 	
     protected $joins = array(
@@ -30,7 +34,7 @@ class Sher_Core_Model_Support extends Sher_Core_Model_Base  {
     );
 	
     protected $required_fields = array('user_id', 'target_id', 'ticket');
-    protected $int_fields = array('user_id', 'target_id', 'ticket', 'reason', 'event');
+    protected $int_fields = array('user_id', 'target_id', 'ticket', 'reason', 'event', 'pushed');
 	
 	/**
 	 * 扩展关联数据

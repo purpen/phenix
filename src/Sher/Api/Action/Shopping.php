@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	
-	protected $filter_user_method_list = array();
+	protected $filter_user_method_list = array('fetch_cart_count');
 
 	/**
 	 * 入口
@@ -82,6 +82,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     if(empty($cart)){
       return $this->api_json('当前购物车为空！', 3002); 
     }
+
+    // 初始化类型
+    $kind = 0;
 
 		//验证购物车，无购物不可以去结算
     $result = array();
@@ -190,6 +193,21 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			
 			// 优惠活动费用
 			$coin_money = 0.0;
+
+      // 用户是否首次下单立减 秒杀不参与
+      $user_model = new Sher_Core_Model_User();
+      $user = $user_model->load($this->current_user_id);
+      if(empty($user)){
+        return false;
+      }
+      if(isset($user['identify']['is_app_first_shop']) && $user['identify']['is_app_first_shop']==1){
+        //首次下单立减非首次下单用户过滤
+      }else{
+        if(empty($kind)){ // 其它活动不参与
+          //$kind = 4;
+          //$coin_money = Sher_Core_Util_Constant::APP_FIRST_COIN_MONEY;
+        }    
+      }
 			
 			// 红包金额
 			$card_money = 0.0;
@@ -209,7 +227,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		    );
 			$new_data = array();
 			$new_data['dict'] = array_merge($default_data, $data);
-			
+			$new_data['kind'] = $kind;
 			$new_data['user_id'] = $user_id;
 			$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
       // 是否来自购物车
@@ -228,6 +246,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $usable_bonus = !empty($bonus_result['rows']) ? $bonus_result['rows'] : array();
 			
 			$pay_money = $total_money + $freight - $coin_money - $card_money;
+
+      if($pay_money < 0){
+        $pay_money = 0;
+      }
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Create temp order failed: ".$e->getMessage());
@@ -305,14 +327,14 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     if($app_snatched_stat==2){
 
       if(!$this->validate_snatch($product_id)){
-        return $this->api_json('不能重复抢购！', 3013);     
+        //return $this->api_json('不能重复抢购！', 3013);     
       }
 
-      $app_snatched_limit_count = $data['app_snatched_limit_count'];
+      $app_snatched_limit_count = $product_data['app_snatched_limit_count'];
       if($quantity>$app_snatched_limit_count){
         return $this->api_json("闪购产品，只能购买 $app_snatched_limit_count 件！", 3012);       
       }
-      if($product_data['app_snatched_count']<=0){
+      if($product_data['app_snatched_count']>=$product_data['app_snatched_total_count']){
         return $this->api_json("已抢完！", 3013);      
       } 
 
@@ -347,7 +369,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$order_info = $this->create_temp_order($items, $total_money, $items_count, $kind);
 		if (empty($order_info)){
       return $this->api_json('系统出了小差，请稍后重试！', 3006);
-		}
+    }
 
     if(!$is_app_snatched){
       // 加载可用红包
@@ -360,10 +382,14 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$freight = Sher_Core_Util_Shopping::getFees();
 		
 		// 优惠活动费用
-		$coin_money = 0.0;
+		$coin_money = $order_info['dict']['coin_money'];
 		
 		$pay_money = $total_money + $freight - $coin_money;
     $order_info['dict']['items'][0]['sku_name'] = $sku_name;
+
+    if($pay_money < 0){
+      $pay_money = 0;     
+    }
 
 		// 立即订单标识
     $result['is_nowbuy'] = 1;
@@ -375,7 +401,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	}
 	
 	/**
-	 * 确认订单
+	 * 确认订单,生成真正订单
 	 */
 	public function confirm(){
 		$rrid = isset($this->stash['rrid'])?(int)$this->stash['rrid']:0;
@@ -439,7 +465,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$total_money = $order_info['total_money'];
 
     // 是否是活动商品
-    $order_info['kind'] = $result['kind'];
+    $kind = $order_info['kind'] = $result['kind'];
 
 		// 获取提交数据, 覆盖默认数据
 		$order_info['payment_method'] = $payment_method;
@@ -465,12 +491,14 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		// 红包金额
 		$card_money = 0;
 
+    $gift_money = 0;
+
     // 是否使用红包/礼品券
     $bonus_code = isset($this->stash['bonus_code']) ? $this->stash['bonus_code'] : null;
     $gift_code = isset($this->stash['gift_code']) ? $this->stash['gift_code'] : null;
 
     // 活动商品不允许使用红包或礼品券
-    if($kind==3){
+    if($kind != 3){
       if($bonus_code && $gift_code){
         return $this->api_json('红包和礼品券不能同时使用！', 3005);   
       }
@@ -480,7 +508,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         if($bonus_result['code']){
           return $this->api_json($bonus_result['msg'], $bonus_result['code']);     
         }else{
-          $card_money = $order_info['card_code'] = $bonus_code;
+          $card_code = $order_info['card_code'] = $bonus_code;
           $card_money = $order_info['card_money'] = $bonus_result['coin_money'];
         }
       }elseif(!empty($gift_code)){  // 礼品券
@@ -506,10 +534,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			// 商品金额
 			$order_info['total_money'] = $total_money;
 			// 应付金额
-			$pay_money = $total_money + $freight - $coin_money - $card_money;
+			$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money;
 			// 支付金额不能为负数
 			if($pay_money <= 0){
-        return $this->api_json('订单价格不能为0！', 3020); 
+        return $this->api_json('订单价格不能为0元！', 3020); 
 			}
 			$order_info['pay_money'] = $pay_money;
 			
@@ -569,6 +597,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
           if($app_snatched_stat != 2){
             return $this->api_json('活动已结束！', 3008);
           }
+
+          if($product['app_snatched_count']>=$product['app_snatched_total_count']){
+            return $this->api_json("已抢完！", 3021);      
+          }
+
           $is_app_snatched = true;
           $app_snatched_product_id = $product['_id'];
         }
@@ -1219,6 +1252,21 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		
 		// 优惠活动费用
 		$coin_money = 0.0;
+
+    // 用户是否首次下单立减 秒杀不参与
+    $user_model = new Sher_Core_Model_User();
+    $user = $user_model->load($this->current_user_id);
+    if(empty($user)){
+      return false;
+    }
+    if(isset($user['identify']['is_app_first_shop']) && $user['identify']['is_app_first_shop']==1){
+      //首次下单立减非首次下单用户过滤
+    }else{
+      if(empty($kind)){ // 秒杀不参与
+        //$kind = 4;
+        //$coin_money = Sher_Core_Util_Constant::APP_FIRST_COIN_MONEY;
+      }    
+    }
 		
 		// 红包金额
 		$card_money = 0.0;
@@ -1271,7 +1319,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Create temp order failed: ".$e->getMessage());
 			return false;
-		}
+    }catch(Exception $e){
+      return false;
+    }
 		
 		return $order_info;
 	}
@@ -1651,6 +1701,74 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
   }
 
   /**
+   * 我的购物车产品库存数量
+   */
+  public function fetch_cart_product_count(){
+		$user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录！', 3000); 
+    }
+    $cart_model = new Sher_Core_Model_Cart();
+    $cart = $cart_model->load($user_id);
+    if(empty($cart)){
+      return $this->api_json('购物车为空！', 3001); 
+    }else{
+      $item_arr = array();
+      // 记录错误数据索引
+      $error_index_arr = array();
+
+      $inventory_model = new Sher_Core_Model_Inventory();
+      $product_model = new Sher_Core_Model_Product();
+      foreach($cart['items'] as $k=>$v){
+        // 初始参数
+        $target_id = (int)$v['target_id'];
+        $type = (int)$v['type'];
+        $n = (int)$v['n'];
+
+        $data = array();
+        $data['target_id'] = $target_id;
+        $data['type'] = $type;
+        $data['n'] = $n;
+        $data['quantity'] = 0;
+
+        if($type==2){
+          $inventory = $inventory_model->load($target_id);
+          if(empty($inventory)){
+            array_push($error_index_arr, $k);
+            continue;
+          }
+          $product_id = $inventory['product_id'];
+          $data['quantity'] = $inventory['quantity'];
+        }else{
+          $product_id = $target_id;
+          $product = $product_model->load($product_id);
+          if(empty($product)){
+            array_push($error_index_arr, $k);
+            continue;     
+          }
+          $data['quantity'] = $product['inventory'];
+        }
+
+        $data['product_id'] = $product_id;
+
+        array_push($item_arr, $data);
+
+      }//endfor
+
+      // 移除不存在的商品ID
+      if(!empty($error_index_arr)){
+        foreach($error_index_arr as $k=>$v){
+          unset($cart['items'][$v]);
+        }
+        $cart_model->update_set($cart['_id'], array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));
+      }
+
+    }
+
+    return $this->api_json('success', 0, array('items'=>$item_arr, 'count'=>count($item_arr)));
+  }
+
+  /**
    * 添加购物车
    */
   public function add_cart(){
@@ -1787,11 +1905,83 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
   }
 
   /**
-   * 编辑购物车
+   * 编辑购物车--只增减数量
    */
   public function edit_cart(){
-  
-  
+ 		$user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录！', 3000); 
+    } 
+
+    if(!isset($this->stash['array']) || empty($this->stash['array'])){
+      return $this->api_json('请传入参数！', 3002); 
+    }
+    $cart_arr = json_decode($this->stash['array']);
+
+
+    $cart_model = new Sher_Core_Model_Cart();
+    $cart = $cart_model->load($user_id);
+    if(empty($cart) || empty($cart['items'])){
+      return $this->api_json('购物车为空!', 3002);
+    }
+
+		$inventory_model = new Sher_Core_Model_Inventory();
+		$product_model = new Sher_Core_Model_Product();
+
+    foreach($cart_arr as $key=>$val){
+      $val = (array)$val;
+      $type = (int)$val['type'];
+      $target_id = (int)$val['target_id'];
+      $n = (int)$val['n'];
+
+      // 批量更新数量
+      foreach($cart['items'] as $k=>$v){
+        if($v['target_id']==$target_id){
+          $cart['items'][$k]['n'] = $n;
+        }
+      }
+    }// endfor
+    $ok = $cart_model->update_set($user_id, array('items'=>$cart['items'], 'item_count'=>count($cart['items']))); 
+    if(!$ok){
+      return $this->api_json('更新失败!', 3003);    
+    }
+    return $this->api_json('success!', 0, array()); 
+  }
+
+  /**
+   * 下单成功后分享返回商品信息
+   */
+  public function place_order_share(){
+  	$user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录！', 3000); 
+    }
+    $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+    if(empty($rid)){
+      return $this->api_json('缺少请求参数!', 3001);      
+    }
+    $orders_model = new Sher_Core_Model_Orders();
+    $order = $orders_model->find_by_rid($rid);
+    
+    //订单不存在
+    if(empty($order)){
+      return $this->api_json('订单不存在！', 3002);   
+    }
+    $product_id = $order['items'][0]['product_id'];
+    $product_model = new Sher_Core_Model_Product();
+    $product = $product_model->extend_load((int)$product_id);
+    if(empty($product)){
+      return $this->api_json('商品不存在！', 3003);    
+    }
+
+    $row = array(
+      'title' => $product['title'],
+      'cover_url' => $product['cover']['thumbnails']['apc']['view_url'],
+      'desc' => $product['advantage'],
+      'wap_view_url' => $product['wap_view_url'],
+    );
+
+    return $this->api_json('success', 0, $row);
   }
 
 	

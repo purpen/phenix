@@ -334,6 +334,9 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const USER_AUTO_GEN_COUNT = 'user_auto_gen';
     
     const PHONE_AUTO_GET_COUNT = 'phone_auto_gen';
+
+    ## app首次下单优惠金额
+    const APP_FIRST_COIN_MONEY = 10;
     
     
     /**
@@ -377,7 +380,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
       18=>'微波闪充移动电源',
       19=>'2016ces',
       20=>'过年你会被哪个新年神曲洗脑？',
-      21=>'最火爆的智能硬件TOP100',
+      21=>'火爆的智能硬件TOP100',
       22=>'如何在妇女节这天，完美搞定三个女人',
       23=>'--',
       24=>'--',

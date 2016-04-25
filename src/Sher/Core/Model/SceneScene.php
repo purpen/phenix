@@ -44,6 +44,9 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
         'love_count' => 0,
 		# 评论数 
     	'comment_count' => 0,
+
+    # 真实浏览数
+      'true_view_count' => 0,
 		
 		# 审核
 		'is_check' => 1,
@@ -56,7 +59,7 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 	protected $required_fields = array('title');
 	protected $int_fields = array('status', 'used_count');
 	protected $float_fields = array();
-	protected $counter_fields = array('used_count','view_count','subscription_count','love_count','comment_count');
+	protected $counter_fields = array('used_count','view_count','subscription_count','love_count','comment_count','true_view_count');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(

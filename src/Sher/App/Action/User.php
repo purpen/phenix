@@ -24,6 +24,7 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
         if (!empty($user_id)) {
             $user = new Sher_Core_Model_User();
             $row = $user->load((int)$user_id);
+
             if(!empty($row)){
                 $this->stash['user'] = $user->extended_model_row($row);
             }
@@ -39,9 +40,13 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	 * 用户
 	 */
 	public function execute(){
-        if (empty($this->stash['user'])) {
-            return $this->display_note_page('用户不存在');
+      if (empty($this->stash['user'])) {
+        return $this->display_note_page('用户不存在');
 	    }
+      // 判断用户状态
+      if($this->stash['user']['state'] == Sher_Core_Model_User::STATE_DISABLED){
+        return $this->display_note_page('用户已被禁用!');
+      }
         
 		return $this->vcenter();
 	}
@@ -119,6 +124,11 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
      * 参与的话题
      */
     public function topics(){
+      // 判断用户状态
+      if($this->stash['user']['state'] == Sher_Core_Model_User::STATE_DISABLED){
+        return $this->display_note_page('用户已被禁用!');
+      }
+
         $t = $this->stash['t'];
         if($t == 1){
             $this->set_target_css_state('type_post');
@@ -141,6 +151,10 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	 * 我的粉丝
 	 */
 	public function fans(){
+      // 判断用户状态
+      if($this->stash['user']['state'] == Sher_Core_Model_User::STATE_DISABLED){
+        return $this->display_note_page('用户已被禁用!');
+      }
 		$page = $this->stash['page'];
         
 		$this->stash['profile'] = $this->stash['user']['profile'];
@@ -159,6 +173,10 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	 * 我的关注者
 	 */
 	public function follow(){
+      // 判断用户状态
+      if($this->stash['user']['state'] == Sher_Core_Model_User::STATE_DISABLED){
+        return $this->display_note_page('用户已被禁用!');
+      }
 		$page = $this->stash['page'];
 		
 		$this->stash['profile'] = $this->stash['user']['profile'];
@@ -177,6 +195,11 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	 * 发起的产品
 	 */
 	public function submitted(){
+      // 判断用户状态
+      if($this->stash['user']['state'] == Sher_Core_Model_User::STATE_DISABLED){
+        return $this->display_note_page('用户已被禁用!');
+      }
+
         $this->set_target_css_state('tab_submit');
         
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::user_submitted_list_url($this->stash['id'], '#p#');

@@ -143,6 +143,9 @@ class Sher_Wap_Action_Try extends Sher_Wap_Action_Base {
 		
 		// 增加pv++
 		$model->increase_counter('view_count', 1, $id);
+
+		$model->increase_counter('true_view_count', 1, $id);
+		$model->increase_counter('wap_view_count', 1, $id);
 		
 		// 是否出现后一页按钮
 	    if(isset($this->stash['referer'])){

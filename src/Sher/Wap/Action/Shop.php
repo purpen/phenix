@@ -26,7 +26,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','index','shop','presale','view','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list','serve');
+	protected $exclude_method_list = array('execute','index','shop','presale','view','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list','serve','promo');
 	
 	/**
 	 * 商城入口
@@ -100,6 +100,14 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	}
 	
 	/**
+	 * 太火鸟商城购物攻略
+	 */
+	public function promo(){
+		//$this->stash['page_title_suffix'] = '太火鸟商城购物攻略';
+		return $this->to_html_page('wap/shop/promo.html');
+	}
+	
+	/**
 	 * 商品详情
 	 */
 	public function view(){
@@ -126,6 +134,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
+
+		$model->inc_counter('true_view_count', 1, $id);
+		$model->inc_counter('wap_view_count', 1, $id);
 		
 		// 未发布上线的产品，仅允许本人及管理员查看
 		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
@@ -381,7 +392,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 */
 	public function nowbuy(){
 		$sku = $this->stash['sku'];
-		$quantity = $this->stash['n'];
+		$quantity = (int)$this->stash['n'];
+    $options = array();
 
     //初始变量
     //是否是抢购商品
@@ -518,7 +530,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$total_money = $price*$quantity;
 		$items_count = 1;
 		
-		$order_info = $this->create_temp_order($items, $total_money, $items_count, array());
+		$order_info = $this->create_temp_order($items, $total_money, $items_count, $options);
 		if (empty($order_info)){
 			return $this->show_message_page('系统出了小差，请稍后重试！', true);
 		}
@@ -541,9 +553,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	}
 	
 	/**
-	 * 结算信息
+	 * 重新选择收货地址后结算信息
 	 */
-	public function checkout_back(){
+	public function address_checkout(){
 		$rrid = $this->stash['rrid'];
 		$addrid = $this->stash['addrid'];
 		
@@ -639,6 +651,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 */
 	public function checkout(){
 		$user_id = $this->visitor->id;
+
+    $options = array();
+    $options['is_cart'] = 1;
 		
 		//验证购物车，无购物不可以去结算
     $cart_model = new Sher_Core_Model_Cart();
@@ -738,7 +753,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     if(empty($total_money) || empty($items)){
       return $this->show_message_page('购物车异常！', true);
     }
-
+    $items_count = count($items);
 		
 		// 获取省市列表
 		$areas = new Sher_Core_Model_Areas();
@@ -748,7 +763,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			// 预生成临时订单
 			$model = new Sher_Core_Model_OrderTemp();
 
-      $order_info = $this->create_temp_order($items, $total_money, $items_count, array('is_cart'=>1));
+      $order_info = $this->create_temp_order($items, $total_money, $items_count, $options);
       if (empty($order_info)){
         return $this->show_message_page('系统出了小差，请稍后重试！', true);
       }
@@ -1008,7 +1023,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("confirm order failed: ".$e->getMessage());
 			return $this->ajax_json('订单处理异常，请重试！', true);
-		}
+    }catch(Exception $e){
+			Doggy_Log_Helper::warn("confirm order failed.: ".$e->getMessage());
+			return $this->ajax_json('订单处理异常，请重新下单！', true);
+    }
 		
 		// 限量抢购活动设置缓存
     if($is_snatched){
@@ -1393,7 +1411,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			return $this->ajax_json('新地址保存失败:'.$e->getMessage(), true);
 		}
 		
-		return $this->to_taconite_page('wap/ajax_address.html');
+		return $this->to_taconite_page('wap/address/ajax_address.html');
 	}
 	
 	/**
@@ -1410,6 +1428,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			'sort' => array('created_on' => -1),
 		);
 		$result = $addbooks->first($query);
+    $result = $addbooks->extended_model_row($result);
 		
 		return $result;
 	}
