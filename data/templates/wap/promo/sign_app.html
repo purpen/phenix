@@ -305,7 +305,7 @@
           if(html==''){
             return;
           }
-          $('#slidework').prepend(html); 
+          $('#slidework').html(html); 
           setTimeout("$('p.padd').addClass('active');",1000);  
         }
     }, 'json');
