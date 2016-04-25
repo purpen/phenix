@@ -117,7 +117,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			$user['love_count'] = $result['rows'][$k]['user']['love_count'];
 			$user['user_rank'] = $result['rows'][$k]['user_ext']['user_rank']['title'];
 			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
-			$result['scene_title'] = $result['rows'][$k]['scene']['title'];
+			$result['rows'][$k]['scene_title'] = $result['rows'][$k]['scene']['title'];
 			$result['rows'][$k]['user'] = $user;
 		}
 		
