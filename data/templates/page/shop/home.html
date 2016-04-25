@@ -209,7 +209,7 @@
 	
 	<!-- 全部分类 -->
 	<ul class="nav-categories" style="width:1180px !important;">
-	    {% category_list var:'category' only_open:1 domain:domain show_all:0 is_vendable:1 %}
+	    {% category_list var:'category' only_open:1 domain:domain show_all:0 %}
 		<li class="category">
 	        <a href="{{ app_url_shop }}/c0">
 	            <i class="sidebar icon"></i> <span class="computer only">全部分类</span>
@@ -228,7 +228,7 @@
 	<div class="ui newest responsive grid">
 		<div class="row">
 			<div class="column">
-				{% category_list var:'category' only_open:1 domain:1 show_all:0 sort_field:'total_desc' %}
+				{% category_list var:'category' only_open:1 domain:1 show_all:0 sort_field:'total_desc' is_vendable:1 %}
 				<div class="ui four products cards">
 
         {% for d in category.rows %}
