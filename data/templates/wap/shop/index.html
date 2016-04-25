@@ -32,6 +32,23 @@
 	    border-bottom: 2px solid #fff;
 	    padding-bottom: 10px;
 	}
+	.nav-menu .navfelx .childcell .menuicon img{
+		width:40px;
+		height:40px;
+	}
+	.nav-menu .navfelx .childcell .menuicon{
+		padding:0 4px 4px;
+	}
+	#shop-special .recommend-topic .recom-item .recom-cell.one .fuhua.icon{
+	    width: 29px;
+	    height: 30px;
+	    background: rgba(255,51,102,.9);
+	}
+	#shop-special .recommend-topic .recom-item .recom-cell.one .fuhua.icon img {
+	    width: 17px;
+	    height: 18px;
+	    margin: 6px;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -62,6 +79,12 @@
 			    专题
 			</a>
 		</li>
+		<!--<li class="childcell">
+			<a class="menuicon" href="{{ app_url_wap }} " title="孵化产品">
+				<img src="{{ app_url_packaged }}/images/icon/fuhua.png">
+			    孵化产品
+			</a>
+		</li>-->
 		<li class="childcell">
 			<a class="menuicon" href="{{ app_url_wap }}/my/pmall " title="积分商城">
 				<img src="{{ app_url_packaged }}/images/icon/jifen.png">
