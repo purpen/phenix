@@ -157,6 +157,11 @@
     <!--店长推荐-->
 	<div class="ui newest responsive grid">
 		<div class="row">
+			<div class="ui center aligned column">
+              	<h2 class="ui header">热门商品</h2>
+          	</div>
+  		</div>
+		<div class="row">
 			<div class="column">
                 <div class="ui four products cards">
 					{% for product in stick_list.rows %}
@@ -167,8 +172,38 @@
         </div>
     </div>
     
+	<!--  孵化产品  -->
+	{% ad_list var:'adstick' page:1 state:2 size:3 name:'web_shop_index_stick_slide' sort_field:'latest' %}
+	<div class="ui incub responsive grid">
+		<div class="row">
+			<div class="ui center aligned column">
+				<h2 class="ui header">太火鸟孵化产品</h2>
+			</div>
+		</div>
+		
+		
+		<div class="row">
+			<div class="column">
+				<div class="ui two products cards">
+					{% for d in adstick.rows %}
+						<div class="problock">
+							<a title="{{ d.title }}" href="{{ d.view_url }}" style="background-image:url({{ d.cover.fileurl }});padding-top:56.2%;">
+								
+							</a>
+							<h2>{{ d.title }}</h2>
+							<div class="cats">
+                                <i class="yen icon"></i>0.15
+                            </div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		
+		
+	</div>
     <!--推荐品牌-->
-	<div class="ui brands responsive grid">
+	<!--<div class="ui brands responsive grid">
 		<div class="row">
 			<div class="column">
         		{% ad_list var:'adslide2' page:1 size:6 state:2 name:'product_index_brands' %}
@@ -182,7 +217,7 @@
                             </div>
                             <div class="desc">
                                 <h2>
-                                    <!--{{ ad.title }}-->
+                                   
                                 </h2>
                             </div>
                             <a href="{{ ad.view_url }}" title="{{ ad.title }}" class="link wrap" target="_blank"></a>
@@ -193,11 +228,11 @@
                 {%endif%}
             </div>
         </div>
-    </div>   
+    </div>   -->
     
     <!--全球新品-->
 	<div class="ui newest responsive grid">
-		<div class="row">
+		<!--<div class="row">
 			<div class="column">
 				{% product_list var:'hotest' page:1 is_shop:1 only_onsale:1 size:16 sort:0 %}
 				{% if hotest.rows %}
@@ -237,7 +272,7 @@
 				</div>
 				{% endif %}
 			</div>
-		</div>
+		</div>-->
 		<div class="row">
 			<div class="center aligned column">
                 <a href="{{ app_url_shop }}/c0" class="ui magenta large inverted more button">
