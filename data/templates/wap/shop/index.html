@@ -54,11 +54,8 @@
 		position:absolute;
 		width:32px;
 		height:32px;
-		top:10px;
+		top:15px;
 		left:10px;
-	}
-	.shopbiao img{
-		width:100%;
 	}
 </style>
 {% endblock %}
@@ -113,7 +110,7 @@
 <!-- 孵化 -->
 
 {% ad_list var:'adstick' page:1 state:2 size:3 name:'wap_shop_index_stick_slide' sort_field:'latest' %}
-<div class=" " id="shop-special">
+<div id="shop-special">
 	<div class="recommend-topic">
 		<div class="recom-item">
       {% for d in adstick.rows %}
@@ -139,6 +136,32 @@
 		</div>
 	</div>
 </div>
+
+<!-- 专题 -->
+<!--
+{% ad_list var:'adspecial' page:1 state:2 size:1 name:'wap_shop_special_slide' sort_field:'latest' %}
+
+<div id="special-list">
+	<div class="recommend-topic">
+		<div class="recom-item">
+			<div class="recom-cell one">
+				<a href="">
+					<img class="lazy" data-original="http://frbird.qiniudn.com/asset/160411/570a89e23ffca27d428be74b-1" src="{{ app_url_packaged }}/images/icon/load750-422.png" title="qweqw">
+					
+					<div class="xihuanicon">
+						<i class="empty heart icon"></i>23
+					</div>
+					<div class="desc">
+						航拍解放双手无人机开启上帝视角
+					</div>
+				</a>
+			</div>
+			
+		</div>
+	</div>
+</div>-->
+
+
 <!-- 商品 -->
 <div class="shopindex" id="mpresale">
 	<div class="ui responsive grid">
@@ -163,7 +186,12 @@
                 <a title="{{ d.short_title }}" alt="{{ d.short_title }}" href="{{ d.wap_view_url }}">
                   <img class="lazy" data-original="{{ d.cover.thumbnails.apc.view_url }}" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
 				  <div class="shopbiao">
-					  <img src="http://frstatic.qiniudn.com/images/icon/xinpin.png" width="100%">
+					  {% if new_tips %}
+					  <img src="{{ app_url_packaged }}/images/icon/xinpin.png" width="100%">
+					  {% endid %}
+					  {% if hot_tips %}
+					  <img src="{{ app_url_packaged }}/images/icon/remai.png" width="100%">
+					  {% endid %}
 				  </div>
                   <div class="desc">
                     <h2>{{ d.short_title }}</h2>

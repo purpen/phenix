@@ -2,6 +2,14 @@
 <div class="recom-cell" id="product-{{ _id }}">
 	<a title="{{ title }}" alt="{{#product_alt_tag}}{{ tags.0 }}-太火鸟智能硬件商店{{/product_alt_tag}}{{^product_alt_tag}}{{ title }}-太火鸟智能硬件商店{{/product_alt_tag}}" href="{{ wap_view_url }}">
 		<img class="lazy" data-original="{{ cover.thumbnails.apc.view_url }}" src="http://frstatic.qiniudn.com/images/icon/load380-380.png">
+		<div class="shopbiao">
+			{{ #new_tips }}
+			<img src="http://frstatic.qiniudn.com/images/images/icon/xinpin.png" width="100%">
+			{{ /new_tips }}
+			{{ #hot_tips }}
+			<img src="http://frstatic.qiniudn.com/images/images/icon/remai.png" width="100%">
+			{{ /hot_tips }}
+		</div>
 		<div class="desc">
 			<h2>{{ &short_title }}</h2>
 			<div class="cats">
