@@ -440,10 +440,12 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         }
         
         if($row['stage'] == self::STAGE_SHOP && isset($row['comment_count']) && $row['comment_count'] > 0){
+          if(isset($row['comment_star'])){
             $stars = $row['comment_star']/$row['comment_count'];
             $row['stars'] = ceil($stars);
             // 10分值显示
-            $row['stars_value'] = sprintf("%.1f", $stars*2);
+            $row['stars_value'] = sprintf("%.1f", $stars*2);        
+          }
         }
 	}
 	

@@ -183,7 +183,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['presale_inventory'] = isset($this->stash['presale_inventory']) ? (int)$this->stash['presale_inventory'] : 0;
 
     // 孵化产品
-    $data['hatched'] = isset($this->stash['hatched']) ? (int)$this->stash['hatched'] : 0;
+    $data['hatched'] = isset($this->stash['hatched']) ? 1 : 0;
     $data['hatched_cover_url'] = isset($this->stash['hatched_cover_url']) ? $this->stash['hatched_cover_url'] : null;
         
     // 添加视频

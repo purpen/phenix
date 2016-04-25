@@ -8,35 +8,77 @@
 	
 </style>
 {% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+    var page = 1;
+    var size = 6;
+    var type = 8;
+    var sort = 4;
+
+    // 列表加载
+    function ajax_load_more(type, sort, page, size){
+        var url = '{{ app_url_domain }}/app/wap/shop/ajax_load_list';
+        $.get(url, { type:type, sort:sort, page:page, size:size }, function(rs){
+            if(rs.data.results.total_page >= rs.data.results.current_page){
+                $('#product-more')
+                    .hide()
+                    .attr({'status': 0, 'page': rs.data.page});
+            }else{
+              $('#product-more').html('<div style="text-align:center;">没有更多</div>').show();
+            }
+            rs.data.app_url_packaged = "{{ app_url_packaged }}";
+            var rendered = phenix.ajax_render_result('#fetch_more_hatched_product_tpl', rs.data);
+            if(rs.data.page==1){
+              $('#product-box').html(rendered);          
+            }else{
+              $('#product-box').append(rendered);
+            }
+          $("img.lazy").lazyload({
+             effect : "show"
+          });
+        }, 'json');
+    }
+  </script>
+
+{% endblock %}
+
+{% block jquery %}
+
+  //ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      $('#product-more').show();
+      var stat = $('#product-more').attr('status');
+      page = parseInt($('#product-more').attr('page')) + 1;
+
+      if(stat==0){
+        ajax_load_more(type, sort, page, size);
+      }
+　　}
+  });
+
+  // 初次加载
+  ajax_load_more(type, sort, page, size);
+{% endblock %}
+
+
 {% block content %}
 <!-- 孵化 -->
 
-{% ad_list var:'adstick' page:1 state:2 size:3 name:'wap_shop_index_stick_slide' sort_field:'latest' %}
 <div id="shop-special">
 	<div class="recommend-topic">
-		<div class="recom-item">
-      {% for d in adstick.rows %}
-        <div class="recom-cell one">
-          <a href="{{ d.view_url }}">
-            <img class="lazy" data-original="{{ d.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/load750-422.png" title="{{ d.title }}" style="display: block;">
-            
-            <div class="fuhua icon">
-              <img src="{{ app_url_packaged }}/images/icon/fuhuaicon.png" width="100%">
-            </div>
-            <div class="desc">
-              <h2>{{ d.title }}</h2>
-              <!--
-              <div class="cats">
-                      <span class="unit">￥</span>299
-                  </div>
-                  -->
-            </div>
-          </a>
-        </div>
-      {%endfor%}
-			
+		<div class="recom-item" id="product-box">
+      <!--ajax list-->
 		</div>
 	</div>
 </div>
 
+{% endblock %}
+
+{% block templates %}
+  {% mustache id:'fetch_more_hatched_product_tpl' tpl:'mustache_m/fetch_more_hatched_product.mustache' %}
 {% endblock %}
