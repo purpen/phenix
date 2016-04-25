@@ -233,7 +233,7 @@
 
         {% for d in category.rows %}
           {% if d.sub_count>0 %}
-            {% if d.odd_label %}
+            {% if !d.odd_label %}
 
               {% product_list var:'list' page:1 category_id:d._id stage:9 only_onsale:1 sort:4 size:6 %}
               <div class="card special">
