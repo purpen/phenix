@@ -129,10 +129,17 @@
 		<div class="row">
 			<div class="column">
 				<div class="ui four voteist products cards">
+          <!--
 					{% product_list var:'list' page:page category_id:category_id process_voted:1 only_approved:1 only_onsale:1 vote_type:type sort:sort size:12 %}
 					{% for product in list.rows %}
 						{% include "block/product_vote_card.html" %}
 					{% endfor %}
+          -->
+          {% stuff_list var:'list' type:8 size:16 page:page %}
+					{% for stuff in list.rows %}
+                        {% include "block/stuff_item.html" %}
+					{% endfor %}
+          
 				</div>
 				
 				{% if list.total_page %}
