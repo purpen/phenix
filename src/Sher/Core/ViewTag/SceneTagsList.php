@@ -39,8 +39,6 @@ class Sher_Core_ViewTag_SceneTagsList extends Doggy_Dt_Tag {
         $size = (int)$size;
 		
         $query = array();
-		
-        $service = Sher_Core_Service_SceneTags::instance();
         $options['page'] = $page;
         $options['size'] = $size;
 		$options['sort_field'] = $sort_field;
@@ -52,20 +50,16 @@ class Sher_Core_ViewTag_SceneTagsList extends Doggy_Dt_Tag {
         if (!empty($left_ref) && !empty($right_ref)) {
             $query['left_ref']  = array('$gte' => $left_ref);
             $query['right_ref'] = array('$lte' => $right_ref);
-            
-            $result = $service->get_scene_tags_list($query,$options);
         } else if (!empty($parent_id)) {
             $query['parent_id'] = (int)$parent_id;
-            
-            $result = $service->get_scene_tags_list($query,$options);
         } else if (!empty($is_root)) {
             $query['parent_id'] = 0;
-            
-            $result = $service->get_scene_tags_list($query,$options);
         } else {
             $result = array();
         }
-        //var_dump($query);
+        
+        $service = Sher_Core_Service_SceneTags::instance();
+        $result = $service->get_scene_tags_list($query,$options);
         
         if (!empty($result) && !empty($result['rows'])) {
             $rows = $result['rows'];

@@ -159,6 +159,7 @@ app.dt.extension_lib.sher_app:
     'scene_scene_list':'Sher_Core_ViewTag_SceneSceneList'
     'r_estore_product_list':'Sher_Core_ViewTag_REstoreProductList'
     'feedback_list':'Sher_Core_ViewTag_FeedbackList'
+    'user_talent_list':'Sher_Core_ViewTag_UserTalentList'
   filters: []
 
 app.js.use_bundle: false

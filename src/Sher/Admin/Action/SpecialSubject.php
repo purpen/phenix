@@ -11,7 +11,13 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 	);
 	
 	public function _init() {
+		
 		$this->set_target_css_state('page_special_subject');
+		
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['pid'] = new MongoId();
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SPECIAL_SUBJECT;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SPECIAL_SUBJECT;
     }
 	
 	/**
@@ -48,10 +54,6 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 		// 判断左栏类型
 		$this->stash['show_type'] = "product";
 		
-		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
-		$this->stash['pid'] = new MongoId();
-		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SPECIAL_SUBJECT;
-		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SPECIAL_SUBJECT;
 		$this->stash['mode'] = 'create';
 		
 		return $this->to_html_page('admin/special_subject/save.html');
@@ -64,11 +66,6 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 		
 		// 判断左栏类型
 		$this->stash['show_type'] = "product";
-		
-		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
-		$this->stash['pid'] = new MongoId();
-		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SPECIAL_SUBJECT;
-		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SPECIAL_SUBJECT;
 		$this->stash['mode'] = 'edit';
 		
 		$id = isset($this->stash['id']) ? $this->stash['id'] : 0;
@@ -191,6 +188,28 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		$this->stash['ids'] = $ids;
 		return $this->to_taconite_page('ajax/delete.html');
+	}
+	
+	/**
+	* 发布／取消
+	*/
+	public function ajax_publish(){
+		
+		$id = $this->stash['id'];
+		$evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+		
+		if(empty($id)){
+			return $this->ajax_notification('缺少Id参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_SpecialSubject();
+		$result = $model->mark_as_publish((int)$id, $evt);
+		
+		if(!$result['status']){
+			return $this->ajax_notification($result['msg'], true);
+		}
+		
+		return $this->to_taconite_page('admin/special_subject/publish_ok.html');
 	}
 	
 	/**

@@ -119,35 +119,38 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 	 */
 	public function save(){
 		
+		// title=test&des=test&tags=1&address=1&&lat=39.9151190000&lng=116.4039630000
 		$user_id = $this->current_user_id;
+		//$user_id = 10;
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		
 		$data = array();
-		$data['title'] = $this->stash['title'];
-		$data['des'] = $this->stash['des'];
-		$data['tags'] = $this->stash['tags'];
-		$data['address'] = $this->stash['address'];
+		$data['title'] = isset($this->stash['title']) ? $this->stash['title'] : '';
+		$data['des'] = isset($this->stash['des']) ? $this->stash['des'] : '';
+		$data['tags'] = isset($this->stash['tags']) ? $this->stash['tags'] : '';
+		$data['address'] = isset($this->stash['address']) ? $this->stash['address'] : '';
+		$lng = isset($this->stash['lng']) ? $this->stash['lng'] : 0;
+		$lat = isset($this->stash['lat']) ? $this->stash['lat'] : 0;
 		$data['location'] = array(
             'type' => 'Point',
-            'coordinates' => array(doubleval($this->stash['lng']), doubleval($this->stash['lat'])),
+            'coordinates' => array(doubleval($lng), doubleval($lat)),
         );
-		//$data['asset'] = isset($this->stash['asset'])?$this->stash['asset']:array();
 		
-		if(empty($data['title']) || empty($data['des'])){
-			return $this->api_json('请求参数不能为空', 3000);
+		if(!$data['title']){
+			return $this->api_json('请求标题不能为空', 3000);
 		}
 		
-		if(empty($data['address']) || empty($data['address'])){
-			return $this->api_json('请求参数不能为空', 3000);
+		if(!$data['des']){
+			return $this->api_json('请求描述不能为空', 3000);
 		}
 		
-		if(empty($data['tags']) || empty($data['tags'])){
-			return $this->api_json('请求参数不能为空', 3000);
+		if(!$data['address']){
+			return $this->api_json('请求地址不能为空', 3000);
 		}
 		
-		if(empty($data['location']['coordinates']['lat']) || empty($data['location']['coordinates']['lat'])){
-			return $this->api_json('请求参数不能为空', 3000);
+		if(!$data['tags']){
+			return $this->api_json('请求标签不能为空', 3000);
 		}
 		
 		$data['tags'] = explode(',',$data['tags']);
@@ -156,7 +159,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		}
 		
 		// 上传图片
-		
+		//$this->stash['tmp'] = Doggy_Config::$vars['app.imges'];
 		if(empty($this->stash['tmp'])){
 			return $this->api_json('请选择图片！', 3001);  
 		}
@@ -206,7 +209,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			// 上传成功后，更新所属的附件
 			
 			if(isset($data['cover_id']) && !empty($data['cover_id'])){
-				$this->update_batch_assets($data['cover_id'], $id);
+				$model->update_batch_assets(array($data['cover_id']), array($id));
 			}		
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("api情景保存失败：".$e->getMessage());
@@ -227,9 +230,18 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
             return $this->api_json('请求失败，缺少必要参数!', 3001);
         }
         
-        $service = Sher_Core_Service_SceneScene::instance();
-        $result  = $service->get_scene_by_id($id);
+		$model = new Sher_Core_Model_SceneScene();
+        $result  = $model->extend_load((int)$id);
+		
+		if (!$result) {
+            return $this->api_json('请求内容为空!', true);
+        }
+		
+		// 增加浏览量
+		$model->inc((int)$id, 'view_count', 1);
+		
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
+		$result['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($result['created_on']);
         
         // 过滤多余属性
         $filter_fields  = array('type', 'sight', 'cover_id', 'cover', '__extend__');
@@ -250,26 +262,36 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		
 		$id = isset($this->stash['id'])?$this->stash['id']:0;
 		if(empty($id)){
-			$this->api_json('内容不存在', 3000);
+			return $this->api_json('内容不存在', 3000);
 		}
 		
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		
 		try{
 			$model = new Sher_Core_Model_SceneScene();
+			$sight_model = new Sher_Core_Model_SceneSight();
 			
 			foreach($ids as $id){
 				$result = $model->load((int)$id);
 				
+				$sight = $sight_model->find(array('scene_id'=>(int)$id));
+				
+				if($sight){
+					return $this->api_json('该情景下面有所属场景！', 3000);
+				}
+				
 				if (!empty($result)){
 					$model->remove((int)$id);
+					
+					$model = new Sher_Core_Model_SceneTags();
+					$model->scene_count($result['tags'],array('total_count','context_count'),2);
 				}
 			}
 			
 			$this->stash['ids'] = $ids;
 			
 		}catch(Sher_Core_Model_Exception $e){
-			$this->api_json('操作失败,请重新再试', 3001);
+			return $this->api_json('操作失败,请重新再试', 3001);
 		}
 		return $this->api_json('删除成功！', 0, array('id'=>$id));
 	}

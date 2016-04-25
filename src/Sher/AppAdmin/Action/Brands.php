@@ -173,4 +173,24 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		
 		return $this->to_taconite_page('ajax/delete.html');
 	}
+	
+	/**
+	 * 推荐
+	 */
+	public function ajax_stick() {
+		$id = isset($this->stash['id']) ? $this->stash['id'] : 0;
+		$evt = isset($this->stash['evt']) ? $this->stash['evt'] : 0;
+		if(empty($id)){
+			return $this->ajax_json('缺少请求参数！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_SceneBrands();
+			$model->update_set($id, array('stick'=>$evt));
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('请求操作失败，请检查后重试！', true);
+		}
+		
+		return $this->to_taconite_page('app_admin/brands/stick_ok.html');
+	}
 }
