@@ -49,6 +49,17 @@
 	    height: 13px;
 	    margin: 5px;
 	}
+	
+	.shopbiao{
+		position:absolute;
+		width:32px;
+		height:32px;
+		top:10px;
+		left:10px;
+	}
+	.shopbiao img{
+		width:100%;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -151,6 +162,9 @@
               <div class="recom-cell" id="product-{{ d._id }}">
                 <a title="{{ d.short_title }}" alt="{{ d.short_title }}" href="{{ d.wap_view_url }}">
                   <img class="lazy" data-original="{{ d.cover.thumbnails.apc.view_url }}" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
+				  <div class="shopbiao">
+					  <img src="http://frstatic.qiniudn.com/images/icon/xinpin.png" width="100%">
+				  </div>
                   <div class="desc">
                     <h2>{{ d.short_title }}</h2>
                     <div class="cats">
@@ -170,7 +184,7 @@
         <!--第4块添加广告位 Star-->
         {% if loop.counter == 4 %}
           {% ad_list var:'cate_banner' page:1 state:2 size:1 name:'wap_product_index_category_slide' sort_field:'latest' %}
-          <div class="row ptb-r">
+          <div class="row pb-r pt-0">
             <div class="column p-0">
               <a href="{{ cate_banner.view_url }}">
                 <img src="{{ cate_banner.cover.fileurl }}" title="{{ cate_banner.title }}" width="100%" align="absmiddle">
@@ -187,43 +201,6 @@
 
 		
 		<!-- 底部 -->
-		
-		<!--
-		<div class="row pt-0">
-			<div class="shop-fotter">
-				<div class="nav-menu">
-					<ul class="navfelx">
-						<li class="childcell">
-							<div class="menuicon">
-								<img src="{{ app_url_packaged }}/images/icon/tuihuo.png">
-								<div class="content huan">
-									7天<br>
-									无理由退货
-								</div>
-							</div>
-						</li>
-						<li class="childcell">
-							<div class="menuicon">
-								<img src="{{ app_url_packaged }}/images/icon/baoyou.png">
-								<div class="content baoyou">
-									全国包邮
-								</div>
-							</div>
-						</li>
-						<li class="childcell">
-							<div class="menuicon">
-								<img src="{{ app_url_packaged }}/images/icon/shouhoufuwu.png">
-								<div class="content fuwu">
-									售后服务<br>
-									010-84599327
-								</div>
-							</div>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		-->
 		{% ad_list var:'adbanner' page:1 state:2 size:2 name:'wap_footer_banner' sort_field:'latest' %}
 		{% for d in adbanner.rows %}
 		<div class="row ptb-r">
