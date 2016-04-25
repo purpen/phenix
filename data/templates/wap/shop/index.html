@@ -36,7 +36,7 @@
 
     // 孵化加载
     function ajax_hatched_load_more(type, sort, page, size){
-        var url = '{{ app_url_domain }}/app/wap/shop/ajax_load_list';
+        var url = '{{ app_url_wap }}/shop/ajax_load_list';
         $.get(url, { type:type, sort:sort, page:page, size:size }, function(rs){
             rs.data.app_url_packaged = "{{ app_url_packaged }}";
             var rendered = phenix.ajax_render_result('#fetch_more_hatched_product_tpl', rs.data);
