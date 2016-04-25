@@ -284,6 +284,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         
 		$model = new Sher_Core_Model_SceneSight();
         $result  = $model->extend_load((int)$id);
+		$result['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($result['created_on']);
 		
 		if (!$result) {
             return $this->api_json('请求内容为空!', true);
@@ -319,8 +320,11 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$tags_model = new Sher_Core_Model_SceneTags();
 		//$result['tags'] = array(164,165,166);
 		foreach($result['tags'] as $k => $v){
-			$res = $tags_model->first((int)$v);
-			$result['tag_titles'][$k] = $res['title_cn'];
+			$res = $tags_model->find_by_id((int)$v);
+			$result['tag_titles'][$k] = '';
+			if(isset($res['title_cn'])){
+				$result['tag_titles'][$k] = $res['title_cn'];
+			}
 		}
         
         //print_r($result);exit;

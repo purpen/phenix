@@ -241,6 +241,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$model->inc((int)$id, 'view_count', 1);
 		
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
+		$result['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($result['created_on']);
         
         // 过滤多余属性
         $filter_fields  = array('type', 'sight', 'cover_id', 'cover', '__extend__');
