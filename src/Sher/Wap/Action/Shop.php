@@ -1692,7 +1692,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
           'advantage'=>1, 'sale_price'=>1, 'cover_id'=>1, 'comment_count'=>1, 'view_count'=>1,
           'updated_on'=>1, 'favorite_count'=>1, 'love_count'=>1, 'deleted'=>1,'presale_money'=>1, 'tags'=>1,
           'vote_oppose_count'=>1, 'summary'=>1, 'voted_finish_time'=>1, 'succeed'=>1, 'presale_finish_time'=>1,
-          'sale_count'=>1,
+          'sale_count'=>1, 'tips_label'=>1,
         );
         $options['some_fields'] = $some_fields;
         
@@ -1703,6 +1703,13 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
           // 过滤用户表
           if(isset($result['rows'][$i]['user'])){
             $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
+          }
+
+          // tips
+          if($result['rows'][$i]['tips_label']==1){
+            $result['rows'][$i]['new_tips'] = true;
+          }elseif($result['rows'][$i]['tips_label']==1){
+            $result['rows'][$i]['hot_tips'] = true;         
           }
 
         } //end for
