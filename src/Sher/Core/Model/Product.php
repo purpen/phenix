@@ -424,6 +424,15 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         }else{
             $row['hot'] = 0;
         }
+
+        // 列表tips展示
+        $row['tips_label'] = 0;
+
+        if($row['featured']==1){
+          $row['tips_label'] = 2;
+        }else{
+          $row['tips_label'] = $row['created_on']>(time()-1209600) ? 1 : $row['tips_label'];
+        }
         
         if($row['stage'] == self::STAGE_SHOP && isset($row['comment_count']) && $row['comment_count'] > 0){
             $stars = $row['comment_star']/$row['comment_count'];
