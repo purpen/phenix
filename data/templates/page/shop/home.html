@@ -194,8 +194,8 @@
 							<h2>
 								<a href="{{ d.view_url }}" title="{{ d.title }}" class="ui line" target="_blank">{{ d.title }}</a>
 							</h2>
-							<div class="cats">
-                                <i class="yen icon"></i>0.15
+							<div class="cats" style="padding: 8px;">
+                                
                             </div>
 						</div>
 					</div>
@@ -209,7 +209,7 @@
 	
 	<!-- 全部分类 -->
 	<ul class="nav-categories" style="width:1180px !important;">
-	    {% category_list var:'category' only_open:1 domain:domain show_all:0 %}
+	    {% category_list var:'category' only_open:1 domain:domain show_all:0 is_vendable:1 %}
 		<li class="category">
 	        <a href="{{ app_url_shop }}/c0">
 	            <i class="sidebar icon"></i> <span class="computer only">全部分类</span>
@@ -232,7 +232,6 @@
 				<div class="ui four products cards">
 
         {% for d in category.rows %}
-          {% if d.sub_count>0 %}
             {% if d.odd_label %}
 
               {% product_list var:'list' page:1 category_id:d._id stage:9 only_onsale:1 sort:4 size:6 %}
@@ -281,7 +280,6 @@
 
             {%endif%}
 
-          {%endif%}
         {% endfor %}
 
 
