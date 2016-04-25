@@ -232,7 +232,7 @@
     
     <!--全球新品-->
 	<div class="ui newest responsive grid">
-		<!--<div class="row">
+		<div class="row">
 			<div class="column">
 				{% product_list var:'hotest' page:1 is_shop:1 only_onsale:1 size:16 sort:0 %}
 				{% if hotest.rows %}
@@ -255,6 +255,7 @@
                                 <i class="heart icon"></i> {{ product.love_count }}
                             </span>
                         </div>
+						<!--
                         <div class="speblock">
                             <div class="randomcats">
                                 <a class="catlink" href="{{ app_url_domain }}/albums" style="background-image: url('{{ app_url_packaged }}/images/albums/album_banner_che.jpg');">
@@ -263,7 +264,7 @@
                                     <span class="more">查看全部</span>
                                 </a>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                     
 					{% for product in hotest.rows %}
