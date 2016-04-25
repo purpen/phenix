@@ -105,7 +105,7 @@
 
 
 
-
+<!--
 <ul class="nav-categories">
     {% category_list var:'category' only_open:1 domain:domain show_all:0 %}
 	<li class="category">
@@ -122,6 +122,7 @@
 	{% endfor %}
 </ul>
 
+
 <div class="adstick shop list">
 	<div class="ui adverts responsive grid">
 		<div class="row">
@@ -137,7 +138,7 @@
                             </div>
                             <div class="desc">
                                 <h2>
-                                    <!--{{ ad.title }}-->
+                                    
                                 </h2>
                             </div>
                             <a href="{{ ad.view_url }}" title="{{ ad.title }}" class="link wrap" target="_blank"></a>
@@ -149,9 +150,9 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 
-{% product_list var:'stick_list' page:1 type:2 only_onsale:1 size:8 sort:4 %}
+{% product_list var:'stick_list' page:1 type:2 only_onsale:1 size:4 sort:4 %}
 <div class="shop list" id="shoplist">
     <!--店长推荐-->
 	<div class="ui newest responsive grid">
