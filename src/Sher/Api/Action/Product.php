@@ -97,7 +97,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
 			'snatched_time'=>1, 'inventory'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
       'presale_goals'=>1, 'stick'=>1, 'featured'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1,
-      'comment_star'=>1,'snatched_end_time'=>1, 'snatched_price'=>1, 'snatched_count'=>1,
+      'comment_star'=>1,'snatched_end_time'=>1, 'snatched_price'=>1, 'snatched_count'=>1, 'tips_label'=>1,
       // app抢购
       'app_snatched'=>1, 'app_snatched_time'=>1, 'app_snatched_end_time'=>1, 'app_snatched_price'=>1,
       'app_snatched_count'=>1, 'app_appoint_count'=>1, 'app_snatched_total_count'=>1,
@@ -188,13 +188,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         $data[$i]['app_snatched_price'] = sprintf('%.2f', $result['rows'][$i]['app_snatched_price']);     
       }
       // 新品标识--非闪购产品且一个月内上的产品
-      if(empty($data[$i]['is_app_snatched'])){
-        if($data[$i]['featured']==1){
-          $data[$i]['tips_label'] = 2;
-        }else{
-          $data[$i]['tips_label'] = $data[$i]['created_on']>(time()-1209600) ? 1 : $data[$i]['tips_label'];
-        }
-      }else{
+      if(!empty($data[$i]['is_app_snatched'])){
         $data[$i]['tips_label'] = 3;
         // 显示秒杀价格
         $data[$i]['sale_price'] = $data[$i]['app_snatched_price'];
