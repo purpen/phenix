@@ -9,18 +9,20 @@ class Sher_Core_Model_ThirdSiteStat extends Sher_Core_Model_Base  {
   ##类型
   const KIND_360 = 1;
   const KIND_DB = 2;  // 兑吧
+  const KIND_APP_DB = 3;  // app首次下载送9.9红包
 
 	protected $schema = array(
     'user_id' => 0,
     'kind' => self::KIND_360,
     'target_id' => 1,
+    'cid' => 0,
     'state' => 1,
     'ip' => null,
   	);
 
   protected $required_fields = array('user_id', 'kind');
 
-  protected $int_fields = array('state', 'user_id', 'kind', 'target_id');
+  protected $int_fields = array('state', 'user_id', 'kind', 'target_id', 'cid');
 
 	/**
 	 * 扩展数据
@@ -32,6 +34,9 @@ class Sher_Core_Model_ThirdSiteStat extends Sher_Core_Model_Base  {
         break;
       case 2:
         $row['kind_str'] = '兑吧';
+        break;
+      case 3:
+        $row['kind_str'] = 'app下载送红包';
         break;
       default:
         $row['kind_str'] = '--';
