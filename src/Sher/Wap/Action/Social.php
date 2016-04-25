@@ -728,7 +728,6 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 
         $data = array();
         $data['nex_page'] = $next_page;
-        $data['results'] = $resultlist;
 
         $data['type'] = $type;
         $data['page'] = $page;

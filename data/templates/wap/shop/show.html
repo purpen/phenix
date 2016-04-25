@@ -702,10 +702,13 @@
     function ajax_load_topic(target_id, sort, page, size){
         var url = '{{ app_url_wap }}/topic/ajax_fetch_more';
         $.get(url, { target_id:target_id, sort:sort, page:page, size:size }, function(rs){
-
+            if(rs.data.results.total_rows==0){
+              return;
+            }
+            $('#product_eval').show();
             var rendered = phenix.ajax_render_result('#fetch_more_topic_tpl', rs.data);
             if(rs.data.page==1){
-              $('#topic-box').html(rendered);          
+              $('#topic-box').html(rendered);
             }else{
               $('#topic-box').append(rendered);
             }
@@ -1033,7 +1036,7 @@
 			<!-- 加载相关推荐 -->
 	</div>
 	<!-- 产品评测 -->
-	<div id="product_eval">
+	<div id="product_eval" style="display:none;">
 		<div class="eval title">
 			产品评测
 		</div>
