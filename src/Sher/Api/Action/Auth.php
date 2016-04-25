@@ -561,7 +561,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 		$access_token = isset($this->stash['access_token'])?$this->stash['access_token']:null;
     $union_id = isset($this->stash['union_id'])?$this->stash['union_id']:null;
     $account = isset($this->stash['account'])?$this->stash['account']:null;
-    $password = isset($this->stash['password'])?(int)$this->stash['password']:0;
+    $password = isset($this->stash['password'])?$this->stash['password']:null;
 
     // 来源哪种设备
     $from_to = isset($this->stash['from_to'])?(int)$this->stash['from_to']:0;

@@ -382,7 +382,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$freight = Sher_Core_Util_Shopping::getFees();
 		
 		// 优惠活动费用
-		$coin_money = 0.0;
+		$coin_money = $order_info['dict']['coin_money'];
 		
 		$pay_money = $total_money + $freight - $coin_money;
     $order_info['dict']['items'][0]['sku_name'] = $sku_name;
