@@ -119,7 +119,9 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 	 */
 	public function save(){
 		
+		// title=test&des=test&tags=1&address=1&&lat=39.9151190000&lng=116.4039630000
 		$user_id = $this->current_user_id;
+		//$user_id = 10;
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		
@@ -128,9 +130,11 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$data['des'] = isset($this->stash['des']) ? $this->stash['des'] : '';
 		$data['tags'] = isset($this->stash['tags']) ? $this->stash['tags'] : '';
 		$data['address'] = isset($this->stash['address']) ? $this->stash['address'] : '';
+		$lng = isset($this->stash['lng']) ? $this->stash['lng'] : 0;
+		$lat = isset($this->stash['lat']) ? $this->stash['lat'] : 0;
 		$data['location'] = array(
             'type' => 'Point',
-            'coordinates' => array(doubleval($this->stash['lng']), doubleval($this->stash['lat'])),
+            'coordinates' => array(doubleval($lng), doubleval($lat)),
         );
 		
 		if(!$data['title']){
@@ -155,7 +159,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		}
 		
 		// 上传图片
-		
+		//$this->stash['tmp'] = Doggy_Config::$vars['app.imges'];
 		if(empty($this->stash['tmp'])){
 			return $this->api_json('请选择图片！', 3001);  
 		}
@@ -205,7 +209,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			// 上传成功后，更新所属的附件
 			
 			if(isset($data['cover_id']) && !empty($data['cover_id'])){
-				$this->update_batch_assets($data['cover_id'], $id);
+				$model->update_batch_assets(array($data['cover_id']), array($id));
 			}		
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("api情景保存失败：".$e->getMessage());

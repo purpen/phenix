@@ -132,7 +132,6 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 		if (!empty($ids)){
 			$model = new Sher_Core_Model_Asset();
 			foreach($ids as $id){
-				Doggy_Log_Helper::debug("Update asset[$id] parent_id: $parent_id");
 				$model->update_set($id, array('parent_id' => (int)$parent_id));
 			}
 		}

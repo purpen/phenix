@@ -138,6 +138,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$user_id = $this->current_user_id;
+		//$user_id = 10;
 		
 		$data = array();
 		$data['title'] = isset($this->stash['title']) ? $this->stash['title'] : '';
