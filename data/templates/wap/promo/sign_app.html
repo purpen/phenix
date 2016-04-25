@@ -9,6 +9,12 @@
   .ui.red.button{
     margin:5px;
   }
+  #gritter-notice-wrapper{
+	  top:0 !important;
+  }
+  .ui.header{
+	  font-weight:400;
+  }
   .mmfoot{
     display:none;
   }
@@ -72,11 +78,10 @@
   	background: rgba(0,0,0,0);
   }
   .drawmes.modal .header{
-  	background:rgba(0,0,0,0.5);
+  	background:rgba(0,0,0,0);
   	border:none;
   	color:#fff;
-  	padding:20px 10 !important;
-  	font-size:1.3rem;
+  	padding:20px 10px !important;
   }
   p.nobtn{
   	font-size: 1rem !important;
@@ -91,7 +96,6 @@
   	background:rgba(0,0,0,0.5);
   	border:none;
   	color:#fff;
-	font-size:1.3rem;
   }
   .address.modal .header > .container > .content .content .field{
   	text-align:left;
@@ -113,8 +117,9 @@
   }
 
   .ui.modal .header > .container {
-      padding-top: 20px;
-      padding-bottom: 20px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+	  text-align:center;
   }
   p.padd{
 	  left: 100%;
@@ -139,6 +144,50 @@
   }
   .ui.bottom.grid{
 	  padding-top:20px;
+  }
+  .ui.dimmer{
+	  background:rgba(0,0,0,0);
+  }
+  .ui.page.dimmer .drawmes.modal{
+	  width: 256px !important;
+      position: absolute;
+      background: #000;
+      top: 32%;
+      margin-top: -10% !important;
+      left: 50%;
+      margin-left: -128px !important;
+      box-shadow: none;
+	  border-radius: 8px;
+  }
+  .drawmes .header{
+	  padding: 20px 0 20px !important;
+      font-size: 16px !important;
+      font-weight: 400 !important;
+  }
+  .drawmes .header .content p{
+	  margin:0;
+  }
+  .ui.page.dimmer .type_03.drawmes.address.modal{
+	  width: 100% !important;
+      top: 0;
+      left: 0;
+      min-height: 100%;
+      margin: 0 !important;
+	  border-radius: 0;
+	  position:fixed !important;
+  }
+  .close.icon{
+	  right:4px !important;
+	  top: 4px !important;
+	  position:absolute;
+	  width: 35px !important;
+	  height: 35px !important;
+	  z-index:3 !important;
+  }
+  .close.icon img{
+  	  width:15px;
+	  height:15px;
+	  margin:10px;
   }
 </style>
 {% endblock %}
@@ -176,12 +225,15 @@
           switch(data.type){
             case 0:
               $('.ui.type_00.drawmes.modal').modal('setting', 'closable', false).modal('show');
+			  setTimeout("$('.ui.type_00.drawmes.modal').modal('hide');",4500);
             break;
             case 1:
               $('.ui.type_01.drawmes.modal').modal('setting', 'closable', false).modal('show');
+			  setTimeout("$('.ui.type_01.drawmes.modal').modal('hide');",4500);
             break;
             case 2:
               $('.ui.type_02.drawmes.modal').modal('setting', 'closable', false).modal('show');
+			  setTimeout("$('.ui.type_02.drawmes.modal').modal('hide');",4500);
             break;
             case 3:
               $('#sign_draw_id').val(data.sid);
@@ -191,6 +243,7 @@
             case 4:
               $('span.draw_name').text(data.title);
               $('.ui.type_04.drawmes.modal').modal('setting', 'closable', false).modal('show');
+			  setTimeout("$('.ui.type_04.drawmes.modal').modal('hide');",4500);
             break;
           }
 
@@ -252,11 +305,8 @@
           if(html==''){
             return;
           }
-          if(sid==''){
-            $('#slidework').html(html);         
-          }else{
-            $('#slidework').prepend(html);          
-          }
+          $('#slidework').html(html); 
+          setTimeout("$('p.padd').addClass('active');",1000);  
         }
     }, 'json');
   }
@@ -403,11 +453,13 @@
 	<div class="ui responsive bottom grid">
 		<div class="row">
 		    <div class="column">
-				<!--<p><i class="help circle icon"></i><a class="question" href="" target="_blank"> 我有疑问</a></p>-->
+				<h3 class="ui header mb-r mt-0" style="color: #000 !important;">
+					温馨提示:
+				</h3>
 		      	
 				<p>1、抽奖：签到后可参加幸运抽奖活动；</p>
 				<p>2、经验值：每次签到都会获得2个经验值；</p>
-				<p>3、鸟币：连续7天签到，送1枚鸟币；</p>
+				<p>3、鸟币：连续7天签到，送1枚鸟币。</p>
 		    </div>
 		</div>
 
@@ -418,27 +470,20 @@
 <!-- 弹出层   -->
 <div class="ui dimmer modals page transition">
 	<div class="ui type_00 drawmes coupled small modal transition">
-	    <div class="header" style="position:relative;">
-	  	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;color:#fff;"></i>
-			
+	    <div class="header">
 		    <div class="container">
-				<div class="content" style="text-align:center;">
-          <p>别灰心，更多奖品点击!</p>
-					
-			        <p class="desc"></p>
+				<div class="content">
+          			<p>别灰心，更大惊喜等待你发现。</p>
 			    </div>
 		    </div>
-			
 	  	</div>
 	</div>
 
 	<div class="ui type_01 drawmes coupled small modal transition">
-	    <div class="header" style="position:relative;">
-	  	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;color:#fff;"></i>
-			
+	    <div class="header">
 		    <div class="container">
 				<div class="content" style="text-align:center;">
-          <p>亲爱的用户 <br>恭喜您获得<span class="red">2枚鸟币</span>!</p>
+          	  	<p>亲爱的用户 <br>恭喜您获得<span class="red">2枚鸟币</span>!</p>
 					
 			        <p class="desc"></p>
 			    </div>
@@ -448,11 +493,9 @@
 	</div>
 
 	<div class="ui type_02 drawmes coupled small modal transition">
-	    <div class="header" style="position:relative;">
-	  	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;color:#fff;"></i>
-			
+	    <div class="header">
 		    <div class="container">
-				<div class="content" style="text-align:center;">
+				<div class="content">
           <p>亲爱的用户 <br>恭喜您获得<span class="red">太火鸟红包</span>一个!</p>
 					
 			        <p class="desc"></p>
@@ -465,7 +508,7 @@
 
 	<div class="ui type_03 drawmes address coupled small modal transition">
 	    <div class="header" style="position:relative;">
-	  	    <i class="close icon" style="right: 0.5em !important;top: 0.5em !important;position:absolute;width: 30px;height: 30px;z-index:3;color:#fff;"></i>
+	  	    <div class="close icon"><img src="http://frstatic.qiniudn.com/images/icon/close.png"></div>
 			
 		    <div class="container">
 				<div class="content" style="text-align:center;">
