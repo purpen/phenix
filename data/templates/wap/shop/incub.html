@@ -1,0 +1,42 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}商城-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	#mfrbird {
+	    margin-top: 0;
+	}
+	
+</style>
+{% endblock %}
+{% block content %}
+<!-- 孵化 -->
+
+{% ad_list var:'adstick' page:1 state:2 size:3 name:'wap_shop_index_stick_slide' sort_field:'latest' %}
+<div id="shop-special">
+	<div class="recommend-topic">
+		<div class="recom-item">
+      {% for d in adstick.rows %}
+        <div class="recom-cell one">
+          <a href="{{ d.view_url }}">
+            <img class="lazy" data-original="{{ d.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/load750-422.png" title="{{ d.title }}" style="display: block;">
+            
+            <div class="fuhua icon">
+              <img src="{{ app_url_packaged }}/images/icon/fuhuaicon.png" width="100%">
+            </div>
+            <div class="desc">
+              <h2>{{ d.title }}</h2>
+              <!--
+              <div class="cats">
+                      <span class="unit">￥</span>299
+                  </div>
+                  -->
+            </div>
+          </a>
+        </div>
+      {%endfor%}
+			
+		</div>
+	</div>
+</div>
+
+{% endblock %}

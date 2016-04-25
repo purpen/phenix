@@ -5,56 +5,45 @@
 	#mfrbird {
 	    margin-top: 0;
 	}
-	.qbfl{
-	    padding-top: 33.3333%;
-	    position: relative;
-	    display: block;
-	    width: 100%;
-	    height: 100%;
-	}
-	.qbfl img{
-	    position: absolute;
-	    top: 0;
-	    left: 0;
-	    width: 100%;
-	    height: auto;
-	}
-	.qbfl h3.ui.header{
-	    text-align: center;
-	    color: #fff !important;
-	    position: absolute;
-	    top: 50%;
-	    left: 50%;
-	    transform: translate3d(-50%,-50%,0);
-	    margin: 0;
-	    padding: 0;
-	    font-weight: 400;
-	    border-bottom: 2px solid #fff;
-	    padding-bottom: 10px;
-	}
-	.nav-menu .navfelx .childcell .menuicon img{
-		width:40px;
-		height:40px;
-	}
-	.nav-menu .navfelx .childcell .menuicon{
-		padding:0 4px 4px;
-	}
-	#shop-special .recommend-topic .recom-item .recom-cell.one .fuhua.icon{
-	    width: 29px;
-	    height: 30px;
-	    background: rgba(255,51,102,.9);
-	}
-	#shop-special .recommend-topic .recom-item .recom-cell.one .fuhua.icon img {
-	    width: 17px;
-	    height: 18px;
-	    margin: 6px;
+	#special-list .recommend-topic .recom-item .recom-cell.one a .xihuanicon{
+		display:none;
 	}
 </style>
 {% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+    var page = 1;
+    var size =1;
+    var sort = 1;
+    var category_id = 0;
+
+    // 专题加载
+    function ajax_special_load_more(category_id, sort, page, size){
+        var url = '{{ app_url_wap }}/special_subject/ajax_load_list';
+        $.get(url, { category_id:category_id, sort:sort, page:page, size:size }, function(rs){
+            var rendered = phenix.ajax_render_result('#fetch_more_special_subject_tpl', rs.data);
+            if(rs.data.page==1){
+              $('#subject-box').html(rendered);          
+            }else{
+              $('#subject-box').append(rendered);
+            }
+          $("img.lazy").lazyload({
+             effect : "show"
+          });
+        }, 'json');
+    }
+  </script>
+{% endblock %}
 {% block jquery %}
-	
-
-
+    category_id = parseInt($(this).attr('category_id'));
+    page = 1;
+    $('#subject-box').html(''); 
+    var html = '';
+    html += '<div style="text-align:center;margin:10px auto;">';
+    html += '<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">';
+    html += '</div>';
+    ajax_special_load_more(category_id, sort, page, size);
 {% endblock %}
 {% block content %}
 <div class="shopbanner">
@@ -68,31 +57,31 @@
 <div class="nav-menu">
 	<ul class="navfelx">
 		<li class="childcell">
-			<a class="menuicon" href="{{ app_url_wap }}/shop/shop " title="分类">
+			<a class="menuicon shop" href="{{ app_url_wap }}/shop/shop " title="分类">
 				<img src="{{ app_url_packaged }}/images/icon/fenlei.png">
 			    分类
 			</a>
 		</li>
 		<li class="childcell">
-			<a class="menuicon" href="{{ app_url_wap }}/special_subject/getlist " title="专题">
+			<a class="menuicon shop" href="{{ app_url_wap }}/special_subject/getlist " title="专题">
 				<img src="{{ app_url_packaged }}/images/icon/zhuanti.png">
 			    专题
 			</a>
 		</li>
-		<!--<li class="childcell">
-			<a class="menuicon" href="{{ app_url_wap }} " title="孵化产品">
+		<li class="childcell">
+			<a class="menuicon shop" href="{{ app_url_wap }} " title="孵化产品">
 				<img src="{{ app_url_packaged }}/images/icon/fuhua.png">
 			    孵化产品
 			</a>
-		</li>-->
+		</li>
 		<li class="childcell">
-			<a class="menuicon" href="{{ app_url_wap }}/my/pmall " title="积分商城">
+			<a class="menuicon shop" href="{{ app_url_wap }}/my/pmall " title="积分商城">
 				<img src="{{ app_url_packaged }}/images/icon/jifen.png">
 			    积分商城
 			</a>
 		</li>
 		<li class="childcell">
-			<a class="menuicon" href="{{ app_url_wap }}/shop/serve " title="服务">
+			<a class="menuicon shop" href="{{ app_url_wap }}/shop/serve " title="服务">
 				<img src="{{ app_url_packaged }}/images/icon/fuwu.png">
 			    服务
 			</a>
@@ -102,7 +91,7 @@
 <!-- 孵化 -->
 
 {% ad_list var:'adstick' page:1 state:2 size:3 name:'wap_shop_index_stick_slide' sort_field:'latest' %}
-<div class=" " id="shop-special">
+<div id="shop-special">
 	<div class="recommend-topic">
 		<div class="recom-item">
       {% for d in adstick.rows %}
@@ -128,6 +117,17 @@
 		</div>
 	</div>
 </div>
+
+<!-- 专题 -->
+<div id="special-list">
+	<div class="recommend-topic">
+		<div class="recom-item" id="subject-box">
+			
+		</div>
+	</div>
+</div>
+
+
 <!-- 商品 -->
 <div class="shopindex" id="mpresale">
 	<div class="ui responsive grid">
@@ -151,6 +151,14 @@
               <div class="recom-cell" id="product-{{ d._id }}">
                 <a title="{{ d.short_title }}" alt="{{ d.short_title }}" href="{{ d.wap_view_url }}">
                   <img class="lazy" data-original="{{ d.cover.thumbnails.apc.view_url }}" src="{{ app_url_packaged }}/images/icon/load380-380.png" style="display: block;">
+				  <div class="shopbiao">
+					  {% if d.tips_label == 1 %}
+					  <img src="{{ app_url_packaged }}/images/icon/xinpin.png" width="100%">
+					  {% endif %}
+					  {% if d.tips_label == 2 %}
+					  <img src="{{ app_url_packaged }}/images/icon/remai.png" width="100%">
+					  {% endif %}
+				  </div>
                   <div class="desc">
                     <h2>{{ d.short_title }}</h2>
                     <div class="cats">
@@ -170,7 +178,7 @@
         <!--第4块添加广告位 Star-->
         {% if loop.counter == 4 %}
           {% ad_list var:'cate_banner' page:1 state:2 size:1 name:'wap_product_index_category_slide' sort_field:'latest' %}
-          <div class="row ptb-r">
+          <div class="row pb-r pt-0">
             <div class="column p-0">
               <a href="{{ cate_banner.view_url }}">
                 <img src="{{ cate_banner.cover.fileurl }}" title="{{ cate_banner.title }}" width="100%" align="absmiddle">
@@ -187,43 +195,6 @@
 
 		
 		<!-- 底部 -->
-		
-		<!--
-		<div class="row pt-0">
-			<div class="shop-fotter">
-				<div class="nav-menu">
-					<ul class="navfelx">
-						<li class="childcell">
-							<div class="menuicon">
-								<img src="{{ app_url_packaged }}/images/icon/tuihuo.png">
-								<div class="content huan">
-									7天<br>
-									无理由退货
-								</div>
-							</div>
-						</li>
-						<li class="childcell">
-							<div class="menuicon">
-								<img src="{{ app_url_packaged }}/images/icon/baoyou.png">
-								<div class="content baoyou">
-									全国包邮
-								</div>
-							</div>
-						</li>
-						<li class="childcell">
-							<div class="menuicon">
-								<img src="{{ app_url_packaged }}/images/icon/shouhoufuwu.png">
-								<div class="content fuwu">
-									售后服务<br>
-									010-84599327
-								</div>
-							</div>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		-->
 		{% ad_list var:'adbanner' page:1 state:2 size:2 name:'wap_footer_banner' sort_field:'latest' %}
 		{% for d in adbanner.rows %}
 		<div class="row ptb-r">
@@ -253,4 +224,7 @@
 	</div>
 </div>
 
+{% endblock %}
+{% block templates %}
+  {% mustache id:'fetch_more_special_subject_tpl' tpl:'mustache_m/fetch_more_special_subject.mustache' %}
 {% endblock %}
