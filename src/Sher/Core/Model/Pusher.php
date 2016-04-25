@@ -79,8 +79,8 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
       if($ok){
         Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA', 'bonus'=>'B', 'min_amounts'=>'E'));
         // 随机赠送9.9红包做活动
-        $rand = rand(1, 3);
-        if($rand==2){
+        $rand = rand(1, 10);
+        if($rand==5){
           Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'APS', 'bonus'=>'F', 'min_amounts'=>'C'));
           $third_site_stat_model = new Sher_Core_Model_ThirdSiteStat();
           $data = array(
