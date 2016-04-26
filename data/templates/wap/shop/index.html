@@ -149,7 +149,7 @@
 
 <!-- 专题 -->
 <div id="special-list">
-	<div class="recommend-topic">
+	<div class="recommend-topic pt-r">
 		<div class="recom-item" id="subject-box">
 			
 		</div>
@@ -207,7 +207,7 @@
         <!--第4块添加广告位 Star-->
         {% if loop.counter == 4 %}
           {% ad_list var:'cate_banner' page:1 state:2 size:1 name:'wap_product_index_category_slide' sort_field:'latest' %}
-          <div class="row pb-r pt-0">
+          <div class="row pt-r pb-2r">
             <div class="column p-0">
               <a href="{{ cate_banner.view_url }}">
                 <img src="{{ cate_banner.cover.fileurl }}" title="{{ cate_banner.title }}" width="100%" align="absmiddle">
