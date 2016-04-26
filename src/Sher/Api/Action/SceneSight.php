@@ -42,6 +42,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		// 请求参数
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
+		$scene_id = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		
 		// 基于地理位置的查询，从城市内查询
@@ -82,6 +83,10 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$query['status'] = 1;
 		// 已审核
 		$query['is_check']  = 1;
+		
+		if($scene_id){
+			$query['scene_id']  = $scene_id;
+		}
 		
 		// 分页参数
         $options['page'] = $page;
@@ -276,7 +281,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
      */
     public function view() {
         
-        $id = $this->stash['id'];
+        $id = isset($this->stash['id']) ? $this->stash['id'] : '';
 		
         if (empty($id)) {
             return $this->api_json('请求失败，缺少必要参数!', 3001);
@@ -325,6 +330,22 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			if(isset($res['title_cn'])){
 				$result['tag_titles'][$k] = $res['title_cn'];
 			}
+		}
+		
+		// 用户是否订阅该情景
+		$user_id = $this->current_user_id;
+		//$user_id = 10;
+		$model = new Sher_Core_Model_Favorite();
+		$query = array(
+			'type' => Sher_Core_Model_Favorite::TYPE_APP_SCENE_SIGHT,
+			'event' => Sher_Core_Model_Favorite::EVENT_LOVE,
+			'user_id' => $user_id
+		);
+		$res = $model->find($query);
+		if($res){
+			$result['is_love'] = 1;
+		}else{
+			$result['is_love'] = 0;
 		}
         
         //print_r($result);exit;

@@ -220,12 +220,12 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 	}
 	
 	/**
-     * 获取场景详情
+     * 获取情景详情
      */
     public function view() {
         
-        $id = $this->stash['id'];
-		//$id = 18;
+        $id = isset($this->stash['id']) ? $this->stash['id'] : 0;
+		
         if (empty($id)) {
             return $this->api_json('请求失败，缺少必要参数!', 3001);
         }
@@ -242,14 +242,55 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
 		$result['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($result['created_on']);
+		
+		$user = array();
+		$user['user_id'] = $result['user']['_id'];
+		$user['account'] = $result['user']['account'];
+		$user['nickname'] = $result['user']['nickname'];
+		$user['avatar_url'] = $result['user']['big_avatar_url'];
+		$user['summary'] = $result['user']['summary'];
+		$user['counter'] = $result['user']['counter'];
+		$user['follow_count'] = $result['user']['follow_count'];
+		$user['fans_count'] = $result['user']['fans_count'];
+		$user['love_count'] = $result['user']['love_count'];
+		$user['user_rank'] = $result['user_ext']['user_rank']['title'];
+		
+		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
+		$result['user_info'] = $user;
         
-        // 过滤多余属性
-        $filter_fields  = array('type', 'sight', 'cover_id', 'cover', '__extend__');
+		// 过滤多余属性
+        $filter_fields  = array('type', 'cover_id', 'user', 'user_ext', 'cover', 'sight', '__extend__');
         
         for($i=0;$i<count($filter_fields);$i++){
             $key = $filter_fields[$i];
             unset($result[$key]);
         }
+		
+		$tags_model = new Sher_Core_Model_SceneTags();
+		//$result['tags'] = array(164,165,166);
+		foreach($result['tags'] as $k => $v){
+			$res = $tags_model->find_by_id((int)$v);
+			$result['tag_titles'][$k] = '';
+			if(isset($res['title_cn'])){
+				$result['tag_titles'][$k] = $res['title_cn'];
+			}
+		}
+		
+		// 用户是否订阅该情景
+		$user_id = $this->current_user_id;
+		//$user_id = 10;
+		$model = new Sher_Core_Model_Favorite();
+		$query = array(
+			'type' => Sher_Core_Model_Favorite::TYPE_APP_SCENE_SCENE,
+			'event' => Sher_Core_Model_Favorite::EVENT_SUBSCRIPTION,
+			'user_id' => $user_id
+		);
+		$res = $model->find($query);
+		if($res){
+			$result['is_subscript'] = 1;
+		}else{
+			$result['is_subscript'] = 0;
+		}
         
         //print_r($result);exit;
         return $this->api_json('请求成功', false, $result);
