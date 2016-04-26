@@ -112,6 +112,14 @@
     margin-left: 0.5rem;
     margin-right: 0;
 }
+.ui.popup .item i.checkmark.icon{
+	float:right;
+	color:#f36;
+	display:none;
+}
+.ui.popup .item:hover i.checkmark.icon{
+	display:block;
+}
 </style>
 {% endblock %}
 
@@ -240,12 +248,15 @@
         <div class="ui link list">
 			<a class="item ptb-2r" href="">
 				综合排序
+				<i class="checkmark icon"></i>
 			</a>
 			<a class="item ptb-2r" href="">
 				新品优先
+				<i class="checkmark icon"></i>
 			</a>
 			<a class="item ptb-2r" href="">
 				评论数从高到低
+				<i class="checkmark icon"></i>
 			</a>
 		</div>
     </div>
@@ -253,9 +264,11 @@
         <div class="ui link list">
 			<a class="item ptb-2r" href="">
 				从高到低
+				<i class="checkmark icon"></i>
 			</a>
 			<a class="item ptb-2r" href="">
 				从低到高
+				<i class="checkmark icon"></i>
 			</a>
 		</div>
     </div>
