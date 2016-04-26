@@ -187,6 +187,11 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		));
 		$this->stash['skus'] = $skus;
 		$this->stash['skus_count'] = count($skus);
+
+    // 使用手册链接
+    if(isset($product['guide_id']) && !empty($product['guide_id'])){
+      $product['guide_url'] = sprintf(Doggy_Config::$vars['app.url.wap.social.show'], $product['guide_id'], 0);
+    }
 		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::sale_view_url($id,'#p#');
