@@ -44,9 +44,17 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
         'love_count' => 0,
 		# 评论数 
     	'comment_count' => 0,
+		# 场景数 
+    	'sight_count' => 0,
 
-    # 真实浏览数
-      'true_view_count' => 0,
+		# 真实浏览数
+		'true_view_count' => 0,
+		# web 浏览数
+		'web_view_count' => 0,
+		# wap 浏览数 
+		'wap_view_count' => 0,
+		# app 浏览数
+		'app_view_count' => 0,
 		
 		# 审核
 		'is_check' => 1,
@@ -87,6 +95,9 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 		
 		$model = new Sher_Core_Model_SceneTags();
 		$model->scene_count($this->data['tags'],array('total_count','scene_count'),1);
+		
+		$model = new Sher_Core_Model_User();
+		$model->inc_counter('scene_count',$this->data['user_id']);
 		
         parent::after_save();
     }

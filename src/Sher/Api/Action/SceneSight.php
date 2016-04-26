@@ -354,6 +354,9 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 					
 					$model = new Sher_Core_Model_SceneTags();
 					$model->scene_count($result['tags'],array('total_count','context_count'),2);
+					
+					$model = new Sher_Core_Model_User();
+					$model->dec_counter('sight_count',$this->data['user_id']);
 				}
 			}
 			
