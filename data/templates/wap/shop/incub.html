@@ -23,17 +23,18 @@
             if(rs.data.results.total_page >= rs.data.results.current_page){
                 $('#product-more')
                     .hide()
-                    .attr({'status': 0, 'page': rs.data.page});
+                    .attr({'status': 1, 'page': rs.data.page});
             }else{
               $('#product-more').html('<div style="text-align:center;">没有更多</div>').show();
             }
             rs.data.app_url_packaged = "{{ app_url_packaged }}";
             var rendered = phenix.ajax_render_result('#fetch_more_hatched_product_tpl', rs.data);
             if(rs.data.page==1){
-              $('#product-box').html(rendered);          
+              $('#product-box').html(rendered);
             }else{
               $('#product-box').append(rendered);
             }
+
           $("img.lazy").lazyload({
              effect : "show"
           });
@@ -75,7 +76,7 @@
       <!--ajax list-->
 		</div>
     <div class="row">
-      <div id="product-more" style="display:none;" page="1" status="0">
+      <div id="product-more" page="1" status="0">
         <div style="text-align:center;margin:10px auto;">
           <img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">
         </div>
