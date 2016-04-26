@@ -87,7 +87,7 @@
 	border-radius:0;
 	background:rgba(0,0,0,0);
 }
-.ui.searsx.menu .item:hover{
+.ui.searsx.menu .item:hover,.ui.searsx.menu .item.visible{
 	color:#f36;
 }
 .shaix.popup .ui.fluid.popup{
@@ -172,7 +172,8 @@
     $('.all.browse.item')
         .popup({
   	  	popup:'.all.popup',
-  		hoverable : true,
+  		hoverable : false,
+		on:'click',
   		position:'bottom left'
   	  })
  
