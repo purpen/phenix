@@ -11,6 +11,7 @@
   	height: 42px;
   	overflow: hidden;
 	position:relative;
+	background:#fff;
   }
   #tmenu:before {
       content: '';
@@ -78,6 +79,23 @@
 	height:32px;
 	top:15px;
 	left:10px;
+}
+.ui.searsx.menu{
+	margin:0;
+	border:none;
+	box-shadow:none;
+	border-radius:0;
+	background:rgba(0,0,0,0);
+}
+.ui.searsx.menu .item:hover{
+	color:#f36;
+}
+.shaix.popup .ui.fluid.popup{
+	max-width: 767px;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
 }
 </style>
 {% endblock %}
@@ -149,6 +167,16 @@
     $('#mpresale .recom-item').html('');
     ajax_load_more(category_id, 0, 4, 1, 12);
   });
+ 
+ 
+    $('.all.browse.item')
+        .popup({
+  	  	popup:'.all.popup',
+  		hoverable : true,
+  		position:'bottom left'
+  	  })
+ 
+ 
   
 {% endblock %}
 
@@ -171,29 +199,42 @@
 </div>
 
 <!-- 筛选 -->
-<div class="ui menu">
-	<div class="ui dropdown item">
-		综合排序
-		<i class="dropdown icon"></i>
+<div class="popup shaix">
+	<div class="ui searsx menu">
+		<div class="ui all browse item">
+			综合排序
+			<i class="dropdown icon"></i>
+		</div>
+		<div class="ui dropdown item">
+			销量
+		</div>
+	
+		<div class="ui dropdown item">
+			价格
+		</div>
 	</div>
 	
-	<div class="ui dropdown item">
-		销量
-	</div>
-	
-	<div class="ui dropdown item">
-		价格
-	</div>
-	
-	
-	
+    <div class="ui fluid basic all popup bottom left">
+        <div class="ui link list">
+			<a class="item ptb-2r" href="">
+				综合排序
+			</a>
+			<a class="item ptb-2r" href="">
+				新品优先
+			</a>
+			<a class="item ptb-2r" href="">
+				评论数从高到低
+			</a>
+		</div>
+    </div>
 	
 	
 </div>
+	
 
 	
 <!--商店商品-->
-<div class="ui responsive grid" id="mpresale" style="border-top: 1px solid rgba(34,36,38,.15);">
+<div class="ui responsive grid" id="mpresale">
 	<div class="row">
 		<div class="recom-item">
 			
