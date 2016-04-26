@@ -22,7 +22,7 @@ body{
     function ajax_load_topic(type, sort, page, size){
         var url = '{{ app_url_wap }}/topic/ajax_fetch_more';
         $.get(url, { type:type, sort:sort, page:page, size:size }, function(rs){
-            if(rs.data.results.total_page >= rs.data.results.current_page){
+            if(rs.data.results.total_page > rs.data.results.current_page){
                 $('#topic-more')
                     .hide()
                     .attr({'status': 0, 'page': rs.data.page});
