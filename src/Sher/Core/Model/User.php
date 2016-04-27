@@ -239,6 +239,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         'sight_count' => 0,
         # 收藏数量
         'favorite_count' => 0,
+        # 
 		
 		## 初次登录导向
 		'first_login'   => 1,

@@ -353,9 +353,10 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		// 用户是否订阅该情景
 		$user_id = $this->current_user_id;
-		//$user_id = 10;
+		$user_id = 10;
 		$model = new Sher_Core_Model_Favorite();
 		$query = array(
+			'target_id' => (int)$id,
 			'type' => Sher_Core_Model_Favorite::TYPE_APP_SCENE_SIGHT,
 			'event' => Sher_Core_Model_Favorite::EVENT_LOVE,
 			'user_id' => $user_id
@@ -367,7 +368,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			$result['is_love'] = 0;
 		}
         
-        //print_r($result);exit;
+        print_r($result);exit;
         return $this->api_json('请求成功', false, $result);
     }
 	

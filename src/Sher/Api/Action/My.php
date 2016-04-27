@@ -95,6 +95,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 	 * 更新用户信息
 	 */
 	public function update_profile(){
+		
 		$user_id = $this->current_user_id;
 
 		if(empty($user_id)){
