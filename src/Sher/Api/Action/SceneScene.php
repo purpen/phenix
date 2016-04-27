@@ -43,6 +43,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		// 请求参数
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		
 		// 基于地理位置的查询，从城市内查询
         $distance = isset($this->stash['dis']) ? (int)$this->stash['dis'] : 0; // 距离、半径
@@ -82,6 +83,10 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$query['status'] = 1;
 		// 已审核
 		$query['is_check']  = 1;
+		
+		if($user_id){
+			$query['user_id']  = $scene_id;
+		}
 		
 		// 分页参数
         $options['page'] = $page;
