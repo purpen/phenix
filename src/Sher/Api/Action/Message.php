@@ -95,7 +95,7 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 	public function view(){
 		
 		$user_id = $this->current_user_id;
-		//$user_id = 10;
+		$user_id = 10;
 		
 		if(empty($user_id)){
 			return $this->api_json('请先登录', 3000);   
@@ -117,6 +117,7 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		$result['last_times'] = Doggy_Dt_Filters_DateTime::relative_datetime($result['last_time']);
 		
 		foreach($result['mailbox'] as $k => $v){
+			$result['mailbox'][$k]['r_id'] = (string)$result['mailbox'][$k]['r_id'];
 			$user_info = array();
 			$from_user = $user_model->extend_load((int)$v['from']);
 			$to_user = $user_model->extend_load((int)$v['to']);
@@ -129,12 +130,13 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 			$user_info['to']['nickname'] = $to_user['nickname'];
 			$user_info['to']['big_avatar_url'] = $to_user['big_avatar_url'];
 			$result['mailbox'][$k]['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($v['created_on']);
-			$result['mailbox'][$k]['user_info'] = $user_info;
+			//$result['mailbox'][$k]['user_info'] = $user_info;
 			unset($result['mailbox'][$k]['from']);
 			unset($result['mailbox'][$k]['to']);
+			unset($result['mailbox'][$k]['group_id']);
 		}
 		
-		//var_dump($result);die;
+		var_dump($result);die;
 		return $this->api_json('请求成功', 0, $result);
 	}	
 
