@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	
-	protected $filter_user_method_list = array('fetch_cart_count');
+	protected $filter_user_method_list = array('fetch_cart_count','fetch_areas');
 
 	/**
 	 * 入口
