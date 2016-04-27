@@ -121,6 +121,13 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 			$user_info = array();
 			$from_user = $user_model->extend_load((int)$v['from']);
 			$to_user = $user_model->extend_load((int)$v['to']);
+			
+			if($from_user['_id'] == $user_id){
+				$result['mailbox'][$k]['user_type'] = 1;
+			}else{
+				$result['mailbox'][$k]['user_type'] = 0;
+			}
+			
 			$user_info['from']['id'] = $from_user['_id'];
 			$user_info['from']['account'] = $from_user['account'];
 			$user_info['from']['nickname'] = $from_user['nickname'];
@@ -136,7 +143,7 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 			unset($result['mailbox'][$k]['group_id']);
 		}
 		
-		var_dump($result);die;
+		//var_dump($result);die;
 		return $this->api_json('请求成功', 0, $result);
 	}	
 
