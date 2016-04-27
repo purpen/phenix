@@ -109,26 +109,34 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		foreach($result['rows'] as $k => $v){
 			
 			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
+			$result['rows'][$k]['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($v['created_on']);
 			
 			$user = array();
-
-			$user['user_id'] = $result['rows'][$k]['user']['_id'];
-			$user['account'] = $result['rows'][$k]['user']['account'];
-			$user['nickname'] = $result['rows'][$k]['user']['nickname'];
-			$user['avatar_url'] = $result['rows'][$k]['user']['big_avatar_url'];
-			$user['summary'] = $result['rows'][$k]['user']['summary'];
-			$user['counter'] = $result['rows'][$k]['user']['counter'];
-			$user['follow_count'] = $result['rows'][$k]['user']['follow_count'];
-			$user['fans_count'] = $result['rows'][$k]['user']['fans_count'];
-			$user['love_count'] = $result['rows'][$k]['user']['love_count'];
-			$user['user_rank'] = $result['rows'][$k]['user_ext']['user_rank']['title'];
 			
-			$result['rows'][$k]['scene_title'] = $result['rows'][$k]['scene']['title'];
-			$result['rows'][$k]['user'] = $user;
+			if($v['user']){
+				
+				$user['user_id'] = $v['user']['_id'];
+				$user['account'] = $v['user']['account'];
+				$user['nickname'] = $v['user']['nickname'];
+				$user['avatar_url'] = $v['user']['big_avatar_url'];
+				$user['summary'] = $v['user']['summary'];
+				$user['counter'] = $v['user']['counter'];
+				$user['follow_count'] = $v['user']['follow_count'];
+				$user['fans_count'] = $v['user']['fans_count'];
+				$user['love_count'] = $v['user']['love_count'];
+				$user['user_rank'] = $v['user_ext']['user_rank']['title'];
+			}
+			
+			$result['rows'][$k]['scene_title'] = '';
+			if($result['rows'][$k]['scene']){
+				$result['rows'][$k]['scene_title'] = $v['scene']['title'];
+			}
+			
+			$result['rows'][$k]['user_info'] = $user;
 		}
 		
 		// 过滤多余属性
-        $filter_fields  = array('scene','cover','user_ext','cover_id','__extend__');
+        $filter_fields  = array('scene','cover','user','user_ext','cover_id','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
 		//var_dump($result['rows']);die;
@@ -140,7 +148,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 	 */
 	public function save(){
 		
-		// http://www.taihuoniao.me/app/api/scene_sight/save?title=a&des=b&scene_id=15&tags=1,2,3&product_id=1,2,3&product_title=a,b,c&product_price=12,20,30&product_x=20,30,40&product_y=30,40,50&lat=39.9151190000&lng=116.4039630000&address=北京市
+		// http://www.taihuoniao.me/app/api/scene_sight/save?title=a&des=b&scene_id=31&tags=1,2,3&product_id=1,2,3&product_title=a,b,c&product_price=12,20,30&product_x=20,30,40&product_y=30,40,50&lat=39.9151190000&lng=116.4039630000&address=北京市
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$user_id = $this->current_user_id;
