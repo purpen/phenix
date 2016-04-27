@@ -181,16 +181,20 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['presale_finish_time'] = isset($this->stash['presale_finish_time']) ? $this->stash['presale_finish_time'] : null;
 		$data['presale_goals'] = isset($this->stash['presale_goals']) ? $this->stash['presale_goals'] : 0;
 		$data['presale_inventory'] = isset($this->stash['presale_inventory']) ? (int)$this->stash['presale_inventory'] : 0;
+
+    // 孵化产品
+    $data['hatched'] = isset($this->stash['hatched']) ? 1 : 0;
+    $data['hatched_cover_url'] = isset($this->stash['hatched_cover_url']) ? $this->stash['hatched_cover_url'] : null;
         
-        // 添加视频
-        $data['video'] = array();
-        if(isset($this->stash['video'])){
-            foreach($this->stash['video'] as $v){
-                if(!empty($v)){
-                    array_push($data['video'], $v);
-                }
+    // 添加视频
+    $data['video'] = array();
+    if(isset($this->stash['video'])){
+        foreach($this->stash['video'] as $v){
+            if(!empty($v)){
+                array_push($data['video'], $v);
             }
         }
+    }
 		
 		// 封面图
 		$data['cover_id'] = $this->stash['cover_id'];

@@ -711,7 +711,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
           'advantage'=>1, 'sale_price'=>1, 'cover_id'=>1, 'comment_count'=>1, 'view_count'=>1,
           'updated_on'=>1, 'favorite_count'=>1, 'love_count'=>1, 'deleted'=>1,'presale_money'=>1, 'tags'=>1,
           'vote_oppose_count'=>1, 'summary'=>1, 'voted_finish_time'=>1, 'succeed'=>1, 'presale_finish_time'=>1,
-          'sale_count'=>1,
+          'sale_count'=>1, 'tips_label'=>1,
         );
         $options['some_fields'] = $some_fields;
         
@@ -726,7 +726,14 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
           if(isset($result['rows'][$i]['designer'])){
             $result['rows'][$i]['designer'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['designer']);
           }
-        }
+
+          // tips
+          if($result['rows'][$i]['tips_label']==1){
+            $result['rows'][$i]['new_tips'] = true;
+          }elseif($result['rows'][$i]['tips_label']==2){
+            $result['rows'][$i]['hot_tips'] = true;         
+          }
+        } // endfor
 
         $data = array();
         $data['results'] = $result;

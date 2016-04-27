@@ -78,6 +78,23 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
       // 首次绑定送红包
       if($ok){
         Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA', 'bonus'=>'B', 'min_amounts'=>'E'));
+        // 随机赠送9.9红包做活动
+        $rand = rand(1, 15);
+        if($rand==10){
+          $third_site_stat_model = new Sher_Core_Model_ThirdSiteStat();
+          $visitor_count = $third_site_stat_model->count(array('kind'=>3));
+          if($visitor_count<=60){
+            Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'APS', 'bonus'=>'F', 'min_amounts'=>'C'));
+            $data = array(
+              'user_id' => (int)$user_id,
+              'kind' => 3,
+              'cid' => $from_to,
+              'ip' => Sher_Core_Helper_Auth::get_ip(),
+            );
+            $ok = $third_site_stat_model->create($data);          
+          }
+        
+        }
       }
     }
 		return $ok;

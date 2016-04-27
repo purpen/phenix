@@ -26,7 +26,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','index','shop','presale','view','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list','serve','promo');
+	protected $exclude_method_list = array('execute','index','shop','presale','view','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list','serve','promo','hatched_list');
 	
 	/**
 	 * 商城入口
@@ -40,6 +40,13 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
    */
   public function index(){
     return $this->to_html_page('wap/shop/index.html');
+  }
+
+  /**
+   * 孵化列表
+   */
+  public function hatched_list(){
+    return $this->to_html_page('wap/shop/incub.html'); 
   }
 	
 	/**
@@ -180,6 +187,11 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		));
 		$this->stash['skus'] = $skus;
 		$this->stash['skus_count'] = count($skus);
+
+    // 使用手册链接
+    if(isset($product['guide_id']) && !empty($product['guide_id'])){
+      $product['guide_url'] = sprintf(Doggy_Config::$vars['app.url.wap.social.show'], $product['guide_id'], 0);
+    }
 		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::sale_view_url($id,'#p#');
@@ -1658,6 +1670,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
                 case 7:
                     $query['stage'] = 5;
                     break;
+                case 8:
+                    $query['hatched'] = 1;
+                    break;
             }
         }
 		// 排序
@@ -1692,7 +1707,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
           'advantage'=>1, 'sale_price'=>1, 'cover_id'=>1, 'comment_count'=>1, 'view_count'=>1,
           'updated_on'=>1, 'favorite_count'=>1, 'love_count'=>1, 'deleted'=>1,'presale_money'=>1, 'tags'=>1,
           'vote_oppose_count'=>1, 'summary'=>1, 'voted_finish_time'=>1, 'succeed'=>1, 'presale_finish_time'=>1,
-          'sale_count'=>1,
+          'sale_count'=>1, 'tips_label'=>1, 'hatched_cover_url'=>1,
         );
         $options['some_fields'] = $some_fields;
         
@@ -1703,6 +1718,13 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
           // 过滤用户表
           if(isset($result['rows'][$i]['user'])){
             $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
+          }
+
+          // tips
+          if($result['rows'][$i]['tips_label']==1){
+            $result['rows'][$i]['new_tips'] = true;
+          }elseif($result['rows'][$i]['tips_label']==2){
+            $result['rows'][$i]['hot_tips'] = true;         
           }
 
         } //end for

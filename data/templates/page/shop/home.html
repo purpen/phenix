@@ -1,6 +1,55 @@
 {%extends 'layout/column.html'%}
 
 {% block jquery %}
+	var s = e(window).width();
+	e("#fixedslide > .ui.slide > .item").width(s);
+	
+	var $frame = $('#fixedslide');
+	// Call Sly on frame
+	$frame.sly({
+		horizontal: 1,
+		itemNav: 'basic',
+		smart: 1,
+		activateMiddle: 1,
+		activateOn: 'click',
+		
+		// Automated cycling
+		cycleBy: "items",
+		cycleInterval: 3500,
+		pauseOnHover: 1,
+		
+		// Dragging
+		mouseDragging: 1,
+		touchDragging: 1,
+		releaseSwing: 1,
+		
+		prev: "#fixedslide .prev",
+		next: "#fixedslide .next",
+		
+		pagesBar: $frame.find('.pages'),
+		pageItem: 'items',
+		activatePageOn: 'click',
+		pageBuilder: function(index){
+			return '<a href="javascript:void(0);">'+ (index + 1) +'</a>';
+		},
+		
+		// Mixed options
+		startAt: 0,
+		speed: 300,
+		elasticBounds: 1,
+		easing: 'easeInOutExpo',
+		dragHandle: 1,
+		dynamicHandle: 1,
+		clickBar: 1,
+	});
+	
+	$(window).resize(function() {
+		var s=$(window).width();
+		e("#fixedslide > .ui.slide > .item").width(s);
+		
+		$frame.sly('reload');
+	});
+	
 	$('.ui.cart.button').click(function(){
 		$.get($(this).attr('href'));
 		return false;
@@ -16,6 +65,47 @@
 {% endblock %}
 
 {% block content %}
+<div id="fixedslide" class="frame">
+    {% cache cache_key:'web_shop_slide' ttl:600 disable_cache:app_disable_cached %}
+    
+	{% ad_list var:'adslide' page:1 size:6 state:2 name:'web_shop_slide' %}
+	<div class="ui slide">
+		{% for ad in adslide.rows %}
+		<div class="item">
+			<div class="featured-vendor {{ ad.text_align }}" style="background-image: url('{{ ad.cover.fileurl }}'); background-color: {{ ad.bgcolor }};">
+				{% if ad.mode == 2 %}
+				<div class="overlay">
+					{% if ad.cate_title %}
+					<h3>{{ ad.cate_title }}</h3>
+					{% endif %}
+					<h1>{{ ad.title }}</h1>
+					<p class="snippet">
+						{{ ad.sub_title }}
+					</p>
+					<a class="ui big inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
+				</div>
+				{% else %}
+				<a class="imglink" href="{{ ad.view_url }}" target="_blank"></a>	
+				{% endif %}
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	<div class="pages"></div>
+	<a class="prev" href="#">
+		<i class="angle left icon"></i>
+	</a>
+	<a class="next" href="#">
+		<i class="angle right icon"></i>
+	</a>
+    
+    {% endcache %}
+</div>
+
+
+
+
+<!--
 <ul class="nav-categories">
     {% category_list var:'category' only_open:1 domain:domain show_all:0 %}
 	<li class="category">
@@ -32,6 +122,7 @@
 	{% endfor %}
 </ul>
 
+
 <div class="adstick shop list">
 	<div class="ui adverts responsive grid">
 		<div class="row">
@@ -47,7 +138,7 @@
                             </div>
                             <div class="desc">
                                 <h2>
-                                    <!--{{ ad.title }}-->
+                                    
                                 </h2>
                             </div>
                             <a href="{{ ad.view_url }}" title="{{ ad.title }}" class="link wrap" target="_blank"></a>
@@ -59,12 +150,17 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 
-{% product_list var:'stick_list' page:1 type:2 only_onsale:1 size:8 sort:4 %}
-<div class="shop list" id="shoplist">
+{% product_list var:'stick_list' page:1 type:2 only_onsale:1 size:4 sort:4 %}
+<div class="shop list" id="shoplist" style="margin-bottom:0;">
     <!--店长推荐-->
 	<div class="ui newest responsive grid">
+		<div class="row">
+			<div class="ui center aligned column">
+              	<h2 class="ui header">热门商品</h2>
+          	</div>
+  		</div>
 		<div class="row">
 			<div class="column">
                 <div class="ui four products cards">
@@ -76,8 +172,141 @@
         </div>
     </div>
     
+	<!--  孵化产品  -->
+	{% ad_list var:'adstick' page:1 state:2 size:4 name:'web_shop_index_stick_slide' sort_field:'latest' %}
+	<div class="ui incub responsive grid">
+		<div class="row">
+			<div class="ui center aligned column">
+				<h2 class="ui header">太火鸟孵化产品</h2>
+			</div>
+		</div>
+		
+		
+		<div class="row">
+			<div class="column">
+				<div class="ui two products cards">
+					{% for d in adstick.rows %}
+					<div class="card">
+						<div class="problock">
+							<a title="{{ d.title }}" href="{{ d.view_url }}" style="background-image:url({{ d.cover.fileurl }});padding-top:56.2%;background-color:#f36;" class="thumb">
+								
+							</a>
+							<h2>
+								<a href="{{ d.view_url }}" title="{{ d.title }}" class="ui line" target="_blank">{{ d.title }}</a>
+							</h2>
+							<div class="cats" style="padding: 8px;">
+                                
+                            </div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		
+		
+	</div>
+	
+	<!-- 全部分类 -->
+	<ul class="nav-categories" style="width:1180px !important;">
+	    {% category_list var:'category' only_open:1 domain:domain show_all:0 %}
+		<li class="category">
+	        <a href="{{ app_url_shop }}/c0">
+	            <i class="sidebar icon"></i> <span class="computer only">全部分类</span>
+	        </a>
+	    </a>
+		{% for cat in category.rows %}
+	    <li class="category {{ cat.active}}">
+	      	<a href="{{ cat.view_url }}">
+	            <i class="{{ cat.name }} icon"></i> <span class="computer only">{{ cat.title }}</span>
+	        </a>
+	    </li>
+		{% endfor %}
+	</ul>
+	
+	<!-- 推荐产品 -->
+	<div class="ui newest responsive grid">
+		<div class="row">
+			<div class="column">
+				{% category_list var:'category' only_open:1 domain:1 show_all:0 is_vendable:1 %}
+				<div class="ui four products cards">
+
+        {% for d in category.rows %}
+            {% if d.odd_label %}
+
+              {% product_list var:'list' page:1 category_id:d._id stage:9 only_onsale:1 sort:4 size:6 %}
+              {% for product in list.rows %}
+                  {% include "block/product_card.html" %}
+                  {% if loop.counter==2 %}
+
+                    <div class="card special">
+                      <div class="speblock" style="background-image:url({{ d.web_cover_url }});">
+                        <a href="{{ d.view_url }}" class="thumb">
+                          <div class="content">
+                            <h2 class="ui header">{{ d.title }}
+                              <div class="sub header">
+                                查看全部
+                              </div>
+                            </h2>
+                          </div>
+                        </a>
+                        
+                      </div>
+                    </div>
+
+                  {%endif%}
+              {% endfor %}
+
+            {%else%}
+
+              {% product_list var:'list' page:1 category_id:d._id stage:9 only_onsale:1 sort:4 size:6 %}
+              <div class="card special">
+                <div class="speblock" style="background-image:url({{ d.web_cover_url }});">
+                  <a href="{{ d.view_url }}" class="thumb">
+                    <div class="content">
+                      <h2 class="ui header">{{ d.title }}
+                        <div class="sub header">
+                          查看全部
+                        </div>
+                      </h2>
+                    </div>
+                  </a>
+                  
+                </div>
+              </div>
+              {% for product in list.rows %}
+                  {% include "block/product_card.html" %}
+              {% endfor %}
+
+            {%endif%}
+
+        {% endfor %}
+
+
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="center aligned column">
+                <a href="{{ app_url_shop }}/c0" class="ui magenta large inverted more button">
+                   <i class="search icon"></i> 查看全部产品
+                </a>
+            </div>
+        </div>
+		
+		<div class="row">
+			<div class="column">
+				<img src="{{ app_url_packaged }}/images/shopfoot.png" width="100%" align="absmiddle">
+			</div>
+		</div>
+	</div>
+	
+	
+	
     <!--推荐品牌-->
-	<div class="ui brands responsive grid">
+	<!--<div class="ui brands responsive grid">
 		<div class="row">
 			<div class="column">
         		{% ad_list var:'adslide2' page:1 size:6 state:2 name:'product_index_brands' %}
@@ -91,7 +320,7 @@
                             </div>
                             <div class="desc">
                                 <h2>
-                                    <!--{{ ad.title }}-->
+                                   
                                 </h2>
                             </div>
                             <a href="{{ ad.view_url }}" title="{{ ad.title }}" class="link wrap" target="_blank"></a>
@@ -102,9 +331,10 @@
                 {%endif%}
             </div>
         </div>
-    </div>   
+    </div>   -->
     
     <!--全球新品-->
+	<!--
 	<div class="ui newest responsive grid">
 		<div class="row">
 			<div class="column">
@@ -129,6 +359,7 @@
                                 <i class="heart icon"></i> {{ product.love_count }}
                             </span>
                         </div>
+						
                         <div class="speblock">
                             <div class="randomcats">
                                 <a class="catlink" href="{{ app_url_domain }}/albums" style="background-image: url('{{ app_url_packaged }}/images/albums/album_banner_che.jpg');">
@@ -139,11 +370,11 @@
                             </div>
                         </div>
                     </div>
-                    
+                  
 					{% for product in hotest.rows %}
                         {% include "block/product_card.html" %}
 				    {% endfor %}
-				</div>
+			  </div>
 				{% endif %}
 			</div>
 		</div>
@@ -154,6 +385,9 @@
                 </a>
             </div>
         </div>
-	</div>
+	</div>-->
+	
+
+	
 </div>
 {% endblock %}

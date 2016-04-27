@@ -155,4 +155,24 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 			$model->update_set($id, array('parent_id' => (int)$parent_id));
 		}
 	}
+
+	/**
+	 * 删除后事件
+	 */
+	public function mock_after_remove($id, $options=array()) {
+        
+    // 减少标签数量
+    $scene_tags_model = new Sher_Core_Model_SceneTags();
+    $scene_tags_model->scene_count($options['tags'],array('total_count','sight_count'),2);
+
+    // 减少用户创建数量
+    $user_model = new Sher_Core_Model_User();
+    $user_model->dec_counter('sight_count',$options['user_id']);
+
+    // 删除索引
+    Sher_Core_Util_XunSearch::del_ids('sight_'.(string)$id);
+		
+		return true;
+	}
+
 }

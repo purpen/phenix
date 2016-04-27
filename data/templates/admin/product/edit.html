@@ -666,7 +666,7 @@
 			</div>
 
 			<h3 class="ui stage header">高级设置</h3>
-			<div class="two fields">
+			<div class="four fields">
 				<div class="inline field">
 				  	<label>是否试用：</label>
 					<div class="ui checkbox">
@@ -683,6 +683,23 @@
 			        </div>
 				</div>
 			</div>
+
+			<div class="four fields">
+				<div class=" field">
+				  	<label>孵化产品：</label>
+					<div class="ui checkbox">
+			          	<input type="checkbox" name="hatched" {% if product.hatched %}checked="checked"{% endif %} />
+			          	<label>开启</label>
+			        </div>
+				</div>
+				
+				<div class=" field">
+				  	<label>封面图：</label>
+            <input type="text" name="hatched_cover_url" value="{{ product.hatched_cover_url }}" />
+            <div class="description">尺寸: 750*300</div>
+				</div>
+			</div>
+
 		</div>
 
 		<div class="ui segment">

@@ -1,0 +1,92 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}商城-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	#mfrbird {
+	    margin-top: 0;
+	}
+	
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+    var page = 1;
+    var size = 6;
+    var type = 8;
+    var sort = 4;
+
+    // 列表加载
+    function ajax_load_more(type, sort, page, size){
+        var url = '{{ app_url_wap }}/shop/ajax_load_list';
+        $.get(url, { type:type, sort:sort, page:page, size:size }, function(rs){
+            if(rs.data.results.total_page > rs.data.results.current_page){
+                $('#product-more')
+                    .hide()
+                    .attr({'status': 1, 'page': rs.data.page});
+            }else{
+              $('#product-more').html('<div style="text-align:center;">没有更多</div>').show();
+            }
+            rs.data.app_url_packaged = "{{ app_url_packaged }}";
+            var rendered = phenix.ajax_render_result('#fetch_more_hatched_product_tpl', rs.data);
+            if(rs.data.page==1){
+              $('#product-box').html(rendered);
+            }else{
+              $('#product-box').append(rendered);
+            }
+
+          $("img.lazy").lazyload({
+             effect : "show"
+          });
+        }, 'json');
+    }
+  </script>
+
+{% endblock %}
+
+{% block jquery %}
+
+  //ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      $('#product-more').show();
+      var stat = $('#product-more').attr('status');
+      page = parseInt($('#product-more').attr('page')) + 1;
+
+      if(stat==0){
+        ajax_load_more(type, sort, page, size);
+      }
+　　}
+  });
+
+  // 初次加载
+  ajax_load_more(type, sort, page, size);
+{% endblock %}
+
+
+{% block content %}
+<!-- 孵化 -->
+
+<div id="shop-special">
+	<div class="recommend-topic">
+		<div class="recom-item" id="product-box">
+      <!--ajax list-->
+		</div>
+    <div class="row">
+      <div id="product-more" page="1" status="0">
+        <div style="text-align:center;margin:10px auto;">
+          <img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">
+        </div>
+      </div>
+    </div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block templates %}
+  {% mustache id:'fetch_more_hatched_product_tpl' tpl:'mustache_m/fetch_more_hatched_product.mustache' %}
+{% endblock %}

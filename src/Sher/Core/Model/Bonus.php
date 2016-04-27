@@ -36,6 +36,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
     'SD', # 签到抽奖红包
     'DA', # 首次下载APP
     'AS', # app下单分享送5元
+    'APS', # app下载兑吧送红包
 	);
 	
     protected $schema = array(
@@ -266,6 +267,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
       'C' => 30, 
       'D' => 52,
       'E' => 5,
+      'F' => 9.9,
     );
 
     #最低限额

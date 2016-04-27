@@ -11,7 +11,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
         'size' => 10,
 	);
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view','save','delete');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view');
 
 	/**
 	 * 入口
@@ -310,32 +310,33 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		if(empty($id)){
 			return $this->api_json('内容不存在', 3000);
 		}
+    $user_id = $this->current_user_id;
 		
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		
 		try{
-			$model = new Sher_Core_Model_SceneScene();
+			$scene_model = new Sher_Core_Model_SceneScene();
 			$sight_model = new Sher_Core_Model_SceneSight();
 			
 			foreach($ids as $id){
-				$result = $model->load((int)$id);
+				$scene = $scene_model->load((int)$id);
+        if(empty($scene)){
+ 					return $this->api_json('删除的内容不存在！', 3001);       
+        }
+        if($scene['user_id'] != $user_id){
+  				return $this->api_json('没有权限！', 3002);        
+        }
 				
-				$sight = $sight_model->find(array('scene_id'=>(int)$id));
+				$has_sight = $sight_model->first(array('scene_id'=>(int)$id));
 				
-				if($sight){
-					return $this->api_json('该情景下面有所属场景！', 3000);
+				if($has_sight){
+					return $this->api_json('不允许操作！', 3003);
 				}
 				
-				if (!empty($result)){
-					$model->remove((int)$id);
-					
-					$model = new Sher_Core_Model_SceneTags();
-					$model->scene_count($result['tags'],array('total_count','context_count'),2);
-					
-					$model = new Sher_Core_Model_User();
-					$model->dec_counter('scene_count',$this->data['user_id']);
-				}
-			}
+        $scene_model->remove((int)$id);
+        $scene_model->mock_after_remove((int)$id, $scene);
+
+			} // endfor
 			
 			$this->stash['ids'] = $ids;
 			

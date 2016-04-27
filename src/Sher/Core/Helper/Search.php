@@ -24,6 +24,18 @@ class Sher_Core_Helper_Search {
       case 3:
         $key_id = Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_PRODUCT_UPDATE_IDS;
         break;
+      case 4: // 情景
+        $key_id = Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_UPDATE_IDS;
+        break;
+      case 5: // 场景
+        $key_id = Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SIGHT_UPDATE_IDS;
+        break;
+      case 6: // 情景产品
+        $key_id = Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_PRODUCT_UPDATE_IDS;
+        break;
+      case 7: // 场景分享语
+        $key_id = Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_CONTEXT_UPDATE_IDS;
+        break;
       case 10:
         $key_id = Sher_Core_Util_Constant::DIG_PUSH_BAIDU_TOPIC_IDS;
         break;
@@ -85,6 +97,15 @@ class Sher_Core_Helper_Search {
 				break;
 			case 'Product':
 				$asset_type = 10;
+				break;
+			case 'Scene':
+				$asset_type = 101;
+				break;
+			case 'Sight':
+				$asset_type = 102;
+				break;
+			case 'SProduct':
+				$asset_type = 97;
 				break;
 			default:
 				$asset_type = 0;
