@@ -24,6 +24,7 @@ class Sher_Api_Action_SceneTags extends Sher_Api_Action_Base {
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:5000;
 		
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		$is_hot = isset($this->stash['is_hot']) ? (int)$this->stash['is_hot'] : 0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
 		$status = isset($this->stash['status']) ? (int)$this->stash['status'] : 1;
@@ -107,9 +108,20 @@ class Sher_Api_Action_SceneTags extends Sher_Api_Action_Base {
         $filter_fields  = array('likename', '__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
-		// 重建数据结果
-		$result = Sher_Core_Model_SceneTags::handle($result);
-		$result = Sher_Core_Helper_Util::arrayToTree($result['rows'],'_id','parent_id','children');
+		if($is_hot){
+			foreach($result['rows'] as $k => $v){
+				if($v['children_count']){
+					unset($result['rows'][$k]);
+					$result['total_rows'] -= 1;
+				}
+			}
+			$result['rows'] = array_values($result['rows']);
+		} else {
+			// 重建数据结果
+			$result = Sher_Core_Model_SceneTags::handle($result);
+			$result = Sher_Core_Helper_Util::arrayToTree($result['rows'],'_id','parent_id','children');
+		}
+		
 		/*
 		foreach($result as $k => $v){
 			if($v['parent_id'] == 0){
