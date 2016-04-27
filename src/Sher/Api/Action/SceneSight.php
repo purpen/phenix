@@ -108,9 +108,10 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
 			
-			//$result['rows'][$k]['covers'] = Sher_Core_Helper_Util::rebuild_cover($result['rows'][$k]['cover']);
+			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
 			
 			$user = array();
+
 			$user['user_id'] = $result['rows'][$k]['user']['_id'];
 			$user['account'] = $result['rows'][$k]['user']['account'];
 			$user['nickname'] = $result['rows'][$k]['user']['nickname'];
@@ -121,7 +122,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			$user['fans_count'] = $result['rows'][$k]['user']['fans_count'];
 			$user['love_count'] = $result['rows'][$k]['user']['love_count'];
 			$user['user_rank'] = $result['rows'][$k]['user_ext']['user_rank']['title'];
-			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
+			
 			$result['rows'][$k]['scene_title'] = $result['rows'][$k]['scene']['title'];
 			$result['rows'][$k]['user'] = $user;
 		}

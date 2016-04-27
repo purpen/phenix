@@ -103,11 +103,11 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
 			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
-			unset($result['rows'][$k]['cover']);
+			$result['rows'][$k]['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($v['created_on']);
 		}
 		
 		// 过滤多余属性
-        $filter_fields  = array('cover_id','view_url', 'user', 'summary', '__extend__');
+        $filter_fields  = array('user_ext','cover','cover_id','view_url', 'user', 'summary', '__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
 		//var_dump($result['rows']);die;
