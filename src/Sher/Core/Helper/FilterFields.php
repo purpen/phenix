@@ -7,46 +7,81 @@
  */
 class Sher_Core_Helper_FilterFields {
 
-  /**
-   * 手机版字段过滤
-   */
-  public static function wap_user($user){
-    $some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'true_nickname'=>1,'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,'created_on'=>1,'email'=>1,'birthday'=>1,'medium_avatar_url'=>1, 'identify'=>1,);
+    /**
+     * 手机版字段过滤
+     */
+    public static function wap_user($user){
+        $some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'true_nickname'=>1,
+        'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,
+        'created_on'=>1,'email'=>1,'birthday'=>1,'medium_avatar_url'=>1, 'identify'=>1,
+        'follow_count'=>1,'fans_count'=>1,'scene_count'=>1,'sight_count'=>1,'order_count'=>1,
+        'message_count'=>1,'subscription_count'=>1,'sight_love_count'=>1);
 		// 重建数据结果
 		$data = array();
 		foreach($some_fields as $key=>$value){
-      if(isset($user[$key])){
-			  $data[$key] = $user[$key];
-      }
+            if(isset($user[$key])){
+                $data[$key] = $user[$key];
+            }
 		}
-    // 把profile提出来
-    foreach($data['profile'] as $k=>$v){
-      $data[$k] = $v;
-    }
-    unset($data['profile']);
+        
+        // 把profile提出来
+        foreach($data['profile'] as $k=>$v){
+          $data[$k] = $v;
+        }
+        unset($data['profile']);
 
-    if(!isset($data['weixin'])){
-      $data['weixin'] = null;   
-    }
-    if(!isset($data['im_qq'])){
-      $data['im_qq'] = null;   
-    }
+        if(!isset($data['weixin'])){
+          $data['weixin'] = null;   
+        }
+        if(!isset($data['im_qq'])){
+          $data['im_qq'] = null;   
+        }
 
-    if(!isset($data['province_id'])){
-      $data['province_id'] = 0;
+        if(!isset($data['province_id'])){
+          $data['province_id'] = 0;
+        }
+        if(!isset($data['district_id'])){
+          $data['district_id'] = 0;
+        }
+        if(!isset($data['follow_count'])){
+          $data['follow_count'] = 0;
+        }
+        if(!isset($data['fans_count'])){
+          $data['fans_count'] = 0;
+        }
+        if(!isset($data['scene_count'])){
+          $data['scene_count'] = 0;
+        }
+        if(!isset($data['sight_count'])){
+          $data['sight_count'] = 0;
+        }
+        if(!isset($data['message_count'])){
+          $data['message_count'] = 0;
+        }
+        if(!isset($data['subscription_count'])){
+          $data['subscription_count'] = 0;
+        }
+        if(!isset($data['sight_love_count'])){
+          $data['sight_love_count'] = 0;
+        }
+    
+        //'follow_count'=>1,'fans_count'=>1,'scene_count'=>1,'sight_count'=>1,'order_count'=>1,
+        // 'message_count'=>1,'subscription_count'=>1,'sight_love_count'=>1
+        if(!isset($data['identify'])){
+          if(!isset($data['identify']['is_scene_subscribe'])){
+            $data['identify']['is_scene_subscribe'] = 0;
+          }
+        }
+        if(!isset($data['order_count'])){
+          if(!isset($data['order_count']['total'])){
+            $data['order_count_total'] = 0;
+          }else{
+            $data['order_count_total'] = $data['order_count']['total'];
+          }
+        }
+        unset($data['order_count']);
+        return $data;
     }
-    if(!isset($data['district_id'])){
-      $data['district_id'] = 0;
-    }
-
-    if(!isset($data['identify'])){
-      if(!isset($data['identify']['is_scene_subscribe'])){
-        $data['identify']['is_scene_subscribe'] = 0;
-      }
-    }
-
-    return $data;
-  }
 
   /**
    * 过滤列表页用户输入
