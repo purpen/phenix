@@ -232,14 +232,27 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		'product_count' => 0,
 		# 灵感数量
 		'stuff_count'   => 0,
+        # 收藏数量
+        'favorite_count' => 0,
         
         # 情景数量
         'scene_count' => 0,
         # 场景数量
         'sight_count' => 0,
-        # 收藏数量
-        'favorite_count' => 0,
-        # 
+        # 订单数量
+        'order_count' => array(
+            'total' => 0,
+            'pre-Payment' => 0,
+            'pre-Ship' => 0,
+            'pre-Receipt' => 0,
+            'pre-comment' => 0
+        ),
+        # 消息数量
+        'message_count' => 0,
+        # 订阅情景数量
+        'subscription_count' => 0,
+        # 场景点赞数量
+        'sight_love_count' => 0,
 		
 		## 初次登录导向
 		'first_login'   => 1,

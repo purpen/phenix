@@ -156,6 +156,8 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 				$info['type'] = (int)$type;
 				$info['event'] = (int)$event;
 				$ok = $model->add_favorites($info);
+			}else{
+				return $this->api_json('已经订阅了！', 3005);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3003);
@@ -229,6 +231,8 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 				$info['type'] = $type;
 				$info['event'] = $event;
 				$ok = $model->add_favorites($info);
+			}else{
+				return $this->api_json('已经赞过了！', 3005);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3003);
