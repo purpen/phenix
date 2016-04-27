@@ -11,7 +11,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
         'size' => 10,
 	);
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view','save','delete');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view');
 
 	/**
 	 * 入口
@@ -43,6 +43,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		// 请求参数
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		
 		// 基于地理位置的查询，从城市内查询
         $distance = isset($this->stash['dis']) ? (int)$this->stash['dis'] : 0; // 距离、半径
@@ -83,6 +84,10 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		// 已审核
 		$query['is_check']  = 1;
 		
+		if($user_id){
+			$query['user_id']  = $scene_id;
+		}
+		
 		// 分页参数
         $options['page'] = $page;
         $options['size'] = $size;
@@ -103,11 +108,11 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
 			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
-			unset($result['rows'][$k]['cover']);
+			$result['rows'][$k]['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($v['created_on']);
 		}
 		
 		// 过滤多余属性
-        $filter_fields  = array('cover_id','view_url', 'user', 'summary', '__extend__');
+        $filter_fields  = array('user_ext','cover','cover_id','view_url', 'user', 'summary', '__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
 		//var_dump($result['rows']);die;
@@ -220,12 +225,12 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 	}
 	
 	/**
-     * 获取场景详情
+     * 获取情景详情
      */
     public function view() {
         
-        $id = $this->stash['id'];
-		//$id = 18;
+        $id = isset($this->stash['id']) ? $this->stash['id'] : 0;
+		
         if (empty($id)) {
             return $this->api_json('请求失败，缺少必要参数!', 3001);
         }
@@ -242,14 +247,55 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
 		$result['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($result['created_on']);
+		
+		$user = array();
+		$user['user_id'] = $result['user']['_id'];
+		$user['account'] = $result['user']['account'];
+		$user['nickname'] = $result['user']['nickname'];
+		$user['avatar_url'] = $result['user']['big_avatar_url'];
+		$user['summary'] = $result['user']['summary'];
+		$user['counter'] = $result['user']['counter'];
+		$user['follow_count'] = $result['user']['follow_count'];
+		$user['fans_count'] = $result['user']['fans_count'];
+		$user['love_count'] = $result['user']['love_count'];
+		$user['user_rank'] = $result['user_ext']['user_rank']['title'];
+		
+		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
+		$result['user_info'] = $user;
         
-        // 过滤多余属性
-        $filter_fields  = array('type', 'sight', 'cover_id', 'cover', '__extend__');
+		// 过滤多余属性
+        $filter_fields  = array('type', 'cover_id', 'user', 'user_ext', 'cover', 'sight', '__extend__');
         
         for($i=0;$i<count($filter_fields);$i++){
             $key = $filter_fields[$i];
             unset($result[$key]);
         }
+		
+		$tags_model = new Sher_Core_Model_SceneTags();
+		//$result['tags'] = array(164,165,166);
+		foreach($result['tags'] as $k => $v){
+			$res = $tags_model->find_by_id((int)$v);
+			$result['tag_titles'][$k] = '';
+			if(isset($res['title_cn'])){
+				$result['tag_titles'][$k] = $res['title_cn'];
+			}
+		}
+		
+		// 用户是否订阅该情景
+		$user_id = $this->current_user_id;
+		//$user_id = 10;
+		$model = new Sher_Core_Model_Favorite();
+		$query = array(
+			'type' => Sher_Core_Model_Favorite::TYPE_APP_SCENE_SCENE,
+			'event' => Sher_Core_Model_Favorite::EVENT_SUBSCRIPTION,
+			'user_id' => $user_id
+		);
+		$res = $model->find($query);
+		if($res){
+			$result['is_subscript'] = 1;
+		}else{
+			$result['is_subscript'] = 0;
+		}
         
         //print_r($result);exit;
         return $this->api_json('请求成功', false, $result);
@@ -264,29 +310,33 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		if(empty($id)){
 			return $this->api_json('内容不存在', 3000);
 		}
+    $user_id = $this->current_user_id;
 		
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		
 		try{
-			$model = new Sher_Core_Model_SceneScene();
+			$scene_model = new Sher_Core_Model_SceneScene();
 			$sight_model = new Sher_Core_Model_SceneSight();
 			
 			foreach($ids as $id){
-				$result = $model->load((int)$id);
+				$scene = $scene_model->load((int)$id);
+        if(empty($scene)){
+ 					return $this->api_json('删除的内容不存在！', 3001);       
+        }
+        if($scene['user_id'] != $user_id){
+  				return $this->api_json('没有权限！', 3002);        
+        }
 				
-				$sight = $sight_model->find(array('scene_id'=>(int)$id));
+				$has_sight = $sight_model->first(array('scene_id'=>(int)$id));
 				
-				if($sight){
-					return $this->api_json('该情景下面有所属场景！', 3000);
+				if($has_sight){
+					return $this->api_json('不允许操作！', 3003);
 				}
 				
-				if (!empty($result)){
-					$model->remove((int)$id);
-					
-					$model = new Sher_Core_Model_SceneTags();
-					$model->scene_count($result['tags'],array('total_count','context_count'),2);
-				}
-			}
+        $scene_model->remove((int)$id);
+        $scene_model->mock_after_remove((int)$id, $scene);
+
+			} // endfor
 			
 			$this->stash['ids'] = $ids;
 			

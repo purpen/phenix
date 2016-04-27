@@ -90,8 +90,9 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 		$title = $this->stash['title'];
 		$des = $this->stash['des'];
 		$tags = $this->stash['tags'];
-		//$category_id = $this->stash['category_id'];
 		
+    $mode = 'create';
+
 		// 验证内容
 		if(!$title){
 			return $this->ajax_json('语境名称不能为空！', true);
@@ -105,7 +106,6 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 		$data = array(
 			'title' => $title,
 			'des' => $des,
-			//'category_id' => (int)$category_id,
 		);
 		
 		if(empty($tags)){
@@ -126,6 +126,7 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 				$id = $data_id['_id'];
 			} else {
 				// edit
+        $mode = 'edit';
 				$data['_id'] = $id;
 				$ok = $model->apply_and_update($data);
 			}
@@ -133,6 +134,11 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 			if(!$ok){
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
+
+      // 更新索引库
+      if($mode == 'edit'){
+        Sher_Core_Helper_Search::record_update_to_dig((string)$id, 7);
+      }
 			
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
@@ -162,9 +168,7 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 				
 				if (!empty($result)){
 					$model->remove($id);
-					
-					$model = new Sher_Core_Model_SceneTags();
-					$model->scene_count($result['tags'],array('total_count','context_count'),2);
+          $model->mock_after_remove($id, $result);
 				}
 			}
 			

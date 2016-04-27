@@ -49,8 +49,14 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		# 评论数 
     	'comment_count' => 0,
 
-    # 真实浏览数
-      'true_view_count' => 0,
+		# 真实浏览数
+		'true_view_count' => 0,
+		# web 浏览数
+		'web_view_count' => 0,
+		# wap 浏览数 
+		'wap_view_count' => 0,
+		# app 浏览数
+		'app_view_count' => 0,
 		
 		# 精选
 		'fine'  => 0,
@@ -94,6 +100,12 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		
 		$model = new Sher_Core_Model_SceneTags();
 		$model->scene_count($this->data['tags'],array('total_count','sight_count'),1);
+		
+		$model = new Sher_Core_Model_User();
+		$model->inc_counter('sight_count',$this->data['user_id']);
+		
+		$model = new Sher_Core_Model_SceneScene();
+		$model->inc_counter('sight_count',1,$this->data['scene_id']);
 		
         parent::after_save();
     }
@@ -143,4 +155,24 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 			$model->update_set($id, array('parent_id' => (int)$parent_id));
 		}
 	}
+
+	/**
+	 * 删除后事件
+	 */
+	public function mock_after_remove($id, $options=array()) {
+        
+    // 减少标签数量
+    $scene_tags_model = new Sher_Core_Model_SceneTags();
+    $scene_tags_model->scene_count($options['tags'],array('total_count','sight_count'),2);
+
+    // 减少用户创建数量
+    $user_model = new Sher_Core_Model_User();
+    $user_model->dec_counter('sight_count',$options['user_id']);
+
+    // 删除索引
+    Sher_Core_Util_XunSearch::del_ids('sight_'.(string)$id);
+		
+		return true;
+	}
+
 }

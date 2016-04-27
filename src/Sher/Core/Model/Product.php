@@ -803,13 +803,16 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         $ok = $this->update_set((int)$id, array('published' => $published));
         // 如果是发布状态,创建Timeline
         if($published == 1){
-            // 根据类型创建timeline
-            $service = Sher_Core_Service_Timeline::instance();
-            $service->broad_product_published($product['user_id'], $id);
+          // 根据类型创建timeline
+          $service = Sher_Core_Service_Timeline::instance();
+          $service->broad_product_published($product['user_id'], $id);
           // 更新全文索引
-            Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3); 
+          Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3); 
           //更新百度推送
           Sher_Core_Helper_Search::record_update_to_dig((int)$id, 12);
+        }else{
+          //删除索引
+          Sher_Core_Util_XunSearch::del_ids('product_'.(string)$id);
         }
 	}
 	

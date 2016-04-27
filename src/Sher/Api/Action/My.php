@@ -6,7 +6,7 @@
 class Sher_Api_Action_My extends Sher_Api_Action_Base {
 
 
-	protected $filter_user_method_list = array('talent_save');
+	protected $filter_user_method_list = array('talent_save','set_my_qr_code');
 	
 	/**
 	 * 入口
@@ -97,71 +97,71 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 	public function update_profile(){
 		$user_id = $this->current_user_id;
 
-    if(empty($user_id)){
- 			return $this->api_json('请先登录！', 3000);   
-    }
+		if(empty($user_id)){
+				return $this->api_json('请先登录！', 3000);   
+		}
 		
 		$user_info = array();
 		
-    $profile = array();
-    if(isset($this->stash['job']) && !empty($this->stash['job'])){
-      $profile['job'] = $this->stash['job'];
-    }
-    if(isset($this->stash['company']) && !empty($this->stash['company'])){
-      $profile['company'] = $this->stash['company'];
-    }
-    if(isset($this->stash['phone']) && !empty($this->stash['phone'])){
-      $profile['phone'] = $this->stash['phone'];
-    }
-    if(isset($this->stash['address']) && !empty($this->stash['address'])){
-      $profile['address'] = $this->stash['address'];
-    }
-    if(isset($this->stash['realname']) && !empty($this->stash['realname'])){
-      $profile['realname'] = $this->stash['realname'];
-    }
-    if(isset($this->stash['province_id']) && !empty($this->stash['province_id'])){
-      $profile['province_id'] = (int)$this->stash['province_id'];
-    }
-    if(isset($this->stash['district_id']) && !empty($this->stash['district_id'])){
-      $profile['district_id'] = (int)$this->stash['district_id'];
-    }
-    if(isset($this->stash['zip']) && !empty($this->stash['zip'])){
-      $profile['zip'] = $this->stash['zip'];
-    }
-    if(isset($this->stash['im_qq']) && !empty($this->stash['im_qq'])){
-      $profile['im_qq'] = $this->stash['im_qq'];
-    }
-    if(isset($this->stash['weixin']) && !empty($this->stash['weixin'])){
-      $profile['weixin'] = $this->stash['weixin'];
-    }
-    if(isset($this->stash['birthday']) && !empty($this->stash['birthday'])){
-      $age_arr = explode('-', $this->stash['birthday']);
-      $profile['age'] = $age_arr;
-    }
-		
-    if(!empty($profile)){
-		  $user_info['profile'] = $profile;
-    }
-		
-    if(isset($this->stash['nickname']) && !empty($this->stash['nickname'])){
-      $user_info['nickname'] = (int)$this->stash['nickname'];
-    }
-    if(isset($this->stash['sex'])){
-      $user_info['sex'] = (int)$this->stash['sex'];
-    }
-    if(isset($this->stash['city']) && !empty($this->stash['city'])){
-      $user_info['city'] = $this->stash['city'];
-    }
-    if(isset($this->stash['email']) && !empty($this->stash['email'])){
-      $user_info['email'] = $this->stash['email'];
-    }
-    if(isset($this->stash['summary']) && !empty($this->stash['summary'])){
-      $user_info['summary'] = $this->stash['summary'];
-    }
-
-    if(empty($user_info)){
-   		return $this->api_json('请求参数不能为空！', 3001);    
-    }
+		$profile = array();
+		if(isset($this->stash['job']) && !empty($this->stash['job'])){
+		  $profile['job'] = $this->stash['job'];
+		}
+		if(isset($this->stash['company']) && !empty($this->stash['company'])){
+		  $profile['company'] = $this->stash['company'];
+		}
+		if(isset($this->stash['phone']) && !empty($this->stash['phone'])){
+		  $profile['phone'] = $this->stash['phone'];
+		}
+		if(isset($this->stash['address']) && !empty($this->stash['address'])){
+		  $profile['address'] = $this->stash['address'];
+		}
+		if(isset($this->stash['realname']) && !empty($this->stash['realname'])){
+		  $profile['realname'] = $this->stash['realname'];
+		}
+		if(isset($this->stash['province_id']) && !empty($this->stash['province_id'])){
+		  $profile['province_id'] = (int)$this->stash['province_id'];
+		}
+		if(isset($this->stash['district_id']) && !empty($this->stash['district_id'])){
+		  $profile['district_id'] = (int)$this->stash['district_id'];
+		}
+		if(isset($this->stash['zip']) && !empty($this->stash['zip'])){
+		  $profile['zip'] = $this->stash['zip'];
+		}
+		if(isset($this->stash['im_qq']) && !empty($this->stash['im_qq'])){
+		  $profile['im_qq'] = $this->stash['im_qq'];
+		}
+		if(isset($this->stash['weixin']) && !empty($this->stash['weixin'])){
+		  $profile['weixin'] = $this->stash['weixin'];
+		}
+		if(isset($this->stash['birthday']) && !empty($this->stash['birthday'])){
+		  $age_arr = explode('-', $this->stash['birthday']);
+		  $profile['age'] = $age_arr;
+		}
+			
+		if(!empty($profile)){
+			  $user_info['profile'] = $profile;
+		}
+			
+		if(isset($this->stash['nickname']) && !empty($this->stash['nickname'])){
+		  $user_info['nickname'] = (int)$this->stash['nickname'];
+		}
+		if(isset($this->stash['sex'])){
+		  $user_info['sex'] = (int)$this->stash['sex'];
+		}
+		if(isset($this->stash['city']) && !empty($this->stash['city'])){
+		  $user_info['city'] = $this->stash['city'];
+		}
+		if(isset($this->stash['email']) && !empty($this->stash['email'])){
+		  $user_info['email'] = $this->stash['email'];
+		}
+		if(isset($this->stash['summary']) && !empty($this->stash['summary'])){
+		  $user_info['summary'] = $this->stash['summary'];
+		}
+	
+		if(empty($user_info)){
+			return $this->api_json('请求参数不能为空！', 3001);    
+		}
 		
 		try {
 			$user = new Sher_Core_Model_User();
@@ -747,6 +747,35 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		}
 		
 		return $this->api_json('提交成功', 0, null);
+	}
+	
+	/**
+	* 获取用户二维码
+	*/
+	public function set_my_qr_code(){
+		
+		header("content-type: image/png");
+		$user_id = $this->current_user_id;
+		//$user_id = 10;
+		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 100;
+		
+		$home_url = Doggy_Config::$vars['app.url.user'].'/'.$user_id;
+
+		$qrCode = new Endroid\QrCode\QrCode();
+		$qrCode
+			->setText($home_url)
+			->setSize($size)
+			//->setExtension('jpg')
+			//->setLogo('http://frbird.qiniudn.com/avatar/160328/56f90f9916c149af077f5909-avb.jpg')
+            //->setLogoSize(48)
+			->setPadding(10)
+			->setErrorCorrection('high')
+			->setForegroundColor(array('r' => 0, 'g' => 0, 'b' => 0, 'a' => 0))
+			->setBackgroundColor(array('r' => 255, 'g' => 255, 'b' => 255, 'a' => 0))
+			//->setLabel('My label')
+			//->setLabelFontSize(16)
+			->render()
+		;
 	}
 }
 
