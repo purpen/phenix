@@ -206,6 +206,255 @@ if(!empty($stuff_ids) && !empty($stuff_ids['items'])){
 }//endif
 
 
+//获取情景更新的ID数组
+$scene_ids = $digged->load(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_UPDATE_IDS);
+if(!empty($scene_ids) && !empty($scene_ids['items'])){
+  echo "Prepare to update scene fulltext index...\n";
+  $scene_model = new Sher_Core_Model_SceneScene();
+  $total = 0;
+  $item = null;
+  foreach($scene_ids['items'] as $k=>$v){
+    $item = $scene_model->load((int)$v);
+    if(empty($item)){
+      continue;
+    }
+    //获取封面图
+    if($item['cover_id']){
+      $cover_id = $item['cover_id'];
+    }else{
+      $cover = Sher_Core_Helper_Search::fetch_asset($item['_id'], 'Scene');
+      if(!empty($cover)){
+        $cover_id = $cover['_id'];
+      }else{
+        $cover_id = '';
+      }
+    }
+
+    // 获取情景标签
+    if($item['tags']){
+      $tags_s = Sher_Core_Util_FiuTags::fetch_tag_str($item['tags'], ',', true);
+    }else{
+      $tags_s = '';
+    }
+
+    //添加全文索引
+    $xs_data = array(
+      'pid' => 'scene_'.(string)$item['_id'],
+      'kind' => 'Scene',
+      'oid' => $item['_id'],
+      'cid' => 0,
+      'title' => $item['title'],
+      'cover_id' => $cover_id,
+      'content' => strip_tags(htmlspecialchars_decode($item['des'])),
+      'user_id' => $item['user_id'],
+      'tags' => $tags_s,
+      'created_on' => $item['created_on'],
+      'updated_on' => $item['updated_on'],
+    );
+    
+    $result = Sher_Core_Util_XunSearch::update($xs_data);
+    if($result['success']){
+      //删除Dig相应ID
+      $digged->remove_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_UPDATE_IDS, $item['_id']); 
+      $total++;
+      echo "success update scene id $v .\n";
+    }else{
+      //记录失败ids
+      $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_FAIL_IDS, $item['_id']);
+      echo "fail update scene id: $v $result[msg]";
+    }
+
+  }//endfor
+
+  echo "success update scene $total .\n";
+  echo "-------------//////////////-------------\n";
+}//endif
+
+
+//获取场景更新的ID数组
+$sight_ids = $digged->load(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SIGHT_UPDATE_IDS);
+if(!empty($sight_ids) && !empty($sight_ids['items'])){
+  echo "Prepare to update scence sight fulltext index...\n";
+  $scene_sight_model = new Sher_Core_Model_SceneSight();
+  $total = 0;
+  $item = null;
+  foreach($sight_ids['items'] as $k=>$v){
+    $item = $scene_sight_model->load((int)$v);
+    if(empty($item)){
+      continue;
+    }
+    //获取封面图
+    if($item['cover_id']){
+      $cover_id = $item['cover_id'];
+    }else{
+      $cover = Sher_Core_Helper_Search::fetch_asset($item['_id'], 'Sight');
+      if(!empty($cover)){
+        $cover_id = $cover['_id'];
+      }else{
+        $cover_id = '';
+      }
+    }
+
+    // 获取情景标签
+    if($item['tags']){
+      $tags_s = Sher_Core_Util_FiuTags::fetch_tag_str($item['tags'], ',', true);
+    }else{
+      $tags_s = '';
+    }
+
+    //添加全文索引
+    $xs_data = array(
+      'pid' => 'sight_'.(string)$item['_id'],
+      'kind' => 'Sight',
+      'oid' => $item['_id'],
+      'cid' => 0,
+      'title' => $item['title'],
+      'cover_id' => $cover_id,
+      'content' => strip_tags(htmlspecialchars_decode($item['des'])),
+      'user_id' => $item['user_id'],
+      'tags' => $tags_s,
+      'created_on' => $item['created_on'],
+      'updated_on' => $item['updated_on'],
+    );
+    
+    $result = Sher_Core_Util_XunSearch::update($xs_data);
+    if($result['success']){
+      //删除Dig相应ID
+      $digged->remove_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SIGHT_UPDATE_IDS, $item['_id']); 
+      $total++;
+      echo "success update scene sight id $v .\n";
+    }else{
+      //记录失败ids
+      $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SIGHT_FAIL_IDS, $item['_id']);
+      echo "fail update scene sight id: $v $result[msg]";
+    }
+
+  }//endfor
+
+  echo "success update scene sight $total .\n";
+  echo "-------------//////////////-------------\n";
+}//endif
+
+
+//获取情景产品更新的ID数组
+$scene_product_ids = $digged->load(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_PRODUCT_UPDATE_IDS);
+if(!empty($scene_product_ids) && !empty($scene_product_ids['items'])){
+  echo "Prepare to update scence sight fulltext index...\n";
+ $scene_product_model = new Sher_Core_Model_SceneProduct();
+  $total = 0;
+  $item = null;
+  foreach($scene_product_ids['items'] as $k=>$v){
+    $item = $scene_product_model->load((int)$v);
+    if(empty($item)){
+      continue;
+    }
+    //获取封面图
+    if($item['cover_id']){
+      $cover_id = $item['cover_id'];
+    }else{
+      $cover = Sher_Core_Helper_Search::fetch_asset($item['_id'], 'SProduct');
+      if(!empty($cover)){
+        $cover_id = $cover['_id'];
+      }else{
+        $cover_id = '';
+      }
+    }
+
+    // 获取情景标签
+    if($item['scene_tags']){
+      $tags_s = Sher_Core_Util_FiuTags::fetch_tag_str($item['scene_tags'], ',', true);
+    }else{
+      $tags_s = '';
+    }
+
+    //添加全文索引
+    $xs_data = array(
+      'pid' => 'scene_product_'.(string)$item['_id'],
+      'kind' => 'SProduct',
+      'oid' => $item['_id'],
+      'cid' => $item['oid'],
+      'title' => $item['title'],
+      'cover_id' => $cover_id,
+      'content' => strip_tags(htmlspecialchars_decode($item['summary'])),
+      'user_id' => $item['user_id'],
+      'tags' => $tags_s,
+      'created_on' => $item['created_on'],
+      'updated_on' => $item['updated_on'],
+    );
+    
+    $result = Sher_Core_Util_XunSearch::update($xs_data);
+    if($result['success']){
+      //删除Dig相应ID
+      $digged->remove_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_PRODUCT_UPDATE_IDS, $item['_id']); 
+      $total++;
+      echo "success update scene product id $v .\n";
+    }else{
+      //记录失败ids
+      $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_PRODUCT_FAIL_IDS, $item['_id']);
+      echo "fail update scene product id: $v $result[msg]";
+    }
+
+  }//endfor
+
+  echo "success update scene product $total .\n";
+  echo "-------------//////////////-------------\n";
+}//endif
+
+
+//获取场景分享语句更新的ID数组
+$scene_context_ids = $digged->load(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_CONTEXT_UPDATE_IDS);
+if(!empty($scene_context_ids) && !empty($scene_context_ids['items'])){
+  echo "Prepare to update scence sight fulltext index...\n";
+  $scene_context_model = new Sher_Core_Model_SceneContext();
+  $total = 0;
+  $item = null;
+  foreach($scene_context_ids['items'] as $k=>$v){
+    $item = $scene_context_model->load($v);
+    if(empty($item)){
+      continue;
+    }
+
+    // 获取情景标签
+    if($item['tags']){
+      $tags_s = Sher_Core_Util_FiuTags::fetch_tag_str($item['tags'], ',', true);
+    }else{
+      $tags_s = '';
+    }
+
+    //添加全文索引
+    $xs_data = array(
+      'pid' => 'scene_context_'.(string)$item['_id'],
+      'kind' => 'SContext',
+      'oid' => (string)$item['_id'],
+      'cid' => 0,
+      'title' => $item['title'],
+      'cover_id' => '',
+      'content' => strip_tags(htmlspecialchars_decode($item['des'])),
+      'user_id' => $item['user_id'],
+      'tags' => $tags_s,
+      'created_on' => $item['created_on'],
+      'updated_on' => $item['updated_on'],
+    );
+    
+    $result = Sher_Core_Util_XunSearch::update($xs_data);
+    if($result['success']){
+      //删除Dig相应ID
+      $digged->remove_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_CONTEXT_UPDATE_IDS, $item['_id']); 
+      $total++;
+      echo "success update scene context id $v .\n";
+    }else{
+      //记录失败ids
+      $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_CONTEXT_FAIL_IDS, $item['_id']);
+      echo "fail update scene context id: $v $result[msg]";
+    }
+
+  }//endfor
+
+  echo "success update scene context $total .\n";
+  echo "-------------//////////////-------------\n";
+}//endif
+
+
 echo "All index update works done.\n";
 echo "===========================INDEX XunSearch UPDATE WORKER DONE==================\n";
 echo "SLEEP TO NEXT LAUNCH .....\n";

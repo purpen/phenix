@@ -11,7 +11,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         'size' => 10,
 	);
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'save','delete');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view');
 
 	/**
 	 * 入口
@@ -42,6 +42,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		// 请求参数
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
+		$scene_id = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
+		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		
 		// 基于地理位置的查询，从城市内查询
@@ -83,6 +85,14 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		// 已审核
 		$query['is_check']  = 1;
 		
+		if($scene_id){
+			$query['scene_id']  = $scene_id;
+		}
+		
+		if($user_id){
+			$query['user_id']  = $scene_id;
+		}
+		
 		// 分页参数
         $options['page'] = $page;
         $options['size'] = $size;
@@ -103,26 +113,40 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
 			
-			//$result['rows'][$k]['covers'] = Sher_Core_Helper_Util::rebuild_cover($result['rows'][$k]['cover']);
+			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
+			$result['rows'][$k]['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($v['created_on']);
+			
+			$result['rows'][$k]['product'] = array();
+			if($v['product']){
+				$result['rows'][$k]['product'] =$v['product'];
+			}
 			
 			$user = array();
-			$user['user_id'] = $result['rows'][$k]['user']['_id'];
-			$user['account'] = $result['rows'][$k]['user']['account'];
-			$user['nickname'] = $result['rows'][$k]['user']['nickname'];
-			$user['avatar_url'] = $result['rows'][$k]['user']['big_avatar_url'];
-			$user['summary'] = $result['rows'][$k]['user']['summary'];
-			$user['counter'] = $result['rows'][$k]['user']['counter'];
-			$user['follow_count'] = $result['rows'][$k]['user']['follow_count'];
-			$user['fans_count'] = $result['rows'][$k]['user']['fans_count'];
-			$user['love_count'] = $result['rows'][$k]['user']['love_count'];
-			$user['user_rank'] = $result['rows'][$k]['user_ext']['user_rank']['title'];
-			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
-			$result['rows'][$k]['scene_title'] = $result['rows'][$k]['scene']['title'];
-			$result['rows'][$k]['user'] = $user;
+			
+			if($v['user']){
+				
+				$user['user_id'] = $v['user']['_id'];
+				$user['account'] = $v['user']['account'];
+				$user['nickname'] = $v['user']['nickname'];
+				$user['avatar_url'] = $v['user']['big_avatar_url'];
+				$user['summary'] = $v['user']['summary'];
+				$user['counter'] = $v['user']['counter'];
+				$user['follow_count'] = $v['user']['follow_count'];
+				$user['fans_count'] = $v['user']['fans_count'];
+				$user['love_count'] = $v['user']['love_count'];
+				$user['user_rank'] = $v['user_ext']['user_rank']['title'];
+			}
+			
+			$result['rows'][$k]['scene_title'] = '';
+			if($result['rows'][$k]['scene']){
+				$result['rows'][$k]['scene_title'] = $v['scene']['title'];
+			}
+			
+			$result['rows'][$k]['user_info'] = $user;
 		}
 		
 		// 过滤多余属性
-        $filter_fields  = array('scene','cover','user_ext','cover_id','__extend__');
+        $filter_fields  = array('scene','cover','user','user_ext','cover_id','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
 		//var_dump($result['rows']);die;
@@ -134,7 +158,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 	 */
 	public function save(){
 		
-		// http://www.taihuoniao.me/app/api/scene_sight/save?title=a&des=b&scene_id=15&tags=1,2,3&product_id=1,2,3&product_title=a,b,c&product_price=12,20,30&product_x=20,30,40&product_y=30,40,50&lat=39.9151190000&lng=116.4039630000&address=北京市
+		// http://www.taihuoniao.me/app/api/scene_sight/save?title=a&des=b&scene_id=31&tags=1,2,3&product_id=1,2,3&product_title=a,b,c&product_price=12,20,30&product_x=20,30,40&product_y=30,40,50&lat=39.9151190000&lng=116.4039630000&address=北京市
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$user_id = $this->current_user_id;
@@ -276,7 +300,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
      */
     public function view() {
         
-        $id = $this->stash['id'];
+        $id = isset($this->stash['id']) ? $this->stash['id'] : '';
 		
         if (empty($id)) {
             return $this->api_json('请求失败，缺少必要参数!', 3001);
@@ -326,6 +350,22 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 				$result['tag_titles'][$k] = $res['title_cn'];
 			}
 		}
+		
+		// 用户是否订阅该情景
+		$user_id = $this->current_user_id;
+		//$user_id = 10;
+		$model = new Sher_Core_Model_Favorite();
+		$query = array(
+			'type' => Sher_Core_Model_Favorite::TYPE_APP_SCENE_SIGHT,
+			'event' => Sher_Core_Model_Favorite::EVENT_LOVE,
+			'user_id' => $user_id
+		);
+		$res = $model->find($query);
+		if($res){
+			$result['is_love'] = 1;
+		}else{
+			$result['is_love'] = 0;
+		}
         
         //print_r($result);exit;
         return $this->api_json('请求成功', false, $result);
@@ -344,20 +384,16 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		
 		try{
-			$model = new Sher_Core_Model_SceneSight();
+			$scene_sight_model = new Sher_Core_Model_SceneSight();
 			
 			foreach($ids as $id){
-				$result = $model->load((int)$id);
+				$scene_sight = $scene_sight_model->load((int)$id);
 				
-				if (!empty($result)){
-					$model->remove((int)$id);
-					
-					$model = new Sher_Core_Model_SceneTags();
-					$model->scene_count($result['tags'],array('total_count','context_count'),2);
+				if (!empty($scene_sight)){
+					$scene_sight_model->remove((int)$id);
+          $scene_sight_model->mock_after_remove((int)$id, $scene_sight);
 				}
 			}
-			
-			$this->stash['ids'] = $ids;
 			
 		}catch(Sher_Core_Model_Exception $e){
 			$this->api_json('操作失败,请重新再试', 3001);

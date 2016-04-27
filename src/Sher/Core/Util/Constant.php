@@ -149,6 +149,18 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     # 搜索任务记录更新的对象ID,以便定时更新到索引-----商品
     const DIG_XUN_SEARCH_RECORD_PRODUCT_UPDATE_IDS = 'xun_search_record_product_update_ids';
     const DIG_XUN_SEARCH_RECORD_PRODUCT_FAIL_IDS = 'xun_search_record_product_fail_ids';
+    # 搜索任务记录更新的对象ID,以便定时更新到索引-----情景
+    const DIG_XUN_SEARCH_RECORD_SCENE_UPDATE_IDS = 'xun_search_record_scene_update_ids';
+    const DIG_XUN_SEARCH_RECORD_SCENE_FAIL_IDS = 'xun_search_record_scene_fail_ids';
+    # 搜索任务记录更新的对象ID,以便定时更新到索引-----场景
+    const DIG_XUN_SEARCH_RECORD_SIGHT_UPDATE_IDS = 'xun_search_record_sight_update_ids';
+    const DIG_XUN_SEARCH_RECORD_SIGHT_FAIL_IDS = 'xun_search_record_sight_fail_ids';
+    # 搜索任务记录更新的对象ID,以便定时更新到索引-----场景产品
+    const DIG_XUN_SEARCH_RECORD_SCENE_PRODUCT_UPDATE_IDS = 'xun_search_record_scene_product_update_ids';
+    const DIG_XUN_SEARCH_RECORD_SCENE_PRODUCT_FAIL_IDS = 'xun_search_record_scene_product_fail_ids';
+    # 搜索任务记录更新的对象ID,以便定时更新到索引-----场景分享语
+    const DIG_XUN_SEARCH_RECORD_SCENE_CONTEXT_UPDATE_IDS = 'xun_search_record_scene_context_update_ids';
+    const DIG_XUN_SEARCH_RECORD_SCENE_CONTEXT_FAIL_IDS = 'xun_search_record_scene_context_fail_ids';
 
     # 优质内容ID记录,用于主动推送至百度-----话题,灵感,商品
     const DIG_PUSH_BAIDU_TOPIC_IDS = 'push_baidu_topic_ids';

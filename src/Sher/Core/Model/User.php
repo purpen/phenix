@@ -232,6 +232,11 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		'product_count' => 0,
 		# 灵感数量
 		'stuff_count'   => 0,
+        
+        # 情景数量
+        'scene_count' => 0,
+        # 场景数量
+        'sight_count' => 0,
         # 收藏数量
         'favorite_count' => 0,
 		
@@ -342,7 +347,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 
         # 是否绑定手机(未兼容老数据)
         'is_bind' => 0,
-        # 已认证的
+        # 达人认证
         'verified' => 0,
         # 最后一次登录IP统计
         'last_ip' => null,
@@ -354,7 +359,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 
     protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight','mentor','district','quality','kind','symbol');
     
-	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'favorite_count', 'topic_count', 'product_count', 'stuff_count');
+	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'favorite_count', 'topic_count', 'product_count', 'stuff_count','scene_count','sight_count');
 	
 	protected $joins = array();
 	
