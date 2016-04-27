@@ -111,6 +111,11 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
 			$result['rows'][$k]['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($v['created_on']);
 			
+			$result['rows'][$k]['product'] = array();
+			if($v['product']){
+				$result['rows'][$k]['product'] =$v['product'];
+			}
+			
 			$user = array();
 			
 			if($v['user']){
