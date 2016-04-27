@@ -171,7 +171,8 @@ class Sher_Core_Helper_Search {
         $kind_name = '情景产品';
         break;
       case 'SContext':
-        $kind_name = '语境';
+        $kind_name = '场景语境';
+        break;
 			default:
 				$kind_name = '';
 		}

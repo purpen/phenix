@@ -129,10 +129,10 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
         $result['data'][$k]['content'] = strip_tags($v['high_content'], '<em>');
 
         // 获取对象属性
-        $result['data'][$k]['kind_name'] = Sher_Core_Helper_Search::kind_name($v['kind'], $v['cid']);
+        $result['data'][$k]['kind_name'] = Sher_Core_Helper_Search::kind_name($kind, $cid);
 
         // 获取asset_type
-        $result['data'][$k]['asset_type'] = Sher_Core_Helper_Search::gen_asset_type($v['kind']);
+        $result['data'][$k]['asset_type'] = Sher_Core_Helper_Search::gen_asset_type($kind);
 
       } // endfor
 
