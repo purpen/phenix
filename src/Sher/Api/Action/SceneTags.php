@@ -118,7 +118,7 @@ class Sher_Api_Action_SceneTags extends Sher_Api_Action_Base {
 		}
 		*/
 		
-		print_r($result);exit;
+		//print_r($result);exit;
 		return $this->api_json('请求成功', 0, $result);
 	}
 
