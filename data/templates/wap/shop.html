@@ -10,9 +10,20 @@
   	width: 100%;
   	height: 42px;
   	overflow: hidden;
+	position:relative;
+	background:#fff;
+  }
+  #tmenu:before {
+      content: '';
+      width: 100%;
+      position: absolute;
+      bottom: 0px;
+      left: 0;
+      height: 1px;
+      background: rgba(34,36,38,.15);
   }
   #tmenu .swiper-slide {
-  	padding: 0 20px;
+  	padding: 0 10px;
   	width:auto;
   	line-height: 42px;
   }
@@ -20,12 +31,20 @@
   	color: #5d6266;
   	text-decoration: none;
     font-weight: 700;
-  	padding: 11px 0;
+  	padding: 11px 10px;
 	font-weight: 400;
   }
   .swiper-slide a.ui.active.item {
     color: #f36 !important;
-    border-bottom: 2px solid #f36;
+  }
+  .swiper-slide a.ui.active.item:before{
+	  content: '';
+      width: 58.333%;
+      height: 1px;
+      position: absolute;
+      bottom: 0;
+      left: 20.8335%;
+      background: #f36;
   }
 .qbfl{
     padding-top: 33.3333%;
@@ -60,6 +79,46 @@
 	height:32px;
 	top:15px;
 	left:10px;
+}
+.popup.shaix{
+	position: relative;
+	max-width: 767px;
+}
+.ui.searsx.menu{
+	margin:0;
+	border:none;
+	box-shadow:none;
+	border-radius:0;
+	background:rgba(0,0,0,0);
+	margin: 5px 0 0 0;
+}
+.ui.searsx.menu .item:before{
+	content:none;
+}
+.ui.searsx.menu .item:hover,.ui.searsx.menu .item.visible{
+	color:#f36;
+}
+.shaix.popup .ui.fluid.popup{
+	max-width: 767px;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+.ui.fluid.basic.price.popup.bottom.left{
+	left:0 !important;
+}
+.price.item i.sort.icon{
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+.ui.popup .item i.checkmark.icon{
+	float:right;
+	color:#f36;
+	display:none;
+}
+.ui.popup .item:hover i.checkmark.icon{
+	display:block;
 }
 </style>
 {% endblock %}
@@ -131,6 +190,22 @@
     $('#mpresale .recom-item').html('');
     ajax_load_more(category_id, 0, 4, 1, 12);
   });
+ 
+ 
+    $('.all.browse.item')
+        .popup({
+  	  	popup:'.all.popup',
+  		hoverable : true,
+		//on:'click',
+  		position:'bottom left'
+  	  });
+ 	 $('.price.browse.item')
+        .popup({
+  	  	popup:'.price.popup',
+  		hoverable : true,
+  		position:'bottom left'
+	 })
+ 
   
 {% endblock %}
 
@@ -151,10 +226,62 @@
 		{% endfor %}
 	</div>
 </div>
+
+<!-- 筛选 -->
+<!-- 
+<div class="popup shaix">
+	<div class="ui searsx menu">
+		<div class="ui all browse item">
+			综合排序
+			<i class="dropdown icon"></i>
+		</div>
+		<div class="ui item">
+			销量
+		</div>
+	
+		<div class="ui price browse item">
+			价格
+			<i class="sort icon"></i>
+		</div>
+	</div>
+	
+    <div class="ui fluid basic all popup bottom left">
+        <div class="ui link list">
+			<a class="item ptb-2r" href="">
+				综合排序
+				<i class="checkmark icon"></i>
+			</a>
+			<a class="item ptb-2r" href="">
+				新品优先
+				<i class="checkmark icon"></i>
+			</a>
+			<a class="item ptb-2r" href="">
+				评论数从高到低
+				<i class="checkmark icon"></i>
+			</a>
+		</div>
+    </div>
+    <div class="ui fluid basic price popup bottom left">
+        <div class="ui link list">
+			<a class="item ptb-2r" href="">
+				从高到低
+				<i class="checkmark icon"></i>
+			</a>
+			<a class="item ptb-2r" href="">
+				从低到高
+				<i class="checkmark icon"></i>
+			</a>
+		</div>
+    </div>
+	
+	
+</div>-->
+	
+
 	
 <!--商店商品-->
-<div class="ui responsive grid" id="mpresale" style="border-top: 1px solid rgba(34,36,38,.15);">
-	<div class="row">
+<div class="ui responsive grid" id="mpresale">
+	<div class="row pt-2r">
 		<div class="recom-item">
 			
 		</div>
