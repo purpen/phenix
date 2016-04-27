@@ -33,8 +33,6 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
 
     $user_id = $this->current_user_id;
 
-    $db = 'phenix';
-
     // 全文搜索/标签搜索
 
     $options = array(
@@ -46,12 +44,23 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
       't'    => $t,
     );
     
-    $result = Sher_Core_Util_XunSearch::search($q, $options, $db);
+    $result = Sher_Core_Util_XunSearch::search($q, $options);
     if($result['success']){
       //$user_model = new Sher_Core_Model_User();
       $asset_model = new Sher_Core_Model_Asset();
       $product_model = new Sher_Core_Model_Product();
+      $topic_model = new Sher_Core_Model_Topic();
+      $scene_model = new Sher_Core_Model_SceneScene();
+      $scene_sight_model = new Sher_Core_Model_SceneSight();
+      $scene_product_model = new Sher_Core_Model_SceneProduct();
+      $scene_context_model = new Sher_Core_Model_SceneContext();
+
       foreach($result['data'] as $k=>$v){
+
+        //封面图
+        if($v['cover_id']){
+          $asset_obj = $asset_model->extend_load($v['cover_id']);
+        }
 
         $kind = $result['data'][$k]['kind'];
         $cid = (int)$result['data'][$k]['cid'];
@@ -59,7 +68,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
         $result['data'][$k]['_id'] = $oid;
 
         // 产品
-        if($kind=='Product'){
+        if($kind=='Product'){ // 产品
           if($cid==9){
             $obj = $product_model->find_by_id($oid);
             // 商品不需要显示详情
@@ -72,10 +81,38 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
               $result['data'][$k]['sale_price'] = 0;           
             }
           }
-        // 话题
-        }elseif($kind=='Topic'){
+
+          // 图片尺寸
+          if($asset_obj){
+            $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['apc']['view_url'];
+          }
+        }elseif($kind=='Topic'){  // 话题
+          // 图片尺寸
+          if($asset_obj){
+            $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['aub']['view_url'];
+          }
         
-        }else{
+        }elseif($kind=='Scene'){  // 情景
+          $obj = $scene_model->load($oid);
+          
+          // 图片尺寸
+          if($asset_obj){
+            $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['huge']['view_url'];
+          }
+        
+        }elseif($kind=='Sight'){  // 场景
+          // 图片尺寸
+          if($asset_obj){
+            $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['huge']['view_url'];
+          }
+        
+        }elseif($kind=='SProduct'){ // 情景产品
+
+          // 图片尺寸
+          if($asset_obj){
+            $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['apc']['view_url'];
+          }
+        }elseif($kind=='SContext'){ // 场景分享语境
         
         }
 
@@ -91,21 +128,13 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
         //描述内容过滤
         $result['data'][$k]['content'] = strip_tags($v['high_content'], '<em>');
 
-        //封面图
-        if($v['cover_id']){
-          $asset_obj = $asset_model->extend_load($v['cover_id']);
-          if($asset_obj){
-            $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['apc']['view_url'];;
-          }
-        }
-
         // 获取对象属性
         $result['data'][$k]['kind_name'] = Sher_Core_Helper_Search::kind_name($v['kind'], $v['cid']);
 
         // 获取asset_type
         $result['data'][$k]['asset_type'] = Sher_Core_Helper_Search::gen_asset_type($v['kind']);
 
-      }
+      } // endfor
 
     }else{
       return $this->api_json('请求失败!', 3002);
