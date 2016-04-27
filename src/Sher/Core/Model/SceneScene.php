@@ -152,4 +152,25 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 			}
 		}
 	}
+
+	/**
+	 * 删除后事件
+	 */
+	public function mock_after_remove($id, $options=array()) {
+        
+    // 减少标签数量
+    $scene_tags_model = new Sher_Core_Model_SceneTags();
+    $scene_tags_model->scene_count($options['tags'],array('total_count','scene_count'),2);
+
+    // 减少用户创建数量
+    $user_model = new Sher_Core_Model_User();
+    $user_model->dec_counter('scene_count',$options['user_id']);
+
+    // 删除索引
+    Sher_Core_Util_XunSearch::del_ids('scene_'.(string)$id);
+		
+		return true;
+	}
+
+
 }

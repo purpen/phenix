@@ -11,7 +11,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         'size' => 10,
 	);
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'save','delete');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view');
 
 	/**
 	 * 入口
@@ -384,23 +384,16 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		
 		try{
-			$model = new Sher_Core_Model_SceneSight();
+			$scene_sight_model = new Sher_Core_Model_SceneSight();
 			
 			foreach($ids as $id){
-				$result = $model->load((int)$id);
+				$scene_sight = $scene_sight_model->load((int)$id);
 				
-				if (!empty($result)){
-					$model->remove((int)$id);
-					
-					$model = new Sher_Core_Model_SceneTags();
-					$model->scene_count($result['tags'],array('total_count','context_count'),2);
-					
-					$model = new Sher_Core_Model_User();
-					$model->dec_counter('sight_count',$this->data['user_id']);
+				if (!empty($scene_sight)){
+					$scene_sight_model->remove((int)$id);
+          $scene_sight_model->mock_after_remove((int)$id, $scene_sight);
 				}
 			}
-			
-			$this->stash['ids'] = $ids;
 			
 		}catch(Sher_Core_Model_Exception $e){
 			$this->api_json('操作失败,请重新再试', 3001);
