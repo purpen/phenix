@@ -39,6 +39,7 @@ while(!$is_end){
 	$max = count($list);
 	for ($i=0; $i < $max; $i++) {
     $id = $list[$i]['_id'];
+    /**
     $category_id = $list[$i]['category_id'];
     switch($category_id){
     case 146:
@@ -68,7 +69,9 @@ while(!$is_end){
     default:
       $new_category_id = 0;
     }
-    if(!isset($list[$i]['category_id'])){
+     */
+
+    if(isset($list[$i]['category_id'])){
       $ok = true;
       //$ok = $scene_product_model->update_set($id, array('category_id'=>$new_category_id));
       if($ok){

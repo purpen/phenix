@@ -251,10 +251,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         'message_count' => array(
             'total' => 0,
             'notice' => 0,
-            'comment' => 0,
-            'private_letter' => 0,
             'love' => 0,
-            'follow' => 0
         ),
         # 订阅情景数量
         'subscription_count' => 0,
@@ -1002,7 +999,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	 * 更新计数器，累加[消息计数]
 	 */
 	public function message_count_inc($user_id, $field, $value=1){
-		if(!in_array($field,array('total','notice','comment','private_letter','love','follow'))){
+		if(!in_array($field,array('total','notice','comment','love'))){
 			return;
 		}
 		$counter_name = 'message_count.'.$field;
@@ -1014,7 +1011,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	 */
 	public function message_count_dec($user_id, $field, $value=1){
 		
-        if(!in_array($field,array('total','notice','comment','private_letter','love','follow'))){
+        if(!in_array($field,array('total','notice','comment','love'))){
 			return;
 		}
         
