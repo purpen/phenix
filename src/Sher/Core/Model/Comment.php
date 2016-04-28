@@ -294,7 +294,11 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 				// 非回复他人,给创建者回复提醒
 				if($user_id){
 					$user = new Sher_Core_Model_User();
-					$user->update_counter_byinc($user_id, 'comment_count', 1);
+          if($type==self::TYPE_SCENE_SIGHT){
+					  $user->update_counter_byinc($user_id, 'fiu_comment_count', 1);
+          }else{
+  					$user->update_counter_byinc($user_id, 'comment_count', 1);
+          }
 				}
             }
             

@@ -21,6 +21,8 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
         'is_login' => 1,
         // 应用最后登录时间
         'last_time' => 0,
+        // 渠道ID
+        'channel_id' => 1,
   	  	
 		'state' => 1,
   	);
