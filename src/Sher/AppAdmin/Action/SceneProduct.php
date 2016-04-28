@@ -238,6 +238,26 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 		return $this->to_taconite_page('app_admin/scene_product/stick_ok.html');
 	}
 
+	/**
+	 * 精选
+	 */
+	public function ajax_fine() {
+    $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+    $evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 0;
+		if(empty($id)){
+			return $this->ajax_json('缺少请求参数！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_SceneProduct();
+			$model->update_set($id, array('fine'=>$evt));
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('请求操作失败，请检查后重试！', true);
+		}
+		
+		return $this->to_taconite_page('app_admin/scene_product/fine_ok.html');
+	}
+
   /**
    * ajax 获取商品基本信息
    */

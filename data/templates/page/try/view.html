@@ -60,6 +60,24 @@
 		    margin-bottom: 2px;
 		    padding-top: 15px;
 		}
+		#product-apply-people{
+			text-align:left;
+		}
+		#product-apply-people .ui.horizontal.list:not(.celled)>.item:first-child{
+			margin-left:1rem !important;
+		}
+		#product-apply-people .ui.horizontal.list>.item{
+			margin: 0 1rem;
+			text-align: center;
+			min-width: 110px;
+		}
+		#product-apply-people .ui.horizontal.list>.item .ui.avatar.image{
+			margin-right:0;
+		}
+		#product-apply-people .ui.horizontal.list>.item .content{
+			padding: 10px 0;
+			display: block;
+		}
 		
 </style>
 {% endblock %}
@@ -422,8 +440,11 @@
 					    <div class="ui horizontal list">
 							{% for user in userlist  %}
 							<div class="item">
-								<a class="ui large avatar pop image" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
-									<img src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" />
+								<a class="ui line" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
+									<img class="ui small avatar pop image" src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" />
+									<div class="content">
+										{{ user.nickname }}
+									</div>
 								</a>
 							</div>
 							{% endfor %}
