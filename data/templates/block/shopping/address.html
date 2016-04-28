@@ -37,9 +37,6 @@
     							{% endfor %}
     					    </div>
     					</div>
-                    </div>
-    				<div class="field">
-                        <label>地区/县</label>
     					<div class="fluid ui selection district dropdown" id="district-menu">
     						<input type="hidden" name="city" value="{{ addbook.city }}" />
     					    <div class="default text">地区区域</div>
@@ -50,7 +47,7 @@
     							{% endfor %}
     					    </div>
     					</div>
-    				</div>
+                    </div>
                 </div>
 				
 				<div class="field">
@@ -66,13 +63,13 @@
 
         		<div class="inline field">
 					<div class="ui checkbox">
-						<input name="is_default" type="checkbox" checked="checked" value="1">
+						<input name="is_default" type="checkbox" {% if address.is_default %} checked="checked"{% endif %} value="1">
 						<label>设为默认地址</label>
 				    </div>
 				</div>
 
-				<div class="field">
-					<div class="ui active magenta submit inverted button">
+				<div class="ui right aligned field">
+					<div class="ui active magenta inverted submit inverted button">
                         <i class="edit icon"></i> 确定提交
                     </div>
 				</div>
