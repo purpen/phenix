@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	
-	protected $filter_user_method_list = array('fetch_cart_count');
+	protected $filter_user_method_list = array('fetch_cart_count','fetch_areas');
 
 	/**
 	 * 入口
@@ -229,7 +229,13 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			$new_data['dict'] = array_merge($default_data, $data);
 			$new_data['kind'] = $kind;
 			$new_data['user_id'] = $user_id;
-			$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
+
+      // 如果是闪购，过期时间仅为15分钟
+      if($kind==3){
+        $new_data['expired'] = time() + Sher_Core_Util_Constant::APP_SNATCHED_EXPIRE_TIME;
+      }else{
+        $new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
+      }
       // 是否来自购物车
 			$new_data['is_cart'] = 1;
 			

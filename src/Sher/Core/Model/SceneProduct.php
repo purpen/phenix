@@ -41,7 +41,8 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
       # 情景标签(4个维度添加)
       'scene_tags' => array(),
 		
- 		'cover_id' => '',
+ 		'cover_id' => null,
+    'banner_id' => null,
 		'asset_ids' => array(),
     'asset_count' => 0,
     'banner_asset_ids' => array(),
@@ -317,7 +318,7 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 	/**
 	 * 删除后事件
 	 */
-	public function mock_after_remove($id) {
+	public function mock_after_remove($id, $options=array()) {
 		// 删除Asset
 		$asset = new Sher_Core_Model_Asset();
 		$asset->remove_and_file(array('parent_id' => $id, 'asset_type'=>array('$in'=>array(97,99,120,121))));
@@ -327,6 +328,13 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 		$comment = new Sher_Core_Model_Comment();
 		$comment->remove(array('target_id' => $id, 'type'=>Sher_Core_Model_Comment::TYPE_GPRODUCT));
 		unset($comment);
+
+    // 删除标签数量
+    $scene_tags_model = new Sher_Core_Model_SceneTags();
+    $scene_tags_model->scene_count($options['scene_tags'],array('total_count','product_count'),2);
+
+    // 删除索引
+    Sher_Core_Util_XunSearch::del_ids('scene_product_'.(string)$id);
 		
 		return true;
 	}

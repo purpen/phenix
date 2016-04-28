@@ -106,7 +106,7 @@ class Sher_Core_Model_Areas extends Sher_Core_Model_Base  {
       $query['layer'] = 2;
     }else{
       $query['parent_id'] = (int)$fid;
-      $options['sort'] = array('sort' => 1);   
+      $options['sort'] = array('sort' => 1);
     }
 		
 		return $this->find($query, $options);

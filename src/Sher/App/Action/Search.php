@@ -55,8 +55,6 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
     }
 
     $q = $this->stash['q'];
-    // 过滤xss攻击
-    $q = Sher_Core_Helper_FilterFields::remove_xss($q);
 
     $options = array(
       'page' => $this->stash['page'],

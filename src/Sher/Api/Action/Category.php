@@ -37,7 +37,7 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
         $options['sort_field'] = 'orby';
 
         $some_fields = array(
-          '_id'=>1, 'title'=>1, 'name'=>1, 'gid'=>1, 'pid'=>1, 'order_by'=>1, 'sub_count'=>1,
+          '_id'=>1, 'title'=>1, 'name'=>1, 'gid'=>1, 'pid'=>1, 'order_by'=>1, 'sub_count'=>1, 'tag_id'=>1,
           'domain'=>1, 'is_open'=>1, 'total_count'=>1, 'reply_count'=>1, 'state'=>1, 'app_cover_url'=>1,
         );
 		
@@ -46,6 +46,8 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
         $service = Sher_Core_Service_Category::instance();
         $result = $service->get_category_list($query, $options);
 
+        $scene_tags_model = new Sher_Core_Model_SceneTags();
+
         // 过滤多余属性
         $filter_fields = array('view_url', 'state', 'is_open', '__extend__');
         $data = array();
@@ -53,14 +55,38 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
           foreach($options['some_fields'] as $key=>$value){
             $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
           }
-          // 封面图url
-          $data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
+
           // banner图url
           $data[$i]['app_cover_url'] = null;
           if(isset($result['rows'][$i]['app_cover_url']) && !empty($result['rows'][$i]['app_cover_url'])){
-            $data[$i]['app_cover_url'] = sprintf("%s-p750x422.jpg", $result['rows'][$i]['app_cover_url']);
+            $data[$i]['app_cover_url'] = $result['rows'][$i]['app_cover_url'];
             $data[$i]['app_cover_s_url'] = sprintf("%s-p325x200.jpg", $result['rows'][$i]['app_cover_url']);
           }
+
+          $scene_tags_arr = array();
+
+          // 加载标签
+          if($data[$i]['domain']==10){
+            if(isset($data[$i]['tag_id']) && !empty($data[$i]['tag_id'])){
+
+              $tag_query = array(
+                'type' => 2,
+                'parent_id' => $data[$i]['tag_id'],
+                'status' => Sher_Core_Model_SceneTags::STATE_OK,
+              );
+              $tag_options = array(
+                //'field' = array('_id'=>1);
+              );
+              $scene_tags = $scene_tags_model->find($tag_query, $tag_options);
+              if($scene_tags){
+                foreach($scene_tags as $k=>$v){
+                  array_push($scene_tags_arr, array('_id'=>$v['_id'], 'title_cn'=>$v['title_cn']));
+                }
+              }
+              
+            }
+          } // endif domain==10
+          $data[$i]['scene_tags'] = $scene_tags_arr;
 
         }
 

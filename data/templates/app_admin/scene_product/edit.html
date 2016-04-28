@@ -302,6 +302,20 @@
 			return false;
 		});
 	});
+
+	// 设置Banner主图
+	$('#asset-banner-list .ajax-banner').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-banner-list .ajax-banner.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#ad_banner_id').val(id);
+			return false;
+		});
+	});
 	
 	// 选择分类
 	$('body').on('click', '.category.button', function(){
@@ -665,6 +679,7 @@
 
 			<div class="field">
         <label>上传Banner图: <small>图片尺寸: 840x473px</small></label>
+				<input type="hidden" name="banner_id" id="ad_banner_id" value="{{ scene_product.banner_id }}" />
 			  	<div id="phenix-banner-uploader"></div>
 			
 				<div id="asset-banner-list" class="ui four blocks">
@@ -680,6 +695,9 @@
 								<div class="ui large links">
 									<a href="{{ app_url_asset }}/deleted?asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
 										<i class="remove icon"></i>
+									</a>
+									<a href="javascript:void(0);" class="ui link {%if scene_product.banner_id == asset._id %}active {%endif%}ajax-banner pop" data-content="设置主图" data-variation="inverted" data-value="{{ asset._id }}">
+										<i class="checkered flag icon"></i>
 									</a>
 								</div>
 							</div>

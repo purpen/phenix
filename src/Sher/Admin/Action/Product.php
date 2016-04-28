@@ -337,15 +337,6 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
           $r_e_p_model->remove(array('eid'=>$eid, 'pid'=>$pid));
         }
       }
-
-      //如果是发布状态,更新索引
-      $product = $model->load((int)$id);
-      if($product['published']==1){
-        // 更新全文索引
-        Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3); 
-        //更新百度推送
-        Sher_Core_Helper_Search::record_update_to_dig((int)$id, 12);
-      }
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Save product failed: ".$e->getMessage());
