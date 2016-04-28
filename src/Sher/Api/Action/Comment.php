@@ -113,6 +113,9 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 
     // 是否是回复某人
     $is_reply = isset($this->stash['is_reply'])?(int)$this->stash['is_reply']:0;
+
+    // 被评论人ID
+    $target_user_id = isset($this->stash['target_user_id'])?(int)$this->stash['target_user_id']:0;
 		
 		if(!isset($this->stash['target_id']) || empty($this->stash['target_id'])){
 			return $this->api_json('获取数据错误,请重新提交', 3001);
@@ -127,6 +130,7 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		$data['target_id'] = (string)$this->stash['target_id'];
 		$data['content'] = $this->stash['content'];
 		$data['user_id'] = (int)$user_id;
+		$data['target_user_id'] = (int)$target_user_id;
 		$data['type'] = (int)$type;
 		$data['from_site'] = (int)$from_site;
 		

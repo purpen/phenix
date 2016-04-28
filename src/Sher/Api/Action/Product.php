@@ -198,8 +198,6 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       // 新品标识--非闪购产品且一个月内上的产品
       if(!empty($data[$i]['is_app_snatched'])){
         $data[$i]['tips_label'] = 3;
-        // 显示秒杀价格
-        $data[$i]['sale_price'] = $data[$i]['app_snatched_price'];
       }
 		} // endfor
 		$result['rows'] = $data;

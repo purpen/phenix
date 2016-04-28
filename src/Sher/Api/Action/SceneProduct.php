@@ -53,6 +53,15 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
       $query['category_id'] = (int)$category_id;
     }
 
+    // 查询条件
+    if($category_tag_ids){
+      $category_tag_arr = explode(',', $category_tag_ids);
+      for($i=0;$i<count($category_tag_arr);$i++){
+        $category_tag_arr[$i] = (int)$category_tag_arr[$i];
+      }
+      $query['category_tags'] = array('$in'=>$category_tag_arr);
+    }
+
     if($attrbute){
       $query['attrbute'] = (int)$attrbute;         
     }
