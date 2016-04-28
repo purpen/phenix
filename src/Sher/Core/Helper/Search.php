@@ -161,6 +161,18 @@ class Sher_Core_Helper_Search {
           $kind_name = '';
         }
 				break;
+      case 'Scene':
+        $kind_name = '情景';
+        break;
+      case 'Sight':
+        $kind_name = '场景';
+        break;
+      case 'SProduct':
+        $kind_name = '情景产品';
+        break;
+      case 'SContext':
+        $kind_name = '场景语境';
+        break;
 			default:
 				$kind_name = '';
 		}

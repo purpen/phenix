@@ -96,4 +96,20 @@ class Sher_Core_Model_SceneContext extends Sher_Core_Model_Base {
 		
 		return $this->dec($id, $field_name, $count);
 	}
+
+	/**
+	 * 删除后事件
+	 */
+	public function mock_after_remove($id, $options=array()) {
+        
+    // 减少标签数量
+    $scene_tags_model = new Sher_Core_Model_SceneTags();
+    $scene_tags_model->scene_count($options['tags'],array('total_count','context_count'),2);
+
+    // 删除索引
+    Sher_Core_Util_XunSearch::del_ids('scene_context_'.(string)$id);
+		
+		return true;
+	}
+
 }

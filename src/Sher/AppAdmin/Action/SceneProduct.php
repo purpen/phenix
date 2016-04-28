@@ -180,8 +180,7 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 		$result = $model->first((int)$id);
 		
 		if($result && $model->remove($id)){
-			$model = new Sher_Core_Model_SceneTags();
-			$model->scene_count($result['scene_tags'],array('total_count','context_count'),2);
+      $model->mock_after_remove((int)$id, $result);
 		}
 		
 		$this->stash['id'] = $id;
@@ -200,7 +199,17 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 		
 		try{
 			$model = new Sher_Core_Model_SceneProduct();
-			$model->update_set($id, array('published'=>$evt));
+      $ok = $model->update_set($id, array('published'=>$evt));
+      if($ok){
+        if(empty($evt)){
+          // 删除索引
+          Sher_Core_Util_XunSearch::del_ids('scene_product_'.(string)$id);       
+        }else{
+          // 添加索引ID
+          Sher_Core_Helper_Search::record_update_to_dig((int)$id, 6);       
+        }
+
+      }
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('请求操作失败，请检查后重试！', true);
 		}
