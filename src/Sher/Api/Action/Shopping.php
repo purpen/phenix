@@ -545,7 +545,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			if($pay_money <= 0){
         return $this->api_json('订单价格不能为0元！', 3020); 
 			}
-			$order_info['pay_money'] = $pay_money;
+			$order_info['pay_money'] = sprintf("%.2f", $pay_money);
 			
 			// 设置订单状态
 			$order_info['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
