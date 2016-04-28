@@ -121,6 +121,7 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 			$model = new Sher_Core_Model_SceneContext();
 			if(empty($id)){
 				// add
+        $data['user_id'] = (int)$this->visitor->id;
 				$ok = $model->apply_and_save($data);
 				$data_id = $model->get_data();
 				$id = $data_id['_id'];

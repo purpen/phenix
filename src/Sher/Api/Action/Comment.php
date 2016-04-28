@@ -110,6 +110,12 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 2;
 		// 默认ios
 		$from_site = isset($this->stash['from_site']) ? (int)$this->stash['from_site'] : 3;
+
+    // 是否是回复某人
+    $is_reply = isset($this->stash['is_reply'])?(int)$this->stash['is_reply']:0;
+
+    // 被评论人ID
+    $target_user_id = isset($this->stash['target_user_id'])?(int)$this->stash['target_user_id']:0;
 		
 		if(!isset($this->stash['target_id']) || empty($this->stash['target_id'])){
 			return $this->api_json('获取数据错误,请重新提交', 3001);
@@ -124,12 +130,27 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		$data['target_id'] = (string)$this->stash['target_id'];
 		$data['content'] = $this->stash['content'];
 		$data['user_id'] = (int)$user_id;
+		$data['target_user_id'] = (int)$target_user_id;
 		$data['type'] = (int)$type;
 		$data['from_site'] = (int)$from_site;
 		
 		if(strlen($data['content']) < 5 || strlen($data['content']) > 3000){
 			return $this->api_json('内容长度介于5到1000字符之间', 3002);
 		} 
+
+    if(!empty($is_reply)){
+        $reply_id = isset($this->stash['reply_id'])?$this->stash['reply_id']:null;
+        $reply_user_id = isset($this->stash['reply_user_id'])?(int)$this->stash['reply_user_id']:0;
+        if(empty($reply_id)){
+        return $this->api_json('回复ID不存在!', 3005);
+        }
+        if(empty($reply_user_id)){
+        return $this->api_json('回复用户ID不存在!', 3006);
+        }
+        $data['is_reply'] = $is_reply;
+        $data['reply_id'] = $reply_id;
+        $data['reply_user_id'] = $reply_user_id;
+    }
 		
 		//var_dump($data);die;
 		try{
@@ -148,6 +169,35 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		}
 		
 		return $this->api_json('操作成功', 0, $comment);
+	}
+
+	/**
+	 * 回复
+	 */
+	public function ajax_reply(){
+
+    $user_id = $this->current_user_id;
+		
+		$comment_id = isset($this->stash['comment_id']) ? $this->stash['comment_id'] : null;
+		$target_id = $this->stash['target_id'];
+	
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 2;
+		$content = isset($this->stash['content']) ? $this->stash['content'] : null;
+
+		// 默认ios
+		$from_site = isset($this->stash['from_site']) ? (int)$this->stash['from_site'] : 3;
+		
+		// 验证数据
+		if(empty($comment_id) || empty($content)){
+			return $this->api_json('缺少请求参数!', 3001);
+		}
+		
+		$model = new Sher_Core_Model_Comment();
+		$result = $model->create_reply($comment_id, $user_id, $content);
+		
+		$this->stash['reply'] = $result;
+		
+		return $this->to_taconite_page('ajax/reply_ok.html');
 	}
 
 }

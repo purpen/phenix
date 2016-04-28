@@ -111,6 +111,7 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
         $data['png_asset_ids'] = isset($this->stash['png_asset']) ? (array)$this->stash['png_asset'] : array();
         
         $data['cover_id'] = $this->stash['cover_id'];
+        $data['banner_id'] = $this->stash['banner_id'];
         $data['sale_price'] = (float)$this->stash['sale_price'];
         $data['market_price'] = (float)$this->stash['market_price'];
         $data['brand_id'] = $this->stash['brand_id'];

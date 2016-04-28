@@ -97,6 +97,8 @@ public function __construct() {
     if(empty($str)){
       return array('success'=>false, 'msg'=>'搜索内容为空!');
     }
+    // 过滤xss攻击
+    $str = Sher_Core_Helper_FilterFields::remove_xss($str);
     $str_f = $str;
     $page = isset($options['page'])?(int)$options['page']:1;
     $size = isset($options['size'])?(int)$options['size']:5;
@@ -107,6 +109,8 @@ public function __construct() {
     $t = isset($options['t'])?(int)$options['t']:0;
     $oid = isset($options['oid'])?(string)$options['oid']:0;
     $type = isset($options['type'])?(int)$options['type']:0;
+    // 网页版与APP版查询分开
+    $from_to = isset($options['from_to'])?(int)$options['from_to']:1;
 
     try{
       $xs = new \XS($db); // 建立 XS 对象，项目名称为：demo
@@ -155,6 +159,14 @@ public function __construct() {
             $condition .= 'kind:SContext ';  // 场景分享语
             $str_f = sprintf('%s%s', $condition, $str);
             break;
+        }
+      }else{
+        if($from_to==1){
+          $condition .= '(kind:Product OR kind:Topic OR kind:Stuff) ';
+          $str_f = sprintf('%s%s', $condition, $str);
+        }elseif($from_to==2){
+          $condition .= '(kind:Scene OR kind:Sight OR kind:SProduct) ';
+          $str_f = sprintf('%s%s', $condition, $str);       
         }
       }
 
