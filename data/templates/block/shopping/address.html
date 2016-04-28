@@ -23,34 +23,29 @@
 					</div>
 				</div>
 				
-                <div class="two fields">
-                    <div class="field">
-    					<label>省市</label>
-    					<div class="fluid ui selection province dropdown">
-    						<input type="hidden" name="province" value="{{ addbook.province }}" />
-		
-    					    <div class="default text">省份/自治区</div>
-    					    <i class="angle down icon"></i>
-    					    <div class="menu">
-    							{% for province in provinces %}
-    					        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
-    							{% endfor %}
-    					    </div>
-    					</div>
-                    </div>
-    				<div class="field">
-                        <label>地区/县</label>
-    					<div class="fluid ui selection district dropdown" id="district-menu">
-    						<input type="hidden" name="city" value="{{ addbook.city }}" />
-    					    <div class="default text">地区区域</div>
-    					    <i class="angle down icon"></i>
-    					    <div class="menu">
-    							{% for district in districts %}
-    					        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
-    							{% endfor %}
-    					    </div>
-    					</div>
-    				</div>
+                <div class="field">
+					<label>省市</label>
+					<div class="ui selection province dropdown">
+						<input type="hidden" name="province" value="{{ addbook.province }}" />
+	
+					    <div class="default text">省份/自治区</div>
+					    <i class="angle dropdown icon"></i>
+					    <div class="menu">
+							{% for province in provinces %}
+					        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
+							{% endfor %}
+					    </div>
+					</div>
+					<div class="ui selection district dropdown" id="district-menu">
+						<input type="hidden" name="city" value="{{ addbook.city }}" />
+					    <div class="default text">地区区域</div>
+					    <i class="angle dropdown icon"></i>
+					    <div class="menu">
+							{% for district in districts %}
+					        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
+							{% endfor %}
+					    </div>
+					</div>
                 </div>
 				
 				<div class="field">
@@ -66,13 +61,13 @@
 
         		<div class="inline field">
 					<div class="ui checkbox">
-						<input name="is_default" type="checkbox" checked="checked" value="1">
+						<input name="is_default" type="checkbox" {% if address.is_default %} checked="checked"{% endif %} value="1">
 						<label>设为默认地址</label>
 				    </div>
 				</div>
 
-				<div class="field">
-					<div class="ui active magenta submit inverted button">
+				<div class="ui right aligned field">
+					<div class="ui active magenta inverted submit inverted button">
                         <i class="edit icon"></i> 确定提交
                     </div>
 				</div>

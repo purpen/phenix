@@ -19,7 +19,7 @@
 	});
 	
 	// 选择地址
-	$('.address').on('click', '.item', function(){
+	/*$('.address').on('click', '.item', function(){
 		var addbook_id = $(this).data('id');
 		// 新添加地址
 		if (addbook_id == 0){
@@ -27,14 +27,13 @@
 			return false;
 		}
 		if ($(this).hasClass('active')){
-			$(this)
-				.removeClass('active');
+			$(this).removeClass('active');
 		} else {
 			$('.address .item').removeClass('active');
 			
 			$(this).addClass('active');
 		}
-	});
+	});*/
 	
 	$('#addbook-form').livequery(function(){
 		$(this).form({
