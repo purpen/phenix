@@ -242,10 +242,10 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         # 订单数量
         'order_count' => array(
             'total' => 0,
-            'pre-Payment' => 0,
-            'pre-Ship' => 0,
-            'pre-Receipt' => 0,
-            'pre-comment' => 0
+            'pre_payment' => 0,
+            'pre_ship' => 0,
+            'pre_receipt' => 0,
+            'pre_comment' => 0
         ),
         # 消息数量
         'message_count' => array(

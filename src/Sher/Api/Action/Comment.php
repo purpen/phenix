@@ -111,8 +111,8 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		// 默认ios
 		$from_site = isset($this->stash['from_site']) ? (int)$this->stash['from_site'] : 3;
 
-    // 是否是回复某人
-    $is_reply = isset($this->stash['is_reply'])?(int)$this->stash['is_reply']:0;
+		// 是否是回复某人
+		$is_reply = isset($this->stash['is_reply'])?(int)$this->stash['is_reply']:0;
 		
 		if(!isset($this->stash['target_id']) || empty($this->stash['target_id'])){
 			return $this->api_json('获取数据错误,请重新提交', 3001);
@@ -133,20 +133,20 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		if(strlen($data['content']) < 5 || strlen($data['content']) > 3000){
 			return $this->api_json('内容长度介于5到1000字符之间', 3002);
 		} 
-
-    if(!empty($is_reply)){
-        $reply_id = isset($this->stash['reply_id'])?$this->stash['reply_id']:null;
-        $reply_user_id = isset($this->stash['reply_user_id'])?(int)$this->stash['reply_user_id']:0;
-        if(empty($reply_id)){
-        return $this->api_json('回复ID不存在!', 3005);
-        }
-        if(empty($reply_user_id)){
-        return $this->api_json('回复用户ID不存在!', 3006);
-        }
-        $data['is_reply'] = $is_reply;
-        $data['reply_id'] = $reply_id;
-        $data['reply_user_id'] = $reply_user_id;
-    }
+	
+		if(!empty($is_reply)){
+			$reply_id = isset($this->stash['reply_id'])?$this->stash['reply_id']:null;
+			$reply_user_id = isset($this->stash['reply_user_id'])?(int)$this->stash['reply_user_id']:0;
+			if(empty($reply_id)){
+			return $this->api_json('回复ID不存在!', 3005);
+			}
+			if(empty($reply_user_id)){
+			return $this->api_json('回复用户ID不存在!', 3006);
+			}
+			$data['is_reply'] = $is_reply;
+			$data['reply_id'] = $reply_id;
+			$data['reply_user_id'] = $reply_user_id;
+		}
 		
 		//var_dump($data);die;
 		try{
@@ -172,7 +172,11 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 	 */
 	public function ajax_reply(){
 
-    $user_id = $this->current_user_id;
+		$user_id = $this->current_user_id;
+	
+		if(empty($user_id)){
+			return $this->api_json('请先登录', 3000);   
+		}
 		
 		$comment_id = isset($this->stash['comment_id']) ? $this->stash['comment_id'] : null;
 		$target_id = $this->stash['target_id'];
