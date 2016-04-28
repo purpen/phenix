@@ -55,6 +55,8 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
       $scene_product_model = new Sher_Core_Model_SceneProduct();
       $scene_context_model = new Sher_Core_Model_SceneContext();
 
+      $asset_service = Sher_Core_Service_Asset::instance();
+
       foreach($result['data'] as $k=>$v){
 
         //封面图
@@ -63,14 +65,14 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
         }
 
         $kind = $result['data'][$k]['kind'];
-        $cid = (int)$result['data'][$k]['cid'];
-        $oid = (int)$result['data'][$k]['oid'];
+        $cid = $result['data'][$k]['cid'];
+        $oid = $result['data'][$k]['oid'];
         $result['data'][$k]['_id'] = $oid;
 
         // 产品
         if($kind=='Product'){ // 产品
           if($cid==9){
-            $obj = $product_model->find_by_id($oid);
+            $obj = $product_model->find_by_id((int)$oid);
             // 商品不需要显示详情
             $result['data'][$k]['content'] = null;
             if($obj){
@@ -93,7 +95,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           }
         
         }elseif($kind=='Scene'){  // 情景
-          $obj = $scene_model->load($oid);
+          //$obj = $scene_model->load((int)$oid);
           
           // 图片尺寸
           if($asset_obj){
@@ -112,6 +114,35 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           if($asset_obj){
             $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['apc']['view_url'];
           }
+          $scene_product = $scene_product_model->load((int)$oid);
+          if(empty($scene_product)){
+            continue;
+          }
+
+          //返回Banner图片数据
+          $assets = array();
+          $asset_query = array('parent_id'=>(int)$oid, 'asset_type'=>120);
+          $asset_options['page'] = 1;
+          $asset_options['size'] = 8;
+          $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
+
+          $scene_product['banner_id'] = isset($scene_product['banner_id']) ? $scene_product['banner_id'] : null;
+          $banner_asset_obj = false;
+          if(!empty($asset_result['rows'])){
+            foreach($asset_result['rows'] as $key=>$value){
+              if($scene_product['banner_id']==(string)$value['_id']){
+                $banner_asset_obj = $value;
+              }else{
+                array_push($assets, $value['thumbnails']['aub']['view_url']);
+              }
+            }
+            // 如果存在封面图，追加到第一个
+            if($banner_asset_obj){
+              array_unshift($assets, $banner_asset_obj['thumbnails']['aub']['view_url']);
+            }
+          }
+          $result['data'][$k]['banners'] = $assets;
+
         }elseif($kind=='SContext'){ // 场景分享语境
         
         }
