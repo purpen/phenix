@@ -93,7 +93,7 @@ try{
           // 最多延迟5分钟再推送一次
           'time_to_live' => 300,
           // "android", "ios", "winphone"
-          'plat_form' => array('ios'),
+          'plat_form' => array('ios', 'android'),
           'alias' => $user_arr,
           'extras' => array('infoType'=>1, 'infoId'=>$product_id),
           'apns_production' => true,
