@@ -23,31 +23,29 @@
 					</div>
 				</div>
 				
-                <div class="two fields">
-                    <div class="field">
-    					<label>省市</label>
-    					<div class="fluid ui selection province dropdown">
-    						<input type="hidden" name="province" value="{{ addbook.province }}" />
-		
-    					    <div class="default text">省份/自治区</div>
-    					    <i class="angle down icon"></i>
-    					    <div class="menu">
-    							{% for province in provinces %}
-    					        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
-    							{% endfor %}
-    					    </div>
-    					</div>
-    					<div class="fluid ui selection district dropdown" id="district-menu">
-    						<input type="hidden" name="city" value="{{ addbook.city }}" />
-    					    <div class="default text">地区区域</div>
-    					    <i class="angle down icon"></i>
-    					    <div class="menu">
-    							{% for district in districts %}
-    					        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
-    							{% endfor %}
-    					    </div>
-    					</div>
-                    </div>
+                <div class="field">
+					<label>省市</label>
+					<div class="ui selection province dropdown">
+						<input type="hidden" name="province" value="{{ addbook.province }}" />
+	
+					    <div class="default text">省份/自治区</div>
+					    <i class="angle down icon"></i>
+					    <div class="menu">
+							{% for province in provinces %}
+					        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
+							{% endfor %}
+					    </div>
+					</div>
+					<div class="ui selection district dropdown" id="district-menu">
+						<input type="hidden" name="city" value="{{ addbook.city }}" />
+					    <div class="default text">地区区域</div>
+					    <i class="angle down icon"></i>
+					    <div class="menu">
+							{% for district in districts %}
+					        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
+							{% endfor %}
+					    </div>
+					</div>
                 </div>
 				
 				<div class="field">
