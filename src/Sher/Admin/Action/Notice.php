@@ -117,6 +117,11 @@ class Sher_Admin_Action_Notice extends Sher_Admin_Action_Base implements DoggyX_
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
 			
+			// 在用户表里面增加数量
+			$model = new Sher_Core_Model_User();
+			$model->message_count_inc((int)$this->visitor->id,'total');
+			$model->message_count_inc((int)$this->visitor->id,'notice');
+			
 			// 上传成功后，更新所属的附件
 			if(isset($data['asset']) && !empty($data['asset'])){
 				$this->update_batch_assets($data['asset'], $id);

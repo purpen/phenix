@@ -150,12 +150,10 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		try{
 			$model = new Sher_Core_Model_Favorite();
 			if (!$model->check_favorites($user_id, $id, $type, $event)) {
-				$info = array();
-				$info['user_id'] = (int)$user_id;
-				$info['target_id'] = $id;
-				$info['type'] = (int)$type;
-				$info['event'] = (int)$event;
-				$ok = $model->add_favorites($info);
+				$ok = $model->add_favorites($id,$user_id,$type,$event);
+				
+				$model = new Sher_Core_Model_User();
+				$model->inc_counter('subscription_count',$user_id);
 			}else{
 				return $this->api_json('已经订阅了！', 3005);
 			}
@@ -192,6 +190,8 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 			$model = new Sher_Core_Model_Favorite();
 			if($model->check_favorites($user_id, $id, $type, $event)){
 				$ok = $model->remove_favorites($user_id, $id, $type, $event);
+				$user_model = new Sher_Core_Model_User();
+				$user_model->dec_counter('subscription_count',$options['user_id']);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3003);
@@ -225,12 +225,10 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		try{
 			$model = new Sher_Core_Model_Favorite();
 			if (!$model->check_favorites($user_id, $id, $type, $event)) {
-				$info = array();
-				$info['user_id'] = $user_id;
-				$info['target_id'] = $id;
-				$info['type'] = $type;
-				$info['event'] = $event;
-				$ok = $model->add_favorites($info);
+				$ok = $model->remove_favorites($user_id, $id, $type, $event);
+				
+				$model = new Sher_Core_Model_User();
+				$model->inc_counter('sight_love_count',$user_id);
 			}else{
 				return $this->api_json('已经赞过了！', 3005);
 			}
@@ -267,6 +265,8 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 			$model = new Sher_Core_Model_Favorite();
 			if($model->check_favorites($user_id, $id, $type, $event)){
 				$ok = $model->remove_favorites($user_id, $id, $type, $event);
+				$user_model = new Sher_Core_Model_User();
+				$user_model->dec_counter('sight_love_count',$options['user_id']);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3003);

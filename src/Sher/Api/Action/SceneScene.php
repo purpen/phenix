@@ -127,6 +127,9 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		// title=test&des=test&tags=1&address=1&&lat=39.9151190000&lng=116.4039630000
 		$user_id = $this->current_user_id;
 		//$user_id = 10;
+		if(empty($user_id)){
+			  return $this->api_json('请先登录', 3000);   
+		}
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		
@@ -310,7 +313,10 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		if(empty($id)){
 			return $this->api_json('内容不存在', 3000);
 		}
-    $user_id = $this->current_user_id;
+		$user_id = $this->current_user_id;
+		if(empty($user_id)){
+			  return $this->api_json('请先登录', 3000);   
+		}
 		
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		
