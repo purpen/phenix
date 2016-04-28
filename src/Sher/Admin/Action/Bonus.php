@@ -10,6 +10,7 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 		'size' => 20,
 		'status' => 0,
 		'used' => 0,
+    'amount' => 0,
 		'q' => '',
 	);
 	
@@ -45,7 +46,7 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 			}
 		}
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/bonus?status=%d&used=%d&page=#p#', $this->stash['status'], $this->stash['used']);
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/bonus?status=%d&used=%d&amount=%d&page=#p#', $this->stash['status'], $this->stash['used'], $this->stash['amount']);
 		
 		$this->stash['pager_url'] = $pager_url;
 		
