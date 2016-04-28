@@ -270,6 +270,8 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 				case self::TYPE_SCENE_SIGHT:
                     $model = new Sher_Core_Model_SceneSight();
                     //获取目标用户ID
+                    $scene_sight = $model->find_by_id((int)$this->data['target_id']);
+                    $user_id = $scene_sight['user_id'];
                     $model->inc_counter('comment_count', 1, (int)$this->data['target_id']);
                     break;
                 default:
@@ -292,7 +294,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 				// 非回复他人,给创建者回复提醒
 				if($user_id){
 					$user = new Sher_Core_Model_User();
-					$user->update_counter_byinc($user_id, 'comment_count', 1);          
+					$user->update_counter_byinc($user_id, 'comment_count', 1);
 				}
             }
             

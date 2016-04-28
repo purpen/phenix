@@ -150,9 +150,19 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
       $asset_options['size'] = 8;
       $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
 
+      $data[$i]['banner_id'] = isset($data[$i]['banner_id']) ? $data[$i]['banner_id'] : null;
+      $banner_asset_obj = false;
       if(!empty($asset_result['rows'])){
         foreach($asset_result['rows'] as $key=>$value){
-          array_push($assets, $value['thumbnails']['aub']['view_url']);
+          if($data[$i]['banner_id']==(string)$value['_id']){
+            $banner_asset_obj = $value;
+          }else{
+            array_push($assets, $value['thumbnails']['aub']['view_url']);
+          }
+        }
+        // 如果存在封面图，追加到第一个
+        if($banner_asset_obj){
+          array_unshift($assets, $banner_asset_obj['thumbnails']['aub']['view_url']);
         }
       }
       $data[$i]['banner_asset'] = $assets;
