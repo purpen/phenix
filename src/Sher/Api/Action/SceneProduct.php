@@ -40,6 +40,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 			'stick'=>1, 'summary'=>1, 'fine'=>1, 'brand_id'=>1, 'cover_url'=>1, 'banner_id'=>1,
 			'view_count'=>1, 'favorite_count'=>1, 'love_count'=>1, 'comment_count'=>1,'buy_count'=>1, 'deleted'=>1,
       'published'=>1, 'attrbute'=>1, 'state'=>1, 'tags'=>1, 'tags_s'=>1, 'created_on'=>1, 'updated_on'=>1, 'created_at'=>1,
+      'category_tags'=>1,
 		);
 		
 		$query   = array();
