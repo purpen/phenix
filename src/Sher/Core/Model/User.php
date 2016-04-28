@@ -994,35 +994,5 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		$counter_name = 'counter.'.$field;
 		return $this->inc(array('_id'=>(int)$user_id), $counter_name, $value, true);
 	}
-    
-    /**
-	 * 更新计数器，累加[消息计数]
-	 */
-	public function message_count_inc($user_id, $field, $value=1){
-		if(!in_array($field,array('total','notice','comment','love'))){
-			return;
-		}
-		$counter_name = 'message_count.'.$field;
-		return $this->inc(array('_id'=>(int)$user_id), $counter_name, $value, true);
-	}
-    
-    /**
-	 * 更新计数器，累减[消息计数]
-	 */
-	public function message_count_dec($user_id, $field, $value=1){
-		
-        if(!in_array($field,array('total','notice','comment','love'))){
-			return;
-		}
-        
-        $user = $this->find_by_id((int)$user_id);
-       
-        if(!isset($user['message_count'][$field]) || $user['message_count'][$field] <= 0){
-            return true;
-        }
-        
-		$counter_name = 'message_count.'.$field;
-		return $this->dec(array('_id'=>(int)$user_id), $counter_name, $value, true);
-	}
-	
+
 }

@@ -66,11 +66,6 @@ class Sher_Api_Action_Notice extends Sher_Api_Action_Base {
 		// 过滤多余属性
         $filter_fields  = array('state_label','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
-		
-		// 在用户表里面减少数量
-		$model = new Sher_Core_Model_User();
-		$model->message_count_dec((int)$user_id,'total');
-		$model->message_count_dec((int)$user_id,'notice');
 			
 		//var_dump($result['rows']);die;
 		return $this->api_json('请求成功', 0, $result);
