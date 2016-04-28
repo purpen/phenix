@@ -41,7 +41,8 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
       # 情景标签(4个维度添加)
       'scene_tags' => array(),
 		
- 		'cover_id' => '',
+ 		'cover_id' => null,
+    'banner_id' => null,
 		'asset_ids' => array(),
     'asset_count' => 0,
     'banner_asset_ids' => array(),
