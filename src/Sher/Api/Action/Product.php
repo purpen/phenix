@@ -40,7 +40,10 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$product_some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
 			'cover_id', 'category_id', 'stage', 'summary', 'comment_star', 'tags', 'tags_s',
-      'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
+      'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count', 'tips_label',
+      // app抢购
+      'app_snatched'=>1, 'app_snatched_time'=>1, 'app_snatched_end_time'=>1, 'app_snatched_price'=>1,
+      'app_snatched_count'=>1, 'app_appoint_count'=>1, 'app_snatched_total_count'=>1,
 		);
 		
     $options['some_fields'] = $some_fields;
@@ -72,6 +75,12 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
           }
           // 封面图url
           $product_data['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+          // 闪购标识
+          $product_data['is_app_snatched'] = $product_model->is_app_snatched($product);
+          if(!empty($product_data['is_app_snatched'])){
+            $product_data['tips_label'] = 3;
+          }
+
         }
         // 添加到数组 
         array_push($product_arr, $product_data);       
