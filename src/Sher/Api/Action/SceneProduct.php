@@ -23,6 +23,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		
 		// 请求参数
+		$ids = isset($this->stash['ids']) ? $this->stash['ids'] : null;
 		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$category_tag_ids = isset($this->stash['category_tag_ids']) ? $this->stash['category_tag_ids'] : null;
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
@@ -39,10 +40,21 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 			'stick'=>1, 'summary'=>1, 'fine'=>1, 'brand_id'=>1, 'cover_url'=>1, 'banner_id'=>1,
 			'view_count'=>1, 'favorite_count'=>1, 'love_count'=>1, 'comment_count'=>1,'buy_count'=>1, 'deleted'=>1,
       'published'=>1, 'attrbute'=>1, 'state'=>1, 'tags'=>1, 'tags_s'=>1, 'created_on'=>1, 'updated_on'=>1, 'created_at'=>1,
+      'category_tags'=>1,
 		);
 		
 		$query   = array();
 		$options = array();
+
+    if($ids){
+      $id_arr = explode(',', $ids);
+      for($i=0;$i<count($id_arr);$i++){
+        $id_arr[$i] = (int)$id_arr[$i];
+      }
+      if(!empty($id_arr)){
+        $query['_id'] = array('$in'=>$id_arr);
+      }   
+    }
 
     if($kind){
       $query['kind'] = (int)$kind;
