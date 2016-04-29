@@ -146,10 +146,14 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     'deleted' => 0,
 		# 来源站点
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
+    # 来源app: 1.商城;2.Fiu
+    'from_app' => 0,
+    # channel_id
+    'channel_id' => 0,
     );
 
 	protected $required_fields = array('rid', 'user_id');
-	protected $int_fields = array('user_id','invoice_type','deleted','kind','status');
+	protected $int_fields = array('user_id','invoice_type','deleted','kind','status','from_app','from_site');
 
 	protected $joins = array(
 	    'user' => array('user_id' => 'Sher_Core_Model_User'),
@@ -182,6 +186,19 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		if (isset($row['from_site'])){
 			$row['from_site_label'] = $this->get_from_label($row['from_site']);
 		}
+    // 设备
+    if(isset($row['from_app'])){
+      switch($row['from_app']){
+        case 1:
+          $row['from_app_label'] = '商城';
+          break;
+        case 2:
+          $row['from_app_label'] = 'Fiu';
+          break;
+        default:
+          $row['from_app_label'] = '--';
+      }
+    }
 
     // 支付方式
     $row['trade_site_name'] = null;
