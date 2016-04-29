@@ -204,8 +204,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         //首次下单立减非首次下单用户过滤
       }else{
         if(empty($kind)){ // 其它活动不参与
-          //$kind = 4;
-          //$coin_money = Sher_Core_Util_Constant::APP_FIRST_COIN_MONEY;
+          $kind = 4;
+          $coin_money = Sher_Core_Util_Constant::APP_FIRST_COIN_MONEY;
         }    
       }
 			
@@ -333,7 +333,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     if($app_snatched_stat==2){
 
       if(!$this->validate_snatch($product_id)){
-        //return $this->api_json('不能重复抢购！', 3013);     
+        return $this->api_json('不能重复抢购！', 3013);     
       }
 
       $app_snatched_limit_count = $product_data['app_snatched_limit_count'];
@@ -1269,8 +1269,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       //首次下单立减非首次下单用户过滤
     }else{
       if(empty($kind)){ // 秒杀不参与
-        //$kind = 4;
-        //$coin_money = Sher_Core_Util_Constant::APP_FIRST_COIN_MONEY;
+        $kind = 4;
+        $coin_money = Sher_Core_Util_Constant::APP_FIRST_COIN_MONEY;
       }    
     }
 		
