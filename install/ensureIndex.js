@@ -71,11 +71,11 @@ db.egou.ensureIndex({'eid':1, 'hid':1}, {background: true});
 
 db.egoutask.ensureIndex({'eid':1, 'hid':1}, {background: true});
 
-
+# 用户签到统计
 db.user_sign_stat.ensureIndex({only_index:1}, {unique: true}, {background: true});
-
-db.user_sign_stat.ensureIndex({user_id:1, day:1}, {unique: true}, {background: true});
-
+db.user_sign_stat.ensureIndex({day:1, user_id:1}, {unique: true}, {background: true});
+db.user_sign_stat.ensureIndex({week:1, user_id:1}, {background: true});
+db.user_sign_stat.ensureIndex({month:1, user_id:1}, {background: true});
 
 db.user_point_stat.ensureIndex({'state':1, 'kind':1, 'total_point': -1}, {background: true});
 

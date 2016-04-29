@@ -170,7 +170,7 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
         //查询上一次所在周
         $exp_week = 0;
         $money_week = 0;
-        $current_week = $user_sign_stat_model->first(array('user_id'=>(int)$user_id, 'week'=>$week, 'week_latest'=>1));
+        $current_week = $user_sign_stat_model->first(array('week'=>$week, 'user_id'=>(int)$user_id, 'week_latest'=>1));
         if(!empty($current_week)){
           //周汇总
           $exp_week = (int)$current_week['week_exp_count'];
@@ -182,7 +182,7 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
         //查询上一次所在月
         $exp_month = 0;
         $money_month = 0;
-        $current_month = $user_sign_stat_model->first(array('user_id'=>(int)$user_id, 'month'=>$month, 'month_latest'=>1));
+        $current_month = $user_sign_stat_model->first(array('month'=>$month, 'user_id'=>(int)$user_id, 'month_latest'=>1));
         if(!empty($current_month)){
           //月汇总
           $exp_month = (int)$current_month['month_exp_count'];
