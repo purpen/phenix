@@ -968,7 +968,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             // 恢复app闪购产品数量
             if($kind==3){
                 $updated = array(
-				  '$inc' => array('sale_count'=>$quantity*-1, 'inventory'=>$quantity,  'app_snatched_count'=>-1),
+				  '$inc' => array('sale_count'=>$quantity*-1, 'inventory'=>$quantity,  'app_snatched_count'=>$quantity*-1),
                 );           
             }
 		}

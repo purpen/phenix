@@ -433,6 +433,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       return $this->api_json('来源设备不正确！', 3011);     
     }
 
+    $from_app = isset($this->stash['from_app']) ? (int)$this->stash['from_app'] : 1;
+    $channel_id = isset($this->stash['channel']) ? (int)$this->stash['channel'] : 0;
+
     $payment_method = isset($this->stash['payment_method']) ? $this->stash['payment_method'] : 'a';
     if(!in_array($payment_method, array('a', 'b'))){
       return $this->api_json('付款方式不正确！', 3012);     
@@ -534,8 +537,12 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 				$order_info['summary'] = $this->stash['summary'];
 			}
 
-      //来源 api手机应用
+      // 来源 api手机应用
       $order_info['from_site'] = $from_site;
+      // 应用来源
+      $order_info['from_app'] = $from_app;
+      // 渠道
+      $order_info['channel_id'] = $channel_id;
 			
 			// 商品金额
 			$order_info['total_money'] = $total_money;

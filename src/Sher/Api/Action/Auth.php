@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 
-	protected $filter_user_method_list = array('execute', 'login', 'register', 'verify_code', 'find_pwd', 'third_sign', 'third_register_without_phone', 'third_register_with_phone', 'check_login');
+	protected $filter_user_method_list = array('execute', 'login', 'register', 'verify_code', 'find_pwd', 'third_sign', 'third_register_without_phone', 'third_register_with_phone', 'check_login', 'check_account');
 	
 	/**
 	 * 入口
@@ -40,6 +40,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
         if (empty($this->stash['mobile']) || empty($this->stash['password'])) {
             return $this->api_json('数据错误,请重新登录', 3001);
         }
+
 		
 		$user = new Sher_Core_Model_User();
 		$result = $user->first(array('account'=>$this->stash['mobile']));
@@ -68,7 +69,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
 
     $pusher = new Sher_Core_Model_Pusher();
-    $ok = $pusher->binding($uuid, $user_id, $from_to);
+    $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
     $this->current_user_id = $user_id;
 		
 		return $this->api_json('欢迎回来.', 0, $data);
@@ -159,7 +160,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     $data = Sher_Core_Helper_FilterFields::wap_user($user);
 
     $pusher = new Sher_Core_Model_Pusher();
-    $ok = $pusher->binding($uuid, $user_id, $from_to);
+    $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
     $this->current_user_id = $user_id;
 
 			}
@@ -373,7 +374,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
       // 过滤用户字段
       $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
       $pusher = new Sher_Core_Model_Pusher();
-      $ok = $pusher->binding($uuid, $user_id, $from_to);
+      $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
       $this->current_user_id = $user_id;
 
 		  return $this->api_json('欢迎回来.', 0, array('has_user'=>1, 'user'=>$data));
@@ -532,7 +533,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
         // 过滤用户字段
         $data = Sher_Core_Helper_FilterFields::wap_user($user);
         $pusher = new Sher_Core_Model_Pusher();
-        $ok = $pusher->binding($uuid, $user_id, $from_to);
+        $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
         $this->current_user_id = $user_id;
 
         return $this->api_json('创建成功!', 0, $data);
@@ -619,7 +620,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     $data = Sher_Core_Helper_FilterFields::wap_user($user);
 
     $pusher = new Sher_Core_Model_Pusher();
-    $ok = $pusher->binding($uuid, $user_id, $from_to);
+    $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
     $this->current_user_id = $user_id;
 		
 		return $this->api_json('欢迎回来.', 0, $data);
@@ -667,6 +668,22 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     }else{
  			return $this->api_json('已登录！', 0, array('is_login'=>1, 'user_id'=>$this->current_user_id));  
     }
+  }
+
+  /**
+   * 验证手机号是否存在
+   */
+  public function check_account(){
+    $account = isset($this->stash['account']) ? $this->stash['account'] : null;
+    if(empty($account)){
+ 			return $this->api_json('缺少请求参数!', 3001);   
+    }
+		$user_model = new Sher_Core_Model_User();
+    if(!$user_model->check_account($account)){
+      return $this->api_json("手机号已被注册!", 3002);
+    }
+    return $this->api_json("该账手机号可以使用", 0, array('account'=>$account));
+  
   }
 
 	

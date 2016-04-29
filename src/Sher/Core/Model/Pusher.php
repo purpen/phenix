@@ -22,7 +22,7 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
         // 应用最后登录时间
         'last_time' => 0,
         // 渠道ID
-        'channel_id' => 1,
+        'channel_id' => 0,
   	  	
 		'state' => 1,
   	);
@@ -37,6 +37,7 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
     );
 	
     protected function extra_extend_model_row(&$row) {
+      // 来源
       switch($row['from_to']){
         case 1:
           $row['from'] = 'IOS';
@@ -53,13 +54,24 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
         default:
           $row['from'] = '--';
       }
-    	
+
+      // 渠道说明
+      if(isset($row['channel_id'])){
+        switch($row['channel_id']){
+          case 10:
+            $row['channel_label'] = '官网';
+            break;
+          default:
+            $row['channel_label'] = $row['channel_id'];
+        }     
+      }
+
     }
 	
 	/**
 	 * 绑定设备与用户
 	 */
-	public function binding($uuid, $user_id, $from_to){
+	public function binding($uuid, $user_id, $from_to, $channel=0){
 		if(empty($uuid) || empty($user_id)){
 			throw new Sher_Core_Model_Exception('绑定操作缺少参数！');
 		}
@@ -75,6 +87,7 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
         'uuid' => $uuid,
         'from_to' => (int)$from_to,
         'last_time' => time(),
+        'channel_id' => (int)$channel,
       );
       $ok = $this->create($data);
       // 首次绑定送红包
