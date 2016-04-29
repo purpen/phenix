@@ -198,7 +198,11 @@
 					</p>
 				</td>
         <td>
-          {{ comment.floor }}
+          {% if comment.is_reply %}
+            是
+          {%else%}
+            否
+          {%endif%}
         </td>
         <td>
           
