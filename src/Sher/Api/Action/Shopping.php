@@ -434,7 +434,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     }
 
     $from_app = isset($this->stash['from_app']) ? (int)$this->stash['from_app'] : 1;
-    $channel_id = isset($this->stash['channel_id']) ? (int)$this->stash['channel_id'] : 0;
+    $channel_id = isset($this->stash['channel']) ? (int)$this->stash['channel'] : 0;
 
     $payment_method = isset($this->stash['payment_method']) ? $this->stash['payment_method'] : 'a';
     if(!in_array($payment_method, array('a', 'b'))){

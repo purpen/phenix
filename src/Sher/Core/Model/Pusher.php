@@ -71,7 +71,7 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
 	/**
 	 * 绑定设备与用户
 	 */
-	public function binding($uuid, $user_id, $from_to){
+	public function binding($uuid, $user_id, $from_to, $channel=0){
 		if(empty($uuid) || empty($user_id)){
 			throw new Sher_Core_Model_Exception('绑定操作缺少参数！');
 		}
@@ -87,6 +87,7 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
         'uuid' => $uuid,
         'from_to' => (int)$from_to,
         'last_time' => time(),
+        'channel_id' => (int)$channel,
       );
       $ok = $this->create($data);
       // 首次绑定送红包

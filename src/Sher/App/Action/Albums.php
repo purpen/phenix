@@ -74,21 +74,26 @@ class Sher_App_Action_Albums extends Sher_App_Action_Base implements DoggyX_Acti
 	 */
 	public function save(){
 		
-		// 验证数据
-		if(empty($this->stash['title'])){
-			return $this->ajax_json('标题不能为空！', true);
-		}
-		
-		// 验证数据
-		if(empty($this->stash['cover_id'])){
-			return $this->ajax_json('标题不能为空！', true);
-		}
-		
 		$data = array();
-		$data['title'] = $this->stash['title'];
-		$data['des'] = $this->stash['des'];
-		$data['cover_id'] = $this->stash['cover_id'];
-		$data['banner_id'] = $this->stash['banner_id'];
+		$data['title'] = isset($this->stash['title']) ? $this->stash['title'] : '';
+		$data['des'] = isset($this->stash['des']) ? $this->stash['des'] : '';
+		$data['cover_id'] = isset($this->stash['cover_id']) ? $this->stash['cover_id'] : '';
+		$data['banner_id'] = isset($this->stash['banner_id']) ? $this->stash['banner_id'] : '';
+		
+		// 验证数据
+		if(empty($data['title'])){
+			return $this->ajax_json('标题不能为空！', true);
+		}
+		
+		// 验证数据
+		if(empty($data['cover_id'])){
+			return $this->ajax_json('封面不能为空！', true);
+		}
+		
+		// 验证数据
+		if(empty($data['banner_id'])){
+			return $this->ajax_json('banner图不能为空！', true);
+		}
 		
 		// 检查是否有图片
 		if(isset($this->stash['asset'])){

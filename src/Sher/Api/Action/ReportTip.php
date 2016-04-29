@@ -61,11 +61,11 @@ class Sher_Api_Action_ReportTip extends Sher_Api_Action_Base {
         }
         
         if(!$title){
-            return $this->api_json('举报标题不能为空', 4002);
+            //return $this->api_json('举报标题不能为空', 4002);
         }
         
         if(!$content){
-            return $this->api_json('举报内容不能为空', 4002);
+            //return $this->api_json('举报内容不能为空', 4002);
         }
 		
 		switch($type){

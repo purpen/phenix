@@ -163,4 +163,44 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		
 		return $this->api_json('提交成功', 0, null);
 	}
+	
+	/**
+	 * 精选
+	 */
+	public function ajax_stick() {
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$evt = isset($this->stash['evt']) ? $this->stash['evt'] : 0;
+		if(empty($id)){
+			return $this->ajax_json('缺少请求参数！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_SceneScene();
+			$model->update_set($id, array('stick'=>(int)$evt));
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('请求操作失败，请检查后重试！', true);
+		}
+		
+		return $this->to_taconite_page('app_admin/scene_scene/stick_ok.html');
+	}
+	
+	/**
+	 * 审核
+	 */
+	public function ajax_check() {
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$evt = isset($this->stash['evt']) ? $this->stash['evt'] : 0;
+		if(empty($id)){
+			return $this->ajax_json('缺少请求参数！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_SceneScene();
+			$model->update_set($id, array('is_check'=>(int)$evt));
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('请求操作失败，请检查后重试！', true);
+		}
+		
+		return $this->to_taconite_page('app_admin/scene_scene/check_ok.html');
+	}
 }

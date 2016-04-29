@@ -232,19 +232,39 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		'product_count' => 0,
 		# 灵感数量
 		'stuff_count'   => 0,
+        # 收藏数量
+        'favorite_count' => 0,
         
         # 情景数量
         'scene_count' => 0,
         # 场景数量
         'sight_count' => 0,
-        # 收藏数量
-        'favorite_count' => 0,
+        # 订单数量
+        'order_count' => array(
+            'total' => 0,
+            'pre_payment' => 0,
+            'pre_ship' => 0,
+            'pre_receipt' => 0,
+            'pre_comment' => 0
+        ),
+        # 消息数量
+        'message_count' => array(
+            'total' => 0,
+            'notice' => 0,
+            'love' => 0,
+        ),
+        # 订阅情景数量
+        'subscription_count' => 0,
+        # 场景点赞数量
+        'sight_love_count' => 0,
 		
 		## 初次登录导向
 		'first_login'   => 1,
 		
 		## 头像设置
 		'avatar' => array(),
+        #　用户头图
+        'head_pic' => null,
 		
 		'digged' => 0,
 		
@@ -978,5 +998,17 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		$counter_name = 'counter.'.$field;
 		return $this->inc(array('_id'=>(int)$user_id), $counter_name, $value, true);
 	}
-	
+    
+    /**
+	 * 批量更新附件所属
+	 */
+	public function update_batch_assets($ids=array(), $parent_id){
+		if (!empty($ids)){
+			$model = new Sher_Core_Model_Asset();
+			foreach($ids as $id){
+				$model->update_set($id, array('parent_id' => (int)$parent_id));
+			}
+		}
+	}
+
 }

@@ -107,6 +107,18 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		$model = new Sher_Core_Model_SceneScene();
 		$model->inc_counter('sight_count',1,$this->data['scene_id']);
 		
+		// 关联为场景产品关联表增加数据
+		$model = new Sher_Core_Model_SceneProductLink();
+		$product = $this->data['product'];
+		if(count($product)){
+			foreach($product as $k => $v){
+				$data = array();
+				$data['sight_id'] = (int)$this->data['_id'];
+				$data['product_id'] = $v['id'];
+				$model->insert($data);
+			}
+		}
+		
         parent::after_save();
     }
 	
