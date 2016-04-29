@@ -613,7 +613,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     $ok = $support_model->apply_and_save($row);
     if($ok){
       $id = (string)$support_model->id;
-      return $this->api_json('success!', 0, array('id'=>$id));   
+      return $this->api_json('已添加提醒!', 0, array('id'=>$id));   
     }else{
       return $this->api_json('添加提醒失败!', 3003);   
     }

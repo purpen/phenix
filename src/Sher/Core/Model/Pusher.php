@@ -22,7 +22,7 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
         // 应用最后登录时间
         'last_time' => 0,
         // 渠道ID
-        'channel_id' => 1,
+        'channel_id' => 0,
   	  	
 		'state' => 1,
   	);
@@ -37,6 +37,7 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
     );
 	
     protected function extra_extend_model_row(&$row) {
+      // 来源
       switch($row['from_to']){
         case 1:
           $row['from'] = 'IOS';
@@ -53,7 +54,27 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
         default:
           $row['from'] = '--';
       }
-    	
+
+      // 渠道说明
+      if(isset($row['channel_id'])){
+        switch($row['channel_id']){
+          case 10:
+            $row['channel_label'] = 'IOS';
+            break;
+          case 11:
+            $row['channel_label'] = 'Android';
+            break;
+          case 12:
+            $row['channel_label'] = 'Win';
+            break;
+          case 13:
+            $row['channel_label'] = 'IPad';
+            break;
+          default:
+            $row['channel_label'] = '官网';
+        }     
+      }
+
     }
 	
 	/**
