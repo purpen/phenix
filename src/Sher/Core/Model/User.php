@@ -263,6 +263,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		
 		## 头像设置
 		'avatar' => array(),
+        #　用户头图
+        'head_pic' => null,
 		
 		'digged' => 0,
 		
@@ -995,6 +997,18 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		}
 		$counter_name = 'counter.'.$field;
 		return $this->inc(array('_id'=>(int)$user_id), $counter_name, $value, true);
+	}
+    
+    /**
+	 * 批量更新附件所属
+	 */
+	public function update_batch_assets($ids=array(), $parent_id){
+		if (!empty($ids)){
+			$model = new Sher_Core_Model_Asset();
+			foreach($ids as $id){
+				$model->update_set($id, array('parent_id' => (int)$parent_id));
+			}
+		}
 	}
 
 }

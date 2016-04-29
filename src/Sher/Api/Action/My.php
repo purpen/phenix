@@ -6,7 +6,7 @@
 class Sher_Api_Action_My extends Sher_Api_Action_Base {
 
 
-	protected $filter_user_method_list = array('talent_save','set_my_qr_code');
+	protected $filter_user_method_list = array('talent_save','set_my_qr_code','add_head_pic');
 	
 	/**
 	 * 入口
@@ -777,6 +777,62 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 			//->setLabelFontSize(16)
 			->render()
 		;
+	}
+	
+	/*
+	 * 添加用户信息头图
+	 */
+	public function add_head_pic(){
+		
+		$user_id = $this->current_user_id;
+		//$user_id = 10;
+		if(empty($user_id)){
+			  return $this->api_json('请先登录', 3000);   
+		}
+		$data = array();
+		$data['_id'] = (int)$user_id;
+		//$this->stash['tmp'] = Doggy_Config::$vars['app.imges'];
+		if(empty($this->stash['tmp'])){
+			return $this->api_json('请选择图片！', 3001);  
+		}
+		$file = base64_decode(str_replace(' ', '+', $this->stash['tmp']));
+		$image_info = Sher_Core_Util_Image::image_info_binary($file);
+		if($image_info['stat']==0){
+			return $this->api_json($image_info['msg'], 3002);
+		}
+		if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
+			return $this->api_json('图片格式不正确！', 3003);
+		}
+		$params = array();
+		$new_file_id = new MongoId();
+		$params['domain'] = Sher_Core_Util_Constant::STROAGE_USER_HEAD_PIC;
+		$params['asset_type'] = Sher_Core_Model_Asset::TYPE_USER_HEAD_PIC;
+		$params['filename'] = $new_file_id.'.jpg';
+		$params['parent_id'] = (int)$user_id;
+		$params['user_id'] = (int)$user_id;
+		$params['image_info'] = $image_info;
+		$result = Sher_Core_Util_Image::api_image($file, $params);
+		
+		if($result['stat']){
+			$data['head_pic'] = $result['asset']['id'];
+		}else{
+			return $this->api_json('上传失败!', 3005); 
+		}
+		
+		//var_dump($data);die;
+		try{
+			$model = new Sher_Core_Model_User();
+			$ok = $model->apply_and_update($data);
+			
+			if(!$ok){
+				return $this->api_json('保存失败,请重新提交', 4002);
+			}
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->api_json('保存失败:'.$e->getMessage(), 4002);
+		}
+		
+		return $this->api_json('提交成功', 0, array('current_user_id'=>$user_id));
 	}
 }
 

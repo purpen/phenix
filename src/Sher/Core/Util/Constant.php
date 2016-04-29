@@ -33,6 +33,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	
 	const STROAGE_ID_CARD = 'id_card';
 	const STROAGE_BUSINESS_CARD = 'business_card';
+	const STROAGE_USER_HEAD_PIC = 'user_head_pic';
 	
 	/**
 	 * 类型的常量

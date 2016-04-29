@@ -19,6 +19,7 @@ class Sher_Core_ViewTag_SceneSightList extends Doggy_Dt_Tag {
 		$page = 1;
         $size = 10;
 		$title = '';
+        $type = 0;
 
         $var = 'list';
         $include_pager = 0;
@@ -33,10 +34,15 @@ class Sher_Core_ViewTag_SceneSightList extends Doggy_Dt_Tag {
         $size = (int)$size;
 		
 		$query = array();
-		
-		if($title){
-			$query['title'] = $title;
-		}
+        
+        switch($type){
+            case 1:
+               $query['fine'] = 1;
+               break;
+            case 2:
+               $query['is_check'] = 0;
+               break;
+        }
 		
         $service = Sher_Core_Service_SceneSight::instance();
         $options['page'] = $page;
