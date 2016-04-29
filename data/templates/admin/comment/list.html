@@ -115,6 +115,8 @@
           <div class="item" data-value="3">试用</div>
           <div class="item" data-value="4">商品</div>
           <div class="item" data-value="9">产品专题</div>
+          <div class="item" data-value="10">活动专题</div>
+          <div class="item" data-value="12">场景</div>
         </div>
       </div>
 
@@ -158,6 +160,7 @@
 				<th>点赞名单</th>
                 <th>赞数量</th>
                 <th>楼层</th>
+                <th>是否回复</th>
                 <th>所属</th>
 				<th>关联ID</th>
         <th>评论时间/IP/来源</th>
@@ -195,7 +198,14 @@
 					</p>
 				</td>
         <td>
-          {{ comment.floor }}
+          {% if comment.is_reply %}
+            是
+          {%else%}
+            否
+          {%endif%}
+        </td>
+        <td>
+          
         </td>
         <td>
           {%if comment.type==1%}用户{%endif%}
@@ -206,6 +216,7 @@
           {%if comment.type==7%}专辑{%endif%}
           {%if comment.type==9%}产品专题{%endif%}
           {%if comment.type==10%}专题{%endif%}
+          {%if comment.type==12%}场景{%endif%}
         </td>
         <td>{{ comment.target_id }}</td>
         <td>

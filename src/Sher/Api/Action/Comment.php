@@ -39,7 +39,7 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		  '_id'=>1, 'user_id'=>1, 'content'=>1, 'star'=>1, 'target_id'=>1, 'target_user_id'=>1, 'sku_id'=>1,
 		  'deleted'=>1, 'reply_user_id'=>1, 'floor'=>1, 'type'=>1, 'sub_type'=>1, 'user'=>1, 'target_user'=>1,
 		  'love_count'=>1, 'invented_love_count'=>1, 'is_reply'=>1, 'reply_id'=>1, 'created_on'=>1, 'updated_on'=>1,
-		  'created_at'=>1,
+		  'created_at'=>1, 'reply_comment'=>1,
 		);
 		
 		// 查询条件
@@ -88,6 +88,12 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 			if($data[$i]['target_user']){
 			  $data[$i]['target_user'] = Sher_Core_Helper_FilterFields::user_list($data[$i]['target_user']);
 			}
+      if($data[$i]['reply_comment']){
+        $data[$i]['reply_user_nickname'] = $data[$i]['reply_comment']['user']['nickname'];
+        //$data[$i]['reply_comment']['user'] = Sher_Core_Helper_FilterFields::user_list($data[$i]['reply_comment']['user']);
+      }else{
+        $data[$i]['reply_user_nickname'] = null;
+      }
 		}
 		$result['rows'] = $data;
 		//var_dump($result['rows']);die;
@@ -163,7 +169,9 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 				$comment = &$model->extend_load($comment_id);
 				$comment['_id'] = (string)$comment['_id'];
 				unset($comment['user']);
-			}
+      }else{
+ 			  return $this->api_json('保存失败!', 3003);     
+      }
 		}catch(Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3002);
 		}
