@@ -118,7 +118,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 			
 			$result['rows'][$k]['user'] = $user;
 		}
-		
+
 		// 过滤多余属性
         $filter_fields  = array('tag_s','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
