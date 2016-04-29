@@ -95,7 +95,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 			$result['rows'][$k]['address'] = $result['rows'][$k]['profile']['address'];
 			
 			// 屏蔽关键信息
-			$filter_fields  = array('profile','ext_state','__extend__','birthday','last_char','mentor_info','is_ok','view_fans_url','view_follow_url','small_avatar_url','mini_avatar_url','medium_avatar_url','screen_name','id','role_id');
+			$filter_fields  = array('profile','ext_state','__extend__','birthday','last_char','mentor_info','is_ok','view_fans_url','view_follow_url','small_avatar_url','mini_avatar_url','big_avatar_url','screen_name','id','role_id');
 			for($i=0;$i<count($filter_fields);$i++){
 				$key = $filter_fields[$i];
 				unset($result['rows'][$k][$key]);
@@ -106,7 +106,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
         $filter_fields  = array();
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
-		var_dump($result['rows']);die;
+		//var_dump($result['rows']);die;
 		return $this->api_json('请求成功', 0, $result);
 	}
 	
