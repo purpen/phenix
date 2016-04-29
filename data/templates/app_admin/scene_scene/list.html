@@ -101,9 +101,9 @@
 					  	<label></label>
 					</div>
 				</th>
+                <th>封面</th>
                 <th>标题</th>
                 <th>地址</th>
-				<th>状态</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
@@ -118,19 +118,17 @@
 					  	<label></label>
 					</div>
 				</td>
+                <td>
+					<div class="ui image">
+						<img src="{{ d.cover.thumbnails.mini.view_url }}" width="80px" />
+					</div>
+				</td>
 				 <td>
                   {{ d.title }}
                 </td>
                 <td>
                   {{ d.address }}
                 </td>
-				<td>
-					{% if d.status %}
-					可用
-					{% else %}
-                    不可用
-					{% endif %}
-                 </td>
 				<td>
                     {% if d.stick == 1 %}
                     <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_stick?id={{ d._id }}&evt=0" class="ui link ajax item" id="stick-{{ d._id }}-button">取消精选</a>
