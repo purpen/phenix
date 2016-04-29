@@ -239,20 +239,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         'scene_count' => 0,
         # 场景数量
         'sight_count' => 0,
-        # 订单数量
-        'order_count' => array(
-            'total' => 0,
-            'pre_payment' => 0,
-            'pre_ship' => 0,
-            'pre_receipt' => 0,
-            'pre_comment' => 0
-        ),
-        # 消息数量
-        'message_count' => array(
-            'total' => 0,
-            'notice' => 0,
-            'love' => 0,
-        ),
+        
         # 订阅情景数量
         'subscription_count' => 0,
         # 场景点赞数量
@@ -321,17 +308,18 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		// 计数器
 		'counter' => array(
 			'message_count' => 0, // 私信
-			'notice_count' => 0,  // 通知
-			'alert_count' => 0, // 提醒
-			'fans_count' => 0,  // 粉丝
-			'comment_count' => 0, // 评论
-			'people_count' => 0,  // 用户
-      'fiu_comment_count' => 0, // Fiu 评论
-      'fiu_notice_count' => 0, // Fiu 通知
-      'order_wait_payment' => 0, // 订单待付款
-      'order_ready_goods' => 0, // 订单待付款
-      'order_sended_goods' => 0, // 订单待收货
-      'order_evaluate' => 0, // 订单待收货
+			'notice_count' => 0,  // 通知 #
+			'alert_count' => 0, // 提醒 #
+			'fans_count' => 0,  // 粉丝 #
+			'comment_count' => 0, // 评论 #
+			'people_count' => 0,  // 用户 #
+            'fiu_comment_count' => 0, // Fiu 评论
+            'fiu_notice_count' => 0, // Fiu 通知
+            'sight_love_count' => 0, // Fiu 别人给他点的赞(场景)
+            'order_wait_payment' => 0, // 订单待付款
+            'order_ready_goods' => 0, // 订单待付款
+            'order_sended_goods' => 0, // 订单待收货
+            'order_evaluate' => 0, // 订单待收货
 		),
 		// 用户行为记录
 		'visit' => array(

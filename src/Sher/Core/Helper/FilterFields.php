@@ -11,12 +11,15 @@ class Sher_Core_Helper_FilterFields {
      * 手机版字段过滤
      */
     public static function wap_user($user){
+        
         $some_fields = array('_id'=>1,'account'=>1,'nickname'=>1,'true_nickname'=>1,
         'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,
         'created_on'=>1,'email'=>1,'birthday'=>1,'medium_avatar_url'=>1, 'identify'=>1,
-        'follow_count'=>1,'fans_count'=>1,'scene_count'=>1,'sight_count'=>1,'order_count'=>1,
-        'message_count'=>1,'subscription_count'=>1,'sight_love_count'=>1);
-		// 重建数据结果
+        'follow_count'=>1,'fans_count'=>1,'scene_count'=>1,'sight_count'=>1,'message_count'=>1,
+        'fiu_comment_count'=>1,'fiu_notice_count'=>1,'sight_love_count'=>1,'order_wait_payment'=>1,'order_ready_goods'=>1,
+        'order_ready_goods'=>1,'order_sended_goods'=>1,'order_evaluate'=>1);
+		
+        // 重建数据结果
 		$data = array();
 		foreach($some_fields as $key=>$value){
             if(isset($user[$key])){
@@ -55,31 +58,58 @@ class Sher_Core_Helper_FilterFields {
         if(!isset($data['sight_count'])){
           $data['sight_count'] = 0;
         }
-        if(!isset($data['message_count'])){
-          $data['message_count'] = 0;
-        }
-        if(!isset($data['subscription_count'])){
-          $data['subscription_count'] = 0;
-        }
-        if(!isset($data['sight_love_count'])){
-          $data['sight_love_count'] = 0;
-        }
     
-        //'follow_count'=>1,'fans_count'=>1,'scene_count'=>1,'sight_count'=>1,'order_count'=>1,
-        // 'message_count'=>1,'subscription_count'=>1,'sight_love_count'=>1
         if(!isset($data['identify'])){
-          if(!isset($data['identify']['is_scene_subscribe'])){
-            $data['identify']['is_scene_subscribe'] = 0;
-          }
+            if(!isset($data['identify']['is_scene_subscribe'])){
+                $data['identify']['is_scene_subscribe'] = 0;
+            }
         }
-        if(!isset($data['order_count'])){
-          if(!isset($data['order_count']['total'])){
-            $data['order_count_total'] = 0;
-          }else{
-            $data['order_count_total'] = $data['order_count']['total'];
-          }
+        
+        if(!isset($data['counter'])){
+            if(!isset($data['counter']['message_count'])){
+              $data['counter_message_count'] = 0;
+            }else{
+              $data['counter_message_count'] = $data['counter']['message_count'];
+            }
+            if(!isset($data['counter']['fiu_comment_count'])){
+              $data['fiu_comment_count'] = 0;
+            }else{
+              $data['fiu_comment_count'] = $data['counter']['fiu_comment_count'];
+            }
+            if(!isset($data['counter']['fiu_notice_count'])){
+              $data['fiu_notice_count'] = 0;
+            }else{
+              $data['fiu_notice_count'] = $data['counter']['fiu_notice_count'];
+            }
+            if(!isset($data['counter']['sight_love_count'])){
+              $data['sight_love_count'] = 0;
+            }else{
+              $data['sight_love_count'] = $data['counter']['sight_love_count'];
+            }
+            $data['message_total'] = $data['counter_message_count'] + $data['fiu_comment_count'] + $data['fiu_notice_count'] + $data['sight_love_count'];
+            if(!isset($data['counter']['order_wait_payment'])){
+              $data['order_wait_payment'] = 0;
+            }else{
+              $data['order_wait_payment'] = $data['counter']['order_wait_payment'];
+            }
+            if(!isset($data['counter']['order_ready_goods'])){
+              $data['order_ready_goods'] = 0;
+            }else{
+              $data['order_ready_goods'] = $data['counter']['order_ready_goods'];
+            }
+            if(!isset($data['counter']['order_sended_goods'])){
+              $data['order_sended_goods'] = 0;
+            }else{
+              $data['order_sended_goods'] = $data['counter']['order_sended_goods'];
+            }
+            if(!isset($data['counter']['order_evaluate'])){
+              $data['order_evaluate'] = 0;
+            }else{
+              $data['order_evaluate'] = $data['counter']['order_evaluate'];
+            }
+            $data['order_total'] = $data['order_evaluate'] + $data['order_sended_goods'] + $data['order_ready_goods'] + $data['order_wait_payment'];
         }
-        unset($data['order_count']);
+        unset($data['counter']);
         return $data;
     }
 
