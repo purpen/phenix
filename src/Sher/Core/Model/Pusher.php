@@ -59,19 +59,10 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
       if(isset($row['channel_id'])){
         switch($row['channel_id']){
           case 10:
-            $row['channel_label'] = 'IOS';
-            break;
-          case 11:
-            $row['channel_label'] = 'Android';
-            break;
-          case 12:
-            $row['channel_label'] = 'Win';
-            break;
-          case 13:
-            $row['channel_label'] = 'IPad';
+            $row['channel_label'] = '官网';
             break;
           default:
-            $row['channel_label'] = '官网';
+            $row['channel_label'] = $row['channel_id'];
         }     
       }
 
