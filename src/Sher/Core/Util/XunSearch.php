@@ -97,9 +97,7 @@ public function __construct() {
     if(empty($str)){
       return array('success'=>false, 'msg'=>'搜索内容为空!');
     }
-    // 过滤xss攻击
-    $str = Sher_Core_Helper_FilterFields::remove_xss($str);
-    $str_f = $str;
+
     $page = isset($options['page'])?(int)$options['page']:1;
     $size = isset($options['size'])?(int)$options['size']:5;
     $sort = isset($options['sort'])?(int)$options['sort']:0;
@@ -111,6 +109,12 @@ public function __construct() {
     $type = isset($options['type'])?(int)$options['type']:0;
     // 网页版与APP版查询分开
     $from_to = isset($options['from_to'])?(int)$options['from_to']:1;
+
+    // 过滤xss攻击
+    if($evt=='content'){
+      $str = Sher_Core_Helper_FilterFields::remove_xss($str);
+    }
+    $str_f = $str;
 
     try{
       $xs = new \XS($db); // 建立 XS 对象，项目名称为：demo
