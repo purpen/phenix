@@ -163,7 +163,7 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
       $week = (int)((string)$year.(string)$week_num);
 
       //如果统计表存在,跳过
-      $is_exist = $user_sign_stat_model->first(array('day'=>(int)$today, 'user_id'=>(int)$user_id));
+      $is_exist = $user_sign_stat_model->first(array('user_id'=>(int)$user_id, 'day'=>(int)$today));
       if(empty($is_exist)){
         $user_kind = isset($options['user_kind']) ? (int)$options['user_kind'] : 0;
 
