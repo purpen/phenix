@@ -57,7 +57,7 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 		'app_view_count' => 0,
 		
 		# 审核
-		'is_check' => 0,
+		'is_check' => 1,
 		# 精选
 		'stick' => 0,
 		# 是否启用
