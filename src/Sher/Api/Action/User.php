@@ -84,11 +84,11 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 				//$scene = $scene_service->get_scene_scene_list(array('user_id'=>(int)$v['_id']),array('page'=>1,'size'=>5));
 				$scene = $scene_service->get_scene_scene_list(array('user_id'=>20448),array('page'=>1,'size'=>$scene_size));
 			}
-			for($i=0;$i<$scene_size;$i++){
-				$result['rows'][$k]['scene'][$i]['_id'] = $scene['rows'][$i]['_id'];
-				$result['rows'][$k]['scene'][$i]['title'] = $scene['rows'][$i]['title'];
-				$result['rows'][$k]['scene'][$i]['address'] = $scene['rows'][$i]['address'];
-				$result['rows'][$k]['scene'][$i]['cover_url'] = $scene['rows'][$i]['cover']['thumbnails']['huge']['view_url'];
+			foreach($scene['rows'] as $key => $val){
+				$result['rows'][$k]['scene'][$key]['_id'] = $val['_id'];
+				$result['rows'][$k]['scene'][$key]['title'] = $val['title'];
+				$result['rows'][$k]['scene'][$key]['address'] = $val['address'];
+				$result['rows'][$k]['scene'][$key]['cover_url'] = $val['cover']['thumbnails']['huge']['view_url'];
 			}
 			
 			$result['rows'][$k]['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($v['created_on']);
@@ -106,7 +106,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
         $filter_fields  = array();
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
-		//var_dump($result['rows']);die;
+		var_dump($result['rows']);die;
 		return $this->api_json('请求成功', 0, $result);
 	}
 	
