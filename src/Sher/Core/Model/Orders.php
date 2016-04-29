@@ -149,7 +149,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     # 来源app: 1.商城;2.Fiu
     'from_app' => 0,
     # channel_id
-    'channel_id' => 0,
+    'channel_id' => null,
     );
 
 	protected $required_fields = array('rid', 'user_id');

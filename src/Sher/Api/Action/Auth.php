@@ -40,6 +40,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
         if (empty($this->stash['mobile']) || empty($this->stash['password'])) {
             return $this->api_json('数据错误,请重新登录', 3001);
         }
+
 		
 		$user = new Sher_Core_Model_User();
 		$result = $user->first(array('account'=>$this->stash['mobile']));
@@ -68,7 +69,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
 
     $pusher = new Sher_Core_Model_Pusher();
-    $ok = $pusher->binding($uuid, $user_id, $from_to);
+    $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
     $this->current_user_id = $user_id;
 		
 		return $this->api_json('欢迎回来.', 0, $data);
@@ -159,7 +160,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     $data = Sher_Core_Helper_FilterFields::wap_user($user);
 
     $pusher = new Sher_Core_Model_Pusher();
-    $ok = $pusher->binding($uuid, $user_id, $from_to);
+    $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
     $this->current_user_id = $user_id;
 
 			}
@@ -373,7 +374,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
       // 过滤用户字段
       $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
       $pusher = new Sher_Core_Model_Pusher();
-      $ok = $pusher->binding($uuid, $user_id, $from_to);
+      $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
       $this->current_user_id = $user_id;
 
 		  return $this->api_json('欢迎回来.', 0, array('has_user'=>1, 'user'=>$data));
@@ -532,7 +533,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
         // 过滤用户字段
         $data = Sher_Core_Helper_FilterFields::wap_user($user);
         $pusher = new Sher_Core_Model_Pusher();
-        $ok = $pusher->binding($uuid, $user_id, $from_to);
+        $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
         $this->current_user_id = $user_id;
 
         return $this->api_json('创建成功!', 0, $data);
@@ -619,7 +620,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     $data = Sher_Core_Helper_FilterFields::wap_user($user);
 
     $pusher = new Sher_Core_Model_Pusher();
-    $ok = $pusher->binding($uuid, $user_id, $from_to);
+    $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
     $this->current_user_id = $user_id;
 		
 		return $this->api_json('欢迎回来.', 0, $data);
