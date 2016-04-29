@@ -100,8 +100,8 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 			$scene_size = 5;
 			if($has_scene){
 				// 测试
-				$scene = $scene_service->get_scene_scene_list(array('user_id'=>(int)$v['_id']),array('page'=>1,'size'=>5));
-				//$scene = $scene_service->get_scene_scene_list(array('user_id'=>10),array('page'=>1,'size'=>$scene_size));
+				//$scene = $scene_service->get_scene_scene_list(array('user_id'=>(int)$v['_id']),array('page'=>1,'size'=>5));
+				$scene = $scene_service->get_scene_scene_list(array('user_id'=>20448),array('page'=>1,'size'=>$scene_size));
 				foreach($scene['rows'] as $key => $val){
 					$result['rows'][$k]['scene'][$key]['_id'] = $val['_id'];
 					$result['rows'][$k]['scene'][$key]['title'] = $val['title'];

@@ -281,7 +281,6 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 		}else{
 			$info['target_id'] = (int)$target_id;
 		}
-		
         return $this->apply_and_save($info);
     }
 	

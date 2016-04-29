@@ -123,7 +123,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
         $filter_fields  = array('tag_s','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
-		//var_dump($result['rows']);die;
+		var_dump($result['rows']);die;
 		return $this->api_json('请求成功', 0, $result);
 	}
 	
@@ -150,8 +150,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		try{
 			$model = new Sher_Core_Model_Favorite();
 			if (!$model->check_favorites($user_id, $id, $type, $event)) {
-				$ok = $model->add_favorites($id,$user_id,$type,$event);
-				
+				$ok = $model->add_favorites($user_id,$id,$type,$event);
 				$model = new Sher_Core_Model_User();
 				$model->inc_counter('subscription_count',$user_id);
 			}else{
