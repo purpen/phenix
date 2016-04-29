@@ -163,14 +163,14 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
       $week = (int)((string)$year.(string)$week_num);
 
       //如果统计表存在,跳过
-      $is_exist = $user_sign_stat_model->first(array('day'=>(int)$today, 'user_id'=>(int)$user_id));
+      $is_exist = $user_sign_stat_model->first(array('user_id'=>(int)$user_id, 'day'=>(int)$today));
       if(empty($is_exist)){
         $user_kind = isset($options['user_kind']) ? (int)$options['user_kind'] : 0;
 
         //查询上一次所在周
         $exp_week = 0;
         $money_week = 0;
-        $current_week = $user_sign_stat_model->first(array('week'=>$week, 'user_id'=>(int)$user_id, 'week_latest'=>1));
+        $current_week = $user_sign_stat_model->first(array('user_id'=>(int)$user_id, 'week'=>$week, 'week_latest'=>1));
         if(!empty($current_week)){
           //周汇总
           $exp_week = (int)$current_week['week_exp_count'];
@@ -182,7 +182,7 @@ class Sher_Core_Model_UserSign extends Sher_Core_Model_Base  {
         //查询上一次所在月
         $exp_month = 0;
         $money_month = 0;
-        $current_month = $user_sign_stat_model->first(array('month'=>$month, 'user_id'=>(int)$user_id, 'month_latest'=>1));
+        $current_month = $user_sign_stat_model->first(array('user_id'=>(int)$user_id, 'month'=>$month, 'month_latest'=>1));
         if(!empty($current_month)){
           //月汇总
           $exp_month = (int)$current_month['month_exp_count'];
