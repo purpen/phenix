@@ -1,11 +1,12 @@
 <?php
 class Sher_Core_Service_User extends Sher_Core_Service_Base {
+    
     protected $sort_fields = array(
         'time' => array('last_login' => -1),
 		'latest' => array('created_on' => -1),
 		'popular' => array('fans_count' => -1),
 		'digged' => array('digged' => -1),
-    'topic_count' => array('topic_count' => -1),
+        'topic_count' => array('topic_count' => -1),
     );
 
     protected static $instance;
@@ -20,6 +21,7 @@ class Sher_Core_Service_User extends Sher_Core_Service_Base {
         }
         return self::$instance;
     }
+    
     /**
      * 用户列表
      */
