@@ -24,6 +24,9 @@
 .mainwrap .mainright .user.action .ui.pop.button i.icon{
 	margin-right: 0;
 }
+.iosewm{
+	display:none;
+}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -835,14 +838,14 @@
                 {% endif %}
             {% endif %}
         </div>
-			
+			<!--
 			{% if visitor.can_edit %}
 			<div class="sellwrap">
 			  <div class="user action">
 				<div style="margin: 15px 0;">
 				  <p>专辑分享产品</p>
 				</div>
-				<!--
+				
 				<div class="ui magenta albums inverted button" data-title="加入专辑" data-content="加入到产品专辑中..." data-id="{{ product._id }}" data-mark="n">
 					<i class="plus icon"></i> 加入专辑
 				</div>
@@ -868,11 +871,11 @@
 					<div class="ui albums Cancel button">取消</div>
 					<a class="ui albums OK button ajax">提交</a>
 				  </div>
-				</div>-->
+				</div>
 			  </div>
 			</div>
 			{% endif %}
-			
+			-->
             <div class="sellwrap">
                 <div class="user action">
                     <p>关注&分享产品</p>
