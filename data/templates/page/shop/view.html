@@ -16,6 +16,14 @@
     z-index: 6;
 	text-align:left;
 }
+.mainwrap .mainright .user.action .ui.pop.button{
+	padding-left: 1.2rem;
+    padding-right: 1.2rem;
+    font-size: 12px;
+}
+.mainwrap .mainright .user.action .ui.pop.button i.icon{
+	margin-right: 0;
+}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -834,6 +842,7 @@
 				<div style="margin: 15px 0;">
 				  <p>专辑分享产品</p>
 				</div>
+				<!--
 				<div class="ui magenta albums inverted button" data-title="加入专辑" data-content="加入到产品专辑中..." data-id="{{ product._id }}" data-mark="n">
 					<i class="plus icon"></i> 加入专辑
 				</div>
@@ -859,7 +868,7 @@
 					<div class="ui albums Cancel button">取消</div>
 					<a class="ui albums OK button ajax">提交</a>
 				  </div>
-				</div>
+				</div>-->
 			  </div>
 			</div>
 			{% endif %}
@@ -873,6 +882,36 @@
         			<div class="ui magenta pop favorite inverted button" data-title="关注一下" data-content="有关该产品动态及时通知你，后续可以在‘我关注的’中快捷查找" data-id="{{ product._id }}" data-mark="n">
         				<i class="plus icon"></i> 关注
         			</div>
+					
+					{% if visitor.can_edit %}
+					<div class="ui magenta albums pop inverted button" data-title="加入专辑" data-content="加入到产品专辑中..." data-id="{{ product._id }}" data-mark="n">
+						<i class="plus icon"></i> 专辑
+					</div>
+				
+					<div class="ui albums modal">
+					  <i class="close icon"></i>
+					  <div class="header">
+						将相应的产品加入专辑
+					  </div>
+					  <div class="ui options" style="margin:1em 50px 10px 50px">
+						<input type="hidden" name="category_id" id="albums_category" />					
+						{% for albums in albums %}
+							<div class="ui magenta alt option" data-value="{{ albums._id }}">
+								<i class="check circle outline icon"></i>
+								{{ albums.title }}
+							</div>
+						{% endfor %}
+						<div style="margin:10 50px 10px 50px">
+						  <a id="albums" style="display: none" href="" class="ui blue button" target="_blank">去往专辑页</a>
+						</div>
+					  </div>
+					  <div class="actions">
+						<div class="ui albums Cancel button">取消</div>
+						<a class="ui albums OK button ajax">提交</a>
+					  </div>
+					</div>
+					{% endif %}
+					
                 </div>
                 <div class="user avatars">
               	  	<div class="ui images" id="target_{{ product._id }}_support">
