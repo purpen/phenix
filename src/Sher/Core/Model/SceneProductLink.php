@@ -9,24 +9,23 @@ class Sher_Core_Model_SceneProductLink extends Sher_Core_Model_Base {
 	
     protected $schema = array(
 		# 场景id
-		'scene_id' => 0,
+		'sight_id' => 0,
         # 产品id
         'product_id' => 0,
-		# 位置信息
-		'tags' => array(),
-        # 点击次数
-        'click_count' => 0,
         # 是否启用
-		'status' => 1,
+		'status' => 0,
     );
 	
 	protected $required_fields = array();
-	protected $int_fields = array('status', 'click_count','scene_id','product_id');
+	protected $int_fields = array('status','sight_id','product_id');
 	protected $float_fields = array();
-	protected $counter_fields = array('click_count');
+	protected $counter_fields = array();
 	protected $retrieve_fields = array();
     
-	protected $joins = array();
+	protected $joins = array(
+		'sight' =>  array('sight_id' => 'Sher_Core_Model_SceneSight'),
+		'product' =>  array('product_id' => 'Sher_Core_Model_SceneProduct'),
+	);
 	
 	/**
 	 * 扩展数据

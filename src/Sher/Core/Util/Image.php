@@ -536,7 +536,7 @@ class Sher_Core_Util_Image {
         if($arr['domain']){
             $img_info['domain'] = $arr['domain'];
         }
-        if($arr['user_id']){
+        if(isset($arr['user_id']) && !empty($arr['user_id'])){
             $img_info['user_id'] = $arr['user_id'];
         }
         $img_info['width'] = $arr['image_info']['width'];

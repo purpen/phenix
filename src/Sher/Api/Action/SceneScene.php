@@ -79,8 +79,6 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			}
 		}
 		
-		// 状态
-		$query['status'] = 1;
 		// 已审核
 		$query['is_check']  = 1;
 		

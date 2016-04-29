@@ -11,7 +11,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         'size' => 10,
 	);
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view','save');
 
 	/**
 	 * 入口
@@ -162,7 +162,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$user_id = $this->current_user_id;
-		//$user_id = 10;
+		$user_id = 10;
 		if(empty($user_id)){
 			  return $this->api_json('请先登录', 3000);   
 		}
@@ -227,7 +227,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		unset($data['product_y']);
 		
 		// 上传图片
-		//$this->stash['tmp'] = Doggy_Config::$vars['app.imges'];
+		$this->stash['tmp'] = Doggy_Config::$vars['app.imges'];
 		
 		if(!isset($this->stash['tmp']) && empty($this->stash['tmp'])){
 			return $this->api_json('请选择图片！', 3001);  
