@@ -21,11 +21,12 @@ class Sher_Api_Action_Notice extends Sher_Api_Action_Base {
 		
 		$page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
 		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 100;
-		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
-
-		if(!$user_id){
-			return $this->api_json('获取数据错误,请重新提交', 3000);
+		
+		$user_id = $this->current_user_id;
+		//$user_id = 10;
+		if(empty($user_id)){
+			  return $this->api_json('请先登录', 3000);   
 		}
 		
 		$query   = array();
@@ -65,7 +66,7 @@ class Sher_Api_Action_Notice extends Sher_Api_Action_Base {
 		// 过滤多余属性
         $filter_fields  = array('state_label','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
-		
+			
 		//var_dump($result['rows']);die;
 		return $this->api_json('请求成功', 0, $result);
 	}

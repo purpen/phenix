@@ -61,7 +61,7 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 		# 精选
 		'stick' => 0,
 		# 是否启用
-		'status' => 1,
+		'status' => 0,
     );
 	
 	protected $required_fields = array('title');

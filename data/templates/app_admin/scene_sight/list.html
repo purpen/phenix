@@ -44,19 +44,6 @@
 {% endblock %}
 
 {% block jquery %}
-
-	$('.ui.submit.button.search').click(function(){
-		$('#search-form').submit();
-	});
-    
-    $('.delete').click(function(){
-        var id = $(this).attr('data-val');
-        $.post('{{ app_url_api }}/scene_scene/delete',{id:id},function(data){
-            var data = eval('('+data+')');
-            var back_id = data.data.id;
-            $('#'+back_id).remove();
-        });
-    });
 	
 {% endblock %}
 	
@@ -64,22 +51,29 @@
 	<h3 class="ui header">情景管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_app_admin_base }}/scene_scene" class="active item">
+		<a href="{{ app_url_app_admin_base }}/scene_sight?type=0" class="item {{ css_all }}">
 			全部
+		</a>
+        <a href="{{ app_url_app_admin_base }}/scene_sight?type=1" class="item {{ css_fine }}">
+			精选
+		</a>
+        <a href="{{ app_url_app_admin_base }}/scene_sight?type=2" class="item {{ css_check }}">
+			未审核
 		</a>
 
 	  	<div class="right menu">
+            <!--
 			<a href="{{ app_url_app_admin_base }}/scene_scene/add" class="item">
 				<i class="add icon"></i>添加情景
 			</a>
-			<!--
+			
 			<a href="javascript:void(0);" class="item ajax-delete">
 				<i class="remove icon"></i>批量删除
 			</a>
 			-->
 	    </div>
 	</div>
-	
+	<!--
 	<div class="ui sub ">
 		<form action="{{ app_url_app_admin_base }}/scene_scene/get_list" id="search-form" method="get">
 			<label>搜索：</label>
@@ -91,7 +85,7 @@
             </div>
 		</form>
 	</div>
-	
+	-->
 	<table class="ui small table segment">
 		<thead>
 			<tr>
@@ -103,12 +97,13 @@
 				</th>
                 <th>封面</th>
                 <th>标题</th>
-                <th>地址</th>
+                <th>所属情景</th>
+				<th>地址</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
-			{% scene_scene_list var:'list' page:page title:title size:20 %}
+			{% scene_sight_list var:'list' page:page type:type size:20 %}
 
 			{% for d in list.rows %}
 			<tr id="{{ d._id }}">
@@ -123,25 +118,26 @@
 						<img src="{{ d.cover.thumbnails.mini.view_url }}" width="80px" />
 					</div>
 				</td>
-				 <td>
+				<td>
                   {{ d.title }}
+                </td>
+                <td>
+                  {{ d.scene.title }}
                 </td>
                 <td>
                   {{ d.address }}
                 </td>
 				<td>
-                    {% if d.stick == 1 %}
-                    <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_stick?id={{ d._id }}&evt=0" class="ui link ajax item" id="stick-{{ d._id }}-button">取消精选</a>
+                    {% if d.fine == 1 %}
+                    <a href="{{ app_url_app_admin_base }}/scene_sight/ajax_fine?id={{ d._id }}&evt=0" class="ui link ajax item" id="fine-{{ d._id }}-button">取消精选</a>
                     {% else %}
-                    <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_stick?id={{ d._id }}&evt=1" class="ui link ajax item" id="stick-{{ d._id }}-button">精选</a>
+                    <a href="{{ app_url_app_admin_base }}/scene_sight/ajax_fine?id={{ d._id }}&evt=1" class="ui link ajax item" id="fine-{{ d._id }}-button">精选</a>
                     {% endif %}
                     {% if d.is_check == 1 %}
-                    <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_check?id={{ d._id }}&evt=0" class="ui link ajax item" id="check-{{ d._id }}-button">取消审核</a>
+                    <a href="{{ app_url_app_admin_base }}/scene_sight/ajax_check?id={{ d._id }}&evt=0" class="ui link ajax item" id="check-{{ d._id }}-button">取消审核</a>
                     {% else %}
-                    <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_check?id={{ d._id }}&evt=1" class="ui link ajax item" id="check-{{ d._id }}-button">审核</a>
+                    <a href="{{ app_url_app_admin_base }}/scene_sight/ajax_check?id={{ d._id }}&evt=1" class="ui link ajax item" id="check-{{ d._id }}-button">审核</a>
                     {% endif %}
-					<a href="{{ app_url_app_admin_base }}/scene_scene/edit?id={{ d._id }}&page={{ page }}" class="ui link item">编辑</a>
-		          	<a href="javascript:void(0);" class="ui confirm-request link item delete" data-val="{{ d._id }}">删除</a>
 				</td>
 			</tr>
 			{% endfor %}

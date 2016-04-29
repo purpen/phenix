@@ -157,6 +157,7 @@ app.dt.extension_lib.sher_app:
     'scene_context_list':'Sher_Core_ViewTag_SceneContextList'
     'scene_tags_list':'Sher_Core_ViewTag_SceneTagsList'
     'scene_scene_list':'Sher_Core_ViewTag_SceneSceneList'
+    'scene_sight_list':'Sher_Core_ViewTag_SceneSightList'
     'r_estore_product_list':'Sher_Core_ViewTag_REstoreProductList'
     'feedback_list':'Sher_Core_ViewTag_FeedbackList'
     'user_talent_list':'Sher_Core_ViewTag_UserTalentList'

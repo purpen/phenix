@@ -19,11 +19,12 @@ class Sher_Api_Action_SceneTags extends Sher_Api_Action_Base {
 	 */
 	public function getlist(){
 		
+		// 请求参数
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:5000;
+		
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
-		
-		// 请求参数
+		$is_hot = isset($this->stash['is_hot']) ? (int)$this->stash['is_hot'] : 0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
 		$status = isset($this->stash['status']) ? (int)$this->stash['status'] : 1;
@@ -77,12 +78,24 @@ class Sher_Api_Action_SceneTags extends Sher_Api_Action_Base {
 		$options['size'] = $size;
 
 		// 排序
-		switch ($sort) {
+		switch ((int)$sort) {
 			case 0:
-				$options['left_ref'] = 'left_ref';
+				$options['sort_field'] = 'left_ref';
 				break;
 			case 1:
-				$options['used_count'] = 'used_count';
+				$options['sort_field'] = 'used_count';
+				break;
+			case 2:
+				$options['sort_field'] = 'scene_count';
+				break;
+			case 3:
+				$options['sort_field'] = 'sight_count';
+				break;
+			case 4:
+				$options['sort_field'] = 'context_count';
+				break;
+			case 5:
+				$options['sort_field'] = 'product_count';
 				break;
 		}
 		
@@ -95,97 +108,27 @@ class Sher_Api_Action_SceneTags extends Sher_Api_Action_Base {
         $filter_fields  = array('likename', '__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
-		// 重建数据结果
-		$result = Sher_Core_Model_SceneTags::handle($result);
-		$result = Sher_Core_Helper_Util::arrayToTree($result['rows'],'_id','parent_id','children');
-		
-		//print_r($result);exit;
-		return $this->api_json('请求成功', 0, $result);
-	}
-	
-	/**
-	 * 热门标签
-	 */
-	public function hotlist(){
-		
-		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$size = isset($this->stash['size'])?(int)$this->stash['size']:20;
-		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 1;
-		
-		// 请求参数
-		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
-		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
-		$status = isset($this->stash['status']) ? (int)$this->stash['status'] : 1;
-		$parent_id = isset($this->stash['parent_id']) ? (int)$this->stash['parent_id'] : 0;
-		$title_cn = isset($this->stash['title_cn']) ? (int)$this->stash['title_cn'] : null;
-		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
-
-		$some_fields = array(
-			'_id'=>1, 'title_cn'=>1, 'title_en'=>1, 'likename'=>1, 'parent_id'=>1, 'left_ref'=>1,
-			'right_ref'=>1, 'cover_id'=>1, 'used_count'=>1, 'type'=>1, 'status'=>1, 'stick'=>1, 
-		);
-		
-		$query   = array();
-		$options = array();
-
-		if($type){
-		  $query['type'] = (int)$type;
-		}
-
-		if($title_cn){
-		  $query['title_cn'] = $title_cn;
+		if($is_hot){
+			foreach($result['rows'] as $k => $v){
+				if($v['children_count']){
+					unset($result['rows'][$k]);
+					$result['total_rows'] -= 1;
+				}
+			}
+			$result['rows'] = array_values($result['rows']);
+		} else {
+			// 重建数据结果
+			$result = Sher_Core_Model_SceneTags::handle($result);
+			$result = Sher_Core_Helper_Util::arrayToTree($result['rows'],'_id','parent_id','children');
 		}
 		
-		// 查询条件
-		if($parent_id){
-		  $query['parent_id'] = (int)$parent_id;
-		}
-
-		if($stick){
-			if($stick==-1){
-			  $query['stick'] = 0;         
-			}else{
-			  $query['stick'] = 1;         
+		/*
+		foreach($result as $k => $v){
+			if($v['parent_id'] == 0){
+				$result = $result[$k]['children'];
 			}
 		}
-
-		if ($status) {
-			if((int)$status==-1){
-				$query['status'] = 0;
-			}else{
-				$query['status'] = 1;         
-			}
-		}
-
-		if($user_id){
-			$query['user_id'] = (int)$user_id;         
-		}
-		
-		// 分页参数
-		$options['page'] = $page;
-		$options['size'] = $size;
-		$options['some_fields'] = $some_fields;
-
-		// 排序
-		switch ($sort) {
-			case 0:
-				$options['left_ref'] = 'left_ref';
-				break;
-			case 1:
-				$options['used_count'] = 'used_count';
-				break;
-		}
-		
-		// 开启查询
-		$service = Sher_Core_Service_SceneTags::instance();
-		$result = $service->get_scene_tags_list($query, $options);
-		
-		// 过滤多余属性
-        $filter_fields  = array('likename', '__extend__');
-        $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
-		
-		// 重建数据结果
-		$result = Sher_Core_Model_SceneTags::handle($result);
+		*/
 		
 		//print_r($result);exit;
 		return $this->api_json('请求成功', 0, $result);

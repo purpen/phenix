@@ -533,6 +533,12 @@ class Sher_Core_Util_Image {
         if($arr['parent_id']){
             $img_info['parent_id'] = $arr['parent_id'];
         }
+        if($arr['domain']){
+            $img_info['domain'] = $arr['domain'];
+        }
+        if(isset($arr['user_id']) && !empty($arr['user_id'])){
+            $img_info['user_id'] = $arr['user_id'];
+        }
         $img_info['width'] = $arr['image_info']['width'];
         $img_info['height'] = $arr['image_info']['height'];
         $img_info['format'] = $arr['image_info']['format'];

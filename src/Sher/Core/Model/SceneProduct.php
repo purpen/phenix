@@ -89,7 +89,7 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 	protected $counter_fields = array('view_count', 'favorite_count', 'love_count', 'comment_count', 'buy_count');
 	
 	protected $joins = array(
-	  'user'      =>  array('user_id'     => 'Sher_Core_Model_User'),
+        'user'      =>  array('user_id'     => 'Sher_Core_Model_User'),
 		'category'  =>  array('category_id' => 'Sher_Core_Model_Category'),
 		//'brand'  =>  array('brand_id' => 'Sher_Core_Model_SceneBrands'),
 	);

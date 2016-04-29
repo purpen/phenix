@@ -270,12 +270,16 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 	/**
      * 添加到收藏\点赞\订阅等等[通用]
      */
-    public function add_favorites($info=array(), $id_type = 'int') {
+    public function add_favorites($user_id, $target_id, $type, $event, $id_type = 'int') {
 		
+		$info = array();
+		$info['user_id'] = (int)$user_id;
+		$info['type'] = (int)$type;
+		$info['event'] = (int)$event;
 		if($id_type == 'string'){
-			$info['target_id'] = (string)$info['target_id'];
+			$info['target_id'] = (string)$target_id;
 		}else{
-			$info['target_id'] = (int)$info['target_id'];
+			$info['target_id'] = (int)$target_id;
 		}
 		
         return $this->apply_and_save($info);

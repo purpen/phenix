@@ -107,6 +107,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	
 	const TYPE_ID_CARD = 125;
 	const TYPE_BUSINESS_CARD = 126;
+	const TYPE_USER_HEAD_PIC = 127;
 
     protected $schema = array(
 		'user_id' => '',

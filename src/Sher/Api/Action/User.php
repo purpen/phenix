@@ -11,6 +11,13 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 	 * 入口
 	 */
 	public function execute(){
+		return $this->getlist();
+	}
+	
+	/**
+	 * 场景列表
+	 */
+	public function getlist(){
 		
 	}
 	

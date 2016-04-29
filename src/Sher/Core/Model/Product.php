@@ -433,7 +433,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         // 列表tips展示
         $row['tips_label'] = 0;
 
-        if($row['featured']==1){
+        if(isset($row['featured']) && $row['featured']==1){
           $row['tips_label'] = 2;
         }else{
           $row['tips_label'] = $row['created_on']>(time()-1209600) ? 1 : $row['tips_label'];

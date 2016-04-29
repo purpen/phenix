@@ -1,0 +1,20 @@
+<taconite>
+	{% if evt == 1 %}
+	<replace select="#check-{{ id }}-label"><![CDATA[
+		<label class="ui green label" id="check-{{ id }}-label">是</label>
+    ]]></replace>
+	<replace select="#check-{{ id }}-button"><![CDATA[
+		<a href="{{ app_url_app_admin_base }}/scene_sight/ajax_check?id={{ id }}&evt=0" class="ui link ajax item" id="check-{{ id }}-button">取消审核</a>
+    ]]></replace>
+	{% endif %}
+	
+	{% if evt == 0 %}
+	<replace select="#check-{{ id }}-label"><![CDATA[
+		<label class="ui orange label" id="check-{{ id }}-label">否</label>
+    ]]></replace>
+	<replace select="#check-{{ id }}-button"><![CDATA[
+		<a href="{{ app_url_app_admin_base }}/scene_sight/ajax_check?id={{ id }}&evt=1" class="ui link ajax item" id="check-{{ id }}-button">审核</a>
+    ]]></replace>
+	{% endif %}
+
+</taconite>
