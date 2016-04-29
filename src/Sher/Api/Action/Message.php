@@ -64,8 +64,8 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		$user_model = new Sher_Core_Model_User();
 		
 		foreach($result['rows'] as $k => $v){
-			$result['rows'][$k]['last_times'] = Doggy_Dt_Filters_DateTime::relative_datetime($v['last_time']);
-			$result['rows'][$k]['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($v['created_on']);
+			$result['rows'][$k]['last_times'] = Sher_Core_Helper_Util::relative_datetime($v['last_time']);
+			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
 			$user_info = array();
 			$from_user = $user_model->extend_load((int)$result['rows'][$k]['users'][0]);
 			$to_user = $user_model->extend_load((int)$result['rows'][$k]['users'][1]);
@@ -113,8 +113,8 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		$model = new Sher_Core_Model_Message();
 		$user_model = new Sher_Core_Model_User();
 		$result = $model->find_by_id($id);
-		$result['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($result['created_on']);
-		$result['last_times'] = Doggy_Dt_Filters_DateTime::relative_datetime($result['last_time']);
+		$result['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
+		$result['last_times'] = Sher_Core_Helper_Util::relative_datetime($result['last_time']);
 		
 		foreach($result['mailbox'] as $k => $v){
 			$result['mailbox'][$k]['r_id'] = (string)$result['mailbox'][$k]['r_id'];
@@ -136,7 +136,7 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 			$user_info['to']['account'] = $to_user['account'];
 			$user_info['to']['nickname'] = $to_user['nickname'];
 			$user_info['to']['big_avatar_url'] = $to_user['big_avatar_url'];
-			$result['mailbox'][$k]['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($v['created_on']);
+			$result['mailbox'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
 			//$result['mailbox'][$k]['user_info'] = $user_info;
 			unset($result['mailbox'][$k]['from']);
 			unset($result['mailbox'][$k]['to']);

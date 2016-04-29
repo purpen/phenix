@@ -114,7 +114,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		foreach($result['rows'] as $k => $v){
 			
 			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
-			$result['rows'][$k]['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($v['created_on']);
+			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
 			
 			$result['rows'][$k]['product'] = array();
 			if($v['product']){
@@ -311,7 +311,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         
 		$model = new Sher_Core_Model_SceneSight();
         $result  = $model->extend_load((int)$id);
-		$result['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($result['created_on']);
+		$result['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
 		
 		if (!$result) {
             return $this->api_json('请求内容为空!', true);

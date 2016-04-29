@@ -67,8 +67,27 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 		$follow_model = new Sher_Core_Model_Follow();
 		$scene_service = Sher_Core_Service_SceneScene::instance();
 		
+		if($sort == 2){
+			$total_count = abs($result['rows'][0]['fans_count'] - $result['rows'][count($result['rows'])-1]['fans_count']);
+			$every_count = round($total_count/3);
+		}
+		
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
+			
+			// 返回头像大小类型
+			$result['rows'][$k]['avatar_size_type'] = 0;
+			if(isset($every_count) && $every_count){
+				if($v['fans_count']>=0 && $v['fans_count'] < $every_count){
+					$result['rows'][$k]['avatar_size_type'] = 1;
+				}
+				if($v['fans_count']>=$every_count && $v['fans_count'] < 2*$every_count){
+					$result['rows'][$k]['avatar_size_type'] = 2;
+				}
+				if($v['fans_count']>=2*$every_count && $v['fans_count'] < 3*$every_count){
+					$result['rows'][$k]['avatar_size_type'] = 3;
+				}
+			}
 			
 			// 判断是否被关注
 			$result['rows'][$k]['is_love'] = 0;
@@ -81,18 +100,18 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 			$scene_size = 5;
 			if($has_scene){
 				// 测试
-				//$scene = $scene_service->get_scene_scene_list(array('user_id'=>(int)$v['_id']),array('page'=>1,'size'=>5));
-				$scene = $scene_service->get_scene_scene_list(array('user_id'=>20448),array('page'=>1,'size'=>$scene_size));
-			}
-			foreach($scene['rows'] as $key => $val){
-				$result['rows'][$k]['scene'][$key]['_id'] = $val['_id'];
-				$result['rows'][$k]['scene'][$key]['title'] = $val['title'];
-				$result['rows'][$k]['scene'][$key]['address'] = $val['address'];
-				$result['rows'][$k]['scene'][$key]['cover_url'] = $val['cover']['thumbnails']['huge']['view_url'];
-			}
+				$scene = $scene_service->get_scene_scene_list(array('user_id'=>(int)$v['_id']),array('page'=>1,'size'=>5));
+				//$scene = $scene_service->get_scene_scene_list(array('user_id'=>10),array('page'=>1,'size'=>$scene_size));
+				foreach($scene['rows'] as $key => $val){
+					$result['rows'][$k]['scene'][$key]['_id'] = $val['_id'];
+					$result['rows'][$k]['scene'][$key]['title'] = $val['title'];
+					$result['rows'][$k]['scene'][$key]['address'] = $val['address'];
+					$result['rows'][$k]['scene'][$key]['cover_url'] = $val['cover']['thumbnails']['huge']['view_url'];
+				}
+			}	
 			
-			$result['rows'][$k]['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($v['created_on']);
-			$result['rows'][$k]['address'] = $result['rows'][$k]['profile']['address'];
+			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
+			$result['rows'][$k]['address'] = isset($result['rows'][$k]['profile']['address']) ? $result['rows'][$k]['profile']['address'] : '';
 			
 			// 屏蔽关键信息
 			$filter_fields  = array('profile','ext_state','__extend__','birthday','last_char','mentor_info','is_ok','view_fans_url','view_follow_url','small_avatar_url','mini_avatar_url','big_avatar_url','screen_name','id','role_id');
