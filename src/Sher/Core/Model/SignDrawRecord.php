@@ -159,7 +159,11 @@ class Sher_Core_Model_SignDrawRecord extends Sher_Core_Model_Base  {
           return array('success'=>false, 'message'=>'不要太贪哦~');   
         }
         if(empty($has_one['is_share'])){
-          return array('success'=>false, 'message'=>'您今天已抽过,微信分享后赠送一次抽奖机会~');   
+          if((int)$kind==2){
+            return array('success'=>false, 'message'=>'不要太贪哦~');   
+          }else{
+            return array('success'=>false, 'message'=>'您今天已抽过,微信分享后赠送一次抽奖机会~');   
+          }
         }
       }
       $obj = $has_one;
