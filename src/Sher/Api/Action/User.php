@@ -142,7 +142,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 		
 		$user_model = new Sher_Core_Model_User();
 		$user = $user_model->extend_load($id);
-		
+		//var_dump($user);
 		if(empty($user)){
 			return $this->api_json('用户未找到！', 3001);  
 		}
@@ -172,6 +172,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 		$data['rank_id'] = $rank_id;
 		$data['rank_title'] = $rank_title;
 		$data['bird_coin'] = $bird_coin;
+		$data['head_pic_url'] = $user['cover']['thumbnails']['huge']['view_url'];
 		
 		// 屏蔽关键信息
 		$filter_fields  = array('account','email','phone','address','true_nickname','birthday','realname');

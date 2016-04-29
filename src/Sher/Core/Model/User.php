@@ -375,7 +375,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     
 	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'favorite_count', 'topic_count', 'product_count', 'stuff_count','scene_count','sight_count');
 	
-	protected $joins = array();
+	protected $joins = array(
+        'cover' =>  array('head_pic' => 'Sher_Core_Model_Asset'),
+    );
 	
     //~ some event handles
     /**

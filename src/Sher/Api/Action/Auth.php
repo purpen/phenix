@@ -269,6 +269,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     $data['rank_id'] = $rank_id;
     $data['rank_title'] = $rank_title;
     $data['bird_coin'] = $bird_coin;
+	$data['head_pic_url'] = $user['cover']['thumbnails']['huge']['view_url'];
 		
 		return $this->api_json('请求成功', 0, $data);
 	}
