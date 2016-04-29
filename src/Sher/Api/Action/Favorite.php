@@ -123,7 +123,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
         $filter_fields  = array('tag_s','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
-		var_dump($result['rows']);die;
+		//var_dump($result['rows']);die;
 		return $this->api_json('请求成功', 0, $result);
 	}
 	
