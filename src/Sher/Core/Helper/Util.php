@@ -5,6 +5,59 @@
  */
 class Sher_Core_Helper_Util {
 	
+	/*
+	 * 定义时间格式化工具
+	 */
+	public static function relative_datetime($time){
+		
+		if(empty($time) && $time >= time() && $time < 0){
+			return false;
+		}
+		
+		// 当前时间
+		$now_time = time();
+		$zero_time = strtotime(date('Y-m-d',$now_time));
+		
+		$minutes = 60;
+		$hours = 60*$minutes;
+		$days = 24*$hours;
+		$two_days = 2*$days;
+		$three_days = 3*$days;
+		$seven_days = 6*$days;
+		
+		if((int)$time > $zero_time){
+			
+			$time_diff = $now_time - (int)$time;
+			if($time_diff >= 0 && $time_diff < $minutes){
+				return $time_diff.'秒前';
+			}
+			
+			if($time_diff >= $minutes && $time_diff < $hours){
+				return floor($time_diff/60).'分钟前';
+			}
+			
+			if($time_diff >= $hours && $time_diff < $days){
+				return floor($time_diff/60/60).'小时前';
+			}
+		} else {
+			$time_diff = $zero_time - $time;
+			
+			if($time_diff >= 0 && $time_diff < $days){
+				return '昨天';
+			}
+			
+			if($time_diff >= $days && $time_diff < $two_days){
+				return '前天';
+			}
+			
+			if($time_diff >= $two_days && $time_diff < $seven_days){
+				return floor($time_diff/60/60/24+2).'天前';
+			}
+		}	
+		
+		return date('Y-m-d',$time);
+	}
+	
 	/** 
 	* 将数组转换成树结构
 	* 例子：将

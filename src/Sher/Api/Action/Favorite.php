@@ -118,7 +118,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 			
 			$result['rows'][$k]['user'] = $user;
 		}
-		
+
 		// 过滤多余属性
         $filter_fields  = array('tag_s','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
@@ -150,8 +150,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		try{
 			$model = new Sher_Core_Model_Favorite();
 			if (!$model->check_favorites($user_id, $id, $type, $event)) {
-				$ok = $model->add_favorites($id,$user_id,$type,$event);
-				
+				$ok = $model->add_favorites($user_id,$id,$type,$event);
 				$model = new Sher_Core_Model_User();
 				$model->inc_counter('subscription_count',$user_id);
 			}else{
@@ -173,7 +172,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 	public function ajax_cancel_subscription(){
 		
 		$user_id = $this->current_user_id;
-		
+		//$user_id = 10;
 		if(empty($user_id)){
 			return $this->api_json('请先登录！', 3000);
 		}
@@ -191,7 +190,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 			if($model->check_favorites($user_id, $id, $type, $event)){
 				$ok = $model->remove_favorites($user_id, $id, $type, $event);
 				$user_model = new Sher_Core_Model_User();
-				$user_model->dec_counter('subscription_count',$options['user_id']);
+				$user_model->dec_counter('subscription_count',$user_id);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3003);
@@ -209,7 +208,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 	public function ajax_sight_love(){
 		
 		$user_id = $this->current_user_id;
-		
+		//$user_id = 10;
 		if(empty($user_id)){
 			return $this->api_json('请先登录！', 3000);
 		}
@@ -225,7 +224,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		try{
 			$model = new Sher_Core_Model_Favorite();
 			if (!$model->check_favorites($user_id, $id, $type, $event)) {
-				$ok = $model->remove_favorites($user_id, $id, $type, $event);
+				$ok = $model->add_favorites($user_id, $id, $type, $event);
 				
 				$model = new Sher_Core_Model_User();
 				$model->inc_counter('sight_love_count',$user_id);
@@ -248,7 +247,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 	public function ajax_cancel_sight_love(){
 		
 		$user_id = $this->current_user_id;
-		
+		//$user_id = 10;
 		if(empty($user_id)){
 			return $this->api_json('请先登录！', 3000);
 		}
@@ -266,7 +265,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 			if($model->check_favorites($user_id, $id, $type, $event)){
 				$ok = $model->remove_favorites($user_id, $id, $type, $event);
 				$user_model = new Sher_Core_Model_User();
-				$user_model->dec_counter('sight_love_count',$options['user_id']);
+				$user_model->dec_counter('sight_love_count',$user_id);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3003);

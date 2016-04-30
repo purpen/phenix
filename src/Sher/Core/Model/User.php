@@ -239,20 +239,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         'scene_count' => 0,
         # 场景数量
         'sight_count' => 0,
-        # 订单数量
-        'order_count' => array(
-            'total' => 0,
-            'pre_payment' => 0,
-            'pre_ship' => 0,
-            'pre_receipt' => 0,
-            'pre_comment' => 0
-        ),
-        # 消息数量
-        'message_count' => array(
-            'total' => 0,
-            'notice' => 0,
-            'love' => 0,
-        ),
+        
         # 订阅情景数量
         'subscription_count' => 0,
         # 场景点赞数量
@@ -321,13 +308,18 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 		// 计数器
 		'counter' => array(
 			'message_count' => 0, // 私信
-			'notice_count' => 0,  // 通知
-			'alert_count' => 0, // 提醒
-			'fans_count' => 0,  // 粉丝
-			'comment_count' => 0, // 评论
-			'people_count' => 0,  // 用户
-      'fiu_comment_count' => 0, // Fiu 评论提醒
-      'fiu_notice_count' => 0, // Fiu 评论提醒
+			'notice_count' => 0,  // 通知 #
+			'alert_count' => 0, // 提醒 #
+			'fans_count' => 0,  // 粉丝 #
+			'comment_count' => 0, // 评论 #
+			'people_count' => 0,  // 用户 #
+            'fiu_comment_count' => 0, // Fiu 评论
+            'fiu_notice_count' => 0, // Fiu 通知
+            'sight_love_count' => 0, // Fiu 别人给他点的赞(场景)
+            'order_wait_payment' => 0, // 订单待付款
+            'order_ready_goods' => 0, // 订单待付款
+            'order_sended_goods' => 0, // 订单待收货
+            'order_evaluate' => 0, // 订单待收货
 		),
 		// 用户行为记录
 		'visit' => array(
@@ -375,7 +367,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         'last_ip' => null,
     );
 	
-	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'tags'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count'=>1,'product_count'=>1,'counter'=>1,'quality'=>1,'follow_count'=>1,'love_count'=>1,'favorite_count'=>1,'kind'=>1,'identify'=>1,'identify_info'=>1,'sina_uid'=>1,'qq_uid'=>1,'wx_open_id'=>1,'wx_union_id'=>1,'symbol'=>1,'last_ip'=>1,'age'=>1);
+	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'tags'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count'=>1,'product_count'=>1,'counter'=>1,'quality'=>1,'follow_count'=>1,'love_count'=>1,'favorite_count'=>1,'kind'=>1,'identify'=>1,'identify_info'=>1,'sina_uid'=>1,'qq_uid'=>1,'wx_open_id'=>1,'wx_union_id'=>1,'symbol'=>1,'last_ip'=>1,'age'=>1,'head_pic'=>1);
 	
     protected $required_fields = array('account', 'password');
 
@@ -383,7 +375,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     
 	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'favorite_count', 'topic_count', 'product_count', 'stuff_count','scene_count','sight_count');
 	
-	protected $joins = array();
+	protected $joins = array(
+        //'cover' =>  array('head_pic' => 'Sher_Core_Model_Asset'),
+    );
 	
     //~ some event handles
     /**
@@ -980,26 +974,27 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	
 	/**
 	 * 更新计数器
+   *
 	 */
 	public function update_counter($user_id,$field,$value=0){
-		if(!in_array($field,array('message_count','notice_count','alert_count','fans_count','comment_count','people_count','fiu_comment_count','fiu_notice_count'))){
+		if(!in_array($field,array('message_count','notice_count','alert_count','fans_count','comment_count','people_count','fiu_comment_count','fiu_notice_count','order_wait_payment','order_ready_goods','order_sended_goods','order_evaluate'))){
 			return;
 		}
 		$this->update_set((int)$user_id, array('counter.'.$field => $value));
 	}
 	
 	/**
-	 * 更新计数器，累加
+	 * 更新计数器，累加,减少
 	 */
 	public function update_counter_byinc($user_id, $field, $value=1){
-		if(!in_array($field,array('message_count','notice_count','alert_count','fans_count','comment_count','people_count','fiu_comment_count','fiu_notice_count'))){
+		if(!in_array($field,array('message_count','notice_count','alert_count','fans_count','comment_count','people_count','fiu_comment_count','fiu_notice_count','order_wait_payment','order_ready_goods','order_sended_goods','order_evaluate'))){
 			return;
 		}
 		$counter_name = 'counter.'.$field;
 		return $this->inc(array('_id'=>(int)$user_id), $counter_name, $value, true);
 	}
     
-    /**
+  /**
 	 * 批量更新附件所属
 	 */
 	public function update_batch_assets($ids=array(), $parent_id){

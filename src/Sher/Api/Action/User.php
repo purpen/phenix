@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_User extends Sher_Api_Action_Base{
 
-	protected $filter_user_method_list = array('execute', 'user_info');
+	protected $filter_user_method_list = array('execute', 'getlist', 'user_info');
 	
 	/**
 	 * 入口
@@ -19,6 +19,114 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 	 */
 	public function getlist(){
 		
+		$user_id = $this->current_user_id;
+		if(empty($user_id)){
+			$user_id = 10;
+		}
+		
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:5;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		$has_scene = isset($this->stash['has_scene']) ? (int)$this->stash['has_scene'] : 1;
+		
+		$some_fields = array(
+			'_id'=>1, 'account'=>1, 'nickname'=>1, 'stick'=>1, 'role_id' =>1, 'profile' => 1, 'fans_count' => 1, 'state'=>1, 'created_on'=>1, 'updated_on'=>1,
+		);
+		
+		$query   = array();
+		$options = array();
+		
+		if($has_scene){
+			// 测试
+			//$query['scene_count'] = array('$gt'=>0);
+		}
+		
+		// 分页参数
+        $options['page'] = $page;
+        $options['size'] = $size;
+
+		// 排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'popular';
+				break;
+			case 2:
+				$options['sort_field'] = 'topic_count';
+				break;
+		}
+		
+		$options['some_fields'] = $some_fields;
+		
+		// 开启查询
+        $service = Sher_Core_Service_User::instance();
+        $result = $service->get_user_list($query, $options);
+		
+		$follow_model = new Sher_Core_Model_Follow();
+		$scene_service = Sher_Core_Service_SceneScene::instance();
+		
+		if($sort == 2){
+			$total_count = abs($result['rows'][0]['fans_count'] - $result['rows'][count($result['rows'])-1]['fans_count']);
+			$every_count = round($total_count/3);
+		}
+		
+		// 重建数据结果
+		foreach($result['rows'] as $k => $v){
+			
+			// 返回头像大小类型
+			$result['rows'][$k]['avatar_size_type'] = 0;
+			if(isset($every_count) && $every_count){
+				if($v['fans_count']>=0 && $v['fans_count'] < $every_count){
+					$result['rows'][$k]['avatar_size_type'] = 1;
+				}
+				if($v['fans_count']>=$every_count && $v['fans_count'] < 2*$every_count){
+					$result['rows'][$k]['avatar_size_type'] = 2;
+				}
+				if($v['fans_count']>=2*$every_count && $v['fans_count'] < 3*$every_count){
+					$result['rows'][$k]['avatar_size_type'] = 3;
+				}
+			}
+			
+			// 判断是否被关注
+			$result['rows'][$k]['is_love'] = 0;
+			$query = array('user_id'=>$user_id,'follow_id'=>(int)$v['_id']);
+			if($follow_model->first($query)){
+				$result['rows'][$k]['is_love'] = 1;
+			}
+			
+			// 情景信息
+			$scene_size = 5;
+			if($has_scene){
+				// 测试
+				//$scene = $scene_service->get_scene_scene_list(array('user_id'=>(int)$v['_id']),array('page'=>1,'size'=>5));
+				$scene = $scene_service->get_scene_scene_list(array('user_id'=>20448),array('page'=>1,'size'=>$scene_size));
+				foreach($scene['rows'] as $key => $val){
+					$result['rows'][$k]['scene'][$key]['_id'] = $val['_id'];
+					$result['rows'][$k]['scene'][$key]['title'] = $val['title'];
+					$result['rows'][$k]['scene'][$key]['address'] = $val['address'];
+					$result['rows'][$k]['scene'][$key]['cover_url'] = $val['cover']['thumbnails']['huge']['view_url'];
+				}
+			}	
+			
+			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
+			$result['rows'][$k]['address'] = isset($result['rows'][$k]['profile']['address']) ? $result['rows'][$k]['profile']['address'] : '';
+			
+			// 屏蔽关键信息
+			$filter_fields  = array('profile','ext_state','__extend__','birthday','last_char','mentor_info','is_ok','view_fans_url','view_follow_url','small_avatar_url','mini_avatar_url','big_avatar_url','screen_name','id','role_id');
+			for($i=0;$i<count($filter_fields);$i++){
+				$key = $filter_fields[$i];
+				unset($result['rows'][$k][$key]);
+			}
+		}
+		
+		// 过滤多余属性
+        $filter_fields  = array();
+        $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+		
+		//var_dump($result['rows']);die;
+		return $this->api_json('请求成功', 0, $result);
 	}
 	
 	/**
@@ -34,7 +142,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 		
 		$user_model = new Sher_Core_Model_User();
 		$user = $user_model->extend_load($id);
-		
+		//var_dump($user);
 		if(empty($user)){
 			return $this->api_json('用户未找到！', 3001);  
 		}
@@ -64,15 +172,27 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 		$data['rank_id'] = $rank_id;
 		$data['rank_title'] = $rank_title;
 		$data['bird_coin'] = $bird_coin;
+
+
+    // 是否有头图
+    $data['head_pic_url'] = null;
+    if(isset($user['pic_url']) && !empty($user['pic_url'])){
+      $asset_model = new Sher_Core_Model_Asset();
+      $asset = $asset_model->extend_load($user['pic_url']);
+      if($asset){
+        $data['head_pic_url'] = $asset['thumbnails']['huge']['view_url'];
+      }
+    }
 		
 		// 屏蔽关键信息
-		$filter_fields  = array('account','email','phone','address','true_nickname','birthday','realname');
-		for($i=0;$i<count($filter_fields);$i++){
-            $key = $filter_fields[$i];
-            unset($data[$key]);
-        }
+    if($this->current_user_id != $id){
+      $filter_fields  = array('account','email','phone','address','true_nickname','birthday','realname','counter');
+      for($i=0;$i<count($filter_fields);$i++){
+              $key = $filter_fields[$i];
+              unset($data[$key]);
+          }   
+    }
 		
-		//var_dump($data);die;
 		return $this->api_json('请求成功', 0, $data);
 	}
 

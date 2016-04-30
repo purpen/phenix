@@ -59,7 +59,7 @@ class Sher_Api_Action_Notice extends Sher_Api_Action_Base {
 		$result = $service->get_notice_list($query,$options);
 		
 		foreach($result['rows'] as $k => $v){
-			$result['rows'][$k]['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($v['created_on']);
+			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
 			$result['rows'][$k]['content'] = htmlspecialchars($v['content']);
 		}
 		

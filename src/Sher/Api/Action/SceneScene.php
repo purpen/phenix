@@ -106,7 +106,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
 			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
-			$result['rows'][$k]['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($v['created_on']);
+			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
 		}
 		
 		// 过滤多余属性
@@ -247,7 +247,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$model->inc((int)$id, 'view_count', 1);
 		
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
-		$result['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($result['created_on']);
+		$result['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
 		
 		$user = array();
 		$user['user_id'] = $result['user']['_id'];
