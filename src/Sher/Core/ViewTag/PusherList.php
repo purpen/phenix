@@ -23,6 +23,7 @@ class Sher_Core_ViewTag_PusherList extends Doggy_Dt_Tag {
         $user_id = 0;
         $uuid = 0;
         $state = 0;
+        $channel_id = 0;
 
 		
         $var = 'list';
@@ -53,10 +54,16 @@ class Sher_Core_ViewTag_PusherList extends Doggy_Dt_Tag {
           $query['from_to'] = (int)$from_to;
         }
 
+        // 渠道ID
+        if($channel_id){
+          $query['channel_id'] = (int)$channel_id;
+        }
+
         if($user_id){
           $query['user_id'] = (int)$user_id;
         }
 
+        // 设备名
         if($uuid){
           $query['uuid'] = $uuid;
         }

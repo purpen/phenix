@@ -58,6 +58,9 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
       // 渠道说明
       if(isset($row['channel_id'])){
         switch($row['channel_id']){
+          case 0:
+            $row['channel_label'] = '官网';
+            break;
           case 10:
             $row['channel_label'] = '官网';
             break;
