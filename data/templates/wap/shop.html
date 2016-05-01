@@ -145,7 +145,11 @@
                   $('#product-more').html('没有更多');
               }
               var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
-              $('.recom-item').append(rendered);
+              if(page==1){
+                $('.recom-item').html(rendered);
+              }else{
+                $('.recom-item').append(rendered);
+              }
  			  $("img.lazy").lazyload({
  			     effect : "show"
  			  });
@@ -196,7 +200,7 @@
     category_id = $(this).attr('category_id');
     $('#product-more').attr('category_id', category_id);
     $('#mpresale .recom-item').html('');
-    ajax_load_more(category_id, type, 4, 1, size);
+    ajax_load_more(category_id, type, sort, 1, size);
   });
 
   // 选择排序
@@ -204,8 +208,14 @@
     $('.sort-btn').removeClass('active');
     $(this).addClass('active');
     sort = $(this).attr('sort');
+    var evt = $(this).attr('evt');
     var sort_txt = $(this).attr('sort_txt');
-    ajax_load_more(category_id, type, sort, page, size);
+    if(evt==1){
+      $('.all.browse span').text(sort_txt);
+    }else if(evt==2){
+      $('.price.browse span').text(sort_txt);
+    }
+    ajax_load_more(category_id, type, sort, 1, size);
   });
  
  
@@ -248,8 +258,8 @@
 
 <div class="popup shaix">
 	<div class="ui searsx menu">
-		<div class="ui all browse item" id="sort_text">
-			综合排序
+		<div class="ui all browse item">
+      <span>综合排序</span>
 			<i class="dropdown icon"></i>
 		</div>
     <!--
@@ -258,22 +268,22 @@
 		</div>
 	  -->
 		<div class="ui price browse item">
-			价格
+      <span>价格</span>
 			<i class="sort icon"></i>
 		</div>
 	</div>
 	
     <div class="ui fluid basic all popup bottom left">
         <div class="ui link list">
-			<a class="item ptb-2r sort-btn" sort="4" sort_txt="综合排序">
+			<a class="item ptb-2r sort-btn" sort="4" sort_txt="综合排序" evt="1">
 				综合排序
 				<i class="checkmark icon"></i>
 			</a>
-			<a class="item ptb-2r sort-btn" sort="0" sort_txt="新品优先">
+			<a class="item ptb-2r sort-btn" sort="0" sort_txt="新品优先" evt="1">
 				新品优先
 				<i class="checkmark icon"></i>
 			</a>
-			<a class="item ptb-2r sort-btn" sort="6" sort_txt="评论数">
+			<a class="item ptb-2r sort-btn" sort="6" sort_txt="评论数" evt="1">
 				评论数
 				<i class="checkmark icon"></i>
 			</a>
@@ -281,11 +291,11 @@
     </div>
     <div class="ui fluid basic price popup bottom left">
         <div class="ui link list">
-			<a class="item ptb-2r sort-btn" sort="7" sort_txt="降">
+			<a class="item ptb-2r sort-btn" sort="7" sort_txt="价格(降)" evt="2">
 				从高到低
 				<i class="checkmark icon"></i>
 			</a>
-			<a class="item ptb-2r sort-btn" sort="8" sort_txt="升">
+			<a class="item ptb-2r sort-btn" sort="8" sort_txt="价格(升)" evt="2">
 				从低到高
 				<i class="checkmark icon"></i>
 			</a>
