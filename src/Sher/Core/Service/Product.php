@@ -10,6 +10,7 @@ class Sher_Core_Service_Product extends Sher_Core_Service_Base {
     'update' => array('updated_on' => -1),
 	  'hot' => array('love_count' => -1),
 	  'price' => array('sale_price' => -1),
+	  'price_asc' => array('sale_price' => 1),
 	  'sales' => array('sale_count' => -1),
 	  'money' => array('presale_money' => -1),
 	  'presales' => array('presale_count' => -1),
