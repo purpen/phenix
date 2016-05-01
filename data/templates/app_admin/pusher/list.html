@@ -93,7 +93,9 @@
           <div class="item" data-value="1">是</div>
         </div>
       </div>
-
+			<div class="ui input">
+        <input placeholder="渠道ID" type="text" name="channel_id" value="{{ channel_id }}" />
+			</div>
 			<div class="ui input">
         <input placeholder="用户ID" type="text" name="user_id" value="{{ user_id }}" />
 			</div>
@@ -127,7 +129,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% pusher_list var:'list' page:page user_id:user_id uuid:uuid from_to:from_to is_login:is_login state:state size:100 %}
+			{% pusher_list var:'list' page:page user_id:user_id uuid:uuid from_to:from_to is_login:is_login state:state channel_id:channel_id size:100 %}
 
 			{% for d in list.rows %}
 			<tr id="{{ d._id }}">

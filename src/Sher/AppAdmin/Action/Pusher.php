@@ -13,6 +13,7 @@ class Sher_AppAdmin_Action_Pusher extends Sher_AppAdmin_Action_Base implements D
 		'is_login' => '',
 		'user_id' => '',
 		'state' => '',
+    'channel_id' => '',
 	);
 	
 	public function _init() {
@@ -35,9 +36,9 @@ class Sher_AppAdmin_Action_Pusher extends Sher_AppAdmin_Action_Base implements D
     $this->set_target_css_state('page_all');
 		$page = (int)$this->stash['page'];
 		
-		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/pusher/get_list?is_login=%d&from_to=%d&user_id=%d&uuid=%s&state=%d&page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/pusher/get_list?is_login=%d&from_to=%d&user_id=%d&uuid=%s&state=%d&channel_id=%d&page=#p#';
 
-		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['is_login'], $this->stash['from_to'], $this->stash['user_id'], $this->stash['uuid'], $this->stash['state']);
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['is_login'], $this->stash['from_to'], $this->stash['user_id'], $this->stash['uuid'], $this->stash['state'], $this->stash['channel_id']);
 		
 		return $this->to_html_page('app_admin/pusher/list.html');
 	}
