@@ -125,6 +125,12 @@
 
 {% block layout_js %}
   <script type="text/javascript" >
+      var page = 1;
+      var size = 12;
+      var category_id = '{{cid}}';
+      var sort = 4;
+      var type = 0;
+  
       function ajax_load_more(category_id, type, sort, page, size){
           //防止频繁请求(在没加载完成时只允许请求一次)
           $('#product-more').show().attr('status', 1);
@@ -139,7 +145,11 @@
                   $('#product-more').html('没有更多');
               }
               var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
-              $('.recom-item').append(rendered);
+              if(page==1){
+                $('.recom-item').html(rendered);
+              }else{
+                $('.recom-item').append(rendered);
+              }
  			  $("img.lazy").lazyload({
  			     effect : "show"
  			  });
@@ -171,24 +181,41 @@
 　　var windowHeight = $(this).height();
 　　if(scrollTop + windowHeight > scrollHeight-100){
       var stat = $('#product-more').attr('status');
-      var page = parseInt($('#product-more').attr('page')) + 1;
-      var category_id = $('#product-more').attr('category_id');
+      page = parseInt($('#product-more').attr('page')) + 1;
+      category_id = $('#product-more').attr('category_id');
 
       if(stat==0){
-        ajax_load_more(category_id, 0, 4, page, 12);
+        ajax_load_more(category_id, type, sort, page, size);
       }
 　　}
   });
 
-  ajax_load_more('{{cid}}', 0, 4, 1, 12);
+  // 初始加载
+  ajax_load_more(category_id, type, sort, page, size);
 
+  // 选择分类
   $('.category-btn').click(function(){
     $('.category-btn').removeClass('active');
     $(this).addClass('active');
-    var category_id = $(this).attr('category_id');
+    category_id = $(this).attr('category_id');
     $('#product-more').attr('category_id', category_id);
     $('#mpresale .recom-item').html('');
-    ajax_load_more(category_id, 0, 4, 1, 12);
+    ajax_load_more(category_id, type, sort, 1, size);
+  });
+
+  // 选择排序
+  $('.sort-btn').click(function(){
+    $('.sort-btn').removeClass('active');
+    $(this).addClass('active');
+    sort = $(this).attr('sort');
+    var evt = $(this).attr('evt');
+    var sort_txt = $(this).attr('sort_txt');
+    if(evt==1){
+      $('.all.browse span').text(sort_txt);
+    }else if(evt==2){
+      $('.price.browse span').text(sort_txt);
+    }
+    ajax_load_more(category_id, type, sort, 1, size);
   });
  
  
@@ -228,46 +255,58 @@
 </div>
 
 <!-- 筛选 -->
-<!-- 
+
 <div class="popup shaix">
 	<div class="ui searsx menu">
 		<div class="ui all browse item">
-			综合排序
+      <span>综合排序</span>
 			<i class="dropdown icon"></i>
 		</div>
+    <!--
 		<div class="ui item">
 			销量
 		</div>
-	
+	  -->
+    <!--
 		<div class="ui price browse item">
-			价格
+      <span>价格</span>
 			<i class="sort icon"></i>
 		</div>
 	</div>
+  -->
 	
     <div class="ui fluid basic all popup bottom left">
         <div class="ui link list">
-			<a class="item ptb-2r" href="">
+			<a class="item ptb-2r sort-btn" sort="4" sort_txt="综合排序" evt="1">
 				综合排序
 				<i class="checkmark icon"></i>
 			</a>
-			<a class="item ptb-2r" href="">
+			<a class="item ptb-2r sort-btn" sort="0" sort_txt="新品优先" evt="1">
 				新品优先
 				<i class="checkmark icon"></i>
 			</a>
-			<a class="item ptb-2r" href="">
-				评论数从高到低
+			<a class="item ptb-2r sort-btn" sort="7" sort_txt="价格从低到高" evt="1">
+				价格从低到高
 				<i class="checkmark icon"></i>
 			</a>
+			<a class="item ptb-2r sort-btn" sort="8" sort_txt="价格从高到低" evt="1">
+				价格从高到低
+				<i class="checkmark icon"></i>
+			</a>
+			<a class="item ptb-2r sort-btn" sort="6" sort_txt="评论数" evt="1">
+				评论数
+				<i class="checkmark icon"></i>
+			</a>
+
 		</div>
     </div>
     <div class="ui fluid basic price popup bottom left">
         <div class="ui link list">
-			<a class="item ptb-2r" href="">
+			<a class="item ptb-2r sort-btn" sort="7" sort_txt="价格(降)" evt="2">
 				从高到低
 				<i class="checkmark icon"></i>
 			</a>
-			<a class="item ptb-2r" href="">
+			<a class="item ptb-2r sort-btn" sort="8" sort_txt="价格(升)" evt="2">
 				从低到高
 				<i class="checkmark icon"></i>
 			</a>
@@ -275,7 +314,7 @@
     </div>
 	
 	
-</div>-->
+</div>
 	
 
 	

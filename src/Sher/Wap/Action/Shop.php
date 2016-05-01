@@ -1695,6 +1695,15 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			case 5:
 				$options['sort_field'] = 'featured:update';
 				break;
+			case 6:
+				$options['sort_field'] = 'comment';
+				break;
+			case 7:
+				$options['sort_field'] = 'price';
+				break;
+			case 8:
+				$options['sort_field'] = 'price_asc';
+				break;
 		}
         
         $options['page'] = $page;
