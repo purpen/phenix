@@ -215,10 +215,10 @@
     var sort_txt = $(this).attr('sort_txt');
     if(evt==1){
       $('.all.browse span').text(sort_txt);
-	  $('.transition.visible').toggleClass('transition hidden');
+	  $('.transition.visible').toggleClass('transition hidden').style('display','none');
     }else if(evt==2){
       $('.price.browse span').text(sort_txt);
-	  $('.transition.visible').toggleClass('transition hidden');
+	  $('.transition.visible').toggleClass('transition hidden').style('display','none');
     }
     ajax_load_more(category_id, type, sort, 1, size);
 	
