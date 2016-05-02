@@ -221,14 +221,18 @@
     var sort_txt = $(this).attr('sort_txt');
     if(evt==1){
       $('.all.browse span').text(sort_txt);
-	  setTimeout(function(){$('.item.visible').removeClass('visible')},1200);
-	  setTimeout(function(){$('.visible').toggleClass('hidden')},1200);
-	  setTimeout(function(){$('.visible.hidden').removeClass('visible')},1200);
+	  setTimeout(function(){
+		$('.item.visible').removeClass('visible'),
+	  	$('.visible').toggleClass('hidden'),
+		$('.visible.hidden').removeClass('visible')
+	  },1000);
+	  
     }else if(evt==2){
-      $('.price.browse span').text(sort_txt);
-	  setTimeout(function(){$('.item.visible').removeClass('visible')},1200);
-	  setTimeout(function(){$('.visible').toggleClass('hidden')},1200);
-	  setTimeout(function(){$('.visible.hidden').removeClass('visible')},1200);
+	  setTimeout(function(){
+		$('.item.visible').removeClass('visible'),
+	  	$('.visible').toggleClass('hidden'),
+		$('.visible.hidden').removeClass('visible')
+	  },1000);
     }
     ajax_load_more(category_id, type, sort, 1, size);
 	
