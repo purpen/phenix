@@ -215,10 +215,10 @@
     var sort_txt = $(this).attr('sort_txt');
     if(evt==1){
       $('.all.browse span').text(sort_txt);
-	  $('.ui.popup.basic.all.transition.visible').toggleClass('ui popup basic all transition hidden').removeAttr('style');
+	  $('.ui.popup.basic.all.transition.visible').toggleClass('ui popup basic all transition hidden');
     }else if(evt==2){
       $('.price.browse span').text(sort_txt);
-	  $('.ui.popup.basic.price.transition.visible').toggleClass('ui popup basic price transition hidden').removeAttr('style');
+	  $('.ui.popup.basic.price.transition.visible').toggleClass('ui popup basic price transition hidden');
     }
     ajax_load_more(category_id, type, sort, 1, size);
 	
@@ -328,7 +328,7 @@
 	
 <!--商店商品-->
 <div class="ui responsive grid" id="mpresale">
-	<div class="row pt-2r">
+	<div class="row pt-0">
 		<div class="recom-item">
 			
 		</div>
