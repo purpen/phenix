@@ -219,10 +219,10 @@
     var sort_txt = $(this).attr('sort_txt');
     if(evt==1){
       $('.all.browse span').text(sort_txt);
-	  setTimeout(function(){$('.transition.visible').toggleClass('transition hidden')},800);
+	  setTimeout(function(){$('.visible').toggleClass('hidden')},800);
     }else if(evt==2){
       $('.price.browse span').text(sort_txt);
-	  setTimeout(function(){$('.transition.visible').toggleClass('transition hidden')},800);
+	  setTimeout(function(){$('.visible').toggleClass('hidden')},800);
     }
     ajax_load_more(category_id, type, sort, 1, size);
 	
