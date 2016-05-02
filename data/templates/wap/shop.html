@@ -225,14 +225,15 @@
     $('.all.browse.item')
         .popup({
   	  	popup:'.all.popup',
-  		hoverable : true,
-		//on:'click',
+  		hoverable : false,
+		on:'click',
   		position:'bottom left'
   	  });
  	 $('.price.browse.item')
         .popup({
   	  	popup:'.price.popup',
-  		hoverable : true,
+  		hoverable : false,
+		on:'click',
   		position:'bottom left'
 	 })
  
@@ -288,6 +289,7 @@
 				新品优先
 				<i class="checkmark icon"></i>
 			</a>
+			<!--
 			<a class="item ptb-2r sort-btn" sort="8" sort_txt="价格从低到高" evt="1">
 				价格从低到高
 				<i class="checkmark icon"></i>
@@ -295,7 +297,7 @@
 			<a class="item ptb-2r sort-btn" sort="7" sort_txt="价格从高到低" evt="1">
 				价格从高到低
 				<i class="checkmark icon"></i>
-			</a>
+			</a>-->
 			<a class="item ptb-2r sort-btn" sort="6" sort_txt="评论数" evt="1">
 				评论数
 				<i class="checkmark icon"></i>
