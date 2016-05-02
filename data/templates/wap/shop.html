@@ -220,7 +220,8 @@
     }
     ajax_load_more(category_id, type, sort, 1, size);
 	
-	$('.ui.fluid.popup').fadeOut();
+	$('.ui.fluid.popup').removeAttr('style');
+	$('.visible').toggleClass('hidden');
   });
  
  
