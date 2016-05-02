@@ -120,6 +120,9 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
             continue;
           }
 
+          // 产品来源
+          $result['data'][$k]['attrbute'] = $scene_product['attrbute'];
+
           //返回Banner图片数据
           $assets = array();
           $asset_query = array('parent_id'=>(int)$oid, 'asset_type'=>120);
