@@ -29,34 +29,34 @@ class Sher_Core_Helper_FilterFields {
         
         // 把profile提出来
         foreach($data['profile'] as $k=>$v){
-          $data[$k] = $v;
+            $data[$k] = $v;
         }
         unset($data['profile']);
 
         if(!isset($data['weixin'])){
-          $data['weixin'] = null;   
+            $data['weixin'] = null;   
         }
         if(!isset($data['im_qq'])){
-          $data['im_qq'] = null;   
+            $data['im_qq'] = null;   
         }
 
         if(!isset($data['province_id'])){
-          $data['province_id'] = 0;
+            $data['province_id'] = 0;
         }
         if(!isset($data['district_id'])){
-          $data['district_id'] = 0;
+            $data['district_id'] = 0;
         }
         if(!isset($data['follow_count'])){
-          $data['follow_count'] = 0;
+            $data['follow_count'] = 0;
         }
         if(!isset($data['fans_count'])){
-          $data['fans_count'] = 0;
+            $data['fans_count'] = 0;
         }
         if(!isset($data['scene_count'])){
-          $data['scene_count'] = 0;
+            $data['scene_count'] = 0;
         }
         if(!isset($data['sight_count'])){
-          $data['sight_count'] = 0;
+            $data['sight_count'] = 0;
         }
     
         if(!isset($data['identify'])){

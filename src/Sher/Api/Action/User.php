@@ -174,24 +174,24 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 		$data['bird_coin'] = $bird_coin;
 
 
-    // 是否有头图
-    $data['head_pic_url'] = null;
-    if(isset($user['pic_url']) && !empty($user['pic_url'])){
-      $asset_model = new Sher_Core_Model_Asset();
-      $asset = $asset_model->extend_load($user['pic_url']);
-      if($asset){
-        $data['head_pic_url'] = $asset['thumbnails']['huge']['view_url'];
-      }
-    }
+		// 是否有头图
+		$data['head_pic_url'] = null;
+		if(isset($user['pic_url']) && !empty($user['pic_url'])){
+		  $asset_model = new Sher_Core_Model_Asset();
+		  $asset = $asset_model->extend_load($user['pic_url']);
+		  if($asset){
+			$data['head_pic_url'] = $asset['thumbnails']['huge']['view_url'];
+		  }
+		}
 		
 		// 屏蔽关键信息
-    if($this->current_user_id != $id){
-      $filter_fields  = array('account','email','phone','address','true_nickname','birthday','realname','counter');
-      for($i=0;$i<count($filter_fields);$i++){
-              $key = $filter_fields[$i];
-              unset($data[$key]);
-          }   
-    }
+		if($this->current_user_id != $id){
+			$filter_fields  = array('account','email','phone','address','true_nickname','birthday','realname','counter');
+			for($i=0;$i<count($filter_fields);$i++){
+				$key = $filter_fields[$i];
+				unset($data[$key]);
+			}   
+		}
 		
 		return $this->api_json('请求成功', 0, $data);
 	}
