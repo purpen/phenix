@@ -90,7 +90,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		}
 		
 		if($user_id){
-			$query['user_id']  = $scene_id;
+			$query['user_id']  = $user_id;
 		}
 		
 		// 分页参数
