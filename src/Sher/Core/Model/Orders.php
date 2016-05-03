@@ -38,7 +38,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'total_money' => 0,
 		# 红包优惠金额
 		'card_money'  => 0,
-		# 优惠抵扣
+		# 优惠抵扣  用于：app首次下单、
 		'coin_money'  => 0,
 		# 礼品码金额
 		'gift_money'  => 0,

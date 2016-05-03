@@ -27,6 +27,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$category_tag_ids = isset($this->stash['category_tag_ids']) ? $this->stash['category_tag_ids'] : null;
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+    $brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : null;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$fine = isset($this->stash['fine']) ? (int)$this->stash['fine'] : 0;
 		$attrbute = isset($this->stash['attrbute']) ? (int)$this->stash['attrbute'] : 0;
@@ -102,16 +103,21 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
       }
     }
 
+    // 品牌查询
+    if($brand_id){
+      $query['brand_id'] = $brand_id;
+    }
+
     if ($state) {
       if((int)$state==-1){
         $query['state'] = 0;
       }else{
-        $query['state'] = 1;         
+        $query['state'] = 1;
       }
     }
 
     if($user_id){
-      $query['user_id'] = (int)$user_id;         
+      $query['user_id'] = (int)$user_id;
     }
 		
 		// 分页参数
@@ -234,7 +240,6 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     $fav = new Sher_Core_Model_Favorite();
     $data['is_favorite'] = $fav->check_favorite($this->current_user_id, $scene_product['_id'], 10) ? 1 : 0;
     $data['is_love'] = $fav->check_loved($this->current_user_id, $scene_product['_id'], 10) ? 1 : 0;
-
 
     $asset_service = Sher_Core_Service_Asset::instance();
 
