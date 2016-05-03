@@ -145,7 +145,11 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
                     $is_both = true;
                 }
                 
-                $model->create($data);
+                $ok = $model->create($data);
+				
+				if(!$ok){
+					return $this->api_json('更新失败！', 3001);
+				}
                 
                 // 更新关注数、粉丝数
                 $user_model->inc_counter('fans_count', $follow_id);
@@ -157,7 +161,7 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
                     $update['user_id'] = (int)$follow_id;
                     $update['follow_id'] = (int)$user_id;
                     
-                    $ship->update_set($update,$some_data);
+                    $model->update_set($update,$some_data);
                 }
             }
 		}catch(Sher_Core_Model_Exception $e){
@@ -187,8 +191,10 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 		try{
 			
 			$model = new Sher_Core_Model_Follow();
+			$is_both = false;
 			if($model->has_exist_ship($user_id,$follow_id)){
-                $query['user_id'] = (int)$user_id;
+                
+				$query['user_id'] = (int)$user_id;
                 $query['follow_id'] = (int)$follow_id;
     
                 $model->remove($query);
@@ -199,11 +205,13 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
                 $user_model->dec_counter('follow_count', $user_id);
     
                 // 更新粉丝相互关注状态
-                $some_data['type'] = Sher_Core_Model_Follow::ONE_TYPE;
-                $update['user_id'] = (int)$follow_id;
-                $update['follow_id'] = (int)$user_id;
-                
-                $model->update_set($update,$some_data);
+				if($model->has_exist_ship($follow_id,$user_id)){
+					$some_data['type'] = Sher_Core_Model_Follow::ONE_TYPE;
+					$update['user_id'] = (int)$follow_id;
+					$update['follow_id'] = (int)$user_id;
+					
+					$model->update_set($update,$some_data);
+				}
             }
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3003);
