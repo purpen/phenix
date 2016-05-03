@@ -225,6 +225,10 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 			'view_count', 'favorite_count', 'love_count', 'comment_count','buy_count', 'deleted',
       'published', 'attrbute', 'state', 'tags', 'tags_s', 'created_on', 'updated_on', 'created_at', 'cover_url',
 		);
+
+    $brand_some_fields = array(
+      'title', 'des',
+    );
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
@@ -240,6 +244,16 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     $fav = new Sher_Core_Model_Favorite();
     $data['is_favorite'] = $fav->check_favorite($this->current_user_id, $scene_product['_id'], 10) ? 1 : 0;
     $data['is_love'] = $fav->check_loved($this->current_user_id, $scene_product['_id'], 10) ? 1 : 0;
+
+    // 过滤品牌
+    if(!empty($data['brand'])){
+      $data['brand']['cover_url'] = isset($data['brand']['cover']['thumbnails']['ava']) ? $data['brand']['cover']['thumbnails']['ava'] : null;
+      $data['brand']['_id'] = (string)$data['brand']['_id'];
+      for($j=0;$j<count($brand_some_fields);$j++){
+        $brand_key = $brand_some_fields[$j];
+        $data['brand'][$brand_key] = isset($data['brand'][$brand_key]) ? $data['brand'][$brand_key] : null;
+      }
+    }
 
     $asset_service = Sher_Core_Service_Asset::instance();
 
