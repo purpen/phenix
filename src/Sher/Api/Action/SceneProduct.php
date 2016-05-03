@@ -24,6 +24,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		
 		// 请求参数
 		$ids = isset($this->stash['ids']) ? $this->stash['ids'] : null;
+		$ignore_ids = isset($this->stash['ignore_ids']) ? $this->stash['ignore_ids'] : null;
 		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$category_tag_ids = isset($this->stash['category_tag_ids']) ? $this->stash['category_tag_ids'] : null;
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
@@ -73,6 +74,17 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
         $category_tag_arr[$i] = (int)$category_tag_arr[$i];
       }
       $query['category_tags'] = array('$in'=>$category_tag_arr);
+    }
+
+    // 过滤的商品
+    if($ignore_ids){
+      $id_arr = explode(',', $ignore_ids);
+      for($i=0;$i<count($id_arr);$i++){
+        $id_arr[$i] = (int)$id_arr[$i];
+      }
+      if(!empty($id_arr)){
+        $query['_id'] = array('$ne'=>$id_arr);
+      }   
     }
 
     if($attrbute){
@@ -219,9 +231,9 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		}
 
 		$some_fields = array(
-      '_id', 'title', 'short_title', 'oid', 'sale_price', 'market_price','brand_id','brand',
+      '_id', 'title', 'short_title', 'oid', 'sale_price', 'market_price','brand_id', 'brand',
 			'kind', 'cover_id', 'category_id', 'fid', 'summary', 'link', 'description',
-			'stick', 'summary', 'fine', 'banner_asset_ids', 'png_asset_ids', 'asset_ids',
+			'stick', 'summary', 'fine', 'banner_asset_ids', 'png_asset_ids', 'asset_ids', 'category_tags',
 			'view_count', 'favorite_count', 'love_count', 'comment_count','buy_count', 'deleted',
       'published', 'attrbute', 'state', 'tags', 'tags_s', 'created_on', 'updated_on', 'created_at', 'cover_url',
 		);

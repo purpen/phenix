@@ -494,7 +494,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
       Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT,
       Sher_Core_Util_Constant::ORDER_EVALUATE,
       Sher_Core_Util_Constant::ORDER_PUBLISHED,
-      Sher_Core_Util_Constant::ORDER_READY_REFUND,
+      Sher_Core_Util_Constant::ORDER_REFUND_DONE,
     );
     if(!in_array($order['status'], $allow_stat_arr)){
       return $this->api_json('该订单状态不允许删除!', 3004);     
