@@ -247,12 +247,14 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 
     // 过滤品牌
     if(!empty($data['brand'])){
-      $data['brand']['cover_url'] = isset($data['brand']['cover']['thumbnails']['ava']) ? $data['brand']['cover']['thumbnails']['ava'] : null;
-      $data['brand']['_id'] = (string)$data['brand']['_id'];
+      $brand_data = array();
+      $brand_data['cover_url'] = isset($data['brand']['cover']['thumbnails']['ava']) ? $data['brand']['cover']['thumbnails']['ava'] : null;
+      $brand_data['_id'] = (string)$data['brand']['_id'];
       for($j=0;$j<count($brand_some_fields);$j++){
         $brand_key = $brand_some_fields[$j];
-        $data['brand'][$brand_key] = isset($data['brand'][$brand_key]) ? $data['brand'][$brand_key] : null;
+        $brand_data[$brand_key] = isset($data['brand'][$brand_key]) ? $data['brand'][$brand_key] : null;
       }
+      $data['brand'] = $brand_data;
     }
 
     $asset_service = Sher_Core_Service_Asset::instance();
