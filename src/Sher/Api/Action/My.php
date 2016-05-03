@@ -828,11 +828,18 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 				return $this->api_json('保存失败,请重新提交', 4002);
 			}
 			
+			
+			$asset_model = new Sher_Core_Model_Asset();
+			$asset = $asset_model->extend_load($data['head_pic']);
+			if($asset){
+				$data['head_pic_url'] = $asset['thumbnails']['huge']['view_url'];
+			}
+			
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('保存失败:'.$e->getMessage(), 4002);
 		}
 		
-		return $this->api_json('提交成功', 0, array('current_user_id'=>$user_id));
+		return $this->api_json('提交成功', 0, array('head_pic_url'=>$data['head_pic_url']));
 	}
 }
 
