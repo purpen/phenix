@@ -197,7 +197,11 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 				$query['user_id'] = (int)$user_id;
                 $query['follow_id'] = (int)$follow_id;
     
-                $model->remove($query);
+                $ok = $model->remove($query);
+				
+				if(!$ok){
+					return $this->api_json('操作失败！', 3001);
+				}
                 
                 // 更新关注数、粉丝数
                 $user_model = new Sher_Core_Model_User();
