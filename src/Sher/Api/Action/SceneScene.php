@@ -287,6 +287,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		//$user_id = 10;
 		$model = new Sher_Core_Model_Favorite();
 		$query = array(
+			'target_id' => (int)$id,
 			'type' => Sher_Core_Model_Favorite::TYPE_APP_SCENE_SCENE,
 			'event' => Sher_Core_Model_Favorite::EVENT_SUBSCRIPTION,
 			'user_id' => $user_id
