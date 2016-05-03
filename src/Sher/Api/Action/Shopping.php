@@ -248,7 +248,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
       // 加载可用红包
       $bonus_service = Sher_Core_Service_Bonus::instance();
-      $bonus_result = $bonus_service->get_all_list(array('user_id'=>$user_id, 'used'=>1, 'expired_at'=>array('$gt'=>time())), array('page'=>1, 'size'=>20));
+      $bonus_result = $bonus_service->get_all_list(array('user_id'=>$user_id, 'used'=>1, 'expired_at'=>array('$gt'=>time())), array('page'=>1, 'size'=>100));
       $usable_bonus = !empty($bonus_result['rows']) ? $bonus_result['rows'] : array();
 			
 			$pay_money = $total_money + $freight - $coin_money - $card_money;
@@ -380,7 +380,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     if(!$is_app_snatched){
       // 加载可用红包
       $bonus_service = Sher_Core_Service_Bonus::instance();
-      $bonus_result = $bonus_service->get_all_list(array('user_id'=>$user_id, 'used'=>1, 'expired_at'=>array('$gt'=>time())), array('page'=>1, 'size'=>20));
+      $bonus_result = $bonus_service->get_all_list(array('user_id'=>$user_id, 'used'=>1, 'expired_at'=>array('$gt'=>time())), array('page'=>1, 'size'=>100));
       $usable_bonus = !empty($bonus_result['rows']) ? $bonus_result['rows'] : array();   
     }
 		
