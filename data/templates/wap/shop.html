@@ -117,8 +117,17 @@
 	color:#f36;
 	display:none;
 }
-.ui.popup .item:hover i.checkmark.icon{
+.ui.popup .item.active i.checkmark.icon{
 	display:block;
+}
+.ui.searsx.menu .active.item:hover{
+	background:rgba(0,0,0,0) !important;
+}
+.ui.popup.transition.visible.hidden{
+	visibility: hidden !important;
+}
+.ui.searsx.menu .item.visible{
+	color:#f36;
 }
 </style>
 {% endblock %}
@@ -212,24 +221,37 @@
     var sort_txt = $(this).attr('sort_txt');
     if(evt==1){
       $('.all.browse span').text(sort_txt);
+	  setTimeout(function(){
+		$('.item.visible').removeClass('visible'),
+	  	$('.visible').toggleClass('hidden'),
+		$('.visible.hidden').removeClass('visible')
+	  },1000);
+	  
     }else if(evt==2){
-      $('.price.browse span').text(sort_txt);
+	  $('.price.browse span').text(sort_txt);
+	  setTimeout(function(){
+		$('.item.visible').removeClass('visible'),
+	  	$('.visible').toggleClass('hidden'),
+		$('.visible.hidden').removeClass('visible')
+	  },1000);
     }
     ajax_load_more(category_id, type, sort, 1, size);
+	
   });
  
  
     $('.all.browse.item')
         .popup({
   	  	popup:'.all.popup',
-  		hoverable : true,
-		//on:'click',
+  		hoverable : false,
+		on:'click',
   		position:'bottom left'
   	  });
  	 $('.price.browse.item')
         .popup({
   	  	popup:'.price.popup',
-  		hoverable : true,
+  		hoverable : false,
+		on:'click',
   		position:'bottom left'
 	 })
  
@@ -272,8 +294,9 @@
       <span>价格</span>
 			<i class="sort icon"></i>
 		</div>
+    -->
 	</div>
-  -->
+ 
 	
     <div class="ui fluid basic all popup bottom left">
         <div class="ui link list">
@@ -300,6 +323,7 @@
 
 		</div>
     </div>
+    <!--
     <div class="ui fluid basic price popup bottom left">
         <div class="ui link list">
 			<a class="item ptb-2r sort-btn" sort="7" sort_txt="价格(降)" evt="2">
@@ -311,6 +335,7 @@
 				<i class="checkmark icon"></i>
 			</a>
 		</div>
+    -->
     </div>
 	
 	
@@ -320,7 +345,7 @@
 	
 <!--商店商品-->
 <div class="ui responsive grid" id="mpresale">
-	<div class="row pt-2r">
+	<div class="row pt-0">
 		<div class="recom-item">
 			
 		</div>

@@ -27,6 +27,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$category_tag_ids = isset($this->stash['category_tag_ids']) ? $this->stash['category_tag_ids'] : null;
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+    $brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : null;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$fine = isset($this->stash['fine']) ? (int)$this->stash['fine'] : 0;
 		$attrbute = isset($this->stash['attrbute']) ? (int)$this->stash['attrbute'] : 0;
@@ -102,16 +103,21 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
       }
     }
 
+    // 品牌查询
+    if($brand_id){
+      $query['brand_id'] = $brand_id;
+    }
+
     if ($state) {
       if((int)$state==-1){
         $query['state'] = 0;
       }else{
-        $query['state'] = 1;         
+        $query['state'] = 1;
       }
     }
 
     if($user_id){
-      $query['user_id'] = (int)$user_id;         
+      $query['user_id'] = (int)$user_id;
     }
 		
 		// 分页参数
@@ -213,12 +219,16 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		}
 
 		$some_fields = array(
-      '_id', 'title', 'short_title', 'oid', 'sale_price', 'market_price','brand_id',
+      '_id', 'title', 'short_title', 'oid', 'sale_price', 'market_price','brand_id','brand',
 			'kind', 'cover_id', 'category_id', 'fid', 'summary', 'link', 'description',
 			'stick', 'summary', 'fine', 'banner_asset_ids', 'png_asset_ids', 'asset_ids',
 			'view_count', 'favorite_count', 'love_count', 'comment_count','buy_count', 'deleted',
       'published', 'attrbute', 'state', 'tags', 'tags_s', 'created_on', 'updated_on', 'created_at', 'cover_url',
 		);
+
+    $brand_some_fields = array(
+      'title', 'des',
+    );
 		
 		// 增加pv++
 		$model->inc_counter('view_count', 1, $id);
@@ -235,6 +245,17 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     $data['is_favorite'] = $fav->check_favorite($this->current_user_id, $scene_product['_id'], 10) ? 1 : 0;
     $data['is_love'] = $fav->check_loved($this->current_user_id, $scene_product['_id'], 10) ? 1 : 0;
 
+    // 过滤品牌
+    if(!empty($data['brand'])){
+      $brand_data = array();
+      $brand_data['cover_url'] = isset($data['brand']['cover']['thumbnails']['ava']['view_url']) ? $data['brand']['cover']['thumbnails']['ava']['view_url'] : null;
+      $brand_data['_id'] = (string)$data['brand']['_id'];
+      for($j=0;$j<count($brand_some_fields);$j++){
+        $brand_key = $brand_some_fields[$j];
+        $brand_data[$brand_key] = isset($data['brand'][$brand_key]) ? $data['brand'][$brand_key] : null;
+      }
+      $data['brand'] = $brand_data;
+    }
 
     $asset_service = Sher_Core_Service_Asset::instance();
 
