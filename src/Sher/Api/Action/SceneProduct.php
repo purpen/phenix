@@ -219,7 +219,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		}
 
 		$some_fields = array(
-      '_id', 'title', 'short_title', 'oid', 'sale_price', 'market_price','brand_id',
+      '_id', 'title', 'short_title', 'oid', 'sale_price', 'market_price','brand_id','brand',
 			'kind', 'cover_id', 'category_id', 'fid', 'summary', 'link', 'description',
 			'stick', 'summary', 'fine', 'banner_asset_ids', 'png_asset_ids', 'asset_ids',
 			'view_count', 'favorite_count', 'love_count', 'comment_count','buy_count', 'deleted',
