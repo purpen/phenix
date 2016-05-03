@@ -91,8 +91,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 			
 			// 判断是否被关注
 			$result['rows'][$k]['is_love'] = 0;
-			$query = array('user_id'=>$user_id,'follow_id'=>(int)$v['_id']);
-			if($follow_model->first($query)){
+			if($follow_model->has_exist_ship($user_id, $v['_id'])){
 				$result['rows'][$k]['is_love'] = 1;
 			}
 			
@@ -191,6 +190,13 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 				$key = $filter_fields[$i];
 				unset($data[$key]);
 			}   
+		}
+		
+		$follow_model = new Sher_Core_Model_Follow();
+		// 判断是否被关注
+		$data['is_love'] = 0;
+		if($follow_model->has_exist_ship($this->current_user_id, $id)){
+			$data['is_love'] = 1;
 		}
 		
 		return $this->api_json('请求成功', 0, $data);
