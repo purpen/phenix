@@ -72,7 +72,7 @@ class Sher_Core_Service_OrdersIndexer {
 		}
 		
 		// 获取订单属性
-        foreach (array('user_id','status','is_presaled','updated_on','created_on') as $k) {
+        foreach (array('user_id','status','is_presaled','updated_on','created_on','kind','channel_id','from_app','from_site','deleted') as $k) {
             if (isset($row[$k])) {
                 $attributes[$k] = (int)$row[$k];
             }

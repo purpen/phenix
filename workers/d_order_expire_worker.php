@@ -35,7 +35,7 @@ $total = 0;
 $time = time() - 60*60*24*3;
 while(!$is_end){
 	$query = array('state'=>Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT, 'created_on'=>array('$lt'=>$time));
-	$options = array('field' => array('_id', 'state', 'kind', 'item_id', 'created_on'), 'page'=>$page, 'size'=>$size);
+	$options = array('field' => array('_id', 'state', 'kind', 'user_id', 'item_id', 'created_on'), 'page'=>$page, 'size'=>$size);
 	$list = $order_model->find($query, $options);
 	if(empty($list)){
 		echo "Get d-order list is null,exit......\n";
@@ -48,7 +48,7 @@ while(!$is_end){
 		if ($order['state'] == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
 			// 关闭订单
       try{
-        $ok = $order_model->close_order((int)$order['_id']);
+        $ok = $order_model->close_order((int)$order['_id'], array('user_id'=>$order['user_id']));
         if($ok){
           echo "success update d-order state:".$order['_id']."\n";
           $total++;     

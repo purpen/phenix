@@ -309,7 +309,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		}
 		try {
 			// 关闭订单
-			$model->canceled_order($order_info['_id']);
+			$model->canceled_order($order_info['_id'], array('user_id'=>$order_info['user_id']));
     } catch (Sher_Core_Model_Exception $e) {
  		  return $this->api_json('取消订单失败:'.$e->getMessage(), 3004);   
     }
@@ -492,7 +492,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
       Sher_Core_Util_Constant::ORDER_EXPIRED,
       Sher_Core_Util_Constant::ORDER_CANCELED,
       Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT,
-      Sher_Core_Util_Constant::ORDER_EVALUATE,
+      //Sher_Core_Util_Constant::ORDER_EVALUATE,
       Sher_Core_Util_Constant::ORDER_PUBLISHED,
       Sher_Core_Util_Constant::ORDER_REFUND_DONE,
     );

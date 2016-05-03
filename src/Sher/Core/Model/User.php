@@ -989,7 +989,15 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	public function update_counter_byinc($user_id, $field, $value=1){
 		if(!in_array($field,array('message_count','notice_count','alert_count','fans_count','comment_count','people_count','fiu_comment_count','fiu_notice_count','order_wait_payment','order_ready_goods','order_sended_goods','order_evaluate'))){
 			return;
-		}
+    }
+    // 不能为负
+    if($value<0){
+      $user = $this->load($user_id);
+      $count = isset($user['counter'][$field]) ? $user['counter'][$field] : 0;
+      if($count+$value<0){
+        $value = $count*-1;
+      }
+    }
 		$counter_name = 'counter.'.$field;
 		return $this->inc(array('_id'=>(int)$user_id), $counter_name, $value, true);
 	}

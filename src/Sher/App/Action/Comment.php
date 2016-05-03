@@ -304,7 +304,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         $orders_model = new Sher_Core_Model_Orders();
         $order = $orders_model->load((string)$order_id);
         if(!empty($order) && $order['user_id']==$this->visitor->id && $order['status']==Sher_Core_Util_Constant::ORDER_EVALUATE){
-          $order_ok = $orders_model->finish_order($order_id);
+          $order_ok = $orders_model->finish_order($order_id, array('user_id'=>$order['user_id']));
         }
       }
 		} // if ok

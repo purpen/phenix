@@ -495,7 +495,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		}
 		try {
 			// 待评价订单
-			$ok = $model->evaluate_order($order_info['_id']);
+			$ok = $model->evaluate_order($order_info['_id'], array('user_id'=>$order_info['user_id']));
     } catch (Sher_Core_Model_Exception $e) {
       return $this->ajax_notification('设置订单失败:'.$e->getMessage(),true);
     }
@@ -526,7 +526,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		}
 		try {
 			// 待评价订单
-			$ok = $model->evaluate_order($order_info['_id']);
+			$ok = $model->evaluate_order($order_info['_id'], array('user_id'=>$order_info['user_id']));
       if(!$ok){
         return $this->ajax_json('操作失败!', true);     
       }
@@ -569,7 +569,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		}
 		try {
 			// 关闭订单
-			$model->canceled_order($order_info['_id']);
+			$model->canceled_order($order_info['_id'], array('user_id'=>$order_info['user_id']));
         } catch (Sher_Core_Model_Exception $e) {
             return $this->ajax_notification('取消订单失败:'.$e->getMessage(),true);
         }
@@ -602,7 +602,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		}
 		try {
 			// 关闭订单
-			$model->canceled_order($order_info['_id']);
+			$model->canceled_order($order_info['_id'], array('user_id'=>$order_info['user_id']));
         } catch (Sher_Core_Model_Exception $e) {
             return $this->ajax_json('取消订单失败:'.$e->getMessage(),true);
         }
@@ -634,7 +634,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
       Sher_Core_Util_Constant::ORDER_EXPIRED,
       Sher_Core_Util_Constant::ORDER_CANCELED,
       Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT,
-      Sher_Core_Util_Constant::ORDER_EVALUATE,
+      //Sher_Core_Util_Constant::ORDER_EVALUATE,
       Sher_Core_Util_Constant::ORDER_PUBLISHED,
       Sher_Core_Util_Constant::ORDER_REFUND_DONE,
     );
@@ -1090,7 +1090,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
             return $this->ajax_notification('该订单出现异常，请联系客服！', true);
         }
-        $options = array('refund_reason'=>$content);
+        $options = array('refund_reason'=>$content, 'user_id'=>$order_info['user_id']);
         try {
             // 申请退款
             $model->refunding_order($order_info['_id'], $options);
@@ -1138,7 +1138,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     if ($order['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
         return $this->ajax_json('该订单出现异常，请联系客服！', true);
     }
-    $options = array('refund_reason'=>$refund_content, 'refund_option'=>$refund_reason);
+    $options = array('refund_reason'=>$refund_content, 'refund_option'=>$refund_reason, 'user_id'=>$order['user_id']);
     try {
         // 申请退款
         $ok = $orders_model->refunding_order($order['_id'], $options);

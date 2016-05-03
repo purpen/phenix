@@ -158,7 +158,7 @@
 		   // 验证订单是否已经付款
 		   if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
 				// 更新支付状态,付款成功并配货中
-				return $model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, Sher_Core_Util_Constant::TRADE_WEIXIN);
+				return $model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, Sher_Core_Util_Constant::TRADE_WEIXIN, array('user_id'=>$order_info['user_id']));
 		   }else{
 				return true;
 		   }

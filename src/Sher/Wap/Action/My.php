@@ -291,7 +291,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		}
 		try {
 			// 关闭订单
-			$model->canceled_order($order_info['_id']);
+			$model->canceled_order($order_info['_id'], array('user_id'=>$order_info['user_id']));
         } catch (Sher_Core_Model_Exception $e) {
             return $this->ajax_notification('取消订单失败:'.$e->getMessage(),true);
         }

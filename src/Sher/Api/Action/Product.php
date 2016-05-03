@@ -502,7 +502,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			return $this->api_json('操作失败:'.$e->getMessage(), 3008);
 		}
 
-    $order_ok = $orders_model->finish_order((string)$order['_id']);
+    $order_ok = $orders_model->finish_order((string)$order['_id'], array('user_id'=>$order['user_id']));
     if(!$order_ok){
       return $this->api_json('操作失败！', 3009);   
     }
