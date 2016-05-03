@@ -175,9 +175,9 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 
 		// 是否有头图
 		$data['head_pic_url'] = null;
-		if(isset($user['pic_url']) && !empty($user['pic_url'])){
+		if(isset($user['head_pic']) && !empty($user['head_pic'])){
 		  $asset_model = new Sher_Core_Model_Asset();
-		  $asset = $asset_model->extend_load($user['pic_url']);
+		  $asset = $asset_model->extend_load($user['head_pic']);
 		  if($asset){
 			$data['head_pic_url'] = $asset['thumbnails']['huge']['view_url'];
 		  }
