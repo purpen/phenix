@@ -112,7 +112,7 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 	public function ajax_follow(){
 		
 		$user_id = $this->current_user_id;
-		$user_id = 10;
+		//$user_id = 10;
 		if(empty($user_id)){
 			return $this->api_json('请先登录！', 3000);
 		}

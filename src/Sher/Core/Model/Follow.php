@@ -48,7 +48,7 @@ class Sher_Core_Model_Follow extends Sher_Core_Model_Base{
             
             // 给用户添加提醒
             $user = new Sher_Core_Model_User();
-            $user->update_counter_byinc($this->data['target_user_id'], 'fans_count', 1); 
+            $user->update_counter_byinc($this->data['follow_id'], 'fans_count', 1); 
             
             // 增加积分
             $service = Sher_Core_Service_Point::instance();
