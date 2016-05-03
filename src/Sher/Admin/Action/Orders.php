@@ -360,7 +360,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		}
 		try {
 			// 关闭订单
-			$model->close_order($order_info['_id']);
+			$model->close_order($order_info['_id'], array('user_id'=>$order_info['user_id']));
         } catch (Sher_Core_Model_Exception $e) {
             return $this->ajax_notification('关闭订单失败:'.$e->getMessage(),true);
         }
@@ -423,7 +423,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 				return $this->show_message_page('订单['.$rid.']还未付款！', true);
 			}
 			
-            $ok = $model->sended_order($id, array('express_caty'=>$express_caty, 'express_no'=>$express_no));
+            $ok = $model->sended_order($id, array('express_caty'=>$express_caty, 'express_no'=>$express_no, 'user_id'=>$order_info['user_id']));
 
       // 短信提醒用户
       if($ok){

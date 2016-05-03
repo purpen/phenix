@@ -1520,7 +1520,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
           return $this->api_json('该订单出现异常，请联系客服！', 3005);
       }
-      $options = array('refund_reason'=>$content, 'refund_option'=>$refund_option);
+      $options = array('refund_reason'=>$content, 'refund_option'=>$refund_option, 'user_id'=>$order_info['user_id']);
       try {
           // 申请退款
           $ok = $model->refunding_order($order_info['_id'], $options);
@@ -1561,7 +1561,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		}
 		try {
 			// 待评价订单
-			$ok = $model->evaluate_order($order_info['_id']);
+			$ok = $model->evaluate_order($order_info['_id'], array('user_id'=>$order_info['user_id']));
       if($ok){
         return $this->api_json('操作成功!', 0, array('rid'=>$rid));
       }else{
