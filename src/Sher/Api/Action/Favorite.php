@@ -99,29 +99,52 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
         $result = $service->get_like_list($query, $options);
 		
 		// 重建数据结果
-		foreach($result['rows'] as $k => $v){
-			$result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
-			switch($type){
-				case 'scene':
-					if(isset($result['rows'][$k]['scene'])){
-						$result['rows'][$k]['scene']['cover_url'] = $result['rows'][$k]['scene']['cover']['thumbnails']['huge']['view_url'];
-						$result['rows'][$k]['scene']['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['scene']['created_on']);
-						$result['rows'][$k] = $result['rows'][$k]['scene'];
-					} else {
-						$result['rows'][$k] = array();
-					}
-					break;
-				case 'sight':
-					if(isset($result['rows'][$k]['sight'])){
-						$result['rows'][$k]['sight']['cover_url'] = $result['rows'][$k]['sight']['cover']['thumbnails']['huge']['view_url'];
-						$result['rows'][$k]['sight']['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['sight']['created_on']);
-						$result['rows'][$k] = $result['rows'][$k]['sight'];
-					} else {
-						$result['rows'][$k] = array();
-					}
-					break;
-				default:
-					return $this->api_json('暂不支持的参数！', 3003);
+		if($user_id){
+			foreach($result['rows'] as $k => $v){
+				$result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
+				switch($type){
+					case 'scene':
+						if(isset($result['rows'][$k]['scene'])){
+							$result['rows'][$k]['scene']['cover_url'] = $result['rows'][$k]['scene']['cover']['thumbnails']['huge']['view_url'];
+							$result['rows'][$k]['scene']['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['scene']['created_on']);
+							$result['rows'][$k] = $result['rows'][$k]['scene'];
+						} else {
+							$result['rows'][$k] = array();
+						}
+						break;
+					case 'sight':
+						if(isset($result['rows'][$k]['sight'])){
+							$result['rows'][$k]['sight']['cover_url'] = $result['rows'][$k]['sight']['cover']['thumbnails']['huge']['view_url'];
+							$result['rows'][$k]['sight']['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['sight']['created_on']);
+							$result['rows'][$k] = $result['rows'][$k]['sight'];
+						} else {
+							$result['rows'][$k] = array();
+						}
+						break;
+					default:
+						return $this->api_json('暂不支持的参数！', 3003);
+				}
+			}
+		}
+			
+		if($target_id){
+			foreach($result['rows'] as $k => $v){
+				$result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
+				$user = array();
+				$user['user_id'] = $result['rows'][$k]['user']['_id'];
+				$user['account'] = $result['rows'][$k]['user']['account'];
+				$user['nickname'] = $result['rows'][$k]['user']['nickname'];
+				$user['avatar_url'] = $result['rows'][$k]['user']['big_avatar_url'];
+				$user['summary'] = $result['rows'][$k]['user']['summary'];
+				$user['counter'] = $result['rows'][$k]['user']['counter'];
+				$user['follow_count'] = $result['rows'][$k]['user']['follow_count'];
+				$user['fans_count'] = $result['rows'][$k]['user']['fans_count'];
+				$user['love_count'] = $result['rows'][$k]['user']['love_count'];
+				$user['user_rank'] = $result['rows'][$k]['user_ext']['user_rank']['title'];
+				unset($result['rows'][$k][$type]);
+				unset($result['rows'][$k]['user_ext']);
+				
+				$result['rows'][$k]['user'] = $user;
 			}
 		}
 
