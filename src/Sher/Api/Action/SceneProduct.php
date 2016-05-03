@@ -248,7 +248,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     // 过滤品牌
     if(!empty($data['brand'])){
       $brand_data = array();
-      $brand_data['cover_url'] = isset($data['brand']['cover']['thumbnails']['ava']) ? $data['brand']['cover']['thumbnails']['ava'] : null;
+      $brand_data['cover_url'] = isset($data['brand']['cover']['thumbnails']['ava']['view_url']) ? $data['brand']['cover']['thumbnails']['ava']['view_url'] : null;
       $brand_data['_id'] = (string)$data['brand']['_id'];
       for($j=0;$j<count($brand_some_fields);$j++){
         $brand_key = $brand_some_fields[$j];
