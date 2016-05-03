@@ -629,13 +629,14 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
       return $this->ajax_json('没有权限!', true);   
     }
 
-    // 允许关闭订单状态数组
+    // 允许删除订单状态数组
     $allow_stat_arr = array(
       Sher_Core_Util_Constant::ORDER_EXPIRED,
       Sher_Core_Util_Constant::ORDER_CANCELED,
       Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT,
       Sher_Core_Util_Constant::ORDER_EVALUATE,
       Sher_Core_Util_Constant::ORDER_PUBLISHED,
+      Sher_Core_Util_Constant::ORDER_REFUND_DONE,
     );
     if(!in_array($order['status'], $allow_stat_arr)){
       return $this->ajax_json('该订单状态不允许删除!', true);     
