@@ -112,7 +112,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 	public function view(){
 		
 		$id = isset($this->stash['id']) ? $this->stash['id'] : '';
-		$id = '56cff82316c149a0066d5648';
+		//$id = '56cff82316c149a0066d5648';
 		
 		if (empty($id)) {
             return $this->api_json('请求失败，缺少必要参数!', 3001);
