@@ -141,7 +141,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 		
 		$user_model = new Sher_Core_Model_User();
 		$user = $user_model->extend_load($id);
-		//var_dump($user);
+		
 		if(empty($user)){
 			return $this->api_json('用户未找到！', 3001);  
 		}
@@ -172,7 +172,6 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 		$data['rank_title'] = $rank_title;
 		$data['bird_coin'] = $bird_coin;
 
-
 		// 是否有头图
 		$data['head_pic_url'] = null;
 		if(isset($user['head_pic']) && !empty($user['head_pic'])){
@@ -198,7 +197,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 		if($follow_model->has_exist_ship($this->current_user_id, $id)){
 			$data['is_love'] = 1;
 		}
-		
+		//var_dump($data);die;
 		return $this->api_json('请求成功', 0, $data);
 	}
 

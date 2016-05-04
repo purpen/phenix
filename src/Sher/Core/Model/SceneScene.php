@@ -99,7 +99,7 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 		$model->scene_count($this->data['tags'],array('total_count','scene_count'),1);
 		
 		$model = new Sher_Core_Model_User();
-		$model->inc_counter('scene_count',$this->data['user_id']);
+		$model->inc_counter('scene_count',(int)$this->data['user_id']);
 		
         parent::after_save();
     }
