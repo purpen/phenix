@@ -130,6 +130,10 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 								$user['user_rank'] = $v['sight']['user_ext']['user_rank']['title'];
 							}
 							$result['rows'][$k]['sight']['user_info'] = $user;
+							$result['rows'][$k]['sight']['scene_title'] = '';
+							if($result['rows'][$k]['sight']['scene']){
+								$result['rows'][$k]['sight']['scene_title'] = $v['sight']['scene']['title'];
+							}
 							$result['rows'][$k] = $result['rows'][$k]['sight'];
 						} else {
 							$result['rows'][$k] = array();
