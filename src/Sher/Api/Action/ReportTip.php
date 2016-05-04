@@ -36,6 +36,7 @@ class Sher_Api_Action_ReportTip extends Sher_Api_Action_Base {
 		$type_arr = array(1,2,3,4,5);
 		
 		$user_id = $this->current_user_id;
+		$user_id = 10;
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
         $target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
@@ -86,7 +87,7 @@ class Sher_Api_Action_ReportTip extends Sher_Api_Action_Base {
         
         $data = array();
 		$data['target_id'] = $target_id;
-		$data['target_user_id'] = $target_user_id;
+		$data['target_user_id'] = isset($target_user_id) ? $target_user_id : 0;
         $data['target_type'] = $type;
         $data['title'] = $title;
         $data['content'] = $content;
