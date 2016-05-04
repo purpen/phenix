@@ -82,7 +82,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		foreach($result['rows'] as $k => $v){
 			
 			// 返回品牌大小类型
-			$result['rows'][$k]['brands_size_type'] = 0;
+			$result['rows'][$k]['brands_size_type'] = 1;
 			if(isset($every_count) && $every_count){
 				if($v['used_count']>=0 && $v['used_count'] < $every_count){
 					$result['rows'][$k]['brands_size_type'] = 1;
