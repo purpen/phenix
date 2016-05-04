@@ -169,6 +169,7 @@ h3.ui.header{
       }, 'json');
     });
   });
+
 	
 {% endblock %}
 
@@ -249,12 +250,12 @@ h3.ui.header{
           <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
         {%endif%}
         {% if order_info.status == 16 %}
-          <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
+          <a href="{{ app_url_wap }}/my/evaluate?rid={{ order.rid }}" rid="{{ order_info.rid }}" class="ui small magenta inverted button">评价</a>
         {%endif%}
         {% if order_info.status == 20 %}
           <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
         {%endif%}
-				{% if order_info.status==1 %}
+				{% if order_info.status == 1 %}
 				<a href="{{ app_url_wap }}/shop/success?rid={{ order_info.rid }}" class="ui small inverted button">现在支付</a>
         <a href="javascript:void(0);" class="ui small gray inverted button cancel_order_btn" rid="{{ order_info.rid }}">取消订单</a>
 				{% endif %}

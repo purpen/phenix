@@ -298,6 +298,11 @@ app.jpush_api:
   log_path: ''
   max_retry_times: 3
 
+# 云片网络(短信验证码)
+app.yunpian_api:
+  app_key: 'f24e5339b13f3e44876c19e0072060f3'
+  app_secret: '8f1ef668'
+
 # 图片缩络图
 app.asset.thumbnails:
 	mini: 120x120

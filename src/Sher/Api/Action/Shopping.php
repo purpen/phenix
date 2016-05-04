@@ -682,7 +682,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     if($is_app_snatched){
       //如果是抢购，无需支付，跳到我的订单页
       $result['is_snatched'] = 1;
-      $msg = '抢购成功,请在15分钟下单!';
+      $msg = '抢购成功,请在15分钟内下单!';
     }else{
       $result['is_snatched'] = 0;
       $msg = '下单成功!';
