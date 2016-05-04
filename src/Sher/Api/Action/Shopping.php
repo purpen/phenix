@@ -543,19 +543,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $order_info['from_app'] = $from_app;
       // 渠道
       $order_info['channel_id'] = $channel_id;
-			
-			// 商品金额
-			$order_info['total_money'] = $total_money;
-			// 应付金额
-			$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money;
-			// 支付金额不能为负数
-			if($pay_money <= 0){
-        return $this->api_json('订单价格不能为0元！', 3020); 
-			}
-			$order_info['pay_money'] = sprintf("%.2f", $pay_money);
-			
-			// 设置订单状态
-			$order_info['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
 
       $is_app_snatched = false;
 
@@ -620,6 +607,22 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         }
 
       } //endfor
+
+			// 商品金额
+			$order_info['total_money'] = $total_money;
+			// 应付金额
+			$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money;
+
+			$order_info['pay_money'] = sprintf("%.2f", $pay_money);
+			// 设置订单状态
+			$order_info['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
+
+			// 支付金额不能为负数
+			if($pay_money <= 0){
+        $order_info['pay_money'] = 0;
+        // 设置订单状态
+        $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
+			}
 
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功

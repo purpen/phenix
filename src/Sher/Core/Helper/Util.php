@@ -217,6 +217,26 @@ class Sher_Core_Helper_Util {
 		
 		return true;
 	}
+
+	/**
+	 * 发送短信息(云片网络)
+	 */
+	public static function send_yp_mms($phone, $message) {
+		if(empty($phone) || empty($message)) {
+			return false;
+		}
+
+    require_once('yunpian-sdk-php/YunpianAutoload.php');
+
+    // 发送单条短信
+    $smsOperator = new SmsOperator();
+    $data['mobile'] = $phone;
+    $data['text'] = $message;
+    $result = $smsOperator->single_send($data);
+    print_r($result);
+
+		return true;
+	}
 	
 	/**
 	 * 判断是否是内置浏览器
