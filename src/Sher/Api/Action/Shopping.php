@@ -1103,7 +1103,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			'_id'=>1, 'rid'=>1, 'items'=>1, 'items_count'=>1, 'total_money'=>1, 'pay_money'=>1,
 			'card_money'=>1, 'coin_money'=>1, 'freight'=>1, 'discount'=>1, 'user_id'=>1,
 			'express_info'=>1, 'invoice_type'=>1, 'invoice_caty'=>1, 'invoice_title'=>1, 'invoice_content'=>1,
-			'payment_method'=>1, 'express_caty'=>1, 'express_company'=>1, 'express_no'=>1, 'sended_date'=>1,'card_code'=>1, 'is_presaled'=>1,
+			'payment_method'=>1, 'express_caty'=>1, 'express_no'=>1, 'sended_date'=>1,'card_code'=>1, 'is_presaled'=>1,
       'expired_time'=>1, 'from_site'=>1, 'status'=>1, 'gift_code'=>1, 'bird_coin_count'=>1, 'bird_coin_money'=>1,
       'gift_money'=>1, 'status_label'=>1, 'created_on'=>1, 'updated_on',
 		);
@@ -1181,7 +1181,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			'_id', 'rid', 'items', 'items_count', 'total_money', 'pay_money',
 			'card_money', 'coin_money', 'freight', 'discount', 'user_id', 'addbook_id', 'addbook',
 			'express_info', 'invoice_type', 'invoice_caty', 'invoice_title', 'invoice_content',
-			'payment_method', 'express_caty', 'express_no', 'sended_date','card_code', 'is_presaled',
+			'payment_method', 'express_caty', 'express_company', 'express_no', 'sended_date','card_code', 'is_presaled',
       'expired_time', 'from_site', 'status', 'gift_code', 'bird_coin_count', 'bird_coin_money',
       'gift_money', 'status_label', 'created_on', 'updated_on',
 		);
