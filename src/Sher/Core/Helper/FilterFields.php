@@ -16,7 +16,7 @@ class Sher_Core_Helper_FilterFields {
         'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,
         'created_on'=>1,'email'=>1,'birthday'=>1,'medium_avatar_url'=>1, 'identify'=>1,
         'follow_count'=>1,'fans_count'=>1,'scene_count'=>1,'sight_count'=>1,'counter'=>1,
-        
+        'subscription_count'=>1,'sight_love_count'=>1,
         );
 		
         // 重建数据结果
@@ -57,6 +57,12 @@ class Sher_Core_Helper_FilterFields {
         }
         if(!isset($data['sight_count'])){
             $data['sight_count'] = 0;
+        }
+        if(!isset($data['subscription_count'])){
+            $data['subscription_count'] = 0;
+        }
+        if(!isset($data['sight_love_count'])){
+            $data['sight_love_count'] = 0;
         }
     
         if(!isset($data['identify'])){
