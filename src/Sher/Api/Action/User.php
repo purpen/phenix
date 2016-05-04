@@ -141,7 +141,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 		
 		$user_model = new Sher_Core_Model_User();
 		$user = $user_model->extend_load($id);
-		
+		//var_dump($user);die;
 		if(empty($user)){
 			return $this->api_json('用户未找到！', 3001);  
 		}

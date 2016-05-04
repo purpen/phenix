@@ -373,7 +373,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 
     protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight','mentor','district','quality','kind','symbol');
     
-	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'favorite_count', 'topic_count', 'product_count', 'stuff_count');
+	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'favorite_count', 'topic_count', 'product_count', 'stuff_count', 'subscription_count', 'sight_love_count');
 	
 	protected $joins = array(
         //'cover' =>  array('head_pic' => 'Sher_Core_Model_Asset'),
@@ -904,9 +904,11 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         if (is_null($user_id)) {
             $user_id = $this->id;
         }
+        
         if (empty($user_id) || !in_array($field_name, $this->counter_fields)) {
             return false;
         }
+        
         return $this->inc(array('_id' => (int)$user_id), $field_name);
     }
 	
