@@ -116,6 +116,20 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 						if(isset($result['rows'][$k]['sight'])){
 							$result['rows'][$k]['sight']['cover_url'] = $result['rows'][$k]['sight']['cover']['thumbnails']['huge']['view_url'];
 							$result['rows'][$k]['sight']['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['sight']['created_on']);
+							$user = array();
+							if($result['rows'][$k]['sight']['user']){
+								$user['user_id'] = $v['sight']['user']['_id'];
+								$user['account'] = $v['sight']['user']['account'];
+								$user['nickname'] = $v['sight']['user']['nickname'];
+								$user['avatar_url'] = $v['sight']['user']['big_avatar_url'];
+								$user['summary'] = $v['sight']['user']['summary'];
+								$user['counter'] = $v['sight']['user']['counter'];
+								$user['follow_count'] = $v['sight']['user']['follow_count'];
+								$user['fans_count'] = $v['sight']['user']['fans_count'];
+								$user['love_count'] = $v['sight']['user']['love_count'];
+								$user['user_rank'] = $v['sight']['user_ext']['user_rank']['title'];
+							}
+							$result['rows'][$k]['sight']['user_info'] = $user;
 							$result['rows'][$k] = $result['rows'][$k]['sight'];
 						} else {
 							$result['rows'][$k] = array();
