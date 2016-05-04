@@ -76,7 +76,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 		foreach($result['rows'] as $k => $v){
 			
 			// 返回头像大小类型
-			$result['rows'][$k]['avatar_size_type'] = 0;
+			$result['rows'][$k]['avatar_size_type'] = 1;
 			if(isset($every_count) && $every_count){
 				if($v['fans_count']>=0 && $v['fans_count'] < $every_count){
 					$result['rows'][$k]['avatar_size_type'] = 1;
