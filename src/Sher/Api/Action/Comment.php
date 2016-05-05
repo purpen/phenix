@@ -24,13 +24,18 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		// 请求参数
 		$user_id   = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : 0;
-		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+		$target_user_id = isset($this->stash['target_user_id']) ? (int)$this->stash['target_user_id'] : 0;
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 12;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 
-		if(empty($target_id)){
+		if(empty($user_id) && empty($target_id) && empty($target_user_id)){
 			return $this->api_json('获取数据错误,请重新提交', 3000);
 		}
 		
+		if(empty($type)){
+			return $this->api_json('获取数据错误,请重新提交', 3000);
+		}
+		 
 		$query   = array();
 		$options = array();
 
@@ -43,16 +48,21 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		);
 		
 		// 查询条件
+		if ($target_user_id) {
+			$query['target_user_id'] = (int)$target_user_id;
+		}
+		
 		if ($target_id) {
 			$query['target_id'] = (string)$target_id;
 		}
-		if ($type) {
-			$query['type'] = (int)$type;
-		}
+		
 		if ($user_id) {
 			$query['user_id'] = (int)$user_id;
 		}
-
+		
+		if ($type) {
+			$query['type'] = (int)$type;
+		}
 		
 		// 分页参数
 		$options['page'] = $page;
