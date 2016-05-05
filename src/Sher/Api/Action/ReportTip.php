@@ -32,19 +32,32 @@ class Sher_Api_Action_ReportTip extends Sher_Api_Action_Base {
 	 */
 	public function save(){
 		
-		// target_id=25&target_user_id=125&type=3&evt=1&title=test&content=test
+		// target_id=25&target_user_id=125&type=3&evt=1&application=2&content=3
 		$type_arr = array(1,2,3,4,5);
 		
 		$user_id = $this->current_user_id;
 		$user_id = 10;
+		if(empty($user_id)){
+			  return $this->api_json('请先登录', 3000);   
+		}
 		
-		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		//$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
         $target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
         $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
         $evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 0;
+		$from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
+		$application = isset($this->stash['application']) ? (int)$this->stash['application'] : 0;
         $title = isset($this->stash['title']) ? $this->stash['title'] : '';
         $content = isset($this->stash['content']) ? $this->stash['content'] : '';
         
+		if(!$from_to){
+            return $this->api_json('设备来源不能为空', 4002);
+        }
+		
+		if(!$application){
+            return $this->api_json('应用来源不能为空', 4002);
+        }
+		
         if(!$target_id){
             return $this->api_json('关联id不能为空', 4002);
         }
@@ -92,6 +105,42 @@ class Sher_Api_Action_ReportTip extends Sher_Api_Action_Base {
         $data['title'] = $title;
         $data['content'] = $content;
         $data['evt'] = $evt;
+		
+		switch($from_to){
+			case 1:
+				$data['from_to'] = Sher_Core_Model_ReportTip::FORM_WEB_SOURCE;
+				break;
+			case 2:
+				$data['from_to'] = Sher_Core_Model_ReportTip::FORM_WAP_SOURCE;
+				break;
+			case 3:
+				$data['from_to'] = Sher_Core_Model_ReportTip::FORM_IOS_SOURCE;
+				break;
+			case 4:
+				$data['from_to'] = Sher_Core_Model_ReportTip::FORM_ANDROID_SOURCE;
+				break;
+			case 5:
+				$data['from_to'] = Sher_Core_Model_ReportTip::FORM_IPAD_SOURCE;
+				break;
+			default:
+				return $this->api_json('参数不合法', 4002);
+				break;
+		}
+		
+		switch($application){
+			case 1:
+				$data['application'] = Sher_Core_Model_ReportTip::APP_WEB_SOURCE;
+				break;
+			case 2:
+				$data['application'] = Sher_Core_Model_ReportTip::APP_SHOP_SOURCE;
+				break;
+			case 3:
+				$data['application'] = Sher_Core_Model_ReportTip::APP_FIU_SOURCE;
+				break;
+			default:
+				return $this->api_json('参数不合法', 4002);
+				break;
+		}
 		
 		//var_dump($data);die;
 		try{

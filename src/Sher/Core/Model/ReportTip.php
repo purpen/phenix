@@ -13,15 +13,22 @@ class Sher_Core_Model_ReportTip extends Sher_Core_Model_Base  {
     const T_TYPE_SCENE = 3;
     const T_TYPE_SIGHT = 4;
     const T_TYPE_USER = 5;
+    
+    // 设备来源
+    
+    const FORM_WEB_SOURCE = 1;
+    const FORM_WAP_SOURCE = 2;
+    const FORM_IOS_SOURCE = 3;
+    const FORM_ANDROID_SOURCE = 4;
+    const FORM_IPAD_SOURCE = 5;
+    
+    // 应用来源
+    const APP_WEB_SOURCE = 1;
+    const APP_SHOP_SOURCE = 2;
+    const APP_FIU_SOURCE = 3;
 
     //类型: 1,举报
     const KIND = 1;
-    
-    /*
-     *1、色情暴力；
-     *2、盗图；
-     *3、广告/欺诈信息 
-     */
 	
     protected $schema = array(
         // 举报内容关联ID
@@ -41,13 +48,17 @@ class Sher_Core_Model_ReportTip extends Sher_Core_Model_Base  {
         'kind'  => 1,
         //举报原因:1,侵权
         'evt' => 1,
+        // 设备来源
+        'from_to' => self::FORM_WEB_SOURCE,
+        // 应用来源
+        'application' => self::APP_WEB_SOURCE,
         // 是否处理
 		'status' => 0,
   	);
 
-    protected $required_fields = array('target_id', 'user_id');
+    protected $required_fields = array('target_id', 'user_id','from_to','application');
 
-    protected $int_fields = array('status', 'user_id', 'kind', 'evt', 'target_type', 'target_user_id');
+    protected $int_fields = array('status', 'user_id', 'kind', 'evt', 'target_type', 'target_user_id', 'from_to','application');
 
     protected $joins = array(
         'user'  => array('user_id'  => 'Sher_Core_Model_User'),
