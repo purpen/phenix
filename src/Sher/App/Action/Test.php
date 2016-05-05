@@ -359,5 +359,14 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 
   }
 
+  /**
+   * 发送短信测试
+   */
+  public function send_yp_mms(){
+    $ok = Sher_Core_Helper_Util::send_yp_register_mms('15001120509', '123456');
+    print_r($ok);
+    //return $ok;
+  }
+
 }
 

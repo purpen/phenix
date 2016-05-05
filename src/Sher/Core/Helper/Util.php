@@ -178,11 +178,27 @@ class Sher_Core_Helper_Util {
 	}
 
 	/**
+	 * 发送注册验证码--云片(备选)
+	 */
+	public static function send_yp_register_mms($phone, $code) {
+		$message = "【太火鸟】验证码：${code}，切勿泄露给他人，如非本人操作，建议及时修改账户密码。";
+		return self::send_yp_mms($phone, $message);
+	}
+
+	/**
 	 * 发送短信--自定义
 	 */
 	public static function send_defined_mms($phone, $msg) {
 		$message = "${msg}【太火鸟】";
 		return self::send_mms($phone, $message);
+	}
+
+	/**
+	 * 发送短信--自定义 (云片-备选)
+	 */
+	public static function send_yp_defined_mms($phone, $msg) {
+		$message = "【太火鸟】${msg}";
+		return self::send_yp_mms($phone, $message);
 	}
 	
 	/**
@@ -221,12 +237,11 @@ class Sher_Core_Helper_Util {
 	/**
 	 * 发送短信息(云片网络)
 	 */
-	public static function send_yp_mms($phone, $message) {
+  public static function send_yp_mms($phone, $message) {
+    require_once('yunpian-sdk-php/YunpianAutoload.php');
 		if(empty($phone) || empty($message)) {
 			return false;
 		}
-
-    require_once('yunpian-sdk-php/YunpianAutoload.php');
 
     // 发送单条短信
     $smsOperator = new SmsOperator();
