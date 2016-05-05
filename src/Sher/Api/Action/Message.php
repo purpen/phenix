@@ -54,7 +54,7 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		// 排序
 		switch ($sort) {
 			case 0:
-				$options['sort_field'] = 'latest';
+				$options['sort_field'] = 'last_time';
 				break;
 		}
 		
