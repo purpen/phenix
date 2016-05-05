@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'ajax_message');
+	protected $filter_user_method_list = array('execute');
 	
 	/**
 	 * 入口
@@ -28,6 +28,8 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		if(!$from_user_id){
 			return $this->api_json('获取数据错误,请重新提交', 3000);
 		}
+
+    $user_id = $this->current_user_id;
 		
 		$query   = array();
 		$options = array();
@@ -66,8 +68,20 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		foreach($result['rows'] as $k => $v){
 			$result['rows'][$k]['last_content'] = $v['mailbox'][0];
 			if(isset($result['rows'][$k]['last_time'])){
-				$result['rows'][$k]['last_times'] = Sher_Core_Helper_Util::relative_datetime($v['last_time']);
+				$result['rows'][$k]['last_time_at'] = Sher_Core_Helper_Util::relative_datetime($v['last_time']);
 			}
+
+      $small_user = min($result['rows'][$i]['users']);
+      if($user_id == $small_user){
+        $result['rows'][$k]['readed'] = $result['rows'][$k]['s_readed'];
+        # 更新阅读标识
+        $message->mark_message_readed($result['rows'][$k]['_id'], 's_readed');
+      }else{
+        $result['rows'][$k]['readed'] = $result['rows'][$k]['b_readed'];
+        # 更新阅读标识
+        $message->mark_message_readed($result['rows'][$k]['_id'], 'b_readed');
+      }
+
 			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
 			$user_info = array();
 			$from_user = $user_model->extend_load((int)$result['rows'][$k]['users'][0]);
@@ -80,7 +94,6 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 			$user_info['to_user']['account'] = $to_user['account'];
 			$user_info['to_user']['nickname'] = $to_user['nickname'];
 			$user_info['to_user']['big_avatar_url'] = $to_user['big_avatar_url'];
-			$result['rows'][$k]['users'] = array();
 			$result['rows'][$k]['users'] = $user_info;
 		}
 		
@@ -117,7 +130,7 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		$user_model = new Sher_Core_Model_User();
 		$result = $model->find_by_id($id);
 		$result['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
-		$result['last_times'] = Sher_Core_Helper_Util::relative_datetime($result['last_time']);
+		$result['last_time_at'] = Sher_Core_Helper_Util::relative_datetime($result['last_time']);
 		
 		foreach($result['mailbox'] as $k => $v){
 			$result['mailbox'][$k]['r_id'] = (string)$result['mailbox'][$k]['r_id'];
