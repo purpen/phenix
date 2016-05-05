@@ -106,62 +106,54 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		
 		$profile = array();
 		if(isset($this->stash['job']) && !empty($this->stash['job'])){
-		  $profile['job'] = $this->stash['job'];
+		  $data['profile.job'] = $this->stash['job'];
 		}
 		if(isset($this->stash['company']) && !empty($this->stash['company'])){
-		  $profile['company'] = $this->stash['company'];
+		  $data['profile.company'] = $this->stash['company'];
 		}
 		if(isset($this->stash['phone']) && !empty($this->stash['phone'])){
-		  $profile['phone'] = $this->stash['phone'];
+		  $data['profile.phone'] = $this->stash['phone'];
 		}
 		if(isset($this->stash['address']) && !empty($this->stash['address'])){
-		  $profile['address'] = $this->stash['address'];
+		  $data['profile.address'] = $this->stash['address'];
 		}
 		if(isset($this->stash['realname']) && !empty($this->stash['realname'])){
-		  $profile['realname'] = $this->stash['realname'];
+		  $data['profile.realname'] = $this->stash['realname'];
 		}
 		if(isset($this->stash['province_id']) && !empty($this->stash['province_id'])){
-		  $profile['province_id'] = (int)$this->stash['province_id'];
+		  $data['profile.province_id'] = (int)$this->stash['province_id'];
 		}
 		if(isset($this->stash['district_id']) && !empty($this->stash['district_id'])){
-		  $profile['district_id'] = (int)$this->stash['district_id'];
+		  $data['profile.district_id'] = (int)$this->stash['district_id'];
 		}
 		if(isset($this->stash['zip']) && !empty($this->stash['zip'])){
-		  $profile['zip'] = $this->stash['zip'];
+		  $data['profile.zip'] = $this->stash['zip'];
 		}
 		if(isset($this->stash['im_qq']) && !empty($this->stash['im_qq'])){
-		  $profile['im_qq'] = $this->stash['im_qq'];
+		  $data['profile.im_qq'] = $this->stash['im_qq'];
 		}
 		if(isset($this->stash['weixin']) && !empty($this->stash['weixin'])){
-		  $profile['weixin'] = $this->stash['weixin'];
+		  $data['profile.weixin'] = $this->stash['weixin'];
 		}
 		if(isset($this->stash['birthday']) && !empty($this->stash['birthday'])){
 		  $age_arr = explode('-', $this->stash['birthday']);
-		  $profile['age'] = $age_arr;
-		}
-			
-		if(!empty($profile)){
-			  $user_info['profile'] = $profile;
+		  $data['profile.age'] = $age_arr;
 		}
 			
 		if(isset($this->stash['nickname']) && !empty($this->stash['nickname'])){
-		  $user_info['nickname'] = (int)$this->stash['nickname'];
+		  $data['nickname'] = (int)$this->stash['nickname'];
 		}
 		if(isset($this->stash['sex'])){
-		  $user_info['sex'] = (int)$this->stash['sex'];
+		  $data['sex'] = (int)$this->stash['sex'];
 		}
 		if(isset($this->stash['city']) && !empty($this->stash['city'])){
-		  $user_info['city'] = $this->stash['city'];
+		  $data['city'] = $this->stash['city'];
 		}
 		if(isset($this->stash['email']) && !empty($this->stash['email'])){
-		  $user_info['email'] = $this->stash['email'];
+		  $data['email'] = $this->stash['email'];
 		}
 		if(isset($this->stash['summary']) && !empty($this->stash['summary'])){
-		  $user_info['summary'] = $this->stash['summary'];
-		}
-	
-		if(empty($user_info)){
-			return $this->api_json('请求参数不能为空！', 3001);    
+		  $data['summary'] = $this->stash['summary'];
 		}
 		
 		try {
@@ -177,13 +169,13 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
         if(!$user->_check_name($this->stash['nickname'], $user_id)){
           return $this->api_json('用户昵称已被占用！', 3003);
         }
-			  $user_info['nickname'] = $this->stash['nickname'];
+			  $data['nickname'] = $this->stash['nickname'];
       }
 
 	    //更新基本信息
-			$user_info['_id'] = $user_id;
+			//$user_info['_id'] = $user_id;
 			
-			$ok = $user->apply_and_update($user_info);
+			$ok = $user->update_set($user_id, $data);
       if($ok){
         $user_data = $user->load($user_id);
         // 过滤用户字段

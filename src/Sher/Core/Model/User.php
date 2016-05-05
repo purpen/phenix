@@ -313,6 +313,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			'fans_count' => 0,  // 粉丝 #
 			'comment_count' => 0, // 评论 #
 			'people_count' => 0,  // 用户 #
+      'fiu_alert_count' => 0, // Fiu提醒
             'fiu_comment_count' => 0, // Fiu 评论
             'fiu_notice_count' => 0, // Fiu 通知
             'sight_love_count' => 0, // Fiu 别人给他点的赞(场景)
@@ -977,7 +978,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
    *
 	 */
 	public function update_counter($user_id,$field,$value=0){
-		if(!in_array($field,array('message_count','notice_count','alert_count','fans_count','comment_count','people_count','fiu_comment_count','fiu_notice_count','order_wait_payment','order_ready_goods','order_sended_goods','order_evaluate'))){
+		if(!in_array($field,array('message_count','notice_count','alert_count','fans_count','comment_count','people_count','fiu_alert_count','fiu_comment_count','fiu_notice_count','order_wait_payment','order_ready_goods','order_sended_goods','order_evaluate'))){
 			return;
 		}
 		$this->update_set((int)$user_id, array('counter.'.$field => $value));
@@ -987,7 +988,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	 * 更新计数器，累加,减少
 	 */
 	public function update_counter_byinc($user_id, $field, $value=1){
-		if(!in_array($field,array('message_count','notice_count','alert_count','fans_count','comment_count','people_count','fiu_comment_count','fiu_notice_count','order_wait_payment','order_ready_goods','order_sended_goods','order_evaluate'))){
+		if(!in_array($field,array('message_count','notice_count','alert_count','fans_count','comment_count','people_count','fiu_alert_count','fiu_comment_count','fiu_notice_count','order_wait_payment','order_ready_goods','order_sended_goods','order_evaluate'))){
 			return;
     }
     // 不能为负
