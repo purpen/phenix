@@ -1223,7 +1223,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     // 快递公司
     $data['express_company'] = null;
     if(!empty($data['express_caty'])){
-      $data['express_company'] = $model->find_express_category($data['express_caty']);
+      $data['express_company'] = $model->find_express_category($data['express_caty']['title']);
     }
 
     //商品详情
