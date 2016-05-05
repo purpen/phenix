@@ -283,16 +283,16 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			// 婚姻状况
 			'marital' => self::MARR_SINGLE,
 			// 出生年月日
-      'age'  => array(),
-      // 所在公司
-      'company' => null,
-      // 所属行业
-      'industry' => null,
-      // 省份
-      'province_id' => 0,
-      // 城市
-      'district_id' => 0,
-    ),
+            'age'  => array(),
+            // 所在公司
+            'company' => null,
+            // 所属行业
+            'industry' => null,
+            // 省份
+            'province_id' => 0,
+            // 城市
+            'district_id' => 0,
+        ),
 
 		// 所在城市
 		'city' => null,
@@ -604,9 +604,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         $row['ext_state'] = DoggyX_Model_Mapper::load_model($row['_id'], 'Sher_Core_Model_UserExtState');
 
         if(isset($row['profile']['age']) && !empty($row['profile']['age'])){
-          $row['birthday'] = implode('-', $row['profile']['age']);
+            $row['birthday'] = implode('-', $row['profile']['age']);
         }else{
-          $row['birthday'] = '';       
+            $row['birthday'] = '';       
         }
     }
 	
