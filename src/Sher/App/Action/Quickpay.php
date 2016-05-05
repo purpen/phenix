@@ -332,7 +332,7 @@ class Sher_App_Action_Quickpay extends Sher_App_Action_Base implements DoggyX_Ac
 		// 验证订单是否已经付款
 		if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
 			// 更新支付状态,付款成功并配货中
-			$model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, Sher_Core_Util_Constant::TRADE_QUICKPAY);
+			$model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, Sher_Core_Util_Constant::TRADE_QUICKPAY, array('user_id'=>$order_info['user_id']));
 		}
 		
 		// 已支付状态

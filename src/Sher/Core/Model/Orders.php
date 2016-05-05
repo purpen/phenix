@@ -38,7 +38,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'total_money' => 0,
 		# 红包优惠金额
 		'card_money'  => 0,
-		# 优惠抵扣
+		# 优惠抵扣  用于：app首次下单、
 		'coin_money'  => 0,
 		# 礼品码金额
 		'gift_money'  => 0,
@@ -325,6 +325,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		$items = $this->data['items'];
     $kind = $this->data['kind'];
     $user_id = $this->data['user_id'];
+    $status = $this->data['status'];
 		
 		for($i=0;$i<count($items);$i++){
 			$sku = $items[$i]['sku'];
@@ -337,6 +338,15 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			
 			unset($inventory);
 		}
+
+
+    $user_model = new Sher_Core_Model_User();
+    // 更新用户订单状态提醒
+    if($status==Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+      $user_model->update_counter_byinc($user_id, 'order_wait_payment', 1);
+    }elseif($status==Sher_Core_Util_Constant::ORDER_READY_GOODS){
+      $user_model->update_counter_byinc($user_id, 'order_ready_goods', 1);
+    }
 		
 		// 更新红包状态
 		$card_code = $this->data['card_code'];
@@ -354,7 +364,6 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 
     // 更新app首次购买状态 
     if($kind==4){
-      $user_model = new Sher_Core_Model_User();
       $user_model->update_user_identify($user_id, 'is_app_first_shop', 1);
     }
 
@@ -549,9 +558,43 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         }
 
         $ok = $this->update_set($id, $updated);
-        // 同步订单索引状态 值 
+         
         if($ok){
-            $this->sync_order_index($id, $status);
+          // 更新用户订单提醒数量
+          $user_id = isset($options['user_id']) ? (int)$options['user_id'] : 0;
+          if(!empty($user_id)){
+            $user_model = new Sher_Core_Model_User();
+            switch($status){
+              case Sher_Core_Util_Constant::ORDER_CANCELED: // 取消
+                $user_model->update_counter_byinc($user_id, 'order_wait_payment', -1);
+                break;
+              case Sher_Core_Util_Constant::ORDER_EXPIRED:  // 过期自动关闭
+                $user_model->update_counter_byinc($user_id, 'order_wait_payment', -1);
+                break;
+              case Sher_Core_Util_Constant::ORDER_READY_GOODS:  // 待发货
+                $user_model->update_counter_byinc($user_id, 'order_wait_payment', -1);
+                $user_model->update_counter_byinc($user_id, 'order_ready_goods', 1);
+                break;
+              case Sher_Core_Util_Constant::ORDER_SENDED_GOODS:  // 待收货
+                $user_model->update_counter_byinc($user_id, 'order_ready_goods', -1);
+                $user_model->update_counter_byinc($user_id, 'order_sended_goods', 1);
+                break;
+              case Sher_Core_Util_Constant::ORDER_READY_REFUND:  // 申请退款
+                $user_model->update_counter_byinc($user_id, 'order_ready_goods', -1);
+                break;
+              case Sher_Core_Util_Constant::ORDER_EVALUATE:  // 确认收货
+                $user_model->update_counter_byinc($user_id, 'order_sended_goods', -1);
+                $user_model->update_counter_byinc($user_id, 'order_evaluate', 1);
+                break;
+              case Sher_Core_Util_Constant::ORDER_PUBLISHED:  // 已完成
+                $user_model->update_counter_byinc($user_id, 'order_evaluate', -1);
+                break;
+            }         
+          }
+
+          
+          // 同步订单索引状态 值
+          $this->sync_order_index($id, $status);
         }
         return $ok;
 	}
@@ -986,7 +1029,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	 * 更新订单的支付信息
 	 * 支付状态，第三方交易号，状态
 	 */
-	public function update_order_payment_info($id, $trade_no, $status=null, $trade_site=Sher_Core_Util_Constant::TRADE_ALIPAY){
+	public function update_order_payment_info($id, $trade_no, $status=null, $trade_site=Sher_Core_Util_Constant::TRADE_ALIPAY, $options=array()){
         if(is_null($id)){
             $id = $this->id;
         }
@@ -1018,6 +1061,12 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         $ok = $this->update_set($id, $updated);
         
         if($ok){
+          // 更新用户订单提醒状态
+          if(isset($options['user_id'])){
+            $user_model = new Sher_Core_Model_User();
+            $user_model->update_counter_byinc($options['user_id'], 'order_wait_payment', -1);
+            $user_model->update_counter_byinc($options['user_id'], 'order_ready_goods', 1);
+          }
             $this->sync_order_index($id, $status);
             
             // 支付成功后奖励积分

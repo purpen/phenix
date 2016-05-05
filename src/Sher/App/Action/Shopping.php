@@ -1108,7 +1108,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			// 自动处理支付
 			if ($order_info['status'] == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
 				$trade_no = $trade_prefix.rand();
-				$model->update_order_payment_info((string)$order_info['_id'], $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS);
+				$model->update_order_payment_info((string)$order_info['_id'], $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, 1, array('user_id'=>$order_info['user_id']));
 			}
 			$this->stash['card_payed'] = true;
 		}

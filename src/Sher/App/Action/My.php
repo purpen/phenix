@@ -495,7 +495,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		}
 		try {
 			// 待评价订单
-			$ok = $model->evaluate_order($order_info['_id']);
+			$ok = $model->evaluate_order($order_info['_id'], array('user_id'=>$order_info['user_id']));
     } catch (Sher_Core_Model_Exception $e) {
       return $this->ajax_notification('设置订单失败:'.$e->getMessage(),true);
     }
@@ -526,7 +526,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		}
 		try {
 			// 待评价订单
-			$ok = $model->evaluate_order($order_info['_id']);
+			$ok = $model->evaluate_order($order_info['_id'], array('user_id'=>$order_info['user_id']));
       if(!$ok){
         return $this->ajax_json('操作失败!', true);     
       }
@@ -569,7 +569,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		}
 		try {
 			// 关闭订单
-			$model->canceled_order($order_info['_id']);
+			$model->canceled_order($order_info['_id'], array('user_id'=>$order_info['user_id']));
         } catch (Sher_Core_Model_Exception $e) {
             return $this->ajax_notification('取消订单失败:'.$e->getMessage(),true);
         }
@@ -602,7 +602,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		}
 		try {
 			// 关闭订单
-			$model->canceled_order($order_info['_id']);
+			$model->canceled_order($order_info['_id'], array('user_id'=>$order_info['user_id']));
         } catch (Sher_Core_Model_Exception $e) {
             return $this->ajax_json('取消订单失败:'.$e->getMessage(),true);
         }
@@ -629,13 +629,14 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
       return $this->ajax_json('没有权限!', true);   
     }
 
-    // 允许关闭订单状态数组
+    // 允许删除订单状态数组
     $allow_stat_arr = array(
       Sher_Core_Util_Constant::ORDER_EXPIRED,
       Sher_Core_Util_Constant::ORDER_CANCELED,
       Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT,
-      Sher_Core_Util_Constant::ORDER_EVALUATE,
+      //Sher_Core_Util_Constant::ORDER_EVALUATE,
       Sher_Core_Util_Constant::ORDER_PUBLISHED,
+      Sher_Core_Util_Constant::ORDER_REFUND_DONE,
     );
     if(!in_array($order['status'], $allow_stat_arr)){
       return $this->ajax_json('该订单状态不允许删除!', true);     
@@ -903,15 +904,12 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	 */
     public function save_profile() {
 		$user_info = array();
-		$user_info['_id'] = $this->visitor->id;
+		$user_id = $this->visitor->id;
 
-		$profile = array();
-        $profile['realname'] = $this->stash['realname'];
-        $profile['job'] = $this->stash['job'];
-		$profile['phone'] = $this->stash['phone'];
-		$profile['address'] = $this->stash['address'];
-
-		$user_info['profile'] = $profile;
+    $user_info['profile.realname'] = $this->stash['realname'];
+    $user_info['profile.job'] = $this->stash['job'];
+		$user_info['profile.phone'] = $this->stash['phone'];
+		$user_info['profile.address'] = $this->stash['address'];
 
 		$user_info['sex'] = (int)$this->stash['sex'];
 		$user_info['city'] = $this->stash['city'];
@@ -923,23 +921,23 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 
 		try {
 	        //更新基本信息
-	        $ok = $this->visitor->save($user_info);
-            if($ok){
-                if(!empty($profile['address']) && !empty($profile['phone']) && !empty($profile['realname'])){
+	        $ok = $this->visitor->update_set($user_id, $user_info);
+          if($ok){
+              if(!empty($this->stash['address']) && !empty($this->stash['phone']) && !empty($this->stash['realname'])){
 
-                    if($this->stash['user']['first_login'] == 1){
-                        // 增加积分
-                        $service = Sher_Core_Service_Point::instance();
-                        // 完善个人资料
-                        $service->send_event('evt_profile_ok', $this->visitor->id);
-                        // 鸟币
-                        $service->make_money_in($this->visitor->id, 3, '完善资料赠送鸟币');
+                  if($this->stash['user']['first_login'] == 1){
+                      // 增加积分
+                      $service = Sher_Core_Service_Point::instance();
+                      // 完善个人资料
+                      $service->send_event('evt_profile_ok', $user_id);
+                      // 鸟币
+                      $service->make_money_in($user_id, 3, '完善资料赠送鸟币');
 
-                        // 取消首次登录标识
-                        $this->visitor->update_set($this->visitor->id, array('first_login'=>0));
-                    }
-                }
-            }
+                      // 取消首次登录标识
+                      $this->visitor->update_set($user_id, array('first_login'=>0));
+                  }
+              }
+          }
             
 		} catch (Sher_Core_Model_Exception $e) {
             Doggy_Log_Helper::error('Failed to update profile:'.$e->getMessage());
@@ -1089,7 +1087,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
             return $this->ajax_notification('该订单出现异常，请联系客服！', true);
         }
-        $options = array('refund_reason'=>$content);
+        $options = array('refund_reason'=>$content, 'user_id'=>$order_info['user_id']);
         try {
             // 申请退款
             $model->refunding_order($order_info['_id'], $options);
@@ -1137,7 +1135,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     if ($order['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
         return $this->ajax_json('该订单出现异常，请联系客服！', true);
     }
-    $options = array('refund_reason'=>$refund_content, 'refund_option'=>$refund_reason);
+    $options = array('refund_reason'=>$refund_content, 'refund_option'=>$refund_reason, 'user_id'=>$order['user_id']);
     try {
         // 申请退款
         $ok = $orders_model->refunding_order($order['_id'], $options);

@@ -928,9 +928,11 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	 */
 	public function recover_invertory($id, $quantity=1, $only=false, $dec_money=0, $kind=1){
 		$row = $this->find_by_id((int)$id);
-		
+
+    // 考虑到商品意外删除，订单状态无法改变，先返回true
 		if (empty($row)){
-			throw new Sher_Core_Model_Exception('产品不存在或已被删除！');
+      return true;
+			//throw new Sher_Core_Model_Exception('产品不存在或已被删除！');
 		}
 		
 		// 仅1个sku

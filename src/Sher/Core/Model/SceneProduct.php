@@ -91,7 +91,7 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 	protected $joins = array(
         'user'      =>  array('user_id'     => 'Sher_Core_Model_User'),
 		'category'  =>  array('category_id' => 'Sher_Core_Model_Category'),
-		//'brand'  =>  array('brand_id' => 'Sher_Core_Model_SceneBrands'),
+		'brand'  =>  array('brand_id' => 'Sher_Core_Model_SceneBrands'),
 	);
 	
 	/**
