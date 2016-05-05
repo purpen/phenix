@@ -85,6 +85,8 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		$service = Sher_Core_Service_Comment::instance();
 		$result = $service->get_comment_list($query,$options);
 
+    $scene_sight_model = new Sher_Core_Model_SceneSight();
+
 		// 重建数据结果
 		$data = array();
 		for($i=0;$i<count($result['rows']);$i++){
@@ -103,6 +105,17 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
         //$data[$i]['reply_comment']['user'] = Sher_Core_Helper_FilterFields::user_list($data[$i]['reply_comment']['user']);
       }else{
         $data[$i]['reply_user_nickname'] = null;
+      }
+
+      // 场景信息
+      $data[$i]['target_small_cover_url'] = null;
+      $data[$i]['target_title'] = null;
+      if($data[$i]['type']==Sher_Core_Model_Comment::TYPE_SCENE_SIGHT){
+        $scene_sight = $scene_sight_model->extend_load((int)$data[$i]['target_id']);
+        if(!empty($scene_sight)){
+          $data[$i]['target_title'] = $scene_sight['title'];
+          $data[$i]['target_small_cover_url'] = $scene_sight['cover']['thumbnails']['mini']['view_url'];
+        }
       }
 		}
 		$result['rows'] = $data;

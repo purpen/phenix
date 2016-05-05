@@ -66,7 +66,7 @@ class Sher_Core_Helper_FilterFields {
         }
 
         // 省份城市字符串输出
-        $areas_arr = Sher_Core_Helper_Util::fetch_city($data['province_id'], $data['province_id']);
+        $areas_arr = Sher_Core_Helper_Util::fetch_city($data['province_id'], $data['district_id']);
         $data['areas'] = !empty($areas_arr) ? $areas_arr : array();
     
         if(!isset($data['identify'])){
