@@ -904,15 +904,12 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	 */
     public function save_profile() {
 		$user_info = array();
-		$user_info['_id'] = $this->visitor->id;
+		$user_id = $this->visitor->id;
 
-		$profile = array();
-        $profile['realname'] = $this->stash['realname'];
-        $profile['job'] = $this->stash['job'];
-		$profile['phone'] = $this->stash['phone'];
-		$profile['address'] = $this->stash['address'];
-
-		$user_info['profile'] = $profile;
+    $user_info['profile.realname'] = $this->stash['realname'];
+    $user_info['profile.job'] = $this->stash['job'];
+		$user_info['profile.phone'] = $this->stash['phone'];
+		$user_info['profile.address'] = $this->stash['address'];
 
 		$user_info['sex'] = (int)$this->stash['sex'];
 		$user_info['city'] = $this->stash['city'];
@@ -924,23 +921,23 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 
 		try {
 	        //更新基本信息
-	        $ok = $this->visitor->save($user_info);
-            if($ok){
-                if(!empty($profile['address']) && !empty($profile['phone']) && !empty($profile['realname'])){
+	        $ok = $this->visitor->update_set($user_id, $user_info);
+          if($ok){
+              if(!empty($this->stash['address']) && !empty($this->stash['phone']) && !empty($this->stash['realname'])){
 
-                    if($this->stash['user']['first_login'] == 1){
-                        // 增加积分
-                        $service = Sher_Core_Service_Point::instance();
-                        // 完善个人资料
-                        $service->send_event('evt_profile_ok', $this->visitor->id);
-                        // 鸟币
-                        $service->make_money_in($this->visitor->id, 3, '完善资料赠送鸟币');
+                  if($this->stash['user']['first_login'] == 1){
+                      // 增加积分
+                      $service = Sher_Core_Service_Point::instance();
+                      // 完善个人资料
+                      $service->send_event('evt_profile_ok', $user_id);
+                      // 鸟币
+                      $service->make_money_in($user_id, 3, '完善资料赠送鸟币');
 
-                        // 取消首次登录标识
-                        $this->visitor->update_set($this->visitor->id, array('first_login'=>0));
-                    }
-                }
-            }
+                      // 取消首次登录标识
+                      $this->visitor->update_set($user_id, array('first_login'=>0));
+                  }
+              }
+          }
             
 		} catch (Sher_Core_Model_Exception $e) {
             Doggy_Log_Helper::error('Failed to update profile:'.$e->getMessage());

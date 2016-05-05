@@ -1256,4 +1256,25 @@ class Sher_Core_Helper_Util {
      return $array;  
   }
 
+  /*
+   * 通过城市ＩＤ获取名称
+   *
+   */
+  public static function fetch_city($province_id, $district_id){
+    $result = array();
+    if(empty($province_id) && $district_id){
+      return $result;
+    }
+    $areas_model = new Sher_Core_Model_Areas();
+    if(!empty($province_id)){
+      $province = $areas_model->load($province_id);
+      array_push($result, $province['city']);
+    }
+    if(!empty($district_id)){
+      $district = $areas_model->load($district_id);
+      array_push($result, $district['city']);
+    }
+    return $result;
+  }
+
 }
