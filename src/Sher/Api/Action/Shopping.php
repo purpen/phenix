@@ -543,19 +543,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $order_info['from_app'] = $from_app;
       // 渠道
       $order_info['channel_id'] = $channel_id;
-			
-			// 商品金额
-			$order_info['total_money'] = $total_money;
-			// 应付金额
-			$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money;
-			// 支付金额不能为负数
-			if($pay_money <= 0){
-        return $this->api_json('订单价格不能为0元！', 3020); 
-			}
-			$order_info['pay_money'] = sprintf("%.2f", $pay_money);
-			
-			// 设置订单状态
-			$order_info['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
 
       $is_app_snatched = false;
 
@@ -621,6 +608,22 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
       } //endfor
 
+			// 商品金额
+			$order_info['total_money'] = $total_money;
+			// 应付金额
+			$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money;
+
+			$order_info['pay_money'] = sprintf("%.2f", $pay_money);
+			// 设置订单状态
+			$order_info['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
+
+			// 支付金额不能为负数
+			if($pay_money <= 0){
+        $order_info['pay_money'] = 0;
+        // 设置订单状态
+        $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
+			}
+
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
 			if (!$ok) {
@@ -682,7 +685,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     if($is_app_snatched){
       //如果是抢购，无需支付，跳到我的订单页
       $result['is_snatched'] = 1;
-      $msg = '抢购成功,请在15分钟下单!';
+      $msg = '抢购成功,请在15分钟内下单!';
     }else{
       $result['is_snatched'] = 0;
       $msg = '下单成功!';
@@ -1178,7 +1181,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			'_id', 'rid', 'items', 'items_count', 'total_money', 'pay_money',
 			'card_money', 'coin_money', 'freight', 'discount', 'user_id', 'addbook_id', 'addbook',
 			'express_info', 'invoice_type', 'invoice_caty', 'invoice_title', 'invoice_content',
-			'payment_method', 'express_caty', 'express_no', 'sended_date','card_code', 'is_presaled',
+			'payment_method', 'express_caty', 'express_company', 'express_no', 'sended_date','card_code', 'is_presaled',
       'expired_time', 'from_site', 'status', 'gift_code', 'bird_coin_count', 'bird_coin_money',
       'gift_money', 'status_label', 'created_on', 'updated_on',
 		);
@@ -1215,6 +1218,12 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $data['express_info']['province'] = $order_info['addbook']['area_province']['city'];
         $data['express_info']['city'] = $order_info['addbook']['area_district']['city'];
       }   
+    }
+
+    // 快递公司
+    $data['express_company'] = null;
+    if(!empty($data['express_caty'])){
+      $data['express_company'] = $model->find_express_category($data['express_caty']);
     }
 
     //商品详情
