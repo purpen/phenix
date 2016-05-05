@@ -107,7 +107,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 					$result['rows'][$k]['scene'][$key]['address'] = $val['address'];
 					$result['rows'][$k]['scene'][$key]['cover_url'] = $val['cover']['thumbnails']['huge']['view_url'];
 				}
-			}	
+			}
 			
 			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
 			$result['rows'][$k]['address'] = isset($result['rows'][$k]['profile']['address']) ? $result['rows'][$k]['profile']['address'] : '';

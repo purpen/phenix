@@ -65,6 +65,7 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 		// 开启查询
         $service = Sher_Core_Service_Follow::instance();
         $result = $service->get_follow_list($query, $options);
+		$follow_model = new Sher_Core_Model_Follow();
 		
 		//var_dump($result);die;
 		// 重建数据结果
@@ -80,6 +81,12 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
                     $follow['summary'] = isset($result['rows'][$k]['follow']['summary']) ? $result['rows'][$k]['follow']['summary'] : '';
                     $follow['follow_ext']['rank_point'] = $result['rows'][$k]['follow_ext']['rank_point'];
                     $follow['follow_ext']['user_rank'] = $result['rows'][$k]['follow_ext']['user_rank']['title'];
+					
+					// 判断是否被关注
+					$follow['is_love'] = 0;
+					if($follow_model->has_exist_ship($this->current_user_id, $follow['user_id'])){
+						$follow['is_love'] = 1;
+					}
                 }
             }else if($find_type == 2){
                 // 自己的粉丝
@@ -91,6 +98,12 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
                     $follow['summary'] = isset($result['rows'][$k]['fans']['summary']) ? $result['rows'][$k]['fans']['summary'] : '';
                     $follow['fans_ext']['rank_point'] = $result['rows'][$k]['fans_ext']['rank_point'];
                     $follow['fans_ext']['user_rank'] = $result['rows'][$k]['fans_ext']['user_rank']['title'];
+					
+					// 判断是否被关注
+					$follow['is_love'] = 0;
+					if($follow_model->has_exist_ship($this->current_user_id, $follow['user_id'])){
+						$follow['is_love'] = 1;
+					}
                 }
             }
             $result['rows'][$k]['follows'] = $follow;
