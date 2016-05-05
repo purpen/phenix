@@ -64,6 +64,7 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		$service = Sher_Core_Service_Message::instance();
 		$result = $service->get_message_list($query,$options);
 		$user_model = new Sher_Core_Model_User();
+    $message_model = new Sher_Core_Model_Message();
 		
 		foreach($result['rows'] as $k => $v){
 			$result['rows'][$k]['last_content'] = $v['mailbox'][0];
@@ -71,15 +72,11 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 				$result['rows'][$k]['last_time_at'] = Sher_Core_Helper_Util::relative_datetime($v['last_time']);
 			}
 
-      $small_user = min($result['rows'][$i]['users']);
+      $small_user = min($result['rows'][$k]['users']);
       if($user_id == $small_user){
         $result['rows'][$k]['readed'] = $result['rows'][$k]['s_readed'];
-        # 更新阅读标识
-        $message->mark_message_readed($result['rows'][$k]['_id'], 's_readed');
       }else{
         $result['rows'][$k]['readed'] = $result['rows'][$k]['b_readed'];
-        # 更新阅读标识
-        $message->mark_message_readed($result['rows'][$k]['_id'], 'b_readed');
       }
 
 			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
@@ -111,7 +108,6 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 	public function view(){
 		
 		$user_id = $this->current_user_id;
-		//$user_id = 10;
 		
 		if(empty($user_id)){
 			return $this->api_json('请先登录', 3000);   
@@ -131,6 +127,22 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		$result = $model->find_by_id($id);
 		$result['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
 		$result['last_time_at'] = Sher_Core_Helper_Util::relative_datetime($result['last_time']);
+
+    $small_user = min($result['users']);
+    if($user_id == $small_user){
+      $result['readed'] = $result['s_readed'];
+      # 更新阅读标识
+      $model->mark_message_readed($result['_id'], 's_readed');
+    }else{
+      $result['readed'] = $result['b_readed'];
+      # 更新阅读标识
+      $model->mark_message_readed($result['_id'], 'b_readed');
+    }
+
+    // 更新用户提醒数量
+    if($result['readed']>0){
+      $user_model->update_counter_byinc($user_id, 'message_count', $result['readed']*-1);
+    }
 		
 		foreach($result['mailbox'] as $k => $v){
 			$result['mailbox'][$k]['r_id'] = (string)$result['mailbox'][$k]['r_id'];
