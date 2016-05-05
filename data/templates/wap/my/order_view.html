@@ -249,9 +249,11 @@ h3.ui.header{
         {% if order_info.status == 0 %}
           <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
         {%endif%}
+        <!--
         {% if order_info.status == 16 %}
           <a href="{{ app_url_wap }}/my/evaluate?rid={{ order.rid }}" rid="{{ order_info.rid }}" class="ui small magenta inverted button">评价</a>
         {%endif%}
+        -->
         {% if order_info.status == 20 %}
           <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
         {%endif%}

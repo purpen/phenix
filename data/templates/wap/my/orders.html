@@ -433,9 +433,11 @@
           {% if order.status == 0 %}
             <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
           {%endif%}
+          <!--
           {% if order.status == 16 %}
           <a href="{{ app_url_wap }}/my/evaluate?rid={{ order.rid }}" rid="{{ order.rid }}" class="ui small magenta inverted button">评价订单</a>
           {%endif%}
+          -->
           {% if order.status == 20 %}
             <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
           {%endif%}

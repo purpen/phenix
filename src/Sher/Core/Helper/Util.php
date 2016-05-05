@@ -170,7 +170,7 @@ class Sher_Core_Helper_Util {
     }
 	
 	/**
-	 * 发送注册验证码
+	 * 发送注册验证码--螺丝冒
 	 */
 	public static function send_register_mms($phone, $code) {
 		$message = "验证码：${code}，切勿泄露给他人，如非本人操作，建议及时修改账户密码。【太火鸟】";
@@ -186,7 +186,7 @@ class Sher_Core_Helper_Util {
 	}
 
 	/**
-	 * 发送短信--自定义
+	 * 发送短信--自定义 (螺丝冒)
 	 */
 	public static function send_defined_mms($phone, $msg) {
 		$message = "${msg}【太火鸟】";
@@ -240,17 +240,23 @@ class Sher_Core_Helper_Util {
   public static function send_yp_mms($phone, $message) {
     require_once('yunpian-sdk-php/YunpianAutoload.php');
 		if(empty($phone) || empty($message)) {
-			return false;
+			return array('success'=>false, 'message'=>'缺少请求参数!');
 		}
 
     // 发送单条短信
-    $smsOperator = new SmsOperator();
-    $data['mobile'] = $phone;
-    $data['text'] = $message;
-    $result = $smsOperator->single_send($data);
-    print_r($result);
-
-		return true;
+    try{
+      $smsOperator = new SmsOperator();
+      $data['mobile'] = $phone;
+      $data['text'] = $message;
+      $result = $smsOperator->single_send($data);
+      if($result->success){
+        return array('success'=>true, 'message'=>'发送成功!');
+      }else{
+        return array('success'=>false, 'message'=>$result->responseData['msg'], 'code'=>$result->responseData['code']);
+      }   
+    }catch(Exception $e){
+      return array('success'=>false, 'message'=>'发送失败:'.$e->getMessage());
+    }
 	}
 	
 	/**
