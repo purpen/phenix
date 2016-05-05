@@ -64,7 +64,10 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		$user_model = new Sher_Core_Model_User();
 		
 		foreach($result['rows'] as $k => $v){
-			$result['rows'][$k]['last_times'] = Sher_Core_Helper_Util::relative_datetime($v['last_time']);
+			$result['rows'][$k]['last_content'] = $v['mailbox'][0];
+			if(isset($result['rows'][$k]['last_time'])){
+				$result['rows'][$k]['last_times'] = Sher_Core_Helper_Util::relative_datetime($v['last_time']);
+			}
 			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
 			$user_info = array();
 			$from_user = $user_model->extend_load((int)$result['rows'][$k]['users'][0]);
@@ -82,7 +85,7 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		}
 		
 		// 过滤多余属性
-        $filter_fields  = array('mailbox','from_user','to_user','__extend__');
+        $filter_fields  = array('mailbox', 'from_user','to_user','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
 		//var_dump($result['rows']);die;
