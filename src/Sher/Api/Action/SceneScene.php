@@ -5,12 +5,6 @@
  */
 class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 	
-	public $stash = array(
-		'id'   => '',
-        'page' => 1,
-        'size' => 10,
-	);
-	
 	protected $filter_user_method_list = array('execute', 'getlist', 'view');
 
 	/**

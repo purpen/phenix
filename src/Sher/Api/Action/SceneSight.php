@@ -5,13 +5,7 @@
  */
 class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 	
-	public $stash = array(
-		'id'   => '',
-        'page' => 1,
-        'size' => 10,
-	);
-	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view','save');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view');
 
 	/**
 	 * 入口
@@ -28,7 +22,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		// http://www.taihuoniao.me/app/api/scene_sight/getlist?dis=1000&lat=39.9151190000&lng=116.4039630000
 		
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$size = isset($this->stash['size'])?(int)$this->stash['size']:1000;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		
 		$some_fields = array(
 			'_id'=>1, 'user_id'=>1, 'title'=>1, 'des'=>1, 'scene_id'=>1, 'tags'=>1,
@@ -135,7 +129,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 				$user['fans_count'] = $v['user']['fans_count'];
 				$user['love_count'] = $v['user']['love_count'];
 				$user['is_expert'] = isset($v['user']['identify']['is_expert']) ? (int)$v['user']['identify']['is_expert'] : 0;
-		
+		  }
 			
 			$result['rows'][$k]['scene_title'] = '';
 			if($result['rows'][$k]['scene']){
@@ -184,23 +178,23 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         );
 		
 		if(!$data['title']){
-			return $this->api_json('请求标题不能为空', 3000);
+			return $this->api_json('请求标题不能为空', 3001);
 		}
 		
 		if(!$data['des']){
-			return $this->api_json('请求描述不能为空', 3000);
+			return $this->api_json('请求描述不能为空', 3002);
 		}
 		
 		if(!$data['scene_id']){
-			return $this->api_json('请求情景id不能为空', 3000);
+			return $this->api_json('请求情景id不能为空', 3003);
 		}
 		
 		if(!$data['address']){
-			return $this->api_json('请求地址不能为空', 3000);
+			return $this->api_json('请求地址不能为空', 3004);
 		}
 		
 		if(!$data['tags']){
-			return $this->api_json('请求标签不能为空', 3000);
+			return $this->api_json('请求标签不能为空', 3005);
 		}
 		
 		$data['tags'] = explode(',',$data['tags']);
@@ -230,15 +224,15 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		//$this->stash['tmp'] = Doggy_Config::$vars['app.imges'];
 		
 		if(!isset($this->stash['tmp']) && empty($this->stash['tmp'])){
-			return $this->api_json('请选择图片！', 3001);  
+			return $this->api_json('请选择图片！', 3006);  
 		}
 		$file = base64_decode(str_replace(' ', '+', $this->stash['tmp']));
 		$image_info = Sher_Core_Util_Image::image_info_binary($file);
 		if($image_info['stat']==0){
-			return $this->api_json($image_info['msg'], 3002);
+			return $this->api_json($image_info['msg'], 3007);
 		}
 		if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
-			return $this->api_json('图片格式不正确！', 3003);
+			return $this->api_json('图片格式不正确！', 3008);
 		}
 		$params = array();
 		$new_file_id = new MongoId();
@@ -252,7 +246,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		if($result['stat']){
 			$data['cover_id'] = $result['asset']['id'];
 		}else{
-			return $this->api_json('上传失败!', 3005); 
+			return $this->api_json('上传失败!', 3009); 
 		}
 		//var_dump($data);die;
 		try{
