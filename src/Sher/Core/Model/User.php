@@ -339,6 +339,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
       'is_scene_subscribe' => 0,
       // 是否app首次下单
       'is_app_first_shop' => 0,
+      // 是否达人标识
+      'is_expert' => 0,
     ),
 
     # 用户其它标识说明
@@ -843,7 +845,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     * 实验室
 	 */
 	public function update_user_identify($user_id, $field, $value=0) {
-		if(!in_array($field,array('d3in_volunteer', 'd3in_vip', 'd3in_tag', 'is_scene_subscribe', 'is_app_first_shop'))){
+		if(!in_array($field,array('d3in_volunteer', 'd3in_vip', 'd3in_tag', 'is_scene_subscribe', 'is_app_first_shop', 'is_expert'))){
 			return;
 		}
 		return $this->update_set((int)$user_id, array('identify.'.$field => $value));

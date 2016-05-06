@@ -134,8 +134,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 				$user['follow_count'] = $v['user']['follow_count'];
 				$user['fans_count'] = $v['user']['fans_count'];
 				$user['love_count'] = $v['user']['love_count'];
-				$user['user_rank'] = $v['user_ext']['user_rank']['title'];
-			}
+				$user['is_expert'] = isset($v['identify']['is_expert']) ? (int)$v['identify']['is_expert'] : 0;
+		
 			
 			$result['rows'][$k]['scene_title'] = '';
 			if($result['rows'][$k]['scene']){
@@ -146,7 +146,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		}
 		
 		// 过滤多余属性
-        $filter_fields  = array('scene','cover','user','user_ext','cover_id','__extend__');
+        $filter_fields  = array('scene','cover','user','cover_id','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
 		//var_dump($result['rows']);die;
@@ -321,7 +321,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$model->inc((int)$id, 'view_count', 1);
         
         // 过滤多余属性
-        $filter_fields  = array('type', 'cover_id', 'user', 'user_ext', 'cover', 'scene', '__extend__');
+        $filter_fields  = array('type', 'cover_id', 'user', 'cover', 'scene', '__extend__');
 		
 		$user = array();
 		$user['user_id'] = $result['user']['_id'];
@@ -333,7 +333,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$user['follow_count'] = $result['user']['follow_count'];
 		$user['fans_count'] = $result['user']['fans_count'];
 		$user['love_count'] = $result['user']['love_count'];
-		$user['user_rank'] = $result['user_ext']['user_rank']['title'];
+		$user['is_expert'] = isset($result['user']['identify']['is_expert']) ? (int)$result['user']['identify']['is_expert'] : 0;
 		
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
 		$result['scene_title'] = $result['scene']['title'];

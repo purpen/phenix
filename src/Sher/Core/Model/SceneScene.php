@@ -73,7 +73,6 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 	protected $joins = array(
 		'cover' =>  array('cover_id' => 'Sher_Core_Model_Asset'),
 		'user' =>   array('user_id' => 'Sher_Core_Model_User'),
-		'user_ext' =>   array('user_id' => 'Sher_Core_Model_UserExtState'),
 	);
 	
 	/**

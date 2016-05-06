@@ -110,7 +110,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		}
 		
 		// 过滤多余属性
-        $filter_fields  = array('user_ext','cover','cover_id','view_url', 'user', 'summary', '__extend__');
+        $filter_fields  = array('cover','cover_id','view_url', 'user', 'summary', '__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
 		//var_dump($result['rows']);die;
@@ -144,19 +144,19 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
         );
 		
 		if(!$data['title']){
-			return $this->api_json('请求标题不能为空', 3000);
+			return $this->api_json('请求标题不能为空', 3001);
 		}
 		
 		if(!$data['des']){
-			return $this->api_json('请求描述不能为空', 3000);
+			return $this->api_json('请求描述不能为空', 3002);
 		}
 		
 		if(!$data['address']){
-			return $this->api_json('请求地址不能为空', 3000);
+			return $this->api_json('请求地址不能为空', 3003);
 		}
 		
 		if(!$data['tags']){
-			return $this->api_json('请求标签不能为空', 3000);
+			return $this->api_json('请求标签不能为空', 3004);
 		}
 		
 		$data['tags'] = explode(',',$data['tags']);
@@ -167,15 +167,15 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		// 上传图片
 		//$this->stash['tmp'] = Doggy_Config::$vars['app.imges'];
 		if(empty($this->stash['tmp'])){
-			return $this->api_json('请选择图片！', 3001);  
+			return $this->api_json('请选择图片！', 3005);  
 		}
 		$file = base64_decode(str_replace(' ', '+', $this->stash['tmp']));
 		$image_info = Sher_Core_Util_Image::image_info_binary($file);
 		if($image_info['stat']==0){
-			return $this->api_json($image_info['msg'], 3002);
+			return $this->api_json($image_info['msg'], 3006);
 		}
 		if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
-			return $this->api_json('图片格式不正确！', 3003);
+			return $this->api_json('图片格式不正确！', 3007);
 		}
 		$params = array();
 		$new_file_id = new MongoId();
@@ -189,7 +189,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		if($result['stat']){
 			$data['cover_id'] = $result['asset']['id'];
 		}else{
-			return $this->api_json('上传失败!', 3005); 
+			return $this->api_json('上传失败!', 3008); 
 		}
 		
 		//var_dump($data);die;
@@ -244,7 +244,10 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
         }
 		
 		// 增加浏览量
-		$model->inc((int)$id, 'view_count', 1);
+    $rand = rand(1, 5);
+		$model->inc((int)$id, 'view_count', $rand);
+		$model->inc((int)$id, 'true_view_count', 1);
+		$model->inc((int)$id, 'app_view_count', 1);
 		
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
 		$result['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
@@ -259,13 +262,13 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$user['follow_count'] = $result['user']['follow_count'];
 		$user['fans_count'] = $result['user']['fans_count'];
 		$user['love_count'] = $result['user']['love_count'];
-		$user['user_rank'] = $result['user_ext']['user_rank']['title'];
+		$user['is_expert'] = isset($result['user']['identify']['is_expert']) ? (int)$result['user']['identify']['is_expert'] : 0;
 		
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
 		$result['user_info'] = $user;
         
 		// 过滤多余属性
-        $filter_fields  = array('type', 'cover_id', 'user', 'user_ext', 'cover', 'sight', '__extend__');
+        $filter_fields  = array('type', 'cover_id', 'user', 'cover', 'sight', '__extend__');
         
         for($i=0;$i<count($filter_fields);$i++){
             $key = $filter_fields[$i];
