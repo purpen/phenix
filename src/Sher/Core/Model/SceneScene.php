@@ -58,8 +58,10 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 		
 		# 审核
 		'is_check' => 1,
-		# 精选
-		'stick' => 0,
+		# 推荐
+    'stick' => 0,
+    # 精选
+    'fine' => 0,
 		# 是否启用
 		'status' => 0,
     );
