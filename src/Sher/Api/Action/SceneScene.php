@@ -256,9 +256,9 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		
 		// 增加浏览量
     $rand = rand(1, 5);
-		$model->inc((int)$id, 'view_count', $rand);
-		$model->inc((int)$id, 'true_view_count', 1);
-		$model->inc((int)$id, 'app_view_count', 1);
+		$model->inc_counter('view_count', $rand, (int)$id);
+		$model->inc_counter('true_view_count', 1, (int)$id);
+		$model->inc_counter('app_view_count', 1, (int)$id);
 		
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
 		$result['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);

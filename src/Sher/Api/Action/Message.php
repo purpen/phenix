@@ -25,10 +25,6 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
 
-		if(!$from_user_id){
-			return $this->api_json('获取数据错误,请重新提交', 3000);
-		}
-
     $user_id = $this->current_user_id;
 		
 		$query   = array();
@@ -42,7 +38,7 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		
 		// 查询条件
 		
-		$query['users'] = $from_user_id;
+		$query['users'] = $user_id;
 		if($type == 1){
 			$query['type'] = Sher_Core_Model_Message::TYPE_USER;
 		}else if($type == 2){

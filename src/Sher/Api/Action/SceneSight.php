@@ -329,7 +329,10 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         }
 		
 		// 增加浏览量
-		$model->inc((int)$id, 'view_count', 1);
+    $rand = rand(1, 5);
+		$model->inc((int)$id, 'view_count', $rand);
+		$model->inc((int)$id, 'true_view_count', 1);
+		$model->inc((int)$id, 'app_view_count', 1);
         
         // 过滤多余属性
         $filter_fields  = array('type', 'cover_id', 'user', 'cover', 'scene', '__extend__');
@@ -367,7 +370,6 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		// 用户是否订阅该情景
 		$user_id = $this->current_user_id;
-		//$user_id = 10;
 		$model = new Sher_Core_Model_Favorite();
 		$query = array(
 			'target_id' => (int)$id,

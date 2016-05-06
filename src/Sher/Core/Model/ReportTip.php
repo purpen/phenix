@@ -136,11 +136,11 @@ class Sher_Core_Model_ReportTip extends Sher_Core_Model_Base  {
       }   
     }
 
-    // 来源
+    // 应用
     if(isset($row['application'])){
       switch($row['application']){
         case 1:
-          $row['application_label'] = '网页表';
+          $row['application_label'] = '网站';
           break;
         case 2:
           $row['application_label'] = '商城APP';
