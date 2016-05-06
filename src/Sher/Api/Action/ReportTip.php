@@ -55,23 +55,23 @@ class Sher_Api_Action_ReportTip extends Sher_Api_Action_Base {
         }
 		
 		if(!$application){
-            return $this->api_json('应用来源不能为空', 4002);
+            return $this->api_json('应用来源不能为空', 4003);
         }
 		
         if(!$target_id){
-            return $this->api_json('关联id不能为空', 4002);
+            return $this->api_json('关联id不能为空', 4004);
         }
         
         if(!$type){
-            return $this->api_json('类型不能为空', 4002);
+            return $this->api_json('类型不能为空', 4005);
         }
 		
 		if(!in_array($type,$type_arr)){
-            return $this->api_json('类型不合法', 4002);
+            return $this->api_json('类型不合法', 4006);
         }
         
         if(!$evt){
-            return $this->api_json('举报原因不能为空', 4002);
+            return $this->api_json('举报原因不能为空', 4007);
         }
         
         if(!$title){
@@ -123,7 +123,7 @@ class Sher_Api_Action_ReportTip extends Sher_Api_Action_Base {
 				$data['from_to'] = Sher_Core_Model_ReportTip::FORM_IPAD_SOURCE;
 				break;
 			default:
-				return $this->api_json('参数不合法', 4002);
+				return $this->api_json('参数不合法', 4008);
 				break;
 		}
 		
@@ -138,7 +138,7 @@ class Sher_Api_Action_ReportTip extends Sher_Api_Action_Base {
 				$data['application'] = Sher_Core_Model_ReportTip::APP_FIU_SOURCE;
 				break;
 			default:
-				return $this->api_json('参数不合法', 4002);
+				return $this->api_json('参数不合法', 4009);
 				break;
 		}
 		
@@ -157,12 +157,12 @@ class Sher_Api_Action_ReportTip extends Sher_Api_Action_Base {
 			}
 			
 			if(!$ok){
-				return $this->api_json('保存失败,请重新提交', 4002);
+				return $this->api_json('保存失败,请重新提交', 4010);
 			}
 			
 					
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->api_json('保存失败:'.$e->getMessage(), 4001);
+			return $this->api_json('保存失败:'.$e->getMessage(), 4011);
 		}
 		
 		return $this->api_json('提交成功', 0, array('current_user_id'=>$user_id));

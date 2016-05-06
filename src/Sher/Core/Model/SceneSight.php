@@ -186,7 +186,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 
     // 减少用户创建数量
     $user_model = new Sher_Core_Model_User();
-    $user_model->dec_counter('sight_count',$options['user_id']);
+    $user_model->dec_counter('sight_count', $options['user_id']);
 
     // 删除索引
     Sher_Core_Util_XunSearch::del_ids('sight_'.(string)$id);

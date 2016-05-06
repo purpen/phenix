@@ -46,7 +46,7 @@ class Sher_Core_Model_ReportTip extends Sher_Core_Model_Base  {
         'user_id' => 0,
         // 类型:1,举报;
         'kind'  => 1,
-        //举报原因:1,侵权
+        //举报原因:1,色情报力；2.盗图；3.广告/欺诈信息;4.－－
         'evt' => 1,
         // 设备来源
         'from_to' => self::FORM_WEB_SOURCE,
@@ -76,6 +76,82 @@ class Sher_Core_Model_ReportTip extends Sher_Core_Model_Base  {
         if(isset($row['remark'])){
             $row['strip_remark'] = strip_tags(htmlspecialchars_decode($row['remark']));
         }
+
+    // 举报目标
+    switch($row['target_type']){
+      case 1:
+        $row['target_type_label'] = '投票';
+        break;
+      case 2:
+        $row['target_type_label'] = '灵感';
+        break;
+      case 3:
+        $row['target_type_label'] = '情景';
+        break;
+      case 4:
+        $row['target_type_label'] = '场景';
+        break;
+      case 5:
+        $row['target_type_label'] = '用户';
+        break;
+      default:
+        $row['target_type_label'] = '--';
+    }
+
+    // 举报原因
+    switch($row['evt']){
+      case 1:
+        $row['evt_label'] = '色情报力';
+        break;
+      case 2:
+        $row['evt_label'] = '盗图';
+        break;
+      case 3:
+        $row['evt_label'] = '广告/欺诈信息';
+        break;
+      default:
+        $row['evt_label'] = '--';
+    }
+
+    // 来源
+    if(isset($row['from_to'])){
+      switch($row['evt']){
+        case 1:
+          $row['from_label'] = 'Web';
+          break;
+        case 2:
+          $row['from_label'] = 'Wap';
+          break;
+        case 3:
+          $row['from_label'] = 'IOS';
+          break;
+        case 4:
+          $row['from_label'] = 'Android';
+          break;
+        case 5:
+          $row['from_label'] = 'iPad';
+          break;
+        default:
+          $row['from_label'] = '--';
+      }   
+    }
+
+    // 来源
+    if(isset($row['application'])){
+      switch($row['application']){
+        case 1:
+          $row['application_label'] = '网页表';
+          break;
+        case 2:
+          $row['application_label'] = '商城APP';
+          break;
+        case 3:
+          $row['application_label'] = 'Fiu';
+          break;
+        default:
+          $row['application_label'] = '--';
+      }   
+    }
 		
 	}
 

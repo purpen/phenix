@@ -39,6 +39,8 @@
         <th>所属</th>
 				<th>举报内容</th>
 				<th>举报人</th>
+        <th>来源</th>
+        <th>设备</th>
 				<th>是否处理</th>
 				<th>管理操作</th>
 			</tr>
@@ -58,26 +60,21 @@
           <a href="{{ d.target.view_url }}" target="_blank">{{ d.target.title }}</a>
         </td>
         <td>
-          {% if d.target_type==1 %}
-            投票
-          {%else%}
-            --
-          {%endif%}
+          {{ d.target_type_label }}
         </td>
         <td>
-          {% if d.evt==1 %}
-            侵权: 
-          {%endif%}
-          {% if d.evt==2 %}
-            不良信息: 
-          {%endif%}
-          {% if d.evt==10 %}
-            其它: 
-          {%endif%}
+          {{ d.evt_label }}
           {{ d.content|truncate 60 }}
         </td>
         <td>
           <a href="{{ d.user.home_url }}" target="_blank">{{ d.user.nickname }}</a>
+        </td>
+
+        <td>
+          {{ d.from_label }}
+        </td>
+        <td>
+          {{ d.application_label }}       
         </td>
 
         <td>
