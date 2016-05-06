@@ -28,7 +28,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			'_id'=>1, 'title'=>1, 'user_id'=>1, 'des'=>1, 'sight'=>1, 'tags'=>1,
 			'location'=>1, 'address'=>1, 'cover_id'=>1,'used_count'=>1,
 			'view_count'=>1, 'subscription_count'=>1, 'love_count'=>1,
-			'comment_count'=>1, 'is_check'=>1, 'stick'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
+			'comment_count'=>1, 'is_check'=>1, 'stick'=>1, 'fine'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
 		);
 		
 		$query   = array();
@@ -36,6 +36,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		
 		// 请求参数
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
+		$fine = isset($this->stash['fine']) ? (int)$this->stash['fine'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		
@@ -65,12 +66,19 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
         }
 		
 		if($stick){
-			if($stick == 1){
-				$query['stick'] = 1;
-			}
-			if($stick == 2){
+      if($stick==-1){
 				$query['stick'] = 0;
-			}
+      }else{
+				$query['stick'] = 1;
+      }
+		}
+
+		if($fine){
+      if($fine==-1){
+				$query['fine'] = 0;
+      }else{
+				$query['fine'] = 1;
+      }
 		}
 		
 		// 已审核
@@ -88,6 +96,12 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		switch ($sort) {
 			case 0:
 				$options['sort_field'] = 'latest';
+				break;
+			case 1: // 最新推荐
+				$options['sort_field'] = 'update:stick';
+				break;
+			case 2: // 最新精选
+				$options['sort_field'] = 'update:fine';
 				break;
 		}
 		
