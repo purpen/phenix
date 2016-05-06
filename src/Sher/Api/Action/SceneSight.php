@@ -134,7 +134,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 				$user['follow_count'] = $v['user']['follow_count'];
 				$user['fans_count'] = $v['user']['fans_count'];
 				$user['love_count'] = $v['user']['love_count'];
-				$user['is_expert'] = isset($v['identify']['is_expert']) ? (int)$v['identify']['is_expert'] : 0;
+				$user['is_expert'] = isset($v['user']['identify']['is_expert']) ? (int)$v['user']['identify']['is_expert'] : 0;
 		
 			
 			$result['rows'][$k]['scene_title'] = '';
