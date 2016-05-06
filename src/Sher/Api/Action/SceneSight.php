@@ -273,6 +273,9 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			if(isset($data['cover_id']) && !empty($data['cover_id'])){
 				$model->update_batch_assets($data['cover_id'], $id);
 			}
+
+      // 更新全文索引
+      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 5);
 			
 			// 将场景保存到所属情景里面
 			$model = new Sher_Core_Model_SceneScene();

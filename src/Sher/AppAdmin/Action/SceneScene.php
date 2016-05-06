@@ -150,6 +150,9 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 			if(!$ok){
 				return $this->api_json('保存失败,请重新提交', 4002);
 			}
+
+      // 更新全文索引
+      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 4);
 			
 			// 上传成功后，更新所属的附件
 			

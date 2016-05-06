@@ -210,7 +210,10 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			
 			if(isset($data['cover_id']) && !empty($data['cover_id'])){
 				$model->update_batch_assets(array($data['cover_id']), array($id));
-			}		
+      }
+      // 更新全文索引
+      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 4);
+
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("api情景保存失败：".$e->getMessage());
 			return $this->api_json('情景保存失败:'.$e->getMessage(), 4001);
@@ -281,7 +284,6 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		
 		// 用户是否订阅该情景
 		$user_id = $this->current_user_id;
-		//$user_id = 10;
 		$model = new Sher_Core_Model_Favorite();
 		$query = array(
 			'target_id' => (int)$id,

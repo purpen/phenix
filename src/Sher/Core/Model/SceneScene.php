@@ -94,13 +94,17 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 	 */
     protected function after_save(){
 		
-		$model = new Sher_Core_Model_SceneTags();
-		$model->scene_count($this->data['tags'],array('total_count','scene_count'),1);
+      // 如果是新的记录
+      if($this->insert_mode) {
+        $model = new Sher_Core_Model_SceneTags();
+        $model->scene_count($this->data['tags'],array('total_count','scene_count'),1);
+        
+        $model = new Sher_Core_Model_User();
+        $model->inc_counter('scene_count',(int)$this->data['user_id']);
+
+      }
 		
-		$model = new Sher_Core_Model_User();
-		$model->inc_counter('scene_count',(int)$this->data['user_id']);
-		
-        parent::after_save();
+      parent::after_save();
     }
 	
 	/**

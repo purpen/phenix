@@ -97,28 +97,34 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 	 */
     protected function after_save(){
 		
-		$model = new Sher_Core_Model_SceneTags();
-		$model->scene_count($this->data['tags'],array('total_count','sight_count'),1);
+      // 如果是新的记录
+      if($this->insert_mode) {
+        $model = new Sher_Core_Model_SceneTags();
+        $model->scene_count($this->data['tags'],array('total_count','sight_count'),1);
+        
+        $model = new Sher_Core_Model_User();
+        $model->inc_counter('sight_count',(int)$this->data['user_id']);
+        
+        $model = new Sher_Core_Model_SceneScene();
+        $model->inc_counter('sight_count',1,$this->data['scene_id']);
+
+        // 更新全文索引
+        Sher_Core_Helper_Search::record_update_to_dig($this->data['_id'], 5);
+        
+        // 关联为场景产品关联表增加数据
+        $model = new Sher_Core_Model_SceneProductLink();
+        $product = $this->data['product'];
+        if(count($product)){
+          foreach($product as $k => $v){
+            $data = array();
+            $data['sight_id'] = (int)$this->data['_id'];
+            $data['product_id'] = $v['id'];
+            $model->insert($data);
+          }
+        }
+      }
 		
-		$model = new Sher_Core_Model_User();
-		$model->inc_counter('sight_count',(int)$this->data['user_id']);
-		
-		$model = new Sher_Core_Model_SceneScene();
-		$model->inc_counter('sight_count',1,$this->data['scene_id']);
-		
-		// 关联为场景产品关联表增加数据
-		$model = new Sher_Core_Model_SceneProductLink();
-		$product = $this->data['product'];
-		if(count($product)){
-			foreach($product as $k => $v){
-				$data = array();
-				$data['sight_id'] = (int)$this->data['_id'];
-				$data['product_id'] = $v['id'];
-				$model->insert($data);
-			}
-		}
-		
-        parent::after_save();
+      parent::after_save();
     }
 	
 	/**
