@@ -58,6 +58,8 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		# app 浏览数
 		'app_view_count' => 0,
 		
+    # 推荐
+    'stick' => 0,
 		# 精选
 		'fine'  => 0,
 		# 审核

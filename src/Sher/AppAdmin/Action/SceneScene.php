@@ -168,7 +168,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 	}
 	
 	/**
-	 * 精选
+	 * 推荐
 	 */
 	public function ajax_stick() {
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
@@ -185,6 +185,26 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		}
 		
 		return $this->to_taconite_page('app_admin/scene_scene/stick_ok.html');
+	}
+
+	/**
+	 * 精选
+	 */
+	public function ajax_fine() {
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$evt = isset($this->stash['evt']) ? $this->stash['evt'] : 0;
+		if(empty($id)){
+			return $this->ajax_json('缺少请求参数！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_SceneScene();
+			$model->update_set($id, array('fine'=>(int)$evt));
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('请求操作失败，请检查后重试！', true);
+		}
+		
+		return $this->to_taconite_page('app_admin/scene_scene/fine_ok.html');
 	}
 	
 	/**
