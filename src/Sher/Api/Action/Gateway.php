@@ -125,7 +125,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
           'device' => empty($channel_id) ? 2 : 1,
           'kind' => $app_type==1 ? 1 : 2,
         );
-        $app_user_record_model->app_and_save($app_user_rows);
+        $app_user_record_model->apply_and_save($app_user_rows);
       }
     }
 
