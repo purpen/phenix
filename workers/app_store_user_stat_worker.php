@@ -130,16 +130,12 @@ function begin_stat(){
   echo "End stat... \n";
 }
 
-
 // 获取激活量
 function fetch_count($kind, $device, $star_tmp=0, $end_tmp=0){
   $query['kind'] = $kind;
   $query['device'] = $device;
-  if(!empty($star_tmp)){
-    $query['created_on'] = array('$gte'=>$star_tmp);
-  }
-  if(!empty($end_tmp)){
-    $query['created_on'] = array('$lte'=>$end_tmp);
+  if(!empty($star_tmp) && !empty($end_tmp)){
+    $query['created_on'] = array('$gte'=>$star_tmp, '$lte'=>$end_tmp);
   }
 
   $app_user_record_model = new Sher_Core_Model_AppUserRecord();
@@ -150,11 +146,8 @@ function fetch_count($kind, $device, $star_tmp=0, $end_tmp=0){
 // 获取注册量
 function fetch_grow_count($from_to, $star_tmp=0, $end_tmp=0){
   $query['from_to'] = $from_to;
-  if(!empty($star_tmp)){
-    $query['created_on'] = array('$gte'=>$star_tmp);
-  }
-  if(!empty($end_tmp)){
-    $query['created_on'] = array('$lte'=>$end_tmp);
+  if(!empty($star_tmp) && !empty($end_tmp)){
+    $query['created_on'] = array('$gte'=>$star_tmp, '$lte'=>$end_tmp);
   }
   $pusher_model = new Sher_Core_Model_Pusher();
   $count = $pusher_model->count($query);
