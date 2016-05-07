@@ -108,6 +108,26 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           }
         
         }elseif($kind=='Sight'){  // 场景
+          $obj = $scene_sight_model->extend_load((int)$oid);
+          if($obj){
+            $result['data'][$k]['view_count'] = $obj['view_count'];
+            $result['data'][$k]['love_count'] = $obj['love_count'];
+            $result['data'][$k]['scene_id'] = $obj['scene_id'];
+            $result['data'][$k]['scene_title'] = isset($obj['scene']['title']) ? $obj['scene']['title'] : null;
+            if(isset($obj['user']) && !empty($obj['user'])){
+              $user_info = array(
+                'user_id' => $obj['user']['_id'],
+                'nickname' => $obj['user']['nickname'],
+                'avatar_url' => $obj['user']['medium_avatar_url'],
+                'summary' => $obj['user']['summary'],
+                'is_expert' => isset($obj['user']['identify']['is_expert']) ? (int)$obj['user']['identify']['is_expert'] : 0,
+              );
+            }else{
+              $user_info = array();
+            }
+            $result['data'][$k]['user_info'] = $user_info;
+          
+          }
           // 图片尺寸
           if($asset_obj){
             $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['huge']['view_url'];

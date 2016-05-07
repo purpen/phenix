@@ -1,6 +1,6 @@
 <?php
 /**
- * app用户统计
+ * app用户统计(商城)
  * @author tianshuai
  */
 class Sher_Core_Model_AppStoreUserStat extends Sher_Core_Model_Base  {
