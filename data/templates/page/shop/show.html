@@ -680,7 +680,7 @@
             					{% if !is_ship %}
             					    <a href="{{ app_url_user }}/ajax_follow?id={{ product.designer._id }}" class="ui small white ajax inverted button" id="user_{{ product.designer._id }}_ship">关注</a>
             					{% else %}
-            					    <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ product.designer._id }}" class="ui small white ajax inverted button" id="user_{{ product.designer._id }}_ship">已关注</a>
+            					    <a href="{{ app_url_user }}/ajax_cancel_follow?id={{ product.designer._id }}" class="ui small active white ajax inverted button" id="user_{{ product.designer._id }}_ship">已关注</a>
             					{% endif %}
 					
             					<button class="ui small white letter inverted button">

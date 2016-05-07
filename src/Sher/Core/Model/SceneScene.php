@@ -58,8 +58,10 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 		
 		# 审核
 		'is_check' => 1,
-		# 精选
-		'stick' => 0,
+		# 推荐
+    'stick' => 0,
+    # 精选
+    'fine' => 0,
 		# 是否启用
 		'status' => 0,
     );
@@ -67,13 +69,12 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 	protected $required_fields = array('title');
 	protected $int_fields = array('status', 'used_count');
 	protected $float_fields = array();
-	protected $counter_fields = array('used_count','view_count','subscription_count','love_count','comment_count','true_view_count');
+	protected $counter_fields = array('used_count','view_count','subscription_count','love_count','comment_count','true_view_count','app_view_count','web_view_count','wap_view_count');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
 		'cover' =>  array('cover_id' => 'Sher_Core_Model_Asset'),
 		'user' =>   array('user_id' => 'Sher_Core_Model_User'),
-		'user_ext' =>   array('user_id' => 'Sher_Core_Model_UserExtState'),
 	);
 	
 	/**
@@ -95,13 +96,17 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 	 */
     protected function after_save(){
 		
-		$model = new Sher_Core_Model_SceneTags();
-		$model->scene_count($this->data['tags'],array('total_count','scene_count'),1);
+      // 如果是新的记录
+      if($this->insert_mode) {
+        $model = new Sher_Core_Model_SceneTags();
+        $model->scene_count($this->data['tags'],array('total_count','scene_count'),1);
+        
+        $model = new Sher_Core_Model_User();
+        $model->inc_counter('scene_count',(int)$this->data['user_id']);
+
+      }
 		
-		$model = new Sher_Core_Model_User();
-		$model->inc_counter('scene_count',$this->data['user_id']);
-		
-        parent::after_save();
+      parent::after_save();
     }
 	
 	/**

@@ -1,5 +1,10 @@
 <?php
 class Sher_Core_Service_System extends Sher_Core_Service_Base {
+
+    protected $sort_fields = array(
+        'last_time' => array('last_time' => -1),
+    );
+
     protected static $instance;
     /**
      * current service instance

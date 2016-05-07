@@ -104,11 +104,13 @@
                 <th>封面</th>
                 <th>标题</th>
                 <th>地址</th>
+                <th>是否推荐</th>
+                <th>是否精选</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
-			{% scene_scene_list var:'list' page:page title:title size:20 %}
+			{% scene_scene_list var:'list' page:page title:title size:size %}
 
 			{% for d in list.rows %}
 			<tr id="{{ d._id }}">
@@ -129,11 +131,32 @@
                 <td>
                   {{ d.address }}
                 </td>
+
+        <td>
+					{% if d.stick == 1 %}
+					<label class="ui green label" id="stick-{{ d._id }}-label">是</label>
+          {%else%}
+					<label class="ui orange label" id="stick-{{ d._id }}-label">否</label>
+					{% endif %}
+				</td>
+        <td>
+					{% if d.fine == 1 %}
+					<label class="ui green label" id="fine-{{ d._id }}-label">是</label>
+          {%else%}
+					<label class="ui orange label" id="fine-{{ d._id }}-label">否</label>
+					{% endif %}
+				</td>
+
 				<td>
                     {% if d.stick == 1 %}
-                    <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_stick?id={{ d._id }}&evt=0" class="ui link ajax item" id="stick-{{ d._id }}-button">取消精选</a>
+                    <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_stick?id={{ d._id }}&evt=0" class="ui link ajax item" id="stick-{{ d._id }}-button">取消推荐</a>
                     {% else %}
-                    <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_stick?id={{ d._id }}&evt=1" class="ui link ajax item" id="stick-{{ d._id }}-button">精选</a>
+                    <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_stick?id={{ d._id }}&evt=1" class="ui link ajax item" id="stick-{{ d._id }}-button">推荐</a>
+                    {% endif %}
+                    {% if d.fine == 1 %}
+                    <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_fine?id={{ d._id }}&evt=0" class="ui link ajax item" id="fine-{{ d._id }}-button">取消精选</a>
+                    {% else %}
+                    <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_fine?id={{ d._id }}&evt=1" class="ui link ajax item" id="fine-{{ d._id }}-button">精选</a>
                     {% endif %}
                     {% if d.is_check == 1 %}
                     <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_check?id={{ d._id }}&evt=0" class="ui link ajax item" id="check-{{ d._id }}-button">取消审核</a>

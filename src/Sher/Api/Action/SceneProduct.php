@@ -242,8 +242,11 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
       'title', 'des',
     );
 		
-		// 增加pv++
-		$model->inc_counter('view_count', 1, $id);
+		// 增加浏览量
+    $rand = rand(1, 5);
+		$model->inc_counter((int)$id, 'view_count', $rand);
+		$model->inc_counter((int)$id, 'true_view_count', 1);
+		$model->inc_counter((int)$id, 'app_view_count', 1);
 
 		// 重建数据结果
 		$data = array();
@@ -254,8 +257,8 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 
     //验证是否收藏或喜欢
     $fav = new Sher_Core_Model_Favorite();
-    $data['is_favorite'] = $fav->check_favorite($this->current_user_id, $scene_product['_id'], 10) ? 1 : 0;
-    $data['is_love'] = $fav->check_loved($this->current_user_id, $scene_product['_id'], 10) ? 1 : 0;
+    $data['is_favorite'] = $fav->check_favorite($user_id, $scene_product['_id'], 10) ? 1 : 0;
+    $data['is_love'] = $fav->check_loved($user_id, $scene_product['_id'], 10) ? 1 : 0;
 
     // 过滤品牌
     if(!empty($data['brand'])){

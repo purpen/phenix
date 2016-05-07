@@ -283,16 +283,16 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			// 婚姻状况
 			'marital' => self::MARR_SINGLE,
 			// 出生年月日
-      'age'  => array(),
-      // 所在公司
-      'company' => null,
-      // 所属行业
-      'industry' => null,
-      // 省份
-      'province_id' => 0,
-      // 城市
-      'district_id' => 0,
-    ),
+            'age'  => array(),
+            // 所在公司
+            'company' => null,
+            // 所属行业
+            'industry' => null,
+            // 省份
+            'province_id' => 0,
+            // 城市
+            'district_id' => 0,
+        ),
 
 		// 所在城市
 		'city' => null,
@@ -313,6 +313,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 			'fans_count' => 0,  // 粉丝 #
 			'comment_count' => 0, // 评论 #
 			'people_count' => 0,  // 用户 #
+      'fiu_alert_count' => 0, // Fiu提醒
             'fiu_comment_count' => 0, // Fiu 评论
             'fiu_notice_count' => 0, // Fiu 通知
             'sight_love_count' => 0, // Fiu 别人给他点的赞(场景)
@@ -338,6 +339,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
       'is_scene_subscribe' => 0,
       // 是否app首次下单
       'is_app_first_shop' => 0,
+      // 是否达人标识
+      'is_expert' => 0,
     ),
 
     # 用户其它标识说明
@@ -367,13 +370,13 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         'last_ip' => null,
     );
 	
-	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'tags'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count'=>1,'product_count'=>1,'counter'=>1,'quality'=>1,'follow_count'=>1,'love_count'=>1,'favorite_count'=>1,'kind'=>1,'identify'=>1,'identify_info'=>1,'sina_uid'=>1,'qq_uid'=>1,'wx_open_id'=>1,'wx_union_id'=>1,'symbol'=>1,'last_ip'=>1,'age'=>1,'head_pic'=>1);
+	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'tags'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count'=>1,'product_count'=>1,'counter'=>1,'quality'=>1,'follow_count'=>1,'love_count'=>1,'favorite_count'=>1,'kind'=>1,'identify'=>1,'identify_info'=>1,'sina_uid'=>1,'qq_uid'=>1,'wx_open_id'=>1,'wx_union_id'=>1,'symbol'=>1,'last_ip'=>1,'age'=>1,'head_pic'=>1, 'scene_count'=>1, 'sight_count'=>1, 'subscription_count' => 1, 'sight_love_count' => 1);
 	
     protected $required_fields = array('account', 'password');
 
     protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight','mentor','district','quality','kind','symbol');
     
-	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'favorite_count', 'topic_count', 'product_count', 'stuff_count','scene_count','sight_count');
+	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'favorite_count', 'topic_count', 'product_count', 'stuff_count', 'subscription_count', 'sight_love_count', 'scene_count', 'sight_count');
 	
 	protected $joins = array(
         //'cover' =>  array('head_pic' => 'Sher_Core_Model_Asset'),
@@ -604,9 +607,9 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         $row['ext_state'] = DoggyX_Model_Mapper::load_model($row['_id'], 'Sher_Core_Model_UserExtState');
 
         if(isset($row['profile']['age']) && !empty($row['profile']['age'])){
-          $row['birthday'] = implode('-', $row['profile']['age']);
+            $row['birthday'] = implode('-', $row['profile']['age']);
         }else{
-          $row['birthday'] = '';       
+            $row['birthday'] = '';       
         }
     }
 	
@@ -842,7 +845,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     * 实验室
 	 */
 	public function update_user_identify($user_id, $field, $value=0) {
-		if(!in_array($field,array('d3in_volunteer', 'd3in_vip', 'd3in_tag', 'is_scene_subscribe', 'is_app_first_shop'))){
+		if(!in_array($field,array('d3in_volunteer', 'd3in_vip', 'd3in_tag', 'is_scene_subscribe', 'is_app_first_shop', 'is_expert'))){
 			return;
 		}
 		return $this->update_set((int)$user_id, array('identify.'.$field => $value));
@@ -904,9 +907,11 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         if (is_null($user_id)) {
             $user_id = $this->id;
         }
+        
         if (empty($user_id) || !in_array($field_name, $this->counter_fields)) {
             return false;
         }
+        
         return $this->inc(array('_id' => (int)$user_id), $field_name);
     }
 	
@@ -977,7 +982,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
    *
 	 */
 	public function update_counter($user_id,$field,$value=0){
-		if(!in_array($field,array('message_count','notice_count','alert_count','fans_count','comment_count','people_count','fiu_comment_count','fiu_notice_count','order_wait_payment','order_ready_goods','order_sended_goods','order_evaluate'))){
+		if(!in_array($field,array('message_count','notice_count','alert_count','fans_count','comment_count','people_count','fiu_alert_count','fiu_comment_count','fiu_notice_count','order_wait_payment','order_ready_goods','order_sended_goods','order_evaluate'))){
 			return;
 		}
 		$this->update_set((int)$user_id, array('counter.'.$field => $value));
@@ -987,7 +992,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
 	 * 更新计数器，累加,减少
 	 */
 	public function update_counter_byinc($user_id, $field, $value=1){
-		if(!in_array($field,array('message_count','notice_count','alert_count','fans_count','comment_count','people_count','fiu_comment_count','fiu_notice_count','order_wait_payment','order_ready_goods','order_sended_goods','order_evaluate'))){
+		if(!in_array($field,array('message_count','notice_count','alert_count','fans_count','comment_count','people_count','fiu_alert_count','fiu_comment_count','fiu_notice_count','order_wait_payment','order_ready_goods','order_sended_goods','order_evaluate'))){
 			return;
     }
     // 不能为负

@@ -7,6 +7,7 @@
 	  
 	protected $sort_fields = array(
 		'latest' => array('created_on' => -1),  
+    'last_time' => array('last_time' => -1),
 	);
 	protected static $instance;
 	  
