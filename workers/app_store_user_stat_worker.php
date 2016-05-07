@@ -24,93 +24,156 @@ echo "-------------------------------------------------\n";
 echo "===============APP_STORE_USER_STAT WORKER WAKE UP===============\n";
 echo "-------------------------------------------------\n";
 
-echo "Start to stat...\n";
+// 统计方法
+function begin_stat(){
+  echo "Start to stat...\n";
+  $app_store_user_stat_model = new Sher_Core_Model_AppStoreUserStat();
+  $yesterday = (int)date('Ymd', strtotime('-1 day'));
+  $month = (int)date('Ym', strtotime('-1 day'));
+  $year = (int)date('Y', strtotime('-1 day'));
+
+  //昨天周数
+  $week_num = Sher_Core_Helper_Util::get_week_now(strtotime('-1 day'));
+  $week = (int)((string)$year.(string)$week_num);
+
+  $star_tmp = strtotime(sprintf("%s 00:00:00", date('Y-m-d', strtotime('-1 day'))));
+  $end_tmp = strtotime(sprintf("%s 23:59:59", date('Y-m-d', strtotime('-1 day'))));
+
+  //如果统计表存在,跳过
+  $is_exist = $app_store_user_stat_model->first(array('day'=>(int)$yesterday));
+  if(empty($is_exist)){
+
+    // 获取昨天增长数量
+    // android|ios
+    $current_android_count = fetch_count(1, 1, $star_tmp, $end_tmp);
+    $current_ios_count = fetch_count(1, 2, $star_tmp, $end_tmp);
+    $total_android_count = fetch_count(1, 1);
+    $total_ios_count = fetch_count(1, 2);
+
+    // 获取注册量
+    // android|ios
+    $current_android_grow_count = fetch_grow_count(2, $star_tmp, $end_tmp);
+    $current_ios_grow_count = fetch_grow_count(1, $star_tmp, $end_tmp);
+    $total_android_grow_count = fetch_grow_count(2);
+    $total_ios_grow_count = fetch_grow_count(1);
+
+    //查询上一次所在周
+    $week_android_count = 0;
+    $week_ios_count = 0;
+    $week_android_grow_count = 0;
+    $week_ios_grow_count = 0;
+    $current_week = $app_store_user_stat_model->first(array('week'=>$week, 'week_latest'=>1));
+    if(!empty($current_week)){
+      //周汇总
+      $week_android_count = $current_week['week_android_count'];
+      $week_ios_count = $current_week['week_ios_count'];
+      $week_android_grow_count = $current_week['week_android_grow_count'];
+      $week_ios_grow_count = $current_week['week_ios_grow_count'];
+      //清除最后一周标记
+      $app_store_user_stat_model->update_set((string)$current_week['_id'], array('week_latest'=>0));
+    }
+
+    //查询上一次所在月
+    $month_android_count = 0;
+    $month_ios_count = 0;
+    $month_android_grow_count = 0;
+    $month_ios_grow_count = 0;
+    $current_month = $app_store_user_stat_model->first(array('month'=>$month, 'month_latest'=>1));
+    if(!empty($current_month)){
+      //月汇总
+      $month_android_count = $current_week['month_android_count'];
+      $month_ios_count = $current_week['month_ios_count'];
+      $month_android_grow_count = $current_week['month_android_grow_count'];
+      $month_ios_grow_count = $current_week['month_ios_grow_count'];
+      //清除最后一月标记
+      $app_store_user_stat_model->update_set((string)$current_month['_id'], array('month_latest'=>0));       
+    }
+
+    $data = array(
+      'day' => (int)$yesterday,
+      'week' => $week,
+      # 是否当前周最终统计
+      'week_latest' => 1,
+      'month' => $month,
+      # 是否当前月最终统计
+      'month_latest' => 1,
+
+      // 当日/周/月/ 激活量
+      'day_android_count' => $current_android_count,
+      'week_android_count' => $current_android_count+$week_android_count,
+      'month_android_count' => $current_android_count+$month_android_count,
+
+      'day_ios_count' => $current_ios_count,
+      'week_ios_count' => $current_ios_count+$week_ios_count,
+      'month_ios_count' => $current_ios_count+$month_ios_count,
+
+      // 当日/周/月/ 注册量
+      'day_android_grow_count' => $current_android_grow_count,
+      'week_android_grow_count' => $current_android_grow_count+$week_android_grow_count,
+      'month_android_grow_count' => $current_android_grow_count+$month_android_grow_count,
+
+      'day_ios_grow_count' => $current_ios_grow_count,
+      'week_ios_grow_count' => $current_ios_grow_count+$week_ios_grow_count,
+      'month_ios_grow_count' => $current_ios_grow_count+$month_ios_grow_count,
+
+      // 获取总值
+      'total_android_count' => $total_android_count,
+      'total_ios_count' => $total_ios_count,
+      'total_android_grow_count' => $total_android_grow_count,
+      'total_ios_grow_count' => $total_ios_grow_count,
+    );
+
+    $app_store_user_stat_model->create($data);
+
+  } // endif is_exist
+
+  echo "End stat... \n";
+}
 
 
-
-// 开始统计...
-$user_sign_stat_model = new Sher_Core_Model_UserSignStat();
-$month = (int)date('Ym');
-$year = (int)date('Y');
-
-//今天周数
-$week_num = Sher_Core_Helper_Util::get_week_now();
-$week = (int)((string)$year.(string)$week_num);
-
-//如果统计表存在,跳过
-$is_exist = $user_sign_stat_model->first(array('user_id'=>(int)$user_id, 'day'=>(int)$today));
-if(empty($is_exist)){
-  $user_kind = isset($options['user_kind']) ? (int)$options['user_kind'] : 0;
-
-  //查询上一次所在周
-  $exp_week = 0;
-  $money_week = 0;
-  $current_week = $user_sign_stat_model->first(array('user_id'=>(int)$user_id, 'week'=>$week, 'week_latest'=>1));
-  if(!empty($current_week)){
-    //周汇总
-    $exp_week = (int)$current_week['week_exp_count'];
-    $money_week = (int)$current_week['week_money_count'];
-    //清除最后一周标记
-    $user_sign_stat_model->update_set((string)$current_week['_id'], array('week_latest'=>0));
+// 获取激活量
+function fetch_count($kind, $device, $star_tmp=0, $end_tmp=0){
+  $query['kind'] = $kind;
+  $query['device'] = $device;
+  if(!empty($star_tmp)){
+    $query['created_on'] = array('$gte'=>$star_tmp);
+  }
+  if(!empty($end_tmp)){
+    $query['created_on'] = array('$lte'=>$end_tmp);
   }
 
-  //查询上一次所在月
-  $exp_month = 0;
-  $money_month = 0;
-  $current_month = $user_sign_stat_model->first(array('user_id'=>(int)$user_id, 'month'=>$month, 'month_latest'=>1));
-  if(!empty($current_month)){
-    //月汇总
-    $exp_month = (int)$current_month['month_exp_count'];
-    $money_month = (int)$current_month['month_money_count'];
-    //清除最后一月标记
-    $user_sign_stat_model->update_set((string)$current_month['_id'], array('month_latest'=>0));       
-    
+  $app_user_record_model = new Sher_Core_Model_AppUserRecord();
+  $count = $app_user_record_model->count($query);
+  return $count;
+}
+
+// 获取注册量
+function fetch_grow_count($from_to, $star_tmp=0, $end_tmp=0){
+  $query['from_to'] = $from_to;
+  if(!empty($star_tmp)){
+    $query['created_on'] = array('$gte'=>$star_tmp);
   }
+  if(!empty($end_tmp)){
+    $query['created_on'] = array('$lte'=>$end_tmp);
+  }
+  $pusher_model = new Sher_Core_Model_Pusher();
+  $count = $pusher_model->count($query);
+  return $count;
+}
 
-  $data = array();
-  $data = array(
-    'user_id' => (int)$user_id,
-    'user_kind' => $user_kind,
-    'day' => (int)$today,
-    'week' => $week,
-    # 是否当前周最终统计
-    'week_latest' => 1,
-    'month' => $month,
-    # 是否当前月最终统计
-    'month_latest' => 1,
+// 每天零晨1点以内，统计一次
+$begin_time = strtotime(sprintf("%s 00:00:00", date('Y-m-d')));
+$end_time = strtotime(sprintf("%s 01:00:00", date('Y-m-d')));
+$now_time = time();
+if($now_time>=$begin_time && $now_time<=$end_time){
+  // 开始统计...
+  begin_stat();
+}
 
-    // 当日/周/月/获取鸟币及经验值
-    'day_exp_count' => $current_exp_count,
-    'week_exp_count' => $current_exp_count+$exp_week,
-    'month_exp_count' => $current_exp_count+$exp_month,
+echo "-------------------------------------------------\n";
+echo "===============APP_STORE_USER_STAT WORKER WAKE DOWN===============\n";
+echo "-------------------------------------------------\n";
 
-    'day_money_count' => $current_money_count,
-    'week_money_count' => $current_money_count+$exp_month,
-    'month_money_count' => $current_money_count+$money_month,
-
-    // 获取经验总值
-    'total_exp_count' => $user_sign['exp_count'],
-    // 获取鸟币数量
-    'total_money_count' => $user_sign['money_count'],
-
-    // 当日签到排行
-    'sign_no' => $user_sign['last_date_no'],
-    // 当日签到时间
-    'sign_time' => $user_sign['last_sign_time'],
-    // 连续签到天数
-    'sign_times' => $user_sign['sign_times'],
-    // 最高签到天数
-    'max_sign_times' => $user_sign['max_sign_times'],
-    'total_sign_times' => $user_sign['total_sign_times'],
-  );
-
-  $user_sign_stat_model->create($data);
-
-} // endif is_exist
-
-
-
-echo "End stat... \n";
 // sleep 1 hour
 sleep(3600);
 exit(0);
