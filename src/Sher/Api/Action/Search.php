@@ -81,7 +81,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
               $result['data'][$k]['tips_label'] = 0;
             }else{
               $result['data'][$k]['market_price'] = 0;
-              $result['data'][$k]['sale_price'] = 0;           
+              $result['data'][$k]['sale_price'] = 0; 
             }
           }
 
@@ -112,8 +112,10 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           if($obj){
             $result['data'][$k]['view_count'] = $obj['view_count'];
             $result['data'][$k]['love_count'] = $obj['love_count'];
+            $result['data'][$k]['address'] = $obj['address'];
             $result['data'][$k]['scene_id'] = $obj['scene_id'];
             $result['data'][$k]['scene_title'] = isset($obj['scene']['title']) ? $obj['scene']['title'] : null;
+            $result['data'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($obj['created_on']);
             if(isset($obj['user']) && !empty($obj['user'])){
               $user_info = array(
                 'user_id' => $obj['user']['_id'],
