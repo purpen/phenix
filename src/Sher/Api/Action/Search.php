@@ -96,7 +96,11 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           }
         
         }elseif($kind=='Scene'){  // 情景
-          //$obj = $scene_model->load((int)$oid);
+          $obj = $scene_model->load((int)$oid);
+          $result['data'][$k]['address'] = null;
+          if($obj){
+            $result['data'][$k]['address'] = $obj['address'];
+          }
           
           // 图片尺寸
           if($asset_obj){
