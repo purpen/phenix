@@ -332,4 +332,86 @@ class Sher_Core_Helper_View {
     return $str;
   }
 
+  /**
+   * 根据渠道ID获取获取道名称
+   */
+  public static function fetch_channel_name($channel_id){
+    $channel_name = '';
+    // 渠道说明
+    switch((int)$channel_id){
+      case 0:
+        $channel_name = '官网';
+        break;
+      case 10:
+        $channel_name = '官网';
+        break;
+      case 11:
+        $channel_name = '百度手机助手';
+        break;
+      case 12:
+        $channel_name = '360手机助手';
+        break;
+      case 13:
+        $channel_name = '魅族商店';
+        break;
+      case 14:
+        $channel_name = '华为应用市场';
+        break;
+      case 15:
+        $channel_name = '搜狗手机助手';
+        break;
+      case 16:
+        $channel_name = '中国移动MM';
+        break;
+      case 17:
+        $channel_name = '中国电信天翼';
+        break;
+      case 18:
+        $channel_name = '网易应用中心';
+        break;
+      case 19:
+        $channel_name = '小米';
+        break;
+      case 20:
+        $channel_name = '豌豆荚';
+        break;
+      case 21:
+        $channel_name = '腾讯应用宝';
+        break;
+      case 22:
+        $channel_name = '安智市场';
+        break;
+      case 23:
+        $channel_name = '渠道1';
+        break;
+      case 24:
+        $channel_name = '渠道2';
+        break;
+      case 25:
+        $channel_name = '渠道3';
+        break;
+      case 26:
+        $channel_name = '渠道4';
+        break;
+      case 27:
+        $channel_name = '渠道5';
+        break;
+      case 28:
+        $channel_name = '线下活动1';
+        break;
+      case 29:
+        $channel_name = '线下活动2';
+        break;
+      case 30:
+        $channel_name = '线下活动3';
+        break;
+      case 31:
+        $channel_name = '线下活动4';
+        break;
+      default:
+        $channel_name = $row['channel_id'];
+    }
+    return $channel_name;   
+  }
+
 }
