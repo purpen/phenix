@@ -82,7 +82,7 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
 		// 判断左栏类型
 		$this->stash['show_type'] = "console";
     $this->set_target_css_state('page_app_store_user_stat');
-    $this->set_target_css_state('page_css_all_list');
+    $this->set_target_css_state('all_list');
 
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/console/user_stat?month=%s&week=%s&day=%s&page=#p#', $this->stash['month'], $this->stash['week'], $this->stash['day']);
 		$this->stash['pager_url'] = $pager_url;
