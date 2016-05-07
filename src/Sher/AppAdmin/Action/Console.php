@@ -14,6 +14,9 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
     'channel_id' => null,
     'kind' => 1,
     'device' => 1,
+    'month' => null,
+    'week' => null,
+    'day' => null,
 	);
 	
 	/**
@@ -69,6 +72,22 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
 		
 		$this->stash['id'] = $id;
 		return $this->to_taconite_page('app_admin/del_ok.html');
+
+  }
+
+  /**
+   * 用户统计
+   */
+  public function user_stat(){
+		// 判断左栏类型
+		$this->stash['show_type'] = "console";
+    $this->set_target_css_state('page_app_store_user_stat');
+    $this->set_target_css_state('page_css_all_list');
+
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/console/user_stat?month=%s&week=%s&day=%s&page=#p#', $this->stash['month'], $this->stash['week'], $this->stash['day']);
+		$this->stash['pager_url'] = $pager_url;
+
+    return $this->to_html_page('app_admin/user_stat.html');
 
   }
 	
