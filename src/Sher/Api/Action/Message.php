@@ -21,7 +21,6 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		
 		$page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
 		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 100;
-		$from_user_id = isset($this->stash['from_user_id']) ? (int)$this->stash['from_user_id'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
 

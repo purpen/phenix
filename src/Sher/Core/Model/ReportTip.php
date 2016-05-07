@@ -46,7 +46,7 @@ class Sher_Core_Model_ReportTip extends Sher_Core_Model_Base  {
         'user_id' => 0,
         // 类型:1,举报;
         'kind'  => 1,
-        //举报原因:1,色情报力；2.盗图；3.广告/欺诈信息;4.－－
+        //举报原因:1,色情暴力；2.盗图；3.广告/欺诈信息;4.－－
         'evt' => 1,
         // 设备来源
         'from_to' => self::FORM_WEB_SOURCE,
@@ -115,7 +115,7 @@ class Sher_Core_Model_ReportTip extends Sher_Core_Model_Base  {
 
     // 来源
     if(isset($row['from_to'])){
-      switch($row['evt']){
+      switch($row['from_to']){
         case 1:
           $row['from_label'] = 'Web';
           break;
