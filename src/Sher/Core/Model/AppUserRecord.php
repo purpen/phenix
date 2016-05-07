@@ -20,7 +20,7 @@ class Sher_Core_Model_AppUserRecord extends Sher_Core_Model_Base  {
     'device' => self::DEVICE_ANDROID,
     'channel_id' => 0,
     'user_id' => 0,
-  	);
+  );
 
   protected $required_fields = array('uuid');
 

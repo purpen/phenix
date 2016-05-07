@@ -1,18 +1,10 @@
 <?php
 /**
- * app用户统计
+ * app用户统计(商城)
  * @author tianshuai
  */
 class Sher_Core_Model_AppStoreUserStat extends Sher_Core_Model_Base  {
 	protected $collection = "app_store_user_stat";
-
-	# 应用
-	const KIND_STORE = 1; // 商城
-  const KIND_FIU = 2; // Fiu
-
-  # 设备
-  const DEVICE_ANDROID = 1; // Android
-  const DEVICE_IOS = 2; // IOS
 	
 	protected $schema = array(
     'user_id' => 0,
@@ -55,16 +47,11 @@ class Sher_Core_Model_AppStoreUserStat extends Sher_Core_Model_Base  {
 		'total_android_grow_count' => 0,
 		'total_ios_grow_count' => 0,
 
-    # 类型
-    'kind' => self::KIND_STORE,
-    # 设备
-		'device' => self::DEVICE_ANDROID,
-
   );
 
   protected $required_fields = array('day');
 
-  protected $int_fields = array('user_id', 'kind', 'device', 'day', 'week', 'week_latest', 'month', 'month_latest', 'day_android_count', 'day_ios_count', 'day_android_grow_count', 'day_ios_grow_count', 'week_android_count', 'week_ios_count', 'week_android_grow_count', 'week_ios_grow_count', 'month_android_count', 'month_ios_count', 'month_android_grow_count', 'month_ios_grow_count', 'total_android_count', 'total_ios_count', 'total_android_grow_count', 'total_ios_grow_count');
+  protected $int_fields = array('user_id', 'day', 'week', 'week_latest', 'month', 'month_latest', 'day_android_count', 'day_ios_count', 'day_android_grow_count', 'day_ios_grow_count', 'week_android_count', 'week_ios_count', 'week_android_grow_count', 'week_ios_grow_count', 'month_android_count', 'month_ios_count', 'month_android_grow_count', 'month_ios_grow_count', 'total_android_count', 'total_ios_count', 'total_android_grow_count', 'total_ios_grow_count');
 
 	protected $joins = array(
 
