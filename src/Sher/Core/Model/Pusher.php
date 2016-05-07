@@ -57,7 +57,7 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
 
       // 渠道说明
       if(isset($row['channel_id'])){
-        $row['channel_label'] = Sher_Core_Helper_View::fetch_channel_name($row['channel_id'])); 
+        $row['channel_label'] = Sher_Core_Helper_View::fetch_channel_name($row['channel_id']); 
       }
 
     }
