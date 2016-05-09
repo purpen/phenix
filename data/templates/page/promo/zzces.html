@@ -170,48 +170,156 @@
 		background: url( {{app_url_packaged}}/images/promo/ces/zmline.png);
 	}
 
+	.wrapper__inner {
+	    width: 1180px;
+	    margin: 0 auto;
+	    padding: 20px 0;
+	    position: relative;
+	}
+	.example__prev {
+	    background: url({{ app_url_packaged }}/images/promo/ces/jt_hui.png);
+	    left: -70px;
+		background-size:100%;
+	}
+	.example__next {
+	    background: url({{ app_url_packaged }}/images/promo/ces/jt_right_hui.png);
+	    right: -70px;
+		background-size:100%;
+	}
+	.example__next, .example__prev {
+	    position: absolute;
+	    width: 28px;
+	    height: 50px;
+	    top: 50%;
+    	margin-top: -25px;
+	    cursor: pointer;
+	    -webkit-transition: .3s all ease;
+	    transition: .3s all ease;
+	}
+	.example__next.example__next_active {
+	    background: url({{ app_url_packaged }}/images/promo/ces/jt_right.png);
+	}
+	.example__prev.example__prev_active{
+		background: url({{ app_url_packaged }}/images/promo/ces/jt.png);
+	}
+	.example__list-wrapper {
+	    position: relative;
+	    overflow: hidden;
+	    padding-bottom: 10px;
+	}
+	.example__list {
+	    width: 825%;
+	    font-size: 0;
+	    position: relative;
+	}
+	ol, ul {
+	    padding-left: 0;
+	    list-style-type: none;
+	}
+	.example__item {
+	    display: inline-block;
+	    vertical-align: top;
+	    width: 280px;
+    	margin-right: 13px;
+	    padding: 0;
+	    background: #fff;
+	    text-align: center;
+	    -webkit-transition: .3s all ease;
+	    transition: .3s all ease;
+	    cursor: auto;
+	}
+	.example__item img{
+		width:100%;
+	}
+	.example__item_9 {
+	    margin-right: 0;
+	}
+	.iosewm{
+		display: none;
+		visibility: hidden;
+	}
 </style>
 </style>
 {% endblock %}
 {% block jquery %}
-	
+	var pagew = 1172;
 	var $lists = $(".example__list"),
 	          $next_btn = $(".example__next"),
 	          $prev_btn = $(".example__prev");
 	    $next_btn.on("click",function(){
 	        if($lists.css("right") =="auto"||$lists.css("right") =="0px"){
 	            $lists.animate({
-	                right:1074
+	                right:pagew
 	            },500);
 	            $prev_btn.addClass("example__prev_active");
-	        }else if($lists.css("right") =="1074px"){
+	        }else if($lists.css("right") ==pagew+'px'){
 	            $lists.animate({
-	                right:2148
+	                right:pagew*2
+	            },500);
+				$prev_btn.addClass("example__prev_active");
+	        }else if($lists.css("right") ==pagew*2+'px'){
+	            $lists.animate({
+	                right:pagew*3
 	            },500);
 				$prev_btn.addClass("example__prev_active");
 	        }
-			else if($lists.css("right") =="2148px"){
+			else if($lists.css("right") ==pagew*3+'px'){
 	            $lists.animate({
-	                right:3222
+	                right:pagew*4
 	            },500);
-	            $next_btn.removeClass("example__next_active");
+	            $prev_btn.addClass("example__prev_active");
+	        }else if($lists.css("right") ==pagew*4+'px'){
+	            $lists.animate({
+	                right:pagew*5
+	            },500);
+				$prev_btn.addClass("example__prev_active");
+	        }
+			else if($lists.css("right") ==pagew*5+'px'){
+	            $lists.animate({
+	                right:pagew*6
+	            },500);
+	           	$prev_btn.addClass("example__prev_active");
+	        }else if($lists.css("right") ==pagew*6+'px'){
+	            $lists.animate({
+	                right:pagew*7
+	            },500);
+				$next_btn.removeClass("example__next_active");
 	        }
 	    });
 	    $prev_btn.on("click",function(){
-	        if($lists.css("right") =="1074px"){
+	        if($lists.css("right") ==pagew+'px'){
 	            $lists.animate({
 	                right: 0
 	            },500);
 	            $prev_btn.removeClass("example__prev_active");
-	        }else if($lists.css("right") =="2148px"){
+	        }else if($lists.css("right") ==pagew*2+'px'){
 	            $lists.animate({
-	                right:1074
+	                right:pagew
 	            },500);
 				$prev_btn.addClass("example__prev_active");
-	        }
-			else if($lists.css("right") =="3222px"){
+	        }else if($lists.css("right") ==pagew*3+'px'){
 	            $lists.animate({
-	                right:2148
+	                right:pagew*2
+	            },500);
+	            $prev_btn.addClass("example__prev_active");
+	        }else if($lists.css("right") ==pagew*4+'px'){
+	            $lists.animate({
+	                right:pagew*3
+	            },500);
+				$prev_btn.addClass("example__prev_active");
+	        }else if($lists.css("right") ==pagew*5+'px'){
+	            $lists.animate({
+	                right:pagew*4
+	            },500);
+	            $prev_btn.addClass("example__prev_active");
+	        }else if($lists.css("right") ==pagew*6+'px'){
+	            $lists.animate({
+	                right:pagew*5
+	            },500);
+				$prev_btn.addClass("example__prev_active");
+	        }else if($lists.css("right") ==pagew*7+'px'){
+	            $lists.animate({
+	                right:pagew*6
 	            },500);
 	            $next_btn.addClass("example__next_active");
 	        }
@@ -226,7 +334,7 @@
 			<div class="row">
 				<div class="ui center aligned column">
 					<h2 class="ui dnews header">
-						CES Asia 2016最新闻
+						      CES Asia 2016最新闻
 					</h2>
 				</div>
 			</div>
@@ -366,7 +474,7 @@
 			<div class="row">
 				<div class="ui center aligned column">
 					<h2 class="ui dnews header">
-						CES Asia 2016创新奖
+						      CES Asia 2016创新奖
 					</h2>
 				</div>
 			</div>
@@ -438,89 +546,89 @@
 				<div class="column">
 					<div class="ui four cards">
 						<div class="card">
-							<a href="">
+							<a href="http://www.taihuoniao.com/topic/view-111868-1.html" target="_blank">
 								<img src="http://img3.imgtn.bdimg.com/it/u=1473913379,3169931306&fm=11&gp=0.jpg">
 								<div class="desc">
-									<h3>联想Y900旗舰游戏本</h3>
+									<h3>咨询| 2016年亚洲消费电子展“媒体日”日程安排正式公布</h3>
 									<div class="excerpt">
-										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+										美国消费技术协会今日正式公布2016年亚洲消费电子展官方“媒体日”日程安排。“媒体日”所有活动向亚洲消费电子展预注册媒体开放，时间为5月10日至12日（星期二至星期四）。
 									</div>
 								</div>
 							</a>
 						</div>
 						<div class="card">
-							<a href="">
+							<a href="http://www.prnews.cn/press_release/220526.htm" target="_blank" rel="noflow">
 								<img src="http://img3.imgtn.bdimg.com/it/u=3275058382,1408995783&fm=11&gp=0.jpg">
 								<div class="desc">
-									<h3>联想Y900旗舰游戏本</h3>
+									<h3>智能穿戴 | GEAK Watch智能手表新品或CES Asia提前曝光</h3>
 									<div class="excerpt">
-										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+										亚洲最大的消费电子展会CES Asia即将于5月11日-13日在上海举办。而CES Asia则是CES主办方美国消费技术协会联合上海国际展览中心主办的亚洲消费电子展，今年已经是第二届。
 									</div>
 								</div>
 							</a>
 						</div>
 						<div class="card">
-							<a href="">
+							<a href="http://digi.tech.qq.com/a/20160509/025434.htm" target="_blank" rel="noflow">
 								<img src="http://img3.imgtn.bdimg.com/it/u=1473913379,3169931306&fm=11&gp=0.jpg">
 								<div class="desc">
-									<h3>联想Y900旗舰游戏本</h3>
+									<h3>汽车 |　CES2016乐视车联展台揭幕 来看它到底做了啥</h3>
 									<div class="excerpt">
-										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+										美国时间1月6日，CES2016乐视车联展台揭幕，那么在本届CES亚洲大展上，乐视将为我们带来什么劲爆新品呢？
 									</div>
 								</div>
 							</a>
 						</div>
 						<div class="card">
-							<a href="">
+							<a href="http://sc.stock.cnfol.com/shichangceping/20160509/22718518.shtml" target="_blank" rel="noflow">
 								<img src="http://img3.imgtn.bdimg.com/it/u=3275058382,1408995783&fm=11&gp=0.jpg">
 								<div class="desc">
-									<h3>联想Y900旗舰游戏本</h3>
+									<h3>趋势 | CES Asia2016 前瞻之无人机</h3>
 									<div class="excerpt">
-										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+										CES展会一向被视为消费电子领域的风向标，影响着整个消费电子行业一年的发展动态。2016年5月11-13日，领先的亚洲消费电子展(CES Asia)将在上海新国际博览中心正式拉开帷幕，展示亚洲消费电子领域创新的广度与深度。
 									</div>
 								</div>
 							</a>
 						</div>
 						<div class="card">
-							<a href="">
+							<a href="http://it.sohu.com/20160509/n448442134.shtml" target="_blank" rel="noflow">
 								<img src="http://img3.imgtn.bdimg.com/it/u=3275058382,1408995783&fm=11&gp=0.jpg">
 								<div class="desc">
-									<h3>联想Y900旗舰游戏本</h3>
+									<h3>回顾｜CES Asia 2015精彩回顾 可穿戴设备+无人车</h3>
 									<div class="excerpt">
-										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+										备受业界关注的第二届CES亚洲展(2016年亚洲消费电子展，CES Asia2016)即将于2016年5月11--13日在上海新国际博览中心开幕，本届展会以“互联互通”、“创新”和“物联网”为主题，届时宝马、英特尔、IBM、奥迪、华为等全球知名企业将携3D打印、电子游戏、智能家居、智能车辆技术以及可穿戴产品等15个产品类别亮相。
 									</div>
 								</div>
 							</a>
 						</div>
 						<div class="card">
-							<a href="">
+							<a href="http://tech.china.com/news/it/11146618/20160509/22608689.html" target="_blank">
 								<img src="http://img3.imgtn.bdimg.com/it/u=1473913379,3169931306&fm=11&gp=0.jpg">
 								<div class="desc">
-									<h3>联想Y900旗舰游戏本</h3>
+									<h3>未来｜1号店CES Asia前瞻:首现感知型购物场景</h3>
 									<div class="excerpt">
-										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+										5月11日至5月13日，由美国消费技术协会主办的CES Asia在上海新国际博览中心启幕。作为消费技术行业最大的年度盛会之一，CES Asia致力于全方位展示亚洲市场创新产业价值链，共同见证消费技术行业最具代表性的创新成果。
 									</div>
 								</div>
 							</a>
 						</div>
 						<div class="card">
-							<a href="">
+							<a href="http://tech.qq.com/a/20160505/047781.htm" target="_blank">
 								<img src="http://img3.imgtn.bdimg.com/it/u=3275058382,1408995783&fm=11&gp=0.jpg">
 								<div class="desc">
-									<h3>联想Y900旗舰游戏本</h3>
+									<h3>咨询 | 2016年CES ASIA预注册人数较去年同期增长40%</h3>
 									<div class="excerpt">
-										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+										2016年亚洲消费电子展将以“物联网”、“创新”和“互联互通”为主题，集中展示15大产品类别的最新技术与创新，其中包括3D打印、汽车技术、生活科技、电子游戏等。
 									</div>
 								</div>
 							</a>
 						</div>
 						<div class="card">
-							<a href="">
+							<a href="http://www.taihuoniao.com/topic/view-111896-1.html" target="_blank">
 								<img src="http://img3.imgtn.bdimg.com/it/u=1473913379,3169931306&fm=11&gp=0.jpg">
 								<div class="desc">
-									<h3>联想Y900旗舰游戏本</h3>
+									<h3>咨询丨这次的CES Asia有哪些看头？</h3>
 									<div class="excerpt">
-										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+										
 									</div>
 								</div>
 							</a>
@@ -531,6 +639,8 @@
 				</div>
 			</div>
 
+<!-- 48 -->
+<!--
 			<div class="row">
 				<div class="column">
 				<img src="{{ app_url_packaged }}/images/promo/ces/z48.png" width="100%" align="absmiddle">
@@ -621,6 +731,9 @@
 					</div>
 				</div>
 			</div>
+-->
+<!-- 72 -->
+<!--
 
 			<div class="row">
 				<div class="column">
@@ -713,7 +826,7 @@
 					</div>
 				</div>
 			</div>
-
+-->
 
 		</div>
 	</section>
@@ -723,13 +836,194 @@
 			<div class="row">
 				<div class="ui center aligned column">
 					<h2 class="ui dnews header">
-						太火鸟参展及孵化商品
+						      太火鸟参展及孵化商品
 					</h2>
+				</div>
+			</div>
+
+			<div class="example wrapper__inner">
+				<div class="example__prev"></div>
+				<div class="example__next example__next_active"></div>
+				
+				<div class="example__list-wrapper">
+					<ul class="example__list">
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp1.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp2.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp3.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp4.jpg">
+							</a>
+						</li>
+
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp1.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp1.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp2.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp3.jpg">
+							</a>
+						</li>
+
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp1.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp1.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp2.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp3.jpg">
+							</a>
+						</li>
+
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp1.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp1.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp2.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp3.jpg">
+							</a>
+						</li>
+
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp1.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp1.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp2.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp3.jpg">
+							</a>
+						</li>
+
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp1.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp1.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp2.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp3.jpg">
+							</a>
+						</li>
+
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp1.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp1.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp2.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp3.jpg">
+							</a>
+						</li>
+
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp1.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp1.jpg">
+							</a>
+						</li>
+						<li class="example__item">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp2.jpg">
+							</a>
+						</li>
+						<li class="example__item example__item_9">
+							<a href="" target="_blank">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zp3.jpg">
+							</a>
+						</li>
+					</ul>
 				</div>
 			</div>
 
 
 		</div>
+	</section>
+
+	<section class="ui background grid">
+		<img src=" {{ app_url_packaged }}/images/promo/ces/zbottom.jpg" width="100%" align="absmiddle" style="padding: 0;">
 	</section>
 
 
