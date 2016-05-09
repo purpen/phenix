@@ -10,7 +10,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
     'floor'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi','rank','rank2','sign','zces', 'android_download');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi','rank','rank2','sign','zces', 'android_download','zzces');
 	
 	/**
 	 * 网站入口
@@ -28,6 +28,13 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		return $this->to_redirect($url);
   }
 	
+	/**
+	  * 2016 CES  2016/05/09
+	 **/
+	public function zzces(){
+		return $this->to_html_page('page/promo/zzces.html');
+	}
+
 	/**
 	  * 2016 CES  2015/12/31
 	 **/

@@ -1,0 +1,484 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}CES ASIA -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.ces{
+		background:#fff;
+		padding-bottom: 0;
+	}
+	#mfrbird{
+		margin-top: 0;
+	}
+	.ui.news.grid{
+		padding-top: 1.5rem;
+	}
+	#triespage .recom-item,#triespage .recom-cell,#triespage .recom-item .recom-cell a{
+		height: auto;
+	}
+	#triespage .recom-item .recom-cell a{
+		padding-top: 66.67%;
+	}
+	#triespage .recom-item .recom-cell a .desc{
+		padding: 0.714286rem 0 0;
+	}
+	#triespage .recom-item .recom-cell a .desc h2{
+		font-size: 1.071429rem;
+		color: #00bac9;
+	    overflow: hidden;
+	    text-align: left;
+	    margin: 0;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	}
+	.news #triespage .recom-item .recom-cell a .desc .excerpt {
+	    font-size: 0.928571rem;
+	    color: #666;
+	    margin: 0.428571rem 0 0.714286rem;
+	    height: 4.142857rem;
+	    overflow: hidden;
+	    line-height: 1.357143rem;
+	    word-break: normal;
+	    white-space: normal;
+	    padding: 0;
+	}
+	.recom-item .recom-cell{
+		padding-right: 0.714286rem;
+	}
+	.recom-item .recom-cell:nth-child(2n){
+		padding-left: 0.714286rem;
+	}
+	.zzwt .recom-item .recom-cell{
+		padding-right: 0 !important;
+		padding-left: 0 !important;
+	}
+
+	.zzwt .recom-cell:nth-child(1) a .desc{
+    	background: #e9e9e9 !important;
+	}
+	.zzwt .recom-cell:nth-child(2) a .desc{
+		background-color: #d1d1d1 !important;
+	}
+	.zzwt #triespage .recom-item .recom-cell a h2{
+		color: #666;
+	}
+	.zzwt #triespage .recom-item .recom-cell a .desc {
+	    position: relative;
+	    padding: 12px 10px 0;
+	    height: auto;
+	}
+	.zzwt #triespage .recom-item .recom-cell{
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+
+	#ceslide{
+		background: #f9f9f9;
+		padding: 0 2% 4%;
+		margin-top:2rem;
+		position: relative;
+	}
+	#ceslide h2.ui.header{
+	    text-align: center;
+    	padding: 20px 0 5px;
+	}
+	.slides{
+		height: auto;
+	    zoom: 1;
+	    margin: 0;
+	    padding: 0;
+	    list-style: none;
+	    text-align: center;
+	}
+	.slides li{
+		margin: 0;
+	    padding: 0;
+	    list-style: none;
+	    text-align: center;
+	    position: relative;
+	}
+	.slides li img{
+		width: 96%;
+	    margin: 0 auto;
+	}
+	#ceslide.flexslider .flex-direction-nav {
+	    margin: 0;
+	    padding: 0;
+	    list-style: none;
+	    text-align: center;
+	}
+	#ceslide.flexslider .flex-direction-nav a.flex-prev {
+	    left: 0;
+	}
+	#ceslide.flexslider .flex-direction-nav a {
+	    position: absolute;
+	    font-size: 30px;
+	    top: 50%;
+	    display: inline-block;
+	    opacity: 1;
+	    margin: 20px .25rem 0 0;
+	    width: 1.18em;
+	    padding: 11px 0;
+	    font-family: Icons;
+	    font-style: normal;
+	    vertical-align: middle;
+	    font-weight: 400;
+	    text-decoration: inherit;
+	    text-align: center;
+	    speak: none;
+	    font-smoothing: antialiased;
+	    -moz-osx-font-smoothing: grayscale;
+	    -webkit-font-smoothing: antialiased;
+	    -webkit-backface-visibility: hidden;
+	    backface-visibility: hidden;
+	}
+	#ceslide.flexslider .flex-direction-nav a.flex-prev:before {
+	    -webkit-animation: arrowUp 1.5s linear infinite;
+	    -moz-animation: arrowUp 1.5s linear infinite;
+	    animation: arrowUp 1.5s linear infinite;
+	    content: "\f104";
+	    color: #f36;
+	}
+	#ceslide.flexslider .flex-direction-nav a.flex-next {
+	    right: 0;
+	}
+	#ceslide.flexslider .flex-direction-nav a.flex-next:before {
+	    content: "\f105";
+	    color: #f36;
+	    -webkit-animation: arrowRt 1.5s linear infinite;
+	    -moz-animation: arrowRt 1.5s linear infinite;
+	    animation: arrowRt 1.5s linear infinite;
+	}
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript">
+    var m_name = 'CES ASIA - 太火鸟-中国火爆的智能硬件孵化平台';
+    var img_url = '{{ app_url_packaged }}/images/promo/ces/zzfx.jpg';
+    var link = '{{ app_url_wap_promo }}/zzces';
+    var desc_str = 'http://m.taihuoniao.com';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+
+  wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: 19, count_name:'count', type: 4, kind:4 });
+  };
+
+      </script>
+{% endblock %}
+
+{% block jquery %}
+    var s=$('#mfrbird').width();
+    $('#ceslide').flexslider({
+		
+		animation: "slide",
+        animationLoop: false,
+        itemWidth: s/2-s/50,
+        directionNav: true, 
+        controlNav: false,
+        animationDuration: 300,
+        prevText: " ",
+        nextText: " ",
+      });
+	
+{% endblock %}
+
+{% block content %}
+	<img src="{{ app_url_packaged }}/images/promo/ces/zzfx.jpg" style="display:none;">
+	<div class="ces">
+		<img src="{{ app_url_packaged }}/images/promo/ces/zmobile_bj.jpg" width="100%">
+
+		<div class="ui news responsive grid">
+			<div class="row">
+				<div class="ui center aligned column plr-0">
+					<h2 class="ui dnews header mb-r">
+						CES Asia 2016最新闻
+					</h2>
+					<img src="{{ app_url_packaged }}/images/promo/ces/zline.png" width="100%">
+					
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="column" id="triespage">
+					<div class="recom-item">
+						<div class="recom-cell">
+							<a href="http://www.taihuoniao.com/topic/view-111868-1.html">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zt1.jpg" />
+								<div class="desc">
+								  	<h2>
+					      			    咨询| 2016年亚洲消费电子展“媒体日”日程安排正式公布
+					            	</h2>
+						  			<div class="excerpt">
+				             			美国消费技术协会今日正式公布2016年亚洲消费电子展官方“媒体日”日程安排。“媒体日”所有活动向亚洲消费电子展预注册媒体开放，时间为5月10日至12日（星期二至星期四）。
+				             		</div>
+				          		</div>
+							</a>
+						</div>
+
+						<div class="recom-cell">
+							<a href="http://www.prnews.cn/press_release/220526.htm">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zt2.jpg">
+								<div class="desc">
+									<h2>
+										智能穿戴 | GEAK Watch智能手表新品或CES Asia提前曝光
+									</h2>
+									<div class="excerpt">
+										亚洲最大的消费电子展会CES Asia即将于5月11日-13日在上海举办。而CES Asia则是CES主办方美国消费技术协会联合上海国际展览中心主办的亚洲消费电子展，今年已经是第二届。
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+
+					<div class="recom-item">
+						<div class="recom-cell">
+							<a href="http://digi.tech.qq.com/a/20160509/025434.htm">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zt3-1.jpg">
+								<div class="desc">
+									<h2>
+										汽车 |　CES2016乐视车联展台揭幕 来看它到底做了啥
+									</h2>
+									<div class="excerpt">
+										美国时间1月6日，CES2016乐视车联展台揭幕，那么在本届CES亚洲大展上，乐视将为我们带来什么劲爆新品呢？
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<div class="recom-cell">
+							<a href="http://sc.stock.cnfol.com/shichangceping/20160509/22718518.shtml">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zt4-1.jpg">
+								<div class="desc">
+									<h2>
+										趋势 | CES Asia2016 前瞻之无人机
+									</h2>
+									<div class="excerpt">
+										CES展会一向被视为消费电子领域的风向标，影响着整个消费电子行业一年的发展动态。2016年5月11-13日，领先的亚洲消费电子展(CES Asia)将在上海新国际博览中心正式拉开帷幕，展示亚洲消费电子领域创新的广度与深度。
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="row p-0">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/promo/ces/zzto.jpg" width="100%">
+				</div>
+			</div>
+
+			<div class="row pt-4r">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/promo/ces/zzw24.jpg" width="100%">
+					
+				</div>
+			</div>
+
+			<div class="row zzwt">
+				<div class="column" id="triespage">
+					<div class="recom-item">
+						<div class="recom-cell">
+							<a href="http://it.sohu.com/20160509/n448442134.shtml">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zt5-1.jpg">
+								<div class="desc">
+									<h2>
+										回顾｜CES Asia 2015精彩回顾 可穿戴设备+无人车
+									</h2>
+									<div class="excerpt">
+										备受业界关注的第二届CES亚洲展(2016年亚洲消费电子展，CES Asia2016)即将于2016年5月11--13日在上海新国际博览中心开幕，本届展会以“互联互通”、“创新”和“物联网”为主题，届时宝马、英特尔、IBM、奥迪、华为等全球知名企业将携3D打印、电子游戏、智能家居、智能车辆技术以及可穿戴产品等15个产品类别亮相。
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<div class="recom-cell">
+							<a href="http://tech.china.com/news/it/11146618/20160509/22608689.html">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zt6-1.jpg">
+								<div class="desc">
+									<h2>
+										未来｜1号店CES Asia前瞻:首现感知型购物场景
+									</h2>
+									<div class="excerpt">
+										5月11日至5月13日，由美国消费技术协会主办的CES Asia在上海新国际博览中心启幕。作为消费技术行业最大的年度盛会之一，CES Asia致力于全方位展示亚洲市场创新产业价值链，共同见证消费技术行业最具代表性的创新成果。
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+
+					<div class="recom-item">
+						<div class="recom-cell">
+							<a href="http://tech.qq.com/a/20160505/047781.htm">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zt7.jpg">
+								<div class="desc">
+									<h2>
+										咨询 | 2016年CES ASIA预注册人数较去年同期增长40%
+									</h2>
+									<div class="excerpt">
+										2016年亚洲消费电子展将以“物联网”、“创新”和“互联互通”为主题，集中展示15大产品类别的最新技术与创新，其中包括3D打印、汽车技术、生活科技、电子游戏等。
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<div class="recom-cell">
+							<a href="http://www.taihuoniao.com/topic/view-111896-1.html">
+								<img src="{{ app_url_packaged }}/images/promo/ces/zt8-1.jpg">
+								<div class="desc">
+									<h2>
+										咨询丨这次的CES Asia有哪些看头？
+									</h2>
+									<div class="excerpt">
+										CES Asia的三个主题是：“互联互通”、“创新”和“物联网”。展商将代表以下15个产品类别，展出包括3D打印、音频产品、内容和在线平台、绿色科技、健康产品、家庭娱乐、生活科技、移动设备、机器人设备、智能家居、健身和运动、汽车技术、视频/4K超高清设备、电子游戏和可穿戴设备等产品和技术。
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+
+			<div id ="ceslide" class="flexslider flex-single">
+				<h2 class="ui header">太火鸟展区展品</h2>
+				
+				<ul class="slides">
+			    	<li style=" ">
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp1.jpg">
+			      	</li>
+				 	<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp2.jpg">
+				  	</li>
+				  	<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp3.jpg">
+				  	</li>
+				 	<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp4.jpg">
+				  	</li>
+				 	<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp5.jpg">
+				  	</li>
+					<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp6.jpg">
+					</li>
+					<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp7.jpg">
+					</li>
+					<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp8.jpg">
+					</li>
+					<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp9.jpg">
+					</li>
+					<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp10.jpg">
+					</li>
+					<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp11.jpg">
+					</li>
+					<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp12.jpg">
+					</li>
+					<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp13.jpg">
+				  	</li>
+				  	<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp14.jpg">
+				  	</li>
+				 	<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp15.jpg">
+				  	</li>
+					<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp16.jpg">
+					</li>
+					<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp17.jpg">
+					</li>
+					<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp18.jpg">
+					</li>
+					<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp19.jpg">
+					</li>
+					<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp20.jpg">
+					</li>
+					<li>
+							<img src="{{ app_url_packaged }}/images/promo/ces/zzp21.jpg">
+					</li>
+			  </ul>
+				
+			</div>
+
+		</div>
+		<img src="{{ app_url_packaged }}/images/promo/ces/zzwbg.jpg" width="100%" align="absmiddle">
+
+	</div>
+
+
+
+
+
+{% endblock %}
+
