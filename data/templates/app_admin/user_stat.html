@@ -30,7 +30,8 @@
           var html = '';
           html += '激活量:'+ data.android_count +"\n";
           html += '注册量:'+ data.android_grow_count +"\n";
-          html += '有效订单:'+ data.order_count;
+          html += '有效订单:'+ data.order_count +"\n";
+          html += '有效金额:'+ data.order_money +"\n";
           alert(html);
         }else{
           phenix.show_error_note(result.message, 3000);

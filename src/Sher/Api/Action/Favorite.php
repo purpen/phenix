@@ -119,15 +119,14 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 							$user = array();
 							if($result['rows'][$k]['sight']['user']){
 								$user['user_id'] = $v['sight']['user']['_id'];
-								$user['account'] = $v['sight']['user']['account'];
 								$user['nickname'] = $v['sight']['user']['nickname'];
 								$user['avatar_url'] = $v['sight']['user']['big_avatar_url'];
 								$user['summary'] = $v['sight']['user']['summary'];
-								$user['counter'] = $v['sight']['user']['counter'];
-								$user['follow_count'] = $v['sight']['user']['follow_count'];
-								$user['fans_count'] = $v['sight']['user']['fans_count'];
-								$user['love_count'] = $v['sight']['user']['love_count'];
-								$user['user_rank'] = $v['sight']['user_ext']['user_rank']['title'];
+								//$user['counter'] = $v['sight']['user']['counter'];
+								//$user['follow_count'] = $v['sight']['user']['follow_count'];
+								//$user['fans_count'] = $v['sight']['user']['fans_count'];
+								//$user['love_count'] = $v['sight']['user']['love_count'];
+                $user['is_expert'] = isset($v['user']['identify']['is_expert']) ? (int)$v['user']['identify']['is_expert'] : 0;
 							}
 							$result['rows'][$k]['sight']['user_info'] = $user;
 							$result['rows'][$k]['sight']['scene_title'] = '';
@@ -154,17 +153,14 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 				$result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
 				$user = array();
 				$user['user_id'] = $result['rows'][$k]['user']['_id'];
-				$user['account'] = $result['rows'][$k]['user']['account'];
 				$user['nickname'] = $result['rows'][$k]['user']['nickname'];
 				$user['avatar_url'] = $result['rows'][$k]['user']['big_avatar_url'];
 				$user['summary'] = $result['rows'][$k]['user']['summary'];
-				$user['counter'] = $result['rows'][$k]['user']['counter'];
-				$user['follow_count'] = $result['rows'][$k]['user']['follow_count'];
-				$user['fans_count'] = $result['rows'][$k]['user']['fans_count'];
-				$user['love_count'] = $result['rows'][$k]['user']['love_count'];
-				$user['user_rank'] = $result['rows'][$k]['user_ext']['user_rank']['title'];
-				unset($result['rows'][$k][$type]);
-				unset($result['rows'][$k]['user_ext']);
+				//$user['counter'] = $result['rows'][$k]['user']['counter'];
+				//$user['follow_count'] = $result['rows'][$k]['user']['follow_count'];
+				//$user['fans_count'] = $result['rows'][$k]['user']['fans_count'];
+				//$user['love_count'] = $result['rows'][$k]['user']['love_count'];
+				$user['is_expert'] = isset($result['rows'][$k]['user']['identify']['is_expert']) ? (int)$result['rows'][$k]['user']['identify']['is_expert'] : 0;
 				
 				$result['rows'][$k]['user'] = $user;
 			}
@@ -223,7 +219,6 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 	public function ajax_cancel_subscription(){
 		
 		$user_id = $this->current_user_id;
-		//$user_id = 10;
 		if(empty($user_id)){
 			return $this->api_json('请先登录！', 3000);
 		}

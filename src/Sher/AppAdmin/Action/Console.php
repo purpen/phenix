@@ -130,15 +130,16 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
 
     // 注册量查询
     // android|ios
-    $current_android_grow_count = $this->fetch_grow_count(2, $channel_id, $star_tmp, $end_tmp);
+    $current_android_grow_count = $this->fetch_grow_count(2, 1, $channel_id, $star_tmp, $end_tmp);
 
     // 有效订单查询
-    $current_order_count = $this->fetch_order_count($channel_id, $star_tmp, $end_tmp);
+    $current_order = $this->fetch_order_count($channel_id, $star_tmp, $end_tmp);
 
     $data = array(
       'android_count' => $current_android_count,
       'android_grow_count' => $current_android_grow_count,
-      'order_count' => $current_order_count,
+      'order_count' => $current_order['count'],
+      'order_money' => $current_order['total_money'],
     );
 
     return $this->ajax_json('success', false, 0, $data);
@@ -157,8 +158,8 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
       $query['created_on'] = array('$gte'=>$star_tmp, '$lte'=>$end_tmp);
     }
 
-    $app_user_record_model = new Sher_Core_Model_AppUserRecord();
-    $count = $app_user_record_model->count($query);
+    $pusher_model = new Sher_Core_Model_Pusher();
+    $count = $pusher_model->count($query);
     return $count;
   }
 
@@ -184,6 +185,10 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
    *  有效订单量
    */
   protected function fetch_order_count($channel_id=0, $star_tmp=0, $end_tmp=0){
+		// 设置不超时
+		set_time_limit(0);
+    $order_model = new Sher_Core_Model_Orders();
+
     $query['status'] = array('$in'=>array(10,15,16,20));
     if($channel_id){
       $query['channel_id'] = $channel_id;
@@ -192,9 +197,37 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
       $query['payed_date'] = array('$gte'=>$star_tmp, '$lte'=>$end_tmp);
     }
 
-    $order_model = new Sher_Core_Model_Orders();
-    $count = $order_model->count($query);
-    return $count;
+		$options = array();
+		$page = 1;
+		$size = 500;
+		
+		$service = Sher_Core_Service_Orders::instance();
+		
+		$is_end = false;
+		$counter = 0;
+    $total_money = 0;
+    $options['size'] = $size;
+		
+		while(!$is_end){
+			$options['page'] = $page;
+			
+			$result = $service->get_latest_list($query, $options);
+			$max = count($result['rows']);
+			for($i=0; $i<$max; $i++){
+				$counter ++;
+        $order = $result['rows'][$i];
+        $total_money += $order['pay_money'];
+			}
+			
+			if($max < $size){
+				$is_end = true;
+				break;
+			}
+			
+			$page++;
+		}
+    return array('count'=>$counter, 'total_money'=>$total_money);
+
   }
 
 	
