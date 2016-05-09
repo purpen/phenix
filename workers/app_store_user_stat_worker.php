@@ -57,11 +57,22 @@ function begin_stat(){
     $total_android_grow_count = fetch_grow_count(2);
     $total_ios_grow_count = fetch_grow_count(1);
 
+    // 获取订单信息
+    // android|ios
+    $current_android_order = fetch_order_count(8, $star_tmp, $end_tmp);
+    $current_ios_order = fetch_order_count(7, $star_tmp, $end_tmp);
+    $total_android_order = fetch_order_count(8);
+    $total_ios_order = fetch_order_count(7);
+
     //查询上一次所在周
     $week_android_count = 0;
     $week_ios_count = 0;
     $week_android_grow_count = 0;
     $week_ios_grow_count = 0;
+    $week_android_order_count = 0;
+    $week_ios_order_count = 0;
+    $week_android_order_money = 0;
+    $week_ios_order_money = 0;
     $current_week = $app_store_user_stat_model->first(array('week'=>$week, 'week_latest'=>1));
     if(!empty($current_week)){
       //周汇总
@@ -69,6 +80,11 @@ function begin_stat(){
       $week_ios_count = $current_week['week_ios_count'];
       $week_android_grow_count = $current_week['week_android_grow_count'];
       $week_ios_grow_count = $current_week['week_ios_grow_count'];
+      // 订单
+      $week_android_order_count = $current_week['week_android_order_count'];
+      $week_ios_order_count = $current_week['week_ios_order_count'];
+      $week_android_order_money = $current_week['week_android_order_money'];
+      $week_ios_order_money = $current_week['week_ios_order_money'];
       //清除最后一周标记
       $app_store_user_stat_model->update_set((string)$current_week['_id'], array('week_latest'=>0));
     }
@@ -78,6 +94,10 @@ function begin_stat(){
     $month_ios_count = 0;
     $month_android_grow_count = 0;
     $month_ios_grow_count = 0;
+    $month_android_order_count = 0;
+    $month_ios_order_count = 0;
+    $month_android_order_money = 0;
+    $month_ios_order_money = 0;
     $current_month = $app_store_user_stat_model->first(array('month'=>$month, 'month_latest'=>1));
     if(!empty($current_month)){
       //月汇总
@@ -85,6 +105,11 @@ function begin_stat(){
       $month_ios_count = $current_month['month_ios_count'];
       $month_android_grow_count = $current_month['month_android_grow_count'];
       $month_ios_grow_count = $current_month['month_ios_grow_count'];
+      // 订单
+      $month_android_order_count = $current_month['month_android_order_count'];
+      $month_ios_order_count = $current_month['month_ios_order_count'];
+      $month_android_order_money = $current_month['month_android_order_money'];
+      $month_ios_order_money = $current_month['month_ios_order_money'];
       //清除最后一月标记
       $app_store_user_stat_model->update_set((string)$current_month['_id'], array('month_latest'=>0));       
     }
@@ -116,11 +141,34 @@ function begin_stat(){
       'week_ios_grow_count' => $current_ios_grow_count+$week_ios_grow_count,
       'month_ios_grow_count' => $current_ios_grow_count+$month_ios_grow_count,
 
+      // 当日/周/月/ 订单数
+      'day_android_order_count' => $current_android_order['count'],
+      'week_android_order_count' => $current_android_order['count']+$week_android_order_count,
+      'month_android_order_count' => $current_android_order['count']+$month_android_order_count,
+
+      'day_ios_order_count' => $current_ios_order['count'],
+      'week_ios_order_count' => $current_ios_order['count']+$week_ios_order_count,
+      'month_ios_order_count' => $current_ios_order['count']+$month_ios_order_count,
+
+      // 当日/周/月/ 订单金额
+      'day_android_order_money' => $current_android_order['total_money'],
+      'week_android_order_money' => $current_android_order['total_money']+$week_android_order_money,
+      'month_android_order_money' => $current_android_order['total_money']+$month_android_order_money,
+
+      'day_ios_order_money' => $current_ios_order['total_money'],
+      'week_ios_order_money' => $current_ios_order['total_money']+$week_ios_order_money,
+      'month_ios_order_money' => $current_ios_order['total_money']+$month_ios_order_money,
+
       // 获取总值
       'total_android_count' => $total_android_count,
       'total_ios_count' => $total_ios_count,
       'total_android_grow_count' => $total_android_grow_count,
       'total_ios_grow_count' => $total_ios_grow_count,
+      // 获取订单总值
+      'total_android_order_count' => $total_android_order['count'],
+      'total_ios_order_count' => $total_ios_order['count'],
+      'total_android_order_money' => $total_android_order['total_money'],
+      'total_ios_order_money' => $total_ios_order['total_money'],
     );
 
     $app_store_user_stat_model->create($data);
@@ -154,6 +202,50 @@ function fetch_grow_count($from_to, $star_tmp=0, $end_tmp=0){
   return $count;
 }
 
+// 获取订单信息
+function fetch_order_count($from_site=0, $star_tmp=0, $end_tmp=0){
+
+  $query['status'] = array('$in'=>array(10,15,16,20));
+  if($from_site){
+    $query['from_site'] = $from_site;
+  }
+  if(!empty($star_tmp) && !empty($end_tmp)){
+    $query['payed_date'] = array('$gte'=>$star_tmp, '$lte'=>$end_tmp);
+  }
+
+  $options = array();
+  $page = 1;
+  $size = 500;
+  
+  $order_model = new Sher_Core_Model_Orders();
+  
+  $is_end = false;
+  $counter = 0;
+  $total_money = 0;
+  $options['size'] = $size;
+  
+  while(!$is_end){
+    $options['page'] = $page;
+    
+    $result = $order_model->find($query, $options);
+    $max = count($result);
+    for($i=0; $i<$max; $i++){
+      $order = $result[$i];
+      $counter ++;
+      $total_money += $order['pay_money'];
+    }
+    
+    if($max < $size){
+      $is_end = true;
+      break;
+    }
+    
+    $page++;
+  } // end while
+  return array('count'=>$counter, 'total_money'=>$total_money);
+
+}
+
 // 每天零晨1点以内，统计一次
 $begin_time = strtotime(sprintf("%s 00:00:00", date('Y-m-d')));
 $end_time = strtotime(sprintf("%s 01:00:00", date('Y-m-d')));
@@ -162,7 +254,7 @@ if($now_time>=$begin_time && $now_time<=$end_time){
   // 开始统计...
   begin_stat();
 }
-
+  begin_stat();
 echo "-------------------------------------------------\n";
 echo "===============APP_STORE_USER_STAT WORKER WAKE DOWN===============\n";
 echo "-------------------------------------------------\n";
