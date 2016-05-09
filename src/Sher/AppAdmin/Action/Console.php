@@ -90,6 +90,27 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
     return $this->to_html_page('app_admin/user_stat.html');
 
   }
+
+  /**
+   * 用户统计删除操作
+   */
+  public function user_stat_delete(){
+    $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+		if(empty($id)){
+			return $this->ajax_note('请求参数为空', true);
+		}
+    $user_id = $this->visitor->id;
+    if(!Sher_Core_Helper_Util::is_high_admin($user_id)){
+ 			return $this->ajax_note('没有执行权限!', true);     
+    }
+		$model = new Sher_Core_Model_AppStoreUserStat();
+		if($model->remove($id)){
+      $model->mock_after_remove($id);
+		}
+		
+		$this->stash['id'] = $id;
+		return $this->to_taconite_page('app_admin/del_ok.html'); 
+  }
 	
 }
 

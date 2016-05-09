@@ -98,6 +98,9 @@ app.send_notice_users: '10|544066'
 # 参与评论投票的话题ID
 app.topic_comment_ids: '108054|108896|109581'
 
+# 高级管理员ID数组
+app.high_admin_ids: '20448|10'
+
 # 评测报告类别
 app.try.report_category_id: 18
 
