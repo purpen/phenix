@@ -120,7 +120,83 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
     $start_date = isset($this->stash['start_date']) ? $this->stash['start_date'] : null;
     $end_date = isset($this->stash['end_date']) ? $this->stash['end_date'] : null;
 
+    $star_tmp = !empty($start_date) ? strtotime($start_date) : 0;
+    $end_tmp = !empty($end_date) ? strtotime($end_date) : 0; 
+
+    // 激活量查询
+    // android|ios
+    $current_android_count = $this->fetch_count(1, 1, $channel_id, $star_tmp, $end_tmp);
+    
+
+    // 注册量查询
+    // android|ios
+    $current_android_grow_count = $this->fetch_grow_count(2, $channel_id, $star_tmp, $end_tmp);
+
+    // 有效订单查询
+    $current_order_count = $this->fetch_order_count($channel_id, $star_tmp, $end_tmp);
+
+    $data = array(
+      'android_count' => $current_android_count,
+      'android_grow_count' => $current_android_grow_count,
+      'order_count' => $current_order_count,
+    );
+
+    return $this->ajax_json('success', false, 0, $data);
+
   }
+
+  /**
+   *  注册量
+   */
+  protected function fetch_grow_count($from_to, $channel_id=0, $star_tmp=0, $end_tmp=0){
+    $query['from_to'] = $from_to;
+    if($channel_id){
+      $query['channel_id'] = $channel_id;
+    }
+    if(!empty($star_tmp) && !empty($end_tmp)){
+      $query['created_on'] = array('$gte'=>$star_tmp, '$lte'=>$end_tmp);
+    }
+
+    $app_user_record_model = new Sher_Core_Model_AppUserRecord();
+    $count = $app_user_record_model->count($query);
+    return $count;
+  }
+
+  /**
+   *  激活量
+   */
+  protected function fetch_count($kind, $device, $channel_id=0, $star_tmp=0, $end_tmp=0){
+    $query['kind'] = $kind;
+    $query['device'] = $device;
+    if($channel_id){
+      $query['channel_id'] = $channel_id;
+    }
+    if(!empty($star_tmp) && !empty($end_tmp)){
+      $query['created_on'] = array('$gte'=>$star_tmp, '$lte'=>$end_tmp);
+    }
+
+    $app_user_record_model = new Sher_Core_Model_AppUserRecord();
+    $count = $app_user_record_model->count($query);
+    return $count;
+  }
+
+  /**
+   *  有效订单量
+   */
+  protected function fetch_order_count($channel_id=0, $star_tmp=0, $end_tmp=0){
+    $query['status'] = array('$in'=>array(10,15,16,20));
+    if($channel_id){
+      $query['channel_id'] = $channel_id;
+    }
+    if(!empty($star_tmp) && !empty($end_tmp)){
+      $query['payed_date'] = array('$gte'=>$star_tmp, '$lte'=>$end_tmp);
+    }
+
+    $order_model = new Sher_Core_Model_Orders();
+    $count = $order_model->count($query);
+    return $count;
+  }
+
 	
 }
 

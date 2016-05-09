@@ -26,7 +26,12 @@
       {channel_id: channel_id, start_date: start_date, end_date: end_date},
       function(result){
         if(result.success){
-          alert(123);
+          var data = result.data;
+          var html = '';
+          html += '激活量:'+ data.android_count +"\n";
+          html += '注册量:'+ data.android_grow_count +"\n";
+          html += '有效订单:'+ data.order_count;
+          alert(html);
         }else{
           phenix.show_error_note(result.message, 3000);
         }
@@ -93,7 +98,7 @@
 				</div>
 
 				<div class="field">
-					<div id="channel-search-btn" class="ui active small green submit button search">搜索</div>
+					<div id="channel-search-btn" class="ui active small green submit button search">查询</div>
 				</div>
 			</div>
 		</form>
