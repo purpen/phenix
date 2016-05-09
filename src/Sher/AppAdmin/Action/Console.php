@@ -125,7 +125,7 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
 
     // 激活量查询
     // android|ios
-    $current_android_count = $this->fetch_count(1, 1, $channel_id, $star_tmp, $end_tmp);
+    $current_android_count = $this->fetch_count(1, $channel_id, $star_tmp, $end_tmp);
     
 
     // 注册量查询
@@ -187,7 +187,6 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
   protected function fetch_order_count($channel_id=0, $star_tmp=0, $end_tmp=0){
 		// 设置不超时
 		set_time_limit(0);
-    $order_model = new Sher_Core_Model_Orders();
 
     $query['status'] = array('$in'=>array(10,15,16,20));
     if($channel_id){
@@ -201,7 +200,7 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
 		$page = 1;
 		$size = 500;
 		
-		$service = Sher_Core_Service_Orders::instance();
+    $order_model = new Sher_Core_Model_Orders();
 		
 		$is_end = false;
 		$counter = 0;
@@ -211,11 +210,11 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
 		while(!$is_end){
 			$options['page'] = $page;
 			
-			$result = $service->get_latest_list($query, $options);
-			$max = count($result['rows']);
+			$result = $order_model->find($query, $options);
+			$max = count($result);
 			for($i=0; $i<$max; $i++){
+        $order = $result[$i];
 				$counter ++;
-        $order = $result['rows'][$i];
         $total_money += $order['pay_money'];
 			}
 			
@@ -225,7 +224,7 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
 			}
 			
 			$page++;
-		}
+		} // end while
     return array('count'=>$counter, 'total_money'=>$total_money);
 
   }
