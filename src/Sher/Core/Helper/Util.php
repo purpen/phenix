@@ -1277,4 +1277,21 @@ class Sher_Core_Helper_Util {
     return $result;
   }
 
+  /**
+   * 判断是否是高级管理员
+   */
+  public static function is_high_admin($user_id){
+    $ids = Doggy_Config::$vars['app.high_admin_ids'];
+    if(empty($ids)){
+      return false;
+    }
+    $id_arr = explode('|', $ids);
+    if(in_array($user_id, $id_arr)){
+      return true;
+    }else{
+      return false;
+    }
+
+  }
+
 }

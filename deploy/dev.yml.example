@@ -99,6 +99,9 @@ app.send_notice_users: '1|5|9'
 # 参与评论投票的话题ID
 app.topic_comment_ids: '37|36'
 
+# 高级管理员ID数组
+app.high_admin_ids: '20448|10'
+
 # 百度推送 token
 baidu_push_token: ''
 

@@ -81,10 +81,10 @@ function begin_stat(){
     $current_month = $app_store_user_stat_model->first(array('month'=>$month, 'month_latest'=>1));
     if(!empty($current_month)){
       //月汇总
-      $month_android_count = $current_week['month_android_count'];
-      $month_ios_count = $current_week['month_ios_count'];
-      $month_android_grow_count = $current_week['month_android_grow_count'];
-      $month_ios_grow_count = $current_week['month_ios_grow_count'];
+      $month_android_count = $current_month['month_android_count'];
+      $month_ios_count = $current_month['month_ios_count'];
+      $month_android_grow_count = $current_month['month_android_grow_count'];
+      $month_ios_grow_count = $current_month['month_ios_grow_count'];
       //清除最后一月标记
       $app_store_user_stat_model->update_set((string)$current_month['_id'], array('month_latest'=>0));       
     }

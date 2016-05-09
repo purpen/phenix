@@ -47,6 +47,7 @@
         <th>周</th>
         <th>月</th>
         <th>总量</th>
+        <th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -81,6 +82,9 @@
           <p>注册量[android|ios]:{{ d.total_android_grow_count }}|{{ d.total_ios_grow_count }}</p>
         </td>
 
+        <td>
+  				<a href="{{ app_url_app_admin_base }}/console/user_stat_delete?id={{ d._id }}" class="ui link item confirm-request">删除</a>      
+        </td>
 			</tr>
 			{% endfor %}
 		</tbody>
