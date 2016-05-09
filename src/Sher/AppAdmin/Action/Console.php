@@ -125,12 +125,11 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
 
     // 激活量查询
     // android|ios
-    $current_android_count = $this->fetch_count(1, $channel_id, $star_tmp, $end_tmp);
-    
+    $current_android_count = $this->fetch_count(1, 1, $channel_id, $star_tmp, $end_tmp);
 
     // 注册量查询
     // android|ios
-    $current_android_grow_count = $this->fetch_grow_count(2, 1, $channel_id, $star_tmp, $end_tmp);
+    $current_android_grow_count = $this->fetch_grow_count(2, $channel_id, $star_tmp, $end_tmp);
 
     // 有效订单查询
     $current_order = $this->fetch_order_count($channel_id, $star_tmp, $end_tmp);
