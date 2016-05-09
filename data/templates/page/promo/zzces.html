@@ -163,16 +163,64 @@
 	    height: 57px;
 	    overflow: hidden;
 	}
+	.ui.join.grid{
+		margin-bottom: 0;
+	}
+	.join h2.dnews.header::before{
+		background: url( {{app_url_packaged}}/images/promo/ces/zmline.png);
+	}
 
 </style>
 </style>
 {% endblock %}
 {% block jquery %}
+	
+	var $lists = $(".example__list"),
+	          $next_btn = $(".example__next"),
+	          $prev_btn = $(".example__prev");
+	    $next_btn.on("click",function(){
+	        if($lists.css("right") =="auto"||$lists.css("right") =="0px"){
+	            $lists.animate({
+	                right:1074
+	            },500);
+	            $prev_btn.addClass("example__prev_active");
+	        }else if($lists.css("right") =="1074px"){
+	            $lists.animate({
+	                right:2148
+	            },500);
+				$prev_btn.addClass("example__prev_active");
+	        }
+			else if($lists.css("right") =="2148px"){
+	            $lists.animate({
+	                right:3222
+	            },500);
+	            $next_btn.removeClass("example__next_active");
+	        }
+	    });
+	    $prev_btn.on("click",function(){
+	        if($lists.css("right") =="1074px"){
+	            $lists.animate({
+	                right: 0
+	            },500);
+	            $prev_btn.removeClass("example__prev_active");
+	        }else if($lists.css("right") =="2148px"){
+	            $lists.animate({
+	                right:1074
+	            },500);
+				$prev_btn.addClass("example__prev_active");
+	        }
+			else if($lists.css("right") =="3222px"){
+	            $lists.animate({
+	                right:2148
+	            },500);
+	            $next_btn.addClass("example__next_active");
+	        }
+	    })
 
 {% endblock %}
 {% block content %}
 <div class="ces">
-	<h2 class="topbg">鸟叔带你看CES</h2>
+	<h2 class="topbg">CES AISA</h2>
 	<section class="ui background white grid">
 		<div class="ui news responsive grid">
 			<div class="row">
@@ -663,6 +711,20 @@
 							</a>
 						</div>
 					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</section>
+
+	<section class="ui background f5f5 join grid">
+		<div class="ui news responsive grid">
+			<div class="row">
+				<div class="ui center aligned column">
+					<h2 class="ui dnews header">
+						太火鸟参展及孵化商品
+					</h2>
 				</div>
 			</div>
 
