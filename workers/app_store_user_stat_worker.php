@@ -254,7 +254,7 @@ if($now_time>=$begin_time && $now_time<=$end_time){
   // 开始统计...
   begin_stat();
 }
-  begin_stat();
+
 echo "-------------------------------------------------\n";
 echo "===============APP_STORE_USER_STAT WORKER WAKE DOWN===============\n";
 echo "-------------------------------------------------\n";
