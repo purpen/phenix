@@ -1,0 +1,677 @@
+{%extends 'layout/column.html'%}
+{% block title %}2016 CES -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.ces{
+		background:#fff;
+	}
+	.ui.background.grid{
+		margin: 0;
+	}
+	.topbg {
+		font-size:0;
+	    height: 500px;
+	    text-indent: -9999em;
+	    background-image: url({{ app_url_packaged }}/images/promo/ces/ztop_bj.jpg);
+	    background-position: top center;
+        background-size: auto 500px;
+        margin-bottom: 1.5rem;
+	}
+	.ui.news.grid{
+		padding-bottom: 1.5rem;
+	}
+	h2.dnews{
+		padding-bottom: 1.785714rem !important;
+		position:relative;
+	}
+	h2.dnews::before{
+		content: '';
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		width: 100%;
+		height: 1.428571rem;
+		background-image:url({{app_url_packaged}}/images/promo/ces/zline.png); 
+	}
+	.news .four.cards .card{
+		box-shadow: none;
+	}
+	.news .four.cards .card a{
+		position: relative;
+	    display: block;
+	    width: 100%;
+	    height: 100%;
+	    background: #fff;
+	    padding-top:66.6667%; 
+	}
+	.news .four.cards .card a img{
+		width: 100%;
+	    height: auto;
+	    overflow: hidden;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	}
+	.news .desc{
+		position: relative;
+	    padding: 12px 10px 0;
+	    height: auto;
+	    border: 1px solid rgba(0,0,0,0.15);
+    	border-top: 0;
+    	border-bottom-left-radius: .28571429rem;
+    	border-bottom-right-radius: .28571429rem;
+	}
+	.news .desc h3{
+		color: #00bac9;
+		overflow: hidden;
+	    text-align: left;
+	    margin: 0;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	    font-size: 1.142857rem;
+	}
+	.news .desc .excerpt{
+		font-size: 1rem;
+		color:#666;
+	    margin: 8px 0 15px;
+	    height: 57px;
+	    overflow: hidden;
+	}
+	.ui.f5f5.grid{
+		background: #f9f9f9;
+		padding-top: 1.5rem;
+		margin-bottom: 1.5rem;
+	}
+	.f5f5 .ui.five.cards .card{
+		box-shadow: none;
+		border-radius: 0 !important;
+		background: rgba(0,0,0,0);
+	}
+	.ui.inbang.grid{
+		padding-bottom: 1.5rem;
+	}
+	.inbang .ui.four.cards{
+		margin: 0;
+	}
+	.inbang .ui.four.cards .card{
+		width: 25%;
+		margin: 0;
+		border-radius: 0 !important;
+		box-shadow: none;
+	}
+	.inbang .ui.four.cards .card:nth-child(2n+1) a{
+		background: #e9e9e9;
+	}
+	.inbang .ui.four.cards .card:nth-child(2n) a{
+		background: #d1d1d1;
+	}
+	.inbang .ui.four.cards .card a {
+	    position: relative;
+	    display: block;
+	    width: 100%;
+	    height: 100%;
+	    padding-top: 60%;
+	    border-radius: 0 !important;
+	}
+	.inbang .ui.four.cards .card a img {
+	    width: 100%;
+	    height: auto;
+	    overflow: hidden;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	}
+	.inbang .ui.four.cards .card a .desc{
+	    position: relative;
+	    padding: 12px 10px 0;
+	    height: auto;
+	}
+	.inbang .ui.four.cards .card a .desc h3 {
+		color: #666;
+	    overflow: hidden;
+	    text-align: left;
+	    margin: 0;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	    font-size: 1.142857rem;
+	    padding-bottom: 0.571429rem;
+    	border-bottom: 1px solid rgba(255,255,255,0.8);
+	}
+	.inbang .ui.four.cards .card a .desc .excerpt {
+	    font-size: 1rem;
+	    color: #666;
+	    margin: 10px 0 15px;
+	    height: 57px;
+	    overflow: hidden;
+	}
+
+</style>
+</style>
+{% endblock %}
+{% block jquery %}
+
+{% endblock %}
+{% block content %}
+<div class="ces">
+	<h2 class="topbg">鸟叔带你看CES</h2>
+	<section class="ui background white grid">
+		<div class="ui news responsive grid">
+			<div class="row">
+				<div class="ui center aligned column">
+					<h2 class="ui dnews header">
+						CES Asia 2016最新闻
+					</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<div class="ui four cards">
+
+						<div class="card">
+							<a class="lazy" href=" " target="_blank">
+								<img src="http://img.zcool.cn/community/01888155c466e932f8755e66167ae9.jpg">
+								<div class="desc">
+									<h3>
+										VR、无人机、自动驾驶技术
+									</h3>
+									<div class="excerpt">
+										与之前的CES、MWC和AWE等大规模展会相似虚拟现实技术、机器人和无人机再次成为展会的焦点话题据美国消费电子展及企业经营战略高级副总裁凯
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<div class="card">
+							<a class="lazy" href=" " target="_blank">
+								<img src="http://img.zcool.cn/community/01888155c466e932f8755e66167ae9.jpg">
+								<div class="desc">
+									<h3>
+										VR、无人机、自动驾驶技术
+									</h3>
+									<div class="excerpt">
+										与之前的CES、MWC和AWE等大规模展会相似虚拟现实技术、机器人和无人机再次成为展会的焦点话题据美国消费电子展及企业经营战略高级副总裁凯
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<div class="card">
+							<a class="lazy" href=" " target="_blank">
+								<img src="http://img.zcool.cn/community/01888155c466e932f8755e66167ae9.jpg">
+								<div class="desc">
+									<h3>
+										VR、无人机、自动驾驶技术
+									</h3>
+									<div class="excerpt">
+										与之前的CES、MWC和AWE等大规模展会相似虚拟现实技术、机器人和无人机再次成为展会的焦点话题据美国消费电子展及企业经营战略高级副总裁凯
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<div class="card">
+							<a class="lazy" href=" " target="_blank">
+								<img src="http://img.zcool.cn/community/01888155c466e932f8755e66167ae9.jpg">
+								<div class="desc">
+									<h3>
+										VR、无人机、自动驾驶技术
+									</h3>
+									<div class="excerpt">
+										与之前的CES、MWC和AWE等大规模展会相似虚拟现实技术、机器人和无人机再次成为展会的焦点话题据美国消费电子展及企业经营战略高级副总裁凯
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<div class="card">
+							<a class="lazy" href=" " target="_blank">
+								<img src="http://img.zcool.cn/community/01888155c466e932f8755e66167ae9.jpg">
+								<div class="desc">
+									<h3>
+										VR、无人机、自动驾驶技术
+									</h3>
+									<div class="excerpt">
+										与之前的CES、MWC和AWE等大规模展会相似虚拟现实技术、机器人和无人机再次成为展会的焦点话题据美国消费电子展及企业经营战略高级副总裁凯
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<div class="card">
+							<a class="lazy" href=" " target="_blank">
+								<img src="http://img.zcool.cn/community/01888155c466e932f8755e66167ae9.jpg">
+								<div class="desc">
+									<h3>
+										VR、无人机、自动驾驶技术
+									</h3>
+									<div class="excerpt">
+										与之前的CES、MWC和AWE等大规模展会相似虚拟现实技术、机器人和无人机再次成为展会的焦点话题据美国消费电子展及企业经营战略高级副总裁凯
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<div class="card">
+							<a class="lazy" href=" " target="_blank">
+								<img src="http://img.zcool.cn/community/01888155c466e932f8755e66167ae9.jpg">
+								<div class="desc">
+									<h3>
+										VR、无人机、自动驾驶技术
+									</h3>
+									<div class="excerpt">
+										与之前的CES、MWC和AWE等大规模展会相似虚拟现实技术、机器人和无人机再次成为展会的焦点话题据美国消费电子展及企业经营战略高级副总裁凯
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<div class="card">
+							<a class="lazy" href=" " target="_blank">
+								<img src="http://img.zcool.cn/community/01888155c466e932f8755e66167ae9.jpg">
+								<div class="desc">
+									<h3>
+										VR、无人机、自动驾驶技术
+									</h3>
+									<div class="excerpt">
+										与之前的CES、MWC和AWE等大规模展会相似虚拟现实技术、机器人和无人机再次成为展会的焦点话题据美国消费电子展及企业经营战略高级副总裁凯
+									</div>
+								</div>
+							</a>
+						</div>
+
+
+					</div>
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/promo/ces/ztopic.png" width="100%" align="absmiddle">
+				</div>
+			</div>
+
+
+		</div>
+	</section> 
+
+	<section class="ui background f5f5 grid">
+		<div class="ui news responsive grid">
+			<div class="row">
+				<div class="ui center aligned column">
+					<h2 class="ui dnews header">
+						CES Asia 2016创新奖
+					</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<div class="ui five cards">
+						<div class="card">
+							<img src="{{ app_url_packaged }}/images/promo/ces/zc1.jpg" width="100%" align="absmiddle">
+						</div>
+						<div class="card">
+							<img src="{{ app_url_packaged }}/images/promo/ces/zc2.jpg" width="100%" align="absmiddle">
+						</div>
+						<div class="card">
+							<img src="{{ app_url_packaged }}/images/promo/ces/zc3.jpg" width="100%" align="absmiddle">
+						</div>
+						<div class="card">
+							<img src="{{ app_url_packaged }}/images/promo/ces/zc4.jpg" width="100%" align="absmiddle">
+						</div>
+						<div class="card">
+							<img src="{{ app_url_packaged }}/images/promo/ces/zc5.jpg" width="100%" align="absmiddle">
+						</div>
+						<div class="card">
+							<img src="{{ app_url_packaged }}/images/promo/ces/zc6.jpg" width="100%" align="absmiddle">
+						</div>
+						<div class="card">
+							<img src="{{ app_url_packaged }}/images/promo/ces/zc7.jpg" width="100%" align="absmiddle">
+						</div>
+						<div class="card">
+							<img src="{{ app_url_packaged }}/images/promo/ces/zc8.jpg" width="100%" align="absmiddle">
+						</div>
+						<div class="card">
+							<img src="{{ app_url_packaged }}/images/promo/ces/zc9.jpg" width="100%" align="absmiddle">
+						</div>
+						<div class="card">
+							<img src="{{ app_url_packaged }}/images/promo/ces/zc10.jpg" width="100%" align="absmiddle">
+						</div>
+						<div class="card">
+							<img src="{{ app_url_packaged }}/images/promo/ces/zc11.jpg" width="100%" align="absmiddle">
+						</div>
+						<div class="card">
+							<img src="{{ app_url_packaged }}/images/promo/ces/zc12.jpg" width="100%" align="absmiddle">
+						</div>
+						<div class="card">
+							<img src="{{ app_url_packaged }}/images/promo/ces/zc13.jpg" width="100%" align="absmiddle">
+						</div>
+						<div class="card">
+							<img src="{{ app_url_packaged }}/images/promo/ces/zc14.jpg" width="100%" align="absmiddle">
+						</div>
+						<div class="card">
+							<img src="{{ app_url_packaged }}/images/promo/ces/zc15.jpg" width="100%" align="absmiddle">
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+	<section class="ui background inbang white grid">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+				<img src="{{ app_url_packaged }}/images/promo/ces/z24.png" width="100%" align="absmiddle">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="column">
+					<div class="ui four cards">
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=1473913379,3169931306&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=3275058382,1408995783&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=1473913379,3169931306&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=3275058382,1408995783&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=3275058382,1408995783&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=1473913379,3169931306&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=3275058382,1408995783&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=1473913379,3169931306&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+
+						
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="column">
+				<img src="{{ app_url_packaged }}/images/promo/ces/z48.png" width="100%" align="absmiddle">
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<div class="ui four cards">
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=1473913379,3169931306&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=3275058382,1408995783&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=1473913379,3169931306&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=3275058382,1408995783&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=3275058382,1408995783&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=1473913379,3169931306&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=3275058382,1408995783&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=1473913379,3169931306&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="column">
+				<img src="{{ app_url_packaged }}/images/promo/ces/z72.png" width="100%" align="absmiddle">
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<div class="ui four cards">
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=1473913379,3169931306&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=3275058382,1408995783&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=1473913379,3169931306&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=3275058382,1408995783&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=3275058382,1408995783&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=1473913379,3169931306&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=3275058382,1408995783&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+						<div class="card">
+							<a href="">
+								<img src="http://img3.imgtn.bdimg.com/it/u=1473913379,3169931306&fm=11&gp=0.jpg">
+								<div class="desc">
+									<h3>联想Y900旗舰游戏本</h3>
+									<div class="excerpt">
+										Y系列本本特有的背脊棱线、表面纹理乃至Y字红色LED Logo又体现了Y900的深厚家学渊源，其红黑配色提醒着我们……[详细]
+									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</section>
+
+
+
+
+
+</div>
+{% endblock %}
