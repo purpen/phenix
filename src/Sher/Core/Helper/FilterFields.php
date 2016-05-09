@@ -16,7 +16,7 @@ class Sher_Core_Helper_FilterFields {
         'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,
         'created_on'=>1,'email'=>1,'birthday'=>1,'medium_avatar_url'=>1, 'identify'=>1,
         'follow_count'=>1,'fans_count'=>1,'scene_count'=>1,'sight_count'=>1,'counter'=>1,
-        
+        'subscription_count'=>1,'sight_love_count'=>1,
         );
 		
         // 重建数据结果
@@ -29,35 +29,45 @@ class Sher_Core_Helper_FilterFields {
         
         // 把profile提出来
         foreach($data['profile'] as $k=>$v){
-          $data[$k] = $v;
+            $data[$k] = $v;
         }
         unset($data['profile']);
 
         if(!isset($data['weixin'])){
-          $data['weixin'] = null;   
+            $data['weixin'] = null;   
         }
         if(!isset($data['im_qq'])){
-          $data['im_qq'] = null;   
+            $data['im_qq'] = null;   
         }
 
         if(!isset($data['province_id'])){
-          $data['province_id'] = 0;
+            $data['province_id'] = 0;
         }
         if(!isset($data['district_id'])){
-          $data['district_id'] = 0;
+            $data['district_id'] = 0;
         }
         if(!isset($data['follow_count'])){
-          $data['follow_count'] = 0;
+            $data['follow_count'] = 0;
         }
         if(!isset($data['fans_count'])){
-          $data['fans_count'] = 0;
+            $data['fans_count'] = 0;
         }
         if(!isset($data['scene_count'])){
-          $data['scene_count'] = 0;
+            $data['scene_count'] = 0;
         }
         if(!isset($data['sight_count'])){
-          $data['sight_count'] = 0;
+            $data['sight_count'] = 0;
         }
+        if(!isset($data['subscription_count'])){
+            $data['subscription_count'] = 0;
+        }
+        if(!isset($data['sight_love_count'])){
+            $data['sight_love_count'] = 0;
+        }
+
+        // 省份城市字符串输出
+        $areas_arr = Sher_Core_Helper_Util::fetch_city($data['province_id'], $data['district_id']);
+        $data['areas'] = !empty($areas_arr) ? $areas_arr : array();
     
         if(!isset($data['identify'])){
             if(!isset($data['identify']['is_scene_subscribe'])){
@@ -68,10 +78,10 @@ class Sher_Core_Helper_FilterFields {
         $data['counter']['message_count'] = isset($data['counter']['message_count']) ? $data['counter']['message_count'] : 0;
         $data['counter']['fiu_comment_count'] = isset($data['counter']['fiu_comment_count']) ? $data['counter']['fiu_comment_count'] : 0;
         $data['counter']['fiu_notice_count'] = isset($data['counter']['fiu_notice_count']) ? $data['counter']['fiu_notice_count'] : 0;
-        $data['counter']['sight_love_count'] = isset($data['counter']['sight_love_count']) ? $data['counter']['sight_love_count'] : 0;
+        $data['counter']['fiu_alert_count'] = isset($data['counter']['fiu_alert_count']) ? $data['counter']['fiu_alert_count'] : 0;
 
         // 总消息数量
-        $data['counter']['message_total_count'] = $data['counter']['message_count'] + $data['counter']['fiu_comment_count'] + $data['counter']['fiu_notice_count'] + $data['counter']['sight_love_count'];
+        $data['counter']['message_total_count'] = $data['counter']['message_count'] + $data['counter']['fiu_comment_count'] + $data['counter']['fiu_notice_count'] + $data['counter']['fiu_alert_count'];
 
         // 订单
         $data['counter']['order_wait_payment'] = isset($data['counter']['order_wait_payment']) ? $data['counter']['order_wait_payment'] : 0;

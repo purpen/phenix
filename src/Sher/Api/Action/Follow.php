@@ -20,8 +20,6 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 	 */
 	public function get_list(){
 		
-		// user_id=10
-		
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:100;
 		
@@ -67,6 +65,7 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 		// 开启查询
         $service = Sher_Core_Service_Follow::instance();
         $result = $service->get_follow_list($query, $options);
+		$follow_model = new Sher_Core_Model_Follow();
 		
 		//var_dump($result);die;
 		// 重建数据结果
@@ -82,6 +81,12 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
                     $follow['summary'] = isset($result['rows'][$k]['follow']['summary']) ? $result['rows'][$k]['follow']['summary'] : '';
                     $follow['follow_ext']['rank_point'] = $result['rows'][$k]['follow_ext']['rank_point'];
                     $follow['follow_ext']['user_rank'] = $result['rows'][$k]['follow_ext']['user_rank']['title'];
+					
+					// 判断是否被关注
+					$follow['is_love'] = 0;
+					if($follow_model->has_exist_ship($this->current_user_id, $follow['user_id'])){
+						$follow['is_love'] = 1;
+					}
                 }
             }else if($find_type == 2){
                 // 自己的粉丝
@@ -93,6 +98,12 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
                     $follow['summary'] = isset($result['rows'][$k]['fans']['summary']) ? $result['rows'][$k]['fans']['summary'] : '';
                     $follow['fans_ext']['rank_point'] = $result['rows'][$k]['fans_ext']['rank_point'];
                     $follow['fans_ext']['user_rank'] = $result['rows'][$k]['fans_ext']['user_rank']['title'];
+					
+					// 判断是否被关注
+					$follow['is_love'] = 0;
+					if($follow_model->has_exist_ship($this->current_user_id, $follow['user_id'])){
+						$follow['is_love'] = 1;
+					}
                 }
             }
             $result['rows'][$k]['follows'] = $follow;
@@ -112,7 +123,7 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 	public function ajax_follow(){
 		
 		$user_id = $this->current_user_id;
-		
+		//$user_id = 10;
 		if(empty($user_id)){
 			return $this->api_json('请先登录！', 3000);
 		}
@@ -147,7 +158,11 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
                     $is_both = true;
                 }
                 
-                $model->create($data);
+                $ok = $model->create($data);
+				
+				if(!$ok){
+					return $this->api_json('更新失败！', 3001);
+				}
                 
                 // 更新关注数、粉丝数
                 $user_model->inc_counter('fans_count', $follow_id);
@@ -159,7 +174,7 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
                     $update['user_id'] = (int)$follow_id;
                     $update['follow_id'] = (int)$user_id;
                     
-                    $ship->update_set($update,$some_data);
+                    $model->update_set($update,$some_data);
                 }
             }
 		}catch(Sher_Core_Model_Exception $e){
@@ -189,11 +204,17 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 		try{
 			
 			$model = new Sher_Core_Model_Follow();
+			$is_both = false;
 			if($model->has_exist_ship($user_id,$follow_id)){
-                $query['user_id'] = (int)$user_id;
+                
+				$query['user_id'] = (int)$user_id;
                 $query['follow_id'] = (int)$follow_id;
     
-                $model->remove($query);
+                $ok = $model->remove($query);
+				
+				if(!$ok){
+					return $this->api_json('操作失败！', 3001);
+				}
                 
                 // 更新关注数、粉丝数
                 $user_model = new Sher_Core_Model_User();
@@ -201,11 +222,13 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
                 $user_model->dec_counter('follow_count', $user_id);
     
                 // 更新粉丝相互关注状态
-                $some_data['type'] = Sher_Core_Model_Follow::ONE_TYPE;
-                $update['user_id'] = (int)$follow_id;
-                $update['follow_id'] = (int)$user_id;
-                
-                $model->update_set($update,$some_data);
+				if($model->has_exist_ship($follow_id,$user_id)){
+					$some_data['type'] = Sher_Core_Model_Follow::ONE_TYPE;
+					$update['user_id'] = (int)$follow_id;
+					$update['follow_id'] = (int)$user_id;
+					
+					$model->update_set($update,$some_data);
+				}
             }
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3003);

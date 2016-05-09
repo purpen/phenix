@@ -11,7 +11,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
         'size' => 10,
 	);
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view','save','delete');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view');
 
 	/**
 	 * 入口
@@ -82,7 +82,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		foreach($result['rows'] as $k => $v){
 			
 			// 返回品牌大小类型
-			$result['rows'][$k]['brands_size_type'] = 0;
+			$result['rows'][$k]['brands_size_type'] = 1;
 			if(isset($every_count) && $every_count){
 				if($v['used_count']>=0 && $v['used_count'] < $every_count){
 					$result['rows'][$k]['brands_size_type'] = 1;
@@ -104,6 +104,37 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		
 		//var_dump($result['rows']);die;
 		return $this->api_json('请求成功', 0, $result);
+	}
+	
+	/*
+	 * 品牌详情
+	 */
+	public function view(){
+		
+		$id = isset($this->stash['id']) ? $this->stash['id'] : '';
+		//$id = '56cff82316c149a0066d5648';
+		
+		if (empty($id)) {
+            return $this->api_json('请求失败，缺少必要参数!', 3001);
+        }
+		
+		$model = new Sher_Core_Model_SceneBrands();
+		$result  = $model->extend_load($id);
+		
+		if (!$result) {
+            return $this->api_json('请求内容为空!', true);
+        }
+		
+		$data = array();
+		$data['_id'] = (string)$result['_id'];
+		$data['title'] = $result['title'];
+		$data['des'] = $result['des'];
+		$data['used_count'] = $result['used_count'];
+		$data['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
+		$data['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
+		
+		//var_dump($data);die;
+		return $this->api_json('请求成功', 0, $data);
 	}
 }
 

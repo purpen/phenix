@@ -106,62 +106,54 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		
 		$profile = array();
 		if(isset($this->stash['job']) && !empty($this->stash['job'])){
-		  $profile['job'] = $this->stash['job'];
+		  $data['profile.job'] = $this->stash['job'];
 		}
 		if(isset($this->stash['company']) && !empty($this->stash['company'])){
-		  $profile['company'] = $this->stash['company'];
+		  $data['profile.company'] = $this->stash['company'];
 		}
 		if(isset($this->stash['phone']) && !empty($this->stash['phone'])){
-		  $profile['phone'] = $this->stash['phone'];
+		  $data['profile.phone'] = $this->stash['phone'];
 		}
 		if(isset($this->stash['address']) && !empty($this->stash['address'])){
-		  $profile['address'] = $this->stash['address'];
+		  $data['profile.address'] = $this->stash['address'];
 		}
 		if(isset($this->stash['realname']) && !empty($this->stash['realname'])){
-		  $profile['realname'] = $this->stash['realname'];
+		  $data['profile.realname'] = $this->stash['realname'];
 		}
 		if(isset($this->stash['province_id']) && !empty($this->stash['province_id'])){
-		  $profile['province_id'] = (int)$this->stash['province_id'];
+		  $data['profile.province_id'] = (int)$this->stash['province_id'];
 		}
 		if(isset($this->stash['district_id']) && !empty($this->stash['district_id'])){
-		  $profile['district_id'] = (int)$this->stash['district_id'];
+		  $data['profile.district_id'] = (int)$this->stash['district_id'];
 		}
 		if(isset($this->stash['zip']) && !empty($this->stash['zip'])){
-		  $profile['zip'] = $this->stash['zip'];
+		  $data['profile.zip'] = $this->stash['zip'];
 		}
 		if(isset($this->stash['im_qq']) && !empty($this->stash['im_qq'])){
-		  $profile['im_qq'] = $this->stash['im_qq'];
+		  $data['profile.im_qq'] = $this->stash['im_qq'];
 		}
 		if(isset($this->stash['weixin']) && !empty($this->stash['weixin'])){
-		  $profile['weixin'] = $this->stash['weixin'];
+		  $data['profile.weixin'] = $this->stash['weixin'];
 		}
 		if(isset($this->stash['birthday']) && !empty($this->stash['birthday'])){
 		  $age_arr = explode('-', $this->stash['birthday']);
-		  $profile['age'] = $age_arr;
-		}
-			
-		if(!empty($profile)){
-			  $user_info['profile'] = $profile;
+		  $data['profile.age'] = $age_arr;
 		}
 			
 		if(isset($this->stash['nickname']) && !empty($this->stash['nickname'])){
-		  $user_info['nickname'] = (int)$this->stash['nickname'];
+		  $data['nickname'] = (int)$this->stash['nickname'];
 		}
 		if(isset($this->stash['sex'])){
-		  $user_info['sex'] = (int)$this->stash['sex'];
+		  $data['sex'] = (int)$this->stash['sex'];
 		}
 		if(isset($this->stash['city']) && !empty($this->stash['city'])){
-		  $user_info['city'] = $this->stash['city'];
+		  $data['city'] = $this->stash['city'];
 		}
 		if(isset($this->stash['email']) && !empty($this->stash['email'])){
-		  $user_info['email'] = $this->stash['email'];
+		  $data['email'] = $this->stash['email'];
 		}
 		if(isset($this->stash['summary']) && !empty($this->stash['summary'])){
-		  $user_info['summary'] = $this->stash['summary'];
-		}
-	
-		if(empty($user_info)){
-			return $this->api_json('请求参数不能为空！', 3001);    
+		  $data['summary'] = $this->stash['summary'];
 		}
 		
 		try {
@@ -177,13 +169,13 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
         if(!$user->_check_name($this->stash['nickname'], $user_id)){
           return $this->api_json('用户昵称已被占用！', 3003);
         }
-			  $user_info['nickname'] = $this->stash['nickname'];
+			  $data['nickname'] = $this->stash['nickname'];
       }
 
 	    //更新基本信息
-			$user_info['_id'] = $user_id;
+			//$user_info['_id'] = $user_id;
 			
-			$ok = $user->apply_and_update($user_info);
+			$ok = $user->update_set($user_id, $data);
       if($ok){
         $user_data = $user->load($user_id);
         // 过滤用户字段
@@ -309,7 +301,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		}
 		try {
 			// 关闭订单
-			$model->canceled_order($order_info['_id']);
+			$model->canceled_order($order_info['_id'], array('user_id'=>$order_info['user_id']));
     } catch (Sher_Core_Model_Exception $e) {
  		  return $this->api_json('取消订单失败:'.$e->getMessage(), 3004);   
     }
@@ -487,13 +479,14 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
       return $this->api_json('没有权限!', 3003);   
     }
 
-    // 允许关闭订单状态数组
+    // 允许删除订单状态数组
     $allow_stat_arr = array(
       Sher_Core_Util_Constant::ORDER_EXPIRED,
       Sher_Core_Util_Constant::ORDER_CANCELED,
       Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT,
-      Sher_Core_Util_Constant::ORDER_EVALUATE,
+      //Sher_Core_Util_Constant::ORDER_EVALUATE,
       Sher_Core_Util_Constant::ORDER_PUBLISHED,
+      Sher_Core_Util_Constant::ORDER_REFUND_DONE,
     );
     if(!in_array($order['status'], $allow_stat_arr)){
       return $this->api_json('该订单状态不允许删除!', 3004);     
@@ -828,11 +821,135 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 				return $this->api_json('保存失败,请重新提交', 4002);
 			}
 			
+			
+			$asset_model = new Sher_Core_Model_Asset();
+			$asset = $asset_model->extend_load($data['head_pic']);
+			if($asset){
+				$data['head_pic_url'] = $asset['thumbnails']['huge']['view_url'];
+			}
+			
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('保存失败:'.$e->getMessage(), 4002);
 		}
 		
-		return $this->api_json('提交成功', 0, array('current_user_id'=>$user_id));
+		return $this->api_json('提交成功', 0, array('head_pic_url'=>$data['head_pic_url']));
 	}
+
+  /**
+   * 评论我的列表
+   */
+	public function comment_list(){
+
+    $user_id = $this->current_user_id;
+		
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
+		// 请求参数
+		$target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : 0;
+		$target_user_id = isset($this->stash['target_user_id']) ? (int)$this->stash['target_user_id'] : 0;
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 12;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+
+		if(empty($target_id) && empty($target_user_id)){
+			return $this->api_json('获取数据错误,请重新提交', 3000);
+		}
+		
+		if(empty($type)){
+			return $this->api_json('获取数据错误,请重新提交', 3000);
+		}
+		 
+		$query   = array();
+		$options = array();
+
+		//显示的字段
+		$options['some_fields'] = array(
+		  '_id'=>1, 'user_id'=>1, 'content'=>1, 'star'=>1, 'target_id'=>1, 'target_user_id'=>1, 'sku_id'=>1,
+		  'deleted'=>1, 'reply_user_id'=>1, 'floor'=>1, 'type'=>1, 'sub_type'=>1, 'user'=>1, 'target_user'=>1,
+		  'love_count'=>1, 'invented_love_count'=>1, 'is_reply'=>1, 'reply_id'=>1, 'created_on'=>1, 'updated_on'=>1,
+		  'created_at'=>1, 'reply_comment'=>1,
+		);
+		
+		// 查询条件
+		if ($target_user_id) {
+			$query['target_user_id'] = (int)$target_user_id;
+		}
+		
+		if ($target_id) {
+			$query['target_id'] = (string)$target_id;
+		}
+		
+		if ($type) {
+			$query['type'] = (int)$type;
+		}
+		
+		// 分页参数
+		$options['page'] = $page;
+		$options['size'] = $size;
+
+		// 排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'earliest';
+				break;
+			case 1:
+				$options['sort_field'] = 'latest';
+				break;
+			case 2:
+				$options['sort_field'] = 'hotest';
+				break;
+		}
+
+		// 开启查询
+		$service = Sher_Core_Service_Comment::instance();
+		$result = $service->get_comment_list($query,$options);
+
+    $scene_sight_model = new Sher_Core_Model_SceneSight();
+
+		// 重建数据结果
+		$data = array();
+		for($i=0;$i<count($result['rows']);$i++){
+			foreach($options['some_fields'] as $key=>$val){
+					  $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : null;
+				  }
+			$data[$i]['_id'] = (string)$data[$i]['_id'];
+			if($data[$i]['user']){
+			  $data[$i]['user'] = Sher_Core_Helper_FilterFields::user_list($data[$i]['user']);
+			}
+			if($data[$i]['target_user']){
+			  $data[$i]['target_user'] = Sher_Core_Helper_FilterFields::user_list($data[$i]['target_user']);
+			}
+      if($data[$i]['reply_comment']){
+        $data[$i]['reply_user_nickname'] = $data[$i]['reply_comment']['user']['nickname'];
+        //$data[$i]['reply_comment']['user'] = Sher_Core_Helper_FilterFields::user_list($data[$i]['reply_comment']['user']);
+      }else{
+        $data[$i]['reply_user_nickname'] = null;
+      }
+
+      // 场景信息
+      $data[$i]['target_small_cover_url'] = null;
+      $data[$i]['target_title'] = null;
+      if($data[$i]['type']==Sher_Core_Model_Comment::TYPE_SCENE_SIGHT){
+        $scene_sight = $scene_sight_model->extend_load((int)$data[$i]['target_id']);
+        if(!empty($scene_sight)){
+          $data[$i]['target_title'] = $scene_sight['title'];
+          $data[$i]['target_small_cover_url'] = $scene_sight['cover']['thumbnails']['mini']['view_url'];
+        }
+      }
+		}
+		$result['rows'] = $data;
+
+    //清空评论提醒数量
+    if($page==1){
+      $user_model = new Sher_Core_Model_User();
+      $user = $user_model->load($user_id);
+      if($user && isset($user['counter']['fiu_comment_count']) && $user['counter']['fiu_comment_count']>0){
+        $user_model->update_counter($user_id, 'fiu_comment_count');
+      }
+    }
+
+		return $this->api_json('请求成功', 0, $result);
+	}
+
+
 }
 

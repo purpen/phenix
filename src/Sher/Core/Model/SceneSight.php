@@ -58,6 +58,8 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		# app 浏览数
 		'app_view_count' => 0,
 		
+    # 推荐
+    'stick' => 0,
 		# 精选
 		'fine'  => 0,
 		# 审核
@@ -69,14 +71,13 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 	protected $required_fields = array('title');
 	protected $int_fields = array('status', 'used_count','love_count','comment_count');
 	protected $float_fields = array();
-	protected $counter_fields = array('used_count','view_count','love_count','comment_count','true_view_count');
+	protected $counter_fields = array('used_count','view_count','love_count','comment_count','true_view_count','app_view_count','web_view_count','wap_view_count');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
 		'cover' =>  array('cover_id' => 'Sher_Core_Model_Asset'),
 		'scene' =>  array('scene_id' => 'Sher_Core_Model_SceneScene'),
 		'user' =>   array('user_id' => 'Sher_Core_Model_User'),
-		'user_ext' =>   array('user_id' => 'Sher_Core_Model_UserExtState'),
 	);
 	
 	/**
@@ -98,28 +99,34 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 	 */
     protected function after_save(){
 		
-		$model = new Sher_Core_Model_SceneTags();
-		$model->scene_count($this->data['tags'],array('total_count','sight_count'),1);
+      // 如果是新的记录
+      if($this->insert_mode) {
+        $model = new Sher_Core_Model_SceneTags();
+        $model->scene_count($this->data['tags'],array('total_count','sight_count'),1);
+        
+        $model = new Sher_Core_Model_User();
+        $model->inc_counter('sight_count',(int)$this->data['user_id']);
+        
+        $model = new Sher_Core_Model_SceneScene();
+        $model->inc_counter('sight_count',1,$this->data['scene_id']);
+
+        // 更新全文索引
+        Sher_Core_Helper_Search::record_update_to_dig($this->data['_id'], 5);
+        
+        // 关联为场景产品关联表增加数据
+        $model = new Sher_Core_Model_SceneProductLink();
+        $product = $this->data['product'];
+        if(count($product)){
+          foreach($product as $k => $v){
+            $data = array();
+            $data['sight_id'] = (int)$this->data['_id'];
+            $data['product_id'] = $v['id'];
+            $model->insert($data);
+          }
+        }
+      }
 		
-		$model = new Sher_Core_Model_User();
-		$model->inc_counter('sight_count',$this->data['user_id']);
-		
-		$model = new Sher_Core_Model_SceneScene();
-		$model->inc_counter('sight_count',1,$this->data['scene_id']);
-		
-		// 关联为场景产品关联表增加数据
-		$model = new Sher_Core_Model_SceneProductLink();
-		$product = $this->data['product'];
-		if(count($product)){
-			foreach($product as $k => $v){
-				$data = array();
-				$data['sight_id'] = (int)$this->data['_id'];
-				$data['product_id'] = $v['id'];
-				$model->insert($data);
-			}
-		}
-		
-        parent::after_save();
+      parent::after_save();
     }
 	
 	/**
@@ -179,7 +186,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 
     // 减少用户创建数量
     $user_model = new Sher_Core_Model_User();
-    $user_model->dec_counter('sight_count',$options['user_id']);
+    $user_model->dec_counter('sight_count', $options['user_id']);
 
     // 删除索引
     Sher_Core_Util_XunSearch::del_ids('sight_'.(string)$id);

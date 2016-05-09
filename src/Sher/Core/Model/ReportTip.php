@@ -13,15 +13,22 @@ class Sher_Core_Model_ReportTip extends Sher_Core_Model_Base  {
     const T_TYPE_SCENE = 3;
     const T_TYPE_SIGHT = 4;
     const T_TYPE_USER = 5;
+    
+    // 设备来源
+    
+    const FORM_WEB_SOURCE = 1;
+    const FORM_WAP_SOURCE = 2;
+    const FORM_IOS_SOURCE = 3;
+    const FORM_ANDROID_SOURCE = 4;
+    const FORM_IPAD_SOURCE = 5;
+    
+    // 应用来源
+    const APP_WEB_SOURCE = 1;
+    const APP_SHOP_SOURCE = 2;
+    const APP_FIU_SOURCE = 3;
 
     //类型: 1,举报
     const KIND = 1;
-    
-    /*
-     *1、色情暴力；
-     *2、盗图；
-     *3、广告/欺诈信息 
-     */
 	
     protected $schema = array(
         // 举报内容关联ID
@@ -39,15 +46,19 @@ class Sher_Core_Model_ReportTip extends Sher_Core_Model_Base  {
         'user_id' => 0,
         // 类型:1,举报;
         'kind'  => 1,
-        //举报原因:1,侵权
+        //举报原因:1,色情暴力；2.盗图；3.广告/欺诈信息;4.－－
         'evt' => 1,
+        // 设备来源
+        'from_to' => self::FORM_WEB_SOURCE,
+        // 应用来源
+        'application' => self::APP_WEB_SOURCE,
         // 是否处理
 		'status' => 0,
   	);
 
-    protected $required_fields = array('target_id', 'user_id');
+    protected $required_fields = array('target_id', 'user_id','from_to','application');
 
-    protected $int_fields = array('status', 'user_id', 'kind', 'evt', 'target_type', 'target_user_id');
+    protected $int_fields = array('status', 'user_id', 'kind', 'evt', 'target_type', 'target_user_id', 'from_to','application');
 
     protected $joins = array(
         'user'  => array('user_id'  => 'Sher_Core_Model_User'),
@@ -65,6 +76,82 @@ class Sher_Core_Model_ReportTip extends Sher_Core_Model_Base  {
         if(isset($row['remark'])){
             $row['strip_remark'] = strip_tags(htmlspecialchars_decode($row['remark']));
         }
+
+    // 举报目标
+    switch($row['target_type']){
+      case 1:
+        $row['target_type_label'] = '投票';
+        break;
+      case 2:
+        $row['target_type_label'] = '灵感';
+        break;
+      case 3:
+        $row['target_type_label'] = '情景';
+        break;
+      case 4:
+        $row['target_type_label'] = '场景';
+        break;
+      case 5:
+        $row['target_type_label'] = '用户';
+        break;
+      default:
+        $row['target_type_label'] = '--';
+    }
+
+    // 举报原因
+    switch($row['evt']){
+      case 1:
+        $row['evt_label'] = '色情报力';
+        break;
+      case 2:
+        $row['evt_label'] = '盗图';
+        break;
+      case 3:
+        $row['evt_label'] = '广告/欺诈信息';
+        break;
+      default:
+        $row['evt_label'] = '--';
+    }
+
+    // 来源
+    if(isset($row['from_to'])){
+      switch($row['from_to']){
+        case 1:
+          $row['from_label'] = 'Web';
+          break;
+        case 2:
+          $row['from_label'] = 'Wap';
+          break;
+        case 3:
+          $row['from_label'] = 'IOS';
+          break;
+        case 4:
+          $row['from_label'] = 'Android';
+          break;
+        case 5:
+          $row['from_label'] = 'iPad';
+          break;
+        default:
+          $row['from_label'] = '--';
+      }   
+    }
+
+    // 应用
+    if(isset($row['application'])){
+      switch($row['application']){
+        case 1:
+          $row['application_label'] = '网站';
+          break;
+        case 2:
+          $row['application_label'] = '商城APP';
+          break;
+        case 3:
+          $row['application_label'] = 'Fiu';
+          break;
+        default:
+          $row['application_label'] = '--';
+      }   
+    }
 		
 	}
 

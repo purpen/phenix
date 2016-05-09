@@ -170,7 +170,7 @@ class Sher_Core_Helper_Util {
     }
 	
 	/**
-	 * 发送注册验证码
+	 * 发送注册验证码--螺丝冒
 	 */
 	public static function send_register_mms($phone, $code) {
 		$message = "验证码：${code}，切勿泄露给他人，如非本人操作，建议及时修改账户密码。【太火鸟】";
@@ -178,11 +178,27 @@ class Sher_Core_Helper_Util {
 	}
 
 	/**
-	 * 发送短信--自定义
+	 * 发送注册验证码--云片(备选)
+	 */
+	public static function send_yp_register_mms($phone, $code) {
+		$message = "【太火鸟】验证码：${code}，切勿泄露给他人，如非本人操作，建议及时修改账户密码。";
+		return self::send_yp_mms($phone, $message);
+	}
+
+	/**
+	 * 发送短信--自定义 (螺丝冒)
 	 */
 	public static function send_defined_mms($phone, $msg) {
 		$message = "${msg}【太火鸟】";
 		return self::send_mms($phone, $message);
+	}
+
+	/**
+	 * 发送短信--自定义 (云片-备选)
+	 */
+	public static function send_yp_defined_mms($phone, $msg) {
+		$message = "【太火鸟】${msg}";
+		return self::send_yp_mms($phone, $message);
 	}
 	
 	/**
@@ -216,6 +232,31 @@ class Sher_Core_Helper_Util {
 		curl_close( $ch );
 		
 		return true;
+	}
+
+	/**
+	 * 发送短信息(云片网络)
+	 */
+  public static function send_yp_mms($phone, $message) {
+    require_once('yunpian-sdk-php/YunpianAutoload.php');
+		if(empty($phone) || empty($message)) {
+			return array('success'=>false, 'message'=>'缺少请求参数!');
+		}
+
+    // 发送单条短信
+    try{
+      $smsOperator = new SmsOperator();
+      $data['mobile'] = $phone;
+      $data['text'] = $message;
+      $result = $smsOperator->single_send($data);
+      if($result->success){
+        return array('success'=>true, 'message'=>'发送成功!');
+      }else{
+        return array('success'=>false, 'message'=>$result->responseData['msg'], 'code'=>$result->responseData['code']);
+      }   
+    }catch(Exception $e){
+      return array('success'=>false, 'message'=>'发送失败:'.$e->getMessage());
+    }
 	}
 	
 	/**
@@ -1213,6 +1254,44 @@ class Sher_Core_Helper_Util {
         }  
      }  
      return $array;  
+  }
+
+  /*
+   * 通过城市ＩＤ获取名称
+   *
+   */
+  public static function fetch_city($province_id, $district_id){
+    $result = array();
+    if(empty($province_id) && $district_id){
+      return $result;
+    }
+    $areas_model = new Sher_Core_Model_Areas();
+    if(!empty($province_id)){
+      $province = $areas_model->load($province_id);
+      array_push($result, $province['city']);
+    }
+    if(!empty($district_id)){
+      $district = $areas_model->load($district_id);
+      array_push($result, $district['city']);
+    }
+    return $result;
+  }
+
+  /**
+   * 判断是否是高级管理员
+   */
+  public static function is_high_admin($user_id){
+    $ids = Doggy_Config::$vars['app.high_admin_ids'];
+    if(empty($ids)){
+      return false;
+    }
+    $id_arr = explode('|', $ids);
+    if(in_array($user_id, $id_arr)){
+      return true;
+    }else{
+      return false;
+    }
+
   }
 
 }

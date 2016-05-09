@@ -227,7 +227,7 @@ color: rgba(0,0,0,.45);
 						关注 
 					</a>
 					{% else %}
-					<a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui small white button ajax" id="user_{{ user._id }}_ship">已关注</a>
+					<a href="{{ app_url_user }}/ajax_cancel_follow?id={{ user._id }}" class="ui small active white button ajax" id="user_{{ user._id }}_ship">已关注</a>
 					{% endif %}
 					
 					<button class="ui small white letter button">

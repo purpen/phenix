@@ -7,7 +7,7 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 	
 	public $stash = array(
 		'page' => 1,
-		'size' => 20,
+		'size' => 100,
 		'state' => '',
 	);
 	
@@ -47,6 +47,26 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 		$this->stash['pager_url'] = $pager_url;
 		
 		return $this->to_html_page('app_admin/scene_sight/list.html');
+	}
+
+	/**
+	 * 推荐
+	 */
+	public function ajax_stick() {
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$evt = isset($this->stash['evt']) ? $this->stash['evt'] : 0;
+		if(empty($id)){
+			return $this->ajax_json('缺少请求参数！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_SceneSight();
+			$model->update_set($id, array('stick'=>(int)$evt));
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('请求操作失败，请检查后重试！', true);
+		}
+		
+		return $this->to_taconite_page('app_admin/scene_sight/stick_ok.html');
 	}
 	
 	/**

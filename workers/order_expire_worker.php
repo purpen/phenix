@@ -35,7 +35,7 @@ $total = 0;
 $time = time();
 while(!$is_end){
 	$query = array('status'=>Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT, 'expired_time'=>array('$lt'=>$time));
-	$options = array('field' => array('_id', 'status', 'expired_time', 'created_on'), 'page'=>$page, 'size'=>$size);
+	$options = array('field' => array('_id', 'user_id', 'status', 'expired_time', 'created_on'), 'page'=>$page, 'size'=>$size);
 	$list = $order_model->find($query, $options);
 	if(empty($list)){
 		echo "Get order list is null,exit......\n";
@@ -48,7 +48,7 @@ while(!$is_end){
 		if ($order['status'] == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
 			// 关闭订单
       try{
-        $ok = $order_model->close_order($order['_id']);
+        $ok = $order_model->close_order($order['_id'], array('user_id'=>$order['user_id']));
         if($ok){
           echo "success update order status:".$order['_id']."\n";
           $total++;     

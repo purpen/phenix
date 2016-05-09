@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'ajax_message');
+	protected $filter_user_method_list = array('execute');
 	
 	/**
 	 * 入口
@@ -21,13 +21,10 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		
 		$page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
 		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 100;
-		$from_user_id = isset($this->stash['from_user_id']) ? (int)$this->stash['from_user_id'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
 
-		if(!$from_user_id){
-			return $this->api_json('获取数据错误,请重新提交', 3000);
-		}
+    $user_id = $this->current_user_id;
 		
 		$query   = array();
 		$options = array();
@@ -40,7 +37,7 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		
 		// 查询条件
 		
-		$query['users'] = $from_user_id;
+		$query['users'] = $user_id;
 		if($type == 1){
 			$query['type'] = Sher_Core_Model_Message::TYPE_USER;
 		}else if($type == 2){
@@ -54,7 +51,7 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		// 排序
 		switch ($sort) {
 			case 0:
-				$options['sort_field'] = 'latest';
+				$options['sort_field'] = 'last_time';
 				break;
 		}
 		
@@ -62,9 +59,21 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		$service = Sher_Core_Service_Message::instance();
 		$result = $service->get_message_list($query,$options);
 		$user_model = new Sher_Core_Model_User();
+    $message_model = new Sher_Core_Model_Message();
 		
 		foreach($result['rows'] as $k => $v){
-			$result['rows'][$k]['last_times'] = Sher_Core_Helper_Util::relative_datetime($v['last_time']);
+			$result['rows'][$k]['last_content'] = $v['mailbox'][0];
+			if(isset($result['rows'][$k]['last_time'])){
+				$result['rows'][$k]['last_time_at'] = Sher_Core_Helper_Util::relative_datetime($v['last_time']);
+			}
+
+      $small_user = min($result['rows'][$k]['users']);
+      if($user_id == $small_user){
+        $result['rows'][$k]['readed'] = $result['rows'][$k]['s_readed'];
+      }else{
+        $result['rows'][$k]['readed'] = $result['rows'][$k]['b_readed'];
+      }
+
 			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
 			$user_info = array();
 			$from_user = $user_model->extend_load((int)$result['rows'][$k]['users'][0]);
@@ -77,12 +86,11 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 			$user_info['to_user']['account'] = $to_user['account'];
 			$user_info['to_user']['nickname'] = $to_user['nickname'];
 			$user_info['to_user']['big_avatar_url'] = $to_user['big_avatar_url'];
-			$result['rows'][$k]['users'] = array();
 			$result['rows'][$k]['users'] = $user_info;
 		}
 		
 		// 过滤多余属性
-        $filter_fields  = array('mailbox','from_user','to_user','__extend__');
+        $filter_fields  = array('mailbox', 'from_user','to_user','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
 		//var_dump($result['rows']);die;
@@ -95,7 +103,6 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 	public function view(){
 		
 		$user_id = $this->current_user_id;
-		$user_id = 10;
 		
 		if(empty($user_id)){
 			return $this->api_json('请先登录', 3000);   
@@ -114,7 +121,23 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 		$user_model = new Sher_Core_Model_User();
 		$result = $model->find_by_id($id);
 		$result['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
-		$result['last_times'] = Sher_Core_Helper_Util::relative_datetime($result['last_time']);
+		$result['last_time_at'] = Sher_Core_Helper_Util::relative_datetime($result['last_time']);
+
+    $small_user = min($result['users']);
+    if($user_id == $small_user){
+      $result['readed'] = $result['s_readed'];
+      # 更新阅读标识
+      $model->mark_message_readed($result['_id'], 's_readed');
+    }else{
+      $result['readed'] = $result['b_readed'];
+      # 更新阅读标识
+      $model->mark_message_readed($result['_id'], 'b_readed');
+    }
+
+    // 更新用户提醒数量
+    if($result['readed']>0){
+      $user_model->update_counter_byinc($user_id, 'message_count', $result['readed']*-1);
+    }
 		
 		foreach($result['mailbox'] as $k => $v){
 			$result['mailbox'][$k]['r_id'] = (string)$result['mailbox'][$k]['r_id'];

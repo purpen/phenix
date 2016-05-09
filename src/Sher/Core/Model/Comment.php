@@ -42,6 +42,8 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 		'love_count' => 0,
         // 虚拟点赞人数
         'invented_love_count' => 0,
+        // 是否有图片（图片晒单）
+        'is_cover' => 0,
         
         // 是否是回复某人的评论
         'is_reply' => 0,

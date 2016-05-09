@@ -193,7 +193,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		}
 
     // 记录兑吧来的用户，统计注册量用
-    if(isset($this->stash['from']) && $this->stash['from']=='db' && $id=111512){
+    if(isset($this->stash['from']) && $this->stash['from']=='db' && $id=111865){
       // 存cookie
       @setcookie('from_origin', '2', time()+3600, '/');
       $_COOKIE['from_origin'] = '2';
@@ -203,11 +203,11 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
       $dig_key = Sher_Core_Util_Constant::DIG_THIRD_DB_STAT;
 
       $dig = $dig_model->load($dig_key);
-      if(empty($dig) || !isset($dig['items']["view_02"])){
-        $dig_model->update_set($dig_key, array("items.view_02"=>1), true);     
+      if(empty($dig) || !isset($dig['items']["view_03"])){
+        $dig_model->update_set($dig_key, array("items.view_03"=>1), true);     
       }else{
         // 增加浏览量
-        $dig_model->inc($dig_key, "items.view_02", 1);
+        $dig_model->inc($dig_key, "items.view_03", 1);
       }
       
     }

@@ -211,7 +211,7 @@ class Sher_App_Action_Tenpay extends Sher_App_Action_Base implements DoggyX_Acti
 					}
 					
 					// 更新支付状态,付款成功并配货中
-					$model->update_order_payment_info($order_id, $transaction_id, Sher_Core_Util_Constant::ORDER_READY_GOODS, Sher_Core_Util_Constant::TRADE_TENPAY);
+					$model->update_order_payment_info($order_id, $transaction_id, Sher_Core_Util_Constant::ORDER_READY_GOODS, Sher_Core_Util_Constant::TRADE_TENPAY, array('user_id'=>$order_info['user_id']));
 					
 					//------------------------------
 					// 处理业务完毕
@@ -318,7 +318,7 @@ class Sher_App_Action_Tenpay extends Sher_App_Action_Base implements DoggyX_Acti
 					}
 					
 					// 更新支付状态,付款成功并配货中
-					$model->update_order_payment_info($order_id, $transaction_id, Sher_Core_Util_Constant::ORDER_READY_GOODS, Sher_Core_Util_Constant::TRADE_TENPAY);
+					$model->update_order_payment_info($order_id, $transaction_id, Sher_Core_Util_Constant::ORDER_READY_GOODS, Sher_Core_Util_Constant::TRADE_TENPAY, array('user_id'=>$order_info['user_id']));
 					
 					//------------------------------
 					// 处理业务完毕

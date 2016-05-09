@@ -1,0 +1,129 @@
+{%extends 'layout/app_admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+
+{%endblock%}
+
+{% block content %}
+	<h3 class="ui header">用户统计</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_app_admin_base }}/console/user_stat" class="{{ css_all_list }} item">
+			全部
+		</a>
+
+	</div>
+
+	<div class="ui sub search">
+		<form action="{{ app_url_app_admin_base }}/console/user_stat" method="get" class="ui form" id="search-form">
+			<div class="five fields">
+				<div class="field">
+					<input type="text" name="month" placeholder="月: 201505" value="{{ month }}" />
+				</div>
+				<div class="field">
+					<input type="text" name="week" placeholder="周: 201516" value="{{ week }}" />
+				</div>
+				<div class="field">
+					<input type="text" name="day" placeholder="日: 20150606" value="{{ day }}" />
+				</div>
+				<div class="field">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
+			</div>
+
+		</form>
+	</div>
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th></th>
+        <th>天</th>
+        <th>周</th>
+        <th>月</th>
+        <th>总量</th>
+        <th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% app_store_user_stat_list var:'list' day:day week:week month:month sort:0 page:page size:100 %}
+			
+			{% for d in list.rows %}
+			<tr id="item-{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ d._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+
+        <td>
+          <p>{{ d.day }}</p>
+          <p>激活量[android|ios]:{{ d.day_android_count }}|{{ d.day_ios_count }}</p>
+          <p>注册量[android|ios]:{{ d.day_android_grow_count }}|{{ d.day_ios_grow_count }}</p>
+        </td>
+        <td>
+          <p>{{ d.week }}</p>
+          <p>激活量[android|ios]:{{ d.week_android_count }}|{{ d.week_ios_count }}</p>
+          <p>注册量[android|ios]:{{ d.week_android_grow_count }}|{{ d.week_ios_grow_count }}</p>
+        </td>
+        <td>
+          <p>{{ d.month }}</p>
+          <p>激活量[android|ios]:{{ d.month_android_count }}|{{ d.month_ios_count }}</p>
+          <p>注册量[android|ios]:{{ d.month_android_grow_count }}|{{ d.month_ios_grow_count }}</p>
+        </td>
+        <td>
+          <p>激活量[android|ios]:{{ d.total_android_count }}|{{ d.total_ios_count }}</p>
+          <p>注册量[android|ios]:{{ d.total_android_grow_count }}|{{ d.total_ios_grow_count }}</p>
+        </td>
+
+        <td>
+  				<a href="{{ app_url_app_admin_base }}/console/user_stat_delete?id={{ d._id }}" class="ui link item confirm-request">删除</a>      
+        </td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+
+
+<!-- 设置奖项 -->
+<div class="ui small draw modal">
+  	<i class="close icon"></i>
+	<div class="header">
+		设置奖项
+	</div>
+  	<div class="content">
+		<form action="{{ app_url_admin }}/user_sign_in/ajax_set_draw" class="ui form" method="post" id="draw-form">
+			<div class="field">
+				<label>用户：</label>
+				<input type="text" name="nickname" value="" disabled="disabled" />
+				<input type="hidden" name="id" value="" />
+				<input type="hidden" name="draw_evt" value="1" />
+			</div>
+			<div class="field">
+				<label>内容：</label>
+				<textarea name="draw_txt" rows="3"></textarea>
+			</div>
+			
+			<div class="right aligned field ">
+				<div class="ui gray cancel button">取消</div>
+				<div class="ui active magenta submit button" >发送</div>
+			</div>
+		</form>
+  	</div>
+</div>
+	
+{% endblock %}
