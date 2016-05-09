@@ -75,7 +75,9 @@ class Sher_Core_Model_AppStoreUserStat extends Sher_Core_Model_Base  {
 
   protected $required_fields = array('day');
 
-  protected $int_fields = array('user_id', 'day', 'week', 'week_latest', 'month', 'month_latest', 'day_android_count', 'day_ios_count', 'day_android_grow_count', 'day_ios_grow_count', 'day_android_order_count', 'day_ios_order_count', 'day_android_order_money', 'day_ios_order_money', 'week_android_count', 'week_ios_count', 'week_android_grow_count', 'week_ios_grow_count', 'week_android_order_count', 'week_ios_order_count', 'week_android_order_money', 'week_ios_order_money', 'month_android_count', 'month_ios_count', 'month_android_grow_count', 'month_ios_grow_count', 'month_android_order_count', 'month_ios_order_count', 'month_android_order_money', 'month_ios_order_money', 'total_android_count', 'total_ios_count', 'total_android_grow_count', 'total_ios_grow_count', 'total_android_grow_count', 'total_android_order_count', 'total_ios_order_count', 'total_android_order_money', 'total_ios_order_money');
+  protected $int_fields = array('user_id', 'day', 'week', 'week_latest', 'month', 'month_latest', 'day_android_count', 'day_ios_count', 'day_android_grow_count', 'day_ios_grow_count', 'day_android_order_count', 'day_ios_order_count', 'week_android_count', 'week_ios_count', 'week_android_grow_count', 'week_ios_grow_count', 'week_android_order_count', 'week_ios_order_count', 'month_android_count', 'month_ios_count', 'month_android_grow_count', 'month_ios_grow_count', 'month_android_order_count', 'month_ios_order_count', 'total_android_count', 'total_ios_count', 'total_android_grow_count', 'total_ios_grow_count', 'total_android_grow_count', 'total_android_order_count', 'total_ios_order_count');
+
+  protected $float_fields = array('day_android_order_money', 'day_ios_order_money', 'week_android_order_money', 'week_ios_order_money', 'month_android_order_money', 'month_ios_order_money', 'total_android_order_money', 'total_ios_order_money');
 
 	protected $joins = array(
 
