@@ -111,6 +111,16 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
 		$this->stash['id'] = $id;
 		return $this->to_taconite_page('app_admin/del_ok.html'); 
   }
+
+  /**
+   * ajax查询某个渠道统计
+   */
+  public function ajax_channel_search(){
+    $channel_id = isset($this->stash['channel_id']) ? (int)$this->stash['channel_id'] : 0;
+    $start_date = isset($this->stash['start_date']) ? $this->stash['start_date'] : null;
+    $end_date = isset($this->stash['end_date']) ? $this->stash['end_date'] : null;
+
+  }
 	
 }
 
