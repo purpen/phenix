@@ -73,8 +73,11 @@ class Sher_Core_Helper_FilterFields {
         $data['areas'] = !empty($areas_arr) ? $areas_arr : array();
     
         if(!isset($data['identify'])){
-            if(!isset($data['identify']['is_scene_subscribe'])){
+            if(!isset($data['identify']['is_scene_subscribe'])){  // 是否首次订阅
                 $data['identify']['is_scene_subscribe'] = 0;
+            }
+            if(!isset($data['identify']['is_expert'])){ // 达人
+                $data['identify']['is_expert'] = 0;
             }
         }
         
