@@ -3,9 +3,43 @@
 {% endblock %}
 
 {% block jquery %}
-	$('.ui.submit.button.search').click(function(){
+	$('#search-btn').click(function(){
 		$('#search-form').submit();
 	});
+
+	$('.datepicker').pickadate();
+
+  $('#channel-btn').click(function(){
+    if($('#channel-box').is(':hidden')){
+      $('#channel-box').slideDown();
+    }else{
+      $('#channel-box').slideUp();
+    }
+  });
+
+  $('#channel-search-btn').click(function(){
+    var channel_id = $(':input[name=channel_id]').val();
+    var start_date = $(':input[name=start_date]').val();
+    var end_date = $(':input[name=end_date]').val();
+    $.post(
+      "{{ app_url_app_admin_base }}/console/ajax_channel_search", 
+      {channel_id: channel_id, start_date: start_date, end_date: end_date},
+      function(result){
+        if(result.success){
+          var data = result.data;
+          var html = '';
+          html += '激活量:'+ data.android_count +"\n";
+          html += '注册量:'+ data.android_grow_count +"\n";
+          html += '有效订单:'+ data.order_count +"\n";
+          html += '有效金额:'+ data.order_money +"\n";
+          alert(html);
+        }else{
+          phenix.show_error_note(result.message, 3000);
+        }
+      }, 
+      'json'
+    );
+  });
 
 {%endblock%}
 
@@ -16,6 +50,12 @@
 		<a href="{{ app_url_app_admin_base }}/console/user_stat" class="{{ css_all_list }} item">
 			全部
 		</a>
+
+    <div class="right menu">
+      <a href="javascript:void(0);" id="channel-btn" class="item">
+          渠道查询
+      </a>
+    </div>
 
 	</div>
 
@@ -32,12 +72,39 @@
 					<input type="text" name="day" placeholder="日: 20150606" value="{{ day }}" />
 				</div>
 				<div class="field">
-					<div class="ui active small green submit button search">搜索</div>
+					<div id="search-btn" class="ui active small green submit button search">搜索</div>
 				</div>
 			</div>
 
 		</form>
 	</div>
+
+	<div id="channel-box" style="display:none;" class="ui sub search">
+		<form action="{{ app_url_app_admin_base }}/console/ajax_channel_search" method="post" class="ui form" id="channel-search-form">
+			<div class="five fields">
+				<div class="field">
+					<input type="text" name="channel_id" placeholder="渠道ID" value="{{ channel_id }}" />
+				</div>
+				<div class="field">
+					<div class="ui icon input">
+					  	<input type="text" name="start_date" placeholder="开始时间" value="{{ start_date }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui icon input">
+					  	<input type="text" name="end_date" placeholder="截止时间" value="{{ end_date }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+
+				<div class="field">
+					<div id="channel-search-btn" class="ui active small green submit button search">查询</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
 	
 	<table class="ui table segment">
 		<thead>
@@ -66,20 +133,28 @@
           <p>{{ d.day }}</p>
           <p>激活量[android|ios]:{{ d.day_android_count }}|{{ d.day_ios_count }}</p>
           <p>注册量[android|ios]:{{ d.day_android_grow_count }}|{{ d.day_ios_grow_count }}</p>
+          <p>订单量[android|ios]:{{ d.day_android_order_count }}|{{ d.day_ios_order_count }}</p>
+          <p>订单金额[android|ios]:{{ d.day_android_order_money }}|{{ d.day_ios_order_money }}</p>
         </td>
         <td>
           <p>{{ d.week }}</p>
           <p>激活量[android|ios]:{{ d.week_android_count }}|{{ d.week_ios_count }}</p>
           <p>注册量[android|ios]:{{ d.week_android_grow_count }}|{{ d.week_ios_grow_count }}</p>
+          <p>订单量[android|ios]:{{ d.week_android_order_count }}|{{ d.week_ios_order_count }}</p>
+          <p>订单金额[android|ios]:{{ d.week_android_order_money }}|{{ d.week_ios_order_money }}</p>
         </td>
         <td>
           <p>{{ d.month }}</p>
           <p>激活量[android|ios]:{{ d.month_android_count }}|{{ d.month_ios_count }}</p>
           <p>注册量[android|ios]:{{ d.month_android_grow_count }}|{{ d.month_ios_grow_count }}</p>
+          <p>订单量[android|ios]:{{ d.month_android_order_count }}|{{ d.month_ios_order_count }}</p>
+          <p>订单金额[android|ios]:{{ d.month_android_order_money }}|{{ d.month_ios_order_money }}</p>
         </td>
         <td>
           <p>激活量[android|ios]:{{ d.total_android_count }}|{{ d.total_ios_count }}</p>
           <p>注册量[android|ios]:{{ d.total_android_grow_count }}|{{ d.total_ios_grow_count }}</p>
+          <p>订单量[android|ios]:{{ d.total_android_order_count }}|{{ d.total_ios_order_count }}</p>
+          <p>订单金额[android|ios]:{{ d.total_android_order_money }}|{{ d.total_ios_order_money }}</p>
         </td>
 
         <td>

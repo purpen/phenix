@@ -111,6 +111,123 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
 		$this->stash['id'] = $id;
 		return $this->to_taconite_page('app_admin/del_ok.html'); 
   }
+
+  /**
+   * ajax查询某个渠道统计
+   */
+  public function ajax_channel_search(){
+    $channel_id = isset($this->stash['channel_id']) ? (int)$this->stash['channel_id'] : 0;
+    $start_date = isset($this->stash['start_date']) ? $this->stash['start_date'] : null;
+    $end_date = isset($this->stash['end_date']) ? $this->stash['end_date'] : null;
+
+    $star_tmp = !empty($start_date) ? strtotime($start_date) : 0;
+    $end_tmp = !empty($end_date) ? strtotime($end_date) : 0; 
+
+    // 激活量查询
+    // android|ios
+    $current_android_count = $this->fetch_count(1, 1, $channel_id, $star_tmp, $end_tmp);
+
+    // 注册量查询
+    // android|ios
+    $current_android_grow_count = $this->fetch_grow_count(2, $channel_id, $star_tmp, $end_tmp);
+
+    // 有效订单查询
+    $current_order = $this->fetch_order_count($channel_id, $star_tmp, $end_tmp);
+
+    $data = array(
+      'android_count' => $current_android_count,
+      'android_grow_count' => $current_android_grow_count,
+      'order_count' => $current_order['count'],
+      'order_money' => $current_order['total_money'],
+    );
+
+    return $this->ajax_json('success', false, 0, $data);
+
+  }
+
+  /**
+   *  注册量
+   */
+  protected function fetch_grow_count($from_to, $channel_id=0, $star_tmp=0, $end_tmp=0){
+    $query['from_to'] = $from_to;
+    if($channel_id){
+      $query['channel_id'] = $channel_id;
+    }
+    if(!empty($star_tmp) && !empty($end_tmp)){
+      $query['created_on'] = array('$gte'=>$star_tmp, '$lte'=>$end_tmp);
+    }
+
+    $pusher_model = new Sher_Core_Model_Pusher();
+    $count = $pusher_model->count($query);
+    return $count;
+  }
+
+  /**
+   *  激活量
+   */
+  protected function fetch_count($kind, $device, $channel_id=0, $star_tmp=0, $end_tmp=0){
+    $query['kind'] = $kind;
+    $query['device'] = $device;
+    if($channel_id){
+      $query['channel_id'] = $channel_id;
+    }
+    if(!empty($star_tmp) && !empty($end_tmp)){
+      $query['created_on'] = array('$gte'=>$star_tmp, '$lte'=>$end_tmp);
+    }
+
+    $app_user_record_model = new Sher_Core_Model_AppUserRecord();
+    $count = $app_user_record_model->count($query);
+    return $count;
+  }
+
+  /**
+   *  有效订单量
+   */
+  protected function fetch_order_count($channel_id=0, $star_tmp=0, $end_tmp=0){
+		// 设置不超时
+		set_time_limit(0);
+
+    $query['status'] = array('$in'=>array(10,15,16,20));
+    if($channel_id){
+      $query['channel_id'] = $channel_id;
+    }
+    if(!empty($star_tmp) && !empty($end_tmp)){
+      $query['payed_date'] = array('$gte'=>$star_tmp, '$lte'=>$end_tmp);
+    }
+
+		$options = array();
+		$page = 1;
+		$size = 500;
+		
+    $order_model = new Sher_Core_Model_Orders();
+		
+		$is_end = false;
+		$counter = 0;
+    $total_money = 0;
+    $options['size'] = $size;
+		
+		while(!$is_end){
+			$options['page'] = $page;
+			
+			$result = $order_model->find($query, $options);
+			$max = count($result);
+			for($i=0; $i<$max; $i++){
+        $order = $result[$i];
+				$counter ++;
+        $total_money += $order['pay_money'];
+			}
+			
+			if($max < $size){
+				$is_end = true;
+				break;
+			}
+			
+			$page++;
+		} // end while
+    return array('count'=>$counter, 'total_money'=>$total_money);
+
+  }
+
 	
 }
 

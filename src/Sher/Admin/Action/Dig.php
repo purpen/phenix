@@ -86,6 +86,11 @@ class Sher_Admin_Action_Dig extends Sher_Admin_Action_Base implements DoggyX_Act
 		if(empty($id)){
 			return $this->ajax_notification('块不存在！', true);
 		}
+
+    $user_id = $this->visitor->id;
+    if(!Sher_Core_Helper_Util::is_high_admin($user_id)){
+ 			return $this->ajax_notification('没有执行权限!', true);     
+    }
 		
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		

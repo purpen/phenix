@@ -25,6 +25,12 @@ class Sher_Core_Model_AppStoreUserStat extends Sher_Core_Model_Base  {
     // 当日增长数
 		'day_android_grow_count' => 0,
 		'day_ios_grow_count' => 0,
+    // 当日订单数
+		'day_android_order_count' => 0,
+		'day_ios_order_count' => 0,
+    // 当日订单金额
+		'day_android_order_money' => 0,
+		'day_ios_order_money' => 0,
 
     // 当周激活数
 		'week_android_count' => 0,
@@ -32,6 +38,12 @@ class Sher_Core_Model_AppStoreUserStat extends Sher_Core_Model_Base  {
     // 当周增长数
 		'week_android_grow_count' => 0,
 		'week_ios_grow_count' => 0,
+    // 当周订单数
+		'week_android_order_count' => 0,
+		'week_ios_order_count' => 0,
+    // 当周订单金额
+		'week_android_order_money' => 0,
+		'week_ios_order_money' => 0,
 
     // 当月激活数
 		'month_android_count' => 0,
@@ -39,6 +51,12 @@ class Sher_Core_Model_AppStoreUserStat extends Sher_Core_Model_Base  {
     // 当月增长数
 		'month_android_grow_count' => 0,
 		'month_ios_grow_count' => 0,
+    // 当月订单数
+		'month_android_order_count' => 0,
+		'month_ios_order_count' => 0,
+    // 当月订单金额
+		'month_android_order_money' => 0,
+		'month_ios_order_money' => 0,
 
 		// 获取总激活量
 		'total_android_count' => 0,
@@ -46,12 +64,20 @@ class Sher_Core_Model_AppStoreUserStat extends Sher_Core_Model_Base  {
 		// 获取总用户增长量
 		'total_android_grow_count' => 0,
 		'total_ios_grow_count' => 0,
+		// 获取总订单总数
+		'total_android_order_count' => 0,
+		'total_ios_order_count' => 0,
+		// 获取总订单总金额
+		'total_android_order_money' => 0,
+		'total_ios_order_money' => 0,
 
   );
 
   protected $required_fields = array('day');
 
-  protected $int_fields = array('user_id', 'day', 'week', 'week_latest', 'month', 'month_latest', 'day_android_count', 'day_ios_count', 'day_android_grow_count', 'day_ios_grow_count', 'week_android_count', 'week_ios_count', 'week_android_grow_count', 'week_ios_grow_count', 'month_android_count', 'month_ios_count', 'month_android_grow_count', 'month_ios_grow_count', 'total_android_count', 'total_ios_count', 'total_android_grow_count', 'total_ios_grow_count');
+  protected $int_fields = array('user_id', 'day', 'week', 'week_latest', 'month', 'month_latest', 'day_android_count', 'day_ios_count', 'day_android_grow_count', 'day_ios_grow_count', 'day_android_order_count', 'day_ios_order_count', 'week_android_count', 'week_ios_count', 'week_android_grow_count', 'week_ios_grow_count', 'week_android_order_count', 'week_ios_order_count', 'month_android_count', 'month_ios_count', 'month_android_grow_count', 'month_ios_grow_count', 'month_android_order_count', 'month_ios_order_count', 'total_android_count', 'total_ios_count', 'total_android_grow_count', 'total_ios_grow_count', 'total_android_grow_count', 'total_android_order_count', 'total_ios_order_count');
+
+  protected $float_fields = array('day_android_order_money', 'day_ios_order_money', 'week_android_order_money', 'week_ios_order_money', 'month_android_order_money', 'month_ios_order_money', 'total_android_order_money', 'total_ios_order_money');
 
 	protected $joins = array(
 
