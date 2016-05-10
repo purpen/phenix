@@ -115,6 +115,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                 $timeline_event = Sher_Core_Util_Constant::EVT_LOVE;
             }elseif($event == self::EVENT_SUBSCRIPTION){
                 $field = 'subscription_count';
+                $evt = Sher_Core_Model_Remind::EVT_SUBSCRIPTION;
             }elseif($event == self::EVENT_FOLLOW){
                 $field = 'follow_count';
             }
@@ -127,7 +128,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                     $model->increase_counter($field, 1, (int)$this->data['target_id']);
                     $kind = Sher_Core_Model_Remind::KIND_TOPIC;
                     // 获取目标用户ID
-                    $topic = $model->extend_load((int)$this->data['target_id']);
+                    $topic = $model->load((int)$this->data['target_id']);
                     $user_id = $topic['user_id'];
                     
                     // 增加积分
@@ -142,7 +143,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                     $model = new Sher_Core_Model_Product();
                     $model->inc_counter($field, 1, (int)$this->data['target_id']);
                     //获取目标用户ID
-                    $product = $model->extend_load((int)$this->data['target_id']);
+                    $product = $model->load((int)$this->data['target_id']);
                     $user_id = $product['user_id'];
                     $kind = Sher_Core_Model_Remind::KIND_PRODUCT;
                     
@@ -151,7 +152,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                     $model = new Sher_Core_Model_Comment();
                     $model->inc_counter($field, 1, (string)$this->data['target_id']);
                     //获取目标用户ID
-                    $comment = $model->extend_load((string)$this->data['target_id']);
+                    $comment = $model->load((string)$this->data['target_id']);
                     $user_id = $comment['user_id'];
                     $kind = Sher_Core_Model_Remind::KIND_COMMENT;
                     
@@ -170,7 +171,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                         $model->add_last_love_users((int)$this->data['target_id'], $this->data['user_id']);
                     }
                     //获取目标用户ID
-                    $stuff = $model->extend_load((int)$this->data['target_id']);
+                    $stuff = $model->load((int)$this->data['target_id']);
                     $user_id = $stuff['user_id'];
                     $kind = Sher_Core_Model_Remind::KIND_STUFF;
 
@@ -200,17 +201,21 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                     $model = new Sher_Core_Model_SpecialSubject();
                     $model->inc_counter($field, 1, (int)$this->data['target_id']);
                     break;
-				case self::TYPE_APP_SCENE_SCENE:
-                    
+				        case self::TYPE_APP_SCENE_SCENE:
                     $model = new Sher_Core_Model_SceneScene();
                     $model->inc_counter($field, 1, (int)$this->data['target_id']);
-                    
+                    $kind = Sher_Core_Model_Remind::KIND_SCENE;
+                    // 获取目标用户ID
+                    $scene = $model->load((int)$this->data['target_id']);
+                    $user_id = $scene['user_id'];               
                     break;
-				case self::TYPE_APP_SCENE_SIGHT:
-                    
+				        case self::TYPE_APP_SCENE_SIGHT:
                     $model = new Sher_Core_Model_SceneSight();
                     $model->inc_counter($field, 1, (int)$this->data['target_id']);
-                    
+                    $kind = Sher_Core_Model_Remind::KIND_SIGHT;
+                    // 获取目标用户ID
+                    $sight = $model->load((int)$this->data['target_id']);
+                    $user_id = $sight['user_id'];
                     break;
                 default:
                     return;

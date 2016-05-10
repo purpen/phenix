@@ -950,6 +950,83 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		return $this->api_json('请求成功', 0, $result);
 	}
 
+	/**
+	 * 列表
+	 */
+	public function remind_list(){
+		
+		$page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+
+    $user_id = $this->current_user_id;
+		
+		$query   = array();
+		$options = array();
+
+		//显示的字段
+		$options['some_fields'] = array(
+		  '_id'=>1, 'user_id'=>1, 's_user_id'=>1, 'b_readed'=>1, 'readed'=>1, 'kind'=>1, 'content'=>1, 'parent_related_id'=>1, 'evt'=>1,
+		  'user'=>1, 's_user'=>1, 'target'=>1, 'kind_str'=>1, 'related_id'=>1, 'created_on'=>1, 'updated_on'=>1,
+		);
+		
+		// 查询条件
+		$query['user_id'] = $user_id;
+		if($type == 1){
+			//$query['kind'] = array('$in'=>array(Sher_Core_Model_Remind::KIND_SCENE, Sher_Core_Model_Remind::KIND_SIGHT));
+		}
+		
+		// 分页参数
+		$options['page'] = $page;
+		$options['size'] = $size;
+
+		// 排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'time';
+				break;
+		}
+		
+		// 开启查询
+		$service = Sher_Core_Service_Remind::instance();
+		$result = $service->get_remind_list($query,$options);
+		$user_model = new Sher_Core_Model_User();
+    $remind_model = new Sher_Core_Model_Remind();
+		
+		foreach($result['rows'] as $k => $v){
+			$result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
+			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
+      $result['rows'][$k]['s_user'] = Sher_Core_Helper_FilterFields::wap_user($result['rows'][$k]['s_user']);
+      $result['rows'][$k]['user'] = Sher_Core_Helper_FilterFields::wap_user($result['rows'][$k]['user']);
+
+      if(empty(isset($result['rows'][$k]['target']))){
+        continue;
+      }
+      $result['rows'][$k]['target_title'] = $result['rows'][$k]['target']['title'];
+
+      if($result['rows'][$k]['kind']==Sher_Core_Model_Remind::KIND_SCENE){  // 情景
+        $result['rows'][$k]['target_cover_url'] = $result['rows'][$k]['cover']['thumbnails']['mini']['view_url'];
+      }elseif($result['rows'][$k]['kind']==Sher_Core_Model_Remind::KIND_SIGHT){ // 场景
+        $result['rows'][$k]['target_cover_url'] = $result['rows'][$k]['cover']['thumbnails']['mini']['view_url'];
+      }
+
+      $is_read = isset($result['rows'][$k]['readed'])?$result['rows'][$k]['readed']:0;
+      $result['rows'][$k]['is_read'] = $is_read;
+      if(empty($is_read)){
+        # 更新已读标识
+        $remind_model->set_readed((string)$result['rows'][$k]['_id']);
+      }
+		}
+		
+		// 过滤多余属性
+    $filter_fields  = array('target','__extend__');
+    $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+		
+		//var_dump($result['rows']);die;
+		return $this->api_json('请求成功', 0, $result);
+	}
+
 
 }
 

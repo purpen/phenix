@@ -46,6 +46,8 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
 	  const EVT_BIRD_MONRY = 16;
     # 扣除鸟币
     const EVT_RE_BIRD_MONRY = 17;
+    # 订阅
+    const EVT_SUBSCRIPTION = 18;
 
     // 类型
     const KIND_TOPIC = 1; //话题
@@ -58,6 +60,8 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
     const KIND_ALBUM = 8; //产品灵感
     const KIND_SUBJECT = 10; //专题
 	  const KIND_BIRD_ADMIN = 11; // 系统操作
+    const KIND_SCENE = 12; //情景
+	  const KIND_SIGHT = 13; // 场景
 
     protected $schema = array(
         //收到提醒的人
@@ -95,7 +99,12 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
         //如果是新的记录//更新用户提醒数
         if($this->insert_mode) {
             $user = new Sher_Core_Model_User();
-            $user->update_counter_byinc($user_id, 'alert_count', 1);
+            if(in_array($kind, array(12, 13))){
+              $field = 'fiu_alert_count';
+            }else{
+              $field = 'alert_count';          
+            }
+            $user->update_counter_byinc($user_id, $field, 1);
         }
     }
 
@@ -166,6 +175,14 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
                 $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_Stuff');
                 $kind_str = '创意灵感';
                 break;
+            case self::KIND_SCENE:
+                $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_SceneScene');
+                $kind_str = '情景';
+                break;
+            case self::KIND_SIGHT:
+                $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_SceneSight');
+                $kind_str = '场景';
+                break;
         }
       
         if(!$row['s_user']){
@@ -199,6 +216,9 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
                 break;
 			case self::EVT_RE_BIRD_MONRY:
                 $info = "扣除了您的鸟币";
+                break;
+			case self::EVT_SUBSCRIPTION:
+                $info = "订阅了你的";
                 break;
         }
 		
