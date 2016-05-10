@@ -848,7 +848,8 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		$target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : 0;
 		$target_user_id = isset($this->stash['target_user_id']) ? (int)$this->stash['target_user_id'] : 0;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 12;
-		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 1;
+		$deleted = isset($this->stash['deleted']) ? (int)$this->stash['deleted'] : -1;
 		
 		if(empty($type)){
 			return $this->api_json('获取数据错误,请重新提交', 3000);
@@ -877,6 +878,14 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		if ($type) {
 			$query['type'] = (int)$type;
 		}
+
+    if($deleted){
+      if($deleted==-1){
+        $query['deleted'] = 0;
+      }else{
+        $query['deleted'] = 1;
+      }
+    }
 		
 		// 分页参数
 		$options['page'] = $page;
