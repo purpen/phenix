@@ -996,7 +996,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
       $result['rows'][$k]['s_user'] = Sher_Core_Helper_FilterFields::wap_user($result['rows'][$k]['s_user']);
       $result['rows'][$k]['user'] = Sher_Core_Helper_FilterFields::wap_user($result['rows'][$k]['user']);
 
-      if(empty(isset($result['rows'][$k]['target']))){
+      if(!isset($result['rows'][$k]['target']) && empty($result['rows'][$k]['target'])){
         continue;
       }
       $result['rows'][$k]['target_title'] = $result['rows'][$k]['target']['title'];
@@ -1016,7 +1016,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		}
 		
 		// 过滤多余属性
-    $filter_fields  = array('target','__extend__');
+    $filter_fields  = array('target', '__extend__');
     $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
 		//var_dump($result['rows']);die;
