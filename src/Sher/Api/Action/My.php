@@ -566,7 +566,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
     $user_model = new Sher_Core_Model_User();
     $ok = $user_model->update_user_identify($user_id, $field, 1);
     if($ok){
-      return $this->api_json('更新的类型错误!', 0, array());    
+      return $this->api_json('操作成功!', 0, array());    
     }else{
       return $this->api_json('更新失败!', 3003);    
     }
@@ -1002,9 +1002,9 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
       $result['rows'][$k]['target_title'] = $result['rows'][$k]['target']['title'];
 
       if($result['rows'][$k]['kind']==Sher_Core_Model_Remind::KIND_SCENE){  // 情景
-        $result['rows'][$k]['target_cover_url'] = $result['rows'][$k]['cover']['thumbnails']['mini']['view_url'];
+        $result['rows'][$k]['target_cover_url'] = $result['rows'][$k]['target']['cover']['thumbnails']['mini']['view_url'];
       }elseif($result['rows'][$k]['kind']==Sher_Core_Model_Remind::KIND_SIGHT){ // 场景
-        $result['rows'][$k]['target_cover_url'] = $result['rows'][$k]['cover']['thumbnails']['mini']['view_url'];
+        $result['rows'][$k]['target_cover_url'] = $result['rows'][$k]['target']['cover']['thumbnails']['mini']['view_url'];
       }
 
       $is_read = isset($result['rows'][$k]['readed'])?$result['rows'][$k]['readed']:0;
@@ -1018,6 +1018,15 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		// 过滤多余属性
     $filter_fields  = array('target', '__extend__');
     $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+
+    //清空提醒数量
+    if($page==1){
+      $user_model = new Sher_Core_Model_User();
+      $user = $user_model->load($user_id);
+      if($user && isset($user['counter']['fiu_alert_count']) && $user['counter']['fiu_alert_count']>0){
+        $user_model->update_counter($user_id, 'fiu_alert_count');
+      }
+    }
 		
 		//var_dump($result['rows']);die;
 		return $this->api_json('请求成功', 0, $result);
