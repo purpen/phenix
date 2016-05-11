@@ -72,30 +72,42 @@ class Sher_Core_Helper_FilterFields {
         $areas_arr = Sher_Core_Helper_Util::fetch_city($data['province_id'], $data['district_id']);
         $data['areas'] = !empty($areas_arr) ? $areas_arr : array();
     
-        if(!isset($data['identify'])){
-            if(!isset($data['identify']['is_scene_subscribe'])){  // 是否首次订阅
-                $data['identify']['is_scene_subscribe'] = 0;
-            }
-            if(!isset($data['identify']['is_expert'])){ // 达人
-                $data['identify']['is_expert'] = 0;
-            }
+        if(isset($data['identify'])){
+          unset($data['identify']['d3in_volunteer']);
+          unset($data['identify']['d3in_vip']);
+          unset($data['identify']['d3in_tag']);
+
+          if(!isset($data['identify']['is_scene_subscribe'])){  // 是否首次订阅
+              $data['identify']['is_scene_subscribe'] = 0;
+          }
+          if(!isset($data['identify']['is_expert'])){ // 达人
+              $data['identify']['is_expert'] = 0;
+          }
         }
-        
-        $data['counter']['message_count'] = isset($data['counter']['message_count']) ? $data['counter']['message_count'] : 0;
-        $data['counter']['fiu_comment_count'] = isset($data['counter']['fiu_comment_count']) ? $data['counter']['fiu_comment_count'] : 0;
-        $data['counter']['fiu_notice_count'] = isset($data['counter']['fiu_notice_count']) ? $data['counter']['fiu_notice_count'] : 0;
-        $data['counter']['fiu_alert_count'] = isset($data['counter']['fiu_alert_count']) ? $data['counter']['fiu_alert_count'] : 0;
 
-        // 总消息数量
-        $data['counter']['message_total_count'] = $data['counter']['message_count'] + $data['counter']['fiu_comment_count'] + $data['counter']['fiu_notice_count'] + $data['counter']['fiu_alert_count'];
+        if(isset($data['counter'])){
+          unset($data['counter']['notice_count']);
+          unset($data['counter']['alert_count']);
+          unset($data['counter']['comment_count']);
+          unset($data['counter']['people_count']);
 
-        // 订单
-        $data['counter']['order_wait_payment'] = isset($data['counter']['order_wait_payment']) ? $data['counter']['order_wait_payment'] : 0;
-        $data['counter']['order_ready_goods'] = isset($data['counter']['order_ready_goods']) ? $data['counter']['order_ready_goods'] : 0;
-        $data['counter']['order_sended_goods'] = isset($data['counter']['order_sended_goods']) ? $data['counter']['order_sended_goods'] : 0;
-        $data['counter']['order_evaluate'] = isset($data['counter']['order_evaluate']) ? $data['counter']['order_evaluate'] : 0;
+          $data['counter']['message_count'] = isset($data['counter']['message_count']) ? $data['counter']['message_count'] : 0;
+          $data['counter']['fiu_comment_count'] = isset($data['counter']['fiu_comment_count']) ? $data['counter']['fiu_comment_count'] : 0;
+          $data['counter']['fiu_notice_count'] = isset($data['counter']['fiu_notice_count']) ? $data['counter']['fiu_notice_count'] : 0;
+          $data['counter']['fiu_alert_count'] = isset($data['counter']['fiu_alert_count']) ? $data['counter']['fiu_alert_count'] : 0;
 
-        $data['counter']['order_total_count'] = $data['counter']['order_evaluate'] + $data['counter']['order_sended_goods'] + $data['counter']['order_ready_goods'] + $data['counter']['order_wait_payment'];
+          // 总消息数量
+          $data['counter']['message_total_count'] = $data['counter']['message_count'] + $data['counter']['fiu_comment_count'] + $data['counter']['fiu_notice_count'] + $data['counter']['fiu_alert_count'];
+
+          // 订单
+          $data['counter']['order_wait_payment'] = isset($data['counter']['order_wait_payment']) ? $data['counter']['order_wait_payment'] : 0;
+          $data['counter']['order_ready_goods'] = isset($data['counter']['order_ready_goods']) ? $data['counter']['order_ready_goods'] : 0;
+          $data['counter']['order_sended_goods'] = isset($data['counter']['order_sended_goods']) ? $data['counter']['order_sended_goods'] : 0;
+          $data['counter']['order_evaluate'] = isset($data['counter']['order_evaluate']) ? $data['counter']['order_evaluate'] : 0;
+
+          $data['counter']['order_total_count'] = $data['counter']['order_evaluate'] + $data['counter']['order_sended_goods'] + $data['counter']['order_ready_goods'] + $data['counter']['order_wait_payment'];
+
+        }
 
         return $data;
     }

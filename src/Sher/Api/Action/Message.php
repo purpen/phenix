@@ -74,6 +74,12 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
         $result['rows'][$k]['readed'] = $result['rows'][$k]['b_readed'];
       }
 
+      if($result['rows'][$k]['readed'] > 0){
+        $result['rows'][$k]['is_read'] = 0;
+      }else{
+        $result['rows'][$k]['is_read'] = 1;     
+      }
+
 			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
 			$user_info = array();
 			$from_user = $user_model->extend_load((int)$result['rows'][$k]['users'][0]);

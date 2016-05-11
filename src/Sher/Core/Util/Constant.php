@@ -185,6 +185,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const DIG_SIGN_DRAW_APP_RECORD = 'sign_draw_app_record';
     # 兑吧统计浏览数
     const DIG_THIRD_DB_STAT = 'db_stat_view';
+    # Fiu 最Fiu伙伴、发现好友用户ID列表
+    const DIG_FIU_USER_IDS = 'fiu_user_ids';
 
     /**
      * DigList stuff计数器
