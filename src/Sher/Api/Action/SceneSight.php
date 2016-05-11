@@ -137,7 +137,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 				
 				$user['user_id'] = $v['user']['_id'];
 				$user['nickname'] = $v['user']['nickname'];
-				$user['avatar_url'] = $v['user']['big_avatar_url'];
+				$user['avatar_url'] = $v['user']['medium_avatar_url'];
 				$user['summary'] = $v['user']['summary'];
 				$user['counter'] = $v['user']['counter'];
 				$user['follow_count'] = $v['user']['follow_count'];

@@ -55,13 +55,16 @@ $end_time = strtotime(sprintf("%s 01:00:00", date('Y-m-d')));
 $now_time = time();
 if($now_time>=$begin_time && $now_time<=$end_time){
   // 开始统计...
-  begin_stat();
+  //begin_stat();
 }
+
+// 开始执行
+begin_stat();
 
 echo "-------------------------------------------------\n";
 echo "===============FIND FIU USER WORKER WAKE DOWN===============\n";
 echo "-------------------------------------------------\n";
 
-// sleep 1 hour
-sleep(3600);
+// sleep 5 hour
+sleep(3600*5);
 exit(0);
