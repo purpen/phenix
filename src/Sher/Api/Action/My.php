@@ -1051,7 +1051,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
     $favorites = $favorite_model->find(
       array(
         'user_id'=>$user_id,
-        'event'=>Sher_Core_Model_Favorite::EVENT_FAVORITE,
+        'event'=>Sher_Core_Model_Favorite::EVENT_SUBSCRIPTION,
         'type'=>Sher_Core_Model_Favorite::TYPE_APP_SCENE_SCENE,
       ),
       array(
@@ -1061,7 +1061,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
       )
     );
     if(empty($favorites)){
-      return $this->api_json('empty', 0, array());
+      return $this->api_json('empty', 0, array("total_rows"=>0,"rows"=>array(),"total_page"=>0,"current_page"=>1,"pager"=>"","next_page"=>0,"prev_page"=>0));
     }
     for($i=0;$i<count($favorites);$i++){
       array_push($scene_ids, (int)$favorites[$i]['target_id']);
