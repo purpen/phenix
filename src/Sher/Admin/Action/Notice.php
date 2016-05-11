@@ -8,7 +8,7 @@ class Sher_Admin_Action_Notice extends Sher_Admin_Action_Base implements DoggyX_
 	public $stash = array(
 		'page' => 1,
 		'size' => 20,
-    'kind' => 1,
+    'kind' => 0,
 	);
 	
 	public function _init() {
@@ -28,10 +28,21 @@ class Sher_Admin_Action_Notice extends Sher_Admin_Action_Base implements DoggyX_
 	 * 列表
 	 */
 	public function get_list() {
-    $this->set_target_css_state('all');
-		$page = (int)$this->stash['page'];
+    $kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 0;
+    switch($kind){
+      case 0:
+        $this->set_target_css_state('all');
+        break;
+      case 1:
+        $this->set_target_css_state('web');
+        break;
+      case 2:
+        $this->set_target_css_state('fiu');
+        break;
+    }
+
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/notice?page=#p#');
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/notice/get_list?kind=%d&page=#p#', $kind);
 		
 		$this->stash['pager_url'] = $pager_url;
 		
@@ -88,12 +99,16 @@ class Sher_Admin_Action_Notice extends Sher_Admin_Action_Base implements DoggyX_
 	 */
 	public function save(){		
 		$id = $this->stash['_id'];
-
+    if(empty($this->stash['kind'])){
+      return $this->ajax_json('请选择类型!', true);
+    }
 		$data = array();
 		$data['title'] = $this->stash['title'];
 		$data['content'] = $this->stash['content'];
 		$data['remark'] = $this->stash['remark'];
     $data['kind'] = (int)$this->stash['kind'];
+    $data['evt'] = (int)$this->stash['evt'];
+    $data['cover_id'] = isset($this->stash['cover_id']) ? $this->stash['cover_id'] : null;
 		$data['url'] = isset($this->stash['url']) ? $this->stash['url'] : null;
     $data['s_user_id'] = isset($this->stash['s_user_id']) ? (int)$this->stash['s_user_id'] : 0;
 		$data['state'] = 0;

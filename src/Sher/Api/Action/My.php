@@ -1077,7 +1077,6 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 			'fine' => 1, 'stick'=>1, 'is_check'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
 		);
 
-
     $query = array(
       'scene_id' => array('$in' => $scene_ids),
       'is_check' => 1,

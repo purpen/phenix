@@ -9,6 +9,12 @@
 		<a href="{{ app_url_admin_base }}/notice" class="{{ css_all }} item">
 			全部
 		</a>
+		<a href="{{ app_url_admin_base }}/notice/get_list?kind=1" class="{{ css_web }} item">
+			社区
+		</a>
+		<a href="{{ app_url_admin_base }}/notice/get_list?kind=2" class="{{ css_fiu }} item">
+			Fiu
+		</a>
 
 	  	<div class="right menu">
 			<a href="{{ app_url_admin_base }}/notice/submit" class="item">
@@ -43,6 +49,7 @@
 				<th>标题</th>
         <th>发送数量</th>
         <th>发布</th>
+        <th>类型</th>
 				<th>状 态</th>
 				<th>管理操作</th>
 			</tr>
@@ -70,6 +77,7 @@
 					<label class="ui orange label" id="publish-{{ b._id }}-label">否</label>
 					{% endif %}
 				</td>
+        <td>{{ b.kind_label }}</td>
 
         <td>
           <p id="state-{{ b._id }}-label">

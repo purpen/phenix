@@ -20,9 +20,9 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 	public function getlist(){
 		
 		$page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
-		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 100;
+		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
-		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
 
     $user_id = $this->current_user_id;
 		

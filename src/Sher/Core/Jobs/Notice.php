@@ -34,6 +34,8 @@ class Sher_Core_Jobs_Notice extends Doggy_Object {
 				Doggy_Log_Helper::warn("Letter isnot waiting!");
 				return false;
 			}
+
+      $kind = $result['kind'];
 			
 			// 设置为正在发送
 			$model->update_set($notice_id, array('state'=>Sher_Core_Model_Notice::STATE_ING));
@@ -73,7 +75,14 @@ class Sher_Core_Jobs_Notice extends Doggy_Object {
 				for($i=0;$i<$max;$i++){
           $user_id = $next_id = $rows[$i]['_id'];
 					// 更新用户提醒数
-          $user_model->update_counter_byinc($user_id, 'notice_count', 1);
+          if($kind==Sher_Core_Model_Notice::KIND_NOTICE){
+            $field = 'notice_count';
+          }elseif($kind==Sher_Core_Model_Notice::KIND_SCENE){
+            $field = 'fiu_notice_count';         
+          }else{
+            $field = 'notice_count';           
+          }
+          $user_model->update_counter_byinc($user_id, $field, 1);
           //echo "update user $user_id is success...\n";
 					// 记录发送次数
 					$send_count += 1;
