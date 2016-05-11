@@ -57,13 +57,23 @@ class Sher_Api_Action_Notice extends Sher_Api_Action_Base {
 		
 		foreach($result['rows'] as $k => $v){
       $result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
-      $result['rows'][$k]['content'] = htmlspecialchars($v['content']);
+      $result['rows'][$k]['content'] = htmlspecialchars(strip_tags($v['content']));
+      $result['rows'][$k]['cover_url'] = null;
 			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
 		}
 		
 		// 过滤多余属性
     $filter_fields  = array('state_label','__extend__');
     $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+
+    //清空提醒数量
+    if($page==1){
+      $user_model = new Sher_Core_Model_User();
+      $user = $user_model->load($user_id);
+      if($user && isset($user['counter']['fiu_notice_count']) && $user['counter']['fiu_notice_count']>0){
+        $user_model->update_counter($user_id, 'fiu_notice_count');
+      }
+    }
 			
 		return $this->api_json('请求成功', 0, $result);
 	}
