@@ -137,6 +137,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:5;
     // 0.最新；1.随机
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+    // 1.过滤关注的用户和自己
     $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
     // 要显示场景数量。0为不加载场景
     $sight_count = isset($this->stash['sight_count']) ? (int)$this->stash['sight_count'] : 0;
@@ -148,7 +149,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
     $dig_model = new Sher_Core_Model_DigList();
     $dig_key_id = Sher_Core_Util_Constant::DIG_FIU_USER_IDS;
     $dig = $dig_model->load($dig_key_id);
-    if(empty($dig || empty($dig['items']))){
+    if(empty($dig) || empty($dig['items'])){
       return $this->api_json('empty', 0, array('users'=>$result));
     }
 
@@ -168,7 +169,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
         
         while(!$is_end){
           $options['page'] = $follow_page;
-          $follows = $order_model->find($follow_query, $follow_options);
+          $follows = $follow_model->find($follow_query, $follow_options);
           $follow_max = count($follows);
           for($i=0; $i<$follow_max; $i++){
             array_push($follow_arr, $follows[$i]['follow_id']);
@@ -178,7 +179,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
             $is_end = true;
             break;
           }
-          $follow_size++;
+          $follow_page++;
         } // end while
         array_push($follow_arr, $user_id);
       } // endif user_id

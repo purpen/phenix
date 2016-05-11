@@ -76,6 +76,7 @@ class Sher_Core_Helper_FilterFields {
           unset($data['identify']['d3in_volunteer']);
           unset($data['identify']['d3in_vip']);
           unset($data['identify']['d3in_tag']);
+          unset($data['identify']['is_app_first_shop']);
 
           if(!isset($data['identify']['is_scene_subscribe'])){  // 是否首次订阅
               $data['identify']['is_scene_subscribe'] = 0;
