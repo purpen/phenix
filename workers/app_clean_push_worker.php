@@ -51,6 +51,7 @@ function begin_stat(){
         }
 
         if($max < $size){
+		      $is_end = true;
           break;
         }
         $page++;
