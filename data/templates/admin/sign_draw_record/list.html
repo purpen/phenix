@@ -70,7 +70,7 @@
 		</a>
 
 	  <div class="right menu">
-      <a href="{{ app_url_admin_base }}/sign_draw_record/export?target_id={{target_id}}&event={{event}}" class="item">
+      <a href="{{ app_url_admin_base }}/sign_draw_record/export?target_id={{target_id}}&event={{event}}&kind={{ kind }}" class="item">
 				导出
 			</a>
 	  </div>
@@ -147,7 +147,7 @@
 		</thead>
 		<tbody>
 
-			{% sign_draw_record_list var:'list' target_id:target_id kind:1 day:day event:event state:state user_id:user_id ip:ip kind:kind page:page size:100 %}
+			{% sign_draw_record_list var:'list' target_id:target_id day:day event:event state:state user_id:user_id ip:ip kind:kind page:page size:100 %}
 
 			{% for f in list.rows %}
         
