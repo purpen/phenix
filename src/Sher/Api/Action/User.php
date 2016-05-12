@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_User extends Sher_Api_Action_Base{
 
-	protected $filter_user_method_list = array('execute', 'getlist', 'user_info');
+	protected $filter_user_method_list = array('execute', 'getlist', 'user_info', 'find_user');
 	
 	/**
 	 * 入口
@@ -15,7 +15,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 	}
 	
 	/**
-	 * 场景列表
+	 * 场景列表--性能太差，以后去掉此接口
 	 */
 	public function getlist(){
 		
@@ -127,6 +127,115 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 		//var_dump($result['rows']);die;
 		return $this->api_json('请求成功', 0, $result);
 	}
+
+  /**
+   * 发现好友，最Fiu伙伴
+   */
+  public function find_user(){
+    $user_id = $this->current_user_id;
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:5;
+    // 0.最新；1.随机
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+    // 1.过滤关注的用户和自己
+    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+    // 要显示场景数量。0为不加载场景
+    $sight_count = isset($this->stash['sight_count']) ? (int)$this->stash['sight_count'] : 0;
+
+    $result = array();
+    $user_arr = array();
+    $follow_arr = array();
+
+    $dig_model = new Sher_Core_Model_DigList();
+    $dig_key_id = Sher_Core_Util_Constant::DIG_FIU_USER_IDS;
+    $dig = $dig_model->load($dig_key_id);
+    if(empty($dig) || empty($dig['items'])){
+      return $this->api_json('empty', 0, array('users'=>$result));
+    }
+
+    $user_model = new Sher_Core_Model_User();
+    $follow_model = new Sher_Core_Model_Follow();
+    $scene_sight_model = new Sher_Core_Model_SceneSight();   
+
+    if($type==1){ // 过滤已关注的用户和当前用户
+      if($user_id){
+        $follow_page = 1;
+        $follow_size = 100;
+        $is_end = false;
+        $follow_query = array();
+        $follow_options = array();
+        $follow_query['user_id'] = $user_id;
+        $follow_options['size'] = $follow_size;
+        
+        while(!$is_end){
+          $options['page'] = $follow_page;
+          $follows = $follow_model->find($follow_query, $follow_options);
+          $follow_max = count($follows);
+          for($i=0; $i<$follow_max; $i++){
+            array_push($follow_arr, $follows[$i]['follow_id']);
+          }
+          
+          if($follow_max < $follow_size){
+            $is_end = true;
+            break;
+          }
+          $follow_page++;
+        } // end while
+        array_push($follow_arr, $user_id);
+      } // endif user_id
+    }elseif($type==2){
+    
+    }
+
+    // 取前Ｎ个数量
+    $dig['items'] = array_slice($dig['items'], 0, $size);
+
+    // 整理数据
+    for($i=0;$i<count($dig['items']);$i++){
+      if(!empty($follow_arr)){
+        for($j=0;$j<count($follow_arr);$j++){
+          if(in_array($follow_arr[$j], $dig['items'])){
+            continue;
+          }
+        }
+      }
+      array_push($user_arr, $dig['items'][$i]);
+    }
+
+    // 打乱数组
+    if($sort==1){
+      shuffle($user_arr);
+    }
+
+    // 加载数据
+    for($i=0;$i<count($user_arr);$i++){
+      $user = $user_model->extend_load((int)$user_arr[$i]);
+      if(empty($user)){
+        continue;
+      }
+      // 过滤用户字段
+      $item = Sher_Core_Helper_FilterFields::wap_user($user);
+			// 判断是否被关注
+			$item['is_love'] = 0;
+			if($follow_model->has_exist_ship($user_id, $user['_id'])){
+				$item['is_love'] = 1;
+			}
+      $item['scene_sight'] = array();
+      if($sight_count){
+        $scene_sight_list = $scene_sight_model->find(array('user_id'=>$user['_id'], 'is_check'=>1), array('page'=>1, 'size'=>$sight_count));
+        for($j=0;$j<count($scene_sight_list);$j++){
+          $scene_sight = $scene_sight_model->extended_model_row($scene_sight_list[$j]);
+          $item['scene_sight'][$j]['_id'] = $scene_sight['_id'];
+          $item['scene_sight'][$j]['title'] = $scene_sight['title'];
+          $item['scene_sight'][$j]['address'] = $scene_sight['address'];
+          $item['scene_sight'][$j]['cover_url'] = $scene_sight['cover']['thumbnails']['huge']['view_url'];
+        }
+      } // endif sight_count
+      array_push($result, $item);
+    } // endfor
+    
+    return $this->api_json('success', 0, array('users'=>$result));
+  }
 	
 	/**
 	 * 获取用户信息

@@ -48,6 +48,9 @@ class Sher_Core_Model_DigList extends Sher_Core_Model_Base  {
             case Sher_Core_Util_Constant::DIG_THIRD_DB_STAT:
               $str = '兑吧浏览量统计';
               break;
+            case Sher_Core_Util_Constant::DIG_FIU_USER_IDS:
+              $str = 'Fiu 用户列表';
+              break;
             default:
                 $str = '未定义';
         }

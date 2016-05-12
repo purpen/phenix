@@ -136,10 +136,50 @@
 		<input name="_id" type="hidden" value="{{ notice._id }}" />
 		<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
 
+    <div class="grouped inline fields">
+      <label>通知类型:</label>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="kind" value="1" {% if notice.kind == 1 %}checked="checked"{% endif %} /> 
+          <label>官网</label>
+        </div>
+        <div class="ui radio checkbox">
+          <input type="radio" name="kind" value="2" {% if notice.kind == 2 %}checked="checked"{% endif %} /> 
+          <label>Fiu</label>
+        </div>
+      </div>
+    </div>
+
 		<div class="field">
 			<label>标题:</label>
 			<input type="text" name="title" value="{{ notice.title }}" />
 		</div>
+
+    <div class="grouped inline fields">
+      <label>Fiu ID指向:</label>
+      <div class="field">
+        <div class="ui checkbox">
+          <input type="radio" name="evt" value="0" {% if notice.evt == 0 %}checked="checked"{% endif %} /> 
+          <label>链接&nbsp;&nbsp;</label>
+        </div>
+        <div class="ui checkbox">
+          <input type="radio" name="evt" value="1" {% if notice.evt == 1 %}checked="checked"{% endif %} /> 
+          <label>情景&nbsp;&nbsp;</label>
+        </div>
+        <div class="ui checkbox">
+          <input type="radio" name="evt" value="2" {% if notice.evt == 2 %}checked="checked"{% endif %} /> 
+          <label>场景&nbsp;&nbsp;</label>
+        </div>
+        <div class="ui checkbox">
+          <input type="radio" name="evt" value="3" {% if notice.evt == 3 %}checked="checked"{% endif %} /> 
+          <label>产品&nbsp;&nbsp;</label>
+        </div>
+        <div class="ui checkbox">
+          <input type="radio" name="evt" value="4" {% if notice.evt == 4 %}checked="checked"{% endif %} /> 
+          <label>未定义&nbsp;&nbsp;</label>
+        </div>
+      </div>
+    </div>
 
 		<div class="two fields">
 
@@ -157,9 +197,9 @@
       </div>
 
 			<div class="field">
-				<label>链接地址：</label>
+				<label>链接地址(ID)：</label>
 			  	<input type="text" name="url" class="small" value="{{ notice.url }}" placeholder="http://" >
-				  <div class="description">可不添</div>
+				  <div class="description">链接地址或Fiu指向的ID</div>
 			</div>
 			
 		</div>
@@ -167,6 +207,7 @@
     <div class="field">
       <label>内容:</label>
       <textarea name="content" placeholder="内容" id="editor">{{ notice.content }}</textarea>
+			<div class="description">如果类型是Fiu, 只能发纯文本</div>
     </div>
 
     <div class="field">

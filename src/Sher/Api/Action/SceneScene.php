@@ -64,6 +64,8 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
                 );
             }
         }
+
+        $query['is_check'] = 1;
 		
 		if($stick){
       if($stick==-1){

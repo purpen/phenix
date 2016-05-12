@@ -24,23 +24,26 @@ class Sher_Core_Model_Notice extends Sher_Core_Model_Base  {
         //备注
         'remark'  => null,
         'user_id' => 0,
+        'cover_id' => null,
         's_user_id' => 0,
         // 发布
         'published' => 0,
         'kind' => self::KIND_NOTICE,
         'state' => self::STATE_NO,
+        // 指向：0.链接；1.情景；2.场景；3.产品；4.－－
+        'evt' => 0, 
         // 发送数量
         'send_count' => 0,
-        // 原文链接
+        // 原文链接(Fiu详情ID)
         'url' => null,
   	);
 
     protected $required_fields = array('title');
   
-    protected $int_fields = array('state', 'user_id', 'kind', 's_user_id', 'published', 'send_count');
+    protected $int_fields = array('state', 'user_id', 'kind', 's_user_id', 'published', 'send_count', 'evt');
 
 	protected $joins = array(
-	    's_user'  => array('s_user_id'  => 'Sher_Core_Model_User'),
+	    's_user'  => array('s_user_id' => 'Sher_Core_Model_User'),
 	);
 
 
@@ -77,6 +80,18 @@ class Sher_Core_Model_Notice extends Sher_Core_Model_Base  {
                 break;
             default:
                 $row['state_label'] = '--';
+        }
+
+        // 类型提示
+        switch($row['kind']){
+            case 1:
+                $row['kind_label'] = 'Web';
+                break;
+            case 2:
+                $row['kind_label'] = 'Fiu';
+                break;
+            default:
+                $row['kind_label'] = '--';
         }
 		
 	}
