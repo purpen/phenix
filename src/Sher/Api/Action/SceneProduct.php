@@ -334,9 +334,13 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     // 原文链接
     $link = isset($this->stash['link']) ? $this->stash['link'] : null;
     $published = isset($this->stash['published']) ? (int)$this->stash['published'] : 1;
+    // 封面图
+    $cover_url = isset($this->stash['cover_url']) ? $this->stash['cover_url'] : null;
+    // Banner图
+    $banners_url = isset($this->stash['banners_url']) ? $this->stash['banners_url'] : null;
 
-    if(empty($title) || empty($oid) || empty($market_price) || empty($market_price) || empty($sale_price) || empty($link)){
-  		return $this->api_json('缺少请求参数', 3001);      
+    if(empty($title) || empty($oid) || empty($market_price) || empty($market_price) || empty($cover_url) || empty($sale_price) || empty($link)){
+  		return $this->api_json('缺少请求参数', 3001);
     }
 
     $rows = array(
@@ -355,9 +359,13 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     $scene_product_model = new Sher_Core_Model_SceneProduct();
     $ok = $scene_product_model->apply_and_save($rows);
     if($ok){
-    	return $this->api_json('创建失败!', 0, array('id'=>$scene_product_model->id));    
+      $id = $scene_product_model->id;
+      // 处理图片
+
+
+    	return $this->api_json('创建失败!', 0, array('id'=>$id));    
     }else{
-   	  return $this->api_json('创建失败!', 3003);    
+   	  return $this->api_json('创建失败!', 3003);
     }
 
   }
@@ -432,7 +440,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     }
 
     if($result['success']){
-      return $this->api_json('success', 0, $result['data']);     
+      return $this->api_json('success', 0, $result['data']);
     }else{
       return $this->api_json($result['msg'], 3005);
     }
