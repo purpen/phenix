@@ -12,6 +12,7 @@ class Sher_Core_Model_SceneProductLink extends Sher_Core_Model_Base {
 		'sight_id' => 0,
         # 产品id
         'product_id' => 0,
+        'product_kind' => 0,
         # 是否启用
 		'status' => 0,
     );

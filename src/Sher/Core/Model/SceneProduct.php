@@ -197,6 +197,18 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
         $row['attrbute_str'] = '--';
     }
 
+    // 创建者身份
+    switch($row['kind']){
+      case 1:
+        $row['kind_label'] = '官方';
+        break;
+      case 2:
+        $row['kind_label'] = '用户';
+        break;
+      default:
+        $row['kind_label'] = '--';
+    }
+
 	}
 	
 	/**
