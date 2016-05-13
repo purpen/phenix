@@ -18,7 +18,7 @@ class Sher_Core_Model_SceneProductLink extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array();
-	protected $int_fields = array('status','sight_id','product_id');
+	protected $int_fields = array('status','sight_id','product_id','product_kind');
 	protected $float_fields = array();
 	protected $counter_fields = array();
 	protected $retrieve_fields = array();

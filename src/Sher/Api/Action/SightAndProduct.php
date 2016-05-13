@@ -69,14 +69,15 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
 			foreach($some_fields as $key=>$value){
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:null;
 			}
-
+			$data[$i]['_id'] = (string)$result['rows'][$i]['_id'];
       $product = $result['rows'][$i]['product'];
       $sight = $result['rows'][$i]['sight'];
 
+      $data[$i]['product'] = array();
+      $data[$i]['sight'] = array();
       if(!empty($product)){
 
         // 重建商品数据结果
-        $data = array();
         for($j=0;$j<count($product_some_fields);$j++){
           $product_key = $product_some_fields[$j];
           $data[$i]['product'][$product_key] = isset($product[$product_key]) ? $product[$product_key] : null;
