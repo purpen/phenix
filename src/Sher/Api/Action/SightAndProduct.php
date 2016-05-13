@@ -31,9 +31,9 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
 		$product_some_fields = array(
       '_id', 'title', 'short_title', 'oid', 'sale_price', 'market_price','brand_id', 'brand',
 			'kind', 'cover_id', 'category_id', 'fid', 'summary', 'link', 'description',
-			'stick', 'summary', 'fine', 'banner_asset_ids', 'png_asset_ids', 'asset_ids', 'category_tags',
+			'stick', 'summary', 'fine', 'banner_asset_ids', 'asset_ids', 'category_tags',
 			'view_count', 'favorite_count', 'love_count', 'comment_count','buy_count', 'deleted',
-      'published', 'attrbute', 'state', 'tags', 'tags_s', 'created_on', 'updated_on', 'created_at', 'cover_url',
+      'published', 'attrbute', 'state', 'tags', 'tags_s', 'created_on', 'updated_on', 'created_at',
 		);
 		
 		$query   = array();
