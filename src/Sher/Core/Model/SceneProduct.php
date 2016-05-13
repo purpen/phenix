@@ -359,6 +359,20 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 		unset($asset);
 	}
 
+	/**
+	 * 批量更新附件所属
+	 */
+	public function update_batch_assets($ids=array(), $parent_id){
+		if (!empty($ids)){
+			$model = new Sher_Core_Model_Asset();
+			foreach($ids as $id){
+        if(!empty($id)){
+				  $model->update_set($id, array('parent_id' => (int)$parent_id));
+        }
+			}
+		}
+	}
+
 	
 }
 

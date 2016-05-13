@@ -685,7 +685,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		$params['domain'] = Sher_Core_Util_Constant::STROAGE_ID_CARD;
 		$params['asset_type'] = Sher_Core_Model_Asset::TYPE_ID_CARD;
 		$params['filename'] = $new_file_id.'.jpg';
-		$params['parent_id'] = 0;
+		$params['parent_id'] = $user_id;
 		$params['image_info'] = $image_info;
 		$result = Sher_Core_Util_Image::api_image($file, $params);
 		
@@ -713,7 +713,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		$params['domain'] = Sher_Core_Util_Constant::STROAGE_BUSINESS_CARD;
 		$params['asset_type'] = Sher_Core_Model_Asset::TYPE_BUSINESS_CARD;
 		$params['filename'] = $new_file_id.'.jpg';
-		$params['parent_id'] = 0;
+		$params['parent_id'] = $user_id;
 		$params['image_info'] = $image_info;
 		$result = Sher_Core_Util_Image::api_image($file, $params);
 		
