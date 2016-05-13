@@ -109,6 +109,8 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
       }
 
 		}
+
+    $result['rows'] = $data;
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
