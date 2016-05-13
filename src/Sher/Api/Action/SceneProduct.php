@@ -334,15 +334,64 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     // 原文链接
     $link = isset($this->stash['link']) ? $this->stash['link'] : null;
     $published = isset($this->stash['published']) ? (int)$this->stash['published'] : 1;
+    // 封面图
+    $cover_url = isset($this->stash['cover_url']) ? $this->stash['cover_url'] : null;
+    // Banner图
+    $banners_url = isset($this->stash['banners_url']) ? $this->stash['banners_url'] : null;
 
-    if(empty($title) || empty($oid) || empty($market_price) || empty($market_price) || empty($sale_price) || empty($link)){
-  		return $this->api_json('缺少请求参数', 3001);      
+    if(empty($title) || empty($oid) || empty($market_price) || empty($market_price) || empty($cover_url) || empty($sale_price) || empty($link)){
+  		return $this->api_json('缺少请求参数', 3001);
     }
+
+    // 先保存图片，再生成Asset，防止图片不能及时加载
+    // 处理图片cover
+    $qiniu_file = @file_get_contents($cover_url);
+		$image_info = Sher_Core_Util_Image::image_info_binary($qiniu_file);
+		if($image_info['stat']==0){
+			return $this->api_json($image_info['msg'], 3002);
+		}
+    $qiniu_param = array(
+      'domain' => Sher_Core_Util_Constant::STROAGE_SCENE_PRODUCT,
+      'asset_type' => Sher_Core_Model_Asset::TYPE_GPRODUCT,
+      'user_id' => $user_id,
+      'filename' => null,
+      'image_info' => $image_info,
+    );
+		$cover_result = Sher_Core_Util_Image::api_image($qiniu_file, $qiniu_param);
+		if($cover_result['stat']){
+			$cover_id = $cover_result['asset']['id'];
+		}else{
+			$cover_id = null; 
+		}
+
+    // 处理Banners
+    $banner_asset_ids = array();
+    if(!empty($banners_url)){
+      $qiniu_param['asset_type'] = Sher_Core_Model_Asset::TYPE_GPRODUCT_BANNER;
+      $banner_arr = explode('&&', $banners_url);
+      for($i=0;$i<count($banner_arr);$i++){
+        $b_url = $banner_arr[$i];
+        $b_file = @file_get_contents($b_url);
+		    $b_image_info = Sher_Core_Util_Image::image_info_binary($b_file);
+        if($b_image_info['stat']==0){
+          continue;
+        }
+        $b_result = Sher_Core_Util_Image::api_image($b_file, $qiniu_param);
+        if($b_result['stat']){
+          $banner_id = $b_result['asset']['id'];
+          array_push($banner_asset_ids, $banner_id);
+        }else{
+          continue;
+        }
+      } // endfor
+    } // endif empty banners_url
 
     $rows = array(
       'user_id' => $user_id,
       'title' => $title,
       'oid' => $oid,
+      'cover_id' => $cover_id,
+      'banner_asset_ids' => $banner_asset_ids,
       'sku_id' => $sku_id,
       'attrbute' => $attrbute,
       'kind' => $kind,
@@ -355,9 +404,20 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     $scene_product_model = new Sher_Core_Model_SceneProduct();
     $ok = $scene_product_model->apply_and_save($rows);
     if($ok){
-    	return $this->api_json('创建失败!', 0, array('id'=>$scene_product_model->id));    
+      $id = $scene_product_model->id;
+
+      // 更新封面信息
+      if($rows['cover_id']){
+        $scene_product_model->update_batch_assets(array($rows['cover_id']), $id);
+      }
+      // 更新Banner信息
+      if(!empty($rows['banner_asset_ids'])){
+        $scene_product_model->update_batch_assets($rows['banner_asset_ids'], $id);
+      }
+
+    	return $this->api_json('创建失败!', 0, array('id'=>$id)); 
     }else{
-   	  return $this->api_json('创建失败!', 3003);    
+   	  return $this->api_json('创建失败!', 3003);
     }
 
   }
@@ -432,7 +492,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     }
 
     if($result['success']){
-      return $this->api_json('success', 0, $result['data']);     
+      return $this->api_json('success', 0, $result['data']);
     }else{
       return $this->api_json($result['msg'], 3005);
     }

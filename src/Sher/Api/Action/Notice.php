@@ -33,7 +33,7 @@ class Sher_Api_Action_Notice extends Sher_Api_Action_Base {
 
 		//显示的字段
 		$options['some_fields'] = array(
-		  '_id'=>1, 'title'=>1, 'kind'=>1, 'published'=>1, 'evt'=>1, 'content'=>1, 'state'=>1, 'send_count'=>1, 'url'=>1,'created_on'=>1, 'updated_on'=>1,
+		  '_id'=>1, 'title'=>1, 'kind'=>1, 'published'=>1, 'evt'=>1, 'cover_id'=>1, 'cover'=>1, 'content'=>1, 'state'=>1, 'send_count'=>1, 'url'=>1,'created_on'=>1, 'updated_on'=>1,
 		);
 		
 		// 查询条件
@@ -58,7 +58,7 @@ class Sher_Api_Action_Notice extends Sher_Api_Action_Base {
 		foreach($result['rows'] as $k => $v){
       $result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
       $result['rows'][$k]['content'] = htmlspecialchars(strip_tags($v['content']));
-      $result['rows'][$k]['cover_url'] = null;
+      $result['rows'][$k]['cover_url'] = !empty($v['cover']) ? $v['cover']['thumbnails']['apc']['view_url'] : null;
 			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
 		}
 		

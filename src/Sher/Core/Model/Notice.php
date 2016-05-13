@@ -44,6 +44,7 @@ class Sher_Core_Model_Notice extends Sher_Core_Model_Base  {
 
 	protected $joins = array(
 	    's_user'  => array('s_user_id' => 'Sher_Core_Model_User'),
+		  'cover' => array('cover_id' => 'Sher_Core_Model_Asset'),
 	);
 
 

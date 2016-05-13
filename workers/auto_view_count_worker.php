@@ -71,25 +71,38 @@ function auto_do($type, $size=1000){
     }
     $max = count($list);
     for ($i=0; $i<$max; $i++) {
+      $do_it = false;
       $id = (int)$list[$i]['_id'];
+      $view_count = $list[$i]['view_count'];
       $inc = rand(10, 50);
 
       switch($type){
         case 1:
-          $model->increase_counter('view_count', $inc, $id);
+          if($view_count<2000){
+            $model->increase_counter('view_count', $inc, $id);
+            $do_it = true;
+          }
           break;
         case 2:
-          $model->inc_counter('view_count', $inc, $id);
+          if($view_count<1000){
+            $model->inc_counter('view_count', $inc, $id);
+            $do_it = true;
+          }
           break;
         case 3:
-          $model->increase_counter('view_count', $inc, $id);
+          if($view_count<2500){
+            $model->increase_counter('view_count', $inc, $id);
+            $do_it = true;
+          }
           break;
         default:
 
       }
 
-      $total++;
-      echo "update success $model_str step_stat [".(string)$id."]..........\n";
+      if($do_it){
+        $total++;
+        echo "update success $model_str step_stat [".(string)$id."]..........\n";
+      }
     }
     if($max < $size){
       $is_end = true;

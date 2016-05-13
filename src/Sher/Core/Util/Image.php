@@ -22,7 +22,7 @@ class Sher_Core_Util_Image {
 			$callback_url = Doggy_Config::$vars['app.url.qiniu.assets'];
         }
 
-        if($ext){
+        if($ext){ // 带后缀名(文件上传用)
             $saveKey = '$(x:domain)/'.$year.'$(mon)$(day)/$(x:pid)-$(x:ord)$(ext)';
             $persistentOps = '';
         }else{
@@ -32,7 +32,7 @@ class Sher_Core_Util_Image {
 		
         $policy = array(
             'scope'        => Doggy_Config::$vars['app.qiniu.bucket'],
-            'deadline'     => time() + 36000,
+            'deadline'     => time() + 3600,
 			'saveKey'      => $saveKey,
             'callbackUrl'  => $callback_url,
 			'callbackBody' => 'filepath=$(key)&filename=$(fname)&size=$(fsize)&width=$(imageInfo.width)&height=$(imageInfo.height)&mime=$(mimeType)&hash=$(etag)&user_id=$(x:user_id)&parent_id=$(x:parent_id)&asset_type=$(x:asset_type)&domain=$(x:domain)&file_id=$(x:pid)',
@@ -73,7 +73,7 @@ class Sher_Core_Util_Image {
      * @param int $fs_id
      * @param int $fileName
      */
-    public static function gen_path($fileName, $prefix=Sher_Core_Util_Constant::STROAGE_PRODUCT){
+    public static function gen_path($fileName=null, $prefix=Sher_Core_Util_Constant::STROAGE_PRODUCT){
 		$fs_id = new MongoId();
 		
         $ext = Doggy_Util_File::getFileExtension($fileName);
@@ -511,31 +511,20 @@ class Sher_Core_Util_Image {
         $s['stat'] = 0;
         $s['msg'] = null;
   
-        // 获取是否存在旧记录
-        $old_avatar = array();
-        if($arr['parent_id']){
-            $old_avatar = $asset->first(
-                array(
-                    'parent_id' => $arr['parent_id'],
-                    'asset_type' => $arr['asset_type'],
-                )
-            );
-        }
-      
         $asset->set_file_content($file_str);
+
+        $img_info['domain'] = $arr['domain'];
   
         $img_type = Doggy_Util_File::mime_content_type($arr['filename']);
         $img_info['size'] = 0;
         $img_info['mime'] = $img_type;
         $img_info['filename'] = $arr['filename'];
-        $img_info['filepath'] = Sher_Core_Util_Image::gen_path($arr['filename'], 'avatar');
+        $img_info['filepath'] = Sher_Core_Util_Image::gen_path($arr['filename'], $img_info['domain']);
         $img_info['asset_type'] = $arr['asset_type'];
         if($arr['parent_id']){
             $img_info['parent_id'] = $arr['parent_id'];
         }
-        if($arr['domain']){
-            $img_info['domain'] = $arr['domain'];
-        }
+
         if(isset($arr['user_id']) && !empty($arr['user_id'])){
             $img_info['user_id'] = $arr['user_id'];
         }
@@ -545,13 +534,10 @@ class Sher_Core_Util_Image {
           
         $ok = $asset->apply_and_save($img_info);
         if ($ok) {
-            $avatar_id = (string)$asset->id;
-            if (!empty($old_avatar)) {
-                $asset->delete_file($old_avatar['_id']);
-            }
+            $asset_id = (string)$asset->id;
                 
             $result = array(
-                'id' => $avatar_id,
+                'id' => $asset_id,
                 'file_url' => Sher_Core_Helper_Url::asset_qiniu_view_url($asset->filepath),
                 'width'  => $img_info['width'],
                 'height' => $img_info['height']
@@ -564,6 +550,28 @@ class Sher_Core_Util_Image {
         }
         return $s;
     }
+
+
+  /**
+   * 上传图片（通过url上传）
+   */
+  public static function api_upload($url, $options=array()){
+
+    $param = array(
+      'token' => $options['token'],
+      'x:domain' => $options['domain'],
+      'x:pid' => $options['pid'],
+      'x:ord' => isset($options['ord']) ? $options['ord'] : 1,
+      'x:user_id' => $options['user_id'],
+      'x:asset_type' => $options['asset_type'],
+      'x:parent_id' => isset($options['parent_id']) ? $options['parent_id'] : null,
+      'x:file_id' => isset($options['file_id']) ? $options['file_id'] : null,
+    );
+
+    $qc_url = new Sher_Core_Helper_QcUrl();
+    $result = $qc_url->post($url, $param);
+  
+  }
 	
 }
-?>
+

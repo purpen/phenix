@@ -129,17 +129,37 @@ class Sher_Core_Util_JdSdk {
       if($resp['code']==0 && isset($resp['listproductbase_result'])){
 
         $req1 = new WarePriceGetRequest();
+        $req2 = new WareProductimageGetRequest();
         foreach($resp['listproductbase_result'] as $k=>$v){
           $sku_id = sprintf("J_%s", $v['skuId']);
           $req1->setSkuId( $sku_id );
+          $req2->setSkuId($v['skuId']);
           $resp1 = $c->execute($req1, $c->accessToken);
+          $resp2 = $c->execute($req2, $c->accessToken);
           $resp1 = Sher_Core_Helper_Util::object_to_array($resp1);
+          $resp2 = Sher_Core_Helper_Util::object_to_array($resp2);
+
+          // 获取价格
           if($resp1['code']==0 && isset($resp1['price_changes'])){
             $resp['listproductbase_result'][$k]['sale_price'] = $resp1['price_changes'][0]['price'];
             $resp['listproductbase_result'][$k]['market_price'] = $resp1['price_changes'][0]['market_price'];
           }else{
             $resp['listproductbase_result'][$k]['sale_price'] = null;
-            $resp['listproductbase_result'][$k]['market_price'] = null;         
+            $resp['listproductbase_result'][$k]['market_price'] = null;
+          }
+          // 获取图片组
+          if($resp2['code']==0 && isset($resp2['image_path_list'])){
+            $urls = array();
+            for($i=0;$i<count($resp2['image_path_list'][0]['image_list']);$i++){
+              $url = isset($resp2['image_path_list'][0]['image_list'][$i]['path']) ? $resp2['image_path_list'][0]['image_list'][$i]['path'] : null;
+              if($url){
+                $url = trim(str_replace('/n5/', '/n0/', $url));
+                array_push($urls, $url);
+              }
+            }
+            $resp['listproductbase_result'][$k]['banners_url'] = $urls;
+          }else{
+            $resp['listproductbase_result'][$k]['banners_url'] = array();
           }
           
         } // end foreach
