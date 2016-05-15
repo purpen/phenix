@@ -99,7 +99,7 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
         unset($data[$i]['target_user']);
 			}
       if(isset($data[$i]['reply_comment'])){
-        //$data[$i]['reply_user_nickname'] = $data[$i]['reply_comment']['user']['nickname'];
+        $data[$i]['reply_user_nickname'] = $data[$i]['reply_comment']['user']['nickname'];
         $data[$i]['reply_comment']['user'] = Sher_Core_Helper_FilterFields::user_list($data[$i]['reply_comment']['user']);
         unset($data[$i]['reply_comment']['target_user']);
       }else{
@@ -118,8 +118,6 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 	 * 评论
 	 */
 	public function ajax_comment(){
-		
-		// target_id=70&type=12&content=test&from_site=4
 		
 		$user_id = $this->current_user_id;
 		
