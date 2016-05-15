@@ -48,6 +48,10 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		$query   = array();
 		$options = array();
 
+    if($kind){
+      $query['kind'] = (int)$kind;
+    }
+
     if($ids){
       $id_arr = explode(',', $ids);
       for($i=0;$i<count($id_arr);$i++){
@@ -55,11 +59,8 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
       }
       if(!empty($id_arr)){
         $query['_id'] = array('$in'=>$id_arr);
+        unset($query['kind']);
       }   
-    }
-
-    if($kind){
-      $query['kind'] = (int)$kind;
     }
 		
     // 查询条件
