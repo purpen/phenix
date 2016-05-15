@@ -73,7 +73,8 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 	 * 保存信息
 	 */
 	public function save(){		
-		$id = $this->stash['_id'];
+    $id = $this->stash['_id'];
+    $user_id = (int)$this->visitor->id;
 
 		$data = array();
 		$data['mark'] = $this->stash['mark'];
@@ -90,13 +91,25 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 			
 			if(empty($id)){
 				$mode = 'create';
-				$data['user_id'] = (int)$this->visitor->id;
+				$data['user_id'] = $user_id;
 				$ok = $model->apply_and_save($data);
 				
 				$id = (string)$model->id;
 			}else{
 				$mode = 'edit';
 				$data['_id'] = $id;
+        $block = $model->load($id);
+        if(empty($block)){
+          return $this->ajax_json('内容不存在!', true);
+        }
+  
+        // 是否允许编辑操作
+        $mark_arr = Sher_Core_Model_Block::mark_safer();
+        if(in_array($block['mark'], $mark_arr)){
+          if(!Sher_Core_Helper_Util::is_high_admin($user_id)){
+            return $this->ajax_json('没有执行权限!', true);     
+          }
+        }
 				$ok = $model->apply_and_update($data);
 			}
 			
@@ -138,6 +151,7 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 	 */
 	public function deleted(){
 		$id = $this->stash['id'];
+    $user_id = $this->visitor->id;
 		if(empty($id)){
 			return $this->ajax_notification('块不存在！', true);
 		}
@@ -145,12 +159,16 @@ class Sher_Admin_Action_Block extends Sher_Admin_Action_Base implements DoggyX_A
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		
 		try{
+      if(!Sher_Core_Helper_Util::is_high_admin($user_id)){
+        return $this->ajax_notification('没有执行权限!', true);     
+      }
 			$model = new Sher_Core_Model_Block();
 			
 			foreach($ids as $id){
 				$block = $model->load($id);
 				
 				if (!empty($block)){
+
 					$model->remove($id);
 					// 删除关联对象
 					$model->mock_after_remove($id);
