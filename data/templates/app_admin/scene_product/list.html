@@ -2,11 +2,22 @@
 {% block page_css %}
 {% endblock %}
 
+{% block jquery %}
+
+  // 搜索
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+	
+{% endblock %}
+
 {% block content %}
 	<h3 class="ui header">产品管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_app_admin_base }}/scene_product" class="{{ css_product }} item">产品列表</a>
+		<a href="{{ app_url_app_admin_base }}/scene_product" class="{%if kind==0%}active{%endif%} item">全部</a>
+    <a href="{{ app_url_app_admin_base }}/scene_product/get_list?kind=1" class="{%if kind==1%}active{%endif%} item">官方</a>
+		<a href="{{ app_url_app_admin_base }}/scene_product/get_list?kind=2" class="{%if kind==2%}active{%endif%} item">用户</a>
 	  	<div class="right menu">
 			<a href="{{ app_url_app_admin_base }}/scene_product/edit" class="item">
 				<i class="add icon"></i>新增产品
@@ -15,16 +26,36 @@
 	</div>
 	
 	<div class="ui sub nav">
-		<form action="{{ app_url_app_admin_base }}/scene_product" method="post">
+		<form action="{{ app_url_app_admin_base }}/scene_product/get_list" id="search-form" method="get">
 			<label>搜索：</label>
-			<div class="ui icon input">
-				<input placeholder="Search..." type="text" name="q">
-				<i class="search link icon"></i>
+      <div class="ui selection dropdown">
+        <input type="hidden" name="attrbute" value="{{ attrbute }}" />
+        <div class="default text">选择来源</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item" data-value="0">全部</div>
+          <div class="item" data-value="1">自营</div>
+          <div class="item" data-value="2">淘宝</div>
+          <div class="item" data-value="3">天猫</div>
+          <div class="item" data-value="4">京东</div>
+        </div>
+      </div>
+
+			<div class="ui input">
+        <input placeholder="用户ID" type="text" name="user_id" value="{{ user_id }}" />
 			</div>
+      <!--
+			<div class="ui input">
+        <input placeholder="标题" type="text" name="title" value="{{ title }}" />
+			</div>
+      -->
+				<div class="ui input">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
 		</form>
 	</div>
 	
-	{% scene_product_list var:'list' page:page size:size %}
+	{% scene_product_list var:'list' kind:kind user_id:user_id attrbute:attrbute page:page size:size %}
 	<table class="ui small table">
 		<thead>
 			<tr>
@@ -32,8 +63,8 @@
 				<th>封面图</th>
 				<th>标题</th>
         <th>来自</th>
-        <th>跳出次数</th>
-        <th>身份</th>
+        <th>浏览|跳出</th>
+        <th>创建身份</th>
 				<th>发布</th>
 				<th>推荐</th>
 				<th>精选</th>
@@ -65,7 +96,7 @@
         <td>
           {{ d.attrbute_str }}
         </td>
-				<td>{{ d.buy_count }}</td>
+        <td>{{d.view_count}}|{{ d.buy_count }}</td>
         <td>
           {{ d.kind_label }}
         </td>
