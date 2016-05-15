@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'outside_search', 'tb_view', 'jd_view', 'jd_item_price', 'item_url_convert');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'outside_search', 'tb_view', 'jd_view', 'jd_item_price', 'item_url_convert', 'sight_click_stat');
 
 	/**
 	 * 入口
@@ -19,7 +19,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 	 */
 	public function getlist(){
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		
 		// 请求参数
@@ -584,6 +584,19 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 
     $result = Sher_Core_Util_TopSdk::item_url_convert($ids, $options); 
   
+  }
+
+  /**
+   * 从场景跳出统计
+   */
+  public function sight_click_stat(){
+    $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+    if(empty($id)){
+      return $this->api_json('缺少请求参数!', 3000);  
+    }
+    $scene_product_model = new Sher_Core_Model_SceneProduct();
+    $scene_product_model->inc_counter('buy_count', 1, $id);
+    return $this->api_json('success', 0, array('id'=>$id));
   }
 
   /**
