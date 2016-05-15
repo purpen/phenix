@@ -94,8 +94,10 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
     /**
 	 * 保存之后事件
 	 */
-    protected function after_save(){
-		
+  protected function after_save(){
+
+    $user_id = $this->data['user_id'];
+
       // 如果是新的记录
       if($this->insert_mode) {
         $model = new Sher_Core_Model_SceneTags();
@@ -103,6 +105,12 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
         
         $model = new Sher_Core_Model_User();
         $model->inc_counter('scene_count',(int)$this->data['user_id']);
+
+        // 添加到用户最近使用过的标签
+        $user_tag_model = new Sher_Core_Model_UserTags();
+        for($i=0;$i<count($this->data['tags']);$i++){
+          $user_tag_model->add_item_custom($user_id, 'scene_tags', (int)$this->data['tags'][$i]);
+        }
 
       }
 		

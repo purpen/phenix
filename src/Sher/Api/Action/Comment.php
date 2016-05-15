@@ -98,14 +98,13 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 			if($data[$i]['target_user']){
         unset($data[$i]['target_user']);
 			}
-      if(isset($data[$i]['reply_comment'])){
+      if(isset($data[$i]['reply_comment']) && !empty($data[$i]['reply_comment'])){
         $data[$i]['reply_user_nickname'] = $data[$i]['reply_comment']['user']['nickname'];
         $data[$i]['reply_comment']['user'] = Sher_Core_Helper_FilterFields::user_list($data[$i]['reply_comment']['user']);
         unset($data[$i]['reply_comment']['target_user']);
       }else{
-        $data[$i]['reply_user_nickname'] = null;
-      }else{
         $data[$i]['reply_comment'] = null;
+        $data[$i]['reply_user_nickname'] = null;
       }
 
 		}
