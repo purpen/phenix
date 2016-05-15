@@ -102,7 +102,7 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
 
       if(!empty($sight)){
         // 过滤用户
-        $data[$i]['sight']['_id'] = $data[$i]['sight']['_id'];
+        $data[$i]['sight']['_id'] = $sight['_id'];
         $data[$i]['sight']['user_info'] = Sher_Core_Helper_FilterFields::wap_user($sight['user']);
         $data[$i]['sight']['cover_url'] = $sight['cover']['thumbnails']['huge']['view_url'];
         $data[$i]['sight']['title'] = $sight['title'];
