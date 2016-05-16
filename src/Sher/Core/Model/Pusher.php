@@ -86,8 +86,9 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
       $ok = $this->create($data);
       // 首次绑定送红包
       if($ok){
-        /**
         Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA', 'bonus'=>'B', 'min_amounts'=>'E'));
+
+        /**
         // 随机赠送9.9红包做活动
         $rand = rand(1, 15);
         if($rand==10){
