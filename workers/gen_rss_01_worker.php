@@ -45,6 +45,9 @@ $html .= '<description>生活很无聊，日复一日为你发现新鲜~</descri
 for($i=0;$i<count($list);$i++){
   $obj = $list[$i];
   $user = $user_model->load($obj['user_id']);
+  if(Sher_Core_Helper_Util::is_mobile($user['nickname'])){
+    $user['nickname'] = substr((int)$user['nickname'],0,3)."****".substr((int)$user['nickname'],7,4);
+  }
   $html .= '<item>'."\n";
   $html .= sprintf("<title><![CDATA[%s]]></title>\n", $obj['title']);
   $html .= sprintf("<dc:creator>%s</dc:creator>\n", $user['nickname']);
