@@ -5,10 +5,13 @@
  */
 class Sher_Core_Model_UserTags extends Sher_Core_Model_Base  {
 
-    protected $collection = "user_tags";
+  protected $collection = "user_tags";
+
+  const KIND_FIU = 1;
 	
     protected $schema = array(
         '_id' => null,
+        'kind' => self::KIND_FIU,
         'scene_tags' => array(),
     );
 	

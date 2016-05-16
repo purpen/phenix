@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'outside_search', 'tb_view', 'jd_view', 'jd_item_price', 'item_url_convert');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'outside_search', 'tb_view', 'jd_view', 'jd_item_price', 'item_url_convert', 'sight_click_stat');
 
 	/**
 	 * 入口
@@ -19,7 +19,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 	 */
 	public function getlist(){
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		
 		// 请求参数
@@ -48,6 +48,10 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		$query   = array();
 		$options = array();
 
+    if($kind){
+      $query['kind'] = (int)$kind;
+    }
+
     if($ids){
       $id_arr = explode(',', $ids);
       for($i=0;$i<count($id_arr);$i++){
@@ -55,11 +59,8 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
       }
       if(!empty($id_arr)){
         $query['_id'] = array('$in'=>$id_arr);
+        unset($query['kind']);
       }   
-    }
-
-    if($kind){
-      $query['kind'] = (int)$kind;
     }
 		
     // 查询条件
@@ -326,9 +327,9 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     $oid = isset($this->stash['oid']) ? $this->stash['oid'] : null;
     $sku_id = isset($this->stash['sku_id']) ? $this->stash['sku_id'] : null;
     // 来源
-    $attrbute = isset($this->stash['attrbute']) ? (int)$this->stash['attrbute'] : 2;
+    $attrbute = isset($this->stash['attrbute']) ? (int)$this->stash['attrbute'] : 0;
     // 默认用户创建
-    $kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 2;
+    $kind = 2;
     $market_price = isset($this->stash['market_price']) ? (float)$this->stash['market_price'] : 0;
     $sale_price = isset($this->stash['sale_price']) ? (float)$this->stash['sale_price'] : 0;
     // 原文链接
@@ -339,7 +340,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     // Banner图
     $banners_url = isset($this->stash['banners_url']) ? $this->stash['banners_url'] : null;
 
-    if(empty($title) || empty($oid) || empty($market_price) || empty($market_price) || empty($cover_url) || empty($sale_price) || empty($link)){
+    if(empty($title) || empty($oid) || empty($market_price) || empty($market_price) || empty($cover_url) || empty($sale_price) || empty($link) || empty($attrbute)){
   		return $this->api_json('缺少请求参数', 3001);
     }
 
@@ -492,11 +493,24 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     }
 
     if($result['success']){
-      return $this->api_json('success', 0, $result['data']);
+      $row = array();
+      $row['rows'] = array();
+      $row['total_rows'] = count($result['data']['results']['n_tbk_item']);
+      // 整理数据
+      for($i=0;$i<count($result['data']['results']['n_tbk_item']);$i++){
+        $obj = $result['data']['results']['n_tbk_item'][$i];
+        $row['rows'][$i]['oid'] = $obj['num_iid'];
+        $row['rows'][$i]['title'] = $obj['title'];
+        $row['rows'][$i]['cover_url'] = $obj['pict_url'];
+        $row['rows'][$i]['banners_url'] = $obj['small_images']['string'];
+        $row['rows'][$i]['market_price'] = $obj['reserve_price'];
+        $row['rows'][$i]['sale_price'] = $obj['zk_final_price'];
+        $row['rows'][$i]['link'] = $obj['item_url'];
+      }
+      return $this->api_json('success', 0, $row);
     }else{
       return $this->api_json($result['msg'], 3005);
     }
-
   
   }
 
@@ -516,7 +530,21 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     $result = Sher_Core_Util_JdSdk::search_by_item($ids, $options);  
 
     if($result['success']){
-      return $this->api_json('success', 0, $result['data']);     
+      $row = array();
+      $row['rows'] = array();
+      $row['total_count'] = count($result['data']['listproductbase_result']);
+      // 整理数据
+      for($i=0;$i<count($result['data']['listproductbase_result']);$i++){
+        $obj = $result['data']['listproductbase_result'][$i];
+        $row['rows'][$i]['oid'] = $obj['skuId'];
+        $row['rows'][$i]['title'] = $obj['pname'];
+        $row['rows'][$i]['cover_url'] = $obj['imagePath'];
+        $row['rows'][$i]['banners_url'] = $obj['banners_url'];
+        $row['rows'][$i]['market_price'] = $obj['market_price'];
+        $row['rows'][$i]['sale_price'] = $obj['sale_price'];
+        $row['rows'][$i]['link'] = $obj['url'];
+      }
+      return $this->api_json('success', 0, $row);
     }else{
       return $this->api_json($result['msg'], 3005);
     }
@@ -558,6 +586,51 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
   
   }
 
+  /**
+   * 从场景跳出统计
+   */
+  public function sight_click_stat(){
+    $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+    if(empty($id)){
+      return $this->api_json('缺少请求参数!', 3000);  
+    }
+    $scene_product_model = new Sher_Core_Model_SceneProduct();
+    $scene_product_model->inc_counter('buy_count', 1, $id);
+    return $this->api_json('success', 0, array('id'=>$id));
+  }
+
+  /**
+   * 删除产品
+   */
+  public function deleted(){
+    $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+    if(empty($id)){
+      return $this->api_json('缺少请求参数!', 3000);  
+    }
+    $user_id = $this->current_user_id;
+
+		try{
+			$scene_product = new Sher_Core_Model_SceneProduct();
+			
+      $product = $scene_product->load($id);
+      if(empty($product)){
+        return $this->api_json('删除的内容不存在！', 3001);       
+      }
+      if($product['user_id'] != $user_id){
+        return $this->api_json('没有权限！', 3002);        
+      }
+      if($product['kind'] != 2){
+        return $this->api_json('不允许删除操作！', 3003);        
+      }
+      
+      $scene_product->remove($id);
+      $scene_product->mock_after_remove($id, $product);
+
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->api_json('操作失败,请重新再试', 3004);
+		}
+		return $this->api_json('删除成功！', 0, array('id'=>$id));
+  }
 	
 
 }

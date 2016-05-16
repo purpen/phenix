@@ -12,12 +12,13 @@ class Sher_Core_Model_SceneProductLink extends Sher_Core_Model_Base {
 		'sight_id' => 0,
         # 产品id
         'product_id' => 0,
+        'product_kind' => 0,
         # 是否启用
 		'status' => 0,
     );
 	
 	protected $required_fields = array();
-	protected $int_fields = array('status','sight_id','product_id');
+	protected $int_fields = array('status','sight_id','product_id','product_kind');
 	protected $float_fields = array();
 	protected $counter_fields = array();
 	protected $retrieve_fields = array();

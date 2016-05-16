@@ -47,8 +47,6 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
     'asset_count' => 0,
     'banner_asset_ids' => array(),
     'png_asset_ids' => array(),
-    # 封面图，从淘宝或京东抓取
-    'cover_url' => null,
 
     # 销售价格
     'sale_price'  => 0,
@@ -197,6 +195,18 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
         break;
       default:
         $row['attrbute_str'] = '--';
+    }
+
+    // 创建者身份
+    switch($row['kind']){
+      case 1:
+        $row['kind_label'] = '官方';
+        break;
+      case 2:
+        $row['kind_label'] = '用户';
+        break;
+      default:
+        $row['kind_label'] = '--';
     }
 
 	}

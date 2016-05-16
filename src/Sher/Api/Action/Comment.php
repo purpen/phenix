@@ -85,8 +85,6 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		$service = Sher_Core_Service_Comment::instance();
 		$result = $service->get_comment_list($query,$options);
 
-    $scene_sight_model = new Sher_Core_Model_SceneSight();
-
 		// 重建数据结果
 		$data = array();
 		for($i=0;$i<count($result['rows']);$i++){
@@ -98,18 +96,19 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 			  $data[$i]['user'] = Sher_Core_Helper_FilterFields::user_list($data[$i]['user']);
 			}
 			if($data[$i]['target_user']){
-			  $data[$i]['target_user'] = Sher_Core_Helper_FilterFields::user_list($data[$i]['target_user']);
+        unset($data[$i]['target_user']);
 			}
-      if($data[$i]['reply_comment']){
+      if(isset($data[$i]['reply_comment']) && !empty($data[$i]['reply_comment'])){
         $data[$i]['reply_user_nickname'] = $data[$i]['reply_comment']['user']['nickname'];
-        //$data[$i]['reply_comment']['user'] = Sher_Core_Helper_FilterFields::user_list($data[$i]['reply_comment']['user']);
+        $data[$i]['reply_comment']['user'] = Sher_Core_Helper_FilterFields::user_list($data[$i]['reply_comment']['user']);
+        unset($data[$i]['reply_comment']['target_user']);
       }else{
+        $data[$i]['reply_comment'] = null;
         $data[$i]['reply_user_nickname'] = null;
       }
 
 		}
 		$result['rows'] = $data;
-		//var_dump($result['rows']);die;
 		return $this->api_json('请求成功', 0, $result);
 	}
 	
@@ -118,8 +117,6 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 	 * 评论
 	 */
 	public function ajax_comment(){
-		
-		// target_id=70&type=12&content=test&from_site=4
 		
 		$user_id = $this->current_user_id;
 		
@@ -171,7 +168,6 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 			$data['reply_user_id'] = $reply_user_id;
 		}
 		
-		//var_dump($data);die;
 		try{
 			// 保存数据
 			$model = new Sher_Core_Model_Comment();
@@ -180,8 +176,18 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 			if($ok){
 				$comment_id = $model->id;
 				$comment = &$model->extend_load($comment_id);
-				$comment['_id'] = (string)$comment['_id'];
-				unset($comment['user']);
+        $comment['_id'] = (string)$comment['_id'];
+        $comment['user'] = Sher_Core_Helper_FilterFields::wap_user($comment['user']);
+        $comment['target_user'] = Sher_Core_Helper_FilterFields::wap_user($comment['user']);
+
+        // 过滤回复多余数据
+        if(isset($comment['reply_comment']) && !empty($comment['reply_comment'])){
+          $comment['reply_comment']['user'] = Sher_Core_Helper_FilterFields::wap_user($comment['reply_comment']['user']);
+          unset($comment['reply_comment']['target_user']);
+        }else{
+          $comment['reply_comment'] = null;
+        }
+        unset($comment['target_user']);
       }else{
  			  return $this->api_json('保存失败!', 3003);     
       }

@@ -124,6 +124,13 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
             $model->insert($data);
           }
         }
+
+        // 添加到用户最近使用过的标签
+        $user_tag_model = new Sher_Core_Model_UserTags();
+        for($i=0;$i<count($this->data['tags']);$i++){
+          $user_tag_model->add_item_custom($user_id, 'scene_tags', (int)$this->data['tags'][$i]);
+        }
+
       }
 		
       parent::after_save();

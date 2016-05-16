@@ -531,6 +531,8 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
     $items = array();
     $scene_tags_model = new Sher_Core_Model_SceneTags();
     $tag_arr = array_reverse($tag_arr);
+    // 取前30个标签
+    $tag_arr = array_slice($tag_arr, 0, 30);
     foreach($tag_arr as $v){
       $obj = $scene_tags_model->load((int)$v);
       if($obj){

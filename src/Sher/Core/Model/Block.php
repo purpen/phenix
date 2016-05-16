@@ -55,6 +55,16 @@ class Sher_Core_Model_Block extends Sher_Core_Model_Base  {
         }
 	}
 
+  /**
+   * 需要高级权限才允许编辑操作的mark数组
+   */
+  public static function mark_safer(){
+    $arr = array(
+      'sign_draw_app_conf', 'sign_draw_conf', 'test',
+    );
+    return $arr;
+  }
+
 	/**
 	 * 删除后事件
 	 */
