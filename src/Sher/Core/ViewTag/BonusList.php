@@ -23,6 +23,7 @@ class Sher_Core_ViewTag_BonusList extends Doggy_Dt_Tag {
 		$status = 0;
 		$not_expired = 0;
 		$amount = 0;
+    $xname = 0;
     $sort = 0;
 		
 		$search_code = '';
@@ -59,6 +60,10 @@ class Sher_Core_ViewTag_BonusList extends Doggy_Dt_Tag {
 		// 未过期的
 		if($not_expired){
 			$query['expired_at'] = array('$gt'=>time());
+		}
+
+		if($xname){
+			$query['xname'] = $xname;
 		}
 		
 		if ($search_code){
