@@ -38,6 +38,9 @@ class Sher_Core_Model_ThirdSiteStat extends Sher_Core_Model_Base  {
       case 3:
         $row['kind_str'] = 'app下载送红包';
         break;
+      case 4:
+        $row['kind_str'] = '单独商品推广';
+        break;
       default:
         $row['kind_str'] = '--';
     }
