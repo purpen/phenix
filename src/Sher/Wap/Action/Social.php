@@ -193,7 +193,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		}
 
     // 记录兑吧来的用户，统计注册量用
-    if(isset($this->stash['from']) && (string)$this->stash['from']==1 && $id=111865){
+    if(isset($this->stash['from']) && (string)$this->stash['from']==1 && $id==111865){
       // 存cookie
       @setcookie('from_origin', '2', time()+3600, '/');
       $_COOKIE['from_origin'] = '2';
