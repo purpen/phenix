@@ -19,8 +19,6 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 	 */
 	public function getlist(){
 		
-		// http://www.taihuoniao.me/app/api/scene_sight/getlist?dis=1000&lat=39.9151190000&lng=116.4039630000
-		
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		
