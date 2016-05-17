@@ -167,14 +167,14 @@
 							limitime();
 							$this = $('#fetch-verify-code-old');
 
-              $.post('/app/site/auth/verify_code', {'phone': old_phone}, function(result){
+              $.post('/app/site/auth/verify_code', {'phone': old_phone, 'code':captcha}, function(result){
                 if(result.errorCode == 200){
                   $this.removeClass('disabled').text('获取验证码');
                 }           
               }, 'json');
 
               /**
-							$.getJSON('/app/site/auth/verify_code', {'phone': old_phone}, function(result){
+							$.getJSON('/app/site/auth/verify_code', {'phone': old_phone, 'code':captcha}, function(result){
 								if(result.errorCode == 200){
 								  $this.removeClass('disabled').text('获取验证码');
 								}
@@ -203,6 +203,9 @@
 		if(!can_send){
 		    return false;
 		}
+
+    // 先输入验证码再发送
+    var captcha = $('#captcha').val();
 		
 		if(phone){
 	        //验证手机是否注册过
@@ -216,7 +219,7 @@
 					limitime();
 					$this = $('#fetch-verify-code-new');
 
-          $.post('/app/site/auth/verify_code', {'phone': phone}, function(result){
+          $.post('/app/site/auth/verify_code', {'phone': phone, 'code':captcha}, function(result){
             if(result.errorCode == 200){
               $this.removeClass('disabled').text('获取验证码');
             }           

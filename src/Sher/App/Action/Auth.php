@@ -583,12 +583,25 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	 * 发送手机验证码
 	 */
 	public function verify_code() {
-
+    session_start();
     if($_SERVER['REQUEST_METHOD']!="POST"){
       return $this->to_json(403, '请求失败!');
     }
 
 		$phone = $this->stash['phone'];
+
+    $captcha_code = isset($this->stash['code']) ? $this->stash['code'] : null;
+    $type = isset($this->stash['type'])? (int)$this->stash['type'] : 1;
+
+    if(empty($captcha_code)){
+      return $this->to_json(403, '缺少请求参数!');   
+    }
+
+    $captcha_model = new Sher_Core_Util_Captcha();
+    $is_true = $captcha_model->check($captcha_code, $type);
+    if(!$is_true){
+      return $this->to_json(403, '验证码不正确!');  
+    }
     
 		$code = Sher_Core_Helper_Auth::generate_code();
 		
@@ -606,7 +619,27 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	 * 忘记密码发送验证码
 	 */
 	public function verify_forget_code(){
+    session_start();
+
+    if($_SERVER['REQUEST_METHOD']!="POST"){
+      return $this->to_json(403, '请求失败!');
+    }
+
 		$phone = $this->stash['phone'];
+
+    $captcha_code = isset($this->stash['code']) ? $this->stash['code'] : null;
+    $type = isset($this->stash['type'])? (int)$this->stash['type'] : 1;
+
+    if(empty($captcha_code)){
+      return $this->to_json(403, '缺少请求参数!');   
+    }
+
+    $captcha_model = new Sher_Core_Util_Captcha();
+    $is_true = $captcha_model->check($captcha_code, $type);
+    if(!$is_true){
+      return $this->to_json(403, '验证码不正确!');  
+    }
+
 		$code = Sher_Core_Helper_Auth::generate_code();
 		
 		// 验证是否存在账户
