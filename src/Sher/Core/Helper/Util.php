@@ -195,11 +195,12 @@ class Sher_Core_Helper_Util {
     Doggy_Log_Helper::warn("Send Message IP: ".$ip);
     Doggy_Log_Helper::warn("Send Message From: ".$from);
 
-    if($ip=='117.90.254.60' || $ip=='14.115.83.125' || $ip=='114.103.173.116'){
+    if($ip=='117.90.254.60' || $ip=='14.115.83.125' || $ip=='114.103.173.116' || $ip=='223.242.38.76'){
       Doggy_Log_Helper::warn("LLegal Message IP Forbid!");
       return false;
     }
 		$message = "验证码：${code}，切勿泄露给他人，如非本人操作，建议及时修改账户密码。【太火鸟】";
+    return true;
 		return self::send_mms($phone, $message);
 	}
 
