@@ -1087,13 +1087,13 @@
         {%endif%}
 		
 		{% ad_list var:'propromo' page:1 size:1 state:2 name:'product_promo_stick' sort_field:'latest' %}
-        {% if propromo %}
 		<div class="product-promo">
+        {% if propromo %}
             <a href="{{ propromo.view_url }}" title="{{ adslide3.title }}" target="_blank">
                 <img src="{{ propromo.cover.fileurl }}"  width="200px"/>
             </a>
-		</div>
 		{%endif%}
+		</div>
 		
     </div>
 </div>
