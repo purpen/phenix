@@ -200,7 +200,6 @@ class Sher_Core_Helper_Util {
       return false;
     }
 		$message = "验证码：${code}，切勿泄露给他人，如非本人操作，建议及时修改账户密码。【太火鸟】";
-    return true;
 		return self::send_mms($phone, $message);
 	}
 
