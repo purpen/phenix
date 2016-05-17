@@ -80,6 +80,10 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	 * 注册页面
 	 */
 	public function signup(){
+    session_start();
+    $captcha_code = $_SESSION['captcha_code'] = md5(microtime(true));
+    $this->stash['captcha_code'] = $captcha_code;
+
 		// 当前有登录用户
 		if ($this->visitor->id){
 			$redirect_url = !empty($this->stash['return_url']) ? $this->stash['return_url'] : Sher_Core_Helper_Url::user_home_url($this->visitor->id);
