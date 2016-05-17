@@ -195,7 +195,7 @@ class Sher_Core_Helper_Util {
     Doggy_Log_Helper::warn("Send Message IP: ".$ip);
     Doggy_Log_Helper::warn("Send Message From: ".$from);
 
-    if($ip=='117.90.254.60' || $ip=='14.115.83.125'){
+    if($ip=='117.90.254.60' || $ip=='14.115.83.125' || $ip=='114.103.173.116'){
       Doggy_Log_Helper::warn("LLegal Message IP Forbid!");
       return false;
     }
