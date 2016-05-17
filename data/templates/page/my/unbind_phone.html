@@ -166,11 +166,20 @@
 							// 添加发送频率
 							limitime();
 							$this = $('#fetch-verify-code-old');
+
+              $.post('/app/site/auth/verify_code', {'phone': old_phone}, function(result){
+                if(result.errorCode == 200){
+                  $this.removeClass('disabled').text('获取验证码');
+                }           
+              }, 'json');
+
+              /**
 							$.getJSON('/app/site/auth/verify_code', {'phone': old_phone}, function(result){
 								if(result.errorCode == 200){
 								  $this.removeClass('disabled').text('获取验证码');
 								}
 							});
+              */
 							$('#fetch-verify-code-new').removeClass('active');
 							$('#fetch-verify-code-new').removeClass('grey');
 							$('#fetch-verify-code-new').addClass('red');
@@ -206,11 +215,20 @@
 					// 添加发送频率
 					limitime();
 					$this = $('#fetch-verify-code-new');
+
+          $.post('/app/site/auth/verify_code', {'phone': phone}, function(result){
+            if(result.errorCode == 200){
+              $this.removeClass('disabled').text('获取验证码');
+            }           
+          }, 'json');
+
+          /**
 					$.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
 						if(result.errorCode == 200){
 							$this.removeClass('disabled').text('获取验证码');
 						}
 					});
+          */
 				}
 			})
 		}else{
