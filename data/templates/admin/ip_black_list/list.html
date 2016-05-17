@@ -1,0 +1,108 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+
+{% block jquery %}
+	
+	// 删除活动
+	$('.item.ajax-delete').bind('click', function(){
+		var selected_ids = [];
+		if(!window.confirm('你确定要执行批量删除操作？')){
+		  return false;
+		}
+		
+		$("input[name='ids[]']:checked").each(function(){
+			var v = $(this).val();
+			selected_ids.push(v);
+		});
+		
+		if (!selected_ids.length){
+			alert('请选择想删除的IP');
+		}
+		
+		var url = $(this).attr('href');
+		$.get(url, {id: selected_ids.join(',')});
+		
+		return false;
+	});
+	
+{% endblock %}
+
+{% block content %}
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/ip_black_list" class="item {{ css_all }}">
+			全部
+		</a>
+
+	  	<div class="right menu">
+			
+			<a href="{{ app_url_admin_base }}/ip_black_list/submit" class="item">
+				<i class="add icon"></i>新增IP
+			</a>
+			
+			<a href="{{ app_url_admin }}/ip_black_list/deleted" class="item ajax-delete">
+				批量删除
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/ip_black_list" method="get">
+			<label>搜索：</label>
+
+			<div class="ui icon input">
+        <input placeholder="Input IP..." type="text" name="ip" value="{{ ip }}" />
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
+	</div>
+			
+	<div class="ui divider"></div>
+	{% ip_black_list var:'list' ip:ip kind:kind level:level page:page size:size %}
+	<table class="ui large table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>IP</th>
+				<th>类型</th>
+				<th>等级</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for d in list.rows %}
+      <tr id="item-{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ d._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>{{ d.ip }}</td>
+				<td>{{ d.kind}}</td>
+        <td>{{ d.level }}</td>
+				<td>
+					<p>
+            <a href="{{ app_url_admin_base }}/ip_black_list/submit?id={{ d._id }}" class="ui link item">编辑</a>
+            <a href="{{ app_url_admin }}/ip_black_list/deleted?id={{ d._id }}" class="ui confirm-request link item">
+                  删除
+            </a>
+					</P>
+
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}

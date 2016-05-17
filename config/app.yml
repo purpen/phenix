@@ -50,6 +50,7 @@ app.dispatcher.interceptors.run:
   - Doggy_Dispatcher_Interceptor_Parameters
   - Doggy_Dispatcher_Interceptor_UploadSupport
   - Sher_Core_Interceptor_ValidSign
+  - Sher_Core_Interceptor_Filter
   - Sher_Core_Interceptor_XSession
   - DoggyX_Interceptor_BeforeInvoke
 
@@ -163,6 +164,7 @@ app.dt.extension_lib.sher_app:
     'user_talent_list':'Sher_Core_ViewTag_UserTalentList'
     'app_user_record_list':'Sher_Core_ViewTag_AppUserRecordList'
     'app_store_user_stat_list':'Sher_Core_ViewTag_AppStoreUserStatList'
+    'ip_black_list':'Sher_Core_ViewTag_IpBlackListList'
   filters: []
 
 app.js.use_bundle: false

@@ -1,0 +1,73 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+
+{% block jquery %}
+	$('#ip-black-form').form({
+		ip: {
+			identifier  : 'ip',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : 'IP不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+
+{% endblock %}
+
+{% block content %}
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/ip_black_list" class="item {{ css_all }}">
+			全部
+		</a>
+
+	  	<div class="right menu">
+			
+			<a href="{{ app_url_admin_base }}/ip_black_list/submit" class="item">
+				<i class="add icon"></i>新增IP
+			</a>
+			
+			<a href="{{ app_url_admin }}/ip_black_list/deleted" class="item ajax-delete">
+				批量删除
+			</a>
+	    </div>
+	</div>
+	
+	<form action="{{ app_url_admin_base }}/ip_black_list/save" id="ip-black-form" class="ui form segment" method="post">
+		<h4 class="ui header">新增/编辑IP</h4>
+    <input type="hidden" name="id" value="{{ ip_black._id }}"  />
+		<div class="inline field">
+		  <label>IP：</label>
+      <input type="text" name="ip"  value="{{ ip_black.ip }}" />
+		</div>
+		
+		<input type="submit" class="ui blue button" value="确认" />
+		<input type="reset" class="ui button" value="取消" />
+		
+	</form>
+{% endblock %}
