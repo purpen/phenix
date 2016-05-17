@@ -584,6 +584,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	 */
 	public function verify_code() {
 		$phone = $this->stash['phone'];
+    
 		$code = Sher_Core_Helper_Auth::generate_code();
 		
 		$verify = new Sher_Core_Model_Verify();
