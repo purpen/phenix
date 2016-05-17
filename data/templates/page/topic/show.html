@@ -571,6 +571,16 @@
 					</div>
 				</div>
 				{% endif %}
+				
+                <!--预留广告位-->
+            	{% ad_list var:'adonet' page:1 size:1 name:'topic_view_page_top' sort_field:'latest' state:2 %}
+            	{% if adonet %}
+                <div class="adblock fixed" style="margin-bottom:0;">
+                    <a href="{{ adonet.view_url }}" title="{{ adonet.title }}" target="_blank">
+                        <img src="{{ adonet.cover.fileurl }}" />
+                    </a>
+                </div>
+            	{% endif %}
 	
 				<div class="post froala-view froala-element clearfix">
 					{{ topic.description }}

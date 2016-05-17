@@ -331,6 +331,15 @@
                             </div>
                         </div>
                         {% endif %}
+						
+                        {% ad_list var:'adonet' page:1 size:1 name:'topic_view_wap_top' sort_field:'latest'
+                        state:2 %} {% if adonet %}
+                        <div class="adblock fixed">
+                            <a href="{{ adonet.view_url }}" title="{{ adonet.title }}" target="_blank">
+                                <img src="{{ adonet.cover.fileurl }}" / align="absmiddle">
+                            </a>
+                        </div>
+                        {% endif %}
                         <div class="post froala-view froala-element clearfix">
                             {{ topic.description }}
                         </div>
