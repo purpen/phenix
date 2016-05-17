@@ -583,6 +583,11 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	 * 发送手机验证码
 	 */
 	public function verify_code() {
+
+    if($_SERVER['REQUEST_METHOD']!="POST"){
+      return $this->to_json(403, '请求失败!');
+    }
+
 		$phone = $this->stash['phone'];
     
 		$code = Sher_Core_Helper_Auth::generate_code();
