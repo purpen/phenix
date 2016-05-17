@@ -433,7 +433,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       return $this->api_json('来源设备不正确！', 3011);     
     }
 
-    $from_app = isset($this->stash['from_app']) ? (int)$this->stash['from_app'] : 1;
+    $from_app = isset($this->stash['app_type']) ? (int)$this->stash['app_type'] : 1;
     $channel_id = isset($this->stash['channel']) ? (int)$this->stash['channel'] : 0;
 
     $payment_method = isset($this->stash['payment_method']) ? $this->stash['payment_method'] : 'a';

@@ -35,6 +35,11 @@ class Sher_App_Action_Qq extends Sher_App_Action_Base {
 	 * 授权回调地址
 	 */
 	public function authorize($from_to='site'){
+    session_start();
+    if(!isset($_SESSION['captcha_code']) || empty($_SESSION['captcha_code'])){
+      $_SESSION['captcha_code'] = md5(microtime(true));
+    }
+    $this->stash['captcha_code'] = $_SESSION['captcha_code'];
 		
 		$code = $this->stash['code'];
 		$login_url = Doggy_Config::$vars['app.url.login'];
