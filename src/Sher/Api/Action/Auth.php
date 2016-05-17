@@ -20,10 +20,6 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 	public function login(){
 		// 请求参数
 		$this->resparams = array_merge($this->resparams, array('mobile','password'));
-		// 验证请求签名
-		if(Sher_Core_Helper_Util::get_signature($this->stash, $this->resparams, $this->client_id) != $this->sign){
-			//return $this->api_json('请求签名验证错误,请重试!', 3000);
-		}
 
 		// 绑定设备操作
 		$uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
@@ -60,8 +56,6 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
         if ($user_state == Sher_Core_Model_User::STATE_DISABLED) {
             return $this->api_json('此帐号涉嫌违规已经被禁用!', 3004);
         }
-		
-		//Sher_Core_Helper_Auth::create_user_session($user_id);
 		
         // export some attributes to browse client.
 		$user_data = $user->extended_model_row($result);
@@ -329,9 +323,6 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
    * 一切请求第三方均在客户端完成，有安全隐患
    */
   public function third_sign(){
-    if($this->current_user_id){
-   		return $this->api_json('您已经登录了！', 3001);   
-    }
 
     $oid = isset($this->stash['oid']) ? $this->stash['oid'] : null;
     $access_token = isset($this->stash['access_token']) ? $this->stash['access_token'] : null;
@@ -389,10 +380,6 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
    * 第三方账户直接登录,生成默认用户,不绑定手机
    */
   public function third_register_without_phone(){
-
-    if($this->current_user_id){
-   		return $this->api_json('您已经登录了！', 3001);   
-    }
 
 		// 绑定设备操作
 		$uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
@@ -552,10 +539,6 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
    * 第三方账户直接登录,绑定已有手机号
    */
   public function third_register_with_phone(){
-
-    if($this->current_user_id){
-   		return $this->api_json('您已经登录了！', 3001);   
-    }
 
     $third_source = isset($this->stash['third_source'])?(int)$this->stash['third_source']:0;
     $oid = isset($this->stash['oid'])?$this->stash['oid']:null;

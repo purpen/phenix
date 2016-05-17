@@ -172,7 +172,25 @@ class Sher_Core_Helper_Util {
 	/**
 	 * 发送注册验证码--螺丝冒
 	 */
-	public static function send_register_mms($phone, $code) {
+	public static function send_register_mms($phone, $code, $from_to=0) {
+    switch($from_to){
+      case 1:
+        $from = 'app/auth/register';
+        break;
+      case 2:
+        $from = 'app/auth/forget_pwd';
+        break;
+      case 3:
+        $from = 'app/action/index';
+        break;
+      case 4:
+        $from = 'app/wap/auth';
+        break;
+      default:
+        $from = '--';
+
+    }
+    Doggy_Log_Helper::warn("Send Message From: ".$from);
 		$message = "验证码：${code}，切勿泄露给他人，如非本人操作，建议及时修改账户密码。【太火鸟】";
 		return self::send_mms($phone, $message);
 	}
@@ -180,7 +198,7 @@ class Sher_Core_Helper_Util {
 	/**
 	 * 发送注册验证码--云片(备选)
 	 */
-	public static function send_yp_register_mms($phone, $code) {
+	public static function send_yp_register_mms($phone, $code, $from_to=0) {
 		$message = "【太火鸟】验证码：${code}，切勿泄露给他人，如非本人操作，建议及时修改账户密码。";
 		return self::send_yp_mms($phone, $message);
 	}

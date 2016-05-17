@@ -218,7 +218,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		$ok = $verify->create(array('phone'=>$phone,'code'=>$code, 'expired_on'=>time()+600));
 		if($ok){
 			// 开始发送
-			Sher_Core_Helper_Util::send_register_mms($phone, $code);
+			Sher_Core_Helper_Util::send_register_mms($phone, $code, 3);
 		}
 		
 		return $this->to_json(200,'正在发送');
