@@ -191,8 +191,14 @@ class Sher_Core_Helper_Util {
 
     }
 
-    Doggy_Log_Helper::warn("Send Message IP: ".Sher_Core_Helper_Auth::get_ip());
+    $ip = (string)trim(Sher_Core_Helper_Auth::get_ip());
+    Doggy_Log_Helper::warn("Send Message IP: ".$ip);
     Doggy_Log_Helper::warn("Send Message From: ".$from);
+
+    if($ip=='117.90.254.60'){
+      Doggy_Log_Helper::warn("LLegal Message IP Forbid!");
+      return false;
+    }
 		$message = "验证码：${code}，切勿泄露给他人，如非本人操作，建议及时修改账户密码。【太火鸟】";
 		return self::send_mms($phone, $message);
 	}
