@@ -28,8 +28,10 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	 */
 	public function login(){
     session_start();
-    $captcha_code = $_SESSION['captcha_code'] = md5(microtime(true));
-    $this->stash['captcha_code'] = $captcha_code;
+    if(!isset($_SESSION['captcha_code']) || empty($_SESSION['captcha_code'])){
+      $_SESSION['captcha_code'] = md5(microtime(true));
+    }
+    $this->stash['captcha_code'] = $_SESSION['captcha_code'];
 
 		$return_url = $_SERVER['HTTP_REFERER'];
 		// 过滤上一步来源为退出链接
@@ -81,8 +83,10 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	 */
 	public function signup(){
     session_start();
-    $captcha_code = $_SESSION['captcha_code'] = md5(microtime(true));
-    $this->stash['captcha_code'] = $captcha_code;
+    if(!isset($_SESSION['captcha_code']) || empty($_SESSION['captcha_code'])){
+      $_SESSION['captcha_code'] = md5(microtime(true));
+    }
+    $this->stash['captcha_code'] = $_SESSION['captcha_code'];
 
 		// 当前有登录用户
 		if ($this->visitor->id){
@@ -123,8 +127,10 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	 */
 	public function forget(){
     session_start();
-    $captcha_code = $_SESSION['captcha_code'] = md5(microtime(true));
-    $this->stash['captcha_code'] = $captcha_code;
+    if(!isset($_SESSION['captcha_code']) || empty($_SESSION['captcha_code'])){
+      $_SESSION['captcha_code'] = md5(microtime(true));
+    }
+    $this->stash['captcha_code'] = $_SESSION['captcha_code'];
 		return $this->to_html_page('page/forget.html');
 	}
 	

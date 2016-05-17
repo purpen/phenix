@@ -28,10 +28,14 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	 */
 	public function login_signup(){
     session_start();
-    $captcha_code = $_SESSION['captcha_code'] = md5(microtime(true));
-    $this->stash['captcha_code'] = $captcha_code;
-    $captcha2_code = $_SESSION['captcha2_code'] = md5(microtime(true));
-    $this->stash['captcha2_code'] = $captcha2_code;
+    if(!isset($_SESSION['captcha_code']) || empty($_SESSION['captcha_code'])){
+      $_SESSION['captcha_code'] = md5(microtime(true));
+    }
+    $this->stash['captcha_code'] = $_SESSION['captcha_code'];
+    if(!isset($_SESSION['captcha2_code']) || empty($_SESSION['captcha2_code'])){
+      $_SESSION['captcha2_code'] = md5(microtime(true));
+    }
+    $this->stash['captcha2_code'] = $_SESSION['captcha2_code'];
 		
 		$return_url = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:Doggy_Config::$vars['app.url.wap'];
 		// 过滤上一步来源为退出链接
@@ -749,8 +753,10 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	 */
 	public function forget(){
     session_start();
-    $captcha_code = $_SESSION['captcha_code'] = md5(microtime(true));
-    $this->stash['captcha_code'] = $captcha_code;
+    if(!isset($_SESSION['captcha_code']) || empty($_SESSION['captcha_code'])){
+      $_SESSION['captcha_code'] = md5(microtime(true));
+    }
+    $this->stash['captcha_code'] = $_SESSION['captcha_code'];
 
 		// 当前有登录用户
 		if ($this->visitor->id){
@@ -932,8 +938,10 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	 */
 	public function quickly_signup(){
     session_start();
-    $captcha_code = $_SESSION['captcha_code'] = md5(microtime(true));
-    $this->stash['captcha_code'] = $captcha_code;
+    if(!isset($_SESSION['captcha_code']) || empty($_SESSION['captcha_code'])){
+      $_SESSION['captcha_code'] = md5(microtime(true));
+    }
+    $this->stash['captcha_code'] = $_SESSION['captcha_code'];
 
 		// 当前有登录用户
 		if ($this->visitor->id){

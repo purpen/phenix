@@ -34,8 +34,10 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
 	 */
 	public function authorize($from_to='site'){
     session_start();
-    $captcha_code = $_SESSION['captcha_code'] = md5(microtime(true));
-    $this->stash['captcha_code'] = $captcha_code;
+    if(!isset($_SESSION['captcha_code']) || empty($_SESSION['captcha_code'])){
+      $_SESSION['captcha_code'] = md5(microtime(true));
+    }
+    $this->stash['captcha_code'] = $_SESSION['captcha_code'];
 		$code = $this->stash['code'];
 
 		// 当前有登录用户
