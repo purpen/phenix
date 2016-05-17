@@ -27,6 +27,11 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	 * @return void
 	 */
 	public function login_signup(){
+    session_start();
+    $captcha_code = $_SESSION['captcha_code'] = md5(microtime(true));
+    $this->stash['captcha_code'] = $captcha_code;
+    $captcha2_code = $_SESSION['captcha2_code'] = md5(microtime(true));
+    $this->stash['captcha2_code'] = $captcha2_code;
 		
 		$return_url = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:Doggy_Config::$vars['app.url.wap'];
 		// 过滤上一步来源为退出链接
@@ -743,6 +748,10 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	 * 忘记密码页面
 	 */
 	public function forget(){
+    session_start();
+    $captcha_code = $_SESSION['captcha_code'] = md5(microtime(true));
+    $this->stash['captcha_code'] = $captcha_code;
+
 		// 当前有登录用户
 		if ($this->visitor->id){
 			$redirect_url = !empty($this->stash['return_url']) ? $this->stash['return_url'] : Doggy_Config::$vars['app.url.wap'];
@@ -922,6 +931,10 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	 * 快捷注册
 	 */
 	public function quickly_signup(){
+    session_start();
+    $captcha_code = $_SESSION['captcha_code'] = md5(microtime(true));
+    $this->stash['captcha_code'] = $captcha_code;
+
 		// 当前有登录用户
 		if ($this->visitor->id){
 			//指定入口送抽奖码

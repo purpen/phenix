@@ -167,19 +167,12 @@
 							limitime();
 							$this = $('#fetch-verify-code-old');
 
-              $.post('/app/site/auth/verify_code', {'phone': old_phone, 'code':captcha}, function(result){
+              $.post('/app/site/auth/verify_code', {'phone': old_phone, 'code':"{{ captcha_code }}"}, function(result){
                 if(result.errorCode == 200){
                   $this.removeClass('disabled').text('获取验证码');
                 }           
               }, 'json');
 
-              /**
-							$.getJSON('/app/site/auth/verify_code', {'phone': old_phone, 'code':captcha}, function(result){
-								if(result.errorCode == 200){
-								  $this.removeClass('disabled').text('获取验证码');
-								}
-							});
-              */
 							$('#fetch-verify-code-new').removeClass('active');
 							$('#fetch-verify-code-new').removeClass('grey');
 							$('#fetch-verify-code-new').addClass('red');
@@ -219,19 +212,12 @@
 					limitime();
 					$this = $('#fetch-verify-code-new');
 
-          $.post('/app/site/auth/verify_code', {'phone': phone, 'code':captcha}, function(result){
+          $.post('/app/site/auth/verify_code?type=2', {'phone': phone, 'code':"{{ captcha2_code }}"}, function(result){
             if(result.errorCode == 200){
               $this.removeClass('disabled').text('获取验证码');
             }           
           }, 'json');
 
-          /**
-					$.getJSON('/app/site/auth/verify_code', {'phone': phone}, function(result){
-						if(result.errorCode == 200){
-							$this.removeClass('disabled').text('获取验证码');
-						}
-					});
-          */
 				}
 			})
 		}else{

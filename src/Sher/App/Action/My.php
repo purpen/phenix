@@ -98,8 +98,11 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    * 绑定账户
    */
   public function bind_phone() {
+    session_start();
+    $captcha_code = $_SESSION['captcha_code'] = md5(microtime(true));
+    $this->stash['captcha_code'] = $captcha_code;
 	
-	$this->set_target_css_state('user_bind');
+	  $this->set_target_css_state('user_bind');
 
     $user_model = new Sher_Core_Model_User();
     $user = $user_model->load((int)$this->visitor->id);
@@ -144,8 +147,13 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
    * 绑定账户
    */
   public function unbind_phone() {
+    session_start();
+    $captcha_code = $_SESSION['captcha_code'] = md5(microtime(true));
+    $this->stash['captcha_code'] = $captcha_code;
+    $captcha2_code = $_SESSION['captcha2_code'] = md5(microtime(true));
+    $this->stash['captcha2_code'] = $captcha2_code;
 	
-	$this->set_target_css_state('user_bind');
+	  $this->set_target_css_state('user_bind');
 	
     return $this->to_html_page("page/my/unbind_phone.html");
   }

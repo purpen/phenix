@@ -72,6 +72,9 @@ class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
    * 回调 
    */
   public function call_back(){
+    session_start();
+    $captcha_code = $_SESSION['captcha_code'] = md5(microtime(true));
+    $this->stash['captcha_code'] = $captcha_code;
 
     $host = $_SERVER['HTTP_HOST'];
     $uri = $_SERVER['REQUEST_URI'];
