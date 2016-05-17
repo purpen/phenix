@@ -3,7 +3,7 @@
  * 权限验证,方法执行清单过滤
  * @author purpen
  */
-Class Sher_Core_Action_Authorize extends Sher_Core_Action_Base implements DoggyX_Action_VisitorAware {
+Class Sher_Core_Action_Authorize extends Sher_Core_Action_Base implements DoggyX_Action_VisitorAware, Sher_Core_Action_Filter {
 	
 	// 匿名用户函数清单
 	protected $exclude_method_list = array();
@@ -59,12 +59,36 @@ Class Sher_Core_Action_Authorize extends Sher_Core_Action_Base implements DoggyX
 		
 	    return;
 	}
+
+
+  /**
+   * 验证IP黑名单
+   */
+  public function check_current_ip($invoke_method, $ip, &$handle){
+
+    // 存在IP黑名单禁止防问!
+    $ip_black_model = new Sher_Core_Model_IpBlackList();
+    $exist_ip = $ip_black_model->first(array('ip'=>$ip));
+    if (!empty($exist_ip)) {
+      Doggy_Log_Helper::warn("Reject visit ip: ".$ip);
+      $handle = true;
+      return $this->refuse();
+    }
+  }
 	
 	/**
 	 * 拒绝权限
 	 */
 	protected function deny() {
         $this->stash['note'] = '抱歉，权限不足！';	
+		return $this->to_html_page('page/note_page.html');
+	}
+
+	/**
+	 * 拒绝访问
+	 */
+	protected function refuse() {
+        $this->stash['note'] = '拒绝访问！';	
 		return $this->to_html_page('page/note_page.html');
 	}
 	
@@ -78,4 +102,4 @@ Class Sher_Core_Action_Authorize extends Sher_Core_Action_Base implements DoggyX
 	}
 	
 }
-?>
+

@@ -195,6 +195,8 @@ class Sher_Core_Action_Base extends DoggyX_Action_Base {
         Sher_Core_Helper_View::setup_deploy_information($this->stash);
         Sher_Core_Helper_View::setup_site_menu($this->stash);
     }
+
+
 	
 }
-?>
+
