@@ -98,6 +98,11 @@ class Sher_App_Action_Weixin extends Sher_App_Action_Base {
    * 回调 
    */
   public function call_back(){
+    session_start();
+    if(!isset($_SESSION['captcha_code']) || empty($_SESSION['captcha_code'])){
+      $_SESSION['captcha_code'] = md5(microtime(true));
+    }
+    $this->stash['captcha_code'] = $_SESSION['captcha_code'];
 		$error_redirect_url = Doggy_Config::$vars['app.url.domain'];
 
     //如果已经登录

@@ -300,6 +300,11 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	 * 创造提交 
 	 */
 	public function coin_submit(){
+    session_start();
+    if(!isset($_SESSION['captcha_code']) || empty($_SESSION['captcha_code'])){
+      $_SESSION['captcha_code'] = md5(microtime(true));
+    }
+    $this->stash['captcha_code'] = $_SESSION['captcha_code'];
 		$this->stash['page_title_suffix'] = '[ 创 x 造 ]';
 		return $this->to_html_page('wap/promo/coin_submit.html');
 	}
@@ -1358,6 +1363,12 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
    * 通用报名入口，直接注册
    */
   public function common_sign(){
+    session_start();
+    if(!isset($_SESSION['captcha_code']) || empty($_SESSION['captcha_code'])){
+      $_SESSION['captcha_code'] = md5(microtime(true));
+    }
+    $this->stash['captcha_code'] = $_SESSION['captcha_code'];
+
     $target_id = (int)$this->stash['target_id'];
     $event = isset($this->stash['event'])? (int)$this->stash['event'] : 3;
     $from_to = isset($this->stash['from_to'])? (int)$this->stash['from_to'] : 1;
