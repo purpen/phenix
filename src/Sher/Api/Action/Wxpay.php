@@ -395,7 +395,6 @@
             return $this->api_json('请求失败!', 3010, $order);          
           }
         }else{
-          print_r($order);
           return $this->api_json('请求失败!', 3011, $order);        
         }
       }else{
