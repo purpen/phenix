@@ -335,8 +335,15 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 		$user_id = $this->current_user_id;
 		$content = isset($this->stash['content']) ? $this->stash['content'] : null;
 		$contact = isset($this->stash['contact']) ? $this->stash['contact'] : null;
-		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 2;
+		$app_type = isset($this->stash['app_type']) ? (int)$this->stash['app_type'] : 1;
 		$from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 1;
+    if($app_type==1){
+      $kind=2;
+    }elseif($app_type==2){
+      $kind=3;
+    }else{
+      $kind=2;
+    }
 		
 		if(empty($content)){
 			return $this->api_json('请求参数不足', 3000);
@@ -364,7 +371,6 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 		}
 		
 	}
-
 
   /**
    * 商品搜索热门关键词
