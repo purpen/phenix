@@ -292,6 +292,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
             'province_id' => 0,
             // 城市
             'district_id' => 0,
+            // 用户标签
+            'label' => null,
         ),
 
 		// 所在城市
@@ -532,6 +534,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
       'province_id' => 0,
       // 城市
       'district_id' => 0,
+      // 用户标签
+      'label' => null,
         );
 		return $default_profile;
 	}

@@ -132,6 +132,9 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		if(isset($this->stash['im_qq']) && !empty($this->stash['im_qq'])){
 		  $data['profile.im_qq'] = $this->stash['im_qq'];
 		}
+		if(isset($this->stash['label']) && !empty($this->stash['label'])){
+		  $data['profile.label'] = $this->stash['label'];
+		}
 		if(isset($this->stash['weixin']) && !empty($this->stash['weixin'])){
 		  $data['profile.weixin'] = $this->stash['weixin'];
 		}
