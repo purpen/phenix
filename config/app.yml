@@ -271,7 +271,7 @@ app.wechat_fiu.app_id: 'wxdf5f6f5907a238e8'
 # 微信APPSECRET：公众帐号secert（仅JSAPI支付的时候需要配置， 登录公众平台，进入开发者中心可设置）
 app.wechat_fiu.app_secret: '227f6fe4c54ad3e51eed975815167b0b'
 # 微信MCHID：商户号（必须配置，开户邮件中可查看）
-app.wechat_fiu.partner_id: '1305635501'
+app.wechat_fiu.partner_id: '1322727701'
 # KEY：商户支付密钥，参考开户邮件设置（必须配置，登录商户平台自行设置）
 # **** 要与web端一致!!!!
 app.wechat_fiu.key: '{$app.wechat.key}'
