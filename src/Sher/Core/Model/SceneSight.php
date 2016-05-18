@@ -98,6 +98,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 	 * 保存之后事件
 	 */
     protected function after_save(){
+      $user_id = $this->data['user_id'];
 		
       // 如果是新的记录
       if($this->insert_mode) {
