@@ -172,6 +172,9 @@
 		            {% if product.okcase %}
 		              <p class="ui magenta text">(案例产品)</p>
 		            {%endif%}
+		            {% if product.app_snatched %}
+		              <p class="ui magenta text">(app秒杀)</p>
+		            {%endif%}
 					{% if product.stage==12 %}
 					<span>积分兑换</span>
 					{% endif %}

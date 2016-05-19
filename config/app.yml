@@ -239,7 +239,7 @@ app.wechat.proxy_post : 0
 app.wechat.report_levenl : 1
 
 
-# 微信商户平台 支付信息(用于APP端)
+# 微信商户平台 支付信息(用于APP商城)
 # 微信Token(令牌)
 app.wechat_m.token: ''
 # 微信APPID：绑定支付的APPID（必须配置，开户邮件中可查看）
@@ -262,6 +262,30 @@ app.wechat_m.proxy_host : "0.0.0.0"
 app.wechat_m.proxy_post : 0
 # TODO：接口调用上报等级，默认紧错误上报（注意：上报超时间为【1s】，上报无论成败【永不抛出异常】
 app.wechat_m.report_levenl : 1
+
+# 微信商户平台 支付信息(用于Fiu)
+# 微信Token(令牌)
+app.wechat_fiu.token: ''
+# 微信APPID：绑定支付的APPID（必须配置，开户邮件中可查看）
+app.wechat_fiu.app_id: 'wxdf5f6f5907a238e8'
+# 微信APPSECRET：公众帐号secert（仅JSAPI支付的时候需要配置， 登录公众平台，进入开发者中心可设置）
+app.wechat_fiu.app_secret: '227f6fe4c54ad3e51eed975815167b0b'
+# 微信MCHID：商户号（必须配置，开户邮件中可查看）
+app.wechat_fiu.partner_id: '1322727701'
+# KEY：商户支付密钥，参考开户邮件设置（必须配置，登录商户平台自行设置）
+# **** 要与web端一致!!!!
+app.wechat_fiu.key: '{$app.wechat.key}'
+# 异步通知url
+app.wechat_fiu.notify_url: ''
+# TODO：设置商户证书路径
+app.wechat_fiu.sslcert_path: '/opt/project/phenix/vendor/wechat_m_cert/apiclient_cert.pem'
+app.wechat_fiu.sslkey_path: '/opt/project/phenix/vendor/wechat_m_cert/apiclient_key.pem'
+app.wechat_fiu.rootca: '/opt/project/phenix/vendor/wechat_m_cert/rootca.pem'
+# TODO：这里设置代理机器，只有需要代理的时候才设置，不需要代理，请设置为0.0.0.0和0
+app.wechat_fiu.proxy_host : "0.0.0.0"
+app.wechat_fiu.proxy_post : 0
+# TODO：接口调用上报等级，默认紧错误上报（注意：上报超时间为【1s】，上报无论成败【永不抛出异常】
+app.wechat_fiu.report_levenl : 1
 
 
 # 微信订阅号token

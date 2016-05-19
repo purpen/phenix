@@ -6,15 +6,19 @@
 class Sher_Core_Model_UserTalent extends Sher_Core_Model_Base  {
 	
     protected $collection = "user_talent";
-    protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 
-    const VERIFIED_NO = 0;
-    const VERIFIED_YES = 1;
+    ## 常量
+    # 是否审核
+    const VERIFIED_NO = 0;  # 未审核
+    const VERIFIED_REJECT = 1;  # 拒绝
+    const VERIFIED_PASS = 2;  # 通过
 	
 	protected $schema = array(
         'user_id' => 0,
         'info' => '',
         'contact' => '',
+        // 身份认证
+        'label' => null,
         'id_card_cover_id' => '',
         'business_card_cover_id' => '',
         # 已审核的
@@ -68,7 +72,7 @@ class Sher_Core_Model_UserTalent extends Sher_Core_Model_Base  {
 		if (!empty($id)){
 			$model = new Sher_Core_Model_Asset();
 			Doggy_Log_Helper::debug("Update asset[$id] parent_id: $parent_id");
-			$model->update_set($id, array('parent_id' => (int)$parent_id));
+			$model->update_set($id, array('parent_id' => $parent_id));
 		}
 	}
 }

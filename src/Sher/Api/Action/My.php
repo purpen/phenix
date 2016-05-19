@@ -132,6 +132,9 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		if(isset($this->stash['im_qq']) && !empty($this->stash['im_qq'])){
 		  $data['profile.im_qq'] = $this->stash['im_qq'];
 		}
+		if(isset($this->stash['label']) && !empty($this->stash['label'])){
+		  $data['profile.label'] = $this->stash['label'];
+		}
 		if(isset($this->stash['weixin']) && !empty($this->stash['weixin'])){
 		  $data['profile.weixin'] = $this->stash['weixin'];
 		}
@@ -647,31 +650,23 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
    * 达人认证
    */
 	public function talent_save(){
-		// info=test&contact=123456
 		$data = array();
 		$user_id = $this->current_user_id;
-		//$user_id = 10;
-		
-		if(empty($user_id)){
-			return $this->api_json('请先登录!', 3000);    
+
+		$info = isset($this->stash['info']) ? $this->stash['info'] : null;
+		$contact = isset($this->stash['contact']) ? $this->stash['contact'] : null;
+		$label = isset($this->stash['label']) ? $this->stash['label'] : null;
+		if(!$info || !$contact || !$label){
+			return $this->api_json('缺少请求参数!', 3000);    
 		}
+
 		$data['user_id'] = $user_id;
-		
-		$info = isset($this->stash['info']) ? $this->stash['info'] : '';
-		if(!$info){
-			return $this->api_json('参数不能为空!', 3000);    
-		}
 		$data['info'] = $info;
-		
-		$contact = isset($this->stash['contact']) ? $this->stash['contact'] : '';
-		if(!$contact){
-			return $this->api_json('参数不能为空!', 3000);    
-		}
 		$data['contact'] = $contact;
+		$data['label'] = $label;
 		
 		// 上传身份证照片
-		//$this->stash['id_card_tmp'] = Doggy_Config::$vars['app.imges'];
-		if(!isset($this->stash['id_card_tmp']) && empty($this->stash['id_card_tmp'])){
+		if(!isset($this->stash['id_card_a_tmp']) && empty($this->stash['id_card_a_tmp'])){
 			return $this->api_json('请选择图片！', 3001);  
 		}
 		$file = base64_decode(str_replace(' ', '+', $this->stash['id_card_tmp']));
@@ -683,7 +678,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 			return $this->api_json('图片格式不正确！', 3003);
 		}
 		$params = array();
-		$new_file_id = new MongoId();
+		$new_file_id = Sher_Core_Helper_Util::generate_mongo_id();
 		$params['domain'] = Sher_Core_Util_Constant::STROAGE_ID_CARD;
 		$params['asset_type'] = Sher_Core_Model_Asset::TYPE_ID_CARD;
 		$params['filename'] = $new_file_id.'.jpg';
@@ -692,13 +687,12 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		$result = Sher_Core_Util_Image::api_image($file, $params);
 		
 		if($result['stat']){
-			$data['id_card_cover_id'] = $result['asset']['id'];
+			$data['id_card_cover_id'] = (string)$result['asset']['id'];
 		}else{
 			return $this->api_json('上传失败!', 3005); 
 		}
 		
 		// 上传名片图片
-		//$this->stash['business_card_tmp'] = Doggy_Config::$vars['app.imges'];
 		if(!isset($this->stash['business_card_tmp']) && empty($this->stash['business_card_tmp'])){
 			return $this->api_json('请选择图片！', 3001);  
 		}
@@ -711,16 +705,17 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 			return $this->api_json('图片格式不正确！', 3003);
 		}
 		$params = array();
-		$new_file_id = new MongoId();
+		$new_file_id = Sher_Core_Helper_Util::generate_mongo_id();
 		$params['domain'] = Sher_Core_Util_Constant::STROAGE_BUSINESS_CARD;
 		$params['asset_type'] = Sher_Core_Model_Asset::TYPE_BUSINESS_CARD;
 		$params['filename'] = $new_file_id.'.jpg';
-		$params['parent_id'] = $user_id;
+		$params['parent_id'] = 0;
+		$params['user_id'] = $user_id;
 		$params['image_info'] = $image_info;
 		$result = Sher_Core_Util_Image::api_image($file, $params);
 		
 		if($result['stat']){
-			$data['business_card_cover_id'] = $result['asset']['id'];
+			$data['business_card_cover_id'] = (string)$result['asset']['id'];
 		}else{
 			return $this->api_json('上传失败!', 3005); 
 		}
@@ -729,20 +724,23 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 			$model = new Sher_Core_Model_UserTalent();	
 			$ok = $model->apply_and_save($data);
 			$res = $model->get_data();
-			$id = $res['_id'];
+			$id = (string)$res['_id'];
 			
 			if(!$ok){
 				return $this->api_json('保存失败,请重新提交', 4002);
 			}
 			
-			if(isset($data['cover_id']) && !empty($data['cover_id'])){
-				$model->update_batch_assets($data['cover_id'], $id);
+			if(isset($data['id_card_cover_id']) && !empty($data['id_card_cover_id'])){
+				$model->update_batch_assets($data['id_card_cover_id'], $id);
+			}
+			if(isset($data['business_card_cover_id']) && !empty($data['business_card_cover_id'])){
+				$model->update_batch_assets($data['business_card_cover_id'], $id);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('保存失败:'.$e->getMessage(), 4001);
 		}
 		
-		return $this->api_json('提交成功', 0, null);
+		return $this->api_json('提交成功', 0, array('id'=>$id));
 	}
 	
 	/**

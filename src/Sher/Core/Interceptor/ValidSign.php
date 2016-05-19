@@ -76,8 +76,9 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 	 */
 	public function get_signature($arrdata, $client_id){
 		ksort($arrdata);
+    // 不参与验签的字段名
     $ignore_data = array(
-      'sign', 'tmp'
+      'sign', 'tmp', 'id_card_a_tmp', 'business_card_tmp',
     );
 		
 		$paramstring = '';
