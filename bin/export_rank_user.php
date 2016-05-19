@@ -20,41 +20,44 @@ require $cfg_doggy_bootstrap;
 
 set_time_limit(0);
 
-/**
 echo "begin fetch users...\n";
 $user_model = new Sher_Core_Model_User();
+$user_ext_model = new Sher_Core_Model_UserExtState();
 $page = 1;
 $size = 1000;
 $is_end = false;
 $total = 0;
-$fp = fopen('/home/tianxiaoyi/user_list.csv', 'a');
-// Windows下使用BOM来标记文本文件的编码方式 
-fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
+$user_arr = array();
 
 // 输出Excel列名信息
-$head = array('ID', '账户', '昵称', '创建时间');
-// 将数据通过fputcsv写到文件句柄
-fputcsv($fp, $head);
-
 while(!$is_end){
-	$query = array('kind'=>9);
+
+  $query['rank_id'] = array('$gt'=>2);
 	$options = array('page'=>$page,'size'=>$size);
-	$list = $user_model->find($query, $options);
+	$list = $user_ext_model->find($query, $options);
 	if(empty($list)){
-		echo "get user list is null,exit......\n";
+		echo "get user ext list is null,exit......\n";
 		break;
 	}
 	$max = count($list);
   for ($i=0; $i < $max; $i++) {
-    $user = $list[$i];
+    $user_id = $list[$i]['_id'];
+    $user = $user_model->load($user_id);
     if(empty($user)){
       continue;
     }
-    $d = date('y-m-d', $user['created_on']);
-    $nickname = $user['nickname'];
-    $row = array($user['_id'], $user['account'], $nickname, $d);
-    fputcsv($fp, $row);
-    $total++;
+    if(!isset($user['profile']['phone']) || empty($user['profile']['phone'])){
+      continue;
+    }
+    if(Sher_Core_Helper_Util::is_mobile($user['profile']['phone'])){
+      if(in_array($phone, $user_arr)){
+        continue;
+      }else{
+        array_push($user_arr, $phone);
+        $total++;
+      }
+    }
+
 	}
 	if($max < $size){
 		echo "user list is end!!!!!!!!!,exit.\n";
@@ -63,19 +66,17 @@ while(!$is_end){
 	$page++;
 	echo "page [$page] updated---------\n";
 }
+
+$fp = fopen('/home/tianxiaoyi/user_rank_sort.csv', 'a');
+// Windows下使用BOM来标记文本文件的编码方式 
+fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
+
+for($i=0;$i<count($user_arr);$i++){
+  fputcsv($fp, array($user_arr[$i]));
+}
+
 fclose($fp);
-echo "total $total user rows export over.\n";
+echo "total $total user phone export over.\n";
 
-**/
-
-$user_ext_model = new Sher_Core_Model_UserExtState();
-$query = array();
-$options = array();
-
-$query['rank_id'] = array('$gt'=>2);
-$count = $user_ext_model->count($query);
-
-echo "count: $count.\n";
-
-echo "All user export done.\n";
+echo "All user phone export done.\n";
 

@@ -38,11 +38,6 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
             return $invocation->invoke();
           }
 
-          // 用于测试，某些uuid 不参与签名验证
-          if($uuid=='androidPhoneTHN'){
-            return $invocation->invoke();
-          }
-
 	        // 验证传递参数
 
 			$stash = $action->stash;

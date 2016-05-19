@@ -22,7 +22,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		// http://www.taihuoniao.me/app/api/scene_scene/getlist?dis=1000&lat=39.9151190000&lng=116.4039630000
 		
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$size = isset($this->stash['size'])?(int)$this->stash['size']:1000;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		
 		$some_fields = array(
 			'_id'=>1, 'title'=>1, 'user_id'=>1, 'des'=>1, 'sight'=>1, 'tags'=>1,
