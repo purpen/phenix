@@ -73,6 +73,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     if(!isset($this->stash['array']) || empty($this->stash['array'])){
       return $this->api_json('购物车为空！', 3001); 
     }
+    // app来源
+    $app_type = isset($this->stash['app_type']) ? (int)$this->stash['app_type'] : 1;
     // 第一版不加此参数，购物车数量是多少就买多少
     $n = isset($this->stash['n']) ? (int)$this->stash['n'] : 1;
     $cart_arr = json_decode($this->stash['array']);
@@ -194,19 +196,22 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			// 优惠活动费用
 			$coin_money = 0.0;
 
-      // 用户是否首次下单立减 秒杀不参与
-      $user_model = new Sher_Core_Model_User();
-      $user = $user_model->load($this->current_user_id);
-      if(empty($user)){
-        return false;
-      }
-      if(isset($user['identify']['is_app_first_shop']) && $user['identify']['is_app_first_shop']==1){
-        //首次下单立减非首次下单用户过滤
-      }else{
-        if(empty($kind)){ // 其它活动不参与
-          $kind = 4;
-          $coin_money = Sher_Core_Util_Constant::APP_FIRST_COIN_MONEY;
-        }    
+
+      // 用户是否首次下单立减 秒杀、Fiu不参与
+      if($app_type==1){
+        $user_model = new Sher_Core_Model_User();
+        $user = $user_model->load($this->current_user_id);
+        if(empty($user)){
+          return false;
+        }
+        if(isset($user['identify']['is_app_first_shop']) && $user['identify']['is_app_first_shop']==1){
+          //首次下单立减非首次下单用户过滤
+        }else{
+          if(empty($kind)){ // 其它活动不参与
+            $kind = 4;
+            $coin_money = Sher_Core_Util_Constant::APP_FIRST_COIN_MONEY;
+          }    
+        }     
       }
 			
 			// 红包金额
@@ -275,6 +280,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$target_id = isset($this->stash['target_id'])?(int)$this->stash['target_id']:0;
 		$type = isset($this->stash['type'])?(int)$this->stash['type']:0;
 		$quantity = isset($this->stash['n'])?(int)$this->stash['n']:1;
+    // app来源
+    $app_type = isset($this->stash['app_type']) ? (int)$this->stash['app_type'] : 1;
     $result = array();
     $is_app_snatched = false;
     $usable_bonus = array();
@@ -372,7 +379,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$total_money = (float)$price*$quantity;
 		$items_count = 1;
 
-		$order_info = $this->create_temp_order($items, $total_money, $items_count, $kind);
+		$order_info = $this->create_temp_order($items, $total_money, $items_count, $kind, $app_type);
 		if (empty($order_info)){
       return $this->api_json('系统出了小差，请稍后重试！', 3006);
     }
@@ -1258,7 +1265,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	/**
 	 * 生产临时订单
 	 */
-	protected function create_temp_order($items=array(),$total_money,$items_count,$kind=0){
+	protected function create_temp_order($items=array(),$total_money,$items_count,$kind=0, $app_type=1){
 		$data = array();
 		$data['items'] = $items;
 		$data['total_money'] = $total_money;
@@ -1276,19 +1283,21 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		// 优惠活动费用
 		$coin_money = 0.0;
 
-    // 用户是否首次下单立减 秒杀不参与
-    $user_model = new Sher_Core_Model_User();
-    $user = $user_model->load($this->current_user_id);
-    if(empty($user)){
-      return false;
-    }
-    if(isset($user['identify']['is_app_first_shop']) && $user['identify']['is_app_first_shop']==1){
-      //首次下单立减非首次下单用户过滤
-    }else{
-      if(empty($kind)){ // 秒杀不参与
-        $kind = 4;
-        $coin_money = Sher_Core_Util_Constant::APP_FIRST_COIN_MONEY;
-      }    
+    // 用户是否首次下单立减 秒杀、Fiu不参与
+    if($app_type==1){
+      $user_model = new Sher_Core_Model_User();
+      $user = $user_model->load($this->current_user_id);
+      if(empty($user)){
+        return false;
+      }
+      if(isset($user['identify']['is_app_first_shop']) && $user['identify']['is_app_first_shop']==1){
+        //首次下单立减非首次下单用户过滤
+      }else{
+        if(empty($kind)){ // 秒杀不参与
+          $kind = 4;
+          $coin_money = Sher_Core_Util_Constant::APP_FIRST_COIN_MONEY;
+        }    
+      }   
     }
 		
 		// 红包金额
@@ -1455,6 +1464,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $user_id = $this->current_user_id;
     $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
 		$payaway = isset($this->stash['payaway'])?$this->stash['payaway']:'';
+		$app_type = isset($this->stash['app_type'])?(int)$this->stash['app_type']:1;
 		if (empty($rid)) {
 			return $this->api_json('操作不当，请查看购物帮助！', 3000);
 		}
@@ -1476,12 +1486,20 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		// 挑选支付机构
 		Doggy_Log_Helper::warn('Api Pay away:'.$payaway);
 		$random = Sher_Core_Helper_Util::generate_mongo_id();
+
+    if($app_type==1){
+      $action_name = 'payment';
+    }elseif($app_type==2){
+      $action_name = 'fiu_payment';
+    }else{
+      $action_name = 'payment';
+    }
 		switch($payaway){
 			case 'alipay':
-        $pay_url = sprintf("%s/alipay/payment?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $user_id, $rid, $uuid, $ip, $random);
+        $pay_url = sprintf("%s/alipay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
 				break;
 			case 'weichat':
-        $pay_url = sprintf("%s/wxpay/payment?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $user_id, $rid, $uuid, $ip, $random);
+        $pay_url = sprintf("%s/wxpay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
 				break;
 			default:
 			  return $this->api_json('找不到支付类型！', 3005);

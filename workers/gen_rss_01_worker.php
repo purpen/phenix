@@ -50,7 +50,7 @@ for($i=0;$i<count($list);$i++){
   }
   $html .= '<item>'."\n";
   $html .= sprintf("<title><![CDATA[%s]]></title>\n", $obj['title']);
-  $html .= sprintf("<dc:creator>%s</dc:creator>\n", $user['nickname']);
+  $html .= sprintf("<creator>%s</creator>\n", $user['nickname']);
   $html .= sprintf("<pubDate>%s</pubDate>\n", date(DATE_RSS, $obj['created_on']));
   $html .= sprintf("<description><![CDATA[%s]]></description>\n", htmlspecialchars_decode($obj['description']));
   $html .= sprintf("<link>%s</link>\n", Sher_Core_Helper_Url::topic_view_url($obj['_id']));
