@@ -1,0 +1,287 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}会员等级-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+.ui.table thead th{
+	font-weight: 400 !important;
+	font-size: 0.857143rem !important;
+}
+.ui.celled.table tr td{
+	font-size: 0.857143rem;
+}
+
+</style>
+{% endblock %}
+{% block content %}
+<div id="point" class="mt-2r">
+	<div class="ui responsive pl-r pr-r grid">
+		<div class="row">
+			<div class="column">
+				<h3 class="ui header">会员等级</h3>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="column plr-r">
+				<table class="ui unstackable celled table center aligned segment">
+                    <thead>
+                    <tr><th>行为</th>
+                        <th style="min-width:3.857143rem;">经验值</th>
+                        <th>说明</th>
+                    </tr></thead>
+                    <tbody>
+                    <tr>
+                        <td>创建情景</td>
+                        <td>500</td>
+                        <td>需审核通过</td>
+                    </tr>
+                    <tr>
+                        <td>创建内容违法违规</td>
+                        <td>／</td>
+                        <td>删除内容并扣除全部积分，严重者封号处理</td>
+                    </tr>
+                    <tr>
+                        <td>热门情景</td>
+                        <td>500</td>
+                        <td>情景使用人数50+</td>
+                    </tr>
+                    <tr>
+                        <td>创建场景</td>
+                        <td>500</td>
+                        <td>需审核通过</td>
+                    </tr>
+                    <tr>
+                        <td>热门场景</td>
+                        <td>500</td>
+                        <td>每日选1场景</td>
+                    </tr>
+                    <tr>
+                        <td>首次上传头像</td>
+                        <td>5</td>
+                        <td>一次性给予奖励积分，后续修改不重复获得</td>
+                    </tr>
+                    <tr>
+                        <td>首次完善个人资料</td>
+                        <td>10</td>
+                        <td>姓名 手机 城市 签名 收货地址 爱好 职位等</td>
+                    </tr>
+                    <tr>
+                        <td>更新个人资料</td>
+                        <td>5</td>
+                        <td>每个月限定修改1次</td>
+                    </tr>
+                    <tr>
+                        <td>关注他人</td>
+                        <td>2</td>
+                        <td rowspan="3">每天不超过20</td>
+                    </tr>
+                    <tr>
+                        <td>收藏</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>点赞</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>评论</td>
+                        <td>10</td>
+                        <td>每天不超过50</td>
+                    </tr>
+                    <tr>
+                        <td>转发（场景、情境）</td>
+                        <td>100</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>转发（产品专题）</td>
+                        <td>20</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>转发（产品）</td>
+                        <td>5</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Fiu签到</td>
+                        <td>10</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>连续签到7天</td>
+                        <td>70+100</td>
+                        <td rowspan="4">满30天清零重新计算</td>
+                    </tr>
+                    <tr>
+                        <td>连续签到14天</td>
+                        <td>70+100*2</td>
+                    </tr>
+                    <tr>
+                        <td>连续签到21天</td>
+                        <td>70+100*3</td>
+                    </tr>
+                    <tr>
+                        <td>连续签到28天</td>
+                        <td>70+100*4</td>
+                    </tr>
+                    <tr>
+                        <td>自营商品购买</td>
+                        <td>订单价格1：1</td>
+                        <td rowspan="3">自营</td>
+                    </tr>
+                    <tr>
+                        <td>自营商品售后好评+评论</td>
+                        <td>50</td>
+                    </tr>
+                    <tr>
+                        <td>自营商品售后评论晒图</td>
+                        <td>50</td>
+                    </tr>
+                    <tr>
+                        <td>售后好评+评论</td>
+                        <td>30</td>
+                        <td rowspan="2">第三方</td>
+                    </tr>
+                    <tr>
+                        <td>售后评论晒图</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <td>上传产品库</td>
+                        <td>10</td>
+                        <td>每天不超过30</td>
+                    </tr>
+                    <tr>
+                        <td>成功邀请好友下载app</td>
+                        <td>1000</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>下载太火鸟商城app</td>
+                        <td>50</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>太火鸟商城app签到抽奖</td>
+                        <td>1</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>购买金额1-100元</td>
+                        <td>50</td>
+                        <td rowspan="5">（不占用每日积分上限）</td>
+                    </tr>
+                    <tr>
+                        <td>购买金额101-300元</td>
+                        <td>150</td>
+                    </tr>
+                    <tr>
+                        <td>购买金额301-800元</td>
+                        <td>300</td>
+                    </tr>
+                    <tr>
+                        <td>购买金额801-1500元</td>
+                        <td>500</td>
+                    </tr>
+                    <tr>
+                        <td>购买金额1500以上</td>
+                        <td>800</td>
+                    </tr>
+                    <tr>
+                        <td>商城app申请试用</td>
+                        <td>/</td>
+                        <td>按不同项目暂扣积分，未成功申请者退还</td>
+                    </tr>
+                    <tr>
+                        <td>成功提交试用报告</td>
+                        <td>/</td>
+                        <td>退还扣除积分</td>
+                    </tr>
+
+                    </tbody>
+
+                    <thead>
+                    <tr><th style="border-top: 1px solid rgba(34,36,38,.15);border-radius: 0;">被动行为</th>
+                        <th style="min-width:3.857143rem;border-top: 1px solid rgba(34,36,38,.15);border-radius: 0;">经验值</th>
+                        <th style="border-top: 1px solid rgba(34,36,38,.15);border-radius: 0;">说明</th>
+                    </tr></thead>
+                    <tbody>
+                    <tr>
+                        <td>创建情景</td>
+                        <td>10</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>创建情景</td>
+                        <td>10</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>点赞</td>
+                        <td>5</td>
+                        <td rowspan="6">所有内容：每天不超过100</td>
+                    </tr>
+                    <tr>
+                        <td>转发</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>评论</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>被人关注</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>主页来访</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>点评被他人点赞</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>产品库通过审核</td>
+                        <td>50</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>优秀试用报告加精</td>
+                        <td>500</td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                    <thead>
+                    <tr><th colspan="3" style="border-top: 1px solid rgba(34,36,38,.15);border-radius: 0;">规则</th>
+                    </tr></thead>
+                    <tbody>
+                    	<tr>
+                        <td colspan="3">每日日常行为获取总积分上限200</td>
+                    	</tr>
+                    	<tr>
+                        <td colspan="3">场景/情景/内容奖励为额外奖励&自营商品兑换积分，不占用每日积分上限内额度</td>
+                    	</tr>
+                    	<tr>
+                        <td colspan="3">鸟币单位与积分单位合并，兑换比例：1鸟币=1元=100积分</td>
+                    	</tr>
+                    </tbody>
+
+                </table>
+
+
+			</div>
+		</div>
+
+
+
+
+	</div>
+</div>
+
+
+{% endblock %}
