@@ -75,7 +75,10 @@
 	<div date="menu-admin" {% if show_type == 'app' %} style="display:block" {% else %} style="display:none" {% endif %}>
 		{% if visitor.is_chief %}
 		<a class="{{ css_page_app_pusher }} item" href="{{ app_url_app_admin_base }}/pusher">
-			设备管理
+			商城管理
+		</a>
+		<a class="{{ css_page_fiu_app_pusher }} item" href="{{ app_url_app_admin_base }}/fiu_pusher">
+			Fiu管理
 		</a>
 
 		{%endif%}

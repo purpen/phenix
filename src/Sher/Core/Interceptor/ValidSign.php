@@ -16,8 +16,15 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
           $current_user_id = 0;
           // 通过uuid获取当前用户ID
           $uuid = $request->get('uuid');
+          $app_type = !empty($request->get('app_type')) ? (int)$request->get('app_type') : 1;
           if(!empty($uuid)){
-            $pusher_model = new Sher_Core_Model_Pusher();
+            if($app_type==1){
+              $pusher_model = new Sher_Core_Model_Pusher();
+            }elseif($app_type==2){
+              $pusher_model = new Sher_Core_Model_FiuPusher();          
+            }else{
+ 		          return $action->api_json("应用来源不正确", 4007);           
+            }
             $pusher = $pusher_model->first(array('uuid'=> $uuid, 'is_login'=>1));
             if($pusher){
               $current_user_id = $pusher['user_id'];
@@ -31,6 +38,7 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
           }
 
           $action->current_user_id = $current_user_id;
+          $action->current_app_type = $app_type;
 
           // 判断是否验证签名(测试环境可不验证)
           $is_validate_sign = (int)Doggy_Config::$vars['app.api.is_validate_sign'];

@@ -52,15 +52,15 @@
 {% endblock %}
 	
 {% block content %}
-	<h3 class="ui header">商城设备管理</h3>
+	<h3 class="ui header">Fiu设备管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_app_admin_base }}/pusher" class="active item">
+		<a href="{{ app_url_app_admin_base }}/fiu_pusher" class="active item">
 			全部
 		</a>
 
 	  	<div class="right menu">
-        <a href="{{ app_url_app_admin_base }}/pusher/export?channel_id={{ channel_id }}&from_to={{ from_to }}&is_login={{ is_login }}" class="item">
+        <a href="{{ app_url_app_admin_base }}/fiu_pusher/export?channel_id={{ channel_id }}&from_to={{ from_to }}&is_login={{ is_login }}" class="item">
           <i class="download icon"></i>导出
         </a>
         <a href="javascript:void(0);" class="item ajax-delete">
@@ -71,7 +71,7 @@
 	</div>
 	
 	<div class="ui sub ">
-		<form action="{{ app_url_app_admin_base }}/pusher/get_list" id="search-form" method="get">
+		<form action="{{ app_url_app_admin_base }}/fiu_pusher/get_list" id="search-form" method="get">
 			<label>搜索：</label>
       <div class="ui selection dropdown">
         <input type="hidden" name="from_to" value="{{ from_to }}" />
@@ -131,7 +131,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% pusher_list var:'list' page:page user_id:user_id uuid:uuid from_to:from_to is_login:is_login state:state channel_id:channel_id size:size %}
+			{% fiu_pusher_list var:'list' page:page user_id:user_id uuid:uuid from_to:from_to is_login:is_login state:state channel_id:channel_id size:size %}
 
 			{% for d in list.rows %}
 			<tr id="{{ d._id }}">
@@ -170,7 +170,7 @@
         </td>
 				<td>
 					<p>
-          <a href="{{ app_url_app_admin_base }}/pusher/deleted?id={{ d._id }}" class="ui confirm-request link item">
+          <a href="{{ app_url_app_admin_base }}/fiu_pusher/deleted?id={{ d._id }}" class="ui confirm-request link item">
 						    删除
 					  </a>
 					</P>
