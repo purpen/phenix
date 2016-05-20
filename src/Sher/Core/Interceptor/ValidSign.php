@@ -16,7 +16,8 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
           $current_user_id = 0;
           // 通过uuid获取当前用户ID
           $uuid = $request->get('uuid');
-          $app_type = !empty($request->get('app_type')) ? (int)$request->get('app_type') : 1;
+          $app_type = $request->get('app_type');
+          $app_type = !empty($app_type) ? (int)$app_type : 1;
           if(!empty($uuid)){
             if($app_type==1){
               $pusher_model = new Sher_Core_Model_Pusher();

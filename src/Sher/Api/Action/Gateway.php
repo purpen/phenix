@@ -106,6 +106,31 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 	}
 
   /**
+   * 记录用户激活状态
+   */
+  public function record_user_active(){
+    // 记录用户激活状态（先放此处，下个版本提出来）
+    $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
+    $channel_id = isset($this->stash['channel']) ? (int)$this->stash['channel'] : 0;
+    $app_type = isset($this->stash['app_type']) ? (int)$this->stash['app_type'] : 1;
+
+    if(!empty($uuid)){
+      $app_user_record_model = new Sher_Core_Model_AppUserRecord();
+      $has_app_one = $app_user_record_model->first(array('uuid'=>$uuid));
+      if(empty($has_app_one)){
+        $app_user_rows = array(
+          'uuid' => $uuid,
+          'channel_id' => $channel_id,
+          'device' => empty($channel_id) ? 2 : 1,
+          'kind' => $app_type==1 ? 1 : 2,
+        );
+        $app_user_record_model->apply_and_save($app_user_rows);
+      }
+    }
+  
+  }
+
+  /**
    * app首页秒杀展示
    */
   public function snatched_index_show(){

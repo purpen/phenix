@@ -183,10 +183,6 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 	 */
 	public function logout(){
 		try{
-	        //$service = DoggyX_Session_Service::instance();
-	        //$service->revoke_auth_cookie();
-		
-	        //$service->stop_visitor_session();
 
     $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
 		
