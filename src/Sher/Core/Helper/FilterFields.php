@@ -121,6 +121,7 @@ class Sher_Core_Helper_FilterFields {
           if($asset){
             $data['head_pic_url'] = $asset['thumbnails']['huge']['view_url'];
           }
+          unset($data['head_pic']);
         }
 
         return $data;

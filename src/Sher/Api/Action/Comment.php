@@ -27,6 +27,7 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		$target_user_id = isset($this->stash['target_user_id']) ? (int)$this->stash['target_user_id'] : 0;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 12;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		$deleted = isset($this->stash['deleted']) ? (int)$this->stash['deleted'] : -1;
 
 		if(empty($user_id) && empty($target_id) && empty($target_user_id)){
 			return $this->api_json('获取数据错误,请重新提交', 3000);
@@ -62,6 +63,14 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		
 		if ($type) {
 			$query['type'] = (int)$type;
+		}
+
+		if ($deleted) {
+      if($deleted==-1){
+			  $query['deleted'] = 0;
+      }else{
+			  $query['deleted'] = 1;
+      }
 		}
 		
 		// 分页参数
