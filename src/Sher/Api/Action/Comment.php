@@ -15,7 +15,7 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 	}
 	
 	/**
-	 * 主题列表
+	 * 列表
 	 */
 	public function getlist(){
 		
@@ -229,6 +229,36 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		$this->stash['reply'] = $result;
 		
 		return $this->to_taconite_page('ajax/reply_ok.html');
+	}
+
+	/**
+	 * 删除回应 非物理删除,加上楼层,改为屏蔽
+	 */
+	public function deleted(){
+		$comment_id = isset($this->stash['id']) ? $this->stash['id'] : null;
+		// 验证数据
+		if(empty($comment_id)){
+			return $this->api_json('缺少请求参数!', 3001);
+		}
+    $user_id = $this->current_user_id;
+		
+		try{
+			$model = new Sher_Core_Model_Comment();
+			$comment = $model->find_by_id($comment_id);
+			// 只能删除自己的评论
+			if ($comment['user_id'] == $user_id){
+        $ok = $model->mark_remove($comment_id);
+        if($ok){
+          return $this->api_json('删除成功!', 0, array('id'=>$comment_id));
+          // 更新对应对象的回应数 --注掉,因为是屏蔽评论,相关数量不做减少
+          //$model->mock_after_remove($comment);       
+        }else{
+          return $this->api_json('删除失败!', 3002);
+        }
+			}
+		}catch(Sher_Core_Model_Exception $e){
+      return $this->api_json('删除失败!!', 3003);
+		}
 	}
 
 }
