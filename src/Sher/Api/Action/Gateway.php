@@ -127,7 +127,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
         $app_user_record_model->apply_and_save($app_user_rows);
       }
     }
-  
+    return $this->api_json('success', 0, array('uuid'=>$uuid));
   }
 
   /**
