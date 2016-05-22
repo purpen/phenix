@@ -1,9 +1,9 @@
 <?php
 /**
- * app推送管理
+ * app推送管理-Fiu
  * @author tianshuai
  */
-class Sher_AppAdmin_Action_Pusher extends Sher_AppAdmin_Action_Base implements DoggyX_Action_Initialize {
+class Sher_AppAdmin_Action_FiuPusher extends Sher_AppAdmin_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
 		'page' => 1,
@@ -17,7 +17,7 @@ class Sher_AppAdmin_Action_Pusher extends Sher_AppAdmin_Action_Base implements D
 	);
 	
 	public function _init() {
-		$this->set_target_css_state('page_app_pusher');
+		$this->set_target_css_state('page_fiu_app_pusher');
 		$this->stash['show_type'] = "app";
   }
 	
@@ -36,11 +36,11 @@ class Sher_AppAdmin_Action_Pusher extends Sher_AppAdmin_Action_Base implements D
     $this->set_target_css_state('page_all');
 		$page = (int)$this->stash['page'];
 		
-		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/pusher/get_list?is_login=%d&from_to=%d&user_id=%d&uuid=%s&state=%d&channel_id=%d&page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/fiu_pusher/get_list?is_login=%d&from_to=%d&user_id=%d&uuid=%s&state=%d&channel_id=%d&page=#p#';
 
 		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['is_login'], $this->stash['from_to'], $this->stash['user_id'], $this->stash['uuid'], $this->stash['state'], $this->stash['channel_id']);
 		
-		return $this->to_html_page('app_admin/pusher/list.html');
+		return $this->to_html_page('app_admin/fiu_pusher/list.html');
 	}
 	
 	/**
@@ -70,7 +70,7 @@ class Sher_AppAdmin_Action_Pusher extends Sher_AppAdmin_Action_Base implements D
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		
 		try{
-			$model = new Sher_Core_Model_Pusher();
+			$model = new Sher_Core_Model_FiuPusher();
 			
 			foreach($ids as $id){
 				$pusher = $model->load($id);
@@ -156,7 +156,7 @@ class Sher_AppAdmin_Action_Pusher extends Sher_AppAdmin_Action_Base implements D
 		// 将数据通过fputcsv写到文件句柄
 		fputcsv($fp, $head);
 		
-		$service = Sher_Core_Service_Pusher::instance();
+		$service = Sher_Core_Service_FiuPusher::instance();
 		
 		$is_end = false;
 		$counter = 0;

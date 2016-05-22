@@ -156,7 +156,6 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         $filter_fields  = array('scene','cover','user','cover_id','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
-		//var_dump($result['rows']);die;
 		return $this->api_json('请求成功', 0, $result);
 	}
 	
@@ -164,8 +163,6 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 	 * 场景情景
 	 */
 	public function save(){
-		
-		// http://www.taihuoniao.me/app/api/scene_sight/save?title=a&des=b&scene_id=31&tags=1,2,3&product_id=1,2,3&product_title=a,b,c&product_price=12,20,30&product_x=20,30,40&product_y=30,40,50&lat=39.9151190000&lng=116.4039630000&address=北京市
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$user_id = $this->current_user_id;
@@ -306,7 +303,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			return $this->api_json('情景保存失败:'.$e->getMessage(), 4001);
 		}
 		
-		return $this->api_json('提交成功', 0, null);
+		return $this->api_json('提交成功', 0, array('id'=>$id));
 	}
 	
 	/**

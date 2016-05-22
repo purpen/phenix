@@ -15,7 +15,7 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 	}
 	
 	/**
-	 * 主题列表
+	 * 列表
 	 */
 	public function getlist(){
 		
@@ -27,6 +27,7 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		$target_user_id = isset($this->stash['target_user_id']) ? (int)$this->stash['target_user_id'] : 0;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 12;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		$deleted = isset($this->stash['deleted']) ? (int)$this->stash['deleted'] : -1;
 
 		if(empty($user_id) && empty($target_id) && empty($target_user_id)){
 			return $this->api_json('获取数据错误,请重新提交', 3000);
@@ -62,6 +63,14 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		
 		if ($type) {
 			$query['type'] = (int)$type;
+		}
+
+		if ($deleted) {
+      if($deleted==-1){
+			  $query['deleted'] = 0;
+      }else{
+			  $query['deleted'] = 1;
+      }
 		}
 		
 		// 分页参数
@@ -229,6 +238,36 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		$this->stash['reply'] = $result;
 		
 		return $this->to_taconite_page('ajax/reply_ok.html');
+	}
+
+	/**
+	 * 删除回应 非物理删除,加上楼层,改为屏蔽
+	 */
+	public function deleted(){
+		$comment_id = isset($this->stash['id']) ? $this->stash['id'] : null;
+		// 验证数据
+		if(empty($comment_id)){
+			return $this->api_json('缺少请求参数!', 3001);
+		}
+    $user_id = $this->current_user_id;
+		
+		try{
+			$model = new Sher_Core_Model_Comment();
+			$comment = $model->find_by_id($comment_id);
+			// 只能删除自己的评论
+			if ($comment['user_id'] == $user_id){
+        $ok = $model->mark_remove($comment_id);
+        if($ok){
+          return $this->api_json('删除成功!', 0, array('id'=>$comment_id));
+          // 更新对应对象的回应数 --注掉,因为是屏蔽评论,相关数量不做减少
+          //$model->mock_after_remove($comment);       
+        }else{
+          return $this->api_json('删除失败!', 3002);
+        }
+			}
+		}catch(Sher_Core_Model_Exception $e){
+      return $this->api_json('删除失败!!', 3003);
+		}
 	}
 
 }

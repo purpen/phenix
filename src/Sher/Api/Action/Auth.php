@@ -62,7 +62,13 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     // 过滤用户字段
     $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
 
-    $pusher = new Sher_Core_Model_Pusher();
+    $app_type = $this->current_app_type;
+    if($app_type==1){
+      $pusher = new Sher_Core_Model_Pusher();
+    }elseif($app_type==2){
+      $pusher = new Sher_Core_Model_FiuPusher();
+    }else{
+    }
     $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
     $this->current_user_id = $user_id;
 		
@@ -153,7 +159,13 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     // 过滤用户字段
     $data = Sher_Core_Helper_FilterFields::wap_user($user);
 
-    $pusher = new Sher_Core_Model_Pusher();
+    $app_type = $this->current_app_type;
+    if($app_type==1){
+      $pusher = new Sher_Core_Model_Pusher();
+    }elseif($app_type==2){
+      $pusher = new Sher_Core_Model_FiuPusher();
+    }else{
+    }
     $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
     $this->current_user_id = $user_id;
 
@@ -171,10 +183,6 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 	 */
 	public function logout(){
 		try{
-	        //$service = DoggyX_Session_Service::instance();
-	        //$service->revoke_auth_cookie();
-		
-	        //$service->stop_visitor_session();
 
     $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
 		
@@ -186,7 +194,13 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 			$uuid = $this->stash['uuid'];
 
 			if(!empty($uuid) && !empty($from_to)){
-				$pusher = new Sher_Core_Model_Pusher();
+        $app_type = $this->current_app_type;
+        if($app_type==1){
+          $pusher = new Sher_Core_Model_Pusher();
+        }elseif($app_type==2){
+          $pusher = new Sher_Core_Model_FiuPusher();
+        }else{
+        }
 				$ok = $pusher->unbinding($uuid, $from_to);
         $this->current_user_id = 0;
 			}
@@ -364,7 +378,15 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
       $user_data = $user_model->extended_model_row($user);
       // 过滤用户字段
       $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
-      $pusher = new Sher_Core_Model_Pusher();
+
+      $app_type = $this->current_app_type;
+      if($app_type==1){
+        $pusher = new Sher_Core_Model_Pusher();
+      }elseif($app_type==2){
+        $pusher = new Sher_Core_Model_FiuPusher();
+      }else{
+      }
+
       $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
       $this->current_user_id = $user_id;
 
@@ -519,7 +541,13 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 
         // 过滤用户字段
         $data = Sher_Core_Helper_FilterFields::wap_user($user);
-        $pusher = new Sher_Core_Model_Pusher();
+        $app_type = $this->current_app_type;
+        if($app_type==1){
+          $pusher = new Sher_Core_Model_Pusher();
+        }elseif($app_type==2){
+          $pusher = new Sher_Core_Model_FiuPusher();
+        }else{
+        }
         $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
         $this->current_user_id = $user_id;
 
@@ -602,7 +630,13 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     // 过滤用户字段
     $data = Sher_Core_Helper_FilterFields::wap_user($user);
 
-    $pusher = new Sher_Core_Model_Pusher();
+    $app_type = $this->current_app_type;
+    if($app_type==1){
+      $pusher = new Sher_Core_Model_Pusher();
+    }elseif($app_type==2){
+      $pusher = new Sher_Core_Model_FiuPusher();
+    }else{
+    }
     $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
     $this->current_user_id = $user_id;
 		
