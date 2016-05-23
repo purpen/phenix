@@ -284,6 +284,7 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
 	public function fiu_secrete_notify(){
 		Doggy_Log_Helper::warn("Alipay fiu api secrete notify updated!");
 
+    $this->alipay_config['seller_id'] = 'home@taihuoniao.com';
 		// 合作身份者id，以2088开头的16位纯数字
 		$this->alipay_config['partner'] = Doggy_Config::$vars['app.alipay.fiu.partner'];
 		// ca证书路径地址，用于curl中ssl校验
