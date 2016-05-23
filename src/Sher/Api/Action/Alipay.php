@@ -160,7 +160,7 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
 			}
 		}else{
 			// 验证失败
-			Doggy_Log_Helper::warn("Alipay api secrete notify verify result fail!");
+			Doggy_Log_Helper::warn("Alipay api secrete notify verify result fail!!!");
 			return $this->to_raw('fail');
 		}
 	}
@@ -295,9 +295,6 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
 		$this->alipay_config['ali_public_key_path'] = Doggy_Config::$vars['app.alipay.fiu.pendir'].'/alipay_public_key.pem';
 		// 服务器异步通知页面路径
 		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.url.api'].'/alipay/fiu_secrete_notify';
-		
-		// 服务器异步通知页面路径
-		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.url.api'].'/alipay/fiu_secrete_notify';
 		// 需http://格式的完整路径，不能加?id=123这类自定义参数
 
 		// 计算得出通知验证结果
@@ -328,7 +325,7 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
 			}
 		}else{
 			// 验证失败
-			Doggy_Log_Helper::warn("Alipay fiu api secrete notify verify result fail!");
+			Doggy_Log_Helper::warn("Alipay fiu api secrete notify verify result fail!!!");
 			return $this->to_raw('fail');
 		}
 	}
