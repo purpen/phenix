@@ -260,6 +260,9 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
       if($prize_count==5){
         $prize_bonus = 'E';
         $prize_min_amounts = 'C';
+      }elseif($prize_count==10){
+        $prize_bonus = 'G';
+        $prize_min_amounts = 'F';
       }elseif($prize_count==50){
         $prize_bonus = 'A';
         $prize_min_amounts = 'B';     
