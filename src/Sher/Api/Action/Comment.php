@@ -15,7 +15,7 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 	}
 	
 	/**
-	 * 主题列表
+	 * 列表
 	 */
 	public function getlist(){
 		
@@ -27,6 +27,7 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		$target_user_id = isset($this->stash['target_user_id']) ? (int)$this->stash['target_user_id'] : 0;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 12;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		$deleted = isset($this->stash['deleted']) ? (int)$this->stash['deleted'] : -1;
 
 		if(empty($user_id) && empty($target_id) && empty($target_user_id)){
 			return $this->api_json('获取数据错误,请重新提交', 3000);
@@ -43,8 +44,7 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		$options['some_fields'] = array(
 		  '_id'=>1, 'user_id'=>1, 'content'=>1, 'star'=>1, 'target_id'=>1, 'target_user_id'=>1, 'sku_id'=>1,
 		  'deleted'=>1, 'reply_user_id'=>1, 'floor'=>1, 'type'=>1, 'sub_type'=>1, 'user'=>1, 'target_user'=>1,
-		  'love_count'=>1, 'invented_love_count'=>1, 'is_reply'=>1, 'reply_id'=>1, 'created_on'=>1, 'updated_on'=>1,
-		  'created_at'=>1, 'reply_comment'=>1,
+		  'love_count'=>1, 'invented_love_count'=>1, 'is_reply'=>1, 'reply_id'=>1, 'created_on'=>1, 'updated_on'=>1, 'reply_comment'=>1,
 		);
 		
 		// 查询条件
@@ -62,6 +62,14 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		
 		if ($type) {
 			$query['type'] = (int)$type;
+		}
+
+		if ($deleted) {
+      if($deleted==-1){
+			  $query['deleted'] = 0;
+      }else{
+			  $query['deleted'] = 1;
+      }
 		}
 		
 		// 分页参数
@@ -99,13 +107,12 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
         unset($data[$i]['target_user']);
 			}
       if(isset($data[$i]['reply_comment']) && !empty($data[$i]['reply_comment'])){
-        $data[$i]['reply_user_nickname'] = $data[$i]['reply_comment']['user']['nickname'];
         $data[$i]['reply_comment']['user'] = Sher_Core_Helper_FilterFields::user_list($data[$i]['reply_comment']['user']);
         unset($data[$i]['reply_comment']['target_user']);
       }else{
         $data[$i]['reply_comment'] = null;
-        $data[$i]['reply_user_nickname'] = null;
       }
+      $data[$i]['created_at'] = Sher_Core_Helper_Util::relative_datetime($data[$i]['created_on']);
 
 		}
 		$result['rows'] = $data;
@@ -229,6 +236,36 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
 		$this->stash['reply'] = $result;
 		
 		return $this->to_taconite_page('ajax/reply_ok.html');
+	}
+
+	/**
+	 * 删除回应 非物理删除,加上楼层,改为屏蔽
+	 */
+	public function deleted(){
+		$comment_id = isset($this->stash['id']) ? $this->stash['id'] : null;
+		// 验证数据
+		if(empty($comment_id)){
+			return $this->api_json('缺少请求参数!', 3001);
+		}
+    $user_id = $this->current_user_id;
+		
+		try{
+			$model = new Sher_Core_Model_Comment();
+			$comment = $model->find_by_id($comment_id);
+			// 只能删除自己的评论
+			if ($comment['user_id'] == $user_id){
+        $ok = $model->mark_remove($comment_id);
+        if($ok){
+          return $this->api_json('删除成功!', 0, array('id'=>$comment_id));
+          // 更新对应对象的回应数 --注掉,因为是屏蔽评论,相关数量不做减少
+          //$model->mock_after_remove($comment);       
+        }else{
+          return $this->api_json('删除失败!', 3002);
+        }
+			}
+		}catch(Sher_Core_Model_Exception $e){
+      return $this->api_json('删除失败!!', 3003);
+		}
 	}
 
 }

@@ -52,6 +52,20 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
     $this->stash['current_point'] = $current_point;
 		return $this->to_html_page("wap/my.html");
   }
+  	/**
+     * 我的积分/会员等级
+     * @return string
+     */
+    public function point(){
+        /*$this->set_target_css_state('user_point');
+        // 用户实时积分
+        $point_model = new Sher_Core_Model_UserPointBalance();
+        $current_point = $point_model->load($this->visitor->id);
+        
+        $this->stash['current_point'] = $current_point;*/
+        
+        return $this->to_html_page('wap/my/point.html');
+    }
 	
 	/**
 	 * 账户设置

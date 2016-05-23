@@ -624,7 +624,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 	 */
 	public function snatched_list(){
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:30;
 
     $user_id = $this->current_user_id;
 		

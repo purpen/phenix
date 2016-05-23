@@ -339,7 +339,6 @@
 			// 支付完成通知回调接口
 			$notify_url = sprintf("%s/wxpay/notify", Doggy_Config::$vars['app.url.api']);
 
-			
 			// 统一下单
       $input = new WxPayUnifiedOrder();
       $input->SetBody('太火鸟商城'.$order_info['rid'].'的订单');
@@ -366,7 +365,7 @@
                 'partnerid' => Doggy_Config::$vars['app.wechat_fiu.partner_id'],
                 'prepayid' => $order['prepay_id'],
                 'noncestr' => $order['nonce_str'],
-                'timestamp' => (string)$time(),
+                'timestamp' => (string)time(),
                 'package' => 'Sign=WXPay',
               );
               ksort($val);

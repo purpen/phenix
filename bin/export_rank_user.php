@@ -46,13 +46,18 @@ while(!$is_end){
     if(empty($user)){
       continue;
     }
+    if($user['kind']==9){
+      continue;
+    }
     if(!isset($user['profile']['phone']) || empty($user['profile']['phone'])){
       continue;
     }
-    if(Sher_Core_Helper_Util::is_mobile($user['profile']['phone'])){
+    $phone = $user['profile']['phone'];
+    if(Sher_Core_Helper_Util::is_mobile($phone)){
       if(in_array($phone, $user_arr)){
         continue;
       }else{
+        echo "phone: $phone\n";
         array_push($user_arr, $phone);
         $total++;
       }
