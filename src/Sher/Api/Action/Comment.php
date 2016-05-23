@@ -192,6 +192,7 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
         // 过滤回复多余数据
         if(isset($comment['reply_comment']) && !empty($comment['reply_comment'])){
           $comment['reply_comment']['user'] = Sher_Core_Helper_FilterFields::wap_user($comment['reply_comment']['user']);
+          $comment['reply_comment']['reply_user_nickname'] = $comment['reply_comment']['user']['nickname'];
           unset($comment['reply_comment']['target_user']);
         }else{
           $comment['reply_comment'] = null;
