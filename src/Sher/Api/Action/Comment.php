@@ -108,12 +108,10 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
         unset($data[$i]['target_user']);
 			}
       if(isset($data[$i]['reply_comment']) && !empty($data[$i]['reply_comment'])){
-        $data[$i]['reply_user_nickname'] = $data[$i]['reply_comment']['user']['nickname'];
         $data[$i]['reply_comment']['user'] = Sher_Core_Helper_FilterFields::user_list($data[$i]['reply_comment']['user']);
         unset($data[$i]['reply_comment']['target_user']);
       }else{
         $data[$i]['reply_comment'] = null;
-        $data[$i]['reply_user_nickname'] = null;
       }
 
 		}
@@ -192,7 +190,6 @@ class Sher_Api_Action_Comment extends Sher_Api_Action_Base {
         // 过滤回复多余数据
         if(isset($comment['reply_comment']) && !empty($comment['reply_comment'])){
           $comment['reply_comment']['user'] = Sher_Core_Helper_FilterFields::wap_user($comment['reply_comment']['user']);
-          $comment['reply_comment']['reply_user_nickname'] = $comment['reply_comment']['user']['nickname'];
           unset($comment['reply_comment']['target_user']);
         }else{
           $comment['reply_comment'] = null;
