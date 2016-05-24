@@ -87,6 +87,9 @@ class Sher_Core_Helper_FilterFields {
           if(!isset($data['identify']['is_expert'])){ // 达人
               $data['identify']['is_expert'] = 0;
           }
+        }else{
+          $data['identify']['is_scene_subscribe'] = 0;
+          $data['identify']['is_expert'] = 0;
         }
 
         if(isset($data['counter'])){
