@@ -859,8 +859,8 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
       if($user_invite_id){
         $invite_mode = new Sher_Core_Model_InviteRecord();
         $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
-        //送邀请人红包(30)
-        $this->give_bonus($user_invite_id, 'IV', array('count'=>1, 'xname'=>'IV', 'bonus'=>'C', 'min_amounts'=>'C'));
+        //送邀请人红包(5)
+        $this->give_bonus($user_invite_id, 'IV', array('count'=>5, 'xname'=>'IV', 'bonus'=>'E', 'min_amounts'=>'C'));
       }
       // 清除cookie值
       setcookie('user_invite_code', '', time() - 3600, '/');
