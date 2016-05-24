@@ -369,7 +369,11 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     $banner_asset_ids = array();
     if(!empty($banners_url)){
       $qiniu_param['asset_type'] = Sher_Core_Model_Asset::TYPE_GPRODUCT_BANNER;
-      $banner_arr = explode('&&', $banners_url);
+      if(is_array($banners_url)){
+        $banner_arr = $banners_url;
+      }else{
+        $banner_arr = explode('&&', $banners_url);
+      }
       for($i=0;$i<count($banner_arr);$i++){
         $b_url = $banner_arr[$i];
         $b_file = @file_get_contents($b_url);

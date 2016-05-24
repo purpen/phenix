@@ -160,7 +160,7 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
 			}
 		}else{
 			// 验证失败
-			Doggy_Log_Helper::warn("Alipay api secrete notify verify result fail!");
+			Doggy_Log_Helper::warn("Alipay api secrete notify verify result fail!!!");
 			return $this->to_raw('fail');
 		}
 	}
@@ -261,6 +261,8 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
 			"_input_charset"	=> trim(strtolower($this->alipay_config['input_charset'])),
 		);
 
+		// 服务器异步通知页面路径
+		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.url.api'].'/alipay/fiu_secrete_notify';
 		// 合作身份者id，以2088开头的16位纯数字
 		$this->alipay_config['partner'] = Doggy_Config::$vars['app.alipay.fiu.partner'];
 		// ca证书路径地址，用于curl中ssl校验
@@ -284,13 +286,13 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
 	public function fiu_secrete_notify(){
 		Doggy_Log_Helper::warn("Alipay fiu api secrete notify updated!");
 
+    $this->alipay_config['seller_id'] = 'home@taihuoniao.com';
 		// 合作身份者id，以2088开头的16位纯数字
 		$this->alipay_config['partner'] = Doggy_Config::$vars['app.alipay.fiu.partner'];
 		// ca证书路径地址，用于curl中ssl校验
 		$this->alipay_config['cacert'] = Doggy_Config::$vars['app.alipay.fiu.cacert'];
 		$this->alipay_config['private_key_path'] = Doggy_Config::$vars['app.alipay.fiu.pendir'].'/rsa_private_pkcs8.pem';
 		$this->alipay_config['ali_public_key_path'] = Doggy_Config::$vars['app.alipay.fiu.pendir'].'/alipay_public_key.pem';
-		
 		// 服务器异步通知页面路径
 		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.url.api'].'/alipay/fiu_secrete_notify';
 		// 需http://格式的完整路径，不能加?id=123这类自定义参数
@@ -323,7 +325,7 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
 			}
 		}else{
 			// 验证失败
-			Doggy_Log_Helper::warn("Alipay fiu api secrete notify verify result fail!");
+			Doggy_Log_Helper::warn("Alipay fiu api secrete notify verify result fail!!!");
 			return $this->to_raw('fail');
 		}
 	}

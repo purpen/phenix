@@ -268,6 +268,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
       'D' => 52,
       'E' => 5,
       'F' => 9.9,
+      'G' => 10,
     );
 
     #最低限额
@@ -277,6 +278,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
       'C' =>  0,
       'D' => 299,
       'E' => 399,
+      'F' => 50,
     );
 		
     for($i=0; $i<$count; $i++){

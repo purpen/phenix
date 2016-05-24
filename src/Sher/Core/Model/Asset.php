@@ -333,8 +333,8 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 		$rows = $this->find($query);
 		foreach($rows as $row){
 			$file_path = $row['filepath'];
-			// 删除文件
-			Sher_Core_Util_Asset::delete_cloud_file($file_path);
+			// 删除文件 先注掉，以防测试环境删除正式环境图片
+			//Sher_Core_Util_Asset::delete_cloud_file($file_path);
 			
 			$this->remove($row['_id']);
 		}
