@@ -742,6 +742,24 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		
 		return $this->api_json('提交成功', 0, array('id'=>$id));
 	}
+
+	/**
+   * 获取达人认证
+   */
+	public function fetch_talent(){
+		$data = array();
+		$user_id = $this->current_user_id;
+
+		$model = new Sher_Core_Model_UserTalent();	
+    $talent = $model->first(array('user_id'=>$user_id));
+    if(empty($talent)){
+      $talent = array();
+    }else{
+      $talent = $model->extended_model_row(&$talent);
+    }
+		return $this->api_json('success', 0, $talent);
+	}
+
 	
 	/**
 	* 获取用户二维码
