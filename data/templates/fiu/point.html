@@ -1,10 +1,170 @@
-{%extends 'layout/mobile.html'%}
+{%extends 'layout/fiu.html'%}
 {% block title%}会员等级-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-#mfrbird{
-	margin-top:0;
+html {
+    box-sizing: border-box;
+    font-family: sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    font-size: 14px;
 }
+*, :after, :before {
+    box-sizing: inherit;
+}
+.mt-2r {
+    margin-top: .7145rem!important;
+}
+.ui.grid {
+    display: block;
+    text-align: left;
+    font-size: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    margin: -10px;
+}
+.ui.responsive.grid, .ui.wap {
+    margin: 0 auto;
+    max-width: 767px;
+    padding: 0;
+    min-width: initial!important;
+}
+.ui.grid>.row {
+    display: block;
+    position: relative;
+    width: 100%!important;
+    padding: 10px 0;
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    font-size: 0;
+}
+.ui.grid>.row>.column {
+    position: relative;
+    display: inline-block;
+    text-align: left;
+    font-size: 1rem;
+    padding-left: 10px;
+    padding-right: 10px;
+    vertical-align: top;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.ui.grid>.row>.column:only-child{
+	width: 100%;
+}
+.ui.header {
+    border: none;
+    padding: 0;
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    font-weight: 400;
+    line-height: 1.2857em;
+    text-transform: none;
+    color: #5d6266;
+}
+h3, h3.ui.header {
+    font-size: 1.14rem;
+}
+.plr-r {
+    padding-left: .35725rem!important;
+    padding-right: .35725rem!important;
+}
+.pt-0{
+	padding-top: 0!important;
+}
+.ui.grid>.row>[class*="thirteen wide"].column{
+	width: 81.25%!important;
+}
+.ui.grid>.row>[class*="three wide"].column{
+	width: 18.75%!important;
+}
+.ui.table[class*="left aligned"] {
+    text-align: left;
+}
+.ui.table.segment {
+    padding: 0;
+}
+.ui.table:last-child {
+    margin-bottom: 0;
+}
+.ui.table:first-child {
+    margin-top: 0;
+}
+.ui.table {
+    width: 100%;
+    background: #fff;
+    margin: 1em 0;
+    border: 1px solid rgba(34,36,38,.15);
+    box-shadow: none;
+    border-radius: .28571429rem;
+    text-align: left;
+    color: rgba(0,0,0,.87);
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.ui.segment {
+    position: relative;
+    background-color: #fff;
+    border: 1px solid rgba(34,36,38,.15);
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.ui.table thead {
+    box-shadow: none;
+}
+.ui.table thead tr:first-child>th:first-child {
+    border-radius: .28571429rem 0 0;
+}
+.ui.table thead tr:first-child>th:last-child {
+    border-radius: 0 .28571429rem 0 0;
+}
+.ui.celled.table tr td:first-child, .ui.celled.table tr th:first-child {
+    border-left: none;
+}
+.ui.celled.table tr th {
+    border-left: 1px solid rgba(34,36,38,.1);
+}
+.ui.table thead th {
+    cursor: auto;
+    background: #f9fafb;
+    text-align: inherit;
+    color: rgba(0,0,0,.87);
+    padding: .92857143em .71428571em;
+    vertical-align: inherit;
+    font-style: none;
+    font-weight: 700;
+    text-transform: none;
+    border-left: none;
+}
+.ui.table td, .ui.table th {
+    -webkit-transition: background .1s ease,color .1s ease;
+    transition: background .1s ease,color .1s ease;
+}
+.ui.celled.table tr td:first-child, .ui.celled.table tr th:first-child {
+    border-left: none;
+}
+.ui.table td {
+    padding: .71428571em;
+    text-align: inherit;
+}
+.ui.celled.table tr td, .ui.celled.table tr th {
+    border-left: 1px solid rgba(34,36,38,.1);
+}
+.ui.table tr td {
+    border-top: 1px solid rgba(34,36,38,.1);
+}
+
+
+
+
 .ui.table thead th{
 	font-weight: 400 !important;
 	font-size: 0.857143rem !important;
@@ -23,14 +183,14 @@
     -webkit-box-align: center;
 }
 .myphoto {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     padding-left: 0;
     position: relative;
 }
 .myphoto img {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     vertical-align: middle;
 }
@@ -65,17 +225,19 @@
 }
 .ui.progress .bar{
     border-radius: 0;
+    background-color: #21ba45;
+}
+.pt-3r {
+    padding-top: 1.07175rem!important;
+}
+.pb-2r {
+    padding-bottom: .7145rem!important;
 }
 </style>
 {% endblock %}
 {% block content %}
-<div id="point" class="mt-2r">
-	<div class="ui responsive pl-r pr-r grid">
-		<div class="row">
-			<div class="column">
-				<h3 class="ui header">会员等级</h3>
-			</div>
-		</div>
+<div id="point">
+	<div class="ui responsive plr-r grid">
         <div class="row">
             <div class="column plr-r">
                 <div class="mytop">
@@ -365,11 +527,7 @@
 			</div>
 		</div>
 
-
-
-
 	</div>
 </div>
-
 
 {% endblock %}
