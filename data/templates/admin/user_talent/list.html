@@ -9,17 +9,7 @@
 		<a href="{{ app_url_admin_base }}/user_talent" class="{{ css_all_list }} item">
 			全部
 		</a>
-<!--
-		<a href="{{ app_url_admin_base }}/user_sign_in/sign_stat_list" class="{{ css_sign_stat_list }} item">
-			签到每日统计
-		</a>
 
-	  	<div class="right menu">
-				<a href="{{ app_url_admin }}/user_sign_in/deleted" class="item ajax-delete">
-						批量删除
-				</a>
-	    </div>
--->
 	</div>
 	<table class="ui small table segment">
 		<thead>
@@ -31,7 +21,7 @@
 					</div>
 				</th>
 				<th>ID</th>
-				<th>用户昵称</th>
+				<th>用户</th>
 				<th>认证信息</th>
 				<th>联系方式</th>
 				<th>身份证</th>
@@ -56,7 +46,10 @@
 					{{ user_talent._id }}
 				</td>
 				<td>
-					{{ user_talent.user.account }}
+					<a class="ui image label link" href="{{ user_talent.user.home_url }}" target="_blank">
+					  	<img src="{{ user.mini_avatar_url }}">
+					  	{{ user_talent.user.nickname }}
+					</a>
 				</td>
 				<td>
 					{{ user_talent.info }}
@@ -66,22 +59,24 @@
 				</td>
 				<td>
 					<div class="ui image">
-						<img src="{{ user_talent.id_card_cover.thumbnails.huge.view_url }}" width="80px" />
+            <a href="{{ user_talent.id_card_cover.thumbnails.huge.view_url }}"><img src="{{ user_talent.id_card_cover.thumbnails.huge.view_url }}" width="80px" /></a>
 					</div>
 				</td>
 				<td>
 					<div class="ui image">
-						<img src="{{ user_talent.business_card_cover.thumbnails.huge.view_url }}" width="80px" />
+            <a href="user_talent"><img src="{{ user_talent.business_card_cover.thumbnails.huge.view_url }}" width="80px" /></a>
 					</div>
 				</td>
 				<td>
 					{{ user_talent.created_on|date 'Y-m-d H:i' }}
 				</td>
 				<td>
-					{% if user_talent.verified == 1 %}
-                    <a href="javascript:void(0);" class="ui link ajax item" id="approved-{{ user_talent._id }}-button">已审核</a>
+					{% if user_talent.verified == 0 %}
+
+                    <a href="{{ app_url_admin_base }}/user_talent/ajax_approved?id={{ user_talent._id }}&evt=2" class="ui link ajax item" id="approved-{{ user_talent._id }}-button">通过</a>
+                    <a href="{{ app_url_admin_base }}/user_talent/ajax_approved?id={{ user_talent._id }}&evt=1" class="ui link ajax item" id="approved-{{ user_talent._id }}-button">拒绝</a>
                     {% else %}
-                    <a href="{{ app_url_admin_base }}/user_talent/ajax_approved?id={{ user_talent._id }}&evt=1" class="ui link ajax item" id="approved-{{ user_talent._id }}-button">去审核</a>
+                    <a href="javascript:void(0);" class="ui link ajax item" id="approved-{{ user_talent._id }}-button">取消审核</a>
                     {% endif %}
 				</td>
 			</tr>

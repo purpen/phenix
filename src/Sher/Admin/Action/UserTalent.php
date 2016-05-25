@@ -53,4 +53,4 @@
             return $this->to_taconite_page('admin/user_talent/approved_ok.html');
         }
     }
-?>
+

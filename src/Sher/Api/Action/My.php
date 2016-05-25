@@ -666,10 +666,10 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		$data['label'] = $label;
 		
 		// 上传身份证照片
-		if(!isset($this->stash['id_card_a_tmp']) && empty($this->stash['id_card_a_tmp'])){
+		if(!isset($this->stash['id_card_a_tmp']) || empty($this->stash['id_card_a_tmp'])){
 			return $this->api_json('请选择图片！', 3001);  
 		}
-		$file = base64_decode(str_replace(' ', '+', $this->stash['id_card_tmp']));
+		$file = base64_decode(str_replace(' ', '+', $this->stash['id_card_a_tmp']));
 		$image_info = Sher_Core_Util_Image::image_info_binary($file);
 		if($image_info['stat']==0){
 			return $this->api_json($image_info['msg'], 3002);
@@ -693,7 +693,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		}
 		
 		// 上传名片图片
-		if(!isset($this->stash['business_card_tmp']) && empty($this->stash['business_card_tmp'])){
+		if(!isset($this->stash['business_card_tmp']) || empty($this->stash['business_card_tmp'])){
 			return $this->api_json('请选择图片！', 3001);  
 		}
 		$file = base64_decode(str_replace(' ', '+', $this->stash['business_card_tmp']));

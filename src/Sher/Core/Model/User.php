@@ -341,7 +341,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
       'is_scene_subscribe' => 0,
       // 是否app首次下单
       'is_app_first_shop' => 0,
-      // 是否达人标识
+      // 是否达人标识0.未申请；-1.审核中；-2.拒绝；1.通过；
       'is_expert' => 0,
     ),
 
