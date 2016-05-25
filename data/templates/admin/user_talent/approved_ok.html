@@ -1,10 +1,30 @@
 <taconite>
-	{% if evt == 1 %}
-	<replace select="#approved-{{ id }}-label"><![CDATA[
-		<label class="ui green label" id="stick-{{ id }}-label">是</label>
+
+	{% if evt == 0 %}
+	<replace select="#verified-{{ id }}-label"><![CDATA[
+		<label class="ui origin label" id="verified-{{ id }}-label">待审核</label>
     ]]></replace>
-	<replace select="#approved-{{ id }}-button"><![CDATA[
-		<a href="{{ app_url_admin_base }}/user_talent/ajax_approved?id={{ id }}&evt=0" class="ui link ajax item" id="approved-{{ id }}-button">已审核</a>
+	<replace select="#verified-{{ id }}-button"><![CDATA[
+		<a href="{{ app_url_admin_base }}/user_talent/ajax_verified?id={{ id }}&evt=1" class="ui link ajax item" id="verified-{{ id }}-button">拒绝</a> |
+<a href="{{ app_url_admin_base }}/user_talent/ajax_verified?id={{ id }}&evt=2" class="ui link ajax item" id="verified-{{ id }}-button">通过</a>
+    ]]></replace>
+	{% endif %}
+
+	{% if evt == 1 %}
+	<replace select="#verified-{{ id }}-label"><![CDATA[
+		<label class="ui gray label" id="stick-{{ id }}-label">拒绝</label>
+    ]]></replace>
+	<replace select="#verified-{{ id }}-button"><![CDATA[
+		<a href="{{ app_url_admin_base }}/user_talent/ajax_verified?id={{ id }}&evt=0" class="ui link ajax item" id="verified-{{ id }}-button">取消</a>
+    ]]></replace>
+	{% endif %}
+
+	{% if evt == 2 %}
+	<replace select="#verified-{{ id }}-label"><![CDATA[
+		<label class="ui magenta label" id="stick-{{ id }}-label">通过</label>
+    ]]></replace>
+	<replace select="#verified-{{ id }}-button"><![CDATA[
+		<a href="{{ app_url_admin_base }}/user_talent/ajax_verified?id={{ id }}&evt=0" class="ui link ajax item" id="verified-{{ id }}-button">取消</a>
     ]]></replace>
 	{% endif %}
 
