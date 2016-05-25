@@ -9,14 +9,45 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 		'id' => 0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'topic_show', 'product_show', 'special_subject_show', 'try_show' );
+	protected $exclude_method_list = array('execute', 'topic_show', 'product_show', 'special_subject_show', 'try_show', 'fiu_point' );
 	
 	/**
 	 * api show
 	 */
 	public function execute(){
-		//return $this->index();
+
 	}
+
+  /**
+   * 用户积分
+   */
+  public function fiu_point(){
+    $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
+    $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
+    $user_id = 0;
+    if(empty($uuid) || empty($from_to)){
+			return $this->api_json('缺少请求参数！', 3001); 
+    }
+
+    $pusher_model = new Sher_Core_Model_Pusher();
+    $pusher = $pusher_model->first(array('uuid'=> $uuid, 'from_to'=>$from_to, 'is_login'=>1));
+    if($pusher){
+      $user_id = $pusher['user_id'];
+    }else{
+      return $this->api_json('请先登录!', 3002);     
+    }
+
+    $user_model = new Sher_Core_Model_User();
+    $user = $user_model->extend_load($user_id);
+    // 用户实时积分
+    $point_model = new Sher_Core_Model_UserPointBalance();
+    $current_point = $point_model->load($user_id);
+
+    $this->stash['user'] = $user;   
+    $this->stash['current_point'] = $current_point;
+
+  	return $this->to_html_page('fiu/point.html');
+  }
 	
 	/**
 	 * 显示主题详情帖---手机app content

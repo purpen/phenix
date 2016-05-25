@@ -2033,14 +2033,14 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     if(empty($rid)){
       return $this->api_json('订单不存在！', 3001); 
     }
-    $key = sprintf('alert_send_goods:%s', $rid);
+    $key = sprintf('alert_send_goods:%d_%d', $rid, date('Ymd'));
     // 设置缓存
     $redis = new Sher_Core_Cache_Redis();
     $has_one = $redis->get($key);
     if(!empty($has_one)){
-      return $this->api_json('已经提醒过了，稍后再试试吧！', 3002);   
+      return $this->api_json('今天已经提醒过了！', 3002);   
     }
-    $redis->set($key, 1, 3600*5);
+    $redis->set($key, 1, 3600*24);
     return $this->api_json('提醒成功!', 0, array('rid'=>$rid));
   }
 
