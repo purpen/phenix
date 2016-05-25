@@ -1178,6 +1178,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 
 		$data['source'] = isset($this->stash['source'])?$this->stash['source']:'';
 		$data['attrbute'] = isset($this->stash['attrbute'])?(int)$this->stash['attrbute']:0;
+		$data['is_zaker_rss'] = isset($this->stash['is_zaker_rss'])?1:0;
 		
 		// 检测编辑器图片数
 		$file_count = isset($this->stash['file_count']) ? (int)$this->stash['file_count'] : 0;

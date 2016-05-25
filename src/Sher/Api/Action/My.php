@@ -653,6 +653,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		$data = array();
 		$user_id = $this->current_user_id;
 
+		$id = isset($this->stash['id']) ? $this->stash['id'] : null;
 		$info = isset($this->stash['info']) ? $this->stash['info'] : null;
 		$contact = isset($this->stash['contact']) ? $this->stash['contact'] : null;
 		$label = isset($this->stash['label']) ? $this->stash['label'] : null;
@@ -660,40 +661,39 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 			return $this->api_json('缺少请求参数!', 3000);    
 		}
 
-		$data['user_id'] = $user_id;
 		$data['info'] = $info;
 		$data['contact'] = $contact;
 		$data['label'] = $label;
 		
 		// 上传身份证照片
-		if(!isset($this->stash['id_card_a_tmp']) && empty($this->stash['id_card_a_tmp'])){
-			return $this->api_json('请选择图片！', 3001);  
-		}
-		$file = base64_decode(str_replace(' ', '+', $this->stash['id_card_tmp']));
-		$image_info = Sher_Core_Util_Image::image_info_binary($file);
-		if($image_info['stat']==0){
-			return $this->api_json($image_info['msg'], 3002);
-		}
-		if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
-			return $this->api_json('图片格式不正确！', 3003);
-		}
-		$params = array();
-		$new_file_id = Sher_Core_Helper_Util::generate_mongo_id();
-		$params['domain'] = Sher_Core_Util_Constant::STROAGE_ID_CARD;
-		$params['asset_type'] = Sher_Core_Model_Asset::TYPE_ID_CARD;
-		$params['filename'] = $new_file_id.'.jpg';
-		$params['parent_id'] = $user_id;
-		$params['image_info'] = $image_info;
-		$result = Sher_Core_Util_Image::api_image($file, $params);
-		
-		if($result['stat']){
-			$data['id_card_cover_id'] = (string)$result['asset']['id'];
-		}else{
-			return $this->api_json('上传失败!', 3005); 
+		if(isset($this->stash['id_card_a_tmp']) && !empty($this->stash['id_card_a_tmp'])){
+      $file = base64_decode(str_replace(' ', '+', $this->stash['id_card_a_tmp']));
+      $image_info = Sher_Core_Util_Image::image_info_binary($file);
+      if($image_info['stat']==0){
+        return $this->api_json($image_info['msg'], 3002);
+      }
+      if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
+        return $this->api_json('图片格式不正确！', 3003);
+      }
+      $params = array();
+      $new_file_id = Sher_Core_Helper_Util::generate_mongo_id();
+      $params['domain'] = Sher_Core_Util_Constant::STROAGE_ID_CARD;
+      $params['asset_type'] = Sher_Core_Model_Asset::TYPE_ID_CARD;
+      $params['filename'] = $new_file_id.'.jpg';
+      $params['parent_id'] = $user_id;
+      $params['image_info'] = $image_info;
+      $result = Sher_Core_Util_Image::api_image($file, $params);
+      
+      if($result['stat']){
+        $data['id_card_cover_id'] = (string)$result['asset']['id'];
+      }else{
+        return $this->api_json('上传失败!', 3005); 
+      }
+
 		}
 		
 		// 上传名片图片
-		if(!isset($this->stash['business_card_tmp']) && empty($this->stash['business_card_tmp'])){
+		if(isset($this->stash['business_card_tmp']) && !empty($this->stash['business_card_tmp'])){
 			return $this->api_json('请选择图片！', 3001);  
 		}
 		$file = base64_decode(str_replace(' ', '+', $this->stash['business_card_tmp']));
@@ -702,46 +702,89 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 			return $this->api_json($image_info['msg'], 3002);
 		}
 		if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
-			return $this->api_json('图片格式不正确！', 3003);
-		}
-		$params = array();
-		$new_file_id = Sher_Core_Helper_Util::generate_mongo_id();
-		$params['domain'] = Sher_Core_Util_Constant::STROAGE_BUSINESS_CARD;
-		$params['asset_type'] = Sher_Core_Model_Asset::TYPE_BUSINESS_CARD;
-		$params['filename'] = $new_file_id.'.jpg';
-		$params['parent_id'] = 0;
-		$params['user_id'] = $user_id;
-		$params['image_info'] = $image_info;
-		$result = Sher_Core_Util_Image::api_image($file, $params);
-		
-		if($result['stat']){
-			$data['business_card_cover_id'] = (string)$result['asset']['id'];
-		}else{
-			return $this->api_json('上传失败!', 3005); 
+      $params = array();
+      $new_file_id = Sher_Core_Helper_Util::generate_mongo_id();
+      $params['domain'] = Sher_Core_Util_Constant::STROAGE_BUSINESS_CARD;
+      $params['asset_type'] = Sher_Core_Model_Asset::TYPE_BUSINESS_CARD;
+      $params['filename'] = $new_file_id.'.jpg';
+      $params['parent_id'] = $id;
+      $params['user_id'] = $user_id;
+      $params['image_info'] = $image_info;
+      $result = Sher_Core_Util_Image::api_image($file, $params);
+      
+      if($result['stat']){
+        $data['business_card_cover_id'] = (string)$result['asset']['id'];
+      }else{
+        return $this->api_json('上传失败!', 3005); 
+      }
 		}
 		
 		try{
-			$model = new Sher_Core_Model_UserTalent();	
-			$ok = $model->apply_and_save($data);
-			$res = $model->get_data();
-			$id = (string)$res['_id'];
+      $model = new Sher_Core_Model_UserTalent();
+      if(empty($id)){
+        $mode = 'create';
+		    $data['user_id'] = $user_id;
+			  $ok = $model->apply_and_save($data);
+        $res = $model->get_data();
+        $id = (string)$res['_id'];
+      }else{
+        $mode = 'update';
+        $ok = $model->apply_and_update($data);
+      }
 			
 			if(!$ok){
 				return $this->api_json('保存失败,请重新提交', 4002);
 			}
-			
-			if(isset($data['id_card_cover_id']) && !empty($data['id_card_cover_id'])){
-				$model->update_batch_assets($data['id_card_cover_id'], $id);
-			}
-			if(isset($data['business_card_cover_id']) && !empty($data['business_card_cover_id'])){
-				$model->update_batch_assets($data['business_card_cover_id'], $id);
-			}
+
+      // 更新图片信息
+      if($mode=='create'){
+        if(isset($data['id_card_cover_id']) && !empty($data['id_card_cover_id'])){
+          $model->update_batch_assets($data['id_card_cover_id'], $id);
+        }
+        if(isset($data['business_card_cover_id']) && !empty($data['business_card_cover_id'])){
+          $model->update_batch_assets($data['business_card_cover_id'], $id);
+        }     
+      }
+
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('保存失败:'.$e->getMessage(), 4001);
 		}
 		
 		return $this->api_json('提交成功', 0, array('id'=>$id));
 	}
+
+	/**
+   * 获取达人认证
+   */
+	public function fetch_talent(){
+		$data = array();
+		$user_id = $this->current_user_id;
+
+		$model = new Sher_Core_Model_UserTalent();	
+    $talent = $model->first(array('user_id'=>$user_id));
+    if(empty($talent)){
+      $talent = array();
+    }else{
+      $talent = $model->extended_model_row(&$talent);
+      $talent['_id'] = (string)$talent['_id'];
+      unset($talent['user']);
+      if(isset($talent['id_card_cover'])){
+        $talent['id_card_cover_url'] = $talent['id_card_cover']['thumbnails']['hd']['view_url'];
+        unset($talent['id_card_cover']);
+      }else{
+        $talent['id_card_cover_url'] = null;
+      }
+
+      if(isset($talent['business_card_cover'])){
+        $talent['business_card_cover_url'] = $talent['business_card_cover']['thumbnails']['hd']['view_url'];
+        unset($talent['business_card_cover']);
+      }else{
+        $talent['business_card_cover_url'] = null;
+      }
+    }
+		return $this->api_json('success', 0, $talent);
+	}
+
 	
 	/**
 	* 获取用户二维码

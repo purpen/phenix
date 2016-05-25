@@ -1,6 +1,6 @@
 <?php
 /**
- * 生成RSS
+ * 生成RSS ZAKER推送
  */
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {
@@ -28,19 +28,19 @@ echo "begin gen rss ...\n";
 $topic_model = new Sher_Core_Model_Topic();
 $user_model = new Sher_Core_Model_User();
 $page=1;
-$size=20;
-$query = array('deleted'=>0, 'published'=>1);
-$options = array('page'=>$page,'size'=>$size,'sort'=>array('stick'=>-1, 'created_on'=>-1));
+$size=30;
+$query = array('deleted'=>0, 'published'=>1, 'is_zaker_rss'=>1);
+$options = array('page'=>$page,'size'=>$size,'sort'=>array('created_on'=>-1));
 $list = $topic_model->find($query, $options);
 
-$myfile = fopen("/www/phenix/web/test.xml", "w");
+$myfile = fopen("/www/phenix/web/zaker_rss.xml", "w");
 $html = '';
 $html .= '<?xml version="1.0" encoding="utf-8"?>'."\n";
 $html .= '<rss version="2.0">'."\n";
 $html .= '<channel>'."\n";
 $html .= '<title>太火鸟</title>'."\n";
 $html .= '<link>http://www.taihuoniao.com</link>'."\n";
-$html .= '<description>生活很无聊，日复一日为你发现新鲜~</description>'."\n";
+$html .= '<description>太火鸟是中国火爆的一条龙服务式智能硬件孵化平台。太火鸟致力于帮助设计师和创意者实现商业价值，开启一个全新的众包设计时代，全力打造一个完美的智能硬件创意生态系统。</description>'."\n";
 
 for($i=0;$i<count($list);$i++){
   $obj = $list[$i];

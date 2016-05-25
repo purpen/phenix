@@ -54,8 +54,8 @@ class Sher_Core_Helper_View {
     public static $city = array(
         array(
             'id' => '0001',
-            'name' => '北京市', // 39.8707070000,116.3666050000
-            'image_url' => 'http://frbird.qiniudn.com/topic/160405/570351523ffca2e3108bbbdc-2',
+            'name' => '北京', // 39.8707070000,116.3666050000
+            'image_url' => 'http://frbird.qiniudn.com/asset/160525/57456cfbfc8b12af2f8b468c-1-p750x422.jpg',
             'lng' => 116.3666050000, // 经度
             'lat' => 39.8707070000, // 纬度
             'is_estore' => true,
@@ -63,8 +63,8 @@ class Sher_Core_Helper_View {
         ),
         array(
             'id' => '0002',
-            'name' => '上海市', // 31.2363050000,121.4802370000
-            'image_url' => 'http://frbird.qiniudn.com/topic/160405/570351523ffca2e3108bbbdc-2',
+            'name' => '上海', // 31.2363050000,121.4802370000
+            'image_url' => 'http://frbird.qiniudn.com/asset/160525/57456cfbfc8b12af2f8b468c-2-p750x422.jpg',
             'lng' => 121.4802370000, // 经度
             'lat' => 31.2363050000, // 纬度
             'is_estore' => true,
@@ -72,8 +72,8 @@ class Sher_Core_Helper_View {
         ),
         array(
             'id' => '0003',
-            'name' => '广州市', // 23.1353080000,113.2707930000
-            'image_url' => 'http://frbird.qiniudn.com/topic/160405/570351523ffca2e3108bbbdc-2',
+            'name' => '广州', // 23.1353080000,113.2707930000
+            'image_url' => 'http://frbird.qiniudn.com/asset/160525/57456cfbfc8b12af2f8b468c-3-p750x422.jpg',
             'lng' => 113.2707930000, // 经度
             'lat' => 23.1353080000, // 纬度
             'is_estore' => true,
@@ -81,8 +81,8 @@ class Sher_Core_Helper_View {
         ),
         array(
             'id' => '0004',
-            'name' => '深圳市', // 22.5485150000,114.0661120000
-            'image_url' => 'http://frbird.qiniudn.com/topic/160405/570351523ffca2e3108bbbdc-2',
+            'name' => '深圳', // 22.5485150000,114.0661120000
+            'image_url' => 'http://frbird.qiniudn.com/asset/160525/57456cfbfc8b12af2f8b468c-4-p750x422.jpg',
             'lng' => 114.0661120000, // 经度
             'lat' => 22.5485150000, // 纬度
             'is_estore' => true,
@@ -90,8 +90,8 @@ class Sher_Core_Helper_View {
         ),
         array(
             'id' => '0005',
-            'name' => '杭州市', // 30.2800590000,120.1616930000
-            'image_url' => 'http://frbird.qiniudn.com/topic/160405/570351523ffca2e3108bbbdc-2',
+            'name' => '杭州', // 30.2800590000,120.1616930000
+            'image_url' => 'http://frbird.qiniudn.com/asset/160525/57456cfbfc8b12af2f8b468c-5-p750x422.jpg',
             'lng' => 120.1616930000, // 经度
             'lat' => 30.2800590000, // 纬度
             'is_estore' => true,
@@ -99,8 +99,8 @@ class Sher_Core_Helper_View {
         ),
         array(
             'id' => '0006',
-            'name' => '成都市', // 30.5762790000,104.0712160000
-            'image_url' => 'http://frbird.qiniudn.com/topic/160405/570351523ffca2e3108bbbdc-2',
+            'name' => '成都', // 30.5762790000,104.0712160000
+            'image_url' => 'http://frbird.qiniudn.com/asset/160525/57456cfbfc8b12af2f8b468c-6-p750x422.jpg',
             'lng' => 104.0712160000, // 经度
             'lat' => 30.5762790000, // 纬度
             'is_estore' => true,
@@ -108,8 +108,8 @@ class Sher_Core_Helper_View {
         ),
         array(
             'id' => '0007',
-            'name' => '西安市', // 34.3474360000,108.9463060000
-            'image_url' => 'http://frbird.qiniudn.com/topic/160405/570351523ffca2e3108bbbdc-2',
+            'name' => '西安', // 34.3474360000,108.9463060000
+            'image_url' => 'http://frbird.qiniudn.com/asset/160525/57456cfbfc8b12af2f8b468c-7-p750x422.jpg',
             'lng' => 108.9463060000, // 经度
             'lat' => 34.3474360000, // 纬度
             'is_estore' => true,
@@ -117,8 +117,8 @@ class Sher_Core_Helper_View {
         ),
         array(
             'id' => '0008',
-            'name' => '武汉市', // 30.5984280000,114.3118310000
-            'image_url' => 'http://frbird.qiniudn.com/topic/160405/570351523ffca2e3108bbbdc-2',
+            'name' => '武汉', // 30.5984280000,114.3118310000
+            'image_url' => 'http://frbird.qiniudn.com/asset/160525/57456cfbfc8b12af2f8b468c-8-p750x422.jpg',
             'lng' => 114.3118310000, // 经度
             'lat' => 30.5984280000, // 纬度
             'is_estore' => true,
@@ -408,6 +408,37 @@ class Sher_Core_Helper_View {
       case 31:
         $channel_name = '线下活动4';
         break;
+      case 32:
+        $channel_name = '渠道6';
+        break;
+      case 33:
+        $channel_name = '渠道7';
+        break;
+      case 34:
+        $channel_name = '渠道8';
+        break;
+      case 35:
+        $channel_name = '渠道9';
+        break;
+      case 36:
+        $channel_name = '渠道10';
+        break;
+      case 37:
+        $channel_name = '渠道11';
+        break;
+      case 38:
+        $channel_name = '渠道12';
+        break;
+      case 39:
+        $channel_name = '渠道13';
+        break;
+      case 40:
+        $channel_name = '渠道14';
+        break;
+      case 41:
+        $channel_name = '渠道15';
+        break;
+
       default:
         $channel_name = $row['channel_id'];
     }

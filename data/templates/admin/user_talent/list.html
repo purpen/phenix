@@ -9,17 +9,7 @@
 		<a href="{{ app_url_admin_base }}/user_talent" class="{{ css_all_list }} item">
 			全部
 		</a>
-<!--
-		<a href="{{ app_url_admin_base }}/user_sign_in/sign_stat_list" class="{{ css_sign_stat_list }} item">
-			签到每日统计
-		</a>
 
-	  	<div class="right menu">
-				<a href="{{ app_url_admin }}/user_sign_in/deleted" class="item ajax-delete">
-						批量删除
-				</a>
-	    </div>
--->
 	</div>
 	<table class="ui small table segment">
 		<thead>
@@ -30,8 +20,7 @@
 					  	<label></label>
 					</div>
 				</th>
-				<th>ID</th>
-				<th>用户昵称</th>
+				<th>用户</th>
 				<th>认证信息</th>
 				<th>联系方式</th>
 				<th>身份证</th>
@@ -52,11 +41,12 @@
 					  	<label></label>
 					</div>
 				</td>
+
 				<td>
-					{{ user_talent._id }}
-				</td>
-				<td>
-					{{ user_talent.user.account }}
+					<a class="ui image label link" href="{{ user_talent.user.home_url }}" target="_blank">
+					  	<img src="{{ user_talent.user.mini_avatar_url }}">
+					  	{{ user_talent.user.nickname }}
+					</a>
 				</td>
 				<td>
 					{{ user_talent.info }}
@@ -66,22 +56,41 @@
 				</td>
 				<td>
 					<div class="ui image">
-						<img src="{{ user_talent.id_card_cover.thumbnails.huge.view_url }}" width="80px" />
+            <a href="{{ user_talent.id_card_cover.thumbnails.huge.view_url }}"><img src="{{ user_talent.id_card_cover.thumbnails.huge.view_url }}" width="80px" /></a>
 					</div>
 				</td>
 				<td>
 					<div class="ui image">
-						<img src="{{ user_talent.business_card_cover.thumbnails.huge.view_url }}" width="80px" />
+            <a href="{{ user_talent.business_card_cover.thumbnails.huge.view_url }}"><img src="{{ user_talent.business_card_cover.thumbnails.huge.view_url }}" width="80px" /></a>
 					</div>
 				</td>
 				<td>
 					{{ user_talent.created_on|date 'Y-m-d H:i' }}
 				</td>
+        <td>
+					<p>
+						{% if user_talent.verified == 0 %}
+            <label id="verified-{{ user_talent._id }}-label" class="ui orange label">待审核</label>
+						{% endif %}
+						
+						{% if user_talent.verified == 1 %}
+						<label id="verified-{{ user_talent._id }}-label" class="ui gray label">拒绝</label>
+						{% endif %}
+						
+						{% if user_talent.verified == 2 %}
+						<label id="verified-{{ user_talent._id }}-label" class="ui magenta green label">通过</label>
+						{% endif %}
+					</p>
+        </td>
 				<td>
-					{% if user_talent.verified == 1 %}
-                    <a href="javascript:void(0);" class="ui link ajax item" id="approved-{{ user_talent._id }}-button">已审核</a>
+					{% if user_talent.verified == 0 %}
+          <p id="verified-{{ user_talent._id }}-button">
+                    <a href="{{ app_url_admin_base }}/user_talent/ajax_verified?id={{ user_talent._id }}&evt=1" class="ui link ajax item">拒绝</a>
+                    |
+                    <a href="{{ app_url_admin_base }}/user_talent/ajax_verified?id={{ user_talent._id }}&evt=2" class="ui link ajax item">通过</a>
+                    </p>
                     {% else %}
-                    <a href="{{ app_url_admin_base }}/user_talent/ajax_approved?id={{ user_talent._id }}&evt=1" class="ui link ajax item" id="approved-{{ user_talent._id }}-button">去审核</a>
+                    <a href="{{ app_url_admin_base }}/user_talent/ajax_verified?id={{ user_talent._id }}&evt=0" class="ui link ajax item" id="verified-{{ user_talent._id }}-button">取消</a>
                     {% endif %}
 				</td>
 			</tr>

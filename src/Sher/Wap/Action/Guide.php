@@ -13,7 +13,7 @@ class Sher_Wap_Action_Guide extends Sher_Core_Action_Authorize {
 		'bonus' => '',
 	);
 
-	protected $exclude_method_list = array('execute', 'about', 'app_about','appload');
+	protected $exclude_method_list = array('execute', 'about', 'app_about','appload','fiu');
 	
 	/**
 	 * 入口
@@ -44,10 +44,17 @@ class Sher_Wap_Action_Guide extends Sher_Core_Action_Authorize {
 	}
 	
 	/**
-	 * App下载
+	 * App下载-商城
 	 */
 	public function appload(){
 		return $this->to_html_page('wap/appload.html');
 	}
+	/**
+	 * App下载-Fiu
+	 */
+	public function fiu(){
+		return $this->to_html_page('wap/appload.html');
+	}
+
 }
 

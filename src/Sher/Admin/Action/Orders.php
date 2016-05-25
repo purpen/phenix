@@ -418,9 +418,9 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 			$model = new Sher_Core_Model_Orders();
 			$order_info = $model->find_by_rid($rid);
 			
-			// 仅已付款订单，可发货
+			// 仅已付款订单，可发货 有0元的订单，先注掉
 			if ($order_info['is_payed'] != 1) {
-				return $this->show_message_page('订单['.$rid.']还未付款！', true);
+				//return $this->show_message_page('订单['.$rid.']还未付款！', true);
 			}
 			
             $ok = $model->sended_order($id, array('express_caty'=>$express_caty, 'express_no'=>$express_no, 'user_id'=>$order_info['user_id']));
