@@ -1,0 +1,526 @@
+{%extends 'layout/fiu.html'%}
+{% block title%}会员等级-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+*, :after, :before {
+    box-sizing: inherit;
+}
+.mt-2r {
+    margin-top: .7145rem!important;
+}
+.ui.grid {
+    display: block;
+    text-align: left;
+    font-size: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    margin: -10px;
+}
+.ui.responsive.grid, .ui.wap {
+    margin: 0 auto;
+    max-width: 767px;
+    padding: 0;
+    min-width: initial!important;
+}
+.ui.grid>.row {
+    display: block;
+    position: relative;
+    width: 100%!important;
+    padding: 10px 0;
+    box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    font-size: 0;
+}
+.ui.grid>.row>.column {
+    position: relative;
+    display: inline-block;
+    text-align: left;
+    font-size: 1rem;
+    padding-left: 10px;
+    padding-right: 10px;
+    vertical-align: top;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.ui.grid>.row>.column:only-child{
+	width: 100%;
+}
+.ui.header {
+    border: none;
+    padding: 0;
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    font-weight: 400;
+    line-height: 1.2857em;
+    text-transform: none;
+    color: #5d6266;
+}
+h3, h3.ui.header {
+    font-size: 1.14rem;
+}
+.plr-r {
+    padding-left: .35725rem!important;
+    padding-right: .35725rem!important;
+}
+.pt-0{
+	padding-top: 0!important;
+}
+.ui.grid>.row>[class*="thirteen wide"].column{
+	width: 81.25%!important;
+}
+.ui.grid>.row>[class*="three wide"].column{
+	width: 18.75%!important;
+}
+.ui.table[class*="left aligned"] {
+    text-align: left;
+}
+.ui.table.segment {
+    padding: 0;
+}
+.ui.table:last-child {
+    margin-bottom: 0;
+}
+.ui.table:first-child {
+    margin-top: 0;
+}
+.ui.table {
+    width: 100%;
+    background: #fff;
+    margin: 1em 0;
+    border: 1px solid rgba(34,36,38,.15);
+    box-shadow: none;
+    border-radius: .28571429rem;
+    text-align: left;
+    color: rgba(0,0,0,.87);
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.ui.segment {
+    position: relative;
+    background-color: #fff;
+    border: 1px solid rgba(34,36,38,.15);
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.ui.table thead {
+    box-shadow: none;
+}
+.ui.table thead tr:first-child>th:first-child {
+    border-radius: .28571429rem 0 0;
+}
+.ui.table thead tr:first-child>th:last-child {
+    border-radius: 0 .28571429rem 0 0;
+}
+.ui.celled.table tr td:first-child, .ui.celled.table tr th:first-child {
+    border-left: none;
+}
+.ui.celled.table tr th {
+    border-left: 1px solid rgba(34,36,38,.1);
+}
+.ui.table thead th {
+    cursor: auto;
+    background: #f9fafb;
+    text-align: inherit;
+    color: rgba(0,0,0,.87);
+    padding: .92857143em .71428571em;
+    vertical-align: inherit;
+    font-style: none;
+    font-weight: 700;
+    text-transform: none;
+    border-left: none;
+}
+.ui.table td, .ui.table th {
+    -webkit-transition: background .1s ease,color .1s ease;
+    transition: background .1s ease,color .1s ease;
+}
+.ui.celled.table tr td:first-child, .ui.celled.table tr th:first-child {
+    border-left: none;
+}
+.ui.table td {
+    padding: .71428571em;
+    text-align: inherit;
+}
+.ui.celled.table tr td, .ui.celled.table tr th {
+    border-left: 1px solid rgba(34,36,38,.1);
+}
+.ui.table tr td {
+    border-top: 1px solid rgba(34,36,38,.1);
+}
+
+
+
+
+.ui.table thead th{
+	font-weight: 400 !important;
+	font-size: 0.857143rem !important;
+}
+.ui.celled.table tr td{
+	font-size: 0.857143rem;
+}
+.mytop {
+    padding: 15px 0 0;
+    width: 100%;
+    display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+    align-items: center;
+    -webkit-box-align: center;
+}
+.myphoto {
+    width: 50px;
+    height: 50px;
+    padding-left: 0;
+    position: relative;
+}
+.myphoto img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+.mymessg {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    position: relative;
+    margin-left: 15px;
+}
+.mymessg h3.ui.header {
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 400;
+}
+.mymessg h3.ui.header + p {
+    font-size: 12px;
+    line-height: 18px;
+}
+.ui.progress {
+    background-color: #fff!important;
+    border: 1px solid rgba(0,0,0,.3);
+    height: 18px!important;
+    padding: 0;
+    border-radius: 0;
+    overflow: hidden;
+}
+.ui.progress .bar{
+    border-radius: 0;
+    background-color: #21ba45;
+}
+.pt-3r {
+    padding-top: 1.07175rem!important;
+}
+.pb-2r {
+    padding-bottom: .7145rem!important;
+}
+</style>
+{% endblock %}
+{% block content %}
+<div id="point">
+	<div class="ui responsive plr-r grid">
+        <div class="row">
+            <div class="column plr-r">
+                <div class="mytop">
+                    <div class="myphoto">
+                        <img src="{{ visitor.big_avatar_url }}" />
+                    </div>
+                    <div class="mymessg">
+                        <h3 class="ui header">{{ user.nickname }}</h3>
+                        <p>
+                            {{ user.ext_state.user_rank.title|default '鸟列兵' }} <br/>
+                            <!--我的等级: {{ user.ext_state.rank_id|default 1  }} <br/>
+                            经验值: {{ user.ext_state.rank_point|default 0 }} <br/>
+                            鸟币: {{ current_point.balance.money|default 0 }} <br/>-->
+                        </p>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        <div class="row pt-0">
+            <div class="thirteen wide column plr-r">
+                <div class="ui green progress mb-0">
+                    <div class="bar" style="width:{{ user.ext_state.upgrade_percent|default 0.1 }}%;"></div>
+                </div>
+            </div>
+            <div class="three wide column">
+                {{ user.ext_state.rank_point|default 0 }}/{{ user.ext_state.user_rank.point_amount|default 0 }}
+            </div>
+
+        </div>
+
+        
+
+
+		<div class="row">
+			<div class="column plr-r">
+				<table class="ui unstackable celled table left aligned segment">
+                    <thead>
+                    <tr><th>行为</th>
+                        <th style="min-width:3.857143rem;">经验值</th>
+                        <th>说明</th>
+                    </tr></thead>
+                    <tbody>
+                    <tr>
+                        <td>创建情景</td>
+                        <td>500</td>
+                        <td>需审核通过</td>
+                    </tr>
+                    <tr>
+                        <td>创建内容违法违规</td>
+                        <td>／</td>
+                        <td>删除内容并扣除全部积分，严重者封号处理</td>
+                    </tr>
+                    <tr>
+                        <td>热门情景</td>
+                        <td>500</td>
+                        <td>情景使用人数50+</td>
+                    </tr>
+                    <tr>
+                        <td>创建场景</td>
+                        <td>500</td>
+                        <td>需审核通过</td>
+                    </tr>
+                    <tr>
+                        <td>热门场景</td>
+                        <td>500</td>
+                        <td>每日选1场景</td>
+                    </tr>
+                    <tr>
+                        <td>首次上传头像</td>
+                        <td>5</td>
+                        <td>一次性给予奖励积分，后续修改不重复获得</td>
+                    </tr>
+                    <tr>
+                        <td>首次完善个人资料</td>
+                        <td>10</td>
+                        <td>姓名 手机 城市 签名 收货地址 爱好 职位等</td>
+                    </tr>
+                    <tr>
+                        <td>更新个人资料</td>
+                        <td>5</td>
+                        <td>每个月限定修改1次</td>
+                    </tr>
+                    <tr>
+                        <td>关注他人</td>
+                        <td>2</td>
+                        <td rowspan="3">每天不超过20</td>
+                    </tr>
+                    <tr>
+                        <td>收藏</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>点赞</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>评论</td>
+                        <td>10</td>
+                        <td>每天不超过50</td>
+                    </tr>
+                    <tr>
+                        <td>转发（场景、情境）</td>
+                        <td>100</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>转发（产品专题）</td>
+                        <td>20</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>转发（产品）</td>
+                        <td>5</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Fiu签到</td>
+                        <td>10</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>连续签到7天</td>
+                        <td>70+100</td>
+                        <td rowspan="4">满30天清零重新计算</td>
+                    </tr>
+                    <tr>
+                        <td>连续签到14天</td>
+                        <td>70+100*2</td>
+                    </tr>
+                    <tr>
+                        <td>连续签到21天</td>
+                        <td>70+100*3</td>
+                    </tr>
+                    <tr>
+                        <td>连续签到28天</td>
+                        <td>70+100*4</td>
+                    </tr>
+                    <tr>
+                        <td>自营商品购买</td>
+                        <td>订单价格1：1</td>
+                        <td rowspan="3">自营</td>
+                    </tr>
+                    <tr>
+                        <td>自营商品售后好评+评论</td>
+                        <td>50</td>
+                    </tr>
+                    <tr>
+                        <td>自营商品售后评论晒图</td>
+                        <td>50</td>
+                    </tr>
+                    <tr>
+                        <td>售后好评+评论</td>
+                        <td>30</td>
+                        <td rowspan="2">第三方</td>
+                    </tr>
+                    <tr>
+                        <td>售后评论晒图</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <td>上传产品库</td>
+                        <td>10</td>
+                        <td>每天不超过30</td>
+                    </tr>
+                    <tr>
+                        <td>成功邀请好友下载app</td>
+                        <td>1000</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>下载太火鸟商城app</td>
+                        <td>50</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>太火鸟商城app签到抽奖</td>
+                        <td>1</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>购买金额1-100元</td>
+                        <td>50</td>
+                        <td rowspan="5">（不占用每日积分上限）</td>
+                    </tr>
+                    <tr>
+                        <td>购买金额101-300元</td>
+                        <td>150</td>
+                    </tr>
+                    <tr>
+                        <td>购买金额301-800元</td>
+                        <td>300</td>
+                    </tr>
+                    <tr>
+                        <td>购买金额801-1500元</td>
+                        <td>500</td>
+                    </tr>
+                    <tr>
+                        <td>购买金额1500以上</td>
+                        <td>800</td>
+                    </tr>
+                    <tr>
+                        <td>商城app申请试用</td>
+                        <td>/</td>
+                        <td>按不同项目暂扣积分，未成功申请者退还</td>
+                    </tr>
+                    <tr>
+                        <td>成功提交试用报告</td>
+                        <td>/</td>
+                        <td>退还扣除积分</td>
+                    </tr>
+                    <tr>
+                    	<td colspan="3" class="pt-3r pb-2r"></td>
+                    </tr>
+                    </tbody>
+
+                    <thead>
+                    <tr><th style="border-top: 1px solid rgba(34,36,38,.15);border-radius: 0;">被动行为</th>
+                        <th style="min-width:3.857143rem;border-top: 1px solid rgba(34,36,38,.15);border-radius: 0;">经验值</th>
+                        <th style="border-top: 1px solid rgba(34,36,38,.15);border-radius: 0;">说明</th>
+                    </tr></thead>
+                    <tbody>
+                    <tr>
+                        <td>创建情景</td>
+                        <td>10</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>创建情景</td>
+                        <td>10</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>点赞</td>
+                        <td>5</td>
+                        <td rowspan="6">所有内容：每天不超过100</td>
+                    </tr>
+                    <tr>
+                        <td>转发</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>评论</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>被人关注</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>主页来访</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>点评被他人点赞</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>产品库通过审核</td>
+                        <td>50</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>优秀试用报告加精</td>
+                        <td>500</td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                    <thead>
+                    <tr><th colspan="3" style="border-top: 1px solid rgba(34,36,38,.15);border-radius: 0;">规则</th>
+                    </tr></thead>
+                    <tbody>
+                    	<tr>
+                        <td colspan="3">每日日常行为获取总积分上限200</td>
+                    	</tr>
+                    	<tr>
+                        <td colspan="3">场景/情景/内容奖励为额外奖励&自营商品兑换积分，不占用每日积分上限内额度</td>
+                    	</tr>
+                    	<tr>
+                        <td colspan="3">鸟币单位与积分单位合并，兑换比例：1鸟币=1元=100积分</td>
+                    	</tr>
+                    </tbody>
+
+                </table>
+
+
+			</div>
+		</div>
+
+	</div>
+</div>
+
+{% endblock %}
