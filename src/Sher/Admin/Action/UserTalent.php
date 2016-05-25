@@ -31,7 +31,7 @@
         /**
          * 达人认证
          */
-        public function ajax_approved(){
+        public function ajax_verified(){
             
             $id = isset($this->stash['id']) ? $this->stash['id'] : 0;
             $evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 0;
