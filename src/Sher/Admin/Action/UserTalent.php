@@ -43,7 +43,7 @@
             $model = new Sher_Core_Model_UserTalent();
             $user_model = new Sher_Core_Model_User();
             
-            $ok = $model->mark_as_verified($id, array('verified'=>$evt));
+            $ok = $model->mark_as_verified($id, $evt);
             if(!$ok){
                 return $this->ajax_json('审核失败！', true);
             }
