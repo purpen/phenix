@@ -82,13 +82,12 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 
 			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
 			$user_info = array();
-
-      if($user_id==(int)$result['rows'][$k]['users'][0]){
-        $to_user = $user_model->extend_load((int)$result['rows'][$k]['users'][1]);
-      }else{
-        $to_user = $user_model->extend_load((int)$result['rows'][$k]['users'][0]);     
-      }
-
+			$from_user = $user_model->extend_load((int)$result['rows'][$k]['users'][0]);
+			$to_user = $user_model->extend_load((int)$result['rows'][$k]['users'][1]);
+			$user_info['from_user']['id'] = $from_user['_id'];
+			$user_info['from_user']['account'] = $from_user['account'];
+			$user_info['from_user']['nickname'] = $from_user['nickname'];
+			$user_info['from_user']['big_avatar_url'] = $from_user['big_avatar_url'];
 			$user_info['to_user']['id'] = $to_user['_id'];
 			$user_info['to_user']['account'] = $to_user['account'];
 			$user_info['to_user']['nickname'] = $to_user['nickname'];
