@@ -408,6 +408,37 @@ class Sher_Core_Helper_View {
       case 31:
         $channel_name = '线下活动4';
         break;
+      case 32:
+        $channel_name = '渠道6';
+        break;
+      case 33:
+        $channel_name = '渠道7';
+        break;
+      case 34:
+        $channel_name = '渠道8';
+        break;
+      case 35:
+        $channel_name = '渠道9';
+        break;
+      case 36:
+        $channel_name = '渠道10';
+        break;
+      case 37:
+        $channel_name = '渠道11';
+        break;
+      case 38:
+        $channel_name = '渠道12';
+        break;
+      case 39:
+        $channel_name = '渠道13';
+        break;
+      case 40:
+        $channel_name = '渠道14';
+        break;
+      case 41:
+        $channel_name = '渠道15';
+        break;
+
       default:
         $channel_name = $row['channel_id'];
     }
