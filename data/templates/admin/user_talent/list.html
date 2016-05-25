@@ -78,15 +78,17 @@
 						{% endif %}
 						
 						{% if user_talent.verified == 2 %}
-						<label id="verified-{{ user_talent._id }}-label" class="ui magenta label">通过</label>
+						<label id="verified-{{ user_talent._id }}-label" class="ui magenta green label">通过</label>
 						{% endif %}
 					</p>
         </td>
 				<td>
 					{% if user_talent.verified == 0 %}
-                    <a href="{{ app_url_admin_base }}/user_talent/ajax_verified?id={{ user_talent._id }}&evt=1" class="ui link ajax item" id="verified-{{ user_talent._id }}-button">拒绝</a>
+          <p id="verified-{{ user_talent._id }}-button">
+                    <a href="{{ app_url_admin_base }}/user_talent/ajax_verified?id={{ user_talent._id }}&evt=1" class="ui link ajax item">拒绝</a>
                     |
-                    <a href="{{ app_url_admin_base }}/user_talent/ajax_verified?id={{ user_talent._id }}&evt=2" class="ui link ajax item" id="verified-{{ user_talent._id }}-button">通过</a>
+                    <a href="{{ app_url_admin_base }}/user_talent/ajax_verified?id={{ user_talent._id }}&evt=2" class="ui link ajax item">通过</a>
+                    </p>
                     {% else %}
                     <a href="{{ app_url_admin_base }}/user_talent/ajax_verified?id={{ user_talent._id }}&evt=0" class="ui link ajax item" id="verified-{{ user_talent._id }}-button">取消</a>
                     {% endif %}

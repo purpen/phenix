@@ -4,15 +4,15 @@
 	<replace select="#verified-{{ id }}-label"><![CDATA[
 		<label class="ui origin label" id="verified-{{ id }}-label">待审核</label>
     ]]></replace>
-	<replace select="#verified-{{ id }}-button"><![CDATA[
-		<a href="{{ app_url_admin_base }}/user_talent/ajax_verified?id={{ id }}&evt=1" class="ui link ajax item" id="verified-{{ id }}-button">拒绝</a> |
-<a href="{{ app_url_admin_base }}/user_talent/ajax_verified?id={{ id }}&evt=2" class="ui link ajax item" id="verified-{{ id }}-button">通过</a>
-    ]]></replace>
+	<replaceContent select="#verified-{{ id }}-button"><![CDATA[
+		<a href="{{ app_url_admin_base }}/user_talent/ajax_verified?id={{ id }}&evt=1" class="ui link ajax item">拒绝</a> |
+<a href="{{ app_url_admin_base }}/user_talent/ajax_verified?id={{ id }}&evt=2" class="ui link ajax item">通过</a>
+    ]]></replaceContent>
 	{% endif %}
 
 	{% if evt == 1 %}
 	<replace select="#verified-{{ id }}-label"><![CDATA[
-		<label class="ui gray label" id="stick-{{ id }}-label">拒绝</label>
+		<label class="ui gray label" id="verified-{{ id }}-label">拒绝</label>
     ]]></replace>
 	<replace select="#verified-{{ id }}-button"><![CDATA[
 		<a href="{{ app_url_admin_base }}/user_talent/ajax_verified?id={{ id }}&evt=0" class="ui link ajax item" id="verified-{{ id }}-button">取消</a>
@@ -21,7 +21,7 @@
 
 	{% if evt == 2 %}
 	<replace select="#verified-{{ id }}-label"><![CDATA[
-		<label class="ui magenta label" id="stick-{{ id }}-label">通过</label>
+		<label class="ui magenta green label" id="verified-{{ id }}-label">通过</label>
     ]]></replace>
 	<replace select="#verified-{{ id }}-button"><![CDATA[
 		<a href="{{ app_url_admin_base }}/user_talent/ajax_verified?id={{ id }}&evt=0" class="ui link ajax item" id="verified-{{ id }}-button">取消</a>
