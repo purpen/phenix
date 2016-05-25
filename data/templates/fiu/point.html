@@ -176,7 +176,7 @@ table {
 	font-size: 0.857143rem;
 }
 .mytop {
-    padding: 15px 0 0;
+    padding:0 0;
     width: 100%;
     display: flex;
     display: -ms-flexbox;
@@ -207,16 +207,18 @@ table {
     flex-basis: 0;
     flex-grow: 1;
     position: relative;
-    margin-left: 15px;
+    margin-left: 10px;
 }
 .mymessg h3.ui.header {
-    margin-bottom: 8px;
-    font-size: 16px;
+    margin-bottom: 5px;
+    font-size: 15px;
     font-weight: 400;
+    margin-top: 0;
 }
 .mymessg h3.ui.header + p {
-    font-size: 12px;
+    font-size: 13px;
     line-height: 18px;
+    margin: 0;
 }
 .ui.progress {
     background-color: #fff!important;
@@ -228,7 +230,7 @@ table {
 }
 .ui.progress .bar{
     border-radius: 0;
-    background-color: #21ba45;
+    background-color: #BE8914;
     height: 100%;
 }
 .pt-3r {
@@ -524,6 +526,34 @@ table {
                         <td colspan="3">鸟币单位与积分单位合并，兑换比例：1鸟币=1元=100积分</td>
                     	</tr>
                     </tbody>
+
+                    <thead>
+                    <tr><th colspan="3" style="border-top: 1px solid rgba(34,36,38,.15);border-radius: 0;">积分使用规则</th>
+                    </tr></thead>
+                    <tbody>
+                        <tr>
+                        <td style="min-width: 65px;">订单金额</td>
+                        <td>积分使用上限（按订单金额比例）</td>
+                        <td rowspan="5">比如：299元订单，可以使用的最高兑换积分为29900*6%＝1794积分（100积分＝1元）</td>
+                        </tr>
+                        <tr>
+                        <td>0-100</td>
+                        <td>5%</td>
+                        </tr>
+                        <tr>
+                        <td>101-500</td>
+                        <td>6%</td>
+                        </tr>
+                        <tr>
+                        <td>501-2500</td>
+                        <td>7%</td>
+                        </tr>
+                        <tr>
+                        <td>2500以上</td>
+                        <td>8%</td>
+                        </tr>
+                    </tbody>
+
 
                 </table>
 
