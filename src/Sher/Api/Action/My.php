@@ -756,6 +756,21 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
       $talent = array();
     }else{
       $talent = $model->extended_model_row(&$talent);
+      unset($talent['user']);
+      if(isset($talent['id_card_cover'])){
+        $talent['id_card_cover_url'] = $talent['id_card_cover']['thumbnails']['hd']['view_url'];
+        unset($talent['id_card_cover']);
+      }else{
+        $talent['id_card_cover_url'] = null;
+      }
+
+      if(isset($talent['business_card_cover'])){
+        $talent['business_card_cover_url'] = $talent['business_card_cover']['thumbnails']['hd']['view_url'];
+        unset($talent['business_card_cover']);
+      }else{
+        $talent['business_card_cover_url'] = null;
+      }
+      //$talent['user'] = Sher_Core_Helper_FilterFields::wap_user($talent['user']);
     }
 		return $this->api_json('success', 0, $talent);
 	}
