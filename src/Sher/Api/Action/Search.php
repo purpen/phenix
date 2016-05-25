@@ -22,7 +22,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
 		$q = isset($this->stash['q']) ? $this->stash['q'] : null;
     $evt = isset($this->stash['evt']) ? $this->stash['evt'] : 'content';
     $t = isset($this->stash['t']) ? (int)$this->stash['t'] : 7;
-    $s = isset($this->stash['s']) ? (int)$this->stash['s'] : 1;
+    $s = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 1;
     $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
     $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
     $asc = isset($this->stash['asc']) ? 1 : 0;
@@ -203,6 +203,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
     }else{
       return $this->api_json('请求失败!', 3002);
     }
+    $result['current_page'] = $page;
     $result['rows'] = $result['data'];
     unset($result['data']);
 		return $this->api_json('请求成功', 0, $result);
