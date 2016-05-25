@@ -113,6 +113,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
     $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
     $channel_id = isset($this->stash['channel']) ? (int)$this->stash['channel'] : 0;
     $app_type = isset($this->stash['app_type']) ? (int)$this->stash['app_type'] : 1;
+    $idfa = isset($this->stash['idfa']) ? $this->stash['idfa'] : null;
 
     if(!empty($uuid)){
       $app_user_record_model = new Sher_Core_Model_AppUserRecord();
@@ -123,6 +124,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
           'channel_id' => $channel_id,
           'device' => empty($channel_id) ? 2 : 1,
           'kind' => $app_type==1 ? 1 : 2,
+          'idfa' => $idfa,
         );
         $app_user_record_model->apply_and_save($app_user_rows);
       }

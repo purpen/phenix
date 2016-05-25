@@ -108,7 +108,7 @@
 					</div>
 				</th>
 				<th>设备ID</th>
-        <th>渠道</th>
+        <th>渠道/广告</th>
 				<th>设备</th>
 				<th>应用</th>
         <th>创建时间</th>
@@ -130,7 +130,10 @@
           {{ d.uuid }}
         </td>
 
-        <td>{{ d.channel_label }}[{{ d.channel_id }}]</td>
+        <td>
+          <p>{{ d.channel_label }}[{{ d.channel_id }}]</p>
+          <p>{{ d.idfa|default '--' }}</p>
+        </td>
         <td>
           {{ d.device_label }}
         </td>
