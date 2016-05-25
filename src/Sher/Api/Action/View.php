@@ -9,7 +9,7 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 		'id' => 0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'topic_show', 'product_show', 'special_subject_show', 'try_show', 'fiu_point' );
+	protected $exclude_method_list = array('execute', 'topic_show', 'product_show', 'special_subject_show', 'try_show', 'fiu_point', 'about');
 	
 	/**
 	 * api show
@@ -17,6 +17,13 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 	public function execute(){
 
 	}
+
+  /**
+   * 关于太火鸟
+   */
+  public function about(){
+    return $this->to_html_page('fiu/about.html');
+  }
 
   /**
    * 用户积分

@@ -106,6 +106,8 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
     'attrbute' => self::ATTR_DEF,
     # 来源
     'source' => null,
+    # ZAKER RSS推送标识
+    'is_zaker_rss' => 0,
 		
 		# 最后回复者及回复时间
 		'last_reply_time' => 0,
