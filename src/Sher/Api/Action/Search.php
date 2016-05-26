@@ -179,7 +179,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
         }elseif($kind=='SContext'){ // 场景分享语境
           $scene_context = $scene_context_model->load($oid);
           if(!empty($scene_context)){
-            $result['data'][$k]['content'] = $scene_context['des'];
+            $result['data'][$k]['des'] = $scene_context['des'];
           }
         }
 
