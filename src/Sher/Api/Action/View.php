@@ -31,17 +31,25 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
   public function fiu_point(){
     $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
     $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
+    $app_type = isset($this->stash['app_type']) ? (int)$this->stash['app_type'] : 1;
     $user_id = 0;
     if(empty($uuid) || empty($from_to)){
 			return $this->api_json('缺少请求参数！', 3001); 
     }
 
+    if($app_type==1){
+      $pusher_model = new Sher_Core_Model_Pusher();
+    }elseif($app_type==2){
+      $pusher_model = new Sher_Core_Model_FiuPusher();          
+    }else{
+      return $this->api_json("应用来源不正确", 3002);           
+    }
     $pusher_model = new Sher_Core_Model_Pusher();
     $pusher = $pusher_model->first(array('uuid'=> $uuid, 'from_to'=>$from_to, 'is_login'=>1));
     if($pusher){
       $user_id = $pusher['user_id'];
     }else{
-      return $this->api_json('请先登录!', 3002);     
+      return $this->api_json('请先登录!', 3003);
     }
 
     $user_model = new Sher_Core_Model_User();
