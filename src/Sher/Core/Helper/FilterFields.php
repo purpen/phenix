@@ -37,19 +37,19 @@ class Sher_Core_Helper_FilterFields {
         unset($data['profile']);
 
         if(!isset($data['weixin'])){
-            $data['weixin'] = null;   
+            $data['weixin'] = '';   
         }
         if(!isset($data['im_qq'])){
-            $data['im_qq'] = null;   
+            $data['im_qq'] = '';   
         }
         if(!isset($data['label'])){
-            $data['label'] = null;   
+            $data['label'] = '';   
         }
         if(!isset($data['expert_label'])){
-            $data['expert_label'] = null;   
+            $data['expert_label'] = '';   
         }
         if(!isset($data['expert_info'])){
-            $data['expert_info'] = null;   
+            $data['expert_info'] = '';   
         }
 
         if(!isset($data['province_id'])){
@@ -123,7 +123,7 @@ class Sher_Core_Helper_FilterFields {
         }
 
         // 是否有头图
-        $data['head_pic_url'] = null;
+        $data['head_pic_url'] = '';
         if(isset($data['head_pic']) && !empty($data['head_pic'])){
           $asset_model = new Sher_Core_Model_Asset();
           $asset = $asset_model->extend_load($data['head_pic']);
@@ -155,7 +155,7 @@ class Sher_Core_Helper_FilterFields {
     $some_fields = array_merge($filter_arr, $options);
 
     foreach($some_fields as $k){
-      $filter[$k] = isset($user[$k]) ? $user[$k] : null;
+      $filter[$k] = isset($user[$k]) ? $user[$k] : '';
     }
 
     return $filter;
@@ -174,7 +174,7 @@ class Sher_Core_Helper_FilterFields {
     for($i=0;$i<$count;$i++){
       foreach($options as $v){
         if($type==1){
-          $data[$i][$v] = isset($result[$i][$v]) ? $result[$i][$v] : null;
+          $data[$i][$v] = isset($result[$i][$v]) ? $result[$i][$v] : '';
         }elseif($type==2){
           unset($result[$i][$v]);
         }
