@@ -94,10 +94,17 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
     public function view(){
         $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
         $editable = false;
+
+        $redirect_url = Doggy_Config::$vars['app.url.cooperate'];
+        if(empty($id)){
+          return $this->show_message_page('缺少请求参数！', $redirect_url);
+        }
         
         $model = new Sher_Core_Model_Cooperation();
         $cooperate = $model->extend_load((int)$id);
-        
+        if(empty($cooperate)){
+          return $this->show_message_page('缺少请求参数！', $redirect_url);
+        }
         if($this->visitor->can_admin()){
             $editable = true;
         }
