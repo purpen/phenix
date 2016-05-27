@@ -6,7 +6,7 @@
 class Sher_Api_Action_My extends Sher_Api_Action_Base {
 
 
-	protected $filter_user_method_list = array('talent_save','set_my_qr_code','add_head_pic');
+	protected $filter_user_method_list = array('set_my_qr_code','add_head_pic');
 	
 	/**
 	 * 入口
