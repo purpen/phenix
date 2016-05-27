@@ -193,7 +193,7 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
 	 */
 	public function save(){
 
-		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$id = isset($this->stash['_id']) ? (int)$this->stash['_id'] : 0;
 		// 验证数据
 		if(empty($this->stash['name'])){
 			return $this->ajax_json('名称不能为空！', true);
