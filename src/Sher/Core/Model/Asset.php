@@ -109,6 +109,9 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	const TYPE_BUSINESS_CARD = 126;
 	const TYPE_USER_HEAD_PIC = 127;
 
+  #情景品牌Banner
+	const TYPE_SCENE_BRANDS_BANNER = 129;
+
     protected $schema = array(
 		'user_id' => '',
     	'parent_id' => '',

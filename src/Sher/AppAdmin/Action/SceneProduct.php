@@ -149,7 +149,7 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 				$asset_model->update_batch_assets($this->stash['banner_asset'], $id);
 			}
 
-			// 上传成功后，更新所属的附件(Banner)
+			// 上传成功后，更新所属的附件(png)
 			if(isset($this->stash['png_asset']) && !empty($this->stash['png_asset'])){
 				$asset_model->update_batch_assets($this->stash['png_asset'], $id);
 			}
