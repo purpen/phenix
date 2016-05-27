@@ -112,16 +112,16 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		$id = isset($this->stash['id']) ? $this->stash['id'] : '';
 		
 		if (empty($id)) {
-            return $this->api_json('请求失败，缺少必要参数!', 3001);
-        }
+      return $this->api_json('请求失败，缺少必要参数!', 3001);
+    }
 		
 		$model = new Sher_Core_Model_SceneBrands();
 		$scene_product_model = new Sher_Core_Model_SceneProduct();
 		$result  = $model->extend_load($id);
 		
 		if (!$result) {
-            return $this->api_json('请求内容为空!', 3002);
-        }
+      return $this->api_json('请求内容为空!', 3002);
+    }
 		
 		$data = array();
 		$data['_id'] = (string)$result['_id'];
@@ -130,30 +130,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		$data['used_count'] = $result['used_count'];
 		$data['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
 		$data['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
-
-    // 从商品取一张封面
-    $product = $scene_product_model->first(array('brand_id'=>$id));
-    $asset_id = null;
-    if($product){
-      if(isset($product['banner_id']) && !empty($product['banner_id'])){
-        $asset_id = $product['banner_id'];
-      }else{
-        if(!empty($product['banner_asset_ids'])){
-          $asset_id = $product['banner_asset_ids'][0];
-        }
-      }
-    }
-    if($asset_id){
-      $asset_model = new Sher_Core_Model_Asset();
-      $asset = $asset_model->extend_load($asset_id);
-      if($asset){
-        $data['banner_url'] = $asset['thumbnails']['aub']['view_url'];
-      }else{
-        $data['banner_url'] = null;     
-      }
-    }else{
-      $data['banner_url'] = null;  
-    }
+		$data['banner_url'] = isset($result['banner']) ? $result['banner']['thumbnails']['hub']['view_url'] : null;
 
 		return $this->api_json('请求成功', 0, $data);
 	}

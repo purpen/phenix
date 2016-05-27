@@ -14,6 +14,8 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
         'des' => '',
 		# 封面
 		'cover_id' => '',
+    # Banner
+    'banner_id' => '',
         # 点击次数
         'used_count' => 0,
 		# 推荐（编辑推荐、推荐至首页）
@@ -29,7 +31,7 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
-		'cover' =>  array('cover_id' => 'Sher_Core_Model_Asset'),
+
 	);
 	
 	/**
@@ -38,7 +40,11 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 	protected function extra_extend_model_row(&$row) {
         // 获取封面图
 		if(isset($row['cover_id'])){
-			$row['cover'] = $this->cover($row['cover_id']);
+			$row['cover'] = $this->cover($row);
+		}
+        // 获取Banner图
+		if(isset($row['banner_id'])){
+			$row['banner'] = $this->banner($row);
 		}
 	}
 	
@@ -112,17 +118,38 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 	/**
 	 * 获取封面图
 	 */
-	protected function cover($cover_id){
+	protected function cover(&$row){
 		// 已设置封面图
-		if(!empty($cover_id)){
+		if(!empty($row['cover_id'])){
 			$asset = new Sher_Core_Model_Asset();
-			return $asset->extend_load($cover_id);
+			return $asset->extend_load($row['cover_id']);
 		}
 		// 未设置封面图，获取第一个
 		$asset = new Sher_Core_Model_Asset();
 		$query = array(
-			'parent_id'  => (int)$cover_id,
-			'asset_type' => Sher_Core_Model_Asset::TYPE_SPECIAL_COVER
+			'parent_id'  => $row['_id'],
+			'asset_type' => Sher_Core_Model_Asset::TYPE_SCENE_BRANDS
+		);
+		$data = $asset->first($query);
+		if(!empty($data)){
+			return $asset->extended_model_row($data);
+		}
+	}
+
+	/**
+	 * 获取Banner图
+	 */
+	protected function banner(&$row){
+		// 已设置封面图
+		if(!empty($row['banner_id'])){
+			$asset = new Sher_Core_Model_Asset();
+			return $asset->extend_load($row['banner_id']);
+		}
+		// 未设置封面图，获取第一个
+		$asset = new Sher_Core_Model_Asset();
+		$query = array(
+			'parent_id'  => $row['_id'],
+			'asset_type' => Sher_Core_Model_Asset::TYPE_SCENE_BRANDS_BANNER
 		);
 		$data = $asset->first($query);
 		if(!empty($data)){

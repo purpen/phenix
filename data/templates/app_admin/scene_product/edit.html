@@ -196,7 +196,7 @@
 
     // 封面图上传
 	var up = $('#phenix-uploader').fineUploader({
-		debug: true,
+		debug: false,
       	request: {
 			inputName:'file',
 			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ user_id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ scene_product._id }}','file_id': '{{ pid }}'},
@@ -227,7 +227,7 @@
 
   // 上传Banner图
 	$('#phenix-banner-uploader').fineUploader({
-		debug: true,
+		debug: false,
       	request: {
 			inputName:'file',
 			params: {'token': '{{ token }}','x:pid': '{{ banner_pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ banner_asset_type }},'x:parent_id': '{{ scene_product._id }}','file_id': '{{ banner_pid }}' },
@@ -259,7 +259,7 @@
 
   // 上传去底图
 	$('#phenix-png-uploader').fineUploader({
-		debug: true,
+		debug: false,
       	request: {
 			inputName:'file',
 			params: {'token': '{{ token }}','x:pid': '{{ png_pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ png_asset_type }},'x:parent_id': '{{ scene_product._id }}','file_id': '{{ png_pid }}' },

@@ -360,12 +360,19 @@ if(!empty($scene_product_ids) && !empty($scene_product_ids['items'])){
       }
     }
 
+    $product_tag_arr = array();
     // 获取情景标签
     if($item['scene_tags']){
-      $tags_s = Sher_Core_Util_FiuTags::fetch_tag_str($item['scene_tags'], ',', true);
-    }else{
-      $tags_s = '';
+      $product_tag_arr = Sher_Core_Util_FiuTags::fetch_tag_str($item['scene_tags'], null, true);
     }
+
+    // 获取产品标签
+    if($item['tags']){
+      $product_tag_arr = array_merge($product_tag_arr, $item['tags']);
+    }
+
+    $tags_s = implode(',', $product_tag_arr);
+
 
     //添加全文索引
     $xs_data = array(
