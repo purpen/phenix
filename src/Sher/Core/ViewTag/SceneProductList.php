@@ -27,6 +27,7 @@ class Sher_Core_ViewTag_SceneProductList extends Doggy_Dt_Tag {
         $fine = 0;
         $user_id = 0;
 		    $state = 0;
+        $s_title = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -87,6 +88,10 @@ class Sher_Core_ViewTag_SceneProductList extends Doggy_Dt_Tag {
 
         if($user_id){
           $query['user_id'] = (int)$user_id;         
+        }
+
+        if($s_title){
+          $query['title'] = array('$regex'=>$s_title);
         }
 		
         $service = Sher_Core_Service_SceneProduct::instance();
