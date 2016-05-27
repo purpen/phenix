@@ -177,7 +177,10 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           $result['data'][$k]['banners'] = $assets;
 
         }elseif($kind=='SContext'){ // 场景分享语境
-        
+          $scene_context = $scene_context_model->load($oid);
+          if(!empty($scene_context)){
+            $result['data'][$k]['des'] = $scene_context['des'];
+          }
         }
 
         // 获取用户信息

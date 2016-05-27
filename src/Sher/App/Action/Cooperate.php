@@ -94,10 +94,17 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
     public function view(){
         $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
         $editable = false;
+
+        $redirect_url = Doggy_Config::$vars['app.url.cooperate'];
+        if(empty($id)){
+          return $this->show_message_page('缺少请求参数！', $redirect_url);
+        }
         
         $model = new Sher_Core_Model_Cooperation();
         $cooperate = $model->extend_load((int)$id);
-        
+        if(empty($cooperate)){
+          return $this->show_message_page('缺少请求参数！', $redirect_url);
+        }
         if($this->visitor->can_admin()){
             $editable = true;
         }
@@ -185,6 +192,8 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
 	 * 保存信息
 	 */
 	public function save(){
+
+		$id = isset($this->stash['_id']) ? (int)$this->stash['_id'] : 0;
 		// 验证数据
 		if(empty($this->stash['name'])){
 			return $this->ajax_json('名称不能为空！', true);
@@ -210,9 +219,7 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
 
     $data['people'] = Sher_Core_Helper_FilterFields::remove_xss($this->stash['people']);
     $data['mobile'] = Sher_Core_Helper_FilterFields::remove_xss($this->stash['mobile']);
-
-		$id = (int)$this->stash['_id'];
-        
+ 
 		// 检测编辑器图片数
 		$file_count = isset($this->stash['file_count'])?(int)$this->stash['file_count']:0;
 		
@@ -252,11 +259,12 @@ class Sher_App_Action_Cooperate extends Sher_App_Action_Base implements DoggyX_A
 				$id = (int)$cooperation['_id'];
 			}else{
 				$mode = 'edit';
+        $data['_id'] = $id;
 				$ok = $model->apply_and_update($data);
 			}
 			
 			if(!$ok){
-				return $this->ajax_json('保存失败,请重新提交', true);
+				return $this->ajax_json('保存失败,请重新提交!', true);
 			}
 			
 			$asset = new Sher_Core_Model_Asset();

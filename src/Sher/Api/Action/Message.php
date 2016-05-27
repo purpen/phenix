@@ -92,7 +92,7 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 			$user_info['from_user']['id'] = $from_user['_id'];
 			$user_info['from_user']['account'] = $from_user['account'];
 			$user_info['from_user']['nickname'] = $from_user['nickname'];
-			$user_info['from_user']['medium_avatar_url'] = $from_user['medium_avatar_url'];
+			$user_info['from_user']['big_avatar_url'] = $from_user['medium_avatar_url'];
 			$result['rows'][$k]['users'] = $user_info;
 		}
 		

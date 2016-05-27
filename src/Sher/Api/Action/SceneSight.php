@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'add_share_context_num');
 
 	/**
 	 * 入口
@@ -418,5 +418,19 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		}
 		return $this->api_json('删除成功！', 0, array('id'=>$id));
 	}
+
+  /**
+   * 场境分享增加语境使用次数
+   */
+  public function add_share_context_num(){
+ 		$id = isset($this->stash['id'])?$this->stash['id']:0;
+		if(empty($id)){
+			$this->api_json('缺少请求参数！', 3000);
+    }
+    $model = new Sher_Core_Model_SceneContext();
+    $ok = $model->inc_counter('used_count', 1, $id);
+    return $this->api_json('操作成功!', 0, array('id'=>$id));
+  }
+
 }
 

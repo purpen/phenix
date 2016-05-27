@@ -88,7 +88,7 @@ class Sher_Core_Model_SceneContext extends Sher_Core_Model_Base {
 	    }
 		
 		if(!$force){
-			$albums = $this->find_by_id((int)$id);
+			$albums = $this->find_by_id($id);
 			if(!isset($albums[$field_name]) || $albums[$field_name] <= 0){
 				return true;
 			}
