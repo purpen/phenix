@@ -48,6 +48,9 @@ class Sher_Core_Helper_FilterFields {
         if(!isset($data['expert_label'])){
             $data['expert_label'] = null;   
         }
+        if(!isset($data['expert_info'])){
+            $data['expert_info'] = null;   
+        }
 
         if(!isset($data['province_id'])){
             $data['province_id'] = 0;

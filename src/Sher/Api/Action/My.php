@@ -694,28 +694,27 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		
 		// 上传名片图片
 		if(isset($this->stash['business_card_tmp']) && !empty($this->stash['business_card_tmp'])){
-			return $this->api_json('请选择图片！', 3001);  
-		}
-		$file = base64_decode(str_replace(' ', '+', $this->stash['business_card_tmp']));
-		$image_info = Sher_Core_Util_Image::image_info_binary($file);
-		if($image_info['stat']==0){
-			return $this->api_json($image_info['msg'], 3002);
-		}
-		if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
-      $params = array();
-      $new_file_id = Sher_Core_Helper_Util::generate_mongo_id();
-      $params['domain'] = Sher_Core_Util_Constant::STROAGE_BUSINESS_CARD;
-      $params['asset_type'] = Sher_Core_Model_Asset::TYPE_BUSINESS_CARD;
-      $params['filename'] = $new_file_id.'.jpg';
-      $params['parent_id'] = $id;
-      $params['user_id'] = $user_id;
-      $params['image_info'] = $image_info;
-      $result = Sher_Core_Util_Image::api_image($file, $params);
-      
-      if($result['stat']){
-        $data['business_card_cover_id'] = (string)$result['asset']['id'];
-      }else{
-        return $this->api_json('上传失败!', 3005); 
+      $file = base64_decode(str_replace(' ', '+', $this->stash['business_card_tmp']));
+      $image_info = Sher_Core_Util_Image::image_info_binary($file);
+      if($image_info['stat']==0){
+        return $this->api_json($image_info['msg'], 3002);
+      }
+      if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
+        $params = array();
+        $new_file_id = Sher_Core_Helper_Util::generate_mongo_id();
+        $params['domain'] = Sher_Core_Util_Constant::STROAGE_BUSINESS_CARD;
+        $params['asset_type'] = Sher_Core_Model_Asset::TYPE_BUSINESS_CARD;
+        $params['filename'] = $new_file_id.'.jpg';
+        $params['parent_id'] = $id;
+        $params['user_id'] = $user_id;
+        $params['image_info'] = $image_info;
+        $result = Sher_Core_Util_Image::api_image($file, $params);
+        
+        if($result['stat']){
+          $data['business_card_cover_id'] = (string)$result['asset']['id'];
+        }else{
+          return $this->api_json('上传失败!', 3005); 
+        }
       }
 		}
 		
