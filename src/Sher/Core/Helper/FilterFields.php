@@ -16,7 +16,7 @@ class Sher_Core_Helper_FilterFields {
         'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,
         'created_on'=>1,'email'=>1,'birthday'=>1,'medium_avatar_url'=>1, 'identify'=>1,
         'follow_count'=>1,'fans_count'=>1,'scene_count'=>1,'sight_count'=>1,'counter'=>1,
-        'subscription_count'=>1,'sight_love_count'=>1, 'head_pic'=>1,
+        'subscription_count'=>1,'sight_love_count'=>1, 'head_pic'=>1, 'ext_state'=>1,
         );
 		
         // 重建数据结果
@@ -120,6 +120,15 @@ class Sher_Core_Helper_FilterFields {
 
           $data['counter']['order_total_count'] = $data['counter']['order_evaluate'] + $data['counter']['order_sended_goods'] + $data['counter']['order_ready_goods'] + $data['counter']['order_wait_payment'];
 
+        }
+
+        // 用户等级
+        if(isset($data['ext_state']) && !empty($data['ext_state'])){
+          $data['rank_id'] = $data['ext_state']['rank_id'];
+          $data['rank_title'] = $data['ext_state']['user_rank']['title'];
+        }else{
+          $data['rank_id'] = 1;
+          $data['rank_title'] = '鸟列兵';
         }
 
         // 是否有头图

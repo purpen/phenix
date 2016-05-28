@@ -255,18 +255,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 			return $this->api_json('用户未找到！', 3001);  
 		}
 
-		// 用户默认值
-		$rank_id = 1;
-		$rank_title = '鸟列兵';
 		$bird_coin = 0;
-	
-		// 用户等级状态
-		$user_ext_stat_model = new Sher_Core_Model_UserExtState();
-		$user_ext = $user_ext_stat_model->extend_load($id);
-		if($user_ext){
-			$rank_id = $user_ext['rank_id'];
-			$rank_title = $user_ext['user_rank']['title'];
-		}
 	
 		// 用户实时积分
 		$point_model = new Sher_Core_Model_UserPointBalance();
@@ -276,9 +265,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 	
 		// 过滤用户字段
 		$data = Sher_Core_Helper_FilterFields::wap_user($user);
-	
-		$data['rank_id'] = $rank_id;
-		$data['rank_title'] = $rank_title;
+
 		$data['bird_coin'] = $bird_coin;
 		
 		// 屏蔽关键信息

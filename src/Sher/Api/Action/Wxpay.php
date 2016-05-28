@@ -408,19 +408,22 @@
 		 * 微信支付异步返回通知信息--fiu
 		 */
 		public function fiu_notify(){
+
+      require_once "wxpay-sdk/lib/WxPay.Api.php";
 			
+
 			// 返回微信支付结果通知信息
-			$notify = new Sher_Core_Util_WxPayM_WxNotify();
+      $notify = new WxPayNotify();
 			$result = $notify->Handle();
 			if(!$result){
-        Doggy_Log_Helper::warn("app微信获取异步获取通知失败!");
+        Doggy_Log_Helper::warn("app微信获取异步获取通知失败~fiu!");
 				return false;
 			}
 			
 			// 获取通知信息
 			$notifyInfo = $notify->arr_notify; 
 			
-			Doggy_Log_Helper::warn("app微信获取通知信息: ".json_encode($notifyInfo));
+			Doggy_Log_Helper::warn("app微信获取通知信息~fiu: ".json_encode($notifyInfo));
 
 			// 商户订单号
 			$out_trade_no = $notifyInfo['out_trade_no'];
