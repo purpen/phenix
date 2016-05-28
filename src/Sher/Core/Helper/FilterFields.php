@@ -126,6 +126,7 @@ class Sher_Core_Helper_FilterFields {
         if(isset($data['ext_state']) && !empty($data['ext_state'])){
           $data['rank_id'] = $data['ext_state']['rank_id'];
           $data['rank_title'] = $data['ext_state']['user_rank']['title'];
+          unset($data['ext_state']);
         }else{
           $data['rank_id'] = 1;
           $data['rank_title'] = '鸟列兵';
