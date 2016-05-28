@@ -359,7 +359,7 @@
           if($order['result_code'] == 'SUCCESS'){
             // 根据prepay_id再次签名
             if($order['prepay_id']){
-              $order['partner_id'] = Doggy_Config::$vars['app.wechat_m.partner_id'];
+              $order['partner_id'] = $order['mch_id'];
               $order['time_stamp'] = time();
               //签名步骤一：按字典序排序参数
               $val = array(
