@@ -7,8 +7,10 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 	
 	public $stash = array(
 		'page' => 1,
-		'size' => 20,
+		'size' => 100,
 		'state' => '',
+    'title_cn' => '',
+    'title_en' => '',
 	);
 	
 	public function _init() {
@@ -110,7 +112,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		
 		$page = (int)$this->stash['page'];
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_tags/get_list?page=#p#',$page);
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_tags/get_list?type=%d&title_cn=%s&title_en=%spage=#p#',$type, $this->stash['title_cn'], $this->stash['title_en']);
 		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('app_admin/scene_tags/list.html');
 	}
