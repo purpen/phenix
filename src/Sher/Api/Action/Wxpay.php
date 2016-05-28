@@ -359,14 +359,15 @@
           if($order['result_code'] == 'SUCCESS'){
             // 根据prepay_id再次签名
             if($order['prepay_id']){
-              $order['timestamp'] = time();
+              $order['partner_id'] = Doggy_Config::$vars['app.wechat_m.partner_id'];
+              $order['time_stamp'] = time();
               //签名步骤一：按字典序排序参数
               $val = array(
                 'appid' => Doggy_Config::$vars['app.wechat_fiu.app_id'],
                 'partnerid' => Doggy_Config::$vars['app.wechat_fiu.partner_id'],
                 'prepayid' => $order['prepay_id'],
                 'noncestr' => $order['nonce_str'],
-                'timestamp' => $order['timestamp'],
+                'timestamp' => $order['time_stamp'],
                 'package' => 'Sign=WXPay',
               );
               ksort($val);
