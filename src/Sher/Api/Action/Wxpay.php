@@ -337,7 +337,7 @@
 			}
 			
 			// 支付完成通知回调接口
-			$notify_url = sprintf("%s/wxpay/notify", Doggy_Config::$vars['app.url.api']);
+			$notify_url = sprintf("%s/wxpay/fiu_notify", Doggy_Config::$vars['app.url.api']);
 
 			// 统一下单
       $input = new WxPayUnifiedOrder();
@@ -402,6 +402,42 @@
     
     }
 
+		/**
+		 * 微信支付异步返回通知信息--fiu
+		 */
+		public function fiu_notify(){
+			
+			// 返回微信支付结果通知信息
+			$notify = new Sher_Core_Util_WxPayM_WxNotify();
+			$result = $notify->Handle();
+			if(!$result){
+        Doggy_Log_Helper::warn("app微信获取异步获取通知失败!");
+				return false;
+			}
+			
+			// 获取通知信息
+			$notifyInfo = $notify->arr_notify; 
+			
+			Doggy_Log_Helper::warn("app微信获取通知信息: ".json_encode($notifyInfo));
+
+			// 商户订单号
+			$out_trade_no = $notifyInfo['out_trade_no'];
+			// 微信交易号
+			$trade_no = $notifyInfo['transaction_id'];
+			// 交易状态
+			$trade_status = $notifyInfo['result_code'];
+			
+			if($trade_status == 'SUCCESS') {
+				if($this->update_order_process($out_trade_no, $trade_no)){
+					return '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+        }else{
+    			Doggy_Log_Helper::warn("app微信:订单更新失败!");        
+        }
+			}else{
+ 			  Doggy_Log_Helper::warn("app微信:订单交易返回错误: ".json_encode($notifyInfo));       
+				return false; 
+			}
+		}
 
 	}
 
