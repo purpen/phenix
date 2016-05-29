@@ -1,8 +1,5 @@
 <?php
 
-require_once "../lib/WxPay.Api.php";
-require_once '../lib/WxPay.Notify.php';
-
 class PayNotifyCallBack extends WxPayNotify
 {
 	// 定义输出微信传回来的通知信息

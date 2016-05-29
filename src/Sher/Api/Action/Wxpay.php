@@ -410,7 +410,8 @@
 		public function fiu_notify(){
 
       require_once "wxpay-sdk/lib/WxPay.Api.php";
-      require_once 'wxpay-sdk/lib/WxPay.Notify.php';
+      require_once 'wxpay0sdk/lib/WxPay.Notify.php';
+      require_once 'wxpay-sdk/lib/WxPay.PayNotifyCallBack.php';
 			
 			// 返回微信支付结果通知信息
       $notify = new PayNotifyCallBack();
