@@ -97,6 +97,9 @@ class Sher_Api_Action_SceneTags extends Sher_Api_Action_Base {
 			case 5:
 				$options['sort_field'] = 'product_count';
 				break;
+			case 6:
+				$options['sort_field'] = 'stick:update';
+				break;
 		}
 		
 		$options['some_fields'] = $some_fields;

@@ -44,7 +44,6 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
     }else{
       return $this->api_json("应用来源不正确", 3002);           
     }
-    $pusher_model = new Sher_Core_Model_Pusher();
     $pusher = $pusher_model->first(array('uuid'=> $uuid, 'from_to'=>$from_to, 'is_login'=>1));
     if($pusher){
       $user_id = $pusher['user_id'];

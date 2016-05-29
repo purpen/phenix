@@ -2,8 +2,149 @@
 {% block title%}关于-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-  #mfrbird{
-    margin-top:0;
+  html {
+      box-sizing: border-box;
+      font-family: sans-serif;
+      -ms-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+      font-size: 14px;
+  }
+  *, :after, :before {
+      box-sizing: inherit;
+  }
+  .mt-2r {
+      margin-top: .7145rem!important;
+  }
+  .ui.grid {
+      display: block;
+      text-align: left;
+      font-size: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -o-box-sizing: border-box;
+      -ms-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      margin: -10px;
+  }
+  .ui.responsive.grid, .ui.wap {
+      margin: 0 auto;
+      max-width: 767px;
+      padding: 0;
+      min-width: initial!important;
+  }
+  .ui.grid>.row {
+      display: block;
+      position: relative;
+      width: 100%!important;
+      padding: 10px 0;
+      box-sizing: border-box;
+      -o-box-sizing: border-box;
+      -ms-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      font-size: 0;
+  }
+  .ui.grid>.row>.column {
+      position: relative;
+      display: inline-block;
+      text-align: left;
+      font-size: 1rem;
+      padding-left: 10px;
+      padding-right: 10px;
+      vertical-align: top;
+      margin-top: 0;
+      margin-bottom: 0;
+  }
+  .ui.grid>.row>.column:only-child{
+    width: 100%;
+  }
+  .ui.header {
+      border: none;
+      padding: 0;
+      font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+      font-weight: 400;
+      line-height: 1.2857em;
+      text-transform: none;
+      color: #5d6266;
+  }
+  .ui.header:last-child {
+    margin-bottom: 0;
+  }
+  .ui.header:first-child {
+      margin-top: -.14285em;
+  }
+  .ui.header .content {
+    display: inline-block;
+    vertical-align: top;
+  }
+  .ui[class*="center aligned"].grid {
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+  }
+  .ui[class*="center aligned"].grid .column {
+    text-align: center;
+    -webkit-align-self: inherit;
+    -ms-flex-item-align: inherit;
+    align-self: inherit;
+  }
+  h3.ui.header .sub.header, h4.ui.header .sub.header {
+    font-size: 1rem;
+  }
+  i.icon {
+    display: inline-block;
+    opacity: 1;
+    margin: 0 .25rem 0 0;
+    width: 1.18em;
+    height: 1em;
+    font-family: Icons;
+    font-style: normal;
+    font-weight: 400;
+    text-decoration: inherit;
+    text-align: center;
+    speak: none;
+    font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  i.icon.bullseye:before {
+    content: "\f140";
+  }
+  i.icon.send:before {
+    content: "\f1d8";
+  }
+  i.icon.world:before {
+    content: "\f0ac";
+  }
+  i.icon:before {
+      background: 0 0!important;
+  }
+  h4.ui.header {
+    font-size: 1.071rem;
+  }
+  .pt-2r{
+    padding-top: 0.714286rem !important; 
+  }
+  .pt-r{
+    padding-top: 0.357143rem !important; 
+  }
+  .plr-r {
+      padding-left: .35725rem!important;
+      padding-right: .35725rem!important;
+  }
+  .pt-0{
+    padding-top: 0!important;
+  }
+  p {
+    margin: 0 0 1em;
+    line-height: 1.4285em;
+  }
+  .ui.grid>.row>[class*="eight wide"].column{
+    width: 50%!important;
   }
 	.aboutus {
 		margin: 0em auto;
@@ -51,6 +192,11 @@
   }
   .ui.principle h4{
       margin-top:0 !important;
+      margin-bottom: 0.357143rem;
+  }
+  .ui.principle h4 + p{
+    margin: 0;
+    font-size: 0.928571rem;
   }
   .ui.principle .ui.center.row{
     padding:15px 0;
@@ -83,6 +229,12 @@
   }
   .ui.center.aligned.row{
     text-align:center;
+  }
+  .ui.cards>.card>.content .ui.header{
+    margin-bottom: 0.857143rem;
+  }
+  .ui.cards>.card>.content p {
+    margin: 0 0 0.142857rem;
   }
 </style>
 {% endblock %}
@@ -124,24 +276,24 @@
           </h3>
         </div>
       </div>
-      <div class="ui center aligned row" style="padding-top:30px;">
+      <div class="ui center aligned row">
         <div class="column">
   				<i class="bullseye icon"></i>
-          <h4 class="ui header">精准</h4>
+          <h4 class="ui header pt-r">精准</h4>
   				<p>这里有完备的数据支持与信息服务系统，我们用数据在第一时间说话，用消费者的反馈帮助产品改进创新，使产品用户体验优化。</p>
   			</div>
   		</div>
-  		<div class="ui center aligned row">
+  		<div class="ui center aligned row pt-0">
   			<div class="column">
   				<i class="send icon"></i>
-          <h4 class="ui header">有效</h4>
+          <h4 class="ui header pt-r">有效</h4>
   				<p>结合第一手数据与反馈信息，及时调整产品战略方向，帮助项目重新定位，提出有效营销解决方案。</p>
   			</div>
   		</div>
-  		<div class="ui center aligned row">
+  		<div class="ui center aligned row pt-0">
   			<div class="column">
   				<i class="world icon"></i>
-          <h4 class="ui header">全面</h4>
+          <h4 class="ui header pt-r">全面</h4>
   				<p>这里有国内外前沿的设计师专家评审团，15年的资源积累与创意消费大数据，借助社区力量，帮助项目打通线上线下渠道，全面覆盖，打造完整的创意生态产业链。</p>
   			</div>
         

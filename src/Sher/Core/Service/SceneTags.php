@@ -14,6 +14,8 @@ class Sher_Core_Service_SceneTags extends Sher_Core_Service_Base {
         'sight_count' => array('used_counts.sight_count' => -1),
         'context_count' => array('used_counts.context_count' => -1),
         'product_count' => array('used_counts.product_count' => -1),
+        'stick' => array('stick' => -1),
+        'update' => array('updated_on' => -1),
     );
 	
     /**

@@ -6,7 +6,7 @@
 class Sher_Api_Action_My extends Sher_Api_Action_Base {
 
 
-	protected $filter_user_method_list = array('talent_save','set_my_qr_code','add_head_pic');
+	protected $filter_user_method_list = array('set_my_qr_code','add_head_pic');
 	
 	/**
 	 * 入口
@@ -700,22 +700,24 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
         return $this->api_json($image_info['msg'], 3002);
       }
       if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
-        $params = array();
-        $new_file_id = Sher_Core_Helper_Util::generate_mongo_id();
-        $params['domain'] = Sher_Core_Util_Constant::STROAGE_BUSINESS_CARD;
-        $params['asset_type'] = Sher_Core_Model_Asset::TYPE_BUSINESS_CARD;
-        $params['filename'] = $new_file_id.'.jpg';
-        $params['parent_id'] = $id;
-        $params['user_id'] = $user_id;
-        $params['image_info'] = $image_info;
-        $result = Sher_Core_Util_Image::api_image($file, $params);
-        
-        if($result['stat']){
-          $data['business_card_cover_id'] = (string)$result['asset']['id'];
-        }else{
-          return $this->api_json('上传失败!', 3005); 
-        }
+        return $this->api_json('图片格式不正确！', 3008);
       }
+      $params = array();
+      $new_file_id = Sher_Core_Helper_Util::generate_mongo_id();
+      $params['domain'] = Sher_Core_Util_Constant::STROAGE_BUSINESS_CARD;
+      $params['asset_type'] = Sher_Core_Model_Asset::TYPE_BUSINESS_CARD;
+      $params['filename'] = $new_file_id.'.jpg';
+      $params['parent_id'] = $id;
+      $params['user_id'] = $user_id;
+      $params['image_info'] = $image_info;
+      $result = Sher_Core_Util_Image::api_image($file, $params);
+      
+      if($result['stat']){
+        $data['business_card_cover_id'] = (string)$result['asset']['id'];
+      }else{
+        return $this->api_json('上传失败!', 3005); 
+      }
+
 		}
 		
 		try{
@@ -905,7 +907,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		  '_id'=>1, 'user_id'=>1, 'content'=>1, 'star'=>1, 'target_id'=>1, 'target_user_id'=>1, 'sku_id'=>1,
 		  'deleted'=>1, 'reply_user_id'=>1, 'floor'=>1, 'type'=>1, 'sub_type'=>1, 'user'=>1, 'target_user'=>1,
 		  'love_count'=>1, 'invented_love_count'=>1, 'is_reply'=>1, 'reply_id'=>1, 'created_on'=>1, 'updated_on'=>1,
-		  'created_at'=>1, 'reply_comment'=>1,
+		  'reply_comment'=>1,
 		);
 		
 		// 查询条件
@@ -971,6 +973,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
       }else{
         $data[$i]['reply_user_nickname'] = null;
       }
+      $data[$i]['created_at'] = Sher_Core_Helper_Util::relative_datetime($data[$i]['created_on']);
 
       // 场景信息
       $data[$i]['target_small_cover_url'] = null;
