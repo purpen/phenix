@@ -300,6 +300,82 @@
 	font-size: 22px;
 	font-weight: 500; 
 }
+.copycon{
+	width: 570px;
+    margin-left: 610px;
+	padding: 40px 0;
+}
+.copycon h3{
+	color:#fff;
+	font-size: 30px;
+	font-weight: 400;
+	text-align: right;
+	letter-spacing: 3px;
+}
+.copycon h3 small{
+	font-size: 20px;
+    letter-spacing: 0;
+}
+.copycon p.colt{
+	text-indent: 19px;
+    font-size: 18px;
+    line-height: 28px;
+    color: #e63f4a;
+    letter-spacing: 1px;
+}
+.copycon p.colp{
+	padding-left: 19px;
+	position:relative;
+	color: #fff;
+	font-size: 16px;
+	line-height: 26px;
+	letter-spacing: 1px;
+	margin-bottom: 8px;
+}
+.copycon p.colp::before{
+	content: '';
+	position: absolute;
+	top:8px;
+	left: 0;
+	width: 8px;
+	height: 8px;
+	background: #fff;
+}
+.papt{
+	background: #fff;
+	height: 600px;
+}
+.titlepapt{
+	width: 250px;
+    height: 84px;
+    background: url({{ app_url_packaged }}/images/match/qsyd/papt.png);
+    position: absolute;
+    left: 0;
+    top: -5px;
+    background-size: cover;
+    color: #000;
+    background-repeat: no-repeat;
+    font-size: 30px;
+    line-height: 148px;
+    text-align: left;
+}
+.papt .logo2{
+	width: 1180px;
+	height: 130px;
+	background: url({{ app_url_packaged }}/images/match/qsyd/logo2.jpg);
+}
+.papt .logo3{
+	width: 1180px;
+	height: 230px;
+	background: url({{ app_url_packaged }}/images/match/qsyd/logo3.jpg);
+}
+.fllo{
+	color:#fff;
+	padding: 40px 0 100px;
+}
+.fllo p{
+	line-height: 24px;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -942,11 +1018,82 @@
 				</div>
 			</div>
 		</div>
-		
 	</section>
+	<section class="copy">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="copycon">
+						<h3>
+							版权声明<br/>
+							<small>COPYRIGHT</small>
+						</h3>
+						<p class="colt">
+							依据国家有关法律法规,凡主动提交作品的“参赛者” 或“作者”主办方认为其已经对所提交的作品版权归属作如下不可撤销声明
+						</p>
+						<p class="colp">
+							原创声明参赛作品是参赛者原创作品,未侵犯任何他人的任何专利、著作权、商标权及其他知识产权, 否则,大赛主办方将取消其参赛、入围与获奖资格,收回奖金、奖品及并保留追究法律责任的权利。 
+						</p>
+						<p class="colp">
+							大赛主办方对所有获奖作品拥有展示和宣传等权利,其它任何单位和个人(包括作者本人)未经授权不得以任何形式对作品转让、复制、转载、传播、摘编、出版、发行、许可使用等。
+						</p>
+						<p class="colp">
+							参赛者提交作品之前,已仔细阅读上述条款,充分理解并表示同意,本次大赛的评委会拥有对所有获奖作品的最终裁定权。 
+						</p>
 
-
-
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="papt">
+		<div class="ui responsive grid">
+			<div class="ui center aligned row" style="padding-top:65px;">
+				<div class="column">
+					<div class="titlepapt">合作伙伴</div>
+					<h2>指导单位</h2>
+					<img src="{{ app_url_packaged }}/images/match/qsyd/logo1.jpg">
+				</div>
+			</div>
+			<div class="ui center aligned row" style="padding-top: 0;">
+				<div class="column">
+					<div class="logo2">
+						<h2>主办单位</h2>
+					</div>
+				</div>
+			</div>
+			<div class="ui center aligned row">
+				<div class="column">
+					<div class="logo3">
+						<h2>特别鸣谢</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="fllo">
+		<div class="ui responsive grid">
+			<div class="ui eight wide column">
+				<h2>
+					大赛组委会办公室
+				</h2>
+				<p>联系地址:宁波市国家大学科技园管委会<br/>
+					(宁波市中官西路 777 号科创大厦 309,合作发展科) <br/>
+					联络人:应志浩      联系电话:0574-87612065 <br/>
+					电子邮箱:nbchuangke@126.com<br/>
+					*本次大赛的解释权归大赛组委会所有,活动的有关情况请及时与大赛组委会办公室联系
+				</p>
+			</div>
+			<div class="ui four wide column">
+				<p style="padding: 140px 0 0;">大赛官方QQ交流群:216875757 </p>
+			</div>
+			<div class="ui four wide column">
+				<img src="{{ app_url_packaged }}/images/match/qsyd/ewm.jpg">
+				<p style="width: 124px;text-align: center;">更多精彩内容 <br/>尽在太火鸟社区！</p>
+			</div>
+		</div>
+	</section>
 	
 </div>
 
