@@ -92,6 +92,14 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 		
 		return $this->to_html_page('match/qsyd.html');
 	}
+
+	/**
+	 * 奇思甬动-大赛
+	 */
+	public function qsyd2(){
+		$this->set_target_css_state('page_incubator');
+		return $this->to_html_page('match/qsyd2.html');
+	}
 	
 	/**
 	 * 十万火计
