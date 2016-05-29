@@ -436,10 +436,10 @@
 				if($this->update_order_process($out_trade_no, $trade_no)){
 					return '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
         }else{
-    			Doggy_Log_Helper::warn("app微信:订单更新失败!");        
+    			Doggy_Log_Helper::warn("app微信:订单更新失败~fiu!");        
         }
 			}else{
- 			  Doggy_Log_Helper::warn("app微信:订单交易返回错误: ".json_encode($notifyInfo));       
+ 			  Doggy_Log_Helper::warn("app微信~fiu:订单交易返回错误: ".json_encode($notifyInfo));       
 				return false; 
 			}
 		}
