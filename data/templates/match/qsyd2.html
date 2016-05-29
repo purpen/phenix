@@ -162,7 +162,7 @@
 	background: url({{ app_url_packaged }}/images/match/qsyd/pro.png);
 	width: 1256px !important;
 	height: 877px;
-	margin: 50px -28px;
+	margin: 50px -28px 100px;
 	padding: 10px 40px;
 }
 @media only screen and (min-width: 1500px){
@@ -277,6 +277,29 @@
 	height: 150px;
 	background: url({{ app_url_packaged }}/images/match/qsyd/jx.png);
 }
+.jxt{
+	background: #e63f4a;
+	height: 470px;
+	color: #000;
+}
+.titlejxt{
+	width: 168px;
+	height: 48px;
+	background: url({{ app_url_packaged }}/images/match/qsyd/t2.png);
+	margin: 5px 0 20px;
+	text-align: center;
+	line-height: 40px;
+    font-size: 18px;
+	color: #fff;
+}
+.jxt p{
+	font-size: 18px;
+	margin-bottom: 10px;
+}
+.jxt p span{
+	font-size: 22px;
+	font-weight: 500; 
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -292,11 +315,11 @@
 				<div class="twelve wide column">
 					<div class="ui horizontal list">
 						<a href="{{ app_url_contest }}/qsyd" class="ui link active item">活动首页</a>
-						<a href=" " class="ui link item">活动介绍</a>
-						<a href="{{ app_url_contest }}/qsyd_list" class="ui link item">大赛议程</a>
-						<a href="{{ app_url_contest }}/qsyd" class="ui link item">评选嘉宾</a>
-						<a href=" " class="ui link item">作品展示</a>
-						<a href="{{ app_url_contest }}/qsyd_list" class="ui link item">奖项回报</a>
+						<a href="#.about" class="ui link item">活动介绍</a>
+						<a href="#.time" class="ui link item">大赛议程</a>
+						<a href="#.jury" class="ui link item">评选嘉宾</a>
+						<!--<a href=" " class="ui link item">作品展示</a>-->
+						<a href="#.jgx" class="ui link item">奖项回报</a>
 					</div>
 				</div>
 
@@ -569,6 +592,7 @@
 			</div>
 		</div>
 	</section>
+	<!--
 	<section class="product">
 		<div class="ui responsive allist grid">
 			<div class="row bgpro">
@@ -874,7 +898,7 @@
 				</a>
 			</div>
 		</div>		
-	</section>
+	</section>-->
 	<section class="jgx">
 		<div class="ui responsive grid">
 			<div class="row">
@@ -894,6 +918,27 @@
 				<div class="column">
 					<div class="titlejx">回报一：作品奖项</div>
 					<div class="jxbg"></div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="jxt">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="titlejxt">回报二：资金支持</div>
+					<p>1、有机会获得“宁波慧谷创投基金”最高 <span>100万元</span> 的投资 </p>
+					<p>2、有机会获得不超过 <span>1000万元</span> 的无抵押贷款</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<div class="titlejxt">回报三：政策支持</div>
+					<p>1、有机会获得“百度百众”网络众筹平台<span>“专用通道”</span> </p>
+					<p>2、有机会获得“洛客众创”的 <span>创意和投资支持</span> </p>
+					<p>3、有机会获得 <span>太火鸟智能硬件孵化平台</span> 的专业孵化服务及投资 </p>
+					<p>4、有机会获得 <span>设计师、投资人、创业家</span> 的投资与辅导</p>
+					<p>5、有机会入驻宁波市国家大学科技园并给予 <span>3年100平米</span> 左右场地的 <span>免费使用权</span> </p>
 				</div>
 			</div>
 		</div>
