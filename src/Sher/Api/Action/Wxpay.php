@@ -415,11 +415,7 @@
 			
 			// 返回微信支付结果通知信息
       $notify = new PayNotifyCallBack();
-			$result = $notify->Handle();
-			if(!$result){
-        Doggy_Log_Helper::warn("app微信获取异步获取通知失败~fiu!");
-				return false;
-			}
+			$notify->Handle();
 			
 			// 获取通知信息
 			$notifyInfo = $notify->arr_notify; 
