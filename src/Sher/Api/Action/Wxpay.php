@@ -411,14 +411,11 @@
 
       require_once "wxpay-sdk/lib/WxPay.Api.php";
       require_once 'wxpay-sdk/lib/WxPay.Notify.php';
+      require_once 'wxpay-sdk/lib/WxPay.PayNotifyCallBack.php';
 			
 			// 返回微信支付结果通知信息
-      $notify = new WxPayNotify();
-			$result = $notify->Handle();
-			if(!$result){
-        Doggy_Log_Helper::warn("app微信获取异步获取通知失败~fiu!");
-				return false;
-			}
+      $notify = new PayNotifyCallBack();
+			$notify->Handle();
 			
 			// 获取通知信息
 			$notifyInfo = $notify->arr_notify; 
