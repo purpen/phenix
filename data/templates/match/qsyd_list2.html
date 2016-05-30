@@ -156,7 +156,7 @@
     background: #f8bc05;
     text-align: center;
     border-radius: 0.28571429rem !important;
-    padding: 0.928571em 24px 0.928571em 28px;
+    padding: 0.928571em 19px 0.928571em 19px;
     color: rgba(0,0,0,.95);
     letter-spacing: 2px;
 }
@@ -164,9 +164,9 @@
 	content: none;
 }
 .ui.compact.menu .item:first-child{
-	margin-left: 4px;
+	margin-left: 7px;
 }
-.ui.compact.menu .item:last-child{
+.ui. pagination.menu>.item:first-child, .ui. pagination.menu>.item:last-child{
 	margin-right: 4px;
 }
 .ui.pagination.menu{
@@ -248,7 +248,7 @@
 				<div class="ui center aligned column">
 					<div class="ui compact menu">
             <a href="{{ app_url_contest }}/qsyd_list2" class="item {%if category_id==0%}active{%endif%}">
-							全部
+							全部作品
 						</a>
             {% for d in category.rows %}
             <a href="{{ app_url_contest }}/qsyd_list2?category_id={{ d._id }}" class="item {%if category_id==d._id%}active{%endif%}">

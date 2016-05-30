@@ -171,6 +171,10 @@
 .fllo p{
 	line-height: 24px;
 }
+
+.mainwrap .mainright .pop.button{
+  background: #fff;
+}
 </style>
 {% endblock %}
 
@@ -359,7 +363,7 @@ $('#slider').flexslider({
           已有 <span id="target-love-count">{{ stuff.love_count }}</span> 个人点赞
                 	</p>
 	                <div class="user action">
-	        			<div class="ui white active pop love inverted button" data-id="{{ stuff._id }}" data-title="点赞支持" data-content="后续可以在‘我赞了的’中快捷查找" data-mark="n">
+	        			<div class="ui white active pop love inverted button" data-id="{{ stuff._id }}" data-title="" data-content="" data-mark="n">
 	        				<i class="heart empty icon"></i> 赞
 	        			</div>
 
