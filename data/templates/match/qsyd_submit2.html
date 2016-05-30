@@ -167,6 +167,12 @@ form.ui.form .field input[type=text].whres{
 {% endblock %}
 
 {% block jquery %}
+
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+
 $('#stuff-form').form({
 		title: {
 			identifier  : 'title',
@@ -214,7 +220,7 @@ $('#stuff-form').form({
 	});
 
 $('#phenix-uploader').fineUploader({
-		debug: true,
+		debug: false,
       	request: {
 			inputName:'file',
 			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ pid }}' },
@@ -303,22 +309,21 @@ $('#phenix-uploader').fineUploader({
 		<div class="ui responeive grid">
 			<div class="row conbg">
 				<div class="column">
-					<form action=" " class="ui form" method="post" id="stuff-form">
+					<form action="{{ app_url_action_base }}/stuff/save" class="ui form" method="post" id="stuff-form">
 						<input type="hidden" name="_id" value="{{ stuff._id }}" id="stuff_id" />
-						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
 						<input type="hidden" name="file_count" id="file_count" />
-						<input type="hidden" name="from_to" value="1" />
-            			<input type="hidden" name="verified" value="1" />
+						<input type="hidden" name="from_to" value="6" />
+            <input type="hidden" name="verified" value="1" />
 
 						<div class="inline fields">
 	            			<div class="field">
 								<label for="title">参赛类型</label>
 								<div class="ui checkbox">
-									<input type="checkbox" tabindex="0" class="hidden"></input>
+									<input type="radio" name="attr" tabindex="2" class="hidden"></input>
 									<label>团队</label>
 								</div>
 								<div class="ui checkbox">
-									<input type="checkbox" tabindex="0" class="hidden"></input>
+									<input type="radio" name="attr" tabindex="1" class="hidden"></input>
 									<label>个人</label>
 								</div>
 							</div>
@@ -326,32 +331,34 @@ $('#phenix-uploader').fineUploader({
 						<div class="inline fields">
 							<div class="field">
 								<label for="title">参赛者姓名</label>
-								<input class="whres" type="text" name="title" value="{{ stuff.title }}" />
+								<input class="whres" type="text" name="name" value="{{ stuff.name }}" />
 							</div>
 						</div>
 						<div class="inline fields">
 							<div class="field">
 								<label for="title">联系电话</label>
-								<input class="whres" type="text" name="title" value="{{ stuff.title }}" />
+								<input class="whres" type="text" name="tel" value="{{ stuff.tel }}" />
 							</div>
 						</div>
 						<div class="inline fields">
 							<div class="field">
 								<label for="title">职业简介</label>
-								<input class="whres" type="text" name="title" value="{{ stuff.title }}" />
+								<input class="whres" type="text" name="position" value="{{ stuff.position }}" />
 							</div>
 						</div>
 						<div class="inline fields">
 							<div class="field">
+                {% category_list var:'category' only_open:1 domain:4 pid:cid current:stuff.category_id %}
 								<label for="title">选择类目</label>
 								<div class="ui selection dropdown" tabindex="0">
-						          	<input type="hidden" name="card[type]">
+                  <input type="hidden" name="category_id" value="{{ stuff.category_id }}">
 						          	<div class="default text">类型</div>
 						          	<i class="dropdown icon"></i>
 						          	<div class="menu transition hidden" tabindex="-1">
-						            	<div class="item" data-value=" ">  </div>
-						            	<div class="item" data-value=" ">  </div>
-						            	<div class="item" data-value=" "> </div>
+                            {% for d in category.rows %}
+                            <div class="item" data-value="{{ d._id }}">{{ d.title }}</div>
+                            {% endfor %}
+
 						         	</div>
 						        </div>
 							</div>

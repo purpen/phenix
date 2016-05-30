@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}创意提交-{% endblock %}
+{% block title %}{{ stuff.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 @media only screen and (min-width: 1500px){
@@ -193,6 +193,71 @@ $('#slider').flexslider({
     sync: "#carousel"
 });
 
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{stuff._id}},type:4,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.love.button')
+						.data('mark', 'y')
+						.addClass('active')
+            .html('<i class="heart icon"></i> 赞了');
+				}
+			}
+		}, 'json');
+		
+		/* 登录用户行为 */
+	{% endif %}
+	
+	// 喜欢
+	$('.ui.love.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('mark', 'y')
+						.addClass('active')
+            .html('<i class="heart icon"></i> 赞了');
+                    
+					$('#target-love-count').text(result.data.love_count);
+                    
+                    if(result.data.newadd){
+                        $('#target_'+ id +'_support')
+                            .prepend('<a href=\"/user/'+ result.data.user_id +'\" target=\"_blank\" id=\"user-'+ result.data.user_id +'\" class=\"image\" data-variation=\"wide\" data-html=\"<div class=\'header\'>'+  result.data.nickname +'</div><div class=\'content\'>'+ result.data.city +' '+ result.data.job +'</div>\"><img src=\"'+ result.data.avatar +'\" /></a>');
+                    }
+                    
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('mark', 'n')
+						.removeClass('active')
+                        .html('<i class="heart empty icon"></i> 赞');
+                    
+					$('#target-love-count').text(result.data.love_count);
+                    
+                    $('#user-'+ result.data.user_id).remove();
+                    
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
 {% endblock %}
 
 {% block content %}
@@ -224,179 +289,74 @@ $('#slider').flexslider({
 			<div class="mainleftwrap">
 				<div class="mainleft">
 					<div class="slidebox">
+            {% asset_list var:'assets' parent_id:stuff._id size:10 asset_type:70 %}
 		                <div id="slider" class="flexslider flex-single">
 							<ul class="slides">
-								<li style="background-image: url('http://frbird.qiniudn.com/stuff/150604/5570737a20de8d82218b70fe-3-hu.jpg');">
-									<a href="{{ asset.thumbnails.huge.view_url }}" title="{{ stuff.title }}">
-	                                <!--<img src="{{ asset.thumbnails.huge.view_url }}" alt="{{ stuff.title }}" style="display: none;" />-->
-		                            </a>
-								</li>
-								<li style="background-image: url('http://frbird.qiniudn.com/stuff/150604/5570737a20de8d82218b70fe-2-hu.jpg');">
-									<a href="{{ asset.thumbnails.huge.view_url }}" title="{{ stuff.title }}">
-	                                <!--<img src="{{ asset.thumbnails.huge.view_url }}" alt="{{ stuff.title }}" style="display: none;" />-->
-		                            </a>
-								</li>
-								<li style="background-image: url('http://frbird.qiniudn.com/stuff/150604/5570737a20de8d82218b70fe-1-hu.jpg');">
-									<a href="{{ asset.thumbnails.huge.view_url }}" title="{{ stuff.title }}">
-	                                <!--<img src="{{ asset.thumbnails.huge.view_url }}" alt="{{ stuff.title }}" style="display: none;" />-->
-		                            </a>
-								</li>
+                {% for asset in assets.rows %}
+                                <li style="background-image: url('{{ asset.thumbnails.aub.view_url }}');">
+                                    <a href="{{ asset.thumbnails.aub.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
+                                        <img src="{{ asset.thumbnails.aub.view_url }}" alt="{{ stuff.title }}" style="display: none;" />
+                                    </a>
+                                </li>
+                {%endfor%}
 							</ul>
 						</div>
 						<div id="carousel" class="flexslider flex-single-carousel">
 							<ul class="slides">
-			                    <li style="background-image: url('http://frbird.qiniudn.com/stuff/150604/5570737a20de8d82218b70fe-3-sm.jpg');">
-									<a href="{{ asset.thumbnails.huge.view_url }}" title="{{ stuff.title }}">
-	                                <!--<img src="{{ asset.thumbnails.huge.view_url }}" alt="{{ stuff.title }}" style="display: none;" />-->
-		                            </a>
-								</li>
-								<li style="background-image: url('http://frbird.qiniudn.com/stuff/150604/5570737a20de8d82218b70fe-2-sm.jpg');">
-									<a href="{{ asset.thumbnails.huge.view_url }}" title="{{ stuff.title }}">
-	                                <!--<img src="{{ asset.thumbnails.huge.view_url }}" alt="{{ stuff.title }}" style="display: none;" />-->
-		                            </a>
-								</li>
-								<li style="background-image: url('http://frbird.qiniudn.com/stuff/150604/5570737a20de8d82218b70fe-1-sm.jpg');">
-									<a href="{{ asset.thumbnails.huge.view_url }}" title="{{ stuff.title }}">
-	                                <!--<img src="{{ asset.thumbnails.huge.view_url }}" alt="{{ stuff.title }}" style="display: none;" />-->
-		                            </a>
-								</li>
+						{% for asset in assets.rows %}
+                            <li style="background-image: url('{{ asset.thumbnails.small.view_url }}');">
+                                <a href="{{ asset.thumbnails.small.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
+                                    <img src="{{ asset.thumbnails.small.view_url }}" alt="{{ stuff.title }}" class="thumb" />
+                                </a>
+                            </li>
+						{% endfor %}
 							</ul>
 						</div>
 							
-							<!--
-							{% asset_list var:'assets' parent_id:stuff._id size:10 asset_type:70 %}
-		                    <ul class="slides">
-	                        {% for asset in assets.rows %}
-		                        <li style="background-image: url('{{ asset.thumbnails.huge.view_url }}');">
-		                            <a href="{{ asset.thumbnails.huge.view_url }}" title="{{ stuff.title }}">
-		                            </a>
-		                        </li>
-							{%endfor%}
-								
-							</ul>
-						</div>	
-		                <div id="carousel" class="flexslider flex-single-carousel">
-		                    <ul class="slides">
-	                        {% for asset in assets.rows %}
-		                        <li style="background-image: url('{{ asset.thumbnails.tiny.view_url }}');">
-		                            <a href="{{ asset.thumbnails.tiny.view_url }}" title="{{ stuff.title }}">
-		                            </a>
-		                        </li>
-	                        {%endfor%}
-							</ul>
-						</div>-->
-					
 					</div>
 				</div>
 			</div>
 			<div class="mainright">
 				<div class="titleuser">
 					<div class="ui middle aligned circular tiny image">
-						<a href="" target="_blank">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg">
+            <a href="{{ stuff.user.home_url }}" target="_blank">
+              <img src="{{ stuff.user.medium_avatar_url }}">
 						</a>
 					</div>
 					<div class="content">
-						<a href="" target="_blank">
-						Lucy lysa
+						<a href="{{ stuff.user.home_url }}" target="_blank">
+						  {{ stuff.user.nickname }}
 						</a>
 						<div class="sub header">
-							<span><i class="unhide icon"></i>123</span>
-							<span><i class="heart icon"></i> 456<span>
+              <span><i class="unhide icon"></i>{{ stuff.view_count }}</span>
+              <span><i class="heart icon"></i>{{ stuff.love_count }}<span>
 						</div>
 					</div>
 				</div>
 				<h2>
-					原创经典CD创意包装
+          {{ stuff.title }}
 				</h2>
-				<label class="ui orange basic active button">智能家居</label>
+        <label class="ui orange basic active button">{{ stuff.category.title }}</label>
 				<div class="user avatars">
-					<div class="ui images">
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
-						<a href="" class="image">
-							<img src="http://frstatic.qiniudn.com/images/deavatar/002-s.jpg" alt="唇齿微*凉">
-						</a>
+					<div class="ui images" id="target_{{ stuff._id }}_support">
+              {% if stuff.love_count %}
+                  {% favorite_list var:'userlist' target_id:stuff._id event:2 type:4 %}
+                  {% for target in userlist.rows %}
+                  <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
+                      <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />
+                  </a>
+                  {% endfor %}
+              {% endif %}
+
 					</div>
 					<p>
-                    	已有 <span id="target-love-count">2</span> 个人点赞
+          已有 <span id="target-love-count">{{ stuff.love_count }}</span> 个人点赞
                 	</p>
 	                <div class="user action">
-	        			<div class="ui white active pop love inverted button" data-id="{{ topic._id }}" data-title="点赞支持" data-content="后续可以在‘我赞了的’中快捷查找" data-mark="n">
+	        			<div class="ui white active pop love inverted button" data-id="{{ stuff._id }}" data-title="点赞支持" data-content="后续可以在‘我赞了的’中快捷查找" data-mark="n">
 	        				<i class="heart empty icon"></i> 赞
 	        			</div>
-	        			<!--
-	        			<div class="ui white active pop favorite inverted button" data-title="关注一下" data-content="有关该话题动态及时通知你，后续可以在‘我关注的’中快捷查找" data-id="{{ topic._id }}" data-mark="n">
-	        				<i class="plus icon"></i> 关注
-	        			</div>
-	        			-->
+
 	                </div>
 					
 				</div>
@@ -413,8 +373,7 @@ $('#slider').flexslider({
 				<div class="column">
 					<div class="conll">
 						<p>
-							中国原创生活美学品牌创始人创意总监北京大学文化产业研究院副研究员,中国第一中国原创生创始人中国原创生活美学品牌创始人创意总监北京大学文化产业研究院副研究员,中国第一中国原创生创始人中国原创生活美学品牌创始人创意总监北京大学文化产业研究院副研究员,中国第一中国原创生创始人中国原创生 活美学品牌创始人创意总监北京大学文化产业研究院副研究员,中国第一中国原创生创始人中国原创生活美学品牌创始人创意总监北京大学文化产业研究院副研究员,中国第一中国原创生创始人中国原创生活美学品牌创始人创意总监北京大学文化产业研究院副研究<br>
-							中国原创生活美学品牌创始人创意总监北京大学文化产业研究院副研究员,中国第一中国原创生创始人中国原创生活美学品牌创始人创意总监北京大学文化产业研究院副研究员,中国第一中国原创生创始人中国原创生活美学品牌创始人创意总监北京大学文化产业研究院副研究员,中国第一中国原创生创始人中国原创生 活美学品牌创始人创意总监北京大学文化产业研究院副研究员,中国第一中国原创生创始人中国原创生活美学品牌创始人创意总监北京大学文化产业研究院副研究员,中国第一中国原创生创始人中国原创生活美学品牌创始人创意总监北京大学文化产业研究院副研究
+              {{ stuff.description }}
 						</p>
 					</div>
 				</div>
