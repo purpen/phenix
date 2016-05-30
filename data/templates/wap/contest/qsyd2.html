@@ -1,0 +1,73 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+
+{% block page_css %}
+<style class="text/css">
+  .ui.center.aligned{
+  	text-align:center;
+  }
+  #mfrbird{
+    margin-top:0;
+  }
+  .nav-menu .navfelx .childcell .menuicon.active{
+  	color: #007087 !important;
+  	position: relative;
+  }
+  .nav-menu .navfelx .childcell .menuicon.active::before{
+	content: '';
+	height: 2px;
+	width: 50px;
+    background: #007087;
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    margin-left: -25px;
+	transition: all 0.2s ease;
+	-moz-transition: all 0.2s ease;
+	-webkit-transition: all 0.2s ease;
+	-o-transition: all 0.2s ease;
+  }
+
+ </style>
+{% endblock %}
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<div class="qsyd">
+	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg1.jpg" width="100%" align="absmiddle">
+	<div class="nav-menu">
+		<div class="nav-menu">
+			<ul class="navfelx" style="padding-bottom: 4px;">
+				<li class="childcell">
+					<a href="javascript:void(0);" class="menuicon active">
+						活动介绍
+					</a>
+				</li>
+				<li class="childcell">
+					<a href="#.time" class="menuicon">
+						大赛议程
+					</a>
+				</li>
+				<li class="childcell">
+					<a href="#.pwei" class="menuicon">
+						评选嘉宾
+					</a>
+				</li>
+				<li class="childcell">
+					<a href="#.product" class="menuicon">
+						作品展示
+					</a>
+				</li>
+			</ul>
+			
+		</div>
+		
+	</div>
+	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg3.jpg" width="100%" align="absmiddle">
+	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg2.jpg" width="100%" align="absmiddle">
+	<img class="time" src="{{ app_url_packaged }}/images/match/qsyd/mbg4.jpg" width="100%" align="absmiddle">
+	<img class="pwei" src="{{ app_url_packaged }}/images/match/qsyd/mbg5.jpg" width="100%" align="absmiddle">
+</div>
+
+
+{% endblock %}
