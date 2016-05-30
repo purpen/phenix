@@ -35,7 +35,7 @@
 {% endblock %}
 {% block jquery %}
 $('.timebtn').click(function(){
-	
+	var scrollTop = $(window).scrollTop();
 	$(window).animate({scrollTop:$(".time").offset().top},1000)
 });
 {% endblock %}
