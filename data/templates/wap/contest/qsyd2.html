@@ -101,7 +101,12 @@
  </style>
 {% endblock %}
 {% block jquery %}
-
+$('.timebtn').click(function(){
+	$('html,body').animate({scrollTop:$('.time').offset().top },500);
+});
+$('.pweibtn').click(function(){
+	$('html,body').animate({scrollTop:$('.pwei').offset().top },500);
+});
 {% endblock %}
 {% block content %}
 <div class="qsyd">
@@ -115,12 +120,12 @@
 					</a>
 				</li>
 				<li class="childcell">
-					<a href="#time" name="time" class="menuicon">
+					<a href="javascript:void(0);" class="timebtn menuicon">
 						大赛议程
 					</a>
 				</li>
 				<li class="childcell">
-					<a href="#pwei" name="pwei" class="menuicon">
+					<a href="javascript:void(0);" class="pweibtn menuicon">
 						评选嘉宾
 					</a>
 				</li>
@@ -133,8 +138,8 @@
 		</div>
 	</div>
 	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg3.jpg" width="100%" align="absmiddle">
-	<img name="time" src="{{ app_url_packaged }}/images/match/qsyd/mbg2.jpg" width="100%" align="absmiddle">
-	<img name="pwei" src="{{ app_url_packaged }}/images/match/qsyd/mbg4.jpg" width="100%" align="absmiddle">
+	<img class="time" src="{{ app_url_packaged }}/images/match/qsyd/mbg2.jpg" width="100%" align="absmiddle">
+	<img class="pwei" src="{{ app_url_packaged }}/images/match/qsyd/mbg4.jpg" width="100%" align="absmiddle">
 	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg5.jpg" width="100%" align="absmiddle">
 	<div class="product">
 		<img class="bg" src="{{ app_url_packaged }}/images/match/qsyd/mbgp.png" width="100%">
