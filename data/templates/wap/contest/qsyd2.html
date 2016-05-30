@@ -30,14 +30,79 @@
 	-webkit-transition: all 0.2s ease;
 	-o-transition: all 0.2s ease;
   }
-
+  .product{
+  	width: 100%;
+  	background: url({{ app_url_packaged }}/images/match/qsyd/mbg6.jpg);
+  	padding: 0;
+  	background-size: cover;
+  	margin-top: -70px;
+  	position:relative;
+  	min-height: 610px;
+  }
+  .product img.bg{
+  	position:absolute;
+  	top:0;
+  	left: 0;
+  }
+  .row.shopindex{
+  	padding: 25% 20px 0!important;
+  }
+  #mpresale .recom-item .recom-cell a{
+  	background: #fff;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  #mpresale .recom-item .recom-cell a h3.ui.header{
+  	font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #e5404a !important;
+    line-height: 30px;
+    font-weight: 400;
+    padding: 0 8px;
+    padding-top: 3px;
+    margin-bottom: 0;
+  }
+  #mpresale .recom-item .recom-cell a p{
+  	font-size: 12px;
+  	color: #5e5e5e;
+    padding: 0 8px;
+    height: 34px;
+    margin-bottom: 0;
+    overflow: hidden;
+  }
+  #mpresale .recom-item .recom-cell a img {
+    height: auto;
+    top: 72px;
+  }
+  #mpresale .recom-item .recom-cell a .desc{
+  	z-index: 2;
+    background: #fff;
+    height: 60px;
+    text-align: left;
+    line-height: 44px;
+    position: relative;
+    margin-top: 60%;
+    color: #5d6266;
+    height: 26px;
+    line-height: 16px;
+  }
+  .i-state .like{
+	font-size: .875em;
+  }
+  .fl-r{
+  	float: right;
+  }
+  @media only screen and (max-width: 320px){
+	.row.shopindex{
+  		padding: 20% 20px 0!important;
+  	}
+  }
  </style>
 {% endblock %}
 {% block jquery %}
-$('.timebtn').click(function(){
-	var scrollTop = $(window).scrollTop();
-	$(window).animate({scrollTop:$(".time").offset().top},1000)
-});
+
 {% endblock %}
 {% block content %}
 <div class="qsyd">
@@ -51,12 +116,12 @@ $('.timebtn').click(function(){
 					</a>
 				</li>
 				<li class="childcell">
-					<a href="javascript:void(0);" class="timebtn menuicon">
+					<a href="#time" name="time" class="menuicon">
 						大赛议程
 					</a>
 				</li>
 				<li class="childcell">
-					<a href="pweibtn" class="menuicon">
+					<a href="#pwei" name="pwei" class="menuicon">
 						评选嘉宾
 					</a>
 				</li>
@@ -66,14 +131,101 @@ $('.timebtn').click(function(){
 					</a>
 				</li>
 			</ul>
-			
 		</div>
-		
 	</div>
 	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg3.jpg" width="100%" align="absmiddle">
-	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg2.jpg" width="100%" align="absmiddle">
-	<img class="time" src="{{ app_url_packaged }}/images/match/qsyd/mbg4.jpg" width="100%" align="absmiddle">
-	<img class="pwei" src="{{ app_url_packaged }}/images/match/qsyd/mbg5.jpg" width="100%" align="absmiddle">
+	<img name="time" src="{{ app_url_packaged }}/images/match/qsyd/mbg2.jpg" width="100%" align="absmiddle">
+	<img name="pwei" src="{{ app_url_packaged }}/images/match/qsyd/mbg4.jpg" width="100%" align="absmiddle">
+	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg5.jpg" width="100%" align="absmiddle">
+	<div class="product">
+		<img class="bg" src="{{ app_url_packaged }}/images/match/qsyd/mbgp.png" width="100%">
+		<div class="ui responsive grid">
+			<div class="row shopindex" id="mpresale">
+				<div class="recom-item">
+					<div class="recom-cell">
+               			<a href="">
+		                    <h3 class="ui header">原创经典CD创意包装</h2>
+		                    <p>中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人</p>
+		                    <img src="http://frbird.qiniudn.com/product/160411/570b1e47fc8b12f85f8b4c91-2-p750x422.jpg">	
+		                    <div class="desc">
+		                    	<div class="i-state">
+		                    		<span class="like">
+                     					<i class="unhide icon"></i>
+                     					<span class="count">2099</span> 
+                     					
+                     					<span class="count love-count fl-r">9</span>
+                     					<i class="fl-r like icon"></i>
+                   					</span>
+		                    	</div>
+		                    </div>
+                		</a>
+                	</div>
+
+                	<div class="recom-cell">
+               			<a href="">
+		                    <h3 class="ui header">原创经典CD创意包装</h2>
+		                    <p>中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人</p>
+		                    <img src="http://frbird.qiniudn.com/product/160411/570b1e47fc8b12f85f8b4c91-2-p750x422.jpg">	
+		                    <div class="desc">
+		                    	<div class="i-state">
+		                    		<span class="like">
+                     					<i class="unhide icon"></i>
+                     					<span class="count">2099</span> 
+                     					
+                     					<span class="count love-count fl-r">9</span>
+                     					<i class="fl-r like icon"></i>
+                   					</span>
+		                    	</div>
+		                    </div>
+                		</a>
+                	</div>
+
+                	<div class="recom-cell">
+               			<a href="">
+		                    <h3 class="ui header">原创经典CD创意包装</h2>
+		                    <p>中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人</p>
+		                    <img src="http://frbird.qiniudn.com/product/160411/570b1e47fc8b12f85f8b4c91-2-p750x422.jpg">	
+		                    <div class="desc">
+		                    	<div class="i-state">
+		                    		<span class="like">
+                     					<i class="unhide icon"></i>
+                     					<span class="count">2099</span> 
+                     					
+                     					<span class="count love-count fl-r">9</span>
+                     					<i class="fl-r like icon"></i>
+                   					</span>
+		                    	</div>
+		                    </div>
+                		</a>
+                	</div>
+
+                	<div class="recom-cell">
+               			<a href="">
+		                    <h3 class="ui header">原创经典CD创意包装</h2>
+		                    <p>中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人</p>
+		                    <img src="http://frbird.qiniudn.com/product/160411/570b1e47fc8b12f85f8b4c91-2-p750x422.jpg">	
+		                    <div class="desc">
+		                    	<div class="i-state">
+		                    		<span class="like">
+                     					<i class="unhide icon"></i>
+                     					<span class="count">2099</span> 
+                     					
+                     					<span class="count love-count fl-r">9</span>
+                     					<i class="fl-r like icon"></i>
+                   					</span>
+		                    	</div>
+		                    </div>
+                		</a>
+                	</div>
+              </div>
+			</div>
+		</div>
+	</div>
+	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg7.jpg" width="100%" align="absmiddle">
+	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg8.jpg" width="100%" align="absmiddle">
+	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg9.jpg" width="100%" align="absmiddle">
+	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg10.jpg" width="100%" align="absmiddle">
+	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg11.jpg" width="100%" align="absmiddle">
 </div>
 
 
