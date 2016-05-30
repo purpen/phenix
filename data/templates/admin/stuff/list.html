@@ -47,6 +47,9 @@
     <a href="{{ app_url_admin_base }}/stuff/top100_list" class="{{ css_top100_list }} item">
 			Top100
 		</a>
+    <a href="{{ app_url_admin_base }}/stuff/qsyd2_list" class="{{ css_qsyd2_list }} item">
+			奇思甬动2
+		</a>
 
 	  	<div class="right menu">
 			<!--
@@ -109,6 +112,7 @@
 				<th>赞名单</th>
 				<th>收藏数</th>
 				<th>评论数</th>
+        <th>点赞|评论/浏览(V|T|W|P|A)</th>
 				<th>审核</th>
 				<th>推荐</th>
 				<th>来自</th>
@@ -117,9 +121,9 @@
 		</thead>
 		<tbody>
       {% if is_search %}
-			  {% stuff_list var:'list' load_contest:1 page:page s_type:s s_mark:q load_college:load_college from_to:from_to sort:sort page:page size:100 %}
+			  {% stuff_list var:'list' load_contest:1 page:page s_type:s s_mark:q load_college:load_college from_to:from_to sort:sort page:page size:size %}
       {%else%}
-			  {% stuff_list var:'list' load_contest:1 is_top:is_top category_id:category_id load_college:load_college from_to:from_to sort:sort page:page size:100 %}
+			  {% stuff_list var:'list' load_contest:1 is_top:is_top category_id:category_id load_college:load_college from_to:from_to sort:sort page:page size:size %}
       {%endif%}
 
 			{% for stuff in list.rows %}
@@ -152,6 +156,12 @@
               <p>{{ stuff.honor.sale_money|default '--' }}<p>
               <p>{{ stuff.honor.prize|default '--' }}</p>
             {%endif%}
+            {% if stuff.from_to == 6 %}
+              <p>{{ stuff.name|default '--' }}</p>
+              <p>{{ stuff.tel|default '--' }}</p>
+              <p>{{ stuff.position|default '--' }}</p>
+              <p>{% if stuff.attr==1 %}个人{%else%}团体{%endif%}<p>
+            {%endif%}
 				</td>
         <td>
 					<a class="ui image label link" href="{{ stuff.user.home_url }}" target="_blank">
@@ -165,6 +175,10 @@
 
         <td>{{ stuff.favorite_count }}</td>
         <td>{{ stuff.comment_count }}</td>
+        <td>
+          <p>{{ stuff.love_count }}|{{ stuff.comment_count }}</p>
+          <p>{{ stuff.view_count }}|{{ stuff.true_view_count|default 0 }}|{{ stuff.web_view_count|default 0 }}|{{ stuff.wap_view_count|default 0 }}|{{ stuff.app_view_count|default 0 }}</p>
+        </td>
 				<td>
 					<p>
 						{% if stuff.verified %}

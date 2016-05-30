@@ -95,6 +95,7 @@
     max-height: 58px;
     min-height: 58px;
     overflow: hidden;
+    display: block;
 }
 .product .ui.items .item .image img{
 	width: 100%;
@@ -194,10 +195,22 @@
 .fllo p{
 	line-height: 24px;
 }
+
+.product .ui.items .item .image img {
+    width: 100%;
+    height: 145px;
+    overflow: hidden;
+}
 </style>
 {% endblock %}
 
 {% block jquery %}
+
+  //提交作品按钮
+  $('.ui.attend.button').click(function(){
+    var url = "{{ app_url_contest }}/submit2";
+    phenix.redirect(url);
+  });
 
 {% endblock %}
 
@@ -213,7 +226,7 @@
 						<a href="{{ app_url_contest }}/qsyd2#.about" class="ui link item">活动介绍</a>
 						<a href="{{ app_url_contest }}/qsyd2#.time" class="ui link item">大赛议程</a>
 						<a href="{{ app_url_contest }}/qsyd2#.jury" class="ui link item">评选嘉宾</a>
-						<a href="javascript:void(0);" class="ui active link item">作品展示</a>
+						<a href="{{ app_url_contest }}/qsyd_list2" class="ui active link item">作品展示</a>
 						<a href="{{ app_url_contest }}/qsyd2#.jgx" class="ui link item">奖项回报</a>
 					</div>
 				</div>
@@ -231,623 +244,65 @@
 				<div class="titlepro">
 					作品展示
 				</div>
-				
+				{% category_list var:'category' only_open:1 domain:4 pid:cid %}
 				<div class="ui center aligned column">
 					<div class="ui compact menu">
-						<a href="" class="item active">
-							智能家居
+            <a href="{{ app_url_contest }}/qsyd_list2" class="item {%if category_id==0%}active{%endif%}">
+							全部
 						</a>
-						<a href="" class="item">
-							智慧办公
-						</a>
-						<a href="" class="item">
-							智能家居
-						</a>
-						<a href="" class="item">
-							智慧办公
-						</a>
-						<a href="" class="item">
-							智能家居
-						</a>
-						<a href="" class="item">
-							智慧办公
-						</a>
-						<a href="" class="item">
-							智能家居
-						</a>
-						<a href="" class="item">
-							智慧办公
-						</a>
-						<a href="" class="item">
-							智慧办公
-						</a>
+            {% for d in category.rows %}
+            <a href="{{ app_url_contest }}/qsyd_list2?category_id={{ d._id }}" class="item {%if category_id==d._id%}active{%endif%}">
+                {{ d.title }}
+              </a>
+            {% endfor %}
 					</div>
 				</div>
 					
+				{% stuff_list var:'list' from_to:6 category_id:category_id page:page size:12 %}
 				<div class="column">
 					<div class="ui four items">
-						<div class="item">
-							<div class="content">
-								<a class="ui magenta link" href="" target="_blank">
-									原创经典CD创意包装
-								</a>
-								<div class="sub header">
-									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
-								</div>
-								<div class="image">
-									<a href="" target="_blank">
-										<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
-									</a>
-								</div>
 
-								<div class="i-stats">
-									<div class="schedule">
-										<div class="status clearfix">
-											<a class="ui avatar image" href="" target="_blank">
-												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
-											</a>
-											<span class="count">
-												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
-	                           						quanninomarley
-	                         					</a>
-											</span>
-											<span class="like">
-	                         					<i class="unhide icon"></i>
-	                         					<span class="count">2099</span> 
-	                         					<i class="like icon"></i>
-	                         					<span class="count love-count">9</span>
-	                       					</span>
-										</div>
-										
-									</div>
-									
-								</div>
+            {% for d in list.rows %}
 
-								
-							</div>
-						</div>
-						<div class="item">
-							<div class="content">
-								<a class="ui magenta link" href="" target="_blank">
-									原创经典CD创意包装
-								</a>
-								<div class="sub header">
-									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
-								</div>
-								<div class="image">
-									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
-								</div>
+              <div class="item">
+                <div class="content">
+                  <a class="ui magenta link" href="{{ d.view_url }}" target="_blank">
+                    {{ d.title }}
+                  </a>
+                  <div class="sub header">
+                    {{ d.description }}
+                  </div>
+                  <div class="image">
+                    <img src="{{ d.cover.thumbnails.aub.view_url }}">
+                  </div>
 
-								<div class="i-stats">
-									<div class="schedule">
-										<div class="status clearfix">
-											<a class="ui avatar image" href="" target="_blank">
-												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
-											</a>
-											<span class="count">
-												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
-	                           						quanninomarley
-	                         					</a>
-											</span>
-											<span class="like">
-	                         					<i class="unhide icon"></i>
-	                         					<span class="count">2099</span> 
-	                         					<i class="like icon"></i>
-	                         					<span class="count love-count">9</span>
-	                       					</span>
-										</div>
-										
-									</div>
-									
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="content">
-								<a class="ui magenta link" href="" target="_blank">
-									原创经典CD创意包装
-								</a>
-								<div class="sub header">
-									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
-								</div>
-								<div class="image">
-									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
-								</div>
+                  <div class="i-stats">
+                    <div class="schedule">
+                      <div class="status clearfix">
+                        <a class="ui avatar image" href="{{ d.user.home_url }}" target="_blank">
+                          <img src="{{ d.user.medium_avatar_url }}" alt="{{ d.user.nickname }}">
+                        </a>
+                        <span class="count">
+                          <a class="ui small link" href="{{ d.user.home_url }}" target="_blank">
+                                          {{ d.user.nickname }}
+                                      </a>
+                        </span>
+                        <span class="like">
+                                      <i class="unhide icon"></i>
+                                      <span class="count">{{ d.view_count }}</span> 
+                                      <i class="like icon"></i>
+                                      <span class="count love-count">{{ d.love_count }}</span>
+                                    </span>
+                      </div>
+                      
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
 
-								<div class="i-stats">
-									<div class="schedule">
-										<div class="status clearfix">
-											<a class="ui avatar image" href="" target="_blank">
-												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
-											</a>
-											<span class="count">
-												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
-	                           						quanninomarley
-	                         					</a>
-											</span>
-											<span class="like">
-	                         					<i class="unhide icon"></i>
-	                         					<span class="count">2099</span> 
-	                         					<i class="like icon"></i>
-	                         					<span class="count love-count">9</span>
-	                       					</span>
-										</div>
-										
-									</div>
-									
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="content">
-								<a class="ui magenta link" href="" target="_blank">
-									原创经典CD创意包装
-								</a>
-								<div class="sub header">
-									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
-								</div>
-								<div class="image">
-									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
-								</div>
+            {%endfor%}
 
-								<div class="i-stats">
-									<div class="schedule">
-										<div class="status clearfix">
-											<a class="ui avatar image" href="" target="_blank">
-												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
-											</a>
-											<span class="count">
-												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
-	                           						quanninomarley
-	                         					</a>
-											</span>
-											<span class="like">
-	                         					<i class="unhide icon"></i>
-	                         					<span class="count">2099</span> 
-	                         					<i class="like icon"></i>
-	                         					<span class="count love-count">9</span>
-	                       					</span>
-										</div>
-										
-									</div>
-									
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="content">
-								<a class="ui magenta link" href="" target="_blank">
-									原创经典CD创意包装
-								</a>
-								<div class="sub header">
-									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
-								</div>
-								<div class="image">
-									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
-								</div>
-
-								<div class="i-stats">
-									<div class="schedule">
-										<div class="status clearfix">
-											<a class="ui avatar image" href="" target="_blank">
-												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
-											</a>
-											<span class="count">
-												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
-	                           						quanninomarley
-	                         					</a>
-											</span>
-											<span class="like">
-	                         					<i class="unhide icon"></i>
-	                         					<span class="count">2099</span> 
-	                         					<i class="like icon"></i>
-	                         					<span class="count love-count">9</span>
-	                       					</span>
-										</div>
-										
-									</div>
-									
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="content">
-								<a class="ui magenta link" href="" target="_blank">
-									原创经典CD创意包装
-								</a>
-								<div class="sub header">
-									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
-								</div>
-								<div class="image">
-									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
-								</div>
-
-								<div class="i-stats">
-									<div class="schedule">
-										<div class="status clearfix">
-											<a class="ui avatar image" href="" target="_blank">
-												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
-											</a>
-											<span class="count">
-												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
-	                           						quanninomarley
-	                         					</a>
-											</span>
-											<span class="like">
-	                         					<i class="unhide icon"></i>
-	                         					<span class="count">2099</span> 
-	                         					<i class="like icon"></i>
-	                         					<span class="count love-count">9</span>
-	                       					</span>
-										</div>
-										
-									</div>
-									
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="content">
-								<a class="ui magenta link" href="" target="_blank">
-									原创经典CD创意包装
-								</a>
-								<div class="sub header">
-									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
-								</div>
-								<div class="image">
-									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
-								</div>
-
-								<div class="i-stats">
-									<div class="schedule">
-										<div class="status clearfix">
-											<a class="ui avatar image" href="" target="_blank">
-												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
-											</a>
-											<span class="count">
-												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
-	                           						quanninomarley
-	                         					</a>
-											</span>
-											<span class="like">
-	                         					<i class="unhide icon"></i>
-	                         					<span class="count">2099</span> 
-	                         					<i class="like icon"></i>
-	                         					<span class="count love-count">9</span>
-	                       					</span>
-										</div>
-										
-									</div>
-									
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="content">
-								<a class="ui magenta link" href="" target="_blank">
-									原创经典CD创意包装
-								</a>
-								<div class="sub header">
-									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
-								</div>
-								<div class="image">
-									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
-								</div>
-
-								<div class="i-stats">
-									<div class="schedule">
-										<div class="status clearfix">
-											<a class="ui avatar image" href="" target="_blank">
-												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
-											</a>
-											<span class="count">
-												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
-	                           						quanninomarley
-	                         					</a>
-											</span>
-											<span class="like">
-	                         					<i class="unhide icon"></i>
-	                         					<span class="count">2099</span> 
-	                         					<i class="like icon"></i>
-	                         					<span class="count love-count">9</span>
-	                       					</span>
-										</div>
-										
-									</div>
-									
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="content">
-								<a class="ui magenta link" href="" target="_blank">
-									原创经典CD创意包装
-								</a>
-								<div class="sub header">
-									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
-								</div>
-								<div class="image">
-									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
-								</div>
-
-								<div class="i-stats">
-									<div class="schedule">
-										<div class="status clearfix">
-											<a class="ui avatar image" href="" target="_blank">
-												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
-											</a>
-											<span class="count">
-												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
-	                           						quanninomarley
-	                         					</a>
-											</span>
-											<span class="like">
-	                         					<i class="unhide icon"></i>
-	                         					<span class="count">2099</span> 
-	                         					<i class="like icon"></i>
-	                         					<span class="count love-count">9</span>
-	                       					</span>
-										</div>
-										
-									</div>
-									
-								</div>
-
-								
-							</div>
-						</div>
-						<div class="item">
-							<div class="content">
-								<a class="ui magenta link" href="" target="_blank">
-									原创经典CD创意包装
-								</a>
-								<div class="sub header">
-									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
-								</div>
-								<div class="image">
-									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
-								</div>
-
-								<div class="i-stats">
-									<div class="schedule">
-										<div class="status clearfix">
-											<a class="ui avatar image" href="" target="_blank">
-												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
-											</a>
-											<span class="count">
-												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
-	                           						quanninomarley
-	                         					</a>
-											</span>
-											<span class="like">
-	                         					<i class="unhide icon"></i>
-	                         					<span class="count">2099</span> 
-	                         					<i class="like icon"></i>
-	                         					<span class="count love-count">9</span>
-	                       					</span>
-										</div>
-										
-									</div>
-									
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="content">
-								<a class="ui magenta link" href="" target="_blank">
-									原创经典CD创意包装
-								</a>
-								<div class="sub header">
-									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
-								</div>
-								<div class="image">
-									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
-								</div>
-
-								<div class="i-stats">
-									<div class="schedule">
-										<div class="status clearfix">
-											<a class="ui avatar image" href="" target="_blank">
-												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
-											</a>
-											<span class="count">
-												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
-	                           						quanninomarley
-	                         					</a>
-											</span>
-											<span class="like">
-	                         					<i class="unhide icon"></i>
-	                         					<span class="count">2099</span> 
-	                         					<i class="like icon"></i>
-	                         					<span class="count love-count">9</span>
-	                       					</span>
-										</div>
-										
-									</div>
-									
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="content">
-								<a class="ui magenta link" href="" target="_blank">
-									原创经典CD创意包装
-								</a>
-								<div class="sub header">
-									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
-								</div>
-								<div class="image">
-									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
-								</div>
-
-								<div class="i-stats">
-									<div class="schedule">
-										<div class="status clearfix">
-											<a class="ui avatar image" href="" target="_blank">
-												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
-											</a>
-											<span class="count">
-												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
-	                           						quanninomarley
-	                         					</a>
-											</span>
-											<span class="like">
-	                         					<i class="unhide icon"></i>
-	                         					<span class="count">2099</span> 
-	                         					<i class="like icon"></i>
-	                         					<span class="count love-count">9</span>
-	                       					</span>
-										</div>
-										
-									</div>
-									
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="content">
-								<a class="ui magenta link" href="" target="_blank">
-									原创经典CD创意包装
-								</a>
-								<div class="sub header">
-									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
-								</div>
-								<div class="image">
-									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
-								</div>
-
-								<div class="i-stats">
-									<div class="schedule">
-										<div class="status clearfix">
-											<a class="ui avatar image" href="" target="_blank">
-												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
-											</a>
-											<span class="count">
-												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
-	                           						quanninomarley
-	                         					</a>
-											</span>
-											<span class="like">
-	                         					<i class="unhide icon"></i>
-	                         					<span class="count">2099</span> 
-	                         					<i class="like icon"></i>
-	                         					<span class="count love-count">9</span>
-	                       					</span>
-										</div>
-										
-									</div>
-									
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="content">
-								<a class="ui magenta link" href="" target="_blank">
-									原创经典CD创意包装
-								</a>
-								<div class="sub header">
-									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
-								</div>
-								<div class="image">
-									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
-								</div>
-
-								<div class="i-stats">
-									<div class="schedule">
-										<div class="status clearfix">
-											<a class="ui avatar image" href="" target="_blank">
-												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
-											</a>
-											<span class="count">
-												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
-	                           						quanninomarley
-	                         					</a>
-											</span>
-											<span class="like">
-	                         					<i class="unhide icon"></i>
-	                         					<span class="count">2099</span> 
-	                         					<i class="like icon"></i>
-	                         					<span class="count love-count">9</span>
-	                       					</span>
-										</div>
-										
-									</div>
-									
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="content">
-								<a class="ui magenta link" href="" target="_blank">
-									原创经典CD创意包装
-								</a>
-								<div class="sub header">
-									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
-								</div>
-								<div class="image">
-									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
-								</div>
-
-								<div class="i-stats">
-									<div class="schedule">
-										<div class="status clearfix">
-											<a class="ui avatar image" href="" target="_blank">
-												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
-											</a>
-											<span class="count">
-												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
-	                           						quanninomarley
-	                         					</a>
-											</span>
-											<span class="like">
-	                         					<i class="unhide icon"></i>
-	                         					<span class="count">2099</span> 
-	                         					<i class="like icon"></i>
-	                         					<span class="count love-count">9</span>
-	                       					</span>
-										</div>
-										
-									</div>
-									
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<div class="content">
-								<a class="ui magenta link" href="" target="_blank">
-									原创经典CD创意包装
-								</a>
-								<div class="sub header">
-									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
-								</div>
-								<div class="image">
-									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
-								</div>
-
-								<div class="i-stats">
-									<div class="schedule">
-										<div class="status clearfix">
-											<a class="ui avatar image" href="" target="_blank">
-												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
-											</a>
-											<span class="count">
-												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
-	                           						quanninomarley
-	                         					</a>
-											</span>
-											<span class="like">
-	                         					<i class="unhide icon"></i>
-	                         					<span class="count">2099</span> 
-	                         					<i class="like icon"></i>
-	                         					<span class="count love-count">9</span>
-	                       					</span>
-										</div>
-										
-									</div>
-									
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 				
