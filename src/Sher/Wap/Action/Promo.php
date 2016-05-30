@@ -10,7 +10,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     'target_id'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus');
 
 	/**
 	 * 网站入口
@@ -354,6 +354,32 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     }
     
     return $this->to_html_page('wap/promo/db_bonus.html');
+  }
+
+  /**
+   * 送红包活动
+   */
+  public function send_bonus(){
+    $this->stash['is_obtain'] = false;
+    // 验证是否登录用户 
+    if($this->visitor->id){
+      // 判断用户是否已领取
+      $attend_model = new Sher_Core_Model_Attend();
+      $data = array(
+        'user_id' => $this->visitor->id,
+        'target_id' => 7,
+        'event' => 5,
+      );
+      $attend = $attend_model->first($data);
+
+      // 验证用户是否已领过红包 
+      if(!empty($attend)){
+        $this->stash['is_obtain'] = true;
+      }
+
+    }
+    
+    return $this->to_html_page('wap/promo/send_bonus.html');
   }
 	
 	/**
