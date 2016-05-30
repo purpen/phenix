@@ -9,6 +9,9 @@
   #mfrbird{
     margin-top:0;
   }
+  .nav-menu .navfelx .childcell .menuicon{
+  	font-size: 14px;
+  }
   .nav-menu .navfelx .childcell .menuicon.active{
   	color: #007087 !important;
   	position: relative;
@@ -16,12 +19,12 @@
   .nav-menu .navfelx .childcell .menuicon.active::before{
 	content: '';
 	height: 2px;
-	width: 50px;
+	width: 60px;
     background: #007087;
     position: absolute;
     bottom: -8px;
     left: 50%;
-    margin-left: -25px;
+    margin-left: -30px;
 	transition: all 0.2s ease;
 	-moz-transition: all 0.2s ease;
 	-webkit-transition: all 0.2s ease;
@@ -31,6 +34,10 @@
  </style>
 {% endblock %}
 {% block jquery %}
+$('.timebtn').click(function(){
+	
+	$(window).animate({scrollTop:$(".time").offset().top},1000)
+});
 {% endblock %}
 {% block content %}
 <div class="qsyd">
@@ -44,17 +51,17 @@
 					</a>
 				</li>
 				<li class="childcell">
-					<a href="#.time" class="menuicon">
+					<a href="javascript:void(0);" class="timebtn menuicon">
 						大赛议程
 					</a>
 				</li>
 				<li class="childcell">
-					<a href="#.pwei" class="menuicon">
+					<a href="pweibtn" class="menuicon">
 						评选嘉宾
 					</a>
 				</li>
 				<li class="childcell">
-					<a href="#.product" class="menuicon">
+					<a href="{{ app_wap_contest }}/qsyd_list2" class="menuicon">
 						作品展示
 					</a>
 				</li>
