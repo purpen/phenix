@@ -73,7 +73,7 @@ display:none;
       return false;
     }
 
-    var url = "{{ app_url_wap }}/app/wap/promo_func/fetch_db_bonus";
+    var url = "{{ app_url_wap }}/app/wap/promo_func/fetch_send_bonus";
     $.post(url, {type: 1}, function(result){
       if(result.success){
         phenix.show_ok_note(result.message, 3000);
