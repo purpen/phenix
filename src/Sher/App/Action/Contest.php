@@ -84,13 +84,37 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
   }
 	
 	/**
-	 * 奇思甬动-大赛
+	 * 奇思甬动-大赛 2
 	 */
 	public function qsyd(){
 		$this->set_target_css_state('page_incubator');
 		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.qsyd_category_id'];
 		
 		return $this->to_html_page('match/qsyd.html');
+	}
+
+	/**
+	 * 奇思甬动-大赛 2
+	 */
+	public function submit2(){
+		$this->set_target_css_state('page_incubator');
+		return $this->to_html_page('match/qsyd_submit2.html');
+	}
+
+	/**
+	 * 奇思甬动-大赛 2
+	 */
+	public function qsyd_view2(){
+		$this->set_target_css_state('page_incubator');
+		return $this->to_html_page('match/qsyd_view2.html');
+	}
+
+	/**
+	 * 奇思甬动-大赛 2
+	 */
+	public function qsyd_list2(){
+		$this->set_target_css_state('page_incubator');
+		return $this->to_html_page('match/qsyd_list2.html');
 	}
 
 	/**

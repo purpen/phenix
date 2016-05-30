@@ -37,6 +37,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
     'DA', # 首次下载APP
     'AS', # app下单分享送5元
     'APS', # app下载兑吧送红包
+    'SB' , # 通过链接送红包活动
 	);
 	
     protected $schema = array(

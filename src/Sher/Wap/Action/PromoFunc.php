@@ -544,6 +544,43 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
   
   }
 
+  /**
+   * 领取红包
+   */
+  public function fetch_send_bonus(){
+  
+    // 判断用户是否已领取
+    $attend_model = new Sher_Core_Model_Attend();
+    $data = array(
+      'user_id' => $this->visitor->id,
+      'target_id' => 7,
+      'event' => 5,
+    );
+    $attend = $attend_model->first($data);
+
+    // 验证用户是否已领过红包 
+    if(!empty($attend)){
+      return $this->ajax_json('您已经领取过了!', true);
+    }
+
+    $data['state'] = 0;
+    $data['info']['bonus_money'] = 10;
+    $ok = $attend_model->apply_and_save($data);
+    if($ok){
+      // 有效期领取后延期一个月
+      $is_send_bonus = $this->give_bonus($this->visitor->id, 'SB', array('count'=>5, 'xname'=>'SB', 'bonus'=>'G', 'min_amounts'=>'C'));
+      if($is_send_bonus){
+        $redirect_url = Doggy_Config::$vars['app.url.wap'].'/my/bonus';
+        return $this->ajax_json('领取成功!', false, $redirect_url);     
+      }else{
+        return $this->ajax_json('领取失败!', true);
+      }
+    }else{
+      return $this->ajax_json('领取失败.!', true);   
+    }
+  
+  }
+
   //红包赠于
   protected function give_bonus($user_id, $xname, $options=array()){
     if(empty($options)){

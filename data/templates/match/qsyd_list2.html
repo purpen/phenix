@@ -1,7 +1,12 @@
 {%extends 'layout/column.html'%}
-{% block title %}奇思甬动-创客大赛-{% endblock %}
+{% block title %}作品展示-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+@media only screen and (min-width: 1500px){
+	.ui.responsive.grid{
+		width: 1200px;
+	}
+}
 .iosewm{
 	display: none;
 }
@@ -55,120 +60,13 @@
     line-height: 26px;
     letter-spacing: 2px;
 }
-.qsyd2 .about{
-	background: url({{ app_url_packaged }}/images/match/qsyd/bg2.jpg) no-repeat center top;
-	height:310px;
-}
-.about .content{
-	width: 1080px;
-	background: url({{ app_url_packaged }}/images/match/qsyd/word.png) no-repeat center top;
-	height: 200px;
-	color: #fff;
-	margin: 50px auto;
-    padding: 70px 50px;
-    position: relative;
-}
-.about .content h2.ui.header{
-	color: #fff;
-}
-.about .content p{
-	line-height: 24px;
-    letter-spacing: 3px;
-}
-.timetilte{
-	width: 360px;
-	height: 100px;
-	background: url({{ app_url_packaged }}/images/match/qsyd/time.png);
-	margin: 70px auto 20px;
-    color: #f8bc05;
-    font-size: 30px;
-    font-weight: 400;
-    line-height: 125px;
-    padding-left: 70px;
-    letter-spacing: 4px;
-}
-.time .ui.grid > .row.timenext{
-	width: 1180px !important;
-	height: 60px;
-	background: url({{ app_url_packaged }}/images/match/qsyd/time2.png);
-	margin: 10px auto;
-	padding: 0;
-}
-.time .ui.grid > .row.timenext p{
-	height: 60px;
-	line-height: 60px;
-	letter-spacing: 1px;
-	color: #222;
-}
-.time .ui.grid > .row.timenext p span{
-	font-size: 16px;
-	color: #000;
-}
-.time .ui.grid > .row.timenext p small{
-	color:#fff;
-}
-.time .ui.grid > .row.timenext .column:nth-child(2) p,.time .ui.grid > .row.timenext .column:nth-child(3) p{
-	line-height: 19px;
-    padding: 12px;
-}
-.titlejury{
-	background: url({{ app_url_packaged }}/images/match/qsyd/jury.png);
-	width: 600px;
-	height: 100px;
-	margin: 80px 0 0 370px;
-	color: #f8bc05;
-    font-size: 30px;
-    font-weight: 400;
-    line-height: 63px;
-    padding-left: 410px;
-    letter-spacing: 4px;
-}
-.jury .five.blocks .block{
-	background: rgba(0,0,0,0) !important;
-}
-.jury .five.blocks .block .image{
-	position: relative;
-}
-.jury .five.blocks .block .image .content{
-	position: absolute;
-    bottom: 22px;
-    left: 0;
-    width: 100%;
-}
-.jury .five.blocks .block .image .content h3.ui.header,.jury .five.blocks .block .image .content h3.ui.header .sub.header{
-	color: #000;
-	font-weight: 500;
-}
-.titlepwei{
-	width: 203px;
-	height: 34px;
-	background: url({{ app_url_packaged }}/images/match/qsyd/pwei.png);
-	margin-left: 665px;
-    margin-top: 25px;
-}
-.pwei .five.blocks .block{
-	background: rgba(0,0,0,0) !important;
-}
-.pwei .five.blocks .block .content{
-	margin-top: 15px;
-}
-.pwei .five.blocks .block .content h3.ui.header,.pwei .five.blocks .block .content h3.ui.header .sub.header{
-	color: #fff;
-}
-.pwei .five.blocks .block .content h3.ui.header .sub.header{
-	margin-top: 8px;
-}
 .product .ui.grid > .row.bgpro{
-	background: url({{ app_url_packaged }}/images/match/qsyd/pro.png);
+	background: url({{ app_url_packaged }}/images/promo/lbg.png);
 	width: 1256px !important;
-	height: 877px;
-	margin: 50px -28px 100px;
+	height: 1682px;
+	margin: 50px -28px 50px;
 	padding: 10px 25px;
-}
-@media only screen and (min-width: 1500px){
-	.ui.responsive.grid{
-		width: 1200px;
-	}
+	text-align: center;
 }
 .titlepro{
 	color: #f8bc05;
@@ -177,7 +75,8 @@
     line-height: 63px;
     padding-left: 895px;
     letter-spacing: 4px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    text-align: left;
 }
 .product .ui.items .item a.magenta.link{
 	font-size: 16px;
@@ -241,134 +140,52 @@
     margin-left: -128px;
     text-align: center;
 }
-.jgx{
+.ui.compact.menu{
+	width: 1180px;
+	margin: 0 auto 30px;
+	background: rgba(0,0,0,0);
+	border:0;
+}
+.ui.compact.menu .item:hover,.ui.compact.menu .item.active{
+	color: #fff;
 	background: #e63f4a;
-	height: 130px;
 }
-.jgx .jgword{
-	background: url({{ app_url_packaged }}/images/match/qsyd/jgx.png);
-	width: 100%;
-	height: 65px;
-	margin-top: 55px;
-	background-repeat: no-repeat;
-    padding-left: 350px;
-    color: #000;
+.ui.compact.menu .item{
+    margin: 0 8px;
+    background: #f8bc05;
+    text-align: center;
+    border-radius: 0.28571429rem !important;
+    padding: 0.928571em 24px 0.928571em 28px;
+    color: rgba(0,0,0,.95);
+    letter-spacing: 2px;
 }
-.jgx .jgword span{
-	font-size: 30px;
-	color: #000;
-	margin-right: 15px;
+.ui.compact.menu .item::before{
+	content: none;
 }
-.jx{
-	height: 265px;
-	background: #000;
+.ui.compact.menu .item:first-child{
+	margin-left: 4px;
 }
-.titlejx{
-	width: 168px;
-	height: 48px;
-	background: url({{ app_url_packaged }}/images/match/qsyd/t1.png);
-	margin: 25px 0 5px;
-	text-align: center;
-	line-height: 40px;
-    font-size: 18px;
-	color: #fff;
+.ui.compact.menu .item:last-child{
+	margin-right: 4px;
 }
-.jxbg{
-	width: 1180px;
-	height: 150px;
-	background: url({{ app_url_packaged }}/images/match/qsyd/jx.png);
+.ui.pagination.menu{
+	margin-top: 20px;
+	background: rgba(0,0,0,0);
 }
-.jxt{
-	background: #e63f4a;
-	height: 470px;
-	color: #000;
+.ui.pagination.menu .item{
+	background: #5b5b5b;
+    color: #fff;
+    margin: 0 5px;
 }
-.titlejxt{
-	width: 168px;
-	height: 48px;
-	background: url({{ app_url_packaged }}/images/match/qsyd/t2.png);
-	margin: 5px 0 20px;
-	text-align: center;
-	line-height: 40px;
-    font-size: 18px;
-	color: #fff;
+.ui.pagination.menu .item:hover,.ui.pagination.menu .item.active{
+	background: #f8bc05;
 }
-.jxt p{
-	font-size: 18px;
-	margin-bottom: 10px;
+.ui.menu .item.disabled, .ui.menu .item.disabled:hover{
+	background-color: rgba(91,91,91,0.9) !important;
+    color: rgba(255,255,255,0.5);
 }
-.jxt p span{
-	font-size: 22px;
-	font-weight: 500; 
-}
-.copycon{
-	width: 570px;
-    margin-left: 610px;
-	padding: 40px 0;
-}
-.copycon h3{
-	color:#fff;
-	font-size: 30px;
-	font-weight: 400;
-	text-align: right;
-	letter-spacing: 3px;
-}
-.copycon h3 small{
-	font-size: 20px;
-    letter-spacing: 0;
-}
-.copycon p.colt{
-	text-indent: 19px;
-    font-size: 18px;
-    line-height: 28px;
-    color: #e63f4a;
-    letter-spacing: 1px;
-}
-.copycon p.colp{
-	padding-left: 19px;
-	position:relative;
-	color: #fff;
-	font-size: 16px;
-	line-height: 26px;
-	letter-spacing: 1px;
-	margin-bottom: 8px;
-}
-.copycon p.colp::before{
-	content: '';
-	position: absolute;
-	top:8px;
-	left: 0;
-	width: 8px;
-	height: 8px;
-	background: #fff;
-}
-.papt{
-	background: #fff;
-	height: 600px;
-}
-.titlepapt{
-	width: 250px;
-    height: 84px;
-    background: url({{ app_url_packaged }}/images/match/qsyd/papt.png);
-    position: absolute;
-    left: 0;
-    top: -5px;
-    background-size: cover;
-    color: #000;
-    background-repeat: no-repeat;
-    font-size: 30px;
-    line-height: 148px;
-    text-align: left;
-}
-.papt .logo2{
-	width: 1180px;
-	height: 130px;
-	background: url({{ app_url_packaged }}/images/match/qsyd/logo2.jpg);
-}
-.papt .logo3{
-	width: 1180px;
-	height: 230px;
-	background: url({{ app_url_packaged }}/images/match/qsyd/logo3.jpg);
+.ui.menu>.item:first-child,.ui.menu>.item:last-child{
+	border-radius: 0 !important;
 }
 .fllo{
 	color:#fff;
@@ -379,10 +196,11 @@
 }
 </style>
 {% endblock %}
+
 {% block jquery %}
 
-
 {% endblock %}
+
 {% block content %}
 <div class="qsyd2">
 	<section class="pt-570"></section>
@@ -391,12 +209,12 @@
 			<div class="middle aligned row">
 				<div class="twelve wide column">
 					<div class="ui horizontal list">
-						<a href="{{ app_url_contest }}/qsyd" class="ui link active item">活动首页</a>
-						<a href="#.about" class="ui link item">活动介绍</a>
-						<a href="#.time" class="ui link item">大赛议程</a>
-						<a href="#.jury" class="ui link item">评选嘉宾</a>
-						<a href="{{ app_url_contest }}/qsyd_list2" class="ui link item">作品展示</a>
-						<a href="#.jgx" class="ui link item">奖项回报</a>
+						<a href="{{ app_url_contest }}/qsyd2" class="ui link item">活动首页</a>
+						<a href="{{ app_url_contest }}/qsyd2#.about" class="ui link item">活动介绍</a>
+						<a href="{{ app_url_contest }}/qsyd2#.time" class="ui link item">大赛议程</a>
+						<a href="{{ app_url_contest }}/qsyd2#.jury" class="ui link item">评选嘉宾</a>
+						<a href="javascript:void(0);" class="ui active link item">作品展示</a>
+						<a href="{{ app_url_contest }}/qsyd2#.jgx" class="ui link item">奖项回报</a>
 					</div>
 				</div>
 
@@ -407,277 +225,339 @@
 			</div>
 		</div>
 	</section>
-	<section class="about">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
-					<div class="content">
-						<h2 class="ui header">
-							大赛介绍
-						</h2>
-						<p>
-							“奇思甬动”中国创客大赛,是宁波市国家大学科技园(宁波慧谷)联合太火鸟、百度百众、洛客众创及天使街等合作伙伴,搭建的集创意设计、技术支持、资源对接、产品推广等资源的创客创新生态圈,是贯彻落实“大众创业 万众创新”号召的重要举措。
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<section class="time">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="ui center aligned column">
-					<div class="timetilte">
-						大赛时间
-					</div>
-				</div>
-			</div>
-			<div class="ui center aligned row timenext">
-				<div class="ui four wide column">
-					<p>
-						05.30-08.18 <span>征集阶段</span>
-					</p>
-				</div>
-				<div class="ui four wide column">
-					<p>
-						8月下旬 <span>初评阶段</span><br/>
-						<small>(评选出100件作品入围决赛)</small>
-					</p>
-				</div>
-				<div class="ui four wide column">
-					<p>
-						9月上旬 <span>决赛阶段</span><br/>
-						<small>(详细展示TOP20优秀作品)</small>
-					</p>
-				</div>
-				<div class="ui four wide column">
-					<p>
-						9月下旬 <span>颁奖典礼</span>
-					</p>
-				</div>
-			</div>
-		</div>
-	</section>
-	<section class="jury">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
-					<div class="titlejury">
-						特邀评审团
-					</div>
-				</div>
-			</div>
-			
-			<div class="ui center aligned row">
-				<div class="ui five blocks">
-					<div class="block">
-						<div class="image">
-							<img src="{{ app_url_packaged }}/images/match/qsyd/lkf.jpg">
-							<div class="content">
-								<h3 class="ui header">
-									李开复
-									<div class="sub header">
-										创新工场 / 创始人
-									</div>
-								</h3>
-							</div>
-						</div>
-					</div>
-					<div class="block">
-						<div class="image">
-							<img src="{{ app_url_packaged }}/images/match/qsyd/xxp.jpg">
-							<div class="content">
-								<h3 class="ui header">
-									徐小平
-									<div class="sub header">
-										真格基金 / 创始人
-									</div>
-								</h3>
-							</div>
-						</div>
-					</div>
-					<div class="block">
-						<div class="image">
-							<img src="{{ app_url_packaged }}/images/match/qsyd/lwq.jpg">
-							<div class="content">
-								<h3 class="ui header">
-									黎万强
-									<div class="sub header">
-										小米科技 / 联合创始人
-									</div>
-								</h3>
-							</div>
-						</div>
-					</div>
-					<div class="block">
-						<div class="image">
-							<img src="{{ app_url_packaged }}/images/match/qsyd/yq.jpg">
-							<div class="content">
-								<h3 class="ui header">
-									胡海泉
-									<div class="sub header">
-										海泉基金 / 创始人
-									</div>
-								</h3>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<section class="pwei">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
-					<div class="titlepwei"></div>
-				</div>
-			</div>
-			<div class="ui center aligned row">
-				<div class="ui five blocks">
-					<div class="block">
-						<div class="image">
-							<img src="{{ app_url_packaged }}/images/match/qsyd/twl.png">
-						</div>
-						<div class="content">
-							<h3 class="ui header">
-								童玮亮
-								<div class="sub header">
-									梧桐树资本 / 创始合伙人
-								</div>
-							</h3>
-						</div>
-					</div>
-					<div class="block">
-						<div class="image">
-							<img src="{{ app_url_packaged }}/images/match/qsyd/ws.png">
-						</div>
-						<div class="content">
-							<h3 class="ui header">
-								吴 声
-								<div class="sub header">
-									《场景革命》作者 逻辑思维联合创始人
-								</div>
-							</h3>
-						</div>
-					</div>
-					<div class="block">
-						<div class="image">
-							<img src="{{ app_url_packaged }}/images/match/qsyd/lhb.png">
-						</div>
-						<div class="content">
-							<h3 class="ui header">
-								雷海波
-								<div class="sub header">
-									太火鸟科技 / 创始人
-								</div>
-							</h3>
-						</div>
-					</div>
-					<div class="block">
-						<div class="image">
-							<img src="{{ app_url_packaged }}/images/match/qsyd/lq.png">
-						</div>
-						<div class="content">
-							<h3 class="ui header">
-								李 琦
-								<div class="sub header">
-									瑞德设计 / 董事长
-								</div>
-							</h3>
-						</div>
-					</div>
-					<div class="block">
-						<div class="image">
-							<img src="{{ app_url_packaged }}/images/match/qsyd/ljy.png">
-						</div>
-						<div class="content">
-							<h3 class="ui header">
-								李剑叶
-								<div class="sub header">
-									锤子科技 / 工业设计副总裁
-								</div>
-							</h3>
-						</div>
-					</div>
-					<div class="block">
-						<div class="image">
-							<img src="{{ app_url_packaged }}/images/match/qsyd/ymj.png">
-						</div>
-						<div class="content">
-							<h3 class="ui header">
-								杨明洁
-								<div class="sub header">
-									YANG DESIGN / 创始人
-								</div>
-							</h3>
-						</div>
-					</div>
-					<div class="block">
-						<div class="image">
-							<img src="{{ app_url_packaged }}/images/match/qsyd/jw.png">
-						</div>
-						<div class="content">
-							<h3 class="ui header">
-								贾 伟
-								<div class="sub header">
-									洛可可设计 / 创始人
-								</div>
-							</h3>
-						</div>
-					</div>
-					<div class="block">
-						<div class="image">
-							<img src="{{ app_url_packaged }}/images/match/qsyd/lck.png">
-						</div>
-						<div class="content">
-							<h3 class="ui header">
-								刘传凯
-								<div class="sub header">
-									牛电科技 / 副总裁
-								</div>
-							</h3>
-						</div>
-					</div>
-					<div class="block">
-						<div class="image">
-							<img src="{{ app_url_packaged }}/images/match/qsyd/zdy.png">
-						</div>
-						<div class="content">
-							<h3 class="ui header">
-								曾德钧
-								<div class="sub header">
-									云动创想 / 创始人
-								</div>
-							</h3>
-						</div>
-					</div>
-					<div class="block">
-						<div class="image">
-							<img src="{{ app_url_packaged }}/images/match/qsyd/qyw.png">
-						</div>
-						<div class="content">
-							<h3 class="ui header">
-								邱懿武
-								<div class="sub header">
-									云造科技 / 创始人
-								</div>
-							</h3>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	
 	<section class="product">
 		<div class="ui responsive allist grid">
 			<div class="row bgpro">
 				<div class="titlepro">
 					作品展示
 				</div>
+				
+				<div class="ui center aligned column">
+					<div class="ui compact menu">
+						<a href="" class="item active">
+							智能家居
+						</a>
+						<a href="" class="item">
+							智慧办公
+						</a>
+						<a href="" class="item">
+							智能家居
+						</a>
+						<a href="" class="item">
+							智慧办公
+						</a>
+						<a href="" class="item">
+							智能家居
+						</a>
+						<a href="" class="item">
+							智慧办公
+						</a>
+						<a href="" class="item">
+							智能家居
+						</a>
+						<a href="" class="item">
+							智慧办公
+						</a>
+						<a href="" class="item">
+							智慧办公
+						</a>
+					</div>
+				</div>
+					
 				<div class="column">
 					<div class="ui four items">
+						<div class="item">
+							<div class="content">
+								<a class="ui magenta link" href="" target="_blank">
+									原创经典CD创意包装
+								</a>
+								<div class="sub header">
+									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
+								</div>
+								<div class="image">
+									<a href="" target="_blank">
+										<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
+									</a>
+								</div>
+
+								<div class="i-stats">
+									<div class="schedule">
+										<div class="status clearfix">
+											<a class="ui avatar image" href="" target="_blank">
+												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
+											</a>
+											<span class="count">
+												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
+	                           						quanninomarley
+	                         					</a>
+											</span>
+											<span class="like">
+	                         					<i class="unhide icon"></i>
+	                         					<span class="count">2099</span> 
+	                         					<i class="like icon"></i>
+	                         					<span class="count love-count">9</span>
+	                       					</span>
+										</div>
+										
+									</div>
+									
+								</div>
+
+								
+							</div>
+						</div>
+						<div class="item">
+							<div class="content">
+								<a class="ui magenta link" href="" target="_blank">
+									原创经典CD创意包装
+								</a>
+								<div class="sub header">
+									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
+								</div>
+								<div class="image">
+									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
+								</div>
+
+								<div class="i-stats">
+									<div class="schedule">
+										<div class="status clearfix">
+											<a class="ui avatar image" href="" target="_blank">
+												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
+											</a>
+											<span class="count">
+												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
+	                           						quanninomarley
+	                         					</a>
+											</span>
+											<span class="like">
+	                         					<i class="unhide icon"></i>
+	                         					<span class="count">2099</span> 
+	                         					<i class="like icon"></i>
+	                         					<span class="count love-count">9</span>
+	                       					</span>
+										</div>
+										
+									</div>
+									
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content">
+								<a class="ui magenta link" href="" target="_blank">
+									原创经典CD创意包装
+								</a>
+								<div class="sub header">
+									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
+								</div>
+								<div class="image">
+									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
+								</div>
+
+								<div class="i-stats">
+									<div class="schedule">
+										<div class="status clearfix">
+											<a class="ui avatar image" href="" target="_blank">
+												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
+											</a>
+											<span class="count">
+												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
+	                           						quanninomarley
+	                         					</a>
+											</span>
+											<span class="like">
+	                         					<i class="unhide icon"></i>
+	                         					<span class="count">2099</span> 
+	                         					<i class="like icon"></i>
+	                         					<span class="count love-count">9</span>
+	                       					</span>
+										</div>
+										
+									</div>
+									
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content">
+								<a class="ui magenta link" href="" target="_blank">
+									原创经典CD创意包装
+								</a>
+								<div class="sub header">
+									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
+								</div>
+								<div class="image">
+									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
+								</div>
+
+								<div class="i-stats">
+									<div class="schedule">
+										<div class="status clearfix">
+											<a class="ui avatar image" href="" target="_blank">
+												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
+											</a>
+											<span class="count">
+												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
+	                           						quanninomarley
+	                         					</a>
+											</span>
+											<span class="like">
+	                         					<i class="unhide icon"></i>
+	                         					<span class="count">2099</span> 
+	                         					<i class="like icon"></i>
+	                         					<span class="count love-count">9</span>
+	                       					</span>
+										</div>
+										
+									</div>
+									
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content">
+								<a class="ui magenta link" href="" target="_blank">
+									原创经典CD创意包装
+								</a>
+								<div class="sub header">
+									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
+								</div>
+								<div class="image">
+									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
+								</div>
+
+								<div class="i-stats">
+									<div class="schedule">
+										<div class="status clearfix">
+											<a class="ui avatar image" href="" target="_blank">
+												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
+											</a>
+											<span class="count">
+												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
+	                           						quanninomarley
+	                         					</a>
+											</span>
+											<span class="like">
+	                         					<i class="unhide icon"></i>
+	                         					<span class="count">2099</span> 
+	                         					<i class="like icon"></i>
+	                         					<span class="count love-count">9</span>
+	                       					</span>
+										</div>
+										
+									</div>
+									
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content">
+								<a class="ui magenta link" href="" target="_blank">
+									原创经典CD创意包装
+								</a>
+								<div class="sub header">
+									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
+								</div>
+								<div class="image">
+									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
+								</div>
+
+								<div class="i-stats">
+									<div class="schedule">
+										<div class="status clearfix">
+											<a class="ui avatar image" href="" target="_blank">
+												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
+											</a>
+											<span class="count">
+												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
+	                           						quanninomarley
+	                         					</a>
+											</span>
+											<span class="like">
+	                         					<i class="unhide icon"></i>
+	                         					<span class="count">2099</span> 
+	                         					<i class="like icon"></i>
+	                         					<span class="count love-count">9</span>
+	                       					</span>
+										</div>
+										
+									</div>
+									
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content">
+								<a class="ui magenta link" href="" target="_blank">
+									原创经典CD创意包装
+								</a>
+								<div class="sub header">
+									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
+								</div>
+								<div class="image">
+									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
+								</div>
+
+								<div class="i-stats">
+									<div class="schedule">
+										<div class="status clearfix">
+											<a class="ui avatar image" href="" target="_blank">
+												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
+											</a>
+											<span class="count">
+												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
+	                           						quanninomarley
+	                         					</a>
+											</span>
+											<span class="like">
+	                         					<i class="unhide icon"></i>
+	                         					<span class="count">2099</span> 
+	                         					<i class="like icon"></i>
+	                         					<span class="count love-count">9</span>
+	                       					</span>
+										</div>
+										
+									</div>
+									
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="content">
+								<a class="ui magenta link" href="" target="_blank">
+									原创经典CD创意包装
+								</a>
+								<div class="sub header">
+									中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人
+								</div>
+								<div class="image">
+									<img src="http://frbird.qiniudn.com/stuff/150612/557a66c320de8d93218ba2e0-1-p750x422.jpg">
+								</div>
+
+								<div class="i-stats">
+									<div class="schedule">
+										<div class="status clearfix">
+											<a class="ui avatar image" href="" target="_blank">
+												<img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="quanninomarley">
+											</a>
+											<span class="count">
+												<a class="ui small link" href="http://www.taihuoniao.com/user/702644/" target="_blank">
+	                           						quanninomarley
+	                         					</a>
+											</span>
+											<span class="like">
+	                         					<i class="unhide icon"></i>
+	                         					<span class="count">2099</span> 
+	                         					<i class="like icon"></i>
+	                         					<span class="count love-count">9</span>
+	                       					</span>
+										</div>
+										
+									</div>
+									
+								</div>
+							</div>
+						</div>
 						<div class="item">
 							<div class="content">
 								<a class="ui magenta link" href="" target="_blank">
@@ -970,108 +850,16 @@
 						</div>
 					</div>
 				</div>
-				<a class="ui getmore" href=" ">
-					查看更多作品
-				</a>
+				
+		    	{% if list.total_page %}
+				<div class="ui pagination">
+					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+					{% include 'block/pager.html' %}
+				</div>
+				{% endif %}
+
 			</div>
 		</div>		
-	</section>
-	<section class="jgx">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
-					<div class="jgword">
-						<span>奖项及回报</span>
-						(本次大赛分别设金奖、银奖、铜奖、优秀单项奖和优秀组织奖若干名)
-					</div>
-					
-				</div>
-			</div>
-		</div>
-	</section>
-	<section class="jx">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
-					<div class="titlejx">回报一：作品奖项</div>
-					<div class="jxbg"></div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<section class="jxt">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
-					<div class="titlejxt">回报二：资金支持</div>
-					<p>1、有机会获得“宁波慧谷创投基金”最高 <span>100万元</span> 的投资 </p>
-					<p>2、有机会获得不超过 <span>1000万元</span> 的无抵押贷款</p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="column">
-					<div class="titlejxt">回报三：政策支持</div>
-					<p>1、有机会获得“百度百众”网络众筹平台<span>“专用通道”</span> </p>
-					<p>2、有机会获得“洛客众创”的 <span>创意和投资支持</span> </p>
-					<p>3、有机会获得 <span>太火鸟智能硬件孵化平台</span> 的专业孵化服务及投资 </p>
-					<p>4、有机会获得 <span>设计师、投资人、创业家</span> 的投资与辅导</p>
-					<p>5、有机会入驻宁波市国家大学科技园并给予 <span>3年100平米</span> 左右场地的 <span>免费使用权</span> </p>
-				</div>
-			</div>
-		</div>
-	</section>
-	<section class="copy">
-		<div class="ui responsive grid">
-			<div class="row">
-				<div class="column">
-					<div class="copycon">
-						<h3>
-							版权声明<br/>
-							<small>COPYRIGHT</small>
-						</h3>
-						<p class="colt">
-							依据国家有关法律法规,凡主动提交作品的“参赛者” 或“作者”主办方认为其已经对所提交的作品版权归属作如下不可撤销声明
-						</p>
-						<p class="colp">
-							原创声明参赛作品是参赛者原创作品,未侵犯任何他人的任何专利、著作权、商标权及其他知识产权, 否则,大赛主办方将取消其参赛、入围与获奖资格,收回奖金、奖品及并保留追究法律责任的权利。 
-						</p>
-						<p class="colp">
-							大赛主办方对所有获奖作品拥有展示和宣传等权利,其它任何单位和个人(包括作者本人)未经授权不得以任何形式对作品转让、复制、转载、传播、摘编、出版、发行、许可使用等。
-						</p>
-						<p class="colp">
-							参赛者提交作品之前,已仔细阅读上述条款,充分理解并表示同意,本次大赛的评委会拥有对所有获奖作品的最终裁定权。 
-						</p>
-
-					</div>
-					
-				</div>
-			</div>
-		</div>
-	</section>
-	<section class="papt">
-		<div class="ui responsive grid">
-			<div class="ui center aligned row" style="padding-top:65px;">
-				<div class="column">
-					<div class="titlepapt">合作伙伴</div>
-					<h2>指导单位</h2>
-					<img src="{{ app_url_packaged }}/images/match/qsyd/logo1.jpg">
-				</div>
-			</div>
-			<div class="ui center aligned row" style="padding-top: 0;">
-				<div class="column">
-					<div class="logo2">
-						<h2>主办单位</h2>
-					</div>
-				</div>
-			</div>
-			<div class="ui center aligned row">
-				<div class="column">
-					<div class="logo3">
-						<h2>特别鸣谢</h2>
-					</div>
-				</div>
-			</div>
-		</div>
 	</section>
 	<section class="fllo">
 		<div class="ui responsive grid">
@@ -1095,8 +883,11 @@
 			</div>
 		</div>
 	</section>
-	
+
+
+
+
+
 </div>
-
-
 {% endblock %}
+
