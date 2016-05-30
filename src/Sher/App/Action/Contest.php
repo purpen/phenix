@@ -179,7 +179,15 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	 * 奇思甬动-大赛 2
 	 */
 	public function qsyd_list2(){
+    $category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$this->set_target_css_state('page_incubator');
+    $top_category_id = Doggy_Config::$vars['app.contest.qsyd2_category_id'];
+    $cate_url = Doggy_Config::$vars['app.url.contest'].'/qsyd';
+
+		$this->stash['cid'] = $top_category_id;
+    $this->stash['category_id'] = $category_id;
+		$pager_url = sprintf('%s/qsyd_list2?category_id=%d&page=#p#', Doggy_Config::$vars['app.url.contest'], $category_id);
+		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('match/qsyd_list2.html');
 	}
 
@@ -188,6 +196,10 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	 */
 	public function qsyd2(){
 		$this->set_target_css_state('page_incubator');
+    $top_category_id = Doggy_Config::$vars['app.contest.qsyd2_category_id'];
+    $cate_url = Doggy_Config::$vars['app.url.contest'].'/qsyd';
+
+		$this->stash['cid'] = $top_category_id;
 		return $this->to_html_page('match/qsyd2.html');
 	}
 	

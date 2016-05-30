@@ -193,6 +193,12 @@ $('#slider').flexslider({
     sync: "#carousel"
 });
 
+  //提交作品按钮
+  $('.ui.attend.button').click(function(){
+    var url = "{{ app_url_contest }}/submit2";
+    phenix.redirect(url);
+  });
+
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
 		// 初始化互动，是否收藏、点赞
@@ -336,7 +342,7 @@ $('#slider').flexslider({
 				<h2>
           {{ stuff.title }}
 				</h2>
-        <label class="ui orange basic active button">{{ stuff.category.title }}</label>
+        <a href="{{ app_url_contest }}/qsyd_list2?category_id={{ stuff.category_id }}"><label class="ui orange basic active button">{{ stuff.category.title }}</label></a>
 				<div class="user avatars">
 					<div class="ui images" id="target_{{ stuff._id }}_support">
               {% if stuff.love_count %}

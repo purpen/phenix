@@ -446,11 +446,28 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
             return $this->ajax_json('请至少上传一张图片并设置为封面图！', true); 
         }
 
+        $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
         // 如果是大赛,必须选择一所大学
-        if(!empty($this->stash['from_to']) && (int)$this->stash['from_to'] == 1){
+        if($from_to == 1){
             if(empty($this->stash['college_id']) || (int)$this->stash['college_id'] == 0){
                 return $this->ajax_json('请选择所在大学！', true);   
             }
+        }elseif($from_to == 6){
+          if(!isset($this->stash['attr']) || empty($this->stash['attr'])){
+            return $this->ajax_json('请选择参赛类型！', true); 
+          }
+          if(!isset($this->stash['name']) || empty($this->stash['name'])){
+            return $this->ajax_json('请补全用户信息！', true); 
+          }
+          if(!isset($this->stash['tel']) || empty($this->stash['tel'])){
+            return $this->ajax_json('请补全用户信息！', true); 
+          } 
+          if(!isset($this->stash['position']) || empty($this->stash['position'])){
+            return $this->ajax_json('请补全用户信息！', true); 
+          } 
+          if(!isset($this->stash['description']) || empty($this->stash['description'])){
+            return $this->ajax_json('作品描述不能为空！', true); 
+          } 
         }
         
 		$id = isset($this->stash['_id']) ? (int)$this->stash['_id'] : 0;

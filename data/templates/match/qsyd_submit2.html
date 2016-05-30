@@ -168,6 +168,12 @@ form.ui.form .field input[type=text].whres{
 
 {% block jquery %}
 
+  //提交作品按钮
+  $('.ui.attend.button').click(function(){
+    var url = "{{ app_url_contest }}/submit2";
+    phenix.redirect(url);
+  });
+
 	var file_count = 1;
 	var ord = function(){
 		return file_count++;
@@ -187,8 +193,8 @@ $('#stuff-form').form({
 				}
 			]
 		},
-		description: {
-			identifier  : 'description',
+		description_back: {
+			identifier  : 'description_back',
 			rules: [
 				{
 					type   : 'empty',
