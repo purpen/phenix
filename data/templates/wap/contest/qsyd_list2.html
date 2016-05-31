@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}{% endblock %}
+{% block title %}奇思甬动创客大赛--列表{% endblock %}
 
 {% block page_css %}
 <style class="text/css">
@@ -180,7 +180,7 @@ $('html,body').animate({scrollTop:$('.products').offset().top },500);
       var scrollTop = $(this).scrollTop();
       var scrollHeight = $(document).height();
       var windowHeight = $(this).height();
-      if(scrollTop + windowHeight > scrollHeight - 240){
+      if(scrollTop + windowHeight > scrollHeight - 500){
           var stat = $('#stuff-more').data('status');
           page = parseInt($('#stuff-more').data('page')) + 1;
           
@@ -194,7 +194,7 @@ $('html,body').animate({scrollTop:$('.products').offset().top },500);
   });
 
   $('.category-btn').click(function(){
-    var category_id = $(this).attr('category_id');
+    category_id = $(this).attr('category_id');
     $('.menuicon').removeClass('active');
     $(this).addClass('active');
     ajax_load_more(1, type, category_id, 6, sort, size);
