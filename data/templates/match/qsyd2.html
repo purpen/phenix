@@ -405,7 +405,7 @@
 
   phenix.bind_share_list('{{ app_url_wap }}/contest/qsyd2');
 	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ stuff.wap_view_url }}'});
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/contest/qsyd2'});
 
 {% endblock %}
 {% block content %}
