@@ -80,12 +80,153 @@
 		float: right;
 		font-size: 12px;
 	}
+	.flexslider {
+	    margin: 0;
+	    padding: 0;
+	    background: #fff;
+	    position: relative;
+	    zoom: 1;
+	}
+	.flexslider .flex-viewport {
+	    max-height: 2000px;
+	    -webkit-transition: all 1s ease 0s;
+	    -moz-transition: all 1s ease 0s;
+	    -o-transition: all 1s ease 0s;
+	    -ms-transition: all 1s ease 0s;
+	    transition: all 1s ease 0s;
+	}
+	.slides, .slides>li {
+	    margin: 0;
+	    padding: 0;
+	    list-style: none;
+	}
+	.flexslider .slides>li {
+	    background-position: 50% 50%;
+	    background-size: cover;
+	    border-radius: 0;
+	}
+	.flexslider .slides>li img {
+	    width: 100%;
+	    display: block;
+	    height: auto;
+	}
+	.flexslider.flex-single .flex-direction-nav {
+	    display: none;
+	    height: 0;
+	}
+	.flexslider.flex-single-carousel {
+	    background-color: #f8f8f8;
+	    border-left: 1px solid rgba(224,224,224,.46);
+	    border-right: 1px solid rgba(224,224,224,.46);
+	    padding: 10px 20px;
+	    margin: 0;
+	    overflow: hidden;
+	}
+	.flexslider.flex-single-carousel .slides {
+	    height: 100px;
+	}
+
+	.flexslider .flex-viewport {
+	    max-height: 2000px;
+	    -webkit-transition: all 1s ease 0s;
+	    -moz-transition: all 1s ease 0s;
+	    -o-transition: all 1s ease 0s;
+	    -ms-transition: all 1s ease 0s;
+	    transition: all 1s ease 0s;
+	}
+	.flexslider.flex-single-carousel .slides>li {
+	    background-color: #fcfcfc;
+	    border: 0;
+	    border-radius: .285714rem;
+	    box-shadow: 0 0 1px rgba(47,47,47,.082);
+	    margin-right: 15px;
+	    visibility: visible;
+	    background-size: cover;
+	    float: left;
+	    display: block;
+	    height: 100px;
+	}
+	.flexslider.flex-single-carousel .slides>li>a {
+	    background-size: cover;
+	    display: block;
+	}
+	.flex-direction-nav, .slides, .slides>li {
+	    margin: 0;
+	    padding: 0;
+	    list-style: none;
+	}
+	.flex-direction-nav{
+		display: none;
+	}
+	.row.contwo{
+		background: #fff;
+	}
+	.conll p{
+		letter-spacing: 1px;
+    	line-height: 20px;
+    	margin-bottom: 20px;
+	}
+	.conll p br{
+		display: inline-block;
+	    line-height: 36px;
+	}
+	.barrer {
+	    margin: 0;
+	    height: 44px;
+	    line-height: 44px;
+	    width: 100%;
+	}
+	.subbtn {
+	    border: 0 none;
+	    padding: 0;
+	    display: -moz-box;
+	    display: -webkit-box;
+	    display: -webkit-flex;
+	    display: -moz-flex;
+	    display: -ms-flexbox;
+	    display: -ms-flex;
+	    display: flex;
+	}
+	.subbtn .play {
+	    background: #e63f4a;
+	    width: 100%;
+    	text-align: center;
+    	color: #fff;
+	}
+	.barrer a {
+	    -webkit-border-radius: 5px;
+	    -moz-border-radius: 5px;
+	    -ms-border-radius: 5px;
+	    -o-border-radius: 5px;
+	    border-radius: 5px;
+	}
 
 </style>
 {% endblock %}
 {% block jquery %}
+$('#carousel').flexslider({
+    animation: "slide",
+    controlNav: false,
+    animationLoop: false,
+    slideshow: false,
+    itemWidth: 160,
+    itemMargin: 15,
+    asNavFor: '#slider'
+});
 
-
+$('#slider').flexslider({
+    animation: "slide",
+    controlNav: false,
+    animationLoop: false,
+    slideshow: false,
+    sync: "#carousel"
+});
+$('.showdiv').click(function(){
+    $('#mask').css('display','');
+});
+$('#mask').click(function(){
+    $('#mask').css('display','none');
+});
 {% endblock %}
 {% block content %}
 <div class="qsyd">
@@ -116,7 +257,7 @@
   </div>
   <div class="qsview">
   	<div class="ui responsive grid">
-  		<div class="row" style="background: #e63f4a;">
+  		<div class="row pb-4r" style="background: #e63f4a;">
   			<div class="column">
   				<div class="titleuser">
   					<div class="ui middle aligned circular tiny image">
@@ -141,8 +282,84 @@
   				
   			</div>
   		</div>
+  		<div class="row p-0">
+  			<div class="column p-0">
+  				<div class="slidebox">
+	                <div id="slider" class="flexslider flex-single">
+						<ul class="slides">
+                            <li>
+                                <a href="{{ asset.thumbnails.aub.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
+                                    <img src="http://frbird.qiniudn.com/stuff/160531/574c88c03ffca2a3698b5e05-1-p750x422.jpg" alt="{{ stuff.title }}" />
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ asset.thumbnails.aub.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
+                                    <img src="http://frbird.qiniudn.com/stuff/160531/574c88c03ffca2a3698b5e05-2-p750x422.jpg" alt="{{ stuff.title }}" />
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ asset.thumbnails.aub.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
+                                    <img src="http://frbird.qiniudn.com/stuff/160531/574c88c03ffca2a3698b5e05-1-p750x422.jpg" alt="{{ stuff.title }}" />
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ asset.thumbnails.aub.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
+                                    <img src="http://frbird.qiniudn.com/stuff/160531/574c88c03ffca2a3698b5e05-2-p750x422.jpg" alt="{{ stuff.title }}" />
+                                </a>
+                            </li>
+						</ul>
+					</div>
+					<div id="carousel" class="flexslider flex-single-carousel">
+						<ul class="slides">
+                            <li>
+                                <a href="{{ asset.thumbnails.small.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
+                                    <img src="http://frbird.qiniudn.com/stuff/160531/574c88c03ffca2a3698b5e05-1-sm.jpg" alt="{{ stuff.title }}" class="thumb" />
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ asset.thumbnails.small.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
+                                    <img src="http://frbird.qiniudn.com/stuff/160531/574c88c03ffca2a3698b5e05-2-sm.jpg" alt="{{ stuff.title }}" class="thumb" />
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ asset.thumbnails.small.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
+                                    <img src="http://frbird.qiniudn.com/stuff/160531/574c88c03ffca2a3698b5e05-1-sm.jpg" alt="{{ stuff.title }}" class="thumb" />
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ asset.thumbnails.small.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
+                                    <img src="http://frbird.qiniudn.com/stuff/160531/574c88c03ffca2a3698b5e05-2-sm.jpg" alt="{{ stuff.title }}" class="thumb" />
+                                </a>
+                            </li>
+						</ul>
+					</div>
+							
+				</div>
+
+  			</div>
+  		</div>
+		<div class="row contwo pb-4r">
+			<div class="column">
+				<div class="conll">
+					<p>
+          这是第一个作品这是第一个作品这是第一个作品这是第一个作品这是第一个作品这是第一个作品这是第一个作品这是第一个作品
+					</p>
+
+					<div class="barrer subbtn showdiv">
+						<a class="play">分享求支持</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
   	</div>
   </div>
+  <img src="{{ app_url_packaged }}/images/match/qsyd/mbg11.jpg" width="100%" align="absmiddle">
+</div>
 
+<div id="mask" style="position: fixed; width: 100%; height: 100%; display: none; z-index: 100; top: 0px; opacity: 0.9; background: rgb(0, 0, 0);" align="center">
+  <div class="frideshare">
+	<img src="http://frstatic.qiniudn.com/images/fenxiang.png" width="100%">
+  </div>
 </div>
 {% endblock %}
