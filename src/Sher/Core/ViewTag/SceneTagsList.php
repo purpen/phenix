@@ -25,6 +25,8 @@ class Sher_Core_ViewTag_SceneTagsList extends Doggy_Dt_Tag {
         $type = 0;
         $left_ref  = 0;
         $right_ref = 0;
+        $title_cn = 0;
+        $title_en = 0;
 
         $var = 'list';
         $include_pager = 0;
@@ -56,6 +58,13 @@ class Sher_Core_ViewTag_SceneTagsList extends Doggy_Dt_Tag {
             $query['parent_id'] = 0;
         } else {
             $result = array();
+        }
+
+        if($title_cn){
+          $query['title_cn'] = $title_cn;
+        }
+        if($title_en){
+          $query['title_en'] = $title_en;
         }
         
         $service = Sher_Core_Service_SceneTags::instance();

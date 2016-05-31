@@ -477,12 +477,19 @@ while(!$is_end){
           $cover_id = '';
         }
       }
+
+      $product_tag_arr = array();
       // 获取情景标签
-      if(isset($item['scene_tags']) && !empty($item['scene_tags'])){
-        $tags_s = Sher_Core_Util_FiuTags::fetch_tag_str($item['scene_tags'], ',', true);
-      }else{
-        $tags_s = '';
+      if($item['scene_tags']){
+        $product_tag_arr = Sher_Core_Util_FiuTags::fetch_tag_str($item['scene_tags'], null, true);
       }
+
+      // 获取产品标签
+      if($item['tags']){
+        $product_tag_arr = array_merge($product_tag_arr, $item['tags']);
+      }
+
+      $tags_s = implode(',', $product_tag_arr);
 
       //添加全文索引
       $xs_data = array(

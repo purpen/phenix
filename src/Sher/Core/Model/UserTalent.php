@@ -61,6 +61,7 @@ class Sher_Core_Model_UserTalent extends Sher_Core_Model_Base  {
         $user_model->update_user_identify($user_id, 'is_expert', -2);
       }elseif($evt==2){ // 通过
         $user_model->update_user_identify($user_id, 'is_expert', 1);
+        $user_model->update_set($user_id, array('profile.expert_label'=>$user_talent['label'], 'profile.expert_info'=>$user_talent['info']));
       }else{
         return false;
       }

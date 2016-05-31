@@ -20,6 +20,7 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 		return $this->custom();
 	}
 	public function qsyd2(){
+		return $this->show_message_page('手机版未上线！', Doggy_Config::$vars['app.url.wap']);
 		return $this->to_html_page('wap/contest/qsyd2.html');
 	}
 	/**

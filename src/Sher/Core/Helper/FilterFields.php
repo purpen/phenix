@@ -16,7 +16,7 @@ class Sher_Core_Helper_FilterFields {
         'state'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'summary'=>1,
         'created_on'=>1,'email'=>1,'birthday'=>1,'medium_avatar_url'=>1, 'identify'=>1,
         'follow_count'=>1,'fans_count'=>1,'scene_count'=>1,'sight_count'=>1,'counter'=>1,
-        'subscription_count'=>1,'sight_love_count'=>1, 'head_pic'=>1,
+        'subscription_count'=>1,'sight_love_count'=>1, 'head_pic'=>1, 'ext_state'=>1,
         );
 		
         // 重建数据结果
@@ -37,13 +37,19 @@ class Sher_Core_Helper_FilterFields {
         unset($data['profile']);
 
         if(!isset($data['weixin'])){
-            $data['weixin'] = null;   
+            $data['weixin'] = '';   
         }
         if(!isset($data['im_qq'])){
-            $data['im_qq'] = null;   
+            $data['im_qq'] = '';   
         }
         if(!isset($data['label'])){
-            $data['label'] = null;   
+            $data['label'] = '';   
+        }
+        if(!isset($data['expert_label'])){
+            $data['expert_label'] = '';   
+        }
+        if(!isset($data['expert_info'])){
+            $data['expert_info'] = '';   
         }
 
         if(!isset($data['province_id'])){
@@ -116,8 +122,18 @@ class Sher_Core_Helper_FilterFields {
 
         }
 
+        // 用户等级
+        if(isset($data['ext_state']) && !empty($data['ext_state'])){
+          $data['rank_id'] = $data['ext_state']['rank_id'];
+          $data['rank_title'] = $data['ext_state']['user_rank']['title'];
+          unset($data['ext_state']);
+        }else{
+          $data['rank_id'] = 1;
+          $data['rank_title'] = '鸟列兵';
+        }
+
         // 是否有头图
-        $data['head_pic_url'] = null;
+        $data['head_pic_url'] = '';
         if(isset($data['head_pic']) && !empty($data['head_pic'])){
           $asset_model = new Sher_Core_Model_Asset();
           $asset = $asset_model->extend_load($data['head_pic']);
@@ -149,7 +165,7 @@ class Sher_Core_Helper_FilterFields {
     $some_fields = array_merge($filter_arr, $options);
 
     foreach($some_fields as $k){
-      $filter[$k] = isset($user[$k]) ? $user[$k] : null;
+      $filter[$k] = isset($user[$k]) ? $user[$k] : '';
     }
 
     return $filter;
@@ -168,7 +184,7 @@ class Sher_Core_Helper_FilterFields {
     for($i=0;$i<$count;$i++){
       foreach($options as $v){
         if($type==1){
-          $data[$i][$v] = isset($result[$i][$v]) ? $result[$i][$v] : null;
+          $data[$i][$v] = isset($result[$i][$v]) ? $result[$i][$v] : '';
         }elseif($type==2){
           unset($result[$i][$v]);
         }

@@ -294,6 +294,10 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
             'district_id' => 0,
             // 用户标签
             'label' => null,
+            // 达人标签
+            'expert_label' => null,
+            // 达人身份
+            'expert_info' => null,
         ),
 
 		// 所在城市
@@ -536,6 +540,10 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
       'district_id' => 0,
       // 用户标签
       'label' => null,
+      // 达人标签
+      'expert_label' => null,
+      // 达人身份
+      'expert_info' => null,
         );
 		return $default_profile;
 	}

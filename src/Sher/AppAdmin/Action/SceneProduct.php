@@ -11,6 +11,7 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
     'kind' => 0,
     'attrbute' => null,
     'user_id' => null,
+    's_title' => null,
 	);
 	
 	public function _init() {
@@ -29,7 +30,7 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
   */
   public function get_list(){
 
-		$pager_url = sprintf("%s/scene_product/get_list?kind=%d&attrbute=%d&user_id=%s&page=#p#", Doggy_Config::$vars['app.url.app_admin'], $this->stash['kind'], $this->stash['attrbute'], $this->stash['user_id']);
+		$pager_url = sprintf("%s/scene_product/get_list?kind=%d&attrbute=%d&user_id=%s&s_title=%s&page=#p#", Doggy_Config::$vars['app.url.app_admin'], $this->stash['kind'], $this->stash['attrbute'], $this->stash['user_id'], $this->stash['s_title']);
 		$this->stash['pager_url'] = $pager_url;
     return $this->to_html_page('app_admin/scene_product/list.html');
   }
@@ -149,7 +150,7 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 				$asset_model->update_batch_assets($this->stash['banner_asset'], $id);
 			}
 
-			// 上传成功后，更新所属的附件(Banner)
+			// 上传成功后，更新所属的附件(png)
 			if(isset($this->stash['png_asset']) && !empty($this->stash['png_asset'])){
 				$asset_model->update_batch_assets($this->stash['png_asset'], $id);
 			}

@@ -446,26 +446,43 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
             return $this->ajax_json('请至少上传一张图片并设置为封面图！', true); 
         }
 
+        $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
         // 如果是大赛,必须选择一所大学
-        if(!empty($this->stash['from_to']) && (int)$this->stash['from_to'] == 1){
+        if($from_to == 1){
             if(empty($this->stash['college_id']) || (int)$this->stash['college_id'] == 0){
                 return $this->ajax_json('请选择所在大学！', true);   
             }
+        }elseif($from_to == 6){
+          if(!isset($this->stash['attr']) || empty($this->stash['attr'])){
+            return $this->ajax_json('请选择参赛类型！', true); 
+          }
+          if(!isset($this->stash['name']) || empty($this->stash['name'])){
+            return $this->ajax_json('请补全用户信息！', true); 
+          }
+          if(!isset($this->stash['tel']) || empty($this->stash['tel'])){
+            return $this->ajax_json('请补全用户信息！', true); 
+          } 
+          if(!isset($this->stash['position']) || empty($this->stash['position'])){
+            return $this->ajax_json('请补全用户信息！', true); 
+          } 
+          if(!isset($this->stash['description']) || empty($this->stash['description'])){
+            return $this->ajax_json('作品描述不能为空！', true); 
+          } 
         }
         
-		$id = (int)$this->stash['_id'];
+		$id = isset($this->stash['_id']) ? (int)$this->stash['_id'] : 0;
 		
 		$mode = 'create';
 		$data = array();
 		
-		$data['_id'] = $id;
 		$data['title'] = $this->stash['title'];
 		$data['description'] = $this->stash['description'];
 		$data['fid'] = isset($this->stash['fid']) ? (int)$this->stash['fid'] : 0;
 		$data['tags'] = isset($this->stash['tags']) ? $this->stash['tags'] : null;
 		$data['category_id'] = (int)$this->stash['category_id'];
 		$data['cooperate_id'] = isset($this->stash['cooperate_id'])?(int)$this->stash['cooperate_id']:0;
-        $data['cover_id'] = $this->stash['cover_id'];
+		$data['verified'] = isset($this->stash['verified'])?(int)$this->stash['verified']:0;
+    $data['cover_id'] = $this->stash['cover_id'];
 		$data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
 		//反定制定
 		$data['contest_id'] = isset($this->stash['contest_id']) ? (int)$this->stash['contest_id'] : 0;
@@ -476,7 +493,10 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
     }else{
         $data['from_to'] = 0;
     }
-    
+
+    // 团体或个人
+    $data['attr'] = isset($this->stash['attr']) ? (int)$this->stash['attr'] : 1;
+
     // 团队介绍-蛋年
     if(isset($this->stash['team_introduce'])){
         $data['team_introduce'] = $this->stash['team_introduce'];
@@ -525,9 +545,19 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
         $data['fever_id'] = (int)$this->stash['fever_id'];
     }
 
+    // 联系姓名 
+    if(isset($this->stash['name'])){
+        $data['name'] = $this->stash['name'];
+    }
+
     // 联系方式 
     if(isset($this->stash['tel'])){
         $data['tel'] = $this->stash['tel'];
+    }
+
+    // 职业
+    if(isset($this->stash['position'])){
+        $data['position'] = $this->stash['position'];
     }
 
     // 公司名称 
@@ -577,7 +607,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 				$this->visitor->inc_counter('stuff_count', $data['user_id']);
 			}else{
 				$mode = 'edit';
-
+          $data['_id'] = (int)$id;
             // 如果是大赛,用户更改了省份或大学,需要重新统计排行
             if($data['from_to']==1){
                 $old_stuff = $model->find_by_id((int)$id);
@@ -637,7 +667,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
       Sher_Core_Helper_Search::record_update_to_dig((int)$id, 2); 
       //更新百度推送
       if($mode=='create'){
-        Sher_Core_Helper_Search::record_update_to_dig((int)$id, 11); 
+        //Sher_Core_Helper_Search::record_update_to_dig((int)$id, 11); 
       }
 			
 		}catch(Sher_Core_Model_Exception $e){
@@ -645,16 +675,18 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->ajax_json('创意保存失败:'.$e->getMessage(), true);
 		}
 		
-        if($data['from_to'] == 1){
+        if($data['from_to'] == 1){  // 十万火计2
             $redirect_url = Doggy_Config::$vars['app.url.contest'].'/view2/'.$id.'.html';
-        }elseif($data['from_to'] == 2){
+        }elseif($data['from_to'] == 2){ // 蛋年
             $redirect_url = Doggy_Config::$vars['app.url.birdegg'].'/'.$id.'.html';
-        }elseif($data['from_to'] == 3){
+        }elseif($data['from_to'] == 3){ // 奇思甬动
             $redirect_url = Doggy_Config::$vars['app.url.contest'].'/qsyd_view/'.$id.'.html';
         }elseif($data['from_to'] == 4){ // 反向定制
             $redirect_url = Sher_Core_Helper_Url::stuff_view_url($id); 
         }elseif($data['from_to'] == 5){ // top100专题
             $redirect_url = sprintf("%s/tshow?id=%d", Doggy_Config::$vars['app.url.stuff'], $id);
+        }elseif($data['from_to'] == 6){ // 奇思甬动2
+            $redirect_url = sprintf("%s/qsyd_view2?id=%d", Doggy_Config::$vars['app.url.contest'], $id);
         }else{
    		    $redirect_url = Sher_Core_Helper_Url::stuff_view_url($id);       
         }

@@ -30,6 +30,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
     const FROM_SWHJ = 1;
     const FROM_EGG = 2;
 	
+
     protected $schema = array(
 	    'user_id' => 0,
 		
@@ -46,9 +47,13 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 
         # 团队介绍
         'team_introduce' => '',
+        # 姓名
+        'name' => '',
         # 联系方式
         'tel' => '',
         'company' => '',
+        # 职业
+        'position' => '',
         # 产品链接
         'link' => '',
 		
@@ -72,7 +77,19 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
  		'cover_id' => '',
 		'asset_count' => 0,
 		
-    	'view_count' => 0,
+    # 浏览量
+      'view_count' => 0,
+    # 真实浏览数
+      'true_view_count' => 0,
+
+    # web 浏览数
+      'web_view_count' => 0,
+    # wap 浏览数 
+      'wap_view_count' => 0,
+    # app 浏览数
+      'app_view_count' => 0,
+
+
 		# 收藏数
         'favorite_count' => 0,
 		# 喜欢数
@@ -91,7 +108,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		'stick' => self::STICK_DEFAULT,
 		# 精选
 		'featured' => self::FEATURED_DEFAULT,
-        # 属于1.十万火计;2.蛋年;3.奇思甬动-大赛;4.反向定制;5;火爆智能硬件TOP100;6.--;7.--
+        # 属于1.十万火计;2.蛋年;3.奇思甬动-大赛;4.反向定制;5;火爆智能硬件TOP100;6.奇思甬动2;7.--
         'from_to' => 0,
 
         # 用于大赛
@@ -125,10 +142,13 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
           # 奖项
           'prize' => null,
         ),
+
+        # 团队或个人: 1.个人；2.团队
+        'attr' => 1,
     );
 	
 	protected $required_fields = array('user_id', 'title');
-	protected $int_fields = array('user_id','category_id','asset_count','deleted','view_count','favorite_count','comment_count','love_count','invented_love_count','province_id','city_id','college_id','school_id','cooperate_id','contest_id');
+	protected $int_fields = array('user_id','category_id','asset_count','deleted','view_count','favorite_count','comment_count','love_count','invented_love_count','province_id','city_id','college_id','school_id','cooperate_id','contest_id','attr');
 	
 	protected $joins = array(
 	    'user'  =>  array('user_id' => 'Sher_Core_Model_User'),
@@ -148,6 +168,8 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
               $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']); 
             }elseif($row['from_to']==5){ //火爆智能硬件TOP100
               $row['view_url'] = sprintf("%s/tshow?id=%d", Doggy_Config::$vars['app.url.stuff'], $row['_id']);
+            }elseif($row['from_to']==6){ // 奇思甬动2
+              $row['view_url'] = sprintf("%s/qsyd_view2?id=%d", Doggy_Config::$vars['app.url.contest'], $row['_id']);
             }else{
               $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);   
             }
@@ -159,8 +181,10 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
         if(isset($row['from_to'])){
           if($row['from_to'] == 5){ // top100
             $row['wap_view_url'] = sprintf("%s/stuff/tshow?id=%d", Doggy_Config::$vars['app.url.wap'], $row['_id']);
+          }elseif($row['from_to'] == 6){
+            $row['wap_view_url'] = sprintf("%s/qsyd_view2?id=%d", Doggy_Config::$vars['app.url.contest'], $row['_id']);
           }else{
-            $row['wap_view_url'] = Sher_Core_Helper_Url::wap_stuff_view_url($row['_id']);            
+            $row['wap_view_url'] = Sher_Core_Helper_Url::wap_stuff_view_url($row['_id']);
           }
         }else{
           $row['wap_view_url'] = Sher_Core_Helper_Url::wap_stuff_view_url($row['_id']);  

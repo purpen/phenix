@@ -412,6 +412,28 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
     return $this->api_json("获取成功!", 0, array('tags'=>$tag_arr));
   }
 
+  /**
+   * fiu场景热门标签
+   */
+  public function get_fiu_hot_sight_tags(){
+    $tag_arr = array();
+    // 从块获取信息
+    $tags = Sher_Core_Util_View::load_block('fiu_hot_sight_tags', 1);
+    $tag_arr = array_values(array_unique(preg_split('/[,，;；\s]+/u',$tags)));
+    return $this->api_json("获取成功!", 0, array('tags'=>$tag_arr));
+  }
+
+  /**
+   * fiu商品热门标签
+   */
+  public function get_fiu_hot_product_tags(){
+    $tag_arr = array();
+    // 从块获取信息
+    $tags = Sher_Core_Util_View::load_block('fiu_hot_product_tags', 1);
+    $tag_arr = array_values(array_unique(preg_split('/[,，;；\s]+/u',$tags)));
+    return $this->api_json("获取成功!", 0, array('tags'=>$tag_arr));
+  }
+
 
   /**
    * 返回二维码数据(test)

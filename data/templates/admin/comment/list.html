@@ -197,6 +197,7 @@
             <span class="ui small green label">{{ comment.love_count }}</span>
 					</p>
 				</td>
+        <td>{{ comment.floor|default 0 }}</td>
         <td>
           {% if comment.is_reply %}
             是

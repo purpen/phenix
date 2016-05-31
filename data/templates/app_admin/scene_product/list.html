@@ -44,18 +44,16 @@
 			<div class="ui input">
         <input placeholder="用户ID" type="text" name="user_id" value="{{ user_id }}" />
 			</div>
-      <!--
 			<div class="ui input">
-        <input placeholder="标题" type="text" name="title" value="{{ title }}" />
+        <input placeholder="标题" type="text" name="s_title" value="{{ s_title }}" />
 			</div>
-      -->
 				<div class="ui input">
 					<div class="ui active small green submit button search">搜索</div>
 				</div>
 		</form>
 	</div>
 	
-	{% scene_product_list var:'list' kind:kind user_id:user_id attrbute:attrbute page:page size:size %}
+	{% scene_product_list var:'list' kind:kind user_id:user_id attrbute:attrbute s_title:s_title page:page size:size %}
 	<table class="ui small table">
 		<thead>
 			<tr>
