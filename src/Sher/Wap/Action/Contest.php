@@ -11,7 +11,7 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 		'category_id' => 0,
 	);
 	
-	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show', 'rank', 'ajax_fetch_top_province', 'ajax_fetch_top_college', 'ajax_load_colleges','matcht','custom','about3','qsyd2');
+	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show', 'rank', 'ajax_fetch_top_province', 'ajax_fetch_top_college', 'ajax_load_colleges','matcht','custom','about3','qsyd2','qsyd_list2');
 	
 	/**
 	 * 社区入口
@@ -20,9 +20,14 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 		return $this->custom();
 	}
 	public function qsyd2(){
-		return $this->show_message_page('手机版未上线！', Doggy_Config::$vars['app.url.wap']);
+		//return $this->show_message_page('手机版未上线！', Doggy_Config::$vars['app.url.wap']);
 		return $this->to_html_page('wap/contest/qsyd2.html');
 	}
+	public function qsyd_list2(){
+		//return $this->show_message_page('手机版未上线！', Doggy_Config::$vars['app.url.wap']);
+		return $this->to_html_page('wap/contest/qsyd_list2.html');
+	}
+
 	/**
 	 * 十万火计
 	 */
