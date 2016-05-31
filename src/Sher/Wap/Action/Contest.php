@@ -27,7 +27,10 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 		//return $this->show_message_page('手机版未上线！', Doggy_Config::$vars['app.url.wap']);
 		return $this->to_html_page('wap/contest/qsyd_list2.html');
 	}
-
+	public function qsyd_view2(){
+		//return $this->show_message_page('手机版未上线！', Doggy_Config::$vars['app.url.wap']);
+		return $this->to_html_page('wap/contest/qsyd_view2.html');
+	}
 	/**
 	 * 十万火计
 	 */
