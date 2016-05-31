@@ -31,10 +31,25 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 		return $this->to_html_page('wap/contest/qsyd2.html');
 	}
 	public function qsyd_list2(){
-		//return $this->show_message_page('手机版未上线！', Doggy_Config::$vars['app.url.wap']);
+		//微信分享
+	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+	    $timestamp = $this->stash['timestamp'] = time();
+	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+	    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+	    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+	    $this->stash['wxSha1'] = sha1($wxOri);
 		return $this->to_html_page('wap/contest/qsyd_list2.html');
 	}
 	public function qsyd_view2(){
+		//微信分享
+	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+	    $timestamp = $this->stash['timestamp'] = time();
+	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+	    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+	    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+	    $this->stash['wxSha1'] = sha1($wxOri);
 		//return $this->show_message_page('手机版未上线！', Doggy_Config::$vars['app.url.wap']);
 		return $this->to_html_page('wap/contest/qsyd_view2.html');
 	}
