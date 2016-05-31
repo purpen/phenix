@@ -201,6 +201,11 @@
 	    border-radius: 5px;
 	}
 
+  .pop.love.button{
+    color: #e63f4a !important;
+    background: #fff;
+  }
+
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -296,6 +301,62 @@ $('.showdiv').click(function(){
 $('#mask').click(function(){
     $('#mask').css('display','none');
 });
+
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 验证点赞
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: {{stuff._id}},type:4,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.love.button')
+						.data('mark', 'y')
+						.addClass('active')
+            .html('<i class="heart icon"></i> 赞了');
+				}
+			}
+		}, 'json');
+
+		/* 登录用户行为 */
+	{% endif %}
+
+	// 喜欢
+	$('.ui.love.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('mark', 'y')
+						.addClass('active')
+            .html('<i class="heart icon"></i> 赞了');
+                    
+					$('#target-love-count').text(result.data.love_count);
+                    
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('mark', 'n')
+						.removeClass('active')
+                        .html('<i class="heart empty icon"></i> 点赞');
+                    
+					$('#target-love-count').text(result.data.love_count);
+                    
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
 {% endblock %}
 {% block content %}
 <div class="qsyd">
@@ -346,8 +407,8 @@ $('#mask').click(function(){
   				<h2>
             {{ stuff.title }}	
 				</h2>
-        <a href=" "><label class="ui orange basic active button">{{ stuff.category.title }}</label></a>
-        <div class="ui white active pop love inverted button" data-id="{{ stuff._id }}" data-title="" data-content="" data-mark="n"><i class="heart icon"></i> 赞了</div>
+        <a href="{{ app_url_wap }}/contest/qsyd_list2?category_id={{ stuff.category_id }}"><label class="ui orange basic active button">{{ stuff.category.title }}</label></a>
+        <div class="ui white pop love inverted button" data-id="{{ stuff._id }}" data-title="" data-content="" data-mark="n"><i class="heart empty icon"></i> 点赞</div>
   				
   			</div>
   		</div>
