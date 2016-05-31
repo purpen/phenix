@@ -404,10 +404,10 @@
   });
 
   $('#wechat-share-2').click(function() {
-		$('.qsyd2 .ui.qrcode.modal').modal('show');
+		$('.qsyd2 + .ui.qrcode.modal').modal('show');
 		return false;
 	});
-  phenix.bind_share_list();
+  //phenix.bind_share_list();
   phenix.bind_share_list('{{ stuff.cover.thumbnails.resp.view_url }}');
 	// 生成二维码
   $('#qrcode').qrcode({width: 256, height: 256, text: '{{ stuff.wap_view_url }}'});
