@@ -174,9 +174,6 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
         }
 			  $data['nickname'] = $this->stash['nickname'];
       }
-
-	    //更新基本信息
-			//$user_info['_id'] = $user_id;
 			
 			$ok = $user->update_set($user_id, $data);
       if($ok){

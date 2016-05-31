@@ -1,0 +1,471 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{{ stuff.title }}{% endblock %}
+
+{% block page_css %}
+<style class="text/css">
+  .ui.center.aligned{
+  	text-align:center;
+  }
+  #mfrbird{
+    margin-top:0;
+  }
+  .qsyd > .nav-menu .navfelx .childcell .menuicon{
+  	font-size: 14px;
+  }
+  .qsyd > .nav-menu .navfelx .childcell .menuicon.active{
+  	color: #007087 !important;
+  	position: relative;
+  }
+  .qsyd > .nav-menu .navfelx .childcell .menuicon.active::before{
+	content: '';
+	height: 2px;
+	width: 60px;
+    background: #007087;
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    margin-left: -30px;
+	transition: all 0.2s ease;
+	-moz-transition: all 0.2s ease;
+	-webkit-transition: all 0.2s ease;
+	-o-transition: all 0.2s ease;
+  }
+	.qsview{
+		width: 100%;
+	    background: url({{ app_url_packaged }}/images/match/qsyd/mlist.jpg);
+	    padding: 0;
+	    background-size: cover;
+	    padding: 15px 10px;
+	}
+	.titleuser{
+		text-align: left;
+	}
+	.titleuser .content{
+		display: inline-block;
+		vertical-align: middle;
+		padding-left: 10px;
+	}
+	.titleuser .content a{
+		color: #fff;
+		font-size: 14px;
+	}
+	.titleuser .ui.tiny.image{
+		width: 46px;
+		height: 46px;
+	}
+	.titleuser .content .sub.header{
+		font-size: 12px;
+		color: #000;
+		margin-top: 8px;
+	}
+	.titleuser .content .sub.header span{
+		margin-right: 8px;
+	}
+	.qsview h2{
+		font-size: 16px;
+	    color: #fff;
+	    margin-top: 10px;
+	    max-height: 75px;
+	    overflow: hidden;
+	    font-weight: 400; 
+	}
+	.ui.basic.orange.active.button{
+		color:#fff !important;
+		box-shadow: 0 0 0 2px #f56100 inset!important;
+		font-size: 12px;
+	}
+	.pop.button{
+		color: #e63f4a !important;
+		background: #fff;
+		float: right;
+		font-size: 12px;
+	}
+	.flexslider {
+	    margin: 0;
+	    padding: 0;
+	    background: #fff;
+	    position: relative;
+	    zoom: 1;
+	}
+	.flexslider .flex-viewport {
+	    max-height: 2000px;
+	    -webkit-transition: all 1s ease 0s;
+	    -moz-transition: all 1s ease 0s;
+	    -o-transition: all 1s ease 0s;
+	    -ms-transition: all 1s ease 0s;
+	    transition: all 1s ease 0s;
+	}
+	.slides, .slides>li {
+	    margin: 0;
+	    padding: 0;
+	    list-style: none;
+	}
+	.flexslider .slides>li {
+	    background-position: 50% 50%;
+	    background-size: cover;
+	    border-radius: 0;
+	}
+	.flexslider .slides>li img {
+	    width: 100%;
+	    display: block;
+	    height: auto;
+	}
+	.flexslider.flex-single .flex-direction-nav {
+	    display: none;
+	    height: 0;
+	}
+	.flexslider.flex-single-carousel {
+	    background-color: #f8f8f8;
+	    border-left: 1px solid rgba(224,224,224,.46);
+	    border-right: 1px solid rgba(224,224,224,.46);
+	    padding: 10px 20px;
+	    margin: 0;
+	    overflow: hidden;
+	}
+	.flexslider.flex-single-carousel .slides {
+	    height: 100px;
+	}
+
+	.flexslider .flex-viewport {
+	    max-height: 2000px;
+	    -webkit-transition: all 1s ease 0s;
+	    -moz-transition: all 1s ease 0s;
+	    -o-transition: all 1s ease 0s;
+	    -ms-transition: all 1s ease 0s;
+	    transition: all 1s ease 0s;
+	}
+	.flexslider.flex-single-carousel .slides>li {
+	    background-color: #fcfcfc;
+	    border: 0;
+	    border-radius: .285714rem;
+	    box-shadow: 0 0 1px rgba(47,47,47,.082);
+	    margin-right: 15px;
+	    visibility: visible;
+	    background-size: cover;
+	    float: left;
+	    display: block;
+	    height: 100px;
+	}
+	.flexslider.flex-single-carousel .slides>li>a {
+	    background-size: cover;
+	    display: block;
+	}
+	.flex-direction-nav, .slides, .slides>li {
+	    margin: 0;
+	    padding: 0;
+	    list-style: none;
+	}
+	.flex-direction-nav{
+		display: none;
+	}
+	.row.contwo{
+		background: #fff;
+	}
+	.conll p{
+		letter-spacing: 1px;
+    	line-height: 20px;
+    	margin-bottom: 20px;
+	}
+	.conll p br{
+		display: inline-block;
+	    line-height: 36px;
+	}
+	.barrer {
+	    margin: 0;
+	    height: 44px;
+	    line-height: 44px;
+	    width: 100%;
+	}
+	.subbtn {
+	    border: 0 none;
+	    padding: 0;
+	    display: -moz-box;
+	    display: -webkit-box;
+	    display: -webkit-flex;
+	    display: -moz-flex;
+	    display: -ms-flexbox;
+	    display: -ms-flex;
+	    display: flex;
+	}
+	.subbtn .play {
+	    background: #e63f4a;
+	    width: 100%;
+    	text-align: center;
+    	color: #fff;
+	}
+	.barrer a {
+	    -webkit-border-radius: 5px;
+	    -moz-border-radius: 5px;
+	    -ms-border-radius: 5px;
+	    -o-border-radius: 5px;
+	    border-radius: 5px;
+	}
+
+  .pop.love.button{
+    color: #e63f4a !important;
+    background: #fff;
+  }
+
+</style>
+{% endblock %}
+{% block layout_js %}
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript">
+    var m_name = '{{ stuff.title }}';
+    var img_url = '{{ stuff.cover.thumbnails.big.view_url }}';
+    var link = '{{ stuff.wap_view_url }}';
+    var desc_str = '{{ stuff.description }}';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+
+  wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  function record_share_num(){
+
+  }
+
+</script>
+{% endblock %}
+{% block jquery %}
+$('#carousel').flexslider({
+    animation: "slide",
+    controlNav: false,
+    animationLoop: false,
+    slideshow: false,
+    itemWidth: 160,
+    itemMargin: 15,
+    asNavFor: '#slider'
+});
+
+$('#slider').flexslider({
+    animation: "slide",
+    controlNav: false,
+    animationLoop: false,
+    slideshow: false,
+    sync: "#carousel"
+});
+$('.showdiv').click(function(){
+    $('#mask').css('display','');
+});
+$('#mask').click(function(){
+    $('#mask').css('display','none');
+});
+
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 验证点赞
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: {{stuff._id}},type:4,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.love.button')
+						.data('mark', 'y')
+						.addClass('active')
+            .html('<i class="heart icon"></i> 赞了');
+				}
+			}
+		}, 'json');
+
+		/* 登录用户行为 */
+	{% endif %}
+
+	// 喜欢
+	$('.ui.love.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('mark', 'y')
+						.addClass('active')
+            .html('<i class="heart icon"></i> 赞了');
+                    
+					$('#target-love-count').text(result.data.love_count);
+                    
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('mark', 'n')
+						.removeClass('active')
+                        .html('<i class="heart empty icon"></i> 点赞');
+                    
+					$('#target-love-count').text(result.data.love_count);
+                    
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+{% endblock %}
+{% block content %}
+<div class="qsyd">
+  <img src="{{ app_url_packaged }}/images/match/qsyd/mbg1.jpg" width="100%" align="absmiddle">
+  <div class="nav-menu">
+    <ul class="navfelx" style="padding-bottom: 4px;">
+      <li class="childcell">
+        <a href="{{ app_wap_contest }}/contest/qsyd2" class="menuicon active">
+          活动介绍
+        </a>
+      </li>
+      <li class="childcell">
+        <a href="{{ app_wap_contest }}/contest/qsyd2" class="timebtn menuicon">
+          大赛议程
+        </a>
+      </li>
+      <li class="childcell">
+        <a href="{{ app_wap_contest }}/contest/qsyd2" class="pweibtn menuicon">
+          评选嘉宾
+        </a>
+      </li>
+      <li class="childcell">
+        <a href="{{ app_wap_contest }}/contest/qsyd_list2" class="menuicon">
+          作品展示
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="qsview">
+  	<div class="ui responsive grid">
+  		<div class="row pb-4r" style="background: #e63f4a;">
+  			<div class="column">
+  				<div class="titleuser">
+  					<div class="ui middle aligned circular tiny image">
+              <img src="{{ stuff.user.medium_avatar_url }}">
+					</div>
+  					<div class="content">
+						<a href="javascript:void(0);">
+              {{ stuff.user.nickname }}
+						</a>
+						<div class="sub header">
+              <span><i class="unhide icon"></i>{{ stuff.view_count }}</span>
+                      <span><i class="heart icon"></i>{{ stuff.love_count }}<span>
+							</span></span>
+						</div>
+					</div>
+  				</div>
+  				<h2>
+            {{ stuff.title }}	
+				</h2>
+        <a href="{{ app_url_wap }}/contest/qsyd_list2?category_id={{ stuff.category_id }}"><label class="ui orange basic active button">{{ stuff.category.title }}</label></a>
+        <div class="ui white pop love inverted button" data-id="{{ stuff._id }}" data-title="" data-content="" data-mark="n"><i class="heart empty icon"></i> 点赞</div>
+  				
+  			</div>
+  		</div>
+  		<div class="row p-0">
+  			<div class="column p-0">
+  				<div class="slidebox">
+	                <div id="slider" class="flexslider flex-single">
+                {% asset_list var:'assets' parent_id:stuff._id size:10 asset_type:70 %}
+						<ul class="slides">
+                {% for asset in assets.rows %}
+                            <li>
+                                <a href="{{ asset.thumbnails.aub.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
+                                    <img src="{{ asset.thumbnails.aub.view_url }}" alt="{{ stuff.title }}" />
+                                </a>
+                            </li>
+              {%endfor%}
+						</ul>
+					</div>
+					<div id="carousel" class="flexslider flex-single-carousel">
+						<ul class="slides">
+                {% for asset in assets.rows %}
+                            <li>
+                                <a href="{{ asset.thumbnails.small.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
+                                    <img src="{{ asset.thumbnails.small.view_url }}" alt="{{ stuff.title }}" class="thumb" />
+                                </a>
+                            </li>
+              {%endfor%}
+
+						</ul>
+					</div>
+							
+				</div>
+
+  			</div>
+  		</div>
+		<div class="row contwo pb-4r">
+			<div class="column">
+				<div class="conll">
+					<p>
+            {{ stuff.description }}
+					</p>
+
+					<div class="barrer subbtn showdiv">
+						<a class="play">分享求支持</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+  	</div>
+  </div>
+  <img src="{{ app_url_packaged }}/images/match/qsyd/mbg11.jpg" width="100%" align="absmiddle">
+</div>
+
+<div id="mask" style="position: fixed; width: 100%; height: 100%; display: none; z-index: 100; top: 0px; opacity: 0.9; background: rgb(0, 0, 0);" align="center">
+  <div class="frideshare">
+	<img src="http://frstatic.qiniudn.com/images/fenxiang.png" width="100%">
+  </div>
+</div>
+{% endblock %}
