@@ -135,75 +135,71 @@
 </style>
 {% endblock %}
 {% block layout_js %}
-  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
   <script type="text/javascript">
-    var m_name = '作品展示';
-    var img_url = '{{ app_url_packaged }}/images/match/qsyd/mbg1.jpg';
-    var link = '{{ app_url_wap }}/contest/qsyd_list2';
-    var desc_str = ' ';
 
-    wx.config({
-        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        appId: '{{ app_id }}', // 必填，公众号的唯一标识
-        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
-        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
-        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
-        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-    });
+    var category_id = "{{ category_id|default 0 }}";
+    var type = 0;
+    var page = 1;
+    var size = 8;
+    var sort = 0;
+    var from_to = 6;
+    function ajax_load_more(page, type, category_id, from_to, sort, size){
+        var url = '{{ app_url_stuff }}/ajax_fetch_more';
+        if(page != 'no'){
+            $.get(url, { page:page, type:type, category_id:category_id, from_to:from_to, sort:sort, size:size }, function(rs){
+                rs.data['phenix'] = phenix.url;
+                var rendered = phenix.ajax_render_result('#fetch_more_stuff_qsyd2_tpl', rs.data);
+                if(page==1){
+                  $('#stuff_list_box').html(rendered);
+                }else{
+                  $('#stuff_list_box').append(rendered);
+                }
+                if (rs.data.nex_page != 'no'){
+                    $('#stuff-more').data('status', 0);
+                }
+                $('#stuff-more').data('page', page);
+                $('#stuff-more').hide();
 
-  wx.ready(function(){
-    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
-     wx.onMenuShareAppMessage({
-      title: m_name,
-      desc: desc_str,
-      link: link,
-      imgUrl: img_url,
-      success: function (res) {
-        record_share_num();
-      }
-    });      
+            }, 'json');
+        }else{
+            $('#stuff_list_box').html('没有更多作品!');
+        }
+    }
 
-    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
-    wx.onMenuShareTimeline({
-      title: m_name,
-      desc: desc_str,
-      link: link,
-      imgUrl: img_url,
-      success: function (res) {
-        record_share_num();
-      }
-    });
-
-    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
-    wx.onMenuShareQQ({
-      title: m_name,
-      desc: desc_str,
-      link: link,
-      imgUrl: img_url,
-      success: function (res) {
-        record_share_num();
-      }
-    });
-
-    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
-    wx.onMenuShareWeibo({
-      title: m_name,
-      desc: desc_str,
-      link: link,
-      imgUrl: img_url,
-      success: function (res) {
-        record_share_num();
-      }
-    });
-  });
 
 </script>
 {% endblock %}
 {% block jquery %}
 $('html,body').animate({scrollTop:$('.products').offset().top },500);
-phenix.bind_share_list('{{ app_url_wap }}/contest/qsyd2');
-  // 生成二维码
-  $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/contest/qsyd2'});
+
+  // 初次加载
+  ajax_load_more(page, type, category_id, 6, sort, size);
+
+  // ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+      var scrollTop = $(this).scrollTop();
+      var scrollHeight = $(document).height();
+      var windowHeight = $(this).height();
+      if(scrollTop + windowHeight > scrollHeight - 240){
+          var stat = $('#stuff-more').data('status');
+          page = parseInt($('#stuff-more').data('page')) + 1;
+          
+          // 防止频繁请求(在没加载完成时只允许请求一次)
+          if(stat == 0){
+              $('#stuff-more').data('status', 1);
+              $('#stuff-more').show();
+              ajax_load_more(page, type, category_id, 6, sort, size);
+          }
+      }
+  });
+
+  $('.category-btn').click(function(){
+    var category_id = $(this).attr('category_id');
+    $('.menuicon').removeClass('active');
+    $(this).addClass('active');
+    ajax_load_more(1, type, category_id, 6, sort, size);
+  });
+
 {% endblock %}
 {% block content %}
 <div class="qsyd">
@@ -237,113 +233,64 @@ phenix.bind_share_list('{{ app_url_wap }}/contest/qsyd2');
     <div class="ui responsive grid">
       <div class="row" style="background: rgba(0,0,0,0.5);">
         <div class="ui center aligned column">
+
+          {% category_list var:'category' only_open:1 domain:4 pid:cid %}
           
           <div class="nav-menu">
-            <ul class="navfelx" style="padding-bottom: 4px;">
-              <li class="childcell">
-                <a href=" " class="menuicon active">
-                  活动介绍
-                </a> 
-              </li>
-              <li class="childcell">
-                <a href=" " class="menuicon">
-                  活动介绍
-                </a> 
-              </li>
-              <li class="childcell">
-                <a href=" " class="menuicon">
-                  活动介绍
-                </a> 
-              </li>
-              <li class="childcell">
-                <a href=" " class="menuicon">
-                  活动介绍
-                </a> 
-              </li>
-            </ul>
-            <ul class="navfelx" style="padding-bottom: 4px;">
-              <li class="childcell">
-                <a href=" " class="menuicon">
-                  活动介绍
-                </a> 
-              </li>
-              <li class="childcell">
-                <a href=" " class="menuicon">
-                  活动介绍
-                </a> 
-              </li>
-              <li class="childcell">
-                <a href=" " class="menuicon">
-                  活动介绍
-                </a> 
-              </li>
-              <li class="childcell">
-                <a href=" " class="menuicon">
-                  活动介绍
-                </a> 
-              </li>
-            </ul>
-            <ul class="navfelx" style="padding-bottom: 4px;">
-              <li class="childcell">
-                <a href=" " class="menuicon">
-                  活动介绍
-                </a> 
-              </li>
-              <li class="childcell">
-                <a href=" " class="menuicon">
-                  活动介绍
-                </a> 
-              </li>
-              <li class="childcell">
-              </li>
-              <li class="childcell">
-              </li>
-            </ul>
-          </div>
 
+            <ul class="navfelx" style="padding-bottom: 4px;">
+              <li class="childcell">
+              <a href="javascript:void(0);" category_id="0" class="menuicon category-btn {%if category_id==0%}active{%endif%}">
+                  全部作品
+                </a> 
+              </li>
+            {% for d in category.rows %}
+              {% if loop.counter < 4 %}
+                <li class="childcell">
+                <a href="javascript:void(0);" category_id="{{ d._id }}" class="menuicon category-btn {%if category_id==d._id%}active{%endif%}">
+                    {{ d.title }}
+                  </a> 
+                </li>
+              {% endif %}
+            {% endfor %}
+            </ul>
+
+            <ul class="navfelx" style="padding-bottom: 4px;">
+            {% for d in category.rows %}
+              {% if loop.counter > 3 %}
+                {% if loop.counter < 8 %}
+                <li class="childcell">
+                <a href="javascript:void(0);" category_id="{{ d._id }}" class="menuicon category-btn {%if category_id==d._id%}active{%endif%}">
+                    {{ d.title }}
+                  </a> 
+                </li>
+                {%endif%}
+              {%endif%}
+            {% endfor %}
+            </ul>
+
+            <ul class="navfelx" style="padding-bottom: 4px;">
+            {% for d in category.rows %}
+              {% if loop.counter > 7 %}
+                <li class="childcell">
+                <a href="javascript:void(0);" category_id="{{ d._id }}" class="menuicon category-btn {%if category_id==d._id%}active{%endif%}">
+                    {{ d.title }}
+                  </a> 
+                </li>
+              {%endif%}
+            {% endfor %}
+            </ul>
+ 
+          </div>
 
         </div>
       </div>
       <div class="row shopindex" id="mpresale">
-        <div class="recom-item">
-          <div class="recom-cell">
-            <a href="">
-              <h3 class="ui header">原创经典CD创意包装</h2>
-              <p>中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人</p>
-              <img src="http://frbird.qiniudn.com/product/160411/570b1e47fc8b12f85f8b4c91-2-p750x422.jpg">  
-              <div class="desc">
-                <div class="i-state">
-                  <span class="like">
-                    <i class="unhide icon"></i>
-                    <span class="count">2099</span> 
-                    
-                    <span class="count love-count fl-r">9</span>
-                    <i class="fl-r like icon"></i>
-                  </span>
-                </div>
-              </div>
-            </a>
-          </div>
+        <div class="recom-item" id="stuff_list_box">
+          <!--ajax load-->
 
-          <div class="recom-cell">
-            <a href="">
-              <h3 class="ui header">原创经典CD创意包装</h2>
-              <p>中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人</p>
-              <img src="http://frbird.qiniudn.com/product/160411/570b1e47fc8b12f85f8b4c91-2-p750x422.jpg">  
-              <div class="desc">
-                <div class="i-state">
-                  <span class="like">
-                    <i class="unhide icon"></i>
-                    <span class="count">2099</span> 
-                    
-                    <span class="count love-count fl-r">9</span>
-                    <i class="fl-r like icon"></i>
-                  </span>
-                </div>
-              </div>
-            </a>
-          </div>
 
+          <!--
           <div class="recom-cell">
             <a href="">
               <h3 class="ui header">原创经典CD创意包装</h2>
@@ -362,181 +309,21 @@ phenix.bind_share_list('{{ app_url_wap }}/contest/qsyd2');
               </div>
             </a>
           </div>
-
-          <div class="recom-cell">
-            <a href="">
-              <h3 class="ui header">原创经典CD创意包装</h2>
-              <p>中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人</p>
-              <img src="http://frbird.qiniudn.com/product/160411/570b1e47fc8b12f85f8b4c91-2-p750x422.jpg">  
-              <div class="desc">
-                <div class="i-state">
-                  <span class="like">
-                    <i class="unhide icon"></i>
-                    <span class="count">2099</span> 
-                    
-                    <span class="count love-count fl-r">9</span>
-                    <i class="fl-r like icon"></i>
-                  </span>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <div class="recom-cell">
-            <a href="">
-              <h3 class="ui header">原创经典CD创意包装</h2>
-              <p>中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人</p>
-              <img src="http://frbird.qiniudn.com/product/160411/570b1e47fc8b12f85f8b4c91-2-p750x422.jpg">  
-              <div class="desc">
-                <div class="i-state">
-                  <span class="like">
-                    <i class="unhide icon"></i>
-                    <span class="count">2099</span> 
-                    
-                    <span class="count love-count fl-r">9</span>
-                    <i class="fl-r like icon"></i>
-                  </span>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <div class="recom-cell">
-            <a href="">
-              <h3 class="ui header">原创经典CD创意包装</h2>
-              <p>中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人</p>
-              <img src="http://frbird.qiniudn.com/product/160411/570b1e47fc8b12f85f8b4c91-2-p750x422.jpg">  
-              <div class="desc">
-                <div class="i-state">
-                  <span class="like">
-                    <i class="unhide icon"></i>
-                    <span class="count">2099</span> 
-                    
-                    <span class="count love-count fl-r">9</span>
-                    <i class="fl-r like icon"></i>
-                  </span>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <div class="recom-cell">
-            <a href="">
-              <h3 class="ui header">原创经典CD创意包装</h2>
-              <p>中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人</p>
-              <img src="http://frbird.qiniudn.com/product/160411/570b1e47fc8b12f85f8b4c91-2-p750x422.jpg">  
-              <div class="desc">
-                <div class="i-state">
-                  <span class="like">
-                    <i class="unhide icon"></i>
-                    <span class="count">2099</span> 
-                    
-                    <span class="count love-count fl-r">9</span>
-                    <i class="fl-r like icon"></i>
-                  </span>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <div class="recom-cell">
-            <a href="">
-              <h3 class="ui header">原创经典CD创意包装</h2>
-              <p>中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人</p>
-              <img src="http://frbird.qiniudn.com/product/160411/570b1e47fc8b12f85f8b4c91-2-p750x422.jpg">  
-              <div class="desc">
-                <div class="i-state">
-                  <span class="like">
-                    <i class="unhide icon"></i>
-                    <span class="count">2099</span> 
-                    
-                    <span class="count love-count fl-r">9</span>
-                    <i class="fl-r like icon"></i>
-                  </span>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <div class="recom-cell">
-            <a href="">
-              <h3 class="ui header">原创经典CD创意包装</h2>
-              <p>中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人</p>
-              <img src="http://frbird.qiniudn.com/product/160411/570b1e47fc8b12f85f8b4c91-2-p750x422.jpg">  
-              <div class="desc">
-                <div class="i-state">
-                  <span class="like">
-                    <i class="unhide icon"></i>
-                    <span class="count">2099</span> 
-                    
-                    <span class="count love-count fl-r">9</span>
-                    <i class="fl-r like icon"></i>
-                  </span>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <div class="recom-cell">
-            <a href="">
-              <h3 class="ui header">原创经典CD创意包装</h2>
-              <p>中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人</p>
-              <img src="http://frbird.qiniudn.com/product/160411/570b1e47fc8b12f85f8b4c91-2-p750x422.jpg">  
-              <div class="desc">
-                <div class="i-state">
-                  <span class="like">
-                    <i class="unhide icon"></i>
-                    <span class="count">2099</span> 
-                    
-                    <span class="count love-count fl-r">9</span>
-                    <i class="fl-r like icon"></i>
-                  </span>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <div class="recom-cell">
-            <a href="">
-              <h3 class="ui header">原创经典CD创意包装</h2>
-              <p>中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人</p>
-              <img src="http://frbird.qiniudn.com/product/160411/570b1e47fc8b12f85f8b4c91-2-p750x422.jpg">  
-              <div class="desc">
-                <div class="i-state">
-                  <span class="like">
-                    <i class="unhide icon"></i>
-                    <span class="count">2099</span> 
-                    
-                    <span class="count love-count fl-r">9</span>
-                    <i class="fl-r like icon"></i>
-                  </span>
-                </div>
-              </div>
-            </a>
-          </div>
-
-          <div class="recom-cell">
-            <a href="">
-              <h3 class="ui header">原创经典CD创意包装</h2>
-              <p>中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人</p>
-              <img src="http://frbird.qiniudn.com/product/160411/570b1e47fc8b12f85f8b4c91-2-p750x422.jpg">  
-              <div class="desc">
-                <div class="i-state">
-                  <span class="like">
-                    <i class="unhide icon"></i>
-                    <span class="count">2099</span> 
-                    
-                    <span class="count love-count fl-r">9</span>
-                    <i class="fl-r like icon"></i>
-                  </span>
-                </div>
-              </div>
-            </a>
-          </div>
+          -->
 
 
         </div>
       </div>
+
+      <div class="row">
+        <div class="ui center aligned column">
+                      <div id="stuff-more" data-page="1" data-status="0" style="text-align:center;margin:10px auto;display:none;">
+                          <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
+                          加载中...
+                      </div>
+        </div>
+      </div>
+      <!--
       <div class="row">
         <div class="ui center aligned column">
           <div class="ui pagination menu">
@@ -549,6 +336,8 @@ phenix.bind_share_list('{{ app_url_wap }}/contest/qsyd2');
           </div>
         </div>
       </div>
+      -->
+
     </div>
     
   </div>
@@ -556,4 +345,8 @@ phenix.bind_share_list('{{ app_url_wap }}/contest/qsyd2');
   
 
 </div>
+{% endblock %}
+
+{% block templates %}
+  {% mustache id:'fetch_more_stuff_qsyd2_tpl' tpl:'mustache_m/fetch_more_stuff_qsyd2.mustache' %}
 {% endblock %}

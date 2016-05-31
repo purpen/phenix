@@ -105,7 +105,7 @@
 <script type="text/javascript" >
 
     function ajax_load_more(page, type, category_id, from_to, sort, size){
-        var url = '{{ app_url_stuff }}/ajax_fetch_more';
+        var url = '{{ app_url_wap }}/app/site/stuff/ajax_fetch_more';
         $.get(url, { page:page, type:type, category_id:category_id, from_to:from_to, sort:sort, size:size }, function(rs){
             rs.data['phenix'] = phenix.url;
             var rendered = phenix.ajax_render_result('#fetch_more_stuff_qsyd2_tpl', rs.data);
