@@ -210,9 +210,9 @@ $('body').visibility({
     }
   });
 
-phenix.bind_share_list('{{ stuff.wap_view_url }}');
+phenix.bind_share_list('{{ stuff.cover.thumbnails.aub.view_url }}');
 	// 生成二维码
-$('#qrcode').qrcode({width: 256, height: 256, text: '{{ stuff.wap_view_url }}'});
+  $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/contest/qsyd_view2?id={{ stuff._id }}'});
 
 $('#carousel').flexslider({
     animation: "slide",
