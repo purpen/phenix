@@ -484,9 +484,43 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
       return $this->api_json('请先登录并完善您的手机号!', 3001);    
     }
 
-    return api_json('已成功发送您的手机，请注意查收!', 0, array());
+    $model = new Sher_Core_Model_SubjectRecord();
+    //判断当前用户是否领取过
+    $is_appoint = $model->check_appoint($user_id, 10, 3);
+    if($is_appoint){
+      return $this->api_json('您已经领取过了!', 3002);   
+    }
 
-       
+    $user_model = new Sher_Core_Model_User();
+    $user = $user_model->load($user_id);
+    $phone = $user['profile']['phone'];
+    if(!Sher_Core_Helper_Util::is_mobile($phone)){
+      return $this->api_json('请去个人中心完善您的手机号码!', 3003);    
+    }
+
+    $account = '123';
+    $pwd = '466';
+    $message = sprintf("爱奇异账号: %s, 密码: %s", $account, $pwd);
+
+    $data = array();
+    $data['user_id'] = $user_id;
+    $data['target_id'] = 10;
+    $data['event'] = 3;
+    $data['info'] = array('account'=>$account);
+
+    try{
+      $ok = $model->apply_and_save($data);
+      if($ok){
+        // 发送短信
+        Sher_Core_Helper_Util::send_defined_mms($phone, $message);
+        return api_json('已成功发送到您的手机，请注意查收!', 0, array('account'=>$account));
+      }else{
+        return $this->ajax_note('领取失败!', 3004);
+      }  
+    }catch(Sher_Core_Model_Exception $e){
+      return $this->ajax_note('领取失败!'.$e->getMessage(), 3005);
+    }
+
   }
 
 	
