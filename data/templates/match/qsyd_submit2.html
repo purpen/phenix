@@ -163,10 +163,43 @@ form.ui.form .field input[type=text].whres{
 .ui.magenta.large.submit.button{
 	margin:30px 160px;
 }
+.ui.nav.light.fixed{
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 10;
+}
+label span{
+	position: absolute;
+    left: 310px;
+    width: 400px;
+    text-align: left;
+    font-size: 13px;
+    line-height: 30px;
+}
 </style>
 {% endblock %}
 
 {% block jquery %}
+$('body').visibility({
+    offset         : -$('.ui.nav').offset().top,
+    observeChanges : false,
+    once           : false,
+    continuous     : false,
+    onTopPassed: function() {
+        requestAnimationFrame(function() {
+            $('.ui.nav').addClass('light fixed');
+            $('.pt-570').css('height','640px');
+        });
+    },
+    onTopPassedReverse: function() {
+        requestAnimationFrame(function() {
+        	$('.ui.nav').removeClass('light fixed');
+        	$('.pt-570').removeAttr("style");
+      	});
+    }
+  });
 
   //提交作品按钮
   $('.ui.attend.button').click(function(){
@@ -383,7 +416,7 @@ $('#phenix-uploader').fineUploader({
 						</div>
 						<div class="inlene fields">
 							<div class="field">
-								<label>设计图/效果图</label>
+								<label style="position: relative;">设计图/效果图 <span>（上传图片尺寸840x473px ;  图片大小不超过2M）</span></label>
 								<input type="hidden" name="cover_id" id="stuff_cover_id" value="{{ stuff.cover_id }}" />
 								<div id="phenix-uploader"></div>
 						
@@ -459,12 +492,12 @@ $('#phenix-uploader').fineUploader({
 					*本次大赛的解释权归大赛组委会所有,活动的有关情况请及时与大赛组委会办公室联系
 				</p>
 			</div>
-			<div class="ui four wide column">
+			<div class="ui five wide column">
 				<p style="padding: 140px 0 0;">大赛官方QQ交流群:216875757 </p>
 			</div>
-			<div class="ui four wide column">
+			<div class="ui three wide center aligned column">
 				<img src="http://frstatic.qiniudn.com/images/match/qsyd/ewm.jpg">
-				<p style="width: 124px;text-align: center;">更多精彩内容 <br>尽在太火鸟社区！</p>
+				<p style="width: 124px;text-align: center;margin: 8px auto 0;line-height: 20px;">更多精彩内容 <br>尽在太火鸟社区！</p>
 			</div>
 		</div>
 	</section>

@@ -393,9 +393,77 @@
 	height: auto;
   	width: auto;
 }
+.ui.nav.light.fixed{
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 10;
+}
 </style>
 {% endblock %}
 {% block jquery %}
+	
+
+$('body').visibility({
+    offset         : -$('.ui.nav').offset().top,
+    observeChanges : false,
+    once           : false,
+    continuous     : false,
+    onTopPassed: function() {
+        requestAnimationFrame(function() {
+            $('.ui.nav').addClass('light fixed');
+            $('.pt-570').css('height','640px');
+        });
+    },
+    onTopPassedReverse: function() {
+        requestAnimationFrame(function() {
+        	$('.ui.nav').removeClass('light fixed');
+        	$('.pt-570').removeAttr("style");
+      	});
+    }
+  });
+	$(window).scroll(function(){
+		var scrollTop = $(window).scrollTop();
+		if(scrollTop > $(".pt-570").offset().top -50){
+			$(".pageindex").addClass("active");
+			$(".pageindex").siblings().removeClass("active");
+		} 
+		if($(".about").offset().top-50 < scrollTop && scrollTop < $(".time").offset().top){
+			$(".pageabout").addClass("active");
+			$(".pageabout").siblings().removeClass("active");
+		}
+		if($(".time").offset().top < scrollTop && scrollTop < $(".jury").offset().top){
+			$(".pagetime").addClass("active");
+			$(".pagetime").siblings().removeClass("active");
+		}
+		if($(".jury").offset().top < scrollTop && scrollTop < $(".jgx").offset().top){
+			$(".pagejury").addClass("active");
+			$(".pagejury").siblings().removeClass("active");
+		}
+		if($(".jgx").offset().top < scrollTop+50){
+			$(".pagejgx").addClass("active");
+			$(".pagejgx").siblings().removeClass("active");
+		}
+	});
+	$('.pageindex').click(function(){
+		$('html,body').animate({scrollTop:$('.pt-570').offset().top },800);
+	});
+	$('.pageabout').click(function(){
+		$('html,body').animate({scrollTop:$('.about').offset().top-45 },800);
+	});
+	$('.pagetime').click(function(){
+		$('html,body').animate({scrollTop:$('.time').offset().top+10 },800);
+	});
+	$('.pagejury').click(function(){
+		$('html,body').animate({scrollTop:$('.jury').offset().top+10 },800);
+	});
+	$('.pagejgx').click(function(){
+		$('html,body').animate({scrollTop:$('.jgx').offset().top-45 },800);
+	});
+
+
+    
 
   //提交作品按钮
   $('.ui.attend.button').click(function(){
@@ -403,25 +471,25 @@
     phenix.redirect(url);
   });
 
-  phenix.bind_share_list('{{ app_url_wap }}/contest/qsyd2');
+  phenix.bind_share_list('http://frstatic.qiniudn.com/images/match/qsyd/mbg1.jpg');
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/contest/qsyd2'});
 
 {% endblock %}
 {% block content %}
 <div class="qsyd2">
-	<section class="pt-570"></section>
+	<section class="pt-570 section"></section>
 	<section class="ui nav">
 		<div class="ui responsive grid">
 			<div class="middle aligned row">
 				<div class="twelve wide column">
 					<div class="ui horizontal list">
-						<a href="{{ app_url_contest }}/qsyd2" class="ui link active item">活动首页</a>
-						<a href="#.about" class="ui link item">活动介绍</a>
-						<a href="#.time" class="ui link item">大赛议程</a>
-						<a href="#.jury" class="ui link item">评选嘉宾</a>
+						<a href="javascript:void(0);" class="ui link pageindex item">活动首页</a>
+						<a href="javascript:void(0);" class="ui link pageabout item">活动介绍</a>
+						<a href="javascript:void(0);" class="ui link pagetime item">大赛议程</a>
+						<a href="javascript:void(0);" class="ui link pagejury item">评选嘉宾</a>
 						<a href="{{ app_url_contest }}/qsyd_list2" class="ui link item">作品展示</a>
-						<a href="#.jgx" class="ui link item">奖项回报</a>
+						<a href="javascript:void(0);" class="ui link pagejgx item">奖项回报</a>
 					</div>
 				</div>
 
@@ -866,7 +934,7 @@
 					*本次大赛的解释权归大赛组委会所有,活动的有关情况请及时与大赛组委会办公室联系
 				</p>
 			</div>
-			<div class="ui six wide column" style="padding: 20px 0 0;">
+			<div class="ui five wide column" style="padding: 20px 0 0;">
 				<h2>分享到：</h2>
 				<a href="javascript:void(0);" class="ui weibo circular share icon button" id="sina-share" title="新浪微博" target="_blank">
 					<img src="{{ app_url_packaged }}/images/match/qsyd20.png">
@@ -880,9 +948,9 @@
 
 				<p style="padding: 20px 0 0;">大赛官方QQ交流群:216875757 </p>
 			</div>
-			<div class="ui two wide column">
+			<div class="ui three wide center aligned column">
 				<img src="{{ app_url_packaged }}/images/match/qsyd/ewm.jpg">
-				<p style="width: 124px;text-align: center;">更多精彩内容 <br/>尽在太火鸟社区！</p>
+				<p style="width: 124px;text-align: center;margin: 8px auto 0;line-height: 20px;">更多精彩内容 <br/>尽在太火鸟社区！</p>
 			</div>
 		</div>
 	</section>
