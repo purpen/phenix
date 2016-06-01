@@ -1,5 +1,5 @@
 {%extends 'layout/mobile.html'%}
-{% block title %}{% endblock %}
+{% block title %}{{ stuff.title }}-{% endblock %}
 
 {% block page_css %}
 <style class="text/css">
@@ -201,15 +201,20 @@
 	    border-radius: 5px;
 	}
 
+  .pop.love.button{
+    color: #e63f4a !important;
+    background: #fff;
+  }
+
 </style>
 {% endblock %}
 {% block layout_js %}
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript">
-    var m_name = ' ';
-    var img_url = ' ';
-    var link = ' ';
-    var desc_str = ' ';
+    var m_name = '{{ stuff.title }}';
+    var img_url = '{{ stuff.cover.thumbnails.big.view_url }}';
+    var link = '{{ stuff.wap_view_url }}';
+    var desc_str = '{{ stuff.description }}';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -266,6 +271,10 @@
     });
   });
 
+  function record_share_num(){
+
+  }
+
 </script>
 {% endblock %}
 {% block jquery %}
@@ -292,6 +301,62 @@ $('.showdiv').click(function(){
 $('#mask').click(function(){
     $('#mask').css('display','none');
 });
+
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 验证点赞
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: {{stuff._id}},type:4,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.love.button')
+						.data('mark', 'y')
+						.addClass('active')
+            .html('<i class="heart icon"></i> 赞了');
+				}
+			}
+		}, 'json');
+
+		/* 登录用户行为 */
+	{% endif %}
+
+	// 喜欢
+	$('.ui.love.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('mark', 'y')
+						.addClass('active')
+            .html('<i class="heart icon"></i> 赞了');
+                    
+					$('#target-love-count').text(result.data.love_count);
+                    
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('mark', 'n')
+						.removeClass('active')
+                        .html('<i class="heart empty icon"></i> 点赞');
+                    
+					$('#target-love-count').text(result.data.love_count);
+                    
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
 {% endblock %}
 {% block content %}
 <div class="qsyd">
@@ -326,24 +391,24 @@ $('#mask').click(function(){
   			<div class="column">
   				<div class="titleuser">
   					<div class="ui middle aligned circular tiny image">
-              			<img src="http://frbird.qiniudn.com/avatar/160528/5749653d3ffca261598b5fec-avm.jpg">
+              <img src="{{ stuff.user.medium_avatar_url }}">
 					</div>
   					<div class="content">
 						<a href="javascript:void(0);">
-						  hhhhh
+              {{ stuff.user.nickname }}
 						</a>
 						<div class="sub header">
-		                	<span><i class="unhide icon"></i>42</span>
-		                	<span><i class="heart icon"></i>1<span>
+              <span><i class="unhide icon"></i>{{ stuff.view_count }}</span>
+                      <span><i class="heart icon"></i>{{ stuff.love_count }}<span>
 							</span></span>
 						</div>
 					</div>
   				</div>
   				<h2>
-          			这是第一个作品
+            {{ stuff.title }}	
 				</h2>
-				<a href=" "><label class="ui orange basic active button">智慧办公</label></a>
-				<div class="ui white active pop love inverted button" data-id="93" data-title="" data-content="" data-mark="n"><i class="heart icon"></i> 赞了</div>
+        <a href="{{ app_url_wap }}/contest/qsyd_list2?category_id={{ stuff.category_id }}"><label class="ui orange basic active button">{{ stuff.category.title }}</label></a>
+        <div class="ui white pop love inverted button" data-id="{{ stuff._id }}" data-title="" data-content="" data-mark="n"><i class="heart empty icon"></i> 点赞</div>
   				
   			</div>
   		</div>
@@ -351,51 +416,27 @@ $('#mask').click(function(){
   			<div class="column p-0">
   				<div class="slidebox">
 	                <div id="slider" class="flexslider flex-single">
+                {% asset_list var:'assets' parent_id:stuff._id size:10 asset_type:70 %}
 						<ul class="slides">
+                {% for asset in assets.rows %}
                             <li>
                                 <a href="{{ asset.thumbnails.aub.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
-                                    <img src="http://frbird.qiniudn.com/stuff/160531/574c88c03ffca2a3698b5e05-1-p750x422.jpg" alt="{{ stuff.title }}" />
+                                    <img src="{{ asset.thumbnails.aub.view_url }}" alt="{{ stuff.title }}" />
                                 </a>
                             </li>
-                            <li>
-                                <a href="{{ asset.thumbnails.aub.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
-                                    <img src="http://frbird.qiniudn.com/stuff/160531/574c88c03ffca2a3698b5e05-2-p750x422.jpg" alt="{{ stuff.title }}" />
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ asset.thumbnails.aub.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
-                                    <img src="http://frbird.qiniudn.com/stuff/160531/574c88c03ffca2a3698b5e05-1-p750x422.jpg" alt="{{ stuff.title }}" />
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ asset.thumbnails.aub.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
-                                    <img src="http://frbird.qiniudn.com/stuff/160531/574c88c03ffca2a3698b5e05-2-p750x422.jpg" alt="{{ stuff.title }}" />
-                                </a>
-                            </li>
+              {%endfor%}
 						</ul>
 					</div>
 					<div id="carousel" class="flexslider flex-single-carousel">
 						<ul class="slides">
+                {% for asset in assets.rows %}
                             <li>
                                 <a href="{{ asset.thumbnails.small.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
-                                    <img src="http://frbird.qiniudn.com/stuff/160531/574c88c03ffca2a3698b5e05-1-sm.jpg" alt="{{ stuff.title }}" class="thumb" />
+                                    <img src="{{ asset.thumbnails.small.view_url }}" alt="{{ stuff.title }}" class="thumb" />
                                 </a>
                             </li>
-                            <li>
-                                <a href="{{ asset.thumbnails.small.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
-                                    <img src="http://frbird.qiniudn.com/stuff/160531/574c88c03ffca2a3698b5e05-2-sm.jpg" alt="{{ stuff.title }}" class="thumb" />
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ asset.thumbnails.small.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
-                                    <img src="http://frbird.qiniudn.com/stuff/160531/574c88c03ffca2a3698b5e05-1-sm.jpg" alt="{{ stuff.title }}" class="thumb" />
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ asset.thumbnails.small.view_url }}" title="{{ stuff.title }}" alt="{{ stuff.title }}">
-                                    <img src="http://frbird.qiniudn.com/stuff/160531/574c88c03ffca2a3698b5e05-2-sm.jpg" alt="{{ stuff.title }}" class="thumb" />
-                                </a>
-                            </li>
+              {%endfor%}
+
 						</ul>
 					</div>
 							
@@ -407,7 +448,7 @@ $('#mask').click(function(){
 			<div class="column">
 				<div class="conll">
 					<p>
-          这是第一个作品这是第一个作品这是第一个作品这是第一个作品这是第一个作品这是第一个作品这是第一个作品这是第一个作品
+            {{ stuff.description }}
 					</p>
 
 					<div class="barrer subbtn showdiv">

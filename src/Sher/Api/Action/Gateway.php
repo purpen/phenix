@@ -434,7 +434,6 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
     return $this->api_json("获取成功!", 0, array('tags'=>$tag_arr));
   }
 
-
   /**
    * 返回二维码数据(test)
    */
@@ -443,6 +442,51 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
     $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
     $str = isset($this->stash['str']) ? $this->stash['str'] : 'http://m.taihuoniao.com';
     return $this->api_json('success!', 0, array('pid'=>$pid, 'type'=>$type, 'str'=>$str));
+  }
+
+  /**
+   * app首页专题活动展示
+   */
+  public function index_active_show(){
+
+    $conf = Sher_Core_Util_View::load_block('app_index_active_conf', 1);
+    if(empty($conf)){
+		  return $this->api_json('数据不存在!', 3001); 
+    }
+    $arr = explode('|', $conf);
+    if(empty($arr) || count($arr) != 7){
+      return $this->api_json('数据结构不正确!', 3002); 
+    }
+
+    $type = (int)$arr[0];
+    $target = $arr[1];
+    $switch = (int)$arr[2];
+    $title = $arr[3];
+    $img_url = $arr[4];
+    $height = (int)$arr[5];
+
+    if($switch==0){
+      return $this->api_json('活动未开启!', 3003);    
+    }
+
+    return $this->api_json('请求成功', 0, array('cover_url'=>$img_url, 'title'=>$title, 'target'=>$target, 'type'=>$type, 'height'=>$height)); 
+  }
+
+  /**
+   * app首页专题活动展示
+   */
+  public function active_done(){
+
+    $target = isset($this->stash['target']) ? (int)$this->stash['target'] : 1;
+
+    $user_id = $this->current_user_id;
+    if(empty($user_id)){
+      return $this->api_json('请先登录并完善您的手机号!', 3001);    
+    }
+
+    return api_json('已成功发送您的手机，请注意查收!', 0, array());
+
+       
   }
 
 	
