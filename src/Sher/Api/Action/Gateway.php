@@ -512,7 +512,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
       $ok = $model->apply_and_save($data);
       if($ok){
         // 发送短信
-        Sher_Core_Helper_Util::send_defined_mms($phone, $message);
+        //Sher_Core_Helper_Util::send_defined_mms($phone, $message);
         return $this->api_json('已成功发送到您的手机，请注意查收!', 0, array('account'=>$account));
       }else{
         return $this->api_json('领取失败!', 3004);
