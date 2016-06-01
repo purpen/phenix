@@ -181,15 +181,39 @@
 	height: auto;
   	width: auto;
 }
+.ui.nav.light.fixed{
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 10;
+}
 </style>
 {% endblock %}
-
-phenix.bind_share_list('{{ app_url_wap }}/contest/qsyd2');
-	// 生成二维码
-$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/contest/qsyd2'});
-
-
 {% block jquery %}
+$('body').visibility({
+    offset         : -$('.ui.nav').offset().top,
+    observeChanges : false,
+    once           : false,
+    continuous     : false,
+    onTopPassed: function() {
+        requestAnimationFrame(function() {
+            $('.ui.nav').addClass('light fixed');
+            $('.pt-570').css('height','640px');
+        });
+    },
+    onTopPassedReverse: function() {
+        requestAnimationFrame(function() {
+        	$('.ui.nav').removeClass('light fixed');
+        	$('.pt-570').removeAttr("style");
+      	});
+    }
+  });
+
+phenix.bind_share_list('{{ stuff.wap_view_url }}');
+	// 生成二维码
+$('#qrcode').qrcode({width: 256, height: 256, text: '{{ stuff.wap_view_url }}'});
+
 $('#carousel').flexslider({
     animation: "slide",
     controlNav: false,

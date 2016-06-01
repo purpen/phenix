@@ -211,10 +211,36 @@
 	height: auto;
   	width: auto;
 }
+.ui.nav.light.fixed{
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 10;
+}
 </style>
 {% endblock %}
 
 {% block jquery %}
+
+	$('body').visibility({
+    offset         : -$('.ui.nav').offset().top,
+    observeChanges : false,
+    once           : false,
+    continuous     : false,
+    onTopPassed: function() {
+        requestAnimationFrame(function() {
+            $('.ui.nav').addClass('light fixed');
+            $('.pt-570').css('height','640px');
+        });
+    },
+    onTopPassedReverse: function() {
+        requestAnimationFrame(function() {
+        	$('.ui.nav').removeClass('light fixed');
+        	$('.pt-570').removeAttr("style");
+      	});
+    }
+  });
   $('html,body').animate({scrollTop:$('.ui.nav').offset().top },800);
 
   //提交作品按钮

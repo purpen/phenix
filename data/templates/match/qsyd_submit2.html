@@ -163,10 +163,35 @@ form.ui.form .field input[type=text].whres{
 .ui.magenta.large.submit.button{
 	margin:30px 160px;
 }
+.ui.nav.light.fixed{
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 10;
+}
 </style>
 {% endblock %}
 
 {% block jquery %}
+$('body').visibility({
+    offset         : -$('.ui.nav').offset().top,
+    observeChanges : false,
+    once           : false,
+    continuous     : false,
+    onTopPassed: function() {
+        requestAnimationFrame(function() {
+            $('.ui.nav').addClass('light fixed');
+            $('.pt-570').css('height','640px');
+        });
+    },
+    onTopPassedReverse: function() {
+        requestAnimationFrame(function() {
+        	$('.ui.nav').removeClass('light fixed');
+        	$('.pt-570').removeAttr("style");
+      	});
+    }
+  });
 
   //提交作品按钮
   $('.ui.attend.button').click(function(){
