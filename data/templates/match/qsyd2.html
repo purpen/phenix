@@ -425,23 +425,23 @@ $('body').visibility({
   });
 	$(window).scroll(function(){
 		var scrollTop = $(window).scrollTop();
-		if(scrollTop > $(".pt-570").offset().top -10){
+		if(scrollTop > $(".pt-570").offset().top -50){
 			$(".pageindex").addClass("active");
 			$(".pageindex").siblings().removeClass("active");
 		} 
-		if($(".about").offset().top-10 < scrollTop && scrollTop < $(".time").offset().top-10){
+		if($(".about").offset().top-50 < scrollTop && scrollTop < $(".time").offset().top){
 			$(".pageabout").addClass("active");
 			$(".pageabout").siblings().removeClass("active");
 		}
-		if($(".time").offset().top-10 < scrollTop && scrollTop < $(".jury").offset().top-10){
+		if($(".time").offset().top < scrollTop && scrollTop < $(".jury").offset().top){
 			$(".pagetime").addClass("active");
 			$(".pagetime").siblings().removeClass("active");
 		}
-		if($(".jury").offset().top-10 < scrollTop && scrollTop < $(".jgx").offset().top-10){
+		if($(".jury").offset().top < scrollTop && scrollTop < $(".jgx").offset().top){
 			$(".pagejury").addClass("active");
 			$(".pagejury").siblings().removeClass("active");
 		}
-		if($(".jgx").offset().top < scrollTop-10){
+		if($(".jgx").offset().top < scrollTop+50){
 			$(".pagejgx").addClass("active");
 			$(".pagejgx").siblings().removeClass("active");
 		}
@@ -450,16 +450,16 @@ $('body').visibility({
 		$('html,body').animate({scrollTop:$('.pt-570').offset().top },800);
 	});
 	$('.pageabout').click(function(){
-		$('html,body').animate({scrollTop:$('.about').offset().top },800);
+		$('html,body').animate({scrollTop:$('.about').offset().top-45 },800);
 	});
 	$('.pagetime').click(function(){
-		$('html,body').animate({scrollTop:$('.time').offset().top },800);
+		$('html,body').animate({scrollTop:$('.time').offset().top+10 },800);
 	});
 	$('.pagejury').click(function(){
-		$('html,body').animate({scrollTop:$('.jury').offset().top },800);
+		$('html,body').animate({scrollTop:$('.jury').offset().top+10 },800);
 	});
 	$('.pagejgx').click(function(){
-		$('html,body').animate({scrollTop:$('.jgx').offset().top },800);
+		$('html,body').animate({scrollTop:$('.jgx').offset().top-45 },800);
 	});
 
 
