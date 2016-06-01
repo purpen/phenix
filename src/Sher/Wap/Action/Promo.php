@@ -409,6 +409,28 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function sign(){
 		$this->set_target_css_state('page_social');
 
+    // 记录兑吧来的用户，统计注册量
+    if(isset($this->stash['from']) && $this->stash['from']=='db'){
+      // 存cookie
+      @setcookie('from_origin', '2', time()+3600, '/');
+      $_COOKIE['from_origin'] = '2';
+      @setcookie('from_target_id', '4', time()+3600, '/');
+      $_COOKIE['from_target_id'] = '4';
+
+      // 统计点击数量
+      $dig_model = new Sher_Core_Model_DigList();
+      $dig_key = Sher_Core_Util_Constant::DIG_THIRD_DB_STAT;
+
+      $dig = $dig_model->load($dig_key);
+      if(empty($dig) || !isset($dig['items']["view_04"])){
+        $dig_model->update_set($dig_key, array("items.view_04"=>1), true);     
+      }else{
+        // 增加浏览量
+        $dig_model->inc($dig_key, "items.view_04", 1);
+      }
+      
+    }
+
 		// 获取省市列表
 		$areas = new Sher_Core_Model_Areas();
 		$provinces = $areas->fetch_provinces();
