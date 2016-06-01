@@ -170,6 +170,14 @@ form.ui.form .field input[type=text].whres{
 	left: 0;
 	z-index: 10;
 }
+label span{
+	position: absolute;
+    left: 310px;
+    width: 400px;
+    text-align: left;
+    font-size: 13px;
+    line-height: 30px;
+}
 </style>
 {% endblock %}
 
@@ -408,7 +416,7 @@ $('#phenix-uploader').fineUploader({
 						</div>
 						<div class="inlene fields">
 							<div class="field">
-								<label>设计图/效果图</label>
+								<label style="position: relative;">设计图/效果图 <span>（上传图片尺寸840x473px ;  图片大小不超过2M）</span></label>
 								<input type="hidden" name="cover_id" id="stuff_cover_id" value="{{ stuff.cover_id }}" />
 								<div id="phenix-uploader"></div>
 						

@@ -429,37 +429,37 @@ $('body').visibility({
 			$(".pageindex").addClass("active");
 			$(".pageindex").siblings().removeClass("active");
 		} 
-		if($(".about").offset().top < scrollTop && scrollTop < $(".time").offset().top){
+		if($(".about").offset().top-10 < scrollTop && scrollTop < $(".time").offset().top-10){
 			$(".pageabout").addClass("active");
 			$(".pageabout").siblings().removeClass("active");
 		}
-		if($(".time").offset().top < scrollTop && scrollTop < $(".jury").offset().top){
+		if($(".time").offset().top-10 < scrollTop && scrollTop < $(".jury").offset().top-10){
 			$(".pagetime").addClass("active");
 			$(".pagetime").siblings().removeClass("active");
 		}
-		if($(".jury").offset().top < scrollTop && scrollTop < $(".jgx").offset().top){
+		if($(".jury").offset().top-10 < scrollTop && scrollTop < $(".jgx").offset().top-10){
 			$(".pagejury").addClass("active");
 			$(".pagejury").siblings().removeClass("active");
 		}
-		if($(".jgx").offset().top < scrollTop){
+		if($(".jgx").offset().top < scrollTop-10){
 			$(".pagejgx").addClass("active");
 			$(".pagejgx").siblings().removeClass("active");
 		}
 	});
 	$('.pageindex').click(function(){
-		$('html,body').animate({scrollTop:$('.pt-570').offset().top+10 },800);
+		$('html,body').animate({scrollTop:$('.pt-570').offset().top },800);
 	});
 	$('.pageabout').click(function(){
-		$('html,body').animate({scrollTop:$('.about').offset().top+10 },800);
+		$('html,body').animate({scrollTop:$('.about').offset().top },800);
 	});
 	$('.pagetime').click(function(){
-		$('html,body').animate({scrollTop:$('.time').offset().top+10 },800);
+		$('html,body').animate({scrollTop:$('.time').offset().top },800);
 	});
 	$('.pagejury').click(function(){
-		$('html,body').animate({scrollTop:$('.jury').offset().top+10 },800);
+		$('html,body').animate({scrollTop:$('.jury').offset().top },800);
 	});
 	$('.pagejgx').click(function(){
-		$('html,body').animate({scrollTop:$('.jgx').offset().top+10 },800);
+		$('html,body').animate({scrollTop:$('.jgx').offset().top },800);
 	});
 
 
@@ -471,7 +471,7 @@ $('body').visibility({
     phenix.redirect(url);
   });
 
-  phenix.bind_share_list('{{ app_url_wap }}/contest/qsyd2');
+  phenix.bind_share_list('http://frstatic.qiniudn.com/images/match/qsyd/mbg1.jpg');
 	// 生成二维码
 	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/contest/qsyd2'});
 
