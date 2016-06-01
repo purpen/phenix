@@ -513,12 +513,12 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
       if($ok){
         // 发送短信
         Sher_Core_Helper_Util::send_defined_mms($phone, $message);
-        return api_json('已成功发送到您的手机，请注意查收!', 0, array('account'=>$account));
+        return $this->api_json('已成功发送到您的手机，请注意查收!', 0, array('account'=>$account));
       }else{
-        return $this->ajax_note('领取失败!', 3004);
+        return $this->api_json('领取失败!', 3004);
       }  
     }catch(Sher_Core_Model_Exception $e){
-      return $this->ajax_note('领取失败!'.$e->getMessage(), 3005);
+      return $this->api_json('领取失败!'.$e->getMessage(), 3005);
     }
 
   }
