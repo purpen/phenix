@@ -65,6 +65,15 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
     # 去购买数
       'buy_count' => 0,
 
+    # 真实浏览数
+      'true_view_count' => 0,
+    # web 浏览数
+      'web_view_count' => 0,
+    # wap 浏览数 
+      'wap_view_count' => 0,
+    # app 浏览数
+      'app_view_count' => 0,
+
 		# 推荐（编辑推荐、推荐至首页）
 		'stick' => 0,
 		# 精华标识
@@ -84,7 +93,7 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 	protected $int_fields = array('user_id','category_id','try_id','fid','deleted','published','product_id');
 	protected $float_fields = array('sale_price','market_price');
 	
-	protected $counter_fields = array('view_count', 'favorite_count', 'love_count', 'comment_count', 'buy_count');
+	protected $counter_fields = array('view_count', 'app_view_count', 'true_view_count', 'web_view_count', 'wap_view_count', 'app_view_count', 'favorite_count', 'love_count', 'comment_count', 'buy_count');
 	
 	protected $joins = array(
         'user'      =>  array('user_id'     => 'Sher_Core_Model_User'),

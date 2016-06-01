@@ -81,7 +81,6 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
       'view_count' => 0,
     # 真实浏览数
       'true_view_count' => 0,
-
     # web 浏览数
       'web_view_count' => 0,
     # wap 浏览数 
@@ -148,7 +147,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('user_id', 'title');
-	protected $int_fields = array('user_id','category_id','asset_count','deleted','view_count','favorite_count','comment_count','love_count','invented_love_count','province_id','city_id','college_id','school_id','cooperate_id','contest_id','attr');
+	protected $int_fields = array('user_id','category_id','asset_count','deleted','view_count','favorite_count','comment_count','love_count','invented_love_count','province_id','city_id','college_id','school_id','cooperate_id','contest_id','attr','true_view_count','app_view_count','web_view_count','wap_view_count');
 	
 	protected $joins = array(
 	    'user'  =>  array('user_id' => 'Sher_Core_Model_User'),

@@ -245,9 +245,9 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		
 		// 增加浏览量
     $rand = rand(1, 5);
-		$model->inc_counter((int)$id, 'view_count', $rand);
-		$model->inc_counter((int)$id, 'true_view_count', 1);
-		$model->inc_counter((int)$id, 'app_view_count', 1);
+		$model->inc_counter('view_count', $rand, $id);
+		$model->inc_counter('true_view_count', 1, $id);
+		$model->inc_counter('app_view_count', 1, $id);
 
 		// 重建数据结果
 		$data = array();
