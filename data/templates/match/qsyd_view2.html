@@ -184,9 +184,9 @@
 </style>
 {% endblock %}
 
-phenix.bind_share_list('{{ app_url_wap }}/contest/qsyd2');
+phenix.bind_share_list('{{ stuff.cover.thumbnails.aub.view_url }}');
 	// 生成二维码
-$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/contest/qsyd2'});
+  $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/contest/qsyd_view2?id={{ stuff._id }}'});
 
 
 {% block jquery %}
