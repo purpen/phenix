@@ -475,16 +475,16 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
   /**
    * app首页专题活动展示
    */
-  public function active_show(){
+  public function active_done(){
 
     $target = isset($this->stash['target']) ? (int)$this->stash['target'] : 1;
 
     $user_id = $this->current_user_id;
     if(empty($user_id)){
-      return $this->api_json('请先登录并正确添写你的手机号!', 3001);    
+      return $this->api_json('请先登录并完善您的手机号!', 3001);    
     }
 
-    return api_json('发送成功!', 0, array());
+    return api_json('已成功发送您的手机，请注意查收!', 0, array());
 
        
   }
