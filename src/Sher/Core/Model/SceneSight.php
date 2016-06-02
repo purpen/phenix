@@ -127,7 +127,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
               $data['product_id'] = (int)$v['id'];
               $data['product_kind'] = $scene_product['kind'];
               $data['product_attrbute'] = $scene_product['attrbute'];
-              $model->create($data);           
+              $model->create($data);
             }
           }
         }
