@@ -219,7 +219,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
       $sqls = $spl_model->find($sight_query, $sight_options);
       if($sqls){
         for($j=0;$j<count($sqls);$j++){
-          $sight_id = $sqls[$j];
+          $sight_id = $sqls[$j]['sight_id'];
           $sight = $sight_model->extend_load((int)$sight_id);
           if(empty($sight) && isset($sight['cover'])){
             array_push($sights, array('id'=>$sight['_id'], 'title'=>$sight['title'], 'cover_url'=>$sight['cover']['thumbnails']['huge']['view_url']));
