@@ -35,6 +35,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		$published = isset($this->stash['published']) ? (int)$this->stash['published'] : 1;
 		$state = isset($this->stash['state']) ? (int)$this->stash['state'] : 0;
 		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
+		$ignore_sight_id = isset($this->stash['ignore_sight_id']) ? (int)$this->stash['ignore_sight_id'] : 0;
 
 		$some_fields = array(
 			'_id'=>1, 'title'=>1, 'short_title'=>1, 'oid'=>1, 'sale_price'=>1, 'market_price'=>1,
@@ -159,6 +160,9 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     $result = $service->get_scene_product_list($query, $options);
 
     $asset_service = Sher_Core_Service_Asset::instance();
+
+    $spl_model = new Sher_Core_Model_SceneProductLink();
+    $sight_model = new Sher_Core_Model_SceneSight();
 		
 		// 重建数据结果
 		$data = array();
@@ -202,6 +206,28 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
       $data[$i]['sale_price'] = sprintf('%.2f', $result['rows'][$i]['sale_price']);
       // 保留2位小数
       $data[$i]['market_price'] = sprintf('%.2f', $result['rows'][$i]['market_price']);
+
+      $sights = array();
+      // 取一张场景图
+      $sight_query['product_id'] = $data[$i]['_id'];
+      if($ignore_sight_id){
+        $sight_query['sight_id'] = array('$ne'=>$ignore_sight_id);
+      }
+      $sight_options['page'] = 1;
+      $sight_options['size'] = 1;
+      $sight_options['sort'] = array('created_on'=>-1);
+      $sqls = $spl_model->find($sight_query, $sight_options);
+      if($sqls){
+        for($j=0;$j<count($sqls);$j++){
+          $sight_id = $sqls[$j]['sight_id'];
+          $sight = $sight_model->extend_load((int)$sight_id);
+          if(!empty($sight) && isset($sight['cover'])){
+            array_push($sights, array('id'=>$sight['_id'], 'title'=>$sight['title'], 'cover_url'=>$sight['cover']['thumbnails']['huge']['view_url']));
+          }
+        }
+      }
+      $data[$i]['sights'] = $sights;
+
 		}
 		$result['rows'] = $data;
 		

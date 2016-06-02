@@ -118,11 +118,17 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
         $model = new Sher_Core_Model_SceneProductLink();
         $product = $this->data['product'];
         if(count($product)){
+          $scene_product_model = new Sher_Core_Model_SceneProduct();
           foreach($product as $k => $v){
-            $data = array();
-            $data['sight_id'] = (int)$this->data['_id'];
-            $data['product_id'] = $v['id'];
-            $model->insert($data);
+            $scene_product = $scene_product_model->load((int)$v['id']);
+            if($scene_product){
+              $data = array();
+              $data['sight_id'] = (int)$this->data['_id'];
+              $data['product_id'] = (int)$v['id'];
+              $data['product_kind'] = $scene_product['kind'];
+              $data['product_attrbute'] = $scene_product['attrbute'];
+              $model->create($data);
+            }
           }
         }
 
