@@ -209,10 +209,11 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 
       $sights = array();
       // 取一张场景图
-      $sight_query['product_id'] = $data[$i]['_id'];
       if($ignore_sight_id){
         $sight_query['sight_id'] = array('$ne'=>$ignore_sight_id);
       }
+      $sight_query['product_id'] = $data[$i]['_id'];
+
       $sight_options['page'] = 1;
       $sight_options['size'] = 1;
       $sight_options['sort'] = array('created_on'=>-1);
@@ -222,7 +223,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
           $sight_id = $sqls[$j]['sight_id'];
           $sight = $sight_model->extend_load((int)$sight_id);
           if(!empty($sight) && isset($sight['cover'])){
-            array_push($sights, array('id'=>$sight['_id'], 'title'=>$sight['title'], 'cover_url'=>$sight['cover']['thumbnails']['huge']['view_url']));
+            array_push($sights, array('id'=>$sight['_id'], 'title'=>$sight['title'], 'cover_url'=>$sight['cover']['thumbnails']['asc']['view_url']));
           }
         }
       }
