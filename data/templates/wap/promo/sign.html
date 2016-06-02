@@ -608,7 +608,7 @@
       
     </div>
   </div>
-  <div class="row pt-0">
+  <div class="row pt-0 plr-2r">
     <div class="recommend-topic">
       <div class="recom-item">
         {% cache cache_key:'wap_index_product_stick_slide' ttl:600 disable_cache:app_disable_cached %}
@@ -633,24 +633,31 @@
     </div>
   </div>
   
-  <div class="row pt-0">
+  <div class="row pt-0 plr-2r">
     <img src="{{ app_url_packaged }}/images/promo/sign_m.png" width="100%" align="absmiddle">
-    <div class="recommend-topic">
+    <div id="triespage">
       <div class="recom-item">
-        {% cache cache_key:'wap_index_topic_stick_slide' ttl:500 disable_cache:app_disable_cached %}
-         
-         {% ad_list var:'adslide3' page:1 size:4 state:2 name:'web_index_topic_stick_slide' %}
-         {% for ad in adslide3.rows %}
-        <div class="recom-cell">
-          <a href="{{ ad.view_url }}" title="{{ ad.title }}">
-            <img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png" title="{{ ad.title }}">
-            <div class="desc">
-                            {{ ad.title }}
-                    </div>
-          </a>
+        {% cache cache_key:'wap_index_try_stick_slide' ttl:500 disable_cache:app_disable_cached %}
+          {% try_list var:'tries' sort:1 state:1 page:1 size:4 %}
+          {% if tries.rows %}
+          {% for d in tries.rows %}
+          <div class="recom-cell">
+            <a href="{{ d.wap_view_url }}" title="{{ d.short_title }}">
+              <img class="lazy" data-original="{{ d.cover.thumbnails.resp.view_url }}" alt="{{ d.short_title }}" src="{{ app_url_packaged }}/images/icon/load373-298.png">
+              <div class="desc">
+          <h2>
+                  {{ d.short_title }}
+                </h2>
+          <div class="excerpt">
+                 <p>数量:<span class="count">{{ d.try_count}}</span>  申请人数:<span class="count">{{ d.apply_count }}</span>
+                 </p>
+              </div>
+          
+              </div>
+            </a>
+          </div>
+        {%endfor%}
         </div>
-        {% endfor %}
-        {% endcache %}
 
       </div>
     </div>
