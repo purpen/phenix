@@ -639,7 +639,6 @@
       <div class="recom-item">
         {% cache cache_key:'wap_index_try_stick_slide' ttl:500 disable_cache:app_disable_cached %}
           {% try_list var:'tries' sort:1 state:1 page:1 size:4 %}
-          {% if tries.rows %}
           {% for d in tries.rows %}
           <div class="recom-cell">
             <a href="{{ d.wap_view_url }}" title="{{ d.short_title }}">
