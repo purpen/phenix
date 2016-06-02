@@ -75,7 +75,6 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
                 // 自己关注的人
                 if(isset($result['rows'][$k]['follow']['_id'])){
                     $follow['user_id'] = isset($result['rows'][$k]['follow']['_id']) ? $result['rows'][$k]['follow']['_id'] : 0;
-                    $follow['account'] = isset($result['rows'][$k]['follow']['account']) ? $result['rows'][$k]['follow']['account'] : '';
                     $follow['nickname'] = isset($result['rows'][$k]['follow']['nickname']) ? $result['rows'][$k]['follow']['nickname'] : '';
                     $follow['avatar_url'] = isset($result['rows'][$k]['follow']['big_avatar_url']) ? $result['rows'][$k]['follow']['big_avatar_url'] : '';
                     $follow['summary'] = isset($result['rows'][$k]['follow']['summary']) ? $result['rows'][$k]['follow']['summary'] : '';
@@ -92,7 +91,6 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
                 // 自己的粉丝
                 if(isset($result['rows'][$k]['fans']['_id'])){
                     $follow['user_id'] = isset($result['rows'][$k]['fans']['_id']) ? $result['rows'][$k]['fans']['_id'] : 0;
-                    $follow['account'] = isset($result['rows'][$k]['fans']['account']) ? $result['rows'][$k]['fans']['account'] : '';
                     $follow['nickname'] = isset($result['rows'][$k]['fans']['nickname']) ? $result['rows'][$k]['fans']['nickname'] : '';
                     $follow['avatar_url'] = isset($result['rows'][$k]['fans']['big_avatar_url']) ? $result['rows'][$k]['fans']['big_avatar_url'] : '';
                     $follow['summary'] = isset($result['rows'][$k]['fans']['summary']) ? $result['rows'][$k]['fans']['summary'] : '';

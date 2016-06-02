@@ -270,7 +270,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 		
 		// 屏蔽关键信息
 		if($this->current_user_id != $id){
-			$filter_fields  = array('account','email','phone','address','true_nickname','birthday','realname','counter');
+			$filter_fields  = array('email','phone','address','true_nickname','birthday','realname','counter');
 			for($i=0;$i<count($filter_fields);$i++){
 				$key = $filter_fields[$i];
 				unset($data[$key]);
