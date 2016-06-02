@@ -90,7 +90,6 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
       }
 
 			$user_info['from_user']['id'] = $from_user['_id'];
-			$user_info['from_user']['account'] = $from_user['account'];
 			$user_info['from_user']['nickname'] = $from_user['nickname'];
 			$user_info['from_user']['big_avatar_url'] = $from_user['medium_avatar_url'];
 			$result['rows'][$k]['users'] = $user_info;
@@ -159,11 +158,9 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 			}
 			
 			$user_info['from']['id'] = $from_user['_id'];
-			$user_info['from']['account'] = $from_user['account'];
 			$user_info['from']['nickname'] = $from_user['nickname'];
 			$user_info['from']['big_avatar_url'] = $from_user['big_avatar_url'];
 			$user_info['to']['id'] = $to_user['_id'];
-			$user_info['to']['account'] = $to_user['account'];
 			$user_info['to']['nickname'] = $to_user['nickname'];
 			$user_info['to']['big_avatar_url'] = $to_user['big_avatar_url'];
 			$result['mailbox'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);

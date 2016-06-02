@@ -339,7 +339,6 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		$user = array();
 		$user['user_id'] = $result['user']['_id'];
-		$user['account'] = $result['user']['account'];
 		$user['nickname'] = $result['user']['nickname'];
 		$user['avatar_url'] = $result['user']['big_avatar_url'];
 		$user['summary'] = $result['user']['summary'];

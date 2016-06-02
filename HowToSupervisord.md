@@ -55,3 +55,30 @@ First only:
 Reload all workers
 
     $ supervisorctl reload
+
+
+
+一、添加好配置文件后
+
+二、更新新的配置到supervisord
+supervisorctl update
+
+三、重新启动配置中的所有程序
+supervisorctl reload
+
+四、启动某个进程(program_name=你配置中写的程序名称)
+supervisorctl start program_name
+
+五、查看正在守候的进程
+supervisorctl
+
+六、停止某一进程 (program_name=你配置中写的程序名称)
+pervisorctl stop program_name
+
+七、重启某一进程 (program_name=你配置中写的程序名称)
+supervisorctl restart program_name
+
+八、停止全部进程
+supervisorctl stop all
+
+注意：显示用stop停止掉的进程，用reload或者update都不会自动重启。
