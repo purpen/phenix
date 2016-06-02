@@ -348,7 +348,7 @@
   }
 
   var page = 1;
-  var size = 3;
+  var size = 1;
   var day = "{{ day|default 0 }}";
   // ajax 加载中奖用户列表
   function fetch_draw_user(page, size, type, day, sid){
@@ -377,15 +377,14 @@
               z_desc = z_title;
               break;
             }
-            html += '恭喜 '+ list[i]["user"]["nickname"] +' 获得 '+ z_desc +'!';
+            html += '<p class="padd" sid="'+ z_id +'">恭喜 '+ list[i]["user"]["nickname"] +' 获得 '+ z_desc +'!</p>';
           }
           if(html==''){
             return;
           }
 
           $('#slidework p.padd').prepend(html); 
-          //setTimeout("$('p.padd').addClass('active');",1000); 
-          //<p class="padd" sid="'+ z_id +'"></p>      
+          //setTimeout("$('p.padd').addClass('active');",1000);       
         }
     }, 'json');
   }
@@ -569,7 +568,7 @@
   </div>
 </div>-->
 <div id="slidework" style="overflow: hidden;">
-  <p class="padd "> </p>
+  
 </div>
 <div class="draw">
   <div id="disk"></div>
