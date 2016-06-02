@@ -17,10 +17,20 @@
     min-height:100%;
     height:auto;
     width:100%;
-    background:url({{ app_url_packaged }}/images/promo/w_sign_draw1.jpg) center top no-repeat;
+    background:url({{ app_url_packaged }}/images/promo/sign_zbg.jpg) center top no-repeat;
     background-size: cover;
-	padding-top:20px;
+	padding-top:0;
 	position:relative;
+  }
+
+  #slidework{
+    width: 300px;
+    height: 68px;
+    background: url({{ app_url_packaged }}/images/promo/sign_gg.png)  no-repeat;
+    background-size: 100%;
+    position:relative; 
+    margin: 0 auto 10px;
+    top: 0;
   }
   .ui.top.grid{
 	  padding-top:12px;
@@ -35,18 +45,19 @@
     .draw,#disk{
       width:350px; height:350px;
     }
+    #slidework{
+      width: 340px;
+      height: 75px;
+    }
   }
   @media only screen and (min-width: 400px){
     .draw,#disk{
       width:400px; height:400px;
     }
-  }
-  #slidework{
-      height: 20px;
-      position: absolute;
-      top: 10px;
-      width: 100%;
-      z-index: 3;
+    #slidework{
+      width: 360px;
+      height: 78px;
+    }
   }
   .backg.column {
       background: #ff5044;
@@ -168,9 +179,9 @@
 	  color:#f36;
   }
   p.padd{
-	  left: 100%;
+	  left: 14px;
       position: absolute;
-      top: 0;
+      bottom: 9px;
       -webkit-animation: left 8s cubic-bezier(0.39, 0.58, 0.57, 1);
       animation: left 8s cubic-bezier(0.39, 0.58, 0.57, 1);
       font-size: 13px;
@@ -184,9 +195,6 @@
       color: #3f3f3d;
       transition: left 8s cubic-bezier(0.39, 0.58, 0.57, 1);
       -webkit-transition: left 8s cubic-bezier(0.39, 0.58, 0.57, 1);
-  }
-  p.padd+p.padd{
-	  padding-top:30px;
   }
 </style>
 {% endblock %}
@@ -340,7 +348,7 @@
   }
 
   var page = 1;
-  var size = 1;
+  var size = 3;
   var day = "{{ day|default 0 }}";
   // ajax 加载中奖用户列表
   function fetch_draw_user(page, size, type, day, sid){
@@ -369,14 +377,15 @@
               z_desc = z_title;
               break;
             }
-            html += '<p class="padd" sid="'+ z_id +'">恭喜 '+ list[i]["user"]["nickname"] +' 获得 '+ z_desc +'!</p>';
+            html += '恭喜 '+ list[i]["user"]["nickname"] +' 获得 '+ z_desc +'!';
           }
           if(html==''){
             return;
           }
 
-          $('#slidework').prepend(html); 
-          setTimeout("$('p.padd').addClass('active');",1000);       
+          $('#slidework p.padd').prepend(html); 
+          //setTimeout("$('p.padd').addClass('active');",1000); 
+          //<p class="padd" sid="'+ z_id +'"></p>      
         }
     }, 'json');
   }
@@ -560,7 +569,7 @@
   </div>
 </div>-->
 <div id="slidework" style="overflow: hidden;">
-
+  <p class="padd "> </p>
 </div>
 <div class="draw">
   <div id="disk"></div>
