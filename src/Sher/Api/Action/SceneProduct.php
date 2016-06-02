@@ -162,6 +162,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     $asset_service = Sher_Core_Service_Asset::instance();
 
     $spl_model = new Sher_Core_Model_SceneProductLink();
+    $sight_model = new Sher_Core_Model_SceneSight();
 		
 		// 重建数据结果
 		$data = array();
@@ -217,10 +218,11 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
       $sight_options['sort'] = array('created_on'=>-1);
       $sqls = $spl_model->find($sight_query, $sight_options);
       if($sqls){
-        for($i=0;$i<count($sqls);$i++){
-          $sql = $spl_model->extended_model_row($sqls[$i]);
-          if($sql && isset($sql['sight']) && isset($sql['sight']['cover'])){
-            array_push($sights, array('id'=>$sql['sight_id'], 'title'=>$sql['sight']['title'], 'cover_url'=>$sql['sight']['cover']['thumbnails']['huge']['view_url']));
+        for($j=0;$j<count($sqls);$j++){
+          $sight_id = $sqls[$j];
+          $sight = $sight_model->extend_load((int)$sight_id);
+          if(empty($sight) && isset($sight['cover'])){
+            array_push($sights, array('id'=>$sight['_id'], 'title'=>$sight['title'], 'cover_url'=>$sight['cover']['thumbnails']['huge']['view_url']));
           }
         }
       }
