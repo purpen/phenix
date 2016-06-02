@@ -601,36 +601,61 @@
 </div>
 <img src="{{ app_url_packaged }}/images/promo/sign_gz.png" width="100%" align="absmiddle">
 
-<div class="ui grid">
-  <div class="row">
-    <div class="column plr-2r">
+<div class="ui grid plr-2r">
+  <div class="row pb-0">
+    <div class="column">
       <img src="{{ app_url_packaged }}/images/promo/sign_j.png" width="100%" align="absmiddle">
       
     </div>
   </div>
-  <div class="row plr-2r">
+  <div class="row pt-0">
     <div class="recommend-topic">
       <div class="recom-item">
-                   
+        {% cache cache_key:'wap_index_product_stick_slide' ttl:600 disable_cache:app_disable_cached %}
+        
+        {% ad_list var:'adslide2' page:1 size:2 state:2 name:'web_index_product_stick_slide' %}
+            {% if adslide2.rows %}
+        
+        {% for ad in adslide2.rows %}
         <div class="recom-cell">
-          <a href="http://www.taihuoniao.com/tracker?kid=134978437" title="免费试用丨鹏博士智能摄像头（粉色版）">
-        <img class="lazy" data-original="http://frbird.qiniudn.com/asset/160526/574659dafc8b12e72f8b4e3b-1" src="http://frbird.qiniudn.com/asset/160526/574659dafc8b12e72f8b4e3b-1" title="免费试用丨鹏博士智能摄像头（粉色版）" style="display: block;">
+          <a href="{{ ad.view_url }}" title="{{ ad.title }}">
+            <img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png" title="{{ ad.title }}">
             <div class="desc">
-              免费试用丨鹏博士智能摄像头（粉色版）
+              {{ ad.title }}
             </div>
           </a>
         </div>
-
-        <div class="recom-cell">
-          <a href="http://www.taihuoniao.com/tracker?kid=136305248" title="神奇 这个音箱酷似小米电饭锅">
-            <img class="lazy" data-original="http://frbird.qiniudn.com/asset/160601/574e47b9fc8b124b6b8b7403-1" src="http://frbird.qiniudn.com/asset/160601/574e47b9fc8b124b6b8b7403-1" title="神奇 这个音箱酷似小米电饭锅" style="display: block;">
-            <div class="desc">
-              神奇 这个音箱酷似小米电饭锅
-            </div>
-          </a>
-        </div>  
+         {%endfor%}
+             {%endif%}            
+        {% endcache %}
             
       </div>
+    </div>
+  </div>
+  
+  <div class="row pt-0">
+    <img src="{{ app_url_packaged }}/images/promo/sign_m.png" width="100%" align="absmiddle">
+    <div class="recommend-topic">
+      <div class="recom-item">
+        {% cache cache_key:'wap_index_topic_stick_slide' ttl:500 disable_cache:app_disable_cached %}
+         
+         {% ad_list var:'adslide3' page:1 size:4 state:2 name:'web_index_topic_stick_slide' %}
+         {% for ad in adslide3.rows %}
+        <div class="recom-cell">
+          <a href="{{ ad.view_url }}" title="{{ ad.title }}">
+            <img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png" title="{{ ad.title }}">
+            <div class="desc">
+                            {{ ad.title }}
+                    </div>
+          </a>
+        </div>
+        {% endfor %}
+        {% endcache %}
+
+      </div>
+    </div>
+  </div>
+
   
 </div>
 
