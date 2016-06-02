@@ -80,7 +80,7 @@ function clean_token() {
 clean_session();
 clean_token();
 
-// sleep 60 seconds
-sleep(60);
+// sleep 300 seconds
+sleep(300);
 
 exit(0);

@@ -1,6 +1,6 @@
 <?php
 /**
- * 品牌管理
+ * 商品场景关系表
  * @author caowei＠taihuoniao.com
  */
 class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {

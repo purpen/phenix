@@ -116,7 +116,7 @@ function auto_do($type, $size=1000){
 }
 
 // 开始执行
-//auto_do(1);
+auto_do(1);
 
 sleep($sleep_time);
 exit(0);
