@@ -195,17 +195,33 @@
       color: #3f3f3d;
       //transition: left 8s cubic-bezier(0.39, 0.58, 0.57, 1);
       //-webkit-transition: left 8s cubic-bezier(0.39, 0.58, 0.57, 1);
-      -webkit-animation:gogogo 2s infinite linear ;
+      -webkit-animation:gogogo 8s infinite linear ;
   }
   @-webkit-keyframes gogogo {
     0%{
         -webkit-transform: translateX(0);
     }
-    50%{
+    20%{
         -webkit-transform: translateX(-50%);
     }
+    45%{
+        -webkit-transform: translateX(-105%);
+        opacity: 1;
+    }
+    50%{
+        -webkit-transform: translateX(-110%);
+        opacity: 0;
+    }
+    55%{
+        -webkit-transform: translateX(100%);
+        opacity: 0;
+    }
+    60%{
+        -webkit-transform: translateX(95%);
+        opacity: 1;
+    }
     100%{
-        -webkit-transform: translateX(-100%);
+        -webkit-transform: translateX(0);
     }
 
 }
@@ -584,7 +600,7 @@
   </div>
 </div>-->
 <div id="slidework" style="overflow: hidden;">
-  
+
 </div>
 <div class="draw">
   <div id="disk"></div>
