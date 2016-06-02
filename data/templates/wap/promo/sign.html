@@ -405,10 +405,6 @@
 
   });
 
-  $('.close.icon').click(function(){
-    $('.ui.drawmes.modal').modal('hide');
-  });
-
   //fetch_draw_user(1, size, 1, day, '');
 
   // 定时提示,每次3秒钟,最多100次
@@ -517,6 +513,9 @@
   });
   $('#mask').click(function(){
       $('#mask').css('display','none');
+  });
+  $('.close.icon').click(function(){
+     $('.ui.drawmes.modal').modal('hide');
   });
   
   window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
