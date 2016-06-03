@@ -29,8 +29,8 @@ $is_end = false;
 $total = 0;
 
 while(!$is_end){
-	$query = array('kind'=>6);
-	$options = array('page'=>$page,'size'=>$size);
+	$query = array();
+	$options = array('page'=>$page, 'size'=>$size);
 	$list = $user_model->find($query, $options);
 	if(empty($list)){
 		echo "get user list is null,exit......\n";
@@ -42,8 +42,13 @@ while(!$is_end){
     if(empty($user)){
       continue;
     }
-    $d = date('y-m-d', $user['created_on']);
-    $nickname = $user['nickname'];
+    $id = $user['_id'];
+    if(!isset($user['scene_count'])){
+      //$user_model->update_set($id, array('scene_count'=>0));
+    }
+    if(!isset($user['sight_count'])){
+      //$user_model->update_set($id, array('sight_count'=>0));
+    }
 
     $total++;
 	}
