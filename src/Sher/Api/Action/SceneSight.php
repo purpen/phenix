@@ -394,12 +394,9 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		$id = isset($this->stash['id'])?$this->stash['id']:0;
 		if(empty($id)){
-			$this->api_json('内容不存在', 3000);
+			return $this->api_json('内容不存在', 3000);
 		}
 		$user_id = $this->current_user_id;
-		if(empty($user_id)){
-			  return $this->api_json('请先登录', 3000);   
-		}
 		
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		
@@ -410,13 +407,16 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 				$scene_sight = $scene_sight_model->load((int)$id);
 				
 				if (!empty($scene_sight)){
+          if($user_id != $scene_sight['user_id']){
+ 			      return $this->api_json('操作失败,请重新再试', 3002);         
+          }
 					$scene_sight_model->remove((int)$id);
           $scene_sight_model->mock_after_remove((int)$id, $scene_sight);
 				}
 			}
 			
 		}catch(Sher_Core_Model_Exception $e){
-			$this->api_json('操作失败,请重新再试', 3001);
+			$this->api_json('操作失败,请重新再试', 3003);
 		}
 		return $this->api_json('删除成功！', 0, array('id'=>$id));
 	}
@@ -427,7 +427,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
   public function add_share_context_num(){
  		$id = isset($this->stash['id'])?$this->stash['id']:0;
 		if(empty($id)){
-			$this->api_json('缺少请求参数！', 3000);
+			return $this->api_json('缺少请求参数！', 3000);
     }
     $model = new Sher_Core_Model_SceneContext();
     $ok = $model->inc_counter('used_count', 1, $id);

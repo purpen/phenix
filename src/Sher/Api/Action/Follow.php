@@ -6,7 +6,7 @@
  */
 class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute','get_list','ajax_follow','ajax_cancel_follow');
+	protected $filter_user_method_list = array('execute','get_list');
 
 	/**
 	 * 入口
@@ -21,7 +21,7 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 	public function get_list(){
 		
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$size = isset($this->stash['size'])?(int)$this->stash['size']:100;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		
 		$some_fields = array(
 			'_id'=>1, 'user_id'=>1, 'follow_id'=>1, 'group_id'=>1, 'is_read'=>1, 'type'=>1,
@@ -31,10 +31,10 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 		$options = array();
 		
 		// 请求参数
-		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 10;
-        $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+    $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$follow_type = isset($this->stash['follow_type']) ? (int)$this->stash['follow_type'] : 0;
-        $find_type = isset($this->stash['find_type']) ? (int)$this->stash['find_type'] : 1;
+    $find_type = isset($this->stash['find_type']) ? (int)$this->stash['find_type'] : 1;
 		
 		if($find_type){
             if($find_type == 1){
@@ -60,7 +60,6 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 		}
 		
 		$options['some_fields'] = $some_fields;
-		//var_dump($query);die;
 		
 		// 开启查询
         $service = Sher_Core_Service_Follow::instance();
@@ -73,10 +72,10 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
             $follow = array();
             if($find_type == 1){
                 // 自己关注的人
-                if(isset($result['rows'][$k]['follow']['_id'])){
+                if(isset($result['rows'][$k]['follow']) && !empty($result['rows'][$k]['follow'])){
                     $follow['user_id'] = isset($result['rows'][$k]['follow']['_id']) ? $result['rows'][$k]['follow']['_id'] : 0;
                     $follow['nickname'] = isset($result['rows'][$k]['follow']['nickname']) ? $result['rows'][$k]['follow']['nickname'] : '';
-                    $follow['avatar_url'] = isset($result['rows'][$k]['follow']['big_avatar_url']) ? $result['rows'][$k]['follow']['big_avatar_url'] : '';
+                    $follow['avatar_url'] = isset($result['rows'][$k]['follow']['big_avatar_url']) ? $result['rows'][$k]['follow']['medium_avatar_url'] : '';
                     $follow['summary'] = isset($result['rows'][$k]['follow']['summary']) ? $result['rows'][$k]['follow']['summary'] : '';
                     $follow['follow_ext']['rank_point'] = $result['rows'][$k]['follow_ext']['rank_point'];
                     $follow['follow_ext']['user_rank'] = $result['rows'][$k]['follow_ext']['user_rank']['title'];
@@ -86,13 +85,15 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 					if($follow_model->has_exist_ship($this->current_user_id, $follow['user_id'])){
 						$follow['is_love'] = 1;
 					}
+                }else{
+                  continue;
                 }
             }else if($find_type == 2){
                 // 自己的粉丝
-                if(isset($result['rows'][$k]['fans']['_id'])){
+                if(isset($result['rows'][$k]['fans']) && !empty($result['rows'][$k]['fans'])){
                     $follow['user_id'] = isset($result['rows'][$k]['fans']['_id']) ? $result['rows'][$k]['fans']['_id'] : 0;
                     $follow['nickname'] = isset($result['rows'][$k]['fans']['nickname']) ? $result['rows'][$k]['fans']['nickname'] : '';
-                    $follow['avatar_url'] = isset($result['rows'][$k]['fans']['big_avatar_url']) ? $result['rows'][$k]['fans']['big_avatar_url'] : '';
+                    $follow['avatar_url'] = isset($result['rows'][$k]['fans']['big_avatar_url']) ? $result['rows'][$k]['fans']['medium_avatar_url'] : '';
                     $follow['summary'] = isset($result['rows'][$k]['fans']['summary']) ? $result['rows'][$k]['fans']['summary'] : '';
                     $follow['fans_ext']['rank_point'] = $result['rows'][$k]['fans_ext']['rank_point'];
                     $follow['fans_ext']['user_rank'] = $result['rows'][$k]['fans_ext']['user_rank']['title'];
@@ -102,6 +103,8 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 					if($follow_model->has_exist_ship($this->current_user_id, $follow['user_id'])){
 						$follow['is_love'] = 1;
 					}
+                }else{
+                  continue;
                 }
             }
             $result['rows'][$k]['follows'] = $follow;
@@ -111,7 +114,6 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
         $filter_fields  = array('fans','follow','fans_ext','follow_ext','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
-		//var_dump($result['rows']);die;
 		return $this->api_json('请求成功', 0, $result);
 	}
 	

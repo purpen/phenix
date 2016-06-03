@@ -76,7 +76,6 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
       $data[$i]['product'] = array();
       $data[$i]['sight'] = array();
       if(!empty($product)){
-
         // 重建商品数据结果
         for($j=0;$j<count($product_some_fields);$j++){
           $product_key = $product_some_fields[$j];
@@ -98,6 +97,8 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
           }
         }
         $data[$i]['product']['banner_asset'] = $assets;
+      }else{
+        continue;
       }
 
       if(!empty($sight)){
@@ -108,8 +109,9 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
         $data[$i]['sight']['title'] = $sight['title'];
         $data[$i]['sight']['address'] = $sight['address'];
         $data[$i]['sight']['scene_title'] = isset($sight['scene']) ? $sight['scene']['title'] : null;
+      }else{
+        continue;
       }
-
 		}
 
     $result['rows'] = $data;

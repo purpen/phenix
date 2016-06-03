@@ -720,6 +720,10 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		try{
       $model = new Sher_Core_Model_UserTalent();
       if(empty($id)){
+        $has_one = $model->first(array('user_id'=>$user_id));
+        if($has_one){
+          return $this->api_json('不能重复提交!', 4003);       
+        }
         $mode = 'create';
 		    $data['user_id'] = $user_id;
 			  $ok = $model->apply_and_save($data);
@@ -727,6 +731,8 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
         $id = (string)$res['_id'];
       }else{
         $mode = 'update';
+        $data['_id'] = $id;
+        $data['verified'] = 0;
         $ok = $model->apply_and_update($data);
       }
 			
@@ -761,7 +767,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		$model = new Sher_Core_Model_UserTalent();	
     $talent = $model->first(array('user_id'=>$user_id));
     if(empty($talent)){
-      $talent = array();
+		  return $this->api_json('用户未申请过', 3001);
     }else{
       $talent = $model->extended_model_row(&$talent);
       $talent['_id'] = (string)$talent['_id'];
