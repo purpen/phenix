@@ -103,6 +103,7 @@
 				<th>用户名</th>
 				<th>联系方式</th>
         <th>关注|粉丝|文章|产品</th>
+        <th>Fiu达人</th>
         <th>优质用户</th>
         <th>类型</th>
 				<th>注册时间|IP|状态</th>
@@ -143,6 +144,7 @@
 				</td>
         <td>{{ user.follow_count|default 0 }}|{{ user.fans_count|default 0 }}|{{ user.topic_count|default 0 }}|{{ user.product_count|default 0 }}</td>
         <td>
+          <td>{{ user.identify.is_expert|default 0 }}</td>
           <p id="user-quality-{{user._id}}">
 						{% if user.quality %}
               <a href="{{ app_url_admin }}/user/set_quality?id={{user._id}}&evt=0" class="ajax"><span class="ui small green label">是</span></a>
