@@ -143,8 +143,8 @@
           {{ user.profile.realname }}
 				</td>
         <td>{{ user.follow_count|default 0 }}|{{ user.fans_count|default 0 }}|{{ user.topic_count|default 0 }}|{{ user.product_count|default 0 }}</td>
+        <td>{{ user.identify.is_expert|default 0 }}</td>
         <td>
-          <td>{{ user.identify.is_expert|default 0 }}</td>
           <p id="user-quality-{{user._id}}">
 						{% if user.quality %}
               <a href="{{ app_url_admin }}/user/set_quality?id={{user._id}}&evt=0" class="ajax"><span class="ui small green label">是</span></a>
