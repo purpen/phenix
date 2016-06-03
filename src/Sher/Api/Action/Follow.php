@@ -6,7 +6,7 @@
  */
 class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute','get_list','ajax_follow','ajax_cancel_follow');
+	protected $filter_user_method_list = array('execute','get_list');
 
 	/**
 	 * 入口
@@ -72,7 +72,7 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
             $follow = array();
             if($find_type == 1){
                 // 自己关注的人
-                if(isset($result['rows'][$k]['follow']['_id'])){
+                if(isset($result['rows'][$k]['follow']) && !empty($result['rows'][$k]['follow'])){
                     $follow['user_id'] = isset($result['rows'][$k]['follow']['_id']) ? $result['rows'][$k]['follow']['_id'] : 0;
                     $follow['nickname'] = isset($result['rows'][$k]['follow']['nickname']) ? $result['rows'][$k]['follow']['nickname'] : '';
                     $follow['avatar_url'] = isset($result['rows'][$k]['follow']['big_avatar_url']) ? $result['rows'][$k]['follow']['medium_avatar_url'] : '';
@@ -88,7 +88,7 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
                 }
             }else if($find_type == 2){
                 // 自己的粉丝
-                if(isset($result['rows'][$k]['fans']['_id'])){
+                if(isset($result['rows'][$k]['fans']) && !empty($result['rows'][$k]['fans'])){
                     $follow['user_id'] = isset($result['rows'][$k]['fans']['_id']) ? $result['rows'][$k]['fans']['_id'] : 0;
                     $follow['nickname'] = isset($result['rows'][$k]['fans']['nickname']) ? $result['rows'][$k]['fans']['nickname'] : '';
                     $follow['avatar_url'] = isset($result['rows'][$k]['fans']['big_avatar_url']) ? $result['rows'][$k]['fans']['medium_avatar_url'] : '';
