@@ -761,8 +761,9 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		$model = new Sher_Core_Model_UserTalent();	
     $talent = $model->first(array('user_id'=>$user_id));
     if(empty($talent)){
-      $talent = array();
+		  return $this->api_json('用户未申请过', 3001);
     }else{
+      $talent = array();
       $talent = $model->extended_model_row(&$talent);
       $talent['_id'] = (string)$talent['_id'];
       unset($talent['user']);
