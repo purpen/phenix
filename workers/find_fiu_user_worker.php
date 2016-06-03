@@ -28,16 +28,21 @@ echo "-------------------------------------------------\n";
 function begin_stat(){
   echo "Begin to star...\n";
   $page=1;
-  $size=100;
+  $size=50;
   $count = 0;
   $query = array();
+  $query['state'] = 2;
 
-  $options = array('field'=>array('_id','sight_count','state'), 'page'=>$page, 'size'=>$size, 'sort'=>array('sight_count'=>-1, 'fans_count'=>-1));
+  $options = array('field'=>array('_id','sight_count','fans_count','state'), 'page'=>$page, 'size'=>$size, 'sort'=>array('fans_count'=>-1));
   $user_model = new Sher_Core_Model_User();
   $users = $user_model->find($query, $options);
   if(!empty($users)){
     $dig_model = new Sher_Core_Model_DigList();
     $dig_key_id = Sher_Core_Util_Constant::DIG_FIU_USER_IDS;
+    $dig = $dig_model->load($dig_key_id);
+    if(!empty($dig) && !empty($dig['items'])){
+      $dig_model->update_set($dig_key_id, array('items'=>array()));
+    }
     for($i=0;$i<count($users);$i++){
       $dig_model->add_item_custom($dig_key_id, $users[$i]['_id']);
       $count++;
