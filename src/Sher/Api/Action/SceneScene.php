@@ -253,8 +253,8 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$model = new Sher_Core_Model_SceneScene();
         $result  = $model->extend_load((int)$id);
 		
-		if (!$result) {
-            return $this->api_json('请求内容为空!', true);
+		if (empty($result)) {
+            return $this->api_json('情景不存在或已删除!', true);
         }
 		
 		// 增加浏览量

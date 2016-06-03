@@ -322,11 +322,12 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         
 		$model = new Sher_Core_Model_SceneSight();
         $result  = $model->extend_load((int)$id);
-		$result['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
-		
-		if (!$result) {
-            return $this->api_json('请求内容为空!', true);
+
+		if (empty($result)) {
+            return $this->api_json('场景不存在或已删除!', true);
         }
+
+		$result['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
 		
 		// 增加浏览量
     $rand = rand(1, 5);
