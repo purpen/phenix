@@ -19,15 +19,13 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 	 */
 	public function getlist(){
 		
-		// http://www.taihuoniao.me/app/api/scene_scene/getlist?dis=1000&lat=39.9151190000&lng=116.4039630000
-		
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		
 		$some_fields = array(
 			'_id'=>1, 'title'=>1, 'user_id'=>1, 'des'=>1, 'sight'=>1, 'tags'=>1,
 			'location'=>1, 'address'=>1, 'cover_id'=>1,'used_count'=>1,
-			'view_count'=>1, 'subscription_count'=>1, 'love_count'=>1,
+			'view_count'=>1, 'subscription_count'=>1, 'love_count'=>1, 'deleted'=>1,
 			'comment_count'=>1, 'is_check'=>1, 'stick'=>1, 'fine'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
 		);
 		
@@ -89,6 +87,8 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		if($user_id){
 			$query['user_id']  = $user_id;
 		}
+
+    $query['deleted'] = 0;
 		
 		// 分页参数
         $options['page'] = $page;
@@ -253,8 +253,8 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$model = new Sher_Core_Model_SceneScene();
         $result  = $model->extend_load((int)$id);
 		
-		if (!$result) {
-            return $this->api_json('请求内容为空!', true);
+		if (empty($result) || $result['deleted']==1) {
+            return $this->api_json('情景不存在或已删除!', true);
         }
 		
 		// 增加浏览量
@@ -329,7 +329,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		}
 		$user_id = $this->current_user_id;
 		if(empty($user_id)){
-			  return $this->api_json('请先登录', 3000);   
+			  return $this->api_json('请先登录', 3001);   
 		}
 		
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
@@ -353,7 +353,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 					return $this->api_json('不允许操作！', 3003);
 				}
 				
-        $scene_model->remove((int)$id);
+        $scene_model->mark_remove((int)$id);
         $scene_model->mock_after_remove((int)$id, $scene);
 
 			} // endfor

@@ -64,10 +64,12 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
     'fine' => 0,
 		# 是否启用
 		'status' => 0,
+    # 是否删除
+    'deleted' => 0,
     );
 	
-	protected $required_fields = array('title');
-	protected $int_fields = array('status', 'used_count');
+	protected $required_fields = array('title', 'user_id');
+	protected $int_fields = array('status', 'used_count', 'deleted');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count','view_count','subscription_count','love_count','comment_count','true_view_count','app_view_count','web_view_count','wap_view_count');
 	protected $retrieve_fields = array();
@@ -165,6 +167,14 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 			}
 		}
 	}
+
+  /**
+   * 逻辑删除
+   */
+  public function mark_remove($id){
+    $ok = $this->update_set((int)$id, array('deleted'=>1));
+    return $ok;
+  }
 
 	/**
 	 * 删除后事件

@@ -131,7 +131,6 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 			$data['tags'][$k] = (int)$v;
 		}
 		
-		//var_dump($data);die;
 		try{
 			$model = new Sher_Core_Model_SceneScene();
 			// 新建记录
@@ -226,4 +225,24 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		
 		return $this->to_taconite_page('app_admin/scene_scene/check_ok.html');
 	}
+
+	/**
+	 * 删除
+	 */
+	public function delete() {
+		$id = (int)$this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_note('请求参数为空', true);
+		}
+		$model = new Sher_Core_Model_SceneScene();
+		$result = $model->first($id);
+		
+		if($result && $model->mark_remove($id)){
+      $model->mock_after_remove($id, $result);
+		}
+		
+		$this->stash['id'] = $id;
+		return $this->to_taconite_page('app_admin/del_ok.html');
+	}
+
 }

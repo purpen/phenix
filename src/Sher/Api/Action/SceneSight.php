@@ -24,7 +24,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		$some_fields = array(
 			'_id'=>1, 'user_id'=>1, 'title'=>1, 'des'=>1, 'scene_id'=>1, 'tags'=>1,
-			'product' => 1, 'location'=>1, 'address'=>1, 'cover_id'=>1,
+			'product' => 1, 'location'=>1, 'address'=>1, 'cover_id'=>1, 'deleted'=>1,
 			'used_count'=>1, 'view_count'=>1, 'love_count'=>1, 'comment_count'=>1,
 			'fine' => 1, 'stick'=>1, 'is_check'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
 		);
@@ -94,6 +94,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		if($user_id){
 			$query['user_id']  = $user_id;
 		}
+
+    $query['deleted'] = 0;
 		
 		// 分页参数
         $options['page'] = $page;
@@ -169,7 +171,6 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$user_id = $this->current_user_id;
-		//$user_id = 10;
 		if(empty($user_id)){
 			  return $this->api_json('请先登录', 3000);   
 		}
@@ -233,9 +234,6 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		unset($data['product_x']);
 		unset($data['product_y']);
 		
-		// 上传图片
-		//$this->stash['tmp'] = Doggy_Config::$vars['app.imges'];
-		
 		if(!isset($this->stash['tmp']) && empty($this->stash['tmp'])){
 			return $this->api_json('请选择图片！', 3006);  
 		}
@@ -262,7 +260,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		}else{
 			return $this->api_json('上传失败!', 3009); 
 		}
-		//var_dump($data);die;
+
 		try{
 			$model = new Sher_Core_Model_SceneSight();
 			// 新建记录
@@ -322,11 +320,12 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         
 		$model = new Sher_Core_Model_SceneSight();
         $result  = $model->extend_load((int)$id);
-		$result['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
-		
-		if (!$result) {
-            return $this->api_json('请求内容为空!', true);
+
+		if (empty($result) || $result['deleted']==1) {
+            return $this->api_json('场景不存在或已删除!', 3002);
         }
+
+		$result['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
 		
 		// 增加浏览量
     $rand = rand(1, 5);
@@ -410,7 +409,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
           if($user_id != $scene_sight['user_id']){
  			      return $this->api_json('操作失败,请重新再试', 3002);         
           }
-					$scene_sight_model->remove((int)$id);
+					$scene_sight_model->mark_remove((int)$id);
           $scene_sight_model->mock_after_remove((int)$id, $scene_sight);
 				}
 			}
