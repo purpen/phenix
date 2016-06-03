@@ -66,12 +66,15 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
 		$data = array();
 		// 重建数据结果
 		for($i=0;$i<count($result['rows']);$i++){
+      $product = $result['rows'][$i]['product'];
+      $sight = $result['rows'][$i]['sight'];
+      if(empty($product) || empty($sight)){
+        continue;
+      }
 			foreach($some_fields as $key=>$value){
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:null;
 			}
 			$data[$i]['_id'] = (string)$result['rows'][$i]['_id'];
-      $product = $result['rows'][$i]['product'];
-      $sight = $result['rows'][$i]['sight'];
 
       $data[$i]['product'] = array();
       $data[$i]['sight'] = array();
@@ -97,8 +100,6 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
           }
         }
         $data[$i]['product']['banner_asset'] = $assets;
-      }else{
-        continue;
       }
 
       if(!empty($sight)){
@@ -109,9 +110,8 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
         $data[$i]['sight']['title'] = $sight['title'];
         $data[$i]['sight']['address'] = $sight['address'];
         $data[$i]['sight']['scene_title'] = isset($sight['scene']) ? $sight['scene']['title'] : null;
-      }else{
-        continue;
       }
+
 		} // endfor
 
     $result['rows'] = $data;
