@@ -1,7 +1,10 @@
-{%extends 'layout/mobile.html'%}
+{%extends 'layout/mobile_api.html'%}
 {% block title %}绑定账号-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+.sign-up {
+	text-align: center;
+}
 body{
   min-height:100%;
   height:auto;
@@ -147,116 +150,118 @@ body{
 {% endblock %}
 
 {% block content %}
-<div class="ui responsive grid">
-	<div class="ui column width">
-		<div class="ui log-in signup">
-			<div class="ui top attached header logo">
-				<a href="{{ app_url_wap }}" title="返回首页">
-					<img src="{{ app_url_packaged }}/images/auth-logo.png" />
-				</a>
-			</div>
-			<div class="ui bottom attached segment">
-        <!--<div style="color:red;">首次使用第三方账号登录需要先绑定太火鸟账号</div>-->
-				<div class="one fields">
-					
-					<!--<div class="field" data-tab="two">
-						<a class="fluid ui green btn-4 btn-4c icon btn" data-tab="two" style="border-radius:0;">
-								 新的账号
-						</a>
-					</div>-->
-					<div class="field" style="z-index:99;position:relative;">
-						<a class="fluid ui green btn-4 btn-4c icon btn inverted button active" id="quick-register-btn" style="border-radius:0;z-index:100;">
-								 跳过,直接登录
-						</a>
-					</div>
-					
-					<div class="field active" data-tab="first" style="z-index:99;position:relative;">
-						<a class="ui fluid black active bang btn-4 btn-4c icon btn inverted button" data-tab="first" style="border-radius:0;">
-								 绑定已有账号
-						</a>
-					</div>
+<div id="mfrbird">
+	<div class="ui responsive grid">
+		<div class="ui column width">
+			<div class="ui log-in signup">
+				<div class="ui top attached header logo">
+					<a href="{{ app_url_wap }}" title="返回首页">
+						<img src="{{ app_url_packaged }}/images/auth-logo.png" />
+					</a>
 				</div>
+				<div class="ui bottom attached segment">
+	        <!--<div style="color:red;">首次使用第三方账号登录需要先绑定太火鸟账号</div>-->
+					<div class="one fields">
+						
+						<!--<div class="field" data-tab="two">
+							<a class="fluid ui green btn-4 btn-4c icon btn" data-tab="two" style="border-radius:0;">
+									 新的账号
+							</a>
+						</div>-->
+						<div class="field" style="z-index:99;position:relative;">
+							<a class="fluid ui green btn-4 btn-4c icon btn inverted button active" id="quick-register-btn" style="border-radius:0;z-index:100;">
+									 跳过,直接登录
+							</a>
+						</div>
+						
+						<div class="field active" data-tab="first" style="z-index:99;position:relative;">
+							<a class="ui fluid black active bang btn-4 btn-4c icon btn inverted button" data-tab="first" style="border-radius:0;">
+									 绑定已有账号
+							</a>
+						</div>
+					</div>
 
-		<form action="{{ app_url_wap }}/auth/do_login" class="ui form" method="post" id="login-form" style="display:none;">
-			<input type="hidden" name="t" value="{{ login_token }}" />
-			<input type="hidden" name="third_source" value="{{ third_source }}" />
-			<input type="hidden" name="uid" value="{{ uid }}" />
-			<input type="hidden" name="access_token" value="{{ access_token }}" />
-			<input type="hidden" name="union_id" value="{{ union_id }}" />
-			<input type="hidden" name="redirect_url" value="{{ redirect_url }}" />
-
-				<div class="ui active tab" data-tab="first">
-					<div class="field">
-					  	<input type="text" name="account" placeholder="邮箱或手机号码" />
-					</div>
-					<div class="field">
-					  	<input type="password" name="password" id="password" placeholder="密码" />
-					</div>
-					<!--<div class="inline field">
-						<div class="ui checkbox">
-				          	<input type="checkbox" name="terms" checked="checked">
-				          	<label>自动登录</label>
-				        </div>
-					
-						<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
-					</div>-->
-			
-					<div class="field ">
-						<div class="fluid ui big active magenta inverted submit button" >确定</div>
-					</div>
-				</div>
-			</form>
-			
-			
-			<form action="{{ app_url_wap }}/auth/do_register" class="ui  form" method="post" id="register-form">
+			<form action="{{ app_url_wap }}/auth/do_login" class="ui form" method="post" id="login-form" style="display:none;">
 				<input type="hidden" name="t" value="{{ login_token }}" />
-        <input type="hidden" name="third_source" value="{{ third_source }}" />
-        <input type="hidden" name="uid" value="{{ uid }}" />
-        <input type="hidden" name="access_token" value="{{ access_token }}" />
-			  <input type="hidden" name="union_id" value="{{ union_id }}" />
-        <input type="hidden" name="nickname" value="{{ nickname }}" />
-        <input type="hidden" name="sex" value="{{ sex }}" />
-        <input type="hidden" name="city" value="{{ city }}" />
-        <input type="hidden" name="summary" value="{{ summary }}" />
-        <input type="hidden" name="from_site" value="{{ from_site }}" />
-			  <input type="hidden" name="redirect_url" value="{{ redirect_url }}" />
-				
-				<div class="ui tab" data-tab="two">
-					<div class="inline field">
-						<input type="text" name="account" placeholder="手机号码" id="reg_account" style="margin-top: -25px;" />
-					</div>
-					<div class="inline field">
-						<input type="text" name="captcha" placeholder="验证码" id="captcha" />
-            			<a href="javascript:void(0);" class="ui gray" id="captcha-img">
-							<img src="/app/site/captcha/view" onclick="this.src='/app/site/captcha/view?'+Math.random();" />
-						</a>
-					</div>
-					<div class="inline field">
-						<input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" />
-						<a href="javascript:void(0);" class="ui gray button" id="fetch-verify-code">获取验证码</a>
-					</div>
-					<div class="field">
-						<input type="password" name="password" id="password" placeholder="密码" />
-					</div>
-					<div class="field">
-						<input type="password" name="password_confirm" placeholder="确认密码" />
-					</div>
-					<div class="inline field">
-						<div class="ui checkbox">
-				          	<input type="checkbox" name="terms" checked="checked">
-				          	<label><a href="{{ app_url_helper }}/law" target="_blank" class="ui link">太火鸟服务协议</a></label>
-				        </div>
-					</div>
-					
-					<div class="field">
-				    	<div class="fluid ui big active magenta inverted submit button" >确定</div>
-					</div>
-				</div>
-			</from>
-			
-			
-			</div>	
+				<input type="hidden" name="third_source" value="{{ third_source }}" />
+				<input type="hidden" name="uid" value="{{ uid }}" />
+				<input type="hidden" name="access_token" value="{{ access_token }}" />
+				<input type="hidden" name="union_id" value="{{ union_id }}" />
+				<input type="hidden" name="redirect_url" value="{{ redirect_url }}" />
 
+					<div class="ui active tab" data-tab="first">
+						<div class="field">
+						  	<input type="text" name="account" placeholder="邮箱或手机号码" />
+						</div>
+						<div class="field">
+						  	<input type="password" name="password" id="password" placeholder="密码" />
+						</div>
+						<!--<div class="inline field">
+							<div class="ui checkbox">
+					          	<input type="checkbox" name="terms" checked="checked">
+					          	<label>自动登录</label>
+					        </div>
+						
+							<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
+						</div>-->
+				
+						<div class="field ">
+							<div class="fluid ui big active magenta inverted submit button" >确定</div>
+						</div>
+					</div>
+				</form>
+				
+				
+				<form action="{{ app_url_wap }}/auth/do_register" class="ui  form" method="post" id="register-form">
+					<input type="hidden" name="t" value="{{ login_token }}" />
+	        <input type="hidden" name="third_source" value="{{ third_source }}" />
+	        <input type="hidden" name="uid" value="{{ uid }}" />
+	        <input type="hidden" name="access_token" value="{{ access_token }}" />
+				  <input type="hidden" name="union_id" value="{{ union_id }}" />
+	        <input type="hidden" name="nickname" value="{{ nickname }}" />
+	        <input type="hidden" name="sex" value="{{ sex }}" />
+	        <input type="hidden" name="city" value="{{ city }}" />
+	        <input type="hidden" name="summary" value="{{ summary }}" />
+	        <input type="hidden" name="from_site" value="{{ from_site }}" />
+				  <input type="hidden" name="redirect_url" value="{{ redirect_url }}" />
+					
+					<div class="ui tab" data-tab="two">
+						<div class="inline field">
+							<input type="text" name="account" placeholder="手机号码" id="reg_account" style="margin-top: -25px;" />
+						</div>
+						<div class="inline field">
+							<input type="text" name="captcha" placeholder="验证码" id="captcha" />
+	            			<a href="javascript:void(0);" class="ui gray" id="captcha-img">
+								<img src="/app/site/captcha/view" onclick="this.src='/app/site/captcha/view?'+Math.random();" />
+							</a>
+						</div>
+						<div class="inline field">
+							<input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" />
+							<a href="javascript:void(0);" class="ui gray button" id="fetch-verify-code">获取验证码</a>
+						</div>
+						<div class="field">
+							<input type="password" name="password" id="password" placeholder="密码" />
+						</div>
+						<div class="field">
+							<input type="password" name="password_confirm" placeholder="确认密码" />
+						</div>
+						<div class="inline field">
+							<div class="ui checkbox">
+					          	<input type="checkbox" name="terms" checked="checked">
+					          	<label><a href="{{ app_url_helper }}/law" target="_blank" class="ui link">太火鸟服务协议</a></label>
+					        </div>
+						</div>
+						
+						<div class="field">
+					    	<div class="fluid ui big active magenta inverted submit button" >确定</div>
+						</div>
+					</div>
+				</from>
+				
+				
+				</div>	
+
+			</div>
 		</div>
 	</div>
 </div>

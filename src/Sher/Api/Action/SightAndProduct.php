@@ -112,7 +112,7 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
       }else{
         continue;
       }
-		}
+		} // endfor
 
     $result['rows'] = $data;
 		
