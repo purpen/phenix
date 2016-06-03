@@ -727,6 +727,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
         $id = (string)$res['_id'];
       }else{
         $mode = 'update';
+        $data['_id'] = $id;
         $ok = $model->apply_and_update($data);
       }
 			
