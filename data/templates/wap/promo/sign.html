@@ -3,7 +3,7 @@
 {% block page_css %}
 <style type="text/css">
   .draw{width:320px; height:320px; position:relative; margin:0 auto;overflow:hidden;}
-  #disk{width:320px; height:320px; background:url({{ app_url_packaged }}/images/promo/draw_season6.png) no-repeat;background-size:100%;}
+  #disk{width:320px; height:320px; background:url({{ app_url_packaged }}/images/promo/draw_season7.png) no-repeat;background-size:100%;}
   #start{width:30%; height:30%; position:absolute; top:34%; left:35%;}
   #start img{cursor:pointer;width:100%}
   .ui.red.button{
@@ -17,10 +17,20 @@
     min-height:100%;
     height:auto;
     width:100%;
-    background:url({{ app_url_packaged }}/images/promo/w_sign_draw1.jpg) center top no-repeat;
+    background:url({{ app_url_packaged }}/images/promo/sign_zbg.jpg) center top no-repeat;
     background-size: cover;
-	padding-top:20px;
+	padding-top:0;
 	position:relative;
+  }
+
+  #slidework{
+    width: 240px;
+    height: 59px;
+    background: url({{ app_url_packaged }}/images/promo/sign_gg.png)  no-repeat;
+    background-size: 100%;
+    position:relative; 
+    margin: 0 auto 10px;
+    top: 0;
   }
   .ui.top.grid{
 	  padding-top:12px;
@@ -35,18 +45,19 @@
     .draw,#disk{
       width:350px; height:350px;
     }
+    #slidework{
+      width: 260px;
+      height: 61px;
+    }
   }
   @media only screen and (min-width: 400px){
     .draw,#disk{
       width:400px; height:400px;
     }
-  }
-  #slidework{
-      height: 20px;
-      position: absolute;
-      top: 10px;
-      width: 100%;
-      z-index: 3;
+    #slidework{
+      width: 280px;
+      height: 65px;
+    }
   }
   .backg.column {
       background: #ff5044;
@@ -137,6 +148,7 @@
       z-index: 3;
       height: 36px;
       position: relative;
+      background: #e74148 !important;
   }
   #wap-user-sign-box .add {
       position: absolute;
@@ -168,25 +180,14 @@
 	  color:#f36;
   }
   p.padd{
-	  left: 100%;
+	  left: 14px;
       position: absolute;
-      top: 0;
-      -webkit-animation: left 8s cubic-bezier(0.39, 0.58, 0.57, 1);
-      animation: left 8s cubic-bezier(0.39, 0.58, 0.57, 1);
-      font-size: 13px;
+      bottom: 9px;
+      font-size: 12px;
       overflow: hidden;
       word-wrap: initial;
       white-space: nowrap;
       z-index: 700;
-  }
-  p.padd.active{
-      left: -100%;
-      color: #3f3f3d;
-      transition: left 8s cubic-bezier(0.39, 0.58, 0.57, 1);
-      -webkit-transition: left 8s cubic-bezier(0.39, 0.58, 0.57, 1);
-  }
-  p.padd+p.padd{
-	  padding-top:30px;
   }
 </style>
 {% endblock %}
@@ -375,8 +376,8 @@
             return;
           }
 
-          $('#slidework').prepend(html); 
-          setTimeout("$('p.padd').addClass('active');",1000);       
+          $('#slidework').html(html); 
+          //setTimeout("$('p.padd').addClass('active');",1000);       
         }
     }, 'json');
   }
@@ -506,6 +507,9 @@
   $('#mask').click(function(){
       $('#mask').css('display','none');
   });
+  $('.close.icon').click(function(){
+     $('.ui.drawmes.modal').modal('hide');
+  });
   
   window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", hengshuping, false);
 
@@ -534,37 +538,12 @@
 {% endblock %}
 
 {% block content %}
-<!--
-<div class="ui responsive top grid">
-  <div class="row">
-	<div class="ui ten wide backg column">
-		<div id="slidework" style="overflow: hidden;">
-
-		</div>
-	</div>
-	
-	<div class="ui four wide signbut center aligned column">
-		{% if visitor %}
-		<div id="wap-user-sign-box">
-			
-		</div>
-		{% else %}
-		<div id="wap-user-sign-box">
-			<div class="ui green circular active inverted button qiandao">
-                    签到
-            </div>
-		</div>
-		{% endif %}
-	</div>
-	
-  </div>
-</div>-->
 <div id="slidework" style="overflow: hidden;">
 
 </div>
 <div class="draw">
   <div id="disk"></div>
-  <div id="start"><img src="{{ app_url_packaged }}/images/promo/zzhuan1.png" id="startbtn"></div>
+  <div id="start"><img src="{{ app_url_packaged }}/images/promo/zzhuan4.png" id="startbtn"></div>
 </div>
 
 <div class="ui responsive bottom grid">
@@ -583,10 +562,82 @@
 			{% endif %}
 		</div>
 	</div>
+</div>
+<img src="{{ app_url_packaged }}/images/promo/sign_0gz.png" width="100%" align="absmiddle">
+
+<div class="ui grid m-0 pt-4r">
+  <div class="row pb-0">
+    <div class="column">
+      <img src="{{ app_url_packaged }}/images/promo/sign_j.png" width="100%" align="absmiddle">
+      
+    </div>
+  </div>
+  <div class="row pt-0 plr-2r">
+    <div class="recommend-topic">
+      <div class="recom-item">
+        {% cache cache_key:'wap_index_topic_stick_slide' ttl:500 disable_cache:app_disable_cached %}
+         
+         {% ad_list var:'adslide3' page:1 size:2 state:2 name:'web_index_topic_stick_slide' %}
+     {% for ad in adslide3.rows %}
+      <div class="recom-cell">
+        <a href="{{ ad.view_url }}" title="{{ ad.title }}">
+          <img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png" title="{{ ad.title }}">
+          <div class="desc">
+                          {{ ad.title }}
+                  </div>
+        </a>
+      </div>
+      {% endfor %}
+      {% endcache %}
+            
+      </div>
+    </div>
+  </div>
+  
+  <div class="row pb-0 pt-r">
+    <div class="column">
+      <img src="{{ app_url_packaged }}/images/promo/sign_m.png" width="100%" align="absmiddle">
+    </div>
+  </div>
+  <div class="row plr-2r" style="padding-top: 8px;">
+    <div id="triespage">
+      <div class="recom-item">
+        {% cache cache_key:'wap_index_try_stick_slide' ttl:500 disable_cache:app_disable_cached %}
+          {% try_list var:'tries' sort:1 state:1 page:1 size:4 %}
+          {% for d in tries.rows %}
+          <div class="recom-cell">
+            <a href="{{ d.wap_view_url }}" title="{{ d.short_title }}">
+              <img class="lazy" data-original="{{ d.cover.thumbnails.resp.view_url }}" alt="{{ d.short_title }}" src="{{ app_url_packaged }}/images/icon/load373-298.png">
+              <div class="desc">
+          <h2>
+                  {{ d.short_title }}
+                </h2>
+          <div class="excerpt">
+                 <p>数量:<span class="count">{{ d.try_count}}</span>  申请人数:<span class="count">{{ d.apply_count }}</span>
+                 </p>
+              </div>
+          
+              </div>
+            </a>
+          </div>
+        {%endfor%}
+        </div>
+        {% endcache %}
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row pt-4r">
+    <img src="{{ app_url_packaged }}/images/promo/sign_b.jpg" width="100%" align="absmiddle">
+  </div>
+</div>
+
+
 	
+  <!--
 	<div class="row pt-0">
 	    <div class="column">
-			<!--<p><i class="help circle icon"></i><a class="question" href="" target="_blank"> 我有疑问</a></p>-->
 	      	<h3 class="ui header mt-0">规则</h3>
 			<p>1.用户必须登录成功后才可参加抽奖活动；</p>
 			<p>2.太火鸟社区签到即有1次机会参与抽奖；</p>
@@ -601,17 +652,7 @@
 			<p>7.本次活动最终解释权归太火鸟所有！</p>
 	    </div>
 	</div>
-	
-	<div class="row">
-	    <div class="center aligned column">
-	      <a href="{{ app_url_wap }}/topic"><img src="{{ app_url_packaged }}/images/promo/draw5.png" width="29%"></a>
-	      <a href="{{ app_url_wap }}/try"><img src="{{ app_url_packaged }}/images/promo/draw06.png" width="29%"></a>
-	      <a href="{{ app_url_wap }}/my/pmall"><img src="{{ app_url_packaged }}/images/promo/draw7.png" width="29%"></a>
-	    </div>
-		
-	</div>
-
-</div>
+  -->
 
 <!-- 弹出层   -->
 <div class="ui dimmer modals page transition">
