@@ -6,7 +6,7 @@
 	margin-top: 0;
 	padding:0;
 	padding-bottom: 2.5rem;
-	background:url({{ app_url_packaged }}/images/promo/sign_draw.jpg) no-repeat center center;
+	background:url({{ app_url_packaged }}/images/promo/sign_draw2.jpg) no-repeat center center;
 	background-size:cover;
 	
 }
@@ -25,22 +25,25 @@
 	padding-top: 15px;
 }
 #slidework{
-	height:120px;
+	height: 300px;
 }
 #slidework p{
     font-size: 14px;
-	margin-bottom:6px;
-	color:#fff;
-	overflow: hidden;
+    margin-bottom: 10px;
+    color: #fff;
+    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    text-align: left;
+    line-height: 24px;
 }
 .backg.column {
-    background: #ff5044;
+    background: #4dd2dc;
     color: #fff;
-    padding: 16px 10px 10px 20px !important;
-    margin-left: 15px;
-	border-radius: 8px;
+    padding: 22px 10px 20px 20px !important;
+    margin-left: 0;
+    border-radius: 8px;
+    margin-top: 20px;
 }
 .question,.question:hover{
     color: #fff;
@@ -57,7 +60,7 @@
 	position:relative;
 }
 #disk {
-    background: url({{ app_url_packaged }}/images/promo/draw_season6.png) no-repeat;
+    background: url({{ app_url_packaged }}/images/promo/draw_season7.png) no-repeat;
     background-size: cover;
 }
 #start {
@@ -73,7 +76,7 @@
 .mainright .sellwrap.usersign{
 	background: rgba(0,0,0,0);
 	border:none; 
-	margin-top: 10px;
+	margin-top: 20px;
 	margin-bottom:0;
 	margin-left:-20px;
 }
@@ -156,11 +159,50 @@ p span.red {
   color: #f36;
 }
 .mainwrap .mainright .user.share{
-	color: #000;
+	color: #fff;
 	border-top:none;
+	text-align: left;
+	margin-top: 0;
+	padding-top: 0;
 }
 .ui.modal .content a i.large.icon{
 	font-size:1.2em;
+}
+.usersign .pai .ui.inverted.red.active.button{
+	width: 100%;
+    background: #f9bd00;
+}
+.guide.column{
+	background: url({{ app_url_packaged }}/images/promo/sign_pgz.png);
+	background-size: cover;
+	height: 310px;
+    padding: 50px 10px 0 30px !important;
+}
+.guide.column p{
+
+}
+.guide.column p img{
+	margin-right: 10px;
+    height: 18px;
+    margin-top: -2px;
+}
+.six.wide.column .mainwrap .mainright .sellwrap{
+	margin-top: 5px;
+}
+.six.wide.column .mainwrap .mainright .ui.articles.list {
+    padding-bottom: 0;
+}
+.six.wide.column .mainwrap .mainright .ui.articles.list .item{
+	padding: 10px 0 12px 0;
+}
+.mainwrap .mainright .adstickwrap{
+	margin-top: 78px;
+}
+.mainwrap .mainright .adstickwrap .ui.adverts.cards>.card {
+    margin: 15px 0 0;
+}
+.ui.adverts.cards>.card .advblock .desc h2{
+	margin-bottom: -15px;
 }
 </style>
 {% endblock %}
@@ -465,7 +507,7 @@ p span.red {
   }
 
   var page = 1;
-  var size = 5;
+  var size = 9;
   var day = "{{ day|default 0 }}";
   // ajax 加载中奖用户列表
   function fetch_draw_user(page, size, type, day, sid){
@@ -654,18 +696,8 @@ p span.red {
 			<div class="mainleft">
 			
 			<div class="ui grid">	
-				
-				<div class="row" >
-					<div class="ui six wide backg column">
-						<div id="slidework" style="overflow: hidden;">
-              <!--<p>恭喜 action001   获得太火鸟鸟币100枚</p>-->
-
-						</div>
-						
-					</div>
-				</div>
-				
-				<div class="row">
+				<div class="ui center aligned row">
+					<!--
 					<div class="ui six wide column" style="margin-top:30px;">
 						<p>规则</p>
 						<p>1.用户必须登录成功后才可参加抽奖活动；</p>
@@ -680,16 +712,61 @@ p span.red {
 	   					<p>6.奖品于抽中后一个月之内发货；</p>
 						<p>7.本次活动最终解释权归太火鸟所有！</p>
 						<p><i class="help circle icon"></i><a class="question" href="http://www.taihuoniao.com/user/544066/" target="_blank"> 我有疑问</a></p>
-					</div>
-					
-					<div class="ui ten wide column" style="margin-top:-120px;">
+					</div>-->
+					<div class="ui ten wide column">
 						<div class="draw">
 						  <div id="disk"></div>
-						  <div id="start"><img src="{{ app_url_packaged }}/images/promo/zzhuan1.png" width="100%" id="startbtn"></div>
+						  <div id="start"><img src="{{ app_url_packaged }}/images/promo/zzhuan4.png" width="100%" id="startbtn"></div>
 						</div>
 						
 					</div>
 				
+				</div>
+
+				<div class="row">
+					<div class="ui ten wide column guide">
+						<p><img src="{{ app_url_packaged }}/images/promo/sign_1.jpg" align="absmiddle">用户必须登录成功后才可参加抽奖活动；</p>
+						<p><img src="{{ app_url_packaged }}/images/promo/sign_2.jpg" align="absmiddle">太火鸟社区签到即有1次机会参与抽奖；</p>
+						<p><img src="{{ app_url_packaged }}/images/promo/sign_3.jpg" align="absmiddle">如果未抽中，微信分享此页面可增加一次抽奖机会（每天限增加1次）；</p>
+						<p><img src="{{ app_url_packaged }}/images/promo/sign_4.jpg" align="absmiddle">活动中奖结果均以弹出页面中奖信息为准；</p>
+						<p><img src="{{ app_url_packaged }}/images/promo/sign_5.jpg" align="absmiddle">严禁任何不正当/舞弊行为参与活动，一经发现立即取消其获奖资格；</p>
+						<p><img src="{{ app_url_packaged }}/images/promo/sign_6.jpg" align="absmiddle">奖品于抽中后一个月之内发货；</p>
+						<p><img src="{{ app_url_packaged }}/images/promo/sign_7.jpg" align="absmiddle">本次活动最终解释权归太火鸟所有！</p>
+					</div>
+					<div class="ui six wide column">
+						<div class="mainwrap" style="width: 100%; min-width: auto;">
+							<div class="mainright" style="margin-left: 17px;width: 100%;">
+								<div class="sellwrap">
+									<div class="block title">
+										热门活动
+								    </div>
+								    {% cache cache_key:'topic_page_active_right' ttl:300 disable_cache:app_disable_cached %}
+								      <div class="ui articles list">
+								        {% ad_list var:'active_list' page:1 size:2 state:2 name:'topic_right_for_active' %}
+								        {% for ad in active_list.rows %}
+								            <div class="item topicbox">
+								              <a href="{{ ad.view_url }}" title="{{ ad.title }}" class="ui cover" target="_blank">
+								                <img class="ui image" src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}">
+								              </a>
+								              <h2>
+								                <a href="{{ ad.view_url }}" title="{{ ad.title }}" class="ui link" target="_blank">
+								                    {{ ad.title }}
+								                </a>
+								              </h2>
+								              <p>
+												<a href="{{ ad.view_url }}" class="ui mini blue button" target="_blank">
+												  立即参加<i class="right arrow icon"></i>
+												</a>
+								              </p>
+								          
+								            </div>
+								        {% endfor %}
+								      </div>
+								    {% endcache %}
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				
 			</div>	
@@ -711,14 +788,13 @@ p span.red {
                 <a href="javascript:void(0);" class="ui big inverted red active sign-btn button">
                   <i class="calendar icon"></i> <span name="sign-text">签到</span>
                 </a>
-                <p class="sign-number-text" style="display:none;">今日签到排行: <span class="no"></span> </p>
+               <!-- <p class="sign-number-text" style="display:none;">今日签到排行: <span class="no"></span> </p> -->
 				
             </div>
             {%endif%}
 			</div>
 			
-			{% include "page/topic/right_active.html" %}
-			{% include "page/topic/adwrap.html" %}
+			
 			
             <div class="user share">
             	<span><i class="share alternate icon"></i>分享：</span>
@@ -735,11 +811,40 @@ p span.red {
             		<i class="icon renren large circular blue inverted"></i>
             	</a>
             </div>
-			
+
+			<div class="backg column">
+				<div id="slidework" style="overflow: hidden;">
+
+						</div>
+			</div>
+			{% ad_list var:'adone' page:1 size:2 state:2 name:'bbs_rightbar_adone' %}
+			{% if adone %}
+			<div class="adstickwrap">
+			    <div class="ui one adverts cards">
+			        <div class="card">
+			            <div class="advblock">
+			                <div class="image" style="background-image: url('{{ adone.cover.fileurl }}');padding:22% 0;">
+			                    <a href="{{ adone.view_url }}" title="{{ adone.title }}" target="_blank"></a>
+			                </div>
+			                <div class="desc">
+			                    <h2>
+			                        {{ adone.title }}
+			                    </h2>
+			                    <p>{{ adone.sub_title }}</p>
+			                </div>
+			                <a href="{{ adone.view_url }}" title="{{ adone.title }}" class="link wrap" target="_blank"></a>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+			{% endif %}
 		</div>
 		
 	</div>
+
+
 </div>
+			
 
 <!-- 弹出层   -->
 <div class="ui dimmer modals page transition">
