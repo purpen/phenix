@@ -26,7 +26,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 	public function getlist(){
 		
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$size = isset($this->stash['size'])?(int)$this->stash['size']:1000;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		
 		$some_fields = array(
 			'_id'=>1, 'title'=>1, 'des'=>1, 'cover_id'=>1, 'used_count'=>1,'stick'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
@@ -61,7 +61,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 				$options['sort_field'] = 'latest';
 				break;
 			case 1:
-				$options['sort_field'] = 'stick';
+				$options['sort_field'] = 'stick:update';
 				break;
 		}
 		
@@ -78,21 +78,6 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
-			
-			// 返回品牌大小类型
-			$result['rows'][$k]['brands_size_type'] = 1;
-			if(isset($every_count) && $every_count){
-				if($v['used_count']>=0 && $v['used_count'] < $every_count){
-					$result['rows'][$k]['brands_size_type'] = 1;
-				}
-				if($v['used_count']>=$every_count && $v['used_count'] < 2*$every_count){
-					$result['rows'][$k]['brands_size_type'] = 2;
-				}
-				if($v['used_count']>=2*$every_count && $v['used_count'] < 3*$every_count){
-					$result['rows'][$k]['brands_size_type'] = 3;
-				}
-			}
-			
 			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
 		}
 		
@@ -100,7 +85,6 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
         $filter_fields  = array('cover_id','cover','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
-		//var_dump($result['rows']);die;
 		return $this->api_json('请求成功', 0, $result);
 	}
 	
