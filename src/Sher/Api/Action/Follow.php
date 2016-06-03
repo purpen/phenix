@@ -85,6 +85,8 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 					if($follow_model->has_exist_ship($this->current_user_id, $follow['user_id'])){
 						$follow['is_love'] = 1;
 					}
+                }else{
+                  continue;
                 }
             }else if($find_type == 2){
                 // 自己的粉丝
@@ -101,6 +103,8 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 					if($follow_model->has_exist_ship($this->current_user_id, $follow['user_id'])){
 						$follow['is_love'] = 1;
 					}
+                }else{
+                  continue;
                 }
             }
             $result['rows'][$k]['follows'] = $follow;
