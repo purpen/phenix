@@ -108,5 +108,24 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 		
 		return $this->to_taconite_page('app_admin/scene_sight/check_ok.html');
 	}
+
+	/**
+	 * 删除
+	 */
+	public function delete() {
+		$id = (int)$this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_note('请求参数为空', true);
+		}
+		$model = new Sher_Core_Model_SceneSight();
+		$result = $model->first((int)$id);
+		
+		if($result && $model->mark_remove($id)){
+      $model->mock_after_remove($id, $result);
+		}
+		
+		$this->stash['id'] = $id;
+		return $this->to_taconite_page('app_admin/del_ok.html');
+	}
 	
 }
