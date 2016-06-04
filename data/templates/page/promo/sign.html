@@ -744,7 +744,7 @@ p span.red {
 									<div class="block title">
 										热门活动
 								    </div>
-								    {% cache cache_key:'topic_page_active_right' ttl:300 disable_cache:app_disable_cached %}
+								    {% cache cache_key:'web_draw_active' ttl:300 disable_cache:app_disable_cached %}
 								      <div class="ui articles list">
 								        {% ad_list var:'active_list' page:1 size:2 state:2 name:'topic_right_for_active' %}
 								        {% for ad in active_list.rows %}
