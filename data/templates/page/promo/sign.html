@@ -14,7 +14,7 @@
 	margin-top:0;
 }
 .mainwrap .mainleft{
-	min-height:auto;
+	min-height:0;
 }
 
 .six.wide.column p{
@@ -738,13 +738,13 @@ p span.red {
 						<p><img src="{{ app_url_packaged }}/images/promo/sign_7.jpg" align="absmiddle">本次活动最终解释权归太火鸟所有！</p>
 					</div>
 					<div class="ui six wide column">
-						<div class="mainwrap" style="width: 100%; min-width: auto;">
+						<div class="mainwrap" style="width: 100%; min-width: 0;">
 							<div class="mainright" style="margin-left: 17px;width: 100%;">
 								<div class="sellwrap">
 									<div class="block title">
 										热门活动
 								    </div>
-								    {% cache cache_key:'topic_page_active_right' ttl:300 disable_cache:app_disable_cached %}
+								    {% cache cache_key:'web_draw_active' ttl:300 disable_cache:app_disable_cached %}
 								      <div class="ui articles list">
 								        {% ad_list var:'active_list' page:1 size:2 state:2 name:'topic_right_for_active' %}
 								        {% for ad in active_list.rows %}

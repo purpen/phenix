@@ -65,7 +65,7 @@ try{
 
         $data['profile'] = $profile;
     
-        $ok = $user->create($data);
+        //$ok = $user->create($data);
     
         if($ok){
             echo "Create the phone[$account] is ok!...\n";

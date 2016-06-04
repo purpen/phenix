@@ -39,6 +39,8 @@ if(!empty($topic_ids) && !empty($topic_ids['items'])){
   foreach($topic_ids['items'] as $k=>$v){
     $item = $topic_mode->load((int)$v);
     if(empty($item)){
+      //删除Dig相应ID
+      $digged->remove_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_TOPIC_UPDATE_IDS, (int)$v); 
       continue;
     }
     //获取封面图
@@ -97,6 +99,8 @@ if(!empty($product_ids) && !empty($product_ids['items'])){
   foreach($product_ids['items'] as $k=>$v){
     $item = $product_mode->load((int)$v);
     if(empty($item)){
+      //删除Dig相应ID
+      $digged->remove_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_PRODUCT_UPDATE_IDS, (int)$v); 
       continue;
     }
 
@@ -158,6 +162,8 @@ if(!empty($stuff_ids) && !empty($stuff_ids['items'])){
   foreach($stuff_ids['items'] as $k=>$v){
     $item = $stuff_mode->load((int)$v);
     if(empty($item)){
+      //删除Dig相应ID
+      $digged->remove_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_STUFF_UPDATE_IDS, (int)$v);
       continue;
     }
     //获取封面图
@@ -215,9 +221,14 @@ if(!empty($scene_ids) && !empty($scene_ids['items'])){
   $item = null;
   foreach($scene_ids['items'] as $k=>$v){
     $item = $scene_model->load((int)$v);
-    if(empty($item)){
+    if(empty($item) || $item['is_check']==0 || $item['deleted']==1){
+      //删除Dig相应ID
+      $digged->remove_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_UPDATE_IDS, (int)$v);
+      // 删除索引
+      Sher_Core_Util_XunSearch::del_ids('scene_'.(string)$v);
       continue;
     }
+
     //获取封面图
     if($item['cover_id']){
       $cover_id = $item['cover_id'];
@@ -280,7 +291,11 @@ if(!empty($sight_ids) && !empty($sight_ids['items'])){
   $item = null;
   foreach($sight_ids['items'] as $k=>$v){
     $item = $scene_sight_model->load((int)$v);
-    if(empty($item)){
+    if(empty($item) || $item['is_check']==0 || $item['deleted']==1){
+      //删除Dig相应ID
+      $digged->remove_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SIGHT_UPDATE_IDS, (int)$v); 
+      // 删除索引
+      Sher_Core_Util_XunSearch::del_ids('sight_'.$v);
       continue;
     }
     //获取封面图
@@ -346,6 +361,8 @@ if(!empty($scene_product_ids) && !empty($scene_product_ids['items'])){
   foreach($scene_product_ids['items'] as $k=>$v){
     $item = $scene_product_model->load((int)$v);
     if(empty($item)){
+      //删除Dig相应ID
+      $digged->remove_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_PRODUCT_UPDATE_IDS, (int)$v); 
       continue;
     }
     //获取封面图
@@ -418,6 +435,8 @@ if(!empty($scene_context_ids) && !empty($scene_context_ids['items'])){
   foreach($scene_context_ids['items'] as $k=>$v){
     $item = $scene_context_model->load($v);
     if(empty($item)){
+      //删除Dig相应ID
+      $digged->remove_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_CONTEXT_UPDATE_IDS, $v); 
       continue;
     }
 
@@ -466,6 +485,6 @@ echo "All index update works done.\n";
 echo "===========================INDEX XunSearch UPDATE WORKER DONE==================\n";
 echo "SLEEP TO NEXT LAUNCH .....\n";
 
-// sleep 1 hours
+// sleep 5 minute
 sleep(300);
 exit(0);
