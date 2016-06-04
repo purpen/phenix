@@ -93,7 +93,7 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 	    parent::before_save($data);
 	}
 	
-    /**
+  /**
 	 * 保存之后事件
 	 */
   protected function after_save(){

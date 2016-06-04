@@ -289,7 +289,7 @@ $size = 100;
 $is_end = false;
 $total = 0;
 while(!$is_end){
-	$query = array('is_check'=>1, 'created_on'=>array('$gt'=>$scene_last_created_on));
+	$query = array('is_check'=>1, 'deleted'=>0, 'created_on'=>array('$gt'=>$scene_last_created_on));
   $options = array('sort'=>array('created_on'=>1), 'page'=>$page, 'size'=>$size);
 	$list = $scene_model->find($query, $options);
 	if(empty($list)){
@@ -372,7 +372,7 @@ $size = 100;
 $is_end = false;
 $total = 0;
 while(!$is_end){
-	$query = array('is_check'=>1, 'created_on'=>array('$gt'=>$sight_last_created_on));
+	$query = array('is_check'=>1, 'deleted'=>0, 'created_on'=>array('$gt'=>$sight_last_created_on));
   $options = array('sort'=>array('created_on'=>1), 'page'=>$page, 'size'=>$size);
 	$list = $scene_sight_model->find($query, $options);
 	if(empty($list)){
