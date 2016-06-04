@@ -485,6 +485,6 @@ echo "All index update works done.\n";
 echo "===========================INDEX XunSearch UPDATE WORKER DONE==================\n";
 echo "SLEEP TO NEXT LAUNCH .....\n";
 
-// sleep 1 hours
+// sleep 5 minute
 sleep(300);
 exit(0);
