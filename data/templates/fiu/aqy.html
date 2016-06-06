@@ -1,55 +1,81 @@
 {%extends 'layout/fiu.html'%}
-{% block title%}关于-{% endblock %}
+{% block title%}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-  html {
-      box-sizing: border-box;
-      font-family: sans-serif;
-      -ms-text-size-adjust: 100%;
-      -webkit-text-size-adjust: 100%;
-      font-size: 14px;
-      height: 100%;
-      width: 100%;
-      max-width: 767px;
-      margin: 0 auto;
-  }
-  *, :after, :before {
-      box-sizing: inherit;
-  }
-  body{
-      width: 100%;
-      height: 100%;
-      position: relative;
-  }
-  .aqybg{
-      position:absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-  }
-  .aqyword{
-      position: absolute;
-      width: 80%;
-      top: 5%;
-      left: 10%;
-  }
-  .aqylogo{
-      position: absolute;
-      width: 40%;
-      bottom: 5%;
-      left: 30%;
-  }
-  .aqy{
+    html {
+        box-sizing: border-box;
+        font-family: sans-serif;
+        -ms-text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+        font-size: 14px;
+        height: 100%;
+        width: 100%;
+        max-width: 767px;
+        margin: 0 auto;
+    }
+    *, :after, :before {
+        box-sizing: inherit;
+    }
+    body{
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+    .aqybg{
+        position:absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .aqyword{
+        position: absolute;
+        width: 80%;
+        top: 5%;
+        left: 10%;
+    }
+    .aqylogo{
+        position: absolute;
+        width: 40%;
+        bottom: 5%;
+        left: 30%;
+    }
+    #content{
+        position: absolute;
+        bottom: 12%;
+        width: 80%;
+        left: 10%;
+        text-align: center;
+        color: #fff;
+        font-size: 16px;
+        line-height: 24px;
+        min-height: 70px;
+    }
+    .aqyget.btn{
+        width: 60%;
+        vertical-align: middle;
+    }
+    .aqy{
       
-  }
+    }
 
 </style>
+{% endblock %}
+{% block layout_js %}
+    <script type="text/javascript">
+        function getValue(){
+           document.getElementById("content").innerHTML="恭喜您获得爱奇艺VIP账号 <br>账号：sdsjdfj <br>密码：skdsdk";
+        }
+
+    </script>
 {% endblock %}
 {% block content %}
 <img class="aqybg" src="{{ app_url_packaged }}/images/promo/aqy.jpg">
 <img class="aqyword" src="{{ app_url_packaged }}/images/promo/aqyword.png">
 
+<div id="content">
+    <img class="aqyget btn" src="{{ app_url_packaged }}/images/promo/aqyget.png" onclick="getValue()">
+</div>
 <img class="aqylogo" src="{{ app_url_packaged }}/images/promo/aqylogo.png">
 <div class="aqy">
   
