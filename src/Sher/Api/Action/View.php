@@ -67,13 +67,13 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
    * 商城领爱奇异会员
    */
   public function fetch_vip(){
-    /*$uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
+    $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
     $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
     $app_type = isset($this->stash['app_type']) ? (int)$this->stash['app_type'] : 1;
     $user_id = 0;
     if(empty($uuid) || empty($from_to)){
 			return $this->api_json('缺少请求参数！', 3001); 
-    }*/
+    }
 
   	return $this->to_html_page('fiu/aqy.html');
   }
