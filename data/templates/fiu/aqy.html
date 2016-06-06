@@ -30,19 +30,25 @@
     }
     .aqyword{
         position: absolute;
-        width: 80%;
-        top: 5%;
-        left: 10%;
+        width: 70%;
+        top: 3%;
+        left: 15%;
     }
     .aqylogo{
         position: absolute;
         width: 40%;
-        bottom: 5%;
+        bottom: 3%;
         left: 30%;
+    }
+    .aqymobile{
+        position: absolute;
+        width: 76%;
+        left: 13%;
+        top: 22%;
     }
     #content{
         position: absolute;
-        bottom: 12%;
+        bottom: 10%;
         width: 80%;
         left: 10%;
         text-align: center;
@@ -61,7 +67,9 @@
 
 </style>
 {% endblock %}
+<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
 {% block layout_js %}
+
     <script type="text/javascript">
         function getValue(){
            document.getElementById("content").innerHTML="恭喜您获得爱奇艺VIP账号 <br>账号：sdsjdfj <br>密码：skdsdk";
@@ -73,6 +81,7 @@
 <img class="aqybg" src="{{ app_url_packaged }}/images/promo/aqy.jpg">
 <img class="aqyword" src="{{ app_url_packaged }}/images/promo/aqyword.png">
 
+<img class="aqymobile" src="{{ app_url_packaged }}/images/promo/aqymobile.png">
 <div id="content">
     <img class="aqyget btn" src="{{ app_url_packaged }}/images/promo/aqyget.png" onclick="getValue()">
 </div>
