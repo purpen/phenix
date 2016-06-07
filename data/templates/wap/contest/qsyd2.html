@@ -98,11 +98,53 @@
   		padding: 20% 20px 0!important;
   	}
   }
+  .repeatbtn{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    -ms-transform:translateX(-50%);
+    -moz-transform:translateX(-50%);
+    -webkit-transform:translateX(-50%);
+    -o-transform:translateX(-50%);
+    top: 80%;
+    text-align: center;
+  }
+  .ui.page.dimmer .drawmes.modal{
+      width: 256px !important;
+      position: absolute;
+      background: #000;
+      top: 32%;
+      margin-top: -10% !important;
+      left: 50%;
+      margin-left: -128px !important;
+      box-shadow: none;
+      border-radius: 8px;
+  }
+  .drawmes .header{
+      padding: 20px 10px 20px !important;
+      font-size: 16px !important;
+      font-weight: 400 !important;
+  }
+  .drawmes .header .content p{
+      margin:0;
+  }
+  .topbg{
+    padding: 57% 0px 56%;
+    position: relative;
+  }
+  .topbg img{
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
  </style>
 {% endblock %}
-
 {% block layout_js %}
 <script type="text/javascript" >
+    $('.repeatbtn').click(function(){
+        $('.ui.type_00.drawmes.modal').modal('setting', 'closable', true).modal('show');
+        //setTimeout("$('.ui.type_00.drawmes.modal').modal('hide');",4000);
+    })
 
     function ajax_load_more(page, type, category_id, from_to, sort, size){
         var url = '{{ app_url_wap }}/app/site/stuff/ajax_fetch_more';
@@ -130,7 +172,14 @@
 {% endblock %}
 {% block content %}
 <div class="qsyd">
-	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg1.jpg" width="100%" align="absmiddle">
+    <div class="topbg">
+        <img src="{{ app_url_packaged }}/images/match/qsyd/mbg1.jpg" width="100%" align="absmiddle">
+        <div class="ui magenta inverted active button repeatbtn">
+            立即报名
+        </div>
+    </div>
+	
+    
 	<div class="nav-menu">
 		<ul class="navfelx" style="padding-bottom: 4px;">
 			<li class="childcell">
@@ -164,30 +213,6 @@
 		<div class="ui responsive grid">
 			<div class="row shopindex" id="mpresale">
 				<div class="recom-item" id="stuff_list_box">
-          <!--ajax load list-->
-
-          <!--
-                	<div class="recom-cell">
-               			<a href="">
-		                    <h3 class="ui header">原创经典CD创意包装</h2>
-		                    <p>中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人</p>
-		                    <img src="http://frbird.qiniudn.com/product/160411/570b1e47fc8b12f85f8b4c91-2-p750x422.jpg">	
-		                    <div class="desc">
-		                    	<div class="i-state">
-		                    		<span class="like">
-                     					<i class="unhide icon"></i>
-                     					<span class="count">2099</span> 
-                     					
-                     					<span class="count love-count fl-r">9</span>
-                     					<i class="fl-r like icon"></i>
-                   					</span>
-		                    	</div>
-		                    </div>
-                		</a>
-                	</div>
-        -->
-
-
               </div>
 			</div>
 		</div>
@@ -195,10 +220,22 @@
 	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg7.jpg" width="100%" align="absmiddle">
 	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg8.jpg" width="100%" align="absmiddle">
 	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg9.jpg" width="100%" align="absmiddle">
-	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg10.jpg" width="100%" align="absmiddle">
+	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg010.jpg" width="100%" align="absmiddle">
 	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg11.jpg" width="100%" align="absmiddle">
 </div>
 
+<!-- 弹出层 -->
+<div class="ui dimmer modals page transition">
+    <div class="ui type_00 drawmes coupled small modal transition">
+        <div class="header">
+            <div class="container">
+                <div class="content">
+                    <p>为了保证活动的专业性，及内容完整度，请用电脑登录太火鸟官网（taihuoniao.com）报名，移动端仅供浏览。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
 

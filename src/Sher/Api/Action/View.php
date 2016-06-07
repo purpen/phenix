@@ -75,7 +75,7 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 			return $this->api_json('缺少请求参数！', 3001); 
     }
 
-  	return $this->to_html_page('fiu/about.html');
+  	return $this->to_html_page('fiu/aqy.html');
   }
 	
 	/**
