@@ -83,6 +83,7 @@
 				<th>所属组</th>
 				<th>所属域</th>
         <th>数量</th>
+        <th>排序</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
@@ -111,6 +112,7 @@
 					{% if cat.domain == 11 %}情景语境类{% endif %}
 				</td>
 				<td>{{ cat.total_count }}</td>
+        <td>{{ cat.order_by }}</td>
 				<td>
 					<div class="ui divided horizontal list">
 						<a href="{{ app_url_admin_base }}/category/edit?id={{ cat._id }}" class="ui link item">编辑</a> 
@@ -132,6 +134,7 @@
 					<td>{{ child.group.name }}</td>
 					<td>{% if child.domain == 1%}产品类{% endif %} {% if child.domain == 2%}社区类{% endif %}</td>
           <td>{{ child.total_count }}</td>
+          <td>{{ child.order_by }}</td>
 					<td>
 						<div class="ui divided horizontal list">
 							<a href="{{ app_url_admin_base }}/category/edit?id={{ child._id }}" class="ui link item">编辑</a> 
