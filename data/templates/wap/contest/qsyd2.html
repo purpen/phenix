@@ -98,11 +98,36 @@
   		padding: 20% 20px 0!important;
   	}
   }
+  .repeatbtn{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    -ms-transform:translateX(-50%);
+    -moz-transform:translateX(-50%);
+    -webkit-transform:translateX(-50%);
+    -o-transform:translateX(-50%);
+    margin-top: -80px !important;
+    text-align: center;
+  }
+  .ui.page.dimmer .drawmes.modal{
+      width: 256px !important;
+      position: absolute;
+      background: #000;
+      top: 32%;
+      margin-top: -10% !important;
+      left: 50%;
+      margin-left: -128px !important;
+      box-shadow: none;
+      border-radius: 8px;
+  }
  </style>
 {% endblock %}
-
 {% block layout_js %}
 <script type="text/javascript" >
+    $('.repeatbtn').click(function(){
+        $('.ui.type_00.drawmes.modal').modal('setting', 'closable', false).modal('show');
+        setTimeout("$('.ui.type_00.drawmes.modal').modal('hide');",4500);
+    })
 
     function ajax_load_more(page, type, category_id, from_to, sort, size){
         var url = '{{ app_url_wap }}/app/site/stuff/ajax_fetch_more';
@@ -131,6 +156,9 @@
 {% block content %}
 <div class="qsyd">
 	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg1.jpg" width="100%" align="absmiddle">
+    <div class="ui magenta inverted active button repeatbtn">
+        立即报名
+    </div>
 	<div class="nav-menu">
 		<ul class="navfelx" style="padding-bottom: 4px;">
 			<li class="childcell">
@@ -175,6 +203,18 @@
 	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg11.jpg" width="100%" align="absmiddle">
 </div>
 
+<!-- 弹出层 -->
+<div class="ui dimmer modals page transition">
+    <div class="ui type_00 drawmes coupled small modal transition">
+        <div class="header">
+            <div class="container">
+                <div class="content">
+                    <p>为了保证活动的专业性，及内容完整度，请用电脑登录太火鸟官网（taihuoniao.com）报名，移动端仅供浏览。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
 
