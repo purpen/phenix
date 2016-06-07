@@ -97,7 +97,7 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
         if($show_all){
           $arr = array(
             '_id' => 0,
-            'title' => '全部',
+            'title' => '全部商品',
             'name' => 'all',
             'tag_id' => 0,
             'domain' => $domain,
