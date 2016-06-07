@@ -142,7 +142,7 @@
 {% block layout_js %}
 <script type="text/javascript" >
     $('.repeatbtn').click(function(){
-        $('.ui.type_00.drawmes.modal').modal('setting', 'closable', false).modal('show');
+        $('.ui.type_00.drawmes.modal').modal('setting', false).modal('show');
         setTimeout("$('.ui.type_00.drawmes.modal').modal('hide');",4000);
     })
 
