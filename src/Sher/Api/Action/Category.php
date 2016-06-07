@@ -21,6 +21,7 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		$domain = isset($this->stash['domain'])?(int)$this->stash['domain']:1;
+		$show_all = isset($this->stash['show_all'])?(int)$this->stash['show_all']:0;
 		
 		$query   = array();
 		$options = array();
@@ -90,6 +91,23 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
           $data[$i]['scene_tags'] = $scene_tags_arr;
           **/
 
+        }
+
+          '_id'=>1, 'title'=>1, 'name'=>1, 'gid'=>1, 'pid'=>1, 'order_by'=>1, 'sub_count'=>1, 'tag_id'=>1,
+          'domain'=>1, 'is_open'=>1, 'total_count'=>1, 'reply_count'=>1, 'state'=>1, 'app_cover_url'=>1,
+
+        // 显示全部
+        if($show_all){
+          $arr = array(
+            '_id' => 0,
+            'title' => '全部',
+            'name' => 'all',
+            'tag_id' => 0,
+            'domain' => $domain,
+            'app_cover_url' => 'http://frbird.qiniudn.com/asset/160607/5756b69dfc8b12a1478ba705-1-hu.jpg',
+            'order_by' => 0,
+          );
+          array_unshift($data, $arr);
         }
 
 		    $result['rows'] = $data;
