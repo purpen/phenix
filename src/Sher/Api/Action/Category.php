@@ -93,9 +93,6 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
 
         }
 
-          '_id'=>1, 'title'=>1, 'name'=>1, 'gid'=>1, 'pid'=>1, 'order_by'=>1, 'sub_count'=>1, 'tag_id'=>1,
-          'domain'=>1, 'is_open'=>1, 'total_count'=>1, 'reply_count'=>1, 'state'=>1, 'app_cover_url'=>1,
-
         // 显示全部
         if($show_all){
           $arr = array(
