@@ -99,14 +99,14 @@
   	}
   }
   .repeatbtn{
-    position: relative;
+    position: absolute;
     left: 50%;
     transform: translateX(-50%);
     -ms-transform:translateX(-50%);
     -moz-transform:translateX(-50%);
     -webkit-transform:translateX(-50%);
     -o-transform:translateX(-50%);
-    margin-top: -80px !important;
+    top: 80%;
     text-align: center;
   }
   .ui.page.dimmer .drawmes.modal{
@@ -119,6 +119,23 @@
       margin-left: -128px !important;
       box-shadow: none;
       border-radius: 8px;
+  }
+  .drawmes .header{
+      padding: 20px 0 20px !important;
+      font-size: 16px !important;
+      font-weight: 400 !important;
+  }
+  .drawmes .header .content p{
+      margin:0;
+  }
+  .topbg{
+    padding: 57% 0px 56%;
+    position: relative;
+  }
+  .topbg img{
+    position: absolute;
+    top: 0;
+    left: 0;
   }
  </style>
 {% endblock %}
@@ -155,10 +172,14 @@
 {% endblock %}
 {% block content %}
 <div class="qsyd">
-	<img src="{{ app_url_packaged }}/images/match/qsyd/mbg1.jpg" width="100%" align="absmiddle">
-    <div class="ui magenta inverted active button repeatbtn">
-        立即报名
+    <div class="topbg">
+        <img src="{{ app_url_packaged }}/images/match/qsyd/mbg1.jpg" width="100%" align="absmiddle">
+        <div class="ui magenta inverted active button repeatbtn">
+            立即报名
+        </div>
     </div>
+	
+    
 	<div class="nav-menu">
 		<ul class="navfelx" style="padding-bottom: 4px;">
 			<li class="childcell">
