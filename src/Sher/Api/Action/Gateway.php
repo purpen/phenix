@@ -109,7 +109,6 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
    * 记录用户激活状态
    */
   public function record_user_active(){
-    // 记录用户激活状态（先放此处，下个版本提出来）
     $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
     $channel_id = isset($this->stash['channel']) ? (int)$this->stash['channel'] : 0;
     $app_type = isset($this->stash['app_type']) ? (int)$this->stash['app_type'] : 1;
