@@ -23,14 +23,14 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
    *
    */
   public function fiu_service_term(){
-    return $this->to_html_page('fiu/about.html');
+    return $this->to_html_page('fiu/fiu_about.html');
   }
 
   /**
    * 关于太火鸟
    */
   public function about(){
-    return $this->to_html_page('fiu/about.html');
+    return $this->to_html_page('fiu/fiu_about.html');
   }
 
   /**
