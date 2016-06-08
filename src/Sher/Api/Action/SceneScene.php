@@ -276,17 +276,20 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$user['fans_count'] = $result['user']['fans_count'];
 		$user['love_count'] = $result['user']['love_count'];
 		$user['is_expert'] = isset($result['user']['identify']['is_expert']) ? (int)$result['user']['identify']['is_expert'] : 0;
-		
-		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
+    $user['label'] = isset($result['user']['label']) ? $result['user']['label'] : '';
+    $user['expert_label'] = isset($result['user']['expert_label']) ? $result['user']['expert_label'] : '';
+    $user['expert_info'] = isset($result['user']['expert_info']) ? $result['user']['expert_info'] : '';
+
 		$result['user_info'] = $user;
+		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
         
 		// 过滤多余属性
-        $filter_fields  = array('type', 'cover_id', 'user', 'cover', 'sight', '__extend__');
-        
-        for($i=0;$i<count($filter_fields);$i++){
-            $key = $filter_fields[$i];
-            unset($result[$key]);
-        }
+    $filter_fields  = array('type', 'cover_id', 'user', 'cover', 'sight', '__extend__');
+    
+    for($i=0;$i<count($filter_fields);$i++){
+        $key = $filter_fields[$i];
+        unset($result[$key]);
+    }
 		
 		$tags_model = new Sher_Core_Model_SceneTags();
 		//$result['tags'] = array(164,165,166);
