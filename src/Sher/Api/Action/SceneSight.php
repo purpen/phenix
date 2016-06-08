@@ -346,9 +346,9 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$user['fans_count'] = $result['user']['fans_count'];
 		$user['love_count'] = $result['user']['love_count'];
 		$user['is_expert'] = isset($result['user']['identify']['is_expert']) ? (int)$result['user']['identify']['is_expert'] : 0;
-    $user['label'] = isset($result['user']['label']) ? $result['user']['label'] : '';
-    $user['expert_label'] = isset($result['user']['expert_label']) ? $result['user']['expert_label'] : '';
-    $user['expert_info'] = isset($result['user']['expert_info']) ? $result['user']['expert_info'] : '';
+    $user['label'] = isset($result['user']['profile']['label']) ? $result['user']['profile']['label'] : '';
+    $user['expert_label'] = isset($result['user']['profile']['expert_label']) ? $result['user']['profile']['expert_label'] : '';
+    $user['expert_info'] = isset($result['user']['profile']['expert_info']) ? $result['user']['profile']['expert_info'] : '';
 		
 		$result['user_info'] = $user;
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
