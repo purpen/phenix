@@ -146,11 +146,19 @@
 		
 		setTimeout(function(){
 			// 创建标注
-			var choose_point = new BMap.Point({{ date.location.coordinates.1 }},{{ date.location.coordinates.0 }});
+			var choose_point = new BMap.Point({{ date.location.coordinates.0 }}, {{ date.location.coordinates.1 }});
 			map.centerAndZoom(choose_point, 16);
 			
 			var marker = new BMap.Marker(choose_point);
 			map.addOverlay(marker);
+			marker.enableDragging();
+			
+			marker.addEventListener("dragend",function(e){
+				point = e.point;
+				// 填充地标
+				$('input[name=lat]').val(point.lat);
+				$('input[name=lng]').val(point.lng);
+			})
 			
 			var label = new BMap.Label('{{ date.address }}', {offset: offset});
 			label.setStyle({
@@ -179,14 +187,23 @@
 		// 将地址解析结果显示在地图上，并调整地图视野
 		myGeo.getPoint(address, function(point){
 			if (point) {
+				console.log(point);
 				map.centerAndZoom(point, 16);
+				
+				// 创建标注
+				var marker = new BMap.Marker(point);
+				marker.enableDragging();
+				marker.addEventListener("dragend",function(e){
+					point = e.point;
+					// 填充地标
+					$('input[name=lat]').val(point.lat);
+					$('input[name=lng]').val(point.lng);
+				})
 				
 				// 填充地标
 				$('input[name=lat]').val(point.lat);
 				$('input[name=lng]').val(point.lng);
 				
-				// 创建标注
-				var marker = new BMap.Marker(point);
 				var label = new BMap.Label(address, {offset: offset});
 				label.setStyle({
 					color: "#ff3366",
