@@ -21,6 +21,7 @@
 					</div>
 				</th>
 				<th>用户</th>
+        <th>认证标签</th>
 				<th>认证信息</th>
 				<th>联系方式</th>
 				<th>身份证</th>
@@ -47,6 +48,9 @@
 					  	<img src="{{ user_talent.user.mini_avatar_url }}">
 					  	{{ user_talent.user.nickname }}
 					</a>
+				</td>
+				<td>
+					{{ user_talent.label }}
 				</td>
 				<td>
 					{{ user_talent.info }}

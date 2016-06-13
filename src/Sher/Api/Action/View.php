@@ -9,7 +9,7 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 		'id' => 0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'topic_show', 'product_show', 'special_subject_show', 'try_show', 'fiu_point', 'about', 'fetch_vip');
+	protected $exclude_method_list = array('execute', 'topic_show', 'product_show', 'special_subject_show', 'try_show', 'fiu_point', 'about', 'fetch_vip', 'fiu_service_term');
 	
 	/**
 	 * api show
@@ -19,10 +19,18 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 	}
 
   /**
+   * fiu 服务条款 
+   *
+   */
+  public function fiu_service_term(){
+    return $this->to_html_page('fiu/fiu_about.html');
+  }
+
+  /**
    * 关于太火鸟
    */
   public function about(){
-    return $this->to_html_page('fiu/about.html');
+    return $this->to_html_page('fiu/fiu_about.html');
   }
 
   /**
@@ -70,7 +78,7 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
     $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
     $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
     $app_type = isset($this->stash['app_type']) ? (int)$this->stash['app_type'] : 1;
-    $user_id = 0;
+    $user_id = $this->current_user_id;
     if(empty($uuid) || empty($from_to)){
 			return $this->api_json('缺少请求参数！', 3001); 
     }

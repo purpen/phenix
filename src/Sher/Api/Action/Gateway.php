@@ -522,6 +522,42 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 
   }
 
+  /**
+   * Fiu 邀请码，只能使用一次
+   */
+  public function valide_invite_code(){
+    $code = isset($this->stash['code']) ? (string)$this->stash['code'] : null;
+    if(empty($code)){
+      return $this->api_json('不能为空！', 3001);
+    }
+    if($code=='888888'){
+      return $this->api_json('success', 0, array('code'=>$code)); 
+    }else{
+      return $this->api_json('无效的邀请码！', 3002);   
+    }
+  }
+
+  /**
+   * Fiu 删除邀请码
+   */
+  public function del_invite_code(){
+    $code = isset($this->stash['code']) ? (string)$this->stash['code'] : null;
+    if(empty($code)){
+      return $this->api_json('不能为空！', 3001);
+    }
+
+    return $this->api_json('success', 0, array('code'=>$code)); 
+  
+  }
+
+  /**
+   * 是否开启邀请码功能
+   */
+  public function is_invited(){
+    $code = 0;
+    return $this->api_json('success', 0, array('status'=>$code));   
+  }
+
 	
 }
 
