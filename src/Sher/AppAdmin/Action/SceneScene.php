@@ -9,6 +9,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		'page' => 1,
 		'size' => 100,
 		'state' => '',
+        'deleted' => 0,
 	);
 	
 	public function _init() {
@@ -44,8 +45,11 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 	 */
 	public function get_list() {
         
-        $this->set_target_css_state('page_all');
-		$page = (int)$this->stash['page'];
+        if($this->stash['deleted']==1){
+  		    $this->set_target_css_state('deleted');      
+        }else{
+            $this->set_target_css_state('all');
+        }
 		
 		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_scene/get_list?page=#p#';
 		$this->stash['pager_url'] = $pager_url;

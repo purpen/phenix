@@ -9,6 +9,7 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 		'page' => 1,
 		'size' => 100,
 		'state' => '',
+        'deleted' => 0,
 	);
 	
 	public function _init() {
@@ -31,17 +32,21 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 	public function get_list() {
         
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
-		switch($type){
-		case 1:
-			$this->set_target_css_state('fine');
-			break;
-		case 2:
-			$this->set_target_css_state('check');
-			break;
-		default:
-			$this->set_target_css_state('all');
-		}
-		$page = (int)$this->stash['page'];
+        if($this->stash['deleted']==1){
+   		    $this->set_target_css_state('deleted');        
+        }else{
+
+		    switch($type){
+            case 1:
+                $this->set_target_css_state('fine');
+                break;
+            case 2:
+                $this->set_target_css_state('check');
+                break;
+            default:
+                $this->set_target_css_state('all');
+            }       
+        }
 		
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_sight?type=%d&page=#p#', $type);
 		$this->stash['pager_url'] = $pager_url;
