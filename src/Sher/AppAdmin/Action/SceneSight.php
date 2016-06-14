@@ -60,7 +60,6 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 	public function submit(){
         // 记录上一步来源地址
         $this->stash['return_url'] = $_SERVER['HTTP_REFERER'];
-        echo $this->stash['return_url'];exit;
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : '';
 		if(!$id){
 			return $this->ajax_json('缺少请求参数！', true);
@@ -75,6 +74,8 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 		}
 		$this->stash['sight'] = $sight;
 		$this->stash['mode'] = $mode;
+
+		$this->stash['app_baidu_map_ak'] = Doggy_Config::$vars['app.baidu.map_ak'];
 		
 		return $this->to_html_page('app_admin/scene_sight/submit.html');
 	}
