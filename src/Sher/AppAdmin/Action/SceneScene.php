@@ -115,19 +115,19 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$data['asset'] = isset($this->stash['asset'])?$this->stash['asset']:array();
 		
 		if(empty($data['title']) || empty($data['des'])){
-			return $this->api_json('请求参数不能为空', 3000);
+			return $this->ajax_json('请求参数不能为空', true);
 		}
 		
 		if(empty($data['address']) || empty($data['address'])){
-			return $this->api_json('请求参数不能为空', 3000);
+			return $this->ajax_json('请求参数不能为空', true);
 		}
 		
 		if(empty($data['tags']) || empty($data['tags'])){
-			return $this->api_json('请求参数不能为空', 3000);
+			return $this->ajax_json('请求参数不能为空', true);
 		}
 		
 		if(empty($data['location']['coordinates'])){
-			return $this->api_json('请求参数不能为空', 3000);
+			return $this->ajax_json('请求参数不能为空', true);
 		}
 		
 		$data['tags'] = explode(',',$data['tags']);
@@ -151,7 +151,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 			}
 			
 			if(!$ok){
-				return $this->api_json('保存失败,请重新提交', 4002);
+				return $this->ajax_json('保存失败,请重新提交', true);
 			}
 
       // 更新全文索引
@@ -164,10 +164,10 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 			}		
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("api情景保存失败：".$e->getMessage());
-			return $this->api_json('情景保存失败:'.$e->getMessage(), 4001);
+			return $this->ajax_json('情景保存失败:'.$e->getMessage(), true);
 		}
 		
-		return $this->api_json('提交成功', 0, null);
+		return $this->ajax_json('提交成功', false, null);
 	}
 	
 	/**

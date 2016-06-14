@@ -1,5 +1,5 @@
 {%extends 'layout/app_admin.html'%}
-{% block title %}新增/编辑情境-{% endblock %}
+{% block title %}新增/编辑场景-{% endblock %}
 
 {% block page_css %}
 	<style type="text/css">
@@ -113,7 +113,7 @@
 						$(event.target).addClass('error');
 						phenix.show_error_note(data.message, 3000);
 					}else{
-						phenix.redirect('{{ app_url_app_admin_base }}/scene_scene/get_list');
+						phenix.redirect('{{ return_url }}');
 					}
 				}
 			});
@@ -146,7 +146,7 @@
 		
 		setTimeout(function(){
 			// 创建标注
-			var choose_point = new BMap.Point({{ date.location.coordinates.0 }}, {{ date.location.coordinates.1 }});
+			var choose_point = new BMap.Point({{ sight.location.coordinates.0 }}, {{ sight.location.coordinates.1 }});
 			map.centerAndZoom(choose_point, 16);
 			
 			var marker = new BMap.Marker(choose_point);
@@ -160,7 +160,7 @@
 				$('input[name=lng]').val(point.lng);
 			})
 			
-			var label = new BMap.Label('{{ date.address }}', {offset: offset});
+			var label = new BMap.Label('{{ sight.address }}', {offset: offset});
 			label.setStyle({
 				color: "#ff3366",
 				fontSize: "12px",
@@ -291,68 +291,19 @@
 		});
 	});
 	
-	var file_count = 1;
-	var ord = function(){
-		return file_count++;
-	};
-    
-    // 封面图上传
-	$('#phenix-uploader').fineUploader({
-      	request: {
-			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ date._id }}','file_id': '{{ pid }}' },
-        	endpoint: '{{ app_url_upload }}/scene_scene'
-      	},
-		text: {
-            uploadButton: '<a class="ui active orange labeled icon inverted button" href="javascript:void(0);"><i class="upload icon"></i>选择图片</a>'
-		},
-		template: '<div class="qq-uploader">' +
-					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
-					'<div class="qq-upload-button">{uploadButtonText}</div>' +
-					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
-					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
-					'</div>',
-		validation: {
-	        allowedExtensions: ['jpeg', 'jpg', 'png'],
-	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
-	    }
-    }).on('complete', function (event, id, name, result) {
-		if(result.is_error){
-			$('#product-upload-form').addClass('error');
-			phenix.show_error_note(result.message);
-		}else{
-			$('.qq-upload-list').children().eq(id).fadeOut();
-			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
-		}
-	});
-    
-    // 设置封面图
-	$('#asset-list .ajax-cover').livequery(function(){
-		$(this).click(function(){
-			$this = $(this);
-			var id = $(this).attr('data-value');
-			
-			$('#asset-list .ajax-cover.active').removeClass('active');
-			$(this).addClass('active');
-			
-			$('#cover_id').val(id);
-			return false;
-		});
-	});
-	
 {% endblock %}
 
 {% block content %}
 <div class="admin">
 	
-	<h3 class="ui header">情境管理</h3>
+	<h3 class="ui header">场景管理</h3>
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_app_admin_base }}/scene_scene" class="item">
+		<a href="{{ app_url_app_admin_base }}/scene_sight" class="item">
 			全部
 		</a>
 	  	<div class="right menu">	
-			<a href="{{ app_url_app_admin_base }}/scene_scene/add" class="item">
-				<i class="add icon"></i>添加情境
+			<a href="{{ app_url_app_admin_base }}/scene_sight/add" class="item">
+				<i class="add icon"></i>添加场景
 			</a>
 			<!--
             <a href="javascript:void(0);" class="item ajax-delete">
@@ -362,54 +313,22 @@
 	    </div>
 	</div>	
 	
-	<form action="{{ app_url_app_admin_base }}/scene_scene/save" class="ui form" method="post" id="active-form">
+	<form action="{{ app_url_app_admin_base }}/scene_sight/save" class="ui form" method="post" id="active-form">
 		<!-- 隐藏表单 -->
-		<input type="hidden" name="id" value="{{ date._id }}" />
-		<input type="hidden" name="tags" value="{{ date.tags }}" />
+		<input type="hidden" name="id" value="{{ sight._id }}" />
+		<input type="hidden" name="tags" value="{{ sight.tags }}" />
 		
 		<div class="ui segment from">
-			<h3 class="ui dividing header">填写情境信息</h3>
+			<h3 class="ui dividing header">填写场景信息</h3>
             <div class="field">
                 <label>标题</label>
-				<input type="text" name="title" placeholder="名称" value="{{ date.title }}" />
+				<input type="text" name="title" placeholder="名称" value="{{ sight.title }}" />
 			</div>
             <div class="field">
                 <label>详情</label>
-                <textarea name="des" placeholder="详情">{{ date.des }}</textarea>
+                <textarea name="des" placeholder="详情">{{ sight.des }}</textarea>
             </div>
-			<!--封面图-->
-            <div class="ui segment">
-                <div class="field">
-                    <label>上传封面图</label>
-                    <input type="hidden" name="cover_id" id="cover_id" value="{{ date.cover_id }}" />
-                    <div id="phenix-uploader"></div>
-                
-                    <div id="asset-list" class="ui four blocks">
-					{% if mode == 'edit' %}
-						{% asset_list var:'assets' parent_id:date._id asset_type:asset_type size:20 %}
-						{% for asset in assets.rows %}
-						<div class="thumb block" id="{{ asset._id }}">
-							<div class="image">
-								<img src="{{ asset.thumbnails.small.view_url }}" />
-								<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
-							</div>
-							<div class="buttons">
-								<div class="ui large links">
-									<a href="{{ app_url_fever }}/delete_asset?id={{ date._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
-										<i class="remove icon"></i>
-									</a>
-									
-									<a href="javascript:void(0);" class="ui link {%if date.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
-										<i class="checkered flag icon"></i>
-									</a>
-								</div>
-							</div>
-						</div>
-						{% endfor %}
-					{% endif %}
-                    </div>
-                </div>
-            </div>
+
 			<div class="field">
                 <label>所属标签</label>
 				{% for tags in scene_tags %}
@@ -423,10 +342,10 @@
 				{% endfor %}
             </div>
 			<div class="field">
-                <label>情境地址</label>
-				<input type="text" id="address" name="address" placeholder="情景地址" value="{{ date.address }}" />
-				<input type="hidden" name="lng" value="{{ date.location.coordinates.0 }}" />
-				<input type="hidden" name="lat" value="{{ date.location.coordinates.1 }}" />
+                <label>场景地址</label>
+				<input type="text" id="address" name="address" placeholder="场景地址" value="{{ sight.address }}" />
+				<input type="hidden" name="lng" value="{{ sight.location.coordinates.0 }}" />
+				<input type="hidden" name="lat" value="{{ sight.location.coordinates.1 }}" />
 				<div type="button" value="按钮" class="map-box-btn" /></div>
             </div>
 			<div id="allmap" style="height:400px;width:100%; margin-bottom: 20px"></div>
