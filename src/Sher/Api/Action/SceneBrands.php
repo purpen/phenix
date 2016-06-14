@@ -114,7 +114,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		$data['used_count'] = $result['used_count'];
 		$data['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
 		$data['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
-		$data['banner_url'] = isset($result['banner']) ? $result['banner']['thumbnails']['hub']['view_url'] : null;
+		$data['banner_url'] = isset($result['banner']) ? $result['banner']['thumbnails']['aub']['view_url'] : null;
 
 		return $this->api_json('请求成功', 0, $data);
 	}
