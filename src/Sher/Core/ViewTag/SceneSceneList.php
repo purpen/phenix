@@ -18,7 +18,8 @@ class Sher_Core_ViewTag_SceneSceneList extends Doggy_Dt_Tag {
         
 		$page = 1;
         $size = 10;
-		$title = '';
+        $title = '';
+        $deleted = 0;
 
         $var = 'list';
         $include_pager = 0;
@@ -33,10 +34,14 @@ class Sher_Core_ViewTag_SceneSceneList extends Doggy_Dt_Tag {
         $size = (int)$size;
 		
 		$query = array();
+
+        if($deleted){
+            $query['deleted'] = 1;
+        }
 		
 		if($title){
 			$query['title'] = $title;
-		}
+        }
 		
         $service = Sher_Core_Service_SceneScene::instance();
         $options['page'] = $page;

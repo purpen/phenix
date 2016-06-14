@@ -20,6 +20,7 @@ class Sher_Core_ViewTag_SceneSightList extends Doggy_Dt_Tag {
         $size = 10;
 		$title = '';
         $type = 0;
+        $deleted = 0;
 
         $var = 'list';
         $include_pager = 0;
@@ -34,6 +35,10 @@ class Sher_Core_ViewTag_SceneSightList extends Doggy_Dt_Tag {
         $size = (int)$size;
 		
 		$query = array();
+
+        if($deleted){
+            $query['deleted'] = 1;
+        }
         
         switch($type){
             case 1:
