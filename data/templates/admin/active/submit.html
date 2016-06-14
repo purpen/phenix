@@ -877,13 +877,14 @@ fetch_map_name(val, 15);
 			</div>
 			<div class="two fields">
 				<div class="field">
-				  	<label>开始时间：</label>
+                    <label>开始时间：<span class="description">格式: 2016 12-12 00:00</span></label>
 					<div class="ui icon input">
 					  	<input type="text" name="begin_time" value="{{ active.begin_time|date 'Y-m-d H:i' }}" id="sel1" /><input type="button" value="..." onclick="return showCalendar('sel1', '%Y-%m-%d %H:%M', '24', true);" />
+                        
 					</div>
 				</div>
 				<div class="field">
-				  	<label>结束时间：</label>
+				  	<label>结束时间：<span class="description">格式: 2016 12-12 00:00</span></label>
 					<div class="ui icon input">
 					  	<input type="text" name="end_time" value="{{ active.end_time|date 'Y-m-d H:i' }}" id="sel2" /><input type="button" value="..." onclick="return showCalendar('sel2', '%Y-%m-%d %H:%M', '24', true);" />
               <!--<i class="calendar icon"></i>-->
