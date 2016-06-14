@@ -1,9 +1,9 @@
 <?php
 /**
- * 后台app专题管理
- * @author caowei@taihuoniao.com
+ * 情境专题管理
+ * @author tianshuai
  */
-class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {
+class Sher_Admin_Action_SceneSubject extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
 		'page' => 1,
@@ -11,21 +11,15 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 	);
 	
 	public function _init() {
-		
-		$this->set_target_css_state('page_special_subject');
-		
-		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
-		$this->stash['pid'] = new MongoId();
-		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SPECIAL_SUBJECT;
-		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SPECIAL_SUBJECT;
+		$this->set_target_css_state('page_scene_subject');
+		// 判断左栏类型
+		$this->stash['show_type'] = "scene";
     }
 	
 	/**
 	 * 入口
 	 */
 	public function execute() {
-		// 判断左栏类型
-		$this->stash['show_type'] = "product";
 		return $this->get_list();
 	}
 	
@@ -35,32 +29,27 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 	public function get_list() {
 
 		$page = (int)$this->stash['page'];
+
+		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.app_admin'].'/scene_subject/get_list?page=#p#';
 		
-		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.admin'].'/special_subject/get_list?page=#p#';
-		
-		return $this->to_html_page('admin/special_subject/list.html');
+		return $this->to_html_page('app_admin/scene_subject/list.html');
 	}
 	
 	/**
 	 * 添加页面
 	 */
-	public function add(){
-		
-		// 判断左栏类型
-		$this->stash['show_type'] = "product";
+	public function subject(){
 		
 		$this->stash['mode'] = 'create';
 		
-		return $this->to_html_page('admin/special_subject/save.html');
+		return $this->to_html_page('app_admin/scene_subject/submit.html');
 	}
 	
 	/**
 	 * 添加页面
 	 */
-	public function edit(){
-		
-		// 判断左栏类型
-		$this->stash['show_type'] = "product";
+	public function submit(){
+
 		$this->stash['mode'] = 'edit';
 		
 		$id = isset($this->stash['id']) ? $this->stash['id'] : 0;
@@ -69,12 +58,11 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 			return $this->ajax_json('该专题不存在！', true);
 		}
 		
-		$model = new Sher_Core_Model_SpecialSubject();
+		$model = new Sher_Core_Model_SceneSubject();
 		$result = $model->extend_load((int)$id);
-		//var_dump($result);
-		$this->stash['special_subject'] = $result;
+		$this->stash['scene_subject'] = $result;
 		
-		return $this->to_html_page('admin/special_subject/save.html');
+		return $this->to_html_page('app_admin/scene_subject/submit.html');
 	}
 	
 	/**
@@ -83,41 +71,41 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 	public function save(){
 		
 		$id = (int)$this->stash['_id'];
-		$special_subject_html = $this->stash['special_subject_html'];
-		$special_subject_title = $this->stash['special_subject_title'];
-		$special_subject_tag = $this->stash['special_subject_tag'];
+		$scene_subject_html = $this->stash['scene_subject_html'];
+		$scene_subject_title = $this->stash['scene_subject_title'];
+		$scene_subject_tag = $this->stash['scene_subject_tag'];
 		$product_ids = $this->stash['product_ids'];
 		$cover_id = $this->stash['cover_id'];
 		$category_id = $this->stash['category_id'];
 		$kind = !empty($this->stash['kind']) ? $this->stash['kind'] : 2;
 		
 		// 验证内容
-		if(!$special_subject_html){
+		if(!$scene_subject_html){
 			return $this->ajax_json('内容不能为空！', true);
 		}
 		
 		// 验证标题
-		if(!$special_subject_title){
+		if(!$scene_subject_title){
 			return $this->ajax_json('标题不能为空！', true);
 		}
 		
 		// 验证标签
-		if(!$special_subject_tag){
+		if(!$scene_subject_tag){
 			return $this->ajax_json('标签不能为空！', true);
 		}
 		
 		$tags_arr = array();
-		$tags_arr = explode(',',$special_subject_tag);
+		$tags_arr = explode(',',$scene_subject_tag);
 		
 		$product_ids_arr = array();
 		$product_ids_arr = explode(',',$product_ids);
 		
 		$date = array(
-			'title' => $special_subject_title,
+			'title' => $scene_subject_title,
 			'tags' => $tags_arr,
 			'product_ids' => $product_ids_arr,
-			//'content' => htmlspecialchars_decode(htmlspecialchars($special_subject_html)),
-			'content' => $special_subject_html,
+			//'content' => htmlscenechars_decode(htmlscenechars($scene_subject_html)),
+			'content' => $scene_subject_html,
 			# 分类ID
 			'category_id' => 1,
 			'cover_id' => $cover_id,
@@ -125,10 +113,9 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 			'category_id' => $category_id,
       'summary' => $this->stash['summary'],
 		);
-		//var_dump($date);die;
 		
 		try{
-			$model = new Sher_Core_Model_SpecialSubject();
+			$model = new Sher_Core_Model_SceneSubject();
 			if(empty($id)){
 				// add
         $date['user_id'] = $this->visitor->id;
@@ -153,7 +140,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
 		}
 		
-		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/special_subject';
+		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/scene_subject';
 		return $this->ajax_json('保存成功', false, $redirect_url);
 	}
 	
@@ -169,7 +156,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 		}
 	   
 		try{
-			 $model = new Sher_Core_Model_SpecialSubject();
+			 $model = new Sher_Core_Model_SceneSubject();
 			 $ok = $model->remove((int)$id);
 			 
 			 if(!$ok){
@@ -197,14 +184,14 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 			return $this->ajax_notification('缺少Id参数！', true);
 		}
 		
-		$model = new Sher_Core_Model_SpecialSubject();
+		$model = new Sher_Core_Model_SceneSubject();
 		$result = $model->mark_as_publish((int)$id, $evt);
 		
 		if(!$result['status']){
 			return $this->ajax_notification($result['msg'], true);
 		}
 		
-		return $this->to_taconite_page('admin/special_subject/publish_ok.html');
+		return $this->to_taconite_page('app_admin/scene_subject/publish_ok.html');
 	}
 	
 	/**
@@ -219,14 +206,14 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 			return $this->ajax_notification('缺少Id参数！', true);
 		}
 		
-		$model = new Sher_Core_Model_SpecialSubject();
+		$model = new Sher_Core_Model_SceneSubject();
 		$result = $model->mark_as_stick((int)$id, $evt);
 		
 		if(!$result['status']){
 			return $this->ajax_notification($result['msg'], true);
 		}
 		
-		return $this->to_taconite_page('admin/special_subject/stick_ok.html');
+		return $this->to_taconite_page('app_admin/scene_subject/stick_ok.html');
 	}
 }
 
