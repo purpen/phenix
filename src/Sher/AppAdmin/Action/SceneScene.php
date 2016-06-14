@@ -50,14 +50,14 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
         
 		$mode = 'create';
 		$this->stash['mode'] = $mode;
-
+		
 		$this->stash['app_baidu_map_ak'] = Doggy_Config::$vars['app.baidu.map_ak'];
 		
 		// 查询标签信息
-		$model = new Sher_Core_Model_SceneTags();
-		$root = $model->find_root_key(1);
-		$result = $model->find(array('parent_id'=>(int)$root['_id']));
-		$this->stash['scene_tags'] = $result;
+		$scene_tags_model = new Sher_Core_Model_SceneTags();
+		$root = $scene_tags_model->find_root_key(1);
+		$scene_tags = $scene_tags_model->find(array('parent_id'=>(int)$root['_id']));
+		$this->stash['scene_tags'] = $scene_tags;
 		
 		// 封面图上传
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
@@ -94,10 +94,10 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$this->stash['app_baidu_map_ak'] = Doggy_Config::$vars['app.baidu.map_ak'];
 		
 		// 查询标签信息
-		$model = new Sher_Core_Model_SceneTags();
-		$root = $model->find_root_key(1);
-		$result = $model->find(array('parent_id'=>(int)$root['_id']));
-		$this->stash['scene_tags'] = $result;
+		$scene_tags_model = new Sher_Core_Model_SceneTags();
+		$root = $scene_tags_model->find_root_key(1);
+		$scene_tags = $scene_tags_model->find(array('parent_id'=>(int)$root['_id']));
+		$this->stash['scene_tags'] = $scene_tags;
 		
 		// 封面图上传
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
@@ -259,7 +259,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$result = $model->first($id);
 		
 		if($result && $model->mark_remove($id)){
-      $model->mock_after_remove($id, $result);
+            $model->mock_after_remove($id, $result);
 		}
 		
 		$this->stash['id'] = $id;

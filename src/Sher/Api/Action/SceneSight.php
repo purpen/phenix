@@ -423,8 +423,10 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
           if($user_id != $scene_sight['user_id']){
  			      return $this->api_json('操作失败,请重新再试', 3002);         
           }
-					$scene_sight_model->mark_remove((int)$id);
-          $scene_sight_model->mock_after_remove((int)$id, $scene_sight);
+					$ok = $scene_sight_model->mark_remove((int)$id);
+          if($ok){
+            $scene_sight_model->mock_after_remove((int)$id, $scene_sight);
+          }
 				}
 			}
 			

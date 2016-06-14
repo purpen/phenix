@@ -70,16 +70,16 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 		$sight = $model->load($id);
 		$sight = $model->extended_model_row($sight);
 		if($sight){
-			$result['tags'] = implode(',',$sight['tags']);
+			$sight['tags'] = implode(',',$sight['tags']);
 		}
 		$this->stash['sight'] = $sight;
 		$this->stash['mode'] = $mode;
 
 		// 查询标签信息
-		$model = new Sher_Core_Model_SceneTags();
-		$root = $model->find_root_key(1);
-		$result = $model->find(array('parent_id'=>(int)$root['_id']));
-		$this->stash['scene_tags'] = $result;
+		$scene_tags_model = new Sher_Core_Model_SceneTags();
+		$root = $scene_tags_model->find_root_key(1);
+		$scene_tags = $scene_tags_model->find(array('parent_id'=>(int)$root['_id']));
+		$this->stash['scene_tags'] = $scene_tags;
 
 		$this->stash['app_baidu_map_ak'] = Doggy_Config::$vars['app.baidu.map_ak'];
 		
@@ -158,7 +158,7 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 		$result = $model->first((int)$id);
 		
 		if($result && $model->mark_remove($id)){
-      $model->mock_after_remove($id, $result);
+            $model->mock_after_remove($id, $result);
 		}
 		
 		$this->stash['id'] = $id;

@@ -324,7 +324,6 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			$result['is_subscript'] = 0;
 		}
         
-        //print_r($result);exit;
         return $this->api_json('请求成功', false, $result);
     }
 	
@@ -363,8 +362,10 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 					return $this->api_json('不允许操作！', 3003);
 				}
 				
-        $scene_model->mark_remove((int)$id);
-        $scene_model->mock_after_remove((int)$id, $scene);
+                $ok = $scene_model->mark_remove((int)$id);
+                if($ok){
+                    $scene_model->mock_after_remove((int)$id, $scene);
+                }
 
 			} // endfor
 			
