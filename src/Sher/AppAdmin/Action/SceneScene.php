@@ -16,20 +16,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		
 		$this->set_target_css_state('page_app_scene_scene');
 		$this->stash['show_type'] = "sight";
-		$this->stash['app_baidu_map_ak'] = Doggy_Config::$vars['app.baidu.map_ak'];
-		
-		// 查询标签信息
-		$model = new Sher_Core_Model_SceneTags();
-		$root = $model->find_root_key(1);
-		$result = $model->find(array('parent_id'=>(int)$root['_id']));
-		$this->stash['scene_tags'] = $result;
-		
-		// 封面图上传
-		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
-		$this->stash['pid'] = new MongoId();
 
-		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
-		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
     }
 	
 	/**
@@ -63,6 +50,21 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
         
 		$mode = 'create';
 		$this->stash['mode'] = $mode;
+
+		$this->stash['app_baidu_map_ak'] = Doggy_Config::$vars['app.baidu.map_ak'];
+		
+		// 查询标签信息
+		$model = new Sher_Core_Model_SceneTags();
+		$root = $model->find_root_key(1);
+		$result = $model->find(array('parent_id'=>(int)$root['_id']));
+		$this->stash['scene_tags'] = $result;
+		
+		// 封面图上传
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['pid'] = new MongoId();
+
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
 		
 		return $this->to_html_page('app_admin/scene_scene/submit.html');
 	}
@@ -89,11 +91,20 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$this->stash['date'] = $result;
 		$this->stash['mode'] = $mode;
 
+		$this->stash['app_baidu_map_ak'] = Doggy_Config::$vars['app.baidu.map_ak'];
+		
 		// 查询标签信息
 		$model = new Sher_Core_Model_SceneTags();
 		$root = $model->find_root_key(1);
 		$result = $model->find(array('parent_id'=>(int)$root['_id']));
 		$this->stash['scene_tags'] = $result;
+		
+		// 封面图上传
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['pid'] = new MongoId();
+
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
 		
 		return $this->to_html_page('app_admin/scene_scene/submit.html');
 	}
