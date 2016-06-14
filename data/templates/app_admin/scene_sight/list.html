@@ -155,24 +155,27 @@
 				</td>
 
 				<td>
-                    {% if d.stick == 1 %}
-                    <a href="{{ app_url_app_admin_base }}/scene_sight/ajax_stick?id={{ d._id }}&evt=0" class="ui link ajax item" id="stick-{{ d._id }}-button">取消推荐</a>
-                    {% else %}
-                    <a href="{{ app_url_app_admin_base }}/scene_sight/ajax_stick?id={{ d._id }}&evt=1" class="ui link ajax item" id="stick-{{ d._id }}-button">推荐</a>
-                    {% endif %}
-                    {% if d.fine == 1 %}
-                    <a href="{{ app_url_app_admin_base }}/scene_sight/ajax_fine?id={{ d._id }}&evt=0" class="ui link ajax item" id="fine-{{ d._id }}-button">取消精选</a>
-                    {% else %}
-                    <a href="{{ app_url_app_admin_base }}/scene_sight/ajax_fine?id={{ d._id }}&evt=1" class="ui link ajax item" id="fine-{{ d._id }}-button">精选</a>
-                    {% endif %}
-                    {% if d.is_check == 1 %}
-                    <a href="{{ app_url_app_admin_base }}/scene_sight/ajax_check?id={{ d._id }}&evt=0" class="ui link ajax item" id="check-{{ d._id }}-button">取消审核</a>
-                    {% else %}
-                    <a href="{{ app_url_app_admin_base }}/scene_sight/ajax_check?id={{ d._id }}&evt=1" class="ui link ajax item" id="check-{{ d._id }}-button">审核</a>
-                    {% endif %}
+
                     {% if deleted==0 %}
-						<a href="{{ app_url_app_admin_base }}/scene_sight/delete?id={{ d._id }}" class="ui link item confirm-request">删除</a>
-                    {% endif %}
+                        {% if d.stick == 1 %}
+                        <a href="{{ app_url_app_admin_base }}/scene_sight/ajax_stick?id={{ d._id }}&evt=0" class="ui link ajax item" id="stick-{{ d._id }}-button">取消推荐</a>
+                        {% else %}
+                        <a href="{{ app_url_app_admin_base }}/scene_sight/ajax_stick?id={{ d._id }}&evt=1" class="ui link ajax item" id="stick-{{ d._id }}-button">推荐</a>
+                        {% endif %}
+                        {% if d.fine == 1 %}
+                        <a href="{{ app_url_app_admin_base }}/scene_sight/ajax_fine?id={{ d._id }}&evt=0" class="ui link ajax item" id="fine-{{ d._id }}-button">取消精选</a>
+                        {% else %}
+                        <a href="{{ app_url_app_admin_base }}/scene_sight/ajax_fine?id={{ d._id }}&evt=1" class="ui link ajax item" id="fine-{{ d._id }}-button">精选</a>
+                        {% endif %}
+                        {% if d.is_check == 1 %}
+                        <a href="{{ app_url_app_admin_base }}/scene_sight/ajax_check?id={{ d._id }}&evt=0" class="ui link ajax item" id="check-{{ d._id }}-button">取消审核</a>
+                        {% else %}
+                        <a href="{{ app_url_app_admin_base }}/scene_sight/ajax_check?id={{ d._id }}&evt=1" class="ui link ajax item" id="check-{{ d._id }}-button">审核</a>
+                        {% endif %}
+					    <a href="{{ app_url_app_admin_base }}/scene_sight/delete?id={{ d._id }}" class="ui link item confirm-request">删除</a>
+                    {% else %}
+                        --
+                    {%endif%}
 				</td>
 			</tr>
 			{% endfor %}
