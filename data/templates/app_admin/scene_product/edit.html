@@ -508,10 +508,11 @@
 		<h4>编辑产品</h4>
 		{% endif %}
 		
-		<form action="{{ app_url_app_admin_base }}/scene_product/save" method="post" id="product-form">
+        <form action="{{ app_url_app_admin_base }}/scene_product/save" method="post" id="product-form">
 			<input type="hidden" name="_id" value="{{ scene_product._id }}" />
 			<input type="hidden" name="editor_id" value="{{ editor_pid }}" id="file_id" />
 		  <input type="hidden" name="scene_tags" value="{{ scene_product.scene_tags_s }}" />
+		  <input type="hidden" name="return_url" value="{{ return_url }}" />
 
 			<h4 class="ui stage header">来源</h4>
 			<div class="grouped inline fields">

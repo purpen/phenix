@@ -174,22 +174,30 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		if(empty($user_id)){
 			  return $this->api_json('请先登录', 3000);   
 		}
+
+        if(empty($id)){
+            $mode = 'create';
+        }else{
+            $mode = 'edit';
+        }
 		
 		$data = array();
 		$data['title'] = isset($this->stash['title']) ? $this->stash['title'] : '';
 		$data['des'] = isset($this->stash['des']) ? $this->stash['des'] : '';
 		$data['scene_id'] = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
 		$data['tags'] = isset($this->stash['tags']) ? $this->stash['tags'] : '';
-		$data['product_id'] = isset($this->stash['product_id']) ? $this->stash['product_id'] : '';
-		$data['product_title'] = isset($this->stash['product_title']) ? $this->stash['product_title'] : '';
-		$data['product_price'] = isset($this->stash['product_price']) ? $this->stash['product_price'] : '';
-		$data['product_x'] = isset($this->stash['product_x']) ? $this->stash['product_x'] : '';
-		$data['product_y'] = isset($this->stash['product_y']) ? $this->stash['product_y'] : '';
+
 		$data['address'] = isset($this->stash['address']) ? $this->stash['address'] : '';
 		$data['location'] = array(
             'type' => 'Point',
             'coordinates' => array(doubleval($this->stash['lng']), doubleval($this->stash['lat'])),
         );
+
+		$product_id = isset($this->stash['product_id']) ? $this->stash['product_id'] : '';
+		$product_title = isset($this->stash['product_title']) ? $this->stash['product_title'] : '';
+		$product_price = isset($this->stash['product_price']) ? $this->stash['product_price'] : '';
+		$product_x = isset($this->stash['product_x']) ? $this->stash['product_x'] : '';
+		$product_y = isset($this->stash['product_y']) ? $this->stash['product_y'] : '';
 		
 		if(!$data['title']){
 			return $this->api_json('请求标题不能为空', 3001);
@@ -215,56 +223,55 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		foreach($data['tags'] as $k => $v){
 			$data['tags'][$k] = (int)$v;
 		}
-		
-		$data['product_id'] = explode(',',$data['product_id']);
-		$data['product_title'] = explode(',',$data['product_title']);
-		$data['product_price'] = explode(',',$data['product_price']);
-		$data['product_x'] = explode(',',$data['product_x']);
-		$data['product_y'] = explode(',',$data['product_y']);
-		for($i = 0;$i < count($data['product_id']); $i++){
-			$data['product'][$i]['id'] = (int)$data['product_id'][$i];
-			$data['product'][$i]['title'] = $data['product_title'][$i];
-			$data['product'][$i]['price'] = (float)$data['product_price'][$i];
-			$data['product'][$i]['x'] = (float)$data['product_x'][$i];
-			$data['product'][$i]['y'] = (float)$data['product_y'][$i];
-		}
-		unset($data['product_id']);
-		unset($data['product_title']);
-		unset($data['product_price']);
-		unset($data['product_x']);
-		unset($data['product_y']);
-		
-		if(!isset($this->stash['tmp']) && empty($this->stash['tmp'])){
-			return $this->api_json('请选择图片！', 3006);  
-		}
-		$file = base64_decode(str_replace(' ', '+', $this->stash['tmp']));
-		$image_info = Sher_Core_Util_Image::image_info_binary($file);
-		if($image_info['stat']==0){
-			return $this->api_json($image_info['msg'], 3007);
-		}
-		if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
-			return $this->api_json('图片格式不正确！', 3008);
-		}
-		$params = array();
-		$new_file_id = new MongoId();
-		$params['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SIGHT;
-		$params['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SIGHT;
-		$params['filename'] = $new_file_id.'.jpg';
-		$params['parent_id'] = $id;
-    $params['user_id'] = $user_id;
-		$params['image_info'] = $image_info;
-		$result = Sher_Core_Util_Image::api_image($file, $params);
-		
-		if($result['stat']){
-			$data['cover_id'] = $result['asset']['id'];
-		}else{
-			return $this->api_json('上传失败!', 3009); 
-		}
+
+        if(!empty($product_id)){
+            $product_id = explode(',',$product_id);
+            $product_title = explode(',',$product_title);
+            $product_price = explode(',',$product_price);
+            $product_x = explode(',',$product_x);
+            $product_y = explode(',',$product_y);
+            for($i = 0;$i < count($product_id); $i++){
+                $data['product'][$i]['id'] = (int)$data['product_id'][$i];
+                $data['product'][$i]['title'] = $data['product_title'][$i];
+                $data['product'][$i]['price'] = (float)$data['product_price'][$i];
+                $data['product'][$i]['x'] = (float)$data['product_x'][$i];
+                $data['product'][$i]['y'] = (float)$data['product_y'][$i];
+            }       
+        }
+
+        if($mode=='create'){
+            if(!isset($this->stash['tmp']) && empty($this->stash['tmp'])){
+                return $this->api_json('请选择图片！', 3006);  
+            }
+            $file = base64_decode(str_replace(' ', '+', $this->stash['tmp']));
+            $image_info = Sher_Core_Util_Image::image_info_binary($file);
+            if($image_info['stat']==0){
+                return $this->api_json($image_info['msg'], 3007);
+            }
+            if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
+                return $this->api_json('图片格式不正确！', 3008);
+            }
+            $params = array();
+            $new_file_id = new MongoId();
+            $params['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SIGHT;
+            $params['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SIGHT;
+            $params['filename'] = $new_file_id.'.jpg';
+            $params['parent_id'] = $id;
+            $params['user_id'] = $user_id;
+            $params['image_info'] = $image_info;
+            $result = Sher_Core_Util_Image::api_image($file, $params);
+            
+            if($result['stat']){
+                $data['cover_id'] = $result['asset']['id'];
+            }else{
+                return $this->api_json('上传失败!', 3009); 
+            }       
+        }
 
 		try{
 			$model = new Sher_Core_Model_SceneSight();
 			// 新建记录
-			if(empty($id)){
+			if($mode=='create'){
 				$data['user_id'] = $user_id;
 				
 				$ok = $model->apply_and_save($data);
@@ -273,6 +280,10 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 				$id = $scene['_id'];
 			}else{
 				$data['_id'] = $id;
+                $scene = $model->load($id);
+                if(empty($scene) || $scene['user_id']!=$user_id){
+ 				    return $this->api_json('没有权限', 4001);                   
+                }
 				$ok = $model->apply_and_update($data);
 			}
 			
@@ -281,15 +292,15 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			}
 			
 			// 上传成功后，更新所属的附件
-			//var_dump($id);die;
 			if(isset($data['cover_id']) && !empty($data['cover_id'])){
 				$model->update_batch_assets($data['cover_id'], $id);
 			}
 
-      // 更新全文索引
-      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 5);
+          // 更新全文索引
+          Sher_Core_Helper_Search::record_update_to_dig((int)$id, 5);
 			
 			// 将场景保存到所属情景里面
+            /*
 			$model = new Sher_Core_Model_SceneScene();
 			$result = $model->first($data['scene_id']);
 			if($result){
@@ -298,7 +309,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 				$option['sight'] = $result['sight'];
 				array_push($option['sight'],$id);
 				$result = $model->apply_and_update($option);
-			}
+            }
+             */
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("api情景保存失败：".$e->getMessage());
 			return $this->api_json('情景保存失败:'.$e->getMessage(), 4001);
@@ -411,8 +423,10 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
           if($user_id != $scene_sight['user_id']){
  			      return $this->api_json('操作失败,请重新再试', 3002);         
           }
-					$scene_sight_model->mark_remove((int)$id);
-          $scene_sight_model->mock_after_remove((int)$id, $scene_sight);
+					$ok = $scene_sight_model->mark_remove((int)$id);
+          if($ok){
+            $scene_sight_model->mock_after_remove((int)$id, $scene_sight);
+          }
 				}
 			}
 			

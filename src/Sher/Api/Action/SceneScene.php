@@ -132,14 +132,17 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 	 */
 	public function save(){
 		
-		// title=test&des=test&tags=1&address=1&&lat=39.9151190000&lng=116.4039630000
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$user_id = $this->current_user_id;
-		//$user_id = 10;
 		if(empty($user_id)){
 			  return $this->api_json('请先登录', 3000);   
 		}
-		
-		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+
+        if(empty($id)){
+            $mode = 'create';
+        }else{
+            $mode = 'edit';
+        }
 		
 		$data = array();
 		$data['title'] = isset($this->stash['title']) ? $this->stash['title'] : '';
@@ -174,36 +177,36 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			$data['tags'][$k] = (int)$v;
 		}
 		
-		// 上传图片
-		//$this->stash['tmp'] = Doggy_Config::$vars['app.imges'];
-		if(empty($this->stash['tmp'])){
-			return $this->api_json('请选择图片！', 3005);  
-		}
-		$file = base64_decode(str_replace(' ', '+', $this->stash['tmp']));
-		$image_info = Sher_Core_Util_Image::image_info_binary($file);
-		if($image_info['stat']==0){
-			return $this->api_json($image_info['msg'], 3006);
-		}
-		if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
-			return $this->api_json('图片格式不正确！', 3007);
-		}
-		$params = array();
-		$new_file_id = new MongoId();
-		$params['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
-		$params['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
-		$params['filename'] = $new_file_id.'.jpg';
-		$params['parent_id'] = $id;
-		$params['user_id'] = $user_id;
-		$params['image_info'] = $image_info;
-		$result = Sher_Core_Util_Image::api_image($file, $params);
+        if($mode=='create'){
+            // 上传图片
+            if(empty($this->stash['tmp'])){
+                return $this->api_json('请选择图片！', 3005);  
+            }
+            $file = base64_decode(str_replace(' ', '+', $this->stash['tmp']));
+            $image_info = Sher_Core_Util_Image::image_info_binary($file);
+            if($image_info['stat']==0){
+                return $this->api_json($image_info['msg'], 3006);
+            }
+            if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
+                return $this->api_json('图片格式不正确！', 3007);
+            }
+            $params = array();
+            $new_file_id = new MongoId();
+            $params['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
+            $params['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
+            $params['filename'] = $new_file_id.'.jpg';
+            $params['parent_id'] = $id;
+            $params['user_id'] = $user_id;
+            $params['image_info'] = $image_info;
+            $result = Sher_Core_Util_Image::api_image($file, $params);
+            
+            if($result['stat']){
+                $data['cover_id'] = $result['asset']['id'];
+            }else{
+                return $this->api_json('上传失败!', 3008); 
+            }     
+        }
 		
-		if($result['stat']){
-			$data['cover_id'] = $result['asset']['id'];
-		}else{
-			return $this->api_json('上传失败!', 3008); 
-		}
-		
-		//var_dump($data);die;
 		try{
 			$model = new Sher_Core_Model_SceneScene();
 			// 新建记录
@@ -215,6 +218,10 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 				
 				$id = $scene['_id'];
 			}else{
+                $scene = $model->load($id);
+                if(empty($scene) || $scene['user_id']!=$user_id){
+ 				    return $this->api_json('没有权限', 4001);                   
+                }
 				$data['_id'] = $id;
 				$ok = $model->apply_and_update($data);
 			}
@@ -317,7 +324,6 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			$result['is_subscript'] = 0;
 		}
         
-        //print_r($result);exit;
         return $this->api_json('请求成功', false, $result);
     }
 	
@@ -356,8 +362,10 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 					return $this->api_json('不允许操作！', 3003);
 				}
 				
-        $scene_model->mark_remove((int)$id);
-        $scene_model->mock_after_remove((int)$id, $scene);
+                $ok = $scene_model->mark_remove((int)$id);
+                if($ok){
+                    $scene_model->mock_after_remove((int)$id, $scene);
+                }
 
 			} // endfor
 			

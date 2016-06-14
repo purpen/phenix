@@ -172,6 +172,7 @@
                         {% else %}
                         <a href="{{ app_url_app_admin_base }}/scene_sight/ajax_check?id={{ d._id }}&evt=1" class="ui link ajax item" id="check-{{ d._id }}-button">审核</a>
                         {% endif %}
+                        <a href="{{ app_url_app_admin_base }}/scene_sight/submit?id={{ d._id }}" class="ui link item">编辑</a>
 					    <a href="{{ app_url_app_admin_base }}/scene_sight/delete?id={{ d._id }}" class="ui link item confirm-request">删除</a>
                     {% else %}
                         --

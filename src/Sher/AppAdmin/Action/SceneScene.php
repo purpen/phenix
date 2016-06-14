@@ -16,20 +16,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		
 		$this->set_target_css_state('page_app_scene_scene');
 		$this->stash['show_type'] = "sight";
-		$this->stash['app_baidu_map_ak'] = Doggy_Config::$vars['app.baidu.map_ak'];
-		
-		// 查询标签信息
-		$model = new Sher_Core_Model_SceneTags();
-		$root = $model->find_root_key(1);
-		$result = $model->find(array('parent_id'=>(int)$root['_id']));
-		$this->stash['scene_tags'] = $result;
-		
-		// 封面图上传
-		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
-		$this->stash['pid'] = new MongoId();
 
-		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
-		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
     }
 	
 	/**
@@ -64,6 +51,21 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$mode = 'create';
 		$this->stash['mode'] = $mode;
 		
+		$this->stash['app_baidu_map_ak'] = Doggy_Config::$vars['app.baidu.map_ak'];
+		
+		// 查询标签信息
+		$scene_tags_model = new Sher_Core_Model_SceneTags();
+		$root = $scene_tags_model->find_root_key(1);
+		$scene_tags = $scene_tags_model->find(array('parent_id'=>(int)$root['_id']));
+		$this->stash['scene_tags'] = $scene_tags;
+		
+		// 封面图上传
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['pid'] = new MongoId();
+
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
+		
 		return $this->to_html_page('app_admin/scene_scene/submit.html');
 	}
     
@@ -88,6 +90,21 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		//var_dump($result);
 		$this->stash['date'] = $result;
 		$this->stash['mode'] = $mode;
+
+		$this->stash['app_baidu_map_ak'] = Doggy_Config::$vars['app.baidu.map_ak'];
+		
+		// 查询标签信息
+		$scene_tags_model = new Sher_Core_Model_SceneTags();
+		$root = $scene_tags_model->find_root_key(1);
+		$scene_tags = $scene_tags_model->find(array('parent_id'=>(int)$root['_id']));
+		$this->stash['scene_tags'] = $scene_tags;
+		
+		// 封面图上传
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['pid'] = new MongoId();
+
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
 		
 		return $this->to_html_page('app_admin/scene_scene/submit.html');
 	}
@@ -115,19 +132,19 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$data['asset'] = isset($this->stash['asset'])?$this->stash['asset']:array();
 		
 		if(empty($data['title']) || empty($data['des'])){
-			return $this->api_json('请求参数不能为空', 3000);
+			return $this->ajax_json('请求参数不能为空', true);
 		}
 		
 		if(empty($data['address']) || empty($data['address'])){
-			return $this->api_json('请求参数不能为空', 3000);
+			return $this->ajax_json('请求参数不能为空', true);
 		}
 		
 		if(empty($data['tags']) || empty($data['tags'])){
-			return $this->api_json('请求参数不能为空', 3000);
+			return $this->ajax_json('请求参数不能为空', true);
 		}
 		
 		if(empty($data['location']['coordinates'])){
-			return $this->api_json('请求参数不能为空', 3000);
+			return $this->ajax_json('请求参数不能为空', true);
 		}
 		
 		$data['tags'] = explode(',',$data['tags']);
@@ -151,7 +168,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 			}
 			
 			if(!$ok){
-				return $this->api_json('保存失败,请重新提交', 4002);
+				return $this->ajax_json('保存失败,请重新提交', true);
 			}
 
       // 更新全文索引
@@ -164,10 +181,10 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 			}		
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("api情景保存失败：".$e->getMessage());
-			return $this->api_json('情景保存失败:'.$e->getMessage(), 4001);
+			return $this->ajax_json('情景保存失败:'.$e->getMessage(), true);
 		}
 		
-		return $this->api_json('提交成功', 0, null);
+		return $this->ajax_json('提交成功', false, null);
 	}
 	
 	/**
@@ -242,7 +259,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$result = $model->first($id);
 		
 		if($result && $model->mark_remove($id)){
-      $model->mock_after_remove($id, $result);
+            $model->mock_after_remove($id, $result);
 		}
 		
 		$this->stash['id'] = $id;
