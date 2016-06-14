@@ -88,6 +88,12 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		//var_dump($result);
 		$this->stash['date'] = $result;
 		$this->stash['mode'] = $mode;
+
+		// 查询标签信息
+		$model = new Sher_Core_Model_SceneTags();
+		$root = $model->find_root_key(1);
+		$result = $model->find(array('parent_id'=>(int)$root['_id']));
+		$this->stash['scene_tags'] = $result;
 		
 		return $this->to_html_page('app_admin/scene_scene/submit.html');
 	}
