@@ -59,7 +59,7 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 	 */
 	public function submit(){
         // 记录上一步来源地址
-        $this->stash['return_url'] = $_SERVER['HTTP_REFERER'];
+        $this->stash['return_url'] = $_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : Doggy_Config::$vars['app.url.app_admin']."/scene_sight";
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : '';
 		if(!$id){
 			return $this->ajax_json('缺少请求参数！', true);
