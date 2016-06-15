@@ -231,11 +231,11 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
             $product_x = explode(',',$product_x);
             $product_y = explode(',',$product_y);
             for($i = 0;$i < count($product_id); $i++){
-                $data['product'][$i]['id'] = (int)$data['product_id'][$i];
-                $data['product'][$i]['title'] = $data['product_title'][$i];
-                $data['product'][$i]['price'] = (float)$data['product_price'][$i];
-                $data['product'][$i]['x'] = (float)$data['product_x'][$i];
-                $data['product'][$i]['y'] = (float)$data['product_y'][$i];
+                $data['product'][$i]['id'] = (int)$product_id[$i];
+                $data['product'][$i]['title'] = $product_title[$i];
+                $data['product'][$i]['price'] = (float)$product_price[$i];
+                $data['product'][$i]['x'] = (float)$product_x[$i];
+                $data['product'][$i]['y'] = (float)$product_y[$i];
             }       
         }
 
