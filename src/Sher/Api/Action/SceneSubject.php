@@ -115,7 +115,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 
         $some_fields = array(
           '_id', 'title', 'short_title', 'tags', 'tags_s', 'kind',
-          'cover_id', 'category_id', 'summary', 'status', 'publish',
+          'cover_id', 'category_id', 'summary', 'status', 'publish', 'user_id',
           'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
         );
 
