@@ -61,11 +61,13 @@ class Sher_Admin_Action_IpBlackList extends Sher_Admin_Action_Base implements Do
 	public function save() {
     $id = isset($this->stash['id']) ? $this->stash['id'] : null;
     $ip = isset($this->stash['ip']) ? trim($this->stash['ip']) : null;
+    $kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
 		
 		$model = new Sher_Core_Model_IpBlackList();
 		try{
       $data = array();
       $data['ip'] = $ip;
+      $data['kind'] = $kind;
 			if(empty($id)){
 				$mode = 'create';
         $data['user_id'] = $this->visitor->id;
