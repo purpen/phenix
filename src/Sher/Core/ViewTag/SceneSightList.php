@@ -38,6 +38,8 @@ class Sher_Core_ViewTag_SceneSightList extends Doggy_Dt_Tag {
 
         if($deleted){
             $query['deleted'] = 1;
+        }else{
+            $query['deleted'] = 0;
         }
         
         switch($type){
