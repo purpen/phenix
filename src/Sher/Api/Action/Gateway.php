@@ -563,7 +563,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
    * 是否开启邀请码功能
    */
   public function is_invited(){
-    $code = 1;
+    $code = 0;
     return $this->api_json('success', 0, array('status'=>$code));   
   }
 
