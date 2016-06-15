@@ -161,6 +161,23 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 	}
 
 	/**
+	 * 情境详情页面显示
+	 */
+	public function scene_subject_show(){
+		
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		if(empty($id)){
+			return $this->api_json('访问的专题不存在！', 3000);
+		}
+		
+		$model = new Sher_Core_Model_SceneSubject();
+		$result = $model->extend_load($id);
+		
+		$this->stash['content'] = $result['content'];
+		return $this->to_html_page('page/scene_subject/api_show.html');
+	}
+
+	/**
 	 * app试用描述部分html5展示
 	 */
 	public function try_show(){
