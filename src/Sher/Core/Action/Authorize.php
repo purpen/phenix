@@ -68,7 +68,7 @@ Class Sher_Core_Action_Authorize extends Sher_Core_Action_Base implements DoggyX
 
     // 存在IP黑名单禁止防问!
     $ip_black_model = new Sher_Core_Model_IpBlackList();
-    $exist_ip = $ip_black_model->first(array('ip'=>$ip));
+    $exist_ip = $ip_black_model->first(array('ip'=>$ip, 'kind'=>1));
     if (!empty($exist_ip)) {
       Doggy_Log_Helper::warn("Reject visit ip: ".$ip);
       $handle = true;

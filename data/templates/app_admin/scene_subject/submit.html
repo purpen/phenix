@@ -480,8 +480,9 @@
 		
 
 		<div class="ui topic_form">
-		  <form action="{{ app_url_admin_base }}/scene_subject/save" class="ui form" method="post" id="scene_subject_form">
+		  <form action="{{ app_url_app_admin_base }}/scene_subject/save" class="ui form" method="post" id="scene_subject_form">
 			  <input name="scene_subject_html" type="hidden" value="" />
+              <input name="id" type="hidden" value="{{ scene_subject._id }}" />
 			  
 			  <div class="field">
 				  <label>标题：</label>
@@ -504,7 +505,7 @@
 				<div id="phenix-uploader-special"></div>
 				<div id="asset-list" class="ui four blocks">
 					{% if mode == 'edit' %}
-						{% asset_list var:'assets' parent_id:scene_subject._id size:20 asset_type:asset_type %}
+						{% asset_list var:'assets' parent_id:scene_subject._id size:10 asset_type:asset_type %}
 						{% for asset in assets.rows %}
 						<div class="thumb block" id="{{ asset._id }}">
 							<div class="image">
