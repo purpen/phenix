@@ -22,8 +22,9 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
     const TYPE_APP_SUBJECT = 9; // app 专题评论
     // 专题评论 target_id 1:云马C1争霸; 5.奶爸奶妈PK; 2.--; 3.--; 4.--
     const TYPE_SUBJECT = 10;
-    const TYPE_GPRODUCT = 11; // 情景商品
+    const TYPE_GPRODUCT = 11; // 情境商品
 	const TYPE_SCENE_SIGHT = 12; // 场景
+	const TYPE_SCENE_SUBJECT = 13; // 情境专题
 	
     protected $schema = array(
         'user_id' => 0,
@@ -114,6 +115,9 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                     break;
 				case 12:
 					$target_model = new Sher_Core_Model_SceneSight();
+					break;
+				case 13:
+					$target_model = new Sher_Core_Model_SceneSubject();
 					break;
 				default:
 				  $target_model = null;
@@ -274,6 +278,12 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                     //获取目标用户ID
                     $scene_sight = $model->find_by_id((int)$this->data['target_id']);
                     $user_id = $scene_sight['user_id'];
+                    $model->inc_counter('comment_count', 1, (int)$this->data['target_id']);
+                    break;
+				case self::TYPE_SCENE_SUBJECT:
+                    $model = new Sher_Core_Model_Subject();
+                    //获取目标用户ID
+                    $scene_sight = $model->find_by_id((int)$this->data['target_id']);
                     $model->inc_counter('comment_count', 1, (int)$this->data['target_id']);
                     break;
                 default:
