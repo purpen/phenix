@@ -111,7 +111,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
         $model->inc_counter('sight_count',(int)$this->data['user_id']);
         
         $model = new Sher_Core_Model_SceneScene();
-        $model->inc_counter('sight_count',1,$this->data['scene_id']);
+        $model->inc_counter('sight_count',1, $this->data['scene_id']);
 
         // 更新全文索引
         Sher_Core_Helper_Search::record_update_to_dig($this->data['_id'], 5);
