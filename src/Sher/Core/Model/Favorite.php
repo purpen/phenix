@@ -18,7 +18,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 	const TYPE_APP_SCENE_PRODUCT = 10; // 情景产品
 	const TYPE_APP_SCENE_SCENE = 11; // 情境
 	const TYPE_APP_SCENE_SIGHT = 12; // 场景
-	const TYPE_APP_SCENE_SIGHT = 13; // 情境专题
+	const TYPE_APP_SCENE_SUBJECT = 13; // 情境专题
 	
 	// event
 	const EVENT_FAVORITE = 1;
