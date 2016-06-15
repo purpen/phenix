@@ -234,16 +234,16 @@
 	  var src = $('#avatar-photo').attr('src');
 	  //var link = $('input[name=img_link]').val();
 	  var keyword = $('input[name=img_keyword]').val();
-	  var product_id = $('input[name=product_id]').val();
-	  var is_show_price = $('input[name=is_show_price]').val();
+	  var target_id = $('input[name=target_id]').val();
+	  var target_type = $('input[name=target_type]').val();
 	  
-	  if(product_id){
-		link = '{{ app_url_shop }}/view?id='+product_id;
+	  if(target_id && target_type){
+		link = '{{ app_url_shop }}/view?id='+target_id;
 	  }else{
 		link = '';
 	  }
 	  
-	  var content = '<a class=\"img_url\" href=\"javascript:void(0);\" product_id=\"'+product_id+'\" is_show_price=\"'+is_show_price+'\" onclick="JavascriptHandler('+product_id+')"><img src=\"'+src+'\" align="absmiddle" style=\"width:100%\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
+	  var content = '<a class=\"img_url\" href=\"javascript:void(0);\" target_id=\"'+target_id+'\" target_type=\"'+target_type+'\" onclick="JavascriptHandler('+target_id+')"><img src=\"'+src+'\" align="absmiddle" style=\"width:100%\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
 	  date.widget.find('.this_content').html(content);
 	  date.widget.css('width',date.size_x*10+'%');
 	  
@@ -477,18 +477,22 @@
 				  <input type="text" name="img_keyword" value="" />
 			  </div>
 			  <div class="field">
-				  <label>产品id</label>
-				  <input type="text" name="product_id" value="" />
+				  <label>关联id</label>
+				  <input type="text" name="target_id" value="" />
 			  </div>
 			  <div class="inline field fields">
 				<div class="field">
 					<div class="ui radio checkbox">
-						<input type="radio" name="is_show_price" value="1" /> 
-						<label>显示价格</label>
+						<input type="radio" name="target_type" value="1" /> 
+						<label>情境</label>
 					</div>
 					<div class="ui radio checkbox">
-						<input type="radio" name="is_show_price" value="0" /> 
-						<label>不显示价格</label>
+						<input type="radio" name="target_type" value="2" /> 
+						<label>场景</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="target_type" value="3" /> 
+						<label>产品</label>
 					</div>
 				</div>
 			  </div>
