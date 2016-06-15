@@ -43,7 +43,7 @@
 		<tbody>
 		{% scene_subject_list var:'list' kind:kind page:page size:size %}
 		{% for d in list.rows %}
-			<tr id="{{ d._id }}">
+			<tr id="item-{{ d._id }}">
 				<td>
 					<div class="ui checkbox">
 					  	<input name="ids" type="checkbox" value="{{ d._id }}" class="checkbox" />
@@ -66,16 +66,16 @@
 				<td>
 					<p>
 						{% if !d.publish %}
-			          	<a href="{{ app_url_app_admin }}/scene_subject/ajax_publish?id={{ d._id }}&evt=1" class="ui ajax link item" id="publish-{{ scene_subject._id }}-button">
+			          	<a href="{{ app_url_app_admin }}/scene_subject/ajax_publish?id={{ d._id }}&evt=1" class="ui ajax link item" id="publish-{{ d._id }}-button">
 							发布
 						</a>
 						{% else %}
-			          	<a href="{{ app_url_app_admin }}/scene_subject/ajax_publish?id={{ d._id }}&evt=0" class="ui ajax link item" id="publish-{{ scene_subject._id }}-button">
+			          	<a href="{{ app_url_app_admin }}/scene_subject/ajax_publish?id={{ d._id }}&evt=0" class="ui ajax link item" id="publish-{{ d._id }}-button">
 							取消发布
 						</a>
 						{% endif %}
 
-						<a href="{{ app_url_app_admin_base }}/scene_subject/edit?id={{ d._id }}&page={{ page }}" class="ui link item">编辑</a>
+						<a href="{{ app_url_app_admin_base }}/scene_subject/submit?id={{ d._id }}" class="ui link item">编辑</a>
 		          		<a href="{{ app_url_app_admin_base }}/scene_subject/deleted?id={{ d._id }}" class="ui confirm-request link item">删除</a>
 					</P>
 				</td>

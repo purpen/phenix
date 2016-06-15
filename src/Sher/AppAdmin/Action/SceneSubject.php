@@ -3,7 +3,7 @@
  * 情境专题管理
  * @author tianshuai
  */
-class Sher_AppAdmin_Action_SceneSubject extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {
+class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
 		'page' => 1,
@@ -38,9 +38,7 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_Admin_Action_Base implement
 	 */
 	public function submit(){
 
-		$this->stash['mode'] = 'edit';
-		
-		$id = isset($this->stash['id']) ? $this->stash['id'] : 0;
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 
 		$redirect_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_subject';
 		if(empty($id)){
@@ -68,14 +66,12 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_Admin_Action_Base implement
 	 */
 	public function save(){
 		
-		$id = (int)$this->stash['_id'];
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$scene_subject_html = $this->stash['scene_subject_html'];
-		$scene_subject_title = $this->stash['scene_subject_title'];
-		$scene_subject_tag = $this->stash['scene_subject_tag'];
-		$product_ids = $this->stash['product_ids'];
+		$scene_subject_title = $this->stash['title'];
+		$scene_subject_tag = $this->stash['tags'];
 		$cover_id = $this->stash['cover_id'];
-		$category_id = $this->stash['category_id'];
-		$kind = !empty($this->stash['kind']) ? $this->stash['kind'] : 2;
+		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
 		
 		// 验证内容
 		if(!$scene_subject_html){
@@ -95,28 +91,21 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_Admin_Action_Base implement
 		$tags_arr = array();
 		$tags_arr = explode(',',$scene_subject_tag);
 		
-		$product_ids_arr = array();
-		$product_ids_arr = explode(',',$product_ids);
 		
 		$date = array(
 			'title' => $scene_subject_title,
 			'tags' => $tags_arr,
-			'product_ids' => $product_ids_arr,
-			//'content' => htmlscenechars_decode(htmlscenechars($scene_subject_html)),
 			'content' => $scene_subject_html,
-			# 分类ID
-			'category_id' => 1,
 			'cover_id' => $cover_id,
-			'kind' => (int)$kind,
-			'category_id' => $category_id,
-      'summary' => $this->stash['summary'],
+			'kind' => $kind,
+            'summary' => $this->stash['summary'],
 		);
 		
 		try{
 			$model = new Sher_Core_Model_SceneSubject();
 			if(empty($id)){
 				// add
-        $date['user_id'] = $this->visitor->id;
+                $date['user_id'] = $this->visitor->id;
 				$ok = $model->apply_and_save($date);
 				$data_id = $model->get_data();
 				$id = $data_id['_id'];
@@ -132,13 +121,13 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_Admin_Action_Base implement
 			
 			// 上传成功后，更新所属的附件
 			if(isset($this->stash['asset']) && !empty($this->stash['asset'])){
-				$model->update_batch_assets($this->stash['asset'], (int)$id);
+				$model->update_batch_assets($this->stash['asset'], $id);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
 		}
 		
-		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/scene_subject';
+		$redirect_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_subject';
 		return $this->ajax_json('保存成功', false, $redirect_url);
 	}
 	

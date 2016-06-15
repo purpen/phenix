@@ -50,7 +50,7 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
-    $row['wap_view_url'] = sprintf("%s/scene_subject/view?id=%d", Doggy_Config::$vars['app.url.wap'], $row['_id']);
+        $row['wap_view_url'] = sprintf("%s/scene_subject/view?id=%d", Doggy_Config::$vars['app.url.wap'], $row['_id']);
 
 		// HTML 实体转换为字符
 		if (isset($row['content'])){
@@ -64,7 +64,7 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 
 		// 获取封面图
 		if(isset($row['cover_id'])){
-			  $row['cover'] = $this->cover($row['cover_id']);
+			$row['cover'] = $this->cover($row);
 		}
 
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
@@ -82,17 +82,17 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 	/**
 	 * 获取封面图
 	 */
-	protected function cover($cover_id){
+	protected function cover(&$row){
 		// 已设置封面图
-		if(!empty($cover_id)){
+		if(!empty($row['cover_id'])){
 			$asset = new Sher_Core_Model_Asset();
-			return $asset->extend_load($cover_id);
+			return $asset->extend_load($row['cover_id']);
 		}
 		// 未设置封面图，获取第一个
 		$asset = new Sher_Core_Model_Asset();
 		$query = array(
-			'parent_id'  => (int)$cover_id,
-			'asset_type' => Sher_Core_Model_Asset::TYPE_SCENE_SUBJECT
+			'parent_id'  => $row['_id'],
+			'asset_type' => Sher_Core_Model_Asset::TYPE_SCENE_SUBJECT,
 		);
 		$data = $asset->first($query);
 		if(!empty($data)){
@@ -152,7 +152,7 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 	* 发布操作
 	*/
 	public function mark_as_publish($id, $publish = 1){
-		$data = $this->extend_load((int)$id);
+		$data = $this->load((int)$id);
 	
 		if(empty($data)){
 			return array('status'=>0, 'msg'=>'内容不存在');
@@ -172,7 +172,7 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 	* 推荐操作
 	*/
 	public function mark_as_stick($id, $stick=1){
-		$data = $this->extend_load((int)$id);
+		$data = $this->load((int)$id);
 	
 		if(empty($data)){
 			return array('status'=>0, 'msg'=>'内容不存在');

@@ -211,7 +211,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	protected function extra_extend_model_row(&$row) {
 		$row['view_url'] = Sher_Core_Helper_Url::topic_view_url($row['_id']);
 		$row['wap_view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.social.show'], $row['_id'], 0);
-    $row['comment_view_url'] = sprintf(Doggy_Config::$vars['app.url.topic'].'/view/%d/%d', $row['_id'], 1);
+        $row['comment_view_url'] = sprintf(Doggy_Config::$vars['app.url.topic'].'/view/%d/%d', $row['_id'], 1);
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
 
 		if(!isset($row['short_title']) || empty($row['short_title'])){
@@ -254,20 +254,20 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
             }
         }
 
-    $row['attr_str'] = "";
-    if(isset($row['attrbute'])){
-      switch((int)$row['attrbute']){
-        case 1:
-          $row['attr_str'] = "【原创】";
-          break;
-        case 2:
-          $row['attr_str'] = "【转载】";
-          break;
-        case 3:
-          $row['attr_str'] = "【活动】";
-          break;
-      }
-    }
+        $row['attr_str'] = "";
+        if(isset($row['attrbute'])){
+          switch((int)$row['attrbute']){
+            case 1:
+              $row['attr_str'] = "【原创】";
+              break;
+            case 2:
+              $row['attr_str'] = "【转载】";
+              break;
+            case 3:
+              $row['attr_str'] = "【活动】";
+              break;
+          }
+        }
 	}
 	
 	/**
