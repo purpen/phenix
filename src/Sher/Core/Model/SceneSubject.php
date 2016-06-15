@@ -50,7 +50,7 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
-    $row['wap_view_url'] = sprintf("%s/special_subject/view?id=%d", Doggy_Config::$vars['app.url.wap'], $row['_id']);
+    $row['wap_view_url'] = sprintf("%s/scene_subject/view?id=%d", Doggy_Config::$vars['app.url.wap'], $row['_id']);
 
 		// HTML 实体转换为字符
 		if (isset($row['content'])){
