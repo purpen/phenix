@@ -530,8 +530,10 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
     if(empty($code)){
       return $this->api_json('不能为空！', 3001);
     }
-    if($code=='888888'){
-      return $this->api_json('success', 0, array('code'=>$code)); 
+    $model = new Sher_Core_Model_IpBlackList();
+    $has_one = $model->first(array('ip'=>$code));
+    if($has_one){
+      return $this->api_json('success', 0, array('code'=>$code, 'status'=>1)); 
     }else{
       return $this->api_json('无效的邀请码！', 3002);   
     }
@@ -546,6 +548,13 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
       return $this->api_json('不能为空！', 3001);
     }
 
+    $model = new Sher_Core_Model_IpBlackList();
+    $has_one = $model->first(array('ip'=>$code, 'status'=>1));
+    if($has_one){
+        $model->update_set((string)$has_one['_id'], array('status'=>0));
+    }else{
+        return $this->api_json('无效的邀请码！', 3002);   
+    }
     return $this->api_json('success', 0, array('code'=>$code)); 
   
   }
