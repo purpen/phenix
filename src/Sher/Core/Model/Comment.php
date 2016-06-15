@@ -281,7 +281,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                     $model->inc_counter('comment_count', 1, (int)$this->data['target_id']);
                     break;
 				case self::TYPE_SCENE_SUBJECT:
-                    $model = new Sher_Core_Model_Subject();
+                    $model = new Sher_Core_Model_SceneSubject();
                     //获取目标用户ID
                     $scene_sight = $model->find_by_id((int)$this->data['target_id']);
                     $model->inc_counter('comment_count', 1, (int)$this->data['target_id']);
