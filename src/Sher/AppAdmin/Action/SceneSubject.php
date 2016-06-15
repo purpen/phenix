@@ -3,17 +3,18 @@
  * 情境专题管理
  * @author tianshuai
  */
-class Sher_Admin_Action_SceneSubject extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {
+class Sher_AppAdmin_Action_SceneSubject extends Sher_Admin_Action_Base implements DoggyX_Action_Initialize {
 	
 	public $stash = array(
 		'page' => 1,
 		'size' => 100,
+        'kind' => 0,
 	);
 	
 	public function _init() {
-		$this->set_target_css_state('page_scene_subject');
+		$this->set_target_css_state('page_app_scene_subject');
 		// 判断左栏类型
-		$this->stash['show_type'] = "scene";
+		$this->stash['show_type'] = "sight";
     }
 	
 	/**
@@ -28,21 +29,8 @@ class Sher_Admin_Action_SceneSubject extends Sher_Admin_Action_Base implements D
 	 */
 	public function get_list() {
 
-		$page = (int)$this->stash['page'];
-
-		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.app_admin'].'/scene_subject/get_list?page=#p#';
-		
+		$this->stash['pager_url'] = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_subject/get_list?kind=%d&page=#p#', $this->stash['kind']);
 		return $this->to_html_page('app_admin/scene_subject/list.html');
-	}
-	
-	/**
-	 * 添加页面
-	 */
-	public function subject(){
-		
-		$this->stash['mode'] = 'create';
-		
-		return $this->to_html_page('app_admin/scene_subject/submit.html');
 	}
 	
 	/**
@@ -53,14 +41,24 @@ class Sher_Admin_Action_SceneSubject extends Sher_Admin_Action_Base implements D
 		$this->stash['mode'] = 'edit';
 		
 		$id = isset($this->stash['id']) ? $this->stash['id'] : 0;
-		// 验证id
-		if(!$id){
-			return $this->ajax_json('该专题不存在！', true);
-		}
-		
-		$model = new Sher_Core_Model_SceneSubject();
-		$result = $model->extend_load((int)$id);
-		$this->stash['scene_subject'] = $result;
+
+		$redirect_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_subject';
+		if(empty($id)){
+            $this->stash['mode'] = 'create';
+        }else{
+            $this->stash['mode'] = 'edit';
+            $model = new Sher_Core_Model_SceneSubject();
+            $scene_subject = $model->extend_load($id);
+            if(empty($scene_subject)){
+			    return $this->show_message_page('专题不存在！', $redirect_url);
+            }
+            $this->stash['scene_subject'] = $scene_subject;
+        }
+
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['pid'] = new MongoId();
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SUBJECT;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SUBJECT;
 		
 		return $this->to_html_page('app_admin/scene_subject/submit.html');
 	}

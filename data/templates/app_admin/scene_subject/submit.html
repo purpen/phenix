@@ -1,0 +1,631 @@
+{%extends 'layout/app_admin.html'%}
+{% block page_css %}
+<style type="text/css">
+  .iphone{
+	float: left;
+	width: 750px;
+	height: 1315px;
+	border: solid 5px #ccc;
+	border-radius: 20px;
+	margin: 5px;
+	padding: 0;
+  }
+  
+  .topic_form{
+	float: left;
+	margin: 25px 0 0 10px;
+	padding: 5px;
+  }
+  
+  .topic_form input{
+	min-width: 650px;
+  }
+  
+  .field a{
+	height: 25px !important;
+	margin: 2px 0 !important;
+  }
+  
+  .iphone_content{
+	width: 716px;
+	height: 1300px;
+	margin: 15px auto 0;
+	position: relative;
+  }
+  
+  .iphone_content table{
+	margin-bottom: 30px;
+  }
+  
+  .iphone_content table td{
+	width: 70px;
+	height: 70px;
+	border: dashed 1px #ccc;
+  }
+  
+  .iphone_content .iphone_gridster{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 716px;
+	height: 1276px;
+	padding: 0;
+	overflow: scroll;
+  }
+
+  .topic_button{
+	border-radius: 5px;
+	width: 75px;
+	height: 35px;
+	line-height: 35px;
+	display: inline-block;
+	text-align: center;
+	color: #555;
+	background: #ccc;
+	margin-top: 10px !important;
+  }
+  
+  .topic_button:hover{
+	background: #555;
+	color: #eee;
+  }
+
+  .select_type_content{
+	width: 100%;
+	background: #bbb !important;
+	padding: 5px 0;
+	position: absolute;
+	top: 30px;
+	left: 0;
+	z-index: 1000;
+	overflow: visible;
+	list-style-type: none;
+  }
+  
+  .select_type_content li{
+	margin: 5px;
+	padding: 5px 10px;
+	border: 0px !important;
+	border-bottom: dashed 1px #eee !important;
+  }
+  
+  .select_type_content li:hover{
+	cursor: pointer;
+	color: #000;
+  }
+  
+  .left{
+	float: left;
+  }
+  
+  .qq-upload-button .button{
+	min-height: 36px;
+  }
+  
+  .field>label,.field .block{
+	float: left !important;
+  }
+  
+  .ui.inverted.orange.active.button,.ui.inverted.orange.buttons.active.button{
+	margin-top: 10px !important;
+  }
+  
+  .select_self{
+	height: 50px;
+	width: 194px;
+	margin-left: 20px;
+  }
+
+</style>
+{% endblock %}
+
+{% block jquery %}
+  
+	var gridster;
+	var date;
+	var cell = 70;
+	var back_x = 1;
+	var back_y = 1;
+	var width = 1;
+	var height = 1;
+  
+	gridster = $(".gridster > ul").gridster({
+		widget_margins: [0, 0],
+		widget_base_dimensions: [cell, cell],
+		avoid_overlapped_widgets: true,
+		resize:{
+		  enabled: true
+		},
+		draggable: {
+		  handle: '.header'    //模块内定义拖动的元素
+		},
+	}).data('gridster');
+	
+	var select_type_html = "\
+	  <ul class=\"select_type_content\">\
+		<li class=\"add_text\">文字</li>\
+		<li class=\"add_images\">图片</li>\
+		<li class=\"add_video\">视频</li>\
+	  </ul>\
+	";
+	
+	var operating_html = "\
+	  <div class=\"header\">\
+		<span class=\"edit\">编辑</span>\
+		<span class=\"remove\">删除</span>\
+	  </div>\
+	";
+	
+	var html = "<li><div class=\"this_content\" style=\"word-wrap:break-word;\"></div></li>";
+	
+	{% if mode == 'create'%}
+	  gridster.add_widget(html,5,3);
+	{% endif %}
+	
+	$('.topic_button').click(function(){
+	  gridster.add_widget(html,5,3);
+	});
+	
+	$('.gridster > ul > li').livequery(function(){
+	  
+		$(this).on('click','.remove',function(){
+		  gridster.remove_widget($(this).parents('li'));
+		});
+		
+		$(this).on('click','.edit',function(){
+		  $(this).parents('li').append(select_type_html);
+		});
+		
+		$(this).mouseenter(function(){
+		  $(this).append(operating_html);
+		});
+		
+		$(this).mouseleave(function(){
+		  $(this).find('.header').remove();
+		  $(this).find('.select_type_content').remove();
+		});
+		
+		$(this).on('click','.add_text',function(){
+		  // return Object {col: 1, row: 1, size_x: 10, size_y: 10}
+		  date = gridster.serialize($(this).parents('li'))[0];
+		  date.widget = $(this).parents('li');
+		  console.log(date);
+		  $('#block_text.fullscreen.modal').modal('show');
+		});
+		
+		$(this).on('click','.add_images',function(){
+		  date = gridster.serialize($(this).parents('li'))[0];
+		  date.widget = $(this).parents('li');
+		  console.log(date);
+		  $('#block_images.fullscreen.modal').modal('show');
+		});
+		
+		$(this).on('click','.add_video',function(){
+		  date = gridster.serialize($(this).parents('li'))[0];
+		  date.widget = $(this).parents('li');
+		  console.log(date);
+		  $('#block_video.fullscreen.modal').modal('show');
+		});
+	});
+	
+	$('.ui.no.button.text').on('click', function(){
+	  $('#block_text').modal('hide');
+	});
+	
+	$('.ui.no.button.img').on('click', function(){
+	  $('#block_images').modal('hide');
+	});
+	
+	$('.ui.no.button.video').on('click', function(){
+	  $('#block_video').modal('hide');
+	});
+	
+	$('.ui.yes.text').on('click', function(){
+	  var content = $('textarea[name=content]').val();
+	  // return Object {col: 1, row: 1, size_x: 10, size_y: 10}
+	  date.widget.find('.this_content').html(content);
+	  date.widget.css('width',date.size_x*10+'%');
+	  date.widget.css('min-height',date.size_y*cell+'px');
+	  $('#block_text').modal('hide');
+	});
+	
+	$('.ui.yes.img').on('click', function(){
+	  
+	  var src = $('#avatar-photo').attr('src');
+	  //var link = $('input[name=img_link]').val();
+	  var keyword = $('input[name=img_keyword]').val();
+	  var product_id = $('input[name=product_id]').val();
+	  var is_show_price = $('input[name=is_show_price]').val();
+	  
+	  if(product_id){
+		link = '{{ app_url_shop }}/view?id='+product_id;
+	  }else{
+		link = '';
+	  }
+	  
+	  var content = '<a class=\"img_url\" href=\"javascript:void(0);\" product_id=\"'+product_id+'\" is_show_price=\"'+is_show_price+'\" onclick="JavascriptHandler('+product_id+')"><img src=\"'+src+'\" align="absmiddle" style=\"width:100%\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
+	  date.widget.find('.this_content').html(content);
+	  date.widget.css('width',date.size_x*10+'%');
+	  
+	  gridster.resize_widget(date.widget,date.size_x,Math.ceil((date.size_x*height)/width));
+	  
+	  $('ul[class=gridster_ul]').css('width','700px');
+	  
+	  $('#block_images').modal('hide');
+	});
+	
+	$('.ui.yes.video').livequery(function(){
+	  $(this).on('click', function(){
+		var video_link = $('input[name=video_link]').val();
+		//var content = '<iframe width='+date.size_x*10+' height='+date.size_y*10+' src=\"'+video_link+'\" frameborder=0 allowfullscreen></iframe>';
+		var content = '<embed src=\"'+video_link+'\" allowFullScreen=\"true\" style=\"width:100%;height:'+date.size_y*cell+'px\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>';
+		date.widget.find('.this_content').html(content);
+		
+		date.widget.css('width',date.size_x*10+'%');
+		//date.widget.css('height',date.size_y*cell+'px');
+		
+		gridster.resize_widget(date.widget,date.size_x,date.size_y);
+		
+		$('#block_video').modal('hide');
+	  });
+	});
+
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+	
+	// 封面图上传
+	$('#phenix-uploader-special').fineUploader({
+		request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ scene_subject._id }}','file_id': '{{ pid }}' },
+			endpoint: '{{ app_url_upload }}/scene_subject'
+		},
+		text: {
+			uploadButton: '<a class="ui active orange labeled icon inverted button" href="javascript:void(0);"><i class="upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+			allowedExtensions: ['jpeg', 'jpg', 'png'],
+			sizeLimit: 5245728 // 5M = 5 * 1024 * 1024 bytes
+		}
+	}).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_note(result.message);
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
+			//$.get('{{ app_url_action_base }}/uploader/check_upload_active_assets', {'id': '{{ scene_subject._id }}', 'assets': result.data.ids, 'ref': 'onestep' });
+		}
+	});
+
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#scene_subject_cover_id').val(id);
+			return false;
+		});
+	});
+
+	$('#scene_subject_form').on('click','.submit',function(){
+
+	  $('input[name=scene_subject_html]').val($('.gridster').html());
+	}).form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				}
+			]
+		},
+		tags: {
+			identifier  : 'tags',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标签不能为空'
+				}
+			]
+		}
+
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, 3000);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+
+	$('ul[class=gridster_ul]').css('width','700px');
+	
+	function JavascriptHandler(data) {
+		console.log(data);
+		//return window.location.href = 'taihuoniao://'+data;
+	}
+	
+{% endblock %}
+	
+{% block content %}
+	{% if css_use_bundle %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
+	{% else %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
+	{% endif %}
+	{% if js_use_bundle %}
+		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/froala_editor.min.{{ js_jquery_bundle_version }}.js"></script>
+	{% else %}
+		<script src="{{ app_url_packaged }}/javascript/froala_editor.min.js" type="text/javascript"></script>
+	{% endif %}
+	<link rel="stylesheet" type="text/css" href="{{ app_url_packaged }}/css/gridste.min.css">
+	<script src="{{ app_url_packaged }}/javascript/gridste.min.js" type="text/javascript" charset="utf-8"></script>
+	<h3 class="ui header">专题管理</h3>
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/scene_subject" class="active item">
+			全部
+		</a>
+
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/scene_subject/submit" class="item add_topic">
+				<i class="plus square outline icon"></i>新建专题
+			</a>
+	    </div>
+	</div>
+	
+	<div id="block_text" class="ui fullscreen modal transition scrolling">
+        <div class="header">添加文字</div>
+		<div class="content">
+		  <textarea name="content" placeholder="添加文字" id="editor">
+			
+		  </textarea>
+		  <div class="actions">
+			  <div class="ui button no text">取消</div>
+			  <div class="ui green submit button yes text" style="color: #fff!important">确定</div>
+		  </div>
+		</div>
+    </div>
+	
+	<div id="block_images" class="ui fullscreen modal transition scrolling" style="display: none">
+        <div class="header">添加图片</div>
+		<input type="hidden" name="avatar_id" id="avatar_id" />
+		<div class="content">
+		  <div class="ui form">
+			<div class="left" style="width:50%">
+			  <div id="phenix-uploader"></div>
+			  <div id="show_images"></div>
+			</div>
+			<div class="left" style="width:50%">
+			<!--
+			  <div class="field">
+				  <label>链接地址</label>
+				  <input type="text" name="img_link" value="" />
+			  </div>
+			-->
+			  <div class="field">
+				  <label>关键字</label>
+				  <input type="text" name="img_keyword" value="" />
+			  </div>
+			  <div class="field">
+				  <label>产品id</label>
+				  <input type="text" name="product_id" value="" />
+			  </div>
+			  <div class="inline field fields">
+				<div class="field">
+					<div class="ui radio checkbox">
+						<input type="radio" name="is_show_price" value="1" /> 
+						<label>显示价格</label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="is_show_price" value="0" /> 
+						<label>不显示价格</label>
+					</div>
+				</div>
+			  </div>
+			</div>
+			<div style="clear: both"></div>
+		  </div>
+		  <div class="actions" style="margin-top: 20px">
+			  <div class="ui button no img">取消</div>
+			  <div class="ui green submit button yes img">确定</div>
+		  </div>
+		</div>
+    </div>
+	
+	<div id="block_video" class="ui fullscreen modal transition scrolling" style="display: none">
+        <div class="header">添加视频</div>
+		<div class="content">
+		  <div class="ui form">
+			<div class="field">
+				<label>视频链接</label>
+				<input type="text" name="video_link" value="" />
+			</div>
+		  </div>
+		  <div class="actions">
+			  <div class="ui button no video">取消</div>
+			  <div class="ui green submit button yes video">确定</div>
+		  </div>
+		</div>
+    </div>
+	
+	<div class="ui form segment">
+		
+
+		<div class="ui topic_form">
+		  <form action="{{ app_url_admin_base }}/scene_subject/save" class="ui form" method="post" id="scene_subject_form">
+			  <input name="scene_subject_html" type="hidden" value="" />
+			  
+			  <div class="field">
+				  <label>标题：</label>
+				  <input type="text" name="title" value="{{ scene_subject.title }}" />
+			  </div>
+        <div class="field">
+          <label>简述:</label>
+          <textarea name="summary" class="small">{{ scene_subject.summary }}</textarea>
+        </div>
+			  <div class="field">
+				  <label>标签：</label>
+				  <input type="text" name="tags" value="{{ scene_subject.tags_s }}" placeholder="专题标签，用英文逗号隔开" />
+			  </div>
+			  
+			  <!--活动封面图，头图，-->
+			  <div class="field">
+				<label>上传封面图：</label>
+				<input type="hidden" name="cover_id" id="scene_subject_cover_id" value="{{ scene_subject.cover_id }}" />
+				<div style="clear: both"></div>
+				<div id="phenix-uploader-special"></div>
+				<div id="asset-list" class="ui four blocks">
+					{% if mode == 'edit' %}
+						{% asset_list var:'assets' parent_id:scene_subject._id size:20 asset_type:asset_type %}
+						{% for asset in assets.rows %}
+						<div class="thumb block" id="{{ asset._id }}">
+							<div class="image">
+								<img src="{{ asset.thumbnails.small.view_url }}" />
+								<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+							</div>
+							<div class="buttons">
+								<div class="ui large links">
+									<a href="{{ app_url_fever }}/delete_asset?id={{ scene_subject._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+										<i class="remove icon"></i>
+									</a>
+									
+									<a href="javascript:void(0);" class="ui link {%if scene_subject.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+										<i class="checkered flag icon"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+
+
+		<div class="ui iphone" id="content_self">
+		  <div class="ui iphone_content">
+			
+			{%include 'block/table.html'%}
+			
+			<div class="iphone_gridster">
+			  <style>
+				.gridster * {
+				  margin:0;
+				  padding:0;
+				}
+				
+				.gridster {
+					margin: 0 auto;
+					width: 700px;
+					opacity: .8;
+					-webkit-transition: opacity .6s;
+					-moz-transition: opacity .6s;
+					-o-transition: opacity .6s;
+					-ms-transition: opacity .6s;
+					transition: opacity .6s;
+				}
+				
+				.gridster_ul {
+					background-color: #EFEFEF;
+					list-style-type: none;
+				}
+				
+				.gridster_ul li {
+					font-size: 1em;
+					font-weight: bold;
+					text-align: center;
+					line-height: 100%;
+					border: 1px;
+					position: relative;
+					float: left;
+				}
+				
+				.gridster_ul .gs-w {
+					background: #DDD;
+					cursor: pointer;
+				}
+				
+				.gridster_ul .player {
+					background: #BBB;
+				}
+				
+				.gridster_ul .preview-holder {
+					border: none!important;
+					background: red!important;
+				}
+				
+				.gridster_ul li .header {
+					background: #aaa;
+					width: 100%;
+					height: 30px;
+					line-height: 30px;
+					font-size: 14px;
+					position: absolute;
+					top: 0;
+					left: 0;
+				}
+				
+				.gridster_ul li .header header,.gridster_ul li .header span{
+				  display: inline-block;
+				  width: 35px;
+				  color: #fff;
+				}
+				
+				.this_content li{
+				  float: none;
+				}
+			  </style>
+			  <div class="gridster">
+				{% if mode == 'create'%}
+				<ul class="gridster_ul"></ul>
+				{% else %}
+				  {{ scene_subject.content }}
+				{% endif %}
+			  </div>
+				<div style="clear: both"></div>
+				<a href="javascript:void(0);" class="ui topic_button">添加</a>
+			</div>
+		  </div>
+		</div>
+
+
+			  <div class="field" style="float: right;margin-top: 25px;">
+				<div class="ui gray cancel button">
+					取消
+				</div>
+				<div class="ui magenta submit button">
+					保存
+				</div>
+			  </div> 
+		  </form>
+		</div>
+		<div style="clear: both"></div>
+	</div>
+{% endblock %}

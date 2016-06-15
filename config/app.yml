@@ -150,6 +150,7 @@ app.dt.extension_lib.sher_app:
     'third_site_stat_list':'Sher_Core_ViewTag_ThirdSiteStatList'
     'friend_link_list':'Sher_Core_ViewTag_FriendLinkList'
     'special_subject_list':'Sher_Core_ViewTag_SpecialSubjectList'
+    'scene_subject_list':'Sher_Core_ViewTag_SceneSubjectList'
     'pusher_list':'Sher_Core_ViewTag_PusherList'
     'fiu_pusher_list':'Sher_Core_ViewTag_FiuPusherList'
     'store_list':'Sher_Core_ViewTag_EstoreList'
