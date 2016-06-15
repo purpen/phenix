@@ -8,7 +8,6 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 	public $stash = array(
 		'page' => 1,
 		'size' => 100,
-        'kind' => 0,
 	);
 	
 	public function _init() {
@@ -29,7 +28,7 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 	 */
 	public function get_list() {
 
-		$this->stash['pager_url'] = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_subject/get_list?kind=%d&page=#p#', $this->stash['kind']);
+		$this->stash['pager_url'] = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_subject/get_list?page=#p#');
 		return $this->to_html_page('app_admin/scene_subject/list.html');
 	}
 	
