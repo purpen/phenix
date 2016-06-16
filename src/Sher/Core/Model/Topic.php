@@ -301,6 +301,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
             // 增加消费积分（鸟币）
             $service = Sher_Core_Service_Point::instance();
             $service->make_money_in($data['user_id'], 2, '话题被推荐');
+            $service->send_event('evt_topic_stick', $data['user_id']);
 
             // 记录被谁操作
             if(isset($options['current_user_id'])){
@@ -355,6 +356,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
             // 增加消费积分（鸟币）
             $service = Sher_Core_Service_Point::instance();
             $service->make_money_in($data['user_id'], 5, '精华内容');
+            $service->send_event('evt_topic_fine', $data['user_id']);
 
             // 记录被谁操作
             if(isset($options['current_user_id'])){

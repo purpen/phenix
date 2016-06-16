@@ -210,13 +210,17 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                     $scene = $model->load((int)$this->data['target_id']);
                     $user_id = $scene['user_id'];               
                     break;
-				        case self::TYPE_APP_SCENE_SIGHT:
+				case self::TYPE_APP_SCENE_SIGHT:
                     $model = new Sher_Core_Model_SceneSight();
                     $model->inc_counter($field, 1, (int)$this->data['target_id']);
                     $kind = Sher_Core_Model_Remind::KIND_SIGHT;
                     // 获取目标用户ID
                     $sight = $model->load((int)$this->data['target_id']);
                     $user_id = $sight['user_id'];
+                    break;
+				case self::TYPE_APP_SCENE_SUBJECT:
+                    $model = new Sher_Core_Model_SceneSubject();
+                    $model->inc_counter($field, 1, (int)$this->data['target_id']);
                     break;
                 default:
                     return;
