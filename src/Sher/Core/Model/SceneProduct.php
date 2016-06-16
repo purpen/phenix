@@ -143,6 +143,7 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
         if($this->insert_mode) {
             $category_id = $this->data['category_id'];
             $fid = $this->data['fid'];
+            $brand_id = isset($this->data['brand_id']) ? (string)$this->data['brand_id'] : null;
       
             $category_model = new Sher_Core_Model_Category();
             if (!empty($category_id)) {
@@ -155,6 +156,11 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
         
         $model = new Sher_Core_Model_SceneTags();
 		$model->scene_count($this->data['scene_tags'],array('total_count','product_count'),1);
+
+        if($brand_id){
+            $model = new Sher_Core_Model_SceneBrands();
+            $model->inc_counter('item_count', 1, $brand_id);       
+        }
         
         parent::after_save();
     }

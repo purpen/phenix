@@ -16,7 +16,7 @@ class Sher_Core_ViewTag_SceneProductList extends Doggy_Dt_Tag {
      */
     public function render($context, $stream) {
         $page = 1;
-        $size = 15;
+        $size = 10;
 
         $kind = 0;
         $category_id = 0;
@@ -25,6 +25,7 @@ class Sher_Core_ViewTag_SceneProductList extends Doggy_Dt_Tag {
         $stick = 0;
         $attrbute = 0;
         $fine = 0;
+        $brand_id = 0;
         $user_id = 0;
 		    $state = 0;
         $s_title = 0;
@@ -92,6 +93,10 @@ class Sher_Core_ViewTag_SceneProductList extends Doggy_Dt_Tag {
 
         if($s_title){
           $query['title'] = array('$regex'=>$s_title);
+        }
+
+        if($brand_id){
+            $query['brand_id'] = $brand_id;
         }
 		
         $service = Sher_Core_Service_SceneProduct::instance();
