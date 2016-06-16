@@ -106,7 +106,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		}
 		
 		// 验证标题
-		if(!$cover_id || !$banner_id){
+		if(!$cover_id){
 			return $this->ajax_json('图片不能为空！', true);
 		}
 		

@@ -140,6 +140,9 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 			if(!$ok){
 				return $this->ajax_note('保存失败,请重新提交', true);
 			}
+
+              // 更新全文索引
+              Sher_Core_Helper_Search::record_update_to_dig((int)$id, 6);
 			
 			// 更新附件
 			$asset_model = new Sher_Core_Model_Asset();
