@@ -98,7 +98,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 		$event = $this->data['event'];
         $target_user_id = $this->data['user_id'];
         $kind = null;
-        $user_id = null;
+        $user_id = 0;
 
 		// 导入的数据,直接跳过
 		if(isset($this->data['product_idea']) && $this->data['product_idea']==1){

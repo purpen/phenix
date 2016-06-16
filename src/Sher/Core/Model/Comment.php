@@ -282,13 +282,29 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                     break;
 				case self::TYPE_SCENE_SUBJECT:
                     $model = new Sher_Core_Model_SceneSubject();
-                    //获取目标用户ID
-                    $scene_sight = $model->find_by_id((int)$this->data['target_id']);
                     $model->inc_counter('comment_count', 1, (int)$this->data['target_id']);
+                    //获取目标用户ID
+                    //$scene_subject = $model->find_by_id((int)$this->data['target_id']);
+                    //$user_id = $scene_subject['user_id'];
                     break;
                 default:
                     break;
             }
+
+            // 添加积分
+            $service = Sher_Core_Service_Point::instance();
+
+            switch($type){
+            case self::TYPE_SCENE_SIGHT:
+                if(!empty($user_id) && $user_id != $this->data['user_id']){
+                    $service->send_event('evt_sight_comment', $this->data['user_id']);
+                    if(!empty($user_id)){
+                        $service->send_event('evt_sight_by_comment', $user_id);                        
+                    }                 
+                }
+                break;
+
+            } 
 
             //如果是回复某人评论,给他提醒
             if(isset($this->data['is_reply']) && $this->data['is_reply']==1){
