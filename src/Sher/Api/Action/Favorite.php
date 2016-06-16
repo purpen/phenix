@@ -496,6 +496,9 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		case 12:
 			  $model = new Sher_Core_Model_SceneSight();
 		  break;
+		case 13:
+			  $model = new Sher_Core_Model_SceneSubject();
+		  break;
 		default:
 		  return $count;
 		}
