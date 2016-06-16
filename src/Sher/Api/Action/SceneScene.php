@@ -356,7 +356,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
   				return $this->api_json('没有权限！', 3002);        
         }
 				
-				$has_sight = $sight_model->first(array('scene_id'=>(int)$id));
+				$has_sight = $sight_model->first(array('scene_id'=>(int)$id, 'deleted'=>0));
 				
 				if($has_sight){
 					return $this->api_json('不允许操作！', 3003);

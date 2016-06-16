@@ -264,7 +264,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 			return $this->ajax_note('请求参数为空', true);
 		}
 		$model = new Sher_Core_Model_SceneScene();
-		$result = $model->first($id);
+		$result = $model->load($id);
 		
 		if($result && $model->mark_remove($id)){
             $model->mock_after_remove($id, $result);
