@@ -193,6 +193,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
             'coordinates' => array(doubleval($this->stash['lng']), doubleval($this->stash['lat'])),
         );
 
+		$products = isset($this->stash['products']) ? $this->stash['products'] : null;
 		$product_id = isset($this->stash['product_id']) ? $this->stash['product_id'] : '';
 		$product_title = isset($this->stash['product_title']) ? $this->stash['product_title'] : '';
 		$product_price = isset($this->stash['product_price']) ? $this->stash['product_price'] : '';
@@ -223,6 +224,19 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		foreach($data['tags'] as $k => $v){
 			$data['tags'][$k] = (int)$v;
 		}
+
+        if(!empty($products)){
+            $product_arr = json_decode($this->stash['products']);
+            if(empty($product_arr) && is_array($product_arr)){
+                for($i=0;$i<count($product_arr);$i++){
+                    $data['product'][$i]['id'] = (int)$product_arr[$i]['id'];
+                    $data['product'][$i]['title'] = $product_arr[$i]['title'];
+                    $data['product'][$i]['price'] = (float)$product_arr[$i]['price'];
+                    $data['product'][$i]['x'] = (float)$product_arr[$i]['x'];
+                    $data['product'][$i]['y'] = (float)$product_arr[$i]['y'];    
+                }           
+            }
+        }
 
         if(!empty($product_id)){
             $product_id = explode(',',$product_id);
