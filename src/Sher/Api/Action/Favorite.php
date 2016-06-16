@@ -328,7 +328,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		if(empty($user_id)){
 			return $this->api_json('请先登录！', 3000);
 		}
-		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$id = isset($this->stash['id']) ? $this->stash['id'] : 0;
 		if(empty($id)){
 			return $this->api_json('缺少请求参数！', 3001);
 		}
@@ -363,7 +363,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		if(empty($user_id)){
 			return $this->api_json('请先登录！', 3000);
 		}
-		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$id = isset($this->stash['id']) ? $this->stash['id'] : 0;
 		if(empty($id)){
 			return $this->api_json('缺少请求参数！', 3001);
 		}
@@ -397,7 +397,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		if(empty($user_id)){
 			return $this->api_json('请先登录！', 3000);
 		}
-		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$id = isset($this->stash['id']) ? $this->stash['id'] : 0;
 		if(empty($id)){
 			return $this->api_json('缺少请求参数！', 3001);
 		}
@@ -433,7 +433,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		if(empty($user_id)){
 			return $this->api_json('请先登录！', 3000);
 		}
-		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$id = isset($this->stash['id']) ? $this->stash['id'] : 0;
 		if(empty($id)){
 			return $this->api_json('缺少请求参数！', 3001);
 		}

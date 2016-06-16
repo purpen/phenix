@@ -550,7 +550,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 				$model->dec_counter($field, (int)$target_id);
 				break;
 			case self::TYPE_APP_SCENE_SUBJECT:
-				$model = new Sher_Core_Model_SceneSight();
+				$model = new Sher_Core_Model_SceneSubject();
 				$model->dec_counter($field, (int)$target_id);
 				break;
         }
