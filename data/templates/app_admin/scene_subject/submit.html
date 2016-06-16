@@ -134,7 +134,15 @@
 		widget_base_dimensions: [cell, cell],
 		avoid_overlapped_widgets: true,
 		resize:{
-		  enabled: true
+		  enabled: true,
+			stop: function(e, ui, $widget) {
+				var data = $(this)[0].resize_wgd;
+				var col = data.col;
+				var row = data.row;
+				var size_x = data.size_x;
+				var size_y = data.size_y;
+				$('li[data-col='+col+'][data-row='+row+']').css('width', size_x*10+'%');
+			}
 		},
 		draggable: {
 		  handle: '.header'    //模块内定义拖动的元素
