@@ -20,8 +20,6 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 	 */
 	public function get_list(){
 		
-		// user_id=10&id=18&type=scene&event=subscription
-		
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:1000;
 		
