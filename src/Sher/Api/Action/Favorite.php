@@ -336,7 +336,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		}
 
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
-		if(!in_array($type, array(1,2,3,4,6,8,9))){
+		if(!in_array($type, array(1,2,3,4,6,8,9,10,11,12,13))){
 			return $this->api_json('请选择类型！', 3002);
 		}
 		
@@ -439,7 +439,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		}
 
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
-		if(!in_array($type, array(1,2,3,4,6,8,9))){
+		if(!in_array($type, array(1,2,3,4,6,8,9,10,11,12,13))){
 			return $this->api_json('请选择类型！', 3002);
 		}
 		
