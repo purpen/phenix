@@ -126,8 +126,8 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 	        return false;
 	    }
 		if(!$force){
-			$special_subject = $this->find_by_id((int)$id);
-			if(!isset($special_subject[$field_name]) || $special_subject[$field_name] <= 0){
+			$scene_subject = $this->find_by_id((int)$id);
+			if(!isset($scene_subject[$field_name]) || $scene_subject[$field_name] <= 0){
 				return true;
 			}
 		}
