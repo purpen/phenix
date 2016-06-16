@@ -226,14 +226,15 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		}
 
         if(!empty($products)){
-            $product_arr = json_decode($this->stash['products']);
-            if(empty($product_arr) && is_array($product_arr)){
+            $product_arr = json_decode($products);
+            if(!empty($product_arr) && is_array($product_arr)){
                 for($i=0;$i<count($product_arr);$i++){
-                    $data['product'][$i]['id'] = (int)$product_arr[$i]['id'];
-                    $data['product'][$i]['title'] = $product_arr[$i]['title'];
-                    $data['product'][$i]['price'] = (float)$product_arr[$i]['price'];
-                    $data['product'][$i]['x'] = (float)$product_arr[$i]['x'];
-                    $data['product'][$i]['y'] = (float)$product_arr[$i]['y'];    
+                    $arr = (array)$product_arr[$i];
+                    $data['product'][$i]['id'] = (int)$arr['id'];
+                    $data['product'][$i]['title'] = $arr['title'];
+                    $data['product'][$i]['price'] = (float)$arr['price'];
+                    $data['product'][$i]['x'] = (float)$arr['x'];
+                    $data['product'][$i]['y'] = (float)$arr['y'];    
                 }           
             }
         }
