@@ -33,7 +33,7 @@ function begin_stat(){
   $query = array();
   $query['state'] = 2;
 
-  $options = array('field'=>array('_id','sight_count','fans_count','state'), 'page'=>$page, 'size'=>$size, 'sort'=>array('fans_count'=>-1));
+  $options = array('field'=>array('_id','sight_count','sight_count','state'), 'page'=>$page, 'size'=>$size, 'sort'=>array('fans_count'=>-1));
   $user_model = new Sher_Core_Model_User();
   $users = $user_model->find($query, $options);
   if(!empty($users)){

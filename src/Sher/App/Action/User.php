@@ -57,6 +57,8 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 	public function vcenter(){
 		$this->set_target_css_state('home');
 		$follow_id = $this->stash['id'];
+
+        $user_id = (int)$this->stash['id'];
 		
 		// 本人首次登录，需先完成资料---不需要了
 		if($this->visitor->id == (int)$this->stash['id'] && $this->stash['visitor']['first_login'] == 1){
@@ -70,12 +72,18 @@ class Sher_App_Action_User extends Sher_App_Action_Base implements DoggyX_Action
 		// 验证关注关系
         $this->validate_ship();
 
-    // 记录访客
-    if($this->visitor->id && $this->visitor->id != (int)$this->stash['id']){
-      $recent_visitor_model = new Sher_Core_Model_RecentVisitor();
-      $recent_visitor_model->record_visitor((int)$this->stash['id'], $this->visitor->id);
-    }
-		
+        // 记录访客
+        if($this->visitor->id && $this->visitor->id != $user_id){
+          $recent_visitor_model = new Sher_Core_Model_RecentVisitor();
+          $recent_visitor_model->record_visitor($user_id, $this->visitor->id);
+        }
+
+        if($this->visitor->id != $user_id){
+            // 增长积分
+            $service = Sher_Core_Service_Point::instance();
+            $service->send_event('evt_home_visited', $user_id);        
+        }
+
 		return $this->display_tab_page('tab_all');
 	}
     

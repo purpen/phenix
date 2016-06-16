@@ -18,6 +18,8 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
     'banner_id' => '',
         # 点击次数
         'used_count' => 0,
+        # 产品数量
+        'item_count' => 0,
 		# 推荐（编辑推荐、推荐至首页）
 		'stick' => 0,
         # 是否启用
@@ -25,9 +27,9 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('title','des','cover_id');
-	protected $int_fields = array('status', 'used_count');
+	protected $int_fields = array('status', 'used_count', 'item_count');
 	protected $float_fields = array();
-	protected $counter_fields = array('used_count');
+	protected $counter_fields = array('used_count', 'item_count');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(

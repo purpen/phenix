@@ -7,7 +7,7 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 	
 	public $stash = array(
 		'page' => 1,
-		'size' => 50,
+		'size' => 100,
     'kind' => 0,
     'attrbute' => null,
     'user_id' => null,
@@ -39,7 +39,8 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 	 * 编辑信息
 	 */
 	public function edit(){
-		
+        // 记录上一步来源地址
+        $this->stash['return_url'] = $_SERVER['HTTP_REFERER'];
 		// 判断左栏类型
 		$this->stash['show_type'] = "product";
 		
@@ -59,7 +60,7 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 		$result = $tags_model->find(array('parent_id'=>(int)$root['_id']));
 		$this->stash['scene_tags'] = $result;
 		
-    // 产品图上传
+        // 产品图上传
 		$this->stash['user_id'] = $this->visitor->id;
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
@@ -93,6 +94,8 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 			return $this->ajax_note('标题不能为空！', true);
 		}
 		$id = isset($this->stash['_id']) ? (int)$this->stash['_id'] : 0;
+
+        $redirect_url = isset($this->stash['return_url']) ? $this->stash['return_url'] : null;
         
 		$model = new Sher_Core_Model_SceneProduct();
         $data = array();
@@ -137,6 +140,9 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 			if(!$ok){
 				return $this->ajax_note('保存失败,请重新提交', true);
 			}
+
+              // 更新全文索引
+              Sher_Core_Helper_Search::record_update_to_dig((int)$id, 6);
 			
 			// 更新附件
 			$asset_model = new Sher_Core_Model_Asset();
@@ -167,7 +173,9 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 		    return $this->ajax_note('验证数据失败:'.$e->getMessage(), true);
 		}
 		
-		$redirect_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_product';
+        if(!$redirect_url){
+		    $redirect_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_product';
+        }
 		
 		return $this->ajax_notification('保存成功.', false, $redirect_url);
 	}

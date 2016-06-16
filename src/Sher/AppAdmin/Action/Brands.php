@@ -30,7 +30,6 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 	public function get_list() {
         
         $this->set_target_css_state('page_all');
-		$page = (int)$this->stash['page'];
 		
 		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/brands/get_list?page=#p#';
 		$this->stash['pager_url'] = $pager_url;
@@ -107,7 +106,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		}
 		
 		// 验证标题
-		if(!$cover_id || !$banner_id){
+		if(!$cover_id){
 			return $this->ajax_json('图片不能为空！', true);
 		}
 		
@@ -203,4 +202,17 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		
 		return $this->to_taconite_page('app_admin/brands/stick_ok.html');
 	}
+
+    /**
+     * 产品列表
+     */
+    public function product_list() {
+        $brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : null;
+		if(empty($brand_id)){
+			return $this->ajax_notification('内容不存在！', true);
+		}
+		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/brands/product_list?page=#p#';
+		$this->stash['pager_url'] = $pager_url;
+		return $this->to_html_page('app_admin/brands/product_list.html');
+    }
 }

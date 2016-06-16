@@ -71,7 +71,7 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 	protected $required_fields = array('title', 'user_id');
 	protected $int_fields = array('status', 'used_count', 'deleted');
 	protected $float_fields = array();
-	protected $counter_fields = array('used_count','view_count','subscription_count','love_count','comment_count','true_view_count','app_view_count','web_view_count','wap_view_count');
+	protected $counter_fields = array('used_count','view_count','subscription_count','love_count','comment_count','true_view_count','app_view_count','web_view_count','wap_view_count', 'sight_count');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
@@ -113,6 +113,10 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
         for($i=0;$i<count($this->data['tags']);$i++){
           $user_tag_model->add_item_custom($user_id, 'scene_tags', (int)$this->data['tags'][$i]);
         }
+
+        // 增长积分
+        $service = Sher_Core_Service_Point::instance();
+        $service->send_event('evt_new_scene', $this->data['user_id']);
 
       }
 		
@@ -193,6 +197,51 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
     Sher_Core_Util_XunSearch::del_ids('scene_'.(string)$id);
 		
 		return true;
+	}
+
+
+    /**
+     * 标记为推荐
+     */
+    public function mark_as_stick($id, $options=array()) {
+        $ok = $this->update_set($id, array('stick' => 1));
+        if($ok){
+            $data = $this->load($id);
+            // 增长积分
+            $service = Sher_Core_Service_Point::instance();
+            $service->send_event('evt_scene_stick', $data['user_id']); 
+        }
+        return $ok;
+    }
+	
+    /**
+     * 取消编辑推荐
+     */
+	public function mark_cancel_stick($id){
+		$ok = $this->update_set($id, array('stick' => 0));
+        return $ok;
+	}
+
+    /**
+     * 标记主题 精华
+     */
+	public function mark_as_fine($id, $options=array()){
+		$ok = $this->update_set($id, array('fine' => 1));
+        if($ok){
+            $data = $this->load($id);
+            // 增长积分
+            $service = Sher_Core_Service_Point::instance();
+            $service->send_event('evt_scene_fine', $data['user_id']); 
+        }
+        return $ok;
+	}
+	
+    /**
+     * 标记主题 取消精华
+     */
+	public function mark_cancel_fine($id){
+		$ok = $this->update_set($id, array('fine' => 0));
+        return $ok;
 	}
 
 

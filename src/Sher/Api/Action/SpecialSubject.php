@@ -27,7 +27,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 		$some_fields = array(
 			'_id'=>1, 'title'=>1, 'category_id'=>1, 'products'=>1, 'banner_id'=>1, 'share_count'=>1,
 			'cover_id'=>1, 'tags'=>1, 'summary'=>1, 'user_id'=>1, 'kind'=>1, 'stick'=>1, 'short_title'=>1,
-			'state'=>1, 'view_count'=>1, 'comment_count'=>1, 'love_count'=>1, 'favorite_count'=>1,
+			'state'=>1, 'view_count'=>1, 'comment_count'=>1, 'love_count'=>1, 'favorite_count'=>1, 'publish'=>1,
 		);
 		
 		// 请求参数

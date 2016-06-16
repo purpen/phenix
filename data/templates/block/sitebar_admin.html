@@ -131,7 +131,7 @@
 		<a class="{{ css_page_point_stat_list }} item" href="{{ app_url_admin_base }}/point/user_stat">
 			积分排行
 		</a>
-		{% if visitor.is_system %}
+		{% if !visitor.is_system %}
 		<a class="{{ css_page_point_settings }} item" href="{{ app_url_admin_base }}/point/settings_type">
 			积分配置
 		</a>

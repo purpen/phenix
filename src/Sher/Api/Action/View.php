@@ -9,7 +9,7 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 		'id' => 0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'topic_show', 'product_show', 'special_subject_show', 'try_show', 'fiu_point', 'about', 'fetch_vip', 'fiu_service_term');
+	protected $exclude_method_list = array('execute', 'topic_show', 'product_show', 'special_subject_show', 'scene_subject_show', 'try_show', 'fiu_point', 'about', 'fetch_vip', 'fiu_service_term');
 	
 	/**
 	 * api show
@@ -158,6 +158,23 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 		
 		$this->stash['content'] = $result['content'];
 		return $this->to_html_page('page/special_subject/api_show.html');
+	}
+
+	/**
+	 * 情境详情页面显示
+	 */
+	public function scene_subject_show(){
+		
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		if(empty($id)){
+			return $this->api_json('访问的专题不存在！', 3000);
+		}
+		
+		$model = new Sher_Core_Model_SceneSubject();
+		$result = $model->extend_load($id);
+		
+		$this->stash['content'] = $result['content'];
+		return $this->to_html_page('page/scene_subject/api_show.html');
 	}
 
 	/**

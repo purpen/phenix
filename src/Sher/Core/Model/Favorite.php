@@ -16,8 +16,9 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 	const TYPE_ALBUMS = 8;
 	const TYPE_APP_SUBJECT = 9; // app专题
 	const TYPE_APP_SCENE_PRODUCT = 10; // 情景产品
-	const TYPE_APP_SCENE_SCENE = 11; // 情景
+	const TYPE_APP_SCENE_SCENE = 11; // 情境
 	const TYPE_APP_SCENE_SIGHT = 12; // 场景
+	const TYPE_APP_SCENE_SUBJECT = 13; // 情境专题
 	
 	// event
 	const EVENT_FAVORITE = 1;
@@ -95,6 +96,9 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 		
 		$type = $this->data['type'];
 		$event = $this->data['event'];
+        $target_user_id = $this->data['user_id'];
+        $kind = null;
+        $user_id = 0;
 
 		// 导入的数据,直接跳过
 		if(isset($this->data['product_idea']) && $this->data['product_idea']==1){
@@ -204,22 +208,50 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 				        case self::TYPE_APP_SCENE_SCENE:
                     $model = new Sher_Core_Model_SceneScene();
                     $model->inc_counter($field, 1, (int)$this->data['target_id']);
-                    $kind = Sher_Core_Model_Remind::KIND_SCENE;
+
+                    //$kind = Sher_Core_Model_Remind::KIND_SCENE;
                     // 获取目标用户ID
                     $scene = $model->load((int)$this->data['target_id']);
-                    $user_id = $scene['user_id'];               
+                    $user_id = $scene['user_id'];
                     break;
-				        case self::TYPE_APP_SCENE_SIGHT:
+				case self::TYPE_APP_SCENE_SIGHT:
                     $model = new Sher_Core_Model_SceneSight();
                     $model->inc_counter($field, 1, (int)$this->data['target_id']);
-                    $kind = Sher_Core_Model_Remind::KIND_SIGHT;
+                    //$kind = Sher_Core_Model_Remind::KIND_SIGHT;
                     // 获取目标用户ID
                     $sight = $model->load((int)$this->data['target_id']);
                     $user_id = $sight['user_id'];
                     break;
+				case self::TYPE_APP_SCENE_SUBJECT:
+                    $model = new Sher_Core_Model_SceneSubject();
+                    $model->inc_counter($field, 1, (int)$this->data['target_id']);
+                    break;
                 default:
                     return;
             }
+
+            // 添加积分
+            $service = Sher_Core_Service_Point::instance();
+
+            switch($type){
+            case self::TYPE_APP_SCENE_SCENE:
+                if($event == self::EVENT_SUBSCRIPTION){
+                    $service->send_event('evt_scene_subscription', $target_user_id);
+                    if(!empty($user_id)){
+                        $service->send_event('evt_scene_by_subscription', $user_id);                        
+                    }                 
+                }
+                break;
+            case self::TYPE_APP_SCENE_SIGHT:
+                if($event == self::EVENT_LOVE){
+                    $service->send_event('evt_sight_love', $target_user_id);
+                    if(!empty($user_id)){
+                        $service->send_event('evt_sight_by_love', $user_id);                        
+                    }                 
+                }
+                break;
+
+            }           
             
             // 添加动态提醒
             if(isset($timeline_type) && isset($timeline_event)){
@@ -233,7 +265,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                 }
             }
             
-            if(isset($kind)){
+            if(!empty($kind)){
                 // 给用户添加提醒
                 $remind = new Sher_Core_Model_Remind();
                 $arr = array(

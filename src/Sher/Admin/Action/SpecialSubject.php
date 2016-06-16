@@ -7,7 +7,7 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 	
 	public $stash = array(
 		'page' => 1,
-		'size' => 50,
+		'size' => 100,
 	);
 	
 	public function _init() {
@@ -35,13 +35,8 @@ class Sher_Admin_Action_SpecialSubject extends Sher_Admin_Action_Base implements
 	public function get_list() {
 
 		$page = (int)$this->stash['page'];
-		$this->stash['user_id'] = $this->visitor->id;
 		
-		//清空私信提醒数量
-		if($this->visitor->counter['message_count']>0){
-		  $this->visitor->update_counter($this->visitor->id, 'message_count');   
-		}
-		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.admin'].'/private_letter/get_list?page=#p#';
+		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.admin'].'/special_subject/get_list?page=#p#';
 		
 		return $this->to_html_page('admin/special_subject/list.html');
 	}

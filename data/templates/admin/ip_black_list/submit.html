@@ -14,6 +14,15 @@
 					prompt : 'IP不能为空'
 				}
 			]
+		},
+		kind: {
+			identifier  : 'kind',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '类型不能为空'
+				}
+			]
 		}
 	}, {
 		inline : true,
@@ -61,6 +70,21 @@
 	<form action="{{ app_url_admin_base }}/ip_black_list/save" id="ip-black-form" class="ui form segment" method="post">
 		<h4 class="ui header">新增/编辑IP</h4>
     <input type="hidden" name="id" value="{{ ip_black._id }}"  />
+
+    <div class="grouped inline fields">
+      <label>类型:</label>
+      <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="kind" value="1" {% if ip_black.kind == 1 %}checked="checked"{% endif %} /> 
+          <label>IP</label>
+        </div>
+        <div class="ui radio checkbox">
+          <input type="radio" name="kind" value="2" {% if ip_black.kind == 2 %}checked="checked"{% endif %} /> 
+          <label>邀请码</label>
+        </div>
+      </div>
+    </div>
+
 		<div class="inline field">
 		  <label>IP：</label>
       <input type="text" name="ip"  value="{{ ip_black.ip }}" />

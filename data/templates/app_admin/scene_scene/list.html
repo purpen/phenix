@@ -64,8 +64,12 @@
 	<h3 class="ui header">情景管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_app_admin_base }}/scene_scene" class="active item">
+        <a href="{{ app_url_app_admin_base }}/scene_scene" class="item {{ css_all }}">
 			全部
+		</a>
+
+        <a href="{{ app_url_app_admin_base }}/scene_scene?deleted=1" class="item {{ css_deleted }}">
+			已删除
 		</a>
 
 	  	<div class="right menu">
@@ -107,14 +111,14 @@
                 <th>地址</th>
                 <th>浏览量</th>
                 <th>订阅量</th>
+                <th>场景量</th>
                 <th>是否推荐</th>
                 <th>是否精选</th>
-                <th>是否删除</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
-			{% scene_scene_list var:'list' page:page title:title size:size %}
+			{% scene_scene_list var:'list' deleted:deleted page:page title:title size:size %}
 
 			{% for d in list.rows %}
 			<tr id="item-{{ d._id }}">
@@ -138,6 +142,7 @@
                 </td>
                 <td>{{ d.view_count }}|{{ d.true_view_count }}</td>
                 <td>{{ d.subscription_count }}</td>
+                <td>{{ d.sight_count }}</td>
 
         <td>
 					{% if d.stick == 1 %}
@@ -153,31 +158,30 @@
 					<label class="ui orange label" id="fine-{{ d._id }}-label">否</label>
 					{% endif %}
 				</td>
-        <td>
-					{% if d.deleted == 1 %}
-					<label class="ui green label">是</label>
-          {%else%}
-					<label class="ui orange label">否</label>
-					{% endif %}
-				</td>
+
 				<td>
-                    {% if d.stick == 1 %}
-                    <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_stick?id={{ d._id }}&evt=0" class="ui link ajax item" id="stick-{{ d._id }}-button">取消推荐</a>
-                    {% else %}
-                    <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_stick?id={{ d._id }}&evt=1" class="ui link ajax item" id="stick-{{ d._id }}-button">推荐</a>
-                    {% endif %}
-                    {% if d.fine == 1 %}
-                    <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_fine?id={{ d._id }}&evt=0" class="ui link ajax item" id="fine-{{ d._id }}-button">取消精选</a>
-                    {% else %}
-                    <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_fine?id={{ d._id }}&evt=1" class="ui link ajax item" id="fine-{{ d._id }}-button">精选</a>
-                    {% endif %}
-                    {% if d.is_check == 1 %}
-                    <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_check?id={{ d._id }}&evt=0" class="ui link ajax item" id="check-{{ d._id }}-button">取消审核</a>
-                    {% else %}
-                    <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_check?id={{ d._id }}&evt=1" class="ui link ajax item" id="check-{{ d._id }}-button">审核</a>
-                    {% endif %}
-					<a href="{{ app_url_app_admin_base }}/scene_scene/edit?id={{ d._id }}&page={{ page }}" class="ui link item">编辑</a>
+
+                    {% if deleted==0 %}
+                        {% if d.stick == 1 %}
+                        <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_stick?id={{ d._id }}&evt=0" class="ui link ajax item" id="stick-{{ d._id }}-button">取消推荐</a>
+                        {% else %}
+                        <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_stick?id={{ d._id }}&evt=1" class="ui link ajax item" id="stick-{{ d._id }}-button">推荐</a>
+                        {% endif %}
+                        {% if d.fine == 1 %}
+                        <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_fine?id={{ d._id }}&evt=0" class="ui link ajax item" id="fine-{{ d._id }}-button">取消精选</a>
+                        {% else %}
+                        <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_fine?id={{ d._id }}&evt=1" class="ui link ajax item" id="fine-{{ d._id }}-button">精选</a>
+                        {% endif %}
+                        {% if d.is_check == 1 %}
+                        <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_check?id={{ d._id }}&evt=0" class="ui link ajax item" id="check-{{ d._id }}-button">取消审核</a>
+                        {% else %}
+                        <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_check?id={{ d._id }}&evt=1" class="ui link ajax item" id="check-{{ d._id }}-button">审核</a>
+                        {% endif %}
+                        <a href="{{ app_url_app_admin_base }}/scene_scene/edit?id={{ d._id }}" class="ui link item">编辑</a>
 						<a href="{{ app_url_app_admin_base }}/scene_scene/delete?id={{ d._id }}" class="ui link item confirm-request">删除</a>
+                    {% else %}
+                        --
+                    {% endif %}
 				</td>
 			</tr>
 			{% endfor %}

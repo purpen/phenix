@@ -31,15 +31,18 @@
 	{% endif %}
 	
 	<div class="header item menu-admin">
-		<i class="{% if show_type == 'sight' %} plus {% else %} minus {% endif %} icon"></i><b>情景模块</b>
+		<i class="{% if show_type == 'sight' %} plus {% else %} minus {% endif %} icon"></i><b>情境模块</b>
 	</div>
 	<div date="menu-admin" {% if show_type == 'sight' %} style="display:block" {% else %} style="display:none" {% endif %}>
 		{% if visitor.is_chief %}
 		<a class="{{ css_page_app_scene_scene }} item" href="{{ app_url_app_admin_base }}/scene_scene">
-			情景管理
+			情境管理
 		</a>
 		<a class="{{ css_page_app_scene_sight }} item" href="{{ app_url_app_admin_base }}/scene_sight">
 			场景管理
+		</a>
+		<a class="{{ css_page_app_scene_subject }} item" href="{{ app_url_app_admin_base }}/scene_subject">
+			专题管理
 		</a>
 		{%endif%}
 	</div>

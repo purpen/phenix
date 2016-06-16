@@ -20,8 +20,6 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 	 */
 	public function get_list(){
 		
-		// user_id=10&id=18&type=scene&event=subscription
-		
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:1000;
 		
@@ -336,7 +334,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		}
 
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
-		if(!in_array($type, array(1,2,3,4,6,8,9))){
+		if(!in_array($type, array(1,2,3,4,6,8,9,10,11,12,13))){
 			return $this->api_json('请选择类型！', 3002);
 		}
 		
@@ -371,7 +369,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		}
 
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
-		if(!in_array($type, array(1,2,3,4,6,8,9))){
+		if(!in_array($type, array(1,2,3,4,6,8,9,10,11,12,13))){
 			return $this->api_json('请选择类型！', 3002);
 		}
 		
@@ -405,7 +403,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		}
 
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
-		if(!in_array($type, array(1,2,3,4,6,8,9))){
+		if(!in_array($type, array(1,2,3,4,6,8,9,10,11,12,13))){
 			return $this->api_json('请选择类型！', 3002);
 		}
 		
@@ -439,7 +437,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		}
 
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
-		if(!in_array($type, array(1,2,3,4,6,8,9))){
+		if(!in_array($type, array(1,2,3,4,6,8,9,10,11,12,13))){
 			return $this->api_json('请选择类型！', 3002);
 		}
 		
