@@ -283,7 +283,13 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 		if($follow_model->has_exist_ship($this->current_user_id, $id)){
 			$data['is_love'] = 1;
 		}
-		//var_dump($data);die;
+
+        if($this->current_user_id != $id){
+            // 增长积分
+            $service = Sher_Core_Service_Point::instance();
+            $service->send_event('evt_home_visited', $id);
+        }
+
 		return $this->api_json('请求成功', 0, $data);
 	}
 
