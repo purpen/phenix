@@ -134,8 +134,8 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         //验证是否收藏或喜欢
         $data['is_love'] = 0;
         if(!empty($user_id)){
-            $fav = new Sher_Core_Model_Favorite();
-            $data['is_love'] = $fav->check_loved($user_id, $scene_subject['_id'], 13) ? 1 : 0;       
+            $favorite_model = new Sher_Core_Model_Favorite();
+            $data['is_love'] = $favorite_model->check_loved($user_id, $scene_subject['_id'], 13) ? 1 : 0;       
         }
 
         $data['content_view_url'] = sprintf('%s/view/scene_subject_show?id=%d', Doggy_Config::$vars['app.url.api'], $scene_subject['_id']);
