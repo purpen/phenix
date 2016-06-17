@@ -118,11 +118,13 @@
 	$('ul[class=gridster_ul]').css('height','');
 	$('.gs-w').css('position','');
 	
-	function JavascriptHandler(id, type) {
+	function JavascriptHandler(obj) {
 		if (!data) {
             return '';
         }
-		return window.location.href = 'thn://'+parseInt(data);
+        var target_id = obj.attr('target_id');
+        var target_type = obj.attr('target_type');
+		return window.location.href = 'http://m.taihuoniao.com/guide/fiu?infoType='+ target_type +'&infoId='+ target_id +'';
 	}
 	</script>				
 </body>
