@@ -42,7 +42,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
                 break;
         }
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/brands/get_list?kind=%dpage=#p#', $kind);
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/brands/get_list?kind=%d&page=#p#', $kind);
 		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('app_admin/brands/list.html');
 	}
