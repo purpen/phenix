@@ -142,10 +142,14 @@
 				var size_x = data.size_x;
 				var size_y = data.size_y;
 				$('li[data-col='+col+'][data-row='+row+']').css('width', size_x*10+'%');
+				$('ul[class=gridster_ul]').css('width','700px');
 			}
 		},
 		draggable: {
-		  handle: '.header'    //模块内定义拖动的元素
+		  handle: '.header',    //模块内定义拖动的元素
+			stop: function(event, ui){
+				$('ul[class=gridster_ul]').css('width','700px');
+			}
 		},
 	}).data('gridster');
 	
