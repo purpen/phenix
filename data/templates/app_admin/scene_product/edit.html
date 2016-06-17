@@ -625,7 +625,7 @@
         <div class="field">
           <label for="brand_id">所属品牌：</label>
 
-          {% scene_brands_list var:'brand_list' page:1 size:1000 %}
+          {% scene_brands_list var:'brand_list' kind:1 page:1 size:1000 %}
           <select name="brand_id" class="js-example-basic-single">
             {% for d in brand_list.rows %}
               <option value="{{ d._id }}" {% if d._id == scene_product.brand_id %}selected="selected"{% endif %}>{{ d.title }}</option>

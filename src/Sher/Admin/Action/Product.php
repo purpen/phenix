@@ -117,6 +117,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['category_id'] = $this->stash['category_id'];
 		$data['tags'] = $this->stash['tags'];
 		$data['view_url'] = $this->stash['view_url'];
+        $data['brand_id'] = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : '';
 
 		//短标题
 		$data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
