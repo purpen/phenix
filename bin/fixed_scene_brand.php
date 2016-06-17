@@ -28,7 +28,7 @@ $is_end = false;
 $total = 0;
 while(!$is_end){
 	$query = array();
-	$options = array('field' => array('_id','item_count'),'page'=>$page,'size'=>$size);
+	$options = array('field' => array('_id','kind'),'page'=>$page,'size'=>$size);
 	$list = $scene_brand_model->find($query, $options);
 	if(empty($list)){
 		echo "get brands list is null,exit......\n";
@@ -37,10 +37,13 @@ while(!$is_end){
 	$max = count($list);
     for ($i=0; $i < $max; $i++) {
         $brand_id = (string)$list[$i]['_id'];
-        $product_count = $scene_product_model->count(array('brand_id'=>$brand_id));
-	    $scene_brand_model->update_set($brand_id, array('item_count'=>$product_count));
-        echo "fix brand item_count[".$list[$i]['_id']."]..........\n";
-        $total++;
+        //$product_count = $scene_product_model->count(array('brand_id'=>$brand_id));
+        if(!isset($list[$i]['kind'])){
+            $scene_brand_model->update_set($brand_id, array('kind'=>1));
+            echo "fix brand [".$list[$i]['_id']."]..........\n";
+            $total++;       
+        }
+
 	}
 	if($max < $size){
 		echo "brand list is end!!!!!!!!!,exit.\n";

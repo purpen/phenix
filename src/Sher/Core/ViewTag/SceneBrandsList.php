@@ -18,7 +18,10 @@ class Sher_Core_ViewTag_SceneBrandsList extends Doggy_Dt_Tag {
         
 		$page = 1;
         $size = 10;
+        $kind = 0;
 		$title = '';
+        $status = 0;
+        $stick = 0;
 
         $var = 'list';
         $include_pager = 0;
@@ -33,6 +36,26 @@ class Sher_Core_ViewTag_SceneBrandsList extends Doggy_Dt_Tag {
         $size = (int)$size;
 		
 		$query = array();
+
+        if($kind){
+            $query['kind'] = (int)$kind;
+        }
+
+        if($status){
+            if((int)$status==-1){
+                $query['status'] = 0;
+            }else{
+                $query['status'] = 1;
+            }
+        }
+
+        if($stick){
+            if((int)$stick==-1){
+                $query['stick'] = 0;
+            }else{
+                $query['stick'] = 1;
+            }
+        }
 		
 		if($title){
 			$query['title'] = $title;

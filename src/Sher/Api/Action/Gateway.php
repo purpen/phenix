@@ -188,7 +188,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
         $time_lag = 0;
       }
 
- 		  return $this->api_json('请求成功', 0, array('cover_url'=>$cover_url, 'title'=>$product['title'], 'target_id'=>$product['_id'], 'type'=>$type, 'time_lag'=>$time_lag));     
+ 		  return $this->api_json('请求成功', 0, array('cover_url'=>$cover_url, 'title'=>$product['title'], 'price'=>$product['app_snatched_price'], 'target_id'=>$product['_id'], 'type'=>$type, 'time_lag'=>$time_lag));     
     }else{
  		  return $this->api_json('数据结构不正确!', 3002);   
     } 

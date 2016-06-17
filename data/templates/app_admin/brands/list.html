@@ -94,6 +94,7 @@
 				</th>
                 <th>品牌名</th>
 				<th>logo</th>
+                <th>类型</th>
                 <th>使用次数</th>
                 <th>产品列表</th>
 				<th>状态</th>
@@ -101,7 +102,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% scene_brands_list var:'list' page:page title:title size:size %}
+			{% scene_brands_list var:'list' page:page title:title kind:kind size:size %}
 
 			{% for d in list.rows %}
 			<tr id="{{ d._id }}">
@@ -117,6 +118,7 @@
                 <td>
                   <img width=50 src="{{ d.cover.thumbnails.mini.view_url }}">
                 </td>
+                <td>{{ d.kind_label }}</td>
                 <td>
                   {{ d.used_count }}
                 </td>
