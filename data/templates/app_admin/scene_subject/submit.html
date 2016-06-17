@@ -255,7 +255,7 @@
 		link = '';
 	  }
 	  
-	  var content = '<a class=\"img_url\" href=\"javascript:void(0);\" target_id=\"'+target_id+'\" target_type=\"'+target_type+'\" onclick="JavascriptHandler('+target_id+')"><img src=\"'+src+'\" align="absmiddle" style=\"width:100%\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
+	  var content = '<a class=\"img_url\" href=\"javascript:void(0);\" target_id=\"'+target_id+'\" target_type=\"'+target_type+'\" onclick="JavascriptHandler(this)"><img src=\"'+src+'\" align="absmiddle" style=\"width:100%\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
 	  date.widget.find('.this_content').html(content);
 	  date.widget.css('width',date.size_x*10+'%');
 	  
@@ -422,9 +422,11 @@
 
 	$('ul[class=gridster_ul]').css('width','700px');
 	
-	function JavascriptHandler(data) {
-		console.log(data);
-		//return window.location.href = 'taihuoniao://'+data;
+	function JavascriptHandler(obj) {
+		//console.log(data);
+        var target_id = obj.attr('target_id');
+        var target_type = obj.attr('target_type');
+		return window.location.href = 'http://m.taihuoniao.com/guide/fiu?infoType='+ target_type +'&infoId='+ target_id +'';
 	}
 	
 {% endblock %}
