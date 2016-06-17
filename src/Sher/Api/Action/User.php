@@ -293,4 +293,47 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 		return $this->api_json('请求成功', 0, $data);
 	}
 
+    /*
+     * 送积分/
+     *
+     */
+    public function send_exp(){
+        $user_id = $this->current_user_id;
+        $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+        $evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 1;
+        $target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : null;
+
+        $target_user_id = 0;
+        $model = null;
+
+        // 增长积分
+        $service = Sher_Core_Service_Point::instance();
+
+        switch($type){
+            case 1: // 情境
+                $model = new Sher_Core_Model_SceneScene();
+                break;
+            case 2: // 场景
+                $model = new Sher_Core_Model_SceneSight();
+                $scene_sight = $model->load((int)$target_id);
+                if($scene_sight){
+                    $target_user_id = $scene_sight['user_id'];
+                    if($evt==1){    // 分享
+                        $service->send_event('evt_sight_by_share', $target_user_id);                  
+                        $service->send_event('evt_sight_share', $user_id);                   
+                    }
+                }
+                break;
+            case 3: // 产品
+                $model = new Sher_Core_Model_SceneProduct();
+                break;
+            case 4: // 专题
+                $model = new Sher_Core_Model_SceneSubject();
+                break;
+            default:
+                
+        }
+    
+    }
+
 }
