@@ -247,15 +247,15 @@
 	  //var link = $('input[name=img_link]').val();
 	  var keyword = $('input[name=img_keyword]').val();
 	  var target_id = $('input[name=target_id]').val();
-	  var target_type = $('input[name=target_type]').val();
+	  var target_type = $('input[name=target_type]:checked').val();
+
+      if(!target_id || !target_type){
+        link = "javascript:void(0);";
+        }else{
+            link = 'http://m.taihuoniao.com/guide/fiu?infoType='+ target_type +'&infoId='+ target_id +'';
+        }
 	  
-	  if(target_id && target_type){
-		link = '{{ app_url_shop }}/view?id='+target_id;
-	  }else{
-		link = '';
-	  }
-	  
-	  var content = '<a class=\"img_url\" href=\"javascript:void(0);\" target_id=\"'+target_id+'\" target_type=\"'+target_type+'\" onclick="JavascriptHandler(this)"><img src=\"'+src+'\" align="absmiddle" style=\"width:100%\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
+	  var content = '<a class=\"img_url\" href=\"'+ link +'\" target_id=\"'+target_id+'\" target_type=\"'+target_type+'\" ><img src=\"'+src+'\" align="absmiddle" style=\"width:100%\" alt=\"'+keyword+'\" title=\"'+keyword+'\"></a>';
 	  date.widget.find('.this_content').html(content);
 	  date.widget.css('width',date.size_x*10+'%');
 	  
@@ -497,15 +497,15 @@
 			  <div class="inline field fields">
 				<div class="field">
 					<div class="ui radio checkbox">
-						<input type="radio" name="target_type" value="1" /> 
+						<input type="radio" name="target_type" value="10" /> 
 						<label>情境</label>
 					</div>
 					<div class="ui radio checkbox">
-						<input type="radio" name="target_type" value="2" /> 
+						<input type="radio" name="target_type" value="11" /> 
 						<label>场景</label>
 					</div>
 					<div class="ui radio checkbox">
-						<input type="radio" name="target_type" value="3" /> 
+						<input type="radio" name="target_type" value="12" /> 
 						<label>产品</label>
 					</div>
 				</div>
