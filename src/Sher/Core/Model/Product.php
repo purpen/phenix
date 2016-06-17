@@ -64,6 +64,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 
         # 品牌ID
         'cooperate_id' => null,
+        # 品牌ID -- 用于app商城
+        'brand_id' => null,
 
         # 关联产品ID
         'fever_id' => 0,

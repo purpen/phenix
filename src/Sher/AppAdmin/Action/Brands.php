@@ -99,6 +99,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		$des = $this->stash['des'];
 		$cover_id = isset($this->stash['cover_id']) ? $this->stash['cover_id'] : null;
 		$banner_id = isset($this->stash['banner_id']) ? $this->stash['banner_id'] : null;
+		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
 		
 		// 验证内容
 		if(!$title){
@@ -114,7 +115,8 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 			'title' => $title,
 			'des' => $des,
 			'cover_id' => $cover_id,
-      'banner_id' => $banner_id,
+            'banner_id' => $banner_id,
+            'kind' => $kind,
 		);
 
 		try{

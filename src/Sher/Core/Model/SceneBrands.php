@@ -6,6 +6,11 @@
 class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 
     protected $collection = "scene_brands";
+
+    ## 常量
+    # 类型
+    const KIND_FIU = 1; // ＦＩＵ
+    const KIND_STORE = 2;   // 商城
 	
     protected $schema = array(
 		# 标题
@@ -16,6 +21,8 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 		'cover_id' => '',
     # Banner
     'banner_id' => '',
+    # 类型
+    'kind' => self::KIND_FIU,
         # 点击次数
         'used_count' => 0,
         # 产品数量
@@ -27,7 +34,7 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('title','des','cover_id');
-	protected $int_fields = array('status', 'used_count', 'item_count');
+	protected $int_fields = array('status', 'used_count', 'item_count', 'kind');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count', 'item_count');
 	protected $retrieve_fields = array();
@@ -48,6 +55,19 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 		if(isset($row['banner_id'])){
 			$row['banner'] = $this->banner($row);
 		}
+
+        // 类型
+        $kind = isset($row['kind']) ? $row['kind'] : 0;
+        switch($kind){
+            case 1:
+                $row['kind_label'] = 'Fiu';
+                break;
+            case 2:
+                $row['kind_label'] = 'Store';
+                break;
+            default:
+                $row['kind_label'] = '--';
+        }
 	}
 	
 	/**

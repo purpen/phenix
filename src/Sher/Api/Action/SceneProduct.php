@@ -331,6 +331,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     $data['png_asset'] = $assets;
 
     $data['cover_url'] = $scene_product['cover']['thumbnails']['apc']['view_url'];
+    $data['link'] = htmlspecialchars_decode($data['link']);
 
     unset($data['banner_asset_ids']);
     unset($data['png_asset_ids']);
