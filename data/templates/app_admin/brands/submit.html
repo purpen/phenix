@@ -169,8 +169,14 @@
 	
 	<h3 class="ui header">品牌管理</h3>
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_app_admin_base }}/brands" class="item">
+        <a href="{{ app_url_app_admin_base }}/brands" class="item {{ css_all }}">
 			全部
+		</a>
+        <a href="{{ app_url_app_admin_base }}/brands/get_list?kind=1" class="item {{ css_fiu }}">
+			Fiu
+		</a>
+        <a href="{{ app_url_app_admin_base }}/brands/get_list?kind=2" class="item {{ css_store }}">
+		    Store
 		</a>
 	  	<div class="right menu">	
 			<a href="{{ app_url_app_admin_base }}/brands/add" class="item">
@@ -189,7 +195,24 @@
 		<input type="hidden" name="id" value="{{ date._id }}" />
 		
 		<div class="ui segment from">
+
 			<h3 class="ui dividing header">填写品牌信息</h3>
+
+            <h4 class="ui stage header">类型:</h4>
+            <div class="grouped inline fields">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" name="kind" value="1" {% if date.kind == 1 %}checked="checked"{% endif %} /> 
+                  <label>Fiu</label>
+                </div>
+                <div class="ui radio checkbox">
+                  <input type="radio" name="kind" value="2" {% if date.kind == 2 %}checked="checked"{% endif %} /> 
+                  <label>Store</label>
+                </div>
+
+              </div>
+            </div>
+
             <div class="field">
                 <label>品牌名称</label>
                 <input type="text" name="title" placeholder="品牌名称" value="{{ date.title }}" />

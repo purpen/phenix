@@ -9,6 +9,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		'page' => 1,
 		'size' => 100,
 		'state' => '',
+        'kind' => '',
 	);
 	
 	public function _init() {
@@ -28,10 +29,20 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 	 * 列表
 	 */
 	public function get_list() {
-        
-        $this->set_target_css_state('page_all');
+        $kind = (int)$this->stash['kind'];
+        switch($kind){
+            case 1:
+                $this->set_target_css_state('fiu');
+                break;
+            case 2:
+                $this->set_target_css_state('store');
+                break;
+            default:
+                $this->set_target_css_state('all');
+                break;
+        }
 		
-		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/brands/get_list?page=#p#';
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/brands/get_list?kind=%dpage=#p#', $kind);
 		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('app_admin/brands/list.html');
 	}
@@ -99,16 +110,21 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		$des = $this->stash['des'];
 		$cover_id = isset($this->stash['cover_id']) ? $this->stash['cover_id'] : null;
 		$banner_id = isset($this->stash['banner_id']) ? $this->stash['banner_id'] : null;
-		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
+		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 0;
 		
 		// 验证内容
 		if(!$title){
 			return $this->ajax_json('品牌名称不能为空！', true);
 		}
 		
-		// 验证标题
+		// 验证图片
 		if(!$cover_id){
 			return $this->ajax_json('图片不能为空！', true);
+		}
+
+		// 验证类型
+		if(!$kind){
+			return $this->ajax_json('请选择类型！', true);
 		}
 		
 		$date = array(

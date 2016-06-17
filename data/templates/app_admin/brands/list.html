@@ -55,8 +55,14 @@
 	<h3 class="ui header">品牌管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_app_admin_base }}/brands" class="active item">
+        <a href="{{ app_url_app_admin_base }}/brands" class="item {{ css_all }}">
 			全部
+		</a>
+        <a href="{{ app_url_app_admin_base }}/brands/get_list?kind=1" class="item {{ css_fiu }}">
+			Fiu
+		</a>
+        <a href="{{ app_url_app_admin_base }}/brands/get_list?kind=2" class="item {{ css_store }}">
+		    Store
 		</a>
 
 	  	<div class="right menu">
