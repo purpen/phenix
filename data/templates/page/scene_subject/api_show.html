@@ -119,8 +119,8 @@
 	$('.gs-w').css('position','');
 	
 	function JavascriptHandler(obj) {
-        var target_id = obj.attr('target_id');
-        var target_type = obj.attr('target_type');
+        var target_id = $(obj).attr('target_id');
+        var target_type = $(obj).attr('target_type');
 		return window.location.href = 'http://m.taihuoniao.com/guide/fiu?infoType='+ target_type +'&infoId='+ target_id +'';
 	}
 	</script>				
