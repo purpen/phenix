@@ -347,7 +347,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     }
 
 
-		$row['vote_count'] = $row['vote_favor_count'] + $row['vote_oppose_count'];
+        if(isset($row['vote_favor_count']) && isset($row['vote_oppose_count'])){
+            $row['vote_count'] = $row['vote_favor_count'] + $row['vote_oppose_count'];
+        }
 		
         if($row['stage']){
             if ($row['stage'] == self::STAGE_VOTE){
