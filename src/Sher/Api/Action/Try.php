@@ -43,7 +43,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 		}
 		if($stick){
 			$query['sticked'] = 1;
-    }
+        }
     // 已发布的
     $query['state'] = $state;
 
