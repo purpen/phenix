@@ -79,6 +79,7 @@
 			<tr>
 				<th></th>
 				<th>分类名称/标识</th>
+				<th>推荐</th>
 				<th>状态</th>
 				<th>所属组</th>
 				<th>所属域</th>
@@ -97,6 +98,15 @@
 					</div>
 				</td>
         <td><b>{{ cat.title }}</b> / {{ cat.name }}</td>
+				<td>
+					<p>
+						{% if cat.stick %}
+							<span class="ui small green label">是</span><br />
+						{% else %}
+							<span class="ui small orange label">否</span><br />
+						{% endif %}
+					</p>
+				</td>
 				<td>{% if cat.is_open == 1 %}<span class="ui label">公开</span>{% else %}<span class="ui label">隐藏</span>{% endif %}</td>
 				<td>{{ cat.group.name }}</td>
 				<td>
@@ -130,6 +140,15 @@
 						</div>
 					</td>
 					<td>|----{{ child.title }} / {{ child.name }}</td>
+                    <td>
+                        <p>
+                            {% if child.stick %}
+                                <span class="ui small green label">是</span><br />
+                            {% else %}
+                                <span class="ui small orange label">否</span><br />
+                            {% endif %}
+                        </p>
+                    </td>
 					<td>{% if child.is_open == 1 %}<span class="ui label">公开</span>{% else %}<span class="ui label">隐藏</span>{% endif %}</td>
 					<td>{{ child.group.name }}</td>
 					<td>{% if child.domain == 1%}产品类{% endif %} {% if child.domain == 2%}社区类{% endif %}</td>

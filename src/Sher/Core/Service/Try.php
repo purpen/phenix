@@ -7,6 +7,7 @@ class Sher_Core_Service_Try extends Sher_Core_Service_Base {
 	
     protected $sort_fields = array(
         'latest' => array('created_on' => -1),
+        'update' => array('updated_on' => -1),
         'hot'=>array('created_on'=>-1),
         'sticked'=>array('sticked'=>-1),
         'latest_over'=>array('created_on'=>1),

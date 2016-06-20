@@ -99,7 +99,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 
 		// 获取单条记录 ????
 		if($size == 1 && !empty($result['rows'])){
-			$result = $result['rows'][0];
+			//$result = $result['rows'][0];
 		}
 		
 		return $this->api_json('请求成功', 0, $result);

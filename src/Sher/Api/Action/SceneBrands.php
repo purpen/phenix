@@ -72,13 +72,9 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
         $service = Sher_Core_Service_SceneBrands::instance();
         $result = $service->get_scene_brands_list($query, $options);
 		
-		if($sort == 2){
-			$total_count = abs($result['rows'][0]['used_count'] - $result['rows'][count($result['rows'])-1]['used_count']);
-			$every_count = round($total_count/3);
-		}
-		
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
+            $result['rows'][$i]['_id'] = (string)$result['rows'][$i]['_id'];
 			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
 		}
 		
@@ -105,8 +101,8 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		$result  = $model->extend_load($id);
 		
 		if (!$result) {
-      return $this->api_json('请求内容为空!', 3002);
-    }
+            return $this->api_json('品片不存在或已删除!', 3002);
+        }
 		
 		$data = array();
 		$data['_id'] = (string)$result['_id'];

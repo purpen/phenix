@@ -51,6 +51,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		# 类别支持多选
 		'category_id' => 0,
+      # 分类标签
+      'category_tags' => array(),
 
     # 场景
     'scene_ids' => array(),
@@ -65,7 +67,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         # 品牌ID
         'cooperate_id' => null,
         # 品牌ID -- 用于app商城
-        'brand_id' => null,
+        'brand_id' => '',
 
         # 关联产品ID
         'fever_id' => 0,
@@ -336,6 +338,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     $row['comment_view_url'] = sprintf(Doggy_Config::$vars['app.url.shop'].'/view/%d/%d', $row['_id'], 1);
 		
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
+
+    if(isset($row['category_tags']) && !empty($row['category_tags'])){
+ 		  $row['category_tags_s'] = implode(',',$row['category_tags']);   
+    }
 
     // 场景转换字符串
     if(isset($row['scene_ids']) && !empty($row['scene_ids'])){
@@ -630,6 +636,14 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		if(isset($data['voted_finish_time'])){
 			$data['voted_finish_time'] = strtotime($data['voted_finish_time']) + 24*60*60 - 1;
 		}
+
+        // 分类标签
+        if (isset($data['category_tags']) && !is_array($data['category_tags'])) {
+          $data['category_tags'] = array_values(array_unique(preg_split('/[,，;；]+/u',$data['category_tags'])));
+          for($i=0;$i<count($data['category_tags']);$i++){
+            $data['category_tags'][$i] = trim($data['category_tags'][$i]);
+          }
+        }
 		
 	    parent::before_save($data);
 	}

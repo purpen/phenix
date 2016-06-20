@@ -20,10 +20,10 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 	public function getlist(){
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:6;
-    $sort = isset($this->stash['sort'])?(int)$this->stash['sort']:0;
-    $stick = isset($this->stash['stick'])?(int)$this->stash['stick']:0;
-    $user_id = isset($this->stash['user_id'])?(int)$this->stash['user_id']:0;
-    $state = isset($this->stash['state'])?(int)$this->stash['state']:1;
+        $sort = isset($this->stash['sort'])?(int)$this->stash['sort']:0;
+        $stick = isset($this->stash['stick'])?(int)$this->stash['stick']:0;
+        $user_id = isset($this->stash['user_id'])?(int)$this->stash['user_id']:0;
+        $state = isset($this->stash['state'])?(int)$this->stash['state']:1;
 		
 		$query   = array();
 		$options = array();
@@ -31,7 +31,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
     //显示的字段
     $options['some_fields'] = array(
       '_id'=> 1, 'title'=>1, 'short_title'=>1, 'description'=>1, 'cover_id'=>1, 'banner_id'=>1, 'step_stat'=>1, 'sticked'=>1,
-      'tags'=>1, 'comment_count'=>1, 'created_on'=>1, 'kind'=>1,
+      'tags'=>1, 'comment_count'=>1, 'created_on'=>1, 'kind'=>1, 'app_cover_id'=>1,
       'try_count'=>1, 'apply_count'=>1, 'report_count'=>1, 'want_count'=>1, 'view_count'=>1,
       'buy_url'=>1, 'open_limit'=>1, 'open_limit'=>1, 'apply_term'=>1, 'term_count'=>1,
       'start_time'=>1, 'end_time'=>1, 'publish_time'=>1, 'state'=>1, 'price'=>1, 'pass_users'=>1,
@@ -43,7 +43,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 		}
 		if($stick){
 			$query['sticked'] = 1;
-    }
+        }
     // 已发布的
     $query['state'] = $state;
 
@@ -53,7 +53,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 				$options['sort_field'] = 'latest';
 				break;
 			case 1:
-				$options['sort_field'] = 'sticked:latest';
+				$options['sort_field'] = 'sticked:update';
 				break;
 		}
 		
@@ -75,6 +75,8 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
 			// banner图url
 			$data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['aub']['view_url'];
+			// app 封面图url
+			$data[$i]['app_cover_url'] = isset($result['rows'][$i]['app_cover']) ? $result['rows'][$i]['app_cover']['thumbnails']['apc']['view_url'] : null;
 
 		}
 		$result['rows'] = $data;
