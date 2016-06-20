@@ -222,10 +222,12 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
             continue;
           }
           $special_subject = $special_subject[0];
+          $special_subject = $special_subject_model->extended_model_row($special_subject);
           foreach($special_subject_some_fields as $v){
             $rebuild_special_subject[$v] = isset($special_subject[$v]) ? $special_subject[$v] : null;
           }
 
+          $rebuild_special_subject['cover_url'] = isset($special_subject['cover']) ? $special_subject['cover']['thumbnails']['aub']['view_url'] : null;
           $data[$i]['special_subject'] = $rebuild_special_subject;
           $product_arr = array();
           foreach($special_subject['product_ids'] as $k=>$v){
