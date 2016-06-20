@@ -86,6 +86,31 @@
     return false;
   }
 
+  // 加载标签库
+  function load_category_tag(category_id, tags){
+    // 先清空
+    $('#category_tags_box span').html('');
+    $.get("{{ app_url_admin_base }}/category/ajax_fetch_cate_tags", {id:category_id, type:3}, function(result){
+      if(result.success){
+        var tag_arr = [];
+        if(tags){
+          tag_arr = tags.split(',');
+        }
+        var html = '';
+        for(var i=0;i<result.data.length;i++){
+          var has_one = phenix.in_array(tag_arr, String(result.data[i]));
+          var is_active = has_one==-1 ? '' : 'active';
+          html += '<a class="ui mini category-tags button '+ is_active +'" style="margin-bottom:2px;" data-value="'+ result.data[i] +'">'+ result.data[i] +'</a>';
+        }
+        $('#category_tags_box span').append(html);
+      }else{
+        alert(result.message);
+      }
+      
+    }, 'json');
+    
+  }
+
 
   </script>
 {% endblock %}
@@ -172,17 +197,50 @@
 				.removeClass('active');
 				
 			$('#product-category').val('');
+          // 清空标签
+          $('#category_tags_box span').html('');
 		}else{
 			$(this)
 				.siblings('.category.button').removeClass('active')
 				.end()
 				.addClass('active');
 			$('#product-category').val(id);
+          // 加载该类别下的标签库
+          load_category_tag(id, '');
 		}
 		
         return false;
 	});
-	
+
+    // 选择分类标签
+  $('.category-tags.button').livequery(function(){
+    $(this).click(function(){
+      var id = $(this).attr('data-value');
+      if ($(this).hasClass('active')){
+        $(this)
+          .removeClass('active');
+          
+        $('#product-category-tags').val('');
+      }else{
+        $(this)
+          .siblings('.category-tags.button').removeClass('active')
+          .end()
+          .addClass('active');
+        $('#product-category-tags').val(id);
+      }
+      return false;
+    }); 
+  });
+
+  // 初始化标签
+  var current_category_id = $('#product-category').val();
+  var current_category_tags = $('#product-category-tags').val();
+  if(current_category_id){
+    // 加载该类别下的标签库
+    if(current_category_id){
+      load_category_tag(current_category_id, current_category_tags); 
+    }
+  }
 	
 	// 设置sku
 	$('#create-new-sku').bind('click', function(){
@@ -582,11 +640,19 @@
           <input type="hidden" name="category_id" value="{{ product.category_id }}" id="product-category" />
           {% category_list var:'category' only_open:1 domain:1 current:product.category_id %}
           {% for cat in category.rows %}
-            <a class="ui {{ cat.active }} magenta category button" style="margin-bottom:2px;" data-value="{{ cat._id }}">{{ cat.title }}</a>
+          <a class="ui {{ cat.active }} magenta category button" style="margin-bottom:2px;" data-tags="{{ cat.tags_s }}" data-value="{{ cat._id }}">{{ cat.title }}</a>
           {% endfor %}
         </div>
+
+        <div class="field" id="category_tags_box">
+          <input type="hidden" name="category_tags" value="{{ product.category_tags_s }}" id="product-category-tags" />
+				  	<label for="category_tags">分类标签：</label>
+            <span></span>
+        </div>
+
       </div>
 
+      <!--
 			<div class="inline field">
         <label>场景:</label>
 				{% style_tag_list var:'sences' fetch_current_target:1 domain:1 kind:1 state:1 current_tag_ids:product.scene_ids_to_s page:1 %}
@@ -609,6 +675,7 @@
 				{% endfor %}
 			</div>
     </div>
+    -->
 
 		<div class="ui segment">
 			<h3 class="ui dividing header">线下体验店:</h3>

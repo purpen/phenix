@@ -105,7 +105,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			'presale_percent'=>1, 'cover_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
 			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
 			'snatched_time'=>1, 'inventory'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
-      'presale_goals'=>1, 'stick'=>1, 'featured'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1,
+      'presale_goals'=>1, 'stick'=>1, 'featured'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1, 'category_tags'=>1,
       'comment_star'=>1,'snatched_end_time'=>1, 'snatched_price'=>1, 'snatched_count'=>1, 'tips_label'=>1,
       // app抢购
       'app_snatched'=>1, 'app_snatched_time'=>1, 'app_snatched_end_time'=>1, 'app_snatched_price'=>1,
@@ -127,6 +127,13 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		if($category_id){
 			$query['category_id'] = (int)$category_id;
 		}
+
+        // 查询条件
+        if($category_tags){
+          $category_tag_arr = explode(',', $category_tags);
+          $query['category_tags'] = array('$in'=>$category_tag_arr);
+        }
+
 		if($user_id){
 			$query['user_id'] = (int)$user_id;
 		}
@@ -234,7 +241,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
 		$some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
-			'cover_id', 'category_id', 'stage', 'summary', 'tags', 'tags_s',
+			'cover_id', 'category_id', 'stage', 'summary', 'tags', 'tags_s', 'category_tags',
 			'snatched_time', 'inventory', 'snatched', 'wap_view_url', 'brand_id',
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
       'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',

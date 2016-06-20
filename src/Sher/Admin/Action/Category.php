@@ -158,6 +158,29 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
 
 		return $this->ajax_json('success', false, '', $data);
 	}
+
+	/**
+	 * 获取该分类下标签内容
+	 */
+	public function ajax_fetch_cate_tags() {
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 2;
+		if(empty($id)){
+            return $this->ajax_json('缺少请求参数!', true);
+		}
+
+        $data = array();
+        $category_model = new Sher_Core_Model_Category();
+        $category = $category_model->load($id);
+		if(empty($category)){
+            return $this->ajax_json('分类不存在!', true);
+        }
+		if(!isset($category['tags']) || empty($category['tags'])){
+            return $this->ajax_json('empty', false, '', array());
+        }
+
+		return $this->ajax_json('success', false, '', $category['tags']);
+	}
 	
 	
 }
