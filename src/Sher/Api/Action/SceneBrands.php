@@ -74,7 +74,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
-            $result['rows'][$i]['_id'] = (string)$result['rows'][$i]['_id'];
+            $result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
 			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
 		}
 		
