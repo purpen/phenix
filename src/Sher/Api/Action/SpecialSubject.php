@@ -6,7 +6,7 @@
  */
 class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 
-	protected $filter_user_method_list = array('execute', 'getlist', 'view');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'index_subject_stick');
 	
 	/**
 	 * 入口
@@ -182,6 +182,74 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 
 		return $this->api_json('请求成功', 0, $data);
 	}
+
+    /**
+     * 首页专题推荐
+     */
+    public function index_subject_stick(){
+		
+		$cate_query = array('domain'=>Sher_Core_Util_Constant::TYPE_SPECIAL_SUBJECT, 'is_open'=>Sher_Core_Model_Category::IS_OPENED, 'stick'=>1);
+        $some_fields = array(
+          '_id'=>1, 'title'=>1, 'name'=>1, 'gid'=>1, 'pid'=>1, 'order_by'=>1, 'sub_count'=>1, 'tag_id'=>1,
+          'domain'=>1, 'is_open'=>1, 'total_count'=>1, 'reply_count'=>1, 'state'=>1, 'app_cover_url'=>1,
+        );
+		$cate_options = array('page'=>1, 'size'=>6, 'sort_field'=>'orby', 'some_fields'=>$some_fields);
+
+        $special_subject_some_fields = array(
+          '_id', 'title', 'cover_id', 'product_ids',
+        );
+
+        $product_some_fields = array(
+          '_id', 'title', 'short_title','cover_id',
+        );
+		
+        $service = Sher_Core_Service_Category::instance();
+        $result = $service->get_category_list($cate_query, $cate_options);
+
+		$special_subject_model = new Sher_Core_Model_SpecialSubject();
+        $product_model = new Sher_Core_Model_Product();
+
+        $data = array();
+        for($i=0;$i<count($result['rows']);$i++){
+          foreach($cate_options['some_fields'] as $key=>$value){
+            $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
+          }
+
+          $data[$i]['special_subject'] = null;
+
+          $special_subject = $special_subject_model->find(array('category_id'=>$data[$i]['_id'], 'publish'=>1, 'stick'=>1), array('page'=>1,'size'=>1,'sort'=>array('updated_on'=>-1)));
+          if(empty($special_subject)){
+            continue;
+          }
+          $special_subject = $special_subject[0];
+          foreach($special_subject_some_fields as $v){
+            $rebuild_special_subject[$v] = isset($special_subject[$v]) ? $special_subject[$v] : null;
+          }
+
+          $data[$i]['special_subject'] = $rebuild_special_subject;
+          $product_arr = array();
+          foreach($special_subject['product_ids'] as $k=>$v){
+              $product = $product_model->extend_load((int)$v);
+              if(!empty($product)){
+                // 重建数据结果
+                $product_data = array();
+                for($j=0;$j<count($product_some_fields);$j++){
+                  $key = $product_some_fields[$j];
+                  $product_data[$key] = isset($product[$key]) ? $product[$key] : null;
+                }
+                
+                $product_data['cover_url'] = !empty($product['cover']) ? $product['cover']['thumbnails']['apc']['view_url'] : null;
+                array_push($product_arr, $product_data);
+              }
+          } // endfor
+          $data[$i]['special_subject']['products'] = $product_arr;
+
+        }   // endfor $result[rows]
+
+		$result['rows'] = $data;
+        return $this->api_json('success', 0, $result);
+
+    }
 	
 }
 

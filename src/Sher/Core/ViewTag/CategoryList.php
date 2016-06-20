@@ -24,6 +24,7 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
 		$only_open = 0;
 		$domain = 0;
 		$stage = 9;
+        $stick = 0;
         $is_vendable = 0;
         $s_type = 0;
         $q = 0;
@@ -72,6 +73,15 @@ class Sher_Core_ViewTag_CategoryList extends Doggy_Dt_Tag {
 		}elseif ($only_open == Sher_Core_Model_Category::IS_HIDED) {
 			$query['is_open'] = Sher_Core_Model_Category::IS_HIDED;
 		}
+
+        // 推荐
+        if($stick){
+            if((int)$stick==-1){
+                $query['stick'] = 0;
+            }else{
+                $query['stick'] = 1;
+            }
+        }
 
         // 模糊搜索
         if($s_type && $q){

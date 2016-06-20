@@ -131,6 +131,25 @@
 			    </div>
 			</div>
 
+			<div class="inline fields">
+			    <div class="field">
+					<label for="is_open">是否推荐：</label>
+			      	<div class="ui radio checkbox">
+			        	<input type="radio" name="stick" value="0" {% if category.stick == 0 %}checked="checked"{% endif %} />
+						<label></label> 
+			      	</div>
+			      	<label class="checkbox title">否</label>
+			      	<div class="ui radio checkbox">
+			        	<input type="radio" name="stick" value="1" {% if category.stick ==1 %}checked="checked"{% endif %} /> 
+			        	<label></label>
+			      	</div>
+			      	<label class="checkbox title">是</label>
+			    </div>
+			    <div class="field">
+			      	
+			    </div>
+			</div>
+
       <div class="four fields">
         <div class="field">
             <label for="total_count">主题数量：</label>

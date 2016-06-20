@@ -235,7 +235,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
 			'cover_id', 'category_id', 'stage', 'summary', 'tags', 'tags_s',
-			'snatched_time', 'inventory', 'snatched', 'wap_view_url',
+			'snatched_time', 'inventory', 'snatched', 'wap_view_url', 'brand_id',
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
       'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',
       // app抢购
@@ -327,6 +327,18 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       if($has_one){
         $data['is_app_snatched_alert'] = 1; 
       }
+    }
+
+    // 品牌
+    $data['brand'] = '';
+    if(isset($data['brand_id']) && !empty($data['brand_id'])){
+        $brand_model = new Sher_Core_Model_SceneBrands();
+        $brand = $brand_model->extend_load($data['brand_id']);
+        if(!empty($brand)){
+            $data['brand']['_id'] = (string)$brand['_id'];
+            $data['brand']['title'] = $brand['title'];
+            $data['brand']['cover_url'] = $brand['cover']['thumbnails']['ava']['view_url'];
+        }
     }
 
     // 相关推荐产品
