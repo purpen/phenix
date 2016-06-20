@@ -200,7 +200,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
         );
 
         $product_some_fields = array(
-          '_id', 'title', 'short_title','cover_id',
+          '_id', 'title', 'short_title', 'cover_id', 'sale_price',
         );
 		
         $service = Sher_Core_Service_Category::instance();

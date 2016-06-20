@@ -101,6 +101,7 @@
         <th>ID</th>
                 <th>封面</th>
                 <th>标题</th>
+                <th>创建人</th>
                 <th>所属情景</th>
 				<th>地址</th>
                 <th>浏览量</th>
@@ -132,6 +133,20 @@
                 </td>
                 <td>
                   {{ d.scene.title }}
+                </td>
+                <td>
+                    <p>
+                            <a class="ui image label link" href="{{ d.user.home_url }}" target="_blank">
+                                <img src="{{ d.user.mini_avatar_url }}">
+                      {{ d.user.nickname }}
+                            </a>  
+                    </p>
+                    <p>
+                        account: {{ d.user.account }}
+                    </p>
+                    <p>
+                        summary: {{ d.user.summary }}
+                    </p>
                 </td>
                 <td>
                   {{ d.address }}
