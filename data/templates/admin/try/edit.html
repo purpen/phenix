@@ -132,7 +132,7 @@
 		}
 	});
 
-	// 配图上传(品牌头像,二维码)
+	// 配图上传(品牌头像,二维码,app封面)
 	$('#phenix-o-uploader').fineUploader({
       	request: {
 			inputName:'file',
@@ -230,6 +230,20 @@
 			return false;
 		});
 	});
+
+	// 设置app_cover
+	$('#asset-o-list .ajax-app-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-o-list .ajax-app-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#try_app_cover').val(id);
+			return false;
+		});
+	});
 	
 	$('.datepicker').pickadate();
 	
@@ -314,10 +328,11 @@
 		</div>
 
 		<div class="field">
-			<label>配图（从左至右:1.品牌头像[120*120],ios/android[160*160]）：</label>
+			<label>配图（从左至右:1.品牌头像[120*120],ios/android[160*160],app封面[500*500]）：</label>
 			<input type="hidden" name="try_brand_avatar" id="try_brand_avatar" value="{{ try.imgs.brand_avatar }}" />
 			<input type="hidden" name="try_qr_ios" id="try_ios" value="{{ try.imgs.qr_ios }}" />
 			<input type="hidden" name="try_qr_android" id="try_android" value="{{ try.imgs.qr_android }}" />
+			<input type="hidden" name="app_cover_id" id="try_app_cover" value="{{ try.app_cover_id }}" />
 			
 		  	<div id="phenix-o-uploader"></div>
 			<div id="asset-o-list" class="ui four blocks">
@@ -342,6 +357,9 @@
 									<i class="checkered flag icon"></i>
 								</a>
 								<a href="javascript:void(0);" class="ui link {%if try.imgs.qr_android == asset._id %}active {%endif%}ajax-qr-android pop" data-content="设置android码" data-variation="inverted" data-value="{{ asset._id }}">
+									<i class="checkered flag icon"></i>
+								</a>
+								<a href="javascript:void(0);" class="ui link {%if try.app_cover_id == asset._id %}active {%endif%}ajax-app-cover pop" data-content="设置app封面" data-variation="inverted" data-value="{{ asset._id }}">
 									<i class="checkered flag icon"></i>
 								</a>
 							</div>

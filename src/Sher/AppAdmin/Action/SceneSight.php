@@ -123,9 +123,9 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 		try{
 			$model = new Sher_Core_Model_SceneSight();
             if($evt==0){
-                $model->mark_cancel_stick($id);
+                $model->mark_cancel_fine($id);
             }else{
-                $model->mark_as_stick($id);
+                $model->mark_as_fine($id);
             }
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('请求操作失败，请检查后重试！', true);
@@ -163,7 +163,7 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 			return $this->ajax_note('请求参数为空', true);
 		}
 		$model = new Sher_Core_Model_SceneSight();
-		$result = $model->first((int)$id);
+		$result = $model->load((int)$id);
 		
 		if($result && $model->mark_remove($id)){
             $model->mock_after_remove($id, $result);

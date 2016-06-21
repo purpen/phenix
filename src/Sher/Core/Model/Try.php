@@ -45,6 +45,8 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 		
 		# 封面图
 		'cover_id' => '',
+        # app封面图(500x500)
+        'app_cover_id' => '',
 		# banner图
 		'banner_id' => '',
 		
@@ -295,6 +297,13 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	 */
 	public function mark_set_cover($id, $cover_id){
 		return $this->update_set($id, array('cover_id'=>$cover_id));
+	}
+
+	/**
+	 * 设置app封面图
+	 */
+	public function mark_set_app_cover($id, $cover_id){
+		return $this->update_set($id, array('app_cover_id'=>$cover_id));
 	}
 	
 	/**
