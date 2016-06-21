@@ -228,10 +228,10 @@
       var img_url = 'http://frstatic.qiniudn.com/images/logo/logo.png';
     {%endif%}
     var link = '{{ active.wap_view_url }}';
-    {% if topic._id == 800022 %}
+    {% if topic._id == 6 %}
     var desc_str = ' 我的【I Do致青春】 演唱会门票即将0元到手，吴亦凡、李宇春、张震岳、MC HOTDOG···什么，你还没来领？太火鸟社区大放福利~~~100张“I Do致青春”演唱会大放送啦！！！！ 那么多明星都来了 你还不来吗？';
     {%else%}
-    var desc_str = '{{ page_description_suffix }}';
+    var desc_str = 'm.taihuoniao.com';
     {% endif %}
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
