@@ -69,7 +69,7 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
       $product = $result['rows'][$i]['product'];
       $sight = $result['rows'][$i]['sight'];
       if(empty($product) || empty($sight)){
-        continue;
+        //continue;
       }
 			foreach($some_fields as $key=>$value){
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:null;
