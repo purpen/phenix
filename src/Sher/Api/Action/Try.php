@@ -84,8 +84,8 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
             // banner图url
             $data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['aub']['view_url'];
             // app 封面图url
-            $app_cover = $try_model->app_cover($result['rows'][$i]);
-            if(isset($data[$i]['app_cover_id']) && !empty($data[$i]['app_cover_id']) && !empty($app_cover)){
+            if(isset($data[$i]['app_cover_id']) && !empty($data[$i]['app_cover_id'])){
+                $app_cover = $try_model->app_cover($result['rows'][$i]);
                 $data[$i]['app_cover_url'] = $app_cover['thumbnails']['apc']['view_url'];
             }else{
                 $data[$i]['app_cover_url'] = null;
