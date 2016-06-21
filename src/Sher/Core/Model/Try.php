@@ -333,5 +333,17 @@ class Sher_Core_Model_Try extends Sher_Core_Model_Base  {
 	public function mark_as_publish($id, $published=1) {
 		return $this->update_set($id, array('state' => $published));
 	}
+
+	/**
+	 * 获取app封面图
+	 */
+	public function app_cover(&$row){
+		// 已设置封面图
+		if(!empty($row['app_cover_id'])){
+			$asset = new Sher_Core_Model_Asset();
+			return $asset->extend_load($row['app_cover_id']);
+		}
+        return null;
+	}
 	
 }

@@ -65,18 +65,26 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
     $service = Sher_Core_Service_Try::instance();
     $result = $service->get_try_list($query, $options);
 
+    $try_model = new Sher_Core_Model_Try();
+
 		// 重建数据结果
 		$data = array();
 		for($i=0;$i<count($result['rows']);$i++){
 			foreach($options['some_fields'] as $key=>$value){
-        $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
-			}
-			// 封面图url
-			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
-			// banner图url
-			$data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['aub']['view_url'];
-			// app 封面图url
-			$data[$i]['app_cover_url'] = isset($result['rows'][$i]['app_cover']) ? $result['rows'][$i]['app_cover']['thumbnails']['apc']['view_url'] : null;
+                $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
+		    }
+
+            // 封面图url
+            $data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
+            // banner图url
+            $data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['aub']['view_url'];
+            // app 封面图url
+            $app_cover = $try_model->app_cover($result['rows'][$i]);
+            if(isset($data[$i]['app_cover_id']) && !empty($data[$i]['app_cover_id']) && !empty($app_cover)){
+                $data[$i]['app_cover_url'] = $app_cover['thumbnails']['apc']['view_url'];
+            }else{
+                $data[$i]['app_cover_url'] = null;
+            }
 
 		}
 		$result['rows'] = $data;
