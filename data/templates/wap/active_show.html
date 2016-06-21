@@ -205,6 +205,7 @@
 </style>
 {% endblock %}
 {% block layout_js %}
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript">
 //ajax获取报名列表
   function fetch_signup_avatar(){
@@ -219,7 +220,7 @@
     var url = '{{ app_url_wap }}/app/site/comment/ajax_fetch_comment_wap';
     $.get(url, {target_id: '{{ active.topic_ids.0 }}', type: 2, page: current_page, per_page: per_page, sort:sort});
   }
-  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+  </script>
   <script type="text/javascript">
 	var m_name = '{{ active.title }}';
     {% if topic.cover %}
