@@ -117,7 +117,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
-		
+		$brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : null;
 		$stage = isset($this->stash['stage']) ? (int)$this->stash['stage'] : Sher_Core_Model_Product::STAGE_SHOP;
 			
 		$query   = array();
@@ -132,6 +132,11 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         if($category_tags){
           $category_tag_arr = explode(',', $category_tags);
           $query['category_tags'] = array('$in'=>$category_tag_arr);
+        }
+
+        // 品牌
+        if($brand_id){
+            $query['brand_id'] = $brand_id;
         }
 
 		if($user_id){
