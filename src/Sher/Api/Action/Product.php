@@ -114,10 +114,11 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		
 		// 请求参数
 		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
+		$category_tags = isset($this->stash['category_tags']) ? $this->stash['category_tags'] : null;
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
-		
+		$brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : null;
 		$stage = isset($this->stash['stage']) ? (int)$this->stash['stage'] : Sher_Core_Model_Product::STAGE_SHOP;
 			
 		$query   = array();
@@ -132,6 +133,11 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         if($category_tags){
           $category_tag_arr = explode(',', $category_tags);
           $query['category_tags'] = array('$in'=>$category_tag_arr);
+        }
+
+        // 品牌
+        if($brand_id){
+            $query['brand_id'] = $brand_id;
         }
 
 		if($user_id){
@@ -186,6 +192,9 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			foreach($some_fields as $key=>$value){
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:0;
 			}
+            if($data[$i]['category_tags']==0){
+                $data[$i]['category_tags'] = array();
+            }
 			// 封面图url
 			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['apc']['view_url'];
 			// 用户信息

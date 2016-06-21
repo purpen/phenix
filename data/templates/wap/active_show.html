@@ -205,6 +205,7 @@
 </style>
 {% endblock %}
 {% block layout_js %}
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript">
 //ajax获取报名列表
   function fetch_signup_avatar(){
@@ -219,6 +220,74 @@
     var url = '{{ app_url_wap }}/app/site/comment/ajax_fetch_comment_wap';
     $.get(url, {target_id: '{{ active.topic_ids.0 }}', type: 2, page: current_page, per_page: per_page, sort:sort});
   }
+  </script>
+  <script type="text/javascript">
+	var m_name = '{{ active.title }}';
+    {% if topic.cover %}
+      var img_url = '{{ active.wap_banner.fileurl }}';
+    {%else%}
+      var img_url = 'http://frstatic.qiniudn.com/images/logo/logo.png';
+    {%endif%}
+    var link = '{{ active.wap_view_url }}';
+    {% if active._id == 12037 %}
+    var desc_str = ' 我的【I Do致青春】 演唱会门票即将0元到手，吴亦凡、李宇春、张震岳、MC HOTDOG···什么，你还没来领？太火鸟社区大放福利~~~100张“I Do致青春”演唱会大放送啦！！！！ 那么多明星都来了 你还不来吗？';
+    {%else%}
+    var desc_str = 'm.taihuoniao.com';
+    {% endif %}
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+
+  wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
 
 </script>
 {% endblock %}
