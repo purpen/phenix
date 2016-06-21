@@ -24,6 +24,7 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
         $stick = isset($this->stash['stick'])?(int)$this->stash['stick']:0;
         $user_id = isset($this->stash['user_id'])?(int)$this->stash['user_id']:0;
         $state = isset($this->stash['state'])?(int)$this->stash['state']:1;
+        $step_stat = isset($this->stash['step_stat']) ? (int)$this->stash['step_stat'] : -1;
 		
 		$query   = array();
 		$options = array();
@@ -44,8 +45,12 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 		if($stick){
 			$query['sticked'] = 1;
         }
-    // 已发布的
-    $query['state'] = $state;
+        // 已发布的
+        $query['state'] = $state;
+
+        if($step_stat != -1){
+            $query['step_stat'] = $step_stat;
+        }
 
 		// 排序
 		switch ((int)$sort) {
@@ -65,18 +70,26 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
     $service = Sher_Core_Service_Try::instance();
     $result = $service->get_try_list($query, $options);
 
+    $try_model = new Sher_Core_Model_Try();
+
 		// 重建数据结果
 		$data = array();
 		for($i=0;$i<count($result['rows']);$i++){
 			foreach($options['some_fields'] as $key=>$value){
-        $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
-			}
-			// 封面图url
-			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
-			// banner图url
-			$data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['aub']['view_url'];
-			// app 封面图url
-			$data[$i]['app_cover_url'] = isset($result['rows'][$i]['app_cover']) ? $result['rows'][$i]['app_cover']['thumbnails']['apc']['view_url'] : null;
+                $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
+		    }
+
+            // 封面图url
+            $data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
+            // banner图url
+            $data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['aub']['view_url'];
+            // app 封面图url
+            if(isset($data[$i]['app_cover_id']) && !empty($data[$i]['app_cover_id'])){
+                $app_cover = $try_model->app_cover($result['rows'][$i]);
+                $data[$i]['app_cover_url'] = $app_cover['thumbnails']['apc']['view_url'];
+            }else{
+                $data[$i]['app_cover_url'] = null;
+            }
 
 		}
 		$result['rows'] = $data;
