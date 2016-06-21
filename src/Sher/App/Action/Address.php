@@ -242,6 +242,10 @@ class Sher_App_Action_Address extends Sher_App_Action_Base {
     }elseif(isset($this->stash['district'])){
       $city = (int)$this->stash['district'];  
     }
+
+    if(empty($this->stash['province']) || $this->stash['province']==0){
+  	    return $this->ajax_json('请选择所在省份!', true);   
+    }
 		
 		$data['name'] = $this->stash['name'];
 		$data['phone'] = $this->stash['phone'];
