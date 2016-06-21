@@ -104,8 +104,25 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
 
       if(!empty($sight)){
         // 过滤用户
+        $user = array();
+        
+        if($sight['user']){
+            $user['user_id'] = $sight['user']['_id'];
+            $user['nickname'] = $sight['user']['nickname'];
+            $user['avatar_url'] = $sight['user']['medium_avatar_url'];
+            $user['summary'] = $sight['user']['summary'];
+            $user['counter'] = $sight['user']['counter'];
+            $user['follow_count'] = $sight['user']['follow_count'];
+            $user['fans_count'] = $sight['user']['fans_count'];
+            $user['love_count'] = $sight['user']['love_count'];
+            $user['is_expert'] = isset($sight['user']['identify']['is_expert']) ? (int)$sight['user']['identify']['is_expert'] : 0;
+            $user['label'] = isset($sight['user']['profile']['label']) ? $sight['user']['profile']['label'] : '';
+            $user['expert_label'] = isset($sight['user']['profile']['expert_label']) ? $sight['user']['profile']['expert_label'] : '';
+            $user['expert_info'] = isset($sight['user']['profile']['expert_info']) ? $sight['user']['profile']['expert_info'] : '';
+        }
+
         $data[$i]['sight']['_id'] = $sight['_id'];
-        $data[$i]['sight']['user_info'] = Sher_Core_Helper_FilterFields::wap_user($sight['user']);
+        $data[$i]['sight']['user_info'] = $user;
         $data[$i]['sight']['cover_url'] = $sight['cover']['thumbnails']['huge']['view_url'];
         $data[$i]['sight']['title'] = $sight['title'];
         $data[$i]['sight']['address'] = $sight['address'];

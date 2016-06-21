@@ -1155,6 +1155,9 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 				$user['avatar_url'] = $v['user']['medium_avatar_url'];
 				$user['summary'] = $v['user']['summary'];
 				$user['is_expert'] = isset($v['user']['identify']['is_expert']) ? (int)$v['user']['identify']['is_expert'] : 0;
+				$user['label'] = isset($v['user']['profile']['label']) ? $v['user']['profile']['label'] : '';
+				$user['expert_label'] = isset($v['user']['profile']['expert_label']) ? $v['user']['profile']['expert_label'] : '';
+				$user['expert_info'] = isset($v['user']['profile']['expert_info']) ? $v['user']['profile']['expert_info'] : '';
 		  }
 			
 			$result['rows'][$k]['scene_title'] = '';
