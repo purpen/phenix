@@ -224,12 +224,12 @@
   <script type="text/javascript">
 	var m_name = '{{ active.title }}';
     {% if topic.cover %}
-      var img_url = '{{ active.cover.thumbnails.big.view_url }}';
+      var img_url = '{{ active.wap_banner.fileurl }}';
     {%else%}
       var img_url = 'http://frstatic.qiniudn.com/images/logo/logo.png';
     {%endif%}
     var link = '{{ active.wap_view_url }}';
-    {% if active._id == 6 %}
+    {% if active._id == 12037 %}
     var desc_str = ' 我的【I Do致青春】 演唱会门票即将0元到手，吴亦凡、李宇春、张震岳、MC HOTDOG···什么，你还没来领？太火鸟社区大放福利~~~100张“I Do致青春”演唱会大放送啦！！！！ 那么多明星都来了 你还不来吗？';
     {%else%}
     var desc_str = 'm.taihuoniao.com';
