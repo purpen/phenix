@@ -248,7 +248,7 @@ h3.ui.header{
           ajax_fetch_district(p_id, result.data.city);
         }
       }else{
-        phenix.show_error_note(result.message, 3000);
+        //phenix.show_error_note(result.message, 3000);
       }
     }, 'json');
   }
@@ -269,7 +269,7 @@ h3.ui.header{
         var rendered = phenix.ajax_render_result('#fetch_address_list_tpl', result.data);
         $('#address-list-box').html(rendered); 
       }else{
-        phenix.show_error_note(result.message, 3000);
+        //phenix.show_error_note(result.message, 3000);
       }
     }, 'json');
   }
@@ -289,7 +289,7 @@ h3.ui.header{
         }
         $('#district-menu').html(html);
       }else{
-        phenix.show_error_note(result.message, 3000);
+        //phenix.show_error_note(result.message, 3000);
       }
     }, 'json');
   }
