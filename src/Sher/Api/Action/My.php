@@ -85,8 +85,19 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 			'mini' => $qkey
 		);
 		
-		$user = new Sher_Core_Model_User();
-		$ok = $user->update_avatar($avatar, $user_id);
+        $user_model = new Sher_Core_Model_User();
+        $user = $user_model->load($user_id);
+        // 初次修改
+        if($user && empty($user['avatar'])){
+            // 增加积分
+            $service = Sher_Core_Service_Point::instance();
+            // 上传头像
+            $service->send_event('evt_upload_avatar', $user_id);
+            // 鸟币
+            $service->make_money_in($user_id, 2, '上传头像赠送鸟币');
+        }
+
+		$ok = $user_model->update_avatar($avatar, $user_id);
 		
 		return $this->api_json('更新成功', 0);
 	}
