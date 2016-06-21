@@ -120,11 +120,11 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 								$user['nickname'] = $v['sight']['user']['nickname'];
 								$user['avatar_url'] = $v['sight']['user']['big_avatar_url'];
 								$user['summary'] = $v['sight']['user']['summary'];
-								//$user['counter'] = $v['sight']['user']['counter'];
-								//$user['follow_count'] = $v['sight']['user']['follow_count'];
-								//$user['fans_count'] = $v['sight']['user']['fans_count'];
-								//$user['love_count'] = $v['sight']['user']['love_count'];
-                $user['is_expert'] = isset($v['user']['identify']['is_expert']) ? (int)$v['user']['identify']['is_expert'] : 0;
+                                $user['is_expert'] = isset($v['user']['identify']['is_expert']) ? (int)$v['user']['identify']['is_expert'] : 0;
+                                $user['label'] = isset($v['user']['profile']['label']) ? $v['user']['profile']['label'] : '';
+                                $user['expert_label'] = isset($v['user']['profile']['expert_label']) ? $v['user']['profile']['expert_label'] : '';
+                                $user['expert_info'] = isset($v['user']['profile']['expert_info']) ? $v['user']['profile']['expert_info'] : '';
+
 							}
 							$result['rows'][$k]['sight']['user_info'] = $user;
 							$result['rows'][$k]['sight']['scene_title'] = '';
@@ -154,10 +154,10 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 				$user['nickname'] = $result['rows'][$k]['user']['nickname'];
 				$user['avatar_url'] = $result['rows'][$k]['user']['big_avatar_url'];
 				$user['summary'] = $result['rows'][$k]['user']['summary'];
-				//$user['counter'] = $result['rows'][$k]['user']['counter'];
-				//$user['follow_count'] = $result['rows'][$k]['user']['follow_count'];
-				//$user['fans_count'] = $result['rows'][$k]['user']['fans_count'];
-				//$user['love_count'] = $result['rows'][$k]['user']['love_count'];
+                $user['is_expert'] = isset($result['rows'][$k]['user']['identify']['is_expert']) ? (int)$result['rows'][$k]['user']['identify']['is_expert'] : 0;
+                $user['label'] = isset($result['rows'][$k]['user']['profile']['label']) ? $result['rows'][$k]['user']['profile']['label'] : '';
+                $user['expert_label'] = isset($result['rows'][$k]['user']['profile']['expert_label']) ? $result['rows'][$k]['user']['profile']['expert_label'] : '';
+                $user['expert_info'] = isset($result['rows'][$k]['user']['profile']['expert_info']) ? $result['rows'][$k]['user']['profile']['expert_info'] : '';
 				$user['is_expert'] = isset($result['rows'][$k]['user']['identify']['is_expert']) ? (int)$result['rows'][$k]['user']['identify']['is_expert'] : 0;
 				
 				$result['rows'][$k]['user'] = $user;
