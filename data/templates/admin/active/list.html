@@ -97,7 +97,7 @@
       {% if is_search %}
 			  {% active_list var:'list' kind:kind page:page deleted:1 s_type:s s_mark:q size:size %}
       {%else%}
-			  {% active_list var:'list' kind:kind page:page deleted:1 size:20 %}
+			  {% active_list var:'list' kind:kind page:page deleted:1 size:size %}
       {%endif%}
 
 			{% for active in list.rows %}

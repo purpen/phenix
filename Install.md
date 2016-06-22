@@ -31,7 +31,7 @@ XCache还不支持PHP 5.5.0，根据官方说法，XCache 3.1会支持PHP 5.5
 redis
 ### Composer 安装
 See http://composer.golaravel.com/
-
+$ curl -sS https://getcomposer.org/installer | php
 composer install
 
 PHP Composer软件包列表：
