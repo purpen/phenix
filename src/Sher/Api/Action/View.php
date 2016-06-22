@@ -5,10 +5,6 @@
  */
 class Sher_Api_Action_View extends Sher_App_Action_Base {
 	
-	public $stash = array(
-		'id' => 0,
-	);
-	
 	protected $exclude_method_list = array('execute', 'topic_show', 'product_show', 'special_subject_show', 'scene_subject_show', 'try_show', 'fiu_point', 'about', 'fetch_vip', 'fiu_service_term');
 	
 	/**
