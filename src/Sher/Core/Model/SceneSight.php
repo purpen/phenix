@@ -216,6 +216,13 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
     $user_model = new Sher_Core_Model_User();
     $user_model->dec_counter('sight_count', $options['user_id']);
 
+    // 删除商品场景关联表数据
+    $spl_model = new Sher_Core_Model_SceneProductLink();
+    $spl_list = $spl_model->find(array('sight_id'=>(int)$id));
+    for($i=0;$i<count($spl_list);$i++){
+        $spl_model->remove((string)$spl_list[$i]['_id']);
+    }
+
     // 删除索引
     Sher_Core_Util_XunSearch::del_ids('sight_'.(string)$id);
 		
