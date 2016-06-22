@@ -358,6 +358,13 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
     $scene_tags_model = new Sher_Core_Model_SceneTags();
     $scene_tags_model->scene_count($options['scene_tags'],array('total_count','product_count'),2);
 
+    // 删除商品场景关联表数据
+    $spl_model = new Sher_Core_Model_SceneProductLink();
+    $spl_list = $spl_model->find(array('product_id'=>(int)$id));
+    for($i=0;$i<count($spl_list);$i++){
+        $spl_model->remove((string)$spl_list[$i]['_id']);
+    }
+
     // 删除索引
     Sher_Core_Util_XunSearch::del_ids('scene_product_'.(string)$id);
 		
