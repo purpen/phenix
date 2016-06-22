@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Category extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'fetch_child_tags');
+	protected $filter_user_method_list = array('execute', 'getlist', 'fetch_child_tags', 'fetch_tags');
 	
 	/**
 	 * 入口
@@ -116,7 +116,7 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
 	}
 
   /**
-   * 获取分类下的标签
+   * 获取分类下的标签--请求标签表，用于Fiu
    */
   public function fetch_child_tags(){
     $tag_id = isset($this->stash['tag_id']) ? (int)$this->stash['tag_id'] : 0;
@@ -138,6 +138,22 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
       }
     }
     return $this->api_json('请求成功', 0, array('tags'=>$scene_tags_arr)); 
+  }
+
+  /**
+   * 获取分类下的标签--请求标签表，用于商城app
+   */
+  public function fetch_tags(){
+      $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+      if(empty($id)){
+        return $this->api_json('缺少请求参数!', 0, array('tags'=>array()));
+      }
+      $category_model = new Sher_Core_Model_Category();
+      $category = $category_model->load($id);
+      if(empty($category) || empty($category['tags'])){
+        return $this->api_json('数据为空!', 0, array('tags'=>array()));     
+      }
+      return $this->api_json('success', 0, array('tags'=>$category['tags'])); 
   }
 
 	
