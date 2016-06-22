@@ -4,18 +4,6 @@
  * @author purpen
  */
 class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
-    
-	public $stash = array(
-		'id'   => 0,
-        'page' => 1,
-        'size' => 10,
-        // 默认通过审核的
-        'approved' => 2,
-        // 地理位置参数
-        'dis'  => 0,
-        'lng'  => 0,
-        'lat'  => 0,
-	);
 	
   protected $filter_user_method_list = array('execute','get_store_list','find_stores','get_single_store','get_city_list','get_estore_product_list');
 
@@ -39,12 +27,10 @@ class Sher_Api_Action_Estore extends Sher_Api_Action_Base {
      */
     public function get_store_list() {
 		
-        // approved=2&channel=appstore&client_id=1415289600&dis=1000&lat=39.982965&lng=116.492537&page=0&sign=0f165a24ac11eea127adc2ae39ec7829&size=10&time=1458813768.644313&uuid=13B0EB10-A564-4B1E-AC79-B3E987DFADBC
-        
         $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
 		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 10;
         
-        $approved = $this->stash['approved']; // 是否审核
+        $approved = isset($this->stash['approved']) ? (int)$this->stash['approved'] : 2; // 是否审核
         // 基于地理位置的查询，从城市内查询
         $distance = isset($this->stash['dis']) ? (int)$this->stash['dis'] : 0; // 距离、半径
         $lng = isset($this->stash['lng']) ? $this->stash['lng'] : 0; // 经度
