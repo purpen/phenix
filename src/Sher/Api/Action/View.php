@@ -23,7 +23,7 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
    *
    */
   public function fiu_service_term(){
-    return $this->to_html_page('fiu/fiu_about.html');
+    return $this->to_html_page('fiu/fiu_service_term.html');
   }
 
   /**
