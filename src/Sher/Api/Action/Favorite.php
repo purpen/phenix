@@ -253,7 +253,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
                         $scene_product['user'] = $user;
 
                       //返回Banner图片数据
-                      $assets = null;
+                      $assets = array();
                       $asset_query = array('parent_id'=>$scene_product['_id'], 'asset_type'=>120);
                       $asset_options['page'] = 1;
                       $asset_options['size'] = 8;
