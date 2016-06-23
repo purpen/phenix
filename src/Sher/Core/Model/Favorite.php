@@ -85,7 +85,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 				$row['sight'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_SceneSight');
 				break;
 			case self::TYPE_APP_SCENE_PRODUCT:
-				$row['sight'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_SceneProduct');
+				$row['scene_product'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_SceneProduct');
 				break;
         }
 		

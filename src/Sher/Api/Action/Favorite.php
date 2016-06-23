@@ -6,7 +6,7 @@
  */
 class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute','get_list','ajax_subscription','ajax_sight_love','ajax_cancel_subscription','ajax_cancel_sight_love');
+	protected $filter_user_method_list = array('execute','get_list','ajax_subscription','ajax_sight_love','ajax_cancel_subscription','ajax_cancel_sight_love', 'get_new_list');
 
 	/**
 	 * 入口
@@ -21,7 +21,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 	public function get_list(){
 		
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$size = isset($this->stash['size'])?(int)$this->stash['size']:1000;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		
 		$some_fields = array(
 			'_id'=>1, 'user_id'=>1, 'target_id'=>1, 'type'=>1, 'event'=>1, 'ip'=>1,
@@ -118,7 +118,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 							if($result['rows'][$k]['sight']['user']){
 								$user['user_id'] = $v['sight']['user']['_id'];
 								$user['nickname'] = $v['sight']['user']['nickname'];
-								$user['avatar_url'] = $v['sight']['user']['big_avatar_url'];
+								$user['avatar_url'] = $v['sight']['user']['medium_avatar_url'];
 								$user['summary'] = $v['sight']['user']['summary'];
                                 $user['is_expert'] = isset($v['user']['identify']['is_expert']) ? (int)$v['user']['identify']['is_expert'] : 0;
                                 $user['label'] = isset($v['user']['profile']['label']) ? $v['user']['profile']['label'] : '';
@@ -152,7 +152,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 				$user = array();
 				$user['user_id'] = $result['rows'][$k]['user']['_id'];
 				$user['nickname'] = $result['rows'][$k]['user']['nickname'];
-				$user['avatar_url'] = $result['rows'][$k]['user']['big_avatar_url'];
+				$user['avatar_url'] = $result['rows'][$k]['user']['medium_avatar_url'];
 				$user['summary'] = $result['rows'][$k]['user']['summary'];
                 $user['is_expert'] = isset($result['rows'][$k]['user']['identify']['is_expert']) ? (int)$result['rows'][$k]['user']['identify']['is_expert'] : 0;
                 $user['label'] = isset($result['rows'][$k]['user']['profile']['label']) ? $result['rows'][$k]['user']['profile']['label'] : '';
@@ -170,6 +170,193 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
+
+	/**
+	 * 通用列表--new
+	 */
+	public function get_new_list(){
+		
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
+		
+		$some_fields = array(
+			'_id'=>1, 'user_id'=>1, 'target_id'=>1, 'type'=>1, 'event'=>1,
+		);
+		
+		$query   = array();
+		$options = array();
+		
+		// 请求参数
+		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+		$target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+		$event = isset($this->stash['event']) ? (int)$this->stash['event'] : 0;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+
+		
+		if($user_id){
+			$query['user_id'] = $user_id;
+		}
+		
+		if($target_id){
+			$query['target_id'] = $target_id;
+		}
+
+        if($type){
+            $query['type'] = $type;
+        }
+
+        if($event){
+            $query['event'] = $event;
+        }
+		
+		// 分页参数
+        $options['page'] = $page;
+        $options['size'] = $size;
+
+		// 排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'time';
+				break;
+		}
+		
+		$options['some_fields'] = $some_fields;
+		
+		// 开启查询
+        $service = Sher_Core_Service_Favorite::instance();
+        $result = $service->get_like_list($query, $options);
+		
+        $asset_service = Sher_Core_Service_Asset::instance();
+        $spl_model = new Sher_Core_Model_SceneProductLink();
+        $sight_model = new Sher_Core_Model_SceneSight();
+
+		// 重建数据结果
+        foreach($result['rows'] as $k => $v){
+            $result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
+            switch($type){
+                case 10:
+                    $scene_product = array();
+                    if(isset($result['rows'][$k]['scene_product'])){
+                        $scene_product['_id'] = $result['rows'][$k]['scene_product']['_id'];
+                        // 封面图url
+                        $scene_product['cover_url'] = $result['rows'][$k]['scene_product']['cover']['thumbnails']['apc']['view_url'];
+                        // 用户信息
+                        $user = array();
+                        if(isset($result['rows'][$k]['scene_product']['user'])){
+                            $user['_id'] = $result['rows'][$k]['scene_product']['user']['_id'];
+                            $user['nickname'] = $result['rows'][$k]['scene_product']['user']['nickname'];
+                            $user['avatar_url'] = $result['rows'][$k]['scene_product']['user']['small_avatar_url'];     
+                        }
+                        $scene_product['user'] = $user;
+
+                      //返回Banner图片数据
+                      $assets = array();
+                      $asset_query = array('parent_id'=>$scene_product['_id'], 'asset_type'=>120);
+                      $asset_options['page'] = 1;
+                      $asset_options['size'] = 8;
+                      $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
+
+                      $scene_product['banner_id'] = isset($result['rows'][$k]['scene_product']['banner_id']) ? $result['rows'][$k]['scene_product']['banner_id'] : null;
+                      $banner_asset_obj = false;
+                      if(!empty($asset_result['rows'])){
+                        foreach($asset_result['rows'] as $key=>$value){
+                          if($scene_product['banner_id']==(string)$value['_id']){
+                            $banner_asset_obj = $value;
+                          }else{
+                            array_push($assets, $value['thumbnails']['aub']['view_url']);
+                          }
+                        }
+                        // 如果存在封面图，追加到第一个
+                        if($banner_asset_obj){
+                          array_unshift($assets, $banner_asset_obj['thumbnails']['aub']['view_url']);
+                        }
+                      }
+                      $scene_product['banner_asset'] = $assets;
+
+                      // 保留2位小数
+                      $scene_product['sale_price'] = sprintf('%.2f', $result['rows'][$k]['scene_product']['sale_price']);
+                      // 保留2位小数
+                      $scene_product['market_price'] = sprintf('%.2f', $result['rows'][$k]['scene_product']['market_price']);
+
+                      $sights = array();
+                      // 取一张场景图
+                      $ignore_sight_id = 0;
+                      if($ignore_sight_id){
+                        $sight_query['sight_id'] = array('$ne'=>$ignore_sight_id);
+                      }
+                      $sight_query['product_id'] = $scene_product['_id'];
+
+                      $sight_options['page'] = 1;
+                      $sight_options['size'] = 1;
+                      $sight_options['sort'] = array('created_on'=>-1);
+                      $sqls = $spl_model->find($sight_query, $sight_options);
+                      if($sqls){
+                        for($j=0;$j<count($sqls);$j++){
+                          $sight_id = $sqls[$j]['sight_id'];
+                          $sight = $sight_model->extend_load((int)$sight_id);
+                          if(!empty($sight) && isset($sight['cover'])){
+                            array_push($sights, array('id'=>$sight['_id'], 'title'=>$sight['title'], 'cover_url'=>$sight['cover']['thumbnails']['asc']['view_url']));
+                          }
+                        }
+                      } // endif
+                      $scene_product['sights'] = $sights;
+                    }
+                    $result['rows'][$k]['scene_product'] = $scene_product;
+                    break;
+                case 11:
+                    $scene = array();
+                    if(isset($result['rows'][$k]['scene'])){
+                        $scene['cover_url'] = $result['rows'][$k]['scene']['cover']['thumbnails']['huge']['view_url'];
+                        $scene['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['scene']['created_on']);
+                    }
+                    $result['rows'][$k]['scene'] = $scene;
+                    break;
+                case 12:
+                    $sight = array();
+                    if(isset($result['rows'][$k]['sight'])){
+                        $sight['cover_url'] = $result['rows'][$k]['sight']['cover']['thumbnails']['huge']['view_url'];
+                        $sight['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['sight']['created_on']);
+                        $user = array();
+                        if($result['rows'][$k]['sight']['user']){
+                            $user['user_id'] = $v['sight']['user']['_id'];
+                            $user['nickname'] = $v['sight']['user']['nickname'];
+                            $user['avatar_url'] = $v['sight']['user']['medium_avatar_url'];
+                            $user['summary'] = $v['sight']['user']['summary'];
+                            $user['is_expert'] = isset($v['user']['identify']['is_expert']) ? (int)$v['user']['identify']['is_expert'] : 0;
+                            $user['label'] = isset($v['user']['profile']['label']) ? $v['user']['profile']['label'] : '';
+                            $user['expert_label'] = isset($v['user']['profile']['expert_label']) ? $v['user']['profile']['expert_label'] : '';
+                            $user['expert_info'] = isset($v['user']['profile']['expert_info']) ? $v['user']['profile']['expert_info'] : '';
+
+                        }
+                        $sight['user_info'] = $user;
+                        $sight['scene_title'] = '';
+                        if($result['rows'][$k]['sight']['scene']){
+                            $sight['scene_title'] = $v['sight']['scene']['title'];
+                        }
+                    }
+                    $result['rows'][$k]['sight'] = $sight;
+                    break;
+                default:
+            }
+
+            $user = array();
+            if(isset($result['rows'][$k]['user'])){
+                $user['_id'] = $result['rows'][$k]['user']['_id'];
+                $user['nickname'] = $result['rows'][$k]['user']['nickname'];
+                $user['avatar_url'] = $result['rows'][$k]['user']['medium_avatar_url'];
+                $user['summary'] = $result['rows'][$k]['user']['summary'];
+            }
+            $result['rows'][$k]['user'] = $user;
+
+		}   // endfor
+        
+        // 过滤多余属性
+        $filter_fields  = array('tag_s','__extend__');
+        $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+		
+		return $this->api_json('请求成功', 0, $result);
+	}
 	
 	/**
 	 * 订阅
@@ -177,7 +364,6 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 	public function ajax_subscription(){
 		
 		$user_id = $this->current_user_id;
-		//$user_id = 10;
 		
 		if(empty($user_id)){
 			return $this->api_json('请先登录！', 3000);
@@ -251,7 +437,6 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 	public function ajax_sight_love(){
 		
 		$user_id = $this->current_user_id;
-		//$user_id = 10;
 		if(empty($user_id)){
 			return $this->api_json('请先登录！', 3000);
 		}
@@ -290,7 +475,6 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 	public function ajax_cancel_sight_love(){
 		
 		$user_id = $this->current_user_id;
-		//$user_id = 10;
 		if(empty($user_id)){
 			return $this->api_json('请先登录！', 3000);
 		}
