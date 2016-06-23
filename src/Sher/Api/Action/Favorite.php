@@ -239,6 +239,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
                     $scene_product = array();
                     if(isset($result['rows'][$k]['scene_product'])){
                         $scene_product['_id'] = $result['rows'][$k]['scene_product']['_id'];
+                        $scene_product['title'] = $result['rows'][$k]['scene_product']['title'];
                         // 封面图url
                         $scene_product['cover_url'] = $result['rows'][$k]['scene_product']['cover']['thumbnails']['apc']['view_url'];
                         // 用户信息
