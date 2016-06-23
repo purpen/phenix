@@ -219,32 +219,33 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 
           $special_subject = $special_subject_model->find(array('category_id'=>$data[$i]['_id'], 'publish'=>1, 'stick'=>1), array('page'=>1,'size'=>1,'sort'=>array('updated_on'=>-1)));
           if(empty($special_subject)){
-            continue;
-          }
-          $special_subject = $special_subject[0];
-          $special_subject = $special_subject_model->extended_model_row($special_subject);
-          foreach($special_subject_some_fields as $v){
-            $rebuild_special_subject[$v] = isset($special_subject[$v]) ? $special_subject[$v] : null;
-          }
-
-          $rebuild_special_subject['cover_url'] = isset($special_subject['cover']) ? $special_subject['cover']['thumbnails']['aub']['view_url'] : null;
-          $data[$i]['special_subject'] = $rebuild_special_subject;
-          $product_arr = array();
-          foreach($special_subject['product_ids'] as $k=>$v){
-              $product = $product_model->extend_load((int)$v);
-              if(!empty($product)){
-                // 重建数据结果
-                $product_data = array();
-                for($j=0;$j<count($product_some_fields);$j++){
-                  $key = $product_some_fields[$j];
-                  $product_data[$key] = isset($product[$key]) ? $product[$key] : null;
-                }
-                
-                $product_data['cover_url'] = !empty($product['cover']) ? $product['cover']['thumbnails']['apc']['view_url'] : null;
-                array_push($product_arr, $product_data);
+              $data[$i]['special_subject'] = array();
+          }else{
+              $special_subject = $special_subject[0];
+              $special_subject = $special_subject_model->extended_model_row($special_subject);
+              foreach($special_subject_some_fields as $v){
+                $rebuild_special_subject[$v] = isset($special_subject[$v]) ? $special_subject[$v] : null;
               }
-          } // endfor
-          $data[$i]['special_subject']['products'] = $product_arr;
+
+              $rebuild_special_subject['cover_url'] = isset($special_subject['cover']) ? $special_subject['cover']['thumbnails']['aub']['view_url'] : null;
+              $data[$i]['special_subject'] = $rebuild_special_subject;
+              $product_arr = array();
+              foreach($special_subject['product_ids'] as $k=>$v){
+                  $product = $product_model->extend_load((int)$v);
+                  if(!empty($product)){
+                    // 重建数据结果
+                    $product_data = array();
+                    for($j=0;$j<count($product_some_fields);$j++){
+                      $key = $product_some_fields[$j];
+                      $product_data[$key] = isset($product[$key]) ? $product[$key] : null;
+                    }
+                    
+                    $product_data['cover_url'] = !empty($product['cover']) ? $product['cover']['thumbnails']['apc']['view_url'] : null;
+                    array_push($product_arr, $product_data);
+                  }
+              } // endfor
+              $data[$i]['special_subject']['products'] = $product_arr;         
+          } // endif special_subject
 
         }   // endfor $result[rows]
 
