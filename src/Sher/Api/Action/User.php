@@ -222,7 +222,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 			}
       $item['scene_sight'] = array();
       if($sight_count){
-        $scene_sight_list = $scene_sight_model->find(array('user_id'=>$user['_id'], 'is_check'=>1), array('page'=>1, 'size'=>$sight_count));
+        $scene_sight_list = $scene_sight_model->find(array('user_id'=>$user['_id'], 'deleted'=>0, 'is_check'=>1), array('page'=>1, 'size'=>$sight_count));
         for($j=0;$j<count($scene_sight_list);$j++){
           $scene_sight = $scene_sight_model->extended_model_row($scene_sight_list[$j]);
           $item['scene_sight'][$j]['_id'] = $scene_sight['_id'];
