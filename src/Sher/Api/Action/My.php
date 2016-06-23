@@ -1138,6 +1138,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 
     $query = array(
       'scene_id' => array('$in' => $scene_ids),
+      'deleted' => 0,
       'is_check' => 1,
     );
     $options = array(
