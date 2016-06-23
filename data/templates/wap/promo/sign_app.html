@@ -1,3 +1,4 @@
+
 {%extends 'layout/mobile_api.html'%}
 {% block title%}签到抽奖{% endblock %}
 {% block page_css %}
@@ -321,7 +322,9 @@
 {% endblock %}
 
 {% block jquery %}
-
+  $('.close.icon').click(function(){
+     $('.ui.drawmes.modal').modal('hide');
+  });
   // 抽奖点击事件
   $('#start').click(function(){
     start_draw();
