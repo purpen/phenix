@@ -84,6 +84,9 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 			case self::TYPE_APP_SCENE_SIGHT:
 				$row['sight'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_SceneSight');
 				break;
+			case self::TYPE_APP_SCENE_PRODUCT:
+				$row['sight'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_SceneProduct');
+				break;
         }
 		
         $row['tag_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
@@ -224,6 +227,10 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                     break;
 				case self::TYPE_APP_SCENE_SUBJECT:
                     $model = new Sher_Core_Model_SceneSubject();
+                    $model->inc_counter($field, 1, (int)$this->data['target_id']);
+                    break;
+				case self::TYPE_APP_SCENE_PRODUCT:
+                    $model = new Sher_Core_Model_SceneProduct();
                     $model->inc_counter($field, 1, (int)$this->data['target_id']);
                     break;
                 default:
@@ -551,6 +558,10 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 				break;
 			case self::TYPE_APP_SCENE_SUBJECT:
 				$model = new Sher_Core_Model_SceneSubject();
+				$model->dec_counter($field, (int)$target_id);
+				break;
+			case self::TYPE_APP_SCENE_PRODUCT:
+				$model = new Sher_Core_Model_SceneProduct();
 				$model->dec_counter($field, (int)$target_id);
 				break;
         }
