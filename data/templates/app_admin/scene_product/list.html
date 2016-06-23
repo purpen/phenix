@@ -62,6 +62,7 @@
 				<th>封面图</th>
 				<th>标题</th>
         <th>来自</th>
+        <th>收藏</th>
         <th>浏览|跳出</th>
         <th>创建身份</th>
 				<th>发布</th>
@@ -96,6 +97,7 @@
         <td>
           {{ d.attrbute_str }}
         </td>
+        <td>{{ d.favorite_count }}</td>
         <td>{{d.view_count}}|{{ d.buy_count }}</td>
         <td>
           {{ d.kind_label }}

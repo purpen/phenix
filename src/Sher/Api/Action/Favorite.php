@@ -236,7 +236,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
             $result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
             switch($type){
                 case 10:
-                    $scene_product = array();
+                    $scene_product = null;
                     if(isset($result['rows'][$k]['scene_product'])){
                         $scene_product['_id'] = $result['rows'][$k]['scene_product']['_id'];
                         $scene_product['title'] = $result['rows'][$k]['scene_product']['title'];
@@ -253,7 +253,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
                         $scene_product['user'] = $user;
 
                       //返回Banner图片数据
-                      $assets = array();
+                      $assets = null;
                       $asset_query = array('parent_id'=>$scene_product['_id'], 'asset_type'=>120);
                       $asset_options['page'] = 1;
                       $asset_options['size'] = 8;
@@ -307,7 +307,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
                     $result['rows'][$k]['scene_product'] = $scene_product;
                     break;
                 case 11:
-                    $scene = array();
+                    $scene = null;
                     if(isset($result['rows'][$k]['scene'])){
                         $scene['cover_url'] = $result['rows'][$k]['scene']['cover']['thumbnails']['huge']['view_url'];
                         $scene['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['scene']['created_on']);
@@ -315,7 +315,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
                     $result['rows'][$k]['scene'] = $scene;
                     break;
                 case 12:
-                    $sight = array();
+                    $sight = null;
                     if(isset($result['rows'][$k]['sight'])){
                         $sight['cover_url'] = $result['rows'][$k]['sight']['cover']['thumbnails']['huge']['view_url'];
                         $sight['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['sight']['created_on']);
@@ -342,7 +342,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
                 default:
             }
 
-            $user = array();
+            $user = null;
             if(isset($result['rows'][$k]['user'])){
                 $user['_id'] = $result['rows'][$k]['user']['_id'];
                 $user['nickname'] = $result['rows'][$k]['user']['nickname'];
