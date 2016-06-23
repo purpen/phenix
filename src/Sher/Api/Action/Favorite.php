@@ -188,9 +188,9 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		
 		// 请求参数
 		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
-		$target_id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
-		$type = isset($this->stash['type']) ? $this->stash['type'] : 0;
-		$event = isset($this->stash['event']) ? $this->stash['event'] : 1;
+		$target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+		$event = isset($this->stash['event']) ? (int)$this->stash['event'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 
 		
