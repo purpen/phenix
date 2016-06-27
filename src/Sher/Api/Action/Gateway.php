@@ -579,7 +579,8 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
    */
   public function load_up_img(){
       $img_url = '';
-      $img_url = 'http://frstatic.qiniudn.com/images/app_store_load.png';
+      //$img_url = 'http://frstatic.qiniudn.com/images/app_store_load.png';
+      $img_url = 'http://frbird.qiniudn.com/asset/160627/577110a0fc8b1265368b891c-1-hu.jpg';
       return $this->api_json('success', 0, array('img_url'=>$img_url));
   }
 
