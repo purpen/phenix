@@ -574,6 +574,17 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
       $img_url = 'http://frstatic.qiniudn.com/images/app_store_load.png';
       return $this->api_json('success', 0, array('img_url'=>$img_url));
   }
+
+  /**
+   * 获取广告图
+   */
+  public function load_ad_img(){
+      $switch = 1;
+      $img_url = 'http://frstatic.qiniudn.com/images/app_store_load.png';
+      $type = 0;
+      $id = 0;
+      return $this->api_json('success', 0, array('img_url'=>$img_url, 'switch'=>$switch, 'type'=>$type, 'id'=>$id));
+  }
 	
 }
 
