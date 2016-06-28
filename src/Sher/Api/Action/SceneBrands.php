@@ -91,10 +91,9 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
     }
 		
 		$model = new Sher_Core_Model_SceneBrands();
-		$scene_product_model = new Sher_Core_Model_SceneProduct();
 		$result  = $model->extend_load($id);
 		
-		if (!$result) {
+		if (empty($result)) {
             return $this->api_json('品片不存在或已删除!', 3002);
         }
 		
