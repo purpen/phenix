@@ -74,7 +74,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		}
 		
 		// 过滤多余属性
-        $filter_fields  = array('cover_id','cover','__extend__');
+        $filter_fields  = array('cover_id', 'banner_id', 'banner', 'cover','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
 		return $this->api_json('请求成功', 0, $result);
