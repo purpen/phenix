@@ -10,7 +10,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     'target_id'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus','fiu');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus','fiu','load_up_img');
 
 	/**
 	 * 网站入口
@@ -1496,6 +1496,16 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		$this->stash['comment_domain'] = Sher_Core_Util_Constant::STROAGE_COMMENT;
 		$this->stash['comment_asset_type'] = Sher_Core_Model_Asset::TYPE_COMMENT;
 		$this->stash['comment_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+  }
+
+  /**
+   * 获取启动图
+   */
+  public function load_up_img(){
+      $img_url = '';
+      //$img_url = 'http://frstatic.qiniudn.com/images/app_store_load.png';
+      $img_url = 'http://frbird.qiniudn.com/asset/160627/577110a0fc8b1265368b891c-1-hu.jpg';
+      return $this->api_json('success', 0, array('img_url'=>$img_url));
   }
 	
 }
