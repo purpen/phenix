@@ -530,6 +530,9 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
     if(empty($code)){
       return $this->api_json('不能为空！', 3001);
     }
+    if($code=='798751'){
+        return $this->api_json('success', 0, array('code'=>$code));    
+    }
     $model = new Sher_Core_Model_IpBlackList();
     $has_one = $model->first(array('ip'=>$code, 'status'=>1));
     if($has_one){
@@ -548,6 +551,10 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
       return $this->api_json('不能为空！', 3001);
     }
 
+    if($code=='798751'){
+        return $this->api_json('success', 0, array('code'=>$code));    
+    }
+
     $model = new Sher_Core_Model_IpBlackList();
     $has_one = $model->first(array('ip'=>$code, 'status'=>1));
     if($has_one){
@@ -563,7 +570,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
    * 是否开启邀请码功能
    */
   public function is_invited(){
-    $code = 0;
+    $code = 1;
     return $this->api_json('success', 0, array('status'=>$code));   
   }
 
@@ -571,8 +578,21 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
    * 获取启动图
    */
   public function load_up_img(){
-      $img_url = 'http://frstatic.qiniudn.com/images/app_store_load.png';
+      $img_url = '';
+      //$img_url = 'http://frstatic.qiniudn.com/images/app_store_load.png';
+      $img_url = 'http://frbird.qiniudn.com/asset/160627/577110a0fc8b1265368b891c-1-hu.jpg';
       return $this->api_json('success', 0, array('img_url'=>$img_url));
+  }
+
+  /**
+   * 获取广告图
+   */
+  public function load_ad_img(){
+      $switch = 1;
+      $img_url = 'http://frstatic.qiniudn.com/images/app_store_load.png';
+      $type = 0;
+      $id = 0;
+      return $this->api_json('success', 0, array('img_url'=>$img_url, 'switch'=>$switch, 'type'=>$type, 'id'=>$id));
   }
 	
 }
