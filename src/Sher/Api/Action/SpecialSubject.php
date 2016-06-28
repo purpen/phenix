@@ -230,9 +230,11 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
               $rebuild_special_subject['cover_url'] = isset($special_subject['cover']) ? $special_subject['cover']['thumbnails']['aub']['view_url'] : null;
               $data[$i]['special_subject'] = $rebuild_special_subject;
               $product_arr = array();
+              $m = 0;
               foreach($special_subject['product_ids'] as $k=>$v){
                   $product = $product_model->extend_load((int)$v);
                   if(!empty($product)){
+                    $m = $m + 1;
                     // 重建数据结果
                     $product_data = array();
                     for($j=0;$j<count($product_some_fields);$j++){
@@ -242,6 +244,9 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
                     
                     $product_data['cover_url'] = !empty($product['cover']) ? $product['cover']['thumbnails']['apc']['view_url'] : null;
                     array_push($product_arr, $product_data);
+                    if($m>=3){
+                        break;
+                    }
                   }
               } // endfor
               $data[$i]['special_subject']['products'] = $product_arr;         
