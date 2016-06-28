@@ -219,7 +219,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 
           $special_subject = $special_subject_model->find(array('category_id'=>$data[$i]['_id'], 'publish'=>1, 'stick'=>1), array('page'=>1,'size'=>1,'sort'=>array('updated_on'=>-1)));
           if(empty($special_subject)){
-              $data[$i]['special_subject'] = array();
+              $data[$i]['special_subject'] = null;
           }else{
               $special_subject = $special_subject[0];
               $special_subject = $special_subject_model->extended_model_row($special_subject);
