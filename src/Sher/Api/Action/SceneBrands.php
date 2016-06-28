@@ -26,7 +26,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		
 		$some_fields = array(
-			'_id'=>1, 'title'=>1, 'des'=>1, 'kind'=>1, 'cover_id'=>1, 'used_count'=>1,'stick'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
+			'_id'=>1, 'title'=>1, 'des'=>1, 'kind'=>1, 'cover_id'=>1, 'banner_id'=>1, 'brand'=>1, 'used_count'=>1,'stick'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
 		);
 		
 		$query   = array();
@@ -70,6 +70,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		foreach($result['rows'] as $k => $v){
             $result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
 			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
+			$result['rows'][$k]['banner_url'] = $result['rows'][$k]['banner']['thumbnails']['aub']['view_url'];
 		}
 		
 		// 过滤多余属性
