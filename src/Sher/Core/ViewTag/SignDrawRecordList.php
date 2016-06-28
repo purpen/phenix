@@ -25,6 +25,9 @@ class Sher_Core_ViewTag_SignDrawRecordList extends Doggy_Dt_Tag {
         $state = 0;
         $day = 0;
         $ip = null;
+		// 某时间段内
+		$start_time = 0;
+		$end_time = 0;
 		
 		    $sort = 0;
 		
@@ -67,6 +70,17 @@ class Sher_Core_ViewTag_SignDrawRecordList extends Doggy_Dt_Tag {
         if($ip){
           $query['ip'] = $ip;
         }
+
+		// 获取某个时段内
+		if($start_time && $end_time){
+			$query['created_on'] = array('$gte' => $start_time, '$lte' => $end_time);
+		}
+		if($start_time && !$end_time){
+			$query['created_on'] = array('$gte' => $start_time);
+		}
+		if(!$start_time && $end_time){
+			$query['created_on'] = array('$lte' => $end_time);
+		}
 		
         $service = Sher_Core_Service_SignDrawRecord::instance();
         $options['page'] = $page;

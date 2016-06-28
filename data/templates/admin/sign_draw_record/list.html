@@ -53,6 +53,8 @@
 			});
 		}
 	});
+
+	$('.datepicker').pickadate();
 {% endblock %}
 	
 {% block content %}
@@ -80,7 +82,7 @@
 	<div class="ui sub search">
 		<form action="{{ app_url_admin_base }}/sign_draw_record" method="get" class="ui form" id="search-form">
       <input type="hidden" name="kind" value="{{ kind }}" />
-			<div class="six fields">
+			<div class="eight fields">
 				<div class="field">
 					<input type="text" name="day" placeholder="日: 20150606" value="{{ day }}" />
 				</div>
@@ -117,6 +119,21 @@
 					    </div>
 					</div>
 				</div>
+
+				<div class="field">
+					<div class="ui icon input">
+					  	<input type="text" name="start_date" placeholder="开始时间" value="{{ start_date }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui icon input">
+					  	<input type="text" name="end_date" placeholder="截止时间" value="{{ end_date }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+
+
 				<div class="field">
 					<div class="ui active small green submit button search">搜索</div>
 				</div>
@@ -147,7 +164,7 @@
 		</thead>
 		<tbody>
 
-			{% sign_draw_record_list var:'list' target_id:target_id day:day event:event state:state user_id:user_id ip:ip kind:kind page:page size:100 %}
+			{% sign_draw_record_list var:'list' target_id:target_id day:day event:event state:state user_id:user_id ip:ip kind:kind start_time:start_time end_time:end_time page:page size:100 %}
 
 			{% for f in list.rows %}
         
