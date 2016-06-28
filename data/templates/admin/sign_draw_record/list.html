@@ -164,7 +164,7 @@
 		</thead>
 		<tbody>
 
-			{% sign_draw_record_list var:'list' target_id:target_id day:day event:event state:state user_id:user_id ip:ip kind:kind start_time:start_time end_time:end_time page:page size:100 %}
+			{% sign_draw_record_list var:'list' target_id:target_id day:day event:event state:state user_id:user_id ip:ip kind:kind from_to:from_to start_time:start_time end_time:end_time page:page size:size %}
 
 			{% for f in list.rows %}
         

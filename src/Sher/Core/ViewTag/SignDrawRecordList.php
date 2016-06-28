@@ -28,6 +28,7 @@ class Sher_Core_ViewTag_SignDrawRecordList extends Doggy_Dt_Tag {
 		// 某时间段内
 		$start_time = 0;
 		$end_time = 0;
+        $from_to = 0;
 		
 		    $sort = 0;
 		
@@ -69,6 +70,9 @@ class Sher_Core_ViewTag_SignDrawRecordList extends Doggy_Dt_Tag {
         }
         if($ip){
           $query['ip'] = $ip;
+        }
+        if ($from_to) {
+          $query['from_to'] = (int)$from_to;
         }
 
 		// 获取某个时段内
