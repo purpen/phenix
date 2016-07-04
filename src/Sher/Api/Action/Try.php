@@ -78,7 +78,8 @@ class Sher_Api_Action_Try extends Sher_Api_Action_Base {
 			foreach($options['some_fields'] as $key=>$value){
                 $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
 		    }
-
+            // 短标题
+            $data[$i]['title'] = $result['rows'][$i]['short_title'];
             // 封面图url
             $data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
             // banner图url
