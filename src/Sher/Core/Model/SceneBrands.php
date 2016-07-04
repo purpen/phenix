@@ -23,6 +23,8 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
     'banner_id' => '',
     # 类型
     'kind' => self::KIND_FIU,
+    # 首字母索引
+    'mark' => '',
         # 点击次数
         'used_count' => 0,
         # 产品数量

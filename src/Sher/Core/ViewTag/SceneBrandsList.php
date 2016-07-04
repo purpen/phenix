@@ -22,6 +22,7 @@ class Sher_Core_ViewTag_SceneBrandsList extends Doggy_Dt_Tag {
 		$title = '';
         $status = 0;
         $stick = 0;
+        $mark = 0;
 
         $var = 'list';
         $include_pager = 0;
@@ -60,6 +61,10 @@ class Sher_Core_ViewTag_SceneBrandsList extends Doggy_Dt_Tag {
 		if($title){
 			$query['title'] = $title;
 		}
+
+        if($mark){
+            $query['mark'] = $mark;
+        }
 		
         $service = Sher_Core_Service_SceneBrands::instance();
         $options['page'] = $page;

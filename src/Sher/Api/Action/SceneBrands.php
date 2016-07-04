@@ -24,9 +24,10 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		$kind = isset($this->stash['kind'])?(int)$this->stash['kind']:1;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		$mark = isset($this->stash['mark']) ? strtolower($this->stash['mark']) : null;
 		
 		$some_fields = array(
-			'_id'=>1, 'title'=>1, 'des'=>1, 'kind'=>1, 'cover_id'=>1, 'banner_id'=>1, 'brand'=>1, 'used_count'=>1,'stick'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
+			'_id'=>1, 'title'=>1, 'des'=>1, 'kind'=>1, 'cover_id'=>1, 'banner_id'=>1, 'brand'=>1, 'used_count'=>1,'stick'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1, 'mark'=>1,
 		);
 		
 		$query   = array();
@@ -42,6 +43,11 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 				$query['stick'] = 0;
 			}
 		}
+
+        // 首字母索引
+        if(!empty($mark)){
+            $query['mark'] = $mark;
+        }
 		
 		// 状态
 		$query['status'] = 1;
@@ -105,6 +111,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		$data['title'] = $result['title'];
 		$data['kind'] = $result['kind'];
 		$data['item_count'] = $result['item_count'];
+		$data['mark'] = $result['mark'];
 		$data['des'] = $result['des'];
 		$data['used_count'] = $result['used_count'];
 		$data['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
