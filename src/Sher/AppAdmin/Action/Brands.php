@@ -10,6 +10,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		'size' => 100,
 		'state' => '',
         'kind' => '',
+        'mark' => '',
 	);
 	
 	public function _init() {
@@ -42,7 +43,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
                 break;
         }
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/brands/get_list?kind=%d&page=#p#', $kind);
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/brands/get_list?kind=%d&mark=%s&page=#p#', $kind, $this->stash['mark']);
 		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('app_admin/brands/list.html');
 	}
@@ -111,6 +112,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		$cover_id = isset($this->stash['cover_id']) ? $this->stash['cover_id'] : null;
 		$banner_id = isset($this->stash['banner_id']) ? $this->stash['banner_id'] : null;
 		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 0;
+		$mark = isset($this->stash['mark']) ? strtolower($this->stash['mark']) : '';
 		
 		// 验证内容
 		if(!$title){
@@ -133,6 +135,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 			'cover_id' => $cover_id,
             'banner_id' => $banner_id,
             'kind' => $kind,
+            'mark' => $mark,
 		);
 
 		try{
