@@ -56,6 +56,12 @@ function auto_do($type, $size=1000){
       $model = new Sher_Core_Model_Try();
       $model_str = 'Try';
       break;
+    case 4:
+      $model = new Sher_Core_Model_Stuff();
+      $query['from_to'] = 6;
+      $query['published'] = 1;
+      $model_str = 'Stuff';
+      break;
     default:
       sleep($sleep_time);
       exit(0);
@@ -95,8 +101,14 @@ function auto_do($type, $size=1000){
             $do_it = true;
           }
           break;
+        case 4:
+            $stuff_max = rand(8000, 10000);
+          if($view_count<$stuff_max){
+            $model->inc_counter('view_count', $inc, $id);
+            $do_it = true;
+          }
+          break;
         default:
-
       }
 
       if($do_it){
@@ -116,7 +128,8 @@ function auto_do($type, $size=1000){
 }
 
 // 开始执行
-auto_do(1);
+auto_do(1); // 贴子
+auto_do(4); // 大赛
 
 sleep($sleep_time);
 exit(0);
