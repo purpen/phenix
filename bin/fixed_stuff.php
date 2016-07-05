@@ -18,17 +18,37 @@ require $cfg_app_rc;
 set_time_limit(0);
 ini_set('memory_limit','512M');
 
-echo "Prepare to fix stuff...\n";
+echo "fixed stuff ...\n";
 
-$stuff = new Sher_Core_Model_Stuff();
-$total_count = $stuff->count();
-$feature_count = $stuff->count(array('featured'=>1));
+$stuff_model = new Sher_Core_Model_Stuff();
+$page = 1;
+$size = 100;
+$is_end = false;
+$total = 0;
+while(!$is_end){
+	$query = array('from_to'=>6, 'published'=>1);
+	$options = array('page'=>$page,'size'=>$size);
+	$list = $stuff_model->find($query, $options);
+	if(empty($list)){
+		echo "get stuff list is null,exit......\n";
+		break;
+	}
+	$max = count($list);
+	for ($i=0; $i < $max; $i++) {
+        $id = $list[$i]['_id'];
+        $view_count = $list[$i]['view_count'];
+        if($view_count<50000){
+            $rand = rand(3000, 5000);
+            $ok = $stuff_model->inc_counter('view_count', $rand, $id);
+            $total++;
+        }       
+    }
+	if($max < $size){
+		break;
+	}
+	$page++;
+	echo "page [$page] updated---------\n";
+}
 
-$dig = new Sher_Core_Model_DigList();
-$ok = $dig->set(array('_id'=>Sher_Core_Util_Constant::STUFF_COUNTER), array('items'=>array('total_count'=>$total_count, 'feature_count'=>$feature_count)));
-
-unset($stuff);
-unset($dig);
-
-echo "All stuff count fix done.\n";
+echo "All stuff count: $total update ok.\n";
 ?>
