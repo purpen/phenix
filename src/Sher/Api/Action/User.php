@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_User extends Sher_Api_Action_Base{
 
-	protected $filter_user_method_list = array('execute', 'getlist', 'user_info', 'find_user');
+	protected $filter_user_method_list = array('execute', 'getlist', 'user_info', 'find_user', 'activity_user');
 	
 	/**
 	 * 入口
