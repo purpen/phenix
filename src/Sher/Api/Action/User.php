@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_User extends Sher_Api_Action_Base{
 
-	protected $filter_user_method_list = array('execute', 'getlist', 'user_info', 'find_user');
+	protected $filter_user_method_list = array('execute', 'getlist', 'user_info', 'find_user', 'activity_user');
 	
 	/**
 	 * 入口
@@ -20,9 +20,6 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 	public function getlist(){
 		
 		$user_id = $this->current_user_id;
-		if(empty($user_id)){
-			$user_id = 10;
-		}
 		
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:5;
@@ -30,7 +27,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 		$has_scene = isset($this->stash['has_scene']) ? (int)$this->stash['has_scene'] : 1;
 		
 		$some_fields = array(
-			'_id'=>1, 'account'=>1, 'nickname'=>1, 'stick'=>1, 'role_id' =>1, 'profile' => 1, 'fans_count' => 1, 'state'=>1, 'created_on'=>1, 'updated_on'=>1,
+			'_id'=>1, 'account'=>1, 'nickname'=>1, 'stick'=>1, 'profile' => 1, 'fans_count' => 1, 'state'=>1, 'created_on'=>1, 'updated_on'=>1,
 		);
 		
 		$query   = array();
@@ -129,7 +126,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 	}
 
   /**
-   * 发现好友，最Fiu伙伴
+   * 发现好友
    */
   public function find_user(){
     $user_id = $this->current_user_id;
@@ -292,6 +289,91 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 
 		return $this->api_json('请求成功', 0, $data);
 	}
+
+    /**
+     *最Fiu伙伴
+     */
+    public function activity_user(){
+
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
+		$sort = isset($this->stash['sort'])?(int)$this->stash['sort']:1;
+		$kind = isset($this->stash['kind'])?(int)$this->stash['kind']:1;
+		$day = isset($this->stash['day'])?(int)$this->stash['day']:0;
+		$week = isset($this->stash['week'])?(int)$this->stash['week']:0;
+		$month = isset($this->stash['month'])?(int)$this->stash['month']:0;
+
+        $query = array();
+
+        // 昨天的日期
+        $yesterday = (int)date('Ymd' , strtotime('-1 day'));
+
+      if($day){
+        $query['day'] = (int)$day;
+      }
+      if($week){
+        $query['week'] = (int)$week;
+        $query['week_latest'] = 1;
+      }
+      if($month){
+        $query['month'] = (int)$month;
+        $query['month_latest'] = 1;
+      }
+
+      if($kind){
+        $query['kind'] = (int)$kind;
+      }
+
+      if(empty($day)){
+        $query['day'] = $yesterday;
+      }
+
+	  $sort_field = 'latest';
+      if($sort){
+        switch((int)$sort){
+          case 1:
+            if($day){
+              $sort_field = 'day_point';
+            }elseif($week){
+              $sort_field = 'week_point';           
+            }elseif($month){
+              $sort_field = 'month_point';           
+            }else{
+              $sort_field = 'sort_point';           
+            }
+            break;
+          case 2:
+            if($day){
+              $sort_field = 'day_money';
+            }elseif($week){
+              $sort_field = 'week_money';           
+            }elseif($month){
+              $sort_field = 'month_money';           
+            }else{
+              $sort_field = 'sort_money';
+            }
+            break;
+        }
+      }
+
+        $options['page'] = $page;
+        $options['size'] = $size;
+		$options['sort_field'] = $sort_field;
+
+        $service = Sher_Core_Service_UserPointStat::instance();
+        $result = $service->get_all_list($query,$options);
+
+ 		// 重建数据结果
+		$data = array();
+        for($i=0;$i<count($result['rows']);$i++){
+            $user = $result['rows'][$i]['user'];
+            $data[$i]['_id'] = $user['_id'];
+            $data[$i]['nickname'] = $user['nickname'];
+            $data[$i]['avatar_url'] = $user['medium_avatar_url'];
+        }
+
+        return $this->api_json('请求成功', 0, $data);
+    }
 
     /*
      * 送积分/
