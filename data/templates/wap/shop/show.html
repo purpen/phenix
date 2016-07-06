@@ -37,6 +37,9 @@
     margin-top: 8px;
     padding-top: 8px;
 }
+#shopview .presale h4.ui.header .sub.header +  p span{
+  color: #f36;
+}
 #shopview .presale h4.ui.header .sub.header .rmb.icon{
     font-size: 13px;
     font-weight: 400;
@@ -961,7 +964,7 @@
 				<i class="rmb icon"></i>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
 			</div>
       <p>
-        优惠
+        优惠：
         <span>赠送智能防丢贴</span>
       </p>
 
