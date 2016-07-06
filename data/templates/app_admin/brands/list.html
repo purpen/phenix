@@ -104,6 +104,7 @@
                 <th>使用次数</th>
                 <th>索引</th>
                 <th>产品列表</th>
+                <th>自营</th>
 				<th>状态</th>
 				<th>管理操作</th>
 			</tr>
@@ -133,6 +134,7 @@
                 <td>
                     产品列表({{ d.item_count|default 0 }})<a href="{{ app_url_app_admin_base }}/brands/product_list?brand_id={{ d._id }}">>></a>
                 </td>
+                <td>{{ d.self_run|default 0 }}</td>
 				<td>
 					{% if d.status %}
 					可用

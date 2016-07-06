@@ -25,9 +25,10 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$mark = isset($this->stash['mark']) ? strtolower($this->stash['mark']) : null;
+		$self_run = isset($this->stash['self_run']) ? (int)$this->stash['self_run'] : 0;
 		
 		$some_fields = array(
-			'_id'=>1, 'title'=>1, 'des'=>1, 'kind'=>1, 'cover_id'=>1, 'banner_id'=>1, 'brand'=>1, 'used_count'=>1,'stick'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1, 'mark'=>1,
+			'_id'=>1, 'title'=>1, 'des'=>1, 'kind'=>1, 'cover_id'=>1, 'banner_id'=>1, 'brand'=>1, 'used_count'=>1,'stick'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1, 'mark'=>1, 'self_run'=>1,
 		);
 		
 		$query   = array();
@@ -47,6 +48,15 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
         // 首字母索引
         if(!empty($mark)){
             $query['mark'] = $mark;
+        }
+
+        // 是否自营
+        if(!empty($self_run)){
+            if($self_run==-1){
+                $query['self_run'] = 0;
+            }else{
+                $query['self_run'] = 1;
+            }
         }
 		
 		// 状态
@@ -114,6 +124,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		$data['mark'] = $result['mark'];
 		$data['des'] = $result['des'];
 		$data['used_count'] = $result['used_count'];
+		$data['self_run'] = isset($result['self_run']) ? $result['self_run'] : 0;
 		$data['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
 		$data['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
 		$data['banner_url'] = isset($result['banner']) ? $result['banner']['thumbnails']['aub']['view_url'] : null;
