@@ -192,7 +192,7 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 		$result = $model->first((int)$id);
 		
 		if($result && $model->remove($id)){
-      $model->mock_after_remove((int)$id, $result);
+            $model->mock_after_remove((int)$id, $result);
 		}
 		
 		$this->stash['id'] = $id;
