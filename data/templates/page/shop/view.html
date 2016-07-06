@@ -708,9 +708,11 @@
 			<div class="ui sticky">
 	            <div class="sellwrap">
 	    			<div class="buy box">
+	    				<!--
 	    				<p>
 	    					市场价：<span class="old price"><small class="unit"><i class="yen icon"></i></small>{{ product.market_price }}</span>
 	                    </p>
+	                    -->
 	    				<p>
 	                        <span class="price" id="current-price">
 	                        {% if product.snatched %}
@@ -720,6 +722,8 @@
 	                        {%endif%}
 	                        </span>
 	    				</p>
+	    				<!-- 优惠 -->
+	    				<p style="color: #f36;">赠送智能防丢贴</p>
 	    			</div>
             
 	    			<div class="rbtn buy">
