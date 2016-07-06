@@ -26,9 +26,19 @@
 	background:#fff;
 }
 #shopview .presale h4.ui.header .sub.header{
-	margin-top:5px;
+	margin-top:8px;
     font-size: 14px;
     color: #f36;
+}
+#shopview .presale h4.ui.header .sub.header +  p{
+  border-top: 1px solid rgba(0,0,0,0.1);
+    font-weight: 400;
+    font-size: 13px;
+    margin-top: 8px;
+    padding-top: 8px;
+}
+#shopview .presale h4.ui.header .sub.header +  p span{
+  color: #f36;
 }
 #shopview .presale h4.ui.header .sub.header .rmb.icon{
     font-size: 13px;
@@ -953,6 +963,13 @@
 			<div class="sub header">
 				<i class="rmb icon"></i>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
 			</div>
+            {% if product.extra_info %}
+      <p>
+        优惠：
+        <span>{{ product.extra_info }}</span>
+      </p>
+      {%endif%}
+
 		</h4>
 	</div>
 	<div class="colour">
