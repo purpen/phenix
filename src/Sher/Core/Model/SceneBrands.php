@@ -23,6 +23,8 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
     'banner_id' => '',
     # 类型
     'kind' => self::KIND_FIU,
+    # 是否是自营品牌
+    'self_run' => 0,
     # 首字母索引
     'mark' => '',
         # 点击次数
@@ -36,7 +38,7 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('title','des','cover_id');
-	protected $int_fields = array('status', 'used_count', 'item_count', 'kind');
+	protected $int_fields = array('status', 'used_count', 'item_count', 'kind', 'self_run');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count', 'item_count');
 	protected $retrieve_fields = array();
