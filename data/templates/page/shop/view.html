@@ -722,8 +722,11 @@
 	                        {%endif%}
 	                        </span>
 	    				</p>
+
+                        {% if product.extra_info %}
 	    				<!-- 优惠 -->
-	    				<p style="color: #f36;">赠送智能防丢贴</p>
+	    				<p style="color: #f36;">{{ product.extra_info }}</p>
+                        {%endif%}
 	    			</div>
             
 	    			<div class="rbtn buy">
