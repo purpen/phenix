@@ -42,6 +42,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		# 访问地址
 		'view_url' => '',
+
+        # 额外优惠信息
+        'extra_info' => '',
 		
 		# 封面图
 		'cover_id' => '',
