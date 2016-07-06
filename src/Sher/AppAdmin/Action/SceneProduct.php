@@ -95,7 +95,7 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 		}
 		$id = isset($this->stash['_id']) ? (int)$this->stash['_id'] : 0;
 
-        $redirect_url = isset($this->stash['return_url']) ? $this->stash['return_url'] : null;
+        $redirect_url = isset($this->stash['return_url']) ? htmlspecialchars_decode($this->stash['return_url']) : null;
         
 		$model = new Sher_Core_Model_SceneProduct();
         $data = array();

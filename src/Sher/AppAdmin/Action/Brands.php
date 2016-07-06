@@ -112,7 +112,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 	 */
     public function save(){
 
-        $redirect_url = isset($this->stash['return_url']) ? $this->stash['return_url'] : null;
+        $redirect_url = isset($this->stash['return_url']) ? htmlspecialchars_decode($this->stash['return_url']) : null;
 		
 		$id = $this->stash['id'];
 		$title = $this->stash['title'];
