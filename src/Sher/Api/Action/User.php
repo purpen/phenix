@@ -370,6 +370,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
             $data[$i]['_id'] = $user['_id'];
             $data[$i]['nickname'] = $user['nickname'];
             $data[$i]['avatar_url'] = $user['medium_avatar_url'];
+            $data[$i]['summary'] = $user['summary'];
             $data[$i]['is_expert'] = isset($user['identify']['is_expert']) ? (int)$user['identify']['is_expert'] : 0;
             $data[$i]['label'] = isset($user['profile']['label']) ? $user['profile']['label'] : '';
             $data[$i]['expert_label'] = isset($user['profile']['expert_label']) ? $user['profile']['expert_label'] : '';
