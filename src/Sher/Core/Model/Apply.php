@@ -34,7 +34,9 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 		'qq' => null,
     'ip' => null,
     	'result' => self::RESULT_REJECT,
-		'type' => self::TYPE_TRY,
+        'type' => self::TYPE_TRY,
+        # 推荐
+        'stick' => 0,
 		
 		# 快递单号
 		'tracking_number' => '',
@@ -61,7 +63,7 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 	
     protected $required_fields = array('user_id', 'target_id', 'content');
 	
-    protected $int_fields = array('user_id', 'target_id', 'province', 'district', 'state', 'result', 'vote_count', 'content_count');
+    protected $int_fields = array('user_id', 'target_id', 'province', 'district', 'state', 'result', 'vote_count', 'content_count', 'stick');
 
 	protected $counter_fields = array('vote_count', 'content_count');
 	
@@ -157,6 +159,20 @@ class Sher_Core_Model_Apply extends Sher_Core_Model_Base  {
 		}
 		
 		return $this->inc($id, $field_name, $inc);
+	}
+
+    /**
+     * 标记为推荐
+     */
+    public function mark_as_stick($id) {
+        return $this->update_set($id, array('stick' => 1));
+    }
+	
+    /**
+     * 取消推荐
+     */
+	public function mark_cancel_stick($id) {
+		return $this->update_set($id, array('stick' => 0));
 	}
 	
 	
