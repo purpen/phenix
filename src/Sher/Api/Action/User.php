@@ -377,7 +377,8 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
             $data[$i]['rank_id'] = isset($user['ext_state']) ? $user['ext_state']['rank_id'] : 1;
         }
 
-        return $this->api_json('请求成功', 0, $data);
+        $result['rows'] = $data;
+        return $this->api_json('请求成功', 0, $result);
     }
 
     /*
