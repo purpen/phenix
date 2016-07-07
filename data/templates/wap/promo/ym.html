@@ -1,0 +1,156 @@
+{%extends 'layout/weixin.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.loading__img{
+	background: url(http://wximg.gtimg.com/tmt/_events/20150514-promo-vivo/dist/img/loading.png) no-repeat;
+	width: 52px;
+	height: 32px;
+	background-size: 52px auto;
+}
+.loading__inner{
+	margin-top: -20px;
+    height: 40px;
+}
+.loading-num{
+	position: absolute;
+    left: -14px;
+    bottom: 0px;
+    text-align: center;
+    width: 80px;
+    height: 3px;
+    border: 1px solid rgba(255,255,255,0.8);
+    border-radius: 3px;
+}
+.loading-num .inner{
+	background: rgba(255,255,255,0.8);
+	height: 100%;
+    border-radius: 3px;
+}
+</style>
+{% endblock %}
+{% block layout_js %}
+<script type="text/javascript">
+    /* 加载 */
+    var basePath = "{{ app_url_packaged }}/images/promo/coin/";
+    if (!(typeof webpsupport == 'function')) {
+        var webpsupport = function (cb) {
+            cb();
+        }
+    }
+    webpsupport(function (webpa) {
+    var loader = new WxMoment.Loader(),
+     fileList =[
+		'bj.png','p1_04.png','p1_05.png','p1_25.png','p1_3.png','p1_22.png','p1_21.png','p_1.png','p1_2.png','p1_11.png','P1_15.png','P1_16.png','p1_17.png','p1_18.png','p1_19.png','p1_20.png','P1_13.png','P1_14.png','p1_06.png','p1_07.png','p1_08.png','p1_09.png','logo.png','p2-2.png','p2_1.png','p2_3.png','p2_4.png','p2_5.png','p2_6.png','p2_7.png','p2_8.png','p2_9.png','p2_10.png','p2_11.png','p2_12.png','p2_13.png','p2_14.png','p2_tt01.png','p2_tt02.png','p2_tt03.png','p2_tt04.png','p2_tt05.png','p2_tt06.png','p2_tt007.png','p2_tt08.png','p2_tt09.png','p2_tt010.png','p2_tt011.png','p3_c1.png','p3_l1.png','p3_l2.png','p3_o1.png','p3_o2.png','p3_o3.png','p3_o4.png','p3_o8.png','p3_o9.png','p3_o10.png','p3_o11.png','p3_o12.png','p3_o13.png','p3_o14.png','p3_o15.png','p3_o16.png','p3_o17.png','p3_o5.png','p3_o6.png','p3_o7.png','p3_c2.png','p3_z1.png','p3_z2.png','p3_z3.png','p3_z4.png','p4_t1.png','p4_t2.png','p4_t003.png','p4_t004.png','p4_t005.png','p4_t6.png','p4_t7.png','p4_1.png','p4_2.png','p4_3.png','p4_4.png','p4_5.png','p4_01.png','p4_02.png','p4_03.png','p4_04.png','p4_05.png','p4_06.png','p4_07.png','p4_08.png','p4_09.png','p4_10.png','p4_11.png','p4_12.png','p4_13.png','p4_14.png','p5_1.png','p5_2.png','p5_3.png','p5_4.png','p5_5.png','p5_6.png','p5_l01.png','p5_l02.png','p5_t1.png','p5_t02.png','p5_t3.png','p5_ttt1.png','p5_ttt2.png','p5_ttt3.png','p5_ttt4.png','p5_ttt5.png','p5_ttt6.png','p5_ttt7.png','p5_ttt8.png','p5_ttt9.png','p6_bg.png','p6_1.png','p6_l1.png','p6_l2.png','p6_logo.png','p6_t1.png','p6_t02.png','p6_t3.png','p6_t04.png','p6_t05.png','p6_t006.png','p6_t7.png','p6_t8.png','2.pic2.jpg','p7_tt1.png','p7_t1.png','p7_t2.png','p7_t3.png','p7_t4.png','p7_t5.png','p7_t6.png','p7_t7.png','p7_t8.png','p7_t9.png','p7_t10.png','p33_9.png','p33_1.png','p33_2.png','p33_13.png','p88_4.png','p88_4a.png','p88_4b.png'
+	];
+     
+     for (var i = 0; i < fileList.length; i++) {
+         var basename = fileList[i].substring(fileList[i].lastIndexOf('/') + 1);
+
+         if (webpa && img_map && (basename in img_map) && img_map[basename]) { //if webp
+             var path = fileList[i].replace(/\.\w+/, '.webp');
+         } else {
+             var path = fileList[i];
+         }
+
+         loader.addImage(basePath + path);
+         $('#app_bgm').get(0).pause();
+     }
+
+     loader.addCompletionListener(function () {
+         //$('.loading').remove();
+         $('.screen').eq(0).addClass('current');
+         $('.wrap').show();
+         $('#app_bgm').get(0).play();
+         //$('.music').show();
+     });
+
+     //loading 进度监听
+     loader.addProgressListener(function (e) {
+         var percentUp = Math.round((e.completedCount / e.totalCount) * 100), //正序, 1-100
+             progressDown = 100 - percentUp;                                   //倒序, 100-1
+         $('.loading-num .inner').css('width', percentUp + '%');
+     });
+
+     //启动
+     loader.start();
+    });
+    
+    // 微信分享统计
+    var m_name = '[ 创 x 造 ] 京东众筹BIGGER大会';
+    var img_url = '{{ app_url_packaged }}/images/promo/coin/2.pic2.jpg';
+    var link = '{{ app_url_wap }}/promo/coin';
+    var desc_str = '跨界融合 · 裂变重生，一场极具高逼格的众筹新品牌运动盛宴。';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+   });
+
+	wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    $.get(url, { target_id: 23, count_name:'count', type: 4, kind:4 });
+  }
+
+</script>
+
+{% endblock %}
+{% block content %}
+<img src="{{ app_url_packaged }}/images/promo/coin/2.pic2.jpg" style="display:none;">
+<div class="wrap"  style="display: none">
+
+</div>
+<div class="music playing" style="display:none;"></div>
+<audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/js/bigger1.mp3" loop="true" autoplay></audio>
+{% endblock %}
