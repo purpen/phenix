@@ -963,10 +963,12 @@
 			<div class="sub header">
 				<i class="rmb icon"></i>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
 			</div>
+            {% if product.extra_info %}
       <p>
         优惠：
-        <span>赠送智能防丢贴</span>
+        <span>{{ product.extra_info }}</span>
       </p>
+      {%endif%}
 
 		</h4>
 	</div>

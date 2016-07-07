@@ -312,19 +312,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 
           // 更新全文索引
           Sher_Core_Helper_Search::record_update_to_dig((int)$id, 5);
-			
-			// 将场景保存到所属情景里面
-            /*
-			$model = new Sher_Core_Model_SceneScene();
-			$result = $model->first($data['scene_id']);
-			if($result){
-				$option = array();
-				$option['_id'] = $data['scene_id'];
-				$option['sight'] = $result['sight'];
-				array_push($option['sight'],$id);
-				$result = $model->apply_and_update($option);
-            }
-             */
+
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("api情景保存失败：".$e->getMessage());
 			return $this->api_json('情景保存失败:'.$e->getMessage(), 4001);

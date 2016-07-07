@@ -187,6 +187,9 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
     // 孵化产品
     $data['hatched'] = isset($this->stash['hatched']) ? 1 : 0;
     $data['hatched_cover_url'] = isset($this->stash['hatched_cover_url']) ? $this->stash['hatched_cover_url'] : null;
+
+    // 优惠信息
+    $data['extra_info'] = isset($this->stash['extra_info']) ? $this->stash['extra_info'] : '';
         
     // 添加视频
     $data['video'] = array();
@@ -597,11 +600,16 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 	 */
 	public function deleted(){
 		$id = $this->stash['id'];
+        $user_id = $this->visitor->id;
 		if(empty($id)){
 			return $this->ajax_notification('产品不存在！', true);
 		}
 		
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
+
+      if(!Sher_Core_Helper_Util::is_high_admin($user_id)){
+        return $this->ajax_notification('没有执行权限!', true);     
+      }
 		
 		try{
 			$model = new Sher_Core_Model_Product();

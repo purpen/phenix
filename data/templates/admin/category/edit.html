@@ -186,14 +186,21 @@
             <label for="app_cover_url">app封面图：</label>
           <input type="text" class="form-control" name="app_cover_url" value="{{ category.app_cover_url }}" placeholder="http://" />
           <div class="ui pointing top label">
-            图片路径16:9(750x422): 在后台附件管理上传...
+            图片尺寸16:9(750x422): 在后台附件管理上传...
           </div>
         </div>
         <div class="field">
             <label for="app_cover_url">web封面图：</label>
           <input type="text" class="form-control" name="web_cover_url" value="{{ category.web_cover_url }}" placeholder="http://" />
           <div class="ui pointing top label">
-            图片路径(580x420): 在后台附件管理上传...
+            图片尺寸(580x420): 在后台附件管理上传...
+          </div>
+        </div>
+        <div class="field">
+            <label for="back_url">备选图/路径：</label>
+          <input type="text" class="form-control" name="back_url" value="{{ category.back_url }}" placeholder="http://" />
+          <div class="ui pointing top label">
+            图片尺寸: 在后台附件管理上传...
           </div>
         </div>
       </div>

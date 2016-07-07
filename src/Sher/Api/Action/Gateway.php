@@ -570,7 +570,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
    * 是否开启邀请码功能
    */
   public function is_invited(){
-    $code = 1;
+    $code = 0;
     return $this->api_json('success', 0, array('status'=>$code));   
   }
 
@@ -580,7 +580,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
   public function load_up_img(){
       $img_url = '';
       //$img_url = 'http://frstatic.qiniudn.com/images/app_store_load.png';
-      $img_url = 'http://frbird.qiniudn.com/asset/160627/577110a0fc8b1265368b891c-1-hu.jpg';
+      $img_url = 'http://frbird.qiniudn.com/asset/160705/577b4e0efc8b12cf1c8b4c81-1-hu.jpg';
       return $this->api_json('success', 0, array('img_url'=>$img_url));
   }
 
@@ -589,7 +589,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
    */
   public function load_ad_img(){
       $switch = 1;
-      $img_url = 'http://frstatic.qiniudn.com/images/app_store_load.png';
+      $img_url = 'http://frbird.qiniudn.com/asset/160705/577b4e0efc8b12cf1c8b4c81-1-hu.jpg';
       $type = 0;
       $id = 0;
       return $this->api_json('success', 0, array('img_url'=>$img_url, 'switch'=>$switch, 'type'=>$type, 'id'=>$id));

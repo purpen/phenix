@@ -222,10 +222,22 @@
 
 				<div class="field">
 					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="stick" value="{{ stick }}" />
+					    <div class="default text">是否推荐</div>
+					    <div class="menu">
+							<div data-value="0" class="{% if stick==0 %}active {% endif %}item">是否推荐</div>
+							<div data-value="-1" class="{% if stick=='-1' %}active {% endif %}item">否</div>
+							<div data-value="1" class="{% if stick==1 %}active {% endif %}item">是</div>
+					    </div>
+					</div>
+				</div>
+
+				<div class="field">
+					<div class="ui fluid selection dropdown">
 						<input type="hidden" name="result" value="{{ result }}" />
 					    <div class="default text">是否通过</div>
 					    <div class="menu">
-							<div data-value="0" class="{% if result==0 %}active {% endif %}item">全部</div>
+							<div data-value="0" class="{% if result==0 %}active {% endif %}item">是否通过</div>
 							<div data-value="-1" class="{% if result=='-1' %}active {% endif %}item">未通过</div>
 							<div data-value="1" class="{% if result==1 %}active {% endif %}item">通过</div>
 					    </div>
@@ -259,7 +271,7 @@
 	
   <h4>试用人数：{{ try.try_count }} 人, 申请总/虚拟人数：{{ try.pass_count }} / {{ try.apply_count }}/{{ try.invented_apply_count|default 0 }} 人</h4>
 	
-	{% apply_list var:'list' type:1 is_invented:is_invented result:result user_id:user_id q:q target_id:id content_limit:content_limit sort:sort page:page size:30 %}
+	{% apply_list var:'list' type:1 is_invented:is_invented result:result user_id:user_id q:q target_id:id content_limit:content_limit stick:stick sort:sort page:page size:size %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>
@@ -267,8 +279,9 @@
 				<th>申请人</th>
 				<th>用户信息</th>
 				<th>申请理由</th>
-        <th>拉票数</th>
+                <th>拉票数</th>
 				<th>申请时间</th>
+				<th>是否推荐</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
@@ -312,9 +325,23 @@
         </td>
         <td class="two wide"><a href="{{ app_url_admin_base }}/try/vote_list?apply_id={{ t._id }}" target="_blank">支持名单({{ t.vote_count }})</a></td>
 				<td class="two wide">{{ t.created_on|date 'y-m-d H:i' }}
+				<td>
+					<p>
+						{% if t.stick %}
+							<span id="stick-{{ t._id }}-label" class="ui small green label">是</span>
+						{% else %}
+							<span id="stick-{{ t._id }}-label" class="ui small orange label">否</span>
+						{% endif %}
+					</p>
+				</td>
 				</td>
 				<td class="three wide">
 					<div class="ui small divided horizontal list">
+						{% if t.stick == 1 %}
+						<a href="{{ app_url_admin_base }}/try/apply_ajax_set_stick?id={{ t._id }}&evt=0" class="ui link ajax item" id="stick-{{ t._id }}-button">取消推荐</a>
+						{% else %}
+						<a href="{{ app_url_admin_base }}/try/apply_ajax_set_stick?id={{ t._id }}&evt=1" class="ui link ajax item" id="stick-{{ t._id }}-button">推荐</a>
+						{% endif %}
 						{% if !t.result %}
 						<a href="{{ app_url_admin_base }}/try/pass?id={{ t._id }}" class="{{ t._id }}ui magenta link ajax item" id="verify-{{ t._id }}-button">通过</a>
 						

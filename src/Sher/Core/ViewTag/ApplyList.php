@@ -27,6 +27,7 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
 		$load_target = 0;
 		$q = 0;
 		$result = 0;
+        $stick = 0;
 		$sort = 0;
 		
         $var = 'list';
@@ -71,6 +72,14 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
         $query['result'] = 0;
       }elseif((int)$result==1){
         $query['result'] = 1;     
+      }
+    }
+
+    if($stick){
+      if((int)$stick==-1){
+        $query['stick'] = 0;
+      }elseif((int)$stick==1){
+        $query['stick'] = 1;     
       }
     }
 

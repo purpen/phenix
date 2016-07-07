@@ -54,6 +54,9 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 	public function add(){
         
 		$mode = 'create';
+
+        // 记录上一步来源地址
+        $this->stash['return_url'] = $_SERVER['HTTP_REFERER'];
 		
         // 封面图上传
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
@@ -80,6 +83,9 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 			return $this->ajax_json('内容不能为空！', true);
 		}
 		$mode = 'edit';
+
+        // 记录上一步来源地址
+        $this->stash['return_url'] = $_SERVER['HTTP_REFERER'];
 		
 		// 封面图/Banner图上传
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
@@ -104,7 +110,9 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 	/**
 	 * 保存信息
 	 */
-	public function save(){		
+    public function save(){
+
+        $redirect_url = isset($this->stash['return_url']) ? htmlspecialchars_decode($this->stash['return_url']) : null;
 		
 		$id = $this->stash['id'];
 		$title = $this->stash['title'];
@@ -113,6 +121,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		$banner_id = isset($this->stash['banner_id']) ? $this->stash['banner_id'] : null;
 		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 0;
 		$mark = isset($this->stash['mark']) ? strtolower($this->stash['mark']) : '';
+		$self_run = isset($this->stash['self_run']) ? (int)$this->stash['self_run'] : 0;
 		
 		// 验证内容
 		if(!$title){
@@ -136,6 +145,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
             'banner_id' => $banner_id,
             'kind' => $kind,
             'mark' => $mark,
+            'self_run' => $self_run,
 		);
 
 		try{
@@ -167,8 +177,11 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
 		}
+
+        if(!$redirect_url){
+		    $redirect_url = Doggy_Config::$vars['app.url.app_admin'].'/brands';
+        }
 		
-		$redirect_url = Doggy_Config::$vars['app.url.app_admin'].'/brands';
 		return $this->ajax_json('保存成功!', false, $redirect_url);
 	}
 

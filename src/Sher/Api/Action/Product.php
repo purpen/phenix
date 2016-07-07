@@ -251,7 +251,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
 			'cover_id', 'category_id', 'stage', 'summary', 'tags', 'tags_s', 'category_tags',
-			'snatched_time', 'inventory', 'snatched', 'wap_view_url', 'brand_id',
+			'snatched_time', 'inventory', 'snatched', 'wap_view_url', 'brand_id', 'extra_info',
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
       'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',
       // app抢购
@@ -356,6 +356,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
             $data['brand']['cover_url'] = $brand['cover']['thumbnails']['ava']['view_url'];
         }
     }
+
+    $data['extra_info'] = isset($data['extra_info']) ? $data['extra_info'] : '';
 
     // 相关推荐产品
 		$sword = $data['tags_s'];

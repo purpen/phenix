@@ -193,6 +193,7 @@
 	<form action="{{ app_url_app_admin_base }}/brands/save" class="ui form" method="post" id="active-form">
 		<!-- 隐藏表单 -->
 		<input type="hidden" name="id" value="{{ date._id }}" />
+		<input type="hidden" name="return_url" value="{{ return_url }}" />
 		
 		<div class="ui segment from">
 
@@ -225,6 +226,21 @@
                 <label>索引</label>
                 <input type="text" name="mark" placeholder="索引" value="{{ date.mark }}" />
                 <div class="description">品牌名首字母小写</div>
+            </div>
+
+            <h4 class="ui stage header">是否自营:</h4>
+            <div class="grouped inline fields">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" name="self_run" value="0" {% if date.self_run == 0 %}checked="checked"{% endif %} /> 
+                  <label>否</label>
+                </div>
+                <div class="ui radio checkbox">
+                  <input type="radio" name="self_run" value="1" {% if date.self_run == 1 %}checked="checked"{% endif %} /> 
+                  <label>是</label>
+                </div>
+
+              </div>
             </div>
             
             <!--封面图-->
