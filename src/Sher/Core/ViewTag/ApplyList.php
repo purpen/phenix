@@ -78,7 +78,7 @@ class Sher_Core_ViewTag_ApplyList extends Doggy_Dt_Tag {
     if($stick){
       if((int)$stick==-1){
         $query['stick'] = 0;
-      }elseif((int)$result==1){
+      }elseif((int)$stick==1){
         $query['stick'] = 1;     
       }
     }
