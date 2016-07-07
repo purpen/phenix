@@ -225,7 +225,7 @@
 						<input type="hidden" name="stick" value="{{ stick }}" />
 					    <div class="default text">是否推荐</div>
 					    <div class="menu">
-							<div data-value="0" class="{% if stick==0 %}active {% endif %}item">推荐</div>
+							<div data-value="0" class="{% if stick==0 %}active {% endif %}item">是否推荐</div>
 							<div data-value="-1" class="{% if stick=='-1' %}active {% endif %}item">否</div>
 							<div data-value="1" class="{% if stick==1 %}active {% endif %}item">是</div>
 					    </div>
@@ -237,7 +237,7 @@
 						<input type="hidden" name="result" value="{{ result }}" />
 					    <div class="default text">是否通过</div>
 					    <div class="menu">
-							<div data-value="0" class="{% if result==0 %}active {% endif %}item">全部</div>
+							<div data-value="0" class="{% if result==0 %}active {% endif %}item">是否通过</div>
 							<div data-value="-1" class="{% if result=='-1' %}active {% endif %}item">未通过</div>
 							<div data-value="1" class="{% if result==1 %}active {% endif %}item">通过</div>
 					    </div>
@@ -281,7 +281,7 @@
 				<th>申请理由</th>
                 <th>拉票数</th>
 				<th>申请时间</th>
-				<th>推荐</th>
+				<th>是否推荐</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
