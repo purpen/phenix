@@ -54,6 +54,9 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
 		// 判断左栏类型
 		$this->stash['show_type'] = "system";
 
+        // 记录上一步来源地址
+        $this->stash['return_url'] = $_SERVER['HTTP_REFERER'];
+
 		$category = new Sher_Core_Model_Category();
 		$mode = 'create';
 		if(!empty($this->stash['id'])) {
@@ -77,6 +80,8 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
 	 * 保存分类
 	 */
 	public function save() {
+
+        $redirect_url = isset($this->stash['return_url']) ? htmlspecialchars_decode($this->stash['return_url']) : null;
 		// 验证数据
 		if(empty($this->stash['name']) || empty($this->stash['title'])){
 			return $this->ajax_note('分类标识或标题不能为空！', true);
@@ -102,7 +107,9 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
 			return $this->ajax_note('分类保存失败:'.$e->getMessage(), true);
 		}
 		
-		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/category';
+        if(!$redirect_url){
+		    $redirect_url = Doggy_Config::$vars['app.url.admin'].'/category';
+        }
 	
 		return $this->ajax_notification('分类保存成功.', false, $redirect_url);
 	}

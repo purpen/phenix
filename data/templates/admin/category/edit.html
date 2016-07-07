@@ -54,6 +54,7 @@
 		
 		<form action="{{ app_url_admin_base }}/category/save" class="ajax-form" method="post" id="category-form">
 			<input type="hidden" name="_id" value="{{ category._id }}" id="target_id" />
+		    <input type="hidden" name="return_url" value="{{ return_url }}" />
 
       <div class="five fields">
         <div class="field">
