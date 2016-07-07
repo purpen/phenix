@@ -27,6 +27,9 @@
 	height: 100%;
     border-radius: 3px;
 }
+.wrap{
+	background: #fff;
+}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -60,8 +63,8 @@
      loader.addCompletionListener(function () {
          //$('.loading').remove();
          $('.screen').eq(0).addClass('current');
-         $('.wrap').show();
-         $('#app_bgm').get(0).play();
+         //$('.wrap').show();
+         //$('#app_bgm').get(0).play();
          //$('.music').show();
      });
 
@@ -100,6 +103,8 @@
       imgUrl: img_url,
       success: function (res) {
         record_share_num();
+        $('.loading').remove();
+        $('.wrap').show();
       }
     });      
 
