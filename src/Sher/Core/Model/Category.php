@@ -29,6 +29,8 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 		'app_cover_url' => null,
 		# 网页端封面图片路径
 		'web_cover_url' => null,
+        # 备选图/路径
+        'back_url' => null,
 		# 排列顺序
 		'order_by' => 0,
 		# 分类域
@@ -47,7 +49,7 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
         'stick' => 0,
     );
 	
-	protected $retrieve_fields = array('name'=>1,'title'=>1,'summary'=>1,'gid'=>1,'pid'=>1,'order_by'=>1,'domain'=>1,'total_count'=>1,'reply_count'=>1,'state'=>1,'is_open'=>1,'tags'=>1,'item_tags'=>1,'app_cover_url'=>1,'web_cover_url'=>1,'sub_count'=>1,'tag_id'=>1,'stick'=>1);
+	protected $retrieve_fields = array('name'=>1,'title'=>1,'summary'=>1,'gid'=>1,'pid'=>1,'order_by'=>1,'domain'=>1,'total_count'=>1,'reply_count'=>1,'state'=>1,'is_open'=>1,'tags'=>1,'item_tags'=>1,'app_cover_url'=>1,'web_cover_url'=>1,'sub_count'=>1,'tag_id'=>1,'stick'=>1,'back_url'=>1);
 	
 	// 类组
 	protected $groups = array(

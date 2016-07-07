@@ -13,6 +13,7 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		'q' => '',
 		'sort' => 0,
 		'result' => 0,
+        'stick' => 0,
 	);
 	
 	public function _init() {
@@ -244,11 +245,11 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		if(empty($this->stash['id'])){
 			return $this->ajax_notification('缺少请求参数！', true);
 		}
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try/verify?id=%d&is_invented=%d&user_id=%d&result=%d&sort=%d&page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/try/verify?id=%d&is_invented=%d&user_id=%d&result=%d&sort=%d&stick=%d&page=#p#';
 		
 		$id = (int)$this->stash['id'];
 
-		$this->stash['pager_url'] = sprintf($pager_url, $id, $this->stash['is_invented'], $this->stash['user_id'], $this->stash['result'], $this->stash['sort']);
+		$this->stash['pager_url'] = sprintf($pager_url, $id, $this->stash['is_invented'], $this->stash['user_id'], $this->stash['result'], $this->stash['sort'], $this->stash['stick']);
 		
 		$model = new Sher_Core_Model_Try();
 		$try = &$model->extend_load($id);
@@ -416,6 +417,30 @@ class Sher_Admin_Action_Try extends Sher_Admin_Action_Base implements DoggyX_Act
 		}
 		
 		return $this->to_taconite_page('admin/try/stick_ok.html');
+	}
+
+	/**
+	 * apply 推荐/取消推荐
+	 */
+	public function apply_ajax_set_stick() {
+
+		if(empty($this->stash['id'])){
+			return $this->ajax_note('缺少请求参数！', true);
+		}
+    $evt = $this->stash['evt'] = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 0;
+		
+		try{
+			$model = new Sher_Core_Model_Apply();
+      if($evt){
+        $model->mark_as_stick($this->stash['id']);     
+      }else{
+        $model->mark_cancel_stick($this->stash['id']);
+      }
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_note('请求操作失败，请检查后重试！', true);
+		}
+		
+		return $this->to_taconite_page('admin/try/apply_stick_ok.html');
 	}
 
   /**
