@@ -2,30 +2,37 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
+.loading{
+	background: url({{ app_url_packaged }}/images/promo/mini/loading.jpg);
+	background-size: cover;
+}
 .loading__img{
-	background: url(http://wximg.gtimg.com/tmt/_events/20150514-promo-vivo/dist/img/loading.png) no-repeat;
-	width: 52px;
-	height: 32px;
-	background-size: 52px auto;
+	background: url({{ app_url_packaged }}/images/promo/mini/logo.png) no-repeat;
+	width: 320px;
+	height: 300px;
+	background-size: cover;
 }
 .loading__inner{
-	margin-top: -20px;
-    height: 40px;
+	width: 320px;
+    height: 300px;
+    background-color:rgba(0,0,0,0); 
+	position: absolute;
+    top: 50%;
+    left: 50%;
+}
+.loading__inner.screen__inner{
+	width: 320px;
+    height: 300px;
+    margin:0 0 0 -160px;
+    bottom:0;
 }
 .loading-num{
-	position: absolute;
-    left: -14px;
-    bottom: 0px;
+    position: absolute;
+    left: 170px;
+    bottom: 262px;
     text-align: center;
-    width: 80px;
-    height: 3px;
-    border: 1px solid rgba(255,255,255,0.8);
-    border-radius: 3px;
-}
-.loading-num .inner{
-	background: rgba(255,255,255,0.8);
-	height: 100%;
-    border-radius: 3px;
+    width: 40px;
+    height: 12px;
 }
 </style>
 {% endblock %}
@@ -69,13 +76,13 @@
      loader.addProgressListener(function (e) {
          var percentUp = Math.round((e.completedCount / e.totalCount) * 100), //正序, 1-100
              progressDown = 100 - percentUp;                                   //倒序, 100-1
-         $('.loading-num .inner').css('width', percentUp + '%');
+         $('.loading-num').text(percentUp + '%');
      });
 
      //启动
      loader.start();
     });
-    
+    /*
     // 微信分享统计
     var m_name = '[ 创 x 造 ] 京东众筹BIGGER大会';
     var img_url = '{{ app_url_packaged }}/images/promo/coin/2.pic2.jpg';
@@ -144,7 +151,7 @@
     var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
     $.get(url, { target_id: 23, count_name:'count', type: 4, kind:4 });
   }
-
+*/
 </script>
 
 {% endblock %}
@@ -154,5 +161,5 @@
 
 </div>
 <div class="music playing" style="display:none;"></div>
-<audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/js/bigger1.mp3" loop="true" autoplay></audio>
+<audio id="app_bgm" src="" loop="true" autoplay></audio>
 {% endblock %}
