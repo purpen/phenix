@@ -216,6 +216,9 @@
           perspective: 1000;
           overflow: hidden;
       }
+      .appiosload,.ui.hide{
+        display: none !important;
+      }
       
       
     </style>
@@ -228,7 +231,10 @@
     <div class="loading">
         <div class="loading__inner">
             <div class="loading__img"></div>
-            <div class="loading-num">0%</div>
+            <div class="loading-num">
+              <div class="inner">
+              </div>
+            </div>
         </div>
     </div>
 		{% block content %}{% endblock %}

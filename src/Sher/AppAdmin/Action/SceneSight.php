@@ -208,11 +208,6 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 			return $this->ajax_json('请求参数不能为空', true);
 		}
 		
-		$data['tags'] = explode(',',$data['tags']);
-		foreach($data['tags'] as $k => $v){
-			$data['tags'][$k] = (int)$v;
-		}
-		
 		try{
 			$model = new Sher_Core_Model_SceneSight();
 			// 新建记录

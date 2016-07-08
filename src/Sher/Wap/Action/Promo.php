@@ -10,7 +10,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     'target_id'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus','fiu','load_up_img');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus','fiu','load_up_img','ym');
 
 	/**
 	 * 网站入口
@@ -18,6 +18,24 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->coupon();
 	}
+
+    //云马
+    public function ym(){
+      $this->stash['page_title_suffix'] = '云马试用';
+      // 记录浏览数
+        $num_mode = new Sher_Core_Model_SumRecord();
+        $num_mode->add_record('23', 'view_count', 4, 4); 
+
+        //微信分享
+        $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+        $timestamp = $this->stash['timestamp'] = time();
+        $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+        $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+        $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+        $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+        $this->stash['wxSha1'] = sha1($wxOri);
+      return $this->to_html_page('wap/promo/ym.html');
+    }
 
     /**
      * Fiu 下载地址（跳转）

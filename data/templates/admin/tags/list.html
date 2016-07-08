@@ -35,8 +35,11 @@
 			<tr>
 				<th></th>
 				<th>名称</th>
+                <th>子ID</th>
 				<th>索引</th>
 				<th>相关数量</th>
+                <th>类型</th>
+                <th>推荐</th>
 				<th>创建时间</th>
 				<th>管理操作</th>
 			</tr>
@@ -51,11 +54,29 @@
 					</div>
 				</td>
 				<td>{{ tag.name }}</td>
+                <td>{{ tag.cid|default 0 }}</td>
 				<td>{{ tag.index }}</td>
 				<td>{{ tag.total_count }}</td>
+                <td>{{ tag.kind_label }}</td>
+				<td>
+					<p>
+						{% if tag.stick %}
+							<span id="stick-{{ tag._id }}-label" class="ui small green label">是</span>
+						{% else %}
+							<span id="stick-{{ tag._id }}-label" class="ui small orange label">否</span>
+						{% endif %}
+					</p>
+				</td>
 				<td>{{ tag.created_on|date 'Y-m-d H:i' }}</td>
 				<td>
 					<div class="ui divided horizontal list">
+
+						{% if tag.stick == 1 %}
+						<a href="{{ app_url_admin_base }}/tags/ajax_set_stick?id={{ tag._id }}&evt=0" class="ui link ajax item" id="stick-{{ tag._id }}-button">取消推荐</a>
+						{% else %}
+						<a href="{{ app_url_admin_base }}/tags/ajax_set_stick?id={{ tag._id }}&evt=1" class="ui link ajax item" id="stick-{{ tag._id }}-button">推荐</a>
+						{% endif %}
+
 						<a href="{{ app_url_admin_base }}/tags/edit?id={{ tag._id }}" class="ui link item">编辑</a> 
 						<a href="{{ app_url_admin_base }}/tags/delete?id={{ tag._id }}" class="ui link item confirm-request">删除</a>
 					</div>
