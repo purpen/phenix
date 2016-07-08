@@ -35,7 +35,7 @@
 	background-repeat: no-repeat;
 	background-position: center bottom;
 }
-.screen1 .screen__bg{
+.screen1 .screen__bg,.screen2 .screen__bg{
 	background-image: url({{ app_url_packaged }}/images/promo/mini/p1.jpg);
 	background-color:#e1e3e4; 
 }
@@ -164,6 +164,9 @@
 <img src="{{ app_url_packaged }}/images/promo/coin/2.pic2.jpg" style="display:none;">
 <div class="wrap"  style="display: none">
 	<section class="screen screen1">
+		<div class="screen__bg"></div>
+	</section>
+	<section class="screen screen2">
 		<div class="screen__bg"></div>
 	</section>
 </div>
