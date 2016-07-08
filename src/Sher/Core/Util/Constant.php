@@ -398,7 +398,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
       20=>'过年你会被哪个新年神曲洗脑？',
       21=>'火爆的智能硬件TOP100',
       22=>'如何在妇女节这天，完美搞定三个女人',
-      23=>'--',
+      23=>'云马试用',
       24=>'--',
     );
     if(empty($id)){
