@@ -1,0 +1,19 @@
+<taconite>
+	{% if evt==1 %}
+	<replace select="#stick-{{ id }}-label">
+		<label class="ui green label" id="stick-{{ id }}-label">是</label>
+	</replace>
+	<replace select="#stick-{{ id }}-button"><![CDATA[
+		<a href="{{ app_url_admin_base }}/try/ajax_set_stick?id={{ id }}&evt=0" class="ui link ajax item" id="stick-{{ id }}-button">取消推荐</a>
+    ]]></replace>
+	{% endif %}
+	
+	{% if evt==0 %}
+	<replace select="#stick-{{ id }}-label">
+		<label class="ui orange label" id="stick-{{ id }}-label">否</label>
+	</replace>
+	<replace select="#stick-{{ id }}-button"><![CDATA[
+		<a href="{{ app_url_admin_base }}/try/ajax_set_stick?id={{ id }}&evt=1" class="ui link ajax item" id="stick-{{ id }}-button">推荐</a>
+    ]]></replace>
+	{% endif %}
+</taconite>

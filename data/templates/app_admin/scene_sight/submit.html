@@ -290,6 +290,24 @@
 			$('input[name=tags]').val(tags);
 		});
 	});
+
+    // 标签
+    $('#tags').tagsInput({
+       //'autocomplete_url': url_to_autocomplete_api,
+        //'autocomplete': { option: value, option: value},
+       'height':'60px',
+       'width':'auto',
+       'interactive':true,
+       'defaultText':'添加标签',
+       //'onAddTag':callback_function,
+       //'onRemoveTag':callback_function,
+       //'onChange' : callback_function,
+       'delimiter': [',',';','；','，'],   // Or a string with a single delimiter. Ex: ';'
+       'removeWithBackspace' : true,
+       'minChars' : 2,
+       'maxChars' : 15, // if not provided there is no limit
+       'placeholderColor' : '#666666'
+    });
 	
 {% endblock %}
 
@@ -316,7 +334,6 @@
 	<form action="{{ app_url_app_admin_base }}/scene_sight/save" class="ui form" method="post" id="active-form">
 		<!-- 隐藏表单 -->
 		<input type="hidden" name="id" value="{{ sight._id }}" />
-		<input type="hidden" name="tags" value="{{ sight.tags }}" />
 		
 		<div class="ui segment from">
 			<h3 class="ui dividing header">填写场景信息</h3>
@@ -329,7 +346,12 @@
                 <textarea name="des" placeholder="详情">{{ sight.des }}</textarea>
             </div>
 
-			<div class="field">
+            <div class="field">
+                <label>标签</label>
+				<input type="text" id="tags" name="tags" placeholder="添写标签" value="{{ sight.tags_s }}" />
+			</div>
+
+			<div class="field" style="display:none;">
                 <label>所属标签</label>
 				{% for tags in scene_tags %}
                 <div class="ui tags">

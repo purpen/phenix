@@ -112,11 +112,8 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 			return $this->api_json('请求参数不能为空', 3000);
 		}
 		
-		$data['tags'] = explode(',',$tags);
-		foreach($data['tags'] as $k => $v){
-			$data['tags'][$k] = (int)$v;
-		}
-		//var_dump($data);die;
+		$data['tags'] = $tags;
+
 		try{
 			$model = new Sher_Core_Model_SceneContext();
 			if(empty($id)){

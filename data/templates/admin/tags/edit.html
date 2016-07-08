@@ -5,6 +5,15 @@
 {% endblock %}
 {% block jquery %}
 	$('#tags-form').form({
+		kind: {
+			identifier  : 'kind',
+			rules: [
+				{
+					type   : 'checked',
+					prompt : '请选择类型'
+				}
+			]
+		},
 		name: {
 			identifier  : 'name',
 			rules: [
@@ -42,8 +51,35 @@
 		{% endif %}
 		
 		<form action="{{ app_url_admin_base }}/tags/save" class="ajax-form" method="post" id="tags-form">
-			<input type="hidden" name="_id" value="{{ tag._id }}" />
-			<div class="inline field">
+			<input type="hidden" name="id" value="{{ tag._id }}" />
+			<input type="hidden" name="return_url" value="{{ return_url }}" />
+
+            <div class="five fields">
+              <div class="field">
+                <label>类型：</label>
+                <div class="grouped inline fields">
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input type="radio" name="kind" value="1" {% if tag.kind == 1 %}checked="checked"{% endif %} /> 
+                      <label>普通</label>
+                    </div>
+                    <div class="ui radio checkbox">
+                      <input type="radio" name="kind" value="2" {% if tag.kind == 2 %}checked="checked"{% endif %} /> 
+                      <label>分类</label>
+                    </div>
+                    <div class="ui radio checkbox">
+                      <input type="radio" name="kind" value="3" {% if tag.kind == 3 %}checked="checked"{% endif %} /> 
+                      <label>其它</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+			<div class="field">
+			  	<label for="name">子ID：</label>
+				<input type="text" name="cid" value="{{ tag.cid }}" />
+			</div>	
+			<div class="field">
 			  	<label for="name">名称：</label>
 				<input type="text" name="name" value="{{ tag.name }}" />
 			</div>			
