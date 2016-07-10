@@ -285,6 +285,7 @@
 	background-size: 100%;
 	top: 275px;
     left: 85px;
+    display: none;
 }
 .word{
 	position: absolute;
@@ -303,16 +304,82 @@
     top: 0;
     left: 0;
     background-size: 100%;
-    display: none;
 }
 .postbd{
-	background: #fff;
-	width: 100px;
-	height: 100px;
+	width: 200px;
 	position: absolute;
-	top: 350px;
-	left: 110px;
+	top: 300px;
+	left: 60px;
 	display: none;
+}
+.ui.input input {
+    border: none;
+    background-color: #ffea00;
+    box-shadow: -1px -1px 1px 1px rgba(255,234,0,0.2),0 0 0 1px rgba(255,234,0,0.1);
+    width: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    max-width: 100%;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 0 auto;
+    -ms-flex: 1 0 auto;
+    flex: 1 0 auto;
+    outline: 0;
+    -webkit-tap-highlight-color: rgba(255,255,255,0);
+    text-align: left;
+    line-height: 1.2142em;
+    padding: .67861429em 1em;
+    border: 1px solid rgba(255,234,0,.15);
+    color: rgba(0,0,0,.87);
+    border-radius: .28571429rem;
+    -webkit-transition: background-color .1s ease,box-shadow .1s ease,border-color .1s ease;
+    transition: background-color .1s ease,box-shadow .1s ease,border-color .1s ease;
+    box-shadow: none;
+    text-align: center;
+}
+.ui.input input:focus, .ui.input.focus input {
+    border-color: rgba(255,234,0,.35);
+    background: #ffea00;
+    color: rgba(0,0,0,.8);
+    box-shadow: none;
+}
+.ui.input input:-webkit-input-placeholder {
+　　color: #000 !important;
+}
+.ui.input:first-child{
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.ui.input:nth-child(2){
+	position: absolute;
+    top: 42px;
+    left: 0;
+    width: 100%;
+}
+.ui.input:nth-child(3){
+	position: absolute;
+    top: 84px;
+    left: 0;
+    width: 100%;
+}
+.submitbtn{
+	position: absolute;
+    top: 130px;
+    width: 80px;
+    height: 34px;
+    background: #ffea00;
+    left: 60px;
+    box-shadow: none !important;
+    border: 1px solid rgba(255,234,0,.15);
+    color: rgba(0,0,0,.87);
+    border-radius: .28571429rem;
+    -webkit-transition: background-color .1s ease,box-shadow .1s ease,border-color .1s ease;
+    transition: background-color .1s ease,box-shadow .1s ease,border-color .1s ease;
+    box-shadow: none;
 }
 @-webkit-keyframes btright {
  	0% {
@@ -466,8 +533,7 @@
       imgUrl: img_url,
       success: function (res) {
         record_share_num();
-        $('.fenxia,.fenh5,.word').css('display','none');
-        $('.postbd').css('display','block');
+        hdsuccess();
       }
     });
 
@@ -479,7 +545,7 @@
       imgUrl: img_url,
       success: function (res) {
         record_share_num();
-       $('.fenxia,.fenh5,.word').css('display','none');
+       hdsuccess();
       }
     });
 
@@ -491,8 +557,7 @@
       imgUrl: img_url,
       success: function (res) {
         record_share_num();
-        $('.fenxia,.fenh5,.word').css('display','none');
-        $('.postbd').css('display','block');
+        hdsuccess();
       }
     });
   });
@@ -508,7 +573,7 @@
 {% block content %}
 <img src="{{ app_url_packaged }}/images/promo/coin/2.pic2.jpg" style="display:none;">
 <div class="wrap"  style="display: none">
-	<section class="screen screen1">
+	<!--<section class="screen screen1">
 		<div class="screen__bg"></div>
 	</section>
 	<section class="screen screen2">
@@ -551,7 +616,7 @@
 			<a class="p8_sy page-logo" href="http://m.taihuoniao.com/try/view-52118.html" target="_blank"></a>
 			<a class="p8_yy page-logo" href="http://z.jd.com/project/details/60196.html" target="_blank"></a>
 		</div>
-	</section>
+	</section>-->
 	<section class="screen screen9">
 		<div class="screen__bg"></div>
 		<div class="screen__inner">
@@ -561,7 +626,20 @@
 		</div>
 		<div class="fenh5"></div>
 		<!-- 表单 -->
-		<div class="postbd"></div>
+		<div class="postbd">
+			<form>
+				<div class="ui input">
+					<input type="text" name="realname" placeholder="姓名">
+				</div>
+				<div class="ui input">
+					<input type="text" name="realname" placeholder="电话">
+				</div>
+				<div class="ui input">
+					<input type="text" name="realname" placeholder="地址">
+				</div>
+				<button class="submitbtn" type="submit">提交</button>
+			</form>
+		</div>
 	</section>
 </div>
 <div class="music playing" style="display:none;"></div>
