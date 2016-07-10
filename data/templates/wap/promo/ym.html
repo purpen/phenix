@@ -39,11 +39,46 @@
 	background-image: url({{ app_url_packaged }}/images/promo/mini/p1.jpg);
 	background-color:#e1e3e4; 
 }
-.screen2 .screen__bg{
+.screen2 .screen__bg,.screen8 .screen__bg{
 	background-color: #17181a;
+}
+.screen3 .screen__bg{
+	background-image: url({{ app_url_packaged }}/images/promo/mini/p3.jpg);
+	background-color: #17181a;
+}
+.screen4 .screen__bg{
+	background-image: url({{ app_url_packaged }}/images/promo/mini/p4.jpg);
+	background-color: #e1e3e4;
+}
+.screen5 .screen__bg{
+	background-image: url({{ app_url_packaged }}/images/promo/mini/p5.jpg);
+	background-color: #e1e3e4;
+}
+.screen6 .screen__bg{
+	background-image: url({{ app_url_packaged }}/images/promo/mini/p6.jpg);
+	background-color: #e1e3e4;
+}
+.screen7 .screen__bg{
+	background-image: url({{ app_url_packaged }}/images/promo/mini/p7.jpg);
+	background-color: #e1e3e4;
+}
+.screen9 .screen__bg{
+	background-color: #e1e3e4;
 }
 .p2_bg{
 	background-image: url({{ app_url_packaged }}/images/promo/mini/p2.jpg);
+	width: 320px;
+	height: 504px;
+	background-size: 100%;
+}
+.p8_bg{
+	background-image: url({{ app_url_packaged }}/images/promo/mini/p8.jpg);
+	width: 320px;
+	height: 504px;
+	background-size: 100%;
+}
+.p9_bg{
+	background-image: url({{ app_url_packaged }}/images/promo/mini/p9.jpg);
 	width: 320px;
 	height: 504px;
 	background-size: 100%;
@@ -224,6 +259,61 @@
 	-webkit-animation: btright 9s infinite;
 	animation: btright 9s infinite;
 }
+.p8_sy{
+	position: absolute;
+	width: 90px;
+	height: 30px;
+	background-image: url({{ app_url_packaged }}/images/promo/mini/mian.png);
+	background-size: 100%;
+	top: 360px;
+    left: 106px;
+}
+.p8_yy{
+	position: absolute;
+	width: 75px;
+	height: 25px;
+	background-image: url({{ app_url_packaged }}/images/promo/mini/yiyuan.png);
+	background-size: 100%;
+	top: 395px;
+    left: 106px;
+}
+.fenxia{
+	position: absolute;
+	width: 110px;
+	height: 90px;
+	background-image: url({{ app_url_packaged }}/images/promo/mini/fh5.png);
+	background-size: 100%;
+	top: 275px;
+    left: 85px;
+}
+.word{
+	position: absolute;
+	width: 160px;
+	height: 45px;
+	background-image: url({{ app_url_packaged }}/images/promo/mini/word.png);
+	background-size: 100%;
+	top: 375px;
+    left: 85px;
+}
+.fenh5{
+	background-image: url({{ app_url_packaged }}/images/promo/mini/fxh5.png);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+    top: 0;
+    left: 0;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    display: none;
+}
+.postbd{
+	background-image: #fff;
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	top: 350px;
+	left: 110px;
+}
 @-webkit-keyframes btright {
  	0% {
 	 right: -100%;
@@ -252,7 +342,36 @@
 		right: 100%;
 	}
 }
-
+.current .page-logo{
+	animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
+	-webkit-animation: 0.4s scale-to-zero-with-left cubic-bezier(.17, .67, .11, .93) forwards;
+}
+@keyframes scale-to-zero-with-left {
+	0% {
+		transform: translate3d(0%, 0, 0) scale(20);
+		opacity: 0;
+	}
+	50% {
+		opacity: 0.3;
+	}
+	100% {
+		transform: translate3d(0%, 0, 0) scale(1);
+		opacity: 1;
+	}
+}
+@-webkit-keyframes scale-to-zero-with-left {
+	0% {
+	-webkit-transform: translate3d(0%, 0, 0) scale(20);
+		opacity: 0;
+	}
+	50% {
+		opacity: 0.3;
+	}
+	100% {
+		-webkit-transform: translate3d(0%, 0, 0) scale(1);
+		opacity: 1;
+	}
+}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -301,7 +420,12 @@
      //启动
      loader.start();
     });
-    /*
+    $('.fenxia').click(function(){
+    	$('.fenh5').css('display','block');
+    });
+    $('.fenh5').click(function(){
+    	$(this).css('display','none')
+    });
     // 微信分享统计
     var m_name = '[ 创 x 造 ] 京东众筹BIGGER大会';
     var img_url = '{{ app_url_packaged }}/images/promo/coin/2.pic2.jpg';
@@ -326,8 +450,8 @@
       imgUrl: img_url,
       success: function (res) {
         record_share_num();
-        $('.loading').remove();
-        $('.wrap').show();
+        $('.fenxia,.fxh5,.word').css('display','none');
+        $('.postbd').css('display','block');
       }
     });      
 
@@ -339,6 +463,8 @@
       imgUrl: img_url,
       success: function (res) {
         record_share_num();
+        $('.fenxia,.fxh5,.word').css('display','none');
+        $('.postbd').css('display','block');
       }
     });
 
@@ -350,6 +476,8 @@
       imgUrl: img_url,
       success: function (res) {
         record_share_num();
+        $('.fenxia,.fxh5,.word').css('display','none');
+        $('.postbd').css('display','block');
       }
     });
 
@@ -361,6 +489,8 @@
       imgUrl: img_url,
       success: function (res) {
         record_share_num();
+        $('.fenxia,.fxh5,.word').css('display','none');
+        $('.postbd').css('display','block');
       }
     });
   });
@@ -397,6 +527,40 @@
 			<div class="pw jb_11"></div>
 			<div class="pw jb_12"></div>
 		</div>
+	</section>
+	<section class="screen screen3">
+		<div class="screen__bg"></div>
+	</section>
+	<section class="screen screen4">
+		<div class="screen__bg"></div>
+	</section>
+	<section class="screen screen5">
+		<div class="screen__bg"></div>
+	</section>
+	<section class="screen screen6">
+		<div class="screen__bg"></div>
+	</section>
+	<section class="screen screen7">
+		<div class="screen__bg"></div>
+	</section>
+	<section class="screen screen8">
+		<div class="screen__bg"></div>
+		<div class="screen__inner">
+			<div class="p8_bg"></div>
+			<a class="p8_sy page-logo" href="http://m.taihuoniao.com/try/view-52118.html" target="_blank"></a>
+			<a class="p8_yy page-logo" href="http://z.jd.com/project/details/60196.html" target="_blank"></a>
+		</div>
+	</section>
+	<section class="screen screen9">
+		<div class="screen__bg"></div>
+		<div class="screen__inner">
+			<div class="p9_bg"></div>
+			<div class="fenxia"></div>
+			<div class="word"></div>
+		</div>
+		<div class="fenh5"></div>
+		<!-- 表单 -->
+		<div class="postbd"></div>
 	</section>
 </div>
 <div class="music playing" style="display:none;"></div>
