@@ -36,7 +36,7 @@
 	background-position: center bottom;
 }
 .screen1 .screen__bg{
-	background-image: url({{ app_url_packaged }}/images/promo/mini/p1.jpg);
+	background-image: url({{ app_url_packaged }}/images/promo/mini/p1_1.jpg);
 	background-color:#e1e3e4; 
 }
 .screen2 .screen__bg,.screen8 .screen__bg{
@@ -91,7 +91,7 @@
     background-position: 0 0;
     position: absolute;
     top: 30px;
-    right: -100%;
+    right: 100%;
 }
 .jb_2{
 	background-image: url({{ app_url_packaged }}/images/promo/mini/jb1.png);
@@ -101,7 +101,7 @@
     background-position: 0 180px;
     position: absolute;
     top: 245px;
-    right: -100%;   
+    right: 100%;   
 }
 .jb_3{
 	background-image: url({{ app_url_packaged }}/images/promo/mini/jb2.png);
@@ -210,56 +210,52 @@
 .current .pw.jb_1{
 	animation-delay:0s !important;
 	-webkit-animation-delay:0s !important;
-	-webkit-animation: btright 4s 1 alternate forwards;
-    animation: btright 4s 1 alternate forwards;
 }
 .current .pw.jb_2{
 	animation-delay:2s !important;
 	-webkit-animation-delay:2s !important;
-	-webkit-animation: btright 5s 1 alternate forwards;
-    animation: btright 5s 1 alternate forwards;
 }
 .current .pw.jb_3{
-	animation-delay:5s !important;
-	-webkit-animation-delay:5s !important;
+	animation-delay:6s !important;
+	-webkit-animation-delay:6s !important;
 }
 .current .pw.jb_4{
-	animation-delay:7s !important;
-	-webkit-animation-delay:7s !important;
+	animation-delay:8s !important;
+	-webkit-animation-delay:8s !important;
 }
 .current .pw.jb_5{
-	animation-delay:10s !important;
-	-webkit-animation-delay:10s !important;
-}
-.current .pw.jb_6{
 	animation-delay:12s !important;
 	-webkit-animation-delay:12s !important;
 }
+.current .pw.jb_6{
+	animation-delay:14s !important;
+	-webkit-animation-delay:14s !important;
+}
 .current .pw.jb_7{
-	animation-delay:15s !important;
-	-webkit-animation-delay:15s !important;
+	animation-delay:18s !important;
+	-webkit-animation-delay:18s !important;
 }
 .current .pw.jb_8{
-	animation-delay:17s !important;
-	-webkit-animation-delay:17s !important;
-}
-.current .pw.jb_9{
 	animation-delay:20s !important;
 	-webkit-animation-delay:20s !important;
 }
+.current .pw.jb_9{
+	animation-delay:24s !important;
+	-webkit-animation-delay:24s !important;
+}
 .current .pw.jb_10{
-	animation-delay:22s !important;
-	-webkit-animation-delay:22s !important;
+	animation-delay:26s !important;
+	-webkit-animation-delay:26s !important;
 }
 .current .pw.jb_11{
-	animation-delay:25s !important;
-	-webkit-animation-delay:25s !important;
-	-webkit-animation: btrightl 3s 1 alternate forwards;
-	animation: btrightl 3s 1 alternate forwards;
+	animation-delay:30s !important;
+	-webkit-animation-delay:30s !important;
+	-webkit-animation: btrightl 2s 1 alternate forwards;
+	animation: btrightl 2s 1 alternate forwards;
 }
 .current .pw.jb_12{
-	animation-delay:27s !important;
-	-webkit-animation-delay:27s !important;
+	animation-delay:32s !important;
+	-webkit-animation-delay:32s !important;
 	-webkit-animation: btrightl 2s 1 alternate forwards;
 	animation: btrightl 2s 1 alternate forwards;
 }
@@ -374,7 +370,7 @@
 }
 .submitbtn{
 	position: absolute;
-    top: 400px;
+    top: 430px;
     width: 80px;
     height: 34px;
     background: #ffea00;
@@ -389,6 +385,13 @@
 }
 input,input:focus,input:active{
 	user-select: text;
+}
+.postbd p{
+	font-size: 13px;
+    width: 100%;
+    position: absolute;
+    top: 403px;
+    text-align: center;
 }
 @-webkit-keyframes btright {
  	0% {
@@ -478,7 +481,7 @@ input,input:focus,input:active{
     webpsupport(function (webpa) {
     var loader = new WxMoment.Loader(),
      fileList =[
-		'loading2.jpg','p1.jpg','p2.jpg','p3.jpg','p4_1.jpg','p5_1.jpg','p6_1.jpg','p7_1.jpg','p8_1.jpg','p9_1.jpg','jb1.png','jb2.png','jb3.png','jb4.png','jb5.png','jb6.png'
+		'loading2.jpg','p1_1.jpg','p2.jpg','p3.jpg','p4_1.jpg','p5_1.jpg','p6_1.jpg','p7_1.jpg','p8_1.jpg','p9_1.jpg','jb1.png','jb2.png','jb3.png','jb4.png','jb5.png','jb6.png'
 	];
      
      for (var i = 0; i < fileList.length; i++) {
@@ -527,10 +530,10 @@ input,input:focus,input:active{
         $('.music').css('display','block');
     }
     $("input").focus(function(){
-		$(".ui.input,.submitbtn").css("margin-top","-200px");
+		$(".ui.input,.submitbtn,p").css("margin-top","-200px");
 	});
 	$("input").blur(function(){
-		$(".ui.input,.submitbtn").css("margin-top","0");
+		$(".ui.input,.submitbtn,p").css("margin-top","0");
 	});
     // 微信分享统计
     var m_name = '大咖齐聚，马力出行';
@@ -670,6 +673,7 @@ input,input:focus,input:active{
 					<div class="ui input">
 						<input type="text" name="realname" placeholder="地址">
 					</div>
+					<p>留下您的联系方式，用于抽奖哟！</p>
 					<button class="submitbtn" type="submit">提交</button>
 				</form>
 			</div>
