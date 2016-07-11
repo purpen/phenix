@@ -91,7 +91,7 @@
     background-position: 0 0;
     position: absolute;
     top: 30px;
-    right: 100%;
+    right: -100%;
 }
 .jb_2{
 	background-image: url({{ app_url_packaged }}/images/promo/mini/jb1.png);
@@ -101,7 +101,7 @@
     background-position: 0 180px;
     position: absolute;
     top: 245px;
-    right: 100%;   
+    right: -100%;   
 }
 .jb_3{
 	background-image: url({{ app_url_packaged }}/images/promo/mini/jb2.png);
@@ -204,16 +204,20 @@
     right: 100%;   
 }
 .current .pw{
-	-webkit-animation: btright 6s 1 alternate forwards;
-    animation: btright 6s 1 alternate forwards;
+	-webkit-animation: btright 5s 1 alternate forwards;
+    animation: btright 5s 1 alternate forwards;
 }
 .current .pw.jb_1{
 	animation-delay:0s !important;
 	-webkit-animation-delay:0s !important;
+	-webkit-animation: btright 5s 1 alternate forwards;
+    animation: btright 5s 1 alternate forwards;
 }
 .current .pw.jb_2{
 	animation-delay:1s !important;
 	-webkit-animation-delay:1s !important;
+	-webkit-animation: btright 5s 1 alternate forwards;
+    animation: btright 5s 1 alternate forwards;
 }
 .current .pw.jb_3{
 	animation-delay:5s !important;
@@ -256,8 +260,8 @@
 .current .pw.jb_12{
 	animation-delay:26s !important;
 	-webkit-animation-delay:26s !important;
-	-webkit-animation: btrightl 3s 1 alternate forwards;
-	animation: btrightl 3s 1 alternate forwards;
+	-webkit-animation: btrightl 2s 1 alternate forwards;
+	animation: btrightl 2s 1 alternate forwards;
 }
 .p8_sy{
 	position: absolute;
