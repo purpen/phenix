@@ -475,8 +475,8 @@ input,input:focus,input:active{
          $('.loading').remove();
          $('.screen').eq(0).addClass('current');
          $('.wrap').show();
-         //$('#app_bgm').get(0).play();
-         //$('.music').show();
+         $('#app_bgm').get(0).play();
+         $('.music').show();
      });
 
      //loading 进度监听
@@ -651,5 +651,5 @@ input,input:focus,input:active{
 	</section>
 </div>
 <div class="music playing" style="display:none;"></div>
-<audio id="app_bgm" src="" loop="true" autoplay></audio>
+<audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/js/ym.mp3" loop="true" autoplay></audio>
 {% endblock %}
