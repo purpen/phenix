@@ -36,13 +36,16 @@ class Sher_Core_Model_SceneContext extends Sher_Core_Model_Base {
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
-        
+ 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';       
 	}
 	
 	/**
 	 * 保存之前,处理标签中的逗号,空格等
 	 */
 	protected function before_save(&$data) {
+	    if (isset($data['tags']) && !is_array($data['tags'])) {
+	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
+	    }
 	    parent::before_save($data);
 	}
 	

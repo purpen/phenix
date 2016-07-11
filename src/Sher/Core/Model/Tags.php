@@ -8,8 +8,6 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
     protected $collection = "tag";
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
-    protected $track_collection = 'daily_track.tag';
-    
     protected $schema = array(
         'name' => null,
         'index' => null,
@@ -19,14 +17,37 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
         'total_count' => 0,
 		'subscribe_count' => 0,
         'search_on' => null,
+        'kind' => 1,
+        'cid' => 0,
+        'status' => 1,
+        'stick' => 0,
     );
 	
     protected $required_fields = array('name','index');
-    protected $int_fields = array('topic_count','product_count','total');
+    protected $int_fields = array('topic_count','product_count','total_count','search_count','stick','kind','status','cid');
 	
     
     protected function extra_extend_model_row(&$row) {
     	$row['tag_view_url'] = Sher_Core_Helper_Url::build_url_path('app.url.tag', $row['name']);
+
+        if(isset($row['kind'])){
+            switch($row['kind']){
+                case 1:
+                    $row['kind_label'] = '普通';
+                    break;
+                case 2:
+                    $row['kind_label'] = '分类';
+                    break;
+                case 3:
+                    $row['kind_label'] = '其它';
+                    break;
+                case 4:
+                    $row['kind_label'] = 'no';
+                    break;
+                default:
+                    $row['kind_label'] = '--';
+            }
+        }
     }
     
 	/**
@@ -123,6 +144,20 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
 			$this->dec($query,$counter_name);
 		}
 	}
+
+    /**
+     * 标记为推荐
+     */
+    public function mark_as_stick($id) {
+        return $this->update_set($id, array('stick' => 1));
+    }
+	
+    /**
+     * 取消推荐
+     */
+	public function mark_cancel_stick($id) {
+		return $this->update_set($id, array('stick' => 0));
+	}
 	
 }
-?>
+

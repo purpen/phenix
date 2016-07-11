@@ -16,6 +16,9 @@ class Sher_App_ViewTag_TagsList extends Doggy_Dt_Tag {
 		
         $index = 0;
 		$tag = 0;
+        $kind = 0;
+        $stick = 0;
+        $status = 0;
         
         $var = 'list';
         $include_pager = 0;
@@ -37,6 +40,18 @@ class Sher_App_ViewTag_TagsList extends Doggy_Dt_Tag {
 		if($index){
 			$query['index'] = $index;
 		}
+
+		if($kind){
+			$query['kind'] = (int)$kind;
+		}
+
+		if($stick){
+			$query['stick'] = (int)$stick;
+		}
+
+		if($status){
+			$query['status'] = (int)$status;
+		}
         
         $options['sort_field'] = $sort;
 
@@ -51,4 +66,4 @@ class Sher_App_ViewTag_TagsList extends Doggy_Dt_Tag {
         }
     }
 }
-?>
+

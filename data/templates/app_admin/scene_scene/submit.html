@@ -339,7 +339,27 @@
 			return false;
 		});
 	});
-	
+
+
+    // 标签
+    $('#tags').tagsInput({
+       //'autocomplete_url': url_to_autocomplete_api,
+        //'autocomplete': { option: value, option: value},
+       'height':'60px',
+       'width':'auto',
+       'interactive':true,
+       'defaultText':'添加标签',
+       //'onAddTag':callback_function,
+       //'onRemoveTag':callback_function,
+       //'onChange' : callback_function,
+       'delimiter': [',',';','；','，'],   // Or a string with a single delimiter. Ex: ';'
+       'removeWithBackspace' : true,
+       'minChars' : 2,
+       'maxChars' : 15, // if not provided there is no limit
+       'placeholderColor' : '#666666'
+    });
+
+
 {% endblock %}
 
 {% block content %}
@@ -365,7 +385,6 @@
 	<form action="{{ app_url_app_admin_base }}/scene_scene/save" class="ui form" method="post" id="active-form">
 		<!-- 隐藏表单 -->
 		<input type="hidden" name="id" value="{{ date._id }}" />
-		<input type="hidden" name="tags" value="{{ date.tags }}" />
 		
 		<div class="ui segment from">
 			<h3 class="ui dividing header">填写情境信息</h3>
@@ -377,6 +396,10 @@
                 <label>详情</label>
                 <textarea name="des" placeholder="详情">{{ date.des }}</textarea>
             </div>
+            <div class="field">
+                <label>标签</label>
+				<input type="text" id="tags" name="tags" placeholder="添写标签" value="{{ date.tags_s }}" />
+			</div>
 			<!--封面图-->
             <div class="ui segment">
                 <div class="field">
@@ -410,7 +433,7 @@
                     </div>
                 </div>
             </div>
-			<div class="field">
+			<div class="field" style="display:none;">
                 <label>所属标签</label>
 				{% for tags in scene_tags %}
                 <div class="ui tags">

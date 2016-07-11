@@ -477,6 +477,25 @@
 	});
 
   $('.js-example-basic-single').select2();
+
+
+    // 标签
+    $('#tags').tagsInput({
+       //'autocomplete_url': url_to_autocomplete_api,
+        //'autocomplete': { option: value, option: value},
+       'height':'60px',
+       'width':'auto',
+       'interactive':true,
+       'defaultText':'添加标签',
+       //'onAddTag':callback_function,
+       //'onRemoveTag':callback_function,
+       //'onChange' : callback_function,
+       'delimiter': [',',';','；','，'],   // Or a string with a single delimiter. Ex: ';'
+       'removeWithBackspace' : true,
+       'minChars' : 2,
+       'maxChars' : 15, // if not provided there is no limit
+       'placeholderColor' : '#666666'
+    });
     
 {% endblock %}
 {% block content %}
@@ -586,7 +605,7 @@
 
 			<div class="field">
 			  	<label for="title">标签：</label>
-				<input type="text" name="tags" value="{{ scene_product.tags_s }}" />
+				<input type="text" id="tags" name="tags" value="{{ scene_product.tags_s }}" />
 				<div class="description">关键词之间使用“ ”、“,”或“;”隔开</div>
 			</div>
 
@@ -633,7 +652,7 @@
         </div>
       </div>
 
-			<div class="field">
+			<div class="field" style="display:none;">
         <label>所属标签</label>
 				{% for tags in scene_tags %}
                 <div class="ui tags">
