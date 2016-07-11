@@ -493,9 +493,12 @@
     	$(this).css('display','none')
     });
     function hdsuccess(){
-    	 $('.fenxia,.fenh5,.word').css('display','none');
+    	$('.fenxia,.fenh5,.word').css('display','none');
         $('.postbd').css('display','block');
     }
+    $("input").focus(function(){
+		$("input,.submitbtn").css("margin-top","-20px");
+	});
     // 微信分享统计
     var m_name = '云马试用';
     var img_url = ' ';
