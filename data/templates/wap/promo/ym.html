@@ -499,6 +499,9 @@ input,input:focus,input:active{
     	$('.fenxia,.fenh5,.word').css('display','none');
         $('.postbd').css('display','block');
     }
+    $('input').focus(function(){
+    	$('body').css('margin-top','-200px');
+    })
     // 微信分享统计
     var m_name = '云马试用';
     var img_url = ' ';
