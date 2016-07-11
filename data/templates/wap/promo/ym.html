@@ -502,6 +502,9 @@ input,input:focus,input:active{
     $("input").focus(function(){
 		$(".ui.input,.submitbtn").css("margin-top","-200px");
 	});
+	$("input").blur(function(){
+		$(".ui.input,.submitbtn").css("margin-top","0");
+	});
     // 微信分享统计
     var m_name = '云马试用';
     var img_url = ' ';
