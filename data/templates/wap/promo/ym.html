@@ -204,58 +204,58 @@
     right: 100%;   
 }
 .current .pw{
-	-webkit-animation: btright 9s 1 alternate forwards;
-    animation: btright 9s 1 alternate forwards;
+	-webkit-animation: btright 7s 1 alternate forwards;
+    animation: btright 7s 1 alternate forwards;
 }
 .current .pw.jb_1{
 	animation-delay:0s !important;
 	-webkit-animation-delay:0s !important;
 }
 .current .pw.jb_2{
-	animation-delay:2s !important;
-	-webkit-animation-delay:2s !important;
+	animation-delay:1s !important;
+	-webkit-animation-delay:1s !important;
 }
 .current .pw.jb_3{
-	animation-delay:9s !important;
-	-webkit-animation-delay:9s !important;
+	animation-delay:6s !important;
+	-webkit-animation-delay:6s !important;
 }
 .current .pw.jb_4{
-	animation-delay:11s !important;
-	-webkit-animation-delay:11s !important;
+	animation-delay:7s !important;
+	-webkit-animation-delay:7s !important;
 }
 .current .pw.jb_5{
+	animation-delay:12s !important;
+	-webkit-animation-delay:12s !important;
+}
+.current .pw.jb_6{
+	animation-delay:13s !important;
+	-webkit-animation-delay:13s !important;
+}
+.current .pw.jb_7{
 	animation-delay:18s !important;
 	-webkit-animation-delay:18s !important;
 }
-.current .pw.jb_6{
-	animation-delay:20s !important;
-	-webkit-animation-delay:20s !important;
-}
-.current .pw.jb_7{
-	animation-delay:27s !important;
-	-webkit-animation-delay:27s !important;
-}
 .current .pw.jb_8{
-	animation-delay:29s !important;
-	-webkit-animation-delay:29s !important;
+	animation-delay:19s !important;
+	-webkit-animation-delay:19s !important;
 }
 .current .pw.jb_9{
-	animation-delay:36s !important;
-	-webkit-animation-delay:36s !important;
+	animation-delay:24s !important;
+	-webkit-animation-delay:24s !important;
 }
 .current .pw.jb_10{
-	animation-delay:38s !important;
-	-webkit-animation-delay:38s !important;
+	animation-delay:25s !important;
+	-webkit-animation-delay:25s !important;
 }
 .current .pw.jb_11{
-	animation-delay:45s !important;
-	-webkit-animation-delay:45s !important;
+	animation-delay:30s !important;
+	-webkit-animation-delay:30s !important;
 	-webkit-animation: btright 9s infinite;
 	animation: btright 9s infinite;
 }
 .current .pw.jb_12{
-	animation-delay:47s !important;
-	-webkit-animation-delay:47s !important;
+	animation-delay:31s !important;
+	-webkit-animation-delay:31s !important;
 	-webkit-animation: btright 9s infinite;
 	animation: btright 9s infinite;
 }
@@ -304,6 +304,9 @@
     left: 0;
     background-size: 100%;
     display: none;
+    background-repeat: no-repeat;
+    background-color: rgba(0,0,0,1);
+    background-position: 45px -85px;
 }
 .postbd{
 	display: none;
@@ -492,13 +495,16 @@ input,input:focus,input:active{
     });
     $('.fenxia').click(function(){
     	$('.fenh5').css('display','block');
+    	$('.music').css('display','none');
     });
     $('.fenh5').click(function(){
-    	$(this).css('display','none')
+    	$(this).css('display','none');
+    	$('.music').css('display','block');
     });
     function hdsuccess(){
     	$('.fenxia,.fenh5,.word').css('display','none');
         $('.postbd').css('display','block');
+        $('.music').css('display','block');
     }
     $("input").focus(function(){
 		$(".ui.input,.submitbtn").css("margin-top","-200px");
