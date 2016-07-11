@@ -393,6 +393,37 @@ input,input:focus,input:active{
     top: 403px;
     text-align: center;
 }
+@-webkit-keyframes swipe {
+		0%{-webkit-transform:translateY(40px);opacity:0}
+		60%{-webkit-transform:translateY(12px);opacity:1}
+		100%{-webkit-transform:translateY(0px);opacity:0}
+	}
+	@-moz-keyframes swipe {
+		0%{-webkit-transform:translateY(40px);opacity:0}
+		60%{-webkit-transform:translateY(12px);opacity:1}
+		100%{-webkit-transform:translateY(0px);opacity:0}
+	}
+	@keyframes swipe {
+		0%{-webkit-transform:translateY(40px);opacity:0}
+		60%{-webkit-transform:translateY(12px);opacity:1}
+		100%{-webkit-transform:translateY(0px);opacity:0}
+	}
+	.swipe{
+		opacity: 0;
+	}
+.current .swipe { 
+	position: absolute; 
+	width: 28px; 
+	height: 16px; 
+	bottom: 20px; 
+	left: 50%; 
+	margin-left: -14px;
+	z-index:4;
+	animation: swipe 1.5s linear infinite;
+  -webkit-animation: swipe 1.5s linear infinite; 
+  animation-delay:33s !important;
+	-webkit-animation-delay:33s !important;
+}
 @-webkit-keyframes btright {
  	0% {
 	 right: -100%;
@@ -630,6 +661,7 @@ input,input:focus,input:active{
 			<div class="pw jb_10"></div>
 			<div class="pw jb_11"></div>
 			<div class="pw jb_12"></div>
+			<img class="swipe" src="http://frstatic.qiniudn.com/images/swipe.png" width="28" height="16"/>
 		</div>
 	</section>
 	<section class="screen screen3">
