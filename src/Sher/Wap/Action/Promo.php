@@ -21,7 +21,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 
     //云马
     public function ym(){
-      $this->stash['page_title_suffix'] = '云马试用';
+      $this->stash['page_title_suffix'] = '大咖齐聚，马力出行';
       // 记录浏览数
         $num_mode = new Sher_Core_Model_SumRecord();
         $num_mode->add_record('23', 'view_count', 4, 4); 

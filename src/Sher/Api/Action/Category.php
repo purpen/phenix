@@ -104,7 +104,7 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
             'domain' => $domain,
             'app_cover_url' => 'http://frbird.qiniudn.com/asset/160607/5756b69dfc8b12a1478ba705-1-hu.jpg',
             //'back_url' => 'http://frbird.qiniudn.com/asset/160707/577e1b74fc8b12b31c8b6de5-10-hu.jpg',
-            'back_url' => 'http://frbird.qiniudn.com/asset/160707/577e22d6fc8b12bb1c8b6f84-10-hu.jpg',
+            'back_url' => 'http://frbird.qiniudn.com/asset/160711/5783332afc8b12b11c8ba757-10-hu.jpg',
             'order_by' => 0,
             'tags' => array(),
           );

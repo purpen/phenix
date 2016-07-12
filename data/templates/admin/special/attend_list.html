@@ -39,7 +39,7 @@
 		</thead>
 		<tbody>
 
-			{% subject_record_list var:'list' target_id:target_id type:1 event:event page:page size:100 %}
+			{% subject_record_list var:'list' target_id:target_id type:1 event:event page:page size:size %}
 
 			{% for f in list.rows %}
         
@@ -71,6 +71,7 @@
               <p class="attribute">手机：{{ f.info.phone|default '--' }}</p>
               <p class="attribute">公司：{{ f.info.company|default '--' }}</p>
               <p class="attribute">职位：{{ f.info.job|default '--' }}</p>
+              <p class="attribute">地址：{{ f.info.address|default '--' }}</p>
               {% if f.info.account %}
                 <p class="attribute">账号：{{ f.info.account|default '--' }}</p>
               {%endif%}
