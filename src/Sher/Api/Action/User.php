@@ -395,6 +395,8 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
         $target_user_id = 0;
         $model = null;
 
+        $exp_count = 0;
+
         // 增长积分
         $service = Sher_Core_Service_Point::instance();
 
@@ -408,6 +410,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
                 if($scene_sight){
                     $target_user_id = $scene_sight['user_id'];
                     if($evt==1){    // 分享
+                        $exp_count = 5;
                         $service->send_event('evt_sight_by_share', $target_user_id);                  
                         $service->send_event('evt_sight_share', $user_id);                   
                     }
@@ -421,7 +424,9 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
                 break;
             default:
                 
-        }
+        }   // end switch
+
+        return $this->api_json('请求成功', 0, array('exp'=>$exp_count));
     
     }
 

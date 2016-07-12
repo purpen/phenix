@@ -671,20 +671,20 @@ input,input:focus,input:active{
 
     $(function(e){
         $('.submitbtn').click(function(){
-            var target_id = $(':input[name=target_id]').val();   
-            var event = $(':input[name=event]').val(); 
-            var realname = $(':input[name=realname]').val(); 
-            var phone = $(':input[name=phone]').val(); 
-            var address = $(':input[name=address]').val();
+            var target_id = $('input[name=target_id]').val();   
+            var event = $('input[name=event]').val(); 
+            var realname = $('input[name=realname]').val(); 
+            var phone = $('input[name=phone]').val(); 
+            var address = $('input[name=address]').val();
 
             var url = "{{ app_url_wap }}/app/wap/promo_func/save_subject_sign";
             $.post(url, {target_id: target_id, event:event, realname:realname, phone:phone, address:address}, function(result){
                 if(result.success){
-                    alert(123);
+                    phenix.show_ok_note('报名成功!', 3000);
                 }else{
-                    alert(456);
+                    alert(result.message);
+                    return;
                 }
-                return;
             }, 'json');
         });
         
