@@ -671,20 +671,21 @@ input,input:focus,input:active{
 
     $(function(e){
         $('.submitbtn').click(function(){
-            var target_id = $(':input[name=target_id]').val();   
-            var event = $(':input[name=event]').val(); 
-            var realname = $(':input[name=realname]').val(); 
-            var phone = $(':input[name=phone]').val(); 
-            var address = $(':input[name=address]').val();
+            var target_id = $('input[name=target_id]').val();   
+            var event = $('input[name=event]').val(); 
+            var realname = $('input[name=realname]').val(); 
+            var phone = $('input[name=phone]').val(); 
+            var address = $('input[name=address]').val();
 
             var url = "{{ app_url_wap }}/app/wap/promo_func/save_subject_sign";
             $.post(url, {target_id: target_id, event:event, realname:realname, phone:phone, address:address}, function(result){
                 if(result.success){
-                    alert(123);
+                    alert('参与成功！');
+                    window.location.reload();
                 }else{
-                    alert(456);
+                    alert(result.message);
+                    return;
                 }
-                return;
             }, 'json');
         });
         
@@ -749,7 +750,7 @@ input,input:focus,input:active{
 			<div class="word"></div>
 			<div class="postbd">
 			<!-- 表单 -->
-				<form>
+				<form action="javascript:void(0);">
                     <input type="hidden" name="event" value="4" />
                     <input type="hidden" name="target_id" value="11" />
 					<div class="ui input one">

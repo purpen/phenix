@@ -127,13 +127,16 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
    * 保存报名信息
    */
   public function save_subject_sign(){
-
     $target_id = isset($this->stash['target_id'])?(int)$this->stash['target_id']:0;
     $event = isset($this->stash['event'])?(int)$this->stash['event']:1;
     $user_id = isset($this->stash['user_id'])?(int)$this->stash['user_id']:0;
 
     if(empty($target_id)){
       return $this->ajax_json('参数不存在!', true);   
+    }
+
+    if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['address'])){
+      return $this->ajax_json('请求失败,缺少用户必要参数!', true);
     }
 
     if(!preg_match("/1[3458]{1}\d{9}$/",trim($this->stash['phone']))){  
@@ -145,10 +148,6 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 
     if($has_sign){
       return $this->ajax_json('您已经参与过了!', true);
-    }
-
-    if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['address']))){
-      return $this->ajax_json('请求失败,缺少用户必要参数!', true);
     }
 
     $data = array();
