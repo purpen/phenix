@@ -7,7 +7,7 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 	
 	public $stash = array(
 		'page' => 1,
-		'size' => 20,
+		'size' => 100,
 		'state' => '',
 	);
 	
@@ -86,9 +86,10 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 	 */
 	public function save(){		
 		
-		$id = $this->stash['id'];
+		$id = isset($this->stash['id']) ? $this->stash['id'] : null;
 		$title = $this->stash['title'];
 		$des = $this->stash['des'];
+        $category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$tags = $this->stash['tags'];
 		
     $mode = 'create';
@@ -106,6 +107,7 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 		$data = array(
 			'title' => $title,
 			'des' => $des,
+            'category_id' => $category_id,
 		);
 		
 		if(empty($tags)){

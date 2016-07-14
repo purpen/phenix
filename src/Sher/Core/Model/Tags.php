@@ -17,14 +17,18 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
         'total_count' => 0,
 		'subscribe_count' => 0,
         'search_on' => null,
+        # 类型：1.普通；2.分类；3.其它；4.--；
         'kind' => 1,
-        'cid' => 0,
+        # 父ID
+        'fid' => 0,
+        # 层级
+        'layer' => 0,
         'status' => 1,
         'stick' => 0,
     );
 	
-    protected $required_fields = array('name','index');
-    protected $int_fields = array('topic_count','product_count','total_count','search_count','stick','kind','status','cid');
+    protected $required_fields = array('name');
+    protected $int_fields = array('topic_count','product_count','total_count','search_count','stick','kind','status','fid','layer');
 	
     
     protected function extra_extend_model_row(&$row) {
@@ -33,16 +37,16 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
         if(isset($row['kind'])){
             switch($row['kind']){
                 case 1:
-                    $row['kind_label'] = '普通';
+                    $row['kind_label'] = '情景';
                     break;
                 case 2:
-                    $row['kind_label'] = '分类';
+                    $row['kind_label'] = '商品';
                     break;
                 case 3:
-                    $row['kind_label'] = '其它';
+                    $row['kind_label'] = '分类';
                     break;
                 case 4:
-                    $row['kind_label'] = 'no';
+                    $row['kind_label'] = '默认';
                     break;
                 default:
                     $row['kind_label'] = '--';
@@ -54,12 +58,29 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
 	 * 添加索引键
 	 */
     protected function before_insert(&$data) {
-	    if (isset($data['name'])) {
-	        $data['index'] = Sher_Core_Helper_Pinyin::str2py($data['name']);
-	    }
 		
 		parent::before_insert($data);
     }
+
+	/**
+	 * 保存之前,处理标签中的逗号,空格等
+	 */
+	protected function before_save(&$data) {
+	    if (!empty($data['name'])) {
+	        $data['index'] = Sher_Core_Helper_Pinyin::str2py($data['name']);
+	    }
+
+        $layer = 0;
+        if(!empty($data['fid'])){
+            $tags_model = new Sher_Core_Model_Tags();
+            $f_tag = $tags_model->load((int)$data['fid']);
+            if($f_tag){
+                $layer = (int)$f_tag['layer'] + 1;
+            }
+        }
+        $data['layer'] = $layer;
+	    parent::before_save($data);
+	}
 	
 	/**
 	 * 验证关键词信息
