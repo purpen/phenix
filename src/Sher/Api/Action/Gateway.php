@@ -594,6 +594,63 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
       $id = 0;
       return $this->api_json('success', 0, array('img_url'=>$img_url, 'switch'=>$switch, 'type'=>$type, 'id'=>$id));
   }
+
+  /**
+   * 获取中文分词
+   */
+  public function fetch_chinese_word(){
+      $title = isset($this->stash['title']) ? $this->stash['title'] : null;
+      $content = isset($this->stash['content']) ? $this->stash['content'] : null;
+      if(empty($title) && empty($content)){
+        return $this->api_json('empty', 0, array('word'=>null));
+      }
+      $mydata = sprintf("%s %s", $title, $content);
+        $scws = scws_new();
+        $scws->set_charset('utf8');
+
+		$scws->add_dict(ini_get("scws.default.fpath").'/dict.utf8.xdb', SCWS_XDICT_XDB);
+        $bird_dict = ini_get("scws.default.fpath").'/dict.phenix.txt';
+        if (is_file($bird_dict)) {
+            $scws->add_dict($bird_dict, SCWS_XDICT_TXT);
+        }
+
+        //$scws->set_duality(true);
+        $scws->set_ignore(true);
+        //$scws->set_multi(true);
+        $scws->send_text($mydata);
+
+        $data = array();
+
+        $tags_model = new Sher_Core_Model_Tags();
+
+        while ($words = $scws->get_result()) {
+            foreach ($words as $w) {
+                // 忽略单字
+                if ($w['len'] <= 3 && $w['attr'] != 'n' && $w['attr'] != 'en' ) {
+                    continue;
+                }
+                $data[] = trim($w['word']);
+            }
+        }
+        //flush();
+
+        $scws->close();
+
+        $data = array_unique($data);
+        $tags = array();
+        if(!empty($data)){
+            foreach($data as $v){
+                // 查看是否存在标签库
+                $has_one = $tags_model->first(array('name'=>$v, 'kind'=>1));
+                if($has_one){
+                    array_push($tags, $v);
+                }    
+            }
+        }
+
+        return $this->api_json('success', 0, array('word'=>$tags));
+
+  }
 	
 }
 

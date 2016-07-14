@@ -92,7 +92,9 @@
 					  	<label></label>
 					</div>
 				</th>
-                <th>语境名称</th>
+                <th>ID</th>
+                <th>标题</th>
+                <th>分类</th>
                 <th>使用次数</th>
 				<th>状态</th>
 				<th>管理操作</th>
@@ -109,9 +111,11 @@
 					  	<label></label>
 					</div>
 				</td>
+                <td>{{ d._id }}</td>
 				 <td>
                   {{ d.title }}
                 </td>
+                <td>{{ d.category.title|default '--' }}</td>
                 <td>
                   {{ d.used_count }}
                 </td>

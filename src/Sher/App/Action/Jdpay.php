@@ -53,7 +53,7 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
         $tradeName = '太火鸟商城'.$rid.'订单';
         $tradeDesc = '';
         $tradeTime = date('YmdHis');
-        $amount = (float)$order_info['pay_money']*100;     // 付款金额：单位(分)
+        $amount = (string)($order_info['pay_money']*100);     // 付款金额：单位(分)
         $currency = 'CNY';
         $note = '';     // 备注
         $orderType = '0';     // 0.实物；1.虚拟；
@@ -108,10 +108,10 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
 	
 	/**
 	 * 服务器异步通知页面
-	 * posts:   {"discount":"0.00","payment_type":"1","subject":"","trade_no":"2014091470158997","buyer_email":"xy.shawn@aliyun.com","gmt_create":"2014-09-14 14:43:26","notify_type":"trade_status_sync","quantity":"1","out_trade_no":"114091400235","seller_id":"2088411237666512","notify_time":"2014-09-14 14:43:34","trade_status":"TRADE_SUCCESS","is_total_fee_adjust":"N","total_fee":"99.00","gmt_payment":"2014-09-14 14:43:33","seller_email":"admin@taihuoniao.com","price":"99.00","buyer_id":"2088202980059971","notify_id":"fd9ee56eaa40da0513555b74d1b5c3ea7e","use_coupon":"N","sign_type":"MD5","sign":"901a6c5509a978bb7463268a23c41762"}
+     *
 	 */
 	public function secrete_notify(){
-		Doggy_Log_Helper::warn("Alipay secrete notify updated!");
+		Doggy_Log_Helper::warn("Jdpay secrete notify updated!");
 		// 计算得出通知验证结果
 		$alipayNotify = new Sher_Core_Util_AlipayNotify($this->alipay_config);
 		$verify_result = $alipayNotify->verifyNotify();
@@ -125,7 +125,7 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
 				// 判断该笔订单是否在商户网站中已经做过处理
 				// 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
 				// 如果有做过处理，不执行商户的业务程序
-				Doggy_Log_Helper::warn("Alipay secrete notify [$out_trade_no][$trade_no]!");
+				Doggy_Log_Helper::warn("Jdpay secrete notify [$out_trade_no][$trade_no]!");
 				
 				return $this->update_alipay_order_process($out_trade_no, $trade_no, true);
 				
@@ -135,12 +135,12 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
 				// 2、开通了高级即时到账，从该笔交易成功时间算起，过了签约时的可退款时限
 				//（如：三个月以内可退款、一年以内可退款等）后。
 			} else {
-				Doggy_Log_Helper::warn("Alipay secrete notify trade status fail!");
+				Doggy_Log_Helper::warn("Jdpay secrete notify trade status fail!");
 				return $this->to_raw('fail');
 			}
 		}else{
 			// 验证失败
-			Doggy_Log_Helper::warn("Alipay secrete notify verify result fail!");
+			Doggy_Log_Helper::warn("Jdpay secrete notify verify result fail!");
 			return $this->to_raw('fail');
 		}
 	}
@@ -195,7 +195,7 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
 		// 跳转订单详情
 		$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
 		
-		Doggy_Log_Helper::warn("Alipay order[$out_trade_no] status[$status] updated!");
+		Doggy_Log_Helper::warn("JdPay order[$out_trade_no] status[$status] updated!");
 		
 		// 验证订单是否已经付款
 		if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
