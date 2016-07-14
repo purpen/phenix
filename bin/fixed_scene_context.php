@@ -54,7 +54,7 @@ while(!$is_end){
                 }
             }
             $ok = true;
-            $ok = $scene_context_model->update_set($id, array('tags'=>$new_tags, 'old_tags'=>$list[$i]['tags']));
+            //$ok = $scene_context_model->update_set($id, array('tags'=>$new_tags, 'old_tags'=>$list[$i]['tags']));
             if($ok){
                 $total++;
             }           
