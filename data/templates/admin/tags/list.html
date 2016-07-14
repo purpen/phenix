@@ -40,7 +40,7 @@
                 <th>父ID</th>
                 <th>层级</th>
 				<th>索引</th>
-				<th>相关数量</th>
+				<th>数量(T|Co|Si|Sc)</th>
                 <th>推荐</th>
 				<th>创建时间</th>
 				<th>管理操作</th>
@@ -61,7 +61,7 @@
                 <td>{{ tag.fid|default 0 }}</td>
                 <td>{{ tag.layer }}</td>
 				<td>{{ tag.index }}</td>
-				<td>{{ tag.total_count }}</td>
+				<td>{{ tag.total_count|default 0 }}|{{ tag.context_count|default 0 }}|{{ tag.sight_count|default 0 }}|{{ tag.scene_count|default 0 }}</td>
 				<td>
 					<p>
 						{% if tag.stick %}

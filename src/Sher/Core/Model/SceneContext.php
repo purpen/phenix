@@ -71,9 +71,18 @@ class Sher_Core_Model_SceneContext extends Sher_Core_Model_Base {
 	 * 保存之后事件
 	 */
     protected function after_save(){
+
+        $category_id = !empty($this->data['category_id']) ? $this->data['category_id'] : 0;
+        $tags = !empty($this->data['tags']) ? $this->data['tags'] : array();
 		
-		$model = new Sher_Core_Model_SceneTags();
-		$model->scene_count($this->data['tags'],array('total_count','context_count'),1);
+		$model = new Sher_Core_Model_Tags();
+		$model->record_count(1, $tags);
+
+
+        $category = new Sher_Core_Model_Category();
+        if (!empty($category_id)) {
+            $category->inc_counter('total_count', 1, $category_id);
+        }
 		
 		parent::after_save();
     }

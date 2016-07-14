@@ -1,11 +1,11 @@
 <?php
 /**
- * 标签页面
- * @author purpen
+ * 临时标签
+ * @author tianshuai
  */
-class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
+class Sher_Core_Model_TempTags extends Sher_Core_Model_Base  {
 
-    protected $collection = "tag";
+    protected $collection = "temp_tag";
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
     protected $schema = array(
@@ -37,7 +37,6 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
 	
     
     protected function extra_extend_model_row(&$row) {
-    	$row['tag_view_url'] = Sher_Core_Helper_Url::build_url_path('app.url.tag', $row['name']);
 
         if(isset($row['kind'])){
             switch($row['kind']){
@@ -77,7 +76,7 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
 
         $layer = 0;
         if(!empty($data['fid'])){
-            $tags_model = new Sher_Core_Model_Tags();
+            $tags_model = new Sher_Core_Model_TempTags();
             $f_tag = $tags_model->load((int)$data['fid']);
             if($f_tag){
                 $layer = (int)$f_tag['layer'] + 1;
@@ -236,8 +235,17 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
         }
 
         if(!empty($temp_tags)){
-            $temp_tags_model = new Sher_Core_Model_TempTags();
-            $temp_tags_model->record_count($evt, $temp_tags);
+            foreach($temp_tags as $t){
+                $rows = array(
+                    'name' => $t,
+                    'total_count' => 1,
+                );
+                if(!empty($fields_count)){
+                    $rows["$fields_count"] = 1;
+                }
+                $this->create($rows);         
+            }
+            
         }     
 
     }
