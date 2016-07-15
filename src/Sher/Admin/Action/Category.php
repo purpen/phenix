@@ -7,7 +7,7 @@ class Sher_Admin_Action_Category extends Sher_Admin_Action_Base implements Doggy
 	
 	public $stash = array(
 		'page' => 1,
-		'size' => 50,
+		'size' => 100,
 		'only_open' => 0,
     'domain' => 0,
     's_type' => 1,

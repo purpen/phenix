@@ -73,6 +73,15 @@ app.topic.dream_category_id: 49
 # 十万火计2
 app.contest.dream2_category_id: 49
 
+# 情景语境分类
+app.scene_context.category_id: 49
+
+# 情景地盘分类
+app.scene.category_id: 49
+
+# 十万火计2
+app.contest.dream2_category_id: 49
+
 # 奇思甬动-大赛
 app.contest.qsyd_category_id: 68
 app.contest.qsyd2_category_id: 37

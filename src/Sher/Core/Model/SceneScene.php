@@ -30,6 +30,11 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
         ),
 		# 地址
         'address' => '',
+
+        # 分类
+        'category_id' => 0,
+        # 分类标签
+        'category_tags' => array(),
 		
         # 封面
 		'cover_id' => '',
@@ -69,14 +74,15 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('title', 'user_id');
-	protected $int_fields = array('status', 'used_count', 'deleted');
+	protected $int_fields = array('status', 'used_count', 'deleted', 'category_id');
 	protected $float_fields = array();
-	protected $counter_fields = array('used_count','view_count','subscription_count','love_count','comment_count','true_view_count','app_view_count','web_view_count','wap_view_count', 'sight_count');
+	protected $counter_fields = array('used_count','view_count','subscription_count','love_count','comment_count','true_view_count','app_view_count','web_view_count','wap_view_count', 'sight_count', 'category_id');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
 		'cover' =>  array('cover_id' => 'Sher_Core_Model_Asset'),
 		'user' =>   array('user_id' => 'Sher_Core_Model_User'),
+		'category' =>   array('category_id' => 'Sher_Core_Model_Category'),
 	);
 	
 	/**
@@ -105,10 +111,14 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 
     $user_id = $this->data['user_id'];
 
+    $category_id = !empty($this->data['category_id']) ? $this->data['category_id'] : 0;
+    $tags = !empty($this->data['tags']) ? $this->data['tags'] : array();
+
       // 如果是新的记录
       if($this->insert_mode) {
-        $model = new Sher_Core_Model_SceneTags();
-        $model->scene_count($this->data['tags'],array('total_count','scene_count'),1);
+
+		$model = new Sher_Core_Model_Tags();
+		$model->record_count(2, $tags);
         
         $model = new Sher_Core_Model_User();
         $model->inc_counter('scene_count',(int)$this->data['user_id']);
@@ -116,7 +126,12 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
         // 添加到用户最近使用过的标签
         $user_tag_model = new Sher_Core_Model_UserTags();
         for($i=0;$i<count($this->data['tags']);$i++){
-          $user_tag_model->add_item_custom($user_id, 'scene_tags', (int)$this->data['tags'][$i]);
+          $user_tag_model->add_item_custom($user_id, 'scene_tags', $this->data['tags'][$i]);
+        }
+
+        $model = new Sher_Core_Model_Category();
+        if (!empty($category_id)) {
+            $model->inc_counter('total_count', 1, $category_id);
         }
 
         // 增长积分
