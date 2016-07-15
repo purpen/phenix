@@ -21,7 +21,7 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
         'sight_count' => 0,
         'scene_product_count' => 0,
         'search_on' => null,
-        # 类型：1.普通；2.分类；3.其它；4.--；
+        # 类型：1.情景；2.商品；3.分类；3.分类；4.--；
         'kind' => 1,
         # 父ID
         'fid' => 0,
