@@ -96,9 +96,14 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
 
         // 显示全部
         if($show_all){
+            if($domain==10){
+                $title_all = '全部好货';
+            }else{
+                $title_all = '全部';
+            }
           $arr = array(
             '_id' => 0,
-            'title' => '全部好货',
+            'title' => $title_all,
             'name' => 'all',
             'tag_id' => 0,
             'domain' => $domain,
