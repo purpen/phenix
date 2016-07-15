@@ -537,7 +537,7 @@ while(!$is_end){
         'pid' => 'scene_context_'.(string)$item['_id'],
         'kind' => 'SContext',
         'oid' => (string)$item['_id'],
-        'cid' => 0,
+        'cid' => $item['category_id'],
         'title' => $item['title'],
         'cover_id' => '',
         'content' => strip_tags(htmlspecialchars_decode($item['des'])),

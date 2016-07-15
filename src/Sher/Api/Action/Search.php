@@ -26,6 +26,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
     $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
     $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
     $asc = isset($this->stash['asc']) ? 1 : 0;
+    $cid = isset($this->stash['cid']) ? (int)$this->stash['cid'] : 0;
 
 		if(empty($q)){
 			return $this->api_json('请输入关键词！', 3000);
@@ -41,6 +42,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
       'evt'  => $evt,
       'sort' => $s,
       'asc'  => $asc,
+      'cid' => $cid,
       't'    => $t,
     );
     
