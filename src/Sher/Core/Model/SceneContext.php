@@ -79,9 +79,9 @@ class Sher_Core_Model_SceneContext extends Sher_Core_Model_Base {
 		$model->record_count(1, $tags);
 
 
-        $category = new Sher_Core_Model_Category();
+        $model = new Sher_Core_Model_Category();
         if (!empty($category_id)) {
-            $category->inc_counter('total_count', 1, $category_id);
+            $model->inc_counter('total_count', 1, $category_id);
         }
 		
 		parent::after_save();

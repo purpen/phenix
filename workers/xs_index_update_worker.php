@@ -246,7 +246,7 @@ if(!empty($scene_ids) && !empty($scene_ids['items'])){
       'pid' => 'scene_'.(string)$item['_id'],
       'kind' => 'Scene',
       'oid' => $item['_id'],
-      'cid' => 0,
+      'cid' => $item['category_id'],
       'title' => $item['title'],
       'cover_id' => $cover_id,
       'content' => strip_tags(htmlspecialchars_decode($item['des'])),

@@ -105,11 +105,13 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 	 */
     protected function after_save(){
       $user_id = $this->data['user_id'];
+        $tags = !empty($this->data['tags']) ? $this->data['tags'] : array();
 		
       // 如果是新的记录
       if($this->insert_mode) {
-        $model = new Sher_Core_Model_SceneTags();
-        $model->scene_count($this->data['tags'],array('total_count','sight_count'),1);
+
+		$model = new Sher_Core_Model_Tags();
+		$model->record_count(3, $tags);
         
         $model = new Sher_Core_Model_User();
         $model->inc_counter('sight_count',(int)$this->data['user_id']);
@@ -141,7 +143,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
         // 添加到用户最近使用过的标签
         $user_tag_model = new Sher_Core_Model_UserTags();
         for($i=0;$i<count($this->data['tags']);$i++){
-          $user_tag_model->add_item_custom($user_id, 'scene_tags', (int)$this->data['tags'][$i]);
+          $user_tag_model->add_item_custom($user_id, 'scene_tags', $this->data['tags'][$i]);
         }
 
         // 增长积分

@@ -121,6 +121,10 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 			'id' => Sher_Core_Util_Constant::TYPE_SCENE_CONTEXT,
 			'name' => '情景语境',
 		),
+		array(
+			'id' => Sher_Core_Util_Constant::TYPE_SCENE_SCENE,
+			'name' => '地盘',
+		),
 	);
 	
     protected $int_fields = array('gid','pid','order_by','domain','is_open','total_count','state','reply_count','sub_count','tag_id','stick');

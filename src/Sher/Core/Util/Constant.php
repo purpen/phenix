@@ -51,6 +51,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const TYPE_SPECIAL_SUBJECT = 9; // App专题
     const TYPE_SCENE_PRODUCT = 10; // 情景产品分类
 	const TYPE_SCENE_CONTEXT = 11; // 情景语境分类
+	const TYPE_SCENE_SCENE = 12; // 地盘分类
 	
 	// 来源站点
 	const FROM_LOCAL = 1;
