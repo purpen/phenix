@@ -74,10 +74,10 @@ app.topic.dream_category_id: 49
 app.contest.dream2_category_id: 49
 
 # 情景语境分类
-app.scene_context.category_id: 49
+app.scene_context.category_id: 154
 
 # 情景地盘分类
-app.scene.category_id: 49
+app.scene.category_id: 175
 
 # 十万火计2
 app.contest.dream2_category_id: 49

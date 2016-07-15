@@ -53,8 +53,8 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		
 		$this->stash['app_baidu_map_ak'] = Doggy_Config::$vars['app.baidu.map_ak'];
 
-		$pid = Doggy_Config::$vars['app.scene.category_id'];
-        $this->stash['pid'] = $pid;
+		$fid = Doggy_Config::$vars['app.scene.category_id'];
+        $this->stash['fid'] = $fid;
 		
 		// 查询标签信息
 		$scene_tags_model = new Sher_Core_Model_SceneTags();
@@ -84,8 +84,8 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		}
 		$mode = 'edit';
 
-		$pid = Doggy_Config::$vars['app.scene.category_id'];
-        $this->stash['pid'] = $pid;
+		$fid = Doggy_Config::$vars['app.scene.category_id'];
+        $this->stash['fid'] = $fid;
 		
 		$model = new Sher_Core_Model_SceneScene();
 		$result = $model->first((int)$id);

@@ -51,8 +51,8 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 		$mode = 'create';
 		$this->stash['mode'] = $mode;
 
-		$pid = Doggy_Config::$vars['app.scene_context.category_id'];
-        $this->stash['pid'] = $pid;
+		$fid = Doggy_Config::$vars['app.scene_context.category_id'];
+        $this->stash['fid'] = $fid;
 		
 		return $this->to_html_page('app_admin/scene_context/submit.html');
 	}
@@ -69,8 +69,8 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 		}
 		$mode = 'edit';
 
-		$pid = Doggy_Config::$vars['app.scene_context.category_id'];
-        $this->stash['pid'] = $pid;
+		$fid = Doggy_Config::$vars['app.scene_context.category_id'];
+        $this->stash['fid'] = $fid;
 		
 		$model = new Sher_Core_Model_SceneContext();
 		$result = $model->find_by_id($id);
