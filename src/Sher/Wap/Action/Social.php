@@ -193,21 +193,23 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		}
 
     // 记录兑吧来的用户，统计注册量用
-    if(isset($this->stash['from']) && (string)$this->stash['from']==1 && $id==111865){
+    if(isset($this->stash['from']) && (string)$this->stash['from']=='db' && $id==112849){
       // 存cookie
       @setcookie('from_origin', '2', time()+3600, '/');
       $_COOKIE['from_origin'] = '2';
+      @setcookie('from_target_id', '5', time()+3600, '/');
+      $_COOKIE['from_target_id'] = '5';
 
       // 统计点击数量
       $dig_model = new Sher_Core_Model_DigList();
       $dig_key = Sher_Core_Util_Constant::DIG_THIRD_DB_STAT;
 
       $dig = $dig_model->load($dig_key);
-      if(empty($dig) || !isset($dig['items']["view_03"])){
-        $dig_model->update_set($dig_key, array("items.view_03"=>1), true);     
+      if(empty($dig) || !isset($dig['items']["view_05"])){
+        $dig_model->update_set($dig_key, array("items.view_05"=>1), true);     
       }else{
         // 增加浏览量
-        $dig_model->inc($dig_key, "items.view_03", 1);
+        $dig_model->inc($dig_key, "items.view_05", 1);
       }
       
     }
@@ -234,7 +236,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		if(!empty($topic['tags'])){
 		  $this->stash['page_keywords_suffix'] = sprintf("智能硬件社区,孵化需求,活动动态,品牌专区,产品评测,太火鸟,智能硬件,%s", $topic['tags'][0]);   
 		}
-		$this->stash['page_description_suffix'] = sprintf("【太火鸟话题】 %s", mb_substr($topic['strip_description'], 0, 140));
+		$this->stash['page_description_suffix'] = sprintf("【太火鸟话题】 %s", mb_substr($topic['strip_description'], 0, 20));
 		
 		// 增加pv++
 		$inc_ran = rand(1,6);
