@@ -323,7 +323,7 @@
         <div class="field">
           <label>分类:</label>
           <input type="hidden" name="category_id" value="{{ date.category_id }}" id="context-category" />
-          {% category_list var:'category' only_open:1 domain:11 pid:pid current:date.category_id %}
+          {% category_list var:'category' only_open:1 domain:11 pid:fid current:date.category_id %}
           {% for cat in category.rows %}
           <a class="ui {{ cat.active }} magenta category button" style="margin-bottom:2px;" data-tags="{{ cat.tags_s }}" data-value="{{ cat._id }}">{{ cat.title }}</a>
           {% endfor %}
