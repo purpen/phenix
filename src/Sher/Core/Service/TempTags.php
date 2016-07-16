@@ -1,9 +1,9 @@
 <?php
 /**
- * 关键词
- * @author purpen
+ * 临时标签
+ * @author tianshuai
  */
-class Sher_Core_Service_Tags extends Sher_Core_Service_Base {
+class Sher_Core_Service_TempTags extends Sher_Core_Service_Base {
     protected $sort_fields = array(
         'latest' => array('created_on' => -1),
 		'most' => array('total_count' => -1),
@@ -15,11 +15,11 @@ class Sher_Core_Service_Tags extends Sher_Core_Service_Base {
     /**
      * current service instance
      *
-     * @return Sher_Core_Service_Tags
+     * @return Sher_Core_Service_TempTags
      */
     public static function instance() {
         if (is_null(self::$instance)) {
-            return self::$instance = new Sher_Core_Service_Tags();
+            return self::$instance = new Sher_Core_Service_TempTags();
         }
         return self::$instance;
     }
@@ -28,7 +28,7 @@ class Sher_Core_Service_Tags extends Sher_Core_Service_Base {
      * 获取列表
      */
     public function get_tags_list($query=array(),$options = array()) {
-        $model = new Sher_Core_Model_Tags();
+        $model = new Sher_Core_Model_TempTags();
         return $this->query_list($model,$query,$options);
     }
     
