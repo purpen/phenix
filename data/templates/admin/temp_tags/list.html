@@ -5,22 +5,24 @@
 {% endblock %}
 
 {% block content %}
-	<h3 class="ui header">标签管理</h3>
+	<h3 class="ui header">临时标签管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/tags" class="{{css_all}} item">全部列表</a>
+		<a href="{{ app_url_admin_base }}/temp_tags" class="{{css_all}} item">全部列表</a>
+        <!--
 	  	<div class="right menu">
-			<a href="{{ app_url_admin_base }}/tags/export" class="item">
+			<a href="{{ app_url_admin_base }}/temp_tags/export" class="item">
 				导出至文本
 			</a>
-			<a href="{{ app_url_admin_base }}/tags/edit" class="item">
-				+新增标签
+			<a href="{{ app_url_admin_base }}/temp_tags/edit" class="item">
+				+新增临时标签
 			</a>
 	    </div>
+        -->
 	</div>
 	
 	<div class="ui sub nav">
-		<form action="{{ app_url_admin_base }}/tags" method="post">
+		<form action="{{ app_url_admin_base }}/temp_tags" method="post">
 			<label>搜索：</label>
 			<div class="ui icon input">
 				<input placeholder="Search..." type="text" name="q">
@@ -29,7 +31,7 @@
 		</form>
 	</div>
 	
-	{% tags_list var:'list' name:name kind:kind index:index fid:fid page:page size:size tag:q sort: 'most' %}
+	{% temp_tags_list var:'list' name:name kind:kind index:index fid:fid page:page size:size tag:q sort: 'most' %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>
@@ -76,13 +78,13 @@
 					<div class="ui divided horizontal list">
 
 						{% if tag.stick == 1 %}
-						<a href="{{ app_url_admin_base }}/tags/ajax_set_stick?id={{ tag._id }}&evt=0" class="ui link ajax item" id="stick-{{ tag._id }}-button">取消推荐</a>
+						<a href="{{ app_url_admin_base }}/temp_tags/ajax_set_stick?id={{ tag._id }}&evt=0" class="ui link ajax item" id="stick-{{ tag._id }}-button">取消推荐</a>
 						{% else %}
-						<a href="{{ app_url_admin_base }}/tags/ajax_set_stick?id={{ tag._id }}&evt=1" class="ui link ajax item" id="stick-{{ tag._id }}-button">推荐</a>
+						<a href="{{ app_url_admin_base }}/temp_tags/ajax_set_stick?id={{ tag._id }}&evt=1" class="ui link ajax item" id="stick-{{ tag._id }}-button">推荐</a>
 						{% endif %}
 
-						<a href="{{ app_url_admin_base }}/tags/edit?id={{ tag._id }}" class="ui link item">编辑</a> 
-						<a href="{{ app_url_admin_base }}/tags/delete?id={{ tag._id }}" class="ui link item confirm-request">删除</a>
+						<a href="{{ app_url_admin_base }}/temp_tags/edit?id={{ tag._id }}" class="ui link item">编辑</a> 
+						<a href="{{ app_url_admin_base }}/temp_tags/delete?id={{ tag._id }}" class="ui link item confirm-request">删除</a>
 					</div>
 				</td>
 			</tr>

@@ -170,18 +170,14 @@ class Sher_Core_Model_TempTags extends Sher_Core_Model_Base  {
 	/**
 	 * 更新
 	 */
-	public function dec_counter($tag,$counter_name){
-		if(empty($tag) || empty($counter_name)){
-			return;
+	public function dec_counter($field_name, $inc=1, $id=null){
+		if(is_null($id)){
+			$id = $this->id;
 		}
-		if(!in_array($tag, array('topic_count','search_count','subscribe_count'))){
-			return;
+		if(empty($id) || !in_array($field_name, $this->counter_fields)){
+			return false;
 		}
-		$query['tag'] = $tag;
-		$row = $this->first($query);
-		if(isset($row[$counter_name]) && $row[$counter_name] > 0){
-			$this->dec($query,$counter_name);
-		}
+		return $this->dec($id,$field_name, $inc);
 	}
 
     /**

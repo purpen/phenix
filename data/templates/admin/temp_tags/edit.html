@@ -32,15 +32,17 @@
 	});
 {% endblock %}
 {% block content %}
-	<h3 class="ui header">标签管理</h3>
+	<h3 class="ui header">临时标签管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_admin_base }}/tags" class="{{css_all_category}} item">全部列表</a>
+		<a href="{{ app_url_admin_base }}/temp_tags" class="{{css_all_category}} item">全部列表</a>
+        <!--
 	  	<div class="right menu">
-			<a href="{{ app_url_admin_base }}/tags/edit" class="active item">
-				+新增标签
+			<a href="{{ app_url_admin_base }}/temp_tags/edit" class="active item">
+				+新增临时标签
 			</a>
 	    </div>
+        -->
 	</div>
 	
 	<div class="ui form segment">
@@ -50,7 +52,7 @@
 		<h4>编辑标签</h4>
 		{% endif %}
 		
-		<form action="{{ app_url_admin_base }}/tags/save" class="ajax-form" method="post" id="tags-form">
+		<form action="{{ app_url_admin_base }}/temp_tags/save" class="ajax-form" method="post" id="tags-form">
 			<input type="hidden" name="id" value="{{ tag._id }}" />
 			<input type="hidden" name="return_url" value="{{ return_url }}" />
 
