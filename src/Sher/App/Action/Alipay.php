@@ -71,7 +71,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 		
 		// 验证订单是否已经付款
 		if ($status != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
-			return $this->show_message_page('订单[$rid]已付款！', false);
+			return $this->show_message_page("订单[$rid]已付款！", false);
 		}
 		
         // 支付类型

@@ -42,7 +42,7 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		// 验证订单是否已经付款
 		if ($status != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
-			return $this->show_message_page('订单[$rid]已付款！', false);
+			return $this->show_message_page("订单[$rid]已付款！", false);
 		}
 
         $version = 'V2.0';  // 版本号
@@ -127,7 +127,7 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
 				// 如果有做过处理，不执行商户的业务程序
 				Doggy_Log_Helper::warn("Jdpay secrete notify [$out_trade_no][$trade_no]!");
 				
-				return $this->update_alipay_order_process($out_trade_no, $trade_no, true);
+				return $this->update_jdpay_order_process($out_trade_no, $trade_no, true);
 				
 				// 注意：
 				// 该种交易状态只在两种情况下出现
@@ -149,40 +149,69 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 页面跳转同步通知页面
 	 */
 	public function direct_notify(){
-		// 计算得出通知验证结果
-		$alipayNotify = new Sher_Core_Util_AlipayNotify($this->alipay_config);
-		$verify_result = $alipayNotify->verifyReturn();
-		if($verify_result) { // 验证成功
-			// 商户订单号
-			$out_trade_no = $_GET['out_trade_no'];
-			// 支付宝交易号
-			$trade_no = $_GET['trade_no'];
-			// 交易状态
-			$trade_status = $_GET['trade_status'];
-			
-			// 跳转订单详情
-			$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
-			
-			Doggy_Log_Helper::warn("JdPay direct notify trade_status: ".$_GET['trade_status']);
-			
-			if($_GET['trade_status'] == 'TRADE_FINISHED' || $_GET['trade_status'] == 'TRADE_SUCCESS') {
-				// 判断该笔订单是否在商户网站中已经做过处理
-				// 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-				// 如果有做过处理，不执行商户的业务程序
-				return $this->update_alipay_order_process($out_trade_no, $trade_no);
-			}else{
-				return $this->show_message_page('订单交易状态:'.$_GET['trade_status'], true);
-			}
-		}else{
-		    // 验证失败
-			return $this->show_message_page('验证失败!', true);
+
+		$desKey = Doggy_Config::$vars['app.jd_pay']['des_key'];   // 商户DES密钥
+		$keys = base64_decode($desKey);
+		$param;
+		if($_POST["tradeNum"] != null && $_POST["tradeNum"]!=""){
+			$param["tradeNum"]=Sher_Core_Util_JdPay_TDESUtil::decrypt4HexStr($keys, $_POST["tradeNum"]);
 		}
+		if($_POST["amount"] != null && $_POST["amount"]!=""){
+			$param["amount"]=Sher_Core_Util_JdPay_TDESUtil::decrypt4HexStr($keys, $_POST["amount"]);
+		}
+		if($_POST["currency"] != null && $_POST["currency"]!=""){
+			$param["currency"]=Sher_Core_Util_JdPay_TDESUtil::decrypt4HexStr($keys, $_POST["currency"]);
+		}
+		if($_POST["tradeTime"] != null && $_POST["tradeTime"]!=""){
+			$param["tradeTime"]=Sher_Core_Util_JdPay_TDESUtil::decrypt4HexStr($keys, $_POST["tradeTime"]);
+		}
+		if($_POST["note"] != null && $_POST["note"]!=""){
+			$param["note"]=Sher_Core_Util_JdPay_TDESUtil::decrypt4HexStr($keys, $_POST["note"]);
+		}
+		if($_POST["status"] != null && $_POST["status"]!=""){
+			$param["status"]=Sher_Core_Util_JdPay_TDESUtil::decrypt4HexStr($keys, $_POST["status"]);
+		}
+		
+		$sign =  $_POST["sign"];
+		$strSourceData = Sher_Core_Util_JdPay_SignUtil::signString($param, array());
+		//echo "strSourceData=".htmlspecialchars($strSourceData)."<br/>";
+		//$decryptBASE64Arr = base64_decode($sign);
+		$decryptStr = Sher_Core_Util_JdPay_ConfigUtil::decryptByPublicKey($sign);
+		//echo "decryptStr=".htmlspecialchars($decryptStr)."<br/>";
+		$sha256SourceSignString = hash ( "sha256", $strSourceData);
+		//echo "sha256SourceSignString=".htmlspecialchars($sha256SourceSignString)."<br/>";
+		if($decryptStr!=$sha256SourceSignString){
+		    // 验证失败
+			return $this->show_message_page('验证签名失败!', true);
+		}else{
+            if($param["status"]==0){
+                // 商户订单号
+                $out_trade_no = $param['tradeNum'];
+                // 支付宝交易号
+                $trade_no = '';
+                
+                // 跳转订单详情
+                $order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
+                
+                Doggy_Log_Helper::warn("JdPay direct notify trade_num: ".$param['tradeNum']);
+                
+                // 判断该笔订单是否在商户网站中已经做过处理
+                // 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
+                // 如果有做过处理，不执行商户的业务程序
+                return $this->update_jdpay_order_process($out_trade_no, $trade_no);
+
+            }else{
+ 			    return $this->show_message_page('交易失败!', true);               
+            }
+
+		}
+
 	}
 	
 	/**
 	 * 更新订单状态
 	 */
-	protected function update_alipay_order_process($out_trade_no, $trade_no, $sync=false){
+	protected function update_jdpay_order_process($out_trade_no, $trade_no, $sync=false){
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->find_by_rid($out_trade_no);
 		if (empty($order_info)){

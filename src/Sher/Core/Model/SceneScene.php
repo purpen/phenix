@@ -1,6 +1,6 @@
 <?php
 /**
- * 情景 Model
+ * 地盘
  * @ author caowei@taihuoniao.com
  */
 class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
