@@ -195,6 +195,13 @@ app.url.front_pay_url: 'https://unionpaysecure.com/api/Pay.action'
 app.url.back_pay_url: 'https://besvr.unionpaysecure.com/api/BSPay.action'
 app.url.query_url: 'https://query.unionpaysecure.com/api/Query.action'
 
+# 京东支付
+app.jd_pay:
+    merchant: '22294531'
+    des_key: 'ta4E/aspLA3lgFGKmNDNRYU92RkZ4w2t'
+    seller_rsa_private_key: '/opt/project/phenix/vendor/jd_cert/seller_rsa_private_key.pem'
+    wy_rsa_public_key: '/opt/project/phenix/vendor/jd_cert/wy_rsa_public_key.pem'
+
 # 实验室会员价格表
 app.d3in.vip_money:
   day: 80

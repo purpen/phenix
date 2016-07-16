@@ -312,12 +312,6 @@ app.storage.sher:
         root_url:'http://img.taihuoniao.me'
         hash_dir:false
 
-# 京东支付
-app.jd_pay:
-    merchant: '22294531'
-    des_key: 'ta4E/aspLA3lgFGKmNDNRYU92RkZ4w2t'
-    seller_rsa_private_key: '/Users/tian/opt/project/php/phenix/vendor/jd_cert/seller_rsa_private_key.pem'
-    wy_rsa_public_key: '/Users/tian/opt/project/php/phenix/vendor/jd_cert/wy_rsa_public_key.pem'
 
 # 淘宝客api
 app.tbk_api:

@@ -71,7 +71,7 @@ class Sher_Core_Util_JdPay_TDESUtil
 		//var_dump($hexSourceData);
 
 		// 解密
-		$unDesResult = self::decrypt (ByteUtils::toStr($hexSourceData),$keys);
+		$unDesResult = self::decrypt (Sher_Core_Util_JdPay_BytesUtils::toStr($hexSourceData),$keys);
         //echo $unDesResult;
 		$unDesResultByte = Sher_Core_Util_JdPay_BytesUtils::getBytes($unDesResult);
 		//var_dump($unDesResultByte);
@@ -86,7 +86,7 @@ class Sher_Core_Util_JdPay_TDESUtil
  			$tempData [$j] = $unDesResultByte [4 + $j];
  		}
  		
-		return Sher_Core_Util_JdPay_BytesUtils::hexTobin (ByteUtils::bytesToHex ( $tempData ));
+		return Sher_Core_Util_JdPay_BytesUtils::hexTobin (Sher_Core_Util_JdPay_BytesUtils::bytesToHex ( $tempData ));
 
 	}
 	private static function pkcs5Pad($text, $blocksize) {
