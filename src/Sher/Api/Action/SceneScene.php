@@ -173,11 +173,6 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			return $this->api_json('请求标签不能为空', 3004);
 		}
 		
-		$data['tags'] = explode(',',$data['tags']);
-		foreach($data['tags'] as $k => $v){
-			$data['tags'][$k] = (int)$v;
-		}
-		
         if($mode=='create'){
             // 上传图片
             if(empty($this->stash['tmp'])){
@@ -299,15 +294,6 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
         unset($result[$key]);
     }
 		
-		$tags_model = new Sher_Core_Model_SceneTags();
-		//$result['tags'] = array(164,165,166);
-		foreach($result['tags'] as $k => $v){
-			$res = $tags_model->find_by_id((int)$v);
-			$result['tag_titles'][$k] = '';
-			if(isset($res['title_cn'])){
-				$result['tag_titles'][$k] = $res['title_cn'];
-			}
-		}
 		
 		// 用户是否订阅该情景
 		$user_id = $this->current_user_id;
