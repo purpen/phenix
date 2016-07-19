@@ -148,7 +148,7 @@
 				<input type="hidden" name="parent_id" value="{{ date.parent_id }}" />
 				<div class="ui options">
 					<ul class="ui list-me">
-						{% scene_tags_list var:'list' page:page parent_id:parent_id left_ref:root.left_ref right_ref:root.right_ref is_root:1 type:type size:50 %}
+						{% scene_tags_list var:'list' page:page parent_id:parent_id left_ref:root.left_ref right_ref:root.right_ref is_root:1 type:type size:100 %}
 						{% for d in list.rows %}
 						<li><a class="ui green label tags {% if d._id == date.parent_id %} blue {% endif %}" data-value="{{ d._id }}">{{ d.title_cn }}</a></li>
 						{% endfor %}
