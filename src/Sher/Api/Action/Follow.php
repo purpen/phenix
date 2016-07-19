@@ -77,8 +77,14 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
                     $follow['nickname'] = isset($result['rows'][$k]['follow']['nickname']) ? $result['rows'][$k]['follow']['nickname'] : '';
                     $follow['avatar_url'] = isset($result['rows'][$k]['follow']['big_avatar_url']) ? $result['rows'][$k]['follow']['medium_avatar_url'] : '';
                     $follow['summary'] = isset($result['rows'][$k]['follow']['summary']) ? $result['rows'][$k]['follow']['summary'] : '';
-                    $follow['follow_ext']['rank_point'] = $result['rows'][$k]['follow_ext']['rank_point'];
-                    $follow['follow_ext']['user_rank'] = $result['rows'][$k]['follow_ext']['user_rank']['title'];
+                    //$follow['follow_ext']['rank_point'] = $result['rows'][$k]['follow_ext']['rank_point'];
+                    //$follow['follow_ext']['user_rank'] = $result['rows'][$k]['follow_ext']['user_rank']['title'];
+
+                    $follow['is_expert'] = isset($v['follow']['identify']['is_expert']) ? (int)$v['follow']['identify']['is_expert'] : 0;
+                    $follow['label'] = isset($v['follow']['profile']['label']) ? $v['follow']['profile']['label'] : '';
+                    $follow['expert_label'] = isset($v['follow']['profile']['expert_label']) ? $v['follow']['profile']['expert_label'] : '';
+                    $follow['expert_info'] = isset($v['follow']['profile']['expert_info']) ? $v['follow']['profile']['expert_info'] : '';
+
 					
 					// 判断是否被关注
 					$follow['is_love'] = 0;
@@ -95,8 +101,13 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
                     $follow['nickname'] = isset($result['rows'][$k]['fans']['nickname']) ? $result['rows'][$k]['fans']['nickname'] : '';
                     $follow['avatar_url'] = isset($result['rows'][$k]['fans']['big_avatar_url']) ? $result['rows'][$k]['fans']['medium_avatar_url'] : '';
                     $follow['summary'] = isset($result['rows'][$k]['fans']['summary']) ? $result['rows'][$k]['fans']['summary'] : '';
-                    $follow['fans_ext']['rank_point'] = $result['rows'][$k]['fans_ext']['rank_point'];
-                    $follow['fans_ext']['user_rank'] = $result['rows'][$k]['fans_ext']['user_rank']['title'];
+                    //$follow['fans_ext']['rank_point'] = $result['rows'][$k]['fans_ext']['rank_point'];
+                    //$follow['fans_ext']['user_rank'] = $result['rows'][$k]['fans_ext']['user_rank']['title'];
+
+                    $follow['is_expert'] = isset($v['follow']['identify']['is_expert']) ? (int)$v['follow']['identify']['is_expert'] : 0;
+                    $follow['label'] = isset($v['follow']['profile']['label']) ? $v['follow']['profile']['label'] : '';
+                    $follow['expert_label'] = isset($v['follow']['profile']['expert_label']) ? $v['follow']['profile']['expert_label'] : '';
+                    $follow['expert_info'] = isset($v['follow']['profile']['expert_info']) ? $v['follow']['profile']['expert_info'] : '';
 					
 					// 判断是否被关注
 					$follow['is_love'] = 0;
