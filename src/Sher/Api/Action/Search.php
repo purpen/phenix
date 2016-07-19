@@ -99,7 +99,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
         
         }elseif($kind=='Scene'){  // 情景
           $obj = $scene_model->load((int)$oid);
-          $result['data'][$k]['address'] = ;
+          $result['data'][$k]['address'] = '';
           if($obj){
             $result['data'][$k]['address'] = $obj['address'];
           }
