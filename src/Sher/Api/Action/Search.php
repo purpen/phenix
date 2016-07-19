@@ -99,7 +99,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
         
         }elseif($kind=='Scene'){  // 情景
           $obj = $scene_model->load((int)$oid);
-          $result['data'][$k]['address'] = null;
+          $result['data'][$k]['address'] = ;
           if($obj){
             $result['data'][$k]['address'] = $obj['address'];
           }
@@ -125,6 +125,9 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
                 'avatar_url' => $obj['user']['medium_avatar_url'],
                 'summary' => $obj['user']['summary'],
                 'is_expert' => isset($obj['user']['identify']['is_expert']) ? (int)$obj['user']['identify']['is_expert'] : 0,
+                'label' => isset($obj['user']['profile']['label']) ? $obj['user']['profile']['label'] : '',
+                'expert_label' => isset($obj['user']['profile']['expert_label']) ? $obj['user']['profile']['expert_label'] : '',
+                'expert_info' => isset($obj['user']['profile']['expert_info']) ? $obj['user']['profile']['expert_info'] : '',
               );
             }else{
               $user_info = array();
