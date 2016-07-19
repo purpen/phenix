@@ -190,6 +190,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const DIG_THIRD_DB_STAT = 'db_stat_view';
     # Fiu 最Fiu伙伴、发现好友用户ID列表
     const DIG_FIU_USER_IDS = 'fiu_user_ids';
+    # 奇思甬动大赛统计
+    const DIG_QSYD_CONTEST = 'qsyd_contest_stat';
 
     /**
      * DigList stuff计数器
