@@ -25,7 +25,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$some_fields = array(
 			'_id'=>1, 'user_id'=>1, 'title'=>1, 'des'=>1, 'scene_id'=>1, 'tags'=>1,
 			'product' => 1, 'location'=>1, 'address'=>1, 'cover_id'=>1, 'deleted'=>1,
-			'used_count'=>1, 'view_count'=>1, 'love_count'=>1, 'comment_count'=>1,
+			'used_count'=>1, 'view_count'=>1, 'love_count'=>1, 'comment_count'=>1, 'category_id'=>1,
 			'fine' => 1, 'stick'=>1, 'is_check'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
 		);
 		
@@ -38,6 +38,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$scene_id = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
 		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		
 		// 基于地理位置的查询，从城市内查询
         $distance = isset($this->stash['dis']) ? (int)$this->stash['dis'] : 0; // 距离、半径
@@ -65,6 +66,10 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         }
 
         $query['is_check'] = 1;
+
+        if($category_id){
+            $query['category_id'] = $category_id;
+        }
 		
 		if($stick){
 			if($stick == -1){
@@ -184,6 +189,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$data['title'] = isset($this->stash['title']) ? $this->stash['title'] : '';
 		$data['des'] = isset($this->stash['des']) ? $this->stash['des'] : '';
 		$data['scene_id'] = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
+		$data['category_id'] = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$data['tags'] = isset($this->stash['tags']) ? $this->stash['tags'] : '';
 
 		$data['address'] = isset($this->stash['address']) ? $this->stash['address'] : '';
@@ -193,12 +199,15 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         );
 
         // 此参数已不用，先保留
+        /**
 		$products = isset($this->stash['products']) ? $this->stash['products'] : null;
 		$product_id = isset($this->stash['product_id']) ? $this->stash['product_id'] : '';
 		$product_title = isset($this->stash['product_title']) ? $this->stash['product_title'] : '';
 		$product_price = isset($this->stash['product_price']) ? $this->stash['product_price'] : '';
 		$product_x = isset($this->stash['product_x']) ? $this->stash['product_x'] : '';
-		$product_y = isset($this->stash['product_y']) ? $this->stash['product_y'] : '';
+        $product_y = isset($this->stash['product_y']) ? $this->stash['product_y'] : '';
+
+        **/
 		
 		if(!$data['title']){
 			return $this->api_json('请求标题不能为空', 3001);
@@ -206,10 +215,6 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		if(!$data['des']){
 			return $this->api_json('请求描述不能为空', 3002);
-		}
-		
-		if(!$data['scene_id']){
-			return $this->api_json('请求情景id不能为空', 3003);
 		}
 		
 		if(!$data['address']){

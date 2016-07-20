@@ -20,6 +20,8 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		
 		# 所属情景
 		'scene_id' => 0,
+        # 分类
+        'category_id' => 0,
 		# 标签
 		'tags' => array(),
 		# 产品
@@ -71,7 +73,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('title', 'user_id');
-	protected $int_fields = array('status', 'used_count','love_count','comment_count','deleted', 'stick', 'fine');
+	protected $int_fields = array('status', 'used_count','love_count','comment_count','deleted', 'stick', 'fine', 'category_id');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count','view_count','love_count','comment_count','true_view_count','app_view_count','web_view_count','wap_view_count');
 	protected $retrieve_fields = array();

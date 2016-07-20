@@ -37,6 +37,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$fine = isset($this->stash['fine']) ? (int)$this->stash['fine'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		
 		// 基于地理位置的查询，从城市内查询
         $distance = isset($this->stash['dis']) ? (int)$this->stash['dis'] : 0; // 距离、半径
@@ -61,6 +62,10 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
                   '$nearSphere' => $point
                 );
             }
+        }
+
+        if($category_id){
+            $query['category_id'] = $category_id;
         }
 
         $query['is_check'] = 1;
