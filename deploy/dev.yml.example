@@ -59,6 +59,9 @@ app.xun_search_db: 'phenix_dev'
 # 是否验证api签名
 app.api.is_validate_sign: 1
 
+# 情景分类
+app.scene_sight.category_id: 184
+
 # 周年庆送红包活动(包括注册,邀请送红包) 开关
 app.anniversary2015.switch: 1
 
