@@ -61,6 +61,9 @@ app.api.is_validate_sign: 1
 # 周年庆送红包活动 开关
 app.anniversary2015.switch: 0
 
+# 情景分类
+app.scene_sight.category_id: 184
+
 # 产品话题-话题评测
 app.product.topic_category_id: 18
 
