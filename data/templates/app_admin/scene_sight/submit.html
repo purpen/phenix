@@ -392,24 +392,22 @@
 		<div class="ui segment from">
 			<h3 class="ui dividing header">填写情景信息</h3>
 
-
-			<h3 class="ui dividing header">分类/标签设置</h3>
 			<div class="grouped inline fields">
-        <div class="field">
-          <label>分类:</label>
-          <input type="hidden" name="category_id" value="{{ sight.category_id }}" id="sight-category" />
-          {% category_list var:'category' only_open:1 domain:13 pid:fid current:sight.category_id %}
-          {% for cat in category.rows %}
-          <a class="ui {{ cat.active }} magenta category button" style="margin-bottom:2px;" data-tags="{{ cat.tags_s }}" data-value="{{ cat._id }}">{{ cat.title }}</a>
-          {% endfor %}
-        </div>
 
-        <div class="field" id="category_tags_box">
-          <input type="hidden" name="category_tags" value="{{ date.category_tags_s }}" id="sight-category-tags" />
-				  	<label for="category_tags">分类标签：</label>
-            <span></span>
-        </div>
+            <div class="field">
+              <label>分类:</label>
+              <input type="hidden" name="category_id" value="{{ sight.category_id }}" id="sight-category" />
+              {% category_list var:'category' only_open:1 domain:13 pid:fid current:sight.category_id %}
+              {% for cat in category.rows %}
+              <a class="ui {{ cat.active }} magenta category button" style="margin-bottom:2px;" data-tags="{{ cat.tags_s }}" data-value="{{ cat._id }}">{{ cat.title }}</a>
+              {% endfor %}
+            </div>
 
+            <div class="field" id="category_tags_box">
+              <input type="hidden" name="category_tags" value="{{ date.category_tags_s }}" id="sight-category-tags" />
+                        <label for="category_tags">分类标签：</label>
+                <span></span>
+            </div>
 
 
             <div class="field">
