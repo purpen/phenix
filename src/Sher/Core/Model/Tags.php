@@ -16,15 +16,24 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
         'search_count'=>0,
         'total_count' => 0,
 		'subscribe_count' => 0,
+        'context_count' => 0,
+        'scene_count' => 0,
+        'sight_count' => 0,
+        'scene_product_count' => 0,
         'search_on' => null,
+        # 类型：1.情景；2.商品；3.分类；3.分类；4.--；
         'kind' => 1,
-        'cid' => 0,
+        # 父ID
+        'fid' => 0,
+        # 层级
+        'layer' => 0,
         'status' => 1,
         'stick' => 0,
     );
 	
-    protected $required_fields = array('name','index');
-    protected $int_fields = array('topic_count','product_count','total_count','search_count','stick','kind','status','cid');
+    protected $required_fields = array('name');
+    protected $int_fields = array('topic_count','product_count','total_count','search_count','stick','kind','status','fid','layer','context_count','scene_product_count','scene_product_count','subscribe_count');
+	protected $counter_fields = array('total_count','topic_count','scene_count','sight_count','context_count','product_count','scene_product_count','search_count','subscribe_count');
 	
     
     protected function extra_extend_model_row(&$row) {
@@ -33,16 +42,16 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
         if(isset($row['kind'])){
             switch($row['kind']){
                 case 1:
-                    $row['kind_label'] = '普通';
+                    $row['kind_label'] = '情景';
                     break;
                 case 2:
-                    $row['kind_label'] = '分类';
+                    $row['kind_label'] = '商品';
                     break;
                 case 3:
-                    $row['kind_label'] = '其它';
+                    $row['kind_label'] = '分类';
                     break;
                 case 4:
-                    $row['kind_label'] = 'no';
+                    $row['kind_label'] = '默认';
                     break;
                 default:
                     $row['kind_label'] = '--';
@@ -54,12 +63,29 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
 	 * 添加索引键
 	 */
     protected function before_insert(&$data) {
-	    if (isset($data['name'])) {
-	        $data['index'] = Sher_Core_Helper_Pinyin::str2py($data['name']);
-	    }
 		
 		parent::before_insert($data);
     }
+
+	/**
+	 * 保存之前,处理标签中的逗号,空格等
+	 */
+	protected function before_save(&$data) {
+	    if (!empty($data['name'])) {
+	        $data['index'] = Sher_Core_Helper_Pinyin::str2py($data['name']);
+	    }
+
+        $layer = 0;
+        if(!empty($data['fid'])){
+            $tags_model = new Sher_Core_Model_Tags();
+            $f_tag = $tags_model->load((int)$data['fid']);
+            if($f_tag){
+                $layer = (int)$f_tag['layer'] + 1;
+            }
+        }
+        $data['layer'] = $layer;
+	    parent::before_save($data);
+	}
 	
 	/**
 	 * 验证关键词信息
@@ -127,22 +153,32 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
         }
         return $result;
     }
+
+	/**
+	 * 增加计数
+	 */
+	public function increase_counter($field_name, $inc=1, $id=null){
+		if(is_null($id)){
+			$id = $this->id;
+		}
+		if(empty($id) || !in_array($field_name, $this->counter_fields)){
+			return false;
+		}
+		
+		return $this->inc($id, $field_name, $inc);
+	}
 	
 	/**
 	 * 更新
 	 */
-	public function dec_counter($tag,$counter_name){
-		if(empty($tag) || empty($counter_name)){
-			return;
+	public function dec_counter($field_name, $inc=1, $id=null){
+		if(is_null($id)){
+			$id = $this->id;
 		}
-		if(!in_array($tag, array('topic_count','search_count','subscribe_count'))){
-			return;
+		if(empty($id) || !in_array($field_name, $this->counter_fields)){
+			return false;
 		}
-		$query['tag'] = $tag;
-		$row = $this->first($query);
-		if(isset($row[$counter_name]) && $row[$counter_name] > 0){
-			$this->dec($query,$counter_name);
-		}
+		return $this->dec($id,$field_name, $inc);
 	}
 
     /**
@@ -158,6 +194,49 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
 	public function mark_cancel_stick($id) {
 		return $this->update_set($id, array('stick' => 0));
 	}
+
+    /**
+     * 统计数量
+     */
+    public function record_count($evt, $tags=array()){
+        $tag_ids = array();
+        $temp_tags = array();
+        foreach($tags as $v){
+            $has_one = $this->first(array('name'=>$v));
+            if($has_one){
+                array_push($tag_ids, $has_one['_id']);
+            }else{
+                array_push($temp_tags, $v);
+            }
+        } // end foreach
+
+        switch($evt){
+            case 1:
+                $fields_count = 'context_count';
+                break;
+            case 2:
+                $fields_count = 'scene_count';
+                break;
+            case 3:
+                $fields_count = 'sight_count';
+                break;
+            default:
+                $fields_count = '';
+        }   // end switch
+
+        if(!empty($tag_ids)){
+            foreach($tag_ids as $v){
+                $this->increase_counter($fields_count, 1, $v);
+                $this->increase_counter('total_count', 1, $v);
+            }
+        }
+
+        if(!empty($temp_tags)){
+            $temp_tags_model = new Sher_Core_Model_TempTags();
+            $temp_tags_model->record_count($evt, $temp_tags);
+        }     
+
+    }
 	
 }
 

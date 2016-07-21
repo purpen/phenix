@@ -51,6 +51,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const TYPE_SPECIAL_SUBJECT = 9; // App专题
     const TYPE_SCENE_PRODUCT = 10; // 情景产品分类
 	const TYPE_SCENE_CONTEXT = 11; // 情景语境分类
+	const TYPE_SCENE_SCENE = 12; // 地盘分类
+	const TYPE_SCENE_SIGHT = 13; // 情景分类
 	
 	// 来源站点
 	const FROM_LOCAL = 1;
@@ -102,6 +104,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const TRADE_QUICKPAY = 2;
 	const TRADE_WEIXIN = 3;
 	const TRADE_TENPAY = 4;
+	const TRADE_JDPAY = 5;
 	
 	
 	# 临时订单过期时间， 10小时
@@ -188,6 +191,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const DIG_THIRD_DB_STAT = 'db_stat_view';
     # Fiu 最Fiu伙伴、发现好友用户ID列表
     const DIG_FIU_USER_IDS = 'fiu_user_ids';
+    # 奇思甬动大赛统计
+    const DIG_QSYD_CONTEST = 'qsyd_contest_stat';
 
     /**
      * DigList stuff计数器

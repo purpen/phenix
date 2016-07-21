@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-	<h3 class="ui header">关键词管理</h3>
+	<h3 class="ui header">标签管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
 		<a href="{{ app_url_admin_base }}/tags" class="{{css_all}} item">全部列表</a>
@@ -14,7 +14,7 @@
 				导出至文本
 			</a>
 			<a href="{{ app_url_admin_base }}/tags/edit" class="item">
-				+新增关键词
+				+新增标签
 			</a>
 	    </div>
 	</div>
@@ -29,16 +29,18 @@
 		</form>
 	</div>
 	
-	{% tags_list var:'list' page:page tag:q %}
+	{% tags_list var:'list' name:name kind:kind index:index fid:fid page:page size:size tag:q sort: 'most' %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>
 				<th></th>
+				<th>ID</th>
 				<th>名称</th>
-                <th>子ID</th>
-				<th>索引</th>
-				<th>相关数量</th>
                 <th>类型</th>
+                <th>父ID</th>
+                <th>层级</th>
+				<th>索引</th>
+				<th>数量(T|Co|Si|Sc)</th>
                 <th>推荐</th>
 				<th>创建时间</th>
 				<th>管理操作</th>
@@ -53,11 +55,13 @@
 					  	<label></label>
 					</div>
 				</td>
+                <td>{{ tag._id }}</td>
 				<td>{{ tag.name }}</td>
-                <td>{{ tag.cid|default 0 }}</td>
-				<td>{{ tag.index }}</td>
-				<td>{{ tag.total_count }}</td>
                 <td>{{ tag.kind_label }}</td>
+                <td>{{ tag.fid|default 0 }}</td>
+                <td>{{ tag.layer }}</td>
+				<td>{{ tag.index }}</td>
+				<td>{{ tag.total_count|default 0 }}|{{ tag.context_count|default 0 }}|{{ tag.sight_count|default 0 }}|{{ tag.scene_count|default 0 }}</td>
 				<td>
 					<p>
 						{% if tag.stick %}

@@ -18,6 +18,7 @@ class Sher_App_ViewTag_TagsList extends Doggy_Dt_Tag {
 		$tag = 0;
         $kind = 0;
         $stick = 0;
+        $fid = 0;
         $status = 0;
         
         $var = 'list';
@@ -36,6 +37,10 @@ class Sher_App_ViewTag_TagsList extends Doggy_Dt_Tag {
 		if($tag){
 			$query['name'] = $tag;
 		}
+
+        if($fid){
+            $query['fid'] = (int)$fid;
+        }
 		
 		if($index){
 			$query['index'] = $index;

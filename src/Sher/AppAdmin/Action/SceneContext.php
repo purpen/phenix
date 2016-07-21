@@ -7,7 +7,7 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 	
 	public $stash = array(
 		'page' => 1,
-		'size' => 20,
+		'size' => 100,
 		'state' => '',
 	);
 	
@@ -50,6 +50,9 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
         
 		$mode = 'create';
 		$this->stash['mode'] = $mode;
+
+		$fid = Doggy_Config::$vars['app.scene_context.category_id'];
+        $this->stash['fid'] = $fid;
 		
 		return $this->to_html_page('app_admin/scene_context/submit.html');
 	}
@@ -65,6 +68,9 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 			return $this->ajax_json('内容不能为空！', true);
 		}
 		$mode = 'edit';
+
+		$fid = Doggy_Config::$vars['app.scene_context.category_id'];
+        $this->stash['fid'] = $fid;
 		
 		$model = new Sher_Core_Model_SceneContext();
 		$result = $model->find_by_id($id);
@@ -72,7 +78,6 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 		if($result){
 			$result['tags'] = implode(',',$result['tags']);
 		}
-		//var_dump($result);
 		
 		$this->stash['date'] = $result;
 		$this->stash['mode'] = $mode;
@@ -86,9 +91,10 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 	 */
 	public function save(){		
 		
-		$id = $this->stash['id'];
+		$id = isset($this->stash['id']) ? $this->stash['id'] : null;
 		$title = $this->stash['title'];
 		$des = $this->stash['des'];
+        $category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$tags = $this->stash['tags'];
 		
     $mode = 'create';
@@ -106,6 +112,7 @@ class Sher_AppAdmin_Action_SceneContext extends Sher_AppAdmin_Action_Base implem
 		$data = array(
 			'title' => $title,
 			'des' => $des,
+            'category_id' => $category_id,
 		);
 		
 		if(empty($tags)){

@@ -241,24 +241,17 @@ if(!empty($scene_ids) && !empty($scene_ids['items'])){
       }
     }
 
-    // 获取情景标签
-    if($item['tags']){
-      $tags_s = Sher_Core_Util_FiuTags::fetch_tag_str($item['tags'], ',', true);
-    }else{
-      $tags_s = '';
-    }
-
     //添加全文索引
     $xs_data = array(
       'pid' => 'scene_'.(string)$item['_id'],
       'kind' => 'Scene',
       'oid' => $item['_id'],
-      'cid' => 0,
+      'cid' => $item['category_id'],
       'title' => $item['title'],
       'cover_id' => $cover_id,
       'content' => strip_tags(htmlspecialchars_decode($item['des'])),
       'user_id' => $item['user_id'],
-      'tags' => $tags_s,
+      'tags' => !empty($item['tags']) ? implode(',', $item['tags']) : '',
       'created_on' => $item['created_on'],
       'updated_on' => $item['updated_on'],
     );
@@ -310,13 +303,6 @@ if(!empty($sight_ids) && !empty($sight_ids['items'])){
       }
     }
 
-    // 获取情景标签
-    if($item['tags']){
-      $tags_s = Sher_Core_Util_FiuTags::fetch_tag_str($item['tags'], ',', true);
-    }else{
-      $tags_s = '';
-    }
-
     //添加全文索引
     $xs_data = array(
       'pid' => 'sight_'.(string)$item['_id'],
@@ -327,7 +313,7 @@ if(!empty($sight_ids) && !empty($sight_ids['items'])){
       'cover_id' => $cover_id,
       'content' => strip_tags(htmlspecialchars_decode($item['des'])),
       'user_id' => $item['user_id'],
-      'tags' => $tags_s,
+      'tags' => !empty($item['tags']) ? implode(',', $item['tags']) : '',
       'created_on' => $item['created_on'],
       'updated_on' => $item['updated_on'],
     );
@@ -377,20 +363,6 @@ if(!empty($scene_product_ids) && !empty($scene_product_ids['items'])){
       }
     }
 
-    $product_tag_arr = array();
-    // 获取情景标签
-    if($item['scene_tags']){
-      $product_tag_arr = Sher_Core_Util_FiuTags::fetch_tag_str($item['scene_tags'], null, true);
-    }
-
-    // 获取产品标签
-    if($item['tags']){
-      $product_tag_arr = array_merge($product_tag_arr, $item['tags']);
-    }
-
-    $tags_s = implode(',', $product_tag_arr);
-
-
     //添加全文索引
     $xs_data = array(
       'pid' => 'scene_product_'.(string)$item['_id'],
@@ -401,7 +373,7 @@ if(!empty($scene_product_ids) && !empty($scene_product_ids['items'])){
       'cover_id' => $cover_id,
       'content' => strip_tags(htmlspecialchars_decode($item['summary'])),
       'user_id' => $item['user_id'],
-      'tags' => $tags_s,
+      'tags' => !empty($item['tags']) ? implode(',', $item['tags']) : '',
       'created_on' => $item['created_on'],
       'updated_on' => $item['updated_on'],
     );
@@ -440,24 +412,17 @@ if(!empty($scene_context_ids) && !empty($scene_context_ids['items'])){
       continue;
     }
 
-    // 获取情景标签
-    if($item['tags']){
-      $tags_s = Sher_Core_Util_FiuTags::fetch_tag_str($item['tags'], ',', true);
-    }else{
-      $tags_s = '';
-    }
-
     //添加全文索引
     $xs_data = array(
       'pid' => 'scene_context_'.(string)$item['_id'],
       'kind' => 'SContext',
       'oid' => (string)$item['_id'],
-      'cid' => 0,
+      'cid' => $item['category_id'],
       'title' => $item['title'],
       'cover_id' => '',
       'content' => strip_tags(htmlspecialchars_decode($item['des'])),
       'user_id' => $item['user_id'],
-      'tags' => $tags_s,
+      'tags' => !empty($item['tags']) ? implode(',', $item['tags']) : '',
       'created_on' => $item['created_on'],
       'updated_on' => $item['updated_on'],
     );

@@ -52,6 +52,9 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$this->stash['mode'] = $mode;
 		
 		$this->stash['app_baidu_map_ak'] = Doggy_Config::$vars['app.baidu.map_ak'];
+
+		$fid = Doggy_Config::$vars['app.scene.category_id'];
+        $this->stash['fid'] = $fid;
 		
 		// 查询标签信息
 		$scene_tags_model = new Sher_Core_Model_SceneTags();
@@ -80,6 +83,9 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 			return $this->ajax_json('内容不能为空！', true);
 		}
 		$mode = 'edit';
+
+		$fid = Doggy_Config::$vars['app.scene.category_id'];
+        $this->stash['fid'] = $fid;
 		
 		$model = new Sher_Core_Model_SceneScene();
 		$result = $model->first((int)$id);
@@ -116,12 +122,14 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$cover_id = $this->stash['cover_id'];
+        $category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		
 		$data = array();
 		$data['title'] = $this->stash['title'];
 		$data['des'] = $this->stash['des'];
 		$data['tags'] = $this->stash['tags'];
-		$data['address'] = $this->stash['address'];
+        $data['address'] = $this->stash['address'];
+        $data['category_id'] = $category_id;
 		$data['location'] = array(
             'type' => 'Point',
             'coordinates' => array(doubleval($this->stash['lng']), doubleval($this->stash['lat'])),
@@ -131,6 +139,10 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		
 		if(empty($data['title']) || empty($data['des'])){
 			return $this->ajax_json('请求参数不能为空', true);
+		}
+
+		if(empty($data['category_id'])){
+			return $this->ajax_json('分类不能为空', true);
 		}
 		
 		if(empty($data['address']) || empty($data['address'])){

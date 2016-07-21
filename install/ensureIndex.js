@@ -117,7 +117,7 @@ db.sign_draw_record.ensureIndex({ 'day':1, 'user_id':1, 'target_id':1}, {backgro
 #timeline	// 用户动态
 db.timeline.ensureIndex({ 'user_id':1, 'created_on':-1}, {background: true});
 
-#points.daily	// 积分每日统计 	// worder任务用到
+#points.daily	// 积分每日统计 	// worker任务用到
 db.points.daily.ensureIndex({ '_id.day':1, 'done':1}, {background: true});
 
 #points.records	// worker任务查询
@@ -126,9 +126,82 @@ db.points.records.ensureIndex({ 'state':1, 'account_state':1}, {background: true
 #user_event	// worker任务查询
 db.user_event.ensureIndex({ 'state': 1}, {background: true});
 
-#pusher 未创建
-db.pusher.ensureIndex({ 'uuid':1, 'from_to':1}, {background: true});
-db.pusher.ensureIndex({ 'uuid':1, 'is_login':1}, {background: true});
+#未创建
+#pusher     // 商城app设备统计
+db.pusher.ensureIndex({ 'uuid':1}, {unique: true}, {background: true});
+#fiu_pusher     // Fiu app设备统计
+db.fiu_pusher.ensureIndex({ 'uuid':1}, {unique: true}, {background: true});
+
+# app_user_record   // app用户激活数记录--商城
+db.app_user_record.ensureIndex({ 'uuid':1}, {unique: true}, {background: true});
+
+# app_store_user_stat   // app商城每日统计
+db.app_store_user_stat.ensureIndex({ 'day':1}, {background: true});
+db.app_store_user_stat.ensureIndex({ 'week':1}, {background: true});
+db.app_store_user_stat.ensureIndex({ 'month':1}, {background: true});
+
+# feedback      // 意见反馈
+db.feedback.ensureIndex({ 'created_on':-1}, {background: true});
+
+# ip_black_list     // IP黑名单 
+db.ip_black_list.ensureIndex({ 'ip':1}, {background: true});
+
+# notice        // 通知
+db.notice.ensureIndex({ 'kind':1, 'created_on':-1 }, {background: true});
+
+# scene_brands      // 品牌
+db.scene_brands.ensureIndex({ 'kind':1}, {background: true});
+db.scene_brands.ensureIndex({ 'mark':1}, {background: true});
+db.scene_brands.ensureIndex({ 'created_on':-1 }, {background: true});
+
+# scene_context     // 语境
+db.scene_context.ensureIndex({ 'category_id':1, 'created_on':-1 }, {background: true});
+db.scene_context.ensureIndex({ 'category_id':1, 'stick':-1, 'created_on':-1 }, {background: true});
+
+# scene_product     // 情景商品
+db.scene_product.ensureIndex({ 'kind':1 }, {background: true});
+db.scene_product.ensureIndex({ 'category_id':1 }, {background: true});
+db.scene_product.ensureIndex({ 'created_on':-1 }, {background: true});
+
+# scene_product_link    // 情景产品关联
+db.scene_product_link.ensureIndex({ 'sight_id':-1 }, {background: true});
+db.scene_product_link.ensureIndex({ 'product_id':-1 }, {background: true});
+db.scene_product_link.ensureIndex({ 'created_on':-1 }, {background: true});
+
+# scene_scene       // 地盘
+db.scene_scene.ensureIndex({ 'user_id':1 }, {background: true});
+db.scene_scene.ensureIndex({ 'created_on':-1 }, {background: true});
+
+# scene_sight       // 情景
+db.scene_sight.ensureIndex({ 'user_id':1 }, {background: true});
+db.scene_sight.ensureIndex({ 'scene_id':1 }, {background: true});
+db.scene_sight.ensureIndex({ 'created_on':-1 }, {background: true});
+
+# scene_subject     // 情景专题
+db.scene_subject.ensureIndex({ 'created_on':-1 }, {background: true});
+
+# tag       // 标签
+db.tag.ensureIndex({ 'name':1 }, {background: true});
+db.tag.ensureIndex({ 'index':1 }, {background: true});
+db.tag.ensureIndex({ 'total_count':-1 }, {background: true});
+db.tag.ensureIndex({ 'created_on':-1 }, {background: true});
+
+# temp_tag       // 临时标签
+db.temp_tag.ensureIndex({ 'name':1 }, {background: true});
+db.temp_tag.ensureIndex({ 'index':1 }, {background: true});
+db.temp_tag.ensureIndex({ 'total_count':-1 }, {background: true});
+db.temp_tag.ensureIndex({ 'created_on':-1 }, {background: true});
+
+# support       // 投票记录、app秒杀产品推送提醒记录
+db.support.ensureIndex({ 'user_id':1 }, {background: true});
+db.support.ensureIndex({ 'target_id':1 }, {background: true});
+
+# third_site_stat       // 第三方网站来源统计
+db.third_site_stat.ensureIndex({ 'user_id':1 }, {background: true});
+db.third_site_stat.ensureIndex({ 'target_id':1 }, {background: true});
+db.third_site_stat.ensureIndex({ 'kind':1 }, {background: true});
+db.third_site_stat.ensureIndex({ 'created_on':-1 }, {background: true});
+
 
 
 

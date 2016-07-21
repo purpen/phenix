@@ -1,0 +1,102 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">临时标签管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/temp_tags" class="{{css_all}} item">全部列表</a>
+        <!--
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/temp_tags/export" class="item">
+				导出至文本
+			</a>
+			<a href="{{ app_url_admin_base }}/temp_tags/edit" class="item">
+				+新增临时标签
+			</a>
+	    </div>
+        -->
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/temp_tags" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="Search..." type="text" name="q">
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
+	</div>
+	
+	{% temp_tags_list var:'list' name:name kind:kind index:index fid:fid page:page size:size tag:q sort: 'most' %}
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>ID</th>
+				<th>名称</th>
+                <th>类型</th>
+                <th>父ID</th>
+                <th>层级</th>
+				<th>索引</th>
+				<th>数量(T|Co|Si|Sc)</th>
+                <th>推荐</th>
+				<th>创建时间</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for tag in list.rows %}
+			<tr id="{{ tag._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ tag._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+                <td>{{ tag._id }}</td>
+				<td>{{ tag.name }}</td>
+                <td>{{ tag.kind_label }}</td>
+                <td>{{ tag.fid|default 0 }}</td>
+                <td>{{ tag.layer }}</td>
+				<td>{{ tag.index }}</td>
+				<td>{{ tag.total_count|default 0 }}|{{ tag.context_count|default 0 }}|{{ tag.sight_count|default 0 }}|{{ tag.scene_count|default 0 }}</td>
+				<td>
+					<p>
+						{% if tag.stick %}
+							<span id="stick-{{ tag._id }}-label" class="ui small green label">是</span>
+						{% else %}
+							<span id="stick-{{ tag._id }}-label" class="ui small orange label">否</span>
+						{% endif %}
+					</p>
+				</td>
+				<td>{{ tag.created_on|date 'Y-m-d H:i' }}</td>
+				<td>
+					<div class="ui divided horizontal list">
+
+						{% if tag.stick == 1 %}
+						<a href="{{ app_url_admin_base }}/temp_tags/ajax_set_stick?id={{ tag._id }}&evt=0" class="ui link ajax item" id="stick-{{ tag._id }}-button">取消推荐</a>
+						{% else %}
+						<a href="{{ app_url_admin_base }}/temp_tags/ajax_set_stick?id={{ tag._id }}&evt=1" class="ui link ajax item" id="stick-{{ tag._id }}-button">推荐</a>
+						{% endif %}
+
+						<a href="{{ app_url_admin_base }}/temp_tags/edit?id={{ tag._id }}" class="ui link item">编辑</a> 
+						<a href="{{ app_url_admin_base }}/temp_tags/delete?id={{ tag._id }}" class="ui link item confirm-request">删除</a>
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+	
+{% endblock %}

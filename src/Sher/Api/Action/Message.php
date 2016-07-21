@@ -92,6 +92,12 @@ class Sher_Api_Action_Message extends Sher_Api_Action_Base {
 			$user_info['from_user']['id'] = $from_user['_id'];
 			$user_info['from_user']['nickname'] = $from_user['nickname'];
 			$user_info['from_user']['big_avatar_url'] = $from_user['medium_avatar_url'];
+
+            $user_info['from_user']['is_expert'] = isset($from_user['identify']['is_expert']) ? (int)$from_user['identify']['is_expert'] : 0;
+            $user_info['from_user']['label'] = isset($from_user['profile']['label']) ? $from_user['profile']['label'] : '';
+            $user_info['from_user']['expert_label'] = isset($from_user['profile']['expert_label']) ? $from_user['profile']['expert_label'] : '';
+            $user_info['from_user']['expert_info'] = isset($from_user['profile']['expert_info']) ? $from_user['profile']['expert_info'] : '';
+
 			$result['rows'][$k]['users'] = $user_info;
 		}
 		

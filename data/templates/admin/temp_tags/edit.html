@@ -1,0 +1,96 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+	$('#tags-form').form({
+		kind: {
+			identifier  : 'kind',
+			rules: [
+				{
+					type   : 'checked',
+					prompt : '请选择类型'
+				}
+			]
+		},
+		name: {
+			identifier  : 'name',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '名称不能为空'
+				}
+			]
+		}
+	}, {
+		inline: true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">临时标签管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/temp_tags" class="{{css_all_category}} item">全部列表</a>
+        <!--
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/temp_tags/edit" class="active item">
+				+新增临时标签
+			</a>
+	    </div>
+        -->
+	</div>
+	
+	<div class="ui form segment">
+		{% if mode == 'create' %}
+		<h4>新增标签</h4>
+		{% else %}
+		<h4>编辑标签</h4>
+		{% endif %}
+		
+		<form action="{{ app_url_admin_base }}/temp_tags/save" class="ajax-form" method="post" id="tags-form">
+			<input type="hidden" name="id" value="{{ tag._id }}" />
+			<input type="hidden" name="return_url" value="{{ return_url }}" />
+
+            <div class="five fields">
+              <div class="field">
+                <label>类型：</label>
+                <div class="grouped inline fields">
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input type="radio" name="kind" value="1" {% if tag.kind == 1 %}checked="checked"{% endif %} /> 
+                      <label>情景</label>
+                    </div>
+                    <div class="ui radio checkbox">
+                      <input type="radio" name="kind" value="2" {% if tag.kind == 2 %}checked="checked"{% endif %} /> 
+                      <label>商品</label>
+                    </div>
+                    <div class="ui radio checkbox">
+                      <input type="radio" name="kind" value="3" {% if tag.kind == 3 %}checked="checked"{% endif %} /> 
+                      <label>分类</label>
+                    </div>
+                    <div class="ui radio checkbox">
+                      <input type="radio" name="kind" value="4" {% if tag.kind == 4 %}checked="checked"{% endif %} /> 
+                      <label>默认</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+			<div class="field">
+			  	<label for="name">父ID：</label>
+				<input type="text" name="fid" value="{{ tag.fid }}" />
+			</div>	
+			<div class="field">
+			  	<label for="name">名称：</label>
+				<input type="text" name="name" value="{{ tag.name }}" />
+			</div>			
+			<input type="submit" class="ui active magenta button" value="确认保存">
+			<input type="button" class="ui gray cancel button" value="取消">
+		</form>
+	</div>
+{% endblock %}

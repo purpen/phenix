@@ -20,6 +20,9 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		
 		# 所属情景
 		'scene_id' => 0,
+        # 分类
+        'category_id' => 0,
+
 		# 标签
 		'tags' => array(),
 		# 产品
@@ -71,7 +74,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('title', 'user_id');
-	protected $int_fields = array('status', 'used_count','love_count','comment_count','deleted', 'stick', 'fine');
+	protected $int_fields = array('status', 'used_count','love_count','comment_count','deleted', 'stick', 'fine', 'category_id');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count','view_count','love_count','comment_count','true_view_count','app_view_count','web_view_count','wap_view_count');
 	protected $retrieve_fields = array();
@@ -80,6 +83,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		'cover' =>  array('cover_id' => 'Sher_Core_Model_Asset'),
 		'scene' =>  array('scene_id' => 'Sher_Core_Model_SceneScene'),
 		'user' =>   array('user_id' => 'Sher_Core_Model_User'),
+		'category' =>   array('category_id' => 'Sher_Core_Model_Category'),
 	);
 	
 	/**
@@ -105,11 +109,13 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 	 */
     protected function after_save(){
       $user_id = $this->data['user_id'];
+        $tags = !empty($this->data['tags']) ? $this->data['tags'] : array();
 		
       // 如果是新的记录
       if($this->insert_mode) {
-        $model = new Sher_Core_Model_SceneTags();
-        $model->scene_count($this->data['tags'],array('total_count','sight_count'),1);
+
+		$model = new Sher_Core_Model_Tags();
+		$model->record_count(3, $tags);
         
         $model = new Sher_Core_Model_User();
         $model->inc_counter('sight_count',(int)$this->data['user_id']);
@@ -141,7 +147,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
         // 添加到用户最近使用过的标签
         $user_tag_model = new Sher_Core_Model_UserTags();
         for($i=0;$i<count($this->data['tags']);$i++){
-          $user_tag_model->add_item_custom($user_id, 'scene_tags', (int)$this->data['tags'][$i]);
+          $user_tag_model->add_item_custom($user_id, 'scene_tags', $this->data['tags'][$i]);
         }
 
         // 增长积分

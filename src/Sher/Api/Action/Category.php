@@ -22,16 +22,22 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		$domain = isset($this->stash['domain'])?(int)$this->stash['domain']:1;
 		$show_all = isset($this->stash['show_all'])?(int)$this->stash['show_all']:0;
+		$pid = isset($this->stash['pid'])?(int)$this->stash['pid']:0;
 		
 		$query   = array();
 		$options = array();
 		
 		$query['domain'] = $domain;
 		$query['is_open'] = Sher_Core_Model_Category::IS_OPENED;
-    // 只显示可购买商品的分类
-    if($domain==1){
-      $query['sub_count'] = array('$ne'=>0);
-    }
+
+        // 只显示可购买商品的分类
+        if($domain==1){
+          $query['sub_count'] = array('$ne'=>0);
+        }
+
+        if($pid){
+            $query['pid'] = $pid;
+        }
 		
         $options['page'] = $page;
         $options['size'] = $size;
@@ -96,9 +102,14 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
 
         // 显示全部
         if($show_all){
+            if($domain==10){
+                $title_all = '全部好货';
+            }else{
+                $title_all = '全部';
+            }
           $arr = array(
             '_id' => 0,
-            'title' => '全部好货',
+            'title' => $title_all,
             'name' => 'all',
             'tag_id' => 0,
             'domain' => $domain,

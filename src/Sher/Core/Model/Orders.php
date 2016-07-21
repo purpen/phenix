@@ -257,6 +257,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			case Sher_Core_Util_Constant::TRADE_WEIXIN:
 				$label = '微信';
 				break;
+			case Sher_Core_Util_Constant::TRADE_JDPAY:
+				$label = '京东';
+				break;
 			case Sher_Core_Util_Constant::TRADE_TENPAY:
 				$label = '未定义';
 				break;

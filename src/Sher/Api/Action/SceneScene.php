@@ -24,7 +24,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		
 		$some_fields = array(
 			'_id'=>1, 'title'=>1, 'user_id'=>1, 'des'=>1, 'sight'=>1, 'tags'=>1,
-			'location'=>1, 'address'=>1, 'cover_id'=>1,'used_count'=>1,
+			'location'=>1, 'address'=>1, 'cover_id'=>1,'used_count'=>1, 'category_id'=>1,
 			'view_count'=>1, 'subscription_count'=>1, 'love_count'=>1, 'deleted'=>1,
 			'comment_count'=>1, 'is_check'=>1, 'stick'=>1, 'fine'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
 		);
@@ -37,6 +37,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$fine = isset($this->stash['fine']) ? (int)$this->stash['fine'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		
 		// 基于地理位置的查询，从城市内查询
         $distance = isset($this->stash['dis']) ? (int)$this->stash['dis'] : 0; // 距离、半径
@@ -61,6 +62,10 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
                   '$nearSphere' => $point
                 );
             }
+        }
+
+        if($category_id){
+            $query['category_id'] = $category_id;
         }
 
         $query['is_check'] = 1;
@@ -149,6 +154,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$data['des'] = isset($this->stash['des']) ? $this->stash['des'] : '';
 		$data['tags'] = isset($this->stash['tags']) ? $this->stash['tags'] : '';
 		$data['address'] = isset($this->stash['address']) ? $this->stash['address'] : '';
+		$data['category_id'] = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$lng = isset($this->stash['lng']) ? $this->stash['lng'] : 0;
 		$lat = isset($this->stash['lat']) ? $this->stash['lat'] : 0;
 		$data['location'] = array(
@@ -170,11 +176,6 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		
 		if(!$data['tags']){
 			return $this->api_json('请求标签不能为空', 3004);
-		}
-		
-		$data['tags'] = explode(',',$data['tags']);
-		foreach($data['tags'] as $k => $v){
-			$data['tags'][$k] = (int)$v;
 		}
 		
         if($mode=='create'){
@@ -298,15 +299,6 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
         unset($result[$key]);
     }
 		
-		$tags_model = new Sher_Core_Model_SceneTags();
-		//$result['tags'] = array(164,165,166);
-		foreach($result['tags'] as $k => $v){
-			$res = $tags_model->find_by_id((int)$v);
-			$result['tag_titles'][$k] = '';
-			if(isset($res['title_cn'])){
-				$result['tag_titles'][$k] = $res['title_cn'];
-			}
-		}
 		
 		// 用户是否订阅该情景
 		$user_id = $this->current_user_id;

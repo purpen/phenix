@@ -111,6 +111,7 @@ app.dt.extension_lib.sher_app:
     'sku_list':'Sher_Core_ViewTag_SkuList'
     'bonus_list':'Sher_Core_ViewTag_BonusList'
     'tags_list':'Sher_App_ViewTag_TagsList'
+    'temp_tags_list':'Sher_App_ViewTag_TempTagsList'
     'ad_list':'Sher_Core_ViewTag_AdList'
     'edm_list':'Sher_Core_ViewTag_EdmList'
     'space_list':'Sher_Core_ViewTag_SpaceList'
@@ -310,6 +311,7 @@ app.storage.sher:
         root:"/Users/xiaoyi/data/uploads"
         root_url:'http://img.taihuoniao.me'
         hash_dir:false
+
 
 # 淘宝客api
 app.tbk_api:

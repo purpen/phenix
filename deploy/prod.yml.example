@@ -61,6 +61,9 @@ app.api.is_validate_sign: 1
 # 周年庆送红包活动 开关
 app.anniversary2015.switch: 0
 
+# 情景分类
+app.scene_sight.category_id: 184
+
 # 产品话题-话题评测
 app.product.topic_category_id: 18
 
@@ -69,6 +72,15 @@ app.product.topic_evaluating_category_id: 18
 
 # 十万火计(old)
 app.topic.dream_category_id: 49
+
+# 十万火计2
+app.contest.dream2_category_id: 49
+
+# 情景语境分类
+app.scene_context.category_id: 154
+
+# 情景地盘分类
+app.scene.category_id: 175
 
 # 十万火计2
 app.contest.dream2_category_id: 49
@@ -138,6 +150,12 @@ app.alipay.key: 'k9gnpm4nfd1qmrzyq3y4nzwj31m6fjc5'
 app.alipay.cacert: '/opt/project/phenix/vendor/cacert.pem'
 app.alipay.pendir: '/Users/xiaoyi/project/phenix/vendor'
 
+# Fiu~支付宝
+app.alipay.fiu.partner: '2088511301099072'
+app.alipay.fiu.key: 'd51e530330df4c79bc5f743a9a5c4e01'
+app.alipay.fiu.cacert: '/opt/project/phenix/vendor/alipay_cert/cacert.pem'
+app.alipay.fiu.pendir: '/opt/project/phenix/vendor/alipay_cert'
+
 # SinaWeibo API
 app.sinaweibo.app_key: '3156984431'
 app.sinaweibo.app_secret: '392108a844e55d5d9db81a585feab60b'
@@ -185,6 +203,13 @@ app.quickpay.secret: '88888888'
 app.url.front_pay_url: 'https://unionpaysecure.com/api/Pay.action'
 app.url.back_pay_url: 'https://besvr.unionpaysecure.com/api/BSPay.action'
 app.url.query_url: 'https://query.unionpaysecure.com/api/Query.action'
+
+# 京东支付
+app.jd_pay:
+    merchant: '22294531'
+    des_key: 'ta4E/aspLA3lgFGKmNDNRYU92RkZ4w2t'
+    seller_rsa_private_key: '/opt/project/phenix/vendor/jd_cert/seller_rsa_private_key.pem'
+    wy_rsa_public_key: '/opt/project/phenix/vendor/jd_cert/wy_rsa_public_key.pem'
 
 # 实验室会员价格表
 app.d3in.vip_money:

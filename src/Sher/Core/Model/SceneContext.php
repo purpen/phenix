@@ -14,6 +14,8 @@ class Sher_Core_Model_SceneContext extends Sher_Core_Model_Base {
         'des' => '',
 		# 分类
 		'category_id' => 0,
+        # 分类标签
+        'category_tags' => array(),
 		# 标签id
 		'tags' => array(),
         # 使用次数
@@ -24,28 +26,44 @@ class Sher_Core_Model_SceneContext extends Sher_Core_Model_Base {
     'user_id' => 0,
     );
 	
-	protected $required_fields = array('title','des');
-	protected $int_fields = array('status', 'used_count', 'stick', 'user_id');
+	protected $required_fields = array('title');
+	protected $int_fields = array('status', 'used_count', 'stick', 'user_id', 'category_id');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count');
 	protected $retrieve_fields = array();
     
-	protected $joins = array();
+    protected $joins = array(
+        'category'  =>  array('category_id' => 'Sher_Core_Model_Category'),
+    );
 	
 	/**
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
- 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';       
+        $row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
+
+        if(isset($row['category_tags']) && !empty($row['category_tags'])){
+              $row['category_tags_s'] = implode(',',$row['category_tags']);   
+        }
 	}
 	
 	/**
 	 * 保存之前,处理标签中的逗号,空格等
 	 */
 	protected function before_save(&$data) {
+        // 标签
 	    if (isset($data['tags']) && !is_array($data['tags'])) {
 	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
 	    }
+
+        // 分类标签
+        if (isset($data['category_tags']) && !is_array($data['category_tags'])) {
+          $data['category_tags'] = array_values(array_unique(preg_split('/[,，;；]+/u',$data['category_tags'])));
+          for($i=0;$i<count($data['category_tags']);$i++){
+            $data['category_tags'][$i] = trim($data['category_tags'][$i]);
+          }
+        }
+
 	    parent::before_save($data);
 	}
 	
@@ -53,9 +71,18 @@ class Sher_Core_Model_SceneContext extends Sher_Core_Model_Base {
 	 * 保存之后事件
 	 */
     protected function after_save(){
+
+        $category_id = !empty($this->data['category_id']) ? $this->data['category_id'] : 0;
+        $tags = !empty($this->data['tags']) ? $this->data['tags'] : array();
 		
-		$model = new Sher_Core_Model_SceneTags();
-		$model->scene_count($this->data['tags'],array('total_count','context_count'),1);
+		$model = new Sher_Core_Model_Tags();
+		$model->record_count(1, $tags);
+
+
+        $model = new Sher_Core_Model_Category();
+        if (!empty($category_id)) {
+            $model->inc_counter('total_count', 1, $category_id);
+        }
 		
 		parent::after_save();
     }

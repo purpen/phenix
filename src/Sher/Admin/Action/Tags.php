@@ -11,6 +11,9 @@ class Sher_Admin_Action_Tags extends Sher_Admin_Action_Base implements DoggyX_Ac
 		'q' => '',
         'kind' => 0,
         'stick' => 0,
+        'fid' => 0,
+        'name' => '',
+        'index' => '',
         'status' => 0,
 	);
 	
@@ -33,7 +36,7 @@ class Sher_Admin_Action_Tags extends Sher_Admin_Action_Base implements DoggyX_Ac
 	public function get_list() {
 		$this->set_target_css_state('all');
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/tags?q=%s&kind=%d&stick=%d&status=%d&page=#p#', $this->stash['q'], $this->stash['kind'], $this->stash['stick'], $this->stash['status']);
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/tags?q=%s&kind=%d&stick=%d&status=%d&fid=%d&name=%s&index=%s&page=#p#', $this->stash['q'], $this->stash['kind'], $this->stash['stick'], $this->stash['status'], $this->stash['fid'], $this->stash['name'], $this->stash['index']);
 		$this->stash['pager_url'] = $pager_url;
 		
 		return $this->to_html_page('admin/tags/list.html');
@@ -56,7 +59,7 @@ class Sher_Admin_Action_Tags extends Sher_Admin_Action_Base implements DoggyX_Ac
 		$this->stash['show_type'] = "system";
 
         // 记录上一步来源地址
-        $this->stash['return_url'] = $_SERVER['HTTP_REFERER'];
+        $this->stash['return_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
 
 		$model = new Sher_Core_Model_Tags();
 		$mode = 'create';
@@ -73,25 +76,27 @@ class Sher_Admin_Action_Tags extends Sher_Admin_Action_Base implements DoggyX_Ac
 	 */
 	public function save() {
 		// 验证数据
-		if(empty($this->stash['name'])){
+		if(!isset($this->stash['name']) || empty($this->stash['name'])){
 			return $this->ajax_note('关键词不能为空！', true);
 		}
+
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 
         $redirect_url = isset($this->stash['return_url']) ? htmlspecialchars_decode($this->stash['return_url']) : null;
 
         $data = array();
         $data['name'] = $this->stash['name'];
         $data['kind'] = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
-        $data['cid'] = isset($this->stash['cid']) ? (int)$this->stash['cid'] : 0;
+        $data['fid'] = isset($this->stash['fid']) ? (int)$this->stash['fid'] : 0;
 		
 		$model = new Sher_Core_Model_Tags();
 		try{
-            if(empty($this->stash['id'])){
+            if(empty($id)){
 				$mode = 'create';
 				$ok = $model->apply_and_save($data);
 			}else{
 				$mode = 'edit';
-                $data['_id'] = $this->stash['id'];
+                $data['_id'] = $id;
 				$ok = $model->apply_and_update($data);
 			}
 			

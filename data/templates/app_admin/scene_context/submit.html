@@ -61,6 +61,36 @@
 	</style>
 {% endblock %}
 
+{% block layout_js %}
+
+<script>
+  // 加载标签库
+  function load_category_tag(category_id, tags){
+    // 先清空
+    $('#category_tags_box span').html('');
+    $.get("{{ app_url_admin_base }}/category/ajax_fetch_cate_tags", {id:category_id, type:3}, function(result){
+      if(result.success){
+        var tag_arr = [];
+        if(tags){
+          tag_arr = tags.split(',');
+        }
+        var html = '';
+        for(var i=0;i<result.data.length;i++){
+          var has_one = phenix.in_array(tag_arr, String(result.data[i]));
+          var is_active = has_one==-1 ? '' : 'active';
+          html += '<a class="ui mini category-tags button '+ is_active +'" style="margin-bottom:2px;" data-value="'+ result.data[i] +'">'+ result.data[i] +'</a>';
+        }
+        $('#category_tags_box span').append(html);
+      }else{
+        alert(result.message);
+      }
+      
+    }, 'json');
+    
+  }
+</script>
+{% endblock %}
+
 {% block jquery %}
 	
 	// 表单验证
@@ -208,6 +238,59 @@
        'placeholderColor' : '#666666'
     });
 
+	// 选择分类
+	$('body').on('click', '.category.button', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+				
+			$('#context-category').val('');
+          // 清空标签
+          $('#category_tags_box span').html('');
+		}else{
+			$(this)
+				.siblings('.category.button').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#context-category').val(id);
+          // 加载该类别下的标签库
+          load_category_tag(id, '');
+		}
+		
+        return false;
+	});
+
+    // 选择分类标签
+  $('.category-tags.button').livequery(function(){
+    $(this).click(function(){
+      var id = $(this).attr('data-value');
+      if ($(this).hasClass('active')){
+        $(this)
+          .removeClass('active');
+          
+        $('#context-category-tags').val('');
+      }else{
+        $(this)
+          .siblings('.category-tags.button').removeClass('active')
+          .end()
+          .addClass('active');
+        $('#context-category-tags').val(id);
+      }
+      return false;
+    }); 
+  });
+
+  // 初始化标签
+  var current_category_id = $('#context-category').val();
+  var current_category_tags = $('#context-category-tags').val();
+  if(current_category_id){
+    // 加载该类别下的标签库
+    if(current_category_id){
+      load_category_tag(current_category_id, current_category_tags); 
+    }
+  }
+
 {% endblock %}
 
 {% block content %}
@@ -233,6 +316,26 @@
 	<form action="{{ app_url_app_admin_base }}/scene_context/save" class="ui form" method="post" id="active-form">
 		<!-- 隐藏表单 -->
 		<input type="hidden" name="id" value="{{ date._id }}" />
+
+		<div class="ui segment">
+			<h3 class="ui dividing header">分类/标签设置</h3>
+			<div class="grouped inline fields">
+        <div class="field">
+          <label>分类:</label>
+          <input type="hidden" name="category_id" value="{{ date.category_id }}" id="context-category" />
+          {% category_list var:'category' only_open:1 domain:11 pid:fid current:date.category_id %}
+          {% for cat in category.rows %}
+          <a class="ui {{ cat.active }} magenta category button" style="margin-bottom:2px;" data-tags="{{ cat.tags_s }}" data-value="{{ cat._id }}">{{ cat.title }}</a>
+          {% endfor %}
+        </div>
+
+        <div class="field" id="category_tags_box">
+          <input type="hidden" name="category_tags" value="{{ date.category_tags_s }}" id="context-category-tags" />
+				  	<label for="category_tags">分类标签：</label>
+            <span></span>
+        </div>
+
+      </div>
 		
 		<div class="ui segment from">
 			<h3 class="ui dividing header">填写语境信息</h3>

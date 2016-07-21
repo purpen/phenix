@@ -21,15 +21,29 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 	}
 	public function qsyd2(){
 		//微信分享
-    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
-    $timestamp = $this->stash['timestamp'] = time();
-    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
-    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
-    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
-    $this->stash['wxSha1'] = sha1($wxOri);
+        $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+        $timestamp = $this->stash['timestamp'] = time();
+        $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+        $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+        $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+        $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+        $this->stash['wxSha1'] = sha1($wxOri);
+
+      // 统计点击数量
+      $dig_model = new Sher_Core_Model_DigList();
+      $dig_key = Sher_Core_Util_Constant::DIG_QSYD_CONTEST;
+
+      $dig = $dig_model->load($dig_key);
+      if(empty($dig) || !isset($dig['items']["wap_index_02"])){
+        $dig_model->update_set($dig_key, array("items.wap_index_02"=>1), true);     
+      }else{
+        // 增加浏览量
+        $dig_model->inc($dig_key, "items.wap_index_02", 1);
+      }
+
 		return $this->to_html_page('wap/contest/qsyd2.html');
 	}
+
 	public function qsyd_list2(){
     $category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
     $top_category_id = Doggy_Config::$vars['app.contest.qsyd2_category_id'];
@@ -37,7 +51,8 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
     $this->stash['category_id'] = $category_id;
 
 		return $this->to_html_page('wap/contest/qsyd_list2.html');
-	}
+    }
+
 	public function qsyd_view2(){
 
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
