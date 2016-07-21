@@ -27,7 +27,7 @@ class Sher_Core_Service_FiuUserRecord extends Sher_Core_Service_Base {
      * 获取列表
      */
     public function get_fiu_user_record_list($query=array(), $options=array()) {
-	    $model = new Sher_Core_Model_AppUserRecord();
+	    $model = new Sher_Core_Model_FiuUserRecord();
 		  return $this->query_list($model, $query, $options);
     }
 	
