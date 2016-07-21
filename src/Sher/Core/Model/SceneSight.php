@@ -22,6 +22,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		'scene_id' => 0,
         # 分类
         'category_id' => 0,
+
 		# 标签
 		'tags' => array(),
 		# 产品
@@ -82,6 +83,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		'cover' =>  array('cover_id' => 'Sher_Core_Model_Asset'),
 		'scene' =>  array('scene_id' => 'Sher_Core_Model_SceneScene'),
 		'user' =>   array('user_id' => 'Sher_Core_Model_User'),
+		'category' =>   array('category_id' => 'Sher_Core_Model_Category'),
 	);
 	
 	/**
