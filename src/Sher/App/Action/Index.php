@@ -36,7 +36,14 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	public function welcome(){
 		return $this->to_html_page('page/welcome.html');
 	}
-	
+
+	/**
+	 * Fiu
+	 */
+	public function fiu(){
+		return $this->to_html_page('page/fiu/index.html');
+	}
+
 	/**
 	 * 双12活动专题
 	 */
