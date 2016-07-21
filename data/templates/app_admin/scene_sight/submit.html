@@ -1,5 +1,5 @@
 {%extends 'layout/app_admin.html'%}
-{% block title %}新增/编辑场景-{% endblock %}
+{% block title %}新增/编辑情景-{% endblock %}
 
 {% block page_css %}
 	<style type="text/css">
@@ -223,6 +223,60 @@
 	
 		return;
 	});
+
+
+	// 选择分类
+	$('body').on('click', '.category.button', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+				
+			$('#sight-category').val('');
+          // 清空标签
+          $('#category_tags_box span').html('');
+		}else{
+			$(this)
+				.siblings('.category.button').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#sight-category').val(id);
+          // 加载该类别下的标签库
+          load_category_tag(id, '');
+		}
+		
+        return false;
+	});
+
+    // 选择分类标签
+  $('.category-tags.button').livequery(function(){
+    $(this).click(function(){
+      var id = $(this).attr('data-value');
+      if ($(this).hasClass('active')){
+        $(this)
+          .removeClass('active');
+          
+        $('#sight-category-tags').val('');
+      }else{
+        $(this)
+          .siblings('.category-tags.button').removeClass('active')
+          .end()
+          .addClass('active');
+        $('#sight-category-tags').val(id);
+      }
+      return false;
+    }); 
+  });
+
+  // 初始化标签
+  var current_category_id = $('#sight-category').val();
+  var current_category_tags = $('#sight-category-tags').val();
+  if(current_category_id){
+    // 加载该类别下的标签库
+    if(current_category_id){
+      load_category_tag(current_category_id, current_category_tags); 
+    }
+  }
 	
 	$('.tags_content').each(function(){
 		var id = $(this).attr('id');
@@ -314,14 +368,14 @@
 {% block content %}
 <div class="admin">
 	
-	<h3 class="ui header">场景管理</h3>
+	<h3 class="ui header">情景管理</h3>
 	<div class="ui secondary pointing magenta menu">
 		<a href="{{ app_url_app_admin_base }}/scene_sight" class="item">
 			全部
 		</a>
 	  	<div class="right menu">	
 			<a href="{{ app_url_app_admin_base }}/scene_sight/add" class="item">
-				<i class="add icon"></i>添加场景
+				<i class="add icon"></i>添加情景
 			</a>
 			<!--
             <a href="javascript:void(0);" class="item ajax-delete">
@@ -336,7 +390,26 @@
 		<input type="hidden" name="id" value="{{ sight._id }}" />
 		
 		<div class="ui segment from">
-			<h3 class="ui dividing header">填写场景信息</h3>
+			<h3 class="ui dividing header">填写情景信息</h3>
+
+			<div class="grouped inline fields">
+
+            <div class="field">
+              <label>分类:</label>
+              <input type="hidden" name="category_id" value="{{ sight.category_id }}" id="sight-category" />
+              {% category_list var:'category' only_open:1 domain:13 pid:fid current:sight.category_id %}
+              {% for cat in category.rows %}
+              <a class="ui {{ cat.active }} magenta category button" style="margin-bottom:2px;" data-tags="{{ cat.tags_s }}" data-value="{{ cat._id }}">{{ cat.title }}</a>
+              {% endfor %}
+            </div>
+
+            <div class="field" id="category_tags_box">
+              <input type="hidden" name="category_tags" value="{{ date.category_tags_s }}" id="sight-category-tags" />
+                        <label for="category_tags">分类标签：</label>
+                <span></span>
+            </div>
+
+
             <div class="field">
                 <label>标题</label>
 				<input type="text" name="title" placeholder="名称" value="{{ sight.title }}" />
@@ -364,8 +437,8 @@
 				{% endfor %}
             </div>
 			<div class="field">
-                <label>场景地址</label>
-				<input type="text" id="address" name="address" placeholder="场景地址" value="{{ sight.address }}" />
+                <label>情景地址</label>
+				<input type="text" id="address" name="address" placeholder="情景地址" value="{{ sight.address }}" />
 				<input type="hidden" name="lng" value="{{ sight.location.coordinates.0 }}" />
 				<input type="hidden" name="lat" value="{{ sight.location.coordinates.1 }}" />
 				<div type="button" value="按钮" class="map-box-btn" /></div>

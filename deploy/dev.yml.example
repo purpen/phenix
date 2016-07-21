@@ -119,10 +119,16 @@ app.high_admin_ids: '20448|10'
 baidu_push_token: ''
 
 # 支付宝
-app.alipay.partner: '2088411237666512'
-app.alipay.key: '8igqejramxdbw53yvlp8aukvbt9s5rnd'
+app.alipay.partner: '2088411237663434'
+app.alipay.key: '8igqejramxdbw53yvlp8aukvbt9s5rsdfnd'
 app.alipay.cacert: '/opt/project/php/phenix/vendor/cacert.pem'
 app.alipay.pendir: '/opt/project/php/phenix/vendor'
+
+# Fiu~支付宝
+app.alipay.fiu.partner: '20885113034349072'
+app.alipay.fiu.key: 'd51e530330df4c76565c5f743a9a5c4e01'
+app.alipay.fiu.cacert: '/opt/project/phenix/vendor/alipay_cert/cacert.pem'
+app.alipay.fiu.pendir: '/opt/project/phenix/vendor/alipay_cert'
 
 # 淘宝
 app.taobao.key: '21781655'

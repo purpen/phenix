@@ -65,6 +65,9 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 			return $this->ajax_json('缺少请求参数！', true);
 		}
 		$mode = 'edit';
+
+		$fid = Doggy_Config::$vars['app.scene_sight.category_id'];
+        $this->stash['fid'] = $fid;
 		
 		$model = new Sher_Core_Model_SceneSight();
 		$sight = $model->load($id);
@@ -181,11 +184,13 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 		$user_id = $this->visitor->id;
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		
 		$data = array();
 		$data['title'] = $this->stash['title'];
 		$data['des'] = $this->stash['des'];
 		$data['tags'] = $this->stash['tags'];
+        $data['category_id'] = $category_id;
 		$data['address'] = $this->stash['address'];
 		$data['location'] = array(
             'type' => 'Point',
