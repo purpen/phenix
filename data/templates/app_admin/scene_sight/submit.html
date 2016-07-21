@@ -239,6 +239,10 @@
 					'border-radius': "4px",
 					fontFamily:"微软雅黑"
 				});
+
+                // 移除原有坐标
+                map.clearOverlays();
+
 				marker.setLabel(label);
 				
 				map.addOverlay(marker);

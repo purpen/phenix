@@ -219,6 +219,7 @@
 				
 				// 创建标注
 				var marker = new BMap.Marker(point);
+
 				marker.enableDragging();
 				marker.addEventListener("dragend",function(e){
 					point = e.point;
@@ -240,6 +241,10 @@
 					'border-radius': "4px",
 					fontFamily:"微软雅黑"
 				});
+
+                // 移除原有坐标
+                map.clearOverlays();
+
 				marker.setLabel(label);
 				
 				map.addOverlay(marker);
