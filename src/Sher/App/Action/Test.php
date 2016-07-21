@@ -138,7 +138,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 		return $this->to_html_page('wap/special_subject/list.html');
 	}
 	public function tweleve() {
-		return $this->to_html_page('fiu/point.html');
+		return $this->to_html_page('/page/fiu/index.html');
 	}
 
   /**
