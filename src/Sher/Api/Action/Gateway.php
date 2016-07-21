@@ -132,6 +132,32 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
   }
 
   /**
+   * 记录fiu用户激活状态
+   */
+  public function record_fiu_user_active(){
+    $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
+    $channel_id = isset($this->stash['channel']) ? (int)$this->stash['channel'] : 0;
+    $app_type = isset($this->stash['app_type']) ? (int)$this->stash['app_type'] : 1;
+    $idfa = isset($this->stash['idfa']) ? $this->stash['idfa'] : null;
+
+    if(!empty($uuid)){
+      $fiu_user_record_model = new Sher_Core_Model_FiuUserRecord();
+      $has_app_one = $fiu_user_record_model->first(array('uuid'=>$uuid));
+      if(empty($has_app_one)){
+        $fiu_user_rows = array(
+          'uuid' => $uuid,
+          'channel_id' => $channel_id,
+          'device' => empty($channel_id) ? 2 : 1,
+          'kind' => $app_type==1 ? 1 : 2,
+          'idfa' => $idfa,
+        );
+        $fiu_user_record_model->apply_and_save($fiu_user_rows);
+      }
+    }
+    return $this->api_json('success', 0, array('uuid'=>$uuid));
+  }
+
+  /**
    * app首页秒杀展示
    */
   public function snatched_index_show(){

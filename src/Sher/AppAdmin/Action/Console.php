@@ -42,7 +42,7 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
   }
 
   /**
-   * 激活量记录
+   * 商城激活量记录
    */
   public function user_active_record(){
 		// 判断左栏类型
@@ -58,7 +58,23 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
   }
 
   /**
-   * 激活量删除
+   * Fiu激活量记录
+   */
+  public function fiu_user_active_record(){
+		// 判断左栏类型
+		$this->stash['show_type'] = "console";
+    $this->set_target_css_state('page_fiu_user_record');
+
+		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/console/fiu_user_active_record?uuid=%s&channel_id=%d&kind=%d&device=%d&page=#p#';
+
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['uuid'], $this->stash['channel_id'], $this->stash['kind'], $this->stash['device']);
+
+    return $this->to_html_page('app_admin/fiu_user_active_record.html');
+
+  }
+
+  /**
+   * 商城激活量删除
    */
   public function app_user_record_deleted(){
     $id = isset($this->stash['id']) ? $this->stash['id'] : null;
@@ -66,6 +82,24 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
 			return $this->ajax_note('请求参数为空', true);
 		}
 		$model = new Sher_Core_Model_AppUserRecord();
+		if($model->remove($id)){
+      $model->mock_after_remove($id);
+		}
+		
+		$this->stash['id'] = $id;
+		return $this->to_taconite_page('app_admin/del_ok.html');
+
+  }
+
+  /**
+   * Fiu激活量删除
+   */
+  public function fiu_user_record_deleted(){
+    $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+		if(empty($id)){
+			return $this->ajax_note('请求参数为空', true);
+		}
+		$model = new Sher_Core_Model_FiuUserRecord();
 		if($model->remove($id)){
       $model->mock_after_remove($id);
 		}
