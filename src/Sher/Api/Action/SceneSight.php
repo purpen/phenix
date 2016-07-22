@@ -224,7 +224,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		}
 		
 		if(!$data['tags']){
-			return $this->api_json('请求标签不能为空', 3005);
+		    //return $this->api_json('请求标签不能为空', 3005);
 		}
 		
         if(!empty($products)){
@@ -299,7 +299,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 				$data['_id'] = $id;
                 $scene = $model->load($id);
                 if(empty($scene) || $scene['user_id']!=$user_id){
- 				    return $this->api_json('没有权限', 4001);                   
+ 				    return $this->api_json('没有权限', 4001);
                 }
 				$ok = $model->apply_and_update($data);
 			}
@@ -434,7 +434,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 	}
 
   /**
-   * 场境分享增加语境使用次数
+   * 情景分享增加语境使用次数
    */
   public function add_share_context_num(){
  		$id = isset($this->stash['id'])?$this->stash['id']:0;

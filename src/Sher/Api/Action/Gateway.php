@@ -148,7 +148,6 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
           'uuid' => $uuid,
           'channel_id' => $channel_id,
           'device' => empty($channel_id) ? 2 : 1,
-          'kind' => $app_type==1 ? 1 : 2,
           'idfa' => $idfa,
         );
         $fiu_user_record_model->apply_and_save($fiu_user_rows);
