@@ -1,6 +1,6 @@
 <?php
 /**
- * 商城app用户统计
+ * Fiu app用户统计
  * @author tianshuai
  */
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
@@ -21,13 +21,13 @@ ini_set('memory_limit','512M');
 date_default_timezone_set('Asia/shanghai');
 
 echo "-------------------------------------------------\n";
-echo "===============APP_STORE_USER_STAT WORKER WAKE UP===============\n";
+echo "===============APP_FIU_USER_STAT WORKER WAKE UP===============\n";
 echo "-------------------------------------------------\n";
 
 // 统计方法
 function begin_stat(){
   echo "Start to stat...\n";
-  $app_store_user_stat_model = new Sher_Core_Model_AppStoreUserStat();
+  $app_fiu_user_stat_model = new Sher_Core_Model_AppFiuUserStat();
   $yesterday = (int)date('Ymd', strtotime('-1 day'));
   $month = (int)date('Ym', strtotime('-1 day'));
   $year = (int)date('Y', strtotime('-1 day'));
@@ -40,7 +40,7 @@ function begin_stat(){
   $end_tmp = strtotime(sprintf("%s 23:59:59", date('Y-m-d', strtotime('-1 day'))));
 
   //如果统计表存在,跳过
-  $is_exist = $app_store_user_stat_model->first(array('day'=>(int)$yesterday));
+  $is_exist = $app_fiu_user_stat_model->first(array('day'=>(int)$yesterday));
   if(empty($is_exist)){
 
     // 获取昨天增长数量
@@ -73,7 +73,7 @@ function begin_stat(){
     $week_ios_order_count = 0;
     $week_android_order_money = 0;
     $week_ios_order_money = 0;
-    $current_week = $app_store_user_stat_model->first(array('week'=>$week, 'week_latest'=>1));
+    $current_week = $app_fiu_user_stat_model->first(array('week'=>$week, 'week_latest'=>1));
     if(!empty($current_week)){
       //周汇总
       $week_android_count = $current_week['week_android_count'];
@@ -86,7 +86,7 @@ function begin_stat(){
       $week_android_order_money = $current_week['week_android_order_money'];
       $week_ios_order_money = $current_week['week_ios_order_money'];
       //清除最后一周标记
-      $app_store_user_stat_model->update_set((string)$current_week['_id'], array('week_latest'=>0));
+      $app_fiu_user_stat_model->update_set((string)$current_week['_id'], array('week_latest'=>0));
     }
 
     //查询上一次所在月
@@ -98,7 +98,7 @@ function begin_stat(){
     $month_ios_order_count = 0;
     $month_android_order_money = 0;
     $month_ios_order_money = 0;
-    $current_month = $app_store_user_stat_model->first(array('month'=>$month, 'month_latest'=>1));
+    $current_month = $app_fiu_user_stat_model->first(array('month'=>$month, 'month_latest'=>1));
     if(!empty($current_month)){
       //月汇总
       $month_android_count = $current_month['month_android_count'];
@@ -111,7 +111,7 @@ function begin_stat(){
       $month_android_order_money = $current_month['month_android_order_money'];
       $month_ios_order_money = $current_month['month_ios_order_money'];
       //清除最后一月标记
-      $app_store_user_stat_model->update_set((string)$current_month['_id'], array('month_latest'=>0));       
+      $app_fiu_user_stat_model->update_set((string)$current_month['_id'], array('month_latest'=>0));       
     }
 
     $data = array(
@@ -171,7 +171,7 @@ function begin_stat(){
       'total_ios_order_money' => $total_ios_order['total_money'],
     );
 
-    $app_store_user_stat_model->create($data);
+    $app_fiu_user_stat_model->create($data);
 
   } // endif is_exist
 
@@ -186,8 +186,8 @@ function fetch_count($kind, $device, $star_tmp=0, $end_tmp=0){
     $query['created_on'] = array('$gte'=>$star_tmp, '$lte'=>$end_tmp);
   }
 
-  $app_user_record_model = new Sher_Core_Model_AppUserRecord();
-  $count = $app_user_record_model->count($query);
+  $fiu_user_record_model = new Sher_Core_Model_FiuUserRecord();
+  $count = $fiu_user_record_model->count($query);
   return $count;
 }
 
@@ -197,7 +197,7 @@ function fetch_grow_count($from_to, $star_tmp=0, $end_tmp=0){
   if(!empty($star_tmp) && !empty($end_tmp)){
     $query['created_on'] = array('$gte'=>$star_tmp, '$lte'=>$end_tmp);
   }
-  $pusher_model = new Sher_Core_Model_Pusher();
+  $pusher_model = new Sher_Core_Model_FiuPusher();
   $count = $pusher_model->count($query);
   return $count;
 }
@@ -206,7 +206,7 @@ function fetch_grow_count($from_to, $star_tmp=0, $end_tmp=0){
 function fetch_order_count($from_site=0, $star_tmp=0, $end_tmp=0){
 
   $query['status'] = array('$in'=>array(10,15,16,20));
-  $query['from_app'] = 1;
+  $query['from_app'] = 2;
   if($from_site){
     $query['from_site'] = $from_site;
   }
@@ -257,7 +257,7 @@ if($now_time>=$begin_time && $now_time<=$end_time){
 }
 
 echo "-------------------------------------------------\n";
-echo "===============APP_STORE_USER_STAT WORKER WAKE DOWN===============\n";
+echo "===============APP_FIU_USER_STAT WORKER WAKE DOWN===============\n";
 echo "-------------------------------------------------\n";
 
 // sleep 1 hour

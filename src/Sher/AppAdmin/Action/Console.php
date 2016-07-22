@@ -110,7 +110,7 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
   }
 
   /**
-   * 用户统计
+   * 用户统计-商城
    */
   public function user_stat(){
 		// 判断左栏类型
@@ -126,7 +126,23 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
   }
 
   /**
-   * 用户统计删除操作
+   * 用户统计-Fiu
+   */
+  public function fiu_user_stat(){
+		// 判断左栏类型
+		$this->stash['show_type'] = "console";
+    $this->set_target_css_state('page_app_fiu_user_stat');
+    $this->set_target_css_state('all_list');
+
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/console/fiu_user_stat?month=%s&week=%s&day=%s&page=#p#', $this->stash['month'], $this->stash['week'], $this->stash['day']);
+		$this->stash['pager_url'] = $pager_url;
+
+    return $this->to_html_page('app_admin/fiu_user_stat.html');
+
+  }
+
+  /**
+   * 用户统计删除操作-商城
    */
   public function user_stat_delete(){
     $id = isset($this->stash['id']) ? $this->stash['id'] : null;
@@ -138,6 +154,27 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
  			return $this->ajax_note('没有执行权限!', true);     
     }
 		$model = new Sher_Core_Model_AppStoreUserStat();
+		if($model->remove($id)){
+      $model->mock_after_remove($id);
+		}
+		
+		$this->stash['id'] = $id;
+		return $this->to_taconite_page('app_admin/del_ok.html'); 
+  }
+
+  /**
+   * 用户统计删除操作-Fiu
+   */
+  public function fiu_user_stat_delete(){
+    $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+		if(empty($id)){
+			return $this->ajax_note('请求参数为空', true);
+		}
+    $user_id = $this->visitor->id;
+    if(!Sher_Core_Helper_Util::is_high_admin($user_id)){
+ 			return $this->ajax_note('没有执行权限!', true);     
+    }
+		$model = new Sher_Core_Model_AppFiuUserStat();
 		if($model->remove($id)){
       $model->mock_after_remove($id);
 		}
