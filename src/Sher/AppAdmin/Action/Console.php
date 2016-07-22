@@ -49,9 +49,9 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
 		$this->stash['show_type'] = "console";
     $this->set_target_css_state('page_app_user_record');
 
-		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/console/user_active_record?uuid=%s&channel_id=%d&kind=%d&device=%d&page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/console/user_active_record?uuid=%s&channel_id=%d&device=%d&page=#p#';
 
-		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['uuid'], $this->stash['channel_id'], $this->stash['kind'], $this->stash['device']);
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['uuid'], $this->stash['channel_id'], $this->stash['device']);
 
     return $this->to_html_page('app_admin/user_active_record.html');
 
@@ -65,9 +65,9 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
 		$this->stash['show_type'] = "console";
     $this->set_target_css_state('page_fiu_user_record');
 
-		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/console/fiu_user_active_record?uuid=%s&channel_id=%d&kind=%d&device=%d&page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/console/fiu_user_active_record?uuid=%s&channel_id=%d&device=%d&page=#p#';
 
-		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['uuid'], $this->stash['channel_id'], $this->stash['kind'], $this->stash['device']);
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['uuid'], $this->stash['channel_id'], $this->stash['device']);
 
     return $this->to_html_page('app_admin/fiu_user_active_record.html');
 
