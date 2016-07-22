@@ -44,9 +44,9 @@ while(!$is_end){
 	$max = count($list);
 	for ($i=0; $i < $max; $i++) {
     $id = $list[$i]['_id'];
-        $comment_count += $list[$i]['comment_count'];
-        $view_count += $list[$i]['view_count'];
-        $love_count += $list[$i]['love_count'];
+        $comment_count += isset($list[$i]['comment_count']) ? (int)$list[$i]['comment_count'] : 0;
+        $view_count += isset($list[$i]['view_count']) ? (int)$list[$i]['view_count'] : 0;
+        $love_count += isset($list[$i]['love_count']) ? (int)$list[$i]['love_count'] : 0;
         $total++;
     
 	}
