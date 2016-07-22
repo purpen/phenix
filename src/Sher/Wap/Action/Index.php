@@ -15,7 +15,7 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','home','twelve','comeon','games','clients');
+	protected $exclude_method_list = array('execute','home','twelve','comeon','games','clients','fiu');
 	
 	/**
 	 * 商城入口
@@ -53,6 +53,13 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 	 */
 	public function twelve(){
 		return $this->to_html_page('wap/publish.html');
+	}
+
+	/**
+	 * fiu
+	 */
+	public function fiu(){
+		return $this->to_html_page('wap/fiu/index.html');
 	}
 	
 	/**
