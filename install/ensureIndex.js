@@ -135,10 +135,18 @@ db.fiu_pusher.ensureIndex({ 'uuid':1}, {unique: true}, {background: true});
 # app_user_record   // app用户激活数记录--商城
 db.app_user_record.ensureIndex({ 'uuid':1}, {unique: true}, {background: true});
 
-# app_store_user_stat   // app商城每日统计
+# fiu_user_record   // app用户激活数记录--Fiu
+db.fiu_user_record.ensureIndex({ 'uuid':1}, {unique: true}, {background: true});
+
+# app_store_user_stat   // app每日统计--商城
 db.app_store_user_stat.ensureIndex({ 'day':1}, {background: true});
 db.app_store_user_stat.ensureIndex({ 'week':1}, {background: true});
 db.app_store_user_stat.ensureIndex({ 'month':1}, {background: true});
+
+# app_fiu_user_stat   // app每日统计--Fiu
+db.app_fiu_user_stat.ensureIndex({ 'day':1}, {background: true});
+db.app_fiu_user_stat.ensureIndex({ 'week':1}, {background: true});
+db.app_fiu_user_stat.ensureIndex({ 'month':1}, {background: true});
 
 # feedback      // 意见反馈
 db.feedback.ensureIndex({ 'created_on':-1}, {background: true});
