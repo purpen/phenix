@@ -128,6 +128,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$data['title'] = $this->stash['title'];
 		$data['des'] = $this->stash['des'];
 		$data['tags'] = $this->stash['tags'];
+        $data['city'] = isset($this->stash['city']) ? $this->stash['city'] : '';
         $data['address'] = $this->stash['address'];
         $data['category_id'] = $category_id;
 		$data['location'] = array(

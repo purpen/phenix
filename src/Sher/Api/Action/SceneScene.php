@@ -25,7 +25,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$some_fields = array(
 			'_id'=>1, 'title'=>1, 'user_id'=>1, 'des'=>1, 'sight'=>1, 'tags'=>1,
 			'location'=>1, 'address'=>1, 'cover_id'=>1,'used_count'=>1, 'category_id'=>1,
-			'view_count'=>1, 'subscription_count'=>1, 'love_count'=>1, 'deleted'=>1,
+			'view_count'=>1, 'subscription_count'=>1, 'love_count'=>1, 'deleted'=>1, 'city'=>1,
 			'comment_count'=>1, 'is_check'=>1, 'stick'=>1, 'fine'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
 		);
 		
@@ -153,6 +153,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$data['title'] = isset($this->stash['title']) ? $this->stash['title'] : '';
 		$data['des'] = isset($this->stash['des']) ? $this->stash['des'] : '';
 		$data['tags'] = isset($this->stash['tags']) ? $this->stash['tags'] : '';
+		$data['city'] = isset($this->stash['city']) ? $this->stash['city'] : '';
 		$data['address'] = isset($this->stash['address']) ? $this->stash['address'] : '';
 		$data['category_id'] = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$lng = isset($this->stash['lng']) ? $this->stash['lng'] : 0;

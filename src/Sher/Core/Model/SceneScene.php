@@ -28,6 +28,8 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
             # 经度,纬度
             'coordinates' => array(),
         ),
+        # 城市名
+        'city' => '',
 		# 地址
         'address' => '',
 
