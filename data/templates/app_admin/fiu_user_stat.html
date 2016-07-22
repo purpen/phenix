@@ -44,10 +44,10 @@
 {%endblock%}
 
 {% block content %}
-	<h3 class="ui header">商城用户统计</h3>
+	<h3 class="ui header">fiu用户统计</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_app_admin_base }}/console/user_stat" class="{{ css_all_list }} item">
+		<a href="{{ app_url_app_admin_base }}/console/fiu_user_stat" class="{{ css_all_list }} item">
 			全部
 		</a>
 
@@ -60,7 +60,7 @@
 	</div>
 
 	<div class="ui sub search">
-		<form action="{{ app_url_app_admin_base }}/console/user_stat" method="get" class="ui form" id="search-form">
+		<form action="{{ app_url_app_admin_base }}/console/fiu_user_stat" method="get" class="ui form" id="search-form">
 			<div class="five fields">
 				<div class="field">
 					<input type="text" name="month" placeholder="月: 201505" value="{{ month }}" />
@@ -118,7 +118,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% app_store_user_stat_list var:'list' day:day week:week month:month sort:0 page:page size:100 %}
+			{% app_fiu_user_stat_list var:'list' day:day week:week month:month sort:0 page:page size:100 %}
 			
 			{% for d in list.rows %}
 			<tr id="item-{{ d._id }}">
@@ -158,7 +158,7 @@
         </td>
 
         <td>
-  				<a href="{{ app_url_app_admin_base }}/console/user_stat_delete?id={{ d._id }}" class="ui link item confirm-request">删除</a>      
+  				<a href="{{ app_url_app_admin_base }}/console/fiu_user_stat_delete?id={{ d._id }}" class="ui link item confirm-request">删除</a>      
         </td>
 			</tr>
 			{% endfor %}
