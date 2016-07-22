@@ -198,9 +198,10 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
             'coordinates' => array(doubleval($this->stash['lng']), doubleval($this->stash['lat'])),
         );
 
+		$products = isset($this->stash['products']) ? $this->stash['products'] : null;
+
         // 此参数已不用，先保留
         /**
-		$products = isset($this->stash['products']) ? $this->stash['products'] : null;
 		$product_id = isset($this->stash['product_id']) ? $this->stash['product_id'] : '';
 		$product_title = isset($this->stash['product_title']) ? $this->stash['product_title'] : '';
 		$product_price = isset($this->stash['product_price']) ? $this->stash['product_price'] : '';
