@@ -16,28 +16,380 @@
 .sbg{
 	background-image: url( {{ app_url_packaged }}/images/fiu/wsbg.png);
 	width: 280px;
-    height: 400px;
-    background-size: 100%;
-    position: absolute;
-    right: 0;
-    top: 10px;
+	height: 400px;
+	background-size: 100%;
+	position: absolute;
+	right: 0;
+	top: 10px;
 }
 .video-container{
 	position: absolute;
 	top: 40px;
-    left: 34px;
-    width: 107px;
-    height: 186px;
-    z-index: 3;
+	left: 34px;
+	width: 107px;
+	height: 186px;
+	z-index: 3;
 }
 .sbgg{
-	padding-top: 400px !important;
+	padding-top: 320px !important;
 	position: relative;
+}
+.p1title{
+	color: #000;
+	font-size: 13px;
+	line-height: 22px;
+}
+.p2title{
+	font-size: 12px;
+	color: #000;
+	line-height: 22px;
+}
+.color-be{
+	color:#be8914;
+}
+.blackg {
+    background: #000;
+    color: #fff;
+    font-size: 13px;
+    padding-left: 20px;
+    line-height: 32px;
+    letter-spacing: 2px;
+}
+.flexslider.flex-single-carousel{
+    padding:15px 0;
+    border:0;
+    background:rgb(253,253,253);
+}
+.flexslider .slides>li,.flexslider.flex-single-carousel .slides>li{
+    border-radius:0;
+}
+.flexslider .slides>li{
+    position: relative;
+}
+.flexslider .flex-viewport {
+    max-height: 2000px;
+    -webkit-transition: all 1s ease 0s;
+    -moz-transition: all 1s ease 0s;
+    -o-transition: all 1s ease 0s;
+    -ms-transition: all 1s ease 0s;
+    transition: all 1s ease 0s;
+}
+.slides, .slides>li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.flexslider .slides>li img {
+    width: 100%;
+    display: block;
+    height: auto;
+}
+.flexslider.flex-single .flex-direction-nav {
+    display: none;
+    height: 0;
+}
+.flexslider.flex-single-carousel {
+    padding: 10px 0;
+    margin: 0;
+    overflow: hidden;
+}
+.flexslider.flex-single-carousel .slides {
+    height: auto;
+}
+
+.flexslider .flex-viewport {
+    max-height: 2000px;
+    -webkit-transition: all 1s ease 0s;
+    -moz-transition: all 1s ease 0s;
+    -o-transition: all 1s ease 0s;
+    -ms-transition: all 1s ease 0s;
+    transition: all 1s ease 0s;
+}
+.flexslider.flex-single-carousel .slides>li {
+    background-color: #fcfcfc;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    margin-right: 10px;
+    visibility: visible;
+    background-size: cover;
+    float: left;
+    display: block;
+    height: auto;
+}
+.flexslider.flex-single-carousel .slides>li>a {
+    background-size: cover;
+    display: block;
+}
+.flex-direction-nav, .slides, .slides>li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.flex-direction-nav{
+    display: none;
+}
+@keyframes ripple{
+    0% {
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6),
+                  0 0 0 3px rgba(255, 255, 255, 0.4),
+                  0 0 0 6px rgba(255, 255, 255, 0);
+    }
+    50% {
+    box-shadow: 0 0 0 0px rgba(255, 255, 255, 0.6),
+                0 0 0 0px rgba(255, 255, 255, 0.4),
+                0 0 0 0px rgba(255, 255, 255, 0);
+  }
+    100% {
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.6),
+                  0 0 0 6px rgba(255, 255, 255, 0.4),
+                  0 0 0 9px rgba(255, 255, 255, 0);
+    }
+}
+@-webkit-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6),
+                0 0 0 3px rgba(255, 255, 255, 0.4),
+                0 0 0 6px rgba(255, 255, 255, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 0px rgba(255, 255, 255, 0.6),
+                0 0 0 0px rgba(255, 255, 255, 0.4),
+                0 0 0 0px rgba(255, 255, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.6),
+                0 0 0 6px rgba(255, 255, 255, 0.4),
+                0 0 0 9px rgba(255, 255, 255, 0);
+  }
+}
+.flex-active-slide .yuan1 {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    animation: ripple 2s linear infinite;
+    -webkit-animation: ripple 2s linear infinite;
+    position: absolute;
+    right: 28%;
+    top: 7%;
+}
+.flex-active-slide .yuan2 {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    animation: ripple 2s linear infinite;
+    -webkit-animation: ripple 2s linear infinite;
+    position: absolute;
+    left: 4%;
+    top: 43%;
+}
+.flex-active-slide .yuan3 {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    animation: ripple 2s linear infinite;
+    -webkit-animation: ripple 2s linear infinite;
+    position: absolute;
+    left: 38%;
+    top: 54%;
+}
+.flex-active-slide .yuan4 {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    animation: ripple 2s linear infinite;
+    -webkit-animation: ripple 2s linear infinite;
+    position: absolute;
+    right: 16%;
+    top: 23%;
+}
+.flex-active-slide .yuan5 {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    animation: ripple 2s linear infinite;
+    -webkit-animation: ripple 2s linear infinite;
+    position: absolute;
+    right: 30%;
+    top: 58%;
+}
+.flex-active-slide .yuan6 {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    animation: ripple 2s linear infinite;
+    -webkit-animation: ripple 2s linear infinite;
+    position: absolute;
+    right: 46%;
+    bottom: 5%;
+}
+.flex-active-slide .yuan7 {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    animation: ripple 2s linear infinite;
+    -webkit-animation: ripple 2s linear infinite;
+    position: absolute;
+    left: 10%;
+    bottom: 30%;
+}
+.flex-active-slide .yuan8 {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    animation: ripple 2s linear infinite;
+    -webkit-animation: ripple 2s linear infinite;
+    position: absolute;
+    left: 29%;
+    top: 47%;
+}
+.flex-active-slide .yuan9 {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    animation: ripple 2s linear infinite;
+    -webkit-animation: ripple 2s linear infinite;
+    position: absolute;
+    right: 37%;
+    bottom: 17%;
+}
+.flex-active-slide .yuan10 {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    animation: ripple 2s linear infinite;
+    -webkit-animation: ripple 2s linear infinite;
+    position: absolute;
+    right: 6%;
+    bottom: 21%;
+}
+.flex-active-slide .yuan11 {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    animation: ripple 2s linear infinite;
+    -webkit-animation: ripple 2s linear infinite;
+    position: absolute;
+    left: 8%;
+    top: 27%;
+}
+.flex-active-slide .yuan12 {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    animation: ripple 2s linear infinite;
+    -webkit-animation: ripple 2s linear infinite;
+    position: absolute;
+    left: 51%;
+    top: 69%;
+}
+.flex-active-slide .yuan13 {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    animation: ripple 2s linear infinite;
+    -webkit-animation: ripple 2s linear infinite;
+    position: absolute;
+    right: 32%;
+    top: 54%;
+}
+.flex-active-slide .yuan14 {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    animation: ripple 2s linear infinite;
+    -webkit-animation: ripple 2s linear infinite;
+    position: absolute;
+    right: 6%;
+    top: 56%;
+}
+.flex-active-slide .yuan15 {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    animation: ripple 2s linear infinite;
+    -webkit-animation: ripple 2s linear infinite;
+    position: absolute;
+    left: 31%;
+    top: 76%;
+}
+.flex-active-slide .yuan16 {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    animation: ripple 2s linear infinite;
+    -webkit-animation: ripple 2s linear infinite;
+    position: absolute;
+    left: 36%;
+    top: 50%;
+}
+.flex-active-slide .yuan17 {
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+    animation: ripple 2s linear infinite;
+    -webkit-animation: ripple 2s linear infinite;
+    position: absolute;
+    right: 27%;
+    top: 18%;
+}
+.sect2{
+
 }
 </style>
 {% endblock %}
 {% block jquery %}
+$('#carousel').flexslider({
+    animation: "slide",
+    controlNav: false,
+    animationLoop: false,
+    slideshow: false,
+    itemWidth: 120,
+    itemMargin: 15,
+    asNavFor: '#slider'
+});
 
+$('#slider').flexslider({
+    animation: "slide",
+    controlNav: false,
+    animationLoop: false,
+    slideshow: false,
+    sync: "#carousel"
+});
 
 {% endblock %}
 {% block content %}
@@ -46,13 +398,87 @@
 		<div class="sbg">
 			<div class="video-container">
 				<video width="100%" height="100%" preload="auto" autoplay="true" loop controls="controls" webkit-playsinline > <!--preload="auto" autoplay="true" controls="controls" -->
-					<source type="video/mp4" src="{{ app_url_packaged }}/images/fiu/video.mp4">
+					<source type="video/mp4" src="{{ app_url_packaged }}/images/fiu/video3.mp4">
 				</video>
 			</div>
 		</div>
 		<div class="ui responsive grid sbgg">
-
+			<div class="row">
+				<div class="ui center aligned column">
+					<img src="{{ app_url_packaged }}/images/fiu/logo.png" width="80">
+					<p class="p1title mt-3r">
+                        Fiu浮游™是一个致力于发现科技创新产品和分享美学生活方式的情境式图片社交平台。Fiu浮游™通过大千世界碎片美的场景大片重构，为新中产的生活方式带来全新的诗意体验。
+                    </p>
+					<p class="p2title mt-2r">
+                        在Fiu浮游™，你可以用文字来记录内心情绪，用滤镜来表达情感色彩，用分享去变现原创价值，并通过基于LBS的场景化购物服务可随手拥抱独特好货。Fiu浮游™有一千万种创新的方式让你放肆鲜活的情境。
+                    </p>
+					<p class="p2title mt-2r">
+                        诗人屈原在《离骚》中感叹：欲远集而无所止兮，聊浮游以逍遥。而今日的Fiu浮游™栖息了全球数千万创新科技的创造者、生活美学的设计者、以及在浮游世界里希望用创意和梦想去改变平凡世界的品质生活家。Fiu浮游™用无尽的心绪和惊艳的场景，让你的分享变成生产力。
+					</p>
+					<p class="p1title mt-2r">
+                        每个人心中都有一个不曾到过的美景，每个人心中都有一个不曾拥有的美物，Fiu浮游™带你发现美学科技的力量和感性生活的温度！
+                    </p>
+					<p class="p1title color-be">科技美学情境式分享社区</p>
+				</div>
+			</div>
+            <div class="row">
+                <div class="column plr-0">
+                    <p class="blackg">为什么爱上Fiu浮游™</p>
+                </div>
+            </div>
+            <div class="row ptb-0">
+                <div class="column plr-0">
+                    <div class="slidebox">
+                        <div id="slider" class="flexslider flex-single">
+                            <ul class="slides">
+                                <li>
+                                    <img src="{{ app_url_packaged }}/images/fiu/wp1.jpg" />
+                                    <div class="yuan1"></div><div class="yuan2"></div><div class="yuan3"></div><div class="yuan4"></div><div class="yuan5"></div><div class="yuan6"></div>
+                                </li>
+                                <li>
+                                    <img src="{{ app_url_packaged }}/images/fiu/wp2.jpg" />
+                                    <div class="yuan7"></div><div class="yuan8"></div><div class="yuan9"></div><div class="yuan10"></div>
+                                </li>
+                                <li>
+                                    <img src="{{ app_url_packaged }}/images/fiu/wp3.jpg" />
+                                    <div class="yuan11"></div><div class="yuan12"></div><div class="yuan13"></div><div class="yuan14"></div>
+                                </li>
+                                <li>
+                                    <img src="{{ app_url_packaged }}/images/fiu/wp4.jpg" />
+                                    <div class="yuan15"></div><div class="yuan16"></div><div class="yuan17"></div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="carousel" class="flexslider flex-single-carousel">
+                            <ul class="slides">
+                                <li>
+                                    <img src="{{ app_url_packaged }}/images/fiu/wp01.jpg" />
+                                </li>
+                                <li>
+                                    <img src="{{ app_url_packaged }}/images/fiu/wp02.jpg" />
+                                </li>
+                                <li>
+                                    <img src="{{ app_url_packaged }}/images/fiu/wp03.jpg" />
+                                </li>
+                                <li>
+                                    <img src="{{ app_url_packaged }}/images/fiu/wp04.jpg" />
+                                </li>
+                            </ul>
+                        </div>
+                                
+                    </div>
+                </div>
+            </div>
 		</div>
 	</section>
+    <section class="sect2">
+        <div class="ui responsive grid">
+            <div class="row plr-0">
+                <div class="column">
+
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 {% endblock %}
