@@ -367,6 +367,9 @@
     right: 27%;
     top: 18%;
 }
+.fffbg{
+    background: #fff;
+}
 .sect2{
 
 }
@@ -386,8 +389,9 @@ $('#carousel').flexslider({
 $('#slider').flexslider({
     animation: "slide",
     controlNav: false,
-    animationLoop: false,
-    slideshow: false,
+    animationLoop: true,
+    slideshow: true,
+    slideshowSpeed: 3000,
     sync: "#carousel"
 });
 
@@ -471,11 +475,18 @@ $('#slider').flexslider({
             </div>
 		</div>
 	</section>
-    <section class="sect2">
+    <section class="fffbg">
         <div class="ui responsive grid">
-            <div class="row plr-0">
-                <div class="column">
-
+            <div class="row pb-4r">
+                <div class="ui center aligned column">
+                    <h3 class="color-be mt-2r mb-2r">科技美学｜质感碰撞性感的生活态度</h3>
+                    <p class="p1title">
+                    Fiu浮游™拥有赏心悦目的阅读方式，前卫时尚的感官设计，是极高颜值和内涵的互动交流平台；聚焦现代新中产生活营造生活品质格调，积聚有意义的科技潮品，上架有美感的设计好货，传递更前沿的生活资讯；Fiu浮游™让你的生活因为自由、美感而有趣。</p>
+                </div>
+            </div>
+            <div class="row plr-0 ptb-0">
+                <div class="column plr-0 ptb-0">
+                    <img src="{{ app_url_packaged }}/images/fiu/wsg.jpg" width="100%" align="absmiddle">
                 </div>
             </div>
         </div>
