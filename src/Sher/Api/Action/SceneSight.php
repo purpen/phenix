@@ -24,7 +24,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		$some_fields = array(
 			'_id'=>1, 'user_id'=>1, 'title'=>1, 'des'=>1, 'scene_id'=>1, 'tags'=>1,
-			'product' => 1, 'location'=>1, 'address'=>1, 'cover_id'=>1, 'deleted'=>1,
+			'product' => 1, 'location'=>1, 'address'=>1, 'cover_id'=>1, 'deleted'=>1, 'city'=>1,
 			'used_count'=>1, 'view_count'=>1, 'love_count'=>1, 'comment_count'=>1, 'category_id'=>1,
 			'fine' => 1, 'stick'=>1, 'is_check'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
 		);
@@ -191,6 +191,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$data['scene_id'] = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
 		$data['category_id'] = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$data['tags'] = isset($this->stash['tags']) ? $this->stash['tags'] : '';
+		$data['city'] = isset($this->stash['city']) ? $this->stash['city'] : '';
 
 		$data['address'] = isset($this->stash['address']) ? $this->stash['address'] : '';
 		$data['location'] = array(
@@ -198,9 +199,10 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
             'coordinates' => array(doubleval($this->stash['lng']), doubleval($this->stash['lat'])),
         );
 
+		$products = isset($this->stash['products']) ? $this->stash['products'] : null;
+
         // 此参数已不用，先保留
         /**
-		$products = isset($this->stash['products']) ? $this->stash['products'] : null;
 		$product_id = isset($this->stash['product_id']) ? $this->stash['product_id'] : '';
 		$product_title = isset($this->stash['product_title']) ? $this->stash['product_title'] : '';
 		$product_price = isset($this->stash['product_price']) ? $this->stash['product_price'] : '';
@@ -222,7 +224,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		}
 		
 		if(!$data['tags']){
-			return $this->api_json('请求标签不能为空', 3005);
+		    //return $this->api_json('请求标签不能为空', 3005);
 		}
 		
         if(!empty($products)){
@@ -297,7 +299,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 				$data['_id'] = $id;
                 $scene = $model->load($id);
                 if(empty($scene) || $scene['user_id']!=$user_id){
- 				    return $this->api_json('没有权限', 4001);                   
+ 				    return $this->api_json('没有权限', 4001);
                 }
 				$ok = $model->apply_and_update($data);
 			}
@@ -432,7 +434,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 	}
 
   /**
-   * 场境分享增加语境使用次数
+   * 情景分享增加语境使用次数
    */
   public function add_share_context_num(){
  		$id = isset($this->stash['id'])?$this->stash['id']:0;

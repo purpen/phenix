@@ -38,7 +38,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
             $this->set_target_css_state('all');
         }
 		
-		$pager_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_scene/get_list?page=#p#';
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_scene/get_list?deleted=%d&page=#p#', $this->stash['deleted']);
 		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('app_admin/scene_scene/list.html');
 	}
@@ -128,6 +128,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$data['title'] = $this->stash['title'];
 		$data['des'] = $this->stash['des'];
 		$data['tags'] = $this->stash['tags'];
+        $data['city'] = isset($this->stash['city']) ? $this->stash['city'] : '';
         $data['address'] = $this->stash['address'];
         $data['category_id'] = $category_id;
 		$data['location'] = array(

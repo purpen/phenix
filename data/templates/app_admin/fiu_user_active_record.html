@@ -52,17 +52,17 @@
 {% endblock %}
 	
 {% block content %}
-	<h3 class="ui header">商城-用户激活查询</h3>
+	<h3 class="ui header">Fiu-用户激活查询</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_app_admin_base }}/console/user_active_record" class="active item">
+		<a href="{{ app_url_app_admin_base }}/console/fiu_user_active_record" class="active item">
 			全部
 		</a>
 
 	</div>
 	
 	<div class="ui sub ">
-		<form action="{{ app_url_app_admin_base }}/console/user_active_record" id="search-form" method="get">
+		<form action="{{ app_url_app_admin_base }}/console/fiu_user_active_record" id="search-form" method="get">
 			<label>搜索：</label>
       <div class="ui selection dropdown">
         <input type="hidden" name="device" value="{{ device }}" />
@@ -105,7 +105,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% app_user_record_list var:'list' uuid:uuid channel_id:channel_id device:device page:page size:size %}
+			{% fiu_user_record_list var:'list' uuid:uuid channel_id:channel_id device:device page:page size:size %}
 
 			{% for d in list.rows %}
 			<tr id="item-{{ d._id }}">
@@ -132,7 +132,7 @@
         </td>
 				<td>
 					<p>
-          <a href="{{ app_url_app_admin_base }}/console/app_user_record_deleted?id={{ d._id }}" class="ui confirm-request link item">
+          <a href="{{ app_url_app_admin_base }}/console/fiu_user_record_deleted?id={{ d._id }}" class="ui confirm-request link item">
 						    删除
 					  </a>
 					</P>

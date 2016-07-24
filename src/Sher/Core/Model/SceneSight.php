@@ -37,6 +37,8 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 				'latitude' => 0
 			),
         ),
+        # 城市名
+        'city' => '',
 		# 地址
         'address' => '',
 		

@@ -48,7 +48,7 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
             }       
         }
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_sight?type=%d&page=#p#', $type);
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_sight?type=%d&deleted=%d&page=#p#', $type, $this->stash['deleted']);
 		$this->stash['pager_url'] = $pager_url;
 		
 		return $this->to_html_page('app_admin/scene_sight/list.html');
@@ -191,6 +191,7 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 		$data['des'] = $this->stash['des'];
 		$data['tags'] = $this->stash['tags'];
         $data['category_id'] = $category_id;
+		$data['city'] = isset($this->stash['city']) ? $this->stash['city'] : '';
 		$data['address'] = $this->stash['address'];
 		$data['location'] = array(
             'type' => 'Point',

@@ -1,14 +1,10 @@
 <?php
 /**
- * app商城用户激活数记录
+ * app Fiu用户激活数记录
  * @author tianshuai
  */
-class Sher_Core_Model_AppUserRecord extends Sher_Core_Model_Base  {
-	protected $collection = "app_user_record";
-
-	# 应用
-	const KIND_STORE = 1; // 商城
-  const KIND_FIU = 2; // Fiu
+class Sher_Core_Model_FiuUserRecord extends Sher_Core_Model_Base  {
+	protected $collection = "fiu_user_record";
 
   # 设备
   const DEVICE_ANDROID = 1; // Android
@@ -16,7 +12,7 @@ class Sher_Core_Model_AppUserRecord extends Sher_Core_Model_Base  {
 	
 	protected $schema = array(
     'uuid' => null,
-    'kind' => self::KIND_STORE,
+    'kind' => 1,
     'device' => self::DEVICE_ANDROID,
     'channel_id' => 0,
     'user_id' => 0,
@@ -45,20 +41,6 @@ class Sher_Core_Model_AppUserRecord extends Sher_Core_Model_Base  {
             break;
           default:
             $row['device_label'] = '--';
-        }
-    }
-
-    // 应用
-    if(isset($row['kind'])){
-        switch($row['kind']){
-          case self::KIND_STORE:
-            $row['kind_label'] = '商城';
-            break;
-          case self::KIND_FIU:
-            $row['kind_label'] = 'Fiu';
-            break;
-          default:
-            $row['kind_label'] = '--';
         }
     }
 

@@ -166,7 +166,9 @@ app.dt.extension_lib.sher_app:
     'feedback_list':'Sher_Core_ViewTag_FeedbackList'
     'user_talent_list':'Sher_Core_ViewTag_UserTalentList'
     'app_user_record_list':'Sher_Core_ViewTag_AppUserRecordList'
+    'fiu_user_record_list':'Sher_Core_ViewTag_FiuUserRecordList'
     'app_store_user_stat_list':'Sher_Core_ViewTag_AppStoreUserStatList'
+    'app_fiu_user_stat_list':'Sher_Core_ViewTag_AppFiuUserStatList'
     'ip_black_list':'Sher_Core_ViewTag_IpBlackListList'
   filters: []
 
