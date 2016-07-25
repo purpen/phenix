@@ -6,7 +6,7 @@
 	margin-top:0;
     margin-bottom: 0;
 }
-.appiosload{
+.appiosload,#mmfoot{
 	display: none !important;
 }
 .topf{
@@ -16,8 +16,8 @@
 }
 .sbg{
 	background-image: url( {{ app_url_packaged }}/images/fiu/wsbg.png);
-	width: 280px;
-	height: 400px;
+	width: 320px;
+    height: 460px;
 	background-size: 100%;
 	position: absolute;
 	right: 0;
@@ -25,14 +25,14 @@
 }
 .video-container{
 	position: absolute;
-	top: 40px;
-	left: 34px;
-	width: 107px;
-	height: 186px;
+	top: 45px;
+    left: 35px;
+    width: 130px;
+    height: 213px;
 	z-index: 3;
 }
 .sbgg{
-	padding-top: 320px !important;
+	padding-top: 390px !important;
 	position: relative;
 }
 .p1title{
@@ -42,8 +42,8 @@
 }
 .p2title{
 	font-size: 12px;
-	color: #000;
-	line-height: 22px;
+    color: #777;
+    line-height: 18px;
 }
 .color-be{
 	color:#be8914;
@@ -52,9 +52,9 @@
     background: #000;
     color: #fff;
     font-size: 13px;
-    padding-left: 20px;
     line-height: 32px;
     letter-spacing: 2px;
+    text-align: center;
 }
 .flexslider.flex-single-carousel{
     padding:15px 0;
@@ -84,6 +84,12 @@
     width: 100%;
     display: block;
     height: auto;
+}
+#carousel .slides>li img{
+    opacity: 0.5;
+}
+#carousel .slides>li.flex-active-slide img{
+    opacity: 1;
 }
 .flexslider.flex-single .flex-direction-nav {
     display: none;
@@ -1071,12 +1077,15 @@
 .apploadfiu{
     width: 100%;
     height: 60px;
-    position: relative;
+    position: fixed;
     background-image: url({{ app_url_packaged }}/images/fiu/logobg.jpg);
     background-position: center center;
     background-size:100%; 
     max-width: 767px;
     margin: 0 auto;
+    bottom: 0;
+    left: 0;
+    z-index: 9;
 }
 .apploadfiu .logo {
     width: 46px;
@@ -1353,6 +1362,10 @@
     --webkit-animation-delay: 2.9s;
     animation-delay: 2.9s;
 }
+.ui.wap{
+    display: none;
+    visibility: hidden;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -1361,7 +1374,7 @@ $('#carousel').flexslider({
     controlNav: false,
     animationLoop: false,
     slideshow: false,
-    itemWidth: 120,
+    itemWidth: ($('#mfrbird').width()-30)/4,
     itemMargin: 15,
     asNavFor: '#slider'
 });
@@ -1377,6 +1390,7 @@ $('#slider').flexslider({
 $('.ui.wap').before('<div class="apploadfiu"><img class="logo" src="{{ app_url_packaged }}/images/fiu/wfiulogo.png"><div class="content"><h4 class="ui header">Fiu浮游™<div class="sub header">科技美学情境式分享社区</div></h4></div><div class="ui active inverted tiny button"> 下载App </div><div class="apploadclose"><img src="{{ app_url_packaged }}/images/icon/close.png" width="12px" height="12px"></div><div id="apploadfiu"><img src="{{ app_url_packaged }}/images/icon/appshare.png" width="80%"></div><div id="apploadandfiu"><img src="{{ app_url_packaged }}/images/icon/appshareand.png" width="80%"></div>');
 $('.apploadclose').on('click',function(){
     $('.apploadfiu').fadeOut();
+    $('.apploadfiu').remove();
 });
 $('#apploadfiu,#apploadandfiu').click(function(){
     $('#apploadfiu,#apploadandfiu').removeAttr('style');
@@ -1420,6 +1434,12 @@ $(window).scroll(function(){
      if(scrollTop < $('.tagBall').offset().top-60 || scrollTop > $('.tagBallt').offset().top+130 ){
         $('.tagBallt').removeClass('active');
     }
+    if(scrollTop > $('#mfrbird').height()-$('body').height()-30){
+        $('.apploadfiu').fadeOut();
+    }
+    if(scrollTop < $('#mfrbird').height()-$('body').height()-80){
+        $('.apploadfiu').fadeIn();
+    }
 })
 {% endblock %}
 {% block content %}
@@ -1436,13 +1456,13 @@ $(window).scroll(function(){
 			<div class="row">
 				<div class="ui center aligned column">
 					<img src="{{ app_url_packaged }}/images/fiu/logo.png" width="80">
-					<p class="p1title mt-3r">
+					<p class="p1title mt-3r mb-2r">
                         Fiu浮游™是一个致力于发现科技创新产品和分享美学生活方式的情境式图片社交平台。Fiu浮游™通过大千世界碎片美的场景大片重构，为新中产的生活方式带来全新的诗意体验。
                     </p>
-					<p class="p2title mt-2r">
+					<p class="p2title mt-2r mb-r">
                         在Fiu浮游™，你可以用文字来记录内心情绪，用滤镜来表达情感色彩，用分享去变现原创价值，并通过基于LBS的场景化购物服务可随手拥抱独特好货。Fiu浮游™有一千万种创新的方式让你放肆鲜活的情境。
                     </p>
-					<p class="p2title mt-2r">
+					<p class="p2title mtb-2">
                         诗人屈原在《离骚》中感叹：欲远集而无所止兮，聊浮游以逍遥。而今日的Fiu浮游™栖息了全球数千万创新科技的创造者、生活美学的设计者、以及在浮游世界里希望用创意和梦想去改变平凡世界的品质生活家。Fiu浮游™用无尽的心绪和惊艳的场景，让你的分享变成生产力。
 					</p>
 					<p class="p1title mt-2r">
@@ -1506,7 +1526,7 @@ $(window).scroll(function(){
             <div class="row pb-4r">
                 <div class="ui center aligned column">
                     <h3 class="color-be mt-2r mb-2r">科技美学｜质感碰撞性感的生活态度</h3>
-                    <p class="p1title">
+                    <p class="p2title">
                     Fiu浮游™拥有赏心悦目的阅读方式，前卫时尚的感官设计，是极高颜值和内涵的互动交流平台；聚焦现代新中产生活营造生活品质格调，积聚有意义的科技潮品，上架有美感的设计好货，传递更前沿的生活资讯；Fiu浮游™让你的生活因为自由、美感而有趣。</p>
                 </div>
             </div>
@@ -1560,7 +1580,7 @@ $(window).scroll(function(){
             <div class="row pb-4r">
                 <div class="ui center aligned column">
                     <h3 class="color-be ">情景体验｜大千世界碎片美的场景如大片呈现，内容好到尖叫</h3>
-                    <p class="p1title mt-2r">Fiu浮游™用文字记录内心情绪，用滤镜表达情感色彩，寻找美丽足迹，发现质感时刻；通过生活碎片美的场景组织重构，给你带来创新生活体验；Fiu浮游™鼓励你去发现、去支持、去分享，在世界的每个角落感受喜怒哀乐，完美记录游走世界的足迹。</p>
+                    <p class="p2title mt-2r">Fiu浮游™用文字记录内心情绪，用滤镜表达情感色彩，寻找美丽足迹，发现质感时刻；通过生活碎片美的场景组织重构，给你带来创新生活体验；Fiu浮游™鼓励你去发现、去支持、去分享，在世界的每个角落感受喜怒哀乐，完美记录游走世界的足迹。</p>
                 </div>
             </div>
             <div class="row plr-0 ptb-0">
@@ -1606,7 +1626,7 @@ $(window).scroll(function(){
             <div class="row pb-4r">
                 <div class="ui center aligned column">
                     <h3 class="color-be ">社群互动｜发现同路人，并让分享变现原创价值</h3>
-                    <p class="p1title mt-2r">Fiu浮游™真实社交圈互动，你在认真发现，同类在时刻欢呼；分享一段文字一张图片一个定位，遇见更多平行世界的同路人，还享大力佣金回报；原创转发互动可以获得经验，购买商品可以获得经验，达成日常互动还可以获得经验，经验还能抵值现金消费；Fiu浮游™社区集结天天好礼、抽奖惊喜等着你。</p>
+                    <p class="p2title mt-2r">Fiu浮游™真实社交圈互动，你在认真发现，同类在时刻欢呼；分享一段文字一张图片一个定位，遇见更多平行世界的同路人，还享大力佣金回报；原创转发互动可以获得经验，购买商品可以获得经验，达成日常互动还可以获得经验，经验还能抵值现金消费；Fiu浮游™社区集结天天好礼、抽奖惊喜等着你。</p>
                     <p class="p2title">分享平台: <img src="{{ app_url_packaged }}/images/fiu/fx.png" align="absmiddle"></p>
                 </div>
             </div>
@@ -1679,7 +1699,7 @@ $(window).scroll(function(){
             <div class="row pb-4r">
                 <div class="ui center aligned column">
                     <h3 class="color-be ">地盘定位｜我的地盘我做主，开好店搞主题都随意</h3>
-                    <p class="p1title mt-2r">Fiu浮游™让有故事的产品和品牌更性感；足不出户浏览专业买手发掘的好店IP，专业买手为你标记偏爱好货，选购良心设计与美学科技无需代购；场景一站式购物随手拥抱好货，用户商家通过审核即可占领专属地盘；欢迎进驻有Fiu浮游™生活。</p>
+                    <p class="p2title mt-2r">Fiu浮游™让有故事的产品和品牌更性感；足不出户浏览专业买手发掘的好店IP，专业买手为你标记偏爱好货，选购良心设计与美学科技无需代购；场景一站式购物随手拥抱好货，用户商家通过审核即可占领专属地盘；欢迎进驻有Fiu浮游™生活。</p>
                     <p class="p2title">导购平台: <img src="{{ app_url_packaged }}/images/fiu/dg.png" align="absmiddle"></p>
                 </div>
             </div>
