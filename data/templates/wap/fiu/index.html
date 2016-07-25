@@ -1173,6 +1173,178 @@
         transform: translate3d(0,-50%,0) scale(.8)
     }
 }
+@-webkit-keyframes bounceIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.3);
+        transform: scale(.3)
+    }
+
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05)
+    }
+
+    70% {
+        -webkit-transform: scale(.9);
+        transform: scale(.9)
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.3);
+        -ms-transform: scale(.3);
+        transform: scale(.3)
+    }
+
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1.05);
+        -ms-transform: scale(1.05);
+        transform: scale(1.05)
+    }
+
+    70% {
+        -webkit-transform: scale(.9);
+        -ms-transform: scale(.9);
+        transform: scale(.9)
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1)
+    }
+}
+.tag{
+    opacity:0;
+}
+.active .tag{
+    -webkit-animation-name:bounceIn;
+    animation-name: bounceIn;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+.active .tag:nth-child(1){
+    --webkit-animation-delay: 0;
+    animation-delay: 0;
+}
+.active .tag:nth-child(2){
+    --webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s;
+}
+.active .tag:nth-child(3){
+    --webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+}
+.active .tag:nth-child(4){
+    --webkit-animation-delay: 0.4s;
+    animation-delay: 0.4s;
+}
+.active .tag:nth-child(5){
+    --webkit-animation-delay: 0.5s;
+    animation-delay: 0.5s;
+}
+.active .tag:nth-child(6){
+    --webkit-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+}
+.active .tag:nth-child(7){
+    --webkit-animation-delay: 0.7s;
+    animation-delay: 0.7s;
+}
+.active .tag:nth-child(8){
+    --webkit-animation-delay: 0.8s;
+    animation-delay: 0.8s;
+}
+.active .tag:nth-child(9){
+    --webkit-animation-delay: 0.9s;
+    animation-delay: 0.9s;
+}
+.active .tag:nth-child(10){
+    --webkit-animation-delay: 1s;
+    animation-delay: 1s;
+}
+.active .tag:nth-child(11){
+    --webkit-animation-delay: 1.1s;
+    animation-delay: 1.1s;
+}
+.active .tag:nth-child(12){
+    --webkit-animation-delay: 1.2s;
+    animation-delay: 1.2s;
+}
+.active .tag:nth-child(13){
+    --webkit-animation-delay: 1.3s;
+    animation-delay: 1.3s;
+}
+.active .tag:nth-child(14){
+    --webkit-animation-delay: 1.4s;
+    animation-delay: 1.4s;
+}
+.active .tag:nth-child(15){
+    --webkit-animation-delay: 1.5s;
+    animation-delay: 1.5s;
+}
+.active .tag:nth-child(16){
+    --webkit-animation-delay: 1.6s;
+    animation-delay: 1.6s;
+}
+.active .tag:nth-child(17){
+    --webkit-animation-delay: 1.7s;
+    animation-delay: 1.7s;
+}
+.active .tag:nth-child(18){
+    --webkit-animation-delay: 1.8s;
+    animation-delay: 1.8s;
+}
+.active .tag:nth-child(19){
+    --webkit-animation-delay: 1.9s;
+    animation-delay: 1.9s;
+}
+.active .tag:nth-child(20){
+    --webkit-animation-delay: 2s;
+    animation-delay: 2s;
+}
+.active .tag:nth-child(21){
+    --webkit-animation-delay: 2.1s;
+    animation-delay: 2.1s;
+}
+.active .tag:nth-child(22){
+    --webkit-animation-delay: 2.2s;
+    animation-delay: 2.2s;
+}
+.active .tag:nth-child(23){
+    --webkit-animation-delay: 2.3s;
+    animation-delay: 2.3s;
+}
+.active .tag:nth-child(24){
+    --webkit-animation-delay: 2.4s;
+    animation-delay: 2.4s;
+}
+.active .tag:nth-child(25){
+    --webkit-animation-delay: 2.5s;
+    animation-delay: 2.5s;
+}
+.active .tag:nth-child(26){
+    --webkit-animation-delay: 2.6s;
+    animation-delay: 2.6s;
+}
+.active .tag:nth-child(27){
+    --webkit-animation-delay: 2.7s;
+    animation-delay: 2.7s;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -1225,6 +1397,13 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)){
     }
     });
 };
+$(window).scroll(function(){
+    var scrollTop = $(window).scrollTop();
+    
+    if(scrollTop > $('.row.abc').offset().top){
+        $('.tagBall').addClass('active');
+    }
+})
 {% endblock %}
 {% block content %}
 <div class="fiu">
@@ -1319,7 +1498,7 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)){
                     <img src="{{ app_url_packaged }}/images/fiu/wsg.jpg" width="100%" align="absmiddle">
                 </div>
             </div>
-            <div class="row ptb-2r">
+            <div class="row ptb-2r abc">
                 <div class="nav-menu ptb-2r">
                     <ul class="navfelx">
                         <li class="childcell">
@@ -1447,7 +1626,7 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)){
             </div>
             <div class="row">
                 <div class="ui center aligned column">
-                    <div class="tagBall">
+                    <div class="tagBallt">
                         <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/1.jpg" width="30" height="30">
                         <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/2.jpg" width="35" height="35">
                         <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/3.jpg" width="40" height="40">
