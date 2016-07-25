@@ -1345,6 +1345,14 @@
     --webkit-animation-delay: 2.7s;
     animation-delay: 2.7s;
 }
+.active .tag:nth-child(28){
+    --webkit-animation-delay: 2.8s;
+    animation-delay: 2.8s;
+}
+.active .tag:nth-child(29){
+    --webkit-animation-delay: 2.9s;
+    animation-delay: 2.9s;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -1400,8 +1408,12 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)){
 $(window).scroll(function(){
     var scrollTop = $(window).scrollTop();
     
-    if(scrollTop > $('.row.abc').offset().top){
+    if(scrollTop > $('.row.abc').offset().top+30){
         $('.tagBall').addClass('active');
+    }
+    tagBall
+    if(scrollTop > $('.tagBall').offset().top+30){
+        $('.tagBallt').addClass('active');
     }
 })
 {% endblock %}
