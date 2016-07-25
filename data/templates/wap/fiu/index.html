@@ -1411,8 +1411,14 @@ $(window).scroll(function(){
     if(scrollTop > $('.row.abc').offset().top+30){
         $('.tagBall').addClass('active');
     }
+    if(scrollTop < $('.row.abc').offset().top-60 || scrollTop > $('.tagBall').offset().top+130 ){
+        $('.tagBall').removeClass('active');
+    }
     if(scrollTop > $('.tagBall').offset().top+30){
         $('.tagBallt').addClass('active');
+    }
+     if(scrollTop < $('.tagBall').offset().top-60 || scrollTop > $('.tagBallt').offset().top+130 ){
+        $('.tagBallt').removeClass('active');
     }
 })
 {% endblock %}
