@@ -1418,6 +1418,15 @@
     display: none;
     visibility: hidden;
 }
+.fiubot {
+    padding: 20px 0;
+    background: #000;
+}
+.fiubot p {
+    font-size: 16px;
+    color: #fff;
+    letter-spacing: 3px;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -1573,7 +1582,7 @@ $(window).scroll(function(){
             </div>
 		</div>
 	</section>
-    <section class="fffbg pb-2r">
+    <section class="fffbg">
         <div class="ui responsive grid">
             <div class="row pb-4r">
                 <div class="ui center aligned column">
@@ -1679,7 +1688,7 @@ $(window).scroll(function(){
                 <div class="ui center aligned column">
                     <h3 class="color-be ">社群互动｜发现同路人，并让分享变现原创价值</h3>
                     <p class="p2title mt-2r">Fiu浮游™真实社交圈互动，你在认真发现，同类在时刻欢呼；分享一段文字一张图片一个定位，遇见更多平行世界的同路人，还享大力佣金回报；原创转发互动可以获得经验，购买商品可以获得经验，达成日常互动还可以获得经验，经验还能抵值现金消费；Fiu浮游™社区集结天天好礼、抽奖惊喜等着你。</p>
-                    <p class="p2title">分享平台: <img src="{{ app_url_packaged }}/images/fiu/fx.png" align="absmiddle"></p>
+                    <p class="p2title" style="color:#d4d4d4;">分享平台: <img src="{{ app_url_packaged }}/images/fiu/fx.png" align="absmiddle"></p>
                 </div>
             </div>
             <div class="row" style="padding:0;">
@@ -1752,7 +1761,7 @@ $(window).scroll(function(){
                 <div class="ui center aligned column">
                     <h3 class="color-be ">地盘定位｜我的地盘我做主，开好店搞主题都随意</h3>
                     <p class="p2title mt-2r">Fiu浮游™让有故事的产品和品牌更性感；足不出户浏览专业买手发掘的好店IP，专业买手为你标记偏爱好货，选购良心设计与美学科技无需代购；场景一站式购物随手拥抱好货，用户商家通过审核即可占领专属地盘；欢迎进驻有Fiu浮游™生活。</p>
-                    <p class="p2title">导购平台: <img src="{{ app_url_packaged }}/images/fiu/dg.png" align="absmiddle"></p>
+                    <p class="p2title" style="color:#d4d4d4;">导购平台: <img src="{{ app_url_packaged }}/images/fiu/dg.png" align="absmiddle"></p>
                 </div>
             </div>
             <div class="row pt-0">
@@ -1772,12 +1781,11 @@ $(window).scroll(function(){
                     </p>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section class="fffbg">
-        <div class="ui responsive grid">
-            
+            <div class="row pb-0">
+                <div class="ui center aligned column fiubot">
+                    <p><img src="{{ app_url_packaged }}/images/fiu/fiulogo.png" align="absmiddle">你在发现   谁在惊呼？</p>
+                </div>
+            </div>
         </div>
     </section>
 </div>
