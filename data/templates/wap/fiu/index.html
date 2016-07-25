@@ -1287,14 +1287,40 @@
         transform: scale(1)
     }
 }
+@keyframes scale-to-zero-with-left {
+    0% {
+        transform: translate3d(0%, 0, 0) scale(20);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translate3d(0%, 0, 0) scale(1);
+        opacity: 1;
+    }
+}
+@-webkit-keyframes scale-to-zero-with-left {
+     0% {
+        -webkit-transform: translate3d(0%, 0, 0) scale(20);
+        opacity: 0;
+     }
+     50% {
+        opacity: 0.3;
+     }
+     100% {
+        -webkit-transform: translate3d(0%, 0, 0) scale(1);
+        opacity: 1;
+     }
+}
 .tag{
     opacity:0;
 }
 .active .tag{
-    -webkit-animation-name:bounceIn;
-    animation-name: bounceIn;
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
+    -webkit-animation-name:scale-to-zero-with-left;
+    animation-name: scale-to-zero-with-left;
+    -webkit-animation-duration: 0.3s;
+    animation-duration: 0.3s;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
