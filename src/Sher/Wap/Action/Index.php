@@ -59,6 +59,7 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 	 * fiu
 	 */
 	public function fiu(){
+		$this->stash['page_title_suffix'] = 'Fiu浮游™';
 		return $this->to_html_page('wap/fiu/index.html');
 	}
 	
