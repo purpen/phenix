@@ -495,7 +495,9 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
     }
 
     // 团体或个人
-    $data['attr'] = isset($this->stash['attr']) ? (int)$this->stash['attr'] : 1;
+    if(isset($this->stash['attr'])){
+        $data['attr'] = (int)$this->stash['attr'];
+    }
 
     // 团队介绍-蛋年
     if(isset($this->stash['team_introduce'])){
