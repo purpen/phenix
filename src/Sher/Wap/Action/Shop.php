@@ -1149,6 +1149,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			case 'wxpay':
 				$pay_url = Doggy_Config::$vars['app.url.domain'].'/wxpay/payment?rid='.$rid;
 				break;
+			case 'jdpay':
+				$pay_url = Doggy_Config::$vars['app.url.domain'].'/jdpay/payment?rid='.$rid;
+				break;
 			default:
 				return $this->show_message_page('请至少选择一种支付方式！', $next_url, 2000);
 		}
