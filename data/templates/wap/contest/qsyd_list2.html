@@ -142,7 +142,7 @@
     var page = 1;
     var size = 8;
     var sort = 0;
-    var from_to = 6;
+    var from_to = 0;
     function ajax_load_more(page, type, category_id, from_to, sort, size){
         var url = '{{ app_url_wap }}/app/site/stuff/ajax_fetch_more';
         if(page != 'no'){
@@ -173,7 +173,7 @@
 $('html,body').animate({scrollTop:$('.products').offset().top },500);
 
   // 初次加载
-  ajax_load_more(page, type, category_id, 6, sort, size);
+  ajax_load_more(page, type, category_id, from_to, sort, size);
 
   // ajax加载更多(滚动条接近底部加载)
   $(window).scroll(function(){
@@ -188,7 +188,7 @@ $('html,body').animate({scrollTop:$('.products').offset().top },500);
           if(stat == 0){
               $('#stuff-more').data('status', 1);
               $('#stuff-more').show();
-              ajax_load_more(page, type, category_id, 6, sort, size);
+              ajax_load_more(page, type, category_id, from_to, sort, size);
           }
       }
   });
