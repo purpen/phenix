@@ -53,6 +53,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const TYPE_SCENE_CONTEXT = 11; // 情景语境分类
 	const TYPE_SCENE_SCENE = 12; // 地盘分类
 	const TYPE_SCENE_SIGHT = 13; // 情景分类
+	const TYPE_3C = 14; // 数码3C分类
 	
 	// 来源站点
 	const FROM_LOCAL = 1;

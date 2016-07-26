@@ -8,7 +8,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 	public $stash = array(
 		'id' => 0,
 		'page' => 1,
-		'size' => 20,
+		'size' => 100,
 		'stage' => 0,
 	);
 	
@@ -116,6 +116,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['content_wap'] = isset($this->stash['content_wap']) ? $this->stash['content_wap'] : '';
 		$data['category_id'] = $this->stash['category_id'];
         $data['category_tags']  = isset($this->stash['category_tags']) ? $this->stash['category_tags'] : null;
+        $data['app_category_id']  = isset($this->stash['app_category_id']) ? (int)$this->stash['app_category_id'] : 0;
 		$data['tags'] = $this->stash['tags'];
 		$data['view_url'] = $this->stash['view_url'];
         $data['brand_id'] = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : '';
@@ -167,6 +168,9 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
     
 	    // 是否试用
 	    $data['trial'] = isset($this->stash['trial']) ? 1 : 0;
+
+	    // 是否3C数码类
+	    $data['is_app_category'] = isset($this->stash['is_app_category']) ? 1 : 0;
 		
 		// 是否案例产品
 		$data['okcase'] = isset($this->stash['okcase']) ? 1 : 0;

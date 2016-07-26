@@ -77,6 +77,10 @@ h3, h3.ui.header {
     padding-left: .35725rem!important;
     padding-right: .35725rem!important;
 }
+.plr-0 {
+    padding-left: 0!important;
+    padding-right: 0!important;
+}
 .pt-0{
 	padding-top: 0!important;
 }
@@ -256,8 +260,8 @@ table {
 {% endblock %}
 {% block content %}
 <div id="point">
-	<div class="ui responsive plr-r grid">
-        <div class="row">
+	<div class="ui responsive grid">
+        <div class="row plr-r">
             <div class="column plr-r">
                 <div class="mytop">
                     <div class="myphoto">
@@ -265,18 +269,13 @@ table {
                     </div>
                     <div class="mymessg">
                         <h3 class="ui header">{{ user.nickname }}</h3>
-                        <!--<p>
-                            {{ user.ext_state.user_rank.title|default '鸟列兵' }} <br/>
-                            我的等级: {{ user.ext_state.rank_id|default 1  }} <br/>
-                            经验值: {{ user.ext_state.rank_point|default 0 }} <br/>
-                            鸟币: {{ current_point.balance.money|default 0 }} <br/>
-                        </p>-->
                     </div>
                 </div>
             </div>
            
         </div>
-        <div class="row pt-0">
+
+        <div class="row pt-0 plr-r">
             <div class="thirteen wide column plr-r">
                 <div class="ui green progress mb-0">
                     <div class="bar" style="width:{{ user.ext_state.upgrade_percent|default 0.1 }}%;"></div>
@@ -287,6 +286,14 @@ table {
             </div>
 
         </div>
+        <div class="row pb-0">
+            <div class="column plr-0">
+                <img src="{{ app_url_packaged }}/images/fiu/jifen.jpg" width="100%" align="absmiddle">
+            </div>
+        </div>
+    </div>
+</div>
+        <!--
 
         <div class="row ptb-0">
             <div class="column">
@@ -300,11 +307,6 @@ table {
                         <tr>
                             <td>创建场景（需审核通过）</td>
                         </tr>
-                        <!--
-                        <tr>
-                            <td>热门地盘（情景使用人数超过50）</td>
-                        </tr>
-                        -->
                         <tr>
                             <td>热门场景（每日选1场景）</td>
                         </tr>
@@ -320,16 +322,6 @@ table {
                 <h3 class="ui header">完善个人资料</h3>
                 <table class="ui unstackable celled table left aligned segment">
                     <tbody>
-                    <!--
-                        <tr>
-                            <td style="border-top: none;">首次完善个人资料<br>（姓名 手机 城市 签名 收货地址 爱好 职位等）</td>
-                            <td style="border-top: none;">经验值<span>+10</span></td>
-                        </tr>
-                        <tr>
-                            <td>更新个人资料（每月限定修改1次）</td>
-                            <td>经验值<span>+5</span></td>
-                        </tr>
-                        -->
                         <tr>
                             <td>首次上传头像<br>（一次性给予奖励积分，后续修改不重复获得）</td>
                             <td>经验值<span>+5</span></td>
@@ -373,47 +365,10 @@ table {
                             <td style="border-top: none;">转发（场景，地盘）</td>
                             <td style="border-top: none;">经验值<span>+100</span></td>
                         </tr>
-                        <!--
-                        <tr>
-                            <td>转发（产品专题）</td>
-                            <td>经验值<span>+20</span></td>
-                        </tr>
-                        <tr>
-                            <td>转发（产品）</td>
-                            <td>经验值<span>+5</span></td>
-                        </tr>
-                        -->
                     </tbody>
                 </table>
             </div>
         </div>
-        <!--
-        <div class="row ptb-0">
-            <div class="column">
-                <h3 class="ui header">签到</h3>
-                <table class="ui unstackable celled table left aligned segment">
-                    <tbody>
-                        <tr>
-                            <td style="border-top: none;">FIU签到</td>
-                            <td style="border-top: none;">经验值<span>70+100</span></td>
-                        </tr>
-                        <tr>
-                            <td>连续签到14天</td>
-                            <td>经验值<span>70+100*2</span></td>
-                        </tr>
-                        <tr>
-                            <td>连续签到21天</td>
-                            <td>经验值<span>70+100*3</span></td>
-                        </tr>
-                        <tr>
-                            <td>连续签到28天</td>
-                            <td>经验值<span>70+100*4</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        -->
         <div class="row ptb-0">
             <div class="column">
                 <h3 class="ui header">自营商品</h3>
@@ -427,51 +382,10 @@ table {
                             <td>自营商品售后好评+评论</td>
                             <td>经验值<span>+50</span></td>
                         </tr>
-                        <!--
-                        <tr>
-                            <td>自营商品售后评论晒图</td>
-                            <td>经验值<span>+50</span></td>
-                        </tr>
-                        <tr>
-                            <td>售后好评片+评论</td>
-                            <td>经验值<span>+30</span></td>
-                        </tr>
-                        -->
                     </tbody>
                 </table>
             </div>
         </div>
-        <!--
-        <div class="row ptb-0">
-            <div class="column">
-                <h3 class="ui header">太火鸟商城app</h3>
-                <table class="ui unstackable celled table left aligned segment">
-                    <tbody>
-                        <tr>
-                            <td style="border-top: none;">成功邀请好友下载app</td>
-                            <td style="border-top: none;">经验值<span>+1000</span></td>
-                        </tr>
-                        <tr>
-                            <td>下载太火鸟商城app</td>
-                            <td>经验值<span>+50</span></td>
-                        </tr>
-                        <tr>
-                            <td>太火鸟商城app签到抽奖</td>
-                            <td>经验值<span>+1</span></td>
-                        </tr>
-                        <tr>
-                            <td>成功提交试用报告（退还扣除积分）</td>
-                            <td>——</td>
-                        </tr>
-                        <tr>
-                            <td>太火鸟商城app申请试用<br>（按不同项目暂扣积分，未成功申请者退还）</td>
-                            <td>——</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        -->
         <div class="row ptb-0">
             <div class="column">
                 <h3 class="ui header">售后</h3>
@@ -481,16 +395,6 @@ table {
                             <td style="border-top: none;">售后好评+评论</td>
                             <td style="border-top: none;">经验值<span>+30</span></td>
                         </tr>
-                        <!--
-                        <tr>
-                            <td>售后评论晒图</td>
-                            <td>经验值<span>+30</span></td>
-                        </tr>
-                        <tr>
-                            <td>上传产品库</td>
-                            <td>经验值<span>+10</span></td>
-                        </tr>
-                        -->
                     </tbody>
                 </table>
             </div>
@@ -506,12 +410,6 @@ table {
                 <h3 class="ui header">被动行为<small>（所有内容：每天不超过100）</small></h3>
                 <table class="ui unstackable celled table left aligned segment">
                     <tbody>
-                    <!--
-                        <tr>
-                            <td style="border-top: none;">创建场景</td>
-                            <td style="border-top: none;">经验值<span>+10</span></td>
-                        </tr>
-                        -->
                         <tr>
                             <td>点赞</td>
                             <td>经验值<span>+5</span></td>
@@ -552,211 +450,7 @@ table {
                 <p>鸟币单位与积分单位合并，兑换比例：<span style="color: #BE8914;">1鸟币=1元=100积分</span></p>
             </div>
         </div>
-
-        
-
-        <!--
-		<div class="row">
-			<div class="column plr-r">
-				<table class="ui unstackable celled table left aligned segment">
-                    <thead>
-                    <tr><th>行为</th>
-                        <th style="min-width:3.857143rem;">经验值</th>
-                        <th>说明</th>
-                    </tr></thead>
-                    <tbody>
-                    <tr>
-                        <td>创建内容违法违规</td>
-                        <td>／</td>
-                        <td>删除内容并扣除全部积分，严重者封号处理</td>
-                    </tr>
-                    <tr>
-                        <td>创建场景</td>
-                        <td>50</td>
-                        <td>每天上限200分</td>
-                    </tr>
-                    <tr>
-                        <td>推荐场景</td>
-                        <td>200</td>
-                        <td>得到官方推荐</td>
-                    </tr>
-                    <tr>
-                        <td>创建情景</td>
-                        <td>20</td>
-                        <td>每天上限100分</td>
-                    </tr>
-                    <tr>
-                        <td>推荐情景</td>
-                        <td>80</td>
-                        <td>得到官方推荐</td>
-                    </tr>
-                    <tr>
-                        <td>自营商品购买</td>
-                        <td>实际支付价格1：1</td>
-                        <td>根据购买价格</td>
-                    </tr>
-                    <tr>
-                        <td>Fiu签到</td>
-                        <td>10</td>
-                        <td rowspan="5">满30天清零重新计算</td>
-                    </tr>
-                    <tr>
-                        <td>连续签到7天</td>
-                        <td>70+100</td>
-                    </tr>
-                    <tr>
-                        <td>连续签到14天</td>
-                        <td>70+100*2</td>
-                    </tr>
-                    <tr>
-                        <td>连续签到21天</td>
-                        <td>70+100*3</td>
-                    </tr>
-                    <tr>
-                        <td>连续签到28天</td>
-                        <td>70+100*4</td>
-                    </tr>
-                    <tr>
-                        <td>首次上传头像</td>
-                        <td>5</td>
-                        <td>一次性给予奖励积分，后续修改不重复获得</td>
-                    </tr>
-                    <tr>
-                        <td>首次完善个人资料</td>
-                        <td>10</td>
-                        <td>一次性给予奖励积分，后续修改不重复获得</td>
-                    </tr>
-                    <tr>
-                        <td>关注他人</td>
-                        <td>1</td>
-                        <td rowspan="7">每天上限20分</td>
-                    </tr>
-                    <tr>
-                        <td>点赞场景</td>
-                        <td>2</td>
-                    </tr>
-                    <tr>
-                        <td>评论场景</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>分享场景</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>分享产品专题</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>分享产品</td>
-                        <td>2</td>
-                    </tr>
-                    <tr>
-                        <td>订阅情景</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>自营商品售后好评+评论</td>
-                        <td>100</td>
-                        <td>满足好评要求</td>
-                    </tr>
-                    <tr>
-                    	<td colspan="3" class="pt-3r pb-2r"></td>
-                    </tr>
-                    </tbody>
-
-                    <thead>
-                    <tr><th style="border-top: 1px solid rgba(34,36,38,.15);border-radius: 0;">被动行为</th>
-                        <th style="min-width:3.857143rem;border-top: 1px solid rgba(34,36,38,.15);border-radius: 0;">经验值</th>
-                        <th style="border-top: 1px solid rgba(34,36,38,.15);border-radius: 0;">说明</th>
-                    </tr></thead>
-                    <tbody>
-                    <tr>
-                        <td>情境下被创建场景</td>
-                        <td>10</td>
-                        <td>每天上限50分</td>
-                    </tr>
-                    <tr>
-                        <td>情景被订阅</td>
-                        <td>5</td>
-                        <td>每天上限20分</td>
-                    </tr>
-                    <tr>
-                        <td>场景被点赞</td>
-                        <td>2</td>
-                        <td>每天上限30分</td>
-                    </tr>
-                    <tr>
-                        <td>场景被分享</td>
-                        <td>5</td>
-                        <td>每天上限20分</td>
-                    </tr>
-                    <tr>
-                        <td>场景被评论</td>
-                        <td>2</td>
-                        <td>每天上限30分</td>
-                    </tr>
-                    <tr>
-                        <td>被人关注</td>
-                        <td>1</td>
-                        <td>每天上限20分</td>
-                    </tr>
-                    <tr>
-                        <td>主页来访</td>
-                        <td>1</td>
-                        <td>每天上限50分</td>
-                    </tr>
-                    </tbody>
-                    <thead>-->
-                    <!--
-                    <tr><th colspan="3" style="border-top: 1px solid rgba(34,36,38,.15);border-radius: 0;">规则</th>
-                    </tr></thead>
-                    <tbody>
-                    	<tr>
-                        <td colspan="3">每日日常行为获取总积分上限200</td>
-                    	</tr>
-                    	<tr>
-                        <td colspan="3">场景/情景/内容奖励为额外奖励&自营商品兑换积分，不占用每日积分上限内额度</td>
-                    	</tr>
-                    	<tr>
-                        <td colspan="3">鸟币单位与积分单位合并，兑换比例：1鸟币=1元=100积分</td>
-                    	</tr>
-                    </tbody>
-                    <thead>-->
-                    <!--<tr><th colspan="3" style="border-top: 1px solid rgba(34,36,38,.15);border-radius: 0;">积分使用规则</th>
-                    </tr></thead>
-                    <tbody>
-                        <tr>
-                        <td style="min-width: 65px;">订单金额</td>
-                        <td>积分使用上限（按订单金额比例）</td>
-                        <td rowspan="5">比如：299元订单，可以使用的最高兑换积分为29900*6%＝1794积分（100积分＝1元）</td>
-                        </tr>
-                        <tr>
-                        <td>0-100</td>
-                        <td>3%</td>
-                        </tr>
-                        <tr>
-                        <td>101-500</td>
-                        <td>4%</td>
-                        </tr>
-                        <tr>
-                        <td>501-2500</td>
-                        <td>5%</td>
-                        </tr>
-                        <tr>
-                        <td>2500以上</td>
-                        <td>6%</td>
-                        </tr>
-                    </tbody>
-
-
-                </table>
-
-
-			</div>
-		</div>-->
-
 	</div>
 </div>
-
+-->
 {% endblock %}

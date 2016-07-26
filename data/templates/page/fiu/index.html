@@ -1,0 +1,3015 @@
+{%extends 'layout/column.html'%}
+{% block title %}Fiu 浮游-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.iosewm img{
+	display: none !important;
+}
+
+@media only screen and (max-width: 1480px){
+	.bgmoive{
+		background-image:url({{ app_url_packaged }}/images/fiu/bgs.jpg);
+		background-repeat:no-repeat;
+		background-color: #fff;
+		height: 1850px;
+		position:relative;
+		background-position:-200px top;
+		padding-top:40px;
+		z-index:2;
+	}
+	.video-container{
+	    position: absolute;
+	    left: 818px;
+	    top: 134px;
+	    width: 211px;
+	    height: 370px;
+	}
+}
+@media only screen and (min-width: 1480px) and (max-width: 1500px){
+	.bgmoive{
+		background-image:url({{ app_url_packaged }}/images/fiu/bgs.jpg);
+		background-repeat:no-repeat;
+		background-color: #fff;
+		height: 1850px;
+		position:relative;
+		background-position:-100px top;
+		padding-top:40px;
+		z-index:2;
+	}
+	.video-container{
+	    position: absolute;
+	    left: 918px;
+	    top: 134px;
+	    width: 211px;
+	}
+}
+@media only screen and (min-width: 1500px){
+	.bgmoive{
+		background-image:url({{ app_url_packaged }}/images/fiu/bgs.jpg);
+		background-repeat:no-repeat;
+		background-color: #fff;
+		height: 1850px;
+		position:relative;
+		padding-top:40px;
+		z-index:2;
+	}
+	.video-container{
+	    position: absolute;
+	    left: 1018px;
+	    top: 134px;
+	    width: 211px;
+	    height: 370px;
+	    background: #000;
+	}
+}
+.p1title{
+    line-height: 26px;
+}
+.p1title.mt-10{
+	margin-top:20px !important;
+}
+.p2title{
+    line-height: 24px;
+	font-size:12px;
+}
+.p2title+.p2title{
+    line-height: 24px;
+    margin-top: 20px !important;
+	font-size:12px;
+}
+.color-be{
+	color:#be8914;
+}
+.bgmoive .row.ewm{
+	margin-top: 20px !important;
+	margin-bottom: 20px !important;
+}
+.row.ewm p{
+	width:90px;
+	text-align:center;
+	font-size:12px;
+}
+.mt-10{
+	margin-top:10px !important;
+}
+.blackg{
+	background:#000;
+	color:#fff;
+	font-size:15px;
+    padding-left: 100px;
+    line-height: 38px;
+	letter-spacing: 2px;
+}
+.flexslider.flex-single-carousel{
+	padding:15px 0;
+	border:0;
+	background:rgb(253,253,253);
+}
+.flexslider .slides>li,.flexslider.flex-single-carousel .slides>li{
+	border-radius:0;
+}
+.flexslider .slides>li{
+	height:700px;
+	position: relative;
+}
+.flexslider.flex-single .flex-direction-nav{
+	display:block;
+}
+.flexslider.flex-single .flex-direction-nav .flex-prev{
+	left:-60px !important;
+	width:30px;
+	height:55px;
+	background-image:url({{ app_url_packaged }}/images/fiu/prev.png);
+	background-size:30px 55px;
+	opacity:1;
+	font-size: 0;
+}
+.flexslider.flex-single .flex-direction-nav .flex-next{
+	right:-60px !important;
+	width:30px;
+	height:55px;
+	background-image:url({{ app_url_packaged }}/images/fiu/next.png);
+	background-size:30px 55px;
+	opacity:1;
+	font-size: 0;
+}
+.flexslider.flex-single .flex-direction-nav .flex-next:before,.flexslider.flex-single .flex-direction-nav .flex-prev:before{
+	content:"";
+}
+.flexslider.flex-single .flex-direction-nav .flex-disabled{
+	opacity:1 !important;
+	cursor:pointer;
+}
+.flex-direction-nav a{
+	margin: -15px 0 0;
+	top: 50%;
+}
+.flex-active-slide .yuan1{
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+	margin:20px;
+	animation: ripple 2s linear infinite;
+	-webkit-animation: ripple 2s linear infinite;
+	position: absolute;
+    right: 25%;
+    top: 18px;
+}
+@keyframes ripple{
+    0% {
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6),
+                  0 0 0 6px rgba(255, 255, 255, 0.4),
+                  0 0 0 12px rgba(255, 255, 255, 0);
+    }
+    50% {
+    box-shadow: 0 0 0 0px rgba(255, 255, 255, 0.6),
+                0 0 0 0px rgba(255, 255, 255, 0.4),
+                0 0 0 0px rgba(255, 255, 255, 0);
+  }
+    100% {
+      box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.6),
+                  0 0 0 12px rgba(255, 255, 255, 0.4),
+                  0 0 0 18px rgba(255, 255, 255, 0);
+    }
+}
+@-webkit-keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.6),
+                0 0 0 6px rgba(255, 255, 255, 0.4),
+                0 0 0 12px rgba(255, 255, 255, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 0px rgba(255, 255, 255, 0.6),
+                0 0 0 0px rgba(255, 255, 255, 0.4),
+                0 0 0 0px rgba(255, 255, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.6),
+                0 0 0 12px rgba(255, 255, 255, 0.4),
+                0 0 0 18px rgba(255, 255, 255, 0);
+  }
+}
+.flex-active-slide .yuan2{
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+	margin:20px;
+	animation: ripple 2s linear infinite;
+	-webkit-animation: ripple 2s linear infinite;
+	position: absolute;
+	left: 60px;
+	top: 293px;
+}
+.flex-active-slide .yuan3{
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+	margin:20px;
+	animation: ripple 2s linear infinite;
+	-webkit-animation: ripple 2s linear infinite;
+	position: absolute;
+    left: 38%;
+    top: 360px;
+}
+.flex-active-slide .yuan4{
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+	margin:20px;
+	animation: ripple 2s linear infinite;
+	-webkit-animation: ripple 2s linear infinite;
+	position: absolute;
+    right: 15%;
+    top: 130px;
+}
+.flex-active-slide .yuan5{
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+	margin:20px;
+	animation: ripple 2s linear infinite;
+	-webkit-animation: ripple 2s linear infinite;
+	position: absolute;
+    right: 27%;
+    top: 400px;
+}
+.flex-active-slide .yuan6{
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+	margin:20px;
+	animation: ripple 2s linear infinite;
+	-webkit-animation: ripple 2s linear infinite;
+	position: absolute;
+	right: 50%;
+	bottom: 18px;
+}
+.flex-active-slide .yuan7{
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+	margin:20px;
+	animation: ripple 2s linear infinite;
+	-webkit-animation: ripple 2s linear infinite;
+	position: absolute;
+	left: 11%;
+	bottom: 185px;
+}
+.flex-active-slide .yuan8{
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+	margin:20px;
+	animation: ripple 2s linear infinite;
+	-webkit-animation: ripple 2s linear infinite;
+	position: absolute;
+    left: 30%;
+    bottom: 340px;
+}
+.flex-active-slide .yuan9{
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+	margin:20px;
+	animation: ripple 2s linear infinite;
+	-webkit-animation: ripple 2s linear infinite;
+	position: absolute;
+	right: 37%;
+	bottom: 110px;
+}
+.flex-active-slide .yuan10{
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+	margin:20px;
+	animation: ripple 2s linear infinite;
+	-webkit-animation: ripple 2s linear infinite;
+	position: absolute;
+    right: 4%;
+    bottom: 140px;
+}
+.flex-active-slide .yuan11{
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+	margin:20px;
+	animation: ripple 2s linear infinite;
+	-webkit-animation: ripple 2s linear infinite;
+	position: absolute;
+	left: 10%;
+	top: 185px;
+}
+.flex-active-slide .yuan12{
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+	margin:20px;
+	animation: ripple 2s linear infinite;
+	-webkit-animation: ripple 2s linear infinite;
+	position: absolute;
+	right: 45%;
+	bottom: 190px;
+}
+.flex-active-slide .yuan13{
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+	margin:20px;
+	animation: ripple 2s linear infinite;
+	-webkit-animation: ripple 2s linear infinite;
+	position: absolute;
+	right: 30%;
+	bottom: 300px;
+}
+.flex-active-slide .yuan14{
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+	margin:20px;
+	animation: ripple 2s linear infinite;
+	-webkit-animation: ripple 2s linear infinite;
+	position: absolute;
+    right: 6.5%;
+    bottom: 300px;
+}
+.flex-active-slide .yuan15{
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+	margin:20px;
+	animation: ripple 2s linear infinite;
+	-webkit-animation: ripple 2s linear infinite;
+	position: absolute;
+	right: 25%;
+	top: 105px;
+}
+.flex-active-slide .yuan16{
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+	margin:20px;
+	animation: ripple 2s linear infinite;
+	-webkit-animation: ripple 2s linear infinite;
+	position: absolute;
+	left: 36.5%;
+	bottom: 315px;
+}
+.flex-active-slide .yuan17{
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: rgba(255,255,255,0.8);
+	margin:20px;
+	animation: ripple 2s linear infinite;
+	-webkit-animation: ripple 2s linear infinite;
+	position: absolute;
+    left: 32%;
+    bottom: 138px;
+}
+.secbg{
+	background-image:url({{ app_url_packaged }}/images/fiu/bg2.jpg);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+	height:650px;
+	z-index:1;
+}
+.mobile1{
+	margin-top:-180px;
+	opacity:0;
+}
+.mobile2{
+	margin-top:-300px;
+	opacity:0;
+}
+.mobile2.fadeInUp{
+	animation-delay:0.5s;
+	-webkit-animation-delay:0.5s;
+}
+.mobile3.fadeInUp{
+	animation-delay:1s;
+	-webkit-animation-delay:1s;
+}
+.mobile4.fadeInUp{
+	animation-delay:1.5s;
+	-webkit-animation-delay:1.5s;
+}
+.mobile6.fadeInUp{
+	animation-delay:0.5s;
+	-webkit-animation-delay:0.5s;
+}
+.mobile7.fadeInUp{
+	animation-delay:1s;
+	-webkit-animation-delay:1s;
+}
+.mobile8.fadeInUp{
+	animation-delay:1.5s;
+	-webkit-animation-delay:1.5s;
+}
+.mobile3{
+	margin-top: -20px;
+	opacity:0;
+}
+.mobile4{
+	margin-top:-240px;
+	opacity:0;
+}
+.mobile5{
+    margin-top: -220px;
+    margin-left: 12px;
+	opacity:0;
+}
+.mobile6{
+	margin-top:-360px;
+	opacity:0;
+}
+.mobile7{
+    margin-top: -90px;
+    margin-left: 14px;
+	opacity:0;
+}
+.mobile8{
+    margin-top: -280px;
+    margin-left: 10px;
+	opacity:0;
+}
+.bgwhite{
+	background:#fff;
+	position:relative;
+	z-index:2;
+	padding: 30px 0 40px;
+}
+.bgwhite h3{
+	margin-top:40px !important;
+}
+.fffbg{
+	background:#fff;
+}
+@-webkit-keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(0,20%,0);
+        transform: translate3d(0,20%,0)
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(0,20%,0);
+        -ms-transform: translate3d(0,20%,0);
+        transform: translate3d(0,20%,0)
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: none;
+        -ms-transform: none;
+        transform: none
+    }
+}
+
+.fadeInUp {
+    -webkit-animation-name: fadeInUp;
+    animation-name: fadeInUp;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+.bgssbg{
+	background-image:url({{ app_url_packaged }}/images/fiu/footbg.jpg);
+    background-repeat: no-repeat;
+	height:630px;
+	background-position:center 0;
+	background-size:cover;
+	background-color:rgb(253,253,253);
+	position:relative;
+    z-index: 1;
+    overflow: hidden;
+}
+.bgssbg .image{
+	width:550px;
+	height:600px;
+	left:50%;
+	margin-left:-225px;
+	bottom:0;
+	position:absolute;
+	background-image:url({{ app_url_packaged }}/images/fiu/shou.png);
+	opacity:0;
+}
+.tagBall,.tagBallt{
+	height:235px;
+	position:relative;
+	overflow:hidden;
+	vertical-align: middle;
+	width: 1100px;
+    margin: auto;
+    padding-top: 15px;
+    text-align: center;
+}
+.tag,.tagt{
+	display:inline-block;
+	margin:3px 6px;
+	border-radius:50%;
+	border: 1px solid rgba(0,0,0,0.15);
+	vertical-align: middle;
+}
+.secfive{
+	height:650px;
+	position:relative;
+}
+.sec1{
+    background: url({{ app_url_packaged }}/images/fiu/sec1.jpg) no-repeat center center /cover;
+    height: 650px;
+    position: relative;
+    width: 20%;
+    display: inline-block;
+    float: left;
+    color: #fff;
+}
+.sec2{
+    background: url({{ app_url_packaged }}/images/fiu/sec2.jpg) no-repeat center center /cover;
+    height: 650px;
+    position: relative;
+    width: 20%;
+    display: inline-block;
+    float: left;
+    color: #fff;
+}
+.sec3{
+    background: url({{ app_url_packaged }}/images/fiu/sec3.jpg) no-repeat center center /cover;
+    height: 650px;
+    position: relative;
+    width: 20%;
+    display: inline-block;
+    float: left;
+    color: #fff;
+}
+.sec4{
+    background: url({{ app_url_packaged }}/images/fiu/sec4.jpg) no-repeat center center /cover;
+    height: 650px;
+    position: relative;
+    width: 20%;
+    display: inline-block;
+    float: left;
+    color: #fff;
+}
+.sec5{
+    background: url({{ app_url_packaged }}/images/fiu/sec5.jpg) no-repeat center center /cover;
+    height: 650px;
+    position: relative;
+    width: 20%;
+    display: inline-block;
+    float: left;
+    color: #fff;
+}
+.map1{
+	width:30px;
+	height:40px;
+	background:url({{ app_url_packaged }}/images/fiu/map.png);
+	position:absolute;
+	top:46%;
+	left:26%;
+	margin-top:-40px;
+}
+.map2{
+	width:30px;
+	height:40px;
+	background:url({{ app_url_packaged }}/images/fiu/map.png);
+	position:absolute;
+	top:62%;
+    right: 17%;
+}
+.sec1 .map1{
+	-webkit-animation: sdb01 8s infinite;
+	animation: sdb01 8s infinite;
+}
+.sec1 .map2{
+	-webkit-animation: sdb02 8s infinite;
+	animation: sdb02 8s infinite;
+}
+.sec2 .map1{
+	top: 39%;
+	left: 15%;
+	-webkit-animation: sdb03 8s infinite;
+	animation: sdb03 8s infinite;
+}
+.sec2 .map2{
+	top: 53%;
+	right: 30%;
+	-webkit-animation: sdb04 8s infinite;
+	animation: sdb04 8s infinite;
+}
+.sec3 .map1{
+    top: 53%;
+    left: 36%;
+	-webkit-animation: sdb05 8s infinite;
+	animation: sdb05 8s infinite;
+}
+.sec3 .map2{
+    top: 14%;
+    right: 22%;
+	-webkit-animation: sdb06 8s infinite;
+	animation: sdb06 8s infinite;
+}
+.sec4 .map1{
+	top: 61%;
+	left: 22%;
+	-webkit-animation: sdb07 8s infinite;
+	animation: sdb07 8s infinite;
+}
+.sec4 .map2{
+    top: 41%;
+    right: 30%;
+	-webkit-animation: sdb08 8s infinite;
+	animation: sdb08 8s infinite;
+}
+.sec5 .map1{
+    top: 65%;
+    left: 22%;
+	-webkit-animation: sdb09 8s infinite;
+	animation: sdb09 8s infinite;
+}
+.sec5 .map2{
+    top: 51%;
+    right: 37%;
+	-webkit-animation: sdb010 8s infinite;
+	animation: sdb010 8s infinite;
+}
+@-webkit-keyframes sdb01 {
+	0% {
+		-webkit-transform:translate(0, 0);
+		opacity: 1;
+	}
+	7%{
+		-webkit-transform:translate(0, 50px);
+		opacity: 1;
+	}
+	10%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	80%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 0;
+	}
+}
+@keyframes sdb01 {
+	0% {
+		transform:translate(0, 0);
+		opacity: 1;
+	}
+	7%{
+		transform:translate(0, 50px);
+		opacity: 1;
+	}
+	10%{
+		transform:translate(0, 30px);
+		opacity: 1;
+	}
+	80%{
+		transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100%{
+		transform:translate(0, 30px);
+		opacity: 0;
+	}
+}
+@-webkit-keyframes sdb02 {
+	0% {
+		-webkit-transform:translate(0, 0);
+		opacity: 1;
+	}
+	9%{
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	10%{
+		-webkit-transform:translate(0, 50px);
+		opacity: 1;
+	}
+	17%{
+		-webkit-transform:translate(0, 0);
+		opacity: 1;
+	}
+	20%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	80%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 0;
+	}
+}
+
+@keyframes sdb02 {
+	0% {
+		transform:translate(0, 0);
+		opacity: 0;
+	}
+	9%{
+		transform:translate(0, 0);
+		opacity: 0;
+	}
+	10%{
+		transform:translate(0, 0);
+		opacity: 1;
+	}
+	17%{
+		transform:translate(0, 50px);
+		opacity: 1;
+	}
+	20%{
+		transform:translate(0, 30px);
+		opacity: 1;
+	}
+	80%{
+		transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100%{
+		transform:translate(0, 30px);
+		opacity: 0;
+	}
+}
+@-webkit-keyframes sdb03 {
+	0% {
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	19%{
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	20%{
+		-webkit-transform:translate(0, 0);
+		opacity: 1;
+	}
+	27%{
+		-webkit-transform:translate(0, 50px);
+		opacity: 1;
+	}
+	30%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	80%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 0;
+	}
+}
+@keyframes sdb03 {
+	0% {
+		transform:translate(0, 0);
+		opacity: 0;
+	}
+	19%{
+		transform:translate(0, 0);
+		opacity: 0;
+	}
+	20%{
+		transform:translate(0, 0);
+		opacity: 1;
+	}
+	27%{
+		transform:translate(0, 50px);
+		opacity: 1;
+	}
+	30%{
+		transform:translate(0, 30px);
+		opacity: 1;
+	}
+	80%{
+		transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100%{
+		transform:translate(0, 30px);
+		opacity: 0;
+	}
+}
+@-webkit-keyframes sdb04 {
+	0% {
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	29%{
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	30%{
+		-webkit-transform:translate(0, 0);
+		opacity: 1;
+	}
+	37%{
+		-webkit-transform:translate(0, 50px);
+		opacity: 1;
+	}
+	40%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	80%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 0;
+	}
+}
+@keyframes sdb04 {
+	0% {
+		transform:translate(0, 0);
+		opacity: 0;
+	}
+	29%{
+		transform:translate(0, 0);
+		opacity: 0;
+	}
+	30%{
+		transform:translate(0, 0);
+		opacity: 1;
+	}
+	37%{
+		transform:translate(0, 50px);
+		opacity: 1;
+	}
+	40%{
+		transform:translate(0, 30px);
+		opacity: 1;
+	}
+	80%{
+		transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100%{
+		transform:translate(0, 30px);
+		opacity: 0;
+	}
+}
+@-webkit-keyframes sdb05 {
+	0% {
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	39%{
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	40%{
+		-webkit-transform:translate(0, 0);
+		opacity: 1;
+	}
+	47%{
+		-webkit-transform:translate(0, 50px);
+		opacity: 1;
+	}
+	50%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	80%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 0;
+	}
+}
+@keyframes sdb05 {
+	0% {
+		transform:translate(0, 0);
+		opacity: 0;
+	}
+	39%{
+		transform:translate(0, 0);
+		opacity: 0;
+	}
+	40%{
+		transform:translate(0, 0);
+		opacity: 1;
+	}
+	47%{
+		transform:translate(0, 50px);
+		opacity: 1;
+	}
+	50%{
+		transform:translate(0, 30px);
+		opacity: 1;
+	}
+	80%{
+		transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100%{
+		transform:translate(0, 30px);
+		opacity: 0;
+	}
+}
+@-webkit-keyframes sdb06 {
+	0% {
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	49%{
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	50%{
+		-webkit-transform:translate(0, 0);
+		opacity: 1;
+	}
+	57%{
+		-webkit-transform:translate(0, 50px);
+		opacity: 1;
+	}
+	60%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	80%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 0;
+	}
+}
+@-webkit-keyframes sdb06 {
+	0% {
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	49%{
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	50%{
+		-webkit-transform:translate(0, 0);
+		opacity: 1;
+	}
+	57%{
+		-webkit-transform:translate(0, 50px);
+		opacity: 1;
+	}
+	60%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	80%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 0;
+	}
+}
+@keyframes sdb07 {
+	0% {
+		transform:translate(0, 0);
+		opacity: 0;
+	}
+	59%{
+		transform:translate(0, 0);
+		opacity: 0;
+	}
+	60%{
+		transform:translate(0, 0);
+		opacity: 1;
+	}
+	67%{
+		transform:translate(0, 50px);
+		opacity: 1;
+	}
+	70%{
+		transform:translate(0, 30px);
+		opacity: 1;
+	}
+	80%{
+		transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100%{
+		transform:translate(0, 30px);
+		opacity: 0;
+	}
+}
+@-webkit-keyframes sdb07 {
+	0% {
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	59%{
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	60%{
+		-webkit-transform:translate(0, 0);
+		opacity: 1;
+	}
+	67%{
+		-webkit-transform:translate(0, 50px);
+		opacity: 1;
+	}
+	70%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	80%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 0;
+	}
+}
+@-webkit-keyframes sdb08 {
+	0% {
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	69%{
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	70%{
+		-webkit-transform:translate(0, 0);
+		opacity: 1;
+	}
+	77%{
+		-webkit-transform:translate(0, 50px);
+		opacity: 1;
+	}
+	80%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	90%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 0;
+	}
+}
+@keyframes sdb08 {
+	0% {
+		transform:translate(0, 0);
+		opacity: 0;
+	}
+	69%{
+		transform:translate(0, 0);
+		opacity: 0;
+	}
+	70%{
+		transform:translate(0, 0);
+		opacity: 1;
+	}
+	77%{
+		transform:translate(0, 50px);
+		opacity: 1;
+	}
+	80%{
+		transform:translate(0, 30px);
+		opacity: 1;
+	}
+	90%{
+		transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100%{
+		transform:translate(0, 30px);
+		opacity: 0;
+	}
+}
+@keyframes sdb09 {
+	0% {
+		transform:translate(0, 0);
+		opacity: 0;
+	}
+	79%{
+		transform:translate(0, 0);
+		opacity: 0;
+	}
+	80%{
+		transform:translate(0, 0);
+		opacity: 1;
+	}
+	87%{
+		transform:translate(0, 50px);
+		opacity: 1;
+	}
+	90%{
+		transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100%{
+		transform:translate(0, 30px);
+		opacity: 0;
+	}
+}
+@-webkit-keyframes sdb09 {
+	0% {
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	79%{
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	80%{
+		-webkit-transform:translate(0, 0);
+		opacity: 1;
+	}
+	87%{
+		-webkit-transform:translate(0, 50px);
+		opacity: 1;
+	}
+	90%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 0;
+	}
+}
+@-webkit-keyframes sdb010 {
+	0% {
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	89%{
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	90%{
+		-webkit-transform:translate(0, 0);
+		opacity: 1;
+	}
+	97%{
+		-webkit-transform:translate(0, 50px);
+		opacity: 1;
+	}
+	100%{
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+}
+@keyframes sdb010 {
+	0% {
+		transform:translate(0, 0);
+		opacity: 0;
+	}
+	89%{
+		transform:translate(0, 0);
+		opacity: 0;
+	}
+	90%{
+		transform:translate(0, 0);
+		opacity: 1;
+	}
+	97%{
+		transform:translate(0, 50px);
+		opacity: 1;
+	}
+	100%{
+		transform:translate(0, 30px);
+		opacity: 1;
+	}
+}
+/*
+@-webkit-keyframes sdb05 {
+	0% {
+		-webkit-transform:translate(0, 0);
+		opacity: 1;
+	}
+	5% {
+		-webkit-transform:translate(0, 0);
+		opacity: 1;
+	}
+	20% {
+		-webkit-transform:translate(0, 50px);
+		opacity: 1;
+	}
+	35% {
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	50% {
+		-webkit-transform: translate(0, 30px);
+		opacity: 0;
+	}
+	100% {
+		-webkit-transform: translate(0, 30px);
+		opacity: 0;
+	}
+}
+@keyframes sdb05 {
+	0% {
+		transform:translate(0, 0);
+		opacity: 1;
+	}
+	5% {
+		transform:translate(0, 0);
+		opacity: 1;
+	}
+	20% {
+		transform:translate(0, 50px);
+		opacity: 1;
+	}
+	35% {
+		transform:translate(0, 30px);
+		opacity: 1;
+	}
+	50% {
+		transform: translate(0, 30px);
+		opacity: 0;
+	}
+	100% {
+		transform: translate(0, 30px);
+		opacity: 0;
+	}
+}
+
+@-webkit-keyframes sdb06 {
+	0% {
+		-webkit-transform:translate(0, 0);
+		opacity: 0;
+	}
+	50%{
+		opacity: 0;
+	}
+	55% {
+		-webkit-transform:translate(0, 0);
+		opacity: 1;
+	}
+	70% {
+		-webkit-transform:translate(0, 50px);
+		opacity: 1;
+	}
+	85% {
+		-webkit-transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100% {
+		-webkit-transform: translate(0, 30px);
+		opacity: 0;
+	}
+}
+@keyframes sdb06 {
+	0% {
+		transform:translate(0, 0);
+		opacity: 0;
+	}
+	50%{
+		opacity: 0;
+	}
+	55% {
+		transform:translate(0, 0);
+		opacity: 1;
+	}
+	70% {
+		transform:translate(0, 50px);
+		opacity: 1;
+	}
+	85% {
+		transform:translate(0, 30px);
+		opacity: 1;
+	}
+	100% {
+		transform: translate(0, 30px);
+		opacity: 0;
+	}
+}*/
+.fiulogo{
+	height:275px;
+	background-image:url({{ app_url_packaged }}/images/fiu/fiulogo.jpg);
+	background-position:center center;
+}	
+.footfiu{
+	height:485px;
+	background-image:url({{ app_url_packaged }}/images/fiu/footbg.jpg);
+	background-position:center center;
+}
+.w-90{
+	width:90px;
+	text-align:center;
+}
+.footp{
+	padding: 55px 10% !important;
+	vertical-align: bottom;
+}
+.footp .column{
+	vertical-align: bottom !important;
+}
+.footp p{
+	font-size:13px;
+}
+.footp p span{
+	color:#000;
+}
+.fiubot{
+	padding:60px 0;
+	background:#000;
+}
+.fiubot p{
+	font-size:16px;
+	color:#fff;
+	letter-spacing: 3px;
+}
+h3.color-be {
+	font-size:20px;
+}
+.sectionbg{
+	background-image:url({{ app_url_packaged }}/images/fiu/footbg.jpg);
+	background-position:center center;
+}
+.fffbg .ui.circular.share.button {
+    height: auto;
+    width: auto;
+}
+.fffbg .ui.weibo.button, .fffbg .ui.weibo.button:hover, .fffbg .ui.blue.button, .fffbg .ui.blue.button:hover, .fffbg .ui.green.button, .fffbg .ui.green.button:hover {
+    border-color: transparent !important;
+    background: transparent !important;
+    padding: 0;
+}
+.pl-70{
+	padding-left:100px !important; 
+}
+@-webkit-keyframes bounceIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.3);
+        transform: scale(.3)
+    }
+
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05)
+    }
+
+    70% {
+        -webkit-transform: scale(.9);
+        transform: scale(.9)
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(.3);
+        -ms-transform: scale(.3);
+        transform: scale(.3)
+    }
+
+    50% {
+        opacity: 1;
+        -webkit-transform: scale(1.05);
+        -ms-transform: scale(1.05);
+        transform: scale(1.05)
+    }
+
+    70% {
+        -webkit-transform: scale(.9);
+        -ms-transform: scale(.9);
+        transform: scale(.9)
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1)
+    }
+}
+.tag{
+	opacity:0;
+}
+.active .tag{
+	-webkit-animation-name:bounceIn;
+    animation-name: bounceIn;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+.active .tag:nth-child(1){
+	--webkit-animation-delay: 0;
+	animation-delay: 0;
+}
+.active .tag:nth-child(2){
+	--webkit-animation-delay: 0.2s;
+	animation-delay: 0.2s;
+}
+.active .tag:nth-child(3){
+	--webkit-animation-delay: 0.3s;
+	animation-delay: 0.3s;
+}
+.active .tag:nth-child(4){
+	--webkit-animation-delay: 0.4s;
+	animation-delay: 0.4s;
+}
+.active .tag:nth-child(5){
+	--webkit-animation-delay: 0.5s;
+	animation-delay: 0.5s;
+}
+.active .tag:nth-child(6){
+	--webkit-animation-delay: 0.6s;
+	animation-delay: 0.6s;
+}
+.active .tag:nth-child(7){
+	--webkit-animation-delay: 0.7s;
+	animation-delay: 0.7s;
+}
+.active .tag:nth-child(8){
+	--webkit-animation-delay: 0.8s;
+	animation-delay: 0.8s;
+}
+.active .tag:nth-child(9){
+	--webkit-animation-delay: 0.9s;
+	animation-delay: 0.9s;
+}
+.active .tag:nth-child(10){
+	--webkit-animation-delay: 1s;
+	animation-delay: 1s;
+}
+.active .tag:nth-child(11){
+	--webkit-animation-delay: 1.1s;
+	animation-delay: 1.1s;
+}
+.active .tag:nth-child(12){
+	--webkit-animation-delay: 1.2s;
+	animation-delay: 1.2s;
+}
+.active .tag:nth-child(13){
+	--webkit-animation-delay: 1.3s;
+	animation-delay: 1.3s;
+}
+.active .tag:nth-child(14){
+	--webkit-animation-delay: 1.4s;
+	animation-delay: 1.4s;
+}
+.active .tag:nth-child(15){
+	--webkit-animation-delay: 1.5s;
+	animation-delay: 1.5s;
+}
+.active .tag:nth-child(16){
+	--webkit-animation-delay: 1.6s;
+	animation-delay: 1.6s;
+}
+.active .tag:nth-child(17){
+	--webkit-animation-delay: 1.7s;
+	animation-delay: 1.7s;
+}
+.active .tag:nth-child(18){
+	--webkit-animation-delay: 1.8s;
+	animation-delay: 1.8s;
+}
+.active .tag:nth-child(19){
+	--webkit-animation-delay: 1.9s;
+	animation-delay: 1.9s;
+}
+.active .tag:nth-child(20){
+	--webkit-animation-delay: 2s;
+	animation-delay: 2s;
+}
+.active .tag:nth-child(21){
+	--webkit-animation-delay: 2.1s;
+	animation-delay: 2.1s;
+}
+.active .tag:nth-child(22){
+	--webkit-animation-delay: 2.2s;
+	animation-delay: 2.2s;
+}
+.active .tag:nth-child(23){
+	--webkit-animation-delay: 2.3s;
+	animation-delay: 2.3s;
+}
+.active .tag:nth-child(24){
+	--webkit-animation-delay: 2.4s;
+	animation-delay: 2.4s;
+}
+.active .tag:nth-child(25){
+	--webkit-animation-delay: 2.5s;
+	animation-delay: 2.5s;
+}
+.active .tag:nth-child(26){
+	--webkit-animation-delay: 2.6s;
+	animation-delay: 2.6s;
+}
+.active .tag:nth-child(27){
+	--webkit-animation-delay: 2.7s;
+	animation-delay: 2.7s;
+}
+.active .tag:nth-child(28){
+	--webkit-animation-delay: 2.8s;
+	animation-delay: 2.8s;
+}
+.active .tag:nth-child(29){
+	--webkit-animation-delay: 2.9s;
+	animation-delay: 2.9s;
+}
+.active .tag:nth-child(30){
+	--webkit-animation-delay: 3s;
+	animation-delay: 3s;
+}
+.active .tag:nth-child(31){
+	--webkit-animation-delay: 3.1s;
+	animation-delay: 3.1s;
+}
+.active .tag:nth-child(32){
+	--webkit-animation-delay: 3.2s;
+	animation-delay: 3.2s;
+}
+.active .tag:nth-child(33){
+	--webkit-animation-delay: 3.3s;
+	animation-delay: 3.3s;
+}
+.active .tag:nth-child(34){
+	--webkit-animation-delay: 3.4s;
+	animation-delay: 3.4s;
+}
+.active .tag:nth-child(35){
+	--webkit-animation-delay: 3.5s;
+	animation-delay: 3.5s;
+}
+.active .tag:nth-child(36){
+	--webkit-animation-delay: 3.6s;
+	animation-delay: 3.6s;
+}
+.active .tag:nth-child(37){
+	--webkit-animation-delay: 3.7s;
+	animation-delay: 3.7s;
+}
+.active .tag:nth-child(38){
+	--webkit-animation-delay: 3.8s;
+	animation-delay: 3.8s;
+}
+.active .tag:nth-child(39){
+	--webkit-animation-delay: 3.9s;
+	animation-delay: 3.9s;
+}
+.active .tag:nth-child(40){
+	--webkit-animation-delay: 4s;
+	animation-delay: 4s;
+}
+.active .tag:nth-child(41){
+	--webkit-animation-delay: 4.1s;
+	animation-delay: 4.1s;
+}
+.active .tag:nth-child(42){
+	--webkit-animation-delay: 4.2s;
+	animation-delay: 4.2s;
+}
+.active .tag:nth-child(43){
+	--webkit-animation-delay: 4.3s;
+	animation-delay: 4.3s;
+}
+.active .tag:nth-child(44){
+	--webkit-animation-delay: 4.4s;
+	animation-delay: 4.4s;
+}
+.active .tag:nth-child(45){
+	--webkit-animation-delay: 4.5s;
+	animation-delay: 4.5s;
+}
+.active .tag:nth-child(46){
+	--webkit-animation-delay: 4.6s;
+	animation-delay: 4.6s;
+}
+</style>
+{% endblock %}
+{% block jquery %}
+	$('#carousel').flexslider({
+	    animation: "slide",
+	    controlNav: false,
+	    animationLoop: false,
+	    slideshow: false,
+	    itemWidth: 290,
+	    itemMargin: 0,
+	    asNavFor: '#slider'
+	});
+
+	$('#slider').flexslider({
+	    animation: "slide",
+	    controlNav: false,
+	    animationLoop: true,
+		slideshow: true,
+		slideshowSpeed: 3000,
+	    sync: "#carousel",
+		directionNav: true
+	});
+	$(window).scroll(function(){
+	    var scrollTop = $(window).scrollTop();
+		
+		if(scrollTop > 1480){
+			$('.mobile1,.mobile2,.mobile3,.mobile4').addClass('fadeInUp');
+		}
+		if(scrollTop > 1790){
+			$('.mobile5,.mobile6,.mobile7,.mobile8').addClass('fadeInUp');
+		}
+		if(scrollTop < 1235 || scrollTop > 2650){
+			$('.mobile1,.mobile2,.mobile3,.mobile4,.mobile5,.mobile6,.mobile7,.mobile8').removeClass('fadeInUp');
+		}
+		if(scrollTop > 2640){
+			$('.bgssbg .image').addClass('fadeInUp');
+		}
+		if(scrollTop < 2250 || scrollTop > 3600 ){
+			$('.bgssbg .image').removeClass('fadeInUp');
+		}
+		if(scrollTop > 2950 ){
+			$('.tagBall').addClass('active');
+		}
+		if(scrollTop < 2810 || scrollTop > 3825 ){
+			$('.tagBall').removeClass('active');
+		}
+		if(scrollTop > 4090 ){
+			$('.tagBallt').addClass('active');
+		}
+		if(scrollTop < 3910 || scrollTop > 4990 ){
+			$('.tagBallt').removeClass('active');
+		}
+	});
+	/*
+	var radius = 450;
+	var dtr = Math.PI/180;
+	var d=900;
+
+	var mcList = [];
+	var mcListt = [];
+	var active = false;
+	var lasta = 1;
+	var lastb = 1;
+	var distr = true;
+	var tspeed=2;
+	var size=250;
+
+	var mouseX=0;
+	var mouseY=0;
+
+	var howElliptical=1;
+
+	var aA=null;
+	var oDiv=null;
+
+	window.onload=function ()
+	{
+		var i=0;
+		var oTag=null;
+	
+		oDiv="querySelectorAll" in document ? document.querySelector(".tagBall") : getClass("tagBall")[0],
+	
+		aA="querySelectorAll" in document ? document.querySelectorAll(".tag") : getClass("tag");
+	
+		for(i=0;i<aA.length;i++)
+		{
+			oTag={};
+		
+			oTag.offsetWidth=aA[i].offsetWidth;
+			oTag.offsetHeight=aA[i].offsetHeight;
+		
+			mcList.push(oTag);
+		}
+	
+		sineCosine( 0,0,0 );
+	
+		positionAll();
+	
+		oDiv.onmouseover=function ()
+		{
+			active=true;
+		};
+	
+		oDiv.onmouseout=function (ev)
+		{
+			var oEvent=window.event || ev;
+		
+			mouseX=oEvent.clientX-(oDiv.offsetLeft+oDiv.offsetWidth/2);
+			mouseY=oEvent.clientY-(oDiv.offsetTop+oDiv.offsetHeight/2);
+		
+			mouseX/=5;
+			mouseY/=5;
+		};
+	
+		oDiv.onmousemove=function (ev)
+		{
+			//var oEvent=window.event || ev;
+		
+			//mouseX=oEvent.clientX-(oDiv.offsetLeft+oDiv.offsetWidth/2);
+			//mouseY=oEvent.clientY-(oDiv.offsetTop+oDiv.offsetHeight/2);
+		
+			//mouseX/=5;
+			//mouseY/=5;
+		};
+	
+		setInterval(update, 30);
+		
+		
+		oDivt="querySelectorAll" in document ? document.querySelector(".tagBallt") : getClass("tagBallt")[0],
+	
+		aAt="querySelectorAll" in document ? document.querySelectorAll(".tagt") : getClass("tagt");
+		
+		for(n=0;n<aAt.length;n++)
+		{
+			oTag={};
+		
+			oTag.offsetWidth=aAt[n].offsetWidth;
+			oTag.offsetHeight=aAt[n].offsetHeight;
+		
+			mcListt.push(oTag);
+		}
+	
+		sineCosinet( 0,0,0 );
+	
+		positionAllt();
+	
+		oDivt.onmouseover=function ()
+		{
+			active=true;
+		};
+	
+		oDivt.onmouseout=function (ev)
+		{
+			var oEvent=window.event || ev;
+		
+			mouseX=oEvent.clientX-(oDivt.offsetLeft+oDivt.offsetWidth/2);
+			mouseY=oEvent.clientY-(oDivt.offsetTop+oDivt.offsetHeight/2);
+		
+			mouseX/=5;
+			mouseY/=5;
+		};
+	
+		oDivt.onmousemove=function (ev)
+		{
+			//var oEvent=window.event || ev;
+		
+			//mouseX=oEvent.clientX-(oDivt.offsetLeft+oDivt.offsetWidth/2);
+			//mouseY=oEvent.clientY-(oDivt.offsetTop+oDivt.offsetHeight/2);
+		
+			//mouseX/=5;
+			//mouseY/=5;
+		};
+	
+		setInterval(updatet, 30);
+	};
+	function updatet()
+	{
+		var a;
+		var b;
+	
+		if(active)
+		{
+			a = (-Math.min( Math.max( -mouseY, -size ), size ) / radius ) * tspeed;
+			b = (Math.min( Math.max( -mouseX, -size ), size ) / radius ) * tspeed;
+		}
+		else
+		{
+			a = lasta * 0.98;
+			b = lastb * 0.98;
+		}
+	
+		lasta=a;
+		lastb=b;
+	
+		if(Math.abs(a)<=0.01 && Math.abs(b)<=0.01)
+		{
+			return;
+		}
+	
+		var c=0;
+		sineCosinet(a,b,c);
+		for(var j=0;j<mcListt.length;j++)
+		{
+			var rx1=mcListt[j].cx;
+			var ry1=mcListt[j].cy*ca+mcListt[j].cz*(-sa);
+			var rz1=mcListt[j].cy*sa+mcListt[j].cz*ca;
+		
+			var rx2=rx1*cb+rz1*sb;
+			var ry2=ry1;
+			var rz2=rx1*(-sb)+rz1*cb;
+		
+			var rx3=rx2*cc+ry2*(-sc);
+			var ry3=rx2*sc+ry2*cc;
+			var rz3=rz2;
+		
+			mcListt[j].cx=rx3;
+			mcListt[j].cy=ry3;
+			mcListt[j].cz=rz3;
+		
+			per=d/(d+rz3);
+		
+			mcListt[j].x=(howElliptical*rx3*per)-(howElliptical*2);
+			mcListt[j].y=ry3*per;
+			mcListt[j].scale=per;
+			mcListt[j].alpha=per;
+		
+			mcListt[j].alpha=(mcListt[j].alpha-0.6)*(10/6);
+		}
+	
+		doPositiont();
+		depthSortt();
+	}
+
+	function depthSortt()
+	{
+		var i=0;
+		var aTmp=[];
+	
+		for(i=0;i<aAt.length;i++)
+		{
+			aTmp.push(aAt[i]);
+		}
+	
+		aTmp.sort
+		(
+			function (vItem1, vItem2)
+			{
+				if(vItem1.cz>vItem2.cz)
+				{
+					return -1;
+				}
+				else if(vItem1.cz<vItem2.cz)
+				{
+					return 1;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+		);
+	
+		for(i=0;i<aTmp.length;i++)
+		{
+			aTmp[i].style.zIndex=i;
+		}
+	}
+
+	function positionAllt()
+	{
+		var phi=0;
+		var theta=0;
+		var max=mcListt.length;
+		var i=0;
+	
+		var aTmp=[];
+		var oFragment=document.createDocumentFragment();
+	
+		//随机排序
+		for(i=0;i<aAt.length;i++)
+		{
+			aTmp.push(aAt[i]);
+		}
+	
+		aTmp.sort
+		(
+			function ()
+			{
+				return Math.random()<0.5?1:-1;
+			}
+		);
+	
+		for(i=0;i<aTmp.length;i++)
+		{
+			oFragment.appendChild(aTmp[i]);
+		}
+	
+		oDivt.appendChild(oFragment);
+	
+		for( var i=1; i<max+1; i++){
+			if( distr )
+			{
+				phi = Math.acos(-1+(2*i-1)/max);
+				theta = Math.sqrt(max*Math.PI)*phi;
+			}
+			else
+			{
+				phi = Math.random()*(Math.PI);
+				theta = Math.random()*(2*Math.PI);
+			}
+			//坐标变换
+			mcListt[i-1].cx = radius * Math.cos(theta)*Math.sin(phi);
+			mcListt[i-1].cy = radius * Math.sin(theta)*Math.sin(phi);
+			mcListt[i-1].cz = radius * Math.cos(phi);
+		
+			aAt[i-1].style.left=mcListt[i-1].cx+oDivt.offsetWidth/2-mcListt[i-1].offsetWidth/2+'px';
+			aAt[i-1].style.top=mcListt[i-1].cy+oDivt.offsetHeight/2-mcListt[i-1].offsetHeight/2+'px';
+		}
+	}
+
+	function doPositiont()
+	{
+		var l=oDivt.offsetWidth/2;
+		var t=oDivt.offsetHeight/2;
+		for(var i=0;i<mcListt.length;i++)
+		{
+			aAt[i].style.left=mcListt[i].cx+l-mcListt[i].offsetWidth/2+'px';
+			aAt[i].style.top=mcListt[i].cy+t-mcListt[i].offsetHeight/2+'px';
+		
+			aAt[i].style.width=Math.ceil(12*mcListt[i].scale/2)+Math.ceil(36*mcListt[i].scale)+'px';
+		
+			aAt[i].style.filter="alpha(opacity="+100*mcListt[i].alpha+")";
+			aAt[i].style.opacity=mcListt[i].alpha;
+		}
+	}
+
+	function sineCosinet( a, b, c)
+	{
+		sa = Math.sin(a * dtr);
+		ca = Math.cos(a * dtr);
+		sb = Math.sin(b * dtr);
+		cb = Math.cos(b * dtr);
+		sc = Math.sin(c * dtr);
+		cc = Math.cos(c * dtr);
+	}
+
+	function update()
+	{
+		var a;
+		var b;
+	
+		if(active)
+		{
+			a = (-Math.min( Math.max( -mouseY, -size ), size ) / radius ) * tspeed;
+			b = (Math.min( Math.max( -mouseX, -size ), size ) / radius ) * tspeed;
+		}
+		else
+		{
+			a = lasta * 0.98;
+			b = lastb * 0.98;
+		}
+	
+		lasta=a;
+		lastb=b;
+	
+		if(Math.abs(a)<=0.01 && Math.abs(b)<=0.01)
+		{
+			return;
+		}
+	
+		var c=0;
+		sineCosine(a,b,c);
+		for(var j=0;j<mcList.length;j++)
+		{
+			var rx1=mcList[j].cx;
+			var ry1=mcList[j].cy*ca+mcList[j].cz*(-sa);
+			var rz1=mcList[j].cy*sa+mcList[j].cz*ca;
+		
+			var rx2=rx1*cb+rz1*sb;
+			var ry2=ry1;
+			var rz2=rx1*(-sb)+rz1*cb;
+		
+			var rx3=rx2*cc+ry2*(-sc);
+			var ry3=rx2*sc+ry2*cc;
+			var rz3=rz2;
+		
+			mcList[j].cx=rx3;
+			mcList[j].cy=ry3;
+			mcList[j].cz=rz3;
+		
+			per=d/(d+rz3);
+		
+			mcList[j].x=(howElliptical*rx3*per)-(howElliptical*2);
+			mcList[j].y=ry3*per;
+			mcList[j].scale=per;
+			mcList[j].alpha=per;
+		
+			mcList[j].alpha=(mcList[j].alpha-0.6)*(10/6);
+		}
+	
+		doPosition();
+		depthSort();
+	}
+
+	function depthSort()
+	{
+		var i=0;
+		var aTmp=[];
+	
+		for(i=0;i<aA.length;i++)
+		{
+			aTmp.push(aA[i]);
+		}
+	
+		aTmp.sort
+		(
+			function (vItem1, vItem2)
+			{
+				if(vItem1.cz>vItem2.cz)
+				{
+					return -1;
+				}
+				else if(vItem1.cz<vItem2.cz)
+				{
+					return 1;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+		);
+	
+		for(i=0;i<aTmp.length;i++)
+		{
+			aTmp[i].style.zIndex=i;
+		}
+	}
+
+	function positionAll()
+	{
+		var phi=0;
+		var theta=0;
+		var max=mcList.length;
+		var i=0;
+	
+		var aTmp=[];
+		var oFragment=document.createDocumentFragment();
+	
+		//随机排序
+		for(i=0;i<aA.length;i++)
+		{
+			aTmp.push(aA[i]);
+		}
+	
+		aTmp.sort
+		(
+			function ()
+			{
+				return Math.random()<0.5?1:-1;
+			}
+		);
+	
+		for(i=0;i<aTmp.length;i++)
+		{
+			oFragment.appendChild(aTmp[i]);
+		}
+	
+		oDiv.appendChild(oFragment);
+	
+		for( var i=1; i<max+1; i++){
+			if( distr )
+			{
+				phi = Math.acos(-1+(2*i-1)/max);
+				theta = Math.sqrt(max*Math.PI)*phi;
+			}
+			else
+			{
+				phi = Math.random()*(Math.PI);
+				theta = Math.random()*(2*Math.PI);
+			}
+			//坐标变换
+			mcList[i-1].cx = radius * Math.cos(theta)*Math.sin(phi);
+			mcList[i-1].cy = radius * Math.sin(theta)*Math.sin(phi);
+			mcList[i-1].cz = radius * Math.cos(phi);
+		
+			aA[i-1].style.left=mcList[i-1].cx+oDiv.offsetWidth/2-mcList[i-1].offsetWidth/2+'px';
+			aA[i-1].style.top=mcList[i-1].cy+oDiv.offsetHeight/2-mcList[i-1].offsetHeight/2+'px';
+		}
+	}
+
+	function doPosition()
+	{
+		var l=oDiv.offsetWidth/2;
+		var t=oDiv.offsetHeight/2;
+		for(var i=0;i<mcList.length;i++)
+		{
+			aA[i].style.left=mcList[i].cx+l-mcList[i].offsetWidth/2+'px';
+			aA[i].style.top=mcList[i].cy+t-mcList[i].offsetHeight/2+'px';
+		
+			aA[i].style.width=Math.ceil(12*mcList[i].scale/2)+Math.ceil(36*mcList[i].scale)+'px';
+		
+			aA[i].style.filter="alpha(opacity="+100*mcList[i].alpha+")";
+			aA[i].style.opacity=mcList[i].alpha;
+		}
+	}
+
+	function sineCosine( a, b, c)
+	{
+		sa = Math.sin(a * dtr);
+		ca = Math.cos(a * dtr);
+		sb = Math.sin(b * dtr);
+		cb = Math.cos(b * dtr);
+		sc = Math.sin(c * dtr);
+		cc = Math.cos(c * dtr);
+	}*/
+{% endblock %}
+
+{% block content %}
+<div class="fiuhome">
+	<section class="bgmoive">
+		<div class="ui responsive grid">
+			<div class="row pl-70">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/fiu/logo.png">
+				</div>
+			</div>
+			<div class="row pl-70">
+				<div class="column">
+					<p class="p1title mt-10">Fiu浮游™是一个致力于发现科技创新产品和分享美学生活方式的情境式图片社交平台。<br />Fiu浮游™通过大千世界碎片美的场景大片重构，为新中产的生活方式带来全新的诗意体验。</p> 				
+				</div>
+			</div>
+			<div class="row pl-70">
+				<div class="column">
+					<p class="p2title">
+					在Fiu浮游™，你可以用文字来记录内心情绪，用滤镜来表达情感色彩，用分享去变现原创价值，<br />
+					并通过基于LBS的场景化购物服务可随手拥抱独特好货。<br />
+					Fiu浮游™有一千万种创新的方式让你放肆鲜活的情境。	
+					</p>
+					<p class="p2title">
+					诗人屈原在《离骚》中感叹：欲远集而无所止兮，聊浮游以逍遥。<br />
+					而今日的Fiu浮游™栖息了全球数千万创新科技的创造者、生活美学的设计者、<br />
+					以及在浮游世界里希望用创意和梦想去改变平凡世界的品质生活家。<br />
+					Fiu浮游™用无尽的心绪和惊艳的场景，让你的分享变成生产力。
+					</p>
+				</div>
+			</div>
+			<div class="row pl-70">
+				<div class="column">
+					<p class="p1title">
+						每个人心中都有一个不曾到过的美景，<br />
+						每个人心中都有一个不曾拥有的美物，<br />
+						Fiu浮游™带你发现美学科技的力量和感性生活的温度！
+					</p>
+				</div>
+			</div>
+			<div class="row pl-70">
+				<div class="column">
+					<p class="color-be mt-10">
+						科技美学情境式分享社区
+					</p>
+				</div>
+			</div>
+			<div class="row ewm pl-70">
+				<div class="ui two wide column">
+					<img src="{{ app_url_packaged }}/images/fiu/ewm.jpg" width="90">
+					<p>Apple iOS下载</p>
+				</div>
+				<div class="ui two wide column">
+					<img src="{{ app_url_packaged }}/images/fiu/ewm.jpg" width="90">
+					<p>Android下载</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<p class="blackg">为什么爱上Fiu浮游™</p>
+				</div>
+			</div>
+			<div class="row" style="width:1200px !important;margin:0 auto;">
+				<div class="column">
+					<div class="slidebox">
+		                <div id="slider" class="flexslider flex-single">
+							<ul class="slides">
+								<li style="background-image: url({{ app_url_packaged }}/images/fiu/p1.jpg);"> <div class="yuan1"></div><div class="yuan2"></div><div class="yuan3"></div><div class="yuan4"></div><div class="yuan5"></div><div class="yuan6"></div></li>
+								<li style="background-image: url({{ app_url_packaged }}/images/fiu/p2.jpg);"><div class="yuan7"></div><div class="yuan8"></div><div class="yuan9"></div><div class="yuan10"></div></li>
+								<li style="background-image: url({{ app_url_packaged }}/images/fiu/p3.jpg);"><div class="yuan11"></div><div class="yuan12"></div><div class="yuan13"></div><div class="yuan14"></div></li>
+								<li style="background-image: url({{ app_url_packaged }}/images/fiu/p4.jpg);"><div class="yuan15"></div><div class="yuan16"></div><div class="yuan17"></div></li>
+							</ul>
+						</div>
+						<div id="carousel" class="flexslider flex-single-carousel">
+							<ul class="slides">
+								<li style="background-image: url({{ app_url_packaged }}/images/fiu/p1.jpg);"></li>
+								<li style="background-image: url({{ app_url_packaged }}/images/fiu/p2.jpg);"></li>
+								<li style="background-image: url({{ app_url_packaged }}/images/fiu/p3.jpg);"></li>
+								<li style="background-image: url({{ app_url_packaged }}/images/fiu/p4.jpg);"></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="ui center aligned column mt-10">
+					<h3 class="color-be">科技美学｜质感碰撞性感的生活态度</h3>
+					<p class="p2title">Fiu浮游™拥有赏心悦目的阅读方式，前卫时尚的感官设计，是极高颜值和内涵的互动交流平台；<br />
+聚焦现代新中产生活营造生活品质格调，积聚有意义的科技潮品，上架有美感的设计好货，传递更前沿的生活资讯；<br />
+Fiu浮游™让你的生活因为自由、美感而有趣。</p>
+				</div>
+			</div>
+		</div>
+		<div class="video-container">
+			<video width="100%" height="100%" preload="auto" autoplay="true" loop> <!--controls="controls" -->
+				<source type="video/mp4" src="{{ app_url_packaged }}/images/fiu/video.mp4">
+			</video>
+		</div>
+	</section>
+	<section class="secbg">
+		<div class="ui center aligned responsive grid">
+			<div class="row">
+				<div class="ui four wide column">
+					<img src="{{ app_url_packaged }}/images/fiu/mobile1.png" class="mobile1" width="98%">
+				</div>
+				<div class="ui four wide column">
+					<img src="{{ app_url_packaged }}/images/fiu/mobile2.png" class="mobile2" width="98%">
+				</div>
+				<div class="ui four wide column">
+					<img src="{{ app_url_packaged }}/images/fiu/mobile3.png" class="mobile3" width="98%">
+				</div>
+				<div class="ui four wide column">
+					<img src="{{ app_url_packaged }}/images/fiu/mobile4.png" class="mobile4" width="98%">
+				</div>
+			</div>
+			<div class="row">
+				<div class="ui four wide column">
+					<img src="{{ app_url_packaged }}/images/fiu/mobile05.png" class="mobile5" width="98%">
+				</div>
+				<div class="ui four wide column">
+					<img src="{{ app_url_packaged }}/images/fiu/mobile6.png" class="mobile6" width="98%">
+				</div>
+				<div class="ui four wide column">
+					<img src="{{ app_url_packaged }}/images/fiu/mobile07.png" class="mobile7" width="98%">
+				</div>
+				<div class="ui four wide column">
+					<img src="{{ app_url_packaged }}/images/fiu/mobile08.png" class="mobile8" width="98%">
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="bgwhite">
+		<div class="ui center aligned responsive grid">
+			<div class="row">
+				<div class="ui two wide column">
+					<img src="{{ app_url_packaged }}/images/fiu/icon1.jpg" width="54">
+					<p>创建情景</p>
+				</div>
+				<div class="ui two wide column">
+					<img src="{{ app_url_packaged }}/images/fiu/icon2.jpg" width="54">
+					<p>照片滤镜</p>
+				</div>
+				<div class="ui two wide column">
+					<img src="{{ app_url_packaged }}/images/fiu/icon3.jpg" width="54">
+					<p>文字情绪</p>
+				</div>
+				<div class="ui two wide column">
+					<img src="{{ app_url_packaged }}/images/fiu/icon4.jpg" width="54">
+					<p>地盘定位</p>
+				</div>
+				<div class="ui two wide column">
+					<img src="{{ app_url_packaged }}/images/fiu/icon5.jpg" width="54">
+					<p>分享原创</p>
+				</div>
+				<div class="ui two wide column">
+					<img src="{{ app_url_packaged }}/images/fiu/icon6.jpg" width="54">
+					<p>变现价值</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<h3 class="color-be">情景体验｜大千世界碎片美的场景如大片呈现，内容好到尖叫</h3>
+					<p class="p2title mt-10">
+						Fiu浮游™用文字记录内心情绪，用滤镜表达情感色彩，寻找美丽足迹，发现质感时刻；<br />
+						通过生活碎片美的场景组织重构，给你带来创新生活体验；<br />
+						Fiu浮游™鼓励你去发现、去支持、去分享，在世界的每个角落感受喜怒哀乐，完美记录游走世界的足迹。
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="bgssbg"><div class="image"></div></section>
+	<section class="fffbg">
+		<div class="ui responsive grid">
+			<div class="row" style="padding:0;">
+				<div class="column">
+					<div class="tagBall">
+					<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/1.jpg" width="40" height="40">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/2.jpg" width="64" height="64">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/3.jpg" width="40" height="40">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/4.jpg" width="42" height="42">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/5.jpg" width="45" height="45">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/6.jpg" width="52" height="52">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/7.jpg" width="60" height="60">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/8.jpg" width="40" height="40">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/9.jpg" width="50" height="50">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/10.jpg" width="66" height="66">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/11.jpg" width="54" height="54">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/12.jpg" width="42" height="42">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/13.jpg" width="56" height="56">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/14.jpg" width="65" height="65">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/15.jpg" width="40" height="40">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/16.jpg" width="45" height="45">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/17.jpg" width="65" height="65">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/18.jpg" width="60" height="60">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/19.jpg" width="41" height="41">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/20.jpg" width="48" height="48">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/21.jpg" width="60" height="60">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/22.jpg" width="43" height="43">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/23.jpg" width="50" height="50">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/24.jpg" width="65" height="65">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/25.jpg" width="64" height="64">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/26.jpg" width="54" height="54">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/27.jpg" width="40" height="40"> 
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/28.jpg" width="60" height="60">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/29.jpg" width="45" height="45">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/30.jpg" width="46" height="46">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/31.jpg" width="64" height="64">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/32.jpg" width="50" height="50">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/33.jpg" width="64" height="64">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/34.jpg" width="58" height="58">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/35.jpg" width="66" height="66">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/36.jpg" width="46" height="46">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/37.jpg" width="50" height="50">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/38.jpg" width="42" height="42">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/39.jpg" width="59" height="59">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/40.jpg" width="58" height="58">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/41.jpg" width="45" height="45">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/42.jpg" width="56" height="56">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/43.jpg" width="64" height="64">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/44.jpg" width="45" height="45">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/45.jpg" width="56" height="56">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/46.jpg" width="64" height="64">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--<section class="fffbg">
+		<div class="ui responsive grid" style="width:100%;">
+			<div class="row" style="padding:0;">
+				<div class="column">
+					<div class="tagBall">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/1.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/2.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/3.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/4.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/5.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/6.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/7.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/8.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/9.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/10.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/11.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/12.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/13.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/14.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/15.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/16.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/17.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/18.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/19.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/20.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/21.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/22.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/23.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/24.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/25.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/26.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/27.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/28.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/29.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/30.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/31.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/32.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/33.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/34.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/35.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/36.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/37.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/38.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/39.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/40.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/41.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/42.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/43.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/44.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/45.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/46.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/47.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/48.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/49.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/50.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/51.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/52.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/53.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/54.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/55.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/56.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/57.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/58.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/59.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/60.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/61.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/62.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/63.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/64.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/65.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/66.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/67.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/68.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/69.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/70.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/71.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/72.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/73.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/74.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/75.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/76.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/77.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/78.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/79.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/80.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/81.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/82.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/83.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/84.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/85.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/86.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/87.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/88.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/89.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/90.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/91.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/92.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/93.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/94.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/95.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/96.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/97.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/98.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/99.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/100.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/1.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/2.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/3.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/4.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/5.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/6.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/7.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/8.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/9.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/10.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/11.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/12.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/13.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/14.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/15.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/16.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/17.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/18.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/19.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/20.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/21.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/22.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/23.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/24.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/25.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/26.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/27.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/28.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/29.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/30.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/31.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/32.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/33.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/34.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/35.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/36.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/37.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/38.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/39.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/40.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/41.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/42.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/43.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/44.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/45.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/46.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/47.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/48.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/49.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/50.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/51.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/52.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/53.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/54.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/55.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/56.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/57.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/58.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/59.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/60.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/61.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/62.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/63.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/64.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/65.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/66.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/67.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/68.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/69.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/70.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/71.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/72.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/73.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/74.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/75.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/76.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/77.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/78.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/79.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/80.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/81.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/82.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/83.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/84.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/85.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/86.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/87.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/88.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/89.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/90.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/91.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/92.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/93.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/94.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/95.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/96.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/97.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/98.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/99.jpg">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/100.jpg">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>-->
+	<section class="fffbg">
+		<div class="ui responsive grid">
+			<div class="ui center aligned row">
+				<div class="column" style="margin:30px 0 0;">
+					<h3 class="color-be">社群互动｜发现同路人，并让分享变现原创价值</h3>
+					<p class="p2title mt-10">
+											Fiu浮游™真实社交圈互动，你在认真发现，同类在时刻欢呼；<br>
+											分享一段文字一张图片一个定位，遇见更多平行世界的同路人，还享大力佣金回报；<br>
+											原创转发互动可以获得经验，购买商品可以获得经验，达成日常互动还可以获得经验，经验还能抵值现金消费；Fiu浮游™社区集结天天好礼、抽奖惊喜等着你。
+										</p>
+				</div>
+			</div>
+			<div class="ui right aligned row">
+				<div class="eight wide column" style="margin-bottom:24px;">
+					<p class="p2title">分享平台: <img src="{{ app_url_packaged }}/images/fiu/fx.png" align="absmiddle">
+						<!--<a href="javascript:void(0);" class="ui green circular share wexin icon button" id="wechat-share" title="微信">
+							<img src="{{ app_url_packaged }}/images/fiu/wx.png" align="absmiddle">
+						</a>
+						<a href="javascript:void(0);" class="ui weibo circular share icon button" id="sina-share" title="新浪微博" target="_blank">
+							<img src="{{ app_url_packaged }}/images/fiu/wb.png" align="absmiddle">
+						</a>
+						<a href="javascript:void(0);" class="ui blue circular share icon button" id="qzone-share" title="腾讯微博" target="_blank">
+							<img src="{{ app_url_packaged }}/images/fiu/qq.png" align="absmiddle">
+						</a>-->
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="sectionbg">
+		<div class="ui responsive grid">
+			<div class="row" style="padding:0;">
+				<div class="column">
+					<div class="secfive">
+						<div class="sec1">
+							<div class="map1"></div>
+							<div class="map2"></div>
+						</div>
+						<div class="sec2">
+							<div class="map1"></div>
+							<div class="map2"></div>
+						</div>
+						<div class="sec3">
+							<div class="map1"></div>
+							<div class="map2"></div>
+						</div>
+						<div class="sec4">
+							<div class="map1"></div>
+							<div class="map2"></div>
+						</div>
+						<div class="sec5">
+							<div class="map1"></div>
+							<div class="map2"></div>
+						</div>
+			
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="fffbg">
+		<div class="ui responsive grid">
+			<div class="row" style="padding:0;">
+				<div class="column">
+					<div class="tagBallt">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/1.jpg" width="40" height="40">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/2.jpg" width="64" height="64">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/3.jpg" width="40" height="40">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/4.jpg" width="42" height="42">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/5.jpg" width="45" height="45">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/6.jpg" width="52" height="52">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/7.jpg" width="60" height="60">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/8.jpg" width="40" height="40">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/9.jpg" width="50" height="50">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/10.jpg" width="66" height="66">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/11.jpg" width="54" height="54">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/12.jpg" width="42" height="42">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/13.jpg" width="56" height="56">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/14.jpg" width="65" height="65">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/15.jpg" width="40" height="40">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/16.jpg" width="45" height="45">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/17.jpg" width="65" height="65">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/18.jpg" width="60" height="60">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/19.jpg" width="41" height="41">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/20.jpg" width="48" height="48">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/21.jpg" width="60" height="60">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/22.jpg" width="43" height="43">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/23.jpg" width="50" height="50">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/24.jpg" width="65" height="65">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/25.jpg" width="64" height="64">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/26.jpg" width="54" height="54">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/27.jpg" width="40" height="40"> 
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/28.jpg" width="60" height="60">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/29.jpg" width="45" height="45">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/30.jpg" width="46" height="46">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/31.jpg" width="64" height="64">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/32.jpg" width="50" height="50">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/33.jpg" width="64" height="64">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/34.jpg" width="58" height="58">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/35.jpg" width="66" height="66">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/36.jpg" width="46" height="46">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/37.jpg" width="50" height="50">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/38.jpg" width="42" height="42">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/39.jpg" width="59" height="59">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/40.jpg" width="58" height="58">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/41.jpg" width="45" height="45">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/42.jpg" width="56" height="56">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/43.jpg" width="64" height="64">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/44.jpg" width="45" height="45">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/45.jpg" width="56" height="56">
+						<img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/46.jpg" width="64" height="64">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<!--
+	<section class="fffbg">
+		<div class="ui responsive grid" style="width:100%;">
+			<div class="row" style="padding:0;">
+				<div class="column">
+					<div class="tagBallt">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/101.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/102.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/103.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/104.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/105.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/106.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/107.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/108.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/109.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/110.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/111.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/112.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/113.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/114.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/115.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/116.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/117.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/118.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/119.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/120.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/121.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/122.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/123.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/124.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/125.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/126.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/127.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/128.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/129.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/130.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/1.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/2.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/3.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/4.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/5.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/6.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/7.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/8.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/9.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/10.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/11.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/12.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/13.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/14.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/15.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/16.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/17.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/18.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/19.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/20.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/21.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/22.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/23.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/24.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/25.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/26.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/27.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/28.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/29.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/30.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/31.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/32.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/33.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/34.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/35.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/36.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/37.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/38.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/39.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/40.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/41.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/42.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/43.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/44.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/45.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/46.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/47.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/48.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/49.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/50.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/51.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/52.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/53.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/54.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/55.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/56.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/57.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/58.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/59.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/60.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/61.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/62.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/63.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/64.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/65.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/66.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/67.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/68.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/69.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/70.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/71.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/72.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/73.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/74.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/75.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/76.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/77.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/78.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/79.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/80.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/81.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/82.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/83.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/84.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/85.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/86.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/87.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/88.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/89.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/90.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/91.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/92.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/93.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/94.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/95.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/96.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/97.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/98.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/99.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/100.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/1.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/2.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/3.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/4.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/5.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/6.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/7.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/8.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/9.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/10.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/11.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/12.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/13.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/14.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/15.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/16.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/17.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/18.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/19.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/20.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/21.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/22.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/23.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/24.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/25.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/26.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/27.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/28.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/29.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/30.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/31.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/32.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/33.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/34.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/35.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/36.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/37.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/38.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/39.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/40.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/41.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/42.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/43.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/44.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/45.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/46.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/47.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/48.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/49.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/50.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/51.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/52.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/53.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/54.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/55.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/56.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/57.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/58.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/59.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/60.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/61.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/62.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/63.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/64.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/65.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/66.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/67.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/68.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/69.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/70.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/71.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/72.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/73.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/74.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/75.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/76.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/77.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/78.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/79.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/80.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/81.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/82.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/83.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/84.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/85.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/86.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/87.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/88.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/89.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/90.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/91.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/92.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/93.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/94.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/95.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/96.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/97.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/98.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/99.jpg">
+						<img class="tagt" src="{{ app_url_packaged }}/images/fiu/pp/100.jpg">
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</section>-->
+	<section class="fffbg">
+		<div class="ui responsive grid">
+			<div class="ui center aligned row">
+				<div class="column" style="margin:30px 0 0;">
+					<h3 class="color-be">地盘定位｜我的地盘我做主，开好店搞主题都随意</h3>
+					<p class="p2title mt-10">
+											Fiu浮游™让有故事的产品和品牌更性感；<br>
+											足不出户浏览专业买手发掘的好店IP，专业买手为你标记偏爱好货，选购良心设计与美学科技无需代购；<br>
+											场景一站式购物随手拥抱好货，用户商家通过审核即可占领专属地盘；欢迎进驻有Fiu浮游™生活。
+										</p>
+				</div>
+			</div>
+			<div class="ui right aligned row">
+				<div class="eight wide column" style="margin-bottom:30px;">
+					<p class="p2title">导购平台: <img src="{{ app_url_packaged }}/images/fiu/dg.png" align="absmiddle"></p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="fiulogo"></section>
+	<section class="footfiu">
+		<div class="ui responsive grid">
+			<div class="row footp">
+				<div class="eight wide column">
+					<img src="{{ app_url_packaged }}/images/fiu/ewm.jpg" width="90">
+					<p class="p2title w-90">Apple iOS下载</p>
+					<img src="{{ app_url_packaged }}/images/fiu/ewm.jpg" width="90">
+					<p class="p2title w-90">Android下载</p>
+					<p class="p1title mt-10">WeChat：<span>Fiu浮游</span><br />
+					Weibo：<span>Fiu浮游</span><br />
+					Email：<span>fiu@taihuoniao.com</span><br />
+					Web：<span>taihuoniao.com/fiu</span>
+					</p>
+				</div>
+				<div class="ui right aligned eight wide column">
+					<img src="{{ app_url_packaged }}/images/fiu/logothn.png" width="100">
+					<p class="p1title">
+						太火鸟科技｜出品<br/>
+						Taihuoniao Produced<br/>
+						北京·上海·深圳·香港·硅谷<br/>
+						Beijing · Shanghai· Shenzhen· HongKong· SiliconValley
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="fiubot">
+		<div class="ui responsive grid">
+			<div class="ui center aligned row">
+				<div class="column">
+					<p><img src="{{ app_url_packaged }}/images/fiu/fiulogo.png"align="absmiddle">你在发现   谁在惊呼？</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+{% endblock %}
