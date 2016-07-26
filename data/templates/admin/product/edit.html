@@ -111,6 +111,30 @@
     
   }
 
+  // 加载3C子类库
+  function load_sub_category(pid, id){
+    // 先清空
+    $('#app_category_box span').html('');
+    $.get("{{ app_url_admin_base }}/category/ajax_fetch_sub_category", {pid:pid, id:id}, function(result){
+      if(result.success){
+        var html = '';
+        for(var i=0;i<result.data.length;i++){
+            var is_active = '';
+            if(result.data[i]['_id']==id){
+                is_active = 'active';
+            }
+ 
+          html += '<a class="ui mini app-category button '+ is_active +'" style="margin-bottom:2px;" data-value="'+ result.data[i]['_id'] +'">'+ result.data[i]['title'] +'</a>';
+        }
+        $('#app_category_box span').append(html);
+      }else{
+        alert(result.message);
+      }
+      
+    }, 'json');
+    
+  }
+
 
   </script>
 {% endblock %}
@@ -284,6 +308,59 @@
 			}
 		});
 	});
+
+
+	// 选择3C品类
+	$('body').on('click', '.pid-category.button', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+				
+			$('#app-pid-category').val('');
+          // 清空标签
+          $('#app_category_box span').html('');
+		}else{
+			$(this)
+				.siblings('.pid-category.button').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#app-pid-category').val(id);
+          // 加载该类别下的标签库
+          load_sub_category(id, '');
+		}
+		
+        return false;
+	});
+
+    // 选择分类标签
+  $('.app-category.button').livequery(function(){
+    $(this).click(function(){
+      var id = $(this).attr('data-value');
+      if ($(this).hasClass('active')){
+        $(this)
+          .removeClass('active');
+          
+        $('#app-product-category').val('');
+      }else{
+        $(this)
+          .siblings('.app-category.button').removeClass('active')
+          .end()
+          .addClass('active');
+        $('#app-product-category').val(id);
+      }
+      return false;
+    }); 
+  });
+
+  // 初始化3C分类
+  var current_pid_category_id = $('#app-pid-category').val();
+  var current_app_category_id = $('#app-product-category').val();
+  if(current_pid_category_id){
+    // 加载该类别下的子分类
+    load_sub_category(current_pid_category_id, current_app_category_id); 
+  }
+
 	
 	// 编辑sku项
 	$('.ui.edit.button').livequery(function(){
@@ -653,6 +730,26 @@
         <div class="field" id="category_tags_box">
           <input type="hidden" name="category_tags" value="{{ product.category_tags_s }}" id="product-category-tags" />
 				  	<label for="category_tags">分类标签：</label>
+            <span></span>
+        </div>
+
+      </div>
+
+
+<h3 class="ui dividing header"></h3>
+			<div class="grouped inline fields">
+        <div class="field">
+          <label>3C品类:</label>
+          <input type="hidden" name="pid" value="{{ product.pid }}" id="app-pid-category" />
+          {% category_list var:'category' istop:1 only_open:1 domain:14 current:product.pid %}
+          {% for cat in category.rows %}
+          <a class="ui {{ cat.active }} magenta pid-category button" style="margin-bottom:2px;" data-value="{{ cat._id }}">{{ cat.title }}</a>
+          {% endfor %}
+        </div>
+
+        <div class="field" id="app_category_box">
+          <input type="hidden" name="app_category_id" value="{{ product.app_category_id }}" id="app-product-category" />
+				  	<label for="app_category_id">分类标签：</label>
             <span></span>
         </div>
 
