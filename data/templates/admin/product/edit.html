@@ -761,6 +761,13 @@
 			<h3 class="ui stage header">高级设置</h3>
 			<div class="four fields">
 				<div class="inline field">
+				  	<label>是否3C品类：</label>
+					<div class="ui checkbox">
+			          	<input type="checkbox" name="is_app_category" {% if product.is_app_category %}checked="checked"{% endif %} />
+			          	<label>开启</label>
+			        </div>
+				</div>
+				<div class="inline field">
 				  	<label>是否试用：</label>
 					<div class="ui checkbox">
 			          	<input type="checkbox" name="trial" {% if product.trial %}checked="checked"{% endif %} />
