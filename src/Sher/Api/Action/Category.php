@@ -22,6 +22,7 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		$domain = isset($this->stash['domain'])?(int)$this->stash['domain']:1;
 		$show_all = isset($this->stash['show_all'])?(int)$this->stash['show_all']:0;
+		$show_sub = isset($this->stash['show_sub'])?(int)$this->stash['show_sub']:0;
 		$pid = isset($this->stash['pid'])?(int)$this->stash['pid']:0;
 		
 		$query   = array();
@@ -36,7 +37,11 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
         }
 
         if($pid){
-            $query['pid'] = $pid;
+            if($pid==-1){
+                $query['pid'] = 0;           
+            }else{
+                $query['pid'] = $pid;
+            }
         }
 		
         $options['page'] = $page;
@@ -51,6 +56,7 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
 		
         $options['some_fields'] = $some_fields;
 
+        $category_model = new Sher_Core_Model_Category();
         $service = Sher_Core_Service_Category::instance();
         $result = $service->get_category_list($query, $options);
 
@@ -70,6 +76,12 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
             $data[$i]['app_cover_url'] = $result['rows'][$i]['app_cover_url'];
             $data[$i]['app_cover_s_url'] = sprintf("%s-p325x200.jpg", $result['rows'][$i]['app_cover_url']);
           }
+          $sub_categories = array();
+          // 加载子类
+          if($show_sub){
+            $sub_categories = $category_model->find(array('pid'=>$data[$i]['_id'], 'is_open'=>1));
+          }
+          $data[$i]['sub_categories'] = $sub_categories;
 
           /**
           $scene_tags_arr = array();
