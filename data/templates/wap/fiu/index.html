@@ -445,7 +445,7 @@
     vertical-align: middle;
     margin: auto;
     padding-top: 10px;
-    text-align: center;
+    text-align: left;
 }
 .tag, .tagt {
     display: inline-block;
@@ -1627,11 +1627,17 @@ $(window).scroll(function(){
         $('.nth1,.nth2,.nth3,.nth4,.nth5,.nth6,.nth7,.nth8').removeClass('fadeInUp'); 
     }
 })
+$('.tagBall .tag').each( function (i) {
+    setTimeout(function () {
+        $(".tagBall .tag:eq("+i+")").remove();
+    }, i*2000);
+});
+
 {% endblock %}
 {% block layout_js %}
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script type="text/javascript" >
-    var m_name = 'Fiu浮游™ 你在发现 谁在惊呼？';
+    var m_name = 'Fiu浮游™  你在发现 谁在惊呼？';
     var img_url = '{{ app_url_packaged }}/images/fiu/wfiulogo.png';
     var link = '{{ app_url_wap }}/fiu';
     var desc_str = 'Fiu浮游™是一个致力于发现科技创新产品和分享美学生活方式的情境式图片社交平台。';
