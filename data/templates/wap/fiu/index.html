@@ -445,7 +445,7 @@
     vertical-align: middle;
     margin: auto;
     padding-top: 10px;
-    text-align: left;
+    text-align: center;
 }
 .tag, .tagt {
     display: inline-block;
@@ -1628,12 +1628,7 @@ $(window).scroll(function(){
     }
 })
 
-function removetag(){
-    for(i=0;i<$('.tagBallt .tag').length;i++){
-        console.log(i);
-    } 
-}
-$('.tagBall .tag').each( function (i) {
+/*$('.tagBall .tag').each( function (i) {
     var anileft = (-$(".tagBall .tag:eq("+i+")").width()-10)+'px';
     setTimeout(function () {
         $(".tagBall .tag:eq("+i+")").animate({marginLeft:anileft},1500);
@@ -1646,7 +1641,7 @@ setTimeout(function(){
            $('.tagBall').append('<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/'+i+'.jpg" width='+Math.round(Math.random()*(42-34)+34)+'">')
         }, i*2000);
     });
-},1000)
+},1000)*/
 
 {% endblock %}
 {% block layout_js %}
