@@ -445,7 +445,7 @@
     vertical-align: middle;
     margin: auto;
     padding-top: 10px;
-    text-align: left;
+    text-align: center;
 }
 .tag, .tagt {
     display: inline-block;
@@ -1627,11 +1627,24 @@ $(window).scroll(function(){
         $('.nth1,.nth2,.nth3,.nth4,.nth5,.nth6,.nth7,.nth8').removeClass('fadeInUp'); 
     }
 })
+
+function removetag(){
+    for(i=0;i<$('.tagBallt .tag').length;i++){
+        console.log(i);
+    } 
+}
 $('.tagBall .tag').each( function (i) {
     setTimeout(function () {
-        $(".tagBall .tag:eq("+i+")").remove();
+        $(".tagBall .tag:eq("+i+")").slideUp(1500);
     }, i*2000);
 });
+setTimeout(function(){
+    $('.tagBall .tag').each( function (i) {
+        setTimeout(function () {
+           $('.tagBall').append('<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/'+i+'.jpg" width='+Math.round(Math.random()*(42-32)+32)+'">')
+        }, i*2000);
+    });
+},6000)
 
 {% endblock %}
 {% block layout_js %}
