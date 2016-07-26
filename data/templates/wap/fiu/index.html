@@ -1634,8 +1634,10 @@ function removetag(){
     } 
 }
 $('.tagBall .tag').each( function (i) {
+    var anileft = (-$(".tagBall .tag:eq("+i+")").width()-10)+'px';
     setTimeout(function () {
-        $(".tagBall .tag:eq("+i+")").slideUp(1500);
+        $(".tagBall .tag:eq("+i+")").animate({marginLeft:anileft},1500);
+        //console.log(anileft);
     }, i*2000);
 });
 setTimeout(function(){
