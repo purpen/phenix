@@ -15,7 +15,7 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','home','twelve','comeon','games','clients');
+	protected $exclude_method_list = array('execute','home','twelve','comeon','games','clients','fiu');
 	
 	/**
 	 * 商城入口
@@ -53,6 +53,22 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 	 */
 	public function twelve(){
 		return $this->to_html_page('wap/publish.html');
+	}
+
+	/**
+	 * fiu
+	 */
+	public function fiu(){
+		$this->stash['page_title_suffix'] = 'Fiu浮游™';
+		//微信分享
+        $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+        $timestamp = $this->stash['timestamp'] = time();
+        $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+        $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+        $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+        $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+        $this->stash['wxSha1'] = sha1($wxOri);
+		return $this->to_html_page('wap/fiu/index.html');
 	}
 	
 	/**
