@@ -120,6 +120,10 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : null;
 		$stage = isset($this->stash['stage']) ? (int)$this->stash['stage'] : Sher_Core_Model_Product::STAGE_SHOP;
+
+        // 3C类ID
+		$pid = isset($this->stash['pid']) ? (int)$this->stash['pid'] : 0;
+		$app_category_id = isset($this->stash['app_category_id']) ? (int)$this->stash['app_category_id'] : 0;
 			
 		$query   = array();
 		$options = array();
@@ -134,6 +138,13 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
           $category_tag_arr = explode(',', $category_tags);
           $query['category_tags'] = array('$in'=>$category_tag_arr);
         }
+
+		if($pid){
+			$query['pid'] = $pid;
+		}
+		if($app_category_id){
+			$query['app_category_id'] = $app_category_id;
+		}
 
         // 品牌
         if($brand_id){
