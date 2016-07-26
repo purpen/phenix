@@ -1443,24 +1443,104 @@
 }
 .nth1{
     margin-top: -10%;
+    opacity: 0;
+}
+.nth1.fadeInUp{
+    animation-delay:0.3s;
+    -webkit-animation-delay:0.3s;
 }
 .nth2{
     margin-top: -25%;
+   opacity: 0;
+}
+.nth2.fadeInUp{
+    animation-delay:0.6s;
+    -webkit-animation-delay:0.6s;
+}
+.nth3{
+       opacity: 0;
+}
+.nth3.fadeInUp{
+    animation-delay:0.9s;
+    -webkit-animation-delay:0.9s;
 }
 .nth4{
     margin-top: -15%;
+    opacity: 0;
+}
+.nth4.fadeInUp{
+    animation-delay:1.2s;
+    -webkit-animation-delay:1.2s;
 }
 .nth5{
     margin-top: -15%;
+    opacity: 0;
+}
+.nth5.fadeInUp{
+    animation-delay:1.5s;
+    -webkit-animation-delay:1.5s;
 }
 .nth6{
     margin-top: -23%;
+    opacity: 0;
+}
+.nth6.fadeInUp{
+    animation-delay:1.8s;
+    -webkit-animation-delay:1.8s;
 }
 .nth7{
-    margin-top: -3%;
+    margin-top: -3%;   
+    opacity: 0;
+}
+.nth7.fadeInUp{
+    animation-delay:2.1s;
+    -webkit-animation-delay:2.1s;
 }
 .nth8{
-    margin-top: -19%;
+    margin-top: -19%;   
+    opacity: 0;
+}
+.nth8.fadeInUp{
+    animation-delay:2.4s;
+    -webkit-animation-delay:2.4s;
+}
+@-webkit-keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(0,20%,0);
+        transform: translate3d(0,20%,0)
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        -webkit-transform: translate3d(0,20%,0);
+        -ms-transform: translate3d(0,20%,0);
+        transform: translate3d(0,20%,0)
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: none;
+        -ms-transform: none;
+        transform: none
+    }
+}
+
+.fadeInUp {
+    -webkit-animation-name: fadeInUp;
+    animation-name: fadeInUp;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
 }
 </style>
 {% endblock %}
@@ -1536,15 +1616,85 @@ $(window).scroll(function(){
     if(scrollTop < $('#mfrbird').height()-$('body').height()-80){
         $('.apploadfiu').fadeIn();
     }
+    if(scrollTop > $('.blackg').offset().top){
+        $('.nth1,.nth2,.nth3,.nth4,.nth5,.nth6,.nth7,.nth8').addClass('fadeInUp');
+    }
+    if(scrollTop < $('.p2title.def').offset().top || scrollTop > $('.row.abc').offset().top){
+        $('.nth1,.nth2,.nth3,.nth4,.nth5,.nth6,.nth7,.nth8').removeClass('fadeInUp'); 
+    }
 })
 {% endblock %}
+{% block layout_js %}
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" >
+    var m_name = 'Fiu浮游™';
+    var img_url = '{{ app_url_packaged }}/images/fiuwfiulogo.png';
+    var link = '{{ app_url_wap_index }}/fiu';
+    var desc_str = 'Fiu浮游™是一个致力于发现科技创新产品和分享美学生活方式的情境式图片社交平台。';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+
+  wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+</script>
+{% endblock%}
 {% block content %}
 <div class="fiu">
 	<section class="topf">
 		<div class="sbg">
 			<div class="video-container">
 				<video width="100%" height="100%" preload="auto" autoplay="true" loop controls="controls" webkit-playsinline > <!--preload="auto" autoplay="true" controls="controls" -->
-					<source type="video/mp4" src="{{ app_url_packaged }}/images/fiu/video3.mp4">
+					<source type="video/mp4" src="{{ app_url_packaged }}/images/fiu/video.mp4">
 				</video>
 			</div>
 		</div>
@@ -1555,7 +1705,7 @@ $(window).scroll(function(){
 					<p class="p1title mt-3r mb-2r">
                         Fiu浮游™是一个致力于发现科技创新产品和分享美学生活方式的情境式图片社交平台。Fiu浮游™通过大千世界碎片美的场景大片重构，为新中产的生活方式带来全新的诗意体验。
                     </p>
-					<p class="p2title mt-2r mb-r">
+					<p class="p2title mt-2r mb-r def">
                         在Fiu浮游™，你可以用文字来记录内心情绪，用滤镜来表达情感色彩，用分享去变现原创价值，并通过基于LBS的场景化购物服务可随手拥抱独特好货。Fiu浮游™有一千万种创新的方式让你放肆鲜活的情境。
                     </p>
 					<p class="p2title mtb-2">
