@@ -8,7 +8,7 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
   protected $collection = "attend";
 
   protected $required_fields = array('user_id', 'target_id');
-  protected $int_fields = array('user_id', 'event');
+  protected $int_fields = array('user_id', 'event', 'category_id');
 	
 	# Event: 活动报名
   const EVENT_ACTIVE = 1;
@@ -19,15 +19,21 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
 
   # 专题
   const EVENT_SUBJECT = 5;
+  # app商城风格显示
+  const EVENT_APP_STORE_INDEX = 6;
 	
   protected $schema = array(
     'user_id' => null,
     # 如果是专题：1. 云马C1PK; 2. 试用抽奖; 3. 兑吧抽奖送红包 4. 火眼项目入住 5.奶爸妈PK 6.兑吧3 7.文利 8.--
     'target_id' => null,
+    # 父分类
+    'pid' => 0,
+    # 分类
+    'category_id' => 0,
     # 活动报名人数，抽奖次数 
     'ticket' => 1,
     'event'  => self::EVENT_ACTIVE,
-    # 子ID, 用于专题PK论战 1.正方;2.反方；所属试用ＩＤ
+    # 子ID, 用于专题PK论战 1.正方;2.反方；所属试用ＩＤ; 用于商城app首页类型展示：1.商品；2.专题；3.--；4.--
     'cid' => 0,
     'state' => 1,
     # 活动报名信息

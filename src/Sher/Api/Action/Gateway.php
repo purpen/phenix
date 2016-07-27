@@ -72,7 +72,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 		// 分页参数
         $options['page'] = $page;
         $options['size'] = $size;
-		$options['sort_field'] = 'latest';
+		$options['sort_field'] = 'ordby';
 		
         $service = Sher_Core_Service_Advertise::instance();
         $result = $service->get_ad_list($query,$options);

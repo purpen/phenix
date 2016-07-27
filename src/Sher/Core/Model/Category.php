@@ -133,6 +133,10 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 			'id' => Sher_Core_Util_Constant::TYPE_3C,
 			'name' => '3C',
 		),
+		array(
+			'id' => Sher_Core_Util_Constant::TYPE_CUSTOM,
+			'name' => '自定义',
+		),
 	);
 	
     protected $int_fields = array('gid','pid','order_by','domain','is_open','total_count','state','reply_count','sub_count','tag_id','stick');
