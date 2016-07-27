@@ -65,6 +65,9 @@ app.scene_sight.category_id: 184
 # 周年庆送红包活动(包括注册,邀请送红包) 开关
 app.anniversary2015.switch: 1
 
+# App商城首页推荐分类
+app.default_app_store_stick.category_id: 229
+
 # 十万火计
 app.topic.dream_category_id: 9
 

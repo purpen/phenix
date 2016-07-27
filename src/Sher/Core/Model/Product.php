@@ -48,6 +48,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		# 封面图
 		'cover_id' => '',
+        # Banner_id
+        'banner_id' => '',
 		'asset' => array(),
 		# 附件图片数
 		'asset_count' => 0,
@@ -736,6 +738,28 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			$row['score']['content_int'] = $this->explode_point($row['score']['content'], 0);
 			$row['score']['content_dec'] = $this->explode_point($row['score']['content'], 1);
 		}
+	}
+
+	/**
+	 * 获取Banner图
+	 */
+	public function banner(&$row){
+		// 已设置封面图
+		if(isset($row['banner_id']) && !empty($row['banner_id'])){
+			$asset_model = new Sher_Core_Model_Asset();
+			return $asset_model->extend_load($row['banner_id']);
+		}
+		// 未设置Banner图，获取第一个
+		$asset = new Sher_Core_Model_Asset();
+		$query = array(
+			'parent_id'  => (int)$row['_id'],
+			'asset_type' => Sher_Core_Model_Asset::TYPE_PRODUCT_BANNER,
+		);
+		$data = $asset->first($query);
+		if(!empty($data)){
+			return $asset->extended_model_row($data);
+		}
+        return null;
 	}
 	
 	/**

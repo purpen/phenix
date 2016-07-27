@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'comments', 'fetch_relation_product', 'product_category_stick', 'search', 'snatched_list');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'comments', 'fetch_relation_product', 'product_category_stick', 'search', 'snatched_list', 'index_category_list', 'index_stick_list');
 
 	/**
 	 * 入口
@@ -781,6 +781,147 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
+
+
+    /**
+     * 首页推荐分类
+     */
+    public function index_category_list(){
+
+		$domain = 50;
+		$pid = Doggy_Config::$vars['app.default_app_store_stick.category_id'];
+		
+		$query   = array();
+		$options = array();
+		
+		$query['domain'] = $domain;
+		$query['is_open'] = Sher_Core_Model_Category::IS_OPENED;
+
+        if($pid){
+            if($pid==-1){
+                $query['pid'] = 0;           
+            }else{
+                $query['pid'] = $pid;
+            }
+        }
+		
+        $options['page'] = 1;
+        $options['size'] = 15;
+        $options['sort_field'] = 'orby';
+
+        $some_fields = array(
+          '_id'=>1, 'title'=>1, 'name'=>1, 'pid'=>1, 'order_by'=>1,
+          'domain'=>1, 'is_open'=>1, 'total_count'=>1, 'state'=>1,
+        );
+		
+        $options['some_fields'] = $some_fields;
+
+        $category_model = new Sher_Core_Model_Category();
+        $service = Sher_Core_Service_Category::instance();
+        $result = $service->get_category_list($query, $options);
+
+        // 过滤多余属性
+        $filter_fields = array('view_url', 'state', 'is_open', '__extend__');
+        $data = array();
+        for($i=0;$i<count($result['rows']);$i++){
+          foreach($options['some_fields'] as $key=>$value){
+            $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
+          }
+
+        }
+
+		$result['rows'] = $data;
+        $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+
+		return $this->api_json('请求成功', 0, $result);
+    }
+
+    /**
+     * 首页分类下列表
+     */
+    public function index_stick_list(){
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
+		$sort = isset($this->stash['sort'])?(int)$this->stash['sort']:0;
+        $category_id = isset($this->stash['category_id'])?(int)$this->stash['category_id']:0;
+
+        if(empty($category_id)){
+            return $this->api_json('缺少请求参数!', 3001);       
+        }
+
+		$some_fields = array(
+			'_id'=>1, 'cid'=>1, 'category_id'=>1, 'event'=>1, 'pid'=>1, 'state'=>1, 'target_id'=>1,
+		);
+		
+		$query   = array();
+		$options = array();
+
+        $query['event'] = Sher_Core_Model_Attend::EVENT_APP_STORE_INDEX;
+        $query['category_id'] = $category_id;
+        $query['state'] = 1;
+
+		// 分页参数
+        $options['page'] = $page;
+        $options['size'] = $size;
+
+		// 排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+		}
+		
+		$options['some_fields'] = $some_fields;
+
+		// 开启查询
+        $service = Sher_Core_Service_Attend::instance();
+        $result = $service->get_attend_list($query, $options);
+
+        $product_model = new Sher_Core_Model_Product();
+        $subject_model = new Sher_Core_Model_SpecialSubject();
+
+		// 重建数据结果
+		$data = array();
+		for($i=0;$i<count($result['rows']);$i++){
+			foreach($options['some_fields'] as $key=>$value){
+                $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
+		    }
+            $data[$i]['_id'] = (string)$data[$i]['_id'];
+
+            $data[$i]['product'] = array();
+            $data[$i]['subject'] = array();
+            
+            if($data[$i]['cid']==1){    // 商品
+                $product = $product_model->extend_load((int)$data[$i]['target_id']);
+                if($product){
+                    $data[$i]['product']['title'] = $product['short_title'];
+                    $data[$i]['product']['sale_price'] = $product['sale_price'];
+
+                    if($product_model->banner($product)){
+                        $banner_asset = $product_model->banner($product);
+                        $banner_url = $banner_asset['thumbnails']['aub']['view_url'];
+                        $data[$i]['product']['banner_url'] = $banner_url;
+                    }else{
+                        $data[$i]['product']['banner_url'] = null;
+                    }
+                }
+
+            }elseif($data[$i]['cid']==2){   // 专题
+                $subject = $subject_model->extend_load((int)$data[$i]['target_id']);
+                if($subject){
+                    $data[$i]['subject']['title'] = $subject['title'];
+                    $data[$i]['subject']['banner_url'] = $subject['cover']['thumbnails']['aub']['view_url'];
+                }
+            
+            }else{  // 其它
+            
+            }
+
+		}
+		$result['rows'] = $data;
+        
+		return $this->api_json('请求成功', 0, $result);
+    }
 	
 
 }

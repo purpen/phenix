@@ -1,0 +1,112 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">App商城推荐管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/attend" class="active item">
+			全部
+		</a>
+
+	  	<div class="right menu">
+			
+			<a href="{{ app_url_admin_base }}/attend/submit" class="item">
+				<i class="add icon"></i>新增
+			</a>
+			
+			<a href="{{ app_url_admin }}/attend/deleted" class="item ajax-delete">
+				批量删除
+			</a>
+	    </div>
+
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>用户</th>
+				<th>关联ID</th>
+                <th>分类</th>
+        <th>类型</th>
+        <th>时间</th>
+        <th>状态</th>
+        <th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% attend_list var:'list' target_id:target_id type:1 event:event page:page size:size %}
+
+			{% for f in list.rows %}
+        
+          <tr id="{{ f._id }}">
+            <td>
+              <div class="ui checkbox">
+                  <input name="ids" type="checkbox" value="{{ f._id }}" class="checkbox" />
+                  <label></label>
+              </div>
+            </td>
+            <td>
+              {% if f.user %}
+              <a class="ui image label link" href="{{ f.user.home_url }}" target="_blank">
+                  <img src="{{ f.user.mini_avatar_url }}">
+                  {{ f.user.nickname }}
+              </a>
+              {%else%}
+                游客
+              {%endif%}
+            </td>
+            <td>
+                {{ f.target_id }}
+            </td>
+            <td>{{ f.category_id }}</td>
+
+            <td>
+                {{ f.cid_label }}
+            </td>
+            <td>{{ f.created_on|date 'Y-m-d' }}</td>
+            <td>
+                {% if f.state == 1 %}
+                <label class="ui green label" id="status-{{ f._id }}-label">启用</label>
+                {%else%}
+                <label class="ui orange label" id="status-{{ f._id }}-label">关闭</label>
+                {% endif %}
+
+            </td>
+            <td>
+              <!--
+			          <a href="{{ app_url_admin }}/attend/ajax_state?id={{ f._id }}&state=1" class="ui ajax link item">
+							通过
+						</a> | 
+			          <a href="{{ app_url_admin }}/attend/ajax_state?id={{ f._id }}&state=0" class="ui ajax link item">
+							拒绝
+						</a> | 
+            -->
+						<a href="{{ app_url_admin }}/attend/submit?id={{ f._id }}" class="ui link">编辑</a>
+						<a href="{{ app_url_admin }}/attend/deleted?id={{ f._id }}" class="ui confirm-request link">删除</a>
+            </td>
+          </tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+{% endblock %}

@@ -50,31 +50,74 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
 	 */
     protected function extra_extend_model_row(&$row) {
 
+        $row['cid_label'] = '';
+        if($row['event']==self::EVENT_APP_STORE_INDEX){
+            switch($row['cid']){
+                case 1:
+                    $row['cid_label'] = '商品';
+                    break;
+                case 2:
+                    $row['cid_label'] = '专题';
+                    break;
+                case 3:
+                    $row['cid_label'] = '--';
+                    break;
+                default:
+                    $row['cid_label'] = '--';
+            }
+        }
+
     }
+
+	/**
+	 * 保存之前,处理标签中的逗号,空格等
+	 */
+	protected function before_save(&$data) {
+		
+		// 获取父级类及类组
+		if (isset($data['category_id'])){
+			$category = new Sher_Core_Model_Category();
+			$result = $category->find_by_id((int)$data['category_id']);
+			if (empty($result)){
+				//throw new Sher_Core_Model_Exception('所选分类出错！');
+			}
+			$data['pid'] = $result['pid'];
+		}
+		
+	    parent::before_save($data);
+	}
 	
 	/**
 	 * 报名成功后，更新对象数量
 	 */
 	protected function after_save() {
-    //如果是新的记录
-    if($this->insert_mode) {
+        //如果是新的记录
+        if($this->insert_mode) {
 
-      if ($this->data['event'] == self::EVENT_ACTIVE){
-        $active = new Sher_Core_Model_Active();
-        $active->inc_counter('signup_count', 1, (int)$this->data['target_id']);
-        unset($active);
-      }
-      if ($this->data['event'] == self::EVENT_APPLY){
-        $apply = new Sher_Core_Model_Apply();
-        $apply->inc_counter('vote_count', 1, $this->data['target_id']);
-        unset($apply);
-      }
-      if ($this->data['event'] == self::EVENT_TRY_WANT){
-        $try = new Sher_Core_Model_Try();
-        $try->increase_counter('want_count', 1, (int)$this->data['target_id']);
-        unset($try);
-      }
-    }
+          if ($this->data['event'] == self::EVENT_ACTIVE){
+            $active = new Sher_Core_Model_Active();
+            $active->inc_counter('signup_count', 1, (int)$this->data['target_id']);
+            unset($active);
+          }
+          if ($this->data['event'] == self::EVENT_APPLY){
+            $apply = new Sher_Core_Model_Apply();
+            $apply->inc_counter('vote_count', 1, $this->data['target_id']);
+            unset($apply);
+          }
+          if ($this->data['event'] == self::EVENT_TRY_WANT){
+            $try = new Sher_Core_Model_Try();
+            $try->increase_counter('want_count', 1, (int)$this->data['target_id']);
+            unset($try);
+          }
+
+            $model = new Sher_Core_Model_Category();
+            if (!empty($this->data['category_id'])) {
+                $model->inc_counter('total_count', 1, $this->data['category_id']);
+            }
+            
+        }
+
+		parent::after_save();
 	}
 	
 	/**

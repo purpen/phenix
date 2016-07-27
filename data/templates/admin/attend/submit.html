@@ -1,0 +1,213 @@
+{%extends 'layout/admin.html'%}
+{% block title %}新增/编辑-{% endblock %}
+
+{% block page_css %}
+	<style type="text/css">
+		.list-me{
+			margin: 10px 0 10px 0 !important;
+			padding: 0;
+			list-style: none;
+			clear: both;
+		}
+		
+		.list-me li{
+			margin-right: 5px;
+			float: left;
+		}
+		
+		.map-box-btn{
+			width:34px;
+			height:34px;
+			background:url({{ app_url_packaged }}/images/active_map.png) no-repeat;
+			cursor: pointer;
+			position: relative;
+			float: right;
+			top: -34px;
+			right: 2px;
+		}
+		
+		.tags{
+			margin: 10px 0;
+		}
+		
+		.tags_title{
+			margin: 10px 0;
+		}
+		
+		.tags_content{
+			margin: 5px 0;
+		}
+		
+		.scene_tags{
+			margin: 0 5px 5px 0 !important;
+		}
+		h3.ui.dashed.header{
+		    border-bottom: 2px dashed rgba(0,0,0,0.4);
+		    padding-bottom: 10px;
+		    margin-bottom: 10px;
+		}
+		.tags_content .ui.green.label{
+			background-color:rgba(200,200,200,0.1) !important;
+		    border: 1px solid #c1c1c1 !important;
+		    color: #666!important;
+		    font-size: 14px;
+		    margin: 8px 12px 8px 0 !important;
+		}
+		.tags_content .ui.green.label.purple,.tags_content .ui.green.label:hover,.tags_content .ui.green.label.purple:hover{
+			background-color: #fff !important;
+		    border: 1px solid #f36 !important;
+		    color: #f36 !important;
+		}
+	</style>
+{% endblock %}
+
+{% block layout_js %}
+
+<script>
+
+</script>
+{% endblock %}
+
+{% block jquery %}
+	
+	// 表单验证
+	$('#attend-form').form({
+		target_id: {
+			identifier  : 'target_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : 'ID不能为空'
+				}
+			]
+		}
+
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					// 点击前触发的事件
+					phenix.before_submit();
+				},
+				success: function(data){
+					// 点击后触发的事件
+					phenix.after_submit();
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, 3000);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+
+	// 选择分类
+	$('body').on('click', '.category.button', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+				
+			$('#category').val('');
+ 
+		}else{
+			$(this)
+				.siblings('.category.button').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#category').val(id);
+
+		}
+		
+        return false;
+	});
+
+{% endblock %}
+
+{% block content %}
+<div class="admin">
+	
+	<h3 class="ui header">App商品推荐管理</h3>
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/attend" class="item">
+			全部
+		</a>
+	  	<div class="right menu">	
+			<a href="{{ app_url_admin_base }}/attend/submit" class="item">
+				<i class="add icon"></i>新增
+			</a>
+
+	    </div>
+	</div>	
+	
+	<form action="{{ app_url_admin_base }}/attend/save" class="ui form" method="post" id="attend-form">
+		<!-- 隐藏表单 -->
+		<input type="hidden" name="id" value="{{ attend._id }}" />
+		<input type="hidden" name="event" value="6" />
+
+		<div class="ui segment">
+			<h3 class="ui dividing header">分类</h3>
+			<div class="grouped inline fields">
+        <div class="field">
+          <label>分类:</label>
+          <input type="hidden" name="category_id" value="{{ attend.category_id }}" id="category" />
+          {% category_list var:'category' only_open:1 domain:50 pid:fid current:attend.category_id %}
+          {% for cat in category.rows %}
+          <a class="ui {{ cat.active }} magenta category button" style="margin-bottom:2px;" data-tags="{{ cat.tags_s }}" data-value="{{ cat._id }}">{{ cat.title }}</a>
+          {% endfor %}
+        </div>
+
+      </div>
+		
+		<div class="ui segment from">
+
+            <h4 class="ui stage header">类型:</h4>
+            <div class="grouped inline fields">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" name="cid" value="1" {% if attend.cid == 1 %}checked="checked"{% endif %} /> 
+                  <label>商品</label>
+                </div>
+                <div class="ui radio checkbox">
+                  <input type="radio" name="cid" value="2" {% if attend.cid == 2 %}checked="checked"{% endif %} /> 
+                  <label>专题</label>
+                </div>
+                <div class="ui radio checkbox">
+                  <input type="radio" name="cid" value="3" {% if attend.cid == 3 %}checked="checked"{% endif %} /> 
+                  <label>--</label>
+                </div>
+              </div>
+            </div>
+
+			<div class="five fields">
+				<div class="field">
+				  	<label for="target_id">原文ID：</label>
+					<input type="text" name="target_id" value="{{ attend.target_id }}" placeholder="商品或专题ID" />
+				</div>
+				<div class="field">
+				  	<label for="oid">:</label>
+    				<div class="field ui button" id="auto_item_btn">检测</div>
+            <div class="description" style="margin-top:-10px;">自动检测所属对象是否存在</div>
+				</div>
+
+			</div>
+			
+			<div class="ui right aligned grid">
+				<div class="column">
+                    <div class="ui inverted grey button cancel">
+						点击取消
+					</div>
+					<div class="ui magenta inverted button submit save">
+						确认提交
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+{% endblock %}
