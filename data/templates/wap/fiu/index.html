@@ -1195,7 +1195,7 @@
     transform: translate3d(0,-50%,0)
 }
 
-.apploadfiu #apploadfiu,.apploadfiu #apploadandfiu {
+#apploadfiu, #apploadandfiu {
     position: fixed;
     width: 100%;
     height: 100%;
@@ -1205,7 +1205,7 @@
     background: rgba(0,0,0,.9)
 }
 
-.apploadfiu #apploadfiu img,.apploadfiu #apploadandfiu img {
+#apploadfiu img,#apploadandfiu img {
     width: 80%;
     margin: 10% 5% 10% 15%
 }
@@ -1678,7 +1678,7 @@ $('#slider').flexslider({
     slideshowSpeed: 3000,
     sync: "#carousel"
 });
-$('.ui.wap').before('<div class="apploadfiu"><img class="logo" src="{{ app_url_packaged }}/images/fiu/wfiulogo.png"><div class="content"><h4 class="ui header">Fiu浮游™<div class="sub header">科技美学情境式分享社区</div></h4></div><div class="ui active inverted tiny button"> 下载APP </div><div class="apploadclose"><img src="{{ app_url_packaged }}/images/icon/close.png" width="12px" height="12px"></div><div id="apploadfiu"><img src="{{ app_url_packaged }}/images/icon/appshare.png" width="80%"></div><div id="apploadandfiu"><img src="{{ app_url_packaged }}/images/icon/appshareand.png" width="80%"></div>');
+$('.ui.wap').before('<div class="apploadfiu"><img class="logo" src="{{ app_url_packaged }}/images/fiu/wfiulogo.png"><div class="content"><h4 class="ui header">Fiu浮游™<div class="sub header">科技美学情境式分享社区</div></h4></div><div class="ui active inverted tiny button"> 下载APP </div><div class="apploadclose"><img src="{{ app_url_packaged }}/images/icon/close.png" width="12px" height="12px"></div></div><div id="apploadfiu"><img src="{{ app_url_packaged }}/images/icon/appshare.png" width="80%"></div><div id="apploadandfiu"><img src="{{ app_url_packaged }}/images/icon/appshareand.png" width="80%"></div>');
 $('.apploadclose').on('click',function(){
     $('.apploadfiu').fadeOut();
     $('.apploadfiu').remove();
