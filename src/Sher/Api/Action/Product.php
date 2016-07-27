@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'comments', 'fetch_relation_product', 'product_category_stick', 'search', 'snatched_list');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'comments', 'fetch_relation_product', 'product_category_stick', 'search', 'snatched_list', 'index_category_list');
 
 	/**
 	 * 入口
@@ -781,6 +781,60 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
+
+
+    /**
+     * 首页分类列表
+     */
+    public function index_category_list(){
+
+		$domain = 50;
+		$pid = Doggy_Config::$vars['app.default_app_store_stick.category_id'];
+		
+		$query   = array();
+		$options = array();
+		
+		$query['domain'] = $domain;
+		$query['is_open'] = Sher_Core_Model_Category::IS_OPENED;
+
+        if($pid){
+            if($pid==-1){
+                $query['pid'] = 0;           
+            }else{
+                $query['pid'] = $pid;
+            }
+        }
+		
+        $options['page'] = 1;
+        $options['size'] = 15;
+        $options['sort_field'] = 'orby';
+
+        $some_fields = array(
+          '_id'=>1, 'title'=>1, 'name'=>1, 'pid'=>1, 'order_by'=>1,
+          'domain'=>1, 'is_open'=>1, 'total_count'=>1, 'state'=>1,
+        );
+		
+        $options['some_fields'] = $some_fields;
+
+        $category_model = new Sher_Core_Model_Category();
+        $service = Sher_Core_Service_Category::instance();
+        $result = $service->get_category_list($query, $options);
+
+        // 过滤多余属性
+        $filter_fields = array('view_url', 'state', 'is_open', '__extend__');
+        $data = array();
+        for($i=0;$i<count($result['rows']);$i++){
+          foreach($options['some_fields'] as $key=>$value){
+            $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
+          }
+
+        }
+
+		$result['rows'] = $data;
+        $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+
+		return $this->api_json('请求成功', 0, $result);
+    }
 	
 
 }
