@@ -182,7 +182,7 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
 		//echo "sha256SourceSignString=".htmlspecialchars($sha256SourceSignString)."<br/>";
 		if($decryptStr!=$sha256SourceSignString){
 		    // 验证失败
-			return $this->show_message_page('验证签名失败1!', true);
+			return $this->show_message_page('验证签名失败!', true);
 		}else{
             if($param["status"]==0){
                 // 商户订单号
