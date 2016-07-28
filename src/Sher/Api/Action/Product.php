@@ -888,29 +888,34 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		    }
             $data[$i]['_id'] = (string)$data[$i]['_id'];
 
-            $data[$i]['product'] = array();
-            $data[$i]['subject'] = array();
+            $data[$i]['item'] = array();
             
             if($data[$i]['cid']==1){    // 商品
                 $product = $product_model->extend_load((int)$data[$i]['target_id']);
                 if($product){
-                    $data[$i]['product']['title'] = $product['short_title'];
-                    $data[$i]['product']['sale_price'] = $product['sale_price'];
+                    $data[$i]['item']['title'] = $product['short_title'];
+                    $data[$i]['item']['sale_price'] = $product['sale_price'];
+                    $data[$i]['item']['content'] = $product['advantage'];
+                    $data[$i]['item']['love_count'] = $product['love_count'];
+                    $data[$i]['item']['comment_count'] = $product['comment_count'];
 
                     if($product_model->banner($product)){
                         $banner_asset = $product_model->banner($product);
                         $banner_url = $banner_asset['thumbnails']['aub']['view_url'];
-                        $data[$i]['product']['banner_url'] = $banner_url;
+                        $data[$i]['item']['banner_url'] = $banner_url;
                     }else{
-                        $data[$i]['product']['banner_url'] = null;
+                        $data[$i]['item']['banner_url'] = null;
                     }
                 }
 
             }elseif($data[$i]['cid']==2){   // 专题
                 $subject = $subject_model->extend_load((int)$data[$i]['target_id']);
                 if($subject){
-                    $data[$i]['subject']['title'] = $subject['title'];
-                    $data[$i]['subject']['banner_url'] = $subject['cover']['thumbnails']['aub']['view_url'];
+                    $data[$i]['item']['title'] = $subject['title'];
+                    $data[$i]['item']['banner_url'] = $subject['cover']['thumbnails']['aub']['view_url'];
+                    $data[$i]['item']['content'] = $subject['content'];
+                    $data[$i]['item']['love_count'] = $subject['love_count'];
+                    $data[$i]['item']['comment_count'] = $subject['comment_count'];
                 }
             
             }else{  // 其它
