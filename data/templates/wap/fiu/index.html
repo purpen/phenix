@@ -1693,9 +1693,9 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)){
     if(ua.match(/MicroMessenger/i)=="micromessenger"){
 
         $('#apploadfiu').css('display','block');
-        //window.location='http://a.app.qq.com/o/simple.jsp?pkgname=com.xf.taihuoniao.app.mytaihuoniao';
+        //window.location='http://a.app.qq.com/o/simple.jsp?pkgname=com.taihuoniao.fineix';
     }else{
-        window.location='https://itunes.apple.com/cn/app/tai-huo-niao-huo-bao-zhi-neng/id946737402?mt=8';
+        window.location='https://itunes.apple.com/us/app/fiu-fu-you-ke-ji-mei-xue-qing/id1089442815?mt=8';
     }
     });
 }else if (navigator.userAgent.match(/android/i)){
@@ -1703,10 +1703,10 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)){
     $('.apploadfiu .tiny.inverted.button').click(function(){
     var ua = navigator.userAgent.toLowerCase();  
     if(ua.match(/MicroMessenger/i)=="micromessenger"){
-        $('#apploadandfiu').css('display','block');
-        //window.location='http://m.taihuoniao.com/promo/android_download';
+        //$('#apploadandfiu').css('display','block');
+        window.location='http://a.app.qq.com/o/simple.jsp?pkgname=com.taihuoniao.fineix';
     }else{
-        window.location='http://m.taihuoniao.com/promo/android_download';
+        window.location='http://a.app.qq.com/o/simple.jsp?pkgname=com.taihuoniao.fineix';
     }
     });
 };
@@ -2148,6 +2148,11 @@ setTimeout(function(){
             <div class="row">
                 <div class="ui center aligned column pt-2r">
                     <img src="{{ app_url_packaged }}/images/fiu/gzh.jpg" width="60" align="absmiddle">
+                    <p class="p2title pt-2r">APP下载</p>
+                </div>
+            </div>
+            <div class="row pt-0">
+                <div class="ui center aligned column pt-r">
                     <p class="p2title ptb-2r">WeChat：Fiu浮游<br/>Weibo：Fiu浮游<br/>Email：fiu@taihuoniao.com<br/>Web：taihuoniao.com/fiu</p>
                     <img src="{{ app_url_packaged }}/images/fiu/logothn.png" width="60" align="absmiddle">
                     <p class="p2title ptb-2r">太火鸟科技｜出品<br>
