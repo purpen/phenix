@@ -113,6 +113,7 @@ class Sher_Wap_Action_Jdpay extends Sher_Wap_Action_Base implements DoggyX_Actio
 	public function secrete_notify(){
 		Doggy_Log_Helper::warn("Jdpay secrete notify updated!");
 
+
         $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
 		$resdata;
 		$falg = Sher_Core_Util_JdPay_XMLUtil::decryptResXml($xml, $resdata);
