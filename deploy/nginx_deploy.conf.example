@@ -196,6 +196,11 @@ server {
         rewrite ^/d3in/(.*)$ /app/wap/d3in/$1 last;
     }
 
+        location /fiu {
+            rewrite ^/fiu[/]?$ /app/wap/index/fiu last;
+            rewrite ^/fiu/(.*)$ /app/wap/index/fiu/$1 last;
+        }
+
     location /special_subject {
         rewrite ^/special_subject[/]?$ /app/wap/special_subject last;
         rewrite ^/special_subject/(.*)$ /app/wap/special_subject/$1 last;
@@ -278,6 +283,11 @@ server {
         location /d3in {
             rewrite ^/d3in[/]?$ /app/site/d3in last;
 			rewrite ^/d3in/(.*)$ /app/site/d3in/$1 last;
+        }
+
+        location /fiu {
+            rewrite ^/fiu[/]?$ /app/site/index/fiu last;
+            rewrite ^/fiu/(.*)$ /app/site/index/fiu/$1 last;
         }
 		
         location /dream {
