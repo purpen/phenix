@@ -913,7 +913,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
                 if($subject){
                     $data[$i]['item']['title'] = $subject['title'];
                     $data[$i]['item']['banner_url'] = $subject['cover']['thumbnails']['aub']['view_url'];
-                    $data[$i]['item']['content'] = $subject['content'];
+                    $data[$i]['item']['content'] = $subject['summary'];
                     $data[$i]['item']['love_count'] = $subject['love_count'];
                     $data[$i]['item']['comment_count'] = $subject['comment_count'];
                 }
