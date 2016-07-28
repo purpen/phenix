@@ -180,7 +180,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		
 		$some_fields = array(
-			'_id'=>1, 'user_id'=>1, 'target_id'=>1, 'type'=>1, 'event'=>1,
+			'_id'=>1, 'user_id'=>1, 'target_id'=>1, 'type'=>1, 'event'=>1, 'created_on'=>1,
 		);
 		
 		$query   = array();
