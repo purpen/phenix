@@ -1643,6 +1643,12 @@ h3.color-be {
 	--webkit-animation-delay: 4.6s;
 	animation-delay: 4.6s;
 }
+#carousel .slides>li.flex-active-slide {
+    opacity: 1;
+}
+#carousel .slides>li {
+    opacity: 0.5;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -1651,7 +1657,7 @@ h3.color-be {
 	    controlNav: false,
 	    animationLoop: false,
 	    slideshow: false,
-	    itemWidth: 290,
+	    itemWidth: ($('.slidebox').width()-30)/4,
 	    itemMargin: 0,
 	    asNavFor: '#slider'
 	});

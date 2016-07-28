@@ -439,7 +439,7 @@
     margin-bottom: 6px;
 }
 .tagBall, .tagBallt {
-    height: 155px;
+    //height: 155px;
     position: relative;
     overflow: hidden;
     vertical-align: middle;
@@ -1195,7 +1195,7 @@
     transform: translate3d(0,-50%,0)
 }
 
-.apploadfiu #apploadfiu,.apploadfiu #apploadandfiu {
+#apploadfiu, #apploadandfiu {
     position: fixed;
     width: 100%;
     height: 100%;
@@ -1205,7 +1205,7 @@
     background: rgba(0,0,0,.9)
 }
 
-.apploadfiu #apploadfiu img,.apploadfiu #apploadandfiu img {
+#apploadfiu img,#apploadandfiu img {
     width: 80%;
     margin: 10% 5% 10% 15%
 }
@@ -1546,6 +1546,117 @@
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
+.peimg{
+    position:relative;
+}
+.peimg .imgp{
+    position:absolute;
+    top: 0;
+    left: 0;
+}
+.tagBall img,.tagBallt img{
+    opacity: 0;
+}
+.active img{
+    -webkit-animation-name:bounceIn;
+    animation-name: bounceIn;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+.active .cth1{
+    -webkit-animation-delay: 0.1s;
+    animation-delay: 0.1s;
+}
+.active .cth2{
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s;
+}
+.active .cth3{
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+}
+.active .cth4{
+    -webkit-animation-delay: 0.4s;
+    animation-delay: 0.4s;
+}
+.active .cth5{
+    -webkit-animation-delay: 0.5s;
+    animation-delay: 0.5s;
+}
+.active .cth6{
+    -webkit-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+}
+.active .cth7{
+    -webkit-animation-delay: 0.7s;
+    animation-delay: 0.7s;
+}
+.active .cth8{
+    -webkit-animation-delay: 0.8s;
+    animation-delay: 0.8s;
+}
+.active .cth9{
+    -webkit-animation-delay: 0.9s;
+    animation-delay: 0.9s;
+}
+.active .cth10{
+    -webkit-animation-delay: 1s;
+    animation-delay: 1s;
+}
+.active .cth11{
+    -webkit-animation-delay: 1.1s;
+    animation-delay: 1.1s;
+}
+.active .cth12{
+    -webkit-animation-delay: 1.2s;
+    animation-delay: 1.2s;
+}
+.active .cth13{
+    -webkit-animation-delay: 1.3s;
+    animation-delay: 1.3s;
+}
+.active .cth14{
+    -webkit-animation-delay: 1.4s;
+    animation-delay: 1.4s;
+}
+.active .cth15{
+    -webkit-animation-delay: 1.5s;
+    animation-delay: 1.5s;
+}
+.active .cth16{
+    -webkit-animation-delay: 1.6s;
+    animation-delay: 1.6s;
+}
+.active .cth17{
+    -webkit-animation-delay: 1.7s;
+    animation-delay: 1.7s;
+}
+.active .cth18{
+    -webkit-animation-delay: 1.8s;
+    animation-delay: 1.8s;
+}
+.active .cth19{
+    -webkit-animation-delay: 1.9s;
+    animation-delay: 1.9s;
+}
+.active .cth20{
+    -webkit-animation-delay: 2s;
+    animation-delay: 2s;
+}
+.active .cth21{
+    -webkit-animation-delay: 2.1s;
+    animation-delay: 2.1s;
+}
+.active .cth22{
+    -webkit-animation-delay: 2.2s;
+    animation-delay: 2.2s;
+}
+.active .cth23{
+    -webkit-animation-delay: 2.3s;
+    animation-delay: 2.3s;
+}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -1567,7 +1678,7 @@ $('#slider').flexslider({
     slideshowSpeed: 3000,
     sync: "#carousel"
 });
-$('.ui.wap').before('<div class="apploadfiu"><img class="logo" src="{{ app_url_packaged }}/images/fiu/wfiulogo.png"><div class="content"><h4 class="ui header">Fiu浮游™<div class="sub header">科技美学情境式分享社区</div></h4></div><div class="ui active inverted tiny button"> 下载APP </div><div class="apploadclose"><img src="{{ app_url_packaged }}/images/icon/close.png" width="12px" height="12px"></div><div id="apploadfiu"><img src="{{ app_url_packaged }}/images/icon/appshare.png" width="80%"></div><div id="apploadandfiu"><img src="{{ app_url_packaged }}/images/icon/appshareand.png" width="80%"></div>');
+$('.ui.wap').before('<div class="apploadfiu"><img class="logo" src="{{ app_url_packaged }}/images/fiu/wfiulogo.png"><div class="content"><h4 class="ui header">Fiu浮游™<div class="sub header">科技美学情境式分享社区</div></h4></div><div class="ui active inverted tiny button"> 下载APP </div><div class="apploadclose"><img src="{{ app_url_packaged }}/images/icon/close.png" width="12px" height="12px"></div></div><div id="apploadfiu"><img src="{{ app_url_packaged }}/images/icon/appshare.png" width="80%"></div><div id="apploadandfiu"><img src="{{ app_url_packaged }}/images/icon/appshareand.png" width="80%"></div>');
 $('.apploadclose').on('click',function(){
     $('.apploadfiu').fadeOut();
     $('.apploadfiu').remove();
@@ -1581,10 +1692,10 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)){
     var ua = navigator.userAgent.toLowerCase();  
     if(ua.match(/MicroMessenger/i)=="micromessenger"){
 
-        $('#apploadfiu').css('display','block');
-        //window.location='http://a.app.qq.com/o/simple.jsp?pkgname=com.xf.taihuoniao.app.mytaihuoniao';
+        //$('#apploadfiu').css('display','block');
+        window.location='http://a.app.qq.com/o/simple.jsp?pkgname=com.taihuoniao.fineix';
     }else{
-        window.location='https://itunes.apple.com/cn/app/tai-huo-niao-huo-bao-zhi-neng/id946737402?mt=8';
+        window.location='https://itunes.apple.com/us/app/fiu-fu-you-ke-ji-mei-xue-qing/id1089442815?mt=8';
     }
     });
 }else if (navigator.userAgent.match(/android/i)){
@@ -1592,10 +1703,10 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)){
     $('.apploadfiu .tiny.inverted.button').click(function(){
     var ua = navigator.userAgent.toLowerCase();  
     if(ua.match(/MicroMessenger/i)=="micromessenger"){
-        $('#apploadandfiu').css('display','block');
-        //window.location='http://m.taihuoniao.com/promo/android_download';
+        //$('#apploadandfiu').css('display','block');
+        window.location='http://a.app.qq.com/o/simple.jsp?pkgname=com.taihuoniao.fineix';
     }else{
-        window.location='http://m.taihuoniao.com/promo/android_download';
+        window.location='http://a.app.qq.com/o/simple.jsp?pkgname=com.taihuoniao.fineix';
     }
     });
 };
@@ -1627,11 +1738,27 @@ $(window).scroll(function(){
         $('.nth1,.nth2,.nth3,.nth4,.nth5,.nth6,.nth7,.nth8').removeClass('fadeInUp'); 
     }
 })
+
+/*$('.tagBall .tag').each( function (i) {
+    var anileft = (-$(".tagBall .tag:eq("+i+")").width()-10)+'px';
+    setTimeout(function () {
+        $(".tagBall .tag:eq("+i+")").animate({marginLeft:anileft},1500);
+        //console.log(anileft);
+    }, i*2000);
+});
+setTimeout(function(){
+    $('.tagBall .tag').each( function (i) {
+        setTimeout(function () {
+           $('.tagBall').append('<img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/'+i+'.jpg" width='+Math.round(Math.random()*(42-34)+34)+'">')
+        }, i*2000);
+    });
+},1000)*/
+
 {% endblock %}
 {% block layout_js %}
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script type="text/javascript" >
-    var m_name = 'Fiu浮游™ 你在发现 谁在惊呼？';
+    var m_name = 'Fiu浮游™  你在发现 谁在惊呼？';
     var img_url = '{{ app_url_packaged }}/images/fiu/wfiulogo.png';
     var link = '{{ app_url_wap }}/fiu';
     var desc_str = 'Fiu浮游™是一个致力于发现科技创新产品和分享美学生活方式的情境式图片社交平台。';
@@ -1887,6 +2014,33 @@ $(window).scroll(function(){
             <div class="row">
                 <div class="ui center aligned column">
                     <div class="tagBall">
+                        <div class="peimg">
+                            <img class="cth1" src="{{ app_url_packaged }}/images/fiu/pe/1.png" width="100%">
+                            <img class="imgp cth2" src="{{ app_url_packaged }}/images/fiu/pe/2.png" width="100%">
+                            <img class="imgp cth3" src="{{ app_url_packaged }}/images/fiu/pe/3.png" width="100%">
+                            <img class="imgp cth4" src="{{ app_url_packaged }}/images/fiu/pe/4.png" width="100%">
+                            <img class="imgp cth5" src="{{ app_url_packaged }}/images/fiu/pe/5.png" width="100%">
+                            <img class="imgp cth6" src="{{ app_url_packaged }}/images/fiu/pe/6.png" width="100%">
+                            <img class="imgp cth7" src="{{ app_url_packaged }}/images/fiu/pe/7.png" width="100%">
+                            <img class="imgp cth8" src="{{ app_url_packaged }}/images/fiu/pe/8.png" width="100%">
+                            <img class="imgp cth9" src="{{ app_url_packaged }}/images/fiu/pe/9.png" width="100%">
+                            <img class="imgp cth10" src="{{ app_url_packaged }}/images/fiu/pe/10.png" width="100%">
+                            <img class="imgp cth11" src="{{ app_url_packaged }}/images/fiu/pe/11.png" width="100%">
+                            <img class="imgp cth12" src="{{ app_url_packaged }}/images/fiu/pe/12.png" width="100%">
+                            <img class="imgp cth13" src="{{ app_url_packaged }}/images/fiu/pe/13.png" width="100%">
+                            <img class="imgp cth14" src="{{ app_url_packaged }}/images/fiu/pe/14.png" width="100%">
+                            <img class="imgp cth15" src="{{ app_url_packaged }}/images/fiu/pe/15.png" width="100%">
+                            <img class="imgp cth16" src="{{ app_url_packaged }}/images/fiu/pe/16.png" width="100%">
+                            <img class="imgp cth17" src="{{ app_url_packaged }}/images/fiu/pe/17.png" width="100%">
+                            <img class="imgp cth18" src="{{ app_url_packaged }}/images/fiu/pe/18.png" width="100%">
+                            <img class="imgp cth19" src="{{ app_url_packaged }}/images/fiu/pe/19.png" width="100%">
+                            <img class="imgp cth20" src="{{ app_url_packaged }}/images/fiu/pe/20.png" width="100%">
+                            <img class="imgp cth21" src="{{ app_url_packaged }}/images/fiu/pe/21.png" width="100%">
+                            <img class="imgp cth22" src="{{ app_url_packaged }}/images/fiu/pe/22.png" width="100%">
+                            <img class="imgp cth23" src="{{ app_url_packaged }}/images/fiu/pe/23.png" width="100%">
+                        </div>
+                    </div>
+                    <!--<div class="tagBall">
                         <img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/1.jpg" width="30" height="30">
                         <img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/2.jpg" width="35" height="35">
                         <img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/3.jpg" width="40" height="40">
@@ -1913,10 +2067,7 @@ $(window).scroll(function(){
                         <img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/24.jpg" width="36" height="36">
                         <img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/25.jpg" width="30" height="30">
                         <img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/26.jpg" width="40" height="40">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/27.jpg" width="28" height="28">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/28.jpg" width="38" height="38">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pe/29.jpg" width="42" height="42">
-                    </div>
+                    </div>-->
                 </div>
             </div>
             <div class="row pb-4r">
@@ -1960,35 +2111,25 @@ $(window).scroll(function(){
             <div class="row">
                 <div class="ui center aligned column">
                     <div class="tagBallt">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/1.jpg" width="30" height="30">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/2.jpg" width="35" height="35">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/3.jpg" width="40" height="40">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/4.jpg" width="43" height="43">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/5.jpg" width="30" height="30">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/6.jpg" width="40" height="40">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/7.jpg" width="28" height="28">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/8.jpg" width="38" height="38">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/9.jpg" width="42" height="42">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/10.jpg" width="35" height="35">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/11.jpg" width="30" height="30">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/12.jpg" width="40" height="40">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/13.jpg" width="43" height="43">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/14.jpg" width="33" height="33">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/15.jpg" width="30" height="30">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/16.jpg" width="35" height="35">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/17.jpg" width="30" height="30">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/18.jpg" width="38" height="38">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/19.jpg" width="30" height="30">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/20.jpg" width="35" height="35">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/21.jpg" width="40" height="40">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/22.jpg" width="35" height="35">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/23.jpg" width="40" height="40">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/24.jpg" width="36" height="36">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/25.jpg" width="30" height="30">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/26.jpg" width="40" height="40">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/27.jpg" width="28" height="28">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/28.jpg" width="38" height="38">
-                        <img class="tag" src="{{ app_url_packaged }}/images/fiu/pp/29.jpg" width="42" height="42">
+                        <div class="peimg">
+                            <img class="cth1" src="{{ app_url_packaged }}/images/fiu/pp/1.png" width="100%">
+                            <img class="imgp cth2" src="{{ app_url_packaged }}/images/fiu/pp/2.png" width="100%">
+                            <img class="imgp cth3" src="{{ app_url_packaged }}/images/fiu/pp/3.png" width="100%">
+                            <img class="imgp cth4" src="{{ app_url_packaged }}/images/fiu/pp/4.png" width="100%">
+                            <img class="imgp cth5" src="{{ app_url_packaged }}/images/fiu/pp/5.png" width="100%">
+                            <img class="imgp cth6" src="{{ app_url_packaged }}/images/fiu/pp/6.png" width="100%">
+                            <img class="imgp cth7" src="{{ app_url_packaged }}/images/fiu/pp/7.png" width="100%">
+                            <img class="imgp cth8" src="{{ app_url_packaged }}/images/fiu/pp/8.png" width="100%">
+                            <img class="imgp cth9" src="{{ app_url_packaged }}/images/fiu/pp/9.png" width="100%">
+                            <img class="imgp cth10" src="{{ app_url_packaged }}/images/fiu/pp/10.png" width="100%">
+                            <img class="imgp cth11" src="{{ app_url_packaged }}/images/fiu/pp/11.png" width="100%">
+                            <img class="imgp cth12" src="{{ app_url_packaged }}/images/fiu/pp/12.png" width="100%">
+                            <img class="imgp cth13" src="{{ app_url_packaged }}/images/fiu/pp/13.png" width="100%">
+                            <img class="imgp cth14" src="{{ app_url_packaged }}/images/fiu/pp/14.png" width="100%">
+                            <img class="imgp cth15" src="{{ app_url_packaged }}/images/fiu/pp/15.png" width="100%">
+                            <img class="imgp cth16" src="{{ app_url_packaged }}/images/fiu/pp/16.png" width="100%">
+                            <img class="imgp cth17" src="{{ app_url_packaged }}/images/fiu/pp/17.png" width="100%">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2007,6 +2148,11 @@ $(window).scroll(function(){
             <div class="row">
                 <div class="ui center aligned column pt-2r">
                     <img src="{{ app_url_packaged }}/images/fiu/gzh.jpg" width="60" align="absmiddle">
+                    <p class="p2title pt-2r">APP下载</p>
+                </div>
+            </div>
+            <div class="row pt-0">
+                <div class="ui center aligned column pt-r">
                     <p class="p2title ptb-2r">WeChat：Fiu浮游<br/>Weibo：Fiu浮游<br/>Email：fiu@taihuoniao.com<br/>Web：taihuoniao.com/fiu</p>
                     <img src="{{ app_url_packaged }}/images/fiu/logothn.png" width="60" align="absmiddle">
                     <p class="p2title ptb-2r">太火鸟科技｜出品<br>
