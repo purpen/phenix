@@ -41,7 +41,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
      * Fiu 下载地址（跳转）
      */
     public function fiu(){
-        $url = 'http://m.taihuoniao.com/guide/fiu';
+        $url = 'http://m.taihuoniao.com/fiu';
         return $this->to_redirect($url);
     }
 	

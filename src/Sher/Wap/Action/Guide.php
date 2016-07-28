@@ -53,7 +53,8 @@ class Sher_Wap_Action_Guide extends Sher_Core_Action_Authorize {
 	 * App下载-Fiu
 	 */
 	public function fiu(){
-		return $this->to_html_page('wap/fiu/index.html');
+        $url = 'http://m.taihuoniao.com/fiu';
+        return $this->to_redirect($url);
 	}
 
 }
