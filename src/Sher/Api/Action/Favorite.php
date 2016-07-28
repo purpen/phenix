@@ -219,6 +219,8 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 			case 0:
 				$options['sort_field'] = 'time';
 				break;
+            default:
+                $options['sort_field'] = 'time';
 		}
 		
 		$options['some_fields'] = $some_fields;
