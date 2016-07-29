@@ -25,7 +25,7 @@ $model = new Sher_Core_Model_IpBlackList();
 for($i=0;$i<$count;$i++){
     $rand = rand(100000, 999999);
     $row = array(
-        'ip' => $rand,
+        'ip' => (string)$rand,
         'kind' => 2,
     );
     $ok = true;
@@ -33,9 +33,7 @@ for($i=0;$i<$count;$i++){
 }
 
 $list = $model->find(array('kind'=>2));
-for($i=0;$i<count($list);$i++){
-    //$model->remove((string)$list[$i]['_id']);
-}
+
 
 echo " ok.\n";
 

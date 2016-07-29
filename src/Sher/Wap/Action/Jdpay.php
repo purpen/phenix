@@ -112,37 +112,20 @@ class Sher_Wap_Action_Jdpay extends Sher_Wap_Action_Base implements DoggyX_Actio
 	 */
 	public function secrete_notify(){
 		Doggy_Log_Helper::warn("Jdpay secrete notify updated!");
-		// 计算得出通知验证结果
-		$alipayNotify = new Sher_Core_Util_AlipayNotify($this->alipay_config);
-		$verify_result = $alipayNotify->verifyNotify();
-		
-		if ($verify_result) {//验证成功
-			$out_trade_no = $_POST['out_trade_no'];
-			$trade_no = $_POST['trade_no'];
-			$trade_status = $_POST['trade_status'];
-			
-			if($_POST['trade_status'] == 'TRADE_FINISHED' || $_POST['trade_status'] == 'TRADE_SUCCESS') {
-				// 判断该笔订单是否在商户网站中已经做过处理
-				// 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
-				// 如果有做过处理，不执行商户的业务程序
-				Doggy_Log_Helper::warn("Jdpay secrete notify [$out_trade_no][$trade_no]!");
-				
-				return $this->update_jdpay_order_process($out_trade_no, $trade_no, true);
-				
-				// 注意：
-				// 该种交易状态只在两种情况下出现
-				// 1、开通了普通即时到账，买家付款成功后。
-				// 2、开通了高级即时到账，从该笔交易成功时间算起，过了签约时的可退款时限
-				//（如：三个月以内可退款、一年以内可退款等）后。
-			} else {
-				Doggy_Log_Helper::warn("Jdpay secrete notify trade status fail!");
-				return $this->to_raw('fail');
-			}
+
+
+        $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+		$resdata;
+		$falg = Sher_Core_Util_JdPay_XMLUtil::decryptResXml($xml, $resdata);
+		if($falg){
+		    Doggy_Log_Helper::warn("Jdpay secrete notify pass!");
+		    Doggy_Log_Helper::warn(json_encode($resdata));
+            //return $this->update_jdpay_order_process($out_trade_no, $trade_no, true);
 		}else{
-			// 验证失败
-			Doggy_Log_Helper::warn("Jdpay secrete notify verify result fail!");
-			return $this->to_raw('fail');
+		    Doggy_Log_Helper::warn("Jdpay secrete notify error!");
+            return $this->to_raw('fail');
 		}
+
 	}
 	
 	/**
