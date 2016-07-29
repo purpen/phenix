@@ -1,0 +1,178 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	$('#bonus-form').form({
+		amount: {
+			identifier  : 'amount',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '金额不能为空'
+				}
+			]
+		},
+		min_amount: {
+			identifier  : 'min_amount',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '限额不能为空'
+				}
+			]
+		},
+		xname: {
+			identifier  : 'xname',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '活动代号不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">红包管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/bonus" class="{{ css_all }} item">
+			全部
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?used=2" class="{% if used == 2 %}active{%endif%} item">
+			已使用
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?used=1" class="{% if used == 1 %}active{%endif%} item">
+			未使用
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?status=4" class="{{ css_waited }} item">
+			已领取
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?status=3" class="{{ css_locked }} item">
+			已锁定
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?status=1" class="{{ css_pending }} item">
+			冻结中
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus/statistics" class="{{ css_state }} item">
+			统计
+		</a>
+	</div>
+	
+	<div class="ui sub nav">
+					<form action="{{ app_url_admin_base }}/bonus" method="post">
+						<label>搜索：</label>
+						<div class="ui icon input">
+							<input placeholder="红包码..." type="text" name="q">
+							<i class="search link icon"></i>
+						</div>
+					</form>
+	</div>
+	
+	<div class="ui large segment">
+		<form class="ui form" action="{{ app_url_admin_base }}/bonus/save" method="post" id="bonus-form">
+			<input name="_id" type="hidden" value="{{ gift._id }}" />
+			<h3 class="ui header">新增红包</h3>
+
+			<div class="three fields">
+				<div class="field">
+					<label for="xname">活动代号：</label>
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="xname" />
+					    <div class="default text">请选择</div>
+					    <i class="angle down icon"></i>
+					    <div class="menu">
+							{% for d in xnames %}
+							<div data-value="{{ d }}" class="item">{{ d }}</div>
+							{% endfor %}
+					    </div>
+					</div>
+					<div class="ui pointing top label">请选择活动代号!</div>
+				</div>
+            </div>
+
+			<div class="three fields">
+				<div class="field">
+					<label for="amount">金额：</label>
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="amount" />
+					    <div class="default text">请选择</div>
+					    <i class="angle down icon"></i>
+					    <div class="menu">
+							<div data-value="E" class="item">5</div>
+							<div data-value="G" class="item">10</div>
+							<div data-value="C" class="item">30</div>
+							<div data-value="A" class="item">50</div>
+							<div data-value="B" class="item">100</div>
+							<div data-value="H" class="item">200</div>
+					    </div>
+					</div>
+					<div class="ui pointing top label">红包金额</div>
+				</div>
+            </div>
+
+			<div class="three fields">
+				<div class="field">
+					<label for="min_amount">最低使用限额：</label>
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="min_amount" />
+					    <div class="default text">请选择</div>
+					    <i class="angle down icon"></i>
+					    <div class="menu">
+							<div data-value="C" class="item">0</div>
+							<div data-value="F" class="item">50</div>
+							<div data-value="A" class="item">99</div>
+							<div data-value="B" class="item">199</div>
+							<div data-value="D" class="item">299</div>
+							<div data-value="E" class="item">399</div>
+					    </div>
+					</div>
+					<div class="ui pointing top label">最低所需消费金额</div>
+				</div>
+            </div>
+
+			<div class="inline field">
+				<label>关联产品:</label>
+				<input type="text" name="product_id" />
+				<span class="description">产品ID</span>
+			</div>
+			<div class="inline field">
+				<label>数量:</label>
+				<input type="text" name="count" value="1" />
+			</div>
+		
+			<div class="inline field">
+				<div class="ui magenta submit inverted button">
+					确认提交
+				</div>
+				<div class="ui gray cancel inverted button">
+					取消
+				</div>
+			</div>
+		</form>
+	</div>
+	
+{% endblock %}
