@@ -1738,6 +1738,11 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)){
     }
     });
 };
+if (navigator.userAgent.match(/android/i)){
+    window.onload = function() {
+         $('video').get(0).play();
+    };
+}
 $(window).scroll(function(){
     var scrollTop = $(window).scrollTop();
     
