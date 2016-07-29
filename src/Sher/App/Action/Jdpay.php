@@ -111,7 +111,7 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
      *
 	 */
 	public function secrete_notify(){
-		Doggy_Log_Helper::warn("Jdpay secrete notify updated!");
+		Doggy_Log_Helper::warn("Jdpay secrete notify updated....");
 
         $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
 		$resdata;
@@ -119,7 +119,16 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
 		if($falg){
 		    Doggy_Log_Helper::warn("Jdpay secrete notify pass!");
 		    Doggy_Log_Helper::warn(json_encode($resdata));
-            //return $this->update_jdpay_order_process($out_trade_no, $trade_no, true);
+            if(!empty($resdata)){
+                if($resdata['desc']=='success' && $resdata['code']=='000000'){
+                    $out_trade_no = $resdata['tradeNum'];
+                    $trade_no = '';
+		            Doggy_Log_Helper::warn("Jdpay secrete notify update order success!");
+                    return $this->update_jdpay_order_process($out_trade_no, $trade_no, true);
+                }
+            }
+		    Doggy_Log_Helper::warn("Jdpay secrete notify update order fail!");
+            return $this->to_raw('fail');
 		}else{
 		    Doggy_Log_Helper::warn("Jdpay secrete notify error!");
             return $this->to_raw('fail');
@@ -168,7 +177,7 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
             if($param["status"]==0){
                 // 商户订单号
                 $out_trade_no = $param['tradeNum'];
-                // 支付宝交易号
+                // 京东交易号
                 $trade_no = '';
                 
                 // 跳转订单详情

@@ -69,6 +69,7 @@
 				<th>类型</th>
 				<th>等级</th>
                 <th>状态</th>
+                <th>创建时间</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
@@ -85,6 +86,7 @@
 				<td>{{ d.kind}}</td>
                 <td>{{ d.level }}</td>
 				<td>{{ d.status}}</td>
+                <td>{{ d.created_on|date 'Y-m-d H:i'}}</td>
 				<td>
 					<p>
             <a href="{{ app_url_admin_base }}/ip_black_list/submit?id={{ d._id }}" class="ui link item">编辑</a>
