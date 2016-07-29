@@ -18,14 +18,15 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 	
 	public function _init() {
 		$this->set_target_css_state('page_bonus');
+		// 判断左栏类型
+		$this->stash['show_type'] = "sales";
     }
 	
 	/**
 	 * 入口
 	 */
 	public function execute() {
-		// 判断左栏类型
-		$this->stash['show_type'] = "sales";
+
 		return $this->get_list();
 	}
 	
@@ -87,6 +88,63 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 		
 		return $this->to_html_page('admin/bonus/give.html');
 	}
+
+	/**
+	 * 创建/更新
+	 */
+	public function submit(){
+		$id = isset($this->stash['id'])?(string)$this->stash['id']:'';
+		$mode = 'create';
+		
+		$model = new Sher_Core_Model_Bonus();
+		if(!empty($id)){
+			$mode = 'edit';
+			$bonus = $model->find_by_id($id);
+		    $bonus['_id'] = (string)$bonus['_id'];
+			$this->stash['bonus'] = $bonus;
+
+		}
+		$this->stash['mode'] = $mode;
+        $this->stash['xnames'] = $model->x_name();
+		
+		return $this->to_html_page('admin/bonus/submit.html');
+	}
+
+	/**
+	 * 保存信息
+	 */
+	public function save(){		
+        $id = $this->stash['_id'];
+        $user_id = (int)$this->visitor->id;
+        $xname = $this->stash['xname'];
+        $amount_char = isset($this->stash['amount']) ? $this->stash['amount'] : null;
+        $count = isset($this->stash['count']) ? (int)$this->stash['count'] : 1;
+        $min_amount_char = isset($this->stash['min_amount']) ? $this->stash['min_amount'] : null;
+        $product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
+
+        if(empty($xname) || empty($amount_char) || empty($min_amount_char)){
+            return $this->ajax_json('缺少请求参数!', true);
+        }
+
+        if($count>100){
+            return $this->ajax_json('操作失败!', true);          
+        }
+
+		try{
+			$model = new Sher_Core_Model_Bonus();
+            $model->create_specify_bonus($count, $xname, $amount_char, $min_amount_char, $product_id);
+			
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Save bonus failed: ".$e->getMessage());
+			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
+		}
+
+		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/bonus';
+		return $this->ajax_json('保存成功.', false, $redirect_url);
+		
+
+	}
+
 	
 	/**
 	 * 赠送某人
@@ -94,6 +152,7 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 	public function ajax_give(){
 		$id = $this->stash['_id'];
 		$user_id = $this->stash['user_id'];
+        $expired_day = isset($this->stash['expired_day']) ? (int)$this->stash['expired_day'] : 0;
 		if(empty($id) || empty($user_id)){
 			return $this->ajax_json('缺少请求参数！', true);
 		}
@@ -117,8 +176,14 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 			if ($bonus['expired_at'] && $bonus['expired_at'] < time()){
 				return $this->ajax_json('红包已被过期！', true);
 			}
+
+            if(!empty($expired_day)){
+                $expired_time = time + 60*60*24*$expired_day;
+            }else{
+                $expired_time = 0;
+            }
 			
-			$ok = $model->give_user($bonus['code'], $user_id);
+			$ok = $model->give_user($bonus['code'], $user_id, $expired_time);
 			
 			$next_url = Doggy_Config::$vars['app.url.admin'].'/bonus?used='.$bonus['used'];
 			

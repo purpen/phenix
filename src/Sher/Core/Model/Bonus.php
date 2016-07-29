@@ -38,6 +38,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
     'AS', # app下单分享送5元
     'APS', # app下载兑吧送红包
     'SB' , # 通过链接送红包活动
+    'FIU_N1', # 内测送200元红包
 	);
 	
     protected $schema = array(
@@ -270,6 +271,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
       'E' => 5,
       'F' => 9.9,
       'G' => 10,
+      'H' => 200,
     );
 
     #最低限额
@@ -319,6 +321,13 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
             $string .= $chars{$pos};
         }
         return $string;
+    }
+
+    /**
+     * 返回活动码
+     */
+    public function x_name(){
+        return $this->names;
     }
 	
 }
