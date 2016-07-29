@@ -1740,8 +1740,7 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)){
 };
 if (navigator.userAgent.match(/android/i)){
     window.onload = function() {
-        var video = $('#Videoplay').get(0);
-        video[0].play();
+        $('#Videoplay').get(0).play();
     };
 }
 $(window).scroll(function(){
@@ -1864,7 +1863,7 @@ setTimeout(function(){
 	<section class="topf">
 		<div class="sbg">
 			<div class="video-container">
-				<video id="Videoplay" width="100%" height="100%" preload="auto" autoplay="true" loop controls="controls" webkit-playsinline > <!--preload="auto" autoplay="true" controls="controls" -->
+				<video id="Videoplay" poster="{{ app_url_packaged }}/images/fiu/andvideo.jpg" width="100%" height="100%" preload="auto" autoplay="true" loop controls="controls" webkit-playsinline > <!--preload="auto" autoplay="true" controls="controls" -->
 					<source type="video/mp4" src="{{ app_url_packaged }}/images/fiu/video.mp4">
 				</video>
 			</div>
