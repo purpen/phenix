@@ -120,7 +120,7 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
 		    Doggy_Log_Helper::warn("Jdpay secrete notify pass!");
 		    Doggy_Log_Helper::warn(json_encode($resdata));
             if(!empty($resdata)){
-                if($resdata['desc']=='success' && $resdata['code']=='000000'){
+                if($resdata['result']['desc']=='success' && $resdata['result']['code']=='000000'){
                     $out_trade_no = $resdata['tradeNum'];
                     $trade_no = '';
 		            Doggy_Log_Helper::warn("Jdpay secrete notify update order success!");

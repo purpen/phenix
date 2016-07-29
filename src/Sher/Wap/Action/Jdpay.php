@@ -111,18 +111,26 @@ class Sher_Wap_Action_Jdpay extends Sher_Wap_Action_Base implements DoggyX_Actio
      *
 	 */
 	public function secrete_notify(){
-		Doggy_Log_Helper::warn("Jdpay secrete notify updated!");
-
+		Doggy_Log_Helper::warn("Jdpay secrete notify wap updated....");
 
         $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
 		$resdata;
 		$falg = Sher_Core_Util_JdPay_XMLUtil::decryptResXml($xml, $resdata);
 		if($falg){
-		    Doggy_Log_Helper::warn("Jdpay secrete notify pass!");
+		    Doggy_Log_Helper::warn("Jdpay secrete notify wap pass!");
 		    Doggy_Log_Helper::warn(json_encode($resdata));
-            //return $this->update_jdpay_order_process($out_trade_no, $trade_no, true);
+            if(!empty($resdata)){
+                if($resdata['result']['desc']=='success' && $resdata['result']['code']=='000000'){
+                    $out_trade_no = $resdata['tradeNum'];
+                    $trade_no = '';
+		            Doggy_Log_Helper::warn("Jdpay secrete notify wap update order success!");
+                    return $this->update_jdpay_order_process($out_trade_no, $trade_no, true);
+                }
+            }
+		    Doggy_Log_Helper::warn("Jdpay secrete notify wap update order fail!");
+            return $this->to_raw('fail');
 		}else{
-		    Doggy_Log_Helper::warn("Jdpay secrete notify error!");
+		    Doggy_Log_Helper::warn("Jdpay secrete notify wap error!");
             return $this->to_raw('fail');
 		}
 
