@@ -45,10 +45,10 @@ class Sher_Wap_Action_Jdpay extends Sher_Wap_Action_Base implements DoggyX_Actio
 			return $this->show_message_page("订单[$rid]已付款！", false);
 		}
 
-        $version = 'V2.0';  // 版本号
+        $version = Doggy_Config::$vars['app.jd_pay']['version'];  // 版本号
         $merchant = Doggy_Config::$vars['app.jd_pay']['merchant'];     // 商户号
         $desKey = Doggy_Config::$vars['app.jd_pay']['des_key'];   // 商户DES密钥
-        $device = '1';       // 设备号  1.web;2.wap;3.app_store;4.fiu
+        $device = '2';       // 设备号  1.web;2.wap;3.app_store;4.fiu
         $tradeNum = $rid;    // 商户交易号(字母和数字)
         $tradeName = '太火鸟商城'.$rid.'订单';
         $tradeDesc = '';
@@ -57,8 +57,8 @@ class Sher_Wap_Action_Jdpay extends Sher_Wap_Action_Base implements DoggyX_Actio
         $currency = 'CNY';
         $note = '';     // 备注
         $orderType = '0';     // 0.实物；1.虚拟；
-        $callbackUrl = Doggy_Config::$vars['app.url.domain'].'/app/wap/jdpay/direct_notify';      // 支付成功跳转
-        $notifyUrl = Doggy_Config::$vars['app.url.domain'].'/app/wap/jdpay/secrete_notify';    // 异步通知
+        $callbackUrl = Doggy_Config::$vars['app.url.wap'].'/app/wap/jdpay/direct_notify';      // 支付成功跳转
+        $notifyUrl = Doggy_Config::$vars['app.url.wap'].'/app/wap/jdpay/secrete_notify';    // 异步通知
         $ip = Sher_Core_Helper_Auth::get_ip();
         $userType = '';
         $userId = '';   // 商户的用户账号
@@ -122,7 +122,7 @@ class Sher_Wap_Action_Jdpay extends Sher_Wap_Action_Base implements DoggyX_Actio
             if(!empty($resdata)){
                 if($resdata['result']['desc']=='success' && $resdata['result']['code']=='000000'){
                     $out_trade_no = $resdata['tradeNum'];
-                    $trade_no = '';
+                    $trade_no = $resdata['tradeNum'];
 		            Doggy_Log_Helper::warn("Jdpay secrete notify wap update order success!");
                     return $this->update_jdpay_order_process($out_trade_no, $trade_no, true);
                 }
@@ -179,7 +179,7 @@ class Sher_Wap_Action_Jdpay extends Sher_Wap_Action_Base implements DoggyX_Actio
                 // 商户订单号
                 $out_trade_no = $param['tradeNum'];
                 // 京东交易号
-                $trade_no = '';
+                $trade_no = $param['tradeNum'];
                 
                 // 跳转订单详情
                 $order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
