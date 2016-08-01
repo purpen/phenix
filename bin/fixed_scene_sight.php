@@ -24,11 +24,12 @@ ini_set('memory_limit','512M');
 echo "fixed scene sight ...\n";
 
 $scene_sight_model = new Sher_Core_Model_SceneSight();
-$scene_tags_model = new Sher_Core_Model_SceneTags();
+$user_model = new Sher_Core_Model_User();
 $page = 1;
 $size = 200;
 $is_end = false;
 $total = 0;
+$users = array();
 while(!$is_end){
 	$query = array();
 	$options = array('page'=>$page,'size'=>$size);
@@ -40,25 +41,8 @@ while(!$is_end){
 	$max = count($list);
 	for ($i=0; $i < $max; $i++) {
         $id = $list[$i]['_id'];
-        $new_tags = array();
-        if(isset($list[$i]['tags'])){
-            foreach($list[$i]['tags'] as $v){
-                $tag_id = (int)$v;
-                if($tag_id<=0){
-                    array_push($new_tags, $v);
-                    continue;
-                }
-                $scene_tag = $scene_tags_model->load($tag_id);
-                if($scene_tag){
-                    array_push($new_tags, $scene_tag['title_cn']);
-                }
-            }
-            $ok = true;
-            //$ok = $scene_sight_model->update_set($id, array('tags'=>$new_tags, 'old_tags'=>$list[$i]['tags']));
-            if($ok){
-                $total++;
-            }           
-        }
+        $user_id = $list[$i]['user_id'];
+        array_push($users, $user_id);
 	}
 	if($max < $size){
 		break;
@@ -66,6 +50,25 @@ while(!$is_end){
 	$page++;
 	echo "page [$page] updated---------\n";
 }
+
+print_r($users);
+$users = array_unique($users);
+
+for($i=0;$i<count($users);$i++){
+    $user_id = $users[$i];
+    $scene_count = $scene_sight_model->count(array('deleted'=>0, 'user_id'=>$user_id));
+    $user = $user_model->load($user_id);
+
+    if($user && $user['sight_count']!=$scene_count){
+        $ok = $user_model->update_set($user_id, array('sight_count'=>$scene_count));
+        if($ok){
+            $total+=1;
+            echo "fix userId: $user_id, scene_count: $scene_count.\n";
+        }
+    }
+}
+
+
 
 echo "fix scene sight count: $total is OK! \n";
 
