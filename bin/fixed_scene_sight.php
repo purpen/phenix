@@ -51,11 +51,12 @@ while(!$is_end){
 	echo "page [$page] updated---------\n";
 }
 
-print_r($users);
 $users = array_unique($users);
 
-for($i=0;$i<count($users);$i++){
-    $user_id = $users[$i];
+print_r($users);
+
+foreach($users as $v){
+    $user_id = $v;
     $scene_count = $scene_sight_model->count(array('deleted'=>0, 'user_id'=>$user_id));
     $user = $user_model->load($user_id);
 
@@ -67,7 +68,6 @@ for($i=0;$i<count($users);$i++){
         }
     }
 }
-
 
 
 echo "fix scene sight count: $total is OK! \n";
