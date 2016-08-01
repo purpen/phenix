@@ -7,6 +7,7 @@ class Sher_Core_Service_User extends Sher_Core_Service_Base {
 		'popular' => array('fans_count' => -1),
 		'digged' => array('digged' => -1),
         'topic_count' => array('topic_count' => -1),
+        'sight_count' => array('sight_count' => -1),
     );
 
     protected static $instance;
