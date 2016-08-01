@@ -230,6 +230,7 @@ h3.ui.header{
 	
 	<form action="{{ app_url_admin_base }}/stuff/save" class="ui form" method="post" id="stuff-form">
 		<input name="_id" type="hidden" value="{{ stuff._id }}" />
+		  <input type="hidden" name="return_url" value="{{ return_url }}" />
 
         <div class="field">
           <label>分类:</label>
