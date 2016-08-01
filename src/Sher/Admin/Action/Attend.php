@@ -73,6 +73,9 @@ class Sher_Admin_Action_Attend extends Sher_Admin_Action_Base implements DoggyX_
         $cid = isset($this->stash['cid']) ? (int)$this->stash['cid'] : 0;
         $event = isset($this->stash['event']) ? (int)$this->stash['event'] : 0;
         $target_id = isset($this->stash['target_id']) ? $this->stash['target_id'] : 0;
+
+        $title = isset($this->stash['title']) ? $this->stash['title'] : null;
+        $content = isset($this->stash['content']) ? $this->stash['content'] : null;
 		
         $mode = 'create';
 
@@ -87,6 +90,11 @@ class Sher_Admin_Action_Attend extends Sher_Admin_Action_Base implements DoggyX_
             'event' => $event,
             'target_id' => $target_id,
 		);
+
+        if(!empty($title) || !empty($content)){
+            $data['info']['title'] = $title;
+            $data['info']['content'] = $content;
+        }
 
 		try{
 			$model = new Sher_Core_Model_Attend();

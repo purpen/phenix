@@ -889,13 +889,16 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
             $data[$i]['_id'] = (string)$data[$i]['_id'];
 
             $data[$i]['item'] = array();
+
+            $o_title = isset($data[$i]['info']['title']) ? $data[$i]['info']['title'] : null;
+            $o_content = isset($data[$i]['info']['content']) ? $data[$i]['info']['content'] : null;
             
             if($data[$i]['cid']==1){    // 商品
                 $product = $product_model->extend_load((int)$data[$i]['target_id']);
                 if($product){
-                    $data[$i]['item']['title'] = $product['short_title'];
+                    $data[$i]['item']['title'] = !empty($o_title) ? $o_title : $product['short_title'];
                     $data[$i]['item']['sale_price'] = $product['sale_price'];
-                    $data[$i]['item']['content'] = $product['advantage'];
+                    $data[$i]['item']['content'] = !empty($o_content) ? $o_content : $product['advantage'];
                     $data[$i]['item']['love_count'] = $product['love_count'];
                     $data[$i]['item']['comment_count'] = $product['comment_count'];
 
@@ -911,9 +914,9 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
             }elseif($data[$i]['cid']==2){   // 专题
                 $subject = $subject_model->extend_load((int)$data[$i]['target_id']);
                 if($subject){
-                    $data[$i]['item']['title'] = $subject['title'];
+                    $data[$i]['item']['title'] = !empty($o_title) ? $o_title : $subject['title'];
                     $data[$i]['item']['banner_url'] = $subject['cover']['thumbnails']['aub']['view_url'];
-                    $data[$i]['item']['content'] = $subject['summary'];
+                    $data[$i]['item']['content'] = !empty($o_content) ? $o_content : $subject['summary'];
                     $data[$i]['item']['love_count'] = $subject['love_count'];
                     $data[$i]['item']['comment_count'] = $subject['comment_count'];
                 }
