@@ -170,6 +170,9 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 			$this->stash['stuff'] = $stuff;
 		}
     $this->stash['mode'] = $mode;
+
+        // 记录上一步来源地址
+        $this->stash['return_url'] = $_SERVER['HTTP_REFERER'];
 		
 		return $this->to_html_page('admin/stuff/submit.html');
 	}
@@ -183,6 +186,8 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
         if($this->visitor->id != 10){
             //return $this->ajax_notification('权限不够！', true);   
         }
+
+        $redirect_url = isset($this->stash['return_url']) ? htmlspecialchars_decode($this->stash['return_url']) : null;
 		
 		$model = new Sher_Core_Model_Stuff();
 		try{
@@ -209,7 +214,9 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 			return $this->ajax_note('保存失败:'.$e->getMessage(), true);
 		}
 		
-		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/stuff';
+        if(!$redirect_url){
+		    $redirect_url = Doggy_Config::$vars['app.url.admin'].'/stuff';
+        }
 		
 		return $this->ajax_json('保存成功.', false, $redirect_url);
 	}
