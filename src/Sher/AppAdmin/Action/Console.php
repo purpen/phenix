@@ -10,6 +10,7 @@ class Sher_AppAdmin_Action_Console extends Sher_AppAdmin_Action_Base {
 		'page' => 1,
 		'sort' => 'latest',
 		'rank' => 'day',
+        'size' => 100,
     'uuid' => null,
     'channel_id' => null,
     'kind' => 1,
