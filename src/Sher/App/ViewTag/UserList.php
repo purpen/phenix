@@ -193,6 +193,9 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
 			case 2:
 				$options['sort_field'] = 'topic_count';
 				break;
+			case 3:
+				$options['sort_field'] = 'sight_count';
+				break;
 		}
 
         $options['page'] = $page;
