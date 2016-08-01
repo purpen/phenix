@@ -47,7 +47,7 @@
         <a href="{{ app_url_admin }}/user?sort=0&page={{page}}" class="ui link {%if sort==0%}active{%endif%}">最新</a>
         <a href="{{ app_url_admin }}/user?sort=1&page={{page}}" class="ui link {%if sort==1%}active{%endif%}">粉丝</a>
         <a href="{{ app_url_admin }}/user?sort=2&page={{page}}" class="ui link {%if sort==2%}active{%endif%}">文章</a>
-        <a href="{{ app_url_admin }}/user?sort=3&page={{page}}" class="ui link {%if sort==3%}active{%endif%}">文章</a>
+        <a href="{{ app_url_admin }}/user?sort=3&page={{page}}" class="ui link {%if sort==3%}active{%endif%}">情景</a>
 			</div>
 
         <hr />
@@ -143,7 +143,7 @@
           {{ user.profile.phone }}<br />
           {{ user.profile.realname }}
 				</td>
-        <td>{{ user.follow_count|default 0 }}|{{ user.fans_count|default 0 }}|{{ user.topic_count|default 0 }}|{{ user.product_count|default 0 }}</td>
+                <td>{{ user.follow_count|default 0 }}|{{ user.fans_count|default 0 }}|{{ user.topic_count|default 0 }}|{{ user.product_count|default 0 }}|{{ user.sight_count|default 0 }}</td>
         <td>{{ user.identify.is_expert|default 0 }}</td>
         <td>
           <p id="user-quality-{{user._id}}">
