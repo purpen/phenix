@@ -175,7 +175,7 @@ class Sher_Api_Action_Jdpay extends Sher_Core_Action_Base {
 		$jdPaySubmit_model = new Sher_Core_Util_JdPay_ClientOrder();
         $result = $jdPaySubmit_model->execute($parameter);
         $html_text = $jdPaySubmit_model->buildRequestForm($result['params'], $result['oriUrl'], 'POST');
-		echo $html_text;
+		return $this->api_json('OK', 0, array('str' => $html_text));
 	}
 
 	/**
