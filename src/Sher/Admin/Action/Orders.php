@@ -505,6 +505,12 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 			$refund_url = Doggy_Config::$vars['app.url.alipay'].'/refund?rid='.$rid;
 			return $this->to_redirect($refund_url);
 		}
+
+		// 跳转京东退款
+		if ($order_info['trade_site'] == Sher_Core_Util_Constant::TRADE_JDPAY){
+			$refund_url = Doggy_Config::$vars['app.url.domain'].'/app/site/jdpay/refund?rid='.$rid;
+			return $this->to_redirect($refund_url);
+		}
 		
 		// 跳转微信支付退款
 		if ($order_info['trade_site'] == Sher_Core_Util_Constant::TRADE_WEIXIN){
