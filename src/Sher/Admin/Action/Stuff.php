@@ -157,6 +157,9 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 	public function submit(){
 		$id = isset($this->stash['id'])?(int)$this->stash['id']:0;
 		$mode = 'create';
+
+        $top_category_id = Doggy_Config::$vars['app.contest.qsyd2_category_id'];
+		$this->stash['fid'] = $top_category_id;
 		
 		$model = new Sher_Core_Model_Stuff();
 
@@ -180,9 +183,6 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
         if($this->visitor->id != 10){
             //return $this->ajax_notification('权限不够！', true);   
         }
-
-        $top_category_id = Doggy_Config::$vars['app.contest.qsyd2_category_id'];
-		$this->stash['fid'] = $top_category_id;
 		
 		$model = new Sher_Core_Model_Stuff();
 		try{
