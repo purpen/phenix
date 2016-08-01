@@ -61,7 +61,8 @@ foreach($users as $v){
     $user = $user_model->load($user_id);
 
     if($user && $user['sight_count']!=$scene_count){
-        $ok = $user_model->update_set($user_id, array('sight_count'=>$scene_count));
+        $ok = true;
+        //$ok = $user_model->update_set($user_id, array('sight_count'=>$scene_count));
         if($ok){
             $total+=1;
             echo "fix userId: $user_id, scene_count: $scene_count.\n";
