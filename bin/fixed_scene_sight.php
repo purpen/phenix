@@ -41,8 +41,8 @@ while(!$is_end){
 	$max = count($list);
 	for ($i=0; $i < $max; $i++) {
         $id = $list[$i]['_id'];
-        $user_id = $list[$i]['user_id'];
-        array_push($users, $user_id);
+        $user_id = empty($list[$i]['user_id']) ? 0: $list[$i]['user_id'];
+        if($user_id) array_push($users, $user_id);
 	}
 	if($max < $size){
 		break;
