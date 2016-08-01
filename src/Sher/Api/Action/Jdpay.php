@@ -91,8 +91,7 @@ class Sher_Api_Action_Jdpay extends Sher_Core_Action_Base {
 		// 建立请求
 		$jdPaySubmit_model = new Sher_Core_Util_JdPay_ClientOrder();
         $result = $jdPaySubmit_model->execute($parameter);
-        $html_text = $jdPaySubmit_model->buildRequestForm($result['params'], $result['oriUrl'], 'POST');
-		return $this->api_json('OK', 0, array('str' => $html_text));
+		return $this->api_json('OK', 0, array('params' => $result['params'], 'url'=>$result['oriUrl']));
 	}
 
     /**
@@ -174,8 +173,7 @@ class Sher_Api_Action_Jdpay extends Sher_Core_Action_Base {
 		// 建立请求
 		$jdPaySubmit_model = new Sher_Core_Util_JdPay_ClientOrder();
         $result = $jdPaySubmit_model->execute($parameter);
-        $html_text = $jdPaySubmit_model->buildRequestForm($result['params'], $result['oriUrl'], 'POST');
-		return $this->api_json('OK', 0, array('str' => $html_text));
+		return $this->api_json('OK', 0, array('params' => $result['params'], 'url'=>$result['oriUrl']));
 	}
 
 	/**

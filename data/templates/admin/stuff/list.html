@@ -109,6 +109,7 @@
 				<th>缩略图</th>
 				<th>名称</th>
         <th>作者</th>
+                <th>分类</th>
 				<th>赞名单</th>
 				<th>收藏数</th>
 				<th>评论数</th>
@@ -169,6 +170,7 @@
 					  	{{ stuff.user.nickname }}
 					</a>
         </td>
+        <td>{{ stuff.category.title }}</td>
         <td>
           <span>{{ stuff.love_count }}</span> | <a href="{{ app_url_admin_base }}/stuff/get_love_list?target_id={{ stuff._id }}" class="ui magenta link" target="_blank">名单>></a>
         </td>
