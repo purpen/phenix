@@ -176,10 +176,13 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 	 */
 	public function save() {
 
-    // 要求只能某个账户操作
-    if($this->visitor->id != 10){
- 			return $this->ajax_notification('权限不够！', true);   
-    }
+        // 要求只能某个账户操作
+        if($this->visitor->id != 10){
+            //return $this->ajax_notification('权限不够！', true);   
+        }
+
+        $top_category_id = Doggy_Config::$vars['app.contest.qsyd2_category_id'];
+		$this->stash['fid'] = $top_category_id;
 		
 		$model = new Sher_Core_Model_Stuff();
 		try{
@@ -188,11 +191,14 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 				$mode = 'create';
 				//$ok = $model->apply_and_save($this->stash);
       }else{
-        $add_love_count = (int)$this->stash['add_love_count'];
-				$mode = 'edit';
+
+		$mode = 'edit';
         $data['_id'] = (int)$this->stash['_id'];
-        $data['love_count'] = (int)$this->stash['love_count'] + abs($add_love_count);
-        $data['view_count'] = (int)$this->stash['view_count'];
+
+        //$add_love_count = (int)$this->stash['add_love_count'];
+        //$data['love_count'] = (int)$this->stash['love_count'] + abs($add_love_count);
+        //$data['view_count'] = (int)$this->stash['view_count'];
+        $data['category_id'] = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 				$ok = $model->apply_and_update($data);
 			}
 			if(!$ok){
