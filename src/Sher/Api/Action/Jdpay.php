@@ -139,7 +139,7 @@ class Sher_Api_Action_Jdpay extends Sher_Core_Action_Base {
         $specCardNo = '';       // 指定银行卡号
         $specId = '';       // 身份证号
         $specName = '';     // 姓名
-        $saveUrl = 'https://wepay.jd.com/jdpay/saveOrder';      // 京东支付服务地址
+        $saveUrl = 'https://h5pay.jd.com/jdpay/saveOrder';      // 京东支付服务地址
 
 		
 		// 京东传递参数
