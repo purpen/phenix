@@ -45,7 +45,7 @@ while(!$is_end){
         $id = $list[$i]['_id'];
         $links = $scene_product_link_model->find(array('sight_id'=>$id));
         for($j=0;$j<count($links);$j++){
-            $l_id = (string)$links[$j];
+            $l_id = (string)$links[$j]['_id'];
             $ok = true;
             //$ok = $scene_product_link_model->remove($l_id);
             if($ok){
@@ -75,7 +75,7 @@ while(!$is_end){
         $id = $list[$i]['_id'];
         $links = $scene_product_link_model->find(array('product_id'=>$id));
         for($j=0;$j<count($links);$j++){
-            $l_id = (string)$links[$j];
+            $l_id = (string)$links[$j]['_id'];
             $ok = true;
             //$ok = $scene_product_link_model->remove($l_id);
             if($ok){
