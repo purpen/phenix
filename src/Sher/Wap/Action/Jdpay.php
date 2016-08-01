@@ -57,8 +57,8 @@ class Sher_Wap_Action_Jdpay extends Sher_Wap_Action_Base implements DoggyX_Actio
         $currency = 'CNY';
         $note = '';     // 备注
         $orderType = '0';     // 0.实物；1.虚拟；
-        $callbackUrl = Doggy_Config::$vars['app.url.domain'].'/app/site/jdpay/direct_notify';      // 支付成功跳转
-        $notifyUrl = Doggy_Config::$vars['app.url.domain'].'/app/site/jdpay/secrete_notify';    // 异步通知
+        $callbackUrl = Doggy_Config::$vars['app.url.domain'].'/app/wap/jdpay/direct_notify';      // 支付成功跳转
+        $notifyUrl = Doggy_Config::$vars['app.url.domain'].'/app/wap/jdpay/secrete_notify';    // 异步通知
         $ip = Sher_Core_Helper_Auth::get_ip();
         $userType = '';
         $userId = '';   // 商户的用户账号
@@ -173,18 +173,18 @@ class Sher_Wap_Action_Jdpay extends Sher_Wap_Action_Base implements DoggyX_Actio
 		//echo "sha256SourceSignString=".htmlspecialchars($sha256SourceSignString)."<br/>";
 		if($decryptStr!=$sha256SourceSignString){
 		    // 验证失败
-			return $this->show_message_page('验证签名失败1!', true);
+			return $this->show_message_page('验证签名失败!', true);
 		}else{
             if($param["status"]==0){
                 // 商户订单号
                 $out_trade_no = $param['tradeNum'];
-                // 支付宝交易号
+                // 京东交易号
                 $trade_no = '';
                 
                 // 跳转订单详情
                 $order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
                 
-                Doggy_Log_Helper::warn("JdPay direct notify trade_num: ".$param['tradeNum']);
+                Doggy_Log_Helper::warn("JdPay wap direct notify trade_num: ".$param['tradeNum']);
                 
                 // 判断该笔订单是否在商户网站中已经做过处理
                 // 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
@@ -215,7 +215,7 @@ class Sher_Wap_Action_Jdpay extends Sher_Wap_Action_Base implements DoggyX_Actio
 		// 跳转订单详情
 		$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
 		
-		Doggy_Log_Helper::warn("JdPay order[$out_trade_no] status[$status] updated!");
+		Doggy_Log_Helper::warn("JdPay wap order[$out_trade_no] status[$status] updated!");
 		
 		// 验证订单是否已经付款
 		if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){

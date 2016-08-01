@@ -178,7 +178,7 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 			}
 
             if(!empty($expired_day)){
-                $expired_time = time + 60*60*24*$expired_day;
+                $expired_time = time() + 60*60*24*$expired_day;
             }else{
                 $expired_time = 0;
             }
