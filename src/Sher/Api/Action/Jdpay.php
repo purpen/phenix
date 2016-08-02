@@ -288,7 +288,7 @@ class Sher_Api_Action_Jdpay extends Sher_Core_Action_Base {
             $result['success'] = false;
             $result['message'] = '抱歉，系统不存在订单['.$out_trade_no.']！';
             $this->stash['result'] = $result;
-            return $this->to_html_page('/fiu/jdpay_callback');
+            return $this->to_html_page('/fiu/jdpay_callback.html');
 		}
 		$status = $order_info['status'];
 		$is_presaled = $order_info['is_presaled'];
@@ -316,7 +316,7 @@ class Sher_Api_Action_Jdpay extends Sher_Core_Action_Base {
 		}
 
         $this->stash['result'] = $result;
-        return $this->to_html_page('/fiu/jdpay_callback');
+        return $this->to_html_page('/fiu/jdpay_callback.html');
 	}
 
 }
