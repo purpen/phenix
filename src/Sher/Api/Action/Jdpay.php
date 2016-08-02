@@ -270,7 +270,7 @@ class Sher_Api_Action_Jdpay extends Sher_Core_Action_Base {
 		}
 
         $this->stash['result'] = $result;
-		return $this->to_html_page('/fiu/jdpay_callback');
+		return $this->to_html_page('/fiu/jdpay_callback.html');
 
 	}
 	
