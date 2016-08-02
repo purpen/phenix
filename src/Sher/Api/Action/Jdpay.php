@@ -129,8 +129,8 @@ class Sher_Api_Action_Jdpay extends Sher_Core_Action_Base {
         $currency = 'CNY';
         $note = '';     // 备注
         $orderType = '0';     // 0.实物；1.虚拟；
-        $callbackUrl = Doggy_Config::$vars['app.url.api'].'/jdpay/fiu_direct_notify';      // 支付成功跳转
-        $notifyUrl = Doggy_Config::$vars['app.url.api'].'/jdpay/fiu_secrete_notify';    // 异步通知
+        $callbackUrl = Doggy_Config::$vars['app.url.api'].'/jdpay/direct_notify';      // 支付成功跳转
+        $notifyUrl = Doggy_Config::$vars['app.url.api'].'/jdpay/secrete_notify';    // 异步通知
         $ip = Sher_Core_Helper_Auth::get_ip();
         $userType = '';
         $userId = '';   // 商户的用户账号
@@ -181,13 +181,13 @@ class Sher_Api_Action_Jdpay extends Sher_Core_Action_Base {
      *
 	 */
 	public function secrete_notify(){
-		Doggy_Log_Helper::warn("Jdpay secrete notify updated....");
+		Doggy_Log_Helper::warn("Jdpay app secrete notify updated....");
 
         $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
 		$resdata;
 		$falg = Sher_Core_Util_JdPay_XMLUtil::decryptResXml($xml, $resdata);
 		if($falg){
-		    Doggy_Log_Helper::warn("Jdpay secrete notify pass!");
+		    Doggy_Log_Helper::warn("Jdpay app secrete notify pass!");
 		    Doggy_Log_Helper::warn(json_encode($resdata));
             if(!empty($resdata)){
                 if($resdata['result']['desc']=='success' && $resdata['result']['code']=='000000'){
@@ -197,10 +197,10 @@ class Sher_Api_Action_Jdpay extends Sher_Core_Action_Base {
                     return $this->update_jdpay_order_process($out_trade_no, $trade_no, true);
                 }
             }
-		    Doggy_Log_Helper::warn("Jdpay secrete notify update order fail!");
+		    Doggy_Log_Helper::warn("Jdpay app secrete notify update order fail!");
             return $this->to_raw('fail');
 		}else{
-		    Doggy_Log_Helper::warn("Jdpay secrete notify error!");
+		    Doggy_Log_Helper::warn("Jdpay app secrete notify error!");
             return $this->to_raw('fail');
 		}
 	}
@@ -240,9 +240,14 @@ class Sher_Api_Action_Jdpay extends Sher_Core_Action_Base {
 		//echo "decryptStr=".htmlspecialchars($decryptStr)."<br/>";
 		$sha256SourceSignString = hash ( "sha256", $strSourceData);
 		//echo "sha256SourceSignString=".htmlspecialchars($sha256SourceSignString)."<br/>";
+
+        $result = array();
+        $result['success'] = false;
+        $result['message'] = '';
+
 		if($decryptStr!=$sha256SourceSignString){
 		    // 验证失败
-			return $this->show_message_page('验证签名失败!', true);
+            $result['message'] = '验证签名失败!';
 		}else{
             if($param["status"]==0){
                 // 商户订单号
@@ -253,18 +258,19 @@ class Sher_Api_Action_Jdpay extends Sher_Core_Action_Base {
                 // 跳转订单详情
                 $order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
                 
-                Doggy_Log_Helper::warn("JdPay direct notify trade_num: ".$param['tradeNum']);
+                Doggy_Log_Helper::warn("JdPay app direct notify trade_num: ".$param['tradeNum']);
                 
                 // 判断该笔订单是否在商户网站中已经做过处理
                 // 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
                 // 如果有做过处理，不执行商户的业务程序
                 return $this->update_jdpay_order_process($out_trade_no, $trade_no);
-
             }else{
- 			    return $this->show_message_page('交易失败!', true);               
+                $result['message'] = '交易失败!';
             }
-
 		}
+
+        $this->stash['result'] = $result;
+		return $this->to_html_page('/fiu/jdpay_callback');
 
 	}
 	
@@ -272,19 +278,23 @@ class Sher_Api_Action_Jdpay extends Sher_Core_Action_Base {
 	 * 更新订单状态
 	 */
 	protected function update_jdpay_order_process($out_trade_no, $trade_no, $sync=false){
+        $result = array();
+        $result['success'] = true;
+        $result['message'] = '';
+
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->find_by_rid($out_trade_no);
 		if (empty($order_info)){
-			return $this->show_message_page('抱歉，系统不存在订单['.$out_trade_no.']！', true);
+            $result['success'] = false;
+            $result['message'] = '抱歉，系统不存在订单['.$out_trade_no.']！';
+            $this->stash['result'] = $result;
+            return $this->to_html_page('/fiu/jdpay_callback');
 		}
 		$status = $order_info['status'];
 		$is_presaled = $order_info['is_presaled'];
 		$order_id = (string)$order_info['_id'];
 		
-		// 跳转订单详情
-		$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
-		
-		Doggy_Log_Helper::warn("JdPay order[$out_trade_no] status[$status] updated!");
+		Doggy_Log_Helper::warn("JdPay app order[$out_trade_no] status[$status] updated!");
 		
 		// 验证订单是否已经付款
 		if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
@@ -292,7 +302,7 @@ class Sher_Api_Action_Jdpay extends Sher_Core_Action_Base {
 			$model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, Sher_Core_Util_Constant::TRADE_JDPAY, array('user_id'=>$order_info['user_id']));
 			
 			if (!$sync){
-				return $this->show_message_page('订单状态已更新!', $order_view_url);
+                $result['message'] = '订单状态已更新!';
 			} else {
 				// 已支付状态
 				return $this->to_raw('ok');
@@ -300,10 +310,13 @@ class Sher_Api_Action_Jdpay extends Sher_Core_Action_Base {
 		}
 		
 		if (!$sync){
-			return $this->to_redirect($order_view_url);
+            $result['message'] = '订单状态已更新!';
 		} else {
 			return $this->to_raw('ok');
 		}
+
+        $this->stash['result'] = $result;
+        return $this->to_html_page('/fiu/jdpay_callback');
 	}
 
 }
