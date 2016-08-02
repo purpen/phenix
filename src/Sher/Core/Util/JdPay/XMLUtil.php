@@ -52,7 +52,7 @@ class Sher_Core_Util_JdPay_XMLUtil
 		$sign = Sher_Core_Util_JdPay_ConfigUtil::encryptByPrivateKey($sha256SourceSignString);
 		$rootDom = $dom->getElementsByTagName("jdpay");
 		$signDom = $dom->createElement("sign");
-		$signDom = $rootDom[0]->appendChild($signDom);
+		$signDom = $rootDom->item(0)->appendChild($signDom);
 		$signText = $dom->createTextNode($sign);
 		$signText = $signDom->appendChild($signText);
 		$data = Sher_Core_Util_JdPay_XMLUtil::xmlToString($dom);
