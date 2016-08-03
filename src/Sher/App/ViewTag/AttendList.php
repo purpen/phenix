@@ -21,6 +21,7 @@ class Sher_App_ViewTag_AttendList extends Doggy_Dt_Tag {
         $user_id = 0;
         $target_id = 0;
         $event = 0;
+        $show_category = 0;
 		
 		    $sort = 'latest';
 		
@@ -58,6 +59,24 @@ class Sher_App_ViewTag_AttendList extends Doggy_Dt_Tag {
         $options['size'] = $size;
 		
         $result = $service->get_attend_list($query,$options);
+
+        //加载分类
+        if($show_category){
+            $college = null;
+            $category_model = new Sher_Core_Model_Category();
+
+            for($i=0;$i<count($result['rows']);$i++){
+                if(!isset($result['rows'][$i]['category_id']) || empty($result['rows'][$i]['category_id'])){
+                    continue;
+                }
+                $category_id = $result['rows'][$i]['category_id']:0;
+
+                $category = $category_model->find_by_id((int)$category_id);
+                if($category){
+                    $result['rows'][$i]['category'] = $category;              
+                }
+            }
+        }
 		
         $context->set($var,$result);
         if ($include_pager) {
