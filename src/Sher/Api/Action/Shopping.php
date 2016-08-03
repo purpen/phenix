@@ -197,22 +197,24 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			$coin_money = 0.0;
 
 
-      // 用户是否首次下单立减 秒杀、Fiu不参与
-      if($app_type==1){
-        $user_model = new Sher_Core_Model_User();
-        $user = $user_model->load($this->current_user_id);
-        if(empty($user)){
-          return false;
-        }
-        if(isset($user['identify']['is_app_first_shop']) && $user['identify']['is_app_first_shop']==1){
-          //首次下单立减非首次下单用户过滤
-        }else{
-          if(empty($kind)){ // 其它活动不参与
-            $kind = 4;
-            $coin_money = Sher_Core_Util_Constant::APP_FIRST_COIN_MONEY;
-          }    
-        }     
-      }
+          // 用户是否首次下单立减 秒杀、Fiu不参与
+            /**
+          if($app_type==1){
+            $user_model = new Sher_Core_Model_User();
+            $user = $user_model->load($this->current_user_id);
+            if(empty($user)){
+              return false;
+            }
+            if(isset($user['identify']['is_app_first_shop']) && $user['identify']['is_app_first_shop']==1){
+              //首次下单立减非首次下单用户过滤
+            }else{
+              if(empty($kind)){ // 其它活动不参与
+                $kind = 4;
+                $coin_money = Sher_Core_Util_Constant::APP_FIRST_COIN_MONEY;
+              }    
+            }     
+          }
+          **/
 			
 			// 红包金额
 			$card_money = 0.0;
@@ -1283,22 +1285,24 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		// 优惠活动费用
 		$coin_money = 0.0;
 
-    // 用户是否首次下单立减 秒杀、Fiu不参与
-    if($app_type==1){
-      $user_model = new Sher_Core_Model_User();
-      $user = $user_model->load($this->current_user_id);
-      if(empty($user)){
-        return false;
-      }
-      if(isset($user['identify']['is_app_first_shop']) && $user['identify']['is_app_first_shop']==1){
-        //首次下单立减非首次下单用户过滤
-      }else{
-        if(empty($kind)){ // 秒杀不参与
-          $kind = 4;
-          $coin_money = Sher_Core_Util_Constant::APP_FIRST_COIN_MONEY;
-        }    
-      }   
-    }
+        // 用户是否首次下单立减 秒杀、Fiu不参与
+        /**
+        if($app_type==1){
+          $user_model = new Sher_Core_Model_User();
+          $user = $user_model->load($this->current_user_id);
+          if(empty($user)){
+            return false;
+          }
+          if(isset($user['identify']['is_app_first_shop']) && $user['identify']['is_app_first_shop']==1){
+            //首次下单立减非首次下单用户过滤
+          }else{
+            if(empty($kind)){ // 秒杀不参与
+              $kind = 4;
+              $coin_money = Sher_Core_Util_Constant::APP_FIRST_COIN_MONEY;
+            }    
+          }   
+        }
+         */
 		
 		// 红包金额
 		$card_money = 0.0;
