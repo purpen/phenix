@@ -69,7 +69,7 @@ class Sher_App_ViewTag_AttendList extends Doggy_Dt_Tag {
                 if(!isset($result['rows'][$i]['category_id']) || empty($result['rows'][$i]['category_id'])){
                     continue;
                 }
-                $category_id = $result['rows'][$i]['category_id']:0;
+                $category_id = $result['rows'][$i]['category_id'];
 
                 $category = $category_model->find_by_id((int)$category_id);
                 if($category){
