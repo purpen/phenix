@@ -339,7 +339,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         $result  = $model->extend_load((int)$id);
 
 		if (empty($result) || $result['deleted']==1) {
-            return $this->api_json('场景不存在或已删除!', 3002);
+            return $this->api_json('情景不存在或已删除!', 3002);
         }
 
 		$result['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);

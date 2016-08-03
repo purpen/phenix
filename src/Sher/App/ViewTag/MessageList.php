@@ -16,6 +16,8 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
         $size = 10;
 		$user_id = 0;
 		$reply_id = 0;
+        $s = 0;
+        $q = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -32,6 +34,13 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
         if(isset($user_id) && $user_id){
 			$query['users'] = (int)$user_id;
 		}
+
+        // 搜索结果
+        if($s && $q){
+            if($s==1){
+                $query['users'] = (int)$q;
+            }
+        }
 		
 		if(isset($type) && $type){
 			$query['type'] = $type;

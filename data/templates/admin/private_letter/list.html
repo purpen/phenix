@@ -322,6 +322,9 @@
 		<a href="{{ app_url_admin_base }}/private_letter" class="item {{ css_all }}">
 			全部
 		</a>
+		<a href="{{ app_url_admin_base }}/private_letter?type=2" class="item {{ css_admin }}">
+			当前用户
+		</a>
     <a href="{{ app_url_admin_base }}/private_letter/get_list?reply_id={{user_id}}" class="item {{ css_no_reply }}">
 			未回复
 		</a>
@@ -334,6 +337,25 @@
 				<i class="mail icon"></i>分组管理
 			</a>
 	    </div>
+	</div>
+
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/private_letter/get_list" method="get">
+			<label>搜索：</label>
+          <div class="ui selection dropdown">
+            <input type="hidden" name="s" value="{{ s }}" />
+            <div class="default text">选择条件</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="1">用户ID</div>
+            </div>
+          </div>
+
+			<div class="ui icon input">
+        <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
 	</div>
     
     <div id="send_letter" class="ui fullscreen modal transition scrolling" style="display: none">
@@ -380,7 +402,7 @@
 	
 	<div class="ui alarm segment">
 	  
-	  {% message_list var:'list' page:page type:2 user_id:user_id reply_id:reply_id %}
+	  {% message_list var:'list' page:page type:type user_id:user_id reply_id:reply_id s:s q:q size:size %}
 	  
 	  {% for message in list.rows %}
 	  <div id="message_{{ message._id }}" class="mes-text" style="width:100%">
