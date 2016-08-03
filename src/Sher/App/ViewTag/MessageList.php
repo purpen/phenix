@@ -73,6 +73,12 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
                         $result['rows'][$i]['readed'] = $result['rows'][$i]['b_readed'];
                     }
 
+                    if($result['rows'][$i]['users'][0]==$user_id){
+                        $result['rows'][$i]['f_user'] = $result['rows'][$i]['to_user'];       
+                    }else{
+                        $result['rows'][$i]['f_user'] = $result['rows'][$i]['from_user'];       
+                    }
+                    
                     // 查看分组信息
                     $group_arr = $result['rows'][$i]['mailbox'];
                     for($j=0;$j<count($group_arr);$j++){

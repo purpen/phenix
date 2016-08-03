@@ -211,5 +211,30 @@ class Sher_Admin_Action_PrivateLetter extends Sher_Admin_Action_Base implements 
 		
 		return $this->ajax_json('success', false);
 	}
+
+  /**
+   * 删除私信
+   */
+  public function delete_message(){
+    $id = $this->stash['id'];
+    if(empty($id)){
+      return $this->ajax_note('id不存在!', true); 
+    }
+    $message = new Sher_Core_Model_Message();
+    $data = $message->find_by_id($id);
+    if(empty($data)){
+      return $this->ajax_note('私信不存在!', true);    
+    }
+
+      $ok = $message->remove($id);
+      if($ok){
+        return $this->to_taconite_page('ajax/del_message.html');
+      }else{
+        return $this->ajax_note('操作失败!', true);   
+      }
+
+
+  }
+
 }
 
