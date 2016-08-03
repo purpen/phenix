@@ -18,6 +18,7 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
 		$reply_id = 0;
         $s = 0;
         $q = 0;
+        $noread = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -61,38 +62,61 @@ class Sher_App_ViewTag_MessageList extends Doggy_Dt_Tag {
 			
 			$message = new Sher_Core_Model_Message();
 			$message_group = new Sher_Core_Model_MessageGroup();
-			
-			for($i=0;$i<count($result['rows']);$i++){
-				$small_user = min($result['rows'][$i]['users']);
-				if($user_id == $small_user){
-					$result['rows'][$i]['readed'] = $result['rows'][$i]['s_readed'];
-					# 更新阅读标识
-					$message->mark_message_readed($result['rows'][$i]['_id'], 's_readed');
-				}else{
-					$result['rows'][$i]['readed'] = $result['rows'][$i]['b_readed'];
-					# 更新阅读标识
-					$message->mark_message_readed($result['rows'][$i]['_id'], 'b_readed');
-				}
 
-				if($result['rows'][$i]['users'][0]==$user_id){
-						  $result['rows'][$i]['f_user'] = $result['rows'][$i]['to_user'];       
-				}else{
-						$result['rows'][$i]['f_user'] = $result['rows'][$i]['from_user'];       
-				}
-				
-				// 查看分组信息
-				$group_arr = $result['rows'][$i]['mailbox'];
-				for($j=0;$j<count($group_arr);$j++){
-					$group_id = isset($group_arr[$j]['group_id']) ? $group_arr[$j]['group_id'] : 0;
-					if(!$group_id){continue;}
-					$res = $message_group->find_by_id($group_id);
-					$result['rows'][$i]['mailbox'][$j]['group_name'] = $res['name'];
-				}
-				
-				//$result['rows'][$i]['latest'] = array_pop($result['rows'][$i]['mailbox']);
-			}
+            if($noread){
+                for($i=0;$i<count($result['rows']);$i++){
+                    $small_user = min($result['rows'][$i]['users']);
+                    $big_user = max($result['rows'][$i]['users']);
+                    if($user_id == $small_user){
+                        $result['rows'][$i]['readed'] = $result['rows'][$i]['s_readed'];
+                    }else{
+                        $result['rows'][$i]['readed'] = $result['rows'][$i]['b_readed'];
+                    }
+
+                    // 查看分组信息
+                    $group_arr = $result['rows'][$i]['mailbox'];
+                    for($j=0;$j<count($group_arr);$j++){
+                        $group_id = isset($group_arr[$j]['group_id']) ? $group_arr[$j]['group_id'] : 0;
+                        if(!$group_id){continue;}
+                        $res = $message_group->find_by_id($group_id);
+                        $result['rows'][$i]['mailbox'][$j]['group_name'] = $res['name'];
+                    }
+                    
+                    //$result['rows'][$i]['latest'] = array_pop($result['rows'][$i]['mailbox']);
+                }   // endfor             
+            }else{
+                for($i=0;$i<count($result['rows']);$i++){
+                    $small_user = min($result['rows'][$i]['users']);
+                    if($user_id == $small_user){
+                        $result['rows'][$i]['readed'] = $result['rows'][$i]['s_readed'];
+                        # 更新阅读标识
+                        $message->mark_message_readed($result['rows'][$i]['_id'], 's_readed');
+                    }else{
+                        $result['rows'][$i]['readed'] = $result['rows'][$i]['b_readed'];
+                        # 更新阅读标识
+                        $message->mark_message_readed($result['rows'][$i]['_id'], 'b_readed');
+                    }
+
+                    if($result['rows'][$i]['users'][0]==$user_id){
+                              $result['rows'][$i]['f_user'] = $result['rows'][$i]['to_user'];       
+                    }else{
+                            $result['rows'][$i]['f_user'] = $result['rows'][$i]['from_user'];       
+                    }
+                    
+                    // 查看分组信息
+                    $group_arr = $result['rows'][$i]['mailbox'];
+                    for($j=0;$j<count($group_arr);$j++){
+                        $group_id = isset($group_arr[$j]['group_id']) ? $group_arr[$j]['group_id'] : 0;
+                        if(!$group_id){continue;}
+                        $res = $message_group->find_by_id($group_id);
+                        $result['rows'][$i]['mailbox'][$j]['group_name'] = $res['name'];
+                    }
+                    
+                    //$result['rows'][$i]['latest'] = array_pop($result['rows'][$i]['mailbox']);
+                }   // endfor           
+            }
 			
-			unset($message);
+			
 		}
 		
         $context->set($var,$result);
