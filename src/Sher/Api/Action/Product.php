@@ -850,7 +850,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         }
 
 		$some_fields = array(
-			'_id'=>1, 'cid'=>1, 'category_id'=>1, 'event'=>1, 'pid'=>1, 'state'=>1, 'target_id'=>1,
+			'_id'=>1, 'cid'=>1, 'category_id'=>1, 'event'=>1, 'pid'=>1, 'state'=>1, 'target_id'=>1, 'info'=>1,
 		);
 		
 		$query   = array();
