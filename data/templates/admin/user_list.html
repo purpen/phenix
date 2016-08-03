@@ -207,6 +207,7 @@
 						{% endif %}
 					</p>
 					{% else %}
+						<a href="{{ app_url_admin }}/user/status?id={{ user._id }}" class="ui link">统计</a>
             <a href="{{ app_url_admin }}/user/undisabled?id={{ user._id }}" class="ui link ajax">解禁</a>
           {%endif%}
 				</td>
