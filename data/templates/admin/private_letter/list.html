@@ -322,6 +322,9 @@
 		<a href="{{ app_url_admin_base }}/private_letter" class="item {{ css_all }}">
 			全部
 		</a>
+		<a href="{{ app_url_admin_base }}/private_letter?type=2" class="item {{ css_admin }}">
+			当前用户
+		</a>
     <a href="{{ app_url_admin_base }}/private_letter/get_list?reply_id={{user_id}}" class="item {{ css_no_reply }}">
 			未回复
 		</a>
@@ -334,6 +337,25 @@
 				<i class="mail icon"></i>分组管理
 			</a>
 	    </div>
+	</div>
+
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/private_letter/get_list" method="get">
+			<label>搜索：</label>
+          <div class="ui selection dropdown">
+            <input type="hidden" name="s" value="{{ s }}" />
+            <div class="default text">选择条件</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="1">用户ID</div>
+            </div>
+          </div>
+
+			<div class="ui icon input">
+        <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
 	</div>
     
     <div id="send_letter" class="ui fullscreen modal transition scrolling" style="display: none">
@@ -380,7 +402,7 @@
 	
 	<div class="ui alarm segment">
 	  
-	  {% message_list var:'list' page:page type:2 user_id:user_id reply_id:reply_id %}
+	  {% message_list var:'list' page:page type:type user_id:user_id reply_id:reply_id s:s q:q size:size %}
 	  
 	  {% for message in list.rows %}
 	  <div id="message_{{ message._id }}" class="mes-text" style="width:100%">
@@ -389,7 +411,12 @@
 		  </a>
 		  <div class="news">
 			  <div class="sub_title">
-				  与<a class="ui link" href="{{ message.f_user.home_url }}" target="_blank">{{ message.f_user.nickname }}</a>的对话
+                  {% if type==2 %}
+      				  与<a class="ui link" href="{{ message.f_user.home_url }}" target="_blank">{{ message.f_user.nickname }}</a>的对话
+                  {%else%}
+				  <a class="ui link" href="{{ message.from_user.home_url }}" target="_blank">{{ message.from_user.nickname }}</a>  与 <a class="ui link" href="{{ message.to_user.home_url }}" target="_blank">{{ message.to_user.nickname }}</a>的对话
+                  {%endif%}
+
 				  <a href="javascript:void(0);" class="ui mini button green sub_switch" style="margin-left: 2em">展开</a>
 				  {%if message.reply_id == user_id %}
 					<span class="ui mini green button is_reply{{ message._id }}">已回复</span>
@@ -399,15 +426,30 @@
 			  </div>
 			  {% for m in message.mailbox %}
 			  <div class="sub_header" {% if loop.counter == 1 %}style='display:block'{% else %}style='display:none'{% endif %}>
-				  {%if m.from==user_id%}
-					  <span>我 </span>: &nbsp;{{ m.content }}  &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}
-				  {%else%}
-					  <span> {{ message.f_user.nickname }}</span>:  &nbsp;{{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;<span class="date">{{ m.created_on|relative_datetime }}</span>
-					  <!--显示未读标识-->
-					  {% if loop.counter <= message.readed %}
-						&nbsp;<span class="ui red label">new</span>
-					  {%endif%}
-				  {%endif%}
+
+                  {% if type==2 %}
+                    {%if m.from==user_id%}
+                          <span>我 </span>: &nbsp;{{ m.content }}  &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}
+                      {%else%}
+                          <span> {{ message.f_user.nickname }}</span>:  &nbsp;{{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;<span class="date">{{ m.created_on|relative_datetime }}</span>
+                          <!--显示未读标识-->
+                          {% if loop.counter <= message.readed %}
+                            &nbsp;<span class="ui red label">new</span>
+                          {%endif%}
+                      {%endif%}
+                  {%else%}
+                    {%if m.from==message.from_user._id%}
+                          <span>{{ message.from_user.nickname }} </span>: &nbsp;{{ m.content }}  &nbsp;&nbsp;&nbsp;&nbsp;{{ m.created_on|relative_datetime }}
+                      {%else%}
+                          <span> {{ message.to_user.nickname }}</span>:  &nbsp;{{ m.content }} &nbsp;&nbsp;&nbsp;&nbsp;<span class="date">{{ m.created_on|relative_datetime }}</span>
+                          <!--显示未读标识-->
+                          {% if loop.counter <= message.readed %}
+                            &nbsp;<span class="ui red label">new</span>
+                          {%endif%}
+                      {%endif%}
+                  {%endif%}
+
+
 				  {% if m.group_name %}
 				  <span class="ui blue label">{{m.group_name}}</span>
 				  {%endif%}

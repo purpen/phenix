@@ -364,12 +364,12 @@ $('#slider').flexslider({
 			<div class="mainright">
 				<div class="titleuser">
 					<div class="ui middle aligned circular tiny image">
-            <a href="{{ stuff.user.home_url }}" target="_blank">
+            <a href="javascript:void(0);">
               <img src="{{ stuff.user.medium_avatar_url }}">
 						</a>
 					</div>
 					<div class="content">
-						<a href="{{ stuff.user.home_url }}" target="_blank">
+						<a href="javascript:void(0);">
 						  {{ stuff.user.nickname }}
 						</a>
 						<div class="sub header">
@@ -387,7 +387,7 @@ $('#slider').flexslider({
               {% if stuff.love_count %}
                   {% favorite_list var:'userlist' target_id:stuff._id event:2 type:4 %}
                   {% for target in userlist.rows %}
-                  <a href="{{ target.user.home_url }}" target="_blank" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
+                  <a href="javascript:void(0);" id="user-{{ target.user._id }}" class="image" data-variation="wide" data-html="<div class='header'>{{ target.user.nickname }}</div><div class='content'>{{ target.user.city }} {{ target.user.profile.job }} </div>">
                       <img src="{{ target.user.mini_avatar_url }}" alt="{{ target.user.nickname }}" />
                   </a>
                   {% endfor %}
