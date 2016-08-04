@@ -226,6 +226,10 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		if(!$data['tags']){
 		    return $this->api_json('请求标签不能为空', 3005);
 		}
+
+		if(!$data['scene_id']){
+		    return $this->api_json('请选择地盘', 3006);
+		}
 		
         if(!empty($products)){
             $product_arr = json_decode($products);
