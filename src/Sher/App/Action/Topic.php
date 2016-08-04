@@ -1426,7 +1426,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			
 			// 仅编辑权限或本人具有删除权限
 			if ($this->visitor->can_edit() || $topic['user_id'] == $this->visitor->id){
-				$model->remove((int)$id);
+				$model->mark_remove((int)$id);
 				
 				// 删除关联对象
 				$model->mock_after_remove($id);
@@ -1475,7 +1475,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 			
 			// 仅管理员或本人具有删除权限
 			if ($this->visitor->can_edit() || $topic['user_id'] == $this->visitor->id){
-				$model->remove((int)$id);
+				$model->mark_remove((int)$id);
 				
 				// 删除关联对象
 				$model->mock_after_remove($id);
