@@ -387,12 +387,15 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 			return $this->ajax_notification('缺少请求参数！', true);
 		}
 
-        // 是否允许编辑操作
-        $mark_arr = Sher_Core_Model_Block::mark_safer();
-        if(in_array($block['mark'], $mark_arr)){
-          if(!Sher_Core_Helper_Util::is_high_admin($user_id)){
-            return $this->ajax_notification('没有执行权限!', true);     
-          }
+        // 必须是管理员或特殊账户
+        if(!$this->visitor->is_admin){
+            // 是否允许编辑操作
+            $mark_arr = Sher_Core_Model_Block::mark_safer();
+            if(in_array($block['mark'], $mark_arr)){
+              if(!Sher_Core_Helper_Util::is_high_admin($user_id)){
+                return $this->ajax_notification('没有执行权限!', true);     
+              }
+            }
         }
 
         $user_model = new Sher_Core_Model_User(); 

@@ -232,10 +232,25 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
         $asset_service = Sher_Core_Service_Asset::instance();
         $spl_model = new Sher_Core_Model_SceneProductLink();
         $sight_model = new Sher_Core_Model_SceneSight();
+        $follow_model = new Sher_Core_Model_Follow();
+
+
+        $current_user_id = $this->current_user_id;
 
 		// 重建数据结果
         foreach($result['rows'] as $k => $v){
             $result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
+            $user_id = $result['rows'][$k]['user_id'];
+
+            // 验证当前用户是否关注过此用户
+            $is_follow = 0;
+            if($current_user_id){
+                if($follow_model->has_exist_ship($current_user_id, $user_id)){
+                    $is_follow = 1;
+                }             
+            }
+            $result['rows'][$k]['is_follow'] = $is_follow;
+
             switch($type){
                 case 10:
                     $scene_product = null;
