@@ -470,8 +470,8 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		$asset->remove_and_file(array('parent_id' => $id, 'asset_type'=>array('$in'=>array(50,55,56))));
 		unset($asset);
 
-    // 删除索引
-    Sher_Core_Util_XunSearch::del_ids('topic_'.(string)$id);
+        // 删除索引
+        Sher_Core_Util_XunSearch::del_ids('topic_'.(string)$id);
 		
 		// 删除Comment
 		$comment = new Sher_Core_Model_Comment();
@@ -537,6 +537,14 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	public function update_topic_file_count($id, $file_count){
 		return $this->update_set($id, array('file_count'=>(int)$file_count));
 	}
+
+  /**
+   * 逻辑删除
+   */
+  public function mark_remove($id, $options=array()){
+    $ok = $this->update_set((int)$id, array('deleted'=>1));
+    return $ok;
+  }
 	
 }
-?>
+

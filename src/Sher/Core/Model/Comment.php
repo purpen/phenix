@@ -631,7 +631,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 	/**
 	 * 屏蔽删除
 	 */
-	public function mark_remove($id){
+	public function mark_remove($id, $options=array()){
 	  $ok = false;
 	  if($id){
 		$ok = $this->update_set($id, array('deleted'=>1));

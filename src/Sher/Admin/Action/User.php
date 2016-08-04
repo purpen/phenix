@@ -378,6 +378,39 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		return $this->to_html_page('admin/user/stat.html');
 	}
 
+    /**
+     * 清空用户所有数据
+     */
+    public function ajax_clean_user(){
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+ 		if(empty($id)){
+			return $this->ajax_notification('缺少请求参数！', true);
+		}
+
+        // 是否允许编辑操作
+        $mark_arr = Sher_Core_Model_Block::mark_safer();
+        if(in_array($block['mark'], $mark_arr)){
+          if(!Sher_Core_Helper_Util::is_high_admin($user_id)){
+            return $this->ajax_notification('没有执行权限!', true);     
+          }
+        }
+
+        $user_model = new Sher_Core_Model_User(); 
+        $user = $user_model->load($id);
+        if(empty($user)){
+            return $this->ajax_notification('用户不存在！', true);
+        }
+
+        if($user['state'] != Sher_Core_Model_User::STATE_DISABLED){
+            return $this->ajax_notification('用户状态不正确！', true);
+        }
+
+        // 设置发送任务
+        Sher_Core_Util_Resque::queue('clean_user_created', 'Sher_Core_Jobs_CleanUser', array('user_id' => $user['_id']));
+        return $this->ajax_notification('操作完成！', false);
+    
+    }
+
 
 }
 

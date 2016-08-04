@@ -45,6 +45,7 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 		
         $ttl = 900;
         $endmid = null;
+        $deleted = -1;
 		
         extract($this->resolve_args($context,$this->argstring,EXTR_IF_EXISTS));
 		
@@ -78,6 +79,15 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
                 $query['published'] = 1;     
             }else{
                 $query['published'] = 0;
+            }
+        }
+
+        // 是否删除
+        if($deleted){
+            if((int)$deleted==-1){
+                $query['deleted'] = 0;     
+            }else{
+                $query['deleted'] = 1;
             }
         }
 		

@@ -135,7 +135,7 @@ class Sher_Admin_Action_Topic extends Sher_Admin_Action_Base implements DoggyX_A
 				$topic = $model->load((int)$id);
 				
         if (!empty($topic)){
-		      $model->remove((int)$id);
+		      $model->mark_remove((int)$id);
 			    $model->mock_after_remove($id, $topic);
 				}
 			}
