@@ -360,10 +360,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
                     $product = null;
                     $result['rows'][$k]['product'] = $product;
                     break;
-                case 1:
-                    $product = null;
-                    $result['rows'][$k]['product'] = $product;
-                    break;
+
                 default:
             }
 
