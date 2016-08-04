@@ -356,6 +356,14 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
                     }
                     $result['rows'][$k]['sight'] = $sight;
                     break;
+                case 1:
+                    $product = null;
+                    $result['rows'][$k]['product'] = $product;
+                    break;
+                case 1:
+                    $product = null;
+                    $result['rows'][$k]['product'] = $product;
+                    break;
                 default:
             }
 
