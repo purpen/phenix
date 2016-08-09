@@ -5,7 +5,7 @@
  * @author purpen
  *
  * 执行方式：
- * QUEUE='*' php sbin/resque 或 QUEUE=emailing,cache,cleaner php sbin/resque
+ * QUEUE='*' PIDFILE=/var/run/resque.pid php sbin/resque 或 QUEUE=emailing,cache,cleaner php sbin/resque
  * QUEUE='*' APP_INCLUDE=../application/init.php php sbin/resque
  */
 

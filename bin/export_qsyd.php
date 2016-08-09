@@ -34,7 +34,7 @@ $fp = fopen('/home/tianxiaoyi/qsyd2_match.csv', 'a');
 fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
 
 // 输出Excel列名信息
-$head = array('作品ID', '作品名称', '链接', '类别', '作品简介', '参赛类别', '原图链接');
+$head = array('作品ID', '作品名称', '链接', '类别', '作品简介', '原图链接', '姓名', '电话', '职业');
 // 将数据通过fputcsv写到文件句柄
 fputcsv($fp, $head);
 while(!$is_end){
@@ -61,7 +61,7 @@ while(!$is_end){
 
       $attr_label = $stuff['attr']==1 ? '个人' : '团队'; 
 
-      $row = array($stuff['_id'], $stuff['title'], $view_url, $cate_name, $stuff['description'], $attr_label, $img_urls);
+      $row = array($stuff['_id'], $stuff['title'], $view_url, $cate_name, $stuff['description'], $img_urls, $stuff['name'], $stuff['tel'], $stuff['position']);
       fputcsv($fp, $row);
 
 		  $total++;
