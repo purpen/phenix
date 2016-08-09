@@ -157,6 +157,9 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 	public function submit(){
 		$id = isset($this->stash['id'])?(int)$this->stash['id']:0;
 		$mode = 'create';
+
+        $top_category_id = Doggy_Config::$vars['app.contest.qsyd2_category_id'];
+		$this->stash['fid'] = $top_category_id;
 		
 		$model = new Sher_Core_Model_Stuff();
 
@@ -167,6 +170,9 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 			$this->stash['stuff'] = $stuff;
 		}
     $this->stash['mode'] = $mode;
+
+        // 记录上一步来源地址
+        $this->stash['return_url'] = $_SERVER['HTTP_REFERER'];
 		
 		return $this->to_html_page('admin/stuff/submit.html');
 	}
@@ -176,10 +182,12 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 	 */
 	public function save() {
 
-    // 要求只能某个账户操作
-    if($this->visitor->id != 10){
- 			return $this->ajax_notification('权限不够！', true);   
-    }
+        // 要求只能某个账户操作
+        if($this->visitor->id != 10){
+            //return $this->ajax_notification('权限不够！', true);   
+        }
+
+        $redirect_url = isset($this->stash['return_url']) ? htmlspecialchars_decode($this->stash['return_url']) : null;
 		
 		$model = new Sher_Core_Model_Stuff();
 		try{
@@ -188,11 +196,14 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 				$mode = 'create';
 				//$ok = $model->apply_and_save($this->stash);
       }else{
-        $add_love_count = (int)$this->stash['add_love_count'];
-				$mode = 'edit';
+
+		$mode = 'edit';
         $data['_id'] = (int)$this->stash['_id'];
-        $data['love_count'] = (int)$this->stash['love_count'] + abs($add_love_count);
-        $data['view_count'] = (int)$this->stash['view_count'];
+
+        //$add_love_count = (int)$this->stash['add_love_count'];
+        //$data['love_count'] = (int)$this->stash['love_count'] + abs($add_love_count);
+        //$data['view_count'] = (int)$this->stash['view_count'];
+        $data['category_id'] = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 				$ok = $model->apply_and_update($data);
 			}
 			if(!$ok){
@@ -203,7 +214,9 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 			return $this->ajax_note('保存失败:'.$e->getMessage(), true);
 		}
 		
-		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/stuff';
+        if(!$redirect_url){
+		    $redirect_url = Doggy_Config::$vars['app.url.admin'].'/stuff';
+        }
 		
 		return $this->ajax_json('保存成功.', false, $redirect_url);
 	}

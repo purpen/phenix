@@ -241,7 +241,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 	public function view(){
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		if(empty($id)){
-			return $this->api_json('访问的产品不存在！', 3000);
+			return $this->api_json('缺少请求参数！', 3000);
 		}
 
     $user_id = $this->current_user_id;

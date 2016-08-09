@@ -47,6 +47,7 @@
         <a href="{{ app_url_admin }}/user?sort=0&page={{page}}" class="ui link {%if sort==0%}active{%endif%}">最新</a>
         <a href="{{ app_url_admin }}/user?sort=1&page={{page}}" class="ui link {%if sort==1%}active{%endif%}">粉丝</a>
         <a href="{{ app_url_admin }}/user?sort=2&page={{page}}" class="ui link {%if sort==2%}active{%endif%}">文章</a>
+        <a href="{{ app_url_admin }}/user?sort=3&page={{page}}" class="ui link {%if sort==3%}active{%endif%}">情景</a>
 			</div>
 
         <hr />
@@ -102,7 +103,7 @@
 				<th></th>
 				<th>用户名</th>
 				<th>联系方式</th>
-        <th>关注|粉丝|文章|产品</th>
+        <th>关注|粉丝|文章|产品|情景</th>
         <th>Fiu达人</th>
         <th>优质用户</th>
         <th>类型</th>
@@ -142,7 +143,7 @@
           {{ user.profile.phone }}<br />
           {{ user.profile.realname }}
 				</td>
-        <td>{{ user.follow_count|default 0 }}|{{ user.fans_count|default 0 }}|{{ user.topic_count|default 0 }}|{{ user.product_count|default 0 }}</td>
+                <td>{{ user.follow_count|default 0 }}|{{ user.fans_count|default 0 }}|{{ user.topic_count|default 0 }}|{{ user.product_count|default 0 }}|{{ user.sight_count|default 0 }}</td>
         <td>{{ user.identify.is_expert|default 0 }}</td>
         <td>
           <p id="user-quality-{{user._id}}">
@@ -198,7 +199,7 @@
 						{% endif %}
 						
 						{% if user.state %}
-						<a href="{{ app_url_admin }}/user/disabled?id={{ user._id }}" class="ui link ajax">禁用</a>
+						<a href="{{ app_url_admin }}/user/disabled?id={{ user._id }}" class="ui link confirm-request">禁用</a>
 						{% endif %}
 						
 						{% if visitor.role_id == 9 %}
@@ -206,7 +207,9 @@
 						{% endif %}
 					</p>
 					{% else %}
+						<a href="{{ app_url_admin }}/user/status?id={{ user._id }}" class="ui link">统计</a>
             <a href="{{ app_url_admin }}/user/undisabled?id={{ user._id }}" class="ui link ajax">解禁</a>
+            <a href="{{ app_url_admin }}/user/ajax_clean_user?id={{ user._id }}" class="ui link confirm-request">清空数据</a>
           {%endif%}
 				</td>
 			</tr>

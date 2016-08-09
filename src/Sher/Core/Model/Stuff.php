@@ -156,6 +156,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 	);
 	
 	protected function extra_extend_model_row(&$row) {
+        /**
         if(isset($row['from_to'])){
             if($row['from_to'] == 1){ // 大赛
               $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']); 
@@ -175,6 +176,8 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
         }else{
             $row['view_url'] = Sher_Core_Helper_Url::stuff_view_url($row['_id']);  
         }
+         */
+        $row['view_url'] = sprintf("%s/qsyd_view2?id=%d", Doggy_Config::$vars['app.url.contest'], $row['_id']);
         $row['comment_view_url'] = $row['view_url'];
 
         if(isset($row['from_to'])){

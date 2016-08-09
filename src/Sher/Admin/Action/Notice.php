@@ -241,11 +241,10 @@ class Sher_Admin_Action_Notice extends Sher_Admin_Action_Base implements DoggyX_
 		$ok = $notice_model->update_set($id, array('state'=>Sher_Core_Model_Notice::STATE_BEGIN)); 
 		if($ok){
 			// 设置发送任务
-      Resque::setBackend(Doggy_Config::$vars['app.redis_host']);
-			Resque::enqueue('notice', 'Sher_Core_Jobs_Notice', array('notice_id' => $id));
-    }else{
-      return $this->ajax_note('发送失败!', true);
-    }
+            Sher_Core_Util_Resque::queue('notice', 'Sher_Core_Jobs_Notice', array('notice_id' => $id));
+        }else{
+            return $this->ajax_note('发送失败!', true);
+        }
 
     $this->stash['state'] = 1;
 

@@ -5,7 +5,7 @@
  * @author purpen
  *
  * 执行方式：
- * QUEUE='*' php sbin/resque 或 QUEUE=emailing,cache,cleaner php sbin/resque
+ * QUEUE='*' PIDFILE=/var/run/resque.pid php sbin/resque 或 QUEUE=emailing,cache,cleaner php sbin/resque
  * QUEUE='*' APP_INCLUDE=../application/init.php php sbin/resque
  */
 
@@ -36,12 +36,28 @@ require $cfg_doggy_bootstrap;
 set_time_limit(0);
 
 
-// $REDIS_BACKEND = getenv('REDIS_BACKEND');
-// if(!empty($REDIS_BACKEND)) {
-// 	Resque::setBackend($REDIS_BACKEND);
-// }
+$REDIS_BACKEND = getenv('REDIS_BACKEND');
+
+
+// A redis database number
+$REDIS_BACKEND_DB = getenv('REDIS_BACKEND_DB');
+
+if(!empty($REDIS_BACKEND)) {
+    if (empty($REDIS_BACKEND_DB))
+        Resque::setBackend($REDIS_BACKEND);
+    else
+        Resque::setBackend($REDIS_BACKEND, $REDIS_BACKEND_DB);
+}
 
 Resque::setBackend(Doggy_Config::$vars['app.redis_host']);
+
+$verified = (int)Doggy_Config::$vars['app.redis.default']['verified'];
+if(!empty($verified)){
+    $ret = Resque::redis()->auth(Doggy_Config::$vars['app.redis.default']['requirepass']);
+  if ($ret === false) {
+    die($redis->getLastError());
+  }   
+}
 
 $logLevel = 0;
 $LOGGING = getenv('LOGGING');

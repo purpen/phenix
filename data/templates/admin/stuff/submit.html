@@ -182,6 +182,27 @@ h3.ui.header{
 		}
 	});
 
+	// 选择分类
+	$('body').on('click', '.category.button', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+				
+			$('#stuff-category').val('');
+
+		}else{
+			$(this)
+				.siblings('.category.button').removeClass('active')
+				.end()
+				.addClass('active');
+			$('#stuff-category').val(id);
+
+		}
+		
+        return false;
+	});
+
 {% endblock %}
 
 {% block content %}
@@ -209,7 +230,18 @@ h3.ui.header{
 	
 	<form action="{{ app_url_admin_base }}/stuff/save" class="ui form" method="post" id="stuff-form">
 		<input name="_id" type="hidden" value="{{ stuff._id }}" />
+		  <input type="hidden" name="return_url" value="{{ return_url }}" />
+
+        <div class="field">
+          <label>分类:</label>
+          <input type="hidden" name="category_id" value="{{ stuff.category_id }}" id="stuff-category" />
+          {% category_list var:'category' only_open:1 domain:4 pid:fid current:stuff.category_id %}
+          {% for cat in category.rows %}
+          <a class="ui {{ cat.active }} magenta category button" style="margin-bottom:2px;" data-value="{{ cat._id }}">{{ cat.title }}</a>
+          {% endfor %}
+        </div>
 		
+        <!--
 		<div class="inline field">
 			<label>赞数量:</label>
       <input type="hidden" name="love_count" value="{{ stuff.love_count }}" />
@@ -220,6 +252,7 @@ h3.ui.header{
 			<label>浏览量:</label>
       <input type="text" name="view_count" value="{{ stuff.view_count }}" /><span style="color:red;"> *保证浏览数量要大于点赞数量</span>
 		</div>
+        -->
 		
 		<div class="inline field">
 			<div class="ui magenta submit button">

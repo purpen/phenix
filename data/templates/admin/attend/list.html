@@ -38,6 +38,7 @@
 				</th>
 				<th>用户</th>
 				<th>关联ID</th>
+                <th>标题</th>
                 <th>分类</th>
         <th>类型</th>
         <th>时间</th>
@@ -47,7 +48,7 @@
 		</thead>
 		<tbody>
 
-			{% attend_list var:'list' target_id:target_id type:1 event:event page:page size:size %}
+			{% attend_list var:'list' target_id:target_id type:1 event:event show_category:1 page:page size:size %}
 
 			{% for f in list.rows %}
         
@@ -71,7 +72,8 @@
             <td>
                 {{ f.target_id }}
             </td>
-            <td>{{ f.category_id }}</td>
+            <td>{{ f.info.title|default '--' }}</td>
+            <td>{{ f.category.title }}</td>
 
             <td>
                 {{ f.cid_label }}

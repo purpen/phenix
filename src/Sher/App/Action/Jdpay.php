@@ -45,7 +45,7 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->show_message_page("订单[$rid]已付款！", false);
 		}
 
-        $version = 'V2.0';  // 版本号
+        $version = Doggy_Config::$vars['app.jd_pay']['version'];  // 版本号
         $merchant = Doggy_Config::$vars['app.jd_pay']['merchant'];     // 商户号
         $desKey = Doggy_Config::$vars['app.jd_pay']['des_key'];   // 商户DES密钥
         $device = '1';       // 设备号  1.web;2.wap;3.app_store;4.fiu
@@ -122,7 +122,7 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
             if(!empty($resdata)){
                 if($resdata['result']['desc']=='success' && $resdata['result']['code']=='000000'){
                     $out_trade_no = $resdata['tradeNum'];
-                    $trade_no = '';
+                    $trade_no = $resdata['tradeNum'];
 		            Doggy_Log_Helper::warn("Jdpay secrete notify update order success!");
                     return $this->update_jdpay_order_process($out_trade_no, $trade_no, true);
                 }
@@ -178,7 +178,7 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
                 // 商户订单号
                 $out_trade_no = $param['tradeNum'];
                 // 京东交易号
-                $trade_no = '';
+                $trade_no = $param['tradeNum'];
                 
                 // 跳转订单详情
                 $order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
@@ -252,62 +252,91 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		$status = $order_info['status'];
 
-    // 申请退款的订单才允许退款操作(包括已发货,确认收货,完成操作)
+        // 申请退款的订单才允许退款操作(包括已发货,确认收货,完成操作)
 		if (!Sher_Core_Helper_Order::refund_order_status_arr($status)){
 			return $this->ajax_notification('订单状态不正确！', true);
-    }
+        }
 
-    $pay_money = $order_info['pay_money'];
-    if((float)$pay_money==0){
-  			return $this->show_message_page('订单[$rid]金额为零！', false);  
-    }
+        $pay_money = $order_info['pay_money'];
+        if((float)$pay_money==0){
+            return $this->show_message_page("订单[$rid]金额为零！", true); 
+        }
 
-    $trade_no = $order_info['trade_no'];
-    $trade_site = $order_info['trade_site'];
-    //是否来自支付宝且第三方交易号存在
-    if($trade_site != Sher_Core_Util_Constant::TRADE_ALIPAY || empty($trade_no)){
-			return $this->show_message_page('订单[$rid]支付类型错误！', false);
-    }
-
-
-    //退款日期2014-12-18 24:50:50 (24小时制)
-    $refund_date = date('Y-m-d H:i:s');
-    $detail_data = $trade_no.'^'.$pay_money.'^协商退款';
+		$order_id = (string)$order_info['_id'];
 
 		$trade_no = $order_info['trade_no'];
 		$trade_site = $order_info['trade_site'];
 		//是否来自支付宝且第三方交易号存在
-		if($trade_site != Sher_Core_Util_Constant::TRADE_ALIPAY || empty($trade_no)){
-				return $this->show_message_page('订单[$rid]支付类型错误！', false);
+		if($trade_site != Sher_Core_Util_Constant::TRADE_JDPAY || empty($trade_no)){
+		    return $this->show_message_page("订单[$rid]支付类型错误！", false);
 		}
 	
 	
 		//退款日期2014-12-18 24:50:50 (24小时制)
-		$refund_date = date('Y-m-d H:i:s');
+		$refund_date = date('YmdHis');
 		$detail_data = $trade_no.'^'.$pay_money.'^协商退款';
 
+        $trade_num = sprintf("%d%d", date('YmdHis'), $rid);
 
-		//构造要请求的参数数组，无需改动
-		$parameter = array(
-			"service" => "refund_fastpay_by_platform_pwd",
-			"partner" => trim($this->alipay_config['partner']),
-			"seller_email"	=> $this->alipay_config['seller_email'],
-			"refund_date"	=> $refund_date,
-			"batch_no"	=> (string)date('Ymd').(string)$rid,
-			"batch_num"	=> 1,
-			"detail_data"	=> $detail_data,
-			"_input_charset"	=> trim(strtolower($this->alipay_config['input_charset'])),
-			"notify_url"  =>  Doggy_Config::$vars['app.url.domain'].'/app/site/alipay/refund_notify',
-		);
-	
-		//删除初始化付款时调用参数
-		unset($this->alipay_config['return_url']);
-		unset($this->alipay_config['notify_url']);
+        $param = array();
+		$param["version"] = Doggy_Config::$vars['app.jd_pay']['version'];
+		$param["merchant"] = Doggy_Config::$vars['app.jd_pay']['merchant'];
+		$param["tradeNum"] = (string)$trade_num;
+		$param["oTradeNum"] = (string)$rid;
+		$param["amount"] = (string)($order_info['pay_money']*100);
+		$param["tradeTime"] = (string)$refund_date;
+		$param["notifyUrl"] = Doggy_Config::$vars['app.url.domain'].'/app/site/jdpay/refund_notify';
+		$param["note"] = $detail_data;
+		$param["currency"] = 'CNY';
+		
+		$reqXmlStr = Sher_Core_Util_JdPay_XMLUtil::encryptReqXml($param);
+		$refund_url = "https://paygate.jd.com/service/refund";
 
-		// 建立请求
-		$alipaySubmit = new Sher_Core_Util_AlipaySubmit($this->alipay_config);
-		$html_text = $alipaySubmit->buildRequestForm($parameter, "get", "确认");
-		echo $html_text;
+		$httputil = new Sher_Core_Util_JdPay_HttpUtil();
+		list ( $return_code, $return_content )  = $httputil->http_post_data($refund_url, $reqXmlStr);
+		//echo $return_content."\n";
+		$resData;
+		$flag=Sher_Core_Util_JdPay_XMLUtil::decryptResXml($return_content,$resData);
+		//echo var_dump($resData);
+		
+		if($flag){
+			
+			$status = $resData['status'];
+			if($status=="0"){
+				$resData['status']="处理中";
+			}elseif($status=="1"){
+				$resData['status']="成功";
+			}elseif ($status=="2"){
+				$resData['status']="失败";
+            }else{
+ 				$resData['status']="未知状态";
+            }
+
+            Doggy_Log_Helper::warn("jdpay refund notify: $rid refunde_order status $resData[status] !");
+
+            if($status=="1"){
+                $ok = $model->refunded_order($order_id, array('refunded_price'=>$pay_money));
+                if($ok){
+                    echo '<h2>退款成功!</h2>';
+                    Doggy_Log_Helper::warn("jdpay refund notify: $rid refunde_order success !");
+                    
+                }else{
+                    echo "<h2>$resData[status]</h2>";              
+                    Doggy_Log_Helper::warn("jdpay refund notify: $rid refunde_order no knows !");
+                }
+            }
+
+            //退款成功
+            //echo '<a href="#" onClick="javascript:window.opener=null;window.close();"><input name="green" type="submit" class="ui green button" value="关闭" ></a>';
+            print_r($resData);
+            return;
+
+		}else{
+            Doggy_Log_Helper::warn("jdpay refund notify: $rid refunde_order fail !");
+            echo '<h2>验签失败!</h2>';
+            print_r($resData);
+            return;
+		}
 
   }
 

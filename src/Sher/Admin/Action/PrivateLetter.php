@@ -7,7 +7,10 @@ class Sher_Admin_Action_PrivateLetter extends Sher_Admin_Action_Base implements 
 	
 	public $stash = array(
 		'page' => 1,
-		'size' => 50,
+		'size' => 100,
+        'type' => 0,
+        's' => 1,
+        'q' => '',
 	);
 	
 	public function _init() {
@@ -30,21 +33,38 @@ class Sher_Admin_Action_PrivateLetter extends Sher_Admin_Action_Base implements 
 		
 		// 判断左栏类型
 		$this->stash['show_type'] = "common";
-		
-    if(isset($this->stash['reply_id'])){
-      $this->set_target_css_state('no_reply');
-    }else{
-      $this->set_target_css_state('all');
-    }
 
-		$page = (int)$this->stash['page'];
-		$this->stash['user_id'] = $this->visitor->id;
-		
-		//清空私信提醒数量
-		if($this->visitor->counter['message_count']>0){
-		  $this->visitor->update_counter($this->visitor->id, 'message_count');   
-		}
-		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.admin'].'/private_letter/get_list?page=#p#';
+        $reply_id = isset($this->stash['reply_id']) ? (int)$this->stash['reply_id']: 0;
+        $type = (int)$this->stash['type'];
+
+        if($reply_id){
+		    $user_id = $this->stash['user_id'] = $this->visitor->id;
+            $this->set_target_css_state('no_reply');
+        }else{
+            switch($type){
+                case 0:
+                    $this->set_target_css_state('all');
+                    break;
+                case 1:
+                    $this->set_target_css_state('all');
+                    break;
+                case 2:
+                    $this->set_target_css_state('admin');
+                    break;
+            }       
+        }
+
+        if($type==2){
+		    $user_id = $this->stash['user_id'] = $this->visitor->id;
+            //清空私信提醒数量
+            if($this->visitor->counter['message_count']>0){
+                $this->visitor->update_counter($this->visitor->id, 'message_count');   
+            }
+        }else{
+            $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+        }
+
+		$this->stash['pager_url'] = sprintf(Doggy_Config::$vars['app.url.admin'].'/private_letter/get_list?type=%d&user_id=%d&reply_id=%d&s=%d&q=%s&page=#p#', $type, $user_id, $reply_id, $this->stash['s'], $this->stash['q']);
 		
 		return $this->to_html_page('admin/private_letter/list.html');
 	}
@@ -191,5 +211,30 @@ class Sher_Admin_Action_PrivateLetter extends Sher_Admin_Action_Base implements 
 		
 		return $this->ajax_json('success', false);
 	}
+
+  /**
+   * 删除私信
+   */
+  public function delete_message(){
+    $id = $this->stash['id'];
+    if(empty($id)){
+      return $this->ajax_note('id不存在!', true); 
+    }
+    $message = new Sher_Core_Model_Message();
+    $data = $message->find_by_id($id);
+    if(empty($data)){
+      return $this->ajax_note('私信不存在!', true);    
+    }
+
+      $ok = $message->remove($id);
+      if($ok){
+        return $this->to_taconite_page('ajax/del_message.html');
+      }else{
+        return $this->ajax_note('操作失败!', true);   
+      }
+
+
+  }
+
 }
 

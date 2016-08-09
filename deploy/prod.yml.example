@@ -213,6 +213,7 @@ app.jd_pay:
     des_key: 'ta4E/aspLA3lgFGKmNDNRYU92RkZ4w2t'
     seller_rsa_private_key: '/opt/project/phenix/vendor/jd_cert/seller_rsa_private_key.pem'
     wy_rsa_public_key: '/opt/project/phenix/vendor/jd_cert/wy_rsa_public_key.pem'
+    version: 'V2.0'
 
 # 实验室会员价格表
 app.d3in.vip_money:
