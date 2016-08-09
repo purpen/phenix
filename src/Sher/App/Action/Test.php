@@ -375,7 +375,13 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
         Doggy_Log_Helper::warn('aaaa');
         Resque::setBackend(Doggy_Config::$vars['app.redis_host']);
        Doggy_Log_Helper::warn('bbbb');
-        Resque::redis()->auth(Doggy_Config::$vars['app.redis.default']['requirepass']);
+        $verified = (int)Doggy_Config::$vars['app.redis.default']['verified'];
+        if(!empty($verified)){
+            $ret = Resque::redis()->auth(Doggy_Config::$vars['app.redis.default']['requirepass']);
+          if ($ret === false) {
+            die($redis->getLastError());
+          }   
+        }
         Resque::enqueue('test', 'Sher_Core_Jobs_Test', array('id' => '1'));
        Doggy_Log_Helper::warn('ccc');
 
