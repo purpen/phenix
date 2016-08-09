@@ -22,8 +22,9 @@ class Sher_App_ViewTag_AttendList extends Doggy_Dt_Tag {
         $target_id = 0;
         $event = 0;
         $show_category = 0;
+        $stick = 0;
 		
-		    $sort = 'latest';
+		$sort = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -53,10 +54,25 @@ class Sher_App_ViewTag_AttendList extends Doggy_Dt_Tag {
         if ($event) {
           $query['event'] = (int)$event;
         }
+        if ($stick) {
+          $query['stick'] = (int)$stick;
+        }
 		
         $service = Sher_Core_Service_Attend::instance();
         $options['page'] = $page;
         $options['size'] = $size;
+
+		// 排序
+		switch ((int)$sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'stick:update';
+				break;
+            default:
+				$options['sort_field'] = 'latest';
+		}
 		
         $result = $service->get_attend_list($query,$options);
 
