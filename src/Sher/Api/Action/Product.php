@@ -842,7 +842,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     public function index_stick_list(){
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
-		$sort = isset($this->stash['sort'])?(int)$this->stash['sort']:0;
+		$sort = isset($this->stash['sort'])?(int)$this->stash['sort']:1;
         $category_id = isset($this->stash['category_id'])?(int)$this->stash['category_id']:0;
 
         if(empty($category_id)){
@@ -850,7 +850,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         }
 
 		$some_fields = array(
-			'_id'=>1, 'cid'=>1, 'category_id'=>1, 'event'=>1, 'pid'=>1, 'state'=>1, 'target_id'=>1, 'info'=>1,
+			'_id'=>1, 'cid'=>1, 'category_id'=>1, 'event'=>1, 'pid'=>1, 'state'=>1, 'target_id'=>1, 'stick'=>1, 'info'=>1,
 		);
 		
 		$query   = array();
@@ -868,6 +868,9 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		switch ($sort) {
 			case 0:
 				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'stick:update';
 				break;
 		}
 		

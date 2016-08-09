@@ -42,13 +42,14 @@
                 <th>分类</th>
         <th>类型</th>
         <th>时间</th>
+        <th>推荐</th>
         <th>状态</th>
         <th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
 
-			{% attend_list var:'list' target_id:target_id type:1 event:event show_category:1 page:page size:size %}
+			{% attend_list var:'list' target_id:target_id type:1 event:event show_category:1 page:page size:size sort:1 %}
 
 			{% for f in list.rows %}
         
@@ -80,6 +81,15 @@
             </td>
             <td>{{ f.created_on|date 'Y-m-d' }}</td>
             <td>
+                <p>
+                    {% if f.stick %}
+                        <span id="stick-{{ f._id }}-label" class="ui small green label">是</span>
+                    {% else %}
+                        <span id="stick-{{ f._id }}-label" class="ui small orange label">否</span>
+                    {% endif %}
+                </p>
+            </td>
+            <td>
                 {% if f.state == 1 %}
                 <label class="ui green label" id="status-{{ f._id }}-label">启用</label>
                 {%else%}
@@ -96,6 +106,11 @@
 							拒绝
 						</a> | 
             -->
+						{% if f.stick == 1 %}
+						<a href="{{ app_url_admin_base }}/attend/ajax_set_stick?id={{ f._id }}&evt=0" class="ui link ajax item" id="stick-{{ f._id }}-button">取消推荐</a>
+						{% else %}
+						<a href="{{ app_url_admin_base }}/attend/ajax_set_stick?id={{ f._id }}&evt=1" class="ui link ajax item" id="stick-{{ f._id }}-button">推荐</a>
+						{% endif %}
 						<a href="{{ app_url_admin }}/attend/submit?id={{ f._id }}" class="ui link">编辑</a>
 						<a href="{{ app_url_admin }}/attend/deleted?id={{ f._id }}" class="ui confirm-request link">删除</a>
             </td>

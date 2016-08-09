@@ -8,7 +8,7 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
   protected $collection = "attend";
 
   protected $required_fields = array('user_id', 'target_id');
-  protected $int_fields = array('user_id', 'event', 'category_id');
+  protected $int_fields = array('user_id', 'event', 'category_id', 'stick');
 	
 	# Event: 活动报名
   const EVENT_ACTIVE = 1;
@@ -36,6 +36,7 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
     # 子ID, 用于专题PK论战 1.正方;2.反方；所属试用ＩＤ; 用于商城app首页类型展示：1.商品；2.专题；3.--；4.--
     'cid' => 0,
     'state' => 1,
+    'stick' => 0,
     # 活动报名信息
     'info' => array(),
   );
@@ -149,6 +150,20 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
 
     return $result>0?true:false;
   }
+
+    /**
+     * 标记为推荐
+     */
+    public function mark_as_stick($id) {
+        return $this->update_set($id, array('stick' => 1));
+    }
+	
+    /**
+     * 取消推荐
+     */
+	public function mark_cancel_stick($id) {
+		return $this->update_set($id, array('stick' => 0));
+	}
 	
 }
 
