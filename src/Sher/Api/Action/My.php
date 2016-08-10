@@ -113,9 +113,8 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 				return $this->api_json('请先登录！', 3000);   
 		}
 		
-		$user_info = array();
+		$user_info  = $data = $profile = array();
 		
-		$profile = array();
 		if(isset($this->stash['job']) && !empty($this->stash['job'])){
 		  $data['profile.job'] = $this->stash['job'];
 		}
@@ -153,9 +152,25 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		  $age_arr = explode('-', $this->stash['birthday']);
 		  $data['profile.age'] = $age_arr;
 		}
+
+        // 年龄段
+		if(isset($this->stash['age_group']) && !empty($this->stash['age_group']) && in_array($this->stash['age_group'], array('A','B','C','D','E','F'))){
+		  $data['profile.age_group'] = $this->stash['age_group'];
+        }
+        // 资产
+		if(isset($this->stash['assets']) && !empty($this->stash['assets']) && in_array($this->stash['assets'], array('A','B','C','D','E','F'))){
+		  $data['profile.assets'] = $this->stash['assets'];
+		}
+        // 感兴趣的情景主题
+		if(isset($this->stash['interest_scene_cate']) && !empty($this->stash['interest_scene_cate'])){
+            $interest_scene_cate_arr = explode(',', $this->stash['interest_scene_cate']);
+            for($i=0;$i<count($interest_scene_cate_arr);$i++){
+                $data['profile.interest_scene_cate'][$i] = (int)$interest_scene_cate_arr[$i];
+            }
+		}
 			
 		if(isset($this->stash['nickname']) && !empty($this->stash['nickname'])){
-		  $data['nickname'] = (int)$this->stash['nickname'];
+		  $data['nickname'] = $this->stash['nickname'];
 		}
 		if(isset($this->stash['sex'])){
 		  $data['sex'] = (int)$this->stash['sex'];
@@ -169,6 +184,10 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		if(isset($this->stash['summary']) && !empty($this->stash['summary'])){
 		  $data['summary'] = $this->stash['summary'];
 		}
+
+        if(empty($data)){
+           return $this->api_json('请选择要更新的内容！', 3001);       
+        }
 		
 		try {
 			$user = new Sher_Core_Model_User();
