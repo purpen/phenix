@@ -124,6 +124,10 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		// 开启查询
         $service = Sher_Core_Service_SceneSight::instance();
         $result = $service->get_scene_sight_list($query, $options);
+
+        // 评论
+        $comment_model = new Sher_Core_Model_Comment();
+        $user_model = new Sher_Core_Model_User();
 		
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
@@ -159,7 +163,31 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			}
 			
 			$result['rows'][$k]['user_info'] = $user;
-		}
+
+            // 获取评论(2条)
+            $comments = '';
+            $comment_query = array('target_id'=>(string)$result['rows'][$k]['_id'], 'type'=>12, 'deleted'=>0);
+            $comment_options = array('page'=>1, 'size'=>2, 'sort'=>array('created_on'=>-1));
+            $comment_list = $comment_model->find($comment_query, $comment_options);
+            if($comment_list){
+                $comments = array();
+                for($j=0;$j<count($comment_list);$j++){
+                    $comment_user = $user_model->extend_load($comment_list[$j]['user_id']);
+                    if($comment_user){
+                        $comment_row = array(
+                            '_id' => (string)$comment_list[$j]['_id'],
+                            'content' => $comment_list[$j]['content'],
+                            'user_id' => $comment_user['_id'],
+                            'user_nickname' => $comment_user['nickname'],
+                            'user_avatar_url' => $comment_user['mini_avatar_url'],
+                        );
+                        array_push($comments, $comment_row);
+                    }
+                }   // endfor
+                if(empty($comments)) $comments = '';
+            }   // endif comment_list
+
+        }
 		
 		// 过滤多余属性
         $filter_fields  = array('scene','cover','user','cover_id','__extend__');
