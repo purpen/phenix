@@ -28,6 +28,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			'used_count'=>1, 'view_count'=>1, 'love_count'=>1, 'comment_count'=>1, 'category_id'=>1,
 			'fine' => 1, 'stick'=>1, 'is_check'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
 		);
+
+		$current_user_id = $this->current_user_id;
 		
 		$query   = array();
 		$options = array();
@@ -128,6 +130,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         // 评论
         $comment_model = new Sher_Core_Model_Comment();
         $user_model = new Sher_Core_Model_User();
+
+		$favorite_model = new Sher_Core_Model_Favorite();
 		
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
@@ -165,7 +169,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			$result['rows'][$k]['user_info'] = $user;
 
             // 获取评论(2条)
-            $comments = '';
+            $comments = array();
             $comment_query = array('target_id'=>(string)$result['rows'][$k]['_id'], 'type'=>12, 'deleted'=>0);
             $comment_options = array('page'=>1, 'size'=>2, 'sort'=>array('created_on'=>-1));
             $comment_list = $comment_model->find($comment_query, $comment_options);
@@ -184,12 +188,26 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
                         array_push($comments, $comment_row);
                     }
                 }   // endfor
-                if(empty($comments)) $comments = '';
+
             }   // endif comment_list
 
             $result['rows'][$k]['comments'] = $comments;
 
-        }
+            // 用户是否点赞
+            $is_love = 0;
+            if($current_user_id){
+                $fav_query = array(
+                    'target_id' => (int)$result['rows'][$k]['_id'],
+                    'type' => Sher_Core_Model_Favorite::TYPE_APP_SCENE_SIGHT,
+                    'event' => Sher_Core_Model_Favorite::EVENT_LOVE,
+                    'user_id' => $current_user_id
+                );
+                $has_love = $favorite_model->first($query);
+                if($has_love) $is_love = 1;
+            }
+            $result['rows'][$k]['is_love'] = $is_love;
+
+        }   // endfor $result['rows']
 		
 		// 过滤多余属性
         $filter_fields  = array('scene','cover','user','cover_id','__extend__');
