@@ -187,6 +187,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
                 if(empty($comments)) $comments = '';
             }   // endif comment_list
 
+            $result['rows'][$k]['comments'] = $comments;
+
         }
 		
 		// 过滤多余属性
