@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 
-	protected $filter_user_method_list = array('execute', 'login', 'register', 'verify_code', 'find_pwd', 'third_sign', 'third_register_without_phone', 'third_register_with_phone', 'check_login', 'check_account');
+	protected $filter_user_method_list = array('execute', 'login', 'register', 'verify_code', 'find_pwd', 'third_sign', 'third_register_without_phone', 'third_register_with_phone', 'check_login', 'check_account', 'check_verify_code');
 	
 	/**
 	 * 入口
@@ -236,6 +236,27 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 		
 		return $this->api_json('正在发送');
 	}
+
+    /**
+     * 验证手机验证码
+     */
+    public function check_verify_code(){
+	    $phone = isset($this->stash['phone']) ? $this->stash['phone'] : null;
+	    $code = isset($this->stash['code']) ? $this->stash['code'] : null;
+
+        if(empty($phone) || empty($code)){
+ 		    return $this->api_json('缺少请求参数！', 3001);       
+        }
+
+		// 验证验证码是否有效
+		$verify = new Sher_Core_Model_Verify();
+		$verify_obj = $verify->first(array('phone'=>$phone,'code'=>$code));
+		if(empty($verify_obj)){
+			return $this->api_json('验证码有误，请重新获取！', 3002);
+		}
+
+		return $this->api_json('success！', 0, array('code'=>$code)); 
+    }
 	
 	/**
 	 * 获取用户信息
