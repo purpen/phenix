@@ -11,6 +11,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		'state' => '',
         'kind' => '',
         'mark' => '',
+        'from_to' => '',
 	);
 	
 	public function _init() {
@@ -43,7 +44,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
                 break;
         }
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/brands/get_list?kind=%d&mark=%s&page=#p#', $kind, $this->stash['mark']);
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/brands/get_list?kind=%d&mark=%s&from_to=%d&page=#p#', $kind, $this->stash['mark'], $this->stash['from_to']);
 		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('app_admin/brands/list.html');
 	}
@@ -121,6 +122,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		$banner_id = isset($this->stash['banner_id']) ? $this->stash['banner_id'] : null;
 		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 0;
 		$mark = isset($this->stash['mark']) ? strtolower($this->stash['mark']) : '';
+		$from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 1;
 		$self_run = isset($this->stash['self_run']) ? (int)$this->stash['self_run'] : 0;
 		
 		// 验证内容
@@ -145,6 +147,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
             'banner_id' => $banner_id,
             'kind' => $kind,
             'mark' => $mark,
+            'from_to' => $from_to,
             'self_run' => $self_run,
 		);
 

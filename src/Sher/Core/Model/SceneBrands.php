@@ -19,14 +19,16 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
         'des' => '',
 		# 封面
 		'cover_id' => '',
-    # Banner
-    'banner_id' => '',
-    # 类型
-    'kind' => self::KIND_FIU,
-    # 是否是自营品牌
-    'self_run' => 0,
-    # 首字母索引
-    'mark' => '',
+        # Banner
+        'banner_id' => '',
+        # 类型
+        'kind' => self::KIND_FIU,
+        # 是否是自营品牌
+        'self_run' => 0,
+        # 首字母索引
+        'mark' => '',
+        # 来源: 1.官方；2.用户
+        'from_to' => 1,
         # 点击次数
         'used_count' => 0,
         # 产品数量
@@ -38,7 +40,7 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('title','des','cover_id');
-	protected $int_fields = array('status', 'used_count', 'item_count', 'kind', 'self_run');
+	protected $int_fields = array('status', 'used_count', 'item_count', 'kind', 'self_run', 'from_to');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count', 'item_count');
 	protected $retrieve_fields = array();
@@ -72,12 +74,30 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
             default:
                 $row['kind_label'] = '--';
         }
+
+        // 类型
+        $from_to = isset($row['from_to']) ? $row['from_to'] : 1;
+        switch($from_to){
+            case 1:
+                $row['from_label'] = '官网';
+                break;
+            case 2:
+                $row['from_label'] = '用户';
+                break;
+            default:
+                $row['from_label'] = '--';
+        }
 	}
 	
 	/**
 	 * 保存之前,处理标签中的逗号,空格等
 	 */
 	protected function before_save(&$data) {
+
+	    if (!empty($data['title']) && empty($data['mark'])) {
+	        $data['mark'] = Sher_Core_Helper_Pinyin::str2py($data['title']);
+	    }
+
 	    parent::before_save($data);
 	}
 	

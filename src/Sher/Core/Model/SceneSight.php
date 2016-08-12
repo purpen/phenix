@@ -21,7 +21,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		# 所属情景
 		'scene_id' => 0,
         # 分类
-        'category_id' => 0,
+        'category_id' => array(),
 
 		# 标签
 		'tags' => array(),
@@ -76,7 +76,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('title', 'user_id');
-	protected $int_fields = array('status', 'used_count','love_count','comment_count','deleted', 'stick', 'fine', 'category_id');
+	protected $int_fields = array('status', 'used_count','love_count','comment_count','deleted', 'stick', 'fine');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count','view_count','love_count','comment_count','true_view_count','app_view_count','web_view_count','wap_view_count');
 	protected $retrieve_fields = array();
@@ -85,7 +85,6 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		'cover' =>  array('cover_id' => 'Sher_Core_Model_Asset'),
 		'scene' =>  array('scene_id' => 'Sher_Core_Model_SceneScene'),
 		'user' =>   array('user_id' => 'Sher_Core_Model_User'),
-		'category' =>   array('category_id' => 'Sher_Core_Model_Category'),
 	);
 	
 	/**
@@ -130,6 +129,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
         
         // 关联为场景产品关联表增加数据
         $model = new Sher_Core_Model_SceneProductLink();
+
         $product = $this->data['product'];
         if(count($product)){
           $scene_product_model = new Sher_Core_Model_SceneProduct();
@@ -141,9 +141,11 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
               $data['product_id'] = (int)$v['id'];
               $data['product_kind'] = $scene_product['kind'];
               $data['product_attrbute'] = $scene_product['attrbute'];
+              $data['brand_id'] = $scene_product['brand_id'];
               $model->create($data);
             }
-          }
+          } // endfor
+
         }
 
         // 添加到用户最近使用过的标签
