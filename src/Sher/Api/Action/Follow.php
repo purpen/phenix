@@ -246,4 +246,59 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 		
 		return $this->api_json('操作成功', 0, array('follow_id'=>$follow_id));
 	}
+
+	/**
+	 * 关注
+	 */
+	public function batch_follow(){
+		
+		$user_id = $this->current_user_id;
+		if(empty($user_id)){
+			return $this->api_json('请先登录！', 3000);
+		}
+		
+        $follow_ids= isset($this->stash['follow_ids']) ? $this->stash['follow_ids'] : null;
+
+        $user_arr = explode(',', $follow_ids);
+        
+		if(empty($follow_ids) || empty($user_arr)){
+			return $this->api_json('缺少请求参数！', 3001);
+		}
+
+		$model = new Sher_Core_Model_Follow();
+        $user_model = new Sher_Core_Model_User();
+		try{
+
+            for($i=0;$i<count($user_arr);$i++){
+                $data = array();
+                $follow_id = (int)$user_arr[$i];
+                if($follow_id == $user_id) continue;
+
+                // 添加关注
+                if($model->has_exist_ship($user_id,$follow_id)) continue;
+
+                $data['user_id'] = (int)$user_id;
+                $data['follow_id'] = (int)$follow_id;
+                
+                // 验证关注者是否关注了自己
+                if($model->has_exist_ship($follow_id,$user_id)){
+                    $data['type'] = Sher_Core_Model_Follow::BOTH_TYPE;
+                }
+                $ok = $model->create($data);
+                
+                if(!$ok) continue;
+
+                // 更新关注数、粉丝数
+                $user_model->inc_counter('fans_count', $follow_id);
+                $user_model->inc_counter('follow_count', $user_id);
+
+            }   // endfor
+
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->api_json('操作失败:'.$e->getMessage(), 3003);
+		}
+		
+		return $this->api_json('操作成功', 0, array('follow_ids'=>$follow_ids));
+	}
+
 }
