@@ -1,6 +1,6 @@
 <?php
 /**
- * 场景管理
+ * 情境管理
  * @author caowei@taihuoniao.com
  */
 class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implements DoggyX_Action_Initialize {
@@ -177,20 +177,20 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 	}
 
 	/**
-	 * 提交场景
+	 * 提交情境
 	 */
 	public function save(){
 		
 		$user_id = $this->visitor->id;
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
-		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
+		$category_ids = isset($this->stash['category_ids']) ? $this->stash['category_ids'] : '';
 		
 		$data = array();
 		$data['title'] = $this->stash['title'];
 		$data['des'] = $this->stash['des'];
 		$data['tags'] = $this->stash['tags'];
-        $data['category_id'] = $category_id;
+        $data['category_ids'] = $category_ids;
 		$data['city'] = isset($this->stash['city']) ? $this->stash['city'] : '';
 		$data['address'] = $this->stash['address'];
 		$data['location'] = array(

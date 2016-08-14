@@ -135,69 +135,65 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
     // 0.最新；1.随机
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
     // 1.过滤关注的用户和自己
-    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
     // 要显示场景数量。0为不加载场景
     $sight_count = isset($this->stash['sight_count']) ? (int)$this->stash['sight_count'] : 0;
+
+    // 显示推荐列表
+    $edit_stick = isset($this->stash['edit_stick']) ? (int)$this->stash['edit_stick'] : 0;
 
     $result = array();
     $user_arr = array();
     $follow_arr = array();
+    $users = array();
 
-    $dig_model = new Sher_Core_Model_DigList();
-    $dig_key_id = Sher_Core_Util_Constant::DIG_FIU_USER_IDS;
-    $dig = $dig_model->load($dig_key_id);
-    if(empty($dig) || empty($dig['items'])){
-      return $this->api_json('empty', 0, array('users'=>$result));
+    if($edit_stick==0){
+        // 系统推荐活跃用户
+        $dig_model = new Sher_Core_Model_DigList();
+        $dig_key_id = Sher_Core_Util_Constant::DIG_FIU_USER_IDS;
+        $dig = $dig_model->load($dig_key_id);
+        if(empty($dig) || empty($dig['items'])){
+          return $this->api_json('empty', 0, array('users'=>$result));
+        }
+        $users = $dig['items'];   
+    }elseif($edit_stick==1){
+
+        // 从块获取信息
+        $block_users = Sher_Core_Util_View::load_block('fiu_stick_user_ids', 1);
+        if(empty($block_users)){
+          return $this->api_json('empty', 0, array('users'=>$result));
+        }
+
+        $u_arr = array_values(array_unique(preg_split('/[,，;；\s]+/u',$block_users)));
+        for($i=0;$i<count($u_arr);$i++){
+            array_push($users, (int)$u_arr[$i]);
+        }
+
+        if(empty($users)){
+            return $this->api_json('empty', 0, array('users'=>$result));        
+        }
+    
+    }else{
+        return $this->api_json('empty', 0, array('users'=>$result));   
     }
 
     $user_model = new Sher_Core_Model_User();
     $follow_model = new Sher_Core_Model_Follow();
     $scene_sight_model = new Sher_Core_Model_SceneSight();   
 
-    if($type==1){ // 过滤已关注的用户和当前用户
-      if($user_id){
-        $follow_page = 1;
-        $follow_size = 100;
-        $is_end = false;
-        $follow_query = array();
-        $follow_options = array();
-        $follow_query['user_id'] = $user_id;
-        $follow_options['size'] = $follow_size;
-        
-        while(!$is_end){
-          $options['page'] = $follow_page;
-          $follows = $follow_model->find($follow_query, $follow_options);
-          $follow_max = count($follows);
-          for($i=0; $i<$follow_max; $i++){
-            array_push($follow_arr, $follows[$i]['follow_id']);
-          }
-          
-          if($follow_max < $follow_size){
-            $is_end = true;
-            break;
-          }
-          $follow_page++;
-        } // end while
-        array_push($follow_arr, $user_id);
-      } // endif user_id
-    }elseif($type==2){
-    
+    // 整理数据
+    for($i=0;$i<count($users);$i++){
+      if($type==1){
+          if($user_id==$users[$i]) continue;
+          // 判断当前用户是否已关注此用户
+          $has_follow = $follow_model->first(array('user_id'=>$user_id, 'follow_id'=>$users[$i]));
+          if($has_follow) continue;
+      }
+      array_push($user_arr, $users[$i]);
     }
 
     // 取前Ｎ个数量
-    $dig['items'] = array_slice($dig['items'], 0, $size);
-
-    // 整理数据
-    for($i=0;$i<count($dig['items']);$i++){
-      if(!empty($follow_arr)){
-        for($j=0;$j<count($follow_arr);$j++){
-          if(in_array($follow_arr[$j], $dig['items'])){
-            continue;
-          }
-        }
-      }
-      array_push($user_arr, $dig['items'][$i]);
-    }
+    $user_arr = array_slice($user_arr, 0, $size);
 
     // 打乱数组
     if($sort==1){

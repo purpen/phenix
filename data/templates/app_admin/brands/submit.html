@@ -222,10 +222,27 @@
                 <label>品牌介绍</label>
                 <textarea name="des" placeholder="品牌介绍">{{ date.des }}</textarea>
             </div>
+            <!--
             <div class="field">
                 <label>索引</label>
                 <input type="text" name="mark" placeholder="索引" value="{{ date.mark }}" />
                 <div class="description">品牌名首字母小写</div>
+            </div>
+            -->
+
+            <h4 class="ui stage header">来源:</h4>
+            <div class="grouped inline fields">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" name="from_to" value="1" {% if date.from_to == 1 %}checked="checked"{% endif %} /> 
+                  <label>官网</label>
+                </div>
+                <div class="ui radio checkbox">
+                  <input type="radio" name="from_to" value="2" {% if date.from_to == 2 %}checked="checked"{% endif %} /> 
+                  <label>用户</label>
+                </div>
+
+              </div>
             </div>
 
             <h4 class="ui stage header">是否自营:</h4>
