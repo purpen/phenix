@@ -88,6 +88,17 @@ class Sher_Admin_Action_Tags extends Sher_Admin_Action_Base implements DoggyX_Ac
         $data['name'] = $this->stash['name'];
         $data['kind'] = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
         $data['fid'] = isset($this->stash['fid']) ? (int)$this->stash['fid'] : 0;
+
+        //$data['apply_to']['default'] = isset($this->stash['apply_default']) ? 1 : 0;
+        $data['apply_to']['category'] = isset($this->stash['apply_category']) ? 1 : 0;
+
+        if(isset($this->stash['category_sight'])){
+            $data['category_ids']['sight'] = $this->stash['category_sight'];
+        }
+
+        if(isset($this->stash['category_product'])){
+            $data['category_ids']['scene_product'] = $this->stash['category_product'];       
+        }
 		
 		$model = new Sher_Core_Model_Tags();
 		try{

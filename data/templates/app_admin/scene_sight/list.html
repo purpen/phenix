@@ -102,7 +102,6 @@
                 <th>封面</th>
                 <th>标题</th>
                 <th>创建人</th>
-                <th>所属情景</th>
                 <th>分类</th>
 				<th>地址</th>
                 <th>浏览量</th>
@@ -114,7 +113,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% scene_sight_list var:'list' deleted:deleted page:page type:type size:size %}
+			{% scene_sight_list var:'list' deleted:deleted page:page type:type show_cate:1 size:size %}
 
 			{% for d in list.rows %}
 			<tr id="item-{{ d._id }}">
@@ -147,10 +146,12 @@
                         summary: {{ d.user.summary }}
                     </p>
                 </td>
+
                 <td>
-                  {{ d.scene.title }}
+                    {% for c in d.categories %}
+                        <p>{{ c.title }}</p>
+                    {%endfor%}
                 </td>
-                <td>{{ d.category.title }}</td>
                 <td>
                   {{ d.address }}
                 </td>

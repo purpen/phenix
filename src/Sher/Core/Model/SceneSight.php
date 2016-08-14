@@ -21,8 +21,9 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		# 所属情景
 		'scene_id' => 0,
         # 分类
-        'category_id' => array(),
-
+        'category_id' => 0,
+        # 分类new
+        'category_ids' => array(),
 		# 标签
 		'tags' => array(),
 		# 产品
@@ -76,14 +77,13 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('title', 'user_id');
-	protected $int_fields = array('status', 'used_count','love_count','comment_count','deleted', 'stick', 'fine');
+	protected $int_fields = array('status', 'used_count','love_count','comment_count','deleted', 'stick', 'fine', 'category_id');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count','view_count','love_count','comment_count','true_view_count','app_view_count','web_view_count','wap_view_count');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
 		'cover' =>  array('cover_id' => 'Sher_Core_Model_Asset'),
-		'scene' =>  array('scene_id' => 'Sher_Core_Model_SceneScene'),
 		'user' =>   array('user_id' => 'Sher_Core_Model_User'),
 	);
 	
@@ -92,6 +92,9 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 	 */
 	protected function extra_extend_model_row(&$row) {
         $row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
+        if(isset($row['category_ids']) && !empty($row['category_ids']) && is_array($row['category_ids'])){
+            $row['category_ids_s'] = implode(',', $row['category_ids']);
+        }
 	}
 	
 	/**
@@ -100,6 +103,20 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 	protected function before_save(&$data) {
 	    if (isset($data['tags']) && !is_array($data['tags'])) {
 	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
+	    }
+
+        if (isset($data['category_ids']) && !is_array($data['category_ids'])) {
+            $category_arr = array();
+            if(!empty($data['category_ids'])){
+                $category_arr = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['category_ids'])));
+                if(!empty($category_arr)){
+                    for($i=0;$i<count($category_arr);$i++){
+                        $category_arr[$i] = (int)$category_arr[$i];
+                    }           
+                }           
+            }
+
+            $data['category_ids'] = $category_arr;
 	    }
 
 	    parent::before_save($data);
@@ -121,8 +138,8 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
         $model = new Sher_Core_Model_User();
         $model->inc_counter('sight_count',(int)$this->data['user_id']);
         
-        $model = new Sher_Core_Model_SceneScene();
-        $model->inc_counter('sight_count',1, $this->data['scene_id']);
+        //$model = new Sher_Core_Model_SceneScene();
+        //$model->inc_counter('sight_count',1, $this->data['scene_id']);
 
         // 更新全文索引
         Sher_Core_Helper_Search::record_update_to_dig($this->data['_id'], 5);

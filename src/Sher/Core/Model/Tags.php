@@ -21,40 +21,57 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
         'sight_count' => 0,
         'scene_product_count' => 0,
         'search_on' => null,
-        # 类型：1.情景；2.商品；3.分类；3.分类；4.--；
+
+        # 备用类型
         'kind' => 1,
+        # 应用类型: default.默认；sight.情景；scene_product.商品；category.分类；--；
+        'apply_to' => array(
+            'default' => 0,
+            'sight' => 0,
+            'scene_product' => 0,
+            'category' => 0,
+        ),
         # 父ID
         'fid' => 0,
         # 层级
         'layer' => 0,
         'status' => 1,
         'stick' => 0,
+        # 推荐时间
+        'stick_on' => 0,
+
+        # 分类ID
+        'category_ids' => array(
+            'sight' => array(),
+            'scene_product' => array(),
+        ),
     );
 	
     protected $required_fields = array('name');
-    protected $int_fields = array('topic_count','product_count','total_count','search_count','stick','kind','status','fid','layer','context_count','scene_product_count','scene_product_count','subscribe_count');
+    protected $int_fields = array('topic_count','product_count','total_count','search_count','stick','kind','status','fid','layer','context_count','scene_product_count','scene_product_count','subscribe_count','stick_on');
 	protected $counter_fields = array('total_count','topic_count','scene_count','sight_count','context_count','product_count','scene_product_count','search_count','subscribe_count');
 	
     
     protected function extra_extend_model_row(&$row) {
     	$row['tag_view_url'] = Sher_Core_Helper_Url::build_url_path('app.url.tag', $row['name']);
 
-        if(isset($row['kind'])){
-            switch($row['kind']){
-                case 1:
-                    $row['kind_label'] = '情景';
-                    break;
-                case 2:
-                    $row['kind_label'] = '商品';
-                    break;
-                case 3:
-                    $row['kind_label'] = '分类';
-                    break;
-                case 4:
-                    $row['kind_label'] = '默认';
-                    break;
-                default:
-                    $row['kind_label'] = '--';
+        $apply_arr = array();
+        if(isset($row['apply_to'])){
+            if(isset($row['apply_to']['default']) && !empty($row['apply_to']['default'])){
+                array_push($apply_arr, '默认');
+            }
+            if(isset($row['apply_to']['category']) && !empty($row['apply_to']['category'])){
+                array_push($apply_arr, '分类');
+            }
+        }
+        $row['apply_str'] = implode(',', $apply_arr);
+
+        if(isset($row['category_ids'])){
+            if(isset($row['category_ids']['sight']) && !empty($row['category_ids']['sight'])){
+                $row['category_ids']['sight_to_s'] = implode(',', $row['category_ids']['sight']);
+            }
+            if(isset($row['category_ids']['scene_product']) && !empty($row['category_ids']['scene_product'])){
+                $row['category_ids']['product_to_s'] = implode(',', $row['category_ids']['scene_product']);
             }
         }
     }
@@ -65,6 +82,32 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
     protected function before_insert(&$data) {
 		
 		parent::before_insert($data);
+
+        if(isset($data['category_ids'])){
+            if(isset($data['category_ids']['sight'])){
+                $sight_arr = array();
+                if(!empty($data['category_ids']['sight'])){
+                    $sight_arr = explode(',', $data['category_ids']['sight']);
+                    for($i=0;$i<count($sight_arr);$i++){
+                        $sight_arr[$i] = (int)$sight_arr[$i];
+                    }
+                }
+                $data['category_ids']['sight'] = $sight_arr;
+            }
+
+            if(isset($data['category_ids']['scene_product'])){
+                $product_arr = array();
+                if(!empty($data['category_ids']['scene_product'])){
+                    $sight_arr = explode(',', $data['category_ids']['scene_product']);
+                    for($i=0;$i<count($product_arr);$i++){
+                        $product_arr[$i] = (int)$product_arr[$i];
+                    }
+                }
+                $data['category_ids']['scene_product'] = $product_arr;
+            }
+        }
+
+
     }
 
 	/**
@@ -185,7 +228,7 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
      * 标记为推荐
      */
     public function mark_as_stick($id) {
-        return $this->update_set($id, array('stick' => 1));
+        return $this->update_set($id, array('stick' => 1, 'stick_on'=>time()));
     }
 	
     /**
