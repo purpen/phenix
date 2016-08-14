@@ -199,7 +199,7 @@
                         {% for ad in adslide2.rows %}
                         <div class="card">
                             <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
-                                <img class="lazy" data-original="{{ ad.cover.fileurl }}" src="" >
+                                <img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg" >
                             </a>
                             <div class="desc"> 
                                 <h4>
