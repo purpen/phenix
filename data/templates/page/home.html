@@ -251,138 +251,125 @@
     ction>
     
     <!--社区部分-->
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">  
-                {% cache cache_key:'home_page_activity' ttl:600 disable_cache:app_disable_cached %}
-                
-                <!--社区试用 活动-->
-                {% ad_list var:'ads' page:1 size:2 state:2 name:'home_page_activity' %}
-                {% if ads.rows %}
-                <div class="ui two products cards">
-                    {% for ad in ads.rows %}
-                        <div class="card special">
-                            <div class="problock">
-                                <a title="{{ ad.title }}" href="{{ ad.view_url }}" style="background-image: url('{{ ad.cover.fileurl }}');" class="thumb" target="_blank"></a>
-                                <h2>
-                                    <a href="{{ ad.view_url }}" title="{{ ad.title }}" class="ui line" target="_blank">
-                        			    {{ ad.title }}
-                        		    </a>
-                                </h2>
-                                <div class="excerpt">
-                                    <p>{{ ad.description }}</p>
-                                </div>
-                                <div class="cats">
-                                    <span class="unit"></span>{{ ad.click_count }}
-                                </div>
-                                <span class="counter">
-                                    <i class="heart icon"></i> 
-                                </span>
-                            </div>
-                            <div class="speblock">
-                                <div class="randomcats">
-                                    <a class="catlink" href="{{ ad.view_url }}" style="background-image: url('{{ ad.cover.fileurl }}');" target="_blank">
-                                        <h2><!--{{ active.title }}--></h2>
-                                        <p><!--{{ active.sub_title }}--></p>
+    <div class="ui hottopic block">
+    	<div class="ui responsive grid">
+            <div class="row">
+                <div class="column">
+                    <h2 class="ui header">社区话题</h2>
+                </div>
+            </div>
+    		<div class="row">
+    			<div class="column">  
+                    {% cache cache_key:'home_page_activity' ttl:600 disable_cache:app_disable_cached %}
+                    
+                    <!--社区试用 活动-->
+                    {% ad_list var:'ads' page:1 size:2 state:2 name:'home_page_activity' %}
+                    {% if ads.rows %}
+                    <div class="ui two products cards">
+                        {% for ad in ads.rows %}
+                            <div class="card special">
+                                <div class="problock">
+                                    <a title="{{ ad.title }}" href="{{ ad.view_url }}" class="thumb" target="_blank">
+                                        <img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg" >
                                     </a>
                                 </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                </div>
-                {% endif %}
-                
-                {% endcache %}
-                
-                <!--精华话题-->
-                {% cache cache_key:'web_index_fine_topics' ttl:300 disable_cache:app_disable_cached %}
-                
-                {% topic_list var:'topics' published:1 type:2 page:1 size:4 %}
-                <div class="ui socialstick stickcount four blocks">
-            		{% for topic in topics.rows %}
-                    <div class="block">
-            			<div class="image" {% if topic.cover %}style="background-image: url('{{ topic.cover.thumbnails.hm.view_url }}');"{% endif %}>
-                            <a class="transparent" href="{{ topic.view_url }}" target="_blank">
-            					<div class="sub title">
-            						<h3>{{ topic.short_title }}</h3>
-            						<div class="extra count">
-            							<i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
-            						</div>
-            					</div>
-                            </a>
-            			</div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
-                </div>
-                
-                {% endcache %}
-                
-                <div class="ui four products topics cards">
-                    <div class="card stick">
-                        {% cache cache_key:'home_page_topic' ttl:600 disable_cache:app_disable_cached %}
-                        
-                        {% ad_list var:'ads' page:1 size:3 state:2 name:'home_page_topic' %}                        
-                        <div class="ui socialstick one blocks">
-                            {% for ad in ads.rows %}
-                            <div class="block">
-                    			<div class="image" {% if ad.cover %}style="background-image: url('{{ ad.cover.fileurl }}');height:220px;"{% endif %}>
-                                    <a class="transparent" href="{{ ad.view_url }}" target="_blank">
-                    					<div class="sub title">
-                    						<h3>{{ ad.title }}</h3>
-                    					</div>
-                                    </a>
-                    			</div>
-                            </div>
-                            {% endfor %}
-
-                        </div>
-                        
-                        {% endcache %}
-                    </div>
-                    <div class="card group">
-                        {% cache cache_key:'web_index_stick_topics' ttl:180 disable_cache:app_disable_cached %}
-                        
-                        <!--推荐话题-->
-                        {% topic_list var:'topics' published:1 sort:1 type:1 page:1 size:10 %}
-                        <div class="problock">
-        					{% for topic in topics.rows %}
-        						{% if topic.published %}
-                                    <div class="topicbox {% if loop.counter == 9 %}noborder{% endif %}">
-                						{% if topic.cover %}
-                                        <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
-                						    <img class="ui image" src="{{ topic.cover.thumbnails.tiny.view_url }}" alt="{{ topic.title }}--太火鸟智能硬件社区"/>
-                                        </a>
-                						{% endif %}
-                                        <h2>
-                                            <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
-                                			    {{ topic.title|truncate, 32, '' }}
-                                		    </a>
-                                        </h2>
-                    					<p class="description">
-                    						{{ topic.strip_description|truncate 90 }}
-                    					</p>
-                        
-                        				<p class="author">
-                                            <i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
-                        				</p>
+                    {% endif %}
+                    
+                    {% endcache %}
+                    
+                    <!--精华话题-->
+                    {% cache cache_key:'web_index_fine_topics' ttl:300 disable_cache:app_disable_cached %}
+                    
+                    {% topic_list var:'topics' published:1 type:2 page:1 size:4 %}
+                    <div class="ui socialstick stickcount four blocks">
+                		{% for topic in topics.rows %}
+                        <div class="block">
+                            <a href="{{ topic.view_url }}" target="_blank">
+                                <img class="lazy" data-original="{{ topic.cover.thumbnails.hm.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg" >
+                                <div class="sub title">
+                                    <h3>{{ topic.short_title }}</h3>
+                                    <div class="extra count">
+                                        <i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
                                     </div>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                        
-                        {% endcache %}
-                        
-                        <div class="resultbox">
-                            <a href="{{ app_url_topic }}" class="ui magenta inverted large more button">
-                               <i class="search icon"></i> 查看更多话题 
+                                </div>
+                                <div class="transparent"></div>
                             </a>
                         </div>
+                        {% endfor %}
                     </div>
+                    
+                    {% endcache %}
+                    
+                    <div class="ui four topics cards">
+                        <!--
+                        <div class="card stick">
+                            {% cache cache_key:'home_page_topic' ttl:600 disable_cache:app_disable_cached %}
+                            
+                            {% ad_list var:'ads' page:1 size:3 state:2 name:'home_page_topic' %}                        
+                            <div class="ui socialstick one blocks">
+                                {% for ad in ads.rows %}
+                                <div class="block">
+                        			<div class="image" {% if ad.cover %}style="background-image: url('{{ ad.cover.fileurl }}');height:220px;"{% endif %}>
+                                        <a class="transparent" href="{{ ad.view_url }}" target="_blank">
+                        					<div class="sub title">
+                        						<h3>{{ ad.title }}</h3>
+                        					</div>
+                                        </a>
+                        			</div>
+                                </div>
+                                {% endfor %}
+
+                            </div>
+                            
+                            {% endcache %}
+                        </div>-->
+                        <div class="card group">
+                            {% cache cache_key:'web_index_stick_topics' ttl:180 disable_cache:app_disable_cached %}
+                            
+                            <!--推荐话题-->
+                            {% topic_list var:'topics' published:1 sort:1 type:1 page:1 size:10 %}
+                            <div class="problock">
+            					{% for topic in topics.rows %}
+            						{% if topic.published %}
+                                        <div class="topicbox {% if loop.counter == 9 %}noborder{% endif %}">
+                    						{% if topic.cover %}
+                                            <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
+                    						    <img class="ui image lazy" data-original="{{ topic.cover.thumbnails.tiny.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg" alt="{{ topic.title }}--太火鸟智能硬件社区"/>
+                                            </a>
+                    						{% endif %}
+                                            <h2>
+                                                <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
+                                    			    {{ topic.title|truncate, 32, '' }}
+                                    		    </a>
+                                            </h2>
+                        					<p class="description">
+                        						{{ topic.strip_description|truncate 90 }}
+                        					</p>
+                            
+                            				<p class="author">
+                                                <i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
+                            				</p>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            
+                            {% endcache %}
+                            
+                            <div class="resultbox">
+                                <a href="{{ app_url_topic }}" class="ui magenta inverted large more button">
+                                   <i class="search icon"></i> 查看更多话题 
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
-                
             </div>
         </div>
-    </div>
-	  
+	</div>
 </div>
 {% endblock %}
