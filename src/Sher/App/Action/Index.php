@@ -41,6 +41,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	 * Fiu
 	 */
 	public function fiu(){
+		$this->set_target_css_state('page_fiu');
 		return $this->to_html_page('page/fiu/index.html');
 	}
 

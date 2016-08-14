@@ -6,7 +6,7 @@
                 <a href="{{ app_url_domain }}/home" class="{{ css_page_home }}">首页</a>
             </li>
             <li class="nav-item">
-                <a href="javascript:void(0);">Fiu</a>
+                <a href="{{ app_url_domain }}/fiu" class="{{ css_page_fiu }}">Fiu</a>
             </li>
             <li class="nav-item">
                 <a href="{{ app_url_topic }}" class="{{ css_page_social }}">社区</a>
@@ -27,7 +27,7 @@
         <i class="search icon"></i>
     </form>
 
-    {% block/header_rightside.html %}
+    {% include "block/header_rightside.html" %}
 </div>
 <!--<div class="ui responsive grid" style="position:relative">
     <div class="two column row">
