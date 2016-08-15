@@ -1,0 +1,19 @@
+<taconite>
+	{% if evt==1 %}
+	<replace select="#fine-{{ id }}-label"><![CDATA[
+		<label class="ui green label" id="fine-{{ id }}-label">是</label>
+    ]]></replace>
+	<replace select="#fine-{{ id }}-button"><![CDATA[
+		<a href="{{ app_url_app_admin_base }}/scene_subject/ajax_fine?id={{ id }}&evt=0" class="ui link ajax item" id="fine-{{ id }}-button">取消精选</a>
+    ]]></replace>
+	{% endif %}
+	
+	{% if evt==0 %}
+	<replace select="#fine-{{ id }}-label"><![CDATA[
+		<label class="ui orange label" id="fine-{{ id }}-label">否</label>
+    ]]></replace>
+	<replace select="#fine-{{ id }}-button"><![CDATA[
+		<a href="{{ app_url_app_admin_base }}/scene_subject/ajax_fine?id={{ id }}&evt=1" class="ui link ajax item" id="fine-{{ id }}-button">精选</a>
+    ]]></replace>
+	{% endif %}
+</taconite>

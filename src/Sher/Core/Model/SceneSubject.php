@@ -9,8 +9,14 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
   
 	##常量
-	#类型:1.自定义内容；
+	#格式:1.自定义内容；
 	const KIND_CUSTOM = 1;
+
+    #类型
+	const TYPE_TOPIC = 1;
+	const TYPE_ACTIVE = 2;
+	const TYPE_HOT = 3;
+	const TYPE_NEW = 4;
 	  
 	protected $schema = array(
 		'title' => null,
@@ -27,20 +33,36 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 		'tags' => array(),
 		'user_id' => 0,
 		'kind' => self::KIND_CUSTOM,
+        'type' => self::TYPE_TOPIC,
 		'stick' => 0,
+        'stick_on' => 0,
+        'fine' => 0,
+        'fine_on' => 0,
 		'publish' => 0,
 		'status' => 1,
 		'view_count' => 0,
 		'comment_count' => 0,
 		'love_count' => 0,
 		'favorite_count' => 0,
+        'share_count' => 0,     // 分享数
+        'attend_count' => 0,    // 参与数
+
+        # 真实浏览数
+        'true_view_count' => 0,
+
+        # web 浏览数
+        'web_view_count' => 0,
+        # wap 浏览数 
+        'wap_view_count' => 0,
+        # app 浏览数
+        'app_view_count' => 0,
 	);
 
 	protected $required_fields = array('user_id', 'title');
   
-	protected $int_fields = array('status', 'category_id', 'user_id', 'kind', 'stick', 'view_count', 'comment_count', 'love_count', 'favorite_count');
+	protected $int_fields = array('status', 'publish', 'category_id', 'user_id', 'kind', 'type', 'stick', 'view_count', 'comment_count', 'love_count', 'favorite_count', 'stick_on', 'fine_on');
   
-	protected $counter_fields = array('view_count', 'comment_count', 'love_count', 'favorite_count');
+	protected $counter_fields = array('view_count', 'comment_count', 'love_count', 'favorite_count', 'true_view_count', 'app_view_count', 'wap_view_count', 'web_view_count', 'share_count', 'attend_count');
 
 	protected $joins = array(
 
@@ -67,7 +89,37 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 			$row['cover'] = $this->cover($row);
 		}
 
-		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
+        $row['type_label'] = '';
+        if(isset($row['type'])){
+            switch($row['type']){
+                case 1:
+                    $row['type_label'] = '文章';
+                    break;
+                case 2:
+                    $row['type_label'] = '活动';
+                    break;
+                case 3:
+                    $row['type_label'] = '促销';
+                    break;
+                case 4:
+                    $row['type_label'] = '新品';
+                    break;
+            }
+        }
+
+		$row['tags_s'] = !empty($row['tags']) ? implode(',', $row['tags']) : '';
+
+	}
+
+	/**
+	 * 保存之前,处理标签中的逗号,空格等
+	 */
+	protected function before_save(&$data) {
+	    parent::before_save($data);
+
+	    if (isset($data['tags']) && !is_array($data['tags'])) {
+	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
+	    }
 
 	}
 
@@ -87,6 +139,27 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 		if(!empty($row['cover_id'])){
 			$asset = new Sher_Core_Model_Asset();
 			return $asset->extend_load($row['cover_id']);
+		}
+		// 未设置封面图，获取第一个
+		$asset = new Sher_Core_Model_Asset();
+		$query = array(
+			'parent_id'  => $row['_id'],
+			'asset_type' => Sher_Core_Model_Asset::TYPE_SCENE_SUBJECT,
+		);
+		$data = $asset->first($query);
+		if(!empty($data)){
+			return $asset->extended_model_row($data);
+		}
+	}
+
+	/**
+	 * 获取Banner图
+	 */
+	protected function banner(&$row){
+		// 已设置封面图
+		if(!empty($row['banner_id'])){
+			$asset = new Sher_Core_Model_Asset();
+			return $asset->extend_load($row['banner_id']);
 		}
 		// 未设置封面图，获取第一个
 		$asset = new Sher_Core_Model_Asset();
@@ -149,43 +222,54 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 	}
 	
 	/**
-	* 发布操作
+	* 发布
 	*/
-	public function mark_as_publish($id, $publish = 1){
-		$data = $this->load((int)$id);
-	
-		if(empty($data)){
-			return array('status'=>0, 'msg'=>'内容不存在');
-		}
-		if($data['publish']==(int)$publish){
-			return array('status'=>0, 'msg'=>'重复的操作');  
-		}
-		$ok = $this->update_set((int)$id, array('publish' => $publish));
-		if($ok){
-			return array('status'=>1, 'msg'=>'操作成功');  
-		}else{
-			return array('status'=>0, 'msg'=>'操作失败');   
-		}
+	public function mark_as_publish($id){
+        $ok = $this->update_set((int)$id, array('publish'=>1));
+        return $ok;
+	}
+
+	/**
+	* 取消发布
+	*/
+	public function mark_cancel_publish($id){
+        $ok = $this->update_set((int)$id, array('publish'=>0));
+        return $ok;
 	}
 	
-	/**
-	* 推荐操作
-	*/
-	public function mark_as_stick($id, $stick=1){
-		$data = $this->load((int)$id);
+    /**
+     * 标记主题为编辑推荐
+     */
+    public function mark_as_stick($id, $options=array()) {
+        $ok = $this->update_set($id, array('stick' => 1, 'stick_on'=>time()));
+
+        return $ok;
+    }
 	
-		if(empty($data)){
-			return array('status'=>0, 'msg'=>'内容不存在');
-		}
-		if($data['stick']==(int)$stick){
-			return array('status'=>0, 'msg'=>'重复的操作');  
-		}
-		$ok = $this->update_set((int)$id, array('stick' => $stick));
-		if($ok){
-			return array('status'=>1, 'msg'=>'操作成功');  
-		}else{
-			return array('status'=>0, 'msg'=>'操作失败');   
-		}
+    /**
+     * 取消主题编辑推荐
+     */
+	public function mark_cancel_stick($id){
+		$ok = $this->update_set($id, array('stick' => 0));
+        return $ok;
+	}
+	
+    /**
+     * 标记主题 精华
+     */
+	public function mark_as_fine($id, $options=array()){
+		$ok = $this->update_set($id, array('fine' => 1, 'fine_on'=>time()));
+
+        return $ok;
+	}
+	
+    /**
+     * 标记主题 取消精华
+     */
+	public function mark_cancel_fine($id){
+		$ok = $this->update_set($id, array('fine' => 0));
+
+        return $ok;
 	}
 }
 
