@@ -56,7 +56,7 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
         }
 
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
-		$this->stash['pid'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SUBJECT;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SUBJECT;
 
