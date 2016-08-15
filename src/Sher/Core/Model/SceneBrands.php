@@ -9,12 +9,14 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 
     ## 常量
     # 类型
-    const KIND_FIU = 1; // ＦＩＵ
+    const KIND_FIU = 1; // Fiu
     const KIND_STORE = 2;   // 商城
 	
     protected $schema = array(
 		# 标题
 		'title' => '',
+        # 创建人
+        'user_id' => 0,
         # 描述
         'des' => '',
 		# 封面
@@ -39,8 +41,8 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 		'status' => 1,
     );
 	
-	protected $required_fields = array('title','des','cover_id');
-	protected $int_fields = array('status', 'used_count', 'item_count', 'kind', 'self_run', 'from_to');
+	protected $required_fields = array('title');
+	protected $int_fields = array('status', 'user_id', 'used_count', 'item_count', 'kind', 'self_run', 'from_to');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count', 'item_count');
 	protected $retrieve_fields = array();
