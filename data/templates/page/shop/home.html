@@ -188,14 +188,13 @@
 					{% for d in adstick.rows %}
 					<div class="card">
 						<div class="problock">
-							<a title="{{ d.title }}" href="{{ d.view_url }}" style="background-image:url({{ d.cover.fileurl }});padding-top:56.2%;background-color:#f36;" class="thumb">
-								
+							<a title="{{ d.title }}" href="{{ d.view_url }}" style="padding-top:56.207%;" class="thumb">
+								<img class="lazy" data-original="{{ d.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg">
 							</a>
 							<h2>
 								<a href="{{ d.view_url }}" title="{{ d.title }}" class="ui line" target="_blank">{{ d.title }}</a>
 							</h2>
 							<div class="cats" style="padding: 8px;">
-                                
                             </div>
 						</div>
 					</div>
@@ -240,8 +239,9 @@
                   {% if loop.counter==2 %}
 
                     <div class="card special">
-                      <div class="speblock" style="background-image:url({{ d.web_cover_url }});">
+                      <div class="speblock">
                         <a href="{{ d.view_url }}" class="thumb">
+                        	<img class="lazy" data-original="{{ d.web_cover_url }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg">
                           <div class="content">
                             <h2 class="ui header">{{ d.title }}
                               <div class="sub header">
