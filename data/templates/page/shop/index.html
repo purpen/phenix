@@ -23,6 +23,9 @@
             }
             var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
             $('.item-box').append(rendered);
+            $("img.lazy").lazyload({
+                effect : "show"
+            });
         }, 'json');
     }
 </script>
