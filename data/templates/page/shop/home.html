@@ -261,8 +261,9 @@
 
               {% product_list var:'list' page:1 category_id:d._id stage:9 only_onsale:1 sort:4 size:6 %}
               <div class="card special">
-                <div class="speblock" style="background-image:url({{ d.web_cover_url }});">
+                <div class="speblock">
                   <a href="{{ d.view_url }}" class="thumb">
+                  	<img class="lazy" data-original="{{ d.web_cover_url }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg">
                     <div class="content">
                       <h2 class="ui header">{{ d.title }}
                         <div class="sub header">
