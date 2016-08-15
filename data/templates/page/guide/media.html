@@ -1,7 +1,9 @@
 {%extends 'layout/column.html'%}
 {% block page_css %}
 <style type="text/css">
-	
+	.ui.products.cards>.card>.problock>a.thumb{
+		padding-top: 80%;
+	}
 </style>
 {% endblock %}
 {% block js %}
@@ -33,7 +35,8 @@
 
 <div class="card" id="item-{{ d._id }}">
     <div class="problock">
-        <a title="{{ d.title }}" alt="{{ d.title }}" href="{{ d.link }}" style="background-image: url({{ d.cover.thumbnails.hm.view_url }});" class="thumb" target="_blank">
+        <a title="{{ d.title }}" alt="{{ d.title }}" href="{{ d.link }}">
+        	<img class="lazy" data-original="{{ d.cover.thumbnails.hm.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg">
         </a>
 
         <h2 style="height: 70px;margin-bottom: 15px;white-space: normal;">
