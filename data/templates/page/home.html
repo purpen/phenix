@@ -342,11 +342,11 @@
                     						{% endif %}
                                             <h2>
                                                 <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
-                                    			    {{ topic.title|truncate, 32, '' }}
+                                    			    {{ topic.title|truncate, 80, '' }}
                                     		    </a>
                                             </h2>
                         					<p class="description">
-                        						{{ topic.strip_description|truncate 90 }}
+                        						{{ topic.strip_description|truncate 114 }}
                         					</p>
                             
                             				<p class="author">
