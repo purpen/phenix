@@ -197,7 +197,7 @@ class Sher_Core_Model_TempTags extends Sher_Core_Model_Base  {
     /**
      * 统计数量
      */
-    public function record_count($evt, $tags=array()){
+    public function record_count($tags, $evt){
         $tag_ids = array();
         $temp_tags = array();
         foreach($tags as $v){

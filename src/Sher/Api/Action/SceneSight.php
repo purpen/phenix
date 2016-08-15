@@ -237,7 +237,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$data['title'] = isset($this->stash['title']) ? $this->stash['title'] : '';
 		$data['des'] = isset($this->stash['des']) ? $this->stash['des'] : '';
 		//$data['scene_id'] = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
-		$data['category_ids'] = isset($this->stash['category_ids']) ? $this->stash['category_id'] : '';
+		//$data['category_ids'] = isset($this->stash['category_ids']) ? $this->stash['category_ids'] : '';
 		$data['tags'] = isset($this->stash['tags']) ? trim($this->stash['tags']) : '';
 		$data['city'] = isset($this->stash['city']) ? $this->stash['city'] : '';
 
@@ -262,7 +262,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		}
 		
 		if(!$data['tags']){
-		    //return $this->api_json('请求标签不能为空', 3005);
+		    return $this->api_json('请求标签不能为空', 3005);
 		}
 		
         if(!empty($products)){

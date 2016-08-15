@@ -76,7 +76,7 @@ class Sher_Core_Model_SceneContext extends Sher_Core_Model_Base {
         $tags = !empty($this->data['tags']) ? $this->data['tags'] : array();
 		
 		$model = new Sher_Core_Model_Tags();
-		$model->record_count(1, $tags);
+		$model->record_count($tags, 1, (string)$this->data['_id']);
 
 
         $model = new Sher_Core_Model_Category();

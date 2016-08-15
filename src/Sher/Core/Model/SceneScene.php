@@ -120,7 +120,7 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
       if($this->insert_mode) {
 
 		$model = new Sher_Core_Model_Tags();
-		$model->record_count(2, $tags);
+		$model->record_count($tags, 2, $this->data['_id']);
         
         $model = new Sher_Core_Model_User();
         $model->inc_counter('scene_count',(int)$this->data['user_id']);

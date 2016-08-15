@@ -133,7 +133,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
       if($this->insert_mode) {
 
 		$model = new Sher_Core_Model_Tags();
-		$model->record_count(3, $tags);
+		$model->record_count($tags, 3, $this->data['_id']);
         
         $model = new Sher_Core_Model_User();
         $model->inc_counter('sight_count',(int)$this->data['user_id']);
@@ -303,5 +303,14 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		$ok = $this->update_set($id, array('fine' => 0));
         return $ok;
 	}
+
+    /**
+     * 自动更新分类
+     */
+    public function update_category($id, $category_ids){
+        $ok = true;
+        $ok = $this->update_set((int)$id, array('category_ids'=>$category_ids));
+        return $ok;
+    }
 
 }
