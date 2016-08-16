@@ -212,6 +212,7 @@ if(!empty($stuff_ids) && !empty($stuff_ids['items'])){
 }//endif
 
 
+/*
 //获取地盘更新的ID数组
 $scene_ids = $digged->load(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_UPDATE_IDS);
 if(!empty($scene_ids) && !empty($scene_ids['items'])){
@@ -273,6 +274,8 @@ if(!empty($scene_ids) && !empty($scene_ids['items'])){
   echo "success update scene $total .\n";
   echo "-------------//////////////-------------\n";
 }//endif
+
+ */
 
 
 //获取情境更新的ID数组
@@ -539,6 +542,69 @@ if(!empty($scene_brand_ids) && !empty($scene_brand_ids['items'])){
   }//endfor
 
   echo "success update scene brand $total .\n";
+  echo "-------------//////////////-------------\n";
+}//endif
+
+
+//获取用户更新的ID数组
+$user_ids = $digged->load(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_USER_UPDATE_IDS);
+if(!empty($user_ids) && !empty($user_ids['items'])){
+  echo "Prepare to update user fulltext index...\n";
+  $user_model = new Sher_Core_Model_User();
+  $total = 0;
+  $item = null;
+  foreach($user_ids['items'] as $k=>$v){
+    $item = $user_model->load((int)$v);
+    if(empty($item)){
+      //删除Dig相应ID
+      $digged->remove_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_USER_UPDATE_IDS, $v); 
+      continue;
+    }
+
+    $nickname = (int)$item['nickname'];
+    if(strlen($nickname)==11){  // 如果是手机号，不参与索引，跳过
+        //删除Dig相应ID
+        $digged->remove_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_USER_UPDATE_IDS, $v); 
+        continue;
+    }
+    $user_tags = isset($item['tags']) ? $item['tags'] : array();
+    if(isset($item['profile']['label']) && !empty($item['profile']['label'])){
+        array_push($user_tags, $item['profile']['label']);
+    }
+    if(isset($item['profile']['expert_label']) && !empty($item['profile']['expert_label'])){
+        array_push($user_tags, $item['profile']['expert_label']);
+    }
+
+    //添加全文索引
+    $xs_data = array(
+      'pid' => 'user_'.(string)$item['_id'],
+      'kind' => 'User',
+      'oid' => (string)$item['_id'],
+      'cid' => $item['from_site'],
+      'title' => $item['title'],
+      'cover_id' => '',
+      'content' => strip_tags(htmlspecialchars_decode($item['summary'])),
+      'user_id' => $item['_id'],
+      'tags' => !empty($user_tags) ? implode(',', $user_tags) : '',
+      'created_on' => $item['created_on'],
+      'updated_on' => $item['updated_on'],
+    );
+    
+    $result = Sher_Core_Util_XunSearch::update($xs_data);
+    if($result['success']){
+      //删除Dig相应ID
+      $digged->remove_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_USER_UPDATE_IDS, $item['_id']); 
+      $total++;
+      echo "success update user id $v .\n";
+    }else{
+      //记录失败ids
+      $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_USER_FAIL_IDS, $item['_id']);
+      echo "fail update user id: $v $result[msg]";
+    }
+
+  }//endfor
+
+  echo "success update user $total .\n";
   echo "-------------//////////////-------------\n";
 }//endif
 

@@ -207,6 +207,8 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 			
 			$ok = $user->update_set($user_id, $data);
       if($ok){
+            // 更新全文索引
+            Sher_Core_Helper_Search::record_update_to_dig($user_id, 15);
         $user_data = $user->load($user_id);
         // 过滤用户字段
         $user_data = $user->extended_model_row($user_data);

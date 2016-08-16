@@ -215,4 +215,15 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 			return $asset->extended_model_row($data);
 		}
 	}
+
+	/**
+	 * 删除后事件
+	 */
+	public function mock_after_remove($id, $options=array()) {
+        // 删除索引
+        Sher_Core_Util_XunSearch::del_ids('scene_brand_'.(string)$id);
+		
+		return true;
+	}
+
 }

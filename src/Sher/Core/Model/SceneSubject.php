@@ -130,6 +130,8 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 	 * 删除后事件
 	 */
 	public function mock_after_remove($id, $options=array()) {
+        // 删除索引
+        Sher_Core_Util_XunSearch::del_ids('scene_subject_'.(string)$id);
 		
 		return true;
 	}
@@ -229,6 +231,8 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 	*/
 	public function mark_as_publish($id){
         $ok = $this->update_set((int)$id, array('publish'=>1));
+        // 更新全文索引
+        Sher_Core_Helper_Search::record_update_to_dig($id, 13);
         return $ok;
 	}
 
@@ -237,6 +241,8 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 	*/
 	public function mark_cancel_publish($id){
         $ok = $this->update_set((int)$id, array('publish'=>0));
+        // 删除索引
+        Sher_Core_Util_XunSearch::del_ids('scene_subject_'.(string)$id);
         return $ok;
 	}
 	

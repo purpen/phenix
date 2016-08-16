@@ -24,16 +24,16 @@ class Sher_Core_Helper_Search {
       case 3:
         $key_id = Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_PRODUCT_UPDATE_IDS;
         break;
-      case 4: // 情景
+      case 4: // 地盘
         $key_id = Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_UPDATE_IDS;
         break;
-      case 5: // 场景
+      case 5: // 情境
         $key_id = Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SIGHT_UPDATE_IDS;
         break;
-      case 6: // 情景产品
+      case 6: // 情境产品
         $key_id = Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_PRODUCT_UPDATE_IDS;
         break;
-      case 7: // 场景分享语
+      case 7: // 情境分享语
         $key_id = Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_CONTEXT_UPDATE_IDS;
         break;
       case 10:
@@ -44,6 +44,15 @@ class Sher_Core_Helper_Search {
         break;
       case 12:
         $key_id = Sher_Core_Util_Constant::DIG_PUSH_BAIDU_PRODUCT_IDS;
+        break;
+      case 13: // 情境主题
+        $key_id = Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_SUBJECT_UPDATE_IDS;
+        break;
+      case 14: // 情境品牌
+        $key_id = Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_BRAND_UPDATE_IDS;
+        break;
+      case 15: // 用户
+        $key_id = Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_USER_UPDATE_IDS;
         break;
       default:
         $key_id = null;

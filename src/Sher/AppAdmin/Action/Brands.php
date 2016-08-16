@@ -171,6 +171,9 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 			if(!$ok){
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
+
+            // 更新全文索引
+            Sher_Core_Helper_Search::record_update_to_dig($id, 14);
 			
 			// 上传成功后，更新所属的附件
 			if(isset($this->stash['asset']) && !empty($this->stash['asset'])){
@@ -211,7 +214,10 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 				$result = $model->load($id);
 				
 				if (!empty($result)){
-					$model->remove($id);
+                    $ok = $model->remove($id);
+                    if($ok){
+                        $model->mock_after_remove($id);
+                    }
 				}
 			}
 			

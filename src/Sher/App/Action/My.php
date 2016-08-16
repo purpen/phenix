@@ -937,6 +937,8 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	        //更新基本信息
 	        $ok = $this->visitor->update_set($user_id, $user_info);
           if($ok){
+            // 更新全文索引
+            Sher_Core_Helper_Search::record_update_to_dig($user_id, 15);
               if(!empty($this->stash['address']) && !empty($this->stash['phone']) && !empty($this->stash['realname'])){
 
                   if($this->stash['user']['first_login'] == 1){

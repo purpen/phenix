@@ -31,17 +31,17 @@ $digged = new Sher_Core_Model_DigList();
 $key_id = Sher_Core_Util_Constant::DIG_XUN_SEARCH_LAST_TIME;
 $last_created_on = $digged->load($key_id);
 if(!empty($last_created_on) && !empty($last_created_on['items'])){
-  $topic_last_created_on = (int)$last_created_on['items']['topic_last_created_on'];
-  $stuff_last_created_on = (int)$last_created_on['items']['stuff_last_created_on'];
-  $product_last_created_on = (int)$last_created_on['items']['product_last_created_on'];
+  $topic_last_created_on = isset($last_created_on['items']['topic_last_created_on']) ? (int)$last_created_on['items']['topic_last_created_on'] : 0;
+  $stuff_last_created_on = isset($last_created_on['items']['stuff_last_created_on']) ? (int)$last_created_on['items']['stuff_last_created_on'] : 0;
+  $product_last_created_on = isset($last_created_on['items']['product_last_created_on']) ? (int)$last_created_on['items']['product_last_created_on'] : 0;
 
-  $scene_last_created_on = (int)$last_created_on['items']['scene_last_created_on'];
-  $sight_last_created_on = (int)$last_created_on['items']['sight_last_created_on'];
-  $scene_product_last_created_on = (int)$last_created_on['items']['scene_product_last_created_on'];
-  $scene_context_last_created_on = (int)$last_created_on['items']['scene_context_last_created_on'];
-  $scene_subject_last_created_on = (int)$last_created_on['items']['scene_subject_last_created_on'];
-  $scene_brand_last_created_on = (int)$last_created_on['items']['scene_brand_last_created_on'];
-  $user_created_on = (int)$last_created_on['items']['user_last_created_on'];
+  $scene_last_created_on = isset($last_created_on['items']['scene_last_created_on']) ? (int)$last_created_on['items']['scene_last_created_on'] : 0;
+  $sight_last_created_on = isset($last_created_on['items']['sight_last_created_on']) ? (int)$last_created_on['items']['sight_last_created_on'] : 0;
+  $scene_product_last_created_on = isset($last_created_on['items']['scene_product_last_created_on']) ? (int)$last_created_on['items']['scene_product_last_created_on'] : 0;
+  $scene_context_last_created_on = isset($last_created_on['items']['scene_context_last_created_on']) ? (int)$last_created_on['items']['scene_context_last_created_on'] : 0;
+  $scene_subject_last_created_on = isset($last_created_on['items']['scene_subject_last_created_on']) ? (int)$last_created_on['items']['scene_subject_last_created_on'] : 0;
+  $scene_brand_last_created_on = isset($last_created_on['items']['scene_brand_last_created_on']) ? (int)$last_created_on['items']['scene_brand_last_created_on'] : 0;
+  $user_last_created_on = isset($last_created_on['items']['user_last_created_on']) ? (int)$last_created_on['items']['user_last_created_on'] : 0;
 
 }else{
   $topic_last_created_on = 0;
@@ -54,7 +54,7 @@ if(!empty($last_created_on) && !empty($last_created_on['items'])){
   $scene_context_last_created_on = 0;
   $scene_subject_last_created_on = 0;
   $scene_brand_last_created_on = 0;
-  $user_created_on = 0;
+  $user_last_created_on = 0;
 }
 echo "Prepare to build topic xun_search fulltext index...\n";
 $topic = new Sher_Core_Model_Topic();
@@ -288,6 +288,7 @@ echo "Total $total stuff rows updated.\n";
 
 echo "-------------//////////////-------------\n";
 
+/*
 echo "Prepare to build scene xun_search fulltext index...\n";
 $scene_model = new Sher_Core_Model_SceneScene();
 $page = 1;
@@ -361,6 +362,8 @@ while(!$is_end){
 	echo "Page $page scene updated---------\n";
 }
 echo "Total $total scene rows updated.\n";
+
+ */
 
 
 echo "-------------//////////////-------------\n";
@@ -681,7 +684,7 @@ while(!$is_end){
             'title' => $item['title'],
             'cover_id' => $item['cover_id'],
             'content' => strip_tags(htmlspecialchars_decode($item['des'])),
-            'user_id' => $item['user_id'],
+            'user_id' => isset($item['user_id']) ? $item['user_id'] : 0,
             'tags' => !empty($item['tags']) ? implode(',', $item['tags']) : '',
             'created_on' => $item['created_on'],
             'updated_on' => $item['updated_on'],
@@ -715,6 +718,85 @@ while(!$is_end){
 	echo "Page $page scene brand updated---------\n";
 }
 echo "Total $total scene brand rows updated.\n";
+
+
+echo "-------------//////////////-------------\n";
+
+echo "Prepare to build user xun_search fulltext index...\n";
+$user_model = new Sher_Core_Model_User();
+$page = 1;
+$size = 100;
+$is_end = false;
+$total = 0;
+while(!$is_end){
+	$query = array('state'=>2, 'created_on'=>array('$gt'=>$user_last_created_on));
+    $options = array('sort'=>array('created_on'=>1), 'page'=>$page, 'size'=>$size);
+	$list = $user_model->find($query, $options);
+	if(empty($list)){
+		echo "Get user list is null,exit......\n";
+		break;
+	}
+	$max = count($list);
+	for ($i=0; $i<$max; $i++) {
+        $item = $list[$i];
+        $nickname = (int)$item['nickname'];
+        if(strlen($nickname)==11){  // 如果是手机号，不参与索引，跳过
+            continue;
+        }
+        $user_tags = isset($item['tags']) ? $item['tags'] : array();
+        if(isset($item['profile']['label']) && !empty($item['profile']['label'])){
+            array_push($user_tags, $item['profile']['label']);
+        }
+        if(isset($item['profile']['expert_label']) && !empty($item['profile']['expert_label'])){
+            array_push($user_tags, $item['profile']['expert_label']);
+        }
+
+        
+        if ($item) {
+
+          //添加全文索引
+          $xs_data = array(
+            'pid' => 'user_'.(string)$item['_id'],
+            'kind' => 'User',
+            'oid' => (string)$item['_id'],
+            'cid' => $item['from_site'],
+            'title' => $item['nickname'],
+            'cover_id' => '',
+            'content' => strip_tags(htmlspecialchars_decode($item['summary'])),
+            'user_id' => $item['_id'],
+            'tags' => !empty($user_tags) ? implode(',', $user_tags) : '',
+            'created_on' => $item['created_on'],
+            'updated_on' => $item['updated_on'],
+          );
+          
+          $result = Sher_Core_Util_XunSearch::update($xs_data);
+          if($result['success']){
+            //取最后一个创建时间点
+            $last_created_on = $item['created_on'];
+            echo sprintf("User: %s updateing...\n", (string)$item['_id']);
+            $total++;
+          }else{
+            //记录失败ids
+            $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_USER_FAIL_IDS, (string)$item['_id']);  
+          }
+
+        }
+	}
+	if($max < $size){
+    //记录时间点
+    if(!empty($last_created_on)){
+      $digged->update_set($key_id, array('items.user_last_created_on'=>$last_created_on));   
+    }
+    //初始化变量
+    $last_created_on = 0;
+    unset($item);
+		echo "User list is end!!!!!!!!!,exit.\n";
+		break;
+	}
+	$page++;
+	echo "Page $page user updated---------\n";
+}
+echo "Total $total user rows updated.\n";
 
 
 
