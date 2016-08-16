@@ -107,7 +107,10 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
             }
         }
 
-		$row['tags_s'] = !empty($row['tags']) ? implode(',', $row['tags']) : '';
+        $row['tags_s'] = '';
+        if(isset($row['tags']) && !empty($row['tags'])){
+		    $row['tags_s'] = !empty($row['tags']) ? implode(',', $row['tags']) : '';
+        }
 
 	}
 

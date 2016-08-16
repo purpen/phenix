@@ -149,22 +149,38 @@ public function __construct() {
             $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 8:
-            $condition .= 'kind:Scene ';  // 情景
+            $condition .= 'kind:Scene ';  // 地盘
             $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 9:
-            $condition .= 'kind:Sight ';  // 场景
+            $condition .= 'kind:Sight ';  // 情境
             $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 10:
-            $condition .= 'kind:SProduct ';  // 场景产品
+            $condition .= 'kind:SProduct ';  // 情境产品
             $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 11:
               if(!empty($cid)){
                 $condition .= sprintf('kind:SContext cid:%s ', $cid);
               }else{
-                $condition .= 'kind:SContext ';  // 场景分享语
+                $condition .= 'kind:SContext ';  // 情境分享语
+              }
+            $str_f = sprintf('%s%s', $condition, $str);
+            break;
+          case 12:
+              if(!empty($cid)){
+                $condition .= sprintf('kind:SSubject cid:%s ', $cid);
+              }else{
+                $condition .= 'kind:SSubject ';  // 情境主题
+              }
+            $str_f = sprintf('%s%s', $condition, $str);
+            break;
+          case 13:
+              if(!empty($cid)){
+                $condition .= sprintf('kind:SBrand cid:%s ', $cid);
+              }else{
+                $condition .= 'kind:SBrand ';  // 情境品牌
               }
             $str_f = sprintf('%s%s', $condition, $str);
             break;

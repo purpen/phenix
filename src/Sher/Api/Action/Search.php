@@ -20,13 +20,13 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
 	 */
 	public function getlist(){
 		$q = isset($this->stash['q']) ? $this->stash['q'] : null;
-    $evt = isset($this->stash['evt']) ? $this->stash['evt'] : 'content';
-    $t = isset($this->stash['t']) ? (int)$this->stash['t'] : 7;
-    $s = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 1;
-    $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
-    $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
-    $asc = isset($this->stash['asc']) ? 1 : 0;
-    $cid = isset($this->stash['cid']) ? (int)$this->stash['cid'] : 0;
+        $evt = isset($this->stash['evt']) ? $this->stash['evt'] : 'content';
+        $t = isset($this->stash['t']) ? (int)$this->stash['t'] : 7;
+        $s = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 1;
+        $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+        $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
+        $asc = isset($this->stash['asc']) ? 1 : 0;
+        $cid = isset($this->stash['cid']) ? (int)$this->stash['cid'] : 0;
 
 		if(empty($q)){
 			return $this->api_json('请输入关键词！', 3000);
@@ -56,6 +56,8 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
       $scene_sight_model = new Sher_Core_Model_SceneSight();
       $scene_product_model = new Sher_Core_Model_SceneProduct();
       $scene_context_model = new Sher_Core_Model_SceneContext();
+      $scene_subject_model = new Sher_Core_Model_SceneSubject();
+      $scene_brand_model = new Sher_Core_Model_SceneBrands();
 
       $asset_service = Sher_Core_Service_Asset::instance();
 
@@ -97,7 +99,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
             $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['aub']['view_url'];
           }
         
-        }elseif($kind=='Scene'){  // 情景
+        }elseif($kind=='Scene'){  // 地盘
           $obj = $scene_model->load((int)$oid);
           $result['data'][$k]['address'] = '';
           if($obj){
@@ -109,7 +111,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
             $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['huge']['view_url'];
           }
         
-        }elseif($kind=='Sight'){  // 场景
+        }elseif($kind=='Sight'){  // 情境
           $obj = $scene_sight_model->extend_load((int)$oid);
           if($obj){
             $result['data'][$k]['view_count'] = $obj['view_count'];
@@ -186,6 +188,15 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           if(!empty($scene_context)){
             $result['data'][$k]['des'] = $scene_context['des'];
           }
+        }elseif($kind=='SSubject'){ // 情境主题
+
+          // 图片尺寸
+          if($asset_obj){
+            $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['aub']['view_url'];
+          }
+        
+        }elseif($kind=='SBrand'){   // 情境品牌
+        
         }
 
         // 获取用户信息

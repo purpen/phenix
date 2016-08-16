@@ -18,7 +18,7 @@
   }
   
   .topic_form input{
-	min-width: 650px;
+	/*min-width: 650px;*/
   }
   
   .field a{
@@ -103,7 +103,7 @@
   }
   
   .field>label,.field .block{
-	float: left !important;
+	/*float: left !important;*/
   }
   
   .ui.inverted.orange.active.button,.ui.inverted.orange.buttons.active.button{
@@ -485,6 +485,24 @@
         var target_type = obj.attr('target_type');
 		return window.location.href = 'http://m.taihuoniao.com/guide/fiu?infoType='+ target_type +'&infoId='+ target_id +'';
 	}
+
+    // 标签
+    $('#tags').tagsInput({
+       //'autocomplete_url': url_to_autocomplete_api,
+        //'autocomplete': { option: value, option: value},
+       'height':'60px',
+       'width':'auto',
+       'interactive':true,
+       'defaultText':'添加标签',
+       //'onAddTag':callback_function,
+       //'onRemoveTag':callback_function,
+       //'onChange' : callback_function,
+       'delimiter': [',',';','；','，'],   // Or a string with a single delimiter. Ex: ';'
+       'removeWithBackspace' : true,
+       'minChars' : 2,
+       'maxChars' : 15, // if not provided there is no limit
+       'placeholderColor' : '#666666'
+    });
 	
 {% endblock %}
 	
@@ -641,10 +659,10 @@
           <label>简述:</label>
           <textarea name="summary" class="small">{{ scene_subject.summary }}</textarea>
         </div>
-			  <div class="field">
-				  <label>标签：</label>
-				  <input type="text" name="tags" value="{{ scene_subject.tags_s }}" placeholder="专题标签，用英文逗号隔开" />
-			  </div>
+      <div class="field">
+          <label>标签：</label>
+          <input type="text" id="tags" name="tags" value="{{ scene_subject.tags_s }}" />
+      </div>
 			  
 			  <!--活动封面图-->
             <div class="ui segment">

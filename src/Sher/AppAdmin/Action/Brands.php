@@ -124,6 +124,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		$mark = isset($this->stash['mark']) ? strtolower($this->stash['mark']) : '';
 		$from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 1;
 		$self_run = isset($this->stash['self_run']) ? (int)$this->stash['self_run'] : 0;
+		$tags = isset($this->stash['tags']) ? $this->stash['tags'] : null;
 		
 		// 验证内容
 		if(!$title){
@@ -149,12 +150,15 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
             'mark' => $mark,
             'from_to' => $from_to,
             'self_run' => $self_run,
+            'tags' => $tags,
+            
 		);
 
 		try{
 			$model = new Sher_Core_Model_SceneBrands();
 			if(empty($id)){
 				// add
+                $date['user_id'] = $this->visitor->id;
 				$ok = $model->apply_and_save($date);
 				$data_id = $model->get_data();
 				$id = (string)$data_id['_id'];

@@ -27,6 +27,8 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
         'kind' => self::KIND_FIU,
         # 是否是自营品牌
         'self_run' => 0,
+        # 标签
+        'tags' => array(),
         # 首字母索引
         'mark' => '',
         # 来源: 1.官方；2.用户
@@ -89,18 +91,27 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
             default:
                 $row['from_label'] = '--';
         }
+
+        $row['tags_s'] = '';
+        if(isset($row['tags']) && !empty($row['tags'])){
+		    $row['tags_s'] = !empty($row['tags']) ? implode(',', $row['tags']) : '';
+        }
 	}
 	
 	/**
 	 * 保存之前,处理标签中的逗号,空格等
 	 */
 	protected function before_save(&$data) {
+	    parent::before_save($data);
 
 	    if (!empty($data['title']) && empty($data['mark'])) {
 	        $data['mark'] = Sher_Core_Helper_Pinyin::str2py($data['title']);
 	    }
 
-	    parent::before_save($data);
+	    if (isset($data['tags']) && !is_array($data['tags'])) {
+	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
+	    }
+
 	}
 	
     /**
