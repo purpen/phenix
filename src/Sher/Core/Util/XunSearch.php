@@ -184,6 +184,14 @@ public function __construct() {
               }
             $str_f = sprintf('%s%s', $condition, $str);
             break;
+          case 14:
+              if(!empty($cid)){
+                $condition .= sprintf('kind:User cid:%s ', $cid);
+              }else{
+                $condition .= 'kind:User ';  // 情境品牌
+              }
+            $str_f = sprintf('%s%s', $condition, $str);
+            break;
         }
       }else{
         if($from_to==1){
