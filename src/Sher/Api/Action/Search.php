@@ -190,6 +190,11 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           }
         }elseif($kind=='SSubject'){ // 情境主题
 
+            $scene_subject = $scene_subject_model->load((int)$oid);       
+            if(!empty($scene_subject)){
+                $result['data'][$k]['title'] = $scene_subject['title'];
+            } 
+
           // 图片尺寸
           if($asset_obj){
             $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['aub']['view_url'];
@@ -205,6 +210,11 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           if($asset_obj){
             $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['aub']['view_url'];
           }
+        }elseif($kind=='User'){     // 用户
+            $user = $user_model->load((int)$oid);       
+            if(!empty($user)){
+                $result['data'][$k]['nickname'] = $user['nickname'];
+            }           
         }
 
         // 获取用户信息

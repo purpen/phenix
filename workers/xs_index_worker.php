@@ -781,18 +781,22 @@ while(!$is_end){
           }
 
         }
-	}
+	}   // endfor
 	if($max < $size){
-    //记录时间点
-    if(!empty($last_created_on)){
-      $digged->update_set($key_id, array('items.user_last_created_on'=>$last_created_on));   
-    }
-    //初始化变量
-    $last_created_on = 0;
-    unset($item);
+        //记录时间点
+        if(!empty($last_created_on)){
+          $digged->update_set($key_id, array('items.user_last_created_on'=>$last_created_on));   
+        }
+        //初始化变量
+        $last_created_on = 0;
+        unset($item);
 		echo "User list is end!!!!!!!!!,exit.\n";
 		break;
 	}
+    //记录时间点--每过一页记录一次，防止中途错误
+    if(!empty($last_created_on)){
+      $digged->update_set($key_id, array('items.user_last_created_on'=>$last_created_on));   
+    }
 	$page++;
 	echo "Page $page user updated---------\n";
 }
