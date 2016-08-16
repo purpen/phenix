@@ -48,7 +48,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
     
     $result = Sher_Core_Util_XunSearch::search($q, $options);
     if($result['success']){
-      //$user_model = new Sher_Core_Model_User();
+      $user_model = new Sher_Core_Model_User();
       $asset_model = new Sher_Core_Model_Asset();
       $product_model = new Sher_Core_Model_Product();
       $topic_model = new Sher_Core_Model_Topic();
