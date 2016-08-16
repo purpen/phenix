@@ -196,7 +196,15 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           }
         
         }elseif($kind=='SBrand'){   // 情境品牌
-        
+            $scene_brand = $scene_brand_model->load($oid);       
+            if(!empty($scene_brand)){
+                $result['data'][$k]['title'] = $scene_brand['title'];
+            }
+          
+          // 图片尺寸
+          if($asset_obj){
+            $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['aub']['view_url'];
+          }
         }
 
         // 获取用户信息
