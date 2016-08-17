@@ -274,6 +274,40 @@ public function __construct() {
 
   }
 
+  /**
+   * 搜索建议
+   */
+  public static function expanded($str, $limit=10){
+
+    if(empty($str)){
+        return array('success'=>false, 'msg'=>'搜索内容为空!');       
+    }
+
+    $str = Sher_Core_Helper_FilterFields::remove_xss($str);
+
+    $db = Doggy_Config::$vars['app.xun_search_db'];
+    try{
+      $xs = new \XS($db);
+      $search = $xs->search; // 获取 搜索对象
+
+
+      // 查询
+        $doc = $search->getExpandedQuery($str, $limit);
+        $result = array('success'=>true, 'data'=>$doc, 'total_count'=>$limit, 'total_page'=>1, 'msg'=>'success'); 
+
+      if($ok){
+        return $result;
+      }else{
+        return array('success'=>false, 'msg'=>'操作失败!');       
+      }
+
+    }catch(XSException $e){
+      Doggy_Log_Helper::warn('delete:'.$e->getTraceAsString(), 'search');
+      return array('success'=>false, 'msg'=>'查询失败!'.$e->getTraceAsString());    
+    }
+
+  }
+
 	
 }
 
