@@ -251,18 +251,17 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
      */
     public function expanded(){
         $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
-        $str = isset($this->stash['str']) ? $this->stash['str'] : null;
-        if(empty($str)) {
+        $q = isset($this->stash['q']) ? $this->stash['q'] : null;
+        if(empty($q)) {
             return $this->api_json('缺少请求参数!', 3001);          
         }
 
-        $result = Sher_Core_Util_XunSearch::expanded($str, $size);
+        $result = Sher_Core_Util_XunSearch::expanded($q, $size);
 
         if($result['success']){
 		    return $this->api_json('请求成功', 0, $result);
-    
         }else{
-            return $this->api_json('请求失败!', 3002);       
+            return $this->api_json($result['msg'], 3002);       
         }
 
     }
