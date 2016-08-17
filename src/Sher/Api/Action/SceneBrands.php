@@ -27,6 +27,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		$mark = isset($this->stash['mark']) ? strtolower($this->stash['mark']) : null;
 		$self_run = isset($this->stash['self_run']) ? (int)$this->stash['self_run'] : 0;
 		$from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 1;
+        $title = isset($this->stash['title']) ? $this->stash['title'] : null;
 		
 		$some_fields = array(
 			'_id'=>1, 'title'=>1, 'des'=>1, 'kind'=>1, 'cover_id'=>1, 'banner_id'=>1, 'brand'=>1, 'used_count'=>1,'stick'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1, 'mark'=>1, 'self_run'=>1, 'from_to'=>1,
@@ -67,6 +68,11 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
             }else{
                 $query['self_run'] = 1;
             }
+        }
+
+        // 模糊查标签
+        if(!empty($title)){
+            $query['title'] = array('$regex'=>$title);
         }
 		
 		// 状态
