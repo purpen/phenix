@@ -298,7 +298,7 @@ public function __construct() {
 
     }catch(XSException $e){
       Doggy_Log_Helper::warn('delete:'.$e->getTraceAsString(), 'search');
-      return array('success'=>false, 'msg'=>'查询失败!'.$e->getTraceAsString());    
+      return array('success'=>false, 'msg'=>'查询失败!'.$e->getTraceAsString());
     }
 
   }

@@ -272,26 +272,12 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
                     $arr = (array)$product_arr[$i];
                     $data['product'][$i]['id'] = (int)$arr['id'];
                     $data['product'][$i]['title'] = $arr['title'];
-                    $data['product'][$i]['price'] = (float)$arr['price'];
                     $data['product'][$i]['x'] = (float)$arr['x'];
-                    $data['product'][$i]['y'] = (float)$arr['y'];    
+                    $data['product'][$i]['y'] = (float)$arr['y'];
+                    // 位置; 1.左；2.右；  
+                    $data['product'][$i]['loc'] = (int)$arr['loc'];
                 }           
             }
-        }
-
-        if(!empty($product_id)){
-            $product_id = explode(',',$product_id);
-            $product_title = explode(',',$product_title);
-            $product_price = explode(',',$product_price);
-            $product_x = explode(',',$product_x);
-            $product_y = explode(',',$product_y);
-            for($i = 0;$i < count($product_id); $i++){
-                $data['product'][$i]['id'] = (int)$product_id[$i];
-                $data['product'][$i]['title'] = $product_title[$i];
-                $data['product'][$i]['price'] = (float)$product_price[$i];
-                $data['product'][$i]['x'] = (float)$product_x[$i];
-                $data['product'][$i]['y'] = (float)$product_y[$i];
-            }       
         }
 
         if($mode=='create'){
@@ -360,7 +346,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 	}
 	
 	/**
-     * 获取场景详情
+     * 详情
      */
     public function view() {
         
@@ -398,9 +384,9 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$user['fans_count'] = $result['user']['fans_count'];
 		$user['love_count'] = $result['user']['love_count'];
 		$user['is_expert'] = isset($result['user']['identify']['is_expert']) ? (int)$result['user']['identify']['is_expert'] : 0;
-    $user['label'] = isset($result['user']['profile']['label']) ? $result['user']['profile']['label'] : '';
-    $user['expert_label'] = isset($result['user']['profile']['expert_label']) ? $result['user']['profile']['expert_label'] : '';
-    $user['expert_info'] = isset($result['user']['profile']['expert_info']) ? $result['user']['profile']['expert_info'] : '';
+        $user['label'] = isset($result['user']['profile']['label']) ? $result['user']['profile']['label'] : '';
+        $user['expert_label'] = isset($result['user']['profile']['expert_label']) ? $result['user']['profile']['expert_label'] : '';
+        $user['expert_info'] = isset($result['user']['profile']['expert_info']) ? $result['user']['profile']['expert_info'] : '';
 		
 		$result['user_info'] = $user;
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
