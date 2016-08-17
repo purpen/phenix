@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'add_share_context_num');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'add_share_context_num', 'record_view');
 
 	/**
 	 * 入口
@@ -480,6 +480,23 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
     $ok = $model->inc_counter('used_count', 1, $id);
     return $this->api_json('操作成功!', 0, array('id'=>$id));
   }
+
+    /**
+     * 增加浏览量
+     */
+    public function record_view(){
+        // 增加浏览量
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+        if(empty($id)){
+			return $this->api_json('缺少请求参数!', 3001);
+        }
+        $model = new Sher_Core_Model_SceneSight();
+        $rand = rand(1, 5);
+		$model->inc($id, 'view_count', $rand);
+		$model->inc($id, 'true_view_count', 1);
+		$model->inc($id, 'app_view_count', 1);
+    	return $this->api_json('操作成功!', 0, array('id'=>$id));
+    }
 
 }
 
