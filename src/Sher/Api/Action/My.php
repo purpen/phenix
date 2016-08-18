@@ -167,7 +167,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
             for($i=0;$i<count($interest_scene_cate_arr);$i++){
                 $data['profile.interest_scene_cate'][$i] = (int)$interest_scene_cate_arr[$i];
             }
-            $data['profile.interest_scene_cate'] = array_unique($data['profile.interest_scene_cate']);
+            $data['profile.interest_scene_cate'] = array_keys(array_count_values($data['profile.interest_scene_cate']));
 		}
 			
 		if(isset($this->stash['nickname']) && !empty($this->stash['nickname'])){
@@ -1232,7 +1232,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
             return $this->api_json('success', 0, array('id'=>$id));       
         }
         array_push($arr, $id);
-        $arr = array_unique($arr);
+        $arr = array_keys(array_count_values($arr));
         $ok = $user_model->update_set($user_id, array('profile.interest_scene_cate'=>$arr));
         if(!$ok){
             return $this->api_json('操作失败！', 3002);
