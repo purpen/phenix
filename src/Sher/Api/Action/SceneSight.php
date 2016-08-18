@@ -165,10 +165,12 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 				$user['expert_info'] = isset($v['user']['profile']['expert_info']) ? $v['user']['profile']['expert_info'] : '';
 		  }
 			
-			$result['rows'][$k]['scene_title'] = '';
+			//$result['rows'][$k]['scene_title'] = '';
+            /*
 			if($result['rows'][$k]['scene']){
 				$result['rows'][$k]['scene_title'] = $v['scene']['title'];
-			}
+            }
+             */
 			
 			$result['rows'][$k]['user_info'] = $user;
 
@@ -206,7 +208,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
                     'event' => Sher_Core_Model_Favorite::EVENT_LOVE,
                     'user_id' => $current_user_id
                 );
-                $has_love = $favorite_model->first($query);
+                $has_love = $favorite_model->first($fav_query);
                 if($has_love) $is_love = 1;
             }
             $result['rows'][$k]['is_love'] = $is_love;
@@ -394,7 +396,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		$result['user_info'] = $user;
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
-		$result['scene_title'] = $result['scene']['title'];
+		//$result['scene_title'] = $result['scene']['title'];
         
     for($i=0;$i<count($filter_fields);$i++){
         $key = $filter_fields[$i];
