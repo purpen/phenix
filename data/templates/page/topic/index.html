@@ -22,12 +22,12 @@
             $.get(url, { page:page, type:type, time:time, sort:sort }, function(rs){
                 rs.data['phenix'] = phenix.url;
                 var rendered = phenix.ajax_render_result('#fetch_more_topics_tpl', rs.data);
-                $('#topic_list_box').append(rendered);
+                $('#topic-more').before(rendered);
                 if (rs.data.nex_page != 'no'){
                     $('#topic-more').data('status', 0);
                 }
                 $('#topic-more').data('page', page);
-                $('#topic-more').hide();
+                //$('#topic-more').hide();
             }, 'json');
         }else{
             $(this).text('没有更多了~');
@@ -50,11 +50,21 @@
     phenix.signin();
     
 	// 加载更多动态
-	$('.ui.more.button').bind('click', function(){
+	/*$('.ui.more.button').bind('click', function(){
 		var page = $(this).data('page');
         var type = $(this).data('type');
         ajax_load_more(page, type);
-	});
+	});*/
+    $('.ui.more.button').bind('click',function(){
+        var stat = $('#topic-more').data('status');
+        var page = parseInt($('#topic-more').data('page')) + 1;
+        var type = parseInt($('#topic-more').data('type')), time = parseInt($('#topic-more').data('time')), sort = parseInt($('#topic-more').data('sort'));
+        if(stat == 0){
+            $('#topic-more').data('status', 1);
+            $('#topic-more').show();
+            ajax_load_more(page,type,time,sort);
+        }
+    })
     
     $('.mentors > .avatar a')
       .popup({
@@ -159,11 +169,15 @@
                             {% endif %}
                         {% endfor %}
 
-                        <div class="resultbox">
-                            <a href="javascript:void(0);" class="ui magenta inverted large more button">
-                               <i class="search icon"></i> 查看更多话题 
-                            </a>
-                        </div>
+                        
+                            <div id="topic-more" data-page="1" data-status="0" data-type="{{ type }}" data-time="{{ time }}" data-sort="{{ sort }}">
+                                <div class="resultbox">
+                                    <a href="javascript:void(0);" class="ui magenta inverted large more button">
+                                       <i class="search icon"></i> 查看更多话题 
+                                    </a>
+                                </div>
+                            </div>
+                       
                         
                     </div>
                     <div class="conright" style="height: 200px;background-color: #000"></div>
@@ -327,5 +341,5 @@
 
 {% block templates %}
 {% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
-{% mustache id:'fetch_more_topics_tpl' tpl:'mustache/fetch_more_topics.mustache' %}
+{% mustache id:'fetch_more_topics_tpl' tpl:'mustache/fetch_more_topicbox.mustache' %}
 {% endblock %}

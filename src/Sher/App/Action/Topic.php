@@ -205,7 +205,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
                 );
                 $op = array(
                     'page' => 1,
-                    'size' => !empty($resultlist['rows'][$i]['cover'])?4:5,
+                    'size' => !empty($resultlist['rows'][$i]['cover'])?1:1,
                     'sort_field' => 'positive',
                 );
                 $asset_result = $asset->get_asset_list($q, $op);

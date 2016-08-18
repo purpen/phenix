@@ -1,9 +1,18 @@
 <div class="topicbox" id="{{ topic._id }}">
-    {% if topic.cover %}
-    <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
-        <img class="ui image lazy" data-original="{{ topic.cover.thumbnails.acs.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg" alt="{{ topic.title }}--太火鸟智能硬件社区"/>
-    </a>
-    {% endif %}
+	
+	<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
+	{% if topic.cover %}
+	  {% asset_list var:'assets' parent_id:topic._id size:1 asset_type:55 sort:'positive' %}
+		<img class="ui image" src="{{ topic.cover.thumbnails.acs.view_url }}" alt="{{ topic.title }}--太火鸟智能硬件社区"/>
+		{%else%}
+	{% asset_list var:'assets' parent_id:topic._id size:1 asset_type:55 sort:'positive' %}
+		{% if topic.cover._id != asset._id %}
+		<img class="ui image" src="{{ asset.thumbnails.acs.view_url }}" alt="{{ topic.title }}-太火鸟智能硬件社区" />
+		{% endif %}
+    {%endif%}
+    	<span class="flei">{{ topic.category.title }}</span>
+	</a>
+    
     <div class="content">
         <h2 class="title {%if topic.t_color==1%}topic-title-color-red{%endif%}{%if topic.t_color==2%}topic-title-color-blue{%endif%}{%if topic.t_color==3%}topic-title-color-green{%endif%}{%if topic.t_color==4%}topic-title-color-yellow{%endif%}">
             <a href="{{ topic.view_url }}" title="{{ topic.title }}-太火鸟智能硬件社区" class="ui line" target="_blank">
