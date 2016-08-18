@@ -135,9 +135,10 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
       $query['user_id'] = (int)$user_id;
     }
 
-    if($title){
+        // 模糊查标签
+        if(!empty($title)){
             $query['title'] = array('$regex'=>$title);
-    }
+        }
 		
 		// 分页参数
         $options['page'] = $page;
