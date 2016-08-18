@@ -261,19 +261,19 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         }
 		
 		if(!$data['title']){
-			return $this->api_json('请求标题不能为空', 3001);
+			//return $this->api_json('请求标题不能为空', 3001);
 		}
 		
 		if(!$data['des']){
-			return $this->api_json('请求描述不能为空', 3002);
+			//return $this->api_json('请求描述不能为空', 3002);
 		}
 		
 		if(!$data['address']){
-			return $this->api_json('请求地址不能为空', 3004);
+			//return $this->api_json('请求地址不能为空', 3004);
 		}
 		
 		if(!$data['tags']){
-		    return $this->api_json('请求标签不能为空', 3005);
+		    //return $this->api_json('请求标签不能为空', 3005);
 		}
 		
         if(!empty($products)){
