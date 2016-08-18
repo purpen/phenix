@@ -147,8 +147,11 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
       // 如果是新的记录
       if($this->insert_mode) {
 
-		$model = new Sher_Core_Model_Tags();
-		$model->record_count($tags, 3, $this->data['_id']);
+          if(!empty($tags)){
+            $model = new Sher_Core_Model_Tags();
+            $model->record_count($tags, 3, $this->data['_id']);         
+          }
+
         
         $model = new Sher_Core_Model_User();
         $model->inc_counter('sight_count',(int)$this->data['user_id']);
@@ -175,10 +178,13 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
         // 更新全文索引
         Sher_Core_Helper_Search::record_update_to_dig($this->data['_id'], 5);
         
+        if(isset($this->data['product']) && !empty($this->data['product'])){
+        
+        }
         // 关联为场景产品关联表增加数据
         $model = new Sher_Core_Model_SceneProductLink();
 
-        $product = $this->data['product'];
+        $product = isset($this->data['product']) ? $this->data['product'] : array();
         if(count($product)){
           $scene_product_model = new Sher_Core_Model_SceneProduct();
           foreach($product as $k => $v){
@@ -196,10 +202,12 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 
         }
 
-        // 添加到用户最近使用过的标签
-        $user_tag_model = new Sher_Core_Model_UserTags();
-        for($i=0;$i<count($this->data['tags']);$i++){
-          $user_tag_model->add_item_custom($user_id, 'scene_tags', $this->data['tags'][$i]);
+        if(!empty($tags)){
+            // 添加到用户最近使用过的标签
+            $user_tag_model = new Sher_Core_Model_UserTags();
+            for($i=0;$i<count($this->data['tags']);$i++){
+              $user_tag_model->add_item_custom($user_id, 'scene_tags', $this->data['tags'][$i]);
+            }       
         }
 
         // 增长积分
