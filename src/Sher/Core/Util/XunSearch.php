@@ -149,22 +149,46 @@ public function __construct() {
             $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 8:
-            $condition .= 'kind:Scene ';  // 情景
+            $condition .= 'kind:Scene ';  // 地盘
             $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 9:
-            $condition .= 'kind:Sight ';  // 场景
+            $condition .= 'kind:Sight ';  // 情境
             $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 10:
-            $condition .= 'kind:SProduct ';  // 场景产品
+            $condition .= 'kind:SProduct ';  // 情境产品
             $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 11:
               if(!empty($cid)){
                 $condition .= sprintf('kind:SContext cid:%s ', $cid);
               }else{
-                $condition .= 'kind:SContext ';  // 场景分享语
+                $condition .= 'kind:SContext ';  // 情境分享语
+              }
+            $str_f = sprintf('%s%s', $condition, $str);
+            break;
+          case 12:
+              if(!empty($cid)){
+                $condition .= sprintf('kind:SSubject cid:%s ', $cid);
+              }else{
+                $condition .= 'kind:SSubject ';  // 情境主题
+              }
+            $str_f = sprintf('%s%s', $condition, $str);
+            break;
+          case 13:
+              if(!empty($cid)){
+                $condition .= sprintf('kind:SBrand cid:%s ', $cid);
+              }else{
+                $condition .= 'kind:SBrand ';  // 情境品牌
+              }
+            $str_f = sprintf('%s%s', $condition, $str);
+            break;
+          case 14:
+              if(!empty($cid)){
+                $condition .= sprintf('kind:User cid:%s ', $cid);
+              }else{
+                $condition .= 'kind:User ';  // 情境品牌
               }
             $str_f = sprintf('%s%s', $condition, $str);
             break;
@@ -246,6 +270,35 @@ public function __construct() {
     }catch(XSException $e){
       Doggy_Log_Helper::warn('search:'.$e->getTraceAsString(), 'search');
       return array('success'=>false, 'msg'=>'搜索异常!');
+    }
+
+  }
+
+  /**
+   * 搜索建议
+   */
+  public static function expanded($q, $limit=10){
+
+    if(empty($q)){
+        return array('success'=>false, 'msg'=>'搜索内容为空!');       
+    }
+
+    $q = Sher_Core_Helper_FilterFields::remove_xss($q);
+
+    $db = Doggy_Config::$vars['app.xun_search_db'];
+    try{
+      $xs = new \XS($db);
+      $search = $xs->search; // 获取 搜索对象
+
+        // 查询
+        $doc = $search->getExpandedQuery($q, $limit);
+        $result = array('success'=>true, 'data'=>array('swords'=>$doc), 'total_count'=>$limit, 'total_page'=>1, 'msg'=>'success'); 
+
+        return $result;
+
+    }catch(XSException $e){
+      Doggy_Log_Helper::warn('delete:'.$e->getTraceAsString(), 'search');
+      return array('success'=>false, 'msg'=>'查询失败!'.$e->getTraceAsString());
     }
 
   }

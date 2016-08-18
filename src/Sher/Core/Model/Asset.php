@@ -114,6 +114,11 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 
     # 情境专题封面
     const TYPE_SCENE_SUBJECT = 130;
+    const TYPE_SCENE_SUBJECT_BANNER = 131;
+
+    # Fiu 主题
+    const TYPE_THEME = 134;
+    const TYPE_THEME_BANNER = 135;
 
     protected $schema = array(
 		'user_id' => '',

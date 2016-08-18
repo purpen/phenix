@@ -1,7 +1,7 @@
 <?php
 /**
  * API 接口
- * 情境专题
+ * 情境专题 文章、活动、促销、最新
  * @author tianshuai
  */
 class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
@@ -25,15 +25,16 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		
 		$some_fields = array(
-			'_id'=>1, 'title'=>1, 'category_id'=>1, 'publish'=>1,
-			'cover_id'=>1, 'tags'=>1, 'summary'=>1, 'user_id'=>1, 'kind'=>1, 'stick'=>1,
-			'status'=>1, 'view_count'=>1, 'comment_count'=>1, 'love_count'=>1, 'favorite_count'=>1,
+			'_id'=>1, 'title'=>1, 'category_id'=>1, 'publish'=>1, 'type'=>1,
+			'cover_id'=>1, 'banner_id'=>1, 'tags'=>1, 'summary'=>1, 'user_id'=>1, 'kind'=>1, 'stick'=>1, 'fine'=>1, 'stick_on'=>1, 'fine_on'=>1,
+			'status'=>1, 'view_count'=>1, 'comment_count'=>1, 'love_count'=>1, 'favorite_count'=>1, 'attend_count'=>1, 'share_count'=>1,
 		);
 		
 		// 请求参数
 		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
+		$fine = isset($this->stash['fine']) ? (int)$this->stash['fine'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 			
 		$query   = array();
@@ -41,6 +42,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 		
 
 		$query['publish'] = 1;
+        $query['status'] = 1;
 
 		// 查询条件
 		if($user_id){
@@ -54,6 +56,14 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 				$query['stick'] = 1;
 			}
 		}
+
+		if($fine){
+			if($fine==-1){
+				$query['fine'] = 0;
+			}else{
+				$query['fine'] = 1;
+			}
+		}
 		
 		// 分页参数
         $options['page'] = $page;
@@ -65,7 +75,10 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 				$options['sort_field'] = 'latest';
 				break;
 			case 1:
-				$options['sort_field'] = 'stick:latest';
+				$options['sort_field'] = 'stick';
+				break;
+			case 2:
+				$options['sort_field'] = 'fine';
 				break;
 		}
 		
@@ -82,6 +95,8 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 			}
 			// 封面图url
 			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
+			// Banner url
+			//$data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['aub']['view_url'];
 		}
 		$result['rows'] = $data;
 		

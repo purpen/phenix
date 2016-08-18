@@ -326,6 +326,8 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
                 case 11:
                     $scene = null;
                     if(isset($result['rows'][$k]['scene'])){
+                        $scene['_id'] = $result['rows'][$k]['scene']['_id'];
+                        $scene['title'] = $result['rows'][$k]['scene']['title'];
                         $scene['cover_url'] = $result['rows'][$k]['scene']['cover']['thumbnails']['huge']['view_url'];
                         $scene['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['scene']['created_on']);
                     }
@@ -334,6 +336,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
                 case 12:
                     $sight = null;
                     if(isset($result['rows'][$k]['sight'])){
+                        $sight['_id'] = $result['rows'][$k]['sight']['_id'];
                         $sight['cover_url'] = $result['rows'][$k]['sight']['cover']['thumbnails']['huge']['view_url'];
                         $sight['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['sight']['created_on']);
                         $user = array();
@@ -349,7 +352,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 
                         }
                         $sight['user_info'] = $user;
-                        $sight['scene_title'] = '';
+                        $sight['scene_title'] = $result['rows'][$k]['sight']['title'];
                         if($result['rows'][$k]['sight']['scene']){
                             $sight['scene_title'] = $v['sight']['scene']['title'];
                         }

@@ -92,7 +92,7 @@ class Sher_Core_Model_TempTags extends Sher_Core_Model_Base  {
     protected function validate() {
 		// 新建记录
 		if($this->insert_mode){
-			if (!$this->_check_name()){
+			if (!$this->check_name()){
 				throw new Sher_Core_Model_Exception('关键词已存在，请更换！');
 			}
 		}
@@ -103,8 +103,10 @@ class Sher_Core_Model_TempTags extends Sher_Core_Model_Base  {
 	/**
 	 * 检测关键词是否唯一
 	 */
-	protected function _check_name() {
-		$name = $this->data['name'];
+	public function check_name($name=null) {
+        if(empty($name)){
+		    $name = $this->data['name'];
+        }
 		if(empty($name)){
 			return false;
 		}
@@ -197,7 +199,7 @@ class Sher_Core_Model_TempTags extends Sher_Core_Model_Base  {
     /**
      * 统计数量
      */
-    public function record_count($evt, $tags=array()){
+    public function record_count($tags, $evt){
         $tag_ids = array();
         $temp_tags = array();
         foreach($tags as $v){

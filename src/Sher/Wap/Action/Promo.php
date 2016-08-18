@@ -50,7 +50,8 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
      */
     public function android_download(){
       $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
-      $url = 'http://frstatic.qiniudn.com/download%2Fapp-release_008.apk';
+      $url = 'http://frstatic.qiniudn.com/app-release_009.apk';
+      $url = 'http://frstatic.qiniudn.com/download/app_release_010.apk';
   		return $this->to_redirect($url);
     }
 	

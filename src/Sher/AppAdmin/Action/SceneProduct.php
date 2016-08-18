@@ -8,10 +8,10 @@ class Sher_AppAdmin_Action_SceneProduct extends Sher_AppAdmin_Action_Base implem
 	public $stash = array(
 		'page' => 1,
 		'size' => 100,
-    'kind' => 0,
-    'attrbute' => null,
-    'user_id' => null,
-    's_title' => null,
+        'kind' => 0,
+        'attrbute' => null,
+        'user_id' => null,
+        's_title' => null,
 	);
 	
 	public function _init() {

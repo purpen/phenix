@@ -298,6 +298,12 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
             'expert_label' => null,
             // 达人身份
             'expert_info' => null,
+              // 年龄段: A.60后；B.70后；C.80后；D.90后；E.00后；F.--；
+              'age_group' => null,
+              // 阶层: A.月光族；B.小资；C.新中产；D.土豪；E.大亨；F.--；
+              'assets' => null,
+              // 感兴趣的情景主题(分类id数组)
+              'interest_scene_cate' => array(),
         ),
 
 		// 所在城市

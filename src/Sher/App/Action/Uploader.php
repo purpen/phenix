@@ -537,6 +537,15 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		$asset_type = Sher_Core_Model_Asset::TYPE_SCENE_SUBJECT;
 		return $this->handle_upload($asset_type, $asset_domain);
 	}
+
+	/**
+	 * 上传情境专题Banner
+	 */
+	public function scene_subject_banner() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_SCENE_SUBJECT;
+		$asset_type = Sher_Core_Model_Asset::TYPE_SCENE_SUBJECT_BANNER;
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
 	
 	/**
 	 * 处理图片的上传

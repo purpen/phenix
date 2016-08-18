@@ -77,9 +77,18 @@
 	    </div>
 	</div>
 	
-	<div class="ui sub ">
+	<div class="ui sub nav">
 		<form action="{{ app_url_app_admin_base }}/brands/get_list" id="search-form" method="get">
 			<label>搜索：</label>
+          <div class="ui selection dropdown">
+            <input type="hidden" name="from_to" value="{{ from_to }}" />
+            <div class="default text">选择来源</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="1">官网</div>
+              <div class="item" data-value="2">用户</div>
+            </div>
+          </div>
 			<div class="ui input">
                 <input placeholder="品牌名" type="text" name="title" value="{{ title }}" />
 			</div>
@@ -100,6 +109,7 @@
 				</th>
                 <th>品牌名</th>
 				<th>logo</th>
+                <th>来源</th>
                 <th>类型</th>
                 <th>使用次数</th>
                 <th>索引</th>
@@ -110,7 +120,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% scene_brands_list var:'list' page:page title:title kind:kind size:size %}
+			{% scene_brands_list var:'list' page:page title:title from_to:from_to kind:kind size:size %}
 
 			{% for d in list.rows %}
 			<tr id="{{ d._id }}">
@@ -125,6 +135,9 @@
                 </td>
                 <td>
                   <img width=50 src="{{ d.cover.thumbnails.mini.view_url }}">
+                </td>
+                <td>
+                    {{ d.from_label }}
                 </td>
                 <td>{{ d.kind_label }}</td>
                 <td>
