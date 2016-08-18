@@ -488,5 +488,25 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
     	return $this->api_json('操作成功!', 0, array('id'=>$id));
     }
 
+    /**
+     * 推荐的活动标签
+     */
+    public function stick_active_tags(){
+        $conf = Sher_Core_Util_View::load_block('fiu_stick_active_tags', 1);
+        $active_arr = array('items'=>array());
+        if(empty($conf)){
+            return $this->api_json('数据不存在!', 0, $active_arr); 
+        }
+        $arr = explode(';', $conf);
+        for($i=0;$i<count($arr);$i++){
+            $item = explode(',', $arr[$i]);
+            if(count($item) != 2){
+                continue;
+            }
+            array_push($active_arr['items'], $item);
+        }
+        return $this->api_json('success', 0, $active_arr); 
+    }
+
 }
 
