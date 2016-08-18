@@ -28,6 +28,7 @@
                 }
                 $('#topic-more').data('page', page);
                 //$('#topic-more').hide();
+                $('.ui.more.button').html('<i class="search icon"></i> 查看更多话题');
             }, 'json');
         }else{
             $(this).text('没有更多了~');
@@ -50,18 +51,13 @@
     phenix.signin();
     
 	// 加载更多动态
-	/*$('.ui.more.button').bind('click', function(){
-		var page = $(this).data('page');
-        var type = $(this).data('type');
-        ajax_load_more(page, type);
-	});*/
     $('.ui.more.button').bind('click',function(){
         var stat = $('#topic-more').data('status');
         var page = parseInt($('#topic-more').data('page')) + 1;
         var type = parseInt($('#topic-more').data('type')), time = parseInt($('#topic-more').data('time')), sort = parseInt($('#topic-more').data('sort'));
         if(stat == 0){
             $('#topic-more').data('status', 1);
-            $('#topic-more').show();
+            $('.ui.more.button').html('加载中...')
             ajax_load_more(page,type,time,sort);
         }
     })
