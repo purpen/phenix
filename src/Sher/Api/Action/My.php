@@ -167,6 +167,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
             for($i=0;$i<count($interest_scene_cate_arr);$i++){
                 $data['profile.interest_scene_cate'][$i] = (int)$interest_scene_cate_arr[$i];
             }
+            $data['profile.interest_scene_cate'] = array_unique($data['profile.interest_scene_cate']);
 		}
 			
 		if(isset($this->stash['nickname']) && !empty($this->stash['nickname'])){
