@@ -8,6 +8,9 @@
         padding-bottom: 40px;
         padding-top: 20px;
     }
+    font{
+        display: none;
+    }
 </style>
 {% endblock %}
 
@@ -60,7 +63,7 @@
       });
 
     // ajax加载更多(滚动条接近底部加载)
-    $(window).scroll(function(){
+    /*$(window).scroll(function(){
         var scrollTop = $(this).scrollTop();
         var scrollHeight = $(document).height();
         var windowHeight = $(this).height();
@@ -76,7 +79,8 @@
                 ajax_load_more(page,type,time,sort);
             }
         }
-    });
+    });*/
+
 {% endblock %}
 
 {% block content %}
@@ -99,8 +103,77 @@
         </div>
     </div>
 </div>
+<div class="ui topicnew page">
+    <div class="ui responsive grid slidebox">
+        <div class="row pt-0">
+            <div class="column">
+                {% ad_list var:'adslide' page:1 size:3 state:2 name:'find_home_slide' %}
+                <div id="minslider" class="flexslider flex-single">
+                    <ul class="slides">                    
+                        {% for ad in adslide.rows %}
+                            <li style="background-image: url('{{ ad.cover.fileurl }}');">
+                                <a href="{{ ad.view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}" target="_blank">
+                                    <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
+                                </a>
+                            </li>
+                        {% endfor %}
+                      </ul>
+                </div>
+                <div class="controls-dots"></div>
+            </div>
+        </div>
+    </div>
+    <div class="ui responsive grid">
+        <div class="row">
+            <div class="column">
+                <div class="ui inverted secondary pointing menu">
+                    <a class="item active">最新话题</a>
+                    <a class="item">深度解析</a>
+                    <a class="item">行业资讯</a>
+                    <a class="item">热门活动</a>
+                    <a class="item">产品评测</a>
+                    <a class="item">七嘴八舌</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui responsive grid">
+        <div class="row">
+            <div class="column">
+                <div class="ui containermain">
+                    <div class="conleft">
+                        {% if dig_list %}
+                            {% for topic in dig_list %}
+                                {% if topic %}
+                                    <!-- 判断话题是否可以显示 -->
+                                    {% if topic.published %}
+                                        {% include "block/topic_item.html" %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+            
+                        {% for topic in list.rows %}
+                            {% if !topic.top==1 %}<!--过滤置顶帖子-->
+                                {% include "block/topic_item.html" %}
+                            {% endif %}
+                        {% endfor %}
+
+                        <div class="resultbox">
+                            <a href="javascript:void(0);" class="ui magenta inverted large more button">
+                               <i class="search icon"></i> 查看更多话题 
+                            </a>
+                        </div>
+                        
+                    </div>
+                    <div class="conright" style="height: 200px;background-color: #000"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 话题推荐位 -->
-<div class="mainwrap social" id="topics">
+<div class="mainwrap social" id="topics" style="display:none;">
     <div class="social topstick">
         <div class="slidebox">
             
