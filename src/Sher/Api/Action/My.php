@@ -1275,7 +1275,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 
         // 更新订阅数量
         $category_model = new Sher_Core_Model_Category();
-        $category_model->dec_counter('sub_count', 1, $id);
+        $category_model->dec_counter('sub_count', $id);
 
         return $this->api_json('success', 0, array('id'=>$id)); 
     
