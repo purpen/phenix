@@ -196,7 +196,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
               $s_key = sprintf("symbol_%d", $symbol);
               $resultlist['rows'][$i]['user'][$s_key] = true;
             }
-            if($resultlist['rows'][$i]['asset_count'] > 0){
+            /*if($resultlist['rows'][$i]['asset_count'] > 0){
                 $resultlist['rows'][$i]['has_asset'] = true;
                 $asset = Sher_Core_Service_Asset::instance();
                 $q = array(
@@ -205,7 +205,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
                 );
                 $op = array(
                     'page' => 1,
-                    'size' => !empty($resultlist['rows'][$i]['cover'])?1:1,
+                    'size' => !empty($resultlist['rows'][$i]['cover'])?4:5,
                     'sort_field' => 'positive',
                 );
                 $asset_result = $asset->get_asset_list($q, $op);
@@ -214,7 +214,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
                 //print_r($resultlist['rows'][$i]['asset_list']);
             }else{
                 $resultlist['rows'][$i]['has_asset'] = false;
-            }
+            }*/
 
             // 过滤用户表
             if(isset($resultlist['rows'][$i]['user'])){

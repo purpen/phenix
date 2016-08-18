@@ -7,9 +7,7 @@
         {{/cover}}
     {{/has_asset}}
     {{#has_asset}}
-        {{#asset_list}}
-            <img class="ui image" src="{{ thumbnails.acs.view_url }}" />
-        {{/asset_list}}
+        <img class="ui image" src="{{ cover.thumbnails.acs.view_url }}" />
     {{/has_asset}}
         <span class="flei">{{ category.title }}</span>
     </a>
