@@ -370,6 +370,8 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
     $cover_url = isset($this->stash['cover_url']) ? $this->stash['cover_url'] : null;
     // Banner图
     $banners_url = isset($this->stash['banners_url']) ? $this->stash['banners_url'] : null;
+    // 品牌
+    $brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : null;
 
     if(empty($title)){
   		return $this->api_json('缺少请求参数', 3001);
@@ -436,6 +438,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
       'sale_price' => $sale_price,
       'link' => $link,
       'published' => $published,
+      'brand_id' => $brand_id,
     );
 
     $scene_product_model = new Sher_Core_Model_SceneProduct();
