@@ -1264,7 +1264,10 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
             return $this->api_json('success', 0, array('id'=>$id)); 
         }
 
-        $arr = array_keys(array_count_values($arr));
+        for($i=0;$i<count($arr);$i++){
+            if($arr[$i]==$id) unset($arr[$i]);
+        }
+        $arr = array_values($arr);
 
         $ok = $user_model->update_set($user_id, array('profile.interest_scene_cate'=>$arr));
         if(!$ok){

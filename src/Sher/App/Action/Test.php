@@ -394,8 +394,13 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
    */
   public function arr(){
     $a = array('a','b','a','c','b','d');
-    $a = array_keys(array_count_values($a));
-    print_r($a);
+    //$a = array_keys(array_count_values($a));
+    //print_r($a);
+
+    for($i=0;$i<count($a);$i++){
+        if($a[$i]=='a') unset($a[$i]);
+    }
+    print_r(array_values($a));
   }
 
 }
